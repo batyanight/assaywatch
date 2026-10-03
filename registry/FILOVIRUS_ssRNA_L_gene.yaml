@@ -1,0 +1,58 @@
+id: FILOVIRUS_ssRNA_L_gene
+name: FILOVIRUS (ssRNA) — L gene
+target:
+  taxid: 11266
+  gene: L gene
+  genome_type: ssRNA-
+  taxon_name: Filoviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: Filo-U12683-A
+    seq: TATTCTCYCTACAAAAGCATTGGG
+  reverse:
+    name: Filo-L13294-A
+    seq: GCTTCTGCGAGTGTTTGGACATT
+  alternates:
+  - name: Filo-U12683-B
+    seq: TATTTTCCATTCAAAAACACTGGG
+  - name: Filo-U12683-C
+    seq: TATTTTCAATCCAAAAGCACTGGG
+  - name: Filo-U12683-D
+    seq: TATTCTCTGTTCAAAAACATTGGG
+  - name: Filo-L13294-B
+    seq: GCTTCACAAAGTGTTTGAACATT
+  - name: Filo-L13294-C
+    seq: GCTTCGCAGAGGGTTTGGACATT
+  - name: Filo-L13294-D
+    seq: GCCTCACATAAAGTTTGGACATT
+amplicon_bp: 630
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: PREDICT PROTOCOL
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 407
+  - 408
+  - 409
+  - 410
+  - 411
+  - 412
+  - 413
+  - 414
+  positive_control: Universal control 1
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MULTIPLE_PRIMERS_IN_BLOCK
+- NO_YEAR

@@ -1,0 +1,42 @@
+id: For_Leucocytozoon_spp_X_reacts_cytochrome_c
+name: For Leucocytozoon spp. (X-reacts weakly with haemoproteus) — cytochrome c
+target:
+  taxid: null
+  gene: cytochrome c
+  genome_type: mtDNA
+  taxon_name: Leucocytozoon
+chemistry: conventional
+oligos:
+  forward:
+    name: HaemFL
+    seq: ATGGTGTTTTAGATACTTACATT
+  reverse:
+    name: HaemR2L
+    seq: CATTATCTGGATGAGATAATGGNGC
+    seq_as_written: CATTATCTGGATGAGATAATGGIGC
+amplicon_bp: 478
+citation:
+  doi: 10.1645/GE-184R1
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemFL/HaemR2L)
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 83
+  - 84
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- CROSS_REACTIVE
+- DOI_UNVERIFIED
+- ORIENTATION_INFERRED_BY_POSITION
+- TAXID_MISSING

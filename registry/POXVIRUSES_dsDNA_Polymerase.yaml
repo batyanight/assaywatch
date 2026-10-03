@@ -1,0 +1,39 @@
+id: POXVIRUSES_dsDNA_Polymerase
+name: POXVIRUSES (dsDNA) — Polymerase
+target:
+  taxid: 10241
+  gene: Polymerase
+  genome_type: dsDNA
+  taxon_name: Chordopoxvirinae
+chemistry: conventional
+oligos:
+  forward:
+    name: FP-DNApol
+    seq: ATACAGAGCTAGTACNTTAATAAAAG
+    seq_as_written: ATACAGAGCTAGTACITTAATAAAAG
+  reverse:
+    name: RP-DNApol
+    seq: CTATTTTTAAATCCCATTAAACC
+amplicon_bp: 543
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: PREDICT protocol
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 674
+  - 675
+  positive_control: Monkeypox (orthopox), Deerpox(cervidpox) DNA, or avipox (N2007-701 nightheron/N2005-705 fruit dove)
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR

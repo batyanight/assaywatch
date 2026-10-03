@@ -1,0 +1,44 @@
+id: CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004
+name: Batrachochytrium dendrobatidis — ITS1/5.8S real-time PCR (Boyle 2004)
+target:
+  taxid: 109871
+  gene: ITS1-5.8S rDNA
+  genome_type: dsDNA
+  taxon_name: Batrachochytrium dendrobatidis
+chemistry: mgb
+oligos:
+  forward:
+    name: ITS1-3 Chytr
+    seq: CCTTGATATAATACAGTGTGCCATATGTC
+  reverse:
+    name: 5.8s Chytr
+    seq: AGCCAAGAGATCCGTTGTCAAA
+  probe:
+    name: Chytr MGB2
+    seq: CGAGTCGAACAAAAT
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 121
+citation:
+  doi: 10.3354/dao060141
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: Boyle et al, 2004
+  doi_verified: true
+  reference: Boyle DG et al. 2004. Dis Aquat Org 60:141-148
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 4
+  - 5
+  - 6
+  positive_control: Bd DNA and plasmid, UC6
+  nested_round: null
+  notes: null
+needs_review:
+- ORIENTATION_INFERRED_BY_POSITION

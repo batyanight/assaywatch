@@ -1,0 +1,38 @@
+id: ADENOVIRUS_dsDNA_Pan_Polymerase_round2
+name: ADENOVIRUS (dsDNA) — Pan-Polymerase
+target:
+  taxid: 10508
+  gene: Pan-Polymerase
+  genome_type: dsDNA
+  taxon_name: Adenoviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: Forward, polFinner
+    seq: GTNTWYGAYATHTGYGGHATGTAYGC
+  reverse:
+    name: Reverse, polRinner
+    seq: CCANCCBCDRTTRTGNARNGTRA
+amplicon_bp: 330
+citation:
+  doi: 10.1128/JVI.78.23.13366-13369.2004
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Wellehan JF et al. 2004. J Virol 78:13366-13369 (pan-adenovirus pol nested PCR)
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 277
+  - 278
+  positive_control: Canine adenovirus type 2 (vaccine)
+  nested_round: round2
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

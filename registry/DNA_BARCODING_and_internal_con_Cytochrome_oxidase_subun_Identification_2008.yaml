@@ -1,0 +1,41 @@
+id: DNA_BARCODING_and_internal_con_Cytochrome_oxidase_subun_Identification_2008
+name: DNA BARCODING and internal controls and species specific — Cytochrome oxidase subunit 1
+target:
+  taxid: 7742
+  gene: Cytochrome oxidase subunit 1
+  genome_type: mtDNA
+  taxon_name: Vertebrata
+chemistry: conventional
+oligos:
+  forward:
+    name: COI_long (f) 5934
+    seq: AACCACAAAGACATTGGCAC
+  reverse:
+    name: COI_long (r) 6597
+    seq: AAGAATCAGAATARGTGTTG
+amplicon_bp: 663
+citation:
+  doi: 10.1111/j.1365-2915.2008.00760.x
+  design_year: 2008
+  n_sequences_at_design: null
+  as_written: Identification of Mosquito bloodmeals using mitochondrial cytochrome oxidase subunit 1 and cytochrome b. Townzen
+    JS, Brower, AVZ, Judd, DD. Medical and Veterinary Entomology (2008) 22, 386-393.  This protocol uses primers that amplify
+    COX1 and Cyto b.
+  doi_verified: false
+  reference: Townzen JS, Brower AVZ, Judd DD. 2008. Med Vet Entomol 22:386-393
+use_context:
+- host_id
+- barcoding
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 158
+  - 159
+  positive_control: null
+  nested_round: null
+  notes:
+  - UC7
+needs_review:
+- DOI_UNVERIFIED

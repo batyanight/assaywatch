@@ -1,0 +1,41 @@
+id: SEADORNAVIRUSES_dsRNA_needs_de_Genome_segment_1
+name: SEADORNAVIRUSES  ***dsRNA needs denaturing step before RT-PCR — Genome segment 1
+target:
+  taxid: null
+  gene: Genome segment 1
+  genome_type: dsRNA
+  taxon_name: Seadornavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: USead-F1
+    seq: WTSAARGGDGGNACNTCNTCNGC
+    seq_as_written: WTSAARGGDGGIACITCITCIGC
+  reverse:
+    name: USead-R1
+    seq: GTWGTYAAYTCRCCNGAYTTDACNCC
+    seq_as_written: GTWGTYAAYTCRCCIGAYTTDACICC
+amplicon_bp: 756
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 743
+  - 744
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR
+- TAXID_MISSING

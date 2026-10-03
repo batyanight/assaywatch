@@ -1,0 +1,42 @@
+id: GENERAL_FUNGUS_18S_ITS1_5_8S_ITS2_28S_White_1990
+name: GENERAL FUNGUS — 18S-ITS1-5.8S-ITS2-28S
+target:
+  taxid: 4751
+  gene: 18S-ITS1-5.8S-ITS2-28S
+  genome_type: dsDNA
+  taxon_name: Fungi
+chemistry: conventional
+oligos:
+  forward:
+    name: ITS5
+    seq: GGAAGTAAAAGTCGTAACAAGG
+  reverse:
+    name: ITS4
+    seq: TCCTCCGCTTATTGATATGC
+amplicon_bp: 678
+citation:
+  doi: 10.1016/B978-0-12-372180-8.50042-1
+  design_year: 1990
+  n_sequences_at_design: null
+  as_written: 'White TJ, Bruns T, Lee S, Taylor J. Amplification and direct sequencing of fungal ribosomal RNA genes for phylogenetics.
+    In: Innis MA, Gelfand DH, Sninsky JJ, White TJ (eds.). PCR protocols: a guide to methods and applications. San Diego (CA):
+    Academic Press; 1990. p. 315–322.'
+  doi_verified: false
+  reference: 'White TJ et al. 1990. In: PCR Protocols, Academic Press, pp 315-322'
+use_context:
+- wildlife
+- veterinary
+- metabarcoding
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 31
+  - 32
+  positive_control: Universal Control 5
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- ORIENTATION_INFERRED_BY_POSITION

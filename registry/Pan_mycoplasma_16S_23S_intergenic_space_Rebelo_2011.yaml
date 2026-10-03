@@ -1,0 +1,39 @@
+id: Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011
+name: Pan-mycoplasma — 16S-23S intergenic spacer region
+target:
+  taxid: 2093
+  gene: 16S-23S intergenic spacer region
+  genome_type: dsDNA
+  taxon_name: Mycoplasma
+chemistry: conventional
+oligos:
+  forward:
+    name: Myco16-23S F (RebeloF)
+    seq: ACACCATGGGAGYTGGTAAT
+  reverse:
+    name: Myco16-23S R (RebeloR)
+    seq: CTCCWTCGACTTYCAGACCCAAGGCAT
+amplicon_bp: null
+citation:
+  doi: 10.1177/1040638711416846
+  design_year: 2011
+  n_sequences_at_design: null
+  as_written: 'Rebelo, AR et al (2011). Use of high-resolution melting curve analysis to identify Mycoplasma species commonly
+    isolated from ruminant, avian, and canine samples. J Vet Diagn Invest. 23(5): 932-936'
+  doi_verified: false
+  reference: Rebelo AR et al. 2011. J Vet Diagn Invest 23:932-936
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 139
+  - 140
+  positive_control: Mycoplasma cynos, DNA extract of bacterial culture (c/o Randy Renshaw, Cornell University), UC4
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

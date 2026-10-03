@@ -1,0 +1,45 @@
+id: NIDOVIRUS_ssRNA_SNAKE_Need_to_PP1b
+name: NIDOVIRUS (ssRNA)-SNAKE (Need to order) — PP1b
+target:
+  taxid: null
+  gene: PP1b
+  genome_type: ssRNA+
+  taxon_name: Serpentovirinae (snake nidoviruses, Tobaniviridae)
+chemistry: conventional
+oligos:
+  forward:
+    name: PythonNido7F
+    seq: GTCGTCAACTTGTCCCACCA
+  reverse:
+    name: PythonNido6R
+    seq: GTCAAACATGAAAGCGTGCG
+  alternates:
+  - name: Pythin nodo 7R
+    seq: CTGCCATGCTACGGAAGACT
+amplicon_bp: 420
+citation:
+  doi: 10.1186/1743-422X-11-144
+  design_year: 2014
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Uccellini L et al. 2014. Virol J 11:144
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 510
+  - 511
+  - 512
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- MULTIPLE_PRIMERS_IN_BLOCK
+- NEED_TO_ORDER
+- TAXID_MISSING

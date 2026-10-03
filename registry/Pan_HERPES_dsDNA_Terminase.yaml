@@ -1,0 +1,42 @@
+id: Pan_HERPES_dsDNA_Terminase
+name: Pan-HERPES (dsDNA) — Terminase
+target:
+  taxid: 10292
+  gene: Terminase
+  genome_type: dsDNA
+  taxon_name: Herpesviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: TERM_707s
+    seq: TTGTGGACGAGRSNMAYTTYAT
+    seq_as_written: TTGTGGACGAGRSIMAYTTYAT
+  reverse:
+    name: TERM_707
+    seq: ACAGCCACGCCNGTNCCNGANGC
+    seq_as_written: ACAGCCACGCCNGTICCIGAIGC
+amplicon_bp: 519
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: PREDICT Protocols
+  doi_verified: false
+  reference: 'TERM_707/708 terminase primers: Chmielewicz B et al. (Ehlers group, Robert Koch Institute) — not resolved'
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 475
+  - 476
+  positive_control: Hyrax or Phasianid DNA or Universal control 2
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR
+- ORIENTATION_INFERRED_BY_POSITION

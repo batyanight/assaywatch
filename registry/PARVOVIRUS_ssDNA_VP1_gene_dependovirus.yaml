@@ -1,0 +1,39 @@
+id: PARVOVIRUS_ssDNA_VP1_gene_dependovirus
+name: PARVOVIRUS (ssDNA) — VP1 gene (dependovirus)
+target:
+  taxid: 10803
+  gene: VP1 gene (dependovirus)
+  genome_type: ssDNA
+  taxon_name: Dependoparvovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: 19SAAVF
+    seq: GGTAATGCCTCAGGAAATTGGCATT
+  reverse:
+    name: 18asAAVR (corrected)
+    seq: GAATCCCCAATTGTTGTTGATGAGTC
+amplicon_bp: null
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 546
+  - 547
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR

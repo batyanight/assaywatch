@@ -1,0 +1,39 @@
+id: Yersinia_enterocolitica_entero_unnamed_Ibrahim_1992
+name: Yersinia enterocolitica, enterotoxin gene
+target:
+  taxid: 630
+  gene: null
+  genome_type: dsDNA
+  taxon_name: Yersinia enterocolitica
+chemistry: conventional
+oligos:
+  forward:
+    name: YE-1
+    seq: CTGTCTTCATTTGGAGCATTC
+  reverse:
+    name: YE-2
+    seq: GCAACATACATCGCAGCAATC
+amplicon_bp: 159
+citation:
+  doi: 10.1128/jcm.30.8.1942-1947.1992
+  design_year: 1992
+  n_sequences_at_design: null
+  as_written: Ibrahim et al, 1992
+  doi_verified: false
+  reference: Ibrahim A, Liesack W, Stackebrandt E. 1992. J Clin Microbiol 30:1942-1947
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 790
+  - 791
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- ORIENTATION_INFERRED_BY_POSITION

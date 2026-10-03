@@ -1,0 +1,38 @@
+id: ENTEROVIRUS_ssRNA_VP3_VP1_round2
+name: ENTEROVIRUS (ssRNA) — VP3/VP1
+target:
+  taxid: 12059
+  gene: VP3/VP1
+  genome_type: ssRNA+
+  taxon_name: Enterovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: AN89/FWD (VP1)
+    seq: CCAGCACTGACAGCAGYNGARAYNGG
+  reverse:
+    name: AN88/RVS (VP1)
+    seq: TACTGGACCACCTGGNGGNAYRWACAT
+amplicon_bp: null
+citation:
+  doi: 10.1128/JCM.00542-06
+  design_year: 2006
+  n_sequences_at_design: null
+  as_written: PREDICT PROTOCOL
+  doi_verified: false
+  reference: Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (AN88/AN89 VP1 primers)
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 399
+  - 400
+  positive_control: Universal control 2
+  nested_round: round2
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

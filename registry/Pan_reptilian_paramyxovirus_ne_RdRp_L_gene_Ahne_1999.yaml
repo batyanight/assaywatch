@@ -1,0 +1,41 @@
+id: Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999
+name: Pan-reptilian paramyxovirus (need to order) — RdRp (L gene)
+target:
+  taxid: null
+  gene: RdRp (L gene)
+  genome_type: ssRNA-
+  taxon_name: Ferlavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: AhneL5
+    seq: GCAGAGATTTTCTCTTTCTT
+  reverse:
+    name: AhneL6
+    seq: AGCTCTCATTTTGTATGTCAT
+amplicon_bp: 627
+citation:
+  doi: 10.1016/S0168-1702(99)00059-3
+  design_year: 1999
+  n_sequences_at_design: null
+  as_written: Ahne et al. Virus Research 63 (1999) 65–74
+  doi_verified: false
+  reference: Ahne W et al. 1999. Virus Res 63:65-74
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 636
+  - 637
+  positive_control: Universal control 5
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- NEED_TO_ORDER
+- ORIENTATION_INFERRED_BY_POSITION
+- TAXID_MISSING

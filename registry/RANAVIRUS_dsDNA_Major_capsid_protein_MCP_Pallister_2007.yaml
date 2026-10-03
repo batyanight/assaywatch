@@ -1,0 +1,44 @@
+id: RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007
+name: Ranavirus — MCP real-time PCR RanaConF/R + probe (Pallister 2007)
+target:
+  taxid: 10492
+  gene: MCP
+  genome_type: dsDNA
+  taxon_name: Ranavirus
+chemistry: mgb
+oligos:
+  forward:
+    name: RanaConF
+    seq: CTCATCGTTCTGGCCATCAA
+  reverse:
+    name: RanaConR
+    seq: TCCCATCGAGCCGTTCA
+  probe:
+    name: RanaqPCRprobe
+    seq: CACAACATTATCCGCATC
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: null
+citation:
+  doi: 10.1111/j.1365-2761.2007.00828.x
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: Pallister et al, 2007
+  doi_verified: false
+  reference: Pallister J et al. 2007. J Fish Dis 30:427-438
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 698
+  - 699
+  - 700
+  positive_control: Frog Virus 3 DNA and UC3
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

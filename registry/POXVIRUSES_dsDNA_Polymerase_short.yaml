@@ -1,0 +1,58 @@
+id: POXVIRUSES_dsDNA_Polymerase_short
+name: POXVIRUSES (dsDNA) — Polymerase short
+target:
+  taxid: 10241
+  gene: Polymerase short
+  genome_type: dsDNA
+  taxon_name: Chordopoxvirinae
+chemistry: conventional
+oligos:
+  forward:
+    name: TSPoxPolF1
+    seq: TATAGAGCGAGTACAGTCATCAAGGGTCC
+  reverse:
+    name: TSPoxPolR1
+    seq: CANACATTNGGATAYARACTATTATAATC
+    seq_as_written: CAIACATTIGGATAYARACTATTATAATC
+  alternates:
+  - name: TSPoxPolF2 (parapox group)
+    seq: TACCGVGCGAGYACCTGCATCAAGGGMCC
+  - name: TSPoxPolF3 (cetacean/goat  group)
+    seq: TAYAGAGCTAGTACGTTAATAAAAGGNCC
+    seq_as_written: TAYAGAGCTAGTACGTTAATAAAAGGICC
+  - name: TSPoxPolF4 (avi group)
+    seq: TATAGGGCHAGTACKCTTATTAAAGGWCC
+  - name: TSPoxPolR2 (parapox group)
+    seq: CANACGTTNGGGTAYARGCTGTTGTAGTC
+    seq_as_written: CAIACGTTIGGGTAYARGCTGTTGTAGTC
+amplicon_bp: 192
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: Developed at WCS-TC (unpublished)
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: deprecated
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 678
+  - 679
+  - 680
+  - 681
+  - 682
+  - 683
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Spreadsheet: first TSPoxPol set DID NOT WORK WELL; the shorter second set (next block) is the working version.'
+needs_review:
+- DOI_MISSING
+- DO_NOT_USE
+- MODIFIED_IN_HOUSE
+- MULTIPLE_PRIMERS_IN_BLOCK
+- NO_YEAR

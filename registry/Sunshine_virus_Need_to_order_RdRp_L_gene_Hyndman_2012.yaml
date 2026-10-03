@@ -1,0 +1,40 @@
+id: Sunshine_virus_Need_to_order_RdRp_L_gene_Hyndman_2012
+name: Sunshine virus (Need to order) — RdRp (L gene)
+target:
+  taxid: null
+  gene: RdRp (L gene)
+  genome_type: ssRNA-
+  taxon_name: Sunshinevirus
+chemistry: conventional
+oligos:
+  forward:
+    name: SunshineS1
+    seq: GGAAAGGGAGGTCTATG
+  reverse:
+    name: SunshineAS1
+    seq: ATTCAACATCTGGGGTC
+amplicon_bp: 153
+citation:
+  doi: 10.1016/j.vetmic.2012.07.015
+  design_year: 2012
+  n_sequences_at_design: null
+  as_written: Hyndman et al. Veterinary Microbiology 161 (2012) 77–87
+  doi_verified: false
+  reference: Hyndman TH et al. 2012. Vet Microbiol 161:77-87
+use_context:
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 647
+  - 648
+  positive_control: Universal control 5
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- NEED_TO_ORDER
+- ORIENTATION_INFERRED_BY_POSITION
+- TAXID_MISSING

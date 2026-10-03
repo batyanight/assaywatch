@@ -1,0 +1,38 @@
+id: Pan_mycoplasma_16S_23S_intergenic_space_2
+name: Pan-mycoplasma — 16S-23S intergenic spacer region for FFPE
+target:
+  taxid: 2093
+  gene: 16S-23S intergenic spacer region for FFPE
+  genome_type: dsDNA
+  taxon_name: Mycoplasma
+chemistry: conventional
+oligos:
+  forward:
+    name: 16-23 F2
+    seq: GAAGTCGTAACAAGGTATCC
+  reverse:
+    name: 16-23 R2
+    seq: TTTTGATGTCGTTATCATATTAATTTA
+amplicon_bp: 302
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 145
+  - 146
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR

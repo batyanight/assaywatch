@@ -1,0 +1,17 @@
+name: assaywatch
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - numpy
+  - pydantic>=2
+  - pyyaml
+  - requests
+  - snakemake-minimal>=8
+  - pytest
+  - ruff
+  - pre-commit
+  - pip
+  - pip:
+      - -e .

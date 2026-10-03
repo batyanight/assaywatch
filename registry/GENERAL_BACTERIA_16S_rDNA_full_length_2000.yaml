@@ -1,0 +1,46 @@
+id: GENERAL_BACTERIA_16S_rDNA_full_length_2000
+name: GENERAL BACTERIA — 16S rDNA full length
+target:
+  taxid: 2
+  gene: 16S rDNA full length
+  genome_type: dsDNA
+  taxon_name: Bacteria
+chemistry: conventional
+oligos:
+  forward:
+    name: U3 16SF
+    seq: ATGGAGAGTTTGATCCTGGCT
+  reverse:
+    name: U2 16SR
+    seq: ATCGGYTACCTTGTTACGACTTC
+amplicon_bp: 1498
+citation:
+  doi: 10.1128/JCM.38.6.2076-2080.2000
+  design_year: 2000
+  n_sequences_at_design: null
+  as_written: 'J Clin Microbiol. 2000 June; 38(6): 2076–2080.
+
+    PMCID: PMC86732
+
+    Use of PCR with Universal Primers and Restriction Endonuclease Digestions for Detection and Identification of Common Bacterial
+    Pathogens in Cerebrospinal Fluid
+
+
+    Jang-Jih Lu,1,* Cherng-Lih Perng,1 Shih-Yi Lee,1 and Chih-Chieng Wan2'
+  doi_verified: false
+  reference: Lu JJ et al. 2000. J Clin Microbiol 38:2076-2080
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 120
+  - 121
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

@@ -1,0 +1,40 @@
+id: HANTAVIRUS_ssRNA_S_segment_round2_2
+name: HANTAVIRUS (ssRNA) — S segment
+target:
+  taxid: null
+  gene: S segment
+  genome_type: ssRNA-
+  taxon_name: Orthohantavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: UHantaF4
+    seq: CCWVHKGAYCCAACWGG
+  reverse:
+    name: UHantaR3
+    seq: GAYNATVTTYCTNGCYTTDAYYTGDGC
+    seq_as_written: GAYNATVTTYCTIGCYTTDAYYTGDGC
+amplicon_bp: 417
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 450
+  - 451
+  positive_control: null
+  nested_round: round2
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR
+- TAXID_MISSING

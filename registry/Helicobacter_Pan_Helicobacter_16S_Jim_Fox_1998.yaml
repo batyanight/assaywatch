@@ -1,0 +1,38 @@
+id: Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998
+name: Helicobacter — Pan Helicobacter 16S (Jim Fox)
+target:
+  taxid: 209
+  gene: Pan Helicobacter 16S (Jim Fox)
+  genome_type: dsDNA
+  taxon_name: Helicobacter
+chemistry: conventional
+oligos:
+  forward:
+    name: C97
+    seq: GCTATGACGGGTATCC
+  reverse:
+    name: C05
+    seq: ACTTCACCCCAGTCGCTG
+amplicon_bp: null
+citation:
+  doi: 10.1016/S0016-5085(98)70589-X
+  design_year: 1998
+  n_sequences_at_design: null
+  as_written: 'Fox J. et al. 1998: DOI: https://doi.org/10.1016/S0016-5085(98)70589-X'
+  doi_verified: true
+  reference: Fox JG et al. 1998. Gastroenterology 114:755-763
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 68
+  - 69
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- ORIENTATION_INFERRED_BY_POSITION

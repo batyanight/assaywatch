@@ -1,0 +1,40 @@
+id: Entamoeba_18S_small_subunit_SSU
+name: Entamoeba — 18S small subunit (SSU)
+target:
+  taxid: 5758
+  gene: 18S small subunit (SSU)
+  genome_type: dsDNA
+  taxon_name: Entamoeba
+chemistry: conventional
+oligos:
+  forward:
+    name: TS EntF (Tm 48.6)
+    seq: CGAACGAGACTKDAWCYTATTWAT
+  reverse:
+    name: TS EntR (Tm 46.3)
+    seq: AATTTCACCTHTWTNTTCAATC
+    seq_as_written: AATTTCACCTHTWTITTCAATC
+amplicon_bp: 572
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: Developed in house by Tseimon
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 21
+  - 22
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR

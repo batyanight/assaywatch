@@ -1,0 +1,39 @@
+id: E_coli_ETEC_enterotoxin_LT_gen_unnamed_Victor_1991
+name: E. coli-ETEC-enterotoxin (LT)gene
+target:
+  taxid: 562
+  gene: null
+  genome_type: dsDNA
+  taxon_name: Escherichia coli
+chemistry: conventional
+oligos:
+  forward:
+    name: EcoLT-1
+    seq: GAGACCGGTATTACAGAAATC
+  reverse:
+    name: EcoLT-2
+    seq: GAGGTGCATGATGAATCCAG
+amplicon_bp: 117
+citation:
+  doi: null
+  design_year: 1991
+  n_sequences_at_design: null
+  as_written: Victor et al. 1991
+  doi_verified: false
+  reference: Victor T et al. 1991 (ETEC LT primers) — not resolved
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 774
+  - 775
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- ORIENTATION_INFERRED_BY_POSITION

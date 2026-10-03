@@ -1,0 +1,38 @@
+id: DNA_BARCODING_and_internal_con_Emydoidea_blandingii_Bla_Emydoidea
+name: DNA BARCODING and internal controls and species specific — Emydoidea blandingii, Blanding's turtle
+target:
+  taxid: null
+  gene: Emydoidea blandingii, Blanding's turtle
+  genome_type: mtDNA
+  taxon_name: Emydoidea blandingii
+chemistry: conventional
+oligos:
+  forward:
+    name: CO1-EBl-01-F
+    seq: ATCATAATCTTCTTCATAGTC
+  reverse:
+    name: CO1-EBl-01-R
+    seq: AGTTTCCAGCTAGTGGTGGA
+amplicon_bp: 216
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: Emydoidea blandingii, Blanding's turtle
+  doi_verified: false
+use_context:
+- host_id
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 234
+  - 235
+  positive_control: UC7
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR
+- TAXID_MISSING

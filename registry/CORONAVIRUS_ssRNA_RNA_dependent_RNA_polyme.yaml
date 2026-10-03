@@ -1,0 +1,40 @@
+id: CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme
+name: CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase
+target:
+  taxid: 11118
+  gene: RNA-dependent RNA polymerase
+  genome_type: ssRNA+
+  taxon_name: Coronaviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: TS-CoV-FWD3
+    seq: GGTTGGGAYTAYCCHAARTGTGA
+  reverse:
+    name: TS-CoV-RVS3 (corrected)
+    seq: CCATCATCASWYRGAATCATCATA
+amplicon_bp: 440
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: PREDICT protocol
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 376
+  - 377
+  positive_control: Coronavirus Plasmid or Universal control 1
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR

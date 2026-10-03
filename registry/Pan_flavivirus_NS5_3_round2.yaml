@@ -1,0 +1,39 @@
+id: Pan_flavivirus_NS5_3_round2
+name: Pan-flavivirus — NS5-3
+target:
+  taxid: 11051
+  gene: NS5-3
+  genome_type: ssRNA+
+  taxon_name: Flavivirus
+chemistry: conventional
+oligos:
+  forward:
+    name: FS 778-Zino-hemi-fwd
+    seq: AARGGHAGYMCDGCHATHTGGT
+  reverse:
+    name: cFD2-GORO-rev
+    seq: GTGTCCCAGCCGGCGGTGTCATCAGC
+amplicon_bp: 250
+citation:
+  doi: 10.1128/JCM.39.5.1922-1927.2001
+  design_year: 2001
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Scaramozzino N et al. 2001 (cFD2); FS778 hemi-nested forward also from this paper
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 426
+  - 427
+  positive_control: null
+  nested_round: round2
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

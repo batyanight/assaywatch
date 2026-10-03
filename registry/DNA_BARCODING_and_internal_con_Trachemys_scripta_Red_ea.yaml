@@ -1,0 +1,37 @@
+id: DNA_BARCODING_and_internal_con_Trachemys_scripta_Red_ea
+name: DNA BARCODING and internal controls and species specific — Trachemys scripta, Red eared slider
+target:
+  taxid: 34903
+  gene: Trachemys scripta, Red eared slider
+  genome_type: mtDNA
+  taxon_name: Trachemys scripta
+chemistry: conventional
+oligos:
+  forward:
+    name: CO1-TSc-01-F
+    seq: GGGAACTGACTCGTGCCATTA
+  reverse:
+    name: CO1-TSc-01-R
+    seq: GGGCTAAATTTCCGGCTAAT
+amplicon_bp: 178
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- host_id
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 262
+  - 263
+  positive_control: UC7
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR

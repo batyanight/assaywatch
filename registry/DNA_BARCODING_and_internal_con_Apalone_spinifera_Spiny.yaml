@@ -1,0 +1,38 @@
+id: DNA_BARCODING_and_internal_con_Apalone_spinifera_Spiny
+name: DNA BARCODING and internal controls and species specific — Apalone spinifera, Spiny softshell turtle
+target:
+  taxid: null
+  gene: Apalone spinifera, Spiny softshell turtle
+  genome_type: mtDNA
+  taxon_name: Apalone spinifera
+chemistry: conventional
+oligos:
+  forward:
+    name: CO1-ASp-02-F
+    seq: CATCTGGCCGGAGTATCGTC
+  reverse:
+    name: CO1-ASp-02-R
+    seq: GTCTCCACCTCCTGAGGGAT
+amplicon_bp: 231
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- host_id
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 259
+  - 260
+  positive_control: UC7
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR
+- TAXID_MISSING

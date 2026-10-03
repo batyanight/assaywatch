@@ -1,0 +1,44 @@
+id: Canine_distemper_virus_specifi_H_gene_2011_3
+name: Canine distemper virus specific — H gene
+target:
+  taxid: 11232
+  gene: H gene
+  genome_type: ssRNA-
+  taxon_name: Canine morbillivirus
+chemistry: conventional
+oligos:
+  forward:
+    name: 3F
+    seq: TAGGGATATTTGGGGCAACA
+  reverse:
+    name: 3R
+    seq: TCCATAATCTGGGATGTTTGAA
+  alternates:
+  - name: 3Farctic
+    seq: TGGGAATCTTTGGGGCAACA
+amplicon_bp: 563
+citation:
+  doi: null
+  design_year: 2011
+  n_sequences_at_design: null
+  as_written: muller,2011
+  doi_verified: false
+  reference: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candidate Müller A et al.
+    2011 J Wildl Dis 47:725
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 614
+  - 615
+  - 616
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MULTIPLE_PRIMERS_IN_BLOCK

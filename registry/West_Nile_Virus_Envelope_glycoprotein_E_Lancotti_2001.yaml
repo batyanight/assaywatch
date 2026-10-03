@@ -1,0 +1,43 @@
+id: West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001
+name: West Nile Virus — Envelope glycoprotein E
+target:
+  taxid: 11082
+  gene: E (envelope)
+  genome_type: ssRNA+
+  taxon_name: West Nile virus
+chemistry: conventional
+oligos:
+  forward:
+    name: WN-1333
+    seq: ACCAAGGCAATAGGAAGAACCA
+  reverse:
+    name: WN-1494c
+    seq: GTATGAAGGCGCCGCAGGAGTGA
+amplicon_bp: 161
+citation:
+  doi: 10.1128/JCM.39.12.4506-4513.2001
+  design_year: 2001
+  n_sequences_at_design: null
+  as_written: Lancotti et al. Nucleic acid sequence-based amplification assays for rapid detection of West Nile and St. Louis
+    Encephalitis, J. Clin. Microbiology, Dec 2001, p4506-4513.
+  doi_verified: false
+  reference: Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 432
+  - 433
+  positive_control: null
+  nested_round: null
+  notes:
+  - WNV (N2011-0617, Red tailed hawk, brain)
+needs_review:
+- DOI_UNVERIFIED
+- MODIFIED_IN_HOUSE
+- ORIENTATION_INFERRED_BY_POSITION

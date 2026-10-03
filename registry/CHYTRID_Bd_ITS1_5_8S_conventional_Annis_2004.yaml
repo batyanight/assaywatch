@@ -1,0 +1,38 @@
+id: CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004
+name: Batrachochytrium dendrobatidis — ITS1/5.8S conventional PCR Bd1a/Bd2a (Annis 2004)
+target:
+  taxid: 109871
+  gene: ITS1-5.8S rDNA
+  genome_type: dsDNA
+  taxon_name: Batrachochytrium dendrobatidis
+chemistry: conventional
+oligos:
+  forward:
+    name: Bd1a
+    seq: CAGTGTGCCATATGTCACG
+  reverse:
+    name: Bd2a
+    seq: CATGGTTCATATCTGTCCAG
+amplicon_bp: 300
+citation:
+  doi: 10.7589/0090-3558-40.3.420
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: Annis et al, Journal of Wildlife Diseases, 40(3), 2004, pp. 420–428
+  doi_verified: true
+  reference: Annis SL et al. 2004. J Wildl Dis 40:420-428
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 8
+  - 9
+  positive_control: Bd DNA and plasmid, UC6
+  nested_round: null
+  notes: null
+needs_review:
+- ORIENTATION_INFERRED_BY_POSITION

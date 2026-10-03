@@ -1,0 +1,39 @@
+id: SARCOCYSTIS_18S_5_8s_rDNA_long_2010
+name: SARCOCYSTIS — 18S-5.8s rDNA (long)
+target:
+  taxid: 5812
+  gene: 18S-5.8s rDNA (long)
+  genome_type: dsDNA
+  taxon_name: Sarcocystis
+chemistry: conventional
+oligos:
+  forward:
+    name: P-ITSF
+    seq: ATTGAGTGTTCCGGTGAATTA
+  reverse:
+    name: P-ITSR
+    seq: GCCATTTGCGTTCCAGAAATC
+amplicon_bp: null
+citation:
+  doi: 10.1007/s00436-010-1945-4
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: ': Kutkiene L, et al. The mallard duck (Anas platyrhynchos) as intermediate host for Sarcocystis wobeseri sp.
+    nov. from the barnacle goose (Branta leucopsis). Parasitol Res; 2010; 107:879-888'
+  doi_verified: false
+  reference: Kutkienė L et al. 2010. Parasitol Res 107:879-888
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 111
+  - 112
+  positive_control: UC4, Sarcocystis falcatula from clinical case
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

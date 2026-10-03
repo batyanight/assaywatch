@@ -1,0 +1,40 @@
+id: ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1
+name: ENTEROVIRUS (ssRNA) — 5'UTR/VP4/VP2
+target:
+  taxid: 12059
+  gene: 5'UTR/VP4/VP2
+  genome_type: ssRNA+
+  taxon_name: Enterovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: EVRV1
+    seq: CTCCGGCCCCTGAATRYGGCTAA
+  reverse:
+    name: EVRV2
+    seq: TCNGGNARYTTCCACCACCANCC
+    seq_as_written: TCIGGIARYTTCCACCACCAICC
+amplicon_bp: 765
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 387
+  - 388
+  positive_control: null
+  nested_round: round1
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR
+- ORIENTATION_INFERRED_BY_POSITION

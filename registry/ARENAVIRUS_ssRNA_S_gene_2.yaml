@@ -1,0 +1,40 @@
+id: ARENAVIRUS_ssRNA_S_gene_2
+name: ARENAVIRUS (ssRNA) — S gene
+target:
+  taxid: 11617
+  gene: S gene
+  genome_type: ssRNA-
+  taxon_name: Arenaviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: ARS3V
+    seq: CATGACKMTGAATTYTGTGACA
+  reverse:
+    name: ARS7C-MOD
+    seq: ATRTGYCKRTGWGTTGG
+amplicon_bp: 460
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 309
+  - 310
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR
+- ORIENTATION_INFERRED_BY_POSITION

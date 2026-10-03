@@ -1,0 +1,45 @@
+id: Tortoise_intranuclear_coccidia_18SrDNA
+name: Tortoise intranuclear coccidian species (TINC) — 18SrDNA
+target:
+  taxid: null
+  gene: 18SrDNA
+  genome_type: dsDNA
+  taxon_name: tortoise intranuclear coccidian (TINC, unclassified Eimeriorina)
+chemistry: mgb
+oligos:
+  forward:
+    name: INCqPCRF
+    seq: GTTTGGTCCGCCTCCTTG
+  reverse:
+    name: INCqPCR2R
+    seq: AACCCGCACAGTGAAGTGG
+  probe:
+    name: Probe
+    seq: GCCGGTCGAACTTCAGCATC
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: null
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 101
+  - 102
+  - 103
+  positive_control: UC4
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR
+- TAXID_MISSING

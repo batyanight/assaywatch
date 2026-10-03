@@ -1,0 +1,39 @@
+id: Canine_distemper_virus_specifi_H_gene
+name: Canine distemper virus specific — H gene
+target:
+  taxid: 11232
+  gene: H gene
+  genome_type: ssRNA-
+  taxon_name: Canine morbillivirus
+chemistry: conventional
+oligos:
+  forward:
+    name: TSCDV-HF
+    seq: TGCGCCCAGGGAATCAAGTGG
+  reverse:
+    name: TSCDV-HR
+    seq: GGTGMTGYCAGYCTCRAATCGG
+amplicon_bp: 316
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: Developed at WCS-unpublished
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 593
+  - 594
+  positive_control: Canine distemper (vaccine)
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR

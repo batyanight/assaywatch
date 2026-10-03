@@ -1,0 +1,37 @@
+id: CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2
+name: CMV-specific HERPES — UL55 /Glycoprotein B (gB)
+target:
+  taxid: 10358
+  gene: UL55 /Glycoprotein B (gB)
+  genome_type: dsDNA
+  taxon_name: Cytomegalovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: 2744-s
+    seq: TTCAAGGAACTCAGYAARATNAAYCC
+  reverse:
+    name: 2745-as
+    seq: CGTTGTCCTCNCCNARYTGNCC
+amplicon_bp: 230
+citation:
+  doi: 10.1186/1743-422X-4-84
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Prepens S et al. 2007. Virol J 4:84
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 489
+  - 490
+  positive_control: null
+  nested_round: round2
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

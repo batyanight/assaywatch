@@ -1,0 +1,39 @@
+id: DNA_BARCODING_and_internal_con_Mitochondrial_control_re_Adapted_2011
+name: DNA BARCODING and internal controls and species specific — Mitochondrial control region (D loop)   Bongo only
+target:
+  taxid: null
+  gene: Mitochondrial control region (D loop)   Bongo only
+  genome_type: mtDNA
+  taxon_name: Tragelaphus eurycerus
+chemistry: conventional
+oligos:
+  forward:
+    name: MT4
+    seq: CCTCCCTAAGACTCAAGGAAG
+  reverse:
+    name: TSMitoDR
+    seq: ATTGACTGCCATGCCCATGCC
+amplicon_bp: 907
+citation:
+  doi: 10.1007/s10592-011-0181-5
+  design_year: 2011
+  n_sequences_at_design: null
+  as_written: 'Adapted from Faria, P.J. et al. The use of non-invasive molecular techniques to confirm     the presence of mountain bongo Tragelaphus eurycerus isaaci populations in Kenya and preliminary inference of their mitochondrial
+    genetic variation. (2011) Conservation Genetics, DOI 10.1007/s10592-011-0181-5'
+  doi_verified: true
+  reference: Faria PJ et al. 2011. Conserv Genet 12:745-751
+use_context:
+- conservation_genetics
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 178
+  - 179
+  positive_control: Bongo DNA
+  nested_round: null
+  notes: null
+needs_review:
+- ORIENTATION_INFERRED_BY_POSITION
+- TAXID_MISSING

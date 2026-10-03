@@ -1,0 +1,38 @@
+id: DNA_BARCODING_and_internal_con_Cytochrome_b
+name: DNA BARCODING and internal controls and species specific — Cytochrome b
+target:
+  taxid: 7742
+  gene: Cytochrome b
+  genome_type: mtDNA
+  taxon_name: Vertebrata
+chemistry: conventional
+oligos:
+  forward:
+    name: Cyt  b  (f) 15 150
+    seq: GAGGMCAAATATCATTCTGAGG
+  reverse:
+    name: Cyt  b  (r) 15 607
+    seq: TAGGGCYAGGACTCCTCCTAGT
+amplicon_bp: 481
+citation:
+  doi: 10.1111/j.1365-2915.2008.00760.x
+  design_year: 2008
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Townzen JS et al. 2008. Med Vet Entomol 22:386-393 (cyt b pair)
+use_context:
+- host_id
+- barcoding
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 175
+  - 176
+  positive_control: UC7
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

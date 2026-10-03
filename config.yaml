@@ -1,0 +1,48 @@
+# Thresholds and run settings. Nothing numeric about scoring lives in code.
+registry_dir: registry
+retrieved_dir: data/retrieved
+results_dir: results
+
+scoring:
+  primer_3prime_window: 5        # last N nt of the 3' end
+  primer_3prime_penalty: 3.0
+  primer_mid_window: 5           # positions 6-10 from the 3' end
+  primer_mid_penalty: 1.0
+  primer_5prime_penalty: 0.5
+  probe_center_penalty: 2.0      # central third of the probe
+  probe_outer_penalty: 1.0
+  max_ambiguous_per_oligo: 2     # more undetermined record bases under one oligo -> indeterminate
+  detect_max: 1.0                # <= detect
+  reduced_max: 3.0               # <= reduced efficiency; above = fail
+  terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail
+
+amplicon:
+  min_bp: 50
+  max_bp: 3000
+  record_min_overhang_bp: 100    # record must extend this far past the amplicon
+
+# Sequence retrieval from NCBI. These are the decisions that shape what the
+# drift metric can see, so they live here rather than in code.
+retrieve:
+  page_size: 500              # records per esummary/efetch call
+  min_length: 100             # skip fragments too short to contain any amplicon
+  max_length: null            # whole genomes are fine: an amplicon may sit anywhere
+  query_suffix: null          # e.g. 'NOT "whole genome shotgun"[Title]' to trim bulk
+  max_records_per_taxon: 50000
+  # Taxa allowed past the cap, by taxid. Opt in deliberately: influenza A
+  # (11320) alone is over a million records and will dominate a weekly run.
+  large_taxa_allowed: []
+
+# Degeneracy is never scored; these tiers only annotate how much weight a
+# `detect` call deserves. See assaywatch/degeneracy.py for the rationale.
+degeneracy:
+  tiers:
+    - [8, negligible]
+    - [128, moderate]
+    - [4096, high]
+
+drift:
+  detect_fraction_threshold: 0.90   # below this the assay is considered failing
+  recent_window_months: 24          # how far back "recent" reaches
+  min_records_for_drift: 20         # fewer evaluable records than this -> report, never flag
+  min_records_for_coverage: 10      # fewer than this in total -> a coverage gap, not a result

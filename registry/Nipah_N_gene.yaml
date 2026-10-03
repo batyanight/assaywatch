@@ -1,0 +1,38 @@
+id: Nipah_N_gene
+name: Nipah — N gene
+target:
+  taxid: 121791
+  gene: N gene
+  genome_type: ssRNA-
+  taxon_name: Nipah henipavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: NP1F
+    seq: CTTGAGCCTATGTATTTCAGAC
+  reverse:
+    name: NP1R
+    seq: GCTTTTGCAGCCAGTCTTG
+amplicon_bp: 398
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: PREDICT protocol
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 630
+  - 631
+  positive_control: Universal control 1
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR

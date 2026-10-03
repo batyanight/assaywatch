@@ -1,0 +1,45 @@
+id: DNA_BARCODING_and_internal_con_Apalone_sp_Spiny_and_Flo
+name: DNA BARCODING and internal controls and species specific — Apalone sp. (Spiny and Florida softshell) Cyto b-best efficiency
+target:
+  taxid: null
+  gene: Apalone sp. (Spiny and Florida softshell) Cyto b-best efficiency
+  genome_type: mtDNA
+  taxon_name: Apalone
+chemistry: mgb
+oligos:
+  forward:
+    name: Apalone Cb F
+    seq: CAACGAACACTGACATTCCGCCC
+  reverse:
+    name: Apalone Cb R
+    seq: GGTATWAGTACGAGTARGATTGTGAAGTAGAGG
+  probe:
+    name: Apalone Cb PROBE
+    seq: ATCATTCATCGCYAACCTTGCAG
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 167
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: developed in house
+  doi_verified: false
+use_context:
+- eDNA
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 226
+  - 227
+  - 228
+  positive_control: UC6
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR
+- TAXID_MISSING

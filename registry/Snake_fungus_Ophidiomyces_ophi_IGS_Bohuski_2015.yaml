@@ -1,0 +1,45 @@
+id: Snake_fungus_Ophidiomyces_ophi_IGS_Bohuski_2015
+name: Ophidiomyces ophidiicola — IGS real-time PCR (Bohuski 2015)
+target:
+  taxid: null
+  gene: IGS
+  genome_type: dsDNA
+  taxon_name: Ophidiomyces ophidiicola
+chemistry: mgb
+oligos:
+  forward:
+    name: Oo-RT-IGS-F
+    seq: CGGGTGAATTACCCAGTT
+  reverse:
+    name: Oo-RT-IGS-R
+    seq: AGCCATCCTTCCCTACAT
+  probe:
+    name: Oo-RT-IGS PROBE
+    seq: ATACTCTCCGGGCGCTTGTCTTCC
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 133
+citation:
+  doi: 10.1186/s12917-015-0407-8
+  design_year: 2015
+  n_sequences_at_design: null
+  as_written: Bohuski et al. BMC Veterinary Research (2015) 11:95 DOI 10.1186/s12917-015-0407-8
+  doi_verified: true
+  reference: Bohuski E et al. 2015. BMC Vet Res 11:95
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 47
+  - 48
+  - 49
+  positive_control: Universal Control 5
+  nested_round: null
+  notes: null
+needs_review:
+- NEED_TO_ORDER
+- TAXID_MISSING

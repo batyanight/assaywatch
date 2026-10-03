@@ -1,0 +1,38 @@
+id: MYCOPLASMA_16S_Turtles_only_Feldman_2006
+name: MYCOPLASMA — 16S (Turtles only)
+target:
+  taxid: 2093
+  gene: 16S (Turtles only)
+  genome_type: dsDNA
+  taxon_name: Mycoplasma
+chemistry: conventional
+oligos:
+  forward:
+    name: Feldman Fwd
+    seq: CTGCTGTTATACAGAAAGAAAAG
+  reverse:
+    name: Feldman Rev
+    seq: GACTTTGGGCATTACCGGC
+amplicon_bp: 990
+citation:
+  doi: 10.7589/0090-3558-42.2.279
+  design_year: 2006
+  n_sequences_at_design: null
+  as_written: Feldman et al 2006. JWD
+  doi_verified: false
+  reference: Feldman SH et al. 2006. J Wildl Dis 42:279-288
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 133
+  - 134
+  positive_control: Mycoplasma agassizii, UC4
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

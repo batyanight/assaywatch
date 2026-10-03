@@ -1,0 +1,37 @@
+id: RETROVIRUS_RNA_polymerase_SIV_Keele_2009
+name: RETROVIRUS (RNA) — polymerase (SIV)
+target:
+  taxid: 11723
+  gene: polymerase (SIV)
+  genome_type: ssRNA-RT
+  taxon_name: Simian immunodeficiency virus
+chemistry: conventional
+oligos:
+  forward:
+    name: PTS-spol-F2
+    seq: GARGACCATGAYAAATATCA
+  reverse:
+    name: PTS-pol- R2
+    seq: CAATCCCCCCTTTTCTTTTAAAATTGTG
+amplicon_bp: 549
+citation:
+  doi: 10.1038/nature08200
+  design_year: 2009
+  n_sequences_at_design: null
+  as_written: Keele et al, Nature 2009
+  doi_verified: false
+  reference: Keele BF et al. 2009. Nature 460:515-519
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 716
+  - 717
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

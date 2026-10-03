@@ -1,0 +1,47 @@
+id: ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies
+name: ADENOVIRUS (dsDNA) — Tracies unpublished nested
+target:
+  taxid: 10508
+  gene: Tracies unpublished nested
+  genome_type: dsDNA
+  taxon_name: Adenoviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: TSADHEXF1new
+    seq: GGAYAMNRTNAAYCCYTTYAAYC
+    seq_as_written: GGAYAMIRTIAAYCCYTTYAAYC
+  reverse:
+    name: TSADHEXRnew
+    seq: CATTDRYNKCRTTDCKBAGC
+    seq_as_written: CATTDRYIKCRTTDCKBAGC
+  alternates:
+  - name: TSADHEXF2new
+    seq: VTTYCAYATTCARGTVCCVC
+amplicon_bp: 334
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: Tracies unpublished nested
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 294
+  - 295
+  - 296
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- MULTIPLE_PRIMERS_IN_BLOCK
+- NESTED
+- NO_YEAR

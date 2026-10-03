@@ -1,0 +1,42 @@
+id: Yersinia_pseudotuberculosis_in_unnamed_Wang_1997
+name: Yersinia pseudotuberculosis, inv gene
+target:
+  taxid: 633
+  gene: null
+  genome_type: dsDNA
+  taxon_name: Yersinia pseudotuberculosis
+chemistry: conventional
+oligos:
+  forward:
+    name: YP-3
+    seq: CTTGGCTGATGGCACGAT
+  reverse:
+    name: YP-4
+    seq: TCGTCACCTGACCCTGAT
+amplicon_bp: 440
+citation:
+  doi: null
+  design_year: 1997
+  n_sequences_at_design: null
+  as_written: Wang et al 1997
+  doi_verified: false
+  reference: Wang et al 1997 (O157 hlyA / Y. pseudotuberculosis inv) — not resolved
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 794
+  - 795
+  positive_control: null
+  nested_round: null
+  notes:
+  - Mark Schrenzel,1,* J. Lindsay Oaks,2 Dave Rotstein,3 Gabriel Maalouf,1 Eric Snook,1 Cal Sandfort,4 and Bruce Rideout1
+  - Characterization of a New Species of Adenovirus in Falcons
+  - 'J Clin Microbiol. 2005 July; 43(7): 3402–3413.'
+needs_review:
+- DOI_MISSING
+- ORIENTATION_INFERRED_BY_POSITION

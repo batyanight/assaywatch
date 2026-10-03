@@ -1,0 +1,41 @@
+id: LEPTOSPIROSIS_Flagillar_filiment_Prote
+name: LEPTOSPIROSIS — Flagillar filiment Protein B gene
+target:
+  taxid: 171
+  gene: Flagillar filiment Protein B gene
+  genome_type: dsDNA
+  taxon_name: Leptospira
+chemistry: conventional
+oligos:
+  forward:
+    name: LeptoF
+    seq: GATCATGAAGCAGAGRGCGGATATG
+  reverse:
+    name: LeptoR
+    seq: CCATATCGGCGTCYCGAATTC
+amplicon_bp: 120
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 154
+  - 155
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR
+- UNTESTED

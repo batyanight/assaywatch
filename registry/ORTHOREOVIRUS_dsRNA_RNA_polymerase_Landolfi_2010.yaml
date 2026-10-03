@@ -1,0 +1,43 @@
+id: ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010
+name: ORTHOREOVIRUS (dsRNA) — RNA polymerase
+target:
+  taxid: 10882
+  gene: RNA polymerase
+  genome_type: dsRNA
+  taxon_name: Orthoreovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: Landolfi 2090F
+    seq: GGBTCMACNGCYACYTCBACYGAGCA
+  reverse:
+    name: Landolfi 2200R
+    seq: CCRTCRTCWCCYTGRCAKACRTARTT
+  alternates:
+  - name: Landolfi 2334R
+    seq: CDATGTCRTAHWYCCANCCRAA
+amplicon_bp: 163
+citation:
+  doi: 10.1177/104063871002200106
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: Landolfi et al. J Vet Diagn Invest 22:37–43 (2010)
+  doi_verified: false
+  reference: Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 527
+  - 528
+  - 529
+  positive_control: Universal Control 5
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- MULTIPLE_PRIMERS_IN_BLOCK

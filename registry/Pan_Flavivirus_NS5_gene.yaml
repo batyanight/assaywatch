@@ -1,0 +1,40 @@
+id: Pan_Flavivirus_NS5_gene
+name: Pan-Flavivirus — NS5 gene
+target:
+  taxid: 11051
+  gene: NS5 gene
+  genome_type: ssRNA+
+  taxon_name: Flavivirus
+chemistry: conventional
+oligos:
+  forward:
+    name: Flavi-FWD
+    seq: TGYRBTTAYAACATGATGGG
+  reverse:
+    name: Flavi-RVS
+    seq: GTGTCCCANCCNGCNGTRTC
+    seq_as_written: GTGTCCCAICCNGCNGTRTC
+amplicon_bp: 270
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 429
+  - 430
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- NO_YEAR

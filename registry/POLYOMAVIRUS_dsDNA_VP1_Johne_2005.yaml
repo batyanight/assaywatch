@@ -1,0 +1,40 @@
+id: POLYOMAVIRUS_dsDNA_VP1_Johne_2005
+name: POLYOMAVIRUS (dsDNA) — VP1
+target:
+  taxid: 151341
+  gene: VP1
+  genome_type: dsDNA
+  taxon_name: Polyomaviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: VP12F-JO2F
+    seq: ATGAAAATGGGGTTGGCCCNCTNTGYAARG
+  reverse:
+    name: VP12R-JO2R
+    seq: CCCTCATAAACCCGAACYTCYTCHACYTG
+amplicon_bp: 277
+citation:
+  doi: 10.1128/JVI.79.6.3883-3887.2005
+  design_year: 2005
+  n_sequences_at_design: null
+  as_written: Johne et al, Novel Polyomavirus Detected in the Feces of a Chimpanzee by Nested Broad-Spectrum PCR JOURNAL OF
+    VIROLOGY, Mar. 2005, p. 3883–3887
+  doi_verified: false
+  reference: Johne R et al. 2005. J Virol 79:3883-3887
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 661
+  - 662
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- NESTED

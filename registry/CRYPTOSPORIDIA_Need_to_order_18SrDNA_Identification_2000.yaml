@@ -1,0 +1,52 @@
+id: CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000
+name: CRYPTOSPORIDIA (Need to order) — 18SrDNA
+target:
+  taxid: 5806
+  gene: 18SrDNA
+  genome_type: dsDNA
+  taxon_name: Cryptosporidium
+chemistry: conventional
+oligos:
+  forward:
+    name: Ziao18SF1
+    seq: TTCTAGAGCTAATACATGCG
+  reverse:
+    name: Ziao18SR1 corrected
+    seq: CCCATTTCCTTCGAAACAGGA
+  alternates:
+  - name: Ziao18SF2
+    seq: GGAAGGGTTGTATTTATTAGATAAAG
+  - name: Ziao18SR2
+    seq: AAGGAGTAAGGAACAACCTCCA
+amplicon_bp: 1314
+citation:
+  doi: 10.1128/AEM.66.12.5492-5498.2000
+  design_year: 2000
+  n_sequences_at_design: null
+  as_written: 'Identification of Species and Sources of Cryptosporidium Oocysts in Storm Waters with a Small-Subunit rRNA-Based
+
+    Diagnostic and Genotyping Tool. LIHUA XIAO,1* KERRI ALDERISIO,2 JOSEF LIMOR,1 MICHAEL ROYER,3 AND ALTAF A. LAL1, APPLIED
+    AND ENVIRONMENTAL MICROBIOLOGY, Dec. 2000, p. 5492–5498'
+  doi_verified: false
+  reference: Xiao L et al. 2000. Appl Environ Microbiol 66:5492-5498
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 105
+  - 106
+  - 107
+  - 108
+  positive_control: UC5
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- MODIFIED_IN_HOUSE
+- MULTIPLE_PRIMERS_IN_BLOCK
+- NEED_TO_ORDER

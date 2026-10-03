@@ -1,0 +1,56 @@
+id: DNA_BARCODING_and_internal_con_Carnivore_16S
+name: DNA BARCODING and internal controls and species specific — Carnivore 16S
+target:
+  taxid: 33554
+  gene: Carnivore 16S
+  genome_type: mtDNA
+  taxon_name: Carnivora
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: Carnivore 16SF
+    seq: GTGAAGAGGCGGGRATA
+  reverse:
+    name: Carnivore 16SR
+    seq: GTCRCCCCAACCTAAATTR
+  probe:
+    name: Carnivore 16S PROBE Cy5 (Biomeme)
+    seq: AATAAGACGAGAAGACCCTRTGGAGCTT
+    reporter: Cy5
+    quencher: IowaBlackRQ
+  alternates:
+  - name: Carnivore 16S PROBE HEX (Biomeme)
+    seq: AATAAGACGAGAAGACCCTRTGGAGCTT
+    reporter: HEX
+    quencher: ZEN/IowaBlackFQ
+  - name: Carnivore 16S PROBE Atto (Biomeme)
+    seq: AATAAGACGAGAAGACCCTRTGGAGCTT
+    reporter: ATTO647N
+    quencher: IowaBlackRQ
+amplicon_bp: 147
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: developed in house
+  doi_verified: false
+use_context:
+- host_id
+- eDNA
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 195
+  - 196
+  - 197
+  - 198
+  - 199
+  positive_control: UC5
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_MISSING
+- MODIFIED_IN_HOUSE
+- NO_YEAR

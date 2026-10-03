@@ -1,0 +1,39 @@
+id: RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008
+name: RANAVIRUS (dsDNA) — Major capsid protein (MCP)
+target:
+  taxid: 10492
+  gene: MCP
+  genome_type: dsDNA
+  taxon_name: Ranavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: RanaFWD
+    seq: GACTTGGCCACTTATGAC
+  reverse:
+    name: RanaRVS
+    seq: GTCTCTGGAGAAGAAGAA
+amplicon_bp: 500
+citation:
+  doi: 10.7589/0090-3558-44.4.851
+  design_year: 2008
+  n_sequences_at_design: null
+  as_written: Johnson, AJ et al. RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES.
+    Journal of Wildlife Diseases, 44(4), 2008, pp. 851–863
+  doi_verified: false
+  reference: Johnson AJ et al. 2008. J Wildl Dis 44:851-863
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 702
+  - 703
+  positive_control: Frog Virus 3 DNA
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

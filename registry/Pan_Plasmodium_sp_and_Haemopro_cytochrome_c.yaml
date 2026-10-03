@@ -1,0 +1,38 @@
+id: Pan_Plasmodium_sp_and_Haemopro_cytochrome_c
+name: Pan-Plasmodium sp. and Haemoproteus sp. — cytochrome c
+target:
+  taxid: 5819
+  gene: cytochrome c
+  genome_type: mtDNA
+  taxon_name: Haemosporida
+chemistry: conventional
+oligos:
+  forward:
+    name: HaemF
+    seq: ATGGTGCTTTCGATATATGCATG
+  reverse:
+    name: HaemR2
+    seq: GCATTATCTGGATGTGATAATGGT
+amplicon_bp: 480
+citation:
+  doi: 10.1645/GE-184R1
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 80
+  - 81
+  positive_control: Harlequin Duck DNA, UC3
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

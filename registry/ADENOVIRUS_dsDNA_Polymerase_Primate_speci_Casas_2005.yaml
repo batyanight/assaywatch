@@ -1,0 +1,38 @@
+id: ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005
+name: ADENOVIRUS (dsDNA) — Polymerase (Primate-specific)
+target:
+  taxid: 10509
+  gene: Polymerase (Primate-specific)
+  genome_type: dsDNA
+  taxon_name: Mastadenovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: F1
+    seq: TGATGCGYTTCTTACCTYTGGTYTCCATGAG
+  reverse:
+    name: R1
+    seq: AGTTYTACATGCTGGGCTCTTACCG
+amplicon_bp: 1560
+citation:
+  doi: 10.1128/JCM.43.12.6176-6182.2005
+  design_year: 2005
+  n_sequences_at_design: null
+  as_written: 'Casas, I (2005).  Journal of Clinical Microbiology. 43: 6176-6182'
+  doi_verified: false
+  reference: Casas I et al. 2005. J Clin Microbiol 43:6176-6182
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 280
+  - 281
+  positive_control: null
+  nested_round: null
+  notes: null
+needs_review:
+- DOI_UNVERIFIED

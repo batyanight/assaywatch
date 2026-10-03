@@ -1,0 +1,40 @@
+id: BOCAVIRUS_ssDNA_NS1_gene_round2
+name: BOCAVIRUS (ssDNA) — NS1 gene
+target:
+  taxid: null
+  gene: NS1 gene
+  genome_type: ssDNA
+  taxon_name: Bocaparvovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: PANBOV-F2
+    seq: GCAYCARGAYTGGGTNGANCCWGC
+    seq_as_written: GCAYCARGAYTGGGTIGANCCWGC
+  reverse:
+    name: PANBOV-R1
+    seq: GTACAGTCRTAYTCRTTRAARCACCA
+amplicon_bp: 290
+citation:
+  doi: 10.1371/journal.pone.0011948
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+  reference: Kapoor A et al. 2010. PLoS ONE 5:e11948 (PANBOV primers)
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 336
+  - 337
+  positive_control: null
+  nested_round: round2
+  notes: null
+needs_review:
+- DOI_UNVERIFIED
+- TAXID_MISSING
