@@ -206,3 +206,66 @@ def test_registry_targets_skip_deprecated_and_untaxed_assays():
     assert (109871, "all") in targets  # Bd, no per-assay query
     assert all(isinstance(t, int) and isinstance(g, str) for t, g in targets)
     assert targets[(109871, "all")]["assays"], "a group should carry the assays that need it"
+
+
+class FlakyNCBI(FakeNCBI):
+    """Drops the history handle once, on the first efetch, the way NCBI does under load."""
+
+    def __init__(self, n):
+        super().__init__(n)
+        self.dropped = False
+
+    def __call__(self, endpoint, params):
+        from assaywatch.retrieve import HistoryExpired
+
+        if endpoint == "efetch" and not self.dropped:
+            self.dropped = True
+            raise HistoryExpired("efetch: Cannot retrieve history data")
+        return super().__call__(endpoint, params)
+
+
+def test_expired_history_handle_is_refreshed_and_the_page_retried(cfg):
+    fake = FlakyNCBI(7)
+    run = retrieve_taxon(121791, cfg, fake, run_date="2026-10-03")
+    assert run.n_fetched == 7
+    assert sum(1 for e, _ in fake.calls if e == "esearch") == 2  # the refresh
+
+
+def test_interrupted_fetch_leaves_no_finished_looking_archive(cfg, tmp_path):
+    class Dies(FakeNCBI):
+        def __call__(self, endpoint, params):
+            if endpoint == "efetch" and int(params["retstart"]) > 0:
+                raise RuntimeError("Response ended prematurely")
+            return super().__call__(endpoint, params)
+
+    with pytest.raises(RuntimeError):
+        retrieve_taxon(10241, cfg, Dies(7), run_date="2026-10-03")
+    d = tmp_path / "retrieved" / "10241" / "all"
+    assert not (d / "2026-10-03.fasta.gz").exists()
+    assert not (d / "2026-10-03.meta.tsv.gz").exists()
+    assert list(d.glob(".*.part"))  # the partial is visibly a partial
+
+
+class BigRecords(FakeNCBI):
+    """Every record reports a 200 kb length, like a poxvirus genome."""
+
+    def __call__(self, endpoint, params):
+        out = super().__call__(endpoint, params)
+        return out.replace('Type="Integer">5', 'Type="Integer">20000') if endpoint == "esummary" else out
+
+
+def test_efetch_pages_shrink_for_large_records(cfg):
+    cfg["retrieve"]["page_size"] = 500
+    cfg["retrieve"]["page_target_bytes"] = 2_000_000
+    fake = BigRecords(40)
+    run = retrieve_taxon(10241, cfg, fake, run_date="2026-10-03")
+    fetch_sizes = {int(p["retmax"]) for e, p in fake.calls if e == "efetch"}
+    assert fetch_sizes == {10}  # 2 MB / ~200 kb, floored at 10
+    assert run.n_fetched == 40 and "pages of 10" in run.note
+
+
+def test_small_records_keep_the_full_page(cfg):
+    fake = FakeNCBI(7)
+    run = retrieve_taxon(109871, cfg, fake, run_date="2026-10-03")
+    assert run.note == ""
+    assert {int(p["retmax"]) for e, p in fake.calls if e == "efetch"} == {3}

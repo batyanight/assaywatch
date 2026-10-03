@@ -76,6 +76,10 @@ class TooManyRecords(RetrievalError):
     """The taxon is larger than the configured cap and has not been opted in."""
 
 
+class HistoryExpired(RetrievalError):
+    """NCBI's history server dropped the WebEnv between calls; re-search and retry."""
+
+
 @dataclass
 class RecordMeta:
     """What the scorer needs about a record beyond its sequence."""
@@ -135,6 +139,9 @@ def http_transport(email: str, api_key: str | None, timeout: int = 60) -> Transp
             state["last"] = time.monotonic()
             try:
                 resp = requests.post(f"{EUTILS}/{endpoint}.fcgi", data=params, timeout=timeout)
+                # Reading the body is where a large efetch page actually fails
+                # ("Response ended prematurely"); it has to be inside the try.
+                body = resp.text
             except requests.RequestException as e:
                 if attempt == 4:
                     raise RetrievalError(f"{endpoint}: {e}") from e
@@ -145,9 +152,11 @@ def http_transport(email: str, api_key: str | None, timeout: int = 60) -> Transp
             if resp.status_code in (429, 500, 502, 503, 504):
                 time.sleep(2**attempt)
                 continue
+            if resp.status_code == 400 and "history" in body.lower():
+                raise HistoryExpired(f"{endpoint}: {body[:200]}")
             if resp.status_code >= 400:
-                raise RetrievalError(f"{endpoint}: HTTP {resp.status_code} {resp.text[:200]}")
-            return resp.text
+                raise RetrievalError(f"{endpoint}: HTTP {resp.status_code} {body[:200]}")
+            return body
         raise RetrievalError(f"{endpoint} failed after 5 attempts")
 
     return call
@@ -376,22 +385,57 @@ def retrieve_taxon(
     out_dir.mkdir(parents=True, exist_ok=True)
     fasta_path = out_dir / f"{run_date}.fasta.gz"
     meta_path = out_dir / f"{run_date}.meta.tsv.gz"
+    # Write under temporary names and rename at the end, so an interrupted
+    # fetch can never leave a file that looks like a finished archive.
+    fasta_tmp = out_dir / f".{run_date}.fasta.gz.part"
+    meta_tmp = out_dir / f".{run_date}.meta.tsv.gz.part"
 
     retmax = int(r.get("page_size", 500))
     n_pages = -(-handle["count"] // retmax)
 
-    with gzip.open(meta_path, "wt") as mh:
+    def refreshed() -> dict[str, Any]:
+        """A new history handle for the same query, after NCBI dropped the old one."""
+        fresh = esearch(transport, query, since)
+        if fresh["count"] != handle["count"]:
+            raise RetrievalError(
+                f"record count changed from {handle['count']} to {fresh['count']} while fetching; rerun"
+            )
+        return fresh
+
+    def with_refresh(call, *args):
+        nonlocal handle
+        try:
+            return call(transport, handle, *args)
+        except HistoryExpired:
+            handle = refreshed()
+            return call(transport, handle, *args)
+
+    # Pass 1: metadata. Also measures how big the records are, which decides
+    # the efetch page size: 500 ITS fragments are 200 kB, 500 poxvirus
+    # genomes are 100 MB, and the second is what drops connections.
+    total_bases = 0
+    with gzip.open(meta_tmp, "wt") as mh:
         mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
         for page in range(n_pages):
-            for m in esummary(transport, handle, page, retmax):
+            for m in with_refresh(esummary, page, retmax):
+                total_bases += m.length
                 mh.write(f"{m.uid}\t{m.accession}\t{m.created}\t{m.updated}\t{m.length}\t{m.title}\n")
 
+    target_bytes = int(r.get("page_target_bytes", 20_000_000))
+    mean_len = max(1, total_bases // max(1, handle["count"]))
+    fetch_retmax = min(retmax, max(10, target_bytes // mean_len))  # never above page_size
+    fetch_pages = -(-handle["count"] // fetch_retmax)
+
     n = 0
-    with gzip.open(fasta_path, "wt") as fh:
-        for page in range(n_pages):
-            chunk = efetch_fasta(transport, handle, page, retmax)
+    with gzip.open(fasta_tmp, "wt") as fh:
+        for page in range(fetch_pages):
+            chunk = with_refresh(efetch_fasta, page, fetch_retmax)
             n += chunk.count(">")
             fh.write(chunk if chunk.endswith("\n") else chunk + "\n")
+
+    os.replace(meta_tmp, meta_path)
+    os.replace(fasta_tmp, fasta_path)
+    run.note = "" if fetch_retmax == retmax else f"pages of {fetch_retmax} (mean record {mean_len:,} nt)"
 
     run.n_fetched = n
     run.fasta = str(fasta_path)
@@ -449,11 +493,14 @@ def main(argv: list[str] | None = None) -> int:
             continue
         if not args.dry_run:
             record_run(cfg, run)
-        label = run.note or f"{run.n_fetched} fetched"
+        label = f"{run.n_fetched} fetched" if run.n_fetched else run.note
+        if run.n_fetched and run.note:
+            label += f"; {run.note}"
         q = "" if group == "all" else f" [{group}]"
         print(
             f"{taxid:>10}  {str(info['name'])[:34]:<34}{q:<14} {run.mode:<11}  "
-            f"{run.n_available:>8} avail  {label}"
+            f"{run.n_available:>8} avail  {label}",
+            flush=True,
         )
     if skipped:
         print(f"{len(skipped)} groups skipped for size", file=sys.stderr)

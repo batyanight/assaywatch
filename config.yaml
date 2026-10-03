@@ -24,7 +24,8 @@ amplicon:
 # Sequence retrieval from NCBI. These are the decisions that shape what the
 # drift metric can see, so they live here rather than in code.
 retrieve:
-  page_size: 500              # records per esummary/efetch call
+  page_size: 500              # records per esummary call, and the efetch ceiling
+  page_target_bytes: 20000000 # efetch pages shrink so one response stays near this size
   min_length: 100             # skip fragments too short to contain any amplicon
   max_length: null            # whole genomes are fine: an amplicon may sit anywhere
   query_suffix: null          # e.g. 'NOT "whole genome shotgun"[Title]' to trim bulk

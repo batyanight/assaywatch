@@ -21,6 +21,7 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] `retrieve`: Entrez esearch/esummary/efetch per taxid, mdat-filtered, gzip archive + manifest
 - [x] wire the stages into a Snakefile with a checkpoint; SLURM profile
 - [x] first live NCBI dry run (2026-10-03): 28 taxa fetchable whole, 19 needed gene-targeted queries
+- [x] first live fetch (2026-10-03): 25 taxa, ~470k records, 1.1 GB; fixed dropped connections on genome-sized pages and expired history handles
 - [x] gene-targeted retrieval groups; per-group screening
 - [ ] dry-run the 19 gene-targeted groups and decide which to opt past the cap
 - [x] `drift`: Wilson / Newcombe intervals, minimum-evidence guard, evaluable denominator
