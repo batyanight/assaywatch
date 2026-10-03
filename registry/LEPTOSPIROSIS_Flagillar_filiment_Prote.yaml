@@ -5,6 +5,7 @@ target:
   gene: Flagillar filiment Protein B gene
   genome_type: dsDNA
   taxon_name: Leptospira
+  query: flaB[Gene] OR flagellin[Title] OR "flaB"[Title]
 chemistry: conventional
 oligos:
   forward:

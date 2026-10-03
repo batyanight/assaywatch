@@ -5,6 +5,7 @@ target:
   gene: null
   genome_type: dsDNA
   taxon_name: Yersinia enterocolitica
+  query: yst[Gene] OR ystA[Gene] OR "heat-stable enterotoxin"[Title] OR yst[Title]
 chemistry: conventional
 oligos:
   forward:

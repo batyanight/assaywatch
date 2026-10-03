@@ -35,3 +35,4 @@ GENERAL_FUNGUS_5_8S_ITS2_28S_Op_2014.yaml
 GENERAL_FUNGUS_5_8S_ITS2_28S_Op_2014_2.yaml
 Helicobacter_XREACTS_with_general_bac_3.yaml
 Helicobacter_XREACTS_with_general_bac_4.yaml
+GENERAL_BACTERIA_16S_rDNA_full_length_2000.yaml

@@ -5,6 +5,7 @@ target:
   gene: Pan Helicobacter 16S (Jim Fox)
   genome_type: dsDNA
   taxon_name: Helicobacter
+  query: '"16S ribosomal RNA"[Title] OR "16S rRNA"[Title] OR 16S[Title]'
 chemistry: conventional
 oligos:
   forward:

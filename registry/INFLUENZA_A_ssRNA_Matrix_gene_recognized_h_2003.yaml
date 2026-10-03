@@ -5,6 +5,7 @@ target:
   gene: M (matrix)
   genome_type: ssRNA-
   taxon_name: Influenza A virus
+  query: '"segment 7"[Title] OR ("matrix protein"[Title] AND M[Gene])'
 chemistry: mgb
 oligos:
   forward:

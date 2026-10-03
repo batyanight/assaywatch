@@ -5,6 +5,8 @@ target:
   gene: RNA-dependent RNA polymerase
   genome_type: ssRNA+
   taxon_name: Coronaviridae
+  query: (RdRp[Gene] OR orf1ab[Gene] OR ORF1ab[Title] OR "RNA-dependent RNA polymerase"[Title] OR "complete genome"[Title])
+    NOT txid2697049[Organism:exp]
 chemistry: conventional
 oligos:
   forward:

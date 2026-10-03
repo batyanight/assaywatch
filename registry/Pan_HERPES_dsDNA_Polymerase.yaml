@@ -5,6 +5,7 @@ target:
   gene: Polymerase
   genome_type: dsDNA
   taxon_name: Herpesviridae
+  query: '"DNA polymerase"[Title] OR UL30[Gene] OR pol[Gene] OR DPOL[Gene] OR "complete genome"[Title]'
 chemistry: conventional
 oligos:
   forward:

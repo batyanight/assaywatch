@@ -5,6 +5,7 @@ target:
   gene: NS5 gene
   genome_type: ssRNA+
   taxon_name: Flavivirus
+  query: NS5[Gene] OR NS5[Title] OR "complete genome"[Title] OR polyprotein[Title]
 chemistry: conventional
 oligos:
   forward:

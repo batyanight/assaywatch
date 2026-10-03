@@ -15,6 +15,7 @@ from assaywatch.retrieve import (
     TooManyRecords,
     build_query,
     esearch,
+    group_slug,
     last_run_date,
     load_manifest,
     record_run,
@@ -99,7 +100,7 @@ def test_pages_cover_every_record_without_overlap(cfg):
     retrieve_taxon(109871, cfg, fake, run_date="2026-10-03")
     accessions = [
         line.split()[0]
-        for line in gzip.open(f"{cfg['retrieved_dir']}/109871/2026-10-03.fasta.gz", "rt")
+        for line in gzip.open(f"{cfg['retrieved_dir']}/109871/all/2026-10-03.fasta.gz", "rt")
         if line.startswith(">")
     ]
     assert len(accessions) == len(set(accessions)) == 7
@@ -143,6 +144,26 @@ def test_empty_result_writes_no_files(cfg, tmp_path):
     assert not (tmp_path / "retrieved" / "109871").exists()
 
 
+def test_assays_with_a_query_form_their_own_group_and_archive(cfg):
+    """`invA[Gene]` and the bare taxon must not share a manifest history or a directory."""
+    fake = FakeNCBI(4)
+    whole = retrieve_taxon(28901, cfg, fake, run_date="2026-10-03")
+    gene = retrieve_taxon(28901, cfg, fake, run_date="2026-10-03", assay_query="invA[Gene]")
+    assert whole.group == "all" and gene.group.startswith("q")
+    assert whole.fasta != gene.fasta
+    assert "/28901/all/" in whole.fasta and f"/28901/{gene.group}/" in gene.fasta
+    assert "(invA[Gene])" in gene.query and "(invA[Gene])" not in whole.query
+    assert group_slug("invA[Gene]") == group_slug("  invA[Gene] ")  # whitespace does not split groups
+
+
+def test_incremental_history_is_per_group(cfg):
+    record_run(cfg, retrieve_taxon(28901, cfg, FakeNCBI(3), run_date="2026-09-01", assay_query="invA[Gene]"))
+    bare = retrieve_taxon(28901, cfg, FakeNCBI(3), run_date="2026-10-03")
+    assert bare.mode == "full"  # the bare taxon has never been fetched
+    gene = retrieve_taxon(28901, cfg, FakeNCBI(3), run_date="2026-10-03", assay_query="invA[Gene]")
+    assert gene.mode == "incremental"
+
+
 def test_dry_run_reports_counts_and_writes_nothing(cfg, tmp_path):
     run = retrieve_taxon(109871, cfg, FakeNCBI(9), run_date="2026-10-03", dry_run=True)
     assert run.n_available == 9 and run.n_fetched == 0 and run.note == "dry run"
@@ -182,6 +203,6 @@ def test_registry_targets_skip_deprecated_and_untaxed_assays():
     from pathlib import Path
 
     targets = targets_from_registry([Path(__file__).resolve().parents[1] / "registry"])
-    assert 109871 in targets  # Bd
-    assert all(isinstance(t, int) for t in targets)
-    assert targets[109871]["assays"], "taxid should carry the assays that need it"
+    assert (109871, "all") in targets  # Bd, no per-assay query
+    assert all(isinstance(t, int) and isinstance(g, str) for t, g in targets)
+    assert targets[(109871, "all")]["assays"], "a group should carry the assays that need it"

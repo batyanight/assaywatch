@@ -5,6 +5,7 @@ target:
   gene: 18S small subunit (SSU)
   genome_type: dsDNA
   taxon_name: Entamoeba
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title] OR "ribosomal RNA"[Title]
 chemistry: conventional
 oligos:
   forward:

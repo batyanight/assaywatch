@@ -5,7 +5,7 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 ## Phase 0 (current)
 - [x] repo, environment.yml, pre-commit, CI
 - [x] YAML schema (pydantic) and validator
-- [x] registry imported from the WCS spreadsheet (139 pathogen assays; 37 host/barcoding/universal primers excluded as out of scope)
+- [x] registry imported from the WCS spreadsheet (138 pathogen assays; 38 host/barcoding/universal primers excluded as out of scope)
 - [ ] 5 assays promoted to `active`: Bd (Boyle 2004), Bsal (Blooi 2013), Oo ITS2 (Bohuski 2015), ranavirus MCP (Pallister 2007), CDV P (Scagliarini 2007)
 - [ ] run `scripts/resolve_citations.py` once; review BAD lines
 - [ ] name, license (MIT code / CC-BY registry), IP question asked in writing
@@ -20,7 +20,9 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] synthetic fixture set with hand-derived expected calls (61 records, 5 assays)
 - [x] `retrieve`: Entrez esearch/esummary/efetch per taxid, mdat-filtered, gzip archive + manifest
 - [x] wire the stages into a Snakefile with a checkpoint; SLURM profile
-- [ ] run retrieval against the live NCBI API for the first time (tested only against canned responses)
+- [x] first live NCBI dry run (2026-10-03): 28 taxa fetchable whole, 19 needed gene-targeted queries
+- [x] gene-targeted retrieval groups; per-group screening
+- [ ] dry-run the 19 gene-targeted groups and decide which to opt past the cap
 - [x] `drift`: Wilson / Newcombe intervals, minimum-evidence guard, evaluable denominator
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend

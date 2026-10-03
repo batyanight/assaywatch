@@ -61,37 +61,57 @@ checkpoint retrieve:
         full="--full" if config.get("full") else "",
         email=EMAIL,
     shell:
+        # Not --strict: a group over the size cap is skipped and logged, and the
+        # run continues with the rest. Opt large groups in via config.yaml.
         "python -m assaywatch.retrieve {REGISTRY} --email {params.email} {params.full}"
 
 
-def fetched_taxa(wildcards):
-    """Taxa that actually returned sequences in this run, read from the manifest."""
+def fetched_groups(wildcards):
+    """Retrieval groups that returned sequences in this run, from the manifest.
+
+    Returns {(taxid, group): [assay ids]}. A group is a taxon plus an optional
+    gene-targeted query; each is scored only against the assays that asked for
+    it, so a gene-targeted archive is never diluted by another gene's misses.
+    """
     manifest_file = checkpoints.retrieve.get(**wildcards).output.manifest
     runs = json.loads(Path(manifest_file).read_text())["runs"]
-    return sorted({r["taxid"] for r in runs if r["run_date"] == RUN_DATE and r["n_fetched"] > 0})
+    out = {}
+    for r in runs:
+        if r["run_date"] == RUN_DATE and r["n_fetched"] > 0:
+            out[(r["taxid"], r.get("group", "all"))] = r["assays"]
+    return out
 
 
-rule screen_taxon:
-    """Score every assay for one taxon against that taxon's new records."""
+def assays_for_group(wildcards):
+    groups = fetched_groups(wildcards)
+    return ",".join(groups[(int(wildcards.taxid), wildcards.group)])
+
+
+rule screen_group:
+    """Score one retrieval group's new records against the assays that requested it."""
     input:
-        fasta=RETRIEVED / "{taxid}" / f"{RUN_DATE}.fasta.gz",
+        fasta=RETRIEVED / "{taxid}" / "{group}" / f"{RUN_DATE}.fasta.gz",
     output:
-        calls=RESULTS / RUN_DATE / "by-taxon" / "{taxid}.tsv",
+        calls=RESULTS / RUN_DATE / "by-group" / "{taxid}__{group}.tsv",
+    params:
+        only=assays_for_group,
     threads: 1
     resources:
         mem_mb=2000,
         runtime=120,
     shell:
-        "python -m assaywatch.screen {REGISTRY} {input.fasta} -o {output.calls}"
+        "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} -o {output.calls}"
 
 
-def taxon_calls(wildcards):
-    return [RESULTS / RUN_DATE / "by-taxon" / f"{t}.tsv" for t in fetched_taxa(wildcards)]
+def group_calls(wildcards):
+    return [
+        RESULTS / RUN_DATE / "by-group" / f"{t}__{g}.tsv" for (t, g) in sorted(fetched_groups(wildcards))
+    ]
 
 
 rule collect_calls:
     input:
-        taxon_calls,
+        group_calls,
     output:
         RESULTS / RUN_DATE / "calls.tsv.gz",
     run:

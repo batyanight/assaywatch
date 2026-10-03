@@ -5,6 +5,7 @@ target:
   gene: 18SrDNA
   genome_type: dsDNA
   taxon_name: Cryptosporidium
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
 chemistry: conventional
 oligos:
   forward:

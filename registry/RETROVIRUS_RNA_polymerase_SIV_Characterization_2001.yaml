@@ -5,6 +5,7 @@ target:
   gene: polymerase (SIV)
   genome_type: ssRNA-RT
   taxon_name: Simian immunodeficiency virus
+  query: pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:

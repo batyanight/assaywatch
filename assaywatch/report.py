@@ -68,7 +68,7 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
 def read_years(retrieved_dir: Path) -> dict[str, int]:
     """{accession without version: deposit year}, newest revision winning."""
     best: dict[str, tuple[str, int]] = {}
-    for meta in sorted(retrieved_dir.glob("*/*.meta.tsv.gz")):
+    for meta in sorted(retrieved_dir.rglob("*.meta.tsv.gz")):
         with gzip.open(meta, "rt") as fh:
             for row in csv.DictReader(fh, delimiter="\t"):
                 acc = strip_version(row["accession"])

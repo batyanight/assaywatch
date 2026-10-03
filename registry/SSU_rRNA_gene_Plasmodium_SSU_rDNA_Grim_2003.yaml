@@ -5,6 +5,7 @@ target:
   gene: SSU rDNA
   genome_type: dsDNA
   taxon_name: Plasmodium
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
 chemistry: conventional
 oligos:
   forward:

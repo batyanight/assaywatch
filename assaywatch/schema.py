@@ -111,6 +111,11 @@ class Target(Strict):
     taxon_name: str | None = None
     gene: str | None = None
     genome_type: str | None = None  # free text for now; tighten to an enum once the retrieval rules need it
+    # Extra Entrez term ANDed onto the taxon query at retrieval, e.g.
+    # `invA[Gene] OR "invasion protein"[Title]`. Without it the whole taxon is
+    # fetched, which for E. coli is sixteen million records. Assays with the
+    # same taxid and the same query share one retrieval group and one archive.
+    query: str | None = None
 
 
 class Citation(Strict):

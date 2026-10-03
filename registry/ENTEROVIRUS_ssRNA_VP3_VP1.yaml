@@ -5,6 +5,7 @@ target:
   gene: VP3/VP1
   genome_type: ssRNA+
   taxon_name: Enterovirus
+  query: VP1[Gene] OR VP1[Title] OR VP3[Gene] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:

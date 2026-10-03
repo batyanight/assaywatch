@@ -5,6 +5,7 @@ target:
   gene: cytochrome c
   genome_type: mtDNA
   taxon_name: Haemosporida
+  query: cytb[Gene] OR cob[Gene] OR "cytochrome b"[Title] OR cytb[Title] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:

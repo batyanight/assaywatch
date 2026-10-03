@@ -3,9 +3,17 @@
     python -m assaywatch.retrieve registry --email you@example.org
     python -m assaywatch.retrieve registry/CHYTRID_Bd_*.yaml --email ... --dry-run
 
-One taxon at a time, driven by the taxids in the registry. Three E-utilities
-calls per taxon, in this order, because each one answers a question the next
-one needs:
+One retrieval group at a time. A group is a (taxid, query) pair: assays with
+the same target taxon and the same `target.query` share one archive. Without a
+query the group is the whole taxon, which is right for Bd (nine thousand
+records) and absurd for E. coli (sixteen million, nearly all whole-genome
+shotgun contigs). A gene-targeted query such as `invA[Gene]` keeps the
+archive to the records that can carry the amplicon, which is also the only
+set the drift statistic should be computed over: a contig that does not cover
+the locus is not evidence about the assay.
+
+Three E-utilities calls per group, in this order, because each one answers a
+question the next one needs:
 
 1. `esearch` on nuccore for `txid<taxid>[Organism:exp]`, with the configured
    length filter and, on an incremental run, a date range. Returns a count and
@@ -44,6 +52,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 import os
 import sys
@@ -85,7 +94,7 @@ class RecordMeta:
 
 @dataclass
 class TaxonRun:
-    """One taxon fetched on one day. Serialised into the manifest."""
+    """One retrieval group fetched on one day. Serialised into the manifest."""
 
     taxid: int
     taxon_name: str | None
@@ -99,6 +108,8 @@ class TaxonRun:
     metadata: str | None = None
     assays: list[str] = field(default_factory=list)
     note: str = ""
+    group: str = "all"  # directory under the taxid; `all` or a hash of assay_query
+    assay_query: str | None = None
 
 
 # --------------------------------------------------------------------------
@@ -147,8 +158,8 @@ def http_transport(email: str, api_key: str | None, timeout: int = 60) -> Transp
 # --------------------------------------------------------------------------
 
 
-def build_query(taxid: int, cfg: dict[str, Any]) -> str:
-    """`txid...[Organism:exp]` plus the configured filters.
+def build_query(taxid: int, cfg: dict[str, Any], assay_query: str | None = None) -> str:
+    """`txid...[Organism:exp]` plus the configured filters plus the assay's own term.
 
     `Organism:exp` expands down the taxonomy, so a genus-level taxid picks up
     every species under it. That is what a pan-genus assay should be screened
@@ -161,7 +172,16 @@ def build_query(taxid: int, cfg: dict[str, Any]) -> str:
         parts.append(f"{lo or 1}:{hi or 100000000}[SLEN]")
     if r.get("query_suffix"):
         parts.append(f"({r['query_suffix']})")
+    if assay_query:
+        parts.append(f"({assay_query.strip()})")
     return " AND ".join(parts)
+
+
+def group_slug(assay_query: str | None) -> str:
+    """Directory name for a retrieval group under its taxid: `all`, or a query hash."""
+    if not assay_query:
+        return "all"
+    return "q" + hashlib.sha1(assay_query.strip().encode()).hexdigest()[:10]
 
 
 # --------------------------------------------------------------------------
@@ -256,9 +276,13 @@ def load_manifest(cfg: dict[str, Any]) -> dict[str, Any]:
     return json.loads(p.read_text()) if p.exists() else {"runs": []}
 
 
-def last_run_date(manifest: dict[str, Any], taxid: int) -> str | None:
-    """The most recent successful run for this taxon, as YYYY/MM/DD for Entrez."""
-    dates = [r["run_date"] for r in manifest["runs"] if r["taxid"] == taxid and r["n_fetched"] >= 0]
+def last_run_date(manifest: dict[str, Any], taxid: int, group: str = "all") -> str | None:
+    """The most recent successful run for this group, as YYYY/MM/DD for Entrez."""
+    dates = [
+        r["run_date"]
+        for r in manifest["runs"]
+        if r["taxid"] == taxid and r.get("group", "all") == group and r["n_fetched"] >= 0
+    ]
     return max(dates).replace("-", "/") if dates else None
 
 
@@ -275,17 +299,26 @@ def record_run(cfg: dict[str, Any], run: TaxonRun) -> None:
 # --------------------------------------------------------------------------
 
 
-def targets_from_registry(paths: list[Path]) -> dict[int, dict[str, Any]]:
-    """{taxid: {name, assays}} for every registry file that names a taxid."""
+def targets_from_registry(paths: list[Path]) -> dict[tuple[int, str], dict[str, Any]]:
+    """{(taxid, group): {name, query, assays}} for every registry file that names a taxid.
+
+    Assays sharing a taxid and a `target.query` land in one group and one
+    archive; the screen stage then scores each assay only against its own
+    group, so a gene-targeted archive is never polluted with another gene's
+    `no_amplicon` rows.
+    """
     from assaywatch.validate import iter_files, load_assay
 
-    out: dict[int, dict[str, Any]] = {}
+    out: dict[tuple[int, str], dict[str, Any]] = {}
     for target in paths:
         for path in iter_files(target):
             assay = load_assay(path)
             if assay.status.value == "deprecated" or assay.target.taxid is None:
                 continue
-            slot = out.setdefault(assay.target.taxid, {"name": assay.target.taxon_name, "assays": []})
+            key = (assay.target.taxid, group_slug(assay.target.query))
+            slot = out.setdefault(
+                key, {"name": assay.target.taxon_name, "query": assay.target.query, "assays": []}
+            )
             slot["assays"].append(assay.id)
     return out
 
@@ -297,17 +330,19 @@ def retrieve_taxon(
     *,
     taxon_name: str | None = None,
     assays: list[str] | None = None,
+    assay_query: str | None = None,
     full: bool = False,
     dry_run: bool = False,
     run_date: str | None = None,
 ) -> TaxonRun:
-    """Fetch one taxon. Returns the run record; writes nothing when dry_run."""
+    """Fetch one retrieval group. Returns the run record; writes nothing when dry_run."""
     r = cfg.get("retrieve", {})
     run_date = run_date or date.today().isoformat()
-    query = build_query(taxid, cfg)
+    query = build_query(taxid, cfg, assay_query)
+    group = group_slug(assay_query)
 
     manifest = load_manifest(cfg)
-    since = None if full else last_run_date(manifest, taxid)
+    since = None if full else last_run_date(manifest, taxid, group)
     mode = "incremental" if since else "full"
 
     handle = esearch(transport, query, since)
@@ -321,21 +356,23 @@ def retrieve_taxon(
         n_available=handle["count"],
         n_fetched=0,
         assays=assays or [],
+        group=group,
+        assay_query=assay_query,
     )
 
     cap = r.get("max_records_per_taxon")
     allowed = set(r.get("large_taxa_allowed") or [])
     if cap and handle["count"] > cap and taxid not in allowed:
         raise TooManyRecords(
-            f"taxid {taxid} ({taxon_name}) has {handle['count']} records, over the cap of {cap}. "
-            f"Add {taxid} to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, "
-            "or narrow retrieve.query_suffix."
+            f"taxid {taxid} ({taxon_name}) group {group} has {handle['count']} records, over the cap "
+            f"of {cap}. Add {taxid} to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, "
+            "or narrow the assays' target.query."
         )
     if handle["count"] == 0 or dry_run:
         run.note = "nothing new" if handle["count"] == 0 else "dry run"
         return run
 
-    out_dir = Path(cfg.get("retrieved_dir", "data/retrieved")) / str(taxid)
+    out_dir = Path(cfg.get("retrieved_dir", "data/retrieved")) / str(taxid) / group
     out_dir.mkdir(parents=True, exist_ok=True)
     fasta_path = out_dir / f"{run_date}.fasta.gz"
     meta_path = out_dir / f"{run_date}.meta.tsv.gz"
@@ -372,19 +409,23 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--full", action="store_true", help="ignore the manifest and re-fetch everything")
     ap.add_argument("--dry-run", action="store_true", help="report counts, write nothing")
     ap.add_argument("--taxid", type=int, action="append", help="limit to these taxids")
+    ap.add_argument(
+        "--strict",
+        action="store_true",
+        help="exit non-zero when a group is skipped for size; by default only transport errors fail the run",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
     transport = http_transport(args.email, os.environ.get("NCBI_API_KEY"))
     targets = targets_from_registry(args.paths)
     if args.taxid:
-        targets = {t: v for t, v in targets.items() if t in args.taxid}
+        targets = {k: v for k, v in targets.items() if k[0] in args.taxid}
 
-    print(
-        f"{len(targets)} taxa from {sum(len(v['assays']) for v in targets.values())} assays", file=sys.stderr
-    )
-    failures = 0
-    for taxid, info in sorted(targets.items()):
+    n_assays = sum(len(v["assays"]) for v in targets.values())
+    print(f"{len(targets)} retrieval groups from {n_assays} assays", file=sys.stderr)
+    skipped, errors = [], []
+    for (taxid, group), info in sorted(targets.items()):
         try:
             run = retrieve_taxon(
                 taxid,
@@ -392,20 +433,33 @@ def main(argv: list[str] | None = None) -> int:
                 transport,
                 taxon_name=info["name"],
                 assays=info["assays"],
+                assay_query=info["query"],
                 full=args.full,
                 dry_run=args.dry_run,
             )
+        except TooManyRecords as e:
+            # Over the cap is a decision for the config, not a failure of the
+            # run: the other groups are still fetched and the run still counts.
+            print(f"SKIP  {taxid}/{group}: {e}", file=sys.stderr)
+            skipped.append((taxid, group))
+            continue
         except RetrievalError as e:
-            print(f"SKIP  {taxid}: {e}", file=sys.stderr)
-            failures += 1
+            print(f"ERROR {taxid}/{group}: {e}", file=sys.stderr)
+            errors.append((taxid, group))
             continue
         if not args.dry_run:
             record_run(cfg, run)
         label = run.note or f"{run.n_fetched} fetched"
+        q = "" if group == "all" else f" [{group}]"
         print(
-            f"{taxid:>10}  {str(info['name'])[:40]:<40}  {run.mode:<11}  {run.n_available:>8} avail  {label}"
+            f"{taxid:>10}  {str(info['name'])[:34]:<34}{q:<14} {run.mode:<11}  "
+            f"{run.n_available:>8} avail  {label}"
         )
-    return 1 if failures else 0
+    if skipped:
+        print(f"{len(skipped)} groups skipped for size", file=sys.stderr)
+    if errors:
+        print(f"{len(errors)} groups failed", file=sys.stderr)
+    return 1 if errors or (args.strict and skipped) else 0
 
 
 if __name__ == "__main__":

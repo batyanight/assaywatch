@@ -5,6 +5,7 @@ target:
   gene: Terminase
   genome_type: dsDNA
   taxon_name: Herpesviridae
+  query: terminase[Title] OR UL89[Gene] OR UL56[Gene] OR UL15[Gene] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:

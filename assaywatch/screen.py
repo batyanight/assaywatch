@@ -26,10 +26,22 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("fasta", type=Path)
     ap.add_argument("-o", "--out", type=Path, default=None, help="TSV path (default: stdout)")
     ap.add_argument("--config", type=Path, default=None)
+    ap.add_argument(
+        "--only",
+        default=None,
+        help="comma-separated assay ids to screen; the pipeline uses this to score each "
+        "retrieval group only against the assays that asked for it",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
     assays = [load_assay(p) for p in iter_files(args.assays)]
+    if args.only:
+        wanted = {a.strip() for a in args.only.split(",") if a.strip()}
+        assays = [a for a in assays if a.id in wanted]
+        missing = wanted - {a.id for a in assays}
+        if missing:
+            raise SystemExit(f"--only names assays not in {args.assays}: {sorted(missing)}")
     records = list(read_fasta(args.fasta))
 
     out = args.out.open("w", newline="") if args.out else sys.stdout

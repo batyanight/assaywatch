@@ -150,6 +150,45 @@ def test_thresholds_come_from_config_not_code():
     assert classify(0.5, False, cfg) == "reduced"
 
 
+def test_screen_only_restricts_to_named_assays(tmp_path):
+    out = tmp_path / "calls.tsv"
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "assaywatch.screen",
+            str(ROOT / "registry"),
+            str(FIX / "records.fasta"),
+            "--only",
+            "CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004",
+            "-o",
+            str(out),
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assays = {line.split("\t")[0] for line in out.read_text().splitlines()[1:]}
+    assert assays == {"CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004"}
+
+
+def test_screen_only_rejects_unknown_ids():
+    proc = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "assaywatch.screen",
+            str(ROOT / "registry"),
+            str(FIX / "records.fasta"),
+            "--only",
+            "NOT_AN_ASSAY",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode != 0 and "NOT_AN_ASSAY" in proc.stderr
+
+
 def test_screen_cli_runs():
     out = subprocess.run(
         [

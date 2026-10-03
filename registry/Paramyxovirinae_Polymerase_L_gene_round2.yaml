@@ -5,6 +5,7 @@ target:
   gene: Polymerase (L gene)
   genome_type: ssRNA-
   taxon_name: Paramyxoviridae
+  query: L[Gene] OR "L protein"[Title] OR "large protein"[Title] OR polymerase[Title] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:

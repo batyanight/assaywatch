@@ -36,8 +36,72 @@ exclude:
   assay_ids:
     - GENERAL_BACTERIA_16S_rDNA_full_length
     - GENERAL_BACTERIA_16S_rDNA_full_length_2
+    - GENERAL_BACTERIA_16S_rDNA_full_length_2000   # U3/U2 pair that carries the Lu 2000 citation row
     - Helicobacter_XREACTS_with_general_bac_3   # U3/U2 universal bacterial 16S, filed under Helicobacter in the sheet
     - Helicobacter_XREACTS_with_general_bac_4   # U4/U2/U5R universal bacterial sequencing primers
+
+# Gene-targeted retrieval for taxa that are far too large to fetch whole.
+# Matched by regex on the assay id; the first match wins and lands in
+# target.query, which retrieve.py ANDs onto `txid<taxid>[Organism:exp]`.
+# Entrez field tags: [Gene] matches annotated gene names, [Title] the record
+# title. Both are OR'd generously because annotation is inconsistent: the same
+# locus is `cytb`, `cob`, or only "cytochrome b" in the title depending on who
+# submitted it. "complete genome"[Title] is included for viruses, since a
+# complete genome always carries the target gene and is usually well
+# annotated. A record the query misses is a record the assay is not judged
+# against; that is a coverage cost, not a scoring error.
+queries:
+  - match: "^LEPTOSPIROSIS"
+    query: 'flaB[Gene] OR flagellin[Title] OR "flaB"[Title]'
+  - match: "^Helicobacter"
+    query: '"16S ribosomal RNA"[Title] OR "16S rRNA"[Title] OR 16S[Title]'
+  - match: "^E_coli_ETEC_enterotoxin_LT"
+    query: 'eltA[Gene] OR eltB[Gene] OR elt[Gene] OR "heat-labile enterotoxin"[Title] OR "LT toxin"[Title]'
+  - match: "^E_coli_O157_H7_hlyA"
+    query: 'hlyA[Gene] OR ehxA[Gene] OR "EHEC hemolysin"[Title] OR "enterohemolysin"[Title] OR "hlyA"[Title]'
+  - match: "^E_coli_malB"
+    query: 'malB[Gene] OR malE[Gene] OR malK[Gene] OR "malB"[Title] OR "maltose"[Title]'
+  - match: "^Shigella_ipah"
+    query: 'ipaH[Gene] OR "invasion plasmid antigen"[Title] OR ipaH[Title]'
+  - match: "^Yersinia_enterocolitica"
+    query: 'yst[Gene] OR ystA[Gene] OR "heat-stable enterotoxin"[Title] OR yst[Title]'
+  - match: "^Yersinia_pseudotuberculosis"
+    query: 'inv[Gene] OR invasin[Title]'
+  - match: "^Entamoeba"
+    query: '18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title] OR "ribosomal RNA"[Title]'
+  - match: "^Apicoplast"
+    query: 'apicoplast[Title] AND (23S[Title] OR "large subunit"[Title] OR LSU[Title] OR "ribosomal RNA"[Title])'
+  - match: "^Pan_coccidia"
+    query: '18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]'
+  - match: "^CRYPTOSPORIDIA"
+    query: '18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]'
+  - match: "^(Pan_Plasmodium|Pan_hemoparasite)"
+    query: 'cytb[Gene] OR cob[Gene] OR "cytochrome b"[Title] OR cytb[Title] OR "complete genome"[Title]'
+  - match: "^SSU_rRNA_gene_Plasmodium"
+    query: '18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]'
+  - match: "^Pan_HERPES_dsDNA_Polymerase"
+    query: '"DNA polymerase"[Title] OR UL30[Gene] OR pol[Gene] OR DPOL[Gene] OR "complete genome"[Title]'
+  - match: "^Pan_HERPES_dsDNA_Terminase"
+    query: 'terminase[Title] OR UL89[Gene] OR UL56[Gene] OR UL15[Gene] OR "complete genome"[Title]'
+  - match: "^Pan_[Ff]lavivirus"
+    query: 'NS5[Gene] OR NS5[Title] OR "complete genome"[Title] OR polyprotein[Title]'
+  - match: "^CORONAVIRUS"
+    # SARS-CoV-2 is excluded: nine million near-identical surveillance records
+    # would swamp a pan-CoV wildlife statistic. Drop the NOT clause to include it.
+    query: '(RdRp[Gene] OR orf1ab[Gene] OR ORF1ab[Title] OR "RNA-dependent RNA polymerase"[Title] OR "complete genome"[Title]) NOT txid2697049[Organism:exp]'
+  - match: "^Paramyxovirinae"
+    query: 'L[Gene] OR "L protein"[Title] OR "large protein"[Title] OR polymerase[Title] OR "complete genome"[Title]'
+  - match: "^INFLUENZA_A"
+    # Segment 7 is the matrix segment. Titles follow NCBI's influenza naming scheme.
+    query: '"segment 7"[Title] OR ("matrix protein"[Title] AND M[Gene])'
+  - match: "^RETROVIRUS_RNA_polymerase_SIV"
+    query: 'pol[Gene] OR polymerase[Title] OR "complete genome"[Title]'
+  - match: "^ENTEROVIRUS_ssRNA_5_UTR"
+    query: "\"5' UTR\"[Title] OR \"5'UTR\"[Title] OR \"5' untranslated\"[Title] OR VP4[Gene] OR VP2[Gene] OR \"complete genome\"[Title]"
+  - match: "^ENTEROVIRUS_ssRNA_VP3_VP1"
+    query: 'VP1[Gene] OR VP1[Title] OR VP3[Gene] OR "complete genome"[Title]'
+  - match: "^Salmonella_invA"
+    query: 'invA[Gene] OR "invasion protein"[Title] OR invA[Title]'
 
 targets:
   # ---- fungi ----

@@ -15,7 +15,7 @@ thing to do. See ROADMAP.md.
 ## Layout
 
 ```
-registry/        one YAML per assay; validated on every commit (139 WCS pathogen assays, all draft)
+registry/        one YAML per assay; validated on every commit (138 WCS pathogen assays, all draft)
 assaywatch/      the package
   schema.py        pydantic models = the registry schema
   validate.py      `python -m assaywatch.validate registry`
@@ -77,7 +77,7 @@ host-identification, DNA barcoding, eDNA, internal-control and kingdom-level
 universal primers are parsed but not written to the registry, because they
 target the host or a whole kingdom rather than a pathogen and the drift
 question does not apply to them in the same form. `scripts/removed_assays.txt`
-lists the 37 that were dropped; removing an id from `exclude` and rerunning
+lists the 38 that were dropped; removing an id from `exclude` and rerunning
 `apply_curation.py` brings it back. `resolve_citations.py` confirms DOIs against
 Crossref and fills missing taxids from NCBI Taxonomy.
 
@@ -145,7 +145,7 @@ python -m assaywatch.degeneracy registry --tier severe
 ```
 
 lists the assays whose in-silico coverage should be read with the most
-suspicion. Of the 139 imported WCS assays, 74 are negligible, 19 moderate,
+suspicion. Of the 138 imported WCS assays, 74 are negligible, 19 moderate,
 25 high and 21 severe — the severe end being the PREDICT pan-family consensus
 PCRs, which is expected and is the point of them.
 
@@ -226,6 +226,36 @@ forces the job graph to be re-evaluated after it finishes, letting later rules
 read the manifest it wrote. That is the idiomatic way to handle a workflow
 whose shape depends on its own intermediate results.
 
+### Retrieval groups and gene-targeted queries
+
+A retrieval group is a (taxid, query) pair, and the archive lives at
+`data/retrieved/<taxid>/<group>/<date>.fasta.gz` — `all` when the whole taxon
+is fetched, a short hash of the query otherwise. The query is the assay's own
+`target.query`, an Entrez term ANDed onto the taxon:
+
+```yaml
+target:
+  taxid: 28901
+  taxon_name: Salmonella enterica
+  query: invA[Gene] OR "invasion protein"[Title] OR invA[Title]
+```
+
+Without it the group is the whole taxon, which is right for Bd (nine thousand
+records) and absurd for E. coli (sixteen million, almost all whole-genome
+shotgun contigs). The 44 assays on taxa too large to fetch whole carry a query
+set in `scripts/curation.yaml` under `queries`; the terms OR together gene
+names, title phrases and `"complete genome"[Title]` because annotation is
+inconsistent and a complete genome always carries the locus. A record the
+query misses is a record the assay is not judged against — a coverage cost,
+not a scoring error — and `--dry-run` reports each group's count so the
+query can be widened or narrowed before anything is fetched.
+
+Each group is then screened only against the assays that asked for it
+(`screen --only`), so a gene-targeted archive is never diluted with another
+gene's `no_amplicon` rows. SARS-CoV-2 is excluded from the pan-coronavirus
+groups by a `NOT txid2697049` clause: nine million near-identical surveillance
+records would swamp a wildlife statistic. The clause is one line to remove.
+
 ### Retrieval decisions
 
 These shape what the drift metric can see, so they sit in `config.yaml` rather
@@ -236,7 +266,11 @@ than in code:
 | `min_length` | 100 | a fragment shorter than any amplicon can only produce `no_amplicon` noise |
 | `max_records_per_taxon` | 50000 | influenza A alone is over a million records and would dominate a weekly run |
 | `large_taxa_allowed` | `[]` | taxa past the cap are opted in by taxid, deliberately, one at a time |
-| `query_suffix` | none | e.g. `NOT "whole genome shotgun"[Title]` to trim bulk assemblies |
+| `query_suffix` | none | a global term ANDed onto every group, e.g. `NOT "whole genome shotgun"[Title]` |
+
+A group over the cap is skipped and logged; the run continues and exits zero,
+so one oversized taxon never blocks the weekly report. `--strict` makes a skip
+fatal for the cases where that is wanted.
 
 Runs are **incremental by default**. The manifest records the date of the last
 successful run per taxon and the next run asks only for records added or

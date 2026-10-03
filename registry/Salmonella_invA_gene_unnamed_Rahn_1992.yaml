@@ -5,6 +5,7 @@ target:
   gene: null
   genome_type: dsDNA
   taxon_name: Salmonella enterica
+  query: invA[Gene] OR "invasion protein"[Title] OR invA[Title]
 chemistry: conventional
 oligos:
   forward:

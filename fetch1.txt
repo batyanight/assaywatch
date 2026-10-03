@@ -1,0 +1,49 @@
+47 taxa from 114 assays
+SKIP  2: taxid 2 (Bacteria) has 155274916 records, over the cap of 50000. Add 2 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  171: taxid 171 (Leptospira) has 324621 records, over the cap of 50000. Add 171 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  209: taxid 209 (Helicobacter) has 843370 records, over the cap of 50000. Add 209 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  562: taxid 562 (Escherichia coli) has 16300410 records, over the cap of 50000. Add 562 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  620: taxid 620 (Shigella) has 2366149 records, over the cap of 50000. Add 620 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  630: taxid 630 (Yersinia enterocolitica) has 144094 records, over the cap of 50000. Add 630 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  633: taxid 633 (Yersinia pseudotuberculosis) has 79797 records, over the cap of 50000. Add 633 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  5758: taxid 5758 (Entamoeba) has 298135 records, over the cap of 50000. Add 5758 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  5794: taxid 5794 (Apicomplexa) has 1633509 records, over the cap of 50000. Add 5794 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  5806: taxid 5806 (Cryptosporidium) has 161153 records, over the cap of 50000. Add 5806 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  5819: taxid 5819 (Haemosporida) has 653779 records, over the cap of 50000. Add 5819 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  5820: taxid 5820 (Plasmodium) has 630809 records, over the cap of 50000. Add 5820 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  10241: efetch: Response ended prematurely
+SKIP  10292: taxid 10292 (Herpesviridae) has 57952 records, over the cap of 50000. Add 10292 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  11051: taxid 11051 (Flavivirus) has 88242 records, over the cap of 50000. Add 11051 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  11118: taxid 11118 (Coronaviridae) has 9287842 records, over the cap of 50000. Add 11118 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  11158: taxid 11158 (Paramyxoviridae) has 84104 records, over the cap of 50000. Add 11158 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  11320: taxid 11320 (Influenza A virus) has 1642090 records, over the cap of 50000. Add 11320 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  11723: taxid 11723 (Simian immunodeficiency virus) has 63941 records, over the cap of 50000. Add 11723 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  12059: taxid 12059 (Enterovirus) has 148082 records, over the cap of 50000. Add 12059 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  28901: taxid 28901 (Salmonella enterica) has 4135300 records, over the cap of 50000. Add 28901 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow retrieve.query_suffix.
+SKIP  121791: efetch: HTTP 400 Cannot+retrieve+history+data.+query_key%3A+1,+WebEnv%3A+MCID_6ac14e66b3031007350c5ab4,+retstart%3A+0,+retmax%3A+426
+
+      2093  Mycoplasma                                full            24523 avail  24225 fetched
+      5812  Sarcocystis                               full            30841 avail  30839 fetched
+      6033  Encephalitozoon                           full             9093 avail  9093 fetched
+      6035  Encephalitozoon cuniculi                  full             2732 avail  2732 fetched
+     10358  Cytomegalovirus                           full            12782 avail  12782 fetched
+     10492  Ranavirus                                 full             1466 avail  1466 fetched
+     10508  Adenoviridae                              full            38847 avail  38847 fetched
+     10509  Mastadenovirus                            full            30139 avail  30139 fetched
+     10780  Parvoviridae                              full            44489 avail  44489 fetched
+     10803  Dependoparvovirus                         full            10042 avail  10042 fetched
+     10882  Orthoreovirus                             full            14527 avail  14527 fetched
+     11019  Alphavirus                                full            18003 avail  18003 fetched
+     11082  West Nile virus                           full             9125 avail  9125 fetched
+     11229  Morbillivirus                             full            36917 avail  36917 fetched
+     11232  Canine morbillivirus                      full             3990 avail  3990 fetched
+     11266  Filoviridae                               full             4679 avail  4679 fetched
+     11270  Lyssavirus                                full            46404 avail  46404 fetched
+     11617  Arenaviridae                              full             6449 avail  6449 fetched
+     39724  Circoviridae                              full            24283 avail  24283 fetched
+     39733  Astroviridae                              full            16645 avail  16645 fetched
+    109871  Batrachochytrium dendrobatidis            full             9496 avail  9493 fetched
+    151340  Papillomaviridae                          full            42957 avail  42957 fetched
+    151341  Polyomaviridae                            full            14532 avail  14531 fetched
+    178830  Bornaviridae                              full             1515 avail  1515 fetched
+   1430836  Batrachochytrium salamandrivorans         full               19 avail  19 fetched

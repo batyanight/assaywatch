@@ -55,6 +55,7 @@ def main() -> None:
 
     cur = yaml.safe_load(args.curation.read_text())
     targets, citations, assays = cur.get("targets", []), cur.get("citations", []), cur.get("assays", {})
+    queries = cur.get("queries", [])
     exclude = cur.get("exclude", {})
     excluded_contexts = set(exclude.get("use_context") or [])
     excluded_ids = set(exclude.get("assay_ids") or [])
@@ -73,6 +74,10 @@ def main() -> None:
                 {"taxon_name": t["taxon_name"], "taxid": t["taxid"], "genome_type": t["genome_type"]},
             )
             doc["use_context"] = list(t.get("use_context", doc.get("use_context", [])))
+
+        q = first_match(queries, doc["id"])
+        if q:
+            doc["target"] = deep_merge(doc["target"], {"query": q["query"]})
 
         c = first_match(citations, doc["citation"].get("as_written") or "")
         if c:

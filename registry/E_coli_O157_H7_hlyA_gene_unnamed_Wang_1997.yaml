@@ -5,6 +5,7 @@ target:
   gene: null
   genome_type: dsDNA
   taxon_name: Escherichia coli
+  query: hlyA[Gene] OR ehxA[Gene] OR "EHEC hemolysin"[Title] OR "enterohemolysin"[Title] OR "hlyA"[Title]
 chemistry: conventional
 oligos:
   forward:

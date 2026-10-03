@@ -5,6 +5,7 @@ target:
   gene: null
   genome_type: dsDNA
   taxon_name: Escherichia coli
+  query: eltA[Gene] OR eltB[Gene] OR elt[Gene] OR "heat-labile enterotoxin"[Title] OR "LT toxin"[Title]
 chemistry: conventional
 oligos:
   forward:

@@ -5,6 +5,7 @@ target:
   gene: null
   genome_type: dsDNA
   taxon_name: Escherichia coli
+  query: malB[Gene] OR malE[Gene] OR malK[Gene] OR "malB"[Title] OR "maltose"[Title]
 chemistry: conventional
 oligos:
   forward:

@@ -5,6 +5,7 @@ target:
   gene: SSU rDNA (negative control works) use as primary screen
   genome_type: dsDNA
   taxon_name: Apicomplexa
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
 chemistry: conventional
 oligos:
   forward:

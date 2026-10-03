@@ -5,6 +5,7 @@ target:
   gene: 5'UTR/VP4/VP2
   genome_type: ssRNA+
   taxon_name: Enterovirus
+  query: '"5'' UTR"[Title] OR "5''UTR"[Title] OR "5'' untranslated"[Title] OR VP4[Gene] OR VP2[Gene] OR "complete genome"[Title]'
 chemistry: conventional
 oligos:
   forward:

@@ -5,6 +5,7 @@ target:
   gene: SSUrDNA of E furonis (GenBank accession No. AB329724) SLEDGE Primers
   genome_type: dsDNA
   taxon_name: Eimeria furonis
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
 chemistry: conventional
 oligos:
   forward:
