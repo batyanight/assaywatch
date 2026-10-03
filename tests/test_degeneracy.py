@@ -37,24 +37,44 @@ def test_inosine_pairing_rules():
     assert base_state("I", "G") == "unknown"  # poor pair: no evidence either way
 
 
+def degenerate_probe_assay() -> Assay:
+    """A synthetic assay with degeneracy in every oligo: 4 x 2 primers, 2-fold probe."""
+    return Assay.model_validate(
+        {
+            "id": "SYNTH_degenerate_probe",
+            "name": "synthetic",
+            "target": {"taxid": 1},
+            "chemistry": "hydrolysis_probe",
+            "oligos": {
+                "forward": {"seq": "CAGTGTGCCRTATGTCACGNT"},  # R x N = 8... N is 4-fold: 2*4 = 8
+                "reverse": {"seq": "GATTCGAGCCTAYGTCAGTCA"},  # Y = 2
+                "probe": {"seq": "ACGTACGTWACGTACGTAC", "reporter": "FAM", "quencher": "BHQ1"},  # W = 2
+            },
+            "citation": {},
+        }
+    )
+
+
 def test_total_fold_multiplies_every_oligo_and_components_stay_visible():
     """The headline number is the whole pool; the split says what kind of trouble it is."""
-    d = assay_degeneracy(load("DNA_BARCODING_and_internal_con_Carnivore_16S"))
+    d = assay_degeneracy(degenerate_probe_assay())
     fwd = next(o for o in d.oligos if o.role == "forward")
     rev = next(o for o in d.oligos if o.role == "reverse")
     probe = next(o for o in d.oligos if o.role == "probe")
-    assert d.pair_fold == fwd.fold * rev.fold
-    assert d.probe_fold == probe.fold
-    assert d.total_fold == d.pair_fold * d.probe_fold == 16
+    assert (fwd.fold, rev.fold, probe.fold) == (8, 2, 2)
+    assert d.pair_fold == fwd.fold * rev.fold == 16
+    assert d.probe_fold == probe.fold == 2
+    assert d.total_fold == d.pair_fold * d.probe_fold == 32
 
 
 def test_probe_degeneracy_moves_the_tier():
     """A probe-side pool counts: it is reagent that does not participate."""
-    d = assay_degeneracy(load("DNA_BARCODING_and_internal_con_Carnivore_16S"))
-    assert d.probe_fold == 2
-    assert tier_for(d.pair_fold) == "negligible"
-    assert tier_for(d.total_fold) == "moderate"
+    d = assay_degeneracy(degenerate_probe_assay())
+    assert tier_for(d.pair_fold) == "moderate"
     assert d.tier() == "moderate"
+    narrow = {"degeneracy": {"tiers": [[16, "negligible"], [128, "moderate"]]}}
+    assert tier_for(d.pair_fold, narrow) == "negligible"
+    assert d.tier(narrow) == "moderate"  # the probe's 2x is what crosses the line
 
 
 def test_an_assay_without_a_probe_has_probe_fold_one():
@@ -64,8 +84,8 @@ def test_an_assay_without_a_probe_has_probe_fold_one():
 
 def test_expected_cq_delay_is_the_log_of_the_total():
     """log of a product = sum of logs: each oligo's dilution adds its own cycles."""
-    d = assay_degeneracy(load("DNA_BARCODING_and_internal_con_Carnivore_16S"))
-    assert d.expected_cq_delay == pytest.approx(4.0)  # 16-fold = 4 doublings
+    d = assay_degeneracy(degenerate_probe_assay())
+    assert d.expected_cq_delay == pytest.approx(5.0)  # 32-fold = 5 doublings
 
 
 def test_tiers_are_ordered_and_configurable():

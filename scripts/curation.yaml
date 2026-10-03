@@ -16,6 +16,29 @@
 #   taxid: null          taxon_name is given; run resolve_citations.py --taxids
 #                        to fill from NCBI Taxonomy rather than trusting memory
 
+# Assays that are out of scope for drift monitoring. They are still parsed
+# into the drafts, so nothing is lost, but apply_curation.py does not write
+# them to the registry. Two reasons an assay lands here:
+#
+#   use_context  host identification, DNA barcoding, eDNA species detection,
+#                conservation genetics and internal controls target the host,
+#                not a pathogen. The drift question does not apply in the same
+#                form, and their targets (Vertebrata, Mammalia, Carnivora...)
+#                are tens of millions of records that would dominate every run.
+#   assay_ids    kingdom-level universal primers (pan-bacterial 16S, pan-fungal
+#                ITS). Designed against regions conserved across a kingdom, so
+#                nobody expects ITS4 to drift, and the target taxon is not
+#                bounded in any way the retrieval stage can use.
+#
+# To bring one back, remove it from this list and rerun apply_curation.py.
+exclude:
+  use_context: [host_id, internal_control, barcoding, eDNA, conservation_genetics, metabarcoding]
+  assay_ids:
+    - GENERAL_BACTERIA_16S_rDNA_full_length
+    - GENERAL_BACTERIA_16S_rDNA_full_length_2
+    - Helicobacter_XREACTS_with_general_bac_3   # U3/U2 universal bacterial 16S, filed under Helicobacter in the sheet
+    - Helicobacter_XREACTS_with_general_bac_4   # U4/U2/U5R universal bacterial sequencing primers
+
 targets:
   # ---- fungi ----
   - match: "^CHYTRID"

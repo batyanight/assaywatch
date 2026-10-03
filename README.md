@@ -15,7 +15,7 @@ thing to do. See ROADMAP.md.
 ## Layout
 
 ```
-registry/        one YAML per assay; validated on every commit (176 WCS assays, all draft)
+registry/        one YAML per assay; validated on every commit (139 WCS pathogen assays, all draft)
 assaywatch/      the package
   schema.py        pydantic models = the registry schema
   validate.py      `python -m assaywatch.validate registry`
@@ -72,7 +72,13 @@ python resolve_citations.py --registry ../registry --email you@example.org
 ```
 
 `curation.yaml` is the only place outside-knowledge (taxids, DOIs) is entered;
-the parser is deterministic. `resolve_citations.py` confirms DOIs against
+the parser is deterministic. Its `exclude` section is where scope is decided:
+host-identification, DNA barcoding, eDNA, internal-control and kingdom-level
+universal primers are parsed but not written to the registry, because they
+target the host or a whole kingdom rather than a pathogen and the drift
+question does not apply to them in the same form. `scripts/removed_assays.txt`
+lists the 37 that were dropped; removing an id from `exclude` and rerunning
+`apply_curation.py` brings it back. `resolve_citations.py` confirms DOIs against
 Crossref and fills missing taxids from NCBI Taxonomy.
 
 ## Screening
@@ -139,8 +145,8 @@ python -m assaywatch.degeneracy registry --tier severe
 ```
 
 lists the assays whose in-silico coverage should be read with the most
-suspicion. Of the 176 imported WCS assays, 106 are negligible, 23 moderate,
-26 high and 21 severe — the severe end being the PREDICT pan-family consensus
+suspicion. Of the 139 imported WCS assays, 74 are negligible, 19 moderate,
+25 high and 21 severe — the severe end being the PREDICT pan-family consensus
 PCRs, which is expected and is the point of them.
 
 The headline `total_fold` multiplies every oligo, primers and probe, because

@@ -55,9 +55,13 @@ def main() -> None:
 
     cur = yaml.safe_load(args.curation.read_text())
     targets, citations, assays = cur.get("targets", []), cur.get("citations", []), cur.get("assays", {})
+    exclude = cur.get("exclude", {})
+    excluded_contexts = set(exclude.get("use_context") or [])
+    excluded_ids = set(exclude.get("assay_ids") or [])
     args.out.mkdir(parents=True, exist_ok=True)
 
     rows = []
+    excluded: list[tuple[str, str]] = []
     unused_overrides = set(assays)
     for path in sorted(args.drafts.glob("*.yaml")):
         doc = yaml.safe_load(path.read_text())
@@ -85,6 +89,16 @@ def main() -> None:
         if doc["id"] in assays:
             doc = deep_merge(doc, assays[doc["id"]])
             unused_overrides.discard(doc["id"])
+
+        # Out-of-scope assays are dropped after curation so the reason is
+        # visible in the use_context the curation assigned, not hidden upstream.
+        if doc["id"] in excluded_ids:
+            excluded.append((doc["id"], "listed in exclude.assay_ids"))
+            continue
+        hit = sorted(set(doc.get("use_context") or []) & excluded_contexts)
+        if hit:
+            excluded.append((doc["id"], f"use_context {','.join(hit)}"))
+            continue
 
         doc.setdefault("citation", {}).setdefault("doi_verified", False)
 
@@ -126,6 +140,10 @@ def main() -> None:
         f"doi {sum(r[2] == 'Y' for r in rows)} verified / {sum(r[2] == 'unv' for r in rows)} unverified / "
         f"{sum(r[2] == '-' for r in rows)} missing; year {sum(r[3] == 'Y' for r in rows)}"
     )
+    if excluded:
+        print(f"\n{len(excluded)} assays excluded as out of scope (see curation.yaml `exclude`):")
+        for aid, why in excluded:
+            print(f"  {aid:<{w}}  {why}")
     if unused_overrides:
         print("WARNING: overrides with no matching draft id:", sorted(unused_overrides))
 

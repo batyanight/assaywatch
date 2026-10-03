@@ -5,7 +5,7 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 ## Phase 0 (current)
 - [x] repo, environment.yml, pre-commit, CI
 - [x] YAML schema (pydantic) and validator
-- [x] registry imported from the WCS spreadsheet (176 draft entries)
+- [x] registry imported from the WCS spreadsheet (139 pathogen assays; 37 host/barcoding/universal primers excluded as out of scope)
 - [ ] 5 assays promoted to `active`: Bd (Boyle 2004), Bsal (Blooi 2013), Oo ITS2 (Bohuski 2015), ranavirus MCP (Pallister 2007), CDV P (Scagliarini 2007)
 - [ ] run `scripts/resolve_citations.py` once; review BAD lines
 - [ ] name, license (MIT code / CC-BY registry), IP question asked in writing
