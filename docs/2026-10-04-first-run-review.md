@@ -131,8 +131,15 @@ Boyle 2004 stable. Bsal and Ophidiomyces ITS2 have too few rDNA records to judge
   spreadsheet. The same group prints `GCCATTTGCGTTCAGAAATC` in two open-access
   papers (10.3390/pathogens15070709, 10.1186/s13071-018-2694-y), and every
   record reads it. The assay goes from 98% failing to 96% detected.
-* **Circovirus Mankertz round 1 forward** is still flagged `OLIGO_SEQ_SUSPECT`:
-  no open-access paper prints it, so it needs the 2000 paper.
+* **Circovirus Mankertz round 1 forward (primer #174) is not a typo** (`e612f57`).
+  Checked against Mankertz et al. 2000 (Arch Virol 145:2469–2479,
+  10.1007/s007050070002): the paper prints `GTGTTTCAC…`, exactly as the
+  registry has it. Circovirus records, including the 1998 reference AF086834,
+  read `GTGTTCAC…` (one T fewer). The extra base is in the primer as designed,
+  which may explain the spreadsheet's note that the assay "did not pick up
+  finch circovirus". The registry keeps the published sequence, so results
+  reflect the primer as ordered; the `OLIGO_SEQ_SUSPECT` flag is cleared and
+  the evidence is in the entry's `notes_curator`.
 * Full audit of the codebase (four parallel reviewers, each finding reproduced
   before fixing): crash and lost-site bugs in matching, PDB date joins, the
   recent window, retrieval error handling, automatic rescreening, a
