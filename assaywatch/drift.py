@@ -101,9 +101,14 @@ class YearStats:
 class AssayDrift:
     assay_id: str
     years: dict[int, YearStats] = field(default_factory=dict)
-    recent_from: int = 0
+    recent_from: int | str = 0  # a year, or an ISO date when records are dated to the day
     threshold: float = 0.9
     min_records: int = 20
+    # Calls split by the recent-window cutoff as records are added (assess). When
+    # empty, finalise falls back to splitting `years` at `recent_from`.
+    recent_counts: Counter = field(default_factory=Counter)
+    baseline_counts: Counter = field(default_factory=Counter)
+    skipped_undated: int = 0
 
     # Filled by `finalise`.
     recent_detected: int = 0
@@ -141,13 +146,18 @@ class AssayDrift:
         return out
 
     def finalise(self) -> AssayDrift:
-        for year, stats in self.years.items():
-            if year >= self.recent_from:
-                self.recent_detected += stats.detected
-                self.recent_evaluable += stats.evaluable
-            else:
-                self.baseline_detected += stats.detected
-                self.baseline_evaluable += stats.evaluable
+        if self.recent_counts or self.baseline_counts:
+            r, b = YearStats(0, self.recent_counts), YearStats(0, self.baseline_counts)
+            self.recent_detected, self.recent_evaluable = r.detected, r.evaluable
+            self.baseline_detected, self.baseline_evaluable = b.detected, b.evaluable
+        else:
+            for year, stats in self.years.items():
+                if year >= int(str(self.recent_from)[:4]):
+                    self.recent_detected += stats.detected
+                    self.recent_evaluable += stats.evaluable
+                else:
+                    self.baseline_detected += stats.detected
+                    self.baseline_evaluable += stats.evaluable
 
         self.recent_ci = wilson_interval(self.recent_detected, self.recent_evaluable)
         self.baseline_ci = wilson_interval(self.baseline_detected, self.baseline_evaluable)
@@ -166,8 +176,8 @@ class AssayDrift:
             self.note = (
                 f"{self.recent_evaluable} evaluable records since {self.recent_from}, "
                 f"below the minimum of {self.min_records}; "
-                f"the detected share is {self.recent_fraction:.0%} "
-                f"({self.recent_ci[0]:.0%}-{self.recent_ci[1]:.0%}), too wide to act on"
+                f"the detected share is {pct(self.recent_fraction)} "
+                f"({pct(self.recent_ci[0])}-{pct(self.recent_ci[1])}), too wide to act on"
             )
         elif self.recent_ci[1] < self.threshold:
             # Below threshold is two different findings. Declining: the share has
@@ -181,71 +191,102 @@ class AssayDrift:
             self.status = "declining" if declining else "low coverage"
             self.note = (
                 f"detected share {self.recent_fraction:.1%} "
-                f"({self.recent_ci[0]:.0%}-{self.recent_ci[1]:.0%}) since {self.recent_from}, "
+                f"({pct(self.recent_ci[0])}-{pct(self.recent_ci[1])}) since {self.recent_from}, "
                 f"upper bound below the {self.threshold:.0%} threshold"
             )
             if self.baseline_evaluable:
-                self.note += f"; change from baseline {lo:+.0%} to {hi:+.0%}"
+                self.note += f"; change from baseline {pct(lo, True)} to {pct(hi, True)}"
                 if not declining:
-                    self.note += f" (baseline {self.baseline_fraction:.0%}: no measurable fall)"
+                    trend = "rose from" if lo > 0 else "no measurable fall from"
+                    self.note += f" ({trend} a baseline of {pct(self.baseline_fraction)})"
             else:
                 self.note += "; no baseline records to compare with"
         elif self.recent_fraction is not None and self.recent_fraction < self.threshold:
             self.status = "watch"
             self.note = (
-                f"detected share {self.recent_fraction:.1%} is below threshold but the interval "
-                f"({self.recent_ci[0]:.0%}-{self.recent_ci[1]:.0%}) still covers it"
+                f"detected share {self.recent_fraction:.1%} is below the {self.threshold:.0%} threshold, "
+                f"but its interval ({pct(self.recent_ci[0])}-{pct(self.recent_ci[1])}) still reaches it"
             )
         else:
             self.status = "stable"
             self.note = (
                 f"detected share {self.recent_fraction:.1%} "
-                f"({self.recent_ci[0]:.0%}-{self.recent_ci[1]:.0%}) since {self.recent_from}"
+                f"({pct(self.recent_ci[0])}-{pct(self.recent_ci[1])}) since {self.recent_from}"
             )
         return self
 
 
-def recent_cutoff_year(cfg: dict[str, Any], today: date | None = None) -> int:
+def pct(x: float, signed: bool = False) -> str:
+    """A share as a percentage that never rounds a small number to a misleading 0%.
+
+    Whole percent normally; one decimal below 1% (so a 0.19% bound does not
+    print as 0%), and never `-0%`.
+    """
+    digits = 1 if 0 < abs(x) < 0.01 else 0
+    text = f"{x:+.{digits}%}" if signed else f"{x:.{digits}%}"
+    return text.replace("-0%", "0%").replace("+0%", "0%") if text in ("-0%", "+0%") else text
+
+
+def recent_cutoff(cfg: dict[str, Any], today: date | None = None) -> date:
+    """The first day of the recent window: `recent_window_months` before `today`."""
     months = int(cfg.get("drift", {}).get("recent_window_months", 24))
     today = today or date.today()
-    return today.year - max(1, round(months / 12))
+    y, m = divmod(today.year * 12 + today.month - 1 - months, 12)
+    return date(y, m + 1, min(today.day, 28))
+
+
+def recent_cutoff_year(cfg: dict[str, Any], today: date | None = None) -> int:
+    """The year the recent window starts in (for records dated only to the year)."""
+    return recent_cutoff(cfg, today).year
 
 
 def assess(
     calls: list[dict[str, Any]],
-    years: dict[str, int],
+    years: dict[str, int | str],
     cfg: dict[str, Any],
     today: date | None = None,
 ) -> dict[str, AssayDrift]:
-    """Group calls by assay and deposit year and work out each assay's status.
+    """Group calls by assay and deposit date and work out each assay's status.
 
-    `calls` are rows from the screen stage; `years` maps record id to deposit
-    year. A record with no year is skipped rather than bucketed into a default,
-    because an unknown year silently landing in the recent window is the kind
-    of error that produces a confident wrong answer.
+    `calls` are rows from the screen stage; `years` maps record id to its
+    deposit date (ISO `YYYY-MM-DD`, as report.read_dates gives) or just a year.
+    With dates the recent window is exactly `recent_window_months` long; with
+    bare years it starts on 1 January of the cutoff year. A record with no
+    date is counted as skipped, never bucketed into a default, because an
+    unknown year silently landing in the recent window is the kind of error
+    that produces a confident wrong answer.
     """
     d = cfg.get("drift", {})
-    cutoff = recent_cutoff_year(cfg, today)
+    cutoff = recent_cutoff(cfg, today)
+    cutoff_iso = cutoff.isoformat()
     threshold = float(d.get("detect_fraction_threshold", 0.9))
     min_records = int(d.get("min_records_for_drift", 20))
 
     grouped: dict[str, AssayDrift] = {}
-    skipped: Counter = Counter()
+    dated = any(isinstance(v, str) for v in years.values())
+    label: int | str = cutoff.strftime("%b %Y") if dated else cutoff.year
     for row in calls:
-        year = years.get(row["record_id"])
-        if year is None:
-            skipped[row["assay_id"]] += 1
-            continue
+        # Created before the date check, so an assay whose records are all
+        # undated still appears (as no recent data) with its skipped count.
         a = grouped.setdefault(
             row["assay_id"],
-            AssayDrift(row["assay_id"], recent_from=cutoff, threshold=threshold, min_records=min_records),
+            AssayDrift(row["assay_id"], recent_from=label, threshold=threshold, min_records=min_records),
         )
+        when = years.get(row["record_id"])
+        if when is None:
+            a.skipped_undated += 1
+            continue
+        if isinstance(when, str):
+            year, recent = int(when[:4]), when >= cutoff_iso
+        else:
+            year, recent = int(when), int(when) >= cutoff.year
         a.years.setdefault(year, YearStats(year)).counts[row["call"]] += 1
+        (a.recent_counts if recent else a.baseline_counts)[row["call"]] += 1
 
-    for assay_id, a in grouped.items():
+    for a in grouped.values():
         a.finalise()
-        if skipped[assay_id]:
-            a.note += f" ({skipped[assay_id]} records skipped: no deposit date)"
+        if a.skipped_undated:
+            a.note += f" ({a.skipped_undated} records skipped: no deposit date in the metadata)"
     return grouped
 
 

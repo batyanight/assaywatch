@@ -99,3 +99,53 @@ def test_thermo_inosine_opposite_u_is_modelled_as_t():
     assert ino and o == "GACTT" and t == "GACTT"
     o, t, _ = resolve("GACGT", "GA-GT")  # a gap is a mismatch, not a perfect pair
     assert o[2] != t[2]
+
+
+def test_pdb_chain_ids_join_to_their_metadata():
+    from assaywatch.report import strip_version
+
+    assert strip_version("pdb|29WD|T") == strip_version("29WD_T") == "29WD_T"
+    assert strip_version("AB123.2") == "AB123"
+
+
+def test_newest_version_wins_whatever_the_row_order():
+    from assaywatch.report import key_calls_by_accession
+
+    rows = [
+        {"assay_id": "A", "record_id": "AB1.2", "call": "fail"},
+        {"assay_id": "A", "record_id": "AB1.1", "call": "detect"},
+    ]
+    assert [r["call"] for r in key_calls_by_accession(rows)] == ["fail"]
+
+
+def test_recent_window_is_exactly_the_configured_months():
+    from datetime import date
+
+    from assaywatch.drift import assess, recent_cutoff
+
+    cfg = {"drift": {"recent_window_months": 24, "min_records_for_drift": 1}}
+    assert recent_cutoff(cfg, date(2026, 10, 4)) == date(2024, 10, 4)
+    calls = [{"assay_id": "A", "record_id": r, "call": "detect"} for r in ("old", "new")]
+    a = assess(calls, {"old": "2024-03-01", "new": "2024-11-01"}, cfg, today=date(2026, 10, 4))["A"]
+    assert (a.recent_evaluable, a.baseline_evaluable) == (1, 1)
+
+
+def test_assay_with_only_undated_records_still_appears():
+    from assaywatch.drift import assess
+
+    calls = [{"assay_id": "A", "record_id": f"r{i}", "call": "detect"} for i in range(5)]
+    a = assess(calls, {}, {"drift": {}})["A"]
+    assert a.status == "no recent data" and a.skipped_undated == 5
+
+
+def test_markdown_cells_escape_pipes():
+    from assaywatch.report import md
+
+    assert md("BAD|ID") == "BAD\\|ID"
+
+
+def test_small_bounds_are_not_rounded_to_zero():
+    from assaywatch.drift import pct
+
+    assert pct(0.0019) == "0.2%" and pct(0.0) == "0%" and pct(-0.001, signed=True) == "-0.1%"
+    assert pct(-0.004, signed=True) != "-0%"

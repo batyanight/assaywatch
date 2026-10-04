@@ -36,7 +36,7 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.degeneracy import assay_degeneracy
-from assaywatch.drift import AssayDrift, assess, by_status, coverage_gaps
+from assaywatch.drift import AssayDrift, assess, by_status, coverage_gaps, pct
 from assaywatch.schema import Assay
 
 STATUS_ORDER = ["declining", "low coverage", "watch", "insufficient data", "no recent data", "stable"]
@@ -55,41 +55,80 @@ def _open(path: Path):
 
 
 def strip_version(accession: str) -> str:
-    """`AB123456.2` -> `AB123456`. Leaves anything without a version alone."""
-    head = accession.split()[0]
+    """`AB123456.2` -> `AB123456`. Leaves anything without a version alone.
+
+    PDB chains come back from efetch as `pdb|29WD|T` in the FASTA but as
+    `29WD_T` in esummary; both are mapped to the latter so they join.
+    """
+    head = accession.split()[0] if accession.split() else accession
+    if head.startswith("pdb|"):
+        parts = head.split("|")
+        return "_".join(p for p in parts[1:3] if p)
     stem, _, tail = head.rpartition(".")
     return stem if stem and tail.isdigit() else head
 
 
+def version_of(accession: str) -> int:
+    """The `.N` version of an accession, 0 when there is none."""
+    tail = accession.split()[0].rpartition(".")[2] if accession.split() else ""
+    return int(tail) if tail.isdigit() else 0
+
+
 def read_calls(path: Path) -> list[dict[str, Any]]:
+    """The three columns the drift statistic needs, one small dict per row.
+
+    Loading every column of a two-million-row calls table as dicts took 3.6 GB;
+    nothing downstream reads the other columns.
+    """
     with _open(path) as fh:
-        return list(csv.DictReader(fh, delimiter="\t"))
+        reader = csv.reader(fh, delimiter="\t")
+        header = next(reader, None)
+        if header is None:
+            return []
+        ia, ir, ic = header.index("assay_id"), header.index("record_id"), header.index("call")
+        return [{"assay_id": r[ia], "record_id": r[ir], "call": r[ic]} for r in reader if r]
 
 
-def read_years(retrieved_dir: Path) -> dict[str, int]:
-    """{accession without version: deposit year}, newest revision winning."""
-    best: dict[str, tuple[str, int]] = {}
+def read_dates(retrieved_dir: Path) -> dict[str, str]:
+    """{accession without version: deposit date (YYYY-MM-DD)}, newest revision winning."""
+    best: dict[str, tuple[str, str]] = {}
     for meta in sorted(retrieved_dir.rglob("*.meta.tsv.gz")):
         with gzip.open(meta, "rt") as fh:
             for row in csv.DictReader(fh, delimiter="\t"):
                 acc = strip_version(row["accession"])
-                year_text = (row.get("created") or "")[:4]
-                if not year_text.isdigit():
+                created = (row.get("created") or "")[:10]
+                if not created[:4].isdigit():
                     continue
                 updated = row.get("updated") or ""
                 if acc not in best or updated > best[acc][0]:
-                    best[acc] = (updated, int(year_text))
-    return {acc: year for acc, (_, year) in best.items()}
+                    best[acc] = (updated, created)
+    return {acc: created for acc, (_, created) in best.items()}
+
+
+def read_years(retrieved_dir: Path) -> dict[str, int]:
+    """{accession without version: deposit year}, newest revision winning."""
+    return {acc: int(d[:4]) for acc, d in read_dates(retrieved_dir).items()}
 
 
 def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Normalise record ids so they join against the metadata, newest version only."""
-    seen: dict[tuple[str, str], dict[str, Any]] = {}
+    """Normalise record ids so they join against the metadata, newest version only.
+
+    Newest means the highest `.N` version, not the last row: the pipeline
+    concatenates archives group by group, so an older version can come last.
+    """
+    seen: dict[tuple[str, str], tuple[int, dict[str, Any]]] = {}
     for row in calls:
         acc = strip_version(row["record_id"])
-        row = {**row, "record_id": acc}
-        seen[(row["assay_id"], acc)] = row
-    return list(seen.values())
+        v = version_of(row["record_id"])
+        key = (row["assay_id"], acc)
+        if key not in seen or v >= seen[key][0]:
+            seen[key] = (v, {**row, "record_id": acc})
+    return [row for _, row in seen.values()]
+
+
+def md(text: Any) -> str:
+    """Make text safe inside a markdown table cell."""
+    return str(text).replace("|", "\\|").replace("\n", " ")
 
 
 def sparkline(drift: AssayDrift, width: int = 220, height: int = 34) -> str:
@@ -119,7 +158,7 @@ def year_table_rows(drift: AssayDrift) -> list[tuple[int, int, int, str]]:
     rows = []
     for year in sorted(drift.years):
         s = drift.years[year]
-        frac = f"{s.fraction:.0%}" if s.fraction is not None else "-"
+        frac = pct(s.fraction) if s.fraction is not None else "-"
         rows.append((year, s.detected, s.evaluable, frac))
     return rows
 
@@ -129,11 +168,20 @@ def render_markdown(
     assays: dict[str, Assay],
     gaps: list[dict[str, Any]],
     run_date: str,
+    cfg: dict[str, Any] | None = None,
 ) -> str:
     grouped = by_status(drifts)
     out = [f"# AssayWatch report — {run_date}", ""]
     counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in STATUS_ORDER if grouped.get(s))
     out += [f"{len(drifts)} assays screened: {counts}.", ""]
+    if drifts:
+        a0 = next(iter(drifts.values()))
+        out += [
+            f"Recent window: records deposited since {a0.recent_from}; "
+            f"threshold {a0.threshold:.0%} detected; at least {a0.min_records} recent evaluable "
+            "records to flag. Deprecated assays are not screened.",
+            "",
+        ]
     out += [
         "`detected` means predicted to amplify (`detect` or `reduced`). The denominator is",
         "evaluable records only: those where both primers landed in the right orientation and",
@@ -153,16 +201,20 @@ def render_markdown(
             continue
         out += [f"## {status.title()} ({len(items)})", ""]
         out += [
-            "| assay | detected (recent) | 95% CI | evaluable | degeneracy | note |",
-            "|---|---|---|---|---|---|",
+            "| assay | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | note |",
+            "|---|---|---|---|---|---|---|",
         ]
         for a in items:
             assay = assays.get(a.assay_id)
             deg = assay_degeneracy(assay) if assay else None
-            deg_text = f"{deg.total_fold}x {deg.tier()}" if deg else "-"
+            deg_text = f"{deg.total_fold}x {deg.tier(cfg)}" if deg else "-"
             frac = f"{a.recent_fraction:.1%}" if a.recent_fraction is not None else "-"
-            ci = f"{a.recent_ci[0]:.0%}-{a.recent_ci[1]:.0%}" if a.recent_evaluable else "-"
-            out.append(f"| `{a.assay_id}` | {frac} | {ci} | {a.recent_evaluable} | {deg_text} | {a.note} |")
+            ci = f"{pct(a.recent_ci[0])}-{pct(a.recent_ci[1])}" if a.recent_evaluable else "-"
+            base = pct(a.baseline_fraction) + f" ({a.baseline_evaluable})" if a.baseline_evaluable else "-"
+            out.append(
+                f"| `{md(a.assay_id)}` | {frac} | {ci} | {a.recent_evaluable} | {base} "
+                f"| {deg_text} | {md(a.note)} |"
+            )
         out.append("")
 
     flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
@@ -176,8 +228,8 @@ def render_markdown(
                 if assay.citation.doi:
                     out.append(f"Designed {assay.citation.design_year or '?'}, doi:{assay.citation.doi}  ")
                 deg = assay_degeneracy(assay)
-                if deg.note():
-                    out.append(f"**Degeneracy:** {deg.note()}  ")
+                if deg.note(cfg):
+                    out.append(f"**Degeneracy:** {deg.note(cfg)}  ")
             out += ["", "| deposit year | detected | evaluable | share |", "|---|---|---|---|"]
             for year, det, ev, frac in year_table_rows(a):
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
@@ -201,7 +253,7 @@ def render_markdown(
         ]
         for g in gaps:
             out.append(
-                f"| `{g['assay_id']}` | {g['taxon_name'] or '-'} | {g['taxid'] or '-'} "
+                f"| `{md(g['assay_id'])}` | {md(g['taxon_name'] or '-')} | {g['taxid'] or '-'} "
                 f"| {g['evaluable']} | {g['screened'] if g['taxid'] else 'not searched (no taxid)'} |"
             )
         out.append("")
@@ -234,6 +286,7 @@ def render_html(
     assays: dict[str, Assay],
     gaps: list[dict[str, Any]],
     run_date: str,
+    cfg: dict[str, Any] | None = None,
 ) -> str:
     grouped = by_status(drifts)
     e = html.escape
@@ -265,9 +318,9 @@ def render_html(
         for a in items:
             assay = assays.get(a.assay_id)
             deg = assay_degeneracy(assay) if assay else None
-            deg_text = f"{deg.total_fold}&times; {deg.tier()}" if deg else "-"
+            deg_text = f"{deg.total_fold}&times; {deg.tier(cfg)}" if deg else "-"
             frac = f"{a.recent_fraction:.1%}" if a.recent_fraction is not None else "-"
-            ci = f"{a.recent_ci[0]:.0%}&ndash;{a.recent_ci[1]:.0%}" if a.recent_evaluable else "-"
+            ci = f"{pct(a.recent_ci[0])}&ndash;{pct(a.recent_ci[1])}" if a.recent_evaluable else "-"
             parts.append(
                 f"<tr><td><code>{e(a.assay_id)}</code><br><span class='muted'>"
                 f"{e(assay.name) if assay else ''}</span></td>"
@@ -318,13 +371,20 @@ def build(
             taxa[a.id] = (a.target.taxid, a.target.taxon_name)
 
     calls = key_calls_by_accession(read_calls(calls_path))
-    years = read_years(retrieved)
-    drifts = assess(calls, years, cfg, today=today)
-    gaps = coverage_gaps(drifts, taxa, cfg)
+    dates = read_dates(retrieved)
     run_date = run_date or calls_path.parent.name
+    if today is None:
+        # The recent window is anchored to the run, so re-rendering an old run
+        # later gives the same answer rather than sliding the window forward.
+        try:
+            today = date.fromisoformat(run_date[:10])
+        except ValueError:
+            today = None
+    drifts = assess(calls, dates, cfg, today=today)
+    gaps = coverage_gaps(drifts, taxa, cfg)
     return (
-        render_markdown(drifts, assays, gaps, run_date),
-        render_html(drifts, assays, gaps, run_date),
+        render_markdown(drifts, assays, gaps, run_date, cfg),
+        render_html(drifts, assays, gaps, run_date, cfg),
         drifts,
     )
 
