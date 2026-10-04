@@ -26,7 +26,7 @@ interval runs from roughly 15 to 95 percent. Flagging on the point estimate
 alone would bury the real signals under noise from exactly the taxa this tool
 exists to serve.
 
-So drift is flagged only when the *upper* bound of the interval for the recent
+So an assay is flagged only when the *upper* bound of the interval for the recent
 window falls below the threshold: the data must be inconsistent with the assay
 still working, not merely consistent with it failing. The interval is the
 Wilson score interval rather than the textbook normal approximation, because
@@ -170,15 +170,26 @@ class AssayDrift:
                 f"({self.recent_ci[0]:.0%}-{self.recent_ci[1]:.0%}), too wide to act on"
             )
         elif self.recent_ci[1] < self.threshold:
-            self.status = "drifting"
+            # Below threshold is two different findings. Declining: the share has
+            # fallen, and the interval for the change excludes zero; that is
+            # drift. Low coverage: below threshold but not measurably lower than
+            # before, which is an assay used beyond what it was designed to
+            # cover (a lineage-specific assay on a whole genus, a pan-family
+            # assay on a family it never fully covered), not one that drifted.
+            lo, hi = self.change_ci
+            declining = self.baseline_evaluable > 0 and hi < 0
+            self.status = "declining" if declining else "low coverage"
             self.note = (
                 f"detected share {self.recent_fraction:.1%} "
                 f"({self.recent_ci[0]:.0%}-{self.recent_ci[1]:.0%}) since {self.recent_from}, "
                 f"upper bound below the {self.threshold:.0%} threshold"
             )
             if self.baseline_evaluable:
-                lo, hi = self.change_ci
                 self.note += f"; change from baseline {lo:+.0%} to {hi:+.0%}"
+                if not declining:
+                    self.note += f" (baseline {self.baseline_fraction:.0%}: no measurable fall)"
+            else:
+                self.note += "; no baseline records to compare with"
         elif self.recent_fraction is not None and self.recent_fraction < self.threshold:
             self.status = "watch"
             self.note = (

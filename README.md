@@ -428,10 +428,21 @@ assay. Folding them in would let a bad sequencing year look exactly like drift.
 records in the last two years. Three failing is 40% detected, which looks
 alarming and means nothing — the 95% interval runs from about 10% to 70%.
 Flagging on point estimates would bury real signals under noise from exactly
-the sparsely sequenced taxa this tool exists to serve. So an assay is called
-**drifting** only when the *upper* bound of its recent interval falls below the
+the sparsely sequenced taxa this tool exists to serve. So an assay is flagged
+only when the *upper* bound of its recent interval falls below the
 threshold: the data must be inconsistent with the assay still working, not
-merely consistent with it failing. Below `min_records_for_drift` it is reported
+merely consistent with it failing. A flagged assay is then one of two things:
+
+* **declining**: the Newcombe interval for the change from baseline lies wholly
+  below zero. The share has fallen; that is drift.
+* **low coverage**: below threshold, but not measurably lower than before (or
+  no baseline to compare with). The first full run showed why this needs its
+  own name: the gorilla/chimpanzee SIV assay of Takehisa 2009 screened against
+  all SIV, or a "turtles only" Mycoplasma assay against the whole genus, sits
+  at the same low share in every year. That is an assay used beyond its design,
+  not one that has drifted.
+
+Below `min_records_for_drift` it is reported
 as **insufficient data** and never flagged, whatever the fraction looks like;
 below threshold with an interval that still covers it, it is **watch**.
 

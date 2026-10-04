@@ -17,7 +17,7 @@ scoring:
   # the expected number of primer pairs this good in a random record of the same
   # length. Set a number (e.g. 0.01) to call pairs above it no_amplicon instead
   # of scoring them; null reports the E-value but changes no call.
-  max_pair_evalue: null
+  max_pair_evalue: 0.01
   detect_max: 1.0                # <= detect
   reduced_max: 3.0               # <= reduced efficiency; above = fail
   terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail

@@ -39,9 +39,10 @@ from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.drift import AssayDrift, assess, by_status, coverage_gaps
 from assaywatch.schema import Assay
 
-STATUS_ORDER = ["drifting", "watch", "insufficient data", "no recent data", "stable"]
+STATUS_ORDER = ["declining", "low coverage", "watch", "insufficient data", "no recent data", "stable"]
 STATUS_COLOUR = {
-    "drifting": "#b3261e",
+    "declining": "#b3261e",
+    "low coverage": "#8a4b9c",
     "watch": "#b26a00",
     "insufficient data": "#5f6368",
     "no recent data": "#5f6368",
@@ -138,8 +139,11 @@ def render_markdown(
         "evaluable records only: those where both primers landed in the right orientation and",
         "size range. Records with no amplicon, or too many undetermined bases to judge, are",
         "counted separately and excluded, so a bad sequencing year cannot look like drift.",
-        "Intervals are Wilson 95%; an assay is called drifting only when the upper bound of",
-        "the recent interval falls below the threshold.",
+        "Intervals are Wilson 95%; an assay is flagged only when the upper bound of the recent",
+        "interval falls below the threshold. **Declining** means the share has also fallen",
+        "from the baseline (the interval for the change excludes zero): that is drift.",
+        "**Low coverage** means below threshold without a measurable fall: usually an assay",
+        "screened against more diversity than it was designed for.",
         "",
     ]
 
@@ -161,10 +165,10 @@ def render_markdown(
             out.append(f"| `{a.assay_id}` | {frac} | {ci} | {a.recent_evaluable} | {deg_text} | {a.note} |")
         out.append("")
 
-    drifting = grouped.get("drifting", [])
-    if drifting:
-        out += ["## Detail for drifting assays", ""]
-        for a in drifting:
+    flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
+    if flagged:
+        out += ["## Detail for flagged assays", ""]
+        for a in flagged:
             assay = assays.get(a.assay_id)
             out += [f"### `{a.assay_id}`", ""]
             if assay:
@@ -241,8 +245,10 @@ def render_html(
         "<p class='lead'>Detected means predicted to amplify. The denominator is evaluable "
         "records only: both primers landed in the right orientation and size range. Records "
         "with no amplicon, or too many undetermined bases to judge, are excluded and counted "
-        "separately. Intervals are Wilson 95%; an assay is called drifting only when the upper "
-        "bound of the recent interval falls below the threshold.</p>",
+        "separately. Intervals are Wilson 95%; an assay is flagged only when the upper "
+        "bound of the recent interval falls below the threshold. Declining means the share has "
+        "also fallen from the baseline (that is drift); low coverage means below threshold "
+        "without a measurable fall.</p>",
     ]
     for status in STATUS_ORDER:
         items = grouped.get(status)

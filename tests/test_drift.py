@@ -102,9 +102,23 @@ def test_reduced_counts_as_detected():
 def test_clear_drift_is_flagged():
     calls, years = records({2020: {"detect": 100}, 2025: {"detect": 20, "fail": 30}})
     a = assess(calls, years, CFG, today=TODAY)["A"]
-    assert a.status == "drifting"
+    assert a.status == "declining"
     assert a.recent_ci[1] < 0.90
     assert a.change_ci[1] < 0  # the drop excludes zero
+
+
+def test_low_but_unchanged_share_is_low_coverage_not_drift():
+    """An assay that never covered this pool: same low share before and after."""
+    calls, years = records({2015: {"detect": 30, "fail": 70}, 2025: {"detect": 30, "fail": 70}})
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert a.status == "low coverage" and a.change_ci[0] < 0 < a.change_ci[1]
+    assert "no measurable fall" in a.note
+
+
+def test_below_threshold_with_no_baseline_is_low_coverage():
+    calls, years = records({2025: {"detect": 10, "fail": 40}})
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert a.status == "low coverage" and "no baseline" in a.note
 
 
 def test_small_sample_is_never_flagged_however_bad_it_looks():
@@ -164,7 +178,7 @@ def test_coverage_gap_lists_assays_with_too_little_data():
 def test_thresholds_come_from_config():
     calls, years = records({2025: {"detect": 22, "fail": 3}})
     strict = {"drift": {**CFG["drift"], "detect_fraction_threshold": 0.99}}
-    assert assess(calls, years, strict, today=TODAY)["A"].status == "drifting"
+    assert assess(calls, years, strict, today=TODAY)["A"].status == "low coverage"  # no baseline
     loose = {"drift": {**CFG["drift"], "min_records_for_drift": 1000}}
     assert assess(calls, years, loose, today=TODAY)["A"].status == "insufficient data"
 

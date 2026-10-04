@@ -71,7 +71,7 @@ def _drifting():
 
 def test_markdown_puts_drifting_assays_first_and_shows_the_interval():
     md = render_markdown(_drifting(), {}, [], "2026-10-03")
-    assert md.index("## Drifting") < md.index("## Coverage gaps")
+    assert md.index("## Declining") < md.index("## Coverage gaps")
     assert "95% CI" in md and "upper bound below" in md
 
 
@@ -132,7 +132,7 @@ def test_build_end_to_end_against_the_real_registry(tmp_path):
         today=date(2026, 10, 3),
     )
     a = drifts[assay_id]
-    assert a.status == "drifting" and a.recent_evaluable == 30
+    assert a.status == "declining" and a.recent_evaluable == 30
     assert assay_id in md and assay_id in page
     assert "Boyle" in md or "ITS1" in md  # the assay's name reached the report
     assert "deposit year" in md  # the per-year detail table rendered
