@@ -190,6 +190,7 @@ def render_markdown(
         out += [
             "These assays cannot be validated against sequence data because the sequence data",
             "does not exist. For wildlife pathogens this is usually the finding, not a caveat.",
+            "An assay with no taxid was never searched: that is a registry gap, not a data gap.",
             "",
             "| assay | taxon | taxid | evaluable | screened |",
             "|---|---|---|---|---|",
@@ -197,7 +198,7 @@ def render_markdown(
         for g in gaps:
             out.append(
                 f"| `{g['assay_id']}` | {g['taxon_name'] or '-'} | {g['taxid'] or '-'} "
-                f"| {g['evaluable']} | {g['screened']} |"
+                f"| {g['evaluable']} | {g['screened'] if g['taxid'] else 'not searched (no taxid)'} |"
             )
         out.append("")
     return "\n".join(out)
@@ -276,13 +277,15 @@ def render_html(
     else:
         parts.append(
             "<p class='lead'>These assays cannot be validated against sequence data because the "
-            "sequence data does not exist. For wildlife pathogens this is usually the finding.</p>"
+            "sequence data does not exist. For wildlife pathogens this is usually the finding. An assay "
+            "with no taxid was never searched: that is a registry gap, not a data gap.</p>"
             "<table><tr><th>assay</th><th>taxon</th><th>taxid</th><th>evaluable</th><th>screened</th></tr>"
         )
         for g in gaps:
             parts.append(
                 f"<tr><td><code>{e(g['assay_id'])}</code></td><td>{e(str(g['taxon_name'] or '-'))}</td>"
-                f"<td>{g['taxid'] or '-'}</td><td>{g['evaluable']}</td><td>{g['screened']}</td></tr>"
+                f"<td>{g['taxid'] or '-'}</td><td>{g['evaluable']}</td>"
+                f"<td>{g['screened'] if g['taxid'] else 'not searched (no taxid)'}</td></tr>"
             )
         parts.append("</table>")
     parts.append("</body></html>")
@@ -304,7 +307,9 @@ def build(
     for path in iter_files(registry):
         a = load_assay(path)
         assays[a.id] = a
-        taxa[a.id] = (a.target.taxid, a.target.taxon_name)
+        # A deprecated assay is not screened, so it is not a coverage gap either.
+        if a.status.value != "deprecated":
+            taxa[a.id] = (a.target.taxid, a.target.taxon_name)
 
     calls = key_calls_by_accession(read_calls(calls_path))
     years = read_years(retrieved)

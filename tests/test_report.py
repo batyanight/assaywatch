@@ -156,3 +156,15 @@ def _write_empty_calls(tmp_path: Path) -> Path:
     p.write_text("assay_id\trecord_id\tcall\n")
     (tmp_path / "retrieved_empty").mkdir(exist_ok=True)
     return p
+
+
+def test_gap_table_separates_unsearched_assays_and_skips_deprecated():
+    from assaywatch.report import render_markdown
+
+    gaps = [
+        {"assay_id": "A_searched", "taxid": 5, "taxon_name": "X", "evaluable": 0, "screened": 3},
+        {"assay_id": "B_no_taxid", "taxid": None, "taxon_name": "Y", "evaluable": 0, "screened": 0},
+    ]
+    md = render_markdown({}, {}, gaps, "2026-10-04")
+    assert "| `A_searched` | X | 5 | 0 | 3 |" in md
+    assert "| `B_no_taxid` | Y | - | 0 | not searched (no taxid) |" in md
