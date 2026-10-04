@@ -226,9 +226,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("paths", nargs="+", type=Path)
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--tier", default=None, help="only show this tier")
+    ap.add_argument("--tsv", action="store_true", help="tab-separated with a header, for other programs")
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
+    tiers = [name for _, name in (cfg.get("degeneracy", {}).get("tiers") or DEFAULT_TIERS)] + ["severe"]
+    if args.tier is not None and args.tier not in tiers:
+        ap.error(f"--tier must be one of {', '.join(tiers)}")
     rows = []
     for target in args.paths:
         for path in iter_files(target):
@@ -247,6 +251,12 @@ def main(argv: list[str] | None = None) -> int:
     rows.sort(reverse=True)
     if args.tier:
         rows = [r for r in rows if r[5] == args.tier]
+
+    if args.tsv:
+        print("assay_id\ttotal_fold\tprimer_fold\tprobe_fold\texpected_cq_delay\tinosine_positions\ttier")
+        for total, pair, probe, dcq, ino, tier, aid in rows:
+            print(f"{aid}\t{total}\t{pair}\t{probe}\t{dcq:.1f}\t{ino}\t{tier}")
+        return 0
 
     width = max((len(r[6]) for r in rows), default=10)
     print(f"{'assay':<{width}}  {'total':>12}  {'primers':>12}  {'probe':>5}  {'dCq':>5}  {'I':>3}  tier")

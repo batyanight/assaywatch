@@ -26,7 +26,13 @@ import shutil
 import sys
 from pathlib import Path
 
-from assaywatch.retrieve import build_query, manifest_path, targets_from_registry, write_manifest
+from assaywatch.retrieve import (
+    acquire_lock,
+    build_query,
+    manifest_path,
+    targets_from_registry,
+    write_manifest,
+)
 from assaywatch.score import load_config
 
 
@@ -83,6 +89,8 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
+    # Never rebuild under a running retrieval: its .part files are live, not leftovers.
+    _lock = None if args.dry_run else acquire_lock(cfg)  # noqa: F841 - held until exit
     manifest, partials = rebuild(cfg, args.registry)
     runs = manifest["runs"]
     groups = {(r["taxid"], r["group"]) for r in runs}

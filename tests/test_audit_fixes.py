@@ -179,3 +179,58 @@ def test_bad_arguments_fail_before_screening(tmp_path):
     assert "names no assays" in _screen(fa, "--only", " , ").stderr
     assert "does not exist" in _screen(fa, "--only", BD, "-o", str(tmp_path / "nope" / "x.tsv")).stderr
     assert "at least 1" in _screen(fa, "--workers", "0").stderr
+
+
+def test_a_second_retrieval_is_refused_while_one_holds_the_lock(tmp_path):
+    import subprocess
+    import sys
+
+    from assaywatch.retrieve import acquire_lock
+
+    cfg = {"retrieved_dir": str(tmp_path / "retrieved")}
+    held = acquire_lock(cfg)
+    try:
+        # flock is per open file, so a second process is the honest test.
+        code = (
+            "import sys; from assaywatch.retrieve import acquire_lock; "
+            f"acquire_lock({{'retrieved_dir': {cfg['retrieved_dir']!r}}})"
+        )
+        proc = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+        assert proc.returncode != 0 and "another retrieval is running" in proc.stderr
+    finally:
+        held.close()
+    proc = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+    assert proc.returncode == 0  # released when the holder closes or exits
+
+
+def test_degeneracy_tsv_is_a_real_table():
+    import csv
+    import io
+    import subprocess
+    import sys
+
+    from test_score import ROOT
+
+    out = subprocess.run(
+        [sys.executable, "-m", "assaywatch.degeneracy", str(ROOT / "registry"), "--tsv"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    rows = list(csv.DictReader(io.StringIO(out), delimiter="\t"))
+    assert rows and set(rows[0]) == {
+        "assay_id",
+        "total_fold",
+        "primer_fold",
+        "probe_fold",
+        "expected_cq_delay",
+        "inosine_positions",
+        "tier",
+    }
+    assert all(r["total_fold"].isdigit() for r in rows)
+    bad = subprocess.run(
+        [sys.executable, "-m", "assaywatch.degeneracy", str(ROOT / "registry"), "--tier", "nonsense"],
+        capture_output=True,
+        text=True,
+    )
+    assert bad.returncode != 0 and "must be one of" in bad.stderr

@@ -283,6 +283,9 @@ and the manifest beside it is state the retrieve code manages itself, written
 atomically. Archives are never overwritten either: a second run on the same day
 writes `<date>_2.fasta.gz`. If the manifest is ever lost or damaged,
 `python scripts/rebuild_manifest.py` rebuilds it from the archives on disk.
+Retrieval and the rebuild take an exclusive lock on `data/retrieved/.lock` for
+as long as they run, so a second run started meanwhile stops with a message
+rather than racing on the manifest (dry runs need no lock).
 
 `retrieve` is a Snakemake **checkpoint**: which archives exist is not known
 until it has run, so the job graph is re-evaluated after it finishes and the

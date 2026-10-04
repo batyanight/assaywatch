@@ -201,7 +201,7 @@ rule degeneracy_table:
     output:
         RESULTS / RUN_DATE / "degeneracy.tsv",
     shell:
-        "python -m assaywatch.degeneracy {REGISTRY} > {output}"
+        "python -m assaywatch.degeneracy {REGISTRY} --tsv > {output}"
 
 
 rule report:

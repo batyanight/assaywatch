@@ -318,6 +318,33 @@ def write_manifest(cfg: dict[str, Any], manifest: dict[str, Any]) -> None:
     os.replace(tmp, p)
 
 
+def acquire_lock(cfg: dict[str, Any]):
+    """Hold an exclusive lock on the retrieval directory until this process exits.
+
+    Two retrievals at once (a scheduled pipeline run and a manual one) would
+    pick the same `.part` names and race on the manifest's read-modify-write,
+    losing runs from it. The second one now stops with a message instead. The
+    lock is released by the OS when the process ends, however it ends.
+    Returns the open lock file; keep a reference to it.
+    """
+    import fcntl
+
+    root = Path(cfg.get("retrieved_dir", "data/retrieved"))
+    root.mkdir(parents=True, exist_ok=True)
+    fh = open(root / ".lock", "w")  # noqa: SIM115 - held for the life of the process
+    try:
+        fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        fh.close()
+        raise SystemExit(
+            f"another retrieval is running on {root} (lock file {root / '.lock'}); "
+            "wait for it to finish, then run again"
+        ) from None
+    fh.write(f"{os.getpid()}\n")
+    fh.flush()
+    return fh
+
+
 def record_run(cfg: dict[str, Any], run: TaxonRun) -> None:
     """Append one run to the manifest.
 
@@ -568,6 +595,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
+    _lock = None if args.dry_run else acquire_lock(cfg)  # noqa: F841 - held until exit
     transport = http_transport(args.email, os.environ.get("NCBI_API_KEY"))
     fetch = None  # Datasets transport, created on first `asm` group
     targets = targets_from_registry(args.paths, cfg)
