@@ -7,7 +7,8 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] YAML schema (pydantic) and validator
 - [x] registry imported from the WCS spreadsheet (138 pathogen assays; 38 host/barcoding/universal primers excluded as out of scope)
 - [ ] 5 assays promoted to `active`: Bd (Boyle 2004), Bsal (Blooi 2013), Oo ITS2 (Bohuski 2015), ranavirus MCP (Pallister 2007), CDV P (Scagliarini 2007)
-- [ ] run `scripts/resolve_citations.py` once; review BAD lines
+- [x] run `scripts/resolve_citations.py` once (2026-10-04): 64 DOIs verified, 21 taxids filled;
+      5 BAD DOIs left for review. `scripts/check_taxids.py` found and fixed 3 wrong taxids
 - [ ] name, license (MIT code / CC-BY registry), IP question asked in writing
 
 ## Phase 1: core pipeline
@@ -32,7 +33,11 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] `drift`: Wilson / Newcombe intervals, minimum-evidence guard, evaluable denominator
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend
-- [ ] parasail gapped local alignment as an option, if indel-containing records turn out to matter
+- [x] indel check (`scripts/indel_check.py`, 2026-10-04): across 69k sampled fail / one-primer
+      no_amplicon calls, a clean single-base indel explains well under 1% of evaluable records
+      for every assay but three. Gapped scoring (parasail) is not worth building. The three
+      outliers are consistent same-position indels across all records, i.e. registry oligo
+      typos, which makes the script a registry QA tool
 
 ## Later
 - assembly-level retrieval for bacterial targets (NCBI Datasets: sample N assemblies per year,
