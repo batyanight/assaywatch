@@ -35,4 +35,8 @@ source:
   positive_control: UC4, Sarcocystis falcatula from clinical case
   nested_round: null
   notes: null
-needs_review: null
+  notes_curator: 'Reverse primer suspected typo (2026-10-04, scripts/indel_check.py): every Sarcocystis record
+    reads GCCATTTGCGTTCAGAAATC, the registry has one extra C (GCGTTCCAG); 98% of evaluable records
+    fail on that one indel. Check P-ITSR against Kutkiene 2010 (not in PMC) before editing seq.'
+needs_review:
+- OLIGO_SEQ_SUSPECT

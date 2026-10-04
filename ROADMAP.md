@@ -6,7 +6,9 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] repo, environment.yml, pre-commit, CI
 - [x] YAML schema (pydantic) and validator
 - [x] registry imported from the WCS spreadsheet (138 pathogen assays; 38 host/barcoding/universal primers excluded as out of scope)
-- [ ] 5 assays promoted to `active`: Bd (Boyle 2004), Bsal (Blooi 2013), Oo ITS2 (Bohuski 2015), ranavirus MCP (Pallister 2007), CDV P (Scagliarini 2007)
+- [ ] 5 assays promoted to `active`: Bd (Boyle 2004) done 2026-10-04 (stable, 100% of 54 recent);
+      Bsal (Blooi 2013) and Oo ITS2 (Bohuski 2015) await their rDNA-query data; ranavirus MCP
+      (Pallister 2007) and CDV P (Scagliarini 2007) were "watch" at ~88%
 - [x] run `scripts/resolve_citations.py` once (2026-10-04): 64 DOIs verified, 21 taxids filled;
       5 BAD DOIs left for review. `scripts/check_taxids.py` found and fixed 3 wrong taxids
 - [ ] name, license (MIT code / CC-BY registry), IP question asked in writing
@@ -35,8 +37,9 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
       genomes per release year, cut to credible amplicon windows
 - [x] screen amplicons on both strands (minus-strand targets were never found)
 - [x] `pair_evalue` per amplicon (chance.py); scoring guard available, off by default
-- [ ] decide `scoring.max_pair_evalue` (see docs/2026-10-04-first-run-review.md)
-- [ ] fix the two registry oligo typos the indel check found (Sarcocystis long rev, Circovirus Mankertz fwd)
+- [x] `scoring.max_pair_evalue: 0.01`; flagged assays split into declining / low coverage (2026-10-04)
+- [ ] check the two suspected oligo typos (Sarcocystis long rev, Circovirus Mankertz fwd) against
+      the papers; flagged OLIGO_SEQ_SUSPECT in the registry
 - [x] optional thermodynamic columns (`screen --thermo`, primer3-py): per-oligo Tm and ΔTm, never scored
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend

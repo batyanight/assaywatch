@@ -29,8 +29,8 @@ citation:
 use_context:
 - wildlife
 - veterinary
-submitted_by: null
-status: draft
+submitted_by: Batya Nightingale
+status: active
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   rows:
@@ -40,5 +40,7 @@ source:
   positive_control: Bd DNA and plasmid, UC6
   nested_round: null
   notes: null
-needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
+  notes_curator: 'Orientation confirmed 2026-10-04: forward ITS1-3 Chytr lies 5'' of reverse 5.8S Chytr in
+    rDNA order, and all 79 detects in short Bd ITS records (deposited 18S->28S) have forward on + and
+    reverse on -. Promoted to active on the 2026-10-04 run: stable, 100% of 54 recent evaluable records.'
+needs_review: null

@@ -36,5 +36,9 @@ source:
   nested_round: round1
   notes:
   - '****DID NOT PICK UP FINCH CIRCOVIRUS***'
+  notes_curator: 'Forward primer suspected typo (2026-10-04, scripts/indel_check.py): records including
+    AF086834 (1998) read GTGTTCAC..., the registry has GTGTTTCAC (one extra T). Check primer 174 against
+    Mankertz 2000 (not in PMC) before editing seq.'
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION
+- OLIGO_SEQ_SUSPECT
