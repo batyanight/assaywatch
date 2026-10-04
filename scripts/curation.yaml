@@ -105,6 +105,14 @@ queries:
   - match: "^INFLUENZA_A"
     # Segment 7 is the matrix segment. Titles follow NCBI's influenza naming scheme.
     query: '"segment 7"[Title] OR ("matrix protein"[Title] AND M[Gene])'
+  # Lineage-specific assays, scoped to the lineage they were designed for
+  # (2026-10-04). Screened against the whole taxon they sat at the bottom of it
+  # in every year, which reads as poor coverage of diversity they never targeted.
+  # More specific entries first: the first matching rule wins.
+  - match: "^RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009$"
+    query: '(pol[Gene] OR polymerase[Title] OR "complete genome"[Title]) AND (SIVcpz OR SIVgor OR chimpanzee OR gorilla OR "Pan troglodytes" OR "Gorilla gorilla")'
+  - match: "^MYCOPLASMA_16S_Turtles_only_Feldman_2006$"
+    query: '(turtle OR tortoise OR Testudines OR Terrapene OR Gopherus OR chelonian OR agassizii OR testudineum OR testudinis) AND (16S OR "ribosomal RNA" OR rRNA)'
   - match: "^RETROVIRUS_RNA_polymerase_SIV"
     query: 'pol[Gene] OR polymerase[Title] OR "complete genome"[Title]'
   - match: "^ENTEROVIRUS_ssRNA_5_UTR"

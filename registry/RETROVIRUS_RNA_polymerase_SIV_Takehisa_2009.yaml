@@ -5,7 +5,7 @@ target:
   gene: polymerase (SIV)
   genome_type: ssRNA-RT
   taxon_name: Simian immunodeficiency virus
-  query: pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
+  query: '(pol[Gene] OR polymerase[Title] OR "complete genome"[Title]) AND (SIVcpz OR SIVgor OR chimpanzee OR gorilla OR "Pan troglodytes" OR "Gorilla gorilla")'
 chemistry: conventional
 oligos:
   forward:
@@ -35,4 +35,5 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'Scoped 2026-10-04 to the SIVcpz/SIVgor lineage it was designed for (Takehisa 2009, SIV in wild western gorillas). Against all SIV it detected 0% in every year: outside its design, not drift.'
 needs_review: null

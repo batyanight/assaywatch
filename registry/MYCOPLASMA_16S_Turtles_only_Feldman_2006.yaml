@@ -5,6 +5,7 @@ target:
   gene: 16S (Turtles only)
   genome_type: dsDNA
   taxon_name: Mycoplasma
+  query: '(turtle OR tortoise OR Testudines OR Terrapene OR Gopherus OR chelonian OR agassizii OR testudineum OR testudinis) AND (16S OR "ribosomal RNA" OR rRNA)'
 chemistry: conventional
 oligos:
   forward:
@@ -34,4 +35,5 @@ source:
   positive_control: Mycoplasma agassizii, UC4
   nested_round: null
   notes: null
+  notes_curator: 'Scoped 2026-10-04 to chelonian mycoplasmas (Feldman 2006: a novel Mycoplasma from Eastern box turtles; the sheet says turtles only). Against the whole genus it detected 0-4% in every year: outside its design, not drift.'
 needs_review: null
