@@ -137,6 +137,8 @@ class Call:
             "probe_ambiguous": amb(self.probe),
             "degeneracy_fold": self.extra.get("degeneracy_fold", ""),
             "degeneracy_tier": self.extra.get("degeneracy_tier", ""),
+            # Present only when screening ran with --thermo; see thermo.py.
+            **self.extra.get("thermo", {}),
             "reason": self.reason,
         }
 
@@ -205,11 +207,13 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
                 continue
             fs = score_primer(f, len(fwd), cfg)
             rs = score_primer(r, len(rev), cfg)
-            ps, reason = None, ""
+            ps, p_site, reason = None, None, ""
             if probe:
                 inside = [p for p in p_sites if p.start >= f.end and p.end <= r.start]
                 if inside:
-                    ps = min((score_probe(p, len(probe), cfg) for p in inside), key=lambda o: o.penalty)
+                    ps, p_site = min(
+                        ((score_probe(p, len(probe), cfg), p) for p in inside), key=lambda x: x[0].penalty
+                    )
                 else:
                     # The primers would amplify but the probe has no binding site:
                     # a qPCR assay that produces product and reports nothing.
@@ -227,6 +231,9 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
                 call = classify(total, fs.terminal_mismatch or rs.terminal_mismatch, cfg)
             cand = Call(assay.id, record_id, call, total, f.start, r.end, length, fs, rs, ps, reason)
             cand.extra["n_ambiguous"] = n_amb
+            # The sites themselves, for anything computed on the winning amplicon
+            # later (thermo.py). Not written to the TSV.
+            cand.extra["sites"] = {"forward": f, "reverse": r, "probe": p_site}
             # Rank by call first (a probe-less amplicon never beats a real one),
             # then by penalty, then by how much of the site was undetermined, so
             # the reported site is the assay's best shot. `indeterminate` ranks

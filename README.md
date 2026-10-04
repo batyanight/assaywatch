@@ -27,9 +27,12 @@ assaywatch/      the package
   drift.py         per-assay proportions with Wilson / Newcombe intervals
   report.py        `python -m assaywatch.report` -> report.md and a standalone report.html
   screen.py        `python -m assaywatch.screen <assays> <fasta>` -> TSV of calls
+  thermo.py        optional duplex Tm / ΔTm columns per oligo (primer3-py); never scored
+  gapped.py        gapped oligo search used only by scripts/indel_check.py; never scored
   fasta.py         minimal FASTA reader
 Snakefile          the pipeline; profiles/slurm/ runs the same rules on a cluster
-scripts/         one-off import of the WCS primer spreadsheet (parse -> curate -> resolve)
+scripts/         one-off import of the WCS primer spreadsheet (parse -> curate -> resolve),
+                 plus registry QA: check_taxids.py (taxid vs NCBI name), indel_check.py
 tests/           pytest; includes "every registry file validates"
 config.yaml      scoring thresholds and paths; no numbers live in code
 data/retrieved/  per-taxon FASTA archives (git-ignored; Phase 1)
@@ -39,7 +42,7 @@ results/         per-run scored tables and reports (git-ignored; Phase 1)
 ## Setup (macOS, conda)
 
 ```bash
-conda env create -f environment.yml
+conda env create -f environment.yml   # primer3-py comes from bioconda; pip cannot build it on arm64
 conda activate assaywatch
 pre-commit install
 pytest -q && python -m assaywatch.validate registry
@@ -180,6 +183,29 @@ opposite G (a real but poor pair), and counts as one molecule. Reading the
 PREDICT filovirus reverse primer from `seq` instead would call it 8192-fold
 degenerate when it is 8-fold: the difference between an unusable assay and a
 working one.
+
+### Thermodynamics are reported, not scored
+
+The mismatch penalty is positional. What a mismatch does to binding depends on
+which mismatch it is and what surrounds it, so `--thermo` (or `thermo: true` in
+config.yaml for the pipeline) adds the primer3 nearest-neighbour Tm of each
+oligo on its actual binding site, and its shift from a perfect site:
+
+| column | meaning |
+|---|---|
+| `fwd_tm`, `rev_tm`, `probe_tm` | duplex Tm (°C) on the record's site |
+| `fwd_dtm`, `rev_dtm`, `probe_dtm` | that Tm minus the same oligo's Tm on a perfect site |
+| `thermo_min_dtm` | the worst ΔTm across the assay's oligos |
+| `thermo_note` | `inosine` when inosine was modelled as the base it faces (an upper bound) |
+
+ΔTm is the column to read: absolute Tm depends on the salt and oligo
+concentrations in `thermo_conditions`, which differ between protocols, and the
+shift caused by the record's mismatches depends on them much less. Degenerate
+positions take the record's base when the pool has it (that pool member is the
+one that amplifies), and undetermined record bases are modelled as matches, as
+in scoring. On the flavivirus archive the median worst ΔTm was −5 °C for
+`detect`, −12 °C for `reduced` and −17 °C for `fail`; the extra columns cost
+no measurable screening time. Calls are identical with or without `--thermo`.
 
 ## Matching
 

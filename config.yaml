@@ -36,6 +36,18 @@ retrieve:
   # that is a known cost, accepted on 2026-10-03.
   large_taxa_allowed: [11320]
 
+# Duplex Tm per oligo on its binding site (assaywatch/thermo.py). Shown beside
+# the call, never scored. Turn on with `thermo: true` here or
+# `--config thermo=true`; needs primer3-py. The conditions below are typical
+# qPCR mastermix values; ΔTm (the column worth reading) depends on them much
+# less than absolute Tm does.
+thermo: false
+thermo_conditions:
+  mv_conc: 50       # mM monovalent cations
+  dv_conc: 3.0      # mM Mg2+
+  dntp_conc: 0.8    # mM total dNTPs
+  dna_conc: 250     # nM oligo
+
 # Degeneracy is never scored; these tiers only annotate how much weight a
 # `detect` call deserves. See assaywatch/degeneracy.py for the rationale.
 degeneracy:

@@ -28,33 +28,39 @@ from typing import Any
 from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.fasta import read_fasta
 from assaywatch.score import load_config, screen_record
+from assaywatch.thermo import annotate
 from assaywatch.validate import iter_files, load_assay
 
 # Set once per worker process by _init_worker, so the assays and config are
 # pickled once per worker rather than once per batch.
-_STATE: tuple[list, dict[str, Any], list] | None = None
+_STATE: tuple[list, dict[str, Any], list, bool] | None = None
 
 
-def _init_worker(assays: list, cfg: dict[str, Any]) -> None:
+def _init_worker(assays: list, cfg: dict[str, Any], thermo: bool = False) -> None:
     global _STATE
     # Degeneracy is a property of the assay, not of any record, and it is
     # never scored. It rides along on every row so that a reader of the TSV
     # cannot see a `detect` without seeing how much the pool was diluted.
     degs = [assay_degeneracy(a) for a in assays]
-    _STATE = (assays, cfg, [(d.total_fold, d.tier(cfg)) for d in degs])
+    _STATE = (assays, cfg, [(d.total_fold, d.tier(cfg)) for d in degs], thermo)
 
 
 def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     """Rows for one batch of records, one list per assay in assay order."""
     assert _STATE is not None, "_init_worker was not called"
-    assays, cfg, degs = _STATE
+    assays, cfg, degs, thermo = _STATE
     out = []
-    for assay, (fold, tier) in zip(assays, degs, strict=False):
+    for assay, (fold, tier) in zip(assays, degs, strict=True):
+        oligos = {"forward": assay.oligos.forward.matching_seq, "reverse": assay.oligos.reverse.matching_seq}
+        if assay.oligos.probe is not None:
+            oligos["probe"] = assay.oligos.probe.matching_seq
         rows = []
         for rid, seq in batch:
             call = screen_record(assay, rid, seq, cfg)
             call.extra["degeneracy_fold"] = fold
             call.extra["degeneracy_tier"] = tier
+            if thermo:
+                call.extra["thermo"] = annotate(call, oligos, cfg)
             rows.append(call.as_row())
         out.append(rows)
     return out
@@ -79,10 +85,11 @@ def screen_records(
     cfg: dict[str, Any],
     workers: int = 1,
     chunk_bp: int = 5_000_000,
+    thermo: bool = False,
 ) -> Iterator[list[list[dict[str, Any]]]]:
     """Yield per-batch results in archive order, serially or from a process pool."""
     if workers <= 1:
-        _init_worker(assays, cfg)
+        _init_worker(assays, cfg, thermo)
         yield from map(_screen_batch, batches(records, chunk_bp))
         return
     # Pool.imap would read the whole archive ahead into its task queue, so batches
@@ -90,7 +97,7 @@ def screen_records(
     # batches however large the archive. imap keeps input order within a window,
     # which is what makes the output independent of N.
     it = batches(records, chunk_bp)
-    with Pool(workers, initializer=_init_worker, initargs=(assays, cfg)) as pool:
+    with Pool(workers, initializer=_init_worker, initargs=(assays, cfg, thermo)) as pool:
         while window := list(islice(it, 4 * workers)):
             yield from pool.imap(_screen_batch, window)
 
@@ -114,6 +121,11 @@ def main(argv: list[str] | None = None) -> int:
         default=5_000_000,
         help="bases per worker batch (default 5,000,000)",
     )
+    ap.add_argument(
+        "--thermo",
+        action="store_true",
+        help="add duplex Tm columns per oligo (needs primer3-py; see assaywatch/thermo.py)",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
@@ -131,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
     fieldnames: list[str] | None = None
     tally: Counter = Counter()
     records = read_fasta(args.fasta)
-    for per_assay in screen_records(assays, records, cfg, args.workers, args.chunk_bp):
+    for per_assay in screen_records(assays, records, cfg, args.workers, args.chunk_bp, args.thermo):
         for assay, rows, spool in zip(assays, per_assay, spools, strict=False):
             if rows and fieldnames is None:
                 fieldnames = list(rows[0])

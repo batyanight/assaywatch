@@ -31,6 +31,7 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] cumulative reports from cached per-archive screens
 - [x] screen large archives across cores (`screen --workers`, byte-identical output); biggest archives first
 - [x] `drift`: Wilson / Newcombe intervals, minimum-evidence guard, evaluable denominator
+- [x] optional thermodynamic columns (`screen --thermo`, primer3-py): per-oligo Tm and ΔTm, never scored
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend
 - [x] indel check (`scripts/indel_check.py`, 2026-10-04): across 69k sampled fail / one-primer
@@ -43,6 +44,5 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - assembly-level retrieval for bacterial targets (NCBI Datasets: sample N assemblies per year,
   extract the locus); nuccore gene-level deposits stop at roughly 2012 for enteric bacteria
   and the WGS contigs that replaced them are excluded from retrieval by title
-- optional thermodynamic score column (primer3-py)
 - SLURM executor profile for Greene
 - contributor template, two-week review promise

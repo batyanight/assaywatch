@@ -5,6 +5,7 @@ channels:
 dependencies:
   - python=3.12
   - numpy
+  - primer3-py      # optional: thermodynamic columns (bioconda)
   - pydantic>=2
   - pyyaml
   - requests

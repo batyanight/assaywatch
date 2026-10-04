@@ -43,6 +43,7 @@ REGISTRY = config.get("registry_dir", "registry")
 TODAY = date.today().isoformat()
 RUN_DATE = config.get("run_date") or TODAY  # names the report folder only
 SCREEN_MB_PER_THREAD = config.get("screen_mb_per_thread", 25)  # gzipped MB per screening worker
+THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
 
 # {(taxid, group): {"name", "query", "assays"}} from the registry as it stands.
 GROUPS = targets_from_registry([Path(REGISTRY)])
@@ -112,6 +113,8 @@ rule screen_archive:
         # A params change re-triggers the job, so adding an assay to a group
         # rescreens that group's archives on the next run.
         only=lambda wc: ",".join(sorted(GROUPS[(int(wc.taxid), wc.group)]["assays"])),
+        # Turning thermo on or off changes the params, so cached screens are redone.
+        thermo="--thermo" if THERMO else "",
     # Screening time grows with archive size, and one 775 MB poxvirus archive
     # used to run alone on one core long after everything else had finished.
     # Big archives get more workers (Snakemake caps this at --cores), and
@@ -123,7 +126,7 @@ rule screen_archive:
         runtime=240,
     shell:
         "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} "
-        "--workers {threads} -o {output.calls}"
+        "--workers {threads} {params.thermo} -o {output.calls}"
 
 
 rule collect_calls:
