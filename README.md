@@ -88,6 +88,11 @@ python -m assaywatch.screen registry/CHYTRID_Bd_Internal_transcribes_spa_Boyle_2
     tests/fixtures/records.fasta -o calls.tsv
 ```
 
+`--workers N` screens one archive across N processes; the output is byte for
+byte the same as with one worker (assays in registry order, records in archive
+order), and memory stays at a few batches of `--chunk-bp` bases however large
+the archive is.
+
 One row per (assay, record) with the call, the total penalty, the amplicon
 coordinates, and each oligo's mismatches expressed as distance from its 3' end
 (1 = the terminal base). Four calls:
@@ -224,6 +229,11 @@ caffeinate -i snakemake --cores 4 --config email=you@nyu.edu
 Five stages: validate the registry, retrieve what is new for each group,
 screen every archive not yet screened, collect, report. `caffeinate -i` keeps a
 Mac from idle-sleeping until the run ends.
+
+**Big archives go first and get more cores.** Each screen job takes one worker
+per `screen_mb_per_thread` (default 25) gzipped MB, capped by `--cores`, and
+its priority is its size, so the largest archive starts first instead of
+running alone on one core after everything else has finished.
 
 **Reports are cumulative.** Every archive ever fetched is screened once and the
 result is cached under `results/screened/<taxid>/<group>/<archive>.tsv`. Each

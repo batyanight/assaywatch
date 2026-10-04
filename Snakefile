@@ -27,6 +27,7 @@
 # run, so the job graph is re-evaluated after it finishes.
 
 import json
+import os
 from datetime import date
 from pathlib import Path
 
@@ -41,6 +42,7 @@ SCREENED = RESULTS / "screened"
 REGISTRY = config.get("registry_dir", "registry")
 TODAY = date.today().isoformat()
 RUN_DATE = config.get("run_date") or TODAY  # names the report folder only
+SCREEN_MB_PER_THREAD = config.get("screen_mb_per_thread", 25)  # gzipped MB per screening worker
 
 # {(taxid, group): {"name", "query", "assays"}} from the registry as it stands.
 GROUPS = targets_from_registry([Path(REGISTRY)])
@@ -94,6 +96,12 @@ def archives(wildcards):
     return out
 
 
+def archive_mb(input):
+    """Gzipped size of the archive. input.size_mb is async in Snakemake 9 and
+    cannot be used for threads or priority, so read the size directly."""
+    return os.path.getsize(input.fasta) / 1e6
+
+
 rule screen_archive:
     """Score one archive against the assays that requested its group. Cached across runs."""
     input:
@@ -104,12 +112,18 @@ rule screen_archive:
         # A params change re-triggers the job, so adding an assay to a group
         # rescreens that group's archives on the next run.
         only=lambda wc: ",".join(sorted(GROUPS[(int(wc.taxid), wc.group)]["assays"])),
-    threads: 1
+    # Screening time grows with archive size, and one 775 MB poxvirus archive
+    # used to run alone on one core long after everything else had finished.
+    # Big archives get more workers (Snakemake caps this at --cores), and
+    # start first, so the long pole is not left until last.
+    threads: lambda wc, input: max(1, min(16, int(archive_mb(input) // SCREEN_MB_PER_THREAD)))
+    priority: lambda wc, input: int(archive_mb(input))
     resources:
-        mem_mb=2000,
+        mem_mb=lambda wc, input, threads: 2000 + 500 * threads,
         runtime=240,
     shell:
-        "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} -o {output.calls}"
+        "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} "
+        "--workers {threads} -o {output.calls}"
 
 
 rule collect_calls:

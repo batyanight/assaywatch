@@ -28,7 +28,7 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] manifest is state, not a Snakemake output (it was being deleted each run); atomic writes;
       archives never overwritten; `scripts/rebuild_manifest.py`
 - [x] cumulative reports from cached per-archive screens
-- [ ] screen large archives across cores (split the FASTA inside `screen`); order jobs biggest-first
+- [x] screen large archives across cores (`screen --workers`, byte-identical output); biggest archives first
 - [x] `drift`: Wilson / Newcombe intervals, minimum-evidence guard, evaluable denominator
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend

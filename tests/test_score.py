@@ -244,3 +244,42 @@ def test_screen_output_appears_only_when_complete(tmp_path):
         check=True,
     )
     assert out.exists() and not list(tmp_path.glob(".*.part"))
+
+
+def _screen_cli(out, *extra):
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "assaywatch.screen",
+            str(ROOT / "registry"),
+            str(FIX / "records.fasta"),
+            "--only",
+            ",".join(sorted(ASSAYS)),
+            "-o",
+            str(out),
+            *extra,
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return out.read_bytes()
+
+
+def test_screen_workers_do_not_change_the_output(tmp_path):
+    """Parallel screening is an implementation detail: same bytes for any worker count or batch size."""
+    serial = _screen_cli(tmp_path / "serial.tsv")
+    # A tiny batch size forces many batches, so ordering across workers is exercised.
+    parallel = _screen_cli(tmp_path / "parallel.tsv", "--workers", "3", "--chunk-bp", "2000")
+    assert parallel == serial
+    assert serial.count(b"\n") == len(RECORDS) * len(ASSAYS) + 1
+
+
+def test_batches_cover_every_record_in_order():
+    from assaywatch.screen import batches
+
+    recs = [(f"r{i}", "A" * (i + 1)) for i in range(20)]
+    got = list(batches(recs, 30))
+    assert [r for b in got for r in b] == recs
+    assert all(sum(len(s) for _, s in b) >= 30 for b in got[:-1])
