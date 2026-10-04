@@ -112,3 +112,15 @@ each record's title if the drift window should ever use it instead.
 
 The cached screens predate the strand fix and the corrected taxids, so the
 pipeline was rerun on 2026-10-04 with everything above (log: `snakemake4.txt`).
+
+## Decisions taken (2026-10-04, evening)
+
+All six recommendations accepted. Decisions 1, 2, 4, 5 and 6 are done
+(`7ad6306`, `fbde41e`, `d407345`, `880252c`). For decision 3, the papers are not
+in PMC, so both entries are flagged `OLIGO_SEQ_SUSPECT` instead of edited
+(`6fe0afd`). Bd Boyle 2004 promoted to `active`.
+
+Final rerun (21 min, log `snakemake5.txt`): **134 assays: 27 declining,
+37 low coverage, 5 watch, 20 insufficient data, 6 no recent data, 39 stable.**
+Boyle 2004 stable. Bsal and Ophidiomyces ITS2 have too few rDNA records to judge
+(12 and 196 fetched): for these the coverage gap is the finding.
