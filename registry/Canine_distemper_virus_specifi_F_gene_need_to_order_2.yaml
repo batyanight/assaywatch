@@ -10,9 +10,11 @@ oligos:
   forward:
     name: cdvFsal1F
     seq: GGATGTCGACATGCACAAGGAAATCC
+    tail_5prime: GGATGTCGAC
   reverse:
     name: cdvFnotR
     seq: GGATGCGGCCGCTCAGAGTGATCTTACATAG
+    tail_5prime: GGATGCGGCCGC
 amplicon_bp: null
 citation:
   doi: null
@@ -34,6 +36,8 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: Cloning primers. GGAT clamp + SalI (fwd) / NotI (rev) 5' tails marked as tail_5prime;
+    matching uses the binding part only (2026-10-04; 0 of 3990 CDV records matched with the tails).
 needs_review:
 - DOI_MISSING
 - NEED_TO_ORDER

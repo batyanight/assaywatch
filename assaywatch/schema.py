@@ -58,6 +58,10 @@ class Oligo(Strict):
     name: str | None = None
     seq: str
     seq_as_written: str | None = None  # keeps inosine if the original had it
+    # 5' bases that do not bind the target: a restriction site and clamp on a
+    # cloning primer, an M13 or adapter tail. Part of `seq` as ordered, left out
+    # of matching_seq, because a tail mismatches every record by design.
+    tail_5prime: str | None = None
     orientation: Literal["forward", "reverse", "probe"] | None = None  # only used in `alternates`
 
     @property
@@ -68,7 +72,10 @@ class Oligo(Strict):
         G, which inosine barely does, and would be counted as a 4-fold
         degenerate position, which it is not.
         """
-        return (self.seq_as_written or self.seq).upper()
+        s = (self.seq_as_written or self.seq).upper()
+        if self.tail_5prime:
+            s = s[len(self.tail_5prime) :]
+        return s
 
     @field_validator("seq_as_written")
     @classmethod
@@ -80,6 +87,17 @@ class Oligo(Strict):
             bad = sorted(set(v) - set("ACGTURYSWKMBDHVNI"))
             raise ValueError(f"non-IUPAC characters {bad}")
         return v
+
+    @model_validator(mode="after")
+    def tail_is_a_prefix(self) -> Oligo:
+        if self.tail_5prime is not None:
+            t = self.tail_5prime.strip().upper()
+            if not self.seq.startswith(t):
+                raise ValueError(f"tail_5prime {t} is not the 5' end of seq {self.seq}")
+            if len(self.seq) - len(t) < OLIGO_MIN:
+                raise ValueError("binding part shorter than the minimum oligo length after the tail")
+            self.tail_5prime = t
+        return self
 
     @field_validator("seq")
     @classmethod

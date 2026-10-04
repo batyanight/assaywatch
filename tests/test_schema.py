@@ -115,3 +115,20 @@ def test_unknown_key_rejected():
 def test_amplicon_range():
     with pytest.raises(ValidationError):
         Assay.model_validate(variant(amplicon_bp=20))
+
+
+def test_tail_is_left_out_of_matching():
+    from assaywatch.schema import Oligo
+
+    o = Oligo(seq="GGATGTCGACATGCACAAGGAAATCC", tail_5prime="ggatgtcgac")
+    assert o.matching_seq == "ATGCACAAGGAAATCC"
+
+
+def test_tail_must_be_the_five_prime_end():
+    import pytest
+    from pydantic import ValidationError
+
+    from assaywatch.schema import Oligo
+
+    with pytest.raises(ValidationError):
+        Oligo(seq="GGATGTCGACATGCACAAGGAAATCC", tail_5prime="GTCGAC")
