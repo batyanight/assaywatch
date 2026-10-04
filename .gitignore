@@ -8,3 +8,6 @@ data/retrieved/*
 results/*
 !results/.gitkeep
 out/
+
+# Snakemake working state (locks, metadata, logs)
+.snakemake/
