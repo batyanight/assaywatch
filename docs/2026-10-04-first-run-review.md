@@ -124,3 +124,17 @@ Final rerun (21 min, log `snakemake5.txt`): **134 assays: 27 declining,
 37 low coverage, 5 watch, 20 insufficient data, 6 no recent data, 39 stable.**
 Boyle 2004 stable. Bsal and Ophidiomyces ITS2 have too few rDNA records to judge
 (12 and 196 fetched): for these the coverage gap is the finding.
+
+## Follow-up (2026-10-04, late)
+
+* **Sarcocystis P-ITSR corrected** (`612a8f7`): the extra C came from the
+  spreadsheet. The same group prints `GCCATTTGCGTTCAGAAATC` in two open-access
+  papers (10.3390/pathogens15070709, 10.1186/s13071-018-2694-y), and every
+  record reads it. The assay goes from 98% failing to 96% detected.
+* **Circovirus Mankertz round 1 forward** is still flagged `OLIGO_SEQ_SUSPECT`:
+  no open-access paper prints it, so it needs the 2000 paper.
+* Full audit of the codebase (four parallel reviewers, each finding reproduced
+  before fixing): crash and lost-site bugs in matching, PDB date joins, the
+  recent window, retrieval error handling, automatic rescreening, a
+  concurrent-run lock, and screening about 5x faster with byte-identical output.
+  See the commits from `17620d1` to `831e693`.
