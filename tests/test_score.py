@@ -283,3 +283,16 @@ def test_batches_cover_every_record_in_order():
     got = list(batches(recs, 30))
     assert [r for b in got for r in b] == recs
     assert all(sum(len(s) for _, s in b) >= 30 for b in got[:-1])
+
+
+@pytest.mark.parametrize("row", MANIFEST, ids=[r["record_id"] for r in MANIFEST])
+def test_call_does_not_depend_on_record_orientation(row):
+    """A record read antisense, or a minus-strand gene in a genome, is the same target."""
+    assay = ASSAYS[row["assay_id"]]
+    seq = RECORDS[row["record_id"]]
+    fwd = screen_record(assay, row["record_id"], seq, CFG)
+    rev = screen_record(assay, row["record_id"], reverse_complement(seq), CFG)
+    assert (rev.call, rev.penalty, rev.amplicon_bp) == (fwd.call, fwd.penalty, fwd.amplicon_bp)
+    if fwd.amplicon_start is not None:
+        # Same bases, mirrored coordinates.
+        assert rev.amplicon_start == len(seq) - fwd.amplicon_end

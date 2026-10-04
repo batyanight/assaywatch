@@ -165,12 +165,16 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
 def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, Any]) -> Call:
     """Best-scoring amplicon for `assay` in one record, or no_amplicon.
 
-    Geometry rule: a forward site on the plus strand must lie upstream of a
-    reverse site on the minus strand, and the span between the outermost
-    bases must fall inside the configured amplicon range. If a probe is
-    defined it must sit entirely inside that span (either strand); an
-    amplicon with no probe site is scored as if the probe mismatched everywhere.
-    Of all valid pairs the lowest total penalty wins.
+    Geometry rule: the forward and reverse sites must face each other on
+    opposite strands, and the span between the outermost bases must fall
+    inside the configured amplicon range. The amplicon may lie on either strand
+    of the record: forward on plus upstream of reverse on minus, or forward on
+    minus downstream of reverse on plus. The second case is a target read in
+    the other direction, which is every minus-strand gene of a genome record
+    and any record deposited antisense; coordinates are reported on the plus
+    strand either way. If a probe is defined it must sit entirely inside the
+    span between the primers (either strand); an amplicon with no probe site is
+    a fail. Of all valid pairs the best call, then the lowest penalty, wins.
     """
     amp = cfg["amplicon"]
     max_mm = int(cfg["scoring"].get("max_mismatches_searched", 6))
@@ -187,70 +191,81 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
     def best(sites: list[Site]) -> list[Site]:
         return sorted(sites, key=lambda x: (x.n_mismatches, x.n_ambiguous, x.start))[:keep]
 
-    f_sites = best([s for s in find_sites(fwd, record_seq, max_mm) if s.strand == "+"])
-    r_sites = best([s for s in find_sites(rev, record_seq, max_mm) if s.strand == "-"])
-    if not f_sites or not r_sites:
-        which = "forward" if not f_sites else "reverse"
-        if not f_sites and not r_sites:
+    f_all = find_sites(fwd, record_seq, max_mm)
+    r_all = find_sites(rev, record_seq, max_mm)
+    if not f_all or not r_all:
+        which = "forward" if not f_all else "reverse"
+        if not f_all and not r_all:
             which = "forward and reverse"
         return Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
 
     p_sites = best(find_sites(probe, record_seq, max_mm)) if probe else []
 
+    # Candidate (forward, reverse, amplicon start, amplicon end, inner start, inner end)
+    # in both orientations; `inner` is the stretch between the primers, where a probe must sit.
+    pairs = []
+    f_plus, f_minus = best([s for s in f_all if s.strand == "+"]), best([s for s in f_all if s.strand == "-"])
+    r_plus, r_minus = best([s for s in r_all if s.strand == "+"]), best([s for s in r_all if s.strand == "-"])
+    for f in f_plus:
+        for r in r_minus:
+            if r.start > f.start:
+                pairs.append((f, r, f.start, r.end, f.end, r.start))
+    for f in f_minus:
+        for r in r_plus:
+            if f.start > r.start:
+                pairs.append((f, r, r.start, f.end, r.end, f.start))
+
     best: Call | None = None
-    for f in f_sites:
-        for r in r_sites:
-            if r.start <= f.start:
-                continue
-            length = r.end - f.start
-            if not amp["min_bp"] <= length <= amp["max_bp"]:
-                continue
-            fs = score_primer(f, len(fwd), cfg)
-            rs = score_primer(r, len(rev), cfg)
-            ps, p_site, reason = None, None, ""
-            if probe:
-                inside = [p for p in p_sites if p.start >= f.end and p.end <= r.start]
-                if inside:
-                    ps, p_site = min(
-                        ((score_probe(p, len(probe), cfg), p) for p in inside), key=lambda x: x[0].penalty
-                    )
-                else:
-                    # The primers would amplify but the probe has no binding site:
-                    # a qPCR assay that produces product and reports nothing.
-                    # This is a fail on its own terms, not a large penalty.
-                    reason = "no probe site inside amplicon"
-            total = fs.penalty + rs.penalty + (ps.penalty if ps else 0.0)
-            scores = [o for o in (fs, rs, ps) if o is not None]
-            n_amb = sum(len(o.ambiguous) for o in scores)
-            if too_ambiguous(scores, cfg):
-                call = "indeterminate"
-                reason = reason or f"{n_amb} undetermined record bases under the oligos"
-            elif reason:
-                call = "fail"
+    for f, r, amp_start, amp_end, inner_lo, inner_hi in pairs:
+        length = amp_end - amp_start
+        if not amp["min_bp"] <= length <= amp["max_bp"]:
+            continue
+        fs = score_primer(f, len(fwd), cfg)
+        rs = score_primer(r, len(rev), cfg)
+        ps, p_site, reason = None, None, ""
+        if probe:
+            inside = [p for p in p_sites if p.start >= inner_lo and p.end <= inner_hi]
+            if inside:
+                ps, p_site = min(
+                    ((score_probe(p, len(probe), cfg), p) for p in inside), key=lambda x: x[0].penalty
+                )
             else:
-                call = classify(total, fs.terminal_mismatch or rs.terminal_mismatch, cfg)
-            cand = Call(assay.id, record_id, call, total, f.start, r.end, length, fs, rs, ps, reason)
-            cand.extra["n_ambiguous"] = n_amb
-            # The sites themselves, for anything computed on the winning amplicon
-            # later (thermo.py). Not written to the TSV.
-            cand.extra["sites"] = {"forward": f, "reverse": r, "probe": p_site}
-            # Rank by call first (a probe-less amplicon never beats a real one),
-            # then by penalty, then by how much of the site was undetermined, so
-            # the reported site is the assay's best shot. `indeterminate` ranks
-            # last: a site we can actually judge, even a failing one, is more
-            # informative than one hidden behind ambiguity codes, and an N-run
-            # elsewhere in the record must not masquerade as a clean amplicon.
-            rank = {"detect": 0, "reduced": 1, "fail": 2, "indeterminate": 3}
-            key = (rank[call], total, n_amb)
-            best_key = (rank[best.call], best.penalty, best.extra.get("n_ambiguous", 0)) if best else None
-            if best is None or key < best_key:
-                best = cand
+                # The primers would amplify but the probe has no binding site:
+                # a qPCR assay that produces product and reports nothing.
+                # This is a fail on its own terms, not a large penalty.
+                reason = "no probe site inside amplicon"
+        total = fs.penalty + rs.penalty + (ps.penalty if ps else 0.0)
+        scores = [o for o in (fs, rs, ps) if o is not None]
+        n_amb = sum(len(o.ambiguous) for o in scores)
+        if too_ambiguous(scores, cfg):
+            call = "indeterminate"
+            reason = reason or f"{n_amb} undetermined record bases under the oligos"
+        elif reason:
+            call = "fail"
+        else:
+            call = classify(total, fs.terminal_mismatch or rs.terminal_mismatch, cfg)
+        cand = Call(assay.id, record_id, call, total, amp_start, amp_end, length, fs, rs, ps, reason)
+        cand.extra["n_ambiguous"] = n_amb
+        # The sites themselves, for anything computed on the winning amplicon
+        # later (thermo.py). Not written to the TSV.
+        cand.extra["sites"] = {"forward": f, "reverse": r, "probe": p_site}
+        # Rank by call first (a probe-less amplicon never beats a real one),
+        # then by penalty, then by how much of the site was undetermined, so
+        # the reported site is the assay's best shot. `indeterminate` ranks
+        # last: a site we can actually judge, even a failing one, is more
+        # informative than one hidden behind ambiguity codes, and an N-run
+        # elsewhere in the record must not masquerade as a clean amplicon.
+        rank = {"detect": 0, "reduced": 1, "fail": 2, "indeterminate": 3}
+        key = (rank[call], total, n_amb)
+        best_key = (rank[best.call], best.penalty, best.extra.get("n_ambiguous", 0)) if best else None
+        if best is None or key < best_key:
+            best = cand
 
     if best is None:
         return Call(
             assay.id,
             record_id,
             "no_amplicon",
-            reason=f"sites found but no pair in orientation within {amp['min_bp']}-{amp['max_bp']} bp",
+            reason=f"sites found but no facing pair within {amp['min_bp']}-{amp['max_bp']} bp",
         )
     return best
