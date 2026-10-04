@@ -27,6 +27,8 @@
 # run, so the job graph is re-evaluated after it finishes.
 
 import json
+import hashlib
+import json
 import os
 from datetime import date
 from pathlib import Path
@@ -48,10 +50,39 @@ THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
 # {(taxid, group): {"name", "query", "assays"}} from the registry as it stands.
 GROUPS = targets_from_registry([Path(REGISTRY)], config)
 
+# What a cached screen depends on besides its archive: the group's assay files,
+# the scoring settings and the screening code. Its hash is a param of
+# screen_archive, so editing an assay, changing a threshold or upgrading the
+# matcher rescreens exactly the archives affected, with no `-R` to remember.
+_CODE = ("score.py", "match.py", "iupac.py", "chance.py", "screen.py", "thermo.py", "degeneracy.py", "fasta.py")
+_SCREEN_CFG = {k: config.get(k) for k in ("scoring", "amplicon", "degeneracy", "thermo_conditions")}
+_code_hash = hashlib.sha1(
+    b"".join((Path(workflow.basedir) / "assaywatch" / f).read_bytes() for f in _CODE)
+    + json.dumps(_SCREEN_CFG, sort_keys=True, default=str).encode()
+).hexdigest()
+
+
+def screen_signature(taxid, group):
+    h = hashlib.sha1(_code_hash.encode())
+    for aid in sorted(GROUPS[(taxid, group)]["assays"]):
+        h.update((Path(REGISTRY) / f"{aid}.yaml").read_bytes())
+    return h.hexdigest()[:16]
+
+
+def stem_order(path):
+    """`2026-10-04` < `2026-10-04_2` < `2026-10-04_10`: archive names in fetch order."""
+    stem = path.name.split(".")[0]
+    day, _, n = stem.partition("_")
+    return (day, int(n or 1))
+
 wildcard_constraints:
     taxid=r"\d+",
     group=r"all|asm|q[0-9a-f]{10}",
     stem=r"\d{4}-\d{2}-\d{2}(_\d+)?",
+
+
+# Retrieval needs the internet, which cluster compute nodes often lack.
+localrules: retrieve
 
 
 rule all:
@@ -80,10 +111,11 @@ checkpoint retrieve:
         RESULTS / RUN_DATE / ".registry-valid",
     output:
         run=RETRIEVED / "runs" / f"{TODAY}.json",
-    params:
-        email=EMAIL,
+    # The email is read from config in the command, not passed as a param: a
+    # params change reruns the rule, and a different contact address is no
+    # reason to fetch again.
     shell:
-        "python -m assaywatch.retrieve {REGISTRY} --email {params.email} --run-record {output.run}"
+        "python -m assaywatch.retrieve {REGISTRY} --email {EMAIL} --run-record {output.run}"
 
 
 def archives(wildcards):
@@ -91,7 +123,7 @@ def archives(wildcards):
     checkpoints.retrieve.get()
     out = []
     for (taxid, group) in sorted(GROUPS):
-        for fasta in sorted((RETRIEVED / str(taxid) / group).glob("*.fasta.gz")):
+        for fasta in sorted((RETRIEVED / str(taxid) / group).glob("*.fasta.gz"), key=stem_order):
             stem = fasta.name[: -len(".fasta.gz")]
             out.append(SCREENED / str(taxid) / group / f"{stem}.tsv")
     return out
@@ -115,6 +147,7 @@ rule screen_archive:
         only=lambda wc: ",".join(sorted(GROUPS[(int(wc.taxid), wc.group)]["assays"])),
         # Turning thermo on or off changes the params, so cached screens are redone.
         thermo="--thermo" if THERMO else "",
+        signature=lambda wc: screen_signature(int(wc.taxid), wc.group),
     # Screening time grows with archive size, and one 775 MB poxvirus archive
     # used to run alone on one core long after everything else had finished.
     # Big archives get more workers (Snakemake caps this at --cores), and
@@ -136,19 +169,29 @@ rule collect_calls:
     output:
         RESULTS / RUN_DATE / "calls.tsv.gz",
     run:
+        import csv
         import gzip
 
-        with gzip.open(output[0], "wt") as out:
-            header_written = False
-            for path in input:
-                with open(path) as fh:
-                    header = next(fh, None)
-                    if header is None:
-                        continue
-                    if not header_written:
-                        out.write(header)
-                        header_written = True
-                    out.writelines(fh)
+        # Screens made at different times can differ in columns (with or without
+        # --thermo, before or after a column was added). Plain concatenation would
+        # shift those rows a column sideways; rows are written by column name.
+        headers = []
+        for path in input:
+            with open(path) as fh:
+                headers.append(next(fh, "").rstrip("\r\n").split("\t"))
+        columns = []
+        for h in headers:
+            columns += [c for c in h if c and c not in columns]
+        with gzip.open(output[0], "wt", newline="") as out:
+            out.write("\t".join(columns) + "\n")
+            for path, header in zip(input, headers):
+                with open(path, newline="") as fh:
+                    next(fh, None)
+                    if header == columns:
+                        out.writelines(fh)  # the usual case: same columns, copy as is
+                    else:
+                        w = csv.DictWriter(out, columns, delimiter="\t", restval="", lineterminator="\r\n")
+                        w.writerows(csv.DictReader(fh, fieldnames=header, delimiter="\t"))
 
 
 rule degeneracy_table:

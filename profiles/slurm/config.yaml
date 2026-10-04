@@ -38,6 +38,7 @@ set-resources:
   retrieve:
     - runtime=720
     - mem_mb=2000
+  # screen_archive sets mem_mb itself, scaled with its threads; a flat value
+  # here would override that and starve the 16-worker jobs.
   screen_archive:
-    - mem_mb=4000
     - runtime=240
