@@ -52,23 +52,23 @@ exclude:
 # against; that is a coverage cost, not a scoring error.
 queries:
   - match: "^LEPTOSPIROSIS"
-    query: '(flaB[Gene] OR flagellin[Title] OR "flaB"[Title]) AND 1:30000[SLEN]'
+    query: '(flaB[Gene] OR flagellin[Title] OR "flaB"[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^Helicobacter"
-    query: '("16S ribosomal RNA"[Title] OR "16S rRNA"[Title] OR 16S[Title]) AND 1:30000[SLEN]'
+    query: '("16S ribosomal RNA"[Title] OR "16S rRNA"[Title] OR 16S[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^E_coli_ETEC_enterotoxin_LT"
-    query: '(eltA[Gene] OR eltB[Gene] OR elt[Gene] OR "heat-labile enterotoxin"[Title] OR "LT toxin"[Title]) AND 1:30000[SLEN]'
+    query: '(eltA[Gene] OR eltB[Gene] OR elt[Gene] OR "heat-labile enterotoxin"[Title] OR "LT toxin"[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^E_coli_O157_H7_hlyA"
-    query: '(hlyA[Gene] OR ehxA[Gene] OR "EHEC hemolysin"[Title] OR "enterohemolysin"[Title] OR "hlyA"[Title]) AND 1:30000[SLEN]'
+    query: '(hlyA[Gene] OR ehxA[Gene] OR "EHEC hemolysin"[Title] OR "enterohemolysin"[Title] OR "hlyA"[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^E_coli_malB"
     # "maltose"[Title] was dropped: it pulled in every maltose-binding-protein
     # construct. The malB promoter sits between malE and malK, hence both.
-    query: '(malB[Gene] OR malE[Gene] OR malK[Gene] OR "malB"[Title] OR "malE-malK"[Title]) AND 1:30000[SLEN]'
+    query: '(malB[Gene] OR malE[Gene] OR malK[Gene] OR "malB"[Title] OR "malE-malK"[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^Shigella_ipah"
-    query: '(ipaH[Gene] OR "invasion plasmid antigen"[Title] OR ipaH[Title]) AND 1:30000[SLEN]'
+    query: '(ipaH[Gene] OR "invasion plasmid antigen"[Title] OR ipaH[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^Yersinia_enterocolitica"
-    query: '(yst[Gene] OR ystA[Gene] OR "heat-stable enterotoxin"[Title] OR yst[Title]) AND 1:30000[SLEN]'
+    query: '(yst[Gene] OR ystA[Gene] OR "heat-stable enterotoxin"[Title] OR yst[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^Yersinia_pseudotuberculosis"
-    query: '(inv[Gene] OR invasin[Title]) AND 1:30000[SLEN]'
+    query: '(inv[Gene] OR invasin[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^Entamoeba"
     query: '18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title] OR "ribosomal RNA"[Title]'
   - match: "^Apicoplast"
@@ -105,7 +105,7 @@ queries:
   - match: "^ENTEROVIRUS_ssRNA_VP3_VP1"
     query: 'VP1[Gene] OR VP1[Title] OR VP3[Gene] OR "complete genome"[Title]'
   - match: "^Salmonella_invA"
-    query: '(invA[Gene] OR "invasion protein"[Title] OR invA[Title]) AND 1:30000[SLEN]'
+    query: '(invA[Gene] OR "invasion protein"[Title] OR invA[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
 
 targets:
   # ---- fungi ----

@@ -30,6 +30,9 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [ ] parasail gapped local alignment as an option, if indel-containing records turn out to matter
 
 ## Later
+- assembly-level retrieval for bacterial targets (NCBI Datasets: sample N assemblies per year,
+  extract the locus); nuccore gene-level deposits stop at roughly 2012 for enteric bacteria
+  and the WGS contigs that replaced them are excluded from retrieval by title
 - optional thermodynamic score column (primer3-py)
 - SLURM executor profile for Greene
 - contributor template, two-week review promise

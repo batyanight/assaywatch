@@ -1,0 +1,13 @@
+11 retrieval groups from 13 assays
+       171  Leptospira                         [q1d8665b6b8] full              784 avail  dry run
+       209  Helicobacter                       [q0202a8e51e] full             2985 avail  dry run
+SKIP  562/q7ce4e46207: taxid 562 (Escherichia coli) group q7ce4e46207 has 292468 records, over the cap of 100000. Add 562 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+SKIP  562/qa2eb9981fe: taxid 562 (Escherichia coli) group qa2eb9981fe has 135886 records, over the cap of 100000. Add 562 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+       562  Escherichia coli                   [qe54b9316bf] full             3090 avail  dry run
+       620  Shigella                           [qc8865f026e] full              464 avail  dry run
+       630  Yersinia enterocolitica            [q25c975c854] full             1680 avail  dry run
+       633  Yersinia pseudotuberculosis        [q60ca3b2df1] full              207 avail  dry run
+      5794  Apicomplexa                        [q0763ce7f8d] full            56094 avail  dry run
+      5794  Apicomplexa                        [q0effdf8bcd] full              329 avail  dry run
+SKIP  28901/qe5d12e7b1d: taxid 28901 (Salmonella enterica) group qe5d12e7b1d has 105389 records, over the cap of 100000. Add 28901 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+3 groups skipped for size
