@@ -23,7 +23,12 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] first live NCBI dry run (2026-10-03): 28 taxa fetchable whole, 19 needed gene-targeted queries
 - [x] first live fetch (2026-10-03): 25 taxa, ~470k records, 1.1 GB; fixed dropped connections on genome-sized pages and expired history handles
 - [x] gene-targeted retrieval groups; per-group screening
-- [ ] dry-run the 19 gene-targeted groups and decide which to opt past the cap
+- [x] dry-run the gene-targeted groups; WGS contigs excluded for bacteria; influenza opted in
+- [x] first full pipeline run (2026-10-03/04): N-gaps in scaffolds made pairing cubic; fixed
+- [x] manifest is state, not a Snakemake output (it was being deleted each run); atomic writes;
+      archives never overwritten; `scripts/rebuild_manifest.py`
+- [x] cumulative reports from cached per-archive screens
+- [ ] screen large archives across cores (split the FASTA inside `screen`); order jobs biggest-first
 - [x] `drift`: Wilson / Newcombe intervals, minimum-evidence guard, evaluable denominator
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend

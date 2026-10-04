@@ -295,12 +295,26 @@ def last_run_date(manifest: dict[str, Any], taxid: int, group: str = "all") -> s
     return max(dates).replace("-", "/") if dates else None
 
 
-def record_run(cfg: dict[str, Any], run: TaxonRun) -> None:
+def write_manifest(cfg: dict[str, Any], manifest: dict[str, Any]) -> None:
+    """Replace the manifest atomically, so an interruption can never leave half a file."""
     p = manifest_path(cfg)
     p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_name(f".{p.name}.part")
+    tmp.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    os.replace(tmp, p)
+
+
+def record_run(cfg: dict[str, Any], run: TaxonRun) -> None:
+    """Append one run to the manifest.
+
+    The manifest is long-lived state, not the output of any one pipeline
+    step. A workflow manager must never be told it owns this file: Snakemake
+    deletes a rule's outputs before running it, which is how the first two
+    pipeline runs each erased the fetch history and refetched everything.
+    """
     manifest = load_manifest(cfg)
     manifest["runs"].append(asdict(run))
-    p.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    write_manifest(cfg, manifest)
 
 
 # --------------------------------------------------------------------------
@@ -330,6 +344,15 @@ def targets_from_registry(paths: list[Path]) -> dict[tuple[int, str], dict[str, 
             )
             slot["assays"].append(assay.id)
     return out
+
+
+def archive_stem(out_dir: Path, run_date: str) -> str:
+    """`2026-10-04`, or `2026-10-04_2`, `_3`... if that name is already taken."""
+    stem, n = run_date, 1
+    while (out_dir / f"{stem}.fasta.gz").exists():
+        n += 1
+        stem = f"{run_date}_{n}"
+    return stem
 
 
 def retrieve_taxon(
@@ -383,12 +406,16 @@ def retrieve_taxon(
 
     out_dir = Path(cfg.get("retrieved_dir", "data/retrieved")) / str(taxid) / group
     out_dir.mkdir(parents=True, exist_ok=True)
-    fasta_path = out_dir / f"{run_date}.fasta.gz"
-    meta_path = out_dir / f"{run_date}.meta.tsv.gz"
+    # Never overwrite an archive. A second run on the same day is incremental
+    # and small; writing it over the morning's full fetch would silently
+    # replace thousands of records with a handful.
+    stem = archive_stem(out_dir, run_date)
+    fasta_path = out_dir / f"{stem}.fasta.gz"
+    meta_path = out_dir / f"{stem}.meta.tsv.gz"
     # Write under temporary names and rename at the end, so an interrupted
     # fetch can never leave a file that looks like a finished archive.
-    fasta_tmp = out_dir / f".{run_date}.fasta.gz.part"
-    meta_tmp = out_dir / f".{run_date}.meta.tsv.gz.part"
+    fasta_tmp = out_dir / f".{stem}.fasta.gz.part"
+    meta_tmp = out_dir / f".{stem}.meta.tsv.gz.part"
 
     retmax = int(r.get("page_size", 500))
     n_pages = -(-handle["count"] // retmax)
@@ -454,6 +481,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--dry-run", action="store_true", help="report counts, write nothing")
     ap.add_argument("--taxid", type=int, action="append", help="limit to these taxids")
     ap.add_argument(
+        "--run-record",
+        type=Path,
+        default=None,
+        help="write a JSON summary of this run here; the pipeline uses it as the retrieve step's output",
+    )
+    ap.add_argument(
         "--strict",
         action="store_true",
         help="exit non-zero when a group is skipped for size; by default only transport errors fail the run",
@@ -468,7 +501,7 @@ def main(argv: list[str] | None = None) -> int:
 
     n_assays = sum(len(v["assays"]) for v in targets.values())
     print(f"{len(targets)} retrieval groups from {n_assays} assays", file=sys.stderr)
-    skipped, errors = [], []
+    skipped, errors, done = [], [], []
     for (taxid, group), info in sorted(targets.items()):
         try:
             run = retrieve_taxon(
@@ -493,6 +526,7 @@ def main(argv: list[str] | None = None) -> int:
             continue
         if not args.dry_run:
             record_run(cfg, run)
+        done.append(asdict(run))
         label = f"{run.n_fetched} fetched" if run.n_fetched else run.note
         if run.n_fetched and run.note:
             label += f"; {run.note}"
@@ -506,6 +540,17 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{len(skipped)} groups skipped for size", file=sys.stderr)
     if errors:
         print(f"{len(errors)} groups failed", file=sys.stderr)
+    if args.run_record and not args.dry_run:
+        args.run_record.parent.mkdir(parents=True, exist_ok=True)
+        record = {
+            "run_date": date.today().isoformat(),
+            "runs": done,
+            "skipped": [list(k) for k in skipped],
+            "errors": [list(k) for k in errors],
+        }
+        tmp = args.run_record.with_name(f".{args.run_record.name}.part")
+        tmp.write_text(json.dumps(record, indent=2) + "\n")
+        os.replace(tmp, args.run_record)
     return 1 if errors or (args.strict and skipped) else 0
 
 

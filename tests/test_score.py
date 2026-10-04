@@ -205,3 +205,42 @@ def test_screen_cli_runs():
     lines = out.stdout.strip().splitlines()
     assert lines[0].startswith("assay_id\trecord_id\tcall")
     assert len(lines) == len(RECORDS) + 1
+
+
+def test_scaffold_gaps_do_not_blow_up_or_fake_an_amplicon():
+    """Regression for the nine-hour Bd run: a long N-gap must be fast and must not score."""
+    import time
+
+    assay = ASSAYS["CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004"]
+    rec = RECORDS["CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004__perfect"]  # no Boyle site in it
+    t = time.perf_counter()
+    call = screen_record(assay, "gap", rec + "N" * 50_000 + rec, CFG)
+    assert time.perf_counter() - t < 2.0
+    assert call.call == "no_amplicon"
+
+
+def test_real_site_is_found_next_to_a_scaffold_gap():
+    assay = ASSAYS["CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004"]
+    rec = RECORDS["CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004__perfect"]
+    assert screen_record(assay, "gap", "N" * 20_000 + rec + "N" * 20_000, CFG).call == "detect"
+
+
+def test_screen_output_appears_only_when_complete(tmp_path):
+    out = tmp_path / "calls.tsv"
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "assaywatch.screen",
+            str(ROOT / "registry"),
+            str(FIX / "records.fasta"),
+            "--only",
+            "CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004",
+            "-o",
+            str(out),
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert out.exists() and not list(tmp_path.glob(".*.part"))

@@ -1,0 +1,29 @@
+Config file config.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-04 14:06:00
+  Workflow ID: fd1eb381-2b0b-4adf-97fb-db3685feb65c
+  Platform: macOS-26.6-arm64-arm-64bit
+  Host: Mac.lan
+  User: batya
+  Snakemake version: 9.27.0
+  Python version: 3.12.14 (main, Sep  3 2026, 03:46:19) [Clang 21.1.8 ]
+  Command: /opt/homebrew/Caskroom/miniforge/base/envs/assaywatch/bin/snakemake --cores 4 --forcerun screen_group --config email=batya.nightingale@gmail.com run_date=2026-10-03
+  Snakefile: /Users/batya/assaywatch/Snakefile
+  Base directory: /Users/batya/assaywatch
+  Run directory: /Users/batya/assaywatch
+  Working directory: /Users/batya/assaywatch
+  Config file(s): ['config.yaml']
+  Config MD5: f8e624ee67dfe014a8278f8cca721b7b
+
+Building DAG of jobs...
+IncompleteFilesException:
+The files below seem to be incomplete. If you are sure that certain files are not incomplete, mark them as complete with
+
+    snakemake --cleanup-metadata <filenames>
+
+To re-generate the files rerun your command with the --rerun-incomplete flag.
+Incomplete files:
+data/retrieved/manifest.json

@@ -1,32 +1,54 @@
 # AssayWatch pipeline.
 #
 #     snakemake --cores 4 --config email=you@example.org
-#     snakemake --cores 4 --config email=... full=true      # ignore the manifest
-#     snakemake --profile profiles/slurm --config email=...  # on a cluster
+#     snakemake --profile profiles/slurm --config email=...   # on a cluster
 #
-# Why a workflow manager at all, when this is four steps: Snakemake tracks
-# which inputs produced which outputs, so a failed scoring run re-uses the
-# sequences already fetched instead of hammering NCBI again, and editing one
-# assay re-scores only what depends on it. The same Snakefile runs on a laptop
-# and on SLURM with a different --profile; nothing in the rules changes.
+# Why a workflow manager at all: Snakemake tracks which inputs produced which
+# outputs, so a failed run resumes from what finished, and a new week's run
+# screens only the archives that are new. The same Snakefile runs on a laptop
+# and on SLURM with a different --profile.
 #
-# The structure is unusual in one way worth understanding. Snakemake normally
-# builds its whole job graph before running anything, from filenames it can
-# work out in advance. Here the set of taxa to screen is not known until
-# retrieval has run and told us which taxids returned records. That is what a
-# `checkpoint` is for: it is a rule that forces the graph to be re-evaluated
-# after it completes, so later rules can glob the files it produced.
+# State and outputs are kept strictly apart, and that distinction is the
+# important design point here. Snakemake deletes a rule's declared outputs
+# before running it. Anything that must outlive one run (the retrieval
+# manifest, the sequence archives) is therefore never declared as an output:
+# the retrieve step's output is a small per-day run record, and the manifest
+# beside it is state the retrieve code manages itself. Declaring the manifest
+# as an output is how the first two pipeline runs each erased the fetch
+# history.
+#
+# Reports are cumulative. Every archive ever fetched is screened once, the
+# result is cached under results/screened/ keyed by the archive's own name,
+# and each report is built from all of them, with the newest version of each
+# accession winning. A group with nothing new this week still appears in the
+# report, and next week only the new archives are screened.
+#
+# `retrieve` is a checkpoint: which archives exist is not known until it has
+# run, so the job graph is re-evaluated after it finishes.
 
 import json
+from datetime import date
 from pathlib import Path
+
+from assaywatch.retrieve import targets_from_registry
 
 configfile: "config.yaml"
 
 EMAIL = config.get("email")
 RETRIEVED = Path(config.get("retrieved_dir", "data/retrieved"))
 RESULTS = Path(config.get("results_dir", "results"))
+SCREENED = RESULTS / "screened"
 REGISTRY = config.get("registry_dir", "registry")
-RUN_DATE = config.get("run_date") or __import__("datetime").date.today().isoformat()
+TODAY = date.today().isoformat()
+RUN_DATE = config.get("run_date") or TODAY  # names the report folder only
+
+# {(taxid, group): {"name", "query", "assays"}} from the registry as it stands.
+GROUPS = targets_from_registry([Path(REGISTRY)])
+
+wildcard_constraints:
+    taxid=r"\d+",
+    group=r"all|q[0-9a-f]{10}",
+    stem=r"\d{4}-\d{2}-\d{2}(_\d+)?",
 
 
 rule all:
@@ -40,89 +62,75 @@ rule validate:
     input:
         registry=REGISTRY,
     output:
-        touch(RESULTS / RUN_DATE / ".registry-valid")
+        touch(RESULTS / RUN_DATE / ".registry-valid"),
     shell:
         "python -m assaywatch.validate {input.registry}"
 
 
 checkpoint retrieve:
-    """Fetch new records for every taxid in the registry. Writes the manifest.
+    """Fetch new records for every group. Output is today's run record, never the manifest.
 
-    One job for all taxa rather than one per taxon, because the politeness
-    limit is global: parallel jobs would each sleep for their own rate limit
-    and together exceed NCBI's. The per-taxon parallelism worth having is in
-    scoring, which is pure CPU.
+    One job for all groups, because NCBI's rate limit is global: parallel jobs
+    would each sleep for their own limit and together exceed it.
     """
     input:
         RESULTS / RUN_DATE / ".registry-valid",
     output:
-        manifest=RETRIEVED / "manifest.json",
+        run=RETRIEVED / "runs" / f"{TODAY}.json",
     params:
-        full="--full" if config.get("full") else "",
         email=EMAIL,
     shell:
-        # Not --strict: a group over the size cap is skipped and logged, and the
-        # run continues with the rest. Opt large groups in via config.yaml.
-        "python -m assaywatch.retrieve {REGISTRY} --email {params.email} {params.full}"
+        "python -m assaywatch.retrieve {REGISTRY} --email {params.email} --run-record {output.run}"
 
 
-def fetched_groups(wildcards):
-    """Retrieval groups that returned sequences in this run, from the manifest.
-
-    Returns {(taxid, group): [assay ids]}. A group is a taxon plus an optional
-    gene-targeted query; each is scored only against the assays that asked for
-    it, so a gene-targeted archive is never diluted by another gene's misses.
-    """
-    manifest_file = checkpoints.retrieve.get(**wildcards).output.manifest
-    runs = json.loads(Path(manifest_file).read_text())["runs"]
-    out = {}
-    for r in runs:
-        if r["run_date"] == RUN_DATE and r["n_fetched"] > 0:
-            out[(r["taxid"], r.get("group", "all"))] = r["assays"]
+def archives(wildcards):
+    """Every archive on disk for a group the registry still asks for, oldest first."""
+    checkpoints.retrieve.get()
+    out = []
+    for (taxid, group) in sorted(GROUPS):
+        for fasta in sorted((RETRIEVED / str(taxid) / group).glob("*.fasta.gz")):
+            stem = fasta.name[: -len(".fasta.gz")]
+            out.append(SCREENED / str(taxid) / group / f"{stem}.tsv")
     return out
 
 
-def assays_for_group(wildcards):
-    groups = fetched_groups(wildcards)
-    return ",".join(groups[(int(wildcards.taxid), wildcards.group)])
-
-
-rule screen_group:
-    """Score one retrieval group's new records against the assays that requested it."""
+rule screen_archive:
+    """Score one archive against the assays that requested its group. Cached across runs."""
     input:
-        fasta=RETRIEVED / "{taxid}" / "{group}" / f"{RUN_DATE}.fasta.gz",
+        fasta=RETRIEVED / "{taxid}" / "{group}" / "{stem}.fasta.gz",
     output:
-        calls=RESULTS / RUN_DATE / "by-group" / "{taxid}__{group}.tsv",
+        calls=SCREENED / "{taxid}" / "{group}" / "{stem}.tsv",
     params:
-        only=assays_for_group,
+        # A params change re-triggers the job, so adding an assay to a group
+        # rescreens that group's archives on the next run.
+        only=lambda wc: ",".join(sorted(GROUPS[(int(wc.taxid), wc.group)]["assays"])),
     threads: 1
     resources:
         mem_mb=2000,
-        runtime=120,
+        runtime=240,
     shell:
         "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} -o {output.calls}"
 
 
-def group_calls(wildcards):
-    return [
-        RESULTS / RUN_DATE / "by-group" / f"{t}__{g}.tsv" for (t, g) in sorted(fetched_groups(wildcards))
-    ]
-
-
 rule collect_calls:
+    """Concatenate every cached screen, oldest archive first so the newest version wins."""
     input:
-        group_calls,
+        archives,
     output:
         RESULTS / RUN_DATE / "calls.tsv.gz",
     run:
         import gzip
 
         with gzip.open(output[0], "wt") as out:
-            for i, path in enumerate(input):
+            header_written = False
+            for path in input:
                 with open(path) as fh:
-                    header = next(fh)
-                    if i == 0:
+                    header = next(fh, None)
+                    if header is None:
+                        continue
+                    if not header_written:
                         out.write(header)
+                        header_written = True
                     out.writelines(fh)
 
 
@@ -140,7 +148,6 @@ rule report:
     """Per-assay drift status, coverage gaps, and the degeneracy caveat beside both."""
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
-        manifest=RETRIEVED / "manifest.json",
     output:
         md=RESULTS / RUN_DATE / "report.md",
         html=RESULTS / RUN_DATE / "report.html",

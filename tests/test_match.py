@@ -24,13 +24,13 @@ def brute_force(oligo: str, record: str, max_mm: int):
     L = len(oligo)
     for start in range(len(record) - L + 1):
         mm, amb = compare(oligo, record[start : start + L])
-        if len(mm) <= max_mm:
+        if len(mm) + len(amb) <= max_mm:
             out[(start, "+")] = (tuple(mm), tuple(amb))
     rc = reverse_complement(record)
     n = len(record)
     for start in range(len(rc) - L + 1):
         mm, amb = compare(oligo, rc[start : start + L])
-        if len(mm) <= max_mm:
+        if len(mm) + len(amb) <= max_mm:
             out[(n - start - L, "-")] = (tuple(mm), tuple(amb))
     return out
 
@@ -116,7 +116,7 @@ def test_record_n_is_ambiguous_not_a_mismatch():
     """An undetermined record base is neither evidence of binding nor of drift."""
     oligo = "CAGTGTGCCATATGTCACG"
     record = random_seq(50) + oligo[:5] + "N" + oligo[6:] + random_seq(50)
-    sites = [s for s in find_sites(oligo, record, 0) if s.strand == "+"]
+    sites = [s for s in find_sites(oligo, record, 6) if s.strand == "+"]
     assert len(sites) == 1
     assert sites[0].mismatches == () and sites[0].ambiguous == (5,)
 
@@ -159,3 +159,30 @@ def test_minus_strand_coordinates_point_at_the_real_window():
 
 def test_oligo_longer_than_record_returns_nothing():
     assert find_sites("CAGTGTGCCATATGTCACG", "ACGTACGT") == []
+
+
+def test_a_run_of_ns_is_not_a_binding_site():
+    """Regression: N-gaps in scaffolds made every offset a perfect site for every oligo.
+
+    Undetermined bases are free when scoring a site but are not evidence that a
+    site exists, so they count against the search budget.
+    """
+    oligo = "CAGTGTGCCATATGTCACG"
+    record = random_seq(200) + "N" * 5000 + random_seq(200)
+    assert [s for s in find_sites(oligo, record, 6) if record[s.start] == "N"] == []
+
+
+def test_a_site_with_a_few_ns_is_still_found():
+    oligo = "CAGTGTGCCATATGTCACG"
+    site = oligo[:3] + "NNN" + oligo[6:]
+    record = random_seq(60) + site + random_seq(60)
+    s = [x for x in find_sites(oligo, record, 6) if x.strand == "+"][0]
+    assert s.mismatches == () and s.ambiguous == (3, 4, 5)
+
+
+def test_uncertain_bases_spend_the_search_budget():
+    oligo = "CAGTGTGCCATATGTCACG"
+    site = "NNNN" + oligo[4:]
+    record = random_seq(60) + site + random_seq(60)
+    assert [x for x in find_sites(oligo, record, 3) if x.strand == "+" and x.start == 60] == []
+    assert [x for x in find_sites(oligo, record, 4) if x.strand == "+" and x.start == 60]

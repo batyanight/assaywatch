@@ -1,0 +1,4 @@
+3 retrieval groups from 3 assays
+       562  Escherichia coli                   [q780c1da66e] full               61 avail  dry run
+       562  Escherichia coli                   [qa7d2849fe3] full              161 avail  dry run
+       562  Escherichia coli                   [qb31e3ea93d] full               76 avail  dry run

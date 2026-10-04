@@ -7,6 +7,7 @@ and manifest are reproducible.
 
 import gzip
 import json
+from pathlib import Path
 
 import pytest
 
@@ -269,3 +270,71 @@ def test_small_records_keep_the_full_page(cfg):
     run = retrieve_taxon(109871, cfg, fake, run_date="2026-10-03")
     assert run.note == ""
     assert {int(p["retmax"]) for e, p in fake.calls if e == "efetch"} == {3}
+
+
+def test_a_second_run_on_the_same_day_never_overwrites_the_first(cfg):
+    """Regression: an incremental run named by date would replace the morning's full archive."""
+    first = retrieve_taxon(109871, cfg, FakeNCBI(7), run_date="2026-10-04")
+    second = retrieve_taxon(109871, cfg, FakeNCBI(2), run_date="2026-10-04", full=True)
+    assert first.fasta.endswith("2026-10-04.fasta.gz")
+    assert second.fasta.endswith("2026-10-04_2.fasta.gz")
+    assert gzip.open(first.fasta, "rt").read().count(">") == 7  # untouched
+
+
+def test_manifest_write_is_atomic(cfg, tmp_path):
+    record_run(cfg, retrieve_taxon(109871, cfg, FakeNCBI(3), run_date="2026-10-04"))
+    d = tmp_path / "retrieved"
+    assert (d / "manifest.json").exists() and not list(d.glob(".manifest.json.part"))
+
+
+def test_run_record_lists_every_group_including_nothing_new(tmp_path, monkeypatch):
+    import assaywatch.retrieve as R
+
+    cfg_path = tmp_path / "config.yaml"
+    cfg_path.write_text(
+        f"retrieved_dir: {tmp_path / 'retrieved'}\nretrieve: {{page_size: 50, max_records_per_taxon: 1000}}\n"
+    )
+    monkeypatch.setattr(R, "http_transport", lambda email, key: FakeNCBI(0))
+    record = tmp_path / "runs" / "today.json"
+    rc = R.main(
+        [
+            str(Path(__file__).resolve().parents[1] / "registry"),
+            "--email",
+            "t@e.org",
+            "--config",
+            str(cfg_path),
+            "--taxid",
+            "109871",
+            "--run-record",
+            str(record),
+        ]
+    )
+    assert rc == 0
+    data = json.loads(record.read_text())
+    assert [r["taxid"] for r in data["runs"]] == [109871]
+    assert data["runs"][0]["note"] == "nothing new"
+
+
+def test_rebuild_manifest_from_archives(tmp_path, monkeypatch):
+    import importlib.util
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location("rebuild", root / "scripts" / "rebuild_manifest.py")
+    rebuild_mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rebuild_mod)
+
+    cfg = {
+        "retrieved_dir": str(tmp_path / "retrieved"),
+        "retrieve": {"page_size": 5, "max_records_per_taxon": 100},
+    }
+    retrieve_taxon(109871, cfg, FakeNCBI(6), run_date="2026-10-03")
+    retrieve_taxon(109871, cfg, FakeNCBI(2), run_date="2026-10-03", full=True)
+    (tmp_path / "retrieved" / "109871" / "all" / ".2026-10-04.fasta.gz.part").write_text("x")
+
+    manifest, partials = rebuild_mod.rebuild(cfg, root / "registry")
+    runs = sorted(manifest["runs"], key=lambda r: r["fasta"])
+    assert [r["n_fetched"] for r in runs] == [6, 2]
+    assert [r["mode"] for r in runs] == ["full", "incremental"]
+    assert runs[0]["assays"], "assays come from the registry"
+    assert len(partials) == 1
+    assert last_run_date(manifest, 109871) == "2026/10/03"

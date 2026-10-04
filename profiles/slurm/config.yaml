@@ -5,7 +5,7 @@
 # What changes compared to running locally: nothing in the Snakefile. Snakemake
 # submits each job with sbatch instead of running it itself, waits for the
 # scheduler, and collects the outputs. The `resources` block on a rule becomes
-# the sbatch request, which is why screen_taxon declares mem_mb and runtime.
+# the sbatch request, which is why screen_archive declares mem_mb and runtime.
 #
 # jobs:        how many jobs may sit in the queue at once, not how many cores.
 # default-resources: what every rule asks for unless it says otherwise.
@@ -38,6 +38,6 @@ set-resources:
   retrieve:
     - runtime=720
     - mem_mb=2000
-  screen_taxon:
+  screen_archive:
     - mem_mb=4000
     - runtime=240

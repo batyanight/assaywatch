@@ -1,11 +1,21 @@
 """Find where an oligo could bind in a target record, with mismatches.
 
 The search is exact: every ungapped position in the record is considered, on
-both strands, and a site is reported whenever the oligo matches with at most
-`max_mismatches` definite IUPAC-aware mismatches. Record positions whose true
+both strands, and a site is reported whenever at most `max_mismatches`
+positions of the oligo fail to match definitely. Record positions whose true
 base is not determined (an ambiguity code the oligo only partly covers, or an
-N) are counted separately as `ambiguous` and never as mismatches; see
-iupac.base_state for why. There is no position at which a
+N) are reported separately as `ambiguous` and never scored as mismatches; see
+iupac.base_state for why.
+
+They do, however, count against the search budget. Finding a candidate site
+and scoring it are different questions: scoring asks what an undetermined base
+costs (nothing), finding asks whether this stretch of record shows any
+evidence of a binding site at all, and a window of Ns shows none. Without
+this rule every offset in a scaffold gap is a perfect site for every oligo,
+and the pairing step in score.py goes cubic: the first live run spent nine
+hours on the Bd archive, whose whole-genome scaffolds carry kilobase N-gaps.
+A site with a few undetermined bases is still found, and is called
+`indeterminate` by the scorer if there are too many to judge. There is no position at which a
 mismatch can hide the site. Gaps are not modelled, which is deliberate: a
 primer binding site with an indel in it is not a working primer site, and
 treating it as one would invent amplicons that do not exist.
@@ -127,7 +137,9 @@ def _search_one_strand(
         amb_counts += states == UNKNOWN
 
     hits = {}
-    for start in np.flatnonzero(mm_counts <= max_mm):
+    # Undetermined positions consume the search budget (see module docstring);
+    # they are still reported separately so the scorer charges nothing for them.
+    for start in np.flatnonzero(mm_counts + amb_counts <= max_mm):
         start = int(start)
         window = rec[start : start + L]
         states = [int(table[window[i]]) for i, table in enumerate(tables)]
@@ -139,7 +151,7 @@ def _search_one_strand(
 
 
 def find_sites(oligo: str, record: str, max_mismatches: int = 6) -> list[Site]:
-    """Every site where `oligo` binds `record` with <= max_mismatches, either strand.
+    """Every site with <= max_mismatches positions not definitely matched, either strand.
 
     The result is exhaustive within the mismatch budget: raising
     `max_mismatches` can only add sites, never move or remove one.

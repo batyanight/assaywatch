@@ -1,0 +1,1325 @@
+Config file config.yaml is extended by additional config specified via the command line.
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-03 20:05:20
+  Workflow ID: 4929afcc-61c7-4e2b-9171-b4258d7bc614
+  Platform: macOS-26.6-arm64-arm-64bit
+  Host: Mac.lan
+  User: batya
+  Snakemake version: 9.27.0
+  Python version: 3.12.14 (main, Sep  3 2026, 03:46:19) [Clang 21.1.8 ]
+  Command: /opt/homebrew/Caskroom/miniforge/base/envs/assaywatch/bin/snakemake --cores 4 --config email=batya.nightingale@gmail.com
+  Snakefile: /Users/batya/assaywatch/Snakefile
+  Base directory: /Users/batya/assaywatch
+  Run directory: /Users/batya/assaywatch
+  Working directory: /Users/batya/assaywatch
+  Config file(s): ['config.yaml']
+  Config MD5: 6245f51409f1e914b4d19118e5bf92e6
+
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 4
+Rules claiming more threads will be scaled down.
+Job stats:
+job                 count
+----------------  -------
+validate                1
+degeneracy_table        1
+retrieve                1
+collect_calls           1
+report                  1
+all                     1
+total                   6
+
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sat Oct  3 20:05:21 2026]
+localrule validate:
+    input: registry
+    output: results/2026-10-03/.registry-valid
+    jobid: 4
+    reason: Missing output files: results/2026-10-03/.registry-valid
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T
+138 valid ({'draft': 135, 'deprecated': 3}), 0 problems
+Touching output file results/2026-10-03/.registry-valid.
+[Sat Oct  3 20:05:21 2026]
+Finished jobid: 4 (Rule: validate)
+1 of 6 steps (17%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Sat Oct  3 20:05:21 2026]
+localrule degeneracy_table:
+    input: results/2026-10-03/.registry-valid
+    output: results/2026-10-03/degeneracy.tsv
+    jobid: 5
+    reason: Missing output files: results/2026-10-03/degeneracy.tsv; Input files updated by another job: results/2026-10-03/.registry-valid
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T
+[Sat Oct  3 20:05:21 2026]
+localcheckpoint retrieve:
+    input: results/2026-10-03/.registry-valid
+    output: data/retrieved/manifest.json
+    jobid: 3
+    reason: Input files updated by another job: results/2026-10-03/.registry-valid
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T
+DAG of jobs will be updated after completion.
+[Sat Oct  3 20:05:21 2026]
+Finished jobid: 5 (Rule: degeneracy_table)
+2 of 6 steps (33%) done
+51 retrieval groups from 113 assays
+       171  Leptospira                         [q36ead49836] full              781 avail  781 fetched
+       209  Helicobacter                       [qea281b18a4] full             2985 avail  2982 fetched
+       562  Escherichia coli                   [q780c1da66e] full               61 avail  61 fetched
+       562  Escherichia coli                   [qa7d2849fe3] full              161 avail  161 fetched
+       562  Escherichia coli                   [qb31e3ea93d] full               76 avail  76 fetched
+       620  Shigella                           [q92e2a62d52] full               58 avail  58 fetched
+       630  Yersinia enterocolitica            [qbe9fe5a535] full                3 avail  3 fetched
+       633  Yersinia pseudotuberculosis        [q28cf46e6b9] full               27 avail  27 fetched
+      2093  Mycoplasma                                       full            24523 avail  24225 fetched
+      5758  Entamoeba                          [q176b49b0cd] full             3283 avail  3283 fetched
+      5794  Apicomplexa                        [q0763ce7f8d] full            56094 avail  56090 fetched
+      5794  Apicomplexa                        [q0effdf8bcd] full              329 avail  329 fetched
+      5806  Cryptosporidium                    [q0763ce7f8d] full            14853 avail  14852 fetched
+      5812  Sarcocystis                                      full            30841 avail  30839 fetched
+      5819  Haemosporida                       [q49e818bd88] full            32018 avail  32011 fetched
+      5820  Plasmodium                         [q0763ce7f8d] full             2713 avail  2712 fetched
+      6033  Encephalitozoon                                  full             9093 avail  9093 fetched
+      6035  Encephalitozoon cuniculi                         full             2732 avail  2732 fetched
+     10241  Chordopoxvirinae                                 full            28388 avail  28387 fetched; pages of 203 (mean record 98,286 nt)
+     10292  Herpesviridae                      [q620b1275c5] full             3804 avail  3804 fetched; pages of 154 (mean record 129,069 nt)
+     10292  Herpesviridae                      [qb418855090] full             7706 avail  7706 fetched; pages of 310 (mean record 64,415 nt)
+     10358  Cytomegalovirus                                  full            12782 avail  12782 fetched
+     10492  Ranavirus                                        full             1466 avail  1466 fetched
+     10508  Adenoviridae                                     full            38847 avail  38847 fetched
+     10509  Mastadenovirus                                   full            30139 avail  30139 fetched
+     10780  Parvoviridae                                     full            44489 avail  44489 fetched
+     10803  Dependoparvovirus                                full            10042 avail  10042 fetched
+     10882  Orthoreovirus                                    full            14527 avail  14527 fetched
+     11019  Alphavirus                                       full            18003 avail  18003 fetched
+     11051  Flavivirus                         [q63c5fca5b3] full            59558 avail  59558 fetched
+     11082  West Nile virus                                  full             9125 avail  9125 fetched
+     11118  Coronaviridae                      [q4d4730ef3b] full            25419 avail  25419 fetched
+     11158  Paramyxoviridae                    [q049d549652] full            15018 avail  15018 fetched
+     11229  Morbillivirus                                    full            36917 avail  36917 fetched
+     11232  Canine morbillivirus                             full             3990 avail  3990 fetched
+     11266  Filoviridae                                      full             4679 avail  4679 fetched
+     11270  Lyssavirus                                       full            46404 avail  46404 fetched
+     11320  Influenza A virus                  [q2ebd5918b3] full           182556 avail  182556 fetched
+     11617  Arenaviridae                                     full             6449 avail  6449 fetched
+     11723  Simian immunodeficiency virus      [q49bae82c9c] full             8252 avail  8252 fetched
+     12059  Enterovirus                        [q2b612305e5] full            20605 avail  20605 fetched
+     12059  Enterovirus                        [qbb80900029] full            73182 avail  73182 fetched
+     28901  Salmonella enterica                [q22fdd7bbec] full              644 avail  643 fetched
+     39724  Circoviridae                                     full            24283 avail  24283 fetched
+     39733  Astroviridae                                     full            16645 avail  16645 fetched
+    109871  Batrachochytrium dendrobatidis                   full             9496 avail  9493 fetched
+    121791  Nipah henipavirus                                full              426 avail  426 fetched
+    151340  Papillomaviridae                                 full            42957 avail  42957 fetched
+    151341  Polyomaviridae                                   full            14532 avail  14531 fetched
+    178830  Bornaviridae                                     full             1515 avail  1515 fetched
+   1430836  Batrachochytrium salamandrivorans                full               19 avail  19 fetched
+[Sat Oct  3 23:54:46 2026]
+Finished jobid: 3 (Rule: retrieve)
+3 of 6 steps (50%) done
+Updating checkpoint dependencies.
+Select jobs to execute...
+Execute 4 jobs...
+
+[Sat Oct  3 23:54:46 2026]
+localrule screen_group:
+    input: data/retrieved/10292/q620b1275c5/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10292__q620b1275c5.tsv
+    jobid: 28
+    reason: Missing output files: results/2026-10-03/by-group/10292__q620b1275c5.tsv
+    wildcards: taxid=10292, group=q620b1275c5
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+[Sat Oct  3 23:54:46 2026]
+localrule screen_group:
+    input: data/retrieved/5806/q0763ce7f8d/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/5806__q0763ce7f8d.tsv
+    jobid: 21
+    reason: Missing output files: results/2026-10-03/by-group/5806__q0763ce7f8d.tsv
+    wildcards: taxid=5806, group=q0763ce7f8d
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+[Sat Oct  3 23:54:46 2026]
+localrule screen_group:
+    input: data/retrieved/178830/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/178830__all.tsv
+    jobid: 58
+    reason: Missing output files: results/2026-10-03/by-group/178830__all.tsv
+    wildcards: taxid=178830, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+[Sat Oct  3 23:54:46 2026]
+localrule screen_group:
+    input: data/retrieved/28901/q22fdd7bbec/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/28901__q22fdd7bbec.tsv
+    jobid: 51
+    reason: Missing output files: results/2026-10-03/by-group/28901__q22fdd7bbec.tsv
+    wildcards: taxid=28901, group=q22fdd7bbec
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Salmonella_invA_gene_unnamed_Rahn_1992	detect	117
+Salmonella_invA_gene_unnamed_Rahn_1992	fail	8
+Salmonella_invA_gene_unnamed_Rahn_1992	no_amplicon	508
+Salmonella_invA_gene_unnamed_Rahn_1992	reduced	10
+[Sat Oct  3 23:54:47 2026]
+Finished jobid: 51 (Rule: screen_group)
+4 of 57 steps (7%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sat Oct  3 23:54:47 2026]
+localrule screen_group:
+    input: data/retrieved/10358/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10358__all.tsv
+    jobid: 30
+    reason: Missing output files: results/2026-10-03/by-group/10358__all.tsv
+    wildcards: taxid=10358, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000	detect	120
+CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000	fail	9
+CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000	indeterminate	1
+CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000	no_amplicon	14708
+CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000	reduced	14
+[Sat Oct  3 23:54:54 2026]
+Finished jobid: 21 (Rule: screen_group)
+5 of 57 steps (9%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:54:54 2026]
+localrule screen_group:
+    input: data/retrieved/5819/q49e818bd88/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/5819__q49e818bd88.tsv
+    jobid: 23
+    reason: Missing output files: results/2026-10-03/by-group/5819__q49e818bd88.tsv
+    wildcards: taxid=5819, group=q49e818bd88
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	detect	423
+Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	fail	5129
+Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	indeterminate	40
+Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	no_amplicon	25394
+Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	reduced	1025
+Pan_hemoparasite_cytochrome_c_Hellgren_2004	detect	648
+Pan_hemoparasite_cytochrome_c_Hellgren_2004	fail	4166
+Pan_hemoparasite_cytochrome_c_Hellgren_2004	indeterminate	38
+Pan_hemoparasite_cytochrome_c_Hellgren_2004	no_amplicon	25556
+Pan_hemoparasite_cytochrome_c_Hellgren_2004	reduced	1603
+[Sat Oct  3 23:55:41 2026]
+Finished jobid: 23 (Rule: screen_group)
+6 of 57 steps (11%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:55:41 2026]
+localrule screen_group:
+    input: data/retrieved/630/qbe9fe5a535/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/630__qbe9fe5a535.tsv
+    jobid: 15
+    reason: Missing output files: results/2026-10-03/by-group/630__qbe9fe5a535.tsv
+    wildcards: taxid=630, group=qbe9fe5a535
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Yersinia_enterocolitica_entero_unnamed_Ibrahim_1992	detect	2
+Yersinia_enterocolitica_entero_unnamed_Ibrahim_1992	no_amplicon	1
+[Sat Oct  3 23:55:41 2026]
+Finished jobid: 15 (Rule: screen_group)
+7 of 57 steps (12%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:55:41 2026]
+localrule screen_group:
+    input: data/retrieved/171/q36ead49836/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/171__q36ead49836.tsv
+    jobid: 9
+    reason: Missing output files: results/2026-10-03/by-group/171__q36ead49836.tsv
+    wildcards: taxid=171, group=q36ead49836
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+LEPTOSPIROSIS_Flagillar_filiment_Prote	detect	753
+LEPTOSPIROSIS_Flagillar_filiment_Prote	fail	10
+LEPTOSPIROSIS_Flagillar_filiment_Prote	no_amplicon	5
+LEPTOSPIROSIS_Flagillar_filiment_Prote	reduced	13
+[Sat Oct  3 23:55:42 2026]
+Finished jobid: 9 (Rule: screen_group)
+8 of 57 steps (14%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:55:42 2026]
+localrule screen_group:
+    input: data/retrieved/1430836/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/1430836__all.tsv
+    jobid: 59
+    reason: Missing output files: results/2026-10-03/by-group/1430836__all.tsv
+    wildcards: taxid=1430836, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+B_salamandrivorans_Internal_transcribes_spa_Blooi_2013	no_amplicon	19
+[Sat Oct  3 23:55:43 2026]
+Finished jobid: 59 (Rule: screen_group)
+9 of 57 steps (16%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:55:43 2026]
+localrule screen_group:
+    input: data/retrieved/620/q92e2a62d52/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/620__q92e2a62d52.tsv
+    jobid: 14
+    reason: Missing output files: results/2026-10-03/by-group/620__q92e2a62d52.tsv
+    wildcards: taxid=620, group=q92e2a62d52
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Shigella_ipah_gene_unnamed_Sethabutr_1993	detect	18
+Shigella_ipah_gene_unnamed_Sethabutr_1993	no_amplicon	36
+Shigella_ipah_gene_unnamed_Sethabutr_1993	reduced	4
+[Sat Oct  3 23:55:43 2026]
+Finished jobid: 14 (Rule: screen_group)
+10 of 57 steps (18%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:55:43 2026]
+localrule screen_group:
+    input: data/retrieved/39724/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/39724__all.tsv
+    jobid: 52
+    reason: Missing output files: results/2026-10-03/by-group/39724__all.tsv
+    wildcards: taxid=39724, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+BORNA_VIRUS_N_gene	detect	262
+BORNA_VIRUS_N_gene	fail	181
+BORNA_VIRUS_N_gene	indeterminate	45
+BORNA_VIRUS_N_gene	no_amplicon	981
+BORNA_VIRUS_N_gene	reduced	46
+BORNA_VIRUS_N_gene_Zimmermann_1994	detect	297
+BORNA_VIRUS_N_gene_Zimmermann_1994	fail	11
+BORNA_VIRUS_N_gene_Zimmermann_1994	indeterminate	51
+BORNA_VIRUS_N_gene_Zimmermann_1994	no_amplicon	1144
+BORNA_VIRUS_N_gene_Zimmermann_1994	reduced	12
+[Sat Oct  3 23:56:03 2026]
+Finished jobid: 58 (Rule: screen_group)
+11 of 57 steps (19%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:56:03 2026]
+localrule screen_group:
+    input: data/retrieved/11270/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11270__all.tsv
+    jobid: 45
+    reason: Missing output files: results/2026-10-03/by-group/11270__all.tsv
+    wildcards: taxid=11270, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1	detect	354
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1	fail	1220
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1	indeterminate	103
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1	no_amplicon	17832
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1	reduced	4774
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_round2	detect	471
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_round2	fail	4428
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_round2	indeterminate	47
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_round2	no_amplicon	16563
+CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_round2	reduced	2774
+[Sat Oct  3 23:56:30 2026]
+Finished jobid: 52 (Rule: screen_group)
+12 of 57 steps (21%) done
+Execute 1 jobs...
+
+[Sat Oct  3 23:56:30 2026]
+localrule screen_group:
+    input: data/retrieved/11051/q63c5fca5b3/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11051__q63c5fca5b3.tsv
+    jobid: 38
+    reason: Missing output files: results/2026-10-03/by-group/11051__q63c5fca5b3.tsv
+    wildcards: taxid=11051, group=q63c5fca5b3
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB	detect	118
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB	fail	78
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB	indeterminate	169
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB	no_amplicon	12413
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB	reduced	4
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Virol_2007_round1	detect	182
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Virol_2007_round1	fail	455
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Virol_2007_round1	indeterminate	127
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Virol_2007_round1	no_amplicon	11964
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Virol_2007_round1	reduced	54
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2	detect	203
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2	fail	437
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2	indeterminate	115
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2	no_amplicon	11974
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2	reduced	53
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2_2	detect	108
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2_2	fail	23
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2_2	indeterminate	163
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2_2	no_amplicon	12464
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2_2	reduced	24
+[Sun Oct  4 00:17:41 2026]
+Finished jobid: 30 (Rule: screen_group)
+13 of 57 steps (23%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:17:41 2026]
+localrule screen_group:
+    input: data/retrieved/10492/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10492__all.tsv
+    jobid: 31
+    reason: Missing output files: results/2026-10-03/by-group/10492__all.tsv
+    wildcards: taxid=10492, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008	detect	163
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008	fail	173
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008	indeterminate	1
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008	no_amplicon	1128
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008	reduced	1
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007	detect	187
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007	fail	147
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007	indeterminate	1
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007	no_amplicon	1116
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007	reduced	15
+RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007	detect	120
+RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007	fail	126
+RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007	indeterminate	1
+RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007	no_amplicon	1216
+RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007	reduced	3
+[Sun Oct  4 00:18:05 2026]
+Finished jobid: 31 (Rule: screen_group)
+14 of 57 steps (25%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:18:05 2026]
+localrule screen_group:
+    input: data/retrieved/5820/q0763ce7f8d/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/5820__q0763ce7f8d.tsv
+    jobid: 24
+    reason: Missing output files: results/2026-10-03/by-group/5820__q0763ce7f8d.tsv
+    wildcards: taxid=5820, group=q0763ce7f8d
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003	detect	336
+SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003	fail	85
+SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003	indeterminate	2
+SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003	no_amplicon	2279
+SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003	reduced	10
+[Sun Oct  4 00:18:06 2026]
+Finished jobid: 24 (Rule: screen_group)
+15 of 57 steps (26%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:18:06 2026]
+localrule screen_group:
+    input: data/retrieved/2093/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/2093__all.tsv
+    jobid: 17
+    reason: Missing output files: results/2026-10-03/by-group/2093__all.tsv
+    wildcards: taxid=2093, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene	detect	1114
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene	fail	15385
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene	indeterminate	133
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene	no_amplicon	26524
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene	reduced	3248
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2	detect	13465
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2	fail	6215
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2	indeterminate	212
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2	no_amplicon	26467
+LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2	reduced	45
+[Sun Oct  4 00:21:04 2026]
+Finished jobid: 45 (Rule: screen_group)
+16 of 57 steps (28%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:21:04 2026]
+localrule screen_group:
+    input: data/retrieved/633/q28cf46e6b9/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/633__q28cf46e6b9.tsv
+    jobid: 16
+    reason: Missing output files: results/2026-10-03/by-group/633__q28cf46e6b9.tsv
+    wildcards: taxid=633, group=q28cf46e6b9
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Yersinia_pseudotuberculosis_in_unnamed_Wang_1997	detect	25
+Yersinia_pseudotuberculosis_in_unnamed_Wang_1997	no_amplicon	2
+[Sun Oct  4 00:21:04 2026]
+Finished jobid: 16 (Rule: screen_group)
+17 of 57 steps (30%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:21:04 2026]
+localrule screen_group:
+    input: data/retrieved/39733/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/39733__all.tsv
+    jobid: 53
+    reason: Missing output files: results/2026-10-03/by-group/39733__all.tsv
+    wildcards: taxid=39733, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round1	detect	2247
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round1	fail	404
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round1	indeterminate	24
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round1	no_amplicon	13477
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round1	reduced	493
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	detect	1874
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	fail	1246
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	indeterminate	24
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	no_amplicon	12586
+ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	reduced	915
+[Sun Oct  4 00:22:34 2026]
+Finished jobid: 53 (Rule: screen_group)
+18 of 57 steps (32%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:22:34 2026]
+localrule screen_group:
+    input: data/retrieved/11320/q2ebd5918b3/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11320__q2ebd5918b3.tsv
+    jobid: 46
+    reason: Missing output files: results/2026-10-03/by-group/11320__q2ebd5918b3.tsv
+    wildcards: taxid=11320, group=q2ebd5918b3
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003	detect	14495
+INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003	fail	2561
+INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003	indeterminate	62
+INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003	no_amplicon	94901
+INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003	reduced	70537
+[Sun Oct  4 00:25:27 2026]
+Finished jobid: 46 (Rule: screen_group)
+19 of 57 steps (33%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:25:27 2026]
+localrule screen_group:
+    input: data/retrieved/11082/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11082__all.tsv
+    jobid: 39
+    reason: Missing output files: results/2026-10-03/by-group/11082__all.tsv
+    wildcards: taxid=11082, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001	detect	5580
+West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001	fail	1313
+West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001	indeterminate	64
+West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001	no_amplicon	2050
+West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001	reduced	118
+[Sun Oct  4 00:34:19 2026]
+Finished jobid: 39 (Rule: screen_group)
+20 of 57 steps (35%) done
+Execute 1 jobs...
+
+[Sun Oct  4 00:34:19 2026]
+localrule screen_group:
+    input: data/retrieved/10508/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10508__all.tsv
+    jobid: 32
+    reason: Missing output files: results/2026-10-03/by-group/10508__all.tsv
+    wildcards: taxid=10508, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+MYCOPLASMA_16S_Turtles_only_Feldman_2006	detect	22
+MYCOPLASMA_16S_Turtles_only_Feldman_2006	fail	637
+MYCOPLASMA_16S_Turtles_only_Feldman_2006	indeterminate	339
+MYCOPLASMA_16S_Turtles_only_Feldman_2006	no_amplicon	23227
+Pan_mycoplasma_16S_23S_intergenic_space	detect	314
+Pan_mycoplasma_16S_23S_intergenic_space	fail	84
+Pan_mycoplasma_16S_23S_intergenic_space	indeterminate	337
+Pan_mycoplasma_16S_23S_intergenic_space	no_amplicon	23339
+Pan_mycoplasma_16S_23S_intergenic_space	reduced	151
+Pan_mycoplasma_16S_23S_intergenic_space_2	detect	61
+Pan_mycoplasma_16S_23S_intergenic_space_2	fail	188
+Pan_mycoplasma_16S_23S_intergenic_space_2	indeterminate	328
+Pan_mycoplasma_16S_23S_intergenic_space_2	no_amplicon	23636
+Pan_mycoplasma_16S_23S_intergenic_space_2	reduced	12
+Pan_mycoplasma_16S_23S_intergenic_space_3	detect	19
+Pan_mycoplasma_16S_23S_intergenic_space_3	fail	289
+Pan_mycoplasma_16S_23S_intergenic_space_3	indeterminate	324
+Pan_mycoplasma_16S_23S_intergenic_space_3	no_amplicon	23593
+Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	detect	225
+Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fail	29
+Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	indeterminate	321
+Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	no_amplicon	23630
+Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	reduced	20
+Pan_mycoplasma_16S_All_Van_1992	detect	1355
+Pan_mycoplasma_16S_All_Van_1992	fail	692
+Pan_mycoplasma_16S_All_Van_1992	indeterminate	324
+Pan_mycoplasma_16S_All_Van_1992	no_amplicon	21082
+Pan_mycoplasma_16S_All_Van_1992	reduced	772
+[Sun Oct  4 01:06:42 2026]
+Finished jobid: 17 (Rule: screen_group)
+21 of 57 steps (37%) done
+Execute 1 jobs...
+
+[Sun Oct  4 01:06:42 2026]
+localrule screen_group:
+    input: data/retrieved/6033/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/6033__all.tsv
+    jobid: 25
+    reason: Missing output files: results/2026-10-03/by-group/6033__all.tsv
+    wildcards: taxid=6033, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Encephalitozoon_18S_General_Encephalitoz_Muller_1999	detect	37
+Encephalitozoon_18S_General_Encephalitoz_Muller_1999	fail	35
+Encephalitozoon_18S_General_Encephalitoz_Muller_1999	indeterminate	5
+Encephalitozoon_18S_General_Encephalitoz_Muller_1999	no_amplicon	8990
+Encephalitozoon_18S_General_Encephalitoz_Muller_1999	reduced	26
+[Sun Oct  4 01:07:00 2026]
+Finished jobid: 25 (Rule: screen_group)
+22 of 57 steps (39%) done
+Execute 1 jobs...
+
+[Sun Oct  4 01:07:00 2026]
+localrule screen_group:
+    input: data/retrieved/5758/q176b49b0cd/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/5758__q176b49b0cd.tsv
+    jobid: 18
+    reason: Missing output files: results/2026-10-03/by-group/5758__q176b49b0cd.tsv
+    wildcards: taxid=5758, group=q176b49b0cd
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Entamoeba_18S_small_subunit_SSU	detect	139
+Entamoeba_18S_small_subunit_SSU	fail	29
+Entamoeba_18S_small_subunit_SSU	indeterminate	78
+Entamoeba_18S_small_subunit_SSU	no_amplicon	2975
+Entamoeba_18S_small_subunit_SSU	reduced	62
+[Sun Oct  4 01:07:04 2026]
+Finished jobid: 18 (Rule: screen_group)
+23 of 57 steps (40%) done
+Execute 1 jobs...
+
+[Sun Oct  4 01:07:04 2026]
+localrule screen_group:
+    input: data/retrieved/209/qea281b18a4/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/209__qea281b18a4.tsv
+    jobid: 10
+    reason: Missing output files: results/2026-10-03/by-group/209__qea281b18a4.tsv
+    wildcards: taxid=209, group=qea281b18a4
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998	detect	469
+Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998	fail	84
+Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998	indeterminate	3
+Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998	no_amplicon	2423
+Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998	reduced	3
+Helicobacter_XREACTS_with_general_bac	detect	1264
+Helicobacter_XREACTS_with_general_bac	fail	13
+Helicobacter_XREACTS_with_general_bac	no_amplicon	1691
+Helicobacter_XREACTS_with_general_bac	reduced	14
+Helicobacter_XREACTS_with_general_bac_2	fail	929
+Helicobacter_XREACTS_with_general_bac_2	indeterminate	1
+Helicobacter_XREACTS_with_general_bac_2	no_amplicon	2052
+[Sun Oct  4 01:07:09 2026]
+Finished jobid: 10 (Rule: screen_group)
+24 of 57 steps (42%) done
+Execute 1 jobs...
+
+[Sun Oct  4 01:07:09 2026]
+localrule screen_group:
+    input: data/retrieved/109871/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/109871__all.tsv
+    jobid: 54
+    reason: Missing output files: results/2026-10-03/by-group/109871__all.tsv
+    wildcards: taxid=109871, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+ADENOVIRUS_dsDNA_Hexon_gene	detect	3409
+ADENOVIRUS_dsDNA_Hexon_gene	fail	3816
+ADENOVIRUS_dsDNA_Hexon_gene	indeterminate	289
+ADENOVIRUS_dsDNA_Hexon_gene	no_amplicon	30108
+ADENOVIRUS_dsDNA_Hexon_gene	reduced	1225
+ADENOVIRUS_dsDNA_Hexon_gene_round2	detect	3630
+ADENOVIRUS_dsDNA_Hexon_gene_round2	fail	13191
+ADENOVIRUS_dsDNA_Hexon_gene_round2	indeterminate	300
+ADENOVIRUS_dsDNA_Hexon_gene_round2	no_amplicon	20077
+ADENOVIRUS_dsDNA_Hexon_gene_round2	reduced	1649
+ADENOVIRUS_dsDNA_Pan_Polymerase_round1	detect	133
+ADENOVIRUS_dsDNA_Pan_Polymerase_round1	fail	11086
+ADENOVIRUS_dsDNA_Pan_Polymerase_round1	indeterminate	102
+ADENOVIRUS_dsDNA_Pan_Polymerase_round1	no_amplicon	27524
+ADENOVIRUS_dsDNA_Pan_Polymerase_round1	reduced	2
+ADENOVIRUS_dsDNA_Pan_Polymerase_round2	detect	155
+ADENOVIRUS_dsDNA_Pan_Polymerase_round2	fail	2027
+ADENOVIRUS_dsDNA_Pan_Polymerase_round2	indeterminate	494
+ADENOVIRUS_dsDNA_Pan_Polymerase_round2	no_amplicon	36145
+ADENOVIRUS_dsDNA_Pan_Polymerase_round2	reduced	26
+ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies	detect	4721
+ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies	fail	10265
+ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies	indeterminate	297
+ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies	no_amplicon	22105
+ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies	reduced	1459
+[Sun Oct  4 03:31:19 2026]
+Finished jobid: 32 (Rule: screen_group)
+25 of 57 steps (44%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:31:19 2026]
+localrule screen_group:
+    input: data/retrieved/11617/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11617__all.tsv
+    jobid: 47
+    reason: Missing output files: results/2026-10-03/by-group/11617__all.tsv
+    wildcards: taxid=11617, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Pan_Flavivirus_NS5_gene	detect	30460
+Pan_Flavivirus_NS5_gene	fail	4124
+Pan_Flavivirus_NS5_gene	indeterminate	222
+Pan_Flavivirus_NS5_gene	no_amplicon	23519
+Pan_Flavivirus_NS5_gene	reduced	1233
+Pan_flavivirus_NS5_3_round1	detect	2731
+Pan_flavivirus_NS5_3_round1	fail	23094
+Pan_flavivirus_NS5_3_round1	indeterminate	616
+Pan_flavivirus_NS5_3_round1	no_amplicon	26694
+Pan_flavivirus_NS5_3_round1	reduced	6423
+Pan_flavivirus_NS5_3_round2	detect	291
+Pan_flavivirus_NS5_3_round2	fail	22860
+Pan_flavivirus_NS5_3_round2	indeterminate	618
+Pan_flavivirus_NS5_3_round2	no_amplicon	26573
+Pan_flavivirus_NS5_3_round2	reduced	9216
+[Sun Oct  4 03:34:08 2026]
+Finished jobid: 38 (Rule: screen_group)
+26 of 57 steps (46%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:34:08 2026]
+localrule screen_group:
+    input: data/retrieved/11118/q4d4730ef3b/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11118__q4d4730ef3b.tsv
+    jobid: 40
+    reason: Missing output files: results/2026-10-03/by-group/11118__q4d4730ef3b.tsv
+    wildcards: taxid=11118, group=q4d4730ef3b
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+ARENAVIRUS_ssRNA_S_gene	detect	18
+ARENAVIRUS_ssRNA_S_gene	fail	516
+ARENAVIRUS_ssRNA_S_gene	indeterminate	451
+ARENAVIRUS_ssRNA_S_gene	no_amplicon	5117
+ARENAVIRUS_ssRNA_S_gene	reduced	347
+ARENAVIRUS_ssRNA_S_gene_2	detect	264
+ARENAVIRUS_ssRNA_S_gene_2	fail	1092
+ARENAVIRUS_ssRNA_S_gene_2	indeterminate	387
+ARENAVIRUS_ssRNA_S_gene_2	no_amplicon	4167
+ARENAVIRUS_ssRNA_S_gene_2	reduced	539
+[Sun Oct  4 03:35:56 2026]
+Finished jobid: 47 (Rule: screen_group)
+27 of 57 steps (47%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:35:56 2026]
+localrule screen_group:
+    input: data/retrieved/562/qa7d2849fe3/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/562__qa7d2849fe3.tsv
+    jobid: 12
+    reason: Missing output files: results/2026-10-03/by-group/562__qa7d2849fe3.tsv
+    wildcards: taxid=562, group=qa7d2849fe3
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+E_coli_O157_H7_hlyA_gene_unnamed_Wang_1997	detect	59
+E_coli_O157_H7_hlyA_gene_unnamed_Wang_1997	fail	13
+E_coli_O157_H7_hlyA_gene_unnamed_Wang_1997	no_amplicon	89
+[Sun Oct  4 03:35:56 2026]
+Finished jobid: 12 (Rule: screen_group)
+28 of 57 steps (49%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:35:56 2026]
+localrule screen_group:
+    input: data/retrieved/151341/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/151341__all.tsv
+    jobid: 57
+    reason: Missing output files: results/2026-10-03/by-group/151341__all.tsv
+    wildcards: taxid=151341, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1	fail	2032
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1	indeterminate	36
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1	no_amplicon	12458
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1	reduced	5
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2	detect	255
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2	fail	5816
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2	indeterminate	33
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2	no_amplicon	8189
+POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2	reduced	238
+POLYOMAVIRUS_dsDNA_VP1	fail	1822
+POLYOMAVIRUS_dsDNA_VP1	indeterminate	46
+POLYOMAVIRUS_dsDNA_VP1	no_amplicon	12536
+POLYOMAVIRUS_dsDNA_VP1	reduced	127
+POLYOMAVIRUS_dsDNA_VP1_Johne_2005	detect	255
+POLYOMAVIRUS_dsDNA_VP1_Johne_2005	fail	5816
+POLYOMAVIRUS_dsDNA_VP1_Johne_2005	indeterminate	33
+POLYOMAVIRUS_dsDNA_VP1_Johne_2005	no_amplicon	8189
+POLYOMAVIRUS_dsDNA_VP1_Johne_2005	reduced	238
+[Sun Oct  4 03:36:55 2026]
+Finished jobid: 57 (Rule: screen_group)
+29 of 57 steps (51%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:36:55 2026]
+localrule screen_group:
+    input: data/retrieved/6035/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/6035__all.tsv
+    jobid: 26
+    reason: Missing output files: results/2026-10-03/by-group/6035__all.tsv
+    wildcards: taxid=6035, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001	detect	13
+Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001	fail	157
+Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001	no_amplicon	2562
+[Sun Oct  4 03:37:00 2026]
+Finished jobid: 26 (Rule: screen_group)
+30 of 57 steps (53%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:37:00 2026]
+localrule screen_group:
+    input: data/retrieved/5794/q0763ce7f8d/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/5794__q0763ce7f8d.tsv
+    jobid: 19
+    reason: Missing output files: results/2026-10-03/by-group/5794__q0763ce7f8d.tsv
+    wildcards: taxid=5794, group=q0763ce7f8d
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006	detect	3763
+Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006	fail	1165
+Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006	indeterminate	46
+Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006	no_amplicon	50972
+Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006	reduced	144
+[Sun Oct  4 03:37:25 2026]
+Finished jobid: 19 (Rule: screen_group)
+31 of 57 steps (54%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:37:25 2026]
+localrule screen_group:
+    input: data/retrieved/562/q780c1da66e/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/562__q780c1da66e.tsv
+    jobid: 11
+    reason: Missing output files: results/2026-10-03/by-group/562__q780c1da66e.tsv
+    wildcards: taxid=562, group=q780c1da66e
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+E_coli_ETEC_enterotoxin_LT_gen_unnamed_Victor_1991	detect	19
+E_coli_ETEC_enterotoxin_LT_gen_unnamed_Victor_1991	fail	1
+E_coli_ETEC_enterotoxin_LT_gen_unnamed_Victor_1991	no_amplicon	41
+[Sun Oct  4 03:37:25 2026]
+Finished jobid: 11 (Rule: screen_group)
+32 of 57 steps (56%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:37:25 2026]
+localrule screen_group:
+    input: data/retrieved/121791/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/121791__all.tsv
+    jobid: 55
+    reason: Missing output files: results/2026-10-03/by-group/121791__all.tsv
+    wildcards: taxid=121791, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Nipah_N_gene	detect	43
+Nipah_N_gene	fail	162
+Nipah_N_gene	no_amplicon	221
+Nipah_N_gene_2	detect	54
+Nipah_N_gene_2	fail	3
+Nipah_N_gene_2	indeterminate	1
+Nipah_N_gene_2	no_amplicon	130
+Nipah_N_gene_2	reduced	238
+[Sun Oct  4 03:38:34 2026]
+Finished jobid: 55 (Rule: screen_group)
+33 of 57 steps (58%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:38:34 2026]
+localrule screen_group:
+    input: data/retrieved/5794/q0effdf8bcd/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/5794__q0effdf8bcd.tsv
+    jobid: 20
+    reason: Missing output files: results/2026-10-03/by-group/5794__q0effdf8bcd.tsv
+    wildcards: taxid=5794, group=q0effdf8bcd
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Apicoplast_23S_LSU_Large_subunit_Molecular_2005	no_amplicon	329
+[Sun Oct  4 03:38:35 2026]
+Finished jobid: 20 (Rule: screen_group)
+34 of 57 steps (60%) done
+Execute 1 jobs...
+
+[Sun Oct  4 03:38:35 2026]
+localrule screen_group:
+    input: data/retrieved/10292/qb418855090/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10292__qb418855090.tsv
+    jobid: 29
+    reason: Missing output files: results/2026-10-03/by-group/10292__qb418855090.tsv
+    wildcards: taxid=10292, group=qb418855090
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Pan_HERPES_dsDNA_Terminase	detect	461
+Pan_HERPES_dsDNA_Terminase	fail	1772
+Pan_HERPES_dsDNA_Terminase	indeterminate	73
+Pan_HERPES_dsDNA_Terminase	no_amplicon	750
+Pan_HERPES_dsDNA_Terminase	reduced	748
+Pan_HERPES_dsDNA_Terminase_round2	detect	814
+Pan_HERPES_dsDNA_Terminase_round2	fail	1773
+Pan_HERPES_dsDNA_Terminase_round2	indeterminate	6
+Pan_HERPES_dsDNA_Terminase_round2	no_amplicon	469
+Pan_HERPES_dsDNA_Terminase_round2	reduced	742
+[Sun Oct  4 04:10:13 2026]
+Finished jobid: 28 (Rule: screen_group)
+35 of 57 steps (61%) done
+Execute 1 jobs...
+
+[Sun Oct  4 04:10:13 2026]
+localrule screen_group:
+    input: data/retrieved/5812/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/5812__all.tsv
+    jobid: 22
+    reason: Missing output files: results/2026-10-03/by-group/5812__all.tsv
+    wildcards: taxid=5812, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	detect	1988
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	fail	4735
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	indeterminate	89
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	no_amplicon	17446
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	reduced	1161
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1	detect	257
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1	fail	3217
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1	indeterminate	71
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1	no_amplicon	18366
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1	reduced	3508
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	detect	1905
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	fail	2188
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	indeterminate	64
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	no_amplicon	18388
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	reduced	2874
+[Sun Oct  4 04:19:52 2026]
+Finished jobid: 40 (Rule: screen_group)
+36 of 57 steps (63%) done
+Execute 1 jobs...
+
+[Sun Oct  4 04:19:52 2026]
+localrule screen_group:
+    input: data/retrieved/562/qb31e3ea93d/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/562__qb31e3ea93d.tsv
+    jobid: 13
+    reason: Missing output files: results/2026-10-03/by-group/562__qb31e3ea93d.tsv
+    wildcards: taxid=562, group=qb31e3ea93d
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+E_coli_malB_promoter_unnamed_Candrain_1991	detect	1
+E_coli_malB_promoter_unnamed_Candrain_1991	no_amplicon	75
+[Sun Oct  4 04:19:53 2026]
+Finished jobid: 13 (Rule: screen_group)
+37 of 57 steps (65%) done
+Execute 1 jobs...
+
+[Sun Oct  4 04:19:53 2026]
+localrule screen_group:
+    input: data/retrieved/151340/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/151340__all.tsv
+    jobid: 56
+    reason: Missing output files: results/2026-10-03/by-group/151340__all.tsv
+    wildcards: taxid=151340, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+PAPILLOMAVIRUS_dsDNA_L1_gene	detect	13947
+PAPILLOMAVIRUS_dsDNA_L1_gene	fail	4182
+PAPILLOMAVIRUS_dsDNA_L1_gene	indeterminate	222
+PAPILLOMAVIRUS_dsDNA_L1_gene	no_amplicon	22975
+PAPILLOMAVIRUS_dsDNA_L1_gene	reduced	1631
+PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	detect	3057
+PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fail	10133
+PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	indeterminate	574
+PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	no_amplicon	24465
+PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	reduced	4728
+[Sun Oct  4 06:23:03 2026]
+Finished jobid: 56 (Rule: screen_group)
+38 of 57 steps (67%) done
+Execute 1 jobs...
+
+[Sun Oct  4 06:23:03 2026]
+localrule screen_group:
+    input: data/retrieved/10509/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10509__all.tsv
+    jobid: 33
+    reason: Missing output files: results/2026-10-03/by-group/10509__all.tsv
+    wildcards: taxid=10509, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci	detect	1409
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci	fail	793
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci	indeterminate	294
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci	no_amplicon	25772
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci	reduced	1871
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005	detect	2602
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005	fail	671
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005	indeterminate	279
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005	no_amplicon	25790
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005	reduced	797
+[Sun Oct  4 06:53:43 2026]
+Finished jobid: 33 (Rule: screen_group)
+39 of 57 steps (68%) done
+Execute 1 jobs...
+
+[Sun Oct  4 06:53:43 2026]
+localrule screen_group:
+    input: data/retrieved/12059/q2b612305e5/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/12059__q2b612305e5.tsv
+    jobid: 49
+    reason: Missing output files: results/2026-10-03/by-group/12059__q2b612305e5.tsv
+    wildcards: taxid=12059, group=q2b612305e5
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1	detect	4975
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1	fail	159
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1	indeterminate	49
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1	no_amplicon	11896
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1	reduced	3526
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2	detect	4580
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2	fail	3716
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2	indeterminate	33
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2	no_amplicon	11806
+ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2	reduced	470
+[Sun Oct  4 06:54:38 2026]
+Finished jobid: 49 (Rule: screen_group)
+40 of 57 steps (70%) done
+Execute 1 jobs...
+
+[Sun Oct  4 06:54:38 2026]
+localrule screen_group:
+    input: data/retrieved/11229/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11229__all.tsv
+    jobid: 42
+    reason: Missing output files: results/2026-10-03/by-group/11229__all.tsv
+    wildcards: taxid=11229, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Morbillivirus_including_CDV_P_gene	detect	279
+Morbillivirus_including_CDV_P_gene	fail	923
+Morbillivirus_including_CDV_P_gene	indeterminate	30
+Morbillivirus_including_CDV_P_gene	no_amplicon	32096
+Morbillivirus_including_CDV_P_gene	reduced	3589
+Morbillivirus_including_CDV_P_gene_Barrett_2003	detect	279
+Morbillivirus_including_CDV_P_gene_Barrett_2003	fail	923
+Morbillivirus_including_CDV_P_gene_Barrett_2003	indeterminate	30
+Morbillivirus_including_CDV_P_gene_Barrett_2003	no_amplicon	32096
+Morbillivirus_including_CDV_P_gene_Barrett_2003	reduced	3589
+[Sun Oct  4 07:34:09 2026]
+Finished jobid: 42 (Rule: screen_group)
+41 of 57 steps (72%) done
+Execute 1 jobs...
+
+[Sun Oct  4 07:34:09 2026]
+localrule screen_group:
+    input: data/retrieved/10803/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10803__all.tsv
+    jobid: 35
+    reason: Missing output files: results/2026-10-03/by-group/10803__all.tsv
+    wildcards: taxid=10803, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus	detect	1521
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus	fail	1473
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus	indeterminate	9
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus	no_amplicon	3522
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus	reduced	3517
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	detect	6338
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	fail	77
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	indeterminate	9
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	no_amplicon	3499
+PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	reduced	119
+[Sun Oct  4 07:34:29 2026]
+Finished jobid: 35 (Rule: screen_group)
+42 of 57 steps (74%) done
+Execute 1 jobs...
+
+[Sun Oct  4 07:34:29 2026]
+localrule screen_group:
+    input: data/retrieved/10882/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10882__all.tsv
+    jobid: 36
+    reason: Missing output files: results/2026-10-03/by-group/10882__all.tsv
+    wildcards: taxid=10882, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010	detect	267
+ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010	fail	694
+ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010	indeterminate	29
+ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010	no_amplicon	13462
+ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010	reduced	75
+[Sun Oct  4 07:34:45 2026]
+Finished jobid: 36 (Rule: screen_group)
+43 of 57 steps (75%) done
+Execute 1 jobs...
+
+[Sun Oct  4 07:34:45 2026]
+localrule screen_group:
+    input: data/retrieved/10241/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10241__all.tsv
+    jobid: 27
+    reason: Missing output files: results/2026-10-03/by-group/10241__all.tsv
+    wildcards: taxid=10241, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+SARCOCYSTIS_18S_5_8s_rDNA_long_2010	fail	173
+SARCOCYSTIS_18S_5_8s_rDNA_long_2010	indeterminate	103
+SARCOCYSTIS_18S_5_8s_rDNA_long_2010	no_amplicon	30563
+SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010	detect	73
+SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010	fail	190
+SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010	indeterminate	59
+SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010	no_amplicon	30505
+SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010	reduced	12
+[Sun Oct  4 07:42:56 2026]
+Finished jobid: 22 (Rule: screen_group)
+44 of 57 steps (77%) done
+Execute 1 jobs...
+
+[Sun Oct  4 07:42:56 2026]
+localrule screen_group:
+    input: data/retrieved/11232/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11232__all.tsv
+    jobid: 43
+    reason: Missing output files: results/2026-10-03/by-group/11232__all.tsv
+    wildcards: taxid=11232, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Pan_HERPES_dsDNA_Polymerase	detect	107
+Pan_HERPES_dsDNA_Polymerase	fail	2541
+Pan_HERPES_dsDNA_Polymerase	indeterminate	95
+Pan_HERPES_dsDNA_Polymerase	no_amplicon	4449
+Pan_HERPES_dsDNA_Polymerase	reduced	514
+Pan_HERPES_dsDNA_Polymerase_round2	detect	53
+Pan_HERPES_dsDNA_Polymerase_round2	fail	663
+Pan_HERPES_dsDNA_Polymerase_round2	indeterminate	309
+Pan_HERPES_dsDNA_Polymerase_round2	no_amplicon	4809
+Pan_HERPES_dsDNA_Polymerase_round2	reduced	1872
+[Sun Oct  4 07:45:23 2026]
+Finished jobid: 29 (Rule: screen_group)
+45 of 57 steps (79%) done
+Execute 1 jobs...
+
+[Sun Oct  4 07:45:23 2026]
+localrule screen_group:
+    input: data/retrieved/10780/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/10780__all.tsv
+    jobid: 34
+    reason: Missing output files: results/2026-10-03/by-group/10780__all.tsv
+    wildcards: taxid=10780, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+PARVOVIRUS_ssDNA_VP1_gene_pan_parvo	detect	4710
+PARVOVIRUS_ssDNA_VP1_gene_pan_parvo	fail	2156
+PARVOVIRUS_ssDNA_VP1_gene_pan_parvo	indeterminate	271
+PARVOVIRUS_ssDNA_VP1_gene_pan_parvo	no_amplicon	33504
+PARVOVIRUS_ssDNA_VP1_gene_pan_parvo	reduced	3848
+[Sun Oct  4 07:46:59 2026]
+Finished jobid: 34 (Rule: screen_group)
+46 of 57 steps (81%) done
+Execute 1 jobs...
+
+[Sun Oct  4 07:46:59 2026]
+localrule screen_group:
+    input: data/retrieved/12059/qbb80900029/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/12059__qbb80900029.tsv
+    jobid: 50
+    reason: Missing output files: results/2026-10-03/by-group/12059__qbb80900029.tsv
+    wildcards: taxid=12059, group=qbb80900029
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+ENTEROVIRUS_ssRNA_VP3_VP1	detect	8417
+ENTEROVIRUS_ssRNA_VP3_VP1	fail	56529
+ENTEROVIRUS_ssRNA_VP3_VP1	indeterminate	475
+ENTEROVIRUS_ssRNA_VP3_VP1	no_amplicon	5438
+ENTEROVIRUS_ssRNA_VP3_VP1	reduced	2323
+ENTEROVIRUS_ssRNA_VP3_VP1_round2	detect	259
+ENTEROVIRUS_ssRNA_VP3_VP1_round2	fail	18837
+ENTEROVIRUS_ssRNA_VP3_VP1_round2	indeterminate	77
+ENTEROVIRUS_ssRNA_VP3_VP1_round2	no_amplicon	48974
+ENTEROVIRUS_ssRNA_VP3_VP1_round2	reduced	5035
+[Sun Oct  4 07:49:25 2026]
+Finished jobid: 50 (Rule: screen_group)
+47 of 57 steps (82%) done
+Execute 1 jobs...
+
+[Sun Oct  4 07:49:25 2026]
+localrule screen_group:
+    input: data/retrieved/11158/q049d549652/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11158__q049d549652.tsv
+    jobid: 41
+    reason: Missing output files: results/2026-10-03/by-group/11158__q049d549652.tsv
+    wildcards: taxid=11158, group=q049d549652
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1	detect	3265
+Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1	fail	5288
+Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1	indeterminate	76
+Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1	no_amplicon	4482
+Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1	reduced	1907
+Paramyxovirinae_Polymerase_L_gene_round2	detect	1
+Paramyxovirinae_Polymerase_L_gene_round2	fail	5760
+Paramyxovirinae_Polymerase_L_gene_round2	indeterminate	219
+Paramyxovirinae_Polymerase_L_gene_round2	no_amplicon	6278
+Paramyxovirinae_Polymerase_L_gene_round2	reduced	2760
+[Sun Oct  4 08:52:27 2026]
+Finished jobid: 41 (Rule: screen_group)
+48 of 57 steps (84%) done
+Execute 1 jobs...
+
+[Sun Oct  4 08:52:27 2026]
+localrule screen_group:
+    input: data/retrieved/11723/q49bae82c9c/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11723__q49bae82c9c.tsv
+    jobid: 48
+    reason: Missing output files: results/2026-10-03/by-group/11723__q49bae82c9c.tsv
+    wildcards: taxid=11723, group=q49bae82c9c
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+RETROVIRUS_RNA_polymerase_SIV	detect	183
+RETROVIRUS_RNA_polymerase_SIV	fail	2272
+RETROVIRUS_RNA_polymerase_SIV	indeterminate	2
+RETROVIRUS_RNA_polymerase_SIV	no_amplicon	3094
+RETROVIRUS_RNA_polymerase_SIV	reduced	2701
+RETROVIRUS_RNA_polymerase_SIV_2	detect	3850
+RETROVIRUS_RNA_polymerase_SIV_2	fail	3594
+RETROVIRUS_RNA_polymerase_SIV_2	indeterminate	1
+RETROVIRUS_RNA_polymerase_SIV_2	no_amplicon	765
+RETROVIRUS_RNA_polymerase_SIV_2	reduced	42
+RETROVIRUS_RNA_polymerase_SIV_3	detect	4933
+RETROVIRUS_RNA_polymerase_SIV_3	fail	230
+RETROVIRUS_RNA_polymerase_SIV_3	indeterminate	3
+RETROVIRUS_RNA_polymerase_SIV_3	no_amplicon	2976
+RETROVIRUS_RNA_polymerase_SIV_3	reduced	110
+RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	detect	3645
+RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	fail	391
+RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	indeterminate	2
+RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	no_amplicon	4160
+RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	reduced	54
+RETROVIRUS_RNA_polymerase_SIV_Keele_2009	detect	179
+RETROVIRUS_RNA_polymerase_SIV_Keele_2009	fail	126
+RETROVIRUS_RNA_polymerase_SIV_Keele_2009	indeterminate	5
+RETROVIRUS_RNA_polymerase_SIV_Keele_2009	no_amplicon	7899
+RETROVIRUS_RNA_polymerase_SIV_Keele_2009	reduced	43
+RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009	detect	23
+RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009	fail	4960
+RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009	indeterminate	3
+RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009	no_amplicon	3260
+RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009	reduced	6
+[Sun Oct  4 08:53:40 2026]
+Finished jobid: 48 (Rule: screen_group)
+49 of 57 steps (86%) done
+Execute 1 jobs...
+
+[Sun Oct  4 08:53:40 2026]
+localrule screen_group:
+    input: data/retrieved/11266/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11266__all.tsv
+    jobid: 44
+    reason: Missing output files: results/2026-10-03/by-group/11266__all.tsv
+    wildcards: taxid=11266, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+Select jobs to execute...
+FILOVIRUS_ssRNA_L_gene	detect	100
+FILOVIRUS_ssRNA_L_gene	fail	3638
+FILOVIRUS_ssRNA_L_gene	indeterminate	158
+FILOVIRUS_ssRNA_L_gene	no_amplicon	735
+FILOVIRUS_ssRNA_L_gene	reduced	48
+FILOVIRUS_ssRNA_L_gene_2	detect	3527
+FILOVIRUS_ssRNA_L_gene_2	fail	647
+FILOVIRUS_ssRNA_L_gene_2	indeterminate	16
+FILOVIRUS_ssRNA_L_gene_2	no_amplicon	485
+FILOVIRUS_ssRNA_L_gene_2	reduced	4
+[Sun Oct  4 09:39:17 2026]
+Finished jobid: 44 (Rule: screen_group)
+50 of 57 steps (88%) done
+Execute 1 jobs...
+
+[Sun Oct  4 09:39:17 2026]
+localrule screen_group:
+    input: data/retrieved/11019/all/2026-10-03.fasta.gz
+    output: results/2026-10-03/by-group/11019__all.tsv
+    jobid: 37
+    reason: Missing output files: results/2026-10-03/by-group/11019__all.tsv
+    wildcards: taxid=11019, group=all
+    resources: tmpdir=/var/folders/wm/4h12nwx15973j8yz9ms4zkk40000gn/T, runtime=120, mem_mb=2000, mem=2 GB, mem_mib=1908
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round1	detect	8224
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round1	fail	150
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round1	indeterminate	479
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round1	no_amplicon	9139
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round1	reduced	11
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2	detect	8331
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2	fail	400
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2	indeterminate	362
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2	no_amplicon	8888
+ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2	reduced	22
+[Sun Oct  4 10:13:26 2026]
+Finished jobid: 37 (Rule: screen_group)
+51 of 57 steps (89%) done
+Canine_distemper_virus_specifi_F_gene_need_to_order	detect	17
+Canine_distemper_virus_specifi_F_gene_need_to_order	fail	320
+Canine_distemper_virus_specifi_F_gene_need_to_order	indeterminate	8
+Canine_distemper_virus_specifi_F_gene_need_to_order	no_amplicon	3641
+Canine_distemper_virus_specifi_F_gene_need_to_order	reduced	4
+Canine_distemper_virus_specifi_F_gene_need_to_order_2	indeterminate	34
+Canine_distemper_virus_specifi_F_gene_need_to_order_2	no_amplicon	3956
+Canine_distemper_virus_specifi_H_gene	detect	806
+Canine_distemper_virus_specifi_H_gene	fail	593
+Canine_distemper_virus_specifi_H_gene	indeterminate	6
+Canine_distemper_virus_specifi_H_gene	no_amplicon	2333
+Canine_distemper_virus_specifi_H_gene	reduced	252
+Canine_distemper_virus_specifi_H_gene_2	detect	245
+Canine_distemper_virus_specifi_H_gene_2	fail	1123
+Canine_distemper_virus_specifi_H_gene_2	indeterminate	5
+Canine_distemper_virus_specifi_H_gene_2	no_amplicon	2330
+Canine_distemper_virus_specifi_H_gene_2	reduced	287
+Canine_distemper_virus_specifi_H_gene_2011	detect	314
+Canine_distemper_virus_specifi_H_gene_2011	fail	148
+Canine_distemper_virus_specifi_H_gene_2011	indeterminate	7
+Canine_distemper_virus_specifi_H_gene_2011	no_amplicon	3393
+Canine_distemper_virus_specifi_H_gene_2011	reduced	128
+Canine_distemper_virus_specifi_H_gene_2011_2	detect	714
+Canine_distemper_virus_specifi_H_gene_2011_2	fail	919
+Canine_distemper_virus_specifi_H_gene_2011_2	indeterminate	4
+Canine_distemper_virus_specifi_H_gene_2011_2	no_amplicon	2038
+Canine_distemper_virus_specifi_H_gene_2011_2	reduced	315
+Canine_distemper_virus_specifi_H_gene_2011_3	detect	1019
+Canine_distemper_virus_specifi_H_gene_2011_3	fail	135
+Canine_distemper_virus_specifi_H_gene_2011_3	indeterminate	3
+Canine_distemper_virus_specifi_H_gene_2011_3	no_amplicon	2116
+Canine_distemper_virus_specifi_H_gene_2011_3	reduced	717
+Canine_distemper_virus_specifi_H_gene_2011_4	detect	138
+Canine_distemper_virus_specifi_H_gene_2011_4	fail	134
+Canine_distemper_virus_specifi_H_gene_2011_4	indeterminate	7
+Canine_distemper_virus_specifi_H_gene_2011_4	no_amplicon	3621
+Canine_distemper_virus_specifi_H_gene_2011_4	reduced	90
+Canine_distemper_virus_specifi_H_gene_3	detect	457
+Canine_distemper_virus_specifi_H_gene_3	fail	330
+Canine_distemper_virus_specifi_H_gene_3	indeterminate	5
+Canine_distemper_virus_specifi_H_gene_3	no_amplicon	2468
+Canine_distemper_virus_specifi_H_gene_3	reduced	730
+Canine_distemper_virus_specifi_H_gene_4	detect	644
+Canine_distemper_virus_specifi_H_gene_4	fail	322
+Canine_distemper_virus_specifi_H_gene_4	indeterminate	5
+Canine_distemper_virus_specifi_H_gene_4	no_amplicon	2391
+Canine_distemper_virus_specifi_H_gene_4	reduced	628
+Canine_distemper_virus_specifi_P_gene	detect	217
+Canine_distemper_virus_specifi_P_gene	fail	56
+Canine_distemper_virus_specifi_P_gene	indeterminate	3
+Canine_distemper_virus_specifi_P_gene	no_amplicon	3603
+Canine_distemper_virus_specifi_P_gene	reduced	111
+Canine_distemper_virus_specifi_P_gene_Scagliarini_2007	detect	432
+Canine_distemper_virus_specifi_P_gene_Scagliarini_2007	fail	91
+Canine_distemper_virus_specifi_P_gene_Scagliarini_2007	indeterminate	4
+Canine_distemper_virus_specifi_P_gene_Scagliarini_2007	no_amplicon	3385
+Canine_distemper_virus_specifi_P_gene_Scagliarini_2007	reduced	78
+Canine_distemper_virus_specifi_P_gene_degenerate	detect	516
+Canine_distemper_virus_specifi_P_gene_degenerate	fail	270
+Canine_distemper_virus_specifi_P_gene_degenerate	indeterminate	4
+Canine_distemper_virus_specifi_P_gene_degenerate	no_amplicon	3175
+Canine_distemper_virus_specifi_P_gene_degenerate	reduced	25
+[Sun Oct  4 11:29:41 2026]
+Finished jobid: 43 (Rule: screen_group)
+52 of 57 steps (91%) done

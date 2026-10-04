@@ -44,7 +44,10 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit(f"--only names assays not in {args.assays}: {sorted(missing)}")
     records = list(read_fasta(args.fasta))
 
-    out = args.out.open("w", newline="") if args.out else sys.stdout
+    # Write under a temporary name and rename at the end, so the output only
+    # exists once it is complete: counting finished files then means something.
+    tmp = args.out.with_name(f".{args.out.name}.part") if args.out else None
+    out = tmp.open("w", newline="") if tmp else sys.stdout
     writer = None
     tally: Counter = Counter()
     for assay in assays:
@@ -64,6 +67,7 @@ def main(argv: list[str] | None = None) -> int:
             tally[(assay.id, row["call"])] += 1
     if args.out:
         out.close()
+        tmp.replace(args.out)
         for (aid, call), n in sorted(tally.items()):
             print(f"{aid}\t{call}\t{n}", file=sys.stderr)
     return 0

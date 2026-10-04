@@ -187,6 +187,13 @@ recover which positions mismatched. A 25 nt oligo against a 30 kb record takes
 about 5 ms; one probe-based assay against 1000 records of 1.5 kb takes under a
 second.
 
+Undetermined record bases are free when a site is *scored* but count against
+the budget when it is *found*: a window of Ns is not evidence of a binding
+site, and without this rule every offset in a scaffold gap matched every oligo
+perfectly and the pair scoring went cubic (the first live run spent nine hours
+on the Bd archive). A site with a few undetermined bases is still found and is
+called `indeterminate` if there are too many to judge.
+
 Raising `max_mismatches` can only add sites, never move or remove one, which
 `tests/test_match.py` asserts along with equality against a brute-force scan
 on random and degenerate sequences. Gaps are not modelled: a binding site with
@@ -211,20 +218,32 @@ python tests/make_fixtures.py && pytest -q
 ## Running the pipeline
 
 ```bash
-snakemake --cores 4 --config email=you@nyu.edu           # incremental
-snakemake --cores 4 --config email=you@nyu.edu full=true # re-fetch everything
+caffeinate -i snakemake --cores 4 --config email=you@nyu.edu
 ```
 
-Five stages: validate the registry, retrieve new records per taxon, screen
-each taxon's records against every assay, collect, report. Snakemake tracks which
-inputs produced which outputs, so a failed scoring run re-uses the sequences
-already fetched rather than hammering NCBI again.
+Five stages: validate the registry, retrieve what is new for each group,
+screen every archive not yet screened, collect, report. `caffeinate -i` keeps a
+Mac from idle-sleeping until the run ends.
 
-The set of taxa to screen is not known until retrieval reports which ones
-returned records, so `retrieve` is a Snakemake **checkpoint**: a rule that
-forces the job graph to be re-evaluated after it finishes, letting later rules
-read the manifest it wrote. That is the idiomatic way to handle a workflow
-whose shape depends on its own intermediate results.
+**Reports are cumulative.** Every archive ever fetched is screened once and the
+result is cached under `results/screened/<taxid>/<group>/<archive>.tsv`. Each
+report is built from all of those, with the newest version of each accession
+winning, so a group with nothing new this week is still in the report and next
+week only the new archives cost anything. `--config run_date=...` only renames
+the report folder.
+
+**State is kept apart from outputs.** Snakemake deletes a rule's declared
+outputs before it runs the rule. The retrieval manifest and the sequence
+archives must outlive any one run, so neither is ever declared as an output:
+`retrieve`'s output is a small per-day run record in `data/retrieved/runs/`,
+and the manifest beside it is state the retrieve code manages itself, written
+atomically. Archives are never overwritten either: a second run on the same day
+writes `<date>_2.fasta.gz`. If the manifest is ever lost or damaged,
+`python scripts/rebuild_manifest.py` rebuilds it from the archives on disk.
+
+`retrieve` is a Snakemake **checkpoint**: which archives exist is not known
+until it has run, so the job graph is re-evaluated after it finishes and the
+screening jobs are created from what is actually on disk.
 
 ### Retrieval groups and gene-targeted queries
 

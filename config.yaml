@@ -12,6 +12,7 @@ scoring:
   probe_center_penalty: 2.0      # central third of the probe
   probe_outer_penalty: 1.0
   max_ambiguous_per_oligo: 2     # more undetermined record bases under one oligo -> indeterminate
+  max_sites_per_oligo: 50        # best-ranked candidate sites kept per oligo per record
   detect_max: 1.0                # <= detect
   reduced_max: 3.0               # <= reduced efficiency; above = fail
   terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail

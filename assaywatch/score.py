@@ -176,15 +176,24 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
     if assay.oligos.probe is not None:
         probe = assay.oligos.probe.matching_seq
 
-    f_sites = [s for s in find_sites(fwd, record_seq, max_mm) if s.strand == "+"]
-    r_sites = [s for s in find_sites(rev, record_seq, max_mm) if s.strand == "-"]
+    # Keep only the best few sites per oligo. Pairing is quadratic and the probe
+    # search inside each pair makes it worse; a repetitive or low-complexity
+    # record can produce hundreds of near-sites, and the best pair is always
+    # built from sites near the top of this ranking anyway.
+    keep = int(cfg["scoring"].get("max_sites_per_oligo", 50))
+
+    def best(sites: list[Site]) -> list[Site]:
+        return sorted(sites, key=lambda x: (x.n_mismatches, x.n_ambiguous, x.start))[:keep]
+
+    f_sites = best([s for s in find_sites(fwd, record_seq, max_mm) if s.strand == "+"])
+    r_sites = best([s for s in find_sites(rev, record_seq, max_mm) if s.strand == "-"])
     if not f_sites or not r_sites:
         which = "forward" if not f_sites else "reverse"
         if not f_sites and not r_sites:
             which = "forward and reverse"
         return Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
 
-    p_sites = find_sites(probe, record_seq, max_mm) if probe else []
+    p_sites = best(find_sites(probe, record_seq, max_mm)) if probe else []
 
     best: Call | None = None
     for f in f_sites:
