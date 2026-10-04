@@ -12,7 +12,7 @@ oligos:
     seq: ATTGAGTGTTCCGGTGAATTA
   reverse:
     name: P-ITSR
-    seq: GCCATTTGCGTTCCAGAAATC
+    seq: GCCATTTGCGTTCAGAAATC
 amplicon_bp: null
 citation:
   doi: 10.1007/s00436-010-1945-4
@@ -35,8 +35,8 @@ source:
   positive_control: UC4, Sarcocystis falcatula from clinical case
   nested_round: null
   notes: null
-  notes_curator: 'Reverse primer suspected typo (2026-10-04, scripts/indel_check.py): every Sarcocystis record
-    reads GCCATTTGCGTTCAGAAATC, the registry has one extra C (GCGTTCCAG); 98% of evaluable records
-    fail on that one indel. Check P-ITSR against Kutkiene 2010 (not in PMC) before editing seq.'
-needs_review:
-- OLIGO_SEQ_SUSPECT
+  notes_curator: 'P-ITSR corrected 2026-10-04 from GCCATTTGCGTTCCAGAAATC (spreadsheet; one extra C) to
+    GCCATTTGCGTTCAGAAATC, as printed by the same group in Rudaityte-Lukosiene, Kutkiene et al. 2026
+    (10.3390/pathogens15070709, with P-ITSF identical to ours) and Kirillova, Prakas et al. 2018
+    (10.1186/s13071-018-2694-y), and as read by every Sarcocystis record (scripts/indel_check.py).'
+needs_review: null
