@@ -5,7 +5,8 @@ target:
   gene: 23S LSU (Large subunit)
   genome_type: apicoplast_DNA
   taxon_name: Apicomplexa
-  query: apicoplast[Title] AND (23S[Title] OR "large subunit"[Title] OR LSU[Title] OR "ribosomal RNA"[Title])
+  query: (apicoplast[Title] OR plastid[Title]) AND (23S[Title] OR "large subunit"[Title] OR LSU[Title] OR "ribosomal RNA"[Title]
+    OR "complete genome"[Title] OR "complete sequence"[Title])
 chemistry: conventional
 oligos:
   forward:

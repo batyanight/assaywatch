@@ -5,7 +5,7 @@ target:
   gene: null
   genome_type: dsDNA
   taxon_name: Yersinia pseudotuberculosis
-  query: inv[Gene] OR invasin[Title]
+  query: (inv[Gene] OR invasin[Title]) AND 1:30000[SLEN]
 chemistry: conventional
 oligos:
   forward:

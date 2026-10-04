@@ -1,0 +1,3 @@
+2 retrieval groups from 5 assays
+     10241  Chordopoxvirinae                                 full            28388 avail  28387 fetched; pages of 203 (mean record 98,286 nt)
+    121791  Nipah henipavirus                                full              426 avail  426 fetched

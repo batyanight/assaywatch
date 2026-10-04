@@ -5,7 +5,7 @@ target:
   gene: 16S rRNA
   genome_type: dsDNA
   taxon_name: Helicobacter
-  query: '"16S ribosomal RNA"[Title] OR "16S rRNA"[Title] OR 16S[Title]'
+  query: ("16S ribosomal RNA"[Title] OR "16S rRNA"[Title] OR 16S[Title]) AND 1:30000[SLEN]
 chemistry: conventional
 oligos:
   forward:

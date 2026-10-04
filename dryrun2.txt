@@ -1,0 +1,26 @@
+24 retrieval groups from 41 assays
+       171  Leptospira                         [q6a6283092b] full              800 avail  dry run
+       209  Helicobacter                       [q8e40f7bc01] full             2985 avail  dry run
+SKIP  562/q34921837e4: taxid 562 (Escherichia coli) group q34921837e4 has 356991 records, over the cap of 50000. Add 562 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+       562  Escherichia coli                   [q5b8c365b53] full             3376 avail  dry run
+SKIP  562/q86e9d2f6a9: taxid 562 (Escherichia coli) group q86e9d2f6a9 has 141984 records, over the cap of 50000. Add 562 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+       620  Shigella                           [q0bbd26b690] full              591 avail  dry run
+       630  Yersinia enterocolitica            [qec5f7c2fd0] full             2031 avail  dry run
+       633  Yersinia pseudotuberculosis        [q71a9303626] full              349 avail  dry run
+      5758  Entamoeba                          [q176b49b0cd] full             3283 avail  dry run
+SKIP  5794/q0763ce7f8d: taxid 5794 (Apicomplexa) group q0763ce7f8d has 56094 records, over the cap of 50000. Add 5794 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+      5794  Apicomplexa                        [q533dca4462] full              109 avail  dry run
+      5806  Cryptosporidium                    [q0763ce7f8d] full            14853 avail  dry run
+      5819  Haemosporida                       [q49e818bd88] full            32018 avail  dry run
+      5820  Plasmodium                         [q0763ce7f8d] full             2713 avail  dry run
+     10292  Herpesviridae                      [q620b1275c5] full             3804 avail  dry run
+     10292  Herpesviridae                      [qb418855090] full             7706 avail  dry run
+SKIP  11051/q63c5fca5b3: taxid 11051 (Flavivirus) group q63c5fca5b3 has 59558 records, over the cap of 50000. Add 11051 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+     11118  Coronaviridae                      [q4d4730ef3b] full            25419 avail  dry run
+     11158  Paramyxoviridae                    [q049d549652] full            15018 avail  dry run
+SKIP  11320/q2ebd5918b3: taxid 11320 (Influenza A virus) group q2ebd5918b3 has 182556 records, over the cap of 50000. Add 11320 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+     11723  Simian immunodeficiency virus      [q49bae82c9c] full             8252 avail  dry run
+     12059  Enterovirus                        [q2b612305e5] full            20605 avail  dry run
+SKIP  12059/qbb80900029: taxid 12059 (Enterovirus) group qbb80900029 has 73182 records, over the cap of 50000. Add 12059 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+SKIP  28901/q1893dba7a8: taxid 28901 (Salmonella enterica) group q1893dba7a8 has 131273 records, over the cap of 50000. Add 28901 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
+7 groups skipped for size

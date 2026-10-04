@@ -29,10 +29,11 @@ retrieve:
   min_length: 100             # skip fragments too short to contain any amplicon
   max_length: null            # whole genomes are fine: an amplicon may sit anywhere
   query_suffix: null          # e.g. 'NOT "whole genome shotgun"[Title]' to trim bulk
-  max_records_per_taxon: 50000
-  # Taxa allowed past the cap, by taxid. Opt in deliberately: influenza A
-  # (11320) alone is over a million records and will dominate a weekly run.
-  large_taxa_allowed: []
+  max_records_per_taxon: 100000
+  # Taxa allowed past the cap, by taxid. Opt in deliberately. Influenza A
+  # segment 7 is ~180,000 records on first fetch (and incremental after);
+  # that is a known cost, accepted on 2026-10-03.
+  large_taxa_allowed: [11320]
 
 # Degeneracy is never scored; these tiers only annotate how much weight a
 # `detect` call deserves. See assaywatch/degeneracy.py for the rationale.

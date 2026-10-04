@@ -5,7 +5,7 @@ target:
   gene: null
   genome_type: dsDNA
   taxon_name: Shigella
-  query: ipaH[Gene] OR "invasion plasmid antigen"[Title] OR ipaH[Title]
+  query: (ipaH[Gene] OR "invasion plasmid antigen"[Title] OR ipaH[Title]) AND 1:30000[SLEN]
 chemistry: conventional
 oligos:
   forward:
