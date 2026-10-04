@@ -37,6 +37,7 @@ sequence problems are not confused with assay problems.
 
 from __future__ import annotations
 
+from bisect import bisect_left, bisect_right
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -165,6 +166,63 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
     return "fail"
 
 
+def _rank(site: Site) -> tuple[int, int, int]:
+    """How good a single site is: fewest mismatches, then fewest undetermined bases, then position."""
+    return (site.n_mismatches, site.n_ambiguous, site.start)
+
+
+def _call_rank(call: str, reason: str) -> float:
+    """Order of preference between candidate amplicons of one record.
+
+    A primer pair with no probe site between it is a `fail` with no probe
+    penalty, so on penalty alone it would beat a real amplicon whose probe is
+    present but mismatched. It ranks after every amplicon that has its probe.
+    """
+    if call == "fail" and reason == "no probe site inside amplicon":
+        return 2.5
+    return {"detect": 0, "reduced": 1, "fail": 2, "indeterminate": 3}[call]
+
+
+class SiteIndex:
+    """Sites sorted by start, for range queries; results come back in _rank order."""
+
+    def __init__(self, sites: list[Site]):
+        self.sites = sorted(sites, key=lambda x: x.start)
+        self.starts = [x.start for x in self.sites]
+
+    def within(self, lo: int, hi: int, strand: str | None = None) -> list[Site]:
+        """Sites with lo <= start <= hi (optionally on one strand), best first."""
+        i, j = bisect_left(self.starts, lo), bisect_right(self.starts, hi)
+        out = self.sites[i:j] if strand is None else [x for x in self.sites[i:j] if x.strand == strand]
+        return sorted(out, key=_rank)
+
+
+def facing_pairs(f_all: list[Site], r_all: list[Site], rev_len: int, amp: dict[str, Any]) -> list[tuple]:
+    """Every forward/reverse pair facing each other in amplicon range, either orientation.
+
+    Returns (forward, reverse, amplicon start, amplicon end, inner start, inner end);
+    `inner` is the stretch between the primers, where a probe must sit. The
+    reverse sites are found by binary search on position, so a genome with
+    thousands of candidate sites pairs in near-linear time. Order is forward
+    sites best first (plus strand before minus), then reverse sites best first,
+    which fixes how ties between equally good amplicons are broken.
+    """
+    lo_bp, hi_bp = int(amp["min_bp"]), int(amp["max_bp"])
+    r_index = SiteIndex(r_all)
+    pairs = []
+    for f in sorted((x for x in f_all if x.strand == "+"), key=_rank):
+        # Reverse on minus, downstream: amplicon = [f.start, r.end), r.end = r.start + rev_len.
+        lo = max(f.start + 1, f.start + lo_bp - rev_len)
+        for r in r_index.within(lo, f.start + hi_bp - rev_len, "-"):
+            pairs.append((f, r, f.start, r.end, f.end, r.start))
+    for f in sorted((x for x in f_all if x.strand == "-"), key=_rank):
+        # Reverse on plus, upstream: amplicon = [r.start, f.end).
+        hi = min(f.start - 1, f.end - lo_bp)
+        for r in r_index.within(f.end - hi_bp, hi, "+"):
+            pairs.append((f, r, r.start, f.end, r.end, f.start))
+    return pairs
+
+
 def screen_record(
     assay: Assay, record_id: str, record_seq: str, cfg: dict[str, Any], comp: tuple | None = None
 ) -> Call:
@@ -187,15 +245,6 @@ def screen_record(
     if assay.oligos.probe is not None:
         probe = assay.oligos.probe.matching_seq
 
-    # Keep only the best few sites per oligo. Pairing is quadratic and the probe
-    # search inside each pair makes it worse; a repetitive or low-complexity
-    # record can produce hundreds of near-sites, and the best pair is always
-    # built from sites near the top of this ranking anyway.
-    keep = int(cfg["scoring"].get("max_sites_per_oligo", 50))
-
-    def top_sites(sites: list[Site]) -> list[Site]:
-        return sorted(sites, key=lambda x: (x.n_mismatches, x.n_ambiguous, x.start))[:keep]
-
     f_all = find_sites(fwd, record_seq, max_mm)
     r_all = find_sites(rev, record_seq, max_mm)
     if not f_all or not r_all:
@@ -204,23 +253,15 @@ def screen_record(
             which = "forward and reverse"
         return Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
 
-    p_sites = top_sites(find_sites(probe, record_seq, max_mm)) if probe else []
-
-    # Candidate (forward, reverse, amplicon start, amplicon end, inner start, inner end)
-    # in both orientations; `inner` is the stretch between the primers, where a probe must sit.
-    pairs = []
-    f_plus = top_sites([s for s in f_all if s.strand == "+"])
-    f_minus = top_sites([s for s in f_all if s.strand == "-"])
-    r_plus = top_sites([s for s in r_all if s.strand == "+"])
-    r_minus = top_sites([s for s in r_all if s.strand == "-"])
-    for f in f_plus:
-        for r in r_minus:
-            if r.start > f.start:
-                pairs.append((f, r, f.start, r.end, f.end, r.start))
-    for f in f_minus:
-        for r in r_plus:
-            if f.start > r.start:
-                pairs.append((f, r, r.start, f.end, r.end, f.start))
+    pairs = facing_pairs(f_all, r_all, len(rev), amp)
+    # A pathological record (long low-complexity runs) can still produce a huge
+    # number of pairs; keep the best-matched ones. This applies to pairs, never
+    # to single sites: a cap on sites before pairing could drop the true site of a
+    # genome in favour of fifty better-looking chance sites elsewhere.
+    cap = int(cfg["scoring"].get("max_pairs_per_record", 5000))
+    if len(pairs) > cap:
+        pairs = sorted(pairs, key=lambda x: _rank(x[0]) + _rank(x[1]))[:cap]
+    p_index = SiteIndex(find_sites(probe, record_seq, max_mm)) if probe else None
 
     # Chance-pair guard (chance.py). The E-value is always reported; pairs above
     # `max_pair_evalue` are only dropped when that is set.
@@ -252,7 +293,7 @@ def screen_record(
         rs = score_primer(r, len(rev), cfg)
         ps, p_site, reason = None, None, ""
         if probe:
-            inside = [p for p in p_sites if p.start >= inner_lo and p.end <= inner_hi]
+            inside = p_index.within(inner_lo, inner_hi - len(probe))
             if inside:
                 ps, p_site = min(
                     ((score_probe(p, len(probe), cfg), p) for p in inside), key=lambda x: x[0].penalty
@@ -284,9 +325,12 @@ def screen_record(
         # last: a site we can actually judge, even a failing one, is more
         # informative than one hidden behind ambiguity codes, and an N-run
         # elsewhere in the record must not masquerade as a clean amplicon.
-        rank = {"detect": 0, "reduced": 1, "fail": 2, "indeterminate": 3}
-        key = (rank[call], total, n_amb)
-        best_key = (rank[best.call], best.penalty, best.extra.get("n_ambiguous", 0)) if best else None
+        key = (_call_rank(call, reason), total, n_amb)
+        best_key = (
+            (_call_rank(best.call, best.reason), best.penalty, best.extra.get("n_ambiguous", 0))
+            if best
+            else None
+        )
         if best is None or key < best_key:
             best = cand
 

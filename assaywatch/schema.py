@@ -89,6 +89,19 @@ class Oligo(Strict):
         return v
 
     @model_validator(mode="after")
+    def as_written_matches_seq(self) -> Oligo:
+        """`seq_as_written` is `seq` with inosine restored, nothing else.
+
+        It replaces `seq` for matching, so a shorter or different string here
+        would silently change what is screened (a 3-base 'oligo' matches
+        everywhere), and the tail is cut from it by length.
+        """
+        w = self.seq_as_written
+        if w is not None and w.replace("I", "N") != self.seq:
+            raise ValueError(f"seq_as_written {w} must equal seq {self.seq} with inosine (I) where seq has N")
+        return self
+
+    @model_validator(mode="after")
     def tail_is_a_prefix(self) -> Oligo:
         if self.tail_5prime is not None:
             t = self.tail_5prime.strip().upper()

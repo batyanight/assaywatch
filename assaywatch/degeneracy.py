@@ -94,8 +94,8 @@ DEFAULT_TIERS: list[tuple[int, str]] = [
 
 
 def matching_sequence(oligo) -> str:
-    """The sequence to compare against records: as written, inosine included."""
-    return (getattr(oligo, "seq_as_written", None) or oligo.seq).upper()
+    """The sequence to compare against records: as written, inosine included, 5' tail excluded."""
+    return oligo.matching_seq
 
 
 def tier_for(fold: int, cfg: dict[str, Any] | None = None) -> str:

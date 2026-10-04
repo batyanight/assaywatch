@@ -71,18 +71,22 @@ def resolve(oligo: str, site: str) -> tuple[str, str, bool]:
     """
     o_out, t_out, inosine = [], [], False
     for o, t in zip(oligo.upper(), site.upper(), strict=True):
-        t_set = IUPAC.get(t, "ACGT")
+        pool = IUPAC.get(o, "ACGT")
+        if t not in IUPAC:
+            # Not a base at all ('-', '*', 'X'): the matcher scores it as a
+            # mismatch, so model it as one rather than as a perfect pair.
+            ob = pool[0]
+            o_out.append(ob)
+            t_out.append("C" if ob == "A" else "A")
+            continue
+        t_set = IUPAC[t]  # U reads as T
         if o == "I":
             inosine = True
-            base = t if len(t_set) == 1 else "A"
+            base = t_set if len(t_set) == 1 else "A"
             o_out.append(base)
             t_out.append(base)
             continue
-        pool = IUPAC.get(o, "ACGT")
-        if len(t_set) == 1 and t_set in pool:
-            ob = t_set
-        else:
-            ob = pool[0]
+        ob = t_set if len(t_set) == 1 and t_set in pool else pool[0]
         o_out.append(ob)
         t_out.append(t_set if len(t_set) == 1 else ob)
     return "".join(o_out), "".join(t_out), inosine

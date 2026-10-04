@@ -17,8 +17,10 @@ def read_fasta(path: Path) -> Iterator[tuple[str, str]]:
             if line.startswith(">"):
                 if rid is not None:
                     yield rid, "".join(chunks)
-                rid, chunks = line[1:].split(None, 1)[0], []
+                parts = line[1:].split(None, 1)
+                rid, chunks = (parts[0] if parts else ""), []
             elif line:
-                chunks.append(line.strip())
+                # Whitespace inside a sequence line is formatting, not sequence.
+                chunks.append("".join(line.split()))
     if rid is not None:
         yield rid, "".join(chunks)

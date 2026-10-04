@@ -12,7 +12,7 @@ scoring:
   probe_center_penalty: 2.0      # central third of the probe
   probe_outer_penalty: 1.0
   max_ambiguous_per_oligo: 2     # more undetermined record bases under one oligo -> indeterminate
-  max_sites_per_oligo: 50        # best-ranked candidate sites kept per oligo per record
+  max_pairs_per_record: 5000     # safety cap on candidate amplicons per record (best-matched kept)
   # Chance-pair guard (assaywatch/chance.py). Every amplicon gets a pair_evalue:
   # the expected number of primer pairs this good in a random record of the same
   # length. Set a number (e.g. 0.01) to call pairs above it no_amplicon instead
