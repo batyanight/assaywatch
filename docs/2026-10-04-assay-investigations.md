@@ -44,3 +44,13 @@ from a gradual change over time.
   phylogenetic placement of these 35 records would name it.
 * **What it means:** "watch" at ~88% is accurate. The cause is one recurring
   variant, not a decline.
+
+## The two scoped assays after scoping
+
+* **Takehisa 2009 (SIVcpz/SIVgor only):** 28 of 219 evaluable records detected
+  (13%), no evaluable deposits in the last 24 months, so `no recent data`. Even
+  within its lineage the assay mostly fails, which suggests it is specific to
+  gorilla SIV rather than covering chimpanzee SIV as well. Worth checking
+  against the paper's stated target before relying on it for SIVcpz.
+* **Feldman 2006 (chelonian mycoplasmas only):** 9 of 10 evaluable records
+  detected, no recent evaluable deposits, so `no recent data`.

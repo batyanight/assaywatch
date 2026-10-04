@@ -111,6 +111,14 @@ checkpoint retrieve:
         RESULTS / RUN_DATE / ".registry-valid",
     output:
         run=RETRIEVED / "runs" / f"{TODAY}.json",
+    params:
+        # Which groups the registry asks for. Without this, retrieval ran at most
+        # once a day (its output is the day's run record), so a group added or
+        # re-scoped later that day got no data until tomorrow. Existing groups
+        # stay incremental; only new ones are fetched in full.
+        groups=hashlib.sha1(
+            repr(sorted((t, g, str(v["query"])) for (t, g), v in GROUPS.items())).encode()
+        ).hexdigest()[:16],
     # The email is read from config in the command, not passed as a param: a
     # params change reruns the rule, and a different contact address is no
     # reason to fetch again.
