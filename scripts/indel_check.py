@@ -51,7 +51,7 @@ from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.gapped import align, hamming_scan, scan  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
-from assaywatch.score import load_config  # noqa: E402
+from assaywatch.score import load_config, screen_record  # noqa: E402
 from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 PAD = 4  # bases either side of a known site searched for a gapped placement
@@ -95,22 +95,41 @@ def sample_calls(screened: Path, per_assay: int, seed: int):
     return picked, seen, totals
 
 
-def oligo_windows(assay, row, seq):
-    """(name, oligo, window, ungapped cost) for each oligo of a `fail` call, oriented like the oligo."""
-    s, e = int(row["amplicon_start"]), int(row["amplicon_end"])
-    fwd = assay.oligos.forward.matching_seq
-    rev = assay.oligos.reverse.matching_seq
+def oriented(seq: str, start: int, end: int, strand: str) -> str:
+    """seq[start-PAD:end+PAD], read 5'->3' like an oligo that binds on `strand`."""
+    w = seq[max(0, start - PAD) : end + PAD]
+    return w if strand == "+" else reverse_complement(w)
+
+
+def oligo_windows(assay, row, seq, cfg):
+    """(name, oligo, window, ungapped cost) for each oligo of a `fail` call, oriented like the oligo.
+
+    The sites are recovered by screening the record again rather than inferred
+    from amplicon_start/end: an amplicon may lie on either strand, and only the
+    sites say which end is the forward primer.
+    """
+    call = screen_record(assay, row["record_id"], seq, cfg)
+    sites = call.extra.get("sites")
+    if not sites:
+        return []
     out = []
-    w = seq[max(0, s - PAD) : s + len(fwd) + PAD]
-    out.append(("forward", fwd, w))
-    w = reverse_complement(seq[max(0, e - len(rev) - PAD) : e + PAD])
-    out.append(("reverse", rev, w))
+    for name in ("forward", "reverse"):
+        site = sites[name]
+        oligo = getattr(assay.oligos, name).matching_seq
+        out.append((name, oligo, oriented(seq, site.start, site.end, site.strand)))
     if assay.oligos.probe is not None:
         probe = assay.oligos.probe.matching_seq
-        inner = seq[s + len(fwd) : e - len(rev)]
-        # Either strand; keep the orientation where the probe fits best.
-        best = min((inner, reverse_complement(inner)), key=lambda x: int(scan(probe, x).min()) if x else 99)
-        out.append(("probe", probe, best))
+        p = sites.get("probe")
+        if p is not None:
+            out.append(("probe", probe, oriented(seq, p.start, p.end, p.strand)))
+        else:
+            # No ungapped probe site: search the stretch between the primers, either strand.
+            f, r = sites["forward"], sites["reverse"]
+            inner = seq[min(f.end, r.end) : max(f.start, r.start)]
+            best = min(
+                (inner, reverse_complement(inner)), key=lambda x: int(scan(probe, x).min()) if x else 99
+            )
+            out.append(("probe", probe, best))
     result = []
     for name, oligo, window in out:
         h = hamming_scan(oligo, window)
@@ -147,7 +166,7 @@ def check_fail(assay, row, seq, cfg):
     sc = cfg["scoring"]
     findings = []
     total, terminal, any_indel = 0.0, False, False
-    for name, oligo, window, ungapped in oligo_windows(assay, row, seq):
+    for name, oligo, window, ungapped in oligo_windows(assay, row, seq, cfg):
         a = align(oligo, window)
         use_gapped = clean_indel(a, ungapped)
         mm = a.mismatches if use_gapped else None
@@ -193,45 +212,40 @@ def check_fail(assay, row, seq, cfg):
 
 
 def check_missing(assay, row, seq, cat, cfg, max_cost):
-    """Is the missing primer there with an indel, paired with a found partner in range?"""
+    """Is the missing primer there with an indel, facing a found partner in range?
+
+    Both orientations, as in screen_record: partner on plus with the missing
+    primer on minus, and the mirror image.
+    """
     amp = cfg["amplicon"]
+    lo_bp, hi_bp = amp["min_bp"], amp["max_bp"]
     fwd = assay.oligos.forward.matching_seq
     rev = assay.oligos.reverse.matching_seq
-    if cat == "no_reverse":
-        partners = [s for s in find_sites(fwd, seq, 6) if s.strand == "+"]
-        # The reverse primer's sequence appears on the minus strand: scan the reverse complement.
-        costs = scan(rev, reverse_complement(seq))
-        n = len(seq)
-        hits = [
-            (int(c), n - j) for j, c in enumerate(costs.tolist()) if c <= max_cost
-        ]  # start on plus strand
-        pairs = [
-            (c, p.start, st + len(rev))
-            for c, st in hits
-            for p in partners
-            if amp["min_bp"] <= st + len(rev) - p.start <= amp["max_bp"]
-        ]
-        oligo, missing = rev, "reverse"
-    else:
-        partners = [s for s in find_sites(rev, seq, 6) if s.strand == "-"]
-        costs = scan(fwd, seq)
-        hits = [(int(c), j) for j, c in enumerate(costs.tolist()) if c <= max_cost]  # end on plus strand
-        pairs = [
-            (c, j - len(fwd), p.end)
-            for c, j in hits
-            for p in partners
-            if amp["min_bp"] <= p.end - (j - len(fwd)) <= amp["max_bp"]
-        ]
-        oligo, missing = fwd, "forward"
+    missing, oligo, partner = ("reverse", rev, fwd) if cat == "no_reverse" else ("forward", fwd, rev)
+    n, L = len(seq), len(oligo)
+    rc = reverse_complement(seq)
+    partners = find_sites(partner, seq, 6)
+    # Gapped hits of the missing primer as plus-strand spans, per strand it binds on.
+    # scan() gives exclusive end positions; on the reverse complement an end j is plus start n - j.
+    hits = {
+        "+": [(int(c), j - L, j) for j, c in enumerate(scan(oligo, seq).tolist()) if c <= max_cost],
+        "-": [(int(c), n - j, n - j + L) for j, c in enumerate(scan(oligo, rc).tolist()) if c <= max_cost],
+    }
+    pairs = []
+    for p in partners:
+        strand = "-" if p.strand == "+" else "+"  # the missing primer faces its partner
+        for c, hs, he in hits[strand]:
+            # The forward primer is upstream in the amplicon's own reading direction.
+            f_start, r_start = (p.start, hs) if missing == "reverse" else (hs, p.start)
+            f_plus = (p.strand if missing == "reverse" else strand) == "+"
+            if (r_start > f_start) if f_plus else (f_start > r_start):
+                start, end = min(p.start, hs), max(p.end, he)
+                if lo_bp <= end - start <= hi_bp:
+                    pairs.append((c, hs, he, strand, start, end))
     if not pairs:
         return None
-    c, s, e = min(pairs)
-    # Re-align in a small window to locate the indel(s).
-    if missing == "forward":
-        window = seq[max(0, s - PAD) : s + len(oligo) + 2 * PAD]
-    else:
-        window = reverse_complement(seq[max(0, e - len(oligo) - 2 * PAD) : e + PAD])
-    a = align(oligo, window)
+    c, hs, he, strand, start, end = min(pairs)
+    a = align(oligo, oriented(seq, hs, he, strand))
     if a.n_indels != 1 or len(a.mismatches) > 1:
         return None
     return {
@@ -240,7 +254,7 @@ def check_missing(assay, row, seq, cat, cfg, max_cost):
         "gapped_cost": a.cost,
         "indels_from_3prime": ",".join(map(str, sorted(a.insertions + a.deletions))),
         "mismatches_from_3prime": ",".join(map(str, a.mismatches)),
-        "amplicon_bp": e - s,
+        "amplicon_bp": end - start,
     }
 
 

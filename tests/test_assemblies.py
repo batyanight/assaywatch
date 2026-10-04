@@ -146,19 +146,29 @@ def test_retrieve_assemblies_end_to_end_and_incrementally(cfg, tmp_path):
     pairs = _pairs(ASSAYS[BD])
 
     run = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-04")
-    assert run.group == "asm" and run.n_fetched == 8  # 2 per year x 4 years
-    assert len(fake.downloaded) == 8
+    assert run.group == "asm" and len(fake.downloaded) == 8  # 2 per year x 4 years requested
+    missing = [a for a in fake.downloaded if a not in genomes]
+    assert missing, "the fixture should leave some picked genomes undownloadable"
+    assert run.n_fetched == 8 - len(missing) and "retried next run" in run.note
     recs = dict(read_fasta(run.fasta))
     assert recs and all(acc.startswith("GCA_") for acc in recs)
     with gzip.open(run.metadata, "rt") as fh:
         rows = list(csv.DictReader(fh, delimiter="\t"))
-    assert len(rows) == 8 and {r["accession"] for r in rows} >= set(recs)
-    assert any(r["length"] == "0" and "not downloaded" in r["title"] for r in rows)
+    # A genome that was not downloaded is not recorded, so it does not use up its year's quota.
+    assert len(rows) == run.n_fetched and not {r["accession"] for r in rows} & set(missing)
     # The report's year join reads it like any nuccore metadata.
     years = read_years(tmp_path / "retrieved")
     assert {years[a.rsplit(".", 1)[0]] for a in recs} <= {2018, 2019, 2020, 2021}
-
     record_run(cfg, run)
+
+    # The missing genomes become available: the next run retries exactly those.
+    fake.genomes.update({a: _bd_genome(3) for a in missing})
+    fake.downloaded = []
+    retry = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-05")
+    assert retry.mode == "incremental" and sorted(fake.downloaded) == sorted(missing)
+    assert retry.n_fetched == len(missing)
+    record_run(cfg, retry)
+
     # Nothing new released: the next run fetches nothing.
     again = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-11")
     assert again.n_fetched == 0 and again.note == "nothing new"

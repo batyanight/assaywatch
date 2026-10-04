@@ -165,7 +165,9 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
     return "fail"
 
 
-def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, Any]) -> Call:
+def screen_record(
+    assay: Assay, record_id: str, record_seq: str, cfg: dict[str, Any], comp: tuple | None = None
+) -> Call:
     """Best-scoring amplicon for `assay` in one record, or no_amplicon.
 
     Geometry rule: the forward and reverse sites must face each other on
@@ -191,7 +193,7 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
     # built from sites near the top of this ranking anyway.
     keep = int(cfg["scoring"].get("max_sites_per_oligo", 50))
 
-    def best(sites: list[Site]) -> list[Site]:
+    def top_sites(sites: list[Site]) -> list[Site]:
         return sorted(sites, key=lambda x: (x.n_mismatches, x.n_ambiguous, x.start))[:keep]
 
     f_all = find_sites(fwd, record_seq, max_mm)
@@ -202,13 +204,15 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
             which = "forward and reverse"
         return Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
 
-    p_sites = best(find_sites(probe, record_seq, max_mm)) if probe else []
+    p_sites = top_sites(find_sites(probe, record_seq, max_mm)) if probe else []
 
     # Candidate (forward, reverse, amplicon start, amplicon end, inner start, inner end)
     # in both orientations; `inner` is the stretch between the primers, where a probe must sit.
     pairs = []
-    f_plus, f_minus = best([s for s in f_all if s.strand == "+"]), best([s for s in f_all if s.strand == "-"])
-    r_plus, r_minus = best([s for s in r_all if s.strand == "+"]), best([s for s in r_all if s.strand == "-"])
+    f_plus = top_sites([s for s in f_all if s.strand == "+"])
+    f_minus = top_sites([s for s in f_all if s.strand == "-"])
+    r_plus = top_sites([s for s in r_all if s.strand == "+"])
+    r_minus = top_sites([s for s in r_all if s.strand == "-"])
     for f in f_plus:
         for r in r_minus:
             if r.start > f.start:
@@ -221,7 +225,10 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
     # Chance-pair guard (chance.py). The E-value is always reported; pairs above
     # `max_pair_evalue` are only dropped when that is set.
     max_e = cfg["scoring"].get("max_pair_evalue")
-    comp = composition(record_seq) if pairs else None
+    # The caller may pass the record's composition when it screens several
+    # assays against one record, so a genome is not re-counted per assay.
+    if pairs and comp is None:
+        comp = composition(record_seq)
     n_chance = 0
 
     best: Call | None = None

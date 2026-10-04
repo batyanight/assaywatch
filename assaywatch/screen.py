@@ -25,6 +25,7 @@ from multiprocessing import Pool
 from pathlib import Path
 from typing import Any
 
+from assaywatch.chance import composition
 from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.fasta import read_fasta
 from assaywatch.score import load_config, screen_record
@@ -49,14 +50,16 @@ def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     """Rows for one batch of records, one list per assay in assay order."""
     assert _STATE is not None, "_init_worker was not called"
     assays, cfg, degs, thermo = _STATE
+    # Base composition is per record, not per assay: count each record once.
+    comps = [composition(seq) for _, seq in batch]
     out = []
     for assay, (fold, tier) in zip(assays, degs, strict=True):
         oligos = {"forward": assay.oligos.forward.matching_seq, "reverse": assay.oligos.reverse.matching_seq}
         if assay.oligos.probe is not None:
             oligos["probe"] = assay.oligos.probe.matching_seq
         rows = []
-        for rid, seq in batch:
-            call = screen_record(assay, rid, seq, cfg)
+        for (rid, seq), comp in zip(batch, comps, strict=True):
+            call = screen_record(assay, rid, seq, cfg, comp)
             call.extra["degeneracy_fold"] = fold
             call.extra["degeneracy_tier"] = tier
             if thermo:

@@ -40,7 +40,8 @@ are dated, but it is not 2018 biology.
 
 Genomes with no candidate amplicon are still listed in the metadata (length 0) so
 the sample is traceable, and they count toward their year's quota, so a later
-run does not keep sampling past them.
+run does not keep sampling past them. A genome missing from the download is
+left out instead, so the next run picks it again.
 """
 
 from __future__ import annotations
@@ -272,13 +273,14 @@ def extract_loci(
     for _, seq in contigs:
         seq = seq.upper()
         comp = composition(seq)
-        sites: dict[tuple[str, str], list] = {}
+        sites: dict[str, dict[str, list]] = {}
 
         def on(oligo: str, strand: str, seq=seq, sites=sites) -> list:
-            key = (oligo, strand)
-            if key not in sites:
-                sites[key] = [x for x in find_sites(oligo, seq, max_mm) if x.strand == strand]
-            return sites[key]
+            # find_sites scans both strands at once; do it once per oligo.
+            if oligo not in sites:
+                found = find_sites(oligo, seq, max_mm)
+                sites[oligo] = {st: [x for x in found if x.strand == st] for st in "+-"}
+            return sites[oligo][strand]
 
         spans = []
         for fwd, rev in pairs:
@@ -357,10 +359,13 @@ def retrieve_assemblies(
     out_dir = Path(cfg.get("retrieved_dir", "data/retrieved")) / str(taxid) / "asm"
 
     since_text = None if full else last_run_date(load_manifest(cfg), taxid, "asm")
-    since = date.fromisoformat(since_text.replace("/", "-")) if since_text else None
     taken, seen = (Counter(), set()) if full else taken_per_year(out_dir)
 
-    listed = list_assemblies(fetch, taxid, levels, since, date.fromisoformat(run_date))
+    # The whole history is listed every run, not just releases since the last
+    # one: the listing is cheap (about twenty requests for E. coli), it catches
+    # assemblies whose release date NCBI back-fills, and it is what lets a genome
+    # that failed to download be picked again. `seen` keeps it incremental.
+    listed = list_assemblies(fetch, taxid, levels, None, date.fromisoformat(run_date))
     listed = [m for m in listed if m.accession not in seen]
     picked = sample_per_year(listed, per_year, taken)
 
@@ -369,7 +374,7 @@ def retrieve_assemblies(
         taxon_name=taxon_name,
         run_date=run_date,
         query=f"Datasets genome/taxon/{taxid}: GenBank {'+'.join(levels)}, {per_year} per release year",
-        mode="incremental" if since else "full",
+        mode="incremental" if seen else "full",
         since=since_text,
         n_available=len(listed),
         n_fetched=0,
@@ -388,23 +393,30 @@ def retrieve_assemblies(
     fasta_path, meta_path = out_dir / f"{stem}.fasta.gz", out_dir / f"{stem}.meta.tsv.gz"
     fasta_tmp, meta_tmp = out_dir / f".{stem}.fasta.gz.part", out_dir / f".{stem}.meta.tsv.gz.part"
     by_acc = {m.accession: m for m in picked}
-    n_with_locus = 0
+    n_with_locus = n_missing = 0
     with gzip.open(fasta_tmp, "wt") as fh, gzip.open(meta_tmp, "wt") as mh:
         mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
         for acc, contigs in iter_genomes(fetch, list(by_acc), int(a.get("batch", 10))):
             m = by_acc[acc]
-            seq, n_win = extract_loci(contigs, pairs, cfg) if contigs else ("", 0)
+            if not contigs:
+                # Not in the download. Left out of the metadata, so it does not
+                # use up its year's quota and the next run picks it again.
+                n_missing += 1
+                continue
+            seq, n_win = extract_loci(contigs, pairs, cfg)
             if seq:
                 n_with_locus += 1
                 fh.write(f">{acc} {m.organism} {m.strain} loci={n_win}\n")
                 for i in range(0, len(seq), 80):
                     fh.write(seq[i : i + 80] + "\n")
-            note = "not downloaded" if not contigs else f"{n_win} loci"
-            title = f"{m.organism} {m.strain}; {m.level}; {note}; collected {m.collection_date or 'missing'}"
+            collected = m.collection_date or "missing"
+            title = f"{m.organism} {m.strain}; {m.level}; {n_win} loci; collected {collected}"
             mh.write(f"{acc}\t{acc}\t{m.release_date}\t{m.release_date}\t{len(seq)}\t{title}\n")
     os.replace(meta_tmp, meta_path)
     os.replace(fasta_tmp, fasta_path)
-    run.n_fetched = len(picked)
+    run.n_fetched = len(picked) - n_missing
     run.fasta, run.metadata = str(fasta_path), str(meta_path)
-    run.note = f"{n_with_locus} of {len(picked)} genomes carry a candidate amplicon"
+    run.note = f"{n_with_locus} of {run.n_fetched} genomes carry a candidate amplicon"
+    if n_missing:
+        run.note += f"; {n_missing} not in the download, retried next run"
     return run
