@@ -189,3 +189,15 @@ def test_year_stats_can_be_assembled_directly():
     a.years[2025].counts["detect"] = 30
     a.finalise()
     assert a.recent_evaluable == 30 and a.status == "stable"
+
+
+def test_a_real_but_tiny_fall_is_not_declining():
+    """1% -> 0% over thousands of records excludes zero, and still says nothing about drift."""
+    cfg = {"drift": {**CFG["drift"], "min_decline": 0.05}}
+    calls, years = records({2015: {"detect": 30, "fail": 2970}, 2025: {"fail": 3000}})
+    a = assess(calls, years, cfg, today=TODAY)["A"]
+    assert a.change_ci[1] < 0 and a.status == "low coverage"
+    assert "fell less than" in a.note
+    big = {"drift": {**CFG["drift"], "min_decline": 0.05}}
+    calls, years = records({2015: {"detect": 90, "fail": 10}, 2025: {"detect": 40, "fail": 60}})
+    assert assess(calls, years, big, today=TODAY)["A"].status == "declining"

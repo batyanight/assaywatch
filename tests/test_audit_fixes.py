@@ -148,7 +148,7 @@ def test_small_bounds_are_not_rounded_to_zero():
     from assaywatch.drift import pct
 
     assert pct(0.0019) == "0.2%" and pct(0.0) == "0%" and pct(-0.001, signed=True) == "-0.1%"
-    assert pct(-0.004, signed=True) != "-0%"
+    assert pct(-0.004, signed=True) != "-0%" and pct(-0.0004, signed=True) == "0%"
 
 
 def _screen(*args):

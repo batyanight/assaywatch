@@ -104,6 +104,7 @@ class AssayDrift:
     recent_from: int | str = 0  # a year, or an ISO date when records are dated to the day
     threshold: float = 0.9
     min_records: int = 20
+    min_decline: float = 0.0  # smallest fall from baseline that counts as declining
     # Calls split by the recent-window cutoff as records are added (assess). When
     # empty, finalise falls back to splitting `years` at `recent_from`.
     recent_counts: Counter = field(default_factory=Counter)
@@ -186,8 +187,13 @@ class AssayDrift:
             # before, which is an assay used beyond what it was designed to
             # cover (a lineage-specific assay on a whole genus, a pan-family
             # assay on a family it never fully covered), not one that drifted.
+            # Declining needs both a fall that is real (the interval for the
+            # change excludes zero) and one that matters (at least min_decline).
+            # With thousands of records a fall from 1% to 0% is "real" and
+            # says nothing about an assay that never covered this pool.
             lo, hi = self.change_ci
-            declining = self.baseline_evaluable > 0 and hi < 0
+            fall = (self.baseline_fraction - self.recent_fraction) if self.baseline_evaluable else 0.0
+            declining = self.baseline_evaluable > 0 and hi < 0 and fall >= self.min_decline
             self.status = "declining" if declining else "low coverage"
             self.note = (
                 f"detected share {self.recent_fraction:.1%} "
@@ -197,7 +203,12 @@ class AssayDrift:
             if self.baseline_evaluable:
                 self.note += f"; change from baseline {pct(lo, True)} to {pct(hi, True)}"
                 if not declining:
-                    trend = "rose from" if lo > 0 else "no measurable fall from"
+                    if lo > 0:
+                        trend = "rose from"
+                    elif hi < 0:
+                        trend = f"fell less than the {pct(self.min_decline)} that counts as declining, from"
+                    else:
+                        trend = "no measurable fall from"
                     self.note += f" ({trend} a baseline of {pct(self.baseline_fraction)})"
             else:
                 self.note += "; no baseline records to compare with"
@@ -223,8 +234,9 @@ def pct(x: float, signed: bool = False) -> str:
     print as 0%), and never `-0%`.
     """
     digits = 1 if 0 < abs(x) < 0.01 else 0
-    text = f"{x:+.{digits}%}" if signed else f"{x:.{digits}%}"
-    return text.replace("-0%", "0%").replace("+0%", "0%") if text in ("-0%", "+0%") else text
+    if round(abs(x) * 100, digits) == 0:
+        return "0%"  # never "-0%" or "-0.0%"
+    return f"{x:+.{digits}%}" if signed else f"{x:.{digits}%}"
 
 
 def recent_cutoff(cfg: dict[str, Any], today: date | None = None) -> date:
@@ -261,6 +273,7 @@ def assess(
     cutoff_iso = cutoff.isoformat()
     threshold = float(d.get("detect_fraction_threshold", 0.9))
     min_records = int(d.get("min_records_for_drift", 20))
+    min_decline = float(d.get("min_decline", 0.0))
 
     grouped: dict[str, AssayDrift] = {}
     dated = any(isinstance(v, str) for v in years.values())
@@ -270,7 +283,13 @@ def assess(
         # undated still appears (as no recent data) with its skipped count.
         a = grouped.setdefault(
             row["assay_id"],
-            AssayDrift(row["assay_id"], recent_from=label, threshold=threshold, min_records=min_records),
+            AssayDrift(
+                row["assay_id"],
+                recent_from=label,
+                threshold=threshold,
+                min_records=min_records,
+                min_decline=min_decline,
+            ),
         )
         when = years.get(row["record_id"])
         if when is None:
