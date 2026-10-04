@@ -60,7 +60,7 @@ import time
 import xml.etree.ElementTree as ET
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -198,7 +198,14 @@ def group_slug(assay_query: str | None) -> str:
 # --------------------------------------------------------------------------
 
 
-def esearch(transport: Transport, query: str, since: str | None, datetype: str = "mdat") -> dict[str, Any]:
+def esearch(
+    transport: Transport, query: str, since: str | None, datetype: str = "mdat", until: str | None = None
+) -> dict[str, Any]:
+    """Count and history handle for `query`, optionally limited to [since, until] by `datetype`.
+
+    `until` pins the upper end of the date range to the run date, so records
+    deposited while a long fetch is running do not change the count under it.
+    """
     params: dict[str, Any] = {
         "db": "nuccore",
         "term": query,
@@ -206,8 +213,8 @@ def esearch(transport: Transport, query: str, since: str | None, datetype: str =
         "retmax": 0,
         "retmode": "xml",
     }
-    if since:
-        params |= {"datetype": datetype, "mindate": since, "maxdate": "3000/01/01"}
+    if since or until:
+        params |= {"datetype": datetype, "mindate": since or "1800/01/01", "maxdate": until or "3000/01/01"}
     root = ET.fromstring(transport("esearch", params))
     err = root.findtext("ERROR")
     if err:
@@ -238,8 +245,15 @@ def esummary(transport: Transport, handle: dict[str, Any], page: int, retmax: in
             "version": "1.0",
         },
     )
+    root = ET.fromstring(xml)
+    err = root.findtext("ERROR") or root.findtext(".//ERROR")
+    if err:
+        # NCBI reports a dropped history handle inside a normal 200 response.
+        if "query" in err.lower() or "history" in err.lower():
+            raise HistoryExpired(f"esummary: {err}")
+        raise RetrievalError(f"esummary: {err}")
     out = []
-    for doc in ET.fromstring(xml).findall("DocSum"):
+    for doc in root.findall("DocSum"):
         created = _text(doc, "CreateDate").replace("/", "-")[:10]
         updated = _text(doc, "UpdateDate").replace("/", "-")[:10]
         length = _text(doc, "Length")
@@ -389,11 +403,21 @@ def retrieve_taxon(
     query = build_query(taxid, cfg, assay_query)
     group = group_slug(assay_query)
 
+    if int(r.get("page_size", 500)) < 1:
+        raise RetrievalError("retrieve.page_size must be at least 1")
     manifest = load_manifest(cfg)
     since = None if full else last_run_date(manifest, taxid, group)
+    if since:
+        # Overlap the previous run by a few days: NCBI indexes some records
+        # after their modification date, and those would otherwise fall into
+        # the gap between runs for good. The overlap is re-fetched, and the
+        # report keeps one row per accession, so it costs only bandwidth.
+        overlap = int(r.get("incremental_overlap_days", 3))
+        since = (date.fromisoformat(since.replace("/", "-")) - timedelta(days=overlap)).strftime("%Y/%m/%d")
+    until = run_date.replace("-", "/")
     mode = "incremental" if since else "full"
 
-    handle = esearch(transport, query, since)
+    handle = esearch(transport, query, since, until=until)
     run = TaxonRun(
         taxid=taxid,
         taxon_name=taxon_name,
@@ -438,7 +462,7 @@ def retrieve_taxon(
 
     def refreshed() -> dict[str, Any]:
         """A new history handle for the same query, after NCBI dropped the old one."""
-        fresh = esearch(transport, query, since)
+        fresh = esearch(transport, query, since, until=until)
         if fresh["count"] != handle["count"]:
             raise RetrievalError(
                 f"record count changed from {handle['count']} to {fresh['count']} while fetching; rerun"
@@ -456,25 +480,34 @@ def retrieve_taxon(
     # Pass 1: metadata. Also measures how big the records are, which decides
     # the efetch page size: 500 ITS fragments are 200 kB, 500 poxvirus
     # genomes are 100 MB, and the second is what drops connections.
-    total_bases = 0
-    with gzip.open(meta_tmp, "wt") as mh:
-        mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
-        for page in range(n_pages):
-            for m in with_refresh(esummary, page, retmax):
-                total_bases += m.length
-                mh.write(f"{m.uid}\t{m.accession}\t{m.created}\t{m.updated}\t{m.length}\t{m.title}\n")
+    total_bases = n_meta = 0
+    try:
+        with gzip.open(meta_tmp, "wt") as mh:
+            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
+            for page in range(n_pages):
+                for m in with_refresh(esummary, page, retmax):
+                    total_bases += m.length
+                    n_meta += 1
+                    mh.write(f"{m.uid}\t{m.accession}\t{m.created}\t{m.updated}\t{m.length}\t{m.title}\n")
 
-    target_bytes = int(r.get("page_target_bytes", 20_000_000))
-    mean_len = max(1, total_bases // max(1, handle["count"]))
-    fetch_retmax = min(retmax, max(10, target_bytes // mean_len))  # never above page_size
-    fetch_pages = -(-handle["count"] // fetch_retmax)
+        target_bytes = int(r.get("page_target_bytes", 20_000_000))
+        mean_len = max(1, total_bases // max(1, handle["count"]))
+        fetch_retmax = min(retmax, max(10, target_bytes // mean_len))  # never above page_size
+        fetch_pages = -(-handle["count"] // fetch_retmax)
 
-    n = 0
-    with gzip.open(fasta_tmp, "wt") as fh:
-        for page in range(fetch_pages):
-            chunk = with_refresh(efetch_fasta, page, fetch_retmax)
-            n += chunk.count(">")
-            fh.write(chunk if chunk.endswith("\n") else chunk + "\n")
+        n = 0
+        with gzip.open(fasta_tmp, "wt") as fh:
+            for page in range(fetch_pages):
+                # Checked inside with_refresh, so an expired handle reported in the
+                # body of a 200 response is refreshed and retried like any other.
+                chunk, k = with_refresh(efetch_checked, page, fetch_retmax)
+                n += k
+                fh.write(chunk if chunk.endswith("\n") else chunk + "\n")
+    except BaseException:
+        # Leave nothing that looks like an archive, finished or not.
+        meta_tmp.unlink(missing_ok=True)
+        fasta_tmp.unlink(missing_ok=True)
+        raise
 
     os.replace(meta_tmp, meta_path)
     os.replace(fasta_tmp, fasta_path)
@@ -483,7 +516,32 @@ def retrieve_taxon(
     run.n_fetched = n
     run.fasta = str(fasta_path)
     run.metadata = str(meta_path)
+    if n < n_meta:
+        # Usually WGS master records, which have a summary but no sequence;
+        # logged so that a dropped page would not pass unnoticed either.
+        run.note = (run.note + "; " if run.note else "") + f"{n_meta - n} summaries without sequence"
     return run
+
+
+def efetch_checked(transport: Transport, handle: dict[str, Any], page: int, retmax: int) -> tuple[str, int]:
+    chunk = efetch_fasta(transport, handle, page, retmax)
+    return chunk, check_fasta_page(chunk)
+
+
+def check_fasta_page(chunk: str) -> int:
+    """Records in one efetch page; raises if the page is not FASTA.
+
+    NCBI can answer 200 with an error document instead of sequence. Written to
+    the archive, that text was counted as records (by its '>' characters) and
+    the run was recorded as a success, so the next run skipped past it.
+    """
+    body = chunk.lstrip()
+    if body and not body.startswith(">"):
+        head = body[:200]
+        if "history" in head.lower() or "query" in head.lower():
+            raise HistoryExpired(f"efetch: {head}")
+        raise RetrievalError(f"efetch returned something other than FASTA: {head!r}")
+    return sum(1 for line in chunk.splitlines() if line.startswith(">"))
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -555,8 +613,10 @@ def main(argv: list[str] | None = None) -> int:
             print(f"SKIP  {taxid}/{group}: {e}", file=sys.stderr)
             skipped.append((taxid, group))
             continue
-        except RetrievalError as e:
-            print(f"ERROR {taxid}/{group}: {e}", file=sys.stderr)
+        except Exception as e:  # noqa: BLE001 - one group's failure must not stop the others
+            # Transport errors, malformed XML from NCBI, a corrupt genome zip:
+            # whatever it is, log it against this group and carry on.
+            print(f"ERROR {taxid}/{group}: {type(e).__name__}: {e}", file=sys.stderr)
             errors.append((taxid, group))
             continue
         if not args.dry_run:

@@ -50,6 +50,7 @@ import csv
 import gzip
 import hashlib
 import io
+import math
 import os
 import time
 import zipfile
@@ -185,14 +186,25 @@ def list_assemblies(
     return sorted(out.values(), key=lambda m: (m.release_date, m.accession))
 
 
-def sample_per_year(assemblies: list[AssemblyMeta], per_year: int, taken: Counter) -> list[AssemblyMeta]:
-    """Up to `per_year` per release year, minus what earlier runs already took."""
+def sample_per_year(
+    assemblies: list[AssemblyMeta], per_year: int, taken: Counter, today: date | None = None
+) -> list[AssemblyMeta]:
+    """Up to `per_year` per release year, minus what earlier runs already took.
+
+    The year still in progress gets a quota in proportion to how much of it has
+    passed. Otherwise a weekly run in January would fill the whole year's quota
+    from January releases, and the most recent window would be the least
+    representative part of the sample.
+    """
+    today = today or date.today()
+    elapsed = (today.timetuple().tm_yday) / (366 if today.year % 4 == 0 else 365)
     by_year: dict[int, list[AssemblyMeta]] = {}
     for m in assemblies:
         by_year.setdefault(m.year, []).append(m)
     picked = []
     for year, ms in sorted(by_year.items()):
-        room = max(0, per_year - taken.get(year, 0))
+        quota = per_year if year < today.year else max(1, math.ceil(per_year * elapsed))
+        room = max(0, quota - taken.get(year, 0))
         picked += sorted(ms, key=lambda m: m.order_key)[:room]
     return picked
 
@@ -230,10 +242,12 @@ def iter_genomes(fetch: Fetch, accessions: list[str], batch: int = 10) -> Iterat
             for name in zf.namelist():
                 if not name.endswith(".fna"):
                     continue
-                acc = name.split("/")[-2]
+                # Keyed without the version: NCBI may serve GCA_x.2 for a request
+                # for GCA_x.1, and that is still the genome that was asked for.
+                acc = name.split("/")[-2].rsplit(".", 1)[0]
                 found.setdefault(acc, []).extend(_parse_fna(zf.read(name).decode()))
         for acc in chunk:
-            yield acc, found.get(acc, [])
+            yield acc, found.get(acc.rsplit(".", 1)[0], [])
 
 
 def extract_loci(
@@ -359,7 +373,13 @@ def retrieve_assemblies(
     out_dir = Path(cfg.get("retrieved_dir", "data/retrieved")) / str(taxid) / "asm"
 
     since_text = None if full else last_run_date(load_manifest(cfg), taxid, "asm")
-    taken, seen = (Counter(), set()) if full else taken_per_year(out_dir)
+    # The archives hold only the windows the assays of the day could amplify.
+    # When the taxon's primer pairs change (an assay added or edited), the old
+    # cuts may lack the new locus, so every genome is cut again.
+    signature = hashlib.sha1(repr(sorted(pairs)).encode()).hexdigest()[:12]
+    sig_file = out_dir / "pairs.sha1"
+    recut = sig_file.exists() and sig_file.read_text().strip() != signature
+    taken, seen = (Counter(), set()) if full or recut else taken_per_year(out_dir)
 
     # The whole history is listed every run, not just releases since the last
     # one: the listing is cheap (about twenty requests for E. coli), it catches
@@ -367,7 +387,7 @@ def retrieve_assemblies(
     # that failed to download be picked again. `seen` keeps it incremental.
     listed = list_assemblies(fetch, taxid, levels, None, date.fromisoformat(run_date))
     listed = [m for m in listed if m.accession not in seen]
-    picked = sample_per_year(listed, per_year, taken)
+    picked = sample_per_year(listed, per_year, taken, date.fromisoformat(run_date))
 
     run = TaxonRun(
         taxid=taxid,
@@ -382,6 +402,8 @@ def retrieve_assemblies(
         group="asm",
         assay_query=None,
     )
+    if recut:
+        run.mode, run.note = "full", "primer pairs changed since the last cut: re-cutting every genome"
     if not picked or dry_run:
         years = Counter(m.year for m in picked)
         span = f"{min(years)}-{max(years)}" if years else "-"
@@ -394,26 +416,46 @@ def retrieve_assemblies(
     fasta_tmp, meta_tmp = out_dir / f".{stem}.fasta.gz.part", out_dir / f".{stem}.meta.tsv.gz.part"
     by_acc = {m.accession: m for m in picked}
     n_with_locus = n_missing = 0
-    with gzip.open(fasta_tmp, "wt") as fh, gzip.open(meta_tmp, "wt") as mh:
-        mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
-        for acc, contigs in iter_genomes(fetch, list(by_acc), int(a.get("batch", 10))):
-            m = by_acc[acc]
-            if not contigs:
-                # Not in the download. Left out of the metadata, so it does not
-                # use up its year's quota and the next run picks it again.
-                n_missing += 1
-                continue
-            seq, n_win = extract_loci(contigs, pairs, cfg)
-            if seq:
-                n_with_locus += 1
-                fh.write(f">{acc} {m.organism} {m.strain} loci={n_win}\n")
-                for i in range(0, len(seq), 80):
-                    fh.write(seq[i : i + 80] + "\n")
-            collected = m.collection_date or "missing"
-            title = f"{m.organism} {m.strain}; {m.level}; {n_win} loci; collected {collected}"
-            mh.write(f"{acc}\t{acc}\t{m.release_date}\t{m.release_date}\t{len(seq)}\t{title}\n")
+    try:
+        with gzip.open(fasta_tmp, "wt") as fh, gzip.open(meta_tmp, "wt") as mh:
+            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
+            for acc, contigs in iter_genomes(fetch, list(by_acc), int(a.get("batch", 10))):
+                m = by_acc[acc]
+                if not contigs:
+                    # Not in the download. Left out of the metadata, so it does not
+                    # use up its year's quota and the next run picks it again.
+                    n_missing += 1
+                    continue
+                seq, n_win = extract_loci(contigs, pairs, cfg)
+                if seq:
+                    n_with_locus += 1
+                    fh.write(f">{acc} {m.organism} {m.strain} loci={n_win}\n")
+                    for i in range(0, len(seq), 80):
+                        fh.write(seq[i : i + 80] + "\n")
+                collected = m.collection_date or "missing"
+                title = f"{m.organism} {m.strain}; {m.level}; {n_win} loci; collected {collected}"
+                mh.write(f"{acc}\t{acc}\t{m.release_date}\t{m.release_date}\t{len(seq)}\t{title}\n")
+    except BaseException:
+        fasta_tmp.unlink(missing_ok=True)
+        meta_tmp.unlink(missing_ok=True)
+        raise
+    if n_missing == len(picked):
+        # Nothing came back: write no archive (an empty one would be screened and
+        # recorded as a run), and let the next run try again.
+        fasta_tmp.unlink(missing_ok=True)
+        meta_tmp.unlink(missing_ok=True)
+        raise AssemblyError(f"taxid {taxid}: none of {len(picked)} requested genomes were in the download")
+    if recut:
+        # The old cuts are superseded; keep them out of screening, not deleted.
+        for old in out_dir.glob("*.fasta.gz"):
+            old.rename(old.with_name(old.name + ".superseded"))
+        for old in out_dir.glob("*.meta.tsv.gz"):
+            old.rename(old.with_name(old.name + ".superseded"))
+        stem = archive_stem(out_dir, run_date)
+        fasta_path, meta_path = out_dir / f"{stem}.fasta.gz", out_dir / f"{stem}.meta.tsv.gz"
     os.replace(meta_tmp, meta_path)
     os.replace(fasta_tmp, fasta_path)
+    sig_file.write_text(signature + "\n")
     run.n_fetched = len(picked) - n_missing
     run.fasta, run.metadata = str(fasta_path), str(meta_path)
     run.note = f"{n_with_locus} of {run.n_fetched} genomes carry a candidate amplicon"

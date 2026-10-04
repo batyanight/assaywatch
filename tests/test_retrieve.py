@@ -13,6 +13,7 @@ import pytest
 
 from assaywatch.retrieve import (
     RecordMeta,
+    RetrievalError,
     TooManyRecords,
     build_query,
     esearch,
@@ -114,9 +115,11 @@ def test_second_run_is_incremental_from_the_manifest(cfg):
 
     fake = FakeNCBI(2)
     second = retrieve_taxon(109871, cfg, fake, run_date="2026-10-03")
-    assert second.mode == "incremental" and second.since == "2026/09/01"
+    # Three days of overlap with the previous run, for records NCBI indexes late.
+    assert second.mode == "incremental" and second.since == "2026/08/29"
     params = next(p for e, p in fake.calls if e == "esearch")
-    assert params["mindate"] == "2026/09/01"
+    assert params["mindate"] == "2026/08/29"
+    assert params["maxdate"] == "2026/10/03"  # pinned to the run date
     assert params["datetype"] == "mdat"  # revisions count, not just new deposits
 
 
@@ -125,7 +128,8 @@ def test_full_flag_ignores_the_manifest(cfg):
     fake = FakeNCBI(5)
     run = retrieve_taxon(109871, cfg, fake, run_date="2026-10-03", full=True)
     assert run.mode == "full"
-    assert "mindate" not in next(p for e, p in fake.calls if e == "esearch")
+    params = next(p for e, p in fake.calls if e == "esearch")
+    assert params["mindate"] == "1800/01/01" and params["maxdate"] == "2026/10/03"
 
 
 def test_oversized_taxon_is_refused_with_an_actionable_message(cfg):
@@ -244,7 +248,7 @@ def test_interrupted_fetch_leaves_no_finished_looking_archive(cfg, tmp_path):
     d = tmp_path / "retrieved" / "10241" / "all"
     assert not (d / "2026-10-03.fasta.gz").exists()
     assert not (d / "2026-10-03.meta.tsv.gz").exists()
-    assert list(d.glob(".*.part"))  # the partial is visibly a partial
+    assert not list(d.glob(".*.part"))  # and no partial left to clean up by hand
 
 
 class BigRecords(FakeNCBI):
@@ -338,3 +342,27 @@ def test_rebuild_manifest_from_archives(tmp_path, monkeypatch):
     assert runs[0]["assays"], "assays come from the registry"
     assert len(partials) == 1
     assert last_run_date(manifest, 109871) == "2026/10/03"
+
+
+def test_an_error_document_in_a_200_response_is_not_archived(cfg, tmp_path):
+    class Errors(FakeNCBI):
+        def __call__(self, endpoint, params):
+            if endpoint == "efetch" and int(params["retstart"]) > 0:
+                return "<eFetchResult><ERROR>Something went wrong</ERROR></eFetchResult>"
+            return super().__call__(endpoint, params)
+
+    with pytest.raises(RetrievalError):
+        retrieve_taxon(10241, cfg, Errors(7), run_date="2026-10-03")
+    d = tmp_path / "retrieved" / "10241" / "all"
+    assert not list(d.glob("*.fasta.gz")) and not list(d.glob(".*.part"))
+
+
+def test_esummary_error_is_raised_not_ignored(cfg):
+    class Errors(FakeNCBI):
+        def __call__(self, endpoint, params):
+            if endpoint == "esummary":
+                return "<eSummaryResult><ERROR>Invalid uid</ERROR></eSummaryResult>"
+            return super().__call__(endpoint, params)
+
+    with pytest.raises(RetrievalError):
+        retrieve_taxon(10241, cfg, Errors(3), run_date="2026-10-03")

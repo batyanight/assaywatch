@@ -196,3 +196,47 @@ def test_a_locus_on_the_minus_strand_is_kept():
     site = reverse_complement(RECORDS[f"{BD}__perfect"])
     seq, n = extract_loci([("c1", random_dna(20_000, 9) + site + random_dna(20_000, 10))], _pairs(assay), CFG)
     assert n == 1 and screen_record(assay, "g", seq, CFG).call == "detect"
+
+
+def test_current_year_quota_grows_through_the_year():
+    metas = [meta(i, f"2026-0{1 + i % 9}-01") for i in range(40)]
+    jan = sample_per_year(metas, 12, Counter(), today=date(2026, 1, 15))
+    oct_ = sample_per_year(metas, 12, Counter(), today=date(2026, 10, 1))
+    import math
+
+    # The year's quota is ceil(12 x the fraction of the year elapsed).
+    assert len(jan) == math.ceil(12 * 15 / 365) == 1
+    assert len(oct_) == math.ceil(12 * 274 / 365) == 10
+    past = sample_per_year([meta(i, "2025-03-01") for i in range(40)], 12, Counter(), today=date(2026, 1, 15))
+    assert len(past) == 12
+
+
+def test_a_newer_version_in_the_download_still_counts(cfg):
+    from assaywatch.assemblies import iter_genomes
+
+    m = meta(1, "2020-01-01")
+    newer = m.accession.replace(".1", ".2")
+
+    def serves_newer(path, params, accept):
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as zf:
+            zf.writestr(f"ncbi_dataset/data/{newer}/{newer}_x_genomic.fna", ">c1 x\nACGTACGT\n")
+        return buf.getvalue()
+
+    got = dict(iter_genomes(serves_newer, [m.accession]))
+    assert got[m.accession]  # GCA_x.2 served for GCA_x.1
+
+
+def test_changed_primer_pairs_recut_every_genome(cfg, tmp_path):
+    metas = [meta(i, f"20{18 + i % 2}-03-01") for i in range(4)]
+    fake = FakeDatasets(metas, {m.accession: _bd_genome(i) for i, m in enumerate(metas)})
+    pairs = _pairs(ASSAYS[BD])
+    record_run(cfg, retrieve_assemblies(109871, cfg, fake, pairs=pairs, run_date="2026-10-04"))
+    fake.downloaded = []
+    same = retrieve_assemblies(109871, cfg, fake, pairs=pairs, run_date="2026-10-05")
+    assert same.note == "nothing new" and not fake.downloaded
+    other = pairs + [("ACGTACGTACGTACGTAC", "TTGCATTGCATTGCATTG")]
+    recut = retrieve_assemblies(109871, cfg, fake, pairs=other, run_date="2026-10-05")
+    assert recut.mode == "full" and sorted(fake.downloaded) == sorted(m.accession for m in metas)
+    d = tmp_path / "retrieved" / "109871" / "asm"
+    assert len(list(d.glob("*.fasta.gz"))) == 1 and list(d.glob("*.superseded"))
