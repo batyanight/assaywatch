@@ -19,12 +19,12 @@ oligos:
     seq: TACGTCCCTGCCCTTTGTAC
 amplicon_bp: null
 citation:
-  doi: 10.1099/jmm.0.061655-0
+  doi: 10.1099/jmm.0.061820-0
   design_year: 2014
   n_sequences_at_design: null
   as_written: This is a modified protocol by Garcia et al. Molecular epidemiology and genetic diversity of Entamoeba species
     in a cheloian collection. Journal of Medical Microbiology (2014), 63, 271-283.
-  doi_verified: false
+  doi_verified: true
   reference: García G et al. 2014. J Med Microbiol 63:271-283
 use_context:
 - wildlife
@@ -43,7 +43,6 @@ source:
   notes_curator: 'Spreadsheet: DO NOT USE, cross-reactive with host DNA; GEI18SR row 18 is the wrong strand and needs reverse-complement.'
 needs_review:
 - CROSS_REACTIVE
-- DOI_UNVERIFIED
 - DO_NOT_USE
 - MODIFIED_IN_HOUSE
 - MULTIPLE_PRIMERS_IN_BLOCK

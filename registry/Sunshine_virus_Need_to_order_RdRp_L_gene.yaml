@@ -15,11 +15,11 @@ oligos:
     seq: ATTCAACATCTGGGGTC
 amplicon_bp: 357
 citation:
-  doi: 10.1016/j.vetmic.2012.07.015
+  doi: 10.1016/j.vetmic.2012.07.030
   design_year: 2012
   n_sequences_at_design: null
   as_written: null
-  doi_verified: false
+  doi_verified: true
   reference: Hyndman TH et al. 2012. Vet Microbiol 161:77-87
 use_context:
 - veterinary
@@ -34,6 +34,5 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - NEED_TO_ORDER
 - ORIENTATION_INFERRED_BY_POSITION
