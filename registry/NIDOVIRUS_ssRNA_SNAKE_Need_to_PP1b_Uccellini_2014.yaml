@@ -1,7 +1,7 @@
 id: NIDOVIRUS_ssRNA_SNAKE_Need_to_PP1b_Uccellini_2014
 name: NIDOVIRUS (ssRNA)-SNAKE (Need to order) — PP1b
 target:
-  taxid: null
+  taxid: 2508240
   gene: PP1b
   genome_type: ssRNA+
   taxon_name: Serpentovirinae (snake nidoviruses, Tobaniviridae)
@@ -19,7 +19,7 @@ citation:
   design_year: 2014
   n_sequences_at_design: null
   as_written: Uccellini et al. Virology Journal 2014, 11:144
-  doi_verified: false
+  doi_verified: true
   reference: Uccellini L et al. 2014. Virol J 11:144
 use_context:
 - veterinary
@@ -35,6 +35,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - NEED_TO_ORDER
-- TAXID_MISSING

@@ -1,7 +1,7 @@
 id: Snake_arenavirus_Need_to_order_Glycoprotein_Nachweis_2015
 name: Snake arenavirus  (Need to order) — Glycoprotein
 target:
-  taxid: null
+  taxid: 1653395
   gene: Glycoprotein
   genome_type: ssRNA-
   taxon_name: Reptarenavirus
@@ -38,4 +38,3 @@ source:
 needs_review:
 - NEED_TO_ORDER
 - ORIENTATION_INFERRED_BY_POSITION
-- TAXID_MISSING

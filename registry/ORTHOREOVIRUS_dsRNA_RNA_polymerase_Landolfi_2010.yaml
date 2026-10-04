@@ -22,7 +22,7 @@ citation:
   design_year: 2010
   n_sequences_at_design: null
   as_written: Landolfi et al. J Vet Diagn Invest 22:37–43 (2010)
-  doi_verified: false
+  doi_verified: true
   reference: Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
 use_context:
 - wildlife
@@ -39,5 +39,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - MULTIPLE_PRIMERS_IN_BLOCK

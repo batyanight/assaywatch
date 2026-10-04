@@ -1,7 +1,7 @@
 id: B_salamandrivorans_Internal_transcribes_spa_Blooi_2013
 name: Batrachochytrium salamandrivorans — ITS real-time PCR STerF/STerR (Blooi 2013)
 target:
-  taxid: 1430836
+  taxid: 1357716
   gene: ITS1-5.8S rDNA
   genome_type: dsDNA
   taxon_name: Batrachochytrium salamandrivorans

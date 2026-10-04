@@ -1,7 +1,7 @@
 id: HANTAVIRUS_ssRNA_S_segment_round2_2
 name: HANTAVIRUS (ssRNA) — S segment
 target:
-  taxid: null
+  taxid: 1980442
   gene: S segment
   genome_type: ssRNA-
   taxon_name: Orthohantavirus
@@ -37,4 +37,3 @@ source:
 needs_review:
 - DOI_MISSING
 - NO_YEAR
-- TAXID_MISSING

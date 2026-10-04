@@ -20,7 +20,7 @@ citation:
   n_sequences_at_design: null
   as_written: Johne et al, Novel Polyomavirus Detected in the Feces of a Chimpanzee by Nested Broad-Spectrum PCR JOURNAL OF
     VIROLOGY, Mar. 2005, p. 3883–3887
-  doi_verified: false
+  doi_verified: true
   reference: Johne R et al. 2005. J Virol 79:3883-3887
 use_context:
 - wildlife
@@ -36,5 +36,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - NESTED

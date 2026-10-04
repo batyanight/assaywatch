@@ -20,7 +20,7 @@ citation:
   design_year: 2001
   n_sequences_at_design: null
   as_written: null
-  doi_verified: false
+  doi_verified: true
   reference: Scaramozzino N et al. 2001 (cFD2); FS778 hemi-nested forward also from this paper
 use_context:
 - wildlife
@@ -36,5 +36,4 @@ source:
   positive_control: null
   nested_round: round2
   notes: null
-needs_review:
-- DOI_UNVERIFIED
+needs_review: null

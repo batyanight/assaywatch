@@ -1,7 +1,7 @@
 id: Sunshine_virus_Need_to_order_RdRp_L_gene
 name: Sunshine virus (Need to order) — RdRp (L gene)
 target:
-  taxid: null
+  taxid: 1921703
   gene: RdRp (L gene)
   genome_type: ssRNA-
   taxon_name: Sunshinevirus
@@ -37,4 +37,3 @@ needs_review:
 - DOI_UNVERIFIED
 - NEED_TO_ORDER
 - ORIENTATION_INFERRED_BY_POSITION
-- TAXID_MISSING

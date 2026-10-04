@@ -1,7 +1,7 @@
 id: Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015
 name: Ophidiomyces ophidiicola — ITS2 real-time PCR (Bohuski 2015)
 target:
-  taxid: null
+  taxid: 1387563
   gene: ITS2
   genome_type: dsDNA
   taxon_name: Ophidiomyces ophidiicola
@@ -42,4 +42,3 @@ source:
   notes: null
 needs_review:
 - NEED_TO_ORDER
-- TAXID_MISSING

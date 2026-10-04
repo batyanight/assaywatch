@@ -20,7 +20,7 @@ citation:
   design_year: 1993
   n_sequences_at_design: null
   as_written: Sethabutr et al, 1993
-  doi_verified: false
+  doi_verified: true
   reference: Sethabutr O et al. 1993. J Infect Dis 167:458-461
 use_context:
 - public_health
@@ -36,5 +36,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - ORIENTATION_INFERRED_BY_POSITION

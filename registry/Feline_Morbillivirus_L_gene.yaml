@@ -1,7 +1,7 @@
 id: Feline_Morbillivirus_L_gene
 name: Feline Morbillivirus — L gene
 target:
-  taxid: null
+  taxid: 1170234
   gene: L gene
   genome_type: ssRNA-
   taxon_name: Feline morbillivirus
@@ -42,4 +42,3 @@ needs_review:
 - DOI_MISSING
 - MODIFIED_IN_HOUSE
 - NO_YEAR
-- TAXID_MISSING

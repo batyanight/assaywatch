@@ -1,7 +1,7 @@
 id: Ferlavirus_Need_to_order_L_gene_Hyndman_2012
 name: Ferlavirus (Need to order) — L gene
 target:
-  taxid: null
+  taxid: 1283308
   gene: L gene
   genome_type: ssRNA-
   taxon_name: Ferlavirus
@@ -37,4 +37,3 @@ needs_review:
 - DOI_UNVERIFIED
 - NEED_TO_ORDER
 - ORIENTATION_INFERRED_BY_POSITION
-- TAXID_MISSING

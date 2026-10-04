@@ -28,7 +28,7 @@ citation:
 
     Diagnostic and Genotyping Tool. LIHUA XIAO,1* KERRI ALDERISIO,2 JOSEF LIMOR,1 MICHAEL ROYER,3 AND ALTAF A. LAL1, APPLIED
     AND ENVIRONMENTAL MICROBIOLOGY, Dec. 2000, p. 5492–5498'
-  doi_verified: false
+  doi_verified: true
   reference: Xiao L et al. 2000. Appl Environ Microbiol 66:5492-5498
 use_context:
 - wildlife
@@ -47,7 +47,6 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - MODIFIED_IN_HOUSE
 - MULTIPLE_PRIMERS_IN_BLOCK
 - NEED_TO_ORDER

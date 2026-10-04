@@ -19,7 +19,7 @@ citation:
   design_year: 2002
   n_sequences_at_design: null
   as_written: Modified at WCS-unpublished (Gao et al PNAS 2002)
-  doi_verified: false
+  doi_verified: true
   reference: Gao GP et al. 2002. Proc Natl Acad Sci USA 99:11854-11859
 use_context:
 - wildlife
@@ -35,5 +35,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - MODIFIED_IN_HOUSE

@@ -20,7 +20,7 @@ citation:
   design_year: 2009
   n_sequences_at_design: null
   as_written: Keele et al, Nature 2009
-  doi_verified: false
+  doi_verified: true
   reference: Keele BF et al. 2009. Nature 460:515-519
 use_context:
 - wildlife
@@ -34,5 +34,4 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-needs_review:
-- DOI_UNVERIFIED
+needs_review: null

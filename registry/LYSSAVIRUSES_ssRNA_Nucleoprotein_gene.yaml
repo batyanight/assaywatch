@@ -1,7 +1,7 @@
 id: LYSSAVIRUSES_ssRNA_Nucleoprotein_gene
 name: LYSSAVIRUSES (ssRNA) — Nucleoprotein gene
 target:
-  taxid: 11270
+  taxid: 11286
   gene: Nucleoprotein gene
   genome_type: ssRNA-
   taxon_name: Lyssavirus

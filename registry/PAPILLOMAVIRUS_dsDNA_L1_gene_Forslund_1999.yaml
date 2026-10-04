@@ -21,7 +21,7 @@ citation:
   design_year: 1999
   n_sequences_at_design: null
   as_written: Forslund, O 1999
-  doi_verified: false
+  doi_verified: true
   reference: Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
 use_context:
 - wildlife
@@ -37,5 +37,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_UNVERIFIED
 - ORIENTATION_INFERRED_BY_POSITION
