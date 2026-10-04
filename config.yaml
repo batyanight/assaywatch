@@ -13,6 +13,11 @@ scoring:
   probe_outer_penalty: 1.0
   max_ambiguous_per_oligo: 2     # more undetermined record bases under one oligo -> indeterminate
   max_sites_per_oligo: 50        # best-ranked candidate sites kept per oligo per record
+  # Chance-pair guard (assaywatch/chance.py). Every amplicon gets a pair_evalue:
+  # the expected number of primer pairs this good in a random record of the same
+  # length. Set a number (e.g. 0.01) to call pairs above it no_amplicon instead
+  # of scoring them; null reports the E-value but changes no call.
+  max_pair_evalue: null
   detect_max: 1.0                # <= detect
   reduced_max: 3.0               # <= reduced efficiency; above = fail
   terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail
@@ -35,6 +40,20 @@ retrieve:
   # segment 7 is ~180,000 records on first fetch (and incremental after);
   # that is a known cost, accepted on 2026-10-03.
   large_taxa_allowed: [11320]
+
+# Assembly-level retrieval (assaywatch/assemblies.py) for bacterial targets whose
+# gene-level nuccore deposits stop around 2012, when the same genes started
+# arriving inside whole genomes. Each listed taxid gets an extra `asm` group:
+# up to `per_year` GenBank assemblies per release year, sampled in a stable
+# arbitrary order and cut down to the loci the taxon's assays could bind.
+# Complete genomes and chromosomes only: the locus is never split across
+# contigs, and plasmid-borne targets (ipaH, LT, O157 hlyA) come with them.
+assemblies:
+  taxa: [562, 620, 28901, 630, 633, 171]   # E. coli, Shigella, Salmonella, Y. enterocolitica, Y. pseudotuberculosis, Leptospira
+  levels: [complete_genome, chromosome]
+  per_year: 20
+  batch: 10          # genomes per download request
+  max_pair_evalue: 0.01   # keep a window only around a pair distinguishable from chance
 
 # Duplex Tm per oligo on its binding site (assaywatch/thermo.py). Shown beside
 # the call, never scored. Turn on with `thermo: true` here or

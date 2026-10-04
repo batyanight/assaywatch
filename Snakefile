@@ -46,11 +46,11 @@ SCREEN_MB_PER_THREAD = config.get("screen_mb_per_thread", 25)  # gzipped MB per 
 THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
 
 # {(taxid, group): {"name", "query", "assays"}} from the registry as it stands.
-GROUPS = targets_from_registry([Path(REGISTRY)])
+GROUPS = targets_from_registry([Path(REGISTRY)], config)
 
 wildcard_constraints:
     taxid=r"\d+",
-    group=r"all|q[0-9a-f]{10}",
+    group=r"all|asm|q[0-9a-f]{10}",
     stem=r"\d{4}-\d{2}-\d{2}(_\d+)?",
 
 

@@ -29,6 +29,8 @@ assaywatch/      the package
   screen.py        `python -m assaywatch.screen <assays> <fasta>` -> TSV of calls
   thermo.py        optional duplex Tm / ΔTm columns per oligo (primer3-py); never scored
   gapped.py        gapped oligo search used only by scripts/indel_check.py; never scored
+  chance.py        E-value of a primer pair: could it be chance in a record this long?
+  assemblies.py    NCBI Datasets genome sampling for bacterial targets (`asm` groups)
   fasta.py         minimal FASTA reader
 Snakefile          the pipeline; profiles/slurm/ runs the same rules on a cluster
 scripts/         one-off import of the WCS primer spreadsheet (parse -> curate -> resolve),
@@ -310,6 +312,49 @@ Each group is then screened only against the assays that asked for it
 gene's `no_amplicon` rows. SARS-CoV-2 is excluded from the pan-coronavirus
 groups by a `NOT txid2697049` clause: nine million near-identical surveillance
 records would swamp a wildlife statistic. The clause is one line to remove.
+
+### Assembly-level retrieval for bacteria
+
+For enteric bacteria the gene-level nuccore deposits stop around 2012: since
+then invA, ipaH, LT and the rest arrive inside whole-genome assemblies, which
+the gene queries exclude. Taxids listed under `assemblies.taxa` in config.yaml
+(E. coli, Shigella, Salmonella, both Yersinia, Leptospira) therefore get a
+second group, `asm`, filled from NCBI Datasets (`assaywatch/assemblies.py`):
+
+* GenBank complete genomes and chromosomes, listed from the compact TSV genome
+  report (release-date windows are halved until each fits in one page, since
+  that endpoint has no continuation token);
+* at most `per_year` (default 20) per release year, in SHA-1-of-accession order,
+  which is arbitrary with respect to biology and stable, so reruns pick the same
+  genomes and incremental runs only top up short years;
+* each genome cut down, in memory, to the windows where one of the taxon's
+  assays could form an amplicon distinguishable from chance (see below), joined
+  by N spacers longer than any amplicon. One record per assembly, id = the
+  assembly accession, `created` = its release date; the BioSample collection
+  date is kept in the title.
+
+On *Y. pseudotuberculosis* (41 complete genomes) that is 76 seconds and a 4 kB
+archive: one 440 bp Wang 1997 amplicon per genome, all `detect`. The first full
+sample across the six taxa is about 1,100 genomes.
+
+### Chance primer pairs
+
+The six-mismatch search budget is generous so that a drifted site is still
+found and scored. On a long record that has a cost: an 18-mer has a site within
+six mismatches every few kilobases of random sequence, so a 5 Mb genome holds
+hundreds of facing primer pairs in amplicon range. Every amplicon therefore
+carries a `pair_evalue` (`assaywatch/chance.py`): the expected number of pairs
+at least as good in a random record of the same length and base composition.
+A perfect pair in a genome is around 1e-11; six-and-six in a genome is around
+1600; five-and-five in a 1 kb gene record is around 0.002.
+
+Assembly extraction always uses it (`assemblies.max_pair_evalue`, 0.01).
+Scoring does not by default (`scoring.max_pair_evalue: null`): set a threshold
+there to turn chance pairs into `no_amplicon` instead of `fail`. In the first
+full run a quarter of all `fail` calls had both primers at five or more
+mismatches, and for the herpesvirus, adenovirus and lyssavirus assays their
+amplicon lengths matched no `detect` at all, so this setting moves several
+drift numbers. It is off until that has been looked at.
 
 ### Retrieval decisions
 

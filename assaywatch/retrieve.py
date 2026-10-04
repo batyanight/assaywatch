@@ -322,27 +322,43 @@ def record_run(cfg: dict[str, Any], run: TaxonRun) -> None:
 # --------------------------------------------------------------------------
 
 
-def targets_from_registry(paths: list[Path]) -> dict[tuple[int, str], dict[str, Any]]:
-    """{(taxid, group): {name, query, assays}} for every registry file that names a taxid.
+def targets_from_registry(
+    paths: list[Path], cfg: dict[str, Any] | None = None
+) -> dict[tuple[int, str], dict[str, Any]]:
+    """{(taxid, group): {name, query, assays, pairs}} for every registry file that names a taxid.
 
     Assays sharing a taxid and a `target.query` land in one group and one
     archive; the screen stage then scores each assay only against its own
     group, so a gene-targeted archive is never polluted with another gene's
     `no_amplicon` rows.
+
+    Taxids listed under `assemblies.taxa` in the config also get an `asm`
+    group holding every assay on that taxid, whatever its query: those
+    archives are cut from whole genomes around the assays' candidate amplicons
+    (see assemblies.py), so they only contain loci the group's assays target.
+    `pairs` lists each assay's (forward, reverse) primers for that cut.
     """
     from assaywatch.validate import iter_files, load_assay
 
+    asm_taxa = set(((cfg or {}).get("assemblies") or {}).get("taxa") or [])
     out: dict[tuple[int, str], dict[str, Any]] = {}
     for target in paths:
         for path in iter_files(target):
             assay = load_assay(path)
             if assay.status.value == "deprecated" or assay.target.taxid is None:
                 continue
-            key = (assay.target.taxid, group_slug(assay.target.query))
-            slot = out.setdefault(
-                key, {"name": assay.target.taxon_name, "query": assay.target.query, "assays": []}
-            )
-            slot["assays"].append(assay.id)
+            pair = (assay.oligos.forward.matching_seq, assay.oligos.reverse.matching_seq)
+            keys = [(assay.target.taxid, group_slug(assay.target.query), assay.target.query)]
+            if assay.target.taxid in asm_taxa:
+                keys.append((assay.target.taxid, "asm", None))
+            for taxid, group, query in keys:
+                slot = out.setdefault(
+                    (taxid, group),
+                    {"name": assay.target.taxon_name, "query": query, "assays": [], "pairs": []},
+                )
+                slot["assays"].append(assay.id)
+                if pair not in slot["pairs"]:
+                    slot["pairs"].append(pair)
     return out
 
 
@@ -495,7 +511,8 @@ def main(argv: list[str] | None = None) -> int:
 
     cfg = load_config(args.config)
     transport = http_transport(args.email, os.environ.get("NCBI_API_KEY"))
-    targets = targets_from_registry(args.paths)
+    fetch = None  # Datasets transport, created on first `asm` group
+    targets = targets_from_registry(args.paths, cfg)
     if args.taxid:
         targets = {k: v for k, v in targets.items() if k[0] in args.taxid}
 
@@ -504,16 +521,34 @@ def main(argv: list[str] | None = None) -> int:
     skipped, errors, done = [], [], []
     for (taxid, group), info in sorted(targets.items()):
         try:
-            run = retrieve_taxon(
-                taxid,
-                cfg,
-                transport,
-                taxon_name=info["name"],
-                assays=info["assays"],
-                assay_query=info["query"],
-                full=args.full,
-                dry_run=args.dry_run,
-            )
+            if group == "asm":
+                from assaywatch.assemblies import AssemblyError, datasets_transport, retrieve_assemblies
+
+                fetch = fetch or datasets_transport(os.environ.get("NCBI_API_KEY"))
+                try:
+                    run = retrieve_assemblies(
+                        taxid,
+                        cfg,
+                        fetch,
+                        pairs=info["pairs"],
+                        taxon_name=info["name"],
+                        assays=info["assays"],
+                        full=args.full,
+                        dry_run=args.dry_run,
+                    )
+                except AssemblyError as e:
+                    raise RetrievalError(str(e)) from e
+            else:
+                run = retrieve_taxon(
+                    taxid,
+                    cfg,
+                    transport,
+                    taxon_name=info["name"],
+                    assays=info["assays"],
+                    assay_query=info["query"],
+                    full=args.full,
+                    dry_run=args.dry_run,
+                )
         except TooManyRecords as e:
             # Over the cap is a decision for the config, not a failure of the
             # run: the other groups are still fetched and the run still counts.

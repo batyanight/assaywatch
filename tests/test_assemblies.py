@@ -1,0 +1,188 @@
+"""Assembly retrieval, offline: a fake Datasets service serving synthetic genomes.
+
+The decisions under test: listing survives the one-page TSV limit, the sample
+is stable and tops up incrementally, and cutting a genome down to its loci
+changes no call the screener would make on the whole genome.
+"""
+
+import csv
+import gzip
+import io
+import random
+import zipfile
+from collections import Counter
+from datetime import date
+
+import pytest
+from test_score import ASSAYS, CFG, RECORDS
+
+from assaywatch.assemblies import (
+    AssemblyMeta,
+    extract_loci,
+    list_assemblies,
+    retrieve_assemblies,
+    sample_per_year,
+)
+from assaywatch.fasta import read_fasta
+from assaywatch.report import read_years
+from assaywatch.retrieve import record_run, targets_from_registry
+from assaywatch.score import screen_record
+
+BD = "CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004"
+
+
+def random_dna(n, seed):
+    rng = random.Random(seed)
+    return "".join(rng.choice("ACGT") for _ in range(n))
+
+
+class FakeDatasets:
+    """Serves a list of assemblies (TSV, truncated at page_size like the real one) and their genomes."""
+
+    HEADER = "Assembly Accession\tAssembly Release Date\tCollection\tLevel\tOrganism\tStrain\n"
+
+    def __init__(self, metas, genomes):
+        self.metas, self.genomes = metas, genomes
+        self.report_calls = 0
+        self.downloaded = []
+
+    def __call__(self, path, params, accept):
+        if path.endswith("dataset_report"):
+            self.report_calls += 1
+            lo, hi = params["filters.first_release_date"], params["filters.last_release_date"]
+            rows = [m for m in self.metas if lo <= m.release_date <= hi][: params["page_size"]]
+            body = self.HEADER + "".join(
+                f"{m.accession}\t{m.release_date}\t{m.collection_date}\t{m.level}\t{m.organism}\t{m.strain}\n"
+                for m in rows
+            )
+            return body.encode()
+        accs = path.split("/")[2].split(",")
+        self.downloaded += accs
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w") as zf:
+            for acc in accs:
+                if acc in self.genomes:
+                    fna = "".join(f">{cid} contig\n{seq}\n" for cid, seq in self.genomes[acc])
+                    zf.writestr(f"ncbi_dataset/data/{acc}/{acc}_x_genomic.fna", fna)
+        return buf.getvalue()
+
+
+def meta(i, day):
+    return AssemblyMeta(f"GCA_{i:09d}.1", day, "2010", "Complete Genome", "Testus coli", f"S{i}")
+
+
+def test_listing_splits_date_windows_until_each_fits_a_page():
+    metas = [meta(i, f"20{10 + i % 12:02d}-{1 + i % 12:02d}-{1 + i % 28:02d}") for i in range(57)]
+    fake = FakeDatasets(metas, {})
+    got = list_assemblies(fake, 1, ["complete_genome"], None, date(2026, 1, 1), page=5)
+    assert {m.accession for m in got} == {m.accession for m in metas}
+    assert fake.report_calls > 57 // 5
+
+
+def test_sample_is_capped_per_year_stable_and_tops_up():
+    metas = [meta(i, f"20{20 + i % 3}-06-01") for i in range(30)]
+    first = sample_per_year(metas, 4, Counter())
+    assert Counter(m.year for m in first) == {2020: 4, 2021: 4, 2022: 4}
+    assert first == sample_per_year(list(reversed(metas)), 4, Counter())  # order-independent
+    topped = sample_per_year(metas, 4, Counter({2020: 4, 2021: 1}))
+    assert Counter(m.year for m in topped) == {2021: 3, 2022: 4}
+
+
+def _bd_genome(seed):
+    """A 'genome': two contigs, a Bd Boyle site in one, a second copy in the other, plus noise."""
+    site = RECORDS[f"{BD}__perfect"]
+    a = random_dna(40_000, seed) + site + random_dna(30_000, seed + 1)
+    b = random_dna(9_000, seed + 2) + site + random_dna(2_000, seed + 3)
+    return [("c1", a), ("c2", b), ("plasmid", random_dna(5_000, seed + 4))]
+
+
+def _pairs(assay):
+    return [(assay.oligos.forward.matching_seq, assay.oligos.reverse.matching_seq)]
+
+
+@pytest.mark.parametrize("name", [r for r in RECORDS if r.startswith(BD)][:12])
+def test_extracted_loci_screen_exactly_like_the_whole_genome(name):
+    assay = ASSAYS[BD]
+    site = RECORDS[name]
+    contigs = [("c1", random_dna(20_000, 1) + site + random_dna(20_000, 2)), ("c2", random_dna(8_000, 3))]
+    seq, _ = extract_loci(contigs, _pairs(assay), CFG)
+    whole = [screen_record(assay, cid, s, CFG) for cid, s in contigs]
+    best_whole = min(
+        whole, key=lambda c: ({"detect": 0, "reduced": 1, "fail": 2}.get(c.call, 3), c.penalty or 0)
+    )
+    cut = screen_record(assay, "x", seq, CFG) if seq else None
+    if best_whole.call == "no_amplicon":
+        assert cut is None or cut.call == "no_amplicon"
+    else:
+        assert (cut.call, cut.penalty, cut.amplicon_bp) == (
+            best_whole.call,
+            best_whole.penalty,
+            best_whole.amplicon_bp,
+        )
+
+
+def test_windows_are_small_and_never_pair_across_a_spacer():
+    assay = ASSAYS[BD]
+    genome = _bd_genome(5)
+    seq, n = extract_loci(genome, _pairs(assay), CFG)
+    assert n == 2  # the two real copies; chance single-oligo sites do not make a window
+    assert len(seq.replace("N", "")) < 2 * (len(RECORDS[f"{BD}__perfect"]) + 2 * 100)
+    assert screen_record(assay, "g", seq, CFG).call == "detect"
+
+
+@pytest.fixture
+def cfg(tmp_path):
+    return {
+        **CFG,
+        "retrieved_dir": str(tmp_path / "retrieved"),
+        "assemblies": {"taxa": [109871], "levels": ["complete_genome"], "per_year": 2, "batch": 3},
+    }
+
+
+def test_retrieve_assemblies_end_to_end_and_incrementally(cfg, tmp_path):
+    metas = [meta(i, f"20{18 + i % 4}-03-0{1 + i % 5}") for i in range(12)]
+    genomes = {m.accession: _bd_genome(i) for i, m in enumerate(metas) if i % 3}  # every 3rd has no download
+    fake = FakeDatasets(metas, genomes)
+    pairs = _pairs(ASSAYS[BD])
+
+    run = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-04")
+    assert run.group == "asm" and run.n_fetched == 8  # 2 per year x 4 years
+    assert len(fake.downloaded) == 8
+    recs = dict(read_fasta(run.fasta))
+    assert recs and all(acc.startswith("GCA_") for acc in recs)
+    with gzip.open(run.metadata, "rt") as fh:
+        rows = list(csv.DictReader(fh, delimiter="\t"))
+    assert len(rows) == 8 and {r["accession"] for r in rows} >= set(recs)
+    assert any(r["length"] == "0" and "not downloaded" in r["title"] for r in rows)
+    # The report's year join reads it like any nuccore metadata.
+    years = read_years(tmp_path / "retrieved")
+    assert {years[a.rsplit(".", 1)[0]] for a in recs} <= {2018, 2019, 2020, 2021}
+
+    record_run(cfg, run)
+    # Nothing new released: the next run fetches nothing.
+    again = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-11")
+    assert again.n_fetched == 0 and again.note == "nothing new"
+    # A new release tops up its year only up to the quota.
+    fake.metas = metas + [meta(100, "2026-10-08"), meta(101, "2026-10-09"), meta(102, "2026-10-10")]
+    fake.genomes.update({m.accession: _bd_genome(7) for m in fake.metas[-3:]})
+    later = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-11")
+    assert later.mode == "incremental" and later.n_fetched == 2
+
+
+def test_registry_adds_an_asm_group_only_for_configured_taxa(cfg):
+    from test_score import ROOT
+
+    groups = targets_from_registry([ROOT / "registry"], cfg)
+    asm = {k: v for k, v in groups.items() if k[1] == "asm"}
+    assert list(asm) == [(109871, "asm")]
+    assert BD in asm[(109871, "asm")]["assays"] and asm[(109871, "asm")]["pairs"]
+    assert not any(k[1] == "asm" for k in targets_from_registry([ROOT / "registry"]))
+
+
+def test_a_locus_on_the_minus_strand_is_kept():
+    from assaywatch.iupac import reverse_complement
+
+    assay = ASSAYS[BD]
+    site = reverse_complement(RECORDS[f"{BD}__perfect"])
+    seq, n = extract_loci([("c1", random_dna(20_000, 9) + site + random_dna(20_000, 10))], _pairs(assay), CFG)
+    assert n == 1 and screen_record(assay, "g", seq, CFG).call == "detect"

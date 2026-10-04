@@ -43,6 +43,7 @@ from typing import Any
 
 import yaml
 
+from assaywatch.chance import composition, pair_evalue
 from assaywatch.match import Site, find_sites
 from assaywatch.schema import Assay
 
@@ -126,6 +127,8 @@ class Call:
             "amplicon_start": self.amplicon_start,
             "amplicon_end": self.amplicon_end,
             "amplicon_bp": self.amplicon_bp,
+            # Expected number of pairs this good in a random record like this one (chance.py).
+            "pair_evalue": f"{self.extra['pair_evalue']:.2g}" if "pair_evalue" in self.extra else "",
             "fwd_penalty": "" if self.forward is None else f"{self.forward.penalty:g}",
             "fwd_mm_from_3prime": mm(self.forward),
             "fwd_ambiguous": amb(self.forward),
@@ -215,10 +218,28 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
             if f.start > r.start:
                 pairs.append((f, r, r.start, f.end, r.end, f.start))
 
+    # Chance-pair guard (chance.py). The E-value is always reported; pairs above
+    # `max_pair_evalue` are only dropped when that is set.
+    max_e = cfg["scoring"].get("max_pair_evalue")
+    comp = composition(record_seq) if pairs else None
+    n_chance = 0
+
     best: Call | None = None
     for f, r, amp_start, amp_end, inner_lo, inner_hi in pairs:
         length = amp_end - amp_start
         if not amp["min_bp"] <= length <= amp["max_bp"]:
+            continue
+        evalue = pair_evalue(
+            fwd,
+            rev,
+            f.n_mismatches + f.n_ambiguous,
+            r.n_mismatches + r.n_ambiguous,
+            len(record_seq),
+            cfg,
+            comp,
+        )
+        if max_e is not None and evalue > max_e:
+            n_chance += 1
             continue
         fs = score_primer(f, len(fwd), cfg)
         rs = score_primer(r, len(rev), cfg)
@@ -246,6 +267,7 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
             call = classify(total, fs.terminal_mismatch or rs.terminal_mismatch, cfg)
         cand = Call(assay.id, record_id, call, total, amp_start, amp_end, length, fs, rs, ps, reason)
         cand.extra["n_ambiguous"] = n_amb
+        cand.extra["pair_evalue"] = evalue
         # The sites themselves, for anything computed on the winning amplicon
         # later (thermo.py). Not written to the TSV.
         cand.extra["sites"] = {"forward": f, "reverse": r, "probe": p_site}
@@ -262,10 +284,8 @@ def screen_record(assay: Assay, record_id: str, record_seq: str, cfg: dict[str, 
             best = cand
 
     if best is None:
-        return Call(
-            assay.id,
-            record_id,
-            "no_amplicon",
-            reason=f"sites found but no facing pair within {amp['min_bp']}-{amp['max_bp']} bp",
-        )
+        reason = f"sites found but no facing pair within {amp['min_bp']}-{amp['max_bp']} bp"
+        if n_chance:
+            reason = f"{n_chance} facing pairs, none distinguishable from chance (E > {max_e:g})"
+        return Call(assay.id, record_id, "no_amplicon", reason=reason)
     return best

@@ -31,6 +31,12 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] cumulative reports from cached per-archive screens
 - [x] screen large archives across cores (`screen --workers`, byte-identical output); biggest archives first
 - [x] `drift`: Wilson / Newcombe intervals, minimum-evidence guard, evaluable denominator
+- [x] assembly-level retrieval for bacterial targets (`asm` groups, NCBI Datasets): N complete
+      genomes per release year, cut to credible amplicon windows
+- [x] screen amplicons on both strands (minus-strand targets were never found)
+- [x] `pair_evalue` per amplicon (chance.py); scoring guard available, off by default
+- [ ] decide `scoring.max_pair_evalue` (see docs/2026-10-04-first-run-review.md)
+- [ ] fix the two registry oligo typos the indel check found (Sarcocystis long rev, Circovirus Mankertz fwd)
 - [x] optional thermodynamic columns (`screen --thermo`, primer3-py): per-oligo Tm and ΔTm, never scored
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend
@@ -41,8 +47,5 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
       typos, which makes the script a registry QA tool
 
 ## Later
-- assembly-level retrieval for bacterial targets (NCBI Datasets: sample N assemblies per year,
-  extract the locus); nuccore gene-level deposits stop at roughly 2012 for enteric bacteria
-  and the WGS contigs that replaced them are excluded from retrieval by title
 - SLURM executor profile for Greene
 - contributor template, two-week review promise
