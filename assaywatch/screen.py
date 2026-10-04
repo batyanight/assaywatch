@@ -18,7 +18,7 @@ import argparse
 import csv
 import sys
 import tempfile
-from collections import Counter
+from collections import Counter, deque
 from collections.abc import Iterable, Iterator
 from itertools import islice
 from multiprocessing import Pool
@@ -28,7 +28,8 @@ from typing import Any
 from assaywatch.chance import composition
 from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.fasta import read_fasta
-from assaywatch.score import load_config, screen_record
+from assaywatch.score import Call, load_config, screen_record
+from assaywatch.thermo import COLUMNS as THERMO_COLUMNS
 from assaywatch.thermo import annotate
 from assaywatch.validate import iter_files, load_assay
 
@@ -95,14 +96,21 @@ def screen_records(
         _init_worker(assays, cfg, thermo)
         yield from map(_screen_batch, batches(records, chunk_bp))
         return
-    # Pool.imap would read the whole archive ahead into its task queue, so batches
-    # are fed in windows of a few per worker: memory stays at a handful of
-    # batches however large the archive. imap keeps input order within a window,
-    # which is what makes the output independent of N.
+    # A bounded queue of batches in flight, results taken in submission order:
+    # memory stays at a few batches per worker however large the archive, the
+    # output is independent of N, and a slow batch (one huge genome) holds up
+    # only the results behind it, not the workers, which keep taking new batches.
     it = batches(records, chunk_bp)
+    in_flight: deque = deque()
     with Pool(workers, initializer=_init_worker, initargs=(assays, cfg, thermo)) as pool:
-        while window := list(islice(it, 4 * workers)):
-            yield from pool.imap(_screen_batch, window)
+        for batch in islice(it, 3 * workers):
+            in_flight.append(pool.apply_async(_screen_batch, (batch,)))
+        while in_flight:
+            result = in_flight.popleft().get()  # re-raises a worker's exception here
+            nxt = next(it, None)
+            if nxt is not None:
+                in_flight.append(pool.apply_async(_screen_batch, (nxt,)))
+            yield result
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -130,48 +138,65 @@ def main(argv: list[str] | None = None) -> int:
         help="add duplex Tm columns per oligo (needs primer3-py; see assaywatch/thermo.py)",
     )
     args = ap.parse_args(argv)
+    if args.workers < 1:
+        ap.error("--workers must be at least 1")
+    if args.chunk_bp < 1:
+        ap.error("--chunk-bp must be positive")
+    # Fail now, not after hours of screening, if the output cannot be written.
+    if args.out and not args.out.parent.is_dir():
+        ap.error(f"output directory {args.out.parent} does not exist")
+    if not args.fasta.exists():
+        ap.error(f"{args.fasta} does not exist")
 
     cfg = load_config(args.config)
     assays = [load_assay(p) for p in iter_files(args.assays)]
-    if args.only:
+    if args.only is not None:
         wanted = {a.strip() for a in args.only.split(",") if a.strip()}
+        if not wanted:
+            ap.error("--only names no assays")
         assays = [a for a in assays if a.id in wanted]
         missing = wanted - {a.id for a in assays}
         if missing:
             raise SystemExit(f"--only names assays not in {args.assays}: {sorted(missing)}")
+    if not assays:
+        ap.error(f"no assays found in {args.assays}")
 
     # One spool file per assay, so rows can be written as batches finish and
     # still come out assay by assay without holding them all in memory.
     spools = [tempfile.TemporaryFile("w+", newline="") for _ in assays]
-    fieldnames: list[str] | None = None
+    # The columns are fixed by Call.as_row, so the header is known up front and
+    # an archive with no records still produces a valid, header-only TSV.
+    template = Call("", "", "no_amplicon")
+    if args.thermo:
+        template.extra["thermo"] = dict.fromkeys(THERMO_COLUMNS, "")
+    fieldnames = list(template.as_row())
+    writers = [csv.DictWriter(sp, fieldnames=fieldnames, delimiter="\t") for sp in spools]
     tally: Counter = Counter()
     records = read_fasta(args.fasta)
     for per_assay in screen_records(assays, records, cfg, args.workers, args.chunk_bp, args.thermo):
-        for assay, rows, spool in zip(assays, per_assay, spools, strict=False):
-            if rows and fieldnames is None:
-                fieldnames = list(rows[0])
-            w = csv.DictWriter(spool, fieldnames=fieldnames or [], delimiter="\t")
+        for assay, rows, w in zip(assays, per_assay, writers, strict=True):
+            w.writerows(rows)
             for row in rows:
-                w.writerow(row)
                 tally[(assay.id, row["call"])] += 1
 
     # Write under a temporary name and rename at the end, so the output only
     # exists once it is complete: counting finished files then means something.
     tmp = args.out.with_name(f".{args.out.name}.part") if args.out else None
     out = tmp.open("w", newline="") if tmp else sys.stdout
-    if fieldnames is not None:
-        csv.DictWriter(out, fieldnames=fieldnames, delimiter="\t").writeheader()
-        for spool in spools:
-            spool.seek(0)
-            while block := spool.read(1 << 20):
-                out.write(block)
+    csv.DictWriter(out, fieldnames=fieldnames, delimiter="\t").writeheader()
     for spool in spools:
+        spool.seek(0)
+        while block := spool.read(1 << 20):
+            out.write(block)
         spool.close()
     if args.out:
         out.close()
         tmp.replace(args.out)
-        for (aid, call), n in sorted(tally.items()):
-            print(f"{aid}\t{call}\t{n}", file=sys.stderr)
+    else:
+        out.flush()
+    # The per-call summary goes to stderr in either mode, so it never mixes with TSV on stdout.
+    for (aid, call), n in sorted(tally.items()):
+        print(f"{aid}\t{call}\t{n}", file=sys.stderr)
     return 0
 
 

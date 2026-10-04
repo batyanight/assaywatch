@@ -149,3 +149,33 @@ def test_small_bounds_are_not_rounded_to_zero():
 
     assert pct(0.0019) == "0.2%" and pct(0.0) == "0%" and pct(-0.001, signed=True) == "-0.1%"
     assert pct(-0.004, signed=True) != "-0%"
+
+
+def _screen(*args):
+    import subprocess
+    import sys
+
+    from test_score import ROOT
+
+    return subprocess.run(
+        [sys.executable, "-m", "assaywatch.screen", str(ROOT / "registry"), *args],
+        capture_output=True,
+        text=True,
+    )
+
+
+def test_empty_fasta_still_gets_a_header(tmp_path):
+    empty = tmp_path / "empty.fa"
+    empty.write_text("")
+    out = tmp_path / "calls.tsv"
+    assert _screen(str(empty), "--only", BD, "-o", str(out)).returncode == 0
+    assert out.read_text().startswith("assay_id\trecord_id\tcall")
+
+
+def test_bad_arguments_fail_before_screening(tmp_path):
+    from test_score import FIX
+
+    fa = str(FIX / "records.fasta")
+    assert "names no assays" in _screen(fa, "--only", " , ").stderr
+    assert "does not exist" in _screen(fa, "--only", BD, "-o", str(tmp_path / "nope" / "x.tsv")).stderr
+    assert "at least 1" in _screen(fa, "--workers", "0").stderr
