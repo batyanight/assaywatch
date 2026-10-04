@@ -37,7 +37,7 @@ def count_rows(meta: Path) -> int:
 
 def rebuild(cfg: dict, registry: Path) -> tuple[dict, list[Path]]:
     root = Path(cfg.get("retrieved_dir", "data/retrieved"))
-    groups = targets_from_registry([registry])
+    groups = targets_from_registry([registry], cfg)  # cfg, so `asm` groups are known
     runs, partials = [], []
 
     for taxdir in sorted(p for p in root.iterdir() if p.is_dir() and p.name.isdigit()):

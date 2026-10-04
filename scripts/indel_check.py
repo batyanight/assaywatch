@@ -68,8 +68,13 @@ def category(row: dict[str, str]) -> str | None:
     return None
 
 
-def sample_calls(screened: Path, per_assay: int, seed: int):
-    """Reservoir-sample rows per (assay, category); also count every call."""
+def sample_calls(screened: Path, per_assay: int, seed: int, groups=None, retrieved: Path | None = None):
+    """Reservoir-sample rows per (assay, category); also count every call.
+
+    Only screens the report would use are read: groups the registry still
+    names, whose archive is still on disk. Stale screens (a group dropped from
+    the registry, a superseded assembly cut) would otherwise skew the counts.
+    """
     rng = random.Random(seed)
     seen: Counter = Counter()
     totals: Counter = Counter()
@@ -77,6 +82,10 @@ def sample_calls(screened: Path, per_assay: int, seed: int):
     for tsv in sorted(screened.rglob("*.tsv")):
         rel = tsv.relative_to(screened)
         archive = Path(*rel.parts[:-1]) / (rel.name[: -len(".tsv")] + ".fasta.gz")
+        if groups is not None and (int(rel.parts[0]), rel.parts[1]) not in groups:
+            continue
+        if retrieved is not None and not (retrieved / archive).exists():
+            continue
         with tsv.open(newline="") as fh:
             for row in csv.DictReader(fh, delimiter="\t"):
                 totals[(row["assay_id"], row["call"])] += 1
@@ -270,11 +279,17 @@ def main(argv=None) -> int:
     )
     ap.add_argument("--max-record-bp", type=int, default=2_000_000, help="skip longer records (genomes)")
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--config", type=Path, default=None)
     args = ap.parse_args(argv)
 
-    cfg = load_config()
+    cfg = load_config(args.config)
+    from assaywatch.retrieve import targets_from_registry
+
+    groups = targets_from_registry([args.registry], cfg)
     assays = {a.id: a for a in (load_assay(p) for p in iter_files(args.registry))}
-    picked, seen, totals = sample_calls(args.screened, args.per_assay, args.seed)
+    picked, seen, totals = sample_calls(args.screened, args.per_assay, args.seed, groups, args.retrieved)
+    if not totals:
+        raise SystemExit(f"no screened calls under {args.screened} for the registry's current groups")
 
     wanted: dict[Path, set[str]] = defaultdict(set)
     for items in picked.values():

@@ -263,6 +263,11 @@ per `screen_mb_per_thread` (default 25) gzipped MB, capped by `--cores`, and
 its priority is its size, so the largest archive starts first instead of
 running alone on one core after everything else has finished.
 
+**Cached screens are redone when they would change.** Each screen job carries
+a signature of its group's assay files, the scoring settings in config.yaml and
+the screening code. Edit an assay, change a threshold or update the matcher, and
+the next run rescreens exactly the archives affected; nothing to force by hand.
+
 **Reports are cumulative.** Every archive ever fetched is screened once and the
 result is cached under `results/screened/<taxid>/<group>/<archive>.tsv`. Each
 report is built from all of those, with the newest version of each accession
@@ -349,12 +354,13 @@ A perfect pair in a genome is around 1e-11; six-and-six in a genome is around
 1600; five-and-five in a 1 kb gene record is around 0.002.
 
 Assembly extraction always uses it (`assemblies.max_pair_evalue`, 0.01).
-Scoring does not by default (`scoring.max_pair_evalue: null`): set a threshold
-there to turn chance pairs into `no_amplicon` instead of `fail`. In the first
-full run a quarter of all `fail` calls had both primers at five or more
-mismatches, and for the herpesvirus, adenovirus and lyssavirus assays their
-amplicon lengths matched no `detect` at all, so this setting moves several
-drift numbers. It is off until that has been looked at.
+Scoring uses it too (`scoring.max_pair_evalue: 0.01`, set 2026-10-04): a pair
+above the threshold is `no_amplicon`, not `fail`. In the first full run a
+quarter of all `fail` calls had both primers at five or more mismatches, and
+for the herpesvirus, adenovirus and lyssavirus assays their amplicon lengths
+matched no `detect` at all. Turning the guard on moved 114,093 `fail` calls to
+`no_amplicon` and only 5 `reduced` ones. Set it to `null` to report the
+E-value without acting on it.
 
 ### Retrieval decisions
 
@@ -364,8 +370,9 @@ than in code:
 | setting | default | why |
 |---|---|---|
 | `min_length` | 100 | a fragment shorter than any amplicon can only produce `no_amplicon` noise |
-| `max_records_per_taxon` | 50000 | influenza A alone is over a million records and would dominate a weekly run |
-| `large_taxa_allowed` | `[]` | taxa past the cap are opted in by taxid, deliberately, one at a time |
+| `max_records_per_taxon` | 100000 | influenza A alone is over a million records and would dominate a weekly run |
+| `large_taxa_allowed` | `[11320]` | taxa past the cap are opted in by taxid, deliberately, one at a time (influenza A segment 7, accepted 2026-10-03) |
+| `incremental_overlap_days` | 3 | each incremental run re-asks for the last few days, for records NCBI indexes late |
 | `query_suffix` | none | a global term ANDed onto every group, e.g. `NOT "whole genome shotgun"[Title]` |
 
 A group over the cap is skipped and logged; the run continues and exits zero,
@@ -379,7 +386,7 @@ a sequence can turn a mismatch into a match, so revisions matter as much as new
 deposits. `--full` ignores the manifest, which is what you want after changing
 the length filter or the query.
 
-Each run writes `data/retrieved/<taxid>/<date>.fasta.gz` plus a
+Each run writes `data/retrieved/<taxid>/<group>/<date>.fasta.gz` plus a
 `.meta.tsv.gz` carrying accession, creation date, update date, length and
 title. The dates are the point: the drift question is whether coverage has
 fallen *since the assay was designed*, which needs a year per record, and FASTA
@@ -403,7 +410,7 @@ snakemake --profile profiles/slurm --config email=you@nyu.edu
 Nothing in the Snakefile changes. Snakemake submits each job with `sbatch`
 instead of running it, waits for the scheduler and collects the outputs; a
 rule's `resources:` block becomes the `sbatch` request, which is why
-`screen_taxon` declares `mem_mb` and `runtime`. The profile sets how many jobs
+`screen_archive` declares `mem_mb` (scaled with its threads) and `runtime`. The profile sets how many jobs
 may sit in the queue at once (not how many cores), the partition and the
 defaults. Retrieval stays a single job on purpose: NCBI's rate limit is global,
 so parallel fetch jobs would each sleep for their own limit and together exceed
