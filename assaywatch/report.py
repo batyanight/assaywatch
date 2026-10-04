@@ -126,6 +126,28 @@ def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [row for _, row in seen.values()]
 
 
+def oligo_twins(assays: dict[str, Assay]) -> dict[str, list[str]]:
+    """{assay id: other assays with exactly the same primers and probe}.
+
+    The WCS sheet lists some primer sets more than once (a published name and a
+    lab name, or two rounds that share a primer pair); their rows in the report
+    are identical, and the reader should be told so rather than count them twice.
+    """
+    by_oligos: dict[tuple, list[str]] = {}
+    for aid, a in assays.items():
+        if a.status.value == "deprecated":
+            continue
+        probe = a.oligos.probe.matching_seq if a.oligos.probe else ""
+        key = (a.oligos.forward.matching_seq, a.oligos.reverse.matching_seq, probe)
+        by_oligos.setdefault(key, []).append(aid)
+    out: dict[str, list[str]] = {}
+    for ids in by_oligos.values():
+        if len(ids) > 1:
+            for aid in ids:
+                out[aid] = sorted(i for i in ids if i != aid)
+    return out
+
+
 def md(text: Any) -> str:
     """Make text safe inside a markdown table cell."""
     return str(text).replace("|", "\\|").replace("\n", " ")
@@ -171,6 +193,7 @@ def render_markdown(
     cfg: dict[str, Any] | None = None,
 ) -> str:
     grouped = by_status(drifts)
+    twins = oligo_twins(assays)
     out = [f"# AssayWatch report — {run_date}", ""]
     counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in STATUS_ORDER if grouped.get(s))
     out += [f"{len(drifts)} assays screened: {counts}.", ""]
@@ -211,9 +234,12 @@ def render_markdown(
             frac = f"{a.recent_fraction:.1%}" if a.recent_fraction is not None else "-"
             ci = f"{pct(a.recent_ci[0])}-{pct(a.recent_ci[1])}" if a.recent_evaluable else "-"
             base = pct(a.baseline_fraction) + f" ({a.baseline_evaluable})" if a.baseline_evaluable else "-"
+            note = a.note + (
+                f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
+            )
             out.append(
                 f"| `{md(a.assay_id)}` | {frac} | {ci} | {a.recent_evaluable} | {base} "
-                f"| {deg_text} | {md(a.note)} |"
+                f"| {deg_text} | {md(note)} |"
             )
         out.append("")
 
@@ -289,6 +315,7 @@ def render_html(
     cfg: dict[str, Any] | None = None,
 ) -> str:
     grouped = by_status(drifts)
+    twins = oligo_twins(assays)
     e = html.escape
     parts = [
         "<!doctype html><html lang='en'><head><meta charset='utf-8'>",
@@ -313,7 +340,7 @@ def render_html(
         )
         parts.append(
             "<table><tr><th>assay</th><th>trend</th><th>detected</th><th>95% CI</th>"
-            "<th>evaluable</th><th>degeneracy</th><th>note</th></tr>"
+            "<th>evaluable</th><th>baseline (n)</th><th>degeneracy</th><th>note</th></tr>"
         )
         for a in items:
             assay = assays.get(a.assay_id)
@@ -321,14 +348,48 @@ def render_html(
             deg_text = f"{deg.total_fold}&times; {deg.tier(cfg)}" if deg else "-"
             frac = f"{a.recent_fraction:.1%}" if a.recent_fraction is not None else "-"
             ci = f"{pct(a.recent_ci[0])}&ndash;{pct(a.recent_ci[1])}" if a.recent_evaluable else "-"
+            base = f"{pct(a.baseline_fraction)} ({a.baseline_evaluable})" if a.baseline_evaluable else "-"
+            note = a.note + (
+                f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
+            )
             parts.append(
                 f"<tr><td><code>{e(a.assay_id)}</code><br><span class='muted'>"
                 f"{e(assay.name) if assay else ''}</span></td>"
                 f"<td>{sparkline(a)}</td><td>{frac}</td><td>{ci}</td>"
-                f"<td>{a.recent_evaluable}</td><td>{deg_text}</td>"
-                f"<td class='muted'>{e(a.note)}</td></tr>"
+                f"<td>{a.recent_evaluable}</td><td>{base}</td><td>{deg_text}</td>"
+                f"<td class='muted'>{e(note)}</td></tr>"
             )
         parts.append("</table>")
+
+    # The same per-year detail the markdown report has, folded away by default.
+    flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
+    if flagged:
+        parts.append("<h2>Detail for flagged assays</h2>")
+        for a in flagged:
+            assay = assays.get(a.assay_id)
+            parts.append(f"<details><summary><code>{e(a.assay_id)}</code></summary>")
+            if assay:
+                bits = [e(assay.name)]
+                if assay.citation.doi:
+                    bits.append(f"designed {assay.citation.design_year or '?'}, doi:{e(assay.citation.doi)}")
+                deg = assay_degeneracy(assay)
+                if deg.note(cfg):
+                    bits.append(f"degeneracy: {e(deg.note(cfg))}")
+                parts.append("<p class='muted'>" + "<br>".join(bits) + "</p>")
+            parts.append(
+                "<table><tr><th>deposit year</th><th>detected</th><th>evaluable</th><th>share</th></tr>"
+            )
+            for year, det, ev, frac in year_table_rows(a):
+                parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
+            parts.append("</table>")
+            un = a.unevaluable()
+            if un:
+                parts.append(
+                    "<p class='muted'>Excluded: "
+                    + ", ".join(f"{n} {e(k)}" for k, n in sorted(un.items()))
+                    + "</p>"
+                )
+            parts.append("</details>")
 
     parts.append("<h2>Coverage gaps</h2>")
     if not gaps:

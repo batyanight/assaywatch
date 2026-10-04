@@ -168,3 +168,15 @@ def test_gap_table_separates_unsearched_assays_and_skips_deprecated():
     md = render_markdown({}, {}, gaps, "2026-10-04")
     assert "| `A_searched` | X | 5 | 0 | 3 |" in md
     assert "| `B_no_taxid` | Y | - | 0 | not searched (no taxid) |" in md
+
+
+def test_identical_oligo_sets_are_named_and_html_has_the_year_detail():
+    from assaywatch.report import oligo_twins
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assays = {a.id: a for a in (load_assay(p) for p in (root / "registry").glob("POLYOMAVIRUS_dsDNA_*.yaml"))}
+    twins = oligo_twins(assays)
+    assert "POLYOMAVIRUS_dsDNA_VP1_Johne_2005" in twins.get("POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2", [])
+    page = render_html(_drifting(), {}, [], "2026-10-03")
+    assert "<details>" in page and "deposit year" in page and "baseline (n)" in page
