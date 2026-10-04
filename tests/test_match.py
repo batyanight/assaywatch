@@ -186,3 +186,37 @@ def test_uncertain_bases_spend_the_search_budget():
     record = random_seq(60) + site + random_seq(60)
     assert [x for x in find_sites(oligo, record, 3) if x.strand == "+" and x.start == 60] == []
     assert [x for x in find_sites(oligo, record, 4) if x.strand == "+" and x.start == 60]
+
+
+def test_packed_search_equals_brute_force_on_messy_records():
+    """The block-packed, pruned search is exact: every budget, every character class."""
+    import random
+
+    from assaywatch.iupac import base_state
+
+    rng = random.Random(2026)
+    record_alphabet = "ACGTACGTACGTacgtUNRYSWKMBDHV-*X"
+    for trial in range(150):
+        L = rng.randint(8, 30)
+        oligo = "".join(rng.choice("ACGTACGTRYNIS") for _ in range(L))
+        rec = "".join(rng.choice(record_alphabet) for _ in range(rng.randint(0, 400)))
+        # Plant a near-copy so there is something to find.
+        if len(rec) > L + 10 and trial % 2:
+            p = rng.randint(0, len(rec) - L)
+            plant = "".join(c if c in "ACGT" else "A" for c in oligo)
+            rec = rec[:p] + plant + rec[p + L :]
+        for budget in (0, 2, 6, 12):
+            want = set()
+            up = rec.upper()
+            for strand, seq in (("+", up), ("-", reverse_complement(up))):
+                for s in range(len(seq) - L + 1):
+                    states = [
+                        base_state(oligo[i], seq[s + i]) if seq[s + i] in IUPAC else "mismatch"
+                        for i in range(L)
+                    ]
+                    if sum(st != "match" for st in states) <= budget:
+                        start = s if strand == "+" else len(seq) - s - L
+                        mm = tuple(i for i, st in enumerate(states) if st == "mismatch")
+                        want.add((start, strand, mm))
+            got = {(x.start, x.strand, x.mismatches) for x in find_sites(oligo, rec, budget)}
+            assert got == want, (oligo, rec, budget)

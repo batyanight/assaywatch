@@ -53,20 +53,23 @@ def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     assays, cfg, degs, thermo = _STATE
     # Base composition is per record, not per assay: count each record once.
     comps = [composition(seq) for _, seq in batch]
-    out = []
-    for assay, (fold, tier) in zip(assays, degs, strict=True):
+    specs = []
+    for assay in assays:
         oligos = {"forward": assay.oligos.forward.matching_seq, "reverse": assay.oligos.reverse.matching_seq}
         if assay.oligos.probe is not None:
             oligos["probe"] = assay.oligos.probe.matching_seq
-        rows = []
-        for (rid, seq), comp in zip(batch, comps, strict=True):
+        specs.append(oligos)
+    # Record-outer, so every assay sees a record back to back and find_sites'
+    # per-record preparation (and any oligo two assays share) is reused.
+    out: list[list[dict[str, Any]]] = [[] for _ in assays]
+    for (rid, seq), comp in zip(batch, comps, strict=True):
+        for assay, (fold, tier), oligos, rows in zip(assays, degs, specs, out, strict=True):
             call = screen_record(assay, rid, seq, cfg, comp)
             call.extra["degeneracy_fold"] = fold
             call.extra["degeneracy_tier"] = tier
             if thermo:
                 call.extra["thermo"] = annotate(call, oligos, cfg)
             rows.append(call.as_row())
-        out.append(rows)
     return out
 
 

@@ -21,13 +21,27 @@ primer binding site with an indel in it is not a working primer site, and
 treating it as one would invent amplicons that do not exist.
 
 The scan is vectorised. For each of the oligo's positions a 256-entry lookup
-table maps a record byte to one of three states; applying the table to the
-record as a numpy array gives, in one C-level pass per oligo position, the
-state at every alignment offset at once. Summing those L arrays gives the
-mismatch and ambiguity counts at every offset, and only the offsets within
-budget are revisited in Python to recover which positions were which. Cost is
-O(len(oligo) x len(record)) element operations, but they happen inside numpy,
-so a 25 nt oligo against a 30 kb record takes a couple of milliseconds.
+table maps a record byte to one of three states (_match_tables). Only one
+number decides whether an offset is a candidate site, the count of positions
+that are not a definite match, so the search counts just that, in two stages:
+
+1. Dense. Record bytes fall into 16 classes by the base set they stand for, so
+   four consecutive record positions pack into one 16-bit code, and a
+   65,536-entry table per block of four oligo positions gives that block's
+   not-match count. Four such blocks (16 positions) are summed over every
+   offset in a few numpy passes, most selective blocks first.
+2. Sparse. The count only grows, so offsets already over budget are dropped,
+   and the remaining positions are added only for the offsets still in it.
+
+The surviving offsets are then revisited in Python to recover which positions
+were mismatches and which undetermined. Every offset is still evaluated: the
+pruning removes only offsets whose count already exceeds the budget, so the
+result is exactly the exhaustive one (held to brute force in tests). This is
+about 5x faster than adding all L positions at every offset, which it replaced.
+
+find_sites prepares a record once (uppercase, reverse complement, packed codes)
+and remembers each oligo's sites for it, so the several oligos and assays
+screened against one record, back to back, share that work.
 
 An earlier version used two fixed k-mer seeds, one at each end of the oligo,
 and missed any site whose mismatches fell inside both seeds: a 15 nt probe
@@ -115,32 +129,77 @@ def _match_tables(oligo: str) -> tuple[np.ndarray, ...]:
     return tuple(tables)
 
 
-def _search_one_strand(
-    oligo: str, seq: str, max_mm: int
-) -> dict[int, tuple[tuple[int, ...], tuple[int, ...]]]:
+def _byte_classes() -> tuple[np.ndarray, np.ndarray]:
+    """Record byte -> one of 16 classes by the base set it stands for (U=T, I=H, 15 = non-IUPAC).
+    Every _match_tables row is constant within a class, so 4 classes fit one 16-bit index."""
+    cls = np.full(256, 15, dtype=np.uint8)
+    ids: dict[frozenset, int] = {}
+    for code, bases in IUPAC.items():
+        k = ids.setdefault(frozenset(bases), len(ids))
+        cls[ord(code)] = cls[ord(code.lower())] = k
+    rep = np.zeros(16, dtype=np.uint8)  # one byte standing for each class
+    for b in range(255, -1, -1):
+        rep[cls[b]] = b
+    return cls, rep
+
+
+_CLS, _REP = _byte_classes()
+
+
+def _quad_codes(rec: np.ndarray) -> np.ndarray:
+    """code[k] = classes of rec[k..k+3] packed 4 bits each."""
+    c = _CLS[rec].astype(np.uint16)
+    n = max(len(c) - 3, 0)
+    return c[:n] | c[1 : n + 1] << 4 | c[2 : n + 2] << 8 | c[3 : n + 3] << 12
+
+
+@lru_cache(maxsize=512)
+def _scan_plan(oligo: str):
+    """65536-entry tables giving the not-MATCH count of each 4-position block,
+    most selective block first, and the per-position 0/1 tables for the rest."""
+    tables = _match_tables(oligo)
+    nm = [(t != MATCH).astype(np.uint8) for t in tables]
+    acgt = np.frombuffer(b"ACGT", np.uint8)
+    ix = np.arange(65536)
+    quads = sorted(
+        (
+            (i, sum(nm[i + j][_REP][(ix >> 4 * j) & 15] for j in range(4)).astype(np.uint8))
+            for i in range(0, len(oligo) - 3, 4)
+        ),
+        key=lambda q: -sum(int(nm[q[0] + j][acgt].sum()) for j in range(4)),
+    )
+    singles = sorted(range(len(oligo)), key=lambda i: -int(nm[i][acgt].sum()))
+    return tables, nm, quads, singles
+
+
+def _search_one_strand(oligo: str, rec: np.ndarray, codes: np.ndarray, max_mm: int):
     """{start: (mismatch positions, ambiguous positions)} in one orientation.
 
-    Every offset is evaluated; nothing is filtered out beforehand.
+    Every offset is evaluated. The not-MATCH count only grows with each position,
+    so after a few dense 4-position blocks the offsets still within budget are
+    followed sparsely; the order in which positions are added changes nothing.
     """
-    L, N = len(oligo), len(seq)
+    L, N = len(oligo), len(rec)
     if N < L:
         return {}
-    tables = _match_tables(oligo)
-    rec = np.frombuffer(seq.encode("ascii", "replace"), dtype=np.uint8)
-    n_windows = N - L + 1
-
-    mm_counts = np.zeros(n_windows, dtype=np.int16)
-    amb_counts = np.zeros(n_windows, dtype=np.int16)
-    for i, table in enumerate(tables):
-        states = table[rec[i : i + n_windows]]
-        mm_counts += states == MISMATCH
-        amb_counts += states == UNKNOWN
-
+    n = N - L + 1
+    tables, nm, quads, singles = _scan_plan(oligo)
+    dense = quads[: (max_mm + 10) // 4]
+    cnt = np.zeros(n, dtype=np.uint8)  # oligos are < 256 nt
+    done = set()
+    for i, t in dense:
+        cnt += t[codes[i : i + n]]
+        done.update(range(i, i + 4))
+    cand = np.flatnonzero(cnt <= max_mm)
+    c = cnt[cand]
+    for i in singles:
+        if i in done or not len(cand):
+            continue
+        c += nm[i][rec[cand + i]]
+        keep = c <= max_mm
+        cand, c = cand[keep], c[keep]
     hits = {}
-    # Undetermined positions consume the search budget (see module docstring);
-    # they are still reported separately so the scorer charges nothing for them.
-    for start in np.flatnonzero(mm_counts + amb_counts <= max_mm):
-        start = int(start)
+    for start in cand.tolist():
         window = rec[start : start + L]
         states = [int(table[window[i]]) for i, table in enumerate(tables)]
         hits[start] = (
@@ -150,6 +209,19 @@ def _search_one_strand(
     return hits
 
 
+# The last record seen, prepared once for every oligo and assay screened against it.
+_LAST: list = [None, None]
+
+
+def _prepare(record: str):
+    if _LAST[0] is not record:
+        up, rc = record.upper(), reverse_complement(record)
+        a = np.frombuffer(up.encode("ascii", "replace"), dtype=np.uint8)
+        b = np.frombuffer(rc.encode("ascii", "replace"), dtype=np.uint8)
+        _LAST[:] = record, (up, a, _quad_codes(a), rc, b, _quad_codes(b), {})
+    return _LAST[1]
+
+
 def find_sites(oligo: str, record: str, max_mismatches: int = 6) -> list[Site]:
     """Every site with <= max_mismatches positions not definitely matched, either strand.
 
@@ -157,18 +229,18 @@ def find_sites(oligo: str, record: str, max_mismatches: int = 6) -> list[Site]:
     `max_mismatches` can only add sites, never move or remove one.
     """
     oligo = oligo.upper()
-    record = record.upper()
-    L = len(oligo)
-    sites: list[Site] = []
-
-    for start, (mm, amb) in _search_one_strand(oligo, record, max_mismatches).items():
-        sites.append(Site(start, start + L, "+", mm, record[start : start + L], amb))
-
-    rc = reverse_complement(record)
-    n = len(record)
-    for start_rc, (mm, amb) in _search_one_strand(oligo, rc, max_mismatches).items():
+    up, a, qa, rc, b, qb, memo = _prepare(record)
+    key = (oligo, max_mismatches)
+    if key not in memo:
+        L, n = len(oligo), len(up)
+        sites = [
+            Site(s, s + L, "+", mm, up[s : s + L], amb)
+            for s, (mm, amb) in _search_one_strand(oligo, a, qa, max_mismatches).items()
+        ]
         # A window at [s, s+L) on the reverse complement sits at [n-s-L, n-s) on the plus strand.
-        start = n - start_rc - L
-        sites.append(Site(start, start + L, "-", mm, rc[start_rc : start_rc + L], amb))
-
-    return sorted(sites, key=lambda s: (s.start, s.strand))
+        sites += [
+            Site(n - s - L, n - s, "-", mm, rc[s : s + L], amb)
+            for s, (mm, amb) in _search_one_strand(oligo, b, qb, max_mismatches).items()
+        ]
+        memo[key] = sorted(sites, key=lambda x: (x.start, x.strand))
+    return list(memo[key])
