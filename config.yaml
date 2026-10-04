@@ -36,6 +36,7 @@ retrieve:
   max_length: null            # whole genomes are fine: an amplicon may sit anywhere
   query_suffix: null          # e.g. 'NOT "whole genome shotgun"[Title]' to trim bulk
   max_records_per_taxon: 100000
+  incremental_overlap_days: 3 # each incremental run re-asks for these days, for records NCBI indexes late
   # Taxa allowed past the cap, by taxid. Opt in deliberately. Influenza A
   # segment 7 is ~180,000 records on first fetch (and incremental after);
   # that is a known cost, accepted on 2026-10-03.
