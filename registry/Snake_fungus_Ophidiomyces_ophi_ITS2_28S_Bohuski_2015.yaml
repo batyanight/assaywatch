@@ -5,6 +5,7 @@ target:
   gene: ITS2
   genome_type: dsDNA
   taxon_name: Ophidiomyces ophidiicola
+  query: 'ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR 28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
 chemistry: mgb
 oligos:
   forward:

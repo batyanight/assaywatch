@@ -51,6 +51,13 @@ exclude:
 # annotated. A record the query misses is a record the assay is not judged
 # against; that is a coverage cost, not a scoring error.
 queries:
+  # Fungal rDNA assays. Fetched whole, these taxa are mostly genome contigs and
+  # transcripts (2026-10-04: Bsal 4,228 records, Ophidiomyces 32,645), on which
+  # the assays only find chance primer pairs. The rDNA records are 12 and 196.
+  - match: "^B_salamandrivorans_Internal_transcribes_spa"
+    query: 'ITS[Title] OR ITS1[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR "5.8S"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
+  - match: "^Snake_fungus_Ophidiomyces_ophi"
+    query: 'ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR 28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
   - match: "^LEPTOSPIROSIS"
     query: '(flaB[Gene] OR flagellin[Title] OR "flaB"[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]'
   - match: "^Helicobacter"

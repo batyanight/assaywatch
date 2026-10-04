@@ -5,6 +5,7 @@ target:
   gene: ITS1-5.8S rDNA
   genome_type: dsDNA
   taxon_name: Batrachochytrium salamandrivorans
+  query: 'ITS[Title] OR ITS1[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR "5.8S"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
 chemistry: mgb
 oligos:
   forward:
