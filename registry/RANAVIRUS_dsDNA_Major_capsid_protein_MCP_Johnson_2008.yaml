@@ -5,7 +5,6 @@ target:
   gene: MCP
   genome_type: dsDNA
   taxon_name: Ranavirus
-  query: 'txid10492[Organism:exp] NOT (txid3432137[Organism:exp] OR txid3432136[Organism:exp] OR txid3432134[Organism:exp] OR txid3432135[Organism:exp] OR txid3691958[Organism:exp])'
 chemistry: conventional
 oligos:
   forward:
@@ -14,13 +13,12 @@ oligos:
   reverse:
     name: RanaRVS
     seq: GTCTCTGGAGAAGAAGAA
-amplicon_bp: 500
+amplicon_bp: 531
 citation:
   doi: 10.7589/0090-3558-44.4.851
   design_year: 2008
   n_sequences_at_design: null
-  as_written: Johnson, AJ et al. RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES.
-    Journal of Wildlife Diseases, 44(4), 2008, pp. 851–863
+  as_written: Johnson, AJ et al. RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES. Journal of Wildlife Diseases, 44(4), 2008, pp. 851–863
   doi_verified: true
   reference: Johnson AJ et al. 2008. J Wildl Dis 44:851-863
 use_context:
@@ -36,5 +34,7 @@ source:
   positive_control: Frog Virus 3 DNA
   nested_round: null
   notes: null
-  notes_curator: 'Scoped away from the fish ranaviruses on 2026-10-04. Johnson et al. 2008 is a study of ranavirus infection in box turtles and tortoises with Frog virus 3 as the positive control, so the published claim is about FV3-like ranaviruses of amphibians and reptiles; it says nothing about the fish ranaviruses. Before scoping, 54 of this assay''s 61 failing records were fish viruses (Largemouth bass virus, Mandarin fish ranavirus, Siniperca chuatsi ranavirus, Singapore grouper iridovirus, short-finned eel ranavirus), i.e. the tool was reporting as assay failure the fact that the assay was being judged outside its scope. The query excludes the five ICTV fish species of the genus by taxid rather than by name: Ranavirus perca1 (EHNV/ECV/ESV), micropterus1 (Santee-Cooper/LMBV), epinephelus1 (grouper), gadus1 (cod) and Macropharyngodon choati ranavirus. 1,466 records before, 1,265 after, so the amphibian/reptile records and the 364 still-unclassified ones are all kept. CAUTION for anyone editing this: the query repeats txid10492 inside itself on purpose. retrieve.build_query wraps an assay query in parentheses and ANDs it, and Entrez silently DROPS a leading NOT in that position - the form `AND (NOT (fish))` returns the fish records only, which is the exact inverse of what is wanted and fails without an error. Note the two Pallister 2007 assays are deliberately NOT scoped this way: that paper is in J Fish Dis and develops its assays on Australian and European FISH ranaviruses, so for those the fish records are the design scope. The Santee-Cooper group that all three MCP assays miss is not covered by any assay in this registry. SANTEE-COOPER BLIND SPOT. This assay does not reach the Santee-Cooper group (ICTV Ranavirus micropterus1: Largemouth bass virus, Smallmouth bass virus, Doctor fish virus, Guppy virus 6, plus the phylogenetically allied but still-unclassified Mandarin fish and Siniperca chuatsi ranaviruses). That lineage sits well apart from the FV3-like viruses and from the Australian and European fish ranaviruses that MCP consensus primers were designed on, and on 2026-10-04 it accounted for most of this assay''''s failing records. A no-amplicon or fail call on a Largemouth bass virus deposit is therefore expected and is not evidence of drift. Those records are covered by LMBV_dsDNA_MCP_RPA_Li_2025, which matches all four LMBV complete genomes this assay fails.'
-needs_review: null
+  notes_curator: SCOPING REVERTED 2026-10-04, same day it was applied. These primers were scoped away from the fish ranaviruses on the reasoning that Johnson et al. 2008 is a box-turtle and tortoise study. Reading Grizzle et al. 2003 (doi:10.3354/dao054029) showed that was wrong on the facts. The oligos here are byte-identical to FV3-54F / FV3-584R of Mao et al. 1997, which Grizzle quotes in full and describes as amplifying 'DNA from all the ranaviruses tested, including LMBV' while not amplifying red seabream iridovirus. So the published claim for this primer pair is PAN-RANAVIRUS, including the fish species; Johnson 2008 is the source this registry transcribed them from, not their design paper. The whole genus is the correct denominator and the query is removed. Provenance should properly read Mao et al. 1997, and the citation field still points at Johnson 2008 only because that is where the sequences were read from. amplicon_bp corrected from 500 to 531. Grizzle and Mao both report 531 bp, and the screen independently measures 531 on every LMBV genome, so the 500 in the source spreadsheet was simply wrong. KNOWN FALSE POSITIVE, and the best-evidenced one this registry has. On the four LMBV complete genomes PX879566.1, PV833272.1, PX463212.1 and PV459226.1 the tool calls `fail`. The mismatches are 3 per primer, at 13, 15 and 16 bases from the forward 3' end and 6, 10 and 11 from the reverse 3' end - none within 5 nt of either 3' end, both 3' termini clean for at least 5 bases. The additive penalty totals 4.0 against a reduced_max of 3.0, so the verdict turns entirely on summing six distal mismatches rather than on anything happening at an extending 3' end. Grizzle's Fig. 1 is a gel showing these primers amplifying LMBV. This is concrete evidence for the additive-scoring problem in section 3.5 of docs/2026-10-04-pipeline-review.md, and is recorded in docs/validation-cases.tsv. SANTEE-COOPER. The Santee-Cooper group still accounts for most of this assay's failing records, but on the evidence above that is the scoring model over-penalising distal mismatches, NOT the assay being judged out of scope and NOT demonstrated drift. For an assay that genuinely claims only LMBV, see LMBV_dsDNA_MCP_Grizzle_2003; for a modern LMBV-specific pair, LMBV_dsDNA_MCP_RPA_Li_2025.
+needs_review:
+- AMPLICON_CORRECTED_FROM_SOURCE
+- PRIMERS_ARE_MAO_1997_NOT_JOHNSON_2008

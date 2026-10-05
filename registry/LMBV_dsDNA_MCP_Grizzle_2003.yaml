@@ -1,0 +1,38 @@
+id: LMBV_dsDNA_MCP_Grizzle_2003
+name: LARGEMOUTH BASS VIRUS (dsDNA) — MCP, LMBV288F/535R (Grizzle 2003)
+target:
+  taxid: 10492
+  gene: MCP
+  genome_type: dsDNA
+  taxon_name: Largemouth bass virus (sensu stricto)
+  query: txid176656[Organism:exp] OR txid198068[Organism:exp] OR txid2107207[Organism:exp] OR txid3045951[Organism:exp] OR txid1162553[Organism:exp]
+chemistry: conventional
+oligos:
+  forward:
+    name: LMBV288F
+    seq: GCGGCCAACCAGTTTAACGCAA
+  reverse:
+    name: LMBV535R
+    seq: AGGACCCTAGCTCCTGCTTGAT
+amplicon_bp: 248
+citation:
+  doi: 10.3354/dao054029
+  design_year: 2003
+  n_sequences_at_design: null
+  as_written: null
+  reference: Grizzle, J. M., Altinok, I. & Noyes, A. D. PCR method for detection of largemouth bass virus. Diseases of Aquatic Organisms 54, 29-33 (2003).
+  doi_verified: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: LMBV, 1995 isolate from Santee-Cooper Reservoir
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-04 from Grizzle et al. 2003, read from the paper''s own Methods, which prints both sequences in the running text. This is the canonical LMBV-specific conventional PCR used by US fish-health laboratories. Product 248 bp, stated in the paper and independently measured here. VERIFIED against the paper''s own design sequence: both primers match AF080250 - the accession Grizzle names as the design target - with ZERO mismatches, giving exactly 248 bp. That is the cleanest confirmation of a transcription this registry has, since the paper tells you which record it designed against and the primers land on it perfectly. SCOPE IS DELIBERATELY NARROWER THAN THE SPECIES, because the paper''s claim is. Grizzle chose these primers to match ''a portion of the LMBV genome that was distinct from the sequence of doctorfish virus and guppy virus'', and Fig. 1 shows they do not amplify either, nor frog virus 3, nor EHNV, nor red seabream iridovirus - even though Mao et al. 1999 had concluded doctorfish and guppy viruses are the same species as LMBV. So non-detection of doctorfish or guppy virus is this assay working as designed, and they are excluded from the denominator: the query covers the bass and Santee-Cooper nodes only (114 records) and leaves out doctorfish, guppy and guppyfish iridovirus (9 records). Screening confirms the exclusion is real rather than nominal: doctorfish and guppy virus each carry 6 mismatches across the pair. Contrast LMBV_dsDNA_MCP_RPA_Li_2025, which detects both and is therefore a group-level assay, not an LMBV-specific one - the two entries answer different questions and should not be compared head to head without that in mind. POSSIBLE REAL DRIFT, and the reason this entry is worth watching. Against the 1990s US sequence it was designed on, the fit is perfect. Against contemporary LMBV genomes it is not: PX879566.1 (2025) carries 4 forward and 1 reverse mismatches, and PV833272.1 (2024) has no 248 bp site at all within the search budget. That is the same order of divergence as the doctorfish and guppy viruses this assay was built to exclude, which would mean its discrimination has eroded from both sides. Treat as a hypothesis until the pipeline has run this group properly - the numbers above come from four hand-checked genomes, not from a screened archive. Note Grizzle also ran a beta-actin internal control (632 bp, L36342) alongside; host-gene controls are out of scope for this registry and are not entered.'
+needs_review: null

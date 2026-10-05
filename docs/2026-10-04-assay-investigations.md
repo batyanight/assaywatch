@@ -445,3 +445,93 @@ would not work*. Flagged `CHEMISTRY_IS_RPA_NOT_PCR`.
 the canonical LMBV conventional PCR used by US fish-health labs, and the one a
 reader would expect to find here. Paywalled; its primer table is needed to add it
 without transcribing from a secondary source.
+
+
+## Grizzle 2003 arrives and overturns this morning's ranavirus scoping (2026-10-04)
+
+The paper was obtained to add the canonical LMBV PCR. It did that, and it also
+falsified a change made and pushed earlier the same day.
+
+### The scoping of Johnson 2008 was wrong and is reverted
+
+Grizzle quotes Mao et al. 1997's ranavirus primers in full:
+
+    FV3-54F   GACTTGGCCACTTATGAC
+    FV3-584R  GTCTCTGGAGAAGAAGAA
+
+Those are **byte-identical** to the "RanaFWD / RanaRVS" stored under
+`RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008`. So the oligos are Mao's,
+not Johnson's; Johnson 2008 is merely where this registry transcribed them from.
+And Grizzle's Fig. 1 reports that they "amplified DNA from all the ranaviruses
+tested, including LMBV", failing only on red seabream iridovirus, a
+megalocytivirus outside the genus.
+
+The published claim for this pair is therefore **pan-ranavirus, fish included**.
+Scoping it away from the fish ranaviruses — on the reasoning that Johnson 2008 is
+a chelonian study — removed the very taxa the primers are documented to cover.
+The query is removed and the whole genus restored as the denominator.
+
+The lesson is narrower than "check the paper": the entry's own `citation` field
+pointed at the study the sequences were *read from*, and that was silently taken
+for the study that *designed* them. Those are different questions, and only the
+second one bounds an assay's scope. Worth auditing elsewhere in the registry.
+
+### `amplicon_bp` corrected, 500 → 531
+
+Grizzle and Mao both report 531 bp. The screen independently measures 531 on
+every LMBV genome. The 500 came from the source spreadsheet and was simply wrong.
+Two independent sources plus our own measurement agree.
+
+### A clean, well-evidenced false positive of the scoring model
+
+On the four LMBV complete genomes PX879566.1, PV833272.1, PX463212.1 and
+PV459226.1, the tool calls Johnson/Mao **fail**. The mismatches:
+
+| primer | distances from 3' end | penalty |
+|---|---|---|
+| FV3-54F | 13, 15, 16 | 0.5 × 3 = 1.5 |
+| FV3-584R | 6, 10, 11 | 1.0 + 1.0 + 0.5 = 2.5 |
+| | | **4.0** vs `reduced_max` 3.0 |
+
+Neither 3' terminus is disturbed; the nearest mismatch is 6 bases in, and both
+primers have at least five perfect 3'-terminal bases. The verdict turns entirely
+on **summing six distal mismatches**, which is precisely the additive-vs-serial
+problem in §3.5 of the review doc — and here there is a published gel saying the
+reaction works. Added to `docs/validation-cases.tsv` as a `works` case.
+
+This also means the earlier reading of this assay's 61 failures was wrong twice
+over. They are not scope error (the primers do claim fish ranaviruses) and they
+are not demonstrated drift. They are mostly the penalty model over-charging
+distal mismatches.
+
+### The new entry, and a hypothesis about its future
+
+`LMBV_dsDNA_MCP_Grizzle_2003` (LMBV288F/535R, 248 bp). Both primers match
+**AF080250 — the accession Grizzle names as the design target — with zero
+mismatches**, which is the cleanest transcription check available: the paper says
+which record it designed against, and the oligos land on it perfectly.
+
+Its scope is deliberately narrower than the species, because the paper's claim
+is. Grizzle picked a region "distinct from the sequence of doctorfish virus and
+guppy virus", and Fig. 1 shows no amplification of either, nor FV3, EHNV or
+RSIV — even though Mao et al. 1999 had concluded doctorfish and guppy viruses
+*are* the same species as LMBV. Non-detection of those is the assay working, so
+they are out of the denominator: 114 records for the bass and Santee-Cooper
+nodes, 9 excluded. Screening confirms the exclusion is real — 6 mismatches across
+the pair on each.
+
+**Hypothesis worth testing once the group is retrieved properly.** Against the
+1990s US sequence it was designed on, the fit is perfect. Against contemporary
+genomes it is not: PX879566.1 (2025) carries 4 forward and 1 reverse mismatches,
+and PV833272.1 (2024) has no 248 bp site at all within the search budget. That is
+the same order of divergence as the doctorfish and guppy viruses the assay was
+built to exclude — so its discrimination may have eroded from both sides at once.
+Four hand-checked genomes are not an archive; this is flagged, not claimed.
+
+### Two assays that must not be compared head to head
+
+`LMBV_dsDNA_MCP_Grizzle_2003` is LMBV-specific by design.
+`LMBV_dsDNA_MCP_RPA_Li_2025` detects doctorfish and guppy virus and the wrasse
+and mandarin-fish lineages, so it is a group-level assay. They answer different
+questions, and a report that ranks them on one detected share would be
+comparing a specificity claim against a coverage claim. Both entries say so.
