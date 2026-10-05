@@ -11,3 +11,8 @@ out/
 
 # Snakemake working state (locks, metadata, logs)
 .snakemake/
+
+# Pipeline run logs (Snakemake keeps its own under .snakemake/log/)
+snakemake*.txt
+dryrun*.txt
+fetch*.txt
