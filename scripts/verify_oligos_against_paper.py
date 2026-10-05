@@ -215,8 +215,10 @@ PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
 
 # A position a paper writes as the literal string "(N/I)" - "N or inosine" -
 # inside a sequence. Both cases and both bracket styles occur in one table of
-# one paper, so all four are matched, as is "(I/N)".
-NI_POSITION = re.compile(r"[(\[]\s*(?:[Nn]\s*/\s*[Ii]|[Ii]\s*/\s*[Nn])\s*[)\]]")
+# one paper, so all four are matched, as is "(I/N)". The base need not be N:
+# Deckers 2009 prints "(b/i)" and "(r/i)" in the same table as "(n/i)".
+_IUPAC_NOT_I = "ACGTURYSWKMBDHVNacgturyswkmbdhvn"
+NI_POSITION = re.compile(rf"[(\[]\s*(?:[{_IUPAC_NOT_I}]\s*/\s*[Ii]|[Ii]\s*/\s*[{_IUPAC_NOT_I}])\s*[)\]]")
 
 
 def normalise_notation(text: str) -> str:
@@ -240,6 +242,10 @@ def normalise_notation(text: str) -> str:
     reason: it strips every non-IUPAC character, and N and I are both IUPAC, so
     `(N/I)` silently collapses to the two bases `NI` and shifts the rest of the
     sequence by one. A wrong answer, not a missing one.
+
+    The same holds for any other base before the slash - `(b/i)`, `(r/i)` - as
+    Deckers 2009 prints them: the paper offers that base or inosine, and the
+    registry stores such a position as N.
 
     Replacing it with `N` is what the registry already does - `seq` holds strict
     IUPAC, and `deinosine` flattens inosine to N on both sides of every

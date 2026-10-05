@@ -239,6 +239,19 @@ def test_the_notation_survives_both_cases_and_bracket_styles():
         assert got == "CGTTGTCCTCNCCNARYTGNCC", (token, got)
 
 
+def test_any_base_or_inosine_reads_as_n():
+    """Deckers 2009 prints `(b/i)` and `(r/i)` beside `(n/i)`. Read only as
+    `(N/I)`, its 4125s came out `absent` and 4125as `near:3`, both exact once
+    read - the same false verdict the `(N/I)` fix removed, one letter over.
+    """
+    paper = "4125s 2 GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA 550 4125as GCTGACGGGTTGATCTTGCT(r/i)AG"
+    text = vo.normalise_notation(paper)
+    printed = vo.printed_oligos(text)
+    for stored in ("GCGGACTCGGTGATNTCNTGGGA", "GCTGACGGGTTGATCTTGCTNAG"):
+        verdict, _ = vo.check(stored, text, printed, 4)
+        assert verdict == "exact", (stored, verdict, printed)
+
+
 def test_the_notation_is_not_silently_collapsed_to_two_bases():
     """The dangerous half: `check`'s substring search strips every non-IUPAC
     character, and N and I are BOTH IUPAC, so an unnormalised `(N/I)` becomes
