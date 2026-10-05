@@ -119,7 +119,7 @@ def printed_oligos(text: str, min_len: int = 14, max_len: int = 60) -> list[str]
             continue
         if sum(c.isupper() for c in letters) / len(letters) < 0.6:
             continue
-        if sum(c.upper() in "ACGTU" for c in letters) / len(letters) < 0.75:
+        if sum(c.upper() in "ACGTUI" for c in letters) / len(letters) < 0.75:
             continue
         out.add("".join(letters).upper())
     return sorted(out)
@@ -246,9 +246,22 @@ def edit_distance(a: str, b: str, cap: int) -> int:
     return prev[-1]
 
 
+def deinosine(s: str) -> str:
+    """Inosine to N, so both sides of a comparison use the same alphabet.
+
+    The registry keeps strict IUPAC in `seq` and the printed form in
+    `seq_as_written`, so an inosine is stored as N. Papers print `I`. Comparing
+    one against the other charges an edit per inosine position, which is how the
+    first run of this script reported the two PREDICT bocavirus primers as
+    `near:1` when in fact they match their paper exactly. Both sides get
+    flattened to N here instead.
+    """
+    return s.replace("I", "N")
+
+
 def check(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
     """(verdict, note) for one oligo against one paper's text and its oligo runs."""
-    flat = NOISE.sub("", text.upper())
+    flat = deinosine(NOISE.sub("", text.upper()))
     rc = reverse_complement(seq)
     if seq in flat:
         return "exact", ""
@@ -257,7 +270,7 @@ def check(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
     best, best_d = None, cap + 1
     for p in printed:
         for cand in (seq, rc):
-            d = edit_distance(cand, p, cap)
+            d = edit_distance(cand, deinosine(p), cap)
             if d < best_d:
                 best, best_d = p, d
     if best is not None and best_d <= cap:

@@ -66,3 +66,15 @@ def test_an_extra_base_reads_as_a_one_edit_near_match():
     verdict, note = vo.check(stored, paper, vo.printed_oligos(paper), 4)
     assert verdict == "near:1", (verdict, note)
     assert "GGATCACTCGGTTCGAGGTG" in note
+
+
+def test_inosine_matches_the_registry_n():
+    """Papers print inosine as I; the registry stores it as N in `seq`.
+
+    The first full run flagged both PREDICT bocavirus primers as near:1 purely
+    because of this, so both sides of the comparison must use one alphabet.
+    """
+    paper = "PANBOV-F1 5'-TAATGCAYCARGAYTGGGTIGANCC-3'"
+    stored = "TAATGCAYCARGAYTGGGTNGANCC"  # the registry's N where the paper prints I
+    verdict, _ = vo.check(stored, paper, vo.printed_oligos(paper), 4)
+    assert verdict == "exact", verdict
