@@ -36,7 +36,15 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.degeneracy import assay_degeneracy
-from assaywatch.drift import AssayDrift, assess, by_status, coverage_gaps, pct
+from assaywatch.drift import (
+    FOOTPRINT_COLUMNS,
+    AssayDrift,
+    assess,
+    by_status,
+    coverage_gaps,
+    footprint_signature,
+    pct,
+)
 from assaywatch.schema import Assay
 
 STATUS_ORDER = ["declining", "low coverage", "watch", "insufficient data", "no recent data", "stable"]
@@ -80,10 +88,15 @@ def version_of(accession: str) -> int:
 
 
 def read_calls(path: Path) -> list[dict[str, Any]]:
-    """The three columns the drift statistic needs, one small dict per row.
+    """The columns the drift statistic needs, one small dict per row.
 
     Loading every column of a two-million-row calls table as dicts took 3.6 GB;
-    nothing downstream reads the other columns.
+    nothing downstream reads the other columns. The six mismatch columns are
+    folded into ONE interned `footprint` string per row rather than carried as
+    six, so the cost is a pointer per row and millions of identical exact-match
+    footprints are a single object. A table screened before those columns
+    existed simply has no `footprint` key, which `drift.assess` reads as
+    "unknown" and not as "all the same".
     """
     with _open(path) as fh:
         reader = csv.reader(fh, delimiter="\t")
@@ -93,16 +106,27 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
         ia, ir, ic = header.index("assay_id"), header.index("record_id"), header.index("call")
         # `exclusion` says why an unusable record was unusable (score.classify_exclusion).
         ie = header.index("exclusion") if "exclusion" in header else None
-        return [
-            {
+        # All six or none: a partial footprint would compare unequal to a full one
+        # that agrees with it, and silently inflate the distinct count.
+        fp_idx = (
+            [header.index(c) for c in FOOTPRINT_COLUMNS]
+            if all(c in header for c in FOOTPRINT_COLUMNS)
+            else None
+        )
+        rows = []
+        for r in reader:
+            if not r:
+                continue
+            row = {
                 "assay_id": r[ia],
                 "record_id": r[ir],
                 "call": r[ic],
                 "exclusion": (r[ie] if ie is not None and ie < len(r) else ""),
             }
-            for r in reader
-            if r
-        ]
+            if fp_idx is not None:
+                row["footprint"] = footprint_signature(r[i] if i < len(r) else "" for i in fp_idx)
+            rows.append(row)
+        return rows
 
 
 def read_dates(retrieved_dir: Path) -> dict[str, str]:
@@ -201,6 +225,29 @@ def year_table_rows(drift: AssayDrift) -> list[tuple[int, int, int, str]]:
     return rows
 
 
+def duplication_summary(flagged: list[AssayDrift]) -> str:
+    """ "N of M flagged assays survive the duplication check", or "" if none were checked.
+
+    Counts only the assays it could check, and says so, because an unchecked
+    flag is not a surviving one: a calls table screened before the footprint
+    columns existed would otherwise read as a clean bill of health.
+    """
+    checked = [a for a in flagged if a.flag_survives_clustering is not None]
+    if not checked:
+        return ""
+    held = sum(1 for a in checked if a.flag_survives_clustering)
+    tail = f" ({len(flagged) - len(checked)} could not be checked)" if len(checked) < len(flagged) else ""
+    text = (
+        f"{held} of {len(checked)} flagged assays still hold when each distinct binding-site footprint "
+        f"is counted once rather than each record{tail}."
+    )
+    # Only when something failed the check: "the remainder rest on..." after a
+    # clean 5 of 5 is a sentence about nothing.
+    if held < len(checked):
+        text += " The remainder rest on a few footprints deposited many times."
+    return text
+
+
 def render_markdown(
     drifts: dict[str, AssayDrift],
     assays: dict[str, Assay],
@@ -272,6 +319,8 @@ def render_markdown(
     flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
     if flagged:
         out += ["## Detail for flagged assays", ""]
+        if duplication_summary(flagged):
+            out += [f"**Duplication check:** {duplication_summary(flagged)}", ""]
         for a in flagged:
             assay = assays.get(a.assay_id)
             out += [f"### `{a.assay_id}`", ""]
@@ -285,6 +334,8 @@ def render_markdown(
             out += ["", "| deposit year | detected | evaluable | share |", "|---|---|---|---|"]
             for year, det, ev, frac in year_table_rows(a):
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
+            if a.clustering_note:
+                out += ["", f"**Duplication check:** {a.clustering_note}"]
             un = a.unevaluable()
             if un:
                 out.append("")
@@ -400,6 +451,8 @@ def render_html(
     flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
     if flagged:
         parts.append("<h2>Detail for flagged assays</h2>")
+        if duplication_summary(flagged):
+            parts.append(f"<p class='lead'><b>Duplication check:</b> {e(duplication_summary(flagged))}</p>")
         for a in flagged:
             assay = assays.get(a.assay_id)
             parts.append(f"<details><summary><code>{e(a.assay_id)}</code></summary>")
@@ -417,6 +470,8 @@ def render_html(
             for year, det, ev, frac in year_table_rows(a):
                 parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
             parts.append("</table>")
+            if a.clustering_note:
+                parts.append(f"<p class='muted'><b>Duplication check:</b> {e(a.clustering_note)}</p>")
             un = a.unevaluable()
             if un:
                 parts.append(

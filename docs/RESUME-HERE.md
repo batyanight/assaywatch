@@ -66,6 +66,18 @@ sped up the pipeline and none of `check_taxids`, `resolve_citations`,
 `check_submission`, `master_sheet` or `verify_oligos_against_paper`. All five
 now go through `assaywatch/credentials.py` and share one sleep interval.
 
+## New since the cloud session: the duplication check
+
+`report` now says, per flagged assay, whether the flag survives counting each
+distinct binding-site footprint once instead of each record, plus a one-line
+tally at the top of "Detail for flagged assays". It reads the same screen TSVs as
+before - the six mismatch columns it needs were already being written - so
+regenerating the report is enough, no re-screen. Never changes a status. Worth
+reading the tally with this in mind: a perfect match is ONE footprint, so a
+baseline of thousands of exact matches is a single draw, and `declining` flags
+will fail the check more often than `low coverage` ones. That is the review's
+section 3.3 showing up in numbers, not a bug.
+
 ## Do this first
 
 **Re-run the verifier over the full local `papers/`.** Two fixes landed on

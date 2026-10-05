@@ -38,8 +38,11 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] screen amplicons on both strands (minus-strand targets were never found)
 - [x] `pair_evalue` per amplicon (chance.py); scoring guard available, off by default
 - [x] `scoring.max_pair_evalue: 0.01`; flagged assays split into declining / low coverage (2026-10-04)
-- [ ] check the two suspected oligo typos (Sarcocystis long rev, Circovirus Mankertz fwd) against
-      the papers; flagged OLIGO_SEQ_SUSPECT in the registry
+- [x] check the two suspected oligo typos (Sarcocystis long rev, Circovirus Mankertz fwd) against
+      the papers (2026-10-04, `docs/2026-10-04-first-run-review.md` "Follow-up"). Sarcocystis
+      P-ITSR WAS a typo, an extra C from the spreadsheet, and is corrected (98% failing -> 96%
+      detected). Circovirus #174 is NOT a typo: the paper prints the extra T, so the registry
+      keeps the published sequence. Both flags cleared
 - [x] optional thermodynamic columns (`screen --thermo`, primer3-py): per-oligo Tm and ΔTm, never scored
 - [x] `report`: markdown + self-contained HTML, per-year tables, coverage-gap table,
       degeneracy note beside the coverage trend
@@ -83,6 +86,15 @@ into measurements, and it is also the paper's main figure.
       standard window holds too few records, which is what made Bd unjudgeable;
       `scripts/retrospective.py` recomputes any past date's verdict, so the
       window and the minimum can be calibrated together against real cases
+- [x] **Duplication check** (2026-10-05, review 3.3, partial). Each assay now also reports how many
+      distinct binding-site footprints sit behind its recent window, the interval at that many
+      independent draws, and for a flagged assay whether the flag survives it. Reported beside a
+      verdict and never into one: a test pins that statuses and intervals are identical with and
+      without footprints. This removes the duplication it can SEE (identical footprints); clade
+      structure beyond that is still unaddressed, so it is not a lower bound on the effective
+      sample size. The review's "weight each distinct haplotype equally" was rejected: one
+      sequencing error in a primer site is a unique failing footprint, so a healthy assay would
+      read as mostly failing.
 - [ ] **The drift rules interact and are untested.** `recent_window_months: 24`
       with `min_records_for_drift: 20` is why Bd (Boyle 2004) reads "insufficient
       data" at 100% detected on 17 recent records: shorten the window and assays

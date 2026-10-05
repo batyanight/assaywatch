@@ -149,6 +149,30 @@ and was still called `declining`.
 **What to build:** collapse identical footprints, weight by distinct haplotypes,
 and cluster-bootstrap the intervals.
 
+**Partly built, 2026-10-05, and one part deliberately not.** `drift.py` now counts
+the distinct (call, footprint) classes behind each window, where a footprint is
+the six mismatch columns the screen already writes. It reports the Wilson
+interval at that many independent draws beside the record-level one, and for a
+flagged assay says whether the flag survives it (`AssayDrift.flag_survives_clustering`,
+the "Duplication check" line in the report). Never scored. This is the widest
+defensible reading, not the right one: it treats every group of identical
+footprints as one clone, and it cannot see clade structure among records that
+differ at non-primer positions, so it is not a lower bound on the effective
+sample size.
+
+**Not built: weighting each distinct haplotype equally.** A sequencing error in a
+primer site is a footprint of its own, so on a healthy assay with one exact-match
+class and fifty one-off errors it would call the assay 2% detected. The
+record-weighted proportion with a duplication-aware interval does not have that
+failure. A cluster bootstrap over a real phylogeny would; that needs the
+alignment this pipeline does not build.
+
+**What it will say about malB.** 92 failures, all one A->G at the reverse 3'
+base, are ONE footprint. The check will report that flag as resting on a single
+footprint deposited 92 times. Read that correctly: the lineage's failure is real
+and its weight in the proportion is what is in doubt, which is exactly the
+25% -> 43% lineage-mix movement described above.
+
 ### 3.4 Amplicon size is not constrained to the declared product
 
 Scoring uses the global 50–3000 bp window and **never uses the assay's declared
