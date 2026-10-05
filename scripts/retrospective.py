@@ -38,9 +38,11 @@ from __future__ import annotations
 import argparse
 import csv
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -59,16 +61,55 @@ PARTIAL = {"low coverage"}
 UNDECIDED = {"insufficient data", "no recent data"}
 
 
-def status_as_of(calls_path: Path, retrieved: Path, cfg: dict, as_of: date, assays: set[str] | None = None):
+@dataclass
+class Evidence:
+    """Everything a retrospective verdict reads, loaded once.
+
+    The calls table is millions of rows and the metadata is every
+    `*.meta.tsv.gz` under data/retrieved, and neither depends on the case being
+    asked about. `--cases` used to reload and re-deduplicate both for each of the
+    46 validation cases, so the dominant cost of a calibration run was parsing
+    the same files 46 times. Held here instead, with the calls already
+    deduplicated to the newest version of each accession and grouped by assay,
+    so a case touches only its own assay's rows.
+    """
+
+    dates: dict[str, str]
+    by_assay: dict[str, list[dict[str, Any]]]
+
+
+def load_evidence(calls_path: Path, retrieved: Path) -> Evidence:
+    """Read and deduplicate the calls table and the deposit dates, once.
+
+    Deduplication is keyed on (assay, accession), so doing it before grouping by
+    assay gives the same rows a per-assay pass would.
+    """
+    by_assay: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for r in key_calls_by_accession(read_calls(calls_path)):
+        by_assay[r["assay_id"]].append(r)
+    return Evidence(read_dates(retrieved), dict(by_assay))
+
+
+def status_from_evidence(evidence: Evidence, cfg: dict, as_of: date, assays: set[str] | None = None):
     """{assay_id: AssayDrift} as the report would have computed it on `as_of`."""
-    dates = read_dates(retrieved)
     cutoff = as_of.isoformat()
-    rows = [
-        r
-        for r in key_calls_by_accession(read_calls(calls_path))
-        if (assays is None or r["assay_id"] in assays) and (dates.get(r["record_id"], "9999") < cutoff)
-    ]
-    return assess(rows, dates, cfg, today=as_of), len(rows)
+    wanted = (
+        evidence.by_assay
+        if assays is None
+        else {a: evidence.by_assay[a] for a in assays if a in evidence.by_assay}
+    )
+    rows = [r for rs in wanted.values() for r in rs if evidence.dates.get(r["record_id"], "9999") < cutoff]
+    return assess(rows, evidence.dates, cfg, today=as_of), len(rows)
+
+
+def status_as_of(calls_path: Path, retrieved: Path, cfg: dict, as_of: date, assays: set[str] | None = None):
+    """{assay_id: AssayDrift} as the report would have computed it on `as_of`.
+
+    Loads the evidence each call, so it is right for one question. Anything
+    asking several should call `load_evidence` once and `status_from_evidence`
+    per question, which is what `--cases` does.
+    """
+    return status_from_evidence(load_evidence(calls_path, retrieved), cfg, as_of, assays)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -94,7 +135,7 @@ def main(argv: list[str] | None = None) -> int:
             ap.error("give --as-of, or --cases")
         drifts, n = status_as_of(
             calls, args.retrieved, cfg, args.as_of, set(args.assay) if args.assay else None
-        )
+        )  # one question, so one load
         print(f"{calls}, as of {args.as_of} ({n} records deposited before then)\n")
         for aid, a in sorted(drifts.items()):
             frac = "-" if a.recent_fraction is None else f"{a.recent_fraction:.1%}"
@@ -105,11 +146,12 @@ def main(argv: list[str] | None = None) -> int:
     # Comment lines carry each case's provenance; strip them before the header is read.
     body = [ln for ln in args.cases.read_text().splitlines() if ln.strip() and not ln.startswith("#")]
     cases = list(csv.DictReader(body, delimiter="\t"))
+    evidence = load_evidence(calls, args.retrieved)  # once, not once per case
     tally: Counter = Counter()
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
     for c in cases:
         as_of = date.fromisoformat(c["as_of"])
-        drifts, _ = status_as_of(calls, args.retrieved, cfg, as_of, {c["assay_id"]})
+        drifts, _ = status_from_evidence(evidence, cfg, as_of, {c["assay_id"]})
         a = drifts.get(c["assay_id"])
         status = a.status if a else "no data"
         got = (

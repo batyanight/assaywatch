@@ -269,6 +269,12 @@ tiers, and score pools per member.
   it would not install in the cloud container, so check with `snakemake -n`.
 - **`retrospective.py --cases` re-parses `calls.tsv.gz` and re-globs every
   metadata file once per case.**
+  *Fixed 2026-10-05:* `load_evidence` reads and deduplicates both once, grouped by
+  assay, and each case touches only its own assay's rows. A test counts the two
+  expensive reads over five cases (1 and 1, not 5 and 5) and was run against the
+  old script to confirm it fails there. Verdicts are pinned identical to the old
+  implementation over 25 (date, assay-filter) combinations on data where the
+  answers genuinely differ. `status_as_of` keeps its signature.
 - **The pre-commit hook pins ruff 0.6.9 while the environment has 0.16.10**, so
   the two reformat one test file differently and ping-pong. Align them.
   *Already done:* `.pre-commit-config.yaml` pins v0.16.10, matching `pyproject.toml`
