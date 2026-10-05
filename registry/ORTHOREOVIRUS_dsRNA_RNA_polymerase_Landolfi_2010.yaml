@@ -16,6 +16,7 @@ oligos:
   alternates:
   - name: Landolfi 2334R
     seq: CDATGTCRTAHWYCCANCCRAA
+    orientation: reverse
 amplicon_bp: 163
 citation:
   doi: 10.1177/104063871002200106

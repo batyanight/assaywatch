@@ -23,6 +23,7 @@ oligos:
     seq: ATCTTCGCCAGAATCCTCAGTGCT
     reporter: FAM
     quencher: ZEN/IowaBlackFQ
+    orientation: probe
 amplicon_bp: 114
 citation:
   doi: 10.1007/s11259-007-0020-9

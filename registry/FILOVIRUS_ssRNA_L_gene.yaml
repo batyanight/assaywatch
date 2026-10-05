@@ -16,16 +16,22 @@ oligos:
   alternates:
   - name: Filo-U12683-B
     seq: TATTTTCCATTCAAAAACACTGGG
+    orientation: forward
   - name: Filo-U12683-C
     seq: TATTTTCAATCCAAAAGCACTGGG
+    orientation: forward
   - name: Filo-U12683-D
     seq: TATTCTCTGTTCAAAAACATTGGG
+    orientation: forward
   - name: Filo-L13294-B
     seq: GCTTCACAAAGTGTTTGAACATT
+    orientation: reverse
   - name: Filo-L13294-C
     seq: GCTTCGCAGAGGGTTTGGACATT
+    orientation: reverse
   - name: Filo-L13294-D
     seq: GCCTCACATAAAGTTTGGACATT
+    orientation: reverse
 amplicon_bp: 630
 citation:
   doi: 10.1128/Jcm.01893-06

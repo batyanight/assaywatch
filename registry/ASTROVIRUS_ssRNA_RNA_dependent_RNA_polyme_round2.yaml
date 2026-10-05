@@ -17,8 +17,10 @@ oligos:
   alternates:
   - name: AstroFWD3
     seq: CGKTAYGATGGKACKATHCC
+    orientation: forward
   - name: AstroFWD4
     seq: AGGTAYGATGGKACKATHCC
+    orientation: forward
 amplicon_bp: 342
 citation:
   doi: 10.1016/j.vetmic.2008.10.035

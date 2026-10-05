@@ -16,6 +16,7 @@ oligos:
   alternates:
   - name: 4Farctic
     seq: ATCCCTCATGTGTTATCATT
+    orientation: forward
 amplicon_bp: 572
 citation:
   doi: null

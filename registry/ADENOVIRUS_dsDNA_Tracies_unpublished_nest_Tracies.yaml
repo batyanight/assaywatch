@@ -18,6 +18,7 @@ oligos:
   alternates:
   - name: TSADHEXF2new
     seq: VTTYCAYATTCARGTVCCVC
+    orientation: forward
 amplicon_bp: 334
 citation:
   doi: null

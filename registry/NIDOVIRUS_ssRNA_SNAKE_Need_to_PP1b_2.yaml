@@ -16,6 +16,7 @@ oligos:
   alternates:
   - name: PythonNido3F
     seq: AACATCCTCGACAACGCAGG
+    orientation: forward
 amplicon_bp: 1694
 citation:
   doi: 10.1186/1743-422X-11-144

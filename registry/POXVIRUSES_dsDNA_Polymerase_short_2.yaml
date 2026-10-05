@@ -17,13 +17,17 @@ oligos:
   alternates:
   - name: TSPoxPolF2 (parapox group)
     seq: GCGAGYACCTGCATCAAG
+    orientation: forward
   - name: TSPoxPolF3 (cetacean/goat  group)
     seq: TAYAGAGCTAGTACGTTAATAAAA
+    orientation: forward
   - name: TSPoxPolF4 (avi group)
     seq: TATAGGGCHAGTACKCTTATTAAA
+    orientation: forward
   - name: TSPoxPolR2 (parapox group)
     seq: CGTTNGGGTAYARGCTGTTGTAGTC
     seq_as_written: CGTTIGGGTAYARGCTGTTGTAGTC
+    orientation: reverse
 amplicon_bp: 192
 citation:
   doi: null

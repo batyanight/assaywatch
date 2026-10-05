@@ -17,8 +17,10 @@ oligos:
   alternates:
   - name: Ziao18SF2
     seq: GGAAGGGTTGTATTTATTAGATAAAG
+    orientation: forward
   - name: Ziao18SR2
     seq: AAGGAGTAAGGAACAACCTCCA
+    orientation: reverse
 amplicon_bp: 1314
 citation:
   doi: 10.1128/AEM.66.12.5492-5498.2000

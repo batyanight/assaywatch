@@ -180,7 +180,9 @@ def _call_rank(call: str, reason: str) -> float:
     """
     if call == "fail" and reason == "no probe site inside amplicon":
         return 2.5
-    return {"detect": 0, "reduced": 1, "fail": 2, "indeterminate": 3}[call]
+    # no_amplicon ranks last: it only reaches here when comparing whole calls
+    # across the combinations of a primer pool, where some members find nothing.
+    return {"detect": 0, "reduced": 1, "fail": 2, "indeterminate": 3, "no_amplicon": 4}[call]
 
 
 class SiteIndex:
@@ -223,10 +225,66 @@ def facing_pairs(f_all: list[Site], r_all: list[Site], rev_len: int, amp: dict[s
     return pairs
 
 
+def oligo_pools(assay: Assay) -> tuple[list[str], list[str], list[str]]:
+    """(forward, reverse, probe) sequences for one assay, pool members included.
+
+    Several consensus protocols run more than one primer per role in the same
+    tube: the PREDICT filovirus assay has four forward and four reverse
+    lineage-specific primers, and the astrovirus assay two alternative
+    forwards. Those extra primers live in `oligos.alternates` with an
+    `orientation`, and the assay detects a record if *any* member of each pool
+    does, so screening against one pair at a time understates it.
+    """
+    fwd = [assay.oligos.forward.matching_seq]
+    rev = [assay.oligos.reverse.matching_seq]
+    probe = [assay.oligos.probe.matching_seq] if assay.oligos.probe is not None else []
+    for alt in assay.oligos.alternates or []:
+        bucket = {"forward": fwd, "reverse": rev, "probe": probe}.get(alt.orientation or "")
+        if bucket is not None and alt.matching_seq not in bucket:
+            bucket.append(alt.matching_seq)
+    return fwd, rev, probe
+
+
 def screen_record(
     assay: Assay, record_id: str, record_seq: str, cfg: dict[str, Any], comp: tuple | None = None
 ) -> Call:
-    """Best-scoring amplicon for `assay` in one record, or no_amplicon.
+    """Best call for `assay` in one record, over every combination of its primer pools.
+
+    With no pool members this is one call of `screen_one`, which is the whole
+    of the scoring logic; with pools it is the best call over the cross product,
+    and `extra["pool"]` names the primers that won.
+    """
+    fwd, rev, probe = oligo_pools(assay)
+    if len(fwd) == 1 and len(rev) == 1 and len(probe) <= 1:
+        return screen_one(assay, record_id, record_seq, cfg, comp)
+    if comp is None:
+        comp = composition(record_seq)
+    best: Call | None = None
+    for f in fwd:
+        for r in rev:
+            cand = screen_one(assay, record_id, record_seq, cfg, comp, f, r, probe or [None])
+            key = (_call_rank(cand.call, cand.reason), cand.penalty if cand.penalty is not None else 1e9)
+            if best is None or key < (
+                _call_rank(best.call, best.reason),
+                best.penalty if best.penalty is not None else 1e9,
+            ):
+                best = cand
+                best.extra["pool"] = f"forward={f} reverse={r}"
+    assert best is not None
+    return best
+
+
+def screen_one(
+    assay: Assay,
+    record_id: str,
+    record_seq: str,
+    cfg: dict[str, Any],
+    comp: tuple | None = None,
+    fwd_seq: str | None = None,
+    rev_seq: str | None = None,
+    probe_seqs: list[str | None] | None = None,
+) -> Call:
+    """Best-scoring amplicon for one primer pair in one record, or no_amplicon.
 
     Geometry rule: the forward and reverse sites must face each other on
     opposite strands, and the span between the outermost bases must fall
@@ -241,9 +299,15 @@ def screen_record(
     """
     amp = cfg["amplicon"]
     max_mm = int(cfg["scoring"].get("max_mismatches_searched", 6))
-    fwd, rev, probe = assay.oligos.forward.matching_seq, assay.oligos.reverse.matching_seq, None
+    fwd = fwd_seq or assay.oligos.forward.matching_seq
+    rev = rev_seq or assay.oligos.reverse.matching_seq
+    probe = None
     if assay.oligos.probe is not None:
         probe = assay.oligos.probe.matching_seq
+    if probe_seqs:
+        # A probe pool is searched together: any member sitting inside the
+        # amplicon satisfies the probe, so take the sites of all of them.
+        probe = next((x for x in probe_seqs if x), probe)
 
     f_all = find_sites(fwd, record_seq, max_mm)
     r_all = find_sites(rev, record_seq, max_mm)

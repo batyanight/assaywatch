@@ -234,3 +234,28 @@ def test_degeneracy_tsv_is_a_real_table():
         text=True,
     )
     assert bad.returncode != 0 and "must be one of" in bad.stderr
+
+
+def test_a_pool_member_can_carry_the_call():
+    """Consensus protocols run several primers per role; any of them amplifying is a detection."""
+    import random
+    from pathlib import Path
+
+    from assaywatch.score import oligo_pools, screen_one
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assay = load_assay(root / "registry" / "FILOVIRUS_ssRNA_L_gene.yaml")
+    fwd, rev, _ = oligo_pools(assay)
+    assert len(fwd) >= 4 and len(rev) >= 4, "this assay is a 4x4 primer pool"
+    rng = random.Random(11)
+
+    def noise(n):
+        return "".join(rng.choice("ACGT") for _ in range(n))
+
+    # A record carrying only the last pool member of each role.
+    rec = noise(300) + fwd[-1] + noise(200) + reverse_complement(rev[-1]) + noise(300)
+    assert screen_one(assay, "x", rec, CFG).call == "no_amplicon"  # the declared pair alone
+    pooled = screen_record(assay, "x", rec, CFG)
+    assert pooled.call == "detect"
+    assert fwd[-1] in pooled.extra["pool"] and rev[-1] in pooled.extra["pool"]

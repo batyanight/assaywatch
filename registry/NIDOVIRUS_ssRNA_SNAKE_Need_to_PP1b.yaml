@@ -16,6 +16,7 @@ oligos:
   alternates:
   - name: Pythin nodo 7R
     seq: CTGCCATGCTACGGAAGACT
+    orientation: reverse
 amplicon_bp: 420
 citation:
   doi: 10.1186/1743-422X-11-144

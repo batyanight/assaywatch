@@ -16,6 +16,7 @@ oligos:
   alternates:
   - name: 3Farctic
     seq: TGGGAATCTTTGGGGCAACA
+    orientation: forward
 amplicon_bp: 563
 citation:
   doi: null

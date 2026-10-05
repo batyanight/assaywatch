@@ -16,8 +16,10 @@ oligos:
   alternates:
   - name: 2Farctic
     seq: GTGAGACAATTGGGATCAGA
+    orientation: forward
   - name: 2Rarctic
     seq: TGGGTGAGCGACAGGTGTCA
+    orientation: reverse
 amplicon_bp: 570
 citation:
   doi: null
