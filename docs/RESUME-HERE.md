@@ -35,7 +35,7 @@ Full write-up: `docs/2026-10-05-cloud-session-findings.md`.
 | oligos confirmed, local 60-paper run | 100 of 175 checkable, 384 total |
 | oligos confirmed, cloud 21-paper subset | 24 of 38 checkable - NOT comparable |
 | papers still wanted | 33 (`results/nyu-fetch-list.tsv`) |
-| tests | 762 passing, 2 skipped |
+| tests | 829 passing, 2 skipped |
 
 Gates on every commit: registry schema, and every citation checked against
 Crossref (`scripts/check_citations.py`, which reads the committed
@@ -65,6 +65,32 @@ with. Everything works unkeyed, three times slower. Before 2026-10-05 only
 sped up the pipeline and none of `check_taxids`, `resolve_citations`,
 `check_submission`, `master_sheet` or `verify_oligos_against_paper`. All five
 now go through `assaywatch/credentials.py` and share one sleep interval.
+
+## Landed after the cloud session, in order of what needs you
+
+**Check this first, it is the only one I could not run:** the Snakefile's
+`collect_calls` rule now calls `assaywatch/collect.py` instead of carrying its
+logic inline. Snakemake would not install in the cloud container, so that edit is
+verified by inspection and by 15 tests of the module (and by a 60-input
+differential test against the old code), not by a run. Confirm with:
+
+    snakemake -n --config email=nightb02@nyu.edu
+
+It should list the same jobs as before. One deliberate output change: the calls
+table's header now ends in CRLF like every row (it was a bare LF). A screen with no
+final line break is now refused by name instead of being silently glued to the
+next file.
+
+Also in, none of which changes a verdict:
+
+- **Per-chemistry scoring**, `scoring.by_chemistry` in `config.yaml`. Shipped
+  EMPTY, so every call is byte-identical to before (verified over 13,777 fixture
+  rows). The numbers are for tier-2 validation to set, not for me to pick. The
+  first candidate, relaxing `terminal_mismatch_fails` for conventional PCR, is in
+  the file commented out with the literature behind it.
+- **`retrospective.py --cases` loads once** instead of once per case. Same verdicts,
+  pinned against the old implementation.
+- **The report no longer drops a status it was not told about.**
 
 ## New since the cloud session: the duplication check
 
