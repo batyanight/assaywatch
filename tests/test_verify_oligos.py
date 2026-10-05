@@ -176,3 +176,41 @@ def test_file_text_reads_xml_by_dropping_tags():
         p = Path(d) / "a.xml"
         p.write_text("<article><p>primer 5'-<b>GCGGCCAACCAGTTTAACGCAA</b>-3'</p></article>")
         assert "GCGGCCAACCAGTTTAACGCAA" in vo.printed_oligos(vo.file_text(p))
+
+
+def test_a_table_less_text_file_does_not_override_a_working_pdf(tmp_path):
+    """Regression for the first version of the multi-format index.
+
+    It preferred publisher text over a PDF on the reasoning that structured text
+    beats a table pypdf rebuilt from glyph positions. True of a full publisher
+    deposit, false of PMC full text served without its `table-wrap` content - so
+    merging PMC texts into a papers/ folder of good PDFs would have silently
+    replaced readable primer tables with files holding no sequences at all.
+    Whichever file yields more oligos wins now.
+    """
+    doi = "10.1234_test.1"
+    rich = "primer F 5'-GCGGCCAACCAGTTTAACGCAA-3' primer R 5'-ATTGCGCTGGAACCTTGTCAA-3'"
+    (tmp_path / f"{doi}.txt").write_text("We screened by PCR as described. See Table 1.")
+    (tmp_path / f"{doi}.xml").write_text(f"<article><p>{rich}</p></article>")
+    by_doi, _ = vo.index_papers(tmp_path)
+    text, path = by_doi["10.1234/test.1"]
+    assert path.suffix == ".xml", path
+    assert len(vo.printed_oligos(text)) == 2
+
+
+def test_a_doi_named_file_beats_a_doi_merely_cited_elsewhere(tmp_path):
+    """Standing comes before yield, or an image-table paper loses its own DOI.
+
+    A filename is a statement that this IS the paper. A DOI in running text is
+    often just a reference. So the named file wins even printing nothing, which
+    is what keeps "the PDF is here and its table is an image" distinct from
+    "the PDF is missing".
+    """
+    (tmp_path / "10.5555_mine.9.txt").write_text("Our assay is described in Table 2.")
+    (tmp_path / "someone-else.txt").write_text(
+        "We cite 10.5555/mine.9 and print 5'-GCGGCCAACCAGTTTAACGCAA-3' "
+        "and 5'-ATTGCGCTGGAACCTTGTCAA-3' of our own."
+    )
+    by_doi, _ = vo.index_papers(tmp_path)
+    _, path = by_doi["10.5555/mine.9"]
+    assert path.name == "10.5555_mine.9.txt", path

@@ -199,9 +199,16 @@ def pdf_text(path: Path) -> str:
 # Every extension `papers/` may hold. A PDF is what a browser download gives;
 # `.xml` is a publisher's own JATS deposit, and `.txt` is what
 # `scripts/import_pmc_fulltext.py` writes from PubMed Central's open-access
-# full text. The last two are strictly better evidence than a PDF of the same
-# paper: they are the publisher's structured text, so a primer table arrives as
-# text rather than as something pypdf has to reconstruct from glyph positions.
+# full text.
+#
+# No format is better than the others, which took a wrong turn to learn. The
+# first version of this preferred publisher text over a PDF on the reasoning
+# that structured text beats a table pypdf has to rebuild from glyph positions.
+# That is true of the text a publisher deposits in full, and false of PMC full
+# text as served through an MCP tool, which omits `table-wrap` entirely - so
+# preferring it would let a table-less text file override a PDF whose primer
+# table extracts perfectly well. `index_papers` picks between them on what they
+# actually yield instead.
 PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
 
 
@@ -223,19 +230,46 @@ def file_text(path: Path) -> str:
 
 
 def paper_files(paper_dir: Path) -> list[Path]:
-    """Every paper file in a folder, weakest evidence first.
+    """Every paper file in a folder, grouped by format and sorted by name.
 
-    The order is deliberate, because `index_papers` lets a later file win the
-    DOI. PDFs come first and publisher text last, so when the same paper is held
-    as both a PDF and a PMC text file the text file is what gets checked against
-    - the publisher's own characters rather than a table pypdf had to rebuild
-    from glyph positions. Sorted by name within each format, so the result never
-    depends on filesystem order.
+    The order only has to be stable, not meaningful: `index_papers` chooses
+    between two files for one DOI on how many oligos each yields, not on which
+    came first. Sorting keeps the result independent of filesystem order.
     """
     return [p for suffix in PAPER_SUFFIXES for p in sorted(paper_dir.glob(f"*{suffix}"))]
 
 
 DOI_IN_TEXT = re.compile(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+")
+
+
+def claim(
+    by_doi: dict[str, tuple[str, Path]],
+    claims: dict[str, tuple[bool, int]],
+    doi: str,
+    text: str,
+    path: Path,
+    n_oligos: int,
+    *,
+    named: bool,
+) -> None:
+    """Let one file take `doi`, if its claim is the stronger one.
+
+    Ranked on (named, n_oligos), in that order of importance:
+
+    - a file NAMED for the DOI beats one that merely prints it, always, however
+      few sequences the named file yields. A filename is a statement that this
+      is the paper; a DOI in running text is often a cited reference.
+    - between two claims of equal standing, more oligos wins. No format is
+      reliably better - a PDF can hide its table in an image and PMC full text
+      can lose the table altogether - so what a file yields is the only
+      comparison worth making.
+    - ties keep the incumbent, so the result follows `paper_files`' stable order.
+    """
+    current = claims.get(doi)
+    if current is not None and current >= (named, n_oligos):
+        return
+    by_doi[doi] = (text, path)
+    claims[doi] = (named, n_oligos)
 
 
 def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tuple[str, Path]]]:
@@ -246,8 +280,19 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
     first few thousand characters. The second list is for the
     surname-and-year fallback, used only when a paper prints no DOI at all -
     common for older journals.
+
+    WHERE TWO FILES CLAIM ONE DOI, the one printing more oligos wins. That is
+    the only comparison that means anything here. A PDF can hide its primer
+    table in an image, and PMC full text can lose the whole table to the
+    extraction, so neither format is reliably the better evidence - but a file
+    that yields 40 sequences is self-evidently more use than one yielding none,
+    whatever its extension. Picking by format instead, as this first did, let a
+    table-less PMC text file silently override a PDF whose table read fine.
     """
     by_doi: dict[str, tuple[str, Path]] = {}
+    # (named, n_oligos) for whichever file currently holds each DOI, so a later
+    # file can be compared against it without re-extracting its sequences.
+    claims: dict[str, tuple[bool, int]] = {}
     everything: list[tuple[str, Path]] = []
     for path in paper_files(paper_dir):
         # A filename that is the DOI with its slashes swapped for underscores
@@ -263,7 +308,8 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
         # matters when --pdf-dir is pointed at a general Downloads folder that
         # also holds personal documents: those are discarded here rather than
         # indexed, and they can never win the surname-and-year fallback.
-        if len(printed_oligos(text)) < 2 and not named_doi:
+        n_oligos = len(printed_oligos(text))
+        if n_oligos < 2 and not named_doi:
             # No oligos and no DOI in the filename: not a paper we can use, and
             # keeping it out means a general folder of personal documents is
             # never indexed. A DOI-named file is kept even without readable
@@ -271,10 +317,17 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
             # reads differently from "the PDF is missing".
             continue
         everything.append((text, path))
+
+        # How a file claimed a DOI decides who wins, before how much it yields.
+        # A filename IS the DOI; a DOI read out of running text may just be a
+        # reference this paper cites. So a named file always beats a text match,
+        # even when the named file prints nothing - that is what keeps "the PDF
+        # is here and its table is an image" distinct from "the PDF is missing".
+        # Only between two files of equal standing does the oligo count decide.
         if named_doi:
-            by_doi[named_doi] = (text, path)
+            claim(by_doi, claims, named_doi, text, path, n_oligos, named=True)
         for d in DOI_IN_TEXT.findall(text[:4000]):
-            by_doi.setdefault(d.rstrip(".,;)").lower(), (text, path))
+            claim(by_doi, claims, d.rstrip(".,;)").lower(), text, path, n_oligos, named=False)
     return by_doi, everything
 
 
