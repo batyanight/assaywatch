@@ -33,7 +33,7 @@ Full write-up: `docs/2026-10-05-cloud-session-findings.md`.
 | papers held locally | 60 |
 | papers recoverable as PMC full text | 21 (`scripts/import_pmc_fulltext.py`) |
 | oligos confirmed, local 60-paper run | 100 of 175 checkable, 384 total |
-| oligos confirmed, cloud 21-paper subset | 20 of 38 checkable - NOT comparable |
+| oligos confirmed, cloud 21-paper subset | 24 of 38 checkable - NOT comparable |
 | papers still wanted | 33 (`results/nyu-fetch-list.tsv`) |
 | tests | 762 passing, 2 skipped |
 
@@ -59,6 +59,11 @@ rows are both stale:
   75% unambiguous bases counting inosine, which sat above two real primers in
   Atkins 2009 and reported the registry's exact copies of them as `in-text`.
   Expect some `in-text` and `absent` rows to become `exact`.
+- The reader now understands `(N/I)`, the "N or inosine" notation the
+  Ehlers-lab consensus-primer papers print inside a sequence. It had been
+  ending the oligo run, so every stored oligo past the first bracket read
+  `absent` - 4 false verdicts on Prepens 2007 alone, all 4 exact once read.
+  Any entry whose paper uses that notation will move.
 
 ## Then, in value order
 
@@ -70,7 +75,21 @@ rows are both stale:
    et al. 2015 supplement, screen both forms against real RdRp records, then fix
    whichever is wrong - and check the other P-005 entries for the same deletion.
    This is the second PREDICT-vs-cited-paper mismatch after Atkins/PREDICT.
-2. **Five missing DOIs are resolved and waiting**, in
+2. **Measure the two CMV gB amplicons**, and settle a fourth misattribution
+   while you are there. All four CMV gB entries cite Prepens 2007, and the
+   paper splits them in two:
+   - `..._Virol_2007_round1` and `..._round2` hold Prepens' own CM-gB pairs and
+     now verify exact - but store 320 and 230 bp where the paper's table says
+     330 and 250. Same direction, so probably one spreadsheet error. Run both
+     pairs against real UL55 records; the measurement decides, per the avipox
+     precedent, and if it lands on 330 then correct both together.
+   - `CMV_specific_HERPES_UL55_Glycoprotein_B_gB` (4007-s/4007-as) and
+     `..._round2_2` (4125-s/4125-as) store primers that are **not in Prepens at
+     all** - not the sequences, not a 10-base fragment, not the strings "4007"
+     or "4125". Prepens numbers its own 2743-2762 and 3730-3731. Both are
+     flagged with `oligos_designed_here: false`; they need the real paper found,
+     most likely another Ehlers-lab primate CMV one, and re-cited.
+3. **Five missing DOIs are resolved and waiting**, in
    `docs/2026-10-05-doi-candidates.md`: Pan-Flavivirus NS5, SIVdrl pol, ETEC LT,
    *E. cuniculi* PTP, and the *Encephalitozoon* 18S entry. Found on PubMed, with
    the evidence for each, but NOT written into `registry/` because Crossref was
@@ -81,19 +100,19 @@ rows are both stale:
    that takes 5 entries and 11 oligos out of `DOI_MISSING`. The Müller 2011 CDV
    and Wang 1997 references are deliberately still unresolved - see that file for
    why guessing them would be the Nobach mistake again.
-3. **20 List 2 papers**, oligos extracted to
+4. **20 List 2 papers**, oligos extracted to
    `results/candidate-oligos-2026-10-05.tsv`, awaiting verify-then-enter. The
    biggest are EEHV pol (19 oligos), deformed wing virus RdRp (19), CDV N
    (jcm.02505-21, 17), canine morbillivirus (v13081632, 15), reptarenavirus
    (14), influenza A hemagglutinin (7), monkeypox B6R (6), devil facial tumour
    (6). Method that worked: read the paper's own table, measure the amplicon on
    real GenBank records, then enter - never quote a size.
-4. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`),
+5. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`),
    Usutu (`10.2807/1560-7917.es.2020.25.41.2001732`), Batrachochytrium ITS
    (`10.3390/jof7040258`, but see below), avian orthobornavirus done already.
    Render with pymupdf at ~200 dpi and read the page as an image, as was done
    for Ghosh - that worked and the sequences verified against records afterwards.
-5. **211 oligos** whose provenance is unchecked for want of full text. The
+6. **211 oligos** whose provenance is unchecked for want of full text. The
    21 recovered papers added no new composites to the three already known.
 
 ## Two things waiting on someone else
