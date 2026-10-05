@@ -214,3 +214,38 @@ def test_a_doi_named_file_beats_a_doi_merely_cited_elsewhere(tmp_path):
     by_doi, _ = vo.index_papers(tmp_path)
     _, path = by_doi["10.5555/mine.9"]
     assert path.name == "10.5555_mine.9.txt", path
+
+
+def test_reads_the_n_or_inosine_notation_as_n():
+    """Prepens 2007 and the other Ehlers-lab consensus-primer papers spell an
+    ambiguous position out as `(N/I)` - "N or inosine" - inside the sequence.
+
+    The brackets and slash end the run, so without normalisation `printed_oligos`
+    returns a fragment and every stored oligo past the first bracket reports
+    `absent`. That produced 4 false verdicts on one paper, all 4 of them exact
+    matches to the registry once the notation is read.
+    """
+    paper = "2744s 1 TTCAAGGAACTCAGYAARAT(N/I)AAYCC 250"
+    printed = vo.printed_oligos(vo.normalise_notation(paper))
+    assert "TTCAAGGAACTCAGYAARATNAAYCC" in printed, printed
+    verdict, _ = vo.check("TTCAAGGAACTCAGYAARATNAAYCC", vo.normalise_notation(paper), printed, 4)
+    assert verdict == "exact", verdict
+
+
+def test_the_notation_survives_both_cases_and_bracket_styles():
+    """One table in one paper used `(N/I)` and `[n/i]`, so both must work."""
+    for token in ("(N/I)", "[n/i]", "(n/i)", "[N/I]", "(I/N)"):
+        got = vo.normalise_notation(f"CGTTGTCCTC{token}CCNARYTGNCC")
+        assert got == "CGTTGTCCTCNCCNARYTGNCC", (token, got)
+
+
+def test_the_notation_is_not_silently_collapsed_to_two_bases():
+    """The dangerous half: `check`'s substring search strips every non-IUPAC
+    character, and N and I are BOTH IUPAC, so an unnormalised `(N/I)` becomes
+    the two bases `NI` and shifts the rest of the sequence by one. That is a
+    wrong answer rather than a missing one, which is why the normalisation has
+    to happen before the text reaches either search.
+    """
+    raw = "primer 5'-CGTTGTCCTC(N/I)CCNARYTGNCC-3'"
+    assert "NI" in vo.NOISE.sub("", raw.upper())
+    assert "NI" not in vo.NOISE.sub("", vo.normalise_notation(raw).upper())

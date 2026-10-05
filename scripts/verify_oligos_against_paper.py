@@ -212,6 +212,41 @@ def pdf_text(path: Path) -> str:
 PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
 
 
+# A position a paper writes as the literal string "(N/I)" - "N or inosine" -
+# inside a sequence. Both cases and both bracket styles occur in one table of
+# one paper, so all four are matched, as is "(I/N)".
+NI_POSITION = re.compile(r"[(\[]\s*(?:[Nn]\s*/\s*[Ii]|[Ii]\s*/\s*[Nn])\s*[)\]]")
+
+
+def normalise_notation(text: str) -> str:
+    """Rewrite in-sequence notation that would otherwise split a printed oligo.
+
+    So far one form, and it is not obscure. The Ehlers-lab pan-herpesvirus
+    consensus primers - a mainstay of wildlife herpesvirus screening, and the
+    source of several entries here - are printed with their ambiguous positions
+    spelled out as `(N/I)`, meaning "N or inosine at this base":
+
+        2744s   TTCAAGGAACTCAGYAARAT(N/I)AAYCC
+        2745as  CGTTGTCCTC(N/I)CC(N/I)ARYTG(N/I)CC
+
+    Left alone, the brackets and the slash end the run, so `printed_oligos`
+    sees fragments instead of primers - `TTCAAGGAACTCAGYAARAT` and nothing
+    else - and every stored oligo past the first bracket reports `absent`.
+    Prepens 2007 uses the notation 22 times and produced 4 such false verdicts,
+    all 4 of which are exact matches to the registry once it is read.
+
+    The substring search in `check` needs this just as much, and for a nastier
+    reason: it strips every non-IUPAC character, and N and I are both IUPAC, so
+    `(N/I)` silently collapses to the two bases `NI` and shifts the rest of the
+    sequence by one. A wrong answer, not a missing one.
+
+    Replacing it with `N` is what the registry already does - `seq` holds strict
+    IUPAC, and `deinosine` flattens inosine to N on both sides of every
+    comparison anyway - so nothing is lost by resolving it here.
+    """
+    return NI_POSITION.sub("N", text)
+
+
 def file_text(path: Path) -> str:
     """All readable text from a paper file, whatever format it is in.
 
@@ -221,12 +256,12 @@ def file_text(path: Path) -> str:
     """
     suffix = path.suffix.lower()
     if suffix == ".pdf":
-        return pdf_text(path)
+        return normalise_notation(pdf_text(path))
     try:
         raw = path.read_text(encoding="utf-8", errors="replace")
     except OSError:
         return ""
-    return re.sub(r"<[^>]+>", " ", raw) if suffix == ".xml" else raw
+    return normalise_notation(re.sub(r"<[^>]+>", " ", raw) if suffix == ".xml" else raw)
 
 
 def paper_files(paper_dir: Path) -> list[Path]:
@@ -387,7 +422,7 @@ def paper_text(pmcid: str) -> str | None:
     xml = get(f"{EPMC}/{pmcid}/fullTextXML", timeout=90)
     if not xml or "<article" not in xml:
         return None
-    return re.sub(r"<[^>]+>", " ", xml)
+    return normalise_notation(re.sub(r"<[^>]+>", " ", xml))
 
 
 def edit_distance(a: str, b: str, cap: int) -> int:
