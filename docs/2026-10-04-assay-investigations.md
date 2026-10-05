@@ -107,3 +107,40 @@ Read that way the report's low share is not drift and not a scoping artefact:
 the assay does what the paper claims on SIVgor, covers about half of SIVcpz,
 and does not cover the rest of the genus. Anyone using it outside SIVgor needs
 that table, which is the case where scoping would have hidden the finding.
+
+## The four new PREDICT families, first results (2026-10-04)
+
+| assay | status | recent | note |
+|---|---|---|---|
+| Phlebovirus L round 1 | stable | 94.4% (54) | works |
+| Phlebovirus L round 2 | stable | 96.5% (142) | works |
+| Rhabdovirus L round 1 | low coverage | 11.1% (1307) | pan-family assay on all Rhabdoviridae |
+| Rhabdovirus L round 2 | declining | 25.5% (1368) | change −10% to −5% |
+| Calicivirus capsid | declining | 0% (27) | scope: marine-calicivirus assay on mostly norovirus |
+| Orthobunyavirus S | coverage gap | 0 of 2056 | primer tails, see below |
+| Orthobunyavirus M | coverage gap | 2 of 2056 | primer tails, see below |
+
+* **Phlebovirus** is the clean result: the nested assay detects 94–96% of
+  phlebovirus L records, and both rounds are stable.
+* **Rhabdovirus** at 11–25% of all Rhabdoviridae is the pan-family scope
+  pattern again, not necessarily drift. These are the panel's
+  degeneracy-increased primers (221,184× and 36,864× — "severe"), which makes
+  an in-silico `detect` weak evidence on its own. Round 2 is called `declining`
+  on a 5–10 point fall; worth watching, not acting on before validation.
+* **Calicivirus** shows the limit of the declining / low-coverage split. The
+  entry predicted this would be scope rather than drift, and it is — a marine
+  calicivirus assay screened against a group that is mostly norovirus — but the
+  fall from 14% to 0% is larger than `min_decline`, so it is reported as
+  `declining` anyway. A fall caused by which lineages were deposited recently
+  still reads as drift. Either the assay is scoped to vesiviruses or the split
+  needs a scope-aware term.
+* **Orthobunyavirus: my entries are at fault, not the data.** Both assays use
+  the conserved genome termini, and the terminal primers appear to carry
+  non-templated cloning tails. The full BUNS-5-U-6 finds no site within six
+  mismatches in records that demonstrably contain the terminus; dropping its
+  first seven bases (`CGGCGCC`, containing the KasI/NarI site `GGCGCC`) matches
+  perfectly in 6 of 6. The sequences are left as the panel prints them, flagged
+  `PRIMER_TAIL_SUSPECTED`, because the tail boundary is inferred from data and
+  needs Briese et al. 2007 to confirm. Note the conserved terminus is present
+  in only ~4% of deposits anyway, so even with the tails marked this pair will
+  be assessable against few records.
