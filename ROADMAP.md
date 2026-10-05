@@ -49,6 +49,15 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
       outliers are consistent same-position indels across all records, i.e. registry oligo
       typos, which makes the script a registry QA tool
 
+## Review
+
+`docs/2026-10-04-pipeline-review.md` reviews the pipeline stage by stage from a
+software and a methods angle, and ranks what is open. The short version: the
+estimand is wrong (one population proportion per assay cannot see a
+lineage-conditional failure, which is why validation catches 1 of 12), the
+denominator conditions on the outcome, records are not independent so the
+intervals are too narrow, and declared amplicon sizes are not enforced.
+
 ## Phase 2 (next milestone): validation sets the thresholds
 
 **Every number in `config.yaml` is a placeholder set by eye.** Nothing in the
