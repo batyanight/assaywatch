@@ -1728,6 +1728,14 @@
   "volume": "15",
   "year": 2020
  },
+ "10.1371/journal.pone.0247010": {
+  "first_author": "Conley",
+  "journal": "PLOS ONE",
+  "n_authors": 12,
+  "title": "Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana)",
+  "volume": "16",
+  "year": 2021
+ },
  "10.1371/journal.pone.0289159": {
   "first_author": "Haynes",
   "journal": "PLOS ONE",
@@ -1735,6 +1743,14 @@
   "title": "Development and application of a qPCR-based genotyping assay for Ophidiomyces ophidiicola to investigate the epidemiology of ophidiomycosis",
   "volume": "18",
   "year": 2023
+ },
+ "10.1371/journal.ppat.1000503": {
+  "first_author": "Roy",
+  "journal": "PLoS Pathogens",
+  "n_authors": 12,
+  "title": "Isolation and Characterization of Adenoviruses Persistently Shed from the Gastrointestinal Tract of Non-Human Primates",
+  "volume": "5",
+  "year": 2009
  },
  "10.15654/tpk-140743": {
   "first_author": "Aqrawi",
@@ -1833,6 +1849,14 @@
   "title": "Detection of Usutu virus infection in wild birds in the United Kingdom, 2020",
   "volume": "25",
   "year": 2020
+ },
+ "10.3354/dao02986": {
+  "first_author": "McAloose",
+  "journal": "Diseases of Aquatic Organisms",
+  "n_authors": 19,
+  "title": "Post-mortem findings in southern right whales Eubalaena australis at Pen\u00ednsula Vald\u00e9s, Argentina, 2003-2012",
+  "volume": "119",
+  "year": 2016
  },
  "10.3354/dao03034": {
   "authors": [

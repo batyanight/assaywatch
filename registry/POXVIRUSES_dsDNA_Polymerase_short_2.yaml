@@ -30,11 +30,13 @@ oligos:
     orientation: reverse
 amplicon_bp: 192
 citation:
-  doi: null
-  design_year: null
+  doi: 10.3354/dao02986
+  design_year: 2016
   n_sequences_at_design: null
   as_written: Developed at WCS-TC (unpublished)
-  doi_verified: false
+  doi_verified: true
+  reference: McAloose D, ..., Seimon T, ..., Uhart M. 2016. Post-mortem findings in southern right whales Eubalaena australis
+    at Peninsula Valdes, Argentina, 2003-2012. Dis Aquat Organ 119:17-36 (pan-poxvirus DNA polymerase PCR)
 use_context:
 - wildlife
 - veterinary
@@ -52,8 +54,16 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'PUBLISHED, FOUND 2026-10-05. A Europe PMC full-text search on TSPoxPolF1 finds Vila AR et al. 2019 PLoS
+    One 14:e0213667 (PMC6469779, huemul deer parapoxvirus), whose Table 1 prints this entry''s six oligos exactly as stored
+    here - TSPoxPolF1 TATAGAGCGAGTACAGTCATCAAG, F2 GCGAGYACCTGCATCAAG, F3, F4, R1 and R2 with I where the registry has N -
+    with the 192 bp amplicon, and cites them to McAloose et al. 2016 Dis Aquat Organ 119:17-36, a WCS paper with T. Seimon
+    (the TS of the primer names) as an author. Vila also describes the design: consensus regions from an alignment of some
+    20 chordopox and parapox species, short enough for FFPE tissue. So ''Developed at WCS-TC (unpublished)'' was true when
+    the sheet was written and is no longer. Cited to McAloose 2016 as the first publication; the sequences are confirmed through
+    Vila''s table, not McAloose''s own, because the int-res.com open-access PDF answers scripted requests with 401. Confirm
+    against McAloose by eye. The sibling POXVIRUSES_dsDNA_Polymerase_short (DO_NOT_USE) holds the longer forms with GGNCC
+    3'' tails, which Vila does not print.'
 needs_review:
-- DOI_MISSING
 - MODIFIED_IN_HOUSE
 - MULTIPLE_PRIMERS_IN_BLOCK
-- NO_YEAR

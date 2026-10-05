@@ -13,14 +13,17 @@ oligos:
   reverse:
     name: R1
     seq: AGTTYTACATGCTGGGCTCTTACCG
-amplicon_bp: 1560
+amplicon_bp: 1512
 citation:
-  doi: 10.1128/JCM.43.12.6176-6182.2005
-  design_year: 2005
+  doi: 10.1371/journal.ppat.1000503
+  design_year: 2009
   n_sequences_at_design: null
   as_written: 'Casas, I (2005).  Journal of Clinical Microbiology. 43: 6176-6182'
   doi_verified: true
-  reference: Casas I et al. 2005. J Clin Microbiol 43:6176-6182
+  reference: Roy S, Vandenberghe LH, Kryazhimskiy S, Grant R, Calcedo R, Yuan X, Keough M, Sandhu A, Wang Q, Medina-Jaszek
+    CA, Plotkin JB, Wilson JM. 2009. Isolation and characterization of adenoviruses persistently shed from the gastrointestinal
+    tract of non-human primates. PLoS Pathog 5:e1000503 (nested DNA polymerase PCR, outer primers)
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary
@@ -32,6 +35,22 @@ source:
   - 280
   - 281
   positive_control: null
-  nested_round: null
+  nested_round: round1
   notes: null
+  notes_curator: 'SOURCE FOUND AND RE-CITED 2026-10-05. The entry cited Casas et al. 2005 J Clin Microbiol 43:6176, and that
+    paper does not print these primers: its local PDF carries exactly four oligo-like runs, all of them the hexon primers
+    held by ADENOVIRUS_dsDNA_Hexon_gene and its round 2 sibling, which verify exact. The polymerase pairs are absent from
+    it. A Europe PMC full-text search finds both pairs in Roy S et al. 2009 PLoS Pathog 5:e1000503 (PMC2698151), which prints
+    them in one sentence as a single nested polymerase PCR - ''outer primers, TGATGCGYTTCTTACCTYTGGTYTCCATGAG and AGTTYTACATGCTGGGCTCTTACCG,
+    and inner primers, GTGACAAAGAGGCTGTCCGTGTCCCCGTA and TCACGTGGCCTACACTTACAAGCCAATCAC'' - matching the registry base for
+    base. Roy gives no citation of its own for them, and it is the earliest publication of them that is findable: the only
+    other open texts printing them are later and downstream (Roy 2011 PLoS One 6:e24859, Medkour 2020 Viruses 12:657 ''Fw/Rw
+    inere'', Kosoltanapiwat 2022 One Health 15:100434 ''Adeno-pol F2/R2''). Cited to Roy 2009 as first publication. This is
+    the same shape as the CMV gB case settled earlier today: one spreadsheet citation covering a paper''s own pair plus a
+    pair from somewhere else. The two entries also belong together - they are rounds of one nested assay, which the ids do
+    not say. F1/R1 are the OUTER pair. AMPLICON MEASURED against all 30,139 records in the 2026-10-03 Mastadenovirus archive
+    (up to 4 mismatches per primer): a product in 4,103 records, 1512 bp in 2,068 and 1515 bp in 1,903. The stored 1560 matches
+    none of them; corrected to the modal 1512. Note for the drift report rather than an error: R1 sits one mismatch from the
+    template in 3,020 of those records and matches perfectly in only 67, which is a property of the target population and
+    of a primer published with one Y, not a transcription slip - the sequence is what Roy prints.'
 needs_review: null
