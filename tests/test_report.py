@@ -180,3 +180,42 @@ def test_identical_oligo_sets_are_named_and_html_has_the_year_detail():
     assert "POLYOMAVIRUS_dsDNA_VP1_Johne_2005" in twins.get("POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2", [])
     page = render_html(_drifting(), {}, [], "2026-10-03")
     assert "<details>" in page and "deposit year" in page and "baseline (n)" in page
+
+
+def test_an_unlisted_status_still_appears_in_both_reports():
+    """A status missing from STATUS_ORDER is not an error, it is an assay that
+    silently vanishes from the report while the headline still counts it.
+
+    `AssayDrift` defaults to "no data", unreachable through `assess` today but
+    exactly what a future status would look like, and until now it would have
+    been dropped from the markdown, the HTML and the stderr summary alike.
+    """
+    from assaywatch.drift import AssayDrift
+    from assaywatch.report import STATUS_ORDER, status_order
+
+    odd = AssayDrift("ODD_assay")
+    assert odd.status == "no data" and odd.status not in STATUS_ORDER
+    drifts = {"ODD_assay": odd, **_drifting()}
+
+    md = render_markdown(drifts, {}, [], "2026-10-05")
+    assert "ODD_assay" in md and "No Data (1)" in md
+    page = render_html(drifts, {}, [], "2026-10-05")  # must not KeyError on the colour lookup
+    assert "ODD_assay" in page
+
+    # Listed statuses keep their order, unknown ones follow, and the list is stable.
+    order = status_order({"zzz": [], "no data": [], "stable": []})
+    assert order[: len(STATUS_ORDER)] == STATUS_ORDER
+    assert order[len(STATUS_ORDER) :] == ["no data", "zzz"]
+
+
+def test_the_headline_count_matches_the_sections_beneath_it():
+    """The symptom of a dropped status: "N assays screened" with fewer than N
+    appearing below."""
+    from assaywatch.drift import AssayDrift
+
+    odd = AssayDrift("ODD_assay")
+    drifts = {"ODD_assay": odd, **_drifting()}
+    md = render_markdown(drifts, {}, [], "2026-10-05")
+    headline = md.splitlines()[2]
+    assert f"{len(drifts)} assays screened" in headline
+    assert "1 no data" in headline, headline

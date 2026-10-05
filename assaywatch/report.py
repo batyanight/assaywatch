@@ -56,6 +56,23 @@ STATUS_COLOUR = {
     "no recent data": "#5f6368",
     "stable": "#1e6b3a",
 }
+DEFAULT_COLOUR = "#5f6368"
+
+
+def status_order(grouped: dict[str, Any]) -> list[str]:
+    """The listed statuses in order, then any the report was not told about.
+
+    The report walks STATUS_ORDER and prints only what it finds there, so a
+    status that is absent from the list is not an error - it is an assay that is
+    quietly missing from both reports, with a headline count ("164 assays
+    screened") that no longer adds up to the sections beneath it. The review
+    found one such status in the code (`AssayDrift` defaults to "no data", which
+    is unreachable through `assess` today but is exactly what a future status
+    would look like). Appending the unknown ones, sorted so the output is
+    stable, makes a new status show up as an unstyled section instead of
+    disappearing.
+    """
+    return [*STATUS_ORDER, *sorted(s for s in grouped if s not in STATUS_ORDER)]
 
 
 def _open(path: Path):
@@ -205,7 +222,7 @@ def sparkline(drift: AssayDrift, width: int = 220, height: int = 34) -> str:
         x = (y - lo) / max(1, hi - lo) * (width - 4) + 2
         pts.append(f"{x:.1f},{(1 - frac) * (height - 6) + 3:.1f}")
     thresh_y = (1 - drift.threshold) * (height - 6) + 3
-    colour = STATUS_COLOUR.get(drift.status, "#5f6368")
+    colour = STATUS_COLOUR.get(drift.status, DEFAULT_COLOUR)
     return (
         f'<svg width="{width}" height="{height}" role="img" '
         f'aria-label="detected share {lo} to {hi}">'
@@ -258,7 +275,7 @@ def render_markdown(
     grouped = by_status(drifts)
     twins = oligo_twins(assays)
     out = [f"# AssayWatch report — {run_date}", ""]
-    counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in STATUS_ORDER if grouped.get(s))
+    counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in status_order(grouped) if grouped.get(s))
     out += [f"{len(drifts)} assays screened: {counts}.", ""]
     if drifts:
         # The base window comes from the config, not from whichever assay happens
@@ -291,7 +308,7 @@ def render_markdown(
         "",
     ]
 
-    for status in STATUS_ORDER:
+    for status in status_order(grouped):
         items = grouped.get(status)
         if not items:
             continue
@@ -416,11 +433,11 @@ def render_html(
         "also fallen from the baseline (that is drift); low coverage means below threshold "
         "without a measurable fall.</p>",
     ]
-    for status in STATUS_ORDER:
+    for status in status_order(grouped):
         items = grouped.get(status)
         if not items:
             continue
-        colour = STATUS_COLOUR[status]
+        colour = STATUS_COLOUR.get(status, DEFAULT_COLOUR)
         parts.append(
             f"<h2><span class='pill' style='background:{colour}'>{e(status)}</span> {len(items)}</h2>"
         )
@@ -559,7 +576,7 @@ def main(argv: list[str] | None = None) -> int:
     (args.out / "report.html").write_text(page)
 
     grouped = by_status(drifts)
-    for status in STATUS_ORDER:
+    for status in status_order(grouped):
         if grouped.get(status):
             print(f"{status:<18} {len(grouped[status])}", file=sys.stderr)
     print(f"wrote {args.out / 'report.md'} and {args.out / 'report.html'}", file=sys.stderr)

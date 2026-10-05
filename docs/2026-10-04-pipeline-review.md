@@ -251,6 +251,9 @@ tiers, and score pools per member.
   than `diverged`.
 - **`drift.py`'s `status="no data"` is unreachable and absent from
   `report.STATUS_ORDER`**, so it would be silently dropped from both reports.
+  *Fixed 2026-10-05:* `report.status_order` appends any status the report was not
+  told about, so a new one appears as an unstyled section instead of vanishing
+  (the HTML colour lookup no longer raises on it either).
 - **No test touches the Snakefile**, including `collect_calls`' column
   reconciliation — written precisely for the case of a pre-`exclusion` TSV
   meeting a post-`exclusion` one.
@@ -258,6 +261,8 @@ tiers, and score pools per member.
   metadata file once per case.**
 - **The pre-commit hook pins ruff 0.6.9 while the environment has 0.16.10**, so
   the two reformat one test file differently and ping-pong. Align them.
+  *Already done:* `.pre-commit-config.yaml` pins v0.16.10, matching `pyproject.toml`
+  and `environment.yml`.
 
 ---
 
