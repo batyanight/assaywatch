@@ -111,6 +111,8 @@ class AssayDrift:
     recent_counts: Counter = field(default_factory=Counter)
     baseline_counts: Counter = field(default_factory=Counter)
     skipped_undated: int = 0
+    # Why unusable records were unusable, from score.classify_exclusion.
+    exclusions: Counter = field(default_factory=Counter)
 
     # Filled by `finalise`.
     recent_detected: int = 0
@@ -297,11 +299,11 @@ def assess(
         when = years.get(row["record_id"])
         # A bare year keeps year granularity below, so it is anchored at 1 January.
         iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
-        per.setdefault(row["assay_id"], []).append((iso, row["call"]))
+        per.setdefault(row["assay_id"], []).append((iso, row["call"], row.get("exclusion") or ""))
 
     grouped: dict[str, AssayDrift] = {}
     for assay_id, rows in per.items():
-        evaluable = sorted((iso for iso, call in rows if iso and call in EVALUABLE), reverse=True)
+        evaluable = sorted((iso for iso, call, _ in rows if iso and call in EVALUABLE), reverse=True)
 
         def inside(iso: str, months: int) -> bool:
             """Is this record inside a window of `months`, at the input's own granularity?"""
@@ -323,7 +325,9 @@ def assess(
             min_decline=min_decline,
             window_months=months,
         )
-        for iso, call in rows:
+        for iso, call, why in rows:
+            if why:
+                a.exclusions[why] += 1
             if iso is None:
                 a.skipped_undated += 1
                 continue

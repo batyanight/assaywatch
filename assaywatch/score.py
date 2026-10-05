@@ -44,7 +44,7 @@ from typing import Any
 
 import yaml
 
-from assaywatch.chance import composition, pair_evalue
+from assaywatch.chance import composition, pair_evalue, site_evalue
 from assaywatch.match import Site, find_sites
 from assaywatch.schema import Assay
 
@@ -128,6 +128,12 @@ class Call:
             "amplicon_start": self.amplicon_start,
             "amplicon_end": self.amplicon_end,
             "amplicon_bp": self.amplicon_bp,
+            # Where each oligo sat, as start-end(strand) on the plus strand.
+            "fwd_site": self.extra.get("fwd_site", ""),
+            "rev_site": self.extra.get("rev_site", ""),
+            "probe_site": self.extra.get("probe_site", ""),
+            # For no_amplicon only: why this record could not be judged.
+            "exclusion": self.extra.get("exclusion", ""),
             # Expected number of pairs this good in a random record like this one (chance.py).
             "pair_evalue": f"{self.extra['pair_evalue']:.2g}" if "pair_evalue" in self.extra else "",
             "fwd_penalty": "" if self.forward is None else f"{self.forward.penalty:g}",
@@ -274,6 +280,65 @@ def screen_record(
     return best
 
 
+def _site_text(site: Site | None) -> str:
+    return "" if site is None else f"{site.start}-{site.end}{site.strand}"
+
+
+def classify_exclusion(
+    record_seq: str,
+    oligos: dict[str, str],
+    found: dict[str, list[Site]],
+    cfg: dict[str, Any],
+    comp: tuple,
+    amplicon_bp: int | None,
+) -> tuple[str, str]:
+    """Why a record yielded no amplicon: (label, one-line detail).
+
+    A record with no amplicon is dropped from the drift denominator, and the
+    reasons are not equivalent. If the deposit simply stops before the other
+    binding site, it says nothing about the assay; if the site is there and does
+    not match, that is the assay failing. Telling those apart needs the
+    positions, anchored on a site good enough to trust: of 464 Bd ITS deposits
+    that yield no amplicon, 392 are truncated before the probe footprint and
+    none show it present and diverged.
+
+    Labels: `no_site` (nothing credible for either primer), `truncated` (the
+    missing site's window runs off the end of the record), `diverged` (the
+    window is inside the record but nothing credible matches there), `no_pair`
+    (both primers credible but never facing each other in range).
+    """
+    max_e = cfg["scoring"].get("max_pair_evalue") or 0.01
+    span = int(amplicon_bp or cfg["amplicon"]["max_bp"])
+    n = len(record_seq)
+
+    def credible(name: str) -> list[Site]:
+        o = oligos[name]
+        return [
+            s for s in found.get(name, []) if site_evalue(o, s.n_mismatches + s.n_ambiguous, n, comp) <= max_e
+        ]
+
+    cf, cr = credible("forward"), credible("reverse")
+    if cf and cr:
+        return "no_pair", "both primers match credibly but never face each other in range"
+    if not cf and not cr:
+        return "no_site", "no credible site for either primer"
+    anchor, missing = (cf[0], "reverse") if cf else (cr[0], "forward")
+    # The partner always lies on the far side of the anchor, and which side that
+    # is depends only on the anchor's strand: an amplicon runs from a plus-strand
+    # site up to a minus-strand one. So from a minus-strand anchor the partner is
+    # at lower coordinates, and from a plus-strand anchor at higher ones. Getting
+    # this from the missing oligo's role instead of the anchor's strand labelled
+    # 382 truncated Bd deposits as diverged, i.e. claimed the forward primer had
+    # failed on them.
+    if anchor.strand == "-":
+        lo, hi = anchor.end - span, anchor.end
+    else:
+        lo, hi = anchor.start, anchor.start + span
+    if lo < 0 or hi > n:
+        return "truncated", f"the record ends before the {missing} primer's window"
+    return "diverged", f"the {missing} primer's window is present but nothing credible matches it"
+
+
 def screen_one(
     assay: Assay,
     record_id: str,
@@ -311,11 +376,19 @@ def screen_one(
 
     f_all = find_sites(fwd, record_seq, max_mm)
     r_all = find_sites(rev, record_seq, max_mm)
+    if comp is None:
+        comp = composition(record_seq)
+    oligo_map = {"forward": fwd, "reverse": rev}
+    found_map = {"forward": f_all, "reverse": r_all}
     if not f_all or not r_all:
         which = "forward" if not f_all else "reverse"
         if not f_all and not r_all:
             which = "forward and reverse"
-        return Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
+        call = Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
+        label, detail = classify_exclusion(record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp)
+        call.extra["exclusion"] = label
+        call.reason = f"{call.reason}; {detail}"
+        return call
 
     pairs = facing_pairs(f_all, r_all, len(rev), amp)
     # A pathological record (long low-complexity runs) can still produce a huge
@@ -330,10 +403,6 @@ def screen_one(
     # Chance-pair guard (chance.py). The E-value is always reported; pairs above
     # `max_pair_evalue` are only dropped when that is set.
     max_e = cfg["scoring"].get("max_pair_evalue")
-    # The caller may pass the record's composition when it screens several
-    # assays against one record, so a genome is not re-counted per assay.
-    if pairs and comp is None:
-        comp = composition(record_seq)
     n_chance = 0
 
     best: Call | None = None
@@ -383,6 +452,9 @@ def screen_one(
         # The sites themselves, for anything computed on the winning amplicon
         # later (thermo.py). Not written to the TSV.
         cand.extra["sites"] = {"forward": f, "reverse": r, "probe": p_site}
+        cand.extra["fwd_site"] = _site_text(f)
+        cand.extra["rev_site"] = _site_text(r)
+        cand.extra["probe_site"] = _site_text(p_site)
         # Rank by call first (a probe-less amplicon never beats a real one),
         # then by penalty, then by how much of the site was undetermined, so
         # the reported site is the assay's best shot. `indeterminate` ranks
@@ -402,5 +474,9 @@ def screen_one(
         reason = f"sites found but no facing pair within {amp['min_bp']}-{amp['max_bp']} bp"
         if n_chance:
             reason = f"{n_chance} facing pairs, none distinguishable from chance (E > {max_e:g})"
-        return Call(assay.id, record_id, "no_amplicon", reason=reason)
+        call = Call(assay.id, record_id, "no_amplicon", reason=reason)
+        label, detail = classify_exclusion(record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp)
+        call.extra["exclusion"] = "chance_only" if n_chance else label
+        call.reason = f"{reason}; {detail}"
+        return call
     return best

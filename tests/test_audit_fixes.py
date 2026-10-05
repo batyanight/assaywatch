@@ -259,3 +259,32 @@ def test_a_pool_member_can_carry_the_call():
     pooled = screen_record(assay, "x", rec, CFG)
     assert pooled.call == "detect"
     assert fwd[-1] in pooled.extra["pool"] and rev[-1] in pooled.extra["pool"]
+
+
+def test_exclusion_tells_a_truncated_deposit_from_a_diverged_site():
+    """The reason a record is unusable is not incidental: one is about the deposit, one about the assay."""
+    import random
+    from pathlib import Path
+
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assay = load_assay(root / "registry" / "CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004.yaml")
+    rev = assay.oligos.reverse.matching_seq
+    rng = random.Random(5)
+
+    def noise(n):
+        return "".join(rng.choice("ACGT") for _ in range(n))
+
+    # The reverse site sits on the minus strand, so the forward primer belongs at
+    # LOWER coordinates. Only 20 bases there: the deposit stops short.
+    short = noise(20) + reverse_complement(rev) + noise(400)
+    call = screen_record(assay, "short", short, CFG)
+    assert call.call == "no_amplicon" and call.as_row()["exclusion"] == "truncated"
+
+    # Same site with ample room on that side, and nothing resembling the forward primer.
+    roomy = noise(900) + reverse_complement(rev) + noise(400)
+    assert screen_record(assay, "roomy", roomy, CFG).as_row()["exclusion"] == "diverged"
+
+    # Neither primer anywhere.
+    assert screen_record(assay, "none", noise(600), CFG).as_row()["exclusion"] == "no_site"

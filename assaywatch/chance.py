@@ -71,6 +71,18 @@ def tail(oligo: str, comp: tuple[float, float, float, float] = UNIFORM) -> tuple
     return tuple(out)
 
 
+def site_evalue(oligo: str, k: int, record_len: int, comp=UNIFORM) -> float:
+    """Expected number of sites for ONE oligo within `k` misses, either strand.
+
+    Used to decide whether a lone oligo hit means anything, which matters for
+    records too short to carry a whole amplicon: a 15 nt probe has a chance
+    match within six misses in almost any record, while a perfect match to it
+    in a 257 bp record is about 5e-7. The pair E-value is the product of two of
+    these and the window term.
+    """
+    return 2.0 * record_len * tail(oligo, comp)[min(k, len(oligo))]
+
+
 def pair_evalue(
     fwd: str, rev: str, k_fwd: int, k_rev: int, record_len: int, cfg: dict[str, Any], comp=UNIFORM
 ) -> float:

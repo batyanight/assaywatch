@@ -86,7 +86,18 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
         if header is None:
             return []
         ia, ir, ic = header.index("assay_id"), header.index("record_id"), header.index("call")
-        return [{"assay_id": r[ia], "record_id": r[ir], "call": r[ic]} for r in reader if r]
+        # `exclusion` says why an unusable record was unusable (score.classify_exclusion).
+        ie = header.index("exclusion") if "exclusion" in header else None
+        return [
+            {
+                "assay_id": r[ia],
+                "record_id": r[ir],
+                "call": r[ic],
+                "exclusion": (r[ie] if ie is not None and ie < len(r) else ""),
+            }
+            for r in reader
+            if r
+        ]
 
 
 def read_dates(retrieved_dir: Path) -> dict[str, str]:
@@ -263,6 +274,15 @@ def render_markdown(
             if un:
                 out.append("")
                 out.append("Excluded: " + ", ".join(f"{n} {k}" for k, n in sorted(un.items())))
+                if a.exclusions:
+                    out.append("")
+                    out.append(
+                        "Why: "
+                        + ", ".join(f"{n} {k}" for k, n in a.exclusions.most_common())
+                        + ". `truncated` means the deposit stops before the other primer's site, so it"
+                        + " says nothing about the assay; `diverged` means that site is present and does"
+                        + " not match."
+                    )
             out.append("")
 
     out += ["## Coverage gaps", ""]
