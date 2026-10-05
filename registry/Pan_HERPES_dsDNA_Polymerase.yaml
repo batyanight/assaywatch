@@ -10,7 +10,7 @@ chemistry: conventional
 oligos:
   forward:
     name: HV-DFA
-    seq: GAYTTYGCNAGYYTNTAYCCR
+    seq: GAYTTYGCNAGYYTNTAYCC
   reverse:
     name: HV-KG1
     seq: GTCTTGCTCACCAGNTCNACNCCYTT
@@ -26,6 +26,7 @@ citation:
   as_written: PREDICT Protocols
   doi_verified: true
   reference: VanDevanter DR et al. 1996. J Clin Microbiol 34:1666-1671 (DFA/ILK/KG1 nested pan-herpesvirus DPOL PCR)
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary
@@ -40,5 +41,43 @@ source:
   positive_control: Hyrax or Phasianid DNA or Universal control 2
   nested_round: null
   notes: null
+  notes_curator: |-
+    SEQUENCE CORRECTED 2026-10-05 from VanDevanter et al. 1996, read from the paper
+    (doi:10.1128/jcm.34.7.1666-1671.1996). The paper prints the five consensus DPOL primers in
+    Materials and Methods, not in a table:
+        DFA   5'-GAYTTYGCNAGYYTNTAYCC-3'      (upstream, primary)
+        ILK   5'-TCCTGGACAAGCAGCARNYSGCNMTNAA-3'  (upstream, primary)
+        KG1   5'-GTCTTGCTCACCAGNTCNACNCCYTT-3'    (downstream, primary)
+        TGV   5'-TGTAACTCGGTGTAYGGNTTYACNGGNGT-3' (upstream, secondary; see round2 entry)
+        IYG   5'-CACAGAGTCCGTRTCNCCRTADAT-3'      (downstream, secondary; see round2 entry)
+    HV-DFA was stored as GAYTTYGCNAGYYTNTAYCCR, one base LONGER than the published primer: an
+    extra R on the 3' end. The string TAYCCR does not occur anywhere in the paper. Four of the
+    five oligos from this paper (ILK, KG1, and TGV/IYG in the round2 entry) match it exactly,
+    so DFA was the only discrepancy. Truncated to the paper's 20-mer on Batya's instruction to
+    use the published version.
+    WHY THE EXTRA BASE MATTERED. It sat at the 3' terminus, the position that governs extension,
+    and R excludes C and T. Screening therefore demanded an extra base pair at the priming end
+    and charged a terminal mismatch to every record carrying a pyrimidine there - a mismatch the
+    real 20-mer never sees. For a consensus assay spanning a family as divergent as
+    Herpesviridae that plausibly depressed the detection rate across the board. The size of the
+    effect is NOT yet measured: unlike the Yersinia correction, this entry has not been
+    re-screened both ways. Do that before reading any coverage number for this assay.
+    PROVENANCE QUESTION LEFT OPEN. citation.as_written is 'PREDICT Protocols', so the sequence
+    reached the spreadsheet through PREDICT rather than from the paper directly, and the R is
+    either a PREDICT-era modification the lab actually orders or a transcription slip somewhere
+    between the paper and the spreadsheet. The PREDICT protocol document is not in papers/. If
+    it prints DFA with the R, this entry should hold the 21-mer and declare the modification
+    explicitly, the way Pan_mycoplasma_16S_All_Van_1992 records GPO-1FMod - the registry's job
+    is to record what the lab runs, not to prefer what is published. Flagged until that is
+    checked.
+    HOW IT WAS FOUND, and a checker bug worth fixing. verify_oligos_against_paper.py reported
+    HV-DFA as `absent` rather than `near:1`, because the paper breaks the primer across a line:
+    'GAYT' ends one line and 'TYGCNAGYYTNTAYCC-39' begins the next. The oligo-run scanner sees
+    two fragments, neither containing the stored sequence. The same break explains the four
+    adenovirus pan-polymerase oligos reported as `in-text` (polRouter splits as ...RTABARNG +
+    MRTT). A dehyphenate-and-rejoin pass over the extracted text before scanning would recover
+    both. Until that lands, an `absent` verdict on a pre-2000 PDF means 'not found', not
+    'not in the paper'.
 needs_review:
 - MULTIPLE_PRIMERS_IN_BLOCK
+- DFA_VARIANT_VS_PREDICT_UNRESOLVED

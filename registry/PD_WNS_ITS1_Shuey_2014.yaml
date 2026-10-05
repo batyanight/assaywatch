@@ -1,0 +1,44 @@
+id: PD_WNS_ITS1_Shuey_2014
+name: PSEUDOGYMNOASCUS DESTRUCTANS (white-nose syndrome) — ITS1 qPCR (Shuey 2014)
+target:
+  taxid: 655981
+  gene: ITS1
+  genome_type: dsDNA
+  taxon_name: Pseudogymnoascus destructans
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: Gd-ITS1-qPCR_F
+    seq: CTTTGTTTATTACACTTTGTTGCTTT
+  reverse:
+    name: Gd-ITS1-qPCR_R
+    seq: CCGTTGTTGAAAGTTTTAACTATTATAT
+  probe:
+    name: Pd-ITS1-qPCR_Pd
+    seq: CTTGCCAGAGGACTAA
+    reporter: FAM
+    quencher: MGB-NFQ
+  alternates: []
+amplicon_bp: 140
+citation:
+  doi: 10.1128/aem.02897-13
+  design_year: 2014
+  n_sequences_at_design: null
+  as_written: null
+  reference: Shuey, M. M., Drees, K. P., Lindner, D. L., Keim, P. & Foster, J. T. Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species. Applied and Environmental Microbiology 80, 1726-1731 (2014).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-05 from the paper''s own text, read out of the PDF in papers/ rather than transcribed from any secondary list. Candidate surfaced by the journal sweep in docs/2026-10-04-literature-audit.md; sequences extracted with scripts/extract_candidate_oligos.py and then checked against real GenBank records before the entry was trusted. White-nose syndrome was entirely absent from this registry, which was the single largest gap the sweep found among top-tier wildlife pathogens. VERIFIED: both primers and the probe were located in real P. destructans ITS records, giving a 140-141 bp product with the probe inside the amplicon (PP958286.1 at 140 bp, PX393942.1 at 141 bp). amplicon_bp is therefore measured, not quoted - the paper describes the ITS1 region as 171 bp but does not state a product size. Two of four sampled records did not yield a product; those are longer ITS submissions where the forward site falls outside the deposited span, which is the usual pattern for a short qPCR amplicon against variable-length rDNA submissions and not evidence against the assay. THE SECOND PROBE IS DELIBERATELY NOT POOLED. The paper runs two probes on the same primer pair: FAM CTTGCCAGAGGACTAA, specific to P. destructans, which is the one recorded here, and VIC CTTGCCAGAGGACCTA, specific to other Pseudogymnoascus/Geomyces species - they differ by a single inserted C. Pooling them would make the entry report detection of the wrong organism, since the whole point of the pair is to tell the pathogen from its harmless relatives. If the congener probe is ever wanted it belongs in its own entry with its own target taxon. Both probes carry a non-fluorescent quencher and a minor groove binder, hence chemistry mgb; the 16 nt probe is only viable because of the MGB.'
+needs_review: null
