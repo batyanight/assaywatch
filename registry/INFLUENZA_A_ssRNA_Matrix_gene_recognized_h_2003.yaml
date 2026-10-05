@@ -26,8 +26,8 @@ citation:
   n_sequences_at_design: null
   as_written: 'Modified from Spackman et al. (2003) Avian Diseases 47: 1079-1082'
   doi_verified: true
-  reference: Spackman E et al. 2002. J Clin Microbiol 40:3256-3260 (matrix primers/probe); 2003 Avian Dis 47:1079 is the field
-    validation, doi 10.1637/0005-2086-47.S3.1079
+  reference: Spackman E et al. 2002. J Clin Microbiol 40:3256-3260 (matrix primers/probe); 2003 Avian Dis 47:1079 is the field validation, doi 10.1637/0005-2086-47.S3.1079
+  oligos_designed_here: false
 use_context:
 - wildlife
 - veterinary
@@ -43,5 +43,7 @@ source:
   positive_control: Matrix gene (recognized human influenza A and vaccine)
   nested_round: null
   notes: null
+  notes_curator: 'CHECKED against Spackman et al. 2002 on 2026-10-05 (doi:10.1128/JCM.40.9.3256-3260.2002). The entry was already flagged MODIFIED_IN_HOUSE; the modifications are now characterised, and they are much larger than the flag suggests.\n  forward  paper AGATGAGTCTTCTAACCGAGGTCG / stored ARATGAGTCTTCTRACCGAGGTCG\n           2 changes: pos2 G->R, pos14 A->R\n  reverse  paper TGCAAAAACATCTTCAAGTCTCTG / stored TGAAAAGACATCYTCAAGYYTCTG\n           5 changes: pos3 C->A, pos7 A->G, pos13 T->Y, pos19 T->Y, pos20 C->Y\n  probe    unchanged - matches the paper exactly (it is printed there between FAM and TAMRA).\nThe forward changes only widen degeneracy, but the reverse carries two fixed-base SUBSTITUTIONS (C->A, A->G) alongside three widenings, which is a redesign rather than a relaxation. So the stored reverse is not Spackman''s primer in any useful sense and the checker reports it as absent from the paper. oligos_designed_here is False.\nWorth reading alongside INFLUENZA_A_ssRNA_Matrix_gene_DID_NOT_WORK, a sibling entry marked DO_NOT_USE with different matrix primers again: the registry records at least two in-house attempts at an influenza A matrix assay, one of which the lab recorded as failing. That is context a reader needs before trusting either, and it is an argument for the hemagglutinin assay gap noted in docs/2026-10-04-literature-audit.md, since a matrix assay cannot see subtype at all.'
 needs_review:
 - MODIFIED_IN_HOUSE
+- REVERSE_PRIMER_REDESIGNED_NOT_SPACKMAN

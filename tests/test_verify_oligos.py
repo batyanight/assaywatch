@@ -78,3 +78,22 @@ def test_inosine_matches_the_registry_n():
     stored = "TAATGCAYCARGAYTGGGTNGANCC"  # the registry's N where the paper prints I
     verdict, _ = vo.check(stored, paper, vo.printed_oligos(paper), 4)
     assert verdict == "exact", verdict
+
+
+def test_a_match_inside_the_printed_gene_is_not_a_primer_match():
+    """Papers print their target sequence, so "appears in the paper" is weaker
+    than "appears in the primer table".
+
+    Ibrahim 1992 prints the ystA gene, and the registry's stored forward primer
+    sits inside it four bases offset from the primer the table actually lists.
+    A plain substring search called that a perfect match.
+    """
+    paper = (
+        "TABLE 3 yst-Pr2a 5'-AATGCTGTCTTCATTTGGAGC-3' "
+        "FIG 2 ATGAAAAAGATAGTTTTTGTTCTTGTGTTAATGCTGTCTTCATTTGGAGCATTCGGCCAAGAAACAGTTTCAGGG"
+    )
+    printed = vo.printed_oligos(paper)
+    listed, _ = vo.check("AATGCTGTCTTCATTTGGAGC", paper, printed, 4)
+    assert listed == "exact", listed
+    shifted, note = vo.check("CTGTCTTCATTTGGAGCATTC", paper, printed, 4)
+    assert shifted == "in-text", (shifted, note)

@@ -44,9 +44,13 @@ correction attached, which is exactly the Sarcocystis failure mode.
 
 Verdicts
 --------
-exact          found verbatim in the full text
-revcomp        found as its reverse complement, which is normal for a reverse
+exact          found inside an oligo the paper LISTS
+revcomp        listed as its reverse complement, which is normal for a reverse
                primer and not a defect
+in-text        the string occurs in the paper but not in any listed oligo. Papers
+               print their target gene, so this can mean the sequence was found
+               inside that rather than in the primer table - a weaker result
+               than `exact` and worth checking by eye
 near:N         not found, but a printed oligo is N edits away. N=1 or 2 is very
                likely a transcription error and the suggestion is the fix
 absent         no printed oligo within the distance cap. Either the sequences
@@ -146,12 +150,20 @@ DOI_IN_TEXT = re.compile(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+")
 def index_pdfs(pdf_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tuple[str, Path]]]:
     """({doi: (text, path)}, [(text, path)]) for every readable PDF in a folder.
 
-    The second list is for the surname-and-year fallback, used only when a
-    paper prints no DOI - which is common for older journals.
+    A file whose name is the DOI with slashes written as underscores is matched
+    on that, which is both exact and free. Otherwise the DOI is read out of the
+    first few thousand characters. The second list is for the
+    surname-and-year fallback, used only when a paper prints no DOI at all -
+    common for older journals.
     """
     by_doi: dict[str, tuple[str, Path]] = {}
     everything: list[tuple[str, Path]] = []
     for path in sorted(pdf_dir.glob("*.pdf")):
+        # A filename that is the DOI with its slashes swapped for underscores
+        # beats anything read out of the text, so it is checked first. This is
+        # how the papers/ folder is named.
+        stem = path.stem.replace("_", "/")
+        named_doi = stem.lower() if DOI_IN_TEXT.fullmatch(stem) else None
         text = pdf_text(path)
         if not text:
             continue
@@ -160,9 +172,16 @@ def index_pdfs(pdf_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tuple[s
         # matters when --pdf-dir is pointed at a general Downloads folder that
         # also holds personal documents: those are discarded here rather than
         # indexed, and they can never win the surname-and-year fallback.
-        if len(printed_oligos(text)) < 2:
+        if len(printed_oligos(text)) < 2 and not named_doi:
+            # No oligos and no DOI in the filename: not a paper we can use, and
+            # keeping it out means a general folder of personal documents is
+            # never indexed. A DOI-named file is kept even without readable
+            # sequences, so that "the PDF is here but its table is an image"
+            # reads differently from "the PDF is missing".
             continue
         everything.append((text, path))
+        if named_doi:
+            by_doi[named_doi] = (text, path)
         for d in DOI_IN_TEXT.findall(text[:4000]):
             by_doi.setdefault(d.rstrip(".,;)").lower(), (text, path))
     return by_doi, everything
@@ -261,18 +280,46 @@ def deinosine(s: str) -> str:
 
 def check(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
     """(verdict, note) for one oligo against one paper's text and its oligo runs."""
-    flat = deinosine(NOISE.sub("", text.upper()))
     rc = reverse_complement(seq)
-    if seq in flat:
+    # Prefer a match inside a LISTED oligo over a match anywhere in the paper.
+    # Papers print their target gene, so a bare substring search says only "this
+    # string occurs in this paper". Checking the Yersinia entry found its stored
+    # forward primer inside the printed ystA gene sequence, four bases offset
+    # from the primer the table actually lists - which a plain substring search
+    # scored as a perfect match. `printed` holds standalone oligo-like runs
+    # capped at 60 bases, so a gene sequence cannot get in, while a table-mangled
+    # primer with a neighbouring cell glued on still contains its own sequence.
+    listed = [deinosine(p) for p in printed]
+    if any(seq in p for p in listed):
         return "exact", ""
-    if rc in flat:
-        return "revcomp", "found as its reverse complement, which is normal for a reverse primer"
+    if any(rc in p for p in listed):
+        return "revcomp", "listed as its reverse complement, which is normal for a reverse primer"
+    flat = deinosine(NOISE.sub("", text.upper()))
+    if seq in flat or rc in flat:
+        return "in-text", (
+            "occurs in the paper but not in any listed oligo - it may be inside the printed target "
+            "sequence rather than being a primer the paper lists. Check the primer table by eye"
+        )
+    # PDF table extraction glues neighbouring cells onto a sequence: this paper's
+    # influenza primer came out as AGATGAGTCTTCTAACCGAGGTCG + "M" from the next
+    # column, and its probe arrived wrapped in FAM, TAMRA and AVIAN. Comparing a
+    # stored oligo against the whole glued string inflates the distance and
+    # reports a candidate that is not what the paper printed. So when a printed
+    # candidate is longer than the stored oligo, every window of the stored
+    # length is tried and the best window is what gets reported.
     best, best_d = None, cap + 1
     for p in printed:
+        pd = deinosine(p)
         for cand in (seq, rc):
-            d = edit_distance(cand, deinosine(p), cap)
-            if d < best_d:
-                best, best_d = p, d
+            windows = (
+                [pd]
+                if len(pd) <= len(cand)
+                else [pd[i : i + len(cand)] for i in range(len(pd) - len(cand) + 1)]
+            )
+            for w in windows:
+                d = edit_distance(cand, w, cap)
+                if d < best_d:
+                    best, best_d = w, d
     if best is not None and best_d <= cap:
         return f"near:{best_d}", f"paper prints {best} ({best_d} edit(s) away)"
     return "absent", "no printed oligo within the distance cap"
@@ -378,7 +425,18 @@ def main(argv: list[str] | None = None) -> int:
         elif n % 10 == 0:
             print(f"  ...{n}/{len(paths)}", file=sys.stderr, flush=True)
 
-    order = ["exact", "revcomp", "near:1", "near:2", "near:3", "near:4", "absent", "no-full-text", "no-doi"]
+    order = [
+        "exact",
+        "revcomp",
+        "in-text",
+        "near:1",
+        "near:2",
+        "near:3",
+        "near:4",
+        "absent",
+        "no-full-text",
+        "no-doi",
+    ]
     counts = {k: sum(1 for r in rows if r["verdict"] == k) for k in order}
     print(f"\n{len(rows)} oligos across {len(paths)} entries\n")
     for k in order:

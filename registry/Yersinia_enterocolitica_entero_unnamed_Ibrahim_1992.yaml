@@ -13,7 +13,7 @@ oligos:
     seq: CTGTCTTCATTTGGAGCATTC
   reverse:
     name: YE-2
-    seq: GCAACATACATCGCAGCAATC
+    seq: GCAACATACATCACAGCAATC
 amplicon_bp: 159
 citation:
   doi: 10.1128/jcm.30.8.1942-1947.1992
@@ -22,6 +22,7 @@ citation:
   as_written: Ibrahim et al, 1992
   doi_verified: true
   reference: Ibrahim A, Liesack W, Stackebrandt E. 1992. J Clin Microbiol 30:1942-1947
+  oligos_designed_here: true
 use_context:
 - public_health
 - veterinary
@@ -35,5 +36,8 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'SEQUENCE CORRECTED 2026-10-05 from Ibrahim et al. 1992 Table 3, read from the paper (doi:10.1128/jcm.30.8.1942-1947.1992). Found by scripts/verify_oligos_against_paper.py as a near:1 hit. The table prints, with superscript positions in the ystA reading frame:\n    yst-Pr2a  5''-(30)AATGCTGTCTTCATTTGGAGC(50)-3''\n    yst-Pr2b  5''-(92)GCAACATACATCACAGCAATC(72)-3''\n    yst-P     probe CAAGCAAGCTTGTGATCCTC\nThe reverse primer was stored as GCAACATACATCGCAGCAATC - a G where the paper has an A, 9 bases from the 3'' end. Corrected to the paper''s base.\nWHAT THE CORRECTION ACTUALLY DID, which is more interesting than a typo. Screened against the 35 Y. enterocolitica assemblies both ways, the result inverts: with the stored G, 13 of 35 records match perfectly and 22 carry a mismatch; with the paper''s A, 22 match perfectly and 13 carry one. So this position is genuinely polymorphic in the target - both bases circulate - and the paper''s primer sits on the majority allele while the stored variant sat on the minority one. An R at that position would match all 35, but that would be designing a new primer rather than recording a published one, so it is noted and not done.\nThe error was SILENT to the drift metric: a single mismatch 9 bases from the 3'' end costs exactly 1.0, and detect_max is 1.0, so all 35 records read `detect` either way. The tool cannot catch its own input errors; only checking against the paper can. It was not harmless, though - it spent the entire detect budget, so any second mismatch anywhere would have tipped a record to `reduced` for a reason that did not exist.\nTWO DISCREPANCIES REMAIN UNRESOLVED and are deliberately not ''fixed'', because unlike the base above they cannot be settled by reading the table:\n  1. The forward primer. Stored YE-1 is CTGTCTTCATTTGGAGCATTC; the paper''s yst-Pr2a is      AATGCTGTCTTCATTTGGAGC. They share a 17 nt core but the stored one is shifted 4 bases      3''-ward, losing AATG from the 5'' end and gaining ATTC at the 3'' end. A 3''-end change is      exactly what matters most for extension, so this is not a cosmetic difference. It could be      a deliberate redesign or a transcription slip, and rewriting it on a guess would be worse      than flagging it.\n  2. amplicon_bp is 159, but the paper''s positions give 92 - 30 + 1 = 63 bp. Nothing in the      paper states 159. With the stored forward primer the span would be about 59 bp. Where 159      came from is unknown; the source spreadsheet is the likely origin.\nAlso recorded: the paper names these yst-Pr2a / yst-Pr2b, not YE-1 / YE-2, and the target is the ystA enterotoxin reading frame. YE-1/YE-2 are the spreadsheet''s names.'
 needs_review:
+- AMPLICON_BP_CONTRADICTS_PAPER
+- FORWARD_PRIMER_SHIFTED_VS_PAPER
 - ORIENTATION_INFERRED_BY_POSITION

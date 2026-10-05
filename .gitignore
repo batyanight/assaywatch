@@ -16,3 +16,6 @@ out/
 snakemake*.txt
 dryrun*.txt
 fetch*.txt
+
+# Downloaded paper PDFs (copyrighted; never commit)
+papers/
