@@ -201,3 +201,30 @@ def test_a_real_but_tiny_fall_is_not_declining():
     big = {"drift": {**CFG["drift"], "min_decline": 0.05}}
     calls, years = records({2015: {"detect": 90, "fail": 10}, 2025: {"detect": 40, "fail": 60}})
     assert assess(calls, years, big, today=TODAY)["A"].status == "declining"
+
+
+def test_window_widens_for_a_sparsely_deposited_target():
+    """Bd ITS records arrive in bursts; a fixed window makes the assay unjudgeable between them."""
+    cfg = {"drift": {**CFG["drift"], "max_window_months": 60}}
+    # 8 records inside 24 months, 30 more in the two years before that.
+    calls, years = records({2022: {"detect": 30}, 2025: {"detect": 8}})
+    fixed = assess(calls, years, CFG, today=TODAY)["A"]
+    assert fixed.status == "insufficient data" and fixed.window_months == 24
+    wide = assess(calls, years, cfg, today=TODAY)["A"]
+    assert wide.status == "stable" and wide.window_months > 24
+    assert wide.recent_evaluable == 38 and "widened" in wide.note
+
+
+def test_a_dense_target_keeps_the_standard_window():
+    cfg = {"drift": {**CFG["drift"], "max_window_months": 60}}
+    calls, years = records({2022: {"detect": 500}, 2025: {"detect": 200, "fail": 100}})
+    a = assess(calls, years, cfg, today=TODAY)["A"]
+    assert a.window_months == 24 and a.recent_evaluable == 300
+    assert "widened" not in a.note
+
+
+def test_widening_never_drops_a_recent_record():
+    cfg = {"drift": {**CFG["drift"], "max_window_months": 60}}
+    calls, years = records({2021: {"fail": 40}, 2025: {"detect": 5}})
+    a = assess(calls, years, cfg, today=TODAY)["A"]
+    assert a.recent_evaluable >= 5 and a.recent_detected >= 5

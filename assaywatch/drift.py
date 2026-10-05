@@ -105,6 +105,7 @@ class AssayDrift:
     threshold: float = 0.9
     min_records: int = 20
     min_decline: float = 0.0  # smallest fall from baseline that counts as declining
+    window_months: int = 0  # the recent window actually used, after any widening
     # Calls split by the recent-window cutoff as records are added (assess). When
     # empty, finalise falls back to splitting `years` at `recent_from`.
     recent_counts: Counter = field(default_factory=Counter)
@@ -252,6 +253,11 @@ def recent_cutoff_year(cfg: dict[str, Any], today: date | None = None) -> int:
     return recent_cutoff(cfg, today).year
 
 
+def months_back(anchor: date, months: int) -> date:
+    y, m = divmod(anchor.year * 12 + anchor.month - 1 - months, 12)
+    return date(y, m + 1, min(anchor.day, 28))
+
+
 def assess(
     calls: list[dict[str, Any]],
     years: dict[str, int | str],
@@ -262,50 +268,73 @@ def assess(
 
     `calls` are rows from the screen stage; `years` maps record id to its
     deposit date (ISO `YYYY-MM-DD`, as report.read_dates gives) or just a year.
-    With dates the recent window is exactly `recent_window_months` long; with
-    bare years it starts on 1 January of the cutoff year. A record with no
-    date is counted as skipped, never bucketed into a default, because an
-    unknown year silently landing in the recent window is the kind of error
-    that produces a confident wrong answer.
+    A record with no date is counted as skipped, never bucketed into a default,
+    because an unknown year silently landing in the recent window is the kind
+    of error that produces a confident wrong answer.
+
+    The recent window is `recent_window_months` long, but it widens per assay,
+    up to `max_window_months`, when that window holds fewer than
+    `min_records_for_drift` evaluable records. Without that, an assay for a
+    sparsely sequenced taxon is unjudgeable except in the years right after a
+    deposition burst: Bd ITS records arrive 56 in one year and then four,
+    so the standard Bd assay read "stable" in 2014 and "insufficient data"
+    ever since, on no change in the assay. Each assay reports the window it
+    actually used, and widening can only add older records, never drop recent
+    ones.
     """
     d = cfg.get("drift", {})
-    cutoff = recent_cutoff(cfg, today)
-    cutoff_iso = cutoff.isoformat()
+    base_months = int(d.get("recent_window_months", 24))
+    max_months = max(base_months, int(d.get("max_window_months", base_months)))
     threshold = float(d.get("detect_fraction_threshold", 0.9))
     min_records = int(d.get("min_records_for_drift", 20))
     min_decline = float(d.get("min_decline", 0.0))
+    anchor = today or date.today()
+    dated = any(isinstance(v, str) for v in years.values())
+
+    # Gather per assay first: the window cannot be chosen until the dates are known.
+    per: dict[str, list[tuple[str | None, str]]] = {}
+    for row in calls:
+        when = years.get(row["record_id"])
+        # A bare year keeps year granularity below, so it is anchored at 1 January.
+        iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
+        per.setdefault(row["assay_id"], []).append((iso, row["call"]))
 
     grouped: dict[str, AssayDrift] = {}
-    dated = any(isinstance(v, str) for v in years.values())
-    label: int | str = cutoff.strftime("%b %Y") if dated else cutoff.year
-    for row in calls:
-        # Created before the date check, so an assay whose records are all
-        # undated still appears (as no recent data) with its skipped count.
-        a = grouped.setdefault(
-            row["assay_id"],
-            AssayDrift(
-                row["assay_id"],
-                recent_from=label,
-                threshold=threshold,
-                min_records=min_records,
-                min_decline=min_decline,
-            ),
-        )
-        when = years.get(row["record_id"])
-        if when is None:
-            a.skipped_undated += 1
-            continue
-        if isinstance(when, str):
-            year, recent = int(when[:4]), when >= cutoff_iso
-        else:
-            year, recent = int(when), int(when) >= cutoff.year
-        a.years.setdefault(year, YearStats(year)).counts[row["call"]] += 1
-        (a.recent_counts if recent else a.baseline_counts)[row["call"]] += 1
+    for assay_id, rows in per.items():
+        evaluable = sorted((iso for iso, call in rows if iso and call in EVALUABLE), reverse=True)
 
-    for a in grouped.values():
+        def inside(iso: str, months: int) -> bool:
+            """Is this record inside a window of `months`, at the input's own granularity?"""
+            edge = months_back(anchor, months)
+            return iso >= edge.isoformat() if dated else int(iso[:4]) >= edge.year
+
+        months = base_months
+        if len(evaluable) >= min_records:
+            # Widen a year at a time, only as far as reaching min_records needs.
+            while months < max_months and sum(1 for x in evaluable if inside(x, months)) < min_records:
+                months += 12
+            months = min(months, max_months)
+        cutoff = months_back(anchor, months)
+        a = AssayDrift(
+            assay_id,
+            recent_from=(cutoff.strftime("%b %Y") if dated else cutoff.year),
+            threshold=threshold,
+            min_records=min_records,
+            min_decline=min_decline,
+            window_months=months,
+        )
+        for iso, call in rows:
+            if iso is None:
+                a.skipped_undated += 1
+                continue
+            a.years.setdefault(int(iso[:4]), YearStats(int(iso[:4]))).counts[call] += 1
+            (a.recent_counts if inside(iso, months) else a.baseline_counts)[call] += 1
         a.finalise()
+        if months > base_months:
+            a.note += f" (window widened to {months} months to reach {min_records} evaluable records)"
         if a.skipped_undated:
             a.note += f" ({a.skipped_undated} records skipped: no deposit date in the metadata)"
+        grouped[assay_id] = a
     return grouped
 
 

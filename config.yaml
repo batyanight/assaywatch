@@ -79,6 +79,7 @@ degeneracy:
 drift:
   detect_fraction_threshold: 0.90   # below this the assay is considered failing
   recent_window_months: 24          # how far back "recent" reaches
+  max_window_months: 60             # ...but widen to here for an assay with too few recent records
   min_records_for_drift: 20         # fewer evaluable records than this -> report, never flag
   min_records_for_coverage: 10      # fewer than this in total -> a coverage gap, not a result
   min_decline: 0.05                 # a fall smaller than this (5 points) is low coverage, not declining

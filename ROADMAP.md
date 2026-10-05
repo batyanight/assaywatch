@@ -70,6 +70,10 @@ into measurements, and it is also the paper's main figure.
       consensus assays are probably scored too harshly — which would inflate
       `fail` and so the flagged counts. Fix shape: a scoring block per
       chemistry, with the conventional numbers set by tier-2 validation.
+- [x] the recent window now widens per assay (`max_window_months`, 60) when the
+      standard window holds too few records, which is what made Bd unjudgeable;
+      `scripts/retrospective.py` recomputes any past date's verdict, so the
+      window and the minimum can be calibrated together against real cases
 - [ ] **The drift rules interact and are untested.** `recent_window_months: 24`
       with `min_records_for_drift: 20` is why Bd (Boyle 2004) reads "insufficient
       data" at 100% detected on 17 recent records: shorten the window and assays

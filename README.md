@@ -452,6 +452,17 @@ merely consistent with it failing. A flagged assay is then one of two things:
   at the same low share in every year. That is an assay used beyond its design,
   not one that has drifted.
 
+**The recent window widens when records are scarce.** It is
+`recent_window_months` long, but for an assay with fewer than
+`min_records_for_drift` evaluable records in that window it extends a year at a
+time, up to `max_window_months`, and the assay reports the window it used.
+Without this, an assay for a sparsely sequenced taxon is judgeable only in the
+years following a deposition burst: Bd ITS records arrive 56 in 2012 and then
+four, so the standard Bd assay read "stable" in 2014 and "insufficient data"
+every year after, on no change in the assay. Widening can only add older
+records, never drop recent ones. On the 2026-10-04 run, 116 of 141 assays use
+the plain 24-month window.
+
 Below `min_records_for_drift` it is reported
 as **insufficient data** and never flagged, whatever the fraction looks like;
 below threshold with an interval that still covers it, it is **watch**.
