@@ -17,12 +17,13 @@ oligos:
     seq_as_written: AIADRTCATCCATRTAYTG
 amplicon_bp: 787
 citation:
-  doi: null
+  doi: 10.1128/JVI.72.12.10305-10309.1998
   design_year: 1998
   n_sequences_at_design: null
   as_written: null
-  reference: 'Clewley, J. P., Lewis, J. C., Brown, D. W. & Gadsby, E. L. A novel simian immunodeficiency virus (SIVdrl) pol sequence from the drill monkey, Mandrillus leucophaeus. J Virol 72, 10305-10309 (1998).'
-  doi_verified: false
+  reference: Clewley, J. P., Lewis, J. C., Brown, D. W. & Gadsby, E. L. A novel simian immunodeficiency virus (SIVdrl) pol
+    sequence from the drill monkey, Mandrillus leucophaeus. J Virol 72, 10305-10309 (1998).
+  doi_verified: true
 use_context:
 - wildlife
 submitted_by: null
@@ -36,7 +37,8 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'PREDICT panel protocol P-029 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley, J.P. et al (1998).'
+  notes_curator: 'PREDICT panel protocol P-029 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley,
+    J.P. et al (1998).'
 needs_review:
-- DOI_MISSING
 - ORIENTATION_INFERRED_BY_POSITION

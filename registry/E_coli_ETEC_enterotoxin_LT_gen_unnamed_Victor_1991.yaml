@@ -17,12 +17,14 @@ oligos:
     seq: GAGGTGCATGATGAATCCAG
 amplicon_bp: 117
 citation:
-  doi: null
+  doi: 10.1128/jcm.29.1.158-161.1991
   design_year: 1991
   n_sequences_at_design: null
   as_written: Victor et al. 1991
-  doi_verified: false
-  reference: Victor T et al. 1991 (ETEC LT primers) — not resolved
+  doi_verified: true
+  reference: Victor T, du Toit R, van Zyl J, Bester AJ, van Helden PD. 1991. Improved method for the routine identification
+    of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit. J Clin Microbiol
+    29:158-161
 use_context:
 - public_health
 - veterinary
@@ -37,5 +39,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_MISSING
 - ORIENTATION_INFERRED_BY_POSITION

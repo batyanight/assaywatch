@@ -34,4 +34,4 @@ Nothing is filled in from memory.
 
 `sequence_verification` counts how each oligo fared against its own paper: `exact` means found inside an oligo the paper lists, `in-text` means found somewhere in the paper but not in a listed oligo, `absent` means not found, and `no-full-text`/`no-doi` mean it could not be checked at all. Blank means the entry was added after the last run.
 
-`needs_review` is non-empty for 110 of 164 assays. A flag is a known, recorded caveat, not a defect to hide.
+`needs_review` is non-empty for 109 of 164 assays. A flag is a known, recorded caveat, not a defect to hide.

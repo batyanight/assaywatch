@@ -15,12 +15,13 @@ oligos:
     seq: AGGAACTCCGGATGTTCC
 amplicon_bp: null
 citation:
-  doi: null
+  doi: 10.1128/JCM.39.6.2248-2253.2001
   design_year: 2001
   n_sequences_at_design: null
   as_written: Xiao, et al. JOURNAL OF CLINICAL MICROBIOLOGY. 2001
-  doi_verified: false
-  reference: Xiao L et al. 2001 J Clin Microbiol (E. cuniculi PTP genotyping) — DOI not confirmed
+  doi_verified: true
+  reference: Xiao L, Li L, Visvesvara GS, Moura H, Didier ES, Lal AA. 2001. Genotyping Encephalitozoon cuniculi by multilocus
+    analyses of genes with repetitive sequences. J Clin Microbiol 39:2248-2253
 use_context:
 - veterinary
 submitted_by: null
@@ -33,5 +34,4 @@ source:
   positive_control: Rabbit E. cuniculi, UC7
   nested_round: null
   notes: null
-needs_review:
-- DOI_MISSING
+needs_review: null
