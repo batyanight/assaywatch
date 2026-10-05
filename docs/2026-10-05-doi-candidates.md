@@ -124,3 +124,28 @@ three papers, none by Wang and none a PCR primer paper: Makino 1998 (plasmid
 sequence), Schmidt 1996 (hly operon map), Bauer 1996 (RTX toxin). One reference
 string covering two different organisms suggests a multiplex paper, but the
 combination did not resolve. Needs the full citation from the lab spreadsheet.
+
+## Update, later on 2026-10-05 (local machine, Crossref reachable)
+
+All five resolved DOIs above passed `resolve_citations.py` and are now in
+`registry/` with `doi_verified: true`.
+
+**Wang 1997 is resolved too, from the primer sequences, the route suggested
+above for Müller 2011.** A Europe PMC full-text search on O157-3/O157-4 finds
+them under the same names in Shija & Nonga 2026 (Vet Med Sci), Table 1, cited
+to Wang RF, Cao WW, Cerniglia CE 1997, "A universal protocol for PCR detection
+of 13 species of foodborne pathogens in foods", J Appl Microbiol 83:727-736,
+`10.1046/j.1365-2672.1997.00300.x`. Its abstract names both *E. coli* O157:H7
+and *Y. pseudotuberculosis*, which is why one reference string covered both
+entries. The O157 entry is confirmed by sequence through the citing table; the
+*Y. pseudotuberculosis* entry only by reference, species list and naming scheme,
+and says so. Both amplify in `check_submission.py`.
+
+**Müller 2011 CDV is still unresolved.** None of the walking primers 1F, 1R,
+2F or 2R appears in any Europe PMC full text, on either strand, so the
+sequence route needs the paper or the lab's own records.
+
+Same search, same session: the CMV gB 4007/4125 pairs, cited to Prepens 2007
+but absent from it, were all four found in Deckers et al. 2009 Virol J 6:210
+and re-cited. The query, for next time:
+`https://www.ebi.ac.uk/europepmc/webservices/rest/search?query="<SEQ>"&format=json`.

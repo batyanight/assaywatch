@@ -16,12 +16,13 @@ oligos:
     seq: TCGTCACCTGACCCTGAT
 amplicon_bp: 440
 citation:
-  doi: null
+  doi: 10.1046/j.1365-2672.1997.00300.x
   design_year: 1997
   n_sequences_at_design: null
   as_written: Wang et al 1997
-  doi_verified: false
-  reference: Wang et al 1997 (O157 hlyA / Y. pseudotuberculosis inv) — not resolved
+  doi_verified: true
+  reference: Wang RF, Cao WW, Cerniglia CE. 1997. A universal protocol for PCR detection of 13 species of foodborne pathogens
+    in foods. J Appl Microbiol 83:727-736
 use_context:
 - public_health
 - veterinary
@@ -38,6 +39,11 @@ source:
   - Mark Schrenzel,1,* J. Lindsay Oaks,2 Dave Rotstein,3 Gabriel Maalouf,1 Eric Snook,1 Cal Sandfort,4 and Bruce Rideout1
   - Characterization of a New Species of Adenovirus in Falcons
   - 'J Clin Microbiol. 2005 July; 43(7): 3402–3413.'
+  notes_curator: DOI RESOLVED 2026-10-05, LESS DIRECTLY THAN ITS SIBLING E_coli_O157_H7_hlyA_gene_unnamed_Wang_1997. That
+    entry's primers were found under the same names in a later paper's table citing Wang RF, Cao WW, Cerniglia CE 1997 J Appl
+    Microbiol 83:727-736, whose abstract names Y. pseudotuberculosis among its 13 species. YP-3 and YP-4 appear in no open
+    full text (Europe PMC, both strands), so this entry rests on the shared reference string, the species list and the matching
+    primer-naming scheme (O157-3/-4, YP-3/-4), not on a printed sequence. Check against Wang 1997 Table 1 when the paper is
+    in hand.
 needs_review:
-- DOI_MISSING
 - ORIENTATION_INFERRED_BY_POSITION
