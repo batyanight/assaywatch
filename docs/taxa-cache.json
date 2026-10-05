@@ -17,6 +17,21 @@
   "rank": "subfamily",
   "scientific_name": "Chordopoxvirinae"
  },
+ "10242": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Orthopoxvirus"
+ },
+ "10244": {
+  "common_name": "",
+  "lineage_tail": [
+   "Orthopoxvirus",
+   "Orthopoxvirus monkeypox"
+  ],
+  "rank": "no rank",
+  "scientific_name": "Monkeypox virus"
+ },
  "10260": {
   "common_name": "",
   "lineage_tail": [
@@ -1210,6 +1225,12 @@
   "lineage_tail": [],
   "rank": "species",
   "scientific_name": "Lentivirus simimdef"
+ },
+ "3431483": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "species",
+  "scientific_name": "Orthopoxvirus monkeypox"
  },
  "35082": {
   "common_name": "",
