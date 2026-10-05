@@ -121,9 +121,15 @@ def main() -> int:
     for spec in (NCBI, ELSEVIER, ELSEVIER_INSTTOKEN):
         print(f"  {describe(spec)}")
     key = ncbi_api_key()
+    # Print NCBI's published limit and the interval separately. Printing the
+    # derived rate instead said "9 requests/second" for a perfectly good key -
+    # because the interval is deliberately a shade wider than 1/10 s - which
+    # reads like the key is underperforming.
+    limit = 10 if key else 3
     print(
-        f"\nE-utilities will be called at {1 / ncbi_interval():.0f} requests/second"
-        f" ({'keyed' if key else 'unkeyed'})."
+        f"\nE-utilities: NCBI allows {limit} requests/second "
+        f"{'with' if key else 'without'} a key, and this client waits "
+        f"{ncbi_interval():.2f}s between calls to stay just inside it."
     )
     if not key:
         print(

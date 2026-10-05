@@ -96,3 +96,23 @@ def test_a_directory_where_the_key_file_should_be_is_not_a_key(tmp_path, monkeyp
     monkeypatch.delenv("NCBI_API_KEY", raising=False)
     (tmp_path / ".secrets" / "ncbi.key").mkdir(parents=True)
     assert ncbi_api_key(root=tmp_path) == ""
+
+
+def test_the_report_names_ncbis_published_limit_not_a_derived_rate(capsys, monkeypatch):
+    """Regression for a line that read "9 requests/second" on a valid key.
+
+    The interval is deliberately a shade wider than 1/10 s for margin, so
+    printing 1/interval understated a working key and looked like a fault.
+    """
+    from assaywatch.credentials import main
+
+    monkeypatch.setenv("NCBI_API_KEY", "x" * 36)
+    main()
+    out = capsys.readouterr().out
+    assert "10 requests/second with a key" in out, out
+    assert "9 requests" not in out, out
+
+    monkeypatch.delenv("NCBI_API_KEY", raising=False)
+    main()
+    out = capsys.readouterr().out
+    assert "3 requests/second without a key" in out, out
