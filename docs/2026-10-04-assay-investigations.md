@@ -191,3 +191,50 @@ Also noted: the Mutnale failures include a 2 bp insertion in the probe
 footprint, and the matcher is ungapped by design, so that case cannot be scored
 as an indel at all — `assaywatch/gapped.py` exists but only
 `scripts/indel_check.py` uses it.
+
+### Are per-oligo binding positions worth recording? (2026-10-04)
+
+Not fetched from NCBI — the matcher computes them locally in milliseconds, and
+a remote search would need the sequence anyway. But recording the positions we
+already compute is worth it, for one reason: anchored on a credible site, they
+separate a **truncated deposit** from a **diverged binding site**, and nothing
+else does.
+
+Measured on the 464 Bd ITS records that yield no amplicon for Boyle 2004,
+gating single-oligo hits with the chance E-value (≤ 0.01) so that chance
+matches of the 15 nt probe are not counted:
+
+| | |
+|---|---|
+| credible reverse-primer site | 393 (375 of them a perfect match) |
+| credible probe site | 40 (37 perfect) |
+| probe "hits" that are chance, correctly rejected | 411 |
+
+Then anchoring on the best credible reverse site and asking whether the probe's
+expected window is even inside the record:
+
+| | |
+|---|---|
+| probe window runs off the end — truncated deposit | **392** |
+| no credible anchor at all | 71 |
+| probe window present and the probe matches | 1 |
+| probe window present but no credible probe match (i.e. divergence) | **0** |
+
+So the answer on both counts:
+
+* **Yes, record them.** They turn "464 records excluded" into 392 truncated, 71
+  unanchored, 1 usable — and the first number is the one that matters, because
+  a `stable` verdict resting on 54 of 518 ITS records is resting on a biased
+  11%. The report currently gives the evaluable count but never says that most
+  exclusions are truncations rather than failures.
+* **No, they will not catch the Bd drift.** Zero records show the probe window
+  present with no credible match. The Mutnale 2018 haplotypes are deposited as
+  fragments that stop before the probe footprint, so neither amplicon screening
+  nor anchored single-oligo screening can judge them. The honest verdict for
+  Boyle 2004 is therefore not "stable" but **"the probe footprint cannot be
+  assessed from GenBank: 392 of 464 ITS deposits are truncated before it"**.
+
+That is a limit of the data, not of the thresholds, and it is worth stating
+plainly in the paper: for assays whose target is deposited as short fragments,
+in-silico drift surveillance can confirm the primer footprints and say nothing
+about the probe.
