@@ -21,6 +21,7 @@ citation:
   as_written: Johnson, AJ et al. RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES. Journal of Wildlife Diseases, 44(4), 2008, pp. 851–863
   doi_verified: true
   reference: Johnson AJ et al. 2008. J Wildl Dis 44:851-863
+  oligos_designed_here: false
 use_context:
 - wildlife
 - veterinary

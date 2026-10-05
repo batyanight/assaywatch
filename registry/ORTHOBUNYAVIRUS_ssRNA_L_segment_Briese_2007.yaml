@@ -1,11 +1,11 @@
 id: ORTHOBUNYAVIRUS_ssRNA_L_segment_Briese_2007
-name: 'ORTHOBUNYAVIRUS (ssRNA) — L segment, BUNL-5n/BUNL650R (Briese 2007)'
+name: ORTHOBUNYAVIRUS (ssRNA) — L segment, BUNL-5n/BUNL650R (Briese 2007)
 target:
   taxid: 11572
-  gene: 'L segment'
+  gene: L segment
   genome_type: ssRNA-
   taxon_name: Orthobunyavirus
-  query: 'L[Gene] OR "L segment"[Title] OR polymerase[Title] OR "RNA-dependent RNA polymerase"[Title] OR "complete genome"[Title]'
+  query: L[Gene] OR "L segment"[Title] OR polymerase[Title] OR "RNA-dependent RNA polymerase"[Title] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:
@@ -23,6 +23,7 @@ citation:
   as_written: null
   reference: 'Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary

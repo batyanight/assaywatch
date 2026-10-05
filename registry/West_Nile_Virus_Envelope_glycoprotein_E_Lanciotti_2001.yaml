@@ -1,4 +1,4 @@
-id: West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001
+id: West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001
 name: West Nile Virus — Envelope glycoprotein E
 target:
   taxid: 11082
@@ -18,8 +18,7 @@ citation:
   doi: 10.1128/JCM.39.12.4506-4513.2001
   design_year: 2001
   n_sequences_at_design: null
-  as_written: Lancotti et al. Nucleic acid sequence-based amplification assays for rapid detection of West Nile and St. Louis
-    Encephalitis, J. Clin. Microbiology, Dec 2001, p4506-4513.
+  as_written: Lancotti et al. Nucleic acid sequence-based amplification assays for rapid detection of West Nile and St. Louis Encephalitis, J. Clin. Microbiology, Dec 2001, p4506-4513.
   doi_verified: true
   reference: Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
 use_context:
@@ -37,6 +36,7 @@ source:
   nested_round: null
   notes:
   - WNV (N2011-0617, Red tailed hawk, brain)
+  notes_curator: 'id corrected 2026-10-04: it misspelled Lanciotti as ''Lancotti''. Crossref confirms the author.'
 needs_review:
 - MODIFIED_IN_HOUSE
 - ORIENTATION_INFERRED_BY_POSITION

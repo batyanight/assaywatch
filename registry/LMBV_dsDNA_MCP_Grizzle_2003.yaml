@@ -22,6 +22,7 @@ citation:
   as_written: null
   reference: Grizzle, J. M., Altinok, I. & Noyes, A. D. PCR method for detection of largemouth bass virus. Diseases of Aquatic Organisms 54, 29-33 (2003).
   doi_verified: true
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary

@@ -964,7 +964,7 @@ assays:
   Morbillivirus_including_CDV_P_gene:
     citation: {doi: 10.1006/viro.1993.1217, design_year: 1993, doi_verified: false,
                reference: "Barrett T et al. 1993. Virology 193:1010-1012 (Grosh F/R are the same sequences as MorbF/MorbR)"}
-  West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001:
+  West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001:
     target: {gene: E (envelope)}
   # Deprecate what the spreadsheet itself says not to use.
   Entamoeba_18S_small_subunit_SSU_2014:

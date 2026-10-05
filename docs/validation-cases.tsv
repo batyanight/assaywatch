@@ -61,7 +61,7 @@ Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015	2024-06-29	works	10.3390/mi
 # sensitivity gap, not a false negative); and a pan-lyssavirus evaluation that
 # is excellent but tests the Heaton 1997 primers, which nobody could tie to the
 # PREDICT set in this registry.
-West_Nile_Virus_Envelope_glycoprotein_E_Lancotti_2001	2003-01-22	works	10.1128/JCM.41.8.3661-3667.2003 Kauffman 2003: the NYSDOH operational WNV surveillance used the Lanciotti envelope primer/probe set as assay set 1, 0.08 PFU detection limit, across >12,400 dead birds and >24,000 mosquito pools in 2000-2002
+West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001	2003-01-22	works	10.1128/JCM.41.8.3661-3667.2003 Kauffman 2003: the NYSDOH operational WNV surveillance used the Lanciotti envelope primer/probe set as assay set 1, 0.08 PFU detection limit, across >12,400 dead birds and >24,000 mosquito pools in 2000-2002
 Pan_flavivirus_NS5_3_round1	2017-03-31	works	10.3390/pathogens9121038 Perez-Ramirez 2020: the MediLabSecure external quality assessment used this hemi-nested NS5 PCR as its recommended generic flavivirus screen; the reference lab detected all eight positive panel samples (WNV lineages 1 and 2, Usutu, JEV)
 Pan_flavivirus_NS5_3_round2	2017-03-31	works	10.3390/pathogens9121038 Perez-Ramirez 2020: same external quality assessment; not independent of the round1 row
 Pan_flavivirus_NS5_3_round1	2018-05-31	partial	10.3390/v13112148 Guarido 2021: could not amplify the larger NS5 fragment from 12 of 17 flavivirus-positive mosquito pools, all classical insect-specific flaviviruses. Entered as partial: the gap is a virus group the mammalian-flavivirus primers were not designed for

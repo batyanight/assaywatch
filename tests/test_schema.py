@@ -167,3 +167,19 @@ def test_query_may_not_begin_with_not():
     assert t.query.startswith("txid10492")
     # A mid-query NOT is correct and must keep working: fourteen registry entries use it.
     Target(taxid=209, query='(16S[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]')
+
+
+def test_oligos_designed_here_is_nullable_and_defaults_to_unknown():
+    """The field that keeps 'read the sequences from' apart from 'designed them'.
+
+    Conflating those scoped the ranavirus MCP assay away from the fish
+    ranaviruses on 2026-10-04, because its citation was a box-turtle study while
+    its oligos are Mao et al. 1997's pan-ranavirus pair. The default must be
+    None, not True: an unexamined entry has to read as unknown rather than as
+    vouched for.
+    """
+    from assaywatch.schema import Citation
+
+    assert Citation().oligos_designed_here is None
+    assert Citation(oligos_designed_here=False).oligos_designed_here is False
+    assert Citation(oligos_designed_here=True).oligos_designed_here is True

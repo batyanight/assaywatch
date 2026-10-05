@@ -1,11 +1,11 @@
 id: ORTHOBUNYAVIRUS_ssRNA_M_segment_internal_Briese_2007
-name: 'ORTHOBUNYAVIRUS (ssRNA) — M segment internal, BUN-M-IXf/XIIr (Briese 2007)'
+name: ORTHOBUNYAVIRUS (ssRNA) — M segment internal, BUN-M-IXf/XIIr (Briese 2007)
 target:
   taxid: 11572
-  gene: 'M segment'
+  gene: M segment
   genome_type: ssRNA-
   taxon_name: Orthobunyavirus
-  query: 'S[Gene] OR M[Gene] OR "S segment"[Title] OR "M segment"[Title] OR nucleocapsid[Title] OR glycoprotein[Title] OR "complete genome"[Title]'
+  query: S[Gene] OR M[Gene] OR "S segment"[Title] OR "M segment"[Title] OR nucleocapsid[Title] OR glycoprotein[Title] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:
@@ -22,6 +22,7 @@ citation:
   as_written: null
   reference: 'Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary

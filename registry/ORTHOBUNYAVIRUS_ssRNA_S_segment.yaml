@@ -1,19 +1,19 @@
 id: ORTHOBUNYAVIRUS_ssRNA_S_segment
-name: 'ORTHOBUNYAVIRUS (ssRNA) — S segment (PREDICT P-022)'
+name: ORTHOBUNYAVIRUS (ssRNA) — S segment (PREDICT P-022)
 target:
   taxid: 11572
-  gene: 'S segment'
+  gene: S segment
   genome_type: ssRNA-
   taxon_name: Orthobunyavirus
-  query: 'S[Gene] OR M[Gene] OR "S segment"[Title] OR "M segment"[Title] OR nucleocapsid[Title] OR glycoprotein[Title] OR "complete genome"[Title]'
+  query: S[Gene] OR M[Gene] OR "S segment"[Title] OR "M segment"[Title] OR nucleocapsid[Title] OR glycoprotein[Title] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:
-    name: 'BUNS-5-U-6'
+    name: BUNS-5-U-6
     seq: CGGCGCCAGTAGTGTACTCCAC
     tail_5prime: CGGCGCC
   reverse:
-    name: 'BUNS-3-L947'
+    name: BUNS-3-L947
     seq: GCGGCCAGTAGTGTGCTCCAC
     tail_5prime: GCGGCC
 amplicon_bp: 930
@@ -24,6 +24,7 @@ citation:
   as_written: null
   reference: 'Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary
@@ -33,7 +34,7 @@ source:
   spreadsheet: null
   predict_protocol: P-022
   rows: null
-  positive_control: 'Universal Control 2'
+  positive_control: Universal Control 2
   nested_round: null
   notes: null
   notes_curator: 'Imported 2026-10-04 from the PREDICT panel''s own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. Single round. The panel notes the source paper gives primer sets for all three segments and recommends screening with at least two; the M-segment assay is P-023. All three terminal primers (BUNS-5-U-6, BUNS-3-L947, BUN-S3-R) carry a non-templated 5'' cloning tail; while they were entered untailed, 0 of 2056 orthobunyavirus records yielded an amplicon. Evidence that first identified the tails (2026-10-04): the conserved terminus is present in only 4% of deposits, and even in records that carry it the full primer finds no site within 6 mismatches, while dropping CGGCGCC from BUNS-5-U-6 matches perfectly (0 mismatches in 6 of 6 records) and dropping GCGGCC from BUNS-3-L947 leaves 1. GGCGCC is a KasI/NarI site. Tails CONFIRMED 2026-10-04 against Briese et al. 2007 Table 1 (doi:10.1007/s00705-007-1069-z), obtained in full. The table''s footnote reads "Non-authentic bases added to some primers are indicated by italics", and the italics are carried by a distinct font face in the PDF, so the boundary is readable rather than inferred: CGGCGCC on BUNS-5-U-6, GCGGCC on BUNS-3-L947, CGCGCC on BUN-S3-R, and no italic run on M3560-F or on any of the paper''s internal primers. All three boundaries match what was inferred from sequence data on 2026-10-04 character for character, which is the one independent check this registry has had of the tail-inference method. tail_5prime is now set. Note BUN-S3-R''s authentic part is 14 nt, one below the registry''s oligo floor; the floor for a declared tail''s binding part was lowered to 14 rather than the published primer being rewritten.'

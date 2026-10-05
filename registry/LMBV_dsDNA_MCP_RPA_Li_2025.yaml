@@ -1,11 +1,11 @@
 id: LMBV_dsDNA_MCP_RPA_Li_2025
-name: 'LARGEMOUTH BASS VIRUS / Santee-Cooper ranavirus (dsDNA) — MCP, RPA F1/R1 (Li 2025)'
+name: LARGEMOUTH BASS VIRUS / Santee-Cooper ranavirus (dsDNA) — MCP, RPA F1/R1 (Li 2025)
 target:
   taxid: 10492
   gene: MCP
   genome_type: dsDNA
   taxon_name: Ranavirus micropterus1 (Santee-Cooper ranavirus)
-  query: 'txid3432136[Organism:exp] OR txid2487147[Organism:exp] OR txid3045952[Organism:exp] OR txid3691958[Organism:exp] OR txid3042780[Organism:exp] OR txid3045951[Organism:exp] OR txid2951525[Organism:exp]'
+  query: txid3432136[Organism:exp] OR txid2487147[Organism:exp] OR txid3045952[Organism:exp] OR txid3691958[Organism:exp] OR txid3042780[Organism:exp] OR txid3045951[Organism:exp] OR txid2951525[Organism:exp]
 chemistry: rpa
 oligos:
   forward:
@@ -20,8 +20,9 @@ citation:
   design_year: 2025
   n_sequences_at_design: 19
   as_written: null
-  reference: 'Li, N. et al. Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system. Frontiers in Microbiology 16, 1599006 (2025).'
+  reference: Li, N. et al. Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system. Frontiers in Microbiology 16, 1599006 (2025).
   doi_verified: true
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary

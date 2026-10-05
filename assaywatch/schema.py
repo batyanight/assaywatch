@@ -214,6 +214,26 @@ class Citation(Strict):
     as_written: str | None = None
     doi_verified: bool = False
     reference: str | None = None
+    # Does the cited paper DESIGN these oligos, or merely use them?
+    #
+    # This exists because conflating the two produced a wrong scoping decision
+    # on 2026-10-04. The ranavirus MCP oligos were stored under Johnson et al.
+    # 2008, a box-turtle and tortoise study, so the assay was scoped away from
+    # the fish ranaviruses. They are in fact byte-identical to FV3-54F /
+    # FV3-584R of Mao et al. 1997, which Grizzle et al. 2003 shows amplify every
+    # ranavirus tested, fish included. The citation named where the sequences
+    # were READ FROM; the scope follows from where they were DESIGNED.
+    #
+    #   True   the cited paper designed them; its claims bound the scope
+    #   False  the cited paper used someone else's; find the design paper
+    #          before scoping, and say so in source.notes_curator
+    #   None   not established yet. The honest default, and the reason this
+    #          field is nullable rather than defaulting to True.
+    #
+    # scripts/audit_provenance.py finds entries where the oligo names disagree
+    # with the cited author, which is how the Johnson case would have been
+    # caught by inspection.
+    oligos_designed_here: bool | None = None
 
     @field_validator("doi")
     @classmethod
