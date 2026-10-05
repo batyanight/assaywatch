@@ -1,0 +1,51 @@
+id: ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021
+name: AVIAN ORTHOBORNAVIRUS — X/P triplex qPCR, passerine probe (Sigrist 2021)
+target:
+  taxid: 186458
+  gene: X/P
+  genome_type: ssRNA-
+  taxon_name: Orthobornavirus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: BornaPCA3(+)
+    seq: CCCGCAGACAGYACGT
+  reverse:
+    name: BornaPCA6(-)
+    seq: GAGATCATGGANGGRTTCTT
+  probe:
+    name: BornaC_Aby
+    seq: AGATGCATTGACCCARCCRGT
+    reporter: Abberior Star 635P
+    quencher: BHQ-2
+  alternates:
+  - name: BornaPCA3A(+)
+    seq: GATCCGCAGACAGYACGT
+    orientation: forward
+amplicon_bp: 123
+citation:
+  doi: 10.3390/v13071358
+  design_year: 2021
+  n_sequences_at_design: null
+  as_written: null
+  reference: Sigrist, B., Geers, J., Albini, S., Rubbenstroth, D. & Wolfrum, N. A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses. Viruses 13, 1358 (2021).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-05. SEQUENCES READ OFF A FIGURE IMAGE: this paper has no primer table in text form. Figure 2C prints the primer and probe sequences, and Figure 2B shows their footprints boxed over an alignment of orthobornavirus X/P gene sequences, positions 90/93 to 222/225. The page was rendered and read as an image. THE REVERSE PRIMER IS STORED REVERSE-COMPLEMENTED FROM WHAT THE FIGURE PRINTS, and the records are why. Figure 2''s caption says the boxes mark primer BINDING REGIONS, and screening confirms it: BornaPCA6(-) as printed matches the SAME strand as the forward primers in real records, so taking it literally as an oligo would give a pair that can never amplify. The stored reverse oligo is therefore GAGATCATGGANGGRTTCTT, the reverse complement of the printed AAGAAYCCNTCCATGATCTC. This is the failure mode CONTRIBUTING.md warns about - a reverse primer stored without being reverse-complemented - caught by screening rather than by reading. VERIFIED: 3 of 24 strided Orthobornavirus records gave a product, every one exactly 123 bp, which is consistent with the alignment''s stated span. amplicon_bp is measured; the paper states no size. The hit rate is low because most deposits are partial sequences of other genes. THE FORWARD IS A POOL of two primers that differ only in their 5'' extension, BornaPCA3 and BornaPCA3A, which the alignment shows matching different virus groups. Both are recorded, with the second as an alternate. THE PAPER''S ASSAY IS A TRIPLEX AND IS SPLIT INTO THREE ENTRIES, one per probe, on the same reasoning used for the Perkinsea and Bd lineage assays: the three probes identify different host groups on one amplicon, so pooling them would collapse three different findings into one number. This entry carries BornaC_Aby, the probe for bornaviruses of PASSERIFORMES, chiefly canary bornaviruses. The paper records one caveat worth carrying: BLAST showed this probe has 90% nucleotide identity with the corresponding BoDV-1 sequence, so it is the least specific of the three and a detection should not be read as a passerine-virus call without confirmation. It was not present in the 3 sampled records that amplified, which is expected given those are psittacine viruses. CITATION CORRECTED before commit: the reference was first written from memory as Nobach et al. and was wrong. Crossref gives Sigrist, Geers, Albini, Rubbenstroth & Wolfrum, ''A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses''. The entry ids were renamed to match. Recorded because this registry has been bitten by misattributed citations repeatedly, and the only reason this one did not land was that every DOI is checked against Crossref before the entry is kept.'
+needs_review:
+- PROBE_90PC_IDENTITY_WITH_BODV1
+- REVERSE_PRIMER_RC_FROM_FIGURE
+- SEQUENCES_READ_FROM_FIGURE_IMAGE

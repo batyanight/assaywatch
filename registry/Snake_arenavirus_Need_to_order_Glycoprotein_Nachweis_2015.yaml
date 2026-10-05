@@ -18,10 +18,9 @@ citation:
   doi: 10.15654/TPK-140743
   design_year: 2015
   n_sequences_at_design: null
-  as_written: 'Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo,
-    Tierärztl Prax 2015; 43 (K): 239–247. http://dx.doi.org/10.15654/TPK-140743'
+  as_written: 'Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo, Tierärztl Prax 2015; 43 (K): 239–247. http://dx.doi.org/10.15654/TPK-140743'
   doi_verified: true
-  reference: Tierärztl Prax Ausg K 2015;43:239-247
+  reference: 'Aqrawi, T., Stöhr, A. C., Knauf-Witzens, T., Krengel, A., Heckers, K. O. & Marschang, R. E. Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo. Tierärztliche Praxis Ausgabe K: Kleintiere / Heimtiere 43, 239-247 (2015).'
 use_context:
 - veterinary
 - wildlife
@@ -35,6 +34,7 @@ source:
   positive_control: Universal control 5
   nested_round: null
   notes: null
+  notes_curator: 'CITATION COMPLETED 2026-10-05 by scripts/check_citations.py, which flagged that the reference named no author at all - it read only ''Tierärztl Prax Ausg K 2015;43:239-247''. Crossref gives Aqrawi, Stöhr, Knauf-Witzens, Krengel, Heckers & Marschang. The entry id''s ''Nachweis'' is not a surname: it is the first word of the German title, which is how the id was generated. The id is left alone to avoid breaking references to it, but it should not be read as an author name.'
 needs_review:
 - NEED_TO_ORDER
 - ORIENTATION_INFERRED_BY_POSITION

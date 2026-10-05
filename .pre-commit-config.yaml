@@ -16,3 +16,13 @@ repos:
         language: system
         pass_filenames: false
         files: ^registry/.*\.yaml$
+      - id: check-citations
+        # Every citation must match Crossref. A reference written from memory is
+        # how doi:10.3390/v13071358 was briefly recorded as Nobach et al. when
+        # the paper is Sigrist et al.; it was caught by luck, so it is a gate now.
+        # Runs against the committed Crossref cache, so it needs no network.
+        name: citations match Crossref
+        entry: python scripts/check_citations.py --quiet
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|docs/papers-index\.cache\.json)$
