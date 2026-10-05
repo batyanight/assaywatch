@@ -45,6 +45,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch.credentials import with_api_key  # noqa: E402
 from assaywatch.degeneracy import assay_degeneracy  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
@@ -191,7 +192,7 @@ def check_taxon(assay, res: Result, email: str) -> None:
     try:
         r = requests.get(
             "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
-            params={"db": "taxonomy", "id": str(taxid), "email": email, "tool": "assaywatch"},
+            params=with_api_key({"db": "taxonomy", "id": str(taxid), "email": email, "tool": "assaywatch"}),
             timeout=60,
         )
         r.raise_for_status()

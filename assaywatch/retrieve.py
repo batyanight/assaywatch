@@ -40,8 +40,9 @@ responsible for taking the newest version of each accession.
 
 Politeness and rate limits are not optional: NCBI allows 3 requests per second
 without an API key and 10 with one, and asks for a contact address. `--email`
-is required, `NCBI_API_KEY` is read from the environment if set, and the
-client sleeps between calls either way.
+is required; the API key is read from `$NCBI_API_KEY` or `.secrets/ncbi.key`
+if either is set (see `assaywatch/credentials.py`), and the client sleeps
+between calls either way.
 
 The HTTP transport is injectable (`transport=`) so the whole stage can be
 tested against canned responses without touching the network; see
@@ -63,6 +64,8 @@ from dataclasses import asdict, dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
+
+from assaywatch.credentials import ncbi_api_key
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 Transport = Callable[[str, dict[str, Any]], str]
@@ -603,7 +606,10 @@ def main(argv: list[str] | None = None) -> int:
 
     cfg = load_config(args.config)
     _lock = None if args.dry_run else acquire_lock(cfg)  # noqa: F841 - held until exit
-    transport = http_transport(args.email, os.environ.get("NCBI_API_KEY"))
+    # Resolved once: the environment variable, else .secrets/ncbi.key. Both the
+    # E-utilities and Datasets transports take the same key.
+    api_key = ncbi_api_key() or None
+    transport = http_transport(args.email, api_key)
     fetch = None  # Datasets transport, created on first `asm` group
     targets = targets_from_registry(args.paths, cfg)
     if args.taxid:
@@ -617,7 +623,7 @@ def main(argv: list[str] | None = None) -> int:
             if group == "asm":
                 from assaywatch.assemblies import AssemblyError, datasets_transport, retrieve_assemblies
 
-                fetch = fetch or datasets_transport(os.environ.get("NCBI_API_KEY"))
+                fetch = fetch or datasets_transport(api_key)
                 try:
                     run = retrieve_assemblies(
                         taxid,

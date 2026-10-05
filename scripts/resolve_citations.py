@@ -26,12 +26,18 @@ from __future__ import annotations
 
 import argparse
 import re
+import sys
 import time
 import unicodedata
 from pathlib import Path
 
 import requests
 import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
 
 CROSSREF = "https://api.crossref.org/works/{doi}"
 ESEARCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
@@ -79,7 +85,9 @@ def crossref_matches(msg: dict, year: int | None, reference: str) -> tuple[bool,
 def taxid_lookup(name: str, email: str) -> list[str]:
     r = requests.get(
         ESEARCH,
-        params={"db": "taxonomy", "term": name, "retmode": "json", "email": email, "tool": "assaywatch"},
+        params=with_api_key(
+            {"db": "taxonomy", "term": name, "retmode": "json", "email": email, "tool": "assaywatch"}
+        ),
         timeout=30,
     )
     r.raise_for_status()
@@ -125,7 +133,7 @@ def main() -> None:
             query = re.sub(r"\(.*?\)", "", name).strip()
             if query not in tax_cache:
                 tax_cache[query] = taxid_lookup(query, args.email)
-                time.sleep(0.35)
+                time.sleep(ncbi_interval())
             ids = tax_cache[query]
             if len(ids) == 1:
                 tgt["taxid"] = int(ids[0])

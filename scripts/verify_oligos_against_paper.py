@@ -109,6 +109,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
 from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
@@ -395,7 +396,9 @@ def get(url: str, timeout: int = 60) -> str | None:
 
 def pmcid_for(doi: str, email: str) -> str | None:
     """PMC id for a DOI, via NCBI's converter then Europe PMC as a fallback."""
-    q = urllib.parse.urlencode({"ids": doi, "format": "json", "tool": "assaywatch", "email": email})
+    q = urllib.parse.urlencode(
+        with_api_key({"ids": doi, "format": "json", "tool": "assaywatch", "email": email})
+    )
     body = get(f"{CONVERTER}?{q}")
     if body:
         try:
@@ -569,10 +572,10 @@ def main(argv: list[str] | None = None) -> int:
             src = f"pdf:{pdf_path.name}"
         if text is None and doi:
             pmcid = pmcid_for(doi, args.email)
-            time.sleep(0.34)  # NCBI's 3/sec without an API key
+            time.sleep(ncbi_interval())
             if pmcid:
                 text = paper_text(pmcid)
-                time.sleep(0.34)
+                time.sleep(ncbi_interval())
                 if text:
                     src = f"pmc:{pmcid}"
         if text:

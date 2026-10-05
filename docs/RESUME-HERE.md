@@ -42,6 +42,30 @@ Crossref (`scripts/check_citations.py`, which reads the committed
 `docs/papers-index.cache.json` and so still passes offline - but a NEW DOI
 cannot be verified without Crossref, and must wait rather than be entered).
 
+## The NCBI API key
+
+Set it in ONE place and every caller picks it up. Resolution order, first hit
+wins:
+
+1. `$NCBI_API_KEY`
+2. `.secrets/ncbi.key` (gitignored, so it cannot be committed by accident)
+
+Check it took, without printing it:
+
+    python -m assaywatch.credentials
+
+In a cloud session, add `NCBI_API_KEY` under the environment's settings rather
+than writing the file - that is the only route where the key never touches a
+filesystem, a chat window or a diff, which is why the environment wins over the
+file. A new session picks it up.
+
+It is a rate limit, not authentication: 3 requests per second without it, 10
+with. Everything works unkeyed, three times slower. Before 2026-10-05 only
+`assaywatch/retrieve.py` read the variable, so a key set in the environment
+sped up the pipeline and none of `check_taxids`, `resolve_citations`,
+`check_submission`, `master_sheet` or `verify_oligos_against_paper`. All five
+now go through `assaywatch/credentials.py` and share one sleep interval.
+
 ## Do this first
 
 **Re-run the verifier over the full local `papers/`.** Two fixes landed on

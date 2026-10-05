@@ -29,6 +29,11 @@ from pathlib import Path
 import requests
 import yaml
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
+
 EFETCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 
 
@@ -39,7 +44,9 @@ def fetch_taxa(taxids: list[int], email: str) -> dict[int, tuple[str, str, set[s
         batch = taxids[i : i + 100]
         r = requests.get(
             EFETCH,
-            params={"db": "taxonomy", "id": ",".join(map(str, batch)), "email": email, "tool": "assaywatch"},
+            params=with_api_key(
+                {"db": "taxonomy", "id": ",".join(map(str, batch)), "email": email, "tool": "assaywatch"}
+            ),
             timeout=60,
         )
         r.raise_for_status()
@@ -57,7 +64,7 @@ def fetch_taxa(taxids: list[int], email: str) -> dict[int, tuple[str, str, set[s
             # A merged taxid comes back under its new id; keep the old one too.
             for akas in taxon.findall("AkaTaxIds/TaxId"):
                 out[int(akas.text)] = out[tid]
-        time.sleep(0.4)
+        time.sleep(ncbi_interval())
     return out
 
 

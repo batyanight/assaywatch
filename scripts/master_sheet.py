@@ -46,6 +46,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 
+from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
 from assaywatch.degeneracy import assay_degeneracy  # noqa: E402
 from assaywatch.retrieve import group_slug  # noqa: E402
 from assaywatch.validate import load_assay  # noqa: E402
@@ -59,13 +60,15 @@ def fetch_taxa(taxids: list[int], email: str) -> dict[str, dict]:
     for i in range(0, len(taxids), 50):
         chunk = taxids[i : i + 50]
         q = urllib.parse.urlencode(
-            {
-                "db": "taxonomy",
-                "retmode": "xml",
-                "id": ",".join(str(t) for t in chunk),
-                "email": email,
-                "tool": "assaywatch",
-            }
+            with_api_key(
+                {
+                    "db": "taxonomy",
+                    "retmode": "xml",
+                    "id": ",".join(str(t) for t in chunk),
+                    "email": email,
+                    "tool": "assaywatch",
+                }
+            )
         )
         try:
             with urllib.request.urlopen(f"{EUTILS}?{q}", timeout=60) as r:
@@ -91,7 +94,7 @@ def fetch_taxa(taxids: list[int], email: str) -> dict[str, dict]:
                 "rank": rank.group(1) if rank else "",
                 "lineage_tail": (lin.group(1).split("; ")[-2:] if lin else []),
             }
-        time.sleep(0.4)
+        time.sleep(ncbi_interval())
     return out
 
 
