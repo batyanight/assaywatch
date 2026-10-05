@@ -307,7 +307,9 @@ def classify_exclusion(
     window is inside the record but nothing credible matches there), `no_pair`
     (both primers credible but never facing each other in range).
     """
-    max_e = cfg["scoring"].get("max_pair_evalue") or 0.01
+    # Its own key: `max_pair_evalue: null` means "report the E-value, act on
+    # nothing", and reusing it here silently kept filtering at 0.01.
+    max_e = float(cfg["scoring"].get("max_site_evalue", 0.01))
     span = int(amplicon_bp or cfg["amplicon"]["max_bp"])
     n = len(record_seq)
 
@@ -366,13 +368,15 @@ def screen_one(
     max_mm = int(cfg["scoring"].get("max_mismatches_searched", 6))
     fwd = fwd_seq or assay.oligos.forward.matching_seq
     rev = rev_seq or assay.oligos.reverse.matching_seq
-    probe = None
-    if assay.oligos.probe is not None:
-        probe = assay.oligos.probe.matching_seq
+    # Every probe pool member is searched, and the best site inside the amplicon
+    # wins. An earlier version took `next(...)`, i.e. only the first member, while
+    # its own comment claimed the pool was searched together.
+    probes: list[str] = []
     if probe_seqs:
-        # A probe pool is searched together: any member sitting inside the
-        # amplicon satisfies the probe, so take the sites of all of them.
-        probe = next((x for x in probe_seqs if x), probe)
+        probes = [x for x in probe_seqs if x]
+    elif assay.oligos.probe is not None:
+        probes = [assay.oligos.probe.matching_seq]
+    probe = probes[0] if probes else None
 
     f_all = find_sites(fwd, record_seq, max_mm)
     r_all = find_sites(rev, record_seq, max_mm)
@@ -398,17 +402,31 @@ def screen_one(
     cap = int(cfg["scoring"].get("max_pairs_per_record", 5000))
     if len(pairs) > cap:
         pairs = sorted(pairs, key=lambda x: _rank(x[0]) + _rank(x[1]))[:cap]
-    p_index = SiteIndex(find_sites(probe, record_seq, max_mm)) if probe else None
+    # One index per pool member, so a member's own length is available for scoring.
+    p_indexes = [(o, SiteIndex(find_sites(o, record_seq, max_mm))) for o in probes]
 
     # Chance-pair guard (chance.py). The E-value is always reported; pairs above
     # `max_pair_evalue` are only dropped when that is set.
     max_e = cfg["scoring"].get("max_pair_evalue")
     n_chance = 0
 
+    # The assay's own declared product size, where it has one, with a tolerance
+    # for the indels and insertions real templates carry. Without this the only
+    # limit is the global 50-3000 bp window, which credited 727 calls to products
+    # more than twice the declared size and one to a 1931 bp product from a
+    # 194 bp assay. A product that size is not that assay amplifying: the
+    # extension time, probe geometry and efficiency all belong to something else.
+    tol = cfg["amplicon"].get("declared_tolerance")
+    lo_bp, hi_bp = int(amp["min_bp"]), int(amp["max_bp"])
+    if assay.amplicon_bp and tol is not None:
+        tol = float(tol)
+        lo_bp = max(lo_bp, int(assay.amplicon_bp * (1 - tol)))
+        hi_bp = min(hi_bp, int(assay.amplicon_bp * (1 + tol)))
+
     best: Call | None = None
     for f, r, amp_start, amp_end, inner_lo, inner_hi in pairs:
         length = amp_end - amp_start
-        if not amp["min_bp"] <= length <= amp["max_bp"]:
+        if not lo_bp <= length <= hi_bp:
             continue
         evalue = pair_evalue(
             fwd,
@@ -425,12 +443,15 @@ def screen_one(
         fs = score_primer(f, len(fwd), cfg)
         rs = score_primer(r, len(rev), cfg)
         ps, p_site, reason = None, None, ""
+        probe_won = probe
         if probe:
-            inside = p_index.within(inner_lo, inner_hi - len(probe))
-            if inside:
-                ps, p_site = min(
-                    ((score_probe(p, len(probe), cfg), p) for p in inside), key=lambda x: x[0].penalty
-                )
+            scored = [
+                (score_probe(p, len(o), cfg), p, o)
+                for o, idx in p_indexes
+                for p in idx.within(inner_lo, inner_hi - len(o))
+            ]
+            if scored:
+                ps, p_site, probe_won = min(scored, key=lambda x: x[0].penalty)
             else:
                 # The primers would amplify but the probe has no binding site:
                 # a qPCR assay that produces product and reports nothing.
@@ -452,6 +473,13 @@ def screen_one(
         # The sites themselves, for anything computed on the winning amplicon
         # later (thermo.py). Not written to the TSV.
         cand.extra["sites"] = {"forward": f, "reverse": r, "probe": p_site}
+        # The sequences that actually won, which for a primer pool are not the
+        # assay's primary oligos. thermo.annotate zips an oligo against its site
+        # window, so handing it the primary oligo of a different length crashed
+        # the whole screening job on any pool assay.
+        cand.extra["oligos"] = {"forward": fwd, "reverse": rev}
+        if probe_won:
+            cand.extra["oligos"]["probe"] = probe_won
         cand.extra["fwd_site"] = _site_text(f)
         cand.extra["rev_site"] = _site_text(r)
         cand.extra["probe_site"] = _site_text(p_site)
@@ -471,7 +499,7 @@ def screen_one(
             best = cand
 
     if best is None:
-        reason = f"sites found but no facing pair within {amp['min_bp']}-{amp['max_bp']} bp"
+        reason = f"sites found but no facing pair within {lo_bp}-{hi_bp} bp"
         if n_chance:
             reason = f"{n_chance} facing pairs, none distinguishable from chance (E > {max_e:g})"
         call = Call(assay.id, record_id, "no_amplicon", reason=reason)

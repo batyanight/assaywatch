@@ -288,3 +288,58 @@ def test_exclusion_tells_a_truncated_deposit_from_a_diverged_site():
 
     # Neither primer anywhere.
     assert screen_record(assay, "none", noise(600), CFG).as_row()["exclusion"] == "no_site"
+
+
+def test_thermo_survives_a_primer_pool_of_mixed_lengths():
+    """A pool member of a different length than the primary oligo used to crash the screen."""
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    from test_score import FIX
+
+    from assaywatch.score import oligo_pools
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assay = load_assay(root / "registry" / "Pan_HERPES_dsDNA_Polymerase.yaml")
+    fwd, _, _ = oligo_pools(assay)
+    assert len({len(x) for x in fwd}) > 1, "this assay should have a mixed-length forward pool"
+    out = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "assaywatch.screen",
+            str(root / "registry"),
+            str(FIX / "records.fasta"),
+            "--only",
+            assay.id,
+            "--thermo",
+        ],
+        capture_output=True,
+        text=True,
+    )
+    assert out.returncode == 0, out.stderr[-400:]
+
+
+def test_every_probe_pool_member_is_searched():
+    """Only the first member used to be searched, while the docstring claimed otherwise."""
+    import random
+    from pathlib import Path
+
+    from assaywatch.score import screen_one
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assay = load_assay(root / "registry" / "CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004.yaml")
+    fwd = assay.oligos.forward.matching_seq
+    rev = assay.oligos.reverse.matching_seq
+    real_probe = assay.oligos.probe.matching_seq
+    rng = random.Random(17)
+    decoy = "".join(rng.choice("ACGT") for _ in range(len(real_probe)))
+    # A record carrying only the SECOND probe member of the pool.
+    rec = fwd + "AC" * 10 + real_probe + "GT" * 10 + reverse_complement(rev)
+    # Primary probe is the decoy, so a single-probe search finds nothing.
+    assert screen_one(assay, "x", rec, CFG, None, fwd, rev, [decoy]).reason == "no probe site inside amplicon"
+    # With both members in the pool the real one must be found.
+    assert screen_one(assay, "x", rec, CFG, None, fwd, rev, [decoy, real_probe]).call in ("detect", "reduced")

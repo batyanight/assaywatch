@@ -12,6 +12,16 @@ scoring:
   probe_center_penalty: 2.0      # central third of the probe
   probe_outer_penalty: 1.0
   max_ambiguous_per_oligo: 2     # more undetermined record bases under one oligo -> indeterminate
+  # How many positions of an oligo may fail to match before a site stops being
+  # looked for at all. This is the most consequential number here: an oligo at
+  # more mismatches than this is not scored as a failure, it is invisible. It was
+  # read from code with this default and never appeared in config, which broke
+  # this file's own promise that no scoring number lives in code.
+  max_mismatches_searched: 6
+  # Credibility threshold for a LONE oligo hit, used when labelling why a record
+  # yielded no amplicon. Separate from max_pair_evalue so that setting that to
+  # null really does stop all filtering.
+  max_site_evalue: 0.01
   max_pairs_per_record: 5000     # safety cap on candidate amplicons per record (best-matched kept)
   # Chance-pair guard (assaywatch/chance.py). Every amplicon gets a pair_evalue:
   # the expected number of primer pairs this good in a random record of the same
@@ -24,8 +34,18 @@ scoring:
 
 amplicon:
   min_bp: 50
+  # Constrain an amplicon to the assay's own declared amplicon_bp, within this
+  # fraction, instead of only to min_bp..max_bp above. Currently null (off), and
+  # that is a known correctness gap rather than a preference: with it off, 727
+  # detect/reduced calls in the 2026-10-04 run sit on products more than twice
+  # the declared size, including a 1931 bp product credited to a 194 bp assay.
+  # Turning it on needs tests/fixtures regenerating, because the synthetic
+  # fixtures were built at fixed spacings that ignore declared sizes.
+  declared_tolerance: null
   max_bp: 3000
-  record_min_overhang_bp: 100    # record must extend this far past the amplicon
+  record_min_overhang_bp: 100    # assembly extraction only (assemblies.py): how far a cut
+                                 # window reaches past the amplicon. Scoring does NOT require
+                                 # records to extend past the product.
 
 # Sequence retrieval from NCBI. These are the decisions that shape what the
 # drift metric can see, so they live here rather than in code.

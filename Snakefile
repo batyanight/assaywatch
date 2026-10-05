@@ -54,7 +54,21 @@ GROUPS = targets_from_registry([Path(REGISTRY)], config)
 # the scoring settings and the screening code. Its hash is a param of
 # screen_archive, so editing an assay, changing a threshold or upgrading the
 # matcher rescreens exactly the archives affected, with no `-R` to remember.
-_CODE = ("score.py", "match.py", "iupac.py", "chance.py", "screen.py", "thermo.py", "degeneracy.py", "fasta.py")
+# schema.py owns Oligo.matching_seq, tail_5prime and seq_as_written, so editing
+# it changes every call; validate.py decides what loads at all. Both were
+# missing, which meant such an edit rescreened nothing.
+_CODE = (
+    "score.py",
+    "match.py",
+    "iupac.py",
+    "chance.py",
+    "screen.py",
+    "thermo.py",
+    "degeneracy.py",
+    "fasta.py",
+    "schema.py",
+    "validate.py",
+)
 _SCREEN_CFG = {k: config.get(k) for k in ("scoring", "amplicon", "degeneracy", "thermo_conditions")}
 _code_hash = hashlib.sha1(
     b"".join((Path(workflow.basedir) / "assaywatch" / f).read_bytes() for f in _CODE)

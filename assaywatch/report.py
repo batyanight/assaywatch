@@ -209,9 +209,19 @@ def render_markdown(
     counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in STATUS_ORDER if grouped.get(s))
     out += [f"{len(drifts)} assays screened: {counts}.", ""]
     if drifts:
+        # The base window comes from the config, not from whichever assay happens
+        # to be first: 28 assays widened theirs, and the header claimed Oct 2024
+        # for all 141.
         a0 = next(iter(drifts.values()))
+        widened = sum(
+            1
+            for a in drifts.values()
+            if a.window_months > (cfg or {}).get("drift", {}).get("recent_window_months", 24)
+        )
         out += [
-            f"Recent window: records deposited since {a0.recent_from}; "
+            f"Recent window: {(cfg or {}).get('drift', {}).get('recent_window_months', 24)} months"
+            + (f", widened for {widened} assays that held too few records" if widened else "")
+            + f"; earliest shown {a0.recent_from}; "
             f"threshold {a0.threshold:.0%} detected; at least {a0.min_records} recent evaluable "
             "records to flag. Deprecated assays are not screened.",
             "",

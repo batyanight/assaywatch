@@ -68,7 +68,8 @@ def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
             call.extra["degeneracy_fold"] = fold
             call.extra["degeneracy_tier"] = tier
             if thermo:
-                call.extra["thermo"] = annotate(call, oligos, cfg)
+                # The winning pool members, falling back to the primary oligos.
+                call.extra["thermo"] = annotate(call, call.extra.get("oligos") or oligos, cfg)
             rows.append(call.as_row())
     return out
 
