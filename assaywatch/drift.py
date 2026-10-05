@@ -41,6 +41,37 @@ here because baselines are usually near 100 percent.
 
 Both are closed-form arithmetic, so there is no scipy dependency and every
 number in the report can be recomputed by hand from the counts.
+
+What the fraction is actually estimating, and what it is not
+-----------------------------------------------------------
+The intervals above assume the records are independent draws from the
+population the assay is used on. Neither half of that is true, and a reader
+has to carry the gap:
+
+1. **GenBank is a sample of sequencing effort.** An outbreak produces hundreds
+   of near-identical deposits from one transmission chain; endemic background
+   produces none. So the effective sample size is the number of independent
+   lineages, not the number of records, and the Wilson interval is narrower
+   than the evidence warrants — sometimes by an order of magnitude. Clustering
+   the records and weighting by cluster is the fix; see the review doc.
+
+2. **Deposition is correlated with detection.** A locus is often sequenced
+   *because* an assay amplified it, so matching sequences are enriched and a
+   variant that escapes PCR may never be deposited at all. The bias runs toward
+   optimism, which makes `declining` strong evidence and `stable` weak
+   evidence. They are not symmetric and should not be read as if they were.
+
+3. **The estimand is wrong for most real failures.** One proportion per assay
+   answers "what share of deposited sequences match". Published assay failures
+   are almost never that shape: they are "fails on clade B", "fails on the
+   lineage circulating in West Africa", "fails on the fish ranaviruses it was
+   never meant to cover". A clade that is 5 percent of deposits can be 100
+   percent of a region's cases, and averaging it away is why the tool catches
+   only 1 of the 12 documented failures in docs/validation-cases.tsv. Per-clade
+   or per-haplotype fractions are the real fix.
+
+Consequently: a status here is a reading assignment, not a measurement. The
+report prints the counts so that a reader can disagree with the verdict.
 """
 
 from __future__ import annotations

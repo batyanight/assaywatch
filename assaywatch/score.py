@@ -65,7 +65,29 @@ class OligoScore:
 
 
 def score_primer(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
-    """Weight each mismatch by its distance from the 3' end."""
+    """Weight each mismatch by its distance from the 3' end.
+
+    The biology: Taq extends from the primer's 3'-OH, so a mismatch there
+    distorts the geometry of the catalytic site itself, whereas one near the 5'
+    end costs only duplex stability — and a 20-mer with 19 matches anneals fine.
+    That ordering is well established (Kwok et al. 1990,
+    doi:10.1093/nar/18.4.999; Stadhouders et al. 2010,
+    doi:10.2353/jmoldx.2010.090035).
+
+    Two things this does NOT capture, both of which make it optimistic in some
+    cases and pessimistic in others:
+
+    * Mismatch IDENTITY. Kwok and Stadhouders both find the effect is dominated
+      by WHICH mispair forms: A:A, A:G, G:A and C:C at the 3' terminus suppress
+      yield by orders of magnitude, while T:G, T:C and T:T are nearly free (a
+      T:G wobble still stacks). Scoring by position alone treats those alike. A
+      per-identity table is the obvious upgrade and needs a reference dataset we
+      do not have; until then position is the defensible half of the story.
+    * Mismatch COUNT interactions. Two adjacent mismatches are far worse than
+      two spread apart, because they destroy a contiguous stretch of stacking
+      rather than two isolated pairs. Penalties here add linearly, so a cluster
+      is under-penalised.
+    """
     s = cfg["scoring"]
     w3, wmid = s["primer_3prime_window"], s["primer_mid_window"]
     penalty, terminal = 0.0, False
@@ -85,7 +107,22 @@ def score_primer(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
 
 
 def score_probe(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
-    """A probe has no 3' end that matters; the middle third is what holds it on."""
+    """A probe has no 3' end that matters; the middle third is what holds it on.
+
+    A hydrolysis probe is not extended — it is bound and then cleaved — so the
+    3'-end asymmetry that governs primers does not apply. What matters is that
+    the duplex survives to the extension step, and a central mismatch costs the
+    most stability because it interrupts stacking on both sides, while a
+    terminal one only frays an end that was already breathing.
+
+    The thirds are a crude stand-in for a stability calculation, and they are
+    length-blind: the central third of a 15-mer is 5 nt where a single mismatch
+    may well abolish binding, and of a 30-mer is 10 nt where it may not. All 10
+    probe assays in the registry are also MGB, whose minor-groove binder adds
+    roughly 15-20 C of Tm; those probes tolerate mismatches a bare oligo of the
+    same length would not, and nothing here knows that. `--thermo` computes the
+    actual duplex ΔTm and is the better guide where it is available.
+    """
     s = cfg["scoring"]
     lo, hi = oligo_len / 3, 2 * oligo_len / 3
     penalty = 0.0
@@ -162,6 +199,22 @@ def too_ambiguous(scores: list[OligoScore], cfg: dict[str, Any]) -> bool:
 
 
 def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
+    """Turn one summed penalty into a call.
+
+    Two known weaknesses, both biological rather than numerical:
+
+    * The total SUMS forward, reverse and probe, but they are serial gates, not
+      a shared budget: amplification needs both primers, and detection needs
+      the probe on top. Three trivial mismatches spread one per oligo land in
+      the same bin as one near-lethal 3'-proximal mismatch, and a probe defect
+      (which costs signal linearly) trades against a primer defect (which costs
+      the exponential). Per-oligo verdicts combined logically is the right
+      model; see docs/2026-10-04-pipeline-review.md.
+    * `terminal` is identity-blind, so about half the 3'-terminal mismatches it
+      fails are the near-neutral kind (see score_primer). It is also one
+      threshold for 135 conventional PCRs and 10 probe assays, and endpoint PCR
+      forgives a yield loss that a Cq cutoff does not.
+    """
     s = cfg["scoring"]
     if terminal and s.get("terminal_mismatch_fails", True):
         return "fail"

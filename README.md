@@ -124,6 +124,50 @@ partial record, or one full of ambiguity codes, is a sequence-quality problem
 rather than an assay problem, and mixing the two would make every rough
 GenBank entry look like drift.
 
+### What the scoring rule assumes about PCR, and where it is wrong
+
+The penalties come from one well-supported fact and several guesses, and it is
+worth knowing which is which before reading a call.
+
+**The fact.** A polymerase extends from the primer's 3'-OH, so a mismatch there
+sits in the catalytic site, while one near the 5' end costs only a little duplex
+stability on an oligo that has 19 other matched bases. Weighting mismatches by
+distance from the 3' end is therefore the right shape (Kwok et al. 1990,
+[10.1093/nar/18.4.999](https://doi.org/10.1093/nar/18.4.999); Stadhouders et al.
+2010, [10.2353/jmoldx.2010.090035](https://doi.org/10.2353/jmoldx.2010.090035)).
+
+**The guesses, in rough order of how much they matter.**
+
+1. *The penalty is blind to which mismatch it is.* Both papers above find
+   identity dominates: at the 3' terminus, A:A, A:G, G:A and C:C suppress yield
+   by orders of magnitude (>7 Cq in Stadhouders), while T:G, T:C and T:T are
+   nearly free (<1.5 Cq) — a T:G wobble still stacks. So
+   `terminal_mismatch_fails` is right for about half of terminal mismatches and
+   wrong for the rest. The *E. coli* malB result survives this because all 92
+   failures are a single A→G at the reverse 3' base, which is in the severe
+   class; the rule did not know that when it fired.
+2. *Penalties from the three oligos are summed into one budget*, but amplification
+   needs forward **and** reverse and detection needs the probe on top. Those are
+   serial gates. Three trivial mismatches, one per oligo, land in the same bin as
+   one near-lethal 3'-proximal mismatch.
+3. *One table serves 135 conventional PCRs and 10 probe assays.* A 100-fold yield
+   loss is a missed Cq cutoff in qPCR and often still a visible band after 40
+   cycles of endpoint PCR. The same `fail` is printed for both.
+4. *Probe geometry is length-blind, and MGB-blind.* All 10 probe assays here are
+   MGB, whose minor-groove binder adds roughly 15–20 °C of Tm and makes short
+   probes viable; such a probe tolerates mismatches a bare oligo of the same
+   length would not. `--thermo` computes the real duplex ΔTm and is the better
+   guide where it is available.
+5. *Mismatches add linearly*, so two adjacent ones — which destroy a contiguous
+   run of base stacking — are under-penalised relative to two spread apart.
+
+None of this is hidden in code: every threshold is annotated in `config.yaml`
+with its justification or an admission that it has none, and the standing
+numbers are in
+[docs/2026-10-04-pipeline-review.md](docs/2026-10-04-pipeline-review.md).
+Against 46 cases from published follow-up the tool flags 1 of 12 documented
+failures, so a call is a reason to look, not a result.
+
 ### Degeneracy is never penalised
 
 Each position of an oligo against a record resolves to one of three states,
@@ -484,6 +528,30 @@ for a difference of proportions out of the two Wilson intervals and keeps that
 good behaviour at the extremes, where baselines near 100% live. Both are
 closed-form arithmetic, so every figure in the report can be recomputed by hand
 from the counts in the per-year table.
+
+**What the fraction estimates, and what it does not.** The intervals above
+assume records are independent draws from the population the assay is used on.
+Neither half holds:
+
+* *GenBank samples sequencing effort, not circulating diversity.* An outbreak
+  deposits hundreds of near-identical sequences from one transmission chain;
+  endemic background deposits none. The effective sample size is the number of
+  independent lineages, so a Wilson interval computed on record counts is
+  narrower than the evidence warrants.
+* *Deposition is correlated with detection.* A locus is often sequenced
+  *because* an assay amplified it, and a variant that escapes PCR may never be
+  deposited. The bias runs toward optimism, which makes `declining` strong
+  evidence and `stable` weak evidence. They are not symmetric.
+* *One proportion per assay is the wrong estimand for most real failures.*
+  Published failures are nearly always lineage-conditional — fails on clade B,
+  on the lineage circulating in one region, on the fish ranaviruses the assay
+  never claimed. A clade that is 5% of deposits can be 100% of a region's cases,
+  and averaging it away is precisely why the retrospective harness catches 1 of
+  12 documented failures. Per-clade fractions are the fix, and are not built.
+
+So `detect_fraction_threshold: 0.90` is a judgement about tolerable
+surveillance loss, not a property of PCR: an assay missing 1 in 10 targets is
+still fine for prevalence and useless for ruling out disease in one animal.
 
 **Joining calls to deposit years** is the one fiddly part. The screen stage
 keys on the FASTA record id, which from NCBI carries a version (`AB123456.1`);

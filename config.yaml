@@ -1,17 +1,49 @@
 # Thresholds and run settings. Nothing numeric about scoring lives in code.
+#
+# READ THIS BEFORE TRUSTING A NUMBER BELOW. Almost every threshold here was set
+# by eye from general PCR practice, not fitted to data. They were chosen to be
+# conservative — to avoid crying wolf on the sparsely sequenced taxa this tool
+# exists to serve — and validation shows they are far too conservative: against
+# 46 cases drawn from published follow-up, the tool flags 1 of 12 documented
+# assay failures (docs/validation-cases.tsv, docs/2026-10-04-pipeline-review.md).
+# Treat a status as "worth a look", never as a measurement.
+#
+# Where the literature does constrain a number, it is cited at that number.
+# Where it does not, the comment says so rather than inventing a rationale.
 registry_dir: registry
 retrieved_dir: data/retrieved
 results_dir: results
 
 scoring:
+  # WHY POSITION MATTERS. A polymerase extends from a primer's 3' end, so a
+  # mismatch there obstructs extension itself, while one near the 5' end only
+  # costs a little duplex stability and is often tolerated. That ordering is
+  # solid (Kwok et al. 1990, Nucleic Acids Res 18:999,
+  # doi:10.1093/nar/18.4.999). The WEIGHTS below are not: 3.0 / 1.0 / 0.5 over
+  # windows of 5 is a plausible shape, not a measured one.
   primer_3prime_window: 5        # last N nt of the 3' end
   primer_3prime_penalty: 3.0
   primer_mid_window: 5           # positions 6-10 from the 3' end
   primer_mid_penalty: 1.0
   primer_5prime_penalty: 0.5
+  # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
+  # mismatch in the middle destabilises the duplex most, so the centre is
+  # weighted above the ends. Known gap: all 10 probe assays here are MGB, whose
+  # minor-groove binder raises Tm by roughly 15-20 C and makes short probes
+  # viable — so an MGB probe's tolerance is not that of a bare oligo of the same
+  # length, and these two numbers do not know the difference. A 15-mer and a
+  # 32-mer are also treated alike, which cannot be right.
   probe_center_penalty: 2.0      # central third of the probe
   probe_outer_penalty: 1.0
-  max_ambiguous_per_oligo: 2     # more undetermined record bases under one oligo -> indeterminate
+  # A record base the oligo only partly covers (an N, or a code the oligo does
+  # not fully contain) is unknown, not a mismatch, and costs nothing when
+  # scoring: charging for it would make a submitter's sequencing quality
+  # indistinguishable from drift. Above this many under one oligo, too little of
+  # the binding site is known to judge, and the record is `indeterminate` rather
+  # than scored. The number is a guess and is length-blind — two Ns in a 15 nt
+  # probe is 13% of the footprint, in a 32-mer 6%. It fires on about 1 call in
+  # 1,800, so it is currently doing very little.
+  max_ambiguous_per_oligo: 2
   # How many positions of an oligo may fail to match before a site stops being
   # looked for at all. This is the most consequential number here: an oligo at
   # more mismatches than this is not scored as a failure, it is invisible. It was
@@ -28,8 +60,28 @@ scoring:
   # length. Set a number (e.g. 0.01) to call pairs above it no_amplicon instead
   # of scoring them; null reports the E-value but changes no call.
   max_pair_evalue: 0.01
+  # The call boundaries. These are the least defensible numbers in the file,
+  # for a reason that is structural rather than numeric: the penalties from
+  # forward, reverse and probe are SUMMED into one budget, but amplification
+  # needs forward AND reverse, and detection needs that AND the probe. Those are
+  # serial gates, not a shared pool, so three harmless mismatches (1.0 + 1.0 +
+  # 1.0) land in the same bin as one near-lethal 3'-proximal mismatch, and a
+  # probe defect (which costs signal) trades against a primer defect (which
+  # costs the exponential). The fix is per-oligo verdicts combined logically;
+  # see the review doc. Until then these two numbers paper over that.
   detect_max: 1.0                # <= detect
   reduced_max: 3.0               # <= reduced efficiency; above = fail
+  # KNOWN TO BE TOO BLUNT. A 3'-terminal mismatch can be severe, but which one
+  # matters: Kwok 1990 (doi:10.1093/nar/18.4.999) found only A:G, G:A, C:C and
+  # A:A strongly suppress yield, while T:G, T:C and T:T are near-neutral, and
+  # Stadhouders et al. 2010 (J Mol Diagn, doi:10.2353/jmoldx.2010.090035)
+  # replicate that in 5'-nuclease assays (<1.5 Cq for A-C/C-A/T-G/G-T versus
+  # >7 Cq for A-A/G-A/A-G/C-C). An identity-blind automatic fail is therefore
+  # wrong for roughly half of terminal mismatches. It is also a qPCR-grade
+  # verdict applied to 135 conventional assays, where a 100-fold yield loss is
+  # often still a visible band after 40 cycles. The E. coli malB result rests on
+  # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
+  # severe class — but the rule got there without checking.
   terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail
 
 amplicon:
@@ -81,6 +133,14 @@ assemblies:
 # `--config thermo=true`; needs primer3-py. The conditions below are typical
 # qPCR mastermix values; ΔTm (the column worth reading) depends on them much
 # less than absolute Tm does.
+#
+# Why ΔTm and not Tm: absolute Tm depends on the mastermix, and we do not know
+# the submitter's. ΔTm — the drop from the perfect-match duplex to the observed
+# one — is the quantity that answers "would this still anneal at the published
+# annealing temperature", and it is far less sensitive to these conditions. A
+# position-weighted mismatch penalty and a ΔTm disagree often (a mid-primer A:T
+# loss can cost more stability than a 3'-terminal G:T), which is the point of
+# showing it: it is an independent check on the scoring, not an input to it.
 thermo: false
 thermo_conditions:
   mv_conc: 50       # mM monovalent cations
@@ -89,20 +149,64 @@ thermo_conditions:
   dna_conc: 250     # nM oligo
 
 # Degeneracy is never scored; these tiers only annotate how much weight a
-# `detect` call deserves. See assaywatch/degeneracy.py for the rationale.
+# `detect` call deserves. The biology: a degenerate primer is a MIXTURE, so each
+# individual species is present at 1/N of the nominal concentration. A match
+# found against a 4096-fold pool is therefore a much weaker claim of detection
+# than the same match against a single oligo — the matching species may be too
+# dilute to prime efficiently, and the other 4095 compete for template and
+# promote mispriming. The tier boundaries are conventional rather than measured
+# (consensus-PCR panels like PREDICT routinely run in the hundreds-fold range and
+# work); see assaywatch/degeneracy.py.
 degeneracy:
   tiers:
     - [8, negligible]
     - [128, moderate]
     - [4096, high]
 
+# WHAT DRIFT IS AND IS NOT. The quantity computed here is the proportion of
+# GenBank records for a taxon in which the assay's oligos still match. That is
+# not the same as the proportion of INFECTIONS it would still detect, for three
+# biological reasons, and every threshold below inherits all three:
+#   1. GenBank is a convenience sample of sequencing effort, not of circulating
+#      diversity. An outbreak gets hundreds of near-identical deposits; endemic
+#      background gets none. Records are also not independent — a 2022 mpox
+#      cluster is one epidemiological event with 500 votes.
+#   2. Records are deposited for reasons correlated with the assay. A locus is
+#      often sequenced BECAUSE an assay amplified it, which enriches for matches,
+#      while a variant that escapes detection may never be sequenced at all.
+#      The bias runs toward optimism, so a `stable` verdict is weaker evidence
+#      than a `declining` one.
+#   3. Most published assays are implicitly lineage-specific — designed and
+#      validated on the clade in front of the authors. One population proportion
+#      per assay cannot express "still works on clade A, lost clade B", which is
+#      what nearly all 12 documented failures in docs/validation-cases.tsv
+#      actually are. This is why the tool catches only one of them.
 drift:
-  detect_fraction_threshold: 0.90   # below this the assay is considered failing
-  recent_window_months: 24          # how far back "recent" reaches
-  max_window_months: 60             # ...but widen to here for an assay with too few recent records
-  min_records_for_drift: 20         # fewer evaluable records than this -> report, never flag
+  # Below this fraction matching, call it failing. 0.90 is a judgement about
+  # tolerable surveillance loss, not a property of PCR: an assay missing 1 in 10
+  # targets is still useful for prevalence and useless for ruling out disease in
+  # an individual animal, so the right number depends on the use the reader has
+  # in mind. Stated here so it can be argued with.
+  detect_fraction_threshold: 0.90
+  # "Recent" has to be long enough to accumulate records and short enough that a
+  # 2008 sequence is not evidence about today. Two years is a compromise with no
+  # biological content; for a fast RNA virus it is many substitutions, for a
+  # fungus it may be none.
+  recent_window_months: 24
+  # Sparsely sequenced taxa are exactly the ones this tool is for, and for them a
+  # 24-month window is often empty. Widening to 5 years buys statistical power at
+  # the cost of currency — the Bd assay (Boyle 2004) only becomes assessable at
+  # 36 months, where it sits at 100% of 54 records. 116 of 141 assays never need
+  # the widening.
+  max_window_months: 60
+  # Below ~20 records a proportion has a confidence interval wide enough to span
+  # the threshold either way, so flagging would be noise. Reported, never flagged.
+  min_records_for_drift: 20
   min_records_for_coverage: 10      # fewer than this in total -> a coverage gap, not a result
-  min_decline: 0.05                 # a fall smaller than this (5 points) is low coverage, not declining
+  # A 2-point fall is sampling, not evolution. 5 points is an eyeballed floor on
+  # "a change worth a human reading it"; the Newcombe interval on the difference
+  # is the honest version and is already reported beside it.
+  min_decline: 0.05
   # Count a record as a failure when the partner primer's site is present in the
   # deposit and does not match (exclusion `diverged`), instead of dropping it.
   # Off until the validation cases say whether it helps: it adds real evidence of

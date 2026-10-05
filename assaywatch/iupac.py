@@ -26,16 +26,23 @@ IUPAC: dict[str, str] = {
     "V": "ACG",
     "N": "ACGT",
     # Inosine is a single nucleotide that pairs promiscuously, not a mixture.
-    # I:C is a genuine pair and I:A / I:T are wobble pairs that still support
-    # extension, so those are listed here; I:G is strongly destabilising and is
-    # handled as a weak pair below. Inosine is excluded from degeneracy
-    # counting because an inosine-containing oligo is one molecule, not 3^n.
+    # The pairing order is I:C > I:A > I:T > I:G (Martin et al. 1985, Nucleic
+    # Acids Res 13:8927, doi:10.1093/nar/13.24.8927, the paper that introduced
+    # inosine for probe design; the nearest-neighbour measurements in Watkins &
+    # SantaLucia 2005, doi:10.1093/nar/gki918, put dI:dC near a normal A:T pair
+    # and dI:dG a full ~3 kcal/mol worse). So I:C/I:A/I:T are listed as pairs
+    # here and I:G is demoted to a weak pair below. Inosine is excluded from
+    # degeneracy counting because an inosine-containing oligo is one molecule,
+    # not 3^n — it pays no concentration cost, which is why designers use it.
     # Records never contain I.
     "I": "ACT",
 }
 
 # Pairings that are real but poor. A weak pair reports as `unknown`: neither
-# evidence that the oligo binds nor evidence that the target has drifted.
+# evidence that the oligo binds nor evidence that the target has drifted. I:G is
+# the only entry: it forms, so calling it a mismatch would assert drift that may
+# not exist, but it is destabilising enough (Watkins & SantaLucia 2005) that
+# calling it a match would assert binding we cannot support either.
 WEAK_PAIRS: dict[str, str] = {"I": "G"}
 
 # Codes standing for one physical molecule, however many bases they pair with.

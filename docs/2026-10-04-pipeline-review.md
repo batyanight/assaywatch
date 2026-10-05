@@ -242,8 +242,14 @@ tiers, and score pools per member.
 Choices I would defend as they stand:
 
 - **Inosine as one molecule**, pairing with C/A/T and `unknown` against G, read
-  from `seq_as_written`. Reading the PREDICT filovirus primer from `seq` would
-  call it 8192-fold degenerate when it is 8-fold.
+  from `seq_as_written`. The pairing order I:C > I:A > I:T > I:G is from
+  [Martin 1985](https://doi.org/10.1093/nar/13.24.8927) and the
+  nearest-neighbour measurements in
+  [Watkins & SantaLucia 2005](https://doi.org/10.1093/nar/gki918), which put
+  dI:dC near a normal A:T pair and dI:dG about 3 kcal/mol worse — hence the
+  demotion of I:G to a weak pair rather than a mismatch. Reading the PREDICT
+  filovirus primer from `seq` would call it 8192-fold degenerate when it is
+  8-fold.
 - **Ambiguous record bases cost nothing when scoring but consume the search
   budget.** Charging them would make a submitter's sequencing quality
   indistinguishable from drift, and would be flatly wrong at the 3' base.
@@ -261,6 +267,25 @@ Choices I would defend as they stand:
 Choices that need revisiting, in order: the estimand (§3.1), the denominator
 (§3.2), independence (§3.3), declared amplicon size (§3.4), additive scoring
 (§3.5), unused thermodynamics (§3.6), ungated degeneracy (§3.7).
+
+### Where this reasoning now lives
+
+A review doc nobody opens is not a safeguard, so the arguments above were moved
+to where a reader meets the number:
+
+- **`config.yaml`** — every threshold carries its biological justification or an
+  explicit admission that it is an eyeballed placeholder, with the Kwok and
+  Stadhouders citations at `terminal_mismatch_fails` and the three
+  GenBank-sampling caveats at the head of the `drift:` block.
+- **`score.py`** — `score_primer`, `score_probe` and `classify` each state what
+  the rule assumes about polymerase extension, probe cleavage and the
+  serial-gate problem, and what they are blind to.
+- **`drift.py`** — the module docstring now says what the fraction estimates and
+  why `stable` is weaker evidence than `declining`.
+- **`iupac.py`** — the inosine pairing order carries its two citations.
+- **`README.md`** — "What the scoring rule assumes about PCR, and where it is
+  wrong" under Screening, and "What the fraction estimates, and what it does
+  not" under the drift call.
 
 ---
 
