@@ -1,0 +1,39 @@
+id: LMBV_dsDNA_MCP_RPA_Li_2025
+name: 'LARGEMOUTH BASS VIRUS / Santee-Cooper ranavirus (dsDNA) — MCP, RPA F1/R1 (Li 2025)'
+target:
+  taxid: 10492
+  gene: MCP
+  genome_type: dsDNA
+  taxon_name: Ranavirus micropterus1 (Santee-Cooper ranavirus)
+  query: 'txid3432136[Organism:exp] OR txid2487147[Organism:exp] OR txid3045952[Organism:exp] OR txid3691958[Organism:exp] OR txid3042780[Organism:exp] OR txid3045951[Organism:exp] OR txid2951525[Organism:exp]'
+chemistry: rpa
+oligos:
+  forward:
+    name: MCP-F1
+    seq: GTTCATTGATCTCGCCACTTATGACAGCCT
+  reverse:
+    name: MCP-R1
+    seq: TGTGGCAGCCGTAGGCAGTTTGGTAAACCA
+amplicon_bp: 127
+citation:
+  doi: 10.3389/fmicb.2025.1599006
+  design_year: 2025
+  n_sequences_at_design: 19
+  as_written: null
+  reference: 'Li, N. et al. Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system. Frontiers in Microbiology 16, 1599006 (2025).'
+  doi_verified: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-04 to cover the Santee-Cooper group, which no other assay in this registry reaches and which is what both MCP assays here trip over (RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008 and RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007). CHEMISTRY. This is RPA, not PCR: the primers are the RPA pair F1/R1 of Li et al. 2025, chosen in that paper over two other candidate pairs by amplification efficiency, and used ahead of a CRISPR/Cas12a readout. They are recorded here because the question this tool asks - do these primer sequences still match what is being deposited - is worth asking of any published oligo. But the penalty weights in config.yaml are calibrated on PCR, so a `reduced` or `fail` call here should be read as `these sequences have diverged`, not as a prediction about an RPA reaction at 39 C. SEQUENCES were read from the open-access full text (Front Microbiol, CC-BY), Table 2, rows F1 and R1, not from a secondary list. VERIFIED against real records before the entry was trusted: both primers match with zero mismatches in 4 of 4 LMBV complete genomes tested (PX879566.1, PV833272.1, PX463212.1, PV459226.1), on the plus strand in three and the minus strand in one, giving a 127 bp product every time. amplicon_bp is therefore measured on real sequence rather than quoted or computed; the paper gives no product size. Those four accessions are themselves among the records the two MCP assays fail, so this entry covers exactly the observed gap. RETRIEVAL SCOPE is deliberately not a bare taxid. The formal ICTV species is Ranavirus micropterus1 (txid3432136, the old name Santee-Cooper ranavirus survives as a no-rank node inside it, alongside Largemouth bass virus, Smallmouth bass virus, Doctor fish virus, Guppy virus 6 and Guppyfish iridovirus). But Mandarin fish ranavirus (txid2487147) and Siniperca chuatsi ranavirus (txid3045952) are phylogenetically allied and sit in NCBI''s `unclassified Ranavirus`, so a scope of txid3432136 alone would silently miss them: 113 records, against 131 for the union used here. The query is a positive union rather than an exclusion, which also sidesteps the leading-NOT trap documented in docs/2026-10-04-assay-investigations.md. THE SCOPE WAS SET EMPIRICALLY, AND THAT IS THE PROCEDURE TO REPEAT. The first draft of this query listed only micropterus1 plus the Mandarin fish and Siniperca chuatsi taxids. Screening the assay against the whole genus archive then showed it also detects four records the query would have excluded, all of them sitting in `unclassified Ranavirus`: Macropharyngodon choati ranavirus (txid3691958, PX883867), Halichoeres melanurus ranavirus (txid2951525, ON595973, a MAG), Hybrid snakehead ranavirus (txid3042780, OP628213) and Micropterus salmoides ranavirus (txid3045951, OQ267587). Those are now included. The lesson generalises: for a lineage whose members keep arriving unclassified, the defensible way to set a scope is to screen the parent taxon and look at what is actually detected outside the proposed boundary, not to trust the taxonomy to be current. Re-run that check when NCBI reclassifies, and recount. HOST RANGE is worth knowing when reading a result, because it is not what the name suggests. Besides largemouth and smallmouth bass, this group includes isolates from doctor fish (Garra rufa, the pedicure fish), guppy, and - from the empirical check above - two traded marine wrasses, Macropharyngodon choati and Halichoeres melanurus. A North American freshwater bass virus and an Indo-Pacific reef wrasse virus are not plausibly linked by geography or host phylogeny, so the ornamental fish trade is the obvious connection. Deposits here are therefore a sample of trade and of sequencing effort, not of any one watershed, which is worth remembering before reading a detected share as epidemiology.'
+needs_review:
+- CHEMISTRY_IS_RPA_NOT_PCR

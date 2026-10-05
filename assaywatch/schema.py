@@ -57,6 +57,14 @@ class Chemistry(StrEnum):
     hydrolysis_probe = "hydrolysis_probe"
     mgb = "mgb"
     lna = "lna"
+    # Recombinase polymerase amplification: primers only, but isothermal at
+    # 37-42 C with a recombinase driving strand invasion, not thermal cycling.
+    # Listed separately rather than filed under `conventional` because the
+    # scoring penalties in config.yaml are calibrated on PCR: RPA uses 30-35mers
+    # and its mismatch tolerance is not Taq's. A call on an RPA assay says
+    # "the primer sequences still match the deposits", which is the useful
+    # question for drift, and nothing more.
+    rpa = "rpa"
 
 
 class Strict(BaseModel):

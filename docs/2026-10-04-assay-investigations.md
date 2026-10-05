@@ -378,3 +378,70 @@ virus, Mandarin fish ranavirus, *Siniperca chuatsi* ranavirus), which is what al
 three MCP assays trip over. Also noted: Singapore grouper iridovirus is now
 *Ranavirus epinephelus1*, so it sits inside the genus legitimately rather than
 being a retrieval error.
+
+
+## Covering the Santee-Cooper gap, and how its scope was set (2026-10-04)
+
+`LMBV_dsDNA_MCP_RPA_Li_2025` closes the gap both MCP assays leave. Primers are
+the RPA pair F1/R1 of Li et al. 2025 (doi:10.3389/fmicb.2025.1599006), read from
+the CC-BY full text, Table 2.
+
+Verification before the entry was trusted: both primers match with **zero
+mismatches in 4 of 4 LMBV complete genomes**, three on the plus strand and one on
+the minus, giving a 127 bp product every time — so `amplicon_bp` is measured
+rather than quoted, the paper giving no product size. Those four accessions
+(PX879566, PV833272, PX463212, PV459226) are themselves among the records the two
+MCP assays fail, so the entry demonstrably covers the observed gap.
+
+Screened against the **whole genus** archive: 38 evaluable, **38 detected, and
+1,428 no_amplicon with no false positives** on FV3, CMTV, EHNV or any other
+ranavirus. That is an independent confirmation of the specificity the paper
+claims, obtained from sequence rather than from the authors' panel.
+
+### The scope was set empirically, and that is the procedure to repeat
+
+The first draft of the retrieval query listed *Ranavirus micropterus1* plus the
+Mandarin fish and *Siniperca chuatsi* taxids. The genus-wide screen then showed
+the assay also detects four records that query would have excluded, **all of them
+in NCBI's `unclassified Ranavirus`**:
+
+| record | organism | taxid |
+|---|---|---|
+| PX883867 | *Macropharyngodon choati* ranavirus | 3691958 |
+| ON595973 | *Halichoeres melanurus* ranavirus (MAG) | 2951525 |
+| OP628213 | Hybrid snakehead ranavirus | 3042780 |
+| OQ267587 | *Micropterus salmoides* ranavirus | 3045951 |
+
+Group size went 113 (species taxid alone) → 119 (first draft) → **131** (as
+committed). The generalisation is the point: **for a lineage whose members keep
+arriving unclassified, a scope cannot be read off the taxonomy.** Screen the
+parent taxon, look at what is detected outside the proposed boundary, and widen
+until the two agree. Re-run that check when NCBI reclassifies.
+
+This is the third scoping bug of the same family today — untagged Entrez fields,
+the evaporating leading NOT, and now a taxonomy that lags the data. All three
+were silent, and all three were caught only by counting records before and after.
+
+### What the host range implies
+
+The group is not what its name suggests. Alongside largemouth and smallmouth
+bass it includes isolates from **doctor fish** (*Garra rufa*), **guppy**, and now
+two traded **marine wrasses**. A North American freshwater bass virus and an
+Indo-Pacific reef wrasse virus are not plausibly linked by geography or host
+phylogeny, so the **ornamental fish trade** is the obvious connection. Deposits
+here sample trade and sequencing effort, not any one watershed — which is the
+drift-estimand caveat from `drift.py` showing up concretely.
+
+### Chemistry caveat
+
+RPA, not PCR, so `chemistry: rpa` was added to the schema rather than filing it
+under `conventional`. The penalty weights in `config.yaml` are calibrated on Taq;
+RPA runs isothermally at 39 C with 30-mers and a recombinase driving strand
+invasion. A `fail` here means *these sequences have diverged*, not *this reaction
+would not work*. Flagged `CHEMISTRY_IS_RPA_NOT_PCR`.
+
+**Still wanted:** Grizzle, Altinok & Noyes 2003, Dis Aquat Organ 54:29-33
+(doi:10.3354/dao054029), "PCR method for detection of largemouth bass virus" —
+the canonical LMBV conventional PCR used by US fish-health labs, and the one a
+reader would expect to find here. Paywalled; its primer table is needed to add it
+without transcribing from a secondary source.
