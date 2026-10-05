@@ -21,11 +21,13 @@ oligos:
     seq: AGGTAYGATGGKACKATHCC
 amplicon_bp: 342
 citation:
-  doi: null
-  design_year: null
+  doi: 10.1016/j.vetmic.2008.10.035
+  design_year: 2009
   n_sequences_at_design: null
   as_written: null
-  doi_verified: false
+  reference: Atkins, A. et al. Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus).
+    Veterinary microbiology 136, 160-165, doi:10.1016/j.vetmic.2008.10.035 (2009).
+  doi_verified: true
 use_context:
 - wildlife
 - veterinary
@@ -33,6 +35,7 @@ submitted_by: null
 status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  predict_protocol: P-001
   rows:
   - 325
   - 326
@@ -43,7 +46,5 @@ source:
   notes:
   - AstroRVS1 | same as round 1 | 421bp
 needs_review:
-- DOI_MISSING
 - MULTIPLE_PRIMERS_IN_BLOCK
 - NESTED
-- NO_YEAR

@@ -29,11 +29,13 @@ submitted_by: null
 status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  predict_protocol: P-031
   rows:
   - 471
   - 472
   positive_control: null
   nested_round: round2
   notes: null
+  notes_curator: 'PREDICT panel protocol P-031 (Polymerase), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Van DeVanter, D.R. et al (1996).'
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION

@@ -15,11 +15,13 @@ oligos:
     seq: CCAAAAATTATATAAAAACG
 amplicon_bp: 344
 citation:
-  doi: null
-  design_year: null
+  doi: 10.1007/s00705-005-0679-6
+  design_year: 2006
   n_sequences_at_design: null
   as_written: PREDICT protocol
-  doi_verified: false
+  reference: Bracht, A. J. et al. Genetic identification of novel poxviruses of cetaceans and pinnipeds. Archives of virology
+    151, 423-438, doi:Doi 10.1007/s00705-005-0679-6 (2006).
+  doi_verified: true
 use_context:
 - wildlife
 - veterinary
@@ -27,12 +29,14 @@ submitted_by: null
 status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  predict_protocol: P-035
   rows:
   - 693
   - 694
   positive_control: Monkeypox or Deerpox DNA, less reactive w/avipox
   nested_round: null
   notes: null
-needs_review:
-- DOI_MISSING
-- NO_YEAR
+  notes_curator: 'PREDICT panel protocol P-035 (Topoisomerase 1), confirmed 2026-10-04 by exact match of every oligo to that
+    protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
+    Bracht, AJ et al (2006).'
+needs_review: null

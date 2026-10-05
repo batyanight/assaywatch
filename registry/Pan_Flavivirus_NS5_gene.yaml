@@ -18,9 +18,10 @@ oligos:
 amplicon_bp: 270
 citation:
   doi: null
-  design_year: null
+  design_year: 2007
   n_sequences_at_design: null
   as_written: null
+  reference: 'Moureau, G. et al. A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses. Vector Borne Zoonotic Dis 7, 467-478 (2007).'
   doi_verified: false
 use_context:
 - wildlife
@@ -30,12 +31,13 @@ submitted_by: null
 status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  predict_protocol: P-009
   rows:
   - 429
   - 430
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'PREDICT panel protocol P-009 (NS5), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Moureau, G. et al, (2007).'
 needs_review:
 - DOI_MISSING
-- NO_YEAR

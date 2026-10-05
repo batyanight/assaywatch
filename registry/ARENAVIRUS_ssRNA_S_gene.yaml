@@ -15,11 +15,14 @@ oligos:
     seq: CGCACCGGGGATCCTAGGC
 amplicon_bp: 630
 citation:
-  doi: null
-  design_year: null
+  doi: 10.1016/S0168-1702(97)01458-5
+  design_year: 1997
   n_sequences_at_design: null
   as_written: PREDICT PROTOCOL
-  doi_verified: false
+  reference: Lozano, M. E. et al. Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification
+    and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5
+    (1997).
+  doi_verified: true
 use_context:
 - wildlife
 - public_health
@@ -27,13 +30,15 @@ submitted_by: null
 status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  predict_protocol: P-003
   rows:
   - 306
   - 307
   positive_control: Universal Control 1
   nested_round: null
   notes: null
+  notes_curator: 'PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Lozano,
+    M. et al (1997).'
 needs_review:
-- DOI_MISSING
-- NO_YEAR
 - ORIENTATION_INFERRED_BY_POSITION

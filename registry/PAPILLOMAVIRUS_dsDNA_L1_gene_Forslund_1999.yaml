@@ -30,11 +30,13 @@ submitted_by: null
 status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  predict_protocol: P-038
   rows:
   - 538
   - 539
   positive_control: Universal control 2
   nested_round: null
   notes: null
+  notes_curator: 'PREDICT panel protocol P-038 (L1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Forslund, O. et al (1999).'
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION

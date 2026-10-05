@@ -27,6 +27,7 @@ from __future__ import annotations
 import argparse
 import re
 import time
+import unicodedata
 from pathlib import Path
 
 import requests
@@ -44,6 +45,17 @@ def crossref_lookup(doi: str, email: str) -> dict | None:
     return r.json()["message"]
 
 
+def fold(text: str) -> str:
+    """Lowercase and strip accents, so Vazquez-Moron matches Vázquez-Morón.
+
+    Journals, Crossref and the registry disagree about diacritics on the same
+    author, and an author check that fails on an accent reports a correct DOI
+    as pointing at the wrong paper.
+    """
+    stripped = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in stripped if not unicodedata.combining(c)).lower()
+
+
 def crossref_matches(msg: dict, year: int | None, reference: str) -> tuple[bool, str]:
     """Does the Crossref record look like the paper named in `reference`?"""
     cr_year = None
@@ -56,7 +68,7 @@ def crossref_matches(msg: dict, year: int | None, reference: str) -> tuple[bool,
     family = (authors[0].get("family") or "") if authors else ""
     title = (msg.get("title") or [""])[0]
     year_ok = (year is None) or (cr_year == year) or (cr_year is not None and abs(cr_year - year) <= 1)
-    author_ok = bool(family) and family.lower() in reference.lower()
+    author_ok = bool(family) and fold(family) in fold(reference)
     summary = f"{family} {cr_year}: {title[:70]}"
     return (year_ok and author_ok), summary
 
