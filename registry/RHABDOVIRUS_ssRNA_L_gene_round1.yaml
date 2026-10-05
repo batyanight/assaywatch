@@ -1,0 +1,42 @@
+id: RHABDOVIRUS_ssRNA_L_gene_round1
+name: RHABDOVIRUS (ssRNA) — L (pan-rhabdovirus, PREDICT P-016 round 1)
+target:
+  taxid: 11270
+  gene: L
+  genome_type: ssRNA-
+  taxon_name: Rhabdoviridae
+  query: L[Gene] OR "L protein"[Title] OR "large polymerase"[Title] OR polymerase[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: PVO4
+    seq: RAAGGYAGRTTTTTYKCDYTRATG
+  reverse:
+    name: PVO3
+    seq: CCADMCBTTTTGYCKYARRCCTTC
+amplicon_bp: 460
+citation:
+  doi: 10.1099/vir.0.81128-0
+  design_year: 2005
+  n_sequences_at_design: null
+  as_written: null
+  reference: Bourhy, H., Cowley, J. A., Larrous, F., Holmes, E. C. & Walker, P. J. Phylogenetic relationships among rhabdoviruses
+    inferred using the L polymerase gene. J Gen Virol 86, 2849-2858 (2005).
+  doi_verified: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: P-016
+  rows: null
+  positive_control: Universal Control 2
+  nested_round: round1
+  notes: null
+  notes_curator: Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147,
+    Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. The panel records
+    these primers as modified from Bourhy et al. 2005 (increased degeneracy), so the sequences here are the panel's, not the
+    paper's as published.
+needs_review: null

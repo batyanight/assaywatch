@@ -1,0 +1,39 @@
+id: ORTHOBUNYAVIRUS_ssRNA_M_segment
+name: 'ORTHOBUNYAVIRUS (ssRNA) — M segment (PREDICT P-023)'
+target:
+  taxid: 11572
+  gene: 'M segment'
+  genome_type: ssRNA-
+  taxon_name: Orthobunyavirus
+  query: 'S[Gene] OR M[Gene] OR "S segment"[Title] OR "M segment"[Title] OR nucleocapsid[Title] OR glycoprotein[Title] OR "complete genome"[Title]'
+chemistry: conventional
+oligos:
+  forward:
+    name: 'M3560-F'
+    seq: TCNAARGGHTGYGGNAATGT
+  reverse:
+    name: 'BUN-S3-R'
+    seq: CGCGCCAGTAGTGTGCTACC
+amplicon_bp: 898
+citation:
+  doi: null
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: null
+  reference: 'Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: P-023
+  rows: null
+  positive_control: 'Universal Control 2'
+  nested_round: null
+  notes: null
+  notes_curator: 'Imported 2026-10-04 from the PREDICT panel''s own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. Single round. Pairs with the S-segment assay P-022; the panel recommends screening with at least two segments.'
+needs_review:
+- DOI_MISSING

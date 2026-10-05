@@ -46,14 +46,17 @@ def crossref_lookup(doi: str, email: str) -> dict | None:
 
 
 def fold(text: str) -> str:
-    """Lowercase and strip accents, so Vazquez-Moron matches Vázquez-Morón.
+    """Lowercase, strip accents and normalise dashes, so Vazquez-Moron matches Vázquez-Morón.
 
     Journals, Crossref and the registry disagree about diacritics on the same
     author, and an author check that fails on an accent reports a correct DOI
     as pointing at the wrong paper.
     """
     stripped = unicodedata.normalize("NFKD", text)
-    return "".join(c for c in stripped if not unicodedata.combining(c)).lower()
+    folded = "".join(c for c in stripped if not unicodedata.combining(c)).lower()
+    # Crossref writes some names with a Unicode hyphen (Sánchez‐Seco); journals
+    # and the registry use a plain one. Treat every dash as the same character.
+    return re.sub(r"[\u2010-\u2015\u2212]", "-", folded)
 
 
 def crossref_matches(msg: dict, year: int | None, reference: str) -> tuple[bool, str]:

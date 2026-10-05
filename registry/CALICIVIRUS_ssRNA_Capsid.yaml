@@ -1,0 +1,44 @@
+id: CALICIVIRUS_ssRNA_Capsid
+name: CALICIVIRUS (ssRNA) — capsid-coding region (PREDICT P-024)
+target:
+  taxid: 11974
+  gene: Capsid-coding region
+  genome_type: ssRNA+
+  taxon_name: Caliciviridae
+  query: capsid[Title] OR VP1[Gene] OR VP1[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: 1F
+    seq: GTGAGGTGTTTGAGAATTAG
+  reverse:
+    name: 1R
+    seq: ACATCAATTCCGCCAGACCA
+amplicon_bp: 768
+citation:
+  doi: 10.1016/S0166-0934(99)00088-9
+  design_year: 1999
+  n_sequences_at_design: null
+  as_written: null
+  reference: Reid, S. M. et al. Development of a reverse transcription polymerase chain reaction procedure for the detection
+    of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107
+    (1999).
+  doi_verified: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: P-024
+  rows: null
+  positive_control: Calicivirus cDNA
+  nested_round: null
+  notes: null
+  notes_curator: 'Imported 2026-10-04 from the PREDICT panel''s own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147,
+    Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. Scope caveat:
+    the source paper develops this for MARINE caliciviruses (vesiviruses), while PREDICT ran it as a pan-calicivirus screen,
+    and the retrieval group is all Caliciviridae (mostly norovirus). A low detected share here is likely to be scope, not
+    drift, and should read as low coverage.'
+needs_review: null

@@ -51,6 +51,18 @@ exclude:
 # annotated. A record the query misses is a record the assay is not judged
 # against; that is a coverage cost, not a scoring error.
 queries:
+  # The four virus families added from the PREDICT panel on 2026-10-04 (P-016,
+  # P-021/P-022/P-023, P-024). Gene-targeted so the drift denominator is records
+  # that could carry the amplicon: Rhabdoviridae 46k -> 9.9k, Phlebovirus
+  # 4.7k -> 1.1k, Orthobunyavirus 11.8k -> 2.1k, Caliciviridae 85k -> 67k.
+  - match: "^RHABDOVIRUS_ssRNA_L_gene"
+    query: 'L[Gene] OR "L protein"[Title] OR "large polymerase"[Title] OR polymerase[Title] OR "complete genome"[Title]'
+  - match: "^PHLEBOVIRUS_ssRNA_L_segment"
+    query: 'L[Gene] OR "L segment"[Title] OR polymerase[Title] OR "complete genome"[Title]'
+  - match: "^ORTHOBUNYAVIRUS_ssRNA_"
+    query: 'S[Gene] OR M[Gene] OR "S segment"[Title] OR "M segment"[Title] OR nucleocapsid[Title] OR glycoprotein[Title] OR "complete genome"[Title]'
+  - match: "^CALICIVIRUS_ssRNA_Capsid"
+    query: 'capsid[Title] OR VP1[Gene] OR VP1[Title] OR "complete genome"[Title]'
   # Fungal rDNA assays. Fetched whole, these taxa are mostly genome contigs and
   # transcripts (2026-10-04: Bsal 4,228 records, Ophidiomyces 32,645), on which
   # the assays only find chance primer pairs. The rDNA records are 12 and 196.
