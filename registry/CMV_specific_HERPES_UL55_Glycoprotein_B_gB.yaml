@@ -21,6 +21,7 @@ citation:
   as_written: null
   doi_verified: true
   reference: Prepens S et al. 2007. Virol J 4:84
+  oligos_designed_here: false
 use_context:
 - wildlife
 submitted_by: null
@@ -33,4 +34,6 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-needs_review: null
+  notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER, found 2026-10-05 by scripts/verify_oligos_against_paper.py against the PubMed Central full text of Prepens et al. 2007. That paper prints 13 oligos in four named sets - RH-gB, LC-gB, CM-gB and CM-MDBP - numbered 2743-2762 and 3730-3731. Neither 4007-s (GGTGACGTGGTTGACATNTCNCC) nor 4007-as (GCAATCGGTTTGTTGTANATNGC) appears in it, nor does the string "4007", nor any 10-base fragment of either sequence. The 4007 numbering is a different series from anything Prepens uses. Two sibling entries, _Virol_2007_round1 and _round2, DO store Prepens'' own CM-gB primers (2743s/2746as and 2744s/2745as) and both verify exact against this paper, which makes the contrast sharp rather than ambiguous: the spreadsheet carried two genuine Prepens pairs and two pairs from somewhere else under one citation. Where from is not answerable here - the sequences appear in none of the 21 papers held in this environment, and 4-digit numbering of this kind looks like the Ehlers lab''s own running primer numbers, so another paper from that group is the place to look. NOT DELETED and NOT RE-CITED: the oligos may be perfectly real, and the defect is the attribution. oligos_designed_here set to false, which is certain whatever the true source proves to be, because this paper demonstrably did not design them. To resolve, find the paper printing 4007-s/4007-as - the Ehlers-lab primate cytomegalovirus papers first - and re-cite. Fourth instance of this shape after Hellgren/Bensch, Blooi/Martel and Atkins/PREDICT.'
+needs_review:
+- PRIMERS_NOT_IN_CITED_PAPER_SOURCE_UNKNOWN

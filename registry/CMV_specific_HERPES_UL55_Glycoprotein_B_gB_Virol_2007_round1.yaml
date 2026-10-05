@@ -34,4 +34,6 @@ source:
   nested_round: round1
   notes:
   - Discovery of herpesviruses in multi-infected primates using locked nucleic acids (LNA) and a bigenic PCR approach.
-needs_review: null
+  notes_curator: 'BOTH PRIMERS VERIFY EXACT against Prepens et al. 2007, confirmed 2026-10-05: they are that paper''s CM-gB round 1 pair, 2743s and 2746as. Reading them needed a fix to scripts/verify_oligos_against_paper.py - the paper spells its ambiguous positions out as the literal string (N/I), "N or inosine", so 2743s is printed CGCAAATCGCAGA(N/I)KC(N/I)TGGTG, and until the notation was normalised both primers reported absent. The registry''s N at those positions is the correct reading. BUT THE AMPLICON DISAGREES: the paper''s own table gives 330 bp as the product length for this pair, where this entry stores 320. The sibling round 2 entry shows the same pattern, storing 230 against the paper''s 250, so the two are likely one spreadsheet error rather than two. NOT CHANGED, because this registry measures amplicons on real records and does not quote them, and no sequence database was reachable from this environment - and the precedent cuts against simply taking the paper''s word: the avipox entry measured an invariant 250 bp against a stated 234, and the measurement won. So this needs the primer pair run against real cytomegalovirus UL55 records; whatever that measures is the answer, and if it comes out at 330 then the stored 320 and 230 are both transcription slips to correct together.'
+needs_review:
+- AMPLICON_320_PAPER_STATES_330_UNMEASURED

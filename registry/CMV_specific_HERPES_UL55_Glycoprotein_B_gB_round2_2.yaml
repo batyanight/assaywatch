@@ -21,6 +21,7 @@ citation:
   as_written: null
   doi_verified: true
   reference: Prepens S et al. 2007. Virol J 4:84
+  oligos_designed_here: false
 use_context:
 - wildlife
 submitted_by: null
@@ -33,4 +34,6 @@ source:
   positive_control: null
   nested_round: round2
   notes: null
-needs_review: null
+  notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER, found 2026-10-05 by scripts/verify_oligos_against_paper.py against the PubMed Central full text of Prepens et al. 2007, exactly as for the sibling entry CMV_specific_HERPES_UL55_Glycoprotein_B_gB (4007-s/4007-as). Neither 4125-s (GCGGACTCGGTGATNTCNTGGGA) nor 4125-as (GCTGACGGGTTGATCTTGCTRAG) appears in that paper, nor the string "4125", nor any 10-base fragment of either sequence. Prepens numbers its own primers 2743-2762 and 3730-3731; 4007 and 4125 are a different series, and the two pairs are presumably round 1 and round 2 of one nested assay from whatever paper that is. Also note this entry is marked nested_round round2 while no entry holds a matching round 1 for the 4125 series, so the pair it was meant to nest inside is missing as well as unattributed. NOT DELETED and NOT RE-CITED; oligos_designed_here set to false, which holds whatever the true source is. To resolve, find the paper printing the 4007 and 4125 primers - the Ehlers-lab primate cytomegalovirus papers are the place to start - and re-cite both entries together.'
+needs_review:
+- PRIMERS_NOT_IN_CITED_PAPER_SOURCE_UNKNOWN
