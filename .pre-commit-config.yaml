@@ -1,6 +1,9 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
+    # Keep in step with the ruff pin in pyproject.toml and environment.yml: a hook
+    # on a different version reformats what the local ruff just formatted, which
+    # cost three aborted commits before anyone noticed the versions differed.
+    rev: v0.16.10
     hooks:
       - id: ruff
         args: [--fix]

@@ -107,9 +107,9 @@ def test_lookup_table_agrees_with_base_state():
     for oligo_code in IUPAC:
         table = _match_tables(oligo_code)[0]
         for record_code in IUPAC:
-            assert (
-                table[ord(record_code)] == STATE_VALUE[base_state(oligo_code, record_code)]
-            ), f"{oligo_code} vs {record_code}"
+            assert table[ord(record_code)] == STATE_VALUE[base_state(oligo_code, record_code)], (
+                f"{oligo_code} vs {record_code}"
+            )
 
 
 def test_record_n_is_ambiguous_not_a_mismatch():

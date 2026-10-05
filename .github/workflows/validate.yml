@@ -12,5 +12,6 @@ jobs:
           python-version: "3.12"
       - run: pip install -e ".[dev]"
       - run: ruff check .
+      - run: ruff format --check .
       - run: pytest -q
       - run: python -m assaywatch.validate registry
