@@ -109,6 +109,31 @@ python -m assaywatch.retrieve registry/YOUR_ASSAY.yaml --email you@example.org -
 python -m assaywatch.retrieve registry/YOUR_ASSAY.yaml --email you@example.org
 ```
 
+## 2b. Check the sequences against the paper, not against a spreadsheet
+
+```bash
+python scripts/verify_oligos_against_paper.py --assay YOUR_ASSAY --pdf-dir ~/Downloads
+```
+
+**The literature is the truth. A lab spreadsheet is a place to start.** 138 of
+the 151 entries here were transcribed from one spreadsheet, and that spreadsheet
+has already been caught in a *Sarcocystis* primer carrying an extra C, two
+undeclared cloning tails, three taxids naming the wrong organism, five DOIs
+resolving to other papers, an amplicon of 500 bp where the paper says 531, and
+an oligo named `Ziao18SF1` for a paper by Xiao.
+
+This fetches the paper's open-access full text — or reads a PDF you have
+downloaded — and looks for each stored sequence in it. Papers print reverse
+primers in either orientation and break sequences into codon groups, both of
+which it handles. When a sequence is **not** found it reports the closest
+printed oligo by edit distance, so `near:1` arrives with the correction already
+attached.
+
+Where the registry and the paper disagree, **the paper wins**. If the stored
+sequence was a deliberate lab modification, record it as a modification rather
+than as the published assay, and set `citation.oligos_designed_here`
+accordingly.
+
 ## 3. Open a pull request
 
 Include the paper's table or figure the sequences came from, or a quotation of
