@@ -49,6 +49,53 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
       outliers are consistent same-position indels across all records, i.e. registry oligo
       typos, which makes the script a registry QA tool
 
+## Phase 2 (next milestone): validation sets the thresholds
+
+**Every number in `config.yaml` is a placeholder set by eye.** Nothing in the
+reports is calibrated against a known answer, so the statuses should be read as
+"worth looking at", not as measurements. Tier-2 validation is what turns them
+into measurements, and it is also the paper's main figure.
+
+- [ ] **Tier 2: retrospective validation.** Assemble a set of assays with
+      published follow-up — a paper, erratum or redesign that reported the assay
+      failing on particular lineages, or reported it still working — and ask
+      whether AssayWatch flags what the literature found, using only records
+      deposited before that paper. That gives a confusion matrix, and the
+      thresholds become whatever optimises it rather than whatever looked
+      sensible.
+- [ ] **Per-chemistry scoring.** One penalty table is applied to every assay,
+      but 128 of 138 are conventional or consensus PCR and 10 are probe-based.
+      Conventional PCR tolerates mismatches far better than a hydrolysis probe,
+      and `terminal_mismatch_fails: true` is a qPCR-strength rule, so the
+      consensus assays are probably scored too harshly — which would inflate
+      `fail` and so the flagged counts. Fix shape: a scoring block per
+      chemistry, with the conventional numbers set by tier-2 validation.
+- [ ] **The drift rules interact and are untested.** `recent_window_months: 24`
+      with `min_records_for_drift: 20` is why Bd (Boyle 2004) reads "insufficient
+      data" at 100% detected on 17 recent records: shorten the window and assays
+      fall below the minimum, lengthen it and real change is diluted. Validation
+      has to set the pair together, not each alone.
+
+The placeholders, for the record: `scoring` (3'/mid/5' primer penalties 3.0 /
+1.0 / 0.5 over windows of 5, probe centre/outer 2.0 / 1.0, `detect_max` 1.0,
+`reduced_max` 3.0, `terminal_mismatch_fails` true, `max_ambiguous_per_oligo` 2,
+`max_mismatches_searched` 6, `max_pair_evalue` 0.01); `drift`
+(`detect_fraction_threshold` 0.90, `recent_window_months` 24,
+`min_records_for_drift` 20, `min_records_for_coverage` 10, `min_decline` 0.05);
+`degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
+
 ## Later
 - SLURM executor profile for Greene
 - contributor template, two-week review promise
+- registry coverage: audit the PREDICT consensus-PCR panel for gaps, and add
+  assays in current wildlife-lab use that PREDICT never covered (fungal,
+  bacterial and parasitic targets especially). Sequences only from a source
+  that can be read and cited, never transcribed from a secondary list
+- genus-level taxids can stop containing an assay's target species when it is
+  reclassified (Mycoplasmopsis agassizii, Mycoplasmoides testudinis left genus
+  Mycoplasma). `check_taxids.py` cannot see this; it needs a check that each
+  assay's named target organisms are still inside its retrieval root
+- ARTIC-style tiled schemes (out of scope 2026-10-04): would need a scheme
+  object of many amplicons reporting dropout, not one assay per pair, and
+  quick-lab/primerschemes is CC BY-SA 4.0, which the registry licence would
+  have to accommodate
