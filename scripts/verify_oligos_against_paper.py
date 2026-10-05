@@ -18,15 +18,23 @@ our own measurement both say 531; and an oligo named `Ziao18SF1` for a paper by
 Xiao. A sequence is the one thing in an entry that cannot be checked by reading
 the entry, so it has to be checked against the source.
 
-Local PDFs
-----------
+Local papers
+------------
 Most of the papers behind this registry are paywalled, so `--pdf-dir` searches a
-folder of downloaded PDFs as well. A PDF is matched to an entry by a DOI printed
-in its text, or failing that by the cited first author's surname and the design
-year both appearing on its first two pages. That second rule is deliberately
-conservative: a wrong match would "verify" a sequence against someone else's
-paper, which is worse than not checking it, so the surname must appear in the
-opening pages rather than anywhere in the references.
+local folder as well. It reads `.pdf`, and also `.xml` and `.txt` - a
+publisher's JATS deposit and the PubMed Central full text that
+`scripts/import_pmc_fulltext.py` writes. Where both a PDF and a text file exist
+for one DOI the text file wins, because it is the publisher's own characters
+rather than a table pypdf had to rebuild from glyph positions; that is how
+Ghosh 2021's primer table became readable at all, having been an image in the
+PDF.
+
+A file is matched to an entry by a DOI printed in its text, or failing that by
+the cited first author's surname and the design year both appearing on its first
+two pages. That second rule is deliberately conservative: a wrong match would
+"verify" a sequence against someone else's paper, which is worse than not
+checking it, so the surname must appear in the opening pages rather than anywhere
+in the references.
 
 What this does
 --------------
@@ -53,12 +61,35 @@ in-text        the string occurs in the paper but not in any listed oligo. Paper
                than `exact` and worth checking by eye
 near:N         not found, but a printed oligo is N edits away. N=1 or 2 is very
                likely a transcription error and the suggestion is the fix
-absent         no printed oligo within the distance cap. Either the sequences
-               live in a figure or a supplement this script cannot read, or the
-               stored sequence is not this paper's at all
+absent         the paper prints oligos, but none within the distance cap of this
+               one. Either the sequence lives in a figure or supplement this
+               script cannot read, or it is not this paper's at all
+no-oligos      the text held for this paper prints NO oligo-like run anywhere, so
+               it can neither confirm nor deny a sequence. Not a finding about
+               the sequence - a finding about the file. See below
 no-full-text   the paper is not open access in PMC and no local PDF matched.
                Needs the PDF - download it and re-run with --pdf-dir
 no-doi         nothing to check against
+
+Why `no-oligos` is separate from `absent`
+-----------------------------------------
+Because conflating them manufactures false findings, and this script found that
+out the hard way. `absent` is read as "the paper is in hand and the sequence is
+not in it", which is the signal that catches a primer attributed to the wrong
+paper. But a paper whose primer table never made it into the text produces
+`absent` for every one of its oligos while saying nothing at all about them.
+
+Two ways that happens, both common. A PDF can set its primer table as an image,
+so pypdf extracts a page of prose and no sequences. And PubMed Central full text
+as served through an MCP tool omits `table-wrap` content: on 2026-10-05 the avian
+orthobornavirus paper came back as 31,202 characters of readable body text
+containing zero oligo-like runs, and reported all 12 of its stored oligos
+`absent`. Every one of those verdicts was an artifact of the extraction.
+
+So a file that prints no oligos now yields `no-oligos`, and the `paper_oligos`
+column records how many oligo-like runs the matched text held. An `absent`
+against a paper that printed 2 oligos deserves far less weight than one against
+a paper that printed 40, and the column is what makes that visible.
 
 Nothing is written to registry/. A row is an instruction to go and look.
 """
@@ -104,17 +135,38 @@ def printed_oligos(text: str, min_len: int = 14, max_len: int = 60) -> list[str]
     1. CASE. Papers set sequences in capitals and use lower case only for
        degenerate codes, as Briese 2007 does with `CTr GCw GCT`. At least 60%
        upper case.
-    2. BASE COMPOSITION. A real oligo is almost all A, C, G, T and U, with a few
-       degenerate codes; English is not. At least 75% of the letters must be
-       unambiguous bases.
+    2. BASE COMPOSITION. A real oligo is mostly A, C, G, T and U, with some
+       degenerate codes; English is not. At least 65% of the letters must be one
+       of those five bases.
 
     The second test was added after running this over the 596-page PREDICT final
     report, where test 1 alone returned 32 "oligos", every one of them an
     all-capitals heading with the spaces lost: FINDINGS IN BATS became
     `INDINGSINBATS`, HIGH RISK became `HIGHRISKWI`, and one was a person's name.
-    Those letters are only 23% unambiguous bases against a real oligo's 90-100%,
-    so the composition test removes all 32 and keeps every true sequence in the
-    papers checked so far.
+
+    INOSINE IS DELIBERATELY NOT COUNTED as an unambiguous base here, and that
+    detail is the whole reason the threshold can be as low as 0.65. `I` is one of
+    the commonest letters in English and a rare one in oligos, so counting it
+    scores prose almost as high as a real primer: `INDINGS IN BATS IN THAI`
+    counts 0.53 with inosine included and 0.26 without, while a real primer
+    barely moves. Measured over the 21 papers in hand on 2026-10-05:
+
+        all-caps prose, inosine excluded     0.26
+        most degenerate real primer found    0.69   (Astr4380F, Atkins 2009)
+        typical degenerate consensus primer  0.71 - 0.85
+        a non-degenerate primer              1.00
+
+    The earlier rule - 0.75 with inosine counted - sat above two of the real
+    primers in that set and silently dropped them. Astr4380F
+    (`GAYTGGRCNCGNTWYGATGGNACIAT`, 0.73 under the old rule) and Astr4722R
+    (`ARNCKRTCATCNCCATA`, 0.71) are both printed in Atkins 2009 and neither was
+    extracted, so the registry's exact copies of them were reported as the much
+    weaker `in-text` rather than `exact`. Highly degenerate consensus primers are
+    not an edge case for this registry - pan-viral screening is most of what it
+    holds - so the test has to pass them.
+
+    Inosine is still matched by `GROUPED_RE` and still part of the sequence that
+    comes back; it is only excluded from this one numerator.
     """
     out: set[str] = set()
     for m in GROUPED_RE.finditer(text):
@@ -123,7 +175,7 @@ def printed_oligos(text: str, min_len: int = 14, max_len: int = 60) -> list[str]
             continue
         if sum(c.isupper() for c in letters) / len(letters) < 0.6:
             continue
-        if sum(c.upper() in "ACGTUI" for c in letters) / len(letters) < 0.75:
+        if sum(c.upper() in "ACGTU" for c in letters) / len(letters) < 0.65:
             continue
         out.add("".join(letters).upper())
     return sorted(out)
@@ -144,11 +196,50 @@ def pdf_text(path: Path) -> str:
         return ""
 
 
+# Every extension `papers/` may hold. A PDF is what a browser download gives;
+# `.xml` is a publisher's own JATS deposit, and `.txt` is what
+# `scripts/import_pmc_fulltext.py` writes from PubMed Central's open-access
+# full text. The last two are strictly better evidence than a PDF of the same
+# paper: they are the publisher's structured text, so a primer table arrives as
+# text rather than as something pypdf has to reconstruct from glyph positions.
+PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
+
+
+def file_text(path: Path) -> str:
+    """All readable text from a paper file, whatever format it is in.
+
+    XML is reduced to text by dropping tags, the same transformation
+    `paper_text` applies to a Europe PMC `fullTextXML` response, so a stored
+    `.xml` file and a freshly fetched one are read identically.
+    """
+    suffix = path.suffix.lower()
+    if suffix == ".pdf":
+        return pdf_text(path)
+    try:
+        raw = path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+    return re.sub(r"<[^>]+>", " ", raw) if suffix == ".xml" else raw
+
+
+def paper_files(paper_dir: Path) -> list[Path]:
+    """Every paper file in a folder, weakest evidence first.
+
+    The order is deliberate, because `index_papers` lets a later file win the
+    DOI. PDFs come first and publisher text last, so when the same paper is held
+    as both a PDF and a PMC text file the text file is what gets checked against
+    - the publisher's own characters rather than a table pypdf had to rebuild
+    from glyph positions. Sorted by name within each format, so the result never
+    depends on filesystem order.
+    """
+    return [p for suffix in PAPER_SUFFIXES for p in sorted(paper_dir.glob(f"*{suffix}"))]
+
+
 DOI_IN_TEXT = re.compile(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+")
 
 
-def index_pdfs(pdf_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tuple[str, Path]]]:
-    """({doi: (text, path)}, [(text, path)]) for every readable PDF in a folder.
+def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tuple[str, Path]]]:
+    """({doi: (text, path)}, [(text, path)]) for every readable paper in a folder.
 
     A file whose name is the DOI with slashes written as underscores is matched
     on that, which is both exact and free. Otherwise the DOI is read out of the
@@ -158,13 +249,13 @@ def index_pdfs(pdf_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tuple[s
     """
     by_doi: dict[str, tuple[str, Path]] = {}
     everything: list[tuple[str, Path]] = []
-    for path in sorted(pdf_dir.glob("*.pdf")):
+    for path in paper_files(paper_dir):
         # A filename that is the DOI with its slashes swapped for underscores
         # beats anything read out of the text, so it is checked first. This is
         # how the papers/ folder is named.
         stem = path.stem.replace("_", "/")
         named_doi = stem.lower() if DOI_IN_TEXT.fullmatch(stem) else None
-        text = pdf_text(path)
+        text = file_text(path)
         if not text:
             continue
         # A paper describing an assay prints its oligos. Requiring at least two
@@ -346,6 +437,7 @@ COLS = [
     "stored_seq",
     "doi",
     "checked_against",
+    "paper_oligos",
     "read_from",
 ]
 
@@ -372,8 +464,8 @@ def main(argv: list[str] | None = None) -> int:
     by_doi, everything = ({}, [])
     if args.pdf_dir:
         pdf_dir = args.pdf_dir.expanduser()
-        by_doi, everything = index_pdfs(pdf_dir)
-        print(f"indexed {len(everything)} readable PDFs from {pdf_dir} ({len(by_doi)} with a DOI)\n")
+        by_doi, everything = index_papers(pdf_dir)
+        print(f"indexed {len(everything)} readable papers from {pdf_dir} ({len(by_doi)} with a DOI)\n")
 
     rows: list[dict] = []
     for n, path in enumerate(paths, 1):
@@ -404,8 +496,22 @@ def main(argv: list[str] | None = None) -> int:
                 verdict, note = "no-doi", "no DOI and no local PDF to check against"
             elif text is None:
                 verdict, note = "no-full-text", "not open access in PMC and no local PDF; needs the PDF"
+            elif not printed:
+                # The text is here and prints no sequences at all. Saying
+                # "absent" would assert something about the oligo; the only
+                # honest statement is about the file.
+                verdict, note = (
+                    "no-oligos",
+                    (
+                        "the text held for this paper prints no oligo-like run anywhere, so it cannot "
+                        "confirm or deny this sequence - the primer table is an image, or was dropped "
+                        "when the full text was extracted. Needs the table read by eye"
+                    ),
+                )
             else:
                 verdict, note = check(seq, text, printed, args.cap)
+                if verdict == "absent":
+                    note = f"{note}; the paper's text printed {len(printed)} oligo-like run(s)"
             rows.append(
                 {
                     "assay_id": a.id,
@@ -416,6 +522,7 @@ def main(argv: list[str] | None = None) -> int:
                     "stored_seq": seq,
                     "doi": doi or "",
                     "checked_against": src or "",
+                    "paper_oligos": len(printed) if text else "",
                     "read_from": read_from,
                 }
             )
@@ -434,6 +541,7 @@ def main(argv: list[str] | None = None) -> int:
         "near:3",
         "near:4",
         "absent",
+        "no-oligos",
         "no-full-text",
         "no-doi",
     ]
@@ -442,7 +550,10 @@ def main(argv: list[str] | None = None) -> int:
     for k in order:
         if counts[k]:
             print(f"  {counts[k]:4d}  {k}")
-    checkable = sum(counts[k] for k in order if k not in ("no-full-text", "no-doi"))
+    # `no-oligos` is not checkable: the file is in hand but prints no sequences,
+    # so counting it would quietly depress the percentage with rows that carry
+    # no evidence either way.
+    checkable = sum(counts[k] for k in order if k not in ("no-oligos", "no-full-text", "no-doi"))
     agreeing = counts["exact"] + counts["revcomp"]
     if checkable:
         print(

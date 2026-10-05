@@ -98,8 +98,8 @@ def main(argv: list[str] | None = None) -> int:
 
     rows: list[dict] = []
     skipped_known, no_oligos = 0, []
-    for path in sorted(args.pdf_dir.glob("*.pdf")):
-        text = _vo.pdf_text(path)
+    for path in _vo.paper_files(args.pdf_dir):
+        text = _vo.file_text(path)
         if not text:
             continue
         doi = doi_of(path, text)
@@ -110,8 +110,12 @@ def main(argv: list[str] | None = None) -> int:
             continue
         seqs = _vo.printed_oligos(text)
         if not seqs:
-            # Almost always a primer table set as an image. Worth reporting as
-            # its own outcome: the paper is in hand but still needs human eyes.
+            # The paper is in hand and its sequences are not reachable from the
+            # text. Two different causes, and the file extension tells them
+            # apart: in a PDF the primer table is usually set as an image, while
+            # a `.txt` from PubMed Central has lost its `table-wrap` content to
+            # the full-text extraction, tables and all. Either way this is its
+            # own outcome, not an absence of primers, and it still needs eyes.
             no_oligos.append((doi or path.name, path.name))
             continue
         flatish = re.sub(r"\s+", " ", text)
@@ -142,7 +146,10 @@ def main(argv: list[str] | None = None) -> int:
     if skipped_known:
         print(f"  ({skipped_known} papers skipped as already cited in registry/; --all includes them)")
     if no_oligos:
-        print(f"\n{len(no_oligos)} papers yielded NO readable sequences - primer table is probably an image:")
+        print(
+            f"\n{len(no_oligos)} papers yielded NO readable sequences - a .pdf here means the "
+            "primer table is probably an image, a .txt that PubMed Central dropped its tables:"
+        )
         for doi, name in no_oligos:
             print(f"  {doi or '(no DOI)':46s} {name}")
     print()

@@ -101,7 +101,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
 
-    by_doi, everything = _vo.index_pdfs(args.pdf_dir) if args.pdf_dir.exists() else ({}, [])
+    by_doi, everything = _vo.index_papers(args.pdf_dir) if args.pdf_dir.exists() else ({}, [])
     print(f"indexed {len(everything)} papers from {args.pdf_dir}\n")
 
     paths = list(iter_files(args.registry))

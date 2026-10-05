@@ -29,6 +29,42 @@ def test_finds_sequences_printed_in_codon_groups():
     assert "CTRGCWGCTCTWAGRCTTTTRTAMCC" in vo.printed_oligos(mixed)
 
 
+def test_finds_heavily_degenerate_consensus_primers():
+    """Regression for the 0.75-with-inosine composition rule, which dropped them.
+
+    Atkins 2009 prints both of these. Under the old rule they scored 0.73 and
+    0.71 against a 0.75 threshold, so neither was extracted, and the registry's
+    exact copies of them came back as `in-text` - the verdict that means "this
+    string is somewhere in the paper", when in fact the paper lists them as its
+    primers. A pan-viral consensus primer is degenerate by design, and this
+    registry is mostly pan-viral screening, so these cannot be edge cases.
+    """
+    atkins = (
+        "forward primer Astr4380F (5'-GAYTGGRCNCGNTWYGATGGNACIAT-3') and reverse "
+        "primer Astr4722R (5'-ARNCKRTCATCNCCATA-3')"
+    )
+    printed = vo.printed_oligos(atkins)
+    assert "GAYTGGRCNCGNTWYGATGGNACIAT" in printed, printed
+    assert "ARNCKRTCATCNCCATA" in printed, printed
+    # And the registry's stored form, with N where the paper prints inosine,
+    # must now read as an exact match rather than as in-text.
+    verdict, _ = vo.check("GAYTGGRCNCGNTWYGATGGNACNAT", atkins, printed, 4)
+    assert verdict == "exact", verdict
+
+
+def test_inosine_is_not_counted_as_an_unambiguous_base():
+    """The reason the threshold can be 0.65: `I` is common in English, rare in
+    oligos, so counting it scores all-caps prose nearly as high as a primer.
+
+    `INDINGS IN BATS IN THAI` is 0.53 unambiguous with inosine counted and 0.26
+    without, which is what puts clear air between it and a real primer.
+    """
+    assert vo.printed_oligos("FINDINGS IN BATS IN THAILAND") == []
+    # An inosine-carrying primer still survives, because inosine sits at a few
+    # wobble positions rather than throughout.
+    assert "GGNAAYCCMTCWGGICA" in vo.printed_oligos("primer 5'-GGNAAYCCMTCWGGICA-3'")
+
+
 def test_rejects_all_caps_headings():
     """Regression for the PREDICT final report, where the case test alone
     returned 32 'oligos', all of them headings with the spaces lost.
@@ -97,3 +133,46 @@ def test_a_match_inside_the_printed_gene_is_not_a_primer_match():
     assert listed == "exact", listed
     shifted, note = vo.check("CTGTCTTCATTTGGAGCATTC", paper, printed, 4)
     assert shifted == "in-text", (shifted, note)
+
+
+def test_a_paper_printing_no_oligos_is_not_evidence_of_absence():
+    """`no-oligos` has to be its own verdict, or the tool manufactures findings.
+
+    `absent` is read as "the paper is in hand and this sequence is not in it",
+    which is the signal that catches a primer attributed to the wrong paper. A
+    paper whose primer table never reached the text - set as an image, or
+    dropped with its `table-wrap` when PMC full text was extracted - would
+    otherwise produce exactly that verdict for every one of its oligos while
+    saying nothing about any of them. On 2026-10-05 that accounted for 44 of 57
+    `absent` rows in a single run.
+    """
+    prose = "We screened samples by real-time PCR as described previously. See Table 1."
+    assert vo.printed_oligos(prose) == []
+
+
+def test_paper_files_prefers_publisher_text_over_a_pdf(tmp_path):
+    """Both formats for one DOI: the text file must win.
+
+    It is the publisher's own characters, where the PDF's primer table may be an
+    image or a grid pypdf has to rebuild from glyph positions. Ghosh 2021's table
+    is readable only this way.
+    """
+    (tmp_path / "10.1111_1755-0998.13299.pdf").write_bytes(b"%PDF-1.4 not really a pdf")
+    (tmp_path / "10.1111_1755-0998.13299.txt").write_text(
+        "primer BdAll-F 5'-GCGGCCAACCAGTTTAACGCAA-3' and 5'-ATTGCGCTGGAACCTTGTCAA-3'"
+    )
+    by_doi, everything = vo.index_papers(tmp_path)
+    assert "10.1111/1755-0998.13299" in by_doi
+    text, path = by_doi["10.1111/1755-0998.13299"]
+    assert path.suffix == ".txt", path
+    assert "GCGGCCAACCAGTTTAACGCAA" in vo.printed_oligos(text)
+
+
+def test_file_text_reads_xml_by_dropping_tags():
+    """A publisher JATS deposit must read the same as a fetched fullTextXML."""
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / "a.xml"
+        p.write_text("<article><p>primer 5'-<b>GCGGCCAACCAGTTTAACGCAA</b>-3'</p></article>")
+        assert "GCGGCCAACCAGTTTAACGCAA" in vo.printed_oligos(vo.file_text(p))
