@@ -23,6 +23,7 @@ citation:
   as_written: Hellgren et al 2004
   doi_verified: true
   reference: Hellgren O, Waldenström J, Bensch S. 2004. J Parasitol 90:797-802
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary
@@ -36,5 +37,7 @@ source:
   positive_control: Inca Tern DNA, UC3
   nested_round: null
   notes: null
+  notes_curator: 'CONFIRMED 2026-10-05 against the full text via the NYU library: HaemNFI and HaemNR3 are this paper''s own (''initial primers were constructed (HaemNFI ... and HaemNR3 ...)''), and both sequences match character for character, inosine included. AMPLICON SIZE IS SUSPECT. The stored 617 bp is the product of HaemNF/HaemNR2, which the paper attributes to Waldenstrom et al. 2004 - a DIFFERENT first-round pair. For HaemNFI/HaemNR3 the paper states no size. 617 should not be trusted until it is measured on real records.'
 needs_review:
+- AMPLICON_617_IS_A_DIFFERENT_PRIMER_PAIR
 - ORIENTATION_INFERRED_BY_POSITION

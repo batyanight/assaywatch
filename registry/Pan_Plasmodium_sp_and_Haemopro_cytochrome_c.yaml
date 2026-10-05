@@ -22,6 +22,7 @@ citation:
   as_written: null
   doi_verified: true
   reference: Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)
+  oligos_designed_here: false
 use_context:
 - wildlife
 - veterinary
@@ -35,4 +36,6 @@ source:
   positive_control: Harlequin Duck DNA, UC3
   nested_round: null
   notes: null
-needs_review: null
+  notes_curator: 'PROVENANCE CORRECTED 2026-10-05, from the full text of Hellgren et al. 2004 read through the NYU library. HaemF and HaemR2 are NOT this paper''s primers. Its Methods say so in as many words: ''For the second PCR, we used HaemF-HaemR2 primers (Bensch et al., 2000) for Plasmodium spp. and Haemoproteus spp.'' The design paper is Bensch, S., Stjernman, M., Hasselquist, D. et al., ''Host specificity in avian blood parasites: a study of Plasmodium and Haemoproteus mitochondrial DNA amplified from birds'', Proc R Soc Lond B 267, 1583-1589 (2000), doi:10.1098/rspb.2000.1181 (verified against Crossref). Hellgren 2004 is where this registry read the sequences from and is the paper that nests them, so the citation is kept and oligos_designed_here is set False - the scope of these two primers has to be read from Bensch 2000, not from Hellgren. Both sequences match the Hellgren text exactly, and the 480 bp product size is confirmed there (''480 bp for Haemoproteus spp. and Plasmodium spp.''). This is the same error class as the ranavirus MCP assay, found on the first paper fetched through the library, which suggests the registry''s other nested second-round entries deserve the same check.'
+needs_review:
+- PRIMERS_DESIGNED_IN_BENSCH_2000
