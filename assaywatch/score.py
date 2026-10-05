@@ -46,13 +46,115 @@ import yaml
 
 from assaywatch.chance import composition, pair_evalue, site_evalue
 from assaywatch.match import Site, find_sites
-from assaywatch.schema import Assay
+from assaywatch.schema import Assay, Chemistry
 
 DEFAULT_CONFIG = Path(__file__).resolve().parents[1] / "config.yaml"
 
+# Where load_config stashes one fully-resolved config per chemistry that has
+# overrides. Private, and absent entirely when nothing is overridden.
+RESOLVED = "_config_by_chemistry"
+
+
+def scoring_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, Any]:
+    """The scoring block that applies to one chemistry.
+
+    `scoring` in config.yaml holds the numbers that apply to every assay, and an
+    optional `scoring.by_chemistry` map overrides individual keys for one of
+    them.
+
+    WHY THIS EXISTS. One penalty table was applied to all 164 assays, and they
+    are not one kind of assay: 142 are conventional or consensus PCR and 21 are
+    probe-based (13 MGB, 8 hydrolysis), plus one RPA. Conventional PCR tolerates
+    mismatches far better than a hydrolysis probe - a 100-fold yield loss is
+    often still a visible band after 40 cycles - so a qPCR-grade rule like
+    `terminal_mismatch_fails` is too harsh for most of this registry, and too
+    harsh means `fail` calls that are not failures and a flagged count that is
+    inflated.
+
+    WHAT THIS DELIBERATELY DOES NOT DO. It ships with no overrides, so every
+    chemistry gets today's numbers and every call is unchanged. The fix for
+    "these numbers are wrong" is tier-2 validation setting them against known
+    answers, not an author choosing new ones; this is the mechanism that makes
+    such a change expressible and auditable, and the numbers come later.
+
+    Returns the base block ITSELF, not a copy, when a chemistry overrides
+    nothing, so the common path allocates nothing and cannot drift from the
+    behaviour that preceded it.
+    """
+    base = cfg.get("scoring") or {}
+    override = (base.get("by_chemistry") or {}).get(str(chemistry)) or {}
+    # `by_chemistry` is left inside the merged block; nothing reads it, and
+    # removing it would cost the identity fast-path above for no benefit.
+    return {**base, **override} if override else base
+
+
+def config_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, Any]:
+    """`cfg` with its `scoring` block resolved for one chemistry.
+
+    Returns `cfg` itself when that chemistry overrides nothing, which is the
+    shipped default - so the scoring path is identical to the one that existed
+    before per-chemistry scoring rather than merely equivalent to it.
+    """
+    pre = cfg.get(RESOLVED)
+    if pre is not None and str(chemistry) in pre:
+        return pre[str(chemistry)]
+    scoring = scoring_for(chemistry, cfg)
+    return cfg if scoring is cfg.get("scoring") else {**cfg, "scoring": scoring}
+
+
+def check_chemistry_overrides(cfg: dict[str, Any]) -> list[str]:
+    """Problems with `scoring.by_chemistry`, as messages.
+
+    Both checks exist because the failure they catch is silent. A misspelled
+    chemistry, or a misspelled key inside one, would simply never be applied:
+    the run would succeed, the numbers would be the old ones, and the report
+    would be indistinguishable from a recalibrated run. A config that cannot be
+    read as intended has to fail loudly.
+    """
+    base = cfg.get("scoring") or {}
+    by = base.get("by_chemistry")
+    if not by:
+        return []
+    if not isinstance(by, dict):
+        return [f"scoring.by_chemistry must map chemistry to overrides, got {type(by).__name__}"]
+    problems = []
+    known_chem = {str(c) for c in Chemistry}
+    # The base block defines what a scoring key is, so this needs no upkeep.
+    known_keys = {k for k in base if k != "by_chemistry"}
+    for chem, override in sorted(by.items()):
+        if chem not in known_chem:
+            problems.append(
+                f"scoring.by_chemistry.{chem}: not a chemistry in the schema; "
+                f"expected one of {sorted(known_chem)}"
+            )
+        if override is None:
+            continue
+        if not isinstance(override, dict):
+            problems.append(f"scoring.by_chemistry.{chem} must be a mapping, got {type(override).__name__}")
+            continue
+        for key in sorted(set(override) - known_keys):
+            problems.append(
+                f"scoring.by_chemistry.{chem}.{key}: not a key in `scoring`, so it would be ignored"
+            )
+    return problems
+
 
 def load_config(path: Path | None = None) -> dict[str, Any]:
-    return yaml.safe_load((path or DEFAULT_CONFIG).read_text())
+    cfg = yaml.safe_load((path or DEFAULT_CONFIG).read_text())
+    problems = check_chemistry_overrides(cfg)
+    if problems:
+        raise ValueError("config.yaml: " + "; ".join(problems))
+    # Resolved once here rather than per record. Only chemistries that override
+    # something are stored, so every other one falls through to `config_for`'s
+    # identity path and costs nothing.
+    resolved = {}
+    for chem in Chemistry:
+        scoring = scoring_for(chem, cfg)
+        if scoring is not cfg.get("scoring"):
+            resolved[str(chem)] = {**cfg, "scoring": scoring}
+    if resolved:
+        cfg[RESOLVED] = resolved
+    return cfg
 
 
 @dataclass
@@ -328,7 +430,14 @@ def screen_record(
     The split exists so that every pool combination goes through exactly the same
     scoring path as a plain assay: there is one implementation of the rules, and
     pooling is a loop around it rather than a second code path.
+
+    This is where the chemistry's scoring block is resolved, and it is the only
+    place: `screen_one` is called from here and nowhere else, so every caller in
+    the project reaches the right numbers without knowing they exist. With no
+    overrides configured `config_for` hands back the same cfg object, so the
+    default path is unchanged.
     """
+    cfg = config_for(assay.chemistry, cfg)
     fwd, rev, probe = oligo_pools(assay)
     if len(fwd) == 1 and len(rev) == 1 and len(probe) <= 1:
         return screen_one(assay, record_id, record_seq, cfg, comp)

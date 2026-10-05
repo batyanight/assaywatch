@@ -28,11 +28,12 @@ scoring:
   primer_5prime_penalty: 0.5
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
-  # weighted above the ends. Known gap: all 10 probe assays here are MGB, whose
-  # minor-groove binder raises Tm by roughly 15-20 C and makes short probes
+  # weighted above the ends. Known gap: of the 21 probe assays here 13 are MGB,
+  # whose minor-groove binder raises Tm by roughly 15-20 C and makes short probes
   # viable — so an MGB probe's tolerance is not that of a bare oligo of the same
-  # length, and these two numbers do not know the difference. A 15-mer and a
-  # 32-mer are also treated alike, which cannot be right.
+  # length, and these two numbers do not know the difference. `by_chemistry`
+  # below can now tell `mgb` from `hydrolysis_probe`; what it cannot do is tell a
+  # 15-mer from a 32-mer, which is a length-scaling problem, not a chemistry one.
   probe_center_penalty: 2.0      # central third of the probe
   probe_outer_penalty: 1.0
   # A record base the oligo only partly covers (an N, or a code the oligo does
@@ -83,6 +84,47 @@ scoring:
   # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
   # severe class — but the rule got there without checking.
   terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail
+
+  # PER-CHEMISTRY OVERRIDES. Every key above applies to all 164 assays, and they
+  # are not one kind of assay: 142 are conventional or consensus PCR, 21 are
+  # probe-based (13 MGB, 8 hydrolysis) and 1 is RPA. A rule set at qPCR strength
+  # is wrong for the 142, and wrong in the direction that manufactures `fail`
+  # calls and inflates the flagged count.
+  #
+  # Anything under `by_chemistry.<chemistry>` replaces that key for assays of
+  # that chemistry alone. Names come from the schema (conventional, sybr,
+  # hydrolysis_probe, mgb, lna, rpa); an unknown name, or an unknown key inside
+  # one, is a hard error at load rather than a silent no-op — a typo that simply
+  # failed to apply would leave a run looking recalibrated when it was not.
+  #
+  # SHIPPED EMPTY ON PURPOSE. The mechanism is here; the numbers are not. Every
+  # threshold in this file was set by eye, and tier-2 validation is what turns
+  # them into measurements — so the way to fill this in is to fit it against the
+  # confusion matrix from docs/validation-cases.tsv, not to pick numbers that
+  # sound more lenient. Until then every chemistry gets the numbers above, and
+  # the output is identical to a config carrying no `by_chemistry` at all.
+  #
+  # The first candidate, once validation can test it, is the one that already
+  # has literature behind it. `terminal_mismatch_fails: true` is identity-blind,
+  # and Kwok et al. 1990 (doi:10.1093/nar/18.4.999) with Stadhouders et al. 2010
+  # (doi:10.2353/jmoldx.2010.090035) agree that only A:A, A:G, G:A and C:C
+  # strongly suppress yield, while T:G, T:C and T:T are near-neutral. An
+  # automatic fail is therefore wrong for roughly half of terminal mismatches,
+  # and most wrong for conventional PCR, where the lost yield is often still a
+  # band. Expressing that would look like:
+  #
+  # by_chemistry:
+  #   conventional:
+  #     terminal_mismatch_fails: false
+  #     primer_3prime_penalty: 2.0
+  #   rpa:
+  #     # 30-35mers at 37-42 C with a recombinase; Taq's penalties are not these.
+  #     terminal_mismatch_fails: false
+  #
+  # Do not uncomment that without the validation run behind it. It would move
+  # every status in every report, and a threshold changed by eye is exactly what
+  # the top of this file warns against.
+  by_chemistry: {}
 
 amplicon:
   min_bp: 50
