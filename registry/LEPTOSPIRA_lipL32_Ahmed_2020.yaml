@@ -1,0 +1,44 @@
+id: LEPTOSPIRA_lipL32_Ahmed_2020
+name: LEPTOSPIRA (pathogenic) — lipL32 real-time PCR (Ahmed 2020)
+target:
+  taxid: 171
+  gene: lipL32
+  genome_type: dsDNA
+  taxon_name: Leptospira
+  query: lipL32[Gene] OR lipL32[All Fields] OR "complete genome"[Title]
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: LipgrF2
+    seq: CGCTGAAATGGGAGTTCGTATGATTTCC
+  reverse:
+    name: LipgrR2
+    seq: GGCATTGATTTTTCTTCYGGGGTWGCC
+  probe:
+    name: LipgrP1
+    seq: AGGCGAAATCGGKGARCCAGGCGAYGG
+    reporter: FAM
+    quencher: BHQ-1
+  alternates: []
+amplicon_bp: 114
+citation:
+  doi: 10.1371/journal.pone.0241584
+  design_year: 2020
+  n_sequences_at_design: null
+  as_written: null
+  reference: Ahmed, A., Goris, M. G. A. & Meijer, M. C. Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection. PLOS ONE 15, e0241584 (2020).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-05 from the paper''s own text in papers/, extracted with scripts/extract_candidate_oligos.py and then screened against strided GenBank samples before the entry was trusted - strided rather than from the head of the archive, because archives are accession-ordered and their first records are never representative. The registry''s only Leptospira entry targeted flaB, so lipL32 - the standard target for PATHOGENIC Leptospira - was a gene gap on a taxon already tracked. VERIFIED: of 24 strided lipL32 records, 6 gave a product, all exactly 114 bp, with the probe present in all 6. amplicon_bp is measured; the paper states no size. THE PAPER''S INTERNAL-CONTROL OLIGOS ARE DELIBERATELY EXCLUDED. Its oligo table also lists IntoF2, IntoR2, IntoP1 and PlasintS1, which target a synthetic internal control rather than Leptospira. Entering those as part of the assay would have the tool screening a plasmid sequence against Leptospira records and reporting the inevitable non-detection as drift. The table labels them ''Internal Control'', which is the only reason the distinction was visible - a good argument for reading tables rather than harvesting sequences. SCOPE. taxid 171 is the whole genus, which includes saprophytic species the assay intentionally does not detect: lipL32 is largely restricted to pathogenic Leptospira. So a detected share below 100% here is expected by design, and this entry is a candidate for lineage scoping once that decision is made.'
+needs_review: null

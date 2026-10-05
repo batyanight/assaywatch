@@ -1,0 +1,45 @@
+id: AVIPOXVIRUS_dsDNA_4b_core_Farias_2010
+name: AVIPOXVIRUS (dsDNA) — 4b core protein TaqMan (Farias 2010)
+target:
+  taxid: 10260
+  gene: 4b core protein
+  genome_type: dsDNA
+  taxon_name: Avipoxvirus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: 1F
+    seq: TCCTTGTAAAAGCGATACAGGAA
+  reverse:
+    name: 1R
+    seq: CCCCTTAACATGTGCTAACAA
+  probe:
+    name: Pox1
+    seq: CAGCGTGATGAAGACGCTAA
+    reporter: FAM
+    quencher: BHQ-1
+  alternates: []
+amplicon_bp: 250
+citation:
+  doi: 10.1371/journal.pone.0010745
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: Farias, M. E. M., LaPointe, D. A., Atkinson, C. T., Czerwonka, C., Shrestha, R. & Jarvi, S. I. Taqman real-time PCR detects Avipoxvirus DNA in blood of Hawai'i 'Amakihi (Hemignathus virens). PLoS ONE 5, e10745 (2010).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-05 from the paper''s own text in papers/, extracted with scripts/extract_candidate_oligos.py and then screened against strided GenBank samples before the entry was trusted - strided rather than from the head of the archive, because archives are accession-ordered and their first records are never representative. Avian pox was absent from the registry. TRANSCRIPTION IS SOUND, on strong internal evidence: of 40 strided Avipoxvirus records, 6 gave a product, every one of them exactly 250 bp, and the probe site was present in all 6. Three independent oligos landing in the same place with an invariant spacing is not something a mistyped sequence does. AMPLICON DISAGREES WITH THE PAPER AND THE MEASUREMENT WINS. The paper states a 234 bp fragment; every record measured here gives 250. amplicon_bp is set to the measured 250 and the disagreement is flagged rather than averaged away - it may be a strain indel, a numbering convention, or an error in the text, and it is not resolvable from what is in hand. COVERAGE IS NARROW AND THAT IS PROBABLY REAL. Only 6 of 40 sampled records yield a product. Avipoxvirus is a diverse genus - fowlpox, canarypox, pigeonpox and more - and this assay was developed on avipox from Hawaiian honeycreepers, so being judged against the whole genus is almost certainly a scope mismatch rather than drift. Left unscoped pending the registry-wide lineage-scoping decision, with the number recorded here so a low detected share is not read as assay failure.'
+needs_review:
+- AMPLICON_MEASURED_250_PAPER_SAYS_234
