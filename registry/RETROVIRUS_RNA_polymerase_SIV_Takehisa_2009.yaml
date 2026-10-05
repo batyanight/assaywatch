@@ -5,7 +5,7 @@ target:
   gene: polymerase (SIV)
   genome_type: ssRNA-RT
   taxon_name: Simian immunodeficiency virus
-  query: '(pol[Gene] OR polymerase[Title] OR "complete genome"[Title]) AND (SIVcpz OR SIVgor OR chimpanzee OR gorilla OR "Pan troglodytes" OR "Gorilla gorilla")'
+  query: pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
   forward:
@@ -35,5 +35,9 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'Scoped 2026-10-04 to the SIVcpz/SIVgor lineage it was designed for (Takehisa 2009, SIV in wild western gorillas). Against all SIV it detected 0% in every year: outside its design, not drift.'
+  notes_curator: 'Not scoped (a scope attempted 2026-10-04 was reverted): SIVgor has no NCBI taxon and
+    SIVcpz (388909) has only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged
+    keyword query searches every Entrez field and does not isolate the lineage. Judged against all SIV,
+    with the lineage breakdown recorded instead: SIVgor 8/8 detected, SIVcpz 15/30, everything else 5/181.
+    See docs/2026-10-04-assay-investigations.md.'
 needs_review: null

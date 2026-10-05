@@ -45,12 +45,65 @@ from a gradual change over time.
 * **What it means:** "watch" at ~88% is accurate. The cause is one recurring
   variant, not a decline.
 
-## The two scoped assays after scoping
+## Scoping an assay: when it is the finding and when it hides one
 
-* **Takehisa 2009 (SIVcpz/SIVgor only):** 28 of 219 evaluable records detected
-  (13%), no evaluable deposits in the last 24 months, so `no recent data`. Even
-  within its lineage the assay mostly fails, which suggests it is specific to
-  gorilla SIV rather than covering chimpanzee SIV as well. Worth checking
-  against the paper's stated target before relying on it for SIVcpz.
-* **Feldman 2006 (chelonian mycoplasmas only):** 9 of 10 evaluable records
-  detected, no recent evaluable deposits, so `no recent data`.
+Scoping an assay to the lineage it was designed against makes it stable almost
+by definition, so each scope has to be argued one of two ways:
+
+* **The published claim is lineage-specific.** The assay was never offered as
+  broader, so the narrow denominator is the one its claim is about, and the
+  wide number is specificity rather than drift. Scope it, and record the wide
+  number so the limit stays visible.
+* **The published claim is broader than the lineage.** Then the miss is the
+  finding and scoping buries it: someone working where the other lineage
+  circulates needs to see it. Do not scope; record the breakdown instead.
+
+A scope must also restrict by *organism*. An untagged Entrez term searches
+every field, so a keyword scope silently changes the denominator without
+isolating anything — both first attempts here did exactly that and had to be
+redone (below).
+
+### Feldman 2006, chelonian Mycoplasma 16S — scoped (claim is lineage-specific)
+
+The paper describes a novel Mycoplasma of free-ranging eastern box turtles and
+the source sheet says "turtles only", so the claim is chelonian. Scoped to the
+three named chelonian mycoplasmas by taxid: **Mycoplasmopsis agassizii**
+(33922), **Mycoplasma testudineum** (244584), **Mycoplasmoides testudinis**
+(33924) — 534 records.
+
+* Retrieval root is the **phylum** (Mycoplasmatota, 544448), not genus
+  *Mycoplasma*: two of the three species have been reclassified out of that
+  genus, so a query under txid2093 reached only 94 of the 534 records. Any
+  genus-level taxid in this registry can rot the same way, and
+  `scripts/check_taxids.py` would not catch it — it checks that a taxid still
+  means what the registry says, not that the species an assay targets are still
+  inside it.
+* First attempt (reverted) used keywords (`turtle OR tortoise OR …`): 103
+  records, mostly assembly contigs and uncultured clones, missing most of the
+  real ones.
+* **Wide number, kept on the record:** against the whole genus (24,523 records)
+  it detected 0–4% in every year. That is the assay being specific.
+* After scoping: 9 of 10 evaluable records detected, nothing deposited in the
+  last 24 months, so `no recent data`.
+
+### Takehisa 2009, SIV pol — not scoped (no honest scope exists)
+
+The paper is about SIV in wild-living western gorillas, so a SIVgor scope would
+be defensible in principle. It cannot be built: **SIVgor has no NCBI taxon**,
+and SIVcpz (388909) has only 7 pol/genome records. The keyword scope tried
+first returned 596 records of which 181 of 219 evaluable were neither clearly
+SIVcpz nor SIVgor — it shrank the denominator without isolating the lineage, so
+it was reverted.
+
+The assay stays on all SIV, and the breakdown is recorded instead:
+
+| lineage (from record titles) | evaluable | detected |
+|---|---|---|
+| gorilla (SIVgor) | 8 | 8 (100%) |
+| chimpanzee (SIVcpz) | 30 | 15 (50%) |
+| other / unclear | 181 | 5 (3%) |
+
+Read that way the report's low share is not drift and not a scoping artefact:
+the assay does what the paper claims on SIVgor, covers about half of SIVcpz,
+and does not cover the rest of the genus. Anyone using it outside SIVgor needs
+that table, which is the case where scoping would have hidden the finding.
