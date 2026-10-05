@@ -31,6 +31,17 @@ IUPAC_RE = re.compile(r"^[ACGTURYSWKMBDHVN]+$")
 AS_WRITTEN_RE = re.compile(r"^[ACGTURYSWKMBDHVNI]+$")
 DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
 OLIGO_MIN, OLIGO_MAX = 15, 40
+# The floor on the part of a tailed oligo that actually binds the target. It is
+# one base below OLIGO_MIN because a real published primer sits there: Briese et
+# al. 2007 (doi:10.1007/s00705-007-1069-z) Table 1 prints BUN-S3-R as a 6 nt
+# cloning tail plus 14 nt of authentic sequence. A 14-mer is short for a primer,
+# but this one is anchored on the orthobunyavirus segment terminus — the most
+# conserved sequence in the genome — and a tailed primer anneals over its full
+# length from round 2 onwards, once the product carries the tail. So the short
+# footprint is the first-round specificity only. These floors exist to catch a
+# mistyped 3-base "oligo" that would match everywhere, not to overrule a
+# published table.
+OLIGO_MIN_BINDING = 14
 AMPLICON_MIN, AMPLICON_MAX = 50, 3000  # outside this range the matcher's orientation rule misfires
 
 
@@ -107,8 +118,11 @@ class Oligo(Strict):
             t = self.tail_5prime.strip().upper()
             if not self.seq.startswith(t):
                 raise ValueError(f"tail_5prime {t} is not the 5' end of seq {self.seq}")
-            if len(self.seq) - len(t) < OLIGO_MIN:
-                raise ValueError("binding part shorter than the minimum oligo length after the tail")
+            if len(self.seq) - len(t) < OLIGO_MIN_BINDING:
+                raise ValueError(
+                    f"binding part is {len(self.seq) - len(t)} nt after the {len(t)} nt tail, "
+                    f"below the {OLIGO_MIN_BINDING} nt floor"
+                )
             self.tail_5prime = t
         return self
 

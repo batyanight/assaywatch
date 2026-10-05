@@ -5,7 +5,7 @@ import copy
 import pytest
 from pydantic import ValidationError
 
-from assaywatch.schema import Assay
+from assaywatch.schema import Assay, Oligo
 
 GOOD = {
     "id": "TEST_assay",
@@ -132,3 +132,18 @@ def test_tail_must_be_the_five_prime_end():
 
     with pytest.raises(ValidationError):
         Oligo(seq="GGATGTCGACATGCACAAGGAAATCC", tail_5prime="GTCGAC")
+
+
+def test_tailed_oligo_may_bind_over_14_nt():
+    """BUN-S3-R (Briese 2007 Table 1) is a 6 nt cloning tail plus 14 nt that bind.
+
+    A published primer sits one base below the untailed oligo floor, so the
+    floor for a declared tail's binding part is 14, not 15. Guards against
+    someone 'tidying' OLIGO_MIN_BINDING back up and silently rejecting the
+    orthobunyavirus assays.
+    """
+    o = Oligo(name="BUN-S3-R", seq="CGCGCCAGTAGTGTGCTACC", tail_5prime="CGCGCC")
+    assert o.tail_5prime == "CGCGCC"
+    assert len(o.seq) - len(o.tail_5prime) == 14
+    with pytest.raises(ValidationError, match="below the 14 nt floor"):
+        Oligo(name="too-short", seq="CGCGCCAGTAGTGTGCTAC", tail_5prime="CGCGCC")
