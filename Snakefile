@@ -33,6 +33,7 @@ import os
 from datetime import date
 from pathlib import Path
 
+from assaywatch.collect import concatenate_screens, stem_order
 from assaywatch.retrieve import targets_from_registry
 
 configfile: "config.yaml"
@@ -91,15 +92,9 @@ def screen_signature(taxid, group):
     return h.hexdigest()[:16]
 
 
-# `_2`, `_3` suffixes come from a second fetch on the same day, so the stems sort
-# as text in the wrong order (`_10` before `_2`). Order matters because
-# collect_calls relies on it: archives are concatenated oldest first so the newest
-# version of an accession is the one that survives deduplication downstream.
-def stem_order(path):
-    """`2026-10-04` < `2026-10-04_2` < `2026-10-04_10`: archive names in fetch order."""
-    stem = path.name.split(".")[0]
-    day, _, n = stem.partition("_")
-    return (day, int(n or 1))
+# stem_order lives in assaywatch/collect.py with collect_calls' logic, so both
+# can be tested: archives are concatenated oldest first, and `_10` must sort
+# after `_2`, so that the newest version of an accession survives deduplication.
 
 wildcard_constraints:
     taxid=r"\d+",
@@ -203,31 +198,11 @@ rule collect_calls:
     output:
         RESULTS / RUN_DATE / "calls.tsv.gz",
     run:
-        import csv
-        import gzip
-
-        # The reconciliation below exists for one scenario: a cached screen made
-        # before a column was added meeting one made after. Plain concatenation
-        # would shift those rows a column sideways and corrupt every call in them.
-        # --thermo, before or after a column was added). Plain concatenation would
-        # shift those rows a column sideways; rows are written by column name.
-        headers = []
-        for path in input:
-            with open(path) as fh:
-                headers.append(next(fh, "").rstrip("\r\n").split("\t"))
-        columns = []
-        for h in headers:
-            columns += [c for c in h if c and c not in columns]
-        with gzip.open(output[0], "wt", newline="") as out:
-            out.write("\t".join(columns) + "\n")
-            for path, header in zip(input, headers):
-                with open(path, newline="") as fh:
-                    next(fh, None)
-                    if header == columns:
-                        out.writelines(fh)  # the usual case: same columns, copy as is
-                    else:
-                        w = csv.DictWriter(out, columns, delimiter="\t", restval="", lineterminator="\r\n")
-                        w.writerows(csv.DictReader(fh, fieldnames=header, delimiter="\t"))
+        # The logic is in assaywatch/collect.py, where it is tested. It reconciles
+        # a cached screen made before a column was added with one made after,
+        # writing rows by column name, since plain concatenation would shift the
+        # older rows a column sideways.
+        concatenate_screens(list(input), output[0])
 
 
 rule degeneracy_table:

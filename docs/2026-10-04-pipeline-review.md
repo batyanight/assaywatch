@@ -257,6 +257,16 @@ tiers, and score pools per member.
 - **No test touches the Snakefile**, including `collect_calls`' column
   reconciliation — written precisely for the case of a pre-`exclusion` TSV
   meeting a post-`exclusion` one.
+  *Fixed 2026-10-05:* the logic moved to `assaywatch/collect.py` (`concatenate_screens`,
+  `stem_order`) and the rule calls it, so it can be imported and tested. Fifteen
+  tests, including the shape that actually corrupts - a column inserted in the
+  MIDDLE of the row, which shifts every later value sideways - with a test that
+  runs the naive version to show the test can fail. The new function matches the
+  old inline block byte for byte on 60 randomised mixed-schema inputs; one
+  deliberate change, the header now ends in CRLF like every row (it was a bare LF).
+  A screen whose last row has no line break is now refused by name instead of
+  having the next file's header glued onto it. NOT run under Snakemake itself:
+  it would not install in the cloud container, so check with `snakemake -n`.
 - **`retrospective.py --cases` re-parses `calls.tsv.gz` and re-globs every
   metadata file once per case.**
 - **The pre-commit hook pins ruff 0.6.9 while the environment has 0.16.10**, so
