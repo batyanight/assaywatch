@@ -41,6 +41,15 @@ data/retrieved/  per-taxon FASTA archives (git-ignored; Phase 1)
 results/         per-run scored tables and reports (git-ignored; Phase 1)
 ```
 
+## Contributing an assay
+
+`CONTRIBUTING.md` has the submission template and the review process.
+`scripts/check_submission.py` checks a candidate entry — schema, undeclared 5'
+cloning tails, degeneracy, that the DOI resolves to the paper named, that the
+taxid still means what it says, and above all whether the oligos find their
+amplicon in real records. `scripts/scan_literature.py` proposes recently
+published assays for targets already in the registry, and never adds any.
+
 ## Setup (macOS, conda)
 
 ```bash
