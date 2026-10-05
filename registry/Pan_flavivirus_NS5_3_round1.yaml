@@ -4,7 +4,7 @@ target:
   taxid: 11051
   gene: NS5-3
   genome_type: ssRNA+
-  taxon_name: Flavivirus
+  taxon_name: Orthoflavivirus (formerly Flavivirus)
   query: NS5[Gene] OR NS5[Title] OR "complete genome"[Title] OR polyprotein[Title]
 chemistry: conventional
 oligos:
@@ -37,6 +37,6 @@ source:
   positive_control: WNV DNA
   nested_round: round1
   notes: null
-  notes_curator: 'PROVENANCE SPLIT, established 2026-10-04 by the provenance audit. The oligo names carry their own attribution and the lab was right to do that: `-Zino-` is Scaramozzino and `-GORO-` is Goro Kuno. cFD2 is conventionally attributed to Kuno et al. 1998, J Virol 72:73-83, doi:10.1128/JVI.72.1.73-83.1998 (DOI verified against Crossref: ''Phylogeny of the Genus Flavivirus'', Kuno, Chang, Tsuchiya, Karabatsos, Cropp). Scaramozzino et al. 2001 contributed MAMD and FS778, and its title - ''Comparison of Flavivirus Universal Primer Pairs and Development of a Rapid, Highly Sensitive Heminested RT-PCR Assay'' - is itself evidence that it evaluated pre-existing pairs rather than designing them all. So this pair is a composite and oligos_designed_here is False: only the forward primer is Scaramozzino''s. Scope therefore cannot be read off Scaramozzino 2001 alone. Not yet confirmed from Kuno 1998''s own methods - that is what would close it.'
+  notes_curator: 'PROVENANCE SPLIT, established 2026-10-04 by the provenance audit. The oligo names carry their own attribution and the lab was right to do that: `-Zino-` is Scaramozzino and `-GORO-` is Goro Kuno. cFD2 is conventionally attributed to Kuno et al. 1998, J Virol 72:73-83, doi:10.1128/JVI.72.1.73-83.1998 (DOI verified against Crossref: ''Phylogeny of the Genus Flavivirus'', Kuno, Chang, Tsuchiya, Karabatsos, Cropp). Scaramozzino et al. 2001 contributed MAMD and FS778, and its title - ''Comparison of Flavivirus Universal Primer Pairs and Development of a Rapid, Highly Sensitive Heminested RT-PCR Assay'' - is itself evidence that it evaluated pre-existing pairs rather than designing them all. So this pair is a composite and oligos_designed_here is False: only the forward primer is Scaramozzino''s. Scope therefore cannot be read off Scaramozzino 2001 alone. Not yet confirmed from Kuno 1998''s own methods - that is what would close it. TAXON RENAMED: NCBI now calls txid11051 ''Orthoflavivirus''; this entry carried the superseded name ''Flavivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
 needs_review:
 - OLIGOS_FROM_TWO_PAPERS

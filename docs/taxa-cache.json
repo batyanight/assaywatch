@@ -1,0 +1,1592 @@
+{
+ "100474": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Batrachochytrium"
+ },
+ "10240": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Poxviridae"
+ },
+ "10241": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Chordopoxvirinae"
+ },
+ "10260": {
+  "common_name": "",
+  "lineage_tail": [
+   "Poxviridae",
+   "Chordopoxvirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Avipoxvirus"
+ },
+ "10357": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Betaherpesvirinae"
+ },
+ "10358": {
+  "common_name": "",
+  "lineage_tail": [
+   "Orthoherpesviridae",
+   "Betaherpesvirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Cytomegalovirus"
+ },
+ "10486": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Iridoviridae"
+ },
+ "10492": {
+  "common_name": "",
+  "lineage_tail": [
+   "Iridoviridae",
+   "Alphairidovirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Ranavirus"
+ },
+ "10508": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Adenoviridae"
+ },
+ "10509": {
+  "common_name": "",
+  "lineage_tail": [
+   "Rowavirales",
+   "Adenoviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Mastadenovirus"
+ },
+ "10780": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Parvoviridae"
+ },
+ "10803": {
+  "common_name": "dependoviruses",
+  "lineage_tail": [
+   "Parvoviridae",
+   "Parvovirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Dependoparvovirus"
+ },
+ "10882": {
+  "common_name": "",
+  "lineage_tail": [
+   "Reovirales",
+   "Spinareoviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Orthoreovirus"
+ },
+ "109871": {
+  "common_name": "amphibian chytrid",
+  "lineage_tail": [
+   "Rhizophydiales incertae sedis",
+   "Batrachochytrium"
+  ],
+  "rank": "species",
+  "scientific_name": "Batrachochytrium dendrobatidis"
+ },
+ "11018": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Togaviridae"
+ },
+ "11019": {
+  "common_name": "arboviruses group A",
+  "lineage_tail": [
+   "Martellivirales",
+   "Togaviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Alphavirus"
+ },
+ "11050": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Flaviviridae"
+ },
+ "11082": {
+  "common_name": "",
+  "lineage_tail": [
+   "Euflavivirus",
+   "Orthoflavivirus nilense"
+  ],
+  "rank": "no rank",
+  "scientific_name": "West Nile virus"
+ },
+ "11118": {
+  "common_name": "",
+  "lineage_tail": [
+   "Nidovirales",
+   "Cornidovirineae"
+  ],
+  "rank": "family",
+  "scientific_name": "Coronaviridae"
+ },
+ "11157": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Mononegavirales"
+ },
+ "11158": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Paramyxoviridae"
+ },
+ "112252": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "no rank",
+  "scientific_name": "Fungi incertae sedis"
+ },
+ "11229": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Morbillivirus"
+ },
+ "11266": {
+  "common_name": "",
+  "lineage_tail": [
+   "Monjiviricetes",
+   "Mononegavirales"
+  ],
+  "rank": "family",
+  "scientific_name": "Filoviridae"
+ },
+ "11270": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Rhabdoviridae"
+ },
+ "11286": {
+  "common_name": "",
+  "lineage_tail": [
+   "Rhabdoviridae",
+   "Alpharhabdovirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Lyssavirus"
+ },
+ "11308": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Orthomyxoviridae"
+ },
+ "11320": {
+  "common_name": "",
+  "lineage_tail": [
+   "Alphainfluenzavirus",
+   "Alphainfluenzavirus influenzae"
+  ],
+  "rank": "no rank",
+  "scientific_name": "Influenza A virus"
+ },
+ "1142503": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "no rank",
+  "scientific_name": "Rhizophydiales incertae sedis"
+ },
+ "11572": {
+  "common_name": "",
+  "lineage_tail": [
+   "Elliovirales",
+   "Peribunyaviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Orthobunyavirus"
+ },
+ "11584": {
+  "common_name": "",
+  "lineage_tail": [
+   "Hareavirales",
+   "Phenuiviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Phlebovirus"
+ },
+ "11617": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Arenaviridae"
+ },
+ "11632": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Retroviridae"
+ },
+ "11646": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Lentivirus"
+ },
+ "1170234": {
+  "common_name": "",
+  "lineage_tail": [
+   "Morbillivirus",
+   "Morbillivirus felis"
+  ],
+  "rank": "no rank",
+  "scientific_name": "Feline morbillivirus"
+ },
+ "11723": {
+  "common_name": "",
+  "lineage_tail": [
+   "Lentivirus",
+   "Lentivirus simimdef"
+  ],
+  "rank": "no rank",
+  "scientific_name": "Simian immunodeficiency virus"
+ },
+ "11974": {
+  "common_name": "",
+  "lineage_tail": [
+   "Pisoniviricetes",
+   "Picornavirales"
+  ],
+  "rank": "family",
+  "scientific_name": "Caliciviridae"
+ },
+ "12058": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Picornaviridae"
+ },
+ "12059": {
+  "common_name": "",
+  "lineage_tail": [
+   "Picornaviridae",
+   "Ensavirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Enterovirus"
+ },
+ "1224": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Pseudomonadota"
+ },
+ "1236": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Gammaproteobacteria"
+ },
+ "1280412": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Conoidasida"
+ },
+ "1283308": {
+  "common_name": "",
+  "lineage_tail": [
+   "Paramyxoviridae",
+   "Feraresvirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Ferlavirus"
+ },
+ "1357716": {
+  "common_name": "",
+  "lineage_tail": [
+   "Rhizophydiales incertae sedis",
+   "Batrachochytrium"
+  ],
+  "rank": "species",
+  "scientific_name": "Batrachochytrium salamandrivorans"
+ },
+ "1368691": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Nannizziopsiaceae"
+ },
+ "1387562": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Ophidiomyces"
+ },
+ "1387563": {
+  "common_name": "",
+  "lineage_tail": [
+   "Onygenaceae",
+   "Ophidiomyces"
+  ],
+  "rank": "species",
+  "scientific_name": "Ophidiomyces ophidiicola"
+ },
+ "1387564": {
+  "common_name": "",
+  "lineage_tail": [
+   "Onygenales",
+   "Nannizziopsiaceae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Paranannizziopsis"
+ },
+ "147538": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subphylum",
+  "scientific_name": "Pezizomycotina"
+ },
+ "147545": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Eurotiomycetes"
+ },
+ "147548": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Leotiomycetes"
+ },
+ "1507401": {
+  "common_name": "",
+  "lineage_tail": [
+   "Parvoviridae",
+   "Parvovirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Bocaparvovirus"
+ },
+ "151340": {
+  "common_name": "",
+  "lineage_tail": [
+   "Papovaviricetes",
+   "Zurhausenvirales"
+  ],
+  "rank": "family",
+  "scientific_name": "Papillomaviridae"
+ },
+ "151341": {
+  "common_name": "",
+  "lineage_tail": [
+   "Papovaviricetes",
+   "Sepolyvirales"
+  ],
+  "rank": "family",
+  "scientific_name": "Polyomaviridae"
+ },
+ "1639119": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Plasmodiidae"
+ },
+ "1639122": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Leucocytozoidae"
+ },
+ "1643688": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Leptospirales"
+ },
+ "1649845": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "species group",
+  "scientific_name": "Yersinia pseudotuberculosis complex"
+ },
+ "1653395": {
+  "common_name": "",
+  "lineage_tail": [
+   "Hareavirales",
+   "Arenaviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Reptarenavirus"
+ },
+ "170": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Leptospiraceae"
+ },
+ "171": {
+  "common_name": "",
+  "lineage_tail": [
+   "Leptospirales",
+   "Leptospiraceae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Leptospira"
+ },
+ "1783272": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Bacillati"
+ },
+ "178830": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Bornaviridae"
+ },
+ "186458": {
+  "common_name": "",
+  "lineage_tail": [
+   "Mononegavirales",
+   "Bornaviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Orthobornavirus"
+ },
+ "1884452": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Sunviridae"
+ },
+ "1903411": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Yersiniaceae"
+ },
+ "1921703": {
+  "common_name": "",
+  "lineage_tail": [
+   "Mononegavirales",
+   "Sunviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Sunshinevirus"
+ },
+ "195944": {
+  "common_name": "",
+  "lineage_tail": [
+   "Haemosporida",
+   "Leucocytozoidae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Leucocytozoon"
+ },
+ "197911": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Alphainfluenzavirus"
+ },
+ "1980413": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Hantaviridae"
+ },
+ "1980416": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Peribunyaviridae"
+ },
+ "1980418": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Phenuiviridae"
+ },
+ "1980442": {
+  "common_name": "",
+  "lineage_tail": [
+   "Hantaviridae",
+   "Mammantavirinae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Orthohantavirus"
+ },
+ "2": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "domain",
+  "scientific_name": "Bacteria"
+ },
+ "2017756": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Alphairidovirinae"
+ },
+ "2034996": {
+  "common_name": "",
+  "lineage_tail": [
+   "Amnoonviridae",
+   "Tilapinevirus"
+  ],
+  "rank": "species",
+  "scientific_name": "Tilapinevirus tilapiae"
+ },
+ "2034997": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Tilapinevirus"
+ },
+ "203691": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Spirochaetota"
+ },
+ "208294": {
+  "common_name": "",
+  "lineage_tail": [
+   "Reovirales",
+   "Sedoreoviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Seadornavirus"
+ },
+ "2085": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Mycoplasmatales"
+ },
+ "209": {
+  "common_name": "",
+  "lineage_tail": [
+   "Campylobacterales",
+   "Helicobacteraceae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Helicobacter"
+ },
+ "2092": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Mycoplasmataceae"
+ },
+ "2093": {
+  "common_name": "",
+  "lineage_tail": [
+   "Mycoplasmatales",
+   "Mycoplasmataceae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Mycoplasma"
+ },
+ "213849": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Campylobacterales"
+ },
+ "2169561": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Ortervirales"
+ },
+ "2497438": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Perkinsozoa"
+ },
+ "2497569": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Negarnaviricota"
+ },
+ "2497570": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subphylum",
+  "scientific_name": "Haploviricotina"
+ },
+ "2497571": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subphylum",
+  "scientific_name": "Polyploviricotina"
+ },
+ "2497574": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Monjiviricetes"
+ },
+ "2497577": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Insthoviricetes"
+ },
+ "2499399": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "suborder",
+  "scientific_name": "Cornidovirineae"
+ },
+ "2499403": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "suborder",
+  "scientific_name": "Tornidovirineae"
+ },
+ "2499411": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Articulavirales"
+ },
+ "2501949": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Amnoonviridae"
+ },
+ "2508209": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Tobaniviridae"
+ },
+ "2508240": {
+  "common_name": "",
+  "lineage_tail": [
+   "Tornidovirineae",
+   "Tobaniviridae"
+  ],
+  "rank": "subfamily",
+  "scientific_name": "Serpentovirinae"
+ },
+ "2559587": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "realm",
+  "scientific_name": "Riboviria"
+ },
+ "2560074": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Mammantavirinae"
+ },
+ "2560076": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Orthoparamyxovirinae"
+ },
+ "2605435": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Evosea"
+ },
+ "260964": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Henipavirus"
+ },
+ "262": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Francisella"
+ },
+ "263": {
+  "common_name": "",
+  "lineage_tail": [
+   "Francisellaceae",
+   "Francisella"
+  ],
+  "rank": "species",
+  "scientific_name": "Francisella tularensis"
+ },
+ "2682482": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Mastigamoebida"
+ },
+ "2698737": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "Sar"
+ },
+ "2731341": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "realm",
+  "scientific_name": "Duplodnaviria"
+ },
+ "2731342": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "realm",
+  "scientific_name": "Floreoviria"
+ },
+ "2731360": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Heunggongvirae"
+ },
+ "2731361": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Peploviricota"
+ },
+ "2731363": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Herviviricetes"
+ },
+ "2732004": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "realm",
+  "scientific_name": "Varidnaviria"
+ },
+ "2732005": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Bamfordvirae"
+ },
+ "2732007": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Nucleocytoviricota"
+ },
+ "2732008": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Preplasmiviricota"
+ },
+ "2732092": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Shotokuvirae"
+ },
+ "2732396": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Orthornavirae"
+ },
+ "2732397": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Pararnavirae"
+ },
+ "2732405": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Duplornaviricota"
+ },
+ "2732406": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Kitrinoviricota"
+ },
+ "2732408": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Pisuviricota"
+ },
+ "2732409": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Artverviricota"
+ },
+ "2732415": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Cossaviricota"
+ },
+ "2732416": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Cressdnaviricota"
+ },
+ "2732421": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Papovaviricetes"
+ },
+ "2732422": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Quintoviricetes"
+ },
+ "2732423": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Arfiviricetes"
+ },
+ "2732459": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Resentoviricetes"
+ },
+ "2732461": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Alsuviricetes"
+ },
+ "2732462": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Flasuviricetes"
+ },
+ "2732506": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Pisoniviricetes"
+ },
+ "2732507": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Stelpaviricetes"
+ },
+ "2732514": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Revtraviricetes"
+ },
+ "2732523": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Megaviricetes"
+ },
+ "2732525": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Pokkesviricetes"
+ },
+ "2732527": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Chitovirales"
+ },
+ "2732532": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Sepolyvirales"
+ },
+ "2732533": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Zurhausenvirales"
+ },
+ "2732534": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Piccovirales"
+ },
+ "2732536": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Cirlivirales"
+ },
+ "2732541": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Reovirales"
+ },
+ "2732544": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Martellivirales"
+ },
+ "2732545": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Amarillovirales"
+ },
+ "2732551": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Stellavirales"
+ },
+ "2732555": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Pimascovirales"
+ },
+ "2732559": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Rowavirales"
+ },
+ "2759": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "domain",
+  "scientific_name": "Eukaryota"
+ },
+ "27997": {
+  "common_name": "",
+  "lineage_tail": [
+   "Alveolata",
+   "Perkinsozoa"
+  ],
+  "rank": "clade",
+  "scientific_name": "Perkinsea"
+ },
+ "2842407": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Alpharhabdovirinae"
+ },
+ "28901": {
+  "common_name": "",
+  "lineage_tail": [
+   "Enterobacteriaceae",
+   "Salmonella"
+  ],
+  "rank": "species",
+  "scientific_name": "Salmonella enterica"
+ },
+ "292491": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Thelebolales"
+ },
+ "2946186": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Sedoreoviridae"
+ },
+ "2946187": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Spinareoviridae"
+ },
+ "2946630": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Ensavirinae"
+ },
+ "29547": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Campylobacterota"
+ },
+ "2955291": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "species",
+  "scientific_name": "Alphainfluenzavirus influenzae"
+ },
+ "3031852": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Epsilonproteobacteria"
+ },
+ "3044472": {
+  "common_name": "",
+  "lineage_tail": [
+   "Herviviricetes",
+   "Herpesvirales"
+  ],
+  "rank": "family",
+  "scientific_name": "Orthoherpesviridae"
+ },
+ "3044782": {
+  "common_name": "arboviruses group B",
+  "lineage_tail": [
+   "Amarillovirales",
+   "Flaviviridae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Orthoflavivirus"
+ },
+ "3047832": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "species",
+  "scientific_name": "Morbillivirus felis"
+ },
+ "3048448": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "species",
+  "scientific_name": "Orthoflavivirus nilense"
+ },
+ "3052225": {
+  "common_name": "",
+  "lineage_tail": [
+   "Orthoparamyxovirinae",
+   "Henipavirus"
+  ],
+  "rank": "species",
+  "scientific_name": "Henipavirus nipahense"
+ },
+ "3052342": {
+  "common_name": "",
+  "lineage_tail": [
+   "Orthoparamyxovirinae",
+   "Morbillivirus"
+  ],
+  "rank": "species",
+  "scientific_name": "Morbillivirus canis"
+ },
+ "3118682": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Leptospiria"
+ },
+ "3151693": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Bunyaviricetes"
+ },
+ "3151837": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Elliovirales"
+ },
+ "3151839": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Hareavirales"
+ },
+ "3152209": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Feraresvirinae"
+ },
+ "31969": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Mollicutes"
+ },
+ "327045": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Orthoretrovirinae"
+ },
+ "33084": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Endamoebidae"
+ },
+ "33154": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "Opisthokonta"
+ },
+ "33183": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Onygenales"
+ },
+ "33184": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Onygenaceae"
+ },
+ "33630": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "Alveolata"
+ },
+ "3379134": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Pseudomonadati"
+ },
+ "34064": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Francisellaceae"
+ },
+ "3412694": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subphylum",
+  "scientific_name": "Polisuviricotina"
+ },
+ "3412727": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Pharingeaviricetes"
+ },
+ "3418654": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "species",
+  "scientific_name": "Lentivirus simimdef"
+ },
+ "35082": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Cryptosporidiidae"
+ },
+ "352384": {
+  "common_name": "",
+  "lineage_tail": [
+   "Eimeriidae",
+   "Eimeria"
+  ],
+  "rank": "species",
+  "scientific_name": "Eimeria furonis"
+ },
+ "36734": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Unikaryonidae"
+ },
+ "3700964": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subgenus",
+  "scientific_name": "Euflavivirus"
+ },
+ "3705317": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "chytridiomyceta"
+ },
+ "3705883": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subphylum",
+  "scientific_name": "Chytridiomycotina"
+ },
+ "39724": {
+  "common_name": "",
+  "lineage_tail": [
+   "Arfiviricetes",
+   "Cirlivirales"
+  ],
+  "rank": "family",
+  "scientific_name": "Circoviridae"
+ },
+ "39733": {
+  "common_name": "",
+  "lineage_tail": [
+   "Stelpaviricetes",
+   "Stellavirales"
+  ],
+  "rank": "family",
+  "scientific_name": "Astroviridae"
+ },
+ "40119": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subfamily",
+  "scientific_name": "Parvovirinae"
+ },
+ "422676": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Aconoidasida"
+ },
+ "423054": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "suborder",
+  "scientific_name": "Eimeriorina"
+ },
+ "451435": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Chytridiomycetes"
+ },
+ "451442": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Rhizophydiales"
+ },
+ "451864": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subkingdom",
+  "scientific_name": "Dikarya"
+ },
+ "451871": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subclass",
+  "scientific_name": "Eurotiomycetidae"
+ },
+ "464095": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Picornavirales"
+ },
+ "46451": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Thelebolaceae"
+ },
+ "4751": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "kingdom",
+  "scientific_name": "Fungi"
+ },
+ "4761": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Chytridiomycota"
+ },
+ "4890": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Ascomycota"
+ },
+ "543": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Enterobacteriaceae"
+ },
+ "544448": {
+  "common_name": "",
+  "lineage_tail": [
+   "Bacteria",
+   "Bacillati"
+  ],
+  "rank": "phylum",
+  "scientific_name": "Mycoplasmatota"
+ },
+ "548681": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Herpesvirales"
+ },
+ "554915": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "Amoebozoa"
+ },
+ "555406": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "Archamoebae"
+ },
+ "561": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Escherichia"
+ },
+ "562": {
+  "common_name": "E. coli",
+  "lineage_tail": [
+   "Enterobacteriaceae",
+   "Escherichia"
+  ],
+  "rank": "species",
+  "scientific_name": "Escherichia coli"
+ },
+ "5758": {
+  "common_name": "",
+  "lineage_tail": [
+   "Mastigamoebida",
+   "Endamoebidae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Entamoeba"
+ },
+ "5794": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Apicomplexa"
+ },
+ "5796": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "subclass",
+  "scientific_name": "Coccidia"
+ },
+ "5799": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Eimeriidae"
+ },
+ "5800": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Eimeria"
+ },
+ "5806": {
+  "common_name": "",
+  "lineage_tail": [
+   "Eimeriorina",
+   "Cryptosporidiidae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Cryptosporidium"
+ },
+ "5809": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Sarcocystidae"
+ },
+ "5812": {
+  "common_name": "",
+  "lineage_tail": [
+   "Eimeriorina",
+   "Sarcocystidae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Sarcocystis"
+ },
+ "5819": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Haemosporida"
+ },
+ "5820": {
+  "common_name": "",
+  "lineage_tail": [
+   "Haemosporida",
+   "Plasmodiidae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Plasmodium"
+ },
+ "590": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Salmonella"
+ },
+ "6029": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Microsporidia"
+ },
+ "6032": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "suborder",
+  "scientific_name": "Apansporoblastina"
+ },
+ "6033": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Encephalitozoon"
+ },
+ "6035": {
+  "common_name": "",
+  "lineage_tail": [
+   "Unikaryonidae",
+   "Encephalitozoon"
+  ],
+  "rank": "species",
+  "scientific_name": "Encephalitozoon cuniculi"
+ },
+ "620": {
+  "common_name": "",
+  "lineage_tail": [
+   "Enterobacterales",
+   "Enterobacteriaceae"
+  ],
+  "rank": "genus",
+  "scientific_name": "Shigella"
+ },
+ "629": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Yersinia"
+ },
+ "630": {
+  "common_name": "",
+  "lineage_tail": [
+   "Yersiniaceae",
+   "Yersinia"
+  ],
+  "rank": "species",
+  "scientific_name": "Yersinia enterocolitica"
+ },
+ "633": {
+  "common_name": "",
+  "lineage_tail": [
+   "Yersinia",
+   "Yersinia pseudotuberculosis complex"
+  ],
+  "rank": "species",
+  "scientific_name": "Yersinia pseudotuberculosis"
+ },
+ "655981": {
+  "common_name": "white nose syndrome fungus",
+  "lineage_tail": [
+   "Thelebolaceae",
+   "Pseudogymnoascus"
+  ],
+  "rank": "species",
+  "scientific_name": "Pseudogymnoascus destructans"
+ },
+ "715989": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "sordariomyceta"
+ },
+ "716545": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "saccharomyceta"
+ },
+ "716546": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "clade",
+  "scientific_name": "leotiomyceta"
+ },
+ "72273": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Thiotrichales"
+ },
+ "72293": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Helicobacteraceae"
+ },
+ "75739": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Eucoccidiorida"
+ },
+ "76804": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Nidovirales"
+ },
+ "78156": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Pseudogymnoascus"
+ },
+ "91347": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Enterobacterales"
+ }
+}

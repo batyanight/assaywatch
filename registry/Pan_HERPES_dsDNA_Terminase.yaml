@@ -4,7 +4,7 @@ target:
   taxid: 10292
   gene: Terminase
   genome_type: dsDNA
-  taxon_name: Herpesviridae
+  taxon_name: Orthoherpesviridae (formerly Herpesviridae)
   query: terminase[Title] OR UL89[Gene] OR UL56[Gene] OR UL15[Gene] OR "complete genome"[Title]
 chemistry: conventional
 oligos:
@@ -38,8 +38,6 @@ source:
   positive_control: Hyrax or Phasianid DNA or Universal control 2
   nested_round: null
   notes: null
-  notes_curator: 'PREDICT panel protocol P-032 (Terminase), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
-    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Chmielewicz,
-    B. et al (2001).'
+  notes_curator: 'PREDICT panel protocol P-032 (Terminase), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Chmielewicz, B. et al (2001). TAXON RENAMED: NCBI now calls txid10292 ''Orthoherpesviridae''; this entry carried the superseded name ''Herpesviridae''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION

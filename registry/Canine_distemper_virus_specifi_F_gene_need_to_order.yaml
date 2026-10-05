@@ -4,7 +4,7 @@ target:
   taxid: 11232
   gene: F gene (need to order)
   genome_type: ssRNA-
-  taxon_name: Canine morbillivirus
+  taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
 chemistry: conventional
 oligos:
   forward:
@@ -33,6 +33,7 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
 needs_review:
 - DOI_MISSING
 - NEED_TO_ORDER

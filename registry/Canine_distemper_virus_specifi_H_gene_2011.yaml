@@ -4,7 +4,7 @@ target:
   taxid: 11232
   gene: H gene
   genome_type: ssRNA-
-  taxon_name: Canine morbillivirus
+  taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
 chemistry: conventional
 oligos:
   forward:
@@ -20,8 +20,7 @@ citation:
   n_sequences_at_design: null
   as_written: muller,2011
   doi_verified: false
-  reference: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candidate Müller A et al.
-    2011 J Wildl Dis 47:725
+  reference: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candidate Müller A et al. 2011 J Wildl Dis 47:725
 use_context:
 - wildlife
 - veterinary
@@ -35,5 +34,6 @@ source:
   positive_control: Canine distemper (vaccine)
   nested_round: null
   notes: null
+  notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
 needs_review:
 - DOI_MISSING

@@ -4,7 +4,7 @@ target:
   taxid: 2034996
   gene: segment 3
   genome_type: ssRNA-
-  taxon_name: Tilapia tilapinevirus
+  taxon_name: Tilapinevirus tilapiae (formerly Tilapia tilapinevirus; Tilapia lake virus, TiLV)
   query: null
 chemistry: conventional
 oligos:
@@ -36,7 +36,7 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'Added 2026-10-05 from the paper''s own text in papers/, extracted with scripts/extract_candidate_oligos.py and then screened against strided GenBank samples before the entry was trusted - strided rather than from the head of the archive, because archives are accession-ordered and their first records are never representative. Tilapia lake virus was absent from the registry. VERIFIED, but on thin evidence: 1 of 24 strided segment-3 records gave a product, and it was exactly 250 bp - the size the paper itself states for this pair. The size agreement is what makes the transcription credible despite the low hit rate; most segment-3 submissions are partial and do not span the amplicon. This needs a proper retrieval group before any detected share from it is worth reading. oligos_designed_here is False. The paper attributes ME1 and clone 7450/150R/ME2 to its reference [10], so it is a user of this pair and not its designer, and the pair''s scope has to be read from that earlier paper, which is not in hand. TWO OTHER PAIRS IN THIS PAPER ARE DELIBERATELY NOT ENTERED. F1/VR3 found no product in 8 strided segment-3 records, so it is unresolved rather than confirmed and entering it would be guessing; and the beta-actin pair is a HOST control for tilapia, not a virus assay at all - screening it against virus records would report guaranteed non-detection as drift.'
+  notes_curator: 'Added 2026-10-05 from the paper''s own text in papers/, extracted with scripts/extract_candidate_oligos.py and then screened against strided GenBank samples before the entry was trusted - strided rather than from the head of the archive, because archives are accession-ordered and their first records are never representative. Tilapia lake virus was absent from the registry. VERIFIED, but on thin evidence: 1 of 24 strided segment-3 records gave a product, and it was exactly 250 bp - the size the paper itself states for this pair. The size agreement is what makes the transcription credible despite the low hit rate; most segment-3 submissions are partial and do not span the amplicon. This needs a proper retrieval group before any detected share from it is worth reading. oligos_designed_here is False. The paper attributes ME1 and clone 7450/150R/ME2 to its reference [10], so it is a user of this pair and not its designer, and the pair''s scope has to be read from that earlier paper, which is not in hand. TWO OTHER PAIRS IN THIS PAPER ARE DELIBERATELY NOT ENTERED. F1/VR3 found no product in 8 strided segment-3 records, so it is unresolved rather than confirmed and entering it would be guessing; and the beta-actin pair is a HOST control for tilapia, not a virus assay at all - screening it against virus records would report guaranteed non-detection as drift. TAXON NAME: NCBI now calls txid2034996 ''Tilapinevirus tilapiae'' under the ICTV binomial scheme; the paper and the wider literature call it Tilapia lake virus (TiLV), and the species was ''Tilapia tilapinevirus''. All three are kept in taxon_name so a search on any of them finds this entry. The taxid is unchanged and is what retrieval uses.'
 needs_review:
 - COVERAGE_THIN_1_OF_24
 - SOURCE_PAPER_IS_A_USER_NOT_DESIGNER
