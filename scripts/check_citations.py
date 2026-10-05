@@ -110,14 +110,19 @@ def main(argv: list[str] | None = None) -> int:
     if args.refresh or not args.cache.exists():
         import subprocess
 
+        # check=True: a failed rebuild must not fall through to judging the
+        # registry against the stale cache, which reports new DOIs as unresolvable.
         subprocess.run(
             [
                 sys.executable,
                 str(ROOT / "scripts" / "papers_index.py"),
-                "--refresh" if args.refresh else "--out",
+                *(["--refresh"] if args.refresh else []),
+                "--out",
                 str(ROOT / "docs" / "papers-index.md"),
+                "--cache",
+                str(args.cache),
             ],
-            check=False,
+            check=True,
         )
     if not args.cache.exists():
         print("no Crossref cache; run scripts/papers_index.py first", file=sys.stderr)

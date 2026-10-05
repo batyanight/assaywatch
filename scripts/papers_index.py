@@ -94,8 +94,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--refresh", action="store_true", help="re-fetch every DOI instead of using the cache")
     args = ap.parse_args(argv)
 
+    # Loaded even under --refresh: other scripts cache DOIs this one never
+    # visits (List 2 candidates, the literature scan), and starting from an empty
+    # dict silently dropped 102 of them. --refresh re-fetches only what it indexes.
     cache: dict = {}
-    if args.cache.exists() and not args.refresh:
+    if args.cache.exists():
         cache = json.loads(args.cache.read_text())
 
     cited = registry_citations()
