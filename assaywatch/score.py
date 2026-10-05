@@ -218,8 +218,20 @@ def facing_pairs(f_all: list[Site], r_all: list[Site], rev_len: int, amp: dict[s
     lo_bp, hi_bp = int(amp["min_bp"]), int(amp["max_bp"])
     r_index = SiteIndex(r_all)
     pairs = []
+
+    # The two orientations, drawn on the plus strand of the record. An amplicon
+    # always runs from a plus-strand site rightwards to a minus-strand site:
+    #
+    #   plus-strand product    5'--[F +]------------[R -]--3'   amplicon = F.start .. R.end
+    #   minus-strand product   5'--[R +]------------[F -]--3'   amplicon = R.start .. F.end
+    #
+    # The second case is the same target read the other way round, which is every
+    # minus-strand gene of a genome record and any antisense deposit. Coordinates
+    # are always reported on the plus strand, so the caller never has to care.
     for f in sorted((x for x in f_all if x.strand == "+"), key=_rank):
-        # Reverse on minus, downstream: amplicon = [f.start, r.end), r.end = r.start + rev_len.
+        # Reverse site lies downstream. Its START is searched for, not its end,
+        # because SiteIndex is indexed by start — hence the `- rev_len`: a product
+        # of hi_bp means the reverse site starts hi_bp - rev_len past the forward.
         lo = max(f.start + 1, f.start + lo_bp - rev_len)
         for r in r_index.within(lo, f.start + hi_bp - rev_len, "-"):
             pairs.append((f, r, f.start, r.end, f.end, r.start))
@@ -259,6 +271,10 @@ def screen_record(
     With no pool members this is one call of `screen_one`, which is the whole
     of the scoring logic; with pools it is the best call over the cross product,
     and `extra["pool"]` names the primers that won.
+
+    The split exists so that every pool combination goes through exactly the same
+    scoring path as a plain assay: there is one implementation of the rules, and
+    pooling is a loop around it rather than a second code path.
     """
     fwd, rev, probe = oligo_pools(assay)
     if len(fwd) == 1 and len(rev) == 1 and len(probe) <= 1:
@@ -324,6 +340,11 @@ def classify_exclusion(
         return "no_pair", "both primers match credibly but never face each other in range"
     if not cf and not cr:
         return "no_site", "no credible site for either primer"
+    # Which side of the anchor the missing primer should sit on depends ONLY on
+    # the anchor's strand, never on which oligo is missing — see the diagram in
+    # facing_pairs. Deriving it from the missing oligo's role instead labelled 382
+    # truncated Bd deposits as `diverged`, i.e. asserted the forward primer had
+    # failed on them, when the records simply stopped short of its site.
     anchor, missing = (cf[0], "reverse") if cf else (cr[0], "forward")
     # The partner always lies on the far side of the anchor, and which side that
     # is depends only on the anchor's strand: an amplicon runs from a plus-strand
@@ -405,8 +426,12 @@ def screen_one(
     # One index per pool member, so a member's own length is available for scoring.
     p_indexes = [(o, SiteIndex(find_sites(o, record_seq, max_mm))) for o in probes]
 
-    # Chance-pair guard (chance.py). The E-value is always reported; pairs above
-    # `max_pair_evalue` are only dropped when that is set.
+    # Chance-pair guard (chance.py). A six-mismatch budget on a megabase record
+    # finds primer pairs by luck — hundreds per genome — and before this existed
+    # a quarter of all `fail` calls were such pairs, counted against the assay.
+    # The E-value asks how many pairs this good a random record of the same
+    # length would hold. It is always reported; pairs above `max_pair_evalue`
+    # are only dropped when that is set.
     max_e = cfg["scoring"].get("max_pair_evalue")
     n_chance = 0
 

@@ -177,6 +177,10 @@ class Source(Strict):
     predict_protocol: str | None = Field(default=None, pattern=r"^P-0\d\d$")
     rows: list[int] | None = None
     positive_control: str | None = None
+    # A nested assay is stored as two entries, `..._round1` and `..._round2`,
+    # linked only by this field and by their ids. Nothing yet checks that the
+    # round-2 sites lie inside the round-1 product, so the two are reported
+    # separately on different denominators — see the review doc.
     nested_round: str | None = None
     notes: list[str] | None = None
     notes_curator: str | None = None

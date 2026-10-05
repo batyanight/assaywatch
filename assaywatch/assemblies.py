@@ -98,7 +98,14 @@ class AssemblyMeta:
 
     @property
     def order_key(self) -> str:
-        """Sampling order: arbitrary with respect to biology, stable across runs."""
+        """Sampling order: arbitrary with respect to biology, stable across runs.
+
+        A hash, not a random choice, so the same genomes are picked on every run
+        and an incremental run only tops up years that are short. Hashing the
+        accession without its version keeps a genome in place when NCBI revises
+        it. Arbitrary with respect to strain, lab and lineage, which a sort by
+        accession or date would not be.
+        """
         stem = self.accession.rsplit(".", 1)[0]
         return hashlib.sha1(stem.encode()).hexdigest()
 
@@ -169,7 +176,15 @@ def _report_page(
 def list_assemblies(
     fetch: Fetch, taxid: int, levels: list[str], since: date | None, until: date, page: int = 1000
 ) -> list[AssemblyMeta]:
-    """Every assembly released in [since, until], splitting date windows that fill a page."""
+    """Every assembly released in [since, until], splitting date windows that fill a page.
+
+    The TSV endpoint returns at most one page and no continuation token, so a
+    window that comes back full may be hiding more. There is no way to ask for
+    "the next page", so instead a full window is bisected by date and both halves
+    re-requested, until every window comes back short of the page size — at which
+    point it is known to be complete. A window that fills a page and cannot be
+    split any further (one single day) is an error rather than silent truncation.
+    """
     out: dict[str, AssemblyMeta] = {}
     stack = [(since or EARLIEST, until)]
     while stack:

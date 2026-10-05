@@ -100,7 +100,10 @@ def screen_records(
         _init_worker(assays, cfg, thermo)
         yield from map(_screen_batch, batches(records, chunk_bp))
         return
-    # A bounded queue of batches in flight, results taken in submission order:
+    # Why not Pool.imap: it drains the whole iterable into the task queue up
+    # front, so a 775 MB archive would be read into memory before any screening
+    # finished. A bounded queue of batches in flight, results taken in submission
+    # order:
     # memory stays at a few batches per worker however large the archive, the
     # output is independent of N, and a slow batch (one huge genome) holds up
     # only the results behind it, not the workers, which keep taking new batches.
@@ -165,8 +168,11 @@ def main(argv: list[str] | None = None) -> int:
     if not assays:
         ap.error(f"no assays found in {args.assays}")
 
-    # One spool file per assay, so rows can be written as batches finish and
-    # still come out assay by assay without holding them all in memory.
+    # One spool file per assay. The output must be grouped by assay, but batches
+    # come back in record order carrying rows for every assay at once, so rows are
+    # written to a per-assay temporary file as they arrive and the spools are
+    # concatenated at the end. The alternative — buffering until the archive is
+    # done — would hold millions of rows in memory for a large archive.
     spools = [tempfile.TemporaryFile("w+", newline="") for _ in assays]
     # The columns are fixed by Call.as_row, so the header is known up front and
     # an archive with no records still produces a valid, header-only TSV.

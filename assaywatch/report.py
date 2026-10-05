@@ -57,6 +57,11 @@ def _open(path: Path):
 def strip_version(accession: str) -> str:
     """`AB123456.2` -> `AB123456`. Leaves anything without a version alone.
 
+    This is the join key between two things NCBI names differently: the FASTA
+    header (what screening sees) and the esummary caption (what carries the
+    deposit date). Get it wrong and records silently lose their date and drop out
+    of the drift denominator, which is how 476 PDB-derived calls went missing.
+
     PDB chains come back from efetch as `pdb|29WD|T` in the FASTA but as
     `29WD_T` in esummary; both are mapped to the latter so they join.
     """

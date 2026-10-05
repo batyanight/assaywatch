@@ -56,7 +56,12 @@ def composition(seq: str) -> tuple[float, float, float, float]:
 def tail(oligo: str, comp: tuple[float, float, float, float] = UNIFORM) -> tuple[float, ...]:
     """P(at most k positions not matched) for k = 0..len(oligo), random site of composition `comp`."""
     freq = dict(zip("ACGT", comp, strict=True))
-    dist = [1.0]  # dist[k] = P(exactly k misses so far)
+    # Poisson-binomial by dynamic programming: each oligo position is an
+    # independent coin with its OWN probability of matching (a degenerate
+    # position is easier to match than a fixed one), so this is not a binomial
+    # and has no closed form. dist[k] = P(exactly k misses over the positions
+    # handled so far); each position convolves one more coin into it.
+    dist = [1.0]
     for code in oligo.upper():
         p = min(1.0, sum(freq[b] for b in IUPAC.get(code, "ACGT") if b in freq))
         nxt = [0.0] * (len(dist) + 1)
@@ -64,6 +69,8 @@ def tail(oligo: str, comp: tuple[float, float, float, float] = UNIFORM) -> tuple
             nxt[k] += v * p
             nxt[k + 1] += v * (1 - p)
         dist = nxt
+    # Return the cumulative form, P(at most k), since every caller asks whether a
+    # site within its budget could have arisen by chance.
     out, acc = [], 0.0
     for v in dist:
         acc += v

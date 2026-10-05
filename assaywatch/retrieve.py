@@ -434,6 +434,9 @@ def retrieve_taxon(
         raise RetrievalError("retrieve.page_size must be at least 1")
     manifest = load_manifest(cfg)
     since = None if full else last_run_date(manifest, taxid, group)
+    # datetype=mdat, not cdat: the query asks what CHANGED since the last run,
+    # not what was created. A submitter revising a sequence can turn a mismatch
+    # into a match, so a revision matters as much as a new deposit.
     if since:
         # Overlap the previous run by a few days: NCBI indexes some records
         # after their modification date, and those would otherwise fall into
@@ -504,6 +507,10 @@ def retrieve_taxon(
             handle = refreshed()
             return call(transport, handle, *args)
 
+    # Two passes over the same history handle, in this order because each answers
+    # something the next one needs: the summaries carry the deposit dates (which
+    # FASTA headers do not, and which the whole drift question depends on) and
+    # the record lengths, which set a safe efetch page size.
     # Pass 1: metadata. Also measures how big the records are, which decides
     # the efetch page size: 500 ITS fragments are 200 kB, 500 poxvirus
     # genomes are 100 MB, and the second is what drops connections.

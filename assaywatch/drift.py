@@ -316,10 +316,21 @@ def assess(
         evaluable = sorted((iso for iso, call, _ in rows if iso and call in EVALUABLE), reverse=True)
 
         def inside(iso: str, months: int) -> bool:
-            """Is this record inside a window of `months`, at the input's own granularity?"""
+            """Is this record inside a window of `months`, at the input's own granularity?
+
+            `years` may hold full ISO dates (what report.read_dates gives) or bare
+            years (what the tests and any year-only source give), and the two must
+            not be compared the same way: a 2024 record is "recent" against an
+            October 2024 cutoff at year granularity but not at date granularity.
+            Collapsing the two silently moved 90 records between windows.
+            """
             edge = months_back(anchor, months)
             return iso >= edge.isoformat() if dated else int(iso[:4]) >= edge.year
 
+        # Widen only when the assay could be judged at all with more history.
+        # An assay with fewer than min_records evaluable records in total can
+        # never reach the bar, so widening its window would just quietly stretch
+        # the definition of "recent" for no gain.
         months = base_months
         if len(evaluable) >= min_records:
             # Widen a year at a time, only as far as reaching min_records needs.

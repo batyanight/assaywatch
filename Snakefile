@@ -77,12 +77,24 @@ _code_hash = hashlib.sha1(
 
 
 def screen_signature(taxid, group):
+    """What a cached screen depends on besides its archive.
+
+    Snakemake reruns a job when an input or a param changes, and a screen's only
+    input is the FASTA — so without this, editing an assay or a scoring threshold
+    left stale results in place. Anything that can change a call belongs in here:
+    miss one (schema.py, which owns Oligo.matching_seq, was missed at first) and
+    the pipeline silently reports yesterday's answers.
+    """
     h = hashlib.sha1(_code_hash.encode())
     for aid in sorted(GROUPS[(taxid, group)]["assays"]):
         h.update((Path(REGISTRY) / f"{aid}.yaml").read_bytes())
     return h.hexdigest()[:16]
 
 
+# `_2`, `_3` suffixes come from a second fetch on the same day, so the stems sort
+# as text in the wrong order (`_10` before `_2`). Order matters because
+# collect_calls relies on it: archives are concatenated oldest first so the newest
+# version of an accession is the one that survives deduplication downstream.
 def stem_order(path):
     """`2026-10-04` < `2026-10-04_2` < `2026-10-04_10`: archive names in fetch order."""
     stem = path.name.split(".")[0]
@@ -194,7 +206,9 @@ rule collect_calls:
         import csv
         import gzip
 
-        # Screens made at different times can differ in columns (with or without
+        # The reconciliation below exists for one scenario: a cached screen made
+        # before a column was added meeting one made after. Plain concatenation
+        # would shift those rows a column sideways and corrupt every call in them.
         # --thermo, before or after a column was added). Plain concatenation would
         # shift those rows a column sideways; rows are written by column name.
         headers = []

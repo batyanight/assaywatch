@@ -93,6 +93,11 @@ DEFAULT_TIERS: list[tuple[int, str]] = [
 ]
 
 
+# Why degeneracy is reported and never scored: a degenerate position is not a
+# defect, it is the whole point of a consensus primer, and penalising it would
+# mark every pan-family assay as broken. What it does cost is concentration —
+# each pool member is a fraction of the reaction — so it travels beside every
+# call as context a reader cannot miss, rather than inside the call.
 def matching_sequence(oligo) -> str:
     """The sequence to compare against records: as written, inosine included, 5' tail excluded."""
     return oligo.matching_seq

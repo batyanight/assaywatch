@@ -156,18 +156,34 @@ def _quad_codes(rec: np.ndarray) -> np.ndarray:
 @lru_cache(maxsize=512)
 def _scan_plan(oligo: str):
     """65536-entry tables giving the not-MATCH count of each 4-position block,
-    most selective block first, and the per-position 0/1 tables for the rest."""
+    most selective block first, and the per-position 0/1 tables for the rest.
+
+    Cached per oligo, because building the block tables costs more than scanning
+    a short record with them.
+    """
     tables = _match_tables(oligo)
+    # nm[i][byte] is 1 when oligo position i does NOT definitely match that byte.
+    # One number per position is enough here: the search only needs the count of
+    # positions that fail, and mismatch-versus-undetermined is recovered later,
+    # at the few offsets that survive.
     nm = [(t != MATCH).astype(np.uint8) for t in tables]
     acgt = np.frombuffer(b"ACGT", np.uint8)
-    ix = np.arange(65536)
+    ix = np.arange(65536)  # every possible packed code for four record positions
     quads = sorted(
         (
+            # For block starting at i: a table whose entry for a packed code is
+            # the block's total failure count. `ix >> 4*j & 15` unpacks class j
+            # from the code, and _REP maps that class back to a representative
+            # byte so the per-position table can be indexed by it.
             (i, sum(nm[i + j][_REP][(ix >> 4 * j) & 15] for j in range(4)).astype(np.uint8))
             for i in range(0, len(oligo) - 3, 4)
         ),
+        # Most selective block first: a block that rejects the most random
+        # sequence prunes the candidate list fastest. Summing nm over A, C, G, T
+        # measures that — a fully degenerate position contributes 0.
         key=lambda q: -sum(int(nm[q[0] + j][acgt].sum()) for j in range(4)),
     )
+    # Same ordering for the leftover single positions used in the sparse pass.
     singles = sorted(range(len(oligo)), key=lambda i: -int(nm[i][acgt].sum()))
     return tables, nm, quads, singles
 
@@ -182,14 +198,25 @@ def _search_one_strand(oligo: str, rec: np.ndarray, codes: np.ndarray, max_mm: i
     L, N = len(oligo), len(rec)
     if N < L:
         return {}
-    n = N - L + 1
+    n = N - L + 1  # every alignment offset of the oligo against the record
     tables, nm, quads, singles = _scan_plan(oligo)
+
+    # Dense pass: add whole 4-position blocks over every offset at once. Enough
+    # blocks to exceed the budget comfortably — past that, pruning is cheaper
+    # than another full-length pass.
     dense = quads[: (max_mm + 10) // 4]
-    cnt = np.zeros(n, dtype=np.uint8)  # oligos are < 256 nt
+    cnt = np.zeros(n, dtype=np.uint8)  # safe: oligos are capped well under 255 nt
     done = set()
     for i, t in dense:
+        # codes[i : i + n] is the packed code of the four record positions facing
+        # oligo position i, for every offset. One table lookup scores them all.
         cnt += t[codes[i : i + n]]
         done.update(range(i, i + 4))
+
+    # Sparse pass: a count only grows as positions are added, so an offset
+    # already over budget can never come back, and the rest of the oligo is
+    # scored only for the survivors. This is what makes the search fast without
+    # making it approximate — nothing within budget is ever discarded.
     cand = np.flatnonzero(cnt <= max_mm)
     c = cnt[cand]
     for i in singles:
@@ -198,6 +225,10 @@ def _search_one_strand(oligo: str, rec: np.ndarray, codes: np.ndarray, max_mm: i
         c += nm[i][rec[cand + i]]
         keep = c <= max_mm
         cand, c = cand[keep], c[keep]
+
+    # Only now, for the handful of surviving offsets, is it worth separating a
+    # definite mismatch from an undetermined record base — the scorer charges
+    # for one and not the other.
     hits = {}
     for start in cand.tolist():
         window = rec[start : start + L]
@@ -209,7 +240,10 @@ def _search_one_strand(oligo: str, rec: np.ndarray, codes: np.ndarray, max_mm: i
     return hits
 
 
-# The last record seen, prepared once for every oligo and assay screened against it.
+# One record's prepared forms, reused across every oligo and assay screened
+# against it. Screening runs record-outer (see screen._screen_batch), so this
+# single slot is hit repeatedly before moving on; a bigger cache would hold
+# whole genomes alive for no gain. Keyed on object identity, not content.
 _LAST: list = [None, None]
 
 
