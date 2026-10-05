@@ -17,11 +17,29 @@ never printed, never logged, and never written into an output file - only its
 length is ever reported, and only to confirm it loaded. Get one free at
 <https://dev.elsevier.com> with an institutional account.
 
-Full-text entitlement is INSTITUTIONAL, so requests must come from the NYU
-network or VPN. Without entitlement the API still answers 200 with a metadata
-envelope and `openaccess: false` and no body - which is what happens with no key
-at all, and is why this script checks for actual text rather than trusting the
-status code.
+Entitlement, and what was actually wrong here
+--------------------------------------------
+Full text is a SEPARATE entitlement from being able to read ScienceDirect, and a
+valid key does not imply it. Tested 2026-10-05 with a real key, on and off the
+NYU VPN:
+
+    /content/search/scopus      200, real results   -> the key is fine
+    /content/article/doi/...    403 AUTHENTICATION_ERROR
+                                "Requestor configuration settings insufficient
+                                 for access to this resource."
+
+That message means the key's account is not configured for full-text retrieval.
+It is not an IP problem, so the VPN does not help. The remedy is an Elsevier
+INSTITUTIONAL TOKEN, issued to the institution for text and data mining and sent
+as the `X-ELS-Insttoken` header; it also works off-network. Ask the NYU library
+for one, referencing the ScienceDirect Article Retrieval API.
+
+Put it in `.secrets/elsevier.insttoken` or `$ELSEVIER_INSTTOKEN` and this script
+will send it automatically.
+
+Without entitlement the API can also answer 200 with a metadata-only envelope -
+the same reply you get with no key at all - which is why this script checks for
+an actual body rather than trusting the status code.
 
 Output
 ------
@@ -52,14 +70,14 @@ API = "https://api.elsevier.com/content/article/doi/"
 ELSEVIER_PREFIXES = ("10.1016", "10.1006", "10.1053", "10.1054")
 
 
-def load_key(explicit: Path | None) -> str:
-    """The API key, from a file or the environment. Never echoed."""
+def load_secret(explicit: Path | None, env_var: str, default_name: str) -> str:
+    """A credential, from a file or the environment. Never echoed, only measured."""
     if explicit and explicit.exists():
         return explicit.read_text().strip()
-    env = os.environ.get("ELSEVIER_API_KEY", "").strip()
+    env = os.environ.get(env_var, "").strip()
     if env:
         return env
-    default = ROOT / ".secrets" / "elsevier.key"
+    default = ROOT / ".secrets" / default_name
     if default.exists():
         return default.read_text().strip()
     return ""
@@ -93,12 +111,19 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--registry", type=Path, default=ROOT / "registry")
     ap.add_argument("--pdf-dir", type=Path, default=ROOT / "papers")
     ap.add_argument("--key-file", type=Path, default=None)
+    ap.add_argument(
+        "--insttoken-file",
+        type=Path,
+        default=None,
+        help="Elsevier institutional token; unlocks full text off-network",
+    )
     ap.add_argument("--doi", action="append")
     ap.add_argument("--tsv", type=Path, default=ROOT / "results" / "elsevier-fetch.tsv")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
 
-    key = load_key(args.key_file)
+    key = load_secret(args.key_file, "ELSEVIER_API_KEY", "elsevier.key")
+    insttoken = load_secret(args.insttoken_file, "ELSEVIER_INSTTOKEN", "elsevier.insttoken")
     if not key:
         print(
             "No API key. Put one in .secrets/elsevier.key or $ELSEVIER_API_KEY "
@@ -107,7 +132,14 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
     # Only the length, never the value.
-    print(f"key loaded ({len(key)} chars)")
+    print(
+        f"key loaded ({len(key)} chars)"
+        + (
+            f", institutional token loaded ({len(insttoken)} chars)"
+            if insttoken
+            else ", no institutional token"
+        )
+    )
 
     dois = [d.lower() for d in args.doi] if args.doi else outstanding(args.registry, args.pdf_dir)
     print(f"{len(dois)} Elsevier DOIs to fetch\n")
@@ -120,6 +152,7 @@ def main(argv: list[str] | None = None) -> int:
                 API + doi,
                 headers={
                     "X-ELS-APIKey": key,
+                    **({"X-ELS-Insttoken": insttoken} if insttoken else {}),
                     "Accept": "text/xml",
                     "User-Agent": "assaywatch/0.1 (research; nightb02@nyu.edu)",
                 },
@@ -141,7 +174,10 @@ def main(argv: list[str] | None = None) -> int:
                 f"HTTP {e.code}",
                 {
                     401: "key rejected",
-                    403: "no entitlement for this title",
+                    403: (
+                        "no full-text entitlement - the key is valid but its account is not "
+                        "configured for it; an institutional token is what fixes this"
+                    ),
                     404: "not in the Elsevier full-text corpus",
                     429: "rate limited - slow down",
                 }.get(e.code, e.reason),
