@@ -70,19 +70,30 @@ rows are both stale:
    et al. 2015 supplement, screen both forms against real RdRp records, then fix
    whichever is wrong - and check the other P-005 entries for the same deletion.
    This is the second PREDICT-vs-cited-paper mismatch after Atkins/PREDICT.
-2. **20 List 2 papers**, oligos extracted to
+2. **Five missing DOIs are resolved and waiting**, in
+   `docs/2026-10-05-doi-candidates.md`: Pan-Flavivirus NS5, SIVdrl pol, ETEC LT,
+   *E. cuniculi* PTP, and the *Encephalitozoon* 18S entry. Found on PubMed, with
+   the evidence for each, but NOT written into `registry/` because Crossref was
+   unreachable and the citation gate must be the thing that approves a DOI. Add
+   each with `doi_verified: false`, then
+   `python scripts/resolve_citations.py --registry registry --email nightb02@nyu.edu`
+   followed by `python scripts/check_citations.py --refresh`. Two minutes of work
+   that takes 5 entries and 11 oligos out of `DOI_MISSING`. The Müller 2011 CDV
+   and Wang 1997 references are deliberately still unresolved - see that file for
+   why guessing them would be the Nobach mistake again.
+3. **20 List 2 papers**, oligos extracted to
    `results/candidate-oligos-2026-10-05.tsv`, awaiting verify-then-enter. The
    biggest are EEHV pol (19 oligos), deformed wing virus RdRp (19), CDV N
    (jcm.02505-21, 17), canine morbillivirus (v13081632, 15), reptarenavirus
    (14), influenza A hemagglutinin (7), monkeypox B6R (6), devil facial tumour
    (6). Method that worked: read the paper's own table, measure the amplicon on
    real GenBank records, then enter - never quote a size.
-3. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`),
+4. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`),
    Usutu (`10.2807/1560-7917.es.2020.25.41.2001732`), Batrachochytrium ITS
    (`10.3390/jof7040258`, but see below), avian orthobornavirus done already.
    Render with pymupdf at ~200 dpi and read the page as an image, as was done
    for Ghosh - that worked and the sequences verified against records afterwards.
-4. **211 oligos** whose provenance is unchecked for want of full text. The
+5. **211 oligos** whose provenance is unchecked for want of full text. The
    21 recovered papers added no new composites to the three already known.
 
 ## Two things waiting on someone else
