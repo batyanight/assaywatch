@@ -1,0 +1,173 @@
+# Cloud session, 2026-10-05: what a locked-down environment could and could not do
+
+This session ran in a cloud container rather than on the machine that holds
+`papers/`. It set out to rebuild `papers/` from open-access sources and then work
+the verification backlog. It rebuilt part of `papers/`, found and fixed a real
+defect in the verifier, and found one new registry discrepancy. It could not
+touch the List 2 entry work at all, for a reason worth recording.
+
+## The network, which decided most of this
+
+The environment's egress policy allows package registries and GitHub and denies
+everything else. Every host this project's scripts depend on is denied:
+
+| host | used for | result |
+|---|---|---|
+| `api.crossref.org` | citation gate | denied |
+| `api.unpaywall.org`, `api.openalex.org` | `find_open_access.py` | denied |
+| `www.ebi.ac.uk` | Europe PMC full text | denied |
+| `eutils.ncbi.nlm.nih.gov` | GenBank records, PMC id conversion | denied |
+
+So `scripts/find_open_access.py` - the intended route in the handoff note -
+could not make a single request. What *was* reachable is PubMed Central through
+an MCP tool, which returns open-access full text as JSON. That is the same
+corpus Europe PMC's `fullTextXML` serves, over a different transport, so a
+sequence read from it is still read from the publisher's deposited text.
+`scripts/import_pmc_fulltext.py` was written to turn that JSON into the per-DOI
+files `papers/` expects.
+
+**`check_citations.py` still passes**, because `docs/papers-index.cache.json` is
+committed and the gate reads the cache unless asked to refresh. No new DOI was
+introduced, so nothing needed a Crossref lookup. Had one been needed, it could
+not have been verified, and the entry would have had to wait.
+
+## What came back: 21 of 70 papers
+
+34 of the registry's 70 distinct DOIs have a PMC id, as do all 10 candidate
+papers whose DOIs were known. Of those 44, **21 returned usable full text**.
+
+The 23 failures are not random. Every American Society for Microbiology article
+(J Clin Microbiol, J Virol, Appl Environ Microbiol) and the one SAGE article
+returned an abstract and an empty body, while mBio - also ASM, but born open
+access - returned whole. This is deposit policy, not availability, and no amount
+of retrying changes it. Those papers still need the PDF.
+
+The importer **skips an empty body rather than writing an abstract-only file**,
+which matters more than it looks: an abstract-only file would be indexed as if
+the paper were in hand, and every sequence checked against it would come back
+`absent` - indistinguishable from the finding `absent` is supposed to carry.
+
+## The defect this turned up, which outlives the session
+
+Two of them, both in `verify_oligos_against_paper.py`.
+
+### 1. `absent` was being manufactured wholesale
+
+**PMC full text omits `table-wrap` content.** The body text arrives; the tables
+do not. The avian orthobornavirus paper came back as 31,202 readable characters
+containing zero oligo-like runs, and the first run reported all 12 of its stored
+oligos `absent`. Across the run, **44 of 57 `absent` verdicts were artifacts of
+extraction** - statements about the file masquerading as statements about the
+sequence.
+
+Fixed by giving that case its own verdict, `no-oligos`, excluded from the
+checkable denominator, plus a `paper_oligos` column recording how many oligo-like
+runs the matched text held. An `absent` against a paper that printed 2 oligos
+deserves far less weight than one against a paper that printed 40.
+
+This is not a cloud-only problem. It applies identically to the image-only
+primer tables already known in `papers/` - *M. bovis*, Usutu, *Batrachochytrium*
+ITS - which were producing the same false `absent` from PDFs all along.
+
+### 2. The composition test dropped heavily degenerate primers
+
+`printed_oligos` required 75% of a candidate's letters to be unambiguous bases,
+counting inosine as one. Atkins 2009 prints `Astr4380F`
+(`GAYTGGRCNCGNTWYGATGGNACIAT`, 0.73) and `Astr4722R` (`ARNCKRTCATCNCCATA`,
+0.71). Both fell below the threshold, so neither was extracted, and the
+registry's **exact** copies of them were reported as the much weaker `in-text`.
+
+The fix turns on one detail: **inosine should never have been in that
+numerator.** `I` is among the commonest letters in English and a rare one in
+oligos, so counting it scores all-caps prose nearly as high as a real primer.
+`INDINGS IN BATS IN THAI`, the PREDICT-report false positive the test exists to
+block, scores 0.53 with inosine counted and 0.26 without, while a real primer
+barely moves. Measured over the 21 papers in hand:
+
+| | unambiguous fraction, inosine excluded |
+|---|---|
+| all-caps prose | 0.26 |
+| most degenerate real primer | 0.69 |
+| typical degenerate consensus primer | 0.71 - 0.85 |
+| non-degenerate primer | 1.00 |
+
+So the numerator dropped inosine and the threshold dropped to 0.65, which has
+clear air on both sides where the old rule sat *above* two real primers. Pan-viral
+consensus primers are degenerate by design and are most of what this registry
+holds, so they cannot be edge cases.
+
+Effect: 3 astrovirus oligos corrected from `in-text` to `exact`, no paper lost a
+sequence, and a coronavirus discrepancy surfaced that the old threshold had
+hidden completely.
+
+## The new registry finding: Quan 2010 vs PREDICT P-005
+
+`CORONAVIRUS_..._Lan_2010_round1`, reverse primer `CoV-RVS1(L1150)`:
+
+- Quan et al. 2010 (the cited paper) prints `GGTCATKATAGCRTCAVMASWWGCNACNACATG`, 33 nt
+- the registry stores `GGTCATKATAGCRTCAVMASWWGCNACATG`, 30 nt
+
+Identical for 27 bases, then the stored form lacks `NAC` before the `ATG` tail.
+
+**The sequence was not changed.** The 2026-10-04 note on that entry records the
+stored form matching PREDICT P-005 in the Anthony et al. 2015 supplement, so
+this is two published sources disagreeing, not a slip made here. It cannot be
+adjudicated from this environment: Anthony 2015 keeps its primer tables in
+Supplementary Information, which PMC does not carry, and no sequence database
+was reachable to ask which form has a binding site. Recorded in
+`notes_curator` with `needs_review: REVERSE_PRIMER_DISAGREES_WITH_QUAN_2010_BY_3NT_DELETION`.
+
+Worth noting as a pattern rather than an incident: this is the **second** case,
+after Atkins/PREDICT on the astrovirus entries, where the panel's oligo is not
+the oligo the panel's cited paper printed. Citing the source paper while storing
+the panel's sequence misattributes it either way, and the other P-005 entries
+deserve the same check.
+
+## Why the List 2 entry work did not advance
+
+Two independent blocks, either of which is sufficient.
+
+**No sequence database.** The method that earns this registry its trust is to
+measure `amplicon_bp` against real GenBank records and never quote a size. NCBI
+and EBI are both denied, so no amplicon can be measured. Entering an assay here
+would mean quoting a size, which is the one thing the method forbids.
+
+**No primer tables.** Even setting that aside, the tables are what PMC strips.
+`extract_candidate_oligos.py` recovered 9 candidate oligos from 3 papers against
+the ~110 expected from the 10 known candidate DOIs - EEHV pol, canine
+morbillivirus, monkeypox B6R and *pone.0232044* each yielded zero, their
+sequences having been in tables.
+
+**Ghosh 2021 is still blocked, contrary to a hope early in this session.** Its
+full text came through - 18,292 characters, readable narrative, the SNP-screening
+and Primer Express methods intact - but the primer table did not, and the text
+contains no `5′` marks and no sequences at all. It remains a read-by-eye job on
+the PDF.
+
+## State after this session
+
+| | |
+|---|---|
+| assays | 164 (unchanged) |
+| papers recovered into `papers/` | 21, all open-access PMC full text |
+| oligos confirmed against their own paper | 20 of 38 checkable **in this 21-paper subset** |
+| tests | 762 passing, 2 skipped |
+
+**The 20-of-38 figure does not supersede the local 100-of-175.** It is a
+different and much smaller sample - 21 papers against 60, with the tables
+stripped from all of them. Re-run on the machine that holds the PDFs to get a
+comparable number; the two sharpened verdicts mean the local figure will also
+move, and some of its 65 `absent` rows should become `no-oligos`.
+
+## For the next session on the local machine
+
+1. **Re-run the verifier over the full `papers/`.** The degeneracy fix and the
+   `no-oligos` verdict both change the answer, and some of the 65 known `absent`
+   rows are the artifact described above rather than findings.
+2. **Settle the Quan 2010 / P-005 three-base question**, then check the other
+   P-005 entries for the same deletion.
+3. **The 12 papers PMC holds as an abstract only** are listed by
+   `scripts/import_pmc_fulltext.py` on every run. They need the PDF; several are
+   ASM, which the NYU subscription covers.
+4. **List 2 entry work** is unchanged and still needs the local machine, for the
+   amplicon measurement if nothing else.
