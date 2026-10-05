@@ -124,8 +124,14 @@ rows are both stale:
   full text is available and its narrative is intact, but the primer table is
   not in it - the text carries no sequences and not one `5′` mark. The PDF is
   still the only route to that table.
-- **ASM and SAGE deposit abstracts only.** J Clin Microbiol, J Virol and Appl
-  Environ Microbiol articles all return an empty body from PMC; mBio returns
-  whole. 12 such papers are listed by `scripts/import_pmc_fulltext.py` on every
-  run. Do not spend time retrying them - they need the PDF, and the NYU
-  subscription covers several.
+- **ASM deposits abstracts only**, and so do PNAS and SAGE here. J Clin
+  Microbiol, J Virol and Appl Environ Microbiol all return an empty body from
+  PMC; mBio, born open access, returns whole, so the `10.1128` prefix does not
+  predict it - the journal does. **23 of the 44 papers resolved to a PMC id came
+  back as an abstract**, listed with their oligo counts in
+  `docs/2026-10-05-pmc-abstract-only.tsv`: 74 oligos across 20 registry papers,
+  plus 3 List 2 candidates. 21 of the 23 are ASM, so one fetch run on the NYU
+  subscription clears nearly all of it. This is now the biggest single block of
+  verification work and the cheapest to unblock. Do not retry them against PMC.
+  (`scripts/import_pmc_fulltext.py` reported only 12 of these, because it can
+  only list what is passed to it; the TSV is the complete set.)

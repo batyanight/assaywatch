@@ -36,11 +36,30 @@ not have been verified, and the entry would have had to wait.
 34 of the registry's 70 distinct DOIs have a PMC id, as do all 10 candidate
 papers whose DOIs were known. Of those 44, **21 returned usable full text**.
 
-The 23 failures are not random. Every American Society for Microbiology article
-(J Clin Microbiol, J Virol, Appl Environ Microbiol) and the one SAGE article
-returned an abstract and an empty body, while mBio - also ASM, but born open
-access - returned whole. This is deposit policy, not availability, and no amount
-of retrying changes it. Those papers still need the PDF.
+The 23 failures are not random, and they are almost one publisher:
+
+| | abstract only |
+|---|---|
+| ASM - J Clin Microbiol, J Virol, Appl Environ Microbiol (`10.1128`) | 21 |
+| PNAS (`10.1073`) | 1 |
+| SAGE - J Vet Diagn Invest (`10.1177`) | 1 |
+
+ASM's mBio, born open access, returned whole, so the prefix alone does not
+predict it - the journal does. This is deposit policy, not availability, and no
+amount of retrying changes it. Those 23 still need the PDF.
+
+All 23 are listed in **`docs/2026-10-05-pmc-abstract-only.tsv`**, with the PMC
+id, whether the registry cites it, and the oligos at stake: **74 oligos across
+20 registry papers**, plus 3 List 2 candidates (CDV/PDV N, pan-pox, and the
+batrachovirus paper). That is the single largest tranche of blocked verification
+work and most of it is one publisher, so an ASM PDF run via the NYU subscription
+would clear it.
+
+A caution on that number if you re-derive it from the importer: the importer can
+only report on the JSON it is handed, and its own "no full text" list counted 12,
+not 23. The other 11 were a batch of ASM papers whose response came back small
+enough to arrive inline rather than as a file, so no dump ever reached the
+importer. The TSV above is the complete list; the importer's figure is not.
 
 The importer **skips an empty body rather than writing an abstract-only file**,
 which matters more than it looks: an abstract-only file would be indexed as if
@@ -166,8 +185,9 @@ move, and some of its 65 `absent` rows should become `no-oligos`.
    rows are the artifact described above rather than findings.
 2. **Settle the Quan 2010 / P-005 three-base question**, then check the other
    P-005 entries for the same deletion.
-3. **The 12 papers PMC holds as an abstract only** are listed by
-   `scripts/import_pmc_fulltext.py` on every run. They need the PDF; several are
-   ASM, which the NYU subscription covers.
+3. **The 23 papers PMC holds as an abstract only**, in
+   `docs/2026-10-05-pmc-abstract-only.tsv` - 74 registry oligos at stake. 21 of
+   the 23 are ASM (J Clin Microbiol, J Virol, Appl Environ Microbiol), which the
+   NYU subscription covers, so one fetch run clears nearly all of it.
 4. **List 2 entry work** is unchanged and still needs the local machine, for the
    amplicon measurement if nothing else.
