@@ -83,3 +83,9 @@ drift:
   min_records_for_drift: 20         # fewer evaluable records than this -> report, never flag
   min_records_for_coverage: 10      # fewer than this in total -> a coverage gap, not a result
   min_decline: 0.05                 # a fall smaller than this (5 points) is low coverage, not declining
+  # Count a record as a failure when the partner primer's site is present in the
+  # deposit and does not match (exclusion `diverged`), instead of dropping it.
+  # Off until the validation cases say whether it helps: it adds real evidence of
+  # non-detection, but also makes a pan-family assay look like it is failing on
+  # taxa it never covered. 16 assays change status when it is on.
+  count_diverged_as_fail: false

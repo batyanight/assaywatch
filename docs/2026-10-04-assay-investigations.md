@@ -238,3 +238,39 @@ That is a limit of the data, not of the thresholds, and it is worth stating
 plainly in the paper: for assays whose target is deposited as short fragments,
 in-silico drift surveillance can confirm the primer footprints and say nothing
 about the probe.
+
+### Should a `diverged` record count as a failure? (2026-10-04)
+
+Once exclusions are labelled, the question becomes concrete: a record whose
+partner binding site is **present in the deposit and does not match** is
+evidence the assay would not amplify it, yet it leaves the denominator as
+`no_amplicon`. Dropping those biases the denominator toward the sequences the
+assay happens to match — the same bias that hides the Bd probe problem.
+
+Across the 2026-10-04 run the labels are: 1,208,057 `no_site`, 229,254
+`truncated`, 81,297 `chance_only`, **39,293 `diverged`**, 660 `no_pair`.
+Counting the diverged ones as failures moves **16 assays**: stable 45 → 37,
+declining 29 → 35.
+
+Tested against the validation cases rather than argued (`drift.count_diverged_as_fail`):
+
+| case | expect | flag off | flag on |
+|---|---|---|---|
+| Boyle, as of 2012 (Longo: sites conserved) | works | stable ✓ | stable ✓ |
+| Boyle, as of 2017 (Mutnale: probe/primer mutations) | fails | stable ✗ | **declining ✓** |
+| Boyle, as of 2020 (Ghosh: works as pan-lineage screen) | works | stable ✓ | **low coverage ✗** |
+| Boyle, as of 2023 (Sreedharan: redesigned) | fails | undecided | **low coverage ✓** |
+| Annis, now | works | stable ✓ | stable ✓ |
+
+Off: 3 agree, 1 disagrees, 1 undecided. On: 4 agree, 1 disagrees, 0 undecided.
+
+It fixes the two cases where the literature reported failure and breaks the one
+where a paper used the assay successfully — and that is not a contradiction:
+Ghosh 2021 used it on South African samples (BdGPL and BdCAPE), which it does
+cover, while the tool judges it against all Bd records including the Asian
+haplotypes it does not. Both are right at different scopes, and the tool has no
+lineage resolution to say so.
+
+**Left off.** Four agreements against three, on five cases with one moving each
+way, is noise; flipping a default that moves 16 assays on that evidence would be
+fitting to a sample of five. Revisit when the case set reaches 15-20.

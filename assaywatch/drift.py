@@ -290,16 +290,26 @@ def assess(
     threshold = float(d.get("detect_fraction_threshold", 0.9))
     min_records = int(d.get("min_records_for_drift", 20))
     min_decline = float(d.get("min_decline", 0.0))
+    # A record whose partner binding site is present in the deposit and does not
+    # match is evidence the assay would not amplify it, but it leaves the
+    # denominator as no_amplicon, which biases that denominator toward the
+    # sequences the assay happens to match. Counting those as failures is off by
+    # default because the signal conflates two things: an assay that has drifted,
+    # and a pan-family assay screened against taxa it never claimed to cover.
+    # Settle it with docs/validation-cases.tsv rather than by argument.
+    count_diverged = bool(d.get("count_diverged_as_fail", False))
     anchor = today or date.today()
     dated = any(isinstance(v, str) for v in years.values())
 
     # Gather per assay first: the window cannot be chosen until the dates are known.
-    per: dict[str, list[tuple[str | None, str]]] = {}
+    per: dict[str, list[tuple[str | None, str, str]]] = {}
     for row in calls:
         when = years.get(row["record_id"])
         # A bare year keeps year granularity below, so it is anchored at 1 January.
         iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
-        per.setdefault(row["assay_id"], []).append((iso, row["call"], row.get("exclusion") or ""))
+        why = row.get("exclusion") or ""
+        call = "fail" if (count_diverged and why == "diverged") else row["call"]
+        per.setdefault(row["assay_id"], []).append((iso, call, why))
 
     grouped: dict[str, AssayDrift] = {}
     for assay_id, rows in per.items():
