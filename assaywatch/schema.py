@@ -162,6 +162,42 @@ class Target(Strict):
     # same taxid and the same query share one retrieval group and one archive.
     query: str | None = None
 
+    @model_validator(mode="after")
+    def query_does_not_begin_with_not(self) -> Target:
+        """Reject a query whose NOT has no left operand.
+
+        retrieve.build_query emits `txid<N>[Organism:exp] AND ... AND (<query>)`.
+        Entrez handles a NOT *inside* that parenthesised query correctly, but
+        silently INVERTS one that starts it: `AND (NOT X)` returns exactly the
+        records X matches. No error, no warning, and the archive comes back as
+        the precise opposite of the intent.
+
+        Measured on 2026-10-04, counts from esearch:
+
+            txid562 AND (16S[Title])                    15188   A
+            txid562 AND (16S[Title] AND ribosomal[..])  14246   B
+            txid562 AND (16S[Title] NOT ribosomal[..])    942   = A - B, correct
+            txid562 AND (NOT ribosomal[Title])          16733   inverted
+            txid562 AND (ribosomal[Title])              16733   the same set
+
+        So a NOT needs something to its left. Give the exclusion its own anchor:
+
+            txid10492[Organism:exp] NOT (txid3432137[Organism:exp] OR ...)
+
+        The fourteen registry queries of the form
+        `(...) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]` are correct
+        and unaffected.
+        """
+        q = (self.query or "").strip()
+        if re.match(r"^\(*\s*NOT\b", q, re.IGNORECASE):
+            raise ValueError(
+                "query starts with NOT, which Entrez silently inverts once build_query "
+                "parenthesises it (the archive comes back as exactly the records you meant "
+                "to exclude). Put a term to the left of the NOT, e.g. "
+                f"'txid{self.taxid}[Organism:exp] NOT (...)'"
+            )
+        return self
+
 
 class Citation(Strict):
     doi: str | None = None

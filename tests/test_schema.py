@@ -147,3 +147,23 @@ def test_tailed_oligo_may_bind_over_14_nt():
     assert len(o.seq) - len(o.tail_5prime) == 14
     with pytest.raises(ValidationError, match="below the 14 nt floor"):
         Oligo(name="too-short", seq="CGCGCCAGTAGTGTGCTAC", tail_5prime="CGCGCC")
+
+
+def test_query_may_not_begin_with_not():
+    """A leading NOT is silently inverted by Entrez once build_query parenthesises it.
+
+    Measured 2026-10-04: `txid562[Organism:exp] AND (NOT ribosomal[Title])` returns
+    16,733 records, exactly the same as `AND (ribosomal[Title])`. Scoping an assay
+    that way hands it the records it was meant to exclude, with no error.
+    """
+    from assaywatch.schema import Target
+
+    with pytest.raises(ValidationError, match="starts with NOT"):
+        Target(taxid=10492, query="NOT (txid3432136[Organism:exp])")
+    with pytest.raises(ValidationError, match="starts with NOT"):
+        Target(taxid=10492, query="  (NOT txid3432136[Organism:exp])")
+    # Anchored form: the NOT has a left operand, so Entrez applies it.
+    t = Target(taxid=10492, query="txid10492[Organism:exp] NOT (txid3432136[Organism:exp])")
+    assert t.query.startswith("txid10492")
+    # A mid-query NOT is correct and must keep working: fourteen registry entries use it.
+    Target(taxid=209, query='(16S[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]')

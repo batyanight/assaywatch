@@ -311,3 +311,70 @@ works not contradicted 17 → 16. It is not the fix.
 per-clade breakdown rather than one proportion per assay; and a verdict that
 reports the worst-covered subgroup, not the average. Threshold tuning alone
 cannot close a 1-in-12 gap.
+
+
+---
+
+## Entrez silently inverts a leading NOT (2026-10-04)
+
+Found while scoping the Johnson 2008 ranavirus assay away from fish. `build_query`
+emits `txid<N>[Organism:exp] AND ... AND (<assay query>)`, and in that
+parenthesised position Entrez **drops a leading NOT and returns its operand**.
+Counts from esearch:
+
+| query | count | |
+|---|---|---|
+| `txid562[Organism:exp] AND (16S[Title])` | 15,188 | A |
+| `… AND (16S[Title] AND ribosomal[Title])` | 14,246 | B |
+| `… AND (16S[Title] NOT ribosomal[Title])` | 942 | = A − B, **correct** |
+| `… AND (NOT ribosomal[Title])` | 16,733 | **inverted** |
+| `… AND (ribosomal[Title])` | 16,733 | the same set |
+
+So a NOT inside the query works, but one that *starts* it does not. The failure
+is silent: no error, no warning, and the archive comes back as precisely the
+records the curator meant to exclude. On genus *Ranavirus* the broken form
+returned the 201 fish records instead of the 1,265 non-fish ones — it would have
+scoped the assay to fish only, the exact inverse of the intent, and the resulting
+drift number would have looked entirely plausible.
+
+`Target.query_does_not_begin_with_not` now rejects the broken form, with a test.
+The fourteen existing registry queries shaped
+`(…) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]` are the working form
+and are unaffected — verified before the guard was written, rather than assumed.
+
+**Generalisation worth keeping in mind:** this is the second scoping bug of the
+same family. The first was untagged Entrez terms searching every field; this one
+is an operator that evaporates. A retrieval query is code that runs on someone
+else's parser and reports no errors, so the only safe way to change one is to
+count the records before and after and check the difference is the set intended.
+`--dry-run` exists for this.
+
+## Ranavirus scoping: not one rule for three assays (2026-10-04)
+
+The instruction "scope the fish out of the ranavirus assays" is right for one of
+the three and wrong for the other two.
+
+- **Johnson 2008 MCP** (*J Wildl Dis*, box turtles and tortoises, FV3 positive
+  control) — scoped. 54 of its 61 failing records were fish viruses, so the tool
+  was reporting as assay failure the fact that it was judging the assay outside
+  its claim. Query excludes the five ICTV fish species by taxid; 1,466 → 1,265
+  records, keeping the amphibian, reptile and still-unclassified deposits.
+- **Pallister 2007 MCP RanaConF/R and intergenic 16F/16R** — **not** scoped.
+  Crossref title: "Development of real-time PCR assays for the detection and
+  differentiation of Australian and European ranaviruses", in *Journal of Fish
+  Diseases*. The Australian virus is EHNV and the European ones are ECV/ESV; all
+  are fish. For these assays the fish records *are* the design scope, and the
+  registry's own note already said "ECV and ESV, 750bp". Scoping them away from
+  fish would have deleted the evidence they were built on.
+
+The two Pallister assays fail in opposite directions, which is the tell that the
+distinction is real: RanaConF/R misses the Santee-Cooper fish group, while the
+intergenic assay misses the FV3-like amphibian and reptile viruses — and the
+latter is that assay *working*, since its stated job is to differentiate ECV/ESV
+from FV3-like viruses rather than to detect everything.
+
+**Gap:** no assay in the registry covers the Santee-Cooper group (Largemouth bass
+virus, Mandarin fish ranavirus, *Siniperca chuatsi* ranavirus), which is what all
+three MCP assays trip over. Also noted: Singapore grouper iridovirus is now
+*Ranavirus epinephelus1*, so it sits inside the genus legitimately rather than
+being a retrieval error.

@@ -1,0 +1,38 @@
+id: ORTHOBUNYAVIRUS_ssRNA_M_segment_internal_Briese_2007
+name: 'ORTHOBUNYAVIRUS (ssRNA) — M segment internal, BUN-M-IXf/XIIr (Briese 2007)'
+target:
+  taxid: 11572
+  gene: 'M segment'
+  genome_type: ssRNA-
+  taxon_name: Orthobunyavirus
+  query: 'S[Gene] OR M[Gene] OR "S segment"[Title] OR "M segment"[Title] OR nucleocapsid[Title] OR glycoprotein[Title] OR "complete genome"[Title]'
+chemistry: conventional
+oligos:
+  forward:
+    name: BUN-M-IXf
+    seq: TGGGGNYGYGARGARTWYGG
+  reverse:
+    name: BUN-M-XIIr
+    seq: TTKGTYTTTTGKACATTKCC
+amplicon_bp: 335
+citation:
+  doi: 10.1007/s00705-007-1069-z
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: null
+  reference: 'Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
+  doi_verified: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-04 from Briese et al. 2007 Table 1 (doi:10.1007/s00705-007-1069-z), read from the paper itself rather than from any secondary list. The table gives each primer''s sequence and the genome position of its 3''-terminal base, numbered on the Bunyamwera virus prototype 1943 reference (D00353 = S, M11852 = M, X14383 = L). Degenerate positions are printed as lower-case IUPAC codes and are transcribed here in upper case; sequences are printed in triplets, which is how each primer''s length was checked. Non-authentic (cloning-tail) bases are marked in the table by a distinct italic font, and NONE of the primers in this entry carries one except where tail_5prime is set below. amplicon_bp is COMPUTED, not quoted: the paper gives 3'' positions, not product sizes, so the product is taken as the span from the forward primer''s 5'' base to the reverse primer''s 5'' base using the printed 3'' positions and the primer lengths. BUN-M-IXf is 20 nt with its 3'' base at 3247, so it binds 3228-3247; BUN-M-XIIr is 20 nt with its 3'' base at 3543, so it binds 3543-3562; the product is 3228-3562 = 335 bp. The arithmetic is corroborated by the primer names, which encode their own positions (BUNS-3-L947 at 947, BUNL650R at 601-630). Treat the size as approximate: it is exact only on the Bunyamwera reference, and these are consensus primers meant for a whole serogroup. SCOPE. The paper designed these from an alignment of ''orthobunyaviruses of the CE and BUN serogroups and Guaroa virus'', so the claim is the California encephalitis and Bunyamwera serogroups, not the whole genus. The registry target is genus Orthobunyavirus (~18 serogroups), so a low detected share here is very likely scope rather than drift. Screening the two assays already in the registry on 2026-10-04 showed the pattern plainly: strong on the design serogroups (Cache Valley 14/15, Maguari 4/5) and near-zero on Simbu-serogroup viruses (Oropouche 0/24, Akabane 0/7, Schmallenberg 0/7, Manzanilla 0/4). Left unscoped pending the registry-wide decision on lineage scoping. The only pair in Table 1 that is fully internal to a segment, so it is the one that can be judged against partial deposits rather than only against complete segments. Both primers sit inside nt 2169-3562, outside the 1079-2169 region the paper reports as deleted in Potosi virus. Screened on 2026-10-04: 662 evaluable of 2,056, the most of any orthobunyavirus assay in the registry, which is the expected payoff of being internal rather than terminal. 80 detected (12%), and the breakdown is again scope rather than drift: Anadyr 16/16, Cache Valley 15/15, Keystone 9/9, Ngari 7/7, Maguari 4/4, La Crosse 5/9 - the BUN and CE serogroups it was designed from.'
+needs_review: null
