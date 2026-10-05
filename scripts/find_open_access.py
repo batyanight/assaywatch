@@ -104,6 +104,29 @@ def unpaywall(doi: str, email: str) -> dict:
     }
 
 
+def openalex(doi: str, email: str) -> dict:
+    """OpenAlex's view of where a free copy is.
+
+    Worth querying alongside Unpaywall even though both ultimately describe the
+    same landscape: they disagree in practice. For doi:10.1177/1040638711416846
+    Unpaywall reported no PDF while OpenAlex gave a direct publisher PDF link.
+    Two cheap lookups are better than missing a paper.
+    """
+    d = get_json(
+        f"https://api.openalex.org/works/doi:{urllib.parse.quote(doi, safe='')}"
+        f"?mailto={urllib.parse.quote(email)}"
+    )
+    if not d:
+        return {}
+    loc = d.get("best_oa_location") or {}
+    return {
+        "is_oa": bool((d.get("open_access") or {}).get("is_oa")),
+        "url_pdf": loc.get("pdf_url") or "",
+        "version": loc.get("version") or "",
+        "host_type": loc.get("source", {}).get("type", "") if isinstance(loc.get("source"), dict) else "",
+    }
+
+
 def pmcid(doi: str) -> str:
     q = urllib.parse.urlencode({"query": f'DOI:"{doi}"', "format": "json", "resultType": "lite"})
     d = get_json(f"{EPMC}/search?{q}")
@@ -161,6 +184,16 @@ def main(argv: list[str] | None = None) -> int:
     for doi, assays in targets:
         u = unpaywall(doi, args.email)
         time.sleep(0.15)
+        # Fall back to OpenAlex when Unpaywall finds no PDF: they disagree often
+        # enough that the second lookup is worth its 0.15 s.
+        if not u.get("url_pdf"):
+            oa = openalex(doi, args.email)
+            time.sleep(0.15)
+            if oa.get("url_pdf"):
+                u["url_pdf"] = oa["url_pdf"]
+                u["is_oa"] = u.get("is_oa") or oa.get("is_oa")
+                u["version"] = u.get("version") or oa.get("version")
+                u["oa_status"] = u.get("oa_status") or "openalex"
         pid = pmcid(doi) if not u.get("url_pdf") else ""
         time.sleep(0.15)
         row = {
