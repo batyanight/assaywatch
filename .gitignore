@@ -19,3 +19,9 @@ fetch*.txt
 
 # Downloaded paper PDFs (copyrighted; never commit)
 papers/
+
+# API keys. Never committed, never echoed. scripts/fetch_elsevier.py reads
+# .secrets/elsevier.key or the ELSEVIER_API_KEY environment variable.
+.secrets/
+.env
+*.key
