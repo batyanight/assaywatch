@@ -20,12 +20,17 @@ With --cases it reads a TSV of expected verdicts and prints a confusion matrix:
     assay_id  as_of  expect  source
     CHYTRID_..._Boyle_2004  2014-01-01  works  10.xxxx/yyy (Table 2)
 
-`expect` is one of `works` (the literature found it detecting its target) or
-`fails` (the literature reported false negatives or a redesign). Those map onto
-statuses: stable/watch/insufficient data/no recent data count as "works",
-declining/low coverage as "fails". `insufficient data` is reported separately
-too, because an assay the tool cannot judge is not the same as one it judges
-correctly, and that distinction is what sets min_records_for_drift.
+`expect` is `works` (the literature found it detecting its target), `fails`
+(false negatives or a redesign were reported) or `partial` (it covers some of
+the diversity and not the rest). Statuses map on as: stable/watch -> works,
+declining -> fails, low coverage -> partial, and insufficient data / no recent
+data -> undecided, counted separately because an assay the tool declines to
+judge is not the same as one it judges correctly — that distinction is what
+calibrates min_records_for_drift.
+
+A `partial` result against a `works` expectation is reported as `weaker`, not
+as a disagreement: a pan-family assay detecting 71% of a genus is consistent
+with a paper that used it successfully on the isolates it had.
 """
 
 from __future__ import annotations
@@ -44,8 +49,14 @@ from assaywatch.drift import assess  # noqa: E402
 from assaywatch.report import key_calls_by_accession, read_calls, read_dates  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
 
-WORKS = {"stable", "watch", "insufficient data", "no recent data"}
-FAILS = {"declining", "low coverage"}
+# `low coverage` is its own outcome, not a failure: it says the assay is below
+# threshold with no measurable fall, i.e. it never covered all of this diversity.
+# That is compatible with a paper reporting successful use on the samples it had,
+# so scoring it as "fails" turned four honest `works` cases into disagreements.
+WORKS = {"stable", "watch"}
+FAILS = {"declining"}
+PARTIAL = {"low coverage"}
+UNDECIDED = {"insufficient data", "no recent data"}
 
 
 def status_as_of(calls_path: Path, retrieved: Path, cfg: dict, as_of: date, assays: set[str] | None = None):
@@ -101,11 +112,21 @@ def main(argv: list[str] | None = None) -> int:
         drifts, _ = status_as_of(calls, args.retrieved, cfg, as_of, {c["assay_id"]})
         a = drifts.get(c["assay_id"])
         status = a.status if a else "no data"
-        got = "works" if status in WORKS else "fails" if status in FAILS else "?"
-        if status == "insufficient data":
+        got = (
+            "works"
+            if status in WORKS
+            else "fails"
+            if status in FAILS
+            else "partial"
+            if status in PARTIAL
+            else "undecided"
+        )
+        if got == "undecided":
             verdict = "undecided"  # the tool declined to judge
         elif got == c["expect"]:
             verdict = "agrees"
+        elif {got, c["expect"]} == {"works", "partial"}:
+            verdict = "weaker"  # incomplete coverage, not a contradiction
         else:
             verdict = "DISAGREES"
         tally[(c["expect"], verdict)] += 1

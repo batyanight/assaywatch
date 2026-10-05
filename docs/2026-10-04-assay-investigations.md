@@ -274,3 +274,40 @@ lineage resolution to say so.
 **Left off.** Four agreements against three, on five cases with one moving each
 way, is noise; flipping a default that moves 16 assays on that evidence would be
 fitting to a sample of five. Revisit when the case set reaches 15-20.
+
+## Tier-2 validation, 46 cases: the tool misses most documented failures
+
+`docs/validation-cases.tsv` now holds 46 cases over ~30 assays, drawn from
+independent follow-up literature and dated to the latest sequence each cited
+work could have seen. Scored by `scripts/retrospective.py`:
+
+| | caught | total |
+|---|---|---|
+| documented **failures** the tool flags | **1** | 12 |
+| `works` cases the tool does not contradict | 17 | 21 |
+
+That is the headline result, and it is not flattering: **the tool is
+conservative to the point of near-blindness on real failures.** It rarely cries
+wolf — only 4 of 21 `works` cases are contradicted, and 8 more are called `low
+coverage`, which is defensible rather than wrong — but of twelve failures
+reported in the literature it flags one, disagrees with seven and declines to
+judge four.
+
+That follows from how the thresholds were chosen. Flagging requires the *upper*
+bound of the recent interval to fall below 90% on at least 20 evaluable
+records, which was deliberately set to avoid false alarms on sparsely sequenced
+taxa. The validation says the dial is far too conservative, and more precisely
+that the failure modes the literature reports are mostly **lineage- or
+group-conditional** (ferlavirus genogroups B and C, insect-specific
+flaviviruses, swine H1N1 against avian influenza, beta-papillomaviruses,
+fusiform-gametocyte Leucocytozoon, divergent serpentoviruses) while the tool
+computes one population proportion per assay. A minority lineage cannot move
+that proportion past a 90% bar.
+
+Turning on `count_diverged_as_fail` over all 46 cases: failures caught 1 → 2,
+works not contradicted 17 → 16. It is not the fix.
+
+**What the validation says to build next**, in order: a per-lineage or
+per-clade breakdown rather than one proportion per assay; and a verdict that
+reports the worst-covered subgroup, not the average. Threshold tuning alone
+cannot close a 1-in-12 gap.
