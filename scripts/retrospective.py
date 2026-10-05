@@ -91,9 +91,9 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{'':18} {a.note}")
         return 0
 
-    cases = [
-        r for r in csv.DictReader(args.cases.open(), delimiter="\t") if not r["assay_id"].startswith("#")
-    ]
+    # Comment lines carry each case's provenance; strip them before the header is read.
+    body = [ln for ln in args.cases.read_text().splitlines() if ln.strip() and not ln.startswith("#")]
+    cases = list(csv.DictReader(body, delimiter="\t"))
     tally: Counter = Counter()
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
     for c in cases:

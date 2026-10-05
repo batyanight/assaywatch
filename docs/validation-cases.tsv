@@ -1,0 +1,19 @@
+# Tier-2 retrospective validation cases.
+#
+# Each row: an assay, a date, and what the literature later reported about how
+# that assay actually performed. scripts/retrospective.py recomputes the status
+# using only records deposited before `as_of`, so the tool is never shown the
+# answer. `expect` is `works` (published work found it detecting its target) or
+# `fails` (published work reported false negatives, mismatches, or a redesign).
+#
+# `as_of` is set to the latest date the cited work could have seen sequences:
+# its sampling end or submission date, not its publication date.
+#
+# Adding a case is cheap and is the only thing that calibrates config.yaml, so
+# add one whenever a paper reports how an assay in the registry performed.
+assay_id	as_of	expect	source
+CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004	2012-12-31	works	10.1371/journal.pone.0059499 Longo 2013: cloning and Illumina found no polymorphism in the ITS primer or probe binding sites across 8 strains incl. divergent Brazilian LFT001_01; copy number 10-144 biases quantification only
+CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004	2017-03-31	fails	10.1038/s41598-018-28304-1 Mutnale 2018: 30 GenBank ITS haplotypes with TaqMan probe-site mutations (3 China, 13 Japan, 9 Korea, 5 Brazil) and 15 with reverse-primer-site mutations; 33 qPCR positives vs 119 by nested PCR on the same ~1050 swabs
+CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004	2020-11-01	works	10.1111/1755-0998.13299 Ghosh 2021: used as the pan-lineage screen on South African swabs where BdGPL and BdCAPE co-occur; no detection failure reported, the stated drawback is only that it cannot type lineage
+CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004	2023-01-03	fails	10.1155/2023/9980566 Sreedharan 2023: redesigned the assay outside the Boyle amplicon because of probe- and reverse-primer-site indels and substitutions in Asian haplotypes
+CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004	2026-10-04	works	10.7589/0090-3558-40.3.420 Annis 2004 plus a literature search to 2026 finding no report of lineage-specific failure or redesign; specificity against other chytrids and soil fungi held

@@ -144,3 +144,50 @@ that table, which is the case where scoping would have hidden the finding.
   needs Briese et al. 2007 to confirm. Note the conserved terminus is present
   in only ~4% of deposits anyway, so even with the tails marked this pair will
   be assessable against few records.
+
+## Tier-2 validation, first cases: the Bd assays (2026-10-04)
+
+`docs/validation-cases.tsv` + `scripts/retrospective.py`. Result: **3 agree,
+1 disagrees, 1 undecided.**
+
+| as of | expect | tool says | |
+|---|---|---|---|
+| 2012-12-31 | works | stable | agrees (Longo 2013 found the binding sites conserved) |
+| 2017-03-31 | fails | stable | **disagrees** (Mutnale 2018) |
+| 2020-11-01 | works | stable | agrees (Ghosh 2021 used it as the pan-lineage screen) |
+| 2023-01-03 | fails | insufficient data | undecided (Sreedharan 2023 redesigned it) |
+| Annis 2004, now | works | stable | agrees |
+
+The one disagreement is the informative one. Mutnale et al. 2018
+(10.1038/s41598-018-28304-1) found 30 GenBank ITS haplotypes with mutations in
+the TaqMan probe footprint and 15 in the reverse-primer footprint, mostly
+Asian, and got 33 qPCR positives against 119 by nested PCR on the same swabs.
+The tool says stable and cannot see it, for two structural reasons:
+
+1. **The denominator excludes the records that carry the diversity.** An
+   amplicon call needs both primer sites in one record. Bd ITS submissions have
+   a median length of 257 bp and **464 of 543 do not span the amplicon**, so
+   they are `no_amplicon` and dropped. Those partial haplotype deposits are
+   exactly where a submitter records a divergent ITS sequence. Of the 112
+   evaluable records, 79 are ITS-titled, 31 are genome or assembly records and 2
+   are something else — so this is not fixable by a narrower retrieval query
+   either (an ITS-only query would *lose* 33 of the 112).
+2. **A population proportion cannot see a lineage-specific failure.** Even with
+   those records included, a few per cent of haplotypes failing reads as
+   "stable" against a 90% threshold. The verdict the literature supports is
+   lineage-conditional: fine for BdGPL and BdCAPE, degraded for Asian
+   haplotypes. The tool has no notion of lineage.
+
+Neither is a bug to patch by moving a threshold, and moving one to make this
+case pass would be fitting to a single case. What they point to:
+
+* **Score single oligos against partial records**, reported separately from
+  amplicon calls. A 257 bp ITS deposit can still say whether the probe
+  footprint matches, which is where the documented failure lives.
+* **Stratify by lineage or clade** where the records support it, so a minority
+  blind spot is visible instead of averaged away.
+
+Also noted: the Mutnale failures include a 2 bp insertion in the probe
+footprint, and the matcher is ungapped by design, so that case cannot be scored
+as an indel at all — `assaywatch/gapped.py` exists but only
+`scripts/indel_check.py` uses it.
