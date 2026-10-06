@@ -22,6 +22,17 @@ sys.modules["vo"] = vo
 _spec.loader.exec_module(vo)
 
 
+@pytest.fixture(autouse=True)
+def no_network(monkeypatch):
+    """No test here may reach NCBI or Europe PMC.
+
+    `main` looks a paper up online when none is held locally, through `vo.get`, so every
+    test that runs it for an entry with no matching local paper would otherwise make real
+    requests: slow, flaky, and an unannounced load on NCBI from CI.
+    """
+    monkeypatch.setattr(vo, "get", lambda url, timeout=60: None)
+
+
 def test_finds_sequences_printed_in_codon_groups():
     """Grizzle 2003 and Briese 2007 both group their sequences; a plain
     run-of-letters pattern finds nothing in exactly the papers that matter."""
@@ -248,22 +259,29 @@ def test_inosine_rich_primers_are_still_extracted():
         assert seq in vo.printed_oligos(f"primer {name} 5'-{seq}-3' was used"), name
 
 
+def original_printed_oligos(text: str, min_len: int = 14, max_len: int = 60) -> list[str]:
+    """The composition rule as it stood in 50430bb, frozen here.
+
+    It used to be read out of git history, which a shallow clone (CI's default) does not
+    have, so the regression guard below was skipped exactly where it should have run.
+    """
+    out: set[str] = set()
+    for m in vo.GROUPED_RE.finditer(text):
+        letters = [c for c in m.group(0) if c.isalpha()]
+        if not (min_len <= len(letters) <= max_len):
+            continue
+        if sum(c.isupper() for c in letters) / len(letters) < 0.6:
+            continue
+        if sum(c.upper() in "ACGTUI" for c in letters) / len(letters) < 0.75:
+            continue
+        out.add("".join(letters).upper())
+    return sorted(out)
+
+
 def test_the_composition_rule_is_a_superset_of_the_original_over_the_registry():
     """The calibration, kept: every registry oligo the original rule extracted must
     still be extracted. Measured against all 357 distinct oligos, not the papers
     in hand, because 21 papers did not contain the primers that regressed."""
-    import subprocess
-
-    old_src = subprocess.run(
-        ["git", "show", "50430bb:scripts/verify_oligos_against_paper.py"],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-    )
-    if old_src.returncode != 0:
-        pytest.skip("the original rule is not in this checkout's history")
-    ns: dict = {"__name__": "vo_original", "__file__": str(ROOT / "scripts" / "x.py")}
-    exec(compile(old_src.stdout, "vo_original", "exec"), ns)  # noqa: S102 - our own repo's history
     seqs = set()
     for f in sorted((ROOT / "registry").glob("*.yaml")):
         o = yaml.safe_load(f.read_text())["oligos"]
@@ -274,12 +292,10 @@ def test_the_composition_rule_is_a_superset_of_the_original_over_the_registry():
             seqs.add((a.get("seq_as_written") or a["seq"]).upper())
     seqs = {s for s in seqs if 14 <= len(s) <= 60}
     assert len(seqs) > 300  # the registry really was walked
-    lost = [
-        s
-        for s in sorted(seqs)
-        if s in ns["printed_oligos"](f"primer 5'-{s}-3' was used")
-        and s not in vo.printed_oligos(f"primer 5'-{s}-3' was used")
-    ]
+    sentence = "primer 5'-{}-3' was used"
+    found_by_original = [s for s in sorted(seqs) if s in original_printed_oligos(sentence.format(s))]
+    assert len(found_by_original) > 300, "the frozen rule no longer reproduces the original"
+    lost = [s for s in found_by_original if s not in vo.printed_oligos(sentence.format(s))]
     assert lost == [], lost
 
 
@@ -337,8 +353,17 @@ def test_a_stored_sequence_in_the_running_text_is_in_text_not_no_oligos():
 
 
 def test_the_exact_verdict_is_unaffected_by_the_floor():
-    text = f"forward primer 5'-{SEQ}-3' and reverse 5'-ATTGCGCTGGAACCTTGTCAAGG-3'"
-    assert vo.judge(SEQ, text, vo.printed_oligos(text), 4)[0] == "exact"
+    """With a text that prints ONE oligo: below the floor, where a would-be `absent`
+    becomes `no-oligos`. An exact match must still read exact, and so must a reverse
+    complement. (The first version of this test used a two-oligo text, which the floor
+    never touches, so it could not fail for what it names.)"""
+    text = f"forward primer 5'-{SEQ}-3' was used"
+    printed = vo.printed_oligos(text)
+    assert len(printed) < vo.MIN_PRINTED_FOR_ABSENT, printed
+    assert vo.judge(SEQ, text, printed, 4)[0] == "exact"
+    rc_text = f"reverse primer 5'-{vo.reverse_complement(SEQ)}-3' was used"
+    assert len(vo.printed_oligos(rc_text)) < vo.MIN_PRINTED_FOR_ABSENT
+    assert vo.judge(SEQ, rc_text, vo.printed_oligos(rc_text), 4)[0] == "revcomp"
 
 
 # --- the paper's oligo is longer than the stored one ------------------------
@@ -355,7 +380,11 @@ def test_a_longer_printed_oligo_is_reported_in_full_not_as_a_truncated_window():
     verdict, note = vo.judge(stored_30, text, vo.printed_oligos(text), 4)
     assert verdict.startswith("near:"), (verdict, note)
     assert printed_33 in note, note
-    assert "33 nt" in note and "longer than the stored 30" in note
+    assert "33 nt" in note and "the stored oligo is 30" in note
+    # Aligned end to end the three extra bases are INSIDE the run, which is the part that
+    # is evidence the stored sequence is wrong; there is nothing at either end.
+    assert "3 base(s) inside it that the stored sequence lacks" in note, note
+    assert "at the run's 5' end" not in note and "at its 3' end" not in note
 
 
 # --- the summary ------------------------------------------------------------
@@ -497,3 +526,265 @@ def test_the_notation_is_normalised_by_every_way_a_paper_is_read(tmp_path, monke
     monkeypatch.setattr(vo, "get", lambda url, timeout=60: f"<article>{raw}</article>")
     got = vo.printed_oligos(vo.paper_text("PMC1"))
     assert want_a in got and want_b in got, ("pmc", got)
+
+
+# ==========================================================================
+# Added after the second review
+# ==========================================================================
+
+# Deckers 2009 (Virol J 6:210), Table 1 as PubMed Central serves it: the printed
+# notation is `(n/i)`, `(b/i)`, `(r/i)` and `(y/i)`, four different "X or inosine" positions.
+DECKERS_TABLE = """
+Table 1  Primers for amplification of the glycoprotein B and UL33 genes
+CMV-gBp1
+4007s
+1
+GGTGACGTGGTTGACAT(n/i)TC(n/i)CC
+800
+4007as
+GCAATCGGTTTGTTGTA(n/i)AT(n/i)GC
+4125s
+2
+GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA
+550
+4125as
+GCTGACGGGTTGATCTTGCT(r/i)AG
+CMV-gBp2
+4524s
+1
+GGAATCCAGGAT(y/i)TGGT(r/i)CCT
+1790
+"""
+
+
+@pytest.mark.parametrize(
+    "printed, normalised",
+    [
+        ("GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA", "GCGGACTCGGTGATNTCNTGGGA"),
+        ("GCTGACGGGTTGATCTTGCT(r/i)AG", "GCTGACGGGTTGATCTTGCTNAG"),
+        ("GGAATCCAGGAT(y/i)TGGT(r/i)CCT", "GGAATCCAGGATNTGGTNCCT"),
+        ("CGTTGTCCTC[i/n]CC[N/I]ARYTG( I / B )CC", "CGTTGTCCTCNCCNARYTGNCC"),
+    ],
+)
+def test_every_x_or_inosine_notation_is_resolved_not_just_n_or_inosine(printed, normalised):
+    assert vo.normalise_notation(printed) == normalised
+
+
+def test_a_genuine_two_base_bracket_is_left_alone():
+    """Only the inosine forms are rewritten: `(A/G)` is some other notation entirely."""
+    assert vo.normalise_notation("ACGT(A/G)ACGT") == "ACGT(A/G)ACGT"
+
+
+def test_deckers_table_is_read_whole_and_the_stored_primers_verify_exact():
+    """The two registry entries that will be re-cited to Deckers 2009 must read exact
+    against it, which they did not while only `(n/i)` was understood: 4125s split at
+    `(b/i)` into a 14-mer and 4125as lost its last two bases."""
+    text = vo.normalise_notation(DECKERS_TABLE)
+    printed = vo.printed_oligos(text)
+    assert len(printed) == 5, printed  # five oligos; two carry table text glued on, as real tables do
+    for stored in (
+        "GGTGACGTGGTTGACATNTCNCC",  # 4007s
+        "GCAATCGGTTTGTTGTANATNGC",  # 4007as
+        "GCGGACTCGGTGATNTCNTGGGA",  # 4125s
+        "GCTGACGGGTTGATCTTGCTRAG",  # 4125as: the paper prints R-or-inosine, the registry keeps R
+    ):
+        verdict, note = vo.judge(stored, text, printed, 4)
+        assert verdict in ("exact", "near:1"), (stored, verdict, note)
+    # 4125as is the one that matters most: its last two bases were lost before the fix.
+    assert any("GCTGACGGGTTGATCTTGCTNAG" in p for p in printed), printed
+
+
+# ---- which file holds a DOI, independent of file order -----------------------------------
+
+
+def _papers(tmp_path, files: dict[str, str]):
+    for name, body in files.items():
+        (tmp_path / name).write_text(body)
+    return vo.index_papers(tmp_path)[0]
+
+
+REVIEW = (
+    "A review of the field. This article doi:10.7777/review.1 . Related work: doi:10.9999/smith.2010 . "
+    + RICH
+    + " primer 5'-CCTTGGTTAAGGCCTTGGAACCTT-3' primer 5'-GGAACCTTGGTTAAGGCCTTGGAA-3'"
+)
+PAPER = "Smith et al. This article doi:10.9999/smith.2010 . " + RICH
+
+
+@pytest.mark.parametrize(
+    "review_name, paper_name",
+    [("a_review.txt", "b_smith2010.txt"), ("b_review.txt", "a_smith2010.txt")],
+    ids=["review-sorts-first", "paper-sorts-first"],
+)
+def test_the_paper_holds_its_own_doi_whichever_file_sorts_first(tmp_path, review_name, paper_name):
+    """The first fix made an unnamed claim only fill an empty slot, so the first-sorted
+    file kept the DOI: a review that sorted ahead of the paper it reprints took its
+    place. The file that prints the DOI EARLIER now wins, in either order."""
+    by_doi = _papers(tmp_path, {review_name: REVIEW, paper_name: PAPER})
+    assert by_doi["10.9999/smith.2010"][1].name == paper_name
+    assert by_doi["10.7777/review.1"][1].name == review_name
+
+
+def test_an_erratum_that_cites_another_doi_first_still_holds_its_own(tmp_path):
+    by_doi = _papers(
+        tmp_path,
+        {
+            "a_paper.txt": "doi:10.1111/aaa.1 " + RICH,
+            "b_erratum.txt": "Erratum to doi:10.1111/aaa.1 . This article doi:10.2222/bbb.2 . " + RICH,
+        },
+    )
+    assert by_doi["10.1111/aaa.1"][1].name == "a_paper.txt"
+    assert by_doi["10.2222/bbb.2"][1].name == "b_erratum.txt"
+
+
+def test_equal_offsets_keep_the_incumbent(tmp_path):
+    claims, by_doi = {}, {}
+    vo.claim(by_doi, claims, "10.1/x", "first", Path("a.txt"), 2, named=False, offset=5)
+    vo.claim(by_doi, claims, "10.1/x", "second", Path("b.txt"), 9, named=False, offset=5)
+    assert by_doi["10.1/x"][1].name == "a.txt"
+    vo.claim(by_doi, claims, "10.1/x", "third", Path("c.txt"), 0, named=False, offset=4)
+    assert by_doi["10.1/x"][1].name == "c.txt"  # earlier wins even with fewer oligos
+
+
+def test_text_dois_records_the_first_occurrence_only():
+    out = vo.text_dois(
+        "x doi:10.1234/a.1 y doi:10.1234/b.2 z doi:10.1234/a.1 " + "q" * 5000 + " 10.9999/late.1"
+    )
+    assert list(out) == ["10.1234/a.1", "10.1234/b.2"]
+    assert out["10.1234/a.1"] < out["10.1234/b.2"]
+
+
+# ---- main() really goes through judge(), and the floor does not touch exact ----------------
+
+
+def _verify(tmp_path, paper_text, capsys, extra=()):
+    reg, d = _one_entry_registry(tmp_path)
+    papers = tmp_path / "papers"
+    papers.mkdir(exist_ok=True)
+    (papers / "10.1128_aem.02897-13.txt").write_text(paper_text)
+    out = tmp_path / "v.tsv"
+    rc = vo.main(["--registry", str(reg), "--pdf-dir", str(papers), "--tsv", str(out), *extra])
+    rows = list(csv.DictReader(out.open(), delimiter="\t"))
+    return rc, rows, capsys.readouterr().out, d
+
+
+def test_main_reports_no_oligos_for_a_thin_paper_and_excludes_it_from_the_headline(tmp_path, capsys):
+    """Drives the whole script: a paper that prints ONE oligo cannot call the others
+    absent. A main() that bypassed judge() would report them `absent` and put them in
+    the headline denominator."""
+    fwd = yaml.safe_load((ROOT / "registry" / "PD_WNS_ITS1_Shuey_2014.yaml").read_text())["oligos"][
+        "forward"
+    ]["seq"]
+    rc, rows, out, _ = _verify(tmp_path, f"Methods. The forward primer was 5'-{fwd}-3'.", capsys)
+    verdicts = {r["slot"]: r["verdict"] for r in rows}
+    assert rc == 0
+    assert verdicts["forward"] == "exact", verdicts
+    assert {v for k, v in verdicts.items() if k != "forward"} == {"no-oligos"}, verdicts
+    assert "1 of 1 checkable oligos agree" in out, out
+
+
+def test_a_lost_inline_sequence_reads_no_oligos_not_absent():
+    """The avipox paper's reverse primer reads `primer 1R ()`: the name survives and the
+    bracket that held the sequence is emptied. The text still prints two other oligos,
+    so the floor does not catch it; the empty bracket is the marker."""
+    text = (
+        "Primer 1F (5'-TCC TTG TAA AAG CGA TAC AGG AA-3') and primer 1R () produce a 234 bp fragment "
+        "within which lies the Pox1 probe (5'-CAG CGT GAT GAA GAC GCT AA-3')."
+    )
+    printed = vo.printed_oligos(text)
+    assert len(printed) == 2, printed
+    verdict, note = vo.judge("TTGGCCAAGTTGGCCAAGTTGG", text, printed, 4, name="1R")
+    assert verdict == "no-oligos" and "EMPTY bracket" in note, (verdict, note)
+    # Without the name, or for a name that does not sit before an empty bracket, it is a real absent.
+    assert vo.judge("TTGGCCAAGTTGGCCAAGTTGG", text, printed, 4)[0] == "absent"
+    assert vo.judge("TTGGCCAAGTTGGCCAAGTTGG", text, printed, 4, name="2R")[0] == "absent"
+    assert (
+        vo.judge("TTGGCCAAGTTGGCCAAGTTGG", text, printed, 4, name="1F")[0] == "absent"
+    )  # 1F has its sequence
+
+
+def test_short_oligo_names_match_whole_tokens_only():
+    text = "Primer 1F was used with primer 1R, see Fig. 11F and T7 promoter; the tag1Fox is unrelated."
+    assert [text[i : i + 2] for i in vo.find_name("1F", text)] == ["1F"]  # not inside `11F`, `tag1Fox`
+    assert vo.find_name("1f", text) == []  # case-sensitive: short names are too easy to hit otherwise
+    assert vo.find_name("F", text) == []  # a single character cannot be searched at all
+    assert vo.name_pattern("F") is None
+    assert vo.find_name("BornaPCA3(+)", "primer BornaPCA3 was used")  # long names stay loose
+
+
+# ---- the longer-run note says where the extra bases are -------------------------------------
+
+
+def test_a_longer_run_with_glue_on_one_end_is_not_offered_as_the_oligo():
+    """Table extraction glues a primer name's last letters onto the sequence. The note
+    must say the extra bases are at the END of the run, where they may be glue, and not
+    present the whole run as 'the paper's own sequence'."""
+    glued = "ASGCAATCGGTTTGTTGTANATNGC"  # `...4007as` + the sequence, one substitution from the stored
+    stored = "GCAATCGGTTTGTTGTANATNCC"
+    verdict, note = vo.check(stored, "", [glued], 4)
+    assert verdict == "near:1", (verdict, note)
+    assert "2 extra base(s) at the run's 5' end" in note, note
+    assert "inside it" not in note
+    assert "table text glued on" in note
+    # and on the 3' end, in either orientation of the stored sequence
+    _, note3 = vo.check(stored, "", ["GCAATCGGTTTGTTGTANATNGCAS"], 4)
+    assert "2 extra base(s) at its 3' end" in note3, note3
+    _, note_rc = vo.check(vo.reverse_complement(stored), "", [glued], 4)
+    assert "2 extra base(s) at the run's 5' end" in note_rc, note_rc
+
+
+def test_align_to_run_on_simple_cases():
+    assert vo.align_to_run("ACGTACGT", "ACGTACGT") == (0, 0, 0, 0)
+    assert vo.align_to_run("ACGTACGT", "TTACGTACGTGG") == (0, 2, 2, 0)
+    assert vo.align_to_run("ACGTACGT", "ACGTTTACGT")[0] == 2  # two extra bases in the middle
+    assert vo.align_to_run("ACGTACGT", "ACGTTTACGT")[3] == 2
+    edits, five, three, inside = vo.align_to_run("ACGTACGT", "ACCTACGT")
+    assert (edits, five, three, inside) == (1, 0, 0, 0)
+
+
+# ---- counts per FILE, and the listing -------------------------------------------------------
+
+
+def test_a_thin_paper_citing_other_dois_is_counted_once(tmp_path, capsys):
+    papers = tmp_path / "papers"
+    papers.mkdir()
+    (papers / "10.1234_thin.1.txt").write_text(
+        "Methods only. See doi:10.5555/ref.one, doi:10.5555/ref.two and doi:10.5555/ref.three. " + POOR
+    )
+    reg, _ = _one_entry_registry(tmp_path)
+    vo.main(["--registry", str(reg), "--pdf-dir", str(papers)])
+    out = capsys.readouterr().out
+    assert "indexed 1 readable papers" in out and "(1 with a DOI)" in out, out
+    assert "1 print fewer than 2 oligos" in out, out
+
+
+def test_the_near_listing_is_in_numeric_order_and_keeps_the_whole_note():
+    rows = [
+        {"assay_id": "B", "oligo_name": "x", "verdict": "near:10", "note": "ten"},
+        {"assay_id": "A", "oligo_name": "y", "verdict": "near:2", "note": "two"},
+        {"assay_id": "C", "oligo_name": "z", "verdict": "near:3", "note": "n" * 70 + "TAIL-MARKER"},
+    ]
+    lines = vo.near_listing(rows)
+    order = [ln.split()[2] for ln in lines if "near:" in ln]
+    assert order == ["near:2", "near:3", "near:10"], order
+    assert any("TAIL-MARKER" in ln for ln in lines), "the end of a long note was cut off"
+
+
+def test_two_named_files_with_equal_yield_keep_the_first(tmp_path):
+    """Ties keep the incumbent, so the result follows the stable file order and does not
+    flip on filesystem order."""
+    by_doi = _papers(tmp_path, {"10.1234_tie.1.txt": RICH, "10.1234_tie.1.xml": f"<article>{RICH}</article>"})
+    assert by_doi["10.1234/tie.1"][1].suffix == ".xml"  # paper_files lists .xml before .txt
+
+
+def test_main_passes_the_oligo_name_so_a_lost_inline_sequence_is_caught(tmp_path, capsys):
+    """judge() can spot `primer 1R ()`, but only if main() hands it the name."""
+    d = yaml.safe_load((ROOT / "registry" / "PD_WNS_ITS1_Shuey_2014.yaml").read_text())["oligos"]
+    text = (
+        f"Methods. Forward primer {d['forward']['name']} 5'-{d['forward']['seq']}-3' and probe "
+        f"{d['probe']['name']} 5'-{d['probe']['seq']}-3'; reverse primer {d['reverse']['name']} () was also used."
+    )
+    _, rows, _, _ = _verify(tmp_path, text, capsys)
+    verdicts = {r["slot"]: r["verdict"] for r in rows}
+    assert verdicts["forward"] == "exact" and verdicts["probe"] == "exact", verdicts
+    assert verdicts["reverse"] == "no-oligos", verdicts

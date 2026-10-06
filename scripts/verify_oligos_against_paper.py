@@ -194,9 +194,11 @@ def printed_oligos(text: str, min_len: int = 14, max_len: int = 60) -> list[str]
     Calibrated against all 357 distinct registry oligos as written (14-60 nt),
     each placed in a one-line methods sentence, rather than only the papers in
     hand: the original rule misses 36, the first replacement 18, this one 13. The
-    13 are the most heavily degenerate (`ACHBYMTCVTGGTTCMWDCAGG`, 41% unambiguous
-    bases) and cannot be told from capitalised prose by composition, so a paper
-    that prints one is confirmed only by the weaker `in-text` search.
+    13 are the most heavily degenerate: between 50% and 65% unambiguous bases (the
+    lowest, `GVKWRWANTHDANGTANGGRTTDTYNCC`, is 50%; `ACHBYMTCVTGGTTCMWDCAGG` is 64%,
+    only just under the 65% line) and cannot be told from capitalised prose by
+    composition, so a paper that prints one is confirmed only by the weaker `in-text`
+    search.
 
     Inosine is matched by `GROUPED_RE` and stays part of the sequence that comes
     back; it is only treated differently in the composition arithmetic.
@@ -238,29 +240,34 @@ def pdf_text(path: Path) -> str:
 # full text.
 #
 # No format is better than the others, which took a wrong turn to learn. The
-# first version of this preferred publisher text over a PDF on the reasoning
-# that structured text beats a table pypdf has to rebuild from glyph positions.
-# That is true of the text a publisher deposits in full, and false of PMC full
-# text as served through an MCP tool, which omits `table-wrap` entirely - so
-# preferring it would let a table-less text file override a PDF whose primer
-# table extracts perfectly well. `index_papers` picks between them on what they
-# actually yield instead.
+# first version preferred publisher text over a PDF on the reasoning that
+# structured text beats a table pypdf has to rebuild from glyph positions. That is
+# true of the text a publisher deposits in full, and not of PMC full text as served
+# through an MCP tool, which comes back flattened and often (not always: Prepens
+# 2007 and Deckers 2009 kept their primer tables) without its tables - so preferring
+# it would let a table-less text file override a PDF whose primer table extracts
+# perfectly well. `index_papers` picks between them on what they actually yield
+# instead.
 PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
 
 
-# A position a paper writes as the literal string "(N/I)" - "N or inosine" -
-# inside a sequence. Both cases and both bracket styles occur in one table of
-# one paper, so all four are matched, as is "(I/N)".
-NI_POSITION = re.compile(r"[(\[]\s*(?:[Nn]\s*/\s*[Ii]|[Ii]\s*/\s*[Nn])\s*[)\]]")
+# A position a paper writes as "X or inosine" inside a sequence: `(N/I)`, but also
+# `(b/i)`, `(r/i)` and `(y/i)` - Deckers 2009 prints all four in one table. Both
+# cases, both bracket styles and both orders occur, so any IUPAC letter on either
+# side of the slash is matched provided the other side is I.
+NI_POSITION = re.compile(
+    r"[(\[]\s*(?:[ACGTURYSWKMBDHVNacgturyswkmbdhvn]\s*/\s*[Ii]|[Ii]\s*/\s*[ACGTURYSWKMBDHVNacgturyswkmbdhvn])\s*[)\]]"
+)
 
 
 def normalise_notation(text: str) -> str:
     """Rewrite in-sequence notation that would otherwise split a printed oligo.
 
-    So far one form, and it is not obscure. The Ehlers-lab pan-herpesvirus
+    One family of forms, and it is not obscure. The Ehlers-lab pan-herpesvirus
     consensus primers - a mainstay of wildlife herpesvirus screening, and the
     source of several entries here - are printed with their ambiguous positions
-    spelled out as `(N/I)`, meaning "N or inosine at this base":
+    spelled out as `(N/I)`, meaning "N or inosine at this base", and other positions
+    as `(b/i)`, `(r/i)` or `(y/i)`, "B, R or Y, or inosine":
 
         2744s   TTCAAGGAACTCAGYAARAT(N/I)AAYCC
         2745as  CGTTGTCCTC(N/I)CC(N/I)ARYTG(N/I)CC
@@ -278,7 +285,9 @@ def normalise_notation(text: str) -> str:
 
     Replacing it with `N` is what the registry already does - `seq` holds strict
     IUPAC, and `deinosine` flattens inosine to N on both sides of every
-    comparison anyway - so nothing is lost by resolving it here.
+    comparison anyway - and it is the faithful reading of "B or inosine": inosine
+    pairs with any base, so the union of the two is N. So nothing is lost by
+    resolving every form to N here.
     """
     return NI_POSITION.sub("N", text)
 
@@ -315,13 +324,14 @@ DOI_IN_TEXT = re.compile(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+")
 
 def claim(
     by_doi: dict[str, tuple[str, Path]],
-    claims: dict[str, tuple[bool, int]],
+    claims: dict[str, tuple[bool, int, int]],
     doi: str,
     text: str,
     path: Path,
     n_oligos: int,
     *,
     named: bool,
+    offset: int = 0,
 ) -> None:
     """Let one file take `doi`, if its claim is the stronger one.
 
@@ -332,28 +342,32 @@ def claim(
       a PDF can hide its table in an image and PMC full text can lose it - so what
       a file yields is the comparison worth making. Ties keep the incumbent, so
       the result follows `paper_files`' stable order.
-    - an UNNAMED claim only ever fills an empty slot. It never displaces another
-      unnamed claim, because a DOI found in a file's first 4,000 characters is as
-      likely to be a reference it cites as its own: a review that reprints the
-      primers would otherwise take the DOI from the paper that designed them, and
-      an entry would be verified against the wrong paper. First wins, as it did
-      before this function existed.
+    - between two UNNAMED claims, the file that prints the DOI EARLIER wins
+      (`offset` is its position in the file's first 4,000 characters). A paper
+      prints its own DOI in its header, and a review or erratum that cites the
+      paper's DOI does so after its own, so the earlier occurrence is the likelier
+      owner. This does not depend on file order, which the first version did: it
+      let the first-sorted file keep the DOI, so a review that sorted ahead of the
+      paper it reprints took the paper's place. Ties keep the incumbent.
 
-    THE ASYMMETRY TO KNOW ABOUT: a named file that yields nothing still beats an
-    unnamed one that holds the table. That is the price of never trusting a DOI
-    printed in running text. If you hold a better copy, name it for the DOI
-    (`10.1234_abc.pdf`) and it competes on yield; `main` reports how many named
-    files print fewer than two oligos so the case is visible.
+    THE ASYMMETRIES TO KNOW ABOUT: a named file that yields nothing still beats an
+    unnamed one that holds the table, which is the price of never trusting a DOI
+    printed in running text - if you hold a better copy, name it for the DOI
+    (`10.1234_abc.pdf`) and it competes on yield, and `main` reports how many
+    files print fewer than two oligos so the case is visible. And "earlier" is a
+    heuristic: an erratum that opens "Erratum to doi:A" and then prints its own DOI
+    claims A, though it is not A's paper; it does not displace A's own paper, but if
+    A's paper is absent it stands in for it.
     """
     current = claims.get(doi)
     if current is not None:
-        cur_named, cur_n = current
-        if not named:
+        cur_named, cur_n, cur_offset = current
+        if cur_named and (not named or cur_n >= n_oligos):
             return
-        if cur_named and cur_n >= n_oligos:
+        if not named and not cur_named and cur_offset <= offset:
             return
     by_doi[doi] = (text, path)
-    claims[doi] = (named, n_oligos)
+    claims[doi] = (named, n_oligos, offset)
 
 
 def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tuple[str, Path]]]:
@@ -374,9 +388,9 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
     table-less PMC text file silently override a PDF whose table read fine.
     """
     by_doi: dict[str, tuple[str, Path]] = {}
-    # (named, n_oligos) for whichever file currently holds each DOI, so a later
+    # (named, n_oligos, offset) for whichever file currently holds each DOI, so a later
     # file can be compared against it without re-extracting its sequences.
-    claims: dict[str, tuple[bool, int]] = {}
+    claims: dict[str, tuple[bool, int, int]] = {}
     everything: list[tuple[str, Path]] = []
     for path in paper_files(paper_dir):
         # A filename that is the DOI with its slashes swapped for underscores
@@ -410,9 +424,17 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
         # Only between two files of equal standing does the oligo count decide.
         if named_doi:
             claim(by_doi, claims, named_doi, text, path, n_oligos, named=True)
-        for d in DOI_IN_TEXT.findall(text[:4000]):
-            claim(by_doi, claims, d.rstrip(".,;)").lower(), text, path, n_oligos, named=False)
+        for doi, offset in text_dois(text).items():
+            claim(by_doi, claims, doi, text, path, n_oligos, named=False, offset=offset)
     return by_doi, everything
+
+
+def text_dois(text: str) -> dict[str, int]:
+    """{doi: offset of its first occurrence} among the first 4,000 characters of a paper."""
+    out: dict[str, int] = {}
+    for m in DOI_IN_TEXT.finditer(text[:4000]):
+        out.setdefault(m.group(0).rstrip(".,;)").lower(), m.start())
+    return out
 
 
 def local_paper(assay, by_doi, everything) -> tuple[str, Path] | None:
@@ -537,7 +559,7 @@ def check(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
     # reports a candidate that is not what the paper printed. So when a printed
     # candidate is longer than the stored oligo, every window of the stored
     # length is tried and the best window is what gets reported.
-    best, best_printed, best_d = None, None, cap + 1
+    best, best_printed, best_cand, best_d = None, None, None, cap + 1
     for p in printed:
         pd = deinosine(p)
         for cand in (seq, rc):
@@ -549,25 +571,115 @@ def check(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
             for w in windows:
                 d = edit_distance(cand, w, cap)
                 if d < best_d:
-                    best, best_printed, best_d = w, pd, d
+                    best, best_printed, best_cand, best_d = w, pd, cand, d
     if best is not None and best_d <= cap:
         if len(best_printed) > len(best):
-            # The paper's oligo is LONGER than the stored one. Reporting only the
-            # best stored-length window presents a truncated fragment as "the
-            # paper's own sequence", and applying it as the fix would store a
-            # sequence that matches neither the paper nor anything else. Quan 2010
-            # prints a 33-mer; the stored 30-mer lacks three bases, and the window
-            # alone dropped the last three of the paper's.
+            # The paper's run is LONGER than the stored oligo, and a bare window
+            # would present a truncated fragment as "the paper's own sequence" -
+            # Quan 2010 prints a 33-mer, the stored 30-mer lacks three bases, and
+            # the window alone dropped the last three of the paper's. But a longer
+            # run is just as often a SHORT oligo with table text glued on (a primer
+            # name's last letters, a column label), and quoting it whole would invite
+            # extending the stored sequence by those letters. So the note aligns the
+            # stored sequence to the run end to end and says where the extra bases
+            # are: at the ends they may be glue, inside the run they are real.
+            edits, five, three, inside = align_to_run(best_cand, best_printed)
+            where = []
+            if five:
+                where.append(f"{five} extra base(s) at the run's 5' end")
+            if three:
+                where.append(f"{three} extra base(s) at its 3' end")
+            if inside:
+                where.append(f"{inside} base(s) inside it that the stored sequence lacks")
             return (
                 f"near:{best_d}",
-                f"paper prints {best_printed} ({len(best_printed)} nt, longer than the stored "
-                f"{len(seq)}; its closest {len(best)}-nt stretch {best} is {best_d} edit(s) away)",
+                f"paper prints {best_printed} ({len(best_printed)} nt; the stored oligo is {len(seq)}). "
+                f"Aligned end to end the stored sequence is {edits} edit(s) from it"
+                + (f", with {'; '.join(where)}" if where else "")
+                + ". Bases at the ends of a printed run can be table text glued on by the extraction, "
+                "so only a difference inside the run is evidence the stored sequence is wrong",
             )
         return f"near:{best_d}", f"paper prints {best} ({best_d} edit(s) away)"
     return "absent", "no printed oligo within the distance cap"
 
 
-def judge(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
+def align_to_run(cand: str, run: str) -> tuple[int, int, int, int]:
+    """Align `cand` end to end against `run`, whose two ends are free.
+
+    Returns (edits, bases of `run` before the aligned stretch, bases after it,
+    bases of `run` inside the stretch that `cand` has no partner for). Unit costs,
+    by plain character equality, like `edit_distance`. Lengths here are at most
+    60, so the table is small.
+    """
+    n, m = len(cand), len(run)
+    inf = n + m + 1
+    dp = [[inf] * (m + 1) for _ in range(n + 1)]
+    for j in range(m + 1):
+        dp[0][j] = 0  # the aligned stretch may start anywhere in the run
+    for i in range(1, n + 1):
+        dp[i][0] = i
+        for j in range(1, m + 1):
+            dp[i][j] = min(
+                dp[i - 1][j - 1] + (cand[i - 1] != run[j - 1]),
+                dp[i - 1][j] + 1,  # a base of cand with no partner in the run
+                dp[i][j - 1] + 1,  # a base of the run with no partner in cand
+            )
+    end = min(range(m + 1), key=lambda j: (dp[n][j], -j))
+    i, j, inside = n, end, 0
+    while i > 0:
+        if j > 0 and dp[i][j] == dp[i - 1][j - 1] + (cand[i - 1] != run[j - 1]):
+            i, j = i - 1, j - 1
+        elif dp[i][j] == dp[i - 1][j] + 1:
+            i -= 1
+        else:
+            inside += 1
+            j -= 1
+    return dp[n][end], j, m - end, inside
+
+
+def name_pattern(name: str) -> re.Pattern | None:
+    """A pattern for an oligo's NAME as a paper may print it, or None if too short to search.
+
+    Punctuation in names varies, so the match is loose: `BornaPCA3(+)` in a registry
+    may be `BornaPCA3` in print, and `Gd-ITS1-qPCR_F` may carry different dashes.
+    Names of 4 or more letters and digits match anywhere, ignoring case. Two and
+    three-character names (`1F`, `1R`, `T7`) are real - the avipox assay's primers are
+    called that - but short enough to occur inside other words, so they match only
+    as a whole token and case-sensitively. A one-character name is not searchable.
+    """
+    core = re.sub(r"[^A-Za-z0-9]+", "", name)
+    if len(core) < 2:
+        return None
+    loose = r"[^A-Za-z0-9]{0,2}".join(re.escape(c) for c in core)
+    if len(core) >= 4:
+        return re.compile(loose, re.I)
+    return re.compile(rf"(?<![A-Za-z0-9]){loose}(?![A-Za-z0-9])")
+
+
+def find_name(name: str, text: str) -> list[int]:
+    """Where a paper mentions an oligo by name; [] if it does not, or the name is too short."""
+    pat = name_pattern(name)
+    return [m.start() for m in pat.finditer(text)] if pat else []
+
+
+EMPTY_BRACKET = re.compile(r"\s*[(\[]\s*[)\]]")
+
+
+def lost_inline(name: str, text: str) -> bool:
+    """Does the text name this oligo and then print an EMPTY bracket where its sequence was?
+
+    `primer 1R ()` is what the avipox paper's reverse primer looks like after PMC's
+    extraction: the name survives and the parenthetical holding the sequence is
+    emptied. That is a detectable loss marker, and an `absent` verdict beside it is
+    a statement about the text, not the primer.
+    """
+    pat = name_pattern(name)
+    if pat is None:
+        return False
+    return any(EMPTY_BRACKET.match(text, m.end()) for m in pat.finditer(text))
+
+
+def judge(seq: str, text: str, printed: list[str], cap: int, name: str | None = None) -> tuple[str, str]:
     """(verdict, note) for one oligo against a paper whose text IS held.
 
     `check` decides what the text says about the sequence. This adds the one
@@ -584,6 +696,15 @@ def judge(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
     verdict, note = check(seq, text, printed, cap)
     if verdict != "absent":
         return verdict, note
+    if name and lost_inline(name, text):
+        return (
+            "no-oligos",
+            (
+                f"the paper names this oligo ({name}) but the text held prints an EMPTY bracket "
+                "where its sequence should be, so the extraction lost it and `absent` would be a "
+                "statement about the file, not the primer. Needs the paper's own copy read by eye"
+            ),
+        )
     if len(printed) < MIN_PRINTED_FOR_ABSENT:
         return (
             "no-oligos",
@@ -595,6 +716,22 @@ def judge(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
             ),
         )
     return verdict, f"{note}; the paper's text printed {len(printed)} oligo-like run(s)"
+
+
+def near_listing(near: list[dict]) -> list[str]:
+    """Console lines for the `near:N` rows, fewest edits first.
+
+    Sorted by the NUMBER of edits (a text sort puts `near:10` before `near:2`), and the
+    whole note is printed: it used to be cut at 70 characters, which removed exactly the
+    part that says the paper's run is longer than the stored oligo.
+    """
+    lines = []
+    for r in sorted(near, key=lambda r: (int(r["verdict"][5:]), r["assay_id"], r["oligo_name"])):
+        note = r["note"]
+        lines.append(f"  {r['assay_id'][:44]:44s} {r['oligo_name'][:16]:16s} {r['verdict']:7s} {note[:70]}")
+        if len(note) > 70:
+            lines.append(f"  {'':44s} {'':16s} {'':7s} {note[70:]}")
+    return lines
 
 
 def oligos_of(assay):
@@ -646,12 +783,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.pdf_dir:
         pdf_dir = args.pdf_dir.expanduser()
         by_doi, everything = index_papers(pdf_dir)
-        thin = sum(
-            1
-            for text, _ in {id(v): v for v in by_doi.values()}.values()
-            if len(printed_oligos(text)) < MIN_PRINTED_FOR_ABSENT
-        )
-        print(f"indexed {len(everything)} readable papers from {pdf_dir} ({len(by_doi)} with a DOI)")
+        # Per FILE: one file can hold several DOIs (its own plus every one it cites in
+        # its first 4,000 characters), and counting per DOI reported one thin paper
+        # once for each of them.
+        holders = {path: text for text, path in by_doi.values()}
+        thin = sum(1 for text in holders.values() if len(printed_oligos(text)) < MIN_PRINTED_FOR_ABSENT)
+        print(f"indexed {len(everything)} readable papers from {pdf_dir} ({len(holders)} with a DOI)")
         if thin:
             print(
                 f"  {thin} print fewer than {MIN_PRINTED_FOR_ABSENT} oligos (a primer table that is an image, or text "
@@ -690,7 +827,7 @@ def main(argv: list[str] | None = None) -> int:
             elif text is None:
                 verdict, note = "no-full-text", "not open access in PMC and no local PDF; needs the PDF"
             else:
-                verdict, note = judge(seq, text, printed, args.cap)
+                verdict, note = judge(seq, text, printed, args.cap, o.name)
             rows.append(
                 {
                     "assay_id": a.id,
@@ -736,8 +873,7 @@ def main(argv: list[str] | None = None) -> int:
     near = [r for r in rows if r["verdict"].startswith("near:")]
     if near:
         print("\n### Probable transcription errors, with the paper's own sequence")
-        for r in sorted(near, key=lambda r: r["verdict"]):
-            print(f"  {r['assay_id'][:44]:44s} {r['oligo_name'][:16]:16s} {r['verdict']:7s} {r['note'][:70]}")
+        print("\n".join(near_listing(near)))
 
     if args.tsv:
         args.tsv.parent.mkdir(parents=True, exist_ok=True)

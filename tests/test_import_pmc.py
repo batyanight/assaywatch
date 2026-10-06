@@ -184,3 +184,74 @@ def test_no_registry_doi_contains_an_underscore():
 
 def test_doi_filename_lowercases_and_replaces_every_slash():
     assert imp.doi_filename("10.1093/INFDIS/167.2.458") == "10.1093_infdis_167.2.458.txt"
+
+
+# ==========================================================================
+# Added after the second review
+# ==========================================================================
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {"error": "rate limit exceeded", "articles": None},
+        {"error": "rate limit exceeded"},
+        "Error: tool timed out",
+        None,
+        42,
+        [{"type": "text", "text": json.dumps({"articles": [{"identifiers": {"doi": "10.1234/x.1"}}]})}],
+        [{"unrelated": 1}, {"also": "not an article"}],
+    ],
+    ids=["error+null", "error", "string", "null", "number", "tool-wrapper", "list-of-other-things"],
+)
+def test_valid_json_that_is_not_an_article_dump_is_an_unreadable_input(tmp_path, payload, capsys):
+    """Only corrupt JSON used to exit non-zero. An error object, a string, null or a
+    wrapped tool result printed '0 papers written' and exited 0, which a driving script
+    cannot tell from a clean empty run."""
+    rc, out = run(tmp_path, payload)
+    assert rc == 1, capsys.readouterr()
+    assert not out.exists() or not list(out.iterdir())
+    err = capsys.readouterr().err
+    assert "not a PubMed Central article dump" in err and "could not be read" in err
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [{"articles": []}, [], {"articles": [article()]}, [article()], article()],
+    ids=["empty-dump", "empty-list", "dump", "bare-list", "single-article"],
+)
+def test_the_shapes_a_real_dump_takes_are_still_accepted(tmp_path, payload):
+    rc, _ = run(tmp_path, payload)
+    assert rc == 0
+
+
+@pytest.mark.parametrize(
+    "doi",
+    [
+        "10.1002/(SICI)1096-9071(199908)58:4<363::AID-JMV7>3.0.CO;2-2",  # Wiley SICI: < and >
+        "10.1234/has_underscore",
+        "10.1234/with%percent",
+    ],
+)
+def test_a_doi_the_verifier_cannot_recover_from_a_filename_is_refused(tmp_path, doi, capsys):
+    """The refusal covered only underscores, but the verifier also requires the recovered
+    DOI to match its own pattern, so any character outside it was written silently,
+    exited 0, and could never be matched by name."""
+    rc, out = run(tmp_path, [article(doi=doi)])
+    assert rc == 1
+    assert not out.exists() or not list(out.iterdir())
+    assert "cannot round-trip" in capsys.readouterr().err
+
+
+def test_round_trips_agrees_with_the_verifier_on_every_registry_doi():
+    registry_dois = {
+        (yaml.safe_load(f.read_text()).get("citation") or {}).get("doi")
+        for f in sorted((ROOT / "registry").glob("*.yaml"))
+    } - {None}
+    assert len(registry_dois) > 60
+    for doi in registry_dois:
+        recovered = imp.doi_filename(doi)[: -len(".txt")].replace("_", "/")
+        assert imp.round_trips(doi) == (
+            vo.DOI_IN_TEXT.fullmatch(recovered) is not None and recovered == doi.lower()
+        )
+        assert imp.round_trips(doi), doi

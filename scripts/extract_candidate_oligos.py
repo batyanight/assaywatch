@@ -71,14 +71,20 @@ def registry_dois() -> set[str]:
     return out
 
 
-def doi_of(path: Path, text: str) -> str:
-    """The paper's DOI: from the filename if it is one, else read from the text."""
+def doi_of(path: Path, text: str, held: list[str] | None = None) -> str:
+    """The paper's DOI: the filename's if it is one, else the earliest one it prints.
+
+    `held` is the DOIs the index gave this file. Of those, the one printed first is
+    the file's own: a paper prints its own DOI in its header, and cites others after
+    it. With nothing held (every DOI it prints went to another file) the earliest
+    DOI it prints is used, so the file is still labelled and not silently dropped.
+    """
     stem = path.stem.replace("_", "/")
     if _vo.DOI_IN_TEXT.fullmatch(stem):
         return stem.lower()
-    for d in _vo.DOI_IN_TEXT.findall(text[:4000]):
-        return d.rstrip(".,;)").lower()
-    return ""
+    offsets = _vo.text_dois(text)
+    pool = [d for d in (held or []) if d in offsets] or list(offsets)
+    return min(pool, key=lambda d: offsets[d]) if pool else ""
 
 
 COLS = ["doi", "pdf", "sequence", "length", "degenerate", "role_words", "sizes_nearby", "context"]
@@ -97,19 +103,26 @@ def main(argv: list[str] | None = None) -> int:
     want = {d.lower() for d in args.doi} if args.doi else None
 
     rows: list[dict] = []
-    skipped_known, no_oligos = 0, []
-    # One file per DOI, the one `index_papers` chose to represent it. Walking every
-    # file instead listed each sequence twice when a DOI was held as both a PDF and
-    # a text file, doubled the per-paper counts, and could report the same DOI
-    # both as having candidates and as yielding NO readable sequences, telling a
-    # curator a paper needed eyes when its own sibling file had already produced
-    # the candidates.
+    skipped_known, no_oligos, duplicates, shared = 0, [], 0, []
+    # Which DOIs each file holds in the index. A paper in two formats (a PDF and a
+    # `.txt`) is two files for one DOI, and walking both listed every sequence
+    # twice and could report one DOI as having candidates AND as yielding none. But
+    # skipping every file that is not the index's winner for its first DOI dropped a
+    # different paper silently: one that cites another DOI before printing its own
+    # loses that DOI's claim, and with it all its candidates. So a file is skipped
+    # only when the file that holds its DOI already yields every sequence it does.
     by_doi, everything = _vo.index_papers(args.pdf_dir)
+    holds: dict[Path, list[str]] = {}
+    for held_doi, (_, held_path) in by_doi.items():
+        holds.setdefault(held_path, []).append(held_doi)
     for text, path in everything:
-        doi = doi_of(path, text)
-        held = by_doi.get(doi) if doi else None
-        if held is not None and held[1] != path:
-            continue  # a sibling file holds this DOI
+        doi = doi_of(path, text, holds.get(path))
+        if not holds.get(path) and doi and doi in by_doi:
+            winner_text, winner_path = by_doi[doi]
+            if set(_vo.printed_oligos(text)) <= set(_vo.printed_oligos(winner_text)):
+                duplicates += 1
+                continue  # the winner already yields everything this file would add
+            shared.append((doi, path.name, winner_path.name))
         if want is not None and doi not in want:
             continue
         if doi and doi in known:
@@ -154,6 +167,12 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\n{len(rows)} candidate oligos from {len(bydoi)} papers")
     if skipped_known:
         print(f"  ({skipped_known} papers skipped as already cited in registry/; --all includes them)")
+    if duplicates:
+        print(
+            f"  ({duplicates} files skipped as copies: another file for the same DOI yields all their sequences)"
+        )
+    for doi, name, other in shared:
+        print(f"  note: {name} and {other} both claim {doi} but print different oligos; both are listed")
     if no_oligos:
         print(
             f"\n{len(no_oligos)} papers yielded NO readable sequences - a .pdf here means the "

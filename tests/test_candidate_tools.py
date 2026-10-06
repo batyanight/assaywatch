@@ -129,3 +129,117 @@ def test_a_name_that_is_found_is_judged_on_its_sentence_not_on_the_floor(tmp_pat
     got = _verdicts(tmp_path, f"We designed {fwd} in this study. Remaining primers are in Table 1.")
     assert got[fwd] == "claimed-here", got  # found: judged on its sentence
     assert got[rev] == "no-oligos", got  # absent from a thin text: the floor
+
+
+# ==========================================================================
+# Added after the second review
+# ==========================================================================
+
+
+def test_a_paper_that_cites_another_doi_first_is_not_dropped(tmp_path, capsys):
+    """The one-file-per-DOI rule skipped any file whose FIRST printed DOI was held by a
+    different file. An erratum, or any paper that cites a DOI before printing its own,
+    lost its candidates without a trace: not in the output, not in the 'no readable
+    sequences' list, and `--doi <its own DOI>` found nothing."""
+    d = tmp_path / "papers"
+    d.mkdir()
+    (d / "a_paper.txt").write_text("doi:10.1111/aaa.1 " + RICH)
+    other_f, other_r = "TTCAAGGAACTCAGTAAGATCAACC", "CCTTGGTTAAGGCCTTGGAACCTTGG"
+    (d / "b_erratum.txt").write_text(
+        f"Erratum to doi:10.1111/aaa.1 . This article doi:10.2222/bbb.2 . Forward 5'-{other_f}-3' reverse 5'-{other_r}-3'."
+    )
+    out = tmp_path / "cand.tsv"
+    assert extract.main(["--pdf-dir", str(d), "--all", "--out", str(out)]) == 0
+    by_file = {}
+    for r in tsv(out):
+        by_file.setdefault(r["pdf"], []).append(r["doi"])
+    assert set(by_file) == {"a_paper.txt", "b_erratum.txt"}, by_file
+    assert set(by_file["b_erratum.txt"]) == {"10.2222/bbb.2"}, (
+        "labelled with its own DOI, not the one it cites"
+    )
+    # and it is findable by its own DOI
+    only = tmp_path / "only.tsv"
+    extract.main(["--pdf-dir", str(d), "--all", "--doi", "10.2222/bbb.2", "--out", str(only)])
+    assert {r["pdf"] for r in tsv(only)} == {"b_erratum.txt"}
+
+
+def test_a_sibling_file_that_prints_something_the_winner_does_not_is_kept_and_noted(tmp_path, capsys):
+    """Copies of one paper are skipped; two files that merely share a DOI are not. A file
+    NAMED for the DOI holds it even when it prints nothing (a PDF whose table is an image),
+    and an unnamed download citing the same DOI with a readable table is not a copy of it:
+    both are listed, and the output says they share the DOI."""
+    d = tmp_path / "papers"
+    d.mkdir()
+    (d / "10.7777_both.4.txt").write_text(POOR)  # named, so it holds the DOI, and yields nothing
+    (d / "downloaded.txt").write_text("doi:10.7777/both.4 " + RICH)
+    out = tmp_path / "cand.tsv"
+    extract.main(["--pdf-dir", str(d), "--out", str(out)])
+    printed = capsys.readouterr().out
+    assert {r["pdf"] for r in tsv(out)} == {"downloaded.txt"}
+    assert sorted(r["sequence"] for r in tsv(out)) == sorted([F, R])
+    assert "downloaded.txt and 10.7777_both.4.txt both claim 10.7777/both.4" in printed, printed
+
+
+def test_a_copy_that_adds_nothing_is_skipped_and_counted(tmp_path, capsys):
+    d = tmp_path / "papers"
+    d.mkdir()
+    (d / "10.7777_copy.5.txt").write_text(RICH)
+    (d / "downloaded.txt").write_text("doi:10.7777/copy.5 " + RICH)
+    out = tmp_path / "cand.tsv"
+    extract.main(["--pdf-dir", str(d), "--out", str(out)])
+    printed = capsys.readouterr().out
+    assert {r["pdf"] for r in tsv(out)} == {"10.7777_copy.5.txt"}
+    assert "1 files skipped as copies" in printed, printed
+
+
+def test_doi_of_prefers_the_doi_a_file_holds_that_it_prints_first(tmp_path):
+    text = "Erratum to doi:10.1111/aaa.1 . This article doi:10.2222/bbb.2 ."
+    path = tmp_path / "x.txt"
+    assert extract.doi_of(path, text, ["10.2222/bbb.2"]) == "10.2222/bbb.2"
+    assert extract.doi_of(path, text, None) == "10.1111/aaa.1"  # holds nothing: earliest printed
+    assert extract.doi_of(path, "no doi here", None) == ""
+    assert extract.doi_of(tmp_path / "10.5555_named.9.txt", text, ["10.2222/bbb.2"]) == "10.5555/named.9"
+
+
+# --- provenance: short names ------------------------------------------------------
+
+
+AVIPOX = (
+    "Primer 1F (5'-TCC TTG TAA AAG CGA TAC AGG AA-3') and primer 1R () produce a 234 bp fragment within "
+    "which lies the Pox1 probe (5'-CAG CGT GAT GAA GAC GCT AA-3'). The real-time PCR assays contained "
+    "0.4 uM primer 1F, 0.4 uM primer 1R and 0.4 uM Pox1 probe."
+)
+
+
+def test_a_two_character_name_is_found_when_the_paper_uses_it(tmp_path):
+    """`find_name` returned [] for any name under four characters, so the avipox
+    entry's `1F` and `1R` read `name-not-found` ('the oligo may not be from this paper')
+    against a paper whose Methods use both, twice."""
+    reg = tmp_path / "registry"
+    reg.mkdir()
+    src = ROOT / "registry" / "AVIPOXVIRUS_dsDNA_4b_core_Farias_2010.yaml"
+    (reg / src.name).write_text(src.read_text())
+    papers = tmp_path / "papers"
+    papers.mkdir()
+    (papers / "10.1371_journal.pone.0010745.txt").write_text(AVIPOX)
+    out = tmp_path / "prov.tsv"
+    prov.main(["--registry", str(reg), "--pdf-dir", str(papers), "--tsv", str(out)])
+    got = {r["oligo_name"]: r for r in tsv(out)}
+    assert got["1F"]["verdict"] != "name-not-found" and got["1R"]["verdict"] != "name-not-found", got
+    assert "short name" in got["1F"]["evidence"] or got["1F"]["verdict"] == "no-signal"
+
+
+def test_a_one_character_name_is_reported_as_too_short_not_as_missing(tmp_path):
+    reg = tmp_path / "registry"
+    reg.mkdir()
+    src = ROOT / "registry" / "PD_WNS_ITS1_Shuey_2014.yaml"
+    d = yaml.safe_load(src.read_text())
+    d["oligos"]["forward"]["name"] = "F"
+    (reg / src.name).write_text(yaml.safe_dump(d))
+    papers = tmp_path / "papers"
+    papers.mkdir()
+    (papers / "10.1128_aem.02897-13.txt").write_text(RICH)
+    out = tmp_path / "prov.tsv"
+    prov.main(["--registry", str(reg), "--pdf-dir", str(papers), "--tsv", str(out)])
+    got = {r["slot"]: r["verdict"] for r in tsv(out)}
+    assert got["forward"] == "name-too-short", got

@@ -30,6 +30,8 @@ the paper, take the text around it, and report any citation marker there.
                            oligo is from another paper: before this verdict
                            existed, 33 of 51 `name-not-found` rows over the 21
                            PubMed Central texts came from papers like that
+    name-too-short         the stored name is a single character, which cannot be
+                           searched for; nothing is concluded from it
     no-full-text           nothing readable to check
 
 This proposes; it does not edit. Every verdict needs the sentence read, because
@@ -86,15 +88,7 @@ def oligos_of(assay):
     return out
 
 
-def find_name(name: str, text: str) -> list[int]:
-    """Where a paper mentions an oligo by name. Punctuation in names varies, so
-    the match is loose: `BornaPCA3(+)` in a registry may be `BornaPCA3` in print,
-    and `Gd-ITS1-qPCR_F` may appear with different dashes."""
-    core = re.sub(r"[^A-Za-z0-9]+", "", name)
-    if len(core) < 4:
-        return []
-    loose = r"[^A-Za-z0-9]{0,2}".join(re.escape(c) for c in core)
-    return [m.start() for m in re.finditer(loose, text, re.I)]
+find_name = _vo.find_name  # shared with the verifier, which uses it to spot a lost sequence
 
 
 COLS = ["assay_id", "slot", "oligo_name", "verdict", "evidence", "doi", "oligos_designed_here", "context"]
@@ -141,6 +135,22 @@ def main(argv: list[str] | None = None) -> int:
                     }
                 )
                 continue
+            if _vo.name_pattern(o.name) is None:
+                rows.append(
+                    {
+                        "assay_id": a.id,
+                        "slot": slot,
+                        "oligo_name": o.name,
+                        "verdict": "name-too-short",
+                        "evidence": "",
+                        "doi": a.citation.doi or "",
+                        "oligos_designed_here": ""
+                        if a.citation.oligos_designed_here is None
+                        else str(a.citation.oligos_designed_here),
+                        "context": "",
+                    }
+                )
+                continue
             spots = find_name(o.name, text)
             if not spots:
                 # Absence of a name from a text that lost its tables is a fact
@@ -161,6 +171,12 @@ def main(argv: list[str] | None = None) -> int:
                         verdict, ev, ctx = "claimed-here", des.group(0)[:60], w[:200]
                     elif cit and des and verdict == "no-signal":
                         verdict, ev, ctx = "ambiguous", f"{cit.group(0)[:40]} + {des.group(0)[:30]}", w[:200]
+            if len(re.sub(r"[^A-Za-z0-9]+", "", o.name)) < 4 and verdict not in (
+                "no-oligos",
+                "name-not-found",
+            ):
+                # A 2-3 character name such as `1F` can also be a figure panel.
+                ev = f"{ev} [short name: may be a figure panel]".strip()
             rows.append(
                 {
                     "assay_id": a.id,

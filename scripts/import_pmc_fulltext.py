@@ -35,10 +35,11 @@ and body are concatenated, because a paper sometimes prints a primer in its
 abstract and nowhere else.
 
 The convention is one-way. The verifier recovers the DOI by turning every `_`
-back into `/`, so a DOI that itself contains an underscore cannot round-trip and
-would never be matched to its registry entry. None of the registry's DOIs does
-(tests/test_import_pmc.py fails if one is added), and this script says so
-instead of writing a file nothing would find.
+back into `/` and requiring its own DOI pattern to match the result, so a DOI with
+an underscore, or with a character outside that pattern (the old Wiley SICI DOIs
+contain `<` and `>`), cannot round-trip and would never be matched to its registry
+entry. None of the registry's DOIs does (tests/test_import_pmc.py fails if one is
+added), and this script says so instead of writing a file nothing would find.
 
 An article whose `full_text` is empty is REPORTED AND SKIPPED, never written as
 an empty or abstract-only file. That distinction matters: an abstract-only file
@@ -98,10 +99,24 @@ def articles_in(path: Path) -> list[dict] | None:
         if isinstance(arts, list):
             return [a for a in arts if isinstance(a, dict)]
         # A single bare article object.
-        return [blob] if "identifiers" in blob or "full_text" in blob else []
-    if isinstance(blob, list):
-        return [a for a in blob if isinstance(a, dict)]
-    return []
+        if looks_like_article(blob):
+            return [blob]
+    elif isinstance(blob, list):
+        # A bare list of articles. A list of something else - a tool-result wrapper
+        # such as [{"type": "text", "text": "..."}] - is not one.
+        arts = [a for a in blob if isinstance(a, dict)]
+        if not blob or any(looks_like_article(a) for a in arts):
+            return [a for a in arts if looks_like_article(a)]
+    # Valid JSON that is not an article dump: an error object, a string, null, a wrapped
+    # tool result. Reporting "0 papers written" and exiting 0 for it read exactly like a
+    # clean empty run, and a driving script could not tell the two apart.
+    print(f"  {path.name} is valid JSON but not a PubMed Central article dump", file=sys.stderr)
+    return None
+
+
+def looks_like_article(obj: dict) -> bool:
+    """Does this object carry any of the fields an article record has?"""
+    return any(k in obj for k in ("identifiers", "full_text", "doi", "title", "abstract"))
 
 
 def document(article: dict) -> str:
@@ -117,6 +132,35 @@ def document(article: dict) -> str:
         (article.get("full_text") or "").strip(),
     ]
     return "\n\n".join(p for p in parts if p) + "\n"
+
+
+def round_trips(doi: str) -> bool:
+    """Would `verify_oligos_against_paper` recover this DOI from the file's name?
+
+    It turns every `_` back into `/` and requires its own DOI pattern to match the
+    whole result. An underscore in the DOI breaks the first step; a character outside
+    the pattern (`<` and `>` in the old Wiley SICI DOIs) breaks the second.
+    """
+    stem = doi_filename(doi)[: -len(".txt")].replace("_", "/")
+    return stem == doi.lower() and _vo().DOI_IN_TEXT.fullmatch(stem) is not None
+
+
+def _vo():
+    """The verifier module, loaded once, so the importer cannot drift from its pattern."""
+    global _VO
+    if _VO is None:
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location(
+            "_vo", ROOT / "scripts" / "verify_oligos_against_paper.py"
+        )
+        _VO = importlib.util.module_from_spec(spec)
+        sys.modules.setdefault("_vo", _VO)
+        spec.loader.exec_module(_VO)
+    return _VO
+
+
+_VO = None
 
 
 def doi_of(article: dict) -> str:
@@ -146,9 +190,10 @@ def main(argv: list[str] | None = None) -> int:
             if not doi:
                 no_doi.append(pmcid)
                 continue
-            if "_" in doi:
+            if not round_trips(doi):
                 # Cannot round-trip through the filename convention: the verifier
-                # turns every `_` back into `/`, so the file would never match.
+                # turns every `_` back into `/` and then requires the whole thing to
+                # match its DOI pattern, so the file would never be matched by name.
                 bad_name.append(doi)
                 continue
             if not (a.get("full_text") or "").strip():
@@ -181,8 +226,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\n  {len(no_doi)} articles had no usable DOI: {', '.join(no_doi)}", file=sys.stderr)
     if bad_name:
         print(
-            f"\n  {len(bad_name)} DOIs contain an underscore, which the filename convention cannot "
-            f"round-trip, so nothing was written for: {', '.join(bad_name)}",
+            f"\n  {len(bad_name)} DOIs cannot round-trip through the filename convention (an underscore, "
+            f"or a character the verifier's DOI pattern does not accept), so nothing was written for: "
+            f"{', '.join(bad_name)}",
             file=sys.stderr,
         )
     if unreadable:
