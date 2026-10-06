@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: Reverse, pol-Router
     seq: GTDGCRAANSHNCCRTABARNGMRTT
-amplicon_bp: 550
+amplicon_bp: 556
 citation:
   doi: 10.1128/JVI.78.23.13366-13369.2004
   design_year: 2004
@@ -34,4 +34,16 @@ source:
   positive_control: Universal control 2
   nested_round: round1
   notes: null
-needs_review: null
+  notes_curator: 'SEQUENCES CONFIRMED BY EYE 2026-10-05, clearing another of the in-text rows the 2026-10-04 audit left for
+    a human. Wellehan et al. 2004 prints all four nested-PCR primers in its Methods prose rather than in a table, spelling
+    out each degenerate code in brackets, and all four match this registry base for base. Two of them look absent to a literal
+    search only because the PDF breaks them across a line - ''NG MRTT'' and ''CCANC CBCDRTT'' - and they are found once non-letters
+    are stripped. So in-text is an artefact of prose plus line-wrapping, not a discrepancy: the verifier reserves exact for
+    a match inside a listed oligo, and this paper lists none. AMPLICON MEASURED on the 2,671 complete genomes in the 2026-10-03
+    Mastadenovirus archive: 2,670 of them give a product, and the size is BIMODAL - 556 bp in 1,377 and 553 bp in 1,285, with
+    almost nothing else. A three-base difference splitting the genus nearly in half is a real indel between adenovirus species,
+    not noise, so amplicon_bp 556 is the mode rather than the whole truth and the second peak is flagged. The stored 550 appears
+    in just 4 of the 2,670. The outer pair is in excellent condition: the forward primer is exact in 2,668 of 2,670 and the
+    reverse in 2,431.'
+needs_review:
+- AMPLICON_BIMODAL_556_AND_553

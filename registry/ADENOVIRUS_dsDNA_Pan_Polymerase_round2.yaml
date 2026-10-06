@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: Reverse, polRinner
     seq: CCANCCBCDRTTRTGNARNGTRA
-amplicon_bp: 330
+amplicon_bp: 324
 citation:
   doi: 10.1128/JVI.78.23.13366-13369.2004
   design_year: 2004
@@ -34,4 +34,15 @@ source:
   positive_control: Canine adenovirus type 2 (vaccine)
   nested_round: round2
   notes: null
-needs_review: null
+  notes_curator: 'SEQUENCES CONFIRMED BY EYE 2026-10-05, clearing another of the in-text rows the 2026-10-04 audit left for
+    a human. Wellehan et al. 2004 prints all four nested-PCR primers in its Methods prose rather than in a table, spelling
+    out each degenerate code in brackets, and all four match this registry base for base. Two of them look absent to a literal
+    search only because the PDF breaks them across a line - ''NG MRTT'' and ''CCANC CBCDRTT'' - and they are found once non-letters
+    are stripped. So in-text is an artefact of prose plus line-wrapping, not a discrepancy: the verifier reserves exact for
+    a match inside a listed oligo, and this paper lists none. AMPLICON MEASURED on the same 2,671 complete Mastadenovirus
+    genomes: 2,665 give a product, 324 bp in 1,378 and 321 bp in 1,281 - the same bimodal split as the outer round in ADENOVIRUS_dsDNA_Pan_Polymerase_round1,
+    which is what you would expect of a three-base indel sitting inside the nested amplicon. amplicon_bp moves from 330, which
+    appears in none of them, to the measured mode 324. The inner forward primer is exact in 2,646 of 2,665; the inner reverse
+    is exact in 1,684 and one mismatch away in 972, so it is the one oligo of the four that has drifted appreciably.'
+needs_review:
+- AMPLICON_BIMODAL_324_AND_321
