@@ -85,8 +85,8 @@ statements from the first cloud session that the reviews corrected.
 | papers still wanted | 33 (`results/nyu-fetch-list.tsv`) |
 | tests | 1054 passing, 11 skipped without Snakemake; 1063 passing, 2 skipped with it |
 
-The 9 extra tests need Snakemake (`snakemake-minimal`, which `environment.yml` already
-installs, so they run on your laptop). They run the pipeline offline on a planted archive, edit
+The 9 extra tests need Snakemake (`environment.yml` installs `snakemake-minimal` from conda,
+so they run on your laptop; on PyPI the package is just `snakemake`). They run the pipeline offline on a planted archive, edit
 one source file at a time, and assert exactly which rules a dry run lists. CI's main job does
 not install Snakemake, so it skips them; a separate `snakemake` job in the workflow installs it
 and runs them, and is allowed to fail without turning the build red (check it when it does).

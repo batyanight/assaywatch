@@ -33,5 +33,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install --upgrade pip setuptools wheel
-      - run: pip install -e ".[dev]" "snakemake-minimal>=8"
+      - run: pip install -e ".[dev]" "snakemake>=8"
       - run: pytest -q tests/test_triggers.py
