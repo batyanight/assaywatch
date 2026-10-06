@@ -16,7 +16,7 @@ oligos:
     name: 222/RVS (VP1)
     seq: CNCCNGGNGGNAYRWACAT
     seq_as_written: CICCIGGIGGIAYRWACAT
-amplicon_bp: 992
+amplicon_bp: 760
 citation:
   doi: 10.1128/JCM.00542-06
   design_year: 2006
@@ -24,6 +24,7 @@ citation:
   as_written: null
   doi_verified: true
   reference: Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (222/224 VP3-VP1 primers)
+  oligos_designed_here: false
 use_context:
 - wildlife
 - public_health
@@ -38,5 +39,25 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'PREDICT panel protocol P-012 (VP3/VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Nix, W.A. (2006).'
-needs_review: null
+  notes_curator: 'PREDICT panel protocol P-012 (VP3/VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Nix, W.A.
+    (2006). THE in-text VERDICT RESOLVED BY READING TABLE 1, 2026-10-05, another of the rows the 2026-10-04 audit left for
+    a human. Oberste et al. 2006 Table 1 lists ''224 GCIATGYTIGGIACICAYRT AMLGTH(I/L/M) VP3 1977-1996'' and ''222 CICCIGGIGGIAYRWACAT
+    M(F/Y)(I/V)PPG(A/G) VP1 2969-2951''. Both match this entry exactly once inosine is read as N, which is the registry''s
+    convention, so the sequences are confirmed and the in-text verdict is an artefact of how the table extracts rather than
+    a discrepancy. PROVENANCE: the paper does not claim these. It says ''we previously developed an RT-snPCR approach, using
+    a primer (primer 224) in VP3 paired with a primer (primer 222) in VP1 for the first round... (10)'', crediting its own
+    references 10 and 19, so oligos_designed_here is set false. The citation is left pointing at this paper, which is where
+    the sequences are printed and verifiable. AMPLICON MEASURED, AND IT DISAGREES WITH THE PAPER''S OWN POSITIONS. Against
+    the 8,994 complete genomes in the 2026-10-03 Enterovirus archive, 8,964 give a product: 760 bp most often, then 757, 763
+    and 745, over a real 721-763 spread that reflects genuine length differences between enterovirus species rather than noise.
+    The forward primer is exact in 8,411 of them and the reverse in 7,514. The pairing is unambiguous - in a complete genome
+    there is exactly one exact site for each primer, for example PX966011.1 at 2180-2200 and 2885-2904, which is 724 apart.
+    The stored 992 was arithmetic on Table 1''s printed positions (1977 to 2969 inclusive is 993), and those positions are
+    not where the primers land in real enterovirus genomes. Whether the Location column is numbered on some other reference
+    or is simply wrong is not resolved here, and is not guessed at; amplicon_bp is set to the measured 760 per this registry''s
+    rule that the measurement wins, and the disagreement is flagged rather than averaged away. Note for scoring: a single
+    amplicon_bp is a poor summary of a 40-base spread, so this entry is one to watch when config.yaml''s amplicon.declared_tolerance
+    is eventually turned on.'
+needs_review:
+- AMPLICON_MEASURED_760_PAPER_POSITIONS_IMPLY_993
