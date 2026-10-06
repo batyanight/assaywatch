@@ -51,6 +51,8 @@ source:
     and the sheet''s blue iguana positive control. SCOPE NOTE: the paper designs this for one provisional Helicobacter species,
     the probe sitting on a 14 bp insertion unique to it, while target is the whole genus Helicobacter (taxid 209). Judged
     against the genus it will look like poor coverage, and that is a scope mismatch, not drift. The sheet''s ''XREACTS with
-    general bac'' is lab experience the paper does not report.'
+    general bac'' is lab experience the paper does not report. CONFIRMED AGAINST THE PAPER ITSELF, later on 2026-10-05. The
+    Conley 2021 PDF was fetched as gold open access, and all three oligos - both primers and the probe - now verify exact
+    against it directly rather than through a full-text search.'
 needs_review:
 - CROSS_REACTIVE

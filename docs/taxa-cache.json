@@ -1110,8 +1110,11 @@
   "scientific_name": "Orthoherpesviridae"
  },
  "3044782": {
-  "common_name": "",
-  "lineage_tail": [],
+  "common_name": "arboviruses group B",
+  "lineage_tail": [
+   "Amarillovirales",
+   "Flaviviridae"
+  ],
   "rank": "genus",
   "scientific_name": "Orthoflavivirus"
  },

@@ -57,5 +57,7 @@ source:
     2009, design_year 2009, oligos_designed_here true; the spreadsheet''s attribution kept in as_written. The paper''s 550
     is one of its approximate sizes; the measured 599 stands. VERIFIER NOTE: 4125-as reports near:1 against Deckers 2009 and
     that is expected, not a discrepancy. The paper prints the position as (r/i), R or inosine; the verifier reads any (X/I)
-    as N, the registry stores the R, and N against R counts as one edit. 4125-s, with (b/i) and (n/i), reads exact.'
+    as N, the registry stores the R, and N against R counts as one edit. 4125-s, with (b/i) and (n/i), reads exact. CONFIRMED
+    AGAINST THE PAPER ITSELF, later on 2026-10-05. The Deckers 2009 PDF is now held locally and the verifier reads it directly:
+    4125-s is exact and 4125-as is near:1, the expected R-against-N difference already explained above.'
 needs_review: null

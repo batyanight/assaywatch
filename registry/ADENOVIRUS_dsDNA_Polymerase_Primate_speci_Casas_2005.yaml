@@ -52,5 +52,9 @@ source:
     (up to 4 mismatches per primer): a product in 4,103 records, 1512 bp in 2,068 and 1515 bp in 1,903. The stored 1560 matches
     none of them; corrected to the modal 1512. Note for the drift report rather than an error: R1 sits one mismatch from the
     template in 3,020 of those records and matches perfectly in only 67, which is a property of the target population and
-    of a primer published with one Y, not a transcription slip - the sequence is what Roy prints.'
+    of a primer published with one Y, not a transcription slip - the sequence is what Roy prints. CONFIRMED AGAINST THE PAPER
+    ITSELF, later on 2026-10-05. The Roy 2009 PDF was fetched as gold open access, and this entry''s outer pair F1/R1 now
+    verifies exact against it directly. (The inner pair in the sibling entry reads in-text rather than exact, because Roy
+    prints all four primers inside one running sentence rather than in a table, which is the weaker of the two matches the
+    verifier distinguishes - not a discrepancy in the sequence.)'
 needs_review: null

@@ -52,5 +52,8 @@ source:
     since the Casas attribution is withdrawn). AMPLICON MEASURED against all 30,139 records in the 2026-10-03 Mastadenovirus
     archive (up to 4 mismatches per primer): a product in 4,082 records, 258 bp in 4,050 of them - as invariant as this registry
     gets. The stored 281 matches none; corrected to 258, which is also the size Kosoltanapiwat 2022 prints for the same pair
-    and consistent with Medkour 2020''s ''approximately 250 bp''.'
+    and consistent with Medkour 2020''s ''approximately 250 bp''. CONFIRMED AGAINST THE PAPER ITSELF, later on 2026-10-05.
+    The Roy 2009 PDF was fetched as gold open access. This entry''s inner pair F2/R2 reads in-text rather than exact: Roy
+    prints all four primers inside one running sentence rather than a table, and the verifier reserves exact for a match inside
+    a listed oligo. The sibling outer pair verifies exact. The sequences are identical to what the paper prints.'
 needs_review: null

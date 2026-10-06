@@ -58,5 +58,8 @@ source:
     Every stored base agrees; the (n/i), (b/i) and (r/i) positions are ''base or deoxyinosine'' and are stored as N under
     this registry''s inosine convention. The paper states it designed them: ''deg/dI primers were deduced from the gB/UL55
     gene of HCMV strain AD169 in a nested format (primer set CMV-gBp1; Table 1)''. Citation moved from Prepens 2007 to Deckers
-    2009, design_year 2009, oligos_designed_here true; the spreadsheet''s attribution kept in as_written.'
+    2009, design_year 2009, oligos_designed_here true; the spreadsheet''s attribution kept in as_written. CONFIRMED AGAINST
+    THE PAPER ITSELF, later on 2026-10-05. scripts/find_open_access.py fetched the Deckers 2009 PDF (gold open access, Virology
+    Journal), so the re-citation no longer rests on a Europe PMC search result: scripts/verify_oligos_against_paper.py now
+    reads the paper directly and both oligos verify exact.'
 needs_review: null
