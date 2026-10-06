@@ -152,13 +152,14 @@ def printed_oligos(text: str, min_len: int = PRINTED_MIN_LEN, max_len: int = 60)
     `INDINGSINBATS`, HIGH RISK became `HIGHRISKWI`, and one was a person's name.
 
     INOSINE IS DELIBERATELY NOT COUNTED as an unambiguous base here, and that
-    detail is the whole reason the threshold can be as low as 0.65. `I` is one of
+    detail is the whole reason the threshold can be as low as 0.55. `I` is one of
     the commonest letters in English and a rare one in oligos, so counting it
     scores prose almost as high as a real primer: `INDINGS IN BATS IN THAI`
     counts 0.53 with inosine included and 0.26 without, while a real primer
     barely moves. Measured over the 21 papers in hand on 2026-10-05:
 
         all-caps prose, inosine excluded     0.26
+        highly inosine-rich degenerate       0.56 - 0.64 (Tyagi 2006)
         most degenerate real primer found    0.69   (Astr4380F, Atkins 2009)
         typical degenerate consensus primer  0.71 - 0.85
         a non-degenerate primer              1.00
@@ -170,7 +171,8 @@ def printed_oligos(text: str, min_len: int = PRINTED_MIN_LEN, max_len: int = 60)
     extracted, so the registry's exact copies of them were reported as the much
     weaker `in-text` rather than `exact`. Highly degenerate consensus primers are
     not an edge case for this registry - pan-viral screening is most of what it
-    holds - so the test has to pass them.
+    holds - so the test has to pass them. The threshold of 0.55 catches all real
+    primers and remains well above prose (0.26).
 
     Inosine is still matched by `GROUPED_RE` and still part of the sequence that
     comes back; it is only excluded from this one numerator.
@@ -182,7 +184,7 @@ def printed_oligos(text: str, min_len: int = PRINTED_MIN_LEN, max_len: int = 60)
             continue
         if sum(c.isupper() for c in letters) / len(letters) < 0.6:
             continue
-        if sum(c.upper() in "ACGTU" for c in letters) / len(letters) < 0.65:
+        if sum(c.upper() in "ACGTU" for c in letters) / len(letters) < 0.55:
             continue
         out.add("".join(letters).upper())
     return sorted(out)
