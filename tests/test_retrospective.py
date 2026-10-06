@@ -195,3 +195,121 @@ def test_a_case_for_an_assay_with_no_calls_reads_as_no_data(tmp_path, capsys):
     )
     assert rc == 0
     assert "no data" in capsys.readouterr().out
+
+
+def write_dataset(tmp_path: Path, deposited: dict[str, str | None]):
+    """{accession: created date, or None for no usable date} -> (calls path, retrieved dir).
+
+    One assay, one `detect` call per accession. An accession given `None` has a
+    metadata row with an empty date; one missing from `deposited` altogether would
+    have no row at all, and both must read as undated.
+    """
+    retrieved = tmp_path / "retrieved" / "562" / "all"
+    retrieved.mkdir(parents=True)
+    with gzip.open(retrieved / "2026-10-04.meta.tsv.gz", "wt", newline="") as fh:
+        w = csv.DictWriter(fh, ["accession", "created", "updated"], delimiter="\t")
+        w.writeheader()
+        for acc, created in deposited.items():
+            w.writerow({"accession": f"{acc}.1", "created": created or "", "updated": created or ""})
+    calls = tmp_path / "calls.tsv.gz"
+    with gzip.open(calls, "wt", newline="") as fh:
+        w = csv.DictWriter(fh, ["assay_id", "record_id", "call", "exclusion"], delimiter="\t")
+        w.writeheader()
+        for acc in [*deposited, "NOMETA"]:  # NOMETA has calls and no metadata row at all
+            w.writerow({"assay_id": "A", "record_id": f"{acc}.1", "call": "detect", "exclusion": ""})
+    return calls, tmp_path / "retrieved"
+
+
+def test_the_cutoff_keeps_records_deposited_strictly_before_it_and_drops_the_undated(tmp_path):
+    """The cutoff comparison is the line the restructuring rewrote, and the
+    old-against-new test above cannot guard it: its oracle reads the same
+    comparison, and its dataset has no record on the cutoff day and none undated.
+    So the rule is pinned here against a hand-built answer instead.
+
+    A record deposited ON the cutoff was not known the day before, so it is
+    excluded; the day after it is in. A record with no usable deposit date cannot
+    be shown to predate any cutoff, so it is never in, however late the cutoff.
+    """
+    calls, retrieved = write_dataset(
+        tmp_path,
+        {"P": "2020-05-31", "Q": "2020-06-01", "R": "2020-06-02", "BLANK": None},
+    )
+    ev = retro.load_evidence(calls, retrieved)
+    counts = {
+        as_of: retro.status_from_evidence(ev, CFG, as_of, {"A"})[1]
+        for as_of in (
+            date(2020, 5, 31),
+            date(2020, 6, 1),
+            date(2020, 6, 2),
+            date(2020, 6, 3),
+            date(2035, 1, 1),
+        )
+    }
+    assert counts == {
+        date(2020, 5, 31): 0,  # P itself is on the cutoff
+        date(2020, 6, 1): 1,  # P; Q is on the cutoff
+        date(2020, 6, 2): 2,  # P, Q
+        date(2020, 6, 3): 3,  # P, Q, R
+        date(2035, 1, 1): 3,  # still not BLANK, and not NOMETA
+    }
+
+
+def test_cases_print_the_verdict_each_status_implies(tmp_path, capsys):
+    """Every verdict the loop can reach, asserted per case.
+
+    The statuses follow from how `build_dataset` is built: assay A is solid
+    until 2018 and then failing, so it is `stable` in 2017 and `declining` in
+    2023; assay B always detects. The cases pair those with expectations that
+    agree, contradict, half-agree, and with an assay that has no calls at all.
+    """
+    calls, retrieved = build_dataset(tmp_path)
+    cfg_path = tmp_path / "config.yaml"
+    cfg_path.write_text(yaml.safe_dump(CFG))
+    cases = tmp_path / "cases.tsv"
+    cases.write_text(
+        "# provenance comments are stripped before the header is read\n"
+        "assay_id\tas_of\texpect\tsource\n"
+        "A\t2017-06-01\tworks\tdoi:1\n"
+        "A\t2023-01-01\tfails\tdoi:2\n"
+        "A\t2023-01-01\tworks\tdoi:3\n"
+        "B\t2019-01-01\tworks\tdoi:4\n"
+        "B\t2023-01-01\tfails\tdoi:5\n"
+        "B\t2023-01-01\tpartial\tdoi:6\n"
+        "GHOST\t2020-01-01\tworks\tdoi:7\n"
+    )
+    rc = retro.main(
+        [
+            "--calls",
+            str(calls),
+            "--retrieved",
+            str(retrieved),
+            "--config",
+            str(cfg_path),
+            "--cases",
+            str(cases),
+        ]
+    )
+    out = capsys.readouterr().out
+    assert rc == 0
+
+    # A row is `assay as_of expect status... verdict`, space-padded; status is the
+    # middle, which can be two words ("no data").
+    rows = []
+    for line in out.splitlines():
+        parts = line.split()
+        if len(parts) >= 5 and parts[1][:2] == "20":
+            rows.append((parts[0], parts[1], parts[2], " ".join(parts[3:-1]), parts[-1]))
+    assert rows == [
+        ("A", "2017-06-01", "works", "stable", "agrees"),
+        ("A", "2023-01-01", "fails", "declining", "agrees"),
+        ("A", "2023-01-01", "works", "declining", "DISAGREES"),
+        ("B", "2019-01-01", "works", "stable", "agrees"),
+        ("B", "2023-01-01", "fails", "stable", "DISAGREES"),
+        ("B", "2023-01-01", "partial", "stable", "weaker"),
+        ("GHOST", "2020-01-01", "works", "no data", "undecided"),
+    ]
+    assert (
+        "summary: fails/DISAGREES: 1, fails/agrees: 1, partial/weaker: 1, "
+        "works/DISAGREES: 1, works/agrees: 2, works/undecided: 1"
+    ) in out
+    assert "1 case(s) the tool declined to judge" in out

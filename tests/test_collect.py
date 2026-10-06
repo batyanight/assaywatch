@@ -81,9 +81,47 @@ def test_consistent_screens_are_copied_through_untouched(tmp_path):
     out = tmp_path / "calls.tsv.gz"
     assert concatenate_screens([a, b], out) == OLD
     assert read_table(out) == [*rows_a, *rows_b]
-    # Verbatim: the body bytes are the two inputs' bodies, nothing re-quoted.
+    # These rows are already what a csv writer produces, so this checks content and
+    # order only. That the copy path really copies, rather than parsing and
+    # rewriting, needs rows a csv writer would change: see the next test.
     raw = gzip.open(out, "rb").read()
     assert raw.endswith(a.read_bytes().split(b"\r\n", 1)[1] + b.read_bytes().split(b"\r\n", 1)[1])
+
+
+def test_the_copy_path_copies_bytes_instead_of_parsing_and_rewriting_rows(tmp_path):
+    """The usual case is thousands of screens of millions of rows with identical
+    columns, and what makes it cheap is that rows are copied, not parsed. Nothing
+    above can tell: every other fixture is written by a csv writer, so parsing and
+    rewriting such a row gives back the same bytes.
+
+    A field that arrives quoted when it did not need to be is a row a csv writer
+    would not produce: reading it and writing it again drops the quotes. So if the
+    quotes survive, the row was copied.
+    """
+    header = "\t".join(OLD) + LINE_END
+    quoted = '"A"\tR1\tdetect\t0.0' + LINE_END
+    plain = "A\tR2\tfail\t3.0" + LINE_END
+    a, b = tmp_path / "a.tsv", tmp_path / "b.tsv"
+    a.write_bytes((header + quoted).encode())
+    b.write_bytes((header + plain).encode())
+    out = tmp_path / "calls.tsv.gz"
+    concatenate_screens([a, b], out)
+    assert gzip.open(out, "rb").read() == (header + quoted + plain).encode()
+    assert [r["assay_id"] for r in read_table(out)] == ["A", "A"]  # and still parses as the value
+
+
+def test_the_rewrite_path_normalises_quoting_which_is_why_the_copy_path_matters(tmp_path):
+    """The other side of the same fact, so the test above is shown to mean something:
+    the same quoted row, sent through the reconciling path, comes out unquoted."""
+    quoted = '"A"\tR1\tdetect\t0.0' + LINE_END
+    a, b = tmp_path / "a.tsv", tmp_path / "b.tsv"
+    a.write_bytes(("\t".join(OLD) + LINE_END + quoted).encode())
+    b.write_bytes(
+        ("\t".join(NEW) + LINE_END + "A\tR2\tfail\t3.0\t\t" + LINE_END).encode()
+    )  # a different schema forces the rewrite
+    out = tmp_path / "calls.tsv.gz"
+    concatenate_screens([a, b], out)
+    assert b'"A"' not in gzip.open(out, "rb").read()
 
 
 def test_an_old_screen_meeting_a_new_one_keeps_every_value_in_its_own_column(tmp_path):
