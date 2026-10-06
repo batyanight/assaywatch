@@ -88,6 +88,30 @@ def scoring_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, An
     return {**base, **override} if override else base
 
 
+def max_mismatches_searched(cfg: dict[str, Any]) -> int:
+    """The largest `max_mismatches_searched` any chemistry could use.
+
+    For callers that work on oligo PAIRS and so have no chemistry to resolve: the
+    assembly pre-cut (`assemblies.extract_loci`) receives only (forward, reverse)
+    sequences. Using the base value there meant a `by_chemistry` override that
+    RAISED the budget reached the screener but not the pre-cut, so a site the
+    screener would have scored was cut away before it ever saw it, and the asm
+    group reported no locus where the override said the assay should score one.
+
+    Taking the maximum over the base value and every override is safe by
+    construction: the pre-cut only decides which windows are worth keeping, and
+    keeping a window the screener then finds a smaller budget rejects costs a
+    little disk, while dropping one loses a call. Screening applies each assay's
+    own budget afterwards, so no call changes.
+    """
+    base = cfg.get("scoring") or {}
+    values = [int(base.get("max_mismatches_searched", 6))]
+    for override in (base.get("by_chemistry") or {}).values():
+        if override and "max_mismatches_searched" in override:
+            values.append(int(override["max_mismatches_searched"]))
+    return max(values)
+
+
 def config_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, Any]:
     """`cfg` with its `scoring` block resolved for one chemistry.
 
@@ -219,11 +243,12 @@ def score_probe(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
 
     The thirds are a crude stand-in for a stability calculation, and they are
     length-blind: the central third of a 15-mer is 5 nt where a single mismatch
-    may well abolish binding, and of a 30-mer is 10 nt where it may not. All 10
-    probe assays in the registry are also MGB, whose minor-groove binder adds
-    roughly 15-20 C of Tm; those probes tolerate mismatches a bare oligo of the
-    same length would not, and nothing here knows that. `--thermo` computes the
-    actual duplex ΔTm and is the better guide where it is available.
+    may well abolish binding, and of a 30-mer is 10 nt where it may not. Of the 21
+    probe assays in the registry (2026-10-06), 13 are MGB, whose minor-groove binder
+    adds roughly 15-20 C of Tm, and the other 8 are plain hydrolysis probes. The MGB
+    probes tolerate mismatches a bare oligo of the same length would not, and
+    nothing here knows that. `--thermo` computes the actual duplex ΔTm and is the
+    better guide where it is available.
     """
     s = cfg["scoring"]
     lo, hi = oligo_len / 3, 2 * oligo_len / 3
@@ -314,7 +339,7 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
       model; see docs/2026-10-04-pipeline-review.md.
     * `terminal` is identity-blind, so about half the 3'-terminal mismatches it
       fails are the near-neutral kind (see score_primer). It is also one
-      threshold for 135 conventional PCRs and 10 probe assays, and endpoint PCR
+      threshold for 142 conventional PCRs and 21 probe assays (2026-10-06), and endpoint PCR
       forgives a yield loss that a Cq cutoff does not.
     """
     s = cfg["scoring"]
@@ -431,9 +456,12 @@ def screen_record(
     scoring path as a plain assay: there is one implementation of the rules, and
     pooling is a loop around it rather than a second code path.
 
-    This is where the chemistry's scoring block is resolved, and it is the only
-    place: `screen_one` is called from here and nowhere else, so every caller in
-    the project reaches the right numbers without knowing they exist. With no
+    This is where the chemistry's scoring block is resolved for SCREENING, and it
+    is the only place: `screen_one` is called from here and nowhere else, so every
+    caller that screens reaches the right numbers without knowing they exist. Code
+    that reads `cfg["scoring"]` itself does NOT get that for free and has to call
+    `config_for` (as `scripts/indel_check.py` now does per assay) or, where it has
+    no assay, `max_mismatches_searched` (as the assembly pre-cut does). With no
     overrides configured `config_for` hands back the same cfg object, so the
     default path is unchanged.
     """

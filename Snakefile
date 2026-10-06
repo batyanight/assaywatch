@@ -26,14 +26,17 @@
 # `retrieve` is a checkpoint: which archives exist is not known until it has
 # run, so the job graph is re-evaluated after it finishes.
 
-import json
 import hashlib
 import json
 import os
 from datetime import date
 from pathlib import Path
 
+from assaywatch.collect import concatenate_screens, stem_order
+from assaywatch.assemblies import cut_parameters
 from assaywatch.retrieve import targets_from_registry
+from assaywatch.triggers import source_names
+from assaywatch.validate import iter_files
 
 configfile: "config.yaml"
 
@@ -54,21 +57,12 @@ GROUPS = targets_from_registry([Path(REGISTRY)], config)
 # the scoring settings and the screening code. Its hash is a param of
 # screen_archive, so editing an assay, changing a threshold or upgrading the
 # matcher rescreens exactly the archives affected, with no `-R` to remember.
-# schema.py owns Oligo.matching_seq, tail_5prime and seq_as_written, so editing
-# it changes every call; validate.py decides what loads at all. Both were
-# missing, which meant such an edit rescreened nothing.
-_CODE = (
-    "score.py",
-    "match.py",
-    "iupac.py",
-    "chance.py",
-    "screen.py",
-    "thermo.py",
-    "degeneracy.py",
-    "fasta.py",
-    "schema.py",
-    "validate.py",
-)
+# The code is screen.py and everything it imports (assaywatch/triggers.py works
+# that out from the source). It used to be a hand-kept list, and the list missed
+# schema.py, which owns Oligo.matching_seq, tail_5prime and seq_as_written, and
+# validate.py, which decides what loads at all, so editing either rescreened
+# nothing.
+_CODE = source_names("screen")
 _SCREEN_CFG = {k: config.get(k) for k in ("scoring", "amplicon", "degeneracy", "thermo_conditions")}
 _code_hash = hashlib.sha1(
     b"".join((Path(workflow.basedir) / "assaywatch" / f).read_bytes() for f in _CODE)
@@ -91,15 +85,58 @@ def screen_signature(taxid, group):
     return h.hexdigest()[:16]
 
 
-# `_2`, `_3` suffixes come from a second fetch on the same day, so the stems sort
-# as text in the wrong order (`_10` before `_2`). Order matters because
-# collect_calls relies on it: archives are concatenated oldest first so the newest
-# version of an accession is the one that survives deduplication downstream.
-def stem_order(path):
-    """`2026-10-04` < `2026-10-04_2` < `2026-10-04_10`: archive names in fetch order."""
-    stem = path.name.split(".")[0]
-    day, _, n = stem.partition("_")
-    return (day, int(n or 1))
+# stem_order lives in assaywatch/collect.py with collect_calls' logic, so both
+# can be tested: archives are concatenated oldest first, and `_10` must sort
+# after `_2`, so that the newest version of an accession survives deduplication.
+
+
+def _package_hash(*names):
+    """Hash of assaywatch/<name> files, for use as a param.
+
+    Snakemake reruns a `run:` block when its own code changes, but not a `shell:`
+    command's module, and not logic that has been moved out of a `run:` block
+    into a module (collect_calls did exactly that, so editing the module stopped
+    rerunning the rule). A rule's modules therefore travel as a param: edit the
+    code and the rule is listed for rerun, with no `-R` to remember.
+
+    Which files, is `assaywatch.triggers.source_names`: the module a rule runs
+    plus everything it imports, derived from the source rather than listed by
+    hand (the hand-kept screening list above missed schema.py and validate.py).
+    """
+    h = hashlib.sha1()
+    for name in names:
+        h.update(name.encode() + b"\0")
+        h.update((Path(workflow.basedir) / "assaywatch" / name).read_bytes())
+    return h.hexdigest()[:16]
+
+
+def _registry_and_config_hash(*config_keys):
+    """Every registry file plus the named config sections, for rules that read both."""
+    h = hashlib.sha1()
+    for path in sorted(iter_files(Path(REGISTRY))):
+        h.update(path.name.encode() + b"\0")
+        h.update(path.read_bytes())
+    h.update(json.dumps({k: config.get(k) for k in config_keys}, sort_keys=True, default=str).encode())
+    return h.hexdigest()[:16]
+
+
+# report.py reads the drift and degeneracy settings and every assay's metadata (names,
+# citations, status); degeneracy.py reads the registry and its tier settings. Neither names
+# the registry as an input, so it travels as a param. `scoring` and `amplicon` are hashed
+# into the report's params only because the report loads the whole config through
+# score.load_config, which validates them (a malformed by_chemistry stops the report); its
+# numbers do not depend on them, and a scoring edit reruns the screens and so the report
+# anyway.
+_COLLECT_CODE = _package_hash(*source_names("collect"))
+_REPORT_PARAMS = {
+    "code": _package_hash(*source_names("report")),
+    "inputs": _registry_and_config_hash("drift", "degeneracy", "scoring", "amplicon"),
+}
+_DEGENERACY_PARAMS = {
+    "code": _package_hash(*source_names("degeneracy")),
+    "inputs": _registry_and_config_hash("degeneracy"),
+}
+
 
 wildcard_constraints:
     taxid=r"\d+",
@@ -145,6 +182,10 @@ checkpoint retrieve:
         groups=hashlib.sha1(
             repr(sorted((t, g, str(v["query"])) for (t, g), v in GROUPS.items())).encode()
         ).hexdigest()[:16],
+        # The settings that decide how a genome is cut down to its candidate amplicons.
+        # Changing one has to rerun retrieval, or `asm` archives stay cut at the old
+        # settings until something else happens to rerun it (see cut_parameters).
+        cut=hashlib.sha1(json.dumps(cut_parameters(config), sort_keys=True).encode()).hexdigest()[:16],
     # The email is read from config in the command, not passed as a param: a
     # params change reruns the rule, and a different contact address is no
     # reason to fetch again.
@@ -202,32 +243,16 @@ rule collect_calls:
         archives,
     output:
         RESULTS / RUN_DATE / "calls.tsv.gz",
+    params:
+        # The logic is in a module, so Snakemake's own code trigger no longer sees
+        # it; see _package_hash.
+        code=_COLLECT_CODE,
     run:
-        import csv
-        import gzip
-
-        # The reconciliation below exists for one scenario: a cached screen made
-        # before a column was added meeting one made after. Plain concatenation
-        # would shift those rows a column sideways and corrupt every call in them.
-        # --thermo, before or after a column was added). Plain concatenation would
-        # shift those rows a column sideways; rows are written by column name.
-        headers = []
-        for path in input:
-            with open(path) as fh:
-                headers.append(next(fh, "").rstrip("\r\n").split("\t"))
-        columns = []
-        for h in headers:
-            columns += [c for c in h if c and c not in columns]
-        with gzip.open(output[0], "wt", newline="") as out:
-            out.write("\t".join(columns) + "\n")
-            for path, header in zip(input, headers):
-                with open(path, newline="") as fh:
-                    next(fh, None)
-                    if header == columns:
-                        out.writelines(fh)  # the usual case: same columns, copy as is
-                    else:
-                        w = csv.DictWriter(out, columns, delimiter="\t", restval="", lineterminator="\r\n")
-                        w.writerows(csv.DictReader(fh, fieldnames=header, delimiter="\t"))
+        # The logic is in assaywatch/collect.py, where it is tested. It reconciles
+        # a cached screen made before a column was added with one made after,
+        # writing rows by column name, since plain concatenation would shift the
+        # older rows a column sideways.
+        concatenate_screens(list(input), output[0])
 
 
 rule degeneracy_table:
@@ -236,6 +261,9 @@ rule degeneracy_table:
         RESULTS / RUN_DATE / ".registry-valid",
     output:
         RESULTS / RUN_DATE / "degeneracy.tsv",
+    params:
+        code=_DEGENERACY_PARAMS["code"],
+        inputs=_DEGENERACY_PARAMS["inputs"],
     shell:
         "python -m assaywatch.degeneracy {REGISTRY} --tsv > {output}"
 
@@ -247,6 +275,9 @@ rule report:
     output:
         md=RESULTS / RUN_DATE / "report.md",
         html=RESULTS / RUN_DATE / "report.html",
+    params:
+        code=_REPORT_PARAMS["code"],
+        inputs=_REPORT_PARAMS["inputs"],
     shell:
         "python -m assaywatch.report {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"

@@ -149,6 +149,60 @@ and was still called `declining`.
 **What to build:** collapse identical footprints, weight by distinct haplotypes,
 and cluster-bootstrap the intervals.
 
+**Partly built, 2026-10-05 and corrected twice on 2026-10-06, and one part deliberately not.**
+`drift.py` counts the distinct (call, footprint) classes behind each window, where a
+footprint is the six mismatch columns the screen already writes, and for a flagged
+assay says whether the flag survives two ways of discounting duplicated records
+(`AssayDrift.flag_survives_clustering`, the "Duplication check" line in the report).
+Never scored, and a test pins that statuses and intervals are identical with and without
+it. It is the widest defensible reading, not the right one: it treats every group of
+identical footprints as one clone, and it cannot see clade structure among records that
+differ at non-primer positions, so it is not a lower bound on the effective sample size.
+A flag survives only if it passes every test it faces:
+
+- *a floor*: at least `min_records_for_drift` distinct footprints, the same minimum the
+  record-level rule needs, applied to independent observations;
+- *the sample-size reduction*: the detected share as measured, but with only as many
+  observations as there are footprints (`recent_ci_clustered`; for a declining flag, the
+  fall from baseline as well). It shows whether a flag survives losing the sample size
+  duplication costs. It keeps the record-weighted share, so it CANNOT see a share
+  dominated by one clone;
+- *the footprint reduction*: count each distinct footprint once and ask whether the share
+  amplifying stays below the threshold (`recent_ci_by_footprint`). This is the one that
+  sees the dominant clone, and it can only withhold "survives" from a flag the
+  record-level evidence already raised, never raise or clear one: alone it would read a
+  healthy assay with fifty one-off sequencing errors as mostly failing.
+
+What the first version got wrong, found by adversarial review on 2026-10-06 (twice):
+
+- *It reassured below the floor.* Wilson at small n is anti-conservative (0 of 1 gives an
+  upper bound of 79%), so the malB shape below, 92 failures sharing one footprint, came out
+  as "the flag does not depend on duplicated records". It did so at EVERY footprint count
+  from two up to nineteen, not just one to three.
+- *It invented footprints.* A footprint is known only where the screen wrote the columns.
+  A cached screen from before they existed, and a record scored as a failure for being
+  diverged, carry none, and used to be counted as one real all-exact footprint. They now
+  make the assay's footprint count unknown, and the report says the check was not run.
+- *The first fix was only patched for its own fixture.* The sample-size reduction alone
+  passed 92 failures at one footprint beside 70 detections spread over 19 others (a 43%
+  share, 20 footprints) and said "counting each footprint once ... does not depend on
+  duplicated records", when counted once 19 of the 20 footprints amplify. The footprint
+  reduction above is the repair, and the note now says which reduction is which and
+  only blames duplication where a test that implies it failed.
+
+**Not built: weighting each distinct haplotype equally.** A sequencing error in a
+primer site is a footprint of its own, so on a healthy assay with one exact-match
+class and fifty one-off errors it would call the assay 2% detected. The
+record-weighted proportion with a duplication-aware interval does not have that
+failure. A cluster bootstrap over a real phylogeny would; that needs the
+alignment this pipeline does not build.
+
+**What it says about malB.** 92 failures, all one A->G at the reverse 3'
+base, are ONE footprint, and 70 detections sharing another make two footprints in all, far
+below the floor. The check reports that flag as resting on two footprints, not as surviving. Read that correctly: the lineage's failure is real
+and its weight in the proportion is what is in doubt, which is exactly the
+25% -> 43% lineage-mix movement described above.
+
 ### 3.4 Amplicon size is not constrained to the declared product
 
 Scoring uses the global 50–3000 bp window and **never uses the assay's declared
@@ -227,13 +281,40 @@ tiers, and score pools per member.
   than `diverged`.
 - **`drift.py`'s `status="no data"` is unreachable and absent from
   `report.STATUS_ORDER`**, so it would be silently dropped from both reports.
+  *Fixed 2026-10-05:* `report.status_order` appends any status the report was not
+  told about, so a new one appears as an unstyled section instead of vanishing
+  (the HTML colour lookup no longer raises on it either).
 - **No test touches the Snakefile**, including `collect_calls`' column
   reconciliation — written precisely for the case of a pre-`exclusion` TSV
   meeting a post-`exclusion` one.
+  *Fixed 2026-10-05:* the logic moved to `assaywatch/collect.py` (`concatenate_screens`,
+  `stem_order`) and the rule calls it, so it can be imported and tested. Fifteen
+  tests, including the shape that actually corrupts - a column inserted in the
+  MIDDLE of the row, which shifts every later value sideways - with a test that
+  runs the naive version to show the test can fail. The new function matches the
+  old inline block byte for byte on 60 randomised mixed-schema inputs; one
+  deliberate change, the header now ends in CRLF like every row (it was a bare LF).
+  A screen whose last row has no line break is now refused by name instead of
+  having the next file's header glued onto it. *Run under Snakemake 9.27.0 on
+  2026-10-06* (it installs in a fresh virtual environment, though not into the
+  cloud container's system Python): old and new produce byte-identical screens and
+  calls table (the calls table's gzip header used to carry a timestamp, so compare the
+  decompressed content or, since 2026-10-06, the bytes). This note first said to check
+  with `snakemake -n` and expect the same jobs as before, which is wrong: the first run
+  after a code change reruns every screen, and a dry run lists the screening jobs only once
+  the day's retrieval record exists. See `docs/RESUME-HERE.md` for what to do instead.
 - **`retrospective.py --cases` re-parses `calls.tsv.gz` and re-globs every
   metadata file once per case.**
+  *Fixed 2026-10-05:* `load_evidence` reads and deduplicates both once, grouped by
+  assay, and each case touches only its own assay's rows. A test counts the two
+  expensive reads over five cases (1 and 1, not 5 and 5) and was run against the
+  old script to confirm it fails there. Verdicts are pinned identical to the old
+  implementation over 25 (date, assay-filter) combinations on data where the
+  answers genuinely differ. `status_as_of` keeps its signature.
 - **The pre-commit hook pins ruff 0.6.9 while the environment has 0.16.10**, so
   the two reformat one test file differently and ping-pong. Align them.
+  *Already done:* `.pre-commit-config.yaml` pins v0.16.10, matching `pyproject.toml`
+  and `environment.yml`.
 
 ---
 

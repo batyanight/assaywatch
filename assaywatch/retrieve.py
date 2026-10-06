@@ -65,7 +65,7 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
-from assaywatch.credentials import ncbi_api_key
+from assaywatch.credentials import ncbi_api_key, scrub
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 Transport = Callable[[str, dict[str, Any]], str]
@@ -147,7 +147,7 @@ def http_transport(email: str, api_key: str | None, timeout: int = 60) -> Transp
                 body = resp.text
             except requests.RequestException as e:
                 if attempt == 4:
-                    raise RetrievalError(f"{endpoint}: {e}") from e
+                    raise RetrievalError(f"{endpoint}: {scrub(e)}") from e
                 time.sleep(2**attempt)
                 continue
             # 429 and 5xx are transient; everything else is a bug in the query
@@ -156,9 +156,9 @@ def http_transport(email: str, api_key: str | None, timeout: int = 60) -> Transp
                 time.sleep(2**attempt)
                 continue
             if resp.status_code == 400 and "history" in body.lower():
-                raise HistoryExpired(f"{endpoint}: {body[:200]}")
+                raise HistoryExpired(f"{endpoint}: {scrub(body)[:200]}")
             if resp.status_code >= 400:
-                raise RetrievalError(f"{endpoint}: HTTP {resp.status_code} {body[:200]}")
+                raise RetrievalError(f"{endpoint}: HTTP {resp.status_code} {scrub(body)[:200]}")
             return body
         raise RetrievalError(f"{endpoint} failed after 5 attempts")
 
@@ -651,13 +651,13 @@ def main(argv: list[str] | None = None) -> int:
         except TooManyRecords as e:
             # Over the cap is a decision for the config, not a failure of the
             # run: the other groups are still fetched and the run still counts.
-            print(f"SKIP  {taxid}/{group}: {e}", file=sys.stderr)
+            print(f"SKIP  {taxid}/{group}: {scrub(e)}", file=sys.stderr)
             skipped.append((taxid, group))
             continue
         except Exception as e:  # noqa: BLE001 - one group's failure must not stop the others
             # Transport errors, malformed XML from NCBI, a corrupt genome zip:
             # whatever it is, log it against this group and carry on.
-            print(f"ERROR {taxid}/{group}: {type(e).__name__}: {e}", file=sys.stderr)
+            print(f"ERROR {taxid}/{group}: {type(e).__name__}: {scrub(e)}", file=sys.stderr)
             errors.append((taxid, group))
             continue
         if not args.dry_run:

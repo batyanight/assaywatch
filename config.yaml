@@ -79,7 +79,7 @@ scoring:
   # replicate that in 5'-nuclease assays (<1.5 Cq for A-C/C-A/T-G/G-T versus
   # >7 Cq for A-A/G-A/A-G/C-C). An identity-blind automatic fail is therefore
   # wrong for roughly half of terminal mismatches. It is also a qPCR-grade
-  # verdict applied to 135 conventional assays, where a 100-fold yield loss is
+  # verdict applied to 142 conventional assays, where a 100-fold yield loss is
   # often still a visible band after 40 cycles. The E. coli malB result rests on
   # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
   # severe class — but the rule got there without checking.
@@ -105,10 +105,13 @@ scoring:
   # the output is identical to a config carrying no `by_chemistry` at all.
   #
   # The first candidate, once validation can test it, is the one that already
-  # has literature behind it. `terminal_mismatch_fails: true` is identity-blind,
-  # and Kwok et al. 1990 (doi:10.1093/nar/18.4.999) with Stadhouders et al. 2010
-  # (doi:10.2353/jmoldx.2010.090035) agree that only A:A, A:G, G:A and C:C
-  # strongly suppress yield, while T:G, T:C and T:T are near-neutral. An
+  # has literature behind it. `terminal_mismatch_fails: true` is identity-blind.
+  # Kwok et al. 1990 (doi:10.1093/nar/18.4.999) found that only A:G, G:A and C:C
+  # (about 100-fold) and A:A (about 20-fold) strongly suppress yield, with T against
+  # G, C or T minimal; Stadhouders et al. 2010 (doi:10.2353/jmoldx.2010.090035) report
+  # the same split in 5'-nuclease assays, by example (A-C, C-A, T-G, G-T under 1.5 Cq;
+  # A-A, G-A, A-G, C-C over 7 Cq), and add that the effect depends on position and
+  # master mix. An
   # automatic fail is therefore wrong for roughly half of terminal mismatches,
   # and most wrong for conventional PCR, where the lost yield is often still a
   # band. Expressing that would look like:

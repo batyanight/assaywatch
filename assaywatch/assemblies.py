@@ -50,6 +50,7 @@ import csv
 import gzip
 import hashlib
 import io
+import json
 import math
 import os
 import time
@@ -62,7 +63,9 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.chance import composition, pair_evalue
+from assaywatch.credentials import scrub
 from assaywatch.match import find_sites
+from assaywatch.score import max_mismatches_searched
 
 DATASETS = "https://api.ncbi.nlm.nih.gov/datasets/v2"
 # (path under DATASETS, query params, Accept header) -> response body
@@ -131,14 +134,16 @@ def datasets_transport(api_key: str | None, timeout: int = 300) -> Fetch:
                 body = resp.content
             except requests.RequestException as e:
                 if attempt == 4:
-                    raise AssemblyError(f"{path}: {e}") from e
+                    raise AssemblyError(f"{path}: {scrub(e)}") from e
                 time.sleep(2**attempt)
                 continue
             if resp.status_code in (429, 500, 502, 503, 504):
                 time.sleep(2**attempt)
                 continue
             if resp.status_code >= 400:
-                raise AssemblyError(f"{path}: HTTP {resp.status_code} {body[:200]!r}")
+                raise AssemblyError(
+                    f"{path}: HTTP {resp.status_code} {scrub(body.decode('utf-8', 'replace'))[:200]!r}"
+                )
             return body
         raise AssemblyError(f"{path} failed after 5 attempts")
 
@@ -292,7 +297,10 @@ def extract_loci(
     amp = cfg["amplicon"]
     lo_bp, hi_bp = int(amp["min_bp"]), int(amp["max_bp"])
     pad = int(amp.get("record_min_overhang_bp", 0))
-    max_mm = int(cfg["scoring"].get("max_mismatches_searched", 6))
+    # The pre-cut sees only oligo pairs, with no chemistry, so it searches at the
+    # LARGEST budget any chemistry may use and lets screening apply each assay's own
+    # (see score.max_mismatches_searched).
+    max_mm = max_mismatches_searched(cfg)
     # Chance pairs are everywhere in a genome (chance.py); a window is kept only
     # around a pair that is distinguishable from chance in a record this long.
     max_e = float((cfg.get("assemblies") or {}).get("max_pair_evalue", 0.01))
@@ -351,6 +359,26 @@ def extract_loci(
 # --------------------------------------------------------------------------
 
 
+def cut_parameters(cfg: dict[str, Any]) -> dict[str, Any]:
+    """Every setting `extract_loci` reads besides the primer pairs.
+
+    A genome archive is the genome CUT to the windows these settings keep, so changing
+    any of them changes what an archive holds. `retrieve_assemblies` records them beside
+    the archives and re-cuts when they differ, and the Snakefile hashes them into the
+    retrieve rule's params so that changing one reruns retrieval at all: before this,
+    only a change to the primer pairs did either, so raising `max_mismatches_searched`
+    left old genomes cut at the old budget and cut new ones at the new, in one group.
+    """
+    amp = cfg["amplicon"]
+    return {
+        "max_mismatches": max_mismatches_searched(cfg),
+        "min_bp": int(amp["min_bp"]),
+        "max_bp": int(amp["max_bp"]),
+        "overhang_bp": int(amp.get("record_min_overhang_bp", 0)),
+        "max_pair_evalue": float((cfg.get("assemblies") or {}).get("max_pair_evalue", 0.01)),
+    }
+
+
 def taken_per_year(out_dir: Path) -> tuple[Counter, set[str]]:
     """Per-year counts and accessions already sampled by earlier runs of this group."""
     years: Counter = Counter()
@@ -393,7 +421,17 @@ def retrieve_assemblies(
     # cuts may lack the new locus, so every genome is cut again.
     signature = hashlib.sha1(repr(sorted(pairs)).encode()).hexdigest()[:12]
     sig_file = out_dir / "pairs.sha1"
+    # ...and when the settings the cut depends on change (see `cut_parameters`). A group
+    # cut before these were recorded has no `cut.json`; it is ADOPTED at the current
+    # settings rather than re-cut, because its true settings are unknowable and a
+    # mass re-download of every assembly on upgrade would be the worse error.
+    cut = cut_parameters(cfg)
+    cut_file = out_dir / "cut.json"
     recut = sig_file.exists() and sig_file.read_text().strip() != signature
+    if cut_file.exists():
+        recut = recut or json.loads(cut_file.read_text()) != cut
+    elif sig_file.exists() and not dry_run:
+        cut_file.write_text(json.dumps(cut, sort_keys=True) + "\n")
     taken, seen = (Counter(), set()) if full or recut else taken_per_year(out_dir)
 
     # The whole history is listed every run, not just releases since the last
@@ -418,7 +456,8 @@ def retrieve_assemblies(
         assay_query=None,
     )
     if recut:
-        run.mode, run.note = "full", "primer pairs changed since the last cut: re-cutting every genome"
+        run.mode = "full"
+        run.note = "primer pairs or cut settings changed since the last cut: re-cutting every genome"
     if not picked or dry_run:
         years = Counter(m.year for m in picked)
         span = f"{min(years)}-{max(years)}" if years else "-"
@@ -471,9 +510,14 @@ def retrieve_assemblies(
     os.replace(meta_tmp, meta_path)
     os.replace(fasta_tmp, fasta_path)
     sig_file.write_text(signature + "\n")
+    cut_file.write_text(json.dumps(cut, sort_keys=True) + "\n")
     run.n_fetched = len(picked) - n_missing
     run.fasta, run.metadata = str(fasta_path), str(meta_path)
-    run.note = f"{n_with_locus} of {run.n_fetched} genomes carry a candidate amplicon"
+    # Keep the re-cut message: it was overwritten here, so the run record said only how
+    # many genomes carried a locus and never that every genome had been cut again.
+    run.note = (
+        f"{run.note}; " if recut else ""
+    ) + f"{n_with_locus} of {run.n_fetched} genomes carry a candidate amplicon"
     if n_missing:
         run.note += f"; {n_missing} not in the download, retried next run"
     return run

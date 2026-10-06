@@ -51,7 +51,7 @@ from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.gapped import align, hamming_scan, scan  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
-from assaywatch.score import load_config, screen_record  # noqa: E402
+from assaywatch.score import config_for, load_config, screen_record  # noqa: E402
 from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 PAD = 4  # bases either side of a known site searched for a gapped placement
@@ -171,7 +171,15 @@ def indel_labels(oligo, a, cfg):
 
 
 def check_fail(assay, row, seq, cfg):
-    """Would this `fail` clear reduced_max if one clean single-base indel were forgiven?"""
+    """Would this `fail` clear reduced_max if one clean single-base indel were forgiven?
+
+    Judged by the rules the call was made under. `screen_record` resolves a
+    chemistry's `by_chemistry` overrides for the call, but this function re-scores
+    from the config itself, and reading the base block meant a `fail` produced
+    under an override was re-judged under different rules - so a record could be
+    reported as not rescued by an indel under rules that had already rescued it.
+    """
+    cfg = config_for(assay.chemistry, cfg)
     sc = cfg["scoring"]
     findings = []
     total, terminal, any_indel = 0.0, False, False
@@ -226,6 +234,7 @@ def check_missing(assay, row, seq, cat, cfg, max_cost):
     Both orientations, as in screen_record: partner on plus with the missing
     primer on minus, and the mirror image.
     """
+    cfg = config_for(assay.chemistry, cfg)  # the same rules the call was made under (see check_fail)
     amp = cfg["amplicon"]
     lo_bp, hi_bp = amp["min_bp"], amp["max_bp"]
     fwd = assay.oligos.forward.matching_seq
@@ -233,7 +242,7 @@ def check_missing(assay, row, seq, cat, cfg, max_cost):
     missing, oligo, partner = ("reverse", rev, fwd) if cat == "no_reverse" else ("forward", fwd, rev)
     n, L = len(seq), len(oligo)
     rc = reverse_complement(seq)
-    partners = find_sites(partner, seq, 6)
+    partners = find_sites(partner, seq, int(cfg["scoring"].get("max_mismatches_searched", 6)))
     # Gapped hits of the missing primer as plus-strand spans, per strand it binds on.
     # scan() gives exclusive end positions; on the reverse complement an end j is plus start n - j.
     hits = {

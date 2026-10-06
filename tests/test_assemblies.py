@@ -240,3 +240,109 @@ def test_changed_primer_pairs_recut_every_genome(cfg, tmp_path):
     assert recut.mode == "full" and sorted(fake.downloaded) == sorted(m.accession for m in metas)
     d = tmp_path / "retrieved" / "109871" / "asm"
     assert len(list(d.glob("*.fasta.gz"))) == 1 and list(d.glob("*.superseded"))
+
+
+# --------------------------------------------------------------------------
+# An archive is the genome CUT to the windows the settings keep, so changing a
+# setting the cut depends on has to re-cut. Only a change to the primer pairs did.
+# --------------------------------------------------------------------------
+
+
+def _first_run(cfg, run_date="2026-10-04"):
+    metas = [meta(i, f"20{18 + i % 4}-03-0{1 + i % 5}") for i in range(8)]
+    fake = FakeDatasets(metas, {m.accession: _bd_genome(i) for i, m in enumerate(metas)})
+    pairs = _pairs(ASSAYS[BD])
+    run = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date=run_date)
+    record_run(cfg, run)
+    return fake, pairs, run
+
+
+def _edited(cfg, path, value):
+    import copy
+
+    new = copy.deepcopy(cfg)
+    node = new
+    for key in path[:-1]:
+        node = node.setdefault(key, {})
+    node[path[-1]] = value
+    return new
+
+
+def test_cut_parameters_name_every_setting_extract_loci_reads(cfg):
+    from assaywatch.assemblies import cut_parameters
+
+    cut = cut_parameters(cfg)
+    assert set(cut) == {"max_mismatches", "min_bp", "max_bp", "overhang_bp", "max_pair_evalue"}
+    assert cut["max_mismatches"] == 6
+    assert (
+        cut_parameters(_edited(cfg, ("scoring", "by_chemistry"), {"mgb": {"max_mismatches_searched": 9}}))[
+            "max_mismatches"
+        ]
+        == 9
+    )
+
+
+def test_the_cut_settings_are_recorded_beside_the_archives(cfg, tmp_path):
+    import json
+
+    from assaywatch.assemblies import cut_parameters
+
+    _first_run(cfg)
+    recorded = json.loads((tmp_path / "retrieved" / "109871" / "asm" / "cut.json").read_text())
+    assert recorded == cut_parameters(cfg)
+
+
+@pytest.mark.parametrize(
+    "path, value",
+    [
+        (("scoring", "by_chemistry"), {"conventional": {"max_mismatches_searched": 8}}),
+        (("scoring", "max_mismatches_searched"), 7),
+        (("amplicon", "max_bp"), 2999),
+        (("amplicon", "min_bp"), 51),
+        (("amplicon", "record_min_overhang_bp"), 101),
+        (("assemblies", "max_pair_evalue"), 0.05),
+    ],
+    ids=["override-budget", "base-budget", "max_bp", "min_bp", "overhang", "pair-evalue"],
+)
+def test_changing_a_cut_setting_re_cuts_every_genome(cfg, tmp_path, path, value):
+    """Run 2 would otherwise report 'nothing new', leaving genomes cut at the old budget
+    beside any new ones cut at the new."""
+    fake, pairs, first = _first_run(cfg)
+    first_downloads = sorted(fake.downloaded)
+    fake.downloaded = []
+    changed = _edited(cfg, path, value)
+    run = retrieve_assemblies(109871, changed, fake, pairs=pairs, assays=[BD], run_date="2026-10-05")
+    assert run.mode == "full" and "re-cutting every genome" in run.note, (run.mode, run.note)
+    assert sorted(fake.downloaded) == first_downloads  # every genome fetched again
+    d = tmp_path / "retrieved" / "109871" / "asm"
+    assert list(d.glob("*.superseded")), "the old cuts are set aside, not deleted"
+
+
+def test_unchanged_cut_settings_do_not_re_cut(cfg):
+    fake, pairs, _ = _first_run(cfg)
+    fake.downloaded = []
+    again = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-05")
+    assert again.note == "nothing new" and fake.downloaded == []
+
+
+def test_a_group_cut_before_settings_were_recorded_is_adopted_not_re_cut(cfg, tmp_path):
+    """No `cut.json` (an archive from before this existed): its real settings are
+    unknowable, and re-downloading every assembly on upgrade would be worse than
+    trusting it. It is adopted at the current settings, and a later change then re-cuts."""
+    import json
+
+    fake, pairs, _ = _first_run(cfg)
+    d = tmp_path / "retrieved" / "109871" / "asm"
+    (d / "cut.json").unlink()
+    fake.downloaded = []
+    dry = retrieve_assemblies(
+        109871, cfg, fake, pairs=pairs, assays=[BD], dry_run=True, run_date="2026-10-05"
+    )
+    assert not (d / "cut.json").exists(), "a dry run writes nothing"
+    assert dry.mode != "full" or "re-cutting" not in dry.note
+    adopted = retrieve_assemblies(109871, cfg, fake, pairs=pairs, assays=[BD], run_date="2026-10-05")
+    assert "re-cutting" not in adopted.note and fake.downloaded == []
+    assert json.loads((d / "cut.json").read_text())["max_mismatches"] == 6
+    changed = _edited(cfg, ("scoring", "max_mismatches_searched"), 8)
+    run = retrieve_assemblies(109871, changed, fake, pairs=pairs, assays=[BD], run_date="2026-10-06")
+    assert "re-cutting every genome" in run.note

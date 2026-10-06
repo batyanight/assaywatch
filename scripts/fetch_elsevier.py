@@ -53,7 +53,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import os
 import sys
 import time
 import urllib.error
@@ -66,21 +65,23 @@ sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
+from assaywatch.credentials import read_secret, read_secret_file  # noqa: E402
+
 API = "https://api.elsevier.com/content/article/doi/"
 ELSEVIER_PREFIXES = ("10.1016", "10.1006", "10.1053", "10.1054")
 
 
 def load_secret(explicit: Path | None, env_var: str, default_name: str) -> str:
-    """A credential, from a file or the environment. Never echoed, only measured."""
+    """A credential, from a file or the environment. Never echoed, only measured.
+
+    Read by `assaywatch.credentials`, so a key file from Windows PowerShell (UTF-16)
+    or Notepad (a UTF-8 byte-order mark) is read correctly, or refused with a reason
+    by `python -m assaywatch.credentials`, instead of crashing here or sending a key
+    with an invisible character on the front of it.
+    """
     if explicit and explicit.exists():
-        return explicit.read_text().strip()
-    env = os.environ.get(env_var, "").strip()
-    if env:
-        return env
-    default = ROOT / ".secrets" / default_name
-    if default.exists():
-        return default.read_text().strip()
-    return ""
+        return read_secret_file(explicit)
+    return read_secret((env_var, default_name))
 
 
 def has_body(xml: str) -> bool:

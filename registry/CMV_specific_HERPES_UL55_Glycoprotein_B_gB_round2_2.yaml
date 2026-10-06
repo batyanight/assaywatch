@@ -13,15 +13,15 @@ oligos:
   reverse:
     name: 4125-as
     seq: GCTGACGGGTTGATCTTGCTRAG
-amplicon_bp: 599
+amplicon_bp: 550
 citation:
-  doi: 10.1186/1743-422X-6-210
-  design_year: 2009
+  doi: 10.1186/1743-422X-4-84
+  design_year: 2007
   n_sequences_at_design: null
-  as_written: Prepens et al. 2007 (spreadsheet; misattributed)
+  as_written: null
   doi_verified: true
-  reference: Deckers M et al. 2009. Virol J 6:210 (primer set CMV-gBp1, Table 1)
-  oligos_designed_here: true
+  reference: Prepens S et al. 2007. Virol J 4:84
+  oligos_designed_here: false
 use_context:
 - wildlife
 submitted_by: null
@@ -34,30 +34,6 @@ source:
   positive_control: null
   nested_round: round2
   notes: null
-  notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER, found 2026-10-05 by scripts/verify_oligos_against_paper.py against
-    the PubMed Central full text of Prepens et al. 2007, exactly as for the sibling entry CMV_specific_HERPES_UL55_Glycoprotein_B_gB
-    (4007-s/4007-as). Neither 4125-s (GCGGACTCGGTGATNTCNTGGGA) nor 4125-as (GCTGACGGGTTGATCTTGCTRAG) appears in that paper,
-    nor the string "4125", nor any 10-base fragment of either sequence. Prepens numbers its own primers 2743-2762 and 3730-3731;
-    4007 and 4125 are a different series, and the two pairs are presumably round 1 and round 2 of one nested assay from whatever
-    paper that is. Also note this entry is marked nested_round round2 while no entry holds a matching round 1 for the 4125
-    series, so the pair it was meant to nest inside is missing as well as unattributed. NOT DELETED and NOT RE-CITED; oligos_designed_here
-    set to false, which holds whatever the true source is. To resolve, find the paper printing the 4007 and 4125 primers -
-    the Ehlers-lab primate cytomegalovirus papers are the place to start - and re-cite both entries together. AMPLICON MEASURED
-    2026-10-05 against all 12,782 records in the 2026-10-03 Cytomegalovirus archive (up to 5 mismatches per primer): a product
-    in 585 records, 599 bp in 347, 593 in 111, 596 in 107, all human CMV. The stored 550 matches none of them and is 8% short
-    of the mode. amplicon_bp set to the measured 599, flagged so the source paper, once found, is checked for which number
-    it prints. SOURCE FOUND AND RE-CITED 2026-10-05. A Europe PMC full-text search on each primer sequence returns exactly
-    one paper for all four of 4007s, 4007as, 4125s and 4125as: Deckers M, Hofmann J, Kreuzer KA, Reinhard H, Edubio A, Hengel
-    H, Voigt S, Ehlers B (2009) Virol J 6:210, PMC2789067 - an Ehlers-lab paper, as guessed. Its Table 1, primer set CMV-gBp1,
-    prints 4007s GGTGACGTGGTTGACAT(n/i)TC(n/i)CC and 4007as GCAATCGGTTTGTTGTA(n/i)AT(n/i)GC for round 1 (800 bp) and 4125s
-    GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA and 4125as GCTGACGGGTTGATCTTGCT(r/i)AG for round 2 (550 bp), sizes footnoted as approximate.
-    Every stored base agrees; the (n/i), (b/i) and (r/i) positions are ''base or deoxyinosine'' and are stored as N under
-    this registry''s inosine convention. The paper states it designed them: ''deg/dI primers were deduced from the gB/UL55
-    gene of HCMV strain AD169 in a nested format (primer set CMV-gBp1; Table 1)''. Citation moved from Prepens 2007 to Deckers
-    2009, design_year 2009, oligos_designed_here true; the spreadsheet''s attribution kept in as_written. The paper''s 550
-    is one of its approximate sizes; the measured 599 stands. VERIFIER NOTE: 4125-as reports near:1 against Deckers 2009 and
-    that is expected, not a discrepancy. The paper prints the position as (r/i), R or inosine; the verifier reads any (X/I)
-    as N, the registry stores the R, and N against R counts as one edit. 4125-s, with (b/i) and (n/i), reads exact. CONFIRMED
-    AGAINST THE PAPER ITSELF, later on 2026-10-05. The Deckers 2009 PDF is now held locally and the verifier reads it directly:
-    4125-s is exact and 4125-as is near:1, the expected R-against-N difference already explained above.'
-needs_review: null
+  notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER (Prepens et al. 2007), BUT THEIR SOURCE IS KNOWN: Deckers M et al. 2009, Virol J 6:210 (PMID 19941648, PMC2789067; DOI 10.1186/1743-422X-6-210 as returned by PubMed, NOT yet checked against Crossref, which was unreachable). Found missing from Prepens 2026-10-05 by scripts/verify_oligos_against_paper.py, exactly as for the sibling entry CMV_specific_HERPES_UL55_Glycoprotein_B_gB (4007-s/4007-as); source identified 2026-10-06 from the PubMed Central full text of Deckers 2009. Its Table 1 prints primer set CMV-gBp1 as a nested pair, and this entry is ROUND 2: 4125s GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA and 4125as GCTGACGGGTTGATCTTGCT(r/i)AG, product 550 bp. The round 1 pair is 4007s/4007as, which IS in the registry, as CMV_specific_HERPES_UL55_Glycoprotein_B_gB, so nested_round round2 here has its partner. 4125-as matches the paper exactly and so does the stored 550. 4125-s differs at ONE position: position 15 is printed (b/i), B or inosine, and the stored sequence has N. The stored N is a defensible reading, not necessarily a slip: inosine pairs with any base, so "B or inosine" covers all four, and the verifier resolves every (X/I) to N for the same reason. It was left as the spreadsheet had it; whether to store B instead is a decision for when this entry is re-cited. Prepens 2007 does not print either sequence: the string "4125" does not occur in it and no ACGT-only fragment of 8 or more bases of 4125-s occurs in its text in either orientation. 4125-as is the one qualification: its reverse complement shares an exact 11-base stretch (AAGATCAACCC) with Prepens'' RH-gB primer 2760s and is IUPAC-compatible over 17 bases with its CM-gB round 2 sense primer 2744s. That is two primers designed on the same conserved gB site, which is what designing against a conserved site produces; it is not evidence the primer is Prepens''. NOT RE-CITED YET and NOT DELETED, for the reason given on the 4007 entry: the Deckers DOI is not Crossref-verified, and check_citations.py checks DOIs against the committed Crossref cache. oligos_designed_here stays false, which is certain for Prepens. To resolve, re-cite both CMV-gBp1 entries to Deckers 2009 together once its DOI is verified.'
+needs_review:
+- PRIMERS_NOT_IN_CITED_PAPER_SOURCE_IS_DECKERS_2009_RECITE_AFTER_CROSSREF_CHECK

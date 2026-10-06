@@ -46,7 +46,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 
-from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
+from assaywatch.credentials import ncbi_interval, scrub, with_api_key  # noqa: E402
 from assaywatch.degeneracy import assay_degeneracy  # noqa: E402
 from assaywatch.retrieve import group_slug  # noqa: E402
 from assaywatch.validate import load_assay  # noqa: E402
@@ -74,7 +74,10 @@ def fetch_taxa(taxids: list[int], email: str) -> dict[str, dict]:
             with urllib.request.urlopen(f"{EUTILS}?{q}", timeout=60) as r:
                 xml = r.read().decode()
         except Exception as e:  # noqa: BLE001
-            print(f"  taxonomy fetch failed for {chunk[:3]}...: {e}", file=sys.stderr)
+            print(f"  taxonomy fetch failed for {chunk[:3]}...: {scrub(e)}", file=sys.stderr)
+            # A failed request counts toward the rate limit as much as a good one;
+            # NCBI answering 429 is exactly when the next request must not be immediate.
+            time.sleep(ncbi_interval())
             continue
         # Each top-level <Taxon> is one requested id; nested <Taxon> blocks are its
         # lineage, so split on the outermost records only.

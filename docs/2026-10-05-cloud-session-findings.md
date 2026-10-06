@@ -72,12 +72,17 @@ Two of them, both in `verify_oligos_against_paper.py`.
 
 ### 1. `absent` was being manufactured wholesale
 
-**PMC full text omits `table-wrap` content.** The body text arrives; the tables
-do not. The avian orthobornavirus paper came back as 31,202 readable characters
-containing zero oligo-like runs, and the first run reported all 12 of its stored
-oligos `absent`. Across the run, **44 of 57 `absent` verdicts were artifacts of
-extraction** - statements about the file masquerading as statements about the
-sequence.
+**PMC full text often arrives without its primer tables, though not always.** The
+body text arrives flattened, and what happens to a table varies by paper: Prepens
+2007 and (checked 2026-10-06) Deckers 2009 came through with their primer tables
+intact, the avipox paper's tables came through but hold only Ct values, and the
+avian orthobornavirus paper came back as 31,202 readable characters containing zero
+oligo-like runs, so the first run reported all 12 of its stored oligos `absent`.
+Across the run, **44 of 57 `absent` verdicts were artifacts of extraction** -
+statements about the file masquerading as statements about the sequence. (This
+section first said PMC "omits `table-wrap` content" outright. That was too
+general, and it was also given as the reason one avipox primer was missing, which
+was wrong; see the addendum.)
 
 Fixed by giving that case its own verdict, `no-oligos`, excluded from the
 checkable denominator, plus a `paper_oligos` column recording how many oligo-like
@@ -151,7 +156,7 @@ measure `amplicon_bp` against real GenBank records and never quote a size. NCBI
 and EBI are both denied, so no amplicon can be measured. Entering an assay here
 would mean quoting a size, which is the one thing the method forbids.
 
-**No primer tables.** Even setting that aside, the tables are what PMC strips.
+**Few primer tables.** Even setting that aside, the tables are what PMC often loses.
 `extract_candidate_oligos.py` recovered 9 candidate oligos from 3 papers against
 the ~110 expected from the 10 known candidate DOIs - EEHV pol, canine
 morbillivirus, monkeypox B6R and *pone.0232044* each yielded zero, their
@@ -173,8 +178,8 @@ the PDF.
 | tests | 762 passing, 2 skipped |
 
 **The 20-of-38 figure does not supersede the local 100-of-175.** It is a
-different and much smaller sample - 21 papers against 60, with the tables
-stripped from all of them. Re-run on the machine that holds the PDFs to get a
+different and much smaller sample - 21 papers against 60, many of them without
+their primer tables. Re-run on the machine that holds the PDFs to get a
 comparable number; the two sharpened verdicts mean the local figure will also
 move, and some of its 65 `absent` rows should become `no-oligos`.
 
@@ -191,3 +196,44 @@ move, and some of its 65 `absent` rows should become `no-oligos`.
    NYU subscription covers, so one fetch run clears nearly all of it.
 4. **List 2 entry work** is unchanged and still needs the local machine, for the
    amplicon measurement if nothing else.
+
+## Addendum, 2026-10-06: what an adversarial review of this session's work corrected
+
+A review of everything committed after `50430bb` (61 findings, 51 confirmed, each
+re-verified before any fix) found several statements in this session's notes that
+were wrong. They are corrected in place where they were made; collected here so
+nobody has to rediscover them:
+
+- **"PMC strips tables."** Too general (see above). Some primer tables survive,
+  some do not, and the avipox 1R primer was missing from the PMC text because its
+  parenthetical is empty in the Methods sentence, not because a table was dropped.
+- **"The source of CMV 4007/4125 is not answerable here."** It was: Deckers et al.
+  2009 prints all four as a nested pair, and one PubMed search finds it. The
+  registry notes had also said there was no round 1 for the 4125 series (the 4007
+  pair is that round 1), that Prepens prints 13 oligos (it prints 16; 13 was the
+  count before the `(N/I)` notation was normalised), and that no 10-base fragment of
+  either 4125 sequence is in Prepens (the reverse complement of 4125-as shares an
+  exact 11-base stretch with one of its primers, which is two primers designed on
+  one conserved site, not identity).
+- **"The Prepens amplicons are probably one spreadsheet error."** The paper states
+  330 in its table (footnoted approximate) and 320 in its Figure 1 legend for
+  round 1, and 250 in both places for round 2. The stored 320 agrees with the
+  figure (which does not name the primer set; 250 appears in Table 3 only for CM-gB
+  round 2, so the pairing is an inference); only the stored 230 contradicts the paper.
+- **"Müller 2011 and Wang 1997 cannot be resolved."** Both resolve to a candidate
+  with the right search; see `docs/2026-10-05-doi-candidates.md`.
+- **"`snakemake -n` should list the same jobs as before."** It will not: the first
+  run after pulling re-screens everything, because the screening code and its
+  hashes changed. A dry run does list the screening jobs once today's retrieval record
+  exists, and before that it plans only validate and retrieve; it was never a way to
+  check the pull. See `docs/RESUME-HERE.md` for what to do instead.
+- **"The adoption recipe is `--until retrieve`, `--touch`, then run."** Wrong: a second
+  review showed it skips the screening of a new archive when today's results folder
+  already exists, and `--touch` with no targets blesses stale screens whatever made them
+  stale. The recipe in RESUME-HERE.md touches the existing screens only, and says when not
+  to use it.
+- **"Prepens prints 13 oligos (it prints 16)."** It prints 16 PCR primers in Table 3 and 7
+  LNA oligonucleotides in Table 2; 13 was a count of extractor fragments.
+
+None of the corrected statements changed a registry sequence, a DOI or a stored
+amplicon.

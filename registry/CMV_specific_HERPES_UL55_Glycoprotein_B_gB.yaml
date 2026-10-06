@@ -13,15 +13,15 @@ oligos:
   reverse:
     name: 4007-as
     seq: GCAATCGGTTTGTTGTANATNGC
-amplicon_bp: 803
+amplicon_bp: 800
 citation:
-  doi: 10.1186/1743-422X-6-210
-  design_year: 2009
+  doi: 10.1186/1743-422X-4-84
+  design_year: 2007
   n_sequences_at_design: null
-  as_written: Prepens et al. 2007 (spreadsheet; misattributed)
+  as_written: null
   doi_verified: true
-  reference: Deckers M et al. 2009. Virol J 6:210 (primer set CMV-gBp1, Table 1)
-  oligos_designed_here: true
+  reference: Prepens S et al. 2007. Virol J 4:84
+  oligos_designed_here: false
 use_context:
 - wildlife
 submitted_by: null
@@ -34,32 +34,6 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER, found 2026-10-05 by scripts/verify_oligos_against_paper.py against
-    the PubMed Central full text of Prepens et al. 2007. That paper prints 13 oligos in four named sets - RH-gB, LC-gB, CM-gB
-    and CM-MDBP - numbered 2743-2762 and 3730-3731. Neither 4007-s (GGTGACGTGGTTGACATNTCNCC) nor 4007-as (GCAATCGGTTTGTTGTANATNGC)
-    appears in it, nor does the string "4007", nor any 10-base fragment of either sequence. The 4007 numbering is a different
-    series from anything Prepens uses. Two sibling entries, _Virol_2007_round1 and _round2, DO store Prepens'' own CM-gB primers
-    (2743s/2746as and 2744s/2745as) and both verify exact against this paper, which makes the contrast sharp rather than ambiguous:
-    the spreadsheet carried two genuine Prepens pairs and two pairs from somewhere else under one citation. Where from is
-    not answerable here - the sequences appear in none of the 21 papers held in this environment, and 4-digit numbering of
-    this kind looks like the Ehlers lab''s own running primer numbers, so another paper from that group is the place to look.
-    NOT DELETED and NOT RE-CITED: the oligos may be perfectly real, and the defect is the attribution. oligos_designed_here
-    set to false, which is certain whatever the true source proves to be, because this paper demonstrably did not design them.
-    To resolve, find the paper printing 4007-s/4007-as - the Ehlers-lab primate cytomegalovirus papers first - and re-cite.
-    Fourth instance of this shape after Hellgren/Bensch, Blooi/Martel and Atkins/PREDICT. AMPLICON MEASURED 2026-10-05 against
-    all 12,782 records in the 2026-10-03 Cytomegalovirus archive (up to 5 mismatches per primer): a product in 676 records,
-    803 bp in 378, 797 in 144, 800 in 114, mostly human CMV with 17 Macacine betaherpesvirus 3. The stored 800 is within the
-    strain spread; amplicon_bp set to the modal 803. The pair is real and amplifies its stated gene, so the problem remains
-    provenance only. SOURCE FOUND AND RE-CITED 2026-10-05. A Europe PMC full-text search on each primer sequence returns exactly
-    one paper for all four of 4007s, 4007as, 4125s and 4125as: Deckers M, Hofmann J, Kreuzer KA, Reinhard H, Edubio A, Hengel
-    H, Voigt S, Ehlers B (2009) Virol J 6:210, PMC2789067 - an Ehlers-lab paper, as guessed. Its Table 1, primer set CMV-gBp1,
-    prints 4007s GGTGACGTGGTTGACAT(n/i)TC(n/i)CC and 4007as GCAATCGGTTTGTTGTA(n/i)AT(n/i)GC for round 1 (800 bp) and 4125s
-    GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA and 4125as GCTGACGGGTTGATCTTGCT(r/i)AG for round 2 (550 bp), sizes footnoted as approximate.
-    Every stored base agrees; the (n/i), (b/i) and (r/i) positions are ''base or deoxyinosine'' and are stored as N under
-    this registry''s inosine convention. The paper states it designed them: ''deg/dI primers were deduced from the gB/UL55
-    gene of HCMV strain AD169 in a nested format (primer set CMV-gBp1; Table 1)''. Citation moved from Prepens 2007 to Deckers
-    2009, design_year 2009, oligos_designed_here true; the spreadsheet''s attribution kept in as_written. CONFIRMED AGAINST
-    THE PAPER ITSELF, later on 2026-10-05. scripts/find_open_access.py fetched the Deckers 2009 PDF (gold open access, Virology
-    Journal), so the re-citation no longer rests on a Europe PMC search result: scripts/verify_oligos_against_paper.py now
-    reads the paper directly and both oligos verify exact.'
-needs_review: null
+  notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER (Prepens et al. 2007), BUT THEIR SOURCE IS KNOWN: Deckers M et al. 2009, Virol J 6:210 (PMID 19941648, PMC2789067; DOI 10.1186/1743-422X-6-210 as returned by PubMed, NOT yet checked against Crossref, which was unreachable). Found missing from Prepens 2026-10-05 by scripts/verify_oligos_against_paper.py; source identified 2026-10-06 from the PubMed Central full text of Deckers 2009. Its Table 1 prints primer set CMV-gBp1 as a NESTED PAIR: round 1 is 4007s GGTGACGTGGTTGACAT(n/i)TC(n/i)CC and 4007as GCAATCGGTTTGTTGTA(n/i)AT(n/i)GC, product 800 bp ("approximate values", per the table footnote); round 2 is 4125s and 4125as, product 550 bp. Both stored sequences here match exactly, reading (n/i) as N, and the stored amplicon_bp of 800 is the paper''s. So this entry is ROUND 1 of the pair held by CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2_2. source.nested_round stays null on purpose: that field records what the spreadsheet said, and it recorded no round. Prepens 2007 prints 16 PCR primers in Table 3, four in each of four named sets (RH-gB, LC-gB, CM-gB, CM-MDBP, numbered 2743-2762 and 3730-3731), plus 7 LNA oligonucleotides in Table 2, and none is 4007-s or 4007-as: the string "4007" does not occur in it, and no ACGT-only fragment of 8 or more bases of either sequence, in either orientation, occurs in its text. Deckers'' numbering (4007, 4125, 4524, ...) and Prepens'' look like one running series from the same laboratory, but that is an inference; neither paper says so. The two sibling entries _Virol_2007_round1 and _round2 DO store Prepens'' own CM-gB primers and verify exact. CAVEAT: Deckers cites an earlier reference for the first use of CMV-gBp1 in great apes, so this may not be where the primers were first published; it is a paper that prints them in a table, which is what a citation here needs. NOT RE-CITED YET, and NOT DELETED: the DOI above has not been checked against Crossref, and scripts/check_citations.py verifies registry DOIs against the committed Crossref cache, so it cannot be written into citation.doi until scripts/resolve_citations.py has run with Crossref reachable. oligos_designed_here stays false, which is certain for Prepens. To resolve: verify the DOI, re-cite this entry and the 4125 entry to Deckers 2009 together, decide oligos_designed_here from what Deckers says (it says the primers were designed to bind conserved sites, but also cites an earlier use), and clear the flag. Fourth instance of this shape after Hellgren/Bensch, Blooi/Martel and Atkins/PREDICT.'
+needs_review:
+- PRIMERS_NOT_IN_CITED_PAPER_SOURCE_IS_DECKERS_2009_RECITE_AFTER_CROSSREF_CHECK

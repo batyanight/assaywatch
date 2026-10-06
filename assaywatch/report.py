@@ -36,7 +36,16 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.degeneracy import assay_degeneracy
-from assaywatch.drift import AssayDrift, assess, by_status, coverage_gaps, pct
+from assaywatch.drift import (
+    FOOTPRINT_COLUMNS,
+    FOOTPRINT_REQUIRED,
+    AssayDrift,
+    assess,
+    by_status,
+    coverage_gaps,
+    footprint_signature,
+    pct,
+)
 from assaywatch.schema import Assay
 
 STATUS_ORDER = ["declining", "low coverage", "watch", "insufficient data", "no recent data", "stable"]
@@ -48,6 +57,23 @@ STATUS_COLOUR = {
     "no recent data": "#5f6368",
     "stable": "#1e6b3a",
 }
+DEFAULT_COLOUR = "#5f6368"
+
+
+def status_order(grouped: dict[str, Any]) -> list[str]:
+    """The listed statuses in order, then any the report was not told about.
+
+    The report walks STATUS_ORDER and prints only what it finds there, so a
+    status that is absent from the list is not an error - it is an assay that is
+    quietly missing from both reports, with a headline count ("164 assays
+    screened") that no longer adds up to the sections beneath it. The review
+    found one such status in the code (`AssayDrift` defaults to "no data", which
+    is unreachable through `assess` today but is exactly what a future status
+    would look like). Appending the unknown ones, sorted so the output is
+    stable, makes a new status show up as an unstyled section instead of
+    disappearing.
+    """
+    return [*STATUS_ORDER, *sorted(s for s in grouped if s not in STATUS_ORDER)]
 
 
 def _open(path: Path):
@@ -80,10 +106,16 @@ def version_of(accession: str) -> int:
 
 
 def read_calls(path: Path) -> list[dict[str, Any]]:
-    """The three columns the drift statistic needs, one small dict per row.
+    """The columns the drift statistic needs, one small dict per row.
 
     Loading every column of a two-million-row calls table as dicts took 3.6 GB;
-    nothing downstream reads the other columns.
+    nothing downstream reads the other columns. The six mismatch columns are
+    folded into ONE interned `footprint` string per row rather than carried as
+    six, so the cost is a pointer per row and millions of identical exact-match
+    footprints are a single object. A row has no `footprint` key when the columns
+    are absent from the table OR the row's own scoring cells are blank (a row from
+    an older screen that `collect.concatenate_screens` blank-filled), which
+    `drift.assess` reads as "unknown" and not as "all the same".
     """
     with _open(path) as fh:
         reader = csv.reader(fh, delimiter="\t")
@@ -93,16 +125,34 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
         ia, ir, ic = header.index("assay_id"), header.index("record_id"), header.index("call")
         # `exclusion` says why an unusable record was unusable (score.classify_exclusion).
         ie = header.index("exclusion") if "exclusion" in header else None
-        return [
-            {
+        # The footprint is known only where the row's own scoring columns are
+        # populated (see drift.FOOTPRINT_REQUIRED). Having the six mismatch
+        # columns in the HEADER is not enough: `collect.concatenate_screens` unions
+        # the headers of old and new screens and blank-fills the cells an older
+        # screen never had, so an older screen's rows arrive with all six columns
+        # present and empty - indistinguishable from a clean record unless the
+        # scoring cells beside them are checked. All six columns or none: a partial
+        # footprint would compare unequal to a full one that agrees with it.
+        fp_idx = (
+            [header.index(c) for c in FOOTPRINT_COLUMNS]
+            if all(c in header for c in (*FOOTPRINT_COLUMNS, *FOOTPRINT_REQUIRED))
+            else None
+        )
+        req_idx = [header.index(c) for c in FOOTPRINT_REQUIRED] if fp_idx is not None else []
+        rows = []
+        for r in reader:
+            if not r:
+                continue
+            row = {
                 "assay_id": r[ia],
                 "record_id": r[ir],
                 "call": r[ic],
                 "exclusion": (r[ie] if ie is not None and ie < len(r) else ""),
             }
-            for r in reader
-            if r
-        ]
+            if fp_idx is not None and all(i < len(r) and r[i] != "" for i in req_idx):
+                row["footprint"] = footprint_signature(r[i] if i < len(r) else "" for i in fp_idx)
+            rows.append(row)
+        return rows
 
 
 def read_dates(retrieved_dir: Path) -> dict[str, str]:
@@ -181,7 +231,7 @@ def sparkline(drift: AssayDrift, width: int = 220, height: int = 34) -> str:
         x = (y - lo) / max(1, hi - lo) * (width - 4) + 2
         pts.append(f"{x:.1f},{(1 - frac) * (height - 6) + 3:.1f}")
     thresh_y = (1 - drift.threshold) * (height - 6) + 3
-    colour = STATUS_COLOUR.get(drift.status, "#5f6368")
+    colour = STATUS_COLOUR.get(drift.status, DEFAULT_COLOUR)
     return (
         f'<svg width="{width}" height="{height}" role="img" '
         f'aria-label="detected share {lo} to {hi}">'
@@ -201,6 +251,40 @@ def year_table_rows(drift: AssayDrift) -> list[tuple[int, int, int, str]]:
     return rows
 
 
+def duplication_summary(flagged: list[AssayDrift]) -> str:
+    """One line on how many flags survive the duplication check; "" only if nothing is flagged.
+
+    Counts only the assays it could check, and says so, because an unchecked flag
+    is not a surviving one: a calls table screened before the footprint columns
+    existed would otherwise read as a clean bill of health. When NONE could be
+    checked it says that instead of going quiet, since silence there reads exactly
+    like "nothing to report".
+    """
+    if not flagged:
+        return ""
+    checked = [a for a in flagged if a.flag_survives_clustering is not None]
+    if not checked:
+        n = len(flagged)
+        return (
+            f"not run for {'this flagged assay' if n == 1 else f'any of the {n} flagged assays'}: "
+            "their binding-site footprints are unknown (the calls table includes screens from before "
+            "the footprint columns were written, or counts diverged records as failures), so nothing "
+            "can be said about whether the flags rest on duplicated records."
+        )
+    held = sum(1 for a in checked if a.flag_survives_clustering)
+    tail = f" ({len(flagged) - len(checked)} could not be checked)" if len(checked) < len(flagged) else ""
+    text = (
+        f"{held} of {len(checked)} flagged assays still hold when duplicated records are discounted "
+        f"(each distinct binding-site footprint counted once, and the sample size cut to the number "
+        f"of footprints){tail}."
+    )
+    # Only when something failed the check: a sentence about the remainder after a
+    # clean 5 of 5 is a sentence about nothing. Which test each failed is in its own note.
+    if held < len(checked):
+        text += " The note on each assay that did not hold says which test it failed."
+    return text
+
+
 def render_markdown(
     drifts: dict[str, AssayDrift],
     assays: dict[str, Assay],
@@ -211,7 +295,7 @@ def render_markdown(
     grouped = by_status(drifts)
     twins = oligo_twins(assays)
     out = [f"# AssayWatch report — {run_date}", ""]
-    counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in STATUS_ORDER if grouped.get(s))
+    counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in status_order(grouped) if grouped.get(s))
     out += [f"{len(drifts)} assays screened: {counts}.", ""]
     if drifts:
         # The base window comes from the config, not from whichever assay happens
@@ -244,7 +328,7 @@ def render_markdown(
         "",
     ]
 
-    for status in STATUS_ORDER:
+    for status in status_order(grouped):
         items = grouped.get(status)
         if not items:
             continue
@@ -272,6 +356,8 @@ def render_markdown(
     flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
     if flagged:
         out += ["## Detail for flagged assays", ""]
+        if duplication_summary(flagged):
+            out += [f"**Duplication check:** {duplication_summary(flagged)}", ""]
         for a in flagged:
             assay = assays.get(a.assay_id)
             out += [f"### `{a.assay_id}`", ""]
@@ -285,6 +371,8 @@ def render_markdown(
             out += ["", "| deposit year | detected | evaluable | share |", "|---|---|---|---|"]
             for year, det, ev, frac in year_table_rows(a):
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
+            if a.clustering_note:
+                out += ["", f"**Duplication check:** {a.clustering_note}"]
             un = a.unevaluable()
             if un:
                 out.append("")
@@ -365,11 +453,11 @@ def render_html(
         "also fallen from the baseline (that is drift); low coverage means below threshold "
         "without a measurable fall.</p>",
     ]
-    for status in STATUS_ORDER:
+    for status in status_order(grouped):
         items = grouped.get(status)
         if not items:
             continue
-        colour = STATUS_COLOUR[status]
+        colour = STATUS_COLOUR.get(status, DEFAULT_COLOUR)
         parts.append(
             f"<h2><span class='pill' style='background:{colour}'>{e(status)}</span> {len(items)}</h2>"
         )
@@ -400,6 +488,8 @@ def render_html(
     flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
     if flagged:
         parts.append("<h2>Detail for flagged assays</h2>")
+        if duplication_summary(flagged):
+            parts.append(f"<p class='lead'><b>Duplication check:</b> {e(duplication_summary(flagged))}</p>")
         for a in flagged:
             assay = assays.get(a.assay_id)
             parts.append(f"<details><summary><code>{e(a.assay_id)}</code></summary>")
@@ -417,6 +507,8 @@ def render_html(
             for year, det, ev, frac in year_table_rows(a):
                 parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
             parts.append("</table>")
+            if a.clustering_note:
+                parts.append(f"<p class='muted'><b>Duplication check:</b> {e(a.clustering_note)}</p>")
             un = a.unevaluable()
             if un:
                 parts.append(
@@ -504,7 +596,7 @@ def main(argv: list[str] | None = None) -> int:
     (args.out / "report.html").write_text(page)
 
     grouped = by_status(drifts)
-    for status in STATUS_ORDER:
+    for status in status_order(grouped):
         if grouped.get(status):
             print(f"{status:<18} {len(grouped[status])}", file=sys.stderr)
     print(f"wrote {args.out / 'report.md'} and {args.out / 'report.html'}", file=sys.stderr)
