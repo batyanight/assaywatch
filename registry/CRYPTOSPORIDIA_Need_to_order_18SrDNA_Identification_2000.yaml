@@ -21,17 +21,19 @@ oligos:
   - name: Ziao18SR2
     seq: AAGGAGTAAGGAACAACCTCCA
     orientation: reverse
-amplicon_bp: 1314
+amplicon_bp: 1319
 citation:
-  doi: 10.1128/AEM.66.12.5492-5498.2000
-  design_year: 2000
+  doi: 10.1128/aem.65.4.1578-1583.1999
+  design_year: 1999
   n_sequences_at_design: null
   as_written: 'Identification of Species and Sources of Cryptosporidium Oocysts in Storm Waters with a Small-Subunit rRNA-Based
 
     Diagnostic and Genotyping Tool. LIHUA XIAO,1* KERRI ALDERISIO,2 JOSEF LIMOR,1 MICHAEL ROYER,3 AND ALTAF A. LAL1, APPLIED
     AND ENVIRONMENTAL MICROBIOLOGY, Dec. 2000, p. 5492–5498'
   doi_verified: true
-  reference: Xiao L et al. 2000. Appl Environ Microbiol 66:5492-5498
+  reference: Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic analysis
+    of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583
+  oligos_designed_here: true
 use_context:
 - wildlife
 - veterinary
@@ -48,7 +50,32 @@ source:
   positive_control: UC5
   nested_round: null
   notes: null
+  notes_curator: 'RE-CITED AND VINDICATED 2026-10-05. The entry cited Xiao et al. 2000 (Appl Environ Microbiol 66:5492, storm-water
+    oocysts), and scripts/verify_oligos_against_paper.py reported all three stored oligos absent from it, which was right:
+    that paper does not print them. A Europe PMC full-text search on each sequence returns Xiao et al. 1999 instead, and two
+    of them - 10.1128/aem.65.4.1578-1583.1999 (phylogenetic analysis, SSU rRNA locus) and 10.1128/aem.65.8.3386-3391.1999
+    (genetic diversity within C. parvum). The first is the designer and the second says so: it opens that section with ''We
+    previously developed a PCR-restriction fragment length polymorphism (RFLP) technique... (46)'', citing the first. The
+    first says it outright - ''sequences unique to all Cryptosporidium species were identified from the multiple alignment
+    and used as primers in a nested PCR protocol''. Cited to it, Crossref-verified. Neither is open full text through Europe
+    PMC''s XML endpoint, both being ASM; the text was read from PubMed Central''s own article pages, which do serve them.
+    THE PAPER PRINTS A NESTED PAIR OF PAIRS and this entry holds both in one record: primary PCR, ''about 1,325 bp'', with
+    TTCTAGAGCTAATACATGCG and CCCTAATCCTTCGAAACAGGA; secondary PCR, ''819 to 825 bp (depending on the species)'', with GGAAGGGTTGTATTTATTAGATAAAG
+    and AAGGAGTAAGGAACAACCTCCA. The secondary pair sits in this entry''s alternates. That is not how this registry models
+    a nested assay elsewhere - the CMV gB and adenovirus polymerase assays each get one entry per round - but splitting it
+    is a curation decision with an id change behind it, so it is flagged rather than done here. THE IN-HOUSE MODIFICATION
+    IS CORRECT AND THE PUBLISHED PRIMER IS NOT. The stored primary reverse is named ''Ziao18SR1 corrected'' and reads CCCATTTCCTTCGAAACAGGA
+    against the paper''s CCCTAATCCTTCGAAACAGGA, three bases different at positions 4-6. Screened against all 14,852 records
+    of the 2026-10-03 Cryptosporidium archive: the paper''s own primer sits exactly 3 mismatches from the template in ALL
+    124 records that give a product - never once matching - while the stored corrected form matches exactly in 124 of its
+    147. A constant three-base deficit across every record is a published sequence that is wrong, not drift, and the lab had
+    already found and fixed it. This is the second time today a ''(corrected)'' in an oligo name has turned out to be right
+    about its paper, after the dependovirus reverse primer. AMPLICONS MEASURED: the primary gives 1319 bp modally over a 1306-1323
+    spread, so amplicon_bp moves 1314 to 1319 and the paper''s ''about 1,325'' is close; the secondary gives 834 and 822 most
+    often over a 822-838 spread, against the paper''s stated 819-825 - slightly larger, and worth carrying into whichever
+    entry ends up holding the second round.'
 needs_review:
 - MODIFIED_IN_HOUSE
 - MULTIPLE_PRIMERS_IN_BLOCK
 - NEED_TO_ORDER
+- NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_ALTERNATES
