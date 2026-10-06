@@ -49,7 +49,7 @@ from assaywatch.credentials import with_api_key  # noqa: E402
 from assaywatch.degeneracy import assay_degeneracy  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
-from assaywatch.schema import OLIGO_MAX, OLIGO_MIN  # noqa: E402
+from assaywatch.schema import OLIGO_MAX, OLIGO_MIN, PROBE_MIN  # noqa: E402
 from assaywatch.score import load_config, screen_record  # noqa: E402
 from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
@@ -116,10 +116,12 @@ def check_oligos(assay, res: Result) -> None:
     """Length, alphabet and undeclared 5' tails. No network needed."""
     for role, oligo in oligos_of(assay).items():
         seq = oligo.matching_seq
-        if not OLIGO_MIN <= len(seq) <= OLIGO_MAX:
-            res.add(
-                "FAIL", "schema", f"{role} binding part is {len(seq)} nt, outside {OLIGO_MIN}-{OLIGO_MAX}"
-            )
+        # A probe may be shorter than a primer (published MGB probes run 13-14 nt),
+        # exactly as the schema allows; see schema.PROBE_MIN.
+        is_probe = role == "probe" or getattr(oligo, "orientation", None) == "probe"
+        floor = PROBE_MIN if is_probe else OLIGO_MIN
+        if not floor <= len(seq) <= OLIGO_MAX:
+            res.add("FAIL", "schema", f"{role} binding part is {len(seq)} nt, outside {floor}-{OLIGO_MAX}")
         # Only the first 12 bases are examined: a restriction site in the middle
         # of a primer is ordinary sequence, not a tail.
         head = seq[:12]

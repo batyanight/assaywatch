@@ -1,0 +1,82 @@
+id: PROBOSCIVIRUS_POL_Latimer_2010_panEEHV_round1
+name: PROBOSCIVIRUS (elephant herpesviruses, EEHV) — pan-EEHV DNA polymerase, round 1 (Latimer 2010)
+target:
+  taxid: 548689
+  gene: DNA polymerase (U38/POL)
+  genome_type: dsDNA
+  taxon_name: Proboscivirus (elephant endotheliotropic herpesviruses)
+  query: '"DNA polymerase"[Title] OR U38[Gene] OR POL[Gene] OR "complete genome"[Title] OR "partial genome"[Title]'
+chemistry: conventional
+oligos:
+  forward:
+    name: PAN-EBP B1 (6711)
+    seq: GTATTTGATTTYGCNAGYYTGTAYCC
+  reverse:
+    name: PAN-EBP A1 (6710)
+    seq: ACAAACACGCTGTCRGTRTCYCCRTA
+  alternates: []
+amplicon_bp: 536
+citation:
+  doi: 10.1016/j.vetmic.2010.05.042
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: 'Latimer E, Zong JC, Heaggans SY, Richman LK, Hayward GS. Detection and Evaluation of Novel Herpesviruses in
+    Routine and Pathological Samples from Asian and African Elephants: Identification of Two New Probosciviruses (EEHV5 and
+    EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).'
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: round1
+  notes: null
+  notes_curator: 'Added 2026-10-06 from Latimer et al. (papers/10.1016_j.vetmic.2010.05.042.pdf). Oligos read from Table 2,
+    a text table printed sideways on page 24; sequences, L/R labels and pairing columns were checked by eye on a 220 dpi rendering
+    of that page (pymupdf) and agree with the extracted text for every oligo used here. Table 2 lists 21 rows but 19 distinct
+    oligos (6784 and 6785 each appear in two blocks). Designed in this paper (Methods: six new sets of EEHV DNA POL primers
+    designed for these studies). Not designed here, not in Table 2, not entered: the CODEHOPS pan-herpes set 2595/2596/2597
+    and the EEHV3 TER set 6707/6708/6727/6728, both credited to Garner et al. 2009. ORIENTATION was established by locating
+    each oligo on GenBank records, not by trusting the table''s L/R column: in the EEHV blocks L is sense and R is antisense
+    (as labelled), but in the PAN-EGHV block the labels are inverted (see the note on what was not entered). This entry =
+    6711 (PAN-EBP B1, sense) + 6710 (PAN-EBP A1, antisense), Table 2 column 1A, the first round of the two-round pan-EEHV
+    set 6710/6711/6712 that the paper designed to detect all known probosciviruses (EEHV1-4) and then found EEHV5 and EEHV6
+    with. 6711/6710 is also the first round of the EEHV6-specific route (see the EEHV6 entry). HOW MEASURED. Every record
+    the target.query returns was screened (all of them, not a sample; retrieved 2026-10-06 with NCBI esearch/efetch, min length
+    100 bp as in config.yaml) with assaywatch.screen. Whether a record SPANS the amplicon was decided independently of the
+    screener: each record was mapped with blastn to complete reference genome(s) of the target species, the primer-to-primer
+    interval was taken from the screen of the reference genome, and a record counts as spanning when its alignment covers
+    that whole interval, both primer sites included (4 nt end slack for BLAST end trimming). Most GenBank EEHV POL deposits
+    are the sequence BETWEEN the amplification primers, so one or both primer sites are absent: those records give no_amplicon
+    because the site is missing, not because the primer fails, and are excluded from the detected share. Spanning counts include
+    RefSeq NC_ copies of GenBank genomes (NC_020474, NC_024696, NC_028379, NC_077039), so the number of independent sequences
+    is a few lower. RESULT. 240 records retrieved; calls over all of them {''detect'': 18, ''no_amplicon'': 208, ''fail'':
+    12, ''reduced'': 2}. Spanning records: 32; calls among spanning {''detect'': 18, ''fail'': 12, ''reduced'': 2}; by species
+    EEHV1 {''detect'': 18}; EEHV2 {''reduced'': 1}; EEHV3 {''fail'': 3}; EEHV4 {''fail'': 2}; EEHV5 {''fail'': 7}; EEHV6 {''reduced'':
+    1}. Product sizes among spanning records: 536 bp x27, 539 bp x3, 542 bp x2. SIZE. Table 2 prints 500 bp for 6711/6710.
+    Measured: 536 bp on EEHV1A, 1B, 2, 5 and 6 genomes, 539 on EEHV3 (3A and 3B) and 542 on EEHV4 (indels between lineages).
+    The paper''s 500 is not what these primers produce on any complete genome; the measurement wins and amplicon_bp is the
+    modal 536. Because this is first-round product 480-520 bp (the Codehops POL region), a size near 500 is probably a gel
+    estimate, but that is a guess, not something measured here. CALLS TO READ WITH CARE. Detected share among spanning records
+    is low for non-EEHV1 species (EEHV3 3 fail, EEHV4 2 fail, EEHV5 7 fail) because 6711 scores a 2-3 penalty on them and
+    6710 1-1.5. This agrees with the paper''s own account that the pan set was least efficient for EEHV3 and that EEHV5 and
+    EEHV6 appeared only after second-round PCR (weak first round); it does not say the primers never amplify them. The round-2
+    entry (6712/6710) is the one that detects them. SCOPE. Whole genus Proboscivirus (taxid 548689), the scope the paper designed
+    it for. Seven species/lineages are represented in GenBank; EEHV7 has no record that spans the interval. NOT ENTERED FROM
+    THIS PAPER: the PAN-EGHV/EGHV2/EGHV3 block (6784, 6785, 6786, 6787, 6788, 7486, 7489; Table 2 rows 13-21). The oligo sequences
+    are read and located, but the assay cannot be measured on the viruses it targets: none of the 20 elephant gammaherpesvirus
+    POL records in GenBank (txid35249 plus ''elephant'', 100 bp or longer, retrieved 2026-10-06) contains the sense-strand
+    sites of 6784/6785/6786: every record starts after those primers, consistent with deposits of the amplified product minus
+    the primers. Only the antisense ends (6788 at 0-2 mismatches, 6787 and 7486) are present. The geometry does reproduce
+    on two non-target relatives that carry both ends: elephant seal gammaherpesviruses MW691977 (6785/6788 gives 309 bp, 6784/6788
+    331, 6784/7486 330, 6785/7486 308) and DQ183057 (6785/6788, 309 bp), against Table 2''s 310/330/330/310, which confirms
+    the sequences and shows that in this block 6784/6785/6786 are SENSE and 6788/6787/7486/7489 ANTISENSE although Table 2
+    labels them the other way round. Entering them against elephant gammaherpesviruses would produce permanent no_amplicon.'
+needs_review: null

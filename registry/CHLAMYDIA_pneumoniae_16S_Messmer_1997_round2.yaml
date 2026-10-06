@@ -1,0 +1,69 @@
+id: CHLAMYDIA_pneumoniae_16S_Messmer_1997_round2
+name: CHLAMYDIA PNEUMONIAE — 16S rRNA nested multiplex PCR, second step (Messmer 1997)
+target:
+  taxid: 83558
+  gene: 16S rRNA
+  genome_type: dsDNA
+  taxon_name: Chlamydia pneumoniae
+  query: 16S[Title] OR "16S ribosomal RNA"[Title] OR "small subunit ribosomal"[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: C. pneumoniae and C. psittaci sense
+    seq: ATAATGACTTCGGTTGTTATT
+  reverse:
+    name: C. pneumoniae antisense
+    seq: CGTCATCGCCTTGGTGGGCTT
+  alternates: []
+amplicon_bp: 222
+citation:
+  doi: 10.1128/jcm.35.8.2043-2046.1997
+  design_year: 1997
+  n_sequences_at_design: null
+  as_written: null
+  reference: Messmer, T. O., Skelton, S. K., Moroney, J. F., Daugharty, H. & Fields, B. S. Application of a nested, multiplex
+    PCR to psittacosis outbreaks. Journal of Clinical Microbiology 35, 2043-2046 (1997).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: round2
+  notes: null
+  notes_curator: 'Added 2026-10-06. OLIGOS READ FROM THE PAPER''S METHODS (p. 2044, ''Genus-specific first-step primers''
+    and ''Species-specific second-step primers'' paragraphs) and CHECKED BY EYE against a 300-dpi render of that page made
+    with pymupdf: this PDF is a scan with an OCR text layer, so the layer was not trusted alone. The layer and the image agree
+    on every base of all seven oligos; the only OCR damage is the prime mark printed as ''59339'' (5''->3''). This is the
+    same paper (Messmer et al., J Clin Microbiol 1997; 10.1128/jcm.35.8.2043-2046.1997) that docs/2026-10-05-list2-worklist.md
+    records as ''both rounds found no product in 8 strided 16S records, OCR-damaged''. The primer text is in fact intact,
+    and the earlier null is explained by coverage: many C. psittaci 16S deposits are 3''-half fragments that do not contain
+    the sites (see below). THE PAPER IS A NESTED, MULTIPLEX 16S rRNA PCR: step 1 is genus-specific (436 bp); step 2 puts five
+    primers in one tube (a shared C. pneumoniae/C. psittaci sense primer, a C. psittaci antisense, a C. pneumoniae antisense,
+    and a C. trachomatis pair) and tells the species apart by product size on agarose (trachomatis 412, pneumoniae 221, psittaci
+    127). It is therefore entered as four files: this paper''s round 1 (genus) and three round 2 species pairs. The paper
+    presents the primers as its own and cites no source or GenBank accession for them, so oligos_designed_here is true. design_year
+    is the publication year by registry convention; the paper was received 1996-12-23. THE PAPER''S SIZES ARE ONE BELOW THE
+    MEASURED ONES IN ALL FOUR CASES (436/127/221/412 stated; 437/128/222/413 measured, counting both primers, confirmed by
+    exact string search in CP002549.1 for psittaci). The measurement wins. THIS FILE: C. PNEUMONIAE ROUND 2 (ATAATGACTTCGGTTGTTATT
+    / CGTCATCGCCTTGGTGGGCTT; the sense primer is the one shared with C. psittaci, the paper''s 221 bp species product). MEASURED
+    on every GenBank C. pneumoniae (txid83558) record matching 16S[Title] / ''16S ribosomal RNA''[Title] / ''small subunit
+    ribosomal''[Title] (40 records) or ''complete genome''[Title] (8), queried 2026-10-06, 48 records, not a sample. 16 records
+    give a product and ALL 16 are exactly 222 bp (paper: 221; all 8 complete genomes plus 8 partial 16S records): 15 detect
+    with zero mismatches in both primers, 1 reduced (forward primer mismatch 3 nt from its 3'' end). Detected share among
+    records that span the site: 15/16. The other 32 records give no_amplicon and are coverage, not primer failure. 17 contain
+    neither primer-site flank (231-3,521 bp: 3''-half 16S plus spacer deposits such as U68421-U68423 at 1,282-1,284 bp, and
+    the two 232 bp partial fragments AY026521 and AY026522, tree frog and puff adder ''type I'' deposits, whose ''best'' forward
+    match is 11 mismatches only because the site is not in them), and 15 contain the downstream flank but begin inside the
+    amplicon after the sense site and are called truncated (231-1,457 bp, e.g. S56213 at 851 bp and Z49874 at 1,457 bp). CROSS-CHECK:
+    the C. psittaci inner pair fails on every C. pneumoniae record that gives a product (16 of 16), and this pair fails on
+    every C. psittaci record that gives a product (penalties 8-11; the two pairs share a sense primer and the antisense primers
+    discriminate), which is the size-and-primer discrimination the paper relies on. SCOPE: the sampled C. pneumoniae records
+    are the species as GenBank holds it; the only non-human deposits (AY026521/AY026522) do not cover the site, so coverage
+    of non-human C. pneumoniae lineages by this pair is untested here.'
+needs_review: null

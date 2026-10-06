@@ -1,0 +1,68 @@
+id: LEPORID_GAMMAHERPESVIRUS_5_gB_Abade_dos_Santos_2021_taqman
+name: LEPORID GAMMAHERPESVIRUS 5 (LeHV-5) — gB TaqMan qPCR (Abade dos Santos 2021)
+target:
+  taxid: 2729004
+  gene: gB (glycoprotein B)
+  genome_type: dsDNA
+  taxon_name: Leporid gammaherpesvirus 5
+  query: gB[Gene] OR "glycoprotein B"[Title] OR "complete genome"[Title]
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: LeHV-5-gB Fw
+    seq: GGACTCAGTGAACATTCACCAAAGCC
+  reverse:
+    name: LeHV-5-gB Rv
+    seq: CACCCACGATAAAAAAGTGCTCTGCC
+  probe:
+    name: LeHV-5-gB_P
+    seq: TGCTCTCCAACACGCAGCTCGAAACATGCC
+    reporter: Texas Red
+    quencher: BHQ1
+  alternates: []
+amplicon_bp: 200
+citation:
+  doi: 10.3390/v13040715
+  design_year: 2021
+  n_sequences_at_design: 5
+  as_written: null
+  reference: Abade dos Santos FA, Carvalho CL, Peleteiro MC, Parra F, Duarte MD. A Versatile qPCR for Diagnosis of Leporid
+    Gammaherpesvirus 5 Using Evagreen or Taqman Technologies. Viruses 2021, 13, 715.
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from Abade dos Santos et al. 2021 (papers/10.3390_v13040715.pdf), Table 1, a text table
+    (open access). The paper runs one primer pair in two real-time formats: a TaqMan duplex with an 18S internal control (the
+    entry ending _taqman) and an EvaGreen singleplex (the entry ending _evagreen, same primers, no probe). Both entries are
+    kept because they are different assays at the bench (the probe adds a third oligo that can fail on its own); the primer
+    pair itself is identical, so a maintainer who wants one row per pair can drop the _evagreen entry. EXCLUDED: the 18S rRNA
+    Fw/Rv/Probe set (probe Cy5/BHQ2). It is a host (hare/rabbit and other mammals) extraction and amplification control, not
+    a pathogen target; screening it against LeHV-5 records would only report meaningless non-detection. Also not entered:
+    the nested LeHV-5 PCR the paper used as a comparator (its ref. 11, a different paper, whose primers are not printed here).
+    DESIGN-ACCESSION DISCREPANCY IN THE PAPER: Methods says the primers were designed from LeHV-5 gB sequences MN557129 to
+    MN557133. In GenBank those five accessions are 171-bp DNA POLYMERASE gene records (isolates PAT-18-29969, PAT-18-29913,
+    PAT-18-33023, PAT-19-1129, PAT-18-38455). The glycoprotein B records of the same five isolates are MT547773 to MT547777
+    (453 bp). The primers have no site in MN557129-33 and match MT547773-77 exactly, so the paper cites the wrong accession
+    range. MEASURED on every LeHV-5 gB record in GenBank (txid2729004, retrieved 2026-10-06; the whole taxon has only 10 nucleotide
+    records, 5 gB and 5 polymerase; the target.query returns exactly the 5 gB records, so this is the complete set, not a
+    sample): Fw at 81-106, Rv site at 255-280 (antisense), all with 0 mismatches on all 5 records; product 200 bp on all 5,
+    the paper''s stated 200 bp. amplicon_bp is therefore both stated and measured. CAVEAT: those five records are the design
+    sequences themselves (same isolates), so detecting 5/5 is no independent evidence; the paper says the target regions were
+    conserved in 20 further samples but gives no data and no deposits. The assay''s real test is future gB deposits, which
+    is what this entry is for. SCOPE: single species (taxid 2729004, species-level); cross-reactivity with other leporid or
+    mammalian herpesviruses is the paper''s specificity panel (in silico and in vitro, ''not shown''), not checked here. PROBE:
+    LeHV-5-gB_P lies on the forward strand between the primers at 218-247 (0 mismatches) on all 5 records; assaywatch.screen
+    finds the probe in 5 of 5 products. Texas Red / BHQ1 as printed in Table 1. Calls: 5 detect.'
+needs_review:
+- SHARED_PRIMERS_WITH_SIBLING_ENTRY

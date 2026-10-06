@@ -1,0 +1,91 @@
+id: INFLUENZA_A_ssRNA_HA_H7_Tsukamoto_2010
+name: Influenza A virus H7 subtype — hemagglutinin gene rRT-PCR (Tsukamoto 2010)
+target:
+  taxid: 11320
+  gene: HA (hemagglutinin), H7
+  genome_type: ssRNA-
+  taxon_name: Influenza A virus
+  query: (txid119216[Organism:exp] OR txid119214[Organism:exp] OR txid119215[Organism:exp] OR txid119218[Organism:exp] OR
+    txid333278[Organism:exp] OR txid325678[Organism:exp] OR txid119217[Organism:exp]) AND (hemagglutinin[Title] OR "segment
+    4"[Title] OR HA[Gene])
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: H7-937Feu
+    seq: ATMAATAGCAGRGCARTRGG
+  reverse:
+    name: H7-1177R
+    seq: GATCWATTGCHGAYTGRGTG
+  probe:
+    name: H7-Probe
+    seq: CCYTCYCCYTGTGCRTTYTG
+    reporter: FAM
+    quencher: BHQ
+  alternates:
+  - name: H7-937Fam
+    seq: ATCAACYCYAGRACWGTKGG
+    orientation: forward
+amplicon_bp: 241
+citation:
+  doi: 10.1128/JCM.01264-10
+  design_year: 2010
+  n_sequences_at_design: 493
+  as_written: null
+  reference: Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of diverse
+    H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer and probe
+    sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.1128_JCM.01264-10.pdf; the text layer is clean,
+    no image reading was needed). READ: H7-937Feu (Eurasian forward), H7-937Fam (American forward), H7-1177R and H7-Probe
+    (FAM 5'', BHQ 3''; the paper says only BHQ). Transcription cross-check: mixed-base counts as entered (4, 5, 4, 5) equal
+    the paper''s ''No. of mixed bases'' column, and the paper''s 241 bp product (printed once, against the Eurasian forward)
+    is reproduced. The paper used 493 H7 genes for design (200 listed against the Eurasian forward and 293 against the American
+    one) plus AB558254-AB558265; the primers are modified from the same lab''s earlier primers (Tsukamoto 2008, J Clin Microbiol
+    46:3048, the paper''s ref 9), so oligos_designed_here is true. TWO FORWARDS: the paper runs the Eurasian forward for Eurasian-lineage
+    H7 and the American forward for American-lineage H7 (the Eurasian one did not detect the three American H7 genes it tested),
+    both with the same reverse primer and probe. The Eurasian forward is this entry''s forward and the American forward is
+    an alternate forward, so the screener calls a record detected if either forward works, which stands in for choosing the
+    lineage-appropriate forward. On the same sample the pooling matters: Eurasian forward alone 71 detect / 57 reduced / 148
+    fail; American forward alone 93 / 72 / 106; pooled 164 / 19 / 94. The probe is anti-sense: it is found on the minus strand
+    in every product. VERIFIED ON THE PAPER''S OWN DESIGN ACCESSIONS: all 12 of AB558254-AB558265 were fetched and screened;
+    12 of 12 give a product (11 at 241 bp), 11 detect and 1 reduced. The exception is A/chicken/Chile/184240-2/2002 (H7N3)
+    at 271 bp, whose product carries an insertion at the HA cleavage site (translated: PENSTHKQLTHHMRKKR before GLF, not the
+    usual PEIPKGR). MEASURED on a STRIDED sample of GenBank H7 hemagglutinin records (every 12th of 3,431 uids, 286 records
+    fetched 2026-10-06; query = the seven H7Nx serotype taxids 119216, 119214, 119215, 119218, 333278, 325678, 119217 AND
+    (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])). Calls: detect 164, reduced 19, fail 94, no_amplicon 9. All
+    9 no_amplicon are partial records of at most 1,154 bp that stop before the reverse site, and none of the 274 records longer
+    than 1,186 bp is no_amplicon, so that is coverage. Among the 277 records that carry a product: 59.2% detect, 66.1% detect
+    or reduced, 33.9% fail. Probe site present inside the product in all 183 detect/reduced calls. THE HEADLINE IS H7N9. 100
+    of the 277 are H7N9 (the 2013 Asian-lineage outbreak, which post-dates the paper by three years) and only 13 detect while
+    87 fail. In 86 of those 87 the forward site reads ATAGATAGCAGGGCAGTTGG or one base off it, which differs from H7-937Feu
+    at base 4 (primer A, record G) and at base 18 (third from the 3'' end: primer R meets record T), with reverse primer and
+    probe intact; that is 0.5 + 3.0 = 3.5 and crosses the 3.0 fail line. The American forward is worse on these. Without H7N9
+    the other 177 records give 151 detect (85.3%), 19 reduced and 7 fail; by subtype H7N1 24/27 detect, H7N2 40/41, H7N3 52/65,
+    H7N7 29/37, H7N8 4/4, H7N4 2/3. Heuristic split by place in the strain name: the Americas 96% detect or reduced, everywhere
+    else 53%, the latter dragged down by H7N9. CAVEAT ON THE WORD fail: two mismatches, one 3 nt from the 3'' end, is a penalty
+    the config marks as fail (thresholds set by eye, see config.yaml), not a demonstrated loss of amplification. The paper
+    itself says one or two primer mismatches are often tolerated and that the H7 forward primers could be improved with region-specific
+    sets. Treat H7N9 as a documented weak spot to check at the bench, not as proof the assay is blind to it. AMPLICON_BP 241
+    is both the paper''s figure and the measured mode (254 of 277 products). The other lengths (253 in 9, 250 in 4, 247 in
+    4, 265-271 in 6) are all cleavage-site insertions: translating them gives polybasic sites such as PEIPKGSRVRR, PEIPKKREKR
+    and PETPKRRKR where the 241 bp products have PEIPKGR or similar. One further 50 bp ''product'' is a chance pairing in
+    a partial H7N9 record (it has no probe site and is counted among the fails). SCOPE: H7 only, both lineages; screened against
+    H7Nx taxa only. Records with no subtype node or no N type in the strain name are not retrieved. The paper''s supplement
+    (Tables S1-S7) is not in the PDF. The H5 and NP assays from the same paper are separate entries.'
+needs_review:
+- H7N9_FORWARD_PRIMER_2_MISMATCHES_87_OF_100_FAIL
+- H7_SUBTYPE_TAXID_QUERY_MISSES_UNTYPED_RECORDS

@@ -1,0 +1,80 @@
+id: MYCOBACTERIUM_TB_complex_IS6110_Boniotti_2014
+name: MYCOBACTERIUM TUBERCULOSIS COMPLEX — IS6110 PCR (Boniotti 2014)
+target:
+  taxid: 77643
+  gene: IS6110
+  genome_type: dsDNA
+  taxon_name: Mycobacterium tuberculosis complex
+  query: IS6110[All Fields] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: Ext-1
+    seq: CCCGGACAGGCCGAGTTT
+  reverse:
+    name: Int-1
+    seq: CCCCATCGACCTACTACG
+  alternates: []
+amplicon_bp: 209
+citation:
+  doi: 10.1128/jcm.00440-14
+  design_year: 2014
+  n_sequences_at_design: null
+  as_written: null
+  reference: Boniotti, M. B., Gaffuri, A., Gelmetti, D., Tagliabue, S., Chiari, M., Mangeli, A., Spisani, M., Nassuato, C.,
+    Gibelli, L., Sacchi, C., Zanoni, M. & Pacciarini, M. L. Detection and Molecular Characterization of Mycobacterium microti
+    Isolates in Wild Boar from Northern Italy. Journal of Clinical Microbiology 52, 2834-2843 (2014).
+  doi_verified: true
+  oligos_designed_here: null
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Methods (''DNA extraction and IS6110 PCR'' paragraph, p. 2836 of
+    J Clin Microbiol 52:2834): primers Ext-1 (5''-CCCGGACAGGCCGAGTTT-3'') and Int-1 (5''-CCCCATCGACCTACTACG-3'') ''to generate
+    a fragment (209 bp) of the IS6110 region''. Read from the PDF''s native text layer and confirmed by eye on a 220-dpi render
+    of the page (pymupdf); both agree base for base. Which of the two is ''forward'' is not stated (the paper does not say,
+    and the screen is strand-agnostic): Ext-1 is entered as forward and Int-1 as reverse by name only. WHOSE PRIMERS: the
+    paper gives no citation or source for Ext-1/Int-1 at the point of use and does not say it designed them, so citation.oligos_designed_here
+    is null. Nobody should assume this paper designed them. THE PAPER''S ROLE FOR THE PAIR: it is the MTBC-level screen (IS6110
+    PCR) run on 1,142 tissue samples, with M. microti then identified by gyrB PCR-RFLP, so this entry is an MTBC-wide assay,
+    not a M. microti-specific one; the paper itself calls the IS6110 target ''present in multiple copies in the genome of
+    M. microti'' and attributes the IS6110/gyrB discrepancy to the sensitivities of the two methods. MEASURED against 596
+    GenBank MTBC-related records fetched 2026-10-06: a strided sample (every 8th) of the 1,910 short (100 bp-10 kb) txid77643
+    records matching IS6110[All Fields] or IS6110[Title] (239), all 97 short ''direct repeat''/''DR region''/spoligotyp* records,
+    every third of the 678 M. microti (txid1806) records of 100 bp-100 kb (226), and 46 complete genomes (all M. microti,
+    every 6th M. bovis, every 70th M. tuberculosis, plus other MTBC and non-MTBC genomes). 205 records give a product (172
+    short records and 33 genomes) with zero mismatches in both primers apart from one 0.5 penalty: 202 are exactly 209 bp,
+    which is the paper''s figure (this pair needs no correction, unlike the other size claims checked today), 2 are 210 bp
+    (CHYH01000065, CPII01000077) and one is reported at 1,487 bp (FO203507, M. canettii; one of its two IS6110 copies pairs
+    Ext-1 and Int-1 at 209 bp and the other pairs at 1,487 bp, and the tool keeps one product per record). Three further ''fail''
+    calls (743, 1,383 and 451 bp: AH008262, AH008265, FO203510) are spurious long products from single-primer partial matches
+    in IS6110 flank sequences, not the target. COVERAGE: of the 552 short records, 370 contain neither primer-site flank (IS6110
+    flank fragments, 23S rRNA and other loci of 200-600 bp, e.g. U24533, X95145) and 8 are 200-245 bp records that end inside
+    the amplicon; none of the short records that contain both sites fails to amplify (no_amplicon with both flanks present:
+    0). GENOMES: 36 MTBC genome records (RefSeq NZ_ copies included): 33 detect, 3 give no product and carry neither primer
+    site at all (AP024458 M. tuberculosis DN101, and M. canettii CIPT 140070010 and CIPT 140070017, which lack IS6110 copies;
+    confirmed by exact string search for both primers). All 8 non-MTBC genomes in the set (6 M. kansasii records, 2 M. vaccae)
+    give no product, so the pair does not cross-amplify those. IS6110 copy number varies from 1 (most M. bovis, BCG Pasteur
+    1173P2) to over a dozen (many M. tuberculosis), so the pipeline''s detect share is a statement about presence of the element,
+    and IS6110-less MTBC strains (some M. canettii, rare M. tuberculosis) are not detected by design. NOT ENTERED FROM THIS
+    PAPER: the second primer pair, IM_dir (5''-CTACTACGCTCAACGCCAG-3'') and IM_rev (5''-ATCGACTGCGACAACATCC-3''), described
+    as amplifying the DR region 3'' of IS6110 to give 573 or 387 bp for sequencing. It is a genotyping/sequencing primer pair,
+    not a detection assay, and it could not be reproduced on real records: IM_dir matches exactly inside every IS6110 copy
+    and IM_rev matches exactly once, in a spacer at the end of the DR locus, in most MTBC genomes (checked in detail on the
+    M. microti genome CP010333, where the IS6110 inserted in the DR locus has its IM_dir site and the IM_rev spacer both pointing
+    towards lower coordinates, so the two primers cannot pair), but in CP010333 and in the 35 other MTBC genome records no
+    IM_dir site and IM_rev site face each other within 3 kb (the best approximate pair in CP010333 is 844 bp with 5 reverse-primer
+    mismatches), and no product near 387 or 573 bp exists in any genome or short record screened. It is held back as unresolved,
+    not as wrong; the wild-boar isolates'' own DR sequences carry no accession in the paper. The registry''s existing mycobacterial
+    entries (IS1081, helicase MTC-HELI, genus 16S; Hermes 2018) target other loci, so there is no overlap.'
+needs_review: null

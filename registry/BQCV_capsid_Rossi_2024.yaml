@@ -1,0 +1,69 @@
+id: BQCV_capsid_Rossi_2024
+name: BLACK QUEEN CELL VIRUS — capsid gene RT-qPCR, MGB probe (Rossi 2024)
+target:
+  taxid: 3047684
+  gene: capsid protein gene
+  genome_type: ssRNA+
+  taxon_name: Black queen cell virus
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: BQCVF
+    seq: GTGCGGGAGATGATATGGA
+  reverse:
+    name: BQCVR
+    seq: CCGTCTGAGATGCATGAATAC
+  probe:
+    name: BQCVP
+    seq: TTTCCATCTTTATCGGTACGC
+    reporter: Cy5
+    quencher: MGBEQ
+  alternates: []
+amplicon_bp: 69
+citation:
+  doi: 10.3390/microorganisms12061105
+  design_year: 2024
+  n_sequences_at_design: 59
+  as_written: null
+  reference: Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative
+    PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
+  doi_verified: true
+  oligos_designed_here: null
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Oligos read from Table 1 of the paper (PDF page 5): the text layer and the page rendered at 200 dpi and
+    read by eye agree. The paper''s Tenebrio molitor RNA extraction control oligos (TeneF/TeneR/TeneP, taken from Koppel et
+    al. per the paper) are an exogenous control, not honeybee virus targets, and are deliberately excluded from all six honeybee
+    virus entries made from this paper; its synthetic RNA calibrators carry no oligos. The paper tests the six assays singly
+    and as duplexes (ABPV/BQCV, DWVA/DWVB, CBPV/SBV; also BQCV/DWVA and ABPV/DWVB); each virus is its own entry here. One-step
+    RT-qPCR, 50 C 15 min RT, 95 C 2 min, 50 cycles of 95 C 15 s / 54 C 30 s, 0.2 uM each primer and probe. Screened with assaywatch.screen
+    on 2026-10-06 against GenBank records fetched by esearch/efetch the same day. ''Spanning'' below means a record that gives
+    a product, or that the tool labels diverged or chance-only, or that the tool labels no_site but whose sequence still carries
+    the cited reference amplicon region (an 11-mer chain covering at least 80% of it); records the tool labels truncated (they
+    end inside a primer window) are not counted as spanning. DESIGN: derived from the Chantawannakul et al. oligos (ref 39
+    of the paper), shortened to fit the common 54 C annealing step (Table 1 reference ''This study [39]''; alignment of 59
+    sequences). The earlier paper''s oligos were not available locally to compare, so how much of each sequence is new is
+    not established; oligos_designed_here is left null and flagged. VERIFIED against the cited accession MT482476.1 (BQCV
+    isolate BQCV/PNG-2018, complete genome, 8,412 nt): BQCVF 8060-8078, probe BQCVP 8081-8101, BQCVR 8108-8128, all 0 mismatches,
+    product 69 bp = the paper''s span 8060-8128 exactly. MEASURED on every record of Black queen cell virus with length >=
+    100 bp (txid3047684, species rank; 1,595 records): detect 981, reduced 79, fail 147, indeterminate 3, no_amplicon 385.
+    1,210 records give a product: 1,209 at 69 bp and 1 at 68 bp; the probe has a site inside the product in 1,210 of 1,210.
+    amplicon_bp 69 is measured. COVERAGE: of the 385 no_amplicon records, 353 are partial deposits not spanning the site (median
+    length 422 bp, longest 8,064 bp; the long ones are partial genomes that stop short of the 3'' region or cover other genes)
+    and 32 span the site but find no primer site (27 no forward site, 4 no reverse site, 1 chance-only pair): real divergence.
+    Among the 1,242 records that span the site, detect = 981 (79.0%), detect+reduced = 1,060 (85.3%); 147 fail (a primer penalty
+    above the tool''s limit, product of normal length) and 3 indeterminate. The paper also notes the BQCV test sometimes gives
+    abnormal amplification curves above 6 log copies.'
+needs_review:
+- DESIGN_PROVENANCE_MIXED

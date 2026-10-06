@@ -98,14 +98,20 @@ def test_a_directory_where_the_key_file_should_be_is_not_a_key(tmp_path, monkeyp
     assert ncbi_api_key(root=tmp_path) == ""
 
 
-def test_the_report_names_ncbis_published_limit_not_a_derived_rate(capsys, monkeypatch):
+def test_the_report_names_ncbis_published_limit_not_a_derived_rate(capsys, monkeypatch, tmp_path):
     """Regression for a line that read "9 requests/second" on a valid key.
 
     The interval is deliberately a shade wider than 1/10 s for margin, so
     printing 1/interval understated a working key and looked like a fault.
+
+    `main()` takes no root, so it reads the checkout's own `.secrets/`. The test
+    points ROOT at an empty directory: its "no key" half used to fail on any
+    machine where the developer had followed the instructions and set a key.
     """
+    from assaywatch import credentials
     from assaywatch.credentials import main
 
+    monkeypatch.setattr(credentials, "ROOT", tmp_path)
     monkeypatch.setenv("NCBI_API_KEY", "x" * 36)
     main()
     out = capsys.readouterr().out

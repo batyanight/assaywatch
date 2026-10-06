@@ -1,0 +1,69 @@
+id: PROBOSCIVIRUS_POL_Latimer_2010_EEHV5_round2
+name: EEHV5 — DNA polymerase, EEHV5-specific nested PCR round 2, long inner pair (Latimer 2010)
+target:
+  taxid: 548689
+  gene: DNA polymerase (U38/POL)
+  genome_type: dsDNA
+  taxon_name: Elephant endotheliotropic herpesvirus 5
+  query: (txid768738[Organism:exp] OR txid3050275[Organism:exp]) AND ("DNA polymerase"[Title] OR U38[Gene] OR POL[Gene] OR
+    "complete genome"[Title] OR "partial genome"[Title])
+chemistry: conventional
+oligos:
+  forward:
+    name: EB5P B1 (7484)
+    seq: GTACCTTAGTTACGGACGAGAC
+  reverse:
+    name: EB5P A2 (7424)
+    seq: CGACAGCACACTCCTTTAACAC
+  alternates: []
+amplicon_bp: 423
+citation:
+  doi: 10.1016/j.vetmic.2010.05.042
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: 'Latimer E, Zong JC, Heaggans SY, Richman LK, Hayward GS. Detection and Evaluation of Novel Herpesviruses in
+    Routine and Pathological Samples from Asian and African Elephants: Identification of Two New Probosciviruses (EEHV5 and
+    EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).'
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: round2
+  notes: null
+  notes_curator: 'Added 2026-10-06 from Latimer et al. (papers/10.1016_j.vetmic.2010.05.042.pdf). Oligos read from Table 2,
+    a text table printed sideways on page 24; sequences, L/R labels and pairing columns were checked by eye on a 220 dpi rendering
+    of that page (pymupdf) and agree with the extracted text for every oligo used here. Table 2 lists 21 rows but 19 distinct
+    oligos (6784 and 6785 each appear in two blocks). Designed in this paper (Methods: six new sets of EEHV DNA POL primers
+    designed for these studies). Not designed here, not in Table 2, not entered: the CODEHOPS pan-herpes set 2595/2596/2597
+    and the EEHV3 TER set 6707/6708/6727/6728, both credited to Garner et al. 2009. ORIENTATION was established by locating
+    each oligo on GenBank records, not by trusting the table''s L/R column: in the EEHV blocks L is sense and R is antisense
+    (as labelled), but in the PAN-EGHV block the labels are inverted (see the note on what was not entered). This entry =
+    7484 (EB5P B1, sense) + 7424 (EB5P A2, antisense), Table 2 column 2A, the long second-round inner pair (the paper: ''two
+    alternative second-round primer pairs'', 480 bp and 230 bp; this is the 480 one, which restores the standard Codehops
+    region). 7424 binds 27 nt inside 7483 (HM060764: 7424 at 413-434, 7483 at 440-461). The alternative 230-bp pair is the
+    separate round2B entry. HOW MEASURED. Every record the target.query returns was screened (all of them, not a sample; retrieved
+    2026-10-06 with NCBI esearch/efetch, min length 100 bp as in config.yaml) with assaywatch.screen. Whether a record SPANS
+    the amplicon was decided independently of the screener: each record was mapped with blastn to complete reference genome(s)
+    of the target species, the primer-to-primer interval was taken from the screen of the reference genome, and a record counts
+    as spanning when its alignment covers that whole interval, both primer sites included (4 nt end slack for BLAST end trimming).
+    Most GenBank EEHV POL deposits are the sequence BETWEEN the amplification primers, so one or both primer sites are absent:
+    those records give no_amplicon because the site is missing, not because the primer fails, and are excluded from the detected
+    share. Spanning counts include RefSeq NC_ copies of GenBank genomes (NC_020474, NC_024696, NC_028379, NC_077039), so the
+    number of independent sequences is a few lower. RESULT. 20 records retrieved; calls over all of them {''detect'': 14,
+    ''no_amplicon'': 6}. Spanning records: 14; calls among spanning {''detect'': 14}; by species EEHV5 {''detect'': 14}. Product
+    sizes among spanning records: 423 bp x14. SIZE. Table 2 prints 480 bp. Measured 423 bp on every spanning record including
+    the paper''s own HM060764 (7484 at 12-33 to 7424 at 413-434, direct). The paper''s figure is 57 bp too long. amplicon_bp
+    is 423. All 14 spanning records detect. SCOPE. EEHV5 only; same species-restricted query (20 records). Not entered: the
+    third-round pair 7485/7424 (Table 2 column 3A, 210 bp stated; measured 179 bp on 18 of 20 records, all detect). It adds
+    nothing the two round-2 pairs do not cover and can be added on request. The PAN-EGHV/EGHV2/EGHV3 block of Table 2 (6784,
+    6785, 6786, 6787, 6788, 7486, 7489) was not entered; the reasons are in the note of the panEEHV_round1 entry.'
+needs_review: null

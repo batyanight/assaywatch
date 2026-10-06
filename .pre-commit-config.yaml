@@ -12,7 +12,7 @@ repos:
     hooks:
       - id: validate-registry
         name: validate registry YAML
-        entry: python -m assaywatch.validate registry
+        entry: /opt/homebrew/Caskroom/miniforge/base/envs/assaywatch/bin/python -m assaywatch.validate registry
         language: system
         pass_filenames: false
         files: ^registry/.*\.yaml$
@@ -22,7 +22,7 @@ repos:
         # the paper is Sigrist et al.; it was caught by luck, so it is a gate now.
         # Runs against the committed Crossref cache, so it needs no network.
         name: citations match Crossref
-        entry: python scripts/check_citations.py --quiet
+        entry: /opt/homebrew/Caskroom/miniforge/base/envs/assaywatch/bin/python scripts/check_citations.py --quiet
         language: system
         pass_filenames: false
         files: ^(registry/.*\.yaml|docs/papers-index\.cache\.json)$

@@ -1,0 +1,67 @@
+id: VIBRIO_coralliilyticus_vcpA_Wilson_2013
+name: VIBRIO CORALLIILYTICUS — vcpA SYBR Green qPCR (Wilson 2013)
+target:
+  taxid: 190893
+  gene: vcpA
+  genome_type: dsDNA
+  taxon_name: Vibrio coralliilyticus
+  query: vcpA[All Fields] OR vtpA[All Fields] OR "complete genome"[Title] OR "chromosome"[Title]
+chemistry: sybr
+oligos:
+  forward:
+    name: vcpARTF
+    seq: AGCTACGACTGCCGCCCTTAC
+  reverse:
+    name: vcpARTR
+    seq: GGAGCCCTTTCACTTACGATGTTG
+  alternates: []
+amplicon_bp: 166
+citation:
+  doi: 10.1371/journal.pone.0081800
+  design_year: 2013
+  n_sequences_at_design: null
+  as_written: null
+  reference: Wilson, B., Muirhead, A., Bazanella, M., Huete-Stauffer, C., Vezzulli, L. & Bourne, D. G. An Improved Detection
+    and Quantification Method for the Coral Pathogen Vibrio coralliilyticus. PLoS ONE 8, e81800 (2013).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s Methods (''PCR primer development''), read from the text layer of papers/10.1371_journal.pone.0081800.pdf
+    (a born-digital PLOS PDF, no OCR damage). THE PAPER HAS TWO PRIMER PAIRS ON THE SAME GENE, vcpA (the Type I zinc metalloprotease
+    implicated in virulence), and they are two separate registry entries: a conventional PCR pair that amplifies the whole
+    ORF (vcpAF/vcpAR, about 1.8 kb; CITED FROM EARLIER WORK, not designed here) and a SYBR Green real-time pair (vcpARTF/vcpARTR,
+    166 bp; designed here with Lasergene Primer Select). The paper''s other method, the dnaJ TaqMan assay of Pollock et al.
+    2010, is a different paper and a different target; see the notes of the dnaJ entry or the lead''s report. MEASURED on
+    the complete NCBI Datasets census of Vibrio coralliilyticus (txid190893), downloaded 2026-10-06: 101 assembly accessions
+    = 54 distinct assemblies once the paired GenBank (GCA) and RefSeq (GCF) copies are collapsed (14 complete genome, 4 chromosome,
+    8 scaffold, 28 contig level; 7,604 sequences), plus the 16 complete vcpA/vtpA CDS records in GenBank (JQ345033-JQ345046
+    from this paper, GQ452012, MH794510 VtpA; each 1,824 bp) and 2 partial vcpA records (OL321784/OL321785). Assemblies were
+    screened as a whole; the unit below is the distinct assembly, not the contig. THIS ENTRY: vcpARTF (5''-AGCTACGACTGCCGCCCTTAC-3'')
+    and vcpARTR (5''-GGAGCCCTTTCACTTACGATGTTG-3''), run on cDNA and plasmid standards in the paper (Rotor-Gene SYBR Green,
+    60 C annealing), 166 bp stated. oligos_designed_here is true: the paper says it chose these with Lasergene Primer Select
+    and checked specificity in silico. RESULT: 53 of 54 distinct assemblies give a product with both primers essentially exact
+    (calls ''detect''), 1 gives a ''fail'' (SCSIO 43001, a spurious 161 bp product with 4 forward-primer and 5 reverse-primer
+    mismatches: its closest vcpA-like sequence shares only about 12% of the P1 vcpA 25-mers sampled, against 66-73% in OCN008
+    and Rb102, so the primers have no good site there; this is an in-silico observation, not a wet result). PRODUCT SIZE IS
+    NOT ONE VALUE: 166 bp in 38 assemblies (the paper''s figure and the mode), 165 bp in 10, 163 bp in 3 (including ATCC 19105)
+    and 167 bp in 2 (S2052, S2043). The variation is in the 3'' flank: the reverse primer''s site is NOT inside the ORF but
+    entirely downstream of the stop codon (in OCN008 the site starts 9 nt after the stop; RTF sits at CDS nt 1693 of 1824
+    and the product ends 34 nt past the stop), so the paper''s amplicon includes 3'' flanking sequence; all 16 complete 1,824
+    bp CDS records are called no_amplicon (truncated) for exactly this reason, because the record ends at the stop codon before
+    the reverse site, and are not primer failures. The paper itself reports a different melt peak for BH6, C1, C2 and TAV24,
+    consistent with sequence variation under the amplicon. amplicon_bp 166 is the paper''s figure and the measured mode. SCOPE:
+    this is a vcpA-gene assay, not a species assay. The paper shows the same vcpA in V. tubiashii ATCC 19105 and RE22; NCBI
+    now files both under V. coralliilyticus and both are detected here, so inside txid190893 the pair is near-universal (53/54
+    assemblies). It says nothing about other Vibrio carrying a related metalloprotease outside this taxon. A SYBR assay has
+    no probe, so the amplicon identity is not checked by sequence.'
+needs_review: null

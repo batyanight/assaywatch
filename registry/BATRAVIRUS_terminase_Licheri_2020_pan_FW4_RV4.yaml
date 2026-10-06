@@ -1,0 +1,70 @@
+id: BATRAVIRUS_terminase_Licheri_2020_pan_FW4_RV4
+name: BATRACHOVIRUS (amphibian herpesviruses) — terminase consensus PCR, panbatrachovirus protocol (Licheri 2020)
+target:
+  taxid: 3044671
+  gene: DNA packaging terminase
+  genome_type: dsDNA
+  taxon_name: Batravirus (formerly Batrachovirus)
+  query: terminase[All Fields] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: EUPB-FW-4
+    seq: GTRCARGCTCAYMGWAAMVMBACRTG
+  reverse:
+    name: EUPB-RV-4
+    seq: GVWCCVGARGGYAHRAAATG
+  alternates: []
+amplicon_bp: 200
+citation:
+  doi: 10.1177/1040638720951134
+  design_year: 2020
+  n_sequences_at_design: 4
+  as_written: null
+  reference: Licheri M, Origgi FC. Consensus PCR protocols for the detection of amphibian herpesviruses (Batrachovirus). Journal
+    of Veterinary Diagnostic Investigation 2020, 32(6):864-872.
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from Licheri & Origgi 2020 (papers/10.1177_1040638720951134.pdf), Table 1, a text table;
+    sequences were also checked by eye on a 220 dpi rendering (bold substitution marks included) and are identical to the
+    extracted text. The paper runs a primer-optimisation series (Table 3, ten pair combinations) and recommends two protocols:
+    the European batrachovirus protocol EUPB-FW-2/EUPB-RV-1 (entry _european_FW2_RV1) and the panbatrachovirus protocol EUPB-FW-4/EUPB-RV-4
+    (entry _pan_FW4_RV4). Designed in this paper. NOT entered: the other Table 3 combinations (development intermediates:
+    FW-1/-3 with RV-1/-2/-3 etc.), the semi-nested format (EUPB-FW plus the internal reverse primer SN-RV-1; the paper found
+    no sensitivity gain and dropped it), and the positive-control and chimeric RaHV-1/RaHV-2 cloning primers (not detection
+    primers; they carry RaHV-3 backbone sequence). Target: a 200-bp region of the DNA packaging terminase gene (ORF53 in RaHV-3,
+    ORF39 in BfHV-1 per the paper). MEASURED on every Batravirus record in GenBank (txid3044671, which NCBI now names Batravirus,
+    formerly Batrachovirus; retrieved 2026-10-06, 17 records, all of them): the four complete genomes the paper names (DQ665917
+    RaHV-1, DQ665652 RaHV-2, KX832224 RaHV-3, MF143550 BfHV-1) plus their four RefSeq copies (NC_008211, NC_008210, NC_034618,
+    NC_040681) = 8 spanning records for 4 distinct viruses. The amplicon is 200 bp in all four, exactly the paper''s 200,
+    and the oligos sit where the paper says: RaHV-3 forward 70,708-70,733 and reverse 70,888-70,907; BfHV-1 50,454-50,653
+    (that record is deposited in the opposite orientation to the others, so the forward primer matches its minus strand);
+    RaHV-1 153,618-153,817; RaHV-2 162,581-162,780. The other 9 records (MG800826, MT975973, PV005823-PV005829; 90-1550 bp,
+    the PV records flagged UNVERIFIED) are short fragments of other loci (the PV records map by exact 20-mer match to ~65.8
+    kb of MF143550, MG800826 to ~99.0 kb of KX832224, and MT975973 is titled a polymerase gene fragment; the terminase amplicon
+    is at ~50.5 kb in MF143550 and ~70.7 kb in KX832224) and none contains the amplicon; their no_amplicon calls are coverage,
+    not primer failure, and are excluded from the detected share. Typos in the paper''s own coordinates, for the record: the
+    RaHV-1 reverse primer is printed as 153,617-153,598 but is at 153,798-153,817 (the paper gives the amplicon as 153,618-153,817
+    elsewhere); SN-RV-1 on BfHV-1 is printed 50,557-50,536 but measured 50,550-50,571 (the RaHV-3 position, 70,790-70,811,
+    is right). Neither affects these two entries. SCOPE: both protocols are single-locus consensus assays on the genus; the
+    dsDNA terminase is the only amplicon. THIS ENTRY: EUPB-FW-4 (26 nt) + EUPB-RV-4 (20 nt), both heavily degenerate (FW-4
+    differs from FW-1 at 7 positions and RV-4 from RV-1 at 5, counted from Table 1), the paper''s panbatrachovirus protocol.
+    RESULT: RaHV-3 detect (penalties 0, 0), BfHV-1 detect (0, 0), RaHV-1 ''reduced'' (FW-4 2 mismatches, RV-4 1; penalties
+    1 and 1), RaHV-2 ''reduced'' (FW-4 3 mismatches, RV-4 1; penalties 1.5 and 1): 4 of 4 distinct viruses give a 200-bp product,
+    2 detect and 2 reduced. That matches the paper''s ordering: LOD 10^3 copies for RaHV-1, RaHV-3 and BfHV-1 and 10^4 for
+    RaHV-2, i.e. it amplifies all four but is less sensitive than the European pair on RaHV-3 and BfHV-1. The scope here is
+    the whole genus, which is what the paper designed it for. Only four batrachovirus genomes exist in GenBank, so ''all known
+    batrachoviruses'' is four sequences; the screen is a mismatch count against those four, not a coverage estimate.'
+needs_review: null

@@ -1,0 +1,81 @@
+id: AVIPOXVIRUS_dsDNA_4b_core_Baek_2020
+name: AVIPOXVIRUS (dsDNA) — hummingbird 4b core protein TaqMan MGB (Baek 2020)
+target:
+  taxid: 10260
+  gene: 4b core protein
+  genome_type: dsDNA
+  taxon_name: Avipoxvirus
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: vAAPV-124f
+    seq: ACGTCAACTCATGACTGGCAAT
+  reverse:
+    name: vAAPV-246r
+    seq: TCTCATAACTCGAATAAGATCTTGTATCG
+  probe:
+    name: vAAPV-159p
+    seq: AGACGCAGACGCTATA
+    reporter: FAM
+    quencher: NFQ-MGB
+  alternates: []
+amplicon_bp: 123
+citation:
+  doi: 10.1371/journal.pone.0230701
+  design_year: 2020
+  n_sequences_at_design: 1
+  as_written: null
+  reference: Baek HE, Bandivadekar RR, Pandit P, Mah M, Sehgal RNM, Tell LA. TaqMan quantitative real-time PCR for detecting
+    Avipoxvirus DNA in various sample types from hummingbirds. PLoS ONE 15(6):e0230701 (2020).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Methods text (papers/10.1371_journal.pone.0230701.pdf, section ''Real-time
+    PCR assay development, validation, and sample analysis''; text layer clean). READ: vAAPV-124f (22 nt), vAAPV-246r (29
+    nt) and vAAPV-159p (16 nt, FAM 5'', NFQ-MGB 3''; chemistry mgb). The paper states the assay was designed on GenBank JX418296.1
+    with Primer Express, and gives a 123 bp amplicon. NOT THE SAME ASSAY AS THE EXISTING AVIPOX ENTRY: AVIPOXVIRUS_dsDNA_4b_core_Farias_2010
+    targets the same 4b core protein gene but with different oligos (no 15-mer overlap between any of the six oligos, checked
+    against the whole registry) and a 250 bp product. This one was designed for the avian pox found in hummingbirds, which
+    the paper says is distinct from the Hawaiian canarypox-like strain Farias targeted. VERIFIED AGAINST THE PAPER''S DESIGN
+    ACCESSION: JX418296.1 (Avipoxvirus 31239 4b virion core protein gene, 575 bp) fetched; forward, probe and reverse all
+    sit on it with zero mismatches, forward 119-140, probe 154-169, reverse ending at 241 (1-based), product 123 bp, exactly
+    the paper''s figure. The oligo names carry 124, 159 and 246, which is a uniform offset of 5 from JX418296.1''s own numbering
+    (fwd-to-probe spacing 35 and product 123 agree), so the names use another numbering and nothing is mistyped. The paper''s
+    own deposit MT332851.1 (Avipoxvirus 1130, which the paper says differs from the common hummingbird sequence by 3 bp) also
+    detects with zero primer and probe penalty and a 123 bp product. MEASURED against ALL 1,092 GenBank Avipoxvirus (txid10260)
+    records whose title says 4b, P4b, core protein or virion core protein (query: txid10260[Organism:exp] AND ("4b core protein"[Title]
+    OR 4b[Title] OR "virion core protein"[Title] OR P4b[Title] OR "core protein"[Title]); every record, not a sample, fetched
+    2026-10-06) plus all 65 Avipoxvirus records of 50-400 kb. 4b set: 3 detect, 688 fail, 401 no_amplicon. 691 records give
+    a product, and 688 of them are exactly 123 bp (two at 114, one at 124), so amplicon_bp 123 is both the paper''s number
+    and the measured mode. Probe site present in all 3 detect calls. THE THREE DETECTS ARE ALL HUMMINGBIRD POX: JX418296.1,
+    MT332851.1 and ON568596.1 (Avipoxvirus sp. isolate 10, host Calypte anna, San Diego Zoo, 2017 collection). THE OTHER 688
+    PRODUCT-BEARING RECORDS FAIL, BY DESIGN, NOT BY DRIFT: fowlpox, turkeypox, pigeonpox and the rest of the genus carry 1-3
+    mismatches in each oligo (the commonest pattern, 436 of the forward sites and 424 of the reverse sites, is two mismatches
+    in the forward primer, three in the reverse and one in the probe), which sums to 4.5 against the 3.0 fail line; only 4
+    of the 688 fail at or below 4.0. A strided 273-record subsample (every 4th) happened to contain none of the three hummingbird
+    records and gave 0 detect, 165 fail, 108 no_amplicon, which is why the full set was screened. The 65 large records (fowlpox
+    and other genomes, some patent sequences) give 52 products, all 123 bp and all fail with the same mismatch pattern, and
+    13 no_amplicon. no_amplicon (401 in the 4b set): 338 ''diverged'' (no reverse site within 6 mismatches) and 45 no site
+    at all, from the more distant avipoxviruses and from other regions of the genome, and 18 truncated; with a median length
+    of 538 bp most of these do span the region and are genuinely too divergent, so they are not a coverage artefact the way
+    partial deposits are in other entries. Reciprocally, the Farias 2010 primers give no product on JX418296.1 or MT332851.1,
+    so the two avipox assays are complementary and neither covers the other''s clade. SCOPE, FLAGGED AND NOT RESOLVED: this
+    is a hummingbird-clade assay and taxid 10260 is the whole genus, so the tool will report 3 of 1,092 4b records as detected
+    for an assay that works as designed; do not read that as assay failure. It needs lineage scoping before its share means
+    anything, and there is no GenBank taxon for the hummingbird clade (the design record sits under the strain-level node
+    1333866). The paper''s validation data (27 hummingbirds, 228 samples, 95% positive) is its own and was not re-checked.
+    The paper''s conventional PCR uses the primers of an earlier paper (its ref 4), which are not printed here and are not
+    entered.'
+needs_review:
+- SCOPE_HUMMINGBIRD_AVIPOX_CLADE_ONLY_3_OF_1092_GENUS_RECORDS_DETECT

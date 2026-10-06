@@ -1,0 +1,62 @@
+id: ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997
+name: ORTHOPOXVIRUS (dsDNA) — A-type inclusion body (ATI) gene consensus PCR, species by amplicon size (Meyer 1997)
+target:
+  taxid: 10242
+  gene: ATI (A-type inclusion body protein)
+  genome_type: dsDNA
+  taxon_name: Orthopoxvirus
+  query: null
+chemistry: conventional
+oligos:
+  forward:
+    name: ATI-up-1
+    seq: AATACAAGGAGGATCT
+  reverse:
+    name: ATI-low-1
+    seq: CTTAACTTTTTCTTTCTC
+  alternates: []
+amplicon_bp: null
+citation:
+  doi: 10.1016/S0166-0934(96)02155-6
+  design_year: 1996
+  n_sequences_at_design: null
+  as_written: null
+  reference: Meyer H, Ropp SL, Esposito JJ. Gene for A-type inclusion body protein is useful for a polymerase chain reaction
+    assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).
+  doi_verified: true
+  oligos_designed_here: null
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06. WHAT THE PAPER IS (the index had no title): Meyer H, Ropp SL, Esposito JJ, J Virol Methods
+    64:217-221 (1997), accepted 25 Oct 1996, ''Gene for A-type inclusion body protein is useful for a polymerase chain reaction
+    assay to differentiate orthopoxviruses''. DOI: the paper prints its PII as S0166-0934(96)02155-6, which is DOI 10.1016/S0166-0934(96)02155-6;
+    doi_verified stays false for the resolver. READ: papers/10.1016_s0166-0934_96_02155-6.pdf is a scan with an OCR text layer.
+    The page carrying the primers (page 3) was rendered at 200 dpi and read by eye: ATI-up-1 5''-AATACAAGGAGGATCT-3'' (16
+    nt) and ATI-low-1 5''-CTTAACTTTTTCTTTCTC-3'' (18 nt). The cycling is 25 cycles with 40 °C annealing, a low-stringency
+    consensus pair; oligos_designed_here is null (the paper extends Meyer et al. 1994 but does not say the oligos were first
+    published there). DIFFERENTIATION ASSAY: one consensus pair across the genus, with product LENGTH (and an XbaI digest)
+    identifying the species. MEASURED AMPLICON SIZES BY SPECIES (GenBank records, 2026-10-06): volepox 542 bp; skunkpox 551
+    bp; ectromelia 1220 bp; camelpox 879 bp; variola 1576–1583 bp; monkeypox 1067 bp (clade I) or 1533–1545 bp (clade IIb,
+    mode 1538 bp); vaccinia 1594–1606 bp; cowpox 1673 bp. APPROXIMATE RANGE: 540–1700 bp. The paper''s stated sizes differed
+    by 1–32 bp from measured values for several species (unresolved whether paper error, gel sizing, or isolate-specific).
+    Measured on: every GenBank Orthopoxvirus (txid10242) genome 100–400 kb (542 non-monkeypox records), plus 162 monkeypox
+    strided every 80th, plus 155 ATI-titled records. Non-monkeypox genomes: 410 detect, 79 reduced, 48 fail, 5 no_amplicon
+    (75.6% detect among spanning). Monkeypox: 157 detect of 162 (96.9%). Why non-detects in monkeypox and variola: consensus
+    pair has obligate mismatches in some lineages; pipeline rules score them as reduced or fail. NO REGISTRY OVERLAP: no 15
+    nt window of either primer occurs in existing poxvirus entries. SCOPE: genus-wide; interpret results by species, not by
+    genus-wide share.'
+needs_review:
+- AMPLICON_SPECIES_DEPENDENT_510_TO_1700_NO_SINGLE_VALUE_AMPLICON_BP_NULL
+- DIFFERENTIATION_ASSAY_SIZE_AND_XBAI_DIGEST_NOT_SCREENABLE
+- PAPER_SIZES_NOT_REPRODUCED_MONKEYPOX_1500_VOLEPOX_510_SKUNKPOX_530
+- PRIMER_ORIGIN_MEYER_1994_NOT_ESTABLISHED

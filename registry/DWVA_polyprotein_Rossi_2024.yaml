@@ -1,0 +1,77 @@
+id: DWVA_polyprotein_Rossi_2024
+name: DEFORMED WING VIRUS A — polyprotein gene RT-qPCR, MGB probe (Rossi 2024)
+target:
+  taxid: 2951794
+  gene: polyprotein gene
+  genome_type: ssRNA+
+  taxon_name: Deformed wing virus A
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: DWVAF
+    seq: CTTTGTCTTCATTAAAGCCAC
+  reverse:
+    name: DWVAR
+    seq: CTCATTAACTGTGTCGTTGAT
+  probe:
+    name: DWVAP
+    seq: TGCGTGGAATGCGTCC
+    reporter: FAM
+    quencher: MGBEQ
+  alternates: []
+amplicon_bp: 139
+citation:
+  doi: 10.3390/microorganisms12061105
+  design_year: 2024
+  n_sequences_at_design: 110
+  as_written: null
+  reference: Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative
+    PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
+  doi_verified: true
+  oligos_designed_here: null
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Oligos read from Table 1 of the paper (PDF page 5): the text layer and the page rendered at 200 dpi and
+    read by eye agree. The paper''s Tenebrio molitor RNA extraction control oligos (TeneF/TeneR/TeneP, taken from Koppel et
+    al. per the paper) are an exogenous control, not honeybee virus targets, and are deliberately excluded from all six honeybee
+    virus entries made from this paper; its synthetic RNA calibrators carry no oligos. The paper tests the six assays singly
+    and as duplexes (ABPV/BQCV, DWVA/DWVB, CBPV/SBV; also BQCV/DWVA and ABPV/DWVB); each virus is its own entry here. One-step
+    RT-qPCR, 50 C 15 min RT, 95 C 2 min, 50 cycles of 95 C 15 s / 54 C 30 s, 0.2 uM each primer and probe. Screened with assaywatch.screen
+    on 2026-10-06 against GenBank records fetched by esearch/efetch the same day. ''Spanning'' below means a record that gives
+    a product, or that the tool labels diverged or chance-only, or that the tool labels no_site but whose sequence still carries
+    the cited reference amplicon region (an 11-mer chain covering at least 80% of it); records the tool labels truncated (they
+    end inside a primer window) are not counted as spanning. DESIGN: MIXED. The paper states the reverse primers for both
+    DWV variants are the same as Kevill et al. (ref 38), while the forward primers and probes were newly designed for each
+    variant (Table 1 ''This study [38]''; alignment of 110 sequences). DWVAR is therefore Kevill''s oligo, DWVAF and DWVAP
+    are this paper''s. Kevill''s paper was not available locally; oligos_designed_here left null and flagged. VERIFIED against
+    the cited accession OR497397.1 (Deformed wing virus A isolate 9-2-G_A polyprotein gene, partial cds, 10,124 nt): DWVAF
+    8636-8656, probe DWVAP 8720-8735, DWVAR 8754-8774, all 0 mismatches; product 139 bp = the paper''s span 8636-8774 exactly.
+    MEASURED. The taxon is the NCBI node ''Deformed wing virus A'' (txid2951794). Because most DWV records carry no A/B label,
+    the assay was screened against 1,970 records: ALL 223 records labelled A (txid2951794), ALL 737 labelled B (txid2498590),
+    and a 1,200-record strided sample (every ~5th id) of the 6,052 records of the species Iflavirus aladeformis (txid3047792),
+    de-duplicated. Product length is 139 bp in 278 of 281 products (140 bp twice, 142 bp once), probe site present in 281
+    of 281, so amplicon_bp 139 is measured and equals the paper''s. RESULT BY LABEL, among records that span the site (A-labelled
+    68 of 223, B-labelled 58 of 737, unlabelled records 155 of 1,010; the rest are partial deposits too short or ending inside
+    a primer window): A-labelled: detect 39, reduced 7, fail 22 -> detect 57.4%, detect+reduced 67.6%. B-labelled: detect
+    2, fail 56. Unlabelled: detect 82, reduced 12, fail 60, indeterminate 1. All 281 spanning records together: detect 123
+    (43.8%), detect+reduced 142 (50.5%). The A-labelled fails are mostly a reverse-primer penalty (DWVAR mismatches within
+    4 nt of its 3'' end). SCOPE / READ THIS: the variants are the same ICTV species and about 89% identical, and the paper
+    found by experiment that each test also gives signal from the other variant''s template (an apparent cross-reaction it
+    says was not foreseen from its BLASTN check). In silico the tool scores the B-labelled records as fail for this assay
+    (primer penalty above its limit), which is not the same as no signal in the wet lab. About 80% of DWV records carry no
+    A/B label, so a variant-node taxid retrieves only the labelled minority; whether to scope by label or by species is a
+    lead decision (flag VARIANT_SCOPE). Kakugo virus is matched by this test per the paper.'
+needs_review:
+- DESIGN_PROVENANCE_MIXED
+- VARIANT_SCOPE

@@ -1,0 +1,73 @@
+id: PROBOSCIVIRUS_POL_Latimer_2010_EEHV5_round1
+name: EEHV5 — DNA polymerase, EEHV5-specific nested PCR round 1 (Latimer 2010)
+target:
+  taxid: 548689
+  gene: DNA polymerase (U38/POL)
+  genome_type: dsDNA
+  taxon_name: Elephant endotheliotropic herpesvirus 5
+  query: (txid768738[Organism:exp] OR txid3050275[Organism:exp]) AND ("DNA polymerase"[Title] OR U38[Gene] OR POL[Gene] OR
+    "complete genome"[Title] OR "partial genome"[Title])
+chemistry: conventional
+oligos:
+  forward:
+    name: EB5P B1 (7484)
+    seq: GTACCTTAGTTACGGACGAGAC
+  reverse:
+    name: EB5P A1 (7483)
+    seq: CTACATCTATACAGAACTTTCC
+  alternates: []
+amplicon_bp: 450
+citation:
+  doi: 10.1016/j.vetmic.2010.05.042
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: 'Latimer E, Zong JC, Heaggans SY, Richman LK, Hayward GS. Detection and Evaluation of Novel Herpesviruses in
+    Routine and Pathological Samples from Asian and African Elephants: Identification of Two New Probosciviruses (EEHV5 and
+    EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).'
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: round1
+  notes: null
+  notes_curator: 'Added 2026-10-06 from Latimer et al. (papers/10.1016_j.vetmic.2010.05.042.pdf). Oligos read from Table 2,
+    a text table printed sideways on page 24; sequences, L/R labels and pairing columns were checked by eye on a 220 dpi rendering
+    of that page (pymupdf) and agree with the extracted text for every oligo used here. Table 2 lists 21 rows but 19 distinct
+    oligos (6784 and 6785 each appear in two blocks). Designed in this paper (Methods: six new sets of EEHV DNA POL primers
+    designed for these studies). Not designed here, not in Table 2, not entered: the CODEHOPS pan-herpes set 2595/2596/2597
+    and the EEHV3 TER set 6707/6708/6727/6728, both credited to Garner et al. 2009. ORIENTATION was established by locating
+    each oligo on GenBank records, not by trusting the table''s L/R column: in the EEHV blocks L is sense and R is antisense
+    (as labelled), but in the PAN-EGHV block the labels are inverted (see the note on what was not entered). This entry =
+    7484 (EB5P B1, sense) + 7483 (EB5P A1, antisense), Table 2 column 1A, first round of the EEHV5-specific set 7483/7484/7424/7485
+    designed after EEHV5 was found with the pan primers. Verified on the paper''s own accession HM060764 (EEHV5 NAP28, 463
+    bp): 7484 at 12-33 and 7483 at 440-461, both 0 mismatches. HOW MEASURED. Every record the target.query returns was screened
+    (all of them, not a sample; retrieved 2026-10-06 with NCBI esearch/efetch, min length 100 bp as in config.yaml) with assaywatch.screen.
+    Whether a record SPANS the amplicon was decided independently of the screener: each record was mapped with blastn to complete
+    reference genome(s) of the target species, the primer-to-primer interval was taken from the screen of the reference genome,
+    and a record counts as spanning when its alignment covers that whole interval, both primer sites included (4 nt end slack
+    for BLAST end trimming). Most GenBank EEHV POL deposits are the sequence BETWEEN the amplification primers, so one or
+    both primer sites are absent: those records give no_amplicon because the site is missing, not because the primer fails,
+    and are excluded from the detected share. Spanning counts include RefSeq NC_ copies of GenBank genomes (NC_020474, NC_024696,
+    NC_028379, NC_077039), so the number of independent sequences is a few lower. RESULT. 20 records retrieved; calls over
+    all of them {''detect'': 9, ''no_amplicon'': 11}. Spanning records: 9; calls among spanning {''detect'': 9}; by species
+    EEHV5 {''detect'': 9}. Product sizes among spanning records: 450 bp x9. SIZE. Table 2 prints 500 bp. Measured 450 bp on
+    every spanning record, including the paper''s own accession HM060764 (the record spans 7484 to 7483 completely, so this
+    is a direct measurement, not an extrapolation). The paper''s figure is 50 bp too long. The paper''s text also says the
+    two products combine into a 499-bp sequence, but the deposited record is 463 bp and the primer geometry on it gives at
+    most 450 bp from 7484 to 7483; the stated sizes for this primer set are not consistent with the primers'' own positions.
+    amplicon_bp is 450. All 9 spanning records detect with penalty 0-1 (one primer has 1 mismatch on the EEHV5B genomes).
+    SCOPE. EEHV5 only (EEHV5, 5A, 5B and the ICTV-renamed ''Proboscivirus elephantidbeta5''). target.taxid is the genus; the
+    species restriction is in target.query (taxids 768738, 3050275), which returns exactly the 20 records screened. The paper
+    reports this set was designed because EEHV5 was low-abundance and hard to detect with the pan primers. The PAN-EGHV/EGHV2/EGHV3
+    block of Table 2 (6784, 6785, 6786, 6787, 6788, 7486, 7489) was not entered; the reasons are in the note of the panEEHV_round1
+    entry.'
+needs_review: null

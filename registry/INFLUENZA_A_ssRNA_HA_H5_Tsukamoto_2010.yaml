@@ -1,0 +1,86 @@
+id: INFLUENZA_A_ssRNA_HA_H5_Tsukamoto_2010
+name: Influenza A virus H5 subtype — hemagglutinin gene rRT-PCR (Tsukamoto 2010)
+target:
+  taxid: 11320
+  gene: HA (hemagglutinin), H5
+  genome_type: ssRNA-
+  taxon_name: Influenza A virus
+  query: (txid102793[Organism:exp] OR txid119220[Organism:exp] OR txid119221[Organism:exp] OR txid329376[Organism:exp] OR
+    txid232441[Organism:exp] OR txid140020[Organism:exp] OR txid465975[Organism:exp]) AND (hemagglutinin[Title] OR "segment
+    4"[Title] OR HA[Gene])
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: H5-918F
+    seq: CCARTRGGKGCKATAAAYTC
+  reverse:
+    name: H5-1166R
+    seq: GTCTGCAGCRTAYCCACTYC
+  probe:
+    name: H5-Probe
+    seq: ACCATKCCYTGCCAYCCYCCYTCT
+    reporter: FAM
+    quencher: BHQ
+  alternates: []
+amplicon_bp: 261
+citation:
+  doi: 10.1128/JCM.01264-10
+  design_year: 2010
+  n_sequences_at_design: 1439
+  as_written: null
+  reference: Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of diverse
+    H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer and probe
+    sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.1128_JCM.01264-10.pdf; the text layer is clean,
+    no image reading was needed). READ: H5-918F, H5-1166R and H5-Probe (FAM 5'', BHQ 3''; the paper says only BHQ, no number).
+    Transcription cross-check: the number of mixed bases in each oligo as entered (5, 3, 5) equals the paper''s own ''No.
+    of mixed bases'' column. The paper states a 249 bp product and built the set on 1,439 H5 genes from the Influenza Virus
+    Resource plus 24 H5 genes AB558456-AB558479; the primers are modified from the same lab''s earlier H5 primers (Tsukamoto
+    2008, J Clin Microbiol 46:3048, the paper''s ref 9), and the redesign with mixed bases is this paper''s, so oligos_designed_here
+    is true. The probe is anti-sense: in every product the screener finds it on the minus strand between the primers. VERIFIED
+    ON THE PAPER''S OWN DESIGN ACCESSIONS: all 24 of AB558456-AB558479 were fetched and screened; every one gives a product
+    (21 at 249 bp, 2 at 255, 1 at 252, the longer ones being cleavage-site insertions), the forward site at 889-908 (1-based)
+    in 23 of 24; calls 16 detect, 5 reduced, 3 fail. The paper reports that all 50 H5 genes it tested were detected, so those
+    three fails mean the pipeline''s penalty rule (summed penalty above 3.0 = fail, config.yaml) is stricter than the bench,
+    not that a primer is mistyped. MEASURED on a STRIDED sample of GenBank H5 hemagglutinin records (every 28th of 8,492 uids,
+    304 records fetched 2026-10-06; query = the seven H5Nx serotype taxids 102793, 119220, 119221, 329376, 232441, 140020,
+    465975 AND (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])). Calls: detect 228, reduced 26, fail 20, no_amplicon
+    30. All 30 no_amplicon are partial deposits of at most 1,110 bp that end before the reverse site, and none of the 267
+    records longer than 1,180 bp is no_amplicon, so no_amplicon here is coverage and not primer failure. Among the 274 records
+    that carry a product: 83.2% detect, 92.7% detect or reduced, 7.3% fail. Probe site present inside the product in all 254
+    detect/reduced calls. By subtype (records with a product): H5N1 201 (176 detect, 14 reduced, 11 fail), H5N2 45 (26/10/9),
+    H5N3 6 (5 detect), H5N6 11 (10 detect), H5N8 9 (all detect), H5N5 1, H5N9 1. By period (same records): up to 2004 98%
+    detect or reduced, 2005-2009 95%, 2010-2014 83%, 2015 onward 100% (n=34, no fails). The 20 fails sit in two places. Ten
+    are H5N1 from Vietnam and Cambodia, 2010-2013, each with one mismatch at reverse-primer base 16 (fifth from its 3'' end,
+    penalty 3.0) plus one at probe base 6 (penalty 1), which together tip a pair that would otherwise be ''reduced'' into
+    ''fail''. Most of the rest are Mexican-lineage H5N2 with a mismatch at reverse-primer base 19 (second from the 3'' end)
+    plus forward-primer mismatches. So these are two clade-specific weak spots and not general decay. AMPLICON_BP: the paper''s
+    249 is one of three real lengths and is not the mode. Product lengths among 274: 261 bp in 126, 258 bp in 96, 249 bp in
+    50, one each at 255 and 270. The primers flank the HA0 cleavage site and its length sets the product: translating every
+    product shows 249 bp = monobasic low-pathogenicity sites (PQRETR and relatives; 33 of the 50 are PQRETR), 258 bp = PQRERRRKR,
+    261 bp = PQ(G/R)ERRRKKR and relatives, the multibasic sites of the highly pathogenic Goose/Guangdong lineage. GenBank
+    H5 is dominated by that lineage, so 261 is the mode of this sample. amplicon_bp is the measured mode, 261, and the flag
+    below records the other two; an LPAI-heavy sample would have 249 as its mode. NOT DONE: the paper''s supplement (Tables
+    S1-S7, wet-lab data on 50 H5 viruses) is not in the PDF, so nothing here tests whether a computed fail amplifies at the
+    bench. SCOPE: H5 only, pan-lineage by design (Eurasian and American); it is screened against H5Nx taxa only because screening
+    it against all influenza A would score every non-H5 HA as a failure. Records filed directly under taxid 11320 with no
+    subtype node, or H5 sequences whose names carry no N type, are not retrieved by this query. The NP and H7 assays from
+    the same paper are separate entries.'
+needs_review:
+- AMPLICON_MULTIMODAL_261_258_249_PAPER_SAYS_249_CLEAVAGE_SITE_INDELS
+- H5_SUBTYPE_TAXID_QUERY_MISSES_UNTYPED_RECORDS

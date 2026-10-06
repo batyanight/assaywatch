@@ -1,0 +1,85 @@
+id: OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023
+name: OPHIDIOMYCES OPHIDIICOLA — genotyping-panel target D, lineage-conserved qPCR locus (Haynes 2023)
+target:
+  taxid: 1387563
+  gene: target D, unannotated genomic segment shared by all six clades/lineages (position in paper's S1 Table, not in PDF)
+  genome_type: dsDNA
+  taxon_name: Ophidiomyces ophidiicola
+  query: '"whole genome shotgun"[Title]'
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: D forward
+    seq: AGCGTTTTGCCCCAGCTA
+  reverse:
+    name: D reverse
+    seq: GCAATGTTGCTCCGCAGTACT
+  probe:
+    name: D probe
+    seq: CTCGACTACGAAATCG
+    reporter: null
+    quencher: null
+  alternates: []
+amplicon_bp: 57
+citation:
+  doi: 10.1371/journal.pone.0289159
+  design_year: 2023
+  n_sequences_at_design: 6
+  as_written: null
+  reference: Haynes E, Lorch J, Allender MC. Development and application of a qPCR-based genotyping assay for Ophidiomyces
+    ophidiicola to investigate the epidemiology of ophidiomycosis. PLoS ONE e0289159 (published 3 August 2023).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Table 2 (papers/10.1371_journal.pone.0289159.pdf, page 4). The page
+    was rendered at 200 dpi and Table 2 and Table 1 were read by eye; the text layer agrees with the image for all 33 sequences.
+    WHAT THE PAPER IS: an 11-locus GENOTYPING PANEL, not a detection assay. Eleven primer-probe sets (targets A-K) were designed
+    on genomic segments (29 areas from a Mauve alignment of six O. ophidiicola genomes) that are shared by only some clades
+    and clonal lineages, so that the pattern of which sets amplify assigns an isolate to a lineage (its Table 1). The paper
+    detected positives with a different, earlier O. ophidiicola assay (its ref 38) and used this panel only afterwards; the
+    other fungal assays it ran were specificity controls for the panel. THE QUESTION PUT TO THIS ENTRY (is the probe allele-specific,
+    does it belong with the Lorch 2023 pair): neither. The probes are not allele-specific, and the registry''s Lorch 2023
+    entry (PARANANNIZZIOPSIS_ITS_Lorch_2023, a Paranannizziopsis ITS assay) is unrelated. WHY ONLY TARGET D IS ENTERED: by
+    Table 1 the other ten targets are absent from some lineages by design (A, C, E-K and B each fail to amplify in a different
+    subset), so entered as presence/absence assays they would report built-in ''fail'' that is lineage typing working as intended.
+    Target D is the one set the paper shows in every one of the six lineages. D is therefore the only member that is meaningful
+    as a presence/absence marker for the species, which is this curator''s reading of Table 1 and not a claim the paper makes:
+    the paper does not offer D as a detection assay and gives no specificity data for D alone. READ: D forward AGCGTTTTGCCCCAGCTA
+    (18), reverse GCAATGTTGCTCCGCAGTACT (21), probe CTCGACTACGAAATCG (16). The paper does not state the probe reporter, quencher
+    or whether it is MGB (''hydrolysis-based Taqman''), so reporter and quencher are null. The target''s genomic position
+    and any gene annotation are in the paper''s S1 Table, which is not in the PDF, so gene is a placeholder. The paper gives
+    no per-target amplicon size, only a 50-100 bp design window. MEASURED: all six design genomes of Table 1 plus nine more
+    strided from the 81 GenBank O. ophidiicola isolate assemblies (every 7th by accession; 15 isolates, about 18% of those
+    deposited; every scaffold of each isolate fetched, 127 MB of FASTA for the six and 192 MB for the nine; fetched 2026-10-06).
+    In 14 of the 15 assemblies D gives one product of exactly 57 bp with zero mismatches in forward, reverse and probe and
+    the probe inside the product. The fifteenth, NWHC 44736-89, is the clonal lineage IIA isolate, and Table 1''s own footnote
+    says D is not found in the IIA genome assembly but is present in the SRA reads; the screener agrees (only chance pairings
+    1-2.8 kb apart with penalties of 3.5 or more, no real site), so the species-wide share against assemblies will read one
+    lineage short for an assembly reason and not a primer reason. amplicon_bp 57 is measured and invariant (the paper states
+    none). CHECK OF THE WHOLE TABLE: screening all 11 sets against the six design genomes reproduces the paper''s Table 1
+    presence/absence pattern in 65 of 66 cells (the one exception is D in IIA, above). That is strong evidence that the transcription
+    of sets A-K is right, and it assigns the genomes to lineages: NWHC 45707-83 is clade I, 44736-89 is IIA, 44736-83 is IID,
+    44781-25 is IIE, 27466-1 is IIF, UAMH 6688 is clade III. Products are 56-63 bp for every set. THE OTHER TEN SETS ARE NOT
+    ENTERED, and three cannot be under the current schema: B''s forward primer is 14 nt, E''s probe 13 nt and H''s probe 14
+    nt, below the 15 nt floor (assaywatch/schema.py OLIGO_MIN); the probes are probably MGB, for which 13-14 nt is normal.
+    Set B was therefore tested outside the screener by exact matching: it gives a 57 bp product with the probe in the five
+    lineages Table 1 says carry it and none in clade III. SPECIFICITY IS NOT TESTED: GenBank holds no Paranannizziopsis or
+    other close-relative nuclear genome (the only Paranannizziopsis records are short; none is 100 kb or more), so cross-reactivity
+    with relatives could not be measured here. SCOPE: needs_review is set because this is a panel member used as a species
+    marker on this curator''s reading, and a maintainer may prefer to drop the file.'
+needs_review:
+- ABSENT_FROM_IIA_ASSEMBLY_PRESENT_IN_SRA_PER_PAPER
+- PANEL_MEMBER_USED_AS_SPECIES_MARKER_ON_CURATOR_READING_OF_TABLE_1
+- PROBE_REPORTER_QUENCHER_NOT_STATED
+- SPECIFICITY_UNTESTED_NO_RELATIVE_GENOMES_IN_GENBANK

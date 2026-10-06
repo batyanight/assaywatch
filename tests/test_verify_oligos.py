@@ -216,6 +216,85 @@ def test_a_doi_named_file_beats_a_doi_merely_cited_elsewhere(tmp_path):
     assert path.name == "10.5555_mine.9.txt", path
 
 
+def _assay(doi, reference, year):
+    from types import SimpleNamespace
+
+    cite = SimpleNamespace(doi=doi, reference=reference, as_written=None, design_year=year)
+    return SimpleNamespace(citation=cite)
+
+
+def test_a_paper_that_only_cites_the_author_is_not_their_paper(tmp_path):
+    """Regression: the surname-and-year fallback matched any paper naming both.
+
+    An elephant-herpesvirus paper whose introduction cites "Reid ... 1999" was
+    taken for Reid et al. 1999, so the calicivirus primers were checked against
+    it and reported `absent`. The fallback is for papers that print no DOI of
+    their own; one that prints a DOI is already indexed under it.
+    """
+    intro = "Caliciviruses were first typed by Reid et al. in 1999 and later by others. "
+    (tmp_path / "10.9999_other.paper.2010.txt").write_text(
+        intro + "We print 5'-GCGGCCAACCAGTTTAACGCAA-3' and 5'-ATTGCGCTGGAACCTTGTCAA-3'."
+    )
+    by_doi, everything = vo.index_papers(tmp_path)
+    reid = _assay("10.1016/s0166-0934(99)00088-9", "Reid, S. M. et al. 1999", 1999)
+    assert vo.local_paper(reid, by_doi, everything) is None
+
+
+def test_the_fallback_still_finds_an_older_paper_that_prints_no_doi(tmp_path):
+    """The fallback's real job: a 1992 paper has no DOI on it, only an author and a year."""
+    (tmp_path / "scan-1992.txt").write_text(
+        "Reid SM and colleagues, 1992. Primers 5'-GCGGCCAACCAGTTTAACGCAA-3' and "
+        "5'-ATTGCGCTGGAACCTTGTCAA-3' are described here."
+    )
+    by_doi, everything = vo.index_papers(tmp_path)
+    reid = _assay("10.1234/not-local", "Reid, S. M. et al. 1992", 1992)
+    hit = vo.local_paper(reid, by_doi, everything)
+    assert hit is not None and hit[1].name == "scan-1992.txt"
+
+
+def test_a_short_probe_is_judged_apart_from_a_primer():
+    """A 13 nt probe printed alone in a primer table reads `exact`; as a primer it cannot.
+
+    The harvest floor is 14 so that short English runs stay out, which meant a
+    published 13 nt MGB probe was never extracted and fell to `in-text`. Probes get
+    their own floor (schema.PROBE_MIN); a primer is never harvested that short.
+    """
+    probe = "CGAGTCGAACAAA"  # 13 nt
+    text = (
+        "Table 1. Primer F 5'-GCGGCCAACCAGTTTAACGCAA-3' primer R 5'-ATTGCGCTGGAACCTTGTCAA-3' "
+        f"probe P 5'-{probe}-3'."
+    )
+    printed = vo.printed_oligos(text)
+    assert probe not in printed  # under the primer floor, so not harvested by default
+    as_probe = vo.printed_runs_for(True, probe, text, printed)
+    assert vo.check(probe, text, as_probe, 4)[0] == "exact"
+    as_primer = vo.printed_runs_for(False, probe, text, printed)
+    assert as_primer is printed
+    assert vo.check(probe, text, as_primer, 4)[0] != "exact"
+
+
+def test_the_probe_floor_does_not_let_prose_in():
+    """Lowering the harvest floor for probes must not turn English into oligos."""
+    prose = "We attach the sample to the washbasin and check that it was marked, then dash back."
+    assert vo.printed_oligos(prose, min_len=12) == []
+
+
+def test_a_probe_of_normal_length_uses_the_ordinary_runs():
+    seq = "CGAGTCGAACAAATTT"  # 16 nt: not short, so the primer harvest serves
+    text = f"probe 5'-{seq}-3' and primers 5'-GCGGCCAACCAGTTTAACGCAA-3' 5'-ATTGCGCTGGAACCTTGTCAA-3'"
+    printed = vo.printed_oligos(text)
+    assert vo.printed_runs_for(True, seq, text, printed) is printed
+
+
+def test_probe_slot_detection():
+    from types import SimpleNamespace
+
+    assert vo.is_probe_slot("probe", SimpleNamespace(orientation=None))
+    assert vo.is_probe_slot("alt0", SimpleNamespace(orientation="probe"))
+    assert not vo.is_probe_slot("alt0", SimpleNamespace(orientation="forward"))
+    assert not vo.is_probe_slot("forward", SimpleNamespace(orientation=None))
+
+
 def test_reads_the_n_or_inosine_notation_as_n():
     """Prepens 2007 and the other Ehlers-lab consensus-primer papers spell an
     ambiguous position out as `(N/I)` - "N or inosine" - inside the sequence.

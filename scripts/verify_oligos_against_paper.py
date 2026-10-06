@@ -111,6 +111,7 @@ sys.path.insert(0, str(ROOT))
 
 from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
+from assaywatch.schema import PROBE_MIN  # noqa: E402
 from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 CONVERTER = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/"
@@ -126,7 +127,12 @@ GROUPED_RE = re.compile(r"(?:[ACGTURYSWKMBDHVNIacgturyswkmbdhvni]{1,}[\s'\u2019-
 NOISE = re.compile(r"[^ACGTURYSWKMBDHVNI]+")
 
 
-def printed_oligos(text: str, min_len: int = 14, max_len: int = 60) -> list[str]:
+# The shortest run `printed_oligos` harvests for a PRIMER. A probe may be shorter (see
+# schema.PROBE_MIN), so `printed_runs_for` lowers the floor for probes alone.
+PRINTED_MIN_LEN = 14
+
+
+def printed_oligos(text: str, min_len: int = PRINTED_MIN_LEN, max_len: int = 60) -> list[str]:
     """Every oligo-like sequence a paper prints, with codon grouping undone.
 
     Two tests separate sequences from English prose, which is a real problem
@@ -373,6 +379,17 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
     return by_doi, everything
 
 
+def prints_own_doi(text: str, path: Path) -> bool:
+    """True where a file says which paper it is, by filename or by a DOI on page one.
+
+    Such a file is already indexed under that DOI, so it is never a candidate for
+    the surname-and-year fallback. The fallback exists for papers that print no
+    DOI at all, and a paper that does print one is not evidence about any other.
+    """
+    named = DOI_IN_TEXT.fullmatch(path.stem.replace("_", "/")) is not None
+    return named or DOI_IN_TEXT.search(text[:4000]) is not None
+
+
 def local_paper(assay, by_doi, everything) -> tuple[str, Path] | None:
     """The local PDF for this assay, by DOI or by first author plus design year."""
     doi = (assay.citation.doi or "").lower()
@@ -385,6 +402,13 @@ def local_paper(assay, by_doi, everything) -> tuple[str, Path] | None:
         return None
     surname = m.group(1)
     for text, path in everything:
+        # Without this, any paper that names the author and the year in its first
+        # two pages qualifies - an introduction citing "Reid et al. 1999" is
+        # enough. That checked the Reid calicivirus, Garner 2006 and Feldman 2006
+        # primers against the EEHV and filovirus papers and called them `absent`,
+        # and checked Boyle 2004 against Ghosh 2021, which merely cites it.
+        if prints_own_doi(text, path):
+            continue
         head = text[:9000]  # roughly the first two pages: title, authors, methods start
         if surname in head and str(year) in head:
             return text, path
@@ -464,6 +488,27 @@ def deinosine(s: str) -> str:
     flattened to N here instead.
     """
     return s.replace("I", "N")
+
+
+def printed_runs_for(is_probe: bool, seq: str, text: str, printed: list[str]) -> list[str]:
+    """The printed runs to compare ONE stored oligo against.
+
+    Probes are judged separately from primers. Published MGB probes run 13-14 nt,
+    below the 14-nt floor the harvest uses so that short English runs stay out, so
+    a probe printed alone in a primer table was never extracted and could not
+    reach `exact`; it fell to `in-text`, "check by eye", however clearly the paper
+    printed it. A short probe is therefore harvested at the probe floor. A primer
+    never is: the lower floor admits more prose-shaped runs, and a primer is not
+    allowed to be that short anyway.
+    """
+    if is_probe and len(seq) < PRINTED_MIN_LEN:
+        return printed_oligos(text, min_len=PROBE_MIN)
+    return printed
+
+
+def is_probe_slot(slot: str, oligo) -> bool:
+    """The `probe` slot, or an alternate declared `orientation: probe`."""
+    return slot == "probe" or getattr(oligo, "orientation", None) == "probe"
 
 
 def check(seq: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
@@ -606,7 +651,8 @@ def main(argv: list[str] | None = None) -> int:
                     ),
                 )
             else:
-                verdict, note = check(seq, text, printed, args.cap)
+                runs = printed_runs_for(is_probe_slot(slot, o), seq, text, printed)
+                verdict, note = check(seq, text, runs, args.cap)
                 if verdict == "absent":
                     note = f"{note}; the paper's text printed {len(printed)} oligo-like run(s)"
             rows.append(

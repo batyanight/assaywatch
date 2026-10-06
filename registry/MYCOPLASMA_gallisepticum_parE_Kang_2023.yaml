@@ -1,0 +1,70 @@
+id: MYCOPLASMA_gallisepticum_parE_Kang_2023
+name: MYCOPLASMA GALLISEPTICUM — parE species-level multiplex-PCR member (Kang 2023)
+target:
+  taxid: 2096
+  gene: parE
+  genome_type: dsDNA
+  taxon_name: Mycoplasmoides gallisepticum
+  query: parE[Gene] OR parE[Title] OR "DNA topoisomerase IV subunit B"[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: MG-L
+    seq: AGAACTAATCGAACAAGGTAAG
+  reverse:
+    name: MG-R
+    seq: CAGCGTTTTGAATTGAGACT
+  alternates: []
+amplicon_bp: 245
+citation:
+  doi: 10.3390/pathogens12010111
+  design_year: 2023
+  n_sequences_at_design: 18
+  as_written: null
+  reference: Kang, S.-I., Lee, O.-M., Lee, H.-J., Kwon, Y.-K., Chae, M.J., Jeong, J.-Y. & Kang, M.-S. A Multiplex PCR Assay
+    for Differential Identification of Wild-type and Vaccine Strains of Mycoplasma gallisepticum. Pathogens 12, 111 (2023).
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Table 2 (text layer of papers/10.3390_pathogens12010111.pdf; clean,
+    not OCR-damaged. The product size 245 is printed fused to the next primer name as ''245MG-R'', and the other three sizes,
+    169/571/333, are fused the same way and agree with the paper''s Results text). THE PAPER IS A VACCINE-DIFFERENTIATION
+    MULTIPLEX: four primer pairs in one tube, one MG species pair (parE, 245 bp; the ''common'' pair of its Table 3) plus
+    three vaccine-strain-specific pairs (ts-11, 6/85, F strain). ONLY THE SPECIES PAIR IS ENTERED HERE. The paper designed
+    all four pairs on 18 MG genomes in CLC Main Workbench, so oligos_designed_here is true and n_sequences_at_design is 18.
+    design_year is the publication year by registry convention; the design was finished before the paper was received on 2022-11-07.
+    MEASURED on real records: every GenBank M. gallisepticum (txid2096) record matching parE[Gene], parE[Title], ''DNA topoisomerase
+    IV subunit B''[Title] or ''complete genome''[Title], queried 2026-10-06 (all of them, not a sample): 126 records, of which
+    37 are RefSeq NZ_ copies of GenBank records, so 103 distinct underlying sequences. By length: 76 records are >=100 kb
+    (complete genomes and assembly scaffolds), 19 are 1-100 kb (draft-assembly contigs and nine full-length 1,902 bp parE
+    CDS, MH548818-MH548833), 31 are <1 kb. 95 records are long enough to span the site and ALL 95 give a product, every one
+    exactly 245 bp, equal to the paper''s figure (93 with zero mismatches in both primers, 2 with a half-point penalty; 72
+    distinct underlying sequences). The other 31 records give no_amplicon and are not primer failures: each is a 407-632 bp
+    partial parE fragment (surveillance deposits, e.g. EU600262) that maps about 1.4 kb from the amplicon, near the N-terminal
+    end of parE, while the amplicon sits in the C-terminal half of the 1,902 nt ORF (checked on AE015450.2, MG R(low): amplicon
+    585166-585411, inside parE complement(585069..586970)). Those records cannot contain either primer site. DETECTED SHARE
+    AMONG RECORDS THAT SPAN THE SITE: 95/95. The vaccine strains in GenBank (ts-11, 6/85, F, f99) all detect with this pair,
+    as the paper''s Fig. 2 shows. SPECIFICITY CROSS-CHECK in silico: the pair finds no site within 6 mismatches in any of
+    450 complete genomes of other Mycoplasmataceae (57 Mycoplasma/Mycoplasmopsis synoviae, 3 M. gallinaceum/gallinacea, 14
+    Malacoplasma iowae, 359 M. pneumoniae, 17 M. genitalium). The paper''s own wet panel of 27 non-MG strains was also negative.
+    amplicon_bp 245 is therefore both the paper''s figure and the measured one. VACCINE-STRAIN PAIRS DELIBERATELY EXCLUDED:
+    ts-11-L/ts-11-R (169 bp), 6/85-L/6/85-R (571 bp) and F-L/F-R (333 bp) are designed to be present in one vaccine lineage
+    and absent from wild type. Entered under the species taxon they would be scored against all MG records and report that
+    by-design absence as drift. Measured against the same 126 records: the ts-11 pair gives a true product in 2 records (the
+    two copies of the ts-11 genome, 169 bp as the paper states; 15 further ''fail'' calls are 2.0-2.3 kb products with 14.5-point
+    mismatch penalties), the 6/85 pair in 21 (571 bp: the 6/85 genome plus K-series genomes), the F pair in 9 (333 bp: F and
+    f99 genomes), so the large majority of the species would read as non-detect by design. The sequences were confirmed (each
+    pair gives exactly the paper''s size on its own vaccine strain''s genome), so they can be entered later if the registry
+    gains strain-level scoping (a restricted query or a differential use-context). That is a decision for the maintainer.
+    SCOPE: species-level conventional PCR (gel endpoint, no probe) on one chromosomal locus.'
+needs_review: null

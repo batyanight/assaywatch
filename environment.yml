@@ -9,6 +9,11 @@ dependencies:
   - pydantic>=2
   - pyyaml
   - requests
+  # NCBI command-line tools for ad-hoc lookups outside the package
+  # (esearch/efetch/xtract, and `datasets` for genomes). The pipeline itself
+  # calls the APIs directly and does not need these.
+  - entrez-direct
+  - ncbi-datasets-cli
   - snakemake-minimal>=8
   - pytest
   - ruff=0.16.10   # pinned to match .pre-commit-config.yaml and pyproject.toml

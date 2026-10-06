@@ -31,6 +31,18 @@ IUPAC_RE = re.compile(r"^[ACGTURYSWKMBDHVN]+$")
 AS_WRITTEN_RE = re.compile(r"^[ACGTURYSWKMBDHVNI]+$")
 DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
 OLIGO_MIN, OLIGO_MAX = 15, 40
+# A probe's floor is lower than a primer's. MGB and LNA hydrolysis probes are
+# routinely published at 13-14 nt, because the minor-groove binder (or the LNA
+# bases) supplies the Tm that length alone does not, so a 15 nt floor would
+# refuse an assay for being what its paper says it is. Haynes et al. 2023
+# (doi:10.1371/journal.pone.0289159) prints several 13-14 nt probes, which is how
+# this came up. 12 is not a considered biophysical limit; it is low enough to
+# admit every published probe seen so far and high enough to catch a mistyped
+# 3-base "probe". The matcher is safe with it for a structural reason: a probe is
+# searched only inside the span between the two primers (score.screen_one), so
+# the stretch it can chance-match in is tens to hundreds of bases, not a genome.
+# Primers keep OLIGO_MIN, since a primer is searched along the whole record.
+PROBE_MIN = 12
 # The floor on the part of a tailed oligo that actually binds the target. It is
 # one base below OLIGO_MIN because a real published primer sits there: Briese et
 # al. 2007 (doi:10.1007/s00705-007-1069-z) Table 1 prints BUN-S3-R as a 6 nt
@@ -141,9 +153,32 @@ class Oligo(Strict):
         if not IUPAC_RE.match(v):
             bad = sorted(set(v) - set("ACGTURYSWKMBDHVN"))
             raise ValueError(f"non-IUPAC characters {bad}; inosine must be written as N in `seq`")
-        if not OLIGO_MIN <= len(v) <= OLIGO_MAX:
-            raise ValueError(f"length {len(v)} outside {OLIGO_MIN}-{OLIGO_MAX} nt")
+        # The lower bound depends on the oligo's role, which this validator
+        # cannot see; `meets_length_floor` applies it. Here only the absolute
+        # floor and the ceiling, so a 3-base string fails on its own terms.
+        if not PROBE_MIN <= len(v) <= OLIGO_MAX:
+            raise ValueError(f"length {len(v)} outside {PROBE_MIN}-{OLIGO_MAX} nt")
         return v
+
+    @model_validator(mode="after")
+    def meets_length_floor(self) -> Oligo:
+        """A primer needs OLIGO_MIN nt; a probe needs only PROBE_MIN.
+
+        An alternate states its role in `orientation`, and that decides it. The
+        class cannot: `alternates` is `list[Oligo | Probe]`, so a too-short
+        forward alternate fails as an Oligo and pydantic then retries it as a
+        Probe, which would hand a 13 nt primer the probe floor. Only an oligo
+        with no stated orientation (the `probe` field itself) falls back to class.
+        """
+        if self.orientation is not None:
+            is_probe = self.orientation == "probe"
+        else:
+            is_probe = isinstance(self, Probe)
+        floor = PROBE_MIN if is_probe else OLIGO_MIN
+        if len(self.seq) < floor:
+            role = "probe" if is_probe else "primer"
+            raise ValueError(f"length {len(self.seq)} outside {floor}-{OLIGO_MAX} nt for a {role}")
+        return self
 
 
 class Probe(Oligo):

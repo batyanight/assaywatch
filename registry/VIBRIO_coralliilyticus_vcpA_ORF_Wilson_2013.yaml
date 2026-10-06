@@ -1,0 +1,72 @@
+id: VIBRIO_coralliilyticus_vcpA_ORF_Wilson_2013
+name: VIBRIO CORALLIILYTICUS — vcpA full-ORF PCR (primers from Pollock 2010, used by Wilson 2013)
+target:
+  taxid: 190893
+  gene: vcpA
+  genome_type: dsDNA
+  taxon_name: Vibrio coralliilyticus
+  query: vcpA[All Fields] OR vtpA[All Fields] OR "complete genome"[Title] OR "chromosome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: vcpAF
+    seq: ATGAAACAACGTCAAATGCTTTG
+  reverse:
+    name: vcpAR
+    seq: CCCTTTCACTTCCGATGTTGTG
+  alternates: []
+amplicon_bp: 1854
+citation:
+  doi: 10.1371/journal.pone.0081800
+  design_year: 2013
+  n_sequences_at_design: null
+  as_written: null
+  reference: Wilson, B., Muirhead, A., Bazanella, M., Huete-Stauffer, C., Vezzulli, L. & Bourne, D. G. An Improved Detection
+    and Quantification Method for the Coral Pathogen Vibrio coralliilyticus. PLoS ONE 8, e81800 (2013).
+  doi_verified: true
+  oligos_designed_here: false
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  predict_protocol: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-06 from the paper''s Methods (''PCR primer development''), read from the text layer of papers/10.1371_journal.pone.0081800.pdf
+    (a born-digital PLOS PDF, no OCR damage). THE PAPER HAS TWO PRIMER PAIRS ON THE SAME GENE, vcpA (the Type I zinc metalloprotease
+    implicated in virulence), and they are two separate registry entries: a conventional PCR pair that amplifies the whole
+    ORF (vcpAF/vcpAR, about 1.8 kb; CITED FROM EARLIER WORK, not designed here) and a SYBR Green real-time pair (vcpARTF/vcpARTR,
+    166 bp; designed here with Lasergene Primer Select). The paper''s other method, the dnaJ TaqMan assay of Pollock et al.
+    2010, is a different paper and a different target; see the notes of the dnaJ entry or the lead''s report. MEASURED on
+    the complete NCBI Datasets census of Vibrio coralliilyticus (txid190893), downloaded 2026-10-06: 101 assembly accessions
+    = 54 distinct assemblies once the paired GenBank (GCA) and RefSeq (GCF) copies are collapsed (14 complete genome, 4 chromosome,
+    8 scaffold, 28 contig level; 7,604 sequences), plus the 16 complete vcpA/vtpA CDS records in GenBank (JQ345033-JQ345046
+    from this paper, GQ452012, MH794510 VtpA; each 1,824 bp) and 2 partial vcpA records (OL321784/OL321785). Assemblies were
+    screened as a whole; the unit below is the distinct assembly, not the contig. THIS ENTRY: vcpAF (5''-ATGAAACAACGTCAAATGCTTTG-3'')
+    and vcpAR (5''-CCCTTTCACTTCCGATGTTGTG-3''), the conventional PCR that amplifies the whole vcpA ORF for sequencing and
+    phylogeny, stated by the paper as 1.8 kb (single amplicon in all global isolates except strain P3, LMG 23695, which did
+    not amplify). THE PAPER DID NOT DESIGN THESE PRIMERS: it says they ''were previously designed to amplify the entire vcpA
+    open reading frame (ORF) of V. coralliilyticus strain P1 and subsequently used to compare the vcpA genes from geographically
+    disparate isolates'', citing its reference 18, Pollock FJ, Wilson B, Johnson WR, Morris PJ, Willis BL, Bourne DG (2010)
+    Phylogeny of the coral pathogen Vibrio coralliilyticus, Environ Microbiol Rep 2:172-178. oligos_designed_here is therefore
+    false; that paper''s DOI was not read and no DOI is entered for it. vcpAF is the first 23 nt of the ORF (exact in all
+    16 complete CDS records). vcpAR is the same reverse site as vcpARTR, about 30 nt past the stop codon, so the product runs
+    ORF plus about 30 nt of 3'' flank. RESULT: 53 of 54 distinct assemblies give a product, all ''detect'': 1,854 bp in 38
+    assemblies (the mode), 1,853 in 9, 1,855 in 2, 1,851 in 3 and 1,852 in 1. The paper''s ''1.8 kb'' is consistent; the exact
+    length is ORF 1,824 bp plus flank. EVERY detect call carries one standing reverse-primer mismatch (penalty 0.5, 12 nt
+    from the primer''s 3'' end): vcpAR has C where all the genomes screened have A, whereas the overlapping vcpARTR of the
+    same paper matches exactly. Whether this is a typo in the printed primer, a P1-specific base or a true design choice cannot
+    be told from here, and a single internal mismatch is unlikely to stop the 30-cycle 64 C PCR the paper ran; the primer
+    was entered as printed. 1 assembly fails: SCSIO 43001 (1,840 bp, forward primer mismatch at its 3''-terminal base, reverse
+    4 mismatches), the same strain that fails the SYBR pair (its closest vcpA-like sequence shares only about 12% of the P1
+    vcpA 25-mers sampled, against 66-73% in OCN008 and Rb102; an in-silico observation only). The 16 complete CDS records
+    give no_amplicon (truncated) because they end at the stop codon, before the reverse site. SCOPE: gene-level PCR for typing;
+    as for the SYBR pair, a vcpA detection, not a species identification. Strain P3 (LMG 23695), which the paper reports as
+    non-amplifying, was not identified among the records screened, so that wet failure is not explained here.'
+needs_review:
+- AMPLICON_MEASURED_1854_PAPER_SAYS_1_8_KB
+- PRIMERS_FROM_POLLOCK_2010_NOT_DESIGNED_IN_THIS_PAPER

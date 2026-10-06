@@ -88,6 +88,39 @@ def test_bad_oligo_sequences(seq, msg):
         Assay.model_validate(variant(**{"oligos.forward.seq": seq}))
 
 
+def test_a_probe_may_be_shorter_than_a_primer():
+    """Published MGB probes run 13-14 nt (Haynes 2023 prints several), so the
+    probe floor is 12 where a primer's is 15. Refusing them refuses the assay."""
+    for seq in ("CGAGTCGAACAAA", "CGAGTCGAACAA"):  # 13 and 12 nt
+        a = Assay.model_validate(variant(**{"oligos.probe.seq": seq}))
+        assert a.oligos.probe.seq == seq
+
+
+def test_the_probe_floor_still_catches_a_typo():
+    with pytest.raises(ValidationError, match="length 11 outside 12-40"):
+        Assay.model_validate(variant(**{"oligos.probe.seq": "CGAGTCGAACA"}))
+
+
+def test_a_primer_still_needs_fifteen():
+    """The lower floor is for probes only: a primer is searched along the whole
+    record, where a 14-mer with a mismatch budget chance-matches freely."""
+    with pytest.raises(ValidationError, match="outside 15-40 nt for a primer"):
+        Assay.model_validate(variant(**{"oligos.forward.seq": "CCTTGATATAATAC"}))
+    with pytest.raises(ValidationError, match="outside 15-40 nt for a primer"):
+        Assay.model_validate(variant(**{"oligos.reverse.seq": "AGCCAAGAGATCCG"}))
+
+
+def test_an_alternate_takes_the_floor_of_its_orientation():
+    short = "CGAGTCGAACAAA"  # 13 nt
+    ok = variant()
+    ok["oligos"]["alternates"] = [{"name": "P2", "seq": short, "orientation": "probe"}]
+    Assay.model_validate(ok)
+    bad = variant()
+    bad["oligos"]["alternates"] = [{"name": "F2", "seq": short, "orientation": "forward"}]
+    with pytest.raises(ValidationError, match="for a primer"):
+        Assay.model_validate(bad)
+
+
 def test_sequence_is_uppercased():
     a = Assay.model_validate(variant(**{"oligos.forward.seq": "ccttgatataatacagtgtgccatatgtc"}))
     assert a.oligos.forward.seq.isupper()

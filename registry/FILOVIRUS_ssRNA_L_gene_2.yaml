@@ -24,6 +24,7 @@ citation:
   reference: Zhai, J. H. et al. Rapid molecular strategy for filovirus detection and characterization. Journal of clinical
     microbiology 45, 224-226, doi:Doi 10.1128/Jcm.01893-06 (2007).
   doi_verified: true
+  oligos_designed_here: false
 use_context:
 - wildlife
 - public_health
@@ -40,6 +41,15 @@ source:
   notes: null
   notes_curator: 'PREDICT panel protocol P-008 (L), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Zhai, J.
-    et al (2007).'
+    et al (2007). CONSOLIDATION, NOT IN THE PAPER, found 2026-10-06 when scripts/verify_oligos_against_paper.py reported both
+    oligos absent from Zhai et al. 2007. That paper''s assay is a cocktail of eight specific primers (four forward, four
+    reverse, one set per filovirus group, Table 1), not a degenerate pair, and the sibling entry FILOVIRUS_ssRNA_L_gene holds
+    that cocktail. MOD-FWD and MOD-RVS are one IUPAC oligo per side, and they cover Zhai''s primers exactly: MOD-RVS (23 nt)
+    covers all four printed reverses with 0 mismatches, MOD-FWD (24 nt) covers all four printed forwards with 0 mismatches over
+    the 24 bases they share, the paper''s own Y at forward-A position 8 sitting inside MOD-FWD''s H. So this is PREDICT''s
+    consolidation of the published cocktail, which is what the MODIFIED_IN_HOUSE flag and the MOD- prefix mean, and neither
+    sequence is Zhai''s. oligos_designed_here is false. MOD-FWD is a mixture of 2,304 distinct oligos (7 degenerate positions of
+    24) and MOD-RVS of 8,192 (8 of 23), so each cocktail member is a small fraction of its molecules and the pair is a different
+    reagent from the cocktail, not a repackaging of it: the two entries are separate assays.'
 needs_review:
 - MODIFIED_IN_HOUSE

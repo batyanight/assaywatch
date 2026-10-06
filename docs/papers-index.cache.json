@@ -272,6 +272,14 @@
   "volume": "135",
   "year": 2006
  },
+ "10.1016/j.jviromet.2006.05.004": {
+  "first_author": "Elia",
+  "journal": "Journal of Virological Methods",
+  "n_authors": 8,
+  "title": "Detection of canine distemper virus in dogs by real-time RT-PCR",
+  "volume": "136",
+  "year": 2006
+ },
  "10.1016/j.jviromet.2007.05.021": {
   "authors": [
    "Linke",
@@ -701,14 +709,11 @@
   "year": 2002
  },
  "10.1016/s0166-0934(96)02155-6": {
-  "authors": [
-   "Meyer",
-   "Ropp",
-   "Esposito"
-  ],
   "first_author": "Meyer",
   "journal": "Journal of Virological Methods",
+  "n_authors": 3,
   "title": "Gene for A-type inclusion body protein is useful for a polymerase chain reaction assay to differentiate orthopoxviruses",
+  "volume": "64",
   "year": 1997
  },
  "10.1016/s0166-0934(99)00088-9": {
@@ -1049,19 +1054,11 @@
   "year": 2006
  },
  "10.1111/1755-0998.13299": {
-  "authors": [
-   "Ghosh",
-   "Verster",
-   "Sewell",
-   "O\u2019Hanlon",
-   "Brookes",
-   "Rieux",
-   "Garner",
-   "Weldon",
-   "Fisher"
-  ],
   "first_author": "Ghosh",
-  "title": "Discriminating lineages of\n                    Batrachochytrium dendrobatidis\n                    using quantitative PCR",
+  "journal": "Molecular Ecology Resources",
+  "n_authors": 9,
+  "title": "Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR",
+  "volume": "21",
   "year": 2021
  },
  "10.1111/j.1365-2761.2007.00828.x": {
@@ -1580,15 +1577,11 @@
   "year": 2014
  },
  "10.1186/1743-422x-4-84": {
-  "authors": [
-   "Prepens",
-   "Kreuzer",
-   "Leendertz",
-   "Nitsche",
-   "Ehlers"
-  ],
   "first_author": "Prepens",
+  "journal": "Virology Journal",
+  "n_authors": 5,
   "title": "Discovery of herpesviruses in multi-infected primates using locked nucleic acids (LNA) and a bigenic PCR approach",
+  "volume": "4",
   "year": 2007
  },
  "10.1186/1743-422x-6-210": {
@@ -1963,13 +1956,11 @@
   "year": 2026
  },
  "10.3354/dao054029": {
-  "authors": [
-   "Grizzle",
-   "Altinok",
-   "Noyes"
-  ],
   "first_author": "Grizzle",
+  "journal": "Diseases of Aquatic Organisms",
+  "n_authors": 3,
   "title": "PCR method for detection of largemouth bass virus",
+  "volume": "54",
   "year": 2003
  },
  "10.3354/dao060141": {
@@ -2230,14 +2221,11 @@
   "year": 2021
  },
  "10.3390/v13081632": {
-  "authors": [
-   "Halecker",
-   "Bock",
-   "Beer",
-   "Hoffmann"
-  ],
   "first_author": "Halecker",
+  "journal": "Viruses",
+  "n_authors": 4,
   "title": "A New Molecular Detection System for Canine Distemper Virus Based on a Double-Check Strategy",
+  "volume": "13",
   "year": 2021
  },
  "10.3390/v13101975": {
@@ -2334,15 +2322,11 @@
   "year": 2011
  },
  "10.7589/0090-3558-40.3.420": {
-  "authors": [
-   "Annis",
-   "Dastoor",
-   "Ziel",
-   "Daszak",
-   "Longcore"
-  ],
   "first_author": "Annis",
+  "journal": "Journal of Wildlife Diseases",
+  "n_authors": 5,
   "title": "A DNA-BASED ASSAY IDENTIFIES BATRACHOCHYTRIUM DENDROBATIDIS IN AMPHIBIANS",
+  "volume": "40",
   "year": 2004
  },
  "10.7589/0090-3558-42.2.279": {
