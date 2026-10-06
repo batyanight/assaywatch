@@ -63,7 +63,12 @@ source:
     the sheet was written and is no longer. Cited to McAloose 2016 as the first publication; the sequences are confirmed through
     Vila''s table, not McAloose''s own, because the int-res.com open-access PDF answers scripted requests with 401. Confirm
     against McAloose by eye. The sibling POXVIRUSES_dsDNA_Polymerase_short (DO_NOT_USE) holds the longer forms with GGNCC
-    3'' tails, which Vila does not print.'
+    3'' tails, which Vila does not print. FLAG ADDED 2026-10-05 for consistency with Nipah_N_gene_2, which was traced the
+    same way on the same day: this entry''s sequences were read from Vila 2019''s Table 1 and its citation taken from that
+    table''s Reference column, not from McAloose 2016 itself, whose open-access PDF answers a scripted request with 401. The
+    attribution is well supported - Vila names McAloose per primer set, and McAloose is a WCS paper with T. Seimon, the TS
+    of the primer names, among its authors - but it is second-hand, and the flag makes that visible rather than implied.'
 needs_review:
 - MODIFIED_IN_HOUSE
 - MULTIPLE_PRIMERS_IN_BLOCK
+- SEQUENCES_READ_FROM_A_CITING_PAPER_NOT_THE_SOURCE
