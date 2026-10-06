@@ -805,6 +805,7 @@ def test_main_scrubs_whatever_a_group_raises_not_only_what_the_transports_raise(
     from assaywatch import retrieve
 
     monkeypatch.setenv("NCBI_API_KEY", KEY)
+    _stub_requests(monkeypatch, lambda c: _response())  # main() builds a transport; keep it hermetic
 
     def explode(*a, **k):
         raise RuntimeError(f"something broke while using {KEY}")
