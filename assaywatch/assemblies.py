@@ -63,6 +63,7 @@ from typing import Any
 
 from assaywatch.chance import composition, pair_evalue
 from assaywatch.match import find_sites
+from assaywatch.score import max_mismatches_searched
 
 DATASETS = "https://api.ncbi.nlm.nih.gov/datasets/v2"
 # (path under DATASETS, query params, Accept header) -> response body
@@ -292,7 +293,10 @@ def extract_loci(
     amp = cfg["amplicon"]
     lo_bp, hi_bp = int(amp["min_bp"]), int(amp["max_bp"])
     pad = int(amp.get("record_min_overhang_bp", 0))
-    max_mm = int(cfg["scoring"].get("max_mismatches_searched", 6))
+    # The pre-cut sees only oligo pairs, with no chemistry, so it searches at the
+    # LARGEST budget any chemistry may use and lets screening apply each assay's own
+    # (see score.max_mismatches_searched).
+    max_mm = max_mismatches_searched(cfg)
     # Chance pairs are everywhere in a genome (chance.py); a window is kept only
     # around a pair that is distinguishable from chance in a record this long.
     max_e = float((cfg.get("assemblies") or {}).get("max_pair_evalue", 0.01))

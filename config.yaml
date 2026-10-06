@@ -79,7 +79,7 @@ scoring:
   # replicate that in 5'-nuclease assays (<1.5 Cq for A-C/C-A/T-G/G-T versus
   # >7 Cq for A-A/G-A/A-G/C-C). An identity-blind automatic fail is therefore
   # wrong for roughly half of terminal mismatches. It is also a qPCR-grade
-  # verdict applied to 135 conventional assays, where a 100-fold yield loss is
+  # verdict applied to 142 conventional assays, where a 100-fold yield loss is
   # often still a visible band after 40 cycles. The E. coli malB result rests on
   # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
   # severe class — but the rule got there without checking.
