@@ -32,7 +32,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
+from assaywatch.credentials import ncbi_interval, scrub, with_api_key  # noqa: E402
 
 EFETCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 
@@ -42,14 +42,20 @@ def fetch_taxa(taxids: list[int], email: str) -> dict[int, tuple[str, str, set[s
     out: dict[int, tuple[str, str, set[str]]] = {}
     for i in range(0, len(taxids), 100):
         batch = taxids[i : i + 100]
-        r = requests.get(
-            EFETCH,
-            params=with_api_key(
-                {"db": "taxonomy", "id": ",".join(map(str, batch)), "email": email, "tool": "assaywatch"}
-            ),
-            timeout=60,
-        )
-        r.raise_for_status()
+        try:
+            r = requests.get(
+                EFETCH,
+                params=with_api_key(
+                    {"db": "taxonomy", "id": ",".join(map(str, batch)), "email": email, "tool": "assaywatch"}
+                ),
+                timeout=60,
+            )
+            r.raise_for_status()
+        except requests.RequestException as e:
+            # requests puts the full URL in its message, and with a key set the
+            # URL carries `api_key=...`. `from None` also drops the chained
+            # original, whose traceback would print the same URL.
+            raise SystemExit(f"NCBI taxonomy request failed: {scrub(e)}") from None
         for taxon in ET.fromstring(r.text).findall("Taxon"):
             tid = int(taxon.findtext("TaxId"))
             other = {

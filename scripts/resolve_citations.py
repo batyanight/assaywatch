@@ -37,7 +37,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
+from assaywatch.credentials import ncbi_interval, scrub, with_api_key  # noqa: E402
 
 CROSSREF = "https://api.crossref.org/works/{doi}"
 ESEARCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
@@ -83,14 +83,19 @@ def crossref_matches(msg: dict, year: int | None, reference: str) -> tuple[bool,
 
 
 def taxid_lookup(name: str, email: str) -> list[str]:
-    r = requests.get(
-        ESEARCH,
-        params=with_api_key(
-            {"db": "taxonomy", "term": name, "retmode": "json", "email": email, "tool": "assaywatch"}
-        ),
-        timeout=30,
-    )
-    r.raise_for_status()
+    try:
+        r = requests.get(
+            ESEARCH,
+            params=with_api_key(
+                {"db": "taxonomy", "term": name, "retmode": "json", "email": email, "tool": "assaywatch"}
+            ),
+            timeout=30,
+        )
+        r.raise_for_status()
+    except requests.RequestException as e:
+        # The URL in requests' message carries `api_key=...`; scrub it, and drop
+        # the chained original whose traceback would print the same URL.
+        raise SystemExit(f"NCBI taxonomy search failed: {scrub(e)}") from None
     return r.json()["esearchresult"].get("idlist", [])
 
 

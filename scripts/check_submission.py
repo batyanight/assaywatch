@@ -39,13 +39,14 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+import time
 import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.credentials import with_api_key  # noqa: E402
+from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
 from assaywatch.degeneracy import assay_degeneracy  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
@@ -200,6 +201,11 @@ def check_taxon(assay, res: Result, email: str) -> None:
     except Exception as e:  # noqa: BLE001
         res.add("WARN", "taxon", f"could not reach NCBI Taxonomy ({type(e).__name__})")
         return
+    finally:
+        # One request per assay, so checking many submissions in a loop was
+        # unpaced: past 3 a second NCBI answers 429, which the handler above
+        # reports as a WARN about reachability, not about rate.
+        time.sleep(ncbi_interval())
     if not taxa:
         res.add("FAIL", "taxon", f"taxid {taxid} not found in NCBI Taxonomy")
         return
