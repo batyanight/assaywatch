@@ -114,3 +114,25 @@ The 28 lower-confidence rows are not listed here. Several carry primer pools in
 the millions - one at 31,850,496 - where a 20-mer finds a site in almost any
 record and the resulting "product" means nothing. `python -m assaywatch.degeneracy
 registry` is the companion check, and the `pool` column in the TSV repeats it.
+
+## Correction to the numbers above
+
+The counts in this file come from the FIRST run of `check_amplicons.py`, which
+picked a taxon's retrieval group arbitrarily. A group is a (taxid, query) pair
+and 14 taxa hold more than one - *E. coli* holds four - so some assays were
+measured against records retrieved for a different assay's query. That is how
+both Wang 1997 entries were reported as giving no product at all, minutes after
+`check_submission.py` had amplified them happily; with the group chosen by the
+entry's own query they measure 440 bp and agree exactly.
+
+The script now resolves the group with `retrieve.group_slug()` and records which
+one it used in a `group` column. **Re-run it before trusting any row here**; the
+13-row shortlist and the Helicobacter reasoning are unaffected, because those
+taxa hold a single group each.
+
+One further limitation, not a bug: the default 3-mismatch cap is deliberately
+conservative and will report `no-product` for consensus assays whose primers
+normally sit further off. The four orthobunyavirus rows are the clear case - the
+M-segment 5' entry's own notes record 93 evaluable and 8 detected in the
+project's 2026-10-04 screen, where this audit finds none. Raise `--max-mm` for
+those, and read `no-product` as "not at this stringency" rather than "never".

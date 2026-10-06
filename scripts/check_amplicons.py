@@ -61,14 +61,31 @@ import yaml  # noqa: E402
 
 from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
+from assaywatch.retrieve import group_slug  # noqa: E402
 
 
-def archive_for(taxid: int | None) -> Path | None:
-    """Newest FASTA archive for this taxid, over any retrieval group."""
+def archive_for(taxid: int | None, query: str | None) -> tuple[Path | None, str]:
+    """Newest FASTA archive for this assay's own retrieval group.
+
+    A taxid can hold several groups - 14 do, and E. coli holds four - because a
+    group is a (taxid, query) pair. Picking among them arbitrarily measures an
+    assay against records chosen for a different assay's query, which is how the
+    first run of this script reported no product at all for the two Wang 1997
+    entries that check_submission.py had just amplified happily.
+    """
     if not taxid:
-        return None
-    hits = sorted(glob.glob(str(ROOT / "data" / "retrieved" / str(taxid) / "*" / "*.fasta.gz")))
-    return Path(hits[-1]) if hits else None
+        return None, ""
+    base = ROOT / "data" / "retrieved" / str(taxid)
+    # The assay's own group first, then the whole-taxon one, then the assembly
+    # sample bacterial targets get, then anything rather than nothing.
+    for slug in (group_slug(query), "all", "asm"):
+        hits = sorted(glob.glob(str(base / slug / "*.fasta.gz")))
+        if hits:
+            return Path(hits[-1]), slug
+    hits = sorted(glob.glob(str(base / "*" / "*.fasta.gz")))
+    if hits:
+        return Path(hits[-1]), Path(hits[-1]).parent.name + " (fallback)"
+    return None, ""
 
 
 def pool_size(seq: str) -> int:
@@ -159,7 +176,7 @@ def main(argv: list[str] | None = None) -> int:
         fwd, rev = (oligos.get("forward") or {}).get("seq"), (oligos.get("reverse") or {}).get("seq")
         stored = doc.get("amplicon_bp")
         taxid = (doc.get("target") or {}).get("taxid")
-        archive = archive_for(taxid)
+        archive, group = archive_for(taxid, (doc.get("target") or {}).get("query"))
         if not (fwd and rev and archive):
             continue
         n_records, n_products, lengths = measure(archive, fwd, rev, args.max_mm, args.max_len, args.limit)
