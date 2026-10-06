@@ -14,7 +14,7 @@ oligos:
   reverse:
     name: Helico R
     seq: GTGTGTCCGWTCACCCTCTC
-amplicon_bp: 180
+amplicon_bp: 162
 citation:
   doi: null
   design_year: null
@@ -34,7 +34,16 @@ source:
   positive_control: UC6
   nested_round: null
   notes: null
+  notes_curator: AMPLICON MEASURED AND CORRECTED 2026-10-05 by scripts/check_amplicons.py. Unlike the sibling entry Helicobacter_XREACTS_with_general_bac_2,
+    this is a pan-Helicobacter assay and the genus archive is therefore the right thing to judge it against. Of 1,285 records
+    giving a product the size is 162 bp in 532, 163 in 400 and 164 in 189 - 1,121 of them inside a three-base spread that
+    is real variation between Helicobacter species rather than noise. The stored 180 matches none of them. amplicon_bp is
+    set to the modal 162 and the spread is flagged, because a single number is a poor summary of this one. The paper, Fox
+    et al. 1998 Gastroenterology, is not held locally - its publisher answers a scripted download with a 401 - so what the
+    paper itself states has not been checked; this is the measurement standing on its own, which is the registry's stated
+    order of precedence anyway.
 needs_review:
 - CROSS_REACTIVE
 - DOI_MISSING
 - NO_YEAR
+- AMPLICON_SPREADS_162_TO_164_BY_SPECIES

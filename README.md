@@ -15,7 +15,8 @@ thing to do. See ROADMAP.md.
 ## Layout
 
 ```
-registry/        one YAML per assay; validated on every commit (138 WCS pathogen assays, all draft)
+registry/        one YAML per assay; validated on every commit (172 assays: the WCS
+                 pathogen set plus ones added from the literature, all draft)
 assaywatch/      the package
   schema.py        pydantic models = the registry schema
   validate.py      `python -m assaywatch.validate registry`
@@ -34,7 +35,13 @@ assaywatch/      the package
   fasta.py         minimal FASTA reader
 Snakefile          the pipeline; profiles/slurm/ runs the same rules on a cluster
 scripts/         one-off import of the WCS primer spreadsheet (parse -> curate -> resolve),
-                 plus registry QA: check_taxids.py (taxid vs NCBI name), indel_check.py
+                 plus registry QA: check_taxids.py (taxid vs NCBI name), indel_check.py,
+                 check_amplicons.py (stored amplicon_bp vs measured, over every archive),
+                 verify_oligos_against_paper.py (stored oligo vs the paper that is cited).
+                 Papers come in by three routes, in this order: find_open_access.py
+                 (Unpaywall/OpenAlex -> a PDF), fetch_europepmc_fulltext.py (open full
+                 text as XML, tables included), import_pmc_fulltext.py (the same corpus
+                 as JSON, for an environment with no direct network).
 tests/           pytest; includes "every registry file validates"
 config.yaml      scoring thresholds and paths; no numbers live in code
 data/retrieved/  per-taxon FASTA archives (git-ignored; Phase 1)
