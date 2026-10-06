@@ -61,6 +61,8 @@ source:
     while the probe site has not moved at all. Nothing is changed here; the sequences are what the paper prints, and this
     is what the pipeline is for. Reference 7 of the Folly paper, Johnson N et al. 2010 Vector Borne Zoonotic Dis 10:665 (10.1089/vbz.2009.0210),
     is the pan-flavivirus assay used alongside it; it is closed access and is NOT this registry''s existing Pan_Flavivirus_NS5_gene
-    entry, which is Moureau 2007. Worth adding to the fetch list rather than guessing at.'
+    entry, which is Moureau 2007. Worth adding to the fetch list rather than guessing at. VERIFIED AGAINST THE PAPER, later
+    on 2026-10-05: the open-access full text was saved into papers/ as 10.4269_ajtmh.2011.11-0248.txt and scripts/verify_oligos_against_paper.py
+    now reads it, reporting all three oligos - both primers and the probe - exact.'
 needs_review:
 - PRIMER_SITES_DRIFTED_1NT_IN_ABOUT_HALF_OF_RECORDS
