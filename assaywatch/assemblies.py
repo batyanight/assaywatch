@@ -62,6 +62,7 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.chance import composition, pair_evalue
+from assaywatch.credentials import scrub
 from assaywatch.match import find_sites
 from assaywatch.score import max_mismatches_searched
 
@@ -132,14 +133,16 @@ def datasets_transport(api_key: str | None, timeout: int = 300) -> Fetch:
                 body = resp.content
             except requests.RequestException as e:
                 if attempt == 4:
-                    raise AssemblyError(f"{path}: {e}") from e
+                    raise AssemblyError(f"{path}: {scrub(e)}") from e
                 time.sleep(2**attempt)
                 continue
             if resp.status_code in (429, 500, 502, 503, 504):
                 time.sleep(2**attempt)
                 continue
             if resp.status_code >= 400:
-                raise AssemblyError(f"{path}: HTTP {resp.status_code} {body[:200]!r}")
+                raise AssemblyError(
+                    f"{path}: HTTP {resp.status_code} {scrub(body.decode('utf-8', 'replace'))[:200]!r}"
+                )
             return body
         raise AssemblyError(f"{path} failed after 5 attempts")
 

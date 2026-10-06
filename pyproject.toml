@@ -10,7 +10,7 @@ requires-python = ">=3.11"
 dependencies = ["pydantic>=2", "pyyaml>=6", "numpy>=1.24"]
 
 [project.optional-dependencies]
-dev = ["pytest", "ruff==0.16.10", "pre-commit"]
+dev = ["pytest", "ruff==0.16.10", "pre-commit", "requests"]   # requests: tests/test_credentials.py drives scripts that import it
 import = ["openpyxl", "requests"]
 pdf = ["pypdf"]   # scripts/verify_oligos_against_paper.py --pdf-dir
 

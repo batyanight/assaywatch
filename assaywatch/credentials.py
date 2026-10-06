@@ -42,17 +42,22 @@ and the scripts that make keyed requests pass exception text through it. Nothing
 else here prints a key; `describe` reports where one was found and how long it
 is, never what it is.
 
-A key file that cannot be used
-------------------------------
-A missing key is a normal state and means "run unkeyed". A key FILE that exists
+A key that cannot be used
+-------------------------
+A missing key is a normal state and means "run unkeyed". A key that is present
 but cannot be read as a key is different, and quietly treating it as absent would
 leave a user who set one up correctly-looking, running at a third of the speed
-with no idea why. So it is still treated as absent - a bad file must never stop a
-run that works without it - but `describe` says what is wrong with it. Handled:
-a UTF-8 byte-order mark, and the UTF-16 that Windows PowerShell 5 writes for
-`echo KEY > file`. Refused, with a reason: bytes that are neither, and a file
-with more than one non-blank line, because which line is the key is a guess and
-a wrong guess is sent to NCBI.
+with no idea why. So it is still treated as absent - a bad key must never stop a
+run that works without it - but `describe` says what is wrong with it. The same
+rules apply to the environment variable and to the file, because the way a bad key
+hurts is the same: it is sent to NCBI, and the header or URL carrying it ends up in
+an error message. Handled: a UTF-8 byte-order mark, and the UTF-16 that Windows
+PowerShell 5 writes for `echo KEY > file`. Refused, with a reason: bytes that are
+not UTF-8, UTF-16 or UTF-32 text; text containing control characters (what UTF-16
+or UTF-32 without a byte-order mark looks like once decoded as UTF-8); more than one
+non-blank line, because which line is the key is a guess and a wrong guess is sent
+to NCBI; an empty file; and a path that exists but cannot be read, such as a
+directory or a file this user may not open.
 """
 
 from __future__ import annotations
@@ -77,30 +82,66 @@ ALL = (NCBI, ELSEVIER, ELSEVIER_INSTTOKEN)
 EUTILS_INFO = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi"
 
 
+def _single_line(text: str) -> tuple[str, str]:
+    """(value, problem) for the text of a key, wherever it came from.
+
+    Exactly one of the two is non-empty, unless the text is blank, when both are.
+    """
+    # Control characters first, over the whole text: UTF-16 without a byte-order mark
+    # decodes as UTF-8 into letters separated by NULs, and splitting that into lines
+    # first would report a nonsense line count instead of the real problem.
+    if any((ord(c) < 32 and c not in "\r\n\t") or ord(c) == 127 for c in text):
+        return "", (
+            "contains control characters (usually UTF-16 or UTF-32 text without a byte-order mark, "
+            "which PowerShell writes by default)"
+        )
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    if len(lines) > 1:
+        return (
+            "",
+            f"has {len(lines)} non-blank lines; a key holds one line and which is the key is a guess",
+        )
+    return (lines[0] if lines else ""), ""
+
+
 def _file_value(path: Path) -> tuple[str, str]:
-    """(value, problem) for a key file. Exactly one of the two is non-empty,
-    unless the file simply does not exist, when both are empty."""
+    """(value, problem) for a key file.
+
+    `value` non-empty: usable. `problem` non-empty: the file exists and cannot be
+    used, and says why. Both empty: there is no such file, the ordinary case.
+    """
     try:
         raw = path.read_bytes()
-    except OSError:
-        # Missing, unreadable, or a directory. All mean "no key", and none is
-        # worth a message: a missing key file is the ordinary case.
+    except FileNotFoundError:
         return "", ""
-    if raw.startswith((codecs.BOM_UTF16_LE, codecs.BOM_UTF16_BE)):
+    except OSError as e:
+        # A directory (a bind mount that created one), or a file this user may not
+        # open. Not the ordinary "no key": someone put something there.
+        return "", f"cannot be read ({type(e).__name__}: {e.strerror or e})"
+    if raw.startswith((codecs.BOM_UTF32_LE, codecs.BOM_UTF32_BE)):
+        encoding = "utf-32"  # tested BEFORE UTF-16: its little-endian BOM starts with UTF-16's
+    elif raw.startswith((codecs.BOM_UTF16_LE, codecs.BOM_UTF16_BE)):
         encoding = "utf-16"  # what PowerShell 5's `echo KEY > file` writes
     else:
         encoding = "utf-8-sig"  # also strips a UTF-8 byte-order mark
     try:
         text = raw.decode(encoding)
     except UnicodeDecodeError:
-        return "", "is not valid UTF-8 or UTF-16 text"
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-    if len(lines) > 1:
-        return (
-            "",
-            f"has {len(lines)} non-blank lines; a key file holds one line and which is the key is a guess",
-        )
-    return (lines[0] if lines else ""), ""
+        return "", "is not valid UTF-8, UTF-16 or UTF-32 text"
+    value, problem = _single_line(text)
+    if not value and not problem:
+        return "", "is empty"
+    return value, problem
+
+
+def _env_value(env_var: str) -> tuple[str, str]:
+    """(value, problem) for a key in the environment; both empty when unset or blank."""
+    return _single_line(os.environ.get(env_var, ""))
+
+
+def read_secret_file(path: Path) -> str:
+    """A key from one file, by the same rules as `read_secret`; "" if unusable."""
+    return _file_value(path)[0]
 
 
 def read_secret(spec: tuple[str, str], *, root: Path | None = None) -> str:
@@ -108,10 +149,11 @@ def read_secret(spec: tuple[str, str], *, root: Path | None = None) -> str:
 
     Never raises and never prints. A missing or unusable credential is a normal
     state - most of this project works without any - so the caller decides
-    whether to care, and `describe` says why one was not used.
+    whether to care, and `describe` says why one was not used. An unusable
+    environment value falls through to the file, as an unset one does.
     """
     env_var, filename = spec
-    value = os.environ.get(env_var, "").strip()
+    value = _env_value(env_var)[0]
     if value:
         return value
     return _file_value((root or ROOT) / ".secrets" / filename)[0]
@@ -156,13 +198,17 @@ def scrub(text: object, *, root: Path | None = None) -> str:
     """
     out = str(text)
     for spec in ALL:
-        value = read_secret(spec, root=root)
-        if len(value) < 8:
-            # Replacing a very short string would mangle ordinary text, and no
-            # real credential is this short.
-            continue
-        for form in {value, urllib.parse.quote(value, safe=""), urllib.parse.quote_plus(value)}:
-            out = out.replace(form, "[redacted]")
+        # What would be sent, plus every line of a raw environment value even when
+        # it was refused as unusable: a pasted two-line value contains the real key
+        # on one of its lines, and a refusal must not make that line printable.
+        raw = [ln.strip() for ln in os.environ.get(spec[0], "").splitlines()]
+        for value in {read_secret(spec, root=root), *raw}:
+            if len(value) < 8:
+                # Replacing a very short string would mangle ordinary text, and no
+                # real credential is this short.
+                continue
+            for form in {value, urllib.parse.quote(value, safe=""), urllib.parse.quote_plus(value)}:
+                out = out.replace(form, "[redacted]")
     return out
 
 
@@ -176,14 +222,18 @@ def describe(spec: tuple[str, str], *, root: Path | None = None) -> str:
     reported with the reason, not passed off as absent.
     """
     env_var, filename = spec
-    if os.environ.get(env_var, "").strip():
-        return f"{env_var}: set in the environment ({len(os.environ[env_var].strip())} chars)"
+    env_value, env_problem = _env_value(env_var)
+    if env_value:
+        return f"{env_var}: set in the environment ({len(env_value)} chars)"
     path = (root or ROOT) / ".secrets" / filename
     value, problem = _file_value(path)
+    note = f" (${env_var} is set but {env_problem}, so it was ignored)" if env_problem else ""
     if value:
-        return f"{env_var}: read from .secrets/{filename} ({len(value)} chars)"
+        return f"{env_var}: read from .secrets/{filename} ({len(value)} chars){note}"
     if problem:
-        return f"{env_var}: .secrets/{filename} exists but {problem}, so it is being ignored"
+        return f"{env_var}: .secrets/{filename} exists but {problem}, so it is being ignored{note}"
+    if env_problem:
+        return f"{env_var}: ${env_var} is set but {env_problem}, so it is being ignored"
     return f"{env_var}: not set (looked in ${env_var} and {path})"
 
 
@@ -192,7 +242,7 @@ def check_ncbi_key(*, root: Path | None = None, urlopen=urllib.request.urlopen) 
 
     `accepted` is None when there is no key or the question could not be asked.
 
-    Why this exists: six scripts that used to send no key now send one, and if
+    Why this exists: five scripts that used to send no key now send one, and if
     NCBI answers an invalid key with an error where it used to ignore a missing
     one, a mistyped key file turns "three times slower" into "does not work".
     Finding that out should be one cheap request, not a failed screening run.
@@ -212,7 +262,9 @@ def check_ncbi_key(*, root: Path | None = None, urlopen=urllib.request.urlopen) 
             body = resp.read().decode("utf-8", "replace")
             status = getattr(resp, "status", 200)
     except urllib.error.HTTPError as e:
-        detail = scrub(e.read().decode("utf-8", "replace")[:200], root=root)
+        # Scrub the whole body and only then cut it: truncating first can split the
+        # key across the cut, leaving a prefix that no longer matches and is printed.
+        detail = scrub(e.read().decode("utf-8", "replace"), root=root)[:200]
         return False, f"NCBI answered HTTP {e.code}: {detail}"
     except Exception as e:  # noqa: BLE001 - a dead network is an answer, not a crash
         return None, f"could not reach NCBI ({type(e).__name__}): {scrub(e, root=root)}"

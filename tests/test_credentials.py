@@ -41,6 +41,12 @@ from assaywatch.credentials import (
 ROOT = Path(__file__).resolve().parents[1]
 KEY = "k3y-abcdef0123456789-XYZ"
 
+# The per-script caller tests drive scripts that import `requests`. It is in the `dev`
+# extra, so CI runs them; without it they skip rather than fail on an ImportError.
+needs_requests = pytest.mark.skipif(
+    importlib.util.find_spec("requests") is None, reason="requests not installed"
+)
+
 
 def load_script(name: str):
     spec = importlib.util.spec_from_file_location(f"s_{name}", ROOT / "scripts" / f"{name}.py")
@@ -385,6 +391,7 @@ def assert_clean(exc: SystemExit):
     assert exc.value.__suppress_context__ is True
 
 
+@needs_requests
 def test_check_taxids_does_not_print_the_key_on_an_http_error(monkeypatch):
     mod = load_script("check_taxids")
     monkeypatch.setenv("NCBI_API_KEY", KEY)
@@ -396,6 +403,7 @@ def test_check_taxids_does_not_print_the_key_on_an_http_error(monkeypatch):
     assert "429" in str(e.value)  # still says what went wrong
 
 
+@needs_requests
 def test_check_taxids_does_not_print_the_key_on_a_refused_connection(monkeypatch):
     mod = load_script("check_taxids")
     monkeypatch.setenv("NCBI_API_KEY", KEY)
@@ -405,6 +413,7 @@ def test_check_taxids_does_not_print_the_key_on_a_refused_connection(monkeypatch
     assert_clean(e)
 
 
+@needs_requests
 def test_resolve_citations_does_not_print_the_key_on_an_http_error(monkeypatch):
     mod = load_script("resolve_citations")
     monkeypatch.setenv("NCBI_API_KEY", KEY)
@@ -415,6 +424,7 @@ def test_resolve_citations_does_not_print_the_key_on_an_http_error(monkeypatch):
     assert_clean(e)
 
 
+@needs_requests
 def test_resolve_citations_does_not_print_the_key_on_a_refused_connection(monkeypatch):
     mod = load_script("resolve_citations")
     monkeypatch.setenv("NCBI_API_KEY", KEY)
@@ -445,6 +455,7 @@ class FakeHTTP:
         )
 
 
+@needs_requests
 def test_check_taxids_sends_the_key(monkeypatch):
     mod = load_script("check_taxids")
     fake = FakeHTTP()
@@ -458,6 +469,7 @@ def test_check_taxids_sends_the_key(monkeypatch):
     assert "api_key" not in fake.calls[1]
 
 
+@needs_requests
 def test_resolve_citations_sends_the_key(monkeypatch):
     mod = load_script("resolve_citations")
     fake = FakeHTTP()
@@ -467,6 +479,7 @@ def test_resolve_citations_sends_the_key(monkeypatch):
     assert fake.calls[0]["api_key"] == KEY
 
 
+@needs_requests
 def test_check_submission_sends_the_key_and_paces_itself(monkeypatch):
     mod = load_script("check_submission")
     import requests
@@ -483,6 +496,7 @@ def test_check_submission_sends_the_key_and_paces_itself(monkeypatch):
     assert sleeps == [0.11]  # one request per assay was previously unpaced
 
 
+@needs_requests
 def test_check_submission_still_paces_when_the_request_fails(monkeypatch):
     """The sleep is in a finally: a failed request is still a request."""
     mod = load_script("check_submission")
@@ -532,20 +546,346 @@ def test_retrieve_resolves_its_key_through_the_shared_helper(tmp_path, monkeypat
 
 
 def test_no_ncbi_call_site_can_be_added_without_the_key():
-    """Structural guard for the next one. Every file that names an NCBI endpoint
-    must either take the key through `credentials` or accept one as an argument.
+    """Structural guard for the next one, checked per FUNCTION rather than per file.
 
-    This is the failure that actually happened: five scripts called E-utilities
-    unkeyed because nothing made adding a call site and forgetting the key fail.
+    A function that names an NCBI endpoint (directly, or through a module-level
+    constant holding one) must mention a key in the same function. The first version
+    of this test only asked that the FILE mention `api_key` somewhere, so an import
+    line, a comment, or a second unkeyed call in a file that already used the key all
+    satisfied it. This is the failure that actually happened: five scripts called
+    E-utilities unkeyed because nothing made adding a call site and forgetting the
+    key fail.
+
+    Behaviour is tested separately, in the tests above and the transport tests below:
+    this one cannot tell that a key is SENT, only that the function that calls NCBI
+    knows keys exist.
     """
+    import ast
+
     endpoint = re.compile(
         r"eutils\.ncbi\.nlm\.nih\.gov|ncbi\.nlm\.nih\.gov/pmc/utils/idconv|api\.ncbi\.nlm\.nih\.gov"
     )
-    offenders = []
-    for path in [*(ROOT / "assaywatch").glob("*.py"), *(ROOT / "scripts").glob("*.py")]:
+    key_marker = re.compile(r"with_api_key|api_key|ncbi_api_key")
+    call_sites, offenders = [], []
+    for path in sorted([*(ROOT / "assaywatch").glob("*.py"), *(ROOT / "scripts").glob("*.py")]):
         if path.name == "credentials.py":
             continue
-        text = path.read_text()
-        if endpoint.search(text) and not re.search(r"with_api_key|api_key", text):
-            offenders.append(path.name)
-    assert offenders == [], f"call NCBI without handling an API key: {offenders}"
+        src = path.read_text()
+        tree = ast.parse(src)
+        constants = {
+            t.id
+            for node in tree.body
+            if isinstance(node, ast.Assign)
+            and isinstance(node.value, ast.Constant)
+            and isinstance(node.value.value, str)
+            and endpoint.search(node.value.value)
+            for t in node.targets
+            if isinstance(t, ast.Name)
+        }
+        for fn in ast.walk(tree):
+            if not isinstance(fn, ast.FunctionDef | ast.AsyncFunctionDef):
+                continue
+            body = ast.get_source_segment(src, fn) or ""
+            if endpoint.search(body) or any(re.search(rf"\b{c}\b", body) for c in constants):
+                call_sites.append(f"{path.name}:{fn.name}")
+                if not key_marker.search(body):
+                    offenders.append(f"{path.name}:{fn.name}")
+    # Not vacuous: the scan has to actually find the known call sites.
+    for known in (
+        "retrieve.py:http_transport",
+        "assemblies.py:datasets_transport",
+        "check_taxids.py:fetch_taxa",
+    ):
+        assert known in call_sites, (known, call_sites)
+    assert offenders == [], f"functions that call NCBI without handling an API key: {offenders}"
+
+
+# --------------------------------------------------------------------------
+# Found by the second review: truncation, other kinds of unusable key, the two
+# real pipeline transports, and the sibling scripts the first fix missed.
+# --------------------------------------------------------------------------
+
+
+def _key_windows(key: str, n: int = 6):
+    return [key[i : i + n] for i in range(len(key) - n + 1)]
+
+
+def test_the_check_scrubs_before_it_truncates(tmp_path, monkeypatch):
+    """The error body is cut to 200 characters for display. Cutting FIRST can split
+    the key across the cut, leaving a prefix that no longer matches the key, so
+    `scrub` does not see it and it is printed. Every offset is tried."""
+    import io
+
+    monkeypatch.setenv("NCBI_API_KEY", KEY)
+    for pad in range(150, 205):
+        body = ("x" * pad + f" GET /einfo.fcgi?api_key={KEY} bad request").encode()
+
+        def urlopen(url, timeout=0, _body=body):
+            raise urllib.error.HTTPError(url, 400, "Bad Request", {}, io.BytesIO(_body))
+
+        accepted, message = check_ncbi_key(root=tmp_path, urlopen=urlopen)
+        assert accepted is False
+        leaked = [w for w in _key_windows(KEY) if w in message]
+        assert not leaked, (pad, leaked, message[-60:])
+
+
+def test_a_multi_line_environment_key_is_refused_like_a_multi_line_file(tmp_path, monkeypatch):
+    """The environment path had no one-line rule, so a pasted two-line value was
+    sent as a header, requests refused it and put the whole value in the error."""
+    monkeypatch.setenv("NCBI_API_KEY", f"{KEY}\n# rotated 2026-09")
+    assert ncbi_api_key(root=tmp_path) == ""
+    assert with_api_key({"db": "x"}, root=tmp_path) == {"db": "x"}
+    line = describe(NCBI, root=tmp_path)
+    assert "2 non-blank lines" in line and "ignored" in line and KEY not in line, line
+    # An unusable environment value falls through to the file, as an unset one does.
+    (secrets_dir(tmp_path) / "ncbi.key").write_text("from-the-file\n")
+    assert ncbi_api_key(root=tmp_path) == "from-the-file"
+    assert "ignored" in describe(NCBI, root=tmp_path)
+
+
+def test_scrub_still_removes_a_key_that_was_refused_as_multi_line(tmp_path, monkeypatch):
+    """Refusing a value must not make its real line printable: the key is on one
+    line of the pasted value, and an exception may still carry it."""
+    monkeypatch.setenv("NCBI_API_KEY", f"{KEY}\n# a note")
+    assert KEY not in scrub(f"error talking to NCBI with {KEY}", root=tmp_path)
+
+
+@pytest.mark.parametrize(
+    "content, fragment",
+    [
+        ("KEY0123456789abcdef\n".encode("utf-16-le"), "control characters"),  # UTF-16, no BOM
+        ("KEY0123456789abcdef\n".encode("utf-16-be"), "control characters"),
+        (
+            b"\xff\xfe\x00\x00" + "KEY0123456789abcdef\n".encode("utf-32-le"),
+            None,
+        ),  # UTF-32 WITH a BOM: readable
+        (b"", "is empty"),
+        (b"\n\n", "is empty"),
+        (b"\xef\xbb\xbf", "is empty"),  # a BOM and nothing else
+        (b"\xff\xfe\xfd garbage \xc0", "not valid"),
+    ],
+    ids=["utf16le-no-bom", "utf16be-no-bom", "utf32-with-bom", "empty", "newlines", "bom-only", "garbage"],
+)
+def test_a_key_file_that_cannot_be_used_says_why_and_is_not_sent(tmp_path, content, fragment):
+    (secrets_dir(tmp_path) / "ncbi.key").write_bytes(content)
+    value = ncbi_api_key(root=tmp_path)
+    line = describe(NCBI, root=tmp_path)
+    if fragment is None:
+        assert value == "KEY0123456789abcdef" and "read from" in line, (value, line)
+        return
+    assert value == "", repr(value)
+    assert "exists but" in line and fragment in line, line
+    assert "\x00" not in line
+
+
+def test_a_key_path_that_is_a_directory_is_reported_not_called_unset(tmp_path):
+    """A Docker bind mount creates a directory where a missing file was mounted."""
+    (secrets_dir(tmp_path) / "ncbi.key").mkdir()
+    assert ncbi_api_key(root=tmp_path) == ""
+    line = describe(NCBI, root=tmp_path)
+    assert "exists but cannot be read" in line, line
+
+
+def test_a_missing_key_file_is_still_just_not_set(tmp_path):
+    assert describe(NCBI, root=tmp_path).startswith("NCBI_API_KEY: not set")
+
+
+def test_every_script_reads_a_key_file_by_the_same_rules(tmp_path):
+    """fetch_elsevier had its own read_text().strip(), so the PowerShell UTF-16 file
+    the credentials module was fixed for still crashed it, and a Notepad BOM made it
+    send a key with an invisible character on the front."""
+    mod = load_script("fetch_elsevier")
+    clean = "abcdef0123456789abcdef0123456789"
+    utf16 = tmp_path / "utf16.key"
+    utf16.write_bytes(b"\xff\xfe" + (clean + "\r\n").encode("utf-16-le"))
+    bom = tmp_path / "bom.key"
+    bom.write_bytes(b"\xef\xbb\xbf" + clean.encode() + b"\n")
+    for f in (utf16, bom):
+        assert mod.load_secret(f, "ELSEVIER_API_KEY", "elsevier.key") == clean, f.name
+    # and it still honours the environment, then the default file
+    default = secrets_dir(credentials.ROOT) / "elsevier.key"
+    default.write_text("from-the-default-file\n")
+    assert mod.load_secret(None, "ELSEVIER_API_KEY", "elsevier.key") == "from-the-default-file"
+
+
+# ---- the two real pipeline transports -------------------------------------------------
+
+
+def _stub_requests(monkeypatch, responder):
+    """A stand-in `requests` module, installed where the transports import it lazily."""
+    import types
+
+    stub = types.ModuleType("requests")
+
+    class RequestException(Exception):  # noqa: N818 - mirrors requests' own name
+        pass
+
+    stub.RequestException = RequestException
+    calls = []
+
+    def post(url, data=None, timeout=0):
+        calls.append({"url": url, "data": dict(data), "headers": {}})
+        return responder(calls[-1])
+
+    def get(url, params=None, headers=None, timeout=0):
+        calls.append({"url": url, "data": dict(params or {}), "headers": dict(headers or {})})
+        return responder(calls[-1])
+
+    stub.post, stub.get = post, get
+    monkeypatch.setitem(sys.modules, "requests", stub)
+    return calls
+
+
+def _response(status=200, text="<ok/>"):
+    return SimpleNamespace(status_code=status, text=text, content=text.encode())
+
+
+def _frozen_clock(monkeypatch, module):
+    """Sleeps recorded, clock frozen: every call after the first owes the full interval."""
+    sleeps = []
+    monkeypatch.setattr(module.time, "sleep", sleeps.append)
+    monkeypatch.setattr(module.time, "monotonic", lambda: 100.0)
+    return sleeps
+
+
+def test_the_eutilities_transport_sends_the_key_and_waits_the_shared_interval(monkeypatch):
+    from assaywatch import retrieve
+
+    calls = _stub_requests(monkeypatch, lambda c: _response())
+    sleeps = _frozen_clock(monkeypatch, retrieve)
+    monkeypatch.setenv("NCBI_API_KEY", KEY)
+    transport = retrieve.http_transport("a@b.c", ncbi_api_key())
+    transport("esearch", {"db": "nuccore"})
+    transport("esearch", {"db": "nuccore"})
+    assert [c["data"].get("api_key") for c in calls] == [KEY, KEY]
+    assert sleeps == [ncbi_interval()] == [0.11]  # tied to the shared number, not a copy of it
+
+
+def test_the_unkeyed_eutilities_transport_sends_no_key_and_waits_longer(monkeypatch):
+    from assaywatch import retrieve
+
+    calls = _stub_requests(monkeypatch, lambda c: _response())
+    sleeps = _frozen_clock(monkeypatch, retrieve)
+    transport = retrieve.http_transport("a@b.c", None)
+    transport("esearch", {"db": "nuccore"})
+    transport("esearch", {"db": "nuccore"})
+    assert all("api_key" not in c["data"] for c in calls)
+    assert sleeps == [ncbi_interval()] == [0.34]
+
+
+def test_the_eutilities_transport_does_not_print_a_key_an_error_body_echoes(monkeypatch):
+    from assaywatch import retrieve
+
+    monkeypatch.setenv("NCBI_API_KEY", KEY)
+    for status, text in ((400, f'{{"error": "bad", "api-key": "{KEY}"}}'), (400, f"history expired {KEY}")):
+        _stub_requests(monkeypatch, lambda c, s=status, t=text: _response(s, t))
+        transport = retrieve.http_transport("a@b.c", KEY)
+        with pytest.raises((retrieve.RetrievalError, retrieve.HistoryExpired)) as err:
+            transport("esearch", {"db": "nuccore"})
+        assert KEY not in str(err.value), str(err.value)
+
+
+def test_a_group_failure_is_printed_without_the_key(monkeypatch, capsys):
+    """retrieve.main prints `ERROR taxid/group: ...: {exception}` and Snakemake keeps
+    it in .snakemake/log. Driven through main(), over both transports."""
+    from assaywatch import retrieve
+
+    monkeypatch.setenv("NCBI_API_KEY", KEY)
+    _stub_requests(monkeypatch, lambda c: _response(400, f'{{"api-key": "{KEY}", "error": "invalid"}}'))
+    monkeypatch.setattr(retrieve.time, "sleep", lambda s: None)
+    retrieve.main([str(ROOT / "registry"), "--taxid", "109871", "--dry-run", "--email", "a@b.c"])
+    err = capsys.readouterr().err
+    assert "ERROR" in err, "the fixture no longer produces a failing group"
+    assert KEY not in err, err
+
+
+def test_main_scrubs_whatever_a_group_raises_not_only_what_the_transports_raise(monkeypatch, capsys):
+    """Defence in depth at the print itself: a corrupt genome zip, malformed XML, a
+    library error - none of those pass through a transport's own scrubbing."""
+    from assaywatch import retrieve
+
+    monkeypatch.setenv("NCBI_API_KEY", KEY)
+
+    def explode(*a, **k):
+        raise RuntimeError(f"something broke while using {KEY}")
+
+    from assaywatch import assemblies
+
+    monkeypatch.setattr(retrieve, "retrieve_taxon", explode)
+    monkeypatch.setattr(assemblies, "retrieve_assemblies", explode)  # imported inside main
+    retrieve.main([str(ROOT / "registry"), "--taxid", "109871", "--dry-run", "--email", "a@b.c"])
+    err = capsys.readouterr().err
+    assert "ERROR" in err and "something broke" in err
+    assert KEY not in err, err
+
+
+def test_the_datasets_transport_sends_the_key_as_a_header_and_waits(monkeypatch):
+    from assaywatch import assemblies
+
+    calls = _stub_requests(monkeypatch, lambda c: _response())
+    sleeps = _frozen_clock(monkeypatch, assemblies)
+    transport = assemblies.datasets_transport(KEY)
+    transport("genome/taxon/1/dataset_report", {}, "text/tab-separated-values")
+    transport("genome/taxon/1/dataset_report", {}, "text/tab-separated-values")
+    assert [c["headers"].get("api-key") for c in calls] == [KEY, KEY]
+    assert sleeps == [0.11]
+
+    calls.clear()
+    sleeps.clear()
+    unkeyed = assemblies.datasets_transport(None)
+    unkeyed("p", {}, "x")
+    unkeyed("p", {}, "x")
+    assert all("api-key" not in c["headers"] for c in calls)
+    assert sleeps == [0.21]  # Datasets allows 5/s unkeyed, a different limit from E-utilities' 3/s
+
+
+def test_the_datasets_transport_does_not_print_a_key_an_error_body_echoes(monkeypatch):
+    from assaywatch import assemblies
+
+    monkeypatch.setenv("NCBI_API_KEY", KEY)
+    _stub_requests(monkeypatch, lambda c: _response(400, f'{{"api-key": "{KEY}"}}'))
+    monkeypatch.setattr(assemblies.time, "sleep", lambda s: None)
+    with pytest.raises(assemblies.AssemblyError) as err:
+        assemblies.datasets_transport(KEY)("genome/x", {}, "application/json")
+    assert KEY not in str(err.value), str(err.value)
+
+
+def test_master_sheet_paces_a_failed_chunk_too(monkeypatch):
+    """The same defect check_submission had: the sleep was only on the success path,
+    so a 429 was followed by the next request at once."""
+    mod = load_script("master_sheet")
+    sleeps = []
+
+    def boom(url, timeout=0):
+        raise urllib.error.HTTPError(url, 429, "Too Many Requests", {}, None)
+
+    monkeypatch.setattr(mod.urllib.request, "urlopen", boom)
+    monkeypatch.setattr(mod.time, "sleep", sleeps.append)
+    assert mod.fetch_taxa(list(range(1, 151)), "a@b.c") == {}  # three chunks of 50
+    assert sleeps == [0.34, 0.34, 0.34]
+
+
+def test_check_through_the_real_urllib_path_against_a_local_server(tmp_path, monkeypatch):
+    """The other check tests inject a fake `urlopen`, so the real HTTP path, including
+    how urllib raises on a 4xx and what the body of that exception holds, had never run
+    under test. A local server stands in for NCBI: accepted, rejected with an HTML page
+    that echoes the request line, and rejected with a JSON error in a 200."""
+    monkeypatch.setenv("NCBI_API_KEY", KEY)
+    page = lambda pad: ("x" * pad + f" GET /einfo.fcgi?api_key={KEY}").encode()  # noqa: E731
+
+    with serve(200, b'{"einforesult": {"dblist": ["pubmed"]}}') as url:
+        monkeypatch.setattr(credentials, "EUTILS_INFO", url)
+        accepted, message = check_ncbi_key(root=tmp_path)
+        assert accepted is True and "accepted" in message
+
+    for pad in (0, 120, 160, 190):
+        with serve(400, page(pad)) as url:
+            monkeypatch.setattr(credentials, "EUTILS_INFO", url)
+            accepted, message = check_ncbi_key(root=tmp_path)
+        assert accepted is False and "HTTP 400" in message, message
+        assert not [w for w in _key_windows(KEY) if w in message], (pad, message)
+
+    with serve(200, b'{"error": "API key invalid"}') as url:
+        monkeypatch.setattr(credentials, "EUTILS_INFO", url)
+        accepted, message = check_ncbi_key(root=tmp_path)
+        assert accepted is False and "API key invalid" in message
