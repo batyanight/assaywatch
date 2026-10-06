@@ -91,8 +91,10 @@ extracts a page of prose and no sequences. PubMed Central text can come back
 without a table: the avian orthobornavirus paper arrived as 31,202 characters of
 readable body text ending its methods in "primers used are presented in" and
 nothing, with zero oligo-like runs, and reported all 12 stored oligos `absent`.
-And it can drop sequences that sit INLINE: the avipox paper's reverse primer
-reads "primer 1R ()" in the text, the parenthetical emptied. Some PMC articles
+And a sequence that sits INLINE can come back empty: the avipox paper's reverse primer
+reads "primer 1R ()" in the text, the parenthetical emptied (whether PMC's own XML or the
+flattening this text came through lost it is not established; `lost_inline` reads the
+empty bracket as the marker either way). Some PMC articles
 keep their tables whole (Prepens 2007 and Deckers 2009 both did), so this is not
 a rule about PMC; it is why `paper_oligos` is reported on every row.
 

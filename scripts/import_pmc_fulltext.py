@@ -21,8 +21,9 @@ does not. PMC's open-access subset is the same corpus Europe PMC's
 read from the publisher's own deposited text - but NOT necessarily all of it.
 The JSON carries the article as flattened text, and what survives varies by
 article: Prepens 2007 and Deckers 2009 came through with their primer tables,
-while other papers lost a table, or lost sequences printed inline (the avipox
-paper's reverse primer reads `primer 1R ()`). A file written here can therefore
+while other papers lost a table, or came back with a sequence printed inline
+emptied (the avipox paper's reverse primer reads `primer 1R ()`; whether PMC or the
+flattening dropped it is not established). A file written here can therefore
 look complete and still lack the primers; `verify_oligos_against_paper.py`
 reports how many oligo-like runs it found (`paper_oligos`) so that shows.
 

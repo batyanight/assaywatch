@@ -1,4 +1,4 @@
-# Candidate DOIs for five unresolved citations
+# Candidate DOIs for unresolved citations (eight, found through PubMed)
 
 2026-10-05, from a cloud session. Found via PubMed (the MCP route), which was
 reachable where Crossref was not.
@@ -97,7 +97,7 @@ Alderisio K, Limor J, Royer M, Lal AA. 2000. *Appl Environ Microbiol*
 paper. Same first author, different paper, journal, year, organism and locus.
 Corrected 2026-10-06 against PubMed records for both papers.)
 
-### 5. `Encephalitozoon_18S_General_Encephalitoz_Muller_19`
+### 5. `Encephalitozoon_18S_General_Encephalitoz_Muller_1999`
 **`10.1128/CDLI.6.2.243-246.1999`** — PMID 10066661, PMC95694
 
 Müller A, Stellermann K, Hartmann P, Schrappe M, Fätkenheuer G, Salzberger B,

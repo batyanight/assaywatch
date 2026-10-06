@@ -178,8 +178,8 @@ the PDF.
 | tests | 762 passing, 2 skipped |
 
 **The 20-of-38 figure does not supersede the local 100-of-175.** It is a
-different and much smaller sample - 21 papers against 60, with the tables
-stripped from all of them. Re-run on the machine that holds the PDFs to get a
+different and much smaller sample - 21 papers against 60, many of them without
+their primer tables. Re-run on the machine that holds the PDFs to get a
 comparable number; the two sharpened verdicts mean the local figure will also
 move, and some of its 65 `absent` rows should become `no-oligos`.
 
@@ -218,12 +218,22 @@ nobody has to rediscover them:
 - **"The Prepens amplicons are probably one spreadsheet error."** The paper states
   330 in its table (footnoted approximate) and 320 in its Figure 1 legend for
   round 1, and 250 in both places for round 2. The stored 320 agrees with the
-  figure; only the stored 230 contradicts the paper.
+  figure (which does not name the primer set; 250 appears in Table 3 only for CM-gB
+  round 2, so the pairing is an inference); only the stored 230 contradicts the paper.
 - **"Müller 2011 and Wang 1997 cannot be resolved."** Both resolve to a candidate
   with the right search; see `docs/2026-10-05-doi-candidates.md`.
 - **"`snakemake -n` should list the same jobs as before."** It will not: the first
   run after pulling re-screens everything, because the screening code and its
-  hashes changed. See `docs/RESUME-HERE.md` for the recipe that avoids it.
+  hashes changed. A dry run does list the screening jobs once today's retrieval record
+  exists, and before that it plans only validate and retrieve; it was never a way to
+  check the pull. See `docs/RESUME-HERE.md` for what to do instead.
+- **"The adoption recipe is `--until retrieve`, `--touch`, then run."** Wrong: a second
+  review showed it skips the screening of a new archive when today's results folder
+  already exists, and `--touch` with no targets blesses stale screens whatever made them
+  stale. The recipe in RESUME-HERE.md touches the existing screens only, and says when not
+  to use it.
+- **"Prepens prints 13 oligos (it prints 16)."** It prints 16 PCR primers in Table 3 and 7
+  LNA oligonucleotides in Table 2; 13 was a count of extractor fragments.
 
 None of the corrected statements changed a registry sequence, a DOI or a stored
 amplicon.
