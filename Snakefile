@@ -26,7 +26,6 @@
 # `retrieve` is a checkpoint: which archives exist is not known until it has
 # run, so the job graph is re-evaluated after it finishes.
 
-import json
 import hashlib
 import json
 import os
@@ -35,6 +34,8 @@ from pathlib import Path
 
 from assaywatch.collect import concatenate_screens, stem_order
 from assaywatch.retrieve import targets_from_registry
+from assaywatch.triggers import source_names
+from assaywatch.validate import iter_files
 
 configfile: "config.yaml"
 
@@ -55,21 +56,12 @@ GROUPS = targets_from_registry([Path(REGISTRY)], config)
 # the scoring settings and the screening code. Its hash is a param of
 # screen_archive, so editing an assay, changing a threshold or upgrading the
 # matcher rescreens exactly the archives affected, with no `-R` to remember.
-# schema.py owns Oligo.matching_seq, tail_5prime and seq_as_written, so editing
-# it changes every call; validate.py decides what loads at all. Both were
-# missing, which meant such an edit rescreened nothing.
-_CODE = (
-    "score.py",
-    "match.py",
-    "iupac.py",
-    "chance.py",
-    "screen.py",
-    "thermo.py",
-    "degeneracy.py",
-    "fasta.py",
-    "schema.py",
-    "validate.py",
-)
+# The code is screen.py and everything it imports (assaywatch/triggers.py works
+# that out from the source). It used to be a hand-kept list, and the list missed
+# schema.py, which owns Oligo.matching_seq, tail_5prime and seq_as_written, and
+# validate.py, which decides what loads at all, so editing either rescreened
+# nothing.
+_CODE = source_names("screen")
 _SCREEN_CFG = {k: config.get(k) for k in ("scoring", "amplicon", "degeneracy", "thermo_conditions")}
 _code_hash = hashlib.sha1(
     b"".join((Path(workflow.basedir) / "assaywatch" / f).read_bytes() for f in _CODE)
@@ -95,6 +87,51 @@ def screen_signature(taxid, group):
 # stem_order lives in assaywatch/collect.py with collect_calls' logic, so both
 # can be tested: archives are concatenated oldest first, and `_10` must sort
 # after `_2`, so that the newest version of an accession survives deduplication.
+
+
+def _package_hash(*names):
+    """Hash of assaywatch/<name> files, for use as a param.
+
+    Snakemake reruns a `run:` block when its own code changes, but not a `shell:`
+    command's module, and not logic that has been moved out of a `run:` block
+    into a module (collect_calls did exactly that, so editing the module stopped
+    rerunning the rule). A rule's modules therefore travel as a param: edit the
+    code and the rule is listed for rerun, with no `-R` to remember.
+
+    Which files, is `assaywatch.triggers.source_names`: the module a rule runs
+    plus everything it imports, derived from the source rather than listed by
+    hand (the hand-kept screening list above missed schema.py and validate.py).
+    """
+    h = hashlib.sha1()
+    for name in names:
+        h.update(name.encode() + b"\0")
+        h.update((Path(workflow.basedir) / "assaywatch" / name).read_bytes())
+    return h.hexdigest()[:16]
+
+
+def _registry_and_config_hash(*config_keys):
+    """Every registry file plus the named config sections, for rules that read both."""
+    h = hashlib.sha1()
+    for path in sorted(iter_files(Path(REGISTRY))):
+        h.update(path.name.encode() + b"\0")
+        h.update(path.read_bytes())
+    h.update(json.dumps({k: config.get(k) for k in config_keys}, sort_keys=True, default=str).encode())
+    return h.hexdigest()[:16]
+
+
+# report.py reads the drift, degeneracy and scoring settings and every assay's
+# metadata (names, citations, status); degeneracy.py reads the registry and its
+# tier settings. Neither names the registry as an input, so it travels as a param.
+_COLLECT_CODE = _package_hash(*source_names("collect"))
+_REPORT_PARAMS = {
+    "code": _package_hash(*source_names("report")),
+    "inputs": _registry_and_config_hash("drift", "degeneracy", "scoring", "amplicon"),
+}
+_DEGENERACY_PARAMS = {
+    "code": _package_hash(*source_names("degeneracy")),
+    "inputs": _registry_and_config_hash("degeneracy"),
+}
+
 
 wildcard_constraints:
     taxid=r"\d+",
@@ -197,6 +234,10 @@ rule collect_calls:
         archives,
     output:
         RESULTS / RUN_DATE / "calls.tsv.gz",
+    params:
+        # The logic is in a module, so Snakemake's own code trigger no longer sees
+        # it; see _package_hash.
+        code=_COLLECT_CODE,
     run:
         # The logic is in assaywatch/collect.py, where it is tested. It reconciles
         # a cached screen made before a column was added with one made after,
@@ -211,6 +252,9 @@ rule degeneracy_table:
         RESULTS / RUN_DATE / ".registry-valid",
     output:
         RESULTS / RUN_DATE / "degeneracy.tsv",
+    params:
+        code=_DEGENERACY_PARAMS["code"],
+        inputs=_DEGENERACY_PARAMS["inputs"],
     shell:
         "python -m assaywatch.degeneracy {REGISTRY} --tsv > {output}"
 
@@ -222,6 +266,9 @@ rule report:
     output:
         md=RESULTS / RUN_DATE / "report.md",
         html=RESULTS / RUN_DATE / "report.html",
+    params:
+        code=_REPORT_PARAMS["code"],
+        inputs=_REPORT_PARAMS["inputs"],
     shell:
         "python -m assaywatch.report {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
