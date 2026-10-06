@@ -1110,11 +1110,8 @@
   "scientific_name": "Orthoherpesviridae"
  },
  "3044782": {
-  "common_name": "arboviruses group B",
-  "lineage_tail": [
-   "Amarillovirales",
-   "Flaviviridae"
-  ],
+  "common_name": "",
+  "lineage_tail": [],
   "rank": "genus",
   "scientific_name": "Orthoflavivirus"
  },
@@ -1123,6 +1120,12 @@
   "lineage_tail": [],
   "rank": "species",
   "scientific_name": "Morbillivirus felis"
+ },
+ "3048443": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "species",
+  "scientific_name": "Orthoflavivirus usutuense"
  },
  "3048448": {
   "common_name": "",
@@ -1570,6 +1573,15 @@
   ],
   "rank": "species",
   "scientific_name": "Yersinia pseudotuberculosis"
+ },
+ "64286": {
+  "common_name": "",
+  "lineage_tail": [
+   "Euflavivirus",
+   "Orthoflavivirus usutuense"
+  ],
+  "rank": "no rank",
+  "scientific_name": "Usutu virus"
  },
  "655981": {
   "common_name": "white nose syndrome fungus",
