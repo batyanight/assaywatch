@@ -129,3 +129,86 @@ def test_extractor_only_compares_both_versions_on_the_new_reading(tmp_path, pape
     rc, out = run(tmp_path, papers, old, capsys, "--extractor-only")
     assert rc == 0
     assert "skipped" not in out and f"  + {REV}" in out and "1 papers compared" in out
+
+
+# ---- after the second review ------------------------------------------------------------
+
+
+def test_fail_on_loss_does_not_pass_when_nothing_was_compared(tmp_path, papers, capsys):
+    """An old revision that cannot read the folder's file type skipped every file and exited
+    0 under --fail-on-loss: a gate built on the exit code passed vacuously. It is 2 now, and
+    it says why."""
+    old = old_script(tmp_path, f"    return [{FWD!r}]", suffixes='(".pdf",)')
+    rc, out = run(tmp_path, papers, old, capsys, "--fail-on-loss")
+    assert rc == 2 and "0 papers compared" in out
+    rc, _ = run(tmp_path, papers, old, capsys)  # without the flag the same run is just a report
+    assert rc == 0
+    empty = tmp_path / "empty"
+    empty.mkdir()
+    same = old_script(tmp_path, f"    return [{FWD!r}]")
+    assert dp.main(["--papers", str(empty), "--old-script", str(same), "--fail-on-loss"]) == 2
+
+
+def test_an_old_script_without_paper_suffixes_is_treated_as_pdf_only(tmp_path, papers, capsys):
+    """Revisions that predate `PAPER_SUFFIXES` read PDFs only: the default has to say so."""
+    path = tmp_path / "old_nosuffix.py"
+    path.write_text(
+        f"def file_text(path):\n    return path.read_text()\ndef printed_oligos(text):\n    return [{FWD!r}]\n"
+    )
+    (papers / "scan.pdf").write_bytes(b"%PDF-1.4 not really")
+    rc, out = run(tmp_path, papers, path, capsys)
+    assert rc == 0
+    assert "skipped: the old version cannot read this file type" in out  # the .txt paper
+    assert "scan.pdf" not in out or "skipped" not in out.split("scan.pdf")[1].splitlines()[0]
+
+
+def test_the_old_versions_own_reader_is_used_by_default(tmp_path, papers, capsys):
+    """The headline behaviour: each version reads the paper with ITS OWN file_text, so a
+    change to how files are read is part of what is compared. The fake old reader appends a
+    marker its extractor needs; the paper itself lacks it, so an extractor handed the new
+    reading finds nothing and every oligo would read as gained."""
+    old = tmp_path / "old_marker.py"
+    old.write_text(
+        'PAPER_SUFFIXES = (".txt",)\n'
+        "def file_text(path):\n"
+        '    return path.read_text() + " MARKER"\n'
+        "def printed_oligos(text):\n"
+        f"    return [{FWD!r}, {REV!r}] if text.endswith(' MARKER') else []\n"
+    )
+    rc, out = run(tmp_path, papers, old, capsys)
+    assert rc == 0 and "0 oligo(s) lost, 0 gained" in out, out
+    rc, out = run(tmp_path, papers, old, capsys, "--extractor-only")
+    # Given the unmarked (new) reading, the old extractor finds nothing, so both read as GAINED.
+    assert "0 oligo(s) lost, 2 gained" in out, out
+
+
+def test_the_summary_counts_identical_papers_when_some_changed(tmp_path, capsys):
+    d = tmp_path / "p"
+    d.mkdir()
+    (d / "10.1000_same.txt").write_text(PAPER)
+    (d / "10.1000_other.txt").write_text(PAPER.replace(FWD, "CCCCGGGGAAAATTTTACGTAC"))
+    old = old_script(tmp_path, f"    return [{FWD!r}, {REV!r}]")
+    _, out = run(tmp_path, d, old, capsys)
+    assert "2 papers compared, 1 identical, 1 changed" in out, out
+
+
+def test_git_show_is_relative_to_the_checkout_not_the_enclosing_repo(tmp_path, monkeypatch):
+    """When this checkout sits inside a larger repository, `REV:path` resolved from the
+    repository's top level and the tool died with 'path does not exist'."""
+    import subprocess
+
+    nest = tmp_path / "nest"
+    proj = nest / "proj"
+    (proj / "scripts").mkdir(parents=True)
+    (proj / "scripts" / "verify_oligos_against_paper.py").write_text("MARKER = 1\n")
+    git = ["git", "-c", "user.name=t", "-c", "user.email=t@t"]
+    try:
+        subprocess.run([*git, "init", "-q"], cwd=nest, check=True, capture_output=True)
+        subprocess.run([*git, "add", "-A"], cwd=nest, check=True, capture_output=True)
+        subprocess.run([*git, "commit", "-q", "-m", "x"], cwd=nest, check=True, capture_output=True)
+    except (OSError, subprocess.CalledProcessError):
+        pytest.skip("git unavailable")
+    monkeypatch.setattr(dp, "ROOT", proj)
+    work = tmp_path / "work"
+    work.mkdir()
+    assert dp.old_script_from_git("HEAD", work).read_text() == "MARKER = 1\n"

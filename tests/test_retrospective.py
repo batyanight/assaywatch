@@ -313,3 +313,84 @@ def test_cases_print_the_verdict_each_status_implies(tmp_path, capsys):
         "works/DISAGREES: 1, works/agrees: 2, works/undecided: 1"
     ) in out
     assert "1 case(s) the tool declined to judge" in out
+
+
+# --------------------------------------------------------------------------
+# The whole status -> verdict table, not just the two statuses the fixture reaches.
+# --------------------------------------------------------------------------
+
+# What each drift status means to the calibration, from the module's own documentation:
+# stable and watch say the assay works, declining says it fails, low coverage says it never
+# covered all the diversity (partial), and the three "cannot judge" statuses are undecided.
+STATUS_TO_GOT = {
+    "stable": "works",
+    "watch": "works",
+    "declining": "fails",
+    "low coverage": "partial",
+    "insufficient data": "undecided",
+    "no recent data": "undecided",
+    "no data": "undecided",
+}
+
+
+def test_every_status_maps_to_the_outcome_the_documentation_gives_it():
+    for status, want in STATUS_TO_GOT.items():
+        assert retro.classify(status, "works")[0] == want, status
+
+
+def test_every_status_against_every_expectation():
+    """21 combinations, written out from the rules rather than derived from the code."""
+    for status, got in STATUS_TO_GOT.items():
+        for expect in ("works", "fails", "partial"):
+            if got == "undecided":
+                verdict = "undecided"  # the tool declined to judge: neither agreement nor error
+            elif got == expect:
+                verdict = "agrees"
+            elif {got, expect} == {"works", "partial"}:
+                verdict = "weaker"  # incomplete coverage, in either direction
+            else:
+                verdict = "DISAGREES"
+            assert retro.classify(status, expect) == (got, verdict), (status, expect)
+
+
+def test_low_coverage_is_never_scored_as_a_failure():
+    """The bug the module comment records: scoring it as `fails` turned four honest `works`
+    cases into disagreements. A low-coverage assay against a `works` paper is `weaker`."""
+    assert retro.classify("low coverage", "works") == ("partial", "weaker")
+    assert retro.classify("low coverage", "fails") == ("partial", "DISAGREES")
+
+
+def test_a_status_nobody_has_classified_is_undecided_not_silently_scored():
+    assert retro.classify("some new status", "works") == ("undecided", "undecided")
+    assert retro.classify("some new status", "fails") == ("undecided", "undecided")
+
+
+def test_the_cases_loop_prints_what_classify_says(tmp_path, capsys, monkeypatch):
+    """The loop and the table must agree: a `low coverage` status against a `partial`
+    expectation, printed through main(), reads `agrees` and tallies as partial/agrees."""
+    calls, retrieved = build_dataset(tmp_path)
+    cfg_path = tmp_path / "config.yaml"
+    cfg_path.write_text(yaml.safe_dump(CFG))
+    cases = tmp_path / "cases.tsv"
+    cases.write_text("assay_id\tas_of\texpect\tsource\nA\t2023-01-01\tpartial\tdoi:1\n")
+    real = retro.status_from_evidence
+
+    def forced(evidence, cfg, as_of, assays=None):
+        drifts, n = real(evidence, cfg, as_of, assays)
+        drifts["A"].status = "low coverage"
+        return drifts, n
+
+    monkeypatch.setattr(retro, "status_from_evidence", forced)
+    argv = [
+        "--calls",
+        str(calls),
+        "--retrieved",
+        str(retrieved),
+        "--config",
+        str(cfg_path),
+        "--cases",
+        str(cases),
+    ]
+    retro.main(argv)
+    out = capsys.readouterr().out
+    assert "low coverage" in out and "agrees" in out and "partial/agrees: 1" in out, out

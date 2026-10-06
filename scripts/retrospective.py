@@ -58,7 +58,37 @@ from assaywatch.score import load_config  # noqa: E402
 WORKS = {"stable", "watch"}
 FAILS = {"declining"}
 PARTIAL = {"low coverage"}
-UNDECIDED = {"insufficient data", "no recent data"}
+# Statuses the tool declines to judge. Anything not named above is undecided too, so a new
+# status added to drift.py reads as "declined" until someone decides what it means, rather
+# than being scored as one of the three outcomes by accident.
+UNDECIDED = {"insufficient data", "no recent data", "no data"}
+
+
+def classify(status: str, expect: str) -> tuple[str, str]:
+    """(what the tool said, how that compares with the paper) for one case.
+
+    `got` is `works`, `fails`, `partial` or `undecided`. The verdict is `undecided` when the
+    tool declined to judge (that is not a disagreement, and counting it separately is what
+    calibrates `min_records_for_drift`), `agrees` when it matches, `weaker` for a `works` /
+    `partial` mismatch in EITHER direction (incomplete coverage is not a contradiction), and
+    `DISAGREES` otherwise.
+    """
+    got = (
+        "works"
+        if status in WORKS
+        else "fails"
+        if status in FAILS
+        else "partial"
+        if status in PARTIAL
+        else "undecided"
+    )
+    if got == "undecided":
+        return got, "undecided"
+    if got == expect:
+        return got, "agrees"
+    if {got, expect} == {"works", "partial"}:
+        return got, "weaker"
+    return got, "DISAGREES"
 
 
 @dataclass
@@ -154,23 +184,7 @@ def main(argv: list[str] | None = None) -> int:
         drifts, _ = status_from_evidence(evidence, cfg, as_of, {c["assay_id"]})
         a = drifts.get(c["assay_id"])
         status = a.status if a else "no data"
-        got = (
-            "works"
-            if status in WORKS
-            else "fails"
-            if status in FAILS
-            else "partial"
-            if status in PARTIAL
-            else "undecided"
-        )
-        if got == "undecided":
-            verdict = "undecided"  # the tool declined to judge
-        elif got == c["expect"]:
-            verdict = "agrees"
-        elif {got, c["expect"]} == {"works", "partial"}:
-            verdict = "weaker"  # incomplete coverage, not a contradiction
-        else:
-            verdict = "DISAGREES"
+        _, verdict = classify(status, c["expect"])
         tally[(c["expect"], verdict)] += 1
         print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {status:<18} {verdict}")
     print("\nsummary:", ", ".join(f"{e}/{v}: {n}" for (e, v), n in sorted(tally.items())))

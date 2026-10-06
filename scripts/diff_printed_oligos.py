@@ -30,7 +30,9 @@ checked out, so the working tree is untouched. It runs against the CURRENT
 `assaywatch` package, so a revision old enough to import something that no longer
 exists will say so.
 
-Exit code is 0 unless `--fail-on-loss` is given and something was lost.
+Exit code is 0 unless `--fail-on-loss` is given: then 1 if something was lost, and 2 if no
+paper was compared at all (every file skipped, or an empty folder), since an empty
+comparison proves nothing.
 """
 
 from __future__ import annotations
@@ -60,7 +62,14 @@ def old_script_from_git(rev: str, workdir: Path) -> Path:
     """Write `scripts/verify_oligos_against_paper.py` as of `rev` into `workdir`."""
     try:
         out = subprocess.run(
-            ["git", "show", f"{rev}:{SCRIPT}"], cwd=ROOT, capture_output=True, text=True, check=True
+            # `./` makes the path relative to cwd. Without it git resolves it from the
+            # repository's top level, which is wrong when this checkout sits inside a
+            # larger repository.
+            ["git", "show", f"{rev}:./{SCRIPT}"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
         ).stdout
     except subprocess.CalledProcessError as e:
         raise SystemExit(f"git could not read {SCRIPT} at {rev!r}: {e.stderr.strip()}") from None
@@ -149,6 +158,16 @@ def main(argv: list[str] | None = None) -> int:
         old = load_module(old_path, "_old_verify")
         rows = compare(old, new, args.papers, args.extractor_only)
     lost = report(rows)
+    compared = [r for r in rows if "skipped" not in r]
+    if args.fail_on_loss and not compared:
+        # Nothing compared is not "nothing lost": an old revision that cannot read the folder's
+        # file type, or an empty folder, would otherwise pass a gate vacuously.
+        print(
+            "--fail-on-loss: no paper was compared, so nothing can be said "
+            "(try --extractor-only, or point --papers at files the old version reads)",
+            file=sys.stderr,
+        )
+        return 2
     return 1 if (args.fail_on_loss and lost) else 0
 
 
