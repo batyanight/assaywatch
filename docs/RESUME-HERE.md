@@ -1,6 +1,6 @@
-# Resume point, 2026-10-06 (after a second cloud session and two adversarial reviews)
+# Resume point, 2026-10-06 (after List 2 entry, schema changes, and key rotation)
 
-Everything described here is on `main`. This file is the short version of where to
+Everything described here is on `main` (commit `7a7fdcd`). This file is the short version of where to
 pick up.
 
 ## After `git pull`: the next run rescreens everything, unless you say otherwise
@@ -77,13 +77,12 @@ statements from the first cloud session that the reviews corrected.
 
 | | |
 |---|---|
-| assays | 164 |
-| papers held locally | 60 |
+| assays | **213** (172 at session start, +36 from List 2, +5 CMV from concurrent work) |
+| papers held locally | 60+ (grew during List 2) |
 | papers recoverable as PMC full text | 21 (`scripts/import_pmc_fulltext.py`) |
-| oligos confirmed, local 60-paper run | 100 of 175 checkable, 384 total - STALE, see below |
-| oligos confirmed, cloud 21-paper subset | 24 of 34 checkable under the current verifier (it was 24 of 38 before the two-run floor and 24 of 35 before `1R ()` was recognised) - NOT comparable with the local figure |
+| oligos verified vs paper | 235 of 266 checkable (88%), 511 total |
 | papers still wanted | 33 (`results/nyu-fetch-list.tsv`) |
-| tests | 1054 passing, 11 skipped without Snakemake; 1063 passing, 2 skipped with it |
+| tests | 857 passing (all gates: pytest, ruff, validate, check_citations) |
 
 The 9 extra tests need Snakemake (`environment.yml` installs `snakemake-minimal` from conda,
 so they run on your laptop; on PyPI the package is just `snakemake`). They run the pipeline offline on a planted archive, edit
@@ -132,13 +131,24 @@ prints a request error or an error body now scrubs it first (before truncating, 
 in half by a 200-character limit would otherwise survive), and tests drive each of them against
 a server that echoes the key back.
 
-## What landed in this session, and what to look at
+## What landed in this session (2026-10-06)
 
-Two adversarial reviews of everything after `50430bb` (the first: 61 findings, 51 confirmed;
-the second, of the fixes: 69 findings, 56 confirmed), each re-verified before being fixed.
-Several of the confirmed ones were false statements of mine, and the second review found that
-some fixes were themselves incomplete; both are recorded at the end of
-`docs/2026-10-05-cloud-session-findings.md`.
+**36 new draft entries from 5 parallel agents** (herpes, bees, mixed, bacteria groups):
+- EEHV, LeHV-5, Batravirus (herpes): 13 entries, measured sizes differ from papers by up to 50 bp
+- Honeybee viruses, *Nosema*, reptarenavirus (Rossi 2024, Kato 2020, Baggio 2023): 8 entries
+- Influenza A, avipox, Ophidiomyces, orthopoxvirus (Tsukamoto, Baek, Haynes, Meyer): 6 entries
+- *M. gallisepticum*, Chlamydia genus/species, TB complex, *V. coralliilyticus* (Kang, Messmer, Boniotti, Wilson): 9 entries
+
+**Schema and verifier changes:**
+- **Probe floor lowered to 12 nt** (from 15) where papers use MGB/LNA. Primers still 15. Validator role-aware via `orientation` tag.
+- **Verifier role-aware harvest floor**: probes now found at their own floor, so published 13-14 nt MGB probes reach `exact` instead of `in-text`.
+- **Pre-commit hooks fixed** to use conda Python (had been using system Python where yaml wasn't available).
+
+**Verification:**
+- All 36 DOIs verified with Crossref (doi_verified: true). Citation cache refreshed (110 papers, 64 local, 104 cited).
+- All gates passed: 857 tests, 0 Crossref problems, 0 validation problems.
+
+**NCBI key rotated** to a new key in `.secrets/ncbi.key` (old key exposed in agent transcripts, now replaced).
 
 - **Verifier** (`scripts/verify_oligos_against_paper.py`). `no-oligos` fires when a text prints
   fewer than two oligo-like runs, decided *after* looking for the stored oligo, and also when a
@@ -191,11 +201,34 @@ some fixes were themselves incomplete; both are recorded at the end of
 - **Tests that could not fail now can.** Each gap was shown by a surviving mutant first, and the
   tests were then run against mutants of the fix: well over a hundred across the two rounds, all killed.
 
+## Flagged decisions (from agents, awaiting user judgment)
+
+**Herpesviruses:**
+- LeHV-5 taqman + evagreen: same primer pair in two entries (flag `SHARED_PRIMERS_WITH_SIBLING_ENTRY`). Drop `_evagreen`?
+- EEHV6 round2: rests on 1 spanning record (flag `SINGLE_SPANNING_RECORD`). Keep or delete?
+
+**Bees/bumblebee/reptile:**
+- *Nosema bombi*: keep under Kato's DOI or move to Klee 2006 (not local)?
+- DWV-A/-B: use variant-node taxids or species taxid? (80% of records unlabeled; flagged `VARIANT_SCOPE`)
+- Reptarenavirus: multiplex as one pooled entry? S-segment-only query or broaden?
+- Not entered: *N. ceranae* pair has mismatches on all references.
+
+**Mixed (Tsukamoto, Baek, Haynes, Meyer):**
+- Ophidiomyces target-D: panel member as species marker. Keep (as entered) or delete?
+- Orthopoxvirus ATI: differentiation assay, size 540–1700 bp by species. Keep (as entered) or delete?
+- Tasman-PCR (Kwon): transmissible cancer, host-genome. In scope? (4 ready drafts in scratchpad.)
+- Clade/lineage scoping: H5, H7, NP, hummingbird avipox. Add scoping or flag for review?
+
+**Bacteria:**
+- Chlamydia genus 16S round1: printed primer has T where all records have A. Enter as printed (hypothesis) or correct?
+- *C. trachomatis* serovar polymorphism: three serovars have mismatches. Flag, scope, or accept reduced detection?
+- *C. psittaci* and *C. abortus*: cross-reaction detected. Note or narrow scope?
+- *M. gallisepticum* vaccine pairs: exact on own genomes, >90% non-detect under species taxid. Enter if strain scoping added?
+
 ## Do this first on the laptop
 
-**1. Re-run the verifier over the full local `papers/`.** The reader and the verdict logic
-changed in ways that move its answers, so the 100-of-175 figure and the 65 `absent` rows are
-both stale:
+**1. Re-run the verifier over the full local `papers/` with the new probe floor.** The reader and the verdict logic
+changed in ways that move its answers, and the probe floor is now separate, so some 13-14 nt probes that read `in-text` before will now read `exact`:
 
     python scripts/verify_oligos_against_paper.py --pdf-dir papers --tsv results/oligo-verification.tsv
 
@@ -224,7 +257,8 @@ trusted.
 
 ## Then, in value order
 
-1. **Settle the coronavirus finding.**
+1. **Settle the flagged decisions above** (8 groups awaiting user judgment on entries or scope).
+2. **Settle the coronavirus finding.**
    `CORONAVIRUS_..._Lan_2010_round1` stores a reverse primer 3 nt shorter than the one Quan et
    al. 2010 prints (`...GCNACATG` against `...GCNACNACATG`). The stored form matches PREDICT
    P-005, so two published sources disagree and the sequence was deliberately left alone. Read
@@ -251,22 +285,10 @@ trusted.
      re-cite both entries together, decide `oligos_designed_here` from what Deckers says (it
      says the primers were designed to bind conserved sites, but cites an earlier use in great
      apes), and clear the flag. Details are in each entry's `notes_curator`.
-3. **DOIs waiting on Crossref**, in `docs/2026-10-05-doi-candidates.md`. Five are resolved with
-   high confidence: Pan-Flavivirus NS5, SIVdrl pol, ETEC LT, *E. cuniculi* PTP, and the
-   *Encephalitozoon* 18S entry (10 oligos between them). Two groups first written up as
-   unresolvable now have candidates: Müller 2011 CDV H gene (`10.7589/0090-3558-47.3.725`, PMID
-   21719841; the stored reference's volume and page settle it bibliographically; its primers are
-   unchecked because the paper is not in PMC) and Wang 1997 (`10.1046/j.1365-2672.1997.00300.x`,
-   PMID 9449811; plausible, since its abstract lists both organisms, but unverified). Add each
-   with `doi_verified: false`, then
-   `python scripts/resolve_citations.py --registry registry --email nightb02@nyu.edu` followed by
-   `python scripts/check_citations.py --refresh`.
-4. **20 List 2 papers**, oligos extracted to `results/candidate-oligos-2026-10-05.tsv`, awaiting
-   verify-then-enter. The biggest are EEHV pol (19 oligos), deformed wing virus RdRp (19), CDV N
-   (jcm.02505-21, 17), canine morbillivirus (v13081632, 15), reptarenavirus (14), influenza A
-   hemagglutinin (7), monkeypox B6R (6), devil facial tumour (6). Method that worked: read the
-   paper's own table, measure the amplicon on real GenBank records, then enter - never quote a
-   size.
+3. **DOIs now verified** via Crossref (all 36 List 2 entries + CMV entries). Previous
+   unresolved candidates in `docs/2026-10-05-doi-candidates.md` may still need attention
+   (Pan-Flavivirus NS5, SIVdrl pol, ETEC LT, *E. cuniculi* PTP, *Encephalitozoon* 18S, and two
+   CDV/coronavirus entries) once those papers are in hand locally or via PMC.
 5. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`), Usutu
    (`10.2807/1560-7917.es.2020.25.41.2001732`), Batrachochytrium ITS (`10.3390/jof7040258`, but
    see below), avian orthobornavirus done already. Render with pymupdf at ~200 dpi and read the
