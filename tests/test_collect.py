@@ -410,3 +410,23 @@ def test_naive_concatenation_would_have_failed_that_test(tmp_path):
     row = old.read_bytes().decode().split("\r\n")[1].split("\t")
     shifted = dict(zip(REAL_NEW, row, strict=False))
     assert shifted["exclusion"] == "1.5" and shifted["pair_evalue"] == "0.5"  # the corruption
+
+
+def test_the_same_screens_collected_at_different_times_give_the_same_bytes(tmp_path, monkeypatch):
+    """`gzip.open` stamps the clock into the header, so a regenerated calls table could never
+    be compared with the old one by hash. With the timestamp pinned, "unchanged" is a fact
+    cmp can check. The clock is made to differ between the two calls, so a writer that reads
+    it fails this; sleeping would only make the test slow."""
+    import gzip as gzip_module
+
+    a = write_screen(
+        tmp_path / "a.tsv", OLD, [{"assay_id": "A", "record_id": "R1", "call": "detect", "penalty": "0"}]
+    )
+    first, second = tmp_path / "one.tsv.gz", tmp_path / "two.tsv.gz"
+    clock = iter([1_000_000_000.0, 2_000_000_000.0, 3_000_000_000.0, 4_000_000_000.0])
+    monkeypatch.setattr(gzip_module.time, "time", lambda: next(clock))
+    concatenate_screens([a], first)
+    concatenate_screens([a], second)
+    assert first.read_bytes() == second.read_bytes()
+    assert gzip.open(first, "rt", newline="").read().startswith("\t".join(OLD) + LINE_END)
+    assert b"one.tsv" not in first.read_bytes()  # and no file name stored in the header either

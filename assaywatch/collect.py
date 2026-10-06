@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import csv
 import gzip
+import io
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -97,7 +98,15 @@ def concatenate_screens(paths: Sequence[Path], out_path: Path) -> list[str]:
         _check_terminated(path)
     headers = [read_header(path) for path in paths]
     columns = unified_columns(headers)
-    with gzip.open(out_path, "wt", newline="") as out:
+    # mtime=0 and no stored file name: the same screens give the same BYTES whenever they are
+    # collected, which `gzip.open` does not (it stamps the clock into the header). That makes
+    # "the output is unchanged" a checkable fact with cmp or a hash, instead of one that only
+    # holds after decompressing.
+    with (
+        open(out_path, "wb") as raw,
+        gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as gz,
+        io.TextIOWrapper(gz, encoding="utf-8", newline="") as out,
+    ):
         out.write("\t".join(columns) + LINE_END)
         for path, header in zip(paths, headers, strict=True):
             with open(path, newline="") as fh:
