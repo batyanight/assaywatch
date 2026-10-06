@@ -26,7 +26,9 @@ citation:
   design_year: 2021
   n_sequences_at_design: null
   as_written: null
-  reference: Ghosh, P. N., Verster, R., Sewell, T. R., O'Hanlon, S. J., Brookes, L. M., Rieux, A., Garner, T. W. J., Weldon, C. & Fisher, M. C. Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR. Molecular Ecology Resources 21, 1452-1459 (2021).
+  reference: Ghosh, P. N., Verster, R., Sewell, T. R., O'Hanlon, S. J., Brookes, L. M., Rieux, A., Garner, T. W. J., Weldon,
+    C. & Fisher, M. C. Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR. Molecular Ecology
+    Resources 21, 1452-1459 (2021).
   doi_verified: true
   oligos_designed_here: true
 use_context:
@@ -40,7 +42,40 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'Added 2026-10-05. THE SEQUENCES WERE READ OFF AN IMAGE, because this paper gives no primer table: Figure 1 prints two sections of Bd mtDNA with the primer and probe footprints drawn as boxes over the double-stranded sequence. Text extraction returns nothing, so the page was rendered and read, the boxes transcribed, and the reverse primers reverse-complemented off the bottom strand by hand. That is exactly the kind of transcription this registry has been burnt by before, so none of it was trusted until it was checked against real sequence. VERIFIED against Bd mitochondrial records CP161941.1 and CP161942.1. Two details confirm the reading beyond doubt. First, the MGB_BdGPL probe is drawn across a line break in the figure, with a lone CGC boxed at the start of the next line; the joined 21-mer TATAATTGAAGTATGAGGCGC occurs contiguously in the record, which proves both that the two printed lines are contiguous and that the probe spans them. Second, for BdCAPE the 64 bp product recovered from the record matches the figure''s printed sequence at every position EXCEPT two - position 31 T->G and position 36 C->A - and both of those fall inside the probe footprint while the primers match perfectly. THOSE TWO MISMATCHES ARE THE ASSAY WORKING, NOT A TRANSCRIPTION ERROR. They are the lineage-diagnostic sites: the primers are conserved across Bd and only the probe discriminates, so a BdGPL genome carries the GPL allele at both positions and is correctly invisible to the CAPE probe. CP161941 and CP161942 both carry the non-CAPE allele and CP161941 carries the GPL probe site perfectly, which is consistent. WHAT THIS MEANS FOR THE DRIFT METRIC, and it is the sharpest example in the registry. These two assays are DESIGNED NOT TO DETECT most Bd. A detected fraction computed over all Bd records is meaningless for them - a low share is the assay succeeding at discrimination, not failing at detection. They cannot be read with the same threshold as a pan-lineage assay such as CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004, and they are the concrete case the per-clade estimand discussion in section 3.1 of docs/2026-10-04-pipeline-review.md is about. This entry is the BdGPL probe. Measured on CP161941.1: forward at 117701, reverse at 117770, a 98 bp product with the probe inside it. amplicon_bp is measured; the paper states no size. BdGPL is the panzootic lineage behind global amphibian declines, so a detection here is the finding that matters epidemiologically. Its sibling is CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021.'
+  notes_curator: 'Added 2026-10-05. THE SEQUENCES WERE READ OFF AN IMAGE, because this paper gives no primer table: Figure
+    1 prints two sections of Bd mtDNA with the primer and probe footprints drawn as boxes over the double-stranded sequence.
+    Text extraction returns nothing, so the page was rendered and read, the boxes transcribed, and the reverse primers reverse-complemented
+    off the bottom strand by hand. That is exactly the kind of transcription this registry has been burnt by before, so none
+    of it was trusted until it was checked against real sequence. VERIFIED against Bd mitochondrial records CP161941.1 and
+    CP161942.1. Two details confirm the reading beyond doubt. First, the MGB_BdGPL probe is drawn across a line break in the
+    figure, with a lone CGC boxed at the start of the next line; the joined 21-mer TATAATTGAAGTATGAGGCGC occurs contiguously
+    in the record, which proves both that the two printed lines are contiguous and that the probe spans them. Second, for
+    BdCAPE the 64 bp product recovered from the record matches the figure''s printed sequence at every position EXCEPT two
+    - position 31 T->G and position 36 C->A - and both of those fall inside the probe footprint while the primers match perfectly.
+    THOSE TWO MISMATCHES ARE THE ASSAY WORKING, NOT A TRANSCRIPTION ERROR. They are the lineage-diagnostic sites: the primers
+    are conserved across Bd and only the probe discriminates, so a BdGPL genome carries the GPL allele at both positions and
+    is correctly invisible to the CAPE probe. CP161941 and CP161942 both carry the non-CAPE allele and CP161941 carries the
+    GPL probe site perfectly, which is consistent. WHAT THIS MEANS FOR THE DRIFT METRIC, and it is the sharpest example in
+    the registry. These two assays are DESIGNED NOT TO DETECT most Bd. A detected fraction computed over all Bd records is
+    meaningless for them - a low share is the assay succeeding at discrimination, not failing at detection. They cannot be
+    read with the same threshold as a pan-lineage assay such as CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004, and they are
+    the concrete case the per-clade estimand discussion in section 3.1 of docs/2026-10-04-pipeline-review.md is about. This
+    entry is the BdGPL probe. Measured on CP161941.1: forward at 117701, reverse at 117770, a 98 bp product with the probe
+    inside it. amplicon_bp is measured; the paper states no size. BdGPL is the panzootic lineage behind global amphibian declines,
+    so a detection here is the finding that matters epidemiologically. Its sibling is CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021.
+    SECOND INDEPENDENT READING, 2026-10-05, by a different session that did not look at this entry''s stored sequences until
+    afterwards. Figure 1 was re-rendered at 230 dpi and all six oligos of the two Ghosh entries were transcribed again from
+    the boxes: every one matches what is stored, base for base, including the probe that wraps a line break. The amplicons
+    were re-measured against the same mitochondrial records and come out 98 bp (BdGPL, on CP161941.1) and 64 bp (BdCAPE, on
+    both CP161941.1 and CP161942.1), every primer at zero mismatches. The SEQUENCES_READ_FROM_FIGURE_IMAGE flag stays, because
+    that is still where they come from, but the reading is now corroborated rather than single-source. TWO CORRECTIONS TO
+    THE RECORD. First, the paper''s own Figure 1 caption says ''(a) BdCAPE-specific and (b) BdGPL-specific'' while the panels
+    are drawn the other way round - panel (a) carries BdGPL_Fwd, MGB_BdGPL and BdGPL_Rev, panel (b) the BdCAPE set. Anyone
+    checking this entry against the caption rather than the panel labels will think the lineages are swapped; they are not.
+    Second, it is not true that text extraction returns nothing: pymupdf does recover these sequences from the PDF''s text
+    layer. They are unusable as extracted because the figure prints both strands interleaved line by line in ten-base blocks,
+    so a naive join produces chimeric strings that belong to neither strand - which is why scripts/verify_oligos_against_paper.py
+    reports no-oligos for all six and why the figure still has to be read by eye.'
 needs_review:
 - LINEAGE_SPECIFIC_BY_DESIGN
 - SEQUENCES_READ_FROM_FIGURE_IMAGE
