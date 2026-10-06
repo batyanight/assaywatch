@@ -73,7 +73,11 @@ source:
     about its paper, after the dependovirus reverse primer. AMPLICONS MEASURED: the primary gives 1319 bp modally over a 1306-1323
     spread, so amplicon_bp moves 1314 to 1319 and the paper''s ''about 1,325'' is close; the secondary gives 834 and 822 most
     often over a 822-838 spread, against the paper''s stated 819-825 - slightly larger, and worth carrying into whichever
-    entry ends up holding the second round.'
+    entry ends up holding the second round. The Xiao 1999 text was saved into papers/ from PubMed Central''s article page,
+    so the verifier now reads the correct paper directly: Ziao18SF1, Ziao18SF2 and Ziao18SR2 all read exact, and the primary
+    reverse reads near:3 with the paper''s own CCCTAATCCTTCGAAACAGGA printed beside it. That is the intended end state for
+    this entry - the one disagreement left is the deliberate in-house correction, visible rather than hidden, and justified
+    by the measurement above.'
 needs_review:
 - MODIFIED_IN_HOUSE
 - MULTIPLE_PRIMERS_IN_BLOCK
