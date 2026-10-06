@@ -13,12 +13,13 @@ oligos:
   reverse:
     name: WN-1494c
     seq: GTATGAAGGCGCCGCAGGAGTGA
-amplicon_bp: 161
+amplicon_bp: 162
 citation:
   doi: 10.1128/JCM.39.12.4506-4513.2001
   design_year: 2001
   n_sequences_at_design: null
-  as_written: Lancotti et al. Nucleic acid sequence-based amplification assays for rapid detection of West Nile and St. Louis Encephalitis, J. Clin. Microbiology, Dec 2001, p4506-4513.
+  as_written: Lancotti et al. Nucleic acid sequence-based amplification assays for rapid detection of West Nile and St. Louis
+    Encephalitis, J. Clin. Microbiology, Dec 2001, p4506-4513.
   doi_verified: true
   reference: Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
 use_context:
@@ -36,7 +37,24 @@ source:
   nested_round: null
   notes:
   - WNV (N2011-0617, Red tailed hawk, brain)
-  notes_curator: 'id corrected 2026-10-04: it misspelled Lanciotti as ''Lancotti''. Crossref confirms the author.'
+  notes_curator: 'id corrected 2026-10-04: it misspelled Lanciotti as ''Lancotti''. Crossref confirms the author. THE in-text
+    VERDICT IS EXPLAINED, 2026-10-05, and the explanation characterises the modification this entry was already flagged for.
+    The 2026-10-04 audit listed WN-1333 and WN-1494c among the rows needing a human to open the primer table; this is that
+    reading. Lanciotti and Kerst 2001 Table 1 lists them under ''WN virus-specific NASBA assay primers and probes'', and prints
+    each with a NON-TEMPLATED 5'' TAIL in lower case: WN 1333 at genome positions 1333-1354 as gatgcaaggtcgcatatgag-ACCAAGGCAATAGGAAGAACCA,
+    and WN1494c at 1494-1472 as aattctaatacgactcactatagggagaagg-GTATGAAGGCGCCGCAGGAGTGA, whose tail is the T7 promoter that
+    NASBA needs in order to transcribe. The registry stores only the upper-case target-binding cores. That is why the verifier
+    reports in-text rather than exact - the sequence is in the paper but is not the whole of any listed oligo - and it is
+    the right verdict rather than a problem to fix. THE SEQUENCES ARE DELIBERATELY NOT CHANGED. The registry''s convention
+    elsewhere, in the orthobunyavirus and CDV cloning-primer entries, is to store the full published oligo and name the prefix
+    in tail_5prime, which keeps matching on the binding part. That convention is not applied here because dropping the NASBA
+    tails is not a transcription slip: chemistry is recorded as conventional, the lab runs these two as an ordinary RT-PCR,
+    and a T7 promoter has no business in that reaction. The stored form is the oligo the lab orders, which is the same reasoning
+    that keeps GPO-1FMod as stored. MODIFIED_IN_HOUSE stays, now with the modification described instead of merely asserted.
+    AMPLICON MEASURED AND CORRECTED: against all 9,125 records of the 2026-10-03 West Nile archive the pair gives a product
+    in 5,785 and it is 162 bp in every single one - no spread at all - which is also exactly what Lanciotti''s own table states
+    for this pair, and what its printed positions give (1333 to 1494 inclusive). amplicon_bp was 161 and is now 162. COVERAGE
+    IS HEALTHY, worth recording beside the drift findings elsewhere today: the forward primer is exact in 5,190 of the 5,785
+    and the reverse in 5,349, so this twenty-five-year-old assay still sits on the consensus of its target.'
 needs_review:
 - MODIFIED_IN_HOUSE
-- ORIENTATION_INFERRED_BY_POSITION
