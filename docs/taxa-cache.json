@@ -464,6 +464,24 @@
   "rank": "genus",
   "scientific_name": "Leptospira"
  },
+ "1760": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "class",
+  "scientific_name": "Actinomycetes"
+ },
+ "1762": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "family",
+  "scientific_name": "Mycobacteriaceae"
+ },
+ "1763": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "genus",
+  "scientific_name": "Mycobacterium"
+ },
  "1783272": {
   "common_name": "",
   "lineage_tail": [],
@@ -553,6 +571,12 @@
   "lineage_tail": [],
   "rank": "domain",
   "scientific_name": "Bacteria"
+ },
+ "201174": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "phylum",
+  "scientific_name": "Actinomycetota"
  },
  "2017756": {
   "common_name": "",
@@ -1598,11 +1622,26 @@
   "rank": "order",
   "scientific_name": "Nidovirales"
  },
+ "77643": {
+  "common_name": "",
+  "lineage_tail": [
+   "Mycobacteriaceae",
+   "Mycobacterium"
+  ],
+  "rank": "species group",
+  "scientific_name": "Mycobacterium tuberculosis complex"
+ },
  "78156": {
   "common_name": "",
   "lineage_tail": [],
   "rank": "genus",
   "scientific_name": "Pseudogymnoascus"
+ },
+ "85007": {
+  "common_name": "",
+  "lineage_tail": [],
+  "rank": "order",
+  "scientific_name": "Mycobacteriales"
  },
  "91347": {
   "common_name": "",
