@@ -18,7 +18,13 @@ is still reachable through an MCP tool that returns the open-access full text as
 JSON, and that JSON is what this script consumes. The route differs; the source
 does not. PMC's open-access subset is the same corpus Europe PMC's
 `fullTextXML` endpoint serves, so a sequence read from a file written here is
-read from the publisher's own deposited text.
+read from the publisher's own deposited text - but NOT necessarily all of it.
+The JSON carries the article as flattened text, and what survives varies by
+article: Prepens 2007 and Deckers 2009 came through with their primer tables,
+while other papers lost a table, or lost sequences printed inline (the avipox
+paper's reverse primer reads `primer 1R ()`). A file written here can therefore
+look complete and still lack the primers; `verify_oligos_against_paper.py`
+reports how many oligo-like runs it found (`paper_oligos`) so that shows.
 
 What it writes
 --------------
@@ -28,6 +34,12 @@ underscores - `10.3390_v13081632.txt` - which is exactly the convention
 and body are concatenated, because a paper sometimes prints a primer in its
 abstract and nowhere else.
 
+The convention is one-way. The verifier recovers the DOI by turning every `_`
+back into `/`, so a DOI that itself contains an underscore cannot round-trip and
+would never be matched to its registry entry. None of the registry's DOIs does
+(tests/test_import_pmc.py fails if one is added), and this script says so
+instead of writing a file nothing would find.
+
 An article whose `full_text` is empty is REPORTED AND SKIPPED, never written as
 an empty or abstract-only file. That distinction matters: an abstract-only file
 would be indexed as if the paper were in hand, and every sequence checked
@@ -35,11 +47,13 @@ against it would come back `absent` - indistinguishable from "this sequence is
 not in this paper", which is the finding the whole verification exists to
 surface. A missing file reads honestly as "no full text".
 
-Empty `full_text` is common and not a bug. In the 2026-10-05 import, every
-American Society for Microbiology article (J Clin Microbiol, J Virol, Appl
-Environ Microbiol) and the one SAGE article came back with an abstract and no
-body, while mBio - also ASM, but born open access - came back whole. Publisher
-deposit policy, not availability, decides this.
+Empty `full_text` is common and not a bug. In the 2026-10-05 import 23 of the 44
+articles that had a PMC id came back as an abstract and no body: 21 from the
+American Society for Microbiology (J Clin Microbiol, J Virol, Appl Environ
+Microbiol), one from PNAS and one from SAGE, while mBio - also ASM, but born open
+access - came back whole. The deposit policy of the journal decides it, not the
+publisher and not whether the paper is open access; the full list is
+docs/2026-10-05-pmc-abstract-only.tsv.
 """
 
 from __future__ import annotations
@@ -67,13 +81,18 @@ def doi_filename(doi: str) -> str:
     return doi.lower().replace("/", "_") + ".txt"
 
 
-def articles_in(path: Path) -> list[dict]:
-    """Every article record in one JSON dump, or [] if the file is unusable."""
+def articles_in(path: Path) -> list[dict] | None:
+    """Every article record in one JSON dump; None if the file is unusable.
+
+    None, not [], so a corrupt file is not mistaken for a dump that simply held
+    no articles: `main` has to be able to say it could not read an input, and
+    exit non-zero for it.
+    """
     try:
         blob = json.loads(path.read_text(encoding="utf-8", errors="replace"))
     except (OSError, json.JSONDecodeError) as e:
         print(f"  cannot read {path.name}: {type(e).__name__}", file=sys.stderr)
-        return []
+        return None
     if isinstance(blob, dict):
         arts = blob.get("articles")
         if isinstance(arts, list):
@@ -115,13 +134,22 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--overwrite", action="store_true", help="replace files that already exist")
     args = ap.parse_args(argv)
 
-    wrote, skipped_empty, skipped_exists, no_doi = [], [], [], []
+    wrote, skipped_empty, skipped_exists, no_doi, unreadable, bad_name = [], [], [], [], [], []
     for path in args.json:
-        for a in articles_in(path):
+        articles = articles_in(path)
+        if articles is None:
+            unreadable.append(path.name)
+            continue
+        for a in articles:
             doi = doi_of(a)
             pmcid = (a.get("identifiers") or {}).get("pmcid") or "?"
             if not doi:
                 no_doi.append(pmcid)
+                continue
+            if "_" in doi:
+                # Cannot round-trip through the filename convention: the verifier
+                # turns every `_` back into `/`, so the file would never match.
+                bad_name.append(doi)
                 continue
             if not (a.get("full_text") or "").strip():
                 skipped_empty.append((doi, pmcid))
@@ -151,8 +179,21 @@ def main(argv: list[str] | None = None) -> int:
         )
     if no_doi:
         print(f"\n  {len(no_doi)} articles had no usable DOI: {', '.join(no_doi)}", file=sys.stderr)
+    if bad_name:
+        print(
+            f"\n  {len(bad_name)} DOIs contain an underscore, which the filename convention cannot "
+            f"round-trip, so nothing was written for: {', '.join(bad_name)}",
+            file=sys.stderr,
+        )
+    if unreadable:
+        print(
+            f"\n  {len(unreadable)} input file(s) could not be read: {', '.join(unreadable)}", file=sys.stderr
+        )
     print(f"\n{len(wrote)} papers {'would be ' if args.dry_run else ''}written to {args.out_dir}")
-    return 0
+    # Non-zero when an input could not be read, or a DOI could not be named: both
+    # mean the papers/ folder is missing something the caller asked for, which a
+    # clean exit status would have hidden.
+    return 1 if (unreadable or bad_name) else 0
 
 
 if __name__ == "__main__":

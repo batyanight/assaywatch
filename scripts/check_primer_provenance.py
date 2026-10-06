@@ -21,7 +21,15 @@ the paper, take the text around it, and report any citation marker there.
     claimed-here           design language sits beside it ("we designed",
                            "newly constructed", "in this study")
     name-not-found         the paper never uses that name, which is itself a
-                           reason to look: the oligo may not be from this paper
+                           reason to look: the oligo may not be from this paper.
+                           Only said of a paper whose text prints enough oligos
+                           to be a methods paper (see no-oligos)
+    no-oligos              the text held prints fewer than two oligo-like runs, so
+                           it has lost its primer table or its inline sequences
+                           and the names live in what was lost. NOT evidence the
+                           oligo is from another paper: before this verdict
+                           existed, 33 of 51 `name-not-found` rows over the 21
+                           PubMed Central texts came from papers like that
     no-full-text           nothing readable to check
 
 This proposes; it does not edit. Every verdict needs the sentence read, because
@@ -114,6 +122,8 @@ def main(argv: list[str] | None = None) -> int:
         a = load_assay(path)
         hit = _vo.local_paper(a, by_doi, everything) if everything else None
         text = re.sub(r"\s+", " ", hit[0]) if hit else None
+        # How much of the paper's primer content survived into the text we hold.
+        thin = bool(hit) and len(_vo.printed_oligos(hit[0])) < _vo.MIN_PRINTED_FOR_ABSENT
         for slot, o in oligos_of(a):
             if text is None:
                 rows.append(
@@ -133,7 +143,9 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             spots = find_name(o.name, text)
             if not spots:
-                verdict, ev, ctx = "name-not-found", "", ""
+                # Absence of a name from a text that lost its tables is a fact
+                # about the text, not about the oligo.
+                verdict, ev, ctx = ("no-oligos" if thin else "name-not-found"), "", ""
             else:
                 # Look at a window around each mention; a reuse citation is
                 # usually in the same clause as the name.

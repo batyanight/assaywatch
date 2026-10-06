@@ -98,11 +98,18 @@ def main(argv: list[str] | None = None) -> int:
 
     rows: list[dict] = []
     skipped_known, no_oligos = 0, []
-    for path in _vo.paper_files(args.pdf_dir):
-        text = _vo.file_text(path)
-        if not text:
-            continue
+    # One file per DOI, the one `index_papers` chose to represent it. Walking every
+    # file instead listed each sequence twice when a DOI was held as both a PDF and
+    # a text file, doubled the per-paper counts, and could report the same DOI
+    # both as having candidates and as yielding NO readable sequences, telling a
+    # curator a paper needed eyes when its own sibling file had already produced
+    # the candidates.
+    by_doi, everything = _vo.index_papers(args.pdf_dir)
+    for text, path in everything:
         doi = doi_of(path, text)
+        held = by_doi.get(doi) if doi else None
+        if held is not None and held[1] != path:
+            continue  # a sibling file holds this DOI
         if want is not None and doi not in want:
             continue
         if doi and doi in known:
@@ -111,11 +118,13 @@ def main(argv: list[str] | None = None) -> int:
         seqs = _vo.printed_oligos(text)
         if not seqs:
             # The paper is in hand and its sequences are not reachable from the
-            # text. Two different causes, and the file extension tells them
-            # apart: in a PDF the primer table is usually set as an image, while
-            # a `.txt` from PubMed Central has lost its `table-wrap` content to
-            # the full-text extraction, tables and all. Either way this is its
-            # own outcome, not an absence of primers, and it still needs eyes.
+            # text. Two different causes, and the file extension hints at which:
+            # in a PDF the primer table is usually set as an image, while a `.txt`
+            # from PubMed Central can have lost tables, and inline sequences, to
+            # the full-text extraction (some PMC articles keep their tables whole
+            # and some do not, so this is not predictable from the journal). Either
+            # way this is its own outcome, not an absence of primers, and it still
+            # needs eyes.
             no_oligos.append((doi or path.name, path.name))
             continue
         flatish = re.sub(r"\s+", " ", text)
@@ -148,7 +157,7 @@ def main(argv: list[str] | None = None) -> int:
     if no_oligos:
         print(
             f"\n{len(no_oligos)} papers yielded NO readable sequences - a .pdf here means the "
-            "primer table is probably an image, a .txt that PubMed Central dropped its tables:"
+            "primer table is probably an image, a .txt that PubMed Central dropped some of its content:"
         )
         for doi, name in no_oligos:
             print(f"  {doi or '(no DOI)':46s} {name}")
