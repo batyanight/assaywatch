@@ -38,6 +38,7 @@ from typing import Any
 from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.drift import (
     FOOTPRINT_COLUMNS,
+    FOOTPRINT_REQUIRED,
     AssayDrift,
     assess,
     by_status,
@@ -111,9 +112,10 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
     nothing downstream reads the other columns. The six mismatch columns are
     folded into ONE interned `footprint` string per row rather than carried as
     six, so the cost is a pointer per row and millions of identical exact-match
-    footprints are a single object. A table screened before those columns
-    existed simply has no `footprint` key, which `drift.assess` reads as
-    "unknown" and not as "all the same".
+    footprints are a single object. A row has no `footprint` key when the columns
+    are absent from the table OR the row's own scoring cells are blank (a row from
+    an older screen that `collect.concatenate_screens` blank-filled), which
+    `drift.assess` reads as "unknown" and not as "all the same".
     """
     with _open(path) as fh:
         reader = csv.reader(fh, delimiter="\t")
@@ -123,13 +125,20 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
         ia, ir, ic = header.index("assay_id"), header.index("record_id"), header.index("call")
         # `exclusion` says why an unusable record was unusable (score.classify_exclusion).
         ie = header.index("exclusion") if "exclusion" in header else None
-        # All six or none: a partial footprint would compare unequal to a full one
-        # that agrees with it, and silently inflate the distinct count.
+        # The footprint is known only where the row's own scoring columns are
+        # populated (see drift.FOOTPRINT_REQUIRED). Having the six mismatch
+        # columns in the HEADER is not enough: `collect.concatenate_screens` unions
+        # the headers of old and new screens and blank-fills the cells an older
+        # screen never had, so an older screen's rows arrive with all six columns
+        # present and empty - indistinguishable from a clean record unless the
+        # scoring cells beside them are checked. All six columns or none: a partial
+        # footprint would compare unequal to a full one that agrees with it.
         fp_idx = (
             [header.index(c) for c in FOOTPRINT_COLUMNS]
-            if all(c in header for c in FOOTPRINT_COLUMNS)
+            if all(c in header for c in (*FOOTPRINT_COLUMNS, *FOOTPRINT_REQUIRED))
             else None
         )
+        req_idx = [header.index(c) for c in FOOTPRINT_REQUIRED] if fp_idx is not None else []
         rows = []
         for r in reader:
             if not r:
@@ -140,7 +149,7 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
                 "call": r[ic],
                 "exclusion": (r[ie] if ie is not None and ie < len(r) else ""),
             }
-            if fp_idx is not None:
+            if fp_idx is not None and all(i < len(r) and r[i] != "" for i in req_idx):
                 row["footprint"] = footprint_signature(r[i] if i < len(r) else "" for i in fp_idx)
             rows.append(row)
         return rows

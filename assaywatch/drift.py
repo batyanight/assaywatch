@@ -88,10 +88,11 @@ EVALUABLE = ("detect", "reduced", "fail")
 Z95 = 1.959963984540054
 
 # The screen columns that together say how a record's binding sites differ from
-# the assay: each oligo's mismatch positions (counted from its 3' end) and its
-# undetermined positions. Two records that agree on all six, and on the call,
-# are indistinguishable AS FAR AS THIS ASSAY IS CONCERNED - which is the only
-# sense in which they can be called the same lineage here.
+# the assay: each oligo's mismatch positions (counted from its 3' end) and the
+# NUMBER of its undetermined record bases (`Call.as_row` writes a count there, not
+# positions). Two records that agree on all six, and on the call, are
+# indistinguishable AS FAR AS THIS ASSAY IS CONCERNED - which is the only sense in
+# which they can be called the same lineage here.
 FOOTPRINT_COLUMNS = (
     "fwd_mm_from_3prime",
     "rev_mm_from_3prime",
@@ -101,14 +102,25 @@ FOOTPRINT_COLUMNS = (
     "probe_ambiguous",
 )
 
+# A row's footprint is KNOWN only if these are populated. Every evaluable call
+# (detect, reduced, fail) has both primers scored, so in any schema that writes the
+# footprint these four cells are non-empty; blank means the row came from a screen
+# that did not write them. That matters because `collect.concatenate_screens` fills
+# a column an older screen lacks with an empty string, and an empty string is also
+# what a record with no mismatches puts in the mismatch columns: without this test
+# an older screen's rows would be read as a real footprint that happens to be
+# clean, and a claim about duplication would be invented from missing data.
+FOOTPRINT_REQUIRED = ("fwd_penalty", "rev_penalty", "fwd_ambiguous", "rev_ambiguous")
+
 
 def footprint_signature(values: Iterable[str]) -> str:
     """One record's footprint as a single interned string.
 
     Interned because the point of the exercise is that millions of records share
-    a few thousand footprints - an exact match is the same all-empty string every
-    time - and `report.read_calls` exists because holding two million rows in
-    full took 3.6 GB. Equal signatures are then one object, not two million.
+    a few thousand footprints - an assay with no mismatches is the same short
+    string every time (`|||0|0|0` for a scored forward, reverse and probe) - and
+    `report.read_calls` exists because holding two million rows in full took 3.6 GB.
+    Equal signatures are then one object, not two million.
 
     HONEST LIMITS, both of which matter:
 
@@ -207,6 +219,11 @@ class AssayDrift:
     # For a flagged assay only: does the flag still hold at the clustered
     # interval? None for every other status, and when footprints are unknown.
     flag_survives_clustering: bool | None = None
+    # Why a flag did not survive, as codes: "too_few" (fewer distinct footprints
+    # than min_records), "recent" (the clustered recent interval reaches the
+    # threshold), "change" (a declining assay's fall from baseline no longer
+    # excludes zero). Empty when it survived or was not checked.
+    cluster_failures: tuple[str, ...] = ()
 
     @property
     def total_evaluable(self) -> int:
@@ -245,24 +262,47 @@ class AssayDrift:
 
         Said only for a flagged assay, because that is where the question has
         consequences: a stable verdict rests on the point estimate and does not
-        move with the interval.
+        move with the interval. When a flag does not survive, it names WHICH test
+        failed, because a declining flag can fail on the change interval alone
+        while its recent interval is still well below the threshold, and saying
+        the threshold was reached then would be false.
         """
         if self.flag_survives_clustering is None or self.recent_footprints is None:
             return ""
         lo, hi = self.recent_ci_clustered
+        clo, chi = self.change_ci_clustered
         shared = (
             f"{self.recent_evaluable} recent records share {self.recent_footprints} distinct footprints "
             f"({self.records_per_footprint:.1f} per footprint)"
         )
         if self.flag_survives_clustering:
-            return (
-                f"{shared}. Even counting each footprint once the interval is {pct(lo)}-{pct(hi)}, "
-                f"still below the {self.threshold:.0%} threshold, so the flag does not depend on "
-                "duplicated records."
+            held = (
+                f"Even counting each footprint once the interval is {pct(lo)}-{pct(hi)}, "
+                f"still below the {self.threshold:.0%} threshold"
+            )
+            if self.status == "declining":
+                held += (
+                    f", and the fall from baseline ({pct(clo, True)} to {pct(chi, True)}) still excludes zero"
+                )
+            return f"{shared}. {held}, so the flag does not depend on duplicated records."
+        reasons = []
+        if "too_few" in self.cluster_failures:
+            reasons.append(
+                f"only {self.recent_footprints} distinct footprint(s), fewer than the {self.min_records} "
+                "independent observations the record-level rule needs before it will flag anything"
+            )
+        if "recent" in self.cluster_failures:
+            reasons.append(
+                f"counting each footprint once the interval widens to {pct(lo)}-{pct(hi)}, which no "
+                f"longer rules out the {self.threshold:.0%} threshold"
+            )
+        if "change" in self.cluster_failures:
+            reasons.append(
+                f"counting each footprint once the fall from baseline is {pct(clo, True)} to "
+                f"{pct(chi, True)}, which no longer excludes zero"
             )
         return (
-            f"{shared}. Counting each footprint once the interval widens to {pct(lo)}-{pct(hi)}, "
-            f"which no longer rules out the {self.threshold:.0%} threshold. The failing footprints may "
+            f"{shared}. This flag does not hold up: {'; '.join(reasons)}. The failing footprints may "
             "well be real; what this says is that the SHARE failing may reflect how many near-identical "
             "records were deposited rather than how much of the population the assay misses."
         )
@@ -275,6 +315,17 @@ class AssayDrift:
         an identical footprint is ONE draw, i.e. a perfect clone. The truth is
         in between, so the two intervals bracket it and a flag that holds at both
         is a flag that does not rest on duplication.
+
+        A flag survives only if it passes every test it faces, and the first is a
+        FLOOR: at least `min_records` distinct footprints. Without one the check
+        reassured exactly where it was meant to warn. Wilson is anti-conservative
+        at tiny n (0 of 1 gives an upper bound of 0.79 where the exact bound is
+        0.975), so 92 failures sharing ONE footprint plus 70 detections sharing
+        another - the malB case this check was written for - gave an upper bound
+        of 88%, "below threshold", and the note said the flag did not depend on
+        duplicated records. The record-level rule already refuses to flag on fewer
+        than `min_records` records; the same evidence floor now applies to
+        independent observations.
 
         It removes the duplication it can SEE and no more. Records from one clade
         that differ at a few non-primer positions are distinct here and still
@@ -289,20 +340,24 @@ class AssayDrift:
             return
         if self.baseline_evaluable and n_b is None:
             return
-        n_r = min(n_r, self.recent_evaluable)  # never more independent draws than records
         p = self.recent_fraction
         assert p is not None
         self.recent_ci_clustered = wilson_interval(p * n_r, n_r)
         if self.baseline_evaluable:
-            n_b = min(n_b or 0, self.baseline_evaluable)
+            assert n_b is not None  # guarded above
             self.change_ci_clustered = newcombe_difference(
                 p * n_r, n_r, (self.baseline_fraction or 0.0) * n_b, n_b
             )
         if self.status in ("declining", "low coverage"):
-            survives = self.recent_ci_clustered[1] < self.threshold
-            if self.status == "declining":
-                survives = survives and self.change_ci_clustered[1] < 0
-            self.flag_survives_clustering = survives
+            failures = []
+            if n_r < self.min_records:
+                failures.append("too_few")
+            if self.recent_ci_clustered[1] >= self.threshold:
+                failures.append("recent")
+            if self.status == "declining" and self.change_ci_clustered[1] >= 0:
+                failures.append("change")
+            self.cluster_failures = tuple(failures)
+            self.flag_survives_clustering = not failures
 
     def finalise(self) -> AssayDrift:
         if self.recent_counts or self.baseline_counts:
@@ -468,7 +523,14 @@ def assess(
         # None, not "", when the row has no footprint: an empty signature is a
         # real footprint (an exact match) and must not be confused with an
         # unknown one.
-        per.setdefault(row["assay_id"], []).append((iso, call, why, row.get("footprint")))
+        # A record counted as a failure only because count_diverged_as_fail says
+        # so was never scored: its binding site is present and does not match, but
+        # nothing was recorded about HOW, so all six footprint columns are empty.
+        # Treating that as a footprint collapsed every diverged record into one
+        # class however different they were. It is unknown instead, which makes the
+        # assay's duplication check unknown - an honest "cannot say".
+        fp = None if (count_diverged and why == "diverged") else row.get("footprint")
+        per.setdefault(row["assay_id"], []).append((iso, call, why, fp))
 
     grouped: dict[str, AssayDrift] = {}
     for assay_id, rows in per.items():
