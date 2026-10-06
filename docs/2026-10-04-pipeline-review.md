@@ -149,16 +149,35 @@ and was still called `declining`.
 **What to build:** collapse identical footprints, weight by distinct haplotypes,
 and cluster-bootstrap the intervals.
 
-**Partly built, 2026-10-05, and one part deliberately not.** `drift.py` now counts
-the distinct (call, footprint) classes behind each window, where a footprint is
-the six mismatch columns the screen already writes. It reports the Wilson
-interval at that many independent draws beside the record-level one, and for a
-flagged assay says whether the flag survives it (`AssayDrift.flag_survives_clustering`,
-the "Duplication check" line in the report). Never scored. This is the widest
-defensible reading, not the right one: it treats every group of identical
-footprints as one clone, and it cannot see clade structure among records that
-differ at non-primer positions, so it is not a lower bound on the effective
-sample size.
+**Partly built, 2026-10-05 and corrected 2026-10-06, and one part deliberately not.**
+`drift.py` now counts the distinct (call, footprint) classes behind each window,
+where a footprint is the six mismatch columns the screen already writes. It reports
+the Wilson interval at that many independent draws beside the record-level one, and
+for a flagged assay says whether the flag survives it
+(`AssayDrift.flag_survives_clustering`, the "Duplication check" line in the
+report). Never scored, and a test pins that statuses and intervals are identical
+with and without it. This is the widest defensible reading, not the right one: it
+treats every group of identical footprints as one clone, and it cannot see clade
+structure among records that differ at non-primer positions, so it is not a lower
+bound on the effective sample size.
+
+Two things the first version got wrong, both found by adversarial review on
+2026-10-06 and both fixed:
+
+- *It reassured on one or two footprints.* Wilson at n of 1-3 is anti-conservative
+  (0 of 1 gives an upper bound of 79%), so the malB shape below, 92 failures
+  sharing one footprint, came out as "the flag does not depend on duplicated
+  records" - the opposite of what this section says it should. A flag now survives
+  only if it passes every test it faces, and the first is a floor: at least
+  `min_records_for_drift` distinct footprints, the same minimum the record-level
+  rule needs, applied to independent observations. When it fails, the note names
+  which test failed (too few footprints, the recent interval, or the change
+  interval) instead of always blaming the recent share.
+- *It invented footprints.* A footprint is known only where the screen wrote the
+  columns. A cached screen from before they existed, and a record scored as a
+  failure for being diverged, carry none, and used to be counted as one real
+  all-exact footprint. They now make the assay's footprint count unknown, and the
+  report says the check could not be run rather than reporting a count.
 
 **Not built: weighting each distinct haplotype equally.** A sequencing error in a
 primer site is a footprint of its own, so on a healthy assay with one exact-match
@@ -265,8 +284,12 @@ tiers, and score pools per member.
   old inline block byte for byte on 60 randomised mixed-schema inputs; one
   deliberate change, the header now ends in CRLF like every row (it was a bare LF).
   A screen whose last row has no line break is now refused by name instead of
-  having the next file's header glued onto it. NOT run under Snakemake itself:
-  it would not install in the cloud container, so check with `snakemake -n`.
+  having the next file's header glued onto it. *Run under Snakemake 9.27.0 on
+  2026-10-06* (it installs in a fresh virtual environment, though not into the
+  cloud container's system Python): old and new produce byte-identical screens and
+  calls table. This note first said to check with `snakemake -n`, which cannot work:
+  the screening jobs sit behind the `retrieve` checkpoint and a dry run never lists
+  them. See `docs/RESUME-HERE.md` for what to run instead.
 - **`retrospective.py --cases` re-parses `calls.tsv.gz` and re-globs every
   metadata file once per case.**
   *Fixed 2026-10-05:* `load_evidence` reads and deduplicates both once, grouped by

@@ -10,8 +10,10 @@ which paper. Most of those 45 are genuinely unpublished: WCS in-house assays,
 exists and none should be invented.
 
 Eleven entries were different: they carry a named reference that an earlier pass
-marked "not resolved" or "DOI not confirmed". Five of those are now resolved
-with high confidence. Two are not, and are left alone.
+marked "not resolved" or "DOI not confirmed". Five of those were resolved with high
+confidence on 2026-10-05. The other six were first written up as unresolvable; a
+second search on 2026-10-06 found a candidate for each of the two groups (see the
+end of this file): one with high confidence on the bibliography, one plausible.
 
 ## NOT WRITTEN TO `registry/`, deliberately
 
@@ -85,8 +87,15 @@ sequences." *J Clin Microbiol* 39(6):2248-53.
 First author, year and journal all match the stored reference. The abstract
 confirms both the locus and that primers were published here: the polar tube
 protein (PTP) gene, and "two simple PCR tests were developed to differentiate
-*E. cuniculi* in clinical samples". This is also the Xiao paper behind the
-misnamed `Ziao18SF1` oligo noted in the verifier's docstring.
+*E. cuniculi* in clinical samples".
+
+(An earlier version of this note said this is also the Xiao paper behind the
+misnamed `Ziao18SF1` oligo. It is not. `Ziao18SF1` is stored under
+`CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000`, which cites Xiao L,
+Alderisio K, Limor J, Royer M, Lal AA. 2000. *Appl Environ Microbiol*
+66(12):5492-8, `10.1128/AEM.66.12.5492-5498.2000`, a *Cryptosporidium* SSU rRNA
+paper. Same first author, different paper, journal, year, organism and locus.
+Corrected 2026-10-06 against PubMed records for both papers.)
 
 ### 5. `Encephalitozoon_18S_General_Encephalitoz_Muller_19`
 **`10.1128/CDLI.6.2.243-246.1999`** — PMID 10066661, PMC95694
@@ -107,20 +116,56 @@ changes that - this resolves which paper the registry *cites*, not who designed
 the oligos. `oligos_designed_here` should stay `false` pending that check, and
 this looks like a fourth composite of the Hellgren/Bensch kind.
 
-## Not resolved, and left alone
+## Found on a second search, 2026-10-06: candidates, not resolutions
+
+Both of these were written up above as "not resolved", and both resolve to a
+candidate with the right search. Neither is written to `registry/`, for the reason
+at the top: a DOI enters only through the Crossref gate.
 
 ### `Canine_distemper_virus_specifi_H_gene_2011` and its 3 siblings
-Stored as "muller,2011", with an earlier note offering "candidate Müller A et
-al. 2011 J Wildl Dis". A journal-and-date search of *J Wildl Dis* 2010-2012 for
-canine distemper returns 13 papers. Picking among them on title plausibility is
-exactly the move that produced the fabricated Nobach reference, so nothing was
-picked. Settle it from the primer sequences - the stored H-gene walking primers
-should appear in whichever paper it is - or from the lab's own records.
+**`10.7589/0090-3558-47.3.725`** — PMID 21719841 (not in PMC)
+
+Müller A, Silva E, Santos N, Thompson G. 2011. "Domestic dog origin of canine
+distemper virus in free-ranging wolves in Portugal as revealed by hemagglutinin
+gene characterization." *J Wildl Dis* 47(3):725-9.
+
+The stored reference already says "candidate Müller A et al. 2011 J Wildl Dis
+47:725", and this note quoted it without the volume and page, which are what
+settle it. Looked up by journal, year, volume, first page and author, PubMed
+returns exactly this one record; the author, year, journal, volume, page and gene
+(H) all agree. That makes the bibliographic match high-confidence and the
+*primer* match untested: the paper is not in PubMed Central, so the stored
+1F/1R primers (567 bp) have not been compared with its text. One soft mismatch:
+the registry note says "incl. Arctic-lineage variants", which the abstract does
+not mention.
 
 ### `E_coli_O157_H7_hlyA_gene_unnamed_Wang_1997` and `Yersinia_pseudotuberculosis_in_unnamed_Wang_1997`
-Stored as "Wang et al 1997 (O157 hlyA / Y. pseudotuberculosis inv)". A
-title/abstract search for `hlyA` with *E. coli* O157 across 1996-1998 returns
-three papers, none by Wang and none a PCR primer paper: Makino 1998 (plasmid
-sequence), Schmidt 1996 (hly operon map), Bauer 1996 (RTX toxin). One reference
-string covering two different organisms suggests a multiplex paper, but the
-combination did not resolve. Needs the full citation from the lab spreadsheet.
+**`10.1046/j.1365-2672.1997.00300.x`** — PMID 9449811
+
+Wang RF, Cao WW, Cerniglia CE. 1997. "A universal protocol for PCR detection of
+13 species of foodborne pathogens in foods." *J Appl Microbiol* 83(6):727-36.
+
+Plausible, not verified. The abstract uses "13 sets of specific primers" and lists
+both *E. coli* O157:H7 and *Y. pseudotuberculosis* among its 13 species, which fits
+one reference string covering two organisms. The earlier search failed because
+`hlyA` and `inv` are not in the abstract. A search of Wang RF with Cerniglia CE
+over 1996-1998 turns up no competing foodborne multiplex paper. The primer
+sequences (O157-3, O157-4 and the *Yersinia* pair) need to be read from the paper
+before this is believed.
+
+## Found 2026-10-06: the source of the CMV gB 4007/4125 primers
+
+**`10.1186/1743-422X-6-210`**, as returned by PubMed — PMID 19941648, PMC2789067
+
+Deckers M, Hofmann J, Kreuzer KA, Reinhard H, Edubio A, Hengel H, Voigt S, Ehlers
+B. 2009. "High genotypic diversity and a novel variant of human cytomegalovirus
+revealed by combined UL33/UL55 genotyping with broad-range PCR." *Virol J* 6:210.
+
+Its Table 1 prints primer set CMV-gBp1 as a nested pair: round 1 `4007s`/`4007as`
+(800 bp) and round 2 `4125s`/`4125as` (550 bp). Three of the four stored
+sequences match exactly reading `(n/i)` as N; `4125s` differs at one position
+(the paper prints B-or-inosine, the registry stores N). Detail, and what remains
+to do, is in the `notes_curator` of
+`CMV_specific_HERPES_UL55_Glycoprotein_B_gB` and `..._round2_2`. Caveat from the
+paper itself: it cites an earlier reference for the first use of CMV-gBp1 in great
+apes, so this may not be where the primers were first published.

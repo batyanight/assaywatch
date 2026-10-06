@@ -94,7 +94,10 @@ into measurements, and it is also the paper's main figure.
       structure beyond that is still unaddressed, so it is not a lower bound on the effective
       sample size. The review's "weight each distinct haplotype equally" was rejected: one
       sequencing error in a primer site is a unique failing footprint, so a healthy assay would
-      read as mostly failing.
+      read as mostly failing. Corrected 2026-10-06 after adversarial review: a flag now needs at
+      least `min_records_for_drift` distinct footprints to be reported as surviving (it had
+      reassured on one or two), and records with no footprint information make the count
+      unknown instead of counting as one real footprint.
 - [ ] **The drift rules interact and are untested.** `recent_window_months: 24`
       with `min_records_for_drift: 20` is why Bd (Boyle 2004) reads "insufficient
       data" at 100% detected on 17 recent records: shorten the window and assays
