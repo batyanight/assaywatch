@@ -14,32 +14,55 @@ inside a function (`from assaywatch.score import load_config` inside `main`).
 Over-inclusion is harmless, since an extra file only means one more edit reruns the
 rule, so the walk follows every import it can see rather than guess which are live.
 
-It reads source text and never imports the modules, so the Snakefile can call it at
-parse time without running anything.
+It reads source and never imports the modules, so the Snakefile can call it at parse
+time without running anything.
 """
 
 from __future__ import annotations
 
-import re
+import ast
 from pathlib import Path
 
 PACKAGE = Path(__file__).resolve().parent
 
-# `from assaywatch.x import ...`, `import assaywatch.x`, and the names in
-# `from assaywatch import x, y`. Anchored to the start of a line (after
-# indentation) so a mention inside a docstring sentence is not an import.
-_FROM_MODULE = re.compile(r"^[ \t]*from[ \t]+assaywatch\.(\w+)[ \t]+import\b", re.M)
-_IMPORT_MODULE = re.compile(r"^[ \t]*import[ \t]+assaywatch\.(\w+)", re.M)
-_FROM_PACKAGE = re.compile(r"^[ \t]*from[ \t]+assaywatch[ \t]+import[ \t]+([\w, \t]+)", re.M)
-
 
 def direct_imports(module: str, package: Path = PACKAGE) -> set[str]:
-    """assaywatch modules that `package/<module>.py` imports, by name."""
-    source = (package / f"{module}.py").read_text()
-    found = set(_FROM_MODULE.findall(source)) | set(_IMPORT_MODULE.findall(source))
-    for names in _FROM_PACKAGE.findall(source):
-        found |= {n.strip() for n in names.split(",") if n.strip()}
-    return {m for m in found if (package / f"{m}.py").exists()}
+    """assaywatch modules that `package/<module>.py` imports, by name.
+
+    Read from the syntax tree, not by pattern: the project's own formatter turns a long
+    `from assaywatch import a, b, c` into a parenthesised multi-line form, and an
+    earlier version matched on text and silently missed that, along with `import x as y`,
+    relative imports and the second name in `import assaywatch.a, assaywatch.b`. A missed
+    dependency means an edit reruns nothing, which is the failure this module exists to
+    prevent. Imports inside functions are followed (report.py imports `score` inside
+    `main`), imports inside comments and strings are not imports, and `importlib` calls
+    are NOT followed, since a name built at runtime is invisible to a source reader.
+
+    A file that does not parse raises SyntaxError: a broken module should stop the
+    Snakefile loudly, not quietly drop its dependencies.
+    """
+    path = package / f"{module}.py"
+    tree = ast.parse(path.read_text(), filename=str(path))
+    found: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                parts = alias.name.split(".")
+                if parts[0] == "assaywatch" and len(parts) > 1:
+                    found.add(parts[1])
+        elif isinstance(node, ast.ImportFrom):
+            if node.level == 0 and node.module and node.module.split(".")[0] == "assaywatch":
+                parts = node.module.split(".")
+                if len(parts) > 1:
+                    found.add(parts[1])  # from assaywatch.x import y
+                else:
+                    found.update(a.name for a in node.names)  # from assaywatch import x, y
+            elif node.level == 1:
+                if node.module:
+                    found.add(node.module.split(".")[0])  # from .x import y
+                else:
+                    found.update(a.name for a in node.names)  # from . import x
+    return {m for m in found if m != "*" and (package / f"{m}.py").exists()}
 
 
 def import_closure(module: str, package: Path = PACKAGE) -> set[str]:

@@ -33,6 +33,7 @@ from datetime import date
 from pathlib import Path
 
 from assaywatch.collect import concatenate_screens, stem_order
+from assaywatch.assemblies import cut_parameters
 from assaywatch.retrieve import targets_from_registry
 from assaywatch.triggers import source_names
 from assaywatch.validate import iter_files
@@ -119,9 +120,13 @@ def _registry_and_config_hash(*config_keys):
     return h.hexdigest()[:16]
 
 
-# report.py reads the drift, degeneracy and scoring settings and every assay's
-# metadata (names, citations, status); degeneracy.py reads the registry and its
-# tier settings. Neither names the registry as an input, so it travels as a param.
+# report.py reads the drift and degeneracy settings and every assay's metadata (names,
+# citations, status); degeneracy.py reads the registry and its tier settings. Neither names
+# the registry as an input, so it travels as a param. `scoring` and `amplicon` are hashed
+# into the report's params only because the report loads the whole config through
+# score.load_config, which validates them (a malformed by_chemistry stops the report); its
+# numbers do not depend on them, and a scoring edit reruns the screens and so the report
+# anyway.
 _COLLECT_CODE = _package_hash(*source_names("collect"))
 _REPORT_PARAMS = {
     "code": _package_hash(*source_names("report")),
@@ -177,6 +182,10 @@ checkpoint retrieve:
         groups=hashlib.sha1(
             repr(sorted((t, g, str(v["query"])) for (t, g), v in GROUPS.items())).encode()
         ).hexdigest()[:16],
+        # The settings that decide how a genome is cut down to its candidate amplicons.
+        # Changing one has to rerun retrieval, or `asm` archives stay cut at the old
+        # settings until something else happens to rerun it (see cut_parameters).
+        cut=hashlib.sha1(json.dumps(cut_parameters(config), sort_keys=True).encode()).hexdigest()[:16],
     # The email is read from config in the command, not passed as a param: a
     # params change reruns the rule, and a different contact address is no
     # reason to fetch again.

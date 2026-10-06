@@ -34,6 +34,10 @@ from assaywatch.triggers import direct_imports, import_closure, source_names
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAKEFILE = (ROOT / "Snakefile").read_text()
+# One date for the whole module, so the planted tree and every Snakemake call agree on it.
+# (The Snakefile still reads the clock itself for the run record's name, so a run spanning
+# midnight could disagree; these tests take seconds, not hours.)
+TODAY = date.today().isoformat()
 
 
 # --------------------------------------------------------------------------
@@ -83,6 +87,60 @@ def test_a_name_imported_from_the_package_that_is_not_a_module_is_ignored(packag
 
 def test_a_comment_or_string_mentioning_an_import_is_not_one(package):
     assert direct_imports("i", package) == set()
+
+
+@pytest.mark.parametrize(
+    "source, expected",
+    [
+        (
+            "from assaywatch import (\n    b,\n    c,\n)\n",
+            {"b", "c"},
+        ),  # what the project's formatter produces
+        ("from assaywatch import b as renamed\n", {"b"}),
+        ("from assaywatch import b, c as d, e\n", {"b", "c", "e"}),
+        ("import assaywatch.b, assaywatch.c\n", {"b", "c"}),
+        ("import assaywatch.b as bee\n", {"b"}),
+        ("from . import b, c\n", {"b", "c"}),
+        ("from .b import thing\n", {"b"}),
+        ("from assaywatch.b.sub import thing\n", {"b"}),
+        ("def f():\n    if True:\n        from assaywatch.b import x\n", {"b"}),
+        ("try:\n    import assaywatch.b\nexcept ImportError:\n    pass\n", {"b"}),
+        ("import assaywatch\n", set()),
+        ("from assaywatch import *\n", set()),
+        ("from other import b\nimport b_not_ours\n", set()),
+        ('"""from assaywatch.b import x"""\nx = """\nfrom assaywatch.c import y\n"""\n', set()),
+    ],
+    ids=[
+        "parenthesised",
+        "as",
+        "comma-and-as",
+        "import-comma",
+        "import-as",
+        "relative-from-dot",
+        "relative-module",
+        "submodule",
+        "nested-in-function",
+        "try-block",
+        "bare-package",
+        "star",
+        "someone-elses",
+        "docstring-and-multiline-string",
+    ],
+)
+def test_every_form_of_import_the_project_uses_or_its_formatter_produces(tmp_path, source, expected):
+    """The first walk matched text and missed the parenthesised form `ruff format` writes
+    for any long import, plus `as`, relative imports and the second name in a comma list:
+    each a dependency dropped silently, so an edit reran nothing. It reads the syntax tree now."""
+    for name in "bcde":
+        (tmp_path / f"{name}.py").write_text("")
+    (tmp_path / "a.py").write_text(source)
+    assert direct_imports("a", tmp_path) == expected
+
+
+def test_a_module_that_does_not_parse_fails_loudly(tmp_path):
+    (tmp_path / "a.py").write_text("def broken(:\n")
+    with pytest.raises(SyntaxError):
+        direct_imports("a", tmp_path)
 
 
 def test_a_module_not_reachable_from_the_start_is_not_included(package):
@@ -171,7 +229,7 @@ def _snakemake(tree: Path, *args: str) -> subprocess.CompletedProcess:
     The rules shell out to `python -m assaywatch...`, so `python` has to be this
     interpreter, and `assaywatch` has to be the tree's copy, not the checkout's.
     """
-    today = date.today().isoformat()
+    today = TODAY
     env = {
         **os.environ,
         "PYTHONPATH": str(tree),
@@ -197,7 +255,12 @@ def _snakemake(tree: Path, *args: str) -> subprocess.CompletedProcess:
 
 
 def _planned(result: subprocess.CompletedProcess) -> set[str]:
-    """Rules listed to run in a dry-run, minus the `all` target."""
+    """Rules listed to run in a dry-run, minus the `all` target.
+
+    A dry run that CRASHED lists nothing, which would read as "nothing to do" and pass
+    every case that expects an empty set, so it must have succeeded.
+    """
+    assert result.returncode == 0, result.stdout[-1500:] + result.stderr[-1500:]
     return set(re.findall(r"^(?:local)?(?:rule|checkpoint) (\w+):", result.stdout, flags=re.M)) - {"all"}
 
 
@@ -225,7 +288,7 @@ def tree(tmp_path_factory):
     with gzip.open(archive / "2026-10-04.fasta.gz", "wb") as fh:
         fh.write(fixtures)
 
-    today = date.today().isoformat()
+    today = TODAY
     (t / "results" / today).mkdir(parents=True)
     (t / "results" / today / ".registry-valid").touch()
     (t / "data" / "retrieved" / "runs").mkdir(parents=True)
@@ -274,6 +337,12 @@ def _edited(tree: Path, relative: str, new_text):
             lambda s: s.replace("min_records_for_coverage: 10", "min_records_for_coverage: 11"),
             {"report"},
         ),
+        # a degeneracy tier is read by the screens too, so it reaches everything downstream of them
+        (
+            "config.yaml",
+            lambda s: s.replace("[128, moderate]", "[100, moderate]"),
+            {"screen_archive", "degeneracy_table", "collect_calls", "report"},
+        ),
     ],
     ids=[
         "collect.py",
@@ -283,6 +352,7 @@ def _edited(tree: Path, relative: str, new_text):
         "validate.py",
         "unrelated module",
         "drift config",
+        "degeneracy config",
     ],
 )
 def test_an_edit_reruns_exactly_the_rules_that_depend_on_it(tree, relative, edit, expected):
@@ -309,3 +379,12 @@ def test_editing_an_assay_nothing_screens_still_refreshes_the_degeneracy_table_a
         assert _planned(_snakemake(tree, "-n")) == {"degeneracy_table", "report"}
     finally:
         restore()
+
+
+def test_the_retrieve_rule_hashes_the_settings_a_genome_is_cut_with():
+    """Changing one of them has to rerun retrieval or `asm` archives stay cut at the old
+    settings. (Not testable under Snakemake offline: the planted run record gives the rule
+    no recorded params to differ from, and running it needs NCBI.)"""
+    block = rule_blocks(SNAKEFILE)["retrieve"]
+    assert "cut=" in block and "cut_parameters(config)" in block, block
+    assert "from assaywatch.assemblies import cut_parameters" in SNAKEFILE

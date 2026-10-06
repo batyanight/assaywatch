@@ -18,3 +18,20 @@ jobs:
       # No citation may be written from memory. Checks every registry DOI
       # against the committed Crossref cache, so it needs no network.
       - run: python scripts/check_citations.py
+
+  # The Snakemake-backed tests (tests/test_triggers.py) run the pipeline offline and assert
+  # which rules an edit reruns. They skip without Snakemake, so the job above never runs
+  # them. This one installs it, and may fail without making the build red: Snakemake's
+  # install is the part most likely to break on a runner, and a red build for that would
+  # be noise. Check it when it goes red.
+  snakemake:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --upgrade pip setuptools wheel
+      - run: pip install -e ".[dev]" "snakemake-minimal>=8"
+      - run: pytest -q tests/test_triggers.py
