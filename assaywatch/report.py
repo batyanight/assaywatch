@@ -252,25 +252,36 @@ def year_table_rows(drift: AssayDrift) -> list[tuple[int, int, int, str]]:
 
 
 def duplication_summary(flagged: list[AssayDrift]) -> str:
-    """ "N of M flagged assays survive the duplication check", or "" if none were checked.
+    """One line on how many flags survive the duplication check; "" only if nothing is flagged.
 
-    Counts only the assays it could check, and says so, because an unchecked
-    flag is not a surviving one: a calls table screened before the footprint
-    columns existed would otherwise read as a clean bill of health.
+    Counts only the assays it could check, and says so, because an unchecked flag
+    is not a surviving one: a calls table screened before the footprint columns
+    existed would otherwise read as a clean bill of health. When NONE could be
+    checked it says that instead of going quiet, since silence there reads exactly
+    like "nothing to report".
     """
+    if not flagged:
+        return ""
     checked = [a for a in flagged if a.flag_survives_clustering is not None]
     if not checked:
-        return ""
+        n = len(flagged)
+        return (
+            f"not run for {'this flagged assay' if n == 1 else f'any of the {n} flagged assays'}: "
+            "their binding-site footprints are unknown (the calls table includes screens from before "
+            "the footprint columns were written, or counts diverged records as failures), so nothing "
+            "can be said about whether the flags rest on duplicated records."
+        )
     held = sum(1 for a in checked if a.flag_survives_clustering)
     tail = f" ({len(flagged) - len(checked)} could not be checked)" if len(checked) < len(flagged) else ""
     text = (
-        f"{held} of {len(checked)} flagged assays still hold when each distinct binding-site footprint "
-        f"is counted once rather than each record{tail}."
+        f"{held} of {len(checked)} flagged assays still hold when duplicated records are discounted "
+        f"(each distinct binding-site footprint counted once, and the sample size cut to the number "
+        f"of footprints){tail}."
     )
-    # Only when something failed the check: "the remainder rest on..." after a
-    # clean 5 of 5 is a sentence about nothing.
+    # Only when something failed the check: a sentence about the remainder after a
+    # clean 5 of 5 is a sentence about nothing. Which test each failed is in its own note.
     if held < len(checked):
-        text += " The remainder rest on a few footprints deposited many times."
+        text += " The note on each assay that did not hold says which test it failed."
     return text
 
 

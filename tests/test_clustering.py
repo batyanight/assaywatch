@@ -5,10 +5,10 @@ records are not. These tests pin the response to that, and, as importantly, what
 it is NOT allowed to do: it is reported beside a verdict and never feeds one.
 
 Footprints here are built two ways. `rows()` makes them by hand, which is fast and
-lets a test choose exactly how many distinct ones exist. `real_table()` builds them
-from `Call.as_row()`, the thing the pipeline actually writes, so a test that
-depends on what a screen row contains is tested against what a screen row contains
-rather than against what its author remembered.
+lets a test choose exactly how many distinct ones exist. `real_row()` and
+`write_tsv()` build them from `Call.as_row()`, the thing the pipeline actually
+writes, so a test that depends on what a screen row contains is tested against what
+a screen row contains rather than against what its author remembered.
 """
 
 import csv
@@ -56,8 +56,11 @@ def fp(i: int) -> str:
 
 
 # 80 records match exactly and 20 fail, the failures sharing 4 footprints. p = 0.80
-# at n = 100 puts the Wilson upper bound near 0.87: below 0.90, so flagged. Counted
-# once per footprint it is 4 detections in 5 draws, whose upper bound is near 0.96.
+# at n = 100 puts the Wilson upper bound near 0.87: below 0.90, so flagged. Five
+# footprints in all, so the share 0.80 given only 5 observations (4 in 5) has an upper
+# bound near 0.96 and no longer rules out the threshold. (Counting each footprint
+# once instead gives 1 amplifying footprint of 5, which is NOT what this fixture
+# tests: the sample-size reduction keeps the record-weighted share.)
 DUPLICATED = [
     (2025, "detect", fp(0), 80),
     (2025, "fail", fp(1), 5),
@@ -217,7 +220,8 @@ def test_a_flag_with_genuinely_distinct_failures_survives():
     assert a.status == "low coverage"
     assert a.recent_footprints == 41
     assert a.flag_survives_clustering is True and a.cluster_failures == ()
-    assert "does not depend on duplicated records" in a.clustering_note
+    assert "does not rest on identical footprints deposited repeatedly" in a.clustering_note
+    assert "Both reductions leave the flag in place" in a.clustering_note
 
 
 def test_the_malb_case_is_reported_as_resting_on_two_footprints_not_as_surviving():
@@ -234,8 +238,8 @@ def test_the_malb_case_is_reported_as_resting_on_two_footprints_not_as_surviving
     assert a.recent_ci_clustered[1] < a.threshold  # the interval alone WOULD have passed it
     assert a.flag_survives_clustering is False
     assert "too_few" in a.cluster_failures
-    assert "only 2 distinct footprint(s)" in a.clustering_note
-    assert "does not depend on duplicated records" not in a.clustering_note
+    assert "only 2 distinct footprint(s), fewer than the 20 independent observations" in a.clustering_note
+    assert "does not rest on identical footprints" not in a.clustering_note
 
 
 def test_a_single_footprint_cannot_survive():
@@ -298,7 +302,18 @@ def test_a_declining_flag_that_fails_only_on_the_change_interval_says_so():
     assert a.cluster_failures == ("change",), a.cluster_failures
     assert "no longer excludes zero" in a.clustering_note
     assert "no longer rules out the 90% threshold" not in a.clustering_note
-    assert "only" not in a.clustering_note.split("This flag does not hold up:")[1].split(";")[0]
+    # The reason is the thin baseline, and the note must not go on to blame duplicated
+    # failures: the 20 failing records here are 20 DIFFERENT footprints.
+    assert "with only 21 and 1 independent observations the fall from baseline" in a.clustering_note
+    from assaywatch.drift import pct
+
+    clo, chi = a.change_ci_clustered
+    assert clo < 0 <= chi  # spans zero, which is the whole point
+    assert (
+        f"the fall from baseline is {pct(clo, True)} to {pct(chi, True)}, which no longer excludes zero"
+        in (a.clustering_note)
+    )
+    assert "near-identical" not in a.clustering_note
 
 
 def test_every_failing_reason_is_named_when_several_apply():
@@ -460,7 +475,8 @@ def test_blank_filled_rows_from_an_older_screen_are_unknown_not_a_clean_footprin
     a = assess(calls, years, CFG, today=TODAY)["A"]
     assert a.status == "low coverage"
     assert a.recent_footprints is None and a.flag_survives_clustering is None
-    assert duplication_summary([a]) == ""  # "could not be checked", never "still holds"
+    text = duplication_summary([a])  # said out loud: silence would read as "nothing to report"
+    assert text.startswith("not run for this flagged assay") and "still hold" not in text, text
 
 
 def test_an_intermediate_schema_with_scores_but_no_mismatch_columns_is_unknown(tmp_path):
@@ -520,10 +536,16 @@ def test_an_unchecked_flag_is_not_counted_as_a_surviving_one():
     from assaywatch.report import duplication_summary
 
     unchecked = assess(*rows(DUPLICATED, with_footprint=False), CFG, today=TODAY)["A"]
-    assert unchecked.status == "low coverage" and duplication_summary([unchecked]) == ""
+    assert unchecked.status == "low coverage"
+    alone = duplication_summary([unchecked])
+    assert alone.startswith("not run for this flagged assay") and "still hold" not in alone, alone
+    assert duplication_summary([unchecked, unchecked, unchecked]).startswith(
+        "not run for any of the 3 flagged assays"
+    )
     checked = assess(*rows(DISTINCT), CFG, today=TODAY)["A"]
-    text = duplication_summary([checked, unchecked])
-    assert "1 of 1 flagged assays still hold" in text and "1 could not be checked" in text, text
+    # One checked, three not: the count of unchecked is not the count of checked.
+    text = duplication_summary([checked, unchecked, unchecked, unchecked])
+    assert "1 of 1 flagged assays still hold" in text and "(3 could not be checked)" in text, text
 
 
 def test_a_clean_sweep_does_not_mention_a_remainder():
@@ -531,9 +553,12 @@ def test_a_clean_sweep_does_not_mention_a_remainder():
 
     distinct = assess(*rows(DISTINCT), CFG, today=TODAY)["A"]
     text = duplication_summary([distinct])
-    assert text.startswith("1 of 1 flagged assays still hold") and "remainder" not in text, text
+    assert text.startswith("1 of 1 flagged assays still hold") and "did not hold" not in text, text
     dup = assess(*rows(DUPLICATED), CFG, today=TODAY)["A"]
-    assert "remainder rest on a few footprints" in duplication_summary([dup])
+    failed = duplication_summary([dup])
+    assert "on each assay that did not hold says which test it failed" in failed, failed
+    # Not a claim about WHY: the failure may be the floor or the baseline, not duplication.
+    assert "deposited many times" not in failed
 
 
 def test_the_duplication_check_reaches_the_rendered_report():
@@ -544,3 +569,162 @@ def test_the_duplication_check_reaches_the_rendered_report():
     assert "Duplication check" in md and "0 of 1 flagged assays" in md, md
     assert "20.0 per footprint" in md
     assert "Duplication check" in render_html(drifts, {}, [], "2026-10-05", CFG)
+
+
+# --------------------------------------------------------------------------
+# The numbers the note prints, the footprint reduction, and what the note is
+# allowed to conclude. Added after review: no test had pinned any printed
+# interval or count, and the note said "does not depend on duplicated records"
+# for a flag carried by one footprint deposited 92 times.
+# --------------------------------------------------------------------------
+
+
+def ref_wilson(k: float, n: float, z: float = 1.959963984540054) -> tuple[float, float]:
+    """Wilson score interval written out here, so the test does not trust the code's own."""
+    import math
+
+    p = k / n
+    denom = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / denom
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denom
+    return centre - half, centre + half
+
+
+# One lineage fails 92 times at ONE footprint; the 70 detections are spread over 19
+# others. Record-weighted, the share is 43% and its interval stays far below 90%.
+# Counting each footprint once, 19 of the 20 amplify: the flag is one clone.
+ONE_FAILING_CLONE = [(2025, "detect", fp(i), 1 if i else 52) for i in range(19)] + [
+    (2025, "fail", fp(99), 92)
+]
+
+
+def test_a_flag_carried_by_one_failing_footprint_is_not_called_independent_of_duplication():
+    """THE CASE REVIEW FOUND THE FIRST FIX HAD ONLY PATCHED FOR ITS OWN FIXTURE.
+
+    The sample-size reduction keeps the record-weighted share (70 of 162 amplify)
+    and only shrinks n to the 20 footprints, so its interval stays low however many
+    copies the failing footprint has. It said 'does not depend on duplicated
+    records' about a flag that is one footprint deposited 92 times. Counting each
+    footprint once is the reduction that sees it, and it now has a say."""
+    a = assess(*rows(ONE_FAILING_CLONE), CFG, today=TODAY)["A"]
+    assert a.status == "low coverage"
+    assert (a.recent_evaluable, a.recent_footprints, a.recent_footprints_detected) == (162, 20, 19)
+    # The sample-size reduction alone WOULD have let it through:
+    assert a.recent_ci_clustered[1] < a.threshold
+    lo, hi = ref_wilson(19, 20)
+    assert a.recent_ci_by_footprint == (lo, hi) or (
+        abs(a.recent_ci_by_footprint[0] - lo) < 1e-9 and abs(a.recent_ci_by_footprint[1] - hi) < 1e-9
+    )
+    assert hi >= a.threshold  # 76%-99%: the flag disappears when each footprint counts once
+    assert a.cluster_failures == ("footprint",), a.cluster_failures
+    assert a.flag_survives_clustering is False
+    note = a.clustering_note
+    assert "does not rest on identical footprints" not in note
+    assert "counting each footprint once, 19 of 20 footprints amplify (95%; interval 76%-99%)" in note
+    assert "concentrated on few footprints" in note
+    assert "may reflect how many near-identical records were deposited" in note
+
+
+def test_the_footprint_reduction_never_creates_a_flag_or_clears_one():
+    """A healthy assay (one exact class plus fifty one-off errors) reads as 2% under
+    footprint-weighting, which is why that reduction is not allowed to decide anything.
+    Here it must not flag the assay, and the status must stay what the records say."""
+    spec = [(2025, "detect", fp(0), 5000)] + [(2025, "fail", fp(i), 1) for i in range(1, 51)]
+    a = assess(*rows(spec), CFG, today=TODAY)["A"]
+    assert a.status == "stable"
+    assert a.flag_survives_clustering is None and a.clustering_note == ""
+    assert a.recent_footprints_detected == 1 and a.recent_footprints == 51
+
+
+def test_printed_intervals_and_counts_are_the_ones_computed():
+    """Pin every number in a surviving note against an independent computation."""
+    a = assess(*rows(DISTINCT), CFG, today=TODAY)["A"]
+    assert (a.recent_evaluable, a.recent_footprints, a.recent_footprints_detected) == (50, 41, 1)
+    share = 10 / 50
+    lo, hi = ref_wilson(share * 41, 41)
+    flo, fhi = ref_wilson(1, 41)
+    assert abs(a.recent_ci_clustered[0] - lo) < 1e-9 and abs(a.recent_ci_clustered[1] - hi) < 1e-9
+    assert abs(a.recent_ci_by_footprint[0] - flo) < 1e-9 and abs(a.recent_ci_by_footprint[1] - fhi) < 1e-9
+
+    from assaywatch.drift import pct
+
+    note = a.clustering_note
+    assert "50 recent records share 41 distinct footprints (1.2 per footprint)" in note
+    assert (
+        f"with only 41 independent observations (one per footprint) the interval around the 20% detected share is {pct(lo)}-{pct(hi)}"
+        in note
+    )
+    assert (
+        f"counting each footprint once, 1 of 41 footprints amplify ({pct(1 / 41)}; interval {pct(flo)}-{pct(fhi)})"
+        in note
+    )
+
+
+def test_a_surviving_declining_note_prints_the_change_interval_in_order():
+    spec = (
+        [(2020, "detect", fp(i), 1) for i in range(60)]
+        + [(2025, "detect", fp(100), 5)]
+        + [(2025, "fail", fp(200 + i), 1) for i in range(60)]
+    )
+    a = assess(*rows(spec), CFG, today=TODAY)["A"]
+    assert a.flag_survives_clustering is True
+    from assaywatch.drift import pct
+
+    clo, chi = a.change_ci_clustered
+    assert clo < chi < 0, (clo, chi)  # the fall excludes zero: both ends negative
+    assert (
+        f"the fall from baseline ({pct(clo, True)} to {pct(chi, True)}) still excludes zero"
+        in a.clustering_note
+    )
+
+
+def test_the_closing_sentence_is_only_said_where_it_is_true():
+    """'The share failing may reflect how many near-identical records were deposited'
+    is a claim about duplicated records. It is false for a flag that fell only on the
+    floor, or only on a thin baseline, where the failing records can be perfectly
+    diverse (1.2 and 1.5 records per footprint in these two)."""
+    floor_only = assess(
+        *rows([(2025, "detect", fp(0), 4)] + [(2025, "fail", fp(i), 1) for i in range(1, 19)]),
+        CFG,
+        today=TODAY,
+    )["A"]
+    assert floor_only.cluster_failures == ("too_few",), floor_only.cluster_failures
+    assert "near-identical" not in floor_only.clustering_note
+    assert "only 19 distinct footprint(s)" in floor_only.clustering_note
+
+    dup = assess(*rows(DUPLICATED), CFG, today=TODAY)["A"]
+    assert {"recent"} <= set(dup.cluster_failures)
+    assert "near-identical" in dup.clustering_note
+
+
+def test_the_low_coverage_flag_is_not_held_to_the_change_test_even_with_a_baseline():
+    """A baseline exists but `low coverage` is not a claim about change: only a
+    declining flag needs the fall from baseline to survive. Here the baseline is
+    about as bad as the recent window, so the change interval spans zero and would
+    fail a `change` test if one were applied to this flag."""
+    spec = (
+        [(2020, "detect", fp(i), 1) for i in range(10)]
+        + [(2020, "fail", fp(300 + i), 1) for i in range(30)]
+        + [(2025, "detect", fp(100), 10)]
+        + [(2025, "fail", fp(200 + i), 1) for i in range(40)]
+    )
+    a = assess(*rows(spec), CFG, today=TODAY)["A"]
+    assert a.status == "low coverage" and a.baseline_footprints == 40
+    assert a.change_ci_clustered[1] >= 0, "the fixture no longer exercises the point"
+    assert "change" not in a.cluster_failures
+    assert a.flag_survives_clustering is True, (a.cluster_failures, a.clustering_note)
+
+
+def test_a_reduced_call_counts_as_an_amplifying_footprint():
+    """`reduced` amplifies, just later, and is detected everywhere else in drift.py;
+    the footprint share has to agree or it disagrees with the verdict it qualifies."""
+    spec = [
+        (2025, "detect", fp(0), 3),
+        (2025, "reduced", fp(1), 3),
+        (2025, "reduced", fp(2), 1),
+        (2025, "fail", fp(3), 5),
+        (2025, "fail", fp(4), 1),
+    ]
+    a = assess(*rows(spec), CFG, today=TODAY)["A"]
+    assert (a.recent_footprints, a.recent_footprints_detected) == (5, 3)
+    assert a.recent_detected == 7  # records: 3 detect + 4 reduced

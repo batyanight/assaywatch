@@ -214,15 +214,22 @@ class AssayDrift:
     # reported beside a call and never fed into it.
     recent_footprints: int | None = None  # distinct (call, footprint) among evaluable recent records
     baseline_footprints: int | None = None
+    # How many of those recent classes are `detect` or `reduced`: the numerator of
+    # the share you get by counting each footprint once.
+    recent_footprints_detected: int | None = None
     recent_ci_clustered: tuple[float, float] = (0.0, 1.0)
+    # Wilson interval on `recent_footprints_detected` of `recent_footprints`.
+    recent_ci_by_footprint: tuple[float, float] = (0.0, 1.0)
     change_ci_clustered: tuple[float, float] = (-1.0, 1.0)
     # For a flagged assay only: does the flag still hold at the clustered
     # interval? None for every other status, and when footprints are unknown.
     flag_survives_clustering: bool | None = None
     # Why a flag did not survive, as codes: "too_few" (fewer distinct footprints
-    # than min_records), "recent" (the clustered recent interval reaches the
-    # threshold), "change" (a declining assay's fall from baseline no longer
-    # excludes zero). Empty when it survived or was not checked.
+    # than min_records), "recent" (the recent interval, at the number of
+    # footprints as its sample size, reaches the threshold), "footprint" (counting
+    # each footprint once, the share amplifying reaches the threshold), "change" (a
+    # declining assay's fall from baseline no longer excludes zero at that sample
+    # size). Empty when it survived or was not checked.
     cluster_failures: tuple[str, ...] = ()
 
     @property
@@ -262,87 +269,126 @@ class AssayDrift:
 
         Said only for a flagged assay, because that is where the question has
         consequences: a stable verdict rests on the point estimate and does not
-        move with the interval. When a flag does not survive, it names WHICH test
-        failed, because a declining flag can fail on the change interval alone
-        while its recent interval is still well below the threshold, and saying
-        the threshold was reached then would be false.
+        move with the interval. Two different reductions are reported, and the note
+        says which is which, because they answer different questions:
+
+        - the SAMPLE-SIZE one keeps the detected share as measured and gives it
+          only as many independent observations as there are distinct footprints.
+          It shows whether the flag survives losing the sample size duplication
+          costs, and it cannot show that the share itself is dominated by one clone;
+        - the FOOTPRINT one counts each distinct footprint once, which does.
+
+        When a flag does not survive it names WHICH test failed, and says what that
+        means only for the tests where it is true: a declining flag can fail on the
+        change interval alone while its recent interval is still well below the
+        threshold, and saying the threshold was reached then would be false.
         """
         if self.flag_survives_clustering is None or self.recent_footprints is None:
             return ""
+        assert self.recent_fraction is not None and self.recent_footprints_detected is not None
+        n_f, d_f = self.recent_footprints, self.recent_footprints_detected
         lo, hi = self.recent_ci_clustered
+        flo, fhi = self.recent_ci_by_footprint
         clo, chi = self.change_ci_clustered
+        share = pct(self.recent_fraction)
         shared = (
-            f"{self.recent_evaluable} recent records share {self.recent_footprints} distinct footprints "
+            f"{self.recent_evaluable} recent records share {n_f} distinct footprints "
             f"({self.records_per_footprint:.1f} per footprint)"
+        )
+        by_sample = (
+            f"with only {n_f} independent observations (one per footprint) the interval around the "
+            f"{share} detected share is {pct(lo)}-{pct(hi)}"
+        )
+        by_footprint = (
+            f"counting each footprint once, {d_f} of {n_f} footprints amplify "
+            f"({pct(d_f / n_f)}; interval {pct(flo)}-{pct(fhi)})"
         )
         if self.flag_survives_clustering:
             held = (
-                f"Even counting each footprint once the interval is {pct(lo)}-{pct(hi)}, "
-                f"still below the {self.threshold:.0%} threshold"
+                f"Both reductions leave the flag in place: {by_sample}, and {by_footprint}; "
+                f"each is below the {self.threshold:.0%} threshold"
             )
             if self.status == "declining":
                 held += (
                     f", and the fall from baseline ({pct(clo, True)} to {pct(chi, True)}) still excludes zero"
                 )
-            return f"{shared}. {held}, so the flag does not depend on duplicated records."
+            return (
+                f"{shared}. {held}. So the flag does not rest on identical footprints deposited repeatedly."
+            )
         reasons = []
         if "too_few" in self.cluster_failures:
             reasons.append(
-                f"only {self.recent_footprints} distinct footprint(s), fewer than the {self.min_records} "
+                f"only {n_f} distinct footprint(s), fewer than the {self.min_records} "
                 "independent observations the record-level rule needs before it will flag anything"
             )
         if "recent" in self.cluster_failures:
+            reasons.append(f"{by_sample}, which no longer rules out the {self.threshold:.0%} threshold")
+        if "footprint" in self.cluster_failures:
             reasons.append(
-                f"counting each footprint once the interval widens to {pct(lo)}-{pct(hi)}, which no "
-                f"longer rules out the {self.threshold:.0%} threshold"
+                f"{by_footprint}, which reaches the {self.threshold:.0%} threshold: the failing records are "
+                "concentrated on few footprints"
             )
         if "change" in self.cluster_failures:
             reasons.append(
-                f"counting each footprint once the fall from baseline is {pct(clo, True)} to "
-                f"{pct(chi, True)}, which no longer excludes zero"
+                f"with only {n_f} and {self.baseline_footprints} independent observations the fall from "
+                f"baseline is {pct(clo, True)} to {pct(chi, True)}, which no longer excludes zero"
             )
-        return (
-            f"{shared}. This flag does not hold up: {'; '.join(reasons)}. The failing footprints may "
-            "well be real; what this says is that the SHARE failing may reflect how many near-identical "
-            "records were deposited rather than how much of the population the assay misses."
-        )
+        text = f"{shared}. This flag does not hold up: {'; '.join(reasons)}."
+        # Only where it is true. It says nothing about a flag that failed on the
+        # floor or on a thin baseline alone, where the failing records may be perfectly diverse.
+        if {"recent", "footprint"} & set(self.cluster_failures):
+            text += (
+                " The failing records may well be real; what this says is that the SHARE failing may "
+                "reflect how many near-identical records were deposited rather than how much of the "
+                "population the assay misses."
+            )
+        return text
 
     def _cluster_check(self) -> None:
-        """Interval at the number of distinct footprints, and whether a flag survives it.
+        """Does a flag survive two ways of discounting duplicated records?
 
-        The widest defensible reading, not the right one. Wilson assumes every
-        record is an independent draw; this assumes every group of records with
-        an identical footprint is ONE draw, i.e. a perfect clone. The truth is
-        in between, so the two intervals bracket it and a flag that holds at both
-        is a flag that does not rest on duplication.
+        The widest defensible readings, not the right ones. Wilson assumes every
+        record is an independent draw. Two reductions each assume identical
+        footprints are a perfect clone, and between them they bracket the truth:
+
+        - SAMPLE SIZE (`recent`, `change`): keep the detected share as measured
+          and give it only as many observations as there are distinct footprints.
+          This shows whether a flag survives losing the sample size that
+          duplication costs. It cannot show that the share itself is dominated by
+          one clone, because the share is still record-weighted: 92 failures at one
+          footprint beside detections spread over 19 others keep their 43% share
+          here however many copies the failing footprint has.
+        - FOOTPRINT (`footprint`): count each distinct footprint once. That is the
+          reduction that does show it: in the same case 19 of 20 footprints amplify.
+          On its own it would misjudge a healthy assay, because a sequencing error in
+          a primer site is a footprint of its own and would read as mostly failures,
+          so it is never used to flag or to clear anything; it can only withhold the
+          label "survives" from a flag the record-level evidence already raised.
 
         A flag survives only if it passes every test it faces, and the first is a
         FLOOR: at least `min_records` distinct footprints. Without one the check
-        reassured exactly where it was meant to warn. Wilson is anti-conservative
-        at tiny n (0 of 1 gives an upper bound of 0.79 where the exact bound is
-        0.975), so 92 failures sharing ONE footprint plus 70 detections sharing
-        another - the malB case this check was written for - gave an upper bound
-        of 88%, "below threshold", and the note said the flag did not depend on
-        duplicated records. The record-level rule already refuses to flag on fewer
-        than `min_records` records; the same evidence floor now applies to
-        independent observations.
+        reassured exactly where it was meant to warn, at every count from two up to
+        nineteen. Wilson is anti-conservative at tiny n (0 of 1 gives an upper bound
+        of 0.79 where the exact bound is 0.975), so 92 failures sharing ONE footprint
+        plus 70 detections sharing another gave an upper bound of 88%, "below
+        threshold", and the note said the flag did not depend on duplicated records.
+        The record-level rule already refuses to flag on fewer than `min_records`
+        records; the same evidence floor now applies to independent observations.
 
         It removes the duplication it can SEE and no more. Records from one clade
         that differ at a few non-primer positions are distinct here and still
         correlated, so this is not a lower bound on the effective sample size.
-
-        The alternative the review proposes, weighting each distinct haplotype
-        equally, was rejected: a sequencing error in a primer site makes a unique
-        failing footprint, so on a healthy assay it would report mostly failures.
         """
         n_r, n_b = self.recent_footprints, self.baseline_footprints
-        if n_r is None or not self.recent_evaluable:
+        d_r = self.recent_footprints_detected
+        if n_r is None or d_r is None or not self.recent_evaluable:
             return
         if self.baseline_evaluable and n_b is None:
             return
         p = self.recent_fraction
         assert p is not None
         self.recent_ci_clustered = wilson_interval(p * n_r, n_r)
+        self.recent_ci_by_footprint = wilson_interval(d_r, n_r)
         if self.baseline_evaluable:
             assert n_b is not None  # guarded above
             self.change_ci_clustered = newcombe_difference(
@@ -354,6 +400,8 @@ class AssayDrift:
                 failures.append("too_few")
             if self.recent_ci_clustered[1] >= self.threshold:
                 failures.append("recent")
+            if self.recent_ci_by_footprint[1] >= self.threshold:
+                failures.append("footprint")
             if self.status == "declining" and self.change_ci_clustered[1] >= 0:
                 failures.append("change")
             self.cluster_failures = tuple(failures)
@@ -520,9 +568,11 @@ def assess(
         iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
         why = row.get("exclusion") or ""
         call = "fail" if (count_diverged and why == "diverged") else row["call"]
-        # None, not "", when the row has no footprint: an empty signature is a
-        # real footprint (an exact match) and must not be confused with an
-        # unknown one.
+        # None when the row has no footprint, so that an unknown footprint is never
+        # confused with a known one. A known footprint is never the empty string:
+        # `footprint_signature` joins six fields, so even an exact match is
+        # `|||0|0|0`. The all-empty `|||||` is what a row carries when it was never
+        # scored, which `report.read_calls` already turns into None.
         # A record counted as a failure only because count_diverged_as_fail says
         # so was never scored: its binding site is present and does not match, but
         # nothing was recorded about HOW, so all six footprint columns are empty.
@@ -591,6 +641,7 @@ def assess(
         if fp_known:
             a.recent_footprints = len(recent_fp)
             a.baseline_footprints = len(base_fp)
+            a.recent_footprints_detected = sum(1 for call, _ in recent_fp if call != "fail")
         a.finalise()
         if months > base_months:
             a.note += f" (window widened to {months} months to reach {min_records} evaluable records)"
