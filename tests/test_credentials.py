@@ -113,12 +113,13 @@ def test_the_report_names_ncbis_published_limit_not_a_derived_rate(capsys, monke
 
     monkeypatch.setattr(credentials, "ROOT", tmp_path)
     monkeypatch.setenv("NCBI_API_KEY", "x" * 36)
-    main()
+    # An explicit argv: main(None) would parse pytest's own sys.argv and exit 2.
+    main([])
     out = capsys.readouterr().out
     assert "10 requests/second with a key" in out, out
     assert "9 requests" not in out, out
 
     monkeypatch.delenv("NCBI_API_KEY", raising=False)
-    main()
+    main([])
     out = capsys.readouterr().out
     assert "3 requests/second without a key" in out, out
