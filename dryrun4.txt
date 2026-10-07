@@ -1,6 +1,0 @@
-4 retrieval groups from 4 assays
-       562  Escherichia coli                   [q780c1da66e] full               61 avail  dry run
-SKIP  562/q7ce4e46207: taxid 562 (Escherichia coli) group q7ce4e46207 has 292468 records, over the cap of 100000. Add 562 to retrieve.large_taxa_allowed in config.yaml to fetch it anyway, or narrow the assays' target.query.
-       562  Escherichia coli                   [qa7d2849fe3] full              161 avail  dry run
-     28901  Salmonella enterica                [q22fdd7bbec] full              644 avail  dry run
-1 groups skipped for size

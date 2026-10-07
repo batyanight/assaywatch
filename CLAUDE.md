@@ -1,28 +1,47 @@
 # CLAUDE.md — AssayWatch
 
-Context for Claude Code and Cowork sessions. Read this, then `docs/RESUME-HERE.md`
-for where work left off. Keep this file short; detail lives in the docs it points to.
+Context for Claude Code sessions. Read this, then `docs/RESUME-HERE.md` for where
+work left off. Keep this file short; detail lives in the docs it points to.
+Personal working preferences live in `~/.claude/CLAUDE.md`, not here.
 
 ## What this is
 Continuous in-silico re-validation of published PCR/qPCR assays against newly
 deposited GenBank sequences. One YAML per assay in `registry/`, a Python package
 in `assaywatch/`, a Snakefile that runs retrieve -> screen -> drift -> report.
-Full layout: `README.md`. Plan and status: `ROADMAP.md`.
+Full layout and usage: `README.md`. Plan and status: `ROADMAP.md`.
 
 ## Scope (decided, do not reopen)
 - Pathogen assays only. Host barcoding (COI etc.), eDNA and host-ID assays are
   out of scope and stay out of `registry/` (see `scripts/removed_assays.txt`).
 - Source registry: WCS Molecular Lab primer spreadsheet, plus literature additions.
 
-## Environment
-    conda activate assaywatch          # environment.yml; package installed editable
+## Commands
+    conda activate assaywatch                      # environment.yml; package installed editable
     pytest -q && python -m assaywatch.validate registry
     ruff check . && ruff format --check .
+    python scripts/check_citations.py              # CI runs this too
+    snakemake -n                                   # dry run: prints the job plan, downloads nothing
+    caffeinate -i snakemake --cores 4 --config email=you@nyu.edu
+    snakemake --profile profiles/slurm --config email=you@nyu.edu   # same rules on SLURM
+A change is not done until pytest, the validator, ruff and check_citations pass.
 NCBI CLIs are in the env: `esearch | efetch` (Entrez Direct) and `datasets`
 (NCBI Datasets). Prefer them for quick GenBank/taxonomy lookups over writing
 one-off Python, and over asking Batya to download files by hand.
-CI (`.github/workflows/validate.yml`) also runs `python scripts/check_citations.py`.
-A change is not done until all of these pass.
+
+## Reading this repo cheaply
+Search and summarise; don't read large files whole. `rg`, `fd`, `jq`, `mlr` are
+on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
+- `docs/YYYY-MM-DD-*.md` are dated session records. Historical: open one only
+  when `docs/RESUME-HERE.md` or the task points to it.
+- `registry/` holds 200+ assay YAMLs. Find entries with `rg` (e.g.
+  `rg -l 'Canine distemper' registry/`) or run the validator; never open them in bulk.
+- `docs/*.tsv` (master sheet, lab leads, validation cases): see columns with
+  `mlr --itsv --opprint head -n 3 FILE`, then filter or count with `mlr`.
+- `docs/papers-index.cache.json`, `docs/taxa-cache.json`: caches; query with `jq`.
+- `papers/*.pdf`: locate the oligo table with
+  `pdftotext FILE.pdf - | rg -n -i 'primer|probe|sequence'` before reading pages.
+- `config.yaml` is long and heavily commented; read only the section for the
+  threshold in question.
 
 ## Rules that the registry rests on
 - Measure, never quote. `amplicon_bp` and oligo sequences are verified against
@@ -42,18 +61,13 @@ A change is not done until all of these pass.
   `python -m assaywatch.credentials`. Never print, log or commit a key.
 - `papers/` holds copyrighted PDFs: gitignored, local only, never commit.
 
-## Gitignored scratch
+## Scratch, not source of truth
 `data/retrieved/`, `results/`, `.snakemake/`, `snakemake*.txt`, `dryrun*.txt`,
-`fetch*.txt`. Don't treat these as source of truth for anything committed.
+`fetch*.txt` are gitignored run state and logs, not inputs.
 
 ## Cluster
 `profiles/slurm/` runs the same Snakemake rules on SLURM. When suggesting a
-cluster run, explain the job script / profile mechanics; the user is learning HPC.
+cluster run, explain the job script / profile mechanics; Batya is learning HPC.
 
-## Working with Batya
-- Expert in molecular diagnostics and PCR; learning Python, stats and
-  bioinformatics methods. Explain why code works and define jargon.
-- When a file changes, give the complete updated file, never a partial diff to
-  apply by hand. One command block to run at a time.
-- Blunt, no filler. Commit messages state the finding, not the activity
-  (see `git log`).
+## Git
+Commit messages state the finding, not the activity (see `git log`).

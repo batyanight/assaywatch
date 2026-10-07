@@ -25,3 +25,8 @@ papers/
 .secrets/
 .env
 *.key
+
+# Personal / machine-local files
+.claude/settings.local.json
+Claude outputs/
+.DS_Store
