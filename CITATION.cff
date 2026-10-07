@@ -1,0 +1,37 @@
+# Machine-readable citation metadata (https://citation-file-format.github.io/).
+# GitHub renders this as a "Cite this repository" button and Zenodo reads it when
+# archiving a release.
+#
+# NO `license:` FIELD YET. The project has not chosen one, so there is no LICENSE
+# file either, and asserting a license here would be a claim nobody has made.
+# Without one the default is all-rights-reserved, which is worth settling before
+# the repository is made public or a DOI is minted.
+#
+# NO `doi:` or `date-released:` FIELD YET either: there has been no release.
+# Add both, and `preferred-citation` if a paper appears, at that point.
+cff-version: 1.2.0
+message: "If you use AssayWatch, please cite it using the metadata below."
+title: AssayWatch
+abstract: >-
+  Continuous in-silico re-validation of published PCR and qPCR diagnostic assays
+  against newly deposited GenBank sequences. Assays are designed against the
+  handful of sequences available at publication and then used for years while the
+  database accumulates divergent strains nobody re-screens them against.
+  AssayWatch keeps a version-controlled registry of assays and re-screens it on a
+  schedule, reporting predicted detection by year of deposit and flagging drift.
+type: software
+authors:
+  - family-names: Nightingale
+    given-names: Batya R.
+    orcid: "https://orcid.org/0000-0002-0706-8951"
+repository-code: "https://github.com/batyanight/assaywatch"
+version: 0.0.1
+keywords:
+  - PCR
+  - qPCR
+  - diagnostic assay
+  - assay validation
+  - GenBank
+  - molecular diagnostics
+  - wildlife disease
+  - pathogen surveillance

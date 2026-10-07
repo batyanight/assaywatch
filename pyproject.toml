@@ -10,6 +10,9 @@ dynamic = ["version"]
 description = "Continuous in-silico re-validation of published PCR/qPCR assays against new GenBank sequences"
 readme = "README.md"
 requires-python = ">=3.11"
+# Name verified with the author. Email deliberately omitted: it would be published
+# in the package index, and only the name and ORCID were given for attribution.
+authors = [{name = "Batya R. Nightingale"}]
 # requests is NOT optional: both retrieval transports import it lazily
 # (retrieve.http_transport, assemblies.datasets_transport) and the laziness is
 # so the tests need no network stack, not because the package works without it.

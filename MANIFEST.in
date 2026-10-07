@@ -10,6 +10,7 @@
 # not read .gitignore, so they are excluded here explicitly rather than by luck.
 
 include README.md CONTRIBUTING.md ROADMAP.md CLAUDE.md
+include CITATION.cff
 include pyproject.toml environment.yml config.yaml Snakefile MANIFEST.in
 include .pre-commit-config.yaml
 
