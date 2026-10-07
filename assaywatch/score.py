@@ -444,7 +444,13 @@ def oligo_pools(assay: Assay) -> tuple[list[str], list[str], list[str]]:
 
 
 def screen_record(
-    assay: Assay, record_id: str, record_seq: str, cfg: dict[str, Any], comp: tuple | None = None
+    assay: Assay,
+    record_id: str,
+    record_seq: str,
+    cfg: dict[str, Any],
+    comp: tuple | None = None,
+    *,
+    record_len: int | None = None,
 ) -> Call:
     """Best call for `assay` in one record, over every combination of its primer pools.
 
@@ -468,13 +474,15 @@ def screen_record(
     cfg = config_for(assay.chemistry, cfg)
     fwd, rev, probe = oligo_pools(assay)
     if len(fwd) == 1 and len(rev) == 1 and len(probe) <= 1:
-        return screen_one(assay, record_id, record_seq, cfg, comp)
+        return screen_one(assay, record_id, record_seq, cfg, comp, record_len=record_len)
     if comp is None:
         comp = composition(record_seq)
     best: Call | None = None
     for f in fwd:
         for r in rev:
-            cand = screen_one(assay, record_id, record_seq, cfg, comp, f, r, probe or [None])
+            cand = screen_one(
+                assay, record_id, record_seq, cfg, comp, f, r, probe or [None], record_len=record_len
+            )
             key = (_call_rank(cand.call, cand.reason), cand.penalty if cand.penalty is not None else 1e9)
             if best is None or key < (
                 _call_rank(best.call, best.reason),
@@ -497,6 +505,7 @@ def classify_exclusion(
     cfg: dict[str, Any],
     comp: tuple,
     amplicon_bp: int | None,
+    record_len: int | None = None,
 ) -> tuple[str, str]:
     """Why a record yielded no amplicon: (label, one-line detail).
 
@@ -517,7 +526,7 @@ def classify_exclusion(
     # nothing", and reusing it here silently kept filtering at 0.01.
     max_e = float(cfg["scoring"].get("max_site_evalue", 0.01))
     span = int(amplicon_bp or cfg["amplicon"]["max_bp"])
-    n = len(record_seq)
+    n = record_len or len(record_seq)
 
     def credible(name: str) -> list[Site]:
         o = oligos[name]
@@ -561,6 +570,8 @@ def screen_one(
     fwd_seq: str | None = None,
     rev_seq: str | None = None,
     probe_seqs: list[str | None] | None = None,
+    *,
+    record_len: int | None = None,
 ) -> Call:
     """Best-scoring amplicon for one primer pair in one record, or no_amplicon.
 
@@ -600,7 +611,9 @@ def screen_one(
         if not f_all and not r_all:
             which = "forward and reverse"
         call = Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
-        label, detail = classify_exclusion(record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp)
+        label, detail = classify_exclusion(
+            record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp, record_len
+        )
         call.extra["exclusion"] = label
         call.reason = f"{call.reason}; {detail}"
         return call
@@ -648,7 +661,7 @@ def screen_one(
             rev,
             f.n_mismatches + f.n_ambiguous,
             r.n_mismatches + r.n_ambiguous,
-            len(record_seq),
+            record_len or len(record_seq),
             cfg,
             comp,
         )
@@ -718,7 +731,9 @@ def screen_one(
         if n_chance:
             reason = f"{n_chance} facing pairs, none distinguishable from chance (E > {max_e:g})"
         call = Call(assay.id, record_id, "no_amplicon", reason=reason)
-        label, detail = classify_exclusion(record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp)
+        label, detail = classify_exclusion(
+            record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp, record_len
+        )
         call.extra["exclusion"] = "chance_only" if n_chance else label
         call.reason = f"{reason}; {detail}"
         return call
