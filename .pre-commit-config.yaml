@@ -5,7 +5,7 @@ repos:
     # cost three aborted commits before anyone noticed the versions differed.
     rev: v0.16.10
     hooks:
-      - id: ruff
+      - id: ruff-check
         args: [--fix]
       - id: ruff-format
   - repo: local
