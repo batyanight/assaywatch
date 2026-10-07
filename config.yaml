@@ -167,7 +167,13 @@ retrieve:
 # Complete genomes and chromosomes only: the locus is never split across
 # contigs, and plasmid-borne targets (ipaH, LT, O157 hlyA) come with them.
 assemblies:
-  taxa: [562, 620, 28901, 630, 633, 171]   # E. coli, Shigella, Salmonella, Y. enterocolitica, Y. pseudotuberculosis, Leptospira
+  # 77643 and 1763 added 2026-10-07. The Mycobacterium assays are the case this
+  # mechanism describes: the MTC helicase target has 25 gene-level nuccore records
+  # against 1,095 complete genomes, so a gene query cannot screen it and a query
+  # that includes `"complete genome"[Title]` pulls ~5 GB of multi-megabase records
+  # through efetch - which it did, failing after 7h41m with read timeouts and
+  # premature responses on 1763 and twice on 77643.
+  taxa: [562, 620, 28901, 630, 633, 171, 77643, 1763]   # E. coli, Shigella, Salmonella, Y. enterocolitica, Y. pseudotuberculosis, Leptospira, M. tuberculosis complex, Mycobacterium
   levels: [complete_genome, chromosome]
   per_year: 20
   batch: 10          # genomes per download request

@@ -5,7 +5,7 @@ target:
   gene: 16S rRNA
   genome_type: dsDNA
   taxon_name: Mycobacterium
-  query: null
+  query: 16S[Title] OR "16S ribosomal RNA"[Title] OR "small subunit ribosomal"[Title]
 chemistry: hydrolysis_probe
 oligos:
   forward:

@@ -5,7 +5,7 @@ target:
   gene: IS1081
   genome_type: dsDNA
   taxon_name: Mycobacterium tuberculosis complex
-  query: null
+  query: IS1081[All Fields]
 chemistry: hydrolysis_probe
 oligos:
   forward:
