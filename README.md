@@ -9,8 +9,10 @@ schedule, reporting predicted detection by year of deposit and flagging drift.
 
 Status: Phase 1 complete end to end — retrieve, screen, assess drift, report —
 and wired into a Snakefile. Retrieval is tested against canned E-utilities
-responses but has not yet been run against the live NCBI API; that is the next
-thing to do. See ROADMAP.md.
+responses and has been run against the live NCBI API: the 2026-10-06 run screened
+205 of the 212 registry assays against records fetched that day. See ROADMAP.md.
+
+For a worked example that runs offline in a second, see `examples/README.md`.
 
 ## Layout
 

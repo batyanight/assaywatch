@@ -19,6 +19,7 @@ recursive-include tests *.py
 recursive-include scripts *.py
 recursive-include profiles *
 recursive-include docs *.md *.tsv
+recursive-include examples *.py *.md *.fasta
 
 prune papers
 prune data
