@@ -26,6 +26,10 @@ papers/
 .env
 *.key
 
+# Build artefacts (`pip wheel .`, `python -m build`)
+build/
+dist/
+
 # Personal / machine-local files
 .claude/settings.local.json
 Claude outputs/

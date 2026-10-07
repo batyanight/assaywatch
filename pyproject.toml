@@ -4,18 +4,24 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "assaywatch"
-version = "0.0.1"
+# Read from assaywatch/__init__.py so there is ONE place to bump. It was two, and
+# two is how they drift apart.
+dynamic = ["version"]
 description = "Continuous in-silico re-validation of published PCR/qPCR assays against new GenBank sequences"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["pydantic>=2", "pyyaml>=6", "numpy>=1.24"]
 
 [project.optional-dependencies]
-dev = ["pytest", "ruff==0.16.10", "pre-commit", "requests"]   # requests: tests/test_credentials.py drives scripts that import it
+dev = ["pytest", "ruff==0.16.10", "pre-commit", "requests", "build"]   # requests: tests/test_credentials.py drives scripts that import it; build: `python -m build`
 import = ["openpyxl", "requests"]
 pdf = ["pypdf"]   # scripts/verify_oligos_against_paper.py --pdf-dir
 
 [project.scripts]
 assaywatch-validate = "assaywatch.validate:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "assaywatch.__version__"}
 
 [tool.setuptools.packages.find]
 include = ["assaywatch*"]

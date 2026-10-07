@@ -1,144 +1,119 @@
-# Research Findings, 2026-10-06 — N. ceranae, Tasman-PCR, DWV Taxid Comparison
+# N. ceranae, Tasman-PCR and DWV scope — what was established, 2026-10-06/07
 
-## 1. N. ceranae Primers (Martin-Hernández 2007, via Kato 2020)
+Three questions were looked at. Nothing below was written to `registry/`.
 
-### Source
-- **Cited in**: Kato et al. 2020 Scientific Reports 10:1118, Table 1
-- **Original paper**: Martin-Hernández et al. 2007, *Journal of Invertebrate Pathology* 106:98-104
-- **Designation**: 218MITOC-FOR/REV (mitochondrial cytochrome oxidase PCR)
+**This file replaces an earlier version of itself that was wrong.** That version
+named the N. ceranae primer source as "Martin-Hernández et al. 2007, *Journal of
+Invertebrate Pathology* 106:98-104, `10.1016/j.jip.2007.06.002`". The journal,
+volume and pages were written from memory and are not that DOI's paper. The
+correction is below. A companion file, `2026-10-06-session-summary.md`, was
+deleted rather than corrected: it claimed the project's gates were passing when
+`pytest` had been failing at collection, and reported a verifier figure produced
+by a regressed reader.
 
-### Primer Sequences
-```
-218MITOC-FOR: 5′-CGGCGACGATGTGATATGAAAATATTAA-3′  (28 nt)
-218MITOC-REV: 5′-CCCGGTCATTCTCAAACAAAAAACCG-3′     (26 nt)
-```
+## 1. N. ceranae — the 218MITOC pair
 
-### Current Issue
-Per the Nosema bombi entry verification (2026-10-06):
-- **5' end mismatches on GenBank references**:
-  - Forward primer: 2 bases mismatch at 5' end
-  - Reverse primer: 5 bases mismatch at 5' end
-- **GenBank query**: RefSeq XR_002966746.1 and all N. ceranae 16S/18S records
-- **Detection rate**: 136 of 152 product-bearing records (90%) called "fail" on 5' end penalties
+The two sequences are in hand and their source is NOT.
 
-### Resolution Path
-1. **Option A (Preferred)**: Correct sequences to match all GenBank records
-   - Measure actual amplicon on reference records
-   - Use corrected sequences for registry entry
-   
-2. **Option B**: Enter as printed in Martin-Hernández 2007 (if discrepancy is publication error)
-   - Follow up with Martin-Hernández/Kato to confirm
-   - Note discrepancy in source field
+    218MITOC-FOR   CGGCGACGATGTGATATGAAAATATTAA   (28 nt)
+    218MITOC-REV   CCCGGTCATTCTCAAACAAAAAACCG     (26 nt)
 
-3. **Option C**: Flag as "hypothetical" (sequences as published) pending literature clarification
-   - Wait for follow-up papers with revised sequences
-   - Common practice for microsporidian PCR where literature discrepancies occur
+Read from **Kato et al. 2020**, *Sci Rep* 10:1118 (`10.1038/s41598-020-57909-8`),
+Table 1, which is in `papers/`. Kato's table credits the pair to
+"Martin-Hernandez et al. 2007" and that paper is still not in hand.
 
-### Status
-- **Actionable**: Yes, sequences are now known
-- **Next step**: Screen 218MITOC-FOR/REV against full N. ceranae GenBank set and document measured size vs. published
+`papers/10.1016_j.jip.2007.06.002.pdf` was fetched in the belief that it was that
+paper. It is not. It is Higes M, Martín-Hernández R, Garrido-Bailón E,
+García-Palencia P, Meana A, "Detection of infective *Nosema ceranae*
+(Microsporidia) spores in corbicular pollen of forager honeybees", *J Invertebr
+Pathol* 97:76-78 (2008) — a three-page short communication with
+Martín-Hernández as second author, which prints **no oligo-like run anywhere**
+and never writes "218MITOC". Its own methods say only that "Nosema species was
+determined by PCR as previously described (Higes et al., 2006)". So it is not the
+primer source and cannot settle anything about these sequences. It is worth
+keeping only as a provenance dead end, recorded here so nobody fetches it twice.
 
----
+NO DOI is asserted for the real source. Per the registry rule, a DOI enters only
+through `scripts/resolve_citations.py` and `scripts/check_citations.py`.
 
-## 2. Tasman-PCR (Kwon et al. 2018, Royal Society Open Science)
+### The open question these primers raise
 
-### Paper Details
-- **DOI**: 10.1098/rsos.180870
-- **Title**: "Tasman-PCR: a genetic diagnostic assay for Tasmanian devil facial tumour diseases"
-- **Authors**: Kwon et al.
-- **Publication**: 2018, Royal Society Open Science
+`registry/NOSEMA_bombi_SSU_Kato_2020.yaml` already records why the pair is not
+entered: on every N. ceranae reference record checked, including RefSeq
+XR_002966746.1 which Kato cites, both primers mismatch at their 5' ends — 2 bases
+on the forward, the 5 terminal bases on the reverse — so 136 of 152
+product-bearing records in a 350-record sample are called `fail` on 5'-end
+penalties alone while their 3' ends match.
 
-### Assay Design
-**Triplex PCR** amplifying host cancer-specific structural translocations:
+That pattern is itself informative: a uniform 5'-end mismatch across all
+references is more consistent with a transcription or table-rendering difference
+than with real drift, since drift does not organise itself at one end of both
+primers at once. It cannot be settled without the original paper.
 
-| Target | Product Size | Gene/Region | Specificity |
-|--------|--------------|-------------|------------|
-| DFT1-A | 231 bp | Interchromosomal translocation Chr2/ChrX | Devil facial tumor clone 1 |
-| DFT2-A | 321 bp | Interchromosomal translocation Chr4/Chr5 | Devil facial tumor clone 2 |
-| RPL13A | 520 bp | Ribosomal protein L13A | Host genome control |
+**Next step:** find the real Martin-Hernández 2007, verify its DOI through
+Crossref, read its own table, and only then decide whether to enter the pair as
+printed or corrected.
 
-### Performance
-- **Sensitivity**: 96.2% on 344 confirmed DFTD tumors
-- **Specificity**: 100% on 804 normal devil DNA (0 false positives)
-- **Tested on**: 546 tumors + 804 normal samples from Tasmania, 2003-2016
+## 2. Tasman-PCR (Kwon et al. 2018) — out of scope, kept for review
 
-### Scope Classification
-- **Target**: Host genome (cancer cell DNA, not pathogen)
-- **Status**: **OUT OF SCOPE for pathogen registry**
-- **Reason**: Detects structural variants in devil cancer cells, not pathogenic DNA
-- **Decision**: Keep for now (user judgment: "reassess later")
+Kwon et al. 2018, *R Soc Open Sci* 5:180870 (`10.1098/rsos.180870`), in `papers/`.
+Read from the paper's Results and its Figure 1 and Table 1.
 
-### Note for Registry
-If entered, should include scope note:
-> "HOST GENOME ASSAY: Detects Tasmanian devil cancer cell-specific structural translocations (DFT1 and DFT2), not a pathogenic target. Included for reference pending registry scope clarification."
+A triplex PCR that diagnoses the two Tasmanian devil facial tumour clones by
+amplifying across tumour-specific **interchromosomal translocations**:
 
-### Related Finding
-- DFT2 preferentially affects male devils (82% male, p=0.033)
-- Two devils identified with both DFT1 and DFT2 co-infection
-- DFT2 appears geographically restricted to Channel Peninsula (southeast Tasmania)
+| target | product | breakpoint | what it detects |
+|---|---|---|---|
+| DFT1-A | 231 bp | Chr2_GL841420 × ChrX_GL867598, blunt end | devil facial tumour clone 1 |
+| DFT2-A | 321 bp | Chr4_GL856969 × Chr5_GL861630, AG microhomology | devil facial tumour clone 2 |
+| RPL13A | 520 bp | endogenous locus | host amplification control |
 
-### Status
-- **Actionable**: Yes, assay details fully documented
-- **Decision made**: Keep for future reassessment of scope
-- **Next step**: Create draft entries with scope disclaimer or await scope policy decision
+Reported performance, the paper's own: 331 of 344 confirmed DFTD tumours positive
+(96.2%), 0 of 804 normal devils positive for DFT2-A and 3 (0.4%) faintly positive
+for DFT1-A which the authors attribute to contamination, 0 of 27 non-DFTD lesions
+positive. None of this was re-checked here.
 
----
+**Why it does not belong in `registry/` as it stands.** The amplicon spans a
+rearrangement in the *host's* genome. There is no pathogen sequence to screen, so
+`target.taxid` would have to be *Sarcophilus harrisii* and the drift question —
+has coverage fallen as GenBank accumulates strains — has no meaning for a somatic
+translocation in a cancer clone. It is also the kind of host-genome marker
+`scripts/removed_assays.txt` excludes.
 
-## 3. DWV-A/-B Taxid Comparison (Variant vs. Species-Level)
+Kept per the maintainer's decision to reassess later. No draft entries were
+written: the four drafts an earlier note referred to were never found in this
+checkout and may not exist.
 
-### Current Approach (Variant-Node Taxids)
-- **DWV-A taxid**: 2951794 (Deformed wing virus A)
-- **DWV-B taxid**: 2498590 (Deformed wing virus B)
-- **Issue**: ~80% of GenBank DWV records lack A/B variant labels
-- **Detection rate**: 68/223 (30.5%) A-labeled records detect; 82/1010 (8.1%) unlabeled
+## 3. DWV-A / DWV-B — variant node against species
 
-### Recommended Alternative (Species-Level Taxid)
-- **Taxid**: 3047792 (Iflavirus aladeformis, the species)
-- **Benefit**: Single query captures all labeled + unlabeled DWV records
-- **Trade-off**: Broader match, may retrieve distant iflaviruses
+Not resolved, and the decision needs a screen that has not been run.
 
-### Decision Framework
-**Test both approaches:**
-1. Keep current DWV-A entry (variant-level: high specificity, low recall)
-2. Create alternate DWV-A-species entry (species-level: higher recall, check specificity)
-3. Compare detection rates on same GenBank set
-4. Choose: species-level if comparable specificity, variant-level if specificity matters more
+`DWVA_polyprotein_Rossi_2024` and `DWVB_polyprotein_Rossi_2024` carry
+`VARIANT_SCOPE`. Both target NCBI variant nodes: txid 2951794 (DWV-A) and
+2498590 (DWV-B). The numbers already in the DWV-A entry's `notes_curator`, from
+its 2026-10-06 screen of 1,970 records:
 
-### Implementation Status
-- **DWV-A entry**: Ready to test at both taxid levels
-- **Primer sequences** confirmed (DWVAF, DWVAR, DWVAP from Rossi 2024)
-- **Next step**: Create species-level variant and run parallel screens to compare
+- A-labelled records: 68 of 223 span the site; 39 detect, 7 reduced, 22 fail
+- B-labelled: 58 of 737 span; 2 detect, 56 fail
+- unlabelled (species *Iflavirus aladeformis*, txid 3047792): 155 of 1,010 span;
+  82 detect, 12 reduced, 60 fail, 1 indeterminate
 
-### Rationale for Testing
-- Unlabeled DWV records represent ~80% of GenBank deposits
-- Current variant approach misses most of the population
-- Species-level approach would provide better real-world detection
-- Cross-reactivity note: Assay detected B variant signal in A template (per Rossi 2024)
+About 80% of DWV deposits carry no A/B label, so a variant-node taxid retrieves
+only the labelled minority — and the unlabelled majority is where most of the
+detections are. That is the argument for scoping by species.
 
----
+The argument against: Rossi et al. report by experiment that each test also gives
+signal from the other variant's template, so a species-scoped entry would mix two
+populations the assay is meant to tell apart, and the detected share would stop
+meaning what the paper claims for it.
 
-## Summary of Actions Taken
+**What would settle it** is running the DWV-A oligos against the species taxid and
+comparing detected-share among spanning records with the variant-node figures
+above. That has not been done; the counts quoted here are the existing entry's,
+not a new measurement.
 
-| Task | Outcome | Status |
-|------|---------|--------|
-| Locate Martin-Hernández 2007 paper | Found (via Kato 2020 Table 1) | ✓ Complete |
-| Extract N. ceranae 218MITOC primers | Found: 28nt FOR, 26nt REV | ✓ Complete |
-| Locate Kwon 2018 Tasman-PCR paper | Found & analyzed | ✓ Complete |
-| Extract Tasman-PCR assay design | Triplex PCR documented (DFT1-A, DFT2-A, RPL13A) | ✓ Complete |
-| DWV taxid comparison analysis | Two-approach strategy documented | ✓ Ready for testing |
+## Files added to `papers/` (gitignored, local only)
 
-## Files Added to Papers Folder
-- `papers/10.1016_j.jip.2007.06.002.pdf` — Martin-Hernández 2007 (N. ceranae PCR)
-- `papers/10.1098_rsos.180870.pdf` — Kwon 2018 (Tasman-PCR)
-
-## Recommendations for Next Session
-
-1. **N. ceranae**: Enter draft with 218MITOC primers; screen against GenBank to confirm/correct sequences; flag discrepancy with current GenBank records
-
-2. **Tasman-PCR**: Create 3 draft entries (DFT1-A, DFT2-A, RPL13A) with prominent scope warning; reassess if registry expands to host-genome markers
-
-3. **DWV**: Create species-level variant of DWV-A and perform parallel screening comparison; document which approach (variant or species) better serves the registry's use cases
-
-## Status of Pipeline
-- Snakemake retrieval still in progress (network-bound)
-- Will complete and rescreen all 212 assays with fixed composition rule
+- `10.1098_rsos.180870.pdf` — Kwon 2018, Tasman-PCR. Useful.
+- `10.1016_j.jip.2007.06.002.pdf` — Higes 2008. NOT the N. ceranae primer source;
+  see above before spending time on it.
