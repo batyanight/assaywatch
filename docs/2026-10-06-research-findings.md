@@ -1,6 +1,8 @@
 # N. ceranae, Tasman-PCR and DWV scope — what was established, 2026-10-06/07
 
-Three questions were looked at. Nothing below was written to `registry/`.
+Three questions were looked at. Section 1 was resolved on 2026-10-07 and produced two draft
+registry entries (`NOSEMA_ceranae_SSU_Martin-Hernandez_2007`, `NOSEMA_apis_SSU_Martin-Hernandez_2007`);
+sections 2 and 3 wrote nothing to `registry/`.
 
 **This file replaces an earlier version of itself that was wrong.** That version
 named the N. ceranae primer source as "Martin-Hernández et al. 2007, *Journal of
@@ -11,48 +13,47 @@ deleted rather than corrected: it claimed the project's gates were passing when
 `pytest` had been failing at collection, and reported a verifier figure produced
 by a regressed reader.
 
-## 1. N. ceranae — the 218MITOC pair
+## 1. N. ceranae — the 218MITOC pair: source found 2026-10-07
 
-The two sequences are in hand and their source is NOT.
+The pair is printed in Martín-Hernández et al. 2007, "Outcome of colonization of
+*Apis mellifera* by *Nosema ceranae*", *Appl Environ Microbiol* 73:6331-6338,
+`10.1128/AEM.00270-07` (Crossref metadata matches; open access, PMC2075036). Read
+from its Table 2 (`https://pmc.ncbi.nlm.nih.gov/articles/PMC2075036/table/t2/`),
+with the paper's underlined non-template tails in brackets:
 
-    218MITOC-FOR   CGGCGACGATGTGATATGAAAATATTAA   (28 nt)
-    218MITOC-REV   CCCGGTCATTCTCAAACAAAAAACCG     (26 nt)
+    218MITOC-FOR   5'-[CGG]CGACGATGTGATATGAAAATATTAA-3'     product 218-219 bp
+    218MITOC-REV   5'-[CCCGG]TCATTCTCAAACAAAAAACCG-3'
 
-Read from **Kato et al. 2020**, *Sci Rep* 10:1118 (`10.1038/s41598-020-57909-8`),
-Table 1, which is in `papers/`. Kato's table credits the pair to
-"Martin-Hernandez et al. 2007" and that paper is still not in hand.
+The two sequences are identical to Kato et al. 2020's Table 1, which is where this
+file first read them. The table's footnote says "CG tails added to primers are
+underlined" and the paper's methods say "G or GC tails were added to the 5' end of
+all primers in order to make the melting temperatures of each primer set equal."
+Table 2 also prints the N. apis pair 321APIS-FOR/REV, which carries 5' tails too.
 
-`papers/10.1016_j.jip.2007.06.002.pdf` was fetched in the belief that it was that
-paper. It is not. It is Higes M, Martín-Hernández R, Garrido-Bailón E,
-García-Palencia P, Meana A, "Detection of infective *Nosema ceranae*
-(Microsporidia) spores in corbicular pollen of forager honeybees", *J Invertebr
-Pathol* 97:76-78 (2008) — a three-page short communication with
-Martín-Hernández as second author, which prints **no oligo-like run anywhere**
-and never writes "218MITOC". Its own methods say only that "Nosema species was
-determined by PCR as previously described (Higes et al., 2006)". So it is not the
-primer source and cannot settle anything about these sequences. It is worth
-keeping only as a provenance dead end, recorded here so nobody fetches it twice.
+**What this settles.** The uniform 5' mismatch on every N. ceranae reference (2 bases
+forward, 5 reverse, 136 of 152 product-bearing records called `fail` on 5' penalties
+alone) is those tails, which by design bind nothing in the target. An earlier version
+of this file called it "more consistent with a transcription or table-rendering
+difference". That was wrong: nobody had the paper, and the guess was not checked.
+The schema already models this (`tail_5prime` in `assaywatch/schema.py`: part of
+`seq` as ordered, left out of the matching sequence, because a tail mismatches every
+record by design).
 
-NO DOI is asserted for the real source. Per the registry rule, a DOI enters only
-through `scripts/resolve_citations.py` and `scripts/check_citations.py`.
+**Dead ends, so nobody fetches them again for the primers:**
 
-### The open question these primers raise
+- Higes et al. 2007, *J Invertebr Pathol* 94:211-217 (`10.1016/j.jip.2006.11.001`),
+  "Experimental infection of *Apis mellifera* honeybees with *Nosema ceranae*". Read in
+  full; it prints only 16S sequencing primers (MICRO-F, MICROCE-R, INTER-FOR/REV). Its
+  only `mitoc` text hits are "mitochondria".
+- Higes et al. 2008, *J Invertebr Pathol* 97:76-78 (`10.1016/j.jip.2007.06.002`), the
+  PDF in `papers/`: three pages, no oligo-like run, never writes "218MITOC".
+- Nabian et al. 2011, *Iran J Parasitol* 6(3):89-95: uses the same pair under the same
+  names and describes it as its own design. It is a reuse, not the origin. An earlier
+  note in the registry credited it as the designer and pointed at Higes 94:211 as the
+  source; both statements were wrong and were corrected.
 
-`registry/NOSEMA_bombi_SSU_Kato_2020.yaml` already records why the pair is not
-entered: on every N. ceranae reference record checked, including RefSeq
-XR_002966746.1 which Kato cites, both primers mismatch at their 5' ends — 2 bases
-on the forward, the 5 terminal bases on the reverse — so 136 of 152
-product-bearing records in a 350-record sample are called `fail` on 5'-end
-penalties alone while their 3' ends match.
-
-That pattern is itself informative: a uniform 5'-end mismatch across all
-references is more consistent with a transcription or table-rendering difference
-than with real drift, since drift does not organise itself at one end of both
-primers at once. It cannot be settled without the original paper.
-
-**Next step:** find the real Martin-Hernández 2007, verify its DOI through
-Crossref, read its own table, and only then decide whether to enter the pair as
-printed or corrected.
+The DOI is recorded here from Crossref metadata. In the registry it enters as
+`doi_verified: false` until `scripts/resolve_citations.py` passes it.
 
 ## 2. Tasman-PCR (Kwon et al. 2018) — out of scope, kept for review
 

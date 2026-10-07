@@ -47,6 +47,6 @@ source:
     string was first written from memory as ''Horn F, ... Tuberculosis in rhinoceros - a case report and review of the literature'', which is not this paper. scripts/check_submission.py and scripts/resolve_citations.py both rejected it on the spot - ''DOI resolves to Hermes 2018: Differential detection of tuberculous and non-tuberculous mycobacteria, which does not match the entry'' - and the reference was replaced with Crossref''s record. That gate exists because a reference was once invented here and went unnoticed; this is it working on a live attempt, and it is the reason nothing in this registry should be typed from recollection.
 
 
-    SCREENED 2026-10-07: 299 of 313 records spanning detected; 6 reduced, 8 fail.'
+    SCREENED 2026-10-07 (counted by call from results/2026-10-07/calls.tsv.gz): 313 records, of which 25 are gene-level GenBank records from this entry query helicase[Title] and 288 are complete-genome assemblies (GCA_ ids) cut to candidate loci by the asm group. Calls: 299 detect, 6 reduced, 8 fail. These are counts of calls, not a coverage statistic; the failing and non-amplifying records were not examined.'
 needs_review:
 - OLIGOS_FROM_UNCITABLE_SOURCE_ANONYMOUS_2017
