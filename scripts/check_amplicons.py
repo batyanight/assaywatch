@@ -59,33 +59,49 @@ sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
+from assaywatch.collect import stem_order  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
 from assaywatch.retrieve import group_slug  # noqa: E402
+from assaywatch.schema import Assay  # noqa: E402
+from assaywatch.score import oligo_pools  # noqa: E402
 
 
-def archive_for(taxid: int | None, query: str | None) -> tuple[Path | None, str]:
-    """Newest FASTA archive for this assay's own retrieval group.
+def archives_for(taxid: int | None, query: str | None) -> tuple[list[Path], str]:
+    """EVERY FASTA archive for this assay's own retrieval group, oldest first.
 
     A taxid can hold several groups - 14 do, and E. coli holds four - because a
     group is a (taxid, query) pair. Picking among them arbitrarily measures an
     assay against records chosen for a different assay's query, which is how the
     first run of this script reported no product at all for the two Wang 1997
     entries that check_submission.py had just amplified happily.
+
+    WHY ALL OF THEM, not the newest. Retrieval is incremental: a day's archive
+    holds only what was added or revised since the last run, and the pipeline
+    screens every archive ever fetched and reconciles them (see the Snakefile).
+    Measuring the newest file alone therefore measures whatever happened to
+    arrive last. By 2026-10-14 that had quietly emptied this script: 105 of its
+    155 measurements had fallen to a different modal product or to no product at
+    all against the 2026-10-05 run - ADENOVIRUS hexon from 4,714 products to
+    zero - purely because a small incremental archive had become the newest one.
+    Order is `stem_order`'s, the same the pipeline collects in, so `--limit`
+    samples the earliest records of a group rather than an arbitrary slice.
     """
     if not taxid:
-        return None, ""
+        return [], ""
     base = ROOT / "data" / "retrieved" / str(taxid)
     # The assay's own group first, then the whole-taxon one, then the assembly
     # sample bacterial targets get, then anything rather than nothing.
     for slug in (group_slug(query), "all", "asm"):
         hits = sorted(glob.glob(str(base / slug / "*.fasta.gz")))
         if hits:
-            return Path(hits[-1]), slug
+            return [Path(h) for h in sorted(hits, key=lambda x: stem_order(Path(x)))], slug
     hits = sorted(glob.glob(str(base / "*" / "*.fasta.gz")))
     if hits:
-        return Path(hits[-1]), Path(hits[-1]).parent.name + " (fallback)"
-    return None, ""
+        group = Path(hits[0]).parent.name
+        same = [Path(h) for h in hits if Path(h).parent.name == group]
+        return sorted(same, key=stem_order), group + " (fallback)"
+    return [], ""
 
 
 def pool_size(seq: str) -> int:
@@ -116,11 +132,52 @@ def pool_size(seq: str) -> int:
     return n
 
 
-def measure(path: Path, fwd: str, rev: str, max_mm: int, max_len: int, limit: int | None):
+def pairs_of(doc: dict) -> list[tuple[str, str, str]]:
+    """Every (label, forward, reverse) this entry can amplify with, declared pair first.
+
+    WHY EVERY COMBINATION. This script measured `oligos.forward` against
+    `oligos.reverse` and nothing else, while the screener builds a POOL from
+    `oligos.alternates` (score.oligo_pools) and takes the best product over the
+    cross product. So the audit and the screener were measuring different
+    assays, and the audit always agreed with itself: on 2026-10-14 three entries
+    whose stored size the audit called correct were being scored by the pipeline
+    on a completely different product - the nested secondary pair of the
+    CRYPTOSPORIDIA entry (832 bp against a declared 1319), the 2334R reverse of
+    ORTHOREOVIRUS Landolfi (274 against 163), the PythonNido3F forward of the
+    snake nidovirus entry (223 against 1694). An alternate that makes a DIFFERENT
+    PRODUCT is a second assay in one record, not a pool member.
+
+    Sequences come from the schema (`matching_seq`), not from raw YAML, for the
+    same reason: `seq` writes inosine as N, so reading it searched with a
+    four-fold degenerate base where the screener uses a single promiscuous one.
+    """
+    assay = Assay.model_validate(doc)
+    fwd, rev, _ = oligo_pools(assay)
+    out = []
+    for i, f in enumerate(fwd):
+        for j, r in enumerate(rev):
+            label = "declared" if (i, j) == (0, 0) else f"fwd[{i}]xrev[{j}]"
+            out.append((label, f, r))
+    return out
+
+
+def measure(paths, fwd: str, rev: str, max_mm: int, max_len: int, limit: int | None):
+    """Modal product over every archive of the group, oldest first.
+
+    `paths` is a list because retrieval is incremental and one day's file is not
+    the group (see archives_for). A record seen in two archives is a revision of
+    the same accession and is measured once, the latest version winning, which is
+    what the pipeline's own collect step does.
+    """
     lengths: collections.Counter = collections.Counter()
     n_records = n_products = 0
-    for i, (_rid, seq) in enumerate(read_fasta(path)):
-        if limit and i >= limit:
+    seen: set[str] = set()
+    for _rid, seq in _records(paths):
+        acc = _rid.split()[0].rpartition(".")[0] or _rid.split()[0]
+        if acc in seen:
+            continue
+        seen.add(acc)
+        if limit and n_records >= limit:
             break
         n_records += 1
         seq = seq.upper()
@@ -152,6 +209,16 @@ def measure(path: Path, fwd: str, rev: str, max_mm: int, max_len: int, limit: in
     return n_records, n_products, lengths
 
 
+def _records(paths):
+    """Every (id, sequence) across the archives, newest archive first.
+
+    Newest first so that `measure`'s deduplication keeps the latest version of a
+    revised accession, as `report.key_calls_by_accession` does.
+    """
+    for path in reversed(list(paths)):
+        yield from read_fasta(path)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--registry", type=Path, default=ROOT / "registry")
@@ -163,6 +230,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument(
         "--min-records", type=int, default=5, help="below this many products, report but do not judge"
     )
+    ap.add_argument(
+        "--tolerance",
+        type=float,
+        default=0.25,
+        help="an alternate pair's product this far from the stored size is a SECOND PRODUCT, "
+        "not a variant of the declared one (default 0.25, matching amplicon.declared_tolerance)",
+    )
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
 
@@ -172,14 +246,33 @@ def main(argv: list[str] | None = None) -> int:
         doc = yaml.safe_load(path.read_text()) or {}
         if args.assay and args.assay.lower() not in doc.get("id", "").lower():
             continue
-        oligos = doc.get("oligos") or {}
-        fwd, rev = (oligos.get("forward") or {}).get("seq"), (oligos.get("reverse") or {}).get("seq")
         stored = doc.get("amplicon_bp")
         taxid = (doc.get("target") or {}).get("taxid")
-        archive, group = archive_for(taxid, (doc.get("target") or {}).get("query"))
-        if not (fwd and rev and archive):
+        archive, group = archives_for(taxid, (doc.get("target") or {}).get("query"))
+        try:
+            combinations = pairs_of(doc)
+        except Exception as e:  # an entry the schema rejects is the validator's problem, not this script's
+            print(f"  skipped {doc.get('id', path.stem)}: {e}", file=sys.stderr)
             continue
+        if not (combinations and archive):
+            continue
+        label, fwd, rev = combinations[0]
         n_records, n_products, lengths = measure(archive, fwd, rev, args.max_mm, args.max_len, args.limit)
+
+        # Each alternate combination measured on its own, so a second product is
+        # visible instead of being averaged into the declared pair's spread.
+        others = []
+        for label, f, r in combinations[1:]:
+            _, alt_products, alt_lengths = measure(archive, f, r, args.max_mm, args.max_len, args.limit)
+            if alt_products >= args.min_records and alt_lengths:
+                alt_modal = alt_lengths.most_common(1)[0][0]
+                off = abs(alt_modal - stored) / stored if stored else None
+                others.append((label, alt_modal, alt_products, off))
+        # A combination whose product is outside the window scoring will accept is
+        # a different amplicon, not a worse copy of the same one.
+        # Not `second`: that name already holds the runner-up LENGTH of the declared pair.
+        second_products = [o for o in others if o[3] is not None and o[3] > args.tolerance]
+
         top = lengths.most_common(3)
         modal, modal_n = top[0] if top else (0, 0)
         second, second_n = top[1] if len(top) > 1 else (0, 0)
@@ -208,6 +301,8 @@ def main(argv: list[str] | None = None) -> int:
                 "n_records": n_records,
                 "spread": ";".join(f"{bp}x{c}" for bp, c in top),
                 "pool": pool_size(fwd) * pool_size(rev),
+                "n_pair_combinations": len(combinations),
+                "second_product": ";".join(f"{lab}={bp}bp(n={n})" for lab, bp, n, _ in second_products),
                 "verdict": verdict,
             }
         )
@@ -236,6 +331,17 @@ def main(argv: list[str] | None = None) -> int:
                 f"  {r['assay_id'][:56]:<56} stored {r['stored_bp']:>6}  measured {r['measured_bp']:>6}"
                 f"  ({r['measured_n']}/{r['n_products']} products)  pool {r['pool']}"
             )
+    flagged = [r for r in rows if r["second_product"]]
+    if flagged:
+        print(f"\n{len(flagged)} entries hold a SECOND PRODUCT in oligos.alternates:")
+        print("  (the screener pools alternates with the declared pair, so before")
+        print("  amplicon.declared_tolerance these products were credited to the assay;")
+        print("  with it on they are rejected and the entry is judged on its declared pair)")
+        for r in sorted(flagged, key=lambda r: str(r["assay_id"])):
+            print(f"  {str(r['assay_id'])[:52]:<52} declared {r['stored_bp']:>6}  also {r['second_product']}")
+        print("  The fix is curation: one entry per round, as the CMV gB and adenovirus")
+        print("  polymerase assays already are.")
+
     print(f"\nwrote {args.out}")
     print("Nothing was written back to registry/: changing a stored amplicon is a curation")
     print("decision, and this measurement is one input to it rather than the verdict.")

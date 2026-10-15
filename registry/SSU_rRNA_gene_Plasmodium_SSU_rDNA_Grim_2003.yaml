@@ -15,7 +15,7 @@ oligos:
     name: antisense 844
     seq: TANTGATAAAGATTACCTA
     seq_as_written: TAITGATAAAGATTACCTA
-amplicon_bp: null
+amplicon_bp: 374
 citation:
   doi: 10.1638/02-070
   design_year: 2003
@@ -37,4 +37,5 @@ source:
   nested_round: null
   notes:
   - Not great for identifying species
-needs_review: null
+needs_review:
+- AMPLICON_BP_MEASURED_NOT_PUBLISHED

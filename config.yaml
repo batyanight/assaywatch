@@ -28,7 +28,7 @@ scoring:
   primer_5prime_penalty: 0.5
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
-  # weighted above the ends. Known gap: of the 21 probe assays here 13 are MGB,
+  # weighted above the ends. Known gap: of the 44 probe assays here 22 are MGB,
   # whose minor-groove binder raises Tm by roughly 15-20 C and makes short probes
   # viable — so an MGB probe's tolerance is not that of a bare oligo of the same
   # length, and these two numbers do not know the difference. `by_chemistry`
@@ -79,15 +79,17 @@ scoring:
   # replicate that in 5'-nuclease assays (<1.5 Cq for A-C/C-A/T-G/G-T versus
   # >7 Cq for A-A/G-A/A-G/C-C). An identity-blind automatic fail is therefore
   # wrong for roughly half of terminal mismatches. It is also a qPCR-grade
-  # verdict applied to 142 conventional assays, where a 100-fold yield loss is
+  # verdict applied to 167 conventional assays, where a 100-fold yield loss is
   # often still a visible band after 40 cycles. The E. coli malB result rests on
   # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
   # severe class — but the rule got there without checking.
   terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail
 
-  # PER-CHEMISTRY OVERRIDES. Every key above applies to all 164 assays, and they
-  # are not one kind of assay: 142 are conventional or consensus PCR, 21 are
-  # probe-based (13 MGB, 8 hydrolysis) and 1 is RPA. A rule set at qPCR strength
+  # PER-CHEMISTRY OVERRIDES. Every key above applies to all 214 assays, and they
+  # are not one kind of assay: 167 are conventional or consensus PCR, 44 are
+  # probe-based (22 MGB, 22 hydrolysis), 2 are SYBR and 1 is RPA (214 files on 2026-10-14; `python -m assaywatch.validate registry` prints the current ones;
+  # the counts written here by hand had drifted to 164/142/21 as the registry
+  # grew, which understated the probe share by half). A rule set at qPCR strength
   # is wrong for the 142, and wrong in the direction that manufactures `fail`
   # calls and inflates the flagged count.
   #
@@ -132,13 +134,57 @@ scoring:
 amplicon:
   min_bp: 50
   # Constrain an amplicon to the assay's own declared amplicon_bp, within this
-  # fraction, instead of only to min_bp..max_bp above. Currently null (off), and
-  # that is a known correctness gap rather than a preference: with it off, 727
-  # detect/reduced calls in the 2026-10-04 run sit on products more than twice
-  # the declared size, including a 1931 bp product credited to a 194 bp assay.
-  # Turning it on needs tests/fixtures regenerating, because the synthetic
-  # fixtures were built at fixed spacings that ignore declared sizes.
-  declared_tolerance: null
+  # fraction, instead of only to min_bp..max_bp above. A product far from the
+  # declared size is not that assay amplifying: the extension time, probe
+  # geometry and efficiency all belong to something else.
+  #
+  # ON since 2026-10-14 (it was null, and review 3.4 called that a correctness
+  # gap: in the 2026-10-07 run 874 detect/reduced calls sat on products more
+  # than twice the declared size and 1,454 on less than half, including a
+  # 1931 bp product credited to a 194 bp assay). The fixtures that blocked it
+  # are regenerated: tests/make_fixtures.py now sizes its spacers from each
+  # assay's declared amplicon_bp instead of a fixed 20 nt.
+  #
+  # 0.25 IS MEASURED, not eyeballed, which makes it the one number in this file
+  # with a defence. Over the 610,420 detect/reduced calls of the 2026-10-07 run
+  # whose assay declares a size, |observed/declared - 1| has a knee at about
+  # 0.2: +/-15% keeps 98.92%, +/-20% keeps 99.26%, +/-25% keeps 99.32%, and
+  # past that the curve flattens (+/-50% keeps 99.57%) because what remains is
+  # genuinely a different product, not a template indel. 0.25 sits just past
+  # the knee: it drops 4,141 calls, of which the great majority are the ones
+  # review 3.4 is about.
+  #
+  # IT DEPENDS ON THE REGISTRY BEING RIGHT. A mistranscribed amplicon_bp now
+  # voids that assay's calls instead of being inert, so it is worth knowing what
+  # the three assays whose MEASURED product was furthest from their declared size
+  # turned out to be. Not transcription errors: measured over the first 400
+  # records of each archive (290 for the nidovirus one, which holds no more),
+  # the declared pair gives 1320, 161 and 1695 bp against a declared 1319, 163
+  # and 1694. Every one of those numbers is right.
+  #
+  # WHAT THEY ARE IS TWO PRODUCTS IN ONE ENTRY. Each holds a second amplicon in
+  # `oligos.alternates` - the nested secondary pair for CRYPTOSPORIDIA (832 bp,
+  # the paper's "819 to 825"), the 2334R reverse for ORTHOREOVIRUS (274 bp), the
+  # PythonNido3F forward for NIDOVIRUS (223 bp) - and `score.oligo_pools` treats
+  # alternates as interchangeable pool members, which is right for a consensus
+  # cocktail and wrong for a second round. With the size filter off, the
+  # alternate's product often scored better and was credited to the assay; with
+  # it on, the out-of-window combination is no_amplicon and the screener falls
+  # back to the declared pair, so the credited product is now the declared one in
+  # all three (their call distributions barely move: Crypto 3 detect, Orthoreo 7
+  # detect / 4 reduced / 18 fail, Nidovirus 5 detect / 51 fail on those samples).
+  # That is the filter doing exactly what it is for.
+  #
+  # 20 of 214 entries carry a forward or reverse alternate that could form a
+  # second product this way, 9 of them with a declared size and the
+  # MULTIPLE_PRIMERS_IN_BLOCK flag - including two of the worst oversized-product
+  # offenders before the filter, ADENOVIRUS_dsDNA_Tracies_unpublished_nest_
+  # Tracies (410 calls, up to 8.8x declared) and ASTROVIRUS_ssRNA_RNA_dependent_
+  # RNA_polyme_round2 (42 calls, up to 7.8x). The real fix is curation, and the
+  # registry already names it: one entry per round, as the CMV gB and adenovirus
+  # polymerase assays have. See the NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_
+  # ALTERNATES note on the CRYPTOSPORIDIA entry.
+  declared_tolerance: 0.25
   max_bp: 3000
   record_min_overhang_bp: 100    # assembly extraction only (assemblies.py): how far a cut
                                  # window reaches past the amplicon. Scoring does NOT require
@@ -178,6 +224,17 @@ assemblies:
   per_year: 20
   batch: 10          # genomes per download request
   max_pair_evalue: 0.01   # keep a window only around a pair distinguishable from chance
+
+# Distributable window archives (assaywatch/windows.py): each record cut to the stretches
+# around every pair its group's assays could build, plus `buffer_bp` each side, so the
+# retrieved data can be shipped (about 160 MB gzipped for the 2026-10-07 run, against
+# 6.6 GB of whole records). The buffer is context only: a later screen with a larger
+# overhang or a wider probe search still sees real bases, while anything that could find
+# a site OUTSIDE the windows is refused by the screener (windows.check_against).
+# 300 is a judgement, not a measurement: 3x record_min_overhang_bp, about 1.6x the 100 bp
+# archive's size, chosen to leave room to raise that overhang without a re-fetch.
+windows:
+  buffer_bp: 300
 
 # Duplex Tm per oligo on its binding site (assaywatch/thermo.py). Shown beside
 # the call, never scored. Turn on with `thermo: true` here or
@@ -258,6 +315,19 @@ drift:
   # "a change worth a human reading it"; the Newcombe interval on the difference
   # is the honest version and is already reported beside it.
   min_decline: 0.05
+  # `declining` is read as "this assay has drifted", so reserve it for assays
+  # that were working to begin with: the baseline share must itself have reached
+  # `detect_fraction_threshold`. Added 2026-10-14. Of the 37 assays labelled
+  # declining in the 2026-10-07 run, 31 had a baseline below the threshold
+  # (median 68%) — an assay that matched 14% of its taxon two years ago and
+  # matches 0% now was never covering that pool, and most of the movement is in
+  # which clades were deposited, which is caveat 1 at the top of this block.
+  # Those assays become `low coverage`, with a note saying they are also
+  # falling; nothing is hidden, and the category that implies degradation stops
+  # being the usual home for assays used beyond their design. Set false to get
+  # the old behaviour, where any statistically real fall of at least
+  # `min_decline` counts.
+  require_working_baseline: true
   # Count a record as a failure when the partner primer's site is present in the
   # deposit and does not match (exclusion `diverged`), instead of dropping it.
   # Off until the validation cases say whether it helps: it adds real evidence of

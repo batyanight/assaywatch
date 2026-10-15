@@ -100,6 +100,20 @@ into measurements, and it is also the paper's main figure.
       threshold when each distinct footprint is counted once (the sample-size reduction alone
       cannot see one clone carrying the failures), and records with no footprint information
       make the count unknown instead of counting as one real footprint.
+- [x] **What the report claims is now what it measured** (2026-10-14, from an
+      external review). Three changes, none of them to a computation:
+      `declining` requires the assay to have cleared the threshold in some
+      earlier year (`drift.require_working_baseline`), which moves 14 of the 37
+      assays flagged on 2026-10-07 — all pan-family consensus PCRs screened
+      against a whole taxon — into `low coverage` with a note that they are
+      also falling; the duplication result (35 of 84 flags held) is printed
+      beside the flag counts at the top instead of only inside the per-assay
+      detail; and both reports carry an `entry` column plus a header line
+      saying how much of the registry is `draft`, since 210 of 214 entries are
+      and the table had presented them exactly like the one `active` assay.
+      Registry counts are now printed by `python -m assaywatch.validate
+      registry` rather than written into prose, where they had drifted to
+      164/142/21 against an actual 214/167/44.
 - [ ] **The drift rules interact and are untested.** `recent_window_months: 24`
       with `min_records_for_drift: 20` is why Bd (Boyle 2004) reads "insufficient
       data" at 100% detected on 17 recent records: shorten the window and assays

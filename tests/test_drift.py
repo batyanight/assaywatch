@@ -228,3 +228,46 @@ def test_widening_never_drops_a_recent_record():
     calls, years = records({2021: {"fail": 40}, 2025: {"detect": 5}})
     a = assess(calls, years, cfg, today=TODAY)["A"]
     assert a.recent_evaluable >= 5 and a.recent_detected >= 5
+
+
+def test_a_fall_from_a_share_that_never_worked_is_not_drift():
+    """30% in 2015 and 5% now is not an assay that degraded; it never covered this pool.
+
+    The fall is real and large, so the old rule called it `declining`, which a
+    reader takes as "this assay has drifted". 31 of the 37 assays labelled
+    declining in the 2026-10-07 run were this shape.
+    """
+    calls, years = records({2015: {"detect": 30, "fail": 70}, 2025: {"detect": 5, "fail": 95}})
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert a.change_ci[1] < 0, "the fall itself is real; that is not what is in question"
+    assert a.status == "low coverage"
+    assert "never reached the 90% threshold" in a.note
+    old = {"drift": {**CFG["drift"], "require_working_baseline": False}}
+    assert assess(calls, years, old, today=TODAY)["A"].status == "declining"
+
+
+def test_a_progressive_decline_is_still_drift_though_it_dilutes_its_own_baseline():
+    """The gate asks about YEARS, not the aggregate baseline, which the decline drags down.
+
+    This assay was perfect in 2014 and is nearly gone by 2025, but its aggregate
+    baseline is 56% — below the threshold. Gating on that number would throw away
+    exactly the case the tool exists to find.
+    """
+    calls, years = records(
+        {
+            2014: {"detect": 30},
+            2018: {"detect": 15, "fail": 15},
+            2021: {"detect": 5, "fail": 25},
+            2025: {"detect": 2, "fail": 48},
+        }
+    )
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert a.baseline_fraction < 0.90 and a.ever_worked
+    assert a.status == "declining"
+
+
+def test_one_good_year_is_not_enough_evidence_on_a_handful_of_records():
+    """A year that reached the threshold on 4 records cannot establish that the assay worked."""
+    calls, years = records({2015: {"detect": 4}, 2016: {"detect": 20, "fail": 76}, 2025: {"fail": 60}})
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert not a.ever_worked and a.status == "low coverage"

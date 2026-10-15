@@ -15,10 +15,6 @@ oligos:
     name: TSADHEXRnew
     seq: CATTDRYNKCRTTDCKBAGC
     seq_as_written: CATTDRYIKCRTTDCKBAGC
-  alternates:
-  - name: TSADHEXF2new
-    seq: VTTYCAYATTCARGTVCCVC
-    orientation: forward
 amplicon_bp: 334
 citation:
   doi: null
@@ -38,11 +34,19 @@ source:
   - 295
   - 296
   positive_control: null
-  nested_round: null
+  nested_round: round1
   notes: null
+  notes_curator: 'SPLIT 2026-10-14. The inner forward TSADHEXF2new has moved to
+    ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies_round2, so this entry is the outer round alone, screened on
+    its own 334 bp product - which is what scripts/check_amplicons.py measures for TSADHEXF1new x TSADHEXRnew over
+    every Adenoviridae archive. While the inner forward sat in oligos.alternates, score.oligo_pools pooled the two
+    forwards and credited the inner pair''s 248 bp product to this assay: before amplicon.declared_tolerance was
+    turned on, 410 of this entry''s detect/reduced calls sat on products more than twice its declared size, the
+    worst at 2,943 bp. The round assignment rests on the primer names and the measurement, not on a protocol (the
+    assay is unpublished), which is flagged on the round2 entry.'
 needs_review:
 - DOI_MISSING
 - MODIFIED_IN_HOUSE
-- MULTIPLE_PRIMERS_IN_BLOCK
 - NESTED
+- NESTED_ROUND_ASSIGNED_FROM_PRIMER_NAMES_NOT_A_PROTOCOL
 - NO_YEAR

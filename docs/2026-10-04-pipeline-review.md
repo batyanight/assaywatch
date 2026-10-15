@@ -217,6 +217,32 @@ because the synthetic fixtures were built at fixed spacings that ignore declared
 sizes. **A decision, not a preference** — crediting a 10× product is not
 defensible.
 
+*Fixed 2026-10-14:* on at **0.25**, chosen from the distribution rather than by
+eye — over the 610,420 calls of the 2026-10-07 run whose assay declares a size,
+|observed/declared − 1| has a knee near 0.2 and flattens past it (±15% keeps
+98.92%, ±25% keeps 99.32%, ±50% keeps 99.57%). `tests/make_fixtures.py` now
+sizes its spacers from each assay's `amplicon_bp` instead of a fixed 20 nt,
+which is what blocked it; three hand-built test records were sized the same way.
+Applied to the 2026-10-07 calls it moves 59,141 rows to `no_amplicon`, **54,966
+of them `fail`** — the oversized products were mostly being counted against the
+assay, so the correction raises detected shares (estimated: 37 declining → 22,
+63 stable → 73). Two consequences to watch. First, what the filter mostly catches is **two
+products in one entry**, not a wrong number: the three assays whose measured
+product sat furthest from their declared size each hold a second amplicon in
+`oligos.alternates`, which `oligo_pools` treats as an interchangeable pool
+member — right for a consensus cocktail, wrong for a nested round. Their
+declared pairs measure 1320, 161 and 1695 bp against a declared 1319, 163 and
+1694, so the stored sizes are correct and it was the alternate's product being
+credited; with the filter on the screener falls back to the declared pair. 20 of
+214 entries can form a second product this way, 9 with a declared size, and two
+of them (`ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies`,
+`ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2`) were among the worst
+oversized-product offenders. The fix is the curation this registry already
+names elsewhere: one entry per round. Second, `chance.pair_evalue` had to be told
+the narrowed window — left on the global range it overstated E by the ratio of
+the two (2951/98 for a 194 bp assay at ±25%), and the pairs that overstatement
+pushed past `max_pair_evalue` were the worst-matching, i.e. the drifted, ones.
+
 ### 3.5 The scoring model is additive where biology is serial
 
 Penalties from forward, reverse and probe are summed into one budget and

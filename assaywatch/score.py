@@ -62,9 +62,12 @@ def scoring_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, An
     optional `scoring.by_chemistry` map overrides individual keys for one of
     them.
 
-    WHY THIS EXISTS. One penalty table was applied to all 164 assays, and they
-    are not one kind of assay: 142 are conventional or consensus PCR and 21 are
-    probe-based (13 MGB, 8 hydrolysis), plus one RPA. Conventional PCR tolerates
+    WHY THIS EXISTS. One penalty table was applied to all 214 assays, and they
+    are not one kind of assay: 167 are conventional or consensus PCR and 44 are
+    probe-based (22 MGB, 22 hydrolysis), plus 2 SYBR and one RPA (214 files on
+    2026-10-14; `python -m assaywatch.validate registry` prints the current
+    counts, which is where they now live - written by hand here they had
+    drifted to 164/142/21). Conventional PCR tolerates
     mismatches far better than a hydrolysis probe - a 100-fold yield loss is
     often still a visible band after 40 cycles - so a qPCR-grade rule like
     `terminal_mismatch_fails` is too harsh for most of this registry, and too
@@ -243,9 +246,9 @@ def score_probe(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
 
     The thirds are a crude stand-in for a stability calculation, and they are
     length-blind: the central third of a 15-mer is 5 nt where a single mismatch
-    may well abolish binding, and of a 30-mer is 10 nt where it may not. Of the 21
-    probe assays in the registry (2026-10-06), 13 are MGB, whose minor-groove binder
-    adds roughly 15-20 C of Tm, and the other 8 are plain hydrolysis probes. The MGB
+    may well abolish binding, and of a 30-mer is 10 nt where it may not. Of the 44
+    probe assays in the registry (2026-10-14), 22 are MGB, whose minor-groove binder
+    adds roughly 15-20 C of Tm, and the other 22 are plain hydrolysis probes. The MGB
     probes tolerate mismatches a bare oligo of the same length would not, and
     nothing here knows that. `--thermo` computes the actual duplex ΔTm and is the
     better guide where it is available.
@@ -339,7 +342,7 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
       model; see docs/2026-10-04-pipeline-review.md.
     * `terminal` is identity-blind, so about half the 3'-terminal mismatches it
       fails are the near-neutral kind (see score_primer). It is also one
-      threshold for 142 conventional PCRs and 21 probe assays (2026-10-06), and endpoint PCR
+      threshold for 167 conventional PCRs and 44 probe assays (2026-10-14), and endpoint PCR
       forgives a yield loss that a Cq cutoff does not.
     """
     s = cfg["scoring"]
@@ -444,7 +447,13 @@ def oligo_pools(assay: Assay) -> tuple[list[str], list[str], list[str]]:
 
 
 def screen_record(
-    assay: Assay, record_id: str, record_seq: str, cfg: dict[str, Any], comp: tuple | None = None
+    assay: Assay,
+    record_id: str,
+    record_seq: str,
+    cfg: dict[str, Any],
+    comp: tuple | None = None,
+    *,
+    record_len: int | None = None,
 ) -> Call:
     """Best call for `assay` in one record, over every combination of its primer pools.
 
@@ -468,13 +477,15 @@ def screen_record(
     cfg = config_for(assay.chemistry, cfg)
     fwd, rev, probe = oligo_pools(assay)
     if len(fwd) == 1 and len(rev) == 1 and len(probe) <= 1:
-        return screen_one(assay, record_id, record_seq, cfg, comp)
+        return screen_one(assay, record_id, record_seq, cfg, comp, record_len=record_len)
     if comp is None:
         comp = composition(record_seq)
     best: Call | None = None
     for f in fwd:
         for r in rev:
-            cand = screen_one(assay, record_id, record_seq, cfg, comp, f, r, probe or [None])
+            cand = screen_one(
+                assay, record_id, record_seq, cfg, comp, f, r, probe or [None], record_len=record_len
+            )
             key = (_call_rank(cand.call, cand.reason), cand.penalty if cand.penalty is not None else 1e9)
             if best is None or key < (
                 _call_rank(best.call, best.reason),
@@ -497,6 +508,7 @@ def classify_exclusion(
     cfg: dict[str, Any],
     comp: tuple,
     amplicon_bp: int | None,
+    record_len: int | None = None,
 ) -> tuple[str, str]:
     """Why a record yielded no amplicon: (label, one-line detail).
 
@@ -517,7 +529,7 @@ def classify_exclusion(
     # nothing", and reusing it here silently kept filtering at 0.01.
     max_e = float(cfg["scoring"].get("max_site_evalue", 0.01))
     span = int(amplicon_bp or cfg["amplicon"]["max_bp"])
-    n = len(record_seq)
+    n = record_len or len(record_seq)
 
     def credible(name: str) -> list[Site]:
         o = oligos[name]
@@ -561,6 +573,8 @@ def screen_one(
     fwd_seq: str | None = None,
     rev_seq: str | None = None,
     probe_seqs: list[str | None] | None = None,
+    *,
+    record_len: int | None = None,
 ) -> Call:
     """Best-scoring amplicon for one primer pair in one record, or no_amplicon.
 
@@ -600,7 +614,9 @@ def screen_one(
         if not f_all and not r_all:
             which = "forward and reverse"
         call = Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
-        label, detail = classify_exclusion(record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp)
+        label, detail = classify_exclusion(
+            record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp, record_len
+        )
         call.extra["exclusion"] = label
         call.reason = f"{call.reason}; {detail}"
         return call
@@ -611,8 +627,12 @@ def screen_one(
     # to single sites: a cap on sites before pairing could drop the true site of a
     # genome in favour of fifty better-looking chance sites elsewhere.
     cap = int(cfg["scoring"].get("max_pairs_per_record", 5000))
-    if len(pairs) > cap:
-        pairs = sorted(pairs, key=lambda x: _rank(x[0]) + _rank(x[1]))[:cap]
+    # Always in rank order, not only when over the cap. Candidates that tie on call,
+    # penalty and ambiguity (two copies of a multicopy target, say) go to the first one
+    # evaluated, and sorting only above the cap made that depend on how many chance
+    # pairs the REST of the record held: a genome reported one copy and the same
+    # stretch cut out of it reported another.
+    pairs = sorted(pairs, key=lambda x: _rank(x[0]) + _rank(x[1]))[:cap]
     # One index per pool member, so a member's own length is available for scoring.
     p_indexes = [(o, SiteIndex(find_sites(o, record_seq, max_mm))) for o in probes]
 
@@ -637,6 +657,13 @@ def screen_one(
         tol = float(tol)
         lo_bp = max(lo_bp, int(assay.amplicon_bp * (1 - tol)))
         hi_bp = min(hi_bp, int(assay.amplicon_bp * (1 + tol)))
+    # The chance guard has to ask its question about the window this screen will
+    # actually accept. Left at the global range it counts reverse-primer offsets
+    # the size filter has already ruled out, overstating E by the ratio of the
+    # two windows (30x for a 194 bp assay at +/-25%: 2951 bp against 98) and
+    # pushing the
+    # worst-matching - that is, the drifted - pairs out of the denominator.
+    window_bp = hi_bp - lo_bp + 1
 
     best: Call | None = None
     for f, r, amp_start, amp_end, inner_lo, inner_hi in pairs:
@@ -648,9 +675,10 @@ def screen_one(
             rev,
             f.n_mismatches + f.n_ambiguous,
             r.n_mismatches + r.n_ambiguous,
-            len(record_seq),
+            record_len or len(record_seq),
             cfg,
             comp,
+            window_bp=window_bp,
         )
         if max_e is not None and evalue > max_e:
             n_chance += 1
@@ -718,7 +746,9 @@ def screen_one(
         if n_chance:
             reason = f"{n_chance} facing pairs, none distinguishable from chance (E > {max_e:g})"
         call = Call(assay.id, record_id, "no_amplicon", reason=reason)
-        label, detail = classify_exclusion(record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp)
+        label, detail = classify_exclusion(
+            record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp, record_len
+        )
         call.extra["exclusion"] = "chance_only" if n_chance else label
         call.reason = f"{reason}; {detail}"
         return call

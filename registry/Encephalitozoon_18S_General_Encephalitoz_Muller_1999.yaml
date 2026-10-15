@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: PMP1R
     seq: CCTCTCCGGAACCAAACCCTG
-amplicon_bp: null
+amplicon_bp: 279
 citation:
   doi: 10.1128/CDLI.6.2.243-246.1999
   design_year: 1999
@@ -34,4 +34,6 @@ source:
   positive_control: Rabbit E. cuniculi, UC7
   nested_round: null
   notes: null
-needs_review: null
+  notes_curator: 'AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global 50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py over every archive of this entry''s own retrieval group measures a modal 279 bp on 45 products, with 100% of all products within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies. That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See docs/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what marks it as measured.'
+needs_review:
+- AMPLICON_BP_MEASURED_NOT_PUBLISHED

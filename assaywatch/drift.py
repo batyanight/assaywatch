@@ -186,7 +186,17 @@ class AssayDrift:
     threshold: float = 0.9
     min_records: int = 20
     min_decline: float = 0.0  # smallest fall from baseline that counts as declining
+    # `declining` additionally requires the baseline to have been at or above
+    # `threshold`: a fall from a baseline that never cleared it is not drift.
+    require_working_baseline: bool = True
+    # Evaluable records a single year needs before it can be the evidence that
+    # the assay once worked (see `ever_worked`).
+    min_records_for_year: int = 10
     window_months: int = 0  # the recent window actually used, after any widening
+    # The first year of the recent window. `recent_from` is for display and is
+    # a month name when records are dated to the day, so it cannot be parsed
+    # back into a year; `finalise`'s fallback split needs the number.
+    recent_year: int | None = None
     # Calls split by the recent-window cutoff as records are added (assess). When
     # empty, finalise falls back to splitting `years` at `recent_from`.
     recent_counts: Counter = field(default_factory=Counter)
@@ -255,6 +265,40 @@ class AssayDrift:
                 if call not in EVALUABLE:
                     out[call] += n
         return out
+
+    def _cut_year(self) -> int:
+        """First year of the recent window. 0 if it cannot be determined."""
+        if self.recent_year is not None:
+            return self.recent_year
+        head = str(self.recent_from)[:4]
+        return int(head) if head.isdigit() else 0
+
+    @property
+    def ever_worked(self) -> bool:
+        """Did this assay clear the threshold in any year before the recent window?
+
+        `declining` is read as "this assay has drifted", which presupposes that
+        it once worked. The test is deliberately per YEAR rather than on the
+        aggregate baseline, because the aggregate is diluted by the decline
+        itself: an assay at 100% until 2016 and failing from 2018 has an
+        aggregate baseline of 72%, and gating on that would reclassify the very
+        case the tool exists to find. Any single year that reached the threshold
+        on at least `min_records_for_year` evaluable records is enough.
+
+        What it excludes is the assay that never covered the pool it is measured
+        against. 31 of the 37 assays labelled `declining` in the 2026-10-07 run
+        had a baseline share below the threshold (median 68%) - pan-family
+        assays screened against a whole taxon, whose movement is mostly in which
+        clades were deposited. Those become `low coverage`, with a note saying
+        they are also falling.
+        """
+        cut = self._cut_year()
+        return any(
+            year < cut
+            and stats.evaluable >= self.min_records_for_year
+            and (stats.fraction or 0.0) >= self.threshold
+            for year, stats in self.years.items()
+        )
 
     @property
     def records_per_footprint(self) -> float | None:
@@ -413,8 +457,15 @@ class AssayDrift:
             self.recent_detected, self.recent_evaluable = r.detected, r.evaluable
             self.baseline_detected, self.baseline_evaluable = b.detected, b.evaluable
         else:
+            # Only reached when no record carried a date, or for an object built
+            # by hand with `years` alone. `recent_year` is set by `assess`;
+            # otherwise `recent_from` is a bare year, as every hand-built caller
+            # passes. Parsing a displayed "Oct 2024" would raise here, which is
+            # why the number is carried separately rather than re-derived.
+            head = str(self.recent_from)[:4]
+            cut = self.recent_year if self.recent_year is not None else (int(head) if head.isdigit() else 0)
             for year, stats in self.years.items():
-                if year >= int(str(self.recent_from)[:4]):
+                if year >= cut:
                     self.recent_detected += stats.detected
                     self.recent_evaluable += stats.evaluable
                 else:
@@ -454,7 +505,8 @@ class AssayDrift:
             # says nothing about an assay that never covered this pool.
             lo, hi = self.change_ci
             fall = (self.baseline_fraction - self.recent_fraction) if self.baseline_evaluable else 0.0
-            declining = self.baseline_evaluable > 0 and hi < 0 and fall >= self.min_decline
+            fell = self.baseline_evaluable > 0 and hi < 0 and fall >= self.min_decline
+            declining = fell and (self.ever_worked or not self.require_working_baseline)
             self.status = "declining" if declining else "low coverage"
             self.note = (
                 f"detected share {self.recent_fraction:.1%} "
@@ -464,7 +516,16 @@ class AssayDrift:
             if self.baseline_evaluable:
                 self.note += f"; change from baseline {pct(lo, True)} to {pct(hi, True)}"
                 if not declining:
-                    if lo > 0:
+                    if fell:
+                        # The fall is real and large enough; what it is not is
+                        # drift, because no year before the window ever reached
+                        # the threshold. The assay is being measured against more
+                        # diversity than it ever covered.
+                        trend = (
+                            f"fell measurably, but never reached the {self.threshold:.0%} threshold in any "
+                            f"earlier year, so this is not drift — it fell from"
+                        )
+                    elif lo > 0:
                         trend = "rose from"
                     elif hi < 0:
                         trend = f"fell less than the {pct(self.min_decline)} that counts as declining, from"
@@ -549,6 +610,8 @@ def assess(
     threshold = float(d.get("detect_fraction_threshold", 0.9))
     min_records = int(d.get("min_records_for_drift", 20))
     min_decline = float(d.get("min_decline", 0.0))
+    require_working_baseline = bool(d.get("require_working_baseline", True))
+    min_records_for_year = int(d.get("min_records_for_coverage", 10))
     # A record whose partner binding site is present in the deposit and does not
     # match is evidence the assay would not amplify it, but it leaves the
     # denominator as no_amplicon, which biases that denominator toward the
@@ -557,6 +620,15 @@ def assess(
     # and a pan-family assay screened against taxa it never claimed to cover.
     # Settle it with docs/validation-cases.tsv rather than by argument.
     count_diverged = bool(d.get("count_diverged_as_fail", False))
+    if count_diverged:
+        calls = list(calls)
+        if any((row.get("exclusion") or "") == "windowed" for row in calls):
+            # Those rows came from a window archive, which cannot tell a diverged site
+            # from no site at all, so this option would count an unknown as known.
+            raise SystemExit(
+                "drift.count_diverged_as_fail needs to know which records diverged, and these calls "
+                "include rows screened from a window archive (exclusion 'windowed'). Screen whole records."
+            )
     anchor = today or date.today()
     dated = any(isinstance(v, str) for v in years.values())
 
@@ -615,7 +687,10 @@ def assess(
             threshold=threshold,
             min_records=min_records,
             min_decline=min_decline,
+            require_working_baseline=require_working_baseline,
+            min_records_for_year=min_records_for_year,
             window_months=months,
+            recent_year=cutoff.year,
         )
         # Distinct (call, footprint) classes among evaluable records, per window.
         # If ANY evaluable record lacks a footprint the count is unknown for the

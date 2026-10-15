@@ -253,8 +253,10 @@ def test_a_pool_member_can_carry_the_call():
     def noise(n):
         return "".join(rng.choice("ACGT") for _ in range(n))
 
-    # A record carrying only the last pool member of each role.
-    rec = noise(300) + fwd[-1] + noise(200) + reverse_complement(rev[-1]) + noise(300)
+    # A record carrying only the last pool member of each role, at the assay's
+    # declared product size so `amplicon.declared_tolerance` credits it.
+    gap = assay.amplicon_bp - len(fwd[-1]) - len(rev[-1])
+    rec = noise(300) + fwd[-1] + noise(gap) + reverse_complement(rev[-1]) + noise(300)
     assert screen_one(assay, "x", rec, CFG).call == "no_amplicon"  # the declared pair alone
     pooled = screen_record(assay, "x", rec, CFG)
     assert pooled.call == "detect"

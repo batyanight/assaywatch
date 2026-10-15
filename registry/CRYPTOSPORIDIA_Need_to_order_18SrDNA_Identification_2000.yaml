@@ -14,13 +14,6 @@ oligos:
   reverse:
     name: Ziao18SR1 corrected
     seq: CCCATTTCCTTCGAAACAGGA
-  alternates:
-  - name: Ziao18SF2
-    seq: GGAAGGGTTGTATTTATTAGATAAAG
-    orientation: forward
-  - name: Ziao18SR2
-    seq: AAGGAGTAAGGAACAACCTCCA
-    orientation: reverse
 amplicon_bp: 1319
 citation:
   doi: 10.1128/aem.65.4.1578-1583.1999
@@ -48,7 +41,7 @@ source:
   - 107
   - 108
   positive_control: UC5
-  nested_round: null
+  nested_round: round1
   notes: null
   notes_curator: 'RE-CITED AND VINDICATED 2026-10-05. The entry cited Xiao et al. 2000 (Appl Environ Microbiol 66:5492, storm-water
     oocysts), and scripts/verify_oligos_against_paper.py reported all three stored oligos absent from it, which was right:
@@ -77,9 +70,12 @@ source:
     so the verifier now reads the correct paper directly: Ziao18SF1, Ziao18SF2 and Ziao18SR2 all read exact, and the primary
     reverse reads near:3 with the paper''s own CCCTAATCCTTCGAAACAGGA printed beside it. That is the intended end state for
     this entry - the one disagreement left is the deliberate in-house correction, visible rather than hidden, and justified
-    by the measurement above.'
+    by the measurement above. SPLIT 2026-10-14: the secondary pair named above has moved to
+    CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000_round2, so this entry is the primary round alone and
+    is screened on its own 1319 bp product. It sat in oligos.alternates, where score.oligo_pools treated it as an
+    interchangeable pool member and credited its 822 bp product to this 1319 bp assay; that is what the
+    NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_ALTERNATES flag was for, and the flag is retired with it.
+    MULTIPLE_PRIMERS_IN_BLOCK goes too: the block held two complete pairs, and each now has its own entry.'
 needs_review:
 - MODIFIED_IN_HOUSE
-- MULTIPLE_PRIMERS_IN_BLOCK
 - NEED_TO_ORDER
-- NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_ALTERNATES

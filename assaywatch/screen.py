@@ -16,6 +16,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
+import json
 import sys
 import tempfile
 from collections import Counter, deque
@@ -32,27 +34,40 @@ from assaywatch.score import Call, load_config, screen_record
 from assaywatch.thermo import COLUMNS as THERMO_COLUMNS
 from assaywatch.thermo import annotate
 from assaywatch.validate import iter_files, load_assay
+from assaywatch.windows import check_against
+
+# The exclusion label given to no_amplicon rows screened from a window archive.
+WINDOWED = "windowed"
 
 # Set once per worker process by _init_worker, so the assays and config are
 # pickled once per worker rather than once per batch.
-_STATE: tuple[list, dict[str, Any], list, bool] | None = None
+_STATE: tuple[list, dict[str, Any], list, bool, dict[str, tuple[int, tuple]]] | None = None
 
 
-def _init_worker(assays: list, cfg: dict[str, Any], thermo: bool = False) -> None:
+def _init_worker(
+    assays: list,
+    cfg: dict[str, Any],
+    thermo: bool = False,
+    context: dict[str, tuple[int, tuple]] | None = None,
+) -> None:
     global _STATE
     # Degeneracy is a property of the assay, not of any record, and it is
     # never scored. It rides along on every row so that a reader of the TSV
     # cannot see a `detect` without seeing how much the pool was diluted.
     degs = [assay_degeneracy(a) for a in assays]
-    _STATE = (assays, cfg, [(d.total_fold, d.tier(cfg)) for d in degs], thermo)
+    _STATE = (assays, cfg, [(d.total_fold, d.tier(cfg)) for d in degs], thermo, context or {})
 
 
 def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     """Rows for one batch of records, one list per assay in assay order."""
     assert _STATE is not None, "_init_worker was not called"
-    assays, cfg, degs, thermo = _STATE
-    # Base composition is per record, not per assay: count each record once.
-    comps = [composition(seq) for _, seq in batch]
+    assays, cfg, degs, thermo, context = _STATE
+    # Base composition is per record, not per assay: count each record once. A window cut
+    # from a longer record is scored on that record's length and composition (from its
+    # sidecar), because the chance E-values depend on both: on the window's own, a pair
+    # the whole record called chance_only can pass the filter.
+    srcs = [context.get(rid) for rid, _ in batch]
+    comps = [src[1] if src else composition(seq) for (_, seq), src in zip(batch, srcs, strict=True)]
     specs = []
     for assay in assays:
         oligos = {"forward": assay.oligos.forward.matching_seq, "reverse": assay.oligos.reverse.matching_seq}
@@ -62,15 +77,45 @@ def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     # Record-outer, so every assay sees a record back to back and find_sites'
     # per-record preparation (and any oligo two assays share) is reused.
     out: list[list[dict[str, Any]]] = [[] for _ in assays]
-    for (rid, seq), comp in zip(batch, comps, strict=True):
+    for (rid, seq), comp, src in zip(batch, comps, srcs, strict=True):
         for assay, (fold, tier), oligos, rows in zip(assays, degs, specs, out, strict=True):
-            call = screen_record(assay, rid, seq, cfg, comp)
+            call = screen_record(assay, rid, seq, cfg, comp, record_len=src[0] if src else None)
+            if src and call.call == "no_amplicon":
+                # Why a record yields no amplicon (score.classify_exclusion) depends on
+                # lone sites, chance pairs and record ends across the WHOLE record, and a
+                # window archive holds only the stretches around pairs. A label computed
+                # from the windows would be confidently wrong (chance_only read as
+                # diverged, say), so it is not given.
+                call.extra["exclusion"] = WINDOWED
+                call.reason = f"window archive: why no amplicon formed needs the whole record; {call.reason}"
             call.extra["degeneracy_fold"] = fold
             call.extra["degeneracy_tier"] = tier
             if thermo:
                 # The winning pool members, falling back to the primary oligos.
                 call.extra["thermo"] = annotate(call, call.extra.get("oligos") or oligos, cfg)
             rows.append(call.as_row())
+    return out
+
+
+def sidecar_path(fasta: Path) -> Path:
+    """`<stem>.windows.tsv.gz` beside `<stem>.fasta[.gz]`."""
+    return fasta.with_name(fasta.name.removesuffix(".gz").removesuffix(".fasta") + ".windows.tsv.gz")
+
+
+def window_context(fasta: Path) -> dict[str, tuple[int, tuple]] | None:
+    """{record id: (source record length, source composition)} for a window archive, else None.
+
+    The sidecar has one row per window; every window of a record carries the same source
+    length and composition, so the first row of each record is enough.
+    """
+    side = sidecar_path(fasta)
+    if not side.exists():
+        return None
+    out: dict[str, tuple[int, tuple]] = {}
+    with gzip.open(side, "rt") as fh:
+        for r in csv.DictReader(fh, delimiter="\t"):
+            if r["record_id"] not in out:
+                out[r["record_id"]] = (int(r["src_len"]), tuple(float(x) for x in r["src_comp"].split(",")))
     return out
 
 
@@ -94,10 +139,11 @@ def screen_records(
     workers: int = 1,
     chunk_bp: int = 5_000_000,
     thermo: bool = False,
+    context: dict[str, tuple[int, tuple]] | None = None,
 ) -> Iterator[list[list[dict[str, Any]]]]:
     """Yield per-batch results in archive order, serially or from a process pool."""
     if workers <= 1:
-        _init_worker(assays, cfg, thermo)
+        _init_worker(assays, cfg, thermo, context)
         yield from map(_screen_batch, batches(records, chunk_bp))
         return
     # Why not Pool.imap: it drains the whole iterable into the task queue up
@@ -109,7 +155,7 @@ def screen_records(
     # only the results behind it, not the workers, which keep taking new batches.
     it = batches(records, chunk_bp)
     in_flight: deque = deque()
-    with Pool(workers, initializer=_init_worker, initargs=(assays, cfg, thermo)) as pool:
+    with Pool(workers, initializer=_init_worker, initargs=(assays, cfg, thermo, context)) as pool:
         for batch in islice(it, 3 * workers):
             in_flight.append(pool.apply_async(_screen_batch, (batch,)))
         while in_flight:
@@ -182,8 +228,24 @@ def main(argv: list[str] | None = None) -> int:
     fieldnames = list(template.as_row())
     writers = [csv.DictWriter(sp, fieldnames=fieldnames, delimiter="\t") for sp in spools]
     tally: Counter = Counter()
+    context = window_context(args.fasta)
+    if context is not None:
+        # A window archive holds only the stretches around sites already found. A run
+        # that could find sites elsewhere (looser discovery settings, new or edited
+        # primers) cannot be answered from it, and its empty result would read as
+        # robustness. Refuse instead (assaywatch.windows.check_against).
+        manifest_path = args.fasta.parent / "manifest.json"
+        if not manifest_path.exists():
+            raise SystemExit(f"{args.fasta} is a window archive but {manifest_path} is missing")
+        problems = check_against(json.loads(manifest_path.read_text()), cfg, assays)
+        if problems:
+            raise SystemExit(
+                f"refusing to screen window archive {args.fasta}: it was cut for other settings or primers, "
+                "and sites outside its windows would go unseen. Screen the whole records instead.\n  "
+                + "\n  ".join(problems)
+            )
     records = read_fasta(args.fasta)
-    for per_assay in screen_records(assays, records, cfg, args.workers, args.chunk_bp, args.thermo):
+    for per_assay in screen_records(assays, records, cfg, args.workers, args.chunk_bp, args.thermo, context):
         for assay, rows, w in zip(assays, per_assay, writers, strict=True):
             w.writerows(rows)
             for row in rows:

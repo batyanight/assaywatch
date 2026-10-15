@@ -10,15 +10,19 @@ schedule, reporting predicted detection by year of deposit and flagging drift.
 Status: Phase 1 complete end to end — retrieve, screen, assess drift, report —
 and wired into a Snakefile. Retrieval is tested against canned E-utilities
 responses and has been run against the live NCBI API: the 2026-10-06 run screened
-205 of the 212 registry assays against records fetched that day. See ROADMAP.md.
+208 of the 211 non-deprecated registry assays against records fetched that day.
+See ROADMAP.md.
 
 For a worked example that runs offline in a second, see `examples/README.md`.
 
 ## Layout
 
 ```
-registry/        one YAML per assay; validated on every commit (172 assays: the WCS
-                 pathogen set plus ones added from the literature, all draft)
+registry/        one YAML per assay; validated on every commit. `python -m
+                 assaywatch.validate registry` prints the counts rather than this
+                 file quoting them, because the ones written here by hand drifted
+                 as the registry grew: 214 files on 2026-10-14, of which 210 are
+                 draft and 44 carry a probe
 assaywatch/      the package
   schema.py        pydantic models = the registry schema
   validate.py      `python -m assaywatch.validate registry`
@@ -134,6 +138,34 @@ partial record, or one full of ambiguity codes, is a sequence-quality problem
 rather than an assay problem, and mixing the two would make every rough
 GenBank entry look like drift.
 
+**A product has to be the size the assay says it is.** `amplicon.declared_tolerance`
+(0.25, on since 2026-10-14) constrains a call to the assay's own `amplicon_bp`,
+within a quarter either way, instead of only to the global 50–3000 bp window. A
+1931 bp product is not a 194 bp assay amplifying: the extension time, probe
+geometry and efficiency belong to something else. The tolerance is measured
+rather than chosen — over the 2026-10-07 run, |observed/declared − 1| has a knee
+at about 0.2 and flattens past it, so 0.25 keeps 99.3% of the calls that had a
+declared size. Applied to that run it would move 59,141 rows out of the
+denominator, 54,966 of them `fail`, which is the correction running in the
+pessimistic direction: most oversized products were being counted against the
+assay. It does mean a mistranscribed `amplicon_bp` now voids an assay's calls instead
+of being inert, so `scripts/check_amplicons.py` is the thing to run when an
+assay's numbers collapse.
+
+What the filter mostly catches, though, is not a wrong number but **two products
+in one entry**. The three assays whose measured product sat furthest from their
+declared size each hold a second amplicon in `oligos.alternates` — a nested
+secondary pair, or an alternative reverse — and `score.oligo_pools` treats
+alternates as interchangeable members of one pool, which is right for a
+consensus cocktail and wrong for a second round. Measured over the first 400
+records of each archive — 290 for the nidovirus one, which holds no more —
+their declared pairs give 1320, 161 and 1695 bp against a declared 1319, 163
+and 1694: the stored numbers are right, and it was the alternate's product
+being credited to the assay. With the filter on, the out-of-window combination
+is `no_amplicon` and the screener falls back to the declared pair. 20 of 214
+entries could form a second product this way. The fix is curation — one entry
+per round, as the CMV gB and adenovirus polymerase assays already have.
+
 ### What the scoring rule assumes about PCR, and where it is wrong
 
 The penalties come from one well-supported fact and several guesses, and it is
@@ -160,11 +192,11 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    needs forward **and** reverse and detection needs the probe on top. Those are
    serial gates. Three trivial mismatches, one per oligo, land in the same bin as
    one near-lethal 3'-proximal mismatch.
-3. *One table serves 142 conventional PCRs and 21 probe assays.* A 100-fold yield
+3. *One table serves 167 conventional PCRs and 44 probe assays.* A 100-fold yield
    loss is a missed Cq cutoff in qPCR and often still a visible band after 40
    cycles of endpoint PCR. The same `fail` is printed for both.
-4. *Probe geometry is length-blind, and MGB-blind.* Of the 21 probe assays here,
-   13 are MGB (the other 8 are plain hydrolysis probes), and the minor-groove binder
+4. *Probe geometry is length-blind, and MGB-blind.* Of the 44 probe assays here,
+   22 are MGB (the other 22 are plain hydrolysis probes), and the minor-groove binder
    adds roughly 15–20 °C of Tm and makes short probes viable; such a probe tolerates
    mismatches a bare oligo of the same length would not. `--thermo` computes the real duplex ΔTm and is the better
    guide where it is available.
@@ -354,6 +386,45 @@ rather than racing on the manifest (dry runs need no lock).
 until it has run, so the job graph is re-evaluated after it finishes and the
 screening jobs are created from what is actually on disk.
 
+### What grows on disk, and what is safe to delete
+
+```bash
+python scripts/storage_report.py          # measures; deletes nothing, ever
+```
+
+Keeping every archive is what makes a past report reproducible, so
+`data/retrieved/` only grows — 7.8 GB across 127 groups on 2026-10-14, against
+457 MB of cached screens and 44 MB of reports. The instinct when that fills a
+disk is to delete the biggest thing, and here the biggest thing is the only
+thing that cannot be recovered:
+
+| | 2026-10-14 | recoverable? |
+|---|---|---|
+| `data/retrieved/*.fasta.gz` | 7.8 GB | **no** — retrieval is incremental (`datetype=mdat`), so each archive is the set of records that changed since the previous run, which NCBI will not reproduce on request; records are also revised and withdrawn |
+| `data/retrieved/*.meta.tsv.gz` | 19 MB | **no**, and it carries the deposit dates the whole drift statistic is indexed on — 0.2% of the volume for the most irreplaceable part of it |
+| `results/screened/` | 457 MB | yes, deterministically, ~45 min on 10 cores |
+| `results/<date>/` | 44 MB | yes, minutes, from the screens |
+
+So the order that loses least is: old reports, then the screen cache, then —
+only after deciding their records are not wanted again — **orphaned groups**.
+A group is a (taxid, query) pair taken from the registry; re-scope a query or
+retire an assay and its archives stay on disk, screened by nothing and reported
+in nothing. There are 6, holding 608 MB, and the report says for each how much
+of it the live groups still hold (`1387563/all` is 506 MB of which 6,856
+accessions appear in no live group). Deleting one is reversible only in the
+sense that re-scoping brings the group back — not the deposits that have
+changed or gone meanwhile.
+
+The report also measures **cross-group duplication**, which is the archive
+format working as designed rather than a fault: archives are stored per group,
+while a record belongs to every group whose query matches it. On gene-sized
+records that is cheap; on the Mycobacterium complex it is not — `77643`'s two
+query groups share 822 whole-genome accessions, about 253 MB, and
+`1387563/qdb308affab` is wholly contained in the orphaned `1387563/all`.
+Fixing it properly means storing each record once and having groups reference
+it, which is an archive format change, so for now it is reported rather than
+repaired.
+
 ### Retrieval groups and gene-targeted queries
 
 A retrieval group is a (taxid, query) pair, and the archive lives at
@@ -507,7 +578,16 @@ threshold: the data must be inconsistent with the assay still working, not
 merely consistent with it failing. A flagged assay is then one of two things:
 
 * **declining**: the Newcombe interval for the change from baseline lies wholly
-  below zero. The share has fallen; that is drift.
+  below zero, the fall is at least `min_decline`, **and** the assay cleared the
+  threshold in some earlier year (`drift.require_working_baseline`, on since
+  2026-10-14). The share has fallen from a level that worked; that is drift.
+  The last condition is what keeps the word honest: without it 14 of the 37
+  assays called declining on 2026-10-07 were pan-family consensus PCRs that
+  never covered the taxon they are screened against — a fall from 14% to 0% is
+  a change in which clades were deposited, not an assay degrading. The test is
+  per year, not on the aggregate baseline, which a long decline drags down by
+  itself. Those 14 are now **low coverage**, and their note says they are also
+  falling.
 * **low coverage**: below threshold, but not measurably lower than before (or
   no baseline to compare with). The first full run showed why this needs its
   own name: the gorilla/chimpanzee SIV assay of Takehisa 2009 screened against
@@ -568,6 +648,40 @@ keys on the FASTA record id, which from NCBI carries a version (`AB123456.1`);
 the metadata keys on the esummary caption, which does not (`AB123456`). The
 join strips the version from both sides, and where several versions of one
 accession appear, the latest revision wins rather than both being counted.
+
+**Nested protocols are scored per round, then round 2 is warned about round 1.**
+A nested or semi-nested protocol is several entries here, one per round, and each
+is screened independently — which is right, because either product can be read on
+a gel, so a round whose primers still match is a usable assay on its own. But
+round 2's figure answers "would these primers bind this sequence", which is the
+question for round 2 run *directly*; run as published its template is round 1's
+product, so a record whose outer primers have drifted yields nothing however well
+the inner pair matches. The report therefore adds a **Nested protocols** table
+giving each round's own share beside the share of records *both* rounds reach.
+
+On the 2026-10-07 records that gap is large for a few families and absent for
+most: `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` reads 99.5% for round 2 alone and
+**32.4% run as a nest**, because round 1 escapes on two thirds of the records
+round 2 would otherwise reach; `BOCAVIRUS_ssDNA_NS1_gene` and
+`Pan_flavivirus_NS5_3` lose essentially nothing. Only round-1 failures that are
+the assay's fault count — a `fail`, or a `no_amplicon` labelled `diverged` — on
+the same reasoning the drift denominator already uses.
+
+Nothing here changes a status: it is reported beside the per-round rows, as
+degeneracy and thermodynamics are. The dependency is one-directional, since round
+2 failing leaves round 1's product perfectly readable.
+
+**And the nesting itself is checked**, which nothing did before: on records both
+rounds score, does the inner amplicon actually lie inside the outer? Three
+families fail that test and get no conditional coverage, because conditioning
+round 2 on a round 1 that does not feed it would invent a number. The clearest is
+`CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme`, whose two amplicons are **disjoint**
+— about 2.7 kb apart in the RdRp gene — so whatever the `_round2` suffix says,
+these are two assays rather than two rounds. Round order comes from
+`source.nested_round` rather than the id, because the id does not always carry it:
+the Landolfi orthoreovirus base entry holds the paper's *second* round, and taking
+the base as the outer round inverted that pair until the containment check caught
+it.
 
 **Coverage gaps** list assays whose target has fewer than
 `min_records_for_coverage` evaluable records. An assay cannot be shown to work

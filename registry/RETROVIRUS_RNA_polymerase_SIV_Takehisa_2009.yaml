@@ -14,7 +14,7 @@ oligos:
   reverse:
     name: HahnR2
     seq: GTCCTTTCCAAATDGGRTCTCTGCTGTC
-amplicon_bp: null
+amplicon_bp: 285
 citation:
   doi: 10.1128/JVI.02311-08
   design_year: 2009
@@ -40,4 +40,5 @@ source:
     keyword query searches every Entrez field and does not isolate the lineage. Judged against all SIV,
     with the lineage breakdown recorded instead: SIVgor 8/8 detected, SIVcpz 15/30, everything else 5/181.
     See docs/2026-10-04-assay-investigations.md.'
-needs_review: null
+needs_review:
+- AMPLICON_BP_MEASURED_NOT_PUBLISHED

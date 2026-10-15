@@ -62,9 +62,8 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
-from assaywatch.chance import composition, pair_evalue
 from assaywatch.credentials import scrub
-from assaywatch.match import find_sites
+from assaywatch.loci import pair_spans
 from assaywatch.score import max_mismatches_searched
 
 DATASETS = "https://api.ncbi.nlm.nih.gov/datasets/v2"
@@ -309,40 +308,10 @@ def extract_loci(
     pieces = []
     for _, seq in contigs:
         seq = seq.upper()
-        comp = composition(seq)
-        sites: dict[str, dict[str, list]] = {}
-
-        def on(oligo: str, strand: str, seq=seq, sites=sites) -> list:
-            # find_sites scans both strands at once; do it once per oligo.
-            if oligo not in sites:
-                found = find_sites(oligo, seq, max_mm)
-                sites[oligo] = {st: [x for x in found if x.strand == st] for st in "+-"}
-            return sites[oligo][strand]
-
-        spans = []
-        for fwd, rev in pairs:
-            # Both orientations, as in score.screen_record: the locus may sit on either strand.
-            for f_strand, r_strand in (("+", "-"), ("-", "+")):
-                r_sites = on(rev, r_strand)
-                if not r_sites:
-                    continue
-                for f in on(fwd, f_strand):
-                    for r in r_sites:
-                        lo, hi = (f.start, r.end) if f_strand == "+" else (r.start, f.end)
-                        facing = r.start > f.start if f_strand == "+" else f.start > r.start
-                        if not (facing and lo_bp <= hi - lo <= hi_bp):
-                            continue
-                        e = pair_evalue(
-                            fwd,
-                            rev,
-                            f.n_mismatches + f.n_ambiguous,
-                            r.n_mismatches + r.n_ambiguous,
-                            len(seq),
-                            cfg,
-                            comp,
-                        )
-                        if e <= max_e:
-                            spans.append((max(0, lo - pad), min(len(seq), hi + pad)))
+        spans = [
+            (max(0, lo - pad), min(len(seq), hi + pad))
+            for lo, hi in pair_spans(seq, pairs, cfg, max_mm, max_e, lo_bp, hi_bp)
+        ]
         spans.sort()
         merged: list[list[int]] = []
         for lo, hi in spans:

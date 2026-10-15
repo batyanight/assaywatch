@@ -38,6 +38,11 @@ def iter_files(target: Path):
         yield target
 
 
+def _tally(counts: Counter) -> str:
+    """`a 3, b 1`, commonest first then alphabetical, so the line is stable."""
+    return ", ".join(f"{name} {n}" for name, n in sorted(counts.items(), key=lambda x: (-x[1], x[0])))
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("paths", nargs="+", type=Path)
@@ -45,7 +50,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
 
-    n_ok, failures, by_status = 0, [], Counter()
+    n_ok, failures, by_status, by_chemistry = 0, [], Counter(), Counter()
+    n_probe = 0
     seen_ids: dict[str, Path] = {}
     for target in args.paths:
         for path in iter_files(target):
@@ -65,12 +71,21 @@ def main(argv: list[str] | None = None) -> int:
                 failures.append(f"{path.name}: duplicate id also in {seen_ids[assay.id].name}")
             seen_ids[assay.id] = path
             by_status[assay.status.value] += 1
+            by_chemistry[str(assay.chemistry)] += 1
+            n_probe += assay.oligos.probe is not None
             n_ok += 1
 
     if not args.quiet:
         for line in failures:
             print("FAIL", line)
-        print(f"{n_ok} valid ({dict(by_status)}), {len(failures)} problems")
+        # Printed rather than written into prose: the counts in README.md and
+        # config.yaml drifted from the registry as it grew (they said 164 assays
+        # and 21 probe-based when there were 214 and 44), and the argument for
+        # how harsh `terminal_mismatch_fails` is rests on exactly these numbers.
+        print(f"{n_ok} valid, {len(failures)} problems")
+        print("  status:    " + _tally(by_status))
+        print("  chemistry: " + _tally(by_chemistry))
+        print(f"  oligos:    {n_probe} with a probe, {n_ok - n_probe} primers only")
     return 1 if failures else 0
 
 
