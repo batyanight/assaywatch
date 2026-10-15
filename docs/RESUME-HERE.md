@@ -1,99 +1,99 @@
-# Resume point, 2026-10-06 (after List 2 entry, schema changes, and key rotation)
+# Resume point, 2026-10-15 (after PR #1: window scoring, nested coverage, declared amplicon size)
 
-Everything described here is on `main` (commit `7a7fdcd`). This file is the short version of where to
-pick up.
+Everything described here is on `main` at `deef0e5` (merge of PR #1). This file is the short
+version of where to pick up. The 2026-10-06 version, with the full List 2 session record, is
+`git show b6584ac:docs/RESUME-HERE.md`.
 
-## After `git pull`: the next run rescreens everything, unless you say otherwise
+## The one thing that matters most: the estimand
 
-The pull changes the screening code and the hashes that decide whether a cached screen is
-still valid (`score.py`, and a Snakefile that now derives which source files each rule
-depends on). Snakemake therefore treats every cached screen as stale and the next run
-rescreens all of them. That is correct and slow, and it is the safe default: **if you are
-not sure of the precondition below, just run**
+Validation at 46 cases (`2d3dea2`, 2026-10-04) found the tool catches **1 of 12** documented
+assay failures. The cause is in `docs/2026-10-04-pipeline-review.md`: each assay is reduced to
+one population-level detected share, and a lineage-conditional failure (the assay still
+detects most deposits but misses one clade) is diluted by everything else in the archive.
+Nothing merged since then touches this. Every threshold in `config.yaml` is still a
+placeholder until tier-2 validation can calibrate it, and calibrating thresholds on a metric
+that cannot see the failures would not help.
 
-    snakemake --cores 4 --config email=nightb02@nyu.edu
+The ranked work list from the 2026-10-09 assessment (that handoff was never committed; this
+is its substance):
 
-**The shortcut, only if you have changed no assay and no setting since your last complete
-run** (`git status` showed `registry/` and `config.yaml` clean before you pulled). At the
-default config nothing about the screening *result* changed in this pull, so the existing
-screens are still right and can be marked current first:
+1. **Lineage-conditional verdicts.** Report and judge detection per lineage or clade, not only
+   pooled. Start with a written plan (how lineages are assigned, what the minimum per-lineage
+   evidence is, how a verdict is formed from per-lineage shares) before code.
+2. Homology-anchored footprint scoring, so the duplication check sees clade structure and not
+   only identical footprints.
+3. Serial scoring logic (nested rounds now have a joint-coverage table, see below; the same
+   idea applies wherever one reaction feeds another).
+4. Two config decisions deferred in the review.
+5. Pause registry growth until the verdict can catch what validation says it should.
+6. Treat the validation set with caution: re-check each case's `as_of` date and expected
+   outcome before using it to fit anything.
 
-    snakemake $(ls results/screened/*/*/*.tsv) --touch --cores 4 --config email=nightb02@nyu.edu
-    snakemake --cores 4 --config email=nightb02@nyu.edu
+## After `git pull`: the next run must rescreen everything
 
-The targets go BEFORE `--config`, which swallows every argument after it as a `name=value`
-pair. The first command marks the existing screens current without recomputing them and
-records the new hashes. It touches nothing else, so the second command rebuilds the calls
-table, the report and the degeneracy table with the new code, screens any archive that has
-no screen yet, and runs retrieval as it always does. Add `run_date=YYYY-MM-DD` to both if
-you use it.
+This pull changes screening results, not just code hashes:
+`amplicon.declared_tolerance` went from `null` to `0.25`, and `score.py`, `chance.py` and
+`screen.py` changed. **Do not use the `--touch` shortcut from the 2026-10-06 note**; it would
+mark every screen current at the old setting with nothing to say so. Just run:
 
-Why the precondition matters: `--touch` marks a screen current whatever made it stale. In a
-test, changing `terminal_mismatch_fails` and then taking the shortcut left every screen as
-the old setting made it, with nothing to say so. If you have edited an assay or a threshold
-since the last run, skip the first command.
+    caffeinate -i snakemake --cores 4 --config email=nightb02@nyu.edu
 
-What was verified, under real Snakemake 9.27.0 in a scratch environment, on a tree built
-from the commit you last pulled (`826a905`) and overlaid with this one: the shortcut on a
-new day, on the same day, and on the same day with a new archive. In each, the existing
-screens were adopted, the second command executed only `collect_calls`, `degeneracy_table`
-and `report` (plus `screen_archive` for the new archive alone), and the existing screens and
-the calls table's content were identical to the old code's. With a setting changed first, the
-same commands adopted the stale screens, which is the precondition above. (An earlier version
-of this note gave a different three-command recipe, `--until retrieve`, `--touch`, then run;
-a second review showed that on a day when results already exist it never screens a new
-archive and leaves the old report in place, and it was withdrawn.)
+The README gives an *estimate* of what the tolerance does to the 2026-10-07 run (59,141 rows
+to `no_amplicon`, 54,966 of them former `fail`; declining 37 -> 22, stable 63 -> 73). That was
+computed by re-filtering the old calls, not by a run. The first full run is the real number;
+compare it with the estimate and note any gap.
 
 A dry run (`snakemake -n`) is no check on any of this. It lists the screening jobs only once
 today's retrieval record exists; before that it plans just `validate` and `retrieve`, which
 needs the network.
 
-## Why the remaining work wants the local machine
+## What landed 2026-10-07 to 2026-10-15
 
-`papers/` is gitignored - the PDFs are copyrighted and should stay out of git. A cloud
-session clones from git and starts with none of them.
-
-Two cloud sessions have now tested how far that can be worked around. They recovered **21
-papers** as open-access PubMed Central full text and got real value out of them, but could
-not advance the entry work, for two reasons worth knowing before anyone tries again:
-
-- **No sequence database.** The environment's egress policy denies
-  `eutils.ncbi.nlm.nih.gov`, `www.ebi.ac.uk`, `api.crossref.org`, `api.unpaywall.org` and
-  `api.openalex.org` (re-tested 2026-10-06: still denied, including after being told the
-  network was available). `amplicon_bp` cannot be measured against real records, and
-  measuring rather than quoting is the method this registry rests on, so no assay can
-  honestly be entered. What *is* reachable is PubMed through an MCP tool: metadata, PMC ids
-  and PMC full text.
-- **PMC full text often arrives without its primer tables, but not always.** The text comes
-  flattened. Prepens 2007 and Deckers 2009 came through with their primer tables readable;
-  Quan 2010 and several others did not, and the avipox paper's tables hold only Ct values. Of
-  the 44 papers that resolved to a PMC id, 23 came back as an abstract only (ASM, PNAS and
-  SAGE deposit abstracts). So expect some sequences from PMC and do not expect all of them.
-
-Full write-up: `docs/2026-10-05-cloud-session-findings.md`, including an addendum of the
-statements from the first cloud session that the reviews corrected.
+- **Mycobacterium** (`f319917`, `bf829bc`): three assays were screening nothing; now
+  gene-scoped queries plus genomes via assemblies, and they produce call rows.
+- **Nosema** (`68c466b`, `d8a63d2`): *N. ceranae* 218MITOC and *N. apis* 321APIS entered from
+  the paper that prints them (Higes 2007 traced as the source).
+- **Packaging and docs** (`20d8144`, `2502199`, `5dec3f2`, `8246eb6`, `82471db`, `3bdf993`):
+  MIT licence, CITATION.cff, installation doc, offline worked example, `requests` as a core
+  dependency.
+- **Window archives** (`9acec03`, `assaywatch/windows.py`): records cut to the stretches around
+  every possible pair plus 300 bp, so the data can ship (~160 MB vs 6.6 GB). A window is scored
+  on its source record's length via a `.windows.tsv.gz` sidecar; without it, the length-scaled
+  pair E-value let chance pairs through (71 of 6,356 rows flipped in the 10292 group).
+- **Declared amplicon size enforced** (`b08a46a`): `declared_tolerance: 0.25`, chosen from
+  the knee of |observed/declared - 1|. 13 entries that declared no size got a measured one
+  (flagged `AMPLICON_BP_MEASURED_NOT_PUBLISHED`), 8 left unset; see
+  `docs/2026-10-14-amplicon-sizes-measured.md`. A mistranscribed `amplicon_bp` now voids an
+  assay's calls, so run `scripts/check_amplicons.py` when an assay's numbers collapse.
+- **Nested protocols** (`b08a46a`, `assaywatch/nested.py`): the report adds each nested
+  family's joint coverage (both rounds succeed) beside each round's own share. Lyssavirus N
+  round 2 reads 99.5% alone, 32.4% as a nest. Statuses unchanged. Three families fail the
+  containment check; the coronavirus RdRp "rounds" are disjoint and are really two assays.
+  Three entries were split into one entry per round (adenovirus, Cryptosporidium 18S,
+  orthoreovirus).
+- **Report honesty** (`b08a46a`): `drift.require_working_baseline` moves assays that never
+  cleared the threshold from `declining` to `low coverage` (14 of 37 on 2026-10-07); the
+  duplication result is printed at the top; an `entry` column shows draft status.
+- **`scripts/storage_report.py`**: measures disk use and what is safe to delete. Never delete
+  `data/retrieved/` archives or `.meta.tsv.gz`; they cannot be re-fetched.
 
 ## State
 
 | | |
 |---|---|
-| assays | **213** (172 at session start, +36 from List 2, +5 CMV from concurrent work) |
-| papers held locally | 60+ (grew during List 2) |
-| papers recoverable as PMC full text | 21 (`scripts/import_pmc_fulltext.py`) |
-| oligos verified vs paper | 235 of 266 checkable (88%), 511 total |
-| papers still wanted | 33 (`results/nyu-fetch-list.tsv`) |
-| tests | 857 passing (all gates: pytest, ruff, validate, check_citations) |
+| registry | **217 valid**: 213 draft, 3 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
+| chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1 |
+| tests | 1135 passing; ruff clean; 182 citations, 0 Crossref problems (2026-10-15) |
+| validation | 46 cases; catches 1 of 12 documented failures (unchanged since 2026-10-04) |
+| last full run | 2026-10-07, before the size filter; rerun needed (above) |
 
-The 9 extra tests need Snakemake (`environment.yml` installs `snakemake-minimal` from conda,
-so they run on your laptop; on PyPI the package is just `snakemake`). They run the pipeline offline on a planted archive, edit
-one source file at a time, and assert exactly which rules a dry run lists. CI's main job does
-not install Snakemake, so it skips them; a separate `snakemake` job in the workflow installs it
-and runs them, and is allowed to fail without turning the build red (check it when it does).
+## Why the remaining work wants the local machine
 
-Gates on every commit: registry schema, and every citation checked against Crossref
-(`scripts/check_citations.py`, which reads the committed `docs/papers-index.cache.json` and so
-still passes offline - but a NEW DOI cannot be verified without Crossref, and must wait rather
-than be entered).
+`papers/` is gitignored (copyrighted PDFs), and cloud sessions are denied
+`eutils.ncbi.nlm.nih.gov`, `www.ebi.ac.uk`, `api.crossref.org`, `api.unpaywall.org` and
+`api.openalex.org`, so they cannot measure `amplicon_bp`, verify a DOI or retrieve. A cloud
+session can read and review code, and PubMed/PMC through an MCP tool. Full write-up:
+`docs/2026-10-05-cloud-session-findings.md`.
 
 ## The NCBI API key
 
@@ -131,91 +131,24 @@ prints a request error or an error body now scrubs it first (before truncating, 
 in half by a 200-character limit would otherwise survive), and tests drive each of them against
 a server that echoes the key back.
 
-## What landed in this session (2026-10-06)
+## Flagged decisions (from the 2026-10-06 agents, awaiting user judgment)
 
-**36 new draft entries from 5 parallel agents** (herpes, bees, mixed, bacteria groups):
-- EEHV, LeHV-5, Batravirus (herpes): 13 entries, measured sizes differ from papers by up to 50 bp
-- Honeybee viruses, *Nosema*, reptarenavirus (Rossi 2024, Kato 2020, Baggio 2023): 8 entries
-- Influenza A, avipox, Ophidiomyces, orthopoxvirus (Tsukamoto, Baek, Haynes, Meyer): 6 entries
-- *M. gallisepticum*, Chlamydia genus/species, TB complex, *V. coralliilyticus* (Kang, Messmer, Boniotti, Wilson): 9 entries
-
-**Schema and verifier changes:**
-- **Probe floor lowered to 12 nt** (from 15) where papers use MGB/LNA. Primers still 15. Validator role-aware via `orientation` tag.
-- **Verifier role-aware harvest floor**: probes now found at their own floor, so published 13-14 nt MGB probes reach `exact` instead of `in-text`.
-- **Pre-commit hooks fixed** to use conda Python (had been using system Python where yaml wasn't available).
-
-**Verification:**
-- All 36 DOIs verified with Crossref (doi_verified: true). Citation cache refreshed (110 papers, 64 local, 104 cited).
-- All gates passed: 857 tests, 0 Crossref problems, 0 validation problems.
-
-**NCBI key rotated** to a new key in `.secrets/ncbi.key` (old key exposed in agent transcripts, now replaced).
-
-- **Verifier** (`scripts/verify_oligos_against_paper.py`). `no-oligos` fires when a text prints
-  fewer than two oligo-like runs, decided *after* looking for the stored oligo, and also when a
-  name is followed by an empty bracket (`primer 1R ()`, the avipox primer). Every "X or inosine"
-  notation is read, `(n/i)` but also `(b/i)`, `(r/i)` and `(y/i)`, which Deckers 2009 prints;
-  before that, 4125s and 4125as would have read `absent` once re-cited. Which file holds a DOI
-  is decided by what it yields for a named file and by which prints the DOI EARLIER for an
-  unnamed one, so a review cannot take a paper's DOI by sorting first. A printed run longer
-  than the stored oligo is aligned end to end and the note says whether the extra bases are at
-  an end (possibly table text) or inside (evidence). `scripts/extract_candidate_oligos.py` no
-  longer drops a paper that cites another DOI before its own, and
-  `scripts/check_primer_provenance.py` finds two and three-character oligo names and says so
-  when a name is one character.
-- **Duplication check** (`drift.py`, `report.py`). A flag survives only if it has at least
-  `min_records_for_drift` distinct footprints, stays below the threshold when the sample is cut
-  to the number of footprints, AND stays below it when each distinct footprint is counted once
-  (the last is what sees one clone carrying all the failures; the first version could not, and
-  said a flag "does not depend on duplicated records" for 92 failures at one footprint beside
-  detections on 19 others). Footprints that are unknown (older cached screens, diverged
-  records) make the check say it was not run. The note names which test failed and blames
-  duplication only where a test implying it failed. Never changes a status. Worth reading the
-  tally with this in mind: a perfect match is ONE footprint, so a baseline of thousands of exact
-  matches is a single draw, and `declining` flags will fail the check more often than
-  `low coverage` ones.
-- **Per-chemistry scoring** (`scoring.by_chemistry`, shipped EMPTY, so every call is unchanged
-  at the default config). Every place that reads the scoring block itself now honours an
-  override: the assembly pre-cut searches at the widest budget any chemistry uses, and
-  `scripts/indel_check.py` re-judges a `fail` and labels a missing primer under the chemistry of
-  the assay it is given. The numbers themselves are for tier-2 validation to set. The first
-  candidate, relaxing `terminal_mismatch_fails` for conventional PCR, is in `config.yaml`
-  commented out with the literature behind it. I checked that literature against PubMed's
-  abstracts on 2026-10-06: Kwok 1990 supports the comment (A:G, G:A, C:C about 100-fold, A:A about
-  20-fold, T with G/C/T minimal); Stadhouders 2010 reports the same split by example, not as an
-  exhaustive rule, and its abstract does not mention T:C or T:T. I did not read either full text.
-- **Assembly archives** are cut with settings (`max_mismatches_searched`, the amplicon size
-  range, the overhang, `max_pair_evalue`). They are now recorded beside the archive and a
-  change re-cuts every genome (re-downloading them); before, only a change to the primer pairs
-  did, so archives cut at the old settings sat beside new ones cut at the new. A group cut
-  before this existed is adopted at the current settings rather than re-cut. The settings are
-  also hashed into the `retrieve` rule so that changing one reruns retrieval at all.
-- **Snakefile**: `collect_calls`, `report` and `degeneracy_table` rerun when the code they run,
-  the registry they read, or the config sections they read change. Which source files each rule
-  depends on is derived from the imports (read from the syntax tree, so the parenthesised and
-  `as` forms the formatter produces are seen) by `assaywatch/triggers.py` instead of kept as a
-  hand list, which had already missed `schema.py` and `validate.py` once.
-- **The calls table's gzip is deterministic** (no timestamp or file name in the header), so
-  "unchanged" can be checked with a hash.
-- **`retrospective.py`**: the status-to-verdict mapping is one function, `classify`, pinned over
-  every status and expectation. **`scripts/diff_printed_oligos.py`** (new): see the next section.
-- **Tests that could not fail now can.** Each gap was shown by a surviving mutant first, and the
-  tests were then run against mutants of the fix: well over a hundred across the two rounds, all killed.
-
-## Flagged decisions (from agents, awaiting user judgment)
+Resolved since: the LeHV-5 `_evagreen` duplicate was dropped (`a8d4742`), and *N. ceranae* is
+entered from Higes 2007's 218MITOC pair (`d8a63d2`).
 
 **Herpesviruses:**
-- LeHV-5 taqman + evagreen: same primer pair in two entries (flag `SHARED_PRIMERS_WITH_SIBLING_ENTRY`). Drop `_evagreen`?
 - EEHV6 round2: rests on 1 spanning record (flag `SINGLE_SPANNING_RECORD`). Keep or delete?
 
 **Bees/bumblebee/reptile:**
 - *Nosema bombi*: keep under Kato's DOI or move to Klee 2006 (not local)?
 - DWV-A/-B: use variant-node taxids or species taxid? (80% of records unlabeled; flagged `VARIANT_SCOPE`)
 - Reptarenavirus: multiplex as one pooled entry? S-segment-only query or broaden?
-- Not entered: *N. ceranae* pair has mismatches on all references.
 
 **Mixed (Tsukamoto, Baek, Haynes, Meyer):**
 - Ophidiomyces target-D: panel member as species marker. Keep (as entered) or delete?
 - Orthopoxvirus ATI: differentiation assay, size 540–1700 bp by species. Keep (as entered) or delete?
+  (2026-10-14: its products are genuinely multimodal, so it was left without a declared size and
+  is exempt from `declared_tolerance`; constraining it would need a per-entry range.)
 - Tasman-PCR (Kwon): transmissible cancer, host-genome. In scope? (4 ready drafts in scratchpad.)
 - Clade/lineage scoping: H5, H7, NP, hummingbird avipox. Add scoping or flag for review?
 
@@ -225,7 +158,7 @@ a server that echoes the key back.
 - *C. psittaci* and *C. abortus*: cross-reaction detected. Note or narrow scope?
 - *M. gallisepticum* vaccine pairs: exact on own genomes, >90% non-detect under species taxid. Enter if strain scoping added?
 
-## Do this first on the laptop
+## Also on the laptop (open since 2026-10-06)
 
 **1. Re-run the verifier over the full local `papers/` with the new probe floor.** The reader and the verdict logic
 changed in ways that move its answers, and the probe floor is now separate, so some 13-14 nt probes that read `in-text` before will now read `exact`:
@@ -257,7 +190,8 @@ trusted.
 
 ## Then, in value order
 
-1. **Settle the flagged decisions above** (8 groups awaiting user judgment on entries or scope).
+0. **The full rerun, then the lineage-conditional plan** (top of this file).
+1. **Settle the flagged decisions above** (the groups above, awaiting user judgment on entries or scope).
 2. **Settle the coronavirus finding.**
    `CORONAVIRUS_..._Lan_2010_round1` stores a reverse primer 3 nt shorter than the one Quan et
    al. 2010 prints (`...GCNACATG` against `...GCNACNACATG`). The stored form matches PREDICT
@@ -265,7 +199,7 @@ trusted.
    the P-005 table in the Anthony et al. 2015 supplement, screen both forms against real RdRp
    records, then fix whichever is wrong - and check the other P-005 entries for the same
    deletion. This is the second PREDICT-vs-cited-paper mismatch after Atkins/PREDICT.
-2. **Measure the two CMV gB amplicons, then re-cite the 4007/4125 pair.**
+3. **Measure the two CMV gB amplicons, then re-cite the 4007/4125 pair.**
    - `..._Virol_2007_round1` and `..._round2` hold Prepens' own CM-gB pairs and verify exact.
      Prepens gives two different numbers for round 1 - 330 in Table 3 (footnoted "approximate
      values") and 320 in its Figure 1 legend, which does not name the primer set (250 appears
@@ -285,7 +219,7 @@ trusted.
      re-cite both entries together, decide `oligos_designed_here` from what Deckers says (it
      says the primers were designed to bind conserved sites, but cites an earlier use in great
      apes), and clear the flag. Details are in each entry's `notes_curator`.
-3. **DOIs now verified** via Crossref (all 36 List 2 entries + CMV entries). Previous
+4. **DOIs now verified** via Crossref (all 36 List 2 entries + CMV entries). Previous
    unresolved candidates in `docs/2026-10-05-doi-candidates.md` may still need attention
    (Pan-Flavivirus NS5, SIVdrl pol, ETEC LT, *E. cuniculi* PTP, *Encephalitozoon* 18S, and two
    CDV/coronavirus entries) once those papers are in hand locally or via PMC.
@@ -295,6 +229,9 @@ trusted.
    page as an image, as was done for Ghosh - that worked and the sequences verified against
    records afterwards.
 6. **211 oligos** whose provenance is unchecked for want of full text.
+7. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` produces no amplicon in its own archive** (found
+   2026-10-14 while measuring sizes). A finding about the entry, not a missing number: check its
+   oligos against the paper and its query.
 
 ## Two things waiting on someone else
 
