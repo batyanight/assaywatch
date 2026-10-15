@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: 'VP1/2r: (VP12R-JO2R)'
     seq: CCCTCATAAACCCGAACYTCYTCHACYTG
-amplicon_bp: null
+amplicon_bp: 271
 citation:
   doi: 10.1128/JVI.79.6.3883-3887.2005
   design_year: 2005
@@ -37,4 +37,5 @@ source:
   notes: null
   notes_curator: 'PREDICT panel protocol P-040 (VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Johne, R (2005).'
 needs_review:
+- AMPLICON_BP_MEASURED_NOT_PUBLISHED
 - NESTED

@@ -39,6 +39,28 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'PAIRED ACROSS TWO OF THE PAPER''S PRIMER PAIRS - FLAGGED, NOT CHANGED (2026-10-14).
+    Uccellini et al. 2014 Table 2 ("Sequences of primers used to amplify the 3,408 fragment of ball python
+    Nidovirus") prints SEVEN NUMBERED PAIRS, each a forward and a reverse of the same number, with nucleotide
+    positions: BPNV 1 (1-963), 2 (718-1485), 3 (1446-1647), 4 (1456-2154), 5 (2152-3030), 6 (2995-3131), 7
+    (3088-3408). All six oligos across this entry and its sibling are in that table. This entry stores BPNV 6Fwd (GTGACTACACGAAATGCGACC) as its forward and BPNV 3Rev (ACGTAGTCTTGCCAGTTCCC) as its reverse, with BPNV 3Fwd (AACATCCTCGACAACGCAGG) in alternates.
+    So this entry''s stored pair takes its forward from one of the paper''s pairs and its reverse from another, and
+    the forward''s own partner sits in oligos.alternates.
+
+    WHAT IS NOT CLAIMED. The stored pair measures a consistent product (1695 bp on 11 of 290 records,
+    scripts/check_amplicons.py at 3 mismatches), so it is not a pairing that fails to amplify; the paper''s
+    positions are also not a numbering these records share, since both the paper''s own pairs measure about 20 bp
+    longer here than their stated ranges (223 bp against pair 3''s 1446-1647, i.e. 202). What IS certain is the structural
+    disagreement with the source: the registry pairs across the table''s pairs where the table pairs within them.
+
+    WHY IT IS FLAGGED RATHER THAN FIXED. Repairing it means changing which oligos constitute the assay, the most
+    load-bearing field in an entry, and the WCS lab may pair them this way deliberately - these are
+    genome-walking primers for sequencing a 3,408 bp fragment, not a published diagnostic pair, so whether any of
+    them belongs in a drift registry is a scope question too. Both are decisions for whoever holds the protocol.
+    Until then this entry is screened as stored, and the ROUND SPLIT applied to the Cryptosporidium and adenovirus
+    entries on 2026-10-14 was deliberately NOT applied here: round 1 / round 2 would assert a nested design, and
+    Table 2 describes a walk, not a nest. The paper''s only use of "nested" is about subgenomic mRNAs.'
 needs_review:
 - MULTIPLE_PRIMERS_IN_BLOCK
+- PAIRED_ACROSS_TWO_OF_THE_SOURCES_PRIMER_PAIRS
 - NEED_TO_ORDER

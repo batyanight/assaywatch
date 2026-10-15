@@ -31,6 +31,7 @@ import csv
 import gzip
 import html
 import sys
+from collections import Counter
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -46,6 +47,8 @@ from assaywatch.drift import (
     footprint_signature,
     pct,
 )
+from assaywatch.nested import NestedFamily, unpaired
+from assaywatch.nested import assess as assess_nested
 from assaywatch.schema import Assay
 
 STATUS_ORDER = ["declining", "low coverage", "watch", "insufficient data", "no recent data", "stable"]
@@ -105,7 +108,7 @@ def version_of(accession: str) -> int:
     return int(tail) if tail.isdigit() else 0
 
 
-def read_calls(path: Path) -> list[dict[str, Any]]:
+def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str, Any]]:
     """The columns the drift statistic needs, one small dict per row.
 
     Loading every column of a two-million-row calls table as dicts took 3.6 GB;
@@ -123,6 +126,11 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
         if header is None:
             return []
         ia, ir, ic = header.index("assay_id"), header.index("record_id"), header.index("call")
+        span_idx = (
+            [header.index(c) for c in ("amplicon_start", "amplicon_end")]
+            if with_spans and all(c in header for c in ("amplicon_start", "amplicon_end"))
+            else None
+        )
         # `exclusion` says why an unusable record was unusable (score.classify_exclusion).
         ie = header.index("exclusion") if "exclusion" in header else None
         # The footprint is known only where the row's own scoring columns are
@@ -151,6 +159,10 @@ def read_calls(path: Path) -> list[dict[str, Any]]:
             }
             if fp_idx is not None and all(i < len(r) and r[i] != "" for i in req_idx):
                 row["footprint"] = footprint_signature(r[i] if i < len(r) else "" for i in fp_idx)
+            if span_idx is not None and row["assay_id"] in with_spans:
+                a, b = (r[i] if i < len(r) else "" for i in span_idx)
+                if a and b:
+                    row["amplicon_start"], row["amplicon_end"] = a, b
             rows.append(row)
         return rows
 
@@ -285,18 +297,128 @@ def duplication_summary(flagged: list[AssayDrift]) -> str:
     return text
 
 
+def registry_status_line(drifts: dict[str, AssayDrift], assays: dict[str, Assay]) -> str:
+    """How many of the screened assays are drafts, said at the top of the report.
+
+    A `draft` entry needs only correct structure and valid IUPAC oligos; `active`
+    is what requires a verified DOI, a checked taxid and a named submitter. The
+    table beneath presented all of them with identical authority, which for a
+    registry that is 210 drafts and one active assay is the report overstating
+    what it knows. The oligo and provenance audits in `scripts/` exist because
+    transcription errors were found, so this is not a hypothetical difference.
+    """
+    counts = Counter(assays[a].status.value for a in drifts if a in assays)
+    if not counts:
+        return ""
+    listed = ", ".join(f"{n} {name}" for name, n in sorted(counts.items(), key=lambda x: (-x[1], x[0])))
+    text = f"Registry status: {listed}."
+    if counts.get("draft"):
+        text += (
+            " A draft entry has been checked for structure and valid IUPAC oligos only — not for"
+            " a verified citation, taxid or submitter — so read its numbers as provisional."
+        )
+    return text
+
+
+def flag_confidence_line(grouped: dict[str, list[AssayDrift]]) -> str:
+    """The duplication result, beside the flag counts rather than below them.
+
+    `duplication_summary` already said this, but only inside the per-assay detail
+    section, while the counts a reader takes away are at the top. In the
+    2026-10-07 run 35 of 84 flags survived the check: a headline of "37
+    declining, 47 low coverage" with that fact two screens down is the report
+    leading with its least reliable number.
+    """
+    flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
+    summary = duplication_summary(flagged)
+    return f"**Duplication check:** {summary}" if summary else ""
+
+
+def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], threshold: float) -> list[str]:
+    """What a nested protocol does, which its per-round rows cannot say.
+
+    Each round keeps the score it earned - either product can be read on a gel,
+    so a round whose primers still match is a usable assay on its own. What is
+    added here is the protocol's own coverage: the share of records BOTH rounds
+    reach, which is what the published nest delivers, and how far that sits
+    below round 2 read alone.
+    """
+    have = [f for f in fams.values() if f.records]
+    if not have:
+        return []
+    warned = [f for f in have if f.warns(threshold)]
+    broken = [f for f in have if f.nests is False]
+    out = [f"## Nested protocols ({len(have)})", ""]
+    out += [
+        "Rounds are scored separately above, and that stands: either product can be read on a gel.",
+        "This section adds what neither row can say alone — the share of records **both** rounds",
+        "reach, which is what the protocol delivers when it is run as published. Round 2's own",
+        "figure is what it would do as a direct PCR; where round 1 has drifted, part of that",
+        "coverage is unreachable because the inner reaction gets no enriched template.",
+        "",
+    ]
+    if warned:
+        nonnesting = len([f for f in have if f.nests is False])
+        line = f"**{len(warned)} of {len(have)}** lose coverage this way."
+        if nonnesting:
+            line += (
+                f" A further {nonnesting} are labelled as rounds but do not nest, so no conditional"
+                " coverage is computed for them."
+            )
+        out += [line, ""]
+    out += [
+        "| protocol | round 1 | round 2 alone | run as a nest | records | inner inside outer |",
+        "|---|---|---|---|---|---|",
+    ]
+    for f in sorted(have, key=lambda f: (f.gap is None, -(f.gap or 0))):
+        c = f.containment.get((f.outer, f.inner))
+        cont = "-"
+        if c and c[1]:
+            cont = "yes" if f.nests else f"**no** ({c[0]:,}/{c[1]:,})"
+        # Withheld where the amplicons do not nest, for the same reason the note
+        # gives: conditioning round 2 on a round 1 that does not feed it would
+        # invent a number, and printing it in the table beside the sentence
+        # refusing it is the one place a reader would believe it.
+        nested_cell = "not a nest" if f.nests is False else pct(f.nested_share)
+        out.append(
+            f"| `{md(f.family)}` | {pct(f.outer_share)} | {pct(f.inner_share)} | "
+            f"{nested_cell} | {f.records:,} | {cont} |"
+        )
+    out.append("")
+    for f in sorted(broken, key=lambda f: f.family) + sorted(warned, key=lambda f: -(f.gap or 0)):
+        out += [f"**`{f.family}`** — {f.note(threshold)}", ""]
+    loose = unpaired(assays)
+    if loose:
+        out += [
+            f"{len(loose)} further entries declare a `source.nested_round` but have no sibling by id, so "
+            "their protocol could not be assembled and nothing is reported for them: "
+            + ", ".join(f"`{md(i)}`" for i in loose[:6])
+            + (f", and {len(loose) - 6} more" if len(loose) > 6 else "")
+            + ". Which entries belong together is a curation question — the Chlamydia nest, for one, "
+            "runs a genus-level round 1 into three species-specific round 2 entries on three taxids.",
+            "",
+        ]
+    return out
+
+
 def render_markdown(
     drifts: dict[str, AssayDrift],
     assays: dict[str, Assay],
     gaps: list[dict[str, Any]],
     run_date: str,
     cfg: dict[str, Any] | None = None,
+    nested: dict[str, NestedFamily] | None = None,
 ) -> str:
     grouped = by_status(drifts)
     twins = oligo_twins(assays)
     out = [f"# AssayWatch report — {run_date}", ""]
     counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in status_order(grouped) if grouped.get(s))
     out += [f"{len(drifts)} assays screened: {counts}.", ""]
+    if registry_status_line(drifts, assays):
+        out += [registry_status_line(drifts, assays), ""]
+    headline = flag_confidence_line(grouped)
+    if headline:
+        out += [headline, ""]
     if drifts:
         # The base window comes from the config, not from whichever assay happens
         # to be first: 28 assays widened theirs, and the header claimed Oct 2024
@@ -334,8 +456,8 @@ def render_markdown(
             continue
         out += [f"## {status.title()} ({len(items)})", ""]
         out += [
-            "| assay | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | note |",
-            "|---|---|---|---|---|---|---|",
+            "| assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | note |",
+            "|---|---|---|---|---|---|---|---|",
         ]
         for a in items:
             assay = assays.get(a.assay_id)
@@ -347,8 +469,9 @@ def render_markdown(
             note = a.note + (
                 f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
             )
+            entry = assay.status.value if assay else "-"
             out.append(
-                f"| `{md(a.assay_id)}` | {frac} | {ci} | {a.recent_evaluable} | {base} "
+                f"| `{md(a.assay_id)}` | {entry} | {frac} | {ci} | {a.recent_evaluable} | {base} "
                 f"| {deg_text} | {md(note)} |"
             )
         out.append("")
@@ -387,6 +510,10 @@ def render_markdown(
                         + " not match."
                     )
             out.append("")
+
+    if nested is not None:
+        thr = (cfg or {}).get("drift", {}).get("detect_fraction_threshold", 0.9)
+        out += nested_section(nested, assays, thr)
 
     out += ["## Coverage gaps", ""]
     if not gaps:
@@ -436,6 +563,7 @@ def render_html(
     gaps: list[dict[str, Any]],
     run_date: str,
     cfg: dict[str, Any] | None = None,
+    nested: dict[str, NestedFamily] | None = None,
 ) -> str:
     grouped = by_status(drifts)
     twins = oligo_twins(assays)
@@ -445,6 +573,7 @@ def render_html(
         "<meta name='viewport' content='width=device-width, initial-scale=1'>",
         f"<title>AssayWatch — {e(run_date)}</title><style>{CSS}</style></head><body>",
         f"<h1>AssayWatch report</h1><p class='muted'>{e(run_date)}</p>",
+        f"<p class='lead'>{e(registry_status_line(drifts, assays))}</p>",
         "<p class='lead'>Detected means predicted to amplify. The denominator is evaluable "
         "records only: both primers landed in the right orientation and size range. Records "
         "with no amplicon, or too many undetermined bases to judge, are excluded and counted "
@@ -453,6 +582,11 @@ def render_html(
         "also fallen from the baseline (that is drift); low coverage means below threshold "
         "without a measurable fall.</p>",
     ]
+    if flag_confidence_line(grouped):
+        parts.append(
+            "<p class='lead'><b>Duplication check:</b> "
+            f"{e(duplication_summary(grouped.get('declining', []) + grouped.get('low coverage', [])))}</p>"
+        )
     for status in status_order(grouped):
         items = grouped.get(status)
         if not items:
@@ -462,7 +596,7 @@ def render_html(
             f"<h2><span class='pill' style='background:{colour}'>{e(status)}</span> {len(items)}</h2>"
         )
         parts.append(
-            "<table><tr><th>assay</th><th>trend</th><th>detected</th><th>95% CI</th>"
+            "<table><tr><th>assay</th><th>entry</th><th>trend</th><th>detected</th><th>95% CI</th>"
             "<th>evaluable</th><th>baseline (n)</th><th>degeneracy</th><th>note</th></tr>"
         )
         for a in items:
@@ -478,6 +612,7 @@ def render_html(
             parts.append(
                 f"<tr><td><code>{e(a.assay_id)}</code><br><span class='muted'>"
                 f"{e(assay.name) if assay else ''}</span></td>"
+                f"<td>{e(assay.status.value) if assay else '-'}</td>"
                 f"<td>{sparkline(a)}</td><td>{frac}</td><td>{ci}</td>"
                 f"<td>{a.recent_evaluable}</td><td>{base}</td><td>{deg_text}</td>"
                 f"<td class='muted'>{e(note)}</td></tr>"
@@ -517,6 +652,35 @@ def render_html(
                     + "</p>"
                 )
             parts.append("</details>")
+
+    if nested:
+        thr = (cfg or {}).get("drift", {}).get("detect_fraction_threshold", 0.9)
+        have = [f for f in nested.values() if f.records]
+        if have:
+            parts.append("<h2>Nested protocols</h2>")
+            parts.append(
+                "<p class='lead'>Rounds are scored separately above, and that stands: either product can "
+                "be read on a gel. This adds the share of records <b>both</b> rounds reach — what the "
+                "protocol delivers run as published. Round 2's own figure is what it would do as a direct "
+                "PCR.</p>"
+                "<table><tr><th>protocol</th><th>round 1</th><th>round 2 alone</th><th>run as a nest</th>"
+                "<th>records</th><th>inner inside outer</th></tr>"
+            )
+            for f in sorted(have, key=lambda f: (f.gap is None, -(f.gap or 0))):
+                c = f.containment.get((f.outer, f.inner))
+                cont = "-"
+                if c and c[1]:
+                    cont = "yes" if f.nests else f"<b>no</b> ({c[0]:,}/{c[1]:,})"
+                nested_cell = "not a nest" if f.nests is False else pct(f.nested_share)
+                parts.append(
+                    f"<tr><td><code>{e(f.family)}</code></td><td>{pct(f.outer_share)}</td>"
+                    f"<td>{pct(f.inner_share)}</td><td>{nested_cell}</td>"
+                    f"<td>{f.records:,}</td><td>{cont}</td></tr>"
+                )
+            parts.append("</table>")
+            for f in sorted(have, key=lambda f: -(f.gap or 0)):
+                if f.nests is False or f.warns(thr):
+                    parts.append(f"<p class='muted'><b><code>{e(f.family)}</code></b> — {e(f.note(thr))}</p>")
 
     parts.append("<h2>Coverage gaps</h2>")
     if not gaps:
@@ -558,7 +722,12 @@ def build(
         if a.status.value != "deprecated":
             taxa[a.id] = (a.target.taxid, a.target.taxon_name)
 
-    calls = key_calls_by_accession(read_calls(calls_path))
+    # Which assays are rounds of a protocol is known from the registry alone, so
+    # the spans the nested check needs are read for those and no others.
+    from assaywatch.nested import families
+
+    rounds = {i for v in families(list(assays)).values() for i in v}
+    calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds))
     dates = read_dates(retrieved)
     run_date = run_date or calls_path.parent.name
     if today is None:
@@ -570,9 +739,12 @@ def build(
             today = None
     drifts = assess(calls, dates, cfg, today=today)
     gaps = coverage_gaps(drifts, taxa, cfg)
+    # Nested families are read from the SAME deduplicated calls the drift
+    # statistic uses, so the two never disagree about which records exist.
+    nested = assess_nested(assays, calls)
     return (
-        render_markdown(drifts, assays, gaps, run_date, cfg),
-        render_html(drifts, assays, gaps, run_date, cfg),
+        render_markdown(drifts, assays, gaps, run_date, cfg, nested),
+        render_html(drifts, assays, gaps, run_date, cfg, nested),
         drifts,
     )
 

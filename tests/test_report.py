@@ -219,3 +219,64 @@ def test_the_headline_count_matches_the_sections_beneath_it():
     headline = md.splitlines()[2]
     assert f"{len(drifts)} assays screened" in headline
     assert "1 no data" in headline, headline
+
+
+def _registry_assays(ids):
+    from assaywatch.validate import load_assay
+
+    return {i: load_assay(ROOT / "registry" / f"{i}.yaml") for i in ids}
+
+
+def test_the_header_says_how_much_of_the_registry_is_draft():
+    """210 of 214 entries are drafts, and the table presented them like the one active assay."""
+    calls, years = records({2015: {"detect": 100}, 2025: {"detect": 20, "fail": 30}})
+    bd = "CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004"
+    drifts = {bd: assess(calls, years, CFG, today=TODAY)["A"]}
+    drifts[bd].assay_id = bd
+    assays = _registry_assays([bd])
+    md = render_markdown(drifts, assays, [], "2026-10-07", CFG)
+    page = render_html(drifts, assays, [], "2026-10-07", CFG)
+    assert "Registry status:" in md and f"1 {assays[bd].status.value}" in md
+    assert "Registry status:" in page
+    # and the per-assay row carries it too
+    assert f"| {assays[bd].status.value} |" in md
+
+
+def test_the_duplication_result_is_beside_the_flag_counts_not_only_below_them():
+    """The counts a reader takes away are at the top; so is the caveat that qualifies them."""
+    calls, years = records({2015: {"detect": 100}, 2025: {"detect": 20, "fail": 30}})
+    bd = "CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004"
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    a.assay_id = bd
+    assert a.status == "declining"
+    md = render_markdown({bd: a}, _registry_assays([bd]), [], "2026-10-07", CFG)
+    head = md.split("## ")[0]
+    assert "Duplication check:" in head
+
+
+def test_a_family_that_does_not_nest_gets_no_conditional_figure():
+    """The note refuses to report one; the table must not print it either.
+
+    The coronavirus pair's amplicons are about 2.7 kb apart, so a 'run as a
+    nest' percentage for it would be exactly the invented number the note says
+    it is withholding.
+    """
+    from assaywatch.nested import NestedFamily
+    from assaywatch.report import nested_section
+
+    f = NestedFamily(
+        "CORONA",
+        ["CORONA", "CORONA_round2"],
+        outer="CORONA",
+        inner="CORONA_round2",
+        records=100,
+        outer_detected=39,
+        inner_detected=70,
+        both_detected=22,
+        containment={("CORONA", "CORONA_round2"): (0, 100)},
+    )
+    out = "\n".join(nested_section({"CORONA": f}, {}, 0.90))
+    assert f.nests is False
+    assert "22%" not in out, "no conditional coverage for a family that does not nest"
+    assert "not a nest" in out
+    assert "do not nest" in out

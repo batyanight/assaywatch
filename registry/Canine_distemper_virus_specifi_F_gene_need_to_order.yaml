@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: CDV3primeUTR
     seq: GTGACTAGAGTGATTCAGAGTG
-amplicon_bp: null
+amplicon_bp: 2013
 citation:
   doi: null
   design_year: null
@@ -35,6 +35,7 @@ source:
   notes: null
   notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
 needs_review:
+- AMPLICON_BP_MEASURED_NOT_PUBLISHED
 - DOI_MISSING
 - NEED_TO_ORDER
 - NO_YEAR

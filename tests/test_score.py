@@ -32,6 +32,24 @@ ASSAYS = {
 }
 
 
+def declared_spacer(assay, fwd_len: int | None = None, rev_len: int | None = None, filler="ACGT") -> str:
+    """Filler that puts a hand-built record's product at the assay's declared size.
+
+    `amplicon.declared_tolerance` constrains a call to the assay's own
+    `amplicon_bp`, so a record built with an arbitrary spacer is `no_amplicon`
+    however good the primer sites planted in it are — the test would then pass
+    or fail on its spacer rather than on what it means to test. Lengths may be
+    given explicitly for a pool member that is not the stored oligo. An assay
+    with no declared size keeps the old fixed spacing.
+    """
+    f = fwd_len if fwd_len is not None else len(assay.oligos.forward.matching_seq)
+    r = rev_len if rev_len is not None else len(assay.oligos.reverse.matching_seq)
+    n = (assay.amplicon_bp - f - r) if assay.amplicon_bp else 120
+    if n < 10:
+        n = 120
+    return (filler * (n // len(filler) + 1))[:n]
+
+
 @pytest.mark.parametrize("row", MANIFEST, ids=[r["record_id"] for r in MANIFEST])
 def test_expected_call(row):
     assay = ASSAYS[row["assay_id"]]

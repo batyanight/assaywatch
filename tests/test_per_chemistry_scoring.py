@@ -20,7 +20,7 @@ from pathlib import Path
 
 import pytest
 import yaml
-from test_score import ASSAYS, RECORDS
+from test_score import ASSAYS, RECORDS, declared_spacer
 
 from assaywatch.assemblies import extract_loci
 from assaywatch.iupac import reverse_complement
@@ -127,7 +127,7 @@ def test_overrides_actually_change_a_call(tmp_path):
     rev = assay.oligos.reverse.matching_seq
     # One substitution at the forward primer's 3'-terminal base, nothing else.
     broken = fwd[:-1] + SWAP[fwd[-1]]
-    record = "TTTT" + broken + "ACGT" * 30 + reverse_complement(rev) + "TTTT"
+    record = "TTTT" + broken + declared_spacer(assay) + reverse_complement(rev) + "TTTT"
 
     before = screen_record(
         assay, "r1", record, write_config(tmp_path, {})
@@ -280,7 +280,7 @@ def _annis_site_with_forward_mismatches(n):
 
 
 def _genome_around(site, pairs, strict):
-    """A small genome holding `site` whose flanks have no chance window at the shipped budget.
+    """A small genome holding `site` whose flanks hold no chance window at `strict`'s budget.
 
     A random flank can hold a site within six mismatches that faces the real reverse site
     and keeps a window of its own, which would make the "the shipped budget cannot see
@@ -312,7 +312,15 @@ def test_the_assembly_precut_keeps_a_site_exactly_at_the_override_budget(tmp_pat
     one_short = write_config(tmp_path, {"conventional": {"max_mismatches_searched": mismatches - 1}})
 
     assert screen_record(assay, "g", contig[0][1], strict).call == "no_amplicon"
-    assert extract_loci(contig, pairs, one_short)[1] == 0
+    # What a budget one short costs is the SITE, which is what this asserts: cut
+    # at `one_short` and then scored at `exactly`, the amplicon is gone. The
+    # earlier form asked for no window anywhere in the contig, which is a
+    # statement about chance sites rather than about the pre-cut — at seven
+    # mismatches a 19-mer has a chance site every few kilobases of random
+    # sequence, so that assertion held only as long as the fixture's own
+    # flanks happened not to carry one.
+    cut_short, _ = extract_loci(contig, pairs, one_short)
+    assert screen_record(assay, "g", cut_short, exactly).call == "no_amplicon"
     cut, n = extract_loci(contig, pairs, exactly)
     assert n == 1
     whole = screen_record(assay, "g", contig[0][1], exactly)
@@ -439,7 +447,12 @@ def test_a_pooled_assay_is_screened_under_the_override_for_the_member_that_wins(
 
     rev_site = reverse_complement(pooled.oligos.reverse.matching_seq)
     record = (
-        "TTTT" + alt + "ACGT" * 30 + SWAP[rev_site[0]] + rev_site[1:] + "TTTT"
+        "TTTT"
+        + alt
+        + declared_spacer(pooled, len(alt), len(rev_site))
+        + SWAP[rev_site[0]]
+        + rev_site[1:]
+        + "TTTT"
     )  # reverse 3'-terminal mismatch
     strict = screen_record(pooled, "r", record, write_config(tmp_path, {}))
     loose = screen_record(

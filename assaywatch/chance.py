@@ -91,10 +91,36 @@ def site_evalue(oligo: str, k: int, record_len: int, comp=UNIFORM) -> float:
 
 
 def pair_evalue(
-    fwd: str, rev: str, k_fwd: int, k_rev: int, record_len: int, cfg: dict[str, Any], comp=UNIFORM
+    fwd: str,
+    rev: str,
+    k_fwd: int,
+    k_rev: int,
+    record_len: int,
+    cfg: dict[str, Any],
+    comp=UNIFORM,
+    window_bp: int | None = None,
 ) -> float:
+    """Expected number of pairs at least this good in a random record like this one.
+
+    `window_bp` is how many reverse-primer offsets give an ALLOWED amplicon
+    length, and it must be the window the caller will actually accept. Scoring
+    narrows that window to the assay's declared product size
+    (`amplicon.declared_tolerance`), so leaving it at the global 50-3000 bp
+    range overstates E by the ratio of the two - 30x for a 194 bp assay at
+    +/-25%, whose window is 98 bp against the global 2951 - and the
+    overstatement is not harmless: the pairs it pushes past
+    `max_pair_evalue` are the worst-matching ones, which are the drifted ones,
+    so they leave the drift denominator instead of being scored as failures.
+
+    Callers that work on oligo PAIRS and so have no declared size (the assembly
+    pre-cut, `loci.py`) omit it and get the global window, which is the
+    permissive direction: the pre-cut only decides which windows are worth
+    keeping, and screening applies the real test afterwards.
+    """
     amp = cfg["amplicon"]
-    window = min(int(amp["max_bp"]) - int(amp["min_bp"]) + 1, max(record_len, 1))
+    if window_bp is None:
+        window_bp = int(amp["max_bp"]) - int(amp["min_bp"]) + 1
+    window = min(max(int(window_bp), 1), max(record_len, 1))
     pf = tail(fwd, comp)[min(k_fwd, len(fwd))]
     pr = tail(rev, comp)[min(k_rev, len(rev))]
     return 2.0 * record_len * pf * window * pr

@@ -13,10 +13,6 @@ oligos:
   reverse:
     name: Landolfi 2200R
     seq: CCRTCRTCWCCYTGRCAKACRTARTT
-  alternates:
-  - name: Landolfi 2334R
-    seq: CDATGTCRTAHWYCCANCCRAA
-    orientation: reverse
 amplicon_bp: 163
 citation:
   doi: 10.1177/104063871002200106
@@ -37,7 +33,21 @@ source:
   - 528
   - 529
   positive_control: Universal Control 5
-  nested_round: null
+  nested_round: round2
   notes: null
-needs_review:
-- MULTIPLE_PRIMERS_IN_BLOCK
+  notes_curator: 'THIS ENTRY IS THE PAPER''S SECOND ROUND, and the pair it stores is the right one (2026-10-14,
+    from the paper, saved to papers/10.1177_104063871002200106.pdf). The methods: "The first round utilized forward
+    primer 2090F ... and reverse primer 2334R ...  The second round utilized 2090F and a different reverse primer,
+    2200R". 2334R has moved to ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1; it had been sitting in this
+    entry''s oligos.alternates, where score.oligo_pools pooled it with 2200R and credited its 274 bp round-1
+    product to this 163 bp assay.
+
+    THE STORED SIZE IS CORROBORATED BY ARITHMETIC, not just by the archive. scripts/check_amplicons.py measures
+    this pair at a modal 161 bp; the abstract reports a "109-base pair (bp) product", and the methods say "primer
+    sequences were edited out prior to analyses" - 161 minus the two 26-mers is 109. So 163 stands as stored.
+
+    THE ID CARRIES NO ROUND SUFFIX while source.nested_round says round2, because the base id is what three
+    generated docs and the screened-results cache already key on, and the pair it holds never changed. The
+    registry has the same asymmetry at ADENOVIRUS_dsDNA_Hexon_gene / _round2 and in the CMV gB family. Renaming it
+    to _round2 for symmetry is a one-line change plus regenerating those docs.'
+needs_review: []

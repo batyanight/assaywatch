@@ -15,7 +15,7 @@ oligos:
     name: cdvFnotR
     seq: GGATGCGGCCGCTCAGAGTGATCTTACATAG
     tail_5prime: GGATGCGGCCGC
-amplicon_bp: null
+amplicon_bp: 1989
 citation:
   doi: null
   design_year: null
@@ -38,6 +38,7 @@ source:
   notes: null
   notes_curator: 'Cloning primers. GGAT clamp + SalI (fwd) / NotI (rev) 5'' tails marked as tail_5prime; matching uses the binding part only (2026-10-04; 0 of 3990 CDV records matched with the tails). TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
 needs_review:
+- AMPLICON_BP_MEASURED_NOT_PUBLISHED
 - DOI_MISSING
 - NEED_TO_ORDER
 - NO_YEAR

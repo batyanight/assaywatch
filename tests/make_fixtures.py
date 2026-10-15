@@ -112,6 +112,36 @@ def _flank(n: int) -> str:
     return "".join(RNG.choice("ACGT") for _ in range(n))
 
 
+DEFAULT_GAP = 20  # used when the assay declares no amplicon size
+# The probe only has to sit between the primers, not at a comfortable distance:
+# `score.screen_one` accepts a probe site anywhere inside the span, so one base
+# of clearance is a real geometry. It has to be this small because real qPCR
+# amplicons are: Pallister 2007's ranavirus MGB assay makes a 57 bp product from
+# a 20 nt forward, an 18 nt probe and a 17 nt reverse, which leaves exactly one
+# base either side. At a floor of 5 the builder fell back to DEFAULT_GAP and
+# produced a 95 bp record for a 57 bp assay, which `declared_tolerance` then
+# correctly refused - every fixture for that assay failed the moment its
+# measured size was stored.
+MIN_GAP = 1
+
+
+def _spacers(fwd_len: int, probe_len: int, rev_len: int, declared: int | None) -> tuple[int, int]:
+    """Spacer lengths either side of the probe, so the product is `declared` bp.
+
+    Returns the fixed default when the assay declares no size, or when the
+    declared size cannot hold the oligos with a gap either side — in which case
+    the fixture is deliberately the wrong length and the test will say so,
+    rather than the builder quietly producing a product nobody asked for.
+    """
+    if not declared:
+        return DEFAULT_GAP, DEFAULT_GAP
+    total = declared - fwd_len - probe_len - rev_len
+    if total < 2 * MIN_GAP:
+        return DEFAULT_GAP, DEFAULT_GAP
+    left = total // 2
+    return left, total - left
+
+
 def build_record(assay: Assay, edits: list[tuple[str, object]]) -> tuple[str, dict[str, int]]:
     """Return (sequence, {oligo: offset}) with the given edits planted.
 
@@ -154,9 +184,16 @@ def build_record(assay: Assay, edits: list[tuple[str, object]]) -> tuple[str, di
         else:
             raise ValueError(which)
 
-    gap = 20
-    spacer_left = _flank(gap)
-    spacer_right = _flank(gap)
+    # Spacers are sized so the built product matches the assay's own declared
+    # amplicon_bp, because `amplicon.declared_tolerance` constrains a call to
+    # that size. Built at a fixed 20 nt instead, the Annis 2004 fixtures came
+    # out at 79 bp against a declared 300 and every one of them scored
+    # no_amplicon the moment the tolerance was switched on. An assay with no
+    # declared size, or one whose declared size leaves no room for the oligos,
+    # keeps the fixed spacing.
+    left_gap, right_gap = _spacers(len(fwd), len(probe_site), len(rev), assay.amplicon_bp)
+    spacer_left = _flank(left_gap)
+    spacer_right = _flank(right_gap)
     lead = _flank(60)
 
     parts = [
@@ -171,8 +208,8 @@ def build_record(assay: Assay, edits: list[tuple[str, object]]) -> tuple[str, di
     seq = "".join(parts)
     offsets = {
         "forward": len(lead),
-        "probe": len(lead) + len(fwd) + gap,
-        "reverse": len(lead) + len(fwd) + gap + len(probe_site) + gap,
+        "probe": len(lead) + len(fwd) + left_gap,
+        "reverse": len(lead) + len(fwd) + left_gap + len(probe_site) + right_gap,
     }
     return seq, offsets
 
