@@ -56,7 +56,7 @@ real-time assay, and a short amplicon is what such an assay is designed around.
 | `B_salamandrivorans_Internal_transcribes_spa_Blooi_2013` | 161 | 6 | 100% | only 6 products |
 | `Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001` | 285 | 20 | 45% | multimodal: one value covers only 45% |
 | `ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997` | 1067 | 3,495 | 31% | multimodal: one value covers only 31% |
-| `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` | — | 0 | — | no product in its own archive |
+| `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` | — | 0 | — | no product at 3 mismatches; see below |
 | `Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011` | 514 | 18 | 100% | only 18 products |
 | `SARCOCYSTIS_18S_5_8s_rDNA_long_2010` | 1087 | 13 | 100% | only 13 products |
 | `SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010` | 247 | 11 | 100% | only 11 products |
@@ -66,9 +66,22 @@ Two of these are the interesting ones. `ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997`
 really is multimodal — 1067, 1538 and 1535 bp — and that is the ATI length
 polymorphism the assay's RFLP typing exploits, so no single declared size is
 correct for it; constraining it would need a per-entry range rather than one
-number. `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` produces **no amplicon at all**
-in its own archive, which is a finding about the entry rather than a missing
-measurement, and worth its own look.
+number. `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` gives no product at the
+3-mismatch limit this measurement used, but it is not dead.
+
+*Correction, 2026-10-15.* An earlier version of this note said round 1 produces
+no amplicon at all. That was the measurement's limit talking: VP1/1r never
+matches a record at fewer than 5 mismatches. In the 2026-10-07 screen, which
+searches to `max_mismatches_searched` (6), round 1 forms a product in 2,074 of
+14,531 records, 80% of them 1,000-1,099 bp, and calls every one `fail` (2,069)
+or `reduced` (5), never `detect`. The mismatches are almost all in the 5' half:
+the reverse primer's sit 15-24 nt from its 3' end and the forward's 13-21, so
+both 3' ends match. Mean penalty is about 1.9 (forward) plus 3.0 (reverse),
+against `reduced_max` 3.0. For a broad-spectrum consensus PCR with intact 3'
+ends that is a scoring verdict, not an established failure: it is the case
+`scoring.by_chemistry` exists for, and conventional-PCR penalties set by tier-2
+validation would decide it. Its size stays unset, since 3 mismatches finds no
+product to measure.
 
 The other six are simply short of evidence: too few products to measure
 against, or no local archive. They stay exempt from the tolerance until there
