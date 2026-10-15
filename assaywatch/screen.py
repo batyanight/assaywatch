@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import csv
 import gzip
+import json
 import sys
 import tempfile
 from collections import Counter, deque
@@ -33,6 +34,10 @@ from assaywatch.score import Call, load_config, screen_record
 from assaywatch.thermo import COLUMNS as THERMO_COLUMNS
 from assaywatch.thermo import annotate
 from assaywatch.validate import iter_files, load_assay
+from assaywatch.windows import check_against
+
+# The exclusion label given to no_amplicon rows screened from a window archive.
+WINDOWED = "windowed"
 
 # Set once per worker process by _init_worker, so the assays and config are
 # pickled once per worker rather than once per batch.
@@ -75,6 +80,14 @@ def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     for (rid, seq), comp, src in zip(batch, comps, srcs, strict=True):
         for assay, (fold, tier), oligos, rows in zip(assays, degs, specs, out, strict=True):
             call = screen_record(assay, rid, seq, cfg, comp, record_len=src[0] if src else None)
+            if src and call.call == "no_amplicon":
+                # Why a record yields no amplicon (score.classify_exclusion) depends on
+                # lone sites, chance pairs and record ends across the WHOLE record, and a
+                # window archive holds only the stretches around pairs. A label computed
+                # from the windows would be confidently wrong (chance_only read as
+                # diverged, say), so it is not given.
+                call.extra["exclusion"] = WINDOWED
+                call.reason = f"window archive: why no amplicon formed needs the whole record; {call.reason}"
             call.extra["degeneracy_fold"] = fold
             call.extra["degeneracy_tier"] = tier
             if thermo:
@@ -90,15 +103,20 @@ def sidecar_path(fasta: Path) -> Path:
 
 
 def window_context(fasta: Path) -> dict[str, tuple[int, tuple]] | None:
-    """{window id: (source record length, source composition)} for a window archive, else None."""
+    """{record id: (source record length, source composition)} for a window archive, else None.
+
+    The sidecar has one row per window; every window of a record carries the same source
+    length and composition, so the first row of each record is enough.
+    """
     side = sidecar_path(fasta)
     if not side.exists():
         return None
+    out: dict[str, tuple[int, tuple]] = {}
     with gzip.open(side, "rt") as fh:
-        return {
-            r["window_id"]: (int(r["src_len"]), tuple(float(x) for x in r["src_comp"].split(",")))
-            for r in csv.DictReader(fh, delimiter="\t")
-        }
+        for r in csv.DictReader(fh, delimiter="\t"):
+            if r["record_id"] not in out:
+                out[r["record_id"]] = (int(r["src_len"]), tuple(float(x) for x in r["src_comp"].split(",")))
+    return out
 
 
 def batches(records: Iterable[tuple[str, str]], target_bp: int) -> Iterator[list[tuple[str, str]]]:
@@ -211,6 +229,21 @@ def main(argv: list[str] | None = None) -> int:
     writers = [csv.DictWriter(sp, fieldnames=fieldnames, delimiter="\t") for sp in spools]
     tally: Counter = Counter()
     context = window_context(args.fasta)
+    if context is not None:
+        # A window archive holds only the stretches around sites already found. A run
+        # that could find sites elsewhere (looser discovery settings, new or edited
+        # primers) cannot be answered from it, and its empty result would read as
+        # robustness. Refuse instead (assaywatch.windows.check_against).
+        manifest_path = args.fasta.parent / "manifest.json"
+        if not manifest_path.exists():
+            raise SystemExit(f"{args.fasta} is a window archive but {manifest_path} is missing")
+        problems = check_against(json.loads(manifest_path.read_text()), cfg, assays)
+        if problems:
+            raise SystemExit(
+                f"refusing to screen window archive {args.fasta}: it was cut for other settings or primers, "
+                "and sites outside its windows would go unseen. Screen the whole records instead.\n  "
+                + "\n  ".join(problems)
+            )
     records = read_fasta(args.fasta)
     for per_assay in screen_records(assays, records, cfg, args.workers, args.chunk_bp, args.thermo, context):
         for assay, rows, w in zip(assays, per_assay, writers, strict=True):
