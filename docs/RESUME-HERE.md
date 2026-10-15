@@ -229,9 +229,10 @@ trusted.
    page as an image, as was done for Ghosh - that worked and the sequences verified against
    records afterwards.
 6. **211 oligos** whose provenance is unchecked for want of full text.
-7. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` produces no amplicon in its own archive** (found
-   2026-10-14 while measuring sizes). A finding about the entry, not a missing number: check its
-   oligos against the paper and its query.
+7. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` is called `fail` on every product it forms**
+   (2,074 records, ~1,000-1,100 bp, all 5'-half mismatches with intact 3' ends). Not dead, as
+   first reported: see the correction in `docs/2026-10-14-amplicon-sizes-measured.md`. A test
+   case for conventional-PCR scoring under `scoring.by_chemistry`.
 
 ## Two things waiting on someone else
 
