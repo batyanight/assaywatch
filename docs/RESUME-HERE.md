@@ -18,8 +18,9 @@ The ranked work list from the 2026-10-09 assessment (that handoff was never comm
 is its substance):
 
 1. **Lineage-conditional verdicts.** Report and judge detection per lineage or clade, not only
-   pooled. Start with a written plan (how lineages are assigned, what the minimum per-lineage
-   evidence is, how a verdict is formed from per-lineage shares) before code.
+   pooled. Plan written 2026-10-15: `docs/2026-10-15-lineage-verdict-plan.md`. Phase 0 (a
+   `lineage` column in the validation cases, organism taxid per record, and a measured ceiling)
+   comes first, and three decisions in that doc are needed before Phase 1.
 2. Homology-anchored footprint scoring, so the duplication check sees clade structure and not
    only identical footprints.
 3. Serial scoring logic (nested rounds now have a joint-coverage table, see below; the same
@@ -29,7 +30,7 @@ is its substance):
 6. Treat the validation set with caution: re-check each case's `as_of` date and expected
    outcome before using it to fit anything.
 
-## After `git pull`: the next run must rescreen everything
+## After `git pull`: the next run must rescreen everything (done 2026-10-15)
 
 This pull changes screening results, not just code hashes:
 `amplicon.declared_tolerance` went from `null` to `0.25`, and `score.py`, `chance.py` and
@@ -38,10 +39,20 @@ mark every screen current at the old setting with nothing to say so. Just run:
 
     caffeinate -i snakemake --cores 4 --config email=nightb02@nyu.edu
 
-The README gives an *estimate* of what the tolerance does to the 2026-10-07 run (59,141 rows
-to `no_amplicon`, 54,966 of them former `fail`; declining 37 -> 22, stable 63 -> 73). That was
-computed by re-filtering the old calls, not by a run. The first full run is the real number;
-compare it with the estimate and note any gap.
+Done 2026-10-15 (216 steps, 31 min on 4 cores). Measured against the README's estimate:
+
+| | 2026-10-07 | 2026-10-15 | estimate |
+|---|---|---|---|
+| assays screened | 208 | 213 | |
+| declining | 37 | 20 | 22 |
+| stable | 63 | 69 | 73 |
+| low coverage | 47 | 58 | |
+| watch | 11 | 11 | |
+| insufficient data | 36 | 41 | |
+| no recent data | 14 | 14 | |
+
+Three things moved at once, so the difference is not the size filter alone: the filter,
+`drift.require_working_baseline` (most of the low coverage rise), and five more assays.
 
 A dry run (`snakemake -n`) is no check on any of this. It lists the screening jobs only once
 today's retrieval record exists; before that it plans just `validate` and `retrieve`, which
@@ -85,7 +96,7 @@ needs the network.
 | chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1 |
 | tests | 1135 passing; ruff clean; 182 citations, 0 Crossref problems (2026-10-15) |
 | validation | 46 cases; catches 1 of 12 documented failures (unchanged since 2026-10-04) |
-| last full run | 2026-10-07, before the size filter; rerun needed (above) |
+| last full run | 2026-10-15, first with the size filter (`results/2026-10-15/`) |
 
 ## Why the remaining work wants the local machine
 
