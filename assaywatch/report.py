@@ -470,8 +470,9 @@ def render_markdown(
                 f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
             )
             entry = assay.status.value if assay else "-"
+            pooled_tag = f" (pooled: {a.status_pooled})" if a.lineage_override and a.status_pooled else ""
             out.append(
-                f"| `{md(a.assay_id)}` | {entry} | {frac} | {ci} | {a.recent_evaluable} | {base} "
+                f"| `{md(a.assay_id)}`{pooled_tag} | {entry} | {frac} | {ci} | {a.recent_evaluable} | {base} "
                 f"| {deg_text} | {md(note)} |"
             )
         out.append("")
@@ -484,6 +485,8 @@ def render_markdown(
         for a in flagged:
             assay = assays.get(a.assay_id)
             out += [f"### `{a.assay_id}`", ""]
+            if a.lineage_override and a.status_pooled:
+                out.append(f"**Lineage override:** pooled status was {a.status_pooled}.  ")
             if assay:
                 out.append(f"{assay.name}  ")
                 if assay.citation.doi:
@@ -609,9 +612,14 @@ def render_html(
             note = a.note + (
                 f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
             )
+            pooled_html = (
+                f"<br><span class='muted' style='font-size:.8rem'>pooled: {e(a.status_pooled)}</span>"
+                if a.lineage_override and a.status_pooled
+                else ""
+            )
             parts.append(
                 f"<tr><td><code>{e(a.assay_id)}</code><br><span class='muted'>"
-                f"{e(assay.name) if assay else ''}</span></td>"
+                f"{e(assay.name) if assay else ''}</span>{pooled_html}</td>"
                 f"<td>{e(assay.status.value) if assay else '-'}</td>"
                 f"<td>{sparkline(a)}</td><td>{frac}</td><td>{ci}</td>"
                 f"<td>{a.recent_evaluable}</td><td>{base}</td><td>{deg_text}</td>"
@@ -628,6 +636,12 @@ def render_html(
         for a in flagged:
             assay = assays.get(a.assay_id)
             parts.append(f"<details><summary><code>{e(a.assay_id)}</code></summary>")
+            if a.lineage_override and a.status_pooled:
+                pooled_colour = STATUS_COLOUR.get(a.status_pooled, DEFAULT_COLOUR)
+                parts.append(
+                    f"<p><b>Lineage override:</b> pooled status was "
+                    f"<span class='pill' style='background:{pooled_colour}'>{e(a.status_pooled)}</span></p>"
+                )
             if assay:
                 bits = [e(assay.name)]
                 if assay.citation.doi:

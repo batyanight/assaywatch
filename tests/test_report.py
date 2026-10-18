@@ -280,3 +280,25 @@ def test_a_family_that_does_not_nest_gets_no_conditional_figure():
     assert "22%" not in out, "no conditional coverage for a family that does not nest"
     assert "not a nest" in out
     assert "do not nest" in out
+
+
+def test_lineage_override_shows_pooled_status():
+    """When lineage analysis overrides a status, both renderers show the pooled status."""
+    drifts = _drifting()
+    a = drifts["A"]
+    a.lineage_override = True
+    a.status_pooled = "stable"
+    md_text = render_markdown(drifts, {}, [], "2026-10-03")
+    page = render_html(drifts, {}, [], "2026-10-03")
+    # Main table: pooled tag next to assay id
+    assert "(pooled: stable)" in md_text
+    assert "pooled: stable" in page
+    # Detail section
+    assert "pooled status was stable" in md_text
+    assert "Lineage override:" in page
+
+
+def test_no_pooled_tag_without_lineage_override():
+    md_text = render_markdown(_drifting(), {}, [], "2026-10-03")
+    assert "(pooled:" not in md_text
+    assert "Lineage override:" not in md_text
