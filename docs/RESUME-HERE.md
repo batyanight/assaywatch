@@ -300,15 +300,10 @@ trusted.
    Stored 30-mer is correct; Quan 2010's printed 33-mer has a 3-nt duplication (NACNAC)
    that never binds better than 4 mismatches in any genome. PREDICT P-005 carries the
    corrected form. `amplicon_bp` updated 520→532.
-4. **Measure the two CMV gB amplicons, then re-cite the 4007/4125 pair.**
-   - `..._Virol_2007_round1` and `..._round2` hold Prepens' own CM-gB pairs and verify exact.
-     Prepens gives two different numbers for round 1 - 330 in Table 3 (footnoted "approximate
-     values") and 320 in its Figure 1 legend, which does not name the primer set (250 appears
-     in Table 3 only for CM-gB round 2, so reading the legend as this pair is an inference) -
-     and 250 for round 2 in both places. The stored 320 agrees with the figure if it describes
-     this pair, and the stored 230 agrees with neither, so these are not one spreadsheet error,
-     and "correct both to 330" would overwrite a value the paper's own figure supports. Run both
-     pairs against real UL55 records and store what they measure.
+4. ~~**Measure the two CMV gB amplicons**~~ **DONE (2026-10-18).** Measured on 9 UL55 CDS
+   records at 0 mismatches: round 1 = 319 bp (was 320; paper figure 320, table 330),
+   round 2 = 250 bp (was 230; paper said 250 in both places — spreadsheet transcription error).
+   Re-cite the 4007/4125 pair: **already done 2026-10-17** (Deckers 2009, doi_verified).
    - `CMV_specific_HERPES_UL55_Glycoprotein_B_gB` (4007-s/4007-as) and `..._round2_2`
      (4125-s/4125-as) are **not in Prepens**, and their source is now known: Deckers et al.
      2009, *Virol J* 6:210 (PMID 19941648, PMC2789067), Table 1, primer set CMV-gBp1, where 4007
