@@ -314,6 +314,8 @@ class Call:
             "probe_ambiguous": amb(self.probe),
             "degeneracy_fold": self.extra.get("degeneracy_fold", ""),
             "degeneracy_tier": self.extra.get("degeneracy_tier", ""),
+            # For multiplex assays with alternates: which F/R primer names won.
+            "winning_pair": self.extra.get("winning_pair", ""),
             # Present only when screening ran with --thermo; see thermo.py.
             **self.extra.get("thermo", {}),
             "reason": self.reason,
@@ -446,6 +448,26 @@ def oligo_pools(assay: Assay) -> tuple[list[str], list[str], list[str]]:
     return fwd, rev, probe
 
 
+def oligo_pool_names(assay: Assay) -> tuple[dict[str, str], dict[str, str]]:
+    """Sequence-to-name maps for forward and reverse pool members.
+
+    Returns ({fwd_seq: name, ...}, {rev_seq: name, ...}). The primary oligos
+    come first; alternates are added by orientation. Names come from the
+    ``name`` field on each Oligo. An oligo with no name gets an empty string.
+    """
+    fwd_names: dict[str, str] = {
+        assay.oligos.forward.matching_seq: assay.oligos.forward.name or "",
+    }
+    rev_names: dict[str, str] = {
+        assay.oligos.reverse.matching_seq: assay.oligos.reverse.name or "",
+    }
+    for alt in assay.oligos.alternates or []:
+        bucket = {"forward": fwd_names, "reverse": rev_names}.get(alt.orientation or "")
+        if bucket is not None and alt.matching_seq not in bucket:
+            bucket[alt.matching_seq] = alt.name or ""
+    return fwd_names, rev_names
+
+
 def screen_record(
     assay: Assay,
     record_id: str,
@@ -480,6 +502,7 @@ def screen_record(
         return screen_one(assay, record_id, record_seq, cfg, comp, record_len=record_len)
     if comp is None:
         comp = composition(record_seq)
+    fwd_names, rev_names = oligo_pool_names(assay)
     best: Call | None = None
     for f in fwd:
         for r in rev:
@@ -493,6 +516,9 @@ def screen_record(
             ):
                 best = cand
                 best.extra["pool"] = f"forward={f} reverse={r}"
+                fn = fwd_names.get(f, "")
+                rn = rev_names.get(r, "")
+                best.extra["winning_pair"] = f"{fn}/{rn}" if fn or rn else ""
     assert best is not None
     return best
 

@@ -286,7 +286,9 @@ trusted.
    (**both now need re-retrieval and rescreen**); Nosema bombi re-cited to Klee 2006
    (`10.1016/j.jip.2005.10.012`, in the Crossref cache; **run `scripts/resolve_citations.py` to flip
    doi_verified**); Ophidiomyces target-D KEPT; Tasman-PCR ruled OUT OF SCOPE.
-   Still open: **Reptarenavirus winning-pair column is decided but not implemented**; the
+   Still open: ~~Reptarenavirus winning-pair column~~ **DONE** (2026-10-18): `oligo_pool_names()`
+   returns `{seq: name}` maps, `screen_record()` stores `extra["winning_pair"]` as `"F6/R2"`,
+   `Call.as_row()` emits the column (empty for non-pool assays). Three tests added. The
    ORTHOBUNYAVIRUS Cac serogroup enumeration; and five entries (Bd BdCAPE/BdGPL, hummingbird
    avipox, DWV-A, DWV-B) whose denominators provably cannot be defined from NCBI metadata and so
    wait on phase-2 clustering. **`DWVA_polyprotein_Rossi_2024` sits in the Declining list on 28
@@ -339,6 +341,12 @@ trusted.
    (2,074 records, ~1,000-1,100 bp, all 5'-half mismatches with intact 3' ends). Not dead, as
    first reported: see the correction in `docs/2026-10-14-amplicon-sizes-measured.md`. A test
    case for conventional-PCR scoring under `scoring.by_chemistry`.
+9. **Primer-name audit against published papers.** The `name` fields on oligos (forward, reverse,
+   probe, alternates) should match the names used in the cited paper's primer table when possible.
+   Some registry entries were bulk-imported from a spreadsheet and carry generic or abbreviated
+   names. Audit each entry's oligo names against the paper's own table (PDF or full text) and
+   correct mismatches. Low priority but improves traceability, especially now that `winning_pair`
+   surfaces oligo names in the calls output.
 
 ## Two things waiting on someone else
 

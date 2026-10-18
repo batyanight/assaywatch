@@ -345,3 +345,60 @@ def test_every_probe_pool_member_is_searched():
     assert screen_one(assay, "x", rec, CFG, None, fwd, rev, [decoy]).reason == "no probe site inside amplicon"
     # With both members in the pool the real one must be found.
     assert screen_one(assay, "x", rec, CFG, None, fwd, rev, [decoy, real_probe]).call in ("detect", "reduced")
+
+
+# ---------- winning_pair column ----------
+
+
+def test_pool_assay_reports_winning_pair_names():
+    """screen_record stores the primer names that won, not sequences."""
+    from pathlib import Path
+
+    from assaywatch.score import oligo_pool_names, oligo_pools
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assay = load_assay(root / "registry" / "FILOVIRUS_ssRNA_L_gene.yaml")
+    fwd, rev, _ = oligo_pools(assay)
+    fwd_names, rev_names = oligo_pool_names(assay)
+
+    # Build a record matching only the LAST pool member of each role.
+    gap = assay.amplicon_bp - len(fwd[-1]) - len(rev[-1])
+    rec = rnd(300, 42) + fwd[-1] + rnd(max(gap, 20), 43) + reverse_complement(rev[-1]) + rnd(300, 44)
+    call = screen_record(assay, "wp", rec, CFG)
+    assert call.call == "detect"
+    row = call.as_row()
+    wp = row["winning_pair"]
+    assert "/" in wp, f"expected 'name/name', got {wp!r}"
+    fn, rn = wp.split("/", 1)
+    assert fn == fwd_names[fwd[-1]]
+    assert rn == rev_names[rev[-1]]
+
+
+def test_non_pool_assay_has_empty_winning_pair():
+    """An assay with no alternates should not populate winning_pair."""
+    a = ASSAYS[BD]
+    rec = RECORDS[f"{BD}__perfect"]
+    row = screen_record(a, "x", rec, CFG).as_row()
+    assert row["winning_pair"] == ""
+
+
+def test_oligo_pool_names_maps_sequences_to_names():
+    """oligo_pool_names returns correct {seq: name} dicts for a real pool assay."""
+    from pathlib import Path
+
+    from assaywatch.score import oligo_pool_names
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assay = load_assay(root / "registry" / "REPTARENAVIRUS_S_segment_GP2_Baggio_2023.yaml")
+    fwd_names, rev_names = oligo_pool_names(assay)
+    # 6 forward (F1–F6), 7 reverse (R1–R7)
+    assert len(fwd_names) == 6
+    assert len(rev_names) == 7
+    # Primary pair maps correctly.
+    assert fwd_names[assay.oligos.forward.matching_seq] == "F1"
+    assert rev_names[assay.oligos.reverse.matching_seq] == "R1"
+    # Every value is a non-empty name string.
+    assert all(v for v in fwd_names.values())
+    assert all(v for v in rev_names.values())
