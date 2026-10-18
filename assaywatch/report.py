@@ -726,7 +726,7 @@ def build(
     # the spans the nested check needs are read for those and no others.
     from assaywatch.nested import families
 
-    rounds = {i for v in families(list(assays)).values() for i in v}
+    rounds = {i for v in families(assays).values() for i in v}
     calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds))
     dates = read_dates(retrieved)
     run_date = run_date or calls_path.parent.name

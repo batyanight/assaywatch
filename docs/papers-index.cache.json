@@ -16,10 +16,10 @@
   "year": 2025
  },
  "10.1002/jmv.10465": {
-  "first_author": "S\u00e1nchez\u2010Seco",
+  "first_author": "Sánchez‐Seco",
   "journal": "Journal of Medical Virology",
   "n_authors": 6,
-  "title": "Detection and identification of Toscana and other phleboviruses by RT\u2010nested\u2010PCR assays with degenerated primers",
+  "title": "Detection and identification of Toscana and other phleboviruses by RT‐nested‐PCR assays with degenerated primers",
   "volume": "71",
   "year": 2003
  },
@@ -30,7 +30,7 @@
    "Coward",
    "Mynn",
    "Cooper",
-   "Agyeman\u2010Dua",
+   "Agyeman‐Dua",
    "Skinner",
    "Ross",
    "Hansen",
@@ -71,7 +71,7 @@
   "year": 1998
  },
  "10.1007/s00436-010-1945-4": {
-  "first_author": "Kutkien\u0117",
+  "first_author": "Kutkienė",
   "journal": "Parasitology Research",
   "n_authors": 4,
   "title": "The mallard duck (Anas platyrhynchos) as intermediate host for Sarcocystis wobeseri sp. nov. from the barnacle goose (Branta leucopsis)",
@@ -90,7 +90,7 @@
   "year": 2017
  },
  "10.1007/s00436-020-06887-x": {
-  "first_author": "Renter\u00eda-Sol\u00eds",
+  "first_author": "Rentería-Solís",
   "journal": "Parasitology Research",
   "n_authors": 4,
   "title": "A SYBR green I real-time polymerase chain reaction (PCR) assay for detection and quantification of Trichomonas gallinae",
@@ -185,10 +185,10 @@
   "authors": [
    "Pacheco",
    "Cepeda",
-   "Bernotien\u0117",
+   "Bernotienė",
    "Lotta",
    "Matta",
-   "Valki\u016bnas",
+   "Valkiūnas",
    "Escalante"
   ],
   "first_author": "Pacheco",
@@ -199,22 +199,32 @@
  "10.1016/j.ijppaw.2019.05.002": {
   "authors": [
    "Lotta",
-   "Valki\u016bnas",
+   "Valkiūnas",
    "Pacheco",
    "Escalante",
-   "Hern\u00e1ndez",
+   "Hernández",
    "Matta"
   ],
   "first_author": "Lotta",
   "title": "Disentangling Leucocytozoon parasite diversity in the neotropics: Descriptions of two new species and shortcomings of molecular diagnostics for leucocytozoids",
   "year": 2019
  },
+ "10.1016/j.jip.2005.10.012": {
+  "authors": [
+   "Klee",
+   "Tek Tay",
+   "Paxton"
+  ],
+  "first_author": "Klee",
+  "title": "Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences",
+  "year": 2006
+ },
  "10.1016/j.jip.2007.06.002": {
   "authors": [
    "Higes",
-   "Mart\u00edn-Hern\u00e1ndez",
-   "Garrido-Bail\u00f3n",
-   "Garc\u00eda-Palencia",
+   "Martín-Hernández",
+   "Garrido-Bailón",
+   "García-Palencia",
    "Meana"
   ],
   "first_author": "Higes",
@@ -237,15 +247,15 @@
   "authors": [
    "Strand",
    "Jinnerot",
-   "Asp\u00e1n",
+   "Aspán",
    "Viljamaa-Dirks",
    "Heinikainen",
-   "Rol\u00e9n",
-   "Vr\u00e5lstad"
+   "Rolén",
+   "Vrålstad"
   ],
   "first_author": "Strand",
   "journal": "Journal of Invertebrate Pathology",
-  "title": "Molecular detection of Aphanomyces astaci \u2013 An improved species specific qPCR assay",
+  "title": "Molecular detection of Aphanomyces astaci – An improved species specific qPCR assay",
   "year": 2023
  },
  "10.1016/j.jviromet.2004.05.018": {
@@ -265,7 +275,7 @@
   "year": 2004
  },
  "10.1016/j.jviromet.2006.03.008": {
-  "first_author": "V\u00e1zquez-Mor\u00f3n",
+  "first_author": "Vázquez-Morón",
   "journal": "Journal of Virological Methods",
   "n_authors": 3,
   "title": "RT-PCR for detection of all seven genotypes of Lyssavirus genus",
@@ -332,7 +342,7 @@
   "authors": [
    "Dalton",
    "Ringleb",
-   "Mart\u00edn Alonso",
+   "Martín Alonso",
    "Parra"
   ],
   "first_author": "Dalton",
@@ -410,14 +420,14 @@
  },
  "10.1016/j.jviromet.2016.07.026": {
   "authors": [
-   "V\u00e1zquez",
+   "Vázquez",
    "Herrero",
    "Negredo",
-   "Hern\u00e1ndez",
-   "S\u00e1nchez-Seco",
+   "Hernández",
+   "Sánchez-Seco",
    "Tenorio"
   ],
-  "first_author": "V\u00e1zquez",
+  "first_author": "Vázquez",
   "journal": "Journal of Virological Methods",
   "title": "Real time PCR assay for detection of all known lineages of West Nile virus",
   "year": 2016
@@ -436,11 +446,11 @@
  },
  "10.1016/j.jviromet.2017.02.017": {
   "authors": [
-   "\u010cern\u00edkov\u00e1",
-   "Vit\u00e1skov\u00e1",
+   "Černíková",
+   "Vitásková",
    "Nagy"
   ],
-  "first_author": "\u010cern\u00edkov\u00e1",
+  "first_author": "Černíková",
   "journal": "Journal of Virological Methods",
   "title": "Development and evaluation of TaqMan real-time PCR assay for detection of beak and feather disease virus",
   "year": 2017
@@ -448,8 +458,8 @@
  "10.1016/j.jviromet.2019.113709": {
   "authors": [
    "Kwit",
-   "Osi\u0144ski",
-   "Rze\u017cutka"
+   "Osiński",
+   "Rzeżutka"
   ],
   "first_author": "Kwit",
   "journal": "Journal of Virological Methods",
@@ -472,10 +482,10 @@
    "Groch",
    "Taniwaki",
    "Favero",
-   "Brand\u00e3o",
-   "D\u00edaz-Delgado",
-   "Fern\u00e1ndez",
-   "Cat\u00e3o-Dias",
+   "Brandão",
+   "Díaz-Delgado",
+   "Fernández",
+   "Catão-Dias",
    "Sierra"
   ],
   "first_author": "Groch",
@@ -494,7 +504,7 @@
    "Dishon",
    "David",
    "Evensen",
-   "Munang\u2019andu"
+   "Munang’andu"
   ],
   "first_author": "Chengula",
   "journal": "Journal of Virological Methods",
@@ -565,14 +575,14 @@
  },
  "10.1016/j.vetmic.2008.12.022": {
   "authors": [
-   "Vr\u00e5lstad",
+   "Vrålstad",
    "Knutsen",
    "Tengs",
    "Holst-Jensen"
   ],
-  "first_author": "Vr\u00e5lstad",
+  "first_author": "Vrålstad",
   "journal": "Veterinary Microbiology",
-  "title": "A quantitative TaqMan\u00ae MGB real-time polymerase chain reaction based assay for detection of the causative agent of crayfish plague Aphanomyces astaci",
+  "title": "A quantitative TaqMan® MGB real-time polymerase chain reaction based assay for detection of the causative agent of crayfish plague Aphanomyces astaci",
   "year": 2009
  },
  "10.1016/j.vetmic.2010.05.042": {
@@ -596,11 +606,11 @@
    "Rubio-Guerri",
    "Melero",
    "Rivera-Arroyo",
-   "Belli\u00e8re",
+   "Bellière",
    "Crespo",
-   "Garc\u00eda-P\u00e1rraga",
-   "Esper\u00f3n",
-   "S\u00e1nchez-Vizca\u00edno"
+   "García-Párraga",
+   "Esperón",
+   "Sánchez-Vizcaíno"
   ],
   "first_author": "Rubio-Guerri",
   "journal": "Veterinary Microbiology",
@@ -635,7 +645,7 @@
    "Schares",
    "Maksimov",
    "Basso",
-   "Mor\u00e9",
+   "Moré",
    "Dubey",
    "Rosenthal",
    "Majzoub",
@@ -691,7 +701,7 @@
   "year": 1998
  },
  "10.1016/s0166-0934(01)00306-8": {
-  "first_author": "S\u00e1nchez-Seco",
+  "first_author": "Sánchez-Seco",
   "journal": "Journal of Virological Methods",
   "n_authors": 5,
   "title": "A generic nested-RT-PCR followed by sequencing for detection and identification of members of the alphavirus genus",
@@ -758,9 +768,9 @@
    "Schrimpf",
    "Theissinger",
    "Kortet",
-   "Mart\u00edn-Torrijos",
+   "Martín-Torrijos",
    "Sandoval-Sierra",
-   "Di\u00e9guez-Uribeondo",
+   "Diéguez-Uribeondo",
    "Kokko"
   ],
   "first_author": "Makkonen",
@@ -772,7 +782,7 @@
   "first_author": "Kulesh",
   "journal": "Laboratory Investigation",
   "n_authors": 17,
-  "title": "Monkeypox virus detection in rodents using real-time 3\u2032-minor groove binder TaqMan\u00ae assays on the Roche LightCycler",
+  "title": "Monkeypox virus detection in rodents using real-time 3′-minor groove binder TaqMan® assays on the Roche LightCycler",
   "volume": "84",
   "year": 2004
  },
@@ -985,7 +995,7 @@
   "year": 1999
  },
  "10.1099/jmm.0.061820-0": {
-  "first_author": "Garc\u00eda",
+  "first_author": "García",
   "journal": "Journal of Medical Microbiology",
   "n_authors": 8,
   "title": "Molecular epidemiology and genetic diversity of Entamoeba species in a chelonian collection",
@@ -1008,14 +1018,14 @@
  },
  "10.1099/jmm.0.46335-0": {
   "authors": [
-   "M\u00e9nard",
+   "Ménard",
    "Clerc",
    "Subtil",
-   "M\u00e9graud",
-   "B\u00e9b\u00e9ar",
+   "Mégraud",
+   "Bébéar",
    "de Barbeyrac"
   ],
-  "first_author": "M\u00e9nard",
+  "first_author": "Ménard",
   "journal": "Journal of Medical Microbiology",
   "title": "Development of a real-time PCR for the detection of Chlamydia psittaci",
   "year": 2006
@@ -1065,18 +1075,18 @@
   "first_author": "Pallister",
   "journal": "Journal of Fish Diseases",
   "n_authors": 6,
-  "title": "Development of real\u2010time PCR assays for the detection and differentiation of Australian and European ranaviruses",
+  "title": "Development of real‐time PCR assays for the detection and differentiation of Australian and European ranaviruses",
   "volume": "30",
   "year": 2007
  },
  "10.1111/j.1365-2761.2009.01066.x": {
   "authors": [
-   "Fujiwara\u2010Nagata",
+   "Fujiwara‐Nagata",
    "Eguchi"
   ],
-  "first_author": "Fujiwara\u2010Nagata",
+  "first_author": "Fujiwara‐Nagata",
   "journal": "Journal of Fish Diseases",
-  "title": "Development and evaluation of a loop\u2010mediated isothermal amplification assay for rapid and simple detection of Flavobacterium psychrophilum",
+  "title": "Development and evaluation of a loop‐mediated isothermal amplification assay for rapid and simple detection of Flavobacterium psychrophilum",
   "year": 2009
  },
  "10.1111/j.1750-2659.2010.00149.x": {
@@ -1095,7 +1105,7 @@
    "Brown"
   ],
   "first_author": "Slomka",
-  "title": "Original Article: Real time reverse transcription (RRT)\u2010polymerase chain reaction (PCR) methods for detection of pandemic (H1N1) 2009 influenza virus and European swine influenza A virus infections in pigs",
+  "title": "Original Article: Real time reverse transcription (RRT)‐polymerase chain reaction (PCR) methods for detection of pandemic (H1N1) 2009 influenza virus and European swine influenza A virus infections in pigs",
   "year": 2010
  },
  "10.1111/tbed.12607": {
@@ -1106,8 +1116,8 @@
    "de Llano",
    "Martin Alonso",
    "de los Toyos",
-   "Garc\u00eda Oca\u00f1a",
-   "V\u00e1zquez-Villa",
+   "García Ocaña",
+   "Vázquez-Villa",
    "Velasco",
    "Landeta",
    "Parra"
@@ -1157,7 +1167,7 @@
   "year": 2000
  },
  "10.1128/aem.00270-07": {
-  "first_author": "Marti\u0301n-Herna\u0301ndez",
+  "first_author": "Martín-Hernández",
   "journal": "Applied and Environmental Microbiology",
   "n_authors": 6,
   "title": "Outcome of Colonization of Apis mellifera by Nosema ceranae",
@@ -1194,7 +1204,7 @@
    "Johansson",
    "Galama",
    "Kissing",
-   "B\u00f6lske",
+   "Bölske",
    "van der Logt",
    "Melchers"
   ],
@@ -1230,7 +1240,7 @@
   "year": 2003
  },
  "10.1128/cdli.6.2.243-246.1999": {
-  "first_author": "Mu\u0308ller",
+  "first_author": "Müller",
   "journal": "Clinical Diagnostic Laboratory Immunology",
   "n_authors": 8,
   "title": "A Powerful DNA Extraction Method and PCR for Detection of Microsporidia in Clinical Stool Specimens",
@@ -1502,7 +1512,7 @@
    "Singh Panwar",
    "Murthy",
    "Klop-Toker",
-   "Ib\u00e1\u00f1ez",
+   "Ibáñez",
    "Illueca",
    "Webb",
    "Govindappa",
@@ -1576,6 +1586,21 @@
   "volume": "32",
   "year": 2020
  },
+ "10.1186/1743-422X-6-210": {
+  "authors": [
+   "Deckers",
+   "Hofmann",
+   "Kreuzer",
+   "Reinhard",
+   "Edubio",
+   "Hengel",
+   "Voigt",
+   "Ehlers"
+  ],
+  "first_author": "Deckers",
+  "title": "High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR",
+  "year": 2009
+ },
  "10.1186/1743-422x-11-144": {
   "first_author": "Uccellini",
   "journal": "Virology Journal",
@@ -1612,7 +1637,7 @@
   "authors": [
    "Kolesnik",
    "Hyndman",
-   "M\u00fcller",
+   "Müller",
    "Pees",
    "Marschang"
   ],
@@ -1625,13 +1650,13 @@
    "Kirillova",
    "Prakas",
    "Calero-Bernal",
-   "Gavar\u0101ne",
-   "Fern\u00e1ndez-Garc\u00eda",
-   "Mart\u00ednez-Gonz\u00e1lez",
-   "Rudaityt\u0117-Luko\u0161ien\u0117",
-   "Mart\u00ednez-Est\u00e9llez",
+   "Gavarāne",
+   "Fernández-García",
+   "Martínez-González",
+   "Rudaitytė-Lukošienė",
+   "Martínez-Estéllez",
    "Butkauskas",
-   "Kirju\u0161ina"
+   "Kirjušina"
   ],
   "first_author": "Kirillova",
   "journal": "Parasites &amp; Vectors",
@@ -1665,7 +1690,7 @@
   "first_author": "Farias",
   "journal": "PLoS ONE",
   "n_authors": 6,
-  "title": "Taqman Real-Time PCR Detects Avipoxvirus DNA in Blood of Hawa\u00eci `Amakihi (Hemignathus virens)",
+  "title": "Taqman Real-Time PCR Detects Avipoxvirus DNA in Blood of Hawaìi `Amakihi (Hemignathus virens)",
   "volume": "5",
   "year": 2010
  },
@@ -1771,7 +1796,7 @@
  },
  "10.15654/tpk-140743": {
   "first_author": "Aqrawi",
-  "journal": "Tier\u00e4rztliche Praxis Ausgabe K: Kleintiere / Heimtiere",
+  "journal": "Tierärztliche Praxis Ausgabe K: Kleintiere / Heimtiere",
   "n_authors": 6,
   "title": "Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo",
   "volume": "43",
@@ -1802,7 +1827,7 @@
  "10.1638/2020-0078": {
   "authors": [
    "Salzmann",
-   "M\u00fcller",
+   "Müller",
    "Marschang"
   ],
   "first_author": "Salzmann",
@@ -1848,7 +1873,7 @@
   ],
   "first_author": "Stadhouders",
   "journal": "The Journal of Molecular Diagnostics",
-  "title": "The Effect of Primer-Template Mismatches on the Detection and Quantification of Nucleic Acids Using the 5\u2032 Nuclease Assay",
+  "title": "The Effect of Primer-Template Mismatches on the Detection and Quantification of Nucleic Acids Using the 5′ Nuclease Assay",
   "year": 2010
  },
  "10.2460/javma.239.12.1584": {
@@ -1871,7 +1896,7 @@
   "first_author": "McAloose",
   "journal": "Diseases of Aquatic Organisms",
   "n_authors": 19,
-  "title": "Post-mortem findings in southern right whales Eubalaena australis at Pen\u00ednsula Vald\u00e9s, Argentina, 2003-2012",
+  "title": "Post-mortem findings in southern right whales Eubalaena australis at Península Valdés, Argentina, 2003-2012",
   "volume": "119",
   "year": 2016
  },
@@ -2040,7 +2065,7 @@
    "Bartolini",
    "Fogelson",
    "Perry",
-   "St\u00f6hr",
+   "Stöhr",
    "Cross",
    "Wellehan",
    "Jacobson",
@@ -2052,7 +2077,7 @@
   "year": 2019
  },
  "10.3390/jof7040258": {
-  "first_author": "Lastra Gonz\u00e1lez",
+  "first_author": "Lastra González",
   "journal": "Journal of Fungi",
   "n_authors": 4,
   "title": "Dual Detection of the Chytrid Fungi Batrachochytrium spp. with an Enhanced Environmental DNA Approach",
@@ -2063,19 +2088,19 @@
   "first_author": "Rossi",
   "journal": "Microorganisms",
   "n_authors": 4,
-  "title": "Selection and Multiplexing of Reverse Transcription\u2013Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens",
+  "title": "Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens",
   "volume": "12",
   "year": 2024
  },
  "10.3390/microorganisms12071467": {
   "authors": [
    "Marini",
-   "Szczygie\u0142",
+   "Szczygieł",
    "Kurek",
    "Di Nicola",
    "Dorne",
    "Marenzoni",
-   "R\u00fcegg",
+   "Rüegg",
    "Bury",
    "Kiraga"
   ],
@@ -2093,24 +2118,24 @@
  },
  "10.3390/pathogens15070709": {
   "authors": [
-   "Rudaityt\u0117-Luko\u0161ien\u0117",
-   "Kutkien\u0117",
-   "\u0160va\u017eas",
+   "Rudaitytė-Lukošienė",
+   "Kutkienė",
+   "Švažas",
    "Butkauskas",
    "Prakas"
   ],
-  "first_author": "Rudaityt\u0117-Luko\u0161ien\u0117",
+  "first_author": "Rudaitytė-Lukošienė",
   "journal": "Pathogens",
-  "title": "Two Decades (2003\u20132024) of Investigating Sarcocystis in Thrushes (Turdus spp.)",
+  "title": "Two Decades (2003–2024) of Investigating Sarcocystis in Thrushes (Turdus spp.)",
   "year": 2026
  },
  "10.3390/pathogens9121038": {
   "authors": [
-   "P\u00e9rez-Ram\u00edrez",
-   "Cano-G\u00f3mez",
+   "Pérez-Ramírez",
+   "Cano-Gómez",
    "Llorente",
    "Vodica",
-   "Veljovi\u0107",
+   "Veljović",
    "Toklikishvilli",
    "Sherifi",
    "Sghaier",
@@ -2124,10 +2149,10 @@
    "Bintarif",
    "Adzic",
    "Abouchoaib",
-   "Jim\u00e9nez-Clavero",
-   "Fern\u00e1ndez-Pinero"
+   "Jiménez-Clavero",
+   "Fernández-Pinero"
   ],
-  "first_author": "P\u00e9rez-Ram\u00edrez",
+  "first_author": "Pérez-Ramírez",
   "title": "Evaluation of West Nile Virus Diagnostic Capacities in Veterinary Laboratories of the Mediterranean and Black Sea Regions",
   "year": 2020
  },
@@ -2140,14 +2165,14 @@
    "Couacy-Hymann",
    "Fischer",
    "Gedvilaite",
-   "Ingenh\u00fctt",
+   "Ingenhütt",
    "Liebmann",
    "Martin",
    "Mossoun",
    "Mugisha",
    "Muyembe-Tamfum",
    "Pauly",
-   "P\u00e9rez de Val",
+   "Pérez de Val",
    "Preugschas",
    "Richter",
    "Schubert",
@@ -2196,7 +2221,7 @@
   "first_author": "Abade dos Santos",
   "journal": "Viruses",
   "n_authors": 5,
-  "title": "A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen\u00ae or Taqman\u00ae Technologies",
+  "title": "A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen® or Taqman® Technologies",
   "volume": "13",
   "year": 2021
  },
@@ -2220,7 +2245,7 @@
    "Purpari",
    "Cannella",
    "Chiaramonte",
-   "Schir\u00f2",
+   "Schirò",
    "Castronovo",
    "Guercio"
   ],
@@ -2238,7 +2263,7 @@
  },
  "10.3390/v13101975": {
   "authors": [
-   "Drzewniokov\u00e1",
+   "Drzewnioková",
    "Festa",
    "Panzarin",
    "Lelli",
@@ -2247,7 +2272,7 @@
    "De Benedictis",
    "Leopardi"
   ],
-  "first_author": "Drzewniokov\u00e1",
+  "first_author": "Drzewnioková",
   "title": "Best Molecular Tools to Investigate Coronavirus Diversity in Mammals: A Comparison",
   "year": 2021
  },
@@ -2312,7 +2337,7 @@
    "Muller",
    "Lorch",
    "Lindner",
-   "O\u2019Connor",
+   "O’Connor",
    "Gargas",
    "Blehert"
   ],
@@ -2322,7 +2347,7 @@
   "year": 2013
  },
  "10.4269/ajtmh.2011.11-0248": {
-  "first_author": "J\u00f6st",
+  "first_author": "Jöst",
   "journal": "The American Society of Tropical Medicine and Hygiene",
   "n_authors": 9,
   "title": "Isolation of Usutu Virus in Germany",

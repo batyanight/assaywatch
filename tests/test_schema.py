@@ -216,3 +216,19 @@ def test_oligos_designed_here_is_nullable_and_defaults_to_unknown():
     assert Citation().oligos_designed_here is None
     assert Citation(oligos_designed_here=False).oligos_designed_here is False
     assert Citation(oligos_designed_here=True).oligos_designed_here is True
+
+
+def test_a_declared_range_replaces_the_scalar_size_and_never_joins_it():
+    """ORTHOPOXVIRUS ATI reads species off product LENGTH, 540-1700 bp.
+
+    A scalar cannot gate that, and before `amplicon_bp_range` it was the one
+    entry `declared_tolerance` left unconstrained.
+    """
+    ok = Assay.model_validate(variant(amplicon_bp=None, amplicon_bp_range=[540, 1700]))
+    assert ok.amplicon_bp_range == [540, 1700]
+    with pytest.raises(ValidationError, match="not both"):
+        Assay.model_validate(variant(amplicon_bp=800, amplicon_bp_range=[540, 1700]))
+    with pytest.raises(ValidationError, match="ascend"):
+        Assay.model_validate(variant(amplicon_bp=None, amplicon_bp_range=[1700, 540]))
+    with pytest.raises(ValidationError):
+        Assay.model_validate(variant(amplicon_bp=None, amplicon_bp_range=[540, 99999]))

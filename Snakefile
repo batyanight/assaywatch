@@ -35,6 +35,14 @@ from pathlib import Path
 from assaywatch.collect import concatenate_screens, stem_order
 from assaywatch.assemblies import cut_parameters
 from assaywatch.retrieve import targets_from_registry
+from assaywatch.timing import (
+    RunManifest,
+    clear_run_marker,
+    heartbeat,
+    resolve_run_date,
+    screening_progress,
+    write_run_marker,
+)
 from assaywatch.triggers import source_names
 from assaywatch.validate import iter_files
 
@@ -45,8 +53,23 @@ RETRIEVED = Path(config.get("retrieved_dir", "data/retrieved"))
 RESULTS = Path(config.get("results_dir", "results"))
 SCREENED = RESULTS / "screened"
 REGISTRY = config.get("registry_dir", "registry")
-TODAY = date.today().isoformat()
-RUN_DATE = config.get("run_date") or TODAY  # names the report folder only
+# The run's date is pinned ONCE and reused by every later process of the same
+# run, including a resume after a failure (assaywatch/timing.py explains the
+# resolution order). It used to be `date.today()` evaluated here, which is a
+# bug with a two-hour fuse: the 2026-10-17 run started at 22:49, crossed
+# midnight, re-fired retrieval against the new date and wrote
+# data/retrieved/runs/2026-10-18.json while the targets still pointed at
+# results/2026-10-17/. Every screen was cached and correct; the run failed on
+# a MissingOutputException anyway.
+_STATE_DIR = Path(workflow.basedir) / ".snakemake"
+# Read-only at parse time: this code also runs on `snakemake -n`, and a dry run
+# must not pin a date. The marker is written in `onstart`, which Snakemake does
+# not fire on a dry run.
+RUN_DATE, RUN_DATE_REASON = resolve_run_date(config, _STATE_DIR)
+# Retrieval's run record is named for the SAME pinned date, so a fetch that
+# starts before midnight and finishes after it stays one run record instead of
+# starting a second one halfway through.
+TODAY = RUN_DATE
 SCREEN_MB_PER_THREAD = config.get("screen_mb_per_thread", 25)  # gzipped MB per screening worker
 THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
 
@@ -136,6 +159,12 @@ _DEGENERACY_PARAMS = {
     "code": _package_hash(*source_names("degeneracy")),
     "inputs": _registry_and_config_hash("degeneracy"),
 }
+_SITEDRIFT_PARAMS = {
+    "code": _package_hash(*source_names("sitedrift")),
+    # The site report selects which assays to describe by drift status, so a
+    # change to the drift settings changes its contents as well as the report's.
+    "inputs": _registry_and_config_hash("drift", "sitedrift", "scoring", "amplicon"),
+}
 
 
 wildcard_constraints:
@@ -148,10 +177,83 @@ wildcard_constraints:
 localrules: retrieve
 
 
+# --------------------------------------------------------------------------
+# Wall-clock instrumentation.
+#
+# The 2026-10-17 run could not be monitored: Snakemake's "N of 249 steps"
+# weights a one-second validate the same as a 24,000-record poxvirus screen, so
+# the percentage sat near 99% through the slow part, and `pgrep`/`ps` were
+# unavailable in the sandbox, so "is it alive" had no answer except watching a
+# directory grow by hand.
+#
+# The manifest records stage wall times and survives a crash (it is rewritten
+# after every change). The heartbeat answers "alive?" and "stuck?" from a file,
+# and carries a size-weighted ETA rather than a step count.
+#
+# None of this touches the screening code or its imports, so the screen cache
+# is unaffected: instrumenting `screen.py` would change `_code_hash` and
+# rescreen all 246 archives to gain a log line.
+# --------------------------------------------------------------------------
+
+_MANIFEST = RunManifest(
+    run_date=RUN_DATE,
+    run_date_reason=RUN_DATE_REASON,
+    path=RESULTS / RUN_DATE / "run-timing.json",
+)
+# A dict rather than a module-level name, because the onstart/onsuccess blocks
+# are executed as separate code objects and rebinding a bare global from inside
+# one of them is not reliable across Snakemake versions.
+_HB = {}
+
+
+onstart:
+    # Pin the date now, not at parse time: a real run has started, so the folder
+    # is decided and a later process of the same run must reuse it.
+    write_run_marker(RUN_DATE, _STATE_DIR)
+    (RESULTS / RUN_DATE).mkdir(parents=True, exist_ok=True)
+    Path(".tmp").mkdir(exist_ok=True)
+    _MANIFEST.start_stage("workflow")
+    _HB["stop"] = heartbeat(
+        Path(".tmp") / f"heartbeat-{RUN_DATE}.json",
+        screening_progress(RETRIEVED, SCREENED),
+        interval=float(config.get("heartbeat_seconds", 60)),
+        stall_after=float(config.get("stall_seconds", 900)),
+    )
+    print(
+        f"[assaywatch] run {RUN_DATE} ({RUN_DATE_REASON}); "
+        f"heartbeat .tmp/heartbeat-{RUN_DATE}.json; "
+        f"timing {RESULTS / RUN_DATE / 'run-timing.json'}"
+    )
+
+
+onsuccess:
+    if _HB.get("stop"):
+        _HB["stop"]()
+    _MANIFEST.end_stage("workflow")
+    _MANIFEST.finish("success")
+    # Only a SUCCESSFUL run clears the pin. After a failure the marker is left
+    # so the next invocation is treated as a resume and writes to the same
+    # folder instead of starting a second one.
+    clear_run_marker(_STATE_DIR)
+    print("\n".join(_MANIFEST.summary_lines()))
+
+
+onerror:
+    if _HB.get("stop"):
+        _HB["stop"]()
+    _MANIFEST.finish("failed")
+    print("\n".join(_MANIFEST.summary_lines()))
+    print(
+        f"[assaywatch] run date {RUN_DATE} stays pinned; rerunning resumes into "
+        f"the same folder."
+    )
+
+
 rule all:
     input:
         RESULTS / RUN_DATE / "report.html",
         RESULTS / RUN_DATE / "degeneracy.tsv",
+        RESULTS / RUN_DATE / "site-drift.md",
 
 
 rule validate:
@@ -253,6 +355,28 @@ rule collect_calls:
         # writing rows by column name, since plain concatenation would shift the
         # older rows a column sideways.
         concatenate_screens(list(input), output[0])
+
+
+rule site_drift:
+    """Which oligo positions are failing, and in which groups of accessions.
+
+    Reads only the calls table the report already depends on, so it adds no
+    screening work. Separate from `report` because it answers a different
+    question (where on the primer, and in which records) and is the slower of
+    the two: it re-reads the calls table keeping the mismatch columns that
+    `report.read_calls` deliberately folds away.
+    """
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+    output:
+        md=RESULTS / RUN_DATE / "site-drift.md",
+        tsv=RESULTS / RUN_DATE / "site-drift.tsv",
+    params:
+        code=_SITEDRIFT_PARAMS["code"],
+        inputs=_SITEDRIFT_PARAMS["inputs"],
+    shell:
+        "python -m assaywatch.sitedrift {input.calls} --registry {REGISTRY} "
+        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
 
 
 rule degeneracy_table:

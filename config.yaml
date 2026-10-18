@@ -334,3 +334,17 @@ drift:
   # non-detection, but also makes a pan-family assay look like it is failing on
   # taxa it never covered. 16 assays change status when it is on.
   count_diverged_as_fail: false
+
+# The per-site drift report (assaywatch/sitedrift.py): for the failing assays,
+# which oligo positions are drifting and in which groups of accessions. It reads
+# the calls table only, so it adds no screening work.
+sitedrift:
+  # A position is shown only when at least this many evaluable records mismatch
+  # there. Below it, the detected-share comparison has an interval too wide to
+  # read, exactly as for min_records_for_drift above — the position is real but
+  # says nothing yet.
+  min_records_for_position: 20
+  # How many footprint groups (records sharing one mismatch pattern) to list per
+  # assay. The tail is long and uninformative — mostly singletons that are
+  # sequencing noise or lone variants — so only the commonest are shown.
+  top_footprints: 8

@@ -149,3 +149,47 @@ Same search, same session: the CMV gB 4007/4125 pairs, cited to Prepens 2007
 but absent from it, were all four found in Deckers et al. 2009 Virol J 6:210
 and re-cited. The query, for next time:
 `https://www.ebi.ac.uk/europepmc/webservices/rest/search?query="<SEQ>"&format=json`.
+
+---
+
+## Closed out, 2026-10-17 (Crossref reachable, contact email available)
+
+All five "Resolved" candidates above are **applied and Crossref-verified** in the registry, as
+are the two Wang 1997 entries from the later update. Checked entry by entry:
+
+| entry | DOI | `doi_verified` |
+|---|---|---|
+| `Pan_Flavivirus_NS5_gene` | `10.1089/vbz.2007.0206` | true |
+| `RETROVIRUS_RNA_polymerase_SIV_2` | `10.1128/JVI.72.12.10305-10309.1998` | true |
+| `E_coli_ETEC_enterotoxin_LT_gen_unnamed_Victor_1991` | `10.1128/jcm.29.1.158-161.1991` | true |
+| `Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001` | `10.1128/JCM.39.6.2248-2253.2001` | true |
+| `Encephalitozoon_18S_General_Encephalitoz_Muller_1999` | `10.1128/CDLI.6.2.243-246.1999` | true |
+| `E_coli_O157_H7_hlyA_gene_unnamed_Wang_1997` + Yersinia sibling | `10.1046/j.1365-2672.1997.00300.x` | true |
+
+`scripts/check_citations.py` reports 182 citations checked, 0 problems.
+
+Two citations were finished on 2026-10-17 using the same route:
+
+- **`NOSEMA_bombi_SSU_Kato_2020` re-cited to Klee 2006**, `10.1016/j.jip.2005.10.012`, verified by
+  `resolve_citations.py`.
+- **Both CMV gB 4007/4125 entries re-cited to Deckers 2009**, `10.1186/1743-422X-6-210`, verified
+  the same way. Their `RECITE_AFTER_CROSSREF_CHECK` flag is cleared. `oligos_designed_here` is null
+  on all three, not true: each cited paper is where the oligos are *printed*, and in both cases it
+  points at an earlier use it does not identify.
+
+### The Müller 2011 CDV quartet: the sequence route is now exhausted
+
+Still unresolved, and no longer for want of trying. All eight walking primers of
+`Canine_distemper_virus_specifi_H_gene_2011` and its three siblings were searched in **NCBI PMC
+full text**, on both strands — a different index from the Europe PMC search recorded above, and
+one that matches strings inside tables the retrievable flattened text drops (proved on the
+Chlamydia primer the same day).
+
+Fifteen of the sixteen searches return nothing. The one hit, `TCCATAATCTGGGATGTTTGAA` in
+PMC4683949 (*Virol J* 2015, `10.1186/s12985-015-0445-7`), is **not** the source: that paper states
+its primer sets were designed de novo with Primer 3 as ~50 bp overlapping sets giving ~1000 bp
+products, cites no Müller and never uses the word "walking", and the registry entry's product is
+563 bp. Two independent designs landing on one conserved 22-mer site is unremarkable.
+
+So both full-text indexes agree the primers are not in the open literature. This needs the paper
+itself or the lab's own records; no further search route is worth spending on.

@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -63,32 +64,62 @@ def family_id(assay_id: str) -> str:
     return ROUND_SUFFIX.sub("", assay_id)
 
 
-def families(assay_ids) -> dict[str, list[str]]:
-    """{family: [assay ids]} for every id base carrying more than one round.
+def _declares_nest(assay: Any) -> bool:
+    """Does this entry say it is part of a nest at all?"""
+    src = getattr(assay, "source", None)
+    if src is None:
+        return False
+    return bool(getattr(src, "nested_round", None) or getattr(src, "nested_family", None))
+
+
+def family_of(assay_id: str, assay: Any = None) -> str:
+    """The nest an entry belongs to: `source.nested_family` if it says, else the id base."""
+    src = getattr(assay, "source", None) if assay is not None else None
+    declared = getattr(src, "nested_family", None) if src is not None else None
+    return declared or family_id(assay_id)
+
+
+def families(assays) -> dict[str, list[str]]:
+    """{family: [assay ids]} for every family carrying more than one round.
 
     Membership is the registry's word, not the geometry. Round 2's amplicon
     lies inside round 1's, which is tempting to detect from the calls table -
     but any two assays targeting one gene nest that way without being one
     protocol, and the data says so: the Tracies adenovirus round 2 sits inside
-    the unrelated Casas hexon amplicon on 5,810 records. So the id base
+    the unrelated Casas hexon amplicon on 5,810 records. So the registry
     declares the family and containment checks it.
+
+    Pass the `{id: assay}` mapping, not a list of ids. Given the mapping, an
+    entry joins a family only if it SAYS it is a round, and a declared
+    `source.nested_family` overrides the id base. Both matter: sharing a base
+    is not the same as being a round of the same protocol, and the 440 bp
+    coronavirus consensus entry proved it by displacing Lan 2010's real round 1
+    and making that nest read as disjoint. A bare iterable of ids is still
+    accepted, and then the id base is all there is to go on.
     """
+    mapping = assays if isinstance(assays, Mapping) else None
     out: dict[str, list[str]] = defaultdict(list)
-    for aid in assay_ids:
-        out[family_id(aid)].append(aid)
+    for aid in assays:
+        assay = mapping.get(aid) if mapping is not None else None
+        if mapping is not None and not _declares_nest(assay):
+            continue
+        out[family_of(aid, assay)].append(aid)
     return {k: sorted(v) for k, v in sorted(out.items()) if len(v) > 1}
 
 
 def unpaired(assays: dict[str, Any]) -> list[str]:
-    """Entries declaring a `source.nested_round` with no sibling by id.
+    """Entries declaring a round that end up in no family.
 
-    15 on 2026-10-14, and they are two different gaps: the Chlamydia nest, whose
-    genus-level round 1 feeds three species-specific round 2 entries on three
-    different taxids, and pairs that simply carry unlike names
-    (`ADENOVIRUS_dsDNA_Polymerase_Primate_speci` with its `_Casas_2005` round 1).
-    Both need a curator to say which entries belong together, so they are listed
-    rather than guessed - a warning that cannot be computed is better missing
-    than invented.
+    15 on 2026-10-14, when the id base was the only key. Most were not missing a
+    sibling at all - the sibling was there under an unlike name, and
+    `source.nested_family` now joins them. What should remain is the genuinely
+    unpartnered: `PROBOSCIVIRUS_POL_Latimer_2010_EEHV6_round2`, whose round 1 is
+    not in the registry, and any round-2 entry whose outer round has not been
+    identified (the two `HANTAVIRUS_ssRNA_S_segment` round 2s, which carry no
+    DOI and whose outer rounds are a curator's call, not a guess).
+
+    Listed rather than guessed: a warning that cannot be computed is better
+    missing than invented.
     """
     grouped = {i for v in families(assays).values() for i in v}
     out = []
@@ -136,6 +167,26 @@ def _order(rounds: list[str], assays: dict[str, Any]) -> tuple[str, str]:
     if pa and pb and pa != pb:
         return (a, b) if pa > pb else (b, a)
     return a, b
+
+
+SITE = re.compile(r"^(\d+)-(\d+)([+-])$")
+
+
+def _three_prime(site: Any) -> int | None:
+    """The 3' end of a primer's binding site, as written by the screener (`2885-2912-`).
+
+    The 3' end is the one that has to anneal: a polymerase extends from the
+    3'-OH, and a primer whose 5' tail hangs off the end of the template primes
+    anyway. On the plus strand that is the higher coordinate, on the minus
+    strand the lower one.
+    """
+    if not site:
+        return None
+    m = SITE.match(str(site).strip())
+    if not m:
+        return None
+    lo, hi, strand = int(m.group(1)), int(m.group(2)), m.group(3)
+    return hi if strand == "+" else lo
 
 
 def _usable(call: str, exclusion: str) -> bool:
@@ -188,12 +239,27 @@ class NestedFamily:
         """Does the inner amplicon actually sit inside the outer one?
 
         None when no record was scored by both rounds. This is the check review
-        3.8 asked for, and it does not pass everywhere: of 21 families with
-        per-record data, three fail it. The coronavirus pair is the clearest -
-        its two amplicons are DISJOINT, about 2.7 kb apart in the RdRp gene
-        (outer 14142-14582, inner 17306-17635 on one record), so whatever the
-        `_round2` suffix says, the inner reaction cannot be running on the
-        outer's product.
+        3.8 asked for, and it does not pass everywhere.
+
+        Every one of the three families reported as non-nesting on 2026-10-14
+        turned out to be a fault in the measurement, not in a protocol. Two
+        were mis-pairings by the id base: the coronavirus "disjoint" finding
+        came from pairing Lan 2010's round 2 with the unrelated 440 bp
+        consensus entry sharing its id base, and the CMV gB one from pairing
+        Deckers' round 1 with Prepens' round 2. `source.nested_family` exists
+        so that cannot recur.
+
+        The third, `ENTEROVIRUS_ssRNA_VP3_VP1`, was correctly paired and failed
+        on the criterion itself: the rounds share their reverse SITE and round
+        2's primer is 8 nt longer at its 5' end, so its amplicon ended exactly
+        8 bp past round 1's on 3,722 of 3,808 records while priming from the
+        identical base. Asking where the inner primers extend FROM, rather than
+        where their amplicon would end, reads it as the nest it is.
+
+        On the 2026-10-15 calls all 26 families with per-record data now nest,
+        and nothing fails. That is not the check going quiet: it still fails a
+        pair whose inner primers land outside the outer product, which is what
+        a reader should want it to mean.
         """
         c = self.containment.get((self.outer, self.inner))
         if not c or not c[1]:
@@ -263,11 +329,13 @@ def assess(assays: dict[str, Any], calls) -> dict[str, NestedFamily]:
     """Per-record nested coverage for every two-round family in the registry.
 
     `calls` is any iterable of screen rows (`assay_id`, `record_id`, `call`,
-    optionally `exclusion`, `amplicon_start`, `amplicon_end`). Families with
+    optionally `exclusion`, `amplicon_start`, `amplicon_end`, `fwd_site`,
+    `rev_site`). Containment uses the inner round's binding sites and falls
+    back to its amplicon span only where sites were never written. Families with
     more than two rounds are grouped and counted but get no nested share: which
     round feeds which is a protocol fact the ids do not carry.
     """
-    fams = {k: NestedFamily(k, v) for k, v in families(list(assays)).items()}
+    fams = {k: NestedFamily(k, v) for k, v in families(assays).items()}
     member = {i: k for k, f in fams.items() for i in f.rounds}
     for f in fams.values():
         if len(f.rounds) == 2:
@@ -289,23 +357,43 @@ def assess(assays: dict[str, Any], calls) -> dict[str, NestedFamily]:
                 row.get("exclusion") or "",
                 row.get("amplicon_start"),
                 row.get("amplicon_end"),
+                row.get("fwd_site"),
+                row.get("rev_site"),
             )
     for by_assay in per.values():
         for fam in fams.values():
             if not fam.outer or fam.outer not in by_assay or fam.inner not in by_assay:
                 continue
-            (oc, ox, os_, oe), (ic, ix, is_, ie) = by_assay[fam.outer], by_assay[fam.inner]
+            (oc, ox, os_, oe, _, _), (ic, ix, is_, ie, ifs, irs) = (
+                by_assay[fam.outer],
+                by_assay[fam.inner],
+            )
             if not (_usable(oc, ox) and _usable(ic, ix)):
                 continue
             fam.records += 1
             fam.outer_detected += oc in DETECTED
             fam.inner_detected += ic in DETECTED
             fam.both_detected += oc in DETECTED and ic in DETECTED
-            if all(v not in (None, "") for v in (os_, oe, is_, ie)):
-                os_, oe, is_, ie = int(os_), int(oe), int(is_), int(ie)
-                inside, total = fam.containment.get((fam.outer, fam.inner), (0, 0))
-                fam.containment[(fam.outer, fam.inner)] = (
-                    inside + (os_ <= is_ and ie <= oe),
-                    total + 1,
-                )
+            if os_ in (None, "") or oe in (None, ""):
+                continue
+            os_, oe = int(os_), int(oe)
+            # The inner reaction runs on the outer PRODUCT, so what has to lie
+            # inside it is where the inner primers EXTEND FROM, not the span
+            # they would make on an uncut template. Comparing amplicon spans
+            # instead failed the enterovirus VP3/VP1 pair on 3,722 of 3,808
+            # records for no biological reason: the two rounds share the
+            # reverse site, and round 2's primer is 8 nt longer at its 5' end,
+            # so its amplicon ends exactly 8 bp past round 1's while priming
+            # from the identical base.
+            f3, r3 = _three_prime(ifs), _three_prime(irs)
+            if f3 is not None and r3 is not None:
+                inside = os_ <= f3 <= oe and os_ <= r3 <= oe
+            elif is_ not in (None, "") and ie not in (None, ""):
+                # Calls written before the screener recorded binding sites.
+                # The span test is stricter and is all there is to go on.
+                inside = os_ <= int(is_) and int(ie) <= oe
+            else:
+                continue
+            seen, total = fam.containment.get((fam.outer, fam.inner), (0, 0))
+            fam.containment[(fam.outer, fam.inner)] = (seen + inside, total + 1)
     return fams

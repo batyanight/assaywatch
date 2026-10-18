@@ -35,6 +35,7 @@ source:
   rows: null
   positive_control: null
   nested_round: round2
+  nested_family: CHLAMYDIA_16S_Messmer_1997
   notes: null
   notes_curator: 'Added 2026-10-06. OLIGOS READ FROM THE PAPER''S METHODS (p. 2044, ''Genus-specific first-step primers''
     and ''Species-specific second-step primers'' paragraphs) and CHECKED BY EYE against a 300-dpi render of that page made

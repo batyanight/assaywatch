@@ -16,6 +16,9 @@ oligos:
     seq: CTTAACTTTTTCTTTCTC
   alternates: []
 amplicon_bp: null
+amplicon_bp_range:
+- 540
+- 1700
 citation:
   doi: 10.1016/S0166-0934(96)02155-6
   design_year: 1996
@@ -56,7 +59,7 @@ source:
     nt window of either primer occurs in existing poxvirus entries. SCOPE: genus-wide; interpret results by species, not by
     genus-wide share.'
 needs_review:
-- AMPLICON_SPECIES_DEPENDENT_510_TO_1700_NO_SINGLE_VALUE_AMPLICON_BP_NULL
+- AMPLICON_SPECIES_DEPENDENT_540_TO_1700_DECLARED_AS_AMPLICON_BP_RANGE
 - DIFFERENTIATION_ASSAY_SIZE_AND_XBAI_DIGEST_NOT_SCREENABLE
 - PAPER_SIZES_NOT_REPRODUCED_MONKEYPOX_1500_VOLEPOX_510_SKUNKPOX_530
 - PRIMER_ORIGIN_MEYER_1994_NOT_ESTABLISHED

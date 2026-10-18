@@ -32,6 +32,7 @@ source:
   - 490
   positive_control: null
   nested_round: round2
+  nested_family: CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Prepens_2007
   notes: null
   notes_curator: 'BOTH PRIMERS VERIFY EXACT against Prepens et al. 2007, confirmed 2026-10-05: they are that paper''s CM-gB round 2 pair, 2744s and 2745as, nesting inside the round 1 pair held by CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Virol_2007_round1. Reading them needed a fix to scripts/verify_oligos_against_paper.py, because the paper spells ambiguous positions out as the literal string (N/I), "N or inosine" - 2745as is printed CGTTGTCCTC(N/I)CC(N/I)ARYTG(N/I)CC - and until that was normalised both primers reported absent. The registry''s N at those positions is the correct reading. BUT THE AMPLICON DISAGREES: this entry stores 230, and the paper says 250 in BOTH places it states a round 2 length - Table 3 (footnoted "approximate values") and the Figure 1 legend ("...320 bp and 250 bp, respectively"). So 230 matches neither. The round 1 sibling differs by a different amount and agrees with the figure (see its note), so these are not one spreadsheet error. NOT CHANGED: this registry measures amplicons on real records rather than quoting them, no sequence database was reachable here, and the precedent cuts against simply believing the paper - the avipox entry measured an invariant 250 bp against a stated 234 and the measurement won. Run both CM-gB pairs against real cytomegalovirus UL55 records and correct each entry on what it measures.'
 needs_review:

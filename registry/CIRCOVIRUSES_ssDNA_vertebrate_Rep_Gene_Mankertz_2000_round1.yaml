@@ -34,6 +34,7 @@ source:
   - 351
   positive_control: null
   nested_round: round1
+  nested_family: CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000
   notes:
   - '****DID NOT PICK UP FINCH CIRCOVIRUS***'
   notes_curator: 'Primer 174 checked against Mankertz et al. 2000 (Arch Virol 145:2469) on 2026-10-04: the

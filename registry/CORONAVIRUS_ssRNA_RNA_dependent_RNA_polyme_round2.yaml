@@ -37,6 +37,7 @@ source:
   - 374
   positive_control: Coronavirus Plasmid or Universal control 1
   nested_round: round2
+  nested_family: CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010
   notes: null
   notes_curator: 'PREDICT panel protocol P-005 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Quan, P.L. et al (2010).'
 needs_review: null

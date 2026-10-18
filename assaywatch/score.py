@@ -653,10 +653,16 @@ def screen_one(
     # extension time, probe geometry and efficiency all belong to something else.
     tol = cfg["amplicon"].get("declared_tolerance")
     lo_bp, hi_bp = int(amp["min_bp"]), int(amp["max_bp"])
-    if assay.amplicon_bp and tol is not None:
+    # An assay may declare a point size or, where its product size is genuinely
+    # a range it is designed to read apart, two ends. The tolerance applies
+    # outward from each end either way.
+    declared = getattr(assay, "amplicon_bp_range", None) or (
+        [assay.amplicon_bp, assay.amplicon_bp] if assay.amplicon_bp else None
+    )
+    if declared and tol is not None:
         tol = float(tol)
-        lo_bp = max(lo_bp, int(assay.amplicon_bp * (1 - tol)))
-        hi_bp = min(hi_bp, int(assay.amplicon_bp * (1 + tol)))
+        lo_bp = max(lo_bp, int(declared[0] * (1 - tol)))
+        hi_bp = min(hi_bp, int(declared[1] * (1 + tol)))
     # The chance guard has to ask its question about the window this screen will
     # actually accept. Left at the global range it counts reverse-primer offsets
     # the size filter has already ruled out, overstating E by the ratio of the

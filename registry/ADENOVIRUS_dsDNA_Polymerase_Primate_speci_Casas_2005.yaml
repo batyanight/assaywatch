@@ -36,6 +36,7 @@ source:
   - 281
   positive_control: null
   nested_round: round1
+  nested_family: ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005
   notes: null
   notes_curator: 'SOURCE FOUND AND RE-CITED 2026-10-05. The entry cited Casas et al. 2005 J Clin Microbiol 43:6176, and that
     paper does not print these primers: its local PDF carries exactly four oligo-like runs, all of them the hexon primers

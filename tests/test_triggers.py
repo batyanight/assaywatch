@@ -190,6 +190,7 @@ def test_the_screening_code_list_is_derived_not_hand_kept():
         ("collect_calls", "collect", "_COLLECT_CODE"),
         ("report", "report", '_REPORT_PARAMS["code"]'),
         ("degeneracy_table", "degeneracy", '_DEGENERACY_PARAMS["code"]'),
+        ("site_drift", "sitedrift", '_SITEDRIFT_PARAMS["code"]'),
     ],
 )
 def test_every_downstream_rule_carries_a_hash_of_its_code_as_a_param(rule, module, uses):
@@ -209,7 +210,12 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         "retrieve": "refetching on a code edit costs NCBI calls",
         "validate": "gates the run; no output",
     }
-    hashed = {"screen_archive": "screen", "report": "report", "degeneracy_table": "degeneracy"}
+    hashed = {
+        "screen_archive": "screen",
+        "report": "report",
+        "degeneracy_table": "degeneracy",
+        "site_drift": "sitedrift",
+    }
     for rule, block in rule_blocks(SNAKEFILE).items():
         for module in re.findall(r"python -m assaywatch\.(\w+)", block):
             assert rule in exempt or hashed.get(rule) == module, (

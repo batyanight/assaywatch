@@ -33,6 +33,7 @@ source:
   - 355
   positive_control: null
   nested_round: round2
+  nested_family: CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000
   notes: null
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION

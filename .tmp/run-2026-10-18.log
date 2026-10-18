@@ -1,0 +1,105 @@
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-18 00:44:39
+  Workflow ID: 69c42d1d-150a-46d5-9d27-ff3986a7eca7
+  Platform: macOS-26.6-arm64-arm-64bit
+  Host: Mac.lan
+  User: batya
+  Snakemake version: 9.27.0
+  Python version: 3.12.15 (main, Oct 13 2026, 16:47:20) [Clang 21.1.8 ]
+  Command: /Users/batya/.claude-science/conda/envs/assaywatch-run/bin/snakemake --cores 10
+  Snakefile: /Users/batya/assaywatch/Snakefile
+  Base directory: /Users/batya/assaywatch
+  Run directory: /Users/batya/assaywatch
+  Working directory: /Users/batya/assaywatch
+  Config file(s): ['config.yaml']
+  Config MD5: 2a0dd701b627fc7208731d7008e5f933
+
+Building DAG of jobs...
+Updating checkpoint dependencies.
+Using shell: /bin/bash
+Provided cores: 10
+Rules claiming more threads will be scaled down.
+Job stats:
+job                 count
+----------------  -------
+collect_calls           1
+degeneracy_table        1
+report                  1
+site_drift              1
+all                     1
+total                   5
+
+Select jobs to execute...
+Execute 2 jobs...
+
+[Sun Oct 18 00:44:40 2026]
+localrule degeneracy_table:
+    input: results/2026-10-18/.registry-valid
+    output: results/2026-10-18/degeneracy.tsv
+    jobid: 5
+    reason: Missing output files: results/2026-10-18/degeneracy.tsv
+    resources: tmpdir=/Users/batya/.claude-science/orgs/66bf662c-bf70-413b-ab29-07ca8c6847a8/workspaces/02d195b5-f55c-4a27-a2f4-659d62b18637/.tmp
+[Sun Oct 18 00:44:40 2026]
+localrule collect_calls:
+    input: results/screened/171/asm/2026-10-04.tsv, results/screened/171/q36ead49836/2026-10-03.tsv, results/screened/171/q36ead49836/2026-10-04.tsv, results/screened/171/q4a36c8adaa/2026-10-06.tsv, results/screened/171/q4a36c8adaa/2026-10-11.tsv, results/screened/171/q4a36c8adaa/2026-10-17.tsv, results/screened/171/q4a36c8adaa/2026-10-18.tsv, results/screened/209/qea281b18a4/2026-10-03.tsv, results/screened/209/qea281b18a4/2026-10-04.tsv, results/screened/209/qea281b18a4/2026-10-11.tsv, results/screened/263/qf6d886ccf6/2026-10-06.tsv, results/screened/562/asm/2026-10-04.tsv, results/screened/562/q780c1da66e/2026-10-03.tsv, results/screened/562/q780c1da66e/2026-10-04.tsv, results/screened/562/qa7d2849fe3/2026-10-03.tsv, results/screened/562/qa7d2849fe3/2026-10-04.tsv, results/screened/562/qb31e3ea93d/2026-10-03.tsv, results/screened/562/qb31e3ea93d/2026-10-04.tsv, results/screened/620/asm/2026-10-04.tsv, results/screened/620/q92e2a62d52/2026-10-03.tsv, results/screened/620/q92e2a62d52/2026-10-04.tsv, results/screened/630/asm/2026-10-04.tsv, results/screened/630/qbe9fe5a535/2026-10-03.tsv, results/screened/630/qbe9fe5a535/2026-10-04.tsv, results/screened/633/asm/2026-10-04.tsv, results/screened/633/q28cf46e6b9/2026-10-03.tsv, results/screened/633/q28cf46e6b9/2026-10-04.tsv, results/screened/810/q1d6cc4a81f/2026-10-06.tsv, results/screened/810/q1d6cc4a81f/2026-10-11.tsv, results/screened/813/q1d6cc4a81f/2026-10-06.tsv, results/screened/1763/asm/2026-10-07.tsv, results/screened/1763/qa7813aae08/2026-10-07.tsv, results/screened/2093/all/2026-10-03.tsv, results/screened/2093/all/2026-10-11.tsv, results/screened/2093/all/2026-10-15.tsv, results/screened/2093/all/2026-10-17.tsv, results/screened/2093/all/2026-10-18.tsv, results/screened/2096/q31a2ec4c42/2026-10-06.tsv, results/screened/5758/q176b49b0cd/2026-10-03.tsv, results/screened/5794/q0763ce7f8d/2026-10-03.tsv, results/screened/5794/q0763ce7f8d/2026-10-06.tsv, results/screened/5794/q0763ce7f8d/2026-10-11.tsv, results/screened/5794/q0763ce7f8d/2026-10-15.tsv, results/screened/5794/q0763ce7f8d/2026-10-17.tsv, results/screened/5794/q0763ce7f8d/2026-10-18.tsv, results/screened/5794/q0effdf8bcd/2026-10-03.tsv, results/screened/5806/q0763ce7f8d/2026-10-03.tsv, results/screened/5806/q0763ce7f8d/2026-10-06.tsv, results/screened/5806/q0763ce7f8d/2026-10-11.tsv, results/screened/5806/q0763ce7f8d/2026-10-15.tsv, results/screened/5806/q0763ce7f8d/2026-10-17.tsv, results/screened/5806/q0763ce7f8d/2026-10-18.tsv, results/screened/5812/all/2026-10-03.tsv, results/screened/5812/all/2026-10-11.tsv, results/screened/5812/all/2026-10-17.tsv, results/screened/5812/all/2026-10-18.tsv, results/screened/5819/q49e818bd88/2026-10-03.tsv, results/screened/5819/q49e818bd88/2026-10-11.tsv, results/screened/5819/q49e818bd88/2026-10-15.tsv, results/screened/5819/q49e818bd88/2026-10-17.tsv, results/screened/5820/q0763ce7f8d/2026-10-03.tsv, results/screened/6033/all/2026-10-03.tsv, results/screened/6033/all/2026-10-06.tsv, results/screened/6033/all/2026-10-11.tsv, results/screened/6035/all/2026-10-03.tsv, results/screened/6035/all/2026-10-06.tsv, results/screened/10241/all/2026-10-03.tsv, results/screened/10241/all/2026-10-11.tsv, results/screened/10241/all/2026-10-17.tsv, results/screened/10241/all/2026-10-18.tsv, results/screened/10241/q059a427e43/2026-10-17.tsv, results/screened/10241/q059a427e43/2026-10-18.tsv, results/screened/10241/qe13c65ce15/2026-10-17.tsv, results/screened/10242/all/2026-10-06.tsv, results/screened/10242/all/2026-10-11.tsv, results/screened/10244/all/2026-10-06.tsv, results/screened/10244/all/2026-10-11.tsv, results/screened/10260/all/2026-10-06.tsv, results/screened/10260/all/2026-10-17.tsv, results/screened/10260/all/2026-10-18.tsv, results/screened/10292/q620b1275c5/2026-10-03.tsv, results/screened/10292/q620b1275c5/2026-10-11.tsv, results/screened/10292/q620b1275c5/2026-10-15.tsv, results/screened/10292/qb418855090/2026-10-03.tsv, results/screened/10292/qb418855090/2026-10-11.tsv, results/screened/10292/qb418855090/2026-10-15.tsv, results/screened/10358/all/2026-10-03.tsv, results/screened/10358/all/2026-10-11.tsv, results/screened/10358/all/2026-10-15.tsv, results/screened/10358/all/2026-10-17.tsv, results/screened/10492/all/2026-10-03.tsv, results/screened/10492/q9365759b5b/2026-10-06.tsv, results/screened/10492/q9445e67c4d/2026-10-06.tsv, results/screened/10508/all/2026-10-03.tsv, results/screened/10508/all/2026-10-06.tsv, results/screened/10508/all/2026-10-15.tsv, results/screened/10508/all/2026-10-17.tsv, results/screened/10509/all/2026-10-03.tsv, results/screened/10509/all/2026-10-06.tsv, results/screened/10509/all/2026-10-15.tsv, results/screened/10780/all/2026-10-03.tsv, results/screened/10780/all/2026-10-11.tsv, results/screened/10780/all/2026-10-15.tsv, results/screened/10780/all/2026-10-17.tsv, results/screened/10803/all/2026-10-03.tsv, results/screened/10803/all/2026-10-15.tsv, results/screened/10882/all/2026-10-03.tsv, results/screened/11019/all/2026-10-03.tsv, results/screened/11019/all/2026-10-11.tsv, results/screened/11019/all/2026-10-15.tsv, results/screened/11019/all/2026-10-17.tsv, results/screened/11019/all/2026-10-18.tsv, results/screened/11051/q63c5fca5b3/2026-10-03.tsv, results/screened/11051/q63c5fca5b3/2026-10-06.tsv, results/screened/11051/q63c5fca5b3/2026-10-11.tsv, results/screened/11051/q63c5fca5b3/2026-10-15.tsv, results/screened/11051/q63c5fca5b3/2026-10-17.tsv, results/screened/11051/q63c5fca5b3/2026-10-18.tsv, results/screened/11082/all/2026-10-03.tsv, results/screened/11082/all/2026-10-15.tsv, results/screened/11082/all/2026-10-17.tsv, results/screened/11118/q4d4730ef3b/2026-10-03.tsv, results/screened/11118/q4d4730ef3b/2026-10-11.tsv, results/screened/11118/q4d4730ef3b/2026-10-15.tsv, results/screened/11118/q4d4730ef3b/2026-10-17.tsv, results/screened/11118/q4d4730ef3b/2026-10-18.tsv, results/screened/11158/q049d549652/2026-10-03.tsv, results/screened/11158/q049d549652/2026-10-06.tsv, results/screened/11158/q049d549652/2026-10-11.tsv, results/screened/11158/q049d549652/2026-10-15.tsv, results/screened/11158/q049d549652/2026-10-17.tsv, results/screened/11158/q049d549652/2026-10-18.tsv, results/screened/11229/all/2026-10-03.tsv, results/screened/11229/all/2026-10-06.tsv, results/screened/11229/all/2026-10-11.tsv, results/screened/11229/all/2026-10-15.tsv, results/screened/11229/all/2026-10-17.tsv, results/screened/11229/all/2026-10-18.tsv, results/screened/11232/all/2026-10-03.tsv, results/screened/11232/all/2026-10-11.tsv, results/screened/11266/all/2026-10-03.tsv, results/screened/11270/qdb266b171e/2026-10-04.tsv, results/screened/11270/qdb266b171e/2026-10-06.tsv, results/screened/11270/qdb266b171e/2026-10-11.tsv, results/screened/11270/qdb266b171e/2026-10-15.tsv, results/screened/11270/qdb266b171e/2026-10-17.tsv, results/screened/11270/qdb266b171e/2026-10-18.tsv, results/screened/11286/all/2026-10-04.tsv, results/screened/11286/all/2026-10-06.tsv, results/screened/11286/all/2026-10-15.tsv, results/screened/11320/q2ebd5918b3/2026-10-03.tsv, results/screened/11320/q2ebd5918b3/2026-10-06.tsv, results/screened/11320/q2ebd5918b3/2026-10-11.tsv, results/screened/11320/q2ebd5918b3/2026-10-15.tsv, results/screened/11320/q2ebd5918b3/2026-10-17.tsv, results/screened/11320/q2ebd5918b3/2026-10-18.tsv, results/screened/11320/q3b4e39b708/2026-10-06.tsv, results/screened/11320/q6552a5c4af/2026-10-06.tsv, results/screened/11320/qdf5abd73c1/2026-10-06.tsv, results/screened/11320/qdf5abd73c1/2026-10-11.tsv, results/screened/11320/qdf5abd73c1/2026-10-15.tsv, results/screened/11320/qdf5abd73c1/2026-10-17.tsv, results/screened/11320/qdf5abd73c1/2026-10-18.tsv, results/screened/11572/q112fa5f0e4/2026-10-04.tsv, results/screened/11572/q746068e55d/2026-10-06.tsv, results/screened/11584/qb5319d3aad/2026-10-04.tsv, results/screened/11617/all/2026-10-03.tsv, results/screened/11617/all/2026-10-15.tsv, results/screened/11617/all/2026-10-17.tsv, results/screened/11723/q49bae82c9c/2026-10-03.tsv, results/screened/11974/qd788c82953/2026-10-04.tsv, results/screened/11974/qd788c82953/2026-10-06.tsv, results/screened/11974/qd788c82953/2026-10-11.tsv, results/screened/11974/qd788c82953/2026-10-15.tsv, results/screened/11974/qd788c82953/2026-10-17.tsv, results/screened/11974/qd788c82953/2026-10-18.tsv, results/screened/12059/q2b612305e5/2026-10-03.tsv, results/screened/12059/q2b612305e5/2026-10-11.tsv, results/screened/12059/q2b612305e5/2026-10-15.tsv, results/screened/12059/q2b612305e5/2026-10-17.tsv, results/screened/12059/q2b612305e5/2026-10-18.tsv, results/screened/12059/qbb80900029/2026-10-03.tsv, results/screened/12059/qbb80900029/2026-10-11.tsv, results/screened/12059/qbb80900029/2026-10-15.tsv, results/screened/12059/qbb80900029/2026-10-17.tsv, results/screened/12059/qbb80900029/2026-10-18.tsv, results/screened/27997/q629a697cfb/2026-10-06.tsv, results/screened/28901/asm/2026-10-04.tsv, results/screened/28901/q22fdd7bbec/2026-10-03.tsv, results/screened/28901/q22fdd7bbec/2026-10-17.tsv, results/screened/28901/q22fdd7bbec/2026-10-18.tsv, results/screened/35231/q4bc13de537/2026-10-07.tsv, results/screened/39724/all/2026-10-03.tsv, results/screened/39724/all/2026-10-11.tsv, results/screened/39724/all/2026-10-15.tsv, results/screened/39724/all/2026-10-17.tsv, results/screened/39724/all/2026-10-18.tsv, results/screened/39733/all/2026-10-03.tsv, results/screened/39733/all/2026-10-11.tsv, results/screened/39733/all/2026-10-15.tsv, results/screened/39733/all/2026-10-17.tsv, results/screened/39733/all/2026-10-18.tsv, results/screened/40135/q4bc13de537/2026-10-06.tsv, results/screened/40302/q4bc13de537/2026-10-07.tsv, results/screened/56777/q0763ce7f8d/2026-10-06.tsv, results/screened/64286/all/2026-10-06.tsv, results/screened/64286/all/2026-10-17.tsv, results/screened/64286/all/2026-10-18.tsv, results/screened/77643/asm/2026-10-07.tsv, results/screened/77643/q78359e501c/2026-10-07.tsv, results/screened/77643/q8c2ce9448f/2026-10-07.tsv, results/screened/77643/qa99de05d40/2026-10-06.tsv, results/screened/83554/q1d6cc4a81f/2026-10-06.tsv, results/screened/83558/q1d6cc4a81f/2026-10-06.tsv, results/screened/109871/all/2026-10-03.tsv, results/screened/121791/all/2026-10-03.tsv, results/screened/151340/all/2026-10-03.tsv, results/screened/151340/all/2026-10-11.tsv, results/screened/151340/all/2026-10-15.tsv, results/screened/151340/all/2026-10-17.tsv, results/screened/151341/all/2026-10-03.tsv, results/screened/151341/all/2026-10-11.tsv, results/screened/151341/all/2026-10-15.tsv, results/screened/151341/all/2026-10-17.tsv, results/screened/178830/all/2026-10-03.tsv, results/screened/180822/all/2026-10-06.tsv, results/screened/180822/all/2026-10-11.tsv, results/screened/186458/all/2026-10-06.tsv, results/screened/190893/q14df400bc9/2026-10-06.tsv, results/screened/190893/q2c8b9c3dbd/2026-10-06.tsv, results/screened/195944/all/2026-10-04.tsv, results/screened/208294/all/2026-10-04.tsv, results/screened/352384/q0763ce7f8d/2026-10-04.tsv, results/screened/544448/qf2ec30b661/2026-10-04.tsv, results/screened/548689/q714f06bdfd/2026-10-06.tsv, results/screened/548689/qc0acbc84e8/2026-10-06.tsv, results/screened/548689/qcee9228ad2/2026-10-06.tsv, results/screened/548689/qf10852ef3e/2026-10-06.tsv, results/screened/655981/all/2026-10-06.tsv, results/screened/1170234/all/2026-10-04.tsv, results/screened/1283308/all/2026-10-04.tsv, results/screened/1357716/qf659bd13f6/2026-10-04.tsv, results/screened/1387563/qdb308affab/2026-10-06.tsv, results/screened/1387563/qe3c757aa37/2026-10-04.tsv, results/screened/1387564/all/2026-10-06.tsv, results/screened/1507401/all/2026-10-04.tsv, results/screened/1507401/all/2026-10-11.tsv, results/screened/1507401/all/2026-10-15.tsv, results/screened/1507401/all/2026-10-17.tsv, results/screened/1653395/all/2026-10-04.tsv, results/screened/1653395/q9ed97e0cad/2026-10-06.tsv, results/screened/1921703/all/2026-10-04.tsv, results/screened/1980442/all/2026-10-04.tsv, results/screened/1980442/all/2026-10-11.tsv, results/screened/2034996/all/2026-10-06.tsv, results/screened/2498590/all/2026-10-06.tsv, results/screened/2508240/all/2026-10-04.tsv, results/screened/2729004/q0a30fcca3a/2026-10-06.tsv, results/screened/2951794/all/2026-10-06.tsv, results/screened/3044671/q65e37c7cf4/2026-10-06.tsv, results/screened/3047346/all/2026-10-06.tsv, results/screened/3047346/all/2026-10-11.tsv, results/screened/3047684/all/2026-10-06.tsv, results/screened/3047684/all/2026-10-11.tsv, results/screened/3048309/all/2026-10-06.tsv, results/screened/3048309/all/2026-10-11.tsv
+    output: results/2026-10-18/calls.tsv.gz
+    jobid: 2
+    reason: Missing output files: results/2026-10-18/calls.tsv.gz
+    resources: tmpdir=/Users/batya/.claude-science/orgs/66bf662c-bf70-413b-ab29-07ca8c6847a8/workspaces/02d195b5-f55c-4a27-a2f4-659d62b18637/.tmp
+[Sun Oct 18 00:44:40 2026]
+Finished jobid: 5 (Rule: degeneracy_table)
+1 of 5 steps (20%) done
+[Sun Oct 18 00:44:44 2026]
+Finished jobid: 2 (Rule: collect_calls)
+2 of 5 steps (40%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Sun Oct 18 00:44:44 2026]
+localrule site_drift:
+    input: results/2026-10-18/calls.tsv.gz
+    output: results/2026-10-18/site-drift.md, results/2026-10-18/site-drift.tsv
+    jobid: 6
+    reason: Missing output files: results/2026-10-18/site-drift.md; Input files updated by another job: results/2026-10-18/calls.tsv.gz
+    resources: tmpdir=/Users/batya/.claude-science/orgs/66bf662c-bf70-413b-ab29-07ca8c6847a8/workspaces/02d195b5-f55c-4a27-a2f4-659d62b18637/.tmp
+[Sun Oct 18 00:44:44 2026]
+localrule report:
+    input: results/2026-10-18/calls.tsv.gz
+    output: results/2026-10-18/report.md, results/2026-10-18/report.html
+    jobid: 1
+    reason: Missing output files: results/2026-10-18/report.html; Input files updated by another job: results/2026-10-18/calls.tsv.gz
+    resources: tmpdir=/Users/batya/.claude-science/orgs/66bf662c-bf70-413b-ab29-07ca8c6847a8/workspaces/02d195b5-f55c-4a27-a2f4-659d62b18637/.tmp
+declining          20
+low coverage       56
+watch              12
+insufficient data  41
+no recent data     14
+stable             70
+wrote results/2026-10-18/report.md and results/2026-10-18/report.html
+[Sun Oct 18 00:45:20 2026]
+Finished jobid: 1 (Rule: report)
+3 of 5 steps (60%) done
+88 assays, 1526 reported positions -> results/2026-10-18/site-drift.md
+[Sun Oct 18 00:45:28 2026]
+Finished jobid: 6 (Rule: site_drift)
+4 of 5 steps (80%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Oct 18 00:45:28 2026]
+localrule all:
+    input: results/2026-10-18/report.html, results/2026-10-18/degeneracy.tsv, results/2026-10-18/site-drift.md
+    jobid: 0
+    reason: Input files updated by another job: results/2026-10-18/site-drift.md, results/2026-10-18/degeneracy.tsv, results/2026-10-18/report.html
+    resources: tmpdir=/Users/batya/.claude-science/orgs/66bf662c-bf70-413b-ab29-07ca8c6847a8/workspaces/02d195b5-f55c-4a27-a2f4-659d62b18637/.tmp
+[Sun Oct 18 00:45:28 2026]
+Finished jobid: 0 (Rule: all)
+5 of 5 steps (100%) done
+Complete log(s): /Users/batya/assaywatch/.snakemake/log/2026-10-18T004439.871186.snakemake.log
+Elapsed time: 0:00:48.441280
+[assaywatch] run 2026-10-18 (resumed); heartbeat .tmp/heartbeat-2026-10-18.json; timing results/2026-10-18/run-timing.json
+run 2026-10-18 (resumed) - success after 48s
+  workflow                        48s

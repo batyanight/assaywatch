@@ -1,0 +1,62 @@
+Assuming unrestricted shared filesystem usage.
+
+SNAKEMAKE
+=========
+  Date: 2026-10-18 11:25:36
+  Workflow ID: b14d42d6-7ddb-4a99-bbbb-a944b1bddae5
+  Platform: macOS-26.6-arm64-arm-64bit
+  Host: Mac.lan
+  User: batya
+  Snakemake version: 9.27.0
+  Python version: 3.12.15 (main, Oct 13 2026, 16:47:20) [Clang 21.1.8 ]
+  Command: /Users/batya/.claude-science/conda/envs/assaywatch-run/bin/snakemake --cores 10 -R site_drift
+  Snakefile: /Users/batya/assaywatch/Snakefile
+  Base directory: /Users/batya/assaywatch
+  Run directory: /Users/batya/assaywatch
+  Working directory: /Users/batya/assaywatch
+  Config file(s): ['config.yaml']
+  Config MD5: 2a0dd701b627fc7208731d7008e5f933
+
+Building DAG of jobs...
+Updating checkpoint dependencies.
+Using shell: /bin/bash
+Provided cores: 10
+Rules claiming more threads will be scaled down.
+Job stats:
+job           count
+----------  -------
+site_drift        1
+all               1
+total             2
+
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Oct 18 11:25:37 2026]
+localrule site_drift:
+    input: results/2026-10-18/calls.tsv.gz
+    output: results/2026-10-18/site-drift.md, results/2026-10-18/site-drift.tsv
+    jobid: 0
+    reason: Forced execution
+    resources: tmpdir=/Users/batya/.claude-science/orgs/66bf662c-bf70-413b-ab29-07ca8c6847a8/workspaces/02d195b5-f55c-4a27-a2f4-659d62b18637/.tmp
+88 assays, 1526 reported positions -> results/2026-10-18/site-drift.md
+[Sun Oct 18 11:26:15 2026]
+Finished jobid: 0 (Rule: site_drift)
+1 of 2 steps (50%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Oct 18 11:26:15 2026]
+localrule all:
+    input: results/2026-10-18/report.html, results/2026-10-18/degeneracy.tsv, results/2026-10-18/site-drift.md
+    jobid: 4
+    reason: Input files updated by another job: results/2026-10-18/site-drift.md
+    resources: tmpdir=/Users/batya/.claude-science/orgs/66bf662c-bf70-413b-ab29-07ca8c6847a8/workspaces/02d195b5-f55c-4a27-a2f4-659d62b18637/.tmp
+[Sun Oct 18 11:26:15 2026]
+Finished jobid: 4 (Rule: all)
+2 of 2 steps (100%) done
+Complete log(s): /Users/batya/assaywatch/.snakemake/log/2026-10-18T112536.373036.snakemake.log
+Elapsed time: 0:00:39.381252
+[assaywatch] run 2026-10-18 (new); heartbeat .tmp/heartbeat-2026-10-18.json; timing results/2026-10-18/run-timing.json
+run 2026-10-18 (new) - success after 39s
+  workflow                        38s

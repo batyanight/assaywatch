@@ -33,6 +33,7 @@ source:
   - 288
   positive_control: null
   nested_round: null
+  nested_family: ADENOVIRUS_dsDNA_Hexon_gene
   notes: null
 needs_review:
 - CROSS_REACTIVE

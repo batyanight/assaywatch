@@ -11,10 +11,10 @@ import pytest
 from assaywatch.nested import NestedFamily, assess, families, family_id, unpaired
 
 
-def _assay(aid, nested_round=None, amplicon_bp=None, fwd="AAAA", rev="TTTT"):
+def _assay(aid, nested_round=None, amplicon_bp=None, fwd="AAAA", rev="TTTT", nested_family=None):
     return SimpleNamespace(
         id=aid,
-        source=SimpleNamespace(nested_round=nested_round),
+        source=SimpleNamespace(nested_round=nested_round, nested_family=nested_family),
         amplicon_bp=amplicon_bp,
         oligos=SimpleNamespace(
             forward=SimpleNamespace(matching_seq=fwd),
@@ -75,8 +75,16 @@ def test_round_order_comes_from_the_registry_not_the_id():
 
 
 def test_round_order_falls_back_to_the_declared_product_size():
-    """An outer round is the longer product; that is what nesting means."""
-    assays = {"P": _assay("P", amplicon_bp=200), "P_round2": _assay("P_round2", amplicon_bp=900)}
+    """An outer round is the longer product; that is what nesting means.
+
+    Neither entry declares a round number, which is the real shape of the five
+    outer rounds whose `nested_round` mirrors a spreadsheet that recorded none.
+    They are in the family because they declare `nested_family`.
+    """
+    assays = {
+        "P": _assay("P", amplicon_bp=200, nested_family="P"),
+        "P_round2": _assay("P_round2", amplicon_bp=900, nested_family="P"),
+    }
     rows = [_row("P", "r", "detect", 0, 0), _row("P_round2", "r", "detect", 0, 0)]
     assert assess(assays, rows)["P"].outer == "P_round2"
 
@@ -186,3 +194,100 @@ def test_the_module_cannot_fold_into_a_verdict():
     assert "statuses" not in inspect.signature(nested.assess).parameters
     fields = {f.name for f in dataclasses.fields(nested.NestedFamily)}
     assert not fields & {"status", "statuses", "call"}
+
+
+def test_an_entry_sharing_a_base_but_declaring_no_nest_stays_out_of_the_family():
+    """The fault that produced a false finding, pinned.
+
+    A 440 bp coronavirus consensus entry shares an id base with Lan 2010's
+    nested pair. Grouping by base alone pulled it in, displaced Lan's real
+    round 1, and made the pair read as DISJOINT - reported on 2026-10-14 as
+    "two assays, not two rounds". Pair Lan's own rounds and they nest on 6,667
+    of the 6,671 records both rounds can be judged on.
+    """
+    assays = {
+        "C": _assay("C", amplicon_bp=440),  # unrelated, declares no nest
+        "C_Lan_round1": _assay("C_Lan_round1", "round1", 532, nested_family="C_Lan"),
+        "C_round2": _assay("C_round2", "round2", 328, nested_family="C_Lan"),
+    }
+    fams = families(assays)
+    assert fams == {"C_Lan": ["C_Lan_round1", "C_round2"]}, "the consensus entry is not a round"
+
+
+def test_two_nests_on_one_base_are_kept_apart():
+    """`_round2_2` escapes the `_roundN` suffix, so only a declared family joins it.
+
+    Two papers' CMV gB nests sit on one id base. By base alone, Deckers' round 1
+    paired with Prepens' round 2 - different assays, 0 of 659 records contained.
+    Declared apart, both nest perfectly (726/726 and 578/578).
+    """
+    assays = {
+        "gB": _assay("gB", amplicon_bp=800, nested_family="gB_Deckers"),
+        "gB_round2_2": _assay("gB_round2_2", "round2", 550, nested_family="gB_Deckers"),
+        "gB_V_round1": _assay("gB_V_round1", "round1", 320, nested_family="gB_Prepens"),
+        "gB_round2": _assay("gB_round2", "round2", 230, nested_family="gB_Prepens"),
+    }
+    assert families(assays) == {
+        "gB_Deckers": ["gB", "gB_round2_2"],
+        "gB_Prepens": ["gB_V_round1", "gB_round2"],
+    }
+
+
+def test_a_declared_family_can_span_unlike_ids():
+    """The Chlamydia nest: one genus round 1 feeding three species round 2 entries.
+
+    Four ids on three taxids. No id base can express it, which is why the key
+    is declared rather than inferred.
+    """
+    ids = ["CH_genus_round1", "CH_pneumoniae_round2", "CH_psittaci_round2", "CH_trachomatis_round2"]
+    assays = {i: _assay(i, "round1" if "genus" in i else "round2", nested_family="CH") for i in ids}
+    assert families(assays) == {"CH": sorted(ids)}
+
+
+def test_a_bare_list_of_ids_still_groups_by_base():
+    """The fallback path: with no assays to ask, the id base is all there is."""
+    assert families(["A", "A_round2", "B"]) == {"A": ["A", "A_round2"]}
+
+
+def test_containment_asks_where_the_inner_primers_extend_from():
+    """A shared site with a longer inner primer is still a nest.
+
+    The enterovirus VP3/VP1 rounds share their reverse site; round 2's primer
+    is 8 nt longer at its 5' end, so its amplicon ends exactly 8 bp past round
+    1's on 3,722 of 3,808 records while priming from the identical base. The
+    span test called that disjoint. What has to sit inside the outer product is
+    the 3' end each inner primer extends from.
+    """
+    assays = {
+        "E": _assay("E", "round1", 760, nested_family="E"),
+        "E_round2": _assay("E_round2", "round2", 375, nested_family="E"),
+    }
+    outer = _row("E", "r", "detect", 2144, 2904)
+    inner = _row("E_round2", "r", "detect", 2537, 2912)
+    inner["fwd_site"], inner["rev_site"] = "2537-2563+", "2885-2912-"
+    f = assess(assays, [outer, inner])["E"]
+    assert f.containment[("E", "E_round2")] == (1, 1), "3' ends 2563 and 2885 are inside 2144-2904"
+    assert f.nests is True
+
+
+def test_containment_falls_back_to_the_span_when_no_sites_were_written():
+    """Older calls have no site columns; the span test is all there is."""
+    assays = {
+        "E": _assay("E", "round1", 760, nested_family="E"),
+        "E_round2": _assay("E_round2", "round2", 375, nested_family="E"),
+    }
+    rows = [_row("E", "r", "detect", 2144, 2904), _row("E_round2", "r", "detect", 2537, 2912)]
+    f = assess(assays, rows)["E"]
+    assert f.containment[("E", "E_round2")] == (0, 1), "the inner span overhangs by 8 bp"
+
+
+def test_a_primer_reaching_outside_the_outer_product_is_not_contained():
+    """The check still has to fail a pair that genuinely does not nest."""
+    assays = {
+        "D": _assay("D", "round1", 500, nested_family="D"),
+        "D_round2": _assay("D_round2", "round2", 300, nested_family="D"),
+    }
+    outer = _row("D", "r", "detect", 1000, 1500)
+    inner = _row("D_round2", "r", "detect", 4000, 4300)
+    inner["fwd_site"], inner["rev_site"] = "4000-4020+", "4280-4300-"
+    assert assess(assays, [outer, inner])["D"].nests is False

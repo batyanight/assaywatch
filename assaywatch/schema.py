@@ -290,11 +290,28 @@ class Source(Strict):
     predict_protocol: str | None = Field(default=None, pattern=r"^P-0\d\d$")
     rows: list[int] | None = None
     positive_control: str | None = None
-    # A nested assay is stored as two entries, `..._round1` and `..._round2`,
-    # linked only by this field and by their ids. Nothing yet checks that the
-    # round-2 sites lie inside the round-1 product, so the two are reported
-    # separately on different denominators — see the review doc.
+    # A nested assay is stored as one entry per round, linked by this field and
+    # by `nested_family`. Containment checks the declaration: the round-2 sites
+    # must lie inside the round-1 product.
     nested_round: str | None = None
+    # Which nest this entry belongs to, when the id base cannot say it. The base
+    # (the id with any `_roundN` suffix removed) is the default and carries most
+    # families; it fails three ways, all of them real here:
+    #
+    #   * an unrelated entry shares the base. The 440 bp coronavirus consensus
+    #     entry sat in Lan 2010's nest and displaced its real round 1, which made
+    #     the pair read as DISJOINT and put a false "two assays, not two rounds"
+    #     finding in the 2026-10-14 report. Pair Lan's own rounds and they nest
+    #     on 6,667 of the 6,671 records both rounds can be judged on.
+    #   * a `_round2_2` disambiguator escapes the `_roundN` suffix, so a second
+    #     nest on one base can never assemble. Two papers' CMV gB nests were
+    #     crossed this way, pairing Deckers' round 1 with Prepens' round 2.
+    #   * a nest spans several ids on several taxids, as the Chlamydia 16S nest
+    #     does: one genus round 1 feeding three species-specific round 2 entries.
+    #
+    # Declared here so a curator says which entries belong together; containment
+    # remains the check on that declaration, never its source.
+    nested_family: str | None = None
     notes: list[str] | None = None
     notes_curator: str | None = None
 
@@ -306,12 +323,37 @@ class Assay(Strict):
     chemistry: Chemistry
     oligos: Oligos
     amplicon_bp: int | None = Field(default=None, ge=AMPLICON_MIN, le=AMPLICON_MAX)
+    # For an assay whose product size is genuinely a range, not a point, and so
+    # cannot be gated by a scalar. ORTHOPOXVIRUS ATI is the case: measured over
+    # GenBank records its products run from volepox 542 bp through camelpox 879,
+    # ectromelia 1220, monkeypox 1067 (clade I) or ~1538 (clade IIb), variola
+    # ~1580 and vaccinia ~1600 to cowpox 1673 bp — declared 540-1700. That
+    # spread IS the ATI length polymorphism the assay exists to read, not a
+    # defect. Left with no declared size it was the one entry
+    # `declared_tolerance` could not constrain at all.
+    # [min, max]; mutually exclusive with `amplicon_bp`, and the tolerance is
+    # applied outward from each end.
+    amplicon_bp_range: list[int] | None = Field(default=None, min_length=2, max_length=2)
     citation: Citation
     use_context: list[str] = Field(default_factory=list)
     submitted_by: str | None = None
     status: Status = Status.draft
     source: Source | None = None
     needs_review: list[str] | None = None
+
+    @model_validator(mode="after")
+    def amplicon_range_is_sane(self) -> Assay:
+        r = self.amplicon_bp_range
+        if r is None:
+            return self
+        if self.amplicon_bp is not None:
+            raise ValueError("give amplicon_bp or amplicon_bp_range, not both")
+        lo, hi = r
+        if lo >= hi:
+            raise ValueError(f"amplicon_bp_range must ascend, got {lo}-{hi}")
+        if lo < AMPLICON_MIN or hi > AMPLICON_MAX:
+            raise ValueError(f"amplicon_bp_range {lo}-{hi} outside {AMPLICON_MIN}-{AMPLICON_MAX}")
+        return self
 
     @model_validator(mode="after")
     def probe_matches_chemistry(self) -> Assay:

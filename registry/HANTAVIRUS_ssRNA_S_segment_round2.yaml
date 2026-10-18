@@ -33,7 +33,10 @@ source:
   - 443
   positive_control: null
   nested_round: round2
+  nested_family: HANTAVIRUS_ssRNA_S_segment_nest_A
+  notes_curator: 'NESTED FAMILY ASSIGNED FROM GEOMETRY AND A SHARED PRIMER, NOT FROM A PROTOCOL DOCUMENT (2026-10-17). These four HANTAVIRUS_ssRNA_S_segment entries carry no DOI, so which round feeds which could not be read from a source. Nest B (_2, 532 bp outer, and _round2_2, 417 bp inner) share their reverse primer GAYNATVTTYCTIGCYTTDAYYTGDGC outright, which makes it a semi-nested pair; the inner sits inside the outer on 2,468 of 2,497 records. Nest A (the base entry, 250 bp outer, and _round2, 236 bp inner) is contained on 4,166 of 4,168 records, and its two forward primers are the same site offset by two bases. Both outer rounds also contain _round2 geometrically, so geometry alone does not separate the nests - the shared reverse primer is what ties _2 to _round2_2. A 250 bp outer with a 236 bp inner is an unusually tight nest: if a source for these entries turns up, check that assignment before anything else.'
   notes: null
 needs_review:
 - DOI_MISSING
 - NO_YEAR
+- NESTED_FAMILY_FROM_GEOMETRY

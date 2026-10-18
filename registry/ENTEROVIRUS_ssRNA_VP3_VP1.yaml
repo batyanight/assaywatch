@@ -38,6 +38,7 @@ source:
   - 396
   positive_control: null
   nested_round: null
+  nested_family: ENTEROVIRUS_ssRNA_VP3_VP1
   notes: null
   notes_curator: 'PREDICT panel protocol P-012 (VP3/VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Nix, W.A.

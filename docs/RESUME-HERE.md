@@ -1,12 +1,21 @@
-# Resume point, 2026-10-15 (after PR #1: window scoring, nested coverage, declared amplicon size)
+# Resume point, 2026-10-17 (the post-PR#1 rerun is done; the estimand is the only blocker left)
 
-Everything described here is on `main` at `deef0e5` (merge of PR #1). This file is the short
-version of where to pick up. The 2026-10-06 version, with the full List 2 session record, is
-`git show b6584ac:docs/RESUME-HERE.md`.
+Everything described here is on `main` at `fc57e61` (merge of PR #2), working tree clean. This
+file is the short version of where to pick up. The 2026-10-06 version, with the full List 2
+session record, is `git show b6584ac:docs/RESUME-HERE.md`.
+
+**What changed in this revision.** The 2026-10-15 edition of this file was written 35 minutes
+before the full rescreen it called blocking item 0, and so told the next session to run a job
+that was already done by the time anyone read it. That section is now the run's result. Two
+other figures in it were wrong: the validation set is 50 cases, not 46, and the
+`declining 37 -> 22` estimate it credited to the README is not in the README — it was computed
+in this file. Verify this file's top-of-page claims against the repo (`git log`, `results/`
+dates, `python -m assaywatch.validate registry`) before acting on them; it goes stale fast.
 
 ## The one thing that matters most: the estimand
 
-Validation at 46 cases (`2d3dea2`, 2026-10-04) found the tool catches **1 of 12** documented
+Validation (`2d3dea2`, 2026-10-04, at 46 cases then; `docs/validation-cases.tsv` now holds 50 —
+32 `works`, 12 `fails`, 6 `partial`) found the tool catches **1 of 12** documented
 assay failures. The cause is in `docs/2026-10-04-pipeline-review.md`: each assay is reduced to
 one population-level detected share, and a lineage-conditional failure (the assay still
 detects most deposits but misses one clade) is diluted by everything else in the archive.
@@ -29,23 +38,37 @@ is its substance):
 6. Treat the validation set with caution: re-check each case's `as_of` date and expected
    outcome before using it to fit anything.
 
-## After `git pull`: the next run must rescreen everything
+## The post-PR#1 rescreen is done — do not run it again on this file's say-so
 
-This pull changes screening results, not just code hashes:
-`amplicon.declared_tolerance` went from `null` to `0.25`, and `score.py`, `chance.py` and
-`screen.py` changed. **Do not use the `--touch` shortcut from the 2026-10-06 note**; it would
-mark every screen current at the old setting with nothing to say so. Just run:
+It ran 2026-10-15, finishing 13:40, and its output is `results/2026-10-15/` (`calls.tsv.gz`,
+`report.md`, `report.html`). `results/` is gitignored, so it exists only on the laptop: a clean
+checkout elsewhere has no run at all, which is the one case where rerunning is right.
+
+The gap against the estimate, which is what the previous edition asked for and nobody recorded.
+The estimate came from re-filtering the 2026-10-07 calls at `declared_tolerance: 0.25` rather
+than from a run, and lived in this file (the README carries the row-level half of it — 59,141
+rows to `no_amplicon`, 54,966 of them former `fail` — but not the status counts):
+
+| | estimate | 2026-10-15 actual |
+|---|---|---|
+| declining | 22 | **20** |
+| stable | 73 | **69** |
+
+Directionally right, mildly optimistic at both ends: four assays it placed in `stable` did not
+arrive there. The full run is 213 assays — 20 declining, 58 low coverage, 11 watch, 41
+insufficient data, 14 no recent data, 69 stable. The gap was not chased down. A re-filter of
+2026-10-07 calls cannot see records retrieved on the eight days between the two dates, which is
+the obvious candidate, but nobody has checked whether those four assays are the ones that
+gained records — do that before reading the gap as anything else.
+
+When a run *is* needed:
 
     caffeinate -i snakemake --cores 4 --config email=nightb02@nyu.edu
 
-The README gives an *estimate* of what the tolerance does to the 2026-10-07 run (59,141 rows
-to `no_amplicon`, 54,966 of them former `fail`; declining 37 -> 22, stable 63 -> 73). That was
-computed by re-filtering the old calls, not by a run. The first full run is the real number;
-compare it with the estimate and note any gap.
-
-A dry run (`snakemake -n`) is no check on any of this. It lists the screening jobs only once
-today's retrieval record exists; before that it plans just `validate` and `retrieve`, which
-needs the network.
+**Never the `--touch` shortcut from the 2026-10-06 note** across a scoring change; it marks
+every screen current at the old setting with nothing to say so. A dry run (`snakemake -n`) is
+no check either: it lists the screening jobs only once today's retrieval record exists, and
+before that it plans just `validate` and `retrieve`, which needs the network.
 
 ## What landed 2026-10-07 to 2026-10-15
 
@@ -81,11 +104,13 @@ needs the network.
 
 | | |
 |---|---|
-| registry | **217 valid**: 213 draft, 3 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
-| chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1 |
-| tests | 1135 passing; ruff clean; 182 citations, 0 Crossref problems (2026-10-15) |
-| validation | 46 cases; catches 1 of 12 documented failures (unchanged since 2026-10-04) |
-| last full run | 2026-10-07, before the size filter; rerun needed (above) |
+| registry | **217 valid, 0 problems**: 213 draft, 3 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
+| chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 173 primers only |
+| tests | 1126 passed, 11 skipped (primer3-py absent); ruff clean; 182 citations, 0 Crossref problems. Was 1118 before the eight tests pinning the nested family key and containment rule |
+| validation | **50 cases** (32 `works`, 12 `fails`, 6 `partial`); catches 1 of 12 documented failures (unchanged since 2026-10-04) |
+| last full run | **2026-10-15**, the first with the size filter on; 213 assays screened |
+
+Verified against the repo 2026-10-17.
 
 ## Why the remaining work wants the local machine
 
@@ -190,16 +215,63 @@ trusted.
 
 ## Then, in value order
 
-0. **The full rerun, then the lineage-conditional plan** (top of this file).
-1. **Settle the flagged decisions above** (the groups above, awaiting user judgment on entries or scope).
-2. **Settle the coronavirus finding.**
+0. **The lineage-conditional estimand.** The rerun that used to share this slot is done, and
+   the written design it asked for now exists: **`docs/2026-10-17-estimand-plan.md`**, with
+   both decisions settled (taxonomy first then sequence clusters; worst assessable lineage
+   drives the call, with Benjamini-Hochberg). What remains is implementation, in the six steps
+   that document ends with. Steps 1-4 change no call; step 5 moves the number.
+1. **Nested families — mostly DONE 2026-10-17, see `docs/2026-10-17-nested-family-key.md`.**
+   The id base was not a sufficient family key, and it had manufactured two of the three
+   "non-nesting" findings: the coronavirus RdRp rounds are a real nest (6,667 of the 6,671
+   records both rounds can be judged on), and so are both CMV gB nests once each paper's own
+   rounds are paired. **The report's claim that the coronavirus rounds are "two assays, not
+   two rounds" is withdrawn.** `source.nested_family` now declares membership; registry
+   families 23 → 27, of which those with per-record data 21 → 24; unpaired 15 → 3; failing
+   containment 3 → 1, then → **0**: the last survivor, the enterovirus pair, failed on the
+   criterion rather than on biology. Its rounds share their reverse SITE and round 2's primer
+   is 8 nt longer at the 5' end, so its amplicon ended 8 bp past round 1's while priming from
+   the same base. Containment now asks whether the inner primers' **3' ends** lie inside the
+   outer product. All 26 families with per-record data nest; nothing fails. Treat that with
+   suspicion rather than satisfaction — the check has so far caught two bookkeeping faults and
+   one error of its own, and no protocol error.
+
+   Also settled 2026-10-17: the two **Hantavirus** nests declared from geometry and a shared
+   reverse primer (A = 250 + 236, B = 532 + 417, all four flagged
+   `NESTED_FAMILY_FROM_GEOMETRY`; nest B shows a 27-point nest gap, 44.8% → 17.6%);
+   **EEHV6 round 2 kept** with its `SINGLE_SPANNING_RECORD` flag; and **ATI** given
+   `amplicon_bp_range: [540, 1700]` via a new optional schema field. Note that range is
+   540–1700, *not* the 1067/1535/1538 in earlier notes — those are monkeypox clade modes only.
+
+   Left over: EEHV6's round 1 is still not in the registry (needs Latimer 2010); the
+   Hantavirus assignment has no source; and round order for five outer rounds rests on
+   declared product size rather than a protocol.
+
+   **Two re-runs owed.** `results/2026-10-15/report.md` still shows the old nested table and
+   the withdrawn coronavirus sentence, so it needs a re-render; and the ATI range is a
+   *scoring* change (window 50–3000 → 405–2125 bp), so that one assay's calls are stale until
+   it is rescreened. Nothing else here touches a call.
+2. **Flagged decisions — nine settled 2026-10-17, see `docs/2026-10-17-flagged-decisions.md`.**
+   Bacteria: Chlamydia genus primer KEPT as printed (PMC finds that form in two later wet studies
+   and the corrected form in none — the defect is the penalty table, not the sequence); C.
+   trachomatis serovar split ACCEPTED as a true finding; psittaci/abortus cross-reaction NOTED only;
+   the three M. gallisepticum vaccine pairs HELD. Then: PANPOX pair re-scoped to measured GC genera
+   (**both now need re-retrieval and rescreen**); Nosema bombi re-cited to Klee 2006
+   (`10.1016/j.jip.2005.10.012`, in the Crossref cache; **run `scripts/resolve_citations.py` to flip
+   doi_verified**); Ophidiomyces target-D KEPT; Tasman-PCR ruled OUT OF SCOPE.
+   Still open: **Reptarenavirus winning-pair column is decided but not implemented**; the
+   ORTHOBUNYAVIRUS Cac serogroup enumeration; and five entries (Bd BdCAPE/BdGPL, hummingbird
+   avipox, DWV-A, DWV-B) whose denominators provably cannot be defined from NCBI metadata and so
+   wait on phase-2 clustering. **`DWVA_polyprotein_Rossi_2024` sits in the Declining list on 28
+   records drawn from the 16% of DWV that carries a variant label — treat that call as unsafe.**
+   CROSSREF IS REACHABLE from the sandbox (checked 2026-10-17), which unblocks items 4 and 5 below.
+3. **Settle the coronavirus finding.**
    `CORONAVIRUS_..._Lan_2010_round1` stores a reverse primer 3 nt shorter than the one Quan et
    al. 2010 prints (`...GCNACATG` against `...GCNACNACATG`). The stored form matches PREDICT
    P-005, so two published sources disagree and the sequence was deliberately left alone. Read
    the P-005 table in the Anthony et al. 2015 supplement, screen both forms against real RdRp
    records, then fix whichever is wrong - and check the other P-005 entries for the same
    deletion. This is the second PREDICT-vs-cited-paper mismatch after Atkins/PREDICT.
-3. **Measure the two CMV gB amplicons, then re-cite the 4007/4125 pair.**
+4. **Measure the two CMV gB amplicons, then re-cite the 4007/4125 pair.**
    - `..._Virol_2007_round1` and `..._round2` hold Prepens' own CM-gB pairs and verify exact.
      Prepens gives two different numbers for round 1 - 330 in Table 3 (footnoted "approximate
      values") and 320 in its Figure 1 legend, which does not name the primer set (250 appears
@@ -219,17 +291,23 @@ trusted.
      re-cite both entries together, decide `oligos_designed_here` from what Deckers says (it
      says the primers were designed to bind conserved sites, but cites an earlier use in great
      apes), and clear the flag. Details are in each entry's `notes_curator`.
-4. **DOIs now verified** via Crossref (all 36 List 2 entries + CMV entries). Previous
-   unresolved candidates in `docs/2026-10-05-doi-candidates.md` may still need attention
-   (Pan-Flavivirus NS5, SIVdrl pol, ETEC LT, *E. cuniculi* PTP, *Encephalitozoon* 18S, and two
-   CDV/coronavirus entries) once those papers are in hand locally or via PMC.
-5. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`), Usutu
+5. **DOIs: the 2026-10-05 candidate list is CLOSED (2026-10-17).** All five candidates in
+   `docs/2026-10-05-doi-candidates.md` plus the two Wang 1997 entries are applied and
+   Crossref-verified; `check_citations.py` reports 182 checked, 0 problems. Also finished that
+   day: Nosema bombi re-cited to Klee 2006 and both CMV gB 4007/4125 entries to Deckers 2009
+   (`10.1186/1743-422X-6-210`), all verified through `resolve_citations.py`.
+   **Only the Müller 2011 CDV quartet remains, and the sequence route is exhausted**: all eight
+   walking primers were searched in NCBI PMC full text on both strands (a different index from
+   the earlier Europe PMC pass), and the single hit is a 2015 paper that designed its primers de
+   novo with Primer 3. It needs the paper or the lab's records, not another search.
+   35 entries still carry no DOI; most are genuinely unpublished in-house assays.
+6. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`), Usutu
    (`10.2807/1560-7917.es.2020.25.41.2001732`), Batrachochytrium ITS (`10.3390/jof7040258`, but
    see below), avian orthobornavirus done already. Render with pymupdf at ~200 dpi and read the
    page as an image, as was done for Ghosh - that worked and the sequences verified against
    records afterwards.
-6. **211 oligos** whose provenance is unchecked for want of full text.
-7. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` is called `fail` on every product it forms**
+7. **211 oligos** whose provenance is unchecked for want of full text.
+8. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` is called `fail` on every product it forms**
    (2,074 records, ~1,000-1,100 bp, all 5'-half mismatches with intact 3' ends). Not dead, as
    first reported: see the correction in `docs/2026-10-14-amplicon-sizes-measured.md`. A test
    case for conventional-PCR scoring under `scoring.by_chemistry`.
