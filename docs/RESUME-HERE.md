@@ -138,7 +138,7 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 | chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 173 primers only |
 | tests | 1205 passed, 11 skipped (primer3-py absent); ruff clean; 182 citations, 0 Crossref problems |
 | validation | **50 cases** (32 `works`, 12 `fails`, 6 `partial`); catches **6 of 12** documented failures; **9 disagreements** (was 14 before scope_taxids, 1/12 before lineage estimand) |
-| last full run | **2026-10-18**, with lineage estimand active; 213 assays — 66 stable, 63 declining, 12 watch, 17 low coverage, 41 insufficient data, 14 no recent data |
+| last full run | **2026-10-18** (19:15–19:41, post-CMV-gB-fix), with lineage estimand active; 212 assays — 65 stable, 60 declining, 11 watch, 21 low coverage, 41 insufficient data, 14 no recent data |
 
 Verified against the repo 2026-10-18.
 
@@ -276,16 +276,18 @@ trusted.
    Hantavirus assignment has no source; and round order for five outer rounds rests on
    declared product size rather than a protocol.
 
-   **Two re-runs owed.** `results/2026-10-15/report.md` still shows the old nested table and
-   the withdrawn coronavirus sentence, so it needs a re-render; and the ATI range is a
-   *scoring* change (window 50–3000 → 405–2125 bp), so that one assay's calls are stale until
-   it is rescreened. Nothing else here touches a call.
+   ~~**Two re-runs owed.**~~ **DONE (2026-10-18).** `results/2026-10-18/` has the full re-run
+   (19:15–19:41, 26 min). The withdrawn coronavirus "two assays" sentence is gone from the
+   report. The nested table now shows 26 families (was 21→24 in prior renders). ATI rescreened
+   with `amplicon_bp_range: [540, 1700]`: 95.3% detected on 4,474 evaluable records (stable).
+   PANPOX pair rescreened with re-scoped GC genera: highGC 95.7% (23 records, stable), lowGC
+   100% (4,550 records, stable).
 2. **Flagged decisions — nine settled 2026-10-17, see `docs/2026-10-17-flagged-decisions.md`.**
    Bacteria: Chlamydia genus primer KEPT as printed (PMC finds that form in two later wet studies
    and the corrected form in none — the defect is the penalty table, not the sequence); C.
    trachomatis serovar split ACCEPTED as a true finding; psittaci/abortus cross-reaction NOTED only;
    the three M. gallisepticum vaccine pairs HELD. Then: PANPOX pair re-scoped to measured GC genera
-   (**both now need re-retrieval and rescreen**); Nosema bombi re-cited to Klee 2006
+   (~~**both now need re-retrieval and rescreen**~~ **DONE 2026-10-18**: highGC 95.7%, lowGC 100%); Nosema bombi re-cited to Klee 2006
    (`10.1016/j.jip.2005.10.012`, in the Crossref cache; **run `scripts/resolve_citations.py` to flip
    doi_verified**); Ophidiomyces target-D KEPT; Tasman-PCR ruled OUT OF SCOPE.
    Still open: ~~Reptarenavirus winning-pair column~~ **DONE** (2026-10-18): `oligo_pool_names()`
