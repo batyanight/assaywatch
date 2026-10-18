@@ -1,13 +1,15 @@
 """Tests for assaywatch.lineage."""
 
-import pytest
+import gzip
+
 from assaywatch.lineage import (
     LineageStats,
-    lineage_for_taxid,
     confidence_interval_wald,
+    lineage_for_taxid,
     per_lineage_stats,
     worst_lineage_verdict,
 )
+from assaywatch.lineage_report import MIN_RESOLVED_SHARE, read_calls_with_taxid
 
 
 def test_lineage_resolution():
@@ -16,7 +18,7 @@ def test_lineage_resolution():
         109871: "Batrachochytrium dendrobatidis",
         11232: "Canine distemper virus",
     }
-    
+
     assert lineage_for_taxid(109871, cache) == "Batrachochytrium dendrobatidis"
     assert lineage_for_taxid(11232, cache) == "Canine distemper virus"
     assert lineage_for_taxid(999999, cache) == "taxid_999999"
@@ -58,17 +60,17 @@ def test_per_lineage_stats_grouped_by_taxid():
         {"record_id": "NZ_BDDD04.1", "call": "fail", "taxid": 11232},
         {"record_id": "NZ_BDDD05.1", "call": "fail", "taxid": 11232},
     ]
-    
+
     cache = {
         109871: "Bd",
         11232: "CDV",
     }
-    
+
     stats = per_lineage_stats(calls, cache, {}, min_records=1)
-    
+
     # Should have 2 lineages
     assert len(stats) == 2
-    
+
     # Sorted by share ascending (worst first)
     # Bd: 2/3 ≈ 0.667, CDV: 3/5 = 0.6 → CDV is worse
     assert stats[0].lineage_name == "CDV"
@@ -84,10 +86,10 @@ def test_per_lineage_stats_min_records_floor():
         {"record_id": "A2", "call": "detect", "taxid": 109871},
         {"record_id": "B1", "call": "detect", "taxid": 11232},  # Only 1 record
     ]
-    
+
     cache = {109871: "Bd", 11232: "CDV"}
     stats = per_lineage_stats(calls, cache, {}, min_records=20)
-    
+
     # Should have 0 lineages (both below 20)
     assert len(stats) == 0
 
@@ -99,15 +101,15 @@ def test_per_lineage_stats_taxid_sidecar_lookup():
         {"record_id": "AB00002.1", "call": "detect", "accession": "AB00002"},
         {"record_id": "AB00002.1", "call": "fail", "accession": "AB00002"},
     ]
-    
+
     cache = {109871: "Bd", 11232: "CDV"}
     sidecar = {
         "AB00001": 109871,
         "AB00002": 11232,
     }
-    
+
     stats = per_lineage_stats(calls, cache, sidecar, min_records=1)
-    
+
     assert len(stats) == 2
     assert stats[0].lineage_name == "CDV"
     assert stats[0].n_detected == 1
@@ -123,15 +125,16 @@ def test_worst_lineage_verdict_all_detecting():
         LineageStats("test", "Bd", 109871, 20, 18, 0.9, 0.75, 0.98),
         LineageStats("test", "CDV", 11232, 20, 19, 0.95, 0.80, 0.99),
     ]
-    
+
     # With threshold 0.8, both lineages are well above it
-    verdict = worst_lineage_verdict(stats, 0.8)
+    verdict, idx = worst_lineage_verdict(stats, 0.8)
     assert verdict == "detecting"
+    assert idx is None
 
 
 def test_worst_lineage_verdict_empty():
     """No lineages returns None."""
-    assert worst_lineage_verdict([], 0.8) is None
+    assert worst_lineage_verdict([], 0.8) == (None, None)
 
 
 # --- the accession join -------------------------------------------------
@@ -140,10 +143,6 @@ def test_worst_lineage_verdict_empty():
 # with row["accession"] when its column is "record_id"; calls carry versioned
 # accessions (AB027157.1) while the sidecar is keyed unversioned (AB027157);
 # and the metadata glob missed the <taxid>/<group>/ archive layout.
-
-import gzip
-
-from assaywatch.lineage_report import MIN_RESOLVED_SHARE, read_calls_with_taxid
 
 
 def _calls_file(tmp_path, rows):

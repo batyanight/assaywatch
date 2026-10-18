@@ -248,7 +248,7 @@ class AssayDrift:
     # size). Empty when it survived or was not checked.
     cluster_failures: tuple[str, ...] = ()
 
-    # Per-lineage analysis (phase 2). When taxids are available, each assay's
+    # Per-lineage analysis. When taxids are available, each assay's
     # recent evaluable records are grouped by NCBI taxid and tested per lineage.
     # The worst assessable lineage drives the verdict when it is significantly
     # below threshold (Benjamini-Hochberg across lineages).
@@ -512,22 +512,30 @@ class AssayDrift:
             # No assessable lineages (all below floor, or all unresolved).
             return
 
-        verdict = worst_lineage_verdict(stats, self.threshold)
+        verdict, worst_idx = worst_lineage_verdict(stats, self.threshold)
         self.lineage_verdict = verdict
 
-        if verdict == "failing" and self.status not in ("declining", "low coverage"):
-            # The pooled number says stable/watch/insufficient, but a lineage is
-            # significantly failing. Override.
+        if verdict == "failing" and self.status != "declining":
+            # The pooled number says stable/watch/insufficient/low coverage,
+            # but a lineage is significantly failing. Override.
             self.status_pooled = self.status
             self.status = "declining"
             self.lineage_override = True
-            worst = stats[0]  # sorted worst-first
+            worst = stats[worst_idx]
+            # Build a note that accurately describes why the override happened.
+            if self.status_pooled in ("stable", "watch"):
+                prefix = (
+                    f"pooled share {self.recent_fraction:.1%} is above the {self.threshold:.0%} threshold"
+                )
+            elif self.status_pooled == "low coverage":
+                prefix = f"pooled share {self.recent_fraction:.1%} has low coverage"
+            else:
+                prefix = f"pooled status was {self.status_pooled}"
             self.note = (
-                f"pooled share {self.recent_fraction:.1%} is above the "
-                f"{self.threshold:.0%} threshold, but lineage {worst.lineage_name} "
+                f"{prefix}, but lineage {worst.lineage_name} "
                 f"({worst.n_evaluable} records) detects only {worst.share:.1%} "
                 f"({worst.ci_lower:.1%}-{worst.ci_upper:.1%}); "
-                f"worst-lineage verdict overrides to declining"
+                f"lineage verdict overrides to declining"
             )
 
     def finalise(self) -> AssayDrift:
@@ -831,7 +839,7 @@ def assess(
                 base = rid.split(".")[0]
                 # Build a minimal call dict with the taxid attached.
                 # taxids may be keyed by versioned or unversioned accession.
-                txid = taxids.get(rid) or taxids.get(base)
+                txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
                 recent_calls_for_lineage.append(
                     {
                         "record_id": rid,

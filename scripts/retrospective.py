@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -48,6 +49,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from assaywatch.drift import assess  # noqa: E402
+from assaywatch.lineage import load_taxa_cache  # noqa: E402
 from assaywatch.report import key_calls_by_accession, read_calls, read_dates  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
 
@@ -106,18 +108,54 @@ class Evidence:
 
     dates: dict[str, str]
     by_assay: dict[str, list[dict[str, Any]]]
+    taxids: dict[str, int] | None = None
+    taxa_cache: dict[int, str] | None = None
 
 
-def load_evidence(calls_path: Path, retrieved: Path) -> Evidence:
+def load_evidence(calls_path: Path, retrieved: Path, cfg: dict | None = None) -> Evidence:
     """Read and deduplicate the calls table and the deposit dates, once.
 
     Deduplication is keyed on (assay, accession), so doing it before grouping by
     assay gives the same rows a per-assay pass would.
+
+    When lineage config is present, also loads the taxid backfill sidecar and
+    the taxa cache so per-lineage analysis runs during retrospective verdicts.
     """
     by_assay: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in key_calls_by_accession(read_calls(calls_path)):
         by_assay[r["assay_id"]].append(r)
-    return Evidence(read_dates(retrieved), dict(by_assay))
+
+    taxids: dict[str, int] | None = None
+    taxa_cache: dict[int, str] | None = None
+    if cfg:
+        lcfg = cfg.get("lineage", {})
+        taxa_cache_path = lcfg.get("taxa_cache")
+        if taxa_cache_path:
+            taxa_cache = load_taxa_cache(taxa_cache_path)
+            taxids = {}
+            sidecar_path = retrieved / ".meta.taxid.backfill.tsv.gz"
+            if sidecar_path.exists():
+                with gzip.open(sidecar_path, "rt") as f:
+                    next(f, None)  # skip header
+                    for line in f:
+                        acc, _, tx = line.rstrip("\n").partition("\t")
+                        if tx.isdigit():
+                            taxids[acc.split(".")[0]] = int(tx)
+            # Also read taxids from archive metadata (new-style with taxid column)
+            for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
+                with gzip.open(meta_path, "rt") as f:
+                    hdr = (f.readline() or "").rstrip("\n").split("\t")
+                    if "taxid" not in hdr or "accession" not in hdr:
+                        continue
+                    ai, ti = hdr.index("accession"), hdr.index("taxid")
+                    for line in f:
+                        parts = line.rstrip("\n").split("\t")
+                        if len(parts) > max(ai, ti) and parts[ti].isdigit():
+                            taxids[parts[ai].split(".")[0]] = int(parts[ti])
+            if not taxids:
+                taxids = None
+
+    return Evidence(read_dates(retrieved), dict(by_assay), taxids, taxa_cache)
 
 
 def status_from_evidence(evidence: Evidence, cfg: dict, as_of: date, assays: set[str] | None = None):
@@ -129,7 +167,9 @@ def status_from_evidence(evidence: Evidence, cfg: dict, as_of: date, assays: set
         else {a: evidence.by_assay[a] for a in assays if a in evidence.by_assay}
     )
     rows = [r for rs in wanted.values() for r in rs if evidence.dates.get(r["record_id"], "9999") < cutoff]
-    return assess(rows, evidence.dates, cfg, today=as_of), len(rows)
+    return assess(
+        rows, evidence.dates, cfg, today=as_of, taxids=evidence.taxids, taxa_cache=evidence.taxa_cache
+    ), len(rows)
 
 
 def status_as_of(calls_path: Path, retrieved: Path, cfg: dict, as_of: date, assays: set[str] | None = None):
@@ -139,7 +179,7 @@ def status_as_of(calls_path: Path, retrieved: Path, cfg: dict, as_of: date, assa
     asking several should call `load_evidence` once and `status_from_evidence`
     per question, which is what `--cases` does.
     """
-    return status_from_evidence(load_evidence(calls_path, retrieved), cfg, as_of, assays)
+    return status_from_evidence(load_evidence(calls_path, retrieved, cfg), cfg, as_of, assays)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -176,7 +216,7 @@ def main(argv: list[str] | None = None) -> int:
     # Comment lines carry each case's provenance; strip them before the header is read.
     body = [ln for ln in args.cases.read_text().splitlines() if ln.strip() and not ln.startswith("#")]
     cases = list(csv.DictReader(body, delimiter="\t"))
-    evidence = load_evidence(calls, args.retrieved)  # once, not once per case
+    evidence = load_evidence(calls, args.retrieved, cfg)  # once, not once per case
     tally: Counter = Counter()
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
     for c in cases:

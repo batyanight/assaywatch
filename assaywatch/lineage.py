@@ -10,13 +10,10 @@ Per-lineage analysis asks: what is the worst-case detection among the clades
 this assay was asked to detect?
 """
 
-from dataclasses import dataclass
-from typing import Any
-from pathlib import Path
 import json
-import gzip
-import csv
 from collections import defaultdict
+from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 from scipy.special import comb
@@ -70,18 +67,18 @@ def per_lineage_stats(
     min_records: int = 20,
 ) -> list[LineageStats]:
     """Compute per-lineage detection stats for one assay's calls.
-    
+
     Args:
         calls: List of call dicts, each with keys 'record_id', 'call', 'taxid' (optional)
         taxa_cache: taxid -> lineage name mapping
         taxid_sidecar: accession -> taxid mapping for backfilled records
         min_records: minimum evaluable records per lineage for assessability
-    
+
     Returns:
         List of LineageStats, sorted by share ascending (worst first for call determination).
     """
     evaluable_calls = [c for c in calls if c["call"] in ("detect", "reduced", "fail")]
-    
+
     # Group by lineage (derived from record's taxid)
     by_lineage = defaultdict(list)
     for call in evaluable_calls:
@@ -92,20 +89,20 @@ def per_lineage_stats(
             parts = call["record_id"].split(".")
             accession = parts[0] if parts else call.get("accession", "")
             taxid = taxid_sidecar.get(accession)
-        
+
         lineage = lineage_for_taxid(taxid, taxa_cache)
         by_lineage[lineage].append(call)
-    
+
     results = []
     for lineage, lineage_calls in sorted(by_lineage.items()):
         n_eval = len(lineage_calls)
         if n_eval < min_records:
             continue  # Below floor; will be reported as "below floor" row
-        
+
         n_det = sum(1 for c in lineage_calls if c["call"] in ("detect", "reduced"))
         share = n_det / n_eval if n_eval > 0 else 0
         ci_lower, ci_upper = confidence_interval_wald(n_det, n_eval)
-        
+
         # Extract taxid from lineage name if present
         taxid_val = None
         if lineage.startswith("taxid_"):
@@ -113,7 +110,7 @@ def per_lineage_stats(
                 taxid_val = int(lineage.split("_")[1])
             except (IndexError, ValueError):
                 pass
-        
+
         results.append(
             LineageStats(
                 assay_id="",  # Filled by caller
@@ -126,20 +123,29 @@ def per_lineage_stats(
                 ci_upper=ci_upper,
             )
         )
-    
+
     # Sort by share (ascending) so worst lineage comes first
     return sorted(results, key=lambda x: x.share)
 
 
-def worst_lineage_verdict(lineage_stats: list[LineageStats], threshold: float) -> str | None:
-    """Determine verdict from worst assessable lineage.
-    
-    Apply Benjamini-Hochberg correction across lineages before thresholding.
-    Returns None if no lineages are assessable.
+def worst_lineage_verdict(
+    lineage_stats: list[LineageStats], threshold: float
+) -> tuple[str | None, int | None]:
+    """Determine verdict from per-lineage analysis.
+
+    Apply Benjamini-Hochberg correction across lineages.  If *any* lineage is
+    significantly below *threshold*, the assay is failing.
+
+    Returns
+    -------
+    (verdict, worst_rejected_idx)
+        verdict : "failing" | "detecting" | None (no assessable lineages)
+        worst_rejected_idx : index into *lineage_stats* of the rejected lineage
+            with the lowest share, or None when verdict is not "failing".
     """
     if not lineage_stats:
-        return None
-    
+        return None, None
+
     # Collect p-values (one-sided test: is share significantly below threshold?)
     # H0: share >= threshold
     # H1: share < threshold
@@ -149,17 +155,20 @@ def worst_lineage_verdict(lineage_stats: list[LineageStats], threshold: float) -
         # Use cumulative binomial: P(X <= n_detected | n_evaluable, threshold)
         # This is a one-sided test lower tail
         p = sum(
-            comb(stat.n_evaluable, k) * (threshold ** k) * ((1 - threshold) ** (stat.n_evaluable - k))
+            comb(stat.n_evaluable, k) * (threshold**k) * ((1 - threshold) ** (stat.n_evaluable - k))
             for k in range(stat.n_detected + 1)
         )
         p_values.append(p)
-    
+
     # Benjamini-Hochberg FDR control
     if p_values:
         reject, corrected_p, _, _ = multipletests(p_values, method="fdr_bh")
-        # The worst lineage is lineage_stats[0] (lowest share)
-        if reject[0]:
-            return "failing"  # Worst lineage significantly below threshold
-    
-    # If worst lineage is not failing, the assay passes
-    return "detecting"
+        if any(reject):
+            # Among rejected lineages, pick the one with the lowest share
+            worst_idx = min(
+                (i for i, r in enumerate(reject) if r),
+                key=lambda i: lineage_stats[i].share,
+            )
+            return "failing", worst_idx
+
+    return "detecting", None
