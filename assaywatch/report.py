@@ -737,7 +737,40 @@ def build(
             today = date.fromisoformat(run_date[:10])
         except ValueError:
             today = None
-    drifts = assess(calls, dates, cfg, today=today)
+    # Load taxid data for per-lineage analysis (phase 2).
+    taxid_map: dict[str, int] | None = None
+    taxa_cache_data: dict[int, str] | None = None
+    lineage_cfg = cfg.get("lineage", {})
+    taxa_cache_path = lineage_cfg.get("taxa_cache")
+    if taxa_cache_path:
+        from assaywatch.lineage import load_taxa_cache
+
+        taxa_cache_data = load_taxa_cache(taxa_cache_path)
+        # Build accession -> taxid from the backfill sidecar + archive metadata.
+        taxid_map = {}
+        sidecar_path = retrieved / ".meta.taxid.backfill.tsv.gz"
+        if sidecar_path.exists():
+            with gzip.open(sidecar_path, "rt") as f:
+                next(f, None)  # skip header
+                for line in f:
+                    acc, _, tx = line.rstrip("\n").partition("\t")
+                    if tx.isdigit():
+                        taxid_map[acc.split(".")[0]] = int(tx)
+        for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
+            with gzip.open(meta_path, "rt") as f:
+                hdr = (f.readline() or "").rstrip("\n").split("\t")
+                if "taxid" not in hdr or "accession" not in hdr:
+                    continue
+                ai, ti = hdr.index("accession"), hdr.index("taxid")
+                for line in f:
+                    parts = line.rstrip("\n").split("\t")
+                    if len(parts) > max(ai, ti) and parts[ti].isdigit():
+                        taxid_map[parts[ai].split(".")[0]] = int(parts[ti])
+        if not taxid_map:
+            taxid_map = None
+            taxa_cache_data = None
+
+    drifts = assess(calls, dates, cfg, today=today, taxids=taxid_map, taxa_cache=taxa_cache_data)
     gaps = coverage_gaps(drifts, taxa, cfg)
     # Nested families are read from the SAME deduplicated calls the drift
     # statistic uses, so the two never disagree about which records exist.

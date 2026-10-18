@@ -271,3 +271,133 @@ def test_one_good_year_is_not_enough_evidence_on_a_handful_of_records():
     calls, years = records({2015: {"detect": 4}, 2016: {"detect": 20, "fail": 76}, 2025: {"fail": 60}})
     a = assess(calls, years, CFG, today=TODAY)["A"]
     assert not a.ever_worked and a.status == "low coverage"
+
+
+# ---------- lineage-conditional estimand (phase 2) ----------
+
+
+LINEAGE_CFG = {
+    **CFG,
+    "lineage": {"min_records_per_lineage": 20},
+}
+
+
+def _records_with_taxids(year_taxid_counts):
+    """Build calls, years, and taxids for lineage tests.
+
+    year_taxid_counts: {year: {taxid: {call: n}}}
+    Returns (calls, years, taxids) where taxids maps record_id -> taxid.
+    """
+    calls, years, taxids = [], {}, {}
+    i = 0
+    for year, taxa in year_taxid_counts.items():
+        for taxid, counts in taxa.items():
+            for call, n in counts.items():
+                for _ in range(n):
+                    rid = f"AB{i:05d}"
+                    calls.append({"assay_id": "A", "record_id": rid, "call": call})
+                    years[rid] = year
+                    taxids[rid] = taxid
+                    i += 1
+    return calls, years, taxids
+
+
+def test_lineage_override_stable_to_declining():
+    """A pooled-stable assay whose worst lineage is failing becomes declining."""
+    # Lineage 1 dominates with perfect detection; lineage 2 is failing badly
+    # but its small size doesn't drag the pooled share below 90%.
+    # Pooled: 205/220 = 93.2% → stable.  Lineage 2: 5/20 = 25% → failing.
+    calls, years, taxids = _records_with_taxids(
+        {
+            2025: {
+                100: {"detect": 200},  # lineage 1: 200/200 = 100%
+                200: {"detect": 5, "fail": 15},  # lineage 2: 5/20 = 25%
+            },
+        }
+    )
+    taxa_cache = {100: "Lineage A", 200: "Lineage B"}
+    a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
+    assert a.lineage_override is True
+    assert a.status == "declining"
+    assert a.status_pooled == "stable"
+    assert a.lineage_verdict == "failing"
+
+
+def test_lineage_no_override_when_all_detecting():
+    """When all lineages detect above threshold, no override."""
+    calls, years, taxids = _records_with_taxids(
+        {
+            2025: {
+                100: {"detect": 25},  # 100%
+                200: {"detect": 23, "fail": 2},  # 92% > 90%
+            },
+        }
+    )
+    taxa_cache = {100: "Lineage A", 200: "Lineage B"}
+    a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
+    assert a.lineage_override is False
+    assert a.status == "stable"
+    assert a.lineage_verdict == "detecting"
+
+
+def test_lineage_no_override_when_already_declining():
+    """If pooled status is already declining, no override needed."""
+    # Need a working baseline so it's "declining" rather than "low coverage".
+    calls, years, taxids = _records_with_taxids(
+        {
+            2020: {
+                100: {"detect": 30},  # baseline: 100% — assay worked once
+            },
+            2025: {
+                100: {"detect": 10, "fail": 15},  # lineage 1: 40%
+                200: {"detect": 10, "fail": 15},  # lineage 2: 40%
+            },
+        }
+    )
+    taxa_cache = {100: "Lineage A", 200: "Lineage B"}
+    a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
+    # Pooled is already declining (20/50 = 40%), so lineage_override is False.
+    assert a.lineage_override is False
+    assert a.status == "declining"
+
+
+def test_lineage_below_floor_ignored():
+    """Lineages below min_records_per_lineage are not assessable."""
+    calls, years, taxids = _records_with_taxids(
+        {
+            2025: {
+                100: {"detect": 200},  # lineage 1: 200/200 = 100%, assessable
+                200: {"detect": 2, "fail": 8},  # lineage 2: only 10 records < 20 floor
+            },
+        }
+    )
+    taxa_cache = {100: "Lineage A", 200: "Lineage B"}
+    a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
+    assert len(a.lineage_stats) == 1  # only lineage 1 passed the floor
+    assert a.lineage_stats[0].lineage_name == "Lineage A"
+    assert a.lineage_override is False
+
+
+def test_lineage_fields_absent_without_taxids():
+    """When no taxid data is passed, lineage fields stay None."""
+    calls, years = records({2025: {"detect": 30}})
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert a.lineage_stats is None
+    assert a.lineage_verdict is None
+    assert a.lineage_override is False
+
+
+def test_lineage_coverage_fraction():
+    """lineage_coverage reflects what share of evaluable records are in assessable lineages."""
+    calls, years, taxids = _records_with_taxids(
+        {
+            2025: {
+                100: {"detect": 200},  # assessable (200 >= 20)
+                200: {"detect": 5, "fail": 5},  # below floor (10 < 20)
+            },
+        }
+    )
+    taxa_cache = {100: "Lineage A", 200: "Lineage B"}
+    a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
+    # 200 of 210 evaluable records are in assessable lineages.
+    assert a.lineage_coverage == pytest.approx(200 / 210, abs=1e-6)

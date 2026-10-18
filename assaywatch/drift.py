@@ -84,6 +84,12 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
 
+from assaywatch.lineage import (
+    LineageStats,
+    per_lineage_stats,
+    worst_lineage_verdict,
+)
+
 EVALUABLE = ("detect", "reduced", "fail")
 Z95 = 1.959963984540054
 
@@ -241,6 +247,20 @@ class AssayDrift:
     # declining assay's fall from baseline no longer excludes zero at that sample
     # size). Empty when it survived or was not checked.
     cluster_failures: tuple[str, ...] = ()
+
+    # Per-lineage analysis (phase 2). When taxids are available, each assay's
+    # recent evaluable records are grouped by NCBI taxid and tested per lineage.
+    # The worst assessable lineage drives the verdict when it is significantly
+    # below threshold (Benjamini-Hochberg across lineages).
+    lineage_stats: list[LineageStats] | None = None
+    lineage_verdict: str | None = None  # "failing" or "detecting", from worst_lineage_verdict
+    # The share of recent evaluable records that sit in assessable lineages
+    # (those with >= min_records_per_lineage). Low means the verdict is weak.
+    lineage_coverage: float | None = None
+    # Whether the lineage verdict changed the pooled status.
+    lineage_override: bool = False
+    # The pooled status before lineage override, so the report can show both.
+    status_pooled: str | None = None
 
     @property
     def total_evaluable(self) -> int:
@@ -451,6 +471,65 @@ class AssayDrift:
             self.cluster_failures = tuple(failures)
             self.flag_survives_clustering = not failures
 
+    def _lineage_check(
+        self,
+        recent_calls: list[dict],
+        taxa_cache: dict[int, str],
+        taxid_sidecar: dict[str, int],
+        min_records_per_lineage: int,
+    ) -> None:
+        """Per-lineage analysis: does the worst assessable lineage fail?
+
+        Called after finalise, so the pooled status is already set. When the
+        worst lineage is significantly below threshold, the status is overridden
+        to ``declining`` (or stays ``declining`` if it already was). The pooled
+        status is saved in ``status_pooled`` so the report can show both.
+
+        The override runs in ONE direction only: a pooled ``stable`` can become
+        ``declining`` if a lineage is failing, but a pooled ``declining`` is
+        never upgraded to ``stable`` by the lineage check. This follows
+        Decision 2 in docs/2026-10-17-estimand-plan.md: the worst assessable
+        lineage drives the call.
+        """
+        if not recent_calls:
+            return
+
+        stats = per_lineage_stats(
+            recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage
+        )
+        for s in stats:
+            s.assay_id = self.assay_id
+        self.lineage_stats = stats
+
+        # What share of recent evaluable records sit in assessable lineages?
+        n_in_assessable = sum(s.n_evaluable for s in stats)
+        if self.recent_evaluable > 0:
+            self.lineage_coverage = n_in_assessable / self.recent_evaluable
+        else:
+            self.lineage_coverage = 0.0
+
+        if not stats:
+            # No assessable lineages (all below floor, or all unresolved).
+            return
+
+        verdict = worst_lineage_verdict(stats, self.threshold)
+        self.lineage_verdict = verdict
+
+        if verdict == "failing" and self.status not in ("declining", "low coverage"):
+            # The pooled number says stable/watch/insufficient, but a lineage is
+            # significantly failing. Override.
+            self.status_pooled = self.status
+            self.status = "declining"
+            self.lineage_override = True
+            worst = stats[0]  # sorted worst-first
+            self.note = (
+                f"pooled share {self.recent_fraction:.1%} is above the "
+                f"{self.threshold:.0%} threshold, but lineage {worst.lineage_name} "
+                f"({worst.n_evaluable} records) detects only {worst.share:.1%} "
+                f"({worst.ci_lower:.1%}-{worst.ci_upper:.1%}); "
+                f"worst-lineage verdict overrides to declining"
+            )
+
     def finalise(self) -> AssayDrift:
         if self.recent_counts or self.baseline_counts:
             r, b = YearStats(0, self.recent_counts), YearStats(0, self.baseline_counts)
@@ -585,6 +664,8 @@ def assess(
     years: dict[str, int | str],
     cfg: dict[str, Any],
     today: date | None = None,
+    taxids: dict[str, int] | None = None,
+    taxa_cache: dict[int, str] | None = None,
 ) -> dict[str, AssayDrift]:
     """Group calls by assay and deposit date and work out each assay's status.
 
@@ -603,6 +684,10 @@ def assess(
     ever since, on no change in the assay. Each assay reports the window it
     actually used, and widening can only add older records, never drop recent
     ones.
+
+    When ``taxids`` is provided (record_id → taxid mapping), per-lineage
+    analysis runs after the pooled verdict.  The worst assessable lineage can
+    override a pooled "stable" or "watch" to "declining".
     """
     d = cfg.get("drift", {})
     base_months = int(d.get("recent_window_months", 24))
@@ -634,6 +719,9 @@ def assess(
 
     # Gather per assay first: the window cannot be chosen until the dates are known.
     per: dict[str, list[tuple[str | None, str, str, str | None]]] = {}
+    # When taxids are available, also keep the full row dict per assay for the
+    # lineage check (only recent evaluable calls, filtered after window selection).
+    raw_per: dict[str, list[tuple[str | None, dict[str, Any]]]] = {} if taxids else {}
     for row in calls:
         when = years.get(row["record_id"])
         # A bare year keeps year granularity below, so it is anchored at 1 January.
@@ -653,6 +741,8 @@ def assess(
         # assay's duplication check unknown - an honest "cannot say".
         fp = None if (count_diverged and why == "diverged") else row.get("footprint")
         per.setdefault(row["assay_id"], []).append((iso, call, why, fp))
+        if taxids is not None:
+            raw_per.setdefault(row["assay_id"], []).append((iso, row))
 
     grouped: dict[str, AssayDrift] = {}
     for assay_id, rows in per.items():
@@ -722,6 +812,41 @@ def assess(
             a.note += f" (window widened to {months} months to reach {min_records} evaluable records)"
         if a.skipped_undated:
             a.note += f" ({a.skipped_undated} records skipped: no deposit date in the metadata)"
+
+        # Per-lineage analysis: does the worst assessable lineage fail?
+        if taxids is not None and taxa_cache is not None:
+            lcfg = cfg.get("lineage", {})
+            min_per_lineage = int(lcfg.get("min_records_per_lineage", 20))
+            # Collect recent evaluable calls with taxid annotations.
+            recent_calls_for_lineage = []
+            for iso, orig_row in raw_per.get(assay_id, []):
+                if iso is None:
+                    continue
+                if not inside(iso, months):
+                    continue
+                c = orig_row["call"]
+                if c not in EVALUABLE:
+                    continue
+                rid = orig_row["record_id"]
+                base = rid.split(".")[0]
+                # Build a minimal call dict with the taxid attached.
+                # taxids may be keyed by versioned or unversioned accession.
+                txid = taxids.get(rid) or taxids.get(base)
+                recent_calls_for_lineage.append(
+                    {
+                        "record_id": rid,
+                        "call": c,
+                        "taxid": txid,
+                        "accession": base,
+                    }
+                )
+            a._lineage_check(
+                recent_calls_for_lineage,
+                taxa_cache,
+                taxids,  # doubles as sidecar: record_id → taxid
+                min_per_lineage,
+            )
+
         grouped[assay_id] = a
     return grouped
 
