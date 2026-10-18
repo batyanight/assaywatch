@@ -84,7 +84,7 @@ fetch_species_taxids() {
 
     echo "  Querying NCBI taxonomy: txid${parent_taxid}[Subtree] AND species[Rank]..." >&2
     local result
-    result=$(esearch -db taxonomy -term "txid${parent_taxid}[Subtree] AND species[Rank]" \
+    result=$(esearch -db taxonomy -query "txid${parent_taxid}[Subtree] AND species[Rank]" \
         | efetch -format docsum \
         | xtract -pattern DocumentSummary -element TaxId)
     sleep "$SLEEP"
@@ -92,7 +92,7 @@ fetch_species_taxids() {
     if [[ -z "$result" ]]; then
         echo "  WARNING: no species-rank taxids found under ${parent_taxid} (${label})" >&2
         echo "  Falling back to subtree without rank filter..." >&2
-        result=$(esearch -db taxonomy -term "txid${parent_taxid}[Subtree]" \
+        result=$(esearch -db taxonomy -query "txid${parent_taxid}[Subtree]" \
             | efetch -format docsum \
             | xtract -pattern DocumentSummary -element TaxId)
         sleep "$SLEEP"
@@ -109,6 +109,11 @@ patch_yaml() {
     if grep -q 'scope_taxids:' "$file"; then
         echo "  SKIP (scope_taxids already present): $file" >&2
         return
+    fi
+
+    if [[ -z "$taxids_str" || "$taxids_str" =~ ^[[:space:]]*$ ]]; then
+        echo "  ERROR: no taxids to insert for $file — skipping" >&2
+        return 1
     fi
 
     # Sort numerically, join with ", "
