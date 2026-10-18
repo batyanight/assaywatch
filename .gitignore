@@ -38,3 +38,7 @@ Claude outputs/
 # scratch from ad-hoc screens, backfills and manual snakemake runs
 .tmp/ati-test/
 .tmp/*.log
+
+# handoff bundles are derived from docs/ and results/; not source
+assaywatch-handoff-*.tar.gz
+.tmp/handoff/
