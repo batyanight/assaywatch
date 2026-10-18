@@ -98,6 +98,13 @@ fetch_species_taxids() {
         sleep "$SLEEP"
     fi
 
+    # If still empty, the taxid itself is likely species-level (e.g. CDV 11232).
+    # Use it directly so scope filtering works.
+    if [[ -z "$result" ]]; then
+        echo "  Using parent taxid ${parent_taxid} directly (already species-level)" >&2
+        result="$parent_taxid"
+    fi
+
     echo "$result" > "$cache_file"
     echo "$result"
 }
@@ -113,7 +120,7 @@ patch_yaml() {
 
     if [[ -z "$taxids_str" || "$taxids_str" =~ ^[[:space:]]*$ ]]; then
         echo "  ERROR: no taxids to insert for $file — skipping" >&2
-        return 1
+        return 0
     fi
 
     # Sort numerically, join with ", "
