@@ -5,6 +5,7 @@ target:
   gene: P
   genome_type: ssRNA-
   taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
+  scope_taxids: [11232]
 chemistry: mgb
 oligos:
   forward:

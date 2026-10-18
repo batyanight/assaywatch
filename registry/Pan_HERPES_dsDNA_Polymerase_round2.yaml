@@ -6,6 +6,7 @@ target:
   genome_type: dsDNA
   taxon_name: Orthoherpesviridae (formerly Herpesviridae)
   query: '"DNA polymerase"[Title] OR UL30[Gene] OR pol[Gene] OR DPOL[Gene] OR "complete genome"[Title]'
+  scope_taxids: [10292]
 chemistry: conventional
 oligos:
   forward:

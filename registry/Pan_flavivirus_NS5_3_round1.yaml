@@ -6,6 +6,7 @@ target:
   genome_type: ssRNA+
   taxon_name: Orthoflavivirus (formerly Flavivirus)
   query: NS5[Gene] OR NS5[Title] OR "complete genome"[Title] OR polyprotein[Title]
+  scope_taxids: [11051]
 chemistry: conventional
 oligos:
   forward:
