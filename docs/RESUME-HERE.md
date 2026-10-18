@@ -1,40 +1,42 @@
-# Resume point, 2026-10-17 (the post-PR#1 rerun is done; the estimand is the only blocker left)
+# Resume point, 2026-10-18 (lineage estimand implemented and recalibrated)
 
-Everything described here is on `main` at `fc57e61` (merge of PR #2), working tree clean. This
-file is the short version of where to pick up. The 2026-10-06 version, with the full List 2
-session record, is `git show b6584ac:docs/RESUME-HERE.md`.
-
-**What changed in this revision.** The 2026-10-15 edition of this file was written 35 minutes
-before the full rescreen it called blocking item 0, and so told the next session to run a job
-that was already done by the time anyone read it. That section is now the run's result. Two
-other figures in it were wrong: the validation set is 50 cases, not 46, and the
-`declining 37 -> 22` estimate it credited to the README is not in the README — it was computed
-in this file. Verify this file's top-of-page claims against the repo (`git log`, `results/`
+Everything described here is on `main` at `b01e271`, working tree clean. This file is the
+short version of where to pick up. Verify claims against the repo (`git log`, `results/`
 dates, `python -m assaywatch.validate registry`) before acting on them; it goes stale fast.
 
-## The one thing that matters most: the estimand
+## The estimand: implemented, recalibrated, and blocked on scope logic
 
-Validation (`2d3dea2`, 2026-10-04, at 46 cases then; `docs/validation-cases.tsv` now holds 50 —
-32 `works`, 12 `fails`, 6 `partial`) found the tool catches **1 of 12** documented
-assay failures. The cause is in `docs/2026-10-04-pipeline-review.md`: each assay is reduced to
-one population-level detected share, and a lineage-conditional failure (the assay still
-detects most deposits but misses one clade) is diluted by everything else in the archive.
-Nothing merged since then touches this. Every threshold in `config.yaml` is still a
-placeholder until tier-2 validation can calibrate it, and calibrating thresholds on a metric
-that cannot see the failures would not help.
+The lineage-conditional estimand is live. Per-lineage detection analysis groups records by
+NCBI taxid, runs a one-sided binomial test per lineage, applies Benjamini-Hochberg FDR
+correction, and overrides a pooled stable/watch to declining when the worst assessable lineage
+fails. Design: `docs/2026-10-17-estimand-plan.md`. Implementation:
+`docs/2026-10-18-phase2-handoff.md`. The import is lazy (scipy/statsmodels stay optional for
+rules that don't use lineage analysis).
 
-The ranked work list from the 2026-10-09 assessment (that handoff was never committed; this
-is its substance):
+Recalibration (`docs/2026-10-18-recalibration.md`, run 2026-10-18) against 50 validation
+cases: the tool now catches **6 of 12** documented failures (was 1 of 12). Of 33 judged
+cases, 14 disagree — a 42% error rate. All 14 disagreements are structural:
 
-1. **Lineage-conditional verdicts.** Report and judge detection per lineage or clade, not only
-   pooled. Start with a written plan (how lineages are assigned, what the minimum per-lineage
-   evidence is, how a verdict is formed from per-lineage shares) before code.
-2. Homology-anchored footprint scoring, so the duplication check sees clade structure and not
+- **12 are pan-family scope** — the tool counts failures from taxa outside the assay's design
+  scope. Fix: a registry-level `scope_taxids` field so out-of-scope failures are reported but
+  not scored.
+- **2 are taxid-resolution ceiling** — Bd haplotypes and influenza subtypes share a taxid, so
+  per-lineage analysis cannot see the within-taxid divergence. Fix: sequence-cluster lineages
+  (phase 2 future work).
+
+**No threshold change.** The errors are in what the tool measures, not where it draws the line.
+
+The ranked work list from the 2026-10-09 assessment, updated:
+
+1. ~~**Lineage-conditional verdicts.**~~ DONE (2026-10-18). 6 of 12 failures caught.
+2. **Pan-family scope logic.** The next thing that moves the number. Would resolve 12 of 14
+   current disagreements. Needs `scope_taxids` in the registry schema.
+3. Homology-anchored footprint scoring, so the duplication check sees clade structure and not
    only identical footprints.
-3. Serial scoring logic (nested rounds now have a joint-coverage table, see below; the same
+4. Serial scoring logic (nested rounds now have a joint-coverage table, see below; the same
    idea applies wherever one reaction feeds another).
-4. Two config decisions deferred in the review.
-5. Pause registry growth until the verdict can catch what validation says it should.
+5. **Sequence-cluster lineages** (phase 2 of the estimand). Would resolve the 2 FNs where
+   lineages share a taxid (Bd, influenza).
 6. Treat the validation set with caution: re-check each case's `as_of` date and expected
    outcome before using it to fit anything.
 
@@ -106,11 +108,11 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 |---|---|
 | registry | **217 valid, 0 problems**: 213 draft, 3 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
 | chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 173 primers only |
-| tests | 1126 passed, 11 skipped (primer3-py absent); ruff clean; 182 citations, 0 Crossref problems. Was 1118 before the eight tests pinning the nested family key and containment rule |
-| validation | **50 cases** (32 `works`, 12 `fails`, 6 `partial`); catches 1 of 12 documented failures (unchanged since 2026-10-04) |
-| last full run | **2026-10-15**, the first with the size filter on; 213 assays screened |
+| tests | 1201 passed, 11 skipped (primer3-py absent); ruff clean; 182 citations, 0 Crossref problems |
+| validation | **50 cases** (32 `works`, 12 `fails`, 6 `partial`); catches **6 of 12** documented failures (was 1/12 before lineage estimand) |
+| last full run | **2026-10-18**, with lineage estimand active; 213 assays — 66 stable, 63 declining, 12 watch, 17 low coverage, 41 insufficient data, 14 no recent data |
 
-Verified against the repo 2026-10-17.
+Verified against the repo 2026-10-18.
 
 ## Why the remaining work wants the local machine
 
@@ -215,11 +217,11 @@ trusted.
 
 ## Then, in value order
 
-0. **The lineage-conditional estimand.** The rerun that used to share this slot is done, and
-   the written design it asked for now exists: **`docs/2026-10-17-estimand-plan.md`**, with
-   both decisions settled (taxonomy first then sequence clusters; worst assessable lineage
-   drives the call, with Benjamini-Hochberg). What remains is implementation, in the six steps
-   that document ends with. Steps 1-4 change no call; step 5 moves the number.
+0. ~~**The lineage-conditional estimand.**~~ **DONE (2026-10-18).** Design:
+   `docs/2026-10-17-estimand-plan.md`. Implementation: `docs/2026-10-18-phase2-handoff.md`.
+   Recalibration: `docs/2026-10-18-recalibration.md`. Catches 6 of 12 documented failures.
+   Remaining disagreements are structural (pan-family scope and taxid resolution), not threshold.
+   **Next: pan-family scope logic (`scope_taxids` in registry schema).**
 1. **Nested families — mostly DONE 2026-10-17, see `docs/2026-10-17-nested-family-key.md`.**
    The id base was not a sufficient family key, and it had manufactured two of the three
    "non-nesting" findings: the coronavirus RdRp rounds are a real nest (6,667 of the 6,671
