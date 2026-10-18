@@ -296,13 +296,10 @@ trusted.
    wait on phase-2 clustering. **`DWVA_polyprotein_Rossi_2024` sits in the Declining list on 28
    records drawn from the 16% of DWV that carries a variant label — treat that call as unsafe.**
    CROSSREF IS REACHABLE from the sandbox (checked 2026-10-17), which unblocks items 4 and 5 below.
-3. **Settle the coronavirus finding.**
-   `CORONAVIRUS_..._Lan_2010_round1` stores a reverse primer 3 nt shorter than the one Quan et
-   al. 2010 prints (`...GCNACATG` against `...GCNACNACATG`). The stored form matches PREDICT
-   P-005, so two published sources disagree and the sequence was deliberately left alone. Read
-   the P-005 table in the Anthony et al. 2015 supplement, screen both forms against real RdRp
-   records, then fix whichever is wrong - and check the other P-005 entries for the same
-   deletion. This is the second PREDICT-vs-cited-paper mismatch after Atkins/PREDICT.
+3. ~~**Settle the coronavirus finding.**~~ **DONE (2026-10-05, in `notes_curator`).**
+   Stored 30-mer is correct; Quan 2010's printed 33-mer has a 3-nt duplication (NACNAC)
+   that never binds better than 4 mismatches in any genome. PREDICT P-005 carries the
+   corrected form. `amplicon_bp` updated 520→532.
 4. **Measure the two CMV gB amplicons, then re-cite the 4007/4125 pair.**
    - `..._Virol_2007_round1` and `..._round2` hold Prepens' own CM-gB pairs and verify exact.
      Prepens gives two different numbers for round 1 - 330 in Table 3 (footnoted "approximate
