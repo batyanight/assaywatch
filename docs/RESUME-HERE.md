@@ -1,30 +1,34 @@
-# Resume point, 2026-10-18 (scope_taxids implemented, needs population)
+# Resume point, 2026-10-18 (scope_taxids end-to-end, 14→9 disagreements)
 
-Everything described here is on `main` at `24ca7a7`, working tree clean. This file is the
+Everything described here is on `main` at `0a3802c`, working tree clean. This file is the
 short version of where to pick up. Verify claims against the repo (`git log`, `results/`
 dates, `python -m assaywatch.validate registry`) before acting on them; it goes stale fast.
 
-## scope_taxids: code done, registry population pending
+## scope_taxids: DONE end-to-end (2026-10-18)
 
-`scope_taxids` is a new optional field on `Target` in the registry schema (`24ca7a7`). When
-set, only records whose taxid is in the list count toward the drift denominator. Out-of-scope
-records are excluded and tallied in `AssayDrift.out_of_scope`. Records with no taxid are kept
-(conservative). This is exact-match v1 — no NCBI taxonomy ancestry expansion yet.
+`scope_taxids` is an optional field on `Target` in the registry schema. When set, only records
+whose taxid is in the list count toward the drift denominator. Out-of-scope records are excluded
+and tallied in `AssayDrift.out_of_scope`. Records with no taxid are kept (conservative). This is
+exact-match v1 — no NCBI taxonomy ancestry expansion yet.
 
 Code touches: `schema.py` (field), `drift.py` (filtering + counter), `report.py` (scope_map
-construction), `retrospective.py` (accepts scope_map param). Four new tests in `test_drift.py`.
+construction + out_of_scope rendering), `retrospective.py` (builds scope_map from registry
+YAMLs). Four new tests in `test_drift.py`.
 
-**What's left to make it work end-to-end:**
+**Completed 2026-10-18:**
 
-1. **Populate `scope_taxids` in 12 assay YAMLs.** Needs NCBI taxonomy lookups on the Mac:
-   `esearch -db taxonomy -term "Flavivirus[Subtree]" | efetch -format docsum | xtract -pattern DocumentSummary -element TaxId ScientificName`.
-   The 12 assays: Pan-flavivirus NS5 (both rounds), Pan-coronavirus Lan (both rounds),
-   Pan-herpes Polymerase round2, Adenovirus Pan Polymerase round1, Enterovirus VP3_VP1 round2,
-   CDV Scagliarini, Paramyxovirinae Tong round1, Polyomavirus VP1 Johne.
-2. **Wire `retrospective.py` to build scope_map from registry** (currently accepts the param
-   but doesn't load it from YAMLs).
-3. **Re-run retrospective** with scope to verify disagreement count drops from 14.
-4. **Add out_of_scope counts to report rendering** (markdown/HTML reporters don't mention it yet).
+1. ~~Populate `scope_taxids` in 10 assay YAMLs.~~ DONE (`0a3802c`). Species-rank taxids from
+   NCBI taxonomy subtree queries via `scripts/populate_scope_taxids.sh`. Counts: Coronaviridae
+   1494, Adenoviridae 769, Polyomaviridae 424, Paramyxoviridae 931, Enterovirus 520, CDV 1
+   (species-level, used directly). **Three assays got placeholder taxids** (parent only):
+   Orthoflavivirus (11051) and Orthoherpesviridae (10292) returned 0 species from NCBI —
+   likely ICTV reclassification; investigate with `esearch` on the Mac.
+2. ~~Wire `retrospective.py` to build scope_map from registry.~~ DONE (`62cbdc4`).
+3. ~~Re-run retrospective with scope.~~ DONE. Disagreements dropped from **14 to 9**. Five
+   removed by scope filtering. Remaining 9: 2 non-scope (Chytrid, Influenza — taxid-resolution
+   ceiling), 7 genuine calibration signals.
+4. ~~Add out_of_scope counts to report rendering.~~ DONE (`62cbdc4`). Markdown and HTML
+   reporters show "Out of scope: N records excluded (taxid not in scope_taxids)."
 5. **Later:** ancestry expansion for scope_taxids; sequence-cluster lineages (2 remaining FNs).
 
 ## The estimand: implemented and recalibrated
@@ -37,11 +41,12 @@ fails. Design: `docs/2026-10-17-estimand-plan.md`. Implementation:
 rules that don't use lineage analysis).
 
 Recalibration (`docs/2026-10-18-recalibration.md`, run 2026-10-18) against 50 validation
-cases: the tool now catches **6 of 12** documented failures (was 1 of 12). Of 33 judged
-cases, 14 disagree — a 42% error rate. All 14 disagreements are structural:
+cases: the tool now catches **6 of 12** documented failures (was 1 of 12). After scope_taxids
+population, **9 disagree** (was 14) — a 27% error rate (was 42%). The 5 resolved disagreements
+were pan-family scope cases removed by scope filtering. The remaining 9:
 
-- **12 are pan-family scope** — the tool counts failures from taxa outside the assay's design
-  scope. Fix: `scope_taxids` — **code done** (`24ca7a7`), registry population pending.
+- **7 are pan-family scope** — scope_taxids resolved the clearest cases; the remaining ones
+  need either ancestry expansion, broader taxid lists, or are genuinely ambiguous.
 - **2 are taxid-resolution ceiling** — Bd haplotypes and influenza subtypes share a taxid, so
   per-lineage analysis cannot see the within-taxid divergence. Fix: sequence-cluster lineages
   (phase 2 future work).
@@ -51,7 +56,7 @@ cases, 14 disagree — a 42% error rate. All 14 disagreements are structural:
 The ranked work list from the 2026-10-09 assessment, updated:
 
 1. ~~**Lineage-conditional verdicts.**~~ DONE (2026-10-18). 6 of 12 failures caught.
-2. ~~**Pan-family scope logic.**~~ Code DONE (2026-10-18). Populate registry on the Mac.
+2. ~~**Pan-family scope logic.**~~ DONE (2026-10-18). Code + registry populated. 14→9 disagreements.
 3. Homology-anchored footprint scoring, so the duplication check sees clade structure and not
    only identical footprints.
 4. Serial scoring logic (nested rounds now have a joint-coverage table, see below; the same
@@ -129,8 +134,8 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 |---|---|
 | registry | **217 valid, 0 problems**: 213 draft, 3 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
 | chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 173 primers only |
-| tests | 1201 passed, 11 skipped (primer3-py absent); ruff clean; 182 citations, 0 Crossref problems |
-| validation | **50 cases** (32 `works`, 12 `fails`, 6 `partial`); catches **6 of 12** documented failures (was 1/12 before lineage estimand) |
+| tests | 1205 passed, 11 skipped (primer3-py absent); ruff clean; 182 citations, 0 Crossref problems |
+| validation | **50 cases** (32 `works`, 12 `fails`, 6 `partial`); catches **6 of 12** documented failures; **9 disagreements** (was 14 before scope_taxids, 1/12 before lineage estimand) |
 | last full run | **2026-10-18**, with lineage estimand active; 213 assays — 66 stable, 63 declining, 12 watch, 17 low coverage, 41 insufficient data, 14 no recent data |
 
 Verified against the repo 2026-10-18.
