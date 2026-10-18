@@ -1,4 +1,0 @@
-assay_id	record_id	call	penalty	amplicon_start	amplicon_end	amplicon_bp	fwd_site	rev_site	probe_site	exclusion	pair_evalue	fwd_penalty	fwd_mm_from_3prime	fwd_ambiguous	rev_penalty	rev_mm_from_3prime	rev_ambiguous	probe_penalty	probe_mm_from_3prime	probe_ambiguous	degeneracy_fold	degeneracy_tier	reason
-ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	QB097565.1	detect	0.5	132850	134388	1538	134372-134388-	132850-132868+			1e-09	0		0	0.5	18	0				1	negligible	
-ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	QB097564.1	detect	0.5	132850	134388	1538	134372-134388-	132850-132868+			1e-09	0		0	0.5	18	0				1	negligible	
-ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	OZ566917.1	detect	0.5	135251	136335	1084	136319-136335-	135251-135269+			1e-09	0		0	0.5	18	0				1	negligible	

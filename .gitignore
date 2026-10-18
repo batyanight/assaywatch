@@ -34,3 +34,7 @@ dist/
 .claude/settings.local.json
 Claude outputs/
 .DS_Store
+
+# scratch from ad-hoc screens, backfills and manual snakemake runs
+.tmp/ati-test/
+.tmp/*.log
