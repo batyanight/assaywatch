@@ -1,10 +1,33 @@
-# Resume point, 2026-10-18 (lineage estimand implemented and recalibrated)
+# Resume point, 2026-10-18 (scope_taxids implemented, needs population)
 
-Everything described here is on `main` at `b01e271`, working tree clean. This file is the
+Everything described here is on `main` at `24ca7a7`, working tree clean. This file is the
 short version of where to pick up. Verify claims against the repo (`git log`, `results/`
 dates, `python -m assaywatch.validate registry`) before acting on them; it goes stale fast.
 
-## The estimand: implemented, recalibrated, and blocked on scope logic
+## scope_taxids: code done, registry population pending
+
+`scope_taxids` is a new optional field on `Target` in the registry schema (`24ca7a7`). When
+set, only records whose taxid is in the list count toward the drift denominator. Out-of-scope
+records are excluded and tallied in `AssayDrift.out_of_scope`. Records with no taxid are kept
+(conservative). This is exact-match v1 — no NCBI taxonomy ancestry expansion yet.
+
+Code touches: `schema.py` (field), `drift.py` (filtering + counter), `report.py` (scope_map
+construction), `retrospective.py` (accepts scope_map param). Four new tests in `test_drift.py`.
+
+**What's left to make it work end-to-end:**
+
+1. **Populate `scope_taxids` in 12 assay YAMLs.** Needs NCBI taxonomy lookups on the Mac:
+   `esearch -db taxonomy -term "Flavivirus[Subtree]" | efetch -format docsum | xtract -pattern DocumentSummary -element TaxId ScientificName`.
+   The 12 assays: Pan-flavivirus NS5 (both rounds), Pan-coronavirus Lan (both rounds),
+   Pan-herpes Polymerase round2, Adenovirus Pan Polymerase round1, Enterovirus VP3_VP1 round2,
+   CDV Scagliarini, Paramyxovirinae Tong round1, Polyomavirus VP1 Johne.
+2. **Wire `retrospective.py` to build scope_map from registry** (currently accepts the param
+   but doesn't load it from YAMLs).
+3. **Re-run retrospective** with scope to verify disagreement count drops from 14.
+4. **Add out_of_scope counts to report rendering** (markdown/HTML reporters don't mention it yet).
+5. **Later:** ancestry expansion for scope_taxids; sequence-cluster lineages (2 remaining FNs).
+
+## The estimand: implemented and recalibrated
 
 The lineage-conditional estimand is live. Per-lineage detection analysis groups records by
 NCBI taxid, runs a one-sided binomial test per lineage, applies Benjamini-Hochberg FDR
@@ -18,8 +41,7 @@ cases: the tool now catches **6 of 12** documented failures (was 1 of 12). Of 33
 cases, 14 disagree — a 42% error rate. All 14 disagreements are structural:
 
 - **12 are pan-family scope** — the tool counts failures from taxa outside the assay's design
-  scope. Fix: a registry-level `scope_taxids` field so out-of-scope failures are reported but
-  not scored.
+  scope. Fix: `scope_taxids` — **code done** (`24ca7a7`), registry population pending.
 - **2 are taxid-resolution ceiling** — Bd haplotypes and influenza subtypes share a taxid, so
   per-lineage analysis cannot see the within-taxid divergence. Fix: sequence-cluster lineages
   (phase 2 future work).
@@ -29,8 +51,7 @@ cases, 14 disagree — a 42% error rate. All 14 disagreements are structural:
 The ranked work list from the 2026-10-09 assessment, updated:
 
 1. ~~**Lineage-conditional verdicts.**~~ DONE (2026-10-18). 6 of 12 failures caught.
-2. **Pan-family scope logic.** The next thing that moves the number. Would resolve 12 of 14
-   current disagreements. Needs `scope_taxids` in the registry schema.
+2. ~~**Pan-family scope logic.**~~ Code DONE (2026-10-18). Populate registry on the Mac.
 3. Homology-anchored footprint scoring, so the duplication check sees clade structure and not
    only identical footprints.
 4. Serial scoring logic (nested rounds now have a joint-coverage table, see below; the same
@@ -221,7 +242,7 @@ trusted.
    `docs/2026-10-17-estimand-plan.md`. Implementation: `docs/2026-10-18-phase2-handoff.md`.
    Recalibration: `docs/2026-10-18-recalibration.md`. Catches 6 of 12 documented failures.
    Remaining disagreements are structural (pan-family scope and taxid resolution), not threshold.
-   **Next: pan-family scope logic (`scope_taxids` in registry schema).**
+   **Pan-family scope logic code done (`24ca7a7`); populate registry on Mac.**
 1. **Nested families — mostly DONE 2026-10-17, see `docs/2026-10-17-nested-family-key.md`.**
    The id base was not a sufficient family key, and it had manufactured two of the three
    "non-nesting" findings: the coronavirus RdRp rounds are a real nest (6,667 of the 6,671
