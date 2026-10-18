@@ -8,22 +8,24 @@ main metadata.
 
 The backfill does not rewrite the original .meta.tsv.gz files (which are not
 re-fetchable), so it is safe to run and re-run during development.
+
+    python scripts/backfill_taxids.py --email you@example.org [--dry-run]
 """
 
+import argparse
 import gzip
 import sys
 from pathlib import Path
 from collections import defaultdict
 import xml.etree.ElementTree as ET
 from assaywatch.retrieve import http_transport
-from assaywatch.credentials import ncbi_api_key, ncbi_email, ncbi_fetch_delay
+from assaywatch.credentials import ncbi_api_key
 
 
-def backfill_taxids(cfg: dict, dry_run: bool = False) -> None:
+def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
     """Fetch and store taxids for all existing accessions in retrieved archives."""
     retrieved_dir = Path(cfg.get("retrieved_dir", "data/retrieved"))
     api_key = ncbi_api_key()
-    email = ncbi_email()
     transport = http_transport(email, api_key)
     
     # Collect all accessions across all groups
@@ -102,6 +104,12 @@ def backfill_taxids(cfg: dict, dry_run: bool = False) -> None:
 
 if __name__ == "__main__":
     import yaml
-    cfg = yaml.safe_load(open("config.yaml"))
-    dry_run = "--dry-run" in sys.argv
-    backfill_taxids(cfg, dry_run=dry_run)
+    
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--email", required=True, help="Contact address for NCBI E-utilities")
+    ap.add_argument("--config", type=Path, default=Path("config.yaml"))
+    ap.add_argument("--dry-run", action="store_true", help="Do not fetch or write, just show what would happen")
+    args = ap.parse_args()
+    
+    cfg = yaml.safe_load(open(args.config))
+    backfill_taxids(cfg, email=args.email, dry_run=args.dry_run)

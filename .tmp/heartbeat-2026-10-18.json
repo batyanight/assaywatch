@@ -1,16 +1,16 @@
 {
-  "written": "2026-10-18T11:26:15.751088",
-  "elapsed": "38s",
-  "elapsed_seconds": 38.4,
-  "stalled_seconds": 38.4,
+  "written": "2026-10-18T11:55:40.862287",
+  "elapsed": "3m 44s",
+  "elapsed_seconds": 224.0,
+  "stalled_seconds": 0.0,
   "status": "progressing",
   "stage": "screen",
-  "archives_total": 272,
-  "archives_screened": 272,
-  "bytes_total": 9161080910,
-  "bytes_screened": 9161080910,
+  "archives_total": 278,
+  "archives_screened": 278,
+  "bytes_total": 9161177510,
+  "bytes_screened": 9161177510,
   "fraction": 1.0,
   "eta": "0s",
   "eta_seconds": 0.0,
-  "units_done": 18322161820
+  "units_done": 18322355020
 }
