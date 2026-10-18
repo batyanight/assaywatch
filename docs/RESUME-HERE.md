@@ -20,9 +20,11 @@ YAMLs). Four new tests in `test_drift.py`.
 1. ~~Populate `scope_taxids` in 10 assay YAMLs.~~ DONE (`0a3802c`). Species-rank taxids from
    NCBI taxonomy subtree queries via `scripts/populate_scope_taxids.sh`. Counts: Coronaviridae
    1494, Adenoviridae 769, Polyomaviridae 424, Paramyxoviridae 931, Enterovirus 520, CDV 1
-   (species-level, used directly). **Three assays got placeholder taxids** (parent only):
-   Orthoflavivirus (11051) and Orthoherpesviridae (10292) returned 0 species from NCBI —
-   likely ICTV reclassification; investigate with `esearch` on the Mac.
+   (species-level, used directly). ~~Three assays got placeholder taxids (parent only):
+   Orthoflavivirus (11051) and Orthoherpesviridae (10292) returned 0 species from NCBI.~~
+   DONE (`dd46e7d`). Root cause: `txid<N>[Subtree]` syntax fails in NCBI taxonomy db;
+   fixed with name-based queries. Orthoflavivirus → 216 species (3 assays),
+   Orthoherpesviridae → 866 species (4 assays). No more placeholder taxids in registry.
 2. ~~Wire `retrospective.py` to build scope_map from registry.~~ DONE (`62cbdc4`).
 3. ~~Re-run retrospective with scope.~~ DONE. Disagreements dropped from **14 to 9**. Five
    removed by scope filtering. Remaining 9: 2 non-scope (Chytrid, Influenza — taxid-resolution
