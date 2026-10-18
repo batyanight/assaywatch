@@ -127,27 +127,32 @@ patch_yaml() {
     local yaml_list
     yaml_list=$(echo "$taxids_str" | tr ' ' '\n' | sort -n | tr '\n' ' ' | xargs | sed 's/ /, /g')
 
-    # Use python for reliable YAML-aware insertion
+    # Use python for reliable YAML-aware insertion.
+    # Insert scope_taxids as the last child of the target: block,
+    # right before the next top-level key. This avoids splitting
+    # multi-line values like folded query strings.
     python3 -c "
 import sys
 lines = open('$file').readlines()
 in_target = False
-insert_after = -1
+insert_before = -1
 for i, line in enumerate(lines):
     stripped = line.rstrip()
     if stripped == 'target:':
         in_target = True
         continue
     if in_target:
-        if line.startswith('  ') and not line.startswith('   '):
-            insert_after = i
-        elif not line.startswith(' ') and stripped:
+        # First non-indented non-empty line = next top-level key
+        if not line.startswith(' ') and stripped:
+            insert_before = i
             break
-if insert_after == -1:
-    print(f'ERROR: could not find target block in $file', file=sys.stderr)
+if not in_target:
+    print(f'ERROR: no target: block in $file', file=sys.stderr)
     sys.exit(1)
+if insert_before == -1:
+    insert_before = len(lines)  # target block is last in file
 new_line = '  scope_taxids: [$yaml_list]\n'
-lines.insert(insert_after + 1, new_line)
+lines.insert(insert_before, new_line)
 open('$file', 'w').writelines(lines)
 print(f'  Patched: $file ({len(\"$yaml_list\".split(\",\"))} taxids)')
 "
