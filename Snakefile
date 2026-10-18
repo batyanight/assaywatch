@@ -165,6 +165,10 @@ _SITEDRIFT_PARAMS = {
     # change to the drift settings changes its contents as well as the report's.
     "inputs": _registry_and_config_hash("drift", "sitedrift", "scoring", "amplicon"),
 }
+_LINEAGE_PARAMS = {
+    "code": _package_hash(*source_names("lineage_report")),
+    "inputs": _registry_and_config_hash("lineage"),
+}
 
 
 wildcard_constraints:
@@ -254,6 +258,7 @@ rule all:
         RESULTS / RUN_DATE / "report.html",
         RESULTS / RUN_DATE / "degeneracy.tsv",
         RESULTS / RUN_DATE / "site-drift.md",
+        RESULTS / RUN_DATE / "lineage.md",
 
 
 rule validate:
@@ -377,6 +382,25 @@ rule site_drift:
     shell:
         "python -m assaywatch.sitedrift {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
+
+
+rule lineage_analysis:
+    """Per-lineage detection statistics (phase 1 of estimand rebuild).
+
+    Groups records by NCBI taxid and computes detection share per lineage.
+    Reads the calls table only, adding no screening work. This is reporting
+    and analysis; verdict changes come in phase 2.
+    """
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+    output:
+        md=RESULTS / RUN_DATE / "lineage.md",
+    params:
+        code=_LINEAGE_PARAMS["code"],
+        inputs=_LINEAGE_PARAMS["inputs"],
+    shell:
+        "python -m assaywatch.lineage_report {input.calls} "
+        "--retrieved {RETRIEVED} --config config.yaml --out {RESULTS}/{RUN_DATE}"
 
 
 rule degeneracy_table:

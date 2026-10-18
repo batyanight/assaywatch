@@ -215,6 +215,7 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         "report": "report",
         "degeneracy_table": "degeneracy",
         "site_drift": "sitedrift",
+        "lineage_analysis": "lineage_report",
     }
     for rule, block in rule_blocks(SNAKEFILE).items():
         for module in re.findall(r"python -m assaywatch\.(\w+)", block):

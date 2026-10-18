@@ -93,6 +93,7 @@ class RecordMeta:
     updated: str  # YYYY-MM-DD; last revision
     length: int
     title: str
+    taxid: int | None = None  # NCBI taxonomic id; backfilled for existing records
 
     @property
     def year(self) -> int | None:
@@ -260,6 +261,7 @@ def esummary(transport: Transport, handle: dict[str, Any], page: int, retmax: in
         created = _text(doc, "CreateDate").replace("/", "-")[:10]
         updated = _text(doc, "UpdateDate").replace("/", "-")[:10]
         length = _text(doc, "Length")
+        taxid_str = _text(doc, "TaxId")
         out.append(
             RecordMeta(
                 uid=doc.findtext("Id") or "",
@@ -268,6 +270,7 @@ def esummary(transport: Transport, handle: dict[str, Any], page: int, retmax: in
                 updated=updated,
                 length=int(length) if length.isdigit() else 0,
                 title=_text(doc, "Title"),
+                taxid=int(taxid_str) if taxid_str.isdigit() else None,
             )
         )
     return out
@@ -520,12 +523,12 @@ def retrieve_taxon(
     total_bases = n_meta = 0
     try:
         with gzip.open(meta_tmp, "wt") as mh:
-            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
+            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\ttaxid\n")
             for page in range(n_pages):
                 for m in with_refresh(esummary, page, retmax):
                     total_bases += m.length
                     n_meta += 1
-                    mh.write(f"{m.uid}\t{m.accession}\t{m.created}\t{m.updated}\t{m.length}\t{m.title}\n")
+                    mh.write(f"{m.uid}\t{m.accession}\t{m.created}\t{m.updated}\t{m.length}\t{m.title}\t{m.taxid or ''}\n")
 
         target_bytes = int(r.get("page_target_bytes", 20_000_000))
         mean_len = max(1, total_bases // max(1, handle["count"]))
@@ -692,3 +695,72 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+def load_record_metadata(meta_path: Path | str, taxid_backfill_path: Path | str | None = None) -> dict[str, RecordMeta]:
+    """Load metadata from .meta.tsv.gz, optionally backfilled with taxids.
+    
+    Args:
+        meta_path: Path to .meta.tsv.gz archive metadata file
+        taxid_backfill_path: Optional path to .meta.taxid.backfill.tsv.gz sidecar
+    
+    Returns:
+        Dict mapping accession -> RecordMeta
+    """
+    import gzip
+    
+    records = {}
+    
+    # Load backfill if provided
+    taxid_map = {}
+    if taxid_backfill_path:
+        try:
+            with gzip.open(taxid_backfill_path, "rt") as f:
+                f.readline()  # Skip header
+                for line in f:
+                    parts = line.strip().split("\t")
+                    if len(parts) >= 2:
+                        acc, taxid_str = parts[0], parts[1]
+                        if taxid_str.isdigit():
+                            taxid_map[acc] = int(taxid_str)
+        except FileNotFoundError:
+            pass
+    
+    # Load main metadata
+    with gzip.open(meta_path, "rt") as f:
+        header = f.readline().strip().split("\t")
+        uid_idx = header.index("uid")
+        acc_idx = header.index("accession")
+        created_idx = header.index("created")
+        updated_idx = header.index("updated")
+        length_idx = header.index("length")
+        title_idx = header.index("title")
+        taxid_idx = header.index("taxid") if "taxid" in header else -1
+        
+        for line in f:
+            parts = line.strip().split("\t")
+            uid = parts[uid_idx]
+            acc = parts[acc_idx]
+            created = parts[created_idx]
+            updated = parts[updated_idx]
+            length = int(parts[length_idx]) if parts[length_idx].isdigit() else 0
+            title = parts[title_idx]
+            
+            # Try taxid from main file first, then backfill
+            taxid = None
+            if taxid_idx >= 0 and len(parts) > taxid_idx and parts[taxid_idx].isdigit():
+                taxid = int(parts[taxid_idx])
+            elif acc in taxid_map:
+                taxid = taxid_map[acc]
+            
+            records[acc] = RecordMeta(
+                uid=uid,
+                accession=acc,
+                created=created,
+                updated=updated,
+                length=length,
+                title=title,
+                taxid=taxid,
+            )
+    
+    return records

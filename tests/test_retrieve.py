@@ -35,6 +35,7 @@ SUMMARY_DOC = """<DocSum><Id>{uid}</Id>
 <Item Name="CreateDate" Type="Date">{created}</Item>
 <Item Name="UpdateDate" Type="Date">{updated}</Item>
 <Item Name="Length" Type="Integer">{length}</Item>
+<Item Name="TaxId" Type="Integer">{taxid}</Item>
 </DocSum>"""
 
 
@@ -61,6 +62,7 @@ class FakeNCBI:
                     created=f"{self.start_year + i % 3}/02/0{i % 9 + 1}",
                     updated="2026/01/01",
                     length=500 + i,
+                    taxid=109871 + i,
                 )
                 for i in ids
             )
