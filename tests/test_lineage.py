@@ -132,3 +132,49 @@ def test_worst_lineage_verdict_all_detecting():
 def test_worst_lineage_verdict_empty():
     """No lineages returns None."""
     assert worst_lineage_verdict([], 0.8) is None
+
+
+# --- the accession join -------------------------------------------------
+# Three bugs shipped in the first phase-1 cut, all of which produced a report
+# of nothing but "unresolved" rather than an error: the calls table was read
+# with row["accession"] when its column is "record_id"; calls carry versioned
+# accessions (AB027157.1) while the sidecar is keyed unversioned (AB027157);
+# and the metadata glob missed the <taxid>/<group>/ archive layout.
+
+import gzip
+
+from assaywatch.lineage_report import MIN_RESOLVED_SHARE, read_calls_with_taxid
+
+
+def _calls_file(tmp_path, rows):
+    p = tmp_path / "calls.tsv.gz"
+    with gzip.open(p, "wt") as f:
+        f.write("assay_id\trecord_id\tcall\n")
+        for rid, call in rows:
+            f.write(f"A\t{rid}\t{call}\n")
+    return p
+
+
+def test_join_reads_record_id_not_accession(tmp_path):
+    """The calls table has no `accession` column; the identifier is `record_id`."""
+    calls = _calls_file(tmp_path, [("AB027157", "detect")])
+    out = read_calls_with_taxid(calls, {}, {"AB027157": 11})
+    assert out["A"][0]["taxid"] == 11
+
+
+def test_join_strips_the_accession_version(tmp_path):
+    """Calls carry AB027157.1; metadata and the sidecar are keyed AB027157."""
+    calls = _calls_file(tmp_path, [("AB027157.1", "detect")])
+    out = read_calls_with_taxid(calls, {}, {"AB027157": 11})
+    assert out["A"][0]["taxid"] == 11, "versioned accession must match unversioned key"
+
+
+def test_join_reports_none_for_an_accession_nobody_knows(tmp_path):
+    calls = _calls_file(tmp_path, [("ZZ999999.9", "detect")])
+    out = read_calls_with_taxid(calls, {}, {"AB027157": 11})
+    assert out["A"][0]["taxid"] is None
+
+
+def test_guard_threshold_is_a_real_fraction():
+    """The run aborts below this share rather than writing an all-unresolved report."""
+    assert 0 < MIN_RESOLVED_SHARE <= 1

@@ -47,6 +47,19 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
                 if acc not in accession_to_uid:
                     accession_to_uid[acc] = uid
     
+    # Resume: accessions already in the sidecar are kept and not refetched.
+    backfill_file = retrieved_dir / ".meta.taxid.backfill.tsv.gz"
+    acc_to_taxid = {}
+    if backfill_file.exists():
+        with gzip.open(backfill_file, "rt") as f:
+            next(f, None)
+            for line in f:
+                a, _, t = line.rstrip("\n").partition("\t")
+                if t:
+                    acc_to_taxid[a] = t
+        accession_to_uid = {a: u for a, u in accession_to_uid.items() if a not in acc_to_taxid}
+        print(f"{len(acc_to_taxid)} already in sidecar; {len(accession_to_uid)} left to fetch.")
+
     if not accession_to_uid:
         print("No accessions to backfill.")
         return
@@ -57,15 +70,18 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
         return
     
     # Fetch taxids in batches via esummary
-    uids_list = list(accession_to_uid.values())
+    uid_to_accs = defaultdict(list)
+    for acc, u in accession_to_uid.items():
+        uid_to_accs[u].append(acc)
+    uids_list = list(uid_to_accs)
+    failed_batches = []
     batch_size = 500
-    acc_to_taxid = {}
-    
     for batch_start in range(0, len(uids_list), batch_size):
         batch_uids = uids_list[batch_start : batch_start + batch_size]
         uid_list = ",".join(batch_uids)
         
-        print(f"Fetching taxids for batch {batch_start // batch_size + 1}...", file=sys.stderr)
+        if (batch_start // batch_size) % 100 == 0:
+            print(f"batch {batch_start // batch_size + 1} of {-(-len(uids_list) // batch_size)}", file=sys.stderr)
         
         try:
             xml = transport(
@@ -83,23 +99,24 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
                 taxid_elem = doc.find(".//Item[@Name='TaxId']")
                 if taxid_elem is not None:
                     taxid = taxid_elem.text
-                    # Find accession by uid
-                    for acc, u in accession_to_uid.items():
-                        if u == uid:
-                            acc_to_taxid[acc] = taxid
-                            break
+                    for acc in uid_to_accs.get(uid, ()):
+                        acc_to_taxid[acc] = taxid
         except Exception as e:
-            print(f"Error fetching batch: {e}", file=sys.stderr)
+            print(f"Error fetching batch {batch_start // batch_size + 1}: {type(e).__name__}", file=sys.stderr)
+            failed_batches.append(batch_start // batch_size + 1)
             continue
     
     # Write backfill sidecar
-    backfill_file = retrieved_dir / ".meta.taxid.backfill.tsv.gz"
-    with gzip.open(backfill_file, "wt") as f:
+    tmp = backfill_file.with_name(backfill_file.name + ".part")
+    with gzip.open(tmp, "wt") as f:
         f.write("accession\ttaxid\n")
         for acc, taxid in sorted(acc_to_taxid.items()):
             f.write(f"{acc}\t{taxid}\n")
     
-    print(f"Wrote {len(acc_to_taxid)} taxids to {backfill_file}")
+    tmp.replace(backfill_file)
+    print(f"Wrote {len(acc_to_taxid)} taxids to {backfill_file}; "
+          f"{len(uids_list) and sum(1 for u in uids_list for a in uid_to_accs[u] if a not in acc_to_taxid)} accessions still without a taxid; "
+          f"{len(failed_batches)} failed batches")
 
 
 if __name__ == "__main__":
