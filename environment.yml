@@ -9,6 +9,8 @@ dependencies:
   - pydantic>=2
   - pyyaml
   - requests
+  - scipy
+  - statsmodels
   # NCBI command-line tools for ad-hoc lookups outside the package
   # (esearch/efetch/xtract, and `datasets` for genomes). The pipeline itself
   # calls the APIs directly and does not need these.

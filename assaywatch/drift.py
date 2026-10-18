@@ -82,13 +82,10 @@ from collections import Counter, defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import date
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from assaywatch.lineage import (
-    LineageStats,
-    per_lineage_stats,
-    worst_lineage_verdict,
-)
+if TYPE_CHECKING:
+    from assaywatch.lineage import LineageStats
 
 EVALUABLE = ("detect", "reduced", "fail")
 Z95 = 1.959963984540054
@@ -493,6 +490,8 @@ class AssayDrift:
         """
         if not recent_calls:
             return
+
+        from assaywatch.lineage import per_lineage_stats, worst_lineage_verdict
 
         stats = per_lineage_stats(
             recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage
