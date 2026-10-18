@@ -784,7 +784,17 @@ def build(
             taxid_map = None
             taxa_cache_data = None
 
-    drifts = assess(calls, dates, cfg, today=today, taxids=taxid_map, taxa_cache=taxa_cache_data)
+    # Build scope map from registry: assay_id → set of in-scope taxids.
+    scope_map: dict[str, set[int]] | None = None
+    for aid, assay in assays.items():
+        if assay.target.scope_taxids:
+            if scope_map is None:
+                scope_map = {}
+            scope_map[aid] = set(assay.target.scope_taxids)
+
+    drifts = assess(
+        calls, dates, cfg, today=today, taxids=taxid_map, taxa_cache=taxa_cache_data, scope_map=scope_map
+    )
     gaps = coverage_gaps(drifts, taxa, cfg)
     # Nested families are read from the SAME deduplicated calls the drift
     # statistic uses, so the two never disagree about which records exist.

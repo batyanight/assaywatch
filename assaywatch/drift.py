@@ -245,6 +245,11 @@ class AssayDrift:
     # size). Empty when it survived or was not checked.
     cluster_failures: tuple[str, ...] = ()
 
+    # Out-of-scope records: when the assay's scope_taxids is set, records
+    # whose taxid is not in the scope set are excluded from the drift
+    # denominator and counted here instead.
+    out_of_scope: int = 0
+
     # Per-lineage analysis. When taxids are available, each assay's
     # recent evaluable records are grouped by NCBI taxid and tested per lineage.
     # The worst assessable lineage drives the verdict when it is significantly
@@ -673,6 +678,7 @@ def assess(
     today: date | None = None,
     taxids: dict[str, int] | None = None,
     taxa_cache: dict[int, str] | None = None,
+    scope_map: dict[str, set[int]] | None = None,
 ) -> dict[str, AssayDrift]:
     """Group calls by assay and deposit date and work out each assay's status.
 
@@ -695,6 +701,10 @@ def assess(
     When ``taxids`` is provided (record_id → taxid mapping), per-lineage
     analysis runs after the pooled verdict.  The worst assessable lineage can
     override a pooled "stable" or "watch" to "declining".
+
+    When ``scope_map`` is provided (assay_id → set of in-scope taxids), records
+    whose taxid falls outside the scope set are excluded from the drift
+    denominator.  They are still counted on ``AssayDrift.out_of_scope``.
     """
     d = cfg.get("drift", {})
     base_months = int(d.get("recent_window_months", 24))
@@ -729,7 +739,19 @@ def assess(
     # When taxids are available, also keep the full row dict per assay for the
     # lineage check (only recent evaluable calls, filtered after window selection).
     raw_per: dict[str, list[tuple[str | None, dict[str, Any]]]] = {} if taxids else {}
+    # Out-of-scope record counts per assay, populated only when scope_map is set.
+    oos_counts: dict[str, int] = {}
     for row in calls:
+        aid = row["assay_id"]
+        # Scope filter: when the assay has scope_taxids and the record has a
+        # taxid, skip out-of-scope records from the drift denominator.
+        if scope_map and aid in scope_map and taxids is not None:
+            rid = row["record_id"]
+            base = rid.split(".")[0]
+            txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+            if txid is not None and txid not in scope_map[aid]:
+                oos_counts[aid] = oos_counts.get(aid, 0) + 1
+                continue
         when = years.get(row["record_id"])
         # A bare year keeps year granularity below, so it is anchored at 1 January.
         iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
@@ -747,9 +769,9 @@ def assess(
         # class however different they were. It is unknown instead, which makes the
         # assay's duplication check unknown - an honest "cannot say".
         fp = None if (count_diverged and why == "diverged") else row.get("footprint")
-        per.setdefault(row["assay_id"], []).append((iso, call, why, fp))
+        per.setdefault(aid, []).append((iso, call, why, fp))
         if taxids is not None:
-            raw_per.setdefault(row["assay_id"], []).append((iso, row))
+            raw_per.setdefault(aid, []).append((iso, row))
 
     grouped: dict[str, AssayDrift] = {}
     for assay_id, rows in per.items():
@@ -854,6 +876,7 @@ def assess(
                 min_per_lineage,
             )
 
+        a.out_of_scope = oos_counts.get(assay_id, 0)
         grouped[assay_id] = a
     return grouped
 

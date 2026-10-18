@@ -401,3 +401,75 @@ def test_lineage_coverage_fraction():
     a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
     # 200 of 210 evaluable records are in assessable lineages.
     assert a.lineage_coverage == pytest.approx(200 / 210, abs=1e-6)
+
+
+# --- scope_taxids tests ---
+
+
+def test_scope_excludes_out_of_scope_records():
+    """Records whose taxid is not in scope_map don't count toward drift."""
+    # Taxid 100 is in scope, taxid 200 is out. Without scope, the 20 fails
+    # from taxid 200 drag the assay to declining. With scope, only the
+    # in-scope records (all detect) are counted → stable.
+    calls, years, taxids = _records_with_taxids(
+        {
+            2025: {
+                100: {"detect": 30},  # in scope: 100% detection
+                200: {"detect": 5, "fail": 20},  # out of scope: would drag down
+            },
+        }
+    )
+    scope_map = {"A": {100}}
+    a = assess(calls, years, CFG, today=TODAY, taxids=taxids, scope_map=scope_map)["A"]
+    assert a.status == "stable"
+    assert a.recent_evaluable == 30
+    assert a.out_of_scope == 25
+
+
+def test_no_scope_counts_everything():
+    """Without scope_map, all records count (unchanged behaviour)."""
+    calls, years, taxids = _records_with_taxids(
+        {
+            2025: {
+                100: {"detect": 30},
+                200: {"detect": 5, "fail": 20},
+            },
+        }
+    )
+    a = assess(calls, years, CFG, today=TODAY, taxids=taxids)["A"]
+    assert a.recent_evaluable == 55
+    assert a.out_of_scope == 0
+
+
+def test_scope_records_without_taxid_still_counted():
+    """Records with no taxid are included even when scope is set, because we
+    can't tell whether they're in or out of scope."""
+    calls = [
+        {"assay_id": "A", "record_id": "AB00001", "call": "detect"},
+        {"assay_id": "A", "record_id": "AB00002", "call": "detect"},
+    ]
+    years = {"AB00001": 2025, "AB00002": 2025}
+    # taxids maps nothing for these records
+    taxids: dict[str, int] = {}
+    scope_map = {"A": {100}}
+    a = assess(calls, years, CFG, today=TODAY, taxids=taxids, scope_map=scope_map)["A"]
+    # Both records have no taxid → not excluded → both counted.
+    assert a.recent_evaluable == 2
+    assert a.out_of_scope == 0
+
+
+def test_scope_does_not_affect_assays_without_scope_entry():
+    """An assay not in scope_map is unaffected by scope filtering."""
+    calls, years, taxids = _records_with_taxids(
+        {
+            2025: {
+                100: {"detect": 30},
+                200: {"detect": 5, "fail": 20},
+            },
+        }
+    )
+    # scope_map has an entry for "B" but not "A"
+    scope_map = {"B": {999}}
+    a = assess(calls, years, CFG, today=TODAY, taxids=taxids, scope_map=scope_map)["A"]
+    assert a.recent_evaluable == 55
+    assert a.out_of_scope == 0

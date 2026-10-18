@@ -158,7 +158,13 @@ def load_evidence(calls_path: Path, retrieved: Path, cfg: dict | None = None) ->
     return Evidence(read_dates(retrieved), dict(by_assay), taxids, taxa_cache)
 
 
-def status_from_evidence(evidence: Evidence, cfg: dict, as_of: date, assays: set[str] | None = None):
+def status_from_evidence(
+    evidence: Evidence,
+    cfg: dict,
+    as_of: date,
+    assays: set[str] | None = None,
+    scope_map: dict[str, set[int]] | None = None,
+):
     """{assay_id: AssayDrift} as the report would have computed it on `as_of`."""
     cutoff = as_of.isoformat()
     wanted = (
@@ -168,7 +174,13 @@ def status_from_evidence(evidence: Evidence, cfg: dict, as_of: date, assays: set
     )
     rows = [r for rs in wanted.values() for r in rs if evidence.dates.get(r["record_id"], "9999") < cutoff]
     return assess(
-        rows, evidence.dates, cfg, today=as_of, taxids=evidence.taxids, taxa_cache=evidence.taxa_cache
+        rows,
+        evidence.dates,
+        cfg,
+        today=as_of,
+        taxids=evidence.taxids,
+        taxa_cache=evidence.taxa_cache,
+        scope_map=scope_map,
     ), len(rows)
 
 

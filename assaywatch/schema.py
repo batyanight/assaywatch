@@ -199,6 +199,12 @@ class Target(Strict):
     taxon_name: str | None = None
     gene: str | None = None
     genome_type: str | None = None  # free text for now; tighten to an enum once the retrieval rules need it
+    # Which taxids are "in scope" for drift assessment. When set, only
+    # records whose taxid is in this list count toward the drift denominator.
+    # Out-of-scope records are still retrieved and screened (for cross-
+    # reactivity reporting) but do not influence the stable/declining call.
+    # List species-level taxids; ancestry expansion is not yet implemented.
+    scope_taxids: list[int] | None = None
     # Extra Entrez term ANDed onto the taxon query at retrieval, e.g.
     # `invA[Gene] OR "invasion protein"[Title]`. Without it the whole taxon is
     # fetched, which for E. coli is sixteen million records. Assays with the
