@@ -469,6 +469,8 @@ def render_markdown(
             note = a.note + (
                 f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
             )
+            if a.out_of_scope:
+                note += f" {a.out_of_scope} out-of-scope records excluded."
             entry = assay.status.value if assay else "-"
             pooled_tag = f" (pooled: {a.status_pooled})" if a.lineage_override and a.status_pooled else ""
             out.append(
@@ -497,6 +499,11 @@ def render_markdown(
             out += ["", "| deposit year | detected | evaluable | share |", "|---|---|---|---|"]
             for year, det, ev, frac in year_table_rows(a):
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
+            if a.out_of_scope:
+                out += [
+                    "",
+                    f"**Out of scope:** {a.out_of_scope} records excluded (taxid not in scope_taxids).",
+                ]
             if a.clustering_note:
                 out += ["", f"**Duplication check:** {a.clustering_note}"]
             un = a.unevaluable()
@@ -612,6 +619,8 @@ def render_html(
             note = a.note + (
                 f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
             )
+            if a.out_of_scope:
+                note += f" {a.out_of_scope} out-of-scope records excluded."
             pooled_html = (
                 f"<br><span class='muted' style='font-size:.8rem'>pooled: {e(a.status_pooled)}</span>"
                 if a.lineage_override and a.status_pooled
@@ -656,6 +665,11 @@ def render_html(
             for year, det, ev, frac in year_table_rows(a):
                 parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
             parts.append("</table>")
+            if a.out_of_scope:
+                parts.append(
+                    f"<p class='muted'><b>Out of scope:</b> {a.out_of_scope} records excluded"
+                    " (taxid not in scope_taxids).</p>"
+                )
             if a.clustering_note:
                 parts.append(f"<p class='muted'><b>Duplication check:</b> {e(a.clustering_note)}</p>")
             un = a.unevaluable()

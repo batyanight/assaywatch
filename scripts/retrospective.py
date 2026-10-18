@@ -184,20 +184,42 @@ def status_from_evidence(
     ), len(rows)
 
 
-def status_as_of(calls_path: Path, retrieved: Path, cfg: dict, as_of: date, assays: set[str] | None = None):
+def status_as_of(
+    calls_path: Path,
+    retrieved: Path,
+    cfg: dict,
+    as_of: date,
+    assays: set[str] | None = None,
+    scope_map: dict[str, set[int]] | None = None,
+):
     """{assay_id: AssayDrift} as the report would have computed it on `as_of`.
 
     Loads the evidence each call, so it is right for one question. Anything
     asking several should call `load_evidence` once and `status_from_evidence`
     per question, which is what `--cases` does.
     """
-    return status_from_evidence(load_evidence(calls_path, retrieved, cfg), cfg, as_of, assays)
+    return status_from_evidence(load_evidence(calls_path, retrieved, cfg), cfg, as_of, assays, scope_map)
+
+
+def _build_scope_map(registry: Path) -> dict[str, set[int]] | None:
+    """Build assay_id → set of in-scope taxids from registry YAMLs, same as report.py."""
+    from assaywatch.validate import iter_files, load_assay
+
+    scope_map: dict[str, set[int]] | None = None
+    for path in iter_files(registry):
+        a = load_assay(path)
+        if a.target.scope_taxids:
+            if scope_map is None:
+                scope_map = {}
+            scope_map[a.id] = set(a.target.scope_taxids)
+    return scope_map
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--calls", type=Path, default=None, help="calls.tsv.gz (default: the newest run)")
     ap.add_argument("--retrieved", type=Path, default=ROOT / "data" / "retrieved")
+    ap.add_argument("--registry", type=Path, default=ROOT / "registry", help="registry dir for scope_taxids")
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--as-of", type=date.fromisoformat, default=None)
     ap.add_argument("--assay", action="append", help="limit to these assay ids; repeatable")
@@ -211,12 +233,14 @@ def main(argv: list[str] | None = None) -> int:
             raise SystemExit("no calls.tsv.gz under results/; run the pipeline first")
         calls = runs[-1]
     cfg = load_config(args.config)
+    scope_map = _build_scope_map(args.registry) if args.registry.is_dir() else None
 
     if not args.cases:
         if not args.as_of:
             ap.error("give --as-of, or --cases")
         drifts, n = status_as_of(
-            calls, args.retrieved, cfg, args.as_of, set(args.assay) if args.assay else None
+            calls, args.retrieved, cfg, args.as_of, set(args.assay) if args.assay else None,
+            scope_map=scope_map,
         )  # one question, so one load
         print(f"{calls}, as of {args.as_of} ({n} records deposited before then)\n")
         for aid, a in sorted(drifts.items()):
@@ -233,7 +257,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
     for c in cases:
         as_of = date.fromisoformat(c["as_of"])
-        drifts, _ = status_from_evidence(evidence, cfg, as_of, {c["assay_id"]})
+        drifts, _ = status_from_evidence(evidence, cfg, as_of, {c["assay_id"]}, scope_map=scope_map)
         a = drifts.get(c["assay_id"])
         status = a.status if a else "no data"
         _, verdict = classify(status, c["expect"])

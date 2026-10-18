@@ -375,8 +375,8 @@ def test_the_cases_loop_prints_what_classify_says(tmp_path, capsys, monkeypatch)
     cases.write_text("assay_id\tas_of\texpect\tsource\nA\t2023-01-01\tpartial\tdoi:1\n")
     real = retro.status_from_evidence
 
-    def forced(evidence, cfg, as_of, assays=None):
-        drifts, n = real(evidence, cfg, as_of, assays)
+    def forced(evidence, cfg, as_of, assays=None, **kwargs):
+        drifts, n = real(evidence, cfg, as_of, assays, **kwargs)
         drifts["A"].status = "low coverage"
         return drifts, n
 
