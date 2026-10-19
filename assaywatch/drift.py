@@ -479,6 +479,7 @@ class AssayDrift:
         taxa_cache: dict[int, str],
         taxid_sidecar: dict[str, int],
         min_records_per_lineage: int,
+        resolvers: list | None = None,
     ) -> None:
         """Per-lineage analysis: does the worst assessable lineage fail?
 
@@ -499,7 +500,7 @@ class AssayDrift:
         from assaywatch.lineage import per_lineage_stats, worst_lineage_verdict
 
         stats = per_lineage_stats(
-            recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage
+            recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage, resolvers=resolvers
         )
         for s in stats:
             s.assay_id = self.assay_id
@@ -679,6 +680,8 @@ def assess(
     taxids: dict[str, int] | None = None,
     taxa_cache: dict[int, str] | None = None,
     scope_map: dict[str, set[int]] | None = None,
+    resolvers: dict[str, list] | None = None,
+    titles: dict[str, str] | None = None,
 ) -> dict[str, AssayDrift]:
     """Group calls by assay and deposit date and work out each assay's status.
 
@@ -705,6 +708,11 @@ def assess(
     When ``scope_map`` is provided (assay_id → set of in-scope taxids), records
     whose taxid falls outside the scope set are excluded from the drift
     denominator.  They are still counted on ``AssayDrift.out_of_scope``.
+
+    ``resolvers`` (assay_id -> sub-lineage resolver chain, from
+    ``lineage.sublineage_resolvers``) splits an assay's records below the taxid
+    before the per-lineage check; ``titles`` (unversioned accession -> defline)
+    feeds any title resolver. An assay with no chain is grouped per taxid.
     """
     d = cfg.get("drift", {})
     base_months = int(d.get("recent_window_months", 24))
@@ -867,6 +875,7 @@ def assess(
                         "call": c,
                         "taxid": txid,
                         "accession": base,
+                        "title": titles.get(base) if titles else None,
                     }
                 )
             a._lineage_check(
@@ -874,6 +883,7 @@ def assess(
                 taxa_cache,
                 taxids,  # doubles as sidecar: record_id → taxid
                 min_per_lineage,
+                resolvers.get(assay_id) if resolvers else None,
             )
 
         a.out_of_scope = oos_counts.get(assay_id, 0)

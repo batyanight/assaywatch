@@ -154,8 +154,13 @@ def build_resolvers(
     """
     chain = assay_cfg.get("chain") or ["subtaxid"]
     resolvers: list[Resolver] = []
-    for name in chain:
+    for i, name in enumerate(chain):
         if name == "subtaxid":
+            if query_taxid is None and i < len(chain) - 1:
+                # Without the query taxid, a parent-level record resolves to the
+                # parent's own label instead of deferring, so nothing after
+                # subtaxid would ever run. Fail rather than silently pool.
+                raise ValueError(f"subtaxid before {chain[i + 1]!r} needs the assay's query taxid")
             resolvers.append(subtaxid_resolver(query_taxid))
         elif name == "title":
             pattern = (assay_cfg.get("title") or {}).get("pattern")
@@ -167,6 +172,23 @@ def build_resolvers(
         else:
             raise ValueError(f"unknown sub-lineage resolver {name!r}")
     return resolvers
+
+
+def sublineage_resolvers(lineage_cfg: dict, query_taxids: dict[str, int]) -> dict[str, list[Resolver]]:
+    """Resolver chains for every assay named under ``lineage.sublineage``.
+
+    ``query_taxids`` is assay_id -> the registry's ``target.taxid``. An assay
+    with no entry is absent from the result, and its callers pass
+    ``resolvers=None``, i.e. Phase 1 per-taxid grouping.
+    """
+    entries = lineage_cfg.get("sublineage") or {}
+    return {aid: build_resolvers(e or {}, query_taxid=query_taxids.get(aid)) for aid, e in entries.items()}
+
+
+def title_assays(lineage_cfg: dict) -> set[str]:
+    """Assays whose chain parses titles, so only their records' titles are read."""
+    entries = lineage_cfg.get("sublineage") or {}
+    return {aid for aid, e in entries.items() if "title" in ((e or {}).get("chain") or [])}
 
 
 def resolve_sublineage(

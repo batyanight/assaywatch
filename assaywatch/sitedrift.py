@@ -59,11 +59,13 @@ import csv
 import gzip
 import sys
 from collections import Counter, defaultdict
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 from assaywatch.drift import EVALUABLE, wilson_interval
+from assaywatch.metadata import read_titles
 
 # Statuses whose assays are worth a site breakdown. "watch" is included because
 # it is the category an assay passes through on its way to declining, and the
@@ -166,33 +168,6 @@ def organism_from_title(title: str) -> str:
     if len(tokens) >= 2 and tokens[1][:1].islower():
         return f"{tokens[0]} {tokens[1]}"
     return tokens[0]
-
-
-def read_titles(retrieved_dir: Path, accessions: set[str]) -> dict[str, str]:
-    """{accession without version: deposit title} for the accessions asked for.
-
-    Only the requested accessions are kept. The metadata is ~20 MB gzipped
-    across 272 files and covers every record ever fetched; building the whole
-    map would cost hundreds of megabytes to answer a question about a few
-    thousand records.
-    """
-    out: dict[str, str] = {}
-    if not accessions:
-        return out
-    for meta in sorted(Path(retrieved_dir).rglob("*.meta.tsv.gz")):
-        try:
-            with gzip.open(meta, "rt", newline="") as fh:
-                for row in csv.DictReader(fh, delimiter="\t"):
-                    acc = (row.get("accession") or "").split(".")[0]
-                    if acc in accessions and acc not in out:
-                        title = row.get("title") or ""
-                        if title:
-                            out[acc] = title
-        except (OSError, EOFError, csv.Error):
-            # A truncated metadata sidecar must not stop the report; the
-            # affected records simply have no organism label.
-            continue
-    return out
 
 
 # --------------------------------------------------------------------------
@@ -497,9 +472,12 @@ def _render_assay(r: AssaySites) -> list[str]:
             "",
         ]
 
-    out += ["**Footprint groups** (records sharing one mismatch pattern)", "",
-            "| pattern | records | dominant call | deposit years | organisms (heuristic) |",
-            "|---|---|---|---|---|"]
+    out += [
+        "**Footprint groups** (records sharing one mismatch pattern)",
+        "",
+        "| pattern | records | dominant call | deposit years | organisms (heuristic) |",
+        "|---|---|---|---|---|",
+    ]
     for g in r.footprints:
         years = ", ".join(f"{y}×{n}" for y, n in sorted(g.years.items())[-4:]) or "-"
         orgs = ", ".join(f"{o}×{n}" for o, n in g.organisms.most_common(3)) or "-"
@@ -511,22 +489,51 @@ def _render_assay(r: AssaySites) -> list[str]:
 
 def render_tsv(results: Sequence[AssaySites]) -> str:
     cols = [
-        "assay_id", "status", "taxon", "taxid", "oligo", "pos_3prime", "pos_5prime",
-        "base", "n_mismatch", "detected_with", "evaluable_with", "detected_without",
-        "evaluable_without", "share_with", "share_without", "gap", "three_prime_zone",
+        "assay_id",
+        "status",
+        "taxon",
+        "taxid",
+        "oligo",
+        "pos_3prime",
+        "pos_5prime",
+        "base",
+        "n_mismatch",
+        "detected_with",
+        "evaluable_with",
+        "detected_without",
+        "evaluable_without",
+        "share_with",
+        "share_without",
+        "gap",
+        "three_prime_zone",
     ]
     lines = ["\t".join(cols)]
     for r in results:
         for p in r.positions:
-            lines.append("\t".join(str(x) for x in [
-                r.assay_id, r.status, r.taxon, r.taxid if r.taxid is not None else "",
-                p.oligo, p.pos_3prime, p.pos_5prime, p.base, p.n_mismatch,
-                p.detected_with, p.evaluable_with, p.detected_without, p.evaluable_without,
-                "" if p.share_with is None else f"{p.share_with:.6f}",
-                "" if p.share_without is None else f"{p.share_without:.6f}",
-                "" if p.gap is None else f"{p.gap:.6f}",
-                "yes" if p.three_prime else "no",
-            ]))
+            lines.append(
+                "\t".join(
+                    str(x)
+                    for x in [
+                        r.assay_id,
+                        r.status,
+                        r.taxon,
+                        r.taxid if r.taxid is not None else "",
+                        p.oligo,
+                        p.pos_3prime,
+                        p.pos_5prime,
+                        p.base,
+                        p.n_mismatch,
+                        p.detected_with,
+                        p.evaluable_with,
+                        p.detected_without,
+                        p.evaluable_without,
+                        "" if p.share_with is None else f"{p.share_with:.6f}",
+                        "" if p.share_without is None else f"{p.share_without:.6f}",
+                        "" if p.gap is None else f"{p.gap:.6f}",
+                        "yes" if p.three_prime else "no",
+                    ]
+                )
+            )
     return "\n".join(lines) + "\n"
 
 
@@ -586,8 +593,13 @@ def build(
 
     results = [
         analyse_assay(
-            assays[d.assay_id], by_assay.get(d.assay_id, []), d.status, dates, titles,
-            min_records=min_records, top_footprints=top_footprints,
+            assays[d.assay_id],
+            by_assay.get(d.assay_id, []),
+            d.status,
+            dates,
+            titles,
+            min_records=min_records,
+            top_footprints=top_footprints,
         )
         for d in selected
         if d.assay_id in assays
@@ -598,9 +610,7 @@ def build(
 def main(argv: list[str] | None = None) -> int:
     from assaywatch.score import load_config
 
-    ap = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("calls", type=Path)
     ap.add_argument("--registry", type=Path, default=Path("registry"))
     ap.add_argument("--retrieved", type=Path, default=Path("data/retrieved"))
@@ -616,16 +626,13 @@ def main(argv: list[str] | None = None) -> int:
 
     cfg = load_config(args.config)
     statuses = [s.strip() for s in args.statuses.split(",") if s.strip()]
-    md, tsv, results = build(
-        args.calls, args.registry, args.retrieved, cfg, statuses, run_date=args.run_date
-    )
+    md, tsv, results = build(args.calls, args.registry, args.retrieved, cfg, statuses, run_date=args.run_date)
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "site-drift.md").write_text(md)
     (args.out / "site-drift.tsv").write_text(tsv)
     n_pos = sum(len(r.positions) for r in results)
     print(
-        f"{len(results)} assays, {n_pos} reported positions -> "
-        f"{args.out / 'site-drift.md'}",
+        f"{len(results)} assays, {n_pos} reported positions -> {args.out / 'site-drift.md'}",
         file=sys.stderr,
     )
     return 0

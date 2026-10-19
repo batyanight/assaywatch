@@ -294,6 +294,12 @@ def tree(tmp_path_factory):
     fixtures = (ROOT / "tests" / "fixtures" / "records.fasta").read_bytes()
     with gzip.open(archive / "2026-10-04.fasta.gz", "wb") as fh:
         fh.write(fixtures)
+    # The synthetic records have no metadata, so give lineage_analysis the taxid
+    # sidecar a real retrieval leaves behind; without it the resolved-share guard
+    # (rightly) refuses to write lineage.md and the whole run fails.
+    ids = [line[1:].split()[0] for line in fixtures.decode().splitlines() if line.startswith(">")]
+    with gzip.open(t / "data" / "retrieved" / ".meta.taxid.backfill.tsv.gz", "wt") as fh:
+        fh.write("accession\ttaxid\n" + "".join(f"{i}\t{taxid}\n" for i in ids))
 
     today = TODAY
     (t / "results" / today).mkdir(parents=True)
@@ -322,19 +328,38 @@ def _edited(tree: Path, relative: str, new_text):
     "relative, edit, expected",
     [
         # logic moved out of a run: block must still rerun it, and what follows it
-        ("assaywatch/collect.py", lambda s: s + "\n# edited\n", {"collect_calls", "report"}),
-        ("assaywatch/drift.py", lambda s: s + "\n# edited\n", {"report"}),
-        ("assaywatch/report.py", lambda s: s + "\n# edited\n", {"report"}),
+        (
+            "assaywatch/collect.py",
+            lambda s: s + "\n# edited\n",
+            {"collect_calls", "report", "lineage_analysis", "site_drift"},
+        ),
+        # site_drift selects assays by drift status, so it imports drift.py and report.py
+        ("assaywatch/drift.py", lambda s: s + "\n# edited\n", {"report", "site_drift"}),
+        ("assaywatch/report.py", lambda s: s + "\n# edited\n", {"report", "site_drift"}),
         # schema.py and validate.py once rescreened nothing
         (
             "assaywatch/schema.py",
             lambda s: s + "\n# edited\n",
-            {"screen_archive", "degeneracy_table", "collect_calls", "report"},
+            {
+                "screen_archive",
+                "degeneracy_table",
+                "collect_calls",
+                "report",
+                "lineage_analysis",
+                "site_drift",
+            },
         ),
         (
             "assaywatch/validate.py",
             lambda s: s + "\n# edited\n",
-            {"screen_archive", "degeneracy_table", "collect_calls", "report"},
+            {
+                "screen_archive",
+                "degeneracy_table",
+                "collect_calls",
+                "report",
+                "lineage_analysis",
+                "site_drift",
+            },
         ),
         # a module no rule runs or imports reruns nothing
         ("assaywatch/credentials.py", lambda s: s + "\n# edited\n", set()),
@@ -342,13 +367,26 @@ def _edited(tree: Path, relative: str, new_text):
         (
             "config.yaml",
             lambda s: s.replace("min_records_for_coverage: 10", "min_records_for_coverage: 11"),
-            {"report"},
+            {"report", "site_drift"},
+        ),
+        # the per-lineage check can override a verdict, so the report reads it too
+        (
+            "config.yaml",
+            lambda s: s.replace("min_records_per_lineage: 30", "min_records_per_lineage: 31"),
+            {"report", "site_drift", "lineage_analysis"},
         ),
         # a degeneracy tier is read by the screens too, so it reaches everything downstream of them
         (
             "config.yaml",
             lambda s: s.replace("[128, moderate]", "[100, moderate]"),
-            {"screen_archive", "degeneracy_table", "collect_calls", "report"},
+            {
+                "screen_archive",
+                "degeneracy_table",
+                "collect_calls",
+                "report",
+                "lineage_analysis",
+                "site_drift",
+            },
         ),
     ],
     ids=[
@@ -359,6 +397,7 @@ def _edited(tree: Path, relative: str, new_text):
         "validate.py",
         "unrelated module",
         "drift config",
+        "lineage config",
         "degeneracy config",
     ],
 )
@@ -383,7 +422,12 @@ def test_editing_an_assay_nothing_screens_still_refreshes_the_degeneracy_table_a
     outside = next(p for p in sorted((tree / "registry").glob("*.yaml")) if p.stem not in screened)
     restore = _edited(tree, f"registry/{outside.name}", lambda s: s + "\n# edited\n")
     try:
-        assert _planned(_snakemake(tree, "-n")) == {"degeneracy_table", "report"}
+        assert _planned(_snakemake(tree, "-n")) == {
+            "degeneracy_table",
+            "report",
+            "site_drift",
+            "lineage_analysis",
+        }
     finally:
         restore()
 

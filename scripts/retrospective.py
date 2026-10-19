@@ -49,7 +49,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from assaywatch.drift import assess  # noqa: E402
-from assaywatch.lineage import load_taxa_cache  # noqa: E402
+from assaywatch.lineage import load_taxa_cache, sublineage_resolvers, title_assays  # noqa: E402
+from assaywatch.metadata import read_titles  # noqa: E402
 from assaywatch.report import key_calls_by_accession, read_calls, read_dates  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
 
@@ -110,9 +111,13 @@ class Evidence:
     by_assay: dict[str, list[dict[str, Any]]]
     taxids: dict[str, int] | None = None
     taxa_cache: dict[int, str] | None = None
+    resolvers: dict[str, list] | None = None  # sub-lineage chains, lineage.sublineage
+    titles: dict[str, str] | None = None  # for the assays whose chain parses titles
 
 
-def load_evidence(calls_path: Path, retrieved: Path, cfg: dict | None = None) -> Evidence:
+def load_evidence(
+    calls_path: Path, retrieved: Path, cfg: dict | None = None, query_taxids: dict[str, int] | None = None
+) -> Evidence:
     """Read and deduplicate the calls table and the deposit dates, once.
 
     Deduplication is keyed on (assay, accession), so doing it before grouping by
@@ -155,7 +160,14 @@ def load_evidence(calls_path: Path, retrieved: Path, cfg: dict | None = None) ->
             if not taxids:
                 taxids = None
 
-    return Evidence(read_dates(retrieved), dict(by_assay), taxids, taxa_cache)
+    resolvers = titles = None
+    if taxids is not None and cfg.get("lineage", {}).get("sublineage"):
+        lcfg = cfg["lineage"]
+        resolvers = sublineage_resolvers(lcfg, query_taxids or {})
+        wanted = title_assays(lcfg)
+        titles = read_titles(retrieved, {r["record_id"] for a in wanted for r in by_assay.get(a, [])})
+
+    return Evidence(read_dates(retrieved), dict(by_assay), taxids, taxa_cache, resolvers, titles)
 
 
 def status_from_evidence(
@@ -181,6 +193,8 @@ def status_from_evidence(
         taxids=evidence.taxids,
         taxa_cache=evidence.taxa_cache,
         scope_map=scope_map,
+        resolvers=evidence.resolvers,
+        titles=evidence.titles,
     ), len(rows)
 
 
@@ -191,6 +205,7 @@ def status_as_of(
     as_of: date,
     assays: set[str] | None = None,
     scope_map: dict[str, set[int]] | None = None,
+    query_taxids: dict[str, int] | None = None,
 ):
     """{assay_id: AssayDrift} as the report would have computed it on `as_of`.
 
@@ -198,7 +213,16 @@ def status_as_of(
     asking several should call `load_evidence` once and `status_from_evidence`
     per question, which is what `--cases` does.
     """
-    return status_from_evidence(load_evidence(calls_path, retrieved, cfg), cfg, as_of, assays, scope_map)
+    return status_from_evidence(
+        load_evidence(calls_path, retrieved, cfg, query_taxids), cfg, as_of, assays, scope_map
+    )
+
+
+def _query_taxids(registry: Path) -> dict[str, int]:
+    """assay_id -> target.taxid, which a `subtaxid` resolver defers at."""
+    from assaywatch.validate import iter_files, load_assay
+
+    return {a.id: a.target.taxid for a in map(load_assay, iter_files(registry))}
 
 
 def _build_scope_map(registry: Path) -> dict[str, set[int]] | None:
@@ -234,13 +258,19 @@ def main(argv: list[str] | None = None) -> int:
         calls = runs[-1]
     cfg = load_config(args.config)
     scope_map = _build_scope_map(args.registry) if args.registry.is_dir() else None
+    query_taxids = _query_taxids(args.registry) if args.registry.is_dir() else None
 
     if not args.cases:
         if not args.as_of:
             ap.error("give --as-of, or --cases")
         drifts, n = status_as_of(
-            calls, args.retrieved, cfg, args.as_of, set(args.assay) if args.assay else None,
+            calls,
+            args.retrieved,
+            cfg,
+            args.as_of,
+            set(args.assay) if args.assay else None,
             scope_map=scope_map,
+            query_taxids=query_taxids,
         )  # one question, so one load
         print(f"{calls}, as of {args.as_of} ({n} records deposited before then)\n")
         for aid, a in sorted(drifts.items()):
@@ -252,7 +282,7 @@ def main(argv: list[str] | None = None) -> int:
     # Comment lines carry each case's provenance; strip them before the header is read.
     body = [ln for ln in args.cases.read_text().splitlines() if ln.strip() and not ln.startswith("#")]
     cases = list(csv.DictReader(body, delimiter="\t"))
-    evidence = load_evidence(calls, args.retrieved, cfg)  # once, not once per case
+    evidence = load_evidence(calls, args.retrieved, cfg, query_taxids)  # once, not once per case
     tally: Counter = Counter()
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
     for c in cases:

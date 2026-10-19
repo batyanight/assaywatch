@@ -12,7 +12,9 @@ from assaywatch.lineage import (
     lineage_for_taxid,
     per_lineage_stats,
     resolve_sublineage,
+    sublineage_resolvers,
     subtaxid_resolver,
+    title_assays,
     title_resolver,
     worst_lineage_verdict,
 )
@@ -297,6 +299,31 @@ def test_per_lineage_stats_title_chain_splits_one_taxid():
     pooled = per_lineage_stats(calls, {}, {}, min_records=20)
     assert len(pooled) == 1
     assert pooled[0].lineage_name == "taxid_11320"
+
+
+def test_subtaxid_before_another_resolver_needs_the_query_taxid():
+    """Without it, parent-level records never defer and the title resolver never runs."""
+    cfg = {"chain": ["subtaxid", "title"], "title": {"pattern": r"\((H\d+N\d+)\)"}}
+    with pytest.raises(ValueError, match="query taxid"):
+        build_resolvers(cfg)
+    assert len(build_resolvers(cfg, query_taxid=11320)) == 2
+    # subtaxid last (or alone) is fine without it: nothing follows to defer to.
+    assert len(build_resolvers({"chain": ["subtaxid"]})) == 1
+
+
+def test_sublineage_resolvers_and_title_assays_read_the_config_block():
+    lcfg = {
+        "sublineage": {
+            "FLU": {"chain": ["title"], "title": {"pattern": r"\((H\d+N\d+)\)"}},
+            "POX": {"chain": ["subtaxid"]},
+        }
+    }
+    chains = sublineage_resolvers(lcfg, {"FLU": 11320, "POX": 10260})
+    assert set(chains) == {"FLU", "POX"}
+    assert title_assays(lcfg) == {"FLU"}
+    # No block: no chains, no titles to read.
+    assert sublineage_resolvers({}, {}) == {}
+    assert title_assays({}) == set()
 
 
 def test_a_large_failing_lineage_is_still_judged_failing():

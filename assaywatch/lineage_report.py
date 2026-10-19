@@ -4,7 +4,7 @@ Reads the calls table and generates a markdown report showing per-lineage
 detection statistics for each assay. Standalone per-lineage report. The verdict-changing logic lives in
 assaywatch.drift._lineage_check; this module produces a diagnostic report.
 
-    python -m assaywatch.lineage_report <calls.tsv.gz> --config <config.yaml> --out <outdir>
+    python -m assaywatch.lineage_report <calls.tsv.gz> --config <config.yaml> --registry <dir> --out <outdir>
 """
 
 import argparse
@@ -17,7 +17,10 @@ from pathlib import Path
 from assaywatch.lineage import (
     load_taxa_cache,
     per_lineage_stats,
+    sublineage_resolvers,
+    title_assays,
 )
+from assaywatch.metadata import read_titles
 from assaywatch.score import load_config
 
 # Below this share of call rows carrying a taxid, the join is assumed broken.
@@ -63,8 +66,13 @@ def render_lineage_report(
     taxa_cache: dict[int, str],
     taxid_sidecar: dict,
     min_records: int = 20,
+    resolvers: dict[str, list] | None = None,
 ) -> str:
-    """Render markdown report of per-lineage statistics."""
+    """Render markdown report of per-lineage statistics.
+
+    ``resolvers`` (assay_id -> sub-lineage chain) splits those assays below
+    the taxid, exactly as drift's lineage check does; other assays group per taxid.
+    """
     lines = [
         "# Per-Lineage Detection Analysis",
         "",
@@ -76,7 +84,13 @@ def render_lineage_report(
 
     for assay_id in sorted(calls_by_assay.keys()):
         calls = calls_by_assay[assay_id]
-        stats = per_lineage_stats(calls, taxa_cache, taxid_sidecar, min_records=min_records)
+        stats = per_lineage_stats(
+            calls,
+            taxa_cache,
+            taxid_sidecar,
+            min_records=min_records,
+            resolvers=resolvers.get(assay_id) if resolvers else None,
+        )
 
         if not stats:
             continue
@@ -105,6 +119,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("calls", type=Path, help="Calls table (TSV.GZ)")
     ap.add_argument("--retrieved", type=Path, default=Path("data/retrieved"))
     ap.add_argument("--config", type=Path, default=Path("config.yaml"))
+    ap.add_argument("--registry", type=Path, default=Path("registry"), help="for sub-lineage query taxids")
     ap.add_argument("--out", type=Path, required=True)
     args = ap.parse_args(argv)
 
@@ -167,7 +182,23 @@ def main(argv: list[str] | None = None) -> int:
 
     # Render report
     min_records = lineage_cfg.get("min_records_per_lineage", 20)
-    md = render_lineage_report(calls_by_assay, taxa_cache, taxid_sidecar, min_records=min_records)
+    resolvers = None
+    if lineage_cfg.get("sublineage"):
+        from assaywatch.validate import iter_files, load_assay
+
+        query_taxids = {a.id: a.target.taxid for a in map(load_assay, iter_files(args.registry))}
+        resolvers = sublineage_resolvers(lineage_cfg, query_taxids)
+        wanted = title_assays(lineage_cfg)
+        titles = read_titles(
+            args.retrieved,
+            {r["record_id"].split(".")[0] for a in wanted for r in calls_by_assay.get(a, [])},
+        )
+        for a in wanted:
+            for r in calls_by_assay.get(a, []):
+                r["title"] = titles.get(r["record_id"].split(".")[0])
+    md = render_lineage_report(
+        calls_by_assay, taxa_cache, taxid_sidecar, min_records=min_records, resolvers=resolvers
+    )
 
     # Write output
     args.out.mkdir(parents=True, exist_ok=True)

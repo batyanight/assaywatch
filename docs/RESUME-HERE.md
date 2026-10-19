@@ -1,4 +1,36 @@
-# Resume point, 2026-10-18 (scope_taxids end-to-end, 14→9 disagreements)
+# Resume point, 2026-10-19 (sub-taxid resolver chain; conventional override reverted)
+
+## 2026-10-19
+
+- **Sub-taxid resolver chain** in `lineage.py` (`94cea06`), design in
+  `docs/2026-10-19-subtaxid-resolution.md`. **Wired in (step 1 of 4):** `lineage.sublineage`
+  in `config.yaml` (shipped `{}`), passed through `drift.assess` (report and retrospective)
+  and `lineage_report` (new `--registry`). Titles come from `assaywatch/metadata.py`
+  (`read_titles`, moved out of `sitedrift.py`). With the block empty, tier-2 output is
+  byte-identical to before. A throwaway config with the influenza title chain splits Matrix
+  records by subtype on real data. None fall below 0.9, because `reduced` counts as detected.
+- **Steps 2-4** (from this session's plan):
+  2. Tier-2-test what the lineage share counts as detected (e.g. `detect` only for probe/qPCR
+     chemistries), with influenza split by subtype + pdm09. Before the 2010 cutoff, 2009 H1N1
+     strains are 1,295 `reduced` / 1 `detect`, which is where Slomka 2010's failure shows.
+  3. Avipox `chain: [subtaxid]`, report-only. Note: the smoke test found no assessable
+     lineages for Baek 2020 in its recent window. Look at why before adding it.
+  4. Bd + DWV: the `no_amplicon` records with their primer window present but unmatched.
+- **Bug fixed: the per-lineage p-value went `nan` above about 1,030 records** (`comb` overflow
+  times underflow), so a large lineage could never be judged failing. It now uses `binom.cdf`.
+  Tier-2: no case changes. Current statuses: one changes, `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`
+  low coverage -> declining (rabies taxid 11292 lineage at 404/1,896).
+- **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
+  `min_records_per_lineage` left `report.md` stale.
+- **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173
+  of 9,496 records are evaluable (1 fail). The documented Asian ITS haplotypes are probably in the
+  `no_amplicon` pool, so it is a denominator problem like DWV. `subcluster.py` is built and
+  tested but has no consumer.
+- **Conventional scoring override reverted** after tier-2 validation (item 8 below).
+- `test_triggers.py` was updated for the `site_drift`/`lineage_analysis` rules and the taxid
+  sidecar. Full suite: 1235 passed.
+
+# Earlier: 2026-10-18 (scope_taxids end-to-end, 14→9 disagreements)
 
 Everything described here is on `main` at `0a3802c`, working tree clean. This file is the
 short version of where to pick up. Verify claims against the repo (`git log`, `results/`

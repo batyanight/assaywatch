@@ -473,3 +473,62 @@ def test_scope_does_not_affect_assays_without_scope_entry():
     a = assess(calls, years, CFG, today=TODAY, taxids=taxids, scope_map=scope_map)["A"]
     assert a.recent_evaluable == 55
     assert a.out_of_scope == 0
+
+
+def test_title_chain_splits_one_taxid_and_drives_the_override():
+    """Sub-lineage chain: one taxid, two title-labelled subtypes, one failing.
+
+    Pooled per taxid the assay is stable (205/220) and there is only one
+    lineage, so nothing can override it. Given a title chain, the H5N1 records
+    form their own lineage at 5/20 and the verdict becomes declining.
+    """
+    from assaywatch.lineage import build_resolvers
+
+    calls, years, taxids = _records_with_taxids(
+        {2025: {11320: {"detect": 205, "fail": 15}}},
+    )
+    # The last 20 records (15 fails + 5 detects) are H5N1; the rest H1N1.
+    detects = [c["record_id"] for c in calls if c["call"] == "detect"]
+    h5 = {c["record_id"] for c in calls if c["call"] == "fail"} | set(detects[-5:])
+    titles = {
+        c[
+            "record_id"
+        ]: f"Influenza A virus (A/x/2025({'H5N1' if c['record_id'] in h5 else 'H1N1'})) segment 7"
+        for c in calls
+    }
+    taxa_cache = {11320: "Influenza A virus"}
+
+    pooled = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
+    assert pooled.status == "stable" and pooled.lineage_override is False
+
+    chain = {"A": build_resolvers({"chain": ["title"], "title": {"pattern": r"\((H\d+N\d+)\)"}})}
+    split = assess(
+        calls,
+        years,
+        LINEAGE_CFG,
+        today=TODAY,
+        taxids=taxids,
+        taxa_cache=taxa_cache,
+        resolvers=chain,
+        titles=titles,
+    )["A"]
+    assert split.lineage_override is True
+    assert split.status == "declining"
+    assert {s.lineage_name for s in split.lineage_stats} == {"H1N1", "H5N1"}
+
+
+def test_empty_resolver_map_is_the_per_taxid_grouping():
+    """resolvers={} and resolvers=None must give the same verdicts."""
+    calls, years, taxids = _records_with_taxids(
+        {2025: {100: {"detect": 200}, 200: {"detect": 5, "fail": 15}}},
+    )
+    taxa_cache = {100: "Lineage A", 200: "Lineage B"}
+    a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache)["A"]
+    b = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache=taxa_cache, resolvers={})[
+        "A"
+    ]
+    assert (a.status, a.lineage_override, [s.lineage_name for s in a.lineage_stats]) == (
+        b.status,
+        b.lineage_override,
+        [s.lineage_name for s in b.lineage_stats],
+    )

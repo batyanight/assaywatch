@@ -153,7 +153,9 @@ def _registry_and_config_hash(*config_keys):
 _COLLECT_CODE = _package_hash(*source_names("collect"))
 _REPORT_PARAMS = {
     "code": _package_hash(*source_names("report")),
-    "inputs": _registry_and_config_hash("drift", "degeneracy", "scoring", "amplicon"),
+    # "lineage": the per-lineage check (min_records_per_lineage, sublineage chains)
+    # can override a verdict, so the report depends on it too.
+    "inputs": _registry_and_config_hash("drift", "degeneracy", "scoring", "amplicon", "lineage"),
 }
 _DEGENERACY_PARAMS = {
     "code": _package_hash(*source_names("degeneracy")),
@@ -163,7 +165,7 @@ _SITEDRIFT_PARAMS = {
     "code": _package_hash(*source_names("sitedrift")),
     # The site report selects which assays to describe by drift status, so a
     # change to the drift settings changes its contents as well as the report's.
-    "inputs": _registry_and_config_hash("drift", "sitedrift", "scoring", "amplicon"),
+    "inputs": _registry_and_config_hash("drift", "sitedrift", "scoring", "amplicon", "lineage"),
 }
 _LINEAGE_PARAMS = {
     "code": _package_hash(*source_names("lineage_report")),
@@ -400,7 +402,7 @@ rule lineage_analysis:
         inputs=_LINEAGE_PARAMS["inputs"],
     shell:
         "python -m assaywatch.lineage_report {input.calls} "
-        "--retrieved {RETRIEVED} --config config.yaml --out {RESULTS}/{RUN_DATE}"
+        "--retrieved {RETRIEVED} --config config.yaml --registry {REGISTRY} --out {RESULTS}/{RUN_DATE}"
 
 
 rule degeneracy_table:

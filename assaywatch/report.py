@@ -806,8 +806,29 @@ def build(
                 scope_map = {}
             scope_map[aid] = set(assay.target.scope_taxids)
 
+    # Sub-lineage resolver chains (lineage.sublineage), and titles for the
+    # assays whose chain parses them. Empty config: both stay None.
+    resolvers = titles = None
+    if taxid_map is not None and lineage_cfg.get("sublineage"):
+        from assaywatch.lineage import sublineage_resolvers, title_assays
+        from assaywatch.metadata import read_titles
+
+        resolvers = sublineage_resolvers(lineage_cfg, {aid: a.target.taxid for aid, a in assays.items()})
+        wanted = title_assays(lineage_cfg)
+        titles = read_titles(
+            retrieved, {strip_version(r["record_id"]) for r in calls if r["assay_id"] in wanted}
+        )
+
     drifts = assess(
-        calls, dates, cfg, today=today, taxids=taxid_map, taxa_cache=taxa_cache_data, scope_map=scope_map
+        calls,
+        dates,
+        cfg,
+        today=today,
+        taxids=taxid_map,
+        taxa_cache=taxa_cache_data,
+        scope_map=scope_map,
+        resolvers=resolvers,
+        titles=titles,
     )
     gaps = coverage_gaps(drifts, taxa, cfg)
     # Nested families are read from the SAME deduplicated calls the drift
