@@ -38,7 +38,11 @@
   `fails` cases (11 coverage, 1 drift), gate **on**: 6/12 caught, 12 disagreements. **Step 2 done:** Hellgren
   assays scoped to avian haemosporidia; unsupported Pan_Plasmodium case retired; FAP left family-wide
   because Forslund 1999 amplified HPV16. Tier-2 4/11 caught, 13 disagreements (the wrong-reason catches gone).
-  **Next:** new-taxid artefacts (Enterovirus 1193974, Polyomavirus 1891763), FAP vs HPV16 by hand.
+  **FAP vs HPV16 done** (`docs/2026-10-19-fap-bench-panel.md`): HPV16 fails on one G·T wobble 5 nt from
+  the 3' end. On Forslund's own 70-type panel the scorer fails 14 of 60 types the bench amplified;
+  12 of those rest only on T:G mispairs. First type-level evidence for identity-aware 3' penalties;
+  no config change. `scripts/bench_panel.py` + `docs/bench-panels/` take more panels.
+  **Next:** new-taxid artefacts (Enterovirus 1193974, Polyomavirus 1891763); more bench panels.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173

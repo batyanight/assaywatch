@@ -170,7 +170,7 @@ only ones with no band were types 1, 2, 35, 41, 44, 55, 63, 66, 71 and 74, so
 paper's own bench result, not an out-of-range lineage. Narrowing the scope to
 cutaneous genera would hide it. Inosine handling is deliberate in `iupac.py`
 (I pairs with A/C/T, weakly with G), so the matcher is not the obvious cause.
-Worth a look: score FAP59/64 against the HPV16 reference genome by hand.
+Scored by hand: `docs/2026-10-19-fap-bench-panel.md` (a G·T wobble at position 5).
 
 **Tier-2 after step 2** (gate on): failures caught **4/11**, `works` agree 9,
 weaker 6, disagreements **13** (was 6/12, 12). The drop is the wrong-reason
