@@ -1,5 +1,5 @@
 id: Cryptosporidium_18SrDNA_Xiao_1999_round2
-name: CRYPTOSPORIDIA (Need to order) — 18SrDNA
+name: CRYPTOSPORIDIA — 18SrDNA
 target:
   taxid: 5806
   gene: 18SrDNA
@@ -25,8 +25,8 @@ citation:
 
     AND ENVIRONMENTAL MICROBIOLOGY, Dec. 2000, p. 5492–5498'
   doi_verified: true
-  reference: Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic analysis
-    of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583
+  reference: 'Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic
+    analysis of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583'
   oligos_designed_here: true
 use_context:
 - wildlife

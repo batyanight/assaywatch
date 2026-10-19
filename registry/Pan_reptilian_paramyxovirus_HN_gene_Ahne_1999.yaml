@@ -1,0 +1,45 @@
+id: Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999
+name: Pan-reptilian paramyxovirus — HN gene
+target:
+  taxid: 1283308
+  gene: HN gene
+  genome_type: ssRNA-
+  taxon_name: Ferlavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: AhneHN1
+    seq: AAATCCTGCAGTACCGTGGCA
+  reverse:
+    name: AhneHN2
+    seq: AGATATCTGTGTAAACTCCTG
+amplicon_bp: 679
+citation:
+  doi: 10.1016/S0168-1702(99)00059-3
+  design_year: 1999
+  n_sequences_at_design: null
+  as_written: Ahne et al. 1999
+  doi_verified: false
+  reference: Ahne W et al. 1999. Virus Res 63:65-74
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  spreadsheet: null
+  rows: null
+  positive_control: null
+  nested_round: null
+  notes: null
+  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf).
+    HN gene external primers (primer pair 1+2 in the paper''s Table 1). Positions
+    on Sendai Z strain: 7458-7478 (forward) and 8136-8116 (reverse), expected product
+    679 bp. The L gene primers from this paper are already in the registry as
+    Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999 (external) and
+    Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999_2 (inner). AMPLICON_BP:
+    679 bp from the paper''s Table 1 position data (8136-7458+1=679); needs verification
+    against GenBank ferlavirus HN sequences.'
+needs_review:
+- AMPLICON_BP_FROM_PAPER_POSITIONS_NOT_MEASURED
