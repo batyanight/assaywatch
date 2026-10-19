@@ -66,6 +66,38 @@ hits** across all 9,496. Titles give isolate and strain names (`Kihansi-KST-2022
 **This is the only case where sequence homology is the sole remaining signal**, and
 it is what the estimand plan's Phase 2 sketch was really about.
 
+**Measured afterwards (2026-10-19): Mode C does not hold for the Boyle assay. The
+Bd false negative is a denominator problem, like Mode D.** From the 2026-10-18 calls
+(`results/2026-10-18/calls.tsv.gz`) joined to the 2026-10-03 archive metadata:
+
+- Of the 9,496 records, **173 are evaluable** (172 detect, 1 fail). 9,320 are
+  `no_amplicon`, mostly genome contigs and loci that don't carry the ITS target.
+  A cluster can only reveal a failing lineage if the failures are in the evaluable
+  set, and there is one fail in it.
+- The evaluable records come in two shapes, and neither suits strategy A. There
+  are 94 WGS contigs from a few strains (`RTP6 contig3` etc.), each 5 kb to 1.8 Mb;
+  different contigs of one genome share almost no flank, so they would not link
+  to each other. The other 76 are amplicon-only ITS deposits (145–149 bp, flank
+  < 500 bp, mostly < 100 bp); masking the amplicon leaves almost nothing to
+  sketch. Under strategy A nearly every record ends up `unresolved`.
+- The documented failure is not BdGPL vs BdCAPE. The validation cases
+  (`docs/validation-cases.tsv`, Boyle rows) say it is Asian ITS haplotypes with
+  probe- and reverse-primer-site substitutions and indels (Mutnale 2018: 30
+  GenBank haplotypes; Sreedharan 2023). Ghosh 2021 found the assay works where
+  BdGPL and BdCAPE co-occur. The lineage framing above was the wrong target.
+- Those haplotypes are most likely in the `no_amplicon` pool. Of 472 ITS-titled
+  records, 395 are `no_amplicon`. 343 of those end before the forward primer's
+  window: partial deposits that can't be assessed, not failures. 36 have the
+  window present with nothing credible matching it. They are the only candidates
+  for real site divergence, and they are excluded from the denominator rather
+  than counted as `fail`.
+
+So the Bd entry moves to the Mode D carve-out under "Out of scope". The question is
+whether the 36 window-present `no_amplicon` records are genuine binding-site loss
+(indels the mismatch-only matcher can't align would read this way; see
+`results/indel_check/`), and if so, whether they should count against the assay.
+That is a scope/scoring decision, not a within-taxon split.
+
 **Mode D — not a sub-taxid problem at all; a denominator problem.**
 DWV-A (txid 2951794, 223 records) and DWV-B (txid 2498590, 737 records) are already
 clean, distinct taxa — all 223 DWV-A records carry taxid 2951794 and titles saying
@@ -179,10 +211,14 @@ clustered and falls through to `unresolved` — it does not get a fabricated clu
 
 **Method: Mash (MinHash) distances, single-linkage clustering.** The Bd case is
 9,496 records; the influenza case never reaches the clusterer (resolved by title).
-Mash sketches each masked record and gives pairwise distances in
-near-linear time, so even if a future taxon brings tens of thousands of records to
-the `cluster` path it stays tractable. An all-vs-all alignment is unnecessary and
-would not scale. Defaults: k=21, sketch size 10,000 — standard for
+Mash sketches each masked record in linear time, but the single-linkage step in
+`subcluster.cluster()` is all-pairs. Measured 2026-10-19: one pure-Python sketch
+comparison at sketch size 10,000 takes 6.45 ms, so 9,496 records would need about
+81 hours. Feed the clusterer **only the evaluable records** of the assay (the only
+ones `per_lineage_stats` groups); for Bd that is 173 records, about 15k pairs,
+about 1.5 minutes. Past a few thousand evaluable records, replace the double loop
+with LSH banding or `mash dist` (bioconda) before using it. An all-vs-all
+alignment would be worse still. Defaults: k=21, sketch size 10,000 — standard for
 genome/amplicon-scale nucleotide comparison.
 
 **Threshold is the open risk and must be validated, not guessed.** The honest
@@ -250,6 +286,10 @@ If a provisional cluster is later curated to a real lineage, the mapping lives i
   unlabelled parent DWV pool (txid 302420), not a within-taxon split. Track
   separately; until then `DWVA_polyprotein_Rossi_2024` stays flagged unsafe and is
   not "fixed" by anything here.
+- **Bd Boyle 2004 (moved here from Mode C, 2026-10-19).** Also a denominator
+  problem: the failing Asian ITS haplotypes are probably among the 36
+  window-present `no_amplicon` records, outside the evaluable set. See the
+  measurement under Mode C.
 - **Cutting the window archives** (`windows.py`). Unrelated distribution concern;
   the clusterer uses full archives regardless.
 
@@ -259,9 +299,12 @@ If a provisional cluster is later curated to a real lineage, the mapping lives i
 |---|---|---|---|
 | Influenza A Matrix 2003 | B | title regex `(HxNy)` | no |
 | Avipoxvirus 4b (Baek/Farias) | A | per-record sub-taxid | no |
-| Bd Boyle 2004 (BdGPL/BdCAPE) | C | sequence cluster on masked flanks | yes |
+| Bd Boyle 2004 (Asian ITS haplotypes) | D | scope decision, not here (measured 2026-10-19) | n/a |
 | DWV-A / DWV-B Rossi 2024 | D | scope decision, not here | n/a |
 
-Three of the four "waiting" entries are recovered without any homology
-computation. Clustering is built once, for Bd, where it is genuinely the only
-signal left.
+Two of the four "waiting" entries are recovered by the resolver chain without any
+homology computation. The other two are denominator problems that no grouping can
+fix. `assaywatch/subcluster.py` (Mode C) is built and tested but has no consumer:
+measured, Bd turned out not to be a Mode C case. It stays parked until a taxon
+shows a failing lineage inside its evaluable set that neither taxid nor title can
+label.
