@@ -33,7 +33,7 @@ fi
 # Parallel arrays: FILES[i], TAXIDS[i], LABELS[i]
 FILES=(
     "ADENOVIRUS_dsDNA_Pan_Polymerase_round1.yaml"
-    "Canine_distemper_virus_specifi_P_gene_Scagliarini_2007.yaml"
+    "CDV_P_gene_Scagliarini_2007.yaml"
     "CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1.yaml"
     "CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2.yaml"
     "ENTEROVIRUS_ssRNA_VP3_VP1_round2.yaml"
