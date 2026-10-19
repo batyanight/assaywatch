@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Myco16-23S F (RebeloF)
+    name: Myco16-23S-F
     seq: ACACCATGGGAGYTGGTAAT
   reverse:
-    name: Myco16-23S R (RebeloR)
+    name: Myco16-23S-R
     seq: CTCCWTCGACTTYCAGACCCAAGGCAT
 amplicon_bp: null
 citation:

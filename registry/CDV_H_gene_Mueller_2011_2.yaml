@@ -1,4 +1,4 @@
-id: Canine_distemper_virus_specifi_H_gene_2011_4
+id: CDV_H_gene_Mueller_2011_2
 name: Canine distemper virus specific — H gene
 target:
   taxid: 11232
@@ -8,16 +8,19 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 4F
-    seq: ATCCCCCATGTGTTGACATT
+    name: Mueller-2F
+    seq: GCGATACAATTGGGATCAGA
   reverse:
-    name: 4R
-    seq: GACCTCAGGGTATAGAATCTGG
+    name: Mueller-2R
+    seq: TGGGTGAGCAACAGGTATCA
   alternates:
-  - name: 4Farctic
-    seq: ATCCCTCATGTGTTATCATT
+  - name: 2Farctic
+    seq: GTGAGACAATTGGGATCAGA
     orientation: forward
-amplicon_bp: 572
+  - name: 2Rarctic
+    seq: TGGGTGAGCGACAGGTGTCA
+    orientation: reverse
+amplicon_bp: 570
 citation:
   doi: null
   design_year: 2011
@@ -33,9 +36,10 @@ status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   rows:
-  - 618
-  - 619
-  - 620
+  - 609
+  - 610
+  - 611
+  - 612
   positive_control: null
   nested_round: null
   notes: null

@@ -9,11 +9,11 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 224/FWD (VP3)
+    name: 224-FWD
     seq: GCNATGYTNGGNACNCAYRT
     seq_as_written: GCIATGYTIGGIACICAYRT
   reverse:
-    name: 222/RVS (VP1)
+    name: 222-RVS
     seq: CNCCNGGNGGNAYRWACAT
     seq_as_written: CICCIGGIGGIAYRWACAT
 amplicon_bp: 760

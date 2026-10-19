@@ -10,10 +10,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: EB4P B3 (6721)
+    name: EB4P-B3
     seq: CTCACCTGCAACGCCGTCTA
   reverse:
-    name: EB4P A1 (6719)
+    name: EB4P-A1
     seq: CGTTGAAGGTGTCGCAGAT
   alternates: []
 amplicon_bp: 139

@@ -15,7 +15,7 @@ oligos:
     name: Oo-RT-IGS-R
     seq: AGCCATCCTTCCCTACAT
   probe:
-    name: Oo-RT-IGS PROBE
+    name: Oo-RT-IGS-PROBE
     seq: ATACTCTCCGGGCGCTTGTCTTCC
     reporter: FAM
     quencher: MGB-NFQ

@@ -11,7 +11,7 @@ oligos:
     name: 19SAAVF
     seq: GGTAATGCCTCAGGAAATTGGCATT
   reverse:
-    name: 18asAAVR (corrected)
+    name: 18asAAVR
     seq: GAATCCCCAATTGTTGTTGATGAGTC
 amplicon_bp: 255
 citation:

@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: C. trachomatis sense
+    name: C.-trachomatis-sense
     seq: GCAATTGTTTCGGCAATTG
   reverse:
-    name: C. trachomatis antisense
+    name: C.-trachomatis-antisense
     seq: AGCGGGTATTAACCGCCT
   alternates: []
 amplicon_bp: 413

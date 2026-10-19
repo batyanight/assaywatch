@@ -9,13 +9,13 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: GEI18SF Mod
+    name: GEI18SF
     seq: GTGCATGGCCGTTYYYAGTT
   reverse:
-    name: GEI18SR  corrected Mod
+    name: GEI18SR
     seq: GTACAAARGGCAGGGACKTA
   alternates:
-  - name: GEI18SR (incorrect), need reverse comp
+  - name: GEI18SR
     seq: TACGTCCCTGCCCTTTGTAC
 amplicon_bp: null
 citation:
@@ -40,7 +40,7 @@ source:
   positive_control: DO NOT USE!!!! X-reactive with host DNA
   nested_round: null
   notes: null
-  notes_curator: 'Spreadsheet: DO NOT USE, cross-reactive with host DNA; GEI18SR row 18 is the wrong strand and needs reverse-complement.'
+  notes_curator: 'Spreadsheet: DO NOT USE, cross-reactive with host DNA; GEI18SR row 18 is the wrong strand and needs reverse-complement. | Oligo annotations moved from name field: GEI18SF (forward): Mod; GEI18SR (reverse): corrected Mod; GEI18SR (alternate[0]): incorrect, need reverse complement'
 needs_review:
 - CROSS_REACTIVE
 - DO_NOT_USE

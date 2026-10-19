@@ -9,13 +9,13 @@ target:
 chemistry: hydrolysis_probe
 oligos:
   forward:
-    name: USUTU F
+    name: USUTU-F
     seq: CGTTCTCGACTTTGACTA
   reverse:
-    name: USUTU R
+    name: USUTU-R
     seq: GCTAGTAGTAGTTCTTATGGA
   probe:
-    name: USUTU P
+    name: USUTU-P
     seq: ACCGTCACAATCACTGAAGCAT
     reporter: FAM
     quencher: BHQ-1

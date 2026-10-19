@@ -9,43 +9,43 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: F1
+    name: Baggio-F1
     seq: GTGCAGGCATAACCAATTCAC
   reverse:
-    name: R1
+    name: Baggio-R1
     seq: CATGATCTCTAATTTCTCCTTCTTC
   alternates:
-  - name: F2
+  - name: Baggio-F2
     seq: GTGCAGGCATAACAAATTCAC
     orientation: forward
-  - name: F3
+  - name: Baggio-F3
     seq: CAGTGCTGGAATAACTAATTCTC
     orientation: forward
-  - name: F4
+  - name: Baggio-F4
     seq: GTGCAGGCATAACCAACTC
     orientation: forward
-  - name: F5
+  - name: Baggio-F5
     seq: GTGTTGGCATCACAAACTC
     orientation: forward
-  - name: F6
+  - name: Baggio-F6
     seq: GCGCAGGCATTACCAATTC
     orientation: forward
-  - name: R2
+  - name: Baggio-R2
     seq: GATCTCTGATTTCACCTTCTTCC
     orientation: reverse
-  - name: R3
+  - name: Baggio-R3
     seq: TCTCTGATCTCACCTTCCTC
     orientation: reverse
-  - name: R4
+  - name: Baggio-R4
     seq: ACATGATCTCTAATCTCTCCTTC
     orientation: reverse
-  - name: R5
+  - name: Baggio-R5
     seq: ATGACATGATCCCTAATCTCAC
     orientation: reverse
-  - name: R6
+  - name: Baggio-R6
     seq: GGTCTCTTATTTCACCTTCCTC
     orientation: reverse
-  - name: R7
+  - name: Baggio-R7
     seq: ATGACATGATCTCTGATCTCG
     orientation: reverse
 amplicon_bp: 145
@@ -105,7 +105,7 @@ source:
     against segment-specific RT-PCR, and detection limits of 10 to 10^4 S-segment copies per reaction by lineage. SCOPE: S
     segment only; the L segment (ZP and RdRp, the more diverse one per the paper) is not targeted, so a reptarenavirus carrying
     only an undetected S lineage would be missed even though L records are numerous in GenBank. taxid 1653395 is the genus.
-    Hartmaniviruses and mammarenaviruses are not retrieved. DEDUPLICATION: no other registry entry uses these oligos. Snake_arenavirus_Need_to_order_Glycoprotein_Nachweis_2015
+    Hartmaniviruses and mammarenaviruses are not retrieved. DEDUPLICATION: no other registry entry uses these oligos. Reptarenavirus_GP_Aqrawi_2015
     (MDS402/MDS400, 287 bp) targets the same genus and a nearby GPC region with different primers; its forward primer overlaps
     the F1/F2 site, so the two assays are related but not duplicates. EXCLUDED: nothing in the paper''s primer table; the
     qRT-PCR primers and probes it uses to quantify virus stocks are cited to an earlier paper and are not printed in this

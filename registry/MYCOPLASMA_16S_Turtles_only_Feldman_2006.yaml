@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Feldman Fwd
+    name: Feldman-Fwd
     seq: CTGCTGTTATACAGAAAGAAAAG
   reverse:
-    name: Feldman Rev
+    name: Feldman-Rev
     seq: GACTTTGGGCATTACCGGC
 amplicon_bp: 994
 citation:

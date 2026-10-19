@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: TS19SAAVF
+    name: 19SAAVF
     seq: GGYAATKCCTCVGGWRATTGGCATT
   reverse:
-    name: TS18asAAVR
+    name: 18asAAVR
     seq: GADBCCCCARTKGTTGTTGATRAGYC
 amplicon_bp: 255
 citation:

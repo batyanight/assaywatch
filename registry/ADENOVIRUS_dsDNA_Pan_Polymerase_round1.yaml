@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Forward, pol- Fouter
+    name: 'Forward-pol-Fouter'
     seq: TNMGNGGNGGNMGNTGYTAYCC
   reverse:
-    name: Reverse, pol-Router
+    name: 'Reverse-pol-Router'
     seq: GTDGCRAANSHNCCRTABARNGMRTT
 amplicon_bp: 556
 citation:

@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 16-23 F2
+    name: 16-23-F2
     seq: GAAGTCGTAACAAGGTATCC
   reverse:
-    name: 16-23 R2
+    name: 16-23-R2
     seq: TTTTGATGTCGTTATCATATTAATTTA
 amplicon_bp: 302
 citation:

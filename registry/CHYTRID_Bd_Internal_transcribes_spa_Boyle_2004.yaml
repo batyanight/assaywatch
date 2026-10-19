@@ -8,13 +8,13 @@ target:
 chemistry: mgb
 oligos:
   forward:
-    name: ITS1-3 Chytr
+    name: ITS1-3-Chytr
     seq: CCTTGATATAATACAGTGTGCCATATGTC
   reverse:
-    name: 5.8s Chytr
+    name: 5.8s-Chytr
     seq: AGCCAAGAGATCCGTTGTCAAA
   probe:
-    name: Chytr MGB2
+    name: Chytr-MGB2
     seq: CGAGTCGAACAAAAT
     reporter: FAM
     quencher: MGB-NFQ

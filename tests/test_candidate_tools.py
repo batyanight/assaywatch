@@ -218,7 +218,12 @@ def test_a_two_character_name_is_found_when_the_paper_uses_it(tmp_path):
     reg = tmp_path / "registry"
     reg.mkdir()
     src = ROOT / "registry" / "AVIPOXVIRUS_dsDNA_4b_core_Farias_2010.yaml"
-    (reg / src.name).write_text(src.read_text())
+    # The live registry uses standardised names (Farias-1F); this test needs the
+    # short originals so it can verify that find_name handles 2-char names.
+    d = yaml.safe_load(src.read_text())
+    d["oligos"]["forward"]["name"] = "1F"
+    d["oligos"]["reverse"]["name"] = "1R"
+    (reg / src.name).write_text(yaml.safe_dump(d))
     papers = tmp_path / "papers"
     papers.mkdir()
     (papers / "10.1371_journal.pone.0010745.txt").write_text(AVIPOX)

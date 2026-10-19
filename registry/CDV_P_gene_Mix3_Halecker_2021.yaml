@@ -45,7 +45,7 @@ source:
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.3390_v13081632.pdf), rendered at 220 dpi and read
     by eye as well as extracted as text; both agree, and the same three sequences are printed in Table 2 of Geiselhardt et
     al. 2022 (10.1128/jcm.02505-21) as ''CDV-Mix 3, Halecker et al.''. PROVENANCE: this is the Scagliarini et al. 2007 P-gene
-    assay (10.1007/s11259-007-0020-9, registry entry Canine_distemper_virus_specifi_P_gene_Scagliarini_2007) ''decisively
+    assay (10.1007/s11259-007-0020-9, registry entry CDV_P_gene_Scagliarini_2007) ''decisively
     adapted'' to newer genotypes. CDV3-R is byte-identical to Scagliarini''s CDVR3. The forward (CDV4.1-F, degenerate, starts
     2 nt upstream of CDVF4, hence 116 bp instead of 114) and the probe (CD3.1-FAMas, degenerate at positions 13 and 16, FAM/BHQ1,
     antisense) are Halecker''s modifications, so oligos_designed_here is true for the modified pair but the shared reverse
@@ -66,5 +66,5 @@ source:
     paper''s report that PDV is not detected. SCOPE: CDV-wide, one of two P-gene assays the paper pairs as a ''double check'';
     the paper''s panel was mostly European lineages and the authors say the other lineages are untested.'
 needs_review:
-- 'overlaps Canine_distemper_virus_specifi_P_gene_Scagliarini_2007: shares CDV3-R, forward and probe are degenerate modifications;
+- 'overlaps CDV_P_gene_Scagliarini_2007: shares CDV3-R, forward and probe are degenerate modifications;
   decide whether both entries stay'

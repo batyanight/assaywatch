@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 1F
+    name: Reid-1F
     seq: GTGAGGTGTTTGAGAATTAG
   reverse:
-    name: 1R
+    name: Reid-1R
     seq: ACATCAATTCCGCCAGACCA
 amplicon_bp: 768
 citation:

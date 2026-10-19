@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Landolfi 2090F
+    name: Landolfi-2090F
     seq: GGBTCMACNGCYACYTCBACYGAGCA
   reverse:
-    name: Landolfi 2200R
+    name: Landolfi-2200R
     seq: CCRTCRTCWCCYTGRCAKACRTARTT
 amplicon_bp: 163
 citation:

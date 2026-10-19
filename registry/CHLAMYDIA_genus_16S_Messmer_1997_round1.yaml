@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: genus sense
+    name: genus-sense
     seq: ACGGAATAATGACTTCGG
   reverse:
-    name: genus antisense
+    name: genus-antisense
     seq: TACCTGGTACGCTCAATT
   alternates: []
 amplicon_bp: 437

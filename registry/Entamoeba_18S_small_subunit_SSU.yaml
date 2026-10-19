@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: TS EntF (Tm 48.6)
+    name: EntF
     seq: CGAACGAGACTKDAWCYTATTWAT
   reverse:
-    name: TS EntR (Tm 46.3)
+    name: EntR
     seq: AATTTCACCTHTWTNTTCAATC
     seq_as_written: AATTTCACCTHTWTITTCAATC
 amplicon_bp: 572

@@ -10,10 +10,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: TS-CoV-FWD3
+    name: CoV-FWD3
     seq: GGTTGGGAYTAYCCHAARTGTGA
   reverse:
-    name: TS-CoV-RVS3 (corrected)
+    name: CoV-RVS3
     seq: CCATCATCASWYRGAATCATCATA
 amplicon_bp: 440
 citation:

@@ -10,10 +10,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: AN89/FWD (VP1)
+    name: AN89-FWD
     seq: CCAGCACTGACAGCAGYNGARAYNGG
   reverse:
-    name: AN88/RVS (VP1)
+    name: AN88-RVS
     seq: TACTGGACCACCTGGNGGNAYRWACAT
 amplicon_bp: 375
 citation:
@@ -37,6 +37,6 @@ source:
   positive_control: Universal control 2
   nested_round: round2
   notes: null
-  notes_curator: 'PREDICT panel protocol P-012 (VP3/VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Nix, W.A. (2006).'
+  notes_curator: 'PREDICT panel protocol P-012 (VP3/VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Nix, W.A. (2006). | Oligo annotations moved from name field: AN89-FWD (forward): VP1; AN88-RVS (reverse): VP1'
 needs_review:
 - AMPLICON_BP_MEASURED_NOT_PUBLISHED

@@ -397,8 +397,8 @@ def test_oligo_pool_names_maps_sequences_to_names():
     assert len(fwd_names) == 6
     assert len(rev_names) == 7
     # Primary pair maps correctly.
-    assert fwd_names[assay.oligos.forward.matching_seq] == "F1"
-    assert rev_names[assay.oligos.reverse.matching_seq] == "R1"
+    assert fwd_names[assay.oligos.forward.matching_seq] == "Baggio-F1"
+    assert rev_names[assay.oligos.reverse.matching_seq] == "Baggio-R1"
     # Every value is a non-empty name string.
     assert all(v for v in fwd_names.values())
     assert all(v for v in rev_names.values())

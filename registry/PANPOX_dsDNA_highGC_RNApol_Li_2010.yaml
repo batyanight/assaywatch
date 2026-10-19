@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: high-GC forward
+    name: high-GC-forward
     seq: CATCCCCAAGGAGACCAACGAG
   reverse:
-    name: high-GC reverse
+    name: high-GC-reverse
     seq: TCCTCGTCGCCGTCGAAGTC
   alternates: []
 amplicon_bp: 627

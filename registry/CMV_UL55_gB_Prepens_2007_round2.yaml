@@ -1,0 +1,39 @@
+id: CMV_UL55_gB_Prepens_2007_round2
+name: CMV-specific HERPES — UL55 /Glycoprotein B (gB)
+target:
+  taxid: 10358
+  gene: UL55 /Glycoprotein B (gB)
+  genome_type: dsDNA
+  taxon_name: Cytomegalovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: 2744-s
+    seq: TTCAAGGAACTCAGYAARATNAAYCC
+  reverse:
+    name: 2745-as
+    seq: CGTTGTCCTCNCCNARYTGNCC
+amplicon_bp: 250
+citation:
+  doi: 10.1186/1743-422X-4-84
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Prepens S et al. 2007. Virol J 4:84
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
+  rows:
+  - 489
+  - 490
+  positive_control: null
+  nested_round: round2
+  nested_family: CMV_UL55_gB_Deckers_2009_Prepens_2007
+  notes: null
+  notes_curator: 'BOTH PRIMERS VERIFY EXACT against Prepens et al. 2007, confirmed 2026-10-05: they are that paper''s CM-gB round 2 pair, 2744s and 2745as, nesting inside the round 1 pair held by CMV_UL55_gB_Deckers_2009_Virol_2007_round1. Reading them needed a fix to scripts/verify_oligos_against_paper.py, because the paper spells ambiguous positions out as the literal string (N/I), "N or inosine" - 2745as is printed CGTTGTCCTC(N/I)CC(N/I)ARYTG(N/I)CC - and until that was normalised both primers reported absent. The registry''s N at those positions is the correct reading. BUT THE AMPLICON DISAGREES: this entry stores 230, and the paper says 250 in BOTH places it states a round 2 length - Table 3 (footnoted "approximate values") and the Figure 1 legend ("...320 bp and 250 bp, respectively"). So 230 matches neither. The round 1 sibling differs by a different amount and agrees with the figure (see its note), so these are not one spreadsheet error. NOT CHANGED: this registry measures amplicons on real records rather than quoting them, no sequence database was reachable here, and the precedent cuts against simply believing the paper - the avipox entry measured an invariant 250 bp against a stated 234 and the measurement won. Run both CM-gB pairs against real cytomegalovirus UL55 records and correct each entry on what it measures. MEASURED 2026-10-18: 250 bp invariant across 8 UL55 CDS records (OQ857188-OQ857272 series), 0 mismatches. Stored value corrected 230 to 250. Paper was right (250 in both table and figure); the spreadsheet had a transcription error.'
+needs_review:
+- AMPLICON_MEASURED_250_FROM_8_UL55_RECORDS_0MM

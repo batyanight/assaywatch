@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 1135F
+    name: Garner-1135F
     seq: ACYATAAACTATGCCRACTAGA
   reverse:
-    name: 1503R
+    name: Garner-1503R
     seq: CYTCCYTRCRTTARACACGCAA
 amplicon_bp: 350
 citation:

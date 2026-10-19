@@ -1,4 +1,4 @@
-id: CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000_round2
+id: Cryptosporidium_18SrDNA_Xiao_1999_round2
 name: CRYPTOSPORIDIA (Need to order) — 18SrDNA
 target:
   taxid: 5806
@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Ziao18SF2
+    name: Xiao18SF2
     seq: GGAAGGGTTGTATTTATTAGATAAAG
   reverse:
-    name: Ziao18SR2
+    name: Xiao18SR2
     seq: AAGGAGTAAGGAACAACCTCCA
 amplicon_bp: 822
 citation:

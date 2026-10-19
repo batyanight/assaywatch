@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Borna NF
+    name: Borna-NF
     seq: GCCTTGTGTTTCTATGTTTG
   reverse:
-    name: Borna NR
+    name: Borna-NR
     seq: ATTCTTTACCTGGGGACTCA
 amplicon_bp: 445
 citation:

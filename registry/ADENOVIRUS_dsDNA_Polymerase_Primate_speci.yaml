@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: F2
+    name: Roy-F2
     seq: GTGACAAAGAGGCTGTCCGTGTCCCCGTA
   reverse:
-    name: R2
+    name: Roy-R2
     seq: TCACGTGGCCTACACTTACAAGCCAATCAC
 amplicon_bp: 258
 citation:

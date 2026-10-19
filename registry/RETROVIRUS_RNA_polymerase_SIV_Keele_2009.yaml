@@ -12,7 +12,7 @@ oligos:
     name: PTS-spol-F2
     seq: GARGACCATGAYAAATATCA
   reverse:
-    name: PTS-pol- R2
+    name: PTS-pol-R2
     seq: CAATCCCCCCTTTTCTTTTAAAATTGTG
 amplicon_bp: 549
 citation:

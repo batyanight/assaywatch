@@ -14,7 +14,7 @@ oligos:
     name: FMoPVR
     seq: RTCTTCTRGARCTTGTRGGTAAKCC
   probe:
-    name: FMoPV PROBE
+    name: FMoPV-PROBE
     seq: TCATGCATCTGCTGTAATTAGAAATGC
     reporter: FAM
     quencher: MGB-NFQ

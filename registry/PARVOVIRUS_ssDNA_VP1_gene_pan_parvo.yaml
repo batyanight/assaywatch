@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: TSVP1F
+    name: VP1F
     seq: GTGBTBCCWGGBTAYAADTAYCTHGG
   reverse:
-    name: TSVP1R
+    name: VP1R
     seq: GVKWRWANTHDANGTANGGRTTDTYNCC
 amplicon_bp: 149
 citation:

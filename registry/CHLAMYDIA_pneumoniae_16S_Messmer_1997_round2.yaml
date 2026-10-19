@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: C. pneumoniae and C. psittaci sense
+    name: C.-pneumoniae-and-C.-psittaci-sense
     seq: ATAATGACTTCGGTTGTTATT
   reverse:
-    name: C. pneumoniae antisense
+    name: C.-pneumoniae-antisense
     seq: CGTCATCGCCTTGGTGGGCTT
   alternates: []
 amplicon_bp: 222

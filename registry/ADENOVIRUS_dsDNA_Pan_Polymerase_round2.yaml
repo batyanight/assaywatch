@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Forward, polFinner
+    name: 'Forward-polFinner'
     seq: GTNTWYGAYATHTGYGGHATGTAYGC
   reverse:
-    name: Reverse, polRinner
+    name: 'Reverse-polRinner'
     seq: CCANCCBCDRTTRTGNARNGTRA
 amplicon_bp: 324
 citation:

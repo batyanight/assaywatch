@@ -9,10 +9,10 @@ target:
 chemistry: hydrolysis_probe
 oligos:
   forward:
-    name: 1F
+    name: Farias-1F
     seq: TCCTTGTAAAAGCGATACAGGAA
   reverse:
-    name: 1R
+    name: Farias-1R
     seq: CCCCTTAACATGTGCTAACAA
   probe:
     name: Pox1

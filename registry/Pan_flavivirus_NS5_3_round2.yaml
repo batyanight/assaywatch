@@ -10,7 +10,7 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: FS 778-Zino-hemi-fwd
+    name: FS-778-Zino-hemi-fwd
     seq: AARGGHAGYMCDGCHATHTGGT
   reverse:
     name: cFD2-GORO-rev

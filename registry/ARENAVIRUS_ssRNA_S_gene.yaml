@@ -11,7 +11,7 @@ oligos:
     name: ARS16V
     seq: GGCATWGANCCAAACTGATT
   reverse:
-    name: TS-ARS1
+    name: ARS1
     seq: CGCACCGGGGATCCTAGGC
 amplicon_bp: 630
 citation:

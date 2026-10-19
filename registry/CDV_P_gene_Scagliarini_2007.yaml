@@ -1,4 +1,4 @@
-id: Canine_distemper_virus_specifi_P_gene_Scagliarini_2007
+id: CDV_P_gene_Scagliarini_2007
 name: Canine distemper virus — P gene real-time RT-PCR CDVF4/CDVR3 (Scagliarini 2007)
 target:
   taxid: 11232
@@ -20,7 +20,7 @@ oligos:
     reporter: FAM
     quencher: MGB-NFQ
   alternates:
-  - name: CDV Probe (no MGB)
+  - name: CDV-Probe
     seq: ATCTTCGCCAGAATCCTCAGTGCT
     reporter: FAM
     quencher: ZEN/IowaBlackFQ
@@ -48,5 +48,5 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
+  notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. | Oligo annotations moved from name field: CDV-Probe (alternate[0]): no MGB'
 needs_review: null

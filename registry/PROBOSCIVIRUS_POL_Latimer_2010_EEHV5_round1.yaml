@@ -10,10 +10,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: EB5P B1 (7484)
+    name: EB5P-B1
     seq: GTACCTTAGTTACGGACGAGAC
   reverse:
-    name: EB5P A1 (7483)
+    name: EB5P-A1
     seq: CTACATCTATACAGAACTTTCC
   alternates: []
 amplicon_bp: 450

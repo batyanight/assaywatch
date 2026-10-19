@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 'VP1/2f: (VP12F-JO2F)'
+    name: VP1-2f
     seq: ATGAAAATGGGGTTGGCCCNCTNTGYAARG
   reverse:
-    name: 'VP1/2r: (VP12R-JO2R)'
+    name: VP1-2r
     seq: CCCTCATAAACCCGAACYTCYTCHACYTG
 amplicon_bp: 271
 citation:
@@ -35,7 +35,7 @@ source:
   positive_control: Universal control 2
   nested_round: round2
   notes: null
-  notes_curator: 'PREDICT panel protocol P-040 (VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Johne, R (2005).'
+  notes_curator: 'PREDICT panel protocol P-040 (VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Johne, R (2005). | Oligo annotations moved from name field: VP1-2f (forward): VP12F-JO2F; VP1-2r (reverse): VP12R-JO2R'
 needs_review:
 - AMPLICON_BP_MEASURED_NOT_PUBLISHED
 - NESTED

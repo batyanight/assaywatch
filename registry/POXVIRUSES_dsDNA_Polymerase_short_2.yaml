@@ -8,23 +8,23 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: TSPoxPolF1
+    name: PoxPolF1
     seq: TATAGAGCGAGTACAGTCATCAAG
   reverse:
-    name: TSPoxPolR1
+    name: PoxPolR1
     seq: CANACATTNGGATAYARACTATTATAATC
     seq_as_written: CAIACATTIGGATAYARACTATTATAATC
   alternates:
-  - name: TSPoxPolF2 (parapox group)
+  - name: PoxPolF2
     seq: GCGAGYACCTGCATCAAG
     orientation: forward
-  - name: TSPoxPolF3 (cetacean/goat  group)
+  - name: PoxPolF3
     seq: TAYAGAGCTAGTACGTTAATAAAA
     orientation: forward
-  - name: TSPoxPolF4 (avi group)
+  - name: PoxPolF4
     seq: TATAGGGCHAGTACKCTTATTAAA
     orientation: forward
-  - name: TSPoxPolR2 (parapox group)
+  - name: PoxPolR2
     seq: CGTTNGGGTAYARGCTGTTGTAGTC
     seq_as_written: CGTTIGGGTAYARGCTGTTGTAGTC
     orientation: reverse

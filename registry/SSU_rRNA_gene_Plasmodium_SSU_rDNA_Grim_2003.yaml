@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: sense 841
+    name: sense-841
     seq: GAACGAGATCTTAACCTGC
   reverse:
-    name: antisense 844
+    name: antisense-844
     seq: TANTGATAAAGATTACCTA
     seq_as_written: TAITGATAAAGATTACCTA
 amplicon_bp: 374

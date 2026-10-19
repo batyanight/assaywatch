@@ -8,24 +8,24 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: TSPoxPolF1
+    name: PoxPolF1
     seq: TATAGAGCGAGTACAGTCATCAAGGGTCC
   reverse:
-    name: TSPoxPolR1
+    name: PoxPolR1
     seq: CANACATTNGGATAYARACTATTATAATC
     seq_as_written: CAIACATTIGGATAYARACTATTATAATC
   alternates:
-  - name: TSPoxPolF2 (parapox group)
+  - name: PoxPolF2
     seq: TACCGVGCGAGYACCTGCATCAAGGGMCC
     orientation: forward
-  - name: TSPoxPolF3 (cetacean/goat  group)
+  - name: PoxPolF3
     seq: TAYAGAGCTAGTACGTTAATAAAAGGNCC
     seq_as_written: TAYAGAGCTAGTACGTTAATAAAAGGICC
     orientation: forward
-  - name: TSPoxPolF4 (avi group)
+  - name: PoxPolF4
     seq: TATAGGGCHAGTACKCTTATTAAAGGWCC
     orientation: forward
-  - name: TSPoxPolR2 (parapox group)
+  - name: PoxPolR2
     seq: CANACGTTNGGGTAYARGCTGTTGTAGTC
     seq_as_written: CAIACGTTIGGGTAYARGCTGTTGTAGTC
     orientation: reverse
@@ -53,7 +53,7 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'Spreadsheet: first TSPoxPol set DID NOT WORK WELL; the shorter second set (next block) is the working version.'
+  notes_curator: 'Spreadsheet: first TSPoxPol set DID NOT WORK WELL; the shorter second set (next block) is the working version. | Oligo annotations moved from name field: PoxPolF2 (alternate[0]): parapox group; PoxPolF3 (alternate[1]): cetacean/goat  group; PoxPolF4 (alternate[2]): avi group; PoxPolR2 (alternate[3]): parapox group'
 needs_review:
 - DOI_MISSING
 - DO_NOT_USE

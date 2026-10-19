@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 16F
+    name: Pallister-16F
     seq: AGAAATCTTGCGAGACCG
   reverse:
-    name: 16R
+    name: Pallister-16R
     seq: AACTGTTGGTGATTGCAGC
 amplicon_bp: 200
 citation:

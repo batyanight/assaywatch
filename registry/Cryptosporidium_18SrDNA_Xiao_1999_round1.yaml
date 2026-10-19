@@ -1,4 +1,4 @@
-id: CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000
+id: Cryptosporidium_18SrDNA_Xiao_1999_round1
 name: CRYPTOSPORIDIA (Need to order) — 18SrDNA
 target:
   taxid: 5806
@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Ziao18SF1
+    name: Xiao18SF1
     seq: TTCTAGAGCTAATACATGCG
   reverse:
-    name: Ziao18SR1 corrected
+    name: Xiao18SR1
     seq: CCCATTTCCTTCGAAACAGGA
 amplicon_bp: 1319
 citation:
@@ -71,7 +71,7 @@ source:
     reverse reads near:3 with the paper''s own CCCTAATCCTTCGAAACAGGA printed beside it. That is the intended end state for
     this entry - the one disagreement left is the deliberate in-house correction, visible rather than hidden, and justified
     by the measurement above. SPLIT 2026-10-14: the secondary pair named above has moved to
-    CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000_round2, so this entry is the primary round alone and
+    Cryptosporidium_18SrDNA_Xiao_1999_round2, so this entry is the primary round alone and
     is screened on its own 1319 bp product. It sat in oligos.alternates, where score.oligo_pools treated it as an
     interchangeable pool member and credited its 822 bp product to this 1319 bp assay; that is what the
     NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_ALTERNATES flag was for, and the flag is retired with it.

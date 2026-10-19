@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Grosh F
+    name: Grosh-F
     seq: ATGTTTATGATCACAGCGGT
   reverse:
-    name: Grosh R
+    name: Grosh-R
     seq: ATTGGGTTGCACCACTTGTC
 amplicon_bp: 429
 citation:

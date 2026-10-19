@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 'VP1/lf:'
+    name: VP1-lf
     seq: CCAGACCCAACTARRAATGARAA
   reverse:
-    name: 'VP1/1r:'
+    name: VP1-1r
     seq: AACAAGAGACACAAATNTTTCCNCC
 amplicon_bp: null
 citation:

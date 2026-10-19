@@ -8,11 +8,11 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: FAP/59
+    name: FAP-59
     seq: TAACWGTNGGNCAYCCWTATT
     seq_as_written: TAACWGTIGGICAYCCWTATT
   reverse:
-    name: FAP/64
+    name: FAP-64
     seq: CCWATATCWVHCATNTCNCCATC
     seq_as_written: CCWATATCWVHCATITCICCATC
 amplicon_bp: 476

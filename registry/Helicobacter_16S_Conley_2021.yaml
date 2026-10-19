@@ -1,4 +1,4 @@
-id: Helicobacter_XREACTS_with_general_bac_2
+id: Helicobacter_16S_Conley_2021
 name: Helicobacter — 16S rRNA qPCR (Helico New F/R + PROBE1)
 target:
   taxid: 209
@@ -9,10 +9,10 @@ target:
 chemistry: mgb
 oligos:
   forward:
-    name: Helico New F
+    name: Helico-New-F
     seq: TAGATAACATGCCCTTTAGTCTGGGATAGCCA
   reverse:
-    name: Helico New R
+    name: Helico-New-R
     seq: GTGTGTCCGTTCACCCTCTCAGG
   probe:
     name: PROBE1

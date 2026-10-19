@@ -10,10 +10,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: PAN-EBP B1 (6711)
+    name: PAN-EBP-B1
     seq: GTATTTGATTTYGCNAGYYTGTAYCC
   reverse:
-    name: EB6P A2 (7584)
+    name: EB6P-A2
     seq: CATCGATTTTGAACTTCTCATGGTC
   alternates: []
 amplicon_bp: 505

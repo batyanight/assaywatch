@@ -1,4 +1,4 @@
-id: Canine_distemper_virus_specifi_H_gene_2011_2
+id: CDV_H_gene_Mueller_2011_1
 name: Canine distemper virus specific — H gene
 target:
   taxid: 11232
@@ -8,19 +8,12 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 2F
-    seq: GCGATACAATTGGGATCAGA
+    name: Mueller-1F
+    seq: GGGCTCAGGTAGTCCARCAA
   reverse:
-    name: 2R
-    seq: TGGGTGAGCAACAGGTATCA
-  alternates:
-  - name: 2Farctic
-    seq: GTGAGACAATTGGGATCAGA
-    orientation: forward
-  - name: 2Rarctic
-    seq: TGGGTGAGCGACAGGTGTCA
-    orientation: reverse
-amplicon_bp: 570
+    name: Mueller-1R
+    seq: CCTCCGGAGAGTGCTGATAA
+amplicon_bp: 567
 citation:
   doi: null
   design_year: 2011
@@ -36,14 +29,11 @@ status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   rows:
-  - 609
-  - 610
-  - 611
-  - 612
-  positive_control: null
+  - 606
+  - 607
+  positive_control: Canine distemper (vaccine)
   nested_round: null
   notes: null
   notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
 needs_review:
 - DOI_MISSING
-- MULTIPLE_PRIMERS_IN_BLOCK

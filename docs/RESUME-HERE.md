@@ -347,12 +347,23 @@ trusted.
    Pipeline validation vs 2026-10-17 baseline: 87→44 assays flagged for drift (43 rescued),
    0 new drift flags, 159,307 individual fail→reduced call rescues across 140 conventional
    assays. Zero regressions.
-9. **Primer-name audit against published papers.** The `name` fields on oligos (forward, reverse,
-   probe, alternates) should match the names used in the cited paper's primer table when possible.
-   Some registry entries were bulk-imported from a spreadsheet and carry generic or abbreviated
-   names. Audit each entry's oligo names against the paper's own table (PDF or full text) and
-   correct mismatches. Low priority but improves traceability, especially now that `winning_pair`
-   surfaces oligo names in the calls output.
+9. **Primer-name audit** — scoped 2026-10-18, not yet executed.
+
+   **Assay-ID renames (40 entries).** Mapping in `docs/rename-mapping.tsv`.
+   - 13 REMOVE: no DOI, no reference, no literature provenance (Tracies unpublished,
+     failed Influenza A, in-house CDV F/H/P, Helicobacter generic, Seadornavirus).
+     Move YAMLs to `scripts/removed_assays/` and append filenames to
+     `scripts/removed_assays.txt`.
+   - 27 RENAME to `{Taxon}_{gene}_{Author}_{Year}` convention: rename file, update
+     `id:` field, update any round1↔round2 cross-references, then validate.
+
+   **Oligo `name:` field standardization (all 217 entries).** Six rules:
+   1. Paper name only — the name from the cited paper's primer table, nothing else.
+   2. No annotations in the name — `(corrected)`, `(same)`, `(5uM)` etc. go in oligo `notes:`.
+   3. No lab prefixes — TS-prefix names replaced with the published primer name from the DOI.
+   4. No bare positional numbers — `1F`/`2R` etc. get author-prefixed: `Mueller-1F`.
+   5. No spaces — use hyphens.
+   6. No YAML-hostile characters — no quotes, colons, or slashes in names.
 
 ## Two things waiting on someone else
 

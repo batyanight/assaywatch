@@ -1,4 +1,4 @@
-id: NIDOVIRUS_ssRNA_SNAKE_Need_to_PP1b
+id: Snake_nidovirus_PP1b_Uccellini_2014_1
 name: NIDOVIRUS (ssRNA)-SNAKE (Need to order) — PP1b
 target:
   taxid: 2508240
@@ -14,7 +14,7 @@ oligos:
     name: PythonNido6R
     seq: GTCAAACATGAAAGCGTGCG
   alternates:
-  - name: Pythin nodo 7R
+  - name: Pythin-nodo-7R
     seq: CTGCCATGCTACGGAAGACT
     orientation: reverse
 amplicon_bp: 420

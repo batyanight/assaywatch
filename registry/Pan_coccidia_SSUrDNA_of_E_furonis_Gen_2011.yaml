@@ -9,10 +9,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: E furonis F
+    name: E-furonis-F
     seq: ACAATTGGAGGGCAAGTCTG
   reverse:
-    name: E furonis R
+    name: E-furonis-R
     seq: GGCGACAAGCCTGCTTGAAAC
 amplicon_bp: 247
 citation:

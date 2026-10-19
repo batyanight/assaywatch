@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: 16-23 F3
+    name: 16-23-F3
     seq: AWTWGWTYTTTGAAAACTGAATAGCA
   reverse:
-    name: 16-23 R3 (Rebelo R)
+    name: 16-23-R3
     seq: CTCCWTCGACTTYCAGACCCAAGGCAT
 amplicon_bp: 234
 citation:
@@ -35,7 +35,7 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'CITATION ADDED 2026-10-04 by the provenance audit, on sequence evidence rather than inference. This entry had no citation at all, but its reverse primer ''16-23 R3 (Rebelo R)'' is byte-identical to RebeloR in Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011, which carries doi:10.1177/1040638711416846 (verified against Crossref: Rebelo, Parker & Cai, J Vet Diagn Invest 23:932-936). So half of this pair is Rebelo 2011 and the partner is from elsewhere - unpublished or in-house, the source spreadsheet does not say. oligos_designed_here is False because the pair as entered is a composite, and Rebelo 2011''s claims bound only one of the two primers. Three registry entries share Rebelo oligos and only one named the paper; that is the same read-from-versus-designed-by confusion that produced the ranavirus scoping error.'
+  notes_curator: 'CITATION ADDED 2026-10-04 by the provenance audit, on sequence evidence rather than inference. This entry had no citation at all, but its reverse primer ''16-23 R3 (Rebelo R)'' is byte-identical to RebeloR in Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011, which carries doi:10.1177/1040638711416846 (verified against Crossref: Rebelo, Parker & Cai, J Vet Diagn Invest 23:932-936). So half of this pair is Rebelo 2011 and the partner is from elsewhere - unpublished or in-house, the source spreadsheet does not say. oligos_designed_here is False because the pair as entered is a composite, and Rebelo 2011''s claims bound only one of the two primers. Three registry entries share Rebelo oligos and only one named the paper; that is the same read-from-versus-designed-by confusion that produced the ranavirus scoping error. | Oligo annotations moved from name field: 16-23-R3 (reverse): Rebelo R'
 needs_review:
 - NO_YEAR
 - PARTNER_PRIMER_UNATTRIBUTED

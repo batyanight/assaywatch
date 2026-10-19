@@ -9,13 +9,13 @@ target:
 chemistry: hydrolysis_probe
 oligos:
   forward:
-    name: D forward
+    name: D-forward
     seq: AGCGTTTTGCCCCAGCTA
   reverse:
-    name: D reverse
+    name: D-reverse
     seq: GCAATGTTGCTCCGCAGTACT
   probe:
-    name: D probe
+    name: D-probe
     seq: CTCGACTACGAAATCG
     reporter: null
     quencher: null

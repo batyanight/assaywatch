@@ -9,10 +9,10 @@ target:
 chemistry: hydrolysis_probe
 oligos:
   forward:
-    name: LeHV-5-gB Fw
+    name: LeHV-5-gB-Fw
     seq: GGACTCAGTGAACATTCACCAAAGCC
   reverse:
-    name: LeHV-5-gB Rv
+    name: LeHV-5-gB-Rv
     seq: CACCCACGATAAAAAAGTGCTCTGCC
   probe:
     name: LeHV-5-gB_P

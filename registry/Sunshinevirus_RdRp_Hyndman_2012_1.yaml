@@ -1,19 +1,19 @@
-id: Ferlavirus_Need_to_order_L_gene_Hyndman_2012
-name: Ferlavirus (Need to order) — L gene
+id: Sunshinevirus_RdRp_Hyndman_2012_1
+name: Sunshine virus (Need to order) — RdRp (L gene)
 target:
-  taxid: 1283308
-  gene: L gene
+  taxid: 1921703
+  gene: RdRp (L gene)
   genome_type: ssRNA-
-  taxon_name: Ferlavirus
+  taxon_name: Sunshinevirus
 chemistry: conventional
 oligos:
   forward:
-    name: FerlaqS2
-    seq: GTTATGGCAAATCATGCTGCGATACCTTA
+    name: SunshineS1
+    seq: GGAAAGGGAGGTCTATG
   reverse:
-    name: FerlaqAS2
-    seq: CTGATGGGAGATAATGCCTTGTCCTTCAT
-amplicon_bp: 149
+    name: SunshineAS1
+    seq: ATTCAACATCTGGGGTC
+amplicon_bp: 153
 citation:
   doi: 10.1016/j.vetmic.2012.07.030
   design_year: 2012
@@ -28,9 +28,9 @@ status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   rows:
-  - 650
-  - 651
-  positive_control: null
+  - 647
+  - 648
+  positive_control: Universal control 5
   nested_round: null
   notes: null
 needs_review:
