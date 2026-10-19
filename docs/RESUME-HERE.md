@@ -341,12 +341,13 @@ trusted.
      16S rRNA (Mycobac16S_F/R/SFAM), helicase (MTC-HELI-4F/4R/4FAM),
      IS1081 (MTC-IS1081-5F/5Rn/5FAM). No mismatches.
 7. **211 oligos** whose provenance is unchecked for want of full text.
-8. **~~`by_chemistry.conventional` scoring override~~ DONE** (committed 2026-10-18):
-   Applied `by_chemistry.conventional` in `config.yaml`:
-   `terminal_mismatch_fails: false`, `primer_3prime_penalty: 2.0`, `reduced_max: 5.0`.
-   Pipeline validation vs 2026-10-17 baseline: 87→44 assays flagged for drift (43 rescued),
-   0 new drift flags, 159,307 individual fail→reduced call rescues across 140 conventional
-   assays. Zero regressions.
+8. **`by_chemistry.conventional` scoring override: REVERTED 2026-10-19.** Committed live on
+   2026-10-18 (`c15a3b7`: `terminal_mismatch_fails: false`, `primer_3prime_penalty: 2.0`,
+   `reduced_max: 5.0`). The evidence given was "87→44 drift flags, 0 regressions", which a
+   relaxation always produces. Tier-2 validation then showed it catches **2** of the documented
+   failures instead of **5** (loses Paramyxovirinae round2, Forslund L1, Hellgren). Total
+   disagreements went from 10 to 11. Back to `by_chemistry: {}`. Full result and the
+   one-knob-at-a-time tests to run next: `docs/2026-10-19-conventional-override-validation.md`.
 9. **Primer-name audit** — scoped 2026-10-18, not yet executed.
 
    **Assay-ID renames (40 entries).** Mapping in `docs/rename-mapping.tsv`.

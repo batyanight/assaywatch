@@ -129,11 +129,14 @@ scoring:
   # Do not uncomment that without the validation run behind it. It would move
   # every status in every report, and a threshold changed by eye is exactly what
   # the top of this file warns against.
-  by_chemistry:
-    conventional:
-      terminal_mismatch_fails: false
-      primer_3prime_penalty: 2.0
-      reduced_max: 5.0
+  #
+  # Candidate under test (committed live in c15a3b7, reverted 2026-10-19 because
+  # the only evidence was "87 -> 44 drift flags", and loosening scoring cannot
+  # raise a flag, so that measures nothing):
+  #   conventional: {terminal_mismatch_fails: false, primer_3prime_penalty: 2.0, reduced_max: 5.0}
+  # Its tier-2 result against docs/validation-cases.tsv is in
+  # docs/2026-10-19-conventional-override-validation.md.
+  by_chemistry: {}
 
 amplicon:
   min_bp: 50
