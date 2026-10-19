@@ -53,6 +53,7 @@ from assaywatch.lineage import load_taxa_cache, sublineage_resolvers, title_assa
 from assaywatch.metadata import read_titles  # noqa: E402
 from assaywatch.report import key_calls_by_accession, read_calls, read_dates  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
+from assaywatch.taxonomy import Taxonomy, taxonomy_from_config  # noqa: E402
 
 # `low coverage` is its own outcome, not a failure: it says the assay is below
 # threshold with no measurable fall, i.e. it never covered all of this diversity.
@@ -113,6 +114,7 @@ class Evidence:
     taxa_cache: dict[int, str] | None = None
     resolvers: dict[str, list] | None = None  # sub-lineage chains, lineage.sublineage
     titles: dict[str, str] | None = None  # for the assays whose chain parses titles
+    taxonomy: Taxonomy | None = None  # scope_taxids ancestry, drift.scope_taxonomy
 
 
 def load_evidence(
@@ -167,7 +169,8 @@ def load_evidence(
         wanted = title_assays(lcfg)
         titles = read_titles(retrieved, {r["record_id"] for a in wanted for r in by_assay.get(a, [])})
 
-    return Evidence(read_dates(retrieved), dict(by_assay), taxids, taxa_cache, resolvers, titles)
+    taxonomy = taxonomy_from_config(cfg) if cfg else None
+    return Evidence(read_dates(retrieved), dict(by_assay), taxids, taxa_cache, resolvers, titles, taxonomy)
 
 
 def status_from_evidence(
@@ -195,6 +198,7 @@ def status_from_evidence(
         scope_map=scope_map,
         resolvers=evidence.resolvers,
         titles=evidence.titles,
+        taxonomy=evidence.taxonomy,
     ), len(rows)
 
 

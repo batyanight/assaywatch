@@ -20,6 +20,14 @@
   times underflow), so a large lineage could never be judged failing. It now uses `binom.cdf`.
   Tier-2: no case changes. Current statuses: one changes, `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`
   low coverage -> declining (rabies taxid 11292 lineage at 404/1,896).
+- **scope_taxids now match descendants** (`docs/2026-10-19-scope-ancestry.md`). Exact matching
+  dropped strain/no-rank records under each listed species, about 90% of in-scope records. The
+  "14→9 disagreements" below was measured on that remainder. With ancestry, tier-2 is
+  **6/12 failures caught, 14 disagreements** (was 5/12, 9). The new disagreements are pan-family
+  `low coverage` pooled statuses overridden to `declining` by a lineage at 0%. Limiting the
+  override to stable/watch drops caught failures to 1/12, so the open question is the estimand
+  for pan-family assays, not a rule. Rebuild the tree with `scripts/build_taxonomy_cache.py`
+  after a retrieval brings new taxa.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173
@@ -39,7 +47,8 @@ dates, `python -m assaywatch.validate registry`) before acting on them; it goes 
 ## scope_taxids: DONE end-to-end (2026-10-18)
 
 `scope_taxids` is an optional field on `Target` in the registry schema. When set, only records
-whose taxid is in the list count toward the drift denominator. Out-of-scope records are excluded
+whose taxid is in the list count toward the drift denominator. (Since 2026-10-19: in the list *or a descendant of a listed taxid*; see
+`docs/2026-10-19-scope-ancestry.md`. The 14→9 result below predates that and is superseded.) Out-of-scope records are excluded
 and tallied in `AssayDrift.out_of_scope`. Records with no taxid are kept (conservative). This is
 exact-match v1 — no NCBI taxonomy ancestry expansion yet.
 

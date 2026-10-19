@@ -819,6 +819,13 @@ def build(
             retrieved, {strip_version(r["record_id"]) for r in calls if r["assay_id"] in wanted}
         )
 
+    # Scope matches descendants (strain and no-rank taxids) only with the cached tree.
+    taxonomy = None
+    if scope_map:
+        from assaywatch.taxonomy import taxonomy_from_config
+
+        taxonomy = taxonomy_from_config(cfg)
+
     drifts = assess(
         calls,
         dates,
@@ -829,7 +836,14 @@ def build(
         scope_map=scope_map,
         resolvers=resolvers,
         titles=titles,
+        taxonomy=taxonomy,
     )
+    if taxonomy is not None and taxonomy.unknown:
+        print(
+            f"warning: {len(taxonomy.unknown)} taxids not in the taxonomy cache were matched exactly; "
+            "rebuild it with scripts/build_taxonomy_cache.py",
+            file=sys.stderr,
+        )
     gaps = coverage_gaps(drifts, taxa, cfg)
     # Nested families are read from the SAME deduplicated calls the drift
     # statistic uses, so the two never disagree about which records exist.

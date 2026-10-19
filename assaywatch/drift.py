@@ -86,6 +86,7 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from assaywatch.lineage import LineageStats
+    from assaywatch.taxonomy import Taxonomy
 
 EVALUABLE = ("detect", "reduced", "fail")
 Z95 = 1.959963984540054
@@ -682,6 +683,7 @@ def assess(
     scope_map: dict[str, set[int]] | None = None,
     resolvers: dict[str, list] | None = None,
     titles: dict[str, str] | None = None,
+    taxonomy: Taxonomy | None = None,
 ) -> dict[str, AssayDrift]:
     """Group calls by assay and deposit date and work out each assay's status.
 
@@ -708,6 +710,9 @@ def assess(
     When ``scope_map`` is provided (assay_id → set of in-scope taxids), records
     whose taxid falls outside the scope set are excluded from the drift
     denominator.  They are still counted on ``AssayDrift.out_of_scope``.
+    With ``taxonomy`` (assaywatch.taxonomy), a record is in scope when its taxid
+    or any ancestor is listed, with merged taxids followed on both sides;
+    without it the match is exact, which drops strain- and no-rank-level records.
 
     ``resolvers`` (assay_id -> sub-lineage resolver chain, from
     ``lineage.sublineage_resolvers``) splits an assay's records below the taxid
@@ -749,6 +754,15 @@ def assess(
     raw_per: dict[str, list[tuple[str | None, dict[str, Any]]]] = {} if taxids else {}
     # Out-of-scope record counts per assay, populated only when scope_map is set.
     oos_counts: dict[str, int] = {}
+    scope_canon: dict[str, set[int]] = {}
+
+    def in_scope(aid: str, txid: int) -> bool:
+        if taxonomy is None:
+            return txid in scope_map[aid]
+        if aid not in scope_canon:
+            scope_canon[aid] = {taxonomy.canonical(t) for t in scope_map[aid]}
+        return taxonomy.within(txid, scope_canon[aid])
+
     for row in calls:
         aid = row["assay_id"]
         # Scope filter: when the assay has scope_taxids and the record has a
@@ -757,7 +771,7 @@ def assess(
             rid = row["record_id"]
             base = rid.split(".")[0]
             txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
-            if txid is not None and txid not in scope_map[aid]:
+            if txid is not None and not in_scope(aid, txid):
                 oos_counts[aid] = oos_counts.get(aid, 0) + 1
                 continue
         when = years.get(row["record_id"])

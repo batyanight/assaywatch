@@ -422,6 +422,8 @@ rule report:
     """Per-assay drift status, coverage gaps, and the degeneracy caveat beside both."""
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        # scope_taxids ancestry: a rebuilt tree changes which records count
+        taxonomy=config["drift"]["scope_taxonomy"],
     output:
         md=RESULTS / RUN_DATE / "report.md",
         html=RESULTS / RUN_DATE / "report.html",

@@ -284,6 +284,8 @@ def tree(tmp_path_factory):
         shutil.copy(ROOT / name, t / name)
     shutil.copytree(ROOT / "assaywatch", t / "assaywatch", ignore=shutil.ignore_patterns("__pycache__"))
     shutil.copytree(ROOT / "registry", t / "registry")
+    (t / "docs").mkdir()
+    shutil.copy(ROOT / "docs" / "taxonomy-cache.json.gz", t / "docs")  # the report's scope tree
 
     from assaywatch.retrieve import targets_from_registry
 

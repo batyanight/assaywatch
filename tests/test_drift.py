@@ -532,3 +532,20 @@ def test_empty_resolver_map_is_the_per_taxid_grouping():
         b.lineage_override,
         [s.lineage_name for s in b.lineage_stats],
     )
+
+
+def test_scope_with_taxonomy_keeps_records_below_the_listed_species():
+    """Exact match drops strain/no-rank records; the tree keeps them."""
+    from assaywatch.taxonomy import Taxonomy
+
+    calls, years, taxids = _records_with_taxids(
+        {2025: {3052342: {"detect": 10}, 3139435: {"detect": 30}, 99: {"detect": 15}}},
+    )
+    tree = Taxonomy({3139435: 3052342, 3052342: 11229, 99: 1, 11229: 1}, {11232: 3052342})
+    scope = {"A": {11232}}  # the registry's merged taxid, as CDV's was
+    exact = assess(calls, years, CFG, today=TODAY, taxids=taxids, scope_map=scope)
+    # Every record excluded: the assay drops out of the result altogether, which is
+    # how CDV P gene read "no data" with scope [11232].
+    assert "A" not in exact
+    tree_ = assess(calls, years, CFG, today=TODAY, taxids=taxids, scope_map=scope, taxonomy=tree)["A"]
+    assert tree_.recent_evaluable == 40 and tree_.out_of_scope == 15
