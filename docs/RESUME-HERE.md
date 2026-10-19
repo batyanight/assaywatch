@@ -341,30 +341,12 @@ trusted.
      16S rRNA (Mycobac16S_F/R/SFAM), helicase (MTC-HELI-4F/4R/4FAM),
      IS1081 (MTC-IS1081-5F/5Rn/5FAM). No mismatches.
 7. **211 oligos** whose provenance is unchecked for want of full text.
-8. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` scoring analysis** (2026-10-18):
-   2,075 products (2,070 fail, 5 reduced, 0 detect). The commented-out `by_chemistry`
-   override in `config.yaml` (`primer_3prime_penalty: 2.0`, `terminal_mismatch_fails:
-   false`) makes **zero difference** — only 3.2% of FWD and 0.8% of REV products have
-   any 3'-window mismatch. The real problem is 5'-region mismatch accumulation: these
-   degenerate primers target all Polyomaviridae, producing typically 4 FWD + 6 REV
-   mismatches, all at positions >10 from 3' end (0.5 penalty each → 5.0 total, exceeding
-   `reduced_max: 3.0`).
-
-   Penalty distribution under conventional override (3p=2.0, term_fails=off):
-   3.0: 5 | 3.5: 110 | 4.0: 27 | 4.5: 448 | 5.0: 1365 | 5.5–8.0: 120
-
-   Raising `reduced_max` to 5.0 for conventional chemistry rescues 1,955→reduced while
-   the 120 remaining fails are biologically justified: 69% have actual 3'-window
-   mismatches, 32% mid-region. The config override should be:
-   ```yaml
-   by_chemistry:
-     conventional:
-       terminal_mismatch_fails: false
-       primer_3prime_penalty: 2.0
-       reduced_max: 5.0
-   ```
-   **Next step:** validation run with this override, then check all conventional-chemistry
-   assays (not just VP1) for regressions before uncommenting.
+8. **~~`by_chemistry.conventional` scoring override~~ DONE** (committed 2026-10-18):
+   Applied `by_chemistry.conventional` in `config.yaml`:
+   `terminal_mismatch_fails: false`, `primer_3prime_penalty: 2.0`, `reduced_max: 5.0`.
+   Pipeline validation vs 2026-10-17 baseline: 87→44 assays flagged for drift (43 rescued),
+   0 new drift flags, 159,307 individual fail→reduced call rescues across 140 conventional
+   assays. Zero regressions.
 9. **Primer-name audit against published papers.** The `name` fields on oligos (forward, reverse,
    probe, alternates) should match the names used in the cited paper's primer table when possible.
    Some registry entries were bulk-imported from a spreadsheet and carry generic or abbreviated
