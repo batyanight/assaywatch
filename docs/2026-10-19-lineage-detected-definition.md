@@ -1,8 +1,8 @@
 # What the per-lineage share counts as detected (step 2): experiment
 
 **Date:** 2026-10-19
-**Status:** experiment only; nothing shipped. Re-run after the `scope_taxids` fix
-below, because the baseline it was measured against is biased.
+**Status:** experiment only; nothing shipped. Re-run on the corrected (ancestry)
+scope baseline at the end of this file; the conclusion is unchanged.
 
 ## Question
 
@@ -82,3 +82,20 @@ Before deciding:
   11232 has been merged into 3052342 at NCBI. Every tier-2 number since
   scope_taxids landed (including the 14 -> 9 disagreements) was measured on these
   leftovers.
+
+## Re-run on the ancestry-scope baseline (after 73285ed)
+
+| variant | failures caught | `works` agree | disagreements |
+|---|---:|---:|---:|
+| baseline | 6/12 | 9 | 14 |
+| flu split by subtype, or subtype + pdm | 6/12 | 9 | 14 |
+| detect-only for probe chemistries, no split | 6/12 | 9 | 14 |
+| **detect-only for probe chemistries + flu pdm split** | **7/12** | 9 | **13** |
+| detect-only for every assay | 6/12 | 7 | 16 |
+
+Same shape as before. The combination gains exactly the influenza case and nothing
+else. Applying it to every assay adds two false alarms (Pan-herpes polymerase,
+Adenovirus round2). Current statuses: 7 of 213 move to `declining`, the six above
+plus `CDV_P_gene_Scagliarini_2007` (watch; detect-only 65/83 on taxid 3052342),
+which has data again now that its scope matches. The recommendation stands: the
+probe-assay validation cases come before a verdict change.
