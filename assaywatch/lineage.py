@@ -8,16 +8,31 @@ Why lineages matter: a pan-family PCR can detect one clade perfectly and miss
 another. Pooling dilutes the miss to a average, which a threshold cannot catch.
 Per-lineage analysis asks: what is the worst-case detection among the clades
 this assay was asked to detect?
+
+Sub-taxid resolution (estimand "Phase 2", see
+docs/2026-10-19-subtaxid-resolution.md): some biologically distinct lineages
+collapse into one NCBI taxid. A per-assay *resolver chain* assigns a finer
+sub-lineage label from the cheapest sufficient signal — a more specific
+per-record taxid, a label parsed from the record title, or a sequence-homology
+cluster id — before falling back to the taxid. The chain is opt-in: with
+``resolvers=None`` (the default) grouping is exactly the per-taxid behaviour of
+Phase 1, so an assay with no sub-lineage config is untouched.
 """
 
 import json
+import re
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 from scipy.special import comb
 from statsmodels.stats.multitest import multipletests
+
+# A resolver maps (call dict, resolved taxid, taxa cache) -> a sub-lineage
+# label, or None to defer to the next resolver in the chain.
+Resolver = Callable[[dict, "int | None", dict[int, str]], "str | None"]
 
 
 @dataclass
@@ -51,6 +66,123 @@ def lineage_for_taxid(taxid: int | None, taxa_cache: dict[int, str]) -> str:
     return taxa_cache.get(taxid, f"taxid_{taxid}")
 
 
+# --- sub-taxid resolver chain -------------------------------------------
+# Each factory returns a Resolver. A resolver returns a label or None; the
+# chain tries resolvers in order (cheapest/most-reliable first) and the first
+# non-None label wins. If every resolver defers, resolve_sublineage falls back
+# to the plain taxid label, so an unconfigured assay behaves as in Phase 1.
+
+
+def subtaxid_resolver(query_taxid: int | None = None) -> Resolver:
+    """Group by the record's own taxid when it is finer than the query taxid.
+
+    Mode A in the design doc (e.g. Avipoxvirus: fowlpox 10261 vs canarypox
+    10264, both below query 10260). A record sitting at the *parent* query
+    taxid carries no sub-lineage signal here, so it returns None to let a
+    title or cluster resolver try — this is what keeps the 76% of influenza
+    Matrix records stuck at parent 11320 from short-circuiting the title
+    resolver.
+
+    Note: "finer than" is approximated as "present and != query_taxid". The
+    taxa cache has no ancestry, and in practice a record retrieved under
+    txidX[Organism:exp] carries X or a descendant, so a non-parent taxid is a
+    genuine sub-taxon. A stray sibling taxid would be grouped on its own,
+    which is harmless (it just gets its own row).
+    """
+
+    def _resolve(call: dict, taxid: int | None, taxa_cache: dict[int, str]) -> str | None:
+        if taxid is None:
+            return None
+        if query_taxid is not None and taxid == query_taxid:
+            return None
+        return lineage_for_taxid(taxid, taxa_cache)
+
+    return _resolve
+
+
+def title_resolver(pattern: str) -> Resolver:
+    """Group by a label parsed from the record title.
+
+    Mode B (e.g. influenza subtype ``(H5N1)`` via ``r'\\((H\\d+N\\d+)\\)'``).
+    If the pattern has a capture group, group 1 is the label; otherwise the
+    whole match is used. No match -> None (defer). A missing title -> None,
+    so this is safe before report.py threads titles into the call dicts.
+    """
+
+    rx = re.compile(pattern)
+
+    def _resolve(call: dict, taxid: int | None, taxa_cache: dict[int, str]) -> str | None:
+        m = rx.search(call.get("title") or "")
+        if not m:
+            return None
+        return m.group(1) if m.groups() else m.group(0)
+
+    return _resolve
+
+
+def cluster_resolver(cluster_map: dict[str, str]) -> Resolver:
+    """Group by a precomputed sequence-homology cluster id.
+
+    Mode C (e.g. Bd BdGPL/BdCAPE). ``cluster_map`` maps record_id (versioned
+    or unversioned accession) to a stable cluster label produced by
+    assaywatch.subcluster. No entry -> None (defer).
+    """
+
+    def _resolve(call: dict, taxid: int | None, taxa_cache: dict[int, str]) -> str | None:
+        rid = call.get("record_id", "")
+        return cluster_map.get(rid) or cluster_map.get(rid.split(".")[0])
+
+    return _resolve
+
+
+def build_resolvers(
+    assay_cfg: dict,
+    *,
+    query_taxid: int | None = None,
+    cluster_map: dict[str, str] | None = None,
+) -> list[Resolver]:
+    """Build a resolver chain for one assay from its ``sublineage`` config.
+
+    Config shape (per assay, under the top-level ``sublineage`` block)::
+
+        chain: [subtaxid, title]
+        title:   {pattern: '\\((H\\d+N\\d+)\\)'}
+        cluster: {...}            # consumed by subcluster, not here
+
+    An empty/absent config yields ``[subtaxid_resolver()]``, which combined
+    with the taxid fallback reproduces Phase 1 grouping.
+    """
+    chain = assay_cfg.get("chain") or ["subtaxid"]
+    resolvers: list[Resolver] = []
+    for name in chain:
+        if name == "subtaxid":
+            resolvers.append(subtaxid_resolver(query_taxid))
+        elif name == "title":
+            pattern = (assay_cfg.get("title") or {}).get("pattern")
+            if not pattern:
+                raise ValueError(f"title resolver needs a 'pattern' (assay cfg: {assay_cfg!r})")
+            resolvers.append(title_resolver(pattern))
+        elif name == "cluster":
+            resolvers.append(cluster_resolver(cluster_map or {}))
+        else:
+            raise ValueError(f"unknown sub-lineage resolver {name!r}")
+    return resolvers
+
+
+def resolve_sublineage(
+    call: dict,
+    taxid: int | None,
+    taxa_cache: dict[int, str],
+    resolvers: list[Resolver],
+) -> str:
+    """Run the resolver chain; first non-None label wins, else the taxid label."""
+    for resolver in resolvers:
+        label = resolver(call, taxid, taxa_cache)
+        if label is not None:
+            return label
+    return lineage_for_taxid(taxid, taxa_cache)
+
+
 def confidence_interval_wald(n_success: int, n_total: int, z: float = 1.96) -> tuple[float, float]:
     """Wald (asymptotic normal) confidence interval for a binomial proportion."""
     if n_total == 0:
@@ -65,21 +197,28 @@ def per_lineage_stats(
     taxa_cache: dict[int, str],
     taxid_sidecar: dict[str, int],
     min_records: int = 20,
+    resolvers: list[Resolver] | None = None,
 ) -> list[LineageStats]:
     """Compute per-lineage detection stats for one assay's calls.
 
     Args:
-        calls: List of call dicts, each with keys 'record_id', 'call', 'taxid' (optional)
+        calls: List of call dicts, each with keys 'record_id', 'call', and
+            optionally 'taxid', 'accession', 'title'.
         taxa_cache: taxid -> lineage name mapping
         taxid_sidecar: accession -> taxid mapping for backfilled records
         min_records: minimum evaluable records per lineage for assessability
+        resolvers: optional sub-taxid resolver chain. When None, records are
+            grouped by taxid exactly as in Phase 1. When provided, each
+            record's group is resolve_sublineage(...), which may split a
+            taxid into finer sub-lineages (subtype, cluster) or fall back to
+            the taxid label.
 
     Returns:
         List of LineageStats, sorted by share ascending (worst first for call determination).
     """
     evaluable_calls = [c for c in calls if c["call"] in ("detect", "reduced", "fail")]
 
-    # Group by lineage (derived from record's taxid)
+    # Group by lineage (derived from record's taxid, then the resolver chain).
     by_lineage = defaultdict(list)
     for call in evaluable_calls:
         taxid = call.get("taxid")
@@ -90,7 +229,10 @@ def per_lineage_stats(
             accession = parts[0] if parts else call.get("accession", "")
             taxid = taxid_sidecar.get(accession)
 
-        lineage = lineage_for_taxid(taxid, taxa_cache)
+        if resolvers is None:
+            lineage = lineage_for_taxid(taxid, taxa_cache)
+        else:
+            lineage = resolve_sublineage(call, taxid, taxa_cache, resolvers)
         by_lineage[lineage].append(call)
 
     results = []

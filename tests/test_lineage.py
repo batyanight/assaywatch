@@ -2,11 +2,18 @@
 
 import gzip
 
+import pytest
+
 from assaywatch.lineage import (
     LineageStats,
+    build_resolvers,
+    cluster_resolver,
     confidence_interval_wald,
     lineage_for_taxid,
     per_lineage_stats,
+    resolve_sublineage,
+    subtaxid_resolver,
+    title_resolver,
     worst_lineage_verdict,
 )
 from assaywatch.lineage_report import MIN_RESOLVED_SHARE, read_calls_with_taxid
@@ -177,3 +184,116 @@ def test_join_reports_none_for_an_accession_nobody_knows(tmp_path):
 def test_guard_threshold_is_a_real_fraction():
     """The run aborts below this share rather than writing an all-unresolved report."""
     assert 0 < MIN_RESOLVED_SHARE <= 1
+
+
+# --- sub-taxid resolver chain (docs/2026-10-19-subtaxid-resolution.md) ---
+# The chain splits a single taxid into finer sub-lineages. Default behaviour
+# (resolvers=None) must stay byte-for-byte the Phase 1 per-taxid grouping;
+# the tests above already lock that, so here we exercise the chain itself.
+
+
+def test_title_resolver_extracts_influenza_subtype():
+    """Mode B: subtype parsed from the defline, capture group 1 is the label."""
+    r = title_resolver(r"\((H\d+N\d+)\)")
+    call = {
+        "record_id": "CY001.1",
+        "call": "detect",
+        "title": "Influenza A virus (A/swine/NE/2026(H1N2)) segment 7",
+    }
+    assert r(call, 11320, {}) == "H1N2"
+
+
+def test_title_resolver_defers_when_no_match_or_no_title():
+    """No subtype in the title, or no title at all -> defer (None)."""
+    r = title_resolver(r"\((H\d+N\d+)\)")
+    assert r({"record_id": "x", "call": "detect", "title": "segment 7, no subtype"}, 11320, {}) is None
+    assert r({"record_id": "x", "call": "detect"}, 11320, {}) is None  # title absent
+
+
+def test_subtaxid_resolver_defers_at_parent_but_resolves_below():
+    """Mode A: a record at the query taxid defers; a finer taxid resolves."""
+    r = subtaxid_resolver(query_taxid=10260)  # Avipoxvirus
+    cache = {10261: "fowlpox"}
+    # Parent-level record: defer so a title/cluster resolver can try.
+    assert r({"record_id": "x", "call": "detect"}, 10260, cache) is None
+    # Species-level record: resolve via the cache.
+    assert r({"record_id": "y", "call": "detect"}, 10261, cache) == "fowlpox"
+    # Finer taxid not in cache: still resolves, as taxid_NNN.
+    assert r({"record_id": "z", "call": "detect"}, 10264, cache) == "taxid_10264"
+    # No taxid at all: defer.
+    assert r({"record_id": "w", "call": "detect"}, None, cache) is None
+
+
+def test_cluster_resolver_matches_versioned_and_unversioned():
+    """Mode C: cluster map keyed by accession, with or without version."""
+    r = cluster_resolver({"AY123": "cluster-01"})
+    assert r({"record_id": "AY123.2", "call": "detect"}, 109871, {}) == "cluster-01"
+    assert r({"record_id": "AY123", "call": "detect"}, 109871, {}) == "cluster-01"
+    assert r({"record_id": "ZZ999.1", "call": "detect"}, 109871, {}) is None
+
+
+def test_resolve_sublineage_first_non_none_wins_else_taxid():
+    """Chain order: first resolver to return a label wins; else taxid fallback."""
+    cache = {11320: "Influenza A virus"}
+    chain = [subtaxid_resolver(query_taxid=11320), title_resolver(r"\((H\d+N\d+)\)")]
+    # Parent taxid + title present: subtaxid defers, title wins.
+    c1 = {"record_id": "a", "call": "detect", "title": "... (H5N1) ..."}
+    assert resolve_sublineage(c1, 11320, cache, chain) == "H5N1"
+    # Parent taxid + no subtype in title: both defer -> taxid fallback.
+    c2 = {"record_id": "b", "call": "detect", "title": "no subtype here"}
+    assert resolve_sublineage(c2, 11320, cache, chain) == "Influenza A virus"
+
+
+def test_build_resolvers_from_config_and_rejects_bad_names():
+    """build_resolvers wires a chain from config; unknown names raise."""
+    cfg = {"chain": ["subtaxid", "title"], "title": {"pattern": r"\((H\d+N\d+)\)"}}
+    resolvers = build_resolvers(cfg, query_taxid=11320)
+    assert len(resolvers) == 2
+    # Title in the chain but no pattern configured -> error.
+    with pytest.raises(ValueError):
+        build_resolvers({"chain": ["title"]})
+    with pytest.raises(ValueError):
+        build_resolvers({"chain": ["nonsense"]})
+    # Empty config == subtaxid-only (Phase 1 equivalent).
+    assert len(build_resolvers({})) == 1
+
+
+def test_per_lineage_stats_title_chain_splits_one_taxid():
+    """End to end: one taxid, two subtypes in titles -> two assessable lineages."""
+    calls = []
+    for i in range(30):
+        calls.append(
+            {
+                "record_id": f"H1_{i}.1",
+                "call": "detect",
+                "taxid": 11320,
+                "title": "Influenza A virus (A/x/2026(H1N1)) segment 7",
+            }
+        )
+    for i in range(30):
+        # H5N1 detects poorly: 6/30 = 0.2
+        call = "detect" if i < 6 else "fail"
+        calls.append(
+            {
+                "record_id": f"H5_{i}.1",
+                "call": call,
+                "taxid": 11320,
+                "title": "Influenza A virus (A/y/2026(H5N1)) segment 7",
+            }
+        )
+
+    chain = build_resolvers(
+        {"chain": ["subtaxid", "title"], "title": {"pattern": r"\((H\d+N\d+)\)"}}, query_taxid=11320
+    )
+    stats = per_lineage_stats(calls, {}, {}, min_records=20, resolvers=chain)
+
+    names = {s.lineage_name for s in stats}
+    assert names == {"H1N1", "H5N1"}
+    worst = stats[0]  # sorted worst-first
+    assert worst.lineage_name == "H5N1"
+    assert worst.share == 6 / 30
+
+    # Without the chain, the same calls pool into one taxid row -> no split.
+    pooled = per_lineage_stats(calls, {}, {}, min_records=20)
+    assert len(pooled) == 1
+    assert pooled[0].lineage_name == "taxid_11320"
