@@ -27,7 +27,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
-from scipy.special import comb
+from scipy.stats import binom
 from statsmodels.stats.multitest import multipletests
 
 # A resolver maps (call dict, resolved taxid, taxa cache) -> a sub-lineage
@@ -292,15 +292,10 @@ def worst_lineage_verdict(
     # H0: share >= threshold
     # H1: share < threshold
     # For a binomial, p = P(X <= observed | n, p=threshold)
-    p_values = []
-    for stat in lineage_stats:
-        # Use cumulative binomial: P(X <= n_detected | n_evaluable, threshold)
-        # This is a one-sided test lower tail
-        p = sum(
-            comb(stat.n_evaluable, k) * (threshold**k) * ((1 - threshold) ** (stat.n_evaluable - k))
-            for k in range(stat.n_detected + 1)
-        )
-        p_values.append(p)
+    # binom.cdf, not a sum of comb(n, k) * p**k * q**(n-k): above n ~ 1030,
+    # comb overflows to inf while p**k underflows to 0, every term is nan, and a
+    # nan p-value is never rejected -- so a large lineage could never fail.
+    p_values = [float(binom.cdf(stat.n_detected, stat.n_evaluable, threshold)) for stat in lineage_stats]
 
     # Benjamini-Hochberg FDR control
     if p_values:

@@ -297,3 +297,18 @@ def test_per_lineage_stats_title_chain_splits_one_taxid():
     pooled = per_lineage_stats(calls, {}, {}, min_records=20)
     assert len(pooled) == 1
     assert pooled[0].lineage_name == "taxid_11320"
+
+
+def test_a_large_failing_lineage_is_still_judged_failing():
+    """The lower-tail p-value must stay finite for big lineages.
+
+    The old sum of comb(n, k) * p**k * q**(n-k) went nan above n ~ 1030, and a
+    nan p-value is never rejected, so a lineage at 75% read "detecting".
+    """
+    for n in (200, 1000, 1100, 5000):
+        d = int(n * 0.75)
+        stat = LineageStats("A", "x", None, n, d, d / n, 0.0, 1.0)
+        assert worst_lineage_verdict([stat], 0.9) == ("failing", 0), n
+    # And one comfortably above threshold at large n still passes.
+    ok = LineageStats("A", "y", None, 5000, 4900, 0.98, 0.0, 1.0)
+    assert worst_lineage_verdict([ok], 0.9) == ("detecting", None)
