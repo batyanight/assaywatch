@@ -17,15 +17,13 @@ oligos:
     seq: TTTYYGRTCCTCTCGTACT
 amplicon_bp: 720
 citation:
-  doi: 10.1645/ge-3310
-  design_year: 2005
+  doi: 10.1099/00221287-146-2-315
+  design_year: 2000
   n_sequences_at_design: null
-  as_written: 'Molecular characterization of isosporoid coccidia (Isospora and Atoxoplasma spp.) in passerine birds.
-
-    Schrenzel MD, Maalouf GA, Gaffney PM, Tokarz D, Keener LL, McClure D, Griffey S, McAloose D, Rideout BA.  J Parasitol.
-    2005 Jun;91(3):635-47.'
+  as_written: Zhu et al. 2000
   doi_verified: true
-  reference: Schrenzel MD et al. 2005. J Parasitol 91:635-647
+  reference: Zhu G, Marchewka MJ, Keithly JS. 2000. Microbiology 146:315-321
+  oligos_designed_here: false
 use_context:
 - wildlife
 - veterinary
@@ -39,5 +37,7 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: Primers 23SF and 23SR were designed by Zhu et al. 2000 (Microbiology 146:315-321). Schrenzel et al. 2005
+    (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". WCS spreadsheet listed Schrenzel 2005.
 needs_review:
 - CROSS_REACTIVE

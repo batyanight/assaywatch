@@ -18,14 +18,13 @@ oligos:
     seq_as_written: GGIGAYCCYTTCCAYCCYTGHGG
 amplicon_bp: 194
 citation:
-  doi: 10.1128/JVI.75.2.857-866.2001
-  design_year: 2001
+  doi: 10.1128/JVI.72.12.10305-10309.1998
+  design_year: 1998
   n_sequences_at_design: null
-  as_written: 'Characterization of a Novel Simian Immunodeficiency Virus from Guereza Colobus Monkeys (Colobus guereza) in
-    Cameroon: a New Lineage in the Nonhuman Primate Lentivirus Family, Valérie Courgnaud, Xavier Pourrut, Frédéric Bibollet-Ruche,
-    Eitel Mpoudi-Ngole, Anke Bourgeois, Eric Delaporte and Martine Peeters.  J. Virol. 2001, 75(2):857. DOI: 10.1128/JVI.75.2.857-866.2001.'
+  as_written: Clewley et al. 1998
   doi_verified: true
-  reference: Courgnaud V et al. 2001. J Virol 75:857-866
+  reference: Clewley JP et al. 1998. J Virol 72:10305-10309
+  oligos_designed_here: false
 use_context:
 - wildlife
 submitted_by: null
@@ -39,6 +38,9 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'PREDICT panel protocol P-029 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley, J.P. et al (1998).'
+  notes_curator: 'PREDICT panel protocol P-029 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley,
+    J.P. et al (1998). Citation updated from Courgnaud 2001 (10.1128/JVI.75.2.857-866.2001) to Clewley 1998: Courgnaud used
+    these primers and cited "PCR conditions were as previously reported [ref 8 = Clewley 1998]".'
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION
