@@ -327,16 +327,44 @@ trusted.
    the earlier Europe PMC pass), and the single hit is a 2015 paper that designed its primers de
    novo with Primer 3. It needs the paper or the lab's records, not another search.
    35 entries still carry no DOI; most are genuinely unpublished in-house assays.
-6. **4 image-only primer tables**: M. bovis (`10.1371/journal.pone.0207365`), Usutu
-   (`10.2807/1560-7917.es.2020.25.41.2001732`), Batrachochytrium ITS (`10.3390/jof7040258`, but
-   see below), avian orthobornavirus done already. Render with pymupdf at ~200 dpi and read the
-   page as an image, as was done for Ghosh - that worked and the sequences verified against
-   records afterwards.
+6. **~~4 image-only primer tables~~ DONE** (all 4 resolved 2026-10-18):
+   - Avian orthobornavirus: DONE (verified in prior session).
+   - Usutu (`10.2807/1560-7917.es.2020.25.41.2001732`): RESOLVED. This Eurosurveillance
+     2020 paper contains NO primer sequences — it is a surveillance report that cites
+     Jöst 2011 (`10.4269/ajtmh.2011.11-0248`) for its RT-qPCR. The registry entry
+     already cites Jöst 2011, and oligos were verified against the Jöst `.txt` on disk.
+   - Batrachochytrium ITS (`10.3390/jof7040258`): RESOLVED. Already known (see "do not
+     re-litigate" below) — this paper publishes no new primers.
+   - M. bovis (`10.1371/journal.pone.0207365`): DONE. S1 Table text extracted via
+     built-in browser (inline DOCX preview on PLOS ONE). All 9 oligos (3 assays x 3:
+     forward, reverse, probe) verified exact match to registry:
+     16S rRNA (Mycobac16S_F/R/SFAM), helicase (MTC-HELI-4F/4R/4FAM),
+     IS1081 (MTC-IS1081-5F/5Rn/5FAM). No mismatches.
 7. **211 oligos** whose provenance is unchecked for want of full text.
-8. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` is called `fail` on every product it forms**
-   (2,074 records, ~1,000-1,100 bp, all 5'-half mismatches with intact 3' ends). Not dead, as
-   first reported: see the correction in `docs/2026-10-14-amplicon-sizes-measured.md`. A test
-   case for conventional-PCR scoring under `scoring.by_chemistry`.
+8. **`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` scoring analysis** (2026-10-18):
+   2,075 products (2,070 fail, 5 reduced, 0 detect). The commented-out `by_chemistry`
+   override in `config.yaml` (`primer_3prime_penalty: 2.0`, `terminal_mismatch_fails:
+   false`) makes **zero difference** — only 3.2% of FWD and 0.8% of REV products have
+   any 3'-window mismatch. The real problem is 5'-region mismatch accumulation: these
+   degenerate primers target all Polyomaviridae, producing typically 4 FWD + 6 REV
+   mismatches, all at positions >10 from 3' end (0.5 penalty each → 5.0 total, exceeding
+   `reduced_max: 3.0`).
+
+   Penalty distribution under conventional override (3p=2.0, term_fails=off):
+   3.0: 5 | 3.5: 110 | 4.0: 27 | 4.5: 448 | 5.0: 1365 | 5.5–8.0: 120
+
+   Raising `reduced_max` to 5.0 for conventional chemistry rescues 1,955→reduced while
+   the 120 remaining fails are biologically justified: 69% have actual 3'-window
+   mismatches, 32% mid-region. The config override should be:
+   ```yaml
+   by_chemistry:
+     conventional:
+       terminal_mismatch_fails: false
+       primer_3prime_penalty: 2.0
+       reduced_max: 5.0
+   ```
+   **Next step:** validation run with this override, then check all conventional-chemistry
+   assays (not just VP1) for regressions before uncommenting.
 9. **Primer-name audit against published papers.** The `name` fields on oligos (forward, reverse,
    probe, alternates) should match the names used in the cited paper's primer table when possible.
    Some registry entries were bulk-imported from a spreadsheet and carry generic or abbreviated
