@@ -177,4 +177,6 @@ and screen the assay's group before merging. If the assay's performance has been
 reported anywhere in the literature, add a row to `docs/validation-cases.tsv` —
 that file is the only thing calibrating the thresholds in `config.yaml`, and it
 is dated to the latest sequence each cited paper could have seen so that the
-tool is never shown the answer.
+tool is never shown the answer. A `fails` row also records its `mechanism`, `drift` or
+`coverage`, from the source's own account of why the assay missed (see the
+header of that file); it decides whether `low coverage` counts as agreement.

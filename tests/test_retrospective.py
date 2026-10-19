@@ -394,3 +394,32 @@ def test_the_cases_loop_prints_what_classify_says(tmp_path, capsys, monkeypatch)
     retro.main(argv)
     out = capsys.readouterr().out
     assert "low coverage" in out and "agrees" in out and "partial/agrees: 1" in out, out
+
+
+def test_a_coverage_failure_agrees_with_low_coverage_and_a_drift_failure_does_not():
+    """`mechanism` is the source's account of the failure. A coverage gap is what
+    `low coverage` reports; drift (adapted to current variants) needs `declining`."""
+    assert retro.classify("low coverage", "fails", "coverage") == ("partial", "agrees")
+    assert retro.classify("declining", "fails", "coverage") == ("fails", "agrees")
+    assert retro.classify("low coverage", "fails", "drift") == ("partial", "DISAGREES")
+    assert retro.classify("declining", "fails", "drift") == ("fails", "agrees")
+    assert retro.classify("stable", "fails", "coverage") == ("works", "DISAGREES")
+    # The mechanism only qualifies a `fails`: it changes nothing for the other expectations.
+    for status in STATUS_TO_GOT:
+        for expect in ("works", "partial"):
+            assert retro.classify(status, expect, "coverage") == retro.classify(status, expect)
+
+
+def test_the_shipped_cases_give_every_fails_row_a_mechanism_and_no_other_row_one():
+    body = [
+        ln
+        for ln in (ROOT / "docs" / "validation-cases.tsv").read_text().splitlines()
+        if ln and not ln.startswith("#")
+    ]
+    rows = list(csv.DictReader(body, delimiter="\t"))
+    assert rows and "mechanism" in rows[0]
+    for r in rows:
+        if r["expect"] == "fails":
+            assert r["mechanism"] in ("drift", "coverage"), r["assay_id"]
+        else:
+            assert r["mechanism"] == "", r["assay_id"]

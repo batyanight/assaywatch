@@ -68,7 +68,7 @@ PARTIAL = {"low coverage"}
 UNDECIDED = {"insufficient data", "no recent data", "no data"}
 
 
-def classify(status: str, expect: str) -> tuple[str, str]:
+def classify(status: str, expect: str, mechanism: str | None = None) -> tuple[str, str]:
     """(what the tool said, how that compares with the paper) for one case.
 
     `got` is `works`, `fails`, `partial` or `undecided`. The verdict is `undecided` when the
@@ -76,6 +76,10 @@ def classify(status: str, expect: str) -> tuple[str, str]:
     calibrates `min_records_for_drift`), `agrees` when it matches, `weaker` for a `works` /
     `partial` mismatch in EITHER direction (incomplete coverage is not a contradiction), and
     `DISAGREES` otherwise.
+
+    `mechanism` is the case's: for a `fails` whose source documents a coverage gap
+    (lineages the primers never matched), `low coverage` is the tool reporting that same gap
+    and agrees. A drift-type `fails`, or one with no mechanism recorded, still needs `declining`.
     """
     got = (
         "works"
@@ -89,6 +93,8 @@ def classify(status: str, expect: str) -> tuple[str, str]:
     if got == "undecided":
         return got, "undecided"
     if got == expect:
+        return got, "agrees"
+    if expect == "fails" and mechanism == "coverage" and got == "partial":
         return got, "agrees"
     if {got, expect} == {"works", "partial"}:
         return got, "weaker"
@@ -294,7 +300,7 @@ def main(argv: list[str] | None = None) -> int:
         drifts, _ = status_from_evidence(evidence, cfg, as_of, {c["assay_id"]}, scope_map=scope_map)
         a = drifts.get(c["assay_id"])
         status = a.status if a else "no data"
-        _, verdict = classify(status, c["expect"])
+        _, verdict = classify(status, c["expect"], c.get("mechanism") or None)
         tally[(c["expect"], verdict)] += 1
         print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {status:<18} {verdict}")
     print("\nsummary:", ", ".join(f"{e}/{v}: {n}" for (e, v), n in sorted(tally.items())))
