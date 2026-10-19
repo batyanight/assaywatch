@@ -377,8 +377,12 @@ lineage:
   # detection threshold in some earlier year (on >= min_records_for_coverage
   # records) can turn a verdict into `declining`. One the assay never detected,
   # failing under a pooled stable/watch, gives `low coverage` and names it.
-  # Off until tier-2 says which is right; see docs/2026-10-19-pan-family-cases.md.
-  require_working_baseline: false
+  # A lineage with no earlier measured year (new to the archive) can still drive it.
+  # On since 2026-10-19: tier-2 with each fails case's mechanism recorded goes from
+  # 14 to 12 disagreements with 6/12 failures caught either way, and on the
+  # 2026-10-17 calls 17 of 213 assays move declining -> low coverage, none the other
+  # way. Evidence: docs/2026-10-19-pan-family-cases.md.
+  require_working_baseline: true
   # Sub-lineage resolver chains, per assay (docs/2026-10-19-subtaxid-resolution.md).
   # Empty: every assay is grouped per taxid, exactly as before. An entry can turn a
   # verdict into `declining`, so like any threshold here it goes through tier-2

@@ -34,8 +34,9 @@
   pan-family "caught" failures are caught for the wrong reason. New
   `lineage.require_working_baseline` (shipped off) excuses a lineage measured earlier and never
   covered, but not a new one. With it on, tier-2 is 4/12 caught and 14 disagreements, and the
-  two lost catches are coverage-type `fails`. **Next:** a `mechanism` column (drift/coverage) on
-  `fails` cases, from the sources; then curated `scope_taxids` from design papers; then the gate.
+  two lost catches are coverage-type `fails`. **Done 2026-10-19:** `mechanism` column on
+  `fails` cases (11 coverage, 1 drift), gate **on**: 6/12 caught, 12 disagreements. **Next:** curated
+  `scope_taxids` from design papers (Hellgren avian-only, FAP cutaneous), then new-taxid artefacts.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173

@@ -2,8 +2,8 @@
 
 **Date:** 2026-10-19
 **Evidence:** `results/2026-10-17/calls.tsv.gz`, ancestry scope (`73285ed`), renamed IDs.
-**Code:** `lineage.require_working_baseline` (shipped **off**; tier-2 output with it
-off is byte-identical to before).
+**Code:** `lineage.require_working_baseline`, **on** since the mechanism column
+landed (see the end of this file).
 
 ## The 21 pan-family cases
 
@@ -103,3 +103,32 @@ disagreements and should be checked against the records.
 
 Turn the gate on once (1) is in: the gate is right about mechanism, and (1) is
 what lets tier-2 see that.
+
+## Step 1 done: mechanism recorded, gate on
+
+Every `fails` row now has a `mechanism` read from its source (`484d595`). Only CDV
+2021 is `drift` ("adaption to the new virus variants"). The other 11 are `coverage`:
+lineages the primers never matched. `classify()` accepts `low coverage` for a
+coverage-type `fails`. Kolesnik's rows were also corrected: the 29.5% they quoted
+belongs to Tong's RMH set, and the registry's PAR set detected no ferlavirus at all.
+
+| | failures caught | `works` agree | weaker | disagreements |
+|---|---:|---:|---:|---:|
+| gate off | 6/12 | 9 | 4 | 14 |
+| gate on | 6/12 | 9 | 6 | **12** |
+
+Nothing is lost, so the gate is on. Current statuses on the 2026-10-17 calls: 17 of
+213 assays move `declining` -> `low coverage`, none the other way.
+
+Still caught for the wrong lineage: Hellgren and Pan-Plasmodium (on *P. reichenowi*
+and *P. floridense*, non-avian parasites new to the archive), and Forslund (on HPV16,
+mucosal). Step 2, curated `scope_taxids` from the design papers, is what fixes these.
+Two remaining disagreements fire on taxids that only look new: Enterovirus round2 on
+taxid 1193974 and Polyomavirus Johne on 1891763, both 0% with no earlier measured
+year. NCBI's species reclassifications mint new taxids for records that already
+existed under older ones, which defeats the "new lineage" test. Worth checking.
+
+Note: `scripts/retrospective.py` on `results/2026-10-17/calls.tsv.gz` reports
+22 undecided rather than 17. Those calls predate the 2026-10-18 rename, so the 12
+renamed assays have no rows under their current IDs. The numbers above map the IDs
+through `docs/rename-mapping.tsv`. The next screening run writes current IDs.
