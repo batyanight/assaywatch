@@ -214,6 +214,62 @@ def confidence_interval_wald(n_success: int, n_total: int, z: float = 1.96) -> t
     return (max(0, p - z * se), min(1, p + z * se))
 
 
+def lineage_of(
+    call: dict,
+    taxa_cache: dict[int, str],
+    taxid_sidecar: dict[str, int],
+    resolvers: list[Resolver] | None = None,
+) -> str:
+    """The lineage label one call is grouped under: its taxid, then the resolver chain."""
+    taxid = call.get("taxid")
+    # If no taxid in the call, look it up via accession
+    if taxid is None and "accession" in call and taxid_sidecar:
+        # Extract accession from record_id if needed
+        parts = call["record_id"].split(".")
+        accession = parts[0] if parts else call.get("accession", "")
+        taxid = taxid_sidecar.get(accession)
+    if resolvers is None:
+        return lineage_for_taxid(taxid, taxa_cache)
+    return resolve_sublineage(call, taxid, taxa_cache, resolvers)
+
+
+def lineages_never_covered(
+    baseline_calls: list[dict],
+    taxa_cache: dict[int, str],
+    taxid_sidecar: dict[str, int],
+    threshold: float,
+    min_records_for_year: int,
+    resolvers: list[Resolver] | None = None,
+) -> set[str]:
+    """Lineages measured before the recent window that never cleared `threshold`.
+
+    The per-lineage form of AssayDrift.ever_worked, and per year for the same
+    reason: an aggregate baseline is diluted by the decline itself. Each call
+    needs a ``year``. A lineage is *measured* in a year with at least
+    `min_records_for_year` evaluable records, and *never covered* if it was
+    measured in some year and reached the threshold in none.
+
+    A lineage with no measured year is not in the set. That is the case the
+    tool exists for -- a lineage new to the archive that the assay misses
+    (2009 pandemic H1N1 against the 2003 Matrix assay) -- and it must still be
+    able to drive ``declining``.
+    """
+    counts: dict[tuple[str, int], list[int]] = defaultdict(lambda: [0, 0])
+    for call in baseline_calls:
+        if call["call"] not in ("detect", "reduced", "fail"):
+            continue
+        c = counts[(lineage_of(call, taxa_cache, taxid_sidecar, resolvers), call["year"])]
+        c[0] += call["call"] != "fail"
+        c[1] += 1
+    measured, worked = set(), set()
+    for (lin, _), (det, n) in counts.items():
+        if n >= min_records_for_year:
+            measured.add(lin)
+            if det / n >= threshold:
+                worked.add(lin)
+    return measured - worked
+
+
 def per_lineage_stats(
     calls: list[dict],
     taxa_cache: dict[int, str],
@@ -243,19 +299,7 @@ def per_lineage_stats(
     # Group by lineage (derived from record's taxid, then the resolver chain).
     by_lineage = defaultdict(list)
     for call in evaluable_calls:
-        taxid = call.get("taxid")
-        # If no taxid in the call, look it up via accession
-        if taxid is None and "accession" in call and taxid_sidecar:
-            # Extract accession from record_id if needed
-            parts = call["record_id"].split(".")
-            accession = parts[0] if parts else call.get("accession", "")
-            taxid = taxid_sidecar.get(accession)
-
-        if resolvers is None:
-            lineage = lineage_for_taxid(taxid, taxa_cache)
-        else:
-            lineage = resolve_sublineage(call, taxid, taxa_cache, resolvers)
-        by_lineage[lineage].append(call)
+        by_lineage[lineage_of(call, taxa_cache, taxid_sidecar, resolvers)].append(call)
 
     results = []
     for lineage, lineage_calls in sorted(by_lineage.items()):

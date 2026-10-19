@@ -481,6 +481,8 @@ class AssayDrift:
         taxid_sidecar: dict[str, int],
         min_records_per_lineage: int,
         resolvers: list | None = None,
+        baseline_calls: list[dict] | None = None,
+        min_records_for_year: int = 10,
     ) -> None:
         """Per-lineage analysis: does the worst assessable lineage fail?
 
@@ -494,11 +496,18 @@ class AssayDrift:
         never upgraded to ``stable`` by the lineage check. This follows
         Decision 2 in docs/2026-10-17-estimand-plan.md: the worst assessable
         lineage drives the call.
+
+        With ``baseline_calls`` (lineage.require_working_baseline), a lineage
+        that was measured in earlier years and never cleared the threshold in
+        any of them cannot drive ``declining``: it was never covered, so it has
+        not drifted. If it fails under a pooled stable/watch the assay becomes
+        ``low coverage`` instead. A lineage with no earlier measured year (new
+        to the archive) still can. See docs/2026-10-19-pan-family-cases.md.
         """
         if not recent_calls:
             return
 
-        from assaywatch.lineage import per_lineage_stats, worst_lineage_verdict
+        from assaywatch.lineage import lineages_never_covered, per_lineage_stats, worst_lineage_verdict
 
         stats = per_lineage_stats(
             recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage, resolvers=resolvers
@@ -520,6 +529,29 @@ class AssayDrift:
 
         verdict, worst_idx = worst_lineage_verdict(stats, self.threshold)
         self.lineage_verdict = verdict
+
+        if verdict == "failing" and baseline_calls is not None:
+            never = lineages_never_covered(
+                baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
+            )
+            eligible = [s for s in stats if s.lineage_name not in never]
+            gap = stats[worst_idx]
+            verdict, idx = worst_lineage_verdict(eligible, self.threshold)
+            self.lineage_verdict = verdict or "failing (never covered)"
+            if verdict == "failing":
+                worst_idx = stats.index(eligible[idx])
+            else:
+                # Every failing lineage was measured earlier and never covered: a coverage gap.
+                if self.status in ("stable", "watch"):
+                    self.status_pooled = self.status
+                    self.status = "low coverage"
+                    self.lineage_override = True
+                self.note += (
+                    f"; lineage {gap.lineage_name} ({gap.n_evaluable} records) detects only "
+                    f"{gap.share:.1%} and was below the threshold in every earlier year measured: "
+                    f"a coverage gap, not drift"
+                )
+                return
 
         if verdict == "failing" and self.status != "declining":
             # The pooled number says stable/watch/insufficient/low coverage,
@@ -868,15 +900,32 @@ def assess(
         if taxids is not None and taxa_cache is not None:
             lcfg = cfg.get("lineage", {})
             min_per_lineage = int(lcfg.get("min_records_per_lineage", 20))
-            # Collect recent evaluable calls with taxid annotations.
+            gate = bool(lcfg.get("require_working_baseline", False))
+            # Collect recent evaluable calls with taxid annotations, and with the
+            # working-baseline gate the older ones too, each tagged with its year.
             recent_calls_for_lineage = []
+            baseline_calls_for_lineage: list[dict] | None = [] if gate else None
             for iso, orig_row in raw_per.get(assay_id, []):
                 if iso is None:
                     continue
-                if not inside(iso, months):
-                    continue
                 c = orig_row["call"]
                 if c not in EVALUABLE:
+                    continue
+                if not inside(iso, months):
+                    if baseline_calls_for_lineage is not None:
+                        rid = orig_row["record_id"]
+                        base = rid.split(".")[0]
+                        txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+                        baseline_calls_for_lineage.append(
+                            {
+                                "record_id": rid,
+                                "call": c,
+                                "taxid": txid,
+                                "accession": base,
+                                "title": titles.get(base) if titles else None,
+                                "year": int(iso[:4]),
+                            }
+                        )
                     continue
                 rid = orig_row["record_id"]
                 base = rid.split(".")[0]
@@ -898,6 +947,8 @@ def assess(
                 taxids,  # doubles as sidecar: record_id → taxid
                 min_per_lineage,
                 resolvers.get(assay_id) if resolvers else None,
+                baseline_calls_for_lineage,
+                min_records_for_year,
             )
 
         a.out_of_scope = oos_counts.get(assay_id, 0)

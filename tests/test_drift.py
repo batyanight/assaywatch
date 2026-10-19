@@ -549,3 +549,45 @@ def test_scope_with_taxonomy_keeps_records_below_the_listed_species():
     assert "A" not in exact
     tree_ = assess(calls, years, CFG, today=TODAY, taxids=taxids, scope_map=scope, taxonomy=tree)["A"]
     assert tree_.recent_evaluable == 40 and tree_.out_of_scope == 15
+
+
+def _gated(on: bool) -> dict:
+    return {**LINEAGE_CFG, "lineage": {**LINEAGE_CFG["lineage"], "require_working_baseline": on}}
+
+
+def test_working_baseline_gate_turns_a_never_covered_lineage_into_low_coverage():
+    """Lineage 200 was measured in 2018 at 0% and is 0% now: a coverage gap, not drift."""
+    calls, years, taxids = _records_with_taxids(
+        {
+            2018: {100: {"detect": 50}, 200: {"fail": 20}},
+            2025: {100: {"detect": 200}, 200: {"detect": 0, "fail": 20}},
+        }
+    )
+    cache = {100: "Lineage A", 200: "Lineage B"}
+    off = assess(calls, years, _gated(False), today=TODAY, taxids=taxids, taxa_cache=cache)["A"]
+    on = assess(calls, years, _gated(True), today=TODAY, taxids=taxids, taxa_cache=cache)["A"]
+    assert off.status == "declining" and off.lineage_override
+    assert on.status == "low coverage" and on.status_pooled == "stable"
+    assert "coverage gap, not drift" in on.note
+
+
+def test_working_baseline_gate_still_flags_a_lineage_new_to_the_archive():
+    """No earlier measured year (an emerging lineage): it must still drive declining."""
+    calls, years, taxids = _records_with_taxids(
+        {2018: {100: {"detect": 50}}, 2025: {100: {"detect": 200}, 200: {"detect": 5, "fail": 15}}},
+    )
+    cache = {100: "Lineage A", 200: "Lineage B"}
+    on = assess(calls, years, _gated(True), today=TODAY, taxids=taxids, taxa_cache=cache)["A"]
+    assert on.status == "declining" and on.lineage_override
+
+
+def test_working_baseline_gate_flags_a_lineage_that_used_to_work():
+    calls, years, taxids = _records_with_taxids(
+        {
+            2018: {100: {"detect": 50}, 200: {"detect": 20}},
+            2025: {100: {"detect": 200}, 200: {"detect": 5, "fail": 15}},
+        }
+    )
+    cache = {100: "Lineage A", 200: "Lineage B"}
+    on = assess(calls, years, _gated(True), today=TODAY, taxids=taxids, taxa_cache=cache)["A"]
+    assert on.status == "declining" and on.lineage_override

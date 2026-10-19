@@ -28,6 +28,14 @@
   override to stable/watch drops caught failures to 1/12, so the open question is the estimand
   for pan-family assays, not a rule. Rebuild the tree with `scripts/build_taxonomy_cache.py`
   after a retrieval brings new taxa.
+- **Pan-family cases audited** (`docs/2026-10-19-pan-family-cases.md`). The lineage override
+  fires on lineages never detected at any point in their history (MERS-CoV 0/558 for pan-CoV,
+  Zika for pan-flavivirus, *P. falciparum* for the avian Hellgren primers), and three of its five
+  pan-family "caught" failures are caught for the wrong reason. New
+  `lineage.require_working_baseline` (shipped off) excuses a lineage measured earlier and never
+  covered, but not a new one. With it on, tier-2 is 4/12 caught and 14 disagreements, and the
+  two lost catches are coverage-type `fails`. **Next:** a `mechanism` column (drift/coverage) on
+  `fails` cases, from the sources; then curated `scope_taxids` from design papers; then the gate.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173

@@ -10,6 +10,7 @@ from assaywatch.lineage import (
     cluster_resolver,
     confidence_interval_wald,
     lineage_for_taxid,
+    lineages_never_covered,
     per_lineage_stats,
     resolve_sublineage,
     sublineage_resolvers,
@@ -339,3 +340,25 @@ def test_a_large_failing_lineage_is_still_judged_failing():
     # And one comfortably above threshold at large n still passes.
     ok = LineageStats("A", "y", None, 5000, 4900, 0.98, 0.0, 1.0)
     assert worst_lineage_verdict([ok], 0.9) == ("detecting", None)
+
+
+def test_lineages_never_covered_needs_a_measured_year_below_threshold():
+    """Measured and never at threshold -> in the set; worked once, or never measured -> not."""
+
+    def calls(taxid, year, det, fail):
+        return [
+            {"record_id": f"{taxid}_{year}_{i}", "call": "detect", "taxid": taxid, "year": year}
+            for i in range(det)
+        ] + [
+            {"record_id": f"{taxid}_{year}_f{i}", "call": "fail", "taxid": taxid, "year": year}
+            for i in range(fail)
+        ]
+
+    base = (
+        calls(1, 2015, 0, 30)  # measured, 0%: never covered
+        + calls(1, 2016, 2, 20)
+        + calls(2, 2015, 30, 0)  # cleared the threshold once
+        + calls(2, 2016, 0, 30)
+        + calls(3, 2016, 0, 5)  # too few records in any year: never measured
+    )
+    assert lineages_never_covered(base, {}, {}, 0.9, 10) == {"taxid_1"}
