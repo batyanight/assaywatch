@@ -19,7 +19,7 @@ check_amplicons = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(check_amplicons)
 
 ANNIS = "CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004"
-PREDICT_POOL = "CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000"
+PREDICT_POOL = "Cryptosporidium_18SrDNA_Xiao_1999_round1"
 
 
 def _doc(assay_id):
@@ -68,10 +68,10 @@ def test_a_split_nested_entry_no_longer_pools_its_rounds():
     The point of the split: while both pairs sat in one entry, the secondary
     pair's 822 bp product was credited to an assay declaring 1319 bp.
     """
-    base = "CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000"
-    assert len(check_amplicons.pairs_of(_doc(base))) == 1
+    base = "Cryptosporidium_18SrDNA_Xiao_1999"
+    assert len(check_amplicons.pairs_of(_doc(f"{base}_round1"))) == 1
     assert len(check_amplicons.pairs_of(_doc(f"{base}_round2"))) == 1
-    assert _doc(base)["amplicon_bp"] == 1319
+    assert _doc(f"{base}_round1")["amplicon_bp"] == 1319
     assert _doc(f"{base}_round2")["amplicon_bp"] == 822
 
 
