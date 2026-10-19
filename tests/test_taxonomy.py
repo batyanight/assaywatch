@@ -48,3 +48,21 @@ def test_round_trip_and_config(tmp_path):
     assert taxonomy_from_config({"drift": {"scope_taxonomy": str(path)}}).within(3139435, {3052342})
     with pytest.raises(FileNotFoundError, match="build_taxonomy_cache"):
         taxonomy_from_config({"drift": {"scope_taxonomy": str(tmp_path / "missing.json.gz")}})
+
+
+def test_every_registry_scope_taxid_is_in_the_shipped_tree():
+    """A scope taxid the tree doesn't know matches only itself, so a typo or a
+    deleted taxid would quietly empty the assay. Rebuild the cache if this fails."""
+    from pathlib import Path
+
+    from assaywatch.validate import iter_files, load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    tx = load_taxonomy(root / "docs" / "taxonomy-cache.json.gz")
+    missing = {
+        (a.id, t)
+        for a in map(load_assay, iter_files(root / "registry"))
+        for t in a.target.scope_taxids or []
+        if tx.canonical(t) not in tx.parent
+    }
+    assert not missing, sorted(missing)[:10]

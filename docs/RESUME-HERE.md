@@ -35,8 +35,10 @@
   `lineage.require_working_baseline` (shipped off) excuses a lineage measured earlier and never
   covered, but not a new one. With it on, tier-2 is 4/12 caught and 14 disagreements, and the
   two lost catches are coverage-type `fails`. **Done 2026-10-19:** `mechanism` column on
-  `fails` cases (11 coverage, 1 drift), gate **on**: 6/12 caught, 12 disagreements. **Next:** curated
-  `scope_taxids` from design papers (Hellgren avian-only, FAP cutaneous), then new-taxid artefacts.
+  `fails` cases (11 coverage, 1 drift), gate **on**: 6/12 caught, 12 disagreements. **Step 2 done:** Hellgren
+  assays scoped to avian haemosporidia; unsupported Pan_Plasmodium case retired; FAP left family-wide
+  because Forslund 1999 amplified HPV16. Tier-2 4/11 caught, 13 disagreements (the wrong-reason catches gone).
+  **Next:** new-taxid artefacts (Enterovirus 1193974, Polyomavirus 1891763), FAP vs HPV16 by hand.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173

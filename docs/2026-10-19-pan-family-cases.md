@@ -132,3 +132,56 @@ Note: `scripts/retrospective.py` on `results/2026-10-17/calls.tsv.gz` reports
 22 undecided rather than 17. Those calls predate the 2026-10-18 rename, so the 12
 renamed assays have no rows under their current IDs. The numbers above map the IDs
 through `docs/rename-mapping.tsv`. The next screening run writes current IDs.
+
+## Step 2: scope from the design papers
+
+**Hellgren 2004 (avian).** The design paper's title fixes the range: "simultaneous
+studies of *Leucocytozoon*, *Plasmodium*, and *Haemoproteus* from avian blood". In
+NCBI the avian *Plasmodium* are the subgenera *Haemamoeba* 418104, *Huffia* 418105,
+*Novyella* 418110, *Giovannolaia* 418112 and *Bennettinia* 419353. Checked
+2026-10-19: every species NCBI places under them is a bird parasite. The reptile
+subgenera hold *P. giganteum*, *agamae*, *floridense*.
+
+- Pan_hemoparasite (HaemNFI/HaemNR3): scope = the five subgenera, *Haemoproteus*
+  77521, *Parahaemoproteus* 587283, *Leucocytozoon* 195944.
+- Pan_Plasmodium (HaemF/HaemR2, from Bensch 2000, "*Plasmodium* and *Haemoproteus*
+  ... amplified from birds"): the same without *Leucocytozoon*.
+- *Leucocytozoon* (HaemFL/HaemR2L): already targets the genus; unchanged.
+
+Before this, both pan assays were judged mostly on mammalian parasites. On the
+2026-10-17 calls, Pan_hemoparasite had 2,240 *Laverania* records (0% detected)
+and 1,618 subgenus *Plasmodium* (11%), against about 130 in the avian subgenera
+(nearly all detected). Known loss: *Plasmodium* records with no subgenus
+("*Plasmodium* sp.", 783 records) are out of scope, because NCBI does not record
+their host.
+
+**Validation rows.** Lotta 2019's primer analysis covers the *Leucocytozoon* nested
+protocol, with the mismatch shown in HaemR2L. The Pan_Plasmodium row applied that
+result to HaemF/HaemR2, a pair Hellgren never uses for *Leucocytozoon* and that
+Lotta did not test, so it is retired as a comment with the reason. The
+Pan_hemoparasite row stays, as the shared first round of the protocol Lotta found
+failing, and its note now says so.
+
+**Forslund FAP: scope unchanged, on purpose.** Forslund 1999 aimed the pair
+"primarily" at cutaneous types but tested 75 types and got bands from 65. The
+only ones with no band were types 1, 2, 35, 41, 44, 55, 63, 66, 71 and 74, so
+**HPV16 was amplified**. The tool's in-silico 0/150 for HPV16, and 47% across
+13,481 *Alphapapillomavirus* records, is therefore a disagreement with the design
+paper's own bench result, not an out-of-range lineage. Narrowing the scope to
+cutaneous genera would hide it. Inosine handling is deliberate in `iupac.py`
+(I pairs with A/C/T, weakly with G), so the matcher is not the obvious cause.
+Worth a look: score FAP59/64 against the HPV16 reference genome by hand.
+
+**Tier-2 after step 2** (gate on): failures caught **4/11**, `works` agree 9,
+weaker 6, disagreements **13** (was 6/12, 12). The drop is the wrong-reason
+catches going away. Pan_hemoparasite now reads `stable` (96% of 26). Before its
+2016-12-31 cutoff the archive has 1,530 *Leucocytozoon* records, and the
+fusiform lineages that show the failure came later (6,374 of 7,904 are from 2017
+on). That is a limit of what a sequence-based tool can see, and it now counts
+against the tool honestly instead of being covered by a *P. falciparum* lineage.
+
+Of the four failures still caught, two are caught for the documented reason: CDV
+2021 (drift on its target) and Paramyxovirinae Tong round1 (a real pooled fall,
+-25% to -18%). Paramyxovirinae round2 is a coverage gap on HPIV-3, consistent
+with Kolesnik's coverage finding but not on a ferlavirus. Forslund rests on HPV16,
+which the design paper amplified.
