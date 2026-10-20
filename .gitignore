@@ -38,6 +38,15 @@ Claude outputs/
 # scratch from ad-hoc screens, backfills and manual snakemake runs
 .tmp/ati-test/
 .tmp/*.log
+.tmp/heartbeat-*.json
+
+# Snakemake's own graph renderings (--dag, --rulegraph, --filegraph). Generated
+# from the Snakefile on demand, so they go stale silently in a commit.
+dag.png
+rulegraph.png
+rulegraph.dot
+rulegraph.err
+filegraph.png
 
 # handoff bundles are derived from docs/ and results/; not source
 assaywatch-handoff-*.tar.gz
