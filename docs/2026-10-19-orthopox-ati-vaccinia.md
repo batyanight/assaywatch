@@ -110,6 +110,62 @@ Six current statuses would move:
 The two arenavirus moves go in opposite directions and neither has been read by
 hand. They are what a validation case for this option would have to settle.
 
+## Why no validation case can settle it (2026-10-20)
+
+Searched the literature for both arenavirus assays and all three dependoparvovirus
+assays, then swept the tool across 2009-2026 with the option on and off. **The
+option cannot be judged from the retrospective validation set for any of them.**
+That is stronger than this doc's original claim that no case *currently* names an
+affected assay, which implied adding one would help.
+
+**Arenavirus.** Both entries are Lozano 1997 (`10.1016/S0168-1702(97)01458-5`,
+PMID 9178499) via PREDICT P-003 and P-004. With the option on and off the verdicts
+are identical at every date before 2026, and diverge only in 2026: S_gene_2 from
+about January 2026, S_gene only at the present date. A discriminating row would
+need `as_of` in 2026 and an `expect` of `partial` or `fails`/drift — a
+`fails`/coverage row agrees with `low coverage` as well as `declining`, per the
+validation file's own header. No 2026 literature on these primers exists. The only
+candidate row found anywhere is Pozner 2010 (`10.1371/journal.ppat.1000847`), whose
+Table 1 prints this entry's exact pair at 640 bp and detects JUNV in cell culture
+with a UV-inactivated negative control; it scores `weaker` both ways. The only
+published use of P-004 is Mangombi 2021 (`10.1371/journal.pone.0248244`), a null
+survey of 198 Gabonese rodents with no known positives, which says nothing about
+detection either way.
+
+**Dependoparvovirus, and the direction reverses.** The two Gao entries are Gao 2002
+(`10.1073/pnas.182412299`), verified against the local PDF's printed primers;
+`pan_parvo` has no identifiable design paper at all (its degenerate strings return
+nothing in Europe PMC full text, consistent with `Developed at WCS-unpublished`), so
+no case is possible for it. For the others the only post-design evaluation is Qin
+2021 (`10.1038/s41388-021-01725-5`), which used the signature pair on 728 resections
+and reports ~80% AAV-positive; at its date the option changes the share and not the
+status.
+
+Measured, recent window: here the patents are detected **more** often than the
+natural records, so they **inflate** apparent performance rather than depressing it.
+
+| assay | patent | natural |
+|---|---:|---:|
+| dependovirus (exact Gao pair) | 1852/2198 = 84.3% | **117/258 = 45.3%** |
+| dependovirus_2002 (degenerate) | 2190/2200 = 99.5% | 256/259 = 98.8% |
+| pan_parvo | 2020/2023 = 99.9% | **713/935 = 76.3%** |
+
+So for the exact Gao pair an 89% patent denominator is **masking** a real coverage
+gap on natural records. The `low coverage` that the option produces there is
+arguably the true reading rather than a false positive, which is the opposite of
+the ATI case above, where patents were failing and dragging a working assay down.
+That the option corrects errors in both directions is the best argument for it and
+the reason a single validation case was never going to settle it. Also worth
+recording: `pan_parvo`'s `declining` is **not** patent-driven — it survives
+exclusion unchanged, because its override comes from *Dependoparvovirus avian1* at
+0.0% of 32 natural records.
+
+Three verified candidate rows exist (Pozner 2010 for arenavirus; Gao 2003 and Qin
+2021 for the dependovirus pair) and none discriminates, so none was added on that
+basis. The conclusion to record instead is that **this option needs a different
+kind of evidence than tier-2 can supply** — the ATI hand reading above, and the
+measured patent/natural split, are that evidence.
+
 ## Per-species shares in the report (added 2026-10-19)
 
 The entry's `needs_review` already said to read this assay by species, not by a

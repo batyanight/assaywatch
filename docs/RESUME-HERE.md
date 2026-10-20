@@ -64,8 +64,22 @@
   measured by `scripts/measure_species_sizes.py` with patent records excluded, shown as a `product bp`
   column. The bands overlap across vaccinia/cowpox/variola/monkeypox-IIb near 1600 bp, so size alone
   names no species there — the XbaI-digest caveat in numbers.
-  **Next:** validation cases for the arenavirus S gene and an AAV assay (what would let the patent
-  option ship on; its two arenavirus moves go opposite ways and are unread); the
+  **Patent option: no tier-2 case can judge it** (`docs/2026-10-19-orthopox-ati-vaccinia.md`,
+  2026-10-20 section). Searched both arenavirus and all three dependoparvovirus assays: with the
+  option on and off the verdicts are identical at every date before 2026. And the direction
+  reverses for AAV — patents are detected MORE than natural records (exact Gao pair 84.3% vs
+  45.3%), so there they mask a real coverage gap instead of creating a false one. `pan_parvo`'s
+  `declining` is not patent-driven. It needs evidence tier-2 cannot supply.
+  **Pan-family override settled** (`docs/2026-10-20-pan-family-override.md`): a failing lineage can
+  overturn a pooled `low coverage` only if that lineage itself once cleared the threshold. Tier-2
+  **4/11 caught, 10 disagreements** (was 12), 2 of 201 statuses move. Four alternatives measured and
+  lost; adding a "lineage < pooled share" gate would reach 9 but rests on one row.
+  **Three bench panels now** (FAP, Rebelo Mycoplasma 8/8 clean, Meyer ATI 8/9 with skunkpox a false
+  fail). They point at two different scorer knobs: mispair identity in the 3' window (FAP) and
+  linear accumulation against `reduced_max` (Meyer).
+  **Next:** cases for the above-pooled override pattern (6 of 17) to approve the `< pooled` gate;
+  an `is_patent` backfill sidecar (the title fallback misses ~3%, and `--include-fail` waits on it);
+  a fourth bench panel with real `no_band` rows (Rahn 1992 Salmonella); the
   pan-family `low coverage` -> `declining` override (enterovirus round2); more bench panels.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
