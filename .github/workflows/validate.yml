@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -e ".[dev]"
+      - run: pip install -e ".[dev,lineage]"
       - run: ruff check .
       - run: ruff format --check .
       - run: pytest -q
@@ -24,6 +24,10 @@ jobs:
   # them. This one installs it, and may fail without making the build red: Snakemake's
   # install is the part most likely to break on a runner, and a red build for that would
   # be noise. Check it when it goes red.
+  #
+  # It deliberately does NOT install the `lineage` extra, so it is also the check that
+  # the pipeline's other rules still run without scipy and statsmodels. That contract
+  # was broken for a day when the binomial test moved to lineage.py's module scope.
   snakemake:
     runs-on: ubuntu-latest
     continue-on-error: true

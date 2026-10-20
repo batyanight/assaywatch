@@ -23,6 +23,12 @@ dev = ["pytest", "ruff==0.16.10", "pre-commit", "build"]   # build: `python -m b
 import = ["openpyxl"]   # requests is a core dependency
 pdf = ["pypdf"]   # scripts/verify_oligos_against_paper.py --pdf-dir
 thermo = ["primer3-py"]   # the duplex-Tm columns, opt-in via `thermo: true`
+# The per-lineage binomial test and its BH correction, i.e. the lineage-conditional
+# verdict. Optional on purpose: assaywatch.lineage imports them inside
+# worst_lineage_verdict, so grouping records, reading titles and the diagnostic
+# lineage report all work without them, and the CI job that omits them proves it.
+# Anything that computes a verdict needs them, including most of tests/test_drift.py.
+lineage = ["scipy>=1.11", "statsmodels>=0.14"]
 
 [project.scripts]
 assaywatch-validate = "assaywatch.validate:main"
