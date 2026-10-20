@@ -21,21 +21,28 @@ jobs:
 
   # The Snakemake-backed tests (tests/test_triggers.py) run the pipeline offline and assert
   # which rules an edit reruns. They skip without Snakemake, so the job above never runs
-  # them. This one installs it, and may fail without making the build red: Snakemake's
-  # install is the part most likely to break on a runner, and a red build for that would
-  # be noise. Check it when it goes red.
+  # them. This one installs it.
   #
   # It deliberately does NOT install the `lineage` extra, so it is also the check that
   # the pipeline's other rules still run without scipy and statsmodels. That contract
   # was broken for a day when the binomial test moved to lineage.py's module scope.
+  #
+  # This job used to carry `continue-on-error: true`, on the argument that Snakemake's
+  # install is the part most likely to break on a runner and a red build for that would
+  # be noise. The argument did not survive contact: the scipy breakage above sat here
+  # in a job that could not turn the build red, and nobody looked. A rule-rerun
+  # regression and a pipeline that cannot start are exactly what this repo needs to hear
+  # about, so the job blocks now. Snakemake is pinned below for the same reason — an
+  # upstream release should not be able to go red on its own.
   snakemake:
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install --upgrade pip setuptools wheel
-      - run: pip install -e ".[dev]" "snakemake>=8"
+      # Pinned to the minor that passes, since this job can now turn the build red.
+      # Bump it deliberately and read the rerun assertions when you do.
+      - run: pip install -e ".[dev]" "snakemake>=9.27,<9.28"
       - run: pytest -q tests/test_triggers.py
