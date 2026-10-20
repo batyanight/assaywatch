@@ -66,6 +66,7 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.credentials import ncbi_api_key, scrub
+from assaywatch.metadata import looks_like_patent
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 Transport = Callable[[str, dict[str, Any]], str]
@@ -94,6 +95,7 @@ class RecordMeta:
     length: int
     title: str
     taxid: int | None = None  # NCBI taxonomic id; backfilled for existing records
+    is_patent: bool = False  # GenBank patent division; see looks_like_patent
 
     @property
     def year(self) -> int | None:
@@ -271,6 +273,7 @@ def esummary(transport: Transport, handle: dict[str, Any], page: int, retmax: in
                 length=int(length) if length.isdigit() else 0,
                 title=_text(doc, "Title"),
                 taxid=int(taxid_str) if taxid_str.isdigit() else None,
+                is_patent="|pat|" in _text(doc, "Extra"),
             )
         )
     return out
@@ -523,12 +526,15 @@ def retrieve_taxon(
     total_bases = n_meta = 0
     try:
         with gzip.open(meta_tmp, "wt") as mh:
-            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\ttaxid\n")
+            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\ttaxid\tis_patent\n")
             for page in range(n_pages):
                 for m in with_refresh(esummary, page, retmax):
                     total_bases += m.length
                     n_meta += 1
-                    mh.write(f"{m.uid}\t{m.accession}\t{m.created}\t{m.updated}\t{m.length}\t{m.title}\t{m.taxid or ''}\n")
+                    mh.write(
+                        f"{m.uid}\t{m.accession}\t{m.created}\t{m.updated}\t{m.length}\t{m.title}"
+                        f"\t{m.taxid or ''}\t{'1' if m.is_patent else ''}\n"
+                    )
 
         target_bytes = int(r.get("page_target_bytes", 20_000_000))
         mean_len = max(1, total_bases // max(1, handle["count"]))
@@ -697,20 +703,22 @@ if __name__ == "__main__":
     sys.exit(main())
 
 
-def load_record_metadata(meta_path: Path | str, taxid_backfill_path: Path | str | None = None) -> dict[str, RecordMeta]:
+def load_record_metadata(
+    meta_path: Path | str, taxid_backfill_path: Path | str | None = None
+) -> dict[str, RecordMeta]:
     """Load metadata from .meta.tsv.gz, optionally backfilled with taxids.
-    
+
     Args:
         meta_path: Path to .meta.tsv.gz archive metadata file
         taxid_backfill_path: Optional path to .meta.taxid.backfill.tsv.gz sidecar
-    
+
     Returns:
         Dict mapping accession -> RecordMeta
     """
     import gzip
-    
+
     records = {}
-    
+
     # Load backfill if provided
     taxid_map = {}
     if taxid_backfill_path:
@@ -725,7 +733,7 @@ def load_record_metadata(meta_path: Path | str, taxid_backfill_path: Path | str 
                             taxid_map[acc] = int(taxid_str)
         except FileNotFoundError:
             pass
-    
+
     # Load main metadata
     with gzip.open(meta_path, "rt") as f:
         header = f.readline().strip().split("\t")
@@ -736,7 +744,8 @@ def load_record_metadata(meta_path: Path | str, taxid_backfill_path: Path | str 
         length_idx = header.index("length")
         title_idx = header.index("title")
         taxid_idx = header.index("taxid") if "taxid" in header else -1
-        
+        patent_idx = header.index("is_patent") if "is_patent" in header else -1
+
         for line in f:
             parts = line.strip().split("\t")
             uid = parts[uid_idx]
@@ -745,14 +754,20 @@ def load_record_metadata(meta_path: Path | str, taxid_backfill_path: Path | str 
             updated = parts[updated_idx]
             length = int(parts[length_idx]) if parts[length_idx].isdigit() else 0
             title = parts[title_idx]
-            
+
+            # Before the column existed, the title is the only evidence.
+            if patent_idx >= 0 and len(parts) > patent_idx:
+                is_patent = parts[patent_idx] == "1"
+            else:
+                is_patent = looks_like_patent(title)
+
             # Try taxid from main file first, then backfill
             taxid = None
             if taxid_idx >= 0 and len(parts) > taxid_idx and parts[taxid_idx].isdigit():
                 taxid = int(parts[taxid_idx])
             elif acc in taxid_map:
                 taxid = taxid_map[acc]
-            
+
             records[acc] = RecordMeta(
                 uid=uid,
                 accession=acc,
@@ -761,6 +776,7 @@ def load_record_metadata(meta_path: Path | str, taxid_backfill_path: Path | str 
                 length=length,
                 title=title,
                 taxid=taxid,
+                is_patent=is_patent,
             )
-    
+
     return records

@@ -50,7 +50,7 @@ sys.path.insert(0, str(ROOT))
 
 from assaywatch.drift import assess  # noqa: E402
 from assaywatch.lineage import load_taxa_cache, sublineage_resolvers, title_assays  # noqa: E402
-from assaywatch.metadata import read_titles  # noqa: E402
+from assaywatch.metadata import read_patent_accessions, read_titles  # noqa: E402
 from assaywatch.report import key_calls_by_accession, read_calls, read_dates  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
 from assaywatch.taxonomy import Taxonomy, taxonomy_from_config  # noqa: E402
@@ -121,6 +121,7 @@ class Evidence:
     resolvers: dict[str, list] | None = None  # sub-lineage chains, lineage.sublineage
     titles: dict[str, str] | None = None  # for the assays whose chain parses titles
     taxonomy: Taxonomy | None = None  # scope_taxids ancestry, drift.scope_taxonomy
+    patent: set[str] | None = None  # patent-division accessions, drift.exclude_patent_records
 
 
 def load_evidence(
@@ -176,7 +177,12 @@ def load_evidence(
         titles = read_titles(retrieved, {r["record_id"] for a in wanted for r in by_assay.get(a, [])})
 
     taxonomy = taxonomy_from_config(cfg) if cfg else None
-    return Evidence(read_dates(retrieved), dict(by_assay), taxids, taxa_cache, resolvers, titles, taxonomy)
+    patent = None
+    if cfg and (cfg.get("drift") or {}).get("exclude_patent_records"):
+        patent = read_patent_accessions(retrieved, {r["record_id"] for rs in by_assay.values() for r in rs})
+    return Evidence(
+        read_dates(retrieved), dict(by_assay), taxids, taxa_cache, resolvers, titles, taxonomy, patent
+    )
 
 
 def status_from_evidence(
@@ -205,6 +211,7 @@ def status_from_evidence(
         resolvers=evidence.resolvers,
         titles=evidence.titles,
         taxonomy=evidence.taxonomy,
+        patent=evidence.patent,
     ), len(rows)
 
 

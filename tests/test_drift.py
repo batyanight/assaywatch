@@ -699,3 +699,24 @@ def test_a_lineage_that_is_the_whole_pool_overrides_only_if_the_assay_used_to_wo
     b = assess(*worked[:2], _gated(True), today=TODAY, taxids=worked[2], taxa_cache=cache)["A"]
     assert a.status != "declining" and not a.lineage_override
     assert b.status == "declining"
+
+
+def _patent_cfg(on: bool) -> dict:
+    return {**CFG, "drift": {**CFG["drift"], "exclude_patent_records": on}}
+
+
+def test_patent_records_leave_the_denominator_and_are_counted():
+    """Orthopox ATI's shape: the natural records all detect, the constructs fail."""
+    calls, years, _ = _records_with_taxids({2025: {1: {"detect": 30}, 2: {"fail": 30}}})
+    patent = {r["record_id"] for r in calls if r["call"] == "fail"}
+    off = assess(calls, years, _patent_cfg(False), today=TODAY, patent=patent)["A"]
+    on = assess(calls, years, _patent_cfg(True), today=TODAY, patent=patent)["A"]
+    assert off.recent_evaluable == 60 and off.patent_excluded == 0
+    assert on.recent_evaluable == 30 and on.patent_excluded == 30
+    assert on.recent_fraction == 1.0
+
+
+def test_the_patent_option_without_the_record_set_is_an_error():
+    calls, years, _ = _records_with_taxids({2025: {1: {"detect": 30}}})
+    with pytest.raises(SystemExit, match="patent record set"):
+        assess(calls, years, _patent_cfg(True), today=TODAY)

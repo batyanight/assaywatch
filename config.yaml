@@ -347,6 +347,14 @@ drift:
   # non-detection, but also makes a pan-family assay look like it is failing on
   # taxa it never covered. 16 assays change status when it is on.
   count_diverged_as_fail: false
+  # Drop GenBank patent-division records from the denominator. They are engineered
+  # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid
+  # libraries), so an assay missing one is not evidence about circulating virus.
+  # 21,769 of 1.53M archived records are patent deposits, but they concentrate:
+  # 101 of the 112 recent vaccinia records for Orthopox ATI Meyer 1997, and 2,182
+  # of 2,456 for the dependoparvovirus VP1 assays. Off until tier-2 approves a
+  # denominator change. Evidence: docs/2026-10-19-orthopox-ati-vaccinia.md.
+  exclude_patent_records: false
 
 # The per-site drift report (assaywatch/sitedrift.py): for the failing assays,
 # which oligo positions are drifting and in which groups of accessions. It reads

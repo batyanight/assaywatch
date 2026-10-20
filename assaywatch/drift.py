@@ -251,6 +251,9 @@ class AssayDrift:
     # denominator and counted here instead.
     out_of_scope: int = 0
 
+    # Patent-division records excluded by drift.exclude_patent_records.
+    patent_excluded: int = 0
+
     # Per-lineage analysis. When taxids are available, each assay's
     # recent evaluable records are grouped by NCBI taxid and tested per lineage.
     # The worst assessable lineage drives the verdict when it is significantly
@@ -743,6 +746,7 @@ def assess(
     resolvers: dict[str, list] | None = None,
     titles: dict[str, str] | None = None,
     taxonomy: Taxonomy | None = None,
+    patent: set[str] | None = None,
 ) -> dict[str, AssayDrift]:
     """Group calls by assay and deposit date and work out each assay's status.
 
@@ -773,6 +777,11 @@ def assess(
     or any ancestor is listed, with merged taxids followed on both sides;
     without it the match is exact, which drops strain- and no-rank-level records.
 
+    ``patent`` (unversioned accessions of GenBank patent-division records) is
+    what ``drift.exclude_patent_records`` acts on: those records are engineered
+    constructs rather than circulating diversity, so with the option on they
+    leave the denominator and are counted on ``AssayDrift.patent_excluded``.
+
     ``resolvers`` (assay_id -> sub-lineage resolver chain, from
     ``lineage.sublineage_resolvers``) splits an assay's records below the taxid
     before the per-lineage check; ``titles`` (unversioned accession -> defline)
@@ -794,6 +803,16 @@ def assess(
     # and a pan-family assay screened against taxa it never claimed to cover.
     # Settle it with docs/validation-cases.tsv rather than by argument.
     count_diverged = bool(d.get("count_diverged_as_fail", False))
+    # A patent deposit is a construct someone designed, not a virus that is
+    # circulating, so it answers a different question from the one this tool
+    # asks. Off by default: it changes a denominator, which is exactly the kind
+    # of change docs/validation-cases.tsv exists to approve.
+    exclude_patent = bool(d.get("exclude_patent_records", False))
+    if exclude_patent and patent is None:
+        raise SystemExit(
+            "drift.exclude_patent_records is on but no patent record set was passed; "
+            "the caller must read it with assaywatch.metadata.read_patent_accessions"
+        )
     if count_diverged:
         calls = list(calls)
         if any((row.get("exclusion") or "") == "windowed" for row in calls):
@@ -813,6 +832,7 @@ def assess(
     raw_per: dict[str, list[tuple[str | None, dict[str, Any]]]] = {} if taxids else {}
     # Out-of-scope record counts per assay, populated only when scope_map is set.
     oos_counts: dict[str, int] = {}
+    pat_counts: dict[str, int] = {}
     scope_canon: dict[str, set[int]] = {}
 
     def in_scope(aid: str, txid: int) -> bool:
@@ -833,6 +853,9 @@ def assess(
             if txid is not None and not in_scope(aid, txid):
                 oos_counts[aid] = oos_counts.get(aid, 0) + 1
                 continue
+        if exclude_patent and row["record_id"].split(".")[0] in patent:
+            pat_counts[aid] = pat_counts.get(aid, 0) + 1
+            continue
         when = years.get(row["record_id"])
         # A bare year keeps year granularity below, so it is anchored at 1 January.
         iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
@@ -1002,6 +1025,7 @@ def assess(
             )
 
         a.out_of_scope = oos_counts.get(assay_id, 0)
+        a.patent_excluded = pat_counts.get(assay_id, 0)
         grouped[assay_id] = a
     return grouped
 

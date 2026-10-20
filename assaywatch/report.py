@@ -471,6 +471,8 @@ def render_markdown(
             )
             if a.out_of_scope:
                 note += f" {a.out_of_scope} out-of-scope records excluded."
+            if a.patent_excluded:
+                note += f" {a.patent_excluded} patent records excluded."
             entry = assay.status.value if assay else "-"
             pooled_tag = f" (pooled: {a.status_pooled})" if a.lineage_override and a.status_pooled else ""
             out.append(
@@ -503,6 +505,12 @@ def render_markdown(
                 out += [
                     "",
                     f"**Out of scope:** {a.out_of_scope} records excluded (taxid not in scope_taxids).",
+                ]
+            if a.patent_excluded:
+                out += [
+                    "",
+                    f"**Patent records:** {a.patent_excluded} excluded "
+                    "(GenBank patent division; drift.exclude_patent_records).",
                 ]
             if a.clustering_note:
                 out += ["", f"**Duplication check:** {a.clustering_note}"]
@@ -621,6 +629,8 @@ def render_html(
             )
             if a.out_of_scope:
                 note += f" {a.out_of_scope} out-of-scope records excluded."
+            if a.patent_excluded:
+                note += f" {a.patent_excluded} patent records excluded."
             pooled_html = (
                 f"<br><span class='muted' style='font-size:.8rem'>pooled: {e(a.status_pooled)}</span>"
                 if a.lineage_override and a.status_pooled
@@ -826,6 +836,13 @@ def build(
 
         taxonomy = taxonomy_from_config(cfg)
 
+    # Patent-division records, only when the option that acts on them is on.
+    patent = None
+    if (cfg.get("drift") or {}).get("exclude_patent_records"):
+        from assaywatch.metadata import read_patent_accessions
+
+        patent = read_patent_accessions(retrieved, {strip_version(r["record_id"]) for r in calls})
+
     drifts = assess(
         calls,
         dates,
@@ -837,6 +854,7 @@ def build(
         resolvers=resolvers,
         titles=titles,
         taxonomy=taxonomy,
+        patent=patent,
     )
     if taxonomy is not None and taxonomy.unknown:
         print(

@@ -50,7 +50,15 @@
   still in the 2026-10-17 calls). The gate's "17 of 213" had the same flaw: on current IDs
   it is 13 of 201 with exact-taxid grouping, 16 with the roll-up on. Every status count
   from the 2026-10-17 calls needs the removed IDs dropped; the next screening run fixes it.
-  **Next:** Orthopox ATI Meyer now `declining` on vaccinia 10245 (83% of 112), look by hand; the
+  **Orthopox ATI read by hand** (`docs/2026-10-19-orthopox-ati-vaccinia.md`): 101 of its 112 recent
+  vaccinia records are GenBank patent-division constructs (vectors, chimeras), and all 10 genuinely
+  natural records detect. The `declining` was a false positive. New `drift.exclude_patent_records`
+  (shipped **off**: tier-2 unchanged, no validation case touches an affected assay) would move 6
+  statuses, ATI back to `stable`. `is_patent` now comes from esummary's `<Extra>`; older archives
+  fall back to the title pattern (300/300 agreement). AAV is the extreme: the dependoparvovirus
+  assays are 89% patent records.
+  **Next:** validation cases for the arenavirus S gene and an AAV assay (what would let the patent
+  option ship on; its two arenavirus moves go opposite ways and are unread); the
   pan-family `low coverage` -> `declining` override (enterovirus round2); more bench panels.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
