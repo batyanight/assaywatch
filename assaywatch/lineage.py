@@ -27,8 +27,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
-from scipy.stats import binom
-from statsmodels.stats.multitest import multipletests
+
+# scipy and statsmodels are imported inside worst_lineage_verdict, the only
+# function that needs them, so that the pipeline rules which merely read
+# titles or group records keep working without them. At module scope they
+# broke the snakemake CI job, which installs neither (48a21b2).
 
 # A resolver maps (call dict, resolved taxid, taxa cache) -> a sub-lineage
 # label, or None to defer to the next resolver in the chain.
@@ -376,6 +379,9 @@ def worst_lineage_verdict(
     """
     if not lineage_stats:
         return None, None
+
+    from scipy.stats import binom
+    from statsmodels.stats.multitest import multipletests
 
     # Collect p-values (one-sided test: is share significantly below threshold?)
     # H0: share >= threshold

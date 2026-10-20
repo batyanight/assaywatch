@@ -30,7 +30,13 @@ class FakeNCBIServingFixtures:
         if endpoint == "esummary":
             docs = "".join(
                 SUMMARY_DOC.format(
-                    uid=i, acc=rid, title=rid, created="2015/06/01", updated="2026/01/01", length=len(seq), taxid=10239
+                    uid=i,
+                    acc=rid,
+                    title=rid,
+                    created="2015/06/01",
+                    updated="2026/01/01",
+                    length=len(seq),
+                    taxid=10239,
                 )
                 for i, (rid, seq) in enumerate(page, start=start)
             )

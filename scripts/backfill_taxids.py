@@ -15,11 +15,12 @@ re-fetchable), so it is safe to run and re-run during development.
 import argparse
 import gzip
 import sys
-from pathlib import Path
-from collections import defaultdict
 import xml.etree.ElementTree as ET
-from assaywatch.retrieve import http_transport
+from collections import defaultdict
+from pathlib import Path
+
 from assaywatch.credentials import ncbi_api_key
+from assaywatch.retrieve import http_transport
 
 
 def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
@@ -27,7 +28,7 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
     retrieved_dir = Path(cfg.get("retrieved_dir", "data/retrieved"))
     api_key = ncbi_api_key()
     transport = http_transport(email, api_key)
-    
+
     # Collect all accessions across all groups
     accession_to_uid = {}
     for meta_file in retrieved_dir.rglob("*.meta.tsv.gz"):
@@ -36,7 +37,7 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
             uid_idx = header.index("uid")
             acc_idx = header.index("accession")
             taxid_idx = header.index("taxid") if "taxid" in header else -1
-            
+
             for line in f:
                 parts = line.strip().split("\t")
                 acc = parts[acc_idx]
@@ -46,7 +47,7 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
                     continue
                 if acc not in accession_to_uid:
                     accession_to_uid[acc] = uid
-    
+
     # Resume: accessions already in the sidecar are kept and not refetched.
     backfill_file = retrieved_dir / ".meta.taxid.backfill.tsv.gz"
     acc_to_taxid = {}
@@ -63,12 +64,12 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
     if not accession_to_uid:
         print("No accessions to backfill.")
         return
-    
+
     print(f"Found {len(accession_to_uid)} accessions to backfill taxids for.")
     if dry_run:
         print("(dry run: not fetching)")
         return
-    
+
     # Fetch taxids in batches via esummary
     uid_to_accs = defaultdict(list)
     for acc, u in accession_to_uid.items():
@@ -79,10 +80,13 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
     for batch_start in range(0, len(uids_list), batch_size):
         batch_uids = uids_list[batch_start : batch_start + batch_size]
         uid_list = ",".join(batch_uids)
-        
+
         if (batch_start // batch_size) % 100 == 0:
-            print(f"batch {batch_start // batch_size + 1} of {-(-len(uids_list) // batch_size)}", file=sys.stderr)
-        
+            print(
+                f"batch {batch_start // batch_size + 1} of {-(-len(uids_list) // batch_size)}",
+                file=sys.stderr,
+            )
+
         try:
             xml = transport(
                 "esummary",
@@ -93,7 +97,7 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
                 },
             )
             root = ET.fromstring(xml)
-            
+
             for doc in root.findall("DocSum"):
                 uid = doc.findtext("Id")
                 taxid_elem = doc.find(".//Item[@Name='TaxId']")
@@ -102,31 +106,37 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
                     for acc in uid_to_accs.get(uid, ()):
                         acc_to_taxid[acc] = taxid
         except Exception as e:
-            print(f"Error fetching batch {batch_start // batch_size + 1}: {type(e).__name__}", file=sys.stderr)
+            print(
+                f"Error fetching batch {batch_start // batch_size + 1}: {type(e).__name__}", file=sys.stderr
+            )
             failed_batches.append(batch_start // batch_size + 1)
             continue
-    
+
     # Write backfill sidecar
     tmp = backfill_file.with_name(backfill_file.name + ".part")
     with gzip.open(tmp, "wt") as f:
         f.write("accession\ttaxid\n")
         for acc, taxid in sorted(acc_to_taxid.items()):
             f.write(f"{acc}\t{taxid}\n")
-    
+
     tmp.replace(backfill_file)
-    print(f"Wrote {len(acc_to_taxid)} taxids to {backfill_file}; "
-          f"{len(uids_list) and sum(1 for u in uids_list for a in uid_to_accs[u] if a not in acc_to_taxid)} accessions still without a taxid; "
-          f"{len(failed_batches)} failed batches")
+    print(
+        f"Wrote {len(acc_to_taxid)} taxids to {backfill_file}; "
+        f"{len(uids_list) and sum(1 for u in uids_list for a in uid_to_accs[u] if a not in acc_to_taxid)} accessions still without a taxid; "
+        f"{len(failed_batches)} failed batches"
+    )
 
 
 if __name__ == "__main__":
     import yaml
-    
+
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--email", required=True, help="Contact address for NCBI E-utilities")
     ap.add_argument("--config", type=Path, default=Path("config.yaml"))
-    ap.add_argument("--dry-run", action="store_true", help="Do not fetch or write, just show what would happen")
+    ap.add_argument(
+        "--dry-run", action="store_true", help="Do not fetch or write, just show what would happen"
+    )
     args = ap.parse_args()
-    
+
     cfg = yaml.safe_load(open(args.config))
     backfill_taxids(cfg, email=args.email, dry_run=args.dry_run)

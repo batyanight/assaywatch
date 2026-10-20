@@ -45,10 +45,11 @@ import json
 import os
 import threading
 import time
+from collections.abc import Callable, Iterable
 from dataclasses import asdict, dataclass, field
-from datetime import date, datetime
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Iterable, Sequence
+from typing import Any
 
 __all__ = [
     "MARKER_NAME",
@@ -282,7 +283,7 @@ class RunManifest:
         _atomic_write_json(Path(target), payload)
 
     @classmethod
-    def load(cls, path: Path) -> "RunManifest":
+    def load(cls, path: Path) -> RunManifest:
         data = json.loads(Path(path).read_text())
         stages = [Stage(**s) for s in data.get("stages", [])]
         return cls(

@@ -23,7 +23,6 @@ from assaywatch.timing import (
     write_run_marker,
 )
 
-
 # -- run identity ----------------------------------------------------------
 
 
@@ -140,9 +139,9 @@ def test_summary_lines_mention_each_stage(tmp_path):
 @pytest.mark.parametrize(
     "done,total,elapsed,expected",
     [
-        (25, 100, 10, 30.0),   # a quarter done in 10s -> 30s left
-        (100, 100, 10, 0.0),   # finished
-        (150, 100, 10, 0.0),   # overshoot is clamped, not negative
+        (25, 100, 10, 30.0),  # a quarter done in 10s -> 30s left
+        (100, 100, 10, 0.0),  # finished
+        (150, 100, 10, 0.0),  # overshoot is clamped, not negative
     ],
 )
 def test_weighted_eta(done, total, elapsed, expected):
@@ -178,8 +177,7 @@ def test_directory_bytes_counts_matching_files(tmp_path):
 
 def test_heartbeat_writes_and_flags_a_stall(tmp_path):
     path = tmp_path / "hb.json"
-    stop = heartbeat(path, lambda: {"units_done": 7, "stage": "screen"},
-                     interval=0.05, stall_after=0.15)
+    stop = heartbeat(path, lambda: {"units_done": 7, "stage": "screen"}, interval=0.05, stall_after=0.15)
     time.sleep(0.4)
     stop()
     payload = json.loads(path.read_text())

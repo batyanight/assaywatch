@@ -126,10 +126,9 @@ def test_empty_sequence_gives_no_statistics():
 
 
 def test_footprints_group_identical_patterns():
-    rows = (
-        [row("fail", forward=[2, 5], reverse=[3], record_id=f"A{i}") for i in range(4)]
-        + [row("detect", record_id=f"B{i}") for i in range(6)]
-    )
+    rows = [row("fail", forward=[2, 5], reverse=[3], record_id=f"A{i}") for i in range(4)] + [
+        row("detect", record_id=f"B{i}") for i in range(6)
+    ]
     dates = {f"A{i}": "2025-03-01" for i in range(4)} | {f"B{i}": "2024-01-01" for i in range(6)}
     groups = footprint_groups(rows, dates, {}, top=10)
     assert [g.n for g in groups] == [6, 4]
@@ -201,9 +200,7 @@ def test_read_site_calls_filters_and_parses(tmp_path):
 
 def test_read_site_calls_tolerates_a_missing_probe_column(tmp_path):
     path = tmp_path / "calls.tsv"
-    path.write_text(
-        "assay_id\trecord_id\tcall\tfwd_mm_from_3prime\n" "KEEP\tA1.1\tfail\t2\n"
-    )
+    path.write_text("assay_id\trecord_id\tcall\tfwd_mm_from_3prime\nKEEP\tA1.1\tfail\t2\n")
     (r,) = read_site_calls(path, {"KEEP"})
     assert r["forward"] == (2,) and r["probe"] == ()
 
