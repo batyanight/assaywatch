@@ -321,6 +321,12 @@ def test_lineage_override_stable_to_declining():
     assert a.status == "declining"
     assert a.status_pooled == "stable"
     assert a.lineage_verdict == "failing"
+    # lineage_worst_idx names the same lineage the note names in prose, which is
+    # what scripts/lineage_override_audit.py reads instead of parsing it.
+    assert a.lineage_worst_idx is not None
+    worst = a.lineage_stats[a.lineage_worst_idx]
+    assert worst.lineage_name == "Lineage B"
+    assert f"lineage {worst.lineage_name} ({worst.n_evaluable} records)" in a.note
 
 
 def test_lineage_no_override_when_all_detecting():

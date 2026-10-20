@@ -275,6 +275,10 @@ class AssayDrift:
     lineage_override: bool = False
     # The pooled status before lineage override, so the report can show both.
     status_pooled: str | None = None
+    # Index into `lineage_stats` of the lineage that drove the override. The note
+    # names that lineage in prose; this is the same answer without a parse, for
+    # scripts/lineage_override_audit.py. Set only when lineage_override is True.
+    lineage_worst_idx: int | None = None
 
     @property
     def total_evaluable(self) -> int:
@@ -581,6 +585,7 @@ class AssayDrift:
                     self.status_pooled = self.status
                     self.status = "low coverage"
                     self.lineage_override = True
+                    self.lineage_worst_idx = worst_idx
                 why = (
                     "is an unclassified taxon, so it cannot be told from one never covered"
                     if gap.lineage_name in buckets and gap.lineage_name not in never
@@ -628,6 +633,7 @@ class AssayDrift:
             self.status_pooled = self.status
             self.status = "declining"
             self.lineage_override = True
+            self.lineage_worst_idx = worst_idx
             worst = stats[worst_idx]
             # Build a note that accurately describes why the override happened.
             if self.status_pooled in ("stable", "watch"):
