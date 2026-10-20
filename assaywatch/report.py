@@ -49,7 +49,7 @@ from assaywatch.drift import (
 )
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
-from assaywatch.schema import Assay
+from assaywatch.schema import Assay, SpeciesSize
 
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
@@ -258,9 +258,11 @@ def sparkline(drift: AssayDrift, width: int = 220, height: int = 34) -> str:
 
 
 def species_table_rows(
-    drift: AssayDrift, taxonomy: Taxonomy | None = None
-) -> list[tuple[str, int, int, str]]:
-    """(species, detected, evaluable, share) for the recent window, biggest first.
+    drift: AssayDrift,
+    taxonomy: Taxonomy | None = None,
+    sizes: list[SpeciesSize] | None = None,
+) -> list[tuple[str, int, int, str, str]]:
+    """(species, detected, evaluable, share, product bp) for the recent window, biggest first.
 
     For an assay whose product length names the species — one declaring
     `amplicon_bp_range` — a single genus-wide share is the wrong number: ATI
@@ -269,7 +271,15 @@ def species_table_rows(
     in the per-lineage analysis at all. So there is no floor here: every species
     is listed, however thin, and the share of a handful of records is left to
     speak for itself next to its denominator.
+
+    `sizes` is the assay's `species_sizes`, so the table can also say which
+    product length each species gives — the thing this kind of assay actually
+    reads. A species with no measured band shows `-`.
     """
+    bands: dict[int, list[str]] = {}
+    for s in sizes or []:
+        lo, hi = s.bp
+        bands.setdefault(s.taxid, []).append(str(lo) if lo == hi else f"{lo}-{hi}")
     counts = drift.species_counts or {}
     rows = []
     for taxid, (det, n) in counts.items():
@@ -278,7 +288,8 @@ def species_table_rows(
         else:
             name = taxonomy.name.get(taxid) if taxonomy else None
             label = f"{name} ({taxid})" if name else f"taxid {taxid}"
-        rows.append((label, det, n, pct(det / n) if n else "-"))
+        band = ", ".join(bands.get(taxid, [])) or "-"
+        rows.append((label, det, n, pct(det / n) if n else "-", band))
     # Biggest denominator first; a tie reads alphabetically rather than by dict order.
     return sorted(rows, key=lambda r: (-r[2], r[0]))
 
@@ -539,11 +550,11 @@ def render_markdown(
                     f"share above pools readouts that mean different things; {a.recent_from} on, no "
                     "assessability floor):",
                     "",
-                    "| species | detected | evaluable | share |",
-                    "|---|---|---|---|",
+                    "| species | product bp | detected | evaluable | share |",
+                    "|---|---|---|---|---|",
                 ]
-                for label, det, ev, frac in species_table_rows(a, taxonomy):
-                    out.append(f"| {md(label)} | {det} | {ev} | {frac} |")
+                for label, det, ev, frac, band in species_table_rows(a, taxonomy, assay.species_sizes):
+                    out.append(f"| {md(label)} | {band} | {det} | {ev} | {frac} |")
             if a.out_of_scope:
                 out += [
                     "",
@@ -727,10 +738,14 @@ def render_html(
                     f"{e(str(a.recent_from))} on, no assessability floor):</p>"
                 )
                 parts.append(
-                    "<table><tr><th>species</th><th>detected</th><th>evaluable</th><th>share</th></tr>"
+                    "<table><tr><th>species</th><th>product bp</th><th>detected</th>"
+                    "<th>evaluable</th><th>share</th></tr>"
                 )
-                for label, det, ev, frac in species_table_rows(a, taxonomy):
-                    parts.append(f"<tr><td>{e(label)}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
+                for label, det, ev, frac, band in species_table_rows(a, taxonomy, assay.species_sizes):
+                    parts.append(
+                        f"<tr><td>{e(label)}</td><td>{e(band)}</td><td>{det}</td>"
+                        f"<td>{ev}</td><td>{frac}</td></tr>"
+                    )
                 parts.append("</table>")
             if a.out_of_scope:
                 parts.append(

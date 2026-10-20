@@ -232,3 +232,49 @@ def test_a_declared_range_replaces_the_scalar_size_and_never_joins_it():
         Assay.model_validate(variant(amplicon_bp=None, amplicon_bp_range=[1700, 540]))
     with pytest.raises(ValidationError):
         Assay.model_validate(variant(amplicon_bp=None, amplicon_bp_range=[540, 99999]))
+
+
+def _ati_kwargs(**over):
+    """The shape of an assay that identifies the species by product length."""
+    base = dict(
+        id="ORTHOPOX_ATI_test",
+        name="ATI test",
+        target={"taxid": 10242, "gene": "ATI", "genome_type": "dsDNA", "taxon_name": "Orthopoxvirus"},
+        chemistry="conventional",
+        oligos={"forward": {"seq": "AATACAAGGAGGATCT"}, "reverse": {"seq": "CTTAACTTTTTCTTTCTC"}},
+        amplicon_bp_range=[540, 1700],
+        citation={"doi": "10.1016/S0166-0934(96)02155-6"},
+    )
+    base.update(over)
+    return base
+
+
+def test_species_sizes_allow_several_bands_for_one_species():
+    a = Assay(
+        **_ati_kwargs(
+            species_sizes=[
+                {"taxid": 3431483, "bp": [1535, 1545], "n_records": 9113, "note": "clade IIb"},
+                {"taxid": 3431483, "bp": [1067, 1067], "n_records": 1981, "note": "clade I"},
+            ]
+        )
+    )
+    assert [s.bp for s in a.species_sizes] == [[1535, 1545], [1067, 1067]]
+
+
+def test_species_sizes_need_the_declared_range():
+    """Without amplicon_bp_range the assay is not claiming its length varies by species."""
+    kwargs = _ati_kwargs(species_sizes=[{"taxid": 10245, "bp": [1587, 1615], "n_records": 130}])
+    del kwargs["amplicon_bp_range"]
+    kwargs["amplicon_bp"] = 1600
+    with pytest.raises(ValidationError, match="species_sizes needs amplicon_bp_range"):
+        Assay(**kwargs)
+
+
+def test_a_band_outside_the_declared_range_is_rejected():
+    with pytest.raises(ValidationError, match="outside amplicon_bp_range"):
+        Assay(**_ati_kwargs(species_sizes=[{"taxid": 10245, "bp": [1587, 1900], "n_records": 2}]))
+
+
+def test_a_band_must_ascend():
+    with pytest.raises(ValidationError, match="must ascend"):
+        Assay(**_ati_kwargs(species_sizes=[{"taxid": 10245, "bp": [1615, 1587], "n_records": 2}]))

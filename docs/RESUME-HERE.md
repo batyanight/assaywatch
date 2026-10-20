@@ -60,6 +60,10 @@
   **Per-species table** in the report for any assay declaring `amplicon_bp_range` (only ATI), no
   assessability floor, from `AssayDrift.species_counts`. Lineage labels are named from the taxonomy
   cache now ("Orthopoxvirus vaccinia (10245)", not `taxid_10245`); verdicts byte-identical.
+  **`species_sizes`** on the ATI entry (new `SpeciesSize` schema model, requires `amplicon_bp_range`),
+  measured by `scripts/measure_species_sizes.py` with patent records excluded, shown as a `product bp`
+  column. The bands overlap across vaccinia/cowpox/variola/monkeypox-IIb near 1600 bp, so size alone
+  names no species there — the XbaI-digest caveat in numbers.
   **Next:** validation cases for the arenavirus S gene and an AAV assay (what would let the patent
   option ship on; its two arenavirus moves go opposite ways and are unread); the
   pan-family `low coverage` -> `declining` override (enterovirus round2); more bench panels.

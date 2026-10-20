@@ -307,17 +307,25 @@ def test_no_pooled_tag_without_lineage_override():
 def test_species_table_lists_every_species_biggest_first_with_no_floor():
     """A size-differentiating assay's rare species are the point, so nothing is dropped."""
     from assaywatch.report import species_table_rows
+    from assaywatch.schema import SpeciesSize
     from assaywatch.taxonomy import Taxonomy
 
     a = assess(*records({2025: {"detect": 1}}), CFG, today=TODAY)["A"]
     a.species_counts = {3431483: [4143, 4334], 10245: [93, 112], 3431480: [1, 1], None: [2, 5]}
     tree = Taxonomy({}, {}, {}, {10245: "Orthopoxvirus vaccinia", 3431483: "Orthopoxvirus monkeypox"})
-    assert species_table_rows(a, tree) == [
-        ("Orthopoxvirus monkeypox (3431483)", 4143, 4334, "96%"),
-        ("Orthopoxvirus vaccinia (10245)", 93, 112, "83%"),
-        ("unresolved (no taxid)", 2, 5, "40%"),
+    # Two bands for one species (monkeypox by clade) and a single-length band.
+    sizes = [
+        SpeciesSize(taxid=3431483, bp=[1535, 1545], n_records=9113),
+        SpeciesSize(taxid=3431483, bp=[1067, 1067], n_records=1981),
+        SpeciesSize(taxid=3431480, bp=[879, 879], n_records=12),
+    ]
+    assert species_table_rows(a, tree, sizes) == [
+        ("Orthopoxvirus monkeypox (3431483)", 4143, 4334, "96%", "1535-1545, 1067"),
+        # Measured records but no declared band: the column says so.
+        ("Orthopoxvirus vaccinia (10245)", 93, 112, "83%", "-"),
+        ("unresolved (no taxid)", 2, 5, "40%", "-"),
         # Named by nothing in the tree, and a single record: still listed.
-        ("taxid 3431480", 1, 1, "100%"),
+        ("taxid 3431480", 1, 1, "100%", "879"),
     ]
 
 

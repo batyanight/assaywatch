@@ -129,11 +129,54 @@ current statuses are byte-identical before and after, as they must be: the label
 is a display string and a grouping key, and nothing reads `LineageStats.taxid`.
 The cache keeps species names as well as the "unclassified" ones, 394 KB -> 606 KB.
 
+## `species_sizes`, measured (added 2026-10-19)
+
+The entry now carries the per-species product length as data, not prose, and the
+report's table shows it beside each share:
+
+| species | product bp | detected | evaluable | share |
+|---|---|---:|---:|---:|
+| Orthopoxvirus monkeypox (3431483) | 1535-1545, 1067 | 4143 | 4334 | 96% |
+| Orthopoxvirus vaccinia (10245) | 1587-1615, 1547, 1671, 1573 | 93 | 112 | 83% |
+| Orthopoxvirus cowpox (3431481) | 1598-1601, 1673, 1505 | 18 | 18 | 100% |
+| Orthopoxvirus camelpox (3431480) | 879 | 1 | 1 | 100% |
+| Orthopoxvirus ectromelia (3431482) | 1220 | 1 | 1 | 100% |
+| Orthopoxvirus variola (3431487) | 1576-1583 | 1 | 1 | 100% |
+
+Measured by `scripts/measure_species_sizes.py` over the whole archive (the table
+above is the recent window, so a species' bands can rest on more records than its
+share does), not copied from the paper or from the earlier hand pass: the rule is
+measure, never quote, and this assay's paper sizes are already known to differ by
+1-32 bp. Patent records are excluded, which matters here more than anywhere —
+their 891, 1001 and 1226 bp products would have entered the registry as vaccinia
+bands. Schema: `SpeciesSize` (taxid, bp [min, max], n_records, note), several rows
+per species allowed, and the validator requires `amplicon_bp_range`, which is the
+declaration that makes per-species bands mean anything.
+
+**Clustering.** A length is kept at >= 2 records and >= 2% of the species'
+records; the survivors cluster where a step exceeds 12 bp. Dropping thin lengths
+*before* clustering is what makes the bands honest: across 12,539 monkeypox
+records the rare lengths form a continuum, and clustering them too chains 1520
+through 1590 into one band that swallows variola and vaccinia, where the real
+clade IIb band is 1535-1545.
+
+**What the bands show about the assay.** They are not a key. Vaccinia 1587-1615,
+cowpox 1598-1601, variola 1576-1583, Cowpox-Vaccinia 1601 and monkeypox clade IIb
+1535-1545 all crowd the same stretch, so a band near 1600 bp names no single
+species — which is why Meyer's protocol also ran an XbaI digest, and what the
+entry's `DIFFERENTIATION_ASSAY_SIZE_AND_XBAI_DIGEST_NOT_SCREENABLE` flag means in
+numbers. Cleanly separated: camelpox 879, ectromelia 1220, volepox 542,
+monkeypox clade I 1067.
+
+The remeasurement agrees with the 2026-10-06 hand pass and adds bands it missed
+(vaccinia 1547 and 1671, cowpox 1598-1601 and 1505, akhmetapox 1505, taterapox
+1628). It drops skunkpox, whose two 551 bp records score `fail`.
+
 ## Next
 
 - Validation cases for the arenavirus S gene assays and for an AAV/dependoparvovirus
   assay, which is what would let the patent option ship on.
-- The per-species table reports shares, not sizes. What this assay actually reads
-  is product length, and the measured size per species lives only in the entry's
-  curator notes as prose. A structured `species_sizes` map would let the report
-  say which species a given amplicon length identifies.
+- Skunkpox has no band because its two records score `fail`. `fail` is this
+  pipeline's judgement at one threshold, not a bench result, and ATI runs at 40 °C
+  annealing, so the 551 bp product may well be real. A bench panel
+  (`scripts/bench_panel.py`) from Meyer's own species set would settle it.

@@ -322,6 +322,40 @@ class Source(Strict):
     notes_curator: str | None = None
 
 
+class SpeciesSize(Strict):
+    """One product-length band this assay gives for one species, as measured.
+
+    For an assay that identifies the species by product length rather than by
+    detecting one target, the length IS the readout, so it belongs here as
+    numbers rather than in a curator note as prose. Measured from GenBank
+    records by scripts/measure_species_sizes.py, never copied from the paper:
+    on ATI the paper's stated sizes differ from the measured ones by 1-32 bp
+    (see that entry's needs_review).
+
+    A species can have more than one band — monkeypox clade I near 1067 bp and
+    clade IIb near 1538 — so several rows may share a taxid. Bands from
+    different species may overlap, because they genuinely do, and that is the
+    limit of what a length can tell you: on ATI, vaccinia 1587-1615 and cowpox
+    1598-1601 are not separable by size, which is why the design paper also ran
+    an XbaI digest.
+    """
+
+    taxid: int = Field(ge=1)
+    # [min, max] observed; equal when every record gave the same length.
+    bp: list[int] = Field(min_length=2, max_length=2)
+    n_records: int = Field(ge=1)  # records behind this band, so a thin row shows
+    note: str | None = None  # the species name as the taxonomy had it, or a clade
+
+    @model_validator(mode="after")
+    def band_is_sane(self) -> SpeciesSize:
+        lo, hi = self.bp
+        if lo > hi:
+            raise ValueError(f"species_sizes bp must ascend, got {lo}-{hi}")
+        if lo < AMPLICON_MIN or hi > AMPLICON_MAX:
+            raise ValueError(f"species_sizes bp {lo}-{hi} outside {AMPLICON_MIN}-{AMPLICON_MAX}")
+        return self
+
+
 class Assay(Strict):
     id: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9_.-]{2,120}$")
     name: str
@@ -340,6 +374,10 @@ class Assay(Strict):
     # [min, max]; mutually exclusive with `amplicon_bp`, and the tolerance is
     # applied outward from each end.
     amplicon_bp_range: list[int] | None = Field(default=None, min_length=2, max_length=2)
+    # Measured product length per species, for an assay whose readout is the
+    # length. Only meaningful with `amplicon_bp_range`, which is the declaration
+    # that the length varies by species; the validator enforces that.
+    species_sizes: list[SpeciesSize] | None = None
     citation: Citation
     use_context: list[str] = Field(default_factory=list)
     submitted_by: str | None = None
@@ -359,6 +397,24 @@ class Assay(Strict):
             raise ValueError(f"amplicon_bp_range must ascend, got {lo}-{hi}")
         if lo < AMPLICON_MIN or hi > AMPLICON_MAX:
             raise ValueError(f"amplicon_bp_range {lo}-{hi} outside {AMPLICON_MIN}-{AMPLICON_MAX}")
+        return self
+
+    @model_validator(mode="after")
+    def species_sizes_fit_the_declared_range(self) -> Assay:
+        if not self.species_sizes:
+            return self
+        if self.amplicon_bp_range is None:
+            raise ValueError(
+                "species_sizes needs amplicon_bp_range: it is the declaration that this assay's "
+                "product length varies by species, which is what makes per-species bands mean anything"
+            )
+        lo, hi = self.amplicon_bp_range
+        for s in self.species_sizes:
+            if s.bp[0] < lo or s.bp[1] > hi:
+                raise ValueError(
+                    f"species_sizes band {s.bp[0]}-{s.bp[1]} for taxid {s.taxid} falls outside "
+                    f"amplicon_bp_range {lo}-{hi}"
+                )
         return self
 
     @model_validator(mode="after")
