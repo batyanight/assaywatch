@@ -27,8 +27,19 @@ species_sizes:
 # exceeds 12 bp. Bands cover 88% of monkeypox records, 93% of vaccinia, 94% of
 # cowpox and all of every other species. Not a key: vaccinia 1587-1615 and
 # cowpox 1598-1601 overlap, so a band in that region does not name one species.
-# Only records the assay would amplify (detect or reduced) count, so skunkpox has no
-# band: its 2 archived records do give a 551 bp product, but score fail.
+# Only records the assay would amplify (detect or reduced) count. The skunkpox row
+# below is the exception, added by hand on 2026-10-20: its product is bench-confirmed
+# by Meyer's own Table 1 (530 bp) while this pipeline scores it fail at 3.5 against a
+# 3.0 cutoff, on five mismatches 9-18 nt from the 3' end with the 3' octamer clean.
+# See docs/2026-10-20-meyer-ati-bench-panel.md.
+# Two further fail-scored bands were left out on purpose, both measured:
+#   vaccinia 1226 bp is Modified Vaccinia Ankara (U94848 and MVA-derived constructs),
+#     a real strain with a real ATI deletion, but 6 bp from the ectromelia 1220 band,
+#     so admitting it would make that reading ambiguous without adding a species.
+#   camelpox 615 bp rests on two patent deposits titled "Modified Microbial Nucleic
+#     Acid", which the patent-title fallback cannot see (assaywatch/metadata.py).
+# `scripts/measure_species_sizes.py --include-fail` reproduces all three; it is not
+# what populated this block, and should not be until the is_patent backfill lands.
 - taxid: 3431483
   bp: [1535, 1545]
   n_records: 9113
@@ -93,6 +104,10 @@ species_sizes:
   bp: [542, 542]
   n_records: 2
   note: Orthopoxvirus volepox
+- taxid: 3431485
+  bp: [551, 551]
+  n_records: 2
+  note: Orthopoxvirus skunkpox (bench-confirmed by Meyer 1997 at 530 bp; scored fail here)
 - taxid: 3431486
   bp: [1628, 1628]
   n_records: 2
@@ -133,7 +148,7 @@ source:
     cowpox 1673 bp. The remeasurement agrees except that it adds bands the hand pass missed (vaccinia 1547 and
     1671, cowpox 1598–1601 and 1505, akhmetapox 1505, taterapox 1628) and drops skunkpox, whose records score
     fail. APPROXIMATE RANGE: 540–1700 bp. The paper''s stated sizes differed
-    by 1–32 bp from measured values for several species (unresolved whether paper error, gel sizing, or isolate-specific).
+    by 1–32 bp from measured values for several species. RESOLVED 2026-10-20 as gel sizing, not isolate difference: the four well-matched species sit within 3 bp, and the three outliers (monkeypox 1500, volepox 510, skunkpox 530) are all round numbers read low against non-round measurements (1535–1545, 542, 551). For volepox and skunkpox the records scored are Meyer''s own isolates (volepox CA, skunkpox WA/1978, the only genomes of either species in GenBank), which excludes isolate difference for those two. Monkeypox is partly a strain question: no Copenhagen genome exists, and his Copenhagen is a non-Zairian isolate, so clade IIb is the band to compare. See docs/2026-10-20-meyer-ati-bench-panel.md.
     Measured on: every GenBank Orthopoxvirus (txid10242) genome 100–400 kb (542 non-monkeypox records), plus 162 monkeypox
     strided every 80th, plus 155 ATI-titled records. Non-monkeypox genomes: 410 detect, 79 reduced, 48 fail, 5 no_amplicon
     (75.6% detect among spanning). Monkeypox: 157 detect of 162 (96.9%). Why non-detects in monkeypox and variola: consensus
@@ -143,5 +158,4 @@ source:
 needs_review:
 - AMPLICON_SPECIES_DEPENDENT_540_TO_1700_DECLARED_AS_AMPLICON_BP_RANGE
 - DIFFERENTIATION_ASSAY_SIZE_AND_XBAI_DIGEST_NOT_SCREENABLE
-- PAPER_SIZES_NOT_REPRODUCED_MONKEYPOX_1500_VOLEPOX_510_SKUNKPOX_530
 - PRIMER_ORIGIN_MEYER_1994_NOT_ESTABLISHED
