@@ -4,6 +4,7 @@ channels:
   - bioconda
 dependencies:
   - python=3.12
+  - matplotlib-base   # figures only; -base skips the GUI toolkits a cluster has no use for
   - numpy
   - primer3-py      # optional: thermodynamic columns (bioconda)
   - pydantic>=2

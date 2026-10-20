@@ -35,7 +35,10 @@ flowchart TD
     end
 
     subgraph reporting ["Reporting"]
+        CALLS --> FIG["figures"]
+        FIG --> |"inlined"| RPT
         RPT --> O1["report.md\n+ report.html"]
+        FIG --> O5["forest.svg\nsite-positions.svg\nfigures.html"]
         CALLS --> SD["site_drift"]
         SD --> O2["site-drift.md\n+ site-drift.tsv"]
         LIN --> O3["lineage.md"]
@@ -66,6 +69,8 @@ flowchart TD
     style O2 fill:#d1fae5,stroke:#059669
     style O3 fill:#d1fae5,stroke:#059669
     style O4 fill:#d1fae5,stroke:#059669
+    style FIG fill:#ede9fe,stroke:#7c3aed
+    style O5 fill:#d1fae5,stroke:#059669
 ```
 
 ---
@@ -266,9 +271,51 @@ flowchart TD
     style KEEP fill:#d1fae5,stroke:#059669
 ```
 
-### 7. Reporting
+### 7. Figures
 
-Four outputs, each serving a different audience question:
+Two plots that the four documents otherwise leave to the reader's arithmetic.
+`forest.svg` puts every assay with an evaluable recent window on one axis: the
+left panel is where its recent detected share sits against the threshold, the
+right panel how far it has moved from baseline, so a verdict is something you
+read off the page rather than reconstruct from three table columns. Where
+footprint clustering widens the change interval, the clustered interval is drawn
+behind the unclustered one, which makes pseudoreplication visible instead of
+leaving it in a footnote. `site-positions.svg` plots, for each flagged assay,
+how much detection falls when a record mismatches at each oligo position, with
+the base letters as the x-axis, the 3'-terminal zone shaded, and already-degenerate
+bases in amber — the figure a redesign decision actually comes from.
+
+The rule runs the drift and site assessments itself rather than parsing the
+rendered markdown, so a figure cannot disagree with the document beside it. It
+is separate from `report` so that adjusting a plot re-renders the figures and
+the page and screens nothing; the expensive work is upstream of both. Threshold
+lines are read off the assessment, never written in the plotting code, for the
+same reason scoring numbers live in `config.yaml`: a hardcoded line can silently
+disagree with the verdict logic it claims to draw.
+
+```mermaid
+flowchart TD
+    CALLS[("calls.tsv.gz")] --> FB["figures.build()"]
+    FB --> RB["report.build()\ndrift verdicts"]
+    FB --> SB["sitedrift.build()\nposition stats"]
+    RB --> F1["forest.svg\nWilson + Newcombe CIs\nvs threshold"]
+    SB --> F2["site-positions.svg\npenalty per position\n3' zone, degenerate bases"]
+    F1 & F2 --> PAGE["figures.html\n(standalone)"]
+    F1 & F2 --> |"inlined as input"| RPT["report.html"]
+
+    style CALLS fill:#f3f4f6,stroke:#6b7280
+    style FB fill:#ede9fe,stroke:#7c3aed
+    style RB fill:#dbeafe,stroke:#3b82f6
+    style SB fill:#dbeafe,stroke:#3b82f6
+    style F1 fill:#ede9fe,stroke:#7c3aed
+    style F2 fill:#ede9fe,stroke:#7c3aed
+    style PAGE fill:#d1fae5,stroke:#059669
+    style RPT fill:#d1fae5,stroke:#059669
+```
+
+### 8. Reporting
+
+Four documents, each serving a different audience question:
 
 - **report** (`report.md` + `report.html`) — the main deliverable. Per-assay
   drift verdicts with confidence intervals, pooled and lineage-conditional.
@@ -283,7 +330,9 @@ Four outputs, each serving a different audience question:
 
 ```mermaid
 flowchart LR
-    CALLS[("calls.tsv.gz")] --> RPT["report"]
+    CALLS[("calls.tsv.gz")] --> FIG["figures"]
+    FIG --> RPT["report"]
+    CALLS --> RPT
     CALLS --> SD["site_drift"]
     CALLS --> LIN["lineage_analysis"]
     REG[(".registry-valid")] --> DG["degeneracy_table"]
@@ -295,6 +344,7 @@ flowchart LR
 
     style CALLS fill:#f3f4f6,stroke:#6b7280
     style REG fill:#f3f4f6,stroke:#6b7280
+    style FIG fill:#ede9fe,stroke:#7c3aed
     style RPT fill:#dbeafe,stroke:#3b82f6
     style SD fill:#d1fae5,stroke:#059669
     style LIN fill:#dbeafe,stroke:#3b82f6
@@ -323,3 +373,6 @@ These are the non-obvious ones; the Snakefile comments cover the rest.
 | BH correction per assay | Without FDR control, testing many lineages produces spurious "declining" calls. |
 | Degeneracy reported but never scored | Pool dilution is an assay design property, not drift. Scoring it would penalize assays for being deliberately broad. |
 | Run date pinned once | Avoids the midnight-crossing bug where a run that starts before midnight and finishes after it creates mismatched date references. |
+| Figures are their own rule, consumed by `report` | Adjusting a plot re-renders the figures and the page and screens nothing. As a hard input, the page can never be published with a figure from an earlier run beside this run's tables. |
+| Figures recompute rather than parse the reports | Reading numbers back out of rendered markdown would be a second implementation of the same arithmetic, free to drift from the first. |
+| Threshold lines read from the assessment, never written in plotting code | Same reason scoring numbers live in `config.yaml`: a hardcoded line can silently disagree with the verdict logic it claims to draw. |

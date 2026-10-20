@@ -191,6 +191,7 @@ def test_the_screening_code_list_is_derived_not_hand_kept():
         ("report", "report", '_REPORT_PARAMS["code"]'),
         ("degeneracy_table", "degeneracy", '_DEGENERACY_PARAMS["code"]'),
         ("site_drift", "sitedrift", '_SITEDRIFT_PARAMS["code"]'),
+        ("figures", "figures", '_FIGURES_PARAMS["code"]'),
     ],
 )
 def test_every_downstream_rule_carries_a_hash_of_its_code_as_a_param(rule, module, uses):
@@ -216,6 +217,7 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         "degeneracy_table": "degeneracy",
         "site_drift": "sitedrift",
         "lineage_analysis": "lineage_report",
+        "figures": "figures",
     }
     for rule, block in rule_blocks(SNAKEFILE).items():
         for module in re.findall(r"python -m assaywatch\.(\w+)", block):

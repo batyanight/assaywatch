@@ -171,6 +171,13 @@ _LINEAGE_PARAMS = {
     "code": _package_hash(*source_names("lineage_report")),
     "inputs": _registry_and_config_hash("lineage"),
 }
+# figures.py runs both assessments itself rather than parsing the rendered
+# documents, so it depends on everything either of them depends on. source_names
+# follows the imports and picks that up without the list being kept by hand.
+_FIGURES_PARAMS = {
+    "code": _package_hash(*source_names("figures")),
+    "inputs": _registry_and_config_hash("drift", "sitedrift", "scoring", "amplicon", "lineage", "figures"),
+}
 
 
 wildcard_constraints:
@@ -261,6 +268,7 @@ rule all:
         RESULTS / RUN_DATE / "degeneracy.tsv",
         RESULTS / RUN_DATE / "site-drift.md",
         RESULTS / RUN_DATE / "lineage.md",
+        RESULTS / RUN_DATE / "figures" / "figures.html",
 
 
 rule validate:
@@ -418,12 +426,43 @@ rule degeneracy_table:
         "python -m assaywatch.degeneracy {REGISTRY} --tsv > {output}"
 
 
+rule figures:
+    """The two plots the tables leave to the reader's arithmetic.
+
+    Separate from `report` so that adjusting a plot re-renders the figures and
+    the page, and screens nothing: the expensive work is upstream of both. It
+    runs the drift and site assessments itself rather than parsing report.md,
+    which would be a second implementation of the same numbers and free to
+    disagree with the first.
+    """
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        taxonomy=config["drift"]["scope_taxonomy"],
+    output:
+        forest=RESULTS / RUN_DATE / "figures" / "forest.svg",
+        sites=RESULTS / RUN_DATE / "figures" / "site-positions.svg",
+        page=RESULTS / RUN_DATE / "figures" / "figures.html",
+    params:
+        code=_FIGURES_PARAMS["code"],
+        inputs=_FIGURES_PARAMS["inputs"],
+    resources:
+        mem_mb=4000,
+        runtime=60,
+    shell:
+        "MPLBACKEND=Agg python -m assaywatch.figures {input.calls} --registry {REGISTRY} "
+        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
+
+
 rule report:
     """Per-assay drift status, coverage gaps, and the degeneracy caveat beside both."""
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
         # scope_taxids ancestry: a rebuilt tree changes which records count
         taxonomy=config["drift"]["scope_taxonomy"],
+        # Inlined into the HTML. A hard input, so the page is never published
+        # with a figure from an earlier run beside this run's tables.
+        forest=RESULTS / RUN_DATE / "figures" / "forest.svg",
+        sites=RESULTS / RUN_DATE / "figures" / "site-positions.svg",
     output:
         md=RESULTS / RUN_DATE / "report.md",
         html=RESULTS / RUN_DATE / "report.html",
@@ -432,4 +471,5 @@ rule report:
         inputs=_REPORT_PARAMS["inputs"],
     shell:
         "python -m assaywatch.report {input.calls} --registry {REGISTRY} "
-        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
+        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
+        "--figures {RESULTS}/{RUN_DATE}/figures"
