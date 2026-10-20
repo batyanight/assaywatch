@@ -57,6 +57,9 @@
   statuses, ATI back to `stable`. `is_patent` now comes from esummary's `<Extra>`; older archives
   fall back to the title pattern (300/300 agreement). AAV is the extreme: the dependoparvovirus
   assays are 89% patent records.
+  **Per-species table** in the report for any assay declaring `amplicon_bp_range` (only ATI), no
+  assessability floor, from `AssayDrift.species_counts`. Lineage labels are named from the taxonomy
+  cache now ("Orthopoxvirus vaccinia (10245)", not `taxid_10245`); verdicts byte-identical.
   **Next:** validation cases for the arenavirus S gene and an AAV assay (what would let the patent
   option ship on; its two arenavirus moves go opposite ways and are unread); the
   pan-family `low coverage` -> `declining` override (enterovirus round2); more bench panels.

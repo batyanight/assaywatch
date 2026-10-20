@@ -34,7 +34,7 @@ import sys
 from collections import Counter
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.drift import (
@@ -50,6 +50,9 @@ from assaywatch.drift import (
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
 from assaywatch.schema import Assay
+
+if TYPE_CHECKING:
+    from assaywatch.taxonomy import Taxonomy
 
 STATUS_ORDER = ["declining", "low coverage", "watch", "insufficient data", "no recent data", "stable"]
 STATUS_COLOUR = {
@@ -254,6 +257,32 @@ def sparkline(drift: AssayDrift, width: int = 220, height: int = 34) -> str:
     )
 
 
+def species_table_rows(
+    drift: AssayDrift, taxonomy: Taxonomy | None = None
+) -> list[tuple[str, int, int, str]]:
+    """(species, detected, evaluable, share) for the recent window, biggest first.
+
+    For an assay whose product length names the species — one declaring
+    `amplicon_bp_range` — a single genus-wide share is the wrong number: ATI
+    Meyer 1997 read 95.3% while one of its species sat at 83%, and the species
+    it is rarely asked about (volepox, skunkpox) carry too few records to appear
+    in the per-lineage analysis at all. So there is no floor here: every species
+    is listed, however thin, and the share of a handful of records is left to
+    speak for itself next to its denominator.
+    """
+    counts = drift.species_counts or {}
+    rows = []
+    for taxid, (det, n) in counts.items():
+        if taxid is None:
+            label = "unresolved (no taxid)"
+        else:
+            name = taxonomy.name.get(taxid) if taxonomy else None
+            label = f"{name} ({taxid})" if name else f"taxid {taxid}"
+        rows.append((label, det, n, pct(det / n) if n else "-"))
+    # Biggest denominator first; a tie reads alphabetically rather than by dict order.
+    return sorted(rows, key=lambda r: (-r[2], r[0]))
+
+
 def year_table_rows(drift: AssayDrift) -> list[tuple[int, int, int, str]]:
     rows = []
     for year in sorted(drift.years):
@@ -408,6 +437,7 @@ def render_markdown(
     run_date: str,
     cfg: dict[str, Any] | None = None,
     nested: dict[str, NestedFamily] | None = None,
+    taxonomy: Taxonomy | None = None,
 ) -> str:
     grouped = by_status(drifts)
     twins = oligo_twins(assays)
@@ -501,6 +531,19 @@ def render_markdown(
             out += ["", "| deposit year | detected | evaluable | share |", "|---|---|---|---|"]
             for year, det, ev, frac in year_table_rows(a):
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
+            if assay and assay.amplicon_bp_range and a.species_counts:
+                lo, hi = assay.amplicon_bp_range
+                out += [
+                    "",
+                    f"**Per species** (product size names the species here, {lo}-{hi} bp, so the "
+                    f"share above pools readouts that mean different things; {a.recent_from} on, no "
+                    "assessability floor):",
+                    "",
+                    "| species | detected | evaluable | share |",
+                    "|---|---|---|---|",
+                ]
+                for label, det, ev, frac in species_table_rows(a, taxonomy):
+                    out.append(f"| {md(label)} | {det} | {ev} | {frac} |")
             if a.out_of_scope:
                 out += [
                     "",
@@ -582,6 +625,7 @@ def render_html(
     run_date: str,
     cfg: dict[str, Any] | None = None,
     nested: dict[str, NestedFamily] | None = None,
+    taxonomy: Taxonomy | None = None,
 ) -> str:
     grouped = by_status(drifts)
     twins = oligo_twins(assays)
@@ -675,10 +719,28 @@ def render_html(
             for year, det, ev, frac in year_table_rows(a):
                 parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
             parts.append("</table>")
+            if assay and assay.amplicon_bp_range and a.species_counts:
+                lo, hi = assay.amplicon_bp_range
+                parts.append(
+                    f"<p class='muted'><b>Per species</b> (product size names the species here, "
+                    f"{lo}-{hi} bp, so the share above pools readouts that mean different things; "
+                    f"{e(str(a.recent_from))} on, no assessability floor):</p>"
+                )
+                parts.append(
+                    "<table><tr><th>species</th><th>detected</th><th>evaluable</th><th>share</th></tr>"
+                )
+                for label, det, ev, frac in species_table_rows(a, taxonomy):
+                    parts.append(f"<tr><td>{e(label)}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
+                parts.append("</table>")
             if a.out_of_scope:
                 parts.append(
                     f"<p class='muted'><b>Out of scope:</b> {a.out_of_scope} records excluded"
                     " (taxid not in scope_taxids).</p>"
+                )
+            if a.patent_excluded:
+                parts.append(
+                    f"<p class='muted'><b>Patent records:</b> {a.patent_excluded} excluded"
+                    " (GenBank patent division; drift.exclude_patent_records).</p>"
                 )
             if a.clustering_note:
                 parts.append(f"<p class='muted'><b>Duplication check:</b> {e(a.clustering_note)}</p>")
@@ -829,12 +891,17 @@ def build(
             retrieved, {strip_version(r["record_id"]) for r in calls if r["assay_id"] in wanted}
         )
 
-    # Scope matches descendants (strain and no-rank taxids) only with the cached tree.
-    taxonomy = None
-    if scope_map:
-        from assaywatch.taxonomy import taxonomy_from_config
+    # The tree does three jobs now — scope ancestry, the species roll-up in
+    # lineage grouping, and species names for the per-species table — so it is
+    # loaded whenever drift.scope_taxonomy names it, not only when an assay
+    # declares a scope. Unset, taxonomy_from_config returns None.
+    from assaywatch.taxonomy import taxonomy_from_config
 
-        taxonomy = taxonomy_from_config(cfg)
+    taxonomy = taxonomy_from_config(cfg)
+    if taxa_cache_data is not None:
+        from assaywatch.lineage import name_lineages_from_taxonomy
+
+        taxa_cache_data = name_lineages_from_taxonomy(taxa_cache_data, taxonomy)
 
     # Patent-division records, only when the option that acts on them is on.
     patent = None
@@ -867,8 +934,8 @@ def build(
     # statistic uses, so the two never disagree about which records exist.
     nested = assess_nested(assays, calls)
     return (
-        render_markdown(drifts, assays, gaps, run_date, cfg, nested),
-        render_html(drifts, assays, gaps, run_date, cfg, nested),
+        render_markdown(drifts, assays, gaps, run_date, cfg, nested, taxonomy),
+        render_html(drifts, assays, gaps, run_date, cfg, nested, taxonomy),
         drifts,
     )
 

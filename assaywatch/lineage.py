@@ -59,6 +59,29 @@ def load_taxa_cache(cache_file: Path | str) -> dict[int, str]:
         return {}
 
 
+def name_lineages_from_taxonomy(taxa_cache: dict[int, str], taxonomy) -> dict[int, str]:
+    """`taxa_cache` with a "Name (taxid)" label added for every species the tree names.
+
+    docs/taxa-cache.json holds ten hand-entered names, so almost every lineage
+    label was `taxid_10245` — unreadable in a note and in the per-species table.
+    The taxonomy cache names 23,593 species, which is the same information for
+    free. An entry already in `taxa_cache` wins, so a hand-written label is
+    never overwritten. The taxid stays in the label: it is what a reader needs
+    to look the lineage up.
+
+    The label is only ever displayed or used as a grouping key, both of which
+    one name per taxid satisfies. Nothing reads `LineageStats.taxid`, which a
+    named label leaves unset.
+    """
+    if taxonomy is None:
+        return taxa_cache
+    out = dict(taxa_cache)
+    for taxid, name in taxonomy.name.items():
+        if taxid not in out and not name.startswith("unclassified "):
+            out[taxid] = f"{name} ({taxid})"
+    return out
+
+
 def lineage_for_taxid(taxid: int | None, taxa_cache: dict[int, str]) -> str:
     """Resolve a record's taxid to a lineage name."""
     if taxid is None:

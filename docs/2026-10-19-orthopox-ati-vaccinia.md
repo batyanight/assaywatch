@@ -97,11 +97,43 @@ Six current statuses would move:
 The two arenavirus moves go in opposite directions and neither has been read by
 hand. They are what a validation case for this option would have to settle.
 
+## Per-species shares in the report (added 2026-10-19)
+
+The entry's `needs_review` already said to read this assay by species, not by a
+genus-wide share, so the report now does. An assay declaring `amplicon_bp_range`
+— ATI is the only one, and the field means its product size varies by species by
+design — gets a per-species table in its report detail section, markdown and HTML:
+
+| species | detected | evaluable | share |
+|---|---:|---:|---:|
+| Orthopoxvirus monkeypox (3431483) | 4143 | 4334 | 96% |
+| Orthopoxvirus vaccinia (10245) | 93 | 112 | 83% |
+| Orthopoxvirus cowpox (3431481) | 18 | 18 | 100% |
+| Orthopoxvirus camelpox (3431480) | 1 | 1 | 100% |
+| Orthopoxvirus ectromelia (3431482) | 1 | 1 | 100% |
+| Orthopoxvirus variola (3431487) | 1 | 1 | 100% |
+
+**No assessability floor**, unlike the per-lineage check: the species this assay is
+rarely asked about are the ones a size-differentiating readout exists for, and
+`min_records_per_lineage: 30` would drop four of these six. A share of one record
+is left to speak for itself next to its denominator. Counts come from
+`AssayDrift.species_counts`, the recent window's evaluable records rolled up to
+species by `lineage.group_at_rank`, so the table and the lineage verdict are the
+same numbers.
+
+Lineages are also named now. `docs/taxa-cache.json` holds ten hand-entered names,
+so almost every label read `taxid_10245`; the taxonomy cache names 23,593 species
+for free, and `lineage.name_lineages_from_taxonomy` fills the gaps as
+"Name (taxid)" without overwriting a hand-written label. Tier-2 and all 201
+current statuses are byte-identical before and after, as they must be: the label
+is a display string and a grouping key, and nothing reads `LineageStats.taxid`.
+The cache keeps species names as well as the "unclassified" ones, 394 KB -> 606 KB.
+
 ## Next
 
 - Validation cases for the arenavirus S gene assays and for an AAV/dependoparvovirus
-  assay, which is what would let this option ship on.
-- The ATI entry's `needs_review` already says to interpret it by species, not by a
-  genus-wide share. The species roll-up is what made that bite; the registry entry
-  and the report should probably carry per-species shares for a size-differentiating
-  assay.
+  assay, which is what would let the patent option ship on.
+- The per-species table reports shares, not sizes. What this assay actually reads
+  is product length, and the measured size per species lives only in the entry's
+  curator notes as prose. A structured `species_sizes` map would let the report
+  say which species a given amplicon length identifies.

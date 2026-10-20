@@ -49,7 +49,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from assaywatch.drift import assess  # noqa: E402
-from assaywatch.lineage import load_taxa_cache, sublineage_resolvers, title_assays  # noqa: E402
+from assaywatch.lineage import (  # noqa: E402
+    load_taxa_cache,
+    name_lineages_from_taxonomy,
+    sublineage_resolvers,
+    title_assays,
+)
 from assaywatch.metadata import read_patent_accessions, read_titles  # noqa: E402
 from assaywatch.report import key_calls_by_accession, read_calls, read_dates  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
@@ -177,6 +182,8 @@ def load_evidence(
         titles = read_titles(retrieved, {r["record_id"] for a in wanted for r in by_assay.get(a, [])})
 
     taxonomy = taxonomy_from_config(cfg) if cfg else None
+    if taxa_cache is not None:
+        taxa_cache = name_lineages_from_taxonomy(taxa_cache, taxonomy)
     patent = None
     if cfg and (cfg.get("drift") or {}).get("exclude_patent_records"):
         patent = read_patent_accessions(retrieved, {r["record_id"] for rs in by_assay.values() for r in rs})

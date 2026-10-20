@@ -123,9 +123,14 @@ def main(argv: list[str] | None = None) -> int:
                 "n_requested": len(wanted),
                 "parent": {str(k): v for k, v in sorted(parent.items())},
                 "rank": {str(k): v for k, v in sorted(rank.items()) if v != "no rank"},
-                # Only the "unclassified ..." nodes: assaywatch.taxonomy.in_unclassified is
-                # the one reader, and every name would quadruple the committed file.
-                "name": {str(k): v for k, v in sorted(name.items()) if v.startswith("unclassified ")},
+                # Species names, for per-species report tables, and the
+                # "unclassified ..." nodes, which in_unclassified reads. Every name
+                # would quadruple the committed file for nodes nothing displays.
+                "name": {
+                    str(k): v
+                    for k, v in sorted(name.items())
+                    if rank.get(k) == "species" or v.startswith("unclassified ")
+                },
                 "merged": {str(k): v for k, v in sorted(merged.items())},
                 "missing": missing,
             },

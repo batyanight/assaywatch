@@ -302,3 +302,27 @@ def test_no_pooled_tag_without_lineage_override():
     md_text = render_markdown(_drifting(), {}, [], "2026-10-03")
     assert "(pooled:" not in md_text
     assert "Lineage override:" not in md_text
+
+
+def test_species_table_lists_every_species_biggest_first_with_no_floor():
+    """A size-differentiating assay's rare species are the point, so nothing is dropped."""
+    from assaywatch.report import species_table_rows
+    from assaywatch.taxonomy import Taxonomy
+
+    a = assess(*records({2025: {"detect": 1}}), CFG, today=TODAY)["A"]
+    a.species_counts = {3431483: [4143, 4334], 10245: [93, 112], 3431480: [1, 1], None: [2, 5]}
+    tree = Taxonomy({}, {}, {}, {10245: "Orthopoxvirus vaccinia", 3431483: "Orthopoxvirus monkeypox"})
+    assert species_table_rows(a, tree) == [
+        ("Orthopoxvirus monkeypox (3431483)", 4143, 4334, "96%"),
+        ("Orthopoxvirus vaccinia (10245)", 93, 112, "83%"),
+        ("unresolved (no taxid)", 2, 5, "40%"),
+        # Named by nothing in the tree, and a single record: still listed.
+        ("taxid 3431480", 1, 1, "100%"),
+    ]
+
+
+def test_species_table_is_empty_without_lineage_counts():
+    from assaywatch.report import species_table_rows
+
+    a = assess(*records({2025: {"detect": 1}}), CFG, today=TODAY)["A"]
+    assert a.species_counts is None and species_table_rows(a) == []

@@ -254,6 +254,14 @@ class AssayDrift:
     # Patent-division records excluded by drift.exclude_patent_records.
     patent_excluded: int = 0
 
+    # Recent evaluable records per species taxid, [detected, evaluable], with no
+    # assessability floor. The per-lineage check above answers "is one lineage
+    # failing"; this answers "what does each species read", which is the only
+    # sensible reading for an assay whose product size names the species (the
+    # report shows it for an assay declaring `amplicon_bp_range`). None when
+    # no taxids were available.
+    species_counts: dict[int | None, list[int]] | None = None
+
     # Per-lineage analysis. When taxids are available, each assay's
     # recent evaluable records are grouped by NCBI taxid and tested per lineage.
     # The worst assessable lineage drives the verdict when it is significantly
@@ -1014,6 +1022,13 @@ def assess(
                         "title": titles.get(base) if titles else None,
                     }
                 )
+            counts: dict[int | None, list[int]] = {}
+            for c in recent_calls_for_lineage:
+                pair = counts.setdefault(c["taxid"], [0, 0])
+                pair[0] += c["call"] != "fail"
+                pair[1] += 1
+            a.species_counts = counts
+
             a._lineage_check(
                 recent_calls_for_lineage,
                 taxa_cache,
