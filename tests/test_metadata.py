@@ -14,7 +14,14 @@ ENGINEERED = "UNVERIFIED: Mutant Orthopoxvirus vaccinia isolate MVA-syn4-contig1
 def test_looks_like_patent_reads_the_citation_not_the_subject():
     assert looks_like_patent(PATENT)
     assert looks_like_patent(KOREAN)
+    # The other title form that names the patent (152 archived records, 2026-10-20).
+    assert looks_like_patent("Patent application sequence for WO 2026009883-A/7")
     assert not looks_like_patent(NATURAL)
+    # The class no pattern can catch: a patent record titled with the invention
+    # name. Only the is_patent column sees these; the fallback undercounts by
+    # about 3%. See the module comment in assaywatch/metadata.py.
+    assert not looks_like_patent("Modified Microbial Nucleic Acid")
+    assert not looks_like_patent("RESEQUENCING PATHOGEN MICROARRAY")
     # Engineered but deposited normally: not a patent record, and not this
     # function's business to guess. See docs/2026-10-19-orthopox-ati-vaccinia.md.
     assert not looks_like_patent(ENGINEERED)

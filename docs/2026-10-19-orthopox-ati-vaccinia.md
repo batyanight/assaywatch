@@ -68,10 +68,23 @@ capsid-engineering patents.
 ordinary record). `retrieve.py` now reads it into an `is_patent` column.
 
 Archives fetched before that column existed are covered by the deposit title,
-which for a patent record is the patent citation: `^[A-Z]{2} [\d/]+-[A-Z]\d*/\d+:`.
-Checked against `<Extra>` on 300 records sampled from the archive (150 title
-matches, 150 not): **agreement on all 300**. `assaywatch/metadata.py` holds the
-pattern and `read_patent_accessions`; the column wins where it exists.
+which for a patent record usually names the patent. `assaywatch/metadata.py` holds
+the patterns and `read_patent_accessions`; the column wins where it exists.
+
+**Correction, 2026-10-20.** This section first claimed the title pattern agreed
+with `<Extra>` on all 300 sampled records, which was true but measured the wrong
+thing: a random sample over 1.5M records tests false positives well and false
+negatives hardly at all. Counted properly, the archive holds 21,769 records whose
+title is the patent citation, plus two classes the first pattern missed — 152
+titled "Patent application sequence for WO ...", now matched, and about 517 whose
+title is only the invention name ("Modified Microbial Nucleic Acid",
+"RESEQUENCING PATHOGEN MICROARRAY"), of which all 114 sampled came back `|pat|`.
+No pattern can catch that last class, so the fallback undercounts patents by
+roughly 3% and never over-counts. The clean fix is a one-off `is_patent` backfill
+sidecar, as `data/retrieved/.meta.taxid.backfill.tsv.gz` already does for taxids;
+a targeted one over the taxa where patents concentrate would be far cheaper than
+the whole archive. Found via camelpox, where two of the ATI assay's `fail` records
+are patent deposits titled "Modified Microbial Nucleic Acid".
 
 ## `drift.exclude_patent_records`, shipped off
 
