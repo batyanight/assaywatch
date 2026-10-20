@@ -242,10 +242,19 @@ its own drift assessment. Benjamini-Hochberg correction across all lineage
 tests for a given assay controls the false discovery rate — without it, testing
 dozens of lineages would produce spurious "declining" calls. The worst
 *assessable* lineage (after BH filtering) drives the final verdict through a
-one-direction override: it can downgrade `stable` or `watch` to `declining`,
-but never upgrade a pooled `declining` to `stable`. The rationale: a pathogen
-lineage expanding where primers have mismatches is a real clinical risk even if
-global numbers look fine.
+one-direction override: it can downgrade a verdict to `declining`, but never
+upgrade one. The rationale: a pathogen lineage expanding where primers have
+mismatches is a real clinical risk even if global numbers look fine.
+
+The override is not unconditional. From a pooled `stable` or `watch` it fires
+on the failing lineage alone. From any other pooled verdict — in practice `low
+coverage`, which says the assay was never shown to work on this denominator at
+all — it fires only if that lineage itself cleared the threshold in an earlier
+measured year. `declining` claims a fall, and an assay that never cleared the
+threshold has no fall to claim; without the gate the override was flipping
+verdicts on lineages that detected at or above the pooled share. The gate is
+`require_working_baseline`, the rule the project already settled at the pooled
+level, applied to the denominator the override actually claims.
 
 ```mermaid
 flowchart TD
@@ -255,9 +264,11 @@ flowchart TD
     SPLIT --> L3["lineage ...\ndrift assessment"]
     L1 & L2 & L3 --> BH["Benjamini-Hochberg\nFDR correction"]
     BH --> WORST["worst assessable\nlineage verdict"]
-    WORST --> OVR{"one-direction\noverride"}
-    OVR --> |"can downgrade\nstable/watch → declining"| DOWN["final verdict\n(downgraded)"]
-    OVR --> |"cannot upgrade\ndeclining → stable"| KEEP["final verdict\n(kept)"]
+    WORST --> POOL{"pooled verdict?"}
+    POOL --> |"stable / watch"| DOWN["declining\n(downgraded)"]
+    POOL --> |"anything else\ne.g. low coverage"| GATE{"did this lineage\never clear the threshold?"}
+    GATE --> |"yes"| DOWN
+    GATE --> |"no - no fall to claim"| KEEP["pooled verdict\n(kept)"]
 
     style CALLS fill:#f3f4f6,stroke:#6b7280
     style SPLIT fill:#dbeafe,stroke:#3b82f6
@@ -266,7 +277,8 @@ flowchart TD
     style L3 fill:#dbeafe,stroke:#3b82f6
     style BH fill:#ede9fe,stroke:#7c3aed
     style WORST fill:#ede9fe,stroke:#7c3aed
-    style OVR fill:#ede9fe,stroke:#7c3aed
+    style POOL fill:#ede9fe,stroke:#7c3aed
+    style GATE fill:#ede9fe,stroke:#7c3aed
     style DOWN fill:#fee2e2,stroke:#dc2626
     style KEEP fill:#d1fae5,stroke:#059669
 ```
@@ -370,6 +382,7 @@ These are the non-obvious ones; the Snakefile comments cover the rest.
 | Wilson score CIs, not Wald | Wilson is accurate at small sample sizes where Wald CIs can go negative. |
 | Newcombe interval for the difference | Proper CI for the difference of two proportions; doesn't assume normality. |
 | One-direction override for lineage verdicts | A lineage-specific decline is a real clinical risk even when global numbers look fine. Upgrading a global decline because one lineage looks okay would hide problems. |
+| The override is gated below `stable`/`watch` on the lineage's own working baseline | `declining` claims a fall. An assay that never cleared the threshold has none to claim, and ungated the override was flipping `low coverage` verdicts on lineages detecting at or above the pooled share. |
 | BH correction per assay | Without FDR control, testing many lineages produces spurious "declining" calls. |
 | Degeneracy reported but never scored | Pool dilution is an assay design property, not drift. Scoring it would penalize assays for being deliberately broad. |
 | Run date pinned once | Avoids the midnight-crossing bug where a run that starts before midnight and finishes after it creates mismatched date references. |
