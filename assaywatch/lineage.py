@@ -280,6 +280,49 @@ def lineages_never_covered(
     (2009 pandemic H1N1 against the 2003 Matrix assay) -- and it must still be
     able to drive ``declining``.
     """
+    measured, worked = _measured_and_working(
+        baseline_calls, taxa_cache, taxid_sidecar, threshold, min_records_for_year, resolvers
+    )
+    return measured - worked
+
+
+def lineages_ever_covered(
+    baseline_calls: list[dict],
+    taxa_cache: dict[int, str],
+    taxid_sidecar: dict[str, int],
+    threshold: float,
+    min_records_for_year: int,
+    resolvers: list[Resolver] | None = None,
+) -> set[str]:
+    """Lineages that cleared `threshold` in some measured year before the recent window.
+
+    The positive counterpart of `lineages_never_covered`, and not its complement:
+    a lineage with no measured earlier year is in neither set. Which one a caller
+    wants depends on what it has to prove. To excuse a failing lineage you must
+    show it never worked, so a new lineage is not excused. To let a failing
+    lineage overturn a pooled verdict that itself never cleared the threshold,
+    you must show the lineage did work, so a new lineage cannot carry that claim
+    either. See AssayDrift._lineage_check.
+    """
+    _, worked = _measured_and_working(
+        baseline_calls, taxa_cache, taxid_sidecar, threshold, min_records_for_year, resolvers
+    )
+    return worked
+
+
+def _measured_and_working(
+    baseline_calls: list[dict],
+    taxa_cache: dict[int, str],
+    taxid_sidecar: dict[str, int],
+    threshold: float,
+    min_records_for_year: int,
+    resolvers: list[Resolver] | None = None,
+) -> tuple[set[str], set[str]]:
+    """(lineages with a measured year, lineages that cleared `threshold` in one).
+
+    One pass for both questions. A lineage is *measured* in a year holding at
+    least `min_records_for_year` evaluable records.
+    """
     counts: dict[tuple[str, int], list[int]] = defaultdict(lambda: [0, 0])
     for call in baseline_calls:
         if call["call"] not in ("detect", "reduced", "fail"):
@@ -293,7 +336,7 @@ def lineages_never_covered(
             measured.add(lin)
             if det / n >= threshold:
                 worked.add(lin)
-    return measured - worked
+    return measured, worked
 
 
 def per_lineage_stats(

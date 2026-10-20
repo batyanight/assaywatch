@@ -720,3 +720,37 @@ def test_the_patent_option_without_the_record_set_is_an_error():
     calls, years, _ = _records_with_taxids({2025: {1: {"detect": 30}}})
     with pytest.raises(SystemExit, match="patent record set"):
         assess(calls, years, _patent_cfg(True), today=TODAY)
+
+
+def test_a_weak_pooled_verdict_is_overridden_only_by_a_lineage_that_used_to_work():
+    """Pooled low coverage means no fall was ever shown, so a new lineage cannot claim one."""
+    # Pooled share stays far below the threshold throughout, so the pooled
+    # verdict is `low coverage`, not `stable`. Lineage 300 is new to the recent
+    # window and failing; lineage 200 worked in 2018 and fails now.
+    new_only = _records_with_taxids(
+        {
+            2018: {100: {"detect": 20, "fail": 80}},
+            2025: {100: {"detect": 20, "fail": 80}, 300: {"fail": 40}},
+        }
+    )
+    used_to_work = _records_with_taxids(
+        {
+            2018: {100: {"detect": 20, "fail": 80}, 200: {"detect": 40}},
+            2025: {100: {"detect": 20, "fail": 80}, 200: {"fail": 40}},
+        }
+    )
+    cache = {100: "Lineage A", 200: "Lineage B", 300: "Lineage C"}
+    a = assess(*new_only[:2], _gated(True), today=TODAY, taxids=new_only[2], taxa_cache=cache)["A"]
+    b = assess(*used_to_work[:2], _gated(True), today=TODAY, taxids=used_to_work[2], taxa_cache=cache)["A"]
+    assert a.status == "low coverage" and not a.lineage_override
+    assert "no fall to call a decline" in a.note
+    assert b.status == "declining" and b.lineage_override
+
+
+def test_a_failing_lineage_still_overrides_a_pooled_stable_without_having_worked():
+    """The gate is only for a weak pooled verdict; an emerging lineage must still fire."""
+    calls, years, taxids = _records_with_taxids(
+        {2018: {100: {"detect": 50}}, 2025: {100: {"detect": 600}, 200: {"detect": 5, "fail": 35}}},
+    )
+    on = assess(calls, years, _gated(True), today=TODAY, taxids=taxids, taxa_cache={100: "A", 200: "B"})["A"]
+    assert on.status == "declining" and on.lineage_override

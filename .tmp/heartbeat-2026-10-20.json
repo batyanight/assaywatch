@@ -1,16 +1,16 @@
 {
-  "written": "2026-10-20T00:36:36.244898",
-  "elapsed": "0s",
-  "elapsed_seconds": 0.0,
+  "written": "2026-10-20T00:38:32.630915",
+  "elapsed": "1m 56s",
+  "elapsed_seconds": 116.4,
   "stalled_seconds": 0.0,
   "status": "progressing",
   "stage": "screen",
-  "archives_total": 292,
+  "archives_total": 307,
   "archives_screened": 292,
-  "bytes_total": 9163586337,
+  "bytes_total": 9165995676,
   "bytes_screened": 9163586337,
-  "fraction": 1.0,
+  "fraction": 0.9997,
   "eta": "0s",
   "eta_seconds": 0.0,
-  "units_done": 18327172674
+  "units_done": 18329582013
 }

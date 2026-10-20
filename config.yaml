@@ -391,6 +391,14 @@ lineage:
   # 2026-10-17 calls 16 of the 201 current assays move declining -> low coverage, none
   # the other way (13 with exact-taxid grouping; the "17 of 213" first recorded counted
   # removed assays). Evidence: docs/2026-10-19-pan-family-cases.md.
+  # Since 2026-10-20 this flag also gates the override's own denominator: when the
+  # POOLED verdict is low coverage or insufficient data, a failing lineage may
+  # overturn it only if that lineage itself cleared the threshold in an earlier
+  # measured year. A pooled low coverage says no fall was ever shown, and
+  # `declining` claims one. Tier-2 12 -> 10 disagreements, 4/11 caught either way,
+  # nothing lost; 2 of 201 current statuses move. Four alternatives were measured
+  # and lost, two of them by dropping the one documented drift catch.
+  # Evidence: docs/2026-10-20-pan-family-override.md.
   require_working_baseline: true
   # Lineage = species, not exact taxid. With `species`, a record's taxid is rolled up
   # to its species-rank ancestor in drift.scope_taxonomy (which must carry ranks:

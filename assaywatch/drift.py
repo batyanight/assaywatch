@@ -524,6 +524,7 @@ class AssayDrift:
 
         from assaywatch.lineage import (
             lineage_of,
+            lineages_ever_covered,
             lineages_never_covered,
             per_lineage_stats,
             worst_lineage_verdict,
@@ -590,6 +591,36 @@ class AssayDrift:
                     f"{gap.share:.1%} and {why}: a coverage gap, not drift"
                 )
                 return
+
+        if verdict == "failing" and self.status not in ("stable", "watch", "declining"):
+            # Pooled `low coverage` or `insufficient data`: the pool never showed
+            # this assay working on this denominator, so there is no fall for a
+            # lineage to be evidence of. `declining` claims one. The same rule the
+            # project already settled at the pooled level — a fall from a baseline
+            # that never cleared the threshold is not drift — applied to the
+            # denominator the override actually claims, so the lineage may overturn
+            # a weak pooled verdict only if that lineage itself cleared the
+            # threshold in an earlier measured year. A lineage new to the archive
+            # cannot: it has no history to have fallen from.
+            #
+            # Without this, pooled "fell measurably, but never reached the
+            # threshold in any earlier year, so this is not drift" was overturned
+            # to `declining` by 33 records of an NCBI reclassification artefact
+            # (Enterovirus VP3/VP1 round2 as of 2018-09-30). Tier-2: 12 -> 10
+            # disagreements, 4/11 caught either way, nothing lost; 2 of 201 current
+            # statuses move. Evidence: docs/2026-10-20-pan-family-override.md.
+            if baseline_calls is not None:
+                worked = lineages_ever_covered(
+                    baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
+                )
+                if stats[worst_idx].lineage_name not in worked:
+                    self.note += (
+                        f"; lineage {stats[worst_idx].lineage_name} "
+                        f"({stats[worst_idx].n_evaluable} records) detects only "
+                        f"{stats[worst_idx].share:.1%}, but neither it nor the pooled share ever cleared "
+                        "the threshold, so there is no fall to call a decline"
+                    )
+                    return
 
         if verdict == "failing" and self.status != "declining":
             # The pooled number says stable/watch/insufficient/low coverage,
