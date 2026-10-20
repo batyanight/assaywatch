@@ -120,6 +120,17 @@ belongs to Tong's RMH set, and the registry's PAR set detected no ferlavirus at 
 Nothing is lost, so the gate is on. Current statuses on the 2026-10-17 calls: 17 of
 213 assays move `declining` -> `low coverage`, none the other way.
 
+**Correction (later 2026-10-19).** The 17 of 213 counted assays that `de06851` had
+removed: the ID mapping applied the renames but not the removals. On current IDs
+only (201 assays in the 2026-10-17 calls), the gate moves **13** `declining` ->
+`low coverage` with exact-taxid grouping and **16** with the species roll-up now on;
+still none the other way. From 17: two removed CDV in-house assays (F gene
+need_to_order, H gene 2); Pan_Plasmodium, `declining` with the gate on or off since
+the Hellgren scoping; SIV Takehisa, `low coverage` either way since the whole-pool
+rule (`docs/2026-10-19-taxid-artefacts.md`). The roll-up adds Adenovirus Hexon
+round2, Paramyxovirinae Tong round1 and Poxviruses Polymerase. Tier-2 is unaffected:
+no validation case names a removed assay.
+
 Still caught for the wrong lineage: Hellgren and Pan-Plasmodium (on *P. reichenowi*
 and *P. floridense*, non-avian parasites new to the archive), and Forslund (on HPV16,
 mucosal). Step 2, curated `scope_taxids` from the design papers, is what fixes these.

@@ -380,8 +380,9 @@ lineage:
   # A lineage with no earlier measured year (new to the archive) can still drive it.
   # On since 2026-10-19: tier-2 with each fails case's mechanism recorded goes from
   # 14 to 12 disagreements with 6/12 failures caught either way, and on the
-  # 2026-10-17 calls 17 of 213 assays move declining -> low coverage, none the other
-  # way. Evidence: docs/2026-10-19-pan-family-cases.md.
+  # 2026-10-17 calls 16 of the 201 current assays move declining -> low coverage, none
+  # the other way (13 with exact-taxid grouping; the "17 of 213" first recorded counted
+  # removed assays). Evidence: docs/2026-10-19-pan-family-cases.md.
   require_working_baseline: true
   # Lineage = species, not exact taxid. With `species`, a record's taxid is rolled up
   # to its species-rank ancestor in drift.scope_taxonomy (which must carry ranks:
