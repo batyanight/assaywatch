@@ -8,7 +8,15 @@ match drops all of those, which on 2026-10-17 excluded about 90% of in-scope
 records in every scoped assay. Scope therefore means "the record's taxid, or any
 ancestor of it, is listed".
 
-The tree is a parent map plus a merged-taxid map, built from NCBI by
+Lineage grouping uses the same tree for two more things. A record's taxid is
+rolled up to its species (`species_of`), so a no-rank child and its species are
+one lineage: JC polyomavirus 10632 under 1891763 *Betapolyomavirus secuhominis*
+otherwise reads as two, and the species copy looks new to the archive. And a
+taxid under an "unclassified ..." node (`in_unclassified`) is a bucket of
+untyped records, not a lineage: 1193974 "Human enterovirus" under "unclassified
+Enterovirus" held 33 coxsackievirus A6 records in 2018.
+
+The tree is a parent map, ranks, names and a merged-taxid map, built from NCBI by
 scripts/build_taxonomy_cache.py and read from a committed file, so reports
 never touch the network. Merges matter in both directions: a scope list can name
 a taxid NCBI has since merged (11232 -> 3052342), and so can an old record.
@@ -22,9 +30,17 @@ from pathlib import Path
 
 
 class Taxonomy:
-    def __init__(self, parent: dict[int, int], merged: dict[int, int]) -> None:
+    def __init__(
+        self,
+        parent: dict[int, int],
+        merged: dict[int, int],
+        rank: dict[int, str] | None = None,
+        name: dict[int, str] | None = None,
+    ) -> None:
         self.parent = parent
         self.merged = merged
+        self.rank = rank or {}  # absent = "no rank"
+        self.name = name or {}
         self._ancestors: dict[int, frozenset[int]] = {}
         self.unknown: set[int] = set()  # taxids asked about that the cache does not hold
 
@@ -61,6 +77,23 @@ class Taxonomy:
         """True if `taxid` or an ancestor is in `scope` (already canonical)."""
         return not self.ancestors(taxid).isdisjoint(scope)
 
+    def _path_up(self, taxid: int) -> list[int]:
+        """The taxid (canonical) then its ancestors, nearest first."""
+        path, t = [], self.canonical(taxid)
+        while t is not None and t not in path:
+            path.append(t)
+            p = self.parent.get(t)
+            t = None if p == t else p
+        return path
+
+    def species_of(self, taxid: int) -> int | None:
+        """The nearest taxid at species rank, the taxid itself included; None above species."""
+        return next((t for t in self._path_up(taxid) if self.rank.get(t) == "species"), None)
+
+    def in_unclassified(self, taxid: int) -> bool:
+        """True if the taxid or an ancestor is one of NCBI's "unclassified ..." nodes."""
+        return any(self.name.get(t, "").startswith("unclassified ") for t in self._path_up(taxid))
+
 
 def load_taxonomy(path: Path | str) -> Taxonomy:
     """Read the cache written by scripts/build_taxonomy_cache.py."""
@@ -68,7 +101,9 @@ def load_taxonomy(path: Path | str) -> Taxonomy:
         data = json.load(fh)
     parent = {int(k): int(v) for k, v in data["parent"].items()}
     merged = {int(k): int(v) for k, v in data["merged"].items()}
-    return Taxonomy(parent, merged)
+    rank = {int(k): v for k, v in data.get("rank", {}).items()}
+    name = {int(k): v for k, v in data.get("name", {}).items()}
+    return Taxonomy(parent, merged, rank, name)
 
 
 def taxonomy_from_config(cfg: dict) -> Taxonomy | None:

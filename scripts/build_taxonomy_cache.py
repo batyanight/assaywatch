@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build docs/taxonomy-cache.json.gz: parent links and merges for every taxid we use.
+"""Build docs/taxonomy-cache.json.gz: parent links, ranks, names and merges for every taxid we use.
 
     python scripts/build_taxonomy_cache.py            # archives + registry -> docs/taxonomy-cache.json.gz
 
@@ -9,7 +9,9 @@ Run it on the Mac (needs Entrez Direct and eutils.ncbi.nlm.nih.gov) after a
 retrieval brings in new taxa. assaywatch.taxonomy reads the result offline.
 
 For each batch, `efetch -format xml` returns the taxon with its full lineage,
-which gives a parent link for every node on the path to the root. A merged taxid
+which gives a parent link, rank and name for every node on the path to the root.
+Ranks let lineage grouping roll a no-rank strain up to its species; names are kept
+only for the "unclassified ..." nodes, which mark buckets (see assaywatch/taxonomy.py). A merged taxid
 comes back under its new id, so any requested id missing from the reply is
 looked up with `-format docsum`, whose Status/AkaTaxId say "merged into N". An
 id NCBI has deleted is listed in the output as `missing`.
@@ -84,15 +86,21 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{len(wanted)} taxids to resolve", file=sys.stderr)
 
     parent: dict[int, int] = {}
+    rank: dict[int, str] = {}
+    name: dict[int, str] = {}
     returned: set[int] = set()
     for i in range(0, len(wanted), BATCH):
         root = ET.fromstring(efetch(wanted[i : i + BATCH], "xml"))
         for taxon in root.findall("Taxon"):
             tid = int(taxon.findtext("TaxId"))
             returned.add(tid)
-            path = [int(t.findtext("TaxId")) for t in taxon.findall("LineageEx/Taxon")] + [tid]
+            nodes = taxon.findall("LineageEx/Taxon") + [taxon]
+            path = [int(t.findtext("TaxId")) for t in nodes]
             for up, down in zip(path, path[1:], strict=False):
                 parent[down] = up
+            for t, node in zip(path, nodes, strict=True):
+                rank[t] = node.findtext("Rank") or "no rank"
+                name[t] = node.findtext("ScientificName") or ""
         if (i // BATCH) % 50 == 0:
             print(f"  {min(i + BATCH, len(wanted))}/{len(wanted)}", file=sys.stderr)
 
@@ -114,6 +122,10 @@ def main(argv: list[str] | None = None) -> int:
                 "built": date.today().isoformat(),
                 "n_requested": len(wanted),
                 "parent": {str(k): v for k, v in sorted(parent.items())},
+                "rank": {str(k): v for k, v in sorted(rank.items()) if v != "no rank"},
+                # Only the "unclassified ..." nodes: assaywatch.taxonomy.in_unclassified is
+                # the one reader, and every name would quadruple the committed file.
+                "name": {str(k): v for k, v in sorted(name.items()) if v.startswith("unclassified ")},
                 "merged": {str(k): v for k, v in sorted(merged.items())},
                 "missing": missing,
             },
@@ -121,7 +133,7 @@ def main(argv: list[str] | None = None) -> int:
             separators=(",", ":"),
         )
     print(
-        f"{len(parent)} parent links, {len(merged)} merges, {len(missing)} missing -> {args.out}",
+        f"{len(parent)} parent links, {len(rank)} ranks, {len(merged)} merges, {len(missing)} missing -> {args.out}",
         file=sys.stderr,
     )
     return 0

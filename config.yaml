@@ -383,6 +383,23 @@ lineage:
   # 2026-10-17 calls 17 of 213 assays move declining -> low coverage, none the other
   # way. Evidence: docs/2026-10-19-pan-family-cases.md.
   require_working_baseline: true
+  # Lineage = species, not exact taxid. With `species`, a record's taxid is rolled up
+  # to its species-rank ancestor in drift.scope_taxonomy (which must carry ranks:
+  # rebuild with scripts/build_taxonomy_cache.py), so a no-rank strain and its
+  # species are one lineage. Exact taxids split JC polyomavirus into 10632 (never
+  # detected, excused by the gate) and 1891763 (the same virus from 2018, "new").
+  # null: group by exact taxid, as before. On since 2026-10-19: tier-2 13 -> 12
+  # disagreements (Johne 2005 on JCPyV), 4/11 failures caught either way, no other
+  # case moves. Evidence: docs/2026-10-19-taxid-artefacts.md.
+  group_at_rank: species
+  # With the working-baseline gate: a lineage under an NCBI "unclassified ..." node
+  # is a bucket of untyped records, so it cannot claim to be new to the archive.
+  # Failing, it gives `low coverage`, not `declining`. 1193974 "Human enterovirus"
+  # held 33 coxsackievirus A6 records in 2018, a type 86107 shows never covered.
+  # Cost: a genuinely novel virus filed as unclassified cannot drive `declining`.
+  # Off: tier-2 is unchanged by it (the enterovirus case it was built for still
+  # disagrees, on the next lineage down), so there is no evidence to ship it on.
+  unclassified_is_bucket: false
   # Sub-lineage resolver chains, per assay (docs/2026-10-19-subtaxid-resolution.md).
   # Empty: every assay is grouped per taxid, exactly as before. An entry can turn a
   # verdict into `declining`, so like any threshold here it goes through tier-2

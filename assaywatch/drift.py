@@ -486,6 +486,10 @@ class AssayDrift:
     ) -> None:
         """Per-lineage analysis: does the worst assessable lineage fail?
 
+        A recent call flagged ``bucket`` (lineage.unclassified_is_bucket) puts its
+        lineage with the never-covered ones under the gate: an unclassified
+        taxid is not a lineage, so it cannot be one new to the archive.
+
         Called after finalise, so the pooled status is already set. When the
         worst lineage is significantly below threshold, the status is overridden
         to ``declining`` (or stays ``declining`` if it already was). The pooled
@@ -507,7 +511,12 @@ class AssayDrift:
         if not recent_calls:
             return
 
-        from assaywatch.lineage import lineages_never_covered, per_lineage_stats, worst_lineage_verdict
+        from assaywatch.lineage import (
+            lineage_of,
+            lineages_never_covered,
+            per_lineage_stats,
+            worst_lineage_verdict,
+        )
 
         stats = per_lineage_stats(
             recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage, resolvers=resolvers
@@ -527,6 +536,17 @@ class AssayDrift:
             # No assessable lineages (all below floor, or all unresolved).
             return
 
+        if len(stats) == 1 and stats[0].n_evaluable == self.recent_evaluable and not self.ever_worked:
+            # One lineage holding every recent record is the pooled measurement
+            # again, so its history is the assay's. If the assay never cleared
+            # the threshold in an earlier year, the lineage is not new to the
+            # archive, only thinly measured, and overriding would replace "no
+            # measurable fall" with a drift call (West Nile Lanciotti 2001 as of
+            # 2003, one species once lineage.group_at_rank rolls up). One that
+            # used to work still overrides: CDV Scagliarini 2007 as of 2021.
+            self.lineage_verdict = worst_lineage_verdict(stats, self.threshold)[0]
+            return
+
         verdict, worst_idx = worst_lineage_verdict(stats, self.threshold)
         self.lineage_verdict = verdict
 
@@ -534,7 +554,10 @@ class AssayDrift:
             never = lineages_never_covered(
                 baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
             )
-            eligible = [s for s in stats if s.lineage_name not in never]
+            buckets = {
+                lineage_of(c, taxa_cache, taxid_sidecar, resolvers) for c in recent_calls if c.get("bucket")
+            }
+            eligible = [s for s in stats if s.lineage_name not in never | buckets]
             gap = stats[worst_idx]
             verdict, idx = worst_lineage_verdict(eligible, self.threshold)
             self.lineage_verdict = verdict or "failing (never covered)"
@@ -546,10 +569,14 @@ class AssayDrift:
                     self.status_pooled = self.status
                     self.status = "low coverage"
                     self.lineage_override = True
+                why = (
+                    "is an unclassified taxon, so it cannot be told from one never covered"
+                    if gap.lineage_name in buckets and gap.lineage_name not in never
+                    else "was below the threshold in every earlier year measured"
+                )
                 self.note += (
                     f"; lineage {gap.lineage_name} ({gap.n_evaluable} records) detects only "
-                    f"{gap.share:.1%} and was below the threshold in every earlier year measured: "
-                    f"a coverage gap, not drift"
+                    f"{gap.share:.1%} and {why}: a coverage gap, not drift"
                 )
                 return
 
@@ -901,6 +928,28 @@ def assess(
             lcfg = cfg.get("lineage", {})
             min_per_lineage = int(lcfg.get("min_records_per_lineage", 20))
             gate = bool(lcfg.get("require_working_baseline", False))
+            rank = lcfg.get("group_at_rank")
+            if rank not in (None, "species"):
+                raise SystemExit(f"lineage.group_at_rank is {rank!r}; only null or 'species' is supported")
+            buckets_on = bool(lcfg.get("unclassified_is_bucket", False))
+            if (rank or buckets_on) and (taxonomy is None or not taxonomy.rank):
+                raise SystemExit(
+                    "lineage.group_at_rank / unclassified_is_bucket need drift.scope_taxonomy with ranks; "
+                    "rebuild it with `python scripts/build_taxonomy_cache.py`"
+                )
+
+            def lineage_taxid(
+                rid: str, base: str, rank=rank, buckets_on=buckets_on
+            ) -> tuple[int | None, bool]:
+                """The record's taxid (rolled up to species if configured) and its bucket flag."""
+                txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+                if txid is None or taxonomy is None:
+                    return txid, False
+                bucket = buckets_on and taxonomy.in_unclassified(txid)
+                if rank == "species":
+                    txid = taxonomy.species_of(txid) or txid
+                return txid, bucket
+
             # Collect recent evaluable calls with taxid annotations, and with the
             # working-baseline gate the older ones too, each tagged with its year.
             recent_calls_for_lineage = []
@@ -915,7 +964,7 @@ def assess(
                     if baseline_calls_for_lineage is not None:
                         rid = orig_row["record_id"]
                         base = rid.split(".")[0]
-                        txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+                        txid, _ = lineage_taxid(rid, base)
                         baseline_calls_for_lineage.append(
                             {
                                 "record_id": rid,
@@ -931,12 +980,13 @@ def assess(
                 base = rid.split(".")[0]
                 # Build a minimal call dict with the taxid attached.
                 # taxids may be keyed by versioned or unversioned accession.
-                txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+                txid, bucket = lineage_taxid(rid, base)
                 recent_calls_for_lineage.append(
                     {
                         "record_id": rid,
                         "call": c,
                         "taxid": txid,
+                        "bucket": bucket,
                         "accession": base,
                         "title": titles.get(base) if titles else None,
                     }

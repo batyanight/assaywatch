@@ -591,3 +591,111 @@ def test_working_baseline_gate_flags_a_lineage_that_used_to_work():
     cache = {100: "Lineage A", 200: "Lineage B"}
     on = assess(calls, years, _gated(True), today=TODAY, taxids=taxids, taxa_cache=cache)["A"]
     assert on.status == "declining" and on.lineage_override
+
+
+def _ranked(**lineage) -> dict:
+    return {**LINEAGE_CFG, "lineage": {**LINEAGE_CFG["lineage"], "require_working_baseline": True, **lineage}}
+
+
+def _jc_tree():
+    from assaywatch.taxonomy import Taxonomy
+
+    # 10632 (no rank) is the old JC polyomavirus taxid under species 1891763;
+    # 1193974 sits under an "unclassified" node, 86107 is a typed species.
+    return Taxonomy(
+        {10632: 1891763, 1891763: 1, 1193974: 90010, 90010: 12059, 86107: 12059, 12059: 1},
+        {},
+        {1891763: "species", 1193974: "species", 86107: "species", 12059: "genus"},
+        {90010: "unclassified Enterovirus"},
+    )
+
+
+def test_species_rollup_joins_a_strain_taxid_to_its_species_history():
+    """The 2025 records carry the species taxid; 2018's the no-rank one. Same virus, never covered."""
+    calls, years, taxids = _records_with_taxids(
+        {
+            2018: {100: {"detect": 50}, 10632: {"fail": 20}},
+            2025: {100: {"detect": 600}, 1891763: {"fail": 40}},
+        }
+    )
+    cache = {100: "Lineage A"}
+    exact = assess(
+        calls, years, _ranked(), today=TODAY, taxids=taxids, taxa_cache=cache, taxonomy=_jc_tree()
+    )["A"]
+    rolled = assess(
+        calls,
+        years,
+        _ranked(group_at_rank="species"),
+        today=TODAY,
+        taxids=taxids,
+        taxa_cache=cache,
+        taxonomy=_jc_tree(),
+    )["A"]
+    assert exact.status == "declining"  # 1891763 has no earlier year, so it looks new
+    assert rolled.status == "low coverage" and "every earlier year" in rolled.note
+
+
+def test_an_unclassified_bucket_cannot_pass_as_a_new_lineage():
+    calls, years, taxids = _records_with_taxids(
+        {2018: {100: {"detect": 50}}, 2025: {100: {"detect": 600}, 1193974: {"fail": 40}}},
+    )
+    cache = {100: "Lineage A"}
+    off = assess(calls, years, _ranked(), today=TODAY, taxids=taxids, taxa_cache=cache, taxonomy=_jc_tree())[
+        "A"
+    ]
+    on = assess(
+        calls,
+        years,
+        _ranked(unclassified_is_bucket=True),
+        today=TODAY,
+        taxids=taxids,
+        taxa_cache=cache,
+        taxonomy=_jc_tree(),
+    )["A"]
+    assert off.status == "declining"
+    assert on.status == "low coverage" and "unclassified taxon" in on.note
+
+
+def test_a_typed_new_lineage_still_drives_declining_with_buckets_on():
+    calls, years, taxids = _records_with_taxids(
+        {2018: {100: {"detect": 50}}, 2025: {100: {"detect": 600}, 86107: {"fail": 40}}},
+    )
+    on = assess(
+        calls,
+        years,
+        _ranked(unclassified_is_bucket=True, group_at_rank="species"),
+        today=TODAY,
+        taxids=taxids,
+        taxa_cache={100: "Lineage A"},
+        taxonomy=_jc_tree(),
+    )["A"]
+    assert on.status == "declining" and on.lineage_override
+
+
+def test_rank_options_without_ranks_in_the_tree_are_an_error():
+    from assaywatch.taxonomy import Taxonomy
+
+    calls, years, taxids = _records_with_taxids({2025: {100: {"detect": 40}}})
+    with pytest.raises(SystemExit, match="ranks"):
+        assess(
+            calls,
+            years,
+            _ranked(group_at_rank="species"),
+            today=TODAY,
+            taxids=taxids,
+            taxa_cache={},
+            taxonomy=Taxonomy({100: 1}, {}),
+        )
+
+
+def test_a_lineage_that_is_the_whole_pool_overrides_only_if_the_assay_used_to_work():
+    """One lineage holding every recent record is the pooled number again (West Nile vs CDV)."""
+    never = _records_with_taxids(
+        {2018: {100: {"detect": 4, "fail": 4}}, 2025: {100: {"detect": 25, "fail": 15}}}
+    )
+    worked = _records_with_taxids({2018: {100: {"detect": 50}}, 2025: {100: {"detect": 25, "fail": 15}}})
+    cache = {100: "Lineage A"}
+    a = assess(*never[:2], _gated(True), today=TODAY, taxids=never[2], taxa_cache=cache)["A"]
+    b = assess(*worked[:2], _gated(True), today=TODAY, taxids=worked[2], taxa_cache=cache)["A"]
+    assert a.status != "declining" and not a.lineage_override
+    assert b.status == "declining"

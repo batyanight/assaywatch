@@ -42,7 +42,12 @@
   the 3' end. On Forslund's own 70-type panel the scorer fails 14 of 60 types the bench amplified;
   12 of those rest only on T:G mispairs. First type-level evidence for identity-aware 3' penalties;
   no config change. `scripts/bench_panel.py` + `docs/bench-panels/` take more panels.
-  **Next:** new-taxid artefacts (Enterovirus 1193974, Polyomavirus 1891763); more bench panels.
+  **Taxid artefacts done** (`docs/2026-10-19-taxid-artefacts.md`): lineages now group at species
+  rank (`lineage.group_at_rank`, taxonomy cache carries ranks). JCPyV was split across 10632/1891763.
+  Tier-2 **4/11 caught, 12 disagreements** (was 13). 1193974 is an unclassified bucket of CVA6; the
+  bucket rule ships off because that case disagrees on the next lineage down anyway.
+  **Next:** Orthopox ATI Meyer now `declining` on vaccinia 10245 (83% of 112), look by hand; the
+  pan-family `low coverage` -> `declining` override (enterovirus round2); more bench panels.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173

@@ -66,3 +66,37 @@ def test_every_registry_scope_taxid_is_in_the_shipped_tree():
         if tx.canonical(t) not in tx.parent
     }
     assert not missing, sorted(missing)[:10]
+
+
+# JC polyomavirus 10632 (no rank) under species 1891763, genus 1891746; 1193974
+# "Human enterovirus" (rank species) under "unclassified Enterovirus" 90010.
+JC_PARENT = {10632: 1891763, 1891763: 1891746, 1891746: 1, 1193974: 90010, 90010: 12059, 12059: 1}
+JC_RANK = {1891763: "species", 1891746: "genus", 1193974: "species", 12059: "genus"}
+JC_NAME = {90010: "unclassified Enterovirus", 12059: "Enterovirus", 1193974: "Human enterovirus"}
+
+
+def test_species_of_rolls_a_no_rank_child_up_and_stops_above_species():
+    tx = Taxonomy(JC_PARENT, {}, JC_RANK, JC_NAME)
+    assert tx.species_of(10632) == 1891763
+    assert tx.species_of(1891763) == 1891763
+    assert tx.species_of(1891746) is None  # a genus has no species above it
+    assert tx.species_of(555) is None  # unknown taxid
+
+
+def test_in_unclassified_looks_at_the_taxid_and_its_ancestors():
+    tx = Taxonomy(JC_PARENT, {}, JC_RANK, JC_NAME)
+    assert tx.in_unclassified(1193974)
+    assert not tx.in_unclassified(10632)
+    assert not tx.in_unclassified(12059)
+
+
+def test_load_reads_ranks_and_names_and_tolerates_an_old_cache(tmp_path):
+    new, old = tmp_path / "new.json.gz", tmp_path / "old.json.gz"
+    with gzip.open(new, "wt") as fh:
+        json.dump(
+            {"parent": {"10632": 1891763}, "merged": {}, "rank": {"1891763": "species"}, "name": {}}, fh
+        )
+    with gzip.open(old, "wt") as fh:
+        json.dump({"parent": {"10632": 1891763}, "merged": {}}, fh)
+    assert load_taxonomy(new).species_of(10632) == 1891763
+    assert load_taxonomy(old).rank == {}
