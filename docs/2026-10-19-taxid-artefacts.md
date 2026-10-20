@@ -64,10 +64,13 @@ open. The bucket artefact is real but is not what decides this case.
 
 ## Current statuses (2026-10-17 calls, as of 2026-10-17)
 
-Five of 213 move:
+Four of the 201 current assays scored move. (The 2026-10-17 calls predate the
+`de06851` registry purge. The copy used here mapped the 27 renamed IDs but kept
+12 of the 13 removed assays. One of them, CDV F gene "need_to_order_2", also
+moved, and is left out here. Tier-2 is unaffected: no validation case names a
+removed assay.)
 
 - `low coverage` now, with the gap named: Adenovirus Hexon round2 (was watch),
-  CDV F gene "need_to_order_2" (was declining; never worked, baseline 32%),
   Paramyxovirinae Tong round1 (was declining on 11224; now names species 3049953,
   548 records, 0%), Poxviruses Polymerase (was declining at 4.0%).
 - `declining` now: **Orthopoxvirus ATI Meyer 1997** (was stable at 95.3% pooled).

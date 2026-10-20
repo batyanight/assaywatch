@@ -46,6 +46,8 @@
   rank (`lineage.group_at_rank`, taxonomy cache carries ranks). JCPyV was split across 10632/1891763.
   Tier-2 **4/11 caught, 12 disagreements** (was 13). 1193974 is an unclassified bucket of CVA6; the
   bucket rule ships off because that case disagrees on the next lineage down anyway.
+  Current statuses: 4 of 201 move (the commit message's "5 of 213" counted removed assays
+  still in the 2026-10-17 calls).
   **Next:** Orthopox ATI Meyer now `declining` on vaccinia 10245 (83% of 112), look by hand; the
   pan-family `low coverage` -> `declining` override (enterovirus round2); more bench panels.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
