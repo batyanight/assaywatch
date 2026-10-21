@@ -33,6 +33,19 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'MEASURED AGAINST REBELO 2011 ON 2026-10-21, and the 16-23 block is a six-primer set from at least two sources.
+    The local Rebelo et al. 2011 PDF prints exactly TWO oligo-like runs in its whole text: ACACCATGGGAGYTGGTAAT (= 16-23-F1)
+    and CTCCWTCGACTTYCAGACCCAAGGCAT (= 16-23-R3). Those two are the pair held by Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011,
+    which is therefore correctly attributed. The other FOUR primers in the block - 16-23-R1, 16-23-F2, 16-23-R2 and 16-23-F3
+    - are NOT in that paper in either orientation, so the F1/R1, F2/R2 and F3/R3 groupings are the WCS spreadsheet''s own
+    pairings of a block whose members come from somewhere else. That is what the PARTNER_PRIMER_UNATTRIBUTED flags on the
+    _space and _space_3 siblings already recorded, one Rebelo primer and one unattributed partner each; this entry is the
+    one with NEITHER primer attributed. Europe PMC full-text search on 16-23-F2 and 16-23-R2, by name and by sequence in both
+    orientations, returned nothing but noise. Given the TINC result the same day - a design paper that no OA search could
+    ever have found because Veterinary Parasitology is not in that index - a no-hit here is not evidence the primers are unpublished.
+    LEAD, NOT A CONCLUSION: 16-23-F2 (GAAGTCGTAACAAGGTATCC) has the shape of a universal primer at the 3'' end of bacterial
+    16S rRNA, the standard anchor for amplifying the 16S-23S intergenic spacer, so the block may descend from a general rDNA-IGS
+    method rather than a mycoplasma paper. Not asserted and not entered: no source was confirmed.'
 needs_review:
 - DOI_MISSING
 - NO_YEAR
