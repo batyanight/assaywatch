@@ -49,14 +49,18 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+from assaywatch.credentials import contact_email  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
+from assaywatch.papers import held_dois  # noqa: E402
+
 UNPAYWALL = "https://api.unpaywall.org/v2/"
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
-UA = {"User-Agent": "assaywatch/0.1 (research tool; nightb02@nyu.edu)"}
+UA = {"User-Agent": f"assaywatch/0.1 (research tool; {contact_email() or 'unset'})"}
 # Some publishers serve a free PDF but refuse an unfamiliar User-Agent with a
 # 403 - an anti-bot rule, not a paywall; Inter-Research's Diseases of Aquatic
 # Organisms is one. On a 403 the fetch is retried once with a browser string.
@@ -137,8 +141,21 @@ def pmcid(doi: str) -> str:
 
 
 def needed_dois(registry: Path, pdf_dir: Path) -> list[tuple[str, list[str]]]:
-    """DOIs cited by the registry for which no local PDF is held."""
-    held = {p.stem.replace("_", "/").lower() for p in pdf_dir.glob("*.pdf")} if pdf_dir.exists() else set()
+    """DOIs cited by the registry for which no local copy of the paper is held.
+
+    "Local copy", not "local PDF": verify_oligos_against_paper reads `.pdf`,
+    `.xml` and `.txt`, so a plaintext conversion on disk means the paper does
+    not need fetching. The old glob was `*.pdf`, which counted the three `.txt`
+    papers as missing on top of the ten its reverse-mapped filenames lost.
+    """
+    # Forward-mapped, never reverse. Reverse-mapping filenames reported 10 of
+    # the 26 "missing" DOIs as missing while their PDFs were in papers/, all of
+    # them with parenthesised DOIs; see assaywatch/papers.py.
+    all_dois = [
+        ((yaml.safe_load(f.read_text()).get("citation") or {}).get("doi") or "")
+        for f in sorted(registry.glob("*.yaml"))
+    ]
+    held = held_dois([d for d in all_dois if d], pdf_dir)
     by_doi: dict[str, list[str]] = {}
     for f in sorted(registry.glob("*.yaml")):
         d = yaml.safe_load(f.read_text())
@@ -168,11 +185,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--registry", type=Path, default=ROOT / "registry")
     ap.add_argument("--pdf-dir", type=Path, default=ROOT / "papers")
     ap.add_argument("--doi", action="append", help="check these DOIs instead of the registry's")
-    ap.add_argument("--email", default="nightb02@nyu.edu", help="Unpaywall requires one")
+    ap.add_argument("--email", default=None, help="Unpaywall requires one")
     ap.add_argument("--download", action="store_true", help="fetch the PDFs that are openly available")
     ap.add_argument("--out", type=Path, default=ROOT / "results" / "open-access-lookup.tsv")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
+    # Resolved after parsing, so --help works with no address set and the
+    # repository carries none. See assaywatch.credentials.contact_email.
+    args.email = args.email or contact_email()
 
     if args.doi:
         targets = [(d.lower(), []) for d in args.doi]

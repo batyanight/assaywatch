@@ -263,6 +263,58 @@ def _build_scope_map(registry: Path) -> dict[str, set[int]] | None:
     return scope_map
 
 
+def rename_map(path: Path) -> tuple[dict[str, str], set[str]]:
+    """({old id: new id} for RENAME, {old id} for REMOVE) from docs/rename-mapping.tsv."""
+    renamed: dict[str, str] = {}
+    removed: set[str] = set()
+    if not path.exists():
+        return renamed, removed
+    with path.open() as fh:
+        for row in csv.DictReader(fh, delimiter="\t"):
+            if row["action"] == "RENAME" and row["new_id"]:
+                renamed[row["old_id"]] = row["new_id"]
+            elif row["action"] == "REMOVE":
+                removed.add(row["old_id"])
+    return renamed, removed
+
+
+def id_aliases(renamed: dict[str, str]) -> dict[str, set[str]]:
+    """Every assay id mapped to the ids that may stand for the same assay.
+
+    Both directions on purpose. A case in docs/validation-cases.tsv may name
+    either the old id or the new one, and a calls table may hold either
+    depending on whether it predates the rename, so neither side can be assumed
+    canonical.
+    """
+    out: dict[str, set[str]] = {}
+    for old, new in renamed.items():
+        for k in (old, new):
+            out.setdefault(k, set()).update({old, new})
+    return out
+
+
+def resolve_assay_id(
+    assay_id: str, present: set[str], aliases: dict[str, set[str]], removed: set[str]
+) -> tuple[str | None, str | None]:
+    """(the id this assay's rows are under in the calls table, why that differs).
+
+    A case whose id matches nothing used to read `no data` and be counted as
+    "the tool declined to judge", which is indistinguishable from an assay that
+    genuinely has no records. On the 2026-10-17 calls that silently swallowed 13
+    of the 49 cases, 4 of them `fails` cases, because the assay-ID renames had
+    landed in the registry and in docs/validation-cases.tsv but not in that
+    archive. Every tier-2 figure measured on it was wrong as a result.
+    """
+    if assay_id in present:
+        return assay_id, None
+    for alt in sorted(aliases.get(assay_id, set()) - {assay_id}):
+        if alt in present:
+            return alt, f"renamed; rows are under {alt}"
+    if assay_id in removed or any(a in removed for a in aliases.get(assay_id, set())):
+        return None, "removed from the registry"
+    return None, "absent from the calls table"
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--calls", type=Path, default=None, help="calls.tsv.gz (default: the newest run)")
@@ -272,6 +324,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--as-of", type=date.fromisoformat, default=None)
     ap.add_argument("--assay", action="append", help="limit to these assay ids; repeatable")
     ap.add_argument("--cases", type=Path, default=None, help="TSV of expected verdicts")
+    ap.add_argument(
+        "--renames",
+        type=Path,
+        default=ROOT / "docs" / "rename-mapping.tsv",
+        help="assay-ID rename mapping, so a case still matches a calls table from before a rename",
+    )
     args = ap.parse_args(argv)
 
     calls = args.calls
@@ -307,12 +365,51 @@ def main(argv: list[str] | None = None) -> int:
     body = [ln for ln in args.cases.read_text().splitlines() if ln.strip() and not ln.startswith("#")]
     cases = list(csv.DictReader(body, delimiter="\t"))
     evidence = load_evidence(calls, args.retrieved, cfg, query_taxids)  # once, not once per case
+
+    # Resolve every case id BEFORE scoring any of them, and refuse to report a
+    # confusion matrix that silently omits cases. An id matching nothing is a
+    # bookkeeping fault, not evidence about an assay, so it must not reach the
+    # tally as `undecided`.
+    present = set(evidence.by_assay)
+    renamed, removed = rename_map(args.renames)
+    aliases = id_aliases(renamed)
+    resolved: dict[int, tuple[str | None, str | None]] = {}
+    absent: list[str] = []
+    for i, c in enumerate(cases):
+        rid, why = resolve_assay_id(c["assay_id"], present, aliases, removed)
+        resolved[i] = (rid, why)
+        if rid is None and why == "absent from the calls table":
+            absent.append(c["assay_id"])
+    if absent:
+        raise SystemExit(
+            f"{len(absent)} validation case(s) name an assay with no rows in {calls} and no "
+            "rename that reaches one:\n  "
+            + "\n  ".join(sorted(set(absent)))
+            + "\nFix the id in the cases file, add it to docs/rename-mapping.tsv, or screen "
+            "the assay. Scoring these as `no data` would hide them inside the undecided count."
+        )
+    bridged = {
+        c["assay_id"]: resolved[i][0] for i, c in enumerate(cases) if resolved[i][1] and resolved[i][0]
+    }
+    if bridged:
+        print(
+            f"{len(bridged)} case(s) matched through docs/rename-mapping.tsv, so {calls} predates a rename:",
+            file=sys.stderr,
+        )
+        for aid, rid in sorted(bridged.items()):
+            print(f"  {aid} -> {rid}", file=sys.stderr)
+
     tally: Counter = Counter()
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
-    for c in cases:
+    for i, c in enumerate(cases):
         as_of = date.fromisoformat(c["as_of"])
-        drifts, _ = status_from_evidence(evidence, cfg, as_of, {c["assay_id"]}, scope_map=scope_map)
-        a = drifts.get(c["assay_id"])
+        rid, why = resolved[i]
+        if rid is None:  # removed from the registry: not judgeable, and not `undecided`
+            tally[(c["expect"], "removed")] += 1
+            print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {'-':<18} removed")
+            continue
+        drifts, _ = status_from_evidence(evidence, cfg, as_of, {rid}, scope_map=scope_map)
+        a = drifts.get(rid)
         status = a.status if a else "no data"
         _, verdict = classify(status, c["expect"], c.get("mechanism") or None)
         tally[(c["expect"], verdict)] += 1

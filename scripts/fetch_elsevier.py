@@ -65,7 +65,7 @@ sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
-from assaywatch.credentials import read_secret, read_secret_file  # noqa: E402
+from assaywatch.credentials import contact_email, read_secret, read_secret_file  # noqa: E402
 
 API = "https://api.elsevier.com/content/article/doi/"
 ELSEVIER_PREFIXES = ("10.1016", "10.1006", "10.1053", "10.1054")
@@ -155,7 +155,7 @@ def main(argv: list[str] | None = None) -> int:
                     "X-ELS-APIKey": key,
                     **({"X-ELS-Insttoken": insttoken} if insttoken else {}),
                     "Accept": "text/xml",
-                    "User-Agent": "assaywatch/0.1 (research; nightb02@nyu.edu)",
+                    "User-Agent": f"assaywatch/0.1 (research; {contact_email() or 'unset'})",
                 },
             )
             with urllib.request.urlopen(req, timeout=90) as r:

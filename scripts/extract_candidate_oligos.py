@@ -43,6 +43,8 @@ sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
+from assaywatch.papers import doi_stem  # noqa: E402
+
 # Reuse the extractor and PDF reader from the verification script rather than
 # keeping a second copy: the case and base-composition tests there were tuned
 # against real papers and a hostile 596-page report, and two copies would drift.
@@ -79,6 +81,21 @@ def doi_of(path: Path, text: str, held: list[str] | None = None) -> str:
     it. With nothing held (every DOI it prints went to another file) the earliest
     DOI it prints is used, so the file is still labelled and not silently dropped.
     """
+    # The filename is authoritative only when a DOI we already know forward-maps
+    # onto it. It cannot be reverse-mapped: `/`, `(` and `)` all become `_`, and
+    # a round trip cannot tell them apart either, because reversing `_` to `/`
+    # and forward-mapping again returns the same stem. Inferring a DOI from a
+    # stem is what fabricated ten of them into docs/papers-index.cache.json.
+    for known in held or ():
+        if doi_stem(known) == path.stem.lower():
+            return known.strip().lower()
+    # Fallback: read the stem as a DOI. Best-effort only, and second in line,
+    # because `/`, `(` and `)` all map to `_` and a round trip cannot tell them
+    # apart - for a parenthesised DOI this returns a DOI that does not exist
+    # (`10.1016/0890-8508/92/90002-f`). It stays because a DOI-named file is
+    # authoritative for its own identity and most stems are unambiguous, and
+    # because the exact branch above now catches the case that matters: a file
+    # whose DOI the index already knows. Never used to key a cache or a fetch.
     stem = path.stem.replace("_", "/")
     if _vo.DOI_IN_TEXT.fullmatch(stem):
         return stem.lower()

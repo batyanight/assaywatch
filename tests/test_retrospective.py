@@ -15,6 +15,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
+import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -174,27 +175,94 @@ def test_cases_load_the_evidence_once_not_once_per_case(tmp_path, monkeypatch, c
     assert "summary:" in out and out.count("\n") >= 7
 
 
-def test_a_case_for_an_assay_with_no_calls_reads_as_no_data(tmp_path, capsys):
-    """An assay absent from the table must not raise now that rows are grouped."""
+def _cases_argv(calls, retrieved, cfg_path, cases, renames):
+    return [
+        "--calls",
+        str(calls),
+        "--retrieved",
+        str(retrieved),
+        "--config",
+        str(cfg_path),
+        "--cases",
+        str(cases),
+        "--renames",
+        str(renames),
+    ]
+
+
+def test_a_case_naming_an_assay_the_table_does_not_hold_is_an_error(tmp_path):
+    """It used to read `no data` and land in the undecided count, which is where 13
+    of the 49 real cases hid on the 2026-10-17 calls after the assay-ID renames -
+    4 of them `fails` cases, so every tier-2 figure taken off that table was wrong.
+    An id that matches nothing is a bookkeeping fault, not evidence, so it stops
+    the run and names itself instead of being averaged into a confusion matrix."""
     calls, retrieved = build_dataset(tmp_path)
     cfg_path = tmp_path / "config.yaml"
     cfg_path.write_text(yaml.safe_dump(CFG))
     cases = tmp_path / "cases.tsv"
     cases.write_text("assay_id\tas_of\texpect\tsource\nGHOST\t2020-01-01\tworks\tdoi:x\n")
-    rc = retro.main(
-        [
-            "--calls",
-            str(calls),
-            "--retrieved",
-            str(retrieved),
-            "--config",
-            str(cfg_path),
-            "--cases",
-            str(cases),
-        ]
-    )
-    assert rc == 0
-    assert "no data" in capsys.readouterr().out
+    renames = tmp_path / "renames.tsv"
+    renames.write_text("old_id\taction\tnew_id\treason\n")
+
+    with pytest.raises(SystemExit) as e:
+        retro.main(_cases_argv(calls, retrieved, cfg_path, cases, renames))
+    assert "GHOST" in str(e.value)
+
+
+def test_a_renamed_case_still_matches_a_calls_table_from_before_the_rename(tmp_path, capsys):
+    """The table holds `A`; the case names the id `A` was renamed to. It must be
+    scored, not declined."""
+    calls, retrieved = build_dataset(tmp_path)
+    cfg_path = tmp_path / "config.yaml"
+    cfg_path.write_text(yaml.safe_dump(CFG))
+    cases = tmp_path / "cases.tsv"
+    cases.write_text("assay_id\tas_of\texpect\tsource\nA_renamed\t2023-01-01\tworks\tdoi:x\n")
+    renames = tmp_path / "renames.tsv"
+    renames.write_text("old_id\taction\tnew_id\treason\nA\tRENAME\tA_renamed\ttidier\n")
+
+    assert retro.main(_cases_argv(calls, retrieved, cfg_path, cases, renames)) == 0
+    cap = capsys.readouterr()
+    assert "undecided" not in cap.out
+    assert "A_renamed -> A" in cap.err  # says plainly that the table predates the rename
+
+
+def test_the_bridge_works_in_the_other_direction_too(tmp_path, capsys):
+    """A case naming the OLD id against a table that holds the NEW one."""
+    calls, retrieved = build_dataset(tmp_path)
+    cfg_path = tmp_path / "config.yaml"
+    cfg_path.write_text(yaml.safe_dump(CFG))
+    cases = tmp_path / "cases.tsv"
+    cases.write_text("assay_id\tas_of\texpect\tsource\nA_old\t2023-01-01\tworks\tdoi:x\n")
+    renames = tmp_path / "renames.tsv"
+    renames.write_text("old_id\taction\tnew_id\treason\nA_old\tRENAME\tA\ttidier\n")
+
+    assert retro.main(_cases_argv(calls, retrieved, cfg_path, cases, renames)) == 0
+    assert "A_old -> A" in capsys.readouterr().err
+
+
+def test_a_case_for_a_removed_assay_is_reported_as_removed_not_undecided(tmp_path, capsys):
+    """A removed entry cannot be judged, but it is not the tool declining to judge
+    either, so it gets its own verdict rather than inflating the undecided count."""
+    calls, retrieved = build_dataset(tmp_path)
+    cfg_path = tmp_path / "config.yaml"
+    cfg_path.write_text(yaml.safe_dump(CFG))
+    cases = tmp_path / "cases.tsv"
+    cases.write_text("assay_id\tas_of\texpect\tsource\nGONE\t2020-01-01\tworks\tdoi:x\n")
+    renames = tmp_path / "renames.tsv"
+    renames.write_text("old_id\taction\tnew_id\treason\nGONE\tREMOVE\t\tno provenance\n")
+
+    assert retro.main(_cases_argv(calls, retrieved, cfg_path, cases, renames)) == 0
+    out = capsys.readouterr().out
+    assert "removed" in out and "undecided" not in out
+
+
+def test_resolve_assay_id_prefers_an_exact_hit_over_an_alias():
+    """Both ids in the table: the case's own id wins, so a rename that has already
+    been applied to the archive does not silently redirect to the stale rows."""
+    aliases = retro.id_aliases({"old": "new"})
+    assert retro.resolve_assay_id("new", {"old", "new"}, aliases, set()) == ("new", None)
+    rid, why = retro.resolve_assay_id("new", {"old"}, aliases, set())
+    assert rid == "old" and "renamed" in why
 
 
 def write_dataset(tmp_path: Path, deposited: dict[str, str | None]):
@@ -260,7 +328,9 @@ def test_cases_print_the_verdict_each_status_implies(tmp_path, capsys):
     The statuses follow from how `build_dataset` is built: assay A is solid
     until 2018 and then failing, so it is `stable` in 2017 and `declining` in
     2023; assay B always detects. The cases pair those with expectations that
-    agree, contradict, half-agree, and with an assay that has no calls at all.
+    agree, contradict and half-agree, and the last asks about A before any of
+    its records existed, which is the honest way to reach `undecided` - an id
+    the table does not hold at all is an error now, not a verdict.
     """
     calls, retrieved = build_dataset(tmp_path)
     cfg_path = tmp_path / "config.yaml"
@@ -275,7 +345,7 @@ def test_cases_print_the_verdict_each_status_implies(tmp_path, capsys):
         "B\t2019-01-01\tworks\tdoi:4\n"
         "B\t2023-01-01\tfails\tdoi:5\n"
         "B\t2023-01-01\tpartial\tdoi:6\n"
-        "GHOST\t2020-01-01\tworks\tdoi:7\n"
+        "A\t2011-01-01\tworks\tdoi:7\n"
     )
     rc = retro.main(
         [
@@ -306,7 +376,7 @@ def test_cases_print_the_verdict_each_status_implies(tmp_path, capsys):
         ("B", "2019-01-01", "works", "stable", "agrees"),
         ("B", "2023-01-01", "fails", "stable", "DISAGREES"),
         ("B", "2023-01-01", "partial", "stable", "weaker"),
-        ("GHOST", "2020-01-01", "works", "no data", "undecided"),
+        ("A", "2011-01-01", "works", "no data", "undecided"),
     ]
     assert (
         "summary: fails/DISAGREES: 1, fails/agrees: 1, partial/weaker: 1, "

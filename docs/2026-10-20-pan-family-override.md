@@ -43,6 +43,18 @@ neither set.
 
 Tier-2 against `docs/validation-cases.tsv`, all candidates measured:
 
+> **Re-verified 2026-10-20** (`docs/2026-10-20-tier2-rename-resolution.md`). The
+> shipped row below re-measures exactly, 4/11 and 10, on `results/2026-10-20/`.
+> Do not try to reproduce it on a calls table older than the assay-ID renames
+> without a current `scripts/retrospective.py`: the version that shipped before
+> that date scored a case whose id had been renamed as `no data`, which reads as
+> `undecided`, and on `results/2026-10-17/` that silently hid 13 of the 49 cases
+> — including **CDV_P_gene_Scagliarini_2007 2021-07-06, the only catch any
+> override candidate can move**. A re-measurement under that bug reads 3/11 and
+> 9, makes the three candidates rejected below look free, and would revert this
+> rule on evidence that had disappeared. `retrospective.py` now refuses to print
+> a matrix when a case id matches nothing.
+
 | | failures caught | disagreements | current assays moved |
 |---|---:|---:|---:|
 | before | 4/11 | 12 | — |
@@ -66,6 +78,18 @@ keeping it under a different status name, both answer the question correctly in
 principle and both **drop the CDV_P_gene_Scagliarini_2007 2021 catch** — the one
 case in the set documented as real drift on its own target. By the project's own
 rule, a candidate that loses a documented catch is a bad candidate.
+
+Checked case by case on 2026-10-20, and it is narrower than it reads: of the four
+`fails` the tool catches, **CDV_P 2021 is the only one that comes from an
+override at all**. Paramyxovirinae L round1 (pooled 18.5% of 1,056), round2
+(4.5% of 755) and Forslund L1 (79.3% of 715) are all caught by the pooled
+verdict with `lineage_override` false, so no override candidate can move them.
+The whole comparison above therefore turns on a single case, whose `mechanism` is
+`drift` — so its `low coverage` earns no coverage excusal in `classify()` and the
+catch is lost outright, not downgraded. And that case is itself an above-pooled
+override: the firing lineage holds all 83 records at exactly the pooled 80.7%.
+The one case justifying the rule is an instance of the pattern point 2 below
+wants to gate out.
 
 The most instructive loss is the one that makes the override measure a fall, with
 the same Newcombe bound and `min_decline` the pooled test uses. It also loses

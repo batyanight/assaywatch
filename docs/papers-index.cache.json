@@ -1,2448 +1,2438 @@
 {
- "10.1002/jez.70061": {
-  "authors": [
-   "Di Nicola",
-   "Colla",
-   "Mulder",
-   "Storniolo",
-   "Verbrugghe",
-   "Esposito",
-   "Grasso",
-   "Pasmans",
-   "Martel"
-  ],
-  "first_author": "Di Nicola",
-  "title": "Ophidiomycosis Prevalence and Disease Ecology in a\n                    Natrix tessellata\n                    (Laurenti, 1768) Population From Northern Italy",
-  "year": 2025
- },
- "10.1002/jmv.10465": {
-  "first_author": "S\u00e1nchez\u2010Seco",
-  "journal": "Journal of Medical Virology",
-  "n_authors": 6,
-  "title": "Detection and identification of Toscana and other phleboviruses by RT\u2010nested\u2010PCR assays with degenerated primers",
-  "volume": "71",
-  "year": 2003
- },
- "10.1002/vetr.2057": {
-  "authors": [
-   "Reid",
-   "Brookes",
-   "Coward",
-   "Mynn",
-   "Cooper",
-   "Agyeman\u2010Dua",
-   "Skinner",
-   "Ross",
-   "Hansen",
-   "Brown",
-   "Mayers",
-   "Sutton"
-  ],
-  "first_author": "Reid",
-  "journal": "Veterinary Record",
-  "title": "Molecular detection of pigeon paramyxovirus type 1",
-  "year": 2022
- },
- "10.1006/expr.1995.1107": {
-  "first_author": "Li",
-  "journal": "Experimental Parasitology",
-  "n_authors": 7,
-  "title": "Plasmodium: Genus-Conserved Primers for Species Identification and Quantitation",
-  "volume": "81",
-  "year": 1995
- },
- "10.1006/viro.1993.1217": {
-  "first_author": "Barrett",
-  "journal": "Virology",
-  "n_authors": 6,
-  "title": "Dolphin and Porpoise Morbilliviruses Are Genetically Distinct from Phocine Distemper Virus",
-  "volume": "193",
-  "year": 1993
- },
- "10.1006/viro.1998.9207": {
-  "authors": [
-   "Quackenbush",
-   "Work",
-   "Balazs",
-   "Casey",
-   "Rovnak",
-   "Chaves",
-   "duToit",
-   "Baines",
-   "Parrish",
-   "Bowser",
-   "Casey"
-  ],
-  "first_author": "Quackenbush",
-  "journal": "Virology",
-  "title": "Three Closely Related Herpesviruses Are Associated with Fibropapillomatosis in Marine Turtles",
-  "year": 1998
- },
- "10.1007/s00436-010-1945-4": {
-  "first_author": "Kutkien\u0117",
-  "journal": "Parasitology Research",
-  "n_authors": 4,
-  "title": "The mallard duck (Anas platyrhynchos) as intermediate host for Sarcocystis wobeseri sp. nov. from the barnacle goose (Branta leucopsis)",
-  "volume": "107",
-  "year": 2010
- },
- "10.1007/s00436-017-5452-8": {
-  "authors": [
-   "Schoener",
-   "Hunter",
-   "Howe"
-  ],
-  "first_author": "Schoener",
-  "journal": "Parasitology Research",
-  "title": "Development of a rapid HRM qPCR for the diagnosis of the four most prevalent Plasmodium lineages in New Zealand",
-  "year": 2017
- },
- "10.1007/s00436-020-06887-x": {
-  "first_author": "Renter\u00eda-Sol\u00eds",
-  "journal": "Parasitology Research",
-  "n_authors": 4,
-  "title": "A SYBR green I real-time polymerase chain reaction (PCR) assay for detection and quantification of Trichomonas gallinae",
-  "volume": "119",
-  "year": 2020
- },
- "10.1007/s00705-005-0679-6": {
-  "first_author": "Bracht",
-  "journal": "Archives of Virology",
-  "n_authors": 9,
-  "title": "Genetic identification of novel poxviruses of cetaceans and pinnipeds",
-  "volume": "151",
-  "year": 2005
- },
- "10.1007/s00705-007-1069-z": {
-  "first_author": "Briese",
-  "journal": "Archives of Virology",
-  "n_authors": 3,
-  "title": "Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses",
-  "volume": "152",
-  "year": 2007
- },
- "10.1007/s007050070002": {
-  "first_author": "Mankertz",
-  "journal": "Archives of Virology",
-  "n_authors": 4,
-  "title": "Cloning and sequencing of columbid circovirus (CoCV), a new circovirus from pigeons",
-  "volume": "145",
-  "year": 2000
- },
- "10.1007/s11046-011-9435-5": {
-  "authors": [
-   "Chaturvedi",
-   "Rudd",
-   "Davis",
-   "Victor",
-   "Li",
-   "Appler",
-   "Rajkumar",
-   "Chaturvedi"
-  ],
-  "first_author": "Chaturvedi",
-  "journal": "Mycopathologia",
-  "title": "Rapid Real-Time PCR Assay for Culture and Tissue Identification of Geomyces destructans: the Etiologic Agent of Bat Geomycosis (White Nose Syndrome)",
-  "year": 2011
- },
- "10.1007/s11259-007-0020-9": {
-  "first_author": "Scagliarini",
-  "journal": "Veterinary Research Communications",
-  "n_authors": 5,
-  "title": "TaqMan Based Real Time PCR for the Quantification of Canine Distemper Virus",
-  "volume": "31",
-  "year": 2007
- },
- "10.1016/0166-0934(94)90098-1": {
-  "first_author": "Zimmermann",
-  "journal": "Journal of Virological Methods",
-  "n_authors": 3,
-  "title": "Detection of Borna disease virus RNA in naturally infected animals by a nested polymerase chain reaction",
-  "volume": "46",
-  "year": 1994
- },
- "10.1016/0166-0934/94/90098-1": null,
- "10.1016/0168-1605(91)90148-i": {
-  "first_author": "Candrian",
-  "journal": "International Journal of Food Microbiology",
-  "n_authors": 6,
-  "title": "Detection of Escherichia coli and identification of enterotoxigenic strains by primer-directed enzymatic amplification of specific DNA sequences",
-  "volume": "12",
-  "year": 1991
- },
- "10.1016/0168-1605/91/90148-i": null,
- "10.1016/0890-8508(92)90002-f": {
-  "first_author": "Rahn",
-  "journal": "Molecular and Cellular Probes",
-  "n_authors": 8,
-  "title": "Amplification of an invA gene sequence of Salmonella typhimurium by polymerase chain reaction as a specific method of detection of Salmonella",
-  "volume": "6",
-  "year": 1992
- },
- "10.1016/0890-8508/92/90002-f": null,
- "10.1016/j.ijmm.2009.05.002": {
-  "authors": [
-   "Huber",
-   "Scholz",
-   "Lucero",
-   "Busse"
-  ],
-  "first_author": "Huber",
-  "journal": "International Journal of Medical Microbiology",
-  "title": "Development of a PCR assay for typing and subtyping of Brucella species",
-  "year": 2009
- },
- "10.1016/j.ijpara.2018.02.003": {
-  "authors": [
-   "Pacheco",
-   "Cepeda",
-   "Bernotien\u0117",
-   "Lotta",
-   "Matta",
-   "Valki\u016bnas",
-   "Escalante"
-  ],
-  "first_author": "Pacheco",
-  "journal": "International Journal for Parasitology",
-  "title": "Primers targeting mitochondrial genes of avian haemosporidians: PCR detection and differential DNA amplification of parasites belonging to different genera",
-  "year": 2018
- },
- "10.1016/j.ijppaw.2019.05.002": {
-  "authors": [
-   "Lotta",
-   "Valki\u016bnas",
-   "Pacheco",
-   "Escalante",
-   "Hern\u00e1ndez",
-   "Matta"
-  ],
-  "first_author": "Lotta",
-  "title": "Disentangling Leucocytozoon parasite diversity in the neotropics: Descriptions of two new species and shortcomings of molecular diagnostics for leucocytozoids",
-  "year": 2019
- },
- "10.1016/j.jip.2005.10.012": {
-  "first_author": "Klee",
-  "journal": "Journal of Invertebrate Pathology",
-  "n_authors": 3,
-  "title": "Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences",
-  "volume": "91",
-  "year": 2006
- },
- "10.1016/j.jip.2007.06.002": {
-  "first_author": "Higes",
-  "journal": "Journal of Invertebrate Pathology",
-  "n_authors": 5,
-  "title": "Detection of infective Nosema ceranae (Microsporidia) spores in corbicular pollen of forager honeybees",
-  "volume": "97",
-  "year": 2008
- },
- "10.1016/j.jip.2018.03.009": {
-  "authors": [
-   "Tripodi",
-   "Szalanski",
-   "Strange"
-  ],
-  "first_author": "Tripodi",
-  "journal": "Journal of Invertebrate Pathology",
-  "title": "Novel multiplex PCR reveals multiple trypanosomatid species infecting North American bumble bees (Hymenoptera: Apidae: Bombus)",
-  "year": 2018
- },
- "10.1016/j.jip.2023.108008": {
-  "authors": [
-   "Strand",
-   "Jinnerot",
-   "Asp\u00e1n",
-   "Viljamaa-Dirks",
-   "Heinikainen",
-   "Rol\u00e9n",
-   "Vr\u00e5lstad"
-  ],
-  "first_author": "Strand",
-  "journal": "Journal of Invertebrate Pathology",
-  "title": "Molecular detection of Aphanomyces astaci \u2013 An improved species specific qPCR assay",
-  "year": 2023
- },
- "10.1016/j.jviromet.2004.05.018": {
-  "authors": [
-   "Guillaume",
-   "Lefeuvre",
-   "Faure",
-   "Marianneau",
-   "Buckland",
-   "Lam",
-   "Wild",
-   "Deubel"
-  ],
-  "first_author": "Guillaume",
-  "journal": "Journal of Virological Methods",
-  "title": "Specific detection of Nipah virus using real-time RT-PCR (TaqMan)",
-  "year": 2004
- },
- "10.1016/j.jviromet.2006.03.008": {
-  "first_author": "V\u00e1zquez-Mor\u00f3n",
-  "journal": "Journal of Virological Methods",
-  "n_authors": 3,
-  "title": "RT-PCR for detection of all seven genotypes of Lyssavirus genus",
-  "volume": "135",
-  "year": 2006
- },
- "10.1016/j.jviromet.2006.05.004": {
-  "first_author": "Elia",
-  "journal": "Journal of Virological Methods",
-  "n_authors": 8,
-  "title": "Detection of canine distemper virus in dogs by real-time RT-PCR",
-  "volume": "136",
-  "year": 2006
- },
- "10.1016/j.jviromet.2007.05.021": {
-  "authors": [
-   "Linke",
-   "Ellerbrok",
-   "Niedrig",
-   "Nitsche",
-   "Pauli"
-  ],
-  "first_author": "Linke",
-  "journal": "Journal of Virological Methods",
-  "title": "Detection of West Nile virus lineages 1 and 2 by real-time PCR",
-  "year": 2007
- },
- "10.1016/j.jviromet.2008.01.022": {
-  "authors": [
-   "Pepin",
-   "Riou",
-   "Renault"
-  ],
-  "first_author": "Pepin",
-  "journal": "Journal of Virological Methods",
-  "title": "Rapid and sensitive detection of ostreid herpesvirus 1 in oyster samples by real-time PCR",
-  "year": 2008
- },
- "10.1016/j.jviromet.2008.08.015": {
-  "authors": [
-   "Katoh",
-   "Ohya",
-   "Fukushi"
-  ],
-  "first_author": "Katoh",
-  "journal": "Journal of Virological Methods",
-  "title": "Development of novel real-time PCR assays for detecting DNA virus infections in psittaciform birds",
-  "year": 2008
- },
- "10.1016/j.jviromet.2008.11.008": {
-  "authors": [
-   "Grant",
-   "Banyard",
-   "Barrett",
-   "Saliki",
-   "Romero"
-  ],
-  "first_author": "Grant",
-  "journal": "Journal of Virological Methods",
-  "title": "Real-time RT-PCR assays for the rapid and differential detection of dolphin and porpoise morbilliviruses",
-  "year": 2009
- },
- "10.1016/j.jviromet.2009.06.026": {
-  "authors": [
-   "Dalton",
-   "Ringleb",
-   "Mart\u00edn Alonso",
-   "Parra"
-  ],
-  "first_author": "Dalton",
-  "journal": "Journal of Virological Methods",
-  "title": "Rapid identification of myxoma virus variants by long-range PCR and restriction fragment length polymorphism analysis",
-  "year": 2009
- },
- "10.1016/j.jviromet.2010.02.027": {
-  "authors": [
-   "Hofmann",
-   "Renzullo",
-   "Planzer",
-   "Mader",
-   "Chaignat",
-   "Thuer"
-  ],
-  "first_author": "Hofmann",
-  "journal": "Journal of Virological Methods",
-  "title": "Detection of Toggenburg Orbivirus by a segment 2-specific quantitative RT-PCR",
-  "year": 2010
- },
- "10.1016/j.jviromet.2011.07.002": {
-  "authors": [
-   "Hayman",
-   "Banyard",
-   "Wakeley",
-   "Harkess",
-   "Marston",
-   "Wood",
-   "Cunningham",
-   "Fooks"
-  ],
-  "first_author": "Hayman",
-  "journal": "Journal of Virological Methods",
-  "title": "A universal real-time assay for the detection of Lyssaviruses",
-  "year": 2011
- },
- "10.1016/j.jviromet.2012.01.020": {
-  "authors": [
-   "Foord",
-   "Middleton",
-   "Heine"
-  ],
-  "first_author": "Foord",
-  "journal": "Journal of Virological Methods",
-  "title": "Hendra virus detection using Loop-Mediated Isothermal Amplification",
-  "year": 2012
- },
- "10.1016/j.jviromet.2012.03.024": {
-  "authors": [
-   "Chen",
-   "Kuo",
-   "Renault",
-   "Friedman",
-   "Chang"
-  ],
-  "first_author": "Chen",
-  "journal": "Journal of Virological Methods",
-  "title": "Development of a polymerase chain reaction for the detection of abalone herpesvirus infection based on the DNA polymerase gene",
-  "year": 2012
- },
- "10.1016/j.jviromet.2016.05.005": {
-  "authors": [
-   "Centelleghe",
-   "Beffagna",
-   "Zanetti",
-   "Zappulli",
-   "Di Guardo",
-   "Mazzariol"
-  ],
-  "first_author": "Centelleghe",
-  "journal": "Journal of Virological Methods",
-  "title": "Molecular analysis of dolphin morbillivirus: A new sensitive detection method based on nested RT-PCR",
-  "year": 2016
- },
- "10.1016/j.jviromet.2016.07.026": {
-  "authors": [
-   "V\u00e1zquez",
-   "Herrero",
-   "Negredo",
-   "Hern\u00e1ndez",
-   "S\u00e1nchez-Seco",
-   "Tenorio"
-  ],
-  "first_author": "V\u00e1zquez",
-  "journal": "Journal of Virological Methods",
-  "title": "Real time PCR assay for detection of all known lineages of West Nile virus",
-  "year": 2016
- },
- "10.1016/j.jviromet.2016.08.010": {
-  "authors": [
-   "Pursell",
-   "Tan",
-   "Peng",
-   "Ling"
-  ],
-  "first_author": "Pursell",
-  "journal": "Journal of Virological Methods",
-  "title": "Generation and validation of new quantitative real time PCR assays to detect elephant endotheliotropic herpesviruses 1A, 1B, and 4",
-  "year": 2016
- },
- "10.1016/j.jviromet.2017.02.017": {
-  "authors": [
-   "\u010cern\u00edkov\u00e1",
-   "Vit\u00e1skov\u00e1",
-   "Nagy"
-  ],
-  "first_author": "\u010cern\u00edkov\u00e1",
-  "journal": "Journal of Virological Methods",
-  "title": "Development and evaluation of TaqMan real-time PCR assay for detection of beak and feather disease virus",
-  "year": 2017
- },
- "10.1016/j.jviromet.2019.113709": {
-  "authors": [
-   "Kwit",
-   "Osi\u0144ski",
-   "Rze\u017cutka"
-  ],
-  "first_author": "Kwit",
-  "journal": "Journal of Virological Methods",
-  "title": "Detection of viral DNA of myxoma virus using a validated PCR method with an internal amplification control",
-  "year": 2019
- },
- "10.1016/j.jviromet.2019.113749": {
-  "authors": [
-   "Komorizono",
-   "Tomonaga",
-   "Makino"
-  ],
-  "first_author": "Komorizono",
-  "journal": "Journal of Virological Methods",
-  "title": "Development of a reverse transcription-loop-mediated isothermal amplification assay for the detection of parrot bornavirus 4",
-  "year": 2020
- },
- "10.1016/j.jviromet.2020.113964": {
-  "authors": [
-   "Groch",
-   "Taniwaki",
-   "Favero",
-   "Brand\u00e3o",
-   "D\u00edaz-Delgado",
-   "Fern\u00e1ndez",
-   "Cat\u00e3o-Dias",
-   "Sierra"
-  ],
-  "first_author": "Groch",
-  "journal": "Journal of Virological Methods",
-  "title": "A novel real-time PCR to detect Cetacean morbillivirus in Atlantic cetaceans",
-  "year": 2020
- },
- "10.1016/j.jviromet.2022.114567": {
-  "authors": [
-   "Chengula",
-   "Mugimba",
-   "Tal",
-   "Levi",
-   "Dubey",
-   "Mutoloki",
-   "Dishon",
-   "David",
-   "Evensen",
-   "Munang\u2019andu"
-  ],
-  "first_author": "Chengula",
-  "journal": "Journal of Virological Methods",
-  "title": "Efficiency, sensitivity and specificity of a quantitative real-time PCR assay for Tilapia Lake virus (TiLV)",
-  "year": 2022
- },
- "10.1016/j.jviromet.2024.114942": {
-  "authors": [
-   "An",
-   "Kim",
-   "Heo",
-   "Kang",
-   "Lee",
-   "Lee"
-  ],
-  "first_author": "An",
-  "journal": "Journal of Virological Methods",
-  "title": "Development and evaluation of a multiplex real-time RT-PCR assay for simultaneous detection of H5, H7, and H9 subtype avian influenza viruses",
-  "year": 2024
- },
- "10.1016/j.meegid.2021.104741": {
-  "authors": [
-   "Kevin",
-   "Girault",
-   "Caspar",
-   "Cherfa",
-   "Mendy",
-   "Maurin",
-   "Ponsart",
-   "Madani"
-  ],
-  "first_author": "Kevin",
-  "journal": "Infection, Genetics and Evolution",
-  "title": "High-resolution melting PCR assay as a powerful tool for the epidemiological surveillance of tularemia in Western Europe",
-  "year": 2021
- },
- "10.1016/j.mimet.2011.04.017": {
-  "authors": [
-   "duPre'",
-   "Tracy",
-   "Hunter"
-  ],
-  "first_author": "duPre'",
-  "journal": "Journal of Microbiological Methods",
-  "title": "Quantitative PCR method for detection of mycoplasma spp. DNA in nasal lavage samples from the desert tortoise (Gopherus agassizii)",
-  "year": 2011
- },
- "10.1016/j.mimet.2022.106594": {
-  "authors": [
-   "Rieder",
-   "Martin-Sanchez",
-   "Osman",
-   "Adrian-Kalchhauser",
-   "Eiler"
-  ],
-  "first_author": "Rieder",
-  "journal": "Journal of Microbiological Methods",
-  "title": "Detecting aquatic pathogens with field-compatible dried qPCR assays",
-  "year": 2022
- },
- "10.1016/j.vetmic.2008.10.035": {
-  "first_author": "Atkins",
-  "journal": "Veterinary Microbiology",
-  "n_authors": 6,
-  "title": "Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus)",
-  "volume": "136",
-  "year": 2009
- },
- "10.1016/j.vetmic.2008.12.022": {
-  "authors": [
-   "Vr\u00e5lstad",
-   "Knutsen",
-   "Tengs",
-   "Holst-Jensen"
-  ],
-  "first_author": "Vr\u00e5lstad",
-  "journal": "Veterinary Microbiology",
-  "title": "A quantitative TaqMan\u00ae MGB real-time polymerase chain reaction based assay for detection of the causative agent of crayfish plague Aphanomyces astaci",
-  "year": 2009
- },
- "10.1016/j.vetmic.2010.05.042": {
-  "first_author": "Latimer",
-  "journal": "Veterinary Microbiology",
-  "n_authors": 5,
-  "title": "Detection and evaluation of novel herpesviruses in routine and pathological samples from Asian and African elephants: Identification of two new probosciviruses (EEHV5 and EEHV6) and two new gammaherpesviruses (EGHV3B and EGHV5)",
-  "volume": "147",
-  "year": 2011
- },
- "10.1016/j.vetmic.2012.07.030": {
-  "first_author": "Hyndman",
-  "journal": "Veterinary Microbiology",
-  "n_authors": 4,
-  "title": "Sunshine virus in Australian pythons",
-  "volume": "161",
-  "year": 2012
- },
- "10.1016/j.vetmic.2012.12.031": {
-  "authors": [
-   "Rubio-Guerri",
-   "Melero",
-   "Rivera-Arroyo",
-   "Belli\u00e8re",
-   "Crespo",
-   "Garc\u00eda-P\u00e1rraga",
-   "Esper\u00f3n",
-   "S\u00e1nchez-Vizca\u00edno"
-  ],
-  "first_author": "Rubio-Guerri",
-  "journal": "Veterinary Microbiology",
-  "title": "Simultaneous diagnosis of Cetacean morbillivirus infection in dolphins stranded in the Spanish Mediterranean sea in 2011 using a novel Universal Probe Library (UPL) RT-PCR assay",
-  "year": 2013
- },
- "10.1016/j.vetmic.2021.109136": {
-  "authors": [
-   "Desiderio",
-   "Stacy",
-   "Ossiboff",
-   "Iredale",
-   "Archer",
-   "Alexander",
-   "Heard",
-   "Crevasse",
-   "Craft",
-   "Fredholm",
-   "Donnelly",
-   "Rosenberg",
-   "Childress",
-   "Russell",
-   "Wellehan"
-  ],
-  "first_author": "Desiderio",
-  "journal": "Veterinary Microbiology",
-  "title": "Identification of a novel mortality-associated Helicobacter species in gopher tortoises (Gopherus polyphemus), qPCR test development and validation, and correlation with mortality in a wildlife rehabilitation population",
-  "year": 2021
- },
- "10.1016/j.vetpar.2011.01.038": {
-  "authors": [
-   "Schares",
-   "Maksimov",
-   "Basso",
-   "Mor\u00e9",
-   "Dubey",
-   "Rosenthal",
-   "Majzoub",
-   "Rostaher",
-   "Selmair",
-   "Langenmayer",
-   "Scharr",
-   "Conraths",
-   "Gollnick"
-  ],
-  "first_author": "Schares",
-  "journal": "Veterinary Parasitology",
-  "title": "Quantitative real time polymerase chain reaction assays for the sensitive detection of Besnoitia besnoiti infection in cattle",
-  "year": 2011
- },
- "10.1016/j.vetpar.2011.02.025": {
-  "authors": [
-   "De Ambrogi",
-   "Aghazadeh",
-   "Hermosilla",
-   "Huber",
-   "Majnaric",
-   "Reljic",
-   "Elson-Riggins"
-  ],
-  "first_author": "De Ambrogi",
-  "journal": "Veterinary Parasitology",
-  "title": "Occurrence of Baylisascaris transfuga in wild populations of European brown bears (Ursus arctos) as identified by a new PCR method",
-  "year": 2011
- },
- "10.1016/j.vetpar.2012.10.001": {
-  "authors": [
-   "Bartley",
-   "Wright",
-   "Zimmer",
-   "Roy",
-   "Kitchener",
-   "Meredith",
-   "Innes",
-   "Katzer"
-  ],
-  "first_author": "Bartley",
-  "journal": "Veterinary Parasitology",
-  "title": "Detection of Neospora caninum in wild carnivorans in Great Britain",
-  "year": 2013
- },
- "10.1016/s0016-5085(98)70589-x": {
-  "first_author": "Fox",
-  "journal": "Gastroenterology",
-  "n_authors": 11,
-  "title": "Hepatic Helicobacter species identified in bile and gallbladder tissue from chileans with chronic cholecystitis",
-  "volume": "114",
-  "year": 1998
- },
- "10.1016/s0016-5085/98/70589-x": null,
- "10.1016/s0166-0934(01)00306-8": {
-  "first_author": "S\u00e1nchez-Seco",
-  "journal": "Journal of Virological Methods",
-  "n_authors": 5,
-  "title": "A generic nested-RT-PCR followed by sequencing for detection and identification of members of the alphavirus genus",
-  "volume": "95",
-  "year": 2001
- },
- "10.1016/s0166-0934(02)00148-9": {
-  "authors": [
-   "Barbezange",
-   "Jestin"
-  ],
-  "first_author": "Barbezange",
-  "journal": "Journal of Virological Methods",
-  "title": "Development of a RT-nested PCR test detecting pigeon Paramyxovirus-1 directly from organs of infected animals",
-  "year": 2002
- },
- "10.1016/s0166-0934(96)02155-6": {
-  "first_author": "Meyer",
-  "journal": "Journal of Virological Methods",
-  "n_authors": 3,
-  "title": "Gene for A-type inclusion body protein is useful for a polymerase chain reaction assay to differentiate orthopoxviruses",
-  "volume": "64",
-  "year": 1997
- },
- "10.1016/s0166-0934(99)00088-9": {
-  "first_author": "Reid",
-  "journal": "Journal of Virological Methods",
-  "n_authors": 6,
-  "title": "Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing",
-  "volume": "82",
-  "year": 1999
- },
- "10.1016/s0166-0934/01/00306-8": null,
- "10.1016/s0166-0934/96/02155-6": null,
- "10.1016/s0166-0934/99/00088-9": null,
- "10.1016/s0168-1702(00)00252-5": {
-  "first_author": "Chmielewicz",
-  "journal": "Virus Research",
-  "n_authors": 3,
-  "title": "Detection and multigenic characterization of a novel gammaherpesvirus in goats",
-  "volume": "75",
-  "year": 2001
- },
- "10.1016/s0168-1702(97)01458-5": {
-  "first_author": "Lozano",
-  "journal": "Virus Research",
-  "n_authors": 8,
-  "title": "Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification and RFLP analysis",
-  "volume": "49",
-  "year": 1997
- },
- "10.1016/s0168-1702(99)00059-3": {
-  "first_author": "Ahne",
-  "journal": "Virus Research",
-  "n_authors": 4,
-  "title": "Comparative sequence analyses of sixteen reptilian paramyxoviruses",
-  "volume": "63",
-  "year": 1999
- },
- "10.1016/s0168-1702/00/00252-5": null,
- "10.1016/s0168-1702/97/01458-5": null,
- "10.1016/s0168-1702/99/00059-3": null,
- "10.1017/s0031182018000227": {
-  "authors": [
-   "Makkonen",
-   "Jussila",
-   "Panteleit",
-   "Keller",
-   "Schrimpf",
-   "Theissinger",
-   "Kortet",
-   "Mart\u00edn-Torrijos",
-   "Sandoval-Sierra",
-   "Di\u00e9guez-Uribeondo",
-   "Kokko"
-  ],
-  "first_author": "Makkonen",
-  "journal": "Parasitology",
-  "title": "MtDNA allows the sensitive detection and haplotyping of the crayfish plague disease agentAphanomyces astacishowing clues about its origin and migration",
-  "year": 2018
- },
- "10.1038/labinvest.3700143": {
-  "first_author": "Kulesh",
-  "journal": "Laboratory Investigation",
-  "n_authors": 17,
-  "title": "Monkeypox virus detection in rodents using real-time 3\u2032-minor groove binder TaqMan\u00ae assays on the Roche LightCycler",
-  "volume": "84",
-  "year": 2004
- },
- "10.1038/nature08200": {
-  "first_author": "Keele",
-  "journal": "Nature",
-  "n_authors": 25,
-  "title": "Increased mortality and AIDS-like immunopathology in wild chimpanzees infected with SIVcpz",
-  "volume": "460",
-  "year": 2009
- },
- "10.1038/s41598-018-28304-1": {
-  "authors": [
-   "Mutnale",
-   "Anand",
-   "Eluvathingal",
-   "Roy",
-   "Reddy",
-   "Vasudevan"
-  ],
-  "first_author": "Mutnale",
-  "title": "Enzootic frog pathogen Batrachochytrium dendrobatidis in Asian tropics reveals high ITS haplotype diversity and low prevalence",
-  "year": 2018
- },
- "10.1038/s41598-020-57909-8": {
-  "first_author": "Kato",
-  "journal": "Scientific Reports",
-  "n_authors": 5,
-  "title": "Direct and sensitive detection of a microsporidian parasite of bumblebees using loop-mediated isothermal amplification (LAMP)",
-  "volume": "10",
-  "year": 2020
- },
- "10.1038/s41598-025-03903-x": {
-  "authors": [
-   "Nesti",
-   "Hayashida",
-   "Sugi",
-   "Artama",
-   "Wijayanto",
-   "Kawai",
-   "Yamagishi"
-  ],
-  "first_author": "Nesti",
-  "title": "Development of a semicomprehensive detection method for paramyxoviruses and its validation using Indonesian bats",
-  "year": 2025
- },
- "10.1046/j.1365-2672.1997.00300.x": {
-  "first_author": "Wang",
-  "journal": "Journal of Applied Microbiology",
-  "n_authors": 3,
-  "title": "A universal protocol for PCR detection of 13 species of foodborne pathogens in foods",
-  "volume": "83",
-  "year": 1997
- },
- "10.1073/pnas.1416625111": {
-  "authors": [
-   "Hewson",
-   "Button",
-   "Gudenkauf",
-   "Miner",
-   "Newton",
-   "Gaydos",
-   "Wynne",
-   "Groves",
-   "Hendler",
-   "Murray",
-   "Fradkin",
-   "Breitbart",
-   "Fahsbender",
-   "Lafferty",
-   "Kilpatrick",
-   "Miner",
-   "Raimondi",
-   "Lahner",
-   "Friedman",
-   "Daniels",
-   "Haulena",
-   "Marliave",
-   "Burge",
-   "Eisenlord",
-   "Harvell"
-  ],
-  "first_author": "Hewson",
-  "journal": "Proceedings of the National Academy of Sciences",
-  "title": "Densovirus associated with sea-star wasting disease and mass mortality",
-  "year": 2014
- },
- "10.1073/pnas.182412299": {
-  "first_author": "Gao",
-  "journal": "Proceedings of the National Academy of Sciences",
-  "n_authors": 6,
-  "title": "Novel adeno-associated viruses from rhesus monkeys as vectors for human gene therapy",
-  "volume": "99",
-  "year": 2002
- },
- "10.1080/03079450802216629": {
-  "authors": [
-   "Grodio",
-   "Dhondt",
-   "O'Connell",
-   "Schat"
-  ],
-  "first_author": "Grodio",
-  "journal": "Avian Pathology",
-  "title": "Detection and quantification of\n                    Mycoplasma gallisepticum\n                    genome load in conjunctival samples of experimentally infected house finches (\n                    Carpodacus mexicanus\n                    ) using real-time polymerase chain reaction",
-  "year": 2008
- },
- "10.1080/03079457.2022.2031882": {
-  "authors": [
-   "Lee",
-   "Lee",
-   "Kang",
-   "Jeong",
-   "Kwon",
-   "Kang"
-  ],
-  "first_author": "Lee",
-  "journal": "Avian Pathology",
-  "title": "A multiplex real-time PCR assay for differential identification of avian Chlamydia",
-  "year": 2022
- },
- "10.1089/vbz.2007.0206": {
-  "first_author": "Moureau",
-  "journal": "Vector-Borne and Zoonotic Diseases",
-  "n_authors": 6,
-  "title": "A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses",
-  "volume": "7",
-  "year": 2007
- },
- "10.1093/infdis/167.2.458": {
-  "first_author": "Sethabutr",
-  "journal": "Journal of Infectious Diseases",
-  "n_authors": 6,
-  "title": "Detection of Shigellae and EnteroinvasiveEscherichia coliby Amplification of the Invasion Plasmid Antigen H DNA Sequence in Patients with Dysentery",
-  "volume": "167",
-  "year": 1993
- },
- "10.1093/nar/13.24.8927": {
-  "authors": [
-   "Martin",
-   "Castro",
-   "Aboul-ela",
-   "Tinoco"
-  ],
-  "first_author": "Martin",
-  "journal": "Nucleic Acids Research",
-  "title": "Base pairing involving deoxyinosine: implications for probe design",
-  "year": 1985
- },
- "10.1093/nar/18.4.999": {
-  "authors": [
-   "Kwok",
-   "Kellogg",
-   "McKinney",
-   "Spasic",
-   "Goda",
-   "Levenson",
-   "Sninsky"
-  ],
-  "first_author": "Kwok",
-  "journal": "Nucleic Acids Research",
-  "title": "Effects of primer-template mismatches on the polymerase chain reaction: Human immunodeficiency virus type 1 model studies",
-  "year": 1990
- },
- "10.1093/nar/gki918": {
-  "authors": [
-   "Watkins"
-  ],
-  "first_author": "Watkins",
-  "journal": "Nucleic Acids Research",
-  "title": "Nearest-neighbor thermodynamics of deoxyinosine pairs in DNA duplexes",
-  "year": 2005
- },
- "10.1093/ve/veaa024": {
-  "authors": [
-   "Vaz",
-   "Raso",
-   "Agius",
-   "Hunt",
-   "Leishman",
-   "Eden",
-   "Phalen"
-  ],
-  "first_author": "Vaz",
-  "title": "Opportunistic sampling of wild native and invasive birds reveals a rich diversity of adenoviruses in Australia",
-  "year": 2020
- },
- "10.1098/rsos.180870": {
-  "first_author": "Kwon",
-  "journal": "Royal Society Open Science",
-  "n_authors": 13,
-  "title": "Tasman-PCR: a genetic diagnostic assay for Tasmanian devil facial tumour diseases",
-  "volume": "5",
-  "year": 2018
- },
- "10.1098/rsos.202150": {
-  "first_author": "Smilansky",
-  "journal": "Royal Society Open Science",
-  "n_authors": 5,
-  "title": "A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues",
-  "volume": "8",
-  "year": 2021
- },
- "10.1099/0022-1317-80-9-2437": {
-  "first_author": "Forslund",
-  "journal": "Journal of General Virology",
-  "n_authors": 5,
-  "title": "A broad range of human papillomavirus types detected with a general PCR method suitable for analysis of cutaneous tumours and normal skin",
-  "volume": "80",
-  "year": 1999
- },
- "10.1099/00221287-146-2-315": {
-  "first_author": "Zhu",
-  "journal": "Microbiology",
-  "n_authors": 3,
-  "title": "Cryptosporidium parvum appears to lack a plastid genome",
-  "volume": "146",
-  "year": 2000
- },
- "10.1099/jmm.0.061820-0": {
-  "first_author": "Garc\u00eda",
-  "journal": "Journal of Medical Microbiology",
-  "n_authors": 8,
-  "title": "Molecular epidemiology and genetic diversity of Entamoeba species in a chelonian collection",
-  "volume": "63",
-  "year": 2014
- },
- "10.1099/jmm.0.45860-0": {
-  "authors": [
-   "Levett",
-   "Morey",
-   "Galloway",
-   "Turner",
-   "Steigerwalt",
-   "Mayer"
-  ],
-  "first_author": "Levett",
-  "journal": "Journal of Medical Microbiology",
-  "title": "Detection of pathogenic leptospires by real-time quantitative PCR",
-  "year": 2005
- },
- "10.1099/jmm.0.46335-0": {
-  "authors": [
-   "M\u00e9nard",
-   "Clerc",
-   "Subtil",
-   "M\u00e9graud",
-   "B\u00e9b\u00e9ar",
-   "de Barbeyrac"
-  ],
-  "first_author": "M\u00e9nard",
-  "journal": "Journal of Medical Microbiology",
-  "title": "Development of a real-time PCR for the detection of Chlamydia psittaci",
-  "year": 2006
- },
- "10.1099/vir.0.80962-0": {
-  "authors": [
-   "Hammond",
-   "Pomeroy",
-   "Hall",
-   "Smith"
-  ],
-  "first_author": "Hammond",
-  "journal": "Journal of General Virology",
-  "title": "Identification and real-time PCR quantification of Phocine distemper virus from two colonies of Scottish grey seals in 2002",
-  "year": 2005
- },
- "10.1099/vir.0.81128-0": {
-  "first_author": "Bourhy",
-  "journal": "Journal of General Virology",
-  "n_authors": 5,
-  "title": "Phylogenetic relationships among rhabdoviruses inferred using the L polymerase gene",
-  "volume": "86",
-  "year": 2005
- },
- "10.1099/vir.0.81738-0": {
-  "authors": [
-   "Jarmin",
-   "Manvell",
-   "Gough",
-   "Laidlaw",
-   "Skinner"
-  ],
-  "first_author": "Jarmin",
-  "journal": "Journal of General Virology",
-  "title": "Avipoxvirus phylogenetics: identification of a PCR length polymorphism that discriminates between the two major clades",
-  "year": 2006
- },
- "10.1111/1755-0998.13299": {
-  "first_author": "Ghosh",
-  "journal": "Molecular Ecology Resources",
-  "n_authors": 9,
-  "title": "Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR",
-  "volume": "21",
-  "year": 2021
- },
- "10.1111/j.1365-2761.2007.00828.x": {
-  "first_author": "Pallister",
-  "journal": "Journal of Fish Diseases",
-  "n_authors": 6,
-  "title": "Development of real\u2010time PCR assays for the detection and differentiation of Australian and European ranaviruses",
-  "volume": "30",
-  "year": 2007
- },
- "10.1111/j.1365-2761.2009.01066.x": {
-  "authors": [
-   "Fujiwara\u2010Nagata",
-   "Eguchi"
-  ],
-  "first_author": "Fujiwara\u2010Nagata",
-  "journal": "Journal of Fish Diseases",
-  "title": "Development and evaluation of a loop\u2010mediated isothermal amplification assay for rapid and simple detection of Flavobacterium psychrophilum",
-  "year": 2009
- },
- "10.1111/j.1750-2659.2010.00149.x": {
-  "authors": [
-   "Slomka",
-   "Densham",
-   "Coward",
-   "Essen",
-   "Brookes",
-   "Irvine",
-   "Spackman",
-   "Ridgeon",
-   "Gardner",
-   "Hanna",
-   "Suarez",
-   "Brown"
-  ],
-  "first_author": "Slomka",
-  "title": "Original Article: Real time reverse transcription (RRT)\u2010polymerase chain reaction (PCR) methods for detection of pandemic (H1N1) 2009 influenza virus and European swine influenza A virus infections in pigs",
-  "year": 2010
- },
- "10.1111/tbed.12607": {
-  "authors": [
-   "Dalton",
-   "Nicieza",
-   "Podadera",
-   "de Llano",
-   "Martin Alonso",
-   "de los Toyos",
-   "Garc\u00eda Oca\u00f1a",
-   "V\u00e1zquez-Villa",
-   "Velasco",
-   "Landeta",
-   "Parra"
-  ],
-  "first_author": "Dalton",
-  "journal": "Transboundary and Emerging Diseases",
-  "title": "Fast specific field detection of RHDVb",
-  "year": 2017
- },
- "10.1111/tmi.70157": {
-  "authors": [
-   "Kanayama",
-   "Ejiri",
-   "Chiko",
-   "Namihira",
-   "Yonaha",
-   "Kuba",
-   "Yoshimi",
-   "Koizumi",
-   "Takeshima",
-   "Kaku"
-  ],
-  "first_author": "Kanayama",
-  "title": "Environmental Distribution of Pathogenic\n                    Leptospira\n                    spp. in Subtropical Rivers of Japan and Implications for Human Infection",
-  "year": 2026
- },
- "10.1111/zph.12041": {
-  "authors": [
-   "Kauffman",
-   "Bjork",
-   "Gallup",
-   "Boggiatto",
-   "Bellaire",
-   "Petersen"
-  ],
-  "first_author": "Kauffman",
-  "journal": "Zoonoses and Public Health",
-  "title": "Early Detection ofBrucella Canisvia Quantitative Polymerase Chain Reaction Analysis",
-  "year": 2013
- },
- "10.1126/science.288.5470.1432": {
-  "first_author": "Chua",
-  "journal": "Science",
-  "n_authors": 22,
-  "title": "Nipah Virus: A Recently Emergent Deadly Paramyxovirus",
-  "volume": "288",
-  "year": 2000
- },
- "10.1128/aem.00270-07": {
-  "first_author": "Marti\u0301n-Herna\u0301ndez",
-  "journal": "Applied and Environmental Microbiology",
-  "n_authors": 6,
-  "title": "Outcome of Colonization of Apis mellifera by Nosema ceranae",
-  "volume": "73",
-  "year": 2007
- },
- "10.1128/aem.00330-10": {
-  "first_author": "Pollock",
-  "journal": "Applied and Environmental Microbiology",
-  "n_authors": 4,
-  "title": "Detection and Quantification of the Coral Pathogen Vibrio coralliilyticus by Real-Time PCR with TaqMan Fluorescent Probes",
-  "volume": "76",
-  "year": 2010
- },
- "10.1128/aem.02897-13": {
-  "first_author": "Shuey",
-  "journal": "Applied and Environmental Microbiology",
-  "n_authors": 5,
-  "title": "Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species",
-  "volume": "80",
-  "year": 2014
- },
- "10.1128/aem.58.8.2606-2615.1992": {
-  "first_author": "van Kuppeveld",
-  "journal": "Applied and Environmental Microbiology",
-  "n_authors": 8,
-  "title": "Genus- and species-specific identification of mycoplasmas by 16S rRNA amplification",
-  "volume": "58",
-  "year": 1992
- },
- "10.1128/aem.60.1.149-152.1994": {
-  "authors": [
-   "van Kuppeveld",
-   "Johansson",
-   "Galama",
-   "Kissing",
-   "B\u00f6lske",
-   "van der Logt",
-   "Melchers"
-  ],
-  "first_author": "van Kuppeveld",
-  "title": "Detection of mycoplasma contamination in cell cultures by a mycoplasma group-specific PCR",
-  "year": 1994
- },
- "10.1128/aem.65.4.1578-1583.1999": {
-  "first_author": "Xiao",
-  "journal": "Applied and Environmental Microbiology",
-  "n_authors": 8,
-  "title": "Phylogenetic Analysis of Cryptosporidium Parasites Based on the Small-Subunit rRNA Gene Locus",
-  "volume": "65",
-  "year": 1999
- },
- "10.1128/aem.66.12.5492-5498.2000": {
-  "first_author": "Xiao",
-  "journal": "Applied and Environmental Microbiology",
-  "n_authors": 5,
-  "title": "Identification of Species and Sources of Cryptosporidium Oocysts in Storm Waters with a Small-Subunit rRNA-Based Diagnostic and Genotyping Tool",
-  "volume": "66",
-  "year": 2000
- },
- "10.1128/aem.69.1.290-296.2003": {
-  "authors": [
-   "Malorny",
-   "Hoorfar",
-   "Bunge",
-   "Helmuth"
-  ],
-  "first_author": "Malorny",
-  "title": "Multicenter Validation of the Analytical Accuracy ofSalmonellaPCR: towards an International Standard",
-  "year": 2003
- },
- "10.1128/cdli.6.2.243-246.1999": {
-  "first_author": "Mu\u0308ller",
-  "journal": "Clinical Diagnostic Laboratory Immunology",
-  "n_authors": 8,
-  "title": "A Powerful DNA Extraction Method and PCR for Detection of Microsporidia in Clinical Stool Specimens",
-  "volume": "6",
-  "year": 1999
- },
- "10.1128/jcm.00192-08": {
-  "first_author": "Tong",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 5,
-  "title": "Sensitive and Broadly Reactive Reverse Transcription-PCR Assays To Detect Novel Paramyxoviruses",
-  "volume": "46",
-  "year": 2008
- },
- "10.1128/jcm.00440-14": {
-  "first_author": "Boniotti",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 12,
-  "title": "Detection and Molecular Characterization of Mycobacterium microti Isolates in Wild Boar from Northern Italy",
-  "volume": "52",
-  "year": 2014
- },
- "10.1128/jcm.00542-06": {
-  "first_author": "Nix",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 3,
-  "title": "Sensitive, Seminested PCR Amplification of VP1 Sequences for Direct Identification of All Enterovirus Serotypes from Original Clinical Specimens",
-  "volume": "44",
-  "year": 2006
- },
- "10.1128/jcm.01173-11": {
-  "authors": [
-   "Michael",
-   "Forslund",
-   "Bacevskij",
-   "Waterboer",
-   "Bravo",
-   "Pawlita",
-   "Schmitt"
-  ],
-  "first_author": "Michael",
-  "title": "Bead-Based Multiplex Genotyping of 58 Cutaneous Human Papillomavirus Types",
-  "year": 2011
- },
- "10.1128/jcm.01264-10": {
-  "first_author": "Tsukamoto",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 8,
-  "title": "Broad Detection of Diverse H5 and H7 Hemagglutinin Genes of Avian Influenza Viruses by Real-Time Reverse Transcription-PCR Using Primer and Probe Sets Containing Mixed Bases",
-  "volume": "48",
-  "year": 2010
- },
- "10.1128/jcm.01697-09": {
-  "first_author": "Li",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 4,
-  "title": "GC Content-Based Pan-Pox Universal PCR Assays for Poxvirus Detection",
-  "volume": "48",
-  "year": 2010
- },
- "10.1128/jcm.01808-16": {
-  "first_author": "Kembou Tsofack",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 13,
-  "title": "Detection of Tilapia Lake Virus in Clinical Samples by Culturing and Nested Reverse Transcription-PCR",
-  "volume": "55",
-  "year": 2017
- },
- "10.1128/jcm.01893-06": {
-  "first_author": "Zhai",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 13,
-  "title": "Rapid Molecular Strategy for Filovirus Detection and Characterization",
-  "volume": "45",
-  "year": 2007
- },
- "10.1128/jcm.02313-13": {
-  "first_author": "Blooi",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 6,
-  "title": "Duplex Real-Time PCR for Rapid Simultaneous Detection of Batrachochytrium dendrobatidis and Batrachochytrium salamandrivorans in Amphibian Samples",
-  "volume": "51",
-  "year": 2013
- },
- "10.1128/jcm.02505-21": {
-  "first_author": "Geiselhardt",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 13,
-  "title": "Development and Validation of a Pan-Genotypic Real-Time Quantitative Reverse Transcription-PCR Assay To Detect Canine Distemper Virus and Phocine Distemper Virus in Domestic Animals and Wildlife",
-  "volume": "60",
-  "year": 2022
- },
- "10.1128/jcm.02713-12": {
-  "authors": [
-   "Lindsay",
-   "Ochieng",
-   "Ikumapayi",
-   "Toure",
-   "Ahmed",
-   "Li",
-   "Panchalingam",
-   "Levine",
-   "Kotloff",
-   "Rasko",
-   "Morris",
-   "Juma",
-   "Fields",
-   "Dione",
-   "Malle",
-   "Becker",
-   "Houpt",
-   "Nataro",
-   "Sommerfelt",
-   "Pop",
-   "Oundo",
-   "Antonio",
-   "Hossain",
-   "Tamboura",
-   "Stine"
-  ],
-  "first_author": "Lindsay",
-  "title": "Quantitative PCR for Detection of Shigella Improves Ascertainment of Shigella Burden in Children with Moderate-to-Severe Diarrhea in Low-Income Countries",
-  "year": 2013
- },
- "10.1128/jcm.29.1.158-161.1991": {
-  "first_author": "Victor",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 5,
-  "title": "Improved method for the routine identification of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit",
-  "volume": "29",
-  "year": 1991
- },
- "10.1128/jcm.30.8.1942-1947.1992": {
-  "first_author": "Ibrahim",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 3,
-  "title": "Polymerase chain reaction-gene probe detection system specific for pathogenic strains of Yersinia enterocolitica",
-  "volume": "30",
-  "year": 1992
- },
- "10.1128/jcm.31.1.152-154.1993": {
-  "first_author": "Long",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 6,
-  "title": "Detection of Francisella tularensis in blood by polymerase chain reaction",
-  "volume": "31",
-  "year": 1993
- },
- "10.1128/jcm.34.7.1666-1671.1996": {
-  "first_author": "VanDevanter",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 7,
-  "title": "Detection and analysis of diverse herpesviral species by consensus primer PCR",
-  "volume": "34",
-  "year": 1996
- },
- "10.1128/jcm.35.8.2043-2046.1997": {
-  "first_author": "Messmer",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 5,
-  "title": "Application of a nested, multiplex PCR to psittacosis outbreaks",
-  "volume": "35",
-  "year": 1997
- },
- "10.1128/jcm.39.12.4506-4513.2001": {
-  "first_author": "Lanciotti",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 2,
-  "title": "Nucleic Acid Sequence-Based Amplification Assays for Rapid Detection of West Nile and St. Louis Encephalitis Viruses",
-  "volume": "39",
-  "year": 2001
- },
- "10.1128/jcm.39.5.1922-1927.2001": {
-  "first_author": "Scaramozzino",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 6,
-  "title": "Comparison of Flavivirus Universal Primer Pairs and Development of a Rapid, Highly Sensitive Heminested Reverse Transcription-PCR Assay for Detection of Flaviviruses Targeted to a Conserved Region of the NS5 Gene Sequences",
-  "volume": "39",
-  "year": 2001
- },
- "10.1128/jcm.39.6.2248-2253.2001": {
-  "first_author": "Xiao",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 6,
-  "title": "Genotyping Encephalitozoon cuniculi by Multilocus Analyses of Genes with Repetitive Sequences",
-  "volume": "39",
-  "year": 2001
- },
- "10.1128/jcm.40.9.3256-3260.2002": {
-  "first_author": "Spackman",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 9,
-  "title": "Development of a Real-Time Reverse Transcriptase PCR Assay for Type A Influenza Virus and the Avian H5 and H7 Hemagglutinin Subtypes",
-  "volume": "40",
-  "year": 2002
- },
- "10.1128/jcm.41.8.3661-3667.2003": {
-  "authors": [
-   "Kauffman",
-   "Jones",
-   "Dupuis",
-   "Ngo",
-   "Bernard",
-   "Kramer"
-  ],
-  "first_author": "Kauffman",
-  "title": "Virus Detection Protocols for West Nile Virus in Vertebrate and Mosquito Specimens",
-  "year": 2003
- },
- "10.1128/jcm.43.12.6176-6182.2005": {
-  "first_author": "Casas",
-  "journal": "Journal of Clinical Microbiology",
-  "n_authors": 10,
-  "title": "Molecular Identification of Adenoviruses in Clinical Samples by Analyzing a Partial Hexon Genomic Region",
-  "volume": "43",
-  "year": 2005
- },
- "10.1128/jvi.02311-08": {
-  "first_author": "Takehisa",
-  "journal": "Journal of Virology",
-  "n_authors": 15,
-  "title": "Origin and Biology of Simian Immunodeficiency Virus in Wild-Living Western Gorillas",
-  "volume": "83",
-  "year": 2009
- },
- "10.1128/jvi.72.12.10305-10309.1998": {
-  "first_author": "Clewley",
-  "journal": "Journal of Virology",
-  "n_authors": 4,
-  "title": "A Novel Simian Immunodeficiency Virus (SIVdrl)polSequence from the Drill Monkey,Mandrillus leucophaeus",
-  "volume": "72",
-  "year": 1998
- },
- "10.1128/jvi.75.2.857-866.2001": {
-  "first_author": "Courgnaud",
-  "journal": "Journal of Virology",
-  "n_authors": 7,
-  "title": "Characterization of a Novel Simian Immunodeficiency Virus from Guereza Colobus Monkeys ( Colobus guereza ) in Cameroon: a New Lineage in the Nonhuman Primate Lentivirus Family",
-  "volume": "75",
-  "year": 2001
- },
- "10.1128/jvi.78.23.13366-13369.2004": {
-  "first_author": "Wellehan",
-  "journal": "Journal of Virology",
-  "n_authors": 9,
-  "title": "Detection and Analysis of Six Lizard Adenoviruses by Consensus Primer PCR Provides Further Evidence of a Reptilian Origin for the Atadenoviruses",
-  "volume": "78",
-  "year": 2004
- },
- "10.1128/jvi.79.6.3883-3887.2005": {
-  "first_author": "Johne",
-  "journal": "Journal of Virology",
-  "n_authors": 4,
-  "title": "Novel Polyomavirus Detected in the Feces of a Chimpanzee by Nested Broad-Spectrum PCR",
-  "volume": "79",
-  "year": 2005
- },
- "10.1128/mbio.00208-10": {
-  "first_author": "Quan",
-  "journal": "mBio",
-  "n_authors": 14,
-  "title": "Identification of a Severe Acute Respiratory Syndrome Coronavirus-Like Virus in a Leaf-Nosed Bat in Nigeria",
-  "volume": "1",
-  "year": 2010
- },
- "10.1155/2023/9980566": {
-  "authors": [
-   "Sreedharan",
-   "Singh Panwar",
-   "Murthy",
-   "Klop-Toker",
-   "Ib\u00e1\u00f1ez",
-   "Illueca",
-   "Webb",
-   "Govindappa",
-   "Subba",
-   "Segu",
-   "Kumar Komanduri",
-   "Vasudevan"
-  ],
-  "first_author": "Sreedharan",
-  "title": "A Universal and Efficient Detection of Chytridiomycosis Infections in Amphibians Using Novel Quantitative PCR Markers",
-  "year": 2023
- },
- "10.1177/104063870101300610": {
-  "authors": [
-   "Murakami",
-   "Matsuba",
-   "Une",
-   "Nomura",
-   "Fujitani"
-  ],
-  "first_author": "Murakami",
-  "journal": "Journal of Veterinary Diagnostic Investigation",
-  "title": "Development of Species-Specific PCR Techniques for the Detection of Tortoise Herpesvirus",
-  "year": 2001
- },
- "10.1177/104063871002200106": {
-  "first_author": "Landolfi",
-  "journal": "Journal of Veterinary Diagnostic Investigation",
-  "n_authors": 7,
-  "title": "Orthoreovirus Infection and Concurrent Cryptosporidiosis in Rough Green Snakes ( Opheodrys Aestivus ): Pathology and Identification of a Novel Orthoreovirus Strain via Polymerase Chain Reaction and Sequencing",
-  "volume": "22",
-  "year": 2010
- },
- "10.1177/1040638711403406": {
-  "authors": [
-   "de Kloet",
-   "Kerski",
-   "de Kloet"
-  ],
-  "first_author": "de Kloet",
-  "journal": "Journal of Veterinary Diagnostic Investigation",
-  "title": "Diagnosis of Avian bornavirus infection in psittaciformes by serum antibody detection and reverse transcription polymerase chain reaction assay using feather calami",
-  "year": 2011
- },
- "10.1177/1040638711416846": {
-  "first_author": "Rebelo",
-  "journal": "Journal of Veterinary Diagnostic Investigation",
-  "n_authors": 3,
-  "title": "Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples",
-  "volume": "23",
-  "year": 2011
- },
- "10.1177/1040638715573983": {
-  "authors": [
-   "Allender",
-   "Bunick",
-   "Dzhaman",
-   "Burrus",
-   "Maddox"
-  ],
-  "first_author": "Allender",
-  "journal": "Journal of Veterinary Diagnostic Investigation",
-  "title": "Development and use of a real-time polymerase chain reaction assay for the detection of\n                    Ophidiomyces ophiodiicola\n                    in snakes",
-  "year": 2015
- },
- "10.1177/1040638720951134": {
-  "first_author": "Licheri",
-  "journal": "Journal of Veterinary Diagnostic Investigation",
-  "n_authors": 2,
-  "title": "Consensus PCR protocols for the detection of amphibian herpesviruses ( Batrachovirus )",
-  "volume": "32",
-  "year": 2020
- },
- "10.1186/1743-422X-6-210": {
-  "authors": [
-   "Deckers",
-   "Hofmann",
-   "Kreuzer",
-   "Reinhard",
-   "Edubio",
-   "Hengel",
-   "Voigt",
-   "Ehlers"
-  ],
-  "first_author": "Deckers",
-  "title": "High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR",
-  "year": 2009
- },
- "10.1186/1743-422x-11-144": {
-  "first_author": "Uccellini",
-  "journal": "Virology Journal",
-  "n_authors": 12,
-  "title": "Identification of a novel nidovirus in an outbreak of fatal respiratory disease in ball pythons (Python regius)",
-  "volume": "11",
-  "year": 2014
- },
- "10.1186/1743-422x-4-84": {
-  "first_author": "Prepens",
-  "journal": "Virology Journal",
-  "n_authors": 5,
-  "title": "Discovery of herpesviruses in multi-infected primates using locked nucleic acids (LNA) and a bigenic PCR approach",
-  "volume": "4",
-  "year": 2007
- },
- "10.1186/1743-422x-6-210": {
-  "first_author": "Deckers",
-  "journal": "Virology Journal",
-  "n_authors": 8,
-  "title": "High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR",
-  "volume": "6",
-  "year": 2009
- },
- "10.1186/s12917-015-0407-8": {
-  "first_author": "Bohuski",
-  "journal": "BMC Veterinary Research",
-  "n_authors": 4,
-  "title": "TaqMan real-time polymerase chain reaction for detection of Ophidiomyces ophiodiicola, the fungus associated with snake fungal disease",
-  "volume": "11",
-  "year": 2015
- },
- "10.1186/s12917-019-2028-0": {
-  "authors": [
-   "Kolesnik",
-   "Hyndman",
-   "M\u00fcller",
-   "Pees",
-   "Marschang"
-  ],
-  "first_author": "Kolesnik",
-  "title": "Comparison of three different PCR protocols for the detection of ferlaviruses",
-  "year": 2019
- },
- "10.1186/s13071-018-2694-y": {
-  "authors": [
-   "Kirillova",
-   "Prakas",
-   "Calero-Bernal",
-   "Gavar\u0101ne",
-   "Fern\u00e1ndez-Garc\u00eda",
-   "Mart\u00ednez-Gonz\u00e1lez",
-   "Rudaityt\u0117-Luko\u0161ien\u0117",
-   "Mart\u00ednez-Est\u00e9llez",
-   "Butkauskas",
-   "Kirju\u0161ina"
-  ],
-  "first_author": "Kirillova",
-  "journal": "Parasites &amp; Vectors",
-  "title": "Identification and genetic characterization of Sarcocystis arctica and Sarcocystis lutrae in red foxes (Vulpes vulpes) from Baltic States and Spain",
-  "year": 2018
- },
- "10.1186/s13071-023-05827-9": {
-  "authors": [
-   "Hayes",
-   "Robinson",
-   "Chalmers",
-   "Ormerod",
-   "Paziewska-Harris",
-   "Chadwick",
-   "Durance",
-   "Cable"
-  ],
-  "first_author": "Hayes",
-  "title": "The occurrence and zoonotic potential of Cryptosporidium species in freshwater biota",
-  "year": 2023
- },
- "10.1354/vp.43-3-311": {
-  "first_author": "Garner",
-  "journal": "Veterinary Pathology",
-  "n_authors": 9,
-  "title": "Intranuclear Coccidiosis in Tortoises: Nine Cases",
-  "volume": "43",
-  "year": 2006
- },
- "10.1371/journal.pone.0010745": {
-  "first_author": "Farias",
-  "journal": "PLoS ONE",
-  "n_authors": 6,
-  "title": "Taqman Real-Time PCR Detects Avipoxvirus DNA in Blood of Hawa\u00eci `Amakihi (Hemignathus virens)",
-  "volume": "5",
-  "year": 2010
- },
- "10.1371/journal.pone.0011948": {
-  "first_author": "Kapoor",
-  "journal": "PLoS ONE",
-  "n_authors": 8,
-  "title": "Identification and Characterization of a New Bocavirus Species in Gorillas",
-  "volume": "5",
-  "year": 2010
- },
- "10.1371/journal.pone.0059499": {
-  "authors": [
-   "Longo",
-   "Rodriguez",
-   "da Silva Leite",
-   "Toledo",
-   "Mendoza Almeralla",
-   "Burrowes",
-   "Zamudio"
-  ],
-  "first_author": "Longo",
-  "title": "ITS1 Copy Number Varies among Batrachochytrium dendrobatidis Strains: Implications for qPCR Estimates of Infection Intensity from Field-Collected Amphibian Skin Swabs",
-  "year": 2013
- },
- "10.1371/journal.pone.0081800": {
-  "first_author": "Wilson",
-  "journal": "PLoS ONE",
-  "n_authors": 6,
-  "title": "An Improved Detection and Quantification Method for the Coral Pathogen Vibrio coralliilyticus",
-  "volume": "8",
-  "year": 2013
- },
- "10.1371/journal.pone.0090750": {
-  "authors": [
-   "Kolby",
-   "Smith",
-   "Berger",
-   "Karesh",
-   "Preston",
-   "Pessier",
-   "Skerratt"
-  ],
-  "first_author": "Kolby",
-  "title": "First Evidence of Amphibian Chytrid Fungus (Batrachochytrium dendrobatidis) and Ranavirus in Hong Kong Amphibian Trade",
-  "year": 2014
- },
- "10.1371/journal.pone.0207365": {
-  "first_author": "Hermes",
-  "journal": "PLOS ONE",
-  "n_authors": 10,
-  "title": "Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros",
-  "volume": "13",
-  "year": 2018
- },
- "10.1371/journal.pone.0230701": {
-  "first_author": "Baek",
-  "journal": "PLOS ONE",
-  "n_authors": 6,
-  "title": "TaqMan quantitative real-time PCR for detecting Avipoxvirus DNA in various sample types from hummingbirds",
-  "volume": "15",
-  "year": 2020
- },
- "10.1371/journal.pone.0232044": {
-  "first_author": "Tomaszewicz Brown",
-  "journal": "PLOS ONE",
-  "n_authors": 9,
-  "title": "Development and validation of a portable, point-of-care canine distemper virus qPCR test",
-  "volume": "15",
-  "year": 2020
- },
- "10.1371/journal.pone.0241584": {
-  "first_author": "Ahmed",
-  "journal": "PLOS ONE",
-  "n_authors": 3,
-  "title": "Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection",
-  "volume": "15",
-  "year": 2020
- },
- "10.1371/journal.pone.0247010": {
-  "first_author": "Conley",
-  "journal": "PLOS ONE",
-  "n_authors": 12,
-  "title": "Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana)",
-  "volume": "16",
-  "year": 2021
- },
- "10.1371/journal.pone.0289159": {
-  "first_author": "Haynes",
-  "journal": "PLOS ONE",
-  "n_authors": 3,
-  "title": "Development and application of a qPCR-based genotyping assay for Ophidiomyces ophidiicola to investigate the epidemiology of ophidiomycosis",
-  "volume": "18",
-  "year": 2023
- },
- "10.1371/journal.ppat.1000503": {
-  "first_author": "Roy",
-  "journal": "PLoS Pathogens",
-  "n_authors": 12,
-  "title": "Isolation and Characterization of Adenoviruses Persistently Shed from the Gastrointestinal Tract of Non-Human Primates",
-  "volume": "5",
-  "year": 2009
- },
- "10.15654/tpk-140743": {
-  "first_author": "Aqrawi",
-  "journal": "Tier\u00e4rztliche Praxis Ausgabe K: Kleintiere / Heimtiere",
-  "n_authors": 6,
-  "title": "Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo",
-  "volume": "43",
-  "year": 2015
- },
- "10.1577/h07-009.1": {
-  "authors": [
-   "Getchell",
-   "Groocock",
-   "Schumacher",
-   "Grimmett",
-   "Wooster",
-   "Bowser"
-  ],
-  "first_author": "Getchell",
-  "journal": "Journal of Aquatic Animal Health",
-  "title": "Quantitative Polymerase Chain Reaction Assay for Largemouth Bass Virus",
-  "year": 2007
- },
- "10.1638/02-070": {
-  "first_author": "Grim",
-  "journal": "Journal of Zoo and Wildlife Medicine",
-  "n_authors": 6,
-  "title": "PLASMODIUM JUXTANUCLEARE ASSOCIATED WITH MORTALITY IN BLACK-FOOTED PENGUINS (SPHENISCUS DEMERSUS) ADMITTED TO A REHABILITATION CENTER",
-  "volume": "34",
-  "year": 2003
- },
- "10.1638/2020-0078": {
-  "authors": [
-   "Salzmann",
-   "M\u00fcller",
-   "Marschang"
-  ],
-  "first_author": "Salzmann",
-  "journal": "Journal of Zoo and Wildlife Medicine",
-  "title": "DETECTION OF TESTADENOVIRUSES AND ATADENOVIRUSES IN TORTOISES AND TURTLES IN EUROPE",
-  "year": 2021
- },
- "10.1645/ge-184r1": {
-  "first_author": "Hellgren",
-  "journal": "Journal of Parasitology",
-  "n_authors": 3,
-  "title": "A NEW PCR ASSAY FOR SIMULTANEOUS STUDIES OF LEUCOCYTOZOON, PLASMODIUM, AND HAEMOPROTEUS FROM AVIAN BLOOD",
-  "volume": "90",
-  "year": 2004
- },
- "10.1645/ge-1905.1": {
-  "authors": [
-   "Dangoudoubiyam",
-   "Vemulapalli",
-   "Kazacos"
-  ],
-  "first_author": "Dangoudoubiyam",
-  "journal": "Journal of Parasitology",
-  "title": "Pcr Assays for Detection of Baylisascaris procyonis Eggs and Larvae",
-  "year": 2009
- },
- "10.1645/ge-3310": {
-  "first_author": "Schrenzel",
-  "journal": "Journal of Parasitology",
-  "n_authors": 9,
-  "title": "MOLECULAR CHARACTERIZATION OF ISOSPOROID COCCIDIA (ISOSPORA AND ATOXOPLASMA SPP.) IN PASSERINE BIRDS",
-  "volume": "91",
-  "year": 2005
- },
- "10.2353/jmoldx.2010.090035": {
-  "authors": [
-   "Stadhouders",
-   "Pas",
-   "Anber",
-   "Voermans",
-   "Mes",
-   "Schutten"
-  ],
-  "first_author": "Stadhouders",
-  "journal": "The Journal of Molecular Diagnostics",
-  "title": "The Effect of Primer-Template Mismatches on the Detection and Quantification of Nucleic Acids Using the 5\u2032 Nuclease Assay",
-  "year": 2010
- },
- "10.2460/javma.239.12.1584": {
-  "first_author": "Sledge",
-  "journal": "Journal of the American Veterinary Medical Association",
-  "n_authors": 7,
-  "title": "Outbreaks of severe enteric disease associated with Eimeria furonis infection in ferrets (Mustela putorius furo) of 3 densely populated groups",
-  "volume": "239",
-  "year": 2011
- },
- "10.2807/1560-7917.es.2020.25.41.2001732": {
-  "first_author": "Folly",
-  "journal": "Eurosurveillance",
-  "n_authors": 16,
-  "title": "Detection of Usutu virus infection in wild birds in the United Kingdom, 2020",
-  "volume": "25",
-  "year": 2020
- },
- "10.3354/dao02986": {
-  "first_author": "McAloose",
-  "journal": "Diseases of Aquatic Organisms",
-  "n_authors": 19,
-  "title": "Post-mortem findings in southern right whales Eubalaena australis at Pen\u00ednsula Vald\u00e9s, Argentina, 2003-2012",
-  "volume": "119",
-  "year": 2016
- },
- "10.3354/dao03034": {
-  "authors": [
-   "Wu",
-   "Conway",
-   "Phillips",
-   "Stolen",
-   "Durden",
-   "Fauquier",
-   "McFee",
-   "Schwacke"
-  ],
-  "first_author": "Wu",
-  "journal": "Diseases of Aquatic Organisms",
-  "title": "Detection of Brucella spp. in bottlenose dolphins Tursiops truncatus by a real-time PCR using blowhole swabs",
-  "year": 2016
- },
- "10.3354/dao03214": {
-  "authors": [
-   "Stilwell",
-   "Whittington",
-   "Hick",
-   "Becker",
-   "Ariel",
-   "van Beurden",
-   "Vendramin",
-   "Olesen",
-   "Waltzek"
-  ],
-  "first_author": "Stilwell",
-  "title": "Partial validation of a TaqMan real-time quantitative PCR for the detection of ranaviruses",
-  "year": 2018
- },
- "10.3354/dao03230": {
-  "authors": [
-   "Standish",
-   "Leis",
-   "Schmitz",
-   "Credico",
-   "Erickson",
-   "Bailey",
-   "Kerby",
-   "Phillips",
-   "Lewis"
-  ],
-  "first_author": "Standish",
-  "journal": "Diseases of Aquatic Organisms",
-  "title": "Optimizing, validating, and field testing a multiplex qPCR for the detection of amphibian pathogens",
-  "year": 2018
- },
- "10.3354/dao03239": {
-  "authors": [
-   "Karwacki",
-   "Atkinson",
-   "Ossiboff",
-   "Savage"
-  ],
-  "first_author": "Karwacki",
-  "journal": "Diseases of Aquatic Organisms",
-  "title": "Novel quantitative PCR assay specific for the emerging Perkinsea amphibian pathogen reveals seasonal infection dynamics",
-  "year": 2018
- },
- "10.3354/dao03445": {
-  "authors": [
-   "Liu",
-   "Paul-Pont",
-   "Rubio",
-   "Dhand",
-   "Whittington"
-  ],
-  "first_author": "Liu",
-  "journal": "Diseases of Aquatic Organisms",
-  "title": "Detection of ostreid herpesvirus-1 in plankton and seawater samples at an estuary scale",
-  "year": 2020
- },
- "10.3354/dao03932": {
-  "authors": [
-   "Kelley",
-   "Lee",
-   "Martin",
-   "Rittenburg",
-   "Mansfield",
-   "Savage"
-  ],
-  "first_author": "Kelley",
-  "journal": "Diseases of Aquatic Organisms",
-  "title": "Chelonid alphaherpesvirus 5 qPCR of archived blood and skin samples underpredicts infections in juvenile green turtles Chelonia mydas",
-  "year": 2026
- },
- "10.3354/dao054029": {
-  "first_author": "Grizzle",
-  "journal": "Diseases of Aquatic Organisms",
-  "n_authors": 3,
-  "title": "PCR method for detection of largemouth bass virus",
-  "volume": "54",
-  "year": 2003
- },
- "10.3354/dao060141": {
-  "first_author": "Boyle",
-  "journal": "Diseases of Aquatic Organisms",
-  "n_authors": 5,
-  "title": "Rapid quantitative detection of chytridiomycosis (Batrachochytrium dendrobatidis) in amphibian samples using real-time Taqman PCR assay",
-  "volume": "60",
-  "year": 2004
- },
- "10.3354/dao072053": {
-  "authors": [
-   "Oidtmann",
-   "Geiger",
-   "Steinbauer",
-   "Culas",
-   "Hoffmann"
-  ],
-  "first_author": "Oidtmann",
-  "journal": "Diseases of Aquatic Organisms",
-  "title": "Detection of Aphanomyces astaci in North American crayfish by polymerase chain reaction",
-  "year": 2006
- },
- "10.3389/fmicb.2023.1302586": {
-  "first_author": "Lorch",
-  "journal": "Frontiers in Microbiology",
-  "n_authors": 10,
-  "title": "Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus",
-  "volume": "14",
-  "year": 2023
- },
- "10.3389/fmicb.2025.1599006": {
-  "first_author": "Li",
-  "journal": "Frontiers in Microbiology",
-  "n_authors": 10,
-  "title": "Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system",
-  "volume": "16",
-  "year": 2025
- },
- "10.3389/fpubh.2020.555013": {
-  "authors": [
-   "Wacharapluesadee",
-   "Buathong",
-   "Iamsirithawon",
-   "Chaifoo",
-   "Ponpinit",
-   "Ruchisrisarod",
-   "Sonpee",
-   "Katasrila",
-   "Yomrat",
-   "Ghai",
-   "Sirivichayakul",
-   "Okada",
-   "Mekha",
-   "Karnkawinpong",
-   "Uttayamakul",
-   "Vachiraphan",
-   "Plipat",
-   "Hemachudha"
-  ],
-  "first_author": "Wacharapluesadee",
-  "title": "Identification of a Novel Pathogen Using Family-Wide PCR: Initial Confirmation of COVID-19 in Thailand",
-  "year": 2020
- },
- "10.3389/fvets.2019.00338": {
-  "authors": [
-   "Hoon-Hanks",
-   "Ossiboff",
-   "Bartolini",
-   "Fogelson",
-   "Perry",
-   "St\u00f6hr",
-   "Cross",
-   "Wellehan",
-   "Jacobson",
-   "Dubovi",
-   "Stenglein"
-  ],
-  "first_author": "Hoon-Hanks",
-  "title": "Longitudinal and Cross-Sectional Sampling of Serpentovirus (Nidovirus) Infection in Captive Snakes Reveals High Prevalence, Persistent Infection, and Increased Mortality in Pythons and Divergent Serpentovirus Infection in Boas and Colubrids",
-  "year": 2019
- },
- "10.3390/jof7040258": {
-  "first_author": "Lastra Gonz\u00e1lez",
-  "journal": "Journal of Fungi",
-  "n_authors": 4,
-  "title": "Dual Detection of the Chytrid Fungi Batrachochytrium spp. with an Enhanced Environmental DNA Approach",
-  "volume": "7",
-  "year": 2021
- },
- "10.3390/microorganisms12061105": {
-  "first_author": "Rossi",
-  "journal": "Microorganisms",
-  "n_authors": 4,
-  "title": "Selection and Multiplexing of Reverse Transcription\u2013Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens",
-  "volume": "12",
-  "year": 2024
- },
- "10.3390/microorganisms12071467": {
-  "authors": [
-   "Marini",
-   "Szczygie\u0142",
-   "Kurek",
-   "Di Nicola",
-   "Dorne",
-   "Marenzoni",
-   "R\u00fcegg",
-   "Bury",
-   "Kiraga"
-  ],
-  "first_author": "Marini",
-  "title": "Retrospective Detection of Ophidiomyces ophidiicola from Snake Moults Collected in Bieszczady Mountains, Poland",
-  "year": 2024
- },
- "10.3390/pathogens12010111": {
-  "first_author": "Kang",
-  "journal": "Pathogens",
-  "n_authors": 7,
-  "title": "A Multiplex PCR Assay for Differential Identification of Wild-type and Vaccine Strains of Mycoplasma gallisepticum",
-  "volume": "12",
-  "year": 2023
- },
- "10.3390/pathogens15070709": {
-  "authors": [
-   "Rudaityt\u0117-Luko\u0161ien\u0117",
-   "Kutkien\u0117",
-   "\u0160va\u017eas",
-   "Butkauskas",
-   "Prakas"
-  ],
-  "first_author": "Rudaityt\u0117-Luko\u0161ien\u0117",
-  "journal": "Pathogens",
-  "title": "Two Decades (2003\u20132024) of Investigating Sarcocystis in Thrushes (Turdus spp.)",
-  "year": 2026
- },
- "10.3390/pathogens9121038": {
-  "authors": [
-   "P\u00e9rez-Ram\u00edrez",
-   "Cano-G\u00f3mez",
-   "Llorente",
-   "Vodica",
-   "Veljovi\u0107",
-   "Toklikishvilli",
-   "Sherifi",
-   "Sghaier",
-   "Omani",
-   "Kustura",
-   "Krstevski",
-   "Karayel-Hacioglu",
-   "Hagag",
-   "El Hage",
-   "Davdyan",
-   "Bintarif",
-   "Adzic",
-   "Abouchoaib",
-   "Jim\u00e9nez-Clavero",
-   "Fern\u00e1ndez-Pinero"
-  ],
-  "first_author": "P\u00e9rez-Ram\u00edrez",
-  "title": "Evaluation of West Nile Virus Diagnostic Capacities in Veterinary Laboratories of the Mediterranean and Black Sea Regions",
-  "year": 2020
- },
- "10.3390/v11100930": {
-  "authors": [
-   "Ehlers",
-   "Anoh",
-   "Ben Salem",
-   "Broll",
-   "Couacy-Hymann",
-   "Fischer",
-   "Gedvilaite",
-   "Ingenh\u00fctt",
-   "Liebmann",
-   "Martin",
-   "Mossoun",
-   "Mugisha",
-   "Muyembe-Tamfum",
-   "Pauly",
-   "P\u00e9rez de Val",
-   "Preugschas",
-   "Richter",
-   "Schubert",
-   "Szentiks",
-   "Teichmann",
-   "Walter",
-   "Ulrich",
-   "Wiersma",
-   "Leendertz",
-   "Calvignac-Spencer"
-  ],
-  "first_author": "Ehlers",
-  "title": "Novel Polyomaviruses in Mammals from Multiple Orders and Reassessment of Polyomavirus Evolution and Taxonomy",
-  "year": 2019
- },
- "10.3390/v13020272": {
-  "authors": [
-   "Ricci",
-   "Cersini",
-   "Manna",
-   "Marcario",
-   "Conti",
-   "Brocherel",
-   "Grifoni",
-   "Eleni",
-   "Scicluna"
-  ],
-  "first_author": "Ricci",
-  "title": "A Canine Distemper Virus Retrospective Study Conducted from 2011 to 2019 in Central Italy (Latium and Tuscany Regions)",
-  "year": 2021
- },
- "10.3390/v13040641": {
-  "authors": [
-   "Majumdar",
-   "Celma",
-   "Pegg",
-   "Polra",
-   "Dunning",
-   "Martin"
-  ],
-  "first_author": "Majumdar",
-  "title": "Detection and Typing of Human Enteroviruses from Clinical Samples by Entire-Capsid Next Generation Sequencing",
-  "year": 2021
- },
- "10.3390/v13040715": {
-  "first_author": "Abade dos Santos",
-  "journal": "Viruses",
-  "n_authors": 5,
-  "title": "A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen\u00ae or Taqman\u00ae Technologies",
-  "volume": "13",
-  "year": 2021
- },
- "10.3390/v13071358": {
-  "first_author": "Sigrist",
-  "journal": "Viruses",
-  "n_authors": 5,
-  "title": "A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses",
-  "volume": "13",
-  "year": 2021
- },
- "10.3390/v13081527": {
-  "authors": [
-   "Mira",
-   "Canuti",
-   "Di Bella",
-   "Puleio",
-   "Lavazza",
-   "Lelli",
-   "Vicari",
-   "Purpari",
-   "Cannella",
-   "Chiaramonte",
-   "Schir\u00f2",
-   "Castronovo",
-   "Guercio"
-  ],
-  "first_author": "Mira",
-  "title": "Detection and Molecular Characterization of Two Gammaherpesviruses from Pantesco Breed Donkeys during an Outbreak of Mild Respiratory Disease",
-  "year": 2021
- },
- "10.3390/v13081632": {
-  "first_author": "Halecker",
-  "journal": "Viruses",
-  "n_authors": 4,
-  "title": "A New Molecular Detection System for Canine Distemper Virus Based on a Double-Check Strategy",
-  "volume": "13",
-  "year": 2021
- },
- "10.3390/v13101975": {
-  "authors": [
-   "Drzewniokov\u00e1",
-   "Festa",
-   "Panzarin",
-   "Lelli",
-   "Moreno",
-   "Zecchin",
-   "De Benedictis",
-   "Leopardi"
-  ],
-  "first_author": "Drzewniokov\u00e1",
-  "title": "Best Molecular Tools to Investigate Coronavirus Diversity in Mammals: A Comparison",
-  "year": 2021
- },
- "10.3390/v13112148": {
-  "authors": [
-   "Guarido",
-   "Govender",
-   "Riddin",
-   "Schrama",
-   "Gorsich",
-   "Brooke",
-   "Almeida",
-   "Venter"
-  ],
-  "first_author": "Guarido",
-  "title": "Detection of Insect-Specific Flaviviruses in Mosquitoes (Diptera: Culicidae) in Northeastern Regions of South Africa",
-  "year": 2021
- },
- "10.3390/v15122313": {
-  "first_author": "Baggio",
-  "journal": "Viruses",
-  "n_authors": 8,
-  "title": "A Multiplex RT-PCR Method for the Detection of Reptarenavirus Infection",
-  "volume": "15",
-  "year": 2023
- },
- "10.3390/v16040534": {
-  "authors": [
-   "Wacharapluesadee",
-   "Thippamom",
-   "Hirunpatrawong",
-   "Rattanatumhi",
-   "Sterling",
-   "Khunnawutmanotham",
-   "Noradechanon",
-   "Maneeorn",
-   "Buathong",
-   "Paitoonpong",
-   "Putcharoen"
-  ],
-  "first_author": "Wacharapluesadee",
-  "title": "Comparative Performance in the Detection of Four Coronavirus Genera from Human, Animal, and Environmental Specimens",
-  "year": 2024
- },
- "10.3852/10-262": {
-  "authors": [
-   "Lindner",
-   "Gargas",
-   "Lorch",
-   "Banik",
-   "Glaeser",
-   "Kunz",
-   "Blehert"
-  ],
-  "first_author": "Lindner",
-  "journal": "Mycologia",
-  "title": "DNA-based detection of the fungal pathogen Geomyces destructans in soils from bat hibernacula",
-  "year": 2011
- },
- "10.3852/12-242": {
-  "authors": [
-   "Muller",
-   "Lorch",
-   "Lindner",
-   "O\u2019Connor",
-   "Gargas",
-   "Blehert"
-  ],
-  "first_author": "Muller",
-  "journal": "Mycologia",
-  "title": "Bat white-nose syndrome: a real-time TaqMan polymerase chain reaction test targeting the intergenic spacer region of\n                    Geomyces destructans",
-  "year": 2013
- },
- "10.4269/ajtmh.2011.11-0248": {
-  "first_author": "J\u00f6st",
-  "journal": "The American Society of Tropical Medicine and Hygiene",
-  "n_authors": 9,
-  "title": "Isolation of Usutu Virus in Germany",
-  "volume": "85",
-  "year": 2011
- },
- "10.7589/0090-3558-40.3.420": {
-  "first_author": "Annis",
-  "journal": "Journal of Wildlife Diseases",
-  "n_authors": 5,
-  "title": "A DNA-BASED ASSAY IDENTIFIES BATRACHOCHYTRIUM DENDROBATIDIS IN AMPHIBIANS",
-  "volume": "40",
-  "year": 2004
- },
- "10.7589/0090-3558-42.2.279": {
-  "first_author": "Feldman",
-  "journal": "Journal of Wildlife Diseases",
-  "n_authors": 7,
-  "title": "A NOVEL MYCOPLASMA DETECTED IN ASSOCIATION WITH UPPER RESPIRATORY DISEASE SYNDROME IN FREE-RANGING EASTERN BOX TURTLES (TERRAPENE CAROLINA CAROLINA) IN VIRGINIA",
-  "volume": "42",
-  "year": 2006
- },
- "10.7589/0090-3558-44.4.851": {
-  "first_author": "Johnson",
-  "journal": "Journal of Wildlife Diseases",
-  "n_authors": 13,
-  "title": "RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES",
-  "volume": "44",
-  "year": 2008
- },
- "10.7589/2012-07-175": {
-  "authors": [
-   "Zhou",
-   "Yu",
-   "Wang",
-   "Xie",
-   "Liang",
-   "Li",
-   "Wang",
-   "Chen",
-   "Yan",
-   "Gu",
-   "Wang",
-   "Peng",
-   "Yang"
-  ],
-  "first_author": "Zhou",
-  "journal": "Journal of Wildlife Diseases",
-  "title": "Molecular Diagnosis ofBaylisascaris schroederiInfections in Giant Panda (Ailuropoda melanoleuca) Feces Using PCR",
-  "year": 2013
- },
- "10.7589/2013-09-231": {
-  "authors": [
-   "Braun",
-   "Schrenzel",
-   "Witte",
-   "Gokool",
-   "Burchell",
-   "Rideout"
-  ],
-  "first_author": "Braun",
-  "journal": "Journal of Wildlife Diseases",
-  "title": "MOLECULAR METHODS TO DETECT\n                    MYCOPLASMA\n                    SPP. AND TESTUDINID HERPESVIRUS 2 IN DESERT TORTOISES (\n                    GOPHERUS AGASSIZII\n                    ) AND IMPLICATIONS FOR DISEASE MANAGEMENT",
-  "year": 2014
- },
- "10.7589/2014-05-142": {
-  "authors": [
-   "Bogomolni",
-   "Frasca",
-   "Matassa",
-   "Nielsen",
-   "Rogers",
-   "De Guise"
-  ],
-  "first_author": "Bogomolni",
-  "journal": "Journal of Wildlife Diseases",
-  "title": "DEVELOPMENT OF A ONE-STEP DUPLEX RT-qPCR FOR THE QUANTIFICATION OF PHOCINE DISTEMPER VIRUS",
-  "year": 2015
- }
+  "10.1002/jez.70061": {
+    "authors": [
+      "Di Nicola",
+      "Colla",
+      "Mulder",
+      "Storniolo",
+      "Verbrugghe",
+      "Esposito",
+      "Grasso",
+      "Pasmans",
+      "Martel"
+    ],
+    "first_author": "Di Nicola",
+    "title": "Ophidiomycosis Prevalence and Disease Ecology in a\n                    Natrix tessellata\n                    (Laurenti, 1768) Population From Northern Italy",
+    "year": 2025
+  },
+  "10.1002/jmv.10465": {
+    "first_author": "S\u00e1nchez\u2010Seco",
+    "journal": "Journal of Medical Virology",
+    "n_authors": 6,
+    "title": "Detection and identification of Toscana and other phleboviruses by RT\u2010nested\u2010PCR assays with degenerated primers",
+    "volume": "71",
+    "year": 2003
+  },
+  "10.1002/vetr.2057": {
+    "authors": [
+      "Reid",
+      "Brookes",
+      "Coward",
+      "Mynn",
+      "Cooper",
+      "Agyeman\u2010Dua",
+      "Skinner",
+      "Ross",
+      "Hansen",
+      "Brown",
+      "Mayers",
+      "Sutton"
+    ],
+    "first_author": "Reid",
+    "journal": "Veterinary Record",
+    "title": "Molecular detection of pigeon paramyxovirus type 1",
+    "year": 2022
+  },
+  "10.1006/expr.1995.1107": {
+    "first_author": "Li",
+    "journal": "Experimental Parasitology",
+    "n_authors": 7,
+    "title": "Plasmodium: Genus-Conserved Primers for Species Identification and Quantitation",
+    "volume": "81",
+    "year": 1995
+  },
+  "10.1006/viro.1993.1217": {
+    "first_author": "Barrett",
+    "journal": "Virology",
+    "n_authors": 6,
+    "title": "Dolphin and Porpoise Morbilliviruses Are Genetically Distinct from Phocine Distemper Virus",
+    "volume": "193",
+    "year": 1993
+  },
+  "10.1006/viro.1998.9207": {
+    "authors": [
+      "Quackenbush",
+      "Work",
+      "Balazs",
+      "Casey",
+      "Rovnak",
+      "Chaves",
+      "duToit",
+      "Baines",
+      "Parrish",
+      "Bowser",
+      "Casey"
+    ],
+    "first_author": "Quackenbush",
+    "journal": "Virology",
+    "title": "Three Closely Related Herpesviruses Are Associated with Fibropapillomatosis in Marine Turtles",
+    "year": 1998
+  },
+  "10.1007/s00436-010-1945-4": {
+    "first_author": "Kutkien\u0117",
+    "journal": "Parasitology Research",
+    "n_authors": 4,
+    "title": "The mallard duck (Anas platyrhynchos) as intermediate host for Sarcocystis wobeseri sp. nov. from the barnacle goose (Branta leucopsis)",
+    "volume": "107",
+    "year": 2010
+  },
+  "10.1007/s00436-017-5452-8": {
+    "authors": [
+      "Schoener",
+      "Hunter",
+      "Howe"
+    ],
+    "first_author": "Schoener",
+    "journal": "Parasitology Research",
+    "title": "Development of a rapid HRM qPCR for the diagnosis of the four most prevalent Plasmodium lineages in New Zealand",
+    "year": 2017
+  },
+  "10.1007/s00436-020-06887-x": {
+    "first_author": "Renter\u00eda-Sol\u00eds",
+    "journal": "Parasitology Research",
+    "n_authors": 4,
+    "title": "A SYBR green I real-time polymerase chain reaction (PCR) assay for detection and quantification of Trichomonas gallinae",
+    "volume": "119",
+    "year": 2020
+  },
+  "10.1007/s00705-005-0679-6": {
+    "first_author": "Bracht",
+    "journal": "Archives of Virology",
+    "n_authors": 9,
+    "title": "Genetic identification of novel poxviruses of cetaceans and pinnipeds",
+    "volume": "151",
+    "year": 2005
+  },
+  "10.1007/s00705-007-1069-z": {
+    "first_author": "Briese",
+    "journal": "Archives of Virology",
+    "n_authors": 3,
+    "title": "Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses",
+    "volume": "152",
+    "year": 2007
+  },
+  "10.1007/s007050070002": {
+    "first_author": "Mankertz",
+    "journal": "Archives of Virology",
+    "n_authors": 4,
+    "title": "Cloning and sequencing of columbid circovirus (CoCV), a new circovirus from pigeons",
+    "volume": "145",
+    "year": 2000
+  },
+  "10.1007/s11046-011-9435-5": {
+    "authors": [
+      "Chaturvedi",
+      "Rudd",
+      "Davis",
+      "Victor",
+      "Li",
+      "Appler",
+      "Rajkumar",
+      "Chaturvedi"
+    ],
+    "first_author": "Chaturvedi",
+    "journal": "Mycopathologia",
+    "title": "Rapid Real-Time PCR Assay for Culture and Tissue Identification of Geomyces destructans: the Etiologic Agent of Bat Geomycosis (White Nose Syndrome)",
+    "year": 2011
+  },
+  "10.1007/s11259-007-0020-9": {
+    "first_author": "Scagliarini",
+    "journal": "Veterinary Research Communications",
+    "n_authors": 5,
+    "title": "TaqMan Based Real Time PCR for the Quantification of Canine Distemper Virus",
+    "volume": "31",
+    "year": 2007
+  },
+  "10.1016/0166-0934(94)90098-1": {
+    "first_author": "Zimmermann",
+    "journal": "Journal of Virological Methods",
+    "n_authors": 3,
+    "title": "Detection of Borna disease virus RNA in naturally infected animals by a nested polymerase chain reaction",
+    "volume": "46",
+    "year": 1994
+  },
+  "10.1016/0168-1605(91)90148-i": {
+    "first_author": "Candrian",
+    "journal": "International Journal of Food Microbiology",
+    "n_authors": 6,
+    "title": "Detection of Escherichia coli and identification of enterotoxigenic strains by primer-directed enzymatic amplification of specific DNA sequences",
+    "volume": "12",
+    "year": 1991
+  },
+  "10.1016/0890-8508(92)90002-f": {
+    "first_author": "Rahn",
+    "journal": "Molecular and Cellular Probes",
+    "n_authors": 8,
+    "title": "Amplification of an invA gene sequence of Salmonella typhimurium by polymerase chain reaction as a specific method of detection of Salmonella",
+    "volume": "6",
+    "year": 1992
+  },
+  "10.1016/j.ijmm.2009.05.002": {
+    "authors": [
+      "Huber",
+      "Scholz",
+      "Lucero",
+      "Busse"
+    ],
+    "first_author": "Huber",
+    "journal": "International Journal of Medical Microbiology",
+    "title": "Development of a PCR assay for typing and subtyping of Brucella species",
+    "year": 2009
+  },
+  "10.1016/j.ijpara.2018.02.003": {
+    "authors": [
+      "Pacheco",
+      "Cepeda",
+      "Bernotien\u0117",
+      "Lotta",
+      "Matta",
+      "Valki\u016bnas",
+      "Escalante"
+    ],
+    "first_author": "Pacheco",
+    "journal": "International Journal for Parasitology",
+    "title": "Primers targeting mitochondrial genes of avian haemosporidians: PCR detection and differential DNA amplification of parasites belonging to different genera",
+    "year": 2018
+  },
+  "10.1016/j.ijppaw.2019.05.002": {
+    "authors": [
+      "Lotta",
+      "Valki\u016bnas",
+      "Pacheco",
+      "Escalante",
+      "Hern\u00e1ndez",
+      "Matta"
+    ],
+    "first_author": "Lotta",
+    "title": "Disentangling Leucocytozoon parasite diversity in the neotropics: Descriptions of two new species and shortcomings of molecular diagnostics for leucocytozoids",
+    "year": 2019
+  },
+  "10.1016/j.jip.2005.10.012": {
+    "first_author": "Klee",
+    "journal": "Journal of Invertebrate Pathology",
+    "n_authors": 3,
+    "title": "Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences",
+    "volume": "91",
+    "year": 2006
+  },
+  "10.1016/j.jip.2007.06.002": {
+    "first_author": "Higes",
+    "journal": "Journal of Invertebrate Pathology",
+    "n_authors": 5,
+    "title": "Detection of infective Nosema ceranae (Microsporidia) spores in corbicular pollen of forager honeybees",
+    "volume": "97",
+    "year": 2008
+  },
+  "10.1016/j.jip.2018.03.009": {
+    "authors": [
+      "Tripodi",
+      "Szalanski",
+      "Strange"
+    ],
+    "first_author": "Tripodi",
+    "journal": "Journal of Invertebrate Pathology",
+    "title": "Novel multiplex PCR reveals multiple trypanosomatid species infecting North American bumble bees (Hymenoptera: Apidae: Bombus)",
+    "year": 2018
+  },
+  "10.1016/j.jip.2023.108008": {
+    "authors": [
+      "Strand",
+      "Jinnerot",
+      "Asp\u00e1n",
+      "Viljamaa-Dirks",
+      "Heinikainen",
+      "Rol\u00e9n",
+      "Vr\u00e5lstad"
+    ],
+    "first_author": "Strand",
+    "journal": "Journal of Invertebrate Pathology",
+    "title": "Molecular detection of Aphanomyces astaci \u2013 An improved species specific qPCR assay",
+    "year": 2023
+  },
+  "10.1016/j.jviromet.2004.05.018": {
+    "authors": [
+      "Guillaume",
+      "Lefeuvre",
+      "Faure",
+      "Marianneau",
+      "Buckland",
+      "Lam",
+      "Wild",
+      "Deubel"
+    ],
+    "first_author": "Guillaume",
+    "journal": "Journal of Virological Methods",
+    "title": "Specific detection of Nipah virus using real-time RT-PCR (TaqMan)",
+    "year": 2004
+  },
+  "10.1016/j.jviromet.2006.03.008": {
+    "first_author": "V\u00e1zquez-Mor\u00f3n",
+    "journal": "Journal of Virological Methods",
+    "n_authors": 3,
+    "title": "RT-PCR for detection of all seven genotypes of Lyssavirus genus",
+    "volume": "135",
+    "year": 2006
+  },
+  "10.1016/j.jviromet.2006.05.004": {
+    "first_author": "Elia",
+    "journal": "Journal of Virological Methods",
+    "n_authors": 8,
+    "title": "Detection of canine distemper virus in dogs by real-time RT-PCR",
+    "volume": "136",
+    "year": 2006
+  },
+  "10.1016/j.jviromet.2007.05.021": {
+    "authors": [
+      "Linke",
+      "Ellerbrok",
+      "Niedrig",
+      "Nitsche",
+      "Pauli"
+    ],
+    "first_author": "Linke",
+    "journal": "Journal of Virological Methods",
+    "title": "Detection of West Nile virus lineages 1 and 2 by real-time PCR",
+    "year": 2007
+  },
+  "10.1016/j.jviromet.2008.01.022": {
+    "authors": [
+      "Pepin",
+      "Riou",
+      "Renault"
+    ],
+    "first_author": "Pepin",
+    "journal": "Journal of Virological Methods",
+    "title": "Rapid and sensitive detection of ostreid herpesvirus 1 in oyster samples by real-time PCR",
+    "year": 2008
+  },
+  "10.1016/j.jviromet.2008.08.015": {
+    "authors": [
+      "Katoh",
+      "Ohya",
+      "Fukushi"
+    ],
+    "first_author": "Katoh",
+    "journal": "Journal of Virological Methods",
+    "title": "Development of novel real-time PCR assays for detecting DNA virus infections in psittaciform birds",
+    "year": 2008
+  },
+  "10.1016/j.jviromet.2008.11.008": {
+    "authors": [
+      "Grant",
+      "Banyard",
+      "Barrett",
+      "Saliki",
+      "Romero"
+    ],
+    "first_author": "Grant",
+    "journal": "Journal of Virological Methods",
+    "title": "Real-time RT-PCR assays for the rapid and differential detection of dolphin and porpoise morbilliviruses",
+    "year": 2009
+  },
+  "10.1016/j.jviromet.2009.06.026": {
+    "authors": [
+      "Dalton",
+      "Ringleb",
+      "Mart\u00edn Alonso",
+      "Parra"
+    ],
+    "first_author": "Dalton",
+    "journal": "Journal of Virological Methods",
+    "title": "Rapid identification of myxoma virus variants by long-range PCR and restriction fragment length polymorphism analysis",
+    "year": 2009
+  },
+  "10.1016/j.jviromet.2010.02.027": {
+    "authors": [
+      "Hofmann",
+      "Renzullo",
+      "Planzer",
+      "Mader",
+      "Chaignat",
+      "Thuer"
+    ],
+    "first_author": "Hofmann",
+    "journal": "Journal of Virological Methods",
+    "title": "Detection of Toggenburg Orbivirus by a segment 2-specific quantitative RT-PCR",
+    "year": 2010
+  },
+  "10.1016/j.jviromet.2011.07.002": {
+    "authors": [
+      "Hayman",
+      "Banyard",
+      "Wakeley",
+      "Harkess",
+      "Marston",
+      "Wood",
+      "Cunningham",
+      "Fooks"
+    ],
+    "first_author": "Hayman",
+    "journal": "Journal of Virological Methods",
+    "title": "A universal real-time assay for the detection of Lyssaviruses",
+    "year": 2011
+  },
+  "10.1016/j.jviromet.2012.01.020": {
+    "authors": [
+      "Foord",
+      "Middleton",
+      "Heine"
+    ],
+    "first_author": "Foord",
+    "journal": "Journal of Virological Methods",
+    "title": "Hendra virus detection using Loop-Mediated Isothermal Amplification",
+    "year": 2012
+  },
+  "10.1016/j.jviromet.2012.03.024": {
+    "authors": [
+      "Chen",
+      "Kuo",
+      "Renault",
+      "Friedman",
+      "Chang"
+    ],
+    "first_author": "Chen",
+    "journal": "Journal of Virological Methods",
+    "title": "Development of a polymerase chain reaction for the detection of abalone herpesvirus infection based on the DNA polymerase gene",
+    "year": 2012
+  },
+  "10.1016/j.jviromet.2016.05.005": {
+    "authors": [
+      "Centelleghe",
+      "Beffagna",
+      "Zanetti",
+      "Zappulli",
+      "Di Guardo",
+      "Mazzariol"
+    ],
+    "first_author": "Centelleghe",
+    "journal": "Journal of Virological Methods",
+    "title": "Molecular analysis of dolphin morbillivirus: A new sensitive detection method based on nested RT-PCR",
+    "year": 2016
+  },
+  "10.1016/j.jviromet.2016.07.026": {
+    "authors": [
+      "V\u00e1zquez",
+      "Herrero",
+      "Negredo",
+      "Hern\u00e1ndez",
+      "S\u00e1nchez-Seco",
+      "Tenorio"
+    ],
+    "first_author": "V\u00e1zquez",
+    "journal": "Journal of Virological Methods",
+    "title": "Real time PCR assay for detection of all known lineages of West Nile virus",
+    "year": 2016
+  },
+  "10.1016/j.jviromet.2016.08.010": {
+    "authors": [
+      "Pursell",
+      "Tan",
+      "Peng",
+      "Ling"
+    ],
+    "first_author": "Pursell",
+    "journal": "Journal of Virological Methods",
+    "title": "Generation and validation of new quantitative real time PCR assays to detect elephant endotheliotropic herpesviruses 1A, 1B, and 4",
+    "year": 2016
+  },
+  "10.1016/j.jviromet.2017.02.017": {
+    "authors": [
+      "\u010cern\u00edkov\u00e1",
+      "Vit\u00e1skov\u00e1",
+      "Nagy"
+    ],
+    "first_author": "\u010cern\u00edkov\u00e1",
+    "journal": "Journal of Virological Methods",
+    "title": "Development and evaluation of TaqMan real-time PCR assay for detection of beak and feather disease virus",
+    "year": 2017
+  },
+  "10.1016/j.jviromet.2019.113709": {
+    "authors": [
+      "Kwit",
+      "Osi\u0144ski",
+      "Rze\u017cutka"
+    ],
+    "first_author": "Kwit",
+    "journal": "Journal of Virological Methods",
+    "title": "Detection of viral DNA of myxoma virus using a validated PCR method with an internal amplification control",
+    "year": 2019
+  },
+  "10.1016/j.jviromet.2019.113749": {
+    "authors": [
+      "Komorizono",
+      "Tomonaga",
+      "Makino"
+    ],
+    "first_author": "Komorizono",
+    "journal": "Journal of Virological Methods",
+    "title": "Development of a reverse transcription-loop-mediated isothermal amplification assay for the detection of parrot bornavirus 4",
+    "year": 2020
+  },
+  "10.1016/j.jviromet.2020.113964": {
+    "authors": [
+      "Groch",
+      "Taniwaki",
+      "Favero",
+      "Brand\u00e3o",
+      "D\u00edaz-Delgado",
+      "Fern\u00e1ndez",
+      "Cat\u00e3o-Dias",
+      "Sierra"
+    ],
+    "first_author": "Groch",
+    "journal": "Journal of Virological Methods",
+    "title": "A novel real-time PCR to detect Cetacean morbillivirus in Atlantic cetaceans",
+    "year": 2020
+  },
+  "10.1016/j.jviromet.2022.114567": {
+    "authors": [
+      "Chengula",
+      "Mugimba",
+      "Tal",
+      "Levi",
+      "Dubey",
+      "Mutoloki",
+      "Dishon",
+      "David",
+      "Evensen",
+      "Munang\u2019andu"
+    ],
+    "first_author": "Chengula",
+    "journal": "Journal of Virological Methods",
+    "title": "Efficiency, sensitivity and specificity of a quantitative real-time PCR assay for Tilapia Lake virus (TiLV)",
+    "year": 2022
+  },
+  "10.1016/j.jviromet.2024.114942": {
+    "authors": [
+      "An",
+      "Kim",
+      "Heo",
+      "Kang",
+      "Lee",
+      "Lee"
+    ],
+    "first_author": "An",
+    "journal": "Journal of Virological Methods",
+    "title": "Development and evaluation of a multiplex real-time RT-PCR assay for simultaneous detection of H5, H7, and H9 subtype avian influenza viruses",
+    "year": 2024
+  },
+  "10.1016/j.meegid.2021.104741": {
+    "authors": [
+      "Kevin",
+      "Girault",
+      "Caspar",
+      "Cherfa",
+      "Mendy",
+      "Maurin",
+      "Ponsart",
+      "Madani"
+    ],
+    "first_author": "Kevin",
+    "journal": "Infection, Genetics and Evolution",
+    "title": "High-resolution melting PCR assay as a powerful tool for the epidemiological surveillance of tularemia in Western Europe",
+    "year": 2021
+  },
+  "10.1016/j.mimet.2011.04.017": {
+    "authors": [
+      "duPre'",
+      "Tracy",
+      "Hunter"
+    ],
+    "first_author": "duPre'",
+    "journal": "Journal of Microbiological Methods",
+    "title": "Quantitative PCR method for detection of mycoplasma spp. DNA in nasal lavage samples from the desert tortoise (Gopherus agassizii)",
+    "year": 2011
+  },
+  "10.1016/j.mimet.2022.106594": {
+    "authors": [
+      "Rieder",
+      "Martin-Sanchez",
+      "Osman",
+      "Adrian-Kalchhauser",
+      "Eiler"
+    ],
+    "first_author": "Rieder",
+    "journal": "Journal of Microbiological Methods",
+    "title": "Detecting aquatic pathogens with field-compatible dried qPCR assays",
+    "year": 2022
+  },
+  "10.1016/j.vetmic.2008.10.035": {
+    "first_author": "Atkins",
+    "journal": "Veterinary Microbiology",
+    "n_authors": 6,
+    "title": "Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus)",
+    "volume": "136",
+    "year": 2009
+  },
+  "10.1016/j.vetmic.2008.12.022": {
+    "authors": [
+      "Vr\u00e5lstad",
+      "Knutsen",
+      "Tengs",
+      "Holst-Jensen"
+    ],
+    "first_author": "Vr\u00e5lstad",
+    "journal": "Veterinary Microbiology",
+    "title": "A quantitative TaqMan\u00ae MGB real-time polymerase chain reaction based assay for detection of the causative agent of crayfish plague Aphanomyces astaci",
+    "year": 2009
+  },
+  "10.1016/j.vetmic.2010.05.042": {
+    "first_author": "Latimer",
+    "journal": "Veterinary Microbiology",
+    "n_authors": 5,
+    "title": "Detection and evaluation of novel herpesviruses in routine and pathological samples from Asian and African elephants: Identification of two new probosciviruses (EEHV5 and EEHV6) and two new gammaherpesviruses (EGHV3B and EGHV5)",
+    "volume": "147",
+    "year": 2011
+  },
+  "10.1016/j.vetmic.2012.07.030": {
+    "first_author": "Hyndman",
+    "journal": "Veterinary Microbiology",
+    "n_authors": 4,
+    "title": "Sunshine virus in Australian pythons",
+    "volume": "161",
+    "year": 2012
+  },
+  "10.1016/j.vetmic.2012.12.031": {
+    "authors": [
+      "Rubio-Guerri",
+      "Melero",
+      "Rivera-Arroyo",
+      "Belli\u00e8re",
+      "Crespo",
+      "Garc\u00eda-P\u00e1rraga",
+      "Esper\u00f3n",
+      "S\u00e1nchez-Vizca\u00edno"
+    ],
+    "first_author": "Rubio-Guerri",
+    "journal": "Veterinary Microbiology",
+    "title": "Simultaneous diagnosis of Cetacean morbillivirus infection in dolphins stranded in the Spanish Mediterranean sea in 2011 using a novel Universal Probe Library (UPL) RT-PCR assay",
+    "year": 2013
+  },
+  "10.1016/j.vetmic.2021.109136": {
+    "authors": [
+      "Desiderio",
+      "Stacy",
+      "Ossiboff",
+      "Iredale",
+      "Archer",
+      "Alexander",
+      "Heard",
+      "Crevasse",
+      "Craft",
+      "Fredholm",
+      "Donnelly",
+      "Rosenberg",
+      "Childress",
+      "Russell",
+      "Wellehan"
+    ],
+    "first_author": "Desiderio",
+    "journal": "Veterinary Microbiology",
+    "title": "Identification of a novel mortality-associated Helicobacter species in gopher tortoises (Gopherus polyphemus), qPCR test development and validation, and correlation with mortality in a wildlife rehabilitation population",
+    "year": 2021
+  },
+  "10.1016/j.vetpar.2011.01.038": {
+    "authors": [
+      "Schares",
+      "Maksimov",
+      "Basso",
+      "Mor\u00e9",
+      "Dubey",
+      "Rosenthal",
+      "Majzoub",
+      "Rostaher",
+      "Selmair",
+      "Langenmayer",
+      "Scharr",
+      "Conraths",
+      "Gollnick"
+    ],
+    "first_author": "Schares",
+    "journal": "Veterinary Parasitology",
+    "title": "Quantitative real time polymerase chain reaction assays for the sensitive detection of Besnoitia besnoiti infection in cattle",
+    "year": 2011
+  },
+  "10.1016/j.vetpar.2011.02.025": {
+    "authors": [
+      "De Ambrogi",
+      "Aghazadeh",
+      "Hermosilla",
+      "Huber",
+      "Majnaric",
+      "Reljic",
+      "Elson-Riggins"
+    ],
+    "first_author": "De Ambrogi",
+    "journal": "Veterinary Parasitology",
+    "title": "Occurrence of Baylisascaris transfuga in wild populations of European brown bears (Ursus arctos) as identified by a new PCR method",
+    "year": 2011
+  },
+  "10.1016/j.vetpar.2012.10.001": {
+    "authors": [
+      "Bartley",
+      "Wright",
+      "Zimmer",
+      "Roy",
+      "Kitchener",
+      "Meredith",
+      "Innes",
+      "Katzer"
+    ],
+    "first_author": "Bartley",
+    "journal": "Veterinary Parasitology",
+    "title": "Detection of Neospora caninum in wild carnivorans in Great Britain",
+    "year": 2013
+  },
+  "10.1016/s0016-5085(98)70589-x": {
+    "first_author": "Fox",
+    "journal": "Gastroenterology",
+    "n_authors": 11,
+    "title": "Hepatic Helicobacter species identified in bile and gallbladder tissue from chileans with chronic cholecystitis",
+    "volume": "114",
+    "year": 1998
+  },
+  "10.1016/s0166-0934(01)00306-8": {
+    "first_author": "S\u00e1nchez-Seco",
+    "journal": "Journal of Virological Methods",
+    "n_authors": 5,
+    "title": "A generic nested-RT-PCR followed by sequencing for detection and identification of members of the alphavirus genus",
+    "volume": "95",
+    "year": 2001
+  },
+  "10.1016/s0166-0934(02)00148-9": {
+    "authors": [
+      "Barbezange",
+      "Jestin"
+    ],
+    "first_author": "Barbezange",
+    "journal": "Journal of Virological Methods",
+    "title": "Development of a RT-nested PCR test detecting pigeon Paramyxovirus-1 directly from organs of infected animals",
+    "year": 2002
+  },
+  "10.1016/s0166-0934(96)02155-6": {
+    "first_author": "Meyer",
+    "journal": "Journal of Virological Methods",
+    "n_authors": 3,
+    "title": "Gene for A-type inclusion body protein is useful for a polymerase chain reaction assay to differentiate orthopoxviruses",
+    "volume": "64",
+    "year": 1997
+  },
+  "10.1016/s0166-0934(99)00088-9": {
+    "first_author": "Reid",
+    "journal": "Journal of Virological Methods",
+    "n_authors": 6,
+    "title": "Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing",
+    "volume": "82",
+    "year": 1999
+  },
+  "10.1016/s0168-1702(00)00252-5": {
+    "first_author": "Chmielewicz",
+    "journal": "Virus Research",
+    "n_authors": 3,
+    "title": "Detection and multigenic characterization of a novel gammaherpesvirus in goats",
+    "volume": "75",
+    "year": 2001
+  },
+  "10.1016/s0168-1702(97)01458-5": {
+    "first_author": "Lozano",
+    "journal": "Virus Research",
+    "n_authors": 8,
+    "title": "Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification and RFLP analysis",
+    "volume": "49",
+    "year": 1997
+  },
+  "10.1016/s0168-1702(99)00059-3": {
+    "first_author": "Ahne",
+    "journal": "Virus Research",
+    "n_authors": 4,
+    "title": "Comparative sequence analyses of sixteen reptilian paramyxoviruses",
+    "volume": "63",
+    "year": 1999
+  },
+  "10.1017/s0031182018000227": {
+    "authors": [
+      "Makkonen",
+      "Jussila",
+      "Panteleit",
+      "Keller",
+      "Schrimpf",
+      "Theissinger",
+      "Kortet",
+      "Mart\u00edn-Torrijos",
+      "Sandoval-Sierra",
+      "Di\u00e9guez-Uribeondo",
+      "Kokko"
+    ],
+    "first_author": "Makkonen",
+    "journal": "Parasitology",
+    "title": "MtDNA allows the sensitive detection and haplotyping of the crayfish plague disease agentAphanomyces astacishowing clues about its origin and migration",
+    "year": 2018
+  },
+  "10.1038/labinvest.3700143": {
+    "first_author": "Kulesh",
+    "journal": "Laboratory Investigation",
+    "n_authors": 17,
+    "title": "Monkeypox virus detection in rodents using real-time 3\u2032-minor groove binder TaqMan\u00ae assays on the Roche LightCycler",
+    "volume": "84",
+    "year": 2004
+  },
+  "10.1038/nature08200": {
+    "first_author": "Keele",
+    "journal": "Nature",
+    "n_authors": 25,
+    "title": "Increased mortality and AIDS-like immunopathology in wild chimpanzees infected with SIVcpz",
+    "volume": "460",
+    "year": 2009
+  },
+  "10.1038/s41598-018-28304-1": {
+    "authors": [
+      "Mutnale",
+      "Anand",
+      "Eluvathingal",
+      "Roy",
+      "Reddy",
+      "Vasudevan"
+    ],
+    "first_author": "Mutnale",
+    "title": "Enzootic frog pathogen Batrachochytrium dendrobatidis in Asian tropics reveals high ITS haplotype diversity and low prevalence",
+    "year": 2018
+  },
+  "10.1038/s41598-020-57909-8": {
+    "first_author": "Kato",
+    "journal": "Scientific Reports",
+    "n_authors": 5,
+    "title": "Direct and sensitive detection of a microsporidian parasite of bumblebees using loop-mediated isothermal amplification (LAMP)",
+    "volume": "10",
+    "year": 2020
+  },
+  "10.1038/s41598-025-03903-x": {
+    "authors": [
+      "Nesti",
+      "Hayashida",
+      "Sugi",
+      "Artama",
+      "Wijayanto",
+      "Kawai",
+      "Yamagishi"
+    ],
+    "first_author": "Nesti",
+    "title": "Development of a semicomprehensive detection method for paramyxoviruses and its validation using Indonesian bats",
+    "year": 2025
+  },
+  "10.1046/j.1365-2672.1997.00300.x": {
+    "first_author": "Wang",
+    "journal": "Journal of Applied Microbiology",
+    "n_authors": 3,
+    "title": "A universal protocol for PCR detection of 13 species of foodborne pathogens in foods",
+    "volume": "83",
+    "year": 1997
+  },
+  "10.1073/pnas.1416625111": {
+    "authors": [
+      "Hewson",
+      "Button",
+      "Gudenkauf",
+      "Miner",
+      "Newton",
+      "Gaydos",
+      "Wynne",
+      "Groves",
+      "Hendler",
+      "Murray",
+      "Fradkin",
+      "Breitbart",
+      "Fahsbender",
+      "Lafferty",
+      "Kilpatrick",
+      "Miner",
+      "Raimondi",
+      "Lahner",
+      "Friedman",
+      "Daniels",
+      "Haulena",
+      "Marliave",
+      "Burge",
+      "Eisenlord",
+      "Harvell"
+    ],
+    "first_author": "Hewson",
+    "journal": "Proceedings of the National Academy of Sciences",
+    "title": "Densovirus associated with sea-star wasting disease and mass mortality",
+    "year": 2014
+  },
+  "10.1073/pnas.182412299": {
+    "first_author": "Gao",
+    "journal": "Proceedings of the National Academy of Sciences",
+    "n_authors": 6,
+    "title": "Novel adeno-associated viruses from rhesus monkeys as vectors for human gene therapy",
+    "volume": "99",
+    "year": 2002
+  },
+  "10.1080/03079450802216629": {
+    "authors": [
+      "Grodio",
+      "Dhondt",
+      "O'Connell",
+      "Schat"
+    ],
+    "first_author": "Grodio",
+    "journal": "Avian Pathology",
+    "title": "Detection and quantification of\n                    Mycoplasma gallisepticum\n                    genome load in conjunctival samples of experimentally infected house finches (\n                    Carpodacus mexicanus\n                    ) using real-time polymerase chain reaction",
+    "year": 2008
+  },
+  "10.1080/03079457.2022.2031882": {
+    "authors": [
+      "Lee",
+      "Lee",
+      "Kang",
+      "Jeong",
+      "Kwon",
+      "Kang"
+    ],
+    "first_author": "Lee",
+    "journal": "Avian Pathology",
+    "title": "A multiplex real-time PCR assay for differential identification of avian Chlamydia",
+    "year": 2022
+  },
+  "10.1089/vbz.2007.0206": {
+    "first_author": "Moureau",
+    "journal": "Vector-Borne and Zoonotic Diseases",
+    "n_authors": 6,
+    "title": "A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses",
+    "volume": "7",
+    "year": 2007
+  },
+  "10.1093/infdis/167.2.458": {
+    "first_author": "Sethabutr",
+    "journal": "Journal of Infectious Diseases",
+    "n_authors": 6,
+    "title": "Detection of Shigellae and EnteroinvasiveEscherichia coliby Amplification of the Invasion Plasmid Antigen H DNA Sequence in Patients with Dysentery",
+    "volume": "167",
+    "year": 1993
+  },
+  "10.1093/nar/13.24.8927": {
+    "authors": [
+      "Martin",
+      "Castro",
+      "Aboul-ela",
+      "Tinoco"
+    ],
+    "first_author": "Martin",
+    "journal": "Nucleic Acids Research",
+    "title": "Base pairing involving deoxyinosine: implications for probe design",
+    "year": 1985
+  },
+  "10.1093/nar/18.4.999": {
+    "authors": [
+      "Kwok",
+      "Kellogg",
+      "McKinney",
+      "Spasic",
+      "Goda",
+      "Levenson",
+      "Sninsky"
+    ],
+    "first_author": "Kwok",
+    "journal": "Nucleic Acids Research",
+    "title": "Effects of primer-template mismatches on the polymerase chain reaction: Human immunodeficiency virus type 1 model studies",
+    "year": 1990
+  },
+  "10.1093/nar/gki918": {
+    "authors": [
+      "Watkins"
+    ],
+    "first_author": "Watkins",
+    "journal": "Nucleic Acids Research",
+    "title": "Nearest-neighbor thermodynamics of deoxyinosine pairs in DNA duplexes",
+    "year": 2005
+  },
+  "10.1093/ve/veaa024": {
+    "authors": [
+      "Vaz",
+      "Raso",
+      "Agius",
+      "Hunt",
+      "Leishman",
+      "Eden",
+      "Phalen"
+    ],
+    "first_author": "Vaz",
+    "title": "Opportunistic sampling of wild native and invasive birds reveals a rich diversity of adenoviruses in Australia",
+    "year": 2020
+  },
+  "10.1098/rsos.180870": {
+    "first_author": "Kwon",
+    "journal": "Royal Society Open Science",
+    "n_authors": 13,
+    "title": "Tasman-PCR: a genetic diagnostic assay for Tasmanian devil facial tumour diseases",
+    "volume": "5",
+    "year": 2018
+  },
+  "10.1098/rsos.202150": {
+    "first_author": "Smilansky",
+    "journal": "Royal Society Open Science",
+    "n_authors": 5,
+    "title": "A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues",
+    "volume": "8",
+    "year": 2021
+  },
+  "10.1099/0022-1317-80-9-2437": {
+    "first_author": "Forslund",
+    "journal": "Journal of General Virology",
+    "n_authors": 5,
+    "title": "A broad range of human papillomavirus types detected with a general PCR method suitable for analysis of cutaneous tumours and normal skin",
+    "volume": "80",
+    "year": 1999
+  },
+  "10.1099/00221287-146-2-315": {
+    "first_author": "Zhu",
+    "journal": "Microbiology",
+    "n_authors": 3,
+    "title": "Cryptosporidium parvum appears to lack a plastid genome",
+    "volume": "146",
+    "year": 2000
+  },
+  "10.1099/jmm.0.061820-0": {
+    "first_author": "Garc\u00eda",
+    "journal": "Journal of Medical Microbiology",
+    "n_authors": 8,
+    "title": "Molecular epidemiology and genetic diversity of Entamoeba species in a chelonian collection",
+    "volume": "63",
+    "year": 2014
+  },
+  "10.1099/jmm.0.45860-0": {
+    "authors": [
+      "Levett",
+      "Morey",
+      "Galloway",
+      "Turner",
+      "Steigerwalt",
+      "Mayer"
+    ],
+    "first_author": "Levett",
+    "journal": "Journal of Medical Microbiology",
+    "title": "Detection of pathogenic leptospires by real-time quantitative PCR",
+    "year": 2005
+  },
+  "10.1099/jmm.0.46335-0": {
+    "authors": [
+      "M\u00e9nard",
+      "Clerc",
+      "Subtil",
+      "M\u00e9graud",
+      "B\u00e9b\u00e9ar",
+      "de Barbeyrac"
+    ],
+    "first_author": "M\u00e9nard",
+    "journal": "Journal of Medical Microbiology",
+    "title": "Development of a real-time PCR for the detection of Chlamydia psittaci",
+    "year": 2006
+  },
+  "10.1099/vir.0.80962-0": {
+    "authors": [
+      "Hammond",
+      "Pomeroy",
+      "Hall",
+      "Smith"
+    ],
+    "first_author": "Hammond",
+    "journal": "Journal of General Virology",
+    "title": "Identification and real-time PCR quantification of Phocine distemper virus from two colonies of Scottish grey seals in 2002",
+    "year": 2005
+  },
+  "10.1099/vir.0.81128-0": {
+    "first_author": "Bourhy",
+    "journal": "Journal of General Virology",
+    "n_authors": 5,
+    "title": "Phylogenetic relationships among rhabdoviruses inferred using the L polymerase gene",
+    "volume": "86",
+    "year": 2005
+  },
+  "10.1099/vir.0.81738-0": {
+    "authors": [
+      "Jarmin",
+      "Manvell",
+      "Gough",
+      "Laidlaw",
+      "Skinner"
+    ],
+    "first_author": "Jarmin",
+    "journal": "Journal of General Virology",
+    "title": "Avipoxvirus phylogenetics: identification of a PCR length polymorphism that discriminates between the two major clades",
+    "year": 2006
+  },
+  "10.1111/1755-0998.13299": {
+    "first_author": "Ghosh",
+    "journal": "Molecular Ecology Resources",
+    "n_authors": 9,
+    "title": "Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR",
+    "volume": "21",
+    "year": 2021
+  },
+  "10.1111/j.1365-2761.2007.00828.x": {
+    "first_author": "Pallister",
+    "journal": "Journal of Fish Diseases",
+    "n_authors": 6,
+    "title": "Development of real\u2010time PCR assays for the detection and differentiation of Australian and European ranaviruses",
+    "volume": "30",
+    "year": 2007
+  },
+  "10.1111/j.1365-2761.2009.01066.x": {
+    "authors": [
+      "Fujiwara\u2010Nagata",
+      "Eguchi"
+    ],
+    "first_author": "Fujiwara\u2010Nagata",
+    "journal": "Journal of Fish Diseases",
+    "title": "Development and evaluation of a loop\u2010mediated isothermal amplification assay for rapid and simple detection of Flavobacterium psychrophilum",
+    "year": 2009
+  },
+  "10.1111/j.1750-2659.2010.00149.x": {
+    "authors": [
+      "Slomka",
+      "Densham",
+      "Coward",
+      "Essen",
+      "Brookes",
+      "Irvine",
+      "Spackman",
+      "Ridgeon",
+      "Gardner",
+      "Hanna",
+      "Suarez",
+      "Brown"
+    ],
+    "first_author": "Slomka",
+    "title": "Original Article: Real time reverse transcription (RRT)\u2010polymerase chain reaction (PCR) methods for detection of pandemic (H1N1) 2009 influenza virus and European swine influenza A virus infections in pigs",
+    "year": 2010
+  },
+  "10.1111/tbed.12607": {
+    "authors": [
+      "Dalton",
+      "Nicieza",
+      "Podadera",
+      "de Llano",
+      "Martin Alonso",
+      "de los Toyos",
+      "Garc\u00eda Oca\u00f1a",
+      "V\u00e1zquez-Villa",
+      "Velasco",
+      "Landeta",
+      "Parra"
+    ],
+    "first_author": "Dalton",
+    "journal": "Transboundary and Emerging Diseases",
+    "title": "Fast specific field detection of RHDVb",
+    "year": 2017
+  },
+  "10.1111/tmi.70157": {
+    "authors": [
+      "Kanayama",
+      "Ejiri",
+      "Chiko",
+      "Namihira",
+      "Yonaha",
+      "Kuba",
+      "Yoshimi",
+      "Koizumi",
+      "Takeshima",
+      "Kaku"
+    ],
+    "first_author": "Kanayama",
+    "title": "Environmental Distribution of Pathogenic\n                    Leptospira\n                    spp. in Subtropical Rivers of Japan and Implications for Human Infection",
+    "year": 2026
+  },
+  "10.1111/zph.12041": {
+    "authors": [
+      "Kauffman",
+      "Bjork",
+      "Gallup",
+      "Boggiatto",
+      "Bellaire",
+      "Petersen"
+    ],
+    "first_author": "Kauffman",
+    "journal": "Zoonoses and Public Health",
+    "title": "Early Detection ofBrucella Canisvia Quantitative Polymerase Chain Reaction Analysis",
+    "year": 2013
+  },
+  "10.1126/science.288.5470.1432": {
+    "first_author": "Chua",
+    "journal": "Science",
+    "n_authors": 22,
+    "title": "Nipah Virus: A Recently Emergent Deadly Paramyxovirus",
+    "volume": "288",
+    "year": 2000
+  },
+  "10.1128/aem.00270-07": {
+    "first_author": "Marti\u0301n-Herna\u0301ndez",
+    "journal": "Applied and Environmental Microbiology",
+    "n_authors": 6,
+    "title": "Outcome of Colonization of Apis mellifera by Nosema ceranae",
+    "volume": "73",
+    "year": 2007
+  },
+  "10.1128/aem.00330-10": {
+    "first_author": "Pollock",
+    "journal": "Applied and Environmental Microbiology",
+    "n_authors": 4,
+    "title": "Detection and Quantification of the Coral Pathogen Vibrio coralliilyticus by Real-Time PCR with TaqMan Fluorescent Probes",
+    "volume": "76",
+    "year": 2010
+  },
+  "10.1128/aem.02897-13": {
+    "first_author": "Shuey",
+    "journal": "Applied and Environmental Microbiology",
+    "n_authors": 5,
+    "title": "Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species",
+    "volume": "80",
+    "year": 2014
+  },
+  "10.1128/aem.58.8.2606-2615.1992": {
+    "first_author": "van Kuppeveld",
+    "journal": "Applied and Environmental Microbiology",
+    "n_authors": 8,
+    "title": "Genus- and species-specific identification of mycoplasmas by 16S rRNA amplification",
+    "volume": "58",
+    "year": 1992
+  },
+  "10.1128/aem.60.1.149-152.1994": {
+    "authors": [
+      "van Kuppeveld",
+      "Johansson",
+      "Galama",
+      "Kissing",
+      "B\u00f6lske",
+      "van der Logt",
+      "Melchers"
+    ],
+    "first_author": "van Kuppeveld",
+    "title": "Detection of mycoplasma contamination in cell cultures by a mycoplasma group-specific PCR",
+    "year": 1994
+  },
+  "10.1128/aem.65.4.1578-1583.1999": {
+    "first_author": "Xiao",
+    "journal": "Applied and Environmental Microbiology",
+    "n_authors": 8,
+    "title": "Phylogenetic Analysis of Cryptosporidium Parasites Based on the Small-Subunit rRNA Gene Locus",
+    "volume": "65",
+    "year": 1999
+  },
+  "10.1128/aem.66.12.5492-5498.2000": {
+    "first_author": "Xiao",
+    "journal": "Applied and Environmental Microbiology",
+    "n_authors": 5,
+    "title": "Identification of Species and Sources of Cryptosporidium Oocysts in Storm Waters with a Small-Subunit rRNA-Based Diagnostic and Genotyping Tool",
+    "volume": "66",
+    "year": 2000
+  },
+  "10.1128/aem.69.1.290-296.2003": {
+    "authors": [
+      "Malorny",
+      "Hoorfar",
+      "Bunge",
+      "Helmuth"
+    ],
+    "first_author": "Malorny",
+    "title": "Multicenter Validation of the Analytical Accuracy ofSalmonellaPCR: towards an International Standard",
+    "year": 2003
+  },
+  "10.1128/cdli.6.2.243-246.1999": {
+    "first_author": "Mu\u0308ller",
+    "journal": "Clinical Diagnostic Laboratory Immunology",
+    "n_authors": 8,
+    "title": "A Powerful DNA Extraction Method and PCR for Detection of Microsporidia in Clinical Stool Specimens",
+    "volume": "6",
+    "year": 1999
+  },
+  "10.1128/jcm.00192-08": {
+    "first_author": "Tong",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 5,
+    "title": "Sensitive and Broadly Reactive Reverse Transcription-PCR Assays To Detect Novel Paramyxoviruses",
+    "volume": "46",
+    "year": 2008
+  },
+  "10.1128/jcm.00440-14": {
+    "first_author": "Boniotti",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 12,
+    "title": "Detection and Molecular Characterization of Mycobacterium microti Isolates in Wild Boar from Northern Italy",
+    "volume": "52",
+    "year": 2014
+  },
+  "10.1128/jcm.00542-06": {
+    "first_author": "Nix",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 3,
+    "title": "Sensitive, Seminested PCR Amplification of VP1 Sequences for Direct Identification of All Enterovirus Serotypes from Original Clinical Specimens",
+    "volume": "44",
+    "year": 2006
+  },
+  "10.1128/jcm.01173-11": {
+    "authors": [
+      "Michael",
+      "Forslund",
+      "Bacevskij",
+      "Waterboer",
+      "Bravo",
+      "Pawlita",
+      "Schmitt"
+    ],
+    "first_author": "Michael",
+    "title": "Bead-Based Multiplex Genotyping of 58 Cutaneous Human Papillomavirus Types",
+    "year": 2011
+  },
+  "10.1128/jcm.01264-10": {
+    "first_author": "Tsukamoto",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 8,
+    "title": "Broad Detection of Diverse H5 and H7 Hemagglutinin Genes of Avian Influenza Viruses by Real-Time Reverse Transcription-PCR Using Primer and Probe Sets Containing Mixed Bases",
+    "volume": "48",
+    "year": 2010
+  },
+  "10.1128/jcm.01697-09": {
+    "first_author": "Li",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 4,
+    "title": "GC Content-Based Pan-Pox Universal PCR Assays for Poxvirus Detection",
+    "volume": "48",
+    "year": 2010
+  },
+  "10.1128/jcm.01808-16": {
+    "first_author": "Kembou Tsofack",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 13,
+    "title": "Detection of Tilapia Lake Virus in Clinical Samples by Culturing and Nested Reverse Transcription-PCR",
+    "volume": "55",
+    "year": 2017
+  },
+  "10.1128/jcm.01893-06": {
+    "first_author": "Zhai",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 13,
+    "title": "Rapid Molecular Strategy for Filovirus Detection and Characterization",
+    "volume": "45",
+    "year": 2007
+  },
+  "10.1128/jcm.02313-13": {
+    "first_author": "Blooi",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 6,
+    "title": "Duplex Real-Time PCR for Rapid Simultaneous Detection of Batrachochytrium dendrobatidis and Batrachochytrium salamandrivorans in Amphibian Samples",
+    "volume": "51",
+    "year": 2013
+  },
+  "10.1128/jcm.02505-21": {
+    "first_author": "Geiselhardt",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 13,
+    "title": "Development and Validation of a Pan-Genotypic Real-Time Quantitative Reverse Transcription-PCR Assay To Detect Canine Distemper Virus and Phocine Distemper Virus in Domestic Animals and Wildlife",
+    "volume": "60",
+    "year": 2022
+  },
+  "10.1128/jcm.02713-12": {
+    "authors": [
+      "Lindsay",
+      "Ochieng",
+      "Ikumapayi",
+      "Toure",
+      "Ahmed",
+      "Li",
+      "Panchalingam",
+      "Levine",
+      "Kotloff",
+      "Rasko",
+      "Morris",
+      "Juma",
+      "Fields",
+      "Dione",
+      "Malle",
+      "Becker",
+      "Houpt",
+      "Nataro",
+      "Sommerfelt",
+      "Pop",
+      "Oundo",
+      "Antonio",
+      "Hossain",
+      "Tamboura",
+      "Stine"
+    ],
+    "first_author": "Lindsay",
+    "title": "Quantitative PCR for Detection of Shigella Improves Ascertainment of Shigella Burden in Children with Moderate-to-Severe Diarrhea in Low-Income Countries",
+    "year": 2013
+  },
+  "10.1128/jcm.29.1.158-161.1991": {
+    "first_author": "Victor",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 5,
+    "title": "Improved method for the routine identification of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit",
+    "volume": "29",
+    "year": 1991
+  },
+  "10.1128/jcm.30.8.1942-1947.1992": {
+    "first_author": "Ibrahim",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 3,
+    "title": "Polymerase chain reaction-gene probe detection system specific for pathogenic strains of Yersinia enterocolitica",
+    "volume": "30",
+    "year": 1992
+  },
+  "10.1128/jcm.31.1.152-154.1993": {
+    "first_author": "Long",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 6,
+    "title": "Detection of Francisella tularensis in blood by polymerase chain reaction",
+    "volume": "31",
+    "year": 1993
+  },
+  "10.1128/jcm.34.7.1666-1671.1996": {
+    "first_author": "VanDevanter",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 7,
+    "title": "Detection and analysis of diverse herpesviral species by consensus primer PCR",
+    "volume": "34",
+    "year": 1996
+  },
+  "10.1128/jcm.35.8.2043-2046.1997": {
+    "first_author": "Messmer",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 5,
+    "title": "Application of a nested, multiplex PCR to psittacosis outbreaks",
+    "volume": "35",
+    "year": 1997
+  },
+  "10.1128/jcm.39.12.4506-4513.2001": {
+    "first_author": "Lanciotti",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 2,
+    "title": "Nucleic Acid Sequence-Based Amplification Assays for Rapid Detection of West Nile and St. Louis Encephalitis Viruses",
+    "volume": "39",
+    "year": 2001
+  },
+  "10.1128/jcm.39.5.1922-1927.2001": {
+    "first_author": "Scaramozzino",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 6,
+    "title": "Comparison of Flavivirus Universal Primer Pairs and Development of a Rapid, Highly Sensitive Heminested Reverse Transcription-PCR Assay for Detection of Flaviviruses Targeted to a Conserved Region of the NS5 Gene Sequences",
+    "volume": "39",
+    "year": 2001
+  },
+  "10.1128/jcm.39.6.2248-2253.2001": {
+    "first_author": "Xiao",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 6,
+    "title": "Genotyping Encephalitozoon cuniculi by Multilocus Analyses of Genes with Repetitive Sequences",
+    "volume": "39",
+    "year": 2001
+  },
+  "10.1128/jcm.40.9.3256-3260.2002": {
+    "first_author": "Spackman",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 9,
+    "title": "Development of a Real-Time Reverse Transcriptase PCR Assay for Type A Influenza Virus and the Avian H5 and H7 Hemagglutinin Subtypes",
+    "volume": "40",
+    "year": 2002
+  },
+  "10.1128/jcm.41.8.3661-3667.2003": {
+    "authors": [
+      "Kauffman",
+      "Jones",
+      "Dupuis",
+      "Ngo",
+      "Bernard",
+      "Kramer"
+    ],
+    "first_author": "Kauffman",
+    "title": "Virus Detection Protocols for West Nile Virus in Vertebrate and Mosquito Specimens",
+    "year": 2003
+  },
+  "10.1128/jcm.43.12.6176-6182.2005": {
+    "first_author": "Casas",
+    "journal": "Journal of Clinical Microbiology",
+    "n_authors": 10,
+    "title": "Molecular Identification of Adenoviruses in Clinical Samples by Analyzing a Partial Hexon Genomic Region",
+    "volume": "43",
+    "year": 2005
+  },
+  "10.1128/jvi.02311-08": {
+    "first_author": "Takehisa",
+    "journal": "Journal of Virology",
+    "n_authors": 15,
+    "title": "Origin and Biology of Simian Immunodeficiency Virus in Wild-Living Western Gorillas",
+    "volume": "83",
+    "year": 2009
+  },
+  "10.1128/jvi.72.12.10305-10309.1998": {
+    "first_author": "Clewley",
+    "journal": "Journal of Virology",
+    "n_authors": 4,
+    "title": "A Novel Simian Immunodeficiency Virus (SIVdrl)polSequence from the Drill Monkey,Mandrillus leucophaeus",
+    "volume": "72",
+    "year": 1998
+  },
+  "10.1128/jvi.75.2.857-866.2001": {
+    "first_author": "Courgnaud",
+    "journal": "Journal of Virology",
+    "n_authors": 7,
+    "title": "Characterization of a Novel Simian Immunodeficiency Virus from Guereza Colobus Monkeys ( Colobus guereza ) in Cameroon: a New Lineage in the Nonhuman Primate Lentivirus Family",
+    "volume": "75",
+    "year": 2001
+  },
+  "10.1128/jvi.78.23.13366-13369.2004": {
+    "first_author": "Wellehan",
+    "journal": "Journal of Virology",
+    "n_authors": 9,
+    "title": "Detection and Analysis of Six Lizard Adenoviruses by Consensus Primer PCR Provides Further Evidence of a Reptilian Origin for the Atadenoviruses",
+    "volume": "78",
+    "year": 2004
+  },
+  "10.1128/jvi.79.6.3883-3887.2005": {
+    "first_author": "Johne",
+    "journal": "Journal of Virology",
+    "n_authors": 4,
+    "title": "Novel Polyomavirus Detected in the Feces of a Chimpanzee by Nested Broad-Spectrum PCR",
+    "volume": "79",
+    "year": 2005
+  },
+  "10.1128/mbio.00208-10": {
+    "first_author": "Quan",
+    "journal": "mBio",
+    "n_authors": 14,
+    "title": "Identification of a Severe Acute Respiratory Syndrome Coronavirus-Like Virus in a Leaf-Nosed Bat in Nigeria",
+    "volume": "1",
+    "year": 2010
+  },
+  "10.1155/2023/9980566": {
+    "authors": [
+      "Sreedharan",
+      "Singh Panwar",
+      "Murthy",
+      "Klop-Toker",
+      "Ib\u00e1\u00f1ez",
+      "Illueca",
+      "Webb",
+      "Govindappa",
+      "Subba",
+      "Segu",
+      "Kumar Komanduri",
+      "Vasudevan"
+    ],
+    "first_author": "Sreedharan",
+    "title": "A Universal and Efficient Detection of Chytridiomycosis Infections in Amphibians Using Novel Quantitative PCR Markers",
+    "year": 2023
+  },
+  "10.1177/104063870101300610": {
+    "authors": [
+      "Murakami",
+      "Matsuba",
+      "Une",
+      "Nomura",
+      "Fujitani"
+    ],
+    "first_author": "Murakami",
+    "journal": "Journal of Veterinary Diagnostic Investigation",
+    "title": "Development of Species-Specific PCR Techniques for the Detection of Tortoise Herpesvirus",
+    "year": 2001
+  },
+  "10.1177/104063871002200106": {
+    "first_author": "Landolfi",
+    "journal": "Journal of Veterinary Diagnostic Investigation",
+    "n_authors": 7,
+    "title": "Orthoreovirus Infection and Concurrent Cryptosporidiosis in Rough Green Snakes ( Opheodrys Aestivus ): Pathology and Identification of a Novel Orthoreovirus Strain via Polymerase Chain Reaction and Sequencing",
+    "volume": "22",
+    "year": 2010
+  },
+  "10.1177/1040638711403406": {
+    "authors": [
+      "de Kloet",
+      "Kerski",
+      "de Kloet"
+    ],
+    "first_author": "de Kloet",
+    "journal": "Journal of Veterinary Diagnostic Investigation",
+    "title": "Diagnosis of Avian bornavirus infection in psittaciformes by serum antibody detection and reverse transcription polymerase chain reaction assay using feather calami",
+    "year": 2011
+  },
+  "10.1177/1040638711416846": {
+    "first_author": "Rebelo",
+    "journal": "Journal of Veterinary Diagnostic Investigation",
+    "n_authors": 3,
+    "title": "Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples",
+    "volume": "23",
+    "year": 2011
+  },
+  "10.1177/1040638715573983": {
+    "authors": [
+      "Allender",
+      "Bunick",
+      "Dzhaman",
+      "Burrus",
+      "Maddox"
+    ],
+    "first_author": "Allender",
+    "journal": "Journal of Veterinary Diagnostic Investigation",
+    "title": "Development and use of a real-time polymerase chain reaction assay for the detection of\n                    Ophidiomyces ophiodiicola\n                    in snakes",
+    "year": 2015
+  },
+  "10.1177/1040638720951134": {
+    "first_author": "Licheri",
+    "journal": "Journal of Veterinary Diagnostic Investigation",
+    "n_authors": 2,
+    "title": "Consensus PCR protocols for the detection of amphibian herpesviruses ( Batrachovirus )",
+    "volume": "32",
+    "year": 2020
+  },
+  "10.1186/1743-422X-6-210": {
+    "authors": [
+      "Deckers",
+      "Hofmann",
+      "Kreuzer",
+      "Reinhard",
+      "Edubio",
+      "Hengel",
+      "Voigt",
+      "Ehlers"
+    ],
+    "first_author": "Deckers",
+    "title": "High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR",
+    "year": 2009
+  },
+  "10.1186/1743-422x-11-144": {
+    "first_author": "Uccellini",
+    "journal": "Virology Journal",
+    "n_authors": 12,
+    "title": "Identification of a novel nidovirus in an outbreak of fatal respiratory disease in ball pythons (Python regius)",
+    "volume": "11",
+    "year": 2014
+  },
+  "10.1186/1743-422x-4-84": {
+    "first_author": "Prepens",
+    "journal": "Virology Journal",
+    "n_authors": 5,
+    "title": "Discovery of herpesviruses in multi-infected primates using locked nucleic acids (LNA) and a bigenic PCR approach",
+    "volume": "4",
+    "year": 2007
+  },
+  "10.1186/1743-422x-6-210": {
+    "first_author": "Deckers",
+    "journal": "Virology Journal",
+    "n_authors": 8,
+    "title": "High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR",
+    "volume": "6",
+    "year": 2009
+  },
+  "10.1186/s12917-015-0407-8": {
+    "first_author": "Bohuski",
+    "journal": "BMC Veterinary Research",
+    "n_authors": 4,
+    "title": "TaqMan real-time polymerase chain reaction for detection of Ophidiomyces ophiodiicola, the fungus associated with snake fungal disease",
+    "volume": "11",
+    "year": 2015
+  },
+  "10.1186/s12917-019-2028-0": {
+    "authors": [
+      "Kolesnik",
+      "Hyndman",
+      "M\u00fcller",
+      "Pees",
+      "Marschang"
+    ],
+    "first_author": "Kolesnik",
+    "title": "Comparison of three different PCR protocols for the detection of ferlaviruses",
+    "year": 2019
+  },
+  "10.1186/s13071-018-2694-y": {
+    "authors": [
+      "Kirillova",
+      "Prakas",
+      "Calero-Bernal",
+      "Gavar\u0101ne",
+      "Fern\u00e1ndez-Garc\u00eda",
+      "Mart\u00ednez-Gonz\u00e1lez",
+      "Rudaityt\u0117-Luko\u0161ien\u0117",
+      "Mart\u00ednez-Est\u00e9llez",
+      "Butkauskas",
+      "Kirju\u0161ina"
+    ],
+    "first_author": "Kirillova",
+    "journal": "Parasites &amp; Vectors",
+    "title": "Identification and genetic characterization of Sarcocystis arctica and Sarcocystis lutrae in red foxes (Vulpes vulpes) from Baltic States and Spain",
+    "year": 2018
+  },
+  "10.1186/s13071-023-05827-9": {
+    "authors": [
+      "Hayes",
+      "Robinson",
+      "Chalmers",
+      "Ormerod",
+      "Paziewska-Harris",
+      "Chadwick",
+      "Durance",
+      "Cable"
+    ],
+    "first_author": "Hayes",
+    "title": "The occurrence and zoonotic potential of Cryptosporidium species in freshwater biota",
+    "year": 2023
+  },
+  "10.1354/vp.43-3-311": {
+    "first_author": "Garner",
+    "journal": "Veterinary Pathology",
+    "n_authors": 9,
+    "title": "Intranuclear Coccidiosis in Tortoises: Nine Cases",
+    "volume": "43",
+    "year": 2006
+  },
+  "10.1371/journal.pone.0010745": {
+    "first_author": "Farias",
+    "journal": "PLoS ONE",
+    "n_authors": 6,
+    "title": "Taqman Real-Time PCR Detects Avipoxvirus DNA in Blood of Hawa\u00eci `Amakihi (Hemignathus virens)",
+    "volume": "5",
+    "year": 2010
+  },
+  "10.1371/journal.pone.0011948": {
+    "first_author": "Kapoor",
+    "journal": "PLoS ONE",
+    "n_authors": 8,
+    "title": "Identification and Characterization of a New Bocavirus Species in Gorillas",
+    "volume": "5",
+    "year": 2010
+  },
+  "10.1371/journal.pone.0059499": {
+    "authors": [
+      "Longo",
+      "Rodriguez",
+      "da Silva Leite",
+      "Toledo",
+      "Mendoza Almeralla",
+      "Burrowes",
+      "Zamudio"
+    ],
+    "first_author": "Longo",
+    "title": "ITS1 Copy Number Varies among Batrachochytrium dendrobatidis Strains: Implications for qPCR Estimates of Infection Intensity from Field-Collected Amphibian Skin Swabs",
+    "year": 2013
+  },
+  "10.1371/journal.pone.0081800": {
+    "first_author": "Wilson",
+    "journal": "PLoS ONE",
+    "n_authors": 6,
+    "title": "An Improved Detection and Quantification Method for the Coral Pathogen Vibrio coralliilyticus",
+    "volume": "8",
+    "year": 2013
+  },
+  "10.1371/journal.pone.0090750": {
+    "authors": [
+      "Kolby",
+      "Smith",
+      "Berger",
+      "Karesh",
+      "Preston",
+      "Pessier",
+      "Skerratt"
+    ],
+    "first_author": "Kolby",
+    "title": "First Evidence of Amphibian Chytrid Fungus (Batrachochytrium dendrobatidis) and Ranavirus in Hong Kong Amphibian Trade",
+    "year": 2014
+  },
+  "10.1371/journal.pone.0207365": {
+    "first_author": "Hermes",
+    "journal": "PLOS ONE",
+    "n_authors": 10,
+    "title": "Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros",
+    "volume": "13",
+    "year": 2018
+  },
+  "10.1371/journal.pone.0230701": {
+    "first_author": "Baek",
+    "journal": "PLOS ONE",
+    "n_authors": 6,
+    "title": "TaqMan quantitative real-time PCR for detecting Avipoxvirus DNA in various sample types from hummingbirds",
+    "volume": "15",
+    "year": 2020
+  },
+  "10.1371/journal.pone.0232044": {
+    "first_author": "Tomaszewicz Brown",
+    "journal": "PLOS ONE",
+    "n_authors": 9,
+    "title": "Development and validation of a portable, point-of-care canine distemper virus qPCR test",
+    "volume": "15",
+    "year": 2020
+  },
+  "10.1371/journal.pone.0241584": {
+    "first_author": "Ahmed",
+    "journal": "PLOS ONE",
+    "n_authors": 3,
+    "title": "Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection",
+    "volume": "15",
+    "year": 2020
+  },
+  "10.1371/journal.pone.0247010": {
+    "first_author": "Conley",
+    "journal": "PLOS ONE",
+    "n_authors": 12,
+    "title": "Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana)",
+    "volume": "16",
+    "year": 2021
+  },
+  "10.1371/journal.pone.0289159": {
+    "first_author": "Haynes",
+    "journal": "PLOS ONE",
+    "n_authors": 3,
+    "title": "Development and application of a qPCR-based genotyping assay for Ophidiomyces ophidiicola to investigate the epidemiology of ophidiomycosis",
+    "volume": "18",
+    "year": 2023
+  },
+  "10.1371/journal.ppat.1000503": {
+    "first_author": "Roy",
+    "journal": "PLoS Pathogens",
+    "n_authors": 12,
+    "title": "Isolation and Characterization of Adenoviruses Persistently Shed from the Gastrointestinal Tract of Non-Human Primates",
+    "volume": "5",
+    "year": 2009
+  },
+  "10.15654/tpk-140743": {
+    "first_author": "Aqrawi",
+    "journal": "Tier\u00e4rztliche Praxis Ausgabe K: Kleintiere / Heimtiere",
+    "n_authors": 6,
+    "title": "Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo",
+    "volume": "43",
+    "year": 2015
+  },
+  "10.1577/h07-009.1": {
+    "authors": [
+      "Getchell",
+      "Groocock",
+      "Schumacher",
+      "Grimmett",
+      "Wooster",
+      "Bowser"
+    ],
+    "first_author": "Getchell",
+    "journal": "Journal of Aquatic Animal Health",
+    "title": "Quantitative Polymerase Chain Reaction Assay for Largemouth Bass Virus",
+    "year": 2007
+  },
+  "10.1638/02-070": {
+    "first_author": "Grim",
+    "journal": "Journal of Zoo and Wildlife Medicine",
+    "n_authors": 6,
+    "title": "PLASMODIUM JUXTANUCLEARE ASSOCIATED WITH MORTALITY IN BLACK-FOOTED PENGUINS (SPHENISCUS DEMERSUS) ADMITTED TO A REHABILITATION CENTER",
+    "volume": "34",
+    "year": 2003
+  },
+  "10.1638/2020-0078": {
+    "authors": [
+      "Salzmann",
+      "M\u00fcller",
+      "Marschang"
+    ],
+    "first_author": "Salzmann",
+    "journal": "Journal of Zoo and Wildlife Medicine",
+    "title": "DETECTION OF TESTADENOVIRUSES AND ATADENOVIRUSES IN TORTOISES AND TURTLES IN EUROPE",
+    "year": 2021
+  },
+  "10.1645/ge-184r1": {
+    "first_author": "Hellgren",
+    "journal": "Journal of Parasitology",
+    "n_authors": 3,
+    "title": "A NEW PCR ASSAY FOR SIMULTANEOUS STUDIES OF LEUCOCYTOZOON, PLASMODIUM, AND HAEMOPROTEUS FROM AVIAN BLOOD",
+    "volume": "90",
+    "year": 2004
+  },
+  "10.1645/ge-1905.1": {
+    "authors": [
+      "Dangoudoubiyam",
+      "Vemulapalli",
+      "Kazacos"
+    ],
+    "first_author": "Dangoudoubiyam",
+    "journal": "Journal of Parasitology",
+    "title": "Pcr Assays for Detection of Baylisascaris procyonis Eggs and Larvae",
+    "year": 2009
+  },
+  "10.1645/ge-3310": {
+    "first_author": "Schrenzel",
+    "journal": "Journal of Parasitology",
+    "n_authors": 9,
+    "title": "MOLECULAR CHARACTERIZATION OF ISOSPOROID COCCIDIA (ISOSPORA AND ATOXOPLASMA SPP.) IN PASSERINE BIRDS",
+    "volume": "91",
+    "year": 2005
+  },
+  "10.2353/jmoldx.2010.090035": {
+    "authors": [
+      "Stadhouders",
+      "Pas",
+      "Anber",
+      "Voermans",
+      "Mes",
+      "Schutten"
+    ],
+    "first_author": "Stadhouders",
+    "journal": "The Journal of Molecular Diagnostics",
+    "title": "The Effect of Primer-Template Mismatches on the Detection and Quantification of Nucleic Acids Using the 5\u2032 Nuclease Assay",
+    "year": 2010
+  },
+  "10.2460/javma.239.12.1584": {
+    "first_author": "Sledge",
+    "journal": "Journal of the American Veterinary Medical Association",
+    "n_authors": 7,
+    "title": "Outbreaks of severe enteric disease associated with Eimeria furonis infection in ferrets (Mustela putorius furo) of 3 densely populated groups",
+    "volume": "239",
+    "year": 2011
+  },
+  "10.2807/1560-7917.es.2020.25.41.2001732": {
+    "first_author": "Folly",
+    "journal": "Eurosurveillance",
+    "n_authors": 16,
+    "title": "Detection of Usutu virus infection in wild birds in the United Kingdom, 2020",
+    "volume": "25",
+    "year": 2020
+  },
+  "10.3354/dao02986": {
+    "first_author": "McAloose",
+    "journal": "Diseases of Aquatic Organisms",
+    "n_authors": 19,
+    "title": "Post-mortem findings in southern right whales Eubalaena australis at Pen\u00ednsula Vald\u00e9s, Argentina, 2003-2012",
+    "volume": "119",
+    "year": 2016
+  },
+  "10.3354/dao03034": {
+    "authors": [
+      "Wu",
+      "Conway",
+      "Phillips",
+      "Stolen",
+      "Durden",
+      "Fauquier",
+      "McFee",
+      "Schwacke"
+    ],
+    "first_author": "Wu",
+    "journal": "Diseases of Aquatic Organisms",
+    "title": "Detection of Brucella spp. in bottlenose dolphins Tursiops truncatus by a real-time PCR using blowhole swabs",
+    "year": 2016
+  },
+  "10.3354/dao03214": {
+    "authors": [
+      "Stilwell",
+      "Whittington",
+      "Hick",
+      "Becker",
+      "Ariel",
+      "van Beurden",
+      "Vendramin",
+      "Olesen",
+      "Waltzek"
+    ],
+    "first_author": "Stilwell",
+    "title": "Partial validation of a TaqMan real-time quantitative PCR for the detection of ranaviruses",
+    "year": 2018
+  },
+  "10.3354/dao03230": {
+    "authors": [
+      "Standish",
+      "Leis",
+      "Schmitz",
+      "Credico",
+      "Erickson",
+      "Bailey",
+      "Kerby",
+      "Phillips",
+      "Lewis"
+    ],
+    "first_author": "Standish",
+    "journal": "Diseases of Aquatic Organisms",
+    "title": "Optimizing, validating, and field testing a multiplex qPCR for the detection of amphibian pathogens",
+    "year": 2018
+  },
+  "10.3354/dao03239": {
+    "authors": [
+      "Karwacki",
+      "Atkinson",
+      "Ossiboff",
+      "Savage"
+    ],
+    "first_author": "Karwacki",
+    "journal": "Diseases of Aquatic Organisms",
+    "title": "Novel quantitative PCR assay specific for the emerging Perkinsea amphibian pathogen reveals seasonal infection dynamics",
+    "year": 2018
+  },
+  "10.3354/dao03445": {
+    "authors": [
+      "Liu",
+      "Paul-Pont",
+      "Rubio",
+      "Dhand",
+      "Whittington"
+    ],
+    "first_author": "Liu",
+    "journal": "Diseases of Aquatic Organisms",
+    "title": "Detection of ostreid herpesvirus-1 in plankton and seawater samples at an estuary scale",
+    "year": 2020
+  },
+  "10.3354/dao03932": {
+    "authors": [
+      "Kelley",
+      "Lee",
+      "Martin",
+      "Rittenburg",
+      "Mansfield",
+      "Savage"
+    ],
+    "first_author": "Kelley",
+    "journal": "Diseases of Aquatic Organisms",
+    "title": "Chelonid alphaherpesvirus 5 qPCR of archived blood and skin samples underpredicts infections in juvenile green turtles Chelonia mydas",
+    "year": 2026
+  },
+  "10.3354/dao054029": {
+    "first_author": "Grizzle",
+    "journal": "Diseases of Aquatic Organisms",
+    "n_authors": 3,
+    "title": "PCR method for detection of largemouth bass virus",
+    "volume": "54",
+    "year": 2003
+  },
+  "10.3354/dao060141": {
+    "first_author": "Boyle",
+    "journal": "Diseases of Aquatic Organisms",
+    "n_authors": 5,
+    "title": "Rapid quantitative detection of chytridiomycosis (Batrachochytrium dendrobatidis) in amphibian samples using real-time Taqman PCR assay",
+    "volume": "60",
+    "year": 2004
+  },
+  "10.3354/dao072053": {
+    "authors": [
+      "Oidtmann",
+      "Geiger",
+      "Steinbauer",
+      "Culas",
+      "Hoffmann"
+    ],
+    "first_author": "Oidtmann",
+    "journal": "Diseases of Aquatic Organisms",
+    "title": "Detection of Aphanomyces astaci in North American crayfish by polymerase chain reaction",
+    "year": 2006
+  },
+  "10.3389/fmicb.2023.1302586": {
+    "first_author": "Lorch",
+    "journal": "Frontiers in Microbiology",
+    "n_authors": 10,
+    "title": "Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus",
+    "volume": "14",
+    "year": 2023
+  },
+  "10.3389/fmicb.2025.1599006": {
+    "first_author": "Li",
+    "journal": "Frontiers in Microbiology",
+    "n_authors": 10,
+    "title": "Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system",
+    "volume": "16",
+    "year": 2025
+  },
+  "10.3389/fpubh.2020.555013": {
+    "authors": [
+      "Wacharapluesadee",
+      "Buathong",
+      "Iamsirithawon",
+      "Chaifoo",
+      "Ponpinit",
+      "Ruchisrisarod",
+      "Sonpee",
+      "Katasrila",
+      "Yomrat",
+      "Ghai",
+      "Sirivichayakul",
+      "Okada",
+      "Mekha",
+      "Karnkawinpong",
+      "Uttayamakul",
+      "Vachiraphan",
+      "Plipat",
+      "Hemachudha"
+    ],
+    "first_author": "Wacharapluesadee",
+    "title": "Identification of a Novel Pathogen Using Family-Wide PCR: Initial Confirmation of COVID-19 in Thailand",
+    "year": 2020
+  },
+  "10.3389/fvets.2019.00338": {
+    "authors": [
+      "Hoon-Hanks",
+      "Ossiboff",
+      "Bartolini",
+      "Fogelson",
+      "Perry",
+      "St\u00f6hr",
+      "Cross",
+      "Wellehan",
+      "Jacobson",
+      "Dubovi",
+      "Stenglein"
+    ],
+    "first_author": "Hoon-Hanks",
+    "title": "Longitudinal and Cross-Sectional Sampling of Serpentovirus (Nidovirus) Infection in Captive Snakes Reveals High Prevalence, Persistent Infection, and Increased Mortality in Pythons and Divergent Serpentovirus Infection in Boas and Colubrids",
+    "year": 2019
+  },
+  "10.3390/jof7040258": {
+    "first_author": "Lastra Gonz\u00e1lez",
+    "journal": "Journal of Fungi",
+    "n_authors": 4,
+    "title": "Dual Detection of the Chytrid Fungi Batrachochytrium spp. with an Enhanced Environmental DNA Approach",
+    "volume": "7",
+    "year": 2021
+  },
+  "10.3390/microorganisms12061105": {
+    "first_author": "Rossi",
+    "journal": "Microorganisms",
+    "n_authors": 4,
+    "title": "Selection and Multiplexing of Reverse Transcription\u2013Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens",
+    "volume": "12",
+    "year": 2024
+  },
+  "10.3390/microorganisms12071467": {
+    "authors": [
+      "Marini",
+      "Szczygie\u0142",
+      "Kurek",
+      "Di Nicola",
+      "Dorne",
+      "Marenzoni",
+      "R\u00fcegg",
+      "Bury",
+      "Kiraga"
+    ],
+    "first_author": "Marini",
+    "title": "Retrospective Detection of Ophidiomyces ophidiicola from Snake Moults Collected in Bieszczady Mountains, Poland",
+    "year": 2024
+  },
+  "10.3390/pathogens12010111": {
+    "first_author": "Kang",
+    "journal": "Pathogens",
+    "n_authors": 7,
+    "title": "A Multiplex PCR Assay for Differential Identification of Wild-type and Vaccine Strains of Mycoplasma gallisepticum",
+    "volume": "12",
+    "year": 2023
+  },
+  "10.3390/pathogens15070709": {
+    "authors": [
+      "Rudaityt\u0117-Luko\u0161ien\u0117",
+      "Kutkien\u0117",
+      "\u0160va\u017eas",
+      "Butkauskas",
+      "Prakas"
+    ],
+    "first_author": "Rudaityt\u0117-Luko\u0161ien\u0117",
+    "journal": "Pathogens",
+    "title": "Two Decades (2003\u20132024) of Investigating Sarcocystis in Thrushes (Turdus spp.)",
+    "year": 2026
+  },
+  "10.3390/pathogens9121038": {
+    "authors": [
+      "P\u00e9rez-Ram\u00edrez",
+      "Cano-G\u00f3mez",
+      "Llorente",
+      "Vodica",
+      "Veljovi\u0107",
+      "Toklikishvilli",
+      "Sherifi",
+      "Sghaier",
+      "Omani",
+      "Kustura",
+      "Krstevski",
+      "Karayel-Hacioglu",
+      "Hagag",
+      "El Hage",
+      "Davdyan",
+      "Bintarif",
+      "Adzic",
+      "Abouchoaib",
+      "Jim\u00e9nez-Clavero",
+      "Fern\u00e1ndez-Pinero"
+    ],
+    "first_author": "P\u00e9rez-Ram\u00edrez",
+    "title": "Evaluation of West Nile Virus Diagnostic Capacities in Veterinary Laboratories of the Mediterranean and Black Sea Regions",
+    "year": 2020
+  },
+  "10.3390/v11100930": {
+    "authors": [
+      "Ehlers",
+      "Anoh",
+      "Ben Salem",
+      "Broll",
+      "Couacy-Hymann",
+      "Fischer",
+      "Gedvilaite",
+      "Ingenh\u00fctt",
+      "Liebmann",
+      "Martin",
+      "Mossoun",
+      "Mugisha",
+      "Muyembe-Tamfum",
+      "Pauly",
+      "P\u00e9rez de Val",
+      "Preugschas",
+      "Richter",
+      "Schubert",
+      "Szentiks",
+      "Teichmann",
+      "Walter",
+      "Ulrich",
+      "Wiersma",
+      "Leendertz",
+      "Calvignac-Spencer"
+    ],
+    "first_author": "Ehlers",
+    "title": "Novel Polyomaviruses in Mammals from Multiple Orders and Reassessment of Polyomavirus Evolution and Taxonomy",
+    "year": 2019
+  },
+  "10.3390/v13020272": {
+    "authors": [
+      "Ricci",
+      "Cersini",
+      "Manna",
+      "Marcario",
+      "Conti",
+      "Brocherel",
+      "Grifoni",
+      "Eleni",
+      "Scicluna"
+    ],
+    "first_author": "Ricci",
+    "title": "A Canine Distemper Virus Retrospective Study Conducted from 2011 to 2019 in Central Italy (Latium and Tuscany Regions)",
+    "year": 2021
+  },
+  "10.3390/v13040641": {
+    "authors": [
+      "Majumdar",
+      "Celma",
+      "Pegg",
+      "Polra",
+      "Dunning",
+      "Martin"
+    ],
+    "first_author": "Majumdar",
+    "title": "Detection and Typing of Human Enteroviruses from Clinical Samples by Entire-Capsid Next Generation Sequencing",
+    "year": 2021
+  },
+  "10.3390/v13040715": {
+    "first_author": "Abade dos Santos",
+    "journal": "Viruses",
+    "n_authors": 5,
+    "title": "A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen\u00ae or Taqman\u00ae Technologies",
+    "volume": "13",
+    "year": 2021
+  },
+  "10.3390/v13071358": {
+    "first_author": "Sigrist",
+    "journal": "Viruses",
+    "n_authors": 5,
+    "title": "A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses",
+    "volume": "13",
+    "year": 2021
+  },
+  "10.3390/v13081527": {
+    "authors": [
+      "Mira",
+      "Canuti",
+      "Di Bella",
+      "Puleio",
+      "Lavazza",
+      "Lelli",
+      "Vicari",
+      "Purpari",
+      "Cannella",
+      "Chiaramonte",
+      "Schir\u00f2",
+      "Castronovo",
+      "Guercio"
+    ],
+    "first_author": "Mira",
+    "title": "Detection and Molecular Characterization of Two Gammaherpesviruses from Pantesco Breed Donkeys during an Outbreak of Mild Respiratory Disease",
+    "year": 2021
+  },
+  "10.3390/v13081632": {
+    "first_author": "Halecker",
+    "journal": "Viruses",
+    "n_authors": 4,
+    "title": "A New Molecular Detection System for Canine Distemper Virus Based on a Double-Check Strategy",
+    "volume": "13",
+    "year": 2021
+  },
+  "10.3390/v13101975": {
+    "authors": [
+      "Drzewniokov\u00e1",
+      "Festa",
+      "Panzarin",
+      "Lelli",
+      "Moreno",
+      "Zecchin",
+      "De Benedictis",
+      "Leopardi"
+    ],
+    "first_author": "Drzewniokov\u00e1",
+    "title": "Best Molecular Tools to Investigate Coronavirus Diversity in Mammals: A Comparison",
+    "year": 2021
+  },
+  "10.3390/v13112148": {
+    "authors": [
+      "Guarido",
+      "Govender",
+      "Riddin",
+      "Schrama",
+      "Gorsich",
+      "Brooke",
+      "Almeida",
+      "Venter"
+    ],
+    "first_author": "Guarido",
+    "title": "Detection of Insect-Specific Flaviviruses in Mosquitoes (Diptera: Culicidae) in Northeastern Regions of South Africa",
+    "year": 2021
+  },
+  "10.3390/v15122313": {
+    "first_author": "Baggio",
+    "journal": "Viruses",
+    "n_authors": 8,
+    "title": "A Multiplex RT-PCR Method for the Detection of Reptarenavirus Infection",
+    "volume": "15",
+    "year": 2023
+  },
+  "10.3390/v16040534": {
+    "authors": [
+      "Wacharapluesadee",
+      "Thippamom",
+      "Hirunpatrawong",
+      "Rattanatumhi",
+      "Sterling",
+      "Khunnawutmanotham",
+      "Noradechanon",
+      "Maneeorn",
+      "Buathong",
+      "Paitoonpong",
+      "Putcharoen"
+    ],
+    "first_author": "Wacharapluesadee",
+    "title": "Comparative Performance in the Detection of Four Coronavirus Genera from Human, Animal, and Environmental Specimens",
+    "year": 2024
+  },
+  "10.3852/10-262": {
+    "authors": [
+      "Lindner",
+      "Gargas",
+      "Lorch",
+      "Banik",
+      "Glaeser",
+      "Kunz",
+      "Blehert"
+    ],
+    "first_author": "Lindner",
+    "journal": "Mycologia",
+    "title": "DNA-based detection of the fungal pathogen Geomyces destructans in soils from bat hibernacula",
+    "year": 2011
+  },
+  "10.3852/12-242": {
+    "authors": [
+      "Muller",
+      "Lorch",
+      "Lindner",
+      "O\u2019Connor",
+      "Gargas",
+      "Blehert"
+    ],
+    "first_author": "Muller",
+    "journal": "Mycologia",
+    "title": "Bat white-nose syndrome: a real-time TaqMan polymerase chain reaction test targeting the intergenic spacer region of\n                    Geomyces destructans",
+    "year": 2013
+  },
+  "10.4269/ajtmh.2011.11-0248": {
+    "first_author": "J\u00f6st",
+    "journal": "The American Society of Tropical Medicine and Hygiene",
+    "n_authors": 9,
+    "title": "Isolation of Usutu Virus in Germany",
+    "volume": "85",
+    "year": 2011
+  },
+  "10.7589/0090-3558-40.3.420": {
+    "first_author": "Annis",
+    "journal": "Journal of Wildlife Diseases",
+    "n_authors": 5,
+    "title": "A DNA-BASED ASSAY IDENTIFIES BATRACHOCHYTRIUM DENDROBATIDIS IN AMPHIBIANS",
+    "volume": "40",
+    "year": 2004
+  },
+  "10.7589/0090-3558-42.2.279": {
+    "first_author": "Feldman",
+    "journal": "Journal of Wildlife Diseases",
+    "n_authors": 7,
+    "title": "A NOVEL MYCOPLASMA DETECTED IN ASSOCIATION WITH UPPER RESPIRATORY DISEASE SYNDROME IN FREE-RANGING EASTERN BOX TURTLES (TERRAPENE CAROLINA CAROLINA) IN VIRGINIA",
+    "volume": "42",
+    "year": 2006
+  },
+  "10.7589/0090-3558-44.4.851": {
+    "first_author": "Johnson",
+    "journal": "Journal of Wildlife Diseases",
+    "n_authors": 13,
+    "title": "RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES",
+    "volume": "44",
+    "year": 2008
+  },
+  "10.7589/2012-07-175": {
+    "authors": [
+      "Zhou",
+      "Yu",
+      "Wang",
+      "Xie",
+      "Liang",
+      "Li",
+      "Wang",
+      "Chen",
+      "Yan",
+      "Gu",
+      "Wang",
+      "Peng",
+      "Yang"
+    ],
+    "first_author": "Zhou",
+    "journal": "Journal of Wildlife Diseases",
+    "title": "Molecular Diagnosis ofBaylisascaris schroederiInfections in Giant Panda (Ailuropoda melanoleuca) Feces Using PCR",
+    "year": 2013
+  },
+  "10.7589/2013-09-231": {
+    "authors": [
+      "Braun",
+      "Schrenzel",
+      "Witte",
+      "Gokool",
+      "Burchell",
+      "Rideout"
+    ],
+    "first_author": "Braun",
+    "journal": "Journal of Wildlife Diseases",
+    "title": "MOLECULAR METHODS TO DETECT\n                    MYCOPLASMA\n                    SPP. AND TESTUDINID HERPESVIRUS 2 IN DESERT TORTOISES (\n                    GOPHERUS AGASSIZII\n                    ) AND IMPLICATIONS FOR DISEASE MANAGEMENT",
+    "year": 2014
+  },
+  "10.7589/2014-05-142": {
+    "authors": [
+      "Bogomolni",
+      "Frasca",
+      "Matassa",
+      "Nielsen",
+      "Rogers",
+      "De Guise"
+    ],
+    "first_author": "Bogomolni",
+    "journal": "Journal of Wildlife Diseases",
+    "title": "DEVELOPMENT OF A ONE-STEP DUPLEX RT-qPCR FOR THE QUANTIFICATION OF PHOCINE DISTEMPER VIRUS",
+    "year": 2015
+  }
 }

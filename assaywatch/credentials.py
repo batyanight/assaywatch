@@ -79,6 +79,12 @@ ELSEVIER = ("ELSEVIER_API_KEY", "elsevier.key")
 ELSEVIER_INSTTOKEN = ("ELSEVIER_INSTTOKEN", "elsevier.insttoken")
 ALL = (NCBI, ELSEVIER, ELSEVIER_INSTTOKEN)
 
+# Not a credential - it is meant to be sent - but resolved the same way, and for
+# the same reason: it must not be committed. Six scripts used to hardcode a real
+# address as an argparse default or inside a User-Agent string, which published
+# it in a repo that ships an MIT licence and a CITATION.cff.
+CONTACT_EMAIL = ("ASSAYWATCH_EMAIL", "email")
+
 EUTILS_INFO = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi"
 
 
@@ -176,6 +182,35 @@ def with_api_key(params: dict[str, str], *, root: Path | None = None) -> dict[st
     """
     key = ncbi_api_key(root=root)
     return {**params, "api_key": key} if key else dict(params)
+
+
+def contact_email(*, root: Path | None = None) -> str:
+    """The address to identify this client to NCBI, Crossref and Unpaywall, or "".
+
+    `$ASSAYWATCH_EMAIL`, else `.secrets/email`, by the same rules as a
+    credential. NCBI asks for a contact so it can warn a caller before blocking
+    an IP, and a blocked IP affects everyone at the institution, so an address
+    nobody reads is worse than none - but an address in the repository is worse
+    still. The pipeline has always taken it on the command line
+    (`--config email=...`); this is the same value for the scripts that used to
+    carry one in their source.
+
+    Returns "" rather than raising, as the credential readers do. A caller that
+    cannot proceed without one should say so itself: see `require_contact_email`.
+    """
+    return read_secret(CONTACT_EMAIL, root=root)
+
+
+def require_contact_email(flag: str = "--email", *, root: Path | None = None) -> str:
+    """`contact_email()`, or exit with how to set it. For a script that must send one."""
+    email = contact_email(root=root)
+    if not email:
+        raise SystemExit(
+            f"No contact address. Pass {flag}, or set $ASSAYWATCH_EMAIL, or write one line "
+            "to .secrets/email. NCBI, Crossref and Unpaywall all ask callers to identify "
+            "themselves so they can warn you before blocking the IP."
+        )
+    return email
 
 
 def ncbi_interval(*, root: Path | None = None) -> float:

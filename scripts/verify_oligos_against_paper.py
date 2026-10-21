@@ -125,8 +125,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.credentials import ncbi_interval, with_api_key  # noqa: E402
+from assaywatch.credentials import contact_email, ncbi_interval, with_api_key  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
+from assaywatch.papers import doi_stem  # noqa: E402
+
+# Prefix for the filename-stem keys in `by_doi`; a DOI can never start with it.
+STEM_KEY = "stem:"
 from assaywatch.schema import PROBE_MIN  # noqa: E402
 from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
@@ -157,6 +161,9 @@ PRINTED_MIN_LEN = 14
 # paper that prints two unrelated oligos and loses its table still reads `absent`,
 # which is why the verdict row carries `paper_oligos`.
 MIN_PRINTED_FOR_ABSENT = 2
+
+
+LOWER_MIN_LEN = 18  # a lowercase run shorter than this is not evidence
 
 
 def printed_oligos(text: str, min_len: int = PRINTED_MIN_LEN, max_len: int = 60) -> list[str]:
@@ -216,11 +223,36 @@ def printed_oligos(text: str, min_len: int = PRINTED_MIN_LEN, max_len: int = 60)
         n = len(letters)
         if not (min_len <= n <= max_len):
             continue
-        if sum(c.isupper() for c in letters) / n < 0.6:
-            continue
         bases = sum(c.upper() in "ACGTU" for c in letters)
         with_inosine = bases + sum(c.upper() == "I" for c in letters)
-        if bases / n < 0.65 and with_inosine / n < 0.75:
+        if sum(c.isupper() for c in letters) / n < 0.6:
+            # LOWER CASE. The case rule above assumes papers set sequences in
+            # capitals, and most do, but Rahn et al. 1992 prints both its invA
+            # primers entirely in lower case (`gtgaaattatcgccacgttcgggcaa`), so
+            # the reader returned ZERO oligos from a text holding both of them
+            # and the entry read `no-oligos`. Measured over papers/ on
+            # 2026-10-20: 3 papers and 6 registry oligos are invisible this way.
+            #
+            # Such a run is admitted only on a much stronger composition test
+            # than the capitalised one, because lower case is where the prose is:
+            # at least LOWER_MIN_LEN letters and EVERY letter an unambiguous
+            # base. An English word of 18+ letters drawn only from a, c, g, t
+            # and u does not occur, where capitalised headings with their spaces
+            # lost (`INDINGSINBATS`) very much do.
+            #
+            # Why no degenerate codes are allowed here, where the capitalised
+            # rule tolerates 35%: a 90% threshold was tried first and admitted
+            # five false oligos from Deckers 2009, whose primer table flattens to
+            # `gB-1 a c t g g t g g t t t g g UL33-1/2 g a t a c a t a a t g g t
+            # a c a` + `gB-2 ...`, so the NEXT row's primer name glues onto the
+            # end of the previous sequence and `gatacataatggtaca` came back as
+            # `GATACATAATGGTACAGB`. Every degenerate letter is also a common
+            # English letter, so in lower case they are where the glue and the
+            # prose are. The cost is that a genuinely degenerate primer printed
+            # in lower case still reads only `in-text`.
+            if n < LOWER_MIN_LEN or bases < n:
+                continue
+        elif bases / n < 0.65 and with_inosine / n < 0.75:
             continue
         out.add("".join(letters).upper())
     return sorted(out)
@@ -435,13 +467,13 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
         if named_doi:
             claim(by_doi, claims, named_doi, text, path, n_oligos, named=True)
         # The stem itself, for DOIs whose characters the reverse mapping above
-        # cannot recover (see doi_stem). A stem holds no "/" and a DOI always
-        # does, so these keys can never collide with a real DOI and they share
-        # the dict rather than needing a second one. Looked up only by a DOI
-        # forward-mapped to the same string, so a stem that is no DOI's filename
-        # is never reached. `named=True`: a filename IS the paper's identity.
+        # cannot recover (see assaywatch.papers.doi_stem). Prefixed, so no
+        # consumer that walks by_doi can mistake a stem for a DOI - the bare form
+        # made extract_candidate_oligos label a file with its own stem. Looked up
+        # only via a DOI forward-mapped to the same string, so a stem belonging
+        # to no DOI is never reached. `named=True`: a filename IS the identity.
         if path.stem.lower().startswith("10."):
-            claim(by_doi, claims, path.stem.lower(), text, path, n_oligos, named=True)
+            claim(by_doi, claims, STEM_KEY + path.stem.lower(), text, path, n_oligos, named=True)
         for doi, offset in text_dois(text).items():
             claim(by_doi, claims, doi, text, path, n_oligos, named=False, offset=offset)
     return by_doi, everything
@@ -458,25 +490,6 @@ def prints_own_doi(text: str, path: Path) -> bool:
     return named or DOI_IN_TEXT.search(text[:4000]) is not None
 
 
-def doi_stem(doi: str) -> str:
-    """The `papers/` filename stem for a DOI: lower case, and /, ( and ) as underscores.
-
-    This is the FORWARD direction of the naming convention, and the only
-    direction that is well defined. Reversing it cannot work, because three
-    different characters map onto `_`: the stem
-    `10.1016_0890-8508_92_90002-f` comes from `10.1016/0890-8508(92)90002-F`,
-    but `stem.replace("_", "/")` reconstructs `10.1016/0890-8508/92/90002-f`,
-    which still looks like a DOI and so indexed ten papers under DOIs nothing
-    asks for while also marking them "named", which bars the surname-and-year
-    fallback. Those ten cover 20 registry entries - Rahn 1992, Meyer 1997 and
-    Lozano 1997 among them - and every one of them read `no-full-text`, "no
-    local PDF", with the PDF sitting in papers/. Found 2026-10-20 when Rahn's
-    primers turned out not to be the ones this registry stores
-    (docs/2026-10-20-scope-curation.md).
-    """
-    return re.sub(r"[/()]", "_", doi.strip().lower())
-
-
 def text_dois(text: str) -> dict[str, int]:
     """{doi: offset of its first occurrence} among the first 4,000 characters of a paper."""
     out: dict[str, int] = {}
@@ -490,8 +503,8 @@ def local_paper(assay, by_doi, everything) -> tuple[str, Path] | None:
     doi = (assay.citation.doi or "").lower()
     if doi and doi in by_doi:
         return by_doi[doi]
-    if doi and doi_stem(doi) in by_doi:
-        return by_doi[doi_stem(doi)]
+    if doi and STEM_KEY + doi_stem(doi) in by_doi:
+        return by_doi[STEM_KEY + doi_stem(doi)]
     ref = (assay.citation.reference or "") or (assay.citation.as_written or "")
     m = re.match(r"\s*([A-Z][A-Za-z'\-]{2,})", ref)
     year = assay.citation.design_year
@@ -856,11 +869,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--assay", action="append", help="limit to these ids; repeatable")
     ap.add_argument("--limit", type=int, help="stop after this many entries, for a quick look")
     ap.add_argument("--cap", type=int, default=4, help="largest edit distance worth reporting")
-    ap.add_argument("--email", default="nightb02@nyu.edu", help="NCBI asks for one")
+    ap.add_argument("--email", default=None, help="NCBI asks for one")
     ap.add_argument("--pdf-dir", type=Path, help="also search a folder of papers: .pdf, .xml and .txt files")
     ap.add_argument("--tsv", type=Path)
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
+    # Resolved after parsing, so --help works with no address set and the
+    # repository carries none. See assaywatch.credentials.contact_email.
+    args.email = args.email or contact_email()
 
     paths = list(iter_files(args.registry))
     if args.assay:

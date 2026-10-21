@@ -596,8 +596,10 @@ def test_a_stem_key_never_shadows_a_real_doi(tmp_path):
     (tmp_path / "10.5555_mine.9.txt").write_text(RICH)
     by_doi, _ = vo.index_papers(tmp_path)
     assert "10.5555/mine.9" in by_doi  # the reverse-mapped name, unchanged
-    assert "10.5555_mine.9" in by_doi  # and the stem, newly
-    assert all("/" not in k or "_" not in k.split("/", 1)[0] for k in by_doi)
+    assert vo.STEM_KEY + "10.5555_mine.9" in by_doi  # and the stem, newly
+    # Every stem key is prefixed, so nothing walking by_doi can read one as a DOI:
+    # unprefixed stems made extract_candidate_oligos label a file with its own name.
+    assert all(k.startswith(vo.STEM_KEY) or "/" in k for k in by_doi)
 
 
 def test_a_named_file_beats_an_unnamed_one_even_when_it_yields_less(tmp_path):

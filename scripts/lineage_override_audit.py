@@ -43,6 +43,7 @@ from retrospective import (  # noqa: E402
     _build_scope_map,
     _query_taxids,
     load_evidence,
+    rename_map,
     status_from_evidence,
 )
 
@@ -83,21 +84,6 @@ def taxid_of(stats) -> int | None:
     if not m:
         return None
     return int(m.group(1) or m.group(2))
-
-
-def rename_map(path: Path) -> tuple[dict[str, str], set[str]]:
-    """({old id: new id} for RENAME, {old id} for REMOVE) from docs/rename-mapping.tsv."""
-    renamed: dict[str, str] = {}
-    removed: set[str] = set()
-    if not path.exists():
-        return renamed, removed
-    with path.open() as fh:
-        for row in csv.DictReader(fh, delimiter="\t"):
-            if row["action"] == "RENAME" and row["new_id"]:
-                renamed[row["old_id"]] = row["new_id"]
-            elif row["action"] == "REMOVE":
-                removed.add(row["old_id"])
-    return renamed, removed
 
 
 def paper_path(doi: str | None) -> Path | None:

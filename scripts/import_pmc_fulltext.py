@@ -70,17 +70,20 @@ ROOT = Path(__file__).resolve().parents[1]
 
 DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
 
+from assaywatch.papers import doi_stem, unstorable_reason  # noqa: E402
+
 
 def doi_filename(doi: str) -> str:
-    """`10.3390/v13081632` -> `10.3390_v13081632.txt`, lowercased.
+    """`10.3390/v13081632` -> `10.3390_v13081632.txt`, by the papers/ convention.
 
-    Lowercasing matters. PMC echoes a DOI in the publisher's own casing, so the
-    same paper arrives as `10.1128/JCM.00192-08` here and is stored in the
-    registry as `10.1128/jcm.00192-08`. The verifier lowercases the DOI it reads
-    off a filename before comparing, so a mixed-case file would simply never be
-    matched to its entry.
+    Delegates to assaywatch.papers.doi_stem so this writes the name the rest of
+    the toolchain looks for. It used to replace only `/`, so a parenthesised DOI
+    landed as `10.1016_0890-8508(92)90002-f.txt` with literal brackets: a second
+    naming convention for one directory, and one no forward-mapping reader would
+    find. Nothing on disk used it - papers/ holds no bracketed filename - so
+    changing it strands no file.
     """
-    return doi.lower().replace("/", "_") + ".txt"
+    return f"{doi_stem(doi)}.txt"
 
 
 def articles_in(path: Path) -> list[dict] | None:
@@ -135,17 +138,6 @@ def document(article: dict) -> str:
     return "\n\n".join(p for p in parts if p) + "\n"
 
 
-def round_trips(doi: str) -> bool:
-    """Would `verify_oligos_against_paper` recover this DOI from the file's name?
-
-    It turns every `_` back into `/` and requires its own DOI pattern to match the
-    whole result. An underscore in the DOI breaks the first step; a character outside
-    the pattern (`<` and `>` in the old Wiley SICI DOIs) breaks the second.
-    """
-    stem = doi_filename(doi)[: -len(".txt")].replace("_", "/")
-    return stem == doi.lower() and _vo().DOI_IN_TEXT.fullmatch(stem) is not None
-
-
 def _vo():
     """The verifier module, loaded once, so the importer cannot drift from its pattern."""
     global _VO
@@ -191,10 +183,14 @@ def main(argv: list[str] | None = None) -> int:
             if not doi:
                 no_doi.append(pmcid)
                 continue
-            if not round_trips(doi):
-                # Cannot round-trip through the filename convention: the verifier
-                # turns every `_` back into `/` and then requires the whole thing to
-                # match its DOI pattern, so the file would never be matched by name.
+            why = unstorable_reason(doi)
+            if why:
+                # The old check asked whether the filename could be reverse-mapped
+                # back to this DOI, which mattered while readers inferred a DOI
+                # from a filename; none does now. What still matters is that the
+                # name identifies one paper and can be written: see
+                # assaywatch.papers.unstorable_reason.
+                print(f"  cannot round-trip {doi}: {why}", file=sys.stderr)
                 bad_name.append(doi)
                 continue
             if not (a.get("full_text") or "").strip():

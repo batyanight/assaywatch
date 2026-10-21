@@ -46,7 +46,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 
-from assaywatch.credentials import ncbi_interval, scrub, with_api_key  # noqa: E402
+from assaywatch.credentials import contact_email, ncbi_interval, scrub, with_api_key  # noqa: E402
 from assaywatch.degeneracy import assay_degeneracy  # noqa: E402
 from assaywatch.retrieve import group_slug  # noqa: E402
 from assaywatch.validate import load_assay  # noqa: E402
@@ -160,9 +160,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     ap.add_argument("--out", type=Path, default=ROOT / "docs" / "assay-master-sheet.tsv")
     ap.add_argument("--md", type=Path, default=ROOT / "docs" / "assay-master-sheet.md")
-    ap.add_argument("--email", default="nightb02@nyu.edu")
+    ap.add_argument("--email", default=None)
     ap.add_argument("--refresh-taxa", action="store_true")
     args = ap.parse_args(argv)
+    # Resolved after parsing, so --help works with no address set and the
+    # repository carries none. See assaywatch.credentials.contact_email.
+    args.email = args.email or contact_email()
 
     papers = json.loads(args.papers_cache.read_text()) if args.papers_cache.exists() else {}
     taxa = json.loads(args.taxa_cache.read_text()) if args.taxa_cache.exists() else {}

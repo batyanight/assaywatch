@@ -16,6 +16,8 @@ from pathlib import Path
 import pytest
 import yaml
 
+from assaywatch.papers import unstorable_reason
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -243,15 +245,21 @@ def test_a_doi_the_verifier_cannot_recover_from_a_filename_is_refused(tmp_path, 
     assert "cannot round-trip" in capsys.readouterr().err
 
 
-def test_round_trips_agrees_with_the_verifier_on_every_registry_doi():
+def test_every_registry_doi_is_storable_and_its_stem_is_unique():
+    """Reversibility was the old invariant: `doi_filename` replaced only `/`, so
+    turning every `_` back into `/` returned the DOI, and the verifier recovered a
+    DOI from a filename that way. It no longer does - papers/ maps `(` and `)` to
+    `_` as well, which is not reversible, and nothing reverses it (see
+    assaywatch/papers.py). What has to hold now is that each DOI can be written
+    under a name that identifies only it."""
     registry_dois = {
         (yaml.safe_load(f.read_text()).get("citation") or {}).get("doi")
         for f in sorted((ROOT / "registry").glob("*.yaml"))
     } - {None}
     assert len(registry_dois) > 60
+    stems: dict[str, str] = {}
     for doi in registry_dois:
-        recovered = imp.doi_filename(doi)[: -len(".txt")].replace("_", "/")
-        assert imp.round_trips(doi) == (
-            vo.DOI_IN_TEXT.fullmatch(recovered) is not None and recovered == doi.lower()
-        )
-        assert imp.round_trips(doi), doi
+        assert unstorable_reason(doi) is None, doi
+        stem = imp.doi_filename(doi)[: -len(".txt")]
+        assert stem not in stems, f"{doi} and {stems[stem]} would share {stem}"
+        stems[stem] = doi

@@ -56,6 +56,8 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
+from assaywatch.credentials import contact_email  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
@@ -92,7 +94,7 @@ def registry_dois(registry: Path) -> dict[str, list[str]]:
 
 
 def get(url: str, timeout: int = 60) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": "assaywatch (nightb02@nyu.edu)"})
+    req = urllib.request.Request(url, headers={"User-Agent": f"assaywatch ({contact_email() or 'unset'})"})
     with urllib.request.urlopen(req, timeout=timeout) as fh:
         return fh.read().decode("utf-8", "replace")
 

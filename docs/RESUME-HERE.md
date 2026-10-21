@@ -7,14 +7,41 @@
   Tier-2 on it: **4 of 11 caught, 10 disagreements**, the first time the override doc's claimed
   figure has been reproduced on a current run. The override audit is unchanged in shape: 21
   overrides, 15 on a pooled `low coverage`, 6 above-pooled.
-- **`scripts/report_diff.py` cannot be trusted and should be fixed before it is quoted again.**
-  Run over 2026-10-17 vs 2026-10-20 it reports "20 declining, 34 low coverage, 20 nested
-  protocols" where the report's own computed header says 37 declining and 38 low coverage: it
-  parses `report.md` and turns a section heading into a `nested protocols` status, which swallows
-  17 declining and 4 low coverage assays. Its "56 no longer in the report / 33 new" lists are
-  almost entirely the assay-ID renames, which it cannot see through —
-  `scripts/lineage_override_audit.py` resolves those through `docs/rename-mapping.tsv` and is the
-  pattern to copy. Read the report header, not report_diff, until this is fixed.
+- **Bug search, six findings, all fixed** (the measurements are in each file's comments):
+  1. **Tier-2 silently dropped renamed assays.** `retrospective.py` scored 13 case rows of 50 as
+     `no data` because their ids had been renamed — 4 of the 12 `fails` cases. It now resolves ids
+     through `docs/rename-mapping.tsv` both ways and **aborts** on an id that matches nothing.
+     `docs/2026-10-20-tier2-rename-resolution.md`.
+  2. **`report_diff.py` fixed and trustworthy again.** Two causes, not one: a denylist of
+     non-status headings promoted `## Nested protocols` to a status, AND the row regex skipped
+     every id tagged `(pooled: …)` — 21 rows, exactly the 17 declining + 4 low coverage that
+     appeared to vanish. Now an allowlist of `drift.py`'s statuses, plus rename resolution; counts
+     match both reports' own headers.
+  3. **One DOI↔filename helper**, `assaywatch/papers.py`. Five call sites reverse-mapped
+     `stem.replace("_", "/")`, which cannot work: `/`, `(` and `)` all map to `_`, and a round trip
+     cannot tell them apart either. Consequences measured: 20 entries read `no-full-text` against
+     papers on disk, `find_open_access` called 10 of 26 "missing" papers missing, and
+     `docs/papers-index.cache.json` held **10 fabricated DOIs** cached as permanent nulls (removed).
+     Nothing infers a DOI from a filename now except one documented best-effort fallback.
+  4. **`printed_oligos` reads lowercase sequences.** Rahn 1992 prints both primers in lower case,
+     so the reader returned zero from a text holding both. A lowercase run is now admitted at 18+
+     letters and *every* letter an unambiguous base — a 90% threshold was tried first and admitted
+     five glued-on primer names from Deckers 2009's flattened table. Measured with
+     `diff_printed_oligos.py`: 0 lost, 12 gained, 8 oligos move `in-text` → `exact`.
+  5. **No contact address in the repository.** Six scripts hardcoded one as an argparse default,
+     an `Entrez.email` or inside a User-Agent. All resolve `ASSAYWATCH_EMAIL` / `.secrets/email`
+     via `credentials.contact_email()`; `--help` works with none set.
+- **NEW, not fixed: a run's calls table can hold assay ids the registry no longer has.**
+  `results/2026-10-20/calls.tsv.gz` carries 3 (`CRYPTOSPORIDIA_…_2000`, `…_2000_round2`,
+  `Salmonella_invA_gene_unnamed_Rahn_1992`) alongside their renamed counterparts, so the report's
+  "208 assays screened" double-counts them. Cause: a cached per-archive screen is reused without
+  its `params.only` being re-checked — `results/screened/28901/q22fdd7bbec/2026-10-18.tsv` still
+  dates from 2026-10-18 while the other two archives in its group were rescreened at 21:50, and
+  `.tmp/run-2026-10-17.log` shows those archives were screened by a different snakemake install,
+  so the metadata that would invalidate them is absent here. The robust fix does not depend on
+  Snakemake: `assaywatch/collect.py` only concatenates and never sees the registry, so it should
+  drop rows whose `assay_id` is not a current assay and say how many. Decide whether that is a
+  warning or a hard error.
 - **The assembly listing is paged by token now** (`assaywatch/assemblies.py`). The previous run
   died on `taxid 562: more than 1000 assemblies released on 2026-09-29` — E. coli really had 1,427
   GenBank complete genomes that day, so no date bisection could get under a page, and splitting on
@@ -303,7 +330,7 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 | registry | **209 valid, 0 problems**: 206 draft, 2 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
 | chemistry | conventional 162, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 165 primers only |
 | tests | 1282 passed; ruff clean; 187 citations checked, 0 Crossref problems (22 entries have no DOI) |
-| validation | **50 cases**; on the 2026-10-20 calls, `scripts/retrospective.py --cases` reports **4 of 11** `fails` caught and **10 disagreements** (17 undecided). That reproduces the figure `docs/2026-10-20-pan-family-override.md` claims for the shipped override rule, on a current run for the first time; the 2026-10-17 table gave 3/11 and 9 with 22 undecided. The "6 of 12 / 9 disagreements" in the older sections predates the working-baseline gates, the species roll-up and the override rule — do not quote it. |
+| validation | **50 cases**; **4 of 11** `fails` caught, **10 disagreements**, 17 undecided — the same on the 2026-10-17 and 2026-10-20 calls once renamed ids resolve (`docs/2026-10-20-tier2-rename-resolution.md`). CORRECTION: an earlier edit of this file said 2026-10-17 gave 3/11 and 9 and that 2026-10-20 reproduced the published figure "for the first time". Both were wrong. The published 4/11 was always right; the 3/11 was this repo silently scoring 13 case rows as `no data` because their assay ids had been renamed, and the 22→17 undecided movement between the two tables was that bug, not the newer run's extra records. |
 | last full run | **2026-10-20** (21:25–21:54, 28m 54s, 291/291 steps, `status: success`), the first on the current config since the conventional override was reverted: 208 assays — 37 declining, 38 low coverage, 11 watch, 43 insufficient data, 17 no recent data, 62 stable. Control that it is really the current scorer: Paramyxovirinae L round1 reads 5,135 `fail` / 1,884 `reduced`, matching 2026-10-17's 5,131 / 1,884 against 2026-10-18's 33 / 6,984. |
 | do not measure on | `results/2026-10-18/calls.tsv.gz`, screened under the reverted `by_chemistry.conventional` override (see 2026-10-20 above). `results/2026-10-15/` and earlier predate the lineage estimand. |
 

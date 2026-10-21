@@ -38,8 +38,9 @@ sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
+from assaywatch.papers import doi_stem  # noqa: E402
+
 CROSSREF = "https://api.crossref.org/works/"
-DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
 
 
 def crossref(doi: str) -> dict | None:
@@ -76,14 +77,29 @@ def registry_citations() -> dict[str, list[str]]:
     return out
 
 
-def local_pdfs(pdf_dir: Path) -> dict[str, str]:
-    """{doi: filename} for PDFs named after their DOI, as papers/ is."""
-    out = {}
-    for p in sorted(pdf_dir.glob("*.pdf")):
-        stem = p.stem.replace("_", "/")
-        if DOI_RE.match(stem):
-            out[stem.lower()] = p.name
-    return out
+def local_pdfs(pdf_dir: Path, known_dois: set[str]) -> tuple[dict[str, str], int]:
+    """({doi: filename} for DOIs whose PDF is held, count of PDFs matched to none).
+
+    Forward-mapped from each known DOI, because a filename stem cannot be turned
+    back into a DOI (see assaywatch/papers.py). This used to reverse-map every
+    stem and treat the result as a DOI, which invented ten DOIs out of the ten
+    parenthesised ones in papers/ - `10.1016/0890-8508/92/90002-f` and friends -
+    and, since a DOI that does not resolve is cached too, wrote all ten into
+    docs/papers-index.cache.json as permanent nulls.
+
+    The unmatched count is returned rather than swallowed: a PDF whose DOI is not
+    in the registry or the cache can no longer be discovered by name, and that is
+    a real loss of capability, so it has to be visible. Name such a file after a
+    DOI the registry cites, or add the entry.
+    """
+    stems = {p.stem.lower(): p.name for p in pdf_dir.glob("*.pdf")} if pdf_dir.is_dir() else {}
+    out, claimed = {}, set()
+    for doi in known_dois:
+        name = stems.get(doi_stem(doi))
+        if name:
+            out[doi.strip().lower()] = name
+            claimed.add(name)
+    return out, len(set(stems.values()) - claimed)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -102,7 +118,16 @@ def main(argv: list[str] | None = None) -> int:
         cache = json.loads(args.cache.read_text())
 
     cited = registry_citations()
-    held = local_pdfs(args.pdf_dir) if args.pdf_dir.exists() else {}
+    # The cache's own keys count as known DOIs: they are what earlier runs
+    # resolved, which is how a paper on disk for a DOI the registry does not cite
+    # stays in the index.
+    held, unmatched = local_pdfs(args.pdf_dir, set(cited) | set(cache))
+    if unmatched:
+        print(
+            f"{unmatched} PDF(s) in {args.pdf_dir} match no DOI in the registry or the cache "
+            "and are not indexed; see local_pdfs",
+            file=sys.stderr,
+        )
     dois = sorted(set(cited) | set(held))
 
     fetched = 0

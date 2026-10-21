@@ -16,9 +16,11 @@ from collections import Counter
 
 from Bio import Entrez, SeqIO
 
+from assaywatch.credentials import require_contact_email
+
 # ---------- configuration ----------
 
-Entrez.email = "nightb02@nyu.edu"
+Entrez.email = require_contact_email()
 key = os.environ.get("NCBI_API_KEY")
 if key:
     Entrez.api_key = key
