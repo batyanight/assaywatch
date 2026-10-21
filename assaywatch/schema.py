@@ -408,9 +408,21 @@ class Assay(Strict):
     # Measured product length per species, for an assay whose readout is the
     # length. Only meaningful with `amplicon_bp_range`, which is the declaration
     # that the length varies by species; the validator enforces that.
+    #
+    # SET IN EXACTLY ONE ENTRY, and so is `amplicon_bp_range` above, and so is
+    # `Oligo.seq_as_written` on a probe. The 2026-10-20 audit counted these as
+    # near-unused schema and they are not dead: the first two are what let
+    # ORTHOPOXVIRUS ATI be declared at all (its product IS the readout, 540-1700
+    # bp by species) and the third is the Deckers probe's inosine. A field used
+    # once by the one entry that needs it is the schema doing its job, not a
+    # candidate for removal. The field the audit was right about was
+    # `submitted_by`, below.
     species_sizes: list[SpeciesSize] | None = None
     citation: Citation
     use_context: list[str] = Field(default_factory=list)
+    # Who contributed this entry, for a genuine third-party submission. Null on
+    # 207 of 208 entries, because the registry was bulk-imported by one curator,
+    # and so NOT a precondition of `active` - see `active_requires_provenance`.
     submitted_by: str | None = None
     status: Status = Status.draft
     source: Source | None = None
@@ -476,7 +488,28 @@ class Assay(Strict):
 
     @model_validator(mode="after")
     def active_requires_provenance(self) -> Assay:
-        """`active` is the promise that this assay can be screened and cited."""
+        """`active` is the promise that this assay can be screened and cited.
+
+        Every check below is evidence ABOUT THE ASSAY: it has a taxon to
+        retrieve, a citation that resolves, a design year to date a baseline
+        from, and no unresolved question. `submitted_by` is not - it is who
+        contributed the entry - and it was dropped from this gate on 2026-10-21.
+
+        It had become the gate. After S7 split open questions from recorded
+        caveats, `submitted_by` blocked 167 of 208 entries and nothing else did,
+        including all four remaining ROADMAP Phase 0 candidates, because the
+        registry was bulk-imported from one spreadsheet and the literature by
+        one curator: 207 of 208 entries leave it null. Filling it with one name
+        207 times would be a rubber stamp carrying no information, and the
+        audit had already called the field abandoned. The field stays, for
+        genuine third-party submissions; it is simply not evidence that an
+        assay works.
+
+        What replaces it is judgement, which is where it belonged all along:
+        CONTRIBUTING.md says a maintainer also wants the assay screened against
+        real records with a defensible result, and only a maintainer sets
+        `active`.
+        """
         if self.status != Status.active:
             return self
         missing = []
@@ -488,8 +521,6 @@ class Assay(Strict):
             missing.append("citation.doi_verified=true")
         if self.citation.design_year is None:
             missing.append("citation.design_year")
-        if self.submitted_by is None:
-            missing.append("submitted_by")
         # Open questions only. A recorded caveat is a disclosure, not a defect:
         # `nested_protocol` and `amplicon_measured_not_published` are permanent
         # properties of perfectly good entries, and refusing them here is what

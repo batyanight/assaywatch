@@ -70,6 +70,42 @@ def test_active_requires_taxid_and_doi():
         Assay.model_validate(variant(**{"citation.doi_verified": False}))
 
 
+def test_active_does_not_require_submitted_by():
+    """Authorship is not evidence about the assay, so it cannot gate `active`.
+
+    Dropped 2026-10-21. Once S7 stopped recorded caveats from blocking `active`,
+    this field was the only thing blocking 167 of 208 entries - including all
+    four remaining ROADMAP Phase 0 candidates - because the registry was
+    bulk-imported by one curator and 207 of 208 leave it null.
+    """
+    a = Assay.model_validate(variant(submitted_by=None))
+    assert a.status is Status.active
+    assert a.submitted_by is None
+
+
+def test_submitted_by_still_validates_when_a_submitter_sets_it():
+    """Dropped from the gate, not from the schema: a real submission still records one."""
+    assert Assay.model_validate(variant(submitted_by="A Contributor")).submitted_by == "A Contributor"
+    with pytest.raises(ValidationError):
+        Assay.model_validate(variant(submitted_by=42))
+
+
+def test_active_still_requires_everything_that_is_about_the_assay():
+    """The gate must not have been loosened further than the one field.
+
+    Pinned as a set rather than one case each, so dropping another precondition
+    fails here instead of silently widening what `active` promises.
+    """
+    for change, expected in [
+        ({"target.taxid": None}, "target.taxid"),
+        ({"citation.doi": None}, "citation.doi"),
+        ({"citation.doi_verified": False}, "doi_verified"),
+        ({"citation.design_year": None}, "design_year"),
+    ]:
+        with pytest.raises(ValidationError, match=expected):
+            Assay.model_validate(variant(**change))
+
+
 def test_active_rejects_open_review_flags():
     with pytest.raises(ValidationError, match="open questions"):
         Assay.model_validate(variant(needs_review=[{"flag": "do_not_use"}]))

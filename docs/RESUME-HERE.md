@@ -84,6 +84,44 @@ free since this run was owed anyway.
   `tests/test_triggers.py` now asserts along with the two negatives.
 - 9 mutants against the new guards, all caught. Tests 1,428 -> 1,437.
 
+### `submitted_by` dropped from the `active` gate
+
+Every other precondition is evidence about the assay - it has a taxon to retrieve, a citation
+that resolves, a design year to date a baseline from, no unresolved question. `submitted_by`
+is who contributed the entry, and after S7 it was **the only thing blocking 167 of 208
+entries**, because the registry was bulk-imported by one curator and 207 of 208 leave it null.
+Setting it 207 times to one name would have been a rubber stamp. The field stays for genuine
+third-party submissions; it is simply not evidence that an assay works. 4 mutants, all caught.
+
+What still blocks `active` across the 205 draft entries: **19 an open review flag, 15 no DOI,
+15 no design_year, 1 no taxid** - and **167 now pass every schema precondition**. The gate
+measures evidence; promotion is a maintainer's judgement, which is where it belongs.
+
+Also noted in `schema.py` rather than acted on: `amplicon_bp_range`, `species_sizes` and a
+probe's `seq_as_written` are each set in exactly one entry, which the audit counted as
+near-unused schema. They are not dead - the first two are what let ORTHOPOXVIRUS ATI be
+declared at all and the third is the Deckers probe's inosine. The field the audit was right
+about was `submitted_by`.
+
+**AWAITING A MAINTAINER DECISION - ROADMAP Phase 0's "5 assays promoted to `active`".** All six
+remaining candidates now pass the gate, so nothing but judgement is left, and only a
+maintainer sets `active`. Read off `results/2026-10-21/report.md` (unchanged from 2026-10-20
+for all six):
+
+| candidate | status | detected (CI) | evaluable | reading |
+|---|---|---|---|---|
+| `RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007` | stable | 90.0% (77-96%) | 40 | clean |
+| `RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007` | watch | 89.9% (81-95%) | 79 | judgement |
+| `CDV_P_gene_Scagliarini_2007` | watch | 85.3% (77-91%) | 95 | judgement |
+| `Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015` | insufficient data | 71.4% (36-92%) | 7 | too little data |
+| `B_salamandrivorans_Internal_transcribes_spa_Blooi_2013` | insufficient data | 20.0% (4-62%) | 5 | too little data |
+| `Snake_fungus_Ophidiomyces_ophi_IGS_Bohuski_2015` | no recent data | - | 0 | too little data |
+
+So **five is not reachable on merit**: 1 clean, 2 watched, 3 genuinely data-starved - ROADMAP's
+"await their rDNA-query data" is still true. The recurring sub-question, now written into
+CONTRIBUTING.md: `active` means an assay can be screened and cited, not that it performs well,
+so a `watch` status is not automatically a bar - but it should be a deliberate call.
+
 ## 2026-10-20
 
 - **Full run DONE and valid** (`results/2026-10-20/`, 28m 54s, 291/291 steps). 208 assays: 37

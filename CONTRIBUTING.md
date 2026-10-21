@@ -184,14 +184,27 @@ want searched.
 ## What makes an entry `active`
 
 `draft` is the default and means the entry is believed correct but unproven.
-`active` additionally requires `submitted_by`, no *open* review flag, and that
-the schema's own checks pass — the validator enforces this. A recorded caveat
-such as `nested_protocol` or `cross_reactive` is no bar: it is a permanent,
-disclosed property of a sound entry, and refusing those here is what kept 146 of
-208 entries permanently unactivatable before 2026-10-21. In practice a
-maintainer also wants the assay to have been screened against real records with
-a defensible result, and its orientation confirmed rather than inferred from the
-order of rows in a spreadsheet.
+`active` additionally requires a taxid, a verified DOI, a design year, no *open*
+review flag, and that the schema's own checks pass — the validator enforces
+this. A recorded caveat such as `nested_protocol` or `cross_reactive` is no bar:
+it is a permanent, disclosed property of a sound entry, and refusing those here
+is what kept 146 of 208 entries permanently unactivatable before 2026-10-21.
+
+**`submitted_by` is not required, as of 2026-10-21.** Every other precondition is
+evidence about the assay; authorship is not. Once the review-flag rule was fixed,
+`submitted_by` was the only thing blocking 167 of 208 entries — including all
+four remaining Phase 0 candidates — because the registry was bulk-imported by one
+curator and 207 of 208 entries leave the field null. Setting it 207 times to one
+name would have been a rubber stamp. Fill it in if you are submitting an entry;
+do not treat it as a step on the way to `active`.
+
+What that leaves is judgement, and only a maintainer sets `active`. In practice a
+maintainer wants the assay to have been screened against real records with a
+defensible result, and its orientation confirmed rather than inferred from the
+order of rows in a spreadsheet. A `watch` status is not automatically a bar —
+`active` means the assay can be screened and cited, not that it performs well,
+and the report says `watch` either way — but a maintainer should say so
+deliberately rather than by default.
 
 `deprecated` means do not use: kept so that reports and past analyses still
 resolve the id.

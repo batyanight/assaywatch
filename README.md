@@ -81,8 +81,10 @@ A file is one assay: forward + reverse primer, optional probe, target taxon,
 citation. `status: draft` files only need correct structure and IUPAC oligos
 of 15-40 nt, except that a probe may be as short as 12 nt (published MGB probes run
 13-14). `status: active` additionally requires `target.taxid`, a DOI with
-`doi_verified: true`, `design_year`, `submitted_by`, and no *open* review flag.
-The validator enforces this; CI and the pre-commit hook run it.
+`doi_verified: true`, `design_year`, and no *open* review flag — every one of
+them evidence about the assay rather than about who entered it, which is why
+`submitted_by` is not among them. The validator enforces this; CI and the
+pre-commit hook run it.
 Unknown keys are rejected, so a typo in a field name fails the commit rather
 than being silently ignored.
 
