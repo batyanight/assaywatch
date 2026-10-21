@@ -184,8 +184,11 @@
   approval-gated individually, ranked in its §7. Top of the list: ~~**M1**~~ MECHANISM DONE
   2026-10-21 (`docs/2026-10-21-M1-identity-aware-penalty.md`): `scoring.mispair_penalty` ships `{}`
   (byte-identical), and the G:T/T:G candidate rescues 8 bench false fails (FAP 5, Barrett 3) at
-  zero specificity cost on Rahn's 41 negatives. REMAINING GATE before flipping it on: a full
-  re-screen under the candidate config + tier-2, since the calls table bakes in scoring. Then **S1** `collect.py` must drop calls-table rows whose assay_id is
+  zero specificity cost on Rahn's 41 negatives. HELD BY BATYA 2026-10-21: keep the knob off
+  until she decides whether to pursue identity-based scoring at all (the nearest-neighbour ΔG
+  question, M2, is the alternative). Do NOT flip it on as if it were merely pending mechanics; it
+  is a held decision. If pursued, the gate is a full re-screen under the candidate config + tier-2,
+  since the calls table bakes in scoring. Then **S1** `collect.py` must drop calls-table rows whose assay_id is
   not a current registry id (recommend hard error — this is the open double-counting bug), then the
   Anthony supplement, then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
   the status vocabulary from `drift.py` (the `report_diff` bug), S3 collapse the two renderers,
