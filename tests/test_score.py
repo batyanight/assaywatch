@@ -564,3 +564,119 @@ def test_the_weak_reason_is_also_in_assay_order():
         "fail",
         "forward, probe blocked",
     )
+
+
+# --- The declared size reaches both readers (declared_ends) -------------------
+# Added 2026-10-21. `screen_one` derived the declared window inline and handled
+# `amplicon_bp_range` correctly; `classify_exclusion` was handed
+# `assay.amplicon_bp` alone, so a range-declaring assay passed None and fell
+# through to `amplicon.max_bp` — judging truncated-versus-diverged against
+# 3000 bp instead of its own ceiling. ORTHOPOXVIRUS ATI is affected today and
+# every entry converted from a scalar would have been.
+
+import copy  # noqa: E402
+
+from assaywatch.score import declared_ends  # noqa: E402
+
+
+def _assay_with(**changes):
+    """A valid assay with the amplicon fields overridden."""
+    d = {**copy.deepcopy(GOOD_SCORE_ASSAY), **changes}
+    return Assay.model_validate(d)
+
+
+GOOD_SCORE_ASSAY = {
+    "id": "TEST_declared",
+    "name": "Test",
+    "target": {"taxid": 109871, "gene": "ITS1", "genome_type": "dsDNA"},
+    "chemistry": "conventional",
+    "oligos": {
+        "forward": {"name": "F", "seq": "CCTTGATATAATACAGTGTGCCATATGTC"},
+        "reverse": {"name": "R", "seq": "AGCCAAGAGATCCGTTGTCAAA"},
+    },
+    "amplicon_bp": 121,
+    "citation": {"doi": "10.3354/dao060141", "design_year": 2004, "doi_verified": True},
+    "use_context": ["wildlife"],
+    "status": "draft",
+}
+
+
+def test_a_scalar_becomes_both_ends():
+    assert declared_ends(_assay_with(amplicon_bp=121)) == [121, 121]
+
+
+def test_a_range_gives_its_own_ends_not_the_global_ceiling():
+    """The bug: a range assay used to hand `None` on to classify_exclusion."""
+    a = _assay_with(amplicon_bp=None, amplicon_bp_range=[540, 1700])
+    assert declared_ends(a) == [540, 1700]
+    # The upper end is what classify_exclusion needs, and it must be the
+    # assay's own 1700 rather than amplicon.max_bp's 3000.
+    assert declared_ends(a)[1] == 1700
+
+
+def test_an_assay_declaring_no_size_declares_nothing():
+    """None is the honest answer, and the caller falls back to the global window."""
+    assert declared_ends(_assay_with(amplicon_bp=None)) is None
+
+
+def test_classify_exclusion_reads_a_span_not_a_registry_field():
+    """Pinned by signature: the parameter is the declared upper end.
+
+    If someone passes `assay.amplicon_bp` here again, a range assay silently
+    reverts to the 3000 bp geometry, which is exactly the defect this closed.
+    """
+    import inspect
+
+    from assaywatch.score import classify_exclusion
+
+    params = list(inspect.signature(classify_exclusion).parameters)
+    assert "amplicon_span" in params
+    assert "amplicon_bp" not in params
+
+
+def test_the_declared_UPPER_end_is_what_reaches_classify_exclusion():
+    """Through `screen_one`, because the parameter name alone proves nothing.
+
+    Caught by mutation testing: feeding `declared[0]` instead of `declared[1]`
+    passed every other test here, since a scalar assay has lo == hi and cannot
+    tell them apart. Only a range assay can, which is the whole point.
+
+    `classify_exclusion` reaches `span` bp from the credible anchor and calls the
+    record `truncated` when that window runs off the end, `diverged` when it sits
+    inside. With a [540, 1700] range and a 1000 bp record anchored at 0:
+    1700 overruns the record (truncated), 540 does not (diverged). So the label
+    reports which end was passed.
+    """
+    a = _assay_with(amplicon_bp=None, amplicon_bp_range=[540, 1700])
+    fwd = a.oligos.forward.seq
+    # The forward primer at position 0, then filler that cannot match the
+    # reverse primer (or its complement) within max_mismatches_searched.
+    rec = fwd + "G" * (1000 - len(fwd))
+    call = screen_record(a, "R_truncated", rec, CFG)
+    assert call.call == "no_amplicon"
+    assert call.extra["exclusion"] == "truncated", (
+        f"got {call.extra['exclusion']!r}: `diverged` means the LOWER end of the range was "
+        "passed to classify_exclusion, so a range assay's geometry is judged at 540 bp "
+        "instead of its real 1700 bp ceiling"
+    )
+    assert "reverse primer's window" in call.reason
+
+
+def test_the_span_is_the_assay_ceiling_not_the_global_one():
+    """The other side of the bracket, also from mutation testing.
+
+    The 1000 bp case above cannot tell 1700 from `amplicon.max_bp`'s 3000, since
+    both overrun it. A 2000 bp record can: the assay's own 1700 bp window fits
+    inside the record and reads `diverged`, while 3000 would overrun it and read
+    `truncated`. So the two cases together pin the span to the declared upper
+    end - not the lower end, and not the global ceiling.
+    """
+    a = _assay_with(amplicon_bp=None, amplicon_bp_range=[540, 1700])
+    fwd = a.oligos.forward.seq
+    rec = fwd + "G" * (2000 - len(fwd))
+    call = screen_record(a, "R_diverged", rec, CFG)
+    assert call.call == "no_amplicon"
+    assert call.extra["exclusion"] == "diverged", (
+        f"got {call.extra['exclusion']!r}: `truncated` on a 2000 bp record means the span came "
+        "from amplicon.max_bp (3000) rather than this assay's declared 1700 bp ceiling"
+    )

@@ -657,13 +657,33 @@ def _site_text(site: Site | None) -> str:
     return "" if site is None else f"{site.start}-{site.end}{site.strand}"
 
 
+def declared_ends(assay: Assay) -> list[int] | None:
+    """The assay's declared product size as `[lo, hi]`, or None if it declares none.
+
+    A scalar becomes `[bp, bp]`, so one expression serves both shapes: an assay
+    may declare a point size or, where its product size is genuinely a range it
+    is designed to read apart, two ends.
+
+    Shared rather than open-coded because the two readers disagreed. `screen_one`
+    had this derivation inline and handled a range correctly; `classify_exclusion`
+    was handed `assay.amplicon_bp` alone, so a range-declaring assay fell through
+    to `amplicon.max_bp` and had its truncated-versus-diverged geometry judged
+    against 3000 bp rather than its own ceiling - ORTHOPOXVIRUS ATI, whose range
+    tops out at 1700, and every entry converted from a scalar after 2026-10-21.
+    """
+    rng = getattr(assay, "amplicon_bp_range", None)
+    if rng:
+        return [int(rng[0]), int(rng[1])]
+    return [assay.amplicon_bp, assay.amplicon_bp] if assay.amplicon_bp else None
+
+
 def classify_exclusion(
     record_seq: str,
     oligos: dict[str, str],
     found: dict[str, list[Site]],
     cfg: dict[str, Any],
     comp: tuple,
-    amplicon_bp: int | None,
+    amplicon_span: int | None,
     record_len: int | None = None,
 ) -> tuple[str, str]:
     """Why a record yielded no amplicon: (label, one-line detail).
@@ -684,7 +704,9 @@ def classify_exclusion(
     # Its own key: `max_pair_evalue: null` means "report the E-value, act on
     # nothing", and reusing it here silently kept filtering at 0.01.
     max_e = float(cfg["scoring"].get("max_site_evalue", 0.01))
-    span = int(amplicon_bp or cfg["amplicon"]["max_bp"])
+    # The declared upper end, from `declared_ends`, NOT `assay.amplicon_bp`: a
+    # range-declaring assay has no scalar and used to fall through to max_bp.
+    span = int(amplicon_span or cfg["amplicon"]["max_bp"])
     n = record_len or len(record_seq)
 
     def credible(name: str) -> list[Site]:
@@ -747,6 +769,11 @@ def screen_one(
     """
     amp = cfg["amplicon"]
     max_mm = int(cfg["scoring"].get("max_mismatches_searched", 6))
+    # Both the size window below and `classify_exclusion`'s truncated-versus-
+    # diverged geometry need the declared size, and the early no-site return
+    # reaches the latter first, so it is resolved once here.
+    declared = declared_ends(assay)
+    _declared_hi = declared[1] if declared else None
     fwd = fwd_seq or assay.oligos.forward.matching_seq
     rev = rev_seq or assay.oligos.reverse.matching_seq
     # Every probe pool member is searched, and the best site inside the amplicon
@@ -771,7 +798,7 @@ def screen_one(
             which = "forward and reverse"
         call = Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
         label, detail = classify_exclusion(
-            record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp, record_len
+            record_seq, oligo_map, found_map, cfg, comp, _declared_hi, record_len
         )
         call.extra["exclusion"] = label
         call.reason = f"{call.reason}; {detail}"
@@ -812,9 +839,6 @@ def screen_one(
     # An assay may declare a point size or, where its product size is genuinely
     # a range it is designed to read apart, two ends. The tolerance applies
     # outward from each end either way.
-    declared = getattr(assay, "amplicon_bp_range", None) or (
-        [assay.amplicon_bp, assay.amplicon_bp] if assay.amplicon_bp else None
-    )
     if declared and tol is not None:
         tol = float(tol)
         lo_bp = max(lo_bp, int(declared[0] * (1 - tol)))
@@ -911,7 +935,7 @@ def screen_one(
             reason = f"{n_chance} facing pairs, none distinguishable from chance (E > {max_e:g})"
         call = Call(assay.id, record_id, "no_amplicon", reason=reason)
         label, detail = classify_exclusion(
-            record_seq, oligo_map, found_map, cfg, comp, assay.amplicon_bp, record_len
+            record_seq, oligo_map, found_map, cfg, comp, _declared_hi, record_len
         )
         call.extra["exclusion"] = "chance_only" if n_chance else label
         call.reason = f"{reason}; {detail}"
