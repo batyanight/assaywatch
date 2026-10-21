@@ -111,6 +111,49 @@ scoring:
   # severe class — but the rule got there without checking.
   terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail
 
+  # HOW THE OLIGOS COMBINE. `detect_max`/`reduced_max` above are compared
+  # against the SUM of the forward, reverse and probe penalties. That is the
+  # defect the two comments above both point at, and it is the one measured to
+  # decide most of the call set:
+  #
+  #   rows whose call `decide` makes (excludes no_amplicon,
+  #     indeterminate and the probe-less fail, all invariant)        912,111
+  #   fails the `terminal_mismatch_fails` identity rule drives    1,618 (0.60%)
+  #   fails in 3.01-6.0, just above the `reduced_max` cut       213,398 (79.1%)
+  #   calls that move when the same penalties are judged
+  #     per oligo (replayed through decide(), not estimated)     182,185 (20.0%)
+  #
+  # So identity-blindness - what `mispair_penalty` above is aimed at - decides
+  # 0.6% of fails, while the shared budget decides about 79%.
+  #
+  #   budget  the summed total, compared against detect_max/reduced_max. What
+  #           every number in this file was set against. The shipped default.
+  #   serial  each oligo judged on its own penalty, worst one decides:
+  #           any blocked -> fail, any weak -> reduced, else detect. Amplification
+  #           needs forward AND reverse, and detection needs the probe on top,
+  #           so they are serial gates and not a shared budget.
+  engine: budget                 # budget | serial
+  # THE PER-OLIGO THRESHOLDS ARE NOT CALIBRATED, AND THESE VALUES ARE A
+  # PLACEHOLDER. They are `detect_max` and `reduced_max` reused unchanged, and
+  # those two were set against a SUM of up to three oligos. Reused per oligo
+  # they can only ever loosen: all 182,185 moves measured above are
+  # fail->reduced (95,066) or reduced->detect (87,119), and none tighten -
+  # nothing can move to `fail` that was not already there, because a terminal
+  # mismatch still blocks its own oligo. So 20.0% is an upper bound on
+  # movement, not a prediction,
+  # and the right values for this meaning are almost certainly lower.
+  #
+  # They ship anyway, rather than null, because `engine: serial` cannot be
+  # measured without running and the calibration needs the measurement. The
+  # default stays `budget`, so nothing in a shipped run uses them. Deriving
+  # them is the open work: bench panels for sensitivity (only 10 of the 160
+  # panel rows are threshold-sensitive negatives, all of them Forslund's, so
+  # hold them out rather than fit them), Rahn's 41 plus Meyer's 1 gene-absent
+  # negatives as the specificity floor, and the 1,793,508 `no_amplicon` rows
+  # as an invariant that must not move at all.
+  oligo_ok_max: 1.0              # <= this, one oligo is `ok`
+  oligo_weak_max: 3.0            # <= this it is `weak`; above, `blocked`
+
   # PER-CHEMISTRY OVERRIDES. Every key above applies to all 214 assays, and they
   # are not one kind of assay: 167 are conventional or consensus PCR, 44 are
   # probe-based (22 MGB, 22 hydrolysis), 2 are SYBR and 1 is RPA (214 files on 2026-10-14; `python -m assaywatch.validate registry` prints the current ones;

@@ -388,3 +388,179 @@ def test_mispair_penalty_is_a_recognised_per_chemistry_override_key():
     # look recalibrated when it was not.
     bad = _scoring(by_chemistry={"conventional": {"mispair_pentalty": {"G:T": 0.0}}})
     assert any("mispair_pentalty" in p for p in check_chemistry_overrides(bad))
+
+
+# --- Per-oligo verdicts: scoring.engine = budget | serial ---------------------
+# Added 2026-10-21. config.yaml ships `engine: budget`, so every test above
+# asserts the summed-budget behaviour and this block asserts the alternative.
+# What motivated it is a measurement, not a preference: on
+# results/2026-10-20/calls.tsv.gz the terminal-identity rule drives 1,618 of
+# 269,789 fails (0.60%) while 213,398 (79.1%) sit in 3.01-6.0 just above the
+# `reduced_max` cut, and judging the same penalties per oligo moves 182,185 of
+# the 912,111 calls `decide` makes. The shared budget, not identity-blindness,
+# decides most of the call set. `budget` reproduces every one of those 912,111
+# stored calls when replayed through `decide`, which is what says this split is
+# faithful on real data and not only on the fixtures.
+
+from assaywatch.score import OligoScore, combine, decide, oligo_verdict  # noqa: E402
+
+
+def _serial(**overrides):
+    return _scoring(engine="serial", **overrides)
+
+
+def _os(penalty: float, *, terminal: bool = False, ambiguous=()):
+    """An OligoScore carrying just what the verdict functions read."""
+    return OligoScore(penalty, terminal, (), (), ambiguous)
+
+
+def test_oligo_verdict_bands():
+    cfg = _serial()  # oligo_ok_max 1.0, oligo_weak_max 3.0
+    assert oligo_verdict(_os(0.0), cfg) == "ok"
+    assert oligo_verdict(_os(1.0), cfg) == "ok"
+    assert oligo_verdict(_os(1.01), cfg) == "weak"
+    assert oligo_verdict(_os(3.0), cfg) == "weak"
+    assert oligo_verdict(_os(3.01), cfg) == "blocked"
+
+
+def test_a_terminal_mismatch_blocks_the_oligo_that_carries_it():
+    """Same outcome as the budget engine's global `terminal`, with the oligo named."""
+    cfg = _serial()
+    assert oligo_verdict(_os(0.0, terminal=True), cfg) == "blocked"
+    off = _serial(terminal_mismatch_fails=False)
+    assert oligo_verdict(_os(0.0, terminal=True), off) == "ok"
+
+
+def test_combine_is_a_serial_gate_not_a_budget():
+    cfg = _serial()
+    assert combine({"forward": "ok", "reverse": "ok"}, cfg) == ("detect", "")
+    assert combine({"forward": "ok", "reverse": "weak"}, cfg) == ("reduced", "reverse weak")
+    assert combine({"forward": "blocked", "reverse": "weak"}, cfg) == ("fail", "forward blocked")
+    # A blocked oligo fails the call however well the others match: PCR needs
+    # the forward AND the reverse primer.
+    assert combine({"forward": "ok", "reverse": "ok", "probe": "blocked"}, cfg) == (
+        "fail",
+        "probe blocked",
+    )
+
+
+def test_combine_reports_every_oligo_at_the_deciding_level():
+    cfg = _serial()
+    assert combine({"forward": "weak", "reverse": "weak", "probe": "ok"}, cfg) == (
+        "reduced",
+        "forward, reverse weak",
+    )
+    assert combine({"forward": "blocked", "reverse": "blocked"}, cfg) == (
+        "fail",
+        "forward, reverse blocked",
+    )
+
+
+def test_the_reason_names_roles_in_assay_order_not_dict_order():
+    """A reason string ends up in a TSV column, so it must not depend on insertion order."""
+    cfg = _serial()
+    forwards_first = {"forward": "weak", "probe": "weak"}
+    probe_first = {"probe": "weak", "forward": "weak"}
+    assert combine(forwards_first, cfg) == combine(probe_first, cfg) == ("reduced", "forward, probe weak")
+
+
+def test_the_engines_disagree_exactly_where_the_measurement_says_they_do():
+    """Three trivial mismatches, one per oligo: the defect `classify` documents.
+
+    Summed they are 3.0, which is `reduced_max`, so budget calls `reduced`.
+    Judged per oligo each is 1.0, which is `oligo_ok_max`, so serial calls
+    `detect`. This single case is the shape of 87,119 of the 182,185 measured
+    moves.
+    """
+    fs, rs, ps = _os(1.0), _os(1.0), _os(1.0)
+    budget_call, budget_reason, budget_scalar = decide(fs, rs, ps, _scoring())
+    serial_call, serial_reason, serial_scalar = decide(fs, rs, ps, _serial())
+    assert (budget_call, budget_reason, budget_scalar) == ("reduced", "", 3.0)
+    assert (serial_call, serial_reason, serial_scalar) == ("detect", "", 1.0)
+
+
+def test_one_lethal_mismatch_fails_under_both_but_for_different_reasons():
+    fs, rs = _os(4.5), _os(0.0)
+    assert decide(fs, rs, None, _scoring())[0] == "fail"  # 4.5 > reduced_max
+    assert decide(fs, rs, None, _serial())[:2] == ("fail", "forward blocked")
+
+
+def test_the_scalar_is_the_sum_under_budget_and_the_worst_oligo_under_serial():
+    """`Call.penalty` and the candidate tie-break both read this number."""
+    fs, rs, ps = _os(0.5), _os(2.0), _os(1.0)
+    assert decide(fs, rs, ps, _scoring())[2] == 3.5
+    assert decide(fs, rs, ps, _serial())[2] == 2.0
+    # With no probe, the worst is still the worst and the sum is still the sum.
+    assert decide(fs, rs, None, _scoring())[2] == 2.5
+    assert decide(fs, rs, None, _serial())[2] == 2.0
+
+
+def test_an_unset_engine_is_the_budget_engine():
+    """The shipped default must survive a config that predates the key entirely."""
+    cfg = {**CFG, "scoring": {k: v for k, v in CFG["scoring"].items() if k != "engine"}}
+    fs, rs = _os(1.0), _os(1.0)
+    assert decide(fs, rs, None, cfg) == decide(fs, rs, None, _scoring())
+    assert decide(fs, rs, None, cfg)[0] == "reduced"
+
+
+def test_an_unknown_engine_name_does_not_silently_become_serial():
+    """A typo must leave the shipped behaviour in place, not pick the new path."""
+    fs, rs = _os(1.0), _os(1.0)
+    assert decide(fs, rs, None, _scoring(engine="seriaI"))[0] == "reduced"
+
+
+def test_config_ships_the_budget_engine():
+    """If this fails, a shipped run has changed its calls. That is a maintainer decision."""
+    assert CFG["scoring"]["engine"] == "budget"
+
+
+def test_serial_runs_end_to_end_on_a_real_fixture_record():
+    """The verdict path has to work through screen_record, not just in isolation."""
+    row = next(r for r in MANIFEST if r["expected_call"] == "reduced")
+    assay = ASSAYS[row["assay_id"]]
+    rec = RECORDS[row["record_id"]]
+    budget = screen_record(assay, row["record_id"], rec, _scoring())
+    serial = screen_record(assay, row["record_id"], rec, _serial())
+    assert budget.call == "reduced"
+    # Same record, same penalties; only the combination differs. Whatever serial
+    # says, it must be a real bucket and its penalty must be <= the sum.
+    assert serial.call in {"detect", "reduced", "fail", "indeterminate", "no_amplicon"}
+    assert serial.penalty <= budget.penalty
+
+
+def test_decide_actually_hands_the_probe_to_the_verdicts():
+    """Through `decide`, not `combine`: a blocked probe must fail the call.
+
+    Caught by mutation testing. Dropping the probe from `decide`'s verdicts
+    passed every test above, because they all exercised `combine` directly with
+    a probe already in the dict - so they proved the gate works and never that
+    anything asks it about the probe. Same trap as the S7 and S9 tests: when a
+    refactor extracts a gate, test the effect through the caller.
+    """
+    clean, blocked_probe = _os(0.0), _os(9.0)
+    assert decide(clean, clean, blocked_probe, _serial())[:2] == ("fail", "probe blocked")
+    # And a weak probe must reach the call too, not just a blocked one.
+    assert decide(clean, clean, _os(2.0), _serial())[:2] == ("reduced", "probe weak")
+    # Without a probe the same primers are a clean detect, so the two cases
+    # above cannot be passing for some reason unrelated to the probe.
+    assert decide(clean, clean, None, _serial())[:2] == ("detect", "")
+
+
+def test_decide_passes_each_primer_under_its_own_role_name():
+    """A blocked forward must not be reported as a blocked reverse."""
+    clean = _os(0.0)
+    assert decide(_os(9.0), clean, None, _serial())[1] == "forward blocked"
+    assert decide(clean, _os(9.0), None, _serial())[1] == "reverse blocked"
+
+
+def test_the_weak_reason_is_also_in_assay_order():
+    """Both branches of `combine` order by ROLES; the blocked one was covered above."""
+    cfg = _serial()
+    assert combine({"probe": "weak", "reverse": "weak", "forward": "weak"}, cfg) == (
+        "reduced",
+        "forward, reverse, probe weak",
+    )
+    assert combine({"probe": "blocked", "forward": "blocked"}, cfg) == (
+        "fail",
+        "forward, probe blocked",
+    )

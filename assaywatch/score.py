@@ -25,10 +25,26 @@ positions, too little of the binding site is known to say anything, and the
 record is called `indeterminate` for that assay rather than scored. Like
 `no_amplicon`, that keeps a data-quality problem out of the drift numbers.
 
-Call per record = sum over forward, reverse and (if present) probe:
+How those penalties become a call depends on `scoring.engine`:
+
+`budget` (the default, and what every number in config.yaml was set against)
+sums forward, reverse and (if present) probe into one total:
     <= detect_max                     detect
     <= reduced_max                    reduced
     otherwise, or any mismatch at a primer's 3'-terminal base   fail
+
+`serial` judges each oligo on its own penalty and combines the verdicts
+logically, because amplification needs the forward AND the reverse primer and
+detection needs the probe on top - they are serial gates, not a shared budget:
+    every oligo ok                    detect
+    any oligo weak                    reduced
+    any oligo blocked                 fail
+See `oligo_verdict`, `combine` and `decide`. Measured on results/2026-10-20,
+the two engines disagree on 182,185 of the 912,111 calls `decide` makes; the
+shared budget, not identity-blindness, decides most of the current call set.
+`serial`'s own thresholds are not yet calibrated - config.yaml says so.
+
+Either way:
     too many undetermined record bases under an oligo           indeterminate
 No forward/reverse pair in the right orientation and size range: no_amplicon.
 Both no_amplicon and indeterminate are reported separately from fail so
@@ -365,7 +381,7 @@ def too_ambiguous(scores: list[OligoScore], cfg: dict[str, Any]) -> bool:
 
 
 def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
-    """Turn one summed penalty into a call.
+    """Turn one summed penalty into a call. `scoring.engine: budget` only.
 
     Two known weaknesses, both biological rather than numerical:
 
@@ -375,7 +391,11 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
       the same bin as one near-lethal 3'-proximal mismatch, and a probe defect
       (which costs signal linearly) trades against a primer defect (which costs
       the exponential). Per-oligo verdicts combined logically is the right
-      model; see docs/2026-10-04-pipeline-review.md.
+      model; see docs/2026-10-04-pipeline-review.md. That model now exists as
+      `scoring.engine: serial` (`oligo_verdict` + `combine`), and the two
+      disagree on 182,185 of 912,111 calls - but it is `budget` that
+      `detect_max` and `reduced_max` were set against, so it stays the default
+      until the per-oligo thresholds are calibrated.
     * `terminal` is identity-blind, so about half the 3'-terminal mismatches it
       fails are the near-neutral kind (see score_primer). It is also one
       threshold for 167 conventional PCRs and 44 probe assays (2026-10-14), and endpoint PCR
@@ -389,6 +409,82 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
     if total <= s["reduced_max"]:
         return "reduced"
     return "fail"
+
+
+# The order `combine` reports a blocked or weak oligo in, so a reason string is
+# deterministic and reads the way the assay does.
+ROLES = ("forward", "reverse", "probe")
+
+
+def oligo_verdict(score: OligoScore, cfg: dict[str, Any]) -> str:
+    """One oligo's own verdict: `ok`, `weak` or `blocked`.
+
+    This is half of what `classify`'s docstring says the right model is. The
+    other half is `combine`. Neither is used unless `scoring.engine` is
+    `serial`.
+
+    A 3'-terminal mismatch blocks the oligo that carries it rather than failing
+    the whole call from outside, which is the same outcome with the oligo named.
+    `score_probe` never sets `terminal_mismatch`, so this reads the same for a
+    probe without needing to know it is one.
+    """
+    s = cfg["scoring"]
+    if score.terminal_mismatch and s.get("terminal_mismatch_fails", True):
+        return "blocked"
+    if score.penalty <= s["oligo_ok_max"]:
+        return "ok"
+    if score.penalty <= s["oligo_weak_max"]:
+        return "weak"
+    return "blocked"
+
+
+def combine(verdicts: dict[str, str], cfg: dict[str, Any]) -> tuple[str, str]:
+    """Per-oligo verdicts into one call and the reason for it.
+
+    Serial gates, not a shared budget: PCR needs the forward AND the reverse
+    primer to anneal, and a probe assay needs the probe on top of both. So one
+    blocked oligo fails the call however well the others match, and three
+    trivial mismatches spread one per oligo are three `ok`s rather than a
+    summed 3.0 - which under `engine: budget` lands in the same bin as one
+    near-lethal 3'-proximal mismatch.
+
+    `cfg` is unused today and is taken anyway: every other decision function
+    here reads its thresholds from it, and a caller should not have to know
+    that this one happens not to.
+    """
+    del cfg  # see the docstring
+    blocked = [r for r in ROLES if verdicts.get(r) == "blocked"]
+    if blocked:
+        return "fail", f"{', '.join(blocked)} blocked"
+    weak = [r for r in ROLES if verdicts.get(r) == "weak"]
+    if weak:
+        return "reduced", f"{', '.join(weak)} weak"
+    return "detect", ""
+
+
+def decide(
+    fs: OligoScore, rs: OligoScore, ps: OligoScore | None, cfg: dict[str, Any]
+) -> tuple[str, str, float]:
+    """One candidate amplicon's call, its reason, and the scalar standing for it.
+
+    The single place the two engines differ, so the `budget` path is the one
+    that existed before `serial` was added rather than a reimplementation of it.
+
+    The third value is what `Call.penalty` carries and what breaks ties between
+    the candidate amplicons of one record. Under `budget` it is the sum, which
+    is the quantity the call was made from. Under `serial` it is the WORST
+    single oligo, for the same reason: it is what decided the call, it is still
+    monotone in badness, and summing it would rank a candidate by a number no
+    threshold in the config compares against.
+    """
+    s = cfg["scoring"]
+    if s.get("engine", "budget") == "serial":
+        scored = zip(ROLES, (fs, rs, ps), strict=True)  # ROLES is forward, reverse, probe
+        verdicts = {r: oligo_verdict(o, cfg) for r, o in scored if o is not None}
+        call, reason = combine(verdicts, cfg)
+        return call, reason, max(o.penalty for o in (fs, rs, ps) if o is not None)
+    total = fs.penalty + rs.penalty + (ps.penalty if ps else 0.0)
+    return classify(total, fs.terminal_mismatch or rs.terminal_mismatch, cfg), "", total
 
 
 def _rank(site: Site) -> tuple[int, int, int]:
@@ -766,16 +862,18 @@ def screen_one(
                 # a qPCR assay that produces product and reports nothing.
                 # This is a fail on its own terms, not a large penalty.
                 reason = "no probe site inside amplicon"
-        total = fs.penalty + rs.penalty + (ps.penalty if ps else 0.0)
+        call, verdict_reason, total = decide(fs, rs, ps, cfg)
         scores = [o for o in (fs, rs, ps) if o is not None]
         n_amb = sum(len(o.ambiguous) for o in scores)
         if too_ambiguous(scores, cfg):
             call = "indeterminate"
             reason = reason or f"{n_amb} undetermined record bases under the oligos"
         elif reason:
+            # A probe-less amplicon: already decided, and `_call_rank` matches
+            # this exact string, so it must survive whatever `decide` said.
             call = "fail"
         else:
-            call = classify(total, fs.terminal_mismatch or rs.terminal_mismatch, cfg)
+            reason = verdict_reason
         cand = Call(assay.id, record_id, call, total, amp_start, amp_end, length, fs, rs, ps, reason)
         cand.extra["n_ambiguous"] = n_amb
         cand.extra["pair_evalue"] = evalue
