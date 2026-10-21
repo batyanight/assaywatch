@@ -8,6 +8,7 @@ changes no call the screener would make on the whole genome.
 import csv
 import gzip
 import io
+import json
 import random
 import zipfile
 from collections import Counter
@@ -17,6 +18,7 @@ import pytest
 from test_score import ASSAYS, CFG, RECORDS
 
 from assaywatch.assemblies import (
+    AssemblyError,
     AssemblyMeta,
     extract_loci,
     list_assemblies,
@@ -37,9 +39,11 @@ def random_dna(n, seed):
 
 
 class FakeDatasets:
-    """Serves a list of assemblies (TSV, truncated at page_size like the real one) and their genomes."""
+    """Serves a list of assemblies (JSON, paged by token like the real one) and their genomes.
 
-    HEADER = "Assembly Accession\tAssembly Release Date\tCollection\tLevel\tOrganism\tStrain\n"
+    The page token is just the offset of the next row, which is all
+    list_assemblies needs it to be: an opaque string the server hands back.
+    """
 
     def __init__(self, metas, genomes):
         self.metas, self.genomes = metas, genomes
@@ -50,12 +54,31 @@ class FakeDatasets:
         if path.endswith("dataset_report"):
             self.report_calls += 1
             lo, hi = params["filters.first_release_date"], params["filters.last_release_date"]
-            rows = [m for m in self.metas if lo <= m.release_date <= hi][: params["page_size"]]
-            body = self.HEADER + "".join(
-                f"{m.accession}\t{m.release_date}\t{m.collection_date}\t{m.level}\t{m.organism}\t{m.strain}\n"
-                for m in rows
-            )
-            return body.encode()
+            rows = [m for m in self.metas if lo <= m.release_date <= hi]
+            start = int(params.get("page_token") or 0)
+            page = rows[start : start + params["page_size"]]
+            nxt = start + len(page)
+            doc = {
+                "total_count": len(rows),
+                "reports": [
+                    {
+                        "accession": m.accession,
+                        "assembly_info": {
+                            "release_date": m.release_date,
+                            "assembly_level": m.level,
+                            "biosample": {"collection_date": m.collection_date},
+                        },
+                        "organism": {
+                            "organism_name": m.organism,
+                            "infraspecific_names": {"strain": m.strain},
+                        },
+                    }
+                    for m in page
+                ],
+            }
+            if nxt < len(rows):
+                doc["next_page_token"] = str(nxt)
+            return json.dumps(doc).encode()
         accs = path.split("/")[2].split(",")
         self.downloaded += accs
         buf = io.BytesIO()
@@ -71,12 +94,35 @@ def meta(i, day):
     return AssemblyMeta(f"GCA_{i:09d}.1", day, "2010", "Complete Genome", "Testus coli", f"S{i}")
 
 
-def test_listing_splits_date_windows_until_each_fits_a_page():
+def test_listing_follows_page_tokens_to_the_end():
     metas = [meta(i, f"20{10 + i % 12:02d}-{1 + i % 12:02d}-{1 + i % 28:02d}") for i in range(57)]
     fake = FakeDatasets(metas, {})
     got = list_assemblies(fake, 1, ["complete_genome"], None, date(2026, 1, 1), page=5)
     assert {m.accession for m in got} == {m.accession for m in metas}
-    assert fake.report_calls > 57 // 5
+    assert fake.report_calls == 12  # ceil(57/5), the last page short and tokenless
+
+
+def test_a_single_day_over_a_page_is_listed_whole():
+    """The case that failed the 2026-10-20 run: E. coli had 1,427 GenBank complete
+    genomes released on 2026-09-29, so date bisection could not get under a page
+    and the old code raised rather than truncate. Paging just reads them all."""
+    metas = [meta(i, "2026-09-29") for i in range(1427)]
+    fake = FakeDatasets(metas, {})
+    got = list_assemblies(fake, 1, ["complete_genome"], None, date(2026, 10, 1), page=1000)
+    assert len(got) == 1427
+    assert fake.report_calls == 2
+
+
+def test_a_repeated_page_token_is_an_error_not_a_spin():
+    class Stuck(FakeDatasets):
+        def __call__(self, path, params, accept):
+            doc = json.loads(super().__call__(path, params, accept))
+            doc["next_page_token"] = "0"  # always the same page
+            return json.dumps(doc).encode()
+
+    fake = Stuck([meta(i, "2026-09-29") for i in range(10)], {})
+    with pytest.raises(AssemblyError, match="repeated a page token"):
+        list_assemblies(fake, 1, ["complete_genome"], None, date(2026, 10, 1), page=5)
 
 
 def test_sample_is_capped_per_year_stable_and_tops_up():

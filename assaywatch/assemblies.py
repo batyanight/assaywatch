@@ -58,7 +58,7 @@ import zipfile
 from collections import Counter
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -155,54 +155,85 @@ def datasets_transport(api_key: str | None, timeout: int = 300) -> Fetch:
 
 
 def _report_page(
-    fetch: Fetch, taxid: int, levels: list[str], lo: date, hi: date, page: int
-) -> list[AssemblyMeta]:
-    params = {
+    fetch: Fetch,
+    taxid: int,
+    levels: list[str],
+    lo: date,
+    hi: date,
+    page: int,
+    token: str | None = None,
+) -> tuple[list[AssemblyMeta], str | None]:
+    """One page of the assembly report, plus the token for the next one.
+
+    JSON rather than TSV. The two formats carry the same fields, but only JSON
+    returns `next_page_token`, which is what makes an exhaustive listing
+    possible; see list_assemblies.
+    """
+    params: dict[str, Any] = {
         "filters.assembly_source": "genbank",
         "filters.assembly_level": levels,
         "filters.exclude_atypical": "true",
         "filters.first_release_date": lo.isoformat(),
         "filters.last_release_date": hi.isoformat(),
         "page_size": page,
-        "table_fields": list(TSV_FIELDS),
     }
-    body = fetch(f"genome/taxon/{taxid}/dataset_report", params, "text/tab-separated-values")
-    rows = list(csv.reader(io.StringIO(body.decode()), delimiter="\t"))
+    if token:
+        params["page_token"] = token
+    doc = json.loads(fetch(f"genome/taxon/{taxid}/dataset_report", params, "application/json"))
     out = []
-    for r in rows[1:]:  # header row first
-        if len(r) < 4 or not r[0]:
+    for r in doc.get("reports") or []:
+        acc = r.get("accession")
+        if not acc:
             continue
-        r = r + [""] * (len(TSV_FIELDS) - len(r))
-        out.append(AssemblyMeta(r[0], r[1][:10], r[2], r[3], r[4], r[5]))
-    return out
+        info = r.get("assembly_info") or {}
+        org = r.get("organism") or {}
+        out.append(
+            AssemblyMeta(
+                acc,
+                (info.get("release_date") or "")[:10],
+                (info.get("biosample") or {}).get("collection_date") or "",
+                info.get("assembly_level") or "",
+                org.get("organism_name") or "",
+                (org.get("infraspecific_names") or {}).get("strain") or "",
+            )
+        )
+    return out, doc.get("next_page_token") or None
 
 
 def list_assemblies(
     fetch: Fetch, taxid: int, levels: list[str], since: date | None, until: date, page: int = 1000
 ) -> list[AssemblyMeta]:
-    """Every assembly released in [since, until], splitting date windows that fill a page.
+    """Every assembly released in [since, until], following the report's page tokens.
 
-    The TSV endpoint returns at most one page and no continuation token, so a
-    window that comes back full may be hiding more. There is no way to ask for
-    "the next page", so instead a full window is bisected by date and both halves
-    re-requested, until every window comes back short of the page size — at which
-    point it is known to be complete. A window that fills a page and cannot be
-    split any further (one single day) is an error rather than silent truncation.
+    This used to bisect the date window instead, because the TSV format of the
+    same endpoint returns one page and no continuation token: a window that came
+    back full might be hiding more, so it was split by date and both halves
+    re-requested until every window came back short. A window that filled a page
+    and could not be split further - a single day - was an error rather than
+    silent truncation.
+
+    That guard fired for real on 2026-10-20 and failed the whole run: E. coli had
+    1,427 GenBank complete genomes released on 2026-09-29 alone, so no date split
+    could get under a 1,000-row page, and splitting on assembly level did not
+    help either (`chromosome` was 120 but `complete_genome` still filled the
+    page). The JSON format does return `next_page_token`, which removes the
+    reason for the bisection and for the guard: paging is exhaustive by
+    construction, so no window can hide rows.
     """
     out: dict[str, AssemblyMeta] = {}
-    stack = [(since or EARLIEST, until)]
-    while stack:
-        lo, hi = stack.pop()
-        rows = _report_page(fetch, taxid, levels, lo, hi, page)
-        if len(rows) >= page:
-            if lo >= hi:
-                raise AssemblyError(f"taxid {taxid}: more than {page} assemblies released on {lo}")
-            mid = lo + (hi - lo) // 2
-            stack += [(lo, mid), (mid + timedelta(days=1), hi)]
-            continue
+    token: str | None = None
+    seen_tokens: set[str] = set()
+    while True:
+        rows, token = _report_page(fetch, taxid, levels, since or EARLIEST, until, page, token)
         for m in rows:
             out[m.accession] = m
-    return sorted(out.values(), key=lambda m: (m.release_date, m.accession))
+        if not token:
+            return sorted(out.values(), key=lambda m: (m.release_date, m.accession))
+        if token in seen_tokens:
+            # A server repeating a token would otherwise spin forever. Loud,
+            # because it means the listing is incomplete.
+            raise AssemblyError(f"taxid {taxid}: assembly report repeated a page token")
+        seen_tokens.add(token)
 
 
 def sample_per_year(
