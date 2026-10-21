@@ -68,6 +68,7 @@ source:
     is therefore not ''which paper published F2/R2'' but ''what is R2, and is it a transcription error, an oligo from a different
     assay, or a different organism''s primer'' - and F2 is probably fine, being an internal forward primer of Rebelo''s amplicon.'
 needs_review:
+- REMOVED_2026_10_21_LAB_MADE_FFPE_PRIMER_UNPUBLISHED
 - REVERSE_PRIMER_HAS_NO_SITE_IN_TARGET_REGION
 - DOI_MISSING
 - NO_YEAR
