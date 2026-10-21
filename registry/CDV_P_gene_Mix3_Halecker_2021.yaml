@@ -66,5 +66,6 @@ source:
     paper''s report that PDV is not detected. SCOPE: CDV-wide, one of two P-gene assays the paper pairs as a ''double check'';
     the paper''s panel was mostly European lineages and the authors say the other lineages are untested.'
 needs_review:
-- 'overlaps CDV_P_gene_Scagliarini_2007: shares CDV3-R, forward and probe are degenerate modifications;
-  decide whether both entries stay'
+- flag: duplicate_entry_unresolved
+  note: 'overlaps CDV_P_gene_Scagliarini_2007: shares CDV3-R, and the forward and probe are degenerate modifications of it;
+    decide whether both entries stay'

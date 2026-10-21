@@ -68,5 +68,7 @@ source:
     as for the SYBR pair, a vcpA detection, not a species identification. Strain P3 (LMG 23695), which the paper reports as
     non-amplifying, was not identified among the records screened, so that wet failure is not explained here.'
 needs_review:
-- AMPLICON_MEASURED_1854_PAPER_SAYS_1_8_KB
-- PRIMERS_FROM_POLLOCK_2010_NOT_DESIGNED_IN_THIS_PAPER
+- flag: amplicon_disagrees_with_paper
+  note: measured 1854 bp; the paper says ~1.8 kb
+- flag: oligos_from_secondary_source
+  note: primers from Pollock 2010, not designed in the cited paper

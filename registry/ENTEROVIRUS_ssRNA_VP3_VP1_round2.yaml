@@ -46,4 +46,4 @@ source:
     of All Enterovirus Serotypes" and claims all proposed EV serotypes tested. Third worked example of the above-pooled override
     pattern in docs/2026-10-20-pan-family-override.md point 2, and the largest, on 1,063 records.'
 needs_review:
-- AMPLICON_BP_MEASURED_NOT_PUBLISHED
+- flag: amplicon_measured_not_published

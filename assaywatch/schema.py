@@ -25,6 +25,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
+from .review import NOTE_REQUIRED, OPEN, ReviewFlag
+
 IUPAC_RE = re.compile(r"^[ACGTURYSWKMBDHVN]+$")
 # `seq_as_written` additionally allows I, which is a real nucleotide rather
 # than an ambiguity code and so is kept out of the strict `seq` field.
@@ -83,6 +85,32 @@ class Strict(BaseModel):
     """Base with extra keys forbidden, so a typo like `taxon_nam` fails loudly."""
 
     model_config = ConfigDict(extra="forbid")
+
+
+class ReviewItem(Strict):
+    """One review flag, with the one line of prose that makes it actionable.
+
+    The vocabulary, and which flags are open questions rather than recorded
+    caveats, live in `assaywatch.review`; read that module's docstring before
+    adding a flag.
+    """
+
+    flag: ReviewFlag
+    # The specifics, in a line: what disagrees with what, which taxon, which
+    # sibling entry. Optional, because for a flag like `cross_reactive` the
+    # flag is the whole finding and the detail lives in `source.notes_curator`.
+    note: str | None = None
+
+    @model_validator(mode="after")
+    def note_present_where_it_carries_the_meaning(self) -> ReviewItem:
+        if self.flag in NOTE_REQUIRED and not (self.note or "").strip():
+            raise ValueError(f"needs_review flag {self.flag.value} requires a note saying what is pending")
+        return self
+
+    @property
+    def is_open(self) -> bool:
+        """True if a human still has to answer something, not merely know it."""
+        return self.flag in OPEN
 
 
 class Oligo(Strict):
@@ -386,7 +414,23 @@ class Assay(Strict):
     submitted_by: str | None = None
     status: Status = Status.draft
     source: Source | None = None
-    needs_review: list[str] | None = None
+    needs_review: list[ReviewItem] | None = None
+
+    @model_validator(mode="after")
+    def review_flags_do_not_repeat(self) -> Assay:
+        """One flag, one item: two `cross_reactive` rows are two halves of one note."""
+        seen = [i.flag.value for i in self.needs_review or []]
+        dupes = sorted({f for f in seen if seen.count(f) > 1})
+        if dupes:
+            raise ValueError(
+                f"needs_review repeats {', '.join(dupes)}; merge the notes into one item per flag"
+            )
+        return self
+
+    @property
+    def open_review(self) -> list[ReviewItem]:
+        """The review items that are open questions, in the order given."""
+        return [i for i in self.needs_review or [] if i.is_open]
 
     @model_validator(mode="after")
     def amplicon_range_is_sane(self) -> Assay:
@@ -446,8 +490,14 @@ class Assay(Strict):
             missing.append("citation.design_year")
         if self.submitted_by is None:
             missing.append("submitted_by")
-        if self.needs_review:
-            missing.append(f"needs_review must be empty (has {self.needs_review})")
+        # Open questions only. A recorded caveat is a disclosure, not a defect:
+        # `nested_protocol` and `amplicon_measured_not_published` are permanent
+        # properties of perfectly good entries, and refusing them here is what
+        # made 146 of 208 entries permanently unactivatable before 2026-10-21.
+        # See `assaywatch.review`.
+        if open_items := self.open_review:
+            flags = ", ".join(i.flag.value for i in open_items)
+            missing.append(f"needs_review has open questions ({flags})")
         if missing:
             raise ValueError("status=active but missing: " + ", ".join(missing))
         return self

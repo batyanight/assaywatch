@@ -74,4 +74,5 @@ source:
     was altered to fit the records. SCOPE: C. trachomatis only; the paper''s trachomatis primers are not shared with the other
     species.'
 needs_review:
-- SEROVAR_POLYMORPHISM_AT_BOTH_PRIMER_SITES_11_OF_42_GENOMES_FAIL
+- flag: primer_site_polymorphic
+  note: serovar polymorphism at both primer sites; 11 of 42 genomes fail

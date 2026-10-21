@@ -64,5 +64,6 @@ source:
     is not in the database. This is the general caveat for any species-specific assay screened against a genus archive, and
     it is the reason check_amplicons.py reports rather than edits.'
 needs_review:
-- CROSS_REACTIVE
-- TARGET_SPECIES_ABSENT_FROM_GENBANK
+- flag: cross_reactive
+- flag: thin_evidence
+  note: the target species has no GenBank records

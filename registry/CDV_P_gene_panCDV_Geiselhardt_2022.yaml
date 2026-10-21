@@ -78,5 +78,6 @@ source:
     as well, which the CDV archive does not measure. America-3, America-5 and Asia-3 have no P-gene sequence in GenBank to
     test (the paper says so too). Sensitivity (LOD) figures are the paper''s and were not checked here.'
 needs_review:
-- 'scope: assay also detects PDV (Morbillivirus phocae, txid3052347); taxid here is CDV only, decide whether a PDV-scoped
-  entry is wanted'
+- flag: target_scope_unresolved
+  note: also detects PDV (Morbillivirus phocae, txid3052347) while the taxid here is CDV only; decide whether a PDV-scoped
+    entry is wanted

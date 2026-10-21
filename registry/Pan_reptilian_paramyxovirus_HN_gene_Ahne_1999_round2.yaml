@@ -38,4 +38,5 @@ source:
     expected product 399 bp. Round 1 external HN primers are Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999. AMPLICON_BP: 399
     bp from the paper''s Table 1 position data (8045-7647+1=399); needs verification against GenBank ferlavirus HN sequences.'
 needs_review:
-- AMPLICON_BP_FROM_PAPER_POSITIONS_NOT_MEASURED
+- flag: amplicon_measured_not_published
+  note: the size is computed from the paper's stated positions, not measured from records

@@ -59,4 +59,5 @@ source:
     tissues", promoting that protocol''s second round to its own first round. So round 1 here is not the ancestral
     outer PCR, and a drift verdict on it speaks to this adaptation rather than to the original assay.'
 needs_review:
-- MULTIPLE_PRIMERS_IN_BLOCK
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

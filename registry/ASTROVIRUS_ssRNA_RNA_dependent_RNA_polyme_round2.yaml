@@ -60,5 +60,6 @@ source:
     citation names Atkins only, so the pool cross-product pairs Atkins'' primers with the panel''s, and some pairs scored here
     were never run by anyone.'
 needs_review:
-- MULTIPLE_PRIMERS_IN_BLOCK
-- NESTED
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair
+- flag: nested_protocol

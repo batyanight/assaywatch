@@ -49,4 +49,5 @@ source:
 
     SCREENED 2026-10-07 (counted by call from results/2026-10-07/calls.tsv.gz): 10,232 records, of which 9,928 are gene-level GenBank records from this entry 16S title query and 304 are complete-genome assemblies (GCA_ ids) cut to candidate loci by the asm group. Calls: 6,315 detect, 132 reduced, 141 fail, 10 indeterminate, 3,634 no_amplicon. The no_amplicon rows by the exclusion column: no_site 2,703, truncated 858, diverged 73. These are counts of calls, not a coverage statistic; the failing and non-amplifying records were not examined.'
 needs_review:
-- OLIGOS_FROM_UNCITABLE_SOURCE_NIETER_2016
+- flag: citation_unresolved
+  note: oligos come from an uncitable source (Nieter, 2016)

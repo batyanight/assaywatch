@@ -156,7 +156,11 @@ for the COVID-19 emergency; confirm current status before citing it as live guid
    **69 used exactly once**; **16 contain spaces or exceed 60 characters** — they are
    prose sentences masquerading as machine-readable flags, e.g. *"DOI found 2026-10-06
    by a Crossref title search, not printed in either citing paper; the top hit matches
-   title…"*. Typed `list[str] | None` at `schema.py:389`.
+   title…"*. Typed `list[str] | None` at `schema.py:389`. **FIXED 2026-10-21 (S7):**
+   `list[ReviewItem]`, 98 distinct strings down to 30 flags from `assaywatch/review.py`.
+   The counts above are off by one against the final measurement (98 strings over 243
+   instances on 208 entries, 69 singletons, 5 strings holding spaces) because the audit
+   read `needs_review` as flat text; the finding stands either way.
 3. **Four schema fields are set in exactly one entry**: `submitted_by`,
    `amplicon_bp_range`, `species_sizes`, `oligos.probe.seq_as_written`. The last three
    are load-bearing for ATI and the Deckers probe and should stay with that noted;
@@ -247,7 +251,11 @@ accession is not a reporting concern.
 `notes` field, so the 16 prose entries stop pretending to be flags and the 69
 singletons can be consolidated or retired. This is a schema change and a registry-wide
 migration; it is listed here because the flag list is now unusable as a filter, which
-is the whole point of having one.
+is the whole point of having one. **DONE 2026-10-21.** Two things this entry did not
+anticipate: four of the flags restated fields on the same entry and 6 of their 39
+instances already contradicted those fields, so they were dropped rather than renamed;
+and the `active` gate's "no review flags" rule had to be split, because it was refusing
+settled disclosures and holding 146 of 208 entries at `draft`.
 
 **S8 — delete or implement `lineage.taxid_backfill`.**
 

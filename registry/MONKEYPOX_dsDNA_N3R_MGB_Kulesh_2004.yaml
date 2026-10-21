@@ -60,4 +60,5 @@ source:
     is published. Compare the sibling entry MONKEYPOX_dsDNA_F3L_MGB_Kulesh_2004, whose probe is exact in all 50 - of the paper''s
     two assays, F3L is the one that has aged well.'
 needs_review:
-- PROBE_SITE_DRIFTED_1NT_IN_MOST_RECORDS
+- flag: primer_site_polymorphic
+  note: the probe site has drifted 1 nt in most records

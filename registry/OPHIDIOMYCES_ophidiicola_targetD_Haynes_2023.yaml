@@ -79,7 +79,11 @@ source:
     with relatives could not be measured here. SCOPE: needs_review is set because this is a panel member used as a species
     marker on this curator''s reading, and a maintainer may prefer to drop the file.'
 needs_review:
-- ABSENT_FROM_IIA_ASSEMBLY_PRESENT_IN_SRA_PER_PAPER
-- PANEL_MEMBER_USED_AS_SPECIES_MARKER_ON_CURATOR_READING_OF_TABLE_1
-- PROBE_REPORTER_QUENCHER_NOT_STATED
-- SPECIFICITY_UNTESTED_NO_RELATIVE_GENOMES_IN_GENBANK
+- flag: retrieval_scope_incomplete
+  note: the target is absent from the IIa assembly and present in SRA per the paper
+- flag: pairing_is_curator_reading
+  note: a panel member used as a species marker, on the curator's reading of the source's Table 1
+- flag: chemistry_detail_missing
+  note: the source states neither reporter nor quencher
+- flag: thin_evidence
+  note: 'specificity is untestable: no relative genomes in GenBank'

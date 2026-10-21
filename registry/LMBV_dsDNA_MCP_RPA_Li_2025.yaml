@@ -72,4 +72,5 @@ source:
     all four oligos read exact against the paper''s own open-access full text, which was recovered from Europe PMC and saved
     as papers/10.3389_fmicb.2025.1599006.txt.'
 needs_review:
-- CHEMISTRY_IS_RPA_NOT_PCR
+- flag: not_screenable
+  note: the chemistry is RPA; the penalties are calibrated on PCR

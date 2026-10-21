@@ -37,6 +37,8 @@ source:
   notes: null
   notes_curator: 'CHECKED against van Kuppeveld et al. 1992 on 2026-10-05 (doi:10.1128/aem.58.8.2606-2615.1992, verified against Crossref: van Kuppeveld, van der Logt, Angulo, van Zoest, Quint, Niesters). The id''s ''Van'' is van Kuppeveld; the citation had no author recorded and now does.\nGPO-1FMod is a ONE-BASE modification of the paper''s GPO-1, now pinned down exactly. The paper prints GPO-1 as ACTCCTACGGGAGGCAGCAGTA at 16S positions 338-359; the stored sequence is ACTYCTACGGGAGGCAGCAGTA, differing only at position 4, C -> Y. That broadens a fixed C to C/T, so it is a deliberate degeneracy widening consistent with the ''Mod'' in the oligo name, not a transcription slip. The published sequence is NOT substituted in, because the modified oligo is what the lab actually runs; oligos_designed_here is False because the modification is the lab''s and only the backbone is van Kuppeveld''s.\nMycoRev1 (GCGRCTGCTGGCACATAGTTWG) is NOT in this paper - the checker found no listed oligo within four edits, and the paper''s own reverse primers are GPO-2, MGSO, UUSO and the Mseq set, none of which it resembles. So this pair is a composite: a modified van Kuppeveld forward with a reverse primer from somewhere the source spreadsheet does not name. Flagged.'
 needs_review:
-- DO_NOT_USE
-- MODIFICATION_CHARACTERISED_C4Y
-- REVERSE_PRIMER_NOT_IN_CITED_PAPER
+- flag: do_not_use
+- flag: oligos_modified
+  note: 'the modification is characterised: C4Y'
+- flag: oligos_not_in_cited_paper
+  note: the reverse primer is not in the cited paper

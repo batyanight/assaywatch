@@ -87,5 +87,7 @@ source:
     H7Nx taxa only. Records with no subtype node or no N type in the strain name are not retrieved. The paper''s supplement
     (Tables S1-S7) is not in the PDF. The H5 and NP assays from the same paper are separate entries.'
 needs_review:
-- H7N9_FORWARD_PRIMER_2_MISMATCHES_87_OF_100_FAIL
-- H7_SUBTYPE_TAXID_QUERY_MISSES_UNTYPED_RECORDS
+- flag: primer_site_polymorphic
+  note: the forward primer carries 2 mismatches against H7N9; 87 of 100 records fail
+- flag: retrieval_scope_incomplete
+  note: the H7 subtype taxid query misses untyped records

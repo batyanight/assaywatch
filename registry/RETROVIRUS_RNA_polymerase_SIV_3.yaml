@@ -41,6 +41,4 @@ source:
     search on the forward sequence, which returned Takehisa 2009 and Van Heuverswyn 2010; confirmed against the local PDF
     rather than taken from the search. doi_verified stays false until scripts/resolve_citations.py approves it.
 needs_review:
-- CROSS_REACTIVE
-- DOI_MISSING
-- NO_YEAR
+- flag: cross_reactive

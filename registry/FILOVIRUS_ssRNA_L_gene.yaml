@@ -65,4 +65,5 @@ source:
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Zhai, J.
     et al (2007). AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,826 of 3,837 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-007, prints ~600 bp; the measurement is what is entered.'
 needs_review:
-- MULTIPLE_PRIMERS_IN_BLOCK
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

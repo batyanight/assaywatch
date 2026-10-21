@@ -58,4 +58,5 @@ source:
     base and 1 at the forward primer''s. These are counts of calls, not a coverage statistic, and the failing records were
     not examined one by one. SCOPE: single species.'
 needs_review:
-- TAIL_LENGTHS_FROM_PAPER_UNDERLINE
+- flag: oligos_read_from_figure
+  note: tail boundaries read from the paper's underlining

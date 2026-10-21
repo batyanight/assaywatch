@@ -42,4 +42,4 @@ source:
     protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
     Vazquez-Moron, S. et al (2006).'
 needs_review:
-- UNTESTED
+- flag: not_validated

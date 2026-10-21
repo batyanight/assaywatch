@@ -77,4 +77,4 @@ source:
     NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_ALTERNATES flag was for, and the flag is retired with it.
     MULTIPLE_PRIMERS_IN_BLOCK goes too: the block held two complete pairs, and each now has its own entry.'
 needs_review:
-- MODIFIED_IN_HOUSE
+- flag: oligos_modified

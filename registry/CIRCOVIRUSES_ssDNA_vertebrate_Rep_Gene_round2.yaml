@@ -47,4 +47,4 @@ source:
     so scoping changes nothing and is not worth an allow-list that would also have to re-admit the 434 unclassified Circoviridae
     records (bat, rodent, fur seal) that are vertebrate circoviruses. Revisit if Cyclovirus deposits become evaluable in numbers.'
 needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: orientation_inferred

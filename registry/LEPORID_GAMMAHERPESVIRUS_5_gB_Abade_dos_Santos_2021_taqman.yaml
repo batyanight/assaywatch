@@ -65,4 +65,4 @@ source:
     LeHV-5-gB_P lies on the forward strand between the primers at 218-247 (0 mismatches) on all 5 records; assaywatch.screen
     finds the probe in 5 of 5 products. Texas Red / BHQ1 as printed in Table 1. Calls: 5 detect.'
 needs_review:
-- SHARED_PRIMERS_WITH_SIBLING_ENTRY
+- flag: shares_oligos_with_sibling

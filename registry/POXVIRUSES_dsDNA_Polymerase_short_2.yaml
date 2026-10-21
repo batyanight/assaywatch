@@ -69,6 +69,7 @@ source:
     attribution is well supported - Vila names McAloose per primer set, and McAloose is a WCS paper with T. Seimon, the TS
     of the primer names, among its authors - but it is second-hand, and the flag makes that visible rather than implied.'
 needs_review:
-- MODIFIED_IN_HOUSE
-- MULTIPLE_PRIMERS_IN_BLOCK
-- SEQUENCES_READ_FROM_A_CITING_PAPER_NOT_THE_SOURCE
+- flag: oligos_modified
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair
+- flag: oligos_from_secondary_source

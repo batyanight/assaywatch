@@ -42,4 +42,4 @@ source:
     error. Circovirus records, including AF086834, read GTGTTCAC... (one T fewer): the extra base is in the
     primer as designed, which may explain the failure noted for finch circovirus.'
 needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: orientation_inferred

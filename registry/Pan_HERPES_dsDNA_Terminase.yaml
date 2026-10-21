@@ -54,5 +54,5 @@ source:
     pattern already recorded for Atkins/PREDICT and Lan/Quan. Resolve by reading the PDF''s primer table and re-citing; do
     not change the sequences, which produce real products.'
 needs_review:
-- OLIGOS_ABSENT_FROM_CITED_PAPER
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: oligos_not_in_cited_paper
+- flag: orientation_inferred

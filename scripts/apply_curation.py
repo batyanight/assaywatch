@@ -23,9 +23,14 @@ from __future__ import annotations
 import argparse
 import copy
 import re
+import sys
 from pathlib import Path
 
 import yaml
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from assaywatch.review import ReviewFlag  # noqa: E402
 
 
 def deep_merge(base: dict, override: dict) -> dict:
@@ -107,19 +112,21 @@ def main() -> None:
 
         doc.setdefault("citation", {}).setdefault("doi_verified", False)
 
-        # Recompute the review flags against the curated state.
-        flags = set(doc.get("needs_review") or [])
-        if doc["citation"].get("design_year"):
-            flags.discard("NO_YEAR")
+        # Recompute the review flags against the curated state. Only one flag
+        # can be settled by curation: an override that supplies the oligos
+        # supplies their orientation too, so the parser's positional guess is
+        # no longer what the entry rests on. Nothing is *added* here, because
+        # the flags this used to add (DOI_MISSING, DOI_UNVERIFIED, NO_YEAR,
+        # TAXID_MISSING) only restated fields on the same document and went
+        # stale as soon as the field was filled; they are derived now, in
+        # scripts/materials_needed.py. See assaywatch.review.
         if "oligos" in assays.get(doc["id"], {}):
-            flags.discard("ORIENTATION_INFERRED_BY_POSITION")
-        if not doc["citation"].get("doi"):
-            flags.add("DOI_MISSING")
-        elif not doc["citation"].get("doi_verified"):
-            flags.add("DOI_UNVERIFIED")
-        if not doc["target"].get("taxid"):
-            flags.add("TAXID_MISSING")
-        doc["needs_review"] = sorted(flags) or None
+            items = [
+                i
+                for i in (doc.get("needs_review") or [])
+                if i.get("flag") != ReviewFlag.orientation_inferred.value
+            ]
+            doc["needs_review"] = items or None
 
         (args.out / path.name).write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=120))
 

@@ -49,6 +49,5 @@ source:
     doi_verified stays false until scripts/resolve_citations.py approves it.'
   notes: null
 needs_review:
-- DOI_MISSING
-- NESTED_FAMILY_FROM_GEOMETRY
-- NO_YEAR
+- flag: nested_protocol
+  note: the family link was declared from measured primer geometry, not from the source

@@ -36,6 +36,4 @@ source:
   nested_round: round1
   notes: null
 needs_review:
-- DOI_MISSING
-- NO_YEAR
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: orientation_inferred

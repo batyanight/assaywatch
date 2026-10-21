@@ -37,7 +37,10 @@ on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
   `rg -l 'Canine distemper' registry/`) or run the validator; never open them in bulk.
 - `docs/*.tsv` (master sheet, lab leads, validation cases): see columns with
   `mlr --itsv --opprint head -n 3 FILE`, then filter or count with `mlr`.
-- `docs/papers-index.cache.json`, `docs/taxa-cache.json`: caches; query with `jq`.
+- `docs/papers-index.cache.json`, `docs/taxon-records.cache.json`,
+  `docs/taxa-cache.json`: caches; query with `jq`. The last two are different
+  things and must not be merged: `taxa-cache.json` is the lineage analysis's
+  taxid -> name map (`config.yaml` `lineage.taxa_cache`).
 - `papers/*.pdf`: locate the oligo table with
   `pdftotext FILE.pdf - | rg -n -i 'primer|probe|sequence'` before reading pages.
 - `config.yaml` is long and heavily commented; read only the section for the

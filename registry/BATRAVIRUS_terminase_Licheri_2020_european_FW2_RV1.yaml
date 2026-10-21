@@ -68,4 +68,4 @@ source:
     BY DESIGN: the European protocol was built for RaHV-3 and BfHV-1 and the paper built the panbatrachovirus protocol because
     it misses the American RaHV-1/2. Flagged so a low genus-level share is not read as drift.'
 needs_review:
-- SCOPE_NARROWER_THAN_TAXID
+- flag: scope_narrower_than_taxid

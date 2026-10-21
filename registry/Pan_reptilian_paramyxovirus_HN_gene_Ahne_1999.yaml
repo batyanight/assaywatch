@@ -39,4 +39,5 @@ source:
     (external) and Pan_reptilian_paramyxovirus_L_Ahne_1999_2 (inner). AMPLICON_BP: 679 bp from the paper''s Table 1 position
     data (8136-7458+1=679); needs verification against GenBank ferlavirus HN sequences.'
 needs_review:
-- AMPLICON_BP_FROM_PAPER_POSITIONS_NOT_MEASURED
+- flag: amplicon_measured_not_published
+  note: the size is computed from the paper's stated positions, not measured from records

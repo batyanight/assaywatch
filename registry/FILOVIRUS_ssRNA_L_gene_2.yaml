@@ -52,4 +52,4 @@ source:
     24) and MOD-RVS of 8,192 (8 of 23), so each cocktail member is a small fraction of its molecules and the pair is a different
     reagent from the cocktail, not a repackaging of it: the two entries are separate assays. AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,528 of 3,539 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-008, prints ~600 bp; the measurement is what is entered.'
 needs_review:
-- MODIFIED_IN_HOUSE
+- flag: oligos_modified

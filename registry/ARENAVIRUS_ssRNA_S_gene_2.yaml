@@ -65,6 +65,7 @@ source:
     So the verifier has now independently corroborated that flag. ARS3V''s 3'' difference is NOT explained that way and needs
     an eye on the PDF table. Both left unchanged.'
 needs_review:
-- SEQUENCE_DIFFERS_FROM_PAPER
-- MODIFIED_IN_HOUSE
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: oligos_not_in_cited_paper
+  note: a sequence differs from the cited paper's
+- flag: oligos_modified
+- flag: orientation_inferred

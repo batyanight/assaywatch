@@ -54,4 +54,5 @@ source:
     Only 23 of 78 records carry the amplicon, so this is a small sample and no coverage statistic is claimed. SCOPE: single
     species.'
 needs_review:
-- TAIL_LENGTHS_FROM_PAPER_UNDERLINE
+- flag: oligos_read_from_figure
+  note: tail boundaries read from the paper's underlining

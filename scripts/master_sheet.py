@@ -9,7 +9,7 @@ Writes `docs/assay-master-sheet.tsv` (the sheet) and `docs/assay-master-sheet.md
 
     registry/*.yaml                         ids, oligos, scope, parameters
     docs/papers-index.cache.json            Crossref: author, year, journal, title
-    docs/taxa-cache.json                    NCBI: scientific name, common name, rank
+    docs/taxon-records.cache.json           NCBI: scientific name, common name, rank
     results/oligo-verification-*.tsv        whether each oligo was found in its paper
 
 Nothing is filled in from memory. In particular **common names are taken from
@@ -146,7 +146,9 @@ COLS = [
     "predict_protocol",
     "nested_round",
     "sequence_verification",
-    "needs_review",
+    "review_flags",
+    "review_open",
+    "review_notes",
 ]
 
 
@@ -154,7 +156,15 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--registry", type=Path, default=ROOT / "registry")
     ap.add_argument("--papers-cache", type=Path, default=ROOT / "docs" / "papers-index.cache.json")
-    ap.add_argument("--taxa-cache", type=Path, default=ROOT / "docs" / "taxa-cache.json")
+    # NOT docs/taxa-cache.json. That file is the lineage analysis's
+    # taxid -> name mapping, named in config.yaml at `lineage.taxa_cache`, and
+    # the two formats are incompatible: this script keys a full NCBI record by
+    # taxid string, lineage.load_taxa_cache reads a `taxa` sub-object of
+    # hand-entered names. They shared one path until 2026-10-21, and it had
+    # already cost data once: commit 780df17 wrote the lineage stub over 247
+    # cached taxon records, and this script's next run would have been even
+    # money on which shape survived.
+    ap.add_argument("--taxa-cache", type=Path, default=ROOT / "docs" / "taxon-records.cache.json")
     ap.add_argument(
         "--verification", type=Path, default=ROOT / "results" / "oligo-verification-2026-10-05.tsv"
     )
@@ -253,7 +263,11 @@ def main(argv: list[str] | None = None) -> int:
                 "predict_protocol": a.source.predict_protocol or "",
                 "nested_round": a.source.nested_round or "",
                 "sequence_verification": verif.get(a.id, ""),
-                "needs_review": "; ".join(a.needs_review or []),
+                "review_flags": " ".join(i.flag.value for i in a.needs_review or []),
+                "review_open": " ".join(i.flag.value for i in a.open_review),
+                "review_notes": " | ".join(
+                    f"{i.flag.value}: {i.note}" for i in a.needs_review or [] if i.note
+                ),
             }
         )
 
@@ -266,7 +280,8 @@ def main(argv: list[str] | None = None) -> int:
     n_common = sum(1 for r in rows if r["taxon_common_name"])
     n_diff = sum(1 for r in rows if r["taxon_name_differs"])
     n_scoped = sum(1 for r in rows if r["scope_query"])
-    n_flag = sum(1 for r in rows if r["needs_review"])
+    n_flag = sum(1 for r in rows if r["review_flags"])
+    n_open = sum(1 for r in rows if r["review_open"])
     md = [
         "# Assay master sheet",
         "",
@@ -285,7 +300,7 @@ def main(argv: list[str] | None = None) -> int:
         "|---|---|",
         "| `registry/*.yaml` | ids, gene, taxid, scope, chemistry, amplicon, oligos, flags |",
         "| Crossref (`papers-index.cache.json`) | year, first author, journal, title |",
-        "| NCBI Taxonomy (`taxa-cache.json`) | scientific name, common name, rank |",
+        "| NCBI Taxonomy (`taxon-records.cache.json`) | scientific name, common name, rank |",
         "| last verification run | `sequence_verification` |",
         "| computed | `degeneracy_fold`, `degeneracy_tier`, `retrieval_group` |",
         "",
@@ -318,15 +333,20 @@ def main(argv: list[str] | None = None) -> int:
         "not in a listed oligo, `absent` means not found, and `no-full-text`/`no-doi` mean it could "
         "not be checked at all. Blank means the entry was added after the last run.",
         "",
-        f"`needs_review` is non-empty for {n_flag} of {len(rows)} assays. A flag is a known, "
-        "recorded caveat, not a defect to hide.",
+        f"`review_flags` is non-empty for {n_flag} of {len(rows)} assays, and `review_open` for "
+        f"{n_open}. Both draw on one controlled vocabulary (`assaywatch/review.py`), and the split is "
+        "the point: a flag in `review_flags` alone is a known, recorded caveat - nested, modified "
+        "in house, amplicon measured rather than published - which is disclosed and settled and no bar "
+        "to `status: active`. A flag that also appears in `review_open` is a question still waiting on a "
+        "human, and it is what holds an entry at `draft`. `review_notes` carries the one-line specifics "
+        "where the flag alone does not say enough; the long record stays in `source.notes_curator`.",
         "",
     ]
     args.md.write_text("\n".join(md))
     print(f"wrote {args.out} ({len(rows)} rows) and {args.md}")
     print(
         f"  {n_common} taxa have an NCBI common name; {n_diff} rows have a renamed taxon; "
-        f"{n_scoped} are scope-restricted; {n_flag} carry review flags"
+        f"{n_scoped} are scope-restricted; {n_flag} carry review flags, {n_open} an open question"
     )
     return 0
 

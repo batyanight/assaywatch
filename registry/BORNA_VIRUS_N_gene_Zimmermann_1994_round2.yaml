@@ -39,5 +39,7 @@ source:
     Forward/reverse assignment follows the sense/antisense labels in the paper. AMPLICON_BP: not set; nested product size
     must be measured against GenBank records (it is internal to the 752 bp external product).'
 needs_review:
-- AMPLICON_BP_NOT_SET
-- ORIENTATION_INFERRED_FROM_PAPER_LABELS
+- flag: amplicon_size_unresolved
+  note: no product size is declared
+- flag: orientation_inferred
+  note: inferred from the paper's labels

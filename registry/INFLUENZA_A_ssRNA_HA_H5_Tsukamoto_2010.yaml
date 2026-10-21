@@ -82,5 +82,7 @@ source:
     subtype node, or H5 sequences whose names carry no N type, are not retrieved by this query. The NP and H7 assays from
     the same paper are separate entries.'
 needs_review:
-- AMPLICON_MULTIMODAL_261_258_249_PAPER_SAYS_249_CLEAVAGE_SITE_INDELS
-- H5_SUBTYPE_TAXID_QUERY_MISSES_UNTYPED_RECORDS
+- flag: amplicon_multimodal
+  note: modes at 261, 258 and 249 bp from cleavage-site indels; the paper says 249
+- flag: retrieval_scope_incomplete
+  note: the H5 subtype taxid query misses untyped records

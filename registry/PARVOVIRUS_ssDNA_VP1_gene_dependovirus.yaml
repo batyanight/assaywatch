@@ -55,4 +55,4 @@ source:
     in docs/2026-10-19-orthopox-ati-vaccinia.md: patents are detected MORE than natural records here, 84.3 vs 45.3 percent
     on the exact Gao pair.'
 needs_review:
-- MODIFIED_IN_HOUSE
+- flag: oligos_modified

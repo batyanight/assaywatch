@@ -57,5 +57,4 @@ source:
     TINC 18S sequence cited to measure one from. taxid stays null and TAXID_MISSING stays: the paper calls the organism an
     unclassified intranuclear coccidian and deposits no accession, so there is nothing to resolve against NCBI. doi_verified
     stays false until scripts/resolve_citations.py approves it.'
-needs_review:
-- TAXID_MISSING
+needs_review: null

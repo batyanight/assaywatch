@@ -5,12 +5,15 @@ citation	CDV_H_gene_Mueller_2011_3		a DOI or the paper for: Müller 2011 CDV H-g
 citation	CDV_H_gene_Mueller_2011_4		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
 citation	HANTAVIRUS_ssRNA_S_segment_2		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT Protocols
 citation	Nipah_N_gene		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT protocol
-decision	Entamoeba_18S_small_subunit_SSU_2014	10.1099/jmm.0.061820-0	a keep-or-delete decision; the entry is flagged DO_NOT_USE	registry hygiene	
-decision	POXVIRUSES_dsDNA_Polymerase_short		a keep-or-delete decision; the entry is flagged DO_NOT_USE	registry hygiene	
-decision	Pan_mycoplasma_16S_All_Van_1992	10.1128/aem.58.8.2606-2615.1992	a keep-or-delete decision; the entry is flagged DO_NOT_USE	registry hygiene	
+decision	Entamoeba_18S_small_subunit_SSU_2014	10.1099/jmm.0.061820-0	a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
+decision	POXVIRUSES_dsDNA_Polymerase_short		a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
+decision	Pan_mycoplasma_16S_All_Van_1992	10.1128/aem.58.8.2606-2615.1992	a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
+figure	CALICIVIRUS_ssRNA_Helicase_Reid_1999	10.1016/S0166-0934(99)00088-9	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021	10.1111/1755-0998.13299	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021	10.1111/1755-0998.13299	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	FRANCISELLA_tularensis_tul4_Long_1993	10.1128/jcm.31.1.152-154.1993	a legible copy of the figure the sequences were read off	sequence confidence	
+figure	NOSEMA_apis_SSU_Martin-Hernandez_2007	10.1128/AEM.00270-07	a legible copy of the figure the sequences were read off	sequence confidence	
+figure	NOSEMA_ceranae_SSU_Martin-Hernandez_2007	10.1128/AEM.00270-07	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
@@ -58,3 +61,20 @@ supplement	ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021	10.3390/v13071358	the suppl
 supplement	ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021	10.3390/v13071358	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3390_v13071358.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV	10.1038/nature08200	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1038_nature08200.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV_Keele_2009	10.1038/nature08200	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1038_nature08200.pdf
+taxid	Tortoise_intranuclear_coccidia_18SrDNA	10.1016/j.vetpar.2012.11.029	an NCBI taxid for tortoise intranuclear coccidian (TINC, unclassified Eimeriorina)	retrieval: without one the assay is never screened	
+year	CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	10.3201/eid1608.100208	the design year, for the baseline the drift test needs	per-year drift statistics	
+year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	Entamoeba_18S_small_subunit_SSU		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	Feline_Morbillivirus_L_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	the design year, for the baseline the drift test needs	per-year drift statistics	
+year	HANTAVIRUS_ssRNA_S_segment_2		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	HANTAVIRUS_ssRNA_S_segment_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	HANTAVIRUS_ssRNA_S_segment_round2_2		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	LEPTOSPIROSIS_Flagillar_filiment_Prote	10.3201/eid1909.130474	the design year, for the baseline the drift test needs	per-year drift statistics	
+year	Nipah_N_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	PAPILLOMAVIRUS_dsDNA_L1_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	PARVOVIRUS_ssDNA_VP1_gene_pan_parvo		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	POLYOMAVIRUS_dsDNA_VP1		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	POXVIRUSES_dsDNA_Polymerase_short		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	RETROVIRUS_RNA_polymerase_SIV_3	10.1128/JVI.02311-08	the design year, for the baseline the drift test needs	per-year drift statistics	

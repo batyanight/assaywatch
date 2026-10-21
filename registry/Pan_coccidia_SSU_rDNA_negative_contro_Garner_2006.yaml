@@ -39,4 +39,4 @@ source:
   - Crossreacts with reptile host rRNA, Eimeria, atoxoplasma, toxoplasma, and sarcocyst and did not pick up cryptosporidium,
     negative control has not worked so far, UC4
 needs_review:
-- CROSS_REACTIVE
+- flag: cross_reactive

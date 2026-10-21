@@ -66,4 +66,5 @@ source:
     same reading applied to the Nosema/Klee re-citation. The RECITE_AFTER_CROSSREF_CHECK flag is cleared; a flag recording
     the composite provenance remains.'
 needs_review:
-- CITED_PAPER_IS_WHERE_THE_OLIGOS_ARE_PRINTED_NOT_PROVEN_FIRST_PUBLICATION
+- flag: citation_is_indirect
+  note: the cited paper is where these oligos are printed, not proven to be their first publication

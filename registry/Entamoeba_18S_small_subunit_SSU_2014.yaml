@@ -42,7 +42,8 @@ source:
   notes: null
   notes_curator: 'Spreadsheet: DO NOT USE, cross-reactive with host DNA; GEI18SR row 18 is the wrong strand and needs reverse-complement. | Oligo annotations moved from name field: GEI18SF (forward): Mod; GEI18SR (reverse): corrected Mod; GEI18SR (alternate[0]): incorrect, need reverse complement'
 needs_review:
-- CROSS_REACTIVE
-- DO_NOT_USE
-- MODIFIED_IN_HOUSE
-- MULTIPLE_PRIMERS_IN_BLOCK
+- flag: cross_reactive
+- flag: do_not_use
+- flag: oligos_modified
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

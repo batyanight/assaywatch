@@ -42,5 +42,6 @@ source:
     and with terminal_mismatch_fails: true it would also change this assay''s calls. Not changed: this needs the PDF read
     by eye, and if the paper is right the entry''s calls are currently measuring a primer nobody used.'
 needs_review:
-- SEQUENCE_DIFFERS_FROM_PAPER
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: oligos_not_in_cited_paper
+  note: a sequence differs from the cited paper's
+- flag: orientation_inferred

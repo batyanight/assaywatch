@@ -47,4 +47,5 @@ source:
     in just 4 of the 2,670. The outer pair is in excellent condition: the forward primer is exact in 2,668 of 2,670 and the
     reverse in 2,431.'
 needs_review:
-- AMPLICON_BIMODAL_556_AND_553
+- flag: amplicon_multimodal
+  note: 'two modes: 556 and 553 bp'

@@ -69,4 +69,5 @@ source:
     assay by design (SNPs conserved within V. coralliilyticus), reported by the paper to miss one Caribbean strain (C2) and
     to give late non-specific Ct values with five other Vibrio and a Shewanella; cross-reaction was not re-tested here.'
 needs_review:
-- PROBE_SITE_2_MISMATCHES_IN_14_OF_54_GENOMES
+- flag: primer_site_polymorphic
+  note: the probe site carries 2 mismatches in 14 of 54 genomes

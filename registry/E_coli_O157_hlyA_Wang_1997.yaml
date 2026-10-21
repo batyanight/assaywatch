@@ -45,4 +45,4 @@ source:
     the sequences are confirmed through a citing paper's table rather than against Wang's own; oligos_designed_here left unset,
     because a 13-species compilation may have taken some primer sets from earlier papers.
 needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: orientation_inferred

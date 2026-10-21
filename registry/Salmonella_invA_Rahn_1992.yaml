@@ -55,5 +55,6 @@ source:
     that "papers set sequences in capitals"; Rahn sets both primers entirely in lower case, so it extracts 0 oligos from this
     text even though both sequences are present in it.'
 needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
-- OLIGOS_TRUNCATED_VS_PAPER
+- flag: orientation_inferred
+- flag: oligos_not_in_cited_paper
+  note: the oligos are shorter than the paper's

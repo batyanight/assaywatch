@@ -41,4 +41,4 @@ source:
     with the lineage breakdown recorded instead: SIVgor 8/8 detected, SIVcpz 15/30, everything else 5/181.
     See docs/2026-10-04-assay-investigations.md.'
 needs_review:
-- AMPLICON_BP_MEASURED_NOT_PUBLISHED
+- flag: amplicon_measured_not_published

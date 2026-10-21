@@ -280,7 +280,44 @@
     effect. Same trap as S9's facing-strand test. **When a refactor extracts a gate, test the
     effect through the caller, not the predicate.**
 
-  **Still pending from the audit:** S7 controlled `needs_review` vocabulary, R1 container/lockfile.
+  - **S7 DONE 2026-10-21: `needs_review` is a controlled vocabulary.** `assaywatch/review.py`
+    holds 31 flags with their reasoning; the field is now `list[{flag, note}]`, and
+    `docs/needs-review-migration.tsv` records all 243 old values with what each became.
+    Measured: **98 distinct strings → 30 in use**, 69 singletons → 1, 243 instances → 198 items.
+    Two findings came out of doing it, and both changed the design:
+    - **Four flags restated a field on the same entry, and 6 of their 39 instances were already
+      wrong.** Four entries carried `DOI_MISSING` beside a verified DOI; two carried `NO_YEAR`
+      beside `design_year: 2011`. `resolve_citations.py` cleared those flags on its own path and
+      `apply_curation.py` on another, and a flag has to be cleared on *every* path that fills the
+      field. `DOI_MISSING`, `DOI_UNVERIFIED`, `NO_YEAR`, `TAXID_MISSING` are gone;
+      `materials_needed.py` derives the gap from the field. **A stored restatement of a field
+      cannot be kept in step with the field.**
+    - **`status: active` refused any non-empty `needs_review`**, so `nested_protocol` and
+      `amplicon_measured_not_published` — permanent properties of sound entries — blocked
+      activation forever: **146 of 208 entries were unactivatable, against 21 that carry a real
+      open question.** The vocabulary splits open questions from recorded caveats (`review.OPEN`)
+      and the gate now refuses only the former. This loosens an `active` precondition; it is a
+      maintainer-visible change, reverse it by restoring `if self.needs_review:` in
+      `active_requires_provenance`.
+    - `curation_decision_pending` (the catch-all, note required) is **unused**: all 198 items fell
+      into a named flag, which is the evidence the 30 categories fit the registry. A test caps it
+      at 5 so that stays true.
+    - New: `tests/test_review.py` (13) and `tests/test_materials_needed.py` (12, the first tests
+      that script has ever had — deleting the derivation that replaces the dropped flags was
+      invisible before). 16 mutants checked, all caught. `openpyxl` in `parse_wcs_primers.py` is
+      now a lazy import, so its pure functions are testable without the `import` extra.
+    - `scripts/removed_assays/` is **not** migrated, by decision; its new README says why.
+  - **Found while doing S7, unrelated to it: `docs/taxa-cache.json` had two incompatible formats
+    and two writers.** `lineage.load_taxa_cache` reads a `taxa` sub-object of hand-entered names
+    (`config.yaml` `lineage.taxa_cache`); `master_sheet.py` keyed a full NCBI record by taxid
+    string in the same path. Whichever ran last won, and it had already cost data: **commit
+    `780df17` wrote the lineage stub over 247 cached taxon records**, and the next
+    `master_sheet.py` run would have written them back over the stub. master_sheet now owns
+    `docs/taxon-records.cache.json` (296 taxa, refetched). `tests/test_config_keys.py` guards the
+    *shapes* rather than the paths, so renaming a default back cannot reintroduce it; both
+    directions were checked with a mutant.
+
+  **Still pending from the audit:** R1 container/lockfile.
   Then **M2** nearest-neighbour ΔG as its own project. M1 remains HELD (see above).
   **A full run is owed** and will now also exercise the S1 guard and the R2 sidecar end to end;
   nothing has verified the Snakefile's provenance wiring on a real run yet (the dry run parses,

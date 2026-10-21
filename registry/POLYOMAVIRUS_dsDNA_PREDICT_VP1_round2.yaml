@@ -37,5 +37,5 @@ source:
   notes: null
   notes_curator: 'PREDICT panel protocol P-040 (VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Johne, R (2005). | Oligo annotations moved from name field: VP1-2f (forward): VP12F-JO2F; VP1-2r (reverse): VP12R-JO2R'
 needs_review:
-- AMPLICON_BP_MEASURED_NOT_PUBLISHED
-- NESTED
+- flag: amplicon_measured_not_published
+- flag: nested_protocol

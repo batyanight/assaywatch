@@ -148,12 +148,12 @@ def main() -> None:
                 print(f"TAX {doc['id'][:55]:<55} {query!r} -> {len(ids)} hits {ids[:5]} (left null)")
 
         if changed and not args.dry_run:
-            flags = set(doc.get("needs_review") or [])
-            if cit.get("doi_verified"):
-                flags.discard("DOI_UNVERIFIED")
-            if tgt.get("taxid"):
-                flags.discard("TAXID_MISSING")
-            doc["needs_review"] = sorted(flags) or None
+            # `needs_review` is not touched. It used to discard DOI_UNVERIFIED
+            # and TAXID_MISSING here, which is how four entries ended up
+            # carrying DOI_MISSING beside a verified DOI: a flag that restates
+            # a field has to be cleared by hand on every path that fills the
+            # field, and one path always gets missed. Those flags are gone and
+            # consumers derive them from the fields. See assaywatch.review.
             path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=120))
 
 

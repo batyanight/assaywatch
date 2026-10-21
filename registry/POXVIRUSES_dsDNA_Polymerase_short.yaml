@@ -55,8 +55,7 @@ source:
   notes: null
   notes_curator: 'Spreadsheet: first TSPoxPol set DID NOT WORK WELL; the shorter second set (next block) is the working version. | Oligo annotations moved from name field: PoxPolF2 (alternate[0]): parapox group; PoxPolF3 (alternate[1]): cetacean/goat  group; PoxPolF4 (alternate[2]): avi group; PoxPolR2 (alternate[3]): parapox group'
 needs_review:
-- DOI_MISSING
-- DO_NOT_USE
-- MODIFIED_IN_HOUSE
-- MULTIPLE_PRIMERS_IN_BLOCK
-- NO_YEAR
+- flag: do_not_use
+- flag: oligos_modified
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

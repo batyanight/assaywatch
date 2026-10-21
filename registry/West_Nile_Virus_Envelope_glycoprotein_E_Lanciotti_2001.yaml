@@ -57,4 +57,4 @@ source:
     IS HEALTHY, worth recording beside the drift findings elsewhere today: the forward primer is exact in 5,190 of the 5,785
     and the reverse in 5,349, so this twenty-five-year-old assay still sits on the consensus of its target.'
 needs_review:
-- MODIFIED_IN_HOUSE
+- flag: oligos_modified

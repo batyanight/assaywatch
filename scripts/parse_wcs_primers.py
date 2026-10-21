@@ -31,12 +31,16 @@ from __future__ import annotations
 import argparse
 import csv
 import re
+import sys
 from collections import Counter
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 import yaml
-from openpyxl import load_workbook
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from assaywatch.review import ReviewFlag  # noqa: E402
 
 # --------------------------------------------------------------------------
 # Sequence cleaning
@@ -299,6 +303,47 @@ class Block:
 
 def flags_in(text: str) -> set[str]:
     return {k for k, rx in FLAG_PATTERNS.items() if rx.search(text)}
+
+
+# FLAG_PATTERNS keys name what a spreadsheet cell said; `needs_review` in the
+# registry takes a controlled vocabulary (assaywatch.review). The two are kept
+# apart on purpose: the parser's own candidate TSV also carries per-oligo marks
+# like NOT_AN_OLIGO_LENGTH that are observations about a row, not review flags.
+# This is the one place the former becomes the latter.
+CELL_MARK_TO_FLAG = {
+    "DO_NOT_USE": ReviewFlag.do_not_use,
+    "CROSS_REACTIVE": ReviewFlag.cross_reactive,
+    "UNTESTED": ReviewFlag.not_validated,
+    "MODIFIED_IN_HOUSE": ReviewFlag.oligos_modified,
+    "NESTED": ReviewFlag.nested_protocol,
+}
+
+
+def review_items(
+    marks: set[str], *, many_primers: bool, orientation_by_position: bool
+) -> list[dict[str, str]]:
+    """The draft's `needs_review` block, as the registry schema wants it.
+
+    `NO_YEAR` and the DOI/taxid marks the earlier version of this script added
+    are deliberately absent: they restated `citation.design_year`,
+    `citation.doi` and `target.taxid` on the same document, and stored
+    restatements of a field go stale when the field is filled in. Consumers
+    derive them (see scripts/materials_needed.py).
+    """
+    items: list[dict[str, str]] = []
+    for mark in sorted(marks):
+        if flag := CELL_MARK_TO_FLAG.get(mark):
+            items.append({"flag": flag.value})
+    if many_primers:
+        items.append(
+            {
+                "flag": ReviewFlag.pairing_is_curator_reading.value,
+                "note": "the spreadsheet block lists several primers without saying which pair",
+            }
+        )
+    if orientation_by_position:
+        items.append({"flag": ReviewFlag.orientation_inferred.value})
+    return items
 
 
 def parse_sheet(ws) -> list[Block]:
@@ -615,13 +660,11 @@ def block_to_yaml(b: Block, used_ids: Counter) -> dict | None:
         oligos["alternates"] = alternates
 
     amplicon_bp = next((o.amplicon_bp for o in b.oligos if o.amplicon_bp), None)
-    review = sorted(b.flags)
-    if len(fwd) > 1 or len(rev) > 1:
-        review.append("MULTIPLE_PRIMERS_IN_BLOCK")
-    if any(o.orientation_source == "position" for o in b.oligos):
-        review.append("ORIENTATION_INFERRED_BY_POSITION")
-    if not year:
-        review.append("NO_YEAR")
+    review = review_items(
+        b.flags,
+        many_primers=len(fwd) > 1 or len(rev) > 1,
+        orientation_by_position=any(o.orientation_source == "position" for o in b.oligos),
+    )
 
     return {
         "id": assay_id,
@@ -659,6 +702,12 @@ def main() -> None:
 
     out = args.out_dir
     (out / "registry_draft").mkdir(parents=True, exist_ok=True)
+
+    # Imported here, not at module level, for the same reason `requests` is in
+    # assaywatch.retrieve: everything in this file except reading the workbook
+    # is pure, and tests of those parts should not need an Excel reader. The
+    # dependency is the optional `import` extra.
+    from openpyxl import load_workbook
 
     ws = load_workbook(args.xlsx, read_only=True, data_only=True)[args.sheet]
     blocks = parse_sheet(ws)

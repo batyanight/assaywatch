@@ -57,8 +57,32 @@ source:
   nested_round: null             # round1 | round2 for a nested assay
   notes: null
   notes_curator: null            # anything a later reader needs to know
-needs_review: null               # flags for things you could not resolve
+needs_review: null               # see below; null when there is nothing to flag
 ```
+
+A flagged entry looks like this instead:
+
+```yaml
+needs_review:
+- flag: oligos_read_from_figure
+- flag: amplicon_disagrees_with_paper
+  note: measured 83 bp in 663 of 663 records; both citing papers say 87 bp
+```
+
+`flag` must be one of the values in `assaywatch/review.py`; the validator
+rejects anything else, and that module's docstring says why the field is a
+controlled vocabulary rather than free text. Pick the flag that a *filter* would
+ask for and put the entry's own specifics in `note`; one item per flag, so two
+findings about the same flag are one item with both in the note. If no flag
+fits, say what is pending under `curation_decision_pending` (which requires a
+note) rather than inventing a flag — and then the vocabulary is probably missing
+a category, which is worth raising.
+
+Four flags that existed before 2026-10-21 are deliberately absent: `DOI_MISSING`,
+`DOI_UNVERIFIED`, `NO_YEAR` and `TAXID_MISSING` only restated `citation.doi`,
+`citation.doi_verified`, `citation.design_year` and `target.taxid` on the same
+document. Do not re-add them in any form. Leave the field null and let the
+consumer ask the field.
 
 Three fields deserve care:
 
@@ -160,8 +184,11 @@ want searched.
 ## What makes an entry `active`
 
 `draft` is the default and means the entry is believed correct but unproven.
-`active` additionally requires `submitted_by`, an empty `needs_review`, and that
-the schema's own checks pass — the validator enforces this. In practice a
+`active` additionally requires `submitted_by`, no *open* review flag, and that
+the schema's own checks pass — the validator enforces this. A recorded caveat
+such as `nested_protocol` or `cross_reactive` is no bar: it is a permanent,
+disclosed property of a sound entry, and refusing those here is what kept 146 of
+208 entries permanently unactivatable before 2026-10-21. In practice a
 maintainer also wants the assay to have been screened against real records with
 a defensible result, and its orientation confirmed rather than inferred from the
 order of rows in a spreadsheet.

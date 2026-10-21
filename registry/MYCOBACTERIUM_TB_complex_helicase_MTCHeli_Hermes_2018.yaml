@@ -49,4 +49,5 @@ source:
 
     SCREENED 2026-10-07 (counted by call from results/2026-10-07/calls.tsv.gz): 313 records, of which 25 are gene-level GenBank records from this entry query helicase[Title] and 288 are complete-genome assemblies (GCA_ ids) cut to candidate loci by the asm group. Calls: 299 detect, 6 reduced, 8 fail. These are counts of calls, not a coverage statistic; the failing and non-amplifying records were not examined.'
 needs_review:
-- OLIGOS_FROM_UNCITABLE_SOURCE_ANONYMOUS_2017
+- flag: citation_unresolved
+  note: oligos come from an uncitable source (anonymous, 2017)

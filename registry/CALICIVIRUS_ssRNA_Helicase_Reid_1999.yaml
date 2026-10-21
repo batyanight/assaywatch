@@ -38,5 +38,7 @@ source:
     sequence is only 22 nt, so sequence may be incomplete — needs verification against the paper table. Expected amplicon
     ~357 bp per paper, but needs measurement.
 needs_review:
-- AMPLICON_BP_NOT_SET
-- SEQUENCE_LENGTH_DISCREPANCY_HEL1_OCR_22nt_VS_PAPER_25nt
+- flag: amplicon_size_unresolved
+  note: no product size is declared
+- flag: oligo_sequence_uncertain
+  note: HEL1 reads 22 nt by OCR against the paper's stated 25 nt

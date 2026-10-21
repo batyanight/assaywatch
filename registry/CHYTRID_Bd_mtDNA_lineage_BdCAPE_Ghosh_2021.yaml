@@ -79,5 +79,6 @@ source:
     to neither strand - which is why scripts/verify_oligos_against_paper.py reports no-oligos for all six and why the figure
     still has to be read by eye.'
 needs_review:
-- LINEAGE_SPECIFIC_BY_DESIGN
-- SEQUENCES_READ_FROM_FIGURE_IMAGE
+- flag: scope_narrower_than_taxid
+  note: lineage-specific by design
+- flag: oligos_read_from_figure

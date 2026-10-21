@@ -111,4 +111,4 @@ source:
     qRT-PCR primers and probes it uses to quantify virus stocks are cited to an earlier paper and are not printed in this
     one.'
 needs_review:
-- MULTIPLEX_POOL_AS_ONE_ASSAY
+- flag: pooled_as_one_assay

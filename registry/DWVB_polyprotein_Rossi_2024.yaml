@@ -69,5 +69,7 @@ source:
     a hint, not a verdict. The ''Varroa destructor virus 1'' records (txid232800, 118 records) are the older name for DWV-B
     and are not retrieved by the B node; flag VARIANT_SCOPE for the lead.'
 needs_review:
-- DESIGN_PROVENANCE_MIXED
-- VARIANT_SCOPE
+- flag: oligos_from_secondary_source
+  note: design provenance is mixed across the oligos in this entry
+- flag: scope_narrower_than_taxid
+  note: scoped to a variant, not the whole taxon

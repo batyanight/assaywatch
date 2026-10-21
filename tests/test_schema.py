@@ -5,7 +5,8 @@ import copy
 import pytest
 from pydantic import ValidationError
 
-from assaywatch.schema import Assay, Oligo
+from assaywatch.review import CAVEAT, OPEN, ReviewFlag
+from assaywatch.schema import Assay, Oligo, Status
 
 GOOD = {
     "id": "TEST_assay",
@@ -70,8 +71,101 @@ def test_active_requires_taxid_and_doi():
 
 
 def test_active_rejects_open_review_flags():
-    with pytest.raises(ValidationError, match="needs_review"):
-        Assay.model_validate(variant(needs_review=["DOI_UNVERIFIED"]))
+    with pytest.raises(ValidationError, match="open questions"):
+        Assay.model_validate(variant(needs_review=[{"flag": "do_not_use"}]))
+
+
+def test_active_accepts_a_recorded_caveat():
+    """A settled, disclosed caveat is not a defect and must not hold an entry at draft.
+
+    This is the half of the rule that the pre-2026-10-21 `needs_review` got
+    wrong: it refused any non-empty list, so `nested_protocol` - a permanent
+    property of a sound entry - blocked `active` forever.
+    """
+    a = Assay.model_validate(variant(needs_review=[{"flag": "nested_protocol"}]))
+    assert a.status is Status.active
+    assert [i.flag for i in a.needs_review] == [ReviewFlag.nested_protocol]
+    assert a.open_review == []
+
+
+def test_active_names_the_open_flag_and_not_the_caveat_beside_it():
+    """The message has to say which flag is blocking, or it sends a curator hunting."""
+    with pytest.raises(ValidationError) as e:
+        Assay.model_validate(
+            variant(
+                needs_review=[
+                    {"flag": "nested_protocol"},
+                    {"flag": "citation_unresolved", "note": "no citable source"},
+                ]
+            )
+        )
+    assert "citation_unresolved" in str(e.value)
+    assert "nested_protocol" not in str(e.value)
+
+
+def test_a_flag_outside_the_vocabulary_is_refused():
+    """The whole point of S7: the field can no longer absorb a new free string."""
+    with pytest.raises(ValidationError, match="flag"):
+        Assay.model_validate(variant(status="draft", needs_review=[{"flag": "DOI_UNVERIFIED"}]))
+    with pytest.raises(ValidationError, match="flag"):
+        Assay.model_validate(
+            variant(status="draft", needs_review=[{"flag": "SCOPE_HUMMINGBIRD_AVIPOX_CLADE_ONLY"}])
+        )
+
+
+def test_a_bare_string_is_refused():
+    """The old shape must fail loudly, not coerce into something plausible."""
+    with pytest.raises(ValidationError):
+        Assay.model_validate(variant(status="draft", needs_review=["nested_protocol"]))
+
+
+def test_an_unknown_key_in_a_review_item_is_refused():
+    with pytest.raises(ValidationError):
+        Assay.model_validate(
+            variant(status="draft", needs_review=[{"flag": "nested_protocol", "reason": "x"}])
+        )
+
+
+def test_curation_decision_pending_needs_a_note():
+    """A catch-all with no note answers nothing a filter would ask."""
+    with pytest.raises(ValidationError, match="requires a note"):
+        Assay.model_validate(variant(status="draft", needs_review=[{"flag": "curation_decision_pending"}]))
+    with pytest.raises(ValidationError, match="requires a note"):
+        Assay.model_validate(
+            variant(status="draft", needs_review=[{"flag": "curation_decision_pending", "note": "   "}])
+        )
+    ok = Assay.model_validate(
+        variant(
+            status="draft",
+            needs_review=[{"flag": "curation_decision_pending", "note": "whether to split by host"}],
+        )
+    )
+    assert ok.needs_review[0].note == "whether to split by host"
+
+
+def test_a_flag_may_not_repeat():
+    """Two items with one flag are two halves of one note, and break any count by flag."""
+    with pytest.raises(ValidationError, match="repeats cross_reactive"):
+        Assay.model_validate(
+            variant(
+                status="draft",
+                needs_review=[
+                    {"flag": "cross_reactive", "note": "detects PDV"},
+                    {"flag": "cross_reactive", "note": "detects PPRV"},
+                ],
+            )
+        )
+
+
+def test_every_flag_is_open_or_a_caveat_and_never_both():
+    """OPEN and CAVEAT partition the vocabulary; a flag in neither is silently inert."""
+    assert OPEN | CAVEAT == frozenset(ReviewFlag)
+    assert not OPEN & CAVEAT
+
+
+def test_a_note_is_optional_where_the_flag_is_the_whole_finding():
+    a = Assay.model_validate(variant(status="draft", needs_review=[{"flag": "cross_reactive"}]))
+    assert a.needs_review[0].note is None
 
 
 @pytest.mark.parametrize(

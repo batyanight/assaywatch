@@ -44,8 +44,7 @@ source:
     which independently corroborates this entry's gene. Flagged printed-not-proven-first-publication, the same treatment as
     Atkins/PREDICT and Lan/Quan. doi_verified stays false until scripts/resolve_citations.py approves it.
 needs_review:
-- CITED_PAPER_IS_WHERE_THE_OLIGOS_ARE_PRINTED_NOT_PROVEN_FIRST_PUBLICATION
-- DOI_MISSING
-- MODIFIED_IN_HOUSE
-- NO_YEAR
-- UNTESTED
+- flag: citation_is_indirect
+  note: the cited paper is where these oligos are printed, not proven to be their first publication
+- flag: oligos_modified
+- flag: not_validated

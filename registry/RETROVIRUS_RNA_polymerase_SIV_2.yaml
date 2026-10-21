@@ -42,4 +42,4 @@ source:
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley,
     J.P. et al (1998). AMPLICON MEASURED 2026-10-21: 789 bp, the modal product on 3,841 of 3,934 detected-or-reduced records in the 2026-10-20 calls (was 787). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-029, prints 785 bp; the measurement is what is entered. NESTED FAMILY DECLARED 2026-10-21: P-029 prints DR1/DR2 as round 1 and DR4/DR5 as round 2 of one protocol, and the positions agree: on all 3,703 records in the 2026-10-20 calls where both pairs give a product, the DR4/DR5 product lies inside the DR1/DR2 product (inset 503 bp at one end and 92 bp at the other on 3,596 of them).'
 needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: orientation_inferred

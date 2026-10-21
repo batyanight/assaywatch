@@ -45,4 +45,4 @@ source:
     on Aviadenovirus hepatitidis (3426530), fowl adenovirus, at 0 of 49 - out of Casas''s range and inside PREDICT''s. So
     the composite question decides one override and not the other.'
 needs_review:
-- CROSS_REACTIVE
+- flag: cross_reactive

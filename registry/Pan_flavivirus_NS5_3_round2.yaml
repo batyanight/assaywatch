@@ -57,4 +57,5 @@ source:
     the largest single block of never-detected records in the override set. Worth a bench panel: Table 3 compares six published
     genus primer pairs across about twelve viruses, which would test these two pairs type by type.'
 needs_review:
-- OLIGOS_FROM_TWO_PAPERS
+- flag: oligos_from_secondary_source
+  note: the set is assembled from two papers

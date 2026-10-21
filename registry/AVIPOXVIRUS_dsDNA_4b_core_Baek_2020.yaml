@@ -78,4 +78,5 @@ source:
     The paper''s conventional PCR uses the primers of an earlier paper (its ref 4), which are not printed here and are not
     entered.'
 needs_review:
-- SCOPE_HUMMINGBIRD_AVIPOX_CLADE_ONLY_3_OF_1092_GENUS_RECORDS_DETECT
+- flag: scope_narrower_than_taxid
+  note: 'the hummingbird avipox clade only: 3 of 1092 genus records detect'

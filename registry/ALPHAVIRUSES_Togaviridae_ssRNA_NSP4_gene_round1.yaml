@@ -44,4 +44,5 @@ source:
     AMPLICON_BP (superseded, see below): the paper gives genome positions (Alpha1+ 6137-6172, Alpha1- 6509-6485 on Sindbis) suggesting ~373
     bp, but this needs measurement against GenBank records. AMPLICON MEASURED 2026-10-21: 481 bp, the modal product on 8,127 of 8,281 detected-or-reduced records in the 2026-10-20 calls (was not set). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-019, prints 481 bp; the measurement is what is entered.'
 needs_review:
-- INOSINE_CONVERTED_TO_N
+- flag: oligos_modified
+  note: inosine in the source is entered as N; seq_as_written keeps the I

@@ -64,4 +64,5 @@ source:
     span the site (partial deposits and incomplete genomes, median 535 bp); 1 spans it but has no reverse site. Among the
     365 spanning records, detect = 305 (83.6%), detect+reduced = 346 (94.8%), 18 fail.'
 needs_review:
-- DESIGN_PROVENANCE_MIXED
+- flag: oligos_from_secondary_source
+  note: design provenance is mixed across the oligos in this entry

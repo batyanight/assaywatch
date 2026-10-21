@@ -73,4 +73,5 @@ source:
     measured 208 on 2 records). The PAN-EGHV/EGHV2/EGHV3 block of Table 2 (6784, 6785, 6786, 6787, 6788, 7486, 7489) was not
     entered; the reasons are in the note of the panEEHV_round1 entry.'
 needs_review:
-- SINGLE_SPANNING_RECORD
+- flag: thin_evidence
+  note: one record spans the window

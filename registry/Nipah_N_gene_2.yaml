@@ -58,5 +58,6 @@ source:
     nipahense'' both appear in each - and attributing the split to the Malaysia-versus-Bangladesh lineage divide would need
     the sequences aligned, which has not been done here. The numbers are recorded; the cause is not claimed.'
 needs_review:
-- PRIMER_SITES_DRIFTED_2NT_IN_MOST_RECORDS
-- SEQUENCES_READ_FROM_A_CITING_PAPER_NOT_THE_SOURCE
+- flag: primer_site_polymorphic
+  note: the primer sites have drifted 2 nt in most records
+- flag: oligos_from_secondary_source

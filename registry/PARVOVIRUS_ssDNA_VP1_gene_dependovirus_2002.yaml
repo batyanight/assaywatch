@@ -48,4 +48,4 @@ source:
     and is right. The degenerate TS pair measured the same way gives a product in 1,380 of 2,009, 255 bp in 650, 261 in 403,
     258 in 223. The stored 316 matches no record and is corrected to 255.'
 needs_review:
-- MODIFIED_IN_HOUSE
+- flag: oligos_modified

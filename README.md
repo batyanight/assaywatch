@@ -81,10 +81,21 @@ A file is one assay: forward + reverse primer, optional probe, target taxon,
 citation. `status: draft` files only need correct structure and IUPAC oligos
 of 15-40 nt, except that a probe may be as short as 12 nt (published MGB probes run
 13-14). `status: active` additionally requires `target.taxid`, a DOI with
-`doi_verified: true`, `design_year`, `submitted_by`, and an empty
-`needs_review`. The validator enforces this; CI and the pre-commit hook run it.
+`doi_verified: true`, `design_year`, `submitted_by`, and no *open* review flag.
+The validator enforces this; CI and the pre-commit hook run it.
 Unknown keys are rejected, so a typo in a field name fails the commit rather
 than being silently ignored.
+
+`needs_review` is a list of `{flag, note}` items drawn from one controlled
+vocabulary, defined with its reasoning in `assaywatch/review.py`. A flag is
+either an **open question** a human still has to answer, which holds the entry
+at `draft`, or a **recorded caveat** that is settled and merely disclosed —
+`nested_protocol`, `oligos_modified`, `amplicon_measured_not_published` — which
+does not. `note` carries one line of specifics where the flag alone is not
+enough; the full record stays in `source.notes_curator`. Flags that would only
+restate another field (`citation.doi`, `design_year`, `target.taxid`) are not in
+the vocabulary, because a stored restatement goes stale the moment the field is
+filled: `scripts/materials_needed.py` derives those gaps instead.
 
 Inosine is written as N in `seq` (the original is kept in `seq_as_written`).
 Extra oligos found in a source (degenerate cocktails, dye variants) sit under

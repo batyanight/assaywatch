@@ -45,4 +45,5 @@ source:
     appears in none of them, to the measured mode 324. The inner forward primer is exact in 2,646 of 2,665; the inner reverse
     is exact in 1,684 and one mismatch away in 972, so it is the one oligo of the four that has drifted appreciably.'
 needs_review:
-- AMPLICON_BIMODAL_324_AND_321
+- flag: amplicon_multimodal
+  note: 'two modes: 324 and 321 bp'

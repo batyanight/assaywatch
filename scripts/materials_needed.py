@@ -41,6 +41,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from assaywatch.papers import paper_for_doi  # noqa: E402
+from assaywatch.review import ReviewFlag  # noqa: E402
 from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 COLUMNS = ["bucket", "assay_id", "doi", "what_is_needed", "blocks", "notes"]
@@ -74,7 +75,7 @@ def rows_for(assay, doc: dict, verdicts: list[dict[str, str]], papers: Path) -> 
     cite = assay.citation
     doi = (cite.doi if cite else None) or ""
     ref = ((cite.reference or cite.as_written or "") if cite else "").strip()
-    flags = set(doc.get("needs_review") or [])
+    flags = {ReviewFlag(i["flag"]) for i in (doc.get("needs_review") or [])}
     notes = ((doc.get("source") or {}).get("notes_curator") or "") if doc.get("source") else ""
     paper = paper_for_doi(doi, papers) if doi else None
 
@@ -135,14 +136,23 @@ def rows_for(assay, doc: dict, verdicts: list[dict[str, str]], papers: Path) -> 
                     paper.name,
                 )
 
-    if flags & {
-        "SEQUENCES_READ_FROM_FIGURE_IMAGE",
-        "REVERSE_PRIMER_RC_FROM_FIGURE",
-        "PROBE_OMITTED_OCR_UNRELIABLE",
-    }:
+    if flags & {ReviewFlag.oligos_read_from_figure, ReviewFlag.oligo_sequence_uncertain}:
         add("figure", "a legible copy of the figure the sequences were read off", "sequence confidence")
-    if "DO_NOT_USE" in flags:
-        add("decision", "a keep-or-delete decision; the entry is flagged DO_NOT_USE", "registry hygiene")
+    if ReviewFlag.do_not_use in flags:
+        add("decision", "a keep-or-delete decision; the entry is flagged do_not_use", "registry hygiene")
+    # Derived, not read from a flag. `needs_review` carried DOI_MISSING, NO_YEAR
+    # and TAXID_MISSING until 2026-10-21, and 6 of their 39 instances were
+    # already wrong: four entries said DOI_MISSING beside a verified DOI and two
+    # said NO_YEAR beside design_year 2011, because the gap had been filled and
+    # the flag never cleared. Asking the field cannot go stale.
+    if not cite or cite.design_year is None:
+        add("year", "the design year, for the baseline the drift test needs", "per-year drift statistics")
+    if assay.target.taxid is None:
+        add(
+            "taxid",
+            f"an NCBI taxid for {assay.target.taxon_name or 'this target'}",
+            "retrieval: without one the assay is never screened",
+        )
     if (PREDICT_SUPPLEMENT.split(",")[0] in notes or "Anthony et al. 2015" in notes) and not (
         papers / PREDICT_SUPPLEMENT_FILE
     ).exists():

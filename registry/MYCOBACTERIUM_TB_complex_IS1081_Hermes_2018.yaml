@@ -49,5 +49,7 @@ source:
 
     SCREENED 2026-10-07 (counted by call from results/2026-10-07/calls.tsv.gz): 1,467 records, of which 1,179 are gene-level GenBank records from this entry query IS1081[All Fields] NOT "whole genome shotgun"[Title] and 288 are complete-genome assemblies (GCA_ ids) cut to candidate loci by the asm group. Calls: 1,448 detect, 19 no_amplicon. The no_amplicon rows by the exclusion column: chance_only 14, no_site 3, diverged 1, truncated 1. These are counts of calls, not a coverage statistic; the failing and non-amplifying records were not examined.'
 needs_review:
-- MULTICOPY_TARGET_IS1081
-- OLIGOS_FROM_UNCITABLE_SOURCE_ANONYMOUS_2017
+- flag: target_annotation_uncertain
+  note: IS1081 is multicopy, so presence is not one locus
+- flag: citation_unresolved
+  note: oligos come from an uncitable source (anonymous, 2017)

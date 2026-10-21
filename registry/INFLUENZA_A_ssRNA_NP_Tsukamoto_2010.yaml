@@ -68,4 +68,5 @@ source:
     entry). The paper tested it only on avian isolates. The paper''s supplement is not in the PDF. The H5 and H7 assays from
     the same paper are separate entries.'
 needs_review:
-- AVIAN_ASSAY_SCREENED_AGAINST_ALL_INFLUENZA_A_HUMAN_H3N2_FAILS
+- flag: retrieval_scope_incomplete
+  note: 'an avian assay screened against all influenza A: human H3N2 fails, which is expected, not drift'

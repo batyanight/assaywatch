@@ -61,4 +61,5 @@ source:
     amplicon_bp is a poor summary of a 40-base spread, so this entry is one to watch when config.yaml''s amplicon.declared_tolerance
     is eventually turned on.'
 needs_review:
-- AMPLICON_MEASURED_760_PAPER_POSITIONS_IMPLY_993
+- flag: amplicon_disagrees_with_paper
+  note: measured 760 bp; the paper's positions imply 993

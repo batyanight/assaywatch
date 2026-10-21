@@ -68,7 +68,10 @@ source:
     site (records not covering the N-gene site) and 16 are truncated. SCOPE: CDV-wide N-gene assay, used as the reference
     method in Halecker 2021 and at the WCS and Vienna labs in Brown 2020.'
 needs_review:
-- DOI found 2026-10-06 by a Crossref title search, not printed in either citing paper; the top hit matches title, J Virol
-  Methods, volume 136, pages 171-176, year and first author, and resolve_citations.py decides whether to approve it
-- amplicon_bp measured 83 bp in 663 of 663 records; both citing papers say 87 bp
-- oligos read from Halecker 2021 and Brown 2020, not from Elia's own table
+- flag: citation_is_indirect
+  note: DOI found 2026-10-06 by a Crossref title search, not printed in either citing paper; the top hit matched title, journal,
+    volume, pages, year and first author
+- flag: amplicon_disagrees_with_paper
+  note: measured 83 bp in 663 of 663 records; both citing papers say 87 bp
+- flag: oligos_from_secondary_source
+  note: read from Halecker 2021 and Brown 2020, not from Elia's own table

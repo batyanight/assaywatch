@@ -46,4 +46,4 @@ source:
     primer-naming scheme (O157-3/-4, YP-3/-4), not on a printed sequence. Check against Wang 1997 Table 1 when the paper is
     in hand.
 needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: orientation_inferred

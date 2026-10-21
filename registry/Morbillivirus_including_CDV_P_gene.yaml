@@ -58,4 +58,4 @@ source:
     give 429 bp in 4,326 of 4,347 detected or reduced records. The two entries holding this pair disagreed, 429 here and 430
     there; both now read 429 (inside declared_tolerance either way, so no call moves).'
 needs_review:
-- AMPLICON_BP_MEASURED_NOT_PUBLISHED
+- flag: amplicon_measured_not_published

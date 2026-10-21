@@ -47,6 +47,4 @@ source:
     PMC full-text search on the oligo names, which returned only users - one of them a paper comparing the Quan and Watanabe
     assays, which is what pointed at Watanabe. doi_verified stays false until scripts/resolve_citations.py approves it.'
 needs_review:
-- DOI_MISSING
-- MODIFIED_IN_HOUSE
-- NO_YEAR
+- flag: oligos_modified

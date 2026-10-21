@@ -50,4 +50,4 @@ source:
     - 14 oligo-like runs in the cited paper, none within the cap of either stored sequence. Same conclusion: a provenance
     problem for the whole terminase nest, not an extraction failure. See the round 1 entry''s note.'
 needs_review:
-- OLIGOS_ABSENT_FROM_CITED_PAPER
+- flag: oligos_not_in_cited_paper

@@ -66,4 +66,5 @@ source:
     above the tool''s limit, product of normal length) and 3 indeterminate. The paper also notes the BQCV test sometimes gives
     abnormal amplification curves above 6 log copies.'
 needs_review:
-- DESIGN_PROVENANCE_MIXED
+- flag: oligos_from_secondary_source
+  note: design provenance is mixed across the oligos in this entry

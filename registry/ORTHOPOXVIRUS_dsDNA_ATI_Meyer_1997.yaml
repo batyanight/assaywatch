@@ -156,6 +156,9 @@ source:
     nt window of either primer occurs in existing poxvirus entries. SCOPE: genus-wide; interpret results by species, not by
     genus-wide share.'
 needs_review:
-- AMPLICON_SPECIES_DEPENDENT_540_TO_1700_DECLARED_AS_AMPLICON_BP_RANGE
-- DIFFERENTIATION_ASSAY_SIZE_AND_XBAI_DIGEST_NOT_SCREENABLE
-- PRIMER_ORIGIN_MEYER_1994_NOT_ESTABLISHED
+- flag: amplicon_multimodal
+  note: 'the product length is the readout: 540-1700 bp by species, declared as amplicon_bp_range'
+- flag: not_screenable
+  note: identification is by product size plus an XbaI digest, which the screen cannot model
+- flag: oligo_source_unresolved
+  note: a Meyer 1994 origin is suspected but not established

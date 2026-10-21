@@ -61,5 +61,6 @@ source:
     entries on 2026-10-14 was deliberately NOT applied here: round 1 / round 2 would assert a nested design, and
     Table 2 describes a walk, not a nest. The paper''s only use of "nested" is about subgenomic mRNAs.'
 needs_review:
-- MULTIPLE_PRIMERS_IN_BLOCK
-- PAIRED_ACROSS_TWO_OF_THE_SOURCES_PRIMER_PAIRS
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair; this pair is assembled across two of the
+    source's own pairs

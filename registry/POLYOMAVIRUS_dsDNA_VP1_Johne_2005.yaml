@@ -39,4 +39,4 @@ source:
   notes: null
   notes_curator: 'PREDICT panel protocol P-040 (VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Johne, R (2005). AMPLICON MEASURED 2026-10-21: 271 bp, the modal product on 264 of 520 detected-or-reduced records in the 2026-10-20 calls (was 277). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-040, prints 249-273 bp; the measurement is what is entered.'
 needs_review:
-- NESTED
+- flag: nested_protocol

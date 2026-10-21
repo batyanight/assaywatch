@@ -39,4 +39,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- ORIENTATION_INFERRED_BY_POSITION
+- flag: orientation_inferred

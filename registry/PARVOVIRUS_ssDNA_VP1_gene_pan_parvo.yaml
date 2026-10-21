@@ -34,6 +34,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- DOI_MISSING
-- MODIFIED_IN_HOUSE
-- NO_YEAR
+- flag: oligos_modified

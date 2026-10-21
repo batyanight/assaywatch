@@ -74,4 +74,5 @@ source:
     primer as printed does not match any real record at the penultimate 3'' base. The C. pneumoniae and C. trachomatis inner
     pairs of the same multiplex are CHLAMYDIA_pneumoniae_16S_Messmer_1997_round2 and CHLAMYDIA_trachomatis_16S_Messmer_1997_round2.'
 needs_review:
-- CROSS_DETECTS_C_ABORTUS_IN_SILICO
+- flag: cross_reactive
+  note: also detects C. abortus in silico

@@ -65,4 +65,5 @@ source:
     on 2026-10-05: the open-access full text was saved into papers/ as 10.4269_ajtmh.2011.11-0248.txt and scripts/verify_oligos_against_paper.py
     now reads it, reporting all three oligos - both primers and the probe - exact.'
 needs_review:
-- PRIMER_SITES_DRIFTED_1NT_IN_ABOUT_HALF_OF_RECORDS
+- flag: primer_site_polymorphic
+  note: the primer sites have drifted 1 nt in about half of records

@@ -61,4 +61,5 @@ source:
     one, but it is Cacciotto''s description of someone else''s assay, so it is flagged rather than written in. Settle it from
     Feldman''s own text when that paper is in hand.'
 needs_review:
-- GENE_MAY_BE_16S_23S_INTERGENIC_NOT_16S
+- flag: target_annotation_uncertain
+  note: the target may be the 16S-23S intergenic spacer rather than 16S

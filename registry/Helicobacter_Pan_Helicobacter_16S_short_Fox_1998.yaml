@@ -39,5 +39,7 @@ source:
     and the C97+C05 pair "approximately 1200" bases. 16S rRNA positions from paper: C97 at 276-291 (forward), C98 at 681-698
     (reverse). AMPLICON_BP: not set; the paper says ~400 bp, needs measurement against GenBank Helicobacter 16S sequences.'
 needs_review:
-- AMPLICON_BP_NOT_SET
-- SHARES_FORWARD_PRIMER_WITH_Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998
+- flag: amplicon_size_unresolved
+  note: no product size is declared
+- flag: shares_oligos_with_sibling
+  note: shares its forward primer with Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998
