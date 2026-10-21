@@ -180,6 +180,12 @@
   (`docs/2026-10-20-scope-curation.md` lists them, with the ADENOVIRUS Hexon composite held for a
   maintainer call). The "cases for the above-pooled pattern" item is partly answered: see the BFDV
   and LCM examples in that doc.
+  **TODO (Batya, offline): resolve the 16 entries that have no DOI.**
+  `docs/oligos-without-doi.tsv` lists all 33 oligos with sequences, grouped by where the answer
+  must come from: 6 in-house/unpublished (WCS/CII lab records), the Müller 2011 CDV quartet (needs
+  the paper), 2 PREDICT-named (the 2013/2015 supplements), and 4 true orphans with no reference at
+  all (the two enterovirus rounds and two UHanta round2 entries, three of which also fire lineage
+  overrides). The Anthony 2013 mBio supplement is the single most likely to close the UHanta ones.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173
