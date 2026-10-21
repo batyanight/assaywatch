@@ -180,6 +180,17 @@
   (`docs/2026-10-20-scope-curation.md` lists them, with the ADENOVIRUS Hexon composite held for a
   maintainer call). The "cases for the above-pooled pattern" item is partly answered: see the BFDV
   and LCM examples in that doc.
+  **TODO: the 19 pipeline-audit proposals** (`docs/2026-10-20-pipeline-audit.md` §5), each
+  approval-gated individually, ranked in its §7. Top of the list: **M1** identity-aware 3'-window
+  penalty (`scoring.mispair_penalty` read by `score.score_primer`; measure on all five bench panels
+  + tier-2 before shipping), then **S1** `collect.py` must drop calls-table rows whose assay_id is
+  not a current registry id (recommend hard error — this is the open double-counting bug), then the
+  Anthony supplement, then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
+  the status vocabulary from `drift.py` (the `report_diff` bug), S3 collapse the two renderers,
+  S4/S5 decompose `drift.assess`, S6 one accession-version helper, S7 controlled `needs_review`
+  vocabulary, S8 delete dead `lineage.taxid_backfill`, S9 test `loci.py`; M3 cite the FDA 5% policy;
+  R1 container/lockfile, R2 stamp config+code hash into the calls table, R3 regenerate
+  `papers-index.md` in CI. Batch the no-decision ones (M3, S2, S6, S8, S9, R3) in one go.
   **TODO (Batya, offline): resolve the 16 entries that have no DOI.**
   `docs/oligos-without-doi.tsv` lists all 33 oligos with sequences, grouped by where the answer
   must come from: 6 in-house/unpublished (WCS/CII lab records), the Müller 2011 CDV quartet (needs
