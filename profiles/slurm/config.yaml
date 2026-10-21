@@ -1,6 +1,6 @@
 # Snakemake profile for a SLURM cluster (NYU Greene and most others).
 #
-#     snakemake --profile profiles/slurm --config email=you@nyu.edu
+#     snakemake --profile profiles/slurm --config email=you@example.org
 #
 # What changes compared to running locally: nothing in the Snakefile. Snakemake
 # submits each job with sbatch instead of running it itself, waits for the

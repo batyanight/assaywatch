@@ -21,8 +21,8 @@ Full layout and usage: `README.md`. Plan and status: `ROADMAP.md`.
     ruff check . && ruff format --check .
     python scripts/check_citations.py              # CI runs this too
     snakemake -n                                   # dry run: prints the job plan, downloads nothing
-    caffeinate -i snakemake --cores 4 --config email=you@nyu.edu
-    snakemake --profile profiles/slurm --config email=you@nyu.edu   # same rules on SLURM
+    caffeinate -i snakemake --cores 4 --config email=you@example.org
+    snakemake --profile profiles/slurm --config email=you@example.org   # same rules on SLURM
 A change is not done until pytest, the validator, ruff and check_citations pass.
 NCBI CLIs are in the env: `esearch | efetch` (Entrez Direct) and `datasets`
 (NCBI Datasets). Prefer them for quick GenBank/taxonomy lookups over writing

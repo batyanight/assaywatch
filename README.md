@@ -346,7 +346,7 @@ python tests/make_fixtures.py && pytest -q
 ## Running the pipeline
 
 ```bash
-caffeinate -i snakemake --cores 4 --config email=you@nyu.edu
+caffeinate -i snakemake --cores 4 --config email=you@example.org
 ```
 
 Five stages: validate the registry, retrieve what is new for each group,
@@ -541,7 +541,7 @@ rather than a name.
 
 ```bash
 pip install snakemake-executor-plugin-slurm
-snakemake --profile profiles/slurm --config email=you@nyu.edu
+snakemake --profile profiles/slurm --config email=you@example.org
 ```
 
 Nothing in the Snakefile changes. Snakemake submits each job with `sbatch`

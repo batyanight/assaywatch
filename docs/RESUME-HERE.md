@@ -239,7 +239,7 @@ gained records — do that before reading the gap as anything else.
 
 When a run *is* needed:
 
-    caffeinate -i snakemake --cores 4 --config email=nightb02@nyu.edu
+    caffeinate -i snakemake --cores 4 --config email=you@example.org
 
 **Never the `--touch` shortcut from the 2026-10-06 note** across a scoring change; it marks
 every screen current at the old setting with nothing to say so. A dry run (`snakemake -n`) is

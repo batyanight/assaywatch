@@ -30,7 +30,7 @@ They are candidates all the same until Crossref agrees.
 **To finish this, on the machine with network access:** add the DOI and set
 `doi_verified: false` on each entry below, then run
 
-    python scripts/resolve_citations.py --registry registry --email nightb02@nyu.edu
+    python scripts/resolve_citations.py --registry registry --email you@example.org
     python scripts/check_citations.py --refresh
 
 `resolve_citations.py` marks a DOI verified only when Crossref's year matches
