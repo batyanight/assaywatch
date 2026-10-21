@@ -32,6 +32,7 @@ import gzip
 import html
 import sys
 from collections import Counter
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -351,6 +352,21 @@ def flag_confidence_line(grouped: dict[str, list[AssayDrift]]) -> str:
     return f"**Duplication check:** {summary}" if summary else ""
 
 
+def _nested_cells(r: NestedRow, *, bold: str) -> tuple[str, str]:
+    """A nested row's two judgement cells: containment, and the conditional share.
+
+    The share is WITHHELD where the amplicons do not nest, for the same reason
+    the note gives: conditioning round 2 on a round 1 that does not feed it
+    would invent a number, and printing it in the table beside the sentence
+    refusing it is the one place a reader would believe it.
+    """
+    cont = "-"
+    if r.containment:
+        seen, total = r.containment
+        cont = "yes" if r.nests else f"{bold} ({seen:,}/{total:,})"
+    return cont, ("not a nest" if r.nests is False else pct(r.nested_share))
+
+
 def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], threshold: float) -> list[str]:
     """What a nested protocol does, which its per-round rows cannot say.
 
@@ -365,6 +381,7 @@ def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], thre
         return []
     warned = [f for f in have if f.warns(threshold)]
     broken = [f for f in have if f.nests is False]
+    rows = [_nested_row(f) for f in sorted(have, key=nested_sort_key)]
     out = [f"## Nested protocols ({len(have)})", ""]
     out += [
         "Rounds are scored separately above, and that stands: either product can be read on a gel.",
@@ -387,19 +404,13 @@ def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], thre
         "| protocol | round 1 | round 2 alone | run as a nest | records | inner inside outer |",
         "|---|---|---|---|---|---|",
     ]
-    for f in sorted(have, key=lambda f: (f.gap is None, -(f.gap or 0))):
-        c = f.containment.get((f.outer, f.inner))
-        cont = "-"
-        if c and c[1]:
-            cont = "yes" if f.nests else f"**no** ({c[0]:,}/{c[1]:,})"
-        # Withheld where the amplicons do not nest, for the same reason the note
-        # gives: conditioning round 2 on a round 1 that does not feed it would
-        # invent a number, and printing it in the table beside the sentence
-        # refusing it is the one place a reader would believe it.
-        nested_cell = "not a nest" if f.nests is False else pct(f.nested_share)
+    for r in rows:
+        # The containment and withheld-share rules live in `_nested_cells`, which
+        # the HTML table uses too; only the emphasis markup differs.
+        cont, nested_cell = _nested_cells(r, bold="**no**")
         out.append(
-            f"| `{md(f.family)}` | {pct(f.outer_share)} | {pct(f.inner_share)} | "
-            f"{nested_cell} | {f.records:,} | {cont} |"
+            f"| `{md(r.family)}` | {pct(r.outer_share)} | {pct(r.inner_share)} | "
+            f"{nested_cell} | {r.records:,} | {cont} |"
         )
     out.append("")
     for f in sorted(broken, key=lambda f: f.family) + sorted(warned, key=lambda f: -(f.gap or 0)):
@@ -418,6 +429,238 @@ def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], thre
     return out
 
 
+# --- The report model -------------------------------------------------------
+#
+# S3 in docs/2026-10-20-pipeline-audit.md: `render_markdown` and `render_html`
+# were 377 lines of parallel layout, so every report change was made twice and
+# the two drifted - which is what `scripts/report_diff.py` was left parsing.
+#
+# What was actually duplicated is the VALUE extraction: assembling each row's
+# note, its degeneracy text, its confidence interval, its baseline, the nested
+# table's containment cell. The markup was never the problem. So the model holds
+# values and each serialiser does nothing but format them: markdown writes an
+# en dash as `-` and HTML as `&ndash;`, markdown `x` and HTML `&times;`, and
+# neither has an opinion about what belongs in the row.
+#
+# The two reports are NOT the same document, and this does not make them one.
+# Markdown carries a status-count line, the recent-window line, the `Why:`
+# exclusion breakdown and the unpaired-nest paragraph; HTML carries a sparkline
+# column and folds each detail into a `<details>`. Those are content
+# differences, left in their own serialiser deliberately rather than unified,
+# because unifying them changes both published reports and that is a decision
+# for a maintainer, not a refactor. What the model guarantees is that a row's
+# CONTENT is decided once.
+
+
+@dataclass(frozen=True)
+class StatusRow:
+    """One assay in one status table. Values, not text."""
+
+    assay_id: str
+    assay_name: str
+    entry: str
+    pooled: str  # the pooled status a lineage override replaced, else ""
+    fraction: float | None
+    ci: tuple[float, float] | None  # None when there is nothing recent to bound
+    evaluable: int
+    baseline: tuple[float, int] | None  # (share, n)
+    degeneracy: tuple[int, str] | None  # (fold, tier)
+    note: str
+    drift: AssayDrift  # HTML draws a sparkline over the whole year series
+
+
+@dataclass(frozen=True)
+class SpeciesBlock:
+    """Per-species detail, for an assay whose product size names the species."""
+
+    lo: int
+    hi: int
+    recent_from: int | str
+    rows: list[tuple[str, int, int, str, str]]
+
+
+@dataclass(frozen=True)
+class DetailRow:
+    """The expanded entry for one flagged assay."""
+
+    assay_id: str
+    pooled: str
+    assay_name: str
+    design_year: object
+    doi: str
+    degeneracy_note: str
+    years: list[tuple[int, int, int, str]]
+    species: SpeciesBlock | None
+    out_of_scope: int
+    patent_excluded: int
+    clustering_note: str
+    unevaluable: dict[str, int]
+    exclusions: list[tuple[str, int]]
+
+
+@dataclass(frozen=True)
+class NestedRow:
+    """One nested protocol. `containment` is (seen, total) or None."""
+
+    family: str
+    outer_share: float | None
+    inner_share: float | None
+    nested_share: float | None
+    nests: bool | None
+    records: int
+    containment: tuple[int, int] | None
+
+
+@dataclass(frozen=True)
+class GapRow:
+    assay_id: str
+    taxon_name: str
+    taxid: object
+    evaluable: int
+    screened: object
+
+
+@dataclass(frozen=True)
+class ReportModel:
+    """Everything both reports say, decided once."""
+
+    run_date: str
+    n_assays: int
+    counts: list[tuple[str, int]]
+    registry_line: str
+    confidence_line: str
+    window_months: int
+    widened: int
+    earliest: int | str
+    threshold: float
+    min_records: int
+    sections: list[tuple[str, list[StatusRow]]]
+    duplication: str
+    details: list[DetailRow]
+    nested_rows: list[NestedRow]
+    nested_families: list[NestedFamily]
+    nested_threshold: float
+    gaps: list[GapRow]
+
+
+def _note_for(a: AssayDrift, twins: dict[str, list[str]]) -> str:
+    """The note column: the assay's own note, plus what was held out of it."""
+    note = a.note + (f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else "")
+    if a.out_of_scope:
+        note += f" {a.out_of_scope} out-of-scope records excluded."
+    if a.patent_excluded:
+        note += f" {a.patent_excluded} patent records excluded."
+    return note
+
+
+def _status_row(a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[str]], cfg) -> StatusRow:
+    assay = assays.get(a.assay_id)
+    deg = assay_degeneracy(assay) if assay else None
+    return StatusRow(
+        assay_id=a.assay_id,
+        assay_name=assay.name if assay else "",
+        entry=assay.status.value if assay else "-",
+        pooled=a.status_pooled if (a.lineage_override and a.status_pooled) else "",
+        fraction=a.recent_fraction,
+        ci=a.recent_ci if a.recent_evaluable else None,
+        evaluable=a.recent_evaluable,
+        baseline=(a.baseline_fraction, a.baseline_evaluable) if a.baseline_evaluable else None,
+        degeneracy=(deg.total_fold, deg.tier(cfg)) if deg else None,
+        note=_note_for(a, twins),
+        drift=a,
+    )
+
+
+def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> DetailRow:
+    assay = assays.get(a.assay_id)
+    deg = assay_degeneracy(assay) if assay else None
+    species = None
+    if assay and assay.amplicon_bp_range and a.species_counts:
+        lo, hi = assay.amplicon_bp_range
+        species = SpeciesBlock(lo, hi, a.recent_from, species_table_rows(a, taxonomy, assay.species_sizes))
+    return DetailRow(
+        assay_id=a.assay_id,
+        pooled=a.status_pooled if (a.lineage_override and a.status_pooled) else "",
+        assay_name=assay.name if assay else "",
+        design_year=(assay.citation.design_year or "?") if assay and assay.citation.doi else None,
+        doi=assay.citation.doi if assay and assay.citation.doi else "",
+        degeneracy_note=(deg.note(cfg) or "") if deg else "",
+        years=year_table_rows(a),
+        species=species,
+        out_of_scope=a.out_of_scope,
+        patent_excluded=a.patent_excluded,
+        clustering_note=a.clustering_note,
+        unevaluable=a.unevaluable(),
+        exclusions=a.exclusions.most_common() if a.exclusions else [],
+    )
+
+
+def _nested_row(f: NestedFamily) -> NestedRow:
+    c = f.containment.get((f.outer, f.inner))
+    return NestedRow(
+        family=f.family,
+        outer_share=f.outer_share,
+        inner_share=f.inner_share,
+        nested_share=f.nested_share,
+        nests=f.nests,
+        records=f.records,
+        containment=c if (c and c[1]) else None,
+    )
+
+
+def nested_sort_key(f: NestedFamily):
+    """Largest coverage loss first, families with no computable gap last."""
+    return (f.gap is None, -(f.gap or 0))
+
+
+def build_model(
+    drifts: dict[str, AssayDrift],
+    assays: dict[str, Assay],
+    gaps: list[dict[str, Any]],
+    run_date: str,
+    cfg: dict[str, Any] | None = None,
+    nested: dict[str, NestedFamily] | None = None,
+    taxonomy: Taxonomy | None = None,
+) -> ReportModel:
+    """Decide what the report says. Neither serialiser decides anything else."""
+    grouped = by_status(drifts)
+    twins = oligo_twins(assays)
+    drift_cfg = (cfg or {}).get("drift", {})
+    window = drift_cfg.get("recent_window_months", 24)
+    # The base window comes from the config, not from whichever assay happens
+    # to be first: 28 assays widened theirs, and the header claimed Oct 2024
+    # for all 141.
+    a0 = next(iter(drifts.values()), None)
+    flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
+    have = [f for f in (nested or {}).values() if f.records]
+    return ReportModel(
+        run_date=run_date,
+        n_assays=len(drifts),
+        counts=[(s, len(grouped[s])) for s in status_order(grouped) if grouped.get(s)],
+        registry_line=registry_status_line(drifts, assays),
+        confidence_line=flag_confidence_line(grouped),
+        window_months=window,
+        widened=sum(1 for a in drifts.values() if a.window_months > window),
+        earliest=a0.recent_from if a0 else 0,
+        threshold=a0.threshold if a0 else 0.0,
+        min_records=a0.min_records if a0 else 0,
+        sections=[
+            (status, [_status_row(a, assays, twins, cfg) for a in grouped[status]])
+            for status in status_order(grouped)
+            if grouped.get(status)
+        ],
+        duplication=duplication_summary(flagged),
+        details=[_detail_row(a, assays, cfg, taxonomy) for a in flagged],
+        nested_rows=[_nested_row(f) for f in sorted(have, key=nested_sort_key)],
+        nested_families=have,
+        nested_threshold=drift_cfg.get("detect_fraction_threshold", 0.9),
+        gaps=[
+            GapRow(g["assay_id"], g["taxon_name"] or "-", g["taxid"], g["evaluable"], g["screened"])
+            for g in gaps
+        ],
+    )
+
+
 def render_markdown(
     drifts: dict[str, AssayDrift],
     assays: dict[str, Assay],
@@ -427,31 +670,33 @@ def render_markdown(
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
 ) -> str:
-    grouped = by_status(drifts)
-    twins = oligo_twins(assays)
-    out = [f"# AssayWatch report — {run_date}", ""]
-    counts = ", ".join(f"{len(grouped.get(s, []))} {s}" for s in status_order(grouped) if grouped.get(s))
-    out += [f"{len(drifts)} assays screened: {counts}.", ""]
-    if registry_status_line(drifts, assays):
-        out += [registry_status_line(drifts, assays), ""]
-    headline = flag_confidence_line(grouped)
-    if headline:
-        out += [headline, ""]
-    if drifts:
-        # The base window comes from the config, not from whichever assay happens
-        # to be first: 28 assays widened theirs, and the header claimed Oct 2024
-        # for all 141.
-        a0 = next(iter(drifts.values()))
-        widened = sum(
-            1
-            for a in drifts.values()
-            if a.window_months > (cfg or {}).get("drift", {}).get("recent_window_months", 24)
-        )
+    """Markdown, so the report reads on GitHub with nothing built."""
+    return markdown_from(build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy), assays, cfg)
+
+
+def _md_cells(r: StatusRow) -> tuple[str, str, str, str]:
+    """A status row's four formatted numbers: share, interval, baseline, degeneracy."""
+    frac = f"{r.fraction:.1%}" if r.fraction is not None else "-"
+    ci = f"{pct(r.ci[0])}-{pct(r.ci[1])}" if r.ci else "-"
+    base = f"{pct(r.baseline[0])} ({r.baseline[1]})" if r.baseline else "-"
+    deg = f"{r.degeneracy[0]}x {r.degeneracy[1]}" if r.degeneracy else "-"
+    return frac, ci, base, deg
+
+
+def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] | None = None) -> str:
+    out = [f"# AssayWatch report — {m.run_date}", ""]
+    counts = ", ".join(f"{n} {s}" for s, n in m.counts)
+    out += [f"{m.n_assays} assays screened: {counts}.", ""]
+    if m.registry_line:
+        out += [m.registry_line, ""]
+    if m.confidence_line:
+        out += [m.confidence_line, ""]
+    if m.n_assays:
         out += [
-            f"Recent window: {(cfg or {}).get('drift', {}).get('recent_window_months', 24)} months"
-            + (f", widened for {widened} assays that held too few records" if widened else "")
-            + f"; earliest shown {a0.recent_from}; "
-            f"threshold {a0.threshold:.0%} detected; at least {a0.min_records} recent evaluable "
+            f"Recent window: {m.window_months} months"
+            + (f", widened for {m.widened} assays that held too few records" if m.widened else "")
+            + f"; earliest shown {m.earliest}; "
+            f"threshold {m.threshold:.0%} detected; at least {m.min_records} recent evaluable "
             "records to flag. Deprecated assays are not screened.",
             "",
         ]
@@ -468,104 +713,87 @@ def render_markdown(
         "",
     ]
 
-    for status in status_order(grouped):
-        items = grouped.get(status)
-        if not items:
-            continue
-        out += [f"## {status.title()} ({len(items)})", ""]
+    for status, rows in m.sections:
+        out += [f"## {status.title()} ({len(rows)})", ""]
         out += [
             "| assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | note |",
             "|---|---|---|---|---|---|---|---|",
         ]
-        for a in items:
-            assay = assays.get(a.assay_id)
-            deg = assay_degeneracy(assay) if assay else None
-            deg_text = f"{deg.total_fold}x {deg.tier(cfg)}" if deg else "-"
-            frac = f"{a.recent_fraction:.1%}" if a.recent_fraction is not None else "-"
-            ci = f"{pct(a.recent_ci[0])}-{pct(a.recent_ci[1])}" if a.recent_evaluable else "-"
-            base = pct(a.baseline_fraction) + f" ({a.baseline_evaluable})" if a.baseline_evaluable else "-"
-            note = a.note + (
-                f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
-            )
-            if a.out_of_scope:
-                note += f" {a.out_of_scope} out-of-scope records excluded."
-            if a.patent_excluded:
-                note += f" {a.patent_excluded} patent records excluded."
-            entry = assay.status.value if assay else "-"
-            pooled_tag = f" (pooled: {a.status_pooled})" if a.lineage_override and a.status_pooled else ""
+        for r in rows:
+            frac, ci, base, deg = _md_cells(r)
+            pooled_tag = f" (pooled: {r.pooled})" if r.pooled else ""
             out.append(
-                f"| `{md(a.assay_id)}`{pooled_tag} | {entry} | {frac} | {ci} | {a.recent_evaluable} | {base} "
-                f"| {deg_text} | {md(note)} |"
+                f"| `{md(r.assay_id)}`{pooled_tag} | {r.entry} | {frac} | {ci} | {r.evaluable} | {base} "
+                f"| {deg} | {md(r.note)} |"
             )
         out.append("")
 
-    flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
-    if flagged:
+    if m.details:
         out += ["## Detail for flagged assays", ""]
-        if duplication_summary(flagged):
-            out += [f"**Duplication check:** {duplication_summary(flagged)}", ""]
-        for a in flagged:
-            assay = assays.get(a.assay_id)
-            out += [f"### `{a.assay_id}`", ""]
-            if a.lineage_override and a.status_pooled:
-                out.append(f"**Lineage override:** pooled status was {a.status_pooled}.  ")
-            if assay:
-                out.append(f"{assay.name}  ")
-                if assay.citation.doi:
-                    out.append(f"Designed {assay.citation.design_year or '?'}, doi:{assay.citation.doi}  ")
-                deg = assay_degeneracy(assay)
-                if deg.note(cfg):
-                    out.append(f"**Degeneracy:** {deg.note(cfg)}  ")
+        if m.duplication:
+            out += [f"**Duplication check:** {m.duplication}", ""]
+        for d in m.details:
+            out += [f"### `{d.assay_id}`", ""]
+            if d.pooled:
+                out.append(f"**Lineage override:** pooled status was {d.pooled}.  ")
+            if d.assay_name:
+                out.append(f"{d.assay_name}  ")
+            if d.doi:
+                out.append(f"Designed {d.design_year}, doi:{d.doi}  ")
+            if d.degeneracy_note:
+                out.append(f"**Degeneracy:** {d.degeneracy_note}  ")
             out += ["", "| deposit year | detected | evaluable | share |", "|---|---|---|---|"]
-            for year, det, ev, frac in year_table_rows(a):
+            for year, det, ev, frac in d.years:
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
-            if assay and assay.amplicon_bp_range and a.species_counts:
-                lo, hi = assay.amplicon_bp_range
+            if d.species:
+                sp = d.species
                 out += [
                     "",
-                    f"**Per species** (product size names the species here, {lo}-{hi} bp, so the "
-                    f"share above pools readouts that mean different things; {a.recent_from} on, no "
+                    f"**Per species** (product size names the species here, {sp.lo}-{sp.hi} bp, so the "
+                    f"share above pools readouts that mean different things; {sp.recent_from} on, no "
                     "assessability floor):",
                     "",
                     "| species | product bp | detected | evaluable | share |",
                     "|---|---|---|---|---|",
                 ]
-                for label, det, ev, frac, band in species_table_rows(a, taxonomy, assay.species_sizes):
+                for label, det, ev, frac, band in sp.rows:
                     out.append(f"| {md(label)} | {band} | {det} | {ev} | {frac} |")
-            if a.out_of_scope:
+            if d.out_of_scope:
                 out += [
                     "",
-                    f"**Out of scope:** {a.out_of_scope} records excluded (taxid not in scope_taxids).",
+                    f"**Out of scope:** {d.out_of_scope} records excluded (taxid not in scope_taxids).",
                 ]
-            if a.patent_excluded:
+            if d.patent_excluded:
                 out += [
                     "",
-                    f"**Patent records:** {a.patent_excluded} excluded "
+                    f"**Patent records:** {d.patent_excluded} excluded "
                     "(GenBank patent division; drift.exclude_patent_records).",
                 ]
-            if a.clustering_note:
-                out += ["", f"**Duplication check:** {a.clustering_note}"]
-            un = a.unevaluable()
-            if un:
+            if d.clustering_note:
+                out += ["", f"**Duplication check:** {d.clustering_note}"]
+            if d.unevaluable:
                 out.append("")
-                out.append("Excluded: " + ", ".join(f"{n} {k}" for k, n in sorted(un.items())))
-                if a.exclusions:
+                out.append("Excluded: " + ", ".join(f"{n} {k}" for k, n in sorted(d.unevaluable.items())))
+                # Markdown only: the HTML report prints the excluded counts but not
+                # this breakdown. A content difference, not an oversight of layout.
+                if d.exclusions:
                     out.append("")
                     out.append(
                         "Why: "
-                        + ", ".join(f"{n} {k}" for k, n in a.exclusions.most_common())
+                        + ", ".join(f"{n} {k}" for k, n in d.exclusions)
                         + ". `truncated` means the deposit stops before the other primer's site, so it"
                         + " says nothing about the assay; `diverged` means that site is present and does"
                         + " not match."
                     )
             out.append("")
 
-    if nested is not None:
-        thr = (cfg or {}).get("drift", {}).get("detect_fraction_threshold", 0.9)
-        out += nested_section(nested, assays, thr)
+    if m.nested_families:
+        # `nested_section` returns [] when no family has records, so passing only
+        # the families that do is the same output the `nested is not None` check gave.
+        out += nested_section({f.family: f for f in m.nested_families}, assays, m.nested_threshold)
 
     out += ["## Coverage gaps", ""]
-    if not gaps:
+    if not m.gaps:
         out += ["Every assay has enough evaluable records to say something.", ""]
     else:
         out += [
@@ -576,10 +804,10 @@ def render_markdown(
             "| assay | taxon | taxid | evaluable | screened |",
             "|---|---|---|---|---|",
         ]
-        for g in gaps:
+        for g in m.gaps:
             out.append(
-                f"| `{md(g['assay_id'])}` | {md(g['taxon_name'] or '-')} | {g['taxid'] or '-'} "
-                f"| {g['evaluable']} | {g['screened'] if g['taxid'] else 'not searched (no taxid)'} |"
+                f"| `{md(g.assay_id)}` | {md(g.taxon_name)} | {g.taxid or '-'} "
+                f"| {g.evaluable} | {g.screened if g.taxid else 'not searched (no taxid)'} |"
             )
         out.append("")
     return "\n".join(out)
@@ -615,15 +843,27 @@ def render_html(
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
 ) -> str:
-    grouped = by_status(drifts)
-    twins = oligo_twins(assays)
+    """One self-contained file: no CDN, inline SVG charts, opens anywhere."""
+    return html_from(build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy))
+
+
+def _html_cells(r: StatusRow) -> tuple[str, str, str, str]:
+    """The same four numbers `_md_cells` formats, with HTML entities."""
+    frac = f"{r.fraction:.1%}" if r.fraction is not None else "-"
+    ci = f"{pct(r.ci[0])}&ndash;{pct(r.ci[1])}" if r.ci else "-"
+    base = f"{pct(r.baseline[0])} ({r.baseline[1]})" if r.baseline else "-"
+    deg = f"{r.degeneracy[0]}&times; {r.degeneracy[1]}" if r.degeneracy else "-"
+    return frac, ci, base, deg
+
+
+def html_from(m: ReportModel) -> str:
     e = html.escape
     parts = [
         "<!doctype html><html lang='en'><head><meta charset='utf-8'>",
         "<meta name='viewport' content='width=device-width, initial-scale=1'>",
-        f"<title>AssayWatch — {e(run_date)}</title><style>{CSS}</style></head><body>",
-        f"<h1>AssayWatch report</h1><p class='muted'>{e(run_date)}</p>",
-        f"<p class='lead'>{e(registry_status_line(drifts, assays))}</p>",
+        f"<title>AssayWatch — {e(m.run_date)}</title><style>{CSS}</style></head><body>",
+        f"<h1>AssayWatch report</h1><p class='muted'>{e(m.run_date)}</p>",
+        f"<p class='lead'>{e(m.registry_line)}</p>",
         "<p class='lead'>Detected means predicted to amplify. The denominator is evaluable "
         "records only: both primers landed in the right orientation and size range. Records "
         "with no amplicon, or too many undetermined bases to judge, are excluded and counted "
@@ -632,150 +872,127 @@ def render_html(
         "also fallen from the baseline (that is drift); low coverage means below threshold "
         "without a measurable fall.</p>",
     ]
-    if flag_confidence_line(grouped):
-        parts.append(
-            "<p class='lead'><b>Duplication check:</b> "
-            f"{e(duplication_summary(grouped.get('declining', []) + grouped.get('low coverage', [])))}</p>"
-        )
-    for status in status_order(grouped):
-        items = grouped.get(status)
-        if not items:
-            continue
+    # Gated on the confidence line but printing the duplication summary. Kept as
+    # it was: changing which of the two appears here changes the published page.
+    if m.confidence_line:
+        parts.append(f"<p class='lead'><b>Duplication check:</b> {e(m.duplication)}</p>")
+    for status, rows in m.sections:
         colour = STATUS_COLOUR.get(status, DEFAULT_COLOUR)
         parts.append(
-            f"<h2><span class='pill' style='background:{colour}'>{e(status)}</span> {len(items)}</h2>"
+            f"<h2><span class='pill' style='background:{colour}'>{e(status)}</span> {len(rows)}</h2>"
         )
         parts.append(
             "<table><tr><th>assay</th><th>entry</th><th>trend</th><th>detected</th><th>95% CI</th>"
             "<th>evaluable</th><th>baseline (n)</th><th>degeneracy</th><th>note</th></tr>"
         )
-        for a in items:
-            assay = assays.get(a.assay_id)
-            deg = assay_degeneracy(assay) if assay else None
-            deg_text = f"{deg.total_fold}&times; {deg.tier(cfg)}" if deg else "-"
-            frac = f"{a.recent_fraction:.1%}" if a.recent_fraction is not None else "-"
-            ci = f"{pct(a.recent_ci[0])}&ndash;{pct(a.recent_ci[1])}" if a.recent_evaluable else "-"
-            base = f"{pct(a.baseline_fraction)} ({a.baseline_evaluable})" if a.baseline_evaluable else "-"
-            note = a.note + (
-                f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else ""
-            )
-            if a.out_of_scope:
-                note += f" {a.out_of_scope} out-of-scope records excluded."
-            if a.patent_excluded:
-                note += f" {a.patent_excluded} patent records excluded."
+        for r in rows:
+            frac, ci, base, deg = _html_cells(r)
             pooled_html = (
-                f"<br><span class='muted' style='font-size:.8rem'>pooled: {e(a.status_pooled)}</span>"
-                if a.lineage_override and a.status_pooled
+                f"<br><span class='muted' style='font-size:.8rem'>pooled: {e(r.pooled)}</span>"
+                if r.pooled
                 else ""
             )
             parts.append(
-                f"<tr><td><code>{e(a.assay_id)}</code><br><span class='muted'>"
-                f"{e(assay.name) if assay else ''}</span>{pooled_html}</td>"
-                f"<td>{e(assay.status.value) if assay else '-'}</td>"
-                f"<td>{sparkline(a)}</td><td>{frac}</td><td>{ci}</td>"
-                f"<td>{a.recent_evaluable}</td><td>{base}</td><td>{deg_text}</td>"
-                f"<td class='muted'>{e(note)}</td></tr>"
+                f"<tr><td><code>{e(r.assay_id)}</code><br><span class='muted'>"
+                f"{e(r.assay_name)}</span>{pooled_html}</td>"
+                f"<td>{e(r.entry)}</td>"
+                f"<td>{sparkline(r.drift)}</td><td>{frac}</td><td>{ci}</td>"
+                f"<td>{r.evaluable}</td><td>{base}</td><td>{deg}</td>"
+                f"<td class='muted'>{e(r.note)}</td></tr>"
             )
         parts.append("</table>")
 
     # The same per-year detail the markdown report has, folded away by default.
-    flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
-    if flagged:
+    if m.details:
         parts.append("<h2>Detail for flagged assays</h2>")
-        if duplication_summary(flagged):
-            parts.append(f"<p class='lead'><b>Duplication check:</b> {e(duplication_summary(flagged))}</p>")
-        for a in flagged:
-            assay = assays.get(a.assay_id)
-            parts.append(f"<details><summary><code>{e(a.assay_id)}</code></summary>")
-            if a.lineage_override and a.status_pooled:
-                pooled_colour = STATUS_COLOUR.get(a.status_pooled, DEFAULT_COLOUR)
+        if m.duplication:
+            parts.append(f"<p class='lead'><b>Duplication check:</b> {e(m.duplication)}</p>")
+        for d in m.details:
+            parts.append(f"<details><summary><code>{e(d.assay_id)}</code></summary>")
+            if d.pooled:
+                pooled_colour = STATUS_COLOUR.get(d.pooled, DEFAULT_COLOUR)
                 parts.append(
                     f"<p><b>Lineage override:</b> pooled status was "
-                    f"<span class='pill' style='background:{pooled_colour}'>{e(a.status_pooled)}</span></p>"
+                    f"<span class='pill' style='background:{pooled_colour}'>{e(d.pooled)}</span></p>"
                 )
-            if assay:
-                bits = [e(assay.name)]
-                if assay.citation.doi:
-                    bits.append(f"designed {assay.citation.design_year or '?'}, doi:{e(assay.citation.doi)}")
-                deg = assay_degeneracy(assay)
-                if deg.note(cfg):
-                    bits.append(f"degeneracy: {e(deg.note(cfg))}")
+            if d.assay_name:
+                bits = [e(d.assay_name)]
+                if d.doi:
+                    bits.append(f"designed {d.design_year}, doi:{e(d.doi)}")
+                if d.degeneracy_note:
+                    bits.append(f"degeneracy: {e(d.degeneracy_note)}")
                 parts.append("<p class='muted'>" + "<br>".join(bits) + "</p>")
             parts.append(
                 "<table><tr><th>deposit year</th><th>detected</th><th>evaluable</th><th>share</th></tr>"
             )
-            for year, det, ev, frac in year_table_rows(a):
+            for year, det, ev, frac in d.years:
                 parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
             parts.append("</table>")
-            if assay and assay.amplicon_bp_range and a.species_counts:
-                lo, hi = assay.amplicon_bp_range
+            if d.species:
+                sp = d.species
                 parts.append(
                     f"<p class='muted'><b>Per species</b> (product size names the species here, "
-                    f"{lo}-{hi} bp, so the share above pools readouts that mean different things; "
-                    f"{e(str(a.recent_from))} on, no assessability floor):</p>"
+                    f"{sp.lo}-{sp.hi} bp, so the share above pools readouts that mean different things; "
+                    f"{e(str(sp.recent_from))} on, no assessability floor):</p>"
                 )
                 parts.append(
                     "<table><tr><th>species</th><th>product bp</th><th>detected</th>"
                     "<th>evaluable</th><th>share</th></tr>"
                 )
-                for label, det, ev, frac, band in species_table_rows(a, taxonomy, assay.species_sizes):
+                for label, det, ev, frac, band in sp.rows:
                     parts.append(
                         f"<tr><td>{e(label)}</td><td>{e(band)}</td><td>{det}</td>"
                         f"<td>{ev}</td><td>{frac}</td></tr>"
                     )
                 parts.append("</table>")
-            if a.out_of_scope:
+            if d.out_of_scope:
                 parts.append(
-                    f"<p class='muted'><b>Out of scope:</b> {a.out_of_scope} records excluded"
+                    f"<p class='muted'><b>Out of scope:</b> {d.out_of_scope} records excluded"
                     " (taxid not in scope_taxids).</p>"
                 )
-            if a.patent_excluded:
+            if d.patent_excluded:
                 parts.append(
-                    f"<p class='muted'><b>Patent records:</b> {a.patent_excluded} excluded"
+                    f"<p class='muted'><b>Patent records:</b> {d.patent_excluded} excluded"
                     " (GenBank patent division; drift.exclude_patent_records).</p>"
                 )
-            if a.clustering_note:
-                parts.append(f"<p class='muted'><b>Duplication check:</b> {e(a.clustering_note)}</p>")
-            un = a.unevaluable()
-            if un:
+            if d.clustering_note:
+                parts.append(f"<p class='muted'><b>Duplication check:</b> {e(d.clustering_note)}</p>")
+            if d.unevaluable:
+                # No `Why:` breakdown here, unlike the markdown report.
                 parts.append(
                     "<p class='muted'>Excluded: "
-                    + ", ".join(f"{n} {e(k)}" for k, n in sorted(un.items()))
+                    + ", ".join(f"{n} {e(k)}" for k, n in sorted(d.unevaluable.items()))
                     + "</p>"
                 )
             parts.append("</details>")
 
-    if nested:
-        thr = (cfg or {}).get("drift", {}).get("detect_fraction_threshold", 0.9)
-        have = [f for f in nested.values() if f.records]
-        if have:
-            parts.append("<h2>Nested protocols</h2>")
+    if m.nested_rows:
+        parts.append("<h2>Nested protocols</h2>")
+        parts.append(
+            "<p class='lead'>Rounds are scored separately above, and that stands: either product can "
+            "be read on a gel. This adds the share of records <b>both</b> rounds reach — what the "
+            "protocol delivers run as published. Round 2's own figure is what it would do as a direct "
+            "PCR.</p>"
+            "<table><tr><th>protocol</th><th>round 1</th><th>round 2 alone</th><th>run as a nest</th>"
+            "<th>records</th><th>inner inside outer</th></tr>"
+        )
+        for r in m.nested_rows:
+            cont, nested_cell = _nested_cells(r, bold="<b>no</b>")
             parts.append(
-                "<p class='lead'>Rounds are scored separately above, and that stands: either product can "
-                "be read on a gel. This adds the share of records <b>both</b> rounds reach — what the "
-                "protocol delivers run as published. Round 2's own figure is what it would do as a direct "
-                "PCR.</p>"
-                "<table><tr><th>protocol</th><th>round 1</th><th>round 2 alone</th><th>run as a nest</th>"
-                "<th>records</th><th>inner inside outer</th></tr>"
+                f"<tr><td><code>{e(r.family)}</code></td><td>{pct(r.outer_share)}</td>"
+                f"<td>{pct(r.inner_share)}</td><td>{nested_cell}</td>"
+                f"<td>{r.records:,}</td><td>{cont}</td></tr>"
             )
-            for f in sorted(have, key=lambda f: (f.gap is None, -(f.gap or 0))):
-                c = f.containment.get((f.outer, f.inner))
-                cont = "-"
-                if c and c[1]:
-                    cont = "yes" if f.nests else f"<b>no</b> ({c[0]:,}/{c[1]:,})"
-                nested_cell = "not a nest" if f.nests is False else pct(f.nested_share)
-                parts.append(
-                    f"<tr><td><code>{e(f.family)}</code></td><td>{pct(f.outer_share)}</td>"
-                    f"<td>{pct(f.inner_share)}</td><td>{nested_cell}</td>"
-                    f"<td>{f.records:,}</td><td>{cont}</td></tr>"
-                )
-            parts.append("</table>")
-            for f in sorted(have, key=lambda f: -(f.gap or 0)):
-                if f.nests is False or f.warns(thr):
-                    parts.append(f"<p class='muted'><b><code>{e(f.family)}</code></b> — {e(f.note(thr))}</p>")
+        parts.append("</table>")
+        # Ordered by gap only, where the markdown section lists the non-nesting
+        # families first and then the warned ones. Another content difference.
+        for f in sorted(m.nested_families, key=lambda f: -(f.gap or 0)):
+            if f.nests is False or f.warns(m.nested_threshold):
+                note = e(f.note(m.nested_threshold))
+                parts.append(f"<p class='muted'><b><code>{e(f.family)}</code></b> — {note}</p>")
 
     parts.append("<h2>Coverage gaps</h2>")
-    if not gaps:
+    if not m.gaps:
         parts.append("<p class='muted'>Every assay has enough evaluable records to say something.</p>")
     else:
         parts.append(
@@ -784,11 +1001,11 @@ def render_html(
             "with no taxid was never searched: that is a registry gap, not a data gap.</p>"
             "<table><tr><th>assay</th><th>taxon</th><th>taxid</th><th>evaluable</th><th>screened</th></tr>"
         )
-        for g in gaps:
+        for g in m.gaps:
             parts.append(
-                f"<tr><td><code>{e(g['assay_id'])}</code></td><td>{e(str(g['taxon_name'] or '-'))}</td>"
-                f"<td>{g['taxid'] or '-'}</td><td>{g['evaluable']}</td>"
-                f"<td>{g['screened'] if g['taxid'] else 'not searched (no taxid)'}</td></tr>"
+                f"<tr><td><code>{e(g.assay_id)}</code></td><td>{e(str(g.taxon_name))}</td>"
+                f"<td>{g.taxid or '-'}</td><td>{g.evaluable}</td>"
+                f"<td>{g.screened if g.taxid else 'not searched (no taxid)'}</td></tr>"
             )
         parts.append("</table>")
     parts.append("</body></html>")

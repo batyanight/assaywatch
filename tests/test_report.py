@@ -334,3 +334,95 @@ def test_species_table_is_empty_without_lineage_counts():
 
     a = assess(*records({2025: {"detect": 1}}), CFG, today=TODAY)["A"]
     assert a.species_counts is None and species_table_rows(a) == []
+
+
+# The report model (S3). Both renderers were 356 lines of parallel layout, so
+# every change was made twice and the two drifted - which is what
+# scripts/report_diff.py was left parsing. The model decides a row's CONTENT
+# once; each serialiser only formats it. These tests assert on the content
+# without parsing any markup, which is what neither renderer allowed before.
+def test_the_model_carries_values_not_formatted_text():
+    """A share is a float here. `-` for "nothing to show" is a format's business."""
+    from assaywatch.report import build_model
+
+    m = build_model(_drifting(), {}, [], "2026-10-03")
+    (status, rows) = m.sections[0]
+    assert status == "declining"
+    assert isinstance(rows[0].fraction, float)
+    assert isinstance(rows[0].ci, tuple) and len(rows[0].ci) == 2
+    assert isinstance(rows[0].evaluable, int)
+
+
+def test_a_row_with_nothing_recent_carries_none_not_a_dash():
+    from assaywatch.drift import AssayDrift
+    from assaywatch.report import build_model
+
+    m = build_model({"ODD": AssayDrift("ODD")}, {}, [], "2026-10-03")
+    row = m.sections[0][1][0]
+    assert row.ci is None and row.baseline is None and row.degeneracy is None
+
+
+def test_both_serialisers_render_the_same_model_and_agree_on_the_numbers():
+    """The drift the model exists to prevent: one report saying 30.0% and the
+    other 30%, or one counting an assay the other dropped."""
+    from assaywatch.report import build_model, html_from, markdown_from
+
+    m = build_model(_drifting(), {}, [], "2026-10-03")
+    md, page = markdown_from(m, {}), html_from(m)
+    for status, rows in m.sections:
+        assert f"({len(rows)})" in md or status.title() in md
+        for r in rows:
+            assert r.assay_id in md and r.assay_id in page
+            assert f"{r.fraction:.1%}" in md and f"{r.fraction:.1%}" in page
+            assert str(r.evaluable) in md and str(r.evaluable) in page
+
+
+def test_the_renderers_are_the_model_plus_formatting():
+    """render_markdown / render_html are now thin wrappers; same output either way."""
+    from assaywatch.report import build_model, html_from, markdown_from, render_html, render_markdown
+
+    drifts = _drifting()
+    args = (drifts, {}, [], "2026-10-03")
+    m = build_model(*args)
+    assert render_markdown(*args) == markdown_from(m, {})
+    assert render_html(*args) == html_from(m)
+
+
+def test_the_note_is_assembled_once_for_both_formats():
+    """Out-of-scope and patent exclusions used to be appended to the note in each
+    renderer separately, in text that had to match."""
+    from assaywatch.report import build_model, html_from, markdown_from
+
+    drifts = _drifting()
+    a = next(iter(drifts.values()))
+    a.out_of_scope, a.patent_excluded = 7, 3
+    m = build_model(drifts, {}, [], "2026-10-03")
+    row = m.sections[0][1][0]
+    assert "7 out-of-scope records excluded." in row.note
+    assert "3 patent records excluded." in row.note
+    assert row.note in markdown_from(m, {}) and row.note in html_from(m)
+
+
+def test_the_withheld_nested_share_rule_is_shared_by_both_tables():
+    """`not a nest` where the amplicons do not nest, and the bold `no` cell: one
+    rule, two emphasis markups."""
+    from assaywatch.report import NestedRow, _nested_cells
+
+    not_nesting = NestedRow("FAM", 0.9, 0.8, 0.7, False, 100, (3, 100))
+    nesting = NestedRow("FAM", 0.9, 0.8, 0.7, True, 100, (100, 100))
+    assert _nested_cells(not_nesting, bold="**no**") == ("**no** (3/100)", "not a nest")
+    assert _nested_cells(not_nesting, bold="<b>no</b>") == ("<b>no</b> (3/100)", "not a nest")
+    assert _nested_cells(nesting, bold="**no**") == ("yes", "70%")
+    # Containment not measured: no record was scored by both rounds. The share is
+    # still printed, because a row only reaches either table when records > 0 and
+    # every share is then a float (NestedFamily._share is None only for 0 records).
+    unmeasured = NestedRow("FAM", 0.9, 0.8, 0.7, None, 100, None)
+    assert _nested_cells(unmeasured, bold="**no**") == ("-", "70%")
+
+
+def test_the_model_counts_match_what_the_headline_claims():
+    from assaywatch.report import build_model
+
+    m = build_model(_drifting(), {}, [], "2026-10-03")
+    assert sum(n for _, n in m.counts) == m.n_assays
+    assert sum(len(rows) for _, rows in m.sections) == m.n_assays
