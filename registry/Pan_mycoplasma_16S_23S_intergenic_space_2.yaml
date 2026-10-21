@@ -45,7 +45,29 @@ source:
     ever have found because Veterinary Parasitology is not in that index - a no-hit here is not evidence the primers are unpublished.
     LEAD, NOT A CONCLUSION: 16-23-F2 (GAAGTCGTAACAAGGTATCC) has the shape of a universal primer at the 3'' end of bacterial
     16S rRNA, the standard anchor for amplifying the 16S-23S intergenic spacer, so the block may descend from a general rDNA-IGS
-    method rather than a mycoplasma paper. Not asserted and not entered: no source was confirmed.'
+    method rather than a mycoplasma paper. Not asserted and not entered: no source was confirmed. CONFIRMED ON A SECOND COPY
+    2026-10-21: Batya supplied the publisher''s own download of Rebelo 2011, independently of the copy already in papers/.
+    Both extract to about 18,000 characters and both yield the SAME two oligo-like runs and no others, so the two-of-six result
+    above is the paper and not a deficient PDF - which was the obvious thing to suspect, since a primer table hidden in an
+    image or dropped by an extractor is exactly how this registry has been misled before, and is why index_papers prefers
+    the copy that prints more oligos. There is nothing to choose between these two, so no second copy was added to papers/.
+    GEOMETRY MEASURED 2026-10-21, and it answers where the unattributed primers come from while condemning one of them. Mapped
+    all six 16-23 primers onto three complete Mycoplasma genomes from the Rebelo bench panel (NZ_CP005933.1 M. bovis, NZ_AP014657.1
+    M. arginini, NZ_CP039447.1 M. agalactiae) with assaywatch.match.find_sites. On M. bovis''s single rDNA locus the sites
+    run, in plus-strand order: 16-23-R3 at 684531-684558 (1 mismatch), 16-23-F3 at 684730-684756 (2), 16-23-R1 at 684886-684908
+    (1), 16-23-F2 at 684926-684946 (1), 16-23-F1 at 684999-685019 (1). So Rebelo''s own F1 and R3 are the OUTERMOST pair,
+    spanning 488 bp, and R1, F2 and F3 all sit INSIDE that amplicon. Three of the four unattributed primers are internal primers
+    of Rebelo''s own locus, which is the architecture of a nested or semi-nested walk on one product, not four unrelated oligos
+    - so the block is very likely one method with one source. The declared sizes corroborate it: F1/R1 measures 133 bp against
+    a declared 145, F3/R3 measures 225 against 234, both consistently a few bases short as a best-mismatch site on a species
+    other than whatever the declared numbers were measured on. 16-23-R2 IS THE EXCEPTION AND IT DOES NOT BELONG HERE. It has
+    NO site anywhere near the rDNA locus in any of the three genomes: its best site needs 5, 6 and 7 mismatches respectively,
+    and in M. bovis that site is 404 kb away from the 16S-23S spacer. The declared 302 bp product for F2/R2 cannot be formed
+    on any of them. So this entry - the only one of the four with neither primer attributed - is also the one whose reverse
+    primer does not bind the target region. 27 nt of almost pure A/T is also not a credible IGS primer. The open question
+    is therefore not ''which paper published F2/R2'' but ''what is R2, and is it a transcription error, an oligo from a different
+    assay, or a different organism''s primer'' - and F2 is probably fine, being an internal forward primer of Rebelo''s amplicon.'
 needs_review:
+- REVERSE_PRIMER_HAS_NO_SITE_IN_TARGET_REGION
 - DOI_MISSING
 - NO_YEAR
