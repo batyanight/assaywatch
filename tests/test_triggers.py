@@ -441,3 +441,57 @@ def test_the_retrieve_rule_hashes_the_settings_a_genome_is_cut_with():
     block = rule_blocks(SNAKEFILE)["retrieve"]
     assert "cut=" in block and "cut_parameters(config)" in block, block
     assert "from assaywatch.assemblies import cut_parameters" in SNAKEFILE
+
+
+def test_the_snakefile_refuses_to_run_without_a_contact_address(tree):
+    """No `--config email=` and no address on disk: refuse, do not invent one.
+
+    `EMAIL = config.get("email")` alone interpolated the literal string "None"
+    into the retrieve command, and `retrieve.py`'s `--email` is `required=True`
+    so argparse accepted it — NCBI was told the caller's contact was "None". The
+    address exists so NCBI can warn a caller before blocking the IP, and a
+    blocked IP affects everyone at the institution, so inventing one is worse
+    than failing. This asserts at parse time, which is where it must happen: a
+    run that cannot identify itself should not reach the first request.
+    """
+    pytest.importorskip("snakemake")
+    env = {
+        **os.environ,
+        "PYTHONPATH": str(tree),
+        "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.environ.get('PATH', '')}",
+    }
+    # The fallback reads $ASSAYWATCH_EMAIL then <root>/.secrets/email; `tree` is
+    # a fresh copy with no .secrets, so clearing the variable leaves neither.
+    env.pop("ASSAYWATCH_EMAIL", None)
+    r = subprocess.run(
+        [sys.executable, "-m", "snakemake", "-n"],
+        cwd=tree,
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    assert r.returncode != 0
+    out = r.stdout + r.stderr
+    assert "No contact address" in out
+    # And it must not have reached the point of building a command with "None".
+    assert "--email None" not in out
+
+
+def test_the_snakefile_accepts_an_address_from_the_environment(tree):
+    """The documented fallback has to work, or the check above just blocks every run."""
+    pytest.importorskip("snakemake")
+    env = {
+        **os.environ,
+        "PYTHONPATH": str(tree),
+        "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.environ.get('PATH', '')}",
+        "ASSAYWATCH_EMAIL": "someone@example.org",
+    }
+    r = subprocess.run(
+        [sys.executable, "-m", "snakemake", "-n"],
+        cwd=tree,
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    assert r.returncode == 0, (r.stdout[-1200:], r.stderr[-1200:])
+    assert "No contact address" not in r.stdout + r.stderr

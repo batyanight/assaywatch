@@ -34,6 +34,7 @@ from datetime import date
 from pathlib import Path
 
 from assaywatch.collect import concatenate_screens, stem_order
+from assaywatch.credentials import require_contact_email
 from assaywatch.assemblies import cut_parameters
 from assaywatch.retrieve import targets_from_registry
 from assaywatch.timing import (
@@ -49,7 +50,16 @@ from assaywatch.validate import iter_files
 
 configfile: "config.yaml"
 
-EMAIL = config.get("email")
+# Falling back to `contact_email()` rather than to None. `config.get("email")`
+# alone interpolated the literal string "None" into the retrieve shell command
+# when --config email= was omitted, and `retrieve.py`'s --email is required=True
+# so argparse accepted it: NCBI was told the caller's contact address was
+# "None". That is worse than failing, because the address exists so NCBI can
+# warn a caller before blocking the IP, and a blocked IP affects everyone at the
+# institution. `require_contact_email` raises SystemExit naming the three ways to
+# set one, which is the right behaviour at parse time — a run that cannot
+# identify itself should not start.
+EMAIL = config.get("email") or require_contact_email("--config email=")
 RETRIEVED = Path(config.get("retrieved_dir", "data/retrieved"))
 RESULTS = Path(config.get("results_dir", "results"))
 SCREENED = RESULTS / "screened"
