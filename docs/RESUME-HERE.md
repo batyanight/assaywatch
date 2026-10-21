@@ -256,8 +256,31 @@
   the current ones so they will be rescreened, and `208294/all` is in no current group so it is not
   a collect input. Verified by comparing `.snakemake/metadata` params against `GROUPS`.
 
-  **Still pending from the audit:** S3 collapse the two renderers, S4/S5 decompose
-  `drift.assess`, S7 controlled `needs_review` vocabulary, R1 container/lockfile.
+  **S3 and S4/S5 DONE 2026-10-21**, both behaviour-preserving and both verified the same way: a
+  golden harness rebuilds `report.md`, `report.html` and all 208 `AssayDrift` records from
+  `results/2026-10-20/calls.tsv.gz` and compares byte for byte (the harness is scratch, not in the
+  repo; it took a pinned `today=2026-10-20` so the window cannot move with the clock).
+  - **S3**: `build_model` decides a row's content; `markdown_from` / `html_from` only format it.
+    Duplicated value derivations 24 → 12 occurrences. `report.py` **grows** 966 → 1183 lines
+    (serialisers 356 → 304, model+builder+helpers +232): changing what a value means is now one
+    edit instead of two, adding a column is three instead of two. The two reports are **not**
+    merged — markdown keeps its count line, window line, `Why:` breakdown and unpaired-nest
+    paragraph; HTML keeps its sparkline, `<details>` folding and its own nested note order. Each
+    difference is commented where it sits. Unifying them changes both published reports and is a
+    maintainer's call.
+  - **S4/S5**: `assess` body 302 → 83 lines, `_lineage_check` 162 → 50. New stages:
+    `DriftSettings`, `Window` (the granularity and widening rules, previously closures),
+    `_gather_calls`, `_tally_window`, `LineageOptions` (now validated before the per-assay loop,
+    so a bad setting fails on the config rather than on the first assay to reach it),
+    `_lineage_calls`, `_species_counts`; and the gate chain `_pool_is_one_lineage` →
+    `_never_covered_gate` → `_weak_pooled_gate` → `_apply_override`.
+  - **Mutation testing earned its keep again.** `_pool_is_one_lineage` survived every unit test and
+    was caught only by the full rebuild; worse, a direct test of the predicate still passed with
+    its call site deleted. The test that counts goes through `_lineage_check` and asserts the
+    effect. Same trap as S9's facing-strand test. **When a refactor extracts a gate, test the
+    effect through the caller, not the predicate.**
+
+  **Still pending from the audit:** S7 controlled `needs_review` vocabulary, R1 container/lockfile.
   Then **M2** nearest-neighbour ΔG as its own project. M1 remains HELD (see above).
   **A full run is owed** and will now also exercise the S1 guard and the R2 sidecar end to end;
   nothing has verified the Snakefile's provenance wiring on a real run yet (the dry run parses,
