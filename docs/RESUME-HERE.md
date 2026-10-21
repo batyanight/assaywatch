@@ -212,12 +212,42 @@
   `declared_tolerance`; the changed entries rescreen on the next run). Left as is: Arenavirus S
   (630; modal 639 but on only 73 of 424) and Coronavirus round1 (532; 529 on 2,172 vs 532 on 1,598).
   SIV DR1/DR2 → DR4/DR5 declared one nested family (`RETROVIRUS_SIV_pol_PREDICT_P029`): inner inside
-  outer on 3,703 of 3,703 records. Next: then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
-  the status vocabulary from `drift.py` (the `report_diff` bug), S3 collapse the two renderers,
-  S4/S5 decompose `drift.assess`, S6 one accession-version helper, S7 controlled `needs_review`
-  vocabulary, S8 delete dead `lineage.taxid_backfill`, S9 test `loci.py`; M3 cite the FDA 5% policy;
-  R1 container/lockfile, R2 stamp config+code hash into the calls table, R3 regenerate
-  `papers-index.md` in CI. Batch the no-decision ones (M3, S2, S6, S8, S9, R3) in one go.
+  outer on 3,703 of 3,703 records.
+
+  **The no-decision batch is DONE, 2026-10-21** (M3, S2, S6, S8, S9, R3 — one commit each,
+  full gate before each; 1,341 tests):
+  - **M3** `min_decline` cited beside the setting and in `ROADMAP.md`. Read from the guidance
+    itself (FDA-2020-D-0987, Jan 2023), which the audit's secondhand sources had merged: >5% of
+    database sequences is the cue to LOOK, >=5% off established performance the cue to ACT, and
+    `min_decline` is the second. Cited as precedent, not live guidance — it runs only for the
+    duration of the section 564 declaration, whose current status is unconfirmed. Ours is 5
+    percentage POINTS; the guidance does not say points or relative.
+  - **S2** `STATUS_ORDER` / `NO_DATA` / `STATUSES` now live in `drift.py`; `report.py` and
+    `report_diff.py` read them. Two tests read the assignments out of `drift.py`'s own source.
+    `report_diff` output on 2026-10-17 vs 2026-10-20 is byte-identical.
+  - **S6** `strip_version` / `version_of` moved to `assaywatch/accession.py`, 25 call sites
+    converted. **Not a pure refactor**: the bare `split(".")[0]` disagrees with `strip_version` on
+    98 of 1,276,853 distinct record ids, all PDB chains, reaching 428 call rows (29 evaluable). A
+    guard test found a 25th site the `[0]` grep missed (`lineage.lineage_of`, behind a dead
+    `if parts else`).
+  - **S8** `lineage.taxid_backfill` was not dead — the key was unread but the file is load-bearing
+    (1,278,534 of 2,709,579 taxid joins), because both consumers hardcoded the filename. Now read
+    from config. Genuinely dead and deleted: `retrieve.load_record_metadata` (77 loc, never
+    called). `tests/test_config_keys.py` asserts every config key is mentioned in the source; on
+    the pre-fix tree it fails naming exactly that key.
+  - **S9** 14 tests for `loci.pair_spans`. Mutation-tested: the first draft's facing-strand test
+    was **vacuous** (the length window rejected the case first), so a case was added where only
+    the ordering can refuse. Seven mutants each caught now.
+  - **R3** `papers_index.py --check` + a pre-commit hook. A hook and not CI because the PDF column
+    reads `papers/`, which is local-only. Running it found the index omitting the panel book: the
+    `.supp` stem is not a DOI stem and no entry *cites* the book. Fixed by two named mechanics
+    (`<doi stem>.supp.pdf` counts for its article; `SHARED_SOURCES` declares an uncited
+    dependency). 119 papers, 100 held.
+
+  **Still pending from the audit:** S3 collapse the two renderers, S4/S5 decompose
+  `drift.assess`, S7 controlled `needs_review` vocabulary, R1 container/lockfile, R2 stamp
+  config+code hash into the calls table. Then **M2** nearest-neighbour ΔG as its own project.
+  M1 remains HELD (see above).
   **TODO (Batya, offline): resolve the 16 entries that have no DOI.**
   `docs/oligos-without-doi.tsv` lists all 33 oligos with sequences, grouped by where the answer
   must come from: 6 in-house/unpublished (WCS/CII lab records), the Müller 2011 CDV quartet (needs
