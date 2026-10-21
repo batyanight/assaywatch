@@ -40,5 +40,11 @@ source:
   nested_round: round2
   nested_family: CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010
   notes: null
-  notes_curator: 'PREDICT panel protocol P-005 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Quan, P.L. et al (2010). | Oligo annotations moved from name field: CoV-FWD2 (forward): U740; CoV-RVS2 (reverse): L1107'
+  notes_curator: 'PREDICT panel protocol P-005 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Quan, P.L.
+    et al (2010). | Oligo annotations moved from name field: CoV-FWD2 (forward): U740; CoV-RVS2 (reverse): L1107 SCOPE QUESTION
+    ASKED AND CLOSED 2026-10-20. The override fires on "Betacoronavirus sp." (1928434), which assaywatch.taxonomy.in_unclassified
+    reports True: it sits under 696098 unclassified Betacoronavirus, so it is an NCBI holding pen rather than a clade, and
+    47 records of it cannot say an assay is declining. This is the class lineage.unclassified_is_bucket was built for, shipped
+    off because tier-2 was unchanged by it. Not a scope question - no scope_taxids list can separate a bucket from a clade.'
 needs_review: null

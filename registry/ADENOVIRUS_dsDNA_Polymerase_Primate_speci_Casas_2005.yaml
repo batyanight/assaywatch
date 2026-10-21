@@ -57,5 +57,11 @@ source:
     ITSELF, later on 2026-10-05. The Roy 2009 PDF was fetched as gold open access, and this entry''s outer pair F1/R1 now
     verifies exact against it directly. (The inner pair in the sibling entry reads in-text rather than exact, because Roy
     prints all four primers inside one running sentence rather than in a table, which is the weaker of the two matches the
-    verifier distinguishes - not a discrepancy in the sequence.)'
+    verifier distinguishes - not a discrepancy in the sequence.) SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids
+    added. The override fires on Mastadenovirus faecale (3241426) at 52/114 = 45.6 percent; its records are Human mastadenovirus
+    F, the enteric HAdV-40/41 serotypes. In range by claim: Roy et al. 2009 describes "a nested PCR specific for the DNA polymerase
+    gene" aimed at "a conserved region of the DNA polymerase gene" across the adenoviruses that infect primates, and HAdV-F
+    is a primate adenovirus. Not demonstrated, though - the isolates Roy recovered fell into species B, C and E, and no species
+    F was amplified there, so this is a weaker in-range verdict than the other cases and the 45.6 percent deserves a look
+    at the oligo level before it is read as drift.'
 needs_review: null

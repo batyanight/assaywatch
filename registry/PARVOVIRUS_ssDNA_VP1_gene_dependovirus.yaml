@@ -48,6 +48,11 @@ source:
     both sit on the same strand, while 19s with the stored reverse complement gives one in 1,345, 255 bp in 647 (261 in 399,
     258 in 223). Gao describes the signature region as ''about 255 bp'', so the measurement agrees with the paper on the amplicon.
     The paper''s table prints the sense-strand sequence of the reverse site rather than the oligo; the lab''s ''(corrected)''
-    in the oligo name records exactly that, and is right. amplicon_bp set to the measured 255, from null.'
+    in the oligo name records exactly that, and is right. amplicon_bp set to the measured 255, from null. SCOPE QUESTION ASKED
+    AND CLOSED 2026-10-20. The override fires on Adeno-associated virus (272636) at 1329/1525 = 87.2 percent against a pooled
+    80.2 percent of 2,456 - better than the pool, on the assay''s own target, since Gao et al. 2002 calls these the universal
+    AAV signature-region primers. Fifth worked example of the above-pooled pattern. The AAV patent skew is separately documented
+    in docs/2026-10-19-orthopox-ati-vaccinia.md: patents are detected MORE than natural records here, 84.3 vs 45.3 percent
+    on the exact Gao pair.'
 needs_review:
 - MODIFIED_IN_HOUSE
