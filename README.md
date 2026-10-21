@@ -370,6 +370,20 @@ winning, so a group with nothing new this week is still in the report and next
 week only the new archives cost anything. `--config run_date=...` only renames
 the report folder.
 
+**A calls table says what produced it**, in `results/<date>/calls.provenance.json`:
+every screen that went into it with the time it was written, its rows and its
+assay count, plus the screening code-and-config hash, the git commit and the
+signature the pipeline expects for each group. Because reports are cumulative,
+the table is a mosaic — a run mixes archives screened tonight with archives
+screened three weeks ago under whatever the config said then — so the sidecar
+records per-archive facts and the span of screening times rather than claiming
+one set of settings for the whole table. It exists because
+`results/2026-10-18/calls.tsv.gz` turned out to have been screened under a
+scoring override that was reverted the next day, and the only way anyone
+established that was to notice a commit landing three minutes after the run
+finished. A cached screen still carries no record of its own settings; the
+sidecar makes the gap visible rather than closing it.
+
 **State is kept apart from outputs.** Snakemake deletes a rule's declared
 outputs before it runs the rule. The retrieval manifest and the sequence
 archives must outlive any one run, so neither is ever declared as an output:

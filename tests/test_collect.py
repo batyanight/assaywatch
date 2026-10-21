@@ -11,6 +11,9 @@ from __future__ import annotations
 
 import csv
 import gzip
+import json
+import os
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -502,3 +505,163 @@ def test_zero_byte_and_header_only_screens_pass_the_check(tmp_path):
 def test_without_known_ids_nothing_is_checked(tmp_path):
     a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "ANY", "record_id": "R1", "call": "pass"}])
     concatenate_screens([a], tmp_path / "calls.tsv.gz")
+
+
+# The provenance sidecar (R2). A calls table could not say what produced it:
+# establishing that results/2026-10-18/ ran under a since-reverted scoring
+# override took noticing a commit that landed three minutes after the run
+# finished. These tests pin what the sidecar does record, and what it refuses
+# to claim.
+def _prov(tmp_path: Path) -> dict:
+    return json.loads((tmp_path / "calls.provenance.json").read_text())
+
+
+def test_no_sidecar_is_written_unless_provenance_is_asked_for(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"})
+    assert not (tmp_path / "calls.provenance.json").exists()
+
+
+def test_the_sidecar_lands_beside_the_calls_table_and_names_it(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens(
+        [a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={"run_date": "2026-10-21"}
+    )
+    doc = _prov(tmp_path)
+    assert doc["calls_table"] == "calls.tsv.gz"
+    assert doc["run_date"] == "2026-10-21"
+
+
+def test_every_screen_is_inventoried_with_its_rows_and_assays(tmp_path):
+    a = write_screen(
+        tmp_path / "a.tsv",
+        IDS,
+        [
+            {"assay_id": "A", "record_id": "R1", "call": "pass"},
+            {"assay_id": "B", "record_id": "R2", "call": "fail"},
+        ],
+    )
+    b = write_screen(tmp_path / "b.tsv", IDS, [{"assay_id": "A", "record_id": "R3", "call": "pass"}])
+    concatenate_screens([a, b], tmp_path / "calls.tsv.gz", known_ids={"A", "B"}, provenance={})
+    doc = _prov(tmp_path)
+    assert doc["screens"] == 2
+    assert doc["rows"] == 3  # and that is the row count of the table itself
+    assert [s["rows"] for s in doc["screen_inventory"]] == [2, 1]
+    assert [s["assays"] for s in doc["screen_inventory"]] == [2, 1]
+    assert [Path(s["path"]).name for s in doc["screen_inventory"]] == ["a.tsv", "b.tsv"]
+
+
+def test_the_row_total_matches_the_table_it_describes(tmp_path):
+    rows = [{"assay_id": "A", "record_id": f"R{i}", "call": "pass"} for i in range(17)]
+    a = write_screen(tmp_path / "a.tsv", IDS, rows)
+    out = tmp_path / "calls.tsv.gz"
+    concatenate_screens([a], out, known_ids={"A"}, provenance={})
+    assert _prov(tmp_path)["rows"] == len(read_table(out)) == 17
+
+
+def test_a_quoted_line_break_is_counted_as_one_row_not_two(tmp_path):
+    """Why the count is parsed rather than taken from newlines."""
+    a = write_screen(
+        tmp_path / "a.tsv",
+        [*IDS, "reason"],
+        [{"assay_id": "A", "record_id": "R1", "call": "fail", "reason": "head\ntail"}],
+    )
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
+    assert _prov(tmp_path)["rows"] == 1
+
+
+def test_the_span_of_screening_times_is_recorded(tmp_path):
+    """The forensic number: a table whose screens were written weeks apart cannot
+    have one set of settings, and this is what says so."""
+    old = write_screen(tmp_path / "old.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    new = write_screen(tmp_path / "new.tsv", IDS, [{"assay_id": "A", "record_id": "R2", "call": "pass"}])
+    then = datetime(2026, 10, 4, 18, 30, tzinfo=UTC).timestamp()
+    now = datetime(2026, 10, 20, 21, 53, tzinfo=UTC).timestamp()
+    os.utime(old, (then, then))
+    os.utime(new, (now, now))
+    concatenate_screens([old, new], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
+    doc = _prov(tmp_path)
+    assert doc["screened_first"] < doc["screened_last"]
+    assert doc["screened_first"].startswith("2026-10-0")
+    inventory = {Path(s["path"]).name: s["screened_at"] for s in doc["screen_inventory"]}
+    assert inventory["old.tsv"] == doc["screened_first"]
+    assert inventory["new.tsv"] == doc["screened_last"]
+
+
+def test_the_timestamps_carry_an_offset_so_they_cannot_be_read_in_the_wrong_zone(tmp_path):
+    """In UTC the 2026-10-20 run's screens read 2026-10-21T01:53, which invites
+    exactly the wrong comparison when the question is which run wrote a screen."""
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
+    doc = _prov(tmp_path)
+    for stamp in (doc["collected_at"], doc["screened_first"], doc["screen_inventory"][0]["screened_at"]):
+        assert datetime.fromisoformat(stamp).utcoffset() is not None
+
+
+def test_the_expected_signature_is_recorded_per_group(tmp_path):
+    screens = tmp_path / "results" / "screened" / "10292" / "qb41"
+    screens.mkdir(parents=True)
+    a = write_screen(screens / "2026-10-03.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens(
+        [a],
+        tmp_path / "calls.tsv.gz",
+        known_ids={"A"},
+        provenance={"expected_signatures": {"10292/qb41": "abc123"}},
+    )
+    entry = _prov(tmp_path)["screen_inventory"][0]
+    assert entry["group"] == "10292/qb41"
+    assert entry["expected_signature"] == "abc123"
+
+
+def test_a_group_with_no_signature_given_records_an_empty_one_not_a_wrong_one(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens(
+        [a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={"expected_signatures": {}}
+    )
+    assert _prov(tmp_path)["screen_inventory"][0]["expected_signature"] == ""
+
+
+def test_the_sidecar_says_the_signature_is_what_is_expected_now_not_what_ran(tmp_path):
+    """The claim it must not make. A cached screen carries no record of its own
+    settings - that gap is the 2026-10-18 bug, and this file makes it visible
+    rather than closing it."""
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
+    note = _prov(tmp_path)["note"]
+    assert "NOW" in note and "screened_at is the evidence" in note
+
+
+def test_extra_fields_are_passed_through(tmp_path):
+    """The Snakefile's hashes and git commit, which collect.py cannot compute."""
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens(
+        [a],
+        tmp_path / "calls.tsv.gz",
+        known_ids={"A"},
+        provenance={"extra": {"screen_code_and_config_sha1": "deadbeef", "git_commit": "abc1234 (dirty)"}},
+    )
+    doc = _prov(tmp_path)
+    assert doc["screen_code_and_config_sha1"] == "deadbeef"
+    assert doc["git_commit"] == "abc1234 (dirty)"
+
+
+def test_a_refused_collect_writes_no_sidecar_either(tmp_path):
+    stale = write_screen(
+        tmp_path / "stale.tsv", IDS, [{"assay_id": "OLD", "record_id": "R1", "call": "pass"}]
+    )
+    with pytest.raises(ValueError):
+        concatenate_screens([stale], tmp_path / "calls.tsv.gz", known_ids={"NEW"}, provenance={})
+    assert not (tmp_path / "calls.provenance.json").exists()
+
+
+def test_the_screens_are_parsed_once_for_the_guard_and_the_sidecar(tmp_path, monkeypatch):
+    """Both need the same parse; 311 screens take about 5 seconds to read."""
+    import assaywatch.collect as collect
+
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    b = write_screen(tmp_path / "b.tsv", IDS, [{"assay_id": "A", "record_id": "R2", "call": "pass"}])
+    calls = []
+    real = collect.screen_stats
+    monkeypatch.setattr(collect, "screen_stats", lambda p, k=None: (calls.append(p), real(p, k))[1])
+    collect.concatenate_screens([a, b], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
+    assert calls == [a, b]

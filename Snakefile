@@ -29,6 +29,7 @@
 import hashlib
 import json
 import os
+import subprocess
 from datetime import date
 from pathlib import Path
 
@@ -113,6 +114,35 @@ def screen_signature(taxid, group):
 # stem_order lives in assaywatch/collect.py with collect_calls' logic, so both
 # can be tested: archives are concatenated oldest first, and `_10` must sort
 # after `_2`, so that the newest version of an accession survives deduplication.
+
+
+def _git_commit():
+    """`<sha> (dirty)` for the working tree, or "" when git cannot say.
+
+    Recorded in the calls sidecar because the code hash alone identifies the
+    screening path, not the rest of the tree that produced a run. Never raises:
+    provenance that fails a run is worse than provenance that is blank, and a
+    release tarball with no .git is a legitimate way to run this.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(workflow.basedir), "rev-parse", "--short", "HEAD"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        if out.returncode != 0:
+            return ""
+        sha = out.stdout.strip()
+        changed = subprocess.run(
+            ["git", "-C", str(workflow.basedir), "status", "--porcelain"],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        return f"{sha} (dirty)" if changed.stdout.strip() else sha
+    except Exception:
+        return ""
 
 
 def _package_hash(*names):
@@ -367,7 +397,26 @@ rule collect_calls:
         # older rows a column sideways. It also refuses a screen holding an assay
         # id the run no longer screens (renamed, removed, deprecated): a stale
         # cached screen that would otherwise be double-counted in every report.
-        concatenate_screens(list(input), output[0], known_ids=CURRENT_ASSAYS)
+        # The sidecar (calls.provenance.json) is written in the same pass: a calls
+        # table could not say what produced it, which is why establishing that
+        # results/2026-10-18/ ran under a since-reverted scoring override took
+        # noticing a commit three minutes after the run finished.
+        concatenate_screens(
+            list(input),
+            output[0],
+            known_ids=CURRENT_ASSAYS,
+            provenance={
+                "run_date": RUN_DATE,
+                "expected_signatures": {f"{t}/{g}": screen_signature(t, g) for t, g in GROUPS},
+                "extra": {
+                    "screen_code_and_config_sha1": _code_hash,
+                    "collect_code_sha1": _COLLECT_CODE,
+                    "thermo": THERMO,
+                    "assays_screened": len(CURRENT_ASSAYS),
+                    "git_commit": _git_commit(),
+                },
+            },
+        )
 
 
 rule site_drift:
