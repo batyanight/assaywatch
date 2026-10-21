@@ -1,6 +1,26 @@
-# Resume point, 2026-10-20 (the 2026-10-18 calls are stale; four design papers read for scope)
+# Resume point, 2026-10-20 (full run valid again; four design papers read for scope)
 
 ## 2026-10-20
+
+- **Full run DONE and valid** (`results/2026-10-20/`, 28m 54s, 291/291 steps). 208 assays: 37
+  declining, 38 low coverage, 11 watch, 43 insufficient data, 17 no recent data, 62 stable.
+  Tier-2 on it: **4 of 11 caught, 10 disagreements**, the first time the override doc's claimed
+  figure has been reproduced on a current run. The override audit is unchanged in shape: 21
+  overrides, 15 on a pooled `low coverage`, 6 above-pooled.
+- **`scripts/report_diff.py` cannot be trusted and should be fixed before it is quoted again.**
+  Run over 2026-10-17 vs 2026-10-20 it reports "20 declining, 34 low coverage, 20 nested
+  protocols" where the report's own computed header says 37 declining and 38 low coverage: it
+  parses `report.md` and turns a section heading into a `nested protocols` status, which swallows
+  17 declining and 4 low coverage assays. Its "56 no longer in the report / 33 new" lists are
+  almost entirely the assay-ID renames, which it cannot see through —
+  `scripts/lineage_override_audit.py` resolves those through `docs/rename-mapping.tsv` and is the
+  pattern to copy. Read the report header, not report_diff, until this is fixed.
+- **The assembly listing is paged by token now** (`assaywatch/assemblies.py`). The previous run
+  died on `taxid 562: more than 1000 assemblies released on 2026-09-29` — E. coli really had 1,427
+  GenBank complete genomes that day, so no date bisection could get under a page, and splitting on
+  assembly level did not help (`chromosome` 120, `complete_genome` still full). The TSV format of
+  `dataset_report` carries no continuation token but the JSON format returns `next_page_token`, so
+  the bisection and its guard are both gone. Verified live on the failing day: 1,547 listed.
 
 - **`results/2026-10-18/calls.tsv.gz` was screened under the reverted `by_chemistry.conventional`
   override and must not be measured on.** Paramyxovirinae L round1 goes 5,131 `fail` / 1,884
@@ -123,7 +143,7 @@
   **Three bench panels now** (FAP, Rebelo Mycoplasma 8/8 clean, Meyer ATI 8/9 with skunkpox a false
   fail). They point at two different scorer knobs: mispair identity in the 3' window (FAP) and
   linear accumulation against `reduced_max` (Meyer).
-  **Next:** a full run on the current config (the 2026-10-17 calls are the newest valid ones);
+  **Next:** (the full run is DONE, 2026-10-20; see the State table)
   an identity-aware 3'-window penalty, now that FAP and Barrett agree on it, measured through
   tier-2 one knob at a time; an `is_patent` backfill sidecar (the title fallback misses ~3%, and
   `--include-fail` waits on it); a fifth bench panel with real `no_band` rows (Rahn 1992
@@ -282,9 +302,10 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 |---|---|
 | registry | **209 valid, 0 problems**: 206 draft, 2 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
 | chemistry | conventional 162, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 165 primers only |
-| tests | 1278 passed; ruff clean; 187 citations checked, 0 Crossref problems (22 entries have no DOI) |
-| validation | **50 cases**; on the 2026-10-17 calls, `scripts/retrospective.py --cases` reports **3 of 11** `fails` caught and **9 disagreements**. The "6 of 12 / 9 disagreements" in the older sections predates the working-baseline gates, the species roll-up and the override rule, and was measured on a different calls table — do not quote it. |
-| newest VALID calls | **2026-10-17** (`results/2026-10-17/calls.tsv.gz`). `results/2026-10-18/` was screened under the reverted conventional override (see 2026-10-20 above) and is not evidence; `results/2026-10-20/` is an interrupted run with no calls table. A full run on the current config is owed. |
+| tests | 1282 passed; ruff clean; 187 citations checked, 0 Crossref problems (22 entries have no DOI) |
+| validation | **50 cases**; on the 2026-10-20 calls, `scripts/retrospective.py --cases` reports **4 of 11** `fails` caught and **10 disagreements** (17 undecided). That reproduces the figure `docs/2026-10-20-pan-family-override.md` claims for the shipped override rule, on a current run for the first time; the 2026-10-17 table gave 3/11 and 9 with 22 undecided. The "6 of 12 / 9 disagreements" in the older sections predates the working-baseline gates, the species roll-up and the override rule — do not quote it. |
+| last full run | **2026-10-20** (21:25–21:54, 28m 54s, 291/291 steps, `status: success`), the first on the current config since the conventional override was reverted: 208 assays — 37 declining, 38 low coverage, 11 watch, 43 insufficient data, 17 no recent data, 62 stable. Control that it is really the current scorer: Paramyxovirinae L round1 reads 5,135 `fail` / 1,884 `reduced`, matching 2026-10-17's 5,131 / 1,884 against 2026-10-18's 33 / 6,984. |
+| do not measure on | `results/2026-10-18/calls.tsv.gz`, screened under the reverted `by_chemistry.conventional` override (see 2026-10-20 above). `results/2026-10-15/` and earlier predate the lineage estimand. |
 
 Verified against the repo 2026-10-20.
 
