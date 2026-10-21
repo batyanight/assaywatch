@@ -3,6 +3,7 @@
 
     python scripts/papers_index.py --out docs/papers-index.md
     python scripts/papers_index.py --out docs/papers-index.md --refresh
+    python scripts/papers_index.py --check          # pre-commit: is the committed index current?
 
 The PDFs live in `papers/`, which is gitignored because the files are
 copyrighted. That means the one durable record of WHICH papers this project
@@ -66,6 +67,18 @@ def crossref(doi: str) -> dict | None:
     }
 
 
+# Sources the registry depends on that no single entry CITES, so
+# `registry_citations` cannot see them and a PDF named after one is reported
+# unmatched. Each entry here needs a reason, because the alternative - letting
+# any unmatched filename invent a DOI - is the bug local_pdfs exists to prevent.
+SHARED_SOURCES = {
+    # 37 entries' oligos were transcribed from this book's Supplementary Methods
+    # and verified against it (scripts/verify_predict_supplement.py, 74/74 exact).
+    # Each cites its own design paper, as it should, so nothing cites the book.
+    "10.1038/ncomms9147": "PREDICT consensus-PCR protocol book (Anthony et al. 2015)",
+}
+
+
 def registry_citations() -> dict[str, list[str]]:
     """{doi: [assay ids citing it]} over the whole registry."""
     out: dict[str, list[str]] = defaultdict(list)
@@ -77,8 +90,19 @@ def registry_citations() -> dict[str, list[str]]:
     return out
 
 
+# A supplement held beside its article: `<doi stem>.supp.pdf`. The PREDICT
+# protocol book is one of these (10.1038/ncomms9147), and it is the single
+# document the most registry entries rest on, so the index has to record it.
+# Without this suffix its stem matches no DOI and it was reported unmatched.
+SUPPLEMENT_SUFFIX = ".supp"
+
+
 def local_pdfs(pdf_dir: Path, known_dois: set[str]) -> tuple[dict[str, str], int]:
     """({doi: filename} for DOIs whose PDF is held, count of PDFs matched to none).
+
+    A `<stem>.supp.pdf` counts for the same DOI as `<stem>.pdf` and is recorded
+    under the DOI with its real filename, so the index says which of the two is
+    on disk.
 
     Forward-mapped from each known DOI, because a filename stem cannot be turned
     back into a DOI (see assaywatch/papers.py). This used to reverse-map every
@@ -95,10 +119,11 @@ def local_pdfs(pdf_dir: Path, known_dois: set[str]) -> tuple[dict[str, str], int
     stems = {p.stem.lower(): p.name for p in pdf_dir.glob("*.pdf")} if pdf_dir.is_dir() else {}
     out, claimed = {}, set()
     for doi in known_dois:
-        name = stems.get(doi_stem(doi))
-        if name:
-            out[doi.strip().lower()] = name
-            claimed.add(name)
+        stem = doi_stem(doi)
+        names = [n for n in (stems.get(stem), stems.get(stem + SUPPLEMENT_SUFFIX)) if n]
+        if names:
+            out[doi.strip().lower()] = ", ".join(names)
+            claimed.update(names)
     return out, len(set(stems.values()) - claimed)
 
 
@@ -108,6 +133,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--pdf-dir", type=Path, default=ROOT / "papers")
     ap.add_argument("--cache", type=Path, default=ROOT / "docs" / "papers-index.cache.json")
     ap.add_argument("--refresh", action="store_true", help="re-fetch every DOI instead of using the cache")
+    ap.add_argument(
+        "--check",
+        action="store_true",
+        help="write nothing; exit 1 if --out is not what this run would write (for the pre-commit hook)",
+    )
     args = ap.parse_args(argv)
 
     # Loaded even under --refresh: other scripts cache DOIs this one never
@@ -121,14 +151,14 @@ def main(argv: list[str] | None = None) -> int:
     # The cache's own keys count as known DOIs: they are what earlier runs
     # resolved, which is how a paper on disk for a DOI the registry does not cite
     # stays in the index.
-    held, unmatched = local_pdfs(args.pdf_dir, set(cited) | set(cache))
+    held, unmatched = local_pdfs(args.pdf_dir, set(cited) | set(cache) | set(SHARED_SOURCES))
     if unmatched:
         print(
             f"{unmatched} PDF(s) in {args.pdf_dir} match no DOI in the registry or the cache "
             "and are not indexed; see local_pdfs",
             file=sys.stderr,
         )
-    dois = sorted(set(cited) | set(held))
+    dois = sorted(set(cited) | set(held) | set(SHARED_SOURCES))
 
     fetched = 0
     for doi in dois:
@@ -156,6 +186,7 @@ def main(argv: list[str] | None = None) -> int:
                 "author": m.get("first_author") or "",
                 "pdf": held.get(doi, ""),
                 "assays": cited.get(doi, []),
+                "shared": SHARED_SOURCES.get(doi, ""),
             }
         )
     rows.sort(key=lambda r: (-(r["year"] or 0), r["author"]))
@@ -189,8 +220,12 @@ def main(argv: list[str] | None = None) -> int:
         "|---|---|---|---|---|---|---|",
     ]
     for r in rows:
-        a = "<br>".join(f"`{x}`" for x in r["assays"])
-        pdf = "yes" if r["pdf"] else ""
+        # A shared source has no citing entry, so the column says what it is instead.
+        a = "<br>".join(f"`{x}`" for x in r["assays"]) or (f"_{r['shared']}_" if r["shared"] else "")
+        # Which file is held, not just whether one is: an article, its supplement, or both.
+        held_names = r["pdf"].split(", ") if r["pdf"] else []
+        kinds = ["suppl" if SUPPLEMENT_SUFFIX + ".pdf" in n else "yes" for n in held_names]
+        pdf = ", ".join(dict.fromkeys(kinds))
         out.append(
             f"| {r['year']} | {r['author']} | {r['journal'][:38]} | "
             f"[{r['doi']}](https://doi.org/{r['doi']}) | {pdf} | {a} | {r['title'][:96]} |"
@@ -215,9 +250,24 @@ def main(argv: list[str] | None = None) -> int:
         "",
     ]
 
+    text = "\n".join(out)
+    summary = f"{len(rows)} papers, {n_held} held locally, {n_cited} cited"
+
+    if args.check:
+        current = args.out.read_text() if args.out.exists() else ""
+        if current == text:
+            return 0
+        print(
+            f"{args.out.relative_to(ROOT) if args.out.is_relative_to(ROOT) else args.out} is stale "
+            f"({summary} now). Regenerate it and include it in this commit:\n"
+            f"    python scripts/papers_index.py --out {args.out}",
+            file=sys.stderr,
+        )
+        return 1
+
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text("\n".join(out))
-    print(f"wrote {args.out} ({len(rows)} papers, {n_held} held locally, {n_cited} cited)")
+    args.out.write_text(text)
+    print(f"wrote {args.out} ({summary})")
     return 0
 
 

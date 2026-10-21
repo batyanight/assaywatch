@@ -16,6 +16,23 @@ repos:
         language: system
         pass_filenames: false
         files: ^registry/.*\.yaml$
+      - id: papers-index
+        # docs/papers-index.md is the only durable record of WHICH papers this
+        # registry rests on, because papers/ is gitignored. It went stale twice
+        # (a regeneration found 124 papers where 114 were real plus ten
+        # fabricated DOIs), so it is checked rather than remembered.
+        #
+        # A hook and not CI: the index's PDF column is built by looking in
+        # papers/, which exists only on this laptop. CI would regenerate it with
+        # every PDF missing and call the committed file wrong on every run.
+        # Reads the committed Crossref cache, so no network - but a NEW cited DOI
+        # is fetched, and with no network the hook fails until it can reach
+        # Crossref. That is the same bargain check-citations already makes.
+        name: papers index is current
+        entry: conda run -n assaywatch python scripts/papers_index.py --check
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|docs/papers-index\.(md|cache\.json)|scripts/papers_index\.py)$
       - id: check-citations
         # Every citation must match Crossref. A reference written from memory is
         # how doi:10.3390/v13071358 was briefly recorded as Nobach et al. when
