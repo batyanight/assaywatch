@@ -34,5 +34,13 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: 'VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised, so verify_oligos_against_paper.py
+    had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in
+    that script''s doi_stem(). Result: Borna-NF reads near:2. Stored GCCTTGTGTTTCTATGTTTG, paper prints GCCTTGTGTTTCTATCTTTC
+    - same length, so this is not the end-glue case at all, and the two differences sit at positions 16 and 20, the second
+    being the 3''-terminal base. A primer whose 3'' terminus is wrong is the single most consequential kind of registry error,
+    and with terminal_mismatch_fails: true it would also change this assay''s calls. Not changed: this needs the PDF read
+    by eye, and if the paper is right the entry''s calls are currently measuring a primer nobody used.'
 needs_review:
+- SEQUENCE_DIFFERS_FROM_PAPER
 - ORIENTATION_INFERRED_BY_POSITION

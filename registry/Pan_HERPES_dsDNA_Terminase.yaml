@@ -40,6 +40,19 @@ source:
   nested_round: null
   nested_family: Pan_HERPES_dsDNA_Terminase
   notes: null
-  notes_curator: 'PREDICT panel protocol P-032 (Terminase), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Chmielewicz, B. et al (2001). TAXON RENAMED: NCBI now calls txid10292 ''Orthoherpesviridae''; this entry carried the superseded name ''Herpesviridae''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.'
+  notes_curator: 'PREDICT panel protocol P-032 (Terminase), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Chmielewicz,
+    B. et al (2001). TAXON RENAMED: NCBI now calls txid10292 ''Orthoherpesviridae''; this entry carried the superseded name
+    ''Herpesviridae''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so
+    nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. VERIFIED
+    AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised, so verify_oligos_against_paper.py
+    had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in
+    that script''s doi_stem(). Result: both TERM_707s and TERM_707 read absent. The cited paper''s text yields 14 oligo-like
+    runs and NONE is within the verifier''s edit-distance cap of either stored sequence, so these primers are not the ones
+    that paper prints. The paper is readable here - 14 extracted runs is not an image-table failure - which makes this a provenance
+    problem rather than an extraction one: either the citation is wrong or the primers come from a different source, the composite-entry
+    pattern already recorded for Atkins/PREDICT and Lan/Quan. Resolve by reading the PDF''s primer table and re-citing; do
+    not change the sequences, which produce real products.'
 needs_review:
+- OLIGOS_ABSENT_FROM_CITED_PAPER
 - ORIENTATION_INFERRED_BY_POSITION

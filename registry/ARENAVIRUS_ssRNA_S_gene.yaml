@@ -52,6 +52,15 @@ source:
     in this denominator scored them twice against an assay not designed for them. MEASURED on the 2026-10-17 calls: 473 records
     go out of scope, of which 45 were evaluable here and all 45 at 0 percent detected, but none is in the recent window, so
     the pooled share and the verdict are unchanged to the digit (low coverage, 52.9 percent of 51). Expect this to matter
-    later rather than now: reptarenavirus and antennavirus deposits are growing and will land in a future recent window.'
+    later rather than now: reptarenavirus and antennavirus deposits are growing and will land in a future recent window. VERIFIED
+    AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised, so verify_oligos_against_paper.py
+    had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in
+    that script''s doi_stem(). Result: ARS1 reads exact, but ARS16V reads near:2. Stored GGCATWGANCCAAACTGATT (20 nt); Lozano
+    et al. 1997 prints GGCATWGANCCAAACTGA (18 nt). The stored form carries two extra bases, TT, at its 3'' END. The verifier''s
+    standing caveat is that bases at the ends of a printed run can be table text glued on by the extraction, but that caveat
+    is about the PAPER''s run, and here the extra bases are on the STORED oligo and at the priming end, where two bases decide
+    whether the 3'' terminus matches. Either the spreadsheet lengthened the primer or the extraction truncated the table.
+    Not changed: read the Table in the PDF by eye before touching the sequence.'
 needs_review:
+- SEQUENCE_DIFFERS_FROM_PAPER
 - ORIENTATION_INFERRED_BY_POSITION
