@@ -434,6 +434,14 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
         # Only between two files of equal standing does the oligo count decide.
         if named_doi:
             claim(by_doi, claims, named_doi, text, path, n_oligos, named=True)
+        # The stem itself, for DOIs whose characters the reverse mapping above
+        # cannot recover (see doi_stem). A stem holds no "/" and a DOI always
+        # does, so these keys can never collide with a real DOI and they share
+        # the dict rather than needing a second one. Looked up only by a DOI
+        # forward-mapped to the same string, so a stem that is no DOI's filename
+        # is never reached. `named=True`: a filename IS the paper's identity.
+        if path.stem.lower().startswith("10."):
+            claim(by_doi, claims, path.stem.lower(), text, path, n_oligos, named=True)
         for doi, offset in text_dois(text).items():
             claim(by_doi, claims, doi, text, path, n_oligos, named=False, offset=offset)
     return by_doi, everything
@@ -450,6 +458,25 @@ def prints_own_doi(text: str, path: Path) -> bool:
     return named or DOI_IN_TEXT.search(text[:4000]) is not None
 
 
+def doi_stem(doi: str) -> str:
+    """The `papers/` filename stem for a DOI: lower case, and /, ( and ) as underscores.
+
+    This is the FORWARD direction of the naming convention, and the only
+    direction that is well defined. Reversing it cannot work, because three
+    different characters map onto `_`: the stem
+    `10.1016_0890-8508_92_90002-f` comes from `10.1016/0890-8508(92)90002-F`,
+    but `stem.replace("_", "/")` reconstructs `10.1016/0890-8508/92/90002-f`,
+    which still looks like a DOI and so indexed ten papers under DOIs nothing
+    asks for while also marking them "named", which bars the surname-and-year
+    fallback. Those ten cover 20 registry entries - Rahn 1992, Meyer 1997 and
+    Lozano 1997 among them - and every one of them read `no-full-text`, "no
+    local PDF", with the PDF sitting in papers/. Found 2026-10-20 when Rahn's
+    primers turned out not to be the ones this registry stores
+    (docs/2026-10-20-scope-curation.md).
+    """
+    return re.sub(r"[/()]", "_", doi.strip().lower())
+
+
 def text_dois(text: str) -> dict[str, int]:
     """{doi: offset of its first occurrence} among the first 4,000 characters of a paper."""
     out: dict[str, int] = {}
@@ -463,6 +490,8 @@ def local_paper(assay, by_doi, everything) -> tuple[str, Path] | None:
     doi = (assay.citation.doi or "").lower()
     if doi and doi in by_doi:
         return by_doi[doi]
+    if doi and doi_stem(doi) in by_doi:
+        return by_doi[doi_stem(doi)]
     ref = (assay.citation.reference or "") or (assay.citation.as_written or "")
     m = re.match(r"\s*([A-Z][A-Za-z'\-]{2,})", ref)
     year = assay.citation.design_year

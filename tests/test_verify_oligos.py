@@ -574,6 +574,32 @@ def test_a_file_that_merely_cites_a_doi_never_displaces_the_paper_that_prints_it
     )  # the citer really does print more, so yield alone would have picked it
 
 
+def test_a_parenthesised_doi_finds_its_file(tmp_path):
+    """The papers/ convention writes /, ( and ) all as _, so the stem cannot be
+    reversed into a DOI. Rahn 1992 (10.1016/0890-8508(92)90002-F) sat in papers/
+    for months while the verifier reported "no local PDF", because the reverse
+    mapping produced 10.1016/0890-8508/92/90002-f - still DOI-shaped, so indexed
+    under a DOI nothing asks for and marked "named", which also barred the
+    surname-and-year fallback."""
+    (tmp_path / "10.1016_0890-8508_92_90002-f.txt").write_text(RICH)
+    by_doi, everything = vo.index_papers(tmp_path)
+
+    assert vo.doi_stem("10.1016/0890-8508(92)90002-F") == "10.1016_0890-8508_92_90002-f"
+    assay = _assay("10.1016/0890-8508(92)90002-F", None, 1992)
+    hit = vo.local_paper(assay, by_doi, everything)
+    assert hit is not None and hit[1].name == "10.1016_0890-8508_92_90002-f.txt"
+
+
+def test_a_stem_key_never_shadows_a_real_doi(tmp_path):
+    """Stem keys share `by_doi`, which is safe only because a DOI always holds a
+    "/" and a filename stem never does."""
+    (tmp_path / "10.5555_mine.9.txt").write_text(RICH)
+    by_doi, _ = vo.index_papers(tmp_path)
+    assert "10.5555/mine.9" in by_doi  # the reverse-mapped name, unchanged
+    assert "10.5555_mine.9" in by_doi  # and the stem, newly
+    assert all("/" not in k or "_" not in k.split("/", 1)[0] for k in by_doi)
+
+
 def test_a_named_file_beats_an_unnamed_one_even_when_it_yields_less(tmp_path):
     """The documented asymmetry, pinned so it cannot change by accident: a DOI in
     running text is never trusted over a filename."""
