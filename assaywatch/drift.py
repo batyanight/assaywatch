@@ -84,6 +84,8 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import TYPE_CHECKING, Any
 
+from assaywatch.accession import strip_version
+
 if TYPE_CHECKING:
     from assaywatch.lineage import LineageStats
     from assaywatch.taxonomy import Taxonomy
@@ -914,12 +916,12 @@ def assess(
         # taxid, skip out-of-scope records from the drift denominator.
         if scope_map and aid in scope_map and taxids is not None:
             rid = row["record_id"]
-            base = rid.split(".")[0]
+            base = strip_version(rid)
             txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
             if txid is not None and not in_scope(aid, txid):
                 oos_counts[aid] = oos_counts.get(aid, 0) + 1
                 continue
-        if exclude_patent and row["record_id"].split(".")[0] in patent:
+        if exclude_patent and strip_version(row["record_id"]) in patent:
             pat_counts[aid] = pat_counts.get(aid, 0) + 1
             continue
         when = years.get(row["record_id"])
@@ -1052,7 +1054,7 @@ def assess(
                 if not inside(iso, months):
                     if baseline_calls_for_lineage is not None:
                         rid = orig_row["record_id"]
-                        base = rid.split(".")[0]
+                        base = strip_version(rid)
                         txid, _ = lineage_taxid(rid, base)
                         baseline_calls_for_lineage.append(
                             {
@@ -1066,7 +1068,7 @@ def assess(
                         )
                     continue
                 rid = orig_row["record_id"]
-                base = rid.split(".")[0]
+                base = strip_version(rid)
                 # Build a minimal call dict with the taxid attached.
                 # taxids may be keyed by versioned or unversioned accession.
                 txid, bucket = lineage_taxid(rid, base)

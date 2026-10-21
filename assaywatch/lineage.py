@@ -28,6 +28,8 @@ from pathlib import Path
 
 import numpy as np
 
+from assaywatch.accession import strip_version
+
 # scipy and statsmodels are imported inside worst_lineage_verdict, the only
 # function that needs them, so that the pipeline rules which merely read
 # titles or group records keep working without them. At module scope they
@@ -156,7 +158,7 @@ def cluster_resolver(cluster_map: dict[str, str]) -> Resolver:
 
     def _resolve(call: dict, taxid: int | None, taxa_cache: dict[int, str]) -> str | None:
         rid = call.get("record_id", "")
-        return cluster_map.get(rid) or cluster_map.get(rid.split(".")[0])
+        return cluster_map.get(rid) or cluster_map.get(strip_version(rid))
 
     return _resolve
 
@@ -250,10 +252,10 @@ def lineage_of(
     taxid = call.get("taxid")
     # If no taxid in the call, look it up via accession
     if taxid is None and "accession" in call and taxid_sidecar:
-        # Extract accession from record_id if needed
-        parts = call["record_id"].split(".")
-        accession = parts[0] if parts else call.get("accession", "")
-        taxid = taxid_sidecar.get(accession)
+        # The sidecar is keyed on the unversioned accession, which is what the
+        # record_id has to be reduced to; `str.split` never returns an empty
+        # list, so the old `parts[0] if parts else ...` fallback was dead.
+        taxid = taxid_sidecar.get(strip_version(call["record_id"]))
     if resolvers is None:
         return lineage_for_taxid(taxid, taxa_cache)
     return resolve_sublineage(call, taxid, taxa_cache, resolvers)

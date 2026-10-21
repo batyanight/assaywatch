@@ -16,6 +16,7 @@ from collections import Counter
 
 from Bio import Entrez, SeqIO
 
+from assaywatch.accession import strip_version
 from assaywatch.credentials import require_contact_email
 
 # ---------- configuration ----------
@@ -118,7 +119,7 @@ def fetch_ul55_cds(max_records: int = 20):
                 continue
             handle = Entrez.efetch(db="nucleotide", id=",".join(ids[:20]), rettype="fasta", retmode="text")
             for rec in SeqIO.parse(handle, "fasta"):
-                acc = rec.id.split(".")[0]
+                acc = strip_version(rec.id)
                 if acc not in seen_accs:
                     seen_accs.add(acc)
                     records.append((rec.id, str(rec.seq).upper(), rec.description))

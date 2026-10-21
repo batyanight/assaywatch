@@ -11,6 +11,8 @@ import gzip
 import re
 from pathlib import Path
 
+from assaywatch.accession import strip_version
+
 # esummary's <Extra> carries the authoritative patent-division marker
 # (`|pat|JP|2021522784|5` against `|gb|` for an ordinary record), and that is what
 # retrieve.py records in the `is_patent` column. The patterns below are the
@@ -58,7 +60,7 @@ def read_titles(retrieved_dir: Path, accessions: set[str]) -> dict[str, str]:
         try:
             with gzip.open(meta, "rt", newline="") as fh:
                 for row in csv.DictReader(fh, delimiter="\t"):
-                    acc = (row.get("accession") or "").split(".")[0]
+                    acc = strip_version(row.get("accession") or "")
                     if acc in accessions and acc not in out:
                         title = row.get("title") or ""
                         if title:
@@ -84,7 +86,7 @@ def read_patent_accessions(retrieved_dir: Path, accessions: set[str]) -> set[str
         try:
             with gzip.open(meta, "rt", newline="") as fh:
                 for row in csv.DictReader(fh, delimiter="\t"):
-                    acc = (row.get("accession") or "").split(".")[0]
+                    acc = strip_version(row.get("accession") or "")
                     if acc not in accessions:
                         continue
                     flag = row.get("is_patent")

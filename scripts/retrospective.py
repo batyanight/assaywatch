@@ -48,6 +48,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.drift import assess  # noqa: E402
 from assaywatch.lineage import (  # noqa: E402
     load_taxa_cache,
@@ -159,7 +160,7 @@ def load_evidence(
                     for line in f:
                         acc, _, tx = line.rstrip("\n").partition("\t")
                         if tx.isdigit():
-                            taxids[acc.split(".")[0]] = int(tx)
+                            taxids[strip_version(acc)] = int(tx)
             # Also read taxids from archive metadata (new-style with taxid column)
             for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
                 with gzip.open(meta_path, "rt") as f:
@@ -170,7 +171,7 @@ def load_evidence(
                     for line in f:
                         parts = line.rstrip("\n").split("\t")
                         if len(parts) > max(ai, ti) and parts[ti].isdigit():
-                            taxids[parts[ai].split(".")[0]] = int(parts[ti])
+                            taxids[strip_version(parts[ai])] = int(parts[ti])
             if not taxids:
                 taxids = None
 

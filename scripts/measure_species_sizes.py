@@ -60,6 +60,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.metadata import looks_like_patent  # noqa: E402
 from assaywatch.taxonomy import load_taxonomy  # noqa: E402
 
@@ -144,7 +145,7 @@ def main(argv: list[str] | None = None) -> int:
         for row in csv.DictReader(fh, delimiter="\t"):
             if row["assay_id"] != args.assay or row["call"] not in wanted:
                 continue
-            acc = row["record_id"].split(".")[0]
+            acc = strip_version(row["record_id"])
             if acc in patent:
                 skipped_patent += 1
                 continue

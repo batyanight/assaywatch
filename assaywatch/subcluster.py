@@ -36,6 +36,8 @@ import hashlib
 import math
 from dataclasses import dataclass
 
+from assaywatch.accession import strip_version
+
 _COMPLEMENT = str.maketrans("ACGT", "TGCA")
 
 
@@ -170,7 +172,7 @@ class ClusterInfo:
 
 
 def _base_accession(record_id: str) -> str:
-    return record_id.split(".")[0]
+    return strip_version(record_id)
 
 
 def cluster(

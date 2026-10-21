@@ -54,6 +54,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.retrieve import targets_from_registry  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
 
@@ -81,7 +82,7 @@ def accessions(meta: Path) -> set[str]:
     out = set()
     with gzip.open(meta, "rt") as fh:
         for row in csv.DictReader(fh, delimiter="\t"):
-            acc = (row.get("accession") or "").split()[0].split(".")[0]
+            acc = strip_version(row.get("accession") or "")
             if acc:
                 out.add(acc)
     return out

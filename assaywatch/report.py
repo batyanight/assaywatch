@@ -36,6 +36,7 @@ from datetime import date
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from assaywatch.accession import strip_version, version_of
 from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.drift import (
     FOOTPRINT_COLUMNS,
@@ -85,31 +86,6 @@ def status_order(grouped: dict[str, Any]) -> list[str]:
 
 def _open(path: Path):
     return gzip.open(path, "rt") if str(path).endswith(".gz") else open(path)
-
-
-def strip_version(accession: str) -> str:
-    """`AB123456.2` -> `AB123456`. Leaves anything without a version alone.
-
-    This is the join key between two things NCBI names differently: the FASTA
-    header (what screening sees) and the esummary caption (what carries the
-    deposit date). Get it wrong and records silently lose their date and drop out
-    of the drift denominator, which is how 476 PDB-derived calls went missing.
-
-    PDB chains come back from efetch as `pdb|29WD|T` in the FASTA but as
-    `29WD_T` in esummary; both are mapped to the latter so they join.
-    """
-    head = accession.split()[0] if accession.split() else accession
-    if head.startswith("pdb|"):
-        parts = head.split("|")
-        return "_".join(p for p in parts[1:3] if p)
-    stem, _, tail = head.rpartition(".")
-    return stem if stem and tail.isdigit() else head
-
-
-def version_of(accession: str) -> int:
-    """The `.N` version of an accession, 0 when there is none."""
-    tail = accession.split()[0].rpartition(".")[2] if accession.split() else ""
-    return int(tail) if tail.isdigit() else 0
 
 
 def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str, Any]]:
@@ -871,7 +847,7 @@ def build(
                 for line in f:
                     acc, _, tx = line.rstrip("\n").partition("\t")
                     if tx.isdigit():
-                        taxid_map[acc.split(".")[0]] = int(tx)
+                        taxid_map[strip_version(acc)] = int(tx)
         for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
             with gzip.open(meta_path, "rt") as f:
                 hdr = (f.readline() or "").rstrip("\n").split("\t")
@@ -881,7 +857,7 @@ def build(
                 for line in f:
                     parts = line.rstrip("\n").split("\t")
                     if len(parts) > max(ai, ti) and parts[ti].isdigit():
-                        taxid_map[parts[ai].split(".")[0]] = int(parts[ti])
+                        taxid_map[strip_version(parts[ai])] = int(parts[ti])
         if not taxid_map:
             taxid_map = None
             taxa_cache_data = None

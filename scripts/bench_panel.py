@@ -28,6 +28,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from assaywatch.accession import strip_version
 from assaywatch.fasta import read_fasta
 from assaywatch.iupac import COMPLEMENT, IUPAC, MISMATCH, base_state, reverse_complement
 from assaywatch.score import load_config
@@ -39,7 +40,7 @@ def read_panel(path: Path) -> dict[str, dict[str, str]]:
     """accession (unversioned) -> panel row. Lines starting with # are comments."""
     with path.open() as fh:
         rows = csv.DictReader((line for line in fh if not line.startswith("#")), delimiter="\t")
-        return {r["accession"].split(".")[0]: r for r in rows}
+        return {strip_version(r["accession"]): r for r in rows}
 
 
 def site_window(seq: str, site: str) -> str:
@@ -87,8 +88,8 @@ def main(argv: list[str] | None = None) -> int:
     panel = read_panel(args.panel)
     assay = load_assay(args.assay)
     oligos = {"fwd": assay.oligos.forward.matching_seq, "rev": assay.oligos.reverse.matching_seq}
-    seqs = {rid.split()[0]: s for rid, s in read_fasta(args.fasta) if rid.split()[0].split(".")[0] in panel}
-    missing = sorted(set(panel) - {a.split(".")[0] for a in seqs})
+    seqs = {rid.split()[0]: s for rid, s in read_fasta(args.fasta) if strip_version(rid) in panel}
+    missing = sorted(set(panel) - {strip_version(a) for a in seqs})
     if missing:
         print(f"not in --fasta: {', '.join(missing)}", file=sys.stderr)
 
@@ -98,7 +99,7 @@ def main(argv: list[str] | None = None) -> int:
     for batch in screen_records([assay], list(seqs.items()), cfg):
         for rec in batch:
             for row in rec:
-                p = panel[row["record_id"].split(".")[0]]
+                p = panel[strip_version(row["record_id"])]
                 pairs = []
                 if row["call"] != "no_amplicon":
                     for k, oligo in oligos.items():

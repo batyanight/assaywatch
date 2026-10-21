@@ -14,6 +14,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+from assaywatch.accession import strip_version
 from assaywatch.lineage import (
     load_taxa_cache,
     per_lineage_stats,
@@ -42,7 +43,7 @@ def read_calls_with_taxid(calls_path: Path, metadata: dict, taxid_sidecar: dict)
             # VERSIONED accession (AB027157.1), while the metadata and the taxid
             # backfill sidecar are keyed UNVERSIONED (AB027157). Match on both.
             accession = row.get("record_id") or row.get("accession", "")
-            base = accession.split(".")[0]
+            base = strip_version(accession)
 
             taxid = None
             for key in (accession, base):
@@ -142,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
             for line in f:
                 acc, _, tx = line.rstrip("\n").partition("\t")
                 if tx.isdigit():
-                    taxid_sidecar[acc.split(".")[0]] = int(tx)
+                    taxid_sidecar[strip_version(acc)] = int(tx)
     print(f"{len(taxid_sidecar)} taxids from {sidecar_path.name}", file=sys.stderr)
 
     n_from_meta = 0
@@ -155,7 +156,7 @@ def main(argv: list[str] | None = None) -> int:
             for line in f:
                 parts = line.rstrip("\n").split("\t")
                 if len(parts) > max(ai, ti) and parts[ti].isdigit():
-                    taxid_sidecar[parts[ai].split(".")[0]] = int(parts[ti])
+                    taxid_sidecar[strip_version(parts[ai])] = int(parts[ti])
                     n_from_meta += 1
     print(f"{n_from_meta} taxids from archive metadata", file=sys.stderr)
 
@@ -191,11 +192,11 @@ def main(argv: list[str] | None = None) -> int:
         wanted = title_assays(lineage_cfg)
         titles = read_titles(
             args.retrieved,
-            {r["record_id"].split(".")[0] for a in wanted for r in calls_by_assay.get(a, [])},
+            {strip_version(r["record_id"]) for a in wanted for r in calls_by_assay.get(a, [])},
         )
         for a in wanted:
             for r in calls_by_assay.get(a, []):
-                r["title"] = titles.get(r["record_id"].split(".")[0])
+                r["title"] = titles.get(strip_version(r["record_id"]))
     md = render_lineage_report(
         calls_by_assay, taxa_cache, taxid_sidecar, min_records=min_records, resolvers=resolvers
     )
