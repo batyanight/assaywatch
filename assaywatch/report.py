@@ -47,6 +47,7 @@ from assaywatch.drift import (
     footprint_signature,
     pct,
 )
+from assaywatch.drift import STATUS_ORDER as DRIFT_STATUS_ORDER
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
 from assaywatch.schema import Assay, SpeciesSize
@@ -54,7 +55,7 @@ from assaywatch.schema import Assay, SpeciesSize
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
 
-STATUS_ORDER = ["declining", "low coverage", "watch", "insufficient data", "no recent data", "stable"]
+STATUS_ORDER = list(DRIFT_STATUS_ORDER)  # drift.py owns the vocabulary; see its comment there
 STATUS_COLOUR = {
     "declining": "#b3261e",
     "low coverage": "#8a4b9c",

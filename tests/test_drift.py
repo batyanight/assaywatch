@@ -9,6 +9,9 @@ from datetime import date
 import pytest
 
 from assaywatch.drift import (
+    NO_DATA,
+    STATUS_ORDER,
+    STATUSES,
     AssayDrift,
     YearStats,
     assess,
@@ -760,3 +763,47 @@ def test_a_failing_lineage_still_overrides_a_pooled_stable_without_having_worked
     )
     on = assess(calls, years, _gated(True), today=TODAY, taxids=taxids, taxa_cache={100: "A", 200: "B"})["A"]
     assert on.status == "declining" and on.lineage_override
+
+
+# The status vocabulary. Two consumers used to keep their own copy of this list
+# (report.py's section order, scripts/report_diff.py's row parser), and the copy
+# is what let report_diff promote "## Nested protocols" to a status and drop 21
+# assays. drift.py now owns it; these tests are what keep the export honest,
+# since a new verdict added to `assess` would otherwise not reach either consumer.
+def test_every_status_assess_can_assign_is_in_the_exported_vocabulary():
+    """Read the assignments out of the source: a new one has to be declared."""
+    import re
+    from pathlib import Path
+
+    from assaywatch import drift as drift_module
+
+    src = Path(drift_module.__file__).read_text()
+    assigned = set(re.findall(r'self\.status = "([^"]+)"', src))
+    assigned |= set(re.findall(r'self\.status = "([^"]+)" if ', src))
+    assert assigned, "no status assignments found; the regex has gone stale"
+    assert assigned <= STATUSES, f"assigned but not exported: {sorted(assigned - STATUSES)}"
+
+
+def test_the_vocabulary_claims_nothing_the_code_cannot_produce():
+    """A status in the list that nothing assigns is a section no report can fill."""
+    import re
+    from pathlib import Path
+
+    from assaywatch import drift as drift_module
+
+    src = Path(drift_module.__file__).read_text()
+    producible = set(re.findall(r'self\.status = "([^"]+)"', src)) | {NO_DATA}
+    assert STATUSES == producible, f"exported but never assigned: {sorted(STATUSES - producible)}"
+
+
+def test_no_data_is_the_default_and_is_not_a_verdict():
+    """It means `assess` never ran on the assay, so it is not in the printed order."""
+    assert AssayDrift(assay_id="A").status == NO_DATA
+    assert NO_DATA in STATUSES and NO_DATA not in STATUS_ORDER
+
+
+def test_the_report_and_the_diff_parser_read_the_same_vocabulary():
+    import assaywatch.report as report
+
+    assert report.STATUS_ORDER == list(STATUS_ORDER)
+    assert set(report.STATUS_COLOUR) == set(STATUS_ORDER)  # every printed status has a colour

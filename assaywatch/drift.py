@@ -91,6 +91,27 @@ if TYPE_CHECKING:
 EVALUABLE = ("detect", "reduced", "fail")
 Z95 = 1.959963984540054
 
+# The verdict vocabulary, owned here because this is the only module that assigns
+# one. Worst first, which is also the order the report prints its sections in.
+# `NO_DATA` is the AssayDrift default and not a verdict `assess` reaches, so it is
+# kept out of the order and included in STATUSES.
+#
+# Exported because two consumers used to hardcode their own copy: report.py's
+# section order and scripts/report_diff.py's row parser. The copies were what let
+# report_diff read "## Nested protocols" as a status and drop 21 assays out of
+# their real ones, so neither run's buckets summed to its own assay count.
+# test_drift.py asserts this matches the literals assess actually assigns.
+STATUS_ORDER = (
+    "declining",
+    "low coverage",
+    "watch",
+    "insufficient data",
+    "no recent data",
+    "stable",
+)
+NO_DATA = "no data"
+STATUSES = frozenset(STATUS_ORDER) | {NO_DATA}
+
 # The screen columns that together say how a record's binding sites differ from
 # the assay: each oligo's mismatch positions (counted from its 3' end) and the
 # NUMBER of its undetermined record bases (`Call.as_row` writes a count there, not
@@ -217,7 +238,7 @@ class AssayDrift:
     recent_ci: tuple[float, float] = (0.0, 1.0)
     baseline_ci: tuple[float, float] = (0.0, 1.0)
     change_ci: tuple[float, float] = (-1.0, 1.0)
-    status: str = "no data"
+    status: str = NO_DATA
     note: str = ""
 
     # Lineage-level robustness, from the records' footprints (see

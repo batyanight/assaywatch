@@ -23,9 +23,13 @@ from __future__ import annotations
 import argparse
 import csv
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
+from assaywatch.drift import STATUSES  # noqa: E402
 
 HEADING = re.compile(r"^## ([A-Za-z ]+?)(?: \(\d+\))?$")
 # The id column is "`id`", or "`id` (pooled: low coverage)" where a lineage
@@ -33,24 +37,14 @@ HEADING = re.compile(r"^## ([A-Za-z ]+?)(?: \(\d+\))?$")
 # report carry that tag; ignoring it parsed 187 ids out of 208 and lost exactly
 # the 17 declining and 4 low coverage assays the lineage rules had moved.
 ROW = re.compile(r"^\| `([^`]+)`(?: \([^)]*\))? \|")
-# The statuses assaywatch/drift.py can produce: report.py's STATUS_ORDER plus
-# the "no data" default of AssayDrift. An allowlist because the set is closed
-# and the report's other sections are not: the denylist this replaces
+# `STATUSES` is imported from assaywatch/drift.py, which owns the vocabulary.
+# This parser needs an ALLOWLIST because the status set is closed and the
+# report's other sections are not: the denylist it replaces
 # ({"coverage gaps", "detail for flagged assays"}) went stale when
 # "## Nested protocols" was added, which was then read as a status and took 20
 # assays out of their real ones, so neither run's buckets summed to its own
-# assay count.
-STATUSES = frozenset(
-    {
-        "stable",
-        "watch",
-        "declining",
-        "low coverage",
-        "insufficient data",
-        "no recent data",
-        "no data",
-    }
-)
+# assay count. A local copy of the list is the same bug one step back, so the
+# list lives with the code that assigns the statuses.
 
 
 def statuses(report: Path) -> dict[str, str]:

@@ -350,9 +350,30 @@ drift:
   # 90% of in-scope records in every scoped assay on 2026-10-17. Not a threshold;
   # it is NCBI's tree, rebuilt by scripts/build_taxonomy_cache.py.
   scope_taxonomy: docs/taxonomy-cache.json.gz
-  # A 2-point fall is sampling, not evolution. 5 points is an eyeballed floor on
-  # "a change worth a human reading it"; the Newcombe interval on the difference
+  # A 2-point fall is sampling, not evolution. 5 points was set by eye as the floor
+  # on "a change worth a human reading it"; the Newcombe interval on the difference
   # is the honest version and is already reported beside it.
+  #
+  # A regulator reached the same figure independently, which is precedent for the
+  # number rather than a derivation of it. FDA, "Policy for Evaluating Impact of
+  # Viral Mutations on COVID-19 Tests (Revised)", January 2023, docket
+  # FDA-2020-D-0987 (www.fda.gov/media/146171/download), recommends that molecular
+  # test developers "periodically conduct sequence alignment of their primer/probe
+  # sequences with publicly available SARS-CoV-2 genomes" and consider "whether the
+  # aggregate of mutations could impact a particular test to reduce performance by
+  # 5% or more from the previously established performance". That is this project's
+  # whole premise, recommended practice rather than a novelty.
+  #
+  # Two caveats, both read off the guidance itself rather than secondhand coverage:
+  # 1. It "is intended to remain in effect only for the duration of the declaration
+  #    under section 564" for COVID-19 IVDs, so cite it as precedent and confirm the
+  #    declaration's current status before calling it live guidance.
+  # 2. The guidance uses 5% twice and the two are not the same test: a mutation seen
+  #    in >5% of database sequences (over >=2000 sequences in a recent week, month or
+  #    quarter) is the cue to LOOK; a >=5% reduction from established performance is
+  #    the cue to ACT. `min_decline` is the second. Ours is 5 PERCENTAGE POINTS of
+  #    detected share; the guidance does not say whether its 5% is points or
+  #    relative, so the agreement is in the figure, not in a shared definition.
   min_decline: 0.05
   # `declining` is read as "this assay has drifted", so reserve it for assays
   # that were working to begin with: the baseline share must itself have reached

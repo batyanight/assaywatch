@@ -128,6 +128,17 @@ The placeholders, for the record: `scoring` (3'/mid/5' primer penalties 3.0 /
 `min_records_for_drift` 20, `min_records_for_coverage` 10, `min_decline` 0.05);
 `degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
 
+One of those is no longer only eyeballed. `drift.min_decline` 0.05 has regulatory
+precedent: FDA's *Policy for Evaluating Impact of Viral Mutations on COVID-19 Tests
+(Revised)* (January 2023, docket FDA-2020-D-0987) tells molecular test developers to
+align their primer/probe sequences against public genome databases periodically and to
+act when mutations "reduce performance by 5% or more from the previously established
+performance". A regulator arrived at the same floor independently, so the number is
+defensible even though this project did not derive it. Two caveats are recorded beside
+the setting in `config.yaml`: the policy is tied to the section 564 COVID-19
+declaration, and its 5% is not stated as points or relative, where ours is percentage
+points of detected share.
+
 ## Later
 - SLURM executor profile for Greene
 - contributor template, two-week review promise
