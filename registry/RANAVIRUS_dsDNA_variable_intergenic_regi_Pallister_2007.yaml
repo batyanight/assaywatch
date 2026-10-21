@@ -36,4 +36,35 @@ source:
   notes:
   - ECV and ESV, 750bp
   - 150-700bp
-needs_review: null
+  notes_curator: 'PROMOTION TO ACTIVE ATTEMPTED AND WITHDRAWN 2026-10-21. The drift evidence supports it - detected
+    share 90.0% (77%-96%) on 40 evaluable records in the 24-month window, status stable - and the entry meets every
+    other schema precondition (taxid 10492, DOI verified, design_year 2007). It is held at draft by the amplicon
+    defect below, found while checking the entry for promotion, which the validator correctly refuses to let an
+    `active` entry carry. AMPLICON: THE DECLARED SCALAR IS WRONG AND IS HIDING RECORDS. Pallister et al. 2007
+    answers this directly (papers/, p. 4): "The amplification product obtained using the 16R and 16F primers was
+    substantially smaller for BIV than for EHNV, ECV and ESV - around 200 bp for BIV, approximately 700 bp for EHNV
+    and slightly larger for ECV and ESV." So the product length is SPECIES-DEPENDENT by design - this is the
+    variable intergenic region, and the variation is the locus - and 200 bp is the BIV figure only. Measured on the
+    2026-10-21 run: of 128 records yielding a product the sizes are 244 bp (44), 228 (39), 212 (37), 227 (6), 209 (1)
+    and 196 (1), all BIV-scale, and separately 61 records carry BOTH primer sites with no facing pair inside the
+    150-250 bp window the scalar implies ("sites found but no facing pair within 150-250 bp; both primers match").
+    Those 61 are the EHNV/ECV/ESV end of the assay and are counted as no_amplicon purely because of the declared
+    size - a 48% understatement of the evaluable denominator, and the same defect shape as
+    ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2 on the same day. The fix is amplicon_bp_range plus species_sizes,
+    the ORTHOPOXVIRUS ATI pattern, with the bands MEASURED per species by scripts/measure_species_sizes.py rather
+    than taken from the paper words "around" and "approximately"; that needs a rescreen under a wider window and is
+    not done here. OLIGO ATTRIBUTION: Pallister credits 16R and 16F to Jancovich et al. 2005 in three separate
+    places ("the PCR primers used to amplify the variable region - 16R and 16F (Jancovich et al. 2005)"), so this
+    entry cites the paper that USED these primers, not the one that designed them.'
+needs_review:
+- flag: amplicon_size_unresolved
+  note: the declared 200 bp is the BIV figure only; the paper gives ~700 bp for EHNV and slightly more for ECV/ESV,
+    so this needs amplicon_bp_range plus measured species_sizes, not a scalar
+- flag: amplicon_multimodal
+  note: measured 244 bp (44 records), 228 (39) and 212 (37) with no single mode, all BIV-scale
+- flag: retrieval_scope_incomplete
+  note: 61 records carry both primer sites but fall outside the 150-250 bp window the declared scalar implies, so the
+    EHNV/ECV/ESV end of the assay is counted as no_amplicon and the evaluable denominator is understated by 48%
+- flag: oligos_from_secondary_source
+  note: Pallister et al. 2007 credits 16R and 16F to Jancovich et al. 2005 in three places, so this entry cites the
+    paper that used these primers rather than the one that designed them

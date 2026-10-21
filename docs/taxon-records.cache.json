@@ -1249,7 +1249,10 @@
  },
  "3044472": {
   "common_name": "",
-  "lineage_tail": [],
+  "lineage_tail": [
+   "Herviviricetes",
+   "Herpesvirales"
+  ],
   "rank": "family",
   "scientific_name": "Orthoherpesviridae"
  },
@@ -1263,8 +1266,11 @@
   "scientific_name": "Batravirus"
  },
  "3044782": {
-  "common_name": "",
-  "lineage_tail": [],
+  "common_name": "arboviruses group B",
+  "lineage_tail": [
+   "Amarillovirales",
+   "Flaviviridae"
+  ],
   "rank": "genus",
   "scientific_name": "Orthoflavivirus"
  },
