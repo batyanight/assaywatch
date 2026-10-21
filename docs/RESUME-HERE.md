@@ -1,4 +1,56 @@
-# Resume point, 2026-10-20 (full run valid again; four design papers read for scope)
+# Resume point, 2026-10-21 (full run done; the S1 guard and R2 sidecar exercised for real)
+
+## 2026-10-21, the owed full run
+
+`results/2026-10-21/`, **304/304 steps, 25m 17s**, exit 0. Every archive rescreened, because
+adding the `scoring.engine` keys changed `_code_hash` (12e66a47 -> 46c32e0b) - deliberate, and
+free since this run was owed anyway.
+
+- **R2's sidecar exists for the first time.** `calls.provenance.json`, 76 KB: 316 screens,
+  2,686,441 rows summing to the table's own count, every screen carrying an
+  `expected_signature`, `git_commit: 5b542db` with no `(dirty)`, `thermo: False`,
+  `assays_screened: 205`. Its mtime span reads 2026-10-18 .. 2026-10-21, which is the honest
+  answer and the reason it refuses to claim one set of settings for the table.
+- **S1's guard holds on real data.** The new calls table carries **0 assay ids the registry
+  does not have**, against **6** in `results/2026-10-20/calls.tsv.gz`
+  (`CRYPTOSPORIDIA_Need_to_order_...` x2, `Pan_mycoplasma_16S_23S_intergenic_space_2`,
+  `Pan_reptilian_paramyxovirus_ne_...` x2, `Salmonella_invA_gene_unnamed_Rahn_1992`). All three
+  ids the audit named are gone.
+- **FINDING: the code-hash invalidation does not fire for a screen snakemake has no metadata
+  record for.** 20 of the 316 screens are still dated 2026-10-18, and **all 20 have no
+  `.snakemake/metadata` record** - so snakemake saw the output present, its only input (the
+  FASTA) unchanged, and had no stored params to compare the new hash against. This is audit
+  finding #1's mechanism, still live. Nothing is wrong *today*: rescreening `11229/all` by hand
+  and diffing column by column gives **every shared column identical on every row**, the only
+  difference being a `winning_pair` column added to `as_row` after 2026-10-18 and filled with
+  `""` by `collect.unified_columns`. But "editing a scoring threshold rescreens the affected
+  archives" is not true for these 20, and that matters the moment a threshold really changes.
+  **The sidecar is what made this visible**, which is what R2 was for.
+- **FINDING: an assay can sit in `CURRENT_ASSAYS` and never be screened at all.**
+  `Helicobacter_Pan_Helicobacter_16S_short_Fox_1998` has no `target.query`, so its group is
+  `209/all` - all 843,447 Helicobacter records, over `retrieve`'s 100,000 cap. Retrieval says so
+  loudly (`SKIP 209/all: ... Add 209 to retrieve.large_taxa_allowed ... or narrow the assays'
+  target.query`) and then nothing downstream mentions it: the sidecar counts 205 assays
+  screened, the report says 204, and the gap is one assay with zero rows. S1's guard is the
+  mirror image of this (ids in the table the registry lacks) and by design cannot catch it.
+  **The cheap fix is the same shape as S1: name registry assays that produced no calls.**
+- **One status move, and it is mine, not GenBank's.**
+  `ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2` stable -> declining. Chain, verified end to
+  end: the `amplicon_bp` 200 -> 196 correction in `f35ffa1` moved the accepted window from
+  150-250 bp to 147-245 (`declared_tolerance: 0.25`); **31 records whose product is 148 bp** were
+  `no_amplicon`/`no_site` before and are now scored, and they fail; all 31 are taxid 59300, whose
+  parent is 3426303 *Alphavirus getah*, and `group_at_rank: species` groups them as getah; that
+  drops getah to 82.5% (74.9-90.0%) on 97 records, over `min_records_per_lineage: 30`; the pooled
+  share stays stable at 98.9% and the lineage verdict overrides to declining. **The assay saw 0
+  new records** (18,049 in both runs), so this is not drift and not the engine - the old declared
+  size was hiding 31 real products in a sublineage the assay handles badly, and correcting it
+  surfaced a genuine coverage gap. Also: `detect` is identical at 8,384 across the two runs.
+- Observed in passing, pre-existing: **13,493 of 2,686,441 rows are a repeat of an (assay,
+  record) pair** across 83 assays (worst: both Helicobacter entries at 2,982 each), from
+  overlapping incremental archives inside one group. The report's duplication check already
+  discounts these statistically; noted so it is not rediscovered as new.
+- Pre-flight found and fixed first: a run with no contact address was sending NCBI
+  `--email None` (`5b542db`).
 
 ## 2026-10-20
 
