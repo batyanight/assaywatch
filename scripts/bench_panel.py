@@ -73,9 +73,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--panel", type=Path, required=True)
     ap.add_argument("--assay", type=Path, required=True)
     ap.add_argument("--fasta", type=Path, required=True)
+    ap.add_argument(
+        "--config",
+        type=Path,
+        default=None,
+        help="scoring config; default config.yaml. For measuring a counterfactual "
+        "(a chemistry override, a different reduced_max) without editing the real one",
+    )
     args = ap.parse_args(argv)
 
-    cfg = load_config()
+    cfg = load_config(args.config)
     w3 = cfg["scoring"]["primer_3prime_window"]
     panel = read_panel(args.panel)
     assay = load_assay(args.assay)
