@@ -49,6 +49,12 @@ on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
 ## Rules that the registry rests on
 - Measure, never quote. `amplicon_bp` and oligo sequences are verified against
   real GenBank records and the cited paper's own table before entry.
+- For SIZE specifically, the measurement also wins: where a measured product
+  length and a published one disagree, the registry takes the measured value and
+  discloses the difference (`amplicon_disagrees_with_paper`). A published size is
+  usually a gel band read against a ladder; ours is computed from where the
+  primers sit. The paper still says whether the length *varies*, which is what
+  calls for `amplicon_bp_range`. Reasoning in `config.yaml` under `amplicon:`.
 - No citation from memory. A DOI is entered with `doi_verified: false` and only
   `scripts/resolve_citations.py` + `scripts/check_citations.py` may approve it.
   If Crossref is unreachable, the entry waits.

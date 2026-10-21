@@ -261,6 +261,28 @@ amplicon:
   # polymerase assays have. See the NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_
   # ALTERNATES note on the CRYPTOSPORIDIA entry.
   declared_tolerance: 0.25
+  #
+  # THE MEASURED SIZE WINS OVER THE PUBLISHED ONE. Maintainer's decision,
+  # 2026-10-21. Where a product size measured from deposited sequence disagrees
+  # with the size a paper states, `amplicon_bp` / `amplicon_bp_range` takes the
+  # MEASURED value. A published size is usually read off a gel - a band's
+  # apparent length against a ladder - while the measured one is computed from
+  # where the primers sit in the record. The measurement is the better
+  # instrument, and it is the one that has to be right, because the window above
+  # is built from it and a wrong centre throws away real amplifications.
+  #
+  # This sharpens CLAUDE.md's "Measure, never quote" from a rule about
+  # provenance into one about precedence: the paper is a cross-check, not the
+  # arbiter. A disagreement is DISCLOSED rather than resolved in the paper's
+  # favour - `amplicon_disagrees_with_paper` with both numbers in the note,
+  # which is a recorded caveat in assaywatch/review.py and so no bar to
+  # `status: active`.
+  #
+  # The paper is still worth reading for WHETHER the length varies and roughly
+  # where, which is what says a scalar is the wrong shape. Pallister et al. 2007
+  # on the ranavirus variable intergenic region is the example: "around 200 bp
+  # for BIV, approximately 700 bp for EHNV" is useless as a number and decisive
+  # as a signal that the locus needs `amplicon_bp_range`.
   max_bp: 3000
   record_min_overhang_bp: 100    # assembly extraction only (assemblies.py): how far a cut
                                  # window reaches past the amplicon. Scoring does NOT require
