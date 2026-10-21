@@ -49,9 +49,12 @@ COLUMNS = ["bucket", "assay_id", "doi", "what_is_needed", "blocks", "notes"]
 # means the paper is on disk and silent, which is a different request.
 CONFIRMING = {"exact", "revcomp", "in-text"}
 
-# The PREDICT panel's oligos were read from this supplement, which is CC-BY and
-# is not in papers/. Counted separately because one document closes all of them.
+# The PREDICT panel's oligos were read from this supplement, which is CC-BY.
+# Counted separately because one document closes all of them - and once it is
+# in papers/, scripts/verify_predict_supplement.py checks the panel against it
+# (2026-10-21: 74 of 74 oligos exact), so the bucket only appears without it.
 PREDICT_SUPPLEMENT = "Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)"
+PREDICT_SUPPLEMENT_FILE = "10.1038_ncomms9147.supp.pdf"
 
 
 def verdicts_by_assay(path: Path) -> dict[str, list[dict[str, str]]]:
@@ -140,7 +143,9 @@ def rows_for(assay, doc: dict, verdicts: list[dict[str, str]], papers: Path) -> 
         add("figure", "a legible copy of the figure the sequences were read off", "sequence confidence")
     if "DO_NOT_USE" in flags:
         add("decision", "a keep-or-delete decision; the entry is flagged DO_NOT_USE", "registry hygiene")
-    if PREDICT_SUPPLEMENT.split(",")[0] in notes or "Anthony et al. 2015" in notes:
+    if (PREDICT_SUPPLEMENT.split(",")[0] in notes or "Anthony et al. 2015" in notes) and not (
+        papers / PREDICT_SUPPLEMENT_FILE
+    ).exists():
         add(
             "predict-supplement",
             f"one document closes this and every other row in this bucket: {PREDICT_SUPPLEMENT}",

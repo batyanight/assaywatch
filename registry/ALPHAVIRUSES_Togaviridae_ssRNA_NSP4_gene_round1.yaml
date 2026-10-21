@@ -15,7 +15,7 @@ oligos:
     name: Alpha1R
     seq: KYTCYTCNGTRTGYTTNGTNCCNGG
     seq_as_written: KYTCYTCIGTRTGYTTIGTICCIGG
-amplicon_bp: null
+amplicon_bp: 481
 citation:
   doi: 10.1016/S0166-0934(01)00306-8
   design_year: 2001
@@ -41,8 +41,7 @@ source:
     Alpha1- are the outer (round 1) primers of the nested RT-PCR described by Sánchez-Seco et al. 2001. Round 2 (Alpha2+/Alpha2-)
     is already in the registry as ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2. Inosine (I) in the published sequences
     has been replaced with N in the seq field per registry convention; the original notation is preserved in seq_as_written.
-    AMPLICON_BP: not set; the paper gives genome positions (Alpha1+ 6137-6172, Alpha1- 6509-6485 on Sindbis) suggesting ~373
-    bp, but this needs measurement against GenBank records.'
+    AMPLICON_BP (superseded, see below): the paper gives genome positions (Alpha1+ 6137-6172, Alpha1- 6509-6485 on Sindbis) suggesting ~373
+    bp, but this needs measurement against GenBank records. AMPLICON MEASURED 2026-10-21: 481 bp, the modal product on 8,127 of 8,281 detected-or-reduced records in the 2026-10-20 calls (was not set). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-019, prints 481 bp; the measurement is what is entered.'
 needs_review:
-- AMPLICON_BP_NOT_SET
 - INOSINE_CONVERTED_TO_N

@@ -200,7 +200,19 @@
   `results/screened/28901/q22fdd7bbec/2026-10-18.tsv`, `results/screened/5806/q0763ce7f8d/2026-10-18.tsv`.
   Five other screens hold the 2026-10-21 Ahne rename / FFPE-mycoplasma removal ids but have
   metadata recording the old `--only`, so the params trigger rescreens them. The other 20
-  metadata-less screens match their groups exactly. Next: the Anthony supplement, then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
+  metadata-less screens match their groups exactly. ~~The Anthony supplement~~ DONE 2026-10-21:
+  fetched from nature.com (CC-BY 4.0; DOI 10.1038/ncomms9147 confirmed on Crossref) to
+  `papers/10.1038_ncomms9147.supp.pdf` (local, gitignored like the rest of `papers/`).
+  `scripts/verify_predict_supplement.py` parses all 41 protocol sections: **74 of 74 oligos in the
+  37 `predict_protocol` entries match exactly**, rounds agree (semi-nested shared primers are printed
+  once, under round 1). Table: `docs/predict-supplement-verification.tsv`. The `predict-supplement`
+  bucket (36 rows) is gone from `docs/materials-needed.tsv`. Amplicons measured on the 2026-10-20
+  calls and corrected where one size dominates: Alpha NSP4 round1 null→481, round2 200→196, both
+  Filovirus L 630→634, Johne VP1 277→271, SIV_2 787→789, Herpes pol round2 250→231 (all inside
+  `declared_tolerance`; the changed entries rescreen on the next run). Left as is: Arenavirus S
+  (630; modal 639 but on only 73 of 424) and Coronavirus round1 (532; 529 on 2,172 vs 532 on 1,598).
+  SIV DR1/DR2 → DR4/DR5 declared one nested family (`RETROVIRUS_SIV_pol_PREDICT_P029`): inner inside
+  outer on 3,703 of 3,703 records. Next: then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
   the status vocabulary from `drift.py` (the `report_diff` bug), S3 collapse the two renderers,
   S4/S5 decompose `drift.assess`, S6 one accession-version helper, S7 controlled `needs_review`
   vocabulary, S8 delete dead `lineage.taxid_backfill`, S9 test `loci.py`; M3 cite the FDA 5% policy;

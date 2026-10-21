@@ -36,11 +36,12 @@ source:
   - 723
   - 724
   positive_control: null
-  nested_round: null
+  nested_round: round2
+  nested_family: RETROVIRUS_SIV_pol_PREDICT_P029
   notes: null
   notes_curator: 'PREDICT panel protocol P-029 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley,
     J.P. et al (1998). Citation updated from Courgnaud 2001 (10.1128/JVI.75.2.857-866.2001) to Clewley 1998: Courgnaud used
-    these primers and cited "PCR conditions were as previously reported [ref 8 = Clewley 1998]".'
+    these primers and cited "PCR conditions were as previously reported [ref 8 = Clewley 1998]". NESTED FAMILY DECLARED 2026-10-21: P-029 prints DR1/DR2 as round 1 and DR4/DR5 as round 2 of one protocol, and the positions agree: on all 3,703 records in the 2026-10-20 calls where both pairs give a product, the DR4/DR5 product lies inside the DR1/DR2 product (inset 503 bp at one end and 92 bp at the other on 3,596 of them).'
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION

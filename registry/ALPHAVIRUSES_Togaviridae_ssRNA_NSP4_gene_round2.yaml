@@ -15,7 +15,7 @@ oligos:
     name: Alpha2R
     seq: GCRAANARNGCNGCNGCYTYNGGNCC
     seq_as_written: GCRAAIARIGCIGCIGCYTYIGGICC
-amplicon_bp: 200
+amplicon_bp: 196
 citation:
   doi: 10.1016/S0166-0934(01)00306-8
   design_year: 2001
@@ -38,5 +38,5 @@ source:
   positive_control: null
   nested_round: round2
   notes: null
-  notes_curator: 'PREDICT panel protocol P-019 (NSP4), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Sanchez-Seco, M.P. et al (2001).'
+  notes_curator: 'PREDICT panel protocol P-019 (NSP4), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Sanchez-Seco, M.P. et al (2001). AMPLICON MEASURED 2026-10-21: 196 bp, the modal product on 8,386 of 8,405 detected-or-reduced records in the 2026-10-20 calls (was 200). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-019, prints 195 bp; the measurement is what is entered.'
 needs_review: null
