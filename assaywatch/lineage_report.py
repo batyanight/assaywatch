@@ -136,7 +136,9 @@ def main(argv: list[str] | None = None) -> int:
     # field existed), then any archive metadata that already carries a taxid
     # column. Archives live at <retrieved>/<taxid>/<group>/, so this is rglob.
     taxid_sidecar = {}
-    sidecar_path = args.retrieved / ".meta.taxid.backfill.tsv.gz"
+    # From config (`lineage.taxid_backfill`), which until 2026-10-21 was declared
+    # and read nowhere while this path was hardcoded here and in report.py.
+    sidecar_path = Path(lineage_cfg.get("taxid_backfill") or args.retrieved / ".meta.taxid.backfill.tsv.gz")
     if sidecar_path.exists():
         with gzip.open(sidecar_path, "rt") as f:
             next(f, None)

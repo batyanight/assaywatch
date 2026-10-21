@@ -66,7 +66,6 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.credentials import ncbi_api_key, scrub
-from assaywatch.metadata import looks_like_patent
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 Transport = Callable[[str, dict[str, Any]], str]
@@ -701,82 +700,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-
-
-def load_record_metadata(
-    meta_path: Path | str, taxid_backfill_path: Path | str | None = None
-) -> dict[str, RecordMeta]:
-    """Load metadata from .meta.tsv.gz, optionally backfilled with taxids.
-
-    Args:
-        meta_path: Path to .meta.tsv.gz archive metadata file
-        taxid_backfill_path: Optional path to .meta.taxid.backfill.tsv.gz sidecar
-
-    Returns:
-        Dict mapping accession -> RecordMeta
-    """
-    import gzip
-
-    records = {}
-
-    # Load backfill if provided
-    taxid_map = {}
-    if taxid_backfill_path:
-        try:
-            with gzip.open(taxid_backfill_path, "rt") as f:
-                f.readline()  # Skip header
-                for line in f:
-                    parts = line.strip().split("\t")
-                    if len(parts) >= 2:
-                        acc, taxid_str = parts[0], parts[1]
-                        if taxid_str.isdigit():
-                            taxid_map[acc] = int(taxid_str)
-        except FileNotFoundError:
-            pass
-
-    # Load main metadata
-    with gzip.open(meta_path, "rt") as f:
-        header = f.readline().strip().split("\t")
-        uid_idx = header.index("uid")
-        acc_idx = header.index("accession")
-        created_idx = header.index("created")
-        updated_idx = header.index("updated")
-        length_idx = header.index("length")
-        title_idx = header.index("title")
-        taxid_idx = header.index("taxid") if "taxid" in header else -1
-        patent_idx = header.index("is_patent") if "is_patent" in header else -1
-
-        for line in f:
-            parts = line.strip().split("\t")
-            uid = parts[uid_idx]
-            acc = parts[acc_idx]
-            created = parts[created_idx]
-            updated = parts[updated_idx]
-            length = int(parts[length_idx]) if parts[length_idx].isdigit() else 0
-            title = parts[title_idx]
-
-            # Before the column existed, the title is the only evidence.
-            if patent_idx >= 0 and len(parts) > patent_idx:
-                is_patent = parts[patent_idx] == "1"
-            else:
-                is_patent = looks_like_patent(title)
-
-            # Try taxid from main file first, then backfill
-            taxid = None
-            if taxid_idx >= 0 and len(parts) > taxid_idx and parts[taxid_idx].isdigit():
-                taxid = int(parts[taxid_idx])
-            elif acc in taxid_map:
-                taxid = taxid_map[acc]
-
-            records[acc] = RecordMeta(
-                uid=uid,
-                accession=acc,
-                created=created,
-                updated=updated,
-                length=length,
-                title=title,
-                taxid=taxid,
-                is_patent=is_patent,
-            )
-
-    return records

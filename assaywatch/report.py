@@ -840,7 +840,11 @@ def build(
         taxa_cache_data = load_taxa_cache(taxa_cache_path)
         # Build accession -> taxid from the backfill sidecar + archive metadata.
         taxid_map = {}
-        sidecar_path = retrieved / ".meta.taxid.backfill.tsv.gz"
+        # `lineage.taxid_backfill` was declared in config.yaml and read nowhere,
+        # while this path and lineage_report.py's copy were hardcoded - a setting
+        # that looked configurable and was not. The config value wins; the literal
+        # stays as the default so an older config still resolves the same file.
+        sidecar_path = Path(lineage_cfg.get("taxid_backfill") or retrieved / ".meta.taxid.backfill.tsv.gz")
         if sidecar_path.exists():
             with gzip.open(sidecar_path, "rt") as f:
                 next(f, None)  # skip header
