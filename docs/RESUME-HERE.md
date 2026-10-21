@@ -31,7 +31,7 @@
   5. **No contact address in the repository.** Six scripts hardcoded one as an argparse default,
      an `Entrez.email` or inside a User-Agent. All resolve `ASSAYWATCH_EMAIL` / `.secrets/email`
      via `credentials.contact_email()`; `--help` works with none set.
-- **NEW, not fixed: a run's calls table can hold assay ids the registry no longer has.**
+- **FIXED 2026-10-21 (S1, see the to-do below): a run's calls table could hold assay ids the registry no longer has.**
   `results/2026-10-20/calls.tsv.gz` carries 3 (`CRYPTOSPORIDIA_…_2000`, `…_2000_round2`,
   `Salmonella_invA_gene_unnamed_Rahn_1992`) alongside their renamed counterparts, so the report's
   "208 assays screened" double-counts them. Cause: a cached per-archive screen is reused without
@@ -188,9 +188,19 @@
   until she decides whether to pursue identity-based scoring at all (the nearest-neighbour ΔG
   question, M2, is the alternative). Do NOT flip it on as if it were merely pending mechanics; it
   is a held decision. If pursued, the gate is a full re-screen under the candidate config + tier-2,
-  since the calls table bakes in scoring. Then **S1** `collect.py` must drop calls-table rows whose assay_id is
-  not a current registry id (recommend hard error — this is the open double-counting bug), then the
-  Anthony supplement, then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
+  since the calls table bakes in scoring. ~~**S1**~~ DONE 2026-10-21: `concatenate_screens` takes
+  `known_ids` (the Snakefile passes `CURRENT_ASSAYS`, every id in `GROUPS`) and **raises** before
+  writing anything, naming each stale screen, its orphan ids and row counts. Hard error, not drop,
+  measured: all three stale 2026-10-18 screens are *missing* the renamed assay's rows
+  (`Salmonella_invA_Rahn_1992`, both Xiao Cryptosporidium rounds), so dropping would have silently
+  cut those archives from the renamed assays. Check costs ~5 s over all 468 MB of screens.
+  **Before the next run, delete the three screens that have no Snakemake metadata** (so nothing
+  triggers their rescreen, and the guard would abort at collect_calls after retrieval and
+  screening): `results/screened/2093/all/2026-10-18.tsv`,
+  `results/screened/28901/q22fdd7bbec/2026-10-18.tsv`, `results/screened/5806/q0763ce7f8d/2026-10-18.tsv`.
+  Five other screens hold the 2026-10-21 Ahne rename / FFPE-mycoplasma removal ids but have
+  metadata recording the old `--only`, so the params trigger rescreens them. The other 20
+  metadata-less screens match their groups exactly. Next: the Anthony supplement, then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
   the status vocabulary from `drift.py` (the `report_diff` bug), S3 collapse the two renderers,
   S4/S5 decompose `drift.assess`, S6 one accession-version helper, S7 controlled `needs_review`
   vocabulary, S8 delete dead `lineage.taxid_backfill`, S9 test `loci.py`; M3 cite the FDA 5% policy;

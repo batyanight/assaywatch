@@ -430,3 +430,75 @@ def test_the_same_screens_collected_at_different_times_give_the_same_bytes(tmp_p
     assert first.read_bytes() == second.read_bytes()
     assert gzip.open(first, "rt", newline="").read().startswith("\t".join(OLD) + LINE_END)
     assert b"one.tsv" not in first.read_bytes()  # and no file name stored in the header either
+
+
+# The registry guard. results/2026-10-20/calls.tsv.gz held three assay ids the
+# registry had renamed, from one cached screen reused without its --only list
+# being re-checked, and "208 assays screened" counted them twice.
+IDS = ["assay_id", "record_id", "call"]
+
+
+def test_screens_holding_only_current_ids_collect_as_before(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    out = tmp_path / "calls.tsv.gz"
+    concatenate_screens([a], out, known_ids={"A", "B"})
+    assert [r["assay_id"] for r in read_table(out)] == ["A"]
+
+
+def test_a_stale_id_is_refused_naming_the_file_the_id_and_the_row_count(tmp_path):
+    good = write_screen(tmp_path / "good.tsv", IDS, [{"assay_id": "NEW", "record_id": "R1", "call": "pass"}])
+    stale = write_screen(
+        tmp_path / "stale.tsv",
+        IDS,
+        [
+            {"assay_id": "OLD", "record_id": "R2", "call": "pass"},
+            {"assay_id": "OLD", "record_id": "R3", "call": "fail"},
+            {"assay_id": "NEW", "record_id": "R4", "call": "pass"},
+        ],
+    )
+    out = tmp_path / "calls.tsv.gz"
+    with pytest.raises(ValueError) as err:
+        concatenate_screens([good, stale], out, known_ids={"NEW"})
+    msg = str(err.value)
+    assert str(stale) in msg and "OLD (2 rows)" in msg
+    assert str(good) not in msg
+    assert "Delete them and rerun" in msg
+
+
+def test_a_refused_collect_writes_no_calls_table(tmp_path):
+    """A half-written table left behind is what a later stage would pick up."""
+    stale = write_screen(
+        tmp_path / "stale.tsv", IDS, [{"assay_id": "OLD", "record_id": "R1", "call": "pass"}]
+    )
+    out = tmp_path / "calls.tsv.gz"
+    with pytest.raises(ValueError):
+        concatenate_screens([stale], out, known_ids={"NEW"})
+    assert not out.exists()
+
+
+def test_a_quoted_line_break_is_not_misread_as_a_row(tmp_path):
+    """Per-line splitting would read the continuation 'tail' as an assay id."""
+    a = write_screen(
+        tmp_path / "a.tsv",
+        IDS + ["reason"],
+        [{"assay_id": "A", "record_id": "R1", "call": "pass", "reason": "head\ntail"}],
+    )
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"})
+
+
+def test_a_screen_without_an_assay_id_column_is_refused(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", ["record_id", "call"], [{"record_id": "R1", "call": "pass"}])
+    with pytest.raises(ValueError, match="no assay_id column"):
+        concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"})
+
+
+def test_zero_byte_and_header_only_screens_pass_the_check(tmp_path):
+    empty = tmp_path / "empty.tsv"
+    empty.write_bytes(b"")
+    header = write_screen(tmp_path / "header.tsv", IDS, [])
+    concatenate_screens([empty, header], tmp_path / "calls.tsv.gz", known_ids=set())
+
+
+def test_without_known_ids_nothing_is_checked(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "ANY", "record_id": "R1", "call": "pass"}])
+    concatenate_screens([a], tmp_path / "calls.tsv.gz")

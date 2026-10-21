@@ -75,6 +75,8 @@ THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
 
 # {(taxid, group): {"name", "query", "assays"}} from the registry as it stands.
 GROUPS = targets_from_registry([Path(REGISTRY)], config)
+# Every assay id this run screens; collect_calls refuses any other.
+CURRENT_ASSAYS = frozenset(a for g in GROUPS.values() for a in g["assays"])
 
 # What a cached screen depends on besides its archive: the group's assay files,
 # the scoring settings and the screening code. Its hash is a param of
@@ -356,12 +358,16 @@ rule collect_calls:
         # The logic is in a module, so Snakemake's own code trigger no longer sees
         # it; see _package_hash.
         code=_COLLECT_CODE,
+        # The set it checks ids against: a rename must re-run the check.
+        assays=hashlib.sha1(",".join(sorted(CURRENT_ASSAYS)).encode()).hexdigest()[:16],
     run:
         # The logic is in assaywatch/collect.py, where it is tested. It reconciles
         # a cached screen made before a column was added with one made after,
         # writing rows by column name, since plain concatenation would shift the
-        # older rows a column sideways.
-        concatenate_screens(list(input), output[0])
+        # older rows a column sideways. It also refuses a screen holding an assay
+        # id the run no longer screens (renamed, removed, deprecated): a stale
+        # cached screen that would otherwise be double-counted in every report.
+        concatenate_screens(list(input), output[0], known_ids=CURRENT_ASSAYS)
 
 
 rule site_drift:

@@ -11,6 +11,17 @@ kept on purpose, since a week's run should screen only the archives that are new
 so old and new schemas meet in every cumulative report. Plain concatenation would
 shift the older file's rows a column sideways and quietly corrupt every call in
 them. Rows are therefore written by column NAME.
+
+The second case: a cached screen holding assay ids the registry no longer has.
+`results/2026-10-20/calls.tsv.gz` carried three, beside their renamed
+counterparts, because one archive's screen from 2026-10-18 was reused without
+its `--only` list being re-checked (Snakemake's metadata for it came from a
+different install). Every count downstream inherited them: "208 assays screened"
+double-counted three. Snakemake's invalidation is the wrong place to rely on, so
+the collector checks every id against the assays the run screens, and refuses
+rather than drops: a stale screen's rows are missing for the assay's NEW id too,
+so dropping the orphans would quietly leave that archive out of the renamed
+assay's numbers.
 """
 
 from __future__ import annotations
@@ -18,7 +29,8 @@ from __future__ import annotations
 import csv
 import gzip
 import io
-from collections.abc import Sequence
+from collections import Counter
+from collections.abc import Collection, Sequence
 from pathlib import Path
 
 # What csv.DictWriter writes by default, and so what every cached screen uses.
@@ -68,6 +80,49 @@ def read_header(path: Path) -> list[str]:
         return next(fh, "").rstrip("\r\n").split("\t")
 
 
+def orphan_ids(path: Path, known_ids: Collection[str]) -> Counter[str]:
+    """Rows per assay_id in one screen whose id is not in `known_ids`.
+
+    Parsed with the csv module rather than split per line, so a quoted field
+    holding a line break cannot be misread as a row. A screen with no
+    `assay_id` column cannot be checked and is refused the same way.
+    """
+    known = frozenset(known_ids)
+    with open(path, newline="") as fh:
+        reader = csv.reader(fh, delimiter="\t")
+        header = next(reader, None)
+        if header is None:
+            return Counter()
+        if "assay_id" not in header:
+            raise ValueError(
+                f"{path} has no assay_id column, so its rows cannot be checked against the registry."
+            )
+        i = header.index("assay_id")
+        return Counter(row[i] for row in reader if row and row[i] not in known)
+
+
+def check_assay_ids(paths: Sequence[Path], known_ids: Collection[str]) -> None:
+    """Refuse screens holding assay ids outside `known_ids`, naming each file and id.
+
+    Raises before anything is written, so a refused collect leaves no calls
+    table behind for a later stage to pick up.
+    """
+    found = {path: c for path in paths if (c := orphan_ids(path, known_ids))}
+    if not found:
+        return
+    lines = [
+        f"  {path}: " + ", ".join(f"{aid} ({n} rows)" for aid, n in sorted(c.items()))
+        for path, c in found.items()
+    ]
+    raise ValueError(
+        f"{len(found)} cached screen(s) hold assay ids that are not current registry assays "
+        f"(renamed, removed or deprecated):\n"
+        + "\n".join(lines)
+        + "\nThese screens are stale. Delete them and rerun to screen those archives again; "
+        "dropping the rows instead would leave the archives out of the current assays' numbers."
+    )
+
+
 def unified_columns(headers: Sequence[Sequence[str]]) -> list[str]:
     """Every column seen, in the order first met.
 
@@ -81,7 +136,9 @@ def unified_columns(headers: Sequence[Sequence[str]]) -> list[str]:
     return columns
 
 
-def concatenate_screens(paths: Sequence[Path], out_path: Path) -> list[str]:
+def concatenate_screens(
+    paths: Sequence[Path], out_path: Path, known_ids: Collection[str] | None = None
+) -> list[str]:
     """Write one gzipped calls table from many cached screens; return its columns.
 
     `paths` are taken in the order given and written in that order - the caller
@@ -92,10 +149,16 @@ def concatenate_screens(paths: Sequence[Path], out_path: Path) -> list[str]:
     always, rows are copied through untouched. Otherwise they are rewritten by
     column name, and a column a screen never had is left empty rather than
     guessed.
+
+    With `known_ids`, every row's assay_id must be one of them (see
+    `check_assay_ids`); the pipeline always passes it. None skips the check,
+    for callers that are not collecting a run.
     """
     paths = [Path(p) for p in paths]
     for path in paths:
         _check_terminated(path)
+    if known_ids is not None:
+        check_assay_ids(paths, known_ids)
     headers = [read_header(path) for path in paths]
     columns = unified_columns(headers)
     # mtime=0 and no stored file name: the same screens give the same BYTES whenever they are
