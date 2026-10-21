@@ -181,9 +181,11 @@
   maintainer call). The "cases for the above-pooled pattern" item is partly answered: see the BFDV
   and LCM examples in that doc.
   **TODO: the 19 pipeline-audit proposals** (`docs/2026-10-20-pipeline-audit.md` §5), each
-  approval-gated individually, ranked in its §7. Top of the list: **M1** identity-aware 3'-window
-  penalty (`scoring.mispair_penalty` read by `score.score_primer`; measure on all five bench panels
-  + tier-2 before shipping), then **S1** `collect.py` must drop calls-table rows whose assay_id is
+  approval-gated individually, ranked in its §7. Top of the list: ~~**M1**~~ MECHANISM DONE
+  2026-10-21 (`docs/2026-10-21-M1-identity-aware-penalty.md`): `scoring.mispair_penalty` ships `{}`
+  (byte-identical), and the G:T/T:G candidate rescues 8 bench false fails (FAP 5, Barrett 3) at
+  zero specificity cost on Rahn's 41 negatives. REMAINING GATE before flipping it on: a full
+  re-screen under the candidate config + tier-2, since the calls table bakes in scoring. Then **S1** `collect.py` must drop calls-table rows whose assay_id is
   not a current registry id (recommend hard error — this is the open double-counting bug), then the
   Anthony supplement, then **M2** nearest-neighbour ΔG as its own project. Also pending: S2 export
   the status vocabulary from `drift.py` (the `report_diff` bug), S3 collapse the two renderers,

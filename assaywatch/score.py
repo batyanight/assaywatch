@@ -45,6 +45,7 @@ from typing import Any
 import yaml
 
 from assaywatch.chance import composition, pair_evalue, site_evalue
+from assaywatch.iupac import COMPLEMENT
 from assaywatch.match import Site, find_sites
 from assaywatch.schema import Assay, Chemistry
 
@@ -193,45 +194,78 @@ class OligoScore:
     ambiguous: tuple[int, ...] = ()  # undetermined record bases; no penalty
 
 
-def score_primer(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
-    """Weight each mismatch by its distance from the 3' end.
+def mispair_multiplier(oligo_base: str, template_base: str, table: dict[str, Any]) -> float:
+    """Multiplier on a mismatch's position penalty for the mispair that forms.
 
-    The biology: Taq extends from the primer's 3'-OH, so a mismatch there
-    distorts the geometry of the catalytic site itself, whereas one near the 5'
-    end costs only duplex stability — and a 20-mer with 19 matches anneals fine.
-    That ordering is well established (Kwok et al. 1990,
+    `oligo_base` is the primer base and `template_base` is the base it faces on
+    the strand it binds — the complement of the record base, because `Site.window`
+    reads the record in the oligo's own 5'->3' orientation. The key is
+    `"{oligo}:{template}"`, e.g. a primer G opposite a template T is `"G:T"`.
+
+    Looked up only when both are definite A/C/G/T. A degenerate primer base (Y,
+    R, ...) or an ambiguity code in the record names no single mispair, so those
+    keep the full position penalty — the conservative choice, and the one that
+    matches `base_state`'s rule that a mismatch is only definite when the codes
+    share no base at all. An empty table returns 1.0 for everything, which is
+    why `mispair_penalty: {}` scores byte-identically to no table at all.
+    """
+    if not table:
+        return 1.0
+    if oligo_base not in "ACGT" or template_base not in "ACGT":
+        return 1.0
+    return float(table.get(f"{oligo_base}:{template_base}", 1.0))
+
+
+def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
+    """Weight each mismatch by its distance from the 3' end, then by identity.
+
+    The biology of position: Taq extends from the primer's 3'-OH, so a mismatch
+    there distorts the geometry of the catalytic site itself, whereas one near
+    the 5' end costs only duplex stability — and a 20-mer with 19 matches anneals
+    fine. That ordering is well established (Kwok et al. 1990,
     doi:10.1093/nar/18.4.999; Stadhouders et al. 2010,
     doi:10.2353/jmoldx.2010.090035).
 
-    Two things this does NOT capture, both of which make it optimistic in some
-    cases and pessimistic in others:
+    IDENTITY (M1, 2026-10-21). Position alone treats every mispair at a given
+    distance alike, but Kwok and Stadhouders both find the effect is dominated by
+    WHICH mispair forms: A:A, A:G, G:A and C:C suppress yield by orders of
+    magnitude, while T:G, G:T, T:C and T:T are nearly free (a T:G wobble still
+    stacks). `scoring.mispair_penalty` multiplies each definite mismatch's
+    position penalty by the value for its primer:template mispair (see
+    `mispair_multiplier`), and a multiplier of 0 also exempts a 3'-terminal
+    mismatch from `terminal_mismatch_fails`, since a mispair declared free does
+    not impede extension. The table ships empty, so by default this does nothing;
+    three bench panels (FAP, Barrett, Meyer) argue for discounting the G:T/T:G
+    wobble and Rahn's negatives price that at zero specificity cost, but no value
+    ships without the tier-2 run behind it.
 
-    * Mismatch IDENTITY. Kwok and Stadhouders both find the effect is dominated
-      by WHICH mispair forms: A:A, A:G, G:A and C:C at the 3' terminus suppress
-      yield by orders of magnitude, while T:G, T:C and T:T are nearly free (a
-      T:G wobble still stacks). Scoring by position alone treats those alike. A
-      per-identity table is the obvious upgrade and needs a reference dataset we
-      do not have; until then position is the defensible half of the story.
-    * Mismatch COUNT interactions. Two adjacent mismatches are far worse than
-      two spread apart, because they destroy a contiguous stretch of stacking
-      rather than two isolated pairs. Penalties here add linearly, so a cluster
-      is under-penalised.
+    Still NOT captured: mismatch COUNT interactions. Two adjacent mismatches are
+    far worse than two spread apart, because they destroy a contiguous stretch of
+    stacking rather than two isolated pairs. Penalties here add linearly, so a
+    cluster is under-penalised.
     """
     s = cfg["scoring"]
     w3, wmid = s["primer_3prime_window"], s["primer_mid_window"]
+    table = s.get("mispair_penalty") or {}
+    oligo_len = len(oligo)
     penalty, terminal = 0.0, False
     from3 = []
     for pos in site.mismatches:
         d = oligo_len - pos  # 1 = 3'-terminal base
         from3.append(d)
-        if d == 1:
-            terminal = True
         if d <= w3:
-            penalty += s["primer_3prime_penalty"]
+            base = s["primer_3prime_penalty"]
         elif d <= w3 + wmid:
-            penalty += s["primer_mid_penalty"]
+            base = s["primer_mid_penalty"]
         else:
-            penalty += s["primer_5prime_penalty"]
+            base = s["primer_5prime_penalty"]
+        # The record base the primer faces, complemented into the template base;
+        # out-of-range window (defensive, should not happen) keeps the full penalty.
+        rec = site.window[pos] if pos < len(site.window) else "N"
+        mult = mispair_multiplier(oligo[pos].upper(), COMPLEMENT.get(rec.upper(), "N"), table)
+        penalty += base * mult
+        if d == 1 and mult != 0:
+            terminal = True
     return OligoScore(penalty, terminal, site.mismatches, tuple(from3), site.ambiguous)
 
 
@@ -715,8 +749,8 @@ def screen_one(
         if max_e is not None and evalue > max_e:
             n_chance += 1
             continue
-        fs = score_primer(f, len(fwd), cfg)
-        rs = score_primer(r, len(rev), cfg)
+        fs = score_primer(f, fwd, cfg)
+        rs = score_primer(r, rev, cfg)
         ps, p_site, reason = None, None, ""
         probe_won = probe
         if probe:

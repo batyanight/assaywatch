@@ -26,6 +26,32 @@ scoring:
   primer_mid_window: 5           # positions 6-10 from the 3' end
   primer_mid_penalty: 1.0
   primer_5prime_penalty: 0.5
+  # MISMATCH IDENTITY. The three penalties above weight a mismatch by position
+  # only. Kwok et al. 1990 (doi:10.1093/nar/18.4.999) and Stadhouders et al.
+  # 2010 (doi:10.2353/jmoldx.2010.090035) both find the effect is dominated by
+  # WHICH mispair forms: A:G, G:A, C:C (about 100-fold) and A:A (about 20-fold)
+  # suppress yield, while T:G, G:T, T:C and T:T are nearly free — a T:G wobble
+  # still stacks. `mispair_penalty` multiplies a mismatch's position penalty by
+  # the value for its {primer base}:{template base}, where the template base is
+  # the one the primer faces on the strand it binds (score.mispair_multiplier).
+  # Only definite A/C/G/T mispairs are looked up; a degenerate primer base or an
+  # ambiguity code in the record names no single mispair and keeps the full
+  # position penalty. A multiplier of 0 also exempts a 3'-terminal mismatch from
+  # terminal_mismatch_fails below, since a mispair declared free does not impede
+  # extension.
+  #
+  # SHIPPED EMPTY, like by_chemistry: {}. An empty table returns multiplier 1.0
+  # for every mispair, so the output is byte-identical to a config with no
+  # mispair_penalty at all. The measured candidate is discounting the G:T/T:G
+  # wobble, which three bench panels fail on (FAP 12 of 14 false fails rest only
+  # on T:G, docs/2026-10-19-fap-bench-panel.md; Barrett 3 of 3,
+  # docs/2026-10-20-scope-curation.md) and which Rahn's 41 bench negatives price
+  # at zero specificity cost (docs/2026-10-20-rahn-invA-bench-panel.md). It goes
+  # through all five bench panels AND tier-2 (scripts/retrospective.py --cases)
+  # before any non-empty value ships, one mispair at a time — a threshold set by
+  # eye is exactly what the top of this file warns against. Shape:
+  #   mispair_penalty: {"G:T": 0.0, "T:G": 0.0}
+  mispair_penalty: {}
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
   # weighted above the ends. Known gap: of the 44 probe assays here 22 are MGB,

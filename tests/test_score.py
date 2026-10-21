@@ -314,3 +314,77 @@ def test_call_does_not_depend_on_record_orientation(row):
     if fwd.amplicon_start is not None:
         # Same bases, mirrored coordinates.
         assert rev.amplicon_start == len(seq) - fwd.amplicon_end
+
+
+# --- M1: identity-aware 3'-window penalty (scoring.mispair_penalty) -----------
+# Added 2026-10-21. These pin the mechanism, not a shipped value: config.yaml
+# ships mispair_penalty: {} and every other test above asserts the empty-table
+# behaviour is unchanged. See docs/2026-10-20-pipeline-audit.md M1.
+
+from assaywatch.match import find_sites as _find_sites  # noqa: E402
+from assaywatch.score import mispair_multiplier, score_primer  # noqa: E402
+
+
+def _primer_site(oligo: str, record: str):
+    """The plus-strand Site for `oligo` in `record`, with its real `window`."""
+    return next(s for s in _find_sites(oligo, record, 4) if s.strand == "+")
+
+
+def _scoring(**overrides):
+    """The real scoring block with mispair_penalty (and anything else) overridden."""
+    return {**CFG, "scoring": {**CFG["scoring"], **overrides}}
+
+
+# A terminal mismatch where primer G faces record A, i.e. a G:T wobble on the
+# template strand. find_sites confirmed window[19] == 'A', COMPLEMENT -> 'T'.
+_OLIGO = "TTGACCGATAGCCAATGATG"
+_REC_TERMINAL_GT = "TTGACCGATAGCCAATGATA"
+
+
+def test_mispair_multiplier_only_fires_on_definite_acgt_and_an_empty_table_is_one():
+    assert mispair_multiplier("G", "T", {}) == 1.0  # empty table: byte-identical
+    assert mispair_multiplier("G", "T", {"G:T": 0.0}) == 0.0
+    assert mispair_multiplier("G", "T", {"A:C": 0.0}) == 1.0  # a different mispair
+    assert mispair_multiplier("Y", "T", {"G:T": 0.0}) == 1.0  # degenerate primer base
+    assert mispair_multiplier("G", "N", {"G:T": 0.0}) == 1.0  # ambiguous template base
+
+
+def test_empty_mispair_table_scores_the_position_penalty_and_sets_terminal():
+    site = _primer_site(_OLIGO, _REC_TERMINAL_GT)
+    sc = score_primer(site, _OLIGO, _scoring(mispair_penalty={}))
+    assert sc.penalty == CFG["scoring"]["primer_3prime_penalty"]  # one 3'-window mismatch
+    assert sc.terminal_mismatch is True
+
+
+def test_a_zeroed_mispair_drops_the_penalty_and_exempts_the_terminal_fail():
+    site = _primer_site(_OLIGO, _REC_TERMINAL_GT)
+    sc = score_primer(site, _OLIGO, _scoring(mispair_penalty={"G:T": 0.0}))
+    assert sc.penalty == 0.0
+    # A mispair declared free must also not trip terminal_mismatch_fails, or the
+    # discount would be defeated at the one position it matters most.
+    assert sc.terminal_mismatch is False
+
+
+def test_a_partial_multiplier_scales_the_penalty_but_keeps_the_terminal_flag():
+    site = _primer_site(_OLIGO, _REC_TERMINAL_GT)
+    sc = score_primer(site, _OLIGO, _scoring(mispair_penalty={"G:T": 0.5}))
+    assert sc.penalty == CFG["scoring"]["primer_3prime_penalty"] * 0.5
+    assert sc.terminal_mismatch is True  # not zeroed, so still a terminal mismatch
+
+
+def test_an_unlisted_mispair_is_unaffected_by_a_nonempty_table():
+    site = _primer_site(_OLIGO, _REC_TERMINAL_GT)  # this mispair is G:T
+    sc = score_primer(site, _OLIGO, _scoring(mispair_penalty={"A:C": 0.0}))
+    assert sc.penalty == CFG["scoring"]["primer_3prime_penalty"]
+    assert sc.terminal_mismatch is True
+
+
+def test_mispair_penalty_is_a_recognised_per_chemistry_override_key():
+    from assaywatch.score import check_chemistry_overrides
+
+    ok = _scoring(by_chemistry={"conventional": {"mispair_penalty": {"G:T": 0.0}}})
+    assert check_chemistry_overrides(ok) == []
+    # A misspelling must be rejected loudly, not silently ignored, or a run would
+    # look recalibrated when it was not.
+    bad = _scoring(by_chemistry={"conventional": {"mispair_pentalty": {"G:T": 0.0}}})
+    assert any("mispair_pentalty" in p for p in check_chemistry_overrides(bad))
