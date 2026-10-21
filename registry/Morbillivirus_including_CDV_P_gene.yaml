@@ -34,6 +34,28 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global 50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py over every archive of this entry''s own retrieval group measures a modal 429 bp on 1798 products, with 100% of all products within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies. That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See docs/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what marks it as measured.'
+  notes_curator: 'AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is
+    quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global
+    50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py
+    over every archive of this entry''s own retrieval group measures a modal 429 bp on 1798 products, with 100% of all products
+    within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies.
+    That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See
+    docs/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what
+    marks it as measured. SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added, and the firing lineage turns
+    out to be a scorer artefact rather than drift. The override demotes a pooled stable (95.6 percent of 2,815) to low coverage
+    on Morbillivirus caprinae (3052343, PPRV) at 0/83. PPRV is the opposite of out of scope: Barrett et al. 1993 is a universal
+    morbillivirus primer set used "to amplify a region surrounding the RNA editing site from all known members of the group",
+    and its Methods name PPRV as one of six viruses whose amplified DNA was cloned and sequenced (RPV, PPRV, CDV, PDV, DMV,
+    PMV). Read 2026-10-20 from a 400 dpi tesseract OCR of the scan, which has no text layer; the two primer sequences in that
+    OCR match this entry base for base. New bench panel docs/bench-panels/barrett-1993-morbillivirus.tsv scores Barrett''s
+    own seven viruses under the current config: 4 of 7 would show a band (CDV and the porpoise P-gene amplicon detect clean,
+    PDV and measles reduced), and all three false fails carry a G-T wobble inside the 3'' window - rinderpest Kabete O and
+    dolphin morbillivirus on a single rev5 T:G, PPRV on rev3 G:T plus fwd4 C:C. That rev5 T:G is in 4 of the 7 rows, measles
+    included, so it is a fixed feature of MorbR against the genus and Barrett amplified them all anyway. So the 0/83 PPRV
+    share is at least partly the 3''-window penalty, not loss of coverage, and this panel is the second independent one after
+    Forslund FAP to land on mispair identity in the 3'' window (docs/2026-10-19-fap-bench-panel.md). No config change here;
+    the knob needs tier-2. MEASURED while reading: the paper says "a 429 nucleotide DNA fragment" and the 2026-10-17 calls
+    give 429 bp in 4,326 of 4,347 detected or reduced records. The two entries holding this pair disagreed, 429 here and 430
+    there; both now read 429 (inside declared_tolerance either way, so no call moves).'
 needs_review:
 - AMPLICON_BP_MEASURED_NOT_PUBLISHED

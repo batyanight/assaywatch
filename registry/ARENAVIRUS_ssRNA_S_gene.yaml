@@ -5,6 +5,7 @@ target:
   gene: S gene
   genome_type: ssRNA-
   taxon_name: Arenaviridae
+  scope_taxids: [208898, 1653394]
 chemistry: conventional
 oligos:
   forward:
@@ -39,6 +40,18 @@ source:
   notes: null
   notes_curator: 'PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Lozano,
-    M. et al (1997).'
+    M. et al (1997). SCOPED 2026-10-20 to the mammarenaviruses, from Lozano et al. 1997''s own range. Its title calls the
+    set "family-specific", but in 1997 the family was the mammarenaviruses alone: the paper divides arenaviruses into Old
+    World (LCM, Ippy, Lassa, Mobala, Mopeia) and New World (Junin, Tacaribe, Pichinde and relatives) and amplified LCM WE,
+    Lassa Nigeria and Josiah, Mopeia, Pichinde, Tacaribe, Junin MC2 and XJ, Oliveros and Pampa. Reptarenavirus, Hartmanivirus,
+    Antennavirus and Innmovirus were all described after it, so scope_taxids is 1653394 Mammarenavirus plus 208898 unclassified
+    Arenaviridae -- the latter deliberately, since it holds the 164 Arenavirus sp. records, the legacy genus 11618 with the
+    Mopeia/Lassa reassortants, and field isolates such as Cardamones and Middle Pease River that are mammarenaviruses in all
+    but assignment. It also admits 10 Boid arenavirus records that sit under 208898 rather than under Reptarenavirus, which
+    is an NCBI placement artefact, not a decision here. Snake reptarenaviruses have their own registry entry, so leaving them
+    in this denominator scored them twice against an assay not designed for them. MEASURED on the 2026-10-17 calls: 473 records
+    go out of scope, of which 45 were evaluable here and all 45 at 0 percent detected, but none is in the recent window, so
+    the pooled share and the verdict are unchanged to the digit (low coverage, 52.9 percent of 51). Expect this to matter
+    later rather than now: reptarenavirus and antennavirus deposits are growing and will land in a future recent window.'
 needs_review:
 - ORIENTATION_INFERRED_BY_POSITION

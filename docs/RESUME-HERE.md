@@ -1,4 +1,50 @@
-# Resume point, 2026-10-19 (sub-taxid resolver chain; conventional override reverted)
+# Resume point, 2026-10-20 (the 2026-10-18 calls are stale; four design papers read for scope)
+
+## 2026-10-20
+
+- **`results/2026-10-18/calls.tsv.gz` was screened under the reverted `by_chemistry.conventional`
+  override and must not be measured on.** Paramyxovirinae L round1 goes 5,131 `fail` / 1,884
+  `reduced` on 2026-10-17 to 33 / 6,984 on 2026-10-18, while the probe assay
+  `INFLUENZA_A_ssRNA_NP_Tsukamoto_2010` is identical bar 24 new records. `c15a3b7` landed at
+  22:10:57, three minutes after that run finished at 22:07:26, so the tree carried the relaxed
+  numbers while it ran; `df5356f` reverted them the next day. Tier-2 on those calls reads **0 of
+  11** caught against **3 of 11** on 2026-10-17, the three lost catches all going `stable`.
+  **`results/2026-10-17/` is the newest valid evidence, and a full run on the current config is
+  owed.**
+- **`scripts/lineage_override_audit.py`** (new) enumerates every assay whose status comes from a
+  lineage override, with the firing lineage's name, rank, share, whether it is inside the entry's
+  `scope_taxids`, and whether the design paper is on disk. It resolves ids through
+  `docs/rename-mapping.tsv`, which drops four rows for assays since removed — the counting flaw
+  this file warns about. `drift.py` gained `lineage_worst_idx` so the firing lineage needs no
+  prose parse. At 2026-10-17: **21 overrides, 15 on a pooled `low coverage`, 6 above-pooled.**
+- **Scope curation is not the lever `docs/2026-10-20-pan-family-override.md` point 3 took it for**
+  (`docs/2026-10-20-scope-curation.md`). Four design papers read; in all four the firing lineage is
+  inside the stated range, and in three it is a virus the paper amplified: rabies is the genome
+  Bourhy 2005 gives PVO3's coordinates on, LCM is Lozano 1997's "prototype of the family", BFDV is
+  one of three sequences Mankertz 2000 aligned, PPRV is one of six viruses Barrett 1993 amplified.
+  Two scopes shipped anyway because the excluded taxa are groups the papers framed out —
+  rhabdovirus to the animal subfamilies (`[35303, 2842407, 2842415, 3152207]`, 769 records out) and
+  arenavirus to the mammarenaviruses (`[208898, 1653394]`, 473 out). **Both move nothing**: no
+  status, no override, tier-2 unchanged at 3/11 and 9 disagreements. The excluded records are old
+  deposits outside every recent window.
+- **Barrett 1993 is the fourth bench panel and the session's real finding**
+  (`docs/bench-panels/barrett-1993-morbillivirus.tsv`; the PDF is an image scan, read from a 400 dpi
+  tesseract OCR). On Barrett's own seven viruses: **4 of 7 would show a band**, and **all three
+  false fails carry a G·T wobble in the 3' window** — rinderpest and dolphin morbillivirus on a
+  single `rev5 T:G`, PPRV on `rev3 G:T` plus `fwd4 C:C`. That `rev5 T:G` is in 4 of 7 rows
+  including measles, the design reference, which sits at exactly 3.0. So **two independent panels
+  now land on mispair identity in the 3' window** (FAP's 12 of 14 false fails rest only on T:G).
+  It also reinterprets an override case: PPRV's 0/83 is at least partly the 3'-window penalty, not
+  lost coverage. No config change — the knob goes through tier-2 first.
+- **Two worked examples for the `< pooled` gate**, from design papers rather than published
+  follow-up: BFDV detects 27.6 points better than its pool, LCM 9 points better, and in both the
+  override names as "failing" the taxon its paper most directly demonstrates.
+- `amplicon_bp` for the Barrett morbillivirus pair corrected 430 -> 429 on the `_Barrett_2003`
+  entry (its twin already read 429): the paper says "a 429 nucleotide DNA fragment" and the
+  2026-10-17 calls measure 429 bp in 4,326 of 4,347 detected-or-reduced records. Inside
+  `declared_tolerance`, so no call moves.
+- `schema.py`'s `scope_taxids` comment still claimed ancestry expansion was not implemented, wrong
+  since 2026-10-19, and now says to name the smallest covering taxa rather than enumerate species.
 
 ## 2026-10-19
 
@@ -77,10 +123,16 @@
   **Three bench panels now** (FAP, Rebelo Mycoplasma 8/8 clean, Meyer ATI 8/9 with skunkpox a false
   fail). They point at two different scorer knobs: mispair identity in the 3' window (FAP) and
   linear accumulation against `reduced_max` (Meyer).
-  **Next:** cases for the above-pooled override pattern (6 of 17) to approve the `< pooled` gate;
-  an `is_patent` backfill sidecar (the title fallback misses ~3%, and `--include-fail` waits on it);
-  a fourth bench panel with real `no_band` rows (Rahn 1992 Salmonella); the
-  pan-family `low coverage` -> `declining` override (enterovirus round2); more bench panels.
+  **Next:** a full run on the current config (the 2026-10-17 calls are the newest valid ones);
+  an identity-aware 3'-window penalty, now that FAP and Barrett agree on it, measured through
+  tier-2 one knob at a time; an `is_patent` backfill sidecar (the title fallback misses ~3%, and
+  `--include-fail` waits on it); a fifth bench panel with real `no_band` rows (Rahn 1992
+  Salmonella — the paper IS on disk, `papers/10.1016_0890-8508_92_90002-f.pdf`, with 630
+  Salmonella serovars in Table 1 and 142 non-Salmonella strains across 21 genera in Table 2, the
+  first real negative set); the remaining override cases whose design paper is on disk
+  (`docs/2026-10-20-scope-curation.md` lists them, with the ADENOVIRUS Hexon composite held for a
+  maintainer call). The "cases for the above-pooled pattern" item is partly answered: see the BFDV
+  and LCM examples in that doc.
 - **Snakefile:** `report` and `site_drift` now hash the `lineage` config section. Before, editing
   `min_records_per_lineage` left `report.md` stale.
 - **Bd Boyle FN is not a lineage-split problem** (measured, see the design doc's Mode C). Only 173
@@ -228,13 +280,13 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 
 | | |
 |---|---|
-| registry | **217 valid, 0 problems**: 213 draft, 3 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
-| chemistry | conventional 170, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 173 primers only |
-| tests | 1205 passed, 11 skipped (primer3-py absent); ruff clean; 182 citations, 0 Crossref problems |
-| validation | **50 cases** (32 `works`, 12 `fails`, 6 `partial`); catches **6 of 12** documented failures; **9 disagreements** (was 14 before scope_taxids, 1/12 before lineage estimand) |
-| last full run | **2026-10-18** (19:15–19:41, post-CMV-gB-fix), with lineage estimand active; 212 assays — 65 stable, 60 declining, 11 watch, 21 low coverage, 41 insufficient data, 14 no recent data |
+| registry | **209 valid, 0 problems**: 206 draft, 2 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
+| chemistry | conventional 162, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 165 primers only |
+| tests | 1278 passed; ruff clean; 187 citations checked, 0 Crossref problems (22 entries have no DOI) |
+| validation | **50 cases**; on the 2026-10-17 calls, `scripts/retrospective.py --cases` reports **3 of 11** `fails` caught and **9 disagreements**. The "6 of 12 / 9 disagreements" in the older sections predates the working-baseline gates, the species roll-up and the override rule, and was measured on a different calls table — do not quote it. |
+| newest VALID calls | **2026-10-17** (`results/2026-10-17/calls.tsv.gz`). `results/2026-10-18/` was screened under the reverted conventional override (see 2026-10-20 above) and is not evidence; `results/2026-10-20/` is an interrupted run with no calls table. A full run on the current config is owed. |
 
-Verified against the repo 2026-10-18.
+Verified against the repo 2026-10-20.
 
 ## Why the remaining work wants the local machine
 
