@@ -26,6 +26,7 @@ oligos-not-in-paper	PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	10.1073/pnas.182
 oligos-not-in-paper	Pan_HERPES_dsDNA_Terminase	10.1016/S0168-1702(00)00252-5	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_s0168-1702_00_00252-5.pdf
 oligos-not-in-paper	Pan_HERPES_dsDNA_Terminase_round2	10.1016/S0168-1702(00)00252-5	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_s0168-1702_00_00252-5.pdf
 oligos-not-in-paper	RETROVIRUS_RNA_polymerase_SIV_3	10.1128/JVI.02311-08	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1128_JVI.02311-08.pdf
+oligos-not-in-paper	Tortoise_intranuclear_coccidia_18SrDNA	10.1016/j.vetpar.2012.11.029	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_j.vetpar.2012.11.029.pdf
 paper-pdf	Apicoplast_23S_LSU_Large_subunit_Molecular_2005	10.1099/00221287-146-2-315	the full text of this DOI	oligo verification against the source	
 paper-pdf	CDV_N_gene_Elia_2006	10.1016/j.jviromet.2006.05.004	the full text of this DOI	oligo verification against the source	
 paper-pdf	CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	10.3201/eid1608.100208	the full text of this DOI	oligo verification against the source	
@@ -86,7 +87,6 @@ provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		any provenance at all - no DO
 provenance	HANTAVIRUS_ssRNA_S_segment_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	HANTAVIRUS_ssRNA_S_segment_round2_2		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	Pan_mycoplasma_16S_23S_intergenic_space_2		any provenance at all - no DOI and no reference is recorded	everything downstream	
-provenance	Tortoise_intranuclear_coccidia_18SrDNA		any provenance at all - no DOI and no reference is recorded	everything downstream	
 supplement	MYCOBACTERIUM_TB_complex_IS1081_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf
 supplement	MYCOBACTERIUM_TB_complex_helicase_MTCHeli_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf
 supplement	MYCOBACTERIUM_genus_16S_rRNA_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf

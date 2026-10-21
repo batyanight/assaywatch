@@ -62,7 +62,7 @@ Two of these were worth the trouble beyond the citation:
 author as Kuroda, from memory. `resolve_citations.py` refused it — Crossref says **Hsu** —
 which is exactly what the "no citation from memory" rule exists to catch.
 
-## Needs more information — nine entries, for Batya to go over
+## Needs more information — eight entries, for Batya to go over
 
 No paper could be confirmed for these. Each row says what was searched and what came
 back, so none of it has to be redone.
@@ -77,7 +77,6 @@ back, so none of it has to be redone.
 | `ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1` | `EVRV1`/`EVRV2` | only users: Bai 2016 EcoHealth `10.1007/s10393-016-1183-z` (a PREDICT-adjacent *Desmodus* survey) plus several rhinovirus papers. `EVRV` suggests an enterovirus/rhinovirus consensus set |
 | `ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2` | `EVRV3`/`EVRV2a-new` | same users; `-new` in the name suggests an in-house revision |
 | `Pan_mycoplasma_16S_23S_intergenic_space_2` | `16-23-F2`/`16-23-R2` | **nothing** on either sequence; the name hits are noise |
-| `Tortoise_intranuclear_coccidia_18SrDNA` | `INCqPCRF`/`INCqPCR2R`/probe | **nothing at all** on any of the three |
 
 ### The single most useful thing to supply
 
@@ -88,11 +87,30 @@ exactly the pattern of a nested set whose inner primers live in a supplementary 
 Three of the nine unresolved entries are UHanta rounds, so one supplement plausibly
 closes them.
 
-### Two that may not have a paper at all
+### RESOLVED since: the TINC qPCR, and what it says about the method
 
-`Pan_mycoplasma_16S_23S_intergenic_space_2` and `Tortoise_intranuclear_coccidia_18SrDNA`
-returned nothing on any name or sequence, in either orientation. For a tortoise
-intranuclear coccidiosis qPCR that is plausible: it may be an unpublished in-house assay,
-in which case the honest record is a lab note and a `lab-record` row, not a citation. The
-search cannot distinguish "unpublished" from "published somewhere Europe PMC cannot see",
-which is why these are for a human to judge.
+`Tortoise_intranuclear_coccidia_18SrDNA` returned **nothing** on all three sequences and
+both primer names in either orientation. Batya supplied the PDF the same day, and it is
+the design paper: **Alvarez et al. 2013**, *Development of a quantitative PCR for rapid
+and sensitive diagnosis of an intranuclear coccidian parasite in Testudines (TINC)*,
+Vet Parasitol 193:66-70, `10.1016/j.vetpar.2012.11.029`. All three oligos verified
+verbatim; the names in the registry are the paper's own.
+
+**That is the method's limit, stated plainly: a no-hit is not evidence an assay is
+unpublished.** *Veterinary Parasitology* is Elsevier and not in the open-access full-text
+index this search reads, so no number of queries would ever have found it. Every
+remaining "nothing at all" row below should be read as "not in the OA index", and the
+only way to close one is a human with a PDF.
+
+Reading the paper also forced two corrections nothing else would have caught: the probe
+carries a **Black Hole Quencher**, not a minor-groove binder, so `chemistry` moved from
+`mgb` to `hydrolysis_probe` and `quencher` from `MGB-NFQ` to `BHQ`. No call changes today
+(`by_chemistry: {}`), but the chemistry field is what a per-chemistry calibration would
+key on, and the registry's chemistry counts are printed in every run.
+
+### One that may not have a paper at all
+
+`Pan_mycoplasma_16S_23S_intergenic_space_2` returned nothing on either name or sequence,
+in either orientation. Given the TINC result, that is most likely a paywalled or
+non-indexed journal rather than an unpublished assay — but it could be either, and only a
+PDF or a lab note settles it.
