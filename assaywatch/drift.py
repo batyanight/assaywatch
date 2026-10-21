@@ -524,10 +524,6 @@ class AssayDrift:
     ) -> None:
         """Per-lineage analysis: does the worst assessable lineage fail?
 
-        A recent call flagged ``bucket`` (lineage.unclassified_is_bucket) puts its
-        lineage with the never-covered ones under the gate: an unclassified
-        taxid is not a lineage, so it cannot be one new to the archive.
-
         Called after finalise, so the pooled status is already set. When the
         worst lineage is significantly below threshold, the status is overridden
         to ``declining`` (or stays ``declining`` if it already was). The pooled
@@ -539,23 +535,20 @@ class AssayDrift:
         Decision 2 in docs/2026-10-17-estimand-plan.md: the worst assessable
         lineage drives the call.
 
-        With ``baseline_calls`` (lineage.require_working_baseline), a lineage
-        that was measured in earlier years and never cleared the threshold in
-        any of them cannot drive ``declining``: it was never covered, so it has
-        not drifted. If it fails under a pooled stable/watch the assay becomes
-        ``low coverage`` instead. A lineage with no earlier measured year (new
-        to the archive) still can. See docs/2026-10-19-pan-family-cases.md.
+        The body is a chain of gates, each of which can end the decision, and
+        each named for what it refuses. Read in order:
+
+        1. no assessable lineage, or one lineage that IS the pool -> no override;
+        2. `_never_covered_gate`, which turns a failing lineage that never
+           worked into a coverage gap rather than drift;
+        3. `_weak_pooled_gate`, which refuses to call drift when neither the
+           lineage nor the pool ever cleared the threshold;
+        4. `_apply_override`, which is the only place the status changes.
         """
         if not recent_calls:
             return
 
-        from assaywatch.lineage import (
-            lineage_of,
-            lineages_ever_covered,
-            lineages_never_covered,
-            per_lineage_stats,
-            worst_lineage_verdict,
-        )
+        from assaywatch.lineage import per_lineage_stats, worst_lineage_verdict
 
         stats = per_lineage_stats(
             recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage, resolvers=resolvers
@@ -566,23 +559,13 @@ class AssayDrift:
 
         # What share of recent evaluable records sit in assessable lineages?
         n_in_assessable = sum(s.n_evaluable for s in stats)
-        if self.recent_evaluable > 0:
-            self.lineage_coverage = n_in_assessable / self.recent_evaluable
-        else:
-            self.lineage_coverage = 0.0
+        self.lineage_coverage = n_in_assessable / self.recent_evaluable if self.recent_evaluable > 0 else 0.0
 
         if not stats:
             # No assessable lineages (all below floor, or all unresolved).
             return
 
-        if len(stats) == 1 and stats[0].n_evaluable == self.recent_evaluable and not self.ever_worked:
-            # One lineage holding every recent record is the pooled measurement
-            # again, so its history is the assay's. If the assay never cleared
-            # the threshold in an earlier year, the lineage is not new to the
-            # archive, only thinly measured, and overriding would replace "no
-            # measurable fall" with a drift call (West Nile Lanciotti 2001 as of
-            # 2003, one species once lineage.group_at_rank rolls up). One that
-            # used to work still overrides: CDV Scagliarini 2007 as of 2021.
+        if self._pool_is_one_lineage(stats):
             self.lineage_verdict = worst_lineage_verdict(stats, self.threshold)[0]
             return
 
@@ -590,89 +573,167 @@ class AssayDrift:
         self.lineage_verdict = verdict
 
         if verdict == "failing" and baseline_calls is not None:
-            never = lineages_never_covered(
-                baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
+            stop, worst_idx = self._never_covered_gate(
+                stats,
+                worst_idx,
+                recent_calls,
+                baseline_calls,
+                taxa_cache,
+                taxid_sidecar,
+                resolvers,
+                min_records_for_year,
             )
-            buckets = {
-                lineage_of(c, taxa_cache, taxid_sidecar, resolvers) for c in recent_calls if c.get("bucket")
-            }
-            eligible = [s for s in stats if s.lineage_name not in never | buckets]
-            gap = stats[worst_idx]
-            verdict, idx = worst_lineage_verdict(eligible, self.threshold)
-            self.lineage_verdict = verdict or "failing (never covered)"
-            if verdict == "failing":
-                worst_idx = stats.index(eligible[idx])
-            else:
-                # Every failing lineage was measured earlier and never covered: a coverage gap.
-                if self.status in ("stable", "watch"):
-                    self.status_pooled = self.status
-                    self.status = "low coverage"
-                    self.lineage_override = True
-                    self.lineage_worst_idx = worst_idx
-                why = (
-                    "is an unclassified taxon, so it cannot be told from one never covered"
-                    if gap.lineage_name in buckets and gap.lineage_name not in never
-                    else "was below the threshold in every earlier year measured"
-                )
-                self.note += (
-                    f"; lineage {gap.lineage_name} ({gap.n_evaluable} records) detects only "
-                    f"{gap.share:.1%} and {why}: a coverage gap, not drift"
-                )
+            if stop:
                 return
+            verdict = self.lineage_verdict
 
         if verdict == "failing" and self.status not in ("stable", "watch", "declining"):
-            # Pooled `low coverage` or `insufficient data`: the pool never showed
-            # this assay working on this denominator, so there is no fall for a
-            # lineage to be evidence of. `declining` claims one. The same rule the
-            # project already settled at the pooled level — a fall from a baseline
-            # that never cleared the threshold is not drift — applied to the
-            # denominator the override actually claims, so the lineage may overturn
-            # a weak pooled verdict only if that lineage itself cleared the
-            # threshold in an earlier measured year. A lineage new to the archive
-            # cannot: it has no history to have fallen from.
-            #
-            # Without this, pooled "fell measurably, but never reached the
-            # threshold in any earlier year, so this is not drift" was overturned
-            # to `declining` by 33 records of an NCBI reclassification artefact
-            # (Enterovirus VP3/VP1 round2 as of 2018-09-30). Tier-2: 12 -> 10
-            # disagreements, 4/11 caught either way, nothing lost; 2 of 201 current
-            # statuses move. Evidence: docs/2026-10-20-pan-family-override.md.
-            if baseline_calls is not None:
-                worked = lineages_ever_covered(
-                    baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
-                )
-                if stats[worst_idx].lineage_name not in worked:
-                    self.note += (
-                        f"; lineage {stats[worst_idx].lineage_name} "
-                        f"({stats[worst_idx].n_evaluable} records) detects only "
-                        f"{stats[worst_idx].share:.1%}, but neither it nor the pooled share ever cleared "
-                        "the threshold, so there is no fall to call a decline"
-                    )
-                    return
+            if self._weak_pooled_gate(
+                stats, worst_idx, baseline_calls, taxa_cache, taxid_sidecar, resolvers, min_records_for_year
+            ):
+                return
 
         if verdict == "failing" and self.status != "declining":
-            # The pooled number says stable/watch/insufficient/low coverage,
-            # but a lineage is significantly failing. Override.
+            self._apply_override(stats, worst_idx)
+
+    def _pool_is_one_lineage(self, stats: list) -> bool:
+        """Is the "worst lineage" just the pooled measurement wearing a hat?
+
+        One lineage holding every recent record is the pooled measurement again,
+        so its history is the assay's. If the assay never cleared the threshold
+        in an earlier year, the lineage is not new to the archive, only thinly
+        measured, and overriding would replace "no measurable fall" with a drift
+        call (West Nile Lanciotti 2001 as of 2003, one species once
+        lineage.group_at_rank rolls up). One that used to work still overrides:
+        CDV Scagliarini 2007 as of 2021.
+        """
+        return len(stats) == 1 and stats[0].n_evaluable == self.recent_evaluable and not self.ever_worked
+
+    def _never_covered_gate(
+        self,
+        stats: list,
+        worst_idx: int,
+        recent_calls: list[dict],
+        baseline_calls: list[dict],
+        taxa_cache: dict[int, str],
+        taxid_sidecar: dict[str, int],
+        resolvers: list | None,
+        min_records_for_year: int,
+    ) -> tuple[bool, int]:
+        """A failing lineage that was never covered is a coverage gap, not drift.
+
+        With lineage.require_working_baseline, a lineage measured in earlier
+        years that never cleared the threshold in any of them cannot drive
+        ``declining``: it was never covered, so it has not drifted. If it fails
+        under a pooled stable/watch the assay becomes ``low coverage`` instead.
+        A lineage with no earlier measured year (new to the archive) still can.
+        See docs/2026-10-19-pan-family-cases.md.
+
+        A recent call flagged ``bucket`` (lineage.unclassified_is_bucket) counts
+        as never covered: an unclassified taxid is not a lineage, so it cannot be
+        one new to the archive.
+
+        Returns (stop, worst_idx): `stop` ends the chain, and `worst_idx` moves
+        to the worst ELIGIBLE lineage when the chain continues.
+        """
+        from assaywatch.lineage import lineage_of, lineages_never_covered, worst_lineage_verdict
+
+        never = lineages_never_covered(
+            baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
+        )
+        buckets = {
+            lineage_of(c, taxa_cache, taxid_sidecar, resolvers) for c in recent_calls if c.get("bucket")
+        }
+        eligible = [s for s in stats if s.lineage_name not in never | buckets]
+        gap = stats[worst_idx]
+        verdict, idx = worst_lineage_verdict(eligible, self.threshold)
+        self.lineage_verdict = verdict or "failing (never covered)"
+        if verdict == "failing":
+            return False, stats.index(eligible[idx])
+
+        # Every failing lineage was measured earlier and never covered: a coverage gap.
+        if self.status in ("stable", "watch"):
             self.status_pooled = self.status
-            self.status = "declining"
+            self.status = "low coverage"
             self.lineage_override = True
             self.lineage_worst_idx = worst_idx
-            worst = stats[worst_idx]
-            # Build a note that accurately describes why the override happened.
-            if self.status_pooled in ("stable", "watch"):
-                prefix = (
-                    f"pooled share {self.recent_fraction:.1%} is above the {self.threshold:.0%} threshold"
-                )
-            elif self.status_pooled == "low coverage":
-                prefix = f"pooled share {self.recent_fraction:.1%} has low coverage"
-            else:
-                prefix = f"pooled status was {self.status_pooled}"
-            self.note = (
-                f"{prefix}, but lineage {worst.lineage_name} "
-                f"({worst.n_evaluable} records) detects only {worst.share:.1%} "
-                f"({worst.ci_lower:.1%}-{worst.ci_upper:.1%}); "
-                f"lineage verdict overrides to declining"
-            )
+        why = (
+            "is an unclassified taxon, so it cannot be told from one never covered"
+            if gap.lineage_name in buckets and gap.lineage_name not in never
+            else "was below the threshold in every earlier year measured"
+        )
+        self.note += (
+            f"; lineage {gap.lineage_name} ({gap.n_evaluable} records) detects only "
+            f"{gap.share:.1%} and {why}: a coverage gap, not drift"
+        )
+        return True, worst_idx
+
+    def _weak_pooled_gate(
+        self,
+        stats: list,
+        worst_idx: int,
+        baseline_calls: list[dict] | None,
+        taxa_cache: dict[int, str],
+        taxid_sidecar: dict[str, int],
+        resolvers: list | None,
+        min_records_for_year: int,
+    ) -> bool:
+        """Refuse to call drift when nothing here ever cleared the threshold.
+
+        The pooled verdict is `low coverage` or `insufficient data`: the pool
+        never showed this assay working on this denominator, so there is no fall
+        for a lineage to be evidence of. `declining` claims one. The same rule
+        the project already settled at the pooled level - a fall from a baseline
+        that never cleared the threshold is not drift - applied to the
+        denominator the override actually claims, so the lineage may overturn a
+        weak pooled verdict only if that lineage itself cleared the threshold in
+        an earlier measured year. A lineage new to the archive cannot: it has no
+        history to have fallen from.
+
+        Without this, pooled "fell measurably, but never reached the threshold in
+        any earlier year, so this is not drift" was overturned to `declining` by
+        33 records of an NCBI reclassification artefact (Enterovirus VP3/VP1
+        round2 as of 2018-09-30). Tier-2: 12 -> 10 disagreements, 4/11 caught
+        either way, nothing lost; 2 of 201 current statuses move. Evidence:
+        docs/2026-10-20-pan-family-override.md.
+        """
+        if baseline_calls is None:
+            return False
+        from assaywatch.lineage import lineages_ever_covered
+
+        worked = lineages_ever_covered(
+            baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
+        )
+        if stats[worst_idx].lineage_name in worked:
+            return False
+        self.note += (
+            f"; lineage {stats[worst_idx].lineage_name} "
+            f"({stats[worst_idx].n_evaluable} records) detects only "
+            f"{stats[worst_idx].share:.1%}, but neither it nor the pooled share ever cleared "
+            "the threshold, so there is no fall to call a decline"
+        )
+        return True
+
+    def _apply_override(self, stats: list, worst_idx: int) -> None:
+        """The one place a lineage changes the status. Pooled -> declining."""
+        self.status_pooled = self.status
+        self.status = "declining"
+        self.lineage_override = True
+        self.lineage_worst_idx = worst_idx
+        worst = stats[worst_idx]
+        # A note that accurately describes why the override happened.
+        if self.status_pooled in ("stable", "watch"):
+            prefix = f"pooled share {self.recent_fraction:.1%} is above the {self.threshold:.0%} threshold"
+        elif self.status_pooled == "low coverage":
+            prefix = f"pooled share {self.recent_fraction:.1%} has low coverage"
+        else:
+            prefix = f"pooled status was {self.status_pooled}"
+        self.note = (
+            f"{prefix}, but lineage {worst.lineage_name} "
+            f"({worst.n_evaluable} records) detects only {worst.share:.1%} "
+            f"({worst.ci_lower:.1%}-{worst.ci_upper:.1%}); "
+            f"lineage verdict overrides to declining"
+        )
 
     def finalise(self) -> AssayDrift:
         if self.recent_counts or self.baseline_counts:
@@ -803,6 +864,297 @@ def months_back(anchor: date, months: int) -> date:
     return date(y, m + 1, min(anchor.day, 28))
 
 
+@dataclass(frozen=True)
+class DriftSettings:
+    """Every `drift.*` setting one `assess` call reads, in one place.
+
+    S4 in docs/2026-10-20-pipeline-audit.md: `assess` was 300 lines and a reader
+    could not hold its control flow in mind, on the path that produces a
+    verdict. The settings were a dozen locals threaded through it; naming them
+    is what lets the stages below take an argument instead of a closure.
+    """
+
+    base_months: int
+    max_months: int
+    threshold: float
+    min_records: int
+    min_decline: float
+    require_working_baseline: bool
+    min_records_for_year: int
+    count_diverged: bool
+    exclude_patent: bool
+
+    @classmethod
+    def from_config(cls, cfg: dict[str, Any]) -> DriftSettings:
+        d = cfg.get("drift", {})
+        base = int(d.get("recent_window_months", 24))
+        return cls(
+            base_months=base,
+            max_months=max(base, int(d.get("max_window_months", base))),
+            threshold=float(d.get("detect_fraction_threshold", 0.9)),
+            min_records=int(d.get("min_records_for_drift", 20)),
+            min_decline=float(d.get("min_decline", 0.0)),
+            require_working_baseline=bool(d.get("require_working_baseline", True)),
+            min_records_for_year=int(d.get("min_records_for_coverage", 10)),
+            # A record whose partner binding site is present in the deposit and does
+            # not match is evidence the assay would not amplify it, but it leaves the
+            # denominator as no_amplicon, which biases that denominator toward the
+            # sequences the assay happens to match. Counting those as failures is off
+            # by default because the signal conflates two things: an assay that has
+            # drifted, and a pan-family assay screened against taxa it never claimed
+            # to cover. Settle it with docs/validation-cases.tsv, not by argument.
+            count_diverged=bool(d.get("count_diverged_as_fail", False)),
+            # A patent deposit is a construct someone designed, not a virus that is
+            # circulating, so it answers a different question from the one this tool
+            # asks. Off by default: it changes a denominator, which is exactly the
+            # kind of change docs/validation-cases.tsv exists to approve.
+            exclude_patent=bool(d.get("exclude_patent_records", False)),
+        )
+
+
+@dataclass(frozen=True)
+class Window:
+    """Which records count as recent, at the granularity the input actually has.
+
+    `years` may hold full ISO dates (what report.read_dates gives) or bare years
+    (what the tests and any year-only source give), and the two must not be
+    compared the same way: a 2024 record is "recent" against an October 2024
+    cutoff at year granularity but not at date granularity. Collapsing the two
+    silently moved 90 records between windows.
+    """
+
+    anchor: date
+    dated: bool
+
+    def inside(self, iso: str, months: int) -> bool:
+        edge = months_back(self.anchor, months)
+        return iso >= edge.isoformat() if self.dated else int(iso[:4]) >= edge.year
+
+    def choose(self, evaluable: list[str], settings: DriftSettings) -> int:
+        """How many months back this assay's recent window reaches.
+
+        Widen only when the assay could be judged at all with more history. An
+        assay with fewer than `min_records` evaluable records in total can never
+        reach the bar, so widening its window would just quietly stretch the
+        definition of "recent" for no gain.
+        """
+        months = settings.base_months
+        if len(evaluable) < settings.min_records:
+            return months
+        # Widen a year at a time, only as far as reaching min_records needs.
+        while (
+            months < settings.max_months
+            and sum(1 for x in evaluable if self.inside(x, months)) < settings.min_records
+        ):
+            months += 12
+        return min(months, settings.max_months)
+
+
+@dataclass
+class GatheredCalls:
+    """Calls bucketed per assay, with what was held out of each denominator."""
+
+    per: dict[str, list[tuple[str | None, str, str, str | None]]] = field(default_factory=dict)
+    raw: dict[str, list[tuple[str | None, dict[str, Any]]]] = field(default_factory=dict)
+    out_of_scope: dict[str, int] = field(default_factory=dict)
+    patent: dict[str, int] = field(default_factory=dict)
+
+
+def _gather_calls(
+    calls,
+    years: dict[str, int | str],
+    settings: DriftSettings,
+    *,
+    taxids: dict[str, int] | None,
+    scope_map: dict[str, set[int]] | None,
+    taxonomy: Taxonomy | None,
+    patent: set[str] | None,
+    keep_raw: bool,
+) -> GatheredCalls:
+    """Bucket every call row per assay. The window cannot be chosen until the dates are known."""
+    out = GatheredCalls()
+    scope_canon: dict[str, set[int]] = {}
+
+    def in_scope(aid: str, txid: int) -> bool:
+        if taxonomy is None:
+            return txid in scope_map[aid]
+        if aid not in scope_canon:
+            scope_canon[aid] = {taxonomy.canonical(t) for t in scope_map[aid]}
+        return taxonomy.within(txid, scope_canon[aid])
+
+    for row in calls:
+        aid = row["assay_id"]
+        # Scope filter: when the assay has scope_taxids and the record has a
+        # taxid, skip out-of-scope records from the drift denominator.
+        if scope_map and aid in scope_map and taxids is not None:
+            rid = row["record_id"]
+            base = strip_version(rid)
+            txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+            if txid is not None and not in_scope(aid, txid):
+                out.out_of_scope[aid] = out.out_of_scope.get(aid, 0) + 1
+                continue
+        if settings.exclude_patent and strip_version(row["record_id"]) in patent:
+            out.patent[aid] = out.patent.get(aid, 0) + 1
+            continue
+        when = years.get(row["record_id"])
+        # A bare year keeps year granularity below, so it is anchored at 1 January.
+        iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
+        why = row.get("exclusion") or ""
+        call = "fail" if (settings.count_diverged and why == "diverged") else row["call"]
+        # None when the row has no footprint, so that an unknown footprint is never
+        # confused with a known one. A known footprint is never the empty string:
+        # `footprint_signature` joins six fields, so even an exact match is
+        # `|||0|0|0`. The all-empty `|||||` is what a row carries when it was never
+        # scored, which `report.read_calls` already turns into None.
+        # A record counted as a failure only because count_diverged_as_fail says
+        # so was never scored: its binding site is present and does not match, but
+        # nothing was recorded about HOW, so all six footprint columns are empty.
+        # Treating that as a footprint collapsed every diverged record into one
+        # class however different they were. It is unknown instead, which makes the
+        # assay's duplication check unknown - an honest "cannot say".
+        fp = None if (settings.count_diverged and why == "diverged") else row.get("footprint")
+        out.per.setdefault(aid, []).append((iso, call, why, fp))
+        if keep_raw:
+            out.raw.setdefault(aid, []).append((iso, row))
+    return out
+
+
+def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> None:
+    """Fill one assay's year table, its recent/baseline counts and its footprints.
+
+    Distinct (call, footprint) classes are counted per window. If ANY evaluable
+    record lacks a footprint the count is unknown for the whole assay rather than
+    partial: a partial count would be a lower bound on distinct footprints, and
+    so too wide an interval, presented as fact.
+    """
+    recent_fp: set[tuple[str, str]] = set()
+    base_fp: set[tuple[str, str]] = set()
+    fp_known = True
+    for iso, call, why, fp in rows:
+        if why:
+            a.exclusions[why] += 1
+        if iso is None:
+            a.skipped_undated += 1
+            continue
+        a.years.setdefault(int(iso[:4]), YearStats(int(iso[:4]))).counts[call] += 1
+        in_recent = window.inside(iso, months)
+        (a.recent_counts if in_recent else a.baseline_counts)[call] += 1
+        if call in EVALUABLE:
+            if fp is None:
+                fp_known = False
+            else:
+                (recent_fp if in_recent else base_fp).add((call, fp))
+    if fp_known:
+        a.recent_footprints = len(recent_fp)
+        a.baseline_footprints = len(base_fp)
+        a.recent_footprints_detected = sum(1 for call, _ in recent_fp if call != "fail")
+
+
+@dataclass(frozen=True)
+class LineageOptions:
+    """The `lineage.*` settings, validated once rather than per assay."""
+
+    min_per_lineage: int
+    gate: bool
+    rank: str | None
+    buckets_on: bool
+
+    @classmethod
+    def from_config(cls, cfg: dict[str, Any], taxonomy: Taxonomy | None) -> LineageOptions:
+        lcfg = cfg.get("lineage", {})
+        rank = lcfg.get("group_at_rank")
+        if rank not in (None, "species"):
+            raise SystemExit(f"lineage.group_at_rank is {rank!r}; only null or 'species' is supported")
+        buckets_on = bool(lcfg.get("unclassified_is_bucket", False))
+        if (rank or buckets_on) and (taxonomy is None or not taxonomy.rank):
+            raise SystemExit(
+                "lineage.group_at_rank / unclassified_is_bucket need drift.scope_taxonomy with ranks; "
+                "rebuild it with `python scripts/build_taxonomy_cache.py`"
+            )
+        return cls(
+            min_per_lineage=int(lcfg.get("min_records_per_lineage", 20)),
+            gate=bool(lcfg.get("require_working_baseline", False)),
+            rank=rank,
+            buckets_on=buckets_on,
+        )
+
+    def taxid_of(
+        self, rid: str, base: str, taxids: dict[str, int], taxonomy: Taxonomy | None
+    ) -> tuple[int | None, bool]:
+        """The record's taxid (rolled up to species if configured) and its bucket flag."""
+        txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+        if txid is None or taxonomy is None:
+            return txid, False
+        bucket = self.buckets_on and taxonomy.in_unclassified(txid)
+        if self.rank == "species":
+            txid = taxonomy.species_of(txid) or txid
+        return txid, bucket
+
+
+def _lineage_calls(
+    raw_rows: list[tuple[str | None, dict[str, Any]]],
+    window: Window,
+    months: int,
+    opts: LineageOptions,
+    *,
+    taxids: dict[str, int],
+    taxonomy: Taxonomy | None,
+    titles: dict[str, str] | None,
+) -> tuple[list[dict], list[dict] | None]:
+    """Recent evaluable calls annotated with taxids, and with the gate the older ones too.
+
+    Each carries only what the lineage check reads, so the full screen row is not
+    held per record: the taxid, the call, the unversioned accession and its title.
+    """
+    recent: list[dict] = []
+    baseline: list[dict] | None = [] if opts.gate else None
+    for iso, row in raw_rows:
+        if iso is None:
+            continue
+        call = row["call"]
+        if call not in EVALUABLE:
+            continue
+        rid = row["record_id"]
+        base = strip_version(rid)
+        if not window.inside(iso, months):
+            if baseline is not None:
+                txid, _ = opts.taxid_of(rid, base, taxids, taxonomy)
+                baseline.append(
+                    {
+                        "record_id": rid,
+                        "call": call,
+                        "taxid": txid,
+                        "accession": base,
+                        "title": titles.get(base) if titles else None,
+                        "year": int(iso[:4]),
+                    }
+                )
+            continue
+        # taxids may be keyed by versioned or unversioned accession.
+        txid, bucket = opts.taxid_of(rid, base, taxids, taxonomy)
+        recent.append(
+            {
+                "record_id": rid,
+                "call": call,
+                "taxid": txid,
+                "bucket": bucket,
+                "accession": base,
+                "title": titles.get(base) if titles else None,
+            }
+        )
+    return recent, baseline
+
+
+def _species_counts(recent_calls: list[dict]) -> dict[int | None, list[int]]:
+    """(detected, evaluable) per taxid, for the per-species table."""
+    counts: dict[int | None, list[int]] = {}
+    for c in recent_calls:
+        pair = counts.setdefault(c["taxid"], [0, 0])
+        pair[0] += c["call"] != "fail"
+        pair[1] += 1
+    return counts
+
+
 def assess(
     calls: list[dict[str, Any]],
     years: dict[str, int | str],
@@ -855,33 +1207,13 @@ def assess(
     before the per-lineage check; ``titles`` (unversioned accession -> defline)
     feeds any title resolver. An assay with no chain is grouped per taxid.
     """
-    d = cfg.get("drift", {})
-    base_months = int(d.get("recent_window_months", 24))
-    max_months = max(base_months, int(d.get("max_window_months", base_months)))
-    threshold = float(d.get("detect_fraction_threshold", 0.9))
-    min_records = int(d.get("min_records_for_drift", 20))
-    min_decline = float(d.get("min_decline", 0.0))
-    require_working_baseline = bool(d.get("require_working_baseline", True))
-    min_records_for_year = int(d.get("min_records_for_coverage", 10))
-    # A record whose partner binding site is present in the deposit and does not
-    # match is evidence the assay would not amplify it, but it leaves the
-    # denominator as no_amplicon, which biases that denominator toward the
-    # sequences the assay happens to match. Counting those as failures is off by
-    # default because the signal conflates two things: an assay that has drifted,
-    # and a pan-family assay screened against taxa it never claimed to cover.
-    # Settle it with docs/validation-cases.tsv rather than by argument.
-    count_diverged = bool(d.get("count_diverged_as_fail", False))
-    # A patent deposit is a construct someone designed, not a virus that is
-    # circulating, so it answers a different question from the one this tool
-    # asks. Off by default: it changes a denominator, which is exactly the kind
-    # of change docs/validation-cases.tsv exists to approve.
-    exclude_patent = bool(d.get("exclude_patent_records", False))
-    if exclude_patent and patent is None:
+    settings = DriftSettings.from_config(cfg)
+    if settings.exclude_patent and patent is None:
         raise SystemExit(
             "drift.exclude_patent_records is on but no patent record set was passed; "
             "the caller must read it with assaywatch.metadata.read_patent_accessions"
         )
-    if count_diverged:
+    if settings.count_diverged:
         calls = list(calls)
         if any((row.get("exclusion") or "") == "windowed" for row in calls):
             # Those rows came from a window archive, which cannot tell a diverged site
@@ -890,217 +1222,72 @@ def assess(
                 "drift.count_diverged_as_fail needs to know which records diverged, and these calls "
                 "include rows screened from a window archive (exclusion 'windowed'). Screen whole records."
             )
-    anchor = today or date.today()
-    dated = any(isinstance(v, str) for v in years.values())
+    window = Window(anchor=today or date.today(), dated=any(isinstance(v, str) for v in years.values()))
+    per_lineage = taxids is not None and taxa_cache is not None
+    # Validated before the loop, so a bad lineage setting fails on the config
+    # rather than on the first assay that happens to reach the check.
+    lineage_opts = LineageOptions.from_config(cfg, taxonomy) if per_lineage else None
 
-    # Gather per assay first: the window cannot be chosen until the dates are known.
-    per: dict[str, list[tuple[str | None, str, str, str | None]]] = {}
-    # When taxids are available, also keep the full row dict per assay for the
-    # lineage check (only recent evaluable calls, filtered after window selection).
-    raw_per: dict[str, list[tuple[str | None, dict[str, Any]]]] = {} if taxids else {}
-    # Out-of-scope record counts per assay, populated only when scope_map is set.
-    oos_counts: dict[str, int] = {}
-    pat_counts: dict[str, int] = {}
-    scope_canon: dict[str, set[int]] = {}
-
-    def in_scope(aid: str, txid: int) -> bool:
-        if taxonomy is None:
-            return txid in scope_map[aid]
-        if aid not in scope_canon:
-            scope_canon[aid] = {taxonomy.canonical(t) for t in scope_map[aid]}
-        return taxonomy.within(txid, scope_canon[aid])
-
-    for row in calls:
-        aid = row["assay_id"]
-        # Scope filter: when the assay has scope_taxids and the record has a
-        # taxid, skip out-of-scope records from the drift denominator.
-        if scope_map and aid in scope_map and taxids is not None:
-            rid = row["record_id"]
-            base = strip_version(rid)
-            txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
-            if txid is not None and not in_scope(aid, txid):
-                oos_counts[aid] = oos_counts.get(aid, 0) + 1
-                continue
-        if exclude_patent and strip_version(row["record_id"]) in patent:
-            pat_counts[aid] = pat_counts.get(aid, 0) + 1
-            continue
-        when = years.get(row["record_id"])
-        # A bare year keeps year granularity below, so it is anchored at 1 January.
-        iso = when if isinstance(when, str) else (f"{when}-01-01" if when is not None else None)
-        why = row.get("exclusion") or ""
-        call = "fail" if (count_diverged and why == "diverged") else row["call"]
-        # None when the row has no footprint, so that an unknown footprint is never
-        # confused with a known one. A known footprint is never the empty string:
-        # `footprint_signature` joins six fields, so even an exact match is
-        # `|||0|0|0`. The all-empty `|||||` is what a row carries when it was never
-        # scored, which `report.read_calls` already turns into None.
-        # A record counted as a failure only because count_diverged_as_fail says
-        # so was never scored: its binding site is present and does not match, but
-        # nothing was recorded about HOW, so all six footprint columns are empty.
-        # Treating that as a footprint collapsed every diverged record into one
-        # class however different they were. It is unknown instead, which makes the
-        # assay's duplication check unknown - an honest "cannot say".
-        fp = None if (count_diverged and why == "diverged") else row.get("footprint")
-        per.setdefault(aid, []).append((iso, call, why, fp))
-        if taxids is not None:
-            raw_per.setdefault(aid, []).append((iso, row))
+    gathered = _gather_calls(
+        calls,
+        years,
+        settings,
+        taxids=taxids,
+        scope_map=scope_map,
+        taxonomy=taxonomy,
+        patent=patent,
+        keep_raw=taxids is not None,
+    )
 
     grouped: dict[str, AssayDrift] = {}
-    for assay_id, rows in per.items():
+    for assay_id, rows in gathered.per.items():
         evaluable = sorted((iso for iso, call, _, _ in rows if iso and call in EVALUABLE), reverse=True)
-
-        def inside(iso: str, months: int) -> bool:
-            """Is this record inside a window of `months`, at the input's own granularity?
-
-            `years` may hold full ISO dates (what report.read_dates gives) or bare
-            years (what the tests and any year-only source give), and the two must
-            not be compared the same way: a 2024 record is "recent" against an
-            October 2024 cutoff at year granularity but not at date granularity.
-            Collapsing the two silently moved 90 records between windows.
-            """
-            edge = months_back(anchor, months)
-            return iso >= edge.isoformat() if dated else int(iso[:4]) >= edge.year
-
-        # Widen only when the assay could be judged at all with more history.
-        # An assay with fewer than min_records evaluable records in total can
-        # never reach the bar, so widening its window would just quietly stretch
-        # the definition of "recent" for no gain.
-        months = base_months
-        if len(evaluable) >= min_records:
-            # Widen a year at a time, only as far as reaching min_records needs.
-            while months < max_months and sum(1 for x in evaluable if inside(x, months)) < min_records:
-                months += 12
-            months = min(months, max_months)
-        cutoff = months_back(anchor, months)
+        months = window.choose(evaluable, settings)
+        cutoff = months_back(window.anchor, months)
         a = AssayDrift(
             assay_id,
-            recent_from=(cutoff.strftime("%b %Y") if dated else cutoff.year),
-            threshold=threshold,
-            min_records=min_records,
-            min_decline=min_decline,
-            require_working_baseline=require_working_baseline,
-            min_records_for_year=min_records_for_year,
+            recent_from=(cutoff.strftime("%b %Y") if window.dated else cutoff.year),
+            threshold=settings.threshold,
+            min_records=settings.min_records,
+            min_decline=settings.min_decline,
+            require_working_baseline=settings.require_working_baseline,
+            min_records_for_year=settings.min_records_for_year,
             window_months=months,
             recent_year=cutoff.year,
         )
-        # Distinct (call, footprint) classes among evaluable records, per window.
-        # If ANY evaluable record lacks a footprint the count is unknown for the
-        # whole assay rather than partial: a partial count would be a lower bound
-        # on distinct footprints, and so too wide an interval, presented as fact.
-        recent_fp: set[tuple[str, str]] = set()
-        base_fp: set[tuple[str, str]] = set()
-        fp_known = True
-        for iso, call, why, fp in rows:
-            if why:
-                a.exclusions[why] += 1
-            if iso is None:
-                a.skipped_undated += 1
-                continue
-            a.years.setdefault(int(iso[:4]), YearStats(int(iso[:4]))).counts[call] += 1
-            in_recent = inside(iso, months)
-            (a.recent_counts if in_recent else a.baseline_counts)[call] += 1
-            if call in EVALUABLE:
-                if fp is None:
-                    fp_known = False
-                else:
-                    (recent_fp if in_recent else base_fp).add((call, fp))
-        if fp_known:
-            a.recent_footprints = len(recent_fp)
-            a.baseline_footprints = len(base_fp)
-            a.recent_footprints_detected = sum(1 for call, _ in recent_fp if call != "fail")
+        _tally_window(a, rows, window, months)
         a.finalise()
-        if months > base_months:
-            a.note += f" (window widened to {months} months to reach {min_records} evaluable records)"
+        if months > settings.base_months:
+            a.note += (
+                f" (window widened to {months} months to reach {settings.min_records} evaluable records)"
+            )
         if a.skipped_undated:
             a.note += f" ({a.skipped_undated} records skipped: no deposit date in the metadata)"
 
         # Per-lineage analysis: does the worst assessable lineage fail?
-        if taxids is not None and taxa_cache is not None:
-            lcfg = cfg.get("lineage", {})
-            min_per_lineage = int(lcfg.get("min_records_per_lineage", 20))
-            gate = bool(lcfg.get("require_working_baseline", False))
-            rank = lcfg.get("group_at_rank")
-            if rank not in (None, "species"):
-                raise SystemExit(f"lineage.group_at_rank is {rank!r}; only null or 'species' is supported")
-            buckets_on = bool(lcfg.get("unclassified_is_bucket", False))
-            if (rank or buckets_on) and (taxonomy is None or not taxonomy.rank):
-                raise SystemExit(
-                    "lineage.group_at_rank / unclassified_is_bucket need drift.scope_taxonomy with ranks; "
-                    "rebuild it with `python scripts/build_taxonomy_cache.py`"
-                )
-
-            def lineage_taxid(
-                rid: str, base: str, rank=rank, buckets_on=buckets_on
-            ) -> tuple[int | None, bool]:
-                """The record's taxid (rolled up to species if configured) and its bucket flag."""
-                txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
-                if txid is None or taxonomy is None:
-                    return txid, False
-                bucket = buckets_on and taxonomy.in_unclassified(txid)
-                if rank == "species":
-                    txid = taxonomy.species_of(txid) or txid
-                return txid, bucket
-
-            # Collect recent evaluable calls with taxid annotations, and with the
-            # working-baseline gate the older ones too, each tagged with its year.
-            recent_calls_for_lineage = []
-            baseline_calls_for_lineage: list[dict] | None = [] if gate else None
-            for iso, orig_row in raw_per.get(assay_id, []):
-                if iso is None:
-                    continue
-                c = orig_row["call"]
-                if c not in EVALUABLE:
-                    continue
-                if not inside(iso, months):
-                    if baseline_calls_for_lineage is not None:
-                        rid = orig_row["record_id"]
-                        base = strip_version(rid)
-                        txid, _ = lineage_taxid(rid, base)
-                        baseline_calls_for_lineage.append(
-                            {
-                                "record_id": rid,
-                                "call": c,
-                                "taxid": txid,
-                                "accession": base,
-                                "title": titles.get(base) if titles else None,
-                                "year": int(iso[:4]),
-                            }
-                        )
-                    continue
-                rid = orig_row["record_id"]
-                base = strip_version(rid)
-                # Build a minimal call dict with the taxid attached.
-                # taxids may be keyed by versioned or unversioned accession.
-                txid, bucket = lineage_taxid(rid, base)
-                recent_calls_for_lineage.append(
-                    {
-                        "record_id": rid,
-                        "call": c,
-                        "taxid": txid,
-                        "bucket": bucket,
-                        "accession": base,
-                        "title": titles.get(base) if titles else None,
-                    }
-                )
-            counts: dict[int | None, list[int]] = {}
-            for c in recent_calls_for_lineage:
-                pair = counts.setdefault(c["taxid"], [0, 0])
-                pair[0] += c["call"] != "fail"
-                pair[1] += 1
-            a.species_counts = counts
-
+        if per_lineage:
+            recent_calls, baseline_calls = _lineage_calls(
+                gathered.raw.get(assay_id, []),
+                window,
+                months,
+                lineage_opts,
+                taxids=taxids,
+                taxonomy=taxonomy,
+                titles=titles,
+            )
+            a.species_counts = _species_counts(recent_calls)
             a._lineage_check(
-                recent_calls_for_lineage,
+                recent_calls,
                 taxa_cache,
                 taxids,  # doubles as sidecar: record_id → taxid
-                min_per_lineage,
+                lineage_opts.min_per_lineage,
                 resolvers.get(assay_id) if resolvers else None,
-                baseline_calls_for_lineage,
-                min_records_for_year,
+                baseline_calls,
+                settings.min_records_for_year,
             )
 
-        a.out_of_scope = oos_counts.get(assay_id, 0)
-        a.patent_excluded = pat_counts.get(assay_id, 0)
+        a.out_of_scope = gathered.out_of_scope.get(assay_id, 0)
+        a.patent_excluded = gathered.patent.get(assay_id, 0)
         grouped[assay_id] = a
     return grouped
 

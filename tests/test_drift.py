@@ -4,6 +4,7 @@ The Wilson and Newcombe numbers below are standard worked examples; if a
 refactor changes them, the refactor is wrong, not the test.
 """
 
+from collections import Counter
 from datetime import date
 
 import pytest
@@ -807,3 +808,212 @@ def test_the_report_and_the_diff_parser_read_the_same_vocabulary():
 
     assert report.STATUS_ORDER == list(STATUS_ORDER)
     assert set(report.STATUS_COLOUR) == set(STATUS_ORDER)  # every printed status has a colour
+
+
+# The named stages (S4/S5). `assess` was 300 lines and `_lineage_check` 161 -
+# the two places the audit named where a reader cannot hold the control flow in
+# mind, both on the path that produces a verdict. Each stage is now callable on
+# its own, which is what these tests use; the whole-pipeline behaviour is pinned
+# separately by the tests above and by a byte-identical rebuild of
+# results/2026-10-20's report and all 208 AssayDrift records.
+def test_settings_come_from_the_config_with_the_documented_defaults():
+    from assaywatch.drift import DriftSettings
+
+    s = DriftSettings.from_config({})
+    assert (s.base_months, s.threshold, s.min_records) == (24, 0.9, 20)
+    assert s.require_working_baseline is True  # on by default
+    assert s.count_diverged is False and s.exclude_patent is False  # both off
+
+
+def test_the_widening_ceiling_cannot_fall_below_the_base_window():
+    """max_window_months below recent_window_months would make `choose` widen downward."""
+    from assaywatch.drift import DriftSettings
+
+    s = DriftSettings.from_config({"drift": {"recent_window_months": 36, "max_window_months": 12}})
+    assert s.base_months == 36 and s.max_months == 36
+
+
+def test_a_window_compares_at_the_granularity_its_input_has():
+    """A 2024 record is recent against an Oct 2024 cutoff by year, not by date.
+    Collapsing the two silently moved 90 records between windows."""
+    from assaywatch.drift import Window
+
+    by_year = Window(anchor=date(2026, 10, 3), dated=False)
+    by_date = Window(anchor=date(2026, 10, 3), dated=True)
+    assert by_year.inside("2024-01-01", 24) is True
+    assert by_date.inside("2024-01-01", 24) is False
+    assert by_date.inside("2024-11-01", 24) is True
+
+
+def test_a_window_widens_only_as_far_as_reaching_the_minimum_needs():
+    from assaywatch.drift import DriftSettings, Window
+
+    s = DriftSettings.from_config({"drift": {"recent_window_months": 24, "max_window_months": 120}})
+    w = Window(anchor=date(2026, 10, 3), dated=True)
+    recent = [f"2025-01-{d:02d}" for d in range(1, 26)]  # 25 inside the base window
+    assert w.choose(recent, s) == 24
+    old = [f"2019-01-{d:02d}" for d in range(1, 26)]  # all older than 24 months
+    assert w.choose(sorted(old, reverse=True), s) == 96  # widened to reach them, not to the ceiling
+
+
+def test_an_assay_too_thin_to_judge_is_never_widened():
+    """Fewer than min_records in total can never reach the bar, so widening would
+    only stretch the meaning of "recent" for no gain."""
+    from assaywatch.drift import DriftSettings, Window
+
+    s = DriftSettings.from_config({"drift": {"max_window_months": 120, "min_records_for_drift": 20}})
+    w = Window(anchor=date(2026, 10, 3), dated=True)
+    assert w.choose(["2019-01-01", "2019-01-02"], s) == 24
+
+
+def test_gathering_buckets_rows_per_assay_and_keeps_the_raw_rows_only_when_asked():
+    from assaywatch.drift import DriftSettings, _gather_calls
+
+    calls = [
+        {"assay_id": "A", "record_id": "R1", "call": "detect"},
+        {"assay_id": "B", "record_id": "R2", "call": "fail"},
+    ]
+    years = {"R1": "2025-01-01", "R2": "2025-01-01"}
+    s = DriftSettings.from_config({})
+    bare = _gather_calls(
+        calls, years, s, taxids=None, scope_map=None, taxonomy=None, patent=None, keep_raw=False
+    )
+    assert sorted(bare.per) == ["A", "B"] and bare.raw == {}
+    kept = _gather_calls(
+        calls, years, s, taxids={}, scope_map=None, taxonomy=None, patent=None, keep_raw=True
+    )
+    assert sorted(kept.raw) == ["A", "B"]
+
+
+def test_a_patent_record_leaves_the_denominator_and_is_counted():
+    from assaywatch.drift import DriftSettings, _gather_calls
+
+    calls = [
+        {"assay_id": "A", "record_id": "R1.1", "call": "detect"},
+        {"assay_id": "A", "record_id": "R2.1", "call": "fail"},
+    ]
+    s = DriftSettings.from_config({"drift": {"exclude_patent_records": True}})
+    g = _gather_calls(
+        calls,
+        {"R1.1": 2025, "R2.1": 2025},
+        s,
+        taxids=None,
+        scope_map=None,
+        taxonomy=None,
+        patent={"R2"},  # unversioned, as read_patent_accessions gives it
+        keep_raw=False,
+    )
+    assert len(g.per["A"]) == 1 and g.patent["A"] == 1
+
+
+def test_an_undated_record_is_skipped_rather_than_bucketed():
+    """An unknown year silently landing in the recent window is the kind of error
+    that produces a confident wrong answer."""
+    from assaywatch.drift import AssayDrift, Window, _tally_window
+
+    a = AssayDrift("A")
+    rows = [(None, "detect", "", None), ("2025-01-01", "detect", "", None)]
+    _tally_window(a, rows, Window(anchor=date(2026, 10, 3), dated=True), 24)
+    assert a.skipped_undated == 1
+    assert sum(a.recent_counts.values()) == 1
+
+
+def test_one_record_without_a_footprint_makes_the_whole_count_unknown():
+    """A partial count would be a lower bound presented as fact."""
+    from assaywatch.drift import AssayDrift, Window, _tally_window
+
+    w = Window(anchor=date(2026, 10, 3), dated=True)
+    known = AssayDrift("A")
+    _tally_window(known, [("2025-01-01", "detect", "", "|||0|0|0")], w, 24)
+    assert known.recent_footprints == 1
+    unknown = AssayDrift("B")
+    _tally_window(
+        unknown, [("2025-01-01", "detect", "", "|||0|0|0"), ("2025-01-02", "fail", "", None)], w, 24
+    )
+    # Left at its default, which is None and not 0: "cannot say", not "no classes".
+    assert unknown.recent_footprints is None
+
+
+def test_species_counts_are_detected_over_evaluable_per_taxid():
+    from assaywatch.drift import _species_counts
+
+    calls = [
+        {"taxid": 10, "call": "detect"},
+        {"taxid": 10, "call": "fail"},
+        {"taxid": 20, "call": "reduced"},
+    ]
+    assert _species_counts(calls) == {10: [1, 2], 20: [1, 1]}
+
+
+def test_an_unsupported_group_at_rank_is_refused_by_name():
+    from assaywatch.drift import LineageOptions
+
+    with pytest.raises(SystemExit, match="group_at_rank"):
+        LineageOptions.from_config({"lineage": {"group_at_rank": "genus"}}, None)
+
+
+def test_rolling_up_to_species_needs_a_taxonomy_with_ranks():
+    from assaywatch.drift import LineageOptions
+
+    with pytest.raises(SystemExit, match="build_taxonomy_cache"):
+        LineageOptions.from_config({"lineage": {"group_at_rank": "species"}}, None)
+
+
+def test_the_lineage_options_default_to_grouping_per_taxid():
+    from assaywatch.drift import LineageOptions
+
+    o = LineageOptions.from_config({}, None)
+    assert o.rank is None and o.buckets_on is False and o.gate is False
+
+
+def test_one_lineage_holding_every_record_is_the_pooled_measurement_again():
+    """So it cannot override: its history IS the assay's. Overriding would replace
+    "no measurable fall" with a drift call (West Nile Lanciotti 2001 as of 2003).
+    An assay that used to work still overrides (CDV Scagliarini 2007 as of 2021).
+
+    Mutation-checked: skipping this gate passes every other test in this file and
+    is caught only by the full 2026-10-20 rebuild, so it needs its own test.
+    """
+    from assaywatch.lineage import LineageStats
+
+    def drift(*, worked: bool) -> AssayDrift:
+        a = AssayDrift("A", recent_year=2025, threshold=0.9, min_records_for_year=10)
+        a.recent_evaluable = 50
+        # `ever_worked` is derived from the year table, per year, not set directly.
+        share = {"detect": 20} if worked else {"detect": 2, "fail": 18}
+        a.years[2019] = YearStats(2019, Counter(share))
+        assert a.ever_worked is worked
+        return a
+
+    only = [LineageStats("A", "Lineage A", 10, 50, 5, 0.1, 0.03, 0.22)]
+    assert drift(worked=False)._pool_is_one_lineage(only) is True
+    assert drift(worked=True)._pool_is_one_lineage(only) is False
+
+    a = drift(worked=False)
+    part = [LineageStats("A", "Lineage A", 10, 30, 3, 0.1, 0.03, 0.22)]  # 30 of 50: a real subset
+    assert a._pool_is_one_lineage(part) is False
+    assert a._pool_is_one_lineage(only + [LineageStats("A", "B", 20, 10, 9, 0.9, 0.6, 0.98)]) is False
+
+
+def test_the_one_lineage_gate_is_actually_wired_into_the_check():
+    """The predicate having the right answer does not prove `_lineage_check` asks it.
+
+    A direct test of `_pool_is_one_lineage` still passes when the call site is
+    removed, so this goes through the check and asserts the effect: one lineage
+    holding every recent record, an assay that never worked, no override.
+    """
+    # One taxid only, failing now, and nothing earlier that cleared the threshold.
+    calls, years, taxids = _records_with_taxids(
+        {2019: {100: {"detect": 5, "fail": 45}}, 2025: {100: {"detect": 3, "fail": 47}}}
+    )
+    a = assess(calls, years, LINEAGE_CFG, today=TODAY, taxids=taxids, taxa_cache={100: "Lineage A"})["A"]
+    assert not a.ever_worked
+    assert a.lineage_override is False and a.status_pooled is None
+    assert a.lineage_verdict is not None  # the verdict is still recorded
+    # And the counterpart: a second lineage means the pool is not one lineage, so
+    # the gate does not apply and the override is free to fire.
+    calls2, years2, taxids2 = _records_with_taxids(
+        {2019: {100: {"detect": 50}}, 2025: {100: {"detect": 600}, 200: {"detect": 5, "fail": 35}}}
+    )
+    b = assess(calls2, years2, LINEAGE_CFG, today=TODAY, taxids=taxids2, taxa_cache={100: "A", 200: "B"})["A"]
+    assert b.lineage_override is True and b.status == "declining"
