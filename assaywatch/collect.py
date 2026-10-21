@@ -46,11 +46,14 @@ import csv
 import gzip
 import io
 import json
+import sys
 from collections import Counter
 from collections.abc import Collection, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
+
+from assaywatch.signature import stored_signature
 
 # What csv.DictWriter writes by default, and so what every cached screen uses.
 # Stated rather than inherited, because the reconciling path writes rows through
@@ -173,6 +176,58 @@ def _raise_for_orphans(found: Mapping[Path, Counter[str]]) -> None:
     )
 
 
+def group_key(path: Path) -> str:
+    """A screen's retrieval group as `<taxid>/<group>`, from its path.
+
+    Shared by the signature guard and the sidecar, which both key on it.
+    """
+    return "/".join(path.parts[-3:-1])
+
+
+def _raise_for_stale_signatures(found: Mapping[Path, tuple[str, str]]) -> None:
+    """Refuse screens whose stored signature is not the one the pipeline now expects.
+
+    The sibling of `_raise_for_orphans`, and a refusal for the same reason: a
+    screen produced under other settings makes the calls table a mixture of two
+    rule sets, and no column says which row came from which. Snakemake's own
+    params check should have caught this, and does when it holds a metadata
+    record for the output - the 2026-10-21 run found 20 screens where it did
+    not, so the check could not fire. This one does not depend on what
+    Snakemake remembers.
+    """
+    if not found:
+        return
+    lines = [f"  {path}\n      stored:   {was}\n      expected: {now}" for path, (was, now) in found.items()]
+    raise ValueError(
+        f"{len(found)} cached screen(s) were produced under settings this pipeline no longer "
+        f"uses:\n" + "\n".join(lines) + "\nDelete them and rerun to screen those archives again."
+    )
+
+
+def assays_without_calls(stats: Mapping[Path, ScreenStats], known_ids: Collection[str]) -> list[str]:
+    """Assays the pipeline screened that produced no rows at all.
+
+    The mirror image of the orphan guard, and the other way an assay can go
+    missing from a run: `_raise_for_orphans` catches an id in the table that the
+    registry does not have, and this catches a registry assay the table does not
+    have. The 2026-10-21 run had one -
+    `Helicobacter_Pan_Helicobacter_16S_short_Fox_1998`, whose lack of a
+    `target.query` puts it in group `209/all`, all 843,447 Helicobacter records,
+    over retrieval's cap - so retrieval skipped the group, said so, and nothing
+    downstream repeated it. The sidecar counted 205 assays screened and the
+    report said 204.
+
+    Reported, never raised, unlike an orphan id. An orphan means the table is
+    lying about which assays exist; a missing assay usually means retrieval
+    declined a group for a stated reason, and killing a run that produced 2.7
+    million other calls over it would be the wrong trade.
+    """
+    seen: set[str] = set()
+    for s in stats.values():
+        seen |= s.assays
+    return sorted(set(known_ids) - seen)
+
+
 def unified_columns(headers: Sequence[Sequence[str]]) -> list[str]:
     """Every column seen, in the order first met.
 
@@ -217,8 +272,16 @@ def write_provenance(
     screens = []
     for path in paths:
         st = path.stat()
-        key = "/".join(path.parts[-3:-1])  # <taxid>/<group>
+        key = group_key(path)
         s = (stats or {}).get(path) or screen_stats(path)
+        expected = (expected_signatures or {}).get(key, "")
+        stored = stored_signature(path)
+        # None, not False, when either side is absent: "this screen does not say"
+        # and "this screen says something else" are different facts, and only the
+        # second is a defect. Every screen written before 2026-10-21 stores
+        # nothing, which is the case that went unnoticed, so it is recorded
+        # rather than glossed as agreement.
+        verified = None if stored is None or not expected else stored == expected
         screens.append(
             {
                 "path": str(path),
@@ -227,7 +290,9 @@ def write_provenance(
                 "bytes": st.st_size,
                 "rows": s.rows,
                 "assays": len(s.assays),
-                "expected_signature": (expected_signatures or {}).get(key, ""),
+                "expected_signature": expected,
+                "stored_signature": stored,
+                "signature_verified": verified,
             }
         )
     written = sorted(s["screened_at"] for s in screens)
@@ -260,6 +325,7 @@ def concatenate_screens(
     out_path: Path,
     known_ids: Collection[str] | None = None,
     provenance: Mapping[str, object] | None = None,
+    expected_signatures: Mapping[str, str] | None = None,
 ) -> list[str]:
     """Write one gzipped calls table from many cached screens; return its columns.
 
@@ -276,6 +342,11 @@ def concatenate_screens(
     `check_assay_ids`); the pipeline always passes it. None skips the check,
     for callers that are not collecting a run.
 
+    With `expected_signatures` (`<taxid>/<group>` -> the signature the pipeline
+    expects now), any screen whose own stored signature disagrees is refused.
+    A screen that stores none cannot be checked; those are counted and named on
+    stderr, not refused, because every screen written before 2026-10-21 is one.
+
     `provenance` (any mapping, passed to `write_provenance` as keyword
     arguments) also writes the sidecar, reusing the guard's single parse rather
     than reading every screen a second time.
@@ -288,6 +359,33 @@ def concatenate_screens(
         stats = {path: screen_stats(path, known_ids) for path in paths}
     if known_ids is not None:
         _raise_for_orphans({p: s.orphans for p, s in stats.items() if s.orphans})
+        if missing := assays_without_calls(stats, known_ids):
+            print(
+                f"WARNING: {len(missing)} screened assay(s) produced no rows at all, so they are "
+                f"absent from the calls table and from the report's counts: {', '.join(missing)}. "
+                "Usually retrieval declined their group — check the run log for a SKIP line.",
+                file=sys.stderr,
+            )
+    if expected_signatures is not None:
+        stale: dict[Path, tuple[str, str]] = {}
+        unverifiable = []
+        for path in paths:
+            expected = expected_signatures.get(group_key(path), "")
+            stored = stored_signature(path)
+            if stored is None:
+                unverifiable.append(path)
+            elif expected and stored != expected:
+                stale[path] = (stored, expected)
+        _raise_for_stale_signatures(stale)
+        if unverifiable:
+            print(
+                f"WARNING: {len(unverifiable)} of {len(paths)} screens store no signature, so "
+                "whether they match the current settings cannot be checked. Screens written "
+                "before 2026-10-21 are all like this; rescreening one writes its signature. "
+                + ", ".join(str(p) for p in unverifiable[:5])
+                + (" ..." if len(unverifiable) > 5 else ""),
+                file=sys.stderr,
+            )
     headers = [read_header(path) for path in paths]
     columns = unified_columns(headers)
     # mtime=0 and no stored file name: the same screens give the same BYTES whenever they are
@@ -310,5 +408,7 @@ def concatenate_screens(
                     w.writerows(csv.DictReader(fh, fieldnames=header, delimiter="\t"))
     if provenance is not None:
         # After the table, so a sidecar never describes a table that failed to write.
-        write_provenance(paths, Path(out_path), stats=stats, **provenance)
+        write_provenance(
+            paths, Path(out_path), stats=stats, expected_signatures=expected_signatures, **provenance
+        )
     return columns

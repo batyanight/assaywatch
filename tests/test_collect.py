@@ -20,11 +20,15 @@ import pytest
 
 from assaywatch.collect import (
     LINE_END,
+    assays_without_calls,
     concatenate_screens,
     read_header,
+    screen_stats,
     stem_order,
+    stored_signature,
     unified_columns,
 )
+from assaywatch.screen import signature_path
 
 
 def write_screen(path: Path, columns: list[str], rows: list[dict]) -> Path:
@@ -606,7 +610,8 @@ def test_the_expected_signature_is_recorded_per_group(tmp_path):
         [a],
         tmp_path / "calls.tsv.gz",
         known_ids={"A"},
-        provenance={"expected_signatures": {"10292/qb41": "abc123"}},
+        expected_signatures={"10292/qb41": "abc123"},
+        provenance={},
     )
     entry = _prov(tmp_path)["screen_inventory"][0]
     assert entry["group"] == "10292/qb41"
@@ -616,7 +621,7 @@ def test_the_expected_signature_is_recorded_per_group(tmp_path):
 def test_a_group_with_no_signature_given_records_an_empty_one_not_a_wrong_one(tmp_path):
     a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
     concatenate_screens(
-        [a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={"expected_signatures": {}}
+        [a], tmp_path / "calls.tsv.gz", known_ids={"A"}, expected_signatures={}, provenance={}
     )
     assert _prov(tmp_path)["screen_inventory"][0]["expected_signature"] == ""
 
@@ -665,3 +670,137 @@ def test_the_screens_are_parsed_once_for_the_guard_and_the_sidecar(tmp_path, mon
     monkeypatch.setattr(collect, "screen_stats", lambda p, k=None: (calls.append(p), real(p, k))[1])
     collect.concatenate_screens([a, b], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
     assert calls == [a, b]
+
+
+# --- A screen that says what it was produced under ---------------------------
+# Added 2026-10-21. `screen_signature` was already a `screen_archive` param, so
+# Snakemake reran a job when it changed — but only where it holds a metadata
+# record for the output to compare against. The full run that day found 20
+# screens of 316 with no such record (written by a different Snakemake install):
+# the params check had nothing to compare, the changed code hash did not
+# invalidate them, and they were silently reused. The signature is now written
+# beside the screen, where `collect` can check it whatever Snakemake remembers.
+
+
+def _sign(path: Path, signature: str) -> Path:
+    """What `screen.py --signature` leaves beside a screen."""
+    sig = signature_path(path)
+    sig.write_text(signature + "\n")
+    return sig
+
+
+def test_a_screen_can_say_what_it_was_produced_under():
+    assert signature_path(Path("results/screened/10292/all/2026-10-03.tsv")).name == ("2026-10-03.tsv.sig")
+    # Must not look like a screen to anything globbing *.tsv (assaywatch/windows.py does).
+    assert not signature_path(Path("a/2026-10-03.tsv")).match("*.tsv")
+
+
+def test_stored_signature_reads_it_back_and_says_none_when_absent(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    assert stored_signature(a) is None
+    _sign(a, "sig-abc")
+    assert stored_signature(a) == "sig-abc"
+    # An empty file says nothing, which is None rather than "".
+    signature_path(a).write_text("\n")
+    assert stored_signature(a) is None
+
+
+def test_a_screen_whose_signature_disagrees_is_refused(tmp_path):
+    screens = tmp_path / "results" / "screened" / "10292" / "qb41"
+    screens.mkdir(parents=True)
+    a = write_screen(screens / "2026-10-03.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    _sign(a, "the-old-settings")
+    with pytest.raises(ValueError, match="no longer uses"):
+        concatenate_screens(
+            [a],
+            tmp_path / "calls.tsv.gz",
+            known_ids={"A"},
+            expected_signatures={"10292/qb41": "the-new-settings"},
+        )
+    # Refused, not quietly dropped: no calls table may exist.
+    assert not (tmp_path / "calls.tsv.gz").exists()
+
+
+def test_a_matching_signature_passes_and_is_recorded_as_verified(tmp_path):
+    screens = tmp_path / "results" / "screened" / "10292" / "qb41"
+    screens.mkdir(parents=True)
+    a = write_screen(screens / "2026-10-03.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    _sign(a, "sig-xyz")
+    concatenate_screens(
+        [a],
+        tmp_path / "calls.tsv.gz",
+        known_ids={"A"},
+        expected_signatures={"10292/qb41": "sig-xyz"},
+        provenance={},
+    )
+    entry = _prov(tmp_path)["screen_inventory"][0]
+    assert entry["stored_signature"] == "sig-xyz"
+    assert entry["signature_verified"] is True
+
+
+def test_a_screen_storing_no_signature_is_unverifiable_not_wrong(tmp_path, capsys):
+    """null, not False. Every screen written before 2026-10-21 stores nothing, and
+    "does not say" is a different fact from "says something else" - only the
+    second is a defect, and refusing the first would have failed this run on 20
+    screens that turned out to hold correct calls."""
+    screens = tmp_path / "results" / "screened" / "10292" / "qb41"
+    screens.mkdir(parents=True)
+    a = write_screen(screens / "2026-10-03.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens(
+        [a],
+        tmp_path / "calls.tsv.gz",
+        known_ids={"A"},
+        expected_signatures={"10292/qb41": "sig-xyz"},
+        provenance={},
+    )
+    entry = _prov(tmp_path)["screen_inventory"][0]
+    assert entry["stored_signature"] is None
+    assert entry["signature_verified"] is None
+    # And it has to be said out loud, or an unverifiable screen is invisible again.
+    assert "store no signature" in capsys.readouterr().err
+
+
+def test_no_expected_signatures_skips_the_check_entirely(tmp_path):
+    """For callers that are not collecting a run; the pipeline always passes them."""
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    _sign(a, "anything-at-all")
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"})
+    assert (tmp_path / "calls.tsv.gz").exists()
+
+
+# --- The mirror of the orphan guard: a screened assay with no rows ------------
+
+
+def test_an_assay_that_produced_no_rows_is_named_but_does_not_fail_the_run(tmp_path, capsys):
+    """`Helicobacter_Pan_Helicobacter_16S_short_Fox_1998` on 2026-10-21: no
+    `target.query`, so its group is all 843,447 Helicobacter records, over
+    retrieval's cap. Retrieval skipped it and said so; nothing downstream did."""
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    cols = concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A", "B", "C"})
+    assert cols  # the run completed
+    err = capsys.readouterr().err
+    assert "2 screened assay(s) produced no rows" in err
+    assert "B, C" in err
+
+
+def test_nothing_is_said_when_every_assay_produced_rows(tmp_path, capsys):
+    a = write_screen(
+        tmp_path / "a.tsv",
+        IDS,
+        [
+            {"assay_id": "A", "record_id": "R1", "call": "pass"},
+            {"assay_id": "B", "record_id": "R2", "call": "fail"},
+        ],
+    )
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A", "B"})
+    assert "produced no rows" not in capsys.readouterr().err
+
+
+def test_assays_without_calls_is_the_complement_of_what_was_seen(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    b = write_screen(tmp_path / "b.tsv", IDS, [{"assay_id": "B", "record_id": "R2", "call": "pass"}])
+    stats = {a: screen_stats(a, {"A", "B", "C"}), b: screen_stats(b, {"A", "B", "C"})}
+    assert assays_without_calls(stats, {"A", "B", "C"}) == ["C"]
+    assert assays_without_calls(stats, {"A", "B"}) == []
+    # It spans every screen, not just one: A and B each appear in only one.
+    assert assays_without_calls({a: stats[a]}, {"A", "B"}) == ["B"]

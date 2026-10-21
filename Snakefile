@@ -384,8 +384,14 @@ rule screen_archive:
         mem_mb=lambda wc, input, threads: 2000 + 500 * threads,
         runtime=240,
     shell:
+        # --signature writes params.signature to <output>.sig. It was already a
+        # param, which reruns the job when it changes — but only where Snakemake
+        # holds a metadata record for the output to compare against. The
+        # 2026-10-21 run found 20 screens with no such record, where the params
+        # check could not fire and a changed code hash did not invalidate them.
+        # On disk it is checkable by `collect` whatever Snakemake remembers.
         "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} "
-        "--workers {threads} {params.thermo} -o {output.calls}"
+        "--workers {threads} {params.thermo} --signature {params.signature} -o {output.calls}"
 
 
 rule collect_calls:
@@ -415,9 +421,9 @@ rule collect_calls:
             list(input),
             output[0],
             known_ids=CURRENT_ASSAYS,
+            expected_signatures={f"{t}/{g}": screen_signature(t, g) for t, g in GROUPS},
             provenance={
                 "run_date": RUN_DATE,
-                "expected_signatures": {f"{t}/{g}": screen_signature(t, g) for t, g in GROUPS},
                 "extra": {
                     "screen_code_and_config_sha1": _code_hash,
                     "collect_code_sha1": _COLLECT_CODE,

@@ -170,8 +170,22 @@ def test_the_report_depends_on_the_drift_code():
     assert {"report.py", "drift.py", "degeneracy.py", "schema.py"} <= set(source_names("report"))
 
 
-def test_collect_depends_on_its_own_module():
-    assert source_names("collect") == ["collect.py"]
+def test_collect_depends_on_its_own_module_and_the_signature_convention():
+    """And on nothing else — above all not on screen.py.
+
+    `collect` reads the signature a screen stores beside itself, so it shares
+    that path convention with the writer. The convention lives in its own
+    module (assaywatch/signature.py) precisely so this list stays short:
+    importing it from screen.py instead pulled score.py, schema.py and nine
+    more into collect's closure, which would re-trigger `collect_calls` on
+    every scoring edit. The reverse — screen importing collect — is worse
+    still, and would rescreen all 316 archives whenever collect.py changed.
+    """
+    assert sorted(source_names("collect")) == ["collect.py", "signature.py"]
+    assert "screen.py" not in source_names("collect")
+    assert "score.py" not in source_names("collect")
+    # And the writer carries it too, or the two would be keeping separate conventions.
+    assert "signature.py" in source_names("screen")
 
 
 def rule_blocks(text: str) -> dict[str, str]:

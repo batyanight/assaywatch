@@ -31,6 +31,7 @@ from assaywatch.chance import composition
 from assaywatch.degeneracy import assay_degeneracy
 from assaywatch.fasta import read_fasta
 from assaywatch.score import Call, load_config, screen_record
+from assaywatch.signature import signature_path
 from assaywatch.thermo import COLUMNS as THERMO_COLUMNS
 from assaywatch.thermo import annotate
 from assaywatch.validate import iter_files, load_assay
@@ -190,6 +191,13 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="add duplex Tm columns per oligo (needs primer3-py; see assaywatch/thermo.py)",
     )
+    ap.add_argument(
+        "--signature",
+        default=None,
+        help="opaque string recording what this screen was produced under; written to "
+        "<output>.sig so `collect` can tell a stale cached screen from a current one. "
+        "The pipeline passes the Snakefile's screen_signature.",
+    )
     args = ap.parse_args(argv)
     if args.workers < 1:
         ap.error("--workers must be at least 1")
@@ -264,8 +272,19 @@ def main(argv: list[str] | None = None) -> int:
     if args.out:
         out.close()
         tmp.replace(args.out)
-    else:
-        out.flush()
+        # After the rename, so a signature never describes a screen that failed
+        # to write - the same ordering write_provenance uses for its sidecar.
+        #
+        # WHY THIS IS ON DISK AND NOT ONLY A SNAKEMAKE PARAM. The signature was
+        # already a `screen_archive` param, which reruns the job when it
+        # changes - but only if Snakemake holds a metadata record for the
+        # output to compare against. The 2026-10-21 run found 20 screens with
+        # no such record (written by a different Snakemake install), so the
+        # params check had nothing to compare, the new code hash did not
+        # invalidate them, and they were silently reused. A file beside the
+        # screen is checkable by `collect` whatever Snakemake remembers.
+        if args.signature:
+            signature_path(args.out).write_text(args.signature + "\n")
     # The per-call summary goes to stderr in either mode, so it never mixes with TSV on stdout.
     for (aid, call), n in sorted(tally.items()):
         print(f"{aid}\t{call}\t{n}", file=sys.stderr)

@@ -52,6 +52,38 @@ free since this run was owed anyway.
 - Pre-flight found and fixed first: a run with no contact address was sending NCBI
   `--email None` (`5b542db`).
 
+### Both findings closed the same day
+
+- **A screen now records what produced it, beside itself.** `screen_signature` was already
+  a `screen_archive` param, so Snakemake reran the job when it changed - but only where it
+  holds a metadata record for that output to compare against, and the 20 screens above have
+  none. `screen.py --signature` writes it to `<screen>.tsv.sig` after the atomic rename, and
+  `collect` **refuses** any screen whose stored signature is not the one expected now
+  (`_raise_for_stale_signatures`, the sibling of `_raise_for_orphans`). A screen that stores
+  nothing is `null`, not `False`, and is counted and named on stderr rather than refused -
+  every screen written before today is one, and refusing them would have failed this run on 20
+  screens that hold correct calls. The sidecar carries `stored_signature` and
+  `signature_verified` per screen.
+- **Precision on "silently".** `snakemake -n` *does* print "20 jobs have missing
+  provenance/metadata so that it in part cannot be used to trigger re-runs". A real run prints
+  nothing - checked both `run.log` and
+  `.snakemake/log/2026-10-21T181900.054144.snakemake.log`. So the warning exists and is
+  dry-run-only, which is why it went unnoticed: nobody dry-runs before every run, and it
+  reaches no durable artefact.
+- **`collect` now names assays that produced no rows** (`assays_without_calls`), the mirror of
+  the orphan guard: that one catches an id in the table the registry lacks, this catches a
+  registry assay the table lacks. **Reported, never raised** - an orphan means the table is
+  lying about what exists, while a missing assay usually means retrieval declined a group for
+  a stated reason, and killing a run that produced 2.7 million other calls over it is the
+  wrong trade.
+- **The path convention lives in `assaywatch/signature.py`, alone, and that placement is the
+  point.** `collect` importing `screen` put score.py and schema.py into collect's trigger
+  closure, so every scoring edit would re-trigger `collect_calls`; `screen` importing
+  `collect` is worse and would rescreen all 316 archives on any collect.py edit. Its own
+  module keeps `source_names("collect") == ["collect.py", "signature.py"]`, which
+  `tests/test_triggers.py` now asserts along with the two negatives.
+- 9 mutants against the new guards, all caught. Tests 1,428 -> 1,437.
+
 ## 2026-10-20
 
 - **Full run DONE and valid** (`results/2026-10-20/`, 28m 54s, 291/291 steps). 208 assays: 37
