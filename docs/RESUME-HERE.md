@@ -244,10 +244,24 @@
     (`<doi stem>.supp.pdf` counts for its article; `SHARED_SOURCES` declares an uncited
     dependency). 119 papers, 100 held.
 
+  **R2 DONE 2026-10-21**: `collect` writes `results/<date>/calls.provenance.json` — every screen
+  with the time it was written, its rows and assay count, the screening code+config hash, the git
+  commit, and the signature expected for each group. It does **not** claim one set of settings for
+  the table: reports are cumulative, so a run mixes screens written weeks apart, and the sidecar
+  records per-archive facts plus the mtime span instead. `expected_signature` is what the pipeline
+  expects NOW and the file says so. Timestamps are local-with-offset (in UTC the 2026-10-20 run's
+  284 screens read `2026-10-21T01:53`, which invites the wrong comparison). Reuses the S1 guard's
+  single parse. **The three stale screens were deleted by Batya 2026-10-21.** Six screens still
+  hold non-registry ids, and all six are safe: five have recorded `--only` params that differ from
+  the current ones so they will be rescreened, and `208294/all` is in no current group so it is not
+  a collect input. Verified by comparing `.snakemake/metadata` params against `GROUPS`.
+
   **Still pending from the audit:** S3 collapse the two renderers, S4/S5 decompose
-  `drift.assess`, S7 controlled `needs_review` vocabulary, R1 container/lockfile, R2 stamp
-  config+code hash into the calls table. Then **M2** nearest-neighbour ΔG as its own project.
-  M1 remains HELD (see above).
+  `drift.assess`, S7 controlled `needs_review` vocabulary, R1 container/lockfile.
+  Then **M2** nearest-neighbour ΔG as its own project. M1 remains HELD (see above).
+  **A full run is owed** and will now also exercise the S1 guard and the R2 sidecar end to end;
+  nothing has verified the Snakefile's provenance wiring on a real run yet (the dry run parses,
+  the signature keys and the git helper were checked offline against the real screens).
   **TODO (Batya, offline): resolve the 16 entries that have no DOI.**
   `docs/oligos-without-doi.tsv` lists all 33 oligos with sequences, grouped by where the answer
   must come from: 6 in-house/unpublished (WCS/CII lab records), the Müller 2011 CDV quartet (needs
