@@ -3,8 +3,6 @@ citation	CDV_H_gene_Mueller_2011_1		a DOI or the paper for: Müller 2011 CDV H-g
 citation	CDV_H_gene_Mueller_2011_2		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
 citation	CDV_H_gene_Mueller_2011_3		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
 citation	CDV_H_gene_Mueller_2011_4		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
-citation	CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT protocol
-citation	HANTAVIRUS_ssRNA_S_segment		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT Protocols
 citation	HANTAVIRUS_ssRNA_S_segment_2		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT Protocols
 citation	Nipah_N_gene		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT protocol
 decision	Entamoeba_18S_small_subunit_SSU_2014	10.1099/jmm.0.061820-0	a keep-or-delete decision; the entry is flagged DO_NOT_USE	registry hygiene	
@@ -16,19 +14,6 @@ figure	FRANCISELLA_tularensis_tul4_Long_1993	10.1128/jcm.31.1.152-154.1993	a leg
 figure	ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
-lab-oligos	Cryptosporidium_18SrDNA_Xiao_1999_round1	10.1128/aem.65.4.1578-1583.1999	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Cryptosporidium_18SrDNA_Xiao_1999_round2	10.1128/aem.65.4.1578-1583.1999	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Ferlavirus_L_gene_Hyndman_2012	10.1016/j.vetmic.2012.07.030	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999	10.1016/S0168-1702(99)00059-3	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999_2	10.1016/S0168-1702(99)00059-3	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Reptarenavirus_GP_Aqrawi_2015	10.15654/TPK-140743	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Snake_fungus_Ophidiomyces_ophi_IGS_Bohuski_2015	10.1186/s12917-015-0407-8	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015	10.1186/s12917-015-0407-8	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Snake_nidovirus_PP1b_Uccellini_2014_1	10.1186/1743-422X-11-144	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Snake_nidovirus_PP1b_Uccellini_2014_2	10.1186/1743-422X-11-144	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Snake_nidovirus_PP1b_Uccellini_2014_3	10.1186/1743-422X-11-144	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Sunshinevirus_RdRp_Hyndman_2012_1	10.1016/j.vetmic.2012.07.030	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
-lab-oligos	Sunshinevirus_RdRp_Hyndman_2012_2	10.1016/j.vetmic.2012.07.030	confirmation these oligos were ordered and exist in the freezer	promotion past draft	
 lab-record	Entamoeba_18S_small_subunit_SSU		the lab's own record of who designed these and when	any citation at all	Developed in house by Tseimon
 lab-record	Feline_Morbillivirus_L_gene		the lab's own record of who designed these and when	any citation at all	developed in house
 lab-record	PAPILLOMAVIRUS_dsDNA_L1_gene		the lab's own record of who designed these and when	any citation at all	Developed at CII-unpublished
@@ -40,12 +25,16 @@ oligos-not-in-paper	FILOVIRUS_ssRNA_L_gene_2	10.1128/Jcm.01893-06	which source t
 oligos-not-in-paper	PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	10.1073/pnas.182412299	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1073_pnas.182412299.pdf
 oligos-not-in-paper	Pan_HERPES_dsDNA_Terminase	10.1016/S0168-1702(00)00252-5	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_s0168-1702_00_00252-5.pdf
 oligos-not-in-paper	Pan_HERPES_dsDNA_Terminase_round2	10.1016/S0168-1702(00)00252-5	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_s0168-1702_00_00252-5.pdf
+oligos-not-in-paper	RETROVIRUS_RNA_polymerase_SIV_3	10.1128/JVI.02311-08	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1128_JVI.02311-08.pdf
 paper-pdf	Apicoplast_23S_LSU_Large_subunit_Molecular_2005	10.1099/00221287-146-2-315	the full text of this DOI	oligo verification against the source	
 paper-pdf	CDV_N_gene_Elia_2006	10.1016/j.jviromet.2006.05.004	the full text of this DOI	oligo verification against the source	
+paper-pdf	CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	10.3201/eid1608.100208	the full text of this DOI	oligo verification against the source	
 paper-pdf	E_coli_ETEC_LT_Victor_1991	10.1128/jcm.29.1.158-161.1991	the full text of this DOI	oligo verification against the source	
 paper-pdf	E_coli_O157_hlyA_Wang_1997	10.1046/j.1365-2672.1997.00300.x	the full text of this DOI	oligo verification against the source	
 paper-pdf	Encephalitozoon_18S_General_Encephalitoz_Muller_1999	10.1128/CDLI.6.2.243-246.1999	the full text of this DOI	oligo verification against the source	
 paper-pdf	Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001	10.1128/JCM.39.6.2248-2253.2001	the full text of this DOI	oligo verification against the source	
+paper-pdf	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	the full text of this DOI	oligo verification against the source	
+paper-pdf	LEPTOSPIROSIS_Flagillar_filiment_Prote	10.3201/eid1909.130474	the full text of this DOI	oligo verification against the source	
 paper-pdf	NOSEMA_apis_SSU_Martin-Hernandez_2007	10.1128/AEM.00270-07	the full text of this DOI	oligo verification against the source	
 paper-pdf	NOSEMA_bombi_SSU_Kato_2020	10.1016/j.jip.2005.10.012	the full text of this DOI	oligo verification against the source	
 paper-pdf	NOSEMA_ceranae_SSU_Martin-Hernandez_2007	10.1128/AEM.00270-07	the full text of this DOI	oligo verification against the source	
@@ -70,6 +59,7 @@ predict-supplement	ENTEROVIRUS_ssRNA_VP3_VP1	10.1128/JCM.00542-06	one document c
 predict-supplement	ENTEROVIRUS_ssRNA_VP3_VP1_round2	10.1128/JCM.00542-06	one document closes this and every other row in this bucket: Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)	oligo verification for the whole PREDICT panel	
 predict-supplement	FILOVIRUS_ssRNA_L_gene	10.1128/Jcm.01893-06	one document closes this and every other row in this bucket: Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)	oligo verification for the whole PREDICT panel	
 predict-supplement	FILOVIRUS_ssRNA_L_gene_2	10.1128/Jcm.01893-06	one document closes this and every other row in this bucket: Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)	oligo verification for the whole PREDICT panel	
+predict-supplement	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	one document closes this and every other row in this bucket: Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)	oligo verification for the whole PREDICT panel	
 predict-supplement	LYSSAVIRUSES_ssRNA_Nucleoprotein_gene	10.1016/j.jviromet.2006.03.008	one document closes this and every other row in this bucket: Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)	oligo verification for the whole PREDICT panel	
 predict-supplement	LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2	10.1016/j.jviromet.2006.03.008	one document closes this and every other row in this bucket: Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)	oligo verification for the whole PREDICT panel	
 predict-supplement	ORTHOBUNYAVIRUS_ssRNA_M_segment	10.1007/s00705-007-1069-z	one document closes this and every other row in this bucket: Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods (CC-BY)	oligo verification for the whole PREDICT panel	
@@ -95,9 +85,7 @@ provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		any provenance at all - no DO
 provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	HANTAVIRUS_ssRNA_S_segment_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	HANTAVIRUS_ssRNA_S_segment_round2_2		any provenance at all - no DOI and no reference is recorded	everything downstream	
-provenance	LEPTOSPIROSIS_Flagillar_filiment_Prote		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	Pan_mycoplasma_16S_23S_intergenic_space_2		any provenance at all - no DOI and no reference is recorded	everything downstream	
-provenance	RETROVIRUS_RNA_polymerase_SIV_3		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	Tortoise_intranuclear_coccidia_18SrDNA		any provenance at all - no DOI and no reference is recorded	everything downstream	
 supplement	MYCOBACTERIUM_TB_complex_IS1081_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf
 supplement	MYCOBACTERIUM_TB_complex_helicase_MTCHeli_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf

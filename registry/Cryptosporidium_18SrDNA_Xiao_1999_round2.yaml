@@ -62,5 +62,4 @@ source:
 
     The oligos themselves were verified against this paper by scripts/verify_oligos_against_paper.py: Ziao18SF2 and
     Ziao18SR2 both read exact. Neither carries the in-house correction that the primary entry''s reverse does.'
-needs_review:
-- NEED_TO_ORDER
+needs_review: null

@@ -17,11 +17,13 @@ oligos:
     seq: CCATCATCASWYRGAATCATCATA
 amplicon_bp: 440
 citation:
-  doi: null
+  doi: 10.3201/eid1608.100208
   design_year: null
   n_sequences_at_design: null
   as_written: PREDICT protocol
-  doi_verified: false
+  doi_verified: true
+  reference: Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the PREDICT
+    panel)
 use_context:
 - wildlife
 - veterinary
@@ -36,6 +38,14 @@ source:
   positive_control: Coronavirus Plasmid or Universal control 1
   nested_round: null
   notes: null
+  notes_curator: 'SOURCE FOUND 2026-10-21. These are Watanabe et al. 2010''s pan-coronavirus RdRp consensus primers with increased
+    degeneracy, the same modification pattern PREDICT applied to Bourhy''s rhabdovirus pair. Watanabe prints GGTTGGGACTATCCTAAGTGTGA
+    and CCATCATCAGATAGAATCATCATA; CoV-FWD3 and CoV-RVS3 are identical except at 4 positions each, and EVERY difference is
+    an IUPAC superset of Watanabe''s base (fwd 9 C->Y, 12 T->Y, 15 T->H, 18 G->R; rev 10 G->S, 11 A->W, 12 T->Y, 13 A->R),
+    checked with assaywatch.iupac. This is NOT Quan 2010: the local Quan PDF prints AAYBTVCCWYTICARBTRGG, GGCWCCWCCHGGNGARCAATT
+    and GGWAWCCCCAYTGYTGWAYRTC and neither of these, so the entry is a third pair rather than a Quan round. Found by Europe
+    PMC full-text search on the oligo names, which returned only users - one of them a paper comparing the Quan and Watanabe
+    assays, which is what pointed at Watanabe. doi_verified stays false until scripts/resolve_citations.py approves it.'
 needs_review:
 - DOI_MISSING
 - MODIFIED_IN_HOUSE

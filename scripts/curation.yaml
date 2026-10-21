@@ -952,7 +952,7 @@ assays:
   POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2:
     citation: {doi: 10.1128/JVI.79.6.3883-3887.2005, design_year: 2005, doi_verified: false,
                reference: "Johne R et al. 2005. J Virol 79:3883-3887 (VP1 2f/2r = VP12F-JO2F / VP12R-JO2R)"}
-  Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999_2:
+  Pan_reptilian_paramyxovirus_L_Ahne_1999_2:
     citation: {doi: 10.1016/S0168-1702(99)00059-3, design_year: 1999, doi_verified: false,
                reference: "Ahne W et al. 1999. Virus Res 63:65-74"}
   SARCOCYSTIS_18S_5_8s_rDNA_long_2010:

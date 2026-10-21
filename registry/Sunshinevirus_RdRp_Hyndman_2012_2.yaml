@@ -34,5 +34,4 @@ source:
   nested_round: null
   notes: null
 needs_review:
-- NEED_TO_ORDER
 - ORIENTATION_INFERRED_BY_POSITION

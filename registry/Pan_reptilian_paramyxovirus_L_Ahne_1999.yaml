@@ -1,5 +1,5 @@
-id: Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999_2
-name: Pan-reptilian paramyxovirus (need to order) — RdRp (L gene)
+id: Pan_reptilian_paramyxovirus_L_Ahne_1999
+name: Pan-reptilian paramyxovirus — RdRp (L gene)
 target:
   taxid: 1283308
   gene: RdRp (L gene)
@@ -8,12 +8,12 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: AhneL7
-    seq: TAGAGGCTGTTACTGCTGC
+    name: AhneL5
+    seq: GCAGAGATTTTCTCTTTCTT
   reverse:
-    name: AhneL8
-    seq: CATCTTGGCAAATAATCTGCC
-amplicon_bp: 566
+    name: AhneL6
+    seq: AGCTCTCATTTTGTATGTCAT
+amplicon_bp: 627
 citation:
   doi: 10.1016/S0168-1702(99)00059-3
   design_year: 1999
@@ -29,11 +29,10 @@ status: draft
 source:
   spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   rows:
-  - 639
-  - 640
+  - 636
+  - 637
   positive_control: Universal control 5
   nested_round: null
   notes: null
 needs_review:
-- NEED_TO_ORDER
 - ORIENTATION_INFERRED_BY_POSITION

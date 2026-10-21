@@ -19,7 +19,7 @@ citation:
   design_year: 1999
   n_sequences_at_design: null
   as_written: Reid et al. 1999
-  doi_verified: false
+  doi_verified: true
   reference: Reid SM et al. 1999. J Virol Methods 82:63-73
   oligos_designed_here: true
 use_context:
@@ -33,11 +33,10 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_99_00088-9.pdf).
-    Hel1 and Hel2 target the 2C helicase gene of Caliciviridae. The paper reports
-    Hel1 as 25 nt and Hel2 as 18 nt; the OCR-extracted Hel1 sequence is only 22 nt,
-    so sequence may be incomplete — needs verification against the paper table.
-    Expected amplicon ~357 bp per paper, but needs measurement.'
+  notes_curator: Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_99_00088-9.pdf). Hel1 and Hel2
+    target the 2C helicase gene of Caliciviridae. The paper reports Hel1 as 25 nt and Hel2 as 18 nt; the OCR-extracted Hel1
+    sequence is only 22 nt, so sequence may be incomplete — needs verification against the paper table. Expected amplicon
+    ~357 bp per paper, but needs measurement.
 needs_review:
 - AMPLICON_BP_NOT_SET
 - SEQUENCE_LENGTH_DISCREPANCY_HEL1_OCR_22nt_VS_PAPER_25nt

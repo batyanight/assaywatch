@@ -182,10 +182,12 @@ def looks_like_gene(text: str) -> bool:
     return len(text) <= 45 or bool(GENE_WORDS_RE.search(text))
 
 
+# Ordering status is deliberately NOT a flag. "need to order" in the source
+# spreadsheet described the lab's stock on one day in 2018, not a property of the
+# assay, and the spreadsheet is a starting point rather than the registry's state.
 FLAG_PATTERNS = {
     "DO_NOT_USE": re.compile(r"do not use|incorrect|did not work|not recommended", re.I),
     "CROSS_REACTIVE": re.compile(r"x-?react|cross ?react", re.I),
-    "NEED_TO_ORDER": re.compile(r"need to order", re.I),
     "UNTESTED": re.compile(r"untested|in development", re.I),
     "MODIFIED_IN_HOUSE": re.compile(
         r"\bmod\b|modified|corrected|adjusted|changed to|in house|in-house|unpublished|designed by", re.I

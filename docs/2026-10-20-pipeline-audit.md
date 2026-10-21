@@ -1,7 +1,7 @@
 # Pipeline audit: findings, proposed changes, and what has to come from a human (2026-10-20)
 
 Baseline: `9b40949`, 209 registry entries, 23,395 lines of Python over 101 files.
-Companion file: `docs/materials-needed.tsv`, 108 gaps across 98 entries, regenerated
+Companion file: `docs/materials-needed.tsv`, 95 gaps across 85 entries, regenerated
 by `scripts/materials_needed.py`.
 
 ## 1. Why this audit, and what it is not
@@ -175,6 +175,14 @@ for the COVID-19 emergency; confirm current status before citing it as live guid
    image-table paper. The sole promoted assay is the one whose oligos cannot be
    confirmed from its source.
 8. **28 of 209 carry `doi_verified: false`.**
+10. **Ordering status had leaked into the pipeline.** `NEED_TO_ORDER` was derived by
+   `parse_wcs_primers.py` from the phrase "need to order" in the 2018 source
+   spreadsheet — the lab's stock on one day, not a property of an assay — and had
+   reached 13 entries, two display names, and two assay ids as a truncated `_ne_`.
+   Removed 2026-10-20: the flag, the importer's pattern for it, the names, and the
+   two ids (renamed to `Pan_reptilian_paramyxovirus_L_Ahne_1999`/`_2` through
+   `docs/rename-mapping.tsv`). The registry is not the spreadsheet's inventory.
+
 9. **`docs/papers-index.md` is the provenance of record** for a gitignored `papers/`,
    and until today it listed ten DOIs that no publisher ever issued. Nothing regenerates
    it automatically.
@@ -262,14 +270,13 @@ provenance record for a directory that is deliberately not in git.
 
 ## 6. Materials that have to come from a human
 
-Full detail in `docs/materials-needed.tsv` (108 rows, 98 entries, `bucket` sorts it).
+Full detail in `docs/materials-needed.tsv` (95 rows, 85 entries, `bucket` sorts it).
 Ordered by leverage.
 
 | bucket | rows | what it is |
 |---|---:|---|
 | `predict-supplement` | **35** | **one CC-BY document closes all of them** |
 | `paper-pdf` | 16 | full text of a cited, Crossref-verified DOI |
-| `lab-oligos` | 13 | confirmation the oligos exist in the freezer |
 | `citation` | 8 | a DOI for an assay that names a reference only in prose |
 | `provenance` | 8 | no DOI **and** no reference recorded at all |
 | `supplement` | 8 | paper on disk yields no sequences |
@@ -305,10 +312,7 @@ the browser), Sigrist ×3, SIV/Nature ×2.
 sequence), `FILOVIRUS_ssRNA_L_gene_2`, `PARVOVIRUS_…_dependovirus_2002`, and
 `CHYTRID_Bd_…_Boyle_2004` — the one `active` entry.
 
-**6. Thirteen `NEED_TO_ORDER` entries** — a freezer question, not a literature one,
-and it blocks promotion past `draft`.
-
-**7. The Elsevier institutional token** — unchanged, the one external blocker: 12
+**6. The Elsevier institutional token** — unchanged, the one external blocker: 12
 papers / 42 oligos, from NYU Libraries, into `.secrets/elsevier.insttoken`.
 
 ## 7. What I would do, in order

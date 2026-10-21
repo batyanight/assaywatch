@@ -19,7 +19,7 @@ citation:
   design_year: 1998
   n_sequences_at_design: null
   as_written: Fox et al. 1998
-  doi_verified: false
+  doi_verified: true
   reference: Fox JG et al. 1998. Gastroenterology 114:1174-1180
   oligos_designed_here: true
 use_context:
@@ -33,14 +33,11 @@ source:
   positive_control: null
   nested_round: null
   notes: null
-  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0016-5085_98_70589-x.pdf).
-    Same forward primer (C97) as the long-amplicon entry
-    Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998 (C97+C05, 1196 bp), but paired
-    with C98 instead of C05 to give a shorter product. The paper states the C97+C98
-    pair produces "approximately 400" bases and the C97+C05 pair "approximately 1200"
-    bases. 16S rRNA positions from paper: C97 at 276-291 (forward), C98 at 681-698
-    (reverse). AMPLICON_BP: not set; the paper says ~400 bp, needs measurement against
-    GenBank Helicobacter 16S sequences.'
+  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0016-5085_98_70589-x.pdf). Same forward
+    primer (C97) as the long-amplicon entry Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998 (C97+C05, 1196 bp), but paired
+    with C98 instead of C05 to give a shorter product. The paper states the C97+C98 pair produces "approximately 400" bases
+    and the C97+C05 pair "approximately 1200" bases. 16S rRNA positions from paper: C97 at 276-291 (forward), C98 at 681-698
+    (reverse). AMPLICON_BP: not set; the paper says ~400 bp, needs measurement against GenBank Helicobacter 16S sequences.'
 needs_review:
 - AMPLICON_BP_NOT_SET
 - SHARES_FORWARD_PRIMER_WITH_Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998

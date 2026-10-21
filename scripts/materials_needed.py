@@ -8,6 +8,12 @@ sorts and filters by bucket. The buckets are deliberately about WHO can close th
 gap - a librarian, the paper's publisher, the WCS lab, or Batya deciding - because
 that is the only axis along which this list is actionable.
 
+Ordering status is NOT a bucket and must not become one. "need to order" in the
+source spreadsheet recorded the lab's stock on one day in 2018; it says nothing
+about whether an assay is documented, and the registry is not that spreadsheet's
+inventory. The NEED_TO_ORDER flag was dropped from the 13 entries that carried it,
+from parse_wcs_primers.py's FLAG_PATTERNS and from this script on 2026-10-20.
+
 Every assay_id written here is a current registry id, because the ids come from
 `load_assay` rather than from a calls table. That is not a stylistic choice: a
 calls table can hold ids the registry no longer has (results/2026-10-20 holds
@@ -126,12 +132,6 @@ def rows_for(assay, doc: dict, verdicts: list[dict[str, str]], papers: Path) -> 
                     paper.name,
                 )
 
-    if "NEED_TO_ORDER" in flags:
-        add(
-            "lab-oligos",
-            "confirmation these oligos were ordered and exist in the freezer",
-            "promotion past draft",
-        )
     if flags & {
         "SEQUENCES_READ_FROM_FIGURE_IMAGE",
         "REVERSE_PRIMER_RC_FROM_FIGURE",

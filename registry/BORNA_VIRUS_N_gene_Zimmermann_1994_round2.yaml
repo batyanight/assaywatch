@@ -19,7 +19,7 @@ citation:
   design_year: 1994
   n_sequences_at_design: null
   as_written: Zimmermann et al. 1994
-  doi_verified: false
+  doi_verified: true
   reference: Zimmermann W et al. 1994. J Virol Methods 46:133-143
   oligos_designed_here: true
 use_context:
@@ -33,14 +33,11 @@ source:
   positive_control: null
   nested_round: round2
   notes: null
-  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_0166-0934_94_90098-1.pdf).
-    Internal (nested) primers from Zimmermann et al. 1994. The external (round 1)
-    primers are in registry as BORNA_VIRUS_N_gene_Zimmermann_1994. The paper labels
-    these as "Internal (nested) primers: antisense 5''-ATTCTTTACCTGGGGACTCA-3''
-    sense 5''-GCCTTGTGTTTCTATCTTTC-3''". Forward/reverse assignment follows the
-    sense/antisense labels in the paper. AMPLICON_BP: not set; nested product size
-    must be measured against GenBank records (it is internal to the 752 bp external
-    product).'
+  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_0166-0934_94_90098-1.pdf). Internal (nested)
+    primers from Zimmermann et al. 1994. The external (round 1) primers are in registry as BORNA_VIRUS_N_gene_Zimmermann_1994.
+    The paper labels these as "Internal (nested) primers: antisense 5''-ATTCTTTACCTGGGGACTCA-3'' sense 5''-GCCTTGTGTTTCTATCTTTC-3''".
+    Forward/reverse assignment follows the sense/antisense labels in the paper. AMPLICON_BP: not set; nested product size
+    must be measured against GenBank records (it is internal to the 752 bp external product).'
 needs_review:
 - AMPLICON_BP_NOT_SET
 - ORIENTATION_INFERRED_FROM_PAPER_LABELS

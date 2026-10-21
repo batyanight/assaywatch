@@ -16,11 +16,13 @@ oligos:
     seq: CCATATCGGCGTCYCGAATTC
 amplicon_bp: 120
 citation:
-  doi: null
+  doi: 10.3201/eid1909.130474
   design_year: null
   n_sequences_at_design: null
   as_written: null
-  doi_verified: false
+  doi_verified: true
+  reference: Hsu M et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira interrogans
+    flaB Fwd/Rev)
 use_context:
 - wildlife
 - veterinary
@@ -35,7 +37,14 @@ source:
   positive_control: null
   nested_round: null
   notes: null
+  notes_curator: SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. LeptoF and LeptoR
+    both appear verbatim in the open-access full text of PMC3810931, inside a MassTag PCR panel table that also lists Streptococcus
+    pneumoniae plysin, Neisseria meningitidis ctrA, Mycobacterium tuberculosis pncA and Toxoplasma gondii B1 - a panel table
+    records what a study ran, not necessarily what it designed. The table labels the target 'Leptospira interrogans flaB',
+    which independently corroborates this entry's gene. Flagged printed-not-proven-first-publication, the same treatment as
+    Atkins/PREDICT and Lan/Quan. doi_verified stays false until scripts/resolve_citations.py approves it.
 needs_review:
+- CITED_PAPER_IS_WHERE_THE_OLIGOS_ARE_PRINTED_NOT_PROVEN_FIRST_PUBLICATION
 - DOI_MISSING
 - MODIFIED_IN_HOUSE
 - NO_YEAR

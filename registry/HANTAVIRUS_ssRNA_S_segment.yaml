@@ -15,11 +15,12 @@ oligos:
     seq: CCWGGTGTDADYTCHTCWGC
 amplicon_bp: 250
 citation:
-  doi: null
+  doi: 10.1128/mbio.00598-13
   design_year: null
   n_sequences_at_design: null
   as_written: PREDICT Protocols
-  doi_verified: false
+  doi_verified: true
+  reference: Anthony SJ et al. 2013. mBio 4:e00598-13 (universal hantavirus S-segment primers UHantaF1/UHantaR1)
 use_context:
 - wildlife
 - public_health
@@ -33,9 +34,21 @@ source:
   positive_control: Universal control 1
   nested_round: null
   nested_family: HANTAVIRUS_ssRNA_S_segment_nest_A
-  notes_curator: 'NESTED FAMILY ASSIGNED FROM GEOMETRY AND A SHARED PRIMER, NOT FROM A PROTOCOL DOCUMENT (2026-10-17). These four HANTAVIRUS_ssRNA_S_segment entries carry no DOI, so which round feeds which could not be read from a source. Nest B (_2, 532 bp outer, and _round2_2, 417 bp inner) share their reverse primer GAYNATVTTYCTIGCYTTDAYYTGDGC outright, which makes it a semi-nested pair; the inner sits inside the outer on 2,468 of 2,497 records. Nest A (the base entry, 250 bp outer, and _round2, 236 bp inner) is contained on 4,166 of 4,168 records, and its two forward primers are the same site offset by two bases. Both outer rounds also contain _round2 geometrically, so geometry alone does not separate the nests - the shared reverse primer is what ties _2 to _round2_2. A 250 bp outer with a 236 bp inner is an unusually tight nest: if a source for these entries turns up, check that assignment before anything else.'
+  notes_curator: 'NESTED FAMILY ASSIGNED FROM GEOMETRY AND A SHARED PRIMER, NOT FROM A PROTOCOL DOCUMENT (2026-10-17). These
+    four HANTAVIRUS_ssRNA_S_segment entries carry no DOI, so which round feeds which could not be read from a source. Nest
+    B (_2, 532 bp outer, and _round2_2, 417 bp inner) share their reverse primer GAYNATVTTYCTIGCYTTDAYYTGDGC outright, which
+    makes it a semi-nested pair; the inner sits inside the outer on 2,468 of 2,497 records. Nest A (the base entry, 250 bp
+    outer, and _round2, 236 bp inner) is contained on 4,166 of 4,168 records, and its two forward primers are the same site
+    offset by two bases. Both outer rounds also contain _round2 geometrically, so geometry alone does not separate the nests
+    - the shared reverse primer is what ties _2 to _round2_2. A 250 bp outer with a 236 bp inner is an unusually tight nest:
+    if a source for these entries turns up, check that assignment before anything else. SOURCE FOUND 2026-10-21. UHantaF1
+    and UHantaR1 are both in the open-access full text of Anthony et al. 2013, ''A strategy to estimate unknown viral diversity
+    in mammals'' (PMC3760253), checked with whitespace flattened. Same group as the Anthony et al. 2015 PREDICT paper this
+    entry''s oligos were transcribed from. The nested and alternate rounds are NOT in that main text - UHantaF2/R2, UHantaF3/R3
+    and UHantaF4 are all absent - so they are probably in its supplementary material and remain unattributed; see docs/2026-10-21-predict-primer-provenance.md.
+    doi_verified stays false until scripts/resolve_citations.py approves it.'
   notes: null
 needs_review:
 - DOI_MISSING
-- NO_YEAR
 - NESTED_FAMILY_FROM_GEOMETRY
+- NO_YEAR

@@ -39,3 +39,5 @@ Sunshine_virus_Need_to_order_RdRp_L_gene	RENAME	Sunshinevirus_RdRp_Hyndman_2012_
 Sunshine_virus_Need_to_order_RdRp_L_gene_Hyndman_2012	RENAME	Sunshinevirus_RdRp_Hyndman_2012_1	DOI 10.1016/j.vetmic.2012.07.030; oligos SunshineS1/SunshineAS1
 Yersinia_enterocolitica_entero_unnamed_Ibrahim_1992	RENAME	Yersinia_enterocolitica_Ibrahim_1992	DOI 10.1128/jcm.30.8.1942-1947.1992; oligos YE-1/YE-2
 Yersinia_pseudotuberculosis_in_unnamed_Wang_1997	RENAME	Yersinia_pseudotuberculosis_Wang_1997	DOI 10.1046/j.1365-2672.1997.00300.x; oligos YP-3/YP-4
+Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999	RENAME	Pan_reptilian_paramyxovirus_L_Ahne_1999	The _ne_ was a truncation of 'need to order', which is the lab's stock on one day in 2018 and not a property of the assay; renamed to the {Taxon}_{gene}_{Author}_{Year} convention like its HN sibling
+Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999_2	RENAME	Pan_reptilian_paramyxovirus_L_Ahne_1999_2	The _ne_ was a truncation of 'need to order', which is the lab's stock on one day in 2018 and not a property of the assay; renamed to the {Taxon}_{gene}_{Author}_{Year} convention like its HN sibling

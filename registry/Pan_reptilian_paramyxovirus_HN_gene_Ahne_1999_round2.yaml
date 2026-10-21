@@ -19,7 +19,7 @@ citation:
   design_year: 1999
   n_sequences_at_design: null
   as_written: Ahne et al. 1999
-  doi_verified: false
+  doi_verified: true
   reference: Ahne W et al. 1999. Virus Res 63:65-74
   oligos_designed_here: true
 use_context:
@@ -33,12 +33,9 @@ source:
   positive_control: null
   nested_round: round2
   notes: null
-  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf).
-    HN gene nested primers (primer pair 3+4 in the paper''s Table 1). Positions on
-    Sendai Z strain: 7647-7666 (forward) and 8045-8025 (reverse), expected product
-    399 bp. Round 1 external HN primers are
-    Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999. AMPLICON_BP: 399 bp from the
-    paper''s Table 1 position data (8045-7647+1=399); needs verification against
-    GenBank ferlavirus HN sequences.'
+  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene nested
+    primers (primer pair 3+4 in the paper''s Table 1). Positions on Sendai Z strain: 7647-7666 (forward) and 8045-8025 (reverse),
+    expected product 399 bp. Round 1 external HN primers are Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999. AMPLICON_BP: 399
+    bp from the paper''s Table 1 position data (8045-7647+1=399); needs verification against GenBank ferlavirus HN sequences.'
 needs_review:
 - AMPLICON_BP_FROM_PAPER_POSITIONS_NOT_MEASURED

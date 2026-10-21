@@ -34,5 +34,4 @@ source:
   positive_control: Universal Control 5 (sizes are different than virus)
   nested_round: null
   notes: null
-needs_review:
-- NEED_TO_ORDER
+needs_review: null
