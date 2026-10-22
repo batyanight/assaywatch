@@ -14,10 +14,11 @@ was true when written and stale for days afterwards. Per item:
 | 4 | heartbeat file | **done** - `.tmp/heartbeat-<date>.json`, `heartbeat_seconds` configurable (default 60) |
 | 5 | weighted ETA | **done** - `timing.weighted_eta`, projected from bytes rather than remaining steps |
 | 6 | stuck detector | **done** - `heartbeat(stall_after=...)`, `stall_seconds` configurable (default 900) |
-| 7 | final per-stage summary + top 10 slowest groups in the report footer | **OPEN, and item 2 does not unblock it on macOS** - the only column that fills in here is wall time, which a concurrent run makes meaningless as per-archive cost (measured below). A slowest-groups table built on it would publish contention noise |
+| 7 | final per-stage summary + top 10 slowest groups in the report footer | **OPEN** - the only column that fills in on macOS is wall time, and it counts machine sleep (measured below), so a slowest-groups table needs either a run known to have stayed awake or `cpu_time`, which reads NA here |
 
-**Item 7 is the only one left, and item 2 did NOT hand it usable data on this
-machine** - see "What the numbers say" below before building it. The RUN_DATE bug
+**Item 7 is the only one left.** Read "What the numbers say" below before
+building it: the benchmarks on disk were written across 91 minutes of laptop
+sleep. The RUN_DATE bug
 recorded at the bottom of this file is **fixed** (`timing.resolve_run_date` +
 `write_run_marker`, `Snakefile:79`); it is kept below as the record of why.
 
@@ -65,40 +66,43 @@ benchmark, 38.6 s by the shell. The same work with no Snakemake at all:
 **37.6 s**. So the `benchmark:` directive costs nothing measurable, and the NA
 columns are not a sign of overhead.
 
-**But the `s` column is dominated by contention, not by the archive.** Measured
-against the same jobs run solo:
+**But the `s` column counts time the machine was asleep.** The populate run read
+1h 46m 49s elapsed. `pmset -g log` for that window:
 
-| archive | gz | in the 330-job run | alone | inflation |
-|---|---:|---:|---:|---:|
-| `10508/all/2026-10-03` (4 adenovirus assays, 2 workers) | 52 MB | 120.7 s | **36.6 s** | 3.3x |
-| `11320/q2ebd5918b3/2026-10-03` (influenza A M gene, 1 worker, 165,492 records) | 6 MB | 1180.1 s | **40.3 s** | **29x** |
+| | |
+|---|---:|
+| run elapsed | 1:46:49 |
+| **asleep** (first event: `Clamshell Sleep` at 15:42:55, 11 min in, then maintenance-sleep cycles on battery) | **1:30:57** |
+| **awake** | **0:15:52** |
 
-The second was the slowest of all 330 and does ~40 s of work. Its process was
-alive for 20 minutes because it was starved of CPU. Across the run, the sum of
-per-job wall times (7,222 s) over the elapsed 6,409 s gives an **effective
-parallelism of 1.13x on 4 cores** - most of the time only one job was getting
-anywhere.
+The same forced rescreen of the same 330 archives earlier that afternoon took
+**15m 11s**. Against 15m 52s of awake time, the pipeline did identical work in
+identical time: **there was no slowdown at all.** The lid was closed, and
+Snakemake's benchmark measures wall clock (`time.time()` deltas), which keeps
+advancing while the system is suspended.
 
-**So wall time from a concurrent run is not a per-archive cost**, and ranking
-archives by it ranks scheduling luck. The column that *would* be
-contention-immune is `cpu_time` - which is exactly one of the columns macOS
-reports as NA (see the caveat above). **Item 2 therefore delivers a usable
-per-archive cost only on Linux**, i.e. in CI or on Greene. On this laptop the way
-to cost an archive is to run it alone, as the table above does.
+So a benchmark for any job that spanned a sleep boundary is inflated by however
+long the machine was out. `11320/q2ebd5918b3` recorded **1180.1 s** and takes
+**40.3 s** run alone; `10508/all` recorded 120.7 s against 36.6 s alone. Those
+gaps are suspension, not CPU starvation - and the "effective parallelism of
+1.13x" that follows from dividing summed job time by elapsed is an artefact of
+the same thing, since 7,222 s of job time cannot fit in 952 s of awake machine
+unless the jobs' own clocks were running while nothing executed.
 
-What the directive is still good for here: total wall time per job for a run
-whose scheduling you also know, and the Linux memory columns when a cluster run
-happens.
+**`caffeinate -i` does not survive a closed lid.** That is the command in
+`CLAUDE.md`, and it asserts `PreventUserIdleSystemSleep` only - the log shows the
+system entering `Clamshell Sleep` straight through it. For a run you intend to
+leave alone, keep the lid open, or run it somewhere that does not sleep. A
+suspended run is not merely slow: it silently writes timing data that is mostly
+measuring the suspension.
 
-### Unexplained, and worth knowing before trusting any wall figure
-
-The **same** forced rescreen of the same 330 archives took **911 s** at 14:53 and
-**6,409 s** at 15:31 the same afternoon, on the same machine, both at
-`--cores 4`, both with 330 `screen_archive` jobs in the log. The sampler is ruled
-out by the measurement above; thermal throttling and some scheduling difference
-are the candidates, and neither is established. Until that is understood, treat
-any single run's wall clock as a property of that run rather than of the
-pipeline.
+**What this leaves of item 2.** The sampler is free and the directive is
+harmless, but on this laptop the useful column is wall time, wall time is only
+meaningful for a run you know stayed awake, and the contention- and
+suspension-immune column (`cpu_time`) is one macOS reports as NA. The benchmarks
+currently on disk were written across 91 minutes of sleep and should be treated
+as contaminated: re-populate with the lid open before building anything on them,
+and cost a single archive by running it alone, as the solo figures above do.
 
 ### A real finding about the thread heuristic
 

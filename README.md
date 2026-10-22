@@ -379,6 +379,14 @@ Five stages: validate the registry, retrieve what is new for each group,
 screen every archive not yet screened, collect, report. `caffeinate -i` keeps a
 Mac from idle-sleeping until the run ends.
 
+**Keep the lid open.** `caffeinate -i` asserts `PreventUserIdleSystemSleep`, and
+closing the lid is not idle sleep: a 2026-10-22 run was suspended by
+`Clamshell Sleep` eleven minutes in and spent 1h 31m of its 1h 47m asleep, doing
+its 15 minutes of real work around the gaps. The run completes correctly, but
+`benchmark:` wall times (and the heartbeat's elapsed) count the suspension, so
+the timing data is mostly measuring the closed lid. Leave the lid open, or run it
+somewhere that does not sleep.
+
 **Big archives go first and get more cores.** Each screen job takes one worker
 per `screen_mb_per_thread` (default 25) gzipped MB, capped by `--cores`, and
 its priority is its size, so the largest archive starts first instead of

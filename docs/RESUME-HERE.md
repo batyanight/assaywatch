@@ -73,18 +73,21 @@ nothing but timing files. Then:
 
 - **The sampler is free**: one job alone is 36.55 s by its own benchmark against 37.6 s with
   no Snakemake at all. The NA columns are not overhead.
-- **But the `s` column measures contention, not the archive.** `11320/q2ebd5918b3` was the
-  slowest of all 330 at **1180 s** and takes **40.3 s run alone** - 29x. A 52 MB archive
-  read 120.7 s in the run and 36.6 s alone. Effective parallelism across the run was
-  **1.13x on 4 cores**.
-- So **ranking archives by benchmarked wall time ranks scheduling luck**, and item 7's
-  "slowest groups" table would publish noise. The contention-immune column is `cpu_time`,
-  which is exactly one macOS reports as NA. **Item 2 pays off on Linux (CI, Greene); on the
-  laptop, cost an archive by running it alone.**
-- **Unexplained:** the same forced rescreen of the same 330 archives took **911 s** at 14:53
-  and **6409 s** at 15:31, same machine, same `--cores 4`, 330 screen jobs in both logs. The
-  sampler is ruled out. Do not trust one run's wall clock as a pipeline property until this
-  is understood.
+- **But the `s` column counts machine sleep.** `pmset -g log` for the run window: elapsed
+  1:46:49, **asleep 1:30:57** (first event `Clamshell Sleep` 11 min in, then maintenance
+  cycles on battery), **awake 0:15:52** - against the identical rescreen's **15m 11s** earlier
+  the same afternoon. The pipeline did the same work in the same time; **there was no
+  slowdown.** The lid was closed and Snakemake's benchmark is wall clock, so it kept counting
+  while nothing ran. `11320/q2ebd5918b3` read 1180 s and takes 40.3 s alone; that gap is
+  suspension, not CPU starvation, and the "1.13x parallelism" I derived from elapsed time is
+  the same artefact.
+- **`caffeinate -i` does not survive a closed lid** - it asserts
+  `PreventUserIdleSystemSleep`, and clamshell sleep is not idle sleep. The command in
+  `CLAUDE.md` and `README.md` now says to keep the lid open. A suspended run still finishes
+  correctly; it just writes timing data that measures the lid.
+- **The benchmarks on disk are contaminated** - written across 91 minutes of sleep.
+  Re-populate with the lid open before building item 7 on them. Cost a single archive by
+  running it alone.
 - **Real finding:** `threads`/`priority` are sized from gzipped MB and cost does not track
   bytes - `11320/q2ebd5918b3` is 6 MB holding **165,492 records**, so it gets 1 worker and
   the lowest priority, yet costs about what a 52 MB archive does. Size on record count, not
