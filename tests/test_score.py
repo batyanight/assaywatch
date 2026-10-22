@@ -22,6 +22,15 @@ from assaywatch.score import classify, load_config, screen_record
 ROOT = Path(__file__).resolve().parents[1]
 FIX = Path(__file__).resolve().parent / "fixtures"
 CFG = load_config()
+# The synthetic MANIFEST fixtures hand-encode the POSITION, COUNT and TERMINAL
+# rules, and were worked out before the identity discount shipped; a planted
+# mismatch at a primer G becomes an incidental G:T wobble, which the shipped
+# scoring.mispair_penalty now zeroes, changing the call for a reason the fixture
+# never meant to test. So the identity-agnostic fixture tests score with the
+# discount removed. The discount itself is pinned by the dedicated identity
+# tests below (a deliberate G:T through score) and validated end to end by the
+# tier-2 re-screen (docs/2026-10-21-M1-shipped.md).
+CFG_NO_MISPAIR = {**CFG, "scoring": {**CFG["scoring"], "mispair_penalty": {}}}
 RECORDS = dict(read_fasta(FIX / "records.fasta"))
 MANIFEST = list(csv.DictReader((FIX / "manifest.tsv").open(), delimiter="\t"))
 ASSAYS = {
@@ -53,7 +62,7 @@ def declared_spacer(assay, fwd_len: int | None = None, rev_len: int | None = Non
 @pytest.mark.parametrize("row", MANIFEST, ids=[r["record_id"] for r in MANIFEST])
 def test_expected_call(row):
     assay = ASSAYS[row["assay_id"]]
-    call = screen_record(assay, row["record_id"], RECORDS[row["record_id"]], CFG)
+    call = screen_record(assay, row["record_id"], RECORDS[row["record_id"]], CFG_NO_MISPAIR)
     assert call.call == row["expected_call"], (
         f"{row['record_id']}: edits {row['edits']} scored {call.penalty} -> {call.call}, "
         f"expected {row['expected_call']} ({call.reason})"
@@ -519,8 +528,9 @@ def test_serial_runs_end_to_end_on_a_real_fixture_record():
     row = next(r for r in MANIFEST if r["expected_call"] == "reduced")
     assay = ASSAYS[row["assay_id"]]
     rec = RECORDS[row["record_id"]]
-    budget = screen_record(assay, row["record_id"], rec, _scoring())
-    serial = screen_record(assay, row["record_id"], rec, _serial())
+    # Identity-agnostic fixture: score with the discount off (see CFG_NO_MISPAIR).
+    budget = screen_record(assay, row["record_id"], rec, _scoring(mispair_penalty={}))
+    serial = screen_record(assay, row["record_id"], rec, _serial(mispair_penalty={}))
     assert budget.call == "reduced"
     # Same record, same penalties; only the combination differs. Whatever serial
     # says, it must be a real bucket and its penalty must be <= the sum.

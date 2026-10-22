@@ -50,9 +50,18 @@ SWAP = {"A": "C", "C": "A", "G": "T", "T": "G"}  # transversions: never a silent
 
 
 def write_config(tmp_path, overrides) -> dict:
-    """The shipped config with `scoring.by_chemistry` replaced, loaded."""
+    """The shipped config with `scoring.by_chemistry` replaced, loaded.
+
+    `mispair_penalty` is also cleared: every test in this file is about the
+    per-chemistry thresholds and the indel/terminal rules, none about mismatch
+    identity, so they must read the same penalty math whatever identity discount
+    config.yaml ships. It shipped the G:T/T:G wobble discount on 2026-10-21, and
+    without this an incidental G:T in a fixture would silently drop 0.5 off a
+    penalty these tests assert by hand.
+    """
     cfg = yaml.safe_load((load_config.__globals__["DEFAULT_CONFIG"]).read_text())
     cfg["scoring"]["by_chemistry"] = overrides
+    cfg["scoring"]["mispair_penalty"] = {}
     path = tmp_path / "config.yaml"
     path.write_text(yaml.safe_dump(cfg))
     return load_config(path)

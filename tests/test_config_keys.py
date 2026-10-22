@@ -25,11 +25,21 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 
 
+# Dicts whose immediate keys are data - mispair labels, chemistry names, assay
+# or taxid ids - not nested config settings. Their liveness is the parent key's
+# (mispair_penalty IS read by score.py); their contents are validated by
+# dedicated code (score.check_chemistry_overrides, the mispair lookup), not by
+# name here. Recursing in would treat a data value like "T:G" as a setting read
+# nowhere, which it is not. They passed silently until mispair_penalty shipped a
+# non-empty table on 2026-10-21 - the first populated one.
+DATA_TABLES = {"mispair_penalty", "by_chemistry", "sublineage"}
+
+
 def key_paths(node: dict, path: tuple[str, ...] = ()) -> Iterator[tuple[str, ...]]:
     """Every key in the tree, as a dotted path."""
     for k, v in node.items():
         yield (*path, k)
-        if isinstance(v, dict):
+        if isinstance(v, dict) and k not in DATA_TABLES:
             yield from key_paths(v, (*path, k))
 
 
