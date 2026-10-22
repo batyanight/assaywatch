@@ -242,18 +242,26 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     doi:10.1093/nar/18.4.999; Stadhouders et al. 2010,
     doi:10.2353/jmoldx.2010.090035).
 
-    IDENTITY (M1, 2026-10-21). Position alone treats every mispair at a given
-    distance alike, but Kwok and Stadhouders both find the effect is dominated by
-    WHICH mispair forms: A:A, A:G, G:A and C:C suppress yield by orders of
-    magnitude, while T:G, G:T, T:C and T:T are nearly free (a T:G wobble still
-    stacks). `scoring.mispair_penalty` multiplies each definite mismatch's
-    position penalty by the value for its primer:template mispair (see
-    `mispair_multiplier`), and a multiplier of 0 also exempts a 3'-terminal
-    mismatch from `terminal_mismatch_fails`, since a mispair declared free does
-    not impede extension. The table ships empty, so by default this does nothing;
-    three bench panels (FAP, Barrett, Meyer) argue for discounting the G:T/T:G
-    wobble and Rahn's negatives price that at zero specificity cost, but no value
-    ships without the tier-2 run behind it.
+    IDENTITY (M1, 2026-10-21; scoped to the 3' window 2026-10-22). Position alone
+    treats every mispair at a given distance alike, but Kwok and Stadhouders both
+    find the 3'-end effect is dominated by WHICH mispair forms: A:A, A:G, G:A and
+    C:C suppress yield by orders of magnitude, while T:G, G:T, T:C and T:T are
+    nearly free (a T:G wobble still stacks). `scoring.mispair_penalty` multiplies
+    a definite mismatch's position penalty by the value for its primer:template
+    mispair (see `mispair_multiplier`) WHEN the mismatch is in the 3' window, and
+    a multiplier of 0 also exempts a 3'-terminal mismatch from
+    `terminal_mismatch_fails`, since a mispair declared free does not impede
+    extension. It is scoped to the window on purpose: both papers measure the
+    effect at the 3' end, and when the discount ran unscoped it erased internal
+    G:T wobbles across whole record sets and cost three documented tier-2 catches
+    (docs/2026-10-22-M1-tier2.md). Beyond the window, position alone decides.
+
+    The table ships EMPTY, so by default this does nothing. The G:T/T:G wobble is
+    the one candidate that has been tried: three bench panels (FAP, Barrett,
+    Meyer) argue for discounting it and Rahn's negatives price it at zero
+    specificity cost, but at 0.0 it lost a documented tier-2 catch both unscoped
+    and scoped, so it was reverted (docs/2026-10-22-M1-tier2.md). No value ships
+    without a tier-2 run behind it.
 
     Still NOT captured: mismatch COUNT interactions. Two adjacent mismatches are
     far worse than two spread apart, because they destroy a contiguous stretch of
@@ -278,7 +286,17 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
         # The record base the primer faces, complemented into the template base;
         # out-of-range window (defensive, should not happen) keeps the full penalty.
         rec = site.window[pos] if pos < len(site.window) else "N"
-        mult = mispair_multiplier(oligo[pos].upper(), COMPLEMENT.get(rec.upper(), "N"), table)
+        # Identity acts only within the 3' window. Kwok and Stadhouders measure
+        # the mispair effect at the 3' end, where it is about extension geometry,
+        # not duplex melting. Applied to a 5'/mid mismatch the same discount
+        # erased internal G:T wobbles across whole record sets and masked real
+        # coverage drops - three documented tier-2 catches fell when it ran
+        # unscoped (docs/2026-10-22-M1-tier2.md), 5498 of 5499 Paramyxovirinae
+        # flips resting on mismatches outside the window. Beyond it, position
+        # alone decides.
+        mult = 1.0
+        if d <= w3:
+            mult = mispair_multiplier(oligo[pos].upper(), COMPLEMENT.get(rec.upper(), "N"), table)
         penalty += base * mult
         if d == 1 and mult != 0:
             terminal = True

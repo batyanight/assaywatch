@@ -1,37 +1,53 @@
-# Resume point, 2026-10-22 (M1 tier-2 scoped and re-screened, verdict open; supplements reach the verifier)
+# Resume point, 2026-10-22 (M1 reverted on measurement; the owed full run is next)
 
-## 2026-10-22, M1 tier-2: UNCOMMITTED, re-screen done, VERDICT NOT YET TAKEN
+## 2026-10-22, M1 tier-2: DECIDED. The wobble discount is reverted
 
-Full write-up: `docs/2026-10-22-M1-tier2.md` (untracked). **Start here next session.**
+Full write-up: `docs/2026-10-22-M1-tier2.md`.
 
-- **The shipped M1 value failed tier-2.** Under the global
-  `mispair_penalty: {"G:T": 0.0, "T:G": 0.0}` the full re-screen plus
-  `scripts/retrospective.py --cases docs/validation-cases.tsv` lost three catches the
-  tool had made pre-M1 - `CDV_P_gene_Scagliarini_2007`, `Leucocytozoon_cyt_c_Hellgren_2004`,
-  `Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1` - and moved the Paramyxovirinae
-  `works` case to DISAGREES. `fails` correctly flagged went 5 -> 2, DISAGREES 3 -> 6.
-- **Mechanism found:** `score_primer` applied the identity multiplier at EVERY mismatch
-  position, so `G:T = 0` zeroed a wobble anywhere in the primer. Kwok 1990 and
-  Stadhouders 2010 measure the effect AT THE 3' END. Forensics: 5,498 of the 5,499
-  Paramyxovirinae records that changed call have no 3'-window mismatch at all - they flip
-  on d = 18-26, pure 5' region.
-- **Fix written (uncommitted):** `assaywatch/score.py` applies `mispair_multiplier` only
-  when `d <= primer_3prime_window`; `config.yaml` records the scope beside the setting;
-  `tests/test_score.py` gains
-  `test_a_zeroed_mispair_outside_the_3prime_window_is_not_discounted` (a G:T at d=18 keeps
-  the full 5'-region penalty). The bench rescues that motivated M1 (FAP, Barrett) are all
-  at d <= 5 and still discounted.
-- **The scoped re-screen RAN AND FINISHED**, 2026-10-22 01:09: 317/317 steps, 25m 56s,
-  log `snakemake-2026-10-22-m1-3prime.txt`, output in `results/2026-10-22/` (which it
-  overwrote - the earlier 00:30 run, `snakemake-2026-10-22-m1-rescreen.txt`, 319/319 in
-  28m 50s, was the GLOBAL-value re-screen and its table is gone).
-- **WHAT IS LEFT: the verdict.** `docs/2026-10-22-M1-tier2.md`'s "Re-validation" section is
-  still `_(pending)_`. Run `scripts/retrospective.py --cases docs/validation-cases.tsv`
-  against `results/2026-10-22/` and against pre-M1 `results/2026-10-21/`, fill the section
-  in, and apply the project rule: if the three catches are restored and no bench rescue is
-  lost, the scoped discount ships; if a catch still falls, revert `mispair_penalty` to `{}`
-  and record that. **Nothing here is committed, so the decision is still open either way.**
+- **`mispair_penalty` is back to `{}`.** The shipped global value lost three documented
+  catches (`fails` correctly flagged 5 -> 2). Scoping the multiplier to
+  `primer_3prime_window` - where Kwok 1990 and Stadhouders 2010 actually measure the
+  identity effect - restored two of them and pulled the Paramyxovirinae `works` case back
+  from DISAGREES to `weaker`, but left `fails` at 4 of 11 against pre-M1's 5.
+- **Across all 49 cases the scoped table differs from pre-M1 in exactly one row:**
+  `Leucocytozoon_cyt_c_Hellgren_2004` @2016-12-31, `low coverage` (agrees) -> `watch`
+  (DISAGREES). 17 records flip, and every one carries a G:T at **d = 2** - inside the
+  window, so no scope rule excludes them.
+- **No partial multiplier rescues it, and that is arithmetic, not a guess.** At d=2 the
+  base penalty is `primer_3prime_penalty: 3.0` against `reduced_max: 3.0`, so a record
+  stays `fail` only while the multiplier is above ~0.83; and `drift.py` counts `reduced`
+  as detected, so `fail -> reduced` loses the catch just as `fail -> detect` does. The
+  G:T/T:G discount and this catch are incompatible under the `budget` engine. Closed by
+  measurement - do not reopen it with a different number.
+- **The 3'-window scoping of `score_primer` is KEPT** (inert with an empty table) along
+  with its guard test `test_a_zeroed_mispair_outside_the_3prime_window_is_not_discounted`,
+  so the unscoped form cannot come back.
+- **The cost, stated honestly:** the FAP (12 of 14) and Barrett (3 of 3) bench false fails
+  return. Three bench panels and one documented field catch disagree about the same wobble
+  and summed-budget scoring cannot satisfy both; the per-oligo verdict combination
+  `config.yaml` already names as the real defect is where to look next, not another
+  multiplier.
+- `config.yaml`'s header no longer says "46 cases ... 1 of 12": it is 49 cases and 5 of 11.
 
+**NEXT: the owed full run, with the 20 unsigned screens cleared first.** 20 of 330 screens
+in every table since were last written 2026-10-18 and store no signature, so a changed code
+hash never invalidated them (`Snakefile` names this; `collect` warns, see
+`snakemake-2026-10-22-m1-3prime.txt:5895`) - the sidecar was added to detect them but they
+were never force-rescreened, so the shipped table mixes scoring generations. They are
+identical in both tables compared above, and taxid 195944 is not among them, so the M1
+verdict is unaffected; but six live tier-2 cases draw on them (Paramyxovirinae 11158,
+Morbillivirus 11229, Influenza A 11320, Enterovirus 12059, Coronavirus 11118, Pan-flavivirus
+11051). Their archives total 212 KB, so rescreening is seconds:
+
+    jq -r '.screen_inventory[] | select((.stored_signature // "") == "") | .path' \
+        results/2026-10-22/calls.provenance.json      # the list; delete these, then run
+
+`results/` is gitignored run state and every input FASTA is present, so they regenerate with
+no network. **Back up `results/2026-10-22/` first** - `RUN_DATE` is today, so a re-run
+overwrites it, which is how the 00:30 global-value table was already lost once; or pass
+`--config run_date=2026-10-22b`. After the run, `calls.provenance.json` must report **0**
+screens with an empty `stored_signature`, and `scripts/retrospective.py --cases` should read
+5 of 11 again on one scoring generation.
 
 ## 2026-10-22, the `.supp` convention reached the oligo verifier; 3 citations resolved
 
@@ -82,7 +98,7 @@ Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
 - **Installed `matplotlib-base` locally** to match the merged `environment.yml`.
 - Full gate after merge: **1478 tests, ruff clean, validator 208/208.** Pushed.
 
-## 2026-10-21, R1 reproducibility (a/b/e done; c scaffolded; d deferred)
+## 2026-10-21, R1 reproducibility (a/b/c/e done; d deferred)
 
 - **R1a** (`00938a2`): a fresh `conda env create` could not run four documented commands - their
   deps (openpyxl, pypdf, poppler/pdftotext, the SLURM plugin) lived only in pyproject extras the
@@ -98,11 +114,11 @@ Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
   left out. Collect-time, not the plan's per-archive design: per-archive must live in screen.py's
   closure and would force a 25-min rescreen on any edit. Exact for a same-day run, honest for a
   mixed table (screened_at shows the span). Populated the live sidecar in 54s, no rescreen.
-- **R1c conda-lock: NOT done - needs the tool + a decision.** conda-lock is not installed and a
-  lock needs cross-platform (osx-arm64 + linux-64) network solves. environment.yml now resolves
-  cleanly, which is most of the value; the lock is the exact-transitive belt to that. One command
-  once conda-lock is available: `conda-lock -f environment.yml -p osx-arm64 -p linux-64`. README
-  recipe and MANIFEST entry scaffolded.
+- **R1c conda-lock: DONE** (`d84bc7f`, refreshed in `fd8f71e` once matplotlib-base entered the
+  env). `conda-lock.yml` is tracked and cross-platform (osx-arm64 + linux-64); environment.yml
+  resolving cleanly was most of the value and the lock is the exact-transitive belt to it.
+  Regenerate with `conda-lock -f environment.yml -p osx-arm64 -p linux-64` after any
+  environment.yml change. (This entry read "NOT done" until 2026-10-22; it was stale.)
 - **R1d container: deferred** (NYU Greene is Apptainer, so the artifact is a .def over the lock -
   worth it when a cluster run is imminent, per the plan).
 

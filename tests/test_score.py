@@ -23,13 +23,13 @@ ROOT = Path(__file__).resolve().parents[1]
 FIX = Path(__file__).resolve().parent / "fixtures"
 CFG = load_config()
 # The synthetic MANIFEST fixtures hand-encode the POSITION, COUNT and TERMINAL
-# rules, and were worked out before the identity discount shipped; a planted
-# mismatch at a primer G becomes an incidental G:T wobble, which the shipped
-# scoring.mispair_penalty now zeroes, changing the call for a reason the fixture
-# never meant to test. So the identity-agnostic fixture tests score with the
-# discount removed. The discount itself is pinned by the dedicated identity
-# tests below (a deliberate G:T through score) and validated end to end by the
-# tier-2 re-screen (docs/2026-10-21-M1-shipped.md).
+# rules, and a planted mismatch at a primer G becomes an incidental G:T wobble -
+# so any non-empty scoring.mispair_penalty changes their calls for a reason the
+# fixture never meant to test. config.yaml ships the table empty (the G:T/T:G
+# value was tried and reverted, docs/2026-10-22-M1-tier2.md), so today this is a
+# no-op; it stays explicit so the fixture tests keep testing position, count and
+# terminal behaviour whatever a later candidate puts in the table. The mechanism
+# itself is pinned by the dedicated identity tests below.
 CFG_NO_MISPAIR = {**CFG, "scoring": {**CFG["scoring"], "mispair_penalty": {}}}
 RECORDS = dict(read_fasta(FIX / "records.fasta"))
 MANIFEST = list(csv.DictReader((FIX / "manifest.tsv").open(), delimiter="\t"))
@@ -371,6 +371,21 @@ def test_a_zeroed_mispair_drops_the_penalty_and_exempts_the_terminal_fail():
     assert sc.penalty == 0.0
     # A mispair declared free must also not trip terminal_mismatch_fails, or the
     # discount would be defeated at the one position it matters most.
+    assert sc.terminal_mismatch is False
+
+
+# The same G:T wobble moved OUT of the 3' window: identity must NOT fire there.
+# Kwok's effect is 3'-specific; discounting internal G:T across whole record sets
+# masked three real coverage drops in tier-2 (docs/2026-10-22-M1-tier2.md).
+_REC_5PRIME_GT = "TTAACCGATAGCCAATGATG"  # primer G at pos 2 (d=18) faces record A -> G:T
+
+
+def test_a_zeroed_mispair_outside_the_3prime_window_is_not_discounted():
+    site = _primer_site(_OLIGO, _REC_5PRIME_GT)
+    assert site.mismatches == (2,)  # one mismatch, 18 nt from the 3' end
+    sc = score_primer(site, _OLIGO, _scoring(mispair_penalty={"G:T": 0.0}))
+    # Beyond the 3' window position alone decides: the full 5'-region penalty, undiscounted.
+    assert sc.penalty == CFG["scoring"]["primer_5prime_penalty"]
     assert sc.terminal_mismatch is False
 
 
