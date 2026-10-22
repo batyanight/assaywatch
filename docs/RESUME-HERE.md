@@ -67,9 +67,28 @@ every other resource column reads `NA` at any job length (checked at 0.44 s and 
 columns fill in on Linux**, i.e. in CI and on Greene - which is where `screen_archive`'s
 `mem_mb` and `threads` guesses finally become checkable.
 
-Only archives screened since the directive landed have a benchmark (3 of 330). The rest
-appear the next time anything invalidates them, which any scoring change does; the doc has a
-one-liner to force all 330 if you want the timing data on purpose (~25 min, no other product).
+**Populated all 330 the same day, and the data undercut the plan.** 336/336 steps in
+**1h 46m 49s**, with `calls.tsv.gz` returning the **same sha256** - the rescreen changed
+nothing but timing files. Then:
+
+- **The sampler is free**: one job alone is 36.55 s by its own benchmark against 37.6 s with
+  no Snakemake at all. The NA columns are not overhead.
+- **But the `s` column measures contention, not the archive.** `11320/q2ebd5918b3` was the
+  slowest of all 330 at **1180 s** and takes **40.3 s run alone** - 29x. A 52 MB archive
+  read 120.7 s in the run and 36.6 s alone. Effective parallelism across the run was
+  **1.13x on 4 cores**.
+- So **ranking archives by benchmarked wall time ranks scheduling luck**, and item 7's
+  "slowest groups" table would publish noise. The contention-immune column is `cpu_time`,
+  which is exactly one macOS reports as NA. **Item 2 pays off on Linux (CI, Greene); on the
+  laptop, cost an archive by running it alone.**
+- **Unexplained:** the same forced rescreen of the same 330 archives took **911 s** at 14:53
+  and **6409 s** at 15:31, same machine, same `--cores 4`, 330 screen jobs in both logs. The
+  sampler is ruled out. Do not trust one run's wall clock as a pipeline property until this
+  is understood.
+- **Real finding:** `threads`/`priority` are sized from gzipped MB and cost does not track
+  bytes - `11320/q2ebd5918b3` is 6 MB holding **165,492 records**, so it gets 1 worker and
+  the lowest priority, yet costs about what a 52 MB archive does. Size on record count, not
+  bytes; measure solo.
 
 ## 2026-10-22, CI had been RED for a day: matplotlib was declared for conda only
 

@@ -14,9 +14,10 @@ was true when written and stale for days afterwards. Per item:
 | 4 | heartbeat file | **done** - `.tmp/heartbeat-<date>.json`, `heartbeat_seconds` configurable (default 60) |
 | 5 | weighted ETA | **done** - `timing.weighted_eta`, projected from bytes rather than remaining steps |
 | 6 | stuck detector | **done** - `heartbeat(stall_after=...)`, `stall_seconds` configurable (default 900) |
-| 7 | final per-stage summary + top 10 slowest groups in the report footer | **OPEN**, and now unblocked - stage totals are in `run-timing.json` and per-archive wall times are in `results/benchmarks/screen/`, but nothing surfaces either in the report |
+| 7 | final per-stage summary + top 10 slowest groups in the report footer | **OPEN, and item 2 does not unblock it on macOS** - the only column that fills in here is wall time, which a concurrent run makes meaningless as per-archive cost (measured below). A slowest-groups table built on it would publish contention noise |
 
-**Item 7 is now the only one left, and item 2 gave it its data.** The RUN_DATE bug
+**Item 7 is the only one left, and item 2 did NOT hand it usable data on this
+machine** - see "What the numbers say" below before building it. The RUN_DATE bug
 recorded at the bottom of this file is **fixed** (`timing.resolve_run_date` +
 `write_run_marker`, `Snakefile:79`); it is kept below as the record of why.
 
@@ -51,21 +52,64 @@ report RSS; `io_counters` genuinely does not exist on Darwin. **On Linux - CI, a
 Greene - the memory columns fill in**, which is where the `mem_mb` and `threads`
 guesses in `screen_archive` are finally checkable against what an archive costs.
 
-**Populating it.** Only the archives screened since the directive landed have a
-benchmark; the rest appear the next time anything invalidates them (any change to
-`screen.py`, its imports, or the `scoring`/`amplicon`/`degeneracy`/
-`thermo_conditions` config blocks rescreens all 330 and writes all 330). To fill
-them in deliberately, without waiting for a real change:
+**Populated 2026-10-22**, and the data immediately undercut the plan. All 330 forced:
+`snakemake-2026-10-22-benchmarks.txt`, 336/336 steps, **1h 46m 49s**, and
+`calls.tsv.gz` came back with the **same sha256** (`1eadcaa5...`), so the rescreen
+changed nothing but the timing files - the determinism `collect` buys with
+`mtime=0` is real.
 
-    caffeinate -i snakemake --cores 4 --forcerun $(python - <<'EOF'
-    import json, pathlib
-    prov = json.loads(pathlib.Path("results/2026-10-22/calls.provenance.json").read_text())
-    print(" ".join(e["path"] for e in prov["screen_inventory"]))
-    EOF
-    )
+### What the numbers say, and what they cannot say
 
-That is a ~25 minute full rescreen whose only product is the timing data, so it
-is worth folding into the next run that was happening anyway.
+**The sampler is free.** One screen job run alone: **36.55 s** by its own
+benchmark, 38.6 s by the shell. The same work with no Snakemake at all:
+**37.6 s**. So the `benchmark:` directive costs nothing measurable, and the NA
+columns are not a sign of overhead.
+
+**But the `s` column is dominated by contention, not by the archive.** Measured
+against the same jobs run solo:
+
+| archive | gz | in the 330-job run | alone | inflation |
+|---|---:|---:|---:|---:|
+| `10508/all/2026-10-03` (4 adenovirus assays, 2 workers) | 52 MB | 120.7 s | **36.6 s** | 3.3x |
+| `11320/q2ebd5918b3/2026-10-03` (influenza A M gene, 1 worker, 165,492 records) | 6 MB | 1180.1 s | **40.3 s** | **29x** |
+
+The second was the slowest of all 330 and does ~40 s of work. Its process was
+alive for 20 minutes because it was starved of CPU. Across the run, the sum of
+per-job wall times (7,222 s) over the elapsed 6,409 s gives an **effective
+parallelism of 1.13x on 4 cores** - most of the time only one job was getting
+anywhere.
+
+**So wall time from a concurrent run is not a per-archive cost**, and ranking
+archives by it ranks scheduling luck. The column that *would* be
+contention-immune is `cpu_time` - which is exactly one of the columns macOS
+reports as NA (see the caveat above). **Item 2 therefore delivers a usable
+per-archive cost only on Linux**, i.e. in CI or on Greene. On this laptop the way
+to cost an archive is to run it alone, as the table above does.
+
+What the directive is still good for here: total wall time per job for a run
+whose scheduling you also know, and the Linux memory columns when a cluster run
+happens.
+
+### Unexplained, and worth knowing before trusting any wall figure
+
+The **same** forced rescreen of the same 330 archives took **911 s** at 14:53 and
+**6,409 s** at 15:31 the same afternoon, on the same machine, both at
+`--cores 4`, both with 330 `screen_archive` jobs in the log. The sampler is ruled
+out by the measurement above; thermal throttling and some scheduling difference
+are the candidates, and neither is established. Until that is understood, treat
+any single run's wall clock as a property of that run rather than of the
+pipeline.
+
+### A real finding about the thread heuristic
+
+`threads` and `priority` are both `archive_mb(input)`-derived
+(`SCREEN_MB_PER_THREAD = 25`), and cost does not track bytes:
+`11320/q2ebd5918b3` is **6 MB** and holds **165,492** records, so it gets
+`6 // 25 -> max(1, 0) = 1` worker and the lowest priority in the queue, while a
+52 MB archive gets 2. Solo, the 6 MB archive costs about as much as the 52 MB one
+(40.3 s at 1 worker vs 36.6 s at 2). Sizing on record count rather than gzipped
+bytes is the obvious next move, and it is now measurable - but measure it solo,
+per the section above.
 
 ## What went wrong
 - I could not give a trustworthy time-to-finish at any point. Retrieval stalled for hours
