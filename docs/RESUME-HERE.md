@@ -1,4 +1,4 @@
-# Resume point, 2026-10-22 (M1 reverted on measurement; the owed full run is next)
+# Resume point, 2026-10-22 (M1 reverted on measurement; table is clean and re-baselined at 5 of 11)
 
 ## 2026-10-22, M1 tier-2: DECIDED. The wobble discount is reverted
 
@@ -29,25 +29,25 @@ Full write-up: `docs/2026-10-22-M1-tier2.md`.
   multiplier.
 - `config.yaml`'s header no longer says "46 cases ... 1 of 12": it is 49 cases and 5 of 11.
 
-**NEXT: the owed full run, with the 20 unsigned screens cleared first.** 20 of 330 screens
-in every table since were last written 2026-10-18 and store no signature, so a changed code
-hash never invalidated them (`Snakefile` names this; `collect` warns, see
-`snakemake-2026-10-22-m1-3prime.txt:5895`) - the sidecar was added to detect them but they
-were never force-rescreened, so the shipped table mixes scoring generations. They are
-identical in both tables compared above, and taxid 195944 is not among them, so the M1
-verdict is unaffected; but six live tier-2 cases draw on them (Paramyxovirinae 11158,
-Morbillivirus 11229, Influenza A 11320, Enterovirus 12059, Coronavirus 11118, Pan-flavivirus
-11051). Their archives total 212 KB, so rescreening is seconds:
+**DONE, same day: the full run under the reverted config cleared them.**
+`snakemake-2026-10-22-revert-fullrun.txt`, 337/337 steps, 15m 11s, exit 0, and
+`results/2026-10-22/` is now one scoring generation: **0 of 330 screens store no signature**
+(was 20), all 330 `signature_verified: true`, none still dated 2026-10-18, and the
+`store no signature` warning is gone from the log. The 20 did not need deleting -
+`--forcerun` on their paths regenerates them in place, which is the cheaper habit, and the
+revert forced all 330 to rescreen anyway because `mispair_penalty` is part of `_code_hash`.
 
-    jq -r '.screen_inventory[] | select((.stored_signature // "") == "") | .path' \
-        results/2026-10-22/calls.provenance.json      # the list; delete these, then run
+**The tier-2 baseline is re-measured and unchanged: `fails` 5 of 11, and all 49 cases read
+identically to the pre-M1 table.** So the revert is complete and the 20 stale screens never
+moved a tier-2 verdict - the same answer the 2026-10-21 by-hand diff got. That 5 of 11, on
+330 same-day signature-verified screens, is the number every future one-knob test is
+measured against. Write-up: `docs/2026-10-22-unsigned-screens-cleared.md`.
 
-`results/` is gitignored run state and every input FASTA is present, so they regenerate with
-no network. **Back up `results/2026-10-22/` first** - `RUN_DATE` is today, so a re-run
-overwrites it, which is how the 00:30 global-value table was already lost once; or pass
-`--config run_date=2026-10-22b`. After the run, `calls.provenance.json` must report **0**
-screens with an empty `stored_signature`, and `scripts/retrospective.py --cases` should read
-5 of 11 again on one scoring generation.
+**And `collect` now refuses an unsigned screen** rather than warning and exiting 0
+(`_raise_for_unverifiable_signatures`, sibling of `_raise_for_stale_signatures`). The
+warning fired in every run since 2026-10-21, including the M1 re-screen at log line 5895,
+and changed nothing. Every screen on disk is signed now and every new one writes its own,
+so an unsigned screen from here on is a stale file restored from somewhere.
 
 ## 2026-10-22, PR #3 closed; three things salvaged out of it first
 

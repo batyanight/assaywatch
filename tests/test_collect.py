@@ -607,6 +607,7 @@ def test_the_expected_signature_is_recorded_per_group(tmp_path):
     screens = tmp_path / "results" / "screened" / "10292" / "qb41"
     screens.mkdir(parents=True)
     a = write_screen(screens / "2026-10-03.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    _sign(a, "abc123")  # signed so the guard passes; this test is about what the sidecar records
     concatenate_screens(
         [a],
         tmp_path / "calls.tsv.gz",
@@ -621,6 +622,7 @@ def test_the_expected_signature_is_recorded_per_group(tmp_path):
 
 def test_a_group_with_no_signature_given_records_an_empty_one_not_a_wrong_one(tmp_path):
     a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    _sign(a, "whatever-it-ran-under")  # the screen says something; the pipeline expects nothing
     concatenate_screens(
         [a], tmp_path / "calls.tsv.gz", known_ids={"A"}, expected_signatures={}, provenance={}
     )
@@ -739,26 +741,41 @@ def test_a_matching_signature_passes_and_is_recorded_as_verified(tmp_path):
     assert entry["signature_verified"] is True
 
 
-def test_a_screen_storing_no_signature_is_unverifiable_not_wrong(tmp_path, capsys):
-    """null, not False. Every screen written before 2026-10-21 stores nothing, and
-    "does not say" is a different fact from "says something else" - only the
-    second is a defect, and refusing the first would have failed this run on 20
-    screens that turned out to hold correct calls."""
+def test_a_screen_storing_no_signature_is_refused(tmp_path):
+    """Warned, not refused, until 2026-10-22: "does not say" is a different fact
+    from "says something else", and the 20 unsigned screens of the day held calls
+    a column-by-column diff showed were correct, so refusing them would have
+    failed a run over nothing. Then a threshold really changed - the M1 wobble
+    discount - and those 20 were the only screens Snakemake could not invalidate,
+    so the table a tier-2 verdict came off mixed two scoring generations
+    (docs/2026-10-22-M1-tier2.md). Every screen on disk is signed now, so an
+    unsigned one means a stale file restored from somewhere."""
     screens = tmp_path / "results" / "screened" / "10292" / "qb41"
     screens.mkdir(parents=True)
     a = write_screen(screens / "2026-10-03.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
-    concatenate_screens(
-        [a],
-        tmp_path / "calls.tsv.gz",
-        known_ids={"A"},
-        expected_signatures={"10292/qb41": "sig-xyz"},
-        provenance={},
-    )
+    with pytest.raises(ValueError, match="store no signature"):
+        concatenate_screens(
+            [a],
+            tmp_path / "calls.tsv.gz",
+            known_ids={"A"},
+            expected_signatures={"10292/qb41": "sig-xyz"},
+            provenance={},
+        )
+    # Refused, not quietly dropped, and no half-written table left behind.
+    assert not (tmp_path / "calls.tsv.gz").exists()
+
+
+def test_an_unchecked_screen_is_recorded_as_unverifiable_rather_than_false(tmp_path):
+    """The sidecar still distinguishes "cannot say" from "says something wrong"
+    for a caller that is not collecting a run, and so passes no expected
+    signatures. null, not False: the two are different facts."""
+    screens = tmp_path / "results" / "screened" / "10292" / "qb41"
+    screens.mkdir(parents=True)
+    a = write_screen(screens / "2026-10-03.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
     entry = _prov(tmp_path)["screen_inventory"][0]
     assert entry["stored_signature"] is None
     assert entry["signature_verified"] is None
-    # And it has to be said out loud, or an unverifiable screen is invisible again.
-    assert "store no signature" in capsys.readouterr().err
 
 
 def test_no_expected_signatures_skips_the_check_entirely(tmp_path):

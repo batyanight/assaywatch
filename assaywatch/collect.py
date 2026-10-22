@@ -204,6 +204,37 @@ def _raise_for_stale_signatures(found: Mapping[Path, tuple[str, str]]) -> None:
     )
 
 
+def _raise_for_unverifiable_signatures(found: Sequence[Path], total: int) -> None:
+    """Refuse screens that store no signature at all.
+
+    This warned rather than refused until 2026-10-22, on the argument that "does
+    not say" is a different fact from "says something else", and only the second
+    is a defect: the 20 screens written before the sidecar existed held calls a
+    column-by-column diff showed were correct, so refusing them would have failed
+    a run over nothing. That argument held right up until a threshold really
+    changed. The M1 wobble discount moved `_code_hash`, those same 20 were the
+    only screens Snakemake could not invalidate - it holds no metadata record for
+    them, so its params check cannot fire - and the table a tier-2 verdict was
+    then taken off silently mixed two scoring generations
+    (docs/2026-10-22-M1-tier2.md). They were rescreened the same day, so every
+    screen on disk carries a signature now and every new one writes its own. An
+    unsigned screen from here on is a stale file restored from somewhere, and the
+    honest answer is that a table cannot be built on top of it.
+    """
+    if not found:
+        return
+    shown = ", ".join(str(p) for p in found[:5]) + (" ..." if len(found) > 5 else "")
+    raise ValueError(
+        f"{len(found)} of {total} cached screen(s) store no signature, so whether they match "
+        f"the current settings cannot be checked:\n  {shown}\n"
+        "Rescreen them so each writes its own signature - `snakemake --forcerun <the .tsv>`, "
+        "which regenerates in place. Snakemake holds no metadata record for a screen like "
+        "this, so its own params check cannot fire either: a changed threshold would leave "
+        "the file in place and the calls table would mix two rule sets with no column saying "
+        "which row came from which."
+    )
+
+
 def assays_without_calls(stats: Mapping[Path, ScreenStats], known_ids: Collection[str]) -> list[str]:
     """Assays the pipeline screened that produced no rows at all.
 
@@ -381,9 +412,10 @@ def concatenate_screens(
     for callers that are not collecting a run.
 
     With `expected_signatures` (`<taxid>/<group>` -> the signature the pipeline
-    expects now), any screen whose own stored signature disagrees is refused.
-    A screen that stores none cannot be checked; those are counted and named on
-    stderr, not refused, because every screen written before 2026-10-21 is one.
+    expects now), any screen whose own stored signature disagrees is refused -
+    and so, since 2026-10-22, is any screen that stores none at all, which until
+    then was only warned about (`_raise_for_unverifiable_signatures` says why the
+    warning was not enough).
 
     `provenance` (any mapping, passed to `write_provenance` as keyword
     arguments) also writes the sidecar, reusing the guard's single parse rather
@@ -415,15 +447,7 @@ def concatenate_screens(
             elif expected and stored != expected:
                 stale[path] = (stored, expected)
         _raise_for_stale_signatures(stale)
-        if unverifiable:
-            print(
-                f"WARNING: {len(unverifiable)} of {len(paths)} screens store no signature, so "
-                "whether they match the current settings cannot be checked. Screens written "
-                "before 2026-10-21 are all like this; rescreening one writes its signature. "
-                + ", ".join(str(p) for p in unverifiable[:5])
-                + (" ..." if len(unverifiable) > 5 else ""),
-                file=sys.stderr,
-            )
+        _raise_for_unverifiable_signatures(unverifiable, len(paths))
     headers = [read_header(path) for path in paths]
     columns = unified_columns(headers)
     # mtime=0 and no stored file name: the same screens give the same BYTES whenever they are
