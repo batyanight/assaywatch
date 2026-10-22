@@ -272,6 +272,31 @@ def describe(spec: tuple[str, str], *, root: Path | None = None) -> str:
     return f"{env_var}: not set (looked in ${env_var} and {path})"
 
 
+def describe_contact(*, root: Path | None = None) -> str:
+    """A line about the contact address, safe to print WITH its value.
+
+    Unlike a credential, this is meant to be sent (NCBI, Crossref and Unpaywall
+    ask callers to identify themselves), so the value is shown rather than
+    masked - the usual question is "which address will go out", and hiding it
+    answers nothing. It is in this report because after 2026-10-21 a pipeline run
+    refuses to start without it (Snakefile `require_contact_email`), so it is the
+    one line here whose absence stops work rather than merely slowing it.
+    """
+    env_var, filename = CONTACT_EMAIL
+    env_value, _ = _env_value(env_var)
+    if env_value:
+        return f"contact address: {env_value} (from ${env_var})"
+    path = (root or ROOT) / ".secrets" / filename
+    value, problem = _file_value(path)
+    if value:
+        return f"contact address: {value} (from .secrets/{filename})"
+    tail = f"; .secrets/{filename} exists but {problem}" if problem else ""
+    return (
+        f"contact address: NOT SET - a pipeline run will refuse to start. Set ${env_var} or "
+        f"write one line to .secrets/{filename}{tail}"
+    )
+
+
 def check_ncbi_key(*, root: Path | None = None, urlopen=urllib.request.urlopen) -> tuple[bool | None, str]:
     """Ask NCBI whether it accepts the key: (accepted, message), message scrubbed.
 
@@ -327,6 +352,7 @@ def main(argv: list[str] | None = None, *, root: Path | None = None) -> int:
     print("credentials visible to this checkout:\n")
     for spec in ALL:
         print(f"  {describe(spec, root=root)}")
+    print(f"  {describe_contact(root=root)}")
     key = ncbi_api_key(root=root)
     # Print NCBI's published limit and the interval separately. Printing the
     # derived rate instead said "9 requests/second" for a perfectly good key -

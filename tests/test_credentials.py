@@ -12,6 +12,7 @@ from __future__ import annotations
 from assaywatch.credentials import (
     NCBI,
     describe,
+    describe_contact,
     ncbi_api_key,
     ncbi_interval,
     read_secret,
@@ -123,3 +124,42 @@ def test_the_report_names_ncbis_published_limit_not_a_derived_rate(capsys, monke
     main([])
     out = capsys.readouterr().out
     assert "3 requests/second without a key" in out, out
+
+
+# --- the contact address in the one-command report (2026-10-21) --------------
+# `python -m assaywatch.credentials` omitted the contact address, yet after the
+# Snakefile guard a missing address is the one thing that hard-blocks a run. It
+# is in the report now, and unlike a key its VALUE is shown, because it is meant
+# to be sent.
+
+
+def test_contact_line_shows_the_value_from_a_file(tmp_path, monkeypatch):
+    monkeypatch.delenv("ASSAYWATCH_EMAIL", raising=False)
+    (tmp_path / ".secrets").mkdir()
+    (tmp_path / ".secrets" / "email").write_text("lab@example.org\n")
+    line = describe_contact(root=tmp_path)
+    assert "lab@example.org" in line  # shown, not masked
+    assert ".secrets/email" in line
+
+
+def test_contact_line_shows_the_value_from_the_environment(tmp_path, monkeypatch):
+    monkeypatch.setenv("ASSAYWATCH_EMAIL", "env@example.org")
+    line = describe_contact(root=tmp_path)
+    assert "env@example.org" in line
+    assert "ASSAYWATCH_EMAIL" in line
+
+
+def test_contact_line_says_a_run_will_refuse_when_unset(tmp_path, monkeypatch):
+    monkeypatch.delenv("ASSAYWATCH_EMAIL", raising=False)
+    line = describe_contact(root=tmp_path)
+    assert "NOT SET" in line
+    assert "refuse to start" in line  # the consequence, not just the absence
+
+
+def test_the_report_includes_the_contact_line(tmp_path, monkeypatch, capsys):
+    monkeypatch.delenv("ASSAYWATCH_EMAIL", raising=False)
+    monkeypatch.delenv("NCBI_API_KEY", raising=False)
+    from assaywatch.credentials import main
+
+    main([], root=tmp_path)
+    assert "contact address:" in capsys.readouterr().out
