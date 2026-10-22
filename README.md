@@ -75,6 +75,19 @@ pytest -q && python -m assaywatch.validate registry
 `environment.yml` installs the package in editable mode (`pip: -e .`), so
 `import assaywatch` works from any directory and edits are live.
 
+`environment.yml` pins the decisions (Python, Snakemake minor, ruff) and names
+every dependency a documented command needs, but leaves the transitive graph to
+the solver, so two machines can still differ in a sub-dependency. For an exact,
+cross-platform pin, regenerate the lock after any `environment.yml` change:
+
+```bash
+conda-lock -f environment.yml -p osx-arm64 -p linux-64   # writes conda-lock.yml
+conda-lock install -n assaywatch conda-lock.yml          # install from the lock
+```
+
+`conda-lock.yml` is committed and ships in the sdist (`MANIFEST.in`); the plain
+`conda env create` above stays the quick path.
+
 ## Registry rules
 
 A file is one assay: forward + reverse primer, optional probe, target taxon,

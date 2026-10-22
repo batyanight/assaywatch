@@ -1,5 +1,29 @@
 # Resume point, 2026-10-21 (amplicon sizes declared from measurement; per-oligo engine; full runs x2)
 
+## 2026-10-21, R1 reproducibility (a/b/e done; c scaffolded; d deferred)
+
+- **R1a** (`00938a2`): a fresh `conda env create` could not run four documented commands - their
+  deps (openpyxl, pypdf, poppler/pdftotext, the SLURM plugin) lived only in pyproject extras the
+  env's core `pip: -e .` never pulled. All added to `environment.yml`; the whole file dry-run
+  solved on osx-arm64. Snakemake pin aligned env<->CI (`>=9.27,<9.28`). `build` is `python-build`
+  on conda-forge. `tests/test_reproducibility.py` guards the deps + the Snakemake and ruff pins
+  against drift.
+- **R1e** (`00938a2`): `profiles/slurm/config.yaml` told users to run `--use-conda`, a silent
+  no-op since no rule carries a `conda:` directive; replaced with the shared-env / module-prologue
+  path that actually works.
+- **R1b** (`4ae31f1`): the sidecar now carries `collected_under` (python, platform, and the
+  versions of numpy/scipy/primer3/snakemake etc. that move numbers) - the environment identity R2
+  left out. Collect-time, not the plan's per-archive design: per-archive must live in screen.py's
+  closure and would force a 25-min rescreen on any edit. Exact for a same-day run, honest for a
+  mixed table (screened_at shows the span). Populated the live sidecar in 54s, no rescreen.
+- **R1c conda-lock: NOT done - needs the tool + a decision.** conda-lock is not installed and a
+  lock needs cross-platform (osx-arm64 + linux-64) network solves. environment.yml now resolves
+  cleanly, which is most of the value; the lock is the exact-transitive belt to that. One command
+  once conda-lock is available: `conda-lock -f environment.yml -p osx-arm64 -p linux-64`. README
+  recipe and MANIFEST entry scaffolded.
+- **R1d container: deferred** (NYU Greene is Apptainer, so the artifact is a .def over the lock -
+  worth it when a cluster run is imminent, per the plan).
+
 ## 2026-10-21, drift window x minimum calibrated
 
 `min_records_for_drift` 20 -> 15 (`8cee3b5`), `recent_window_months` left at 24. A 2-D sweep

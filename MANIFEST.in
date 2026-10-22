@@ -12,6 +12,7 @@
 include README.md CONTRIBUTING.md ROADMAP.md CLAUDE.md
 include CITATION.cff
 include pyproject.toml environment.yml config.yaml Snakefile MANIFEST.in
+include conda-lock.yml          # exact cross-platform pin; see README Setup. Absent until generated.
 include .pre-commit-config.yaml
 
 recursive-include assaywatch *.py
