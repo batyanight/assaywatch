@@ -1,5 +1,22 @@
 # Resume point, 2026-10-21 (amplicon sizes declared from measurement; per-oligo engine; full runs x2)
 
+## 2026-10-21, drift window x minimum calibrated
+
+`min_records_for_drift` 20 -> 15 (`8cee3b5`), `recent_window_months` left at 24. A 2-D sweep
+against `docs/validation-cases.tsv` (drift is report-time, no rescreen;
+`docs/2026-10-21-drift-window-calibration.md`) showed the knobs act separately: the minimum
+sets `undecided` (17 of ~49 at 20, 15 at the new value), the window sets accuracy. min 15 turns
+2 undecided cases into correct calls (one catching a real fail, Leucocytozoon @2016), adds
+**zero** new false declines, moves 11 of 208 statuses (insufficient data 42 -> 34). Report-only,
+regenerated.
+
+**OPEN MAINTAINER DECISION - the window.** 48-60 months scores better on the validation set
+(DISAGREES 10 -> 7 at 60/15), mechanistically (longer baseline reclassifies false `declining` as
+`low coverage`, catches slow fails), BUT `assess` aggregates the recent window against a
+pre-window baseline, so 60mo makes "recent" = 5 years and a genuine recent crash flags late - a
+cost the historical as-of validation set cannot measure. 60/15 reshapes 53 of 208 statuses.
+Left at 24 pending a deliberate call with the recency objection in view.
+
 ## 2026-10-21, amplicon sizes: measured-wins policy and 8 declarations
 
 Prompted by two size defects (ALPHAVIRUS NSP4, RANAVIRUS intergenic) found by accident.
