@@ -49,6 +49,34 @@ warning fired in every run since 2026-10-21, including the M1 re-screen at log l
 and changed nothing. Every screen on disk is signed now and every new one writes its own,
 so an unsigned screen from here on is a stale file restored from somewhere.
 
+## 2026-10-22, CI had been RED for a day: matplotlib was declared for conda only
+
+Found while pushing the M1 revert. **Both CI jobs had been failing since the figures merge**
+(`fa98937`), and nobody saw it because the Mac has `matplotlib-base` from conda and the local
+gate is green:
+
+- `test` job: `tests/test_figures.py` cannot even be collected - `ModuleNotFoundError: No
+  module named 'matplotlib'`.
+- `snakemake` job: the `figures` rule fails inside `tests/test_triggers.py`'s pipeline run,
+  same import.
+
+**Cause: `matplotlib-base` was added to `environment.yml` and nothing was added to
+`pyproject.toml`.** CI installs with pip (`pip install -e ".[dev,lineage]"` and `".[dev]"`),
+so it never saw the dep. This is **R1a in mirror image** - R1a was deps living only in
+pyproject extras that a fresh conda env never pulled; this is a dep living only in the conda
+env that a pip install never pulls. environment.yml being the source of truth for a *local*
+install does not make it the source of truth for CI.
+
+Fixed by declaring `matplotlib>=3.8` in pyproject's **core** dependencies, not an extra:
+`rule all` requires `results/<date>/figures/figures.html` unconditionally, so a run cannot
+finish without it. `tests/test_reproducibility.py` now guards both directions. **If figures
+should be opt-in, gate the rule in `all` first and then move the dep to an extra - do not
+just move the dep**, or the `snakemake` job breaks again.
+
+Worth knowing: the local gate cannot catch this class of bug, because conda and pip resolve
+from different files. Only CI can, which is the argument for the `snakemake` job having been
+made blocking.
+
 ## 2026-10-22, PR #3 closed; three things salvaged out of it first
 
 `docs/2026-10-15-lineage-plan` was docs-only and superseded by

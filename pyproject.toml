@@ -16,7 +16,14 @@ authors = [{name = "Batya R. Nightingale"}]
 # requests is NOT optional: both retrieval transports import it lazily
 # (retrieve.http_transport, assemblies.datasets_transport) and the laziness is
 # so the tests need no network stack, not because the package works without it.
-dependencies = ["pydantic>=2", "pyyaml>=6", "numpy>=1.24", "requests>=2"]
+# matplotlib is NOT optional either, for a blunter reason: `rule all` requires
+# results/<date>/figures/figures.html unconditionally, so a pip install without
+# it cannot finish a run. It arrived in environment.yml with the figures merge
+# and not here, which turned both CI jobs red while the Mac stayed green on
+# conda's matplotlib-base - R1a in mirror image. Guarded by
+# tests/test_reproducibility.py. If figures should be opt-in, gate the rule in
+# `all` first and then move this to an extra; do not just move it.
+dependencies = ["pydantic>=2", "pyyaml>=6", "numpy>=1.24", "requests>=2", "matplotlib>=3.8"]
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff==0.16.10", "pre-commit", "build"]   # build: `python -m build`

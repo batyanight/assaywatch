@@ -41,6 +41,24 @@ def test_the_documented_commands_have_their_dependencies_in_the_env():
         assert _env_dep(dep) is not None, f"{dep} missing from environment.yml"
 
 
+def test_a_dep_the_default_dag_needs_is_declared_for_pip_too_not_only_for_conda():
+    """The mirror of the bug above, found 2026-10-22 and red on main for a day.
+
+    `rule all` requires `results/<date>/figures/figures.html` unconditionally, so
+    `assaywatch.figures`' matplotlib is not optional - a pip install without it
+    cannot finish a run, and cannot even collect tests/test_figures.py. The
+    figures merge added `matplotlib-base` to environment.yml and nothing to
+    pyproject, so both CI jobs went red on `No module named 'matplotlib'` while
+    the Mac, which has it from conda, stayed green. environment.yml being the
+    source of truth for a LOCAL install does not make it the source of truth for
+    CI, which installs with pip.
+    """
+    core = re.search(r"^dependencies = \[(.*?)\]", PYPROJECT, re.M | re.S)
+    assert core, "could not find pyproject's core dependencies"
+    assert "matplotlib" in core.group(1), "matplotlib must be a CORE dep: rule all needs figures.html"
+    assert _env_dep("matplotlib-base") is not None, "matplotlib-base missing from environment.yml"
+
+
 def test_snakemake_pin_agrees_between_env_and_ci():
     """Laptop and CI must not resolve different Snakemake majors."""
     env = _env_dep("snakemake-minimal")
