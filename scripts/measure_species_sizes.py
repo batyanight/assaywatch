@@ -10,6 +10,15 @@ as measured numbers rather than as prose in a curator note. This prints the
 block to paste into the entry; nothing is written for you, because a registry
 entry is a human's claim.
 
+It also suggests the `amplicon_bp_range` itself, as the ENVELOPE of every
+measured band — the lowest band low and the highest band high, each end taken
+separately, not a centre and a spread — plus a fixed `--cushion` on each end for
+an indel in a strain not yet deposited. Species A at 300-450 and species B at
+350-500 give a range of 300-500 before the cushion. The measured value is what
+the registry takes (config.yaml `amplicon:`), and `declared_tolerance` adds its
+own margin on top at screen time, so the cushion here is modest headroom, not
+the whole safety factor.
+
 By default only records the assay would amplify count (`detect` or `reduced`),
 and patent division deposits are always dropped: an ATI product from an
 engineered vector is a construct's length, not a species'
@@ -62,6 +71,7 @@ sys.path.insert(0, str(ROOT))
 
 from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.metadata import looks_like_patent  # noqa: E402
+from assaywatch.schema import AMPLICON_MAX, AMPLICON_MIN  # noqa: E402
 from assaywatch.taxonomy import load_taxonomy  # noqa: E402
 
 AMPLIFIES = ("detect", "reduced")
@@ -116,6 +126,20 @@ def clusters(
     return sorted(kept, key=lambda c: -c[2])
 
 
+def suggested_range(bands: list[tuple[int, int]], cushion: int) -> tuple[int, int]:
+    """The amplicon_bp_range to declare over `bands`: envelope, then a cushion.
+
+    `bands` is every kept (lo, hi), across all species. The range is the lowest
+    low and the highest high, each end taken SEPARATELY — not a centre and a
+    spread. Species A at (300, 450) and species B at (350, 500) give (300, 500);
+    the cushion then pads each end for an unobserved indel. Clamped to the
+    schema's absolute bounds so the result is always a legal range.
+    """
+    lo = min(b[0] for b in bands) - cushion
+    hi = max(b[1] for b in bands) + cushion
+    return max(AMPLICON_MIN, lo), min(AMPLICON_MAX, hi)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--assay", required=True)
@@ -123,6 +147,15 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--retrieved", type=Path, default=ROOT / "data" / "retrieved")
     ap.add_argument("--taxonomy", type=Path, default=ROOT / "docs" / "taxonomy-cache.json.gz")
     ap.add_argument("--gap", type=int, default=12, help="bp; a bigger step starts a new cluster")
+    ap.add_argument(
+        "--cushion",
+        type=int,
+        default=10,
+        help="bp of headroom added to each end of the suggested amplicon_bp_range, beyond the "
+        "outermost measured band. For an unobserved indel in a strain not yet deposited; the "
+        "declared_tolerance in config.yaml adds its own margin on top at screen time. A "
+        "judgement — the number a curator thinks reasonable — so it is a flag, not a constant.",
+    )
     ap.add_argument(
         "--include-fail",
         action="store_true",
@@ -177,8 +210,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"# {skipped_patent} patent-division records excluded, {duplicates} duplicate records collapsed")
     print(f"# a length is kept at >= {args.min_records} records and >= {args.min_share:.0%} of the")
     print(f"# species' records; kept lengths cluster where a step exceeds {args.gap} bp")
-    print("species_sizes:")
-    rows = 0
+    # Build the bands first, so the suggested amplicon_bp_range can be printed
+    # ABOVE species_sizes — the order the entry declares them, and the range is
+    # a precondition of the bands validating.
+    blocks: list[tuple[int, int, int, str, str]] = []  # species, lo, hi, name, scored
+    thin: list[str] = []
     for species in sorted(sizes, key=lambda s: -sum(sizes[s].values())):
         cs = clusters(sizes[species], args.gap, args.min_records, args.min_share)
         name = tree.name.get(species) or f"taxid {species}"
@@ -187,19 +223,43 @@ def main(argv: list[str] | None = None) -> int:
             for bp in lengths:
                 mix.update(calls_per_band[(species, bp)])
             how = ", ".join(f"{c} {k}" for k, c in sorted(mix.items()))
-            print(f"- taxid: {species}")
-            print(f"  bp: [{lo}, {hi}]")
-            print(f"  n_records: {n}")
-            print(f"  note: {name}")
-            print(f"  # scored: {how}")
-            rows += 1
+            blocks.append((species, lo, hi, name, how, n))
         n_all = sum(sizes[species].values())
         covered = sum(n for _, _, n, _ in cs)
         if covered < n_all:
+            thin.append(f"#   {name}: bands cover {covered}/{n_all} records ({covered / n_all:.0%})")
+
+    # The range is the ENVELOPE of every kept band, each end taken separately:
+    # the lowest band low and the highest band high, not a centre and spread.
+    # Species A 300-450 and species B 350-500 give 300-500. Then a fixed cushion
+    # on each end for an indel not yet deposited. The raw extremes across all
+    # credible records are shown too, so a curator sees whether clustering
+    # trimmed a length the cushion should instead reach.
+    if blocks:
+        band_lo = min(lo for _, lo, _, _, _, _ in blocks)
+        band_hi = max(hi for _, _, hi, _, _, _ in blocks)
+        lo, hi = suggested_range([(b[1], b[2]) for b in blocks], args.cushion)
+        raw_lo = min(bp for _, bp, _, _ in kept_rows)
+        raw_hi = max(bp for _, bp, _, _ in kept_rows)
+        print(f"# amplicon_bp_range: band envelope {band_lo}-{band_hi} + {args.cushion} bp cushion each end")
+        if raw_lo < band_lo or raw_hi > band_hi:
             print(
-                f"#   {name}: bands cover {covered}/{n_all} records ({covered / n_all:.0%})",
+                f"#   raw product extremes across kept records are {raw_lo}-{raw_hi}; clustering "
+                "trimmed the difference. Widen --cushion or lower --min-share if a trimmed length is real."
             )
-    print(f"# {rows} rows over {len(sizes)} species", file=sys.stderr)
+        print("amplicon_bp: null  # mutually exclusive with the range below")
+        print(f"amplicon_bp_range: [{lo}, {hi}]")
+
+    print("species_sizes:")
+    for species, lo, hi, name, how, n in blocks:
+        print(f"- taxid: {species}")
+        print(f"  bp: [{lo}, {hi}]")
+        print(f"  n_records: {n}")
+        print(f"  note: {name}")
+        print(f"  # scored: {how}")
+    for line in thin:
+        print(line)
+    print(f"# {len(blocks)} rows over {len(sizes)} species", file=sys.stderr)
     return 0
 
 
