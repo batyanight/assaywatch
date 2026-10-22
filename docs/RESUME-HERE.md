@@ -49,6 +49,28 @@ warning fired in every run since 2026-10-21, including the M1 re-screen at log l
 and changed nothing. Every screen on disk is signed now and every new one writes its own,
 so an unsigned screen from here on is a stale file restored from somewhere.
 
+## 2026-10-22, timekeeping item 2: benchmark directives on retrieve and screen_archive
+
+`results/benchmarks/retrieve/<date>.tsv` (per day, like the rule's output) and
+`results/benchmarks/screen/<taxid>/<group>/<stem>.tsv` (**keyed by the archive, not the run
+date** - a screen is cached across runs, so a date-keyed benchmark would be missing for every
+cached archive next run). Verified it does not churn the cache: `snakemake -n` after adding
+the directive schedules **zero** `screen_archive` jobs, and `tests/test_triggers.py` still
+passes 44/44. Full write-up in `docs/2026-10-18-pipeline-timekeeping-todo.md`, which now has
+only item 7 open.
+
+**Expect wall time only on the laptop, and do not go looking for the bug.** Snakemake samples
+with psutil's `memory_full_info()`, which macOS refuses for a child process (`AccessDenied`,
+verified directly), and one unreadable process discards the whole sample - so `max_rss` and
+every other resource column reads `NA` at any job length (checked at 0.44 s and 7.9 s).
+`memory_info()` works here, so it is Snakemake's choice of call, not macOS. **The memory
+columns fill in on Linux**, i.e. in CI and on Greene - which is where `screen_archive`'s
+`mem_mb` and `threads` guesses finally become checkable.
+
+Only archives screened since the directive landed have a benchmark (3 of 330). The rest
+appear the next time anything invalidates them, which any scoring change does; the doc has a
+one-liner to force all 330 if you want the timing data on purpose (~25 min, no other product).
+
 ## 2026-10-22, CI had been RED for a day: matplotlib was declared for conda only
 
 Found while pushing the M1 revert. **Both CI jobs had been failing since the figures merge**

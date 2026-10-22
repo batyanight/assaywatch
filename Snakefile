@@ -63,6 +63,26 @@ EMAIL = config.get("email") or require_contact_email("--config email=")
 RETRIEVED = Path(config.get("retrieved_dir", "data/retrieved"))
 RESULTS = Path(config.get("results_dir", "results"))
 SCREENED = RESULTS / "screened"
+# Per-job wall time and max RSS (timekeeping item 2,
+# docs/2026-10-18-pipeline-timekeeping-todo.md). Deliberately NOT under
+# RESULTS/RUN_DATE: a screen is cached across runs, so a date-keyed benchmark
+# would be absent for every cached archive on the next run, and the whole point
+# of the cache is that those 330 jobs do not re-execute. Keyed by the archive
+# instead, so a benchmark exists exactly where its screen does and a rescreen
+# refreshes it. Snakemake's benchmark TSV carries no timestamp of its own, so
+# when a measurement was taken is the file's mtime - the same evidence
+# `screened_at` rests on.
+#
+# ON THIS LAPTOP THESE RECORD WALL TIME ONLY, and that is not a bug to chase.
+# Snakemake samples with psutil's `memory_full_info()`, which macOS refuses for
+# a child process (AccessDenied, verified 2026-10-22), and its sampling loop
+# skips a process it cannot read without ever setting `data_collected` - so
+# max_rss/vms/uss/pss, the io counters and cpu_time all read NA however long the
+# job runs. psutil's plain `memory_info()` does work here, so this is
+# Snakemake's choice of the uss/pss-capable call, not macOS being unable to
+# report RSS. On Linux - CI, and Greene - the memory columns do fill in, which
+# is where the `mem_mb` guesses below are worth checking against.
+BENCH = RESULTS / "benchmarks"
 REGISTRY = config.get("registry_dir", "registry")
 # The run's date is pinned ONCE and reused by every later process of the same
 # run, including a resume after a failure (assaywatch/timing.py explains the
@@ -348,6 +368,11 @@ checkpoint retrieve:
     # The email is read from config in the command, not passed as a param: a
     # params change reruns the rule, and a different contact address is no
     # reason to fetch again.
+    # Per-day, like the rule's own output: retrieval is one job for all groups,
+    # and it is the stage that has run for hours (the 2026-10-17 PANPOX stall).
+    # A date-keyed path costs nothing here because the output is date-keyed too.
+    benchmark:
+        BENCH / "retrieve" / f"{TODAY}.tsv"
     shell:
         "python -m assaywatch.retrieve {REGISTRY} --email {EMAIL} --run-record {output.run}"
 
@@ -391,6 +416,12 @@ rule screen_archive:
     resources:
         mem_mb=lambda wc, input, threads: 2000 + 500 * threads,
         runtime=240,
+    # Mirrors output.calls rather than the run date, for the reason given at
+    # BENCH. This is what makes `threads` and `priority` above checkable: both
+    # are guesses from archive size (SCREEN_MB_PER_THREAD), and until now no run
+    # recorded what an archive actually cost.
+    benchmark:
+        BENCH / "screen" / "{taxid}" / "{group}" / "{stem}.tsv"
     shell:
         # --signature writes params.signature to <output>.sig. It was already a
         # param, which reruns the job when it changes — but only where Snakemake
