@@ -241,6 +241,43 @@ def unified_columns(headers: Sequence[Sequence[str]]) -> list[str]:
     return columns
 
 
+#: Packages whose version can change a call or a number, so a run's output is
+#: not fully reproducible without them. numpy and pydantic are always present;
+#: the rest are optional extras (lineage, thermo) and record null when absent.
+_RUNTIME_PACKAGES = ("assaywatch", "numpy", "pydantic", "scipy", "statsmodels", "primer3-py", "snakemake")
+
+
+def _runtime() -> dict[str, object]:
+    """The interpreter and library versions this process is running under.
+
+    Written into the sidecar as `collected_under`. It is the environment that
+    ASSEMBLED the table, honestly labelled: for a same-day run (every screen in
+    `screened_at` sharing the collect date) it is also the environment that
+    screened, which is the common case and the gap R2 left open - the sidecar
+    recorded the code (`git_commit`, the code hash) but not the interpreter and
+    libraries. For a table that mixes screens from weeks apart, the per-screen
+    `screened_at` span is what says those screens may predate this environment; a
+    single block cannot claim otherwise and does not try.
+
+    Never raises: `importlib.metadata.version` throws on an absent package, so
+    each lookup is guarded and records null. The sidecar must not fail a run.
+    """
+    import platform
+    from importlib.metadata import version as _version
+
+    def ver(pkg: str) -> str | None:
+        try:
+            return _version(pkg)
+        except Exception:
+            return None
+
+    return {
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "packages": {pkg: ver(pkg) for pkg in _RUNTIME_PACKAGES},
+    }
+
+
 def _stamp(ts: float) -> str:
     """A timestamp in LOCAL time with its offset: `2026-10-20T21:53:17-04:00`.
 
@@ -307,6 +344,7 @@ def write_provenance(
         # but it is what says the table cannot have one set of settings.
         "screened_first": written[0] if written else "",
         "screened_last": written[-1] if written else "",
+        "collected_under": _runtime(),
         **dict(extra or {}),
         "note": (
             "expected_signature is what this pipeline expects for the group NOW. A cached "

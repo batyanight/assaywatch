@@ -20,6 +20,7 @@ import pytest
 
 from assaywatch.collect import (
     LINE_END,
+    _runtime,
     assays_without_calls,
     concatenate_screens,
     read_header,
@@ -804,3 +805,37 @@ def test_assays_without_calls_is_the_complement_of_what_was_seen(tmp_path):
     assert assays_without_calls(stats, {"A", "B"}) == []
     # It spans every screen, not just one: A and B each appear in only one.
     assert assays_without_calls({a: stats[a]}, {"A", "B"}) == ["B"]
+
+
+# --- collected_under: the environment that assembled the table (R1b) ---------
+# R2 recorded the code (git_commit, the code hash) but not the interpreter and
+# libraries; a numpy or primer3 version can change a number. `collected_under`
+# closes that for the common same-day run, honestly labelled for a mixed table.
+
+
+def test_runtime_names_the_interpreter_and_the_packages_that_move_numbers():
+    rt = _runtime()
+    assert rt["python"] and rt["platform"]
+    pkgs = rt["packages"]
+    # numpy and pydantic are core, always present.
+    assert pkgs["numpy"] and pkgs["pydantic"]
+    # Every package that can change a call or number is named, present or null.
+    for p in ("assaywatch", "scipy", "statsmodels", "primer3-py", "snakemake"):
+        assert p in pkgs
+
+
+def test_runtime_records_null_for_an_absent_package_rather_than_raising(monkeypatch):
+    """The sidecar must never fail a run; an absent optional package is null."""
+    import assaywatch.collect as c
+
+    monkeypatch.setattr(c, "_RUNTIME_PACKAGES", ("numpy", "a-package-that-is-not-installed-xyz"))
+    rt = c._runtime()
+    assert rt["packages"]["numpy"]
+    assert rt["packages"]["a-package-that-is-not-installed-xyz"] is None
+
+
+def test_the_sidecar_carries_collected_under(tmp_path):
+    a = write_screen(tmp_path / "a.tsv", IDS, [{"assay_id": "A", "record_id": "R1", "call": "pass"}])
+    concatenate_screens([a], tmp_path / "calls.tsv.gz", known_ids={"A"}, provenance={})
+    under = _prov(tmp_path)["collected_under"]
+    assert under["python"] and "numpy" in under["packages"]
