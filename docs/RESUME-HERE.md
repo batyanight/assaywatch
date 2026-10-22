@@ -1,5 +1,25 @@
 # Resume point, 2026-10-21 (amplicon sizes declared from measurement; per-oligo engine; full runs x2)
 
+## 2026-10-21, figures feature merged from a second machine (`fa98937`)
+
+- **A second machine is now pushing to this repo.** `origin/main` had diverged: the other
+  session shipped a **figures feature** (`assaywatch/figures.py` — forest + per-position SVG
+  plots, a `figures` Snakemake rule, optional `--figures` on the HTML report, `matplotlib-base`
+  in `environment.yml`) while this machine held 56 unpushed commits incl. the S3 `report.py`
+  refactor. **Pull before starting a session from now on.**
+- **Merged, not rebased** (the merge-base is itself a cross-session merge, so merges are the
+  repo's established reconciliation). Only `report.py` conflicted. Git's 3-way auto-merge was
+  **semantically broken**: `html_from` referenced a `figures` it never received (NameError every
+  render) and `render_html` accepted `figures` but never forwarded it. Resolved by threading
+  `figures` through the refactored `html_from(m, figures)` — figures stay HTML-only presentation,
+  not model content, matching S3's split (markdown gets none).
+- **`test_triggers` expected rerun-sets updated** to include the `figures` rule. `figures.py`
+  imports `drift`/`report`/`sitedrift`, so editing any of them — or the registry, or the
+  drift/lineage/degeneracy config — correctly re-renders the figures. Verified precise: the
+  `[unrelated module]` control still reruns nothing, so no spurious cascade.
+- **Installed `matplotlib-base` locally** to match the merged `environment.yml`.
+- Full gate after merge: **1478 tests, ruff clean, validator 208/208.** Pushed.
+
 ## 2026-10-21, R1 reproducibility (a/b/e done; c scaffolded; d deferred)
 
 - **R1a** (`00938a2`): a fresh `conda env create` could not run four documented commands - their
