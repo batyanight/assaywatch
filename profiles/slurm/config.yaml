@@ -12,14 +12,19 @@
 # slurm_partition / slurm_account: cluster-specific; check `sinfo` and
 #              `sacctmgr show assoc user=$USER` before the first run.
 #
-# Requires the SLURM executor plugin:
-#     pip install snakemake-executor-plugin-slurm
+# Requires the SLURM executor plugin, now in environment.yml
+# (snakemake-executor-plugin-slurm), so `conda activate assaywatch` has it.
 #
-# Conda environments do not usually exist on a cluster the way they do on a
-# laptop. Either run with --use-conda (Snakemake builds the environment per
-# rule from environment.yml) or load the site modules in a jobscript prologue.
-# Build the environment once on the shared filesystem; building it per job
-# wastes an allocation.
+# THE ENVIRONMENT: build it once on the shared filesystem and activate it before
+# submitting; every job inherits it, because the rules run `python -m
+# assaywatch...` against whatever interpreter is on PATH. Do NOT reach for
+# `--use-conda`: it only does something when rules carry a `conda:` directive,
+# and none here do (by design — one environment, not one per rule), so it would
+# silently be a no-op and the jobs would run against the login shell's Python.
+# On a cluster with environment modules instead of conda, load the site modules
+# in a jobscript prologue to put the same interpreter on PATH. A per-rule conda
+# story (and `--use-conda`) would start with envs/*.yaml files that do not exist;
+# add those first if that is ever wanted.
 
 executor: slurm
 jobs: 32
