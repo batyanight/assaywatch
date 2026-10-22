@@ -538,7 +538,21 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
     directions were checked with a mutant.
 
   **Still pending from the audit:** R1 container/lockfile.
-  Then **M2** nearest-neighbour ΔG as its own project. M1 remains HELD (see above).
+  ~~Then **M2** nearest-neighbour ΔG as its own project.~~ **M2 KILLED at Step 0,
+  2026-10-21** (`docs/2026-10-21-M2-step0-killtest.md`): the gating kill-test shows
+  `calc_heterodimer`'s terminal ΔΔG/ΔTm does **not** reproduce Kwok's 3'-mispair
+  severity ordering — the severe (A:G/G:A/C:C/A:A) and neutral (T:G/G:T/T:C/T:T)
+  classes overlap in two contexts, and A:A/A:G come out *stabilising* (wrong sign).
+  The structure dump shows why: every mismatch is left as a dangling end over an
+  identical matched core, so the signal is terminal stacking, and a dangling purine
+  stacks *better* than the match. NN ΔG is equilibrium melting; Kwok's effect is
+  polymerase-extension competence — orthogonal, anti-correlated for the purine
+  mispairs that matter. So the audit's premise ("M1 is a hand-rolled approximation of
+  what NN gives for free") is false; NN encodes a different physics. M2 is scoped
+  closed, not deferred. `thermo.py`'s "never scored" design is vindicated: even ΔTm
+  must not be scored as a 3'-mismatch severity signal. **M1 remains the right
+  instrument** and is still HELD by Batya (see above); this result removes the "do NN
+  instead" alternative the hold was weighing M1 against.
   **A full run is owed** and will now also exercise the S1 guard and the R2 sidecar end to end;
   nothing has verified the Snakefile's provenance wiring on a real run yet (the dry run parses,
   the signature keys and the git helper were checked offline against the real screens).

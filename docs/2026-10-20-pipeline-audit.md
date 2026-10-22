@@ -206,7 +206,13 @@ all five panels **and** tier-2 before shipping, one knob at a time, as
 `docs/2026-10-19-conventional-override-validation.md` requires. *This is the single
 highest-value change in the project.*
 
-**M2 — evaluate nearest-neighbour ΔG as the match criterion.** `thermo.py` already
+**M2 — evaluate nearest-neighbour ΔG as the match criterion. KILLED at Step 0,
+2026-10-21** (`docs/2026-10-21-M2-step0-killtest.md`): `calc_heterodimer`'s terminal
+ΔΔG/ΔTm does not reproduce Kwok's 3'-mispair severity ordering (A:A/A:G come out
+stabilising; severe and neutral classes overlap). NN ΔG is equilibrium melting, not
+polymerase-extension competence — the premise below ("what NN parameters give for
+free") is false. Scoped closed; M1's empirical table stays the instrument. `thermo.py`
+already
 wraps `primer3-py` to compute Tm and ΔTm columns that are deliberately never scored;
 the proposal is to score them, and to compare against the penalty table on the five
 panels as a held-out set. Scope it as its own project. The honest framing: M1 is a
@@ -332,7 +338,9 @@ papers / 42 oligos, from NYU Libraries, into `.secrets/elsevier.insttoken`.
    which assays exist, and every count downstream inherits that.
 3. **The Anthony supplement.** One CC-BY PDF makes 35 entries re-verifiable — a better
    return than any code change on this list.
-4. **M2** as its own project, with the five bench panels as its test set.
+4. ~~**M2** as its own project, with the five bench panels as its test set.~~
+   **KILLED at Step 0, 2026-10-21** — the NN model does not reproduce Kwok's 3'-mispair
+   ordering (`docs/2026-10-21-M2-step0-killtest.md`); never reached the bench panels.
 
 Everything else is real but can wait. The one thing I would *not* do is add validation
 cases to chase the `< pooled` gate: §3 says the scorer is the weak link, and tier-2
