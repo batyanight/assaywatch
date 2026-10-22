@@ -405,9 +405,24 @@ drift:
   # 36 months, where it sits at 100% of 54 records. 116 of 141 assays never need
   # the widening.
   max_window_months: 60
-  # Below ~20 records a proportion has a confidence interval wide enough to span
-  # the threshold either way, so flagging would be noise. Reported, never flagged.
-  min_records_for_drift: 20
+  # Below this many records a proportion's confidence interval is wide enough to
+  # span the threshold either way, so flagging would be noise. Reported, never
+  # flagged.
+  #
+  # CALIBRATED 20 -> 15 on 2026-10-21 against docs/validation-cases.tsv, with
+  # recent_window_months held at 24 (docs/2026-10-21-drift-window-calibration.md).
+  # A 2-D sweep over (window, minimum) showed the two knobs act separately: the
+  # minimum sets how many cases are `undecided` (17 of ~49 at 20, 15 at this
+  # value), the window sets accuracy. Lowering to 15 turns two undecided cases
+  # into correct calls - one of them catching a real fail (Leucocytozoon
+  # cyt-c @2016) - and introduces zero new false declines; 15 records still give
+  # a usable Wilson interval. It moves 11 of 208 headline statuses. Lowering
+  # further to 10 gains little and starts flagging on intervals too wide to
+  # trust. The window was deliberately NOT widened: 48-60 months scores better on
+  # the validation set but dilutes "recent" to 4-5 years and reshapes 20-53
+  # statuses, a trade the historical as-of validation set cannot measure - left
+  # as a maintainer decision in the calibration doc.
+  min_records_for_drift: 15
   min_records_for_coverage: 10      # fewer than this in total -> a coverage gap, not a result
   # Taxonomy tree for scope_taxids (assaywatch/taxonomy.py). With it a record is in
   # scope when its taxid or any ancestor is listed. Without it the match was exact,
