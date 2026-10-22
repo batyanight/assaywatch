@@ -1,4 +1,59 @@
-# Resume point, 2026-10-21 (full run done; the S1 guard and R2 sidecar exercised for real)
+# Resume point, 2026-10-21 (amplicon sizes declared from measurement; per-oligo engine; full runs x2)
+
+## 2026-10-21, amplicon sizes: measured-wins policy and 8 declarations
+
+Prompted by two size defects (ALPHAVIRUS NSP4, RANAVIRUS intergenic) found by accident.
+**Policy, maintainer's decision:** where a measured product size and a published one disagree,
+the registry takes the MEASURED value and discloses the difference
+(`amplicon_disagrees_with_paper`). A published size is usually a gel band; ours is computed
+from primer positions. Written into `config.yaml` (amplicon:) and `CLAUDE.md`. The paper still
+says whether the length VARIES, which is the signal for a range.
+
+- **The cushion is `declared_tolerance`, already +/-25%, applied in `score.py` around whatever
+  is declared** - retrieval and the genome cut never use the declared size, so there is nothing
+  to pad there. Correcting a size re-centres the existing cushion. `measure_species_sizes.py`
+  now prints a suggested `amplicon_bp_range` = band envelope (lowest low, highest high, each
+  end separately) + a `--cushion` (default 10 bp), per the maintainer's rule; raw extremes are
+  shown so a trimmed real band is visible. `suggested_range` is pure and tested (9 + 6 mutants).
+- **A real bug fixed first** (`0212095`): `classify_exclusion` judged a range-declaring assay's
+  truncated/diverged geometry against `amplicon.max_bp` 3000, because it was handed
+  `assay.amplicon_bp` (null for a range) instead of the declared upper end. Now both readers
+  share `declared_ends(assay)`.
+- **8 sizes declared from measurement** (`9ea1a1e`), each decided from its real products:
+  | entry | change | shape, why |
+  |---|---|---|
+  | CHYTRID_Bd Boyle 2004 (active) | 121 -> 146 | scalar: 132-152, 20 bp spread fits +/-25% |
+  | CALICIVIRUS Helicase Reid 1999 | null -> 360 | scalar: 5 records all at 360 (the 62-2633 was chance) |
+  | SARCOCYSTIS short | null -> [225,846] | range + 13 species bands |
+  | SARCOCYSTIS long | null -> [568,1294] | range + 30 species bands |
+  | Encephalitozoon PTP | null -> [275,373] | range + 2 bands (one species, repeat genotypes) |
+  | ORTHOBUNYAVIRUS S | 930 -> [283,1120] | range-only (26-species segment continuum) |
+  | ORTHOBUNYAVIRUS M | 898 -> [201,1090] | range-only (15-species continuum) |
+  | RANAVIRUS intergenic | 200 -> [186,749] | range-only (within-species ladder, not a key) |
+- **Rescreen (second 2026-10-21 run, 25m 29s, 304 steps, S1 clean, 303 signatures verified) and
+  report_diff vs 2026-10-20** gave 3 amplicon-driven status moves, all telling the truth the
+  old declaration hid:
+  - **RANAVIRUS stable -> watch**: evaluable 40 -> 72, share 90.0% -> 83.3%. The range recovered
+    the ~700 bp EHNV/ECV/ESV products (which detect worse); the old 90% stable was a scalar
+    clipping 48% of binding records. **Promotion to active stays DEFERRED** on this real status,
+    not the artefact.
+  - **ORTHOBUNYAVIRUS M insufficient data -> low coverage**: now 20 evaluable at 5.0% - the
+    pan-genus M assay barely detects, which the narrow scalar had hidden.
+  - **CALICIVIRUS low coverage -> no recent data**: the scalar excluded chance products; 5 real
+    records, none recent.
+  - Bd unchanged (100% on 54, still active); SARCOCYSTIS x2, ORTHOBUNYAVIRUS S, Encephalitozoon
+    all stay insufficient-data (<20 recent). ALPHAVIRUS stable->declining is the prior session's,
+    not this work.
+- **RANAVIRUS/Jancovich attribution** (`2902564`): NOT re-cited. Pallister credits 16R/16F to
+  Jancovich 2005 in five places but describes Jancovich as a user of the locus; the sequences
+  were read from Pallister's own Methods, no Jancovich DOI is printed, the paper is not on disk.
+  So `oligos_designed_here: false`, Jancovich's full reference in the note, citation left at
+  Pallister. Re-cite only when the paper is on disk and its DOI Crossref-verified (NOSEMA/Klee
+  precedent). WANT: Jancovich et al. 2005, Mol Ecol 14:213-224, for papers/.
+- **Per-oligo scoring engine** (`b7c8639`), earlier the same day: `scoring.engine: budget |
+  serial`. `budget` (default) is byte-identical; `serial` judges each oligo and combines
+  logically, moving 182,185 of 912,111 calls. Ships off; thresholds uncalibrated. The summed
+  budget, not mismatch identity, decides ~79% of fails - which is why M2's physics is demoted.
 
 ## 2026-10-21, the owed full run
 
