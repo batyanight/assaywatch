@@ -49,6 +49,27 @@ overwrites it, which is how the 00:30 global-value table was already lost once; 
 screens with an empty `stored_signature`, and `scripts/retrospective.py --cases` should read
 5 of 11 again on one scoring generation.
 
+## 2026-10-22, PR #3 closed; three things salvaged out of it first
+
+`docs/2026-10-15-lineage-plan` was docs-only and superseded by
+`docs/2026-10-17-estimand-plan.md`, which a parallel session shipped from two days later
+(BH not Bonferroni, `mechanism` column not `lineage`, species-rank grouping, no
+`drift.subgroup`). It also conflicted on this file with ~140 commits of staleness on its
+side. Salvaged into `docs/2026-10-22-lineage-plan-salvage.md` before closing:
+
+- **A GenBank-availability ceiling nobody on main had written down.** If Lotta 2019's cyt b
+  sequences postdate the 2016-12-31 cutoff, the two Hellgren rows are uncatchable by any
+  in-silico method and **the honest ceiling is 9 of 11, not 11** - i.e. every "N of 11" in
+  the project quotes an unreachable denominator. Distinct from the taxid-resolution ceiling
+  in `docs/2026-10-18-recalibration.md`. Checkable locally with no network (archives carry
+  deposition dates); it was Phase 0's go/no-go and was never run. It does NOT weaken the
+  M1 revert - that rests on the pooled coverage call, a different estimand.
+- **Footprint groups as lineage units**, with the per-unit `no_site`/`diverged` exclusion
+  share. main groups by taxonomy only and has no equivalent disclosure.
+- **Still open: do `partial` rows count as successes when the tool names their gap?** The
+  other two decisions the PR asked for were settled de facto on main. This one decides what
+  the paper's main figure claims.
+
 ## 2026-10-22, the `.supp` convention reached the oligo verifier; 3 citations resolved
 
 Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
