@@ -1,6 +1,25 @@
 # TODO before the next full run: better timekeeping markers
 
-Written 2026-10-18 during the 2026-10-17 full run. Nothing here has been implemented.
+Written 2026-10-18 during the 2026-10-17 full run.
+
+**Status, re-checked 2026-10-22: most of this shipped. Items 2 and 7 are what is
+left.** The line that used to stand here - "Nothing here has been implemented" -
+was true when written and stale for days afterwards. Per item:
+
+| # | item | state |
+|---|---|---|
+| 1 | stage banners + run manifest JSON | **done** - `RunManifest` writes stage wall times to `results/<date>/run-timing.json`, and `onstart` prints the run banner (`Snakefile:244-281`) |
+| 2 | per-rule `benchmark:` (wall time, max RSS) | **OPEN** - there is no `benchmark:` directive anywhere in the Snakefile, so no run has produced per-group durations |
+| 3 | retrieval/screening progress lines | **done** - `screening_progress(RETRIEVED, SCREENED)` feeds the heartbeat from bytes screened, not step count |
+| 4 | heartbeat file | **done** - `.tmp/heartbeat-<date>.json`, `heartbeat_seconds` configurable (default 60) |
+| 5 | weighted ETA | **done** - `timing.weighted_eta`, projected from bytes rather than remaining steps |
+| 6 | stuck detector | **done** - `heartbeat(stall_after=...)`, `stall_seconds` configurable (default 900) |
+| 7 | final per-stage summary + top 10 slowest groups in the report footer | **OPEN** - stage totals exist in `run-timing.json` but nothing surfaces them in the report, and "slowest groups" needs item 2 first |
+
+Item 2 is the blocker for item 7 and for seeding a real ETA from history, so it is
+the one to do. The RUN_DATE bug recorded at the bottom of this file is **fixed**
+(`timing.resolve_run_date` + `write_run_marker`, `Snakefile:79`); it is kept below
+as the record of why.
 
 ## What went wrong
 - I could not give a trustworthy time-to-finish at any point. Retrieval stalled for hours
@@ -33,7 +52,7 @@ Written 2026-10-18 during the 2026-10-17 full run. Nothing here has been impleme
 - Implementing this touches Snakefile/screening code, so do it between runs, not during one.
 - Benchmarks from the 2026-10-17 run (if kept) can seed the first weighted ETA.
 
-## Bug found 2026-10-18: RUN_DATE recomputed mid-run crosses midnight
+## Bug found 2026-10-18 (FIXED 2026-10-21): RUN_DATE recomputed mid-run crosses midnight
 The 2026-10-17 run started 22:49 but `collect_calls` executed at 00:18 the next
 day. `RUN_DATE = config.get("run_date") or date.today()` (Snakefile:49) is
 evaluated fresh per Snakemake process, so Snakemake wrote
