@@ -66,10 +66,42 @@ A drift monitor exists to warn early; that is the half the grid is blind to.
 Blast radius confirms the asymmetry: against the current report, **(24, 15) moves
 11 of 208 headline statuses; (60, 15) moves 53** — a quarter of the registry.
 
+## The recency cost, measured — and the window decision settled
+
+The objection above was confirmed against the real calls table, not left as
+theory. For each assay, the detected share over the **last 12 months** was
+compared with the share over the **last 60 months**. Four assays would be
+reported healthy (≥80% at 60 months) while a 20–41 point lower recent cohort
+hides under the 5-year average, on records enough to be real:
+
+| assay | 60-month | last 12 months |
+|---|---|---|
+| `PAPILLOMAVIRUS_dsDNA_L1_gene` | 86.0% (n=4608) | **65.7%** (n=484) |
+| `FILOVIRUS_ssRNA_L_gene` | 87.7% (n=381) | **51.4%** (n=72) |
+| `ABPV_capsid_Rossi_2024` | 86.8% (n=53) | **45.5%** (n=11) |
+| `RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007` | 80.6% | **53.8%** (n=13) |
+
+A 60-month window calls all four healthy. Two are surveillance assays (filovirus
+L for Ebola/Marburg; HPV L1) where a recent fall is the whole thing a drift
+monitor is for. The validation set preferred 60 months because its historical
+as-of scoring cannot see these — they are not among the ~49 cases, and the
+error they represent (slow to warn) is the one the set is built not to measure.
+
+So the grid's numeric preference for a long window is an artefact of the
+instrument that produced it, and the real registry shows the concrete harm.
+**Decision (2026-10-21): `recent_window_months` stays at 24.** Going shorter (18,
+12) would catch these faster but the grid shows 18 is already worse on false
+calls and 12 widens every interval; 24 is the balance.
+
+Worth a separate look regardless of the window: those four recent drops are real
+at 24 months too (RANAVIRUS already reads `watch`, HPV L1 and filovirus L are
+worth checking for genuine recent coverage erosion). That is a per-assay question,
+not a threshold one.
+
 ## Recommendation
 
-**Apply `min_records_for_drift` 20 → 15. Leave `recent_window_months` at 24, and
-treat the window as a maintainer decision.**
+**`min_records_for_drift` 20 → 15, applied. `recent_window_months` stays at 24,
+now decided (above), not deferred.**
 
 - *min 20 → 15* is safe and mechanism-backed: 15 records still give a usable Wilson
   interval, it turns 2 `undecided` cases into correct calls (one of them catching

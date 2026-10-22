@@ -10,12 +10,14 @@ sets `undecided` (17 of ~49 at 20, 15 at the new value), the window sets accurac
 **zero** new false declines, moves 11 of 208 statuses (insufficient data 42 -> 34). Report-only,
 regenerated.
 
-**OPEN MAINTAINER DECISION - the window.** 48-60 months scores better on the validation set
-(DISAGREES 10 -> 7 at 60/15), mechanistically (longer baseline reclassifies false `declining` as
-`low coverage`, catches slow fails), BUT `assess` aggregates the recent window against a
-pre-window baseline, so 60mo makes "recent" = 5 years and a genuine recent crash flags late - a
-cost the historical as-of validation set cannot measure. 60/15 reshapes 53 of 208 statuses.
-Left at 24 pending a deliberate call with the recency objection in view.
+**Window DECIDED 2026-10-21: stays at 24.** 48-60 months scored better on the validation set
+(DISAGREES 10 -> 7 at 60/15) but that is an artefact of as-of scoring. Measured against the real
+calls table, a 60mo window would report 4 assays healthy (>=80%) while their last 12 months runs
+20-41 points lower on real records - PAPILLOMAVIRUS L1 (86% vs 66%, n=484), FILOVIRUS L
+(88% vs 51%, n=72), ABPV capsid, RANAVIRUS - because `assess` aggregates the recent window as one
+sum. For a drift monitor those late warnings are the whole cost, and the validation set is built
+not to see them. 24 stands. (Those 4 recent drops are real at 24mo too and worth a per-assay look,
+separate from the threshold.)
 
 ## 2026-10-21, amplicon sizes: measured-wins policy and 8 declarations
 
