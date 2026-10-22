@@ -819,6 +819,10 @@ body { font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
        color: var(--fg); max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
 h1 { margin-bottom: .2rem; }
 h2 { margin-top: 2rem; border-bottom: 1px solid var(--line); padding-bottom: .3rem; }
+/* Figures are written at a fixed point size so they stay valid SVG files for
+   any rasteriser; the page is what makes them fit a narrow window. */
+figure { margin: 1.2rem 0; }
+figure svg { max-width: 100%; height: auto; }
 table { border-collapse: collapse; width: 100%; margin: .6rem 0 1.4rem; }
 th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { font-weight: 600; font-size: .85rem; color: var(--muted);
@@ -842,9 +846,10 @@ def render_html(
     cfg: dict[str, Any] | None = None,
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
+    figures: dict[str, str] | None = None,
 ) -> str:
     """One self-contained file: no CDN, inline SVG charts, opens anywhere."""
-    return html_from(build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy))
+    return html_from(build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy), figures)
 
 
 def _html_cells(r: StatusRow) -> tuple[str, str, str, str]:
@@ -856,7 +861,7 @@ def _html_cells(r: StatusRow) -> tuple[str, str, str, str]:
     return frac, ci, base, deg
 
 
-def html_from(m: ReportModel) -> str:
+def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
     e = html.escape
     parts = [
         "<!doctype html><html lang='en'><head><meta charset='utf-8'>",
@@ -876,6 +881,15 @@ def html_from(m: ReportModel) -> str:
     # it was: changing which of the two appears here changes the published page.
     if m.confidence_line:
         parts.append(f"<p class='lead'><b>Duplication check:</b> {e(m.duplication)}</p>")
+    if figures and figures.get("forest.svg"):
+        parts.append(
+            "<h2>Detection against threshold</h2>"
+            "<p class='lead'>Every assay with an evaluable recent window, worst first. Left: where the "
+            "recent detected share sits against the threshold. Right: how far it has moved from "
+            "baseline. A flag rests on the two together, so the tables below are this figure read "
+            "row by row.</p>"
+            f"<figure>{figures['forest.svg']}</figure>"
+        )
     for status, rows in m.sections:
         colour = STATUS_COLOUR.get(status, DEFAULT_COLOUR)
         parts.append(
@@ -1008,8 +1022,30 @@ def html_from(m: ReportModel) -> str:
                 f"<td>{g.screened if g.taxid else 'not searched (no taxid)'}</td></tr>"
             )
         parts.append("</table>")
+    if figures and figures.get("site-positions.svg"):
+        parts.append(
+            "<h2>Detection penalty per position</h2>"
+            "<p class='lead'>For the flagged assays, how much detection falls when a record "
+            "mismatches at each oligo position - the cost of the mismatch, not how often it "
+            "happens. The shaded band is the 3'-terminal zone, where a mismatch blocks extension "
+            "rather than shifting Tm; an amber base is already degenerate. Full numbers, and the "
+            "accession groups behind them, are in <code>site-drift.md</code>.</p>"
+            f"<figure>{figures['site-positions.svg']}</figure>"
+        )
     parts.append("</body></html>")
     return "\n".join(parts)
+
+
+def read_figures(figures_dir: Path | None) -> dict[str, str]:
+    """{filename: SVG} from a figures directory, or {} when there is none.
+
+    Missing figures are not an error: `python -m assaywatch.report` is run by
+    hand without them, and the tests render the page with no figure directory
+    at all. The pipeline supplies the directory; the page is complete either way.
+    """
+    if figures_dir is None or not figures_dir.is_dir():
+        return {}
+    return {p.name: p.read_text() for p in sorted(figures_dir.glob("*.svg"))}
 
 
 def build(
@@ -1019,6 +1055,7 @@ def build(
     cfg: dict[str, Any],
     run_date: str | None = None,
     today: date | None = None,
+    figures_dir: Path | None = None,
 ) -> tuple[str, str, dict[str, AssayDrift]]:
     from assaywatch.validate import iter_files, load_assay
 
@@ -1148,7 +1185,7 @@ def build(
     nested = assess_nested(assays, calls)
     return (
         render_markdown(drifts, assays, gaps, run_date, cfg, nested, taxonomy),
-        render_html(drifts, assays, gaps, run_date, cfg, nested, taxonomy),
+        render_html(drifts, assays, gaps, run_date, cfg, nested, taxonomy, read_figures(figures_dir)),
         drifts,
     )
 
@@ -1163,10 +1200,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--run-date", default=None)
+    ap.add_argument(
+        "--figures",
+        type=Path,
+        default=None,
+        help="directory of SVGs from assaywatch.figures to inline into the HTML",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
-    md, page, drifts = build(args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date)
+    md, page, drifts = build(
+        args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date, figures_dir=args.figures
+    )
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "report.md").write_text(md)
     (args.out / "report.html").write_text(page)

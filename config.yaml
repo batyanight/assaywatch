@@ -497,6 +497,20 @@ sitedrift:
   # sequencing noise or lone variants — so only the commonest are shown.
   top_footprints: 8
 
+# Figures. These are legibility caps, not thresholds: nothing here changes a
+# verdict, and the figures draw their threshold lines from the drift settings
+# above so a plot cannot disagree with the table beside it. They live here
+# rather than in figures.py only so that a reader who wants the whole registry
+# on one axis can have it without editing code.
+figures:
+  # Rows in the forest plot. Past roughly this many the assay labels collide at
+  # any sane figure height. The cut keeps the worst, which are the rows anyone
+  # opened the figure for; the full set is in report.md.
+  max_forest_rows: 40
+  # Assays in the per-position figure. Each contributes up to three panels
+  # (forward, reverse, probe), so this is a cap of about eighteen panels.
+  max_site_assays: 6
+
 # Per-lineage detection analysis (phase 1 of estimand rebuild).
 # Each record is assigned a lineage by its NCBI taxid. Verdicts condition
 # on the worst-performing lineage among those assessable.

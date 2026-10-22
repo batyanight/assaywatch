@@ -205,6 +205,7 @@ def test_the_screening_code_list_is_derived_not_hand_kept():
         ("report", "report", '_REPORT_PARAMS["code"]'),
         ("degeneracy_table", "degeneracy", '_DEGENERACY_PARAMS["code"]'),
         ("site_drift", "sitedrift", '_SITEDRIFT_PARAMS["code"]'),
+        ("figures", "figures", '_FIGURES_PARAMS["code"]'),
     ],
 )
 def test_every_downstream_rule_carries_a_hash_of_its_code_as_a_param(rule, module, uses):
@@ -230,6 +231,7 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         "degeneracy_table": "degeneracy",
         "site_drift": "sitedrift",
         "lineage_analysis": "lineage_report",
+        "figures": "figures",
     }
     for rule, block in rule_blocks(SNAKEFILE).items():
         for module in re.findall(r"python -m assaywatch\.(\w+)", block):
@@ -347,11 +349,13 @@ def _edited(tree: Path, relative: str, new_text):
         (
             "assaywatch/collect.py",
             lambda s: s + "\n# edited\n",
-            {"collect_calls", "report", "lineage_analysis", "site_drift"},
+            {"collect_calls", "report", "lineage_analysis", "site_drift", "figures"},
         ),
         # site_drift selects assays by drift status, so it imports drift.py and report.py
-        ("assaywatch/drift.py", lambda s: s + "\n# edited\n", {"report", "site_drift"}),
-        ("assaywatch/report.py", lambda s: s + "\n# edited\n", {"report", "site_drift"}),
+        # figures imports drift.py and report.py (shared colours/constants, its own
+        # drift + site assessment), so editing either re-renders the figures too.
+        ("assaywatch/drift.py", lambda s: s + "\n# edited\n", {"report", "site_drift", "figures"}),
+        ("assaywatch/report.py", lambda s: s + "\n# edited\n", {"report", "site_drift", "figures"}),
         # schema.py and validate.py once rescreened nothing
         (
             "assaywatch/schema.py",
@@ -363,6 +367,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "report",
                 "lineage_analysis",
                 "site_drift",
+                "figures",
             },
         ),
         (
@@ -375,6 +380,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "report",
                 "lineage_analysis",
                 "site_drift",
+                "figures",
             },
         ),
         # a module no rule runs or imports reruns nothing
@@ -383,13 +389,13 @@ def _edited(tree: Path, relative: str, new_text):
         (
             "config.yaml",
             lambda s: s.replace("min_records_for_coverage: 10", "min_records_for_coverage: 11"),
-            {"report", "site_drift"},
+            {"report", "site_drift", "figures"},
         ),
         # the per-lineage check can override a verdict, so the report reads it too
         (
             "config.yaml",
             lambda s: s.replace("min_records_per_lineage: 30", "min_records_per_lineage: 31"),
-            {"report", "site_drift", "lineage_analysis"},
+            {"report", "site_drift", "lineage_analysis", "figures"},
         ),
         # a degeneracy tier is read by the screens too, so it reaches everything downstream of them
         (
@@ -402,6 +408,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "report",
                 "lineage_analysis",
                 "site_drift",
+                "figures",
             },
         ),
     ],
@@ -443,6 +450,7 @@ def test_editing_an_assay_nothing_screens_still_refreshes_the_degeneracy_table_a
             "report",
             "site_drift",
             "lineage_analysis",
+            "figures",
         }
     finally:
         restore()
