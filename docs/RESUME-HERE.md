@@ -1,4 +1,37 @@
-# Resume point, 2026-10-22 (supplements now reach the verifier; three citations resolved)
+# Resume point, 2026-10-22 (M1 tier-2 scoped and re-screened, verdict open; supplements reach the verifier)
+
+## 2026-10-22, M1 tier-2: UNCOMMITTED, re-screen done, VERDICT NOT YET TAKEN
+
+Full write-up: `docs/2026-10-22-M1-tier2.md` (untracked). **Start here next session.**
+
+- **The shipped M1 value failed tier-2.** Under the global
+  `mispair_penalty: {"G:T": 0.0, "T:G": 0.0}` the full re-screen plus
+  `scripts/retrospective.py --cases docs/validation-cases.tsv` lost three catches the
+  tool had made pre-M1 - `CDV_P_gene_Scagliarini_2007`, `Leucocytozoon_cyt_c_Hellgren_2004`,
+  `Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1` - and moved the Paramyxovirinae
+  `works` case to DISAGREES. `fails` correctly flagged went 5 -> 2, DISAGREES 3 -> 6.
+- **Mechanism found:** `score_primer` applied the identity multiplier at EVERY mismatch
+  position, so `G:T = 0` zeroed a wobble anywhere in the primer. Kwok 1990 and
+  Stadhouders 2010 measure the effect AT THE 3' END. Forensics: 5,498 of the 5,499
+  Paramyxovirinae records that changed call have no 3'-window mismatch at all - they flip
+  on d = 18-26, pure 5' region.
+- **Fix written (uncommitted):** `assaywatch/score.py` applies `mispair_multiplier` only
+  when `d <= primer_3prime_window`; `config.yaml` records the scope beside the setting;
+  `tests/test_score.py` gains
+  `test_a_zeroed_mispair_outside_the_3prime_window_is_not_discounted` (a G:T at d=18 keeps
+  the full 5'-region penalty). The bench rescues that motivated M1 (FAP, Barrett) are all
+  at d <= 5 and still discounted.
+- **The scoped re-screen RAN AND FINISHED**, 2026-10-22 01:09: 317/317 steps, 25m 56s,
+  log `snakemake-2026-10-22-m1-3prime.txt`, output in `results/2026-10-22/` (which it
+  overwrote - the earlier 00:30 run, `snakemake-2026-10-22-m1-rescreen.txt`, 319/319 in
+  28m 50s, was the GLOBAL-value re-screen and its table is gone).
+- **WHAT IS LEFT: the verdict.** `docs/2026-10-22-M1-tier2.md`'s "Re-validation" section is
+  still `_(pending)_`. Run `scripts/retrospective.py --cases docs/validation-cases.tsv`
+  against `results/2026-10-22/` and against pre-M1 `results/2026-10-21/`, fill the section
+  in, and apply the project rule: if the three catches are restored and no bench rescue is
+  lost, the scoped discount ships; if a catch still falls, revert `mispair_penalty` to `{}`
+  and record that. **Nothing here is committed, so the decision is still open either way.**
+
 
 ## 2026-10-22, the `.supp` convention reached the oligo verifier; 3 citations resolved
 
