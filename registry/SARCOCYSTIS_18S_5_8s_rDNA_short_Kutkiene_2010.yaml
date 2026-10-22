@@ -14,6 +14,63 @@ oligos:
     name: ShortITS1R
     seq: GGGATTCARTKGYYGAAA
 amplicon_bp: null
+amplicon_bp_range: [225, 846]
+species_sizes:
+# Measured by scripts/measure_species_sizes.py from the 2026-10-21 run: band envelope 235-836 + 10 bp cushion each end.
+# The length is the readout for this pan-genus assay, so the bands are the structured
+# field rather than prose. config.yaml amplicon: the measured size wins over any published one.
+- taxid: 1587505
+  bp: [248, 248]
+  n_records: 33
+  note: Sarcocystis lutrae
+- taxid: 1696070
+  bp: [251, 251]
+  n_records: 13
+  note: Sarcocystis lari
+- taxid: 137009
+  bp: [828, 836]
+  n_records: 9
+  note: Sarcocystis zamani
+- taxid: 2068653
+  bp: [248, 248]
+  n_records: 8
+  note: Sarcocystis halieti
+- taxid: 1344799
+  bp: [247, 248]
+  n_records: 7
+  note: Sarcocystis calchasi
+- taxid: 2753566
+  bp: [235, 235]
+  n_records: 5
+  note: Sarcocystis wenzeli
+- taxid: 1434935
+  bp: [254, 254]
+  n_records: 4
+  note: Sarcocystis arctica
+- taxid: 59669
+  bp: [248, 248]
+  n_records: 4
+  note: Sarcocystis sp.
+- taxid: 103879
+  bp: [515, 515]
+  n_records: 3
+  note: Sarcocystis sinensis
+- taxid: 805401
+  bp: [240, 240]
+  n_records: 2
+  note: Sarcocystis rileyi
+- taxid: 42890
+  bp: [249, 249]
+  n_records: 2
+  note: Sarcocystis neurona
+- taxid: 32593
+  bp: [249, 249]
+  n_records: 1
+  note: Sarcocystis falcatula
+- taxid: 1250548
+  bp: [251, 251]
+  n_records: 1
+  note: Sarcocystis caninum
 citation:
   doi: 10.1007/s00436-010-1945-4
   design_year: 2010
@@ -35,4 +92,7 @@ source:
   positive_control: UC4, Sarcocystis falcatula from clinical case
   nested_round: null
   notes: null
-needs_review: null
+  notes_curator: 'AMPLICON RANGE DECLARED 2026-10-21. This entry carried no declared size (amplicon_bp: null), so it was screened against the global 50-3000 bp window and constrained nothing. It is a pan-Sarcocystis rDNA assay whose product length varies by species, so the readout belongs in amplicon_bp_range + species_sizes, the ORTHOPOXVIRUS ATI pattern. MEASURED from the 2026-10-21 run by scripts/measure_species_sizes.py over 92 amplifying (detect/reduced) records: band envelope 235-836 bp across 13 species; most species cluster at 247-254 bp, with S. zamani (828-836, reduced) and S. sinensis (515, reduced) as long outliers. Range [225, 846] is that envelope plus a 10 bp cushion each end for an unobserved indel (declared_tolerance adds +/-25% on top at screen time). The scattered fail-scored products outside this envelope are chance pairings and stay out of it. Narrowing from the global window newly excludes those as no_amplicon rather than fail; neither counts as detected, so the drift share is unaffected. Needs a rescreen to take effect.'
+needs_review:
+- flag: amplicon_multimodal
+  note: the product length is the readout; 13 species bands measured over 235-836 bp, declared as amplicon_bp_range

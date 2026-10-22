@@ -339,8 +339,12 @@ def test_every_probe_pool_member_is_searched():
     real_probe = assay.oligos.probe.matching_seq
     rng = random.Random(17)
     decoy = "".join(rng.choice("ACGT") for _ in range(len(real_probe)))
-    # A record carrying only the SECOND probe member of the pool.
-    rec = fwd + "AC" * 10 + real_probe + "GT" * 10 + reverse_complement(rev)
+    # A record carrying only the SECOND probe member of the pool. Spacers sized
+    # so the product lands inside the assay's declared window (its amplicon_bp
+    # was corrected 121 -> 146 on 2026-10-21, moving the window to 109-182); the
+    # point of the test is the probe search, not the size filter.
+    spacer = (assay.amplicon_bp - len(fwd) - len(rev) - len(real_probe)) // 2
+    rec = fwd + "AC" * (spacer // 2) + real_probe + "GT" * (spacer // 2) + reverse_complement(rev)
     # Primary probe is the decoy, so a single-probe search finds nothing.
     assert screen_one(assay, "x", rec, CFG, None, fwd, rev, [decoy]).reason == "no probe site inside amplicon"
     # With both members in the pool the real one must be found.

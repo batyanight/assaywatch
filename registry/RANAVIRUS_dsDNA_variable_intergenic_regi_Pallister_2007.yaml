@@ -13,7 +13,8 @@ oligos:
   reverse:
     name: Pallister-16R
     seq: AACTGTTGGTGATTGCAGC
-amplicon_bp: 200
+amplicon_bp: null
+amplicon_bp_range: [186, 749]
 citation:
   doi: 10.1111/j.1365-2761.2007.00828.x
   design_year: 2007
@@ -50,10 +51,15 @@ source:
     and 196 (1), all BIV-scale, and separately 61 records carry BOTH primer sites with no facing pair inside the
     150-250 bp window the scalar implies ("sites found but no facing pair within 150-250 bp; both primers match").
     Those 61 are the EHNV/ECV/ESV end of the assay and are counted as no_amplicon purely because of the declared
-    size - a 48% understatement of the evaluable denominator. The fix is amplicon_bp_range plus species_sizes, the
-    ORTHOPOXVIRUS ATI pattern, with the bands MEASURED per species by scripts/measure_species_sizes.py rather than
-    taken from the paper words "around" and "approximately" (config.yaml amplicon: the measured size wins over the
-    published one); that needs a rescreen under a wider window and is not done here. A related case, though not the
+    size - a 48% understatement of the evaluable denominator. RESOLVED 2026-10-21 as amplicon_bp_range [186, 749], RANGE-ONLY. The 10492 archives were
+    rescreened with the size window opened: detect/reduced products jump from 128 to 324 records spanning 196-739
+    bp - the EHNV/ECV/ESV ~700 bp end Pallister describes, recovered. NO species_sizes, because length does not
+    cleanly name a species here: within Ranavirus micropterus1 alone the product ladders 212-308 bp, so the
+    intergenic length varies by isolate, not by species as Pallister''s four reference isotypes suggested. The
+    range is the measured envelope + a 10 bp cushion (config.yaml amplicon: the measured size wins). PROMOTION
+    STILL WAITS ON THE FULL RESCREEN, now for a different reason: the old 90.0%% stable counted only the BIV-scale
+    products that detect well; including the ~700 bp end, much of which scores reduced or fail, will LOWER the real
+    detected share, so the status has to be re-read on the next run before this is promoted. A related case, though not the
     identical defect: ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2 had a wrong SCALAR hiding 31 records on
     2026-10-21 and was corrected to a scalar, not a range. OLIGO ATTRIBUTION, established 2026-10-21: Pallister
     credits 16R and 16F to Jancovich et al. 2005 in five places - twice in Methods ("the PCR primers used to amplify
@@ -70,14 +76,9 @@ source:
     is on disk and its DOI is Crossref-verified, following NOSEMA_bombi_SSU_Kato_2020, which moved to Klee 2006 on
     exactly that evidence and still left oligos_designed_here null because Klee was unread.'
 needs_review:
-- flag: amplicon_size_unresolved
-  note: the declared 200 bp is the BIV figure only; the paper gives ~700 bp for EHNV and slightly more for ECV/ESV,
-    so this needs amplicon_bp_range plus measured species_sizes, not a scalar
 - flag: amplicon_multimodal
-  note: measured 244 bp (44 records), 228 (39) and 212 (37) with no single mode, all BIV-scale
-- flag: retrieval_scope_incomplete
-  note: 61 records carry both primer sites but fall outside the 150-250 bp window the declared scalar implies, so the
-    EHNV/ECV/ESV end of the assay is counted as no_amplicon and the evaluable denominator is understated by 48%
+  note: the variable intergenic region is species- and isolate-dependent; 324 products span 196-739 bp (BIV ~200 to
+    EHNV/ECV/ESV ~700, per Pallister), declared as amplicon_bp_range [186, 749] range-only
 - flag: oligos_from_secondary_source
   note: Pallister et al. 2007 credits 16R and 16F to Jancovich et al. 2005 in three places, so this entry cites the
     paper that used these primers rather than the one that designed them

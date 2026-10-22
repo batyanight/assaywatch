@@ -409,14 +409,17 @@ class Assay(Strict):
     # length. Only meaningful with `amplicon_bp_range`, which is the declaration
     # that the length varies by species; the validator enforces that.
     #
-    # SET IN EXACTLY ONE ENTRY, and so is `amplicon_bp_range` above, and so is
-    # `Oligo.seq_as_written` on a probe. The 2026-10-20 audit counted these as
-    # near-unused schema and they are not dead: the first two are what let
-    # ORTHOPOXVIRUS ATI be declared at all (its product IS the readout, 540-1700
-    # bp by species) and the third is the Deckers probe's inosine. A field used
-    # once by the one entry that needs it is the schema doing its job, not a
-    # candidate for removal. The field the audit was right about was
-    # `submitted_by`, below.
+    # The 2026-10-20 audit counted `amplicon_bp_range` and `species_sizes` as
+    # near-unused schema (ATI alone), and that is no longer so: the 2026-10-21
+    # amplicon sweep put `amplicon_bp_range` on 7 entries and `species_sizes` on
+    # 4 (ATI, both SARCOCYSTIS rDNA assays, and the Encephalitozoon PTP repeat
+    # locus), after finding scalars that clipped the species-variable end of
+    # several assays. A range without species_sizes is the right shape where the
+    # length varies but does not cleanly name a species (RANAVIRUS's intergenic
+    # ladder, the pan-orthobunyavirus segment continua); species_sizes is added
+    # only where a band names one species. `Oligo.seq_as_written` is still a
+    # one-entry field (the Deckers probe's inosine), and `submitted_by` was the
+    # one the audit was right to call abandoned.
     species_sizes: list[SpeciesSize] | None = None
     citation: Citation
     use_context: list[str] = Field(default_factory=list)
