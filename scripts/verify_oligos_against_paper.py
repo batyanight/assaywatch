@@ -127,7 +127,7 @@ sys.path.insert(0, str(ROOT))
 
 from assaywatch.credentials import contact_email, ncbi_interval, with_api_key  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
-from assaywatch.papers import doi_stem  # noqa: E402
+from assaywatch.papers import doi_stem, identity_stem  # noqa: E402
 
 # Prefix for the filename-stem keys in `by_doi`; a DOI can never start with it.
 STEM_KEY = "stem:"
@@ -437,8 +437,11 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
     for path in paper_files(paper_dir):
         # A filename that is the DOI with its slashes swapped for underscores
         # beats anything read out of the text, so it is checked first. This is
-        # how the papers/ folder is named.
-        stem = path.stem.replace("_", "/")
+        # how the papers/ folder is named. A `.supp` file answers to its
+        # article's stem (assaywatch.papers.identity_stem): a supplementary
+        # table is evidence about the paper it belongs to, and reading the
+        # marker as part of the DOI filed it under one nothing cites.
+        stem = identity_stem(path).replace("_", "/")
         named_doi = stem.lower() if DOI_IN_TEXT.fullmatch(stem) else None
         text = file_text(path)
         if not text:
@@ -472,8 +475,8 @@ def index_papers(paper_dir: Path) -> tuple[dict[str, tuple[str, Path]], list[tup
         # made extract_candidate_oligos label a file with its own stem. Looked up
         # only via a DOI forward-mapped to the same string, so a stem belonging
         # to no DOI is never reached. `named=True`: a filename IS the identity.
-        if path.stem.lower().startswith("10."):
-            claim(by_doi, claims, STEM_KEY + path.stem.lower(), text, path, n_oligos, named=True)
+        if identity_stem(path).lower().startswith("10."):
+            claim(by_doi, claims, STEM_KEY + identity_stem(path).lower(), text, path, n_oligos, named=True)
         for doi, offset in text_dois(text).items():
             claim(by_doi, claims, doi, text, path, n_oligos, named=False, offset=offset)
     return by_doi, everything
@@ -486,7 +489,7 @@ def prints_own_doi(text: str, path: Path) -> bool:
     the surname-and-year fallback. The fallback exists for papers that print no
     DOI at all, and a paper that does print one is not evidence about any other.
     """
-    named = DOI_IN_TEXT.fullmatch(path.stem.replace("_", "/")) is not None
+    named = DOI_IN_TEXT.fullmatch(identity_stem(path).replace("_", "/")) is not None
     return named or DOI_IN_TEXT.search(text[:4000]) is not None
 
 

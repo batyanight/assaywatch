@@ -115,3 +115,25 @@ def unstorable_reason(doi: str) -> str | None:
         bad = sorted({c for c in stem if not SAFE_STEM.fullmatch(c)})
         return f"maps to a stem holding {''.join(bad)!r}, which does not belong in a filename"
     return None
+
+
+# A supplement held beside its article: `<doi stem>.supp.<ext>`. Both readers
+# that identify a file by its name have to agree on this marker. When only
+# `papers_index` knew it, `verify_oligos_against_paper` read the stem whole:
+# `10.1371_journal.pone.0207365.supp` still matches a DOI pattern, so the
+# supplement was filed under a DOI nothing cites, and three Hermes entries kept
+# reading `no-oligos` against a table that was on disk.
+SUPPLEMENT_SUFFIX = ".supp"
+
+
+def identity_stem(path: Path) -> str:
+    """The stem that says WHICH paper a file belongs to, `.supp` marker removed.
+
+    A supplement is not a different paper, so it answers to its article's stem.
+    Which of the two is held is a separate question, answered by the real
+    filename (`papers_index` prints it as `suppl`).
+    """
+    stem = path.stem
+    if stem.lower().endswith(SUPPLEMENT_SUFFIX):
+        stem = stem[: -len(SUPPLEMENT_SUFFIX)]
+    return stem

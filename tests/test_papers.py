@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from assaywatch.papers import doi_stem, held_dois, paper_for_doi
+from assaywatch.papers import doi_stem, held_dois, identity_stem, paper_for_doi
 from assaywatch.validate import iter_files, load_assay
 
 REGISTRY = Path(__file__).resolve().parent.parent / "registry"
@@ -55,3 +55,12 @@ def test_held_dois_is_forward_mapped_not_reverse(tmp_path):
     asked = ["10.1016/S0168-1702(97)01458-5", "10.9999/absent.1"]
     assert held_dois(asked, tmp_path) == {"10.1016/s0168-1702(97)01458-5"}
     assert held_dois(asked, tmp_path / "nope") == set()
+
+
+def test_identity_stem_strips_the_supplement_marker_only():
+    """A supplement names its article; nothing else about a stem changes."""
+    article = "10.1371_journal.pone.0207365"
+    assert identity_stem(Path(article + ".supp.pdf")) == article
+    assert identity_stem(Path(article + ".pdf")) == article
+    # `.supp` inside the DOI itself is not the marker: only a trailing one is.
+    assert identity_stem(Path("10.1234_supp.1.pdf")) == "10.1234_supp.1"

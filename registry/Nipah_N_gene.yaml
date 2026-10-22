@@ -15,11 +15,13 @@ oligos:
     seq: GCTTTTGCAGCCAGTCTTG
 amplicon_bp: 398
 citation:
-  doi: null
-  design_year: null
+  doi: 10.1016/j.jviromet.2006.11.023
+  design_year: 2007
   n_sequences_at_design: null
   as_written: PREDICT protocol
-  doi_verified: false
+  doi_verified: true
+  reference: Wacharapluesadee S, Hemachudha T. 2007. Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens
+    of bats. J Virol Methods 141:97-101
 use_context:
 - wildlife
 - public_health
@@ -43,5 +45,9 @@ source:
     rather than a gap in effort: neither NP1F nor NP1R, nor either reverse complement, appears in any open full text indexed
     by Europe PMC, and neither is in Wong 2003, which is where the sibling pair''s sequences were found. DOI_MISSING stays.
     If the NP2 pair traces to Chua 2000 then this outer or alternative pair plausibly does too, but plausibly is not evidence
-    and nothing is written on it.'
+    and nothing is written on it. PROVENANCE RESOLVED 2026-10-22, closing the NO SOURCE FOUND above. The earlier search was
+    of OPEN full text, and this paper is paywalled: Wacharapluesadee & Hemachudha 2007 (J Virol Methods 141:97-101) prints
+    NP1F and NP1R in its Table 1 and names them as the first-round pair of a duplex nested RT-PCR, with NP2F/NP2R - the sibling
+    entry''s pair, already traced to Chua 2000 - as the nested round, which is exactly the relationship the two entries record.
+    Both sequences verify exact against the PDF. design_year set to 2007, the publication year of the pair.'
 needs_review: null

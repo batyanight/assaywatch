@@ -291,6 +291,14 @@
   "volume": "136",
   "year": 2006
  },
+ "10.1016/j.jviromet.2006.11.023": {
+  "first_author": "Wacharapluesadee",
+  "journal": "Journal of Virological Methods",
+  "n_authors": 2,
+  "title": "Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens of bats",
+  "volume": "141",
+  "year": 2007
+ },
  "10.1016/j.jviromet.2007.05.021": {
   "authors": [
    "Linke",
@@ -1867,6 +1875,14 @@
   "title": "DETECTION OF TESTADENOVIRUSES AND ATADENOVIRUSES IN TORTOISES AND TURTLES IN EUROPE",
   "year": 2021
  },
+ "10.1638/2020-0148": {
+  "first_author": "McFarland",
+  "journal": "Journal of Zoo and Wildlife Medicine",
+  "n_authors": 4,
+  "title": "A RETROSPECTIVE ANALYSIS OF AMOEBIASIS IN REPTILES IN A ZOOLOGICAL INSTITUTION",
+  "volume": "52",
+  "year": 2021
+ },
  "10.1645/ge-184r1": {
   "first_author": "Hellgren",
   "journal": "Journal of Parasitology",
@@ -2425,6 +2441,14 @@
   "title": "RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES",
   "volume": "44",
   "year": 2008
+ },
+ "10.7589/0090-3558-47.3.725": {
+  "first_author": "M\u00fcller",
+  "journal": "Journal of Wildlife Diseases",
+  "n_authors": 4,
+  "title": "Domestic Dog Origin of Canine Distemper Virus in Free-ranging Wolves in Portugal as Revealed by Hemagglutinin Gene Characterization",
+  "volume": "47",
+  "year": 2011
  },
  "10.7589/2012-07-175": {
   "authors": [

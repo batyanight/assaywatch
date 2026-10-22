@@ -1,4 +1,33 @@
-# Resume point, 2026-10-21 (amplicon sizes declared from measurement; per-oligo engine; full runs x2)
+# Resume point, 2026-10-22 (supplements now reach the verifier; three citations resolved)
+
+## 2026-10-22, the `.supp` convention reached the oligo verifier; 3 citations resolved
+
+Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
+
+- `verify_oligos_against_paper.py` did not know the `<doi stem>.supp.<ext>` convention that
+  `papers_index.py` has used since 2026-10-21, so a supplement was indexed under a DOI nothing
+  cites (`10.1371/journal.pone.0207365.supp` still matches the DOI pattern) and its primer table
+  was invisible. `SUPPLEMENT_SUFFIX` + `identity_stem()` now live in `assaywatch/papers.py` and
+  both scripts read them from there. **15 oligos over 4 entries moved `no-oligos` -> `exact`**
+  (3x Hermes 2018 mycobacteria; POXVIRUSES Polymerase short_2 vs the McAloose supplement).
+- **Three citations entered, each confirmed by sequence first**: Mueller_2011_1..4 ->
+  10.7589/0090-3558-47.3.725 (the old string's own "candidate", now evidence); `Nipah_N_gene` ->
+  10.1016/j.jviromet.2006.11.023 (Wacharapluesadee 2007 prints NP1F/NP1R as the outer round of the
+  nested pair whose inner round is the sibling entry's); `Entamoeba_18S_small_subunit_SSU` ->
+  10.1638/2020-0148 (McFarland 2021, Seimon third author = the spreadsheet's "Tseimon"). All three
+  are paywalled, which is why the open-access routes never found them. **13 rows left
+  `docs/materials-needed.tsv`.** Entamoeba's `design_year` stays null on purpose - the assay
+  predates the 2021 paper (it is in the 2018 spreadsheet), so the publication year is not it.
+- **Open, wants the maintainer**: the three `ORTHOBORNAVIRUS_XP_*` Sigrist entries. Their
+  supplement IS now read and DOES carry a primer table (Table S4), and none of their oligos is in
+  it; `BornaPCA6` is 1 edit from the printed `PaBVcon_1401+`, and Table S5 prints `BornaA_A674N`
+  where the registry has `BornaA_A647N`. Also open: the Enterovirus 5'UTR-VP4/VP2 pair, where
+  Coiras 2004 (10.1002/jmv.20008, now held) matches `EVRV1` exactly but disagrees on the other
+  three oligos and on both product sizes - a modified descendant, so NOT entered.
+- `papers_index --check` now prints `3 PDF(s) ... match no DOI` and exits 0: Coiras 2004,
+  Aitichou 2005, Khodeir 2021, all held as candidate provenance, deliberately not in
+  `SHARED_SOURCES`.
+- Gate: 1481 tests, validator 208/208, `check_citations --refresh` 0 problems, ruff clean.
 
 ## 2026-10-21, figures feature merged from a second machine (`fa98937`)
 

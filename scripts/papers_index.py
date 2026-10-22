@@ -39,7 +39,7 @@ sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
-from assaywatch.papers import doi_stem  # noqa: E402
+from assaywatch.papers import SUPPLEMENT_SUFFIX, doi_stem  # noqa: E402
 
 CROSSREF = "https://api.crossref.org/works/"
 
@@ -88,13 +88,6 @@ def registry_citations() -> dict[str, list[str]]:
         if doi:
             out[doi.lower()].append(d["id"])
     return out
-
-
-# A supplement held beside its article: `<doi stem>.supp.pdf`. The PREDICT
-# protocol book is one of these (10.1038/ncomms9147), and it is the single
-# document the most registry entries rest on, so the index has to record it.
-# Without this suffix its stem matches no DOI and it was reported unmatched.
-SUPPLEMENT_SUFFIX = ".supp"
 
 
 def local_pdfs(pdf_dir: Path, known_dois: set[str]) -> tuple[dict[str, str], int]:

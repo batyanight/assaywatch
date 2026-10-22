@@ -908,3 +908,26 @@ def test_main_passes_the_oligo_name_so_a_lost_inline_sequence_is_caught(tmp_path
     verdicts = {r["slot"]: r["verdict"] for r in rows}
     assert verdicts["forward"] == "exact" and verdicts["probe"] == "exact", verdicts
     assert verdicts["reverse"] == "no-oligos", verdicts
+
+
+def test_a_supplement_is_evidence_about_its_own_article(tmp_path):
+    """`<doi stem>.supp.<ext>` answers to the article's DOI, not to a DOI of its own.
+
+    Where a paper sets its primer table as an image and prints it in the
+    supplement - Hermes 2018 and McAloose 2016 both do - the sequences are only
+    reachable if the supplement is filed under the article. Reading `.supp` as
+    part of the DOI filed it under `10.1371/journal.pone.0207365.supp`, which
+    still matches a DOI pattern and which nothing cites, so three entries read
+    `no-oligos` against a table that was on disk. `papers_index` already knew
+    the convention; the two readers now share it.
+    """
+    (tmp_path / "10.1234_test.2.txt").write_text("Primers are given in Table S1.")
+    (tmp_path / "10.1234_test.2.supp.txt").write_text(
+        "Table S1. 5'-GCGGCCAACCAGTTTAACGCAA-3' and 5'-ATTGCGCTGGAACCTTGTCAA-3'."
+    )
+    by_doi, _ = vo.index_papers(tmp_path)
+    assert "10.1234/test.2.supp" not in by_doi
+    text, path = by_doi["10.1234/test.2"]
+    # Both claims are named, so the one printing the sequences wins on yield.
+    assert path.name == "10.1234_test.2.supp.txt", path
+    assert len(vo.printed_oligos(text)) == 2

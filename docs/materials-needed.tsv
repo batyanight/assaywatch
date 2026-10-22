@@ -1,10 +1,5 @@
 bucket	assay_id	doi	what_is_needed	blocks	notes
-citation	CDV_H_gene_Mueller_2011_1		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
-citation	CDV_H_gene_Mueller_2011_2		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
-citation	CDV_H_gene_Mueller_2011_3		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
-citation	CDV_H_gene_Mueller_2011_4		a DOI or the paper for: Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants —	citation verification	Müller 2011 CDV H-gene walking primers incl. Arctic-lineage variants — not resolved; candi
 citation	HANTAVIRUS_ssRNA_S_segment_2		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT Protocols
-citation	Nipah_N_gene		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT protocol
 decision	Entamoeba_18S_small_subunit_SSU_2014	10.1099/jmm.0.061820-0	a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
 decision	POXVIRUSES_dsDNA_Polymerase_short		a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
 decision	Pan_mycoplasma_16S_All_Van_1992	10.1128/aem.58.8.2606-2615.1992	a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
@@ -17,7 +12,6 @@ figure	NOSEMA_ceranae_SSU_Martin-Hernandez_2007	10.1128/AEM.00270-07	a legible c
 figure	ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
 figure	ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021	10.3390/v13071358	a legible copy of the figure the sequences were read off	sequence confidence	
-lab-record	Entamoeba_18S_small_subunit_SSU		the lab's own record of who designed these and when	any citation at all	Developed in house by Tseimon
 lab-record	Feline_Morbillivirus_L_gene		the lab's own record of who designed these and when	any citation at all	developed in house
 lab-record	PAPILLOMAVIRUS_dsDNA_L1_gene		the lab's own record of who designed these and when	any citation at all	Developed at CII-unpublished
 lab-record	PARVOVIRUS_ssDNA_VP1_gene_pan_parvo		the lab's own record of who designed these and when	any citation at all	Developed at WCS-unpublished
@@ -31,13 +25,6 @@ provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		any provenance at all - no DO
 provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	HANTAVIRUS_ssRNA_S_segment_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	HANTAVIRUS_ssRNA_S_segment_round2_2		any provenance at all - no DOI and no reference is recorded	everything downstream	
-supplement	MYCOBACTERIUM_TB_complex_IS1081_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf
-supplement	MYCOBACTERIUM_TB_complex_helicase_MTCHeli_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf
-supplement	MYCOBACTERIUM_genus_16S_rRNA_Hermes_2018	10.1371/journal.pone.0207365	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1371_journal.pone.0207365.pdf
-supplement	ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021	10.3390/v13071358	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3390_v13071358.pdf
-supplement	ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021	10.3390/v13071358	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3390_v13071358.pdf
-supplement	ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021	10.3390/v13071358	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3390_v13071358.pdf
-supplement	POXVIRUSES_dsDNA_Polymerase_short_2	10.3354/dao02986	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3354_dao02986.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV	10.1038/nature08200	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1038_nature08200.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV_2	10.1128/JVI.72.12.10305-10309.1998	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1128_jvi.72.12.10305-10309.1998.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	10.1128/JVI.72.12.10305-10309.1998	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1128_jvi.72.12.10305-10309.1998.pdf
@@ -47,14 +34,13 @@ taxid	Tortoise_intranuclear_coccidia_18SrDNA	10.1016/j.vetpar.2012.11.029	an NCB
 year	CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	10.3201/eid1608.100208	the design year, for the baseline the drift test needs	per-year drift statistics	
 year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
-year	Entamoeba_18S_small_subunit_SSU		the design year, for the baseline the drift test needs	per-year drift statistics	
+year	Entamoeba_18S_small_subunit_SSU	10.1638/2020-0148	the design year, for the baseline the drift test needs	per-year drift statistics	
 year	Feline_Morbillivirus_L_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment_2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment_round2_2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	LEPTOSPIROSIS_Flagillar_filiment_Prote	10.3201/eid1909.130474	the design year, for the baseline the drift test needs	per-year drift statistics	
-year	Nipah_N_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	PAPILLOMAVIRUS_dsDNA_L1_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	PARVOVIRUS_ssDNA_VP1_gene_pan_parvo		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	POLYOMAVIRUS_dsDNA_VP1		the design year, for the baseline the drift test needs	per-year drift statistics	
