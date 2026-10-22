@@ -24,31 +24,9 @@ lab-record	PARVOVIRUS_ssDNA_VP1_gene_pan_parvo		the lab's own record of who desi
 lab-record	POLYOMAVIRUS_dsDNA_VP1		the lab's own record of who designed these and when	any citation at all	Developed at WCS-TC (unpublished)
 lab-record	POXVIRUSES_dsDNA_Polymerase_short		the lab's own record of who designed these and when	any citation at all	Developed at WCS-TC (unpublished)
 oligos-not-in-paper	CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004	10.3354/dao060141	which source these oligos actually came from; the cited paper prints others	citation correctness	10.3354_dao060141.pdf
+oligos-not-in-paper	E_coli_ETEC_LT_Victor_1991	10.1128/jcm.29.1.158-161.1991	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1128_jcm.29.1.158-161.1991.pdf
 oligos-not-in-paper	FILOVIRUS_ssRNA_L_gene_2	10.1128/Jcm.01893-06	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1128_Jcm.01893-06.pdf
 oligos-not-in-paper	PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	10.1073/pnas.182412299	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1073_pnas.182412299.pdf
-oligos-not-in-paper	Pan_HERPES_dsDNA_Terminase	10.1016/S0168-1702(00)00252-5	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_s0168-1702_00_00252-5.pdf
-oligos-not-in-paper	Pan_HERPES_dsDNA_Terminase_round2	10.1016/S0168-1702(00)00252-5	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_s0168-1702_00_00252-5.pdf
-oligos-not-in-paper	RETROVIRUS_RNA_polymerase_SIV_3	10.1128/JVI.02311-08	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1128_JVI.02311-08.pdf
-oligos-not-in-paper	Tortoise_intranuclear_coccidia_18SrDNA	10.1016/j.vetpar.2012.11.029	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1016_j.vetpar.2012.11.029.pdf
-paper-pdf	Apicoplast_23S_LSU_Large_subunit_Molecular_2005	10.1099/00221287-146-2-315	the full text of this DOI	oligo verification against the source	
-paper-pdf	CDV_N_gene_Elia_2006	10.1016/j.jviromet.2006.05.004	the full text of this DOI	oligo verification against the source	
-paper-pdf	CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	10.3201/eid1608.100208	the full text of this DOI	oligo verification against the source	
-paper-pdf	E_coli_ETEC_LT_Victor_1991	10.1128/jcm.29.1.158-161.1991	the full text of this DOI	oligo verification against the source	
-paper-pdf	E_coli_O157_hlyA_Wang_1997	10.1046/j.1365-2672.1997.00300.x	the full text of this DOI	oligo verification against the source	
-paper-pdf	Encephalitozoon_18S_General_Encephalitoz_Muller_1999	10.1128/CDLI.6.2.243-246.1999	the full text of this DOI	oligo verification against the source	
-paper-pdf	Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001	10.1128/JCM.39.6.2248-2253.2001	the full text of this DOI	oligo verification against the source	
-paper-pdf	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	the full text of this DOI	oligo verification against the source	
-paper-pdf	LEPTOSPIROSIS_Flagillar_filiment_Prote	10.3201/eid1909.130474	the full text of this DOI	oligo verification against the source	
-paper-pdf	NOSEMA_apis_SSU_Martin-Hernandez_2007	10.1128/AEM.00270-07	the full text of this DOI	oligo verification against the source	
-paper-pdf	NOSEMA_bombi_SSU_Kato_2020	10.1016/j.jip.2005.10.012	the full text of this DOI	oligo verification against the source	
-paper-pdf	NOSEMA_ceranae_SSU_Martin-Hernandez_2007	10.1128/AEM.00270-07	the full text of this DOI	oligo verification against the source	
-paper-pdf	Nipah_N_gene_2	10.1126/science.288.5470.1432	the full text of this DOI	oligo verification against the source	
-paper-pdf	POXVIRUSES_dsDNA_Polymerase_short_2	10.3354/dao02986	the full text of this DOI	oligo verification against the source	
-paper-pdf	Pan_Flavivirus_NS5_gene	10.1089/vbz.2007.0206	the full text of this DOI	oligo verification against the source	
-paper-pdf	RETROVIRUS_RNA_polymerase_SIV_2	10.1128/JVI.72.12.10305-10309.1998	the full text of this DOI	oligo verification against the source	
-paper-pdf	RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	10.1128/JVI.72.12.10305-10309.1998	the full text of this DOI	oligo verification against the source	
-paper-pdf	SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003	10.1006/expr.1995.1107	the full text of this DOI	oligo verification against the source	
-paper-pdf	Yersinia_pseudotuberculosis_Wang_1997	10.1046/j.1365-2672.1997.00300.x	the full text of this DOI	oligo verification against the source	
 provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	HANTAVIRUS_ssRNA_S_segment_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
@@ -59,8 +37,12 @@ supplement	MYCOBACTERIUM_genus_16S_rRNA_Hermes_2018	10.1371/journal.pone.0207365
 supplement	ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021	10.3390/v13071358	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3390_v13071358.pdf
 supplement	ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021	10.3390/v13071358	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3390_v13071358.pdf
 supplement	ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021	10.3390/v13071358	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3390_v13071358.pdf
+supplement	POXVIRUSES_dsDNA_Polymerase_short_2	10.3354/dao02986	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.3354_dao02986.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV	10.1038/nature08200	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1038_nature08200.pdf
+supplement	RETROVIRUS_RNA_polymerase_SIV_2	10.1128/JVI.72.12.10305-10309.1998	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1128_jvi.72.12.10305-10309.1998.pdf
+supplement	RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	10.1128/JVI.72.12.10305-10309.1998	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1128_jvi.72.12.10305-10309.1998.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV_Keele_2009	10.1038/nature08200	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1038_nature08200.pdf
+supplement	SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003	10.1006/expr.1995.1107	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1006_expr.1995.1107.pdf
 taxid	Tortoise_intranuclear_coccidia_18SrDNA	10.1016/j.vetpar.2012.11.029	an NCBI taxid for tortoise intranuclear coccidian (TINC, unclassified Eimeriorina)	retrieval: without one the assay is never screened	
 year	CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme	10.3201/eid1608.100208	the design year, for the baseline the drift test needs	per-year drift statistics	
 year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		the design year, for the baseline the drift test needs	per-year drift statistics	
