@@ -276,6 +276,10 @@ class AssayDrift:
     lineage_coverage: float | None = None
     # Whether the lineage verdict changed the pooled status.
     lineage_override: bool = False
+    # Multiple-testing correction across this assay's lineages; set by `assess`
+    # from `lineage.multiple_testing` / `lineage.alpha` before the lineage check.
+    lineage_method: str = "holm"
+    lineage_alpha: float = 0.05
     # The pooled status before lineage override, so the report can show both.
     status_pooled: str | None = None
     # Index into `lineage_stats` of the lineage that drove the override. The note
@@ -523,6 +527,12 @@ class AssayDrift:
         self.cluster_failures = tuple(failures)
         self.flag_survives_clustering = not failures
 
+    def _worst_lineage(self, stats: list) -> tuple[str | None, int | None]:
+        """`lineage.worst_lineage_verdict` with this assay's threshold and correction."""
+        from assaywatch.lineage import worst_lineage_verdict
+
+        return worst_lineage_verdict(stats, self.threshold, self.lineage_method, self.lineage_alpha)
+
     def _lineage_check(
         self,
         recent_calls: list[dict],
@@ -559,7 +569,7 @@ class AssayDrift:
         if not recent_calls:
             return
 
-        from assaywatch.lineage import per_lineage_stats, worst_lineage_verdict
+        from assaywatch.lineage import per_lineage_stats
 
         stats = per_lineage_stats(
             recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage, resolvers=resolvers
@@ -577,10 +587,10 @@ class AssayDrift:
             return
 
         if self._pool_is_one_lineage(stats):
-            self.lineage_verdict = worst_lineage_verdict(stats, self.threshold)[0]
+            self.lineage_verdict = self._worst_lineage(stats)[0]
             return
 
-        verdict, worst_idx = worst_lineage_verdict(stats, self.threshold)
+        verdict, worst_idx = self._worst_lineage(stats)
         self.lineage_verdict = verdict
 
         if verdict == "failing" and baseline_calls is not None:
@@ -660,7 +670,7 @@ class AssayDrift:
         Returns (stop, worst_idx): `stop` ends the chain, and `worst_idx` moves
         to the worst ELIGIBLE lineage when the chain continues.
         """
-        from assaywatch.lineage import lineage_of, lineages_never_covered, worst_lineage_verdict
+        from assaywatch.lineage import lineage_of, lineages_never_covered
 
         never = lineages_never_covered(
             baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
@@ -670,7 +680,7 @@ class AssayDrift:
         }
         eligible = [s for s in stats if s.lineage_name not in never | buckets]
         gap = stats[worst_idx]
-        verdict, idx = worst_lineage_verdict(eligible, self.threshold)
+        verdict, idx = self._worst_lineage(eligible)
         self.lineage_verdict = verdict or "failing (never covered)"
         if verdict == "failing":
             return False, stats.index(eligible[idx])
@@ -1107,6 +1117,8 @@ class LineageOptions:
     gate: bool
     rank: str | None
     buckets_on: bool
+    method: str = "holm"
+    alpha: float = 0.05
 
     @classmethod
     def from_config(cls, cfg: dict[str, Any], taxonomy: Taxonomy | None) -> LineageOptions:
@@ -1125,6 +1137,8 @@ class LineageOptions:
             gate=bool(lcfg.get("require_working_baseline", False)),
             rank=rank,
             buckets_on=buckets_on,
+            method=str(lcfg.get("multiple_testing", "holm")),
+            alpha=float(lcfg.get("alpha", 0.05)),
         )
 
     def taxid_of(
@@ -1325,6 +1339,7 @@ def assess(
                 titles=titles,
             )
             a.species_counts = _species_counts(recent_calls)
+            a.lineage_method, a.lineage_alpha = lineage_opts.method, lineage_opts.alpha
             a._lineage_check(
                 recent_calls,
                 taxa_cache,

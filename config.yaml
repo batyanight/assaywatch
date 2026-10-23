@@ -570,6 +570,19 @@ figures:
 # Each record is assigned a lineage by its NCBI taxid. Verdicts condition
 # on the worst-performing lineage among those assessable.
 lineage:
+  # Correction across one assay's lineages, and its level. The rule that uses it
+  # is "ANY lineage significantly below the threshold fails the assay", so what
+  # needs controlling is the probability of AT LEAST ONE false rejection: FWER,
+  # i.e. Holm (1979; no Crossref DOI, JSTOR 4615733). It was Benjamini-Hochberg
+  # with statsmodels' default 0.05, both hardcoded in lineage.py; BH controls the
+  # expected SHARE of false rejections among rejections, which is not the event
+  # that decides a status. Holm is a stopgap: partial pooling
+  # (docs/bayesian-scoring-plan.md C1) is the intended replacement, which is why
+  # no margin is tuned here. Nothing controls error ACROSS the 200-odd assays.
+  # Measured 2026-10-23 in docs/2026-10-23-wave3-holm.md. statsmodels names:
+  # holm | fdr_bh | bonferroni.
+  multiple_testing: holm
+  alpha: 0.05
   # Minimum evaluable records per lineage for assessability
   min_records_per_lineage: 30  # calibrated: Pareto improvement over 20 (-1 FP, 0 TP loss in retrospective)
   # Path to taxa id -> name cache, used to display lineage names in reports

@@ -419,7 +419,10 @@ def per_lineage_stats(
 
 
 def worst_lineage_verdict(
-    lineage_stats: list[LineageStats], threshold: float
+    lineage_stats: list[LineageStats],
+    threshold: float,
+    method: str = "holm",
+    alpha: float = 0.05,
 ) -> tuple[str | None, int | None]:
     """Determine verdict from per-lineage analysis.
 
@@ -450,7 +453,14 @@ def worst_lineage_verdict(
 
     # Benjamini-Hochberg FDR control
     if p_values:
-        reject, corrected_p, _, _ = multipletests(p_values, method="fdr_bh")
+        # `method` and `alpha` come from `lineage.multiple_testing` and
+        # `lineage.alpha` in config.yaml. They were `"fdr_bh"` and statsmodels'
+        # default 0.05, hardcoded, against the rule that no such number lives in
+        # code -- and BH was the wrong family: the decision below is "ANY rejected
+        # lineage fails the assay", and FDR controls the expected share of false
+        # rejections among rejections, not the probability of at least one, which
+        # is the event that decides the status. That needs FWER control (Holm 1979).
+        reject, corrected_p, _, _ = multipletests(p_values, alpha=alpha, method=method)
         if any(reject):
             # Among rejected lineages, pick the one with the lowest share
             worst_idx = min(

@@ -397,3 +397,22 @@ def test_lineages_never_covered_needs_a_measured_year_below_threshold():
         + calls(3, 2016, 0, 5)  # too few records in any year: never measured
     )
     assert lineages_never_covered(base, {}, {}, 0.9, 10) == {"taxid_1"}
+
+
+def test_holm_does_not_fail_an_assay_on_marginal_lineages_bh_would():
+    """The rule is "ANY lineage significantly below threshold fails the assay".
+    Five lineages each at p ~0.02-0.04 against 0.90: BH rejects all five (its
+    largest p is under 0.05), so the assay fails; Holm needs the smallest p under
+    0.05/5 = 0.01, so none is rejected. BH controls the expected share of false
+    rejections, not the chance of at least one -- the event that decides here."""
+    stats = [
+        LineageStats("A", "L1", None, 50, 40, 0.80, 0.0, 0.0),  # p = 0.0245
+        LineageStats("A", "L2", None, 60, 49, 0.82, 0.0, 0.0),  # p = 0.0342
+        LineageStats("A", "L3", None, 80, 66, 0.83, 0.0, 0.0),  # p = 0.0267
+        LineageStats("A", "L4", None, 100, 83, 0.83, 0.0, 0.0),  # p = 0.0206
+        LineageStats("A", "L5", None, 40, 32, 0.80, 0.0, 0.0),  # p = 0.0419
+    ]
+    assert worst_lineage_verdict(stats, 0.9, "fdr_bh", 0.05)[0] == "failing"
+    assert worst_lineage_verdict(stats, 0.9, "holm", 0.05) == ("detecting", None)
+    # and the default is Holm, so a caller that passes nothing gets FWER control
+    assert worst_lineage_verdict(stats, 0.9) == ("detecting", None)
