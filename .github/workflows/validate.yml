@@ -18,6 +18,9 @@ jobs:
       # No citation may be written from memory. Checks every registry DOI
       # against the committed Crossref cache, so it needs no network.
       - run: python scripts/check_citations.py
+      # The registry's published contract. Regenerate with
+      # `python -m assaywatch.validate --emit-schema registry/schema.json`.
+      - run: python -m assaywatch.validate --check-schema
 
   # The Snakemake-backed tests (tests/test_triggers.py) run the pipeline offline and assert
   # which rules an edit reruns. They skip without Snakemake, so the job above never runs
@@ -46,3 +49,41 @@ jobs:
       # Bump it deliberately and read the rerun assertions when you do.
       - run: pip install -e ".[dev]" "snakemake>=9.27,<9.28"
       - run: pytest -q tests/test_triggers.py
+
+  # EVERY OTHER JOB AND EVERY DOCUMENTED COMMAND USES AN EDITABLE INSTALL, so
+  # nothing here could see what a real install does. `pip install .` yields a
+  # package that imports and whose default config path resolves into
+  # site-packages -- which used to be a bare FileNotFoundError on a path the
+  # caller never chose. 1,500 tests cannot catch that, because they all run from
+  # the repo. This job builds the wheel and probes it in a clean venv: the
+  # library must work, and the missing-config failure must say what to do.
+  wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --upgrade pip build
+      - run: python -m build --wheel --outdir dist .
+      # A clean venv, outside the checkout, so nothing resolves by accident.
+      - run: |
+          python -m venv /tmp/wheelenv
+          /tmp/wheelenv/bin/pip install dist/*.whl
+      - run: |
+          cd /tmp
+          /tmp/wheelenv/bin/python - <<'PY'
+          import assaywatch
+          from assaywatch.match import find_sites
+          from assaywatch.score import load_config
+
+          oligo = "ACGTACGTACGTACGTAC"
+          assert len(find_sites(oligo, "TTT" + oligo + "TTT", 0)) == 1, "library unusable from a wheel"
+          try:
+              load_config()
+          except SystemExit as e:
+              assert "non-editable install" in str(e), f"unhelpful config error: {e}"
+          else:
+              raise AssertionError("a wheel should not find a default config")
+          print("wheel ok:", assaywatch.__version__)
+          PY

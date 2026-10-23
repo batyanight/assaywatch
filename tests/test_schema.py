@@ -408,3 +408,25 @@ def test_a_band_outside_the_declared_range_is_rejected():
 def test_a_band_must_ascend():
     with pytest.raises(ValidationError, match="must ascend"):
         Assay(**_ati_kwargs(species_sizes=[{"taxid": 10245, "bp": [1615, 1587], "n_records": 2}]))
+
+
+def test_the_committed_json_schema_matches_the_models():
+    """`schema.py`'s docstring has promised `Assay.model_json_schema()` as
+    documentation for contributors since it was written, and nothing emitted it,
+    so the registry's only machine-readable contract lived in Python source. A
+    reuser of registry/*.yaml outside Python had to read pydantic or 208 files.
+    Committed now, and checked here so it cannot drift from the models."""
+    import json
+    from pathlib import Path
+
+    from assaywatch.schema import Assay
+
+    root = Path(__file__).resolve().parents[1]
+    committed = root / "registry" / "schema.json"
+    assert committed.exists(), "run: python -m assaywatch.validate --emit-schema registry/schema.json"
+    on_disk = json.loads(committed.read_text())
+    live = Assay.model_json_schema()
+    assert on_disk["properties"].keys() == live["properties"].keys()
+    assert on_disk["$comment"].startswith("Generated from assaywatch.schema")
+    # and the licence pointer, since this file is the data's published contract
+    assert "LICENSE-registry" in on_disk["$comment"]

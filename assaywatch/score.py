@@ -65,6 +65,11 @@ from assaywatch.iupac import COMPLEMENT
 from assaywatch.match import Site, find_sites
 from assaywatch.schema import Assay, Chemistry
 
+#: Where `load_config(None)` looks: the repo root, one level above this package.
+#: This resolves correctly for a clone and for `pip install -e .`, and NOT for a
+#: wheel, where `parents[1]` is site-packages. `load_config` says so rather than
+#: raising a bare FileNotFoundError on a path the caller never chose -- see its
+#: docstring for why the file is not bundled into the wheel instead.
 DEFAULT_CONFIG = Path(__file__).resolve().parents[1] / "config.yaml"
 
 # Where load_config stashes one fully-resolved config per chemistry that has
@@ -184,7 +189,37 @@ def check_chemistry_overrides(cfg: dict[str, Any]) -> list[str]:
 
 
 def load_config(path: Path | None = None) -> dict[str, Any]:
-    cfg = yaml.safe_load((path or DEFAULT_CONFIG).read_text())
+    """The scoring config: `path`, or `config.yaml` beside the repo root.
+
+    WHY THE DEFAULT CAN BE ABSENT, AND WHY THAT IS NOT FIXED BY BUNDLING IT.
+    `DEFAULT_CONFIG` is `parents[1] / "config.yaml"`, which is the repo root for
+    a clone or an editable install and `site-packages/config.yaml` for a wheel.
+    Every documented command and all of CI use an editable install, so a wheel
+    installed from PyPI would `import assaywatch` fine and then fail here on a
+    path the caller never named -- previously as a bare FileNotFoundError.
+
+    The file is deliberately NOT shipped inside the package. A wheel cannot run
+    the pipeline anyway: that needs `registry/`, `Snakefile`, `data/retrieved/`
+    and `results/`, all repo-relative. And `registry/` is CC-BY-4.0 data
+    (LICENSE-registry) versioned as the project's data product, while the wheel
+    is MIT code; bundling one into the other would blur a licence split that
+    exists on purpose. So a wheel is a library install, and a library caller
+    passes its own config path.
+    """
+    target = path or DEFAULT_CONFIG
+    if not target.exists():
+        raise SystemExit(
+            f"no config at {target}.\n"
+            + (
+                "This looks like a non-editable install: assaywatch ships code, not "
+                "config.yaml or registry/. Pass an explicit path -- load_config(Path(...)) "
+                "or --config -- or work from a clone (`pip install -e .`), which is what "
+                "running the pipeline needs.\n"
+                if path is None and not DEFAULT_CONFIG.exists()
+                else ""
+            )
+        )
+    cfg = yaml.safe_load(target.read_text())
     problems = check_chemistry_overrides(cfg)
     if problems:
         raise ValueError("config.yaml: " + "; ".join(problems))

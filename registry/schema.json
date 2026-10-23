@@ -1,0 +1,754 @@
+{
+  "$comment": "Generated from assaywatch.schema by `python -m assaywatch.validate --emit-schema registry/schema.json`. Do not edit by hand. The models are the contract; this file is their published form, for reading registry/*.yaml outside Python. Licence: see LICENSE-registry.",
+  "$defs": {
+    "Chemistry": {
+      "enum": [
+        "conventional",
+        "sybr",
+        "hydrolysis_probe",
+        "mgb",
+        "lna",
+        "rpa"
+      ],
+      "title": "Chemistry",
+      "type": "string"
+    },
+    "Citation": {
+      "additionalProperties": false,
+      "properties": {
+        "as_written": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "As Written"
+        },
+        "design_year": {
+          "anyOf": [
+            {
+              "maximum": 2100,
+              "minimum": 1985,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Year"
+        },
+        "doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Doi"
+        },
+        "doi_verified": {
+          "default": false,
+          "title": "Doi Verified",
+          "type": "boolean"
+        },
+        "n_sequences_at_design": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Sequences At Design"
+        },
+        "oligos_designed_here": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Oligos Designed Here"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference"
+        }
+      },
+      "title": "Citation",
+      "type": "object"
+    },
+    "Oligo": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "orientation": {
+          "anyOf": [
+            {
+              "enum": [
+                "forward",
+                "reverse",
+                "probe"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Orientation"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "string"
+        },
+        "seq_as_written": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seq As Written"
+        },
+        "tail_5prime": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tail 5Prime"
+        }
+      },
+      "required": [
+        "seq"
+      ],
+      "title": "Oligo",
+      "type": "object"
+    },
+    "Oligos": {
+      "additionalProperties": false,
+      "properties": {
+        "alternates": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Oligo"
+              },
+              {
+                "$ref": "#/$defs/Probe"
+              }
+            ]
+          },
+          "title": "Alternates",
+          "type": "array"
+        },
+        "forward": {
+          "$ref": "#/$defs/Oligo"
+        },
+        "probe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Probe"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reverse": {
+          "$ref": "#/$defs/Oligo"
+        }
+      },
+      "required": [
+        "forward",
+        "reverse"
+      ],
+      "title": "Oligos",
+      "type": "object"
+    },
+    "Probe": {
+      "additionalProperties": false,
+      "properties": {
+        "lna": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lna"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "orientation": {
+          "anyOf": [
+            {
+              "enum": [
+                "forward",
+                "reverse",
+                "probe"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Orientation"
+        },
+        "quencher": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quencher"
+        },
+        "reporter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reporter"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "string"
+        },
+        "seq_as_written": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seq As Written"
+        },
+        "tail_5prime": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tail 5Prime"
+        }
+      },
+      "required": [
+        "seq"
+      ],
+      "title": "Probe",
+      "type": "object"
+    },
+    "ReviewFlag": {
+      "description": "Every value `needs_review[].flag` may take.\n\nAdding one is a deliberate act: it must be a category a filter would ask\nfor, not one entry's story. If it would only ever apply to a single assay,\nit is a `note` on a broader flag, or it is `curation_decision_pending`.",
+      "enum": [
+        "citation_unresolved",
+        "oligo_source_unresolved",
+        "oligo_sequence_uncertain",
+        "amplicon_size_unresolved",
+        "target_scope_unresolved",
+        "duplicate_entry_unresolved",
+        "do_not_use",
+        "not_validated",
+        "retrieval_stale",
+        "curation_decision_pending",
+        "oligos_modified",
+        "oligos_from_secondary_source",
+        "oligos_read_from_figure",
+        "oligos_not_in_cited_paper",
+        "citation_is_indirect",
+        "orientation_inferred",
+        "pairing_is_curator_reading",
+        "amplicon_measured_not_published",
+        "amplicon_disagrees_with_paper",
+        "amplicon_multimodal",
+        "cross_reactive",
+        "scope_narrower_than_taxid",
+        "retrieval_scope_incomplete",
+        "nested_protocol",
+        "shares_oligos_with_sibling",
+        "pooled_as_one_assay",
+        "primer_site_polymorphic",
+        "thin_evidence",
+        "not_screenable",
+        "target_annotation_uncertain",
+        "chemistry_detail_missing"
+      ],
+      "title": "ReviewFlag",
+      "type": "string"
+    },
+    "ReviewItem": {
+      "additionalProperties": false,
+      "description": "One review flag, with the one line of prose that makes it actionable.\n\nThe vocabulary, and which flags are open questions rather than recorded\ncaveats, live in `assaywatch.review`; read that module's docstring before\nadding a flag.",
+      "properties": {
+        "flag": {
+          "$ref": "#/$defs/ReviewFlag"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "flag"
+      ],
+      "title": "ReviewItem",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "nested_family": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nested Family"
+        },
+        "nested_round": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nested Round"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "notes_curator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes Curator"
+        },
+        "positive_control": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Positive Control"
+        },
+        "predict_protocol": {
+          "anyOf": [
+            {
+              "pattern": "^P-0\\d\\d$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Predict Protocol"
+        },
+        "rows": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rows"
+        },
+        "spreadsheet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Spreadsheet"
+        }
+      },
+      "title": "Source",
+      "type": "object"
+    },
+    "SpeciesSize": {
+      "additionalProperties": false,
+      "description": "One product-length band this assay gives for one species, as measured.\n\nFor an assay that identifies the species by product length rather than by\ndetecting one target, the length IS the readout, so it belongs here as\nnumbers rather than in a curator note as prose. Measured from GenBank\nrecords by scripts/measure_species_sizes.py, never copied from the paper:\non ATI the paper's stated sizes differ from the measured ones by 1-32 bp\n(see that entry's needs_review).\n\nA species can have more than one band \u2014 monkeypox clade I near 1067 bp and\nclade IIb near 1538 \u2014 so several rows may share a taxid. Bands from\ndifferent species may overlap, because they genuinely do, and that is the\nlimit of what a length can tell you: on ATI, vaccinia 1587-1615 and cowpox\n1598-1601 are not separable by size, which is why the design paper also ran\nan XbaI digest.",
+      "properties": {
+        "bp": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Bp",
+          "type": "array"
+        },
+        "n_records": {
+          "minimum": 1,
+          "title": "N Records",
+          "type": "integer"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "taxid": {
+          "minimum": 1,
+          "title": "Taxid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "taxid",
+        "bp",
+        "n_records"
+      ],
+      "title": "SpeciesSize",
+      "type": "object"
+    },
+    "Status": {
+      "enum": [
+        "draft",
+        "active",
+        "deprecated"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "Target": {
+      "additionalProperties": false,
+      "properties": {
+        "gene": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gene"
+        },
+        "genome_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Genome Type"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query"
+        },
+        "scope_taxids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope Taxids"
+        },
+        "taxid": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxid"
+        },
+        "taxon_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxon Name"
+        }
+      },
+      "title": "Target",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "amplicon_bp": {
+      "anyOf": [
+        {
+          "maximum": 3000,
+          "minimum": 50,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Amplicon Bp"
+    },
+    "amplicon_bp_range": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Amplicon Bp Range"
+    },
+    "chemistry": {
+      "$ref": "#/$defs/Chemistry"
+    },
+    "citation": {
+      "$ref": "#/$defs/Citation"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,120}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "needs_review": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/ReviewItem"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Needs Review"
+    },
+    "oligos": {
+      "$ref": "#/$defs/Oligos"
+    },
+    "source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Source"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "species_sizes": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/SpeciesSize"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Species Sizes"
+    },
+    "status": {
+      "$ref": "#/$defs/Status",
+      "default": "draft"
+    },
+    "submitted_by": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Submitted By"
+    },
+    "target": {
+      "$ref": "#/$defs/Target"
+    },
+    "use_context": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Use Context",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "target",
+    "chemistry",
+    "oligos",
+    "citation"
+  ],
+  "title": "AssayWatch registry entry",
+  "type": "object"
+}

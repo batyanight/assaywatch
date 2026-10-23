@@ -43,12 +43,67 @@ def _tally(counts: Counter) -> str:
     return ", ".join(f"{name} {n}" for name, n in sorted(counts.items(), key=lambda x: (-x[1], x[0])))
 
 
+SCHEMA_PATH = Path("registry/schema.json")
+
+
+def emit_schema(path: Path | None) -> None:
+    """Write `Assay`'s JSON Schema to `path`; with `None`, compare against the committed copy."""
+    import json
+
+    schema = Assay.model_json_schema()
+    schema["$schema"] = "https://json-schema.org/draft/2020-12/schema"
+    schema["title"] = "AssayWatch registry entry"
+    schema["$comment"] = (
+        "Generated from assaywatch.schema by `python -m assaywatch.validate "
+        "--emit-schema registry/schema.json`. Do not edit by hand. The models are "
+        "the contract; this file is their published form, for reading registry/*.yaml "
+        "outside Python. Licence: see LICENSE-registry."
+    )
+    text = json.dumps(schema, indent=2, sort_keys=True) + "\n"
+    if path is None:
+        current = SCHEMA_PATH
+        if not current.exists() or current.read_text() != text:
+            raise SystemExit(
+                "registry/schema.json is stale or missing; regenerate with "
+                "`python -m assaywatch.validate --emit-schema registry/schema.json`"
+            )
+        print("registry/schema.json matches assaywatch.schema")
+        return
+    path.write_text(text)
+    print(f"wrote {path} ({len(text):,} bytes)")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("paths", nargs="+", type=Path)
+    # `nargs="*"`, not `"+"`, so `--emit-schema` needs no paths; a bare call with
+    # neither still errors below, which is what a user who forgot the registry wants.
+    ap.add_argument("paths", nargs="*", type=Path)
     ap.add_argument("--active-only", action="store_true", help="only report failures for status=active files")
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument(
+        "--emit-schema",
+        type=Path,
+        metavar="PATH",
+        help="write the registry's JSON Schema here and exit (no paths are read)",
+    )
+    ap.add_argument(
+        "--check-schema",
+        action="store_true",
+        help="fail if registry/schema.json differs from the models; for CI",
+    )
     args = ap.parse_args(argv)
+
+    if not args.paths and not (args.emit_schema or args.check_schema):
+        ap.error("give at least one path, or --emit-schema / --check-schema")
+    if args.emit_schema or args.check_schema:
+        # The schema has been generatable since schema.py was written -- its
+        # docstring says so -- and nothing emitted it, so the registry's only
+        # machine-readable contract lived in Python. A reuser of registry/*.yaml
+        # outside Python had to read pydantic source or 208 files. `--check`
+        # compares instead of writing, so CI can fail when the committed copy
+        # drifts from the models.
+        emit_schema(args.emit_schema)
+        return 0
 
     n_ok, failures, by_status, by_chemistry = 0, [], Counter(), Counter()
     n_probe = 0
