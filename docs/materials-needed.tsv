@@ -1,5 +1,5 @@
 bucket	assay_id	doi	what_is_needed	blocks	notes
-citation	HANTAVIRUS_ssRNA_S_segment_2		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT Protocols
+citation	HANTAVIRUS_ssRNA_S_segment_2		the PREDICT protocol sheet this came from	citation + oligo verification	PREDICT Protocols 2026-10-22: narrowed to Anthony 2013 Text S1 (DOCX), mbio.asm.org/lookup/suppl/doi:10.1128/mBio.00598-13/-/DCSupplemental - the only supplemental item that could carry primers (Table S1 is the herpesvirus cooccurrence table). Family ancestry is Aitichou 2005, 10.1016/j.jviromet.2004.10.004, held in papers/; it prints HANTAV1U/L, the parents of UHantaF1/R1, not these rounds.
 decision	Entamoeba_18S_small_subunit_SSU_2014	10.1099/jmm.0.061820-0	a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
 decision	POXVIRUSES_dsDNA_Polymerase_short		a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
 decision	Pan_mycoplasma_16S_All_Van_1992	10.1128/aem.58.8.2606-2615.1992	a keep-or-delete decision; the entry is flagged do_not_use	registry hygiene	
@@ -23,8 +23,8 @@ oligos-not-in-paper	FILOVIRUS_ssRNA_L_gene_2	10.1128/Jcm.01893-06	which source t
 oligos-not-in-paper	PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002	10.1073/pnas.182412299	which source these oligos actually came from; the cited paper prints others	citation correctness	10.1073_pnas.182412299.pdf
 provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		any provenance at all - no DOI and no reference is recorded	everything downstream	
 provenance	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
-provenance	HANTAVIRUS_ssRNA_S_segment_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	
-provenance	HANTAVIRUS_ssRNA_S_segment_round2_2		any provenance at all - no DOI and no reference is recorded	everything downstream	
+provenance	HANTAVIRUS_ssRNA_S_segment_round2		any provenance at all - no DOI and no reference is recorded	everything downstream	2026-10-22: narrowed to Anthony 2013 Text S1 (DOCX), mbio.asm.org/lookup/suppl/doi:10.1128/mBio.00598-13/-/DCSupplemental - the only supplemental item that could carry primers (Table S1 is the herpesvirus cooccurrence table). Family ancestry is Aitichou 2005, 10.1016/j.jviromet.2004.10.004, held in papers/; it prints HANTAV1U/L, the parents of UHantaF1/R1, not these rounds.
+provenance	HANTAVIRUS_ssRNA_S_segment_round2_2		any provenance at all - no DOI and no reference is recorded	everything downstream	2026-10-22: narrowed to Anthony 2013 Text S1 (DOCX), mbio.asm.org/lookup/suppl/doi:10.1128/mBio.00598-13/-/DCSupplemental - the only supplemental item that could carry primers (Table S1 is the herpesvirus cooccurrence table). Family ancestry is Aitichou 2005, 10.1016/j.jviromet.2004.10.004, held in papers/; it prints HANTAV1U/L, the parents of UHantaF1/R1, not these rounds.
 supplement	RETROVIRUS_RNA_polymerase_SIV	10.1038/nature08200	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1038_nature08200.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV_2	10.1128/JVI.72.12.10305-10309.1998	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1128_jvi.72.12.10305-10309.1998.pdf
 supplement	RETROVIRUS_RNA_polymerase_SIV_Characterization_2001	10.1128/JVI.72.12.10305-10309.1998	the supplementary table or a text-layer copy; this PDF yields no sequences	oligo verification	10.1128_jvi.72.12.10305-10309.1998.pdf
@@ -36,7 +36,7 @@ year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		the design year, for the baseline t
 year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	Entamoeba_18S_small_subunit_SSU	10.1638/2020-0148	the design year, for the baseline the drift test needs	per-year drift statistics	
 year	Feline_Morbillivirus_L_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
-year	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	the design year, for the baseline the drift test needs	per-year drift statistics	
+year	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	the design year, for the baseline the drift test needs	per-year drift statistics	2026-10-22: candidates are 2013 (Anthony amended and named UHantaF1/R1) or 2005 (Aitichou designed HANTAV1U/L, their parents). Needs a decision on which year the drift baseline should take.
 year	HANTAVIRUS_ssRNA_S_segment_2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment_round2_2		the design year, for the baseline the drift test needs	per-year drift statistics	
