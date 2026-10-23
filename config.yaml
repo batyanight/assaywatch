@@ -140,7 +140,8 @@ scoring:
   # replicate that in 5'-nuclease assays (<1.5 Cq for A-C/C-A/T-G/G-T versus
   # >7 Cq for A-A/G-A/A-G/C-C). An identity-blind automatic fail is therefore
   # wrong for roughly half of terminal mismatches. It is also a qPCR-grade
-  # verdict applied to 167 conventional assays, where a 100-fold yield loss is
+  # verdict applied to the conventional assays -- 161 of 208 on 2026-10-23 -- where a
+  # 100-fold yield loss is
   # often still a visible band after 40 cycles. The E. coli malB result rests on
   # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
   # severe class — but the rule got there without checking.
@@ -189,7 +190,8 @@ scoring:
   oligo_ok_max: 1.0              # <= this, one oligo is `ok`
   oligo_weak_max: 3.0            # <= this it is `weak`; above, `blocked`
 
-  # PER-CHEMISTRY OVERRIDES. Every key above applies to all 214 assays, and they
+  # PER-CHEMISTRY OVERRIDES. Every key above applies to every assay in the registry,
+  # whatever its chemistry, and they
   # are not one kind of assay: 167 are conventional or consensus PCR, 44 are
   # probe-based (22 MGB, 22 hydrolysis), 2 are SYBR and 1 is RPA (214 files on 2026-10-14; `python -m assaywatch.validate registry` prints the current ones;
   # the counts written here by hand had drifted to 164/142/21 as the registry
@@ -286,7 +288,7 @@ amplicon:
   # detect / 4 reduced / 18 fail, Nidovirus 5 detect / 51 fail on those samples).
   # That is the filter doing exactly what it is for.
   #
-  # 20 of 214 entries carry a forward or reverse alternate that could form a
+  # 20 entries (of 214 on 2026-10-14) carry a forward or reverse alternate that could form a
   # second product this way, 9 of them with a declared size and the
   # MULTIPLE_PRIMERS_IN_BLOCK flag - including two of the worst oversized-product
   # offenders before the filter, ADENOVIRUS_dsDNA_Tracies_unpublished_nest_
@@ -437,7 +439,8 @@ drift:
   # Sparsely sequenced taxa are exactly the ones this tool is for, and for them a
   # 24-month window is often empty. Widening to 5 years buys statistical power at
   # the cost of currency — the Bd assay (Boyle 2004) only becomes assessable at
-  # 36 months, where it sits at 100% of 54 records. 116 of 141 assays never need
+  # 36 months, where it sits at 100% of 54 records. On the 2026-10-04 run 116 of 141
+  # assays never needed
   # the widening.
   max_window_months: 60
   # Below this many records a proportion's confidence interval is wide enough to

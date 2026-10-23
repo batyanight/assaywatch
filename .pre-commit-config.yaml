@@ -47,6 +47,14 @@ repos:
         entry: conda run -n assaywatch python tests/make_fixtures.py --check
         language: system
         pass_filenames: false
+      - id: claims
+        # Undated registry counts in prose, against the registry. A dated claim is
+        # history and is left alone; an undated one is a current assertion.
+        name: quoted registry counts are current
+        entry: conda run -n assaywatch python scripts/claims.py --check
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|README\.md|ROADMAP\.md|CONTRIBUTING\.md|config\.yaml|assaywatch/score\.py)$
         files: ^(registry/.*\.yaml|config\.yaml|tests/make_fixtures\.py|tests/fixtures/.*)$
         files: ^(registry/.*\.yaml|docs/papers-index\.(md|cache\.json)|scripts/papers_index\.py)$
       - id: check-citations

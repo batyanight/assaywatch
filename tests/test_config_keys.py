@@ -100,3 +100,29 @@ def test_a_cache_file_has_one_format_and_one_writer():
     assert "taxa-cache.json" not in default.group(1), (
         f"master_sheet.py defaults to {lineage_path}, which the lineage analysis owns"
     )
+
+
+def test_the_docs_index_covers_every_doc_and_has_no_broken_links():
+    """54 of 55 docs/ files were reachable from no top-level document, so two of
+    the best -- pipeline-architecture.md, with a DAG of the whole pipeline, and
+    installation.md -- were invisible and a reader concluded there was no
+    architecture documentation. An index only helps while it is complete."""
+    import re
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    docs = root / "docs"
+    index = (docs / "INDEX.md").read_text()
+    linked = set(re.findall(r"\]\(([^)]+)\)", index)) | set(
+        re.findall(r"`([0-9A-Za-z._-]+\.(?:md|tsv))`", index)
+    )
+    present = {p.name for p in docs.glob("*.md")} | {p.name for p in docs.glob("*.tsv")}
+
+    missing = sorted(present - linked - {"INDEX.md"})
+    assert not missing, f"docs/ files absent from docs/INDEX.md: {missing}"
+
+    broken = sorted(link for link in linked if link.endswith((".md", ".tsv")) and not (docs / link).exists())
+    assert not broken, f"docs/INDEX.md links to files that do not exist: {broken}"
+
+    # and the index is reachable itself, which is the whole point
+    assert "docs/INDEX.md" in (root / "README.md").read_text()

@@ -18,8 +18,10 @@ conda activate assaywatch
 
 That gives you Python 3.12, the package installed editable (`pip: -e .`), the
 test and lint tooling pinned to the versions CI uses (`ruff=0.16.10`, matching
-`.pre-commit-config.yaml` and `pyproject.toml`), `snakemake-minimal>=8` for the
-pipeline, and the NCBI command-line tools.
+`.pre-commit-config.yaml` and `pyproject.toml`), the Snakemake minor pinned in
+`environment.yml` for the pipeline, and the NCBI command-line tools. The pin is
+not repeated here: it moved once already, and `tests/test_reproducibility.py`
+checks `environment.yml` against CI, not against this prose.
 
 Verify:
 
@@ -38,12 +40,16 @@ All four must pass. They are the project's gates — see `CLAUDE.md`.
 python -m pip install -e ".[dev,pdf]"
 ```
 
-Runtime dependencies are `pydantic>=2`, `pyyaml>=6`, `numpy>=1.24` and
-`requests>=2`. The extras:
+Runtime dependencies are `pydantic>=2`, `pyyaml>=6`, `numpy>=1.24`, `requests>=2`
+and `matplotlib>=3.8`. `matplotlib` is NOT optional: `rule all` requires
+`results/<date>/figures/figures.html` unconditionally, so a pip install without it
+cannot finish a run. It reached `environment.yml` and not `pyproject.toml` once and
+turned both CI jobs red while the Mac stayed green.
 
 | extra | brings | for |
 |---|---|---|
 | `dev` | pytest, ruff, pre-commit, build | the gates, and `python -m build` |
+| `lineage` | scipy, statsmodels | the per-lineage verdict and its multiple-testing correction. **Without it anything that computes a verdict raises**, including most of `tests/test_drift.py` — and the lineage check drives 18 of the 38 `declining` calls, so this is not a side feature. CI runs one job without it on purpose, to prove the rest of the pipeline still works. |
 | `pdf` | pypdf | `scripts/verify_oligos_against_paper.py --pdf-dir` |
 | `thermo` | primer3-py | the duplex-Tm columns, opt-in via `thermo: true` |
 | `import` | openpyxl | reading the source spreadsheet |

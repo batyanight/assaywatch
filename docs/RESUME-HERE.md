@@ -1,72 +1,88 @@
-# Resume point, 2026-10-22 (tier-2 test of terminal_mismatch_fails FAILED mid-run; start here)
+# Resume point, 2026-10-23 (waves 0-5 of the plan of attack landed; see below)
 
-## 1. START HERE: the terminal_mismatch_fails tier-2 test died at collect_calls
+## 1. SETTLED: why the terminal_mismatch_fails run died, and the rule it gives you
 
-**State: `config.yaml` has `terminal_mismatch_fails: false` UNCOMMITTED** (marked `TIER-2 TEST
-2026-10-22, not a shipped value`). 20 pytest failures are that knob and nothing else - the tests
-pin the shipped value. Nothing else is uncommitted; everything else today is pushed.
+This section used to open "**State: `config.yaml` has `terminal_mismatch_fails: false`
+UNCOMMITTED** ... 20 pytest failures are that knob", and told the next reader to settle
+the cause before re-running. All of that was stale within a day: the tree is clean, the
+knob is `true`, and those 20 failures do not exist. **The cause is now known.**
 
-**What happened.** `caffeinate -i snakemake --cores 4 --config run_date=2026-10-22-tmf-false`,
-log `snakemake-2026-10-22-tmf-false.txt`, 352 of 358 steps, then:
+**What happened.** The `2026-10-22-tmf-false` run ran 19:49:28 to 20:16:42 and died at
+`collect_calls`, with `_raise_for_stale_signatures` refusing all 349 screens the same run
+had just written. The prime suspect recorded here was "the registry was edited while the
+run was in flight" (`0a0d3e4` at 20:11:43, `3e94e96` at 20:12:58, both inside the
+window), and this doc noted that it "does not add up": `screen_signature` re-reads only
+the YAMLs of the assays **in that group** (`Snakefile:139`), so a hantavirus edit cannot
+invalidate `results/screened/171/asm/`, which holds no hantavirus entry. That reasoning
+was right and the suspect was wrong.
 
-    ValueError in Snakefile line 459:
-    349 cached screen(s) were produced under settings this pipeline no longer uses
+**The cause was a `git stash` at 20:09:05**, twenty minutes into the run: commit
+`b22c466` ("WIP on main"), still present as `stash@{0}`. Its only change is
 
-That is `_raise_for_stale_signatures` - the guard, working. **349 screen jobs ran in that same
-run** and all 349 were then refused, so `screen_signature()` returned one value when each screen
-was written and a different one when `collect_calls` evaluated its params.
+    -  terminal_mismatch_fails: false  # TIER-2 TEST 2026-10-22, not a shipped value
+    +  terminal_mismatch_fails: true   # any mismatch at the 3'-most base = fail
 
-**Prime suspect: the registry was edited while the run was in flight.** `screen_signature()`
-re-reads `registry/<assay>.yaml` from disk at call time, and the Hantavirus provenance commits
-(`0a0d3e4`, `3e94e96`) rewrote four registry files mid-run. **Unconfirmed and it does not add
-up yet**: that should invalidate only the groups containing those four assays, but the refused
-list starts at `results/screened/171/asm/...`, whose group holds no hantavirus entry. So either
-`_code_hash` also moved (it is built from screen.py's import closure plus the `scoring`,
-`amplicon`, `degeneracy` and `thermo_conditions` config blocks) or the signature depends on
-something else that changed. **Settle that before re-running**, because it decides whether the
-rule is "never touch registry/ or config.yaml during a run" or something narrower.
+Stashing the test knob restored `config.yaml` to the shipped value **mid-run**.
+`terminal_mismatch_fails` is in the `scoring` block; `_code_hash` is built from
+screen.py's import closure **plus the `scoring`, `amplicon`, `degeneracy` and
+`thermo_conditions` blocks** (`Snakefile:122`); and every group's signature starts from
+`_code_hash`. So every screen written before 20:09 was produced under `false` and
+evaluated under `true`: all 349 refused, groups with no hantavirus entry included. The
+guard worked exactly as designed, and the registry edits two minutes later were a red
+herring.
 
-**To re-run once the cause is known:** the screens on disk are now a mix, so force them -
+**The operational rule, which is what the question was for:**
 
-    caffeinate -i snakemake --cores 4 --config run_date=2026-10-22-tmf-false \
-        --forcerun $(jq -r '.screen_inventory[] | .path' results/2026-10-22/calls.provenance.json | tr '\n' ' ')
+- Editing `config.yaml`'s `scoring`, `amplicon`, `degeneracy` or `thermo_conditions`
+  block, or any module in screen.py's import closure, during a run invalidates **every**
+  group. So does `git stash`, `git checkout` or anything else that rewrites those files:
+  the signature reads the working tree, not the commit.
+- Editing a registry YAML invalidates **only the groups containing that assay**.
+- The other config blocks (`drift`, `lineage`, `report`, `sitedrift`, `figures`) are not
+  in the screen signature at all, which is why every report-stage change in waves 1-5 was
+  measured without a rescreen.
 
-then compare against the clean baseline:
+**To re-run the experiment** (still untested; `config.yaml`'s comment at
+`terminal_mismatch_fails` is the standing record of why it matters): set the knob, start
+the run, and touch nothing in the repo until it finishes. The `--forcerun` recipe this
+section used to give is no longer needed — the screens on disk are consistent again, as
+`snakemake -n` confirms by planning zero `screen_archive` jobs.
 
-    python scripts/retrospective.py --cases docs/validation-cases.tsv \
-        --calls results/2026-10-22-tmf-false/calls.tsv.gz    # test
-    python scripts/retrospective.py --cases docs/validation-cases.tsv \
-        --calls results/2026-10-22/calls.tsv.gz              # baseline, fails 5 of 11
+## 2026-10-23: waves 0-5 of the plan of attack
 
-Gate as before: catches must not fall and no `works`/`partial` case may newly disagree. If it
-holds, the knob ships and the ~20 terminal-mismatch tests are updated with it; if a catch falls,
-revert and record, as M1 was.
+An outside evaluation on 2026-10-23 produced a plan worked through in waves on branch
+`review/2026-10-23-plan-of-attack`. Each wave has its own dated record; read those rather
+than this summary.
 
-**Keep the lid open.** The earlier benchmark populate spent 1h 31m of 1h 47m in clamshell sleep.
+- **Wave 0** `docs/2026-10-23-baseline.md` — `results/baseline-2026-10-22/` frozen as the
+  comparison point, the full tier-2 matrix, and the first precision figure ever computed:
+  **2 of 9 `declining` calls were real failures**.
+- **Wave 1** `docs/2026-10-23-wave1-report-honesty.md` — **704 of 1,512 per-lineage
+  intervals were zero-width** (a Wald interval in `lineage.py`); 19 assays carried a
+  status their own registry entry denies; the duplication check never saw an overridden
+  flag.
+- **Wave 2** `docs/2026-10-23-wave2-diverged-and-patent.md` — `count_diverged_as_fail`
+  tested and **kept off** (55 of Bd's 63 `diverged` records are 2014 JAM81 mRNAs matched
+  by chance); `exclude_patent_records` turned **on**, on mechanism, without tier-2
+  approval, with the rule for doing that written beside the setting.
+- **Wave 3** `-wave3-bd-miss.md`, `-wave3-usutu.md`, `-wave3-influenza.md`,
+  `-wave3-holm.md` — all three documented misses are **scoring** problems, not
+  statistical ones. Holm replaced BH and moved nothing yet.
+- **Wave 4** `docs/2026-10-23-wave4-holdout.md` — `validation-cases.tsv` is now labelled
+  the **development set**; `scripts/holdout.py` prices what tuning on it bought;
+  `validation-cases-heldout.tsv` is empty on purpose.
+- **Wave 5** `-wave5-config-schema.md`, `-wave5-triage.md`, `-wave5-what-active-means.md`,
+  `-wave5-ip-question.md` — `config.yaml` has a schema and six defaults lost their second
+  home; the report leads with ten assays and is navigable without a script;
+  `scripts/promote.py` lists 173 eligible drafts; the weekly run exists and is dry by
+  default. **The WCS provenance email is drafted and NOT SENT**, and it blocks going
+  public.
 
-### Open alongside it
-
-- **Sigrist 2021 ORTHOBORNAVIRUS x3 - resolved by evidence, write-up not yet in the entries.**
-  Supplement Table S4 is a table of OTHER published assays (it has a `Reference` column, `[26]`,
-  `[24]`), so `PaBVcon_1401+` is not this assay and the 1-edit near match to the figure-read
-  `BornaPCA6` is homology in a conserved stretch - S4's own `panBorna_1471.2_P` probe carries the
-  same motif. **Do not overwrite the entries from S4.** The probe name is not a registry typo
-  either: the paper prints `BornaA_A647N` in its main text four times and `BornaA_A674N` in its
-  own table and in Table S5, so it contradicts itself and the registry copied the main text.
-  Neither PDF prints the triplex sequences as text anywhere, so `oligos_read_from_figure` and the
-  `figure` bucket stay correct. **TODO: put that paragraph in all three `notes_curator`** so it is
-  not re-derived.
-- **Hantavirus nested rounds: every local lead is now exhausted.** `UHantaF2/R2`, `UHantaF3/R3`
-  and `UHantaF4` appear in no PDF in `papers/` (swept by name), not in Anthony 2013, and not in
-  any of its supplemental material - Text S1 is the cost-of-surveillance discussion (held as
-  `papers/10.1128_mbio.00598-13.supp.docx`, zero primers and zero sequences), Table S1 is a
-  co-detection count table with no hantavirus row at all, and S1/S2 are figures. What is left is
-  the PREDICT protocol sheet itself, a lab document rather than a paper - the open `citation` row
-  for `HANTAVIRUS_ssRNA_S_segment_2`. **TODO: record those eliminations in the four entries'
-  notes** (an attempt tonight missed on line-wrapping anchors and was not applied) so the corpus
-  is not re-searched.
-
-
+Open, in rough order: send the IP email; decide what `active` asserts
+(`scripts/promote.py`, and `docs/2026-10-23-wave5-what-active-means.md` recommends
+`--tier clean`); collect held-out cases (plan 4.2, shared with the C2 bench corpus in
+`docs/bayesian-scoring-plan.md`); build the archive-scale anchor test that
+`count_diverged_as_fail` needs; and `subcluster.py`, built, tested and still unwired.
 
 ## 2026-10-22, M1 tier-2: DECIDED. The wobble discount is reverted
 

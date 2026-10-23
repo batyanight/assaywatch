@@ -15,6 +15,10 @@ See ROADMAP.md.
 
 For a worked example that runs offline in a second, see `examples/README.md`.
 
+`docs/INDEX.md` indexes the 81 files under `docs/`, grouped by what you want;
+`docs/pipeline-architecture.md` is the best single overview of the pipeline and
+`docs/installation.md` covers setup in more detail than the Setup section below.
+
 ## Related work
 
 Matching oligos against sequence and counting mismatches is not new, and two existing
@@ -255,7 +259,8 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    needs forward **and** reverse and detection needs the probe on top. Those are
    serial gates. Three trivial mismatches, one per oligo, land in the same bin as
    one near-lethal 3'-proximal mismatch.
-3. *One table serves 167 conventional PCRs and 44 probe assays.* A 100-fold yield
+3. *One table serves every chemistry in the registry* -- 161 conventional PCRs and 44
+   probe assays on 2026-10-23. A 100-fold yield
    loss is a missed Cq cutoff in qPCR and often still a visible band after 40
    cycles of endpoint PCR. The same `fail` is printed for both.
 4. *Probe geometry is length-blind, and MGB-blind.* Of the 44 probe assays here,

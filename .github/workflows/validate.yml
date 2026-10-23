@@ -21,6 +21,10 @@ jobs:
       # The registry's published contract. Regenerate with
       # `python -m assaywatch.validate --emit-schema registry/schema.json`.
       - run: python -m assaywatch.validate --check-schema
+      # Registry counts quoted in prose, against the registry. README explains why
+      # counts should be printed rather than written by hand, and then wrote 214
+      # into prose on the same line; nine wrong numbers were in circulation.
+      - run: python scripts/claims.py --check
 
   # The Snakemake-backed tests (tests/test_triggers.py) run the pipeline offline and assert
   # which rules an edit reruns. They skip without Snakemake, so the job above never runs

@@ -140,7 +140,9 @@ python scripts/verify_oligos_against_paper.py --assay YOUR_ASSAY --pdf-dir ~/Dow
 ```
 
 **The literature is the truth. A lab spreadsheet is a place to start.** 138 of
-the 151 entries here were transcribed from one spreadsheet, and that spreadsheet
+the entries here were transcribed from one spreadsheet (138 of 151 at the time; the
+registry has grown since -- `python -m assaywatch.validate registry` prints the current
+counts), and that spreadsheet
 has already been caught in a *Sarcocystis* primer carrying an extra C, two
 undeclared cloning tails, three taxids naming the wrong organism, five DOIs
 resolving to other papers, an amplicon of 500 bp where the paper says 531, and

@@ -89,10 +89,10 @@ def scoring_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, An
     optional `scoring.by_chemistry` map overrides individual keys for one of
     them.
 
-    WHY THIS EXISTS. One penalty table was applied to all 214 assays, and they
-    are not one kind of assay: 167 are conventional or consensus PCR and 44 are
-    probe-based (22 MGB, 22 hydrolysis), plus 2 SYBR and one RPA (214 files on
-    2026-10-14; `python -m assaywatch.validate registry` prints the current
+    WHY THIS EXISTS. One penalty table was applied to every assay, and they are
+    not one kind of assay: most are conventional or consensus PCR and the rest
+    are probe-based, SYBR or RPA (161 / 44 / 2 / 1 of 208 on 2026-10-23;
+    `python -m assaywatch.validate registry` prints the current
     counts, which is where they now live - written by hand here they had
     drifted to 164/142/21). Conventional PCR tolerates
     mismatches far better than a hydrolysis probe - a 100-fold yield loss is
