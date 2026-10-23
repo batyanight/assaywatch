@@ -40,6 +40,18 @@ estimand, is designed and only partly built, so it is not yet a contribution.
 `docs/related-work.md` has the comparison in full, plus the methodological and
 statistical references the scoring rule and the drift call rest on.
 
+## Provenance
+
+Code is MIT (`LICENSE`); the registry and the curated tables are CC-BY-4.0
+(`LICENSE-registry`). Six entries carry oligos with no published source and are not
+covered by that offer until the provenance question in
+`docs/2026-10-23-wave5-ip-question.md` is answered in writing.
+
+Most of this repository was written by Claude (Anthropic) in a Claude Code session,
+directed by the author: 306 of 330 commits carry a co-authorship trailer.
+`docs/ai-involvement.md` says what that means, and which checks in the repository make
+every factual claim here verifiable rather than taken on trust.
+
 ## Layout
 
 ```

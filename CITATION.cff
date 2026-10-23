@@ -2,13 +2,21 @@
 # GitHub renders this as a "Cite this repository" button and Zenodo reads it when
 # archiving a release.
 #
-# NO `license:` FIELD YET. The project has not chosen one, so there is no LICENSE
-# file either, and asserting a license here would be a claim nobody has made.
-# Without one the default is all-rights-reserved, which is worth settling before
-# the repository is made public or a DOI is minted.
+# TWO LICENCES, because there are two things here. The code is MIT (LICENSE,
+# committed 2026-10-07). The registry -- registry/*.yaml and docs/*.tsv, which is
+# the part with the curation in it -- is CC-BY-4.0 (LICENSE-registry). CFF has
+# one `license:` field, so it names the code licence and `license-url` points at
+# the pair; a reuser of the DATA needs LICENSE-registry.
 #
-# NO `doi:` or `date-released:` FIELD YET either: there has been no release.
-# Add both, and `preferred-citation` if a paper appears, at that point.
+# This comment block previously said "NO `license:` FIELD YET. The project has
+# not chosen one, so there is no LICENSE file either" -- for the 16 days after
+# MIT was committed. That made the one machine-readable file GitHub surfaces and
+# Zenodo ingests assert all-rights-reserved on a repository that was MIT.
+#
+# NO `doi:` or `date-released:` FIELD YET: there has been no release, and one
+# must not be minted before the WCS spreadsheet provenance is settled in writing
+# (ROADMAP.md, docs/2026-10-23-wave5-ip-question.md). Add both, and
+# `preferred-citation` if a paper appears, at that point.
 cff-version: 1.2.0
 message: "If you use AssayWatch, please cite it using the metadata below."
 title: AssayWatch
@@ -26,6 +34,8 @@ authors:
     orcid: "https://orcid.org/0000-0002-0706-8951"
 repository-code: "https://github.com/batyanight/assaywatch"
 version: 0.0.1
+license: MIT
+license-url: "https://github.com/batyanight/assaywatch/blob/main/LICENSE-registry"
 keywords:
   - PCR
   - qPCR
