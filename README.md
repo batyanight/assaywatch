@@ -416,6 +416,18 @@ python tests/make_fixtures.py && pytest -q
 caffeinate -i snakemake --cores 4 --config email=you@example.org
 ```
 
+On a schedule, which is what "re-screens it on a schedule" above means:
+
+```bash
+scripts/weekly_run.sh            # dry run: prints the job plan, fetches nothing
+scripts/weekly_run.sh --live     # the real run, then report_diff for what changed
+```
+
+`profiles/launchd/` installs that weekly on macOS and `profiles/launchd/README.md`
+explains why it is not a GitHub Action (NCBI is unreachable from cloud sandboxes) and
+why the installed job is a dry run until you add `--live`. Each report prints when the
+previous successful run finished, so a stale one says so.
+
 Five stages: validate the registry, retrieve what is new for each group,
 screen every archive not yet screened, collect, report. `caffeinate -i` keeps a
 Mac from idle-sleeping until the run ends.

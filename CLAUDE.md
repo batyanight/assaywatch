@@ -22,6 +22,7 @@ Full layout and usage: `README.md`. Plan and status: `ROADMAP.md`.
     python scripts/check_citations.py              # CI runs this too
     snakemake -n                                   # dry run: prints the job plan, downloads nothing
     caffeinate -i snakemake --cores 4 --config email=you@example.org   # lid OPEN: -i does not stop clamshell sleep
+    scripts/weekly_run.sh [--live]                 # the scheduled run; dry by default. profiles/launchd/
     snakemake --profile profiles/slurm --config email=you@example.org   # same rules on SLURM
 A change is not done until pytest, the validator, ruff and check_citations pass.
 NCBI CLIs are in the env: `esearch | efetch` (Entrez Direct) and `datasets`

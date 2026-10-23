@@ -649,3 +649,38 @@ def test_the_html_is_navigable_without_any_script():
     # and a flagged assay's row links through to its own detail block
     assert f"<a href='#detail-{bd.lower().replace('_', '-')}'>" in page
     assert f"<details id='detail-{bd.lower().replace('_', '-')}'>" in page
+
+
+def test_the_report_says_when_the_previous_run_finished(tmp_path):
+    """README and CITATION.cff both say this re-screens "on a schedule", and
+    until 2026-10-23 there was none. A report carries its run date in the title,
+    but nothing told a reader whether that date was last week or six weeks ago --
+    and a drift monitor whose last look was six weeks ago is making a different
+    claim from one that ran on Sunday."""
+    import json
+
+    from assaywatch.report import freshness_line
+
+    def run(name, run_date, status, finished):
+        d = tmp_path / name
+        d.mkdir()
+        (d / "run-timing.json").write_text(
+            json.dumps({"run_date": run_date, "status": status, "finished": finished})
+        )
+
+    assert freshness_line(tmp_path, "2026-10-23") == "", "a first run claims nothing"
+
+    run("2026-10-11", "2026-10-11", "success", "2026-10-11T20:00:00")
+    run("2026-10-18", "2026-10-18", "failed", "2026-10-18T20:00:00")
+    # A failed run is not a previous look at the data.
+    assert "2026-10-11" in freshness_line(tmp_path, "2026-10-23")
+
+    run("2026-10-22", "2026-10-22", "success", "2026-10-22T16:17:50")
+    assert freshness_line(tmp_path, "2026-10-23") == "Previous successful run: 2026-10-22 (1 day earlier)."
+    assert "40 days earlier" in freshness_line(tmp_path, "2026-12-01")
+
+    # A COPY of this run is not a previous run: keyed on the run_date inside the
+    # file, not the directory name, because results/baseline-2026-10-22/ exists.
+    run("baseline-2026-10-22", "2026-10-22", "success", "2026-10-22T16:17:50")
+    assert "2026-10-22" in freshness_line(tmp_path, "2026-10-23")
+    assert freshness_line(tmp_path, "2026-10-22").startswith("Previous successful run: 2026-10-11")

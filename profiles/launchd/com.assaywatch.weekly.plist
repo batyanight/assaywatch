@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Weekly re-screen, for launchd on macOS. A TEMPLATE. The REPO_PATH
+  placeholders must be replaced with the absolute path to the checkout, because
+  launchd has no notion of a working directory until the job sets one.
+
+  INSTALL. Read profiles/launchd/README.md first. Short version:
+
+      sed "s|REPO_PATH|$PWD|g" profiles/launchd/com.assaywatch.weekly.plist \
+        > ~/Library/LaunchAgents/com.assaywatch.weekly.plist
+      launchctl load ~/Library/LaunchAgents/com.assaywatch.weekly.plist
+
+  As installed this runs `scripts/weekly_run.sh` with NO arguments, which is a
+  DRY RUN: it prints the job plan and fetches nothing. That is deliberate;
+  see the script's header. Add a `live` flag to ProgramArguments once
+  a dry run has fired and the log looks right.
+
+  Sunday 09:00 rather than overnight, because `caffeinate -i` does not prevent
+  clamshell sleep: a closed lid suspended a 2026-10-22 run for 1h31m of its
+  1h47m. A daytime slot is one a person can leave the lid open for.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.assaywatch.weekly</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>REPO_PATH/scripts/weekly_run.sh</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>REPO_PATH</string>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>0</integer>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+
+  <!-- The script tees its own timestamped log into results/weekly-logs/; these
+       two catch anything that escapes it, such as a failure to find conda. -->
+  <key>StandardOutPath</key>
+  <string>REPO_PATH/results/weekly-logs/launchd.out</string>
+  <key>StandardErrorPath</key>
+  <string>REPO_PATH/results/weekly-logs/launchd.err</string>
+
+  <!-- Not run on load: installing the job should not start a pipeline. -->
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>

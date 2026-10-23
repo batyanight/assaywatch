@@ -30,6 +30,7 @@ import argparse
 import csv
 import gzip
 import html
+import json
 import sys
 from collections import Counter
 from dataclasses import dataclass
@@ -357,6 +358,51 @@ def registry_status_line(drifts: dict[str, AssayDrift], assays: dict[str, Assay]
     return text
 
 
+def freshness_line(results_dir: Path, run_date: str) -> str:
+    """When the last run that finished actually finished, said on the page.
+
+    README and CITATION.cff both describe this project as re-screening "on a
+    schedule", and until 2026-10-23 there was none: every run was started by
+    hand. A report carries its run date in the title, but nothing told a reader
+    whether that date was last week or six weeks ago, and a drift monitor whose
+    last look was six weeks ago is making a different claim from one that ran on
+    Sunday. `profiles/launchd/` is the schedule; this is how a reader sees it
+    held -- or sees that it did not.
+
+    Read from the previous runs' `run-timing.json`, which already records
+    `finished` and `status` (assaywatch.timing), so nothing new is written.
+    Silent when there is no earlier run to compare with, which is the honest
+    answer for a first run rather than a claim about freshness.
+    """
+    from datetime import date
+
+    previous = []
+    for timing in sorted(results_dir.glob("*/run-timing.json")):
+        try:
+            data = json.loads(timing.read_text())
+        except (OSError, ValueError):
+            continue
+        # Keyed on the run_date INSIDE the file, not the directory name. A run
+        # can be copied (results/baseline-2026-10-22/ is wave 0's frozen copy)
+        # or re-run under a suffix (2026-10-22-tmf-false), and a copy of this
+        # run is not a previous run. Both carry their real run_date.
+        if data.get("run_date") == run_date:
+            continue
+        if data.get("status") == "success" and data.get("finished"):
+            previous.append((data["finished"][:10], data["run_date"]))
+    if not previous:
+        return ""
+    finished, _ = max(previous)
+    try:
+        days = (date.fromisoformat(run_date[:10]) - date.fromisoformat(finished)).days
+    except ValueError:
+        return ""
+    if days < 0:
+        return ""
+    ago = "the same day" if days == 0 else "1 day earlier" if days == 1 else f"{days} days earlier"
+    return f"Previous successful run: {finished} ({ago})."
+
+
 def flag_confidence_line(grouped: dict[str, list[AssayDrift]]) -> str:
     """The duplication result, beside the flag counts rather than below them.
 
@@ -653,6 +699,7 @@ class ReportModel:
     counts: list[tuple[str, int]]
     registry_line: str
     confidence_line: str
+    freshness_line: str
     window_months: int
     widened: int
     earliest: int | str
@@ -906,6 +953,7 @@ def build_model(
     cfg: dict[str, Any] | None = None,
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
+    results_dir: Path | None = None,
 ) -> ReportModel:
     """Decide what the report says. Neither serialiser decides anything else."""
     # Assays the registry says cannot be scored leave every status table before
@@ -951,6 +999,7 @@ def build_model(
         counts=[(s, len(grouped[s])) for s in status_order(grouped) if grouped.get(s)],
         registry_line=registry_status_line(drifts, assays),
         confidence_line=flag_confidence_line(grouped),
+        freshness_line=freshness_line(results_dir, run_date) if results_dir else "",
         window_months=window,
         widened=sum(1 for a in drifts.values() if a.window_months > window),
         earliest=a0.recent_from if a0 else 0,
@@ -982,9 +1031,11 @@ def render_markdown(
     cfg: dict[str, Any] | None = None,
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
+    results_dir: Path | None = None,
 ) -> str:
     """Markdown, so the report reads on GitHub with nothing built."""
-    return markdown_from(build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy), assays, cfg)
+    model = build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir)
+    return markdown_from(model, assays, cfg)
 
 
 def _md_cells(r: StatusRow) -> tuple[str, str, str, str]:
@@ -1009,6 +1060,8 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
         out += [m.registry_line, ""]
     if m.confidence_line:
         out += [m.confidence_line, ""]
+    if m.freshness_line:
+        out += [m.freshness_line, ""]
     if m.n_assays:
         out += [
             f"Recent window: {m.window_months} months"
@@ -1231,10 +1284,12 @@ def render_html(
     cfg: dict[str, Any] | None = None,
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
+    results_dir: Path | None = None,
     figures: dict[str, str] | None = None,
 ) -> str:
     """One self-contained file: no CDN, inline SVG charts, opens anywhere."""
-    return html_from(build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy), figures)
+    model = build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir)
+    return html_from(model, figures)
 
 
 def _html_cells(r: StatusRow) -> tuple[str, str, str, str]:
@@ -1265,6 +1320,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
         f"<title>AssayWatch — {e(m.run_date)}</title><style>{CSS}</style></head><body>",
         f"<h1>AssayWatch report</h1><p class='muted'>{e(m.run_date)}</p>",
         f"<p class='lead'>{e(m.registry_line)}</p>",
+        (f"<p class='muted'>{e(m.freshness_line)}</p>" if m.freshness_line else ""),
         "<p class='lead'>Detected means predicted to amplify. The denominator is evaluable "
         "records only: both primers landed in the right orientation and size range. Records "
         "with no amplicon, or too many undetermined bases to judge, are excluded and counted "
@@ -1717,9 +1773,25 @@ def build(
     # Nested families are read from the SAME deduplicated calls the drift
     # statistic uses, so the two never disagree about which records exist.
     nested = assess_nested(assays, calls)
+    # The run directories live beside this one, which is where the previous run's
+    # run-timing.json is, so the freshness line reads from the calls path rather
+    # than needing the config's results_dir threaded in.
+    results_dir = calls_path.parent.parent
     return (
-        render_markdown(drifts, assays, gaps, run_date, cfg, nested, taxonomy),
-        render_html(drifts, assays, gaps, run_date, cfg, nested, taxonomy, read_figures(figures_dir)),
+        render_markdown(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir),
+        # Keyword arguments: `results_dir` was added before `figures` in the
+        # signature, and a positional call silently handed the figures dict to it.
+        render_html(
+            drifts,
+            assays,
+            gaps,
+            run_date,
+            cfg,
+            nested,
+            taxonomy,
+            results_dir=results_dir,
+            figures=read_figures(figures_dir),
+        ),
         drifts,
     )
 
