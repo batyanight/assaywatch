@@ -51,7 +51,8 @@ section used to give is no longer needed — the screens on disk are consistent 
 ## 2026-10-23: waves 0-5 of the plan of attack
 
 An outside evaluation on 2026-10-23 produced a plan worked through in waves on branch
-`review/2026-10-23-plan-of-attack`. Each wave has its own dated record; read those rather
+`docs/2026-10-23-elsevier-and-oligo-flags` (started as
+`review/2026-10-23-plan-of-attack`). Each wave has its own dated record; read those rather
 than this summary.
 
 - **Wave 0** `docs/2026-10-23-baseline.md` — `results/baseline-2026-10-22/` frozen as the
@@ -72,15 +73,26 @@ than this summary.
   the **development set**; `scripts/holdout.py` prices what tuning on it bought;
   `validation-cases-heldout.tsv` is empty on purpose.
 - **Wave 5** `-wave5-config-schema.md`, `-wave5-triage.md`, `-wave5-what-active-means.md`,
-  `-wave5-ip-question.md` — `config.yaml` has a schema and six defaults lost their second
-  home; the report leads with ten assays and is navigable without a script;
+  `-wave5-ip-question.md`, `-wave5-engineering.md`,
+  `-wave5-elsevier-and-oligo-flags.md` — `config.yaml` has a schema and six defaults lost
+  their second home; the report leads with ten assays and is navigable without a script;
   `scripts/promote.py` lists 173 eligible drafts; the weekly run exists and is dry by
-  default. **The WCS provenance email is drafted and NOT SENT**, and it blocks going
-  public.
+  default; `calls.py` split out of `report.py` and three rules now declare memory.
+  **The WCS provenance email is drafted and NOT SENT**, and it blocks going public.
+- **The Elsevier token works** (`-wave5-elsevier-and-oligo-flags.md`): 10 of 10
+  outstanding Elsevier DOIs fetched, **uncheckable oligos 106 -> 38** (13 entries have no
+  oligos, 25 no DOI), 466 of 504 checkable and 393 agreeing (84%). 15 candidate genuine
+  errors remain and **no registry flag was changed yet**. Both steps must run on the host:
+  `api.elsevier.com` is not on the cloud proxy allowlist, and
+  `verify_oligos_against_paper.py` needs 3.11+ for `StrEnum`.
+- **`scripts/design_era.py`** measures the founding premise: 71 assays were designed
+  against under 50 records (`docs/design-era.tsv`).
 
 Open, in rough order: send the IP email; decide what `active` asserts
 (`scripts/promote.py`, and `docs/2026-10-23-wave5-what-active-means.md` recommends
-`--tier clean`); collect held-out cases (plan 4.2, shared with the C2 bench corpus in
+`--tier clean` — the oligo-provenance objection to promoting is now much weaker, 38
+uncheckable rather than 106, so this decision is ripe); adjudicate the 15 candidate
+oligo discrepancies and decide whether any becomes a registry flag; collect held-out cases (plan 4.2, shared with the C2 bench corpus in
 `docs/bayesian-scoring-plan.md`); build the archive-scale anchor test that
 `count_diverged_as_fail` needs; and `subcluster.py`, built, tested and still unwired.
 
