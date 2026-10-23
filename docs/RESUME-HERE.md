@@ -1,4 +1,72 @@
-# Resume point, 2026-10-22 (M1 reverted on measurement; table is clean and re-baselined at 5 of 11)
+# Resume point, 2026-10-22 (tier-2 test of terminal_mismatch_fails FAILED mid-run; start here)
+
+## 1. START HERE: the terminal_mismatch_fails tier-2 test died at collect_calls
+
+**State: `config.yaml` has `terminal_mismatch_fails: false` UNCOMMITTED** (marked `TIER-2 TEST
+2026-10-22, not a shipped value`). 20 pytest failures are that knob and nothing else - the tests
+pin the shipped value. Nothing else is uncommitted; everything else today is pushed.
+
+**What happened.** `caffeinate -i snakemake --cores 4 --config run_date=2026-10-22-tmf-false`,
+log `snakemake-2026-10-22-tmf-false.txt`, 352 of 358 steps, then:
+
+    ValueError in Snakefile line 459:
+    349 cached screen(s) were produced under settings this pipeline no longer uses
+
+That is `_raise_for_stale_signatures` - the guard, working. **349 screen jobs ran in that same
+run** and all 349 were then refused, so `screen_signature()` returned one value when each screen
+was written and a different one when `collect_calls` evaluated its params.
+
+**Prime suspect: the registry was edited while the run was in flight.** `screen_signature()`
+re-reads `registry/<assay>.yaml` from disk at call time, and the Hantavirus provenance commits
+(`0a0d3e4`, `3e94e96`) rewrote four registry files mid-run. **Unconfirmed and it does not add
+up yet**: that should invalidate only the groups containing those four assays, but the refused
+list starts at `results/screened/171/asm/...`, whose group holds no hantavirus entry. So either
+`_code_hash` also moved (it is built from screen.py's import closure plus the `scoring`,
+`amplicon`, `degeneracy` and `thermo_conditions` config blocks) or the signature depends on
+something else that changed. **Settle that before re-running**, because it decides whether the
+rule is "never touch registry/ or config.yaml during a run" or something narrower.
+
+**To re-run once the cause is known:** the screens on disk are now a mix, so force them -
+
+    caffeinate -i snakemake --cores 4 --config run_date=2026-10-22-tmf-false \
+        --forcerun $(jq -r '.screen_inventory[] | .path' results/2026-10-22/calls.provenance.json | tr '\n' ' ')
+
+then compare against the clean baseline:
+
+    python scripts/retrospective.py --cases docs/validation-cases.tsv \
+        --calls results/2026-10-22-tmf-false/calls.tsv.gz    # test
+    python scripts/retrospective.py --cases docs/validation-cases.tsv \
+        --calls results/2026-10-22/calls.tsv.gz              # baseline, fails 5 of 11
+
+Gate as before: catches must not fall and no `works`/`partial` case may newly disagree. If it
+holds, the knob ships and the ~20 terminal-mismatch tests are updated with it; if a catch falls,
+revert and record, as M1 was.
+
+**Keep the lid open.** The earlier benchmark populate spent 1h 31m of 1h 47m in clamshell sleep.
+
+### Open alongside it
+
+- **Sigrist 2021 ORTHOBORNAVIRUS x3 - resolved by evidence, write-up not yet in the entries.**
+  Supplement Table S4 is a table of OTHER published assays (it has a `Reference` column, `[26]`,
+  `[24]`), so `PaBVcon_1401+` is not this assay and the 1-edit near match to the figure-read
+  `BornaPCA6` is homology in a conserved stretch - S4's own `panBorna_1471.2_P` probe carries the
+  same motif. **Do not overwrite the entries from S4.** The probe name is not a registry typo
+  either: the paper prints `BornaA_A647N` in its main text four times and `BornaA_A674N` in its
+  own table and in Table S5, so it contradicts itself and the registry copied the main text.
+  Neither PDF prints the triplex sequences as text anywhere, so `oligos_read_from_figure` and the
+  `figure` bucket stay correct. **TODO: put that paragraph in all three `notes_curator`** so it is
+  not re-derived.
+- **Hantavirus nested rounds: every local lead is now exhausted.** `UHantaF2/R2`, `UHantaF3/R3`
+  and `UHantaF4` appear in no PDF in `papers/` (swept by name), not in Anthony 2013, and not in
+  any of its supplemental material - Text S1 is the cost-of-surveillance discussion (held as
+  `papers/10.1128_mbio.00598-13.supp.docx`, zero primers and zero sequences), Table S1 is a
+  co-detection count table with no hantavirus row at all, and S1/S2 are figures. What is left is
+  the PREDICT protocol sheet itself, a lab document rather than a paper - the open `citation` row
+  for `HANTAVIRUS_ssRNA_S_segment_2`. **TODO: record those eliminations in the four entries'
+  notes** (an attempt tonight missed on line-wrapping anchors and was not applied) so the corpus
+  is not re-searched.
+
+
 
 ## 2026-10-22, M1 tier-2: DECIDED. The wobble discount is reverted
 
