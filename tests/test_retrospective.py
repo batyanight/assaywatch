@@ -520,3 +520,34 @@ def test_precision_is_reported_beside_sensitivity():
     assert "failure cases by mechanism: coverage 10, drift 1" in out
     assert "working assays called declining (false alarms): 5/32 = 16%" in out
     assert "95% CI" in out, "a proportion on ~7 independent events must carry its interval"
+
+
+def test_the_holdout_file_is_empty_and_says_why():
+    """A held-out set is spent the first time a threshold decision reads it, so
+    the rule has to be written where the file is, not only in a doc."""
+    p = ROOT / "docs" / "validation-cases-heldout.tsv"
+    text = p.read_text()
+    rows = [ln for ln in text.splitlines() if ln and not ln.startswith("#")]
+    assert rows == ["assay_id\tas_of\texpect\tmechanism\tsource"], "held-out set must stay empty until spent"
+    assert "no threshold decision may consult this file" in text
+    dev = (ROOT / "docs" / "validation-cases.tsv").read_text()
+    assert "THIS IS THE DEVELOPMENT SET" in dev, "the development set must say so"
+
+
+def test_holdout_objective_ignores_weaker_and_undecided():
+    """The selection rule counts disagreements only. `weaker` is not a
+    disagreement (a pan-family assay detecting most of a genus is consistent
+    with a paper that used it on the isolates it had), and counting `undecided`
+    would make the rule prefer whatever decides the most cases rather than
+    whatever is right."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("holdout", ROOT / "scripts" / "holdout.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    assert mod.objective(["DISAGREES", "agrees", "weaker", "undecided", "removed"]) == 1
+    assert mod.objective(["weaker"] * 9) == 0
+    # ties break on the cell, never toward the shipped value
+    grid = {(24, 15): ["DISAGREES"], (18, 10): ["DISAGREES"], (60, 30): ["agrees"]}
+    assert mod.best_cell(grid) == (60, 30)
+    assert mod.best_cell({(24, 15): ["DISAGREES"], (18, 10): ["DISAGREES"]}) == (18, 10)

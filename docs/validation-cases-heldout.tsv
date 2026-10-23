@@ -1,0 +1,26 @@
+# TIER-2 HELD-OUT CASES. EMPTY ON PURPOSE, created 2026-10-23.
+#
+# THE ONE RULE: no threshold decision may consult this file until the thresholds
+# are final. Not "should not" -- the point of a held-out set is that it is spent
+# the first time it is read. docs/validation-cases.tsv is the development set and
+# is where tuning happens; a matrix from that file is in-sample and
+# scripts/holdout.py prices what the tuning bought
+# (docs/2026-10-23-wave4-holdout.md).
+#
+# Same columns and same bar as the development set: a paper, erratum or redesign
+# reporting how an assay ALREADY IN THE REGISTRY performed, with `as_of` no later
+# than the sequences its authors could have seen. A new assay's validation
+# against its own panel does not qualify -- it says nothing about drift.
+#
+# Target: 15-20 cases, at least 5 with `mechanism: drift`. The development set
+# has exactly one drift-mechanism case against ten coverage cases, so the drift
+# flag currently has one ground-truth event; that is the gap to close first.
+#
+# Leads: scripts/scan_literature.py (proposes, never adds) and
+# docs/2026-10-06-lab-leads.md. Read each paper once for both this and the C2
+# bench corpus in docs/bayesian-scoring-plan.md.
+#
+# Score with:
+#   python scripts/retrospective.py --cases docs/validation-cases-heldout.tsv
+#
+assay_id	as_of	expect	mechanism	source

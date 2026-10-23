@@ -1,5 +1,21 @@
 # Tier-2 retrospective validation cases.
 #
+# THIS IS THE DEVELOPMENT SET, FROZEN 2026-10-23. It is not a test set and a
+# matrix reported from it is not an out-of-sample measurement. At least seven
+# config.yaml settings have been accepted or rejected on their effect on these
+# rows (listed in scripts/holdout.py UNCOSTED, plus the window/minimum pair),
+# and the 49 rows collapse to about seven INDEPENDENT failure events -- this
+# file flags the non-independence itself, row by row. So a one- or two-case
+# delta is inside the noise, scripts/retrospective.py prints an interval on
+# every proportion for that reason, and scripts/holdout.py prices what the
+# tuning bought.
+#
+# Adding a row here is still right and still cheap. What is no longer available
+# is tuning a threshold on it and calling the result a measurement. New cases
+# collected from 2026-10-23 on belong in a HELD-OUT file that no threshold
+# decision may consult until the thresholds are final (plan item 4.2); see
+# docs/2026-10-23-wave4-holdout.md.
+#
 # Each row: an assay, a date, and what the literature later reported about how
 # that assay actually performed. scripts/retrospective.py recomputes the status
 # using only records deposited before `as_of`, so the tool is never shown the
