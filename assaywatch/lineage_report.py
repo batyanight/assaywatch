@@ -133,8 +133,15 @@ def main(argv: list[str] | None = None) -> int:
     # did this and this module did not, so report.md said "lineage Haemoproteus
     # sp. (191679)" of the same lineage lineage.md called `taxid_191679`. Two
     # labels for one grouping key, in two files a reader is meant to cross-check.
-    taxa_cache_path = lineage_cfg.get("taxa_cache", "docs/taxa-cache.json")
-    taxa_cache = name_lineages_from_taxonomy(load_taxa_cache(taxa_cache_path), taxonomy_from_config(cfg))
+    # No literal default: report.py reads this key with none, and a second home
+    # for a PATH is how `lineage.taxid_backfill` came to be declared in
+    # config.yaml and read nowhere while two modules hardcoded it.
+    taxa_cache_path = lineage_cfg.get("taxa_cache")
+    taxa_cache = (
+        name_lineages_from_taxonomy(load_taxa_cache(taxa_cache_path), taxonomy_from_config(cfg))
+        if taxa_cache_path
+        else {}
+    )
 
     # accession -> taxid, keyed unversioned. Two sources, cheapest first:
     # the backfill sidecar (one file, covers records retrieved before the taxid
@@ -189,7 +196,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     # Render report
-    min_records = lineage_cfg.get("min_records_per_lineage", 20)
+    min_records = lineage_cfg.get("min_records_per_lineage", 30)
     resolvers = None
     if lineage_cfg.get("sublineage"):
         from assaywatch.validate import iter_files, load_assay

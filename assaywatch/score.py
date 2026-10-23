@@ -65,6 +65,11 @@ from assaywatch.iupac import COMPLEMENT
 from assaywatch.match import Site, find_sites
 from assaywatch.schema import Assay, Chemistry
 
+# Re-exported: `check_chemistry_overrides` lived here, and moved to settings.py so
+# the `Scoring` model could be its only enforcer without importing this module.
+from assaywatch.settings import check_chemistry_overrides as check_chemistry_overrides
+from assaywatch.settings import validated
+
 #: Where `load_config(None)` looks: the repo root, one level above this package.
 #: This resolves correctly for a clone and for `pip install -e .`, and NOT for a
 #: wheel, where `parents[1]` is site-packages. `load_config` says so rather than
@@ -151,43 +156,6 @@ def config_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, Any
     return cfg if scoring is cfg.get("scoring") else {**cfg, "scoring": scoring}
 
 
-def check_chemistry_overrides(cfg: dict[str, Any]) -> list[str]:
-    """Problems with `scoring.by_chemistry`, as messages.
-
-    Both checks exist because the failure they catch is silent. A misspelled
-    chemistry, or a misspelled key inside one, would simply never be applied:
-    the run would succeed, the numbers would be the old ones, and the report
-    would be indistinguishable from a recalibrated run. A config that cannot be
-    read as intended has to fail loudly.
-    """
-    base = cfg.get("scoring") or {}
-    by = base.get("by_chemistry")
-    if not by:
-        return []
-    if not isinstance(by, dict):
-        return [f"scoring.by_chemistry must map chemistry to overrides, got {type(by).__name__}"]
-    problems = []
-    known_chem = {str(c) for c in Chemistry}
-    # The base block defines what a scoring key is, so this needs no upkeep.
-    known_keys = {k for k in base if k != "by_chemistry"}
-    for chem, override in sorted(by.items()):
-        if chem not in known_chem:
-            problems.append(
-                f"scoring.by_chemistry.{chem}: not a chemistry in the schema; "
-                f"expected one of {sorted(known_chem)}"
-            )
-        if override is None:
-            continue
-        if not isinstance(override, dict):
-            problems.append(f"scoring.by_chemistry.{chem} must be a mapping, got {type(override).__name__}")
-            continue
-        for key in sorted(set(override) - known_keys):
-            problems.append(
-                f"scoring.by_chemistry.{chem}.{key}: not a key in `scoring`, so it would be ignored"
-            )
-    return problems
-
-
 def load_config(path: Path | None = None) -> dict[str, Any]:
     """The scoring config: `path`, or `config.yaml` beside the repo root.
 
@@ -219,10 +187,11 @@ def load_config(path: Path | None = None) -> dict[str, Any]:
                 else ""
             )
         )
-    cfg = yaml.safe_load(target.read_text())
-    problems = check_chemistry_overrides(cfg)
-    if problems:
-        raise ValueError("config.yaml: " + "; ".join(problems))
+    # Validated against assaywatch.settings: unknown keys are refused, every
+    # default is filled from the models, and `scoring.by_chemistry` is checked.
+    # Verified on 2026-10-23 that this changes no value in the committed
+    # config.yaml, so no cached screen is invalidated by introducing it.
+    cfg = validated(yaml.safe_load(target.read_text()))
     # Resolved once here rather than per record. Only chemistries that override
     # something are stored, so every other one falls through to `config_for`'s
     # identity path and costs nothing.

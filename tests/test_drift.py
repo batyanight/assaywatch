@@ -817,12 +817,34 @@ def test_the_report_and_the_diff_parser_read_the_same_vocabulary():
 # separately by the tests above and by a byte-identical rebuild of
 # results/2026-10-20's report and all 208 AssayDrift records.
 def test_settings_come_from_the_config_with_the_documented_defaults():
-    from assaywatch.drift import DriftSettings
+    """These fallbacks must equal `assaywatch.settings`, which is the one home.
 
+    They were a SECOND home, and this test asserted the drifted values: min
+    records 20 against the calibrated 15, and `min_decline` 0.0 -- not asserted
+    here at all -- against 0.05, which would have flagged any statistically real
+    fall as drift. A fallback only fires when its key is absent, which is what a
+    typo does, so the test pinning the wrong value made the drift look intended.
+    `test_settings.py::test_every_in_code_fallback_matches_the_model` now checks
+    the whole set mechanically rather than one by one.
+    """
+    from assaywatch.drift import DriftSettings
+    from assaywatch.settings import Drift
+
+    d = Drift()
     s = DriftSettings.from_config({})
-    assert (s.base_months, s.threshold, s.min_records) == (24, 0.9, 20)
+    assert (s.base_months, s.threshold, s.min_records) == (
+        d.recent_window_months,
+        d.detect_fraction_threshold,
+        d.min_records_for_drift,
+    )
+    assert (s.base_months, s.threshold, s.min_records) == (24, 0.9, 15)
+    assert s.min_decline == d.min_decline == 0.05
     assert s.require_working_baseline is True  # on by default
-    assert s.count_diverged is False and s.exclude_patent is False  # both off
+    # Both denominator switches stay OFF when the key is absent, even though the
+    # shipped config.yaml turns exclude_patent_records ON: `assess` refuses to run
+    # that setting without a patent record set, so a caller that never mentioned
+    # it has not supplied one. Absence means off; the file is where it is turned on.
+    assert s.count_diverged is False and s.exclude_patent is False
 
 
 def test_the_widening_ceiling_cannot_fall_below_the_base_window():
@@ -961,9 +983,16 @@ def test_rolling_up_to_species_needs_a_taxonomy_with_ranks():
 
 def test_the_lineage_options_default_to_grouping_per_taxid():
     from assaywatch.drift import LineageOptions
+    from assaywatch.settings import Lineage
 
     o = LineageOptions.from_config({}, None)
-    assert o.rank is None and o.buckets_on is False and o.gate is False
+    # `rank`/`buckets_on` default off because both REQUIRE drift.scope_taxonomy
+    # with ranks and `from_config` raises without it; absence cannot imply them.
+    assert o.rank is None and o.buckets_on is False
+    # The gate and the floor are policy, and come from the model.
+    lin = Lineage()
+    assert o.gate is lin.require_working_baseline is True
+    assert o.min_per_lineage == lin.min_records_per_lineage == 30
 
 
 def test_one_lineage_holding_every_record_is_the_pooled_measurement_again():

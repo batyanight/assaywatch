@@ -326,7 +326,7 @@ def extract_loci(
     """
     amp = cfg["amplicon"]
     lo_bp, hi_bp = int(amp["min_bp"]), int(amp["max_bp"])
-    pad = int(amp.get("record_min_overhang_bp", 0))
+    pad = int(amp.get("record_min_overhang_bp", 100))
     # The pre-cut sees only oligo pairs, with no chemistry, so it searches at the
     # LARGEST budget any chemistry may use and lets screening apply each assay's own
     # (see score.max_mismatches_searched).
@@ -374,7 +374,7 @@ def cut_parameters(cfg: dict[str, Any]) -> dict[str, Any]:
         "max_mismatches": max_mismatches_searched(cfg),
         "min_bp": int(amp["min_bp"]),
         "max_bp": int(amp["max_bp"]),
-        "overhang_bp": int(amp.get("record_min_overhang_bp", 0)),
+        "overhang_bp": int(amp.get("record_min_overhang_bp", 100)),
         "max_pair_evalue": float((cfg.get("assemblies") or {}).get("max_pair_evalue", 0.01)),
     }
 

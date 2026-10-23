@@ -951,8 +951,8 @@ class DriftSettings:
             base_months=base,
             max_months=max(base, int(d.get("max_window_months", base))),
             threshold=float(d.get("detect_fraction_threshold", 0.9)),
-            min_records=int(d.get("min_records_for_drift", 20)),
-            min_decline=float(d.get("min_decline", 0.0)),
+            min_records=int(d.get("min_records_for_drift", 15)),
+            min_decline=float(d.get("min_decline", 0.05)),
             require_working_baseline=bool(d.get("require_working_baseline", True)),
             min_records_for_year=int(d.get("min_records_for_coverage", 10)),
             # A record whose partner binding site is present in the deposit and does
@@ -1133,8 +1133,8 @@ class LineageOptions:
                 "rebuild it with `python scripts/build_taxonomy_cache.py`"
             )
         return cls(
-            min_per_lineage=int(lcfg.get("min_records_per_lineage", 20)),
-            gate=bool(lcfg.get("require_working_baseline", False)),
+            min_per_lineage=int(lcfg.get("min_records_per_lineage", 30)),
+            gate=bool(lcfg.get("require_working_baseline", True)),
             rank=rank,
             buckets_on=buckets_on,
             method=str(lcfg.get("multiple_testing", "holm")),
