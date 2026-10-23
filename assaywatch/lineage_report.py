@@ -17,12 +17,14 @@ from pathlib import Path
 from assaywatch.accession import strip_version
 from assaywatch.lineage import (
     load_taxa_cache,
+    name_lineages_from_taxonomy,
     per_lineage_stats,
     sublineage_resolvers,
     title_assays,
 )
 from assaywatch.metadata import read_titles
 from assaywatch.score import load_config
+from assaywatch.taxonomy import taxonomy_from_config
 
 # Below this share of call rows carrying a taxid, the join is assumed broken.
 MIN_RESOLVED_SHARE = 0.5
@@ -127,9 +129,12 @@ def main(argv: list[str] | None = None) -> int:
     cfg = load_config(args.config)
     lineage_cfg = cfg.get("lineage", {})
 
-    # Load taxa cache
+    # Load taxa cache, then name what the taxonomy can name. report.py already
+    # did this and this module did not, so report.md said "lineage Haemoproteus
+    # sp. (191679)" of the same lineage lineage.md called `taxid_191679`. Two
+    # labels for one grouping key, in two files a reader is meant to cross-check.
     taxa_cache_path = lineage_cfg.get("taxa_cache", "docs/taxa-cache.json")
-    taxa_cache = load_taxa_cache(taxa_cache_path)
+    taxa_cache = name_lineages_from_taxonomy(load_taxa_cache(taxa_cache_path), taxonomy_from_config(cfg))
 
     # accession -> taxid, keyed unversioned. Two sources, cheapest first:
     # the backfill sidecar (one file, covers records retrieved before the taxid

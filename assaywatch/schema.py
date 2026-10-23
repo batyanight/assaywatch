@@ -515,6 +515,27 @@ class Assay(Strict):
         """
         if self.status != Status.active:
             return self
+        if missing := self.missing_for_active:
+            raise ValueError("status=active but missing: " + ", ".join(missing))
+        return self
+
+    @property
+    def missing_for_active(self) -> list[str]:
+        """What this entry would still need to be `active`. Empty means nothing.
+
+        Split out of the validator above so it can be asked of a `draft` too.
+        The report needs that: it was telling readers a draft "has been checked
+        for structure and valid IUPAC oligos only -- not for a verified
+        citation, taxid or submitter", which is false for most of them, and the
+        only way to say so truthfully is to count. Reusing the gate means the
+        report cannot describe a different rule from the one the validator
+        enforces.
+
+        Being empty is NOT a promotion. `CONTRIBUTING.md` and `CLAUDE.md` both
+        say a maintainer also wants the assay screened against real records with
+        a defensible result, and only a maintainer sets `active`. This lists the
+        mechanical requirements, which are necessary and not sufficient.
+        """
         missing = []
         if self.target.taxid is None:
             missing.append("target.taxid")
@@ -532,6 +553,4 @@ class Assay(Strict):
         if open_items := self.open_review:
             flags = ", ".join(i.flag.value for i in open_items)
             missing.append(f"needs_review has open questions ({flags})")
-        if missing:
-            raise ValueError("status=active but missing: " + ", ".join(missing))
-        return self
+        return missing

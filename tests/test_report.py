@@ -426,3 +426,174 @@ def test_the_model_counts_match_what_the_headline_claims():
     m = build_model(_drifting(), {}, [], "2026-10-03")
     assert sum(n for _, n in m.counts) == m.n_assays
     assert sum(len(rows) for _, rows in m.sections) == m.n_assays
+
+
+def _assay(assay_id: str):
+    """One real registry entry, by id."""
+    from assaywatch.validate import load_assay
+
+    return load_assay(ROOT / "registry" / f"{assay_id}.yaml")
+
+
+def test_an_unscoreable_chemistry_gets_no_status_in_either_report():
+    """`not_screenable` was defined, carried by two entries, and honoured nowhere.
+
+    `LMBV_dsDNA_MCP_RPA_Li_2025` says "the chemistry is RPA; the penalties are
+    calibrated on PCR" and the 2026-10-22 report called it Stable, 100.0%: a
+    false all-clear on an assay the registry says cannot be scored. The withheld
+    status must not be printed either, or the caveat is just decoration.
+    """
+    drifts = _drifting()
+    drifts["LMBV_dsDNA_MCP_RPA_Li_2025"] = drifts.pop("A")
+    drifts["LMBV_dsDNA_MCP_RPA_Li_2025"].assay_id = "LMBV_dsDNA_MCP_RPA_Li_2025"
+    assays = {"LMBV_dsDNA_MCP_RPA_Li_2025": _assay("LMBV_dsDNA_MCP_RPA_Li_2025")}
+
+    md = render_markdown(drifts, assays, [], "2026-10-03")
+    assert "## Not scoreable (1)" in md
+    assert "`not_screenable`" in md
+    assert "calibrated on PCR" in md
+    assert "## Declining" not in md, "an unscoreable assay must not reach a status table"
+    assert "100.0%" not in md, "the withheld status must not be printed either"
+
+    page = render_html(drifts, assays, [], "2026-10-03")
+    assert "not scoreable" in page and "not_screenable" in page
+
+
+def test_an_open_review_question_also_holds_the_status_back():
+    """OPEN flags are questions a human has to answer, not disclosures.
+
+    `Pan_mycoplasma_16S_All_Van_1992` carries `do_not_use` and was reported Low
+    Coverage, 78.3%, while docs/validation-cases.tsv records van Kuppeveld 1994
+    finding it working on 104 cell cultures with no false negatives.
+    """
+    drifts = _drifting()
+    drifts["Pan_mycoplasma_16S_All_Van_1992"] = drifts.pop("A")
+    drifts["Pan_mycoplasma_16S_All_Van_1992"].assay_id = "Pan_mycoplasma_16S_All_Van_1992"
+    assays = {"Pan_mycoplasma_16S_All_Van_1992": _assay("Pan_mycoplasma_16S_All_Van_1992")}
+    md = render_markdown(drifts, assays, [], "2026-10-03")
+    assert "## Not scoreable (1)" in md
+    assert "`do_not_use`" in md
+    assert "## Declining" not in md
+
+
+def test_a_recorded_caveat_does_not_hold_the_status_back_but_is_printed():
+    """The complement, and it is what keeps the report usable.
+
+    149 of 208 entries carry at least one review item, so holding them all back
+    would empty the report. A recorded caveat is a disclosure about a scoreable
+    entry -- but 24 of the 38 assays called `declining` on 2026-10-22 carried
+    one casting doubt on the very oligos the claim rests on, and the report
+    showed none of them.
+    """
+    drifts = _drifting()
+    drifts["ARENAVIRUS_ssRNA_S_gene_2"] = drifts.pop("A")
+    drifts["ARENAVIRUS_ssRNA_S_gene_2"].assay_id = "ARENAVIRUS_ssRNA_S_gene_2"
+    assay = _assay("ARENAVIRUS_ssRNA_S_gene_2")
+    caveats = {i.flag.value for i in assay.needs_review or [] if not i.flag.value.endswith("unresolved")}
+    assert "oligos_not_in_cited_paper" in caveats, "fixture no longer carries the flag under test"
+
+    md = render_markdown(drifts, {"ARENAVIRUS_ssRNA_S_gene_2": assay}, [], "2026-10-03")
+    assert "## Not scoreable" not in md, "a recorded caveat is a disclosure, not a defect"
+    assert "## Declining" in md
+    assert "Entry flags:" in md and "oligos_not_in_cited_paper" in md
+
+
+def test_the_note_column_does_not_run_two_sentences_together():
+    """The 2026-10-22 report printed "...a coverage gap, not drift 20251
+    out-of-scope records excluded." -- at the exact point a reader is being told
+    what was left out of the denominator."""
+    from assaywatch.report import _note_for
+
+    class A:
+        note = "a coverage gap, not drift"
+        assay_id = "X"
+        out_of_scope = 20251
+        patent_excluded = 0
+
+    assert _note_for(A(), {}) == "a coverage gap, not drift. 20251 out-of-scope records excluded."
+
+
+def test_the_draft_line_does_not_claim_drafts_are_unchecked():
+    """It said a draft had not been checked "for a verified citation, taxid or
+    submitter", which was false for 173 of the 205 drafts screened on
+    2026-10-22. Counted through the validator's own gate so the report cannot
+    describe a different rule from the one it enforces."""
+    from assaywatch.report import registry_status_line
+
+    assay = _assay("CDV_N_gene_Elia_2006")  # a draft, and Bd is the one active entry
+    line = registry_status_line({assay.id: None}, {assay.id: assay})
+    assert "not for a verified citation" not in line
+    assert "maintainer sign-off" in line
+
+
+def test_the_header_does_not_claim_a_rule_the_override_breaks():
+    """It said "an assay is flagged only when the upper bound of the recent
+    interval falls below the threshold", and three of the 38 declining rows on
+    2026-10-22 had pooled intervals of 91-93%, 95-96% and 99-99%. They were
+    lineage overrides, which is the point of measuring per lineage -- so the
+    sentence had to change, not the rule."""
+    md = render_markdown(_drifting(), {}, [], "2026-10-03")
+    assert "an assay is flagged only when the upper bound" not in md
+    assert "A **pooled** flag needs the" in md
+    assert "can also flag an assay whose pooled share clears the threshold" in md
+    assert "nothing controls error across assays" in md
+
+
+def test_a_flagged_row_carries_its_own_duplication_verdict():
+    """ "33 of 72 flagged assays still hold" sat at the top of the report while
+    the headings said Declining (38), and the per-assay verdict was folded away
+    in the detail section. The flag stands either way -- the check is documented
+    as never gating one -- but the reader can now see what it rests on."""
+    drifts = _drifting()
+    a = drifts["A"]
+    a.recent_footprints, a.recent_footprints_detected, a.baseline_footprints = 40, 10, 40
+    a._cluster_check()
+    md = render_markdown(drifts, {}, [], "2026-10-03")
+    assert "| duplication |" in md
+    assert a.flag_survives_clustering is not None
+    assert ("holds" in md) or ("fails:" in md)
+
+
+def test_a_nested_row_says_when_one_of_its_rounds_is_not_scoreable():
+    """The nested table reports coverage, not a verdict, so a held-out round
+    still appears there -- but `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` is
+    `not_validated` and led the table at "32% / 100% / 32%" with nothing said. A
+    number a reader will act on carries the same warning its status did."""
+    from assaywatch.report import NestedRow, _nested_row
+
+    class F:
+        family = "FAM"
+        outer, inner = "OUT", "IN"
+        outer_share = inner_share = nested_share = 0.5
+        nests = True
+        records = 10
+        containment = {("OUT", "IN"): (5, 5)}
+
+    assert _nested_row(F(), frozenset({"IN"})).held_out is True
+    assert _nested_row(F(), frozenset({"OTHER"})).held_out is False
+    assert isinstance(_nested_row(F()), NestedRow)
+
+
+def test_markdown_and_html_get_the_same_nested_rows():
+    """The HTML table read `ReportModel.nested_rows` while the markdown one
+    rebuilt its own, so the not-scoreable marker reached the HTML and not the
+    markdown. One decider: `nested_section` takes the model's rows."""
+    from assaywatch.nested import NestedFamily
+    from assaywatch.report import _nested_row, nested_section
+
+    f = NestedFamily(
+        "LYSSA",
+        ["LYSSA", "LYSSA_round2"],
+        outer="LYSSA",
+        inner="LYSSA_round2",
+        records=100,
+        outer_detected=32,
+        inner_detected=100,
+        both_detected=32,
+        containment={("LYSSA", "LYSSA_round2"): (100, 100)},
+    )
+    rows = [_nested_row(f, frozenset({"LYSSA"}))]
+    out = "\n".join(nested_section({"LYSSA": f}, {}, 0.90, rows))
+    assert "`LYSSA` (not scoreable)" in out
+    # and with no rows passed it still builds its own, unmarked
+    assert "(not scoreable)" not in "\n".join(nested_section({"LYSSA": f}, {}, 0.90))

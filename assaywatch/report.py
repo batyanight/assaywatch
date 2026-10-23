@@ -52,7 +52,8 @@ from assaywatch.drift import (
 from assaywatch.drift import STATUS_ORDER as DRIFT_STATUS_ORDER
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
-from assaywatch.schema import Assay, SpeciesSize
+from assaywatch.review import ReviewFlag
+from assaywatch.schema import Assay, SpeciesSize, Status
 
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
@@ -318,22 +319,40 @@ def duplication_summary(flagged: list[AssayDrift]) -> str:
 def registry_status_line(drifts: dict[str, AssayDrift], assays: dict[str, Assay]) -> str:
     """How many of the screened assays are drafts, said at the top of the report.
 
-    A `draft` entry needs only correct structure and valid IUPAC oligos; `active`
-    is what requires a verified DOI, a checked taxid and a named submitter. The
-    table beneath presented all of them with identical authority, which for a
-    registry that is 210 drafts and one active assay is the report overstating
-    what it knows. The oligo and provenance audits in `scripts/` exist because
-    transcription errors were found, so this is not a hypothetical difference.
+    THIS SENTENCE USED TO BE FALSE. It read "A draft entry has been checked for
+    structure and valid IUPAC oligos only — not for a verified citation, taxid or
+    submitter — so read its numbers as provisional." Of the 205 drafts screened
+    on 2026-10-22, 173 carried a Crossref-verified DOI, a taxid and a design year
+    with no open review question: everything `active` mechanically asks for. They
+    are drafts because only a maintainer sets `active` and no promotion pass has
+    been run, which is a fact about the maintainer's queue and not about the
+    entry.
+
+    Saying it that way mattered twice over. A reader who believed the old
+    sentence discounted every number in the report for the wrong reason, and the
+    right reason went unsaid: what varies between entries is oligo PROVENANCE —
+    whether the sequences were read from the cited paper's own table, inferred,
+    modified or taken from a secondary list — and that lives in `needs_review`,
+    which is now printed per row. So the status line stops standing in for a
+    data-quality measure it never was, and points at the one that exists.
+
+    Counted rather than asserted, through `Assay.missing_for_active`, so this
+    cannot describe a different rule from the one the validator enforces.
     """
-    counts = Counter(assays[a].status.value for a in drifts if a in assays)
+    screened = [assays[a] for a in drifts if a in assays]
+    counts = Counter(a.status.value for a in screened)
     if not counts:
         return ""
     listed = ", ".join(f"{n} {name}" for name, n in sorted(counts.items(), key=lambda x: (-x[1], x[0])))
     text = f"Registry status: {listed}."
-    if counts.get("draft"):
+    drafts = [a for a in screened if a.status is Status.draft]
+    if drafts:
+        eligible = sum(1 for a in drafts if not a.missing_for_active)
         text += (
-            " A draft entry has been checked for structure and valid IUPAC oligos only — not for"
-            " a verified citation, taxid or submitter — so read its numbers as provisional."
+            f" `draft` is a maintainer sign-off, not a data check: {eligible} of the {len(drafts)}"
+            " drafts here already carry a verified DOI, a taxid and a design year with no open"
+            " review question. What does vary between entries is oligo provenance, flagged in the"
+            " note column of every row below."
         )
     return text
 
@@ -367,7 +386,12 @@ def _nested_cells(r: NestedRow, *, bold: str) -> tuple[str, str]:
     return cont, ("not a nest" if r.nests is False else pct(r.nested_share))
 
 
-def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], threshold: float) -> list[str]:
+def nested_section(
+    fams: dict[str, NestedFamily],
+    assays: dict[str, Assay],
+    threshold: float,
+    rows: list[NestedRow] | None = None,
+) -> list[str]:
     """What a nested protocol does, which its per-round rows cannot say.
 
     Each round keeps the score it earned - either product can be read on a gel,
@@ -381,7 +405,12 @@ def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], thre
         return []
     warned = [f for f in have if f.warns(threshold)]
     broken = [f for f in have if f.nests is False]
-    rows = [_nested_row(f) for f in sorted(have, key=nested_sort_key)]
+    # The model's rows when there is a model. Building them again here made this a
+    # second decider: the HTML table read `ReportModel.nested_rows` while this one
+    # rebuilt its own, so a fact added to the model (a round being not scoreable)
+    # reached one report and not the other.
+    if rows is None:
+        rows = [_nested_row(f) for f in sorted(have, key=nested_sort_key)]
     out = [f"## Nested protocols ({len(have)})", ""]
     out += [
         "Rounds are scored separately above, and that stands: either product can be read on a gel.",
@@ -409,8 +438,8 @@ def nested_section(fams: dict[str, NestedFamily], assays: dict[str, Assay], thre
         # the HTML table uses too; only the emphasis markup differs.
         cont, nested_cell = _nested_cells(r, bold="**no**")
         out.append(
-            f"| `{md(r.family)}` | {pct(r.outer_share)} | {pct(r.inner_share)} | "
-            f"{nested_cell} | {r.records:,} | {cont} |"
+            f"| `{md(r.family)}`{' (not scoreable)' if r.held_out else ''} | {pct(r.outer_share)} "
+            f"| {pct(r.inner_share)} | {nested_cell} | {r.records:,} | {cont} |"
         )
     out.append("")
     for f in sorted(broken, key=lambda f: f.family) + sorted(warned, key=lambda f: -(f.gap or 0)):
@@ -465,8 +494,83 @@ class StatusRow:
     evaluable: int
     baseline: tuple[float, int] | None  # (share, n)
     degeneracy: tuple[int, str] | None  # (fold, tier)
+    duplication: str  # "holds" / "fails: recent,change" / "unchecked" / "" if unflagged
     note: str
     drift: AssayDrift  # HTML draws a sparkline over the whole year series
+
+
+@dataclass(frozen=True)
+class HeldOutRow:
+    """One assay the registry says cannot be scored, and why."""
+
+    assay_id: str
+    assay_name: str
+    entry: str
+    reasons: tuple[tuple[str, str], ...]  # (flag, note) in the order the entry gives
+
+
+def held_out_reasons(assay: Assay | None) -> tuple[tuple[str, str], ...]:
+    """The review items that mean this assay's status would not be a statement.
+
+    `report.py` read `needs_review` nowhere at all, so the registry's own
+    warnings never reached the page. Two kinds did real damage on 2026-10-22:
+
+    - `not_screenable` means the readout is not an amplicon this pipeline can
+      model. `LMBV_dsDNA_MCP_RPA_Li_2025` says "the chemistry is RPA; the
+      penalties are calibrated on PCR" and was reported **Stable, 100.0%** -- a
+      false all-clear. `ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997` says identification
+      is by product size plus an XbaI digest, which the screen cannot model, and
+      was reported **Declining**. One unenforced flag, a false alarm in one
+      direction and a false reassurance in the other.
+    - `do_not_use` and the other OPEN questions (`assaywatch.review.OPEN`) are
+      things a human still has to answer. `Pan_mycoplasma_16S_All_Van_1992`
+      carries `do_not_use` and was reported **Low Coverage, 78.3%**, while
+      docs/validation-cases.tsv records van Kuppeveld 1994 finding it working on
+      104 cell cultures with no false negatives.
+
+    An assay here keeps its screen -- the calls table is unchanged, and the
+    nested, degeneracy and per-lineage tables still use it -- but it gets no
+    status, and the withheld status is NOT printed. That follows the convention
+    the nested table already set and a test already pins: where the prose
+    withholds a figure, the table withholds it too. Printing "would have been
+    declining" would simply be the status wearing a caveat.
+
+    Recorded caveats are deliberately NOT here. `orientation_inferred`,
+    `oligos_modified`, `amplicon_measured_not_published` and the rest are
+    disclosures about perfectly scoreable entries; they go in the note column of
+    the row instead, which is what `review_flag_note` is for. Holding them out
+    would empty the report: 149 of 208 entries carry at least one.
+    """
+    if assay is None:
+        return ()
+    out = [
+        (i.flag.value, i.note or "")
+        for i in (assay.needs_review or [])
+        if i.is_open or i.flag in (ReviewFlag.not_screenable, ReviewFlag.do_not_use)
+    ]
+    # One flag can be both open and unscoreable (`do_not_use` is), so de-duplicate
+    # on the flag while keeping the first note given for it.
+    seen: dict[str, str] = {}
+    for flag, note in out:
+        seen.setdefault(flag, note)
+    return tuple(seen.items())
+
+
+def review_flag_note(assay: Assay | None) -> str:
+    """The entry's recorded caveats, for the note column of a scored row.
+
+    24 of the 38 assays called `declining` on 2026-10-22 carried a flag casting
+    doubt on the very oligos the claim rests on -- 9 `orientation_inferred`,
+    6 `oligos_modified`, 5 `oligos_from_secondary_source`,
+    4 `oligos_not_in_cited_paper`, 3 `pairing_is_curator_reading`,
+    1 `oligo_source_unresolved` -- and the report showed none of them. The flag
+    names are terse on purpose: `assaywatch/review.py` defines each one, and a
+    reader who needs the specifics has `source.notes_curator` in the entry.
+    """
+    if assay is None:
+        return ""
+    flags = [i.flag.value for i in (assay.needs_review or []) if not i.is_open]
+    return f"Entry flags: {', '.join(sorted(flags))}" if flags else ""
 
 
 @dataclass(frozen=True)
@@ -509,6 +613,7 @@ class NestedRow:
     nests: bool | None
     records: int
     containment: tuple[int, int] | None
+    held_out: bool = False  # one of its rounds is in the Not scoreable table
 
 
 @dataclass(frozen=True)
@@ -535,6 +640,7 @@ class ReportModel:
     threshold: float
     min_records: int
     sections: list[tuple[str, list[StatusRow]]]
+    held_out: list[HeldOutRow]
     duplication: str
     details: list[DetailRow]
     nested_rows: list[NestedRow]
@@ -543,14 +649,62 @@ class ReportModel:
     gaps: list[GapRow]
 
 
-def _note_for(a: AssayDrift, twins: dict[str, list[str]]) -> str:
+def _terminated(fragment: str) -> str:
+    """One note fragment, ending in sentence punctuation. Empty stays empty.
+
+    The note column is assembled from pieces written in four places, and none of
+    them can know whether the previous piece ended. `drift.py` ends its verdict
+    sentence without a full stop, so the 2026-10-22 report printed "...a
+    coverage gap, not drift 20251 out-of-scope records excluded." -- two
+    sentences run together at the exact point a reader is being told what was
+    left out of the denominator. Terminate each fragment where it is joined
+    rather than asking every writer to remember.
+    """
+    fragment = fragment.strip()
+    if fragment and fragment[-1] not in ".!?;:":
+        fragment += "."
+    return fragment
+
+
+def _note_for(a: AssayDrift, twins: dict[str, list[str]], assay: Assay | None = None) -> str:
     """The note column: the assay's own note, plus what was held out of it."""
-    note = a.note + (f" Same oligos as {', '.join(twins[a.assay_id])}." if a.assay_id in twins else "")
+    parts = [a.note]
+    if caveats := review_flag_note(assay):
+        parts.append(caveats)
+    if a.assay_id in twins:
+        parts.append(f"Same oligos as {', '.join(twins[a.assay_id])}")
     if a.out_of_scope:
-        note += f" {a.out_of_scope} out-of-scope records excluded."
+        parts.append(f"{a.out_of_scope} out-of-scope records excluded")
     if a.patent_excluded:
-        note += f" {a.patent_excluded} patent records excluded."
-    return note
+        parts.append(f"{a.patent_excluded} patent records excluded")
+    return " ".join(p for p in (_terminated(x) for x in parts) if p)
+
+
+def _duplication_cell(a: AssayDrift) -> str:
+    """Whether this assay's flag survived the duplication check, in the row itself.
+
+    The result was computed per assay and printed in two places that a reader
+    cannot hold together: one sentence at the top of the report ("33 of 72
+    flagged assays still hold") and a paragraph inside each assay's folded
+    detail. So the counts a reader takes away -- "Declining (38)" -- stood alone,
+    while 39 of the 72 checked flags had in fact failed the check.
+
+    It is NOT a gate, and this column does not make it one. `_cluster_check`'s
+    docstring is explicit that the footprint reduction "is never used to flag or
+    to clear anything; it can only withhold the label 'survives' from a flag the
+    record-level evidence already raised" -- a sequencing error in a primer site
+    is a footprint of its own, so a healthy assay would read as mostly failing.
+    Moving these rows out of `Declining` would therefore be the check doing
+    something it is documented not to do. Showing the verdict beside the flag is
+    the honest version: the flag stands, and the reader can see what it rests on.
+    """
+    if a.status not in ("declining", "low coverage"):
+        return ""
+    if a.flag_survives_clustering is None:
+        return "unchecked"
+    if a.flag_survives_clustering:
+        return "holds"
+    return "fails: " + ",".join(a.cluster_failures)
 
 
 def _status_row(a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[str]], cfg) -> StatusRow:
@@ -566,7 +720,8 @@ def _status_row(a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[s
         evaluable=a.recent_evaluable,
         baseline=(a.baseline_fraction, a.baseline_evaluable) if a.baseline_evaluable else None,
         degeneracy=(deg.total_fold, deg.tier(cfg)) if deg else None,
-        note=_note_for(a, twins),
+        duplication=_duplication_cell(a),
+        note=_note_for(a, twins, assay),
         drift=a,
     )
 
@@ -595,7 +750,17 @@ def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> Detai
     )
 
 
-def _nested_row(f: NestedFamily) -> NestedRow:
+def _nested_row(f: NestedFamily, held_ids: frozenset[str] = frozenset()) -> NestedRow:
+    """One nested protocol's row.
+
+    `held_out` is why this takes the held-out set at all. A round whose entry
+    carries an open question or an unmodellable readout gets no status above, and
+    then its per-round shares appeared here with nothing said:
+    `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` is `not_validated` and led this table
+    at "32% / 100% / 32%". These shares are coverage measurements rather than
+    verdicts, which is why they are still computed -- but a number a reader will
+    act on must carry the same warning the status did.
+    """
     c = f.containment.get((f.outer, f.inner))
     return NestedRow(
         family=f.family,
@@ -605,6 +770,7 @@ def _nested_row(f: NestedFamily) -> NestedRow:
         nests=f.nests,
         records=f.records,
         containment=c if (c and c[1]) else None,
+        held_out=bool({f.outer, f.inner} & held_ids),
     )
 
 
@@ -623,6 +789,26 @@ def build_model(
     taxonomy: Taxonomy | None = None,
 ) -> ReportModel:
     """Decide what the report says. Neither serialiser decides anything else."""
+    # Assays the registry says cannot be scored leave every status table before
+    # anything is counted, so the headline counts, the duplication summary and
+    # the flagged details are all over scoreable assays only. Their screens are
+    # untouched: the nested, degeneracy and per-lineage tables still use them.
+    # Keyed on `a.assay_id`, not on the dict key, because that is what every
+    # other row builder here looks the assay up by.
+    held = {}
+    for key, a in drifts.items():
+        if why := held_out_reasons(assays.get(a.assay_id)):
+            held[key] = (a.assay_id, why)
+    held_out = [
+        HeldOutRow(
+            assay_id=aid,
+            assay_name=(assays[aid].name if aid in assays else ""),
+            entry=(assays[aid].status.value if aid in assays else "?"),
+            reasons=why,
+        )
+        for aid, why in sorted(held.values())
+    ]
+    drifts = {key: a for key, a in drifts.items() if key not in held}
     grouped = by_status(drifts)
     twins = oligo_twins(assays)
     drift_cfg = (cfg or {}).get("drift", {})
@@ -649,9 +835,13 @@ def build_model(
             for status in status_order(grouped)
             if grouped.get(status)
         ],
+        held_out=held_out,
         duplication=duplication_summary(flagged),
         details=[_detail_row(a, assays, cfg, taxonomy) for a in flagged],
-        nested_rows=[_nested_row(f) for f in sorted(have, key=nested_sort_key)],
+        nested_rows=[
+            _nested_row(f, frozenset(aid for aid, _ in held.values()))
+            for f in sorted(have, key=nested_sort_key)
+        ],
         nested_families=have,
         nested_threshold=drift_cfg.get("detect_fraction_threshold", 0.9),
         gaps=[
@@ -686,7 +876,12 @@ def _md_cells(r: StatusRow) -> tuple[str, str, str, str]:
 def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] | None = None) -> str:
     out = [f"# AssayWatch report — {m.run_date}", ""]
     counts = ", ".join(f"{n} {s}" for s, n in m.counts)
-    out += [f"{m.n_assays} assays screened: {counts}.", ""]
+    held = (
+        f" {len(m.held_out)} further screened assays are not scoreable and carry no status."
+        if m.held_out
+        else ""
+    )
+    out += [f"{m.n_assays} assays screened: {counts}.{held}", ""]
     if m.registry_line:
         out += [m.registry_line, ""]
     if m.confidence_line:
@@ -705,27 +900,56 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
         "evaluable records only: those where both primers landed in the right orientation and",
         "size range. Records with no amplicon, or too many undetermined bases to judge, are",
         "counted separately and excluded, so a bad sequencing year cannot look like drift.",
-        "Intervals are Wilson 95%; an assay is flagged only when the upper bound of the recent",
-        "interval falls below the threshold. **Declining** means the share has also fallen",
-        "from the baseline (the interval for the change excludes zero): that is drift.",
-        "**Low coverage** means below threshold without a measurable fall: usually an assay",
-        "screened against more diversity than it was designed for.",
+        "Intervals are Wilson 95%, pooled and per lineage alike. A **pooled** flag needs the",
+        "upper bound of the recent interval to fall below the threshold. **Declining** means the",
+        "share has also fallen from the baseline (the interval for the change excludes zero):",
+        "that is drift. **Low coverage** means below threshold without a measurable fall: usually",
+        "an assay screened against more diversity than it was designed for.",
+        "",
+        "A **lineage** can also flag an assay whose pooled share clears the threshold, and that",
+        "is the point of measuring per lineage: a pan-family assay can miss one clade entirely",
+        "while detecting most of what is deposited. Such a row is marked `pooled: <status>` and",
+        "its note names the lineage, its share and its own earlier share. The lineage rule is",
+        "not the pooled one: it is an exact binomial test against the threshold, Benjamini-",
+        "Hochberg-adjusted across that assay's lineages, so it is the looser of the two and",
+        "nothing controls error across assays. Read a lineage override as a reason to look at",
+        "that clade, not as a measurement of the assay.",
         "",
     ]
 
     for status, rows in m.sections:
         out += [f"## {status.title()} ({len(rows)})", ""]
         out += [
-            "| assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | note |",
-            "|---|---|---|---|---|---|---|---|",
+            "| assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy "
+            "| duplication | note |",
+            "|---|---|---|---|---|---|---|---|---|",
         ]
         for r in rows:
             frac, ci, base, deg = _md_cells(r)
             pooled_tag = f" (pooled: {r.pooled})" if r.pooled else ""
             out.append(
                 f"| `{md(r.assay_id)}`{pooled_tag} | {r.entry} | {frac} | {ci} | {r.evaluable} | {base} "
-                f"| {deg} | {md(r.note)} |"
+                f"| {deg} | {r.duplication or '-'} | {md(r.note)} |"
             )
+        out.append("")
+
+    if m.held_out:
+        out += [
+            f"## Not scoreable ({len(m.held_out)})",
+            "",
+            "These assays were screened, and their records still count in the nested,",
+            "degeneracy and per-lineage tables, but their entry carries a review item that",
+            "means a status would not be a statement about the assay: either an open question",
+            "a human has to answer, or a readout this pipeline cannot model. No status is shown",
+            "for them, including the one they would otherwise have had.",
+            "",
+            "| assay | entry | why | note |",
+            "|---|---|---|---|",
+        ]
+        for h in m.held_out:
+            for i, (flag, note) in enumerate(h.reasons):
+                aid = f"`{md(h.assay_id)}`" if i == 0 else ""
+                out.append(f"| {aid} | {h.entry if i == 0 else ''} | `{flag}` | {md(note)} |")
         out.append("")
 
     if m.details:
@@ -790,7 +1014,9 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
     if m.nested_families:
         # `nested_section` returns [] when no family has records, so passing only
         # the families that do is the same output the `nested is not None` check gave.
-        out += nested_section({f.family: f for f in m.nested_families}, assays, m.nested_threshold)
+        out += nested_section(
+            {f.family: f for f in m.nested_families}, assays, m.nested_threshold, m.nested_rows
+        )
 
     out += ["## Coverage gaps", ""]
     if not m.gaps:
@@ -872,10 +1098,17 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
         "<p class='lead'>Detected means predicted to amplify. The denominator is evaluable "
         "records only: both primers landed in the right orientation and size range. Records "
         "with no amplicon, or too many undetermined bases to judge, are excluded and counted "
-        "separately. Intervals are Wilson 95%; an assay is flagged only when the upper "
-        "bound of the recent interval falls below the threshold. Declining means the share has "
-        "also fallen from the baseline (that is drift); low coverage means below threshold "
-        "without a measurable fall.</p>",
+        "separately. Intervals are Wilson 95%, pooled and per lineage alike. A pooled flag "
+        "needs the upper bound of the recent interval to fall below the threshold. Declining "
+        "means the share has also fallen from the baseline (that is drift); low coverage means "
+        "below threshold without a measurable fall.</p>",
+        "<p class='lead'>A lineage can also flag an assay whose pooled share clears the "
+        "threshold \u2014 that is the point of measuring per lineage. Such a row is marked "
+        "with its pooled status and its note names the lineage, its share and its own earlier "
+        "share. The lineage rule is an exact binomial test against the threshold, "
+        "Benjamini-Hochberg-adjusted within the assay, so it is looser than the pooled rule, "
+        "and nothing controls error across assays: read an override as a reason to look at that "
+        "clade rather than as a measurement of the assay.</p>",
     ]
     # Gated on the confidence line but printing the duplication summary. Kept as
     # it was: changing which of the two appears here changes the published page.
@@ -897,7 +1130,8 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
         )
         parts.append(
             "<table><tr><th>assay</th><th>entry</th><th>trend</th><th>detected</th><th>95% CI</th>"
-            "<th>evaluable</th><th>baseline (n)</th><th>degeneracy</th><th>note</th></tr>"
+            "<th>evaluable</th><th>baseline (n)</th><th>degeneracy</th><th>duplication</th>"
+            "<th>note</th></tr>"
         )
         for r in rows:
             frac, ci, base, deg = _html_cells(r)
@@ -912,8 +1146,38 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
                 f"<td>{e(r.entry)}</td>"
                 f"<td>{sparkline(r.drift)}</td><td>{frac}</td><td>{ci}</td>"
                 f"<td>{r.evaluable}</td><td>{base}</td><td>{deg}</td>"
+                f"<td>{e(r.duplication) or '-'}</td>"
                 f"<td class='muted'>{e(r.note)}</td></tr>"
             )
+        parts.append("</table>")
+
+    if m.held_out:
+        parts.append(
+            f"<h2><span class='pill' style='background:{DEFAULT_COLOUR}'>not scoreable</span> "
+            f"{len(m.held_out)}</h2>"
+        )
+        parts.append(
+            "<p class='lead'>Screened, and still counted in the nested, degeneracy and "
+            "per-lineage tables, but the entry carries a review item that means a status would "
+            "not be a statement about the assay: an open question a human has to answer, or a "
+            "readout this pipeline cannot model. No status is shown, including the one the assay "
+            "would otherwise have had.</p>"
+        )
+        parts.append("<table><tr><th>assay</th><th>entry</th><th>why</th><th>note</th></tr>")
+        for h in m.held_out:
+            for i, (flag, note) in enumerate(h.reasons):
+                first = i == 0
+                parts.append(
+                    "<tr><td>"
+                    + (
+                        f"<code>{e(h.assay_id)}</code><br><span class='muted'>{e(h.assay_name)}</span>"
+                        if first
+                        else ""
+                    )
+                    + f"</td><td>{e(h.entry) if first else ''}</td>"
+                    f"<td><code>{e(flag)}</code></td>"
+                    f"<td class='muted'>{e(note)}</td></tr>"
+                )
         parts.append("</table>")
 
     # The same per-year detail the markdown report has, folded away by default.
@@ -993,7 +1257,13 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
         for r in m.nested_rows:
             cont, nested_cell = _nested_cells(r, bold="<b>no</b>")
             parts.append(
-                f"<tr><td><code>{e(r.family)}</code></td><td>{pct(r.outer_share)}</td>"
+                f"<tr><td><code>{e(r.family)}</code>"
+                + (
+                    "<br><span class='muted' style='font-size:.8rem'>not scoreable</span>"
+                    if r.held_out
+                    else ""
+                )
+                + f"</td><td>{pct(r.outer_share)}</td>"
                 f"<td>{pct(r.inner_share)}</td><td>{nested_cell}</td>"
                 f"<td>{r.records:,}</td><td>{cont}</td></tr>"
             )
