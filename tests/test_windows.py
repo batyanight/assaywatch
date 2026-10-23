@@ -402,5 +402,5 @@ def test_drift_refuses_count_diverged_on_windowed_rows():
     # a patent record, so an empty set is the truth here.
     assess(rows, years, CFG, patent=set())  # the shipped setting: fine
     on = {**CFG, "drift": {**CFG.get("drift", {}), "count_diverged_as_fail": True}}
-    with pytest.raises(SystemExit, match="window archive"):
+    with pytest.raises(ValueError, match="window archive"):
         assess(rows, years, on, patent=set())

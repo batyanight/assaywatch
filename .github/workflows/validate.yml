@@ -4,12 +4,21 @@ on:
   pull_request:
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # MATRIX, because neither axis was covered. `requires-python` says >=3.11 and
+    # only 3.12 was ever run; and the primary development machine is macOS arm64,
+    # which nothing tested -- README even notes primer3-py cannot be pip-built
+    # there, so the one platform most likely to break was the one never checked.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - run: pip install -e ".[dev,lineage]"
       - run: ruff check .
       - run: ruff format --check .

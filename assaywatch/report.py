@@ -27,7 +27,6 @@ misled by the report rather than informed by it.
 from __future__ import annotations
 
 import argparse
-import csv
 import gzip
 import html
 import json
@@ -38,19 +37,28 @@ from datetime import date
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from assaywatch.accession import strip_version, version_of
+from assaywatch.accession import strip_version
+
+# Re-exported since accession.py was split out; tests/test_accession.py pins it.
+# `ruff --fix` removes an unused import, re-export or not, so the `as` form says so.
+from assaywatch.accession import version_of as version_of
+
+# Re-exported: these moved to calls.py so the renderer is not also the project's
+# calls-table I/O library, and `report.read_calls` is where every caller and six
+# test files already look for them.
+from assaywatch.calls import key_calls_by_accession as key_calls_by_accession
+from assaywatch.calls import read_calls as read_calls
+from assaywatch.calls import read_dates as read_dates
+from assaywatch.calls import read_years as read_years
 from assaywatch.degeneracy import assay_degeneracy
+from assaywatch.drift import STATUS_ORDER as DRIFT_STATUS_ORDER
 from assaywatch.drift import (
-    FOOTPRINT_COLUMNS,
-    FOOTPRINT_REQUIRED,
     AssayDrift,
     assess,
     by_status,
     coverage_gaps,
-    footprint_signature,
     pct,
 )
-from assaywatch.drift import STATUS_ORDER as DRIFT_STATUS_ORDER
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
 from assaywatch.review import OLIGO_DOUBT, ReviewFlag
@@ -85,106 +93,6 @@ def status_order(grouped: dict[str, Any]) -> list[str]:
     disappearing.
     """
     return [*STATUS_ORDER, *sorted(s for s in grouped if s not in STATUS_ORDER)]
-
-
-def _open(path: Path):
-    return gzip.open(path, "rt") if str(path).endswith(".gz") else open(path)
-
-
-def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str, Any]]:
-    """The columns the drift statistic needs, one small dict per row.
-
-    Loading every column of a two-million-row calls table as dicts took 3.6 GB;
-    nothing downstream reads the other columns. The six mismatch columns are
-    folded into ONE interned `footprint` string per row rather than carried as
-    six, so the cost is a pointer per row and millions of identical exact-match
-    footprints are a single object. A row has no `footprint` key when the columns
-    are absent from the table OR the row's own scoring cells are blank (a row from
-    an older screen that `collect.concatenate_screens` blank-filled), which
-    `drift.assess` reads as "unknown" and not as "all the same".
-    """
-    with _open(path) as fh:
-        reader = csv.reader(fh, delimiter="\t")
-        header = next(reader, None)
-        if header is None:
-            return []
-        ia, ir, ic = header.index("assay_id"), header.index("record_id"), header.index("call")
-        span_idx = (
-            [header.index(c) for c in ("amplicon_start", "amplicon_end")]
-            if with_spans and all(c in header for c in ("amplicon_start", "amplicon_end"))
-            else None
-        )
-        # `exclusion` says why an unusable record was unusable (score.classify_exclusion).
-        ie = header.index("exclusion") if "exclusion" in header else None
-        # The footprint is known only where the row's own scoring columns are
-        # populated (see drift.FOOTPRINT_REQUIRED). Having the six mismatch
-        # columns in the HEADER is not enough: `collect.concatenate_screens` unions
-        # the headers of old and new screens and blank-fills the cells an older
-        # screen never had, so an older screen's rows arrive with all six columns
-        # present and empty - indistinguishable from a clean record unless the
-        # scoring cells beside them are checked. All six columns or none: a partial
-        # footprint would compare unequal to a full one that agrees with it.
-        fp_idx = (
-            [header.index(c) for c in FOOTPRINT_COLUMNS]
-            if all(c in header for c in (*FOOTPRINT_COLUMNS, *FOOTPRINT_REQUIRED))
-            else None
-        )
-        req_idx = [header.index(c) for c in FOOTPRINT_REQUIRED] if fp_idx is not None else []
-        rows = []
-        for r in reader:
-            if not r:
-                continue
-            row = {
-                "assay_id": r[ia],
-                "record_id": r[ir],
-                "call": r[ic],
-                "exclusion": (r[ie] if ie is not None and ie < len(r) else ""),
-            }
-            if fp_idx is not None and all(i < len(r) and r[i] != "" for i in req_idx):
-                row["footprint"] = footprint_signature(r[i] if i < len(r) else "" for i in fp_idx)
-            if span_idx is not None and row["assay_id"] in with_spans:
-                a, b = (r[i] if i < len(r) else "" for i in span_idx)
-                if a and b:
-                    row["amplicon_start"], row["amplicon_end"] = a, b
-            rows.append(row)
-        return rows
-
-
-def read_dates(retrieved_dir: Path) -> dict[str, str]:
-    """{accession without version: deposit date (YYYY-MM-DD)}, newest revision winning."""
-    best: dict[str, tuple[str, str]] = {}
-    for meta in sorted(retrieved_dir.rglob("*.meta.tsv.gz")):
-        with gzip.open(meta, "rt") as fh:
-            for row in csv.DictReader(fh, delimiter="\t"):
-                acc = strip_version(row["accession"])
-                created = (row.get("created") or "")[:10]
-                if not created[:4].isdigit():
-                    continue
-                updated = row.get("updated") or ""
-                if acc not in best or updated > best[acc][0]:
-                    best[acc] = (updated, created)
-    return {acc: created for acc, (_, created) in best.items()}
-
-
-def read_years(retrieved_dir: Path) -> dict[str, int]:
-    """{accession without version: deposit year}, newest revision winning."""
-    return {acc: int(d[:4]) for acc, d in read_dates(retrieved_dir).items()}
-
-
-def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Normalise record ids so they join against the metadata, newest version only.
-
-    Newest means the highest `.N` version, not the last row: the pipeline
-    concatenates archives group by group, so an older version can come last.
-    """
-    seen: dict[tuple[str, str], tuple[int, dict[str, Any]]] = {}
-    for row in calls:
-        acc = strip_version(row["record_id"])
-        v = version_of(row["record_id"])
-        key = (row["assay_id"], acc)
-        if key not in seen or v >= seen[key][0]:
-            seen[key] = (v, {**row, "record_id": acc})
-    return [row for _, row in seen.values()]
 
 
 def oligo_twins(assays: dict[str, Assay]) -> dict[str, list[str]]:

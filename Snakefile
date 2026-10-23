@@ -491,6 +491,16 @@ rule site_drift:
     params:
         code=_SITEDRIFT_PARAMS["code"],
         inputs=_SITEDRIFT_PARAMS["inputs"],
+    # MEMORY. This rule loads the whole calls table through `calls.read_calls`:
+    # 2.7M rows on 2026-10-22, about 1-1.5 GB resident after the interning that
+    # docstring describes. `report` and `site_drift` can be co-scheduled under
+    # --cores, so without a declaration two of these land on one node together;
+    # on SLURM, where `resources:` becomes the sbatch request, the job is killed
+    # rather than slowed. Sized at 3 GB: measured peak plus headroom for a
+    # registry that grows, since the table is assays x records.
+    resources:
+        mem_mb=3000,
+        runtime=60,
     shell:
         "python -m assaywatch.sitedrift {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
@@ -510,6 +520,16 @@ rule lineage_analysis:
     params:
         code=_LINEAGE_PARAMS["code"],
         inputs=_LINEAGE_PARAMS["inputs"],
+    # MEMORY. This rule loads the whole calls table through `calls.read_calls`:
+    # 2.7M rows on 2026-10-22, about 1-1.5 GB resident after the interning that
+    # docstring describes. `report` and `site_drift` can be co-scheduled under
+    # --cores, so without a declaration two of these land on one node together;
+    # on SLURM, where `resources:` becomes the sbatch request, the job is killed
+    # rather than slowed. Sized at 3 GB: measured peak plus headroom for a
+    # registry that grows, since the table is assays x records.
+    resources:
+        mem_mb=3000,
+        runtime=60,
     shell:
         "python -m assaywatch.lineage_report {input.calls} "
         "--retrieved {RETRIEVED} --config config.yaml --registry {REGISTRY} --out {RESULTS}/{RUN_DATE}"
@@ -571,6 +591,16 @@ rule report:
     params:
         code=_REPORT_PARAMS["code"],
         inputs=_REPORT_PARAMS["inputs"],
+    # MEMORY. This rule loads the whole calls table through `calls.read_calls`:
+    # 2.7M rows on 2026-10-22, about 1-1.5 GB resident after the interning that
+    # docstring describes. `report` and `site_drift` can be co-scheduled under
+    # --cores, so without a declaration two of these land on one node together;
+    # on SLURM, where `resources:` becomes the sbatch request, the job is killed
+    # rather than slowed. Sized at 3 GB: measured peak plus headroom for a
+    # registry that grows, since the table is assays x records.
+    resources:
+        mem_mb=3000,
+        runtime=60,
     shell:
         "python -m assaywatch.report {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "

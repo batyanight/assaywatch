@@ -61,7 +61,10 @@ def _init_worker(
 
 def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     """Rows for one batch of records, one list per assay in assay order."""
-    assert _STATE is not None, "_init_worker was not called"
+    if _STATE is None:  # not an assert: `python -O` strips those, and this
+        # runs inside a multiprocessing worker, where the resulting
+        # AttributeError on None is the hardest kind of failure to trace.
+        raise RuntimeError("_init_worker was not called in this worker")
     assays, cfg, degs, thermo, context = _STATE
     # Base composition is per record, not per assay: count each record once. A window cut
     # from a longer record is scored on that record's length and composition (from its

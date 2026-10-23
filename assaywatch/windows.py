@@ -253,7 +253,10 @@ def _init_cut(search: dict[str, Any], cfg: dict[str, Any], buffer: int) -> None:
 
 
 def _cut_batch(batch: list[tuple[str, str, list]]) -> list[tuple[str, int, str, list, list[str]]]:
-    assert _CUT is not None, "_init_cut was not called"
+    if _CUT is None:  # not an assert: `python -O` strips those, and this
+        # runs inside a multiprocessing worker, where the resulting
+        # AttributeError on None is the hardest kind of failure to trace.
+        raise RuntimeError("_init_cut was not called in this worker")
     search, cfg, buffer = _CUT
     out = []
     for rid, seq, reported in batch:

@@ -688,7 +688,7 @@ def test_rank_options_without_ranks_in_the_tree_are_an_error():
     from assaywatch.taxonomy import Taxonomy
 
     calls, years, taxids = _records_with_taxids({2025: {100: {"detect": 40}}})
-    with pytest.raises(SystemExit, match="ranks"):
+    with pytest.raises(ValueError, match="ranks"):
         assess(
             calls,
             years,
@@ -730,7 +730,7 @@ def test_patent_records_leave_the_denominator_and_are_counted():
 
 def test_the_patent_option_without_the_record_set_is_an_error():
     calls, years, _ = _records_with_taxids({2025: {1: {"detect": 30}}})
-    with pytest.raises(SystemExit, match="patent record set"):
+    with pytest.raises(ValueError, match="patent record set"):
         assess(calls, years, _patent_cfg(True), today=TODAY)
 
 
@@ -972,14 +972,14 @@ def test_species_counts_are_detected_over_evaluable_per_taxid():
 def test_an_unsupported_group_at_rank_is_refused_by_name():
     from assaywatch.drift import LineageOptions
 
-    with pytest.raises(SystemExit, match="group_at_rank"):
+    with pytest.raises(ValueError, match="group_at_rank"):
         LineageOptions.from_config({"lineage": {"group_at_rank": "genus"}}, None)
 
 
 def test_rolling_up_to_species_needs_a_taxonomy_with_ranks():
     from assaywatch.drift import LineageOptions
 
-    with pytest.raises(SystemExit, match="build_taxonomy_cache"):
+    with pytest.raises(ValueError, match="build_taxonomy_cache"):
         LineageOptions.from_config({"lineage": {"group_at_rank": "species"}}, None)
 
 

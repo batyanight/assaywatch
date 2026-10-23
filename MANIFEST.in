@@ -23,6 +23,9 @@ recursive-include profiles *
 recursive-include docs *.md *.tsv
 recursive-include examples *.py *.md *.fasta
 
+# .claude/settings.json is committed and hardcodes one machine's miniforge path,
+# so it has no business in a distribution.
+prune .claude
 prune papers
 prune data
 prune results

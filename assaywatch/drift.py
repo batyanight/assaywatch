@@ -1131,10 +1131,13 @@ class LineageOptions:
         lcfg = cfg.get("lineage", {})
         rank = lcfg.get("group_at_rank")
         if rank not in (None, "species"):
-            raise SystemExit(f"lineage.group_at_rank is {rank!r}; only null or 'species' is supported")
+            # ValueError, not SystemExit: this module has four importers and no
+            # __main__, so exiting the process on a config value is a library
+            # deciding something only its caller can. score.load_config does this.
+            raise ValueError(f"lineage.group_at_rank is {rank!r}; only null or 'species' is supported")
         buckets_on = bool(lcfg.get("unclassified_is_bucket", False))
         if (rank or buckets_on) and (taxonomy is None or not taxonomy.rank):
-            raise SystemExit(
+            raise ValueError(
                 "lineage.group_at_rank / unclassified_is_bucket need drift.scope_taxonomy with ranks; "
                 "rebuild it with `python scripts/build_taxonomy_cache.py`"
             )
@@ -1278,7 +1281,7 @@ def assess(
     """
     settings = DriftSettings.from_config(cfg)
     if settings.exclude_patent and patent is None:
-        raise SystemExit(
+        raise ValueError(
             "drift.exclude_patent_records is on but no patent record set was passed; "
             "the caller must read it with assaywatch.metadata.read_patent_accessions"
         )
@@ -1287,7 +1290,7 @@ def assess(
         if any((row.get("exclusion") or "") == "windowed" for row in calls):
             # Those rows came from a window archive, which cannot tell a diverged site
             # from no site at all, so this option would count an unknown as known.
-            raise SystemExit(
+            raise ValueError(
                 "drift.count_diverged_as_fail needs to know which records diverged, and these calls "
                 "include rows screened from a window archive (exclusion 'windowed'). Screen whole records."
             )

@@ -439,8 +439,18 @@ def worst_lineage_verdict(
     if not lineage_stats:
         return None, None
 
-    from scipy.stats import binom
-    from statsmodels.stats.multitest import multipletests
+    try:
+        from scipy.stats import binom
+        from statsmodels.stats.multitest import multipletests
+    except ImportError as e:
+        raise SystemExit(
+            "the per-lineage verdict needs scipy and statsmodels, which are the "
+            "`lineage` extra:\n    pip install -e '.[lineage]'   (or conda env "
+            "create -f environment.yml)\n"
+            "They are optional on purpose -- grouping records, reading titles and the "
+            "diagnostic lineage report all work without them, and CI runs one job "
+            f"without them to prove it. But anything that computes a verdict needs them. ({e})"
+        ) from e
 
     # Collect p-values (one-sided test: is share significantly below threshold?)
     # H0: share >= threshold
