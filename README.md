@@ -258,8 +258,12 @@ None of this is hidden in code: every threshold is annotated in `config.yaml`
 with its justification or an admission that it has none, and the standing
 numbers are in
 [docs/2026-10-04-pipeline-review.md](docs/2026-10-04-pipeline-review.md).
-Against 46 cases from published follow-up the tool flags 1 of 12 documented
-failures, so a call is a reason to look, not a result.
+Against 49 cases from published follow-up the tool catches 5 of 11 documented
+failures — only 2 of them through the `declining` flag — and only 2 of its 9
+`declining` calls were real failures. Both numbers are in-sample, on about seven
+independent failure events, and 10 of the 11 failures are coverage gaps rather
+than drift. `scripts/retrospective.py --cases docs/validation-cases.tsv` prints
+the full matrix with intervals. A call is a reason to look, not a result.
 
 ### Degeneracy is never penalised
 

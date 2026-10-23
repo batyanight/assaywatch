@@ -493,3 +493,30 @@ def test_the_shipped_cases_give_every_fails_row_a_mechanism_and_no_other_row_one
             assert r["mechanism"] in ("drift", "coverage"), r["assay_id"]
         else:
             assert r["mechanism"] == "", r["assay_id"]
+
+
+def test_precision_is_reported_beside_sensitivity():
+    """Every statement of performance until 2026-10-23 was sensitivity. This is
+    the frozen baseline's own matrix, reduced to the rows that matter, and the
+    numbers in docs/2026-10-23-baseline.md must come out of it."""
+    rows = (
+        # the two declining calls that were real failures
+        [("fails", "coverage", "declining", "agrees"), ("fails", "drift", "declining", "agrees")]
+        # three catches credited to low coverage
+        + [("fails", "coverage", "low coverage", "agrees")] * 3
+        # three misses and three undecided
+        + [("fails", "coverage", "stable", "DISAGREES")] * 3
+        + [("fails", "coverage", "insufficient data", "undecided")] * 3
+        # seven false alarms: five working assays and two partial ones called declining
+        + [("works", "", "declining", "DISAGREES")] * 5
+        + [("partial", "", "declining", "DISAGREES")] * 2
+        + [("works", "", "stable", "agrees")] * 27
+    )
+    out = "\n".join(retro.precision_lines(rows))
+    assert "(PPV): 2/9 = 22%" in out
+    assert "documented failures caught: 5/11 = 45%" in out
+    assert "credited to: low coverage 3, declining 2" in out
+    assert "caught by the drift flag itself (declining): 2/11 = 18%" in out
+    assert "failure cases by mechanism: coverage 10, drift 1" in out
+    assert "working assays called declining (false alarms): 5/32 = 16%" in out
+    assert "95% CI" in out, "a proportion on ~7 independent events must carry its interval"

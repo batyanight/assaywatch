@@ -74,6 +74,61 @@ PARTIAL = {"low coverage"}
 UNDECIDED = {"insufficient data", "no recent data", "no data"}
 
 
+def precision_lines(rows: list[tuple[str, str, str, str]]) -> list[str]:
+    """What the confusion matrix means for someone reading a flag. Rows are
+    (expect, mechanism, status, verdict), one per case.
+
+    The summary line above reports only cell counts, and every statement of this
+    tool's performance until 2026-10-23 was sensitivity: "flags 5 of 11
+    documented failures". Nobody had computed the other direction, which is the
+    one a lab acting on a `declining` row needs: of the assays the tool calls
+    declining, how many had actually failed? On the frozen 2026-10-22 table the
+    answer was 2 of 9.
+
+    Three further facts the headline hid are printed with it, because each changes
+    how the headline reads:
+
+    - which status earned each `fails` agreement. `classify` credits `low
+      coverage` for a coverage-mechanism failure, defensibly, but then a "catch"
+      may not be the drift flag at all (3 of the 5 were not);
+    - how many `fails` cases are drift-mechanism at all (1 of 11), i.e. how much
+      ground truth the drift flag actually has;
+    - an interval on each proportion, because with ~7 independent failure events
+      a one-case change is inside the noise and the number should look like it.
+
+    Wilson, from `assaywatch.interval`, the estimator the report uses; it needs
+    no scipy, which this script must not depend on for a summary.
+    """
+    from assaywatch.interval import wilson_interval
+
+    def frac(k: int, n: int) -> str:
+        if not n:
+            return f"{k}/{n}"
+        lo, hi = wilson_interval(k, n)
+        return f"{k}/{n} = {k / n:.0%} (95% CI {lo:.0%}-{hi:.0%})"
+
+    out = ["", "precision:"]
+    dec = [r for r in rows if r[2] == "declining"]
+    out.append(
+        f"  declining calls that were documented failures (PPV): {frac(sum(r[0] == 'fails' for r in dec), len(dec))}"
+    )
+    fails = [r for r in rows if r[0] == "fails"]
+    caught = [r for r in fails if r[3] == "agrees"]
+    by_status = Counter(r[2] for r in caught)
+    out.append(f"  documented failures caught: {frac(len(caught), len(fails))}")
+    if caught:
+        out.append("    credited to: " + ", ".join(f"{s} {n}" for s, n in by_status.most_common()))
+        out.append(
+            f"    caught by the drift flag itself (declining): {frac(by_status.get('declining', 0), len(fails))}"
+        )
+    mech = Counter((r[1] or "unrecorded") for r in fails)
+    out.append("  failure cases by mechanism: " + ", ".join(f"{m} {n}" for m, n in sorted(mech.items())))
+    works = [r for r in rows if r[0] == "works"]
+    alarms = sum(1 for r in works if r[2] == "declining")
+    out.append(f"  working assays called declining (false alarms): {frac(alarms, len(works))}")
+    return out
+
+
 def classify(status: str, expect: str, mechanism: str | None = None) -> tuple[str, str]:
     """(what the tool said, how that compares with the paper) for one case.
 
@@ -401,6 +456,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  {aid} -> {rid}", file=sys.stderr)
 
     tally: Counter = Counter()
+    scored: list[tuple[str, str, str, str]] = []
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
     for i, c in enumerate(cases):
         as_of = date.fromisoformat(c["as_of"])
@@ -414,8 +470,10 @@ def main(argv: list[str] | None = None) -> int:
         status = a.status if a else "no data"
         _, verdict = classify(status, c["expect"], c.get("mechanism") or None)
         tally[(c["expect"], verdict)] += 1
+        scored.append((c["expect"], c.get("mechanism") or "", status, verdict))
         print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {status:<18} {verdict}")
     print("\nsummary:", ", ".join(f"{e}/{v}: {n}" for (e, v), n in sorted(tally.items())))
+    print("\n".join(precision_lines(scored)))
     undecided = sum(n for (_, v), n in tally.items() if v == "undecided")
     if undecided:
         print(f"{undecided} case(s) the tool declined to judge (insufficient data): that is what calibrating")
