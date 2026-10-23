@@ -291,3 +291,34 @@ def test_a_primer_reaching_outside_the_outer_product_is_not_contained():
     inner = _row("D_round2", "r", "detect", 4000, 4300)
     inner["fwd_site"], inner["rev_site"] = "4000-4020+", "4280-4300-"
     assert assess(assays, [outer, inner])["D"].nests is False
+
+
+def test_round_one_failures_resting_on_the_diverged_label_are_counted_apart():
+    """`diverged` counts as a round-1 failure, and stays counted, because it is
+    the right reading where the label is right. But on 2026-10-23 round-1 anchors
+    ran from 97% near-perfect (Phlebovirus L) to 60% chance-grade (Orthoreovirus
+    Landolfi), so a reader needs to see how much of a nest loss rests on it."""
+    from assaywatch.nested import NestedFamily, assess
+
+    class Src:
+        def __init__(self, r):
+            self.nested_round, self.nested_family = r, "F"
+
+    class A:
+        def __init__(self, r):
+            self.source, self.oligos = Src(r), None
+
+    assays = {"F": A("round1"), "F_round2": A("round2")}
+    calls = []
+    for i, (oc, ox) in enumerate(
+        [("detect", ""), ("fail", ""), ("no_amplicon", "diverged"), ("no_amplicon", "diverged")]
+    ):
+        calls += [
+            {"assay_id": "F", "record_id": f"R{i}", "call": oc, "exclusion": ox},
+            {"assay_id": "F_round2", "record_id": f"R{i}", "call": "detect", "exclusion": ""},
+        ]
+    fam = assess(assays, calls)["F"]
+    assert isinstance(fam, NestedFamily)
+    assert fam.records == 4
+    assert fam.records - fam.outer_detected == 3
+    assert fam.outer_diverged == 2

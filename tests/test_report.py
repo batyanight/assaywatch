@@ -567,6 +567,8 @@ def test_a_nested_row_says_when_one_of_its_rounds_is_not_scoreable():
         outer_share = inner_share = nested_share = 0.5
         nests = True
         records = 10
+        outer_detected = 5
+        outer_diverged = 0
         containment = {("OUT", "IN"): (5, 5)}
 
     assert _nested_row(F(), frozenset({"IN"})).held_out is True

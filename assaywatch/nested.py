@@ -206,6 +206,16 @@ class NestedFamily:
     outer_detected: int = 0
     inner_detected: int = 0
     both_detected: int = 0
+    # Records counted as round-1 failures only because the screener labelled them
+    # `diverged`. Kept apart because that label is not reliable for every assay:
+    # it needs one primer site credible by a per-record E-value, and across an
+    # archive of thousands of records chance sites clear that bar. Sampled on
+    # 2026-10-23, round-1 anchors ran from 96-97% near-perfect (Alphavirus NSP4,
+    # Phlebovirus L) to 60% at five or six mismatches (Orthoreovirus Landolfi).
+    # Counting these as failures is right where the label is right, so they stay
+    # counted; this number is what lets a reader see how much of a nest's loss
+    # rests on them. docs/2026-10-23-wave2-diverged-and-patent.md.
+    outer_diverged: int = 0
     shared_oligos: tuple[str, ...] = ()
     # {(outer, inner): (records where the inner amplicon sits inside the outer, records scored by both)}
     containment: dict[tuple[str, str], tuple[int, int]] = field(default_factory=dict)
@@ -371,6 +381,7 @@ def assess(assays: dict[str, Any], calls) -> dict[str, NestedFamily]:
             if not (_usable(oc, ox) and _usable(ic, ix)):
                 continue
             fam.records += 1
+            fam.outer_diverged += oc not in DETECTED and ox in ASSAY_FAILURE_EXCLUSION
             fam.outer_detected += oc in DETECTED
             fam.inner_detected += ic in DETECTED
             fam.both_detected += oc in DETECTED and ic in DETECTED

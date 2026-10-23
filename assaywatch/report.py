@@ -386,6 +386,14 @@ def _nested_cells(r: NestedRow, *, bold: str) -> tuple[str, str]:
     return cont, ("not a nest" if r.nests is False else pct(r.nested_share))
 
 
+def _round1_cell(r: NestedRow) -> str:
+    """Round-1 failures and how many of them are only `diverged`. "-" when none."""
+    if not r.round1_failed or not r.round1_failed[0]:
+        return "-"
+    failed, diverged = r.round1_failed
+    return f"{failed:,} ({diverged:,} diverged)"
+
+
 def nested_section(
     fams: dict[str, NestedFamily],
     assays: dict[str, Assay],
@@ -419,6 +427,13 @@ def nested_section(
         "figure is what it would do as a direct PCR; where round 1 has drifted, part of that",
         "coverage is unreachable because the inner reaction gets no enriched template.",
         "",
+        "A round-1 failure is either a scored `fail` or a record labelled `diverged`: one primer",
+        "site found, the partner's window present, nothing credible in it. That label is",
+        "reliable for some assays and mostly chance for others (a lone primer hit in an",
+        "unrelated record clears the per-record bar), so the last column says how many of each",
+        "family's round-1 failures rest on it. Where most of them do, read the nest loss as",
+        "an upper bound.",
+        "",
     ]
     if warned:
         nonnesting = len([f for f in have if f.nests is False])
@@ -430,8 +445,9 @@ def nested_section(
             )
         out += [line, ""]
     out += [
-        "| protocol | round 1 | round 2 alone | run as a nest | records | inner inside outer |",
-        "|---|---|---|---|---|---|",
+        "| protocol | round 1 | round 2 alone | run as a nest | records | inner inside outer "
+        "| round 1 failures (diverged) |",
+        "|---|---|---|---|---|---|---|",
     ]
     for r in rows:
         # The containment and withheld-share rules live in `_nested_cells`, which
@@ -439,7 +455,7 @@ def nested_section(
         cont, nested_cell = _nested_cells(r, bold="**no**")
         out.append(
             f"| `{md(r.family)}`{' (not scoreable)' if r.held_out else ''} | {pct(r.outer_share)} "
-            f"| {pct(r.inner_share)} | {nested_cell} | {r.records:,} | {cont} |"
+            f"| {pct(r.inner_share)} | {nested_cell} | {r.records:,} | {cont} | {_round1_cell(r)} |"
         )
     out.append("")
     for f in sorted(broken, key=lambda f: f.family) + sorted(warned, key=lambda f: -(f.gap or 0)):
@@ -614,6 +630,9 @@ class NestedRow:
     records: int
     containment: tuple[int, int] | None
     held_out: bool = False  # one of its rounds is in the Not scoreable table
+    # (round-1 failures, of which `diverged`): how much of the loss rests on a label
+    # that is reliable for some assays and chance for others. See NestedFamily.
+    round1_failed: tuple[int, int] | None = None
 
 
 @dataclass(frozen=True)
@@ -771,6 +790,7 @@ def _nested_row(f: NestedFamily, held_ids: frozenset[str] = frozenset()) -> Nest
         records=f.records,
         containment=c if (c and c[1]) else None,
         held_out=bool({f.outer, f.inner} & held_ids),
+        round1_failed=(f.records - f.outer_detected, f.outer_diverged) if f.records else None,
     )
 
 
@@ -1252,7 +1272,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
             "protocol delivers run as published. Round 2's own figure is what it would do as a direct "
             "PCR.</p>"
             "<table><tr><th>protocol</th><th>round 1</th><th>round 2 alone</th><th>run as a nest</th>"
-            "<th>records</th><th>inner inside outer</th></tr>"
+            "<th>records</th><th>inner inside outer</th><th>round 1 failures (diverged)</th></tr>"
         )
         for r in m.nested_rows:
             cont, nested_cell = _nested_cells(r, bold="<b>no</b>")
@@ -1265,7 +1285,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
                 )
                 + f"</td><td>{pct(r.outer_share)}</td>"
                 f"<td>{pct(r.inner_share)}</td><td>{nested_cell}</td>"
-                f"<td>{r.records:,}</td><td>{cont}</td></tr>"
+                f"<td>{r.records:,}</td><td>{cont}</td><td>{_round1_cell(r)}</td></tr>"
             )
         parts.append("</table>")
         # Ordered by gap only, where the markdown section lists the non-nesting
