@@ -216,3 +216,28 @@ def test_every_cell_mark_the_parser_knows_maps_to_the_right_flag():
     # Every marker the sheet-reader can raise has a home here, so a new pattern
     # cannot be added upstream and then silently dropped on the way in.
     assert set(parse.CELL_MARK_TO_FLAG) == set(parse.FLAG_PATTERNS)
+
+
+def test_oligo_doubt_is_narrower_than_caveat_and_excludes_good_practice():
+    """A caveat is not a doubt. The report's triage order puts entries whose
+    oligos are not in question first, and ranking on "any caveat" put
+    `amplicon_measured_not_published` -- the project's own preferred practice --
+    alongside `oligos_not_in_cited_paper`."""
+    from assaywatch.review import CAVEAT, OLIGO_DOUBT, OPEN, ReviewFlag
+
+    assert OLIGO_DOUBT < CAVEAT, "every oligo doubt is a recorded caveat"
+    assert not (OLIGO_DOUBT & OPEN), "an open question is held out entirely, not ranked"
+    for good in (
+        ReviewFlag.amplicon_measured_not_published,  # measure, never quote
+        ReviewFlag.cross_reactive,  # a specificity disclosure about a correct entry
+        ReviewFlag.retrieval_scope_incomplete,  # about which records were fetched
+        ReviewFlag.nested_protocol,  # a permanent property of a good entry
+    ):
+        assert good not in OLIGO_DOUBT, f"{good.value} is not doubt about the oligos"
+    for doubt in (
+        ReviewFlag.oligos_not_in_cited_paper,
+        ReviewFlag.orientation_inferred,
+        ReviewFlag.oligos_modified,
+        ReviewFlag.pairing_is_curator_reading,
+    ):
+        assert doubt in OLIGO_DOUBT

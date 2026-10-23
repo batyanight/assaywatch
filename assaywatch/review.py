@@ -162,3 +162,32 @@ NOTE_REQUIRED: frozenset[ReviewFlag] = frozenset({ReviewFlag.curation_decision_p
 
 #: Recorded caveats, for callers that want the complement without recomputing it.
 CAVEAT: frozenset[ReviewFlag] = frozenset(ReviewFlag) - OPEN
+
+#: Caveats that cast doubt on THE OLIGOS THEMSELVES -- the sequences every call
+#: in a screen depends on. A subset of CAVEAT, and the distinction matters: 24 of
+#: the 38 assays called `declining` on 2026-10-22 carried one of these, and
+#: re-reading a paper to confirm a sequence is a different job from redesigning
+#: an assay, so the report's triage list puts entries without them first.
+#:
+#: Being a caveat is NOT enough to be here. `amplicon_measured_not_published`
+#: means the product size was measured on real records instead of quoted from a
+#: paper, which is this project's preferred practice ("measure, never quote" --
+#: CLAUDE.md), not a doubt; `cross_reactive` is a specificity disclosure about a
+#: correct entry; `retrieval_scope_incomplete` is about which records were
+#: fetched. Treating every caveat as doubt ranked those three alongside
+#: `oligos_not_in_cited_paper`, which is backwards.
+OLIGO_DOUBT: frozenset[ReviewFlag] = frozenset(
+    {
+        ReviewFlag.orientation_inferred,
+        ReviewFlag.oligos_modified,
+        ReviewFlag.oligos_from_secondary_source,
+        ReviewFlag.oligos_not_in_cited_paper,
+        ReviewFlag.oligos_read_from_figure,
+        ReviewFlag.pairing_is_curator_reading,
+        ReviewFlag.thin_evidence,
+    }
+)
+# A strict subset of CAVEAT, asserted in tests/test_review.py. `oligo_source_unresolved`
+# and `oligo_sequence_uncertain` are doubts about oligos too, and they are deliberately
+# NOT here: both are OPEN questions, so the report holds those entries out of scoring
+# altogether and they can never reach a list that ranks scored assays.

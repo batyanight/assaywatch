@@ -179,7 +179,9 @@ def test_identical_oligo_sets_are_named_and_html_has_the_year_detail():
     twins = oligo_twins(assays)
     assert "POLYOMAVIRUS_dsDNA_VP1_Johne_2005" in twins.get("POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2", [])
     page = render_html(_drifting(), {}, [], "2026-10-03")
-    assert "<details>" in page and "deposit year" in page and "baseline (n)" in page
+    # `<details id='detail-...'>` now, so a row above can link to it; a targeted
+    # fragment opens the block, which is how the page is navigable with no script.
+    assert "<details id='detail-" in page and "deposit year" in page and "baseline (n)" in page
 
 
 def test_an_unlisted_status_still_appears_in_both_reports():
@@ -619,3 +621,31 @@ def test_site_drift_assesses_through_the_report_not_a_copy():
     assert "assess_as_reported" in called
     assert "assess" not in called, "sitedrift must not assess on its own"
     assert "held_out_reasons" in called, "and must hold back what the report holds back"
+
+
+def test_the_html_is_navigable_without_any_script():
+    """1 MB, ten sections, 91 tables and -- until now -- zero anchors: a reader
+    could not jump to a section or be sent to one assay.
+
+    DELIBERATELY NOT JAVASCRIPT, which is what the plan proposed. README states
+    "no JavaScript" as a property of this file with a reason ("opens from a
+    file:// path or GitHub Pages in a lab with no bioinformatician"), and the
+    status tables are already open, so the browser's own find reaches every
+    assay row. What was missing was navigation, and anchors are enough: a
+    <details> whose fragment is targeted is opened by the browser, so a link
+    lands a reader inside one assay's year table with nothing running.
+    """
+    drifts = _drifting()
+    bd = "CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004"
+    drifts[bd] = drifts.pop("A")
+    drifts[bd].assay_id = bd
+    page = render_html(drifts, _registry_assays([bd]), [], "2026-10-03", CFG)
+
+    assert "<script" not in page, "the no-script property is deliberate; see the docstring"
+    for frag in ("id='start-here'", "id='declining'", "id='detail'", "id='coverage-gaps'"):
+        assert frag in page, f"missing anchor {frag}"
+    # the contents list points at them
+    assert "<a href='#declining'>" in page
+    # and a flagged assay's row links through to its own detail block
+    assert f"<a href='#detail-{bd.lower().replace('_', '-')}'>" in page
+    assert f"<details id='detail-{bd.lower().replace('_', '-')}'>" in page

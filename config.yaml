@@ -566,6 +566,17 @@ figures:
   # (forward, reverse, probe), so this is a cap of about eighteen panels.
   max_site_assays: 6
 
+# What the report leads with (assaywatch/report.py `triage`).
+report:
+  # The report flagged 93 of 204 assays on 2026-10-22 and ordered every section
+  # by ascending detected share, so what led the page was whichever assay had the
+  # lowest number -- for this registry, always a pan-family consensus PCR screened
+  # against a whole family. A reader was given no way in. This caps the triage
+  # list at the top; the full status tables are unchanged below it. Ten because
+  # the list is meant to be actionable in one sitting, not because ten is
+  # measured. It changes what leads the page, never a status.
+  max_triage_rows: 10
+
 # Per-lineage detection analysis (phase 1 of estimand rebuild).
 # Each record is assigned a lineage by its NCBI taxid. Verdicts condition
 # on the worst-performing lineage among those assessable.

@@ -52,7 +52,7 @@ from assaywatch.drift import (
 from assaywatch.drift import STATUS_ORDER as DRIFT_STATUS_ORDER
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
-from assaywatch.review import ReviewFlag
+from assaywatch.review import OLIGO_DOUBT, ReviewFlag
 from assaywatch.schema import Assay, SpeciesSize, Status
 
 if TYPE_CHECKING:
@@ -659,6 +659,7 @@ class ReportModel:
     threshold: float
     min_records: int
     sections: list[tuple[str, list[StatusRow]]]
+    triage: Triage
     held_out: list[HeldOutRow]
     duplication: str
     details: list[DetailRow]
@@ -697,6 +698,104 @@ def _note_for(a: AssayDrift, twins: dict[str, list[str]], assay: Assay | None = 
     if a.patent_excluded:
         parts.append(f"{a.patent_excluded} patent records excluded")
     return " ".join(p for p in (_terminated(x) for x in parts) if p)
+
+
+#: Degeneracy tiers where in-silico detection says little about the assay. README:
+#: "an oligo full of N matches everything by construction, so a heavily degenerate
+#: assay can never be seen to drift and its `detect` calls approach a tautology."
+UNJUDGEABLE_TIERS = ("high", "severe")
+
+
+@dataclass(frozen=True)
+class Triage:
+    """The few assays worth opening first, and what was held back from the list."""
+
+    rows: list[StatusRow]
+    total_flagged: int
+    held_degenerate: int
+    held_unconfirmed: int
+    shown: int
+
+
+def triage(rows_by_status: list[tuple[str, list[StatusRow]]], assays: dict[str, Assay], limit: int) -> Triage:
+    """Flagged assays ordered by how much a reader can act on them.
+
+    THE PROBLEM. The 2026-10-22 report flagged 93 of 204 assays and ordered each
+    section by ascending detected share, so what led the report was whichever
+    assay had the lowest number -- which for this registry is a pan-family
+    consensus PCR screened against a whole family, every time. A monitor that
+    flags 46% of its registry and sorts by severity-of-number gives a reader no
+    way in. The audience is stated in README as "a lab with no bioinformatician".
+
+    NO WEIGHTED SCORE. The order is lexicographic over criteria whose direction
+    is individually obvious, because a composite score would need weights, and
+    numbers set by eye are what `config.yaml`'s own header warns about. In order:
+
+    1. `declining` before `low coverage` -- a measured fall from a level that
+       worked is actionable; never having covered a clade is a scope question;
+    2. entries with no provenance doubt first -- 24 of the 38 assays called
+       declining carried a flag doubting the very oligos the claim rests on, and
+       re-reading a paper is a different job from redesigning an assay;
+    3. larger shortfall below the threshold first;
+    4. more evaluable records first -- same shortfall, more evidence;
+    5. assay id, so the list is stable between runs.
+
+    TWO EXCLUSIONS, BOTH THE PROJECT'S OWN CAVEATS, NEITHER A STATUS CHANGE.
+    The rows stay in their status tables; they are only kept from LEADING.
+
+    * Degeneracy `high` or `severe`: detection is near-tautological there, and
+      degeneracy is "reported alongside the drift numbers rather than folded
+      into them" (README). Folding it into a verdict would break that; keeping
+      such an assay off the front page does not.
+    * A flag the duplication check did not confirm: `_cluster_check` is explicit
+      that it "can only withhold the label 'survives'", never flag or clear, so
+      it cannot gate a status -- but "this flag held when duplicated records were
+      discounted" is exactly what makes a flag worth acting on first.
+
+    Both counts are printed, so a reader can see what was held back and why.
+    """
+    flagged = [
+        (s, r) for s, rows in rows_by_status for r in rows if s.lower() in ("declining", "low coverage")
+    ]
+    degenerate = sum(1 for _, r in flagged if r.degeneracy and r.degeneracy[1] in UNJUDGEABLE_TIERS)
+    unconfirmed = sum(
+        1
+        for _, r in flagged
+        if not (r.degeneracy and r.degeneracy[1] in UNJUDGEABLE_TIERS) and r.duplication != "holds"
+    )
+
+    def doubted(assay_id: str) -> bool:
+        """Does a flag cast doubt on this entry's OLIGOS? See review.OLIGO_DOUBT.
+
+        Not "does it carry any caveat": that counted
+        `amplicon_measured_not_published` as doubt, which is the project's
+        preferred practice, and `cross_reactive`, which is a specificity
+        disclosure about a correct entry.
+        """
+        assay = assays.get(assay_id)
+        return bool(assay and any(i.flag in OLIGO_DOUBT for i in (assay.needs_review or [])))
+
+    eligible = [
+        (s, r)
+        for s, r in flagged
+        if not (r.degeneracy and r.degeneracy[1] in UNJUDGEABLE_TIERS) and r.duplication == "holds"
+    ]
+    eligible.sort(
+        key=lambda sr: (
+            sr[0].lower() != "declining",
+            doubted(sr[1].assay_id),
+            sr[1].fraction if sr[1].fraction is not None else 1.0,
+            -sr[1].evaluable,
+            sr[1].assay_id,
+        )
+    )
+    return Triage(
+        rows=[r for _, r in eligible[:limit]],
+        total_flagged=len(flagged),
+        held_degenerate=degenerate,
+        held_unconfirmed=unconfirmed,
+        shown=min(limit, len(eligible)),
+    )
 
 
 def _duplication_cell(a: AssayDrift) -> str:
@@ -839,6 +938,13 @@ def build_model(
     a0 = next(iter(drifts.values()), None)
     flagged = grouped.get("declining", []) + grouped.get("low coverage", [])
     have = [f for f in (nested or {}).values() if f.records]
+    # Built once and handed to both the status tables and the triage list, so the
+    # two cannot describe the same assay differently.
+    sections = [
+        (status, [_status_row(a, assays, twins, cfg) for a in grouped[status]])
+        for status in status_order(grouped)
+        if grouped.get(status)
+    ]
     return ReportModel(
         run_date=run_date,
         n_assays=len(drifts),
@@ -850,11 +956,8 @@ def build_model(
         earliest=a0.recent_from if a0 else 0,
         threshold=a0.threshold if a0 else 0.0,
         min_records=a0.min_records if a0 else 0,
-        sections=[
-            (status, [_status_row(a, assays, twins, cfg) for a in grouped[status]])
-            for status in status_order(grouped)
-            if grouped.get(status)
-        ],
+        sections=sections,
+        triage=triage(sections, assays, int((cfg or {}).get("report", {}).get("max_triage_rows", 10))),
         held_out=held_out,
         duplication=duplication_summary(flagged),
         details=[_detail_row(a, assays, cfg, taxonomy) for a in flagged],
@@ -915,6 +1018,42 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
             "records to flag. Deprecated assays are not screened.",
             "",
         ]
+    if m.triage.total_flagged:
+        tr = m.triage
+        out += [f"## Start here ({tr.shown})", ""]
+        if tr.rows:
+            out += [
+                f"Of {tr.total_flagged} flagged assays, these are ordered by how much can be acted",
+                "on: a measured fall before a scope gap, entries whose oligo provenance is not in",
+                "doubt first, then the largest shortfall below the threshold on the most records.",
+                "",
+                "| assay | status | detected (recent) | 95% CI | evaluable | baseline (n) |",
+                "|---|---|---|---|---|---|",
+            ]
+            status_of = {r.assay_id: s for s, rows in m.sections for r in rows}
+            for r in tr.rows:
+                frac, ci, base, _ = _md_cells(r)
+                out.append(
+                    f"| `{md(r.assay_id)}` | {status_of.get(r.assay_id, '')} | {frac} | {ci} "
+                    f"| {r.evaluable} | {base} |"
+                )
+            out.append("")
+        else:
+            out += ["No flagged assay met the bar for this list.", ""]
+        withheld = []
+        if tr.held_degenerate:
+            withheld.append(
+                f"{tr.held_degenerate} are degeneracy high or severe, where in-silico detection is "
+                "close to a tautology"
+            )
+        if tr.held_unconfirmed:
+            withheld.append(f"{tr.held_unconfirmed} carry a flag the duplication check did not confirm")
+        if withheld:
+            out += [
+                "Kept off this list but unchanged in the tables below: " + "; ".join(withheld) + ".",
+                "",
+            ]
+
     out += [
         "`detected` means predicted to amplify (`detect` or `reduced`). The denominator is",
         "evaluable records only: those where both primers landed in the right orientation and",
@@ -1107,6 +1246,17 @@ def _html_cells(r: StatusRow) -> tuple[str, str, str, str]:
     return frac, ci, base, deg
 
 
+def _assay_cell(assay_id: str, has_detail: set[str]) -> str:
+    """An assay id, linked to its detail block when it has one."""
+    code = f"<code>{html.escape(assay_id)}</code>"
+    return f"<a href='#detail-{_slug(assay_id)}'>{code}</a>" if assay_id in has_detail else code
+
+
+def _slug(text: str) -> str:
+    """A fragment id from a heading or an assay id. Stable between runs."""
+    return "".join(c if c.isalnum() else "-" for c in text.lower()).strip("-")
+
+
 def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
     e = html.escape
     parts = [
@@ -1136,17 +1286,79 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
         parts.append(f"<p class='lead'><b>Duplication check:</b> {e(m.duplication)}</p>")
     if figures and figures.get("forest.svg"):
         parts.append(
-            "<h2>Detection against threshold</h2>"
+            "<h2 id='figures'>Detection against threshold</h2>"
             "<p class='lead'>Every assay with an evaluable recent window, worst first. Left: where the "
             "recent detected share sits against the threshold. Right: how far it has moved from "
             "baseline. A flag rests on the two together, so the tables below are this figure read "
             "row by row.</p>"
             f"<figure>{figures['forest.svg']}</figure>"
         )
+    # Which assays have a detail block, so a row only links where there is
+    # somewhere to land.
+    has_detail = {d.assay_id for d in m.details}
+
+    # A contents list, because the page has ten sections, 91 tables and no way to
+    # get to one. Anchors and links only: a <details> whose fragment is targeted
+    # is opened by the browser, so a reader can be sent straight to one assay's
+    # year table without any script running.
+    toc = [("start-here", f"Start here ({m.triage.shown})")] if m.triage.total_flagged else []
+    toc += [(_slug(s), f"{s.title()} ({len(rows)})") for s, rows in m.sections]
+    if m.held_out:
+        toc.append(("not-scoreable", f"Not scoreable ({len(m.held_out)})"))
+    if m.details:
+        toc.append(("detail", "Detail for flagged assays"))
+    if m.nested_rows:
+        toc.append(("nested", "Nested protocols"))
+    toc.append(("coverage-gaps", "Coverage gaps"))
+    parts.append(
+        "<p class='lead'>" + " &middot; ".join(f"<a href='#{i}'>{e(label)}</a>" for i, label in toc) + "</p>"
+    )
+
+    if m.triage.total_flagged:
+        tr = m.triage
+        parts.append(f"<h2 id='start-here'>Start here <span class='muted'>{tr.shown}</span></h2>")
+        if tr.rows:
+            parts.append(
+                f"<p class='lead'>Of {tr.total_flagged} flagged assays, these are ordered by how "
+                "much can be acted on: a measured fall before a scope gap, entries whose oligo "
+                "provenance is not in doubt first, then the largest shortfall below the threshold "
+                "on the most records.</p>"
+            )
+            parts.append(
+                "<table><tr><th>assay</th><th>status</th><th>detected</th><th>95% CI</th>"
+                "<th>evaluable</th><th>baseline (n)</th></tr>"
+            )
+            status_of = {r.assay_id: s for s, rows in m.sections for r in rows}
+            for r in tr.rows:
+                frac, ci, base, _ = _html_cells(r)
+                parts.append(
+                    f"<tr><td>{_assay_cell(r.assay_id, has_detail)}<br><span class='muted'>"
+                    f"{e(r.assay_name)}</span></td><td>{e(status_of.get(r.assay_id, ''))}</td>"
+                    f"<td>{frac}</td><td>{ci}</td><td>{r.evaluable}</td><td>{base}</td></tr>"
+                )
+            parts.append("</table>")
+        else:
+            parts.append("<p class='lead'>No flagged assay met the bar for this list.</p>")
+        withheld = []
+        if tr.held_degenerate:
+            withheld.append(
+                f"{tr.held_degenerate} are degeneracy high or severe, where in-silico detection "
+                "is close to a tautology"
+            )
+        if tr.held_unconfirmed:
+            withheld.append(f"{tr.held_unconfirmed} carry a flag the duplication check did not confirm")
+        if withheld:
+            parts.append(
+                "<p class='muted'>Kept off this list but unchanged in the tables below: "
+                + e("; ".join(withheld))
+                + ".</p>"
+            )
+
     for status, rows in m.sections:
         colour = STATUS_COLOUR.get(status, DEFAULT_COLOUR)
         parts.append(
-            f"<h2><span class='pill' style='background:{colour}'>{e(status)}</span> {len(rows)}</h2>"
+            f"<h2 id='{_slug(status)}'><span class='pill' style='background:{colour}'>"
+            f"{e(status)}</span> {len(rows)}</h2>"
         )
         parts.append(
             "<table><tr><th>assay</th><th>entry</th><th>trend</th><th>detected</th><th>95% CI</th>"
@@ -1161,7 +1373,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
                 else ""
             )
             parts.append(
-                f"<tr><td><code>{e(r.assay_id)}</code><br><span class='muted'>"
+                f"<tr><td>{_assay_cell(r.assay_id, has_detail)}<br><span class='muted'>"
                 f"{e(r.assay_name)}</span>{pooled_html}</td>"
                 f"<td>{e(r.entry)}</td>"
                 f"<td>{sparkline(r.drift)}</td><td>{frac}</td><td>{ci}</td>"
@@ -1173,7 +1385,8 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
 
     if m.held_out:
         parts.append(
-            f"<h2><span class='pill' style='background:{DEFAULT_COLOUR}'>not scoreable</span> "
+            f"<h2 id='not-scoreable'><span class='pill' style='background:{DEFAULT_COLOUR}'>"
+            "not scoreable</span> "
             f"{len(m.held_out)}</h2>"
         )
         parts.append(
@@ -1202,11 +1415,16 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
 
     # The same per-year detail the markdown report has, folded away by default.
     if m.details:
-        parts.append("<h2>Detail for flagged assays</h2>")
+        parts.append("<h2 id='detail'>Detail for flagged assays</h2>")
         if m.duplication:
             parts.append(f"<p class='lead'><b>Duplication check:</b> {e(m.duplication)}</p>")
         for d in m.details:
-            parts.append(f"<details><summary><code>{e(d.assay_id)}</code></summary>")
+            # An id so the tables above can link here. A <details> whose
+            # fragment is targeted is opened by the browser, which is why this
+            # needs no JavaScript to work.
+            parts.append(
+                f"<details id='detail-{_slug(d.assay_id)}'><summary><code>{e(d.assay_id)}</code></summary>"
+            )
             if d.pooled:
                 pooled_colour = STATUS_COLOUR.get(d.pooled, DEFAULT_COLOUR)
                 parts.append(
@@ -1265,7 +1483,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
             parts.append("</details>")
 
     if m.nested_rows:
-        parts.append("<h2>Nested protocols</h2>")
+        parts.append("<h2 id='nested'>Nested protocols</h2>")
         parts.append(
             "<p class='lead'>Rounds are scored separately above, and that stands: either product can "
             "be read on a gel. This adds the share of records <b>both</b> rounds reach — what the "
@@ -1295,7 +1513,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
                 note = e(f.note(m.nested_threshold))
                 parts.append(f"<p class='muted'><b><code>{e(f.family)}</code></b> — {note}</p>")
 
-    parts.append("<h2>Coverage gaps</h2>")
+    parts.append("<h2 id='coverage-gaps'>Coverage gaps</h2>")
     if not m.gaps:
         parts.append("<p class='muted'>Every assay has enough evaluable records to say something.</p>")
     else:
@@ -1314,7 +1532,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
         parts.append("</table>")
     if figures and figures.get("site-positions.svg"):
         parts.append(
-            "<h2>Detection penalty per position</h2>"
+            "<h2 id='penalty'>Detection penalty per position</h2>"
             "<p class='lead'>For the flagged assays, how much detection falls when a record "
             "mismatches at each oligo position - the cost of the mismatch, not how often it "
             "happens. The shaded band is the 3'-terminal zone, where a mismatch blocks extension "

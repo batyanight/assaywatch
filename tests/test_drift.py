@@ -578,7 +578,9 @@ def test_working_baseline_gate_turns_a_never_covered_lineage_into_low_coverage()
     on = assess(calls, years, _gated(True), today=TODAY, taxids=taxids, taxa_cache=cache)["A"]
     assert off.status == "declining" and off.lineage_override
     assert on.status == "low coverage" and on.status_pooled == "stable"
-    assert "coverage gap, not drift" in on.note
+    # "that lineage is a coverage gap rather than drift": the clause describes the
+    # LINEAGE, not the row, which the bare old wording left ambiguous.
+    assert "that lineage is a coverage gap rather than drift" in on.note
 
 
 def test_working_baseline_gate_still_flags_a_lineage_new_to_the_archive():

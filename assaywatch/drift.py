@@ -696,9 +696,15 @@ class AssayDrift:
             if gap.lineage_name in buckets and gap.lineage_name not in never
             else "was below the threshold in every earlier year measured"
         )
+        # "for that lineage", not a bare "not drift". The clause describes the
+        # LINEAGE, and the status on the row is the POOLED verdict, which in these
+        # cases is a real measured fall from a level that worked. The 2026-10-23
+        # audit read the bare wording as the row contradicting its own heading
+        # (docs/2026-10-23-baseline.md records the correction); two estimands in
+        # one sentence need saying apart.
         self.note += (
-            f"; lineage {gap.lineage_name} ({gap.n_evaluable} records) detects only "
-            f"{gap.share:.1%} and {why}: a coverage gap, not drift"
+            f"; separately, lineage {gap.lineage_name} ({gap.n_evaluable} records) detects only "
+            f"{gap.share:.1%} and {why}, so that lineage is a coverage gap rather than drift"
         )
         return True, worst_idx
 

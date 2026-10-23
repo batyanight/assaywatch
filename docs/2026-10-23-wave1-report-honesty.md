@@ -153,5 +153,9 @@ documented not to be. Showing the verdict beside the flag is the honest version.
 - **889 lineages are still `taxid_<n>`.** `name_lineages_from_taxonomy` names only what
   the taxonomy cache holds. The rest need `scripts/build_taxonomy_cache.py` rerun or an
   NCBI lookup — a data task.
-- The 6 `declining` rows whose note says "a coverage gap, not drift", and the 12
+- The 6 `declining` rows whose note ends "a coverage gap, not drift", and the 12
   degeneracy-severe assays leading the report, are wave 5.6 (triage), not wave 1.
+  Neither is a wrong status: the first are sound pooled calls whose note describes a
+  LINEAGE (see the correction in `docs/2026-10-23-baseline.md`), and degeneracy is
+  reported beside a verdict and never folded into one, by the convention README states.
+  Both are reasons an assay should not LEAD the report, which is a triage question.

@@ -248,6 +248,14 @@ class Figures(Block):
     max_site_assays: int = Field(default=6, gt=0)
 
 
+class Report(Block):
+    #: How many assays the triage list at the top of the report may name. The
+    #: point of the list is that a reader can act on all of it in one sitting;
+    #: past a dozen it is another table. Not a scoring number -- it changes what
+    #: leads the page, never a status.
+    max_triage_rows: int = Field(default=10, gt=0)
+
+
 class Lineage(Block):
     #: FWER, not FDR: the rule is "any lineage below threshold fails the assay",
     #: so what needs controlling is the chance of at least one false rejection.
@@ -280,6 +288,7 @@ class Settings(Block):
     drift: Drift = Field(default_factory=Drift)
     sitedrift: SiteDrift = Field(default_factory=SiteDrift)
     figures: Figures = Field(default_factory=Figures)
+    report: Report = Field(default_factory=Report)
     lineage: Lineage = Field(default_factory=Lineage)
 
 
