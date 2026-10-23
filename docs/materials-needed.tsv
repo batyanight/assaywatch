@@ -36,7 +36,6 @@ year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round1		the design year, for the baseline t
 year	ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	Entamoeba_18S_small_subunit_SSU	10.1638/2020-0148	the design year, for the baseline the drift test needs	per-year drift statistics	
 year	Feline_Morbillivirus_L_gene		the design year, for the baseline the drift test needs	per-year drift statistics	
-year	HANTAVIRUS_ssRNA_S_segment	10.1128/mbio.00598-13	the design year, for the baseline the drift test needs	per-year drift statistics	2026-10-22: candidates are 2013 (Anthony amended and named UHantaF1/R1) or 2005 (Aitichou designed HANTAV1U/L, their parents). Needs a decision on which year the drift baseline should take.
 year	HANTAVIRUS_ssRNA_S_segment_2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment_round2		the design year, for the baseline the drift test needs	per-year drift statistics	
 year	HANTAVIRUS_ssRNA_S_segment_round2_2		the design year, for the baseline the drift test needs	per-year drift statistics	

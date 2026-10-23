@@ -16,7 +16,7 @@ oligos:
 amplicon_bp: 250
 citation:
   doi: 10.1128/mbio.00598-13
-  design_year: null
+  design_year: 2013
   n_sequences_at_design: null
   as_written: PREDICT Protocols
   oligos_designed_here: true
@@ -60,7 +60,7 @@ source:
     rule that kept Coiras 2004 off the Enterovirus pair. Held as papers/10.1016_j.jviromet.2004.10.004.pdf.
     NEXT for the unattributed rounds: Anthony supplemental material is Text S1 (DOCX), Figure S1, Figure S2
     and Table S1 (PDF), and Table S1 is the herpesvirus cooccurrence table, so Text S1 is the only remaining
-    candidate for UHantaF2/R2, UHantaF3/R3 and UHantaF4.'
+    candidate for UHantaF2/R2, UHantaF3/R3 and UHantaF4. DESIGN_YEAR SET TO 2013 (2026-10-22, maintainer decision): the stored sequences are Anthony amended ones and 2013 is when they first exist in print, which matches this entry citation. Recorded caveat: the binding sites are Aitichou 2005 and Anthony only widened degeneracies without moving the primers, so drift at those sites between 2005 and 2013 sits before this baseline and is invisible to the per-year statistics. The other three entries keep design_year null, since their oligos are in neither paper.'
   notes: null
 needs_review:
 - flag: nested_protocol
