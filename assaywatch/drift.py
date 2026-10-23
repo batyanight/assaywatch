@@ -76,7 +76,6 @@ report prints the counts so that a reader can disagree with the verdict.
 
 from __future__ import annotations
 
-import math
 import sys
 from collections import Counter, defaultdict
 from collections.abc import Iterable
@@ -86,12 +85,16 @@ from typing import TYPE_CHECKING, Any
 
 from assaywatch.accession import strip_version
 
+# Re-exported, not just used: `drift.wilson_interval` is the name figures.py,
+# the tests and scripts/ already import. The estimators moved to interval.py so
+# that lineage.py, which sits below this module, can use the same ones.
+from assaywatch.interval import newcombe_difference, wilson_interval
+
 if TYPE_CHECKING:
     from assaywatch.lineage import LineageStats
     from assaywatch.taxonomy import Taxonomy
 
 EVALUABLE = ("detect", "reduced", "fail")
-Z95 = 1.959963984540054
 
 # The verdict vocabulary, owned here because this is the only module that assigns
 # one. Worst first, which is also the order the report prints its sections in.
@@ -161,29 +164,6 @@ def footprint_signature(values: Iterable[str]) -> str:
       reported next to the record count rather than replacing it.
     """
     return sys.intern("|".join(values))
-
-
-def wilson_interval(k: int, n: int, z: float = Z95) -> tuple[float, float]:
-    """Wilson score interval for a binomial proportion. (0, 1) when n == 0."""
-    if n == 0:
-        return (0.0, 1.0)
-    p = k / n
-    d = 1 + z * z / n
-    centre = (p + z * z / (2 * n)) / d
-    half = (z / d) * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
-    return (max(0.0, centre - half), min(1.0, centre + half))
-
-
-def newcombe_difference(k1: int, n1: int, k2: int, n2: int, z: float = Z95) -> tuple[float, float]:
-    """CI for p1 - p2 (recent minus baseline) from the two Wilson intervals."""
-    if n1 == 0 or n2 == 0:
-        return (-1.0, 1.0)
-    p1, p2 = k1 / n1, k2 / n2
-    l1, u1 = wilson_interval(k1, n1, z)
-    l2, u2 = wilson_interval(k2, n2, z)
-    lower = (p1 - p2) - math.sqrt((p1 - l1) ** 2 + (u2 - p2) ** 2)
-    upper = (p1 - p2) + math.sqrt((u1 - p1) ** 2 + (p2 - l2) ** 2)
-    return (max(-1.0, lower), min(1.0, upper))
 
 
 @dataclass
@@ -499,18 +479,49 @@ class AssayDrift:
             self.change_ci_clustered = newcombe_difference(
                 p * n_r, n_r, (self.baseline_fraction or 0.0) * n_b, n_b
             )
-        if self.status in ("declining", "low coverage"):
-            failures = []
-            if n_r < self.min_records:
-                failures.append("too_few")
-            if self.recent_ci_clustered[1] >= self.threshold:
-                failures.append("recent")
-            if self.recent_ci_by_footprint[1] >= self.threshold:
-                failures.append("footprint")
-            if self.status == "declining" and self.change_ci_clustered[1] >= 0:
-                failures.append("change")
-            self.cluster_failures = tuple(failures)
-            self.flag_survives_clustering = not failures
+        self._cluster_verdict()
+
+    def _cluster_verdict(self) -> None:
+        """Does the current status survive the two reductions `_cluster_check` computed?
+
+        Separate from the computation, and idempotent, because it has to be
+        asked TWICE. `_cluster_check` runs inside `finalise`, and a lineage
+        override changes the status afterwards -- so on 2026-10-22 every assay
+        the lineage verdict moved into `declining` had been asked this question
+        while it still read `stable`, got no answer, and was reported as a flag
+        that "could not be checked". Seven of them. The check was skipping
+        exactly the flags that had bypassed every other safeguard.
+
+        Re-running it means the answer always describes the status actually
+        printed. Clearing it when the status is no longer flagged matters for the
+        same reason in reverse: a flag that an override withdraws must not keep a
+        verdict about a flag that no longer exists.
+
+        The intervals themselves are computed once and reported whatever the
+        status, so they are not touched here.
+        """
+        if self.recent_ci_clustered is None or self.recent_ci_by_footprint is None:
+            return
+        if self.status not in ("declining", "low coverage"):
+            self.cluster_failures = ()
+            self.flag_survives_clustering = None
+            return
+        n_r = self.recent_footprints
+        if n_r is None:
+            return
+        failures = []
+        if n_r < self.min_records:
+            failures.append("too_few")
+        if self.recent_ci_clustered[1] >= self.threshold:
+            failures.append("recent")
+        if self.recent_ci_by_footprint[1] >= self.threshold:
+            failures.append("footprint")
+        if self.status == "declining" and (
+            self.change_ci_clustered is None or self.change_ci_clustered[1] >= 0
+        ):
+            failures.append("change")
+        self.cluster_failures = tuple(failures)
+        self.flag_survives_clustering = not failures
 
     def _lineage_check(
         self,
@@ -594,7 +605,20 @@ class AssayDrift:
                 return
 
         if verdict == "failing" and self.status != "declining":
-            self._apply_override(stats, worst_idx)
+            # The firing lineage's own earlier share, which is what
+            # `lineage.require_working_baseline` gated the override on and what
+            # the note needs to be a true sentence. Floor of 1, not
+            # `min_records_per_lineage`: this is displayed, never judged, and a
+            # thin baseline shown with its n is more use than none.
+            baseline_by_lineage = None
+            if baseline_calls:
+                baseline_by_lineage = {
+                    s.lineage_name: s
+                    for s in per_lineage_stats(
+                        baseline_calls, taxa_cache, taxid_sidecar, min_records=1, resolvers=resolvers
+                    )
+                }
+            self._apply_override(stats, worst_idx, baseline_by_lineage)
 
     def _pool_is_one_lineage(self, stats: list) -> bool:
         """Is the "worst lineage" just the pooled measurement wearing a hat?
@@ -714,24 +738,49 @@ class AssayDrift:
         )
         return True
 
-    def _apply_override(self, stats: list, worst_idx: int) -> None:
-        """The one place a lineage changes the status. Pooled -> declining."""
+    def _apply_override(self, stats: list, worst_idx: int, baseline_by_lineage: dict | None = None) -> None:
+        """The one place a lineage changes the status. Pooled -> declining.
+
+        THE NOTE USED TO READ AS NONSENSE on a third of the overrides. It said
+        "pooled share 45.0% has low coverage, but lineage Circovirus parrot (95
+        records) detects **only** 72.6%" -- a lineage doing better than the
+        assay, introduced with "only". 6 of the 18 overrides on 2026-10-22 were
+        of that shape (Enterovirus 26.9% -> 67.6%, Circovirus 45.0% -> 72.6%,
+        Coronavirus Lan 52.2% -> 71.9%, Arenavirus 43.5% -> 52.6%, Parvovirus
+        80.2% -> 87.1%, CDV_H_2 59.8% -> 59.8%).
+
+        The calls themselves were right. `lineage.require_working_baseline`
+        requires the firing lineage to have cleared the threshold in an earlier
+        year, so the evidence is that THIS lineage has fallen, inside a pool that
+        was always poor -- which is exactly the lineage-conditional failure the
+        estimand work exists to see. What the note omitted was the lineage's own
+        baseline: the one number that makes the sentence true. So it is printed,
+        and "only" is reserved for a lineage actually below the pooled share.
+        """
         self.status_pooled = self.status
         self.status = "declining"
         self.lineage_override = True
         self.lineage_worst_idx = worst_idx
         worst = stats[worst_idx]
-        # A note that accurately describes why the override happened.
         if self.status_pooled in ("stable", "watch"):
             prefix = f"pooled share {self.recent_fraction:.1%} is above the {self.threshold:.0%} threshold"
         elif self.status_pooled == "low coverage":
             prefix = f"pooled share {self.recent_fraction:.1%} has low coverage"
         else:
             prefix = f"pooled status was {self.status_pooled}"
+        pooled = self.recent_fraction if self.recent_fraction is not None else 0.0
+        # "only" is a comparison with the pool, so it has to be true of one.
+        verb = "detects only" if worst.share < pooled else "detects"
+        was = baseline_by_lineage.get(worst.lineage_name) if baseline_by_lineage else None
+        history = (
+            f", down from {was.share:.1%} on {was.n_evaluable} earlier records"
+            if was is not None and was.share > worst.share
+            else ""
+        )
         self.note = (
             f"{prefix}, but lineage {worst.lineage_name} "
-            f"({worst.n_evaluable} records) detects only {worst.share:.1%} "
-            f"({worst.ci_lower:.1%}-{worst.ci_upper:.1%}); "
+            f"({worst.n_evaluable} records) {verb} {worst.share:.1%} "
+            f"({worst.ci_lower:.1%}-{worst.ci_upper:.1%}){history}; "
             f"lineage verdict overrides to declining"
         )
 
@@ -1285,6 +1334,9 @@ def assess(
                 baseline_calls,
                 settings.min_records_for_year,
             )
+            # The lineage verdict may have just changed the status, and the
+            # duplication check ran against the old one inside `finalise`.
+            a._cluster_verdict()
 
         a.out_of_scope = gathered.out_of_scope.get(assay_id, 0)
         a.patent_excluded = gathered.patent.get(assay_id, 0)

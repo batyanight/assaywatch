@@ -26,9 +26,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
-import numpy as np
-
 from assaywatch.accession import strip_version
+from assaywatch.interval import wilson_interval
 
 # scipy and statsmodels are imported inside worst_lineage_verdict, the only
 # function that needs them, so that the pipeline rules which merely read
@@ -233,13 +232,25 @@ def resolve_sublineage(
     return lineage_for_taxid(taxid, taxa_cache)
 
 
-def confidence_interval_wald(n_success: int, n_total: int, z: float = 1.96) -> tuple[float, float]:
-    """Wald (asymptotic normal) confidence interval for a binomial proportion."""
-    if n_total == 0:
-        return (0.0, 1.0)
-    p = n_success / n_total
-    se = np.sqrt(p * (1 - p) / n_total)
-    return (max(0, p - z * se), min(1, p + z * se))
+def confidence_interval(n_success: int, n_total: int) -> tuple[float, float]:
+    """95% interval for a lineage's detected share. Wilson, as the pooled share uses.
+
+    This was a Wald interval of its own, because the estimators lived in
+    `drift.py` and nothing below that module could import them. The cost was not
+    academic: Wald collapses to zero width at k = 0 and k = n, so the shipped
+    2026-10-22 report offered "lineage Orthoflavivirus usutuense (428 records)
+    detects only 0.0% (0.0%-0.0%)" as the evidence for a `declining` call -- on
+    an assay the MediLabSecure EQA in docs/validation-cases.tsv records detecting
+    Usutu. Six rows of `lineage.md` read [0.00%, 0.00%] for the same reason.
+    Meanwhile the report header said "Intervals are Wilson 95%", which was true
+    of the pooled numbers and false of every one of these.
+
+    A per-lineage detected share is the same measurement as the pooled one on a
+    better-chosen denominator, so it gets the same estimator. It now lives in
+    `interval.py`, below both callers, rather than being copied into the second
+    one; the reasoning for Wilson over Wald is there.
+    """
+    return wilson_interval(n_success, n_total)
 
 
 def lineage_of(
@@ -380,7 +391,7 @@ def per_lineage_stats(
 
         n_det = sum(1 for c in lineage_calls if c["call"] in ("detect", "reduced"))
         share = n_det / n_eval if n_eval > 0 else 0
-        ci_lower, ci_upper = confidence_interval_wald(n_det, n_eval)
+        ci_lower, ci_upper = confidence_interval(n_det, n_eval)
 
         # Extract taxid from lineage name if present
         taxid_val = None

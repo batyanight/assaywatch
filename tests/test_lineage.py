@@ -4,11 +4,12 @@ import gzip
 
 import pytest
 
+from assaywatch.drift import wilson_interval
 from assaywatch.lineage import (
     LineageStats,
     build_resolvers,
     cluster_resolver,
-    confidence_interval_wald,
+    confidence_interval,
     lineage_for_taxid,
     lineages_never_covered,
     per_lineage_stats,
@@ -37,21 +38,55 @@ def test_lineage_resolution():
 
 def test_confidence_interval_perfect_detection():
     """CI for 100% detection."""
-    lower, upper = confidence_interval_wald(100, 100)
+    lower, upper = confidence_interval(100, 100)
     assert lower > 0.9
     assert upper == 1.0
 
 
 def test_confidence_interval_no_detection():
     """CI for 0% detection."""
-    lower, upper = confidence_interval_wald(0, 100)
+    lower, upper = confidence_interval(0, 100)
     assert lower == 0.0
     assert upper < 0.1
 
 
+def test_the_interval_is_not_degenerate_at_the_extremes():
+    """0 of n and n of n must not claim certainty.
+
+    This is the test that was missing. `test_confidence_interval_no_detection`
+    below asserts `upper < 0.1` for 0/100, which a zero-width interval passes
+    trivially -- and that is exactly what the Wald interval it was written
+    against returned: (0.0, 0.0). The shipped 2026-10-22 report printed
+    "detects only 0.0% (0.0%-0.0%)" on 428 records as the evidence for a
+    `declining` call. An interval of zero width is a claim of certainty from
+    the one shape of data that carries least of it, so it is asserted against
+    here rather than merely bounded.
+    """
+    for k, n in [(0, 428), (0, 100), (0, 43), (0, 1)]:
+        lower, upper = confidence_interval(k, n)
+        assert lower == 0.0
+        assert upper > 0.0, f"{k}/{n} gave a zero-width interval"
+    for n in (1, 43, 100, 428):
+        lower, upper = confidence_interval(n, n)
+        assert upper == 1.0
+        assert lower < 1.0, f"{n}/{n} gave a zero-width interval"
+
+
+def test_the_interval_is_the_one_drift_uses():
+    """Per-lineage and pooled shares are the same measurement, so one estimator.
+
+    The report header says "Intervals are Wilson 95%". It was true of the
+    pooled numbers and false of every per-lineage one. Held to drift's
+    implementation rather than to a copied formula, so the two cannot drift
+    apart again.
+    """
+    for k, n in [(0, 428), (1, 10), (302, 345), (43, 43), (50, 100)]:
+        assert confidence_interval(k, n) == wilson_interval(k, n)
+
+
 def test_confidence_interval_sparse():
     """CI for a small sample."""
-    lower, upper = confidence_interval_wald(1, 10)
+    lower, upper = confidence_interval(1, 10)
     # With n=10, 1 success gives ~0.1 share; CI should be wide
     assert lower >= 0
     assert upper <= 1
