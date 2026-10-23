@@ -64,6 +64,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from assaywatch.accession import strip_version
 from assaywatch.drift import EVALUABLE, wilson_interval
 from assaywatch.metadata import read_titles
 
@@ -575,7 +576,16 @@ def build(
         today = _date.fromisoformat(run_date[:10])
     except ValueError:
         today = None
-    drifts = assess(key_calls_by_accession(read_calls(calls_path)), dates, cfg, today=today)
+    calls = key_calls_by_accession(read_calls(calls_path))
+    # `drift.exclude_patent_records` makes `assess` refuse to run without the
+    # patent set, so every caller that hands it a config has to read one. This
+    # caller did not, which was harmless only while the option was off.
+    patent = None
+    if (cfg.get("drift") or {}).get("exclude_patent_records"):
+        from assaywatch.metadata import read_patent_accessions
+
+        patent = read_patent_accessions(retrieved, {strip_version(r["record_id"]) for r in calls})
+    drifts = assess(calls, dates, cfg, today=today, patent=patent)
     grouped = by_status(drifts)
 
     wanted = {s.lower() for s in statuses}

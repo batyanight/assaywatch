@@ -397,7 +397,10 @@ def test_drift_refuses_count_diverged_on_windowed_rows():
         {"assay_id": "A", "record_id": "r2", "call": "no_amplicon", "exclusion": "windowed"},
     ]
     years = {"r1": 2024, "r2": 2024}
-    assess(rows, years, CFG)  # the shipped setting: fine
+    # `patent=set()`: the shipped setting excludes patent records since 2026-10-23,
+    # and `assess` refuses to run that setting without the set. None of these rows is
+    # a patent record, so an empty set is the truth here.
+    assess(rows, years, CFG, patent=set())  # the shipped setting: fine
     on = {**CFG, "drift": {**CFG.get("drift", {}), "count_diverged_as_fail": True}}
     with pytest.raises(SystemExit, match="window archive"):
-        assess(rows, years, on)
+        assess(rows, years, on, patent=set())

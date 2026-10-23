@@ -1017,3 +1017,27 @@ def test_the_one_lineage_gate_is_actually_wired_into_the_check():
     )
     b = assess(calls2, years2, LINEAGE_CFG, today=TODAY, taxids=taxids2, taxa_cache={100: "A", 200: "B"})["A"]
     assert b.lineage_override is True and b.status == "declining"
+
+
+def test_every_caller_of_assess_passes_the_patent_set():
+    """`drift.exclude_patent_records` makes `assess` refuse to run without the
+    patent set. sitedrift.py called it without one, which was harmless only while
+    the option was off -- turning it on would have crashed the `site_drift` rule.
+    A source check, in the style of the other repo-consistency tests, because the
+    failure only shows on a real run with the option on."""
+    import ast
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    missing = []
+    for path in [*(root / "assaywatch").glob("*.py"), *(root / "scripts").glob("*.py")]:
+        tree = ast.parse(path.read_text())
+        for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Name)
+                and node.func.id == "assess"
+                and not any(k.arg == "patent" for k in node.keywords)
+            ):
+                missing.append(f"{path.relative_to(root)}:{node.lineno}")
+    assert not missing, "assess() called without patent=: " + ", ".join(missing)

@@ -1,13 +1,25 @@
 # Thresholds and run settings. Nothing numeric about scoring lives in code.
 #
 # READ THIS BEFORE TRUSTING A NUMBER BELOW. Almost every threshold here was set
-# by eye from general PCR practice, not fitted to data. They were chosen to be
-# conservative — to avoid crying wolf on the sparsely sequenced taxa this tool
-# exists to serve — and validation shows they are far too conservative: against
-# 49 cases drawn from published follow-up, the tool flags 5 of 11 documented
-# assay failures (docs/validation-cases.tsv; measured 2026-10-22 in
-# docs/2026-10-22-M1-tier2.md, and 1 of 12 when docs/2026-10-04-pipeline-review.md
-# first measured it).
+# by eye from general PCR practice, not fitted to data. Against 49 cases drawn
+# from published follow-up (docs/validation-cases.tsv; scripts/retrospective.py
+# prints all of this; frozen in docs/2026-10-23-baseline.md), the tool is wrong
+# in BOTH directions, which is not what "too conservative" would predict:
+#
+#   documented failures caught         5/11 = 45%  (95% CI 21%-72%)
+#     ... of which by `declining`       2/11 = 18%  (95% CI 5%-48%); the other
+#         three are `low coverage`, credited for coverage-mechanism failures
+#   `declining` calls that were real    2/9  = 22%  (95% CI 6%-55%)
+#   working assays called `declining`   5/32 = 16%  (95% CI 7%-32%)
+#
+# Two more facts change how those read. 10 of the 11 failure cases are
+# `mechanism: coverage` and one is `drift`, so the drift flag has one ground-
+# truth event; what is validated is coverage auditing. And collapsing the cases
+# to distinct papers leaves about seven independent failure events, against
+# which at least seven settings below were tuned: these numbers are IN-SAMPLE,
+# and a one-case change in them is inside the noise.
+# (History: 1 of 12 caught when docs/2026-10-04-pipeline-review.md first
+# measured it; precision was first computed 2026-10-23.)
 # Treat a status as "worth a look", never as a measurement.
 #
 # Where the literature does constrain a number, it is cited at that number.
@@ -493,18 +505,38 @@ drift:
   require_working_baseline: true
   # Count a record as a failure when the partner primer's site is present in the
   # deposit and does not match (exclusion `diverged`), instead of dropping it.
-  # Off until the validation cases say whether it helps: it adds real evidence of
-  # non-detection, but also makes a pan-family assay look like it is failing on
-  # taxa it never covered. 16 assays change status when it is on.
+  # TESTED 2026-10-23 AND KEPT OFF (docs/2026-10-23-wave2-diverged-and-patent.md).
+  # On tier-2 it caught no new failure and turned two working assays `declining`
+  # (CMV Prepens round 2, Ranavirus Pallister @2012). The reason is the label, not
+  # the idea: `diverged` needs one primer site "credible" by a PER-RECORD E-value
+  # of 0.01, and an archive is thousands of records, so chance anchors clear it.
+  # 55 of Bd's 63 `diverged` records are 2014 JAM81 genome-annotation mRNAs with
+  # no ITS in them, anchored at 5-6 mismatches. Across the twelve assays holding
+  # 73% of all `diverged` rows, anchors ran from 99% near-perfect (Monkeypox N3R)
+  # to 92% at 5-6 mismatches (Polyomavirus VP1). Do not turn this on until the
+  # anchor test is corrected for archive size and tier-2 has been re-run on the
+  # relabelled screens.
   count_diverged_as_fail: false
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid
   # libraries), so an assay missing one is not evidence about circulating virus.
   # 21,769 of 1.53M archived records are patent deposits, but they concentrate:
   # 101 of the 112 recent vaccinia records for Orthopox ATI Meyer 1997, and 2,182
-  # of 2,456 for the dependoparvovirus VP1 assays. Off until tier-2 approves a
-  # denominator change. Evidence: docs/2026-10-19-orthopox-ati-vaccinia.md.
-  exclude_patent_records: false
+  # of 2,456 for the dependoparvovirus VP1 assays.
+  # ON SINCE 2026-10-23, WITHOUT TIER-2 APPROVAL, AND THAT IS DELIBERATE. It was
+  # held off for a week because "no validation case names an affected assay", so
+  # the validation set could not approve it -- while the ATI flag it fixes had
+  # been checked by hand and called a false positive
+  # (docs/2026-10-19-orthopox-ati-vaccinia.md). A 49-case set with ~7 independent
+  # failure events cannot adjudicate most denominator questions, and using its
+  # silence as a veto keeps known-wrong output in the report. The rule now: where
+  # the mechanism argument is sound and tier-2 is SILENT, ship with the evidence
+  # recorded; where tier-2 CONTRADICTS, do not (the M1 lesson still holds).
+  # Here: tier-2 unchanged, row for row; 92 assays lose patent records; 5
+  # statuses move, in both directions -- the dependovirus VP1 assays fall from
+  # 80% to 44% detected once 6,845 engineered AAV capsid records stop propping
+  # them up. Measured in docs/2026-10-23-wave2-diverged-and-patent.md.
+  exclude_patent_records: true
 
 # The per-site drift report (assaywatch/sitedrift.py): for the failing assays,
 # which oligo positions are drifting and in which groups of accessions. It reads
