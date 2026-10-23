@@ -15,6 +15,31 @@ See ROADMAP.md.
 
 For a worked example that runs offline in a second, see `examples/README.md`.
 
+## Related work
+
+Matching oligos against sequence and counting mismatches is not new, and two existing
+tools do it thermodynamically rather than with a positional penalty table:
+[PCR_strainer](https://github.com/BCCDC-PHL/PCR_strainer) assesses assay inclusivity
+against genome sets via TNTBLAST, and [GoPrime](https://doi.org/10.3390/pathogens9040303)
+fits a model of real-time PCR performance from sequence instead of asserting one.
+[NEB's Primer Monitor](https://primer-monitor.neb.com/) is the closest thing to this
+project's premise — continuous monitoring of registered primers against new GenBank
+deposits, with alerts — and covers SARS-CoV-2 and RSV.
+[ViralPrimer](https://doi.org/10.1093/bioinformatics/btae657),
+[PCRv](https://doi.org/10.1016/j.jviromet.2019.05.002) and
+[openPrimeR](https://doi.org/10.1016/j.jim.2020.112752) cover the rest of the space.
+
+What none of them has is a **curated registry of published wildlife and One-Health
+pathogen assays** — citations verified against Crossref, amplicon sizes measured on
+real records rather than read off a gel band, provenance caveats under a controlled
+vocabulary — screened **by year of deposit** so decay reads as a trend rather than a
+pass/fail against today's database. That registry and that axis are the contribution;
+the screening engine is the means. A third intended difference, a lineage-conditional
+estimand, is designed and only partly built, so it is not yet a contribution.
+
+`docs/related-work.md` has the comparison in full, plus the methodological and
+statistical references the scoring rule and the drift call rest on.
+
 ## Layout
 
 ```
