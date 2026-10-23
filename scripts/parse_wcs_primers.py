@@ -40,7 +40,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from assaywatch.review import ReviewFlag  # noqa: E402
+from assaywatch.review import ReviewFlag
 
 # --------------------------------------------------------------------------
 # Sequence cleaning

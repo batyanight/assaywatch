@@ -49,7 +49,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from assaywatch.credentials import contact_email  # noqa: E402
+from assaywatch.credentials import contact_email
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))

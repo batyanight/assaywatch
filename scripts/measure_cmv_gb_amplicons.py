@@ -124,7 +124,7 @@ def fetch_ul55_cds(max_records: int = 20):
                     seen_accs.add(acc)
                     records.append((rec.id, str(rec.seq).upper(), rec.description))
             handle.close()
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - one query failing must not lose the rest
             print(f"  Query failed: {e}")
 
     # Strategy 2: also extract UL55 region from complete genomes
@@ -148,7 +148,7 @@ def fetch_ul55_cds(max_records: int = 20):
             records.append(
                 (f"{rec.id}:UL55region({start}-{end})", region, f"{rec.description} [extracted UL55 region]")
             )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - one genome failing must not lose the rest
             print(f"  Genome extract failed for {acc}: {e}")
 
     return records

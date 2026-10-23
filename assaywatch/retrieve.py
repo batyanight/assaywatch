@@ -339,7 +339,8 @@ def acquire_lock(cfg: dict[str, Any]):
 
     root = Path(cfg.get("retrieved_dir", "data/retrieved"))
     root.mkdir(parents=True, exist_ok=True)
-    fh = open(root / ".lock", "w")  # noqa: SIM115 - held for the life of the process
+    # Deliberately not a context manager: held for the life of the process.
+    fh = open(root / ".lock", "w")
     try:
         fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
@@ -613,7 +614,8 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
-    _lock = None if args.dry_run else acquire_lock(cfg)  # noqa: F841 - held until exit
+    # Bound, not discarded: the lock is held until the process exits.
+    _lock = None if args.dry_run else acquire_lock(cfg)
     # Resolved once: the environment variable, else .secrets/ncbi.key. Both the
     # E-utilities and Datasets transports take the same key.
     api_key = ncbi_api_key() or None

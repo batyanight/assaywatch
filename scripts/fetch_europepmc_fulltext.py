@@ -56,7 +56,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-from assaywatch.credentials import contact_email  # noqa: E402
+from assaywatch.credentials import contact_email
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -106,7 +106,7 @@ def pmcid_for(doi: str) -> str | None:
     )
     try:
         hits = json.loads(get(f"{SEARCH}?{q}"))["resultList"]["result"]
-    except Exception:
+    except Exception:  # noqa: BLE001 - no hit and a dead search are the same answer here: nothing
         return None
     for r in hits:
         # inPMC/isOpenAccess are strings "Y"/"N" in this API.
@@ -167,7 +167,7 @@ def main(argv: list[str] | None = None) -> int:
             continue
         try:
             xml = get(FULLTEXT.format(pmcid=pmcid), timeout=120)
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - one paper's fetch must not end the run
             print(f"  fetch failed       {doi}  {pmcid}: {exc}")
             time.sleep(0.3)
             continue

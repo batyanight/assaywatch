@@ -34,11 +34,11 @@ import matplotlib
 # imported and tries to find one. Must stay above the pyplot import.
 matplotlib.use("Agg")
 
-import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.patches import Patch  # noqa: E402
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 
-from assaywatch.drift import newcombe_difference  # noqa: E402
-from assaywatch.report import DEFAULT_COLOUR, STATUS_COLOUR, STATUS_ORDER  # noqa: E402
+from assaywatch.drift import newcombe_difference
+from assaywatch.report import DEFAULT_COLOUR, STATUS_COLOUR, STATUS_ORDER
 
 if TYPE_CHECKING:
     from assaywatch.drift import AssayDrift

@@ -32,6 +32,22 @@ repos:
         entry: conda run -n assaywatch python scripts/papers_index.py --check
         language: system
         pass_filenames: false
+      - id: fixtures-current
+        # tests/make_fixtures.py reads LIVE registry/*.yaml and config.yaml and
+        # rewrites tests/fixtures/. Change a threshold and the hand-derived
+        # expected calls in PLANS go stale and test_score fails loudly; change an
+        # OLIGO or an amplicon_bp and regeneration silently rebuilds all 84
+        # records around it, every expectation still matching. That is the
+        # direction a scoring regression hides in.
+        #
+        # It had already happened: 9ea1a1e (2026-10-21) measured Bd's amplicon
+        # from 121 to 146 bp, which moved every Bd fixture by 25 bp, and nothing
+        # compared them for two days. No expected call moved that time.
+        name: test fixtures match the registry
+        entry: conda run -n assaywatch python tests/make_fixtures.py --check
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|config\.yaml|tests/make_fixtures\.py|tests/fixtures/.*)$
         files: ^(registry/.*\.yaml|docs/papers-index\.(md|cache\.json)|scripts/papers_index\.py)$
       - id: check-citations
         # Every citation must match Crossref. A reference written from memory is

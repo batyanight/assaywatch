@@ -26,7 +26,9 @@ planted edits and the expected call, and is what test_score.py reads.
 
 from __future__ import annotations
 
+import argparse
 import csv
+import io
 import random
 from pathlib import Path
 
@@ -214,7 +216,33 @@ def build_record(assay: Assay, edits: list[tuple[str, object]]) -> tuple[str, di
     return seq, offsets
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> int:
+    """Regenerate the golden fixtures, or with `--check` verify they are current.
+
+    WHY `--check` EXISTS. This script reads LIVE inputs -- `registry/*.yaml` and
+    `config.yaml` via `load_config` -- and overwrites `tests/fixtures/`. The RNG
+    is seeded, so regeneration is deterministic, but the inputs are not frozen.
+    That makes the failure asymmetric and the dangerous direction silent:
+
+      * change a THRESHOLD and the hand-derived `expected_call` values in `PLANS`
+        go stale, `tests/test_score.py` fails loudly, and someone notices;
+      * change an OLIGO in one of the five fixture assays and regeneration
+        rebuilds all 84 records around the new sequence, every expectation still
+        matches, and a scoring regression introduced the same day is absorbed
+        into the golden file.
+
+    The committed fixtures were generated 2026-10-15; `registry/` and
+    `config.yaml` have both changed since. Nothing compared them until now. The
+    pattern is `scripts/papers_index.py --check`, which is a pre-commit hook for
+    exactly this reason after that index went stale twice.
+    """
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument(
+        "--check",
+        action="store_true",
+        help="do not write; fail if the committed fixtures differ from a fresh generation",
+    )
+    args = ap.parse_args(argv)
     FIXTURES.mkdir(exist_ok=True)
     cfg = load_config()
     rows = []
@@ -257,22 +285,54 @@ def main() -> None:
             }
         )
 
-    with (FIXTURES / "records.fasta").open("w") as fh:
-        for rid, seq in records:
-            fh.write(f">{rid}\n")
-            for i in range(0, len(seq), 70):
-                fh.write(seq[i : i + 70] + "\n")
+    fasta = io.StringIO()
+    for rid, seq in records:
+        fasta.write(f">{rid}\n")
+        for i in range(0, len(seq), 70):
+            fasta.write(seq[i : i + 70] + "\n")
 
-    with (FIXTURES / "manifest.tsv").open("w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0]), delimiter="\t")
-        w.writeheader()
-        w.writerows(rows)
+    manifest = io.StringIO()
+    # csv.DictWriter's default lineterminator is CRLF, and the committed manifest has
+    # CRLF, because the original wrote through `open(newline="")`. Keep it: changing it
+    # here would rewrite all 85 lines and report every fixture stale for no reason.
+    w = csv.DictWriter(manifest, fieldnames=list(rows[0]), delimiter="\t")
+    w.writeheader()
+    w.writerows(rows)
+
+    # BYTES, not text, on both sides. csv.DictWriter's default lineterminator is
+    # CRLF and the manifest keeps it (the pipeline's own TSVs do too, pinned by
+    # tests/test_collect.py), but `Path.read_text()` performs universal-newline
+    # translation on READ, turning that CRLF back into LF -- so a text comparison
+    # reported every fixture stale immediately after regenerating them.
+    want = {
+        "records.fasta": fasta.getvalue().encode(),
+        "manifest.tsv": manifest.getvalue().encode(),
+    }
+    if args.check:
+        stale = [
+            name
+            for name, blob in want.items()
+            if not (FIXTURES / name).exists() or (FIXTURES / name).read_bytes() != blob
+        ]
+        if stale:
+            raise SystemExit(
+                f"fixtures are stale: {', '.join(stale)} differ from a fresh generation "
+                "off the current registry/ and config.yaml.\n"
+                "Regenerate and READ THE DIFF -- an oligo change rebuilds every record "
+                "silently, so a scoring regression can hide in it:\n"
+                "    python tests/make_fixtures.py && pytest -q"
+            )
+        print(f"fixtures match a fresh generation ({len(records)} records)")
+        return 0
+    for name, blob in want.items():
+        (FIXTURES / name).write_bytes(blob)
 
     print(f"{len(records)} records for {len(FIXTURE_ASSAYS)} assays -> {FIXTURES}")
     print(
         f"thresholds in use: detect<={cfg['scoring']['detect_max']} reduced<={cfg['scoring']['reduced_max']}"
     )
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

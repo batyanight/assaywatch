@@ -299,7 +299,7 @@ def _runtime() -> dict[str, object]:
     def ver(pkg: str) -> str | None:
         try:
             return _version(pkg)
-        except Exception:
+        except Exception:  # noqa: BLE001 - a version probe is provenance, never a reason to fail
             return None
 
     return {

@@ -251,7 +251,8 @@ def main(argv: list[str] | None = None) -> int:
         archive, group = archives_for(taxid, (doc.get("target") or {}).get("query"))
         try:
             combinations = pairs_of(doc)
-        except Exception as e:  # an entry the schema rejects is the validator's problem, not this script's
+        # An entry the schema rejects is the validator's problem, not this script's.
+        except Exception as e:  # noqa: BLE001 - skip the entry, keep auditing the rest
             print(f"  skipped {doc.get('id', path.stem)}: {e}", file=sys.stderr)
             continue
         if not (combinations and archive):

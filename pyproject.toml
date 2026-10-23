@@ -51,7 +51,12 @@ line-length = 110
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "B", "UP"]
+# BLE: every broad `except Exception` in this package carries a one-line
+# justification and a `# noqa: BLE001`. Sixteen of them, and BLE was not
+# selected, so all sixteen were dead and a new unjustified broad except passed
+# both CI jobs in silence. RUF100 is the other half: it fails on a `noqa` that
+# suppresses nothing, which is how the sixteen stayed dead unnoticed.
+select = ["E", "F", "I", "B", "UP", "BLE", "RUF100"]
 
 [tool.ruff.lint.per-file-ignores]
 "scripts/*" = ["E501"]

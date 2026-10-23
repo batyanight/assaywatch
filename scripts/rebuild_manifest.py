@@ -90,7 +90,8 @@ def main(argv: list[str] | None = None) -> int:
 
     cfg = load_config(args.config)
     # Never rebuild under a running retrieval: its .part files are live, not leftovers.
-    _lock = None if args.dry_run else acquire_lock(cfg)  # noqa: F841 - held until exit
+    # Bound, not discarded: the lock is held until the process exits.
+    _lock = None if args.dry_run else acquire_lock(cfg)
     manifest, partials = rebuild(cfg, args.registry)
     runs = manifest["runs"]
     groups = {(r["taxid"], r["group"]) for r in runs}

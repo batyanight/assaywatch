@@ -105,7 +105,7 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
                     taxid = taxid_elem.text
                     for acc in uid_to_accs.get(uid, ()):
                         acc_to_taxid[acc] = taxid
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - one batch failing must not lose the others
             print(
                 f"Error fetching batch {batch_start // batch_size + 1}: {type(e).__name__}", file=sys.stderr
             )
