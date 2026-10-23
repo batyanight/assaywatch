@@ -7,6 +7,11 @@ the database accumulates divergent strains nobody re-screens them against.
 AssayWatch keeps a version-controlled registry of assays and re-screens it on a
 schedule, reporting predicted detection by year of deposit and flagging drift.
 
+That premise is measured rather than asserted: `scripts/design_era.py` reports how
+much sequence has arrived for each assay's target since it was designed. 71 of 193
+assays with a design year were designed when their taxon held fewer than 50 archived
+records; Bd (Boyle 2004) was designed against a taxon holding 42 and now faces 9,496.
+
 Status: Phase 1 complete end to end — retrieve, screen, assess drift, report —
 and wired into a Snakefile. Retrieval is tested against canned E-utilities
 responses and has been run against the live NCBI API: the 2026-10-06 run screened
