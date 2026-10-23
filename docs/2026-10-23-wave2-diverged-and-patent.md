@@ -197,4 +197,6 @@ disagreement.
   resolvers or taxonomy, so it runs no lineage check and no scope filter, and it ignores
   the not-scoreable quarantine. On the live config it covers 87 assays against the
   report's 74 flagged: 17 the report does not flag (some of them Not scoreable) and 4 it
-  does that site-drift omits (lineage overrides). Fixed in the next commit.
+  does that site-drift omits (lineage overrides). Fixed in the next commit: both
+  now go through `report.assess_as_reported`, and site-drift covers exactly the
+  report's Declining + Low Coverage + Watch set (74 + 12 = 86).

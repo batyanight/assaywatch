@@ -64,7 +64,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from assaywatch.accession import strip_version
 from assaywatch.drift import EVALUABLE, wilson_interval
 from assaywatch.metadata import read_titles
 
@@ -552,7 +551,7 @@ def build(
     run_date: str | None = None,
 ) -> tuple[str, str, list[AssaySites]]:
     """Site-drift report for every assay in the given statuses."""
-    from assaywatch.drift import assess, by_status
+    from assaywatch.drift import by_status
     from assaywatch.report import key_calls_by_accession, read_calls, read_dates
     from assaywatch.validate import iter_files, load_assay
 
@@ -576,16 +575,15 @@ def build(
         today = _date.fromisoformat(run_date[:10])
     except ValueError:
         today = None
-    calls = key_calls_by_accession(read_calls(calls_path))
-    # `drift.exclude_patent_records` makes `assess` refuse to run without the
-    # patent set, so every caller that hands it a config has to read one. This
-    # caller did not, which was harmless only while the option was off.
-    patent = None
-    if (cfg.get("drift") or {}).get("exclude_patent_records"):
-        from assaywatch.metadata import read_patent_accessions
+    # The report's own assessment, not a stripped-down copy: lineage check, scope
+    # filter, patent exclusion and all (see `report.assess_as_reported`). And the
+    # same quarantine: an assay the report holds out as not scoreable gets no
+    # status here either, so it cannot be listed as failing.
+    from assaywatch.report import assess_as_reported, held_out_reasons
 
-        patent = read_patent_accessions(retrieved, {strip_version(r["record_id"]) for r in calls})
-    drifts = assess(calls, dates, cfg, today=today, patent=patent)
+    calls = key_calls_by_accession(read_calls(calls_path))
+    drifts, _ = assess_as_reported(calls, dates, assays, retrieved, cfg, today)
+    drifts = {aid: d for aid, d in drifts.items() if not held_out_reasons(assays.get(aid))}
     grouped = by_status(drifts)
 
     wanted = {s.lower() for s in statuses}

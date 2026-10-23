@@ -1338,41 +1338,28 @@ def read_figures(figures_dir: Path | None) -> dict[str, str]:
     return {p.name: p.read_text() for p in sorted(figures_dir.glob("*.svg"))}
 
 
-def build(
-    calls_path: Path,
-    registry: Path,
+def assess_as_reported(
+    calls: list[dict[str, Any]],
+    dates: dict[str, Any],
+    assays: dict[str, Assay],
     retrieved: Path,
     cfg: dict[str, Any],
-    run_date: str | None = None,
-    today: date | None = None,
-    figures_dir: Path | None = None,
-) -> tuple[str, str, dict[str, AssayDrift]]:
-    from assaywatch.validate import iter_files, load_assay
+    today: date | None,
+) -> tuple[dict[str, AssayDrift], Taxonomy | None]:
+    """Every assay's status, assessed exactly as report.md assesses it.
 
-    assays = {}
-    taxa: dict[str, tuple[int | None, str | None]] = {}
-    for path in iter_files(registry):
-        a = load_assay(path)
-        assays[a.id] = a
-        # A deprecated assay is not screened, so it is not a coverage gap either.
-        if a.status.value != "deprecated":
-            taxa[a.id] = (a.target.taxid, a.target.taxon_name)
+    Split out of `build` because a second document needs the same answer.
+    sitedrift.py claimed its statuses "come from the same assessment the main
+    report uses, so the two documents cannot disagree", but it called `assess`
+    with the calls, the dates and the config and nothing else: no taxids, so no
+    lineage check; no scope map, so no scope filter; and, until it crashed on
+    it, no patent set. On the frozen 2026-10-22 table site-drift.md covered 87
+    assays against the report's 74 flagged -- 17 the report did not flag and 4
+    lineage overrides it missed. One function, two callers, and the claim is
+    true by construction.
 
-    # Which assays are rounds of a protocol is known from the registry alone, so
-    # the spans the nested check needs are read for those and no others.
-    from assaywatch.nested import families
-
-    rounds = {i for v in families(assays).values() for i in v}
-    calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds))
-    dates = read_dates(retrieved)
-    run_date = run_date or calls_path.parent.name
-    if today is None:
-        # The recent window is anchored to the run, so re-rendering an old run
-        # later gives the same answer rather than sliding the window forward.
-        try:
-            today = date.fromisoformat(run_date[:10])
-        except ValueError:
-            today = None
+    Returns the taxonomy too, which `build` needs for rendering.
+    """
     # Load taxid data for per-lineage analysis (phase 2).
     taxid_map: dict[str, int] | None = None
     taxa_cache_data: dict[int, str] | None = None
@@ -1463,6 +1450,45 @@ def build(
         taxonomy=taxonomy,
         patent=patent,
     )
+    return drifts, taxonomy
+
+
+def build(
+    calls_path: Path,
+    registry: Path,
+    retrieved: Path,
+    cfg: dict[str, Any],
+    run_date: str | None = None,
+    today: date | None = None,
+    figures_dir: Path | None = None,
+) -> tuple[str, str, dict[str, AssayDrift]]:
+    from assaywatch.validate import iter_files, load_assay
+
+    assays = {}
+    taxa: dict[str, tuple[int | None, str | None]] = {}
+    for path in iter_files(registry):
+        a = load_assay(path)
+        assays[a.id] = a
+        # A deprecated assay is not screened, so it is not a coverage gap either.
+        if a.status.value != "deprecated":
+            taxa[a.id] = (a.target.taxid, a.target.taxon_name)
+
+    # Which assays are rounds of a protocol is known from the registry alone, so
+    # the spans the nested check needs are read for those and no others.
+    from assaywatch.nested import families
+
+    rounds = {i for v in families(assays).values() for i in v}
+    calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds))
+    dates = read_dates(retrieved)
+    run_date = run_date or calls_path.parent.name
+    if today is None:
+        # The recent window is anchored to the run, so re-rendering an old run
+        # later gives the same answer rather than sliding the window forward.
+        try:
+            today = date.fromisoformat(run_date[:10])
+        except ValueError:
+            today = None
+    drifts, taxonomy = assess_as_reported(calls, dates, assays, retrieved, cfg, today)
     if taxonomy is not None and taxonomy.unknown:
         print(
             f"warning: {len(taxonomy.unknown)} taxids not in the taxonomy cache were matched exactly; "

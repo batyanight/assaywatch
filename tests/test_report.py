@@ -599,3 +599,23 @@ def test_markdown_and_html_get_the_same_nested_rows():
     assert "`LYSSA` (not scoreable)" in out
     # and with no rows passed it still builds its own, unmarked
     assert "(not scoreable)" not in "\n".join(nested_section({"LYSSA": f}, {}, 0.90))
+
+
+def test_site_drift_assesses_through_the_report_not_a_copy():
+    """sitedrift.py promised its statuses "come from the same assessment the main
+    report uses, so the two documents cannot disagree", then called `assess` with
+    no taxids, scope, resolvers or taxonomy -- no lineage check, no scope filter.
+    On the frozen 2026-10-22 table it listed 17 assays the report did not flag and
+    missed 4 it did. The promise is kept by construction: one function, two
+    callers, and sitedrift never calls `assess` itself."""
+    import ast
+
+    src = (ROOT / "assaywatch" / "sitedrift.py").read_text()
+    called = {
+        n.func.id if isinstance(n.func, ast.Name) else getattr(n.func, "attr", "")
+        for n in ast.walk(ast.parse(src))
+        if isinstance(n, ast.Call)
+    }
+    assert "assess_as_reported" in called
+    assert "assess" not in called, "sitedrift must not assess on its own"
+    assert "held_out_reasons" in called, "and must hold back what the report holds back"
