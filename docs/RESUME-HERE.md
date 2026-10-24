@@ -53,6 +53,15 @@ unmatched count fell from 4 to 3 -- the three candidate-provenance PDFs (Coiras 
 Aitichou 2005, Khodeir 2021), which are correct to be unmatched. Neill & Seal is no longer
 among them.
 
+**Second item off the open list the same evening: the pan-coronavirus Watanabe reverse.**
+`docs/2026-10-24-heldout-candidates.md` called it "a transcription error on one side or the
+other". It is neither. Watanabe 2010 is held locally and prints primer 2 as a 24-mer; the
+23-nt form is PREDICT P-006 with the G at position 14 dropped; and the 2026-10-23
+binding-site counts in the entry's own notes reproduce exactly on a re-count today (215
+stored / 204 Watanabe / 88 P-006, over 25,576 records against the 25,506 of the first
+measurement). The registry's 24-mer stands. Resolution written into the candidates doc, where
+the claim was.
+
 
 ## 2026-10-24: the diverged+anchor_fdr pair SHIPPED at q=0.001
 
@@ -518,8 +527,12 @@ checked 0 problems, ruff clean.**
   entry is being dropped. (`209/all` is CLOSED as of 2026-10-24 — that entry now carries its
   sibling's query, joined the existing archive and screens at 91.8%.)
 - Four held-out rows rest on an oligo that differs from the registry's by one base or a
-  5' trim (see the candidates doc); one of those, the pan-coronavirus Watanabe reverse,
-  is a transcription error on one side or the other and worth settling.
+  5' trim (see the candidates doc). The pan-coronavirus Watanabe reverse is **SETTLED
+  2026-10-24**: neither side is a transcription error, Watanabe's held PDF prints the 24-mer,
+  the 23-nt form is PREDICT P-006 with a base dropped, and the binding-site counts reproduce
+  (215 / 204 / 88). Written up in the candidates doc. The other three are still open, the
+  nearest being Stöhr 2015's ranavirus MCP reverse, which differs at the 3' end and so
+  changes scoring directly.
 
 ### The old section 0, kept for the record
 

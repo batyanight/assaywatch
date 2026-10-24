@@ -78,8 +78,19 @@ Rejected on identity, recorded so they are not re-proposed:
   stores it. A 3'-end difference changes scoring directly, so this is not the same
   oligo until someone decides which form is right.
 - The Watanabe-derived pan-coronavirus reverse in Habeebur-Rahman 2025 is 23 nt against
-  the registry's 24. **Worth resolving from Watanabe 2010 (10.3201/eid1608.100208)
-  directly**, because one of the two is a transcription error.
+  the registry's 24. **RESOLVED 2026-10-24: neither side is a transcription error, and the
+  registry's 24-mer stands.** Watanabe 2010 was read directly from the held PDF
+  (`papers/10.3201_eid1608.100208.pdf`): it prints primer 2 as
+  `5'-CCATCATCAGATAGAATCATCATA-3'`, 24 nt. The 23-nt form in circulation is PREDICT P-006,
+  which drops the G at position 14 of that sequence, and
+  `registry/CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme.yaml` already recorded on 2026-10-23
+  that substituting it crashed the assay from 40.0% to 2.2% detected. Exact binding sites
+  re-counted independently over the 11118/q4d4730ef3b archive (25,576 records today, 25,506
+  when first measured), and the counts reproduce: stored degenerate 24-mer 215, Watanabe's
+  own printed 24-mer 204, P-006's 23-mer 88. So the 23-nt reading is a real third form with
+  a base missing, not evidence against the entry. Residual, and small: Habeebur-Rahman's own
+  oligo table was not read, so "identical to P-006" is inference from the length and the
+  lineage rather than a transcription check.
 - **Geiselhardt 2022** also restates that Scagliarini's 2007 CDV set was rebuilt to
   reach post-2007 genotypes, which would be a drift row, but that claim is Geiselhardt
   repeating Halecker 2021, whose DOI is already a development-set row. Recorded here
