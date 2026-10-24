@@ -12,9 +12,13 @@ oligos:
   forward:
     name: CoV-FWD3
     seq: GGTTGGGAYTAYCCHAARTGTGA
+    modified_from: GGTTGGGACTATCCTAAGTGTGA
+    modification_doi: 10.1038/ncomms9147
   reverse:
     name: CoV-RVS3
-    seq: CCATCATCASWYRGAATCATCATA
+    seq: CCATCATCASWYRAATCATCATA
+    modified_from: CCATCATCAGATAGAATCATCATA
+    modification_doi: 10.1038/ncomms9147
 amplicon_bp: 440
 citation:
   doi: 10.3201/eid1608.100208

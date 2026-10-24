@@ -9,7 +9,7 @@ chemistry: conventional
 oligos:
   forward:
     name: Borna-NF
-    seq: GCCTTGTGTTTCTATGTTTG
+    seq: GCCTTGTGTTTCTATCTTTC
   reverse:
     name: Borna-NR
     seq: ATTCTTTACCTGGGGACTCA
@@ -34,8 +34,15 @@ source:
     - same length, so this is not the end-glue case at all, and the two differences sit at positions 16 and 20, the second
     being the 3''-terminal base. A primer whose 3'' terminus is wrong is the single most consequential kind of registry error,
     and with terminal_mismatch_fails: true it would also change this assay''s calls. Not changed: this needs the PDF read
-    by eye, and if the paper is right the entry''s calls are currently measuring a primer nobody used.'
+    by eye, and if the paper is right the entry''s calls are currently measuring a primer nobody used. CORRECTED 2026-10-23, and this one changes calls.
+    Zimmermann et al. 1994 prints its internal (nested) pair under "Internal (nested) primers:" as antisense
+    5''-ATT CTT TAC CTG GGG ACT CA-3'' and sense 5''-GCC TTG TGT TTC TAT CTT TC-3'' (read by eye in the PDF and in the
+    publisher XML, which agree, so this is not an extraction artefact). The stored forward was GCCTTGTGTTTCTATGTTTG: the
+    last four bases were wrong, including the 3''-terminal base, which under terminal_mismatch_fails is the single most
+    load-bearing position in the molecule. The stored form appears nowhere in Europe PMC full text, so it was a
+    transcription error and not a modification. Corrected to the paper''s GCCTTGTGTTTCTATCTTTC, which is also what the
+    sibling entry BORNA_VIRUS_N_gene_Zimmermann_1994_round2 already stored as BornaNestF. The likely origin of the error
+    is the paper''s external sense primer GTCACGGCGCGATATGTTTC, whose tail the stored sequence ends with. NEEDS A
+    RESCREEN: every call for this assay was made with the wrong 3'' end.'
 needs_review:
-- flag: oligos_not_in_cited_paper
-  note: a sequence differs from the cited paper's
 - flag: orientation_inferred

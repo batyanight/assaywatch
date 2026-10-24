@@ -17,6 +17,8 @@ oligos:
   reverse:
     name: CoV-RVS1
     seq: GGTCATKATAGCRTCAVMASWWGCNACATG
+    modified_from: GGTCATKATAGCRTCAVMASWWGCNACNACATG
+    modification_doi: 10.1038/ncomms9147
 amplicon_bp: 532
 citation:
   doi: 10.1128/mBio.00208-10

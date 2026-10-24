@@ -32,6 +32,10 @@ status: draft
 source:
   nested_round: null
   notes_curator: Primers 23SF and 23SR were designed by Zhu et al. 2000 (Microbiology 146:315-321). Schrenzel et al. 2005
-    (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". The seed list cited Schrenzel 2005.
+    (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". The seed list cited Schrenzel 2005. 23SR CONFIRMED 2026-10-23. It read
+    `absent` only because Zhu et al. 2000 writes its degenerate positions as parenthesised alternatives -
+    TTT(C/T)(C/T)G(A/G)TCCTCTCGTACT in Table 1, PCR no. 4 (LSU rRNA, antisense) - which expands to exactly the stored
+    TTTYYGRTCCTCTCGTACT. No oligo-like run of that shape survives the extraction, so the verifier had nothing to match.
+    Nothing is in doubt, and the entry's existing account of Zhu 2000 as the design paper is right.
 needs_review:
 - flag: cross_reactive

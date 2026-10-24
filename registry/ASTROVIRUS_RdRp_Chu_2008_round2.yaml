@@ -35,14 +35,21 @@ use_context:
 submitted_by: null
 status: draft
 source:
+  predict_protocol: P-002
   nested_round: round2
   notes_curator: 'Split out 2026-10-23 from ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2, where these oligos sat as alternates
-    of Atkins 2009 although neither Atkins nor PREDICT P-001 prints them. Chu et al. 2008 Materials and Methods (PMC2546893,
+    of Atkins 2009, which does not print them. Chu et al. 2008 Materials and Methods (PMC2546893,
     read 2026-10-23) prints all five exactly: round 1 is a mix of two forward primers with one reverse, round 2 is heminested
     with two forward primers and the same reverse; "the expected product size of the second PCR was 422 bp". The two forward
     primers are one mixture, so they are one forward slot plus an alternate. AMPLICON MEASURED 2026-10-23 by screening this
     entry against every Astroviridae archive (data/retrieved/39733/all, five snapshots): 2,623 amplifying records, envelope
     377-479 bp, median 410, 5-95% 398-431. The RdRp product length varies across the family, so it is declared as amplicon_bp_range,
-    the envelope plus a 10 bp cushion each end; Chu''s 422 bp sits inside it (10 exact detects at 422).'
+    the envelope plus a 10 bp cushion each end; Chu''s 422 bp sits inside it (10 exact detects at 422). CORRECTION, same day: the split commit said these oligos are in neither
+    Atkins nor the PREDICT book. The first half is right, the second is not. The book has a SECOND astrovirus protocol,
+    P-002, whose REFERENCE line reads "Chu, D.K.W. et al (2008)" and which prints all five of them
+    (AstroFWD1/2 + AstroRVS1 round 1, AstroFWD3/4 + the same reverse round 2) at ~421 bp. So the oligos are published
+    twice over and the old entry''s error was the protocol number, not the existence of a panel source: P-001 is Atkins''
+    Astr4380F/Astr4811R/Astr4722R, P-002 is this assay. predict_protocol is now P-002, and the book''s ~421 bp agrees
+    with the measured median above.'
 needs_review:
 - flag: nested_protocol

@@ -58,7 +58,11 @@ source:
     oligos_designed_here is set to NULL rather than true: Deckers says the primers were designed to bind conserved sites but
     also cites an earlier use in great apes, so whether they were first published there is not settled by this paper - the
     same reading applied to the Nosema/Klee re-citation. The RECITE_AFTER_CROSSREF_CHECK flag is cleared; a flag recording
-    the composite provenance remains.'
+    the composite provenance remains. 4125-as CONFIRMED 2026-10-23. Its `near:1` was
+    glued table text. The run the verifier matched ends AGCMVGB, which is the primer-name column plus the next
+    column''s assay label, and it begins two bases early. Table 1''s own row for 4125as prints
+    GCTGACGGGTTGATCTTGCT(r/i)AG, and the stored R at that position is the (r/i) reading - the same convention this paper
+    uses for 4125-s, where the registry reads (b/i) as N. The stored sequence is the paper''s.'
 needs_review:
 - flag: citation_is_indirect
   note: the cited paper is where these oligos are printed, not proven to be their first publication

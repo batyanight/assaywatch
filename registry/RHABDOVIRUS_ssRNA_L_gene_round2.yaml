@@ -50,5 +50,12 @@ source:
     rounds keep the same status and the same firing lineage (round1 declining, pooled 11.6 -> 11.7 percent; round2 declining,
     25.1 -> 26.8 percent). The denominator now means what it says; it does not change a call. Rabies is NOT out of scope and
     that finding stands: PVO3''s coordinates are given on the Rabies virus PV genome, RV PV and SAB-B19 are two of the ten
-    design sequences, and RABV 9911/PV/SADB19 were amplified in the paper (AY854660-662).'
-needs_review: null
+    design sequences, and RABV 9911/PV/SADB19 were amplified in the paper (AY854660-662). PVOnstF SOURCE FOUND 2026-10-23, and it is not the
+    cited paper. Bourhy et al. 2005 prints PVO3/PVO4 and PVO5/PVO6 and names no PVOnstF, so the stored sequence reads
+    `absent` against it. It is printed in Table 1 of Wray, A.K. et al. 2016, EcoHealth (10.1007/s10393-016-1183-z,
+    PMC5164864), paired with PVO3 as the same hemi-nested rhabdovirus assay this entry stores - and that table''s own
+    citation column for the pair reads "Unpublished". So the nested forward has no publication that designed it, only one
+    that printed it, and no further reading will produce a design source.'
+needs_review:
+- flag: oligos_from_secondary_source
+  note: PVOnstF is printed in Wray 2016 (10.1007/s10393-016-1183-z), which itself marks it unpublished

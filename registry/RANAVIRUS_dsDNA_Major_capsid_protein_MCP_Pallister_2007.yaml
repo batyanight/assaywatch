@@ -33,6 +33,14 @@ submitted_by: null
 status: draft
 source:
   nested_round: null
-  notes_curator: 'SANTEE-COOPER BLIND SPOT. This assay does not reach the Santee-Cooper group (ICTV Ranavirus micropterus1: Largemouth bass virus, Smallmouth bass virus, Doctor fish virus, Guppy virus 6, plus the phylogenetically allied but still-unclassified Mandarin fish and Siniperca chuatsi ranaviruses). That lineage sits well apart from the FV3-like viruses and from the Australian and European fish ranaviruses that MCP consensus primers were designed on, and on 2026-10-04 it accounted for most of this assay''''s failing records. A no-amplicon or fail call on a Largemouth bass virus deposit is therefore expected and is not evidence of drift. Those records are covered by LMBV_dsDNA_MCP_RPA_Li_2025, which matches all four LMBV complete genomes this assay fails.'
+  notes_curator: 'SANTEE-COOPER BLIND SPOT. This assay does not reach the Santee-Cooper group (ICTV Ranavirus micropterus1: Largemouth bass virus, Smallmouth bass virus, Doctor fish virus, Guppy virus 6, plus the phylogenetically allied but still-unclassified Mandarin fish and Siniperca chuatsi ranaviruses). That lineage sits well apart from the FV3-like viruses and from the Australian and European fish ranaviruses that MCP consensus primers were designed on, and on 2026-10-04 it accounted for most of this assay''''s failing records. A no-amplicon or fail call on a Largemouth bass virus deposit is therefore expected and is not evidence of drift. Those records are covered by LMBV_dsDNA_MCP_RPA_Li_2025, which matches all four LMBV complete genomes this assay fails. BOTH PRIMERS CONFIRMED
+    2026-10-23, read from the figure. Pallister et al. 2007 prints its probe sequences in running text but shows the
+    primers only as labelled arrows over the MCP alignment in Fig. 1a, which carries no extractable text - so both read
+    `absent` to the verifier and always will. Rendered at 200 dpi and read by eye, the CON forward arrow sits over
+    ...CTCATCGTTCTGGCCATCAAC..., giving the stored RanaConF, and the CON reverse arrow over the sense-strand
+    TGAACGGCTCGATGGGA, whose reverse complement is the stored RanaConR. Both sequences are also printed as plain text,
+    with the same consensus probe, in the methods of 10.1371/journal.pone.0014576 (PMC3026784). Nothing in doubt.'
 needs_review:
+- flag: oligos_read_from_figure
+  note: Pallister 2007 shows both primers only as arrows over the Fig. 1a alignment
 - flag: amplicon_measured_not_published

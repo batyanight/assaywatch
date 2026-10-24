@@ -9,10 +9,10 @@ chemistry: conventional
 oligos:
   forward:
     name: Hel1
-    seq: GTCCCAGTATTCGGATTTGTCT
+    seq: GTCCCAGTATTCGGATTTGTCTGCG
   reverse:
     name: Hel2
-    seq: GCGAGCGGGTAGTTCAGT
+    seq: AGCGGGTAGTTCAGTCAAGTTCACC
 amplicon_bp: 360
 citation:
   doi: 10.1016/S0166-0934(99)00088-9
@@ -21,7 +21,7 @@ citation:
   as_written: Reid et al. 1999
   doi_verified: true
   reference: Reid SM et al. 1999. J Virol Methods 82:63-73
-  oligos_designed_here: true
+  oligos_designed_here: false
 use_context:
 - wildlife
 - veterinary
@@ -29,10 +29,18 @@ submitted_by: null
 status: draft
 source:
   nested_round: null
-  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_99_00088-9.pdf). Hel1 and Hel2 target the 2C helicase gene of Caliciviridae. The paper reports Hel1 as 25 nt and Hel2 as 18 nt; the OCR-extracted Hel1 sequence is only 22 nt, so sequence may be incomplete - needs verification against the paper table. AMPLICON MEASURED 2026-10-21 as 360 bp in all 5 amplifying records (Vesivirus exanthema and Rabbit vesivirus), a single band, agreeing with the paper''s stated ~357 bp within gel-reading error, so declared as a scalar 360 (config.yaml amplicon section says the measured size wins). Unimodal, so not a range; only 5 of 84,810 genus records amplify at all, hence thin_evidence below.'
+  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_99_00088-9.pdf). Hel1 and Hel2 target the 2C helicase gene of Caliciviridae. The paper reports Hel1 as 25 nt and Hel2 as 18 nt; the OCR-extracted Hel1 sequence is only 22 nt, so sequence may be incomplete - needs verification against the paper table. AMPLICON MEASURED 2026-10-21 as 360 bp in all 5 amplifying records (Vesivirus exanthema and Rabbit vesivirus), a single band, agreeing with the paper''s stated ~357 bp within gel-reading error, so declared as a scalar 360 (config.yaml amplicon section says the measured size wins). Unimodal, so not a range; only 5 of 84,810 genus records amplify at all, hence thin_evidence below. BOTH OLIGOS CORRECTED 2026-10-23, and the cause is
+    one mis-split table cell. Reid et al. 1999 Table 2 prints each primer as a 25-mer wrapped after a hyphen:
+    Hel1 "GTCCCAGTATTCGGATTTGTCT-" / "GCG" and Hel2 "AGCGGGTAGTTCAGT-" / "CAAGTTCACC", both with length 25 in the
+    table''s own nt column and a 357 bp product. The registry held Hel1 truncated to its first line (22 nt) and Hel2 as
+    Hel1''s wrapped tail GCG glued onto Hel2''s first line (18 nt) - so the continuation of one primer had been prepended
+    to the next. Corrected to the printed 25-mers. oligos_designed_here set to FALSE: Table 2''s footnote reads
+    "** Originally described by Neill and Seal (1995)", i.e. Neill, J.D. and Seal, B.S., Mol. Cell. Probes 9, 33-38, which
+    Reid''s own introduction also names as the source of Hel1/Hel2; Reid is where they are printed and read, not where
+    they were designed. NEEDS A RESCREEN, and the declared 360 bp should be re-measured against the table''s 357.'
 needs_review:
 - flag: thin_evidence
   note: the 360 bp size rests on 5 amplifying records of 84,810 in the genus; the assay detects
     almost nothing in GenBank
-- flag: oligo_sequence_uncertain
+- flag: oligos_from_secondary_source
   note: HEL1 reads 22 nt by OCR against the paper's stated 25 nt

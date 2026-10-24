@@ -29,7 +29,11 @@ submitted_by: null
 status: draft
 source:
   nested_round: null
-  notes_curator: 'CITATION ADDED 2026-10-04 by the provenance audit, on sequence evidence rather than inference. This entry had no citation at all, but its reverse primer ''16-23 R3 (Rebelo R)'' is byte-identical to RebeloR in Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011, which carries doi:10.1177/1040638711416846 (verified against Crossref: Rebelo, Parker & Cai, J Vet Diagn Invest 23:932-936). So half of this pair is Rebelo 2011 and the partner is from elsewhere - unpublished or in-house, the seed list does not say. oligos_designed_here is False because the pair as entered is a composite, and Rebelo 2011''s claims bound only one of the two primers. Three registry entries share Rebelo oligos and only one named the paper; that is the same read-from-versus-designed-by confusion that produced the ranavirus scoping error. | Oligo annotations moved from name field: 16-23-R3 (reverse): Rebelo R'
+  notes_curator: 'CITATION ADDED 2026-10-04 by the provenance audit, on sequence evidence rather than inference. This entry had no citation at all, but its reverse primer ''16-23 R3 (Rebelo R)'' is byte-identical to RebeloR in Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011, which carries doi:10.1177/1040638711416846 (verified against Crossref: Rebelo, Parker & Cai, J Vet Diagn Invest 23:932-936). So half of this pair is Rebelo 2011 and the partner is from elsewhere - unpublished or in-house, the seed list does not say. oligos_designed_here is False because the pair as entered is a composite, and Rebelo 2011''s claims bound only one of the two primers. Three registry entries share Rebelo oligos and only one named the paper; that is the same read-from-versus-designed-by confusion that produced the ranavirus scoping error. | Oligo annotations moved from name field: 16-23-R3 (reverse): Rebelo R SEARCHED AND NOT FOUND, 2026-10-23. Rebelo et al. 2011 prints only its universal pair, F1
+    ACACCATGGGAGYTGGTAAT and R1 CTCCWTCGACTTYCAGACCCAAGGCAT, so the partner primer in this entry is not that
+    paper''s and reads `absent`. An exact-phrase Europe PMC full-text search on the stored sequence returns nothing,
+    so it has no identifiable publication, and the oligo_source_unresolved flag is not a to-do that reading one more
+    paper will clear.'
 needs_review:
 - flag: oligo_source_unresolved
   note: the partner primer has no attributed source

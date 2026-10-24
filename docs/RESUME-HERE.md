@@ -1,5 +1,24 @@
 # Resume point, 2026-10-23 (waves 0-5 of the plan of attack landed; see below)
 
+## 0a. The oligo flags are adjudicated; four sequences were wrong
+
+`docs/2026-10-23-oligo-adjudication.md`. Every `near:` and `absent` row was read
+against the paper itself. Agreement is 413 of 462 checkable (89%); the 5 remaining
+`near:` and 24 `absent` are all documented artefacts, mostly oligos that exist only
+inside a figure image. **Four sequences were genuinely wrong and are corrected**:
+Borna-NF (3'-terminal base, so every past call for it is suspect), both calicivirus
+Hel primers (a mis-split wrapped table cell), and CoV-RVS3 (a hybrid of Watanabe's
+length and the panel's degeneracy). **A rescreen is owed on four groups** -
+`178830/all`, `11974/all`, `11118/q4d4730ef3b`, `39733/all` - and has NOT been run.
+
+The policy, decided by the maintainer: **keep both.** Store the form actually run
+and record `modified_from` plus `modification_doi`. 13 oligos now carry it. An
+empty `modification_doi` means the modification is unpublished and exists only here.
+
+Left for a maintainer: whether `E_coli_ETEC_LT_Victor_1991` and
+`RHABDOVIRUS_ssRNA_L_gene_round2` get re-cited to the papers that actually print
+their oligos (Wang 1997, Wray 2016), which would also mean renaming both ids.
+
 ## 0. Only verified-DOI assays are live; the seed list is gone
 
 `docs/2026-10-23-verified-doi-gate.md`. `registry/` holds 198 entries, all
@@ -98,11 +117,10 @@ than this summary.
 - **`scripts/design_era.py`** measures the founding premise: 71 assays were designed
   against under 50 records (`docs/design-era.tsv`).
 
-Open, in rough order: decide what `active` asserts
+Open, in rough order: the owed rescreen and the two re-citation decisions above; decide what `active` asserts
 (`scripts/promote.py`, and `docs/2026-10-23-wave5-what-active-means.md` recommends
 `--tier clean` — the oligo-provenance objection to promoting is now much weaker, 38
-uncheckable rather than 106, so this decision is ripe); adjudicate the 15 candidate
-oligo discrepancies and decide whether any becomes a registry flag; collect held-out cases (plan 4.2, shared with the C2 bench corpus in
+uncheckable rather than 106, so this decision is ripe); collect held-out cases (plan 4.2, shared with the C2 bench corpus in
 `docs/bayesian-scoring-plan.md`); build the archive-scale anchor test that
 `count_diverged_as_fail` needs; and `subcluster.py`, built, tested and still unwired.
 

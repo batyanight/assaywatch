@@ -11,9 +11,13 @@ oligos:
   forward:
     name: AIMatrixF
     seq: ARATGAGTCTTCTRACCGAGGTCG
+    modified_from: AGATGAGTCTTCTAACCGAGGTCG
+    modification_doi: 10.3390/v5081964
   reverse:
     name: AIMatrixR
     seq: TGAAAAGACATCYTCAAGYYTCTG
+    modified_from: TGCAAAAACATCTTCAAGTCTCTG
+    modification_doi: 10.3390/v5081964
   probe:
     name: AI-Matrix-probe
     seq: TCAGGCCCCCTCAAAGCCGA

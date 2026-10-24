@@ -14,6 +14,8 @@ oligos:
   reverse:
     name: Xiao18SR1
     seq: CCCATTTCCTTCGAAACAGGA
+    modified_from: CCCTAATCCTTCGAAACAGGA
+    modification_doi: 10.1128/aem.66.12.5492-5498.2000
 amplicon_bp: 1319
 citation:
   doi: 10.1128/aem.65.4.1578-1583.1999

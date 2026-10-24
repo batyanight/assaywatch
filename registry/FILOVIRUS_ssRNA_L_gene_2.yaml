@@ -44,6 +44,13 @@ source:
     consolidation of the published cocktail, which is what the MODIFIED_IN_HOUSE flag and the MOD- prefix mean, and neither
     sequence is Zhai''s. oligos_designed_here is false. MOD-FWD is a mixture of 2,304 distinct oligos (7 degenerate positions of
     24) and MOD-RVS of 8,192 (8 of 23), so each cocktail member is a small fraction of its molecules and the pair is a different
-    reagent from the cocktail, not a repackaging of it: the two entries are separate assays. AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,528 of 3,539 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-008, prints ~600 bp; the measurement is what is entered.'
+    reagent from the cocktail, not a repackaging of it: the two entries are separate assays. AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,528 of 3,539 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-008, prints ~600 bp; the measurement is what is entered. BOTH OLIGOS CONFIRMED 2026-10-23 as a consolidation, not a
+    discrepancy. Zhai et al. 2007 Table 1 prints a 4+4 cocktail of fully-specified primers, not one degenerate pair, so
+    neither stored sequence occurs in it and both read `absent`. Checked base by base, MOD-FWD covers all four printed
+    forwards over its 24 nt with no mismatch and MOD-RVS all four reverses over 23 nt, so the stored pair is the IUPAC
+    consolidation of that cocktail. It is published in that form, named Filo-MOD-FWD and Filo-MOD-RVS and credited to
+    Zhai 2007, in the methods of 10.1038/s41467-020-14327-8 (PMC6981187), 10.1007/s10393-020-01503-x (PMC7682123) and
+    10.3390/v14030560 (PMC8951055). Those same protocols pair MOD-FWD with FiloL.conR in a first round, so this entry is
+    the inner step of a nested assay and is stored as the round-2 pair only.'
 needs_review:
 - flag: oligos_modified

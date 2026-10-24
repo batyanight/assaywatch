@@ -46,6 +46,7 @@ Read these before trusting a status.
 | [`2026-10-23-wave5-triage.md`](2026-10-23-wave5-triage.md) | the report leads with ten assays; anchors instead of JavaScript |
 | [`2026-10-23-wave5-what-active-means.md`](2026-10-23-wave5-what-active-means.md) | 173 drafts are eligible, 100 carry no oligo doubt. A maintainer decision |
 | [`2026-10-23-wave5-engineering.md`](2026-10-23-wave5-engineering.md) | the memory hazard, and the two refactors deliberately not done |
+| [`2026-10-23-oligo-adjudication.md`](2026-10-23-oligo-adjudication.md) | every `near:` and `absent` oligo read against its paper: 4 real errors corrected, 13 modifications recorded, agreement 84% -> 89% |
 | [`2026-10-23-verified-doi-gate.md`](2026-10-23-verified-doi-gate.md) | only verified-DOI assays are live; 10 moved to `pending/`; the seed list's fields and importer removed |
 | [`2026-10-23-wave5-elsevier-and-oligo-flags.md`](2026-10-23-wave5-elsevier-and-oligo-flags.md) | the Elsevier block opened: 68 oligos newly checkable; 6 of 21 near-misses are the matcher finding sibling primers |
 | [`bayesian-scoring-plan.md`](bayesian-scoring-plan.md) | design only: the three things "Bayesian scoring" could mean, with a kill-test each |

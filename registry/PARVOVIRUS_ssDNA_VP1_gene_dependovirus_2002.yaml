@@ -10,9 +10,11 @@ oligos:
   forward:
     name: 19SAAVF
     seq: GGYAATKCCTCVGGWRATTGGCATT
+    modified_from: GGTAATGCCTCAGGAAATTGGCATT
   reverse:
     name: 18asAAVR
     seq: GADBCCCCARTKGTTGTTGATRAGYC
+    modified_from: GAATCCCCAATTGTTGTTGATGAGTC
 amplicon_bp: 255
 citation:
   doi: 10.1073/pnas.182412299

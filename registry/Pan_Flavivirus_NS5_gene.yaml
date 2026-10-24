@@ -12,6 +12,8 @@ oligos:
   forward:
     name: Flavi-FWD
     seq: TGYRBTTAYAACATGATGGG
+    modified_from: TGYRTBTAYAACATGATGGG
+    modification_doi: 10.1038/ncomms9147
   reverse:
     name: Flavi-RVS
     seq: GTGTCCCANCCNGCNGTRTC
