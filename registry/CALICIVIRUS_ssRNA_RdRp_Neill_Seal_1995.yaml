@@ -1,0 +1,63 @@
+id: CALICIVIRUS_ssRNA_RdRp_Neill_Seal_1995
+name: CALICIVIRUS (ssRNA) — RNA-dependent RNA polymerase (Neill & Seal 1995)
+target:
+  taxid: 11974
+  gene: RNA-dependent RNA polymerase
+  genome_type: ssRNA
+  taxon_name: Caliciviridae
+  scope_taxids:
+  - 3433198
+chemistry: conventional
+oligos:
+  forward:
+    name: Pol1
+    seq: GCCTTCTGGTATGCCACTAACATCC
+  reverse:
+    name: Pol2
+    seq: GACGAGCGGTATGATCTTGTTGGTG
+amplicon_bp: 520
+citation:
+  doi: 10.1016/S0890-8508(95)90962-1
+  design_year: 1995
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Neill JD, Seal BS 1995. Development of PCR primers for specific amplification of two distinct regions of the
+    genomes of San Miguel sea-lion and vesicular exanthema of swine viruses. Mol Cell Probes 9:33-37
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-24. This is the SECOND of the two primer pairs Neill & Seal 1995 designed; the registry already
+    held the first as CALICIVIRUS_ssRNA_Helicase_Reid_1999. The paper''s own title is "Development of PCR primers for specific
+    amplification of two distinct regions", the two regions being the 2C-like RNA helicase (the sibling entry, 357 bp) and
+    the RNA-dependent RNA polymerase (this entry). It was found while re-reading the held design-paper deposit for the helicase
+    entry''s Hel1 terminal-base question on 2026-10-24, and it was simply never entered: the sibling''s own note had checked
+    only whether the CAPSID entry''s primers were in this paper, not whether this paper held a pair of its own that nothing
+    in the registry carried. OLIGOS read from the design paper''s Methods, held locally as the Elsevier JATS deposit papers/10.1016_s0890-8508_95_90962-1.xml:
+    "Pol1 (5''- GCCTTCTGGTATGC CACTAACATCC-3''); Pol2 (5''- GACGAGCGGTATGATCTTGTTG GTG-3'')". CAUTION, AND IT IS WHY THESE
+    ARE SAFER THAN THAT DEPOSIT''S HELICASE PRIMER: this deposit is OCR''d and inserts a spurious space inside three of its
+    four printed oligos, including both of these (the space before CACTAAC in Pol1 and before GTG in Pol2). The spaces were
+    closed to give two 25-mers. Unlike the sibling''s Hel1, where the disputed 3''-terminal base matches NO record, BOTH closed-up
+    forms here are CORROBORATED BY THE SEQUENCE DATA: measured over the 152,379-record Caliciviridae archive on 2026-10-24,
+    Pol1 has an exact site in 11 records and Pol2 in 19, and the pair gives a product in 8, every one exactly 520 bp - the
+    size the paper states ("520 bp, 9 of 11 viruses"). A primer whose transcription was wrong could not match real records
+    exactly nor reproduce the published product size, so the space-closing is confirmed rather than assumed. Orientation confirmed
+    the same way: Pol1 is the forward and Pol2 the reverse, product 520 bp, on San Miguel sea lion virus, bovine calicivirus
+    and vesicular exanthema of swine virus (DQ666630, U18741, U18737 among others). SCOPED to scope_taxids [3433198] (Vesivirus
+    exanthema), rank species under Caliciviridae > Vesivirus, identical to the helicase sibling and for the same reason: taxid
+    11974 is the whole family and is ~99.9 percent norovirus, which this assay was never meant to detect, while the paper
+    reports feline calicivirus negative. The 8 amplifying records are the designers'' own SMSV/VESV/bovine-calicivirus targets,
+    which sit under the Vesivirus scope. AMPLICON 520 bp is the paper''s stated size AND the measured size, which agree exactly,
+    so no amplicon_disagrees flag. THIN by design: only 8 records amplify, because the scope is a handful of vesiviruses with
+    few deposited genomes, so no drift verdict is possible yet and thin_evidence says so. The value is coverage of a wildlife/marine-mammal
+    calicivirus target the registry otherwise reached only through the helicase region. status: draft and doi_verified: false
+    on entry; only a maintainer sets active.'
+needs_review:
+- flag: thin_evidence
+  note: only 8 Caliciviridae records amplify (the designers' own SMSV/VESV targets), too few for a drift verdict
