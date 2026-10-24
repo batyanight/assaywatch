@@ -1,5 +1,76 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24 late: the seven new entries were SCREENED, and exact matching had misled me three times
+
+Everything below about the new entries was written from exact-match counting. The scorer
+disagrees, and the scorer is the measurement. Run with `python -m assaywatch.screen` over the
+real archives; nothing in the registry''s oligos changed, only what the entries claim.
+
+**The Congo Basin assay needs no scope. The warning was wrong.** It predicted a permanent ~92%
+non-detection if left unscoped. Measured: **1,060 evaluable records and 99.3% detection.** The
+12,695 clade II records are `no_site`, not failures, because the C3L gene is ABSENT rather than
+mismatched, so they leave the denominator before any verdict is formed. `EVALUABLE` is
+`(detect, reduced, fail)`; a gene that is not there is silent, not negative. This is the thing
+exact matching cannot see, because it has no notion of evaluability.
+
+**The West African assay is the one with the broken denominator.** 12,396 evaluable, **78.3%**,
+and **2,688 failures**. Every one of them has `fwd_penalty` 0, `rev_penalty` 0, **no probe site**,
+and the 82 bp product rather than the 85 bp form. That is the clade I signature: the conserved
+primers amplify clade I, the clade-II-specific probe does not bind it, so the record IS
+evaluable and the failure counts against the assay. 78.3% is not a declining verdict today, but
+the clade I share of GenBank is rising with the 2024-25 clade Ib outbreak and this will fall for
+a reason that is not drift.
+
+**And it cannot be scoped with anything that exists.** Checked exhaustively on 2026-10-24, so
+nobody re-runs it:
+
+| route | finding |
+|---|---|
+| `scope_taxids` | the species node is now `3431483 Orthopoxvirus monkeypox`, holding 10244 at rank `isolate`; the whole subtree is four nodes and none is a clade |
+| per-record taxid | every record in the archive carries the bare 10244 |
+| `title` resolver | 0 of 13,764 deflines say "clade I" or "Congo Basin"; 8.8% say hMPXV, 19 say Zaire |
+| `subtaxid` resolver | nothing below the species to resolve to |
+| `cluster` resolver | all-pairs, documented quadratic, on 12,396 evaluable records |
+
+What would work is a clade call from sequence at an INDEPENDENT locus, and C3L presence is the
+natural marker with the paper''s own reasoning behind it (West African strains delete C3L).
+That is a mechanism the schema does not have. **Maintainer decision, now priced.**
+
+**The generic assay has not "drifted hard" - that claim is withdrawn.** 12,052 evaluable,
+**99.9% detection**, of which **8,954 are `reduced`**. The primer-site mismatches cost penalty,
+not detection. The honest finding is the reduced column, which is a real ageing of a 2010 assay
+and a smaller claim than failure.
+
+**The other four entries came through clean**, and one gained a finding:
+
+- Gallardo-Romero: 7 evaluable, 100%, the other 57 records `no_site` fragments. Agrees with the
+  hand measurement exactly.
+- Orf: **64 of 64 `detect`** on its own retrieval taxon, and 0% on both other species, every one
+  a `fail`. Specificity holds under scoring, not just exact matching.
+- Generic parapox: **90.9% on bovine papular stomatitis**, so the exact-match gap recorded
+  yesterday does NOT become a scoring failure, exactly as the one distal mismatch predicted.
+- BPSV: 81.8% on its own taxon, and **a cross-reaction exact matching hid** - 61 of 64 Orf virus
+  genomes score `reduced`, 95.3%. The paper''s wet-lab panel reports no cross-reaction, so this
+  is an in-silico disagreement with the publication, now flagged `cross_reactive`.
+
+**The lesson worth keeping:** an exact-match sweep is a hypothesis, and a cheap one. It cannot
+see a tolerated mismatch, so it understates an assay, and it cannot see evaluability, so it
+invents denominators that the pipeline would never use. Screen before writing a verdict into an
+entry.
+
+### A file changed underneath this session
+
+`scripts/fetch_elsevier.py` was replaced on disk at 18:48 by a different implementation of the
+same idea (`--list`, `./.env`, writes PDFs, its own `results/elsevier-fetch.tsv`). It is left
+exactly as found, unstaged and uncommitted. Three things to know before merging it:
+it drops both fixes committed in `1786091` earlier today (the `held_dois` forward mapping, and
+the `<body>` test that stopped a metadata-only reply being saved as full text); it carries a
+fourth private copy of the `papers/` filename convention in its own `slug()`, which is the
+duplication `assaywatch/papers.py` exists to prevent, though its output is compatible because
+every reader lowercases; and it fails `ruff` (`BLE001` at line 109), so it blocks commits until
+that is resolved.
+
+
 ## 2026-10-24 evening: the papers/ filename gap is closed, and it cost nothing to close
 
 The gap left open earlier today ("A REAL GAP FOUND AND DELIBERATELY NOT FIXED") is fixed,
