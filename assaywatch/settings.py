@@ -190,6 +190,26 @@ class Assemblies(Block):
     max_pair_evalue: float = Field(default=0.01, gt=0)
 
 
+class Screen(Block):
+    """How a screening job is sized. Nothing here changes a screen's OUTPUT.
+
+    A screen is byte-identical whatever `--workers` it runs with (the docstring
+    in assaywatch.screen says so and a test pins it), so these are scheduling
+    numbers only and are deliberately NOT part of the screen signature: changing
+    them must not invalidate a cached screen.
+
+    `cost_*` predict one archive's screening work in CORE-seconds, fitted by
+    least squares on 335 benchmarks taken on 2026-10-23 with the machine held
+    awake; the derivation and its caveats are in config.yaml beside the values.
+    """
+
+    cost_startup_s: float = Field(default=1.47, ge=0)
+    cost_per_mb_assay: float = Field(default=0.1937, ge=0)
+    cost_per_record_assay: float = Field(default=1.55e-4, ge=0)
+    core_seconds_per_worker: float = Field(default=15.0, gt=0)
+    max_workers: int = Field(default=16, ge=1)
+
+
 class Windows(Block):
     buffer_bp: int = Field(default=300, ge=0)
 
@@ -282,6 +302,7 @@ class Settings(Block):
     retrieve: Retrieve = Field(default_factory=Retrieve)
     assemblies: Assemblies = Field(default_factory=Assemblies)
     windows: Windows = Field(default_factory=Windows)
+    screen: Screen = Field(default_factory=Screen)
     thermo: bool = False
     thermo_conditions: ThermoConditions = Field(default_factory=ThermoConditions)
     degeneracy: Degeneracy = Field(default_factory=Degeneracy)

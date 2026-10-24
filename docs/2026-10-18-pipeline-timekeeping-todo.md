@@ -177,7 +177,69 @@ So the 2026-10-22 files were measuring the suspension, exactly as diagnosed, and
 nothing was wrong with the pipeline. `report.timing_lines` now filters benchmarks
 to the run's own window so a contaminated file cannot be ranked again.
 
-### The thread heuristic: the hypothesis above is WRONG, and the real fault is narrower
+### The thread heuristic, FIXED 2026-10-23: the missing variable was the assay count
+
+Both `threads` and `priority` on `screen_archive` now come from predicted work
+(`assaywatch.timing.screen_core_seconds`, constants in `config.yaml` under
+`screen:`) instead of from gzipped bytes:
+
+    core-seconds ~ 1.47 + 0.1937*(MB x assays) + 1.55e-4*(records x assays)
+
+R2 = 0.952 on the 335 clean benchmarks. The model space, same data, same fit:
+
+| model | R2 |
+|---|---:|
+| `records x assays` alone | 0.091 |
+| gzipped MB alone | 0.827 |
+| MB + records | 0.845 |
+| MB + records + assays (additive) | 0.849 |
+| `MB x assays` alone | 0.944 |
+| **`MB x assays` + `records x assays`** | **0.952** |
+
+**The missing variable was never a choice between bytes and records: it was the
+number of assays in the group.** An archive is screened against every assay that
+asked for its group, so the same records cost three times as much in a group of
+three - which is mechanical, not fitted, and lifts R2 from 0.845 to 0.944 on its
+own. The record term adds the last 0.008 and is what sizes a record-dense archive
+correctly.
+
+So the proposal in the section below was wrong twice over: bytes are the better
+single predictor (0.827 against 0.091), *and* the variable that mattered was
+neither of them. It is kept below as the record of a hypothesis the measurement
+refuted.
+
+What changes, for the jobs that were mis-sized (threads at `--cores 16`):
+
+| archive | MB | records | assays | old | new |
+|---|---:|---:|---:|---:|---:|
+| `11320/qdf5abd73c1` | 10.1 | 190,101 | 1 | 1 | **2** |
+| `11051/q63c5fca5b3` | 27.5 | 59,558 | 3 | 1 | **3** |
+| `12059/qbb80900029` | 12.8 | 73,182 | 2 | 1 | **2** |
+| `10508/all` | 54.5 | 38,847 | 4 | 2 | **5** |
+| `10242/all` | 761.1 | 17,417 | 1 | 16 | **10** |
+| `10241/all` | 803.0 | 28,388 | 3 | 16 | 16 |
+
+`priority` moved too, and that is the half that pays locally: it ranked a
+52-second archive near the back of the queue because it was 10 MB, so the long
+pole was left until last - the exact failure the original comment on that rule
+said it existed to prevent.
+
+**One cost, worth recording.** Putting the constants in `config.yaml` meant a new
+block in `settings.py`, and `settings.py` is inside `screen.py`'s import closure,
+so `_code_hash` changed and all 335 screens were invalidated. That is the trigger
+working as designed: a module that *could* change a call must invalidate, whether
+or not this one does. `screen.py` never reads the `screen:` block, so the forced
+rescreen is expected to reproduce every screen byte for byte -- checksums were
+taken beforehand and the comparison is the check. Resizing a job on its own reruns
+nothing, because neither `threads` nor `priority` is in the signature.
+
+**Still not measured:** whether this reduces wall time at `--cores 4`. It should
+barely, and may not at all: four single-threaded jobs usually beat one
+four-threaded job, so concentrating cores on a dense archive mostly moves work
+around. The win is the tail (priority) and correct requests on a cluster, where
+`threads` is the sbatch CPU count.
+
+### The earlier hypothesis about the thread heuristic, refuted above
 
 The section below proposed sizing workers on record count rather than gzipped
 bytes. On the clean data that is backwards. Across all 335 archives:
@@ -207,8 +269,10 @@ Four of the ten slowest jobs run single-threaded, while a 1.5 GB archive holding
 1,179 records gets 16 workers for 89 s of work and takes cores from the queue. So
 the fix is not to swap the predictor but to take the maximum of a byte term and a
 record term, and to stop over-provisioning the few huge, record-sparse archives.
-**Not implemented**: changing `threads` changes contention, so the before/after has
-to be measured on a quiet machine rather than argued, and that is its own run.
+*(Implemented later the same day, once the assay-count term was found; see the
+FIXED section above. The recommendation in this paragraph - take the maximum of a
+byte term and a record term - is not what shipped: a product term on the assay
+count fits far better than a maximum of two independent terms.)*
 
 ### The earlier note on the thread heuristic (kept; its hypothesis is corrected above)
 

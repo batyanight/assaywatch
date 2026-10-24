@@ -27,6 +27,7 @@
 # run, so the job graph is re-evaluated after it finishes.
 
 import hashlib
+import functools
 import json
 import os
 import subprocess
@@ -42,6 +43,8 @@ from assaywatch.timing import (
     clear_run_marker,
     heartbeat,
     resolve_run_date,
+    screen_core_seconds,
+    screen_workers,
     screening_progress,
     write_run_marker,
 )
@@ -101,7 +104,6 @@ RUN_DATE, RUN_DATE_REASON = resolve_run_date(config, _STATE_DIR)
 # starts before midnight and finishes after it stays one run record instead of
 # starting a second one halfway through.
 TODAY = RUN_DATE
-SCREEN_MB_PER_THREAD = config.get("screen_mb_per_thread", 25)  # gzipped MB per screening worker
 THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
 
 # Only an assay with a verified DOI goes live. The validator enforces this in CI and
@@ -402,6 +404,46 @@ def archive_mb(input):
     return os.path.getsize(input.fasta) / 1e6
 
 
+@functools.lru_cache(maxsize=1)
+def _archive_records():
+    """{fasta path: records fetched} from the retrieval manifest, read once.
+
+    The manifest is state the retrieve step manages (see the header), and this
+    only reads it. It is the one place a record count exists without
+    decompressing an archive, which a DAG build cannot afford 335 times over.
+    Missing or unreadable -> empty, and `screen_cost` falls back to the size
+    terms alone.
+    """
+    try:
+        runs = json.loads((RETRIEVED / "manifest.json").read_text()).get("runs", [])
+    except (OSError, ValueError):
+        return {}
+    return {r["fasta"]: r.get("n_fetched") for r in runs if r.get("fasta")}
+
+
+def screen_threads(wc, input):
+    """Workers for one screening job, from its predicted cost. A named function
+    rather than a lambda because a rule body takes only a single-line one."""
+    return screen_workers(
+        archive_mb(input),
+        _archive_records().get(str(input.fasta)),
+        len(GROUPS[(int(wc.taxid), wc.group)]["assays"]),
+        config,
+    )
+
+
+def screen_cost(wc, input):
+    """Predicted core-seconds to screen this archive against its group's assays.
+
+    Sizes both `threads` and `priority`, so the two cannot disagree about which
+    job is expensive -- the fault being fixed here was partly that `priority`
+    ranked a 52-second archive near the back of the queue because it was 10 MB.
+    """
+    records = _archive_records().get(str(input.fasta))
+    assays = len(GROUPS[(int(wc.taxid), wc.group)]["assays"])
+    return screen_core_seconds(archive_mb(input), records, assays, config)
+
+
 rule screen_archive:
     """Score one archive against the assays that requested its group. Cached across runs."""
     input:
@@ -415,19 +457,31 @@ rule screen_archive:
         # Turning thermo on or off changes the params, so cached screens are redone.
         thermo="--thermo" if THERMO else "",
         signature=lambda wc: screen_signature(int(wc.taxid), wc.group),
-    # Screening time grows with archive size, and one 775 MB poxvirus archive
-    # used to run alone on one core long after everything else had finished.
-    # Big archives get more workers (Snakemake caps this at --cores), and
-    # start first, so the long pole is not left until last.
-    threads: lambda wc, input: max(1, min(16, int(archive_mb(input) // SCREEN_MB_PER_THREAD)))
-    priority: lambda wc, input: int(archive_mb(input))
+    # Both from predicted work, so the expensive jobs get the workers AND start
+    # first. Sizing on gzipped bytes alone, as this did until 2026-10-23, gave one
+    # worker and near-bottom priority to a 10 MB archive of 190,101 records that
+    # cost 52 s, while a 760 MB archive needing one assay's work got sixteen: cost
+    # scales with bytes TIMES the number of assays in the group, which is what the
+    # old rule left out. Measured in docs/2026-10-18-pipeline-timekeeping-todo.md;
+    # the fit is assaywatch.timing.screen_core_seconds, and its constants live in
+    # config.yaml under `screen:`. Snakemake caps threads at --cores.
+    #
+    # Neither value is in the screen signature, because neither changes a screen's
+    # output. Note what that does and does not buy: resizing a job on its own
+    # reruns nothing, but ADDING the settings block that holds these constants did
+    # rerun all 335 screens, because settings.py is inside screen.py's import
+    # closure and so is hashed into `_code_hash`. The trigger is conservative by
+    # design: a module that COULD change a call must invalidate, whether or not
+    # this one does. screen.py never reads the `screen:` block, so the rescreen it
+    # forced is expected to reproduce every screen byte for byte.
+    threads: screen_threads
+    priority: lambda wc, input: int(screen_cost(wc, input))
     resources:
         mem_mb=lambda wc, input, threads: 2000 + 500 * threads,
         runtime=240,
     # Mirrors output.calls rather than the run date, for the reason given at
-    # BENCH. This is what makes `threads` and `priority` above checkable: both
-    # are guesses from archive size (SCREEN_MB_PER_THREAD), and until now no run
-    # recorded what an archive actually cost.
+    # BENCH. This is what made `threads` and `priority` above checkable, and then
+    # correctable: the 2026-10-23 benchmarks are what the cost model is fitted on.
     benchmark:
         BENCH / "screen" / "{taxid}" / "{group}" / "{stem}.tsv"
     shell:

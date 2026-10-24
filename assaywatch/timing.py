@@ -45,7 +45,7 @@ import json
 import os
 import threading
 import time
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -408,6 +408,71 @@ def directory_bytes(paths: Iterable[Path | str], pattern: str = "*") -> int:
             except OSError:
                 continue
     return total
+
+
+def screen_core_seconds(
+    mb: float,
+    records: int | None,
+    assays: int = 1,
+    cfg: Mapping[str, Any] | None = None,
+) -> float:
+    """Predicted work for screening one archive, in CORE-seconds.
+
+    Fitted by least squares on 335 benchmarks taken 2026-10-23 with the machine
+    held awake:
+
+        core-seconds ~ 1.47 + 0.1937*(MB x assays) + 1.55e-4*(records x assays)
+
+    with R2 = 0.952, against 0.845 for the best model without the assay count.
+    **The assay count is the term that was missing**, and it is mechanical rather
+    than fitted: an archive is screened against every assay that asked for its
+    group, so the same records cost three times as much in a group of three. MB
+    alone reaches 0.827 and `MB x assays` alone 0.944; the record term adds the
+    last 0.008 and is what sizes an archive of many short records correctly.
+
+    `docs/2026-10-18-pipeline-timekeeping-todo.md` proposed replacing bytes with
+    record count. That was wrong twice over: bytes are the better single predictor
+    (0.827 against 0.091 for `records x assays`), and the missing variable was
+    neither, it was how many assays the group holds.
+
+    `records is None` drops the record term, which is the honest answer when the
+    retrieval manifest has no count for an archive.
+
+    Two caveats, because the numbers look more precise than they are. The fit is
+    on core-seconds, wall time times the threads the job actually got, which
+    separates work from the parallelism it happened to receive -- but it
+    over-counts a multi-worker job, whose serial part does not scale, so the
+    per-MB coefficient is an upper bound. And every job was measured under the
+    OLD heuristic, so the thread counts it assumes are the ones being replaced.
+    """
+    screen = dict((cfg or {}).get("screen") or {})
+    cost = float(screen.get("cost_startup_s", 1.47))
+    cost += float(screen.get("cost_per_mb_assay", 0.1937)) * max(mb, 0.0) * max(assays, 1)
+    if records is not None:
+        cost += float(screen.get("cost_per_record_assay", 1.55e-4)) * max(records, 0) * max(assays, 1)
+    return cost
+
+
+def screen_workers(
+    mb: float,
+    records: int | None,
+    assays: int = 1,
+    cfg: Mapping[str, Any] | None = None,
+) -> int:
+    """How many processes to screen one archive with: at least 1, at most the cap.
+
+    Workers scale with predicted work rather than with gzipped bytes. The byte
+    rule gave one worker to a 10 MB archive of 190,101 records that cost 52 s,
+    and four of the ten slowest jobs in the 2026-10-23 run were single-threaded
+    for that reason while a 760 MB archive needing one assay's worth of work got
+    sixteen. Granularity is deliberately coarse: an archive below
+    `core_seconds_per_worker` of predicted work is not worth splitting, because
+    each worker pays the process-startup cost the fit measures at about 1.5 s.
+    """
+    screen = dict((cfg or {}).get("screen") or {})
+    per_worker = float(screen.get("core_seconds_per_worker", 15.0))
+    cap = int(screen.get("max_workers", 16))
+    return max(1, min(cap, round(screen_core_seconds(mb, records, assays, cfg) / per_worker)))
 
 
 def weighted_eta(done_units: float, total_units: float, elapsed_seconds: float) -> float | None:

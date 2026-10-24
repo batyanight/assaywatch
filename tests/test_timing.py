@@ -272,3 +272,82 @@ def test_an_unreadable_benchmark_is_skipped_not_fatal(tmp_path):
     (tmp_path / "screen" / "10241" / "all" / "nonnumeric.tsv").write_text("s\nNA\n")
     costs = read_screen_benchmarks(tmp_path)
     assert [(c.taxid, c.archives) for c in costs] == [("10241", 1)]
+
+
+# --- screening cost model and worker sizing --------------------------------
+
+
+def test_cost_scales_with_assays_because_each_one_rescans_the_archive():
+    """The term the byte-only rule left out, and it is mechanical rather than
+    fitted: an archive is screened against every assay that asked for its group."""
+    from assaywatch.timing import screen_core_seconds
+
+    one = screen_core_seconds(100.0, 10_000, assays=1)
+    three = screen_core_seconds(100.0, 10_000, assays=3)
+    startup = screen_core_seconds(0.0, 0, assays=1)
+    # Everything but the fixed start-up cost triples.
+    assert three - startup == pytest.approx(3 * (one - startup), rel=1e-9)
+
+
+def test_a_record_dense_archive_gets_more_than_one_worker():
+    """The measured fault: 10 MB holding 190,101 records cost 52 s on the single
+    worker the byte rule gave it (`11320/qdf5abd73c1`, 2026-10-23)."""
+    from assaywatch.timing import screen_workers
+
+    byte_rule = max(1, min(16, int(10.1 // 25)))
+    assert byte_rule == 1
+    assert screen_workers(10.1, 190_101, assays=1) > 1
+
+
+def test_a_record_sparse_archive_is_not_given_every_core():
+    """The other direction: 761 MB holding 17,417 records for one assay was given
+    16 workers by the byte rule, which on a cluster is 16 CPUs for one core's work."""
+    from assaywatch.timing import screen_workers
+
+    assert max(1, min(16, int(761.1 // 25))) == 16
+    assert screen_workers(761.1, 17_417, assays=1) < 16
+
+
+def test_a_tiny_archive_gets_exactly_one_worker():
+    """Below the start-up cost an extra worker cannot pay for itself."""
+    from assaywatch.timing import screen_workers
+
+    assert screen_workers(0.02, 20, assays=1) == 1
+    assert screen_workers(0.0, 0, assays=9) == 1
+
+
+def test_a_missing_record_count_falls_back_to_the_size_terms():
+    """`None` is the honest answer when the manifest has no count, and must not
+    crash or silently read as zero-cost."""
+    from assaywatch.timing import screen_core_seconds, screen_workers
+
+    with_count = screen_core_seconds(100.0, 50_000, assays=2)
+    without = screen_core_seconds(100.0, None, assays=2)
+    assert 0 < without < with_count
+    assert screen_workers(100.0, None, assays=2) >= 1
+
+
+def test_workers_never_exceed_the_cap_or_fall_below_one():
+    from assaywatch.timing import screen_workers
+
+    cfg = {"screen": {"max_workers": 4}}
+    assert screen_workers(100_000.0, 10_000_000, assays=9, cfg=cfg) == 4
+    assert screen_workers(0.0, 0, assays=1, cfg=cfg) == 1
+
+
+def test_the_config_block_overrides_the_fitted_defaults():
+    """The constants are config, not code: CLAUDE.md's rule for any fitted number."""
+    from assaywatch.timing import screen_core_seconds
+
+    cfg = {"screen": {"cost_startup_s": 0.0, "cost_per_mb_assay": 1.0, "cost_per_record_assay": 0.0}}
+    assert screen_core_seconds(10.0, 999_999, assays=2, cfg=cfg) == pytest.approx(20.0)
+
+
+def test_cost_is_monotonic_in_every_input():
+    """A bigger, denser, more-shared archive is never predicted cheaper."""
+    from assaywatch.timing import screen_core_seconds
+
+    base = screen_core_seconds(50.0, 1_000, assays=2)
+    assert screen_core_seconds(51.0, 1_000, assays=2) > base
+    assert screen_core_seconds(50.0, 2_000, assays=2) > base
+    assert screen_core_seconds(50.0, 1_000, assays=3) > base

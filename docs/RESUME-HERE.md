@@ -31,8 +31,27 @@ count (+0.776 against +0.490; +0.753 against +0.289 above the startup floor), so
 swapping the predictor would have made it worse. The narrower real fault is that
 four of the ten slowest jobs are small, record-dense archives sized to one worker,
 while a 1.5 GB archive holding 1,179 records gets 16. Fix shape: max of a byte term
-and a record term. Not implemented, because changing `threads` changes contention
-and the before/after needs its own quiet run.
+and a record term - though that is not what shipped either.
+
+**FIXED the same day, and the missing variable was neither bytes nor records: it
+was the number of assays in the group.** An archive is screened against every
+assay that asked for its group, so `MB x assays` alone fits at R2 0.944 against
+0.845 for the best byte-and-record model, and adding `records x assays` reaches
+**0.952**. Both `threads` and `priority` on `screen_archive` now come from
+predicted core-seconds (`assaywatch.timing.screen_core_seconds`, constants in
+`config.yaml` under `screen:` with the fit recorded beside them). The four
+record-dense archives that ran single-threaded now get 2-5 workers, and a 761 MB
+archive needing one assay's work drops from 16 to 10.
+
+Two things to know. Putting the constants in `config.yaml` required a new block in
+`settings.py`, which is inside `screen.py`'s import closure, so all 335 screens
+were invalidated and rescreened - the trigger working as designed, since a module
+that COULD change a call must invalidate whether or not this one does. `screen.py`
+never reads the `screen:` block, so the rescreen is expected to reproduce every
+screen byte for byte. Resizing alone reruns nothing. And the local wall-time gain at `--cores 4` is
+expected to be small: the real wins are the tail, via `priority`, which had been
+ranking a 52-second archive near the back of the queue because it was 10 MB, and
+correct CPU requests on SLURM.
 
 ## 0a. The oligo flags are adjudicated; four sequences were wrong
 

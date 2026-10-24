@@ -371,6 +371,44 @@ assemblies:
 windows:
   buffer_bp: 300
 
+# How a screening job is SIZED. None of this changes a screen's output -- the
+# output is byte-identical whatever --workers it runs with -- so these are
+# scheduling numbers only, and they are deliberately not part of the screen
+# signature: resizing a job must not invalidate a cached screen.
+#
+# `cost_*` predict one archive's screening work in CORE-seconds and are the only
+# numbers here that were FITTED rather than chosen. Least squares on 335
+# benchmarks taken 2026-10-23 with the machine held awake under `caffeinate`
+# (`snakemake-2026-10-23-benchmarks.txt`, 13m 54s, exit 0):
+#
+#   core-seconds ~ 1.47 + 0.1937*(MB x assays) + 1.55e-4*(records x assays)
+#
+# R2 = 0.952. The assay count is the term the old rule left out and it is
+# mechanical, not fitted: an archive is screened against every assay that asked
+# for its group, so the same records cost three times as much in a group of
+# three. For comparison, on the same data: gzipped MB alone 0.827, `MB x assays`
+# alone 0.944, `records x assays` alone 0.091, MB + records 0.845.
+#
+# docs/2026-10-18-pipeline-timekeeping-todo.md had proposed sizing on record
+# count INSTEAD of bytes. That was wrong twice: bytes are the better single
+# predictor, and the missing variable was neither of them.
+#
+# Two caveats, because these look more precise than they are. The fit is on
+# core-seconds (wall time x threads the job actually got), which separates work
+# from the parallelism it received but over-counts a multi-worker job whose
+# serial part does not scale, so cost_per_mb_assay is an upper bound. And every
+# job was measured under the heuristic being replaced.
+screen:
+  cost_startup_s: 1.47          # process start, measured; why splitting tiny archives does not pay
+  cost_per_mb_assay: 0.1937     # core-seconds per gzipped MB per assay in the group
+  cost_per_record_assay: 1.55e-4  # core-seconds per record per assay
+  # A worker per this much predicted work. 15 is a judgement, not a measurement:
+  # it has to exceed cost_startup_s by enough that an extra worker earns its
+  # start-up, and it sets how coarse the sizing is. Raise it to concentrate
+  # cores on fewer jobs, lower it to spread them.
+  core_seconds_per_worker: 15.0
+  max_workers: 16               # Snakemake caps this at --cores anyway; the cap is for the cluster
+
 # Duplex Tm per oligo on its binding site (assaywatch/thermo.py). Shown beside
 # the call, never scored. Turn on with `thermo: true` here or
 # `--config thermo=true`; needs primer3-py. The conditions below are typical
