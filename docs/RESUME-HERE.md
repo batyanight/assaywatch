@@ -1,5 +1,30 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24: the diverged+anchor_fdr pair SHIPPED at q=0.001
+
+Maintainer decision taken after the re-price below. config.yaml now holds
+`count_diverged_as_fail: true` and `anchor_fdr: 0.001` (lines 593 and 619, with
+the full rationale replacing the earlier "do not turn this on" warnings). The
+shipped `results/2026-10-24/report.{md,html}` was re-rendered against the
+flipped knobs and now matches the `results/2026-10-24-reprice-q001` preview row
+for row (`report_diff.py` shows zero status moves between them).
+
+The counterfactuals that priced it are kept on disk: `results/2026-10-24-off`
+and `-prescope-baseline` are the pair-off baselines; `-reprice-q01` and
+`-reprice-q001` are the two pair-on q settings tested; `-anchorfdr` and `-q001`
+are the earlier pre-scope renders.
+
+One test needed updating, same pattern as the two from the promotion:
+`tests/test_windows.py::test_drift_refuses_count_diverged_on_windowed_rows`
+read the shipped CFG expecting the knob off. The behaviour under test (turning
+the knob on refuses windowed rows) still works; the fixture now states both
+halves of the rule rather than resting on an implicit default that just flipped.
+
+The sidecar-wiring from the earlier commit also lands here naturally: the next
+`collect_calls` run will write `status_at_run` and `status_counts_at_run` into
+the provenance so a reader can tell WHICH assays were active for that run --
+answering the same class of gap the pair's config comment now describes.
+
 ## 2026-10-24: the diverged+anchor_fdr pair, RE-PRICED against the scoped registry
 
 The earlier recommendation (DO NOT SHIP, `docs/2026-10-24-anchor-pair-counterfactual.md` on
@@ -426,20 +451,14 @@ checked 0 problems, ruff clean.**
 
 ### Still yours to decide (nothing below was touched)
 
-- `active`: `scripts/promote.py --tier clean --apply` is the standing recommendation.
-- `count_diverged_as_fail: true` + `drift.anchor_fdr`. **Priced on all 183 assays and the
-  recommendation is DO NOT SHIP** (`docs/2026-10-24-anchor-pair-counterfactual.md`, on the
-  unmerged `experiment/2026-10-24-diverged-and-anchor-fdr` branch, now pushed). Two findings
-  since that line was written: q=0.001 beats the recommended 0.01, because BH's bar is
-  `(k/m)*q` so a SMALLER q relabels more; and the reason not to ship is one no q fixes --
-  Bornaviridae fell 98.2% -> 16.4%, `stable` -> `declining`, on 209 strong anchors that are
-  real sites in parrot, serin and rattlesnake bornaviruses. **The 2026-10-24 scope audit
-  settled that objection: Bornaviridae was SCOPE, not drift.** So the counterfactual should be
-  re-priced against the now-scoped registry before the pair is judged again; the renders it
-  rests on are kept at `results/2026-10-24-{off,anchorfdr,q001}`.
-- The calicivirus re-cite to Neill & Seal 1995; M1. (The three Sigrist oligos are CLOSED as
-  of 2026-10-24 — both the `BornaPCA6`/`PaBVcon_1401+` and `A647N`/`A674N` questions are
-  answered and the registry was right; see the 2026-10-24 daytime section.)
+- `active`: **SHIPPED 2026-10-24** at tier=eligible, 178 entries promoted; see the daytime
+  section. (The standing recommendation was `--tier clean`; the maintainer chose
+  `--tier eligible`, with oligo-doubt flags staying on the entries.)
+- `count_diverged_as_fail: true` + `drift.anchor_fdr: 0.001`: **SHIPPED 2026-10-24** after
+  the re-price against the scoped registry showed the sole DO-NOT-SHIP objection
+  (Bornaviridae) was itself a scope artefact, not drift. See the top of this file for the
+  shipping record.
+- The calicivirus re-cite to Neill & Seal 1995: **SHIPPED 2026-10-24** (`a784fed`-ish, the `055a9a9` commit); see the daytime section. M1 remains on hold -- tier-2 still kills the one documented candidate (Hellgren Leucocytozoon), so the mispair table ships empty and reopens with the scoring-strategy plan's replay harness, not a config flip. The three Sigrist oligo questions are also closed (`BornaPCA6`/`PaBVcon_1401+` and `A647N`/`A674N`), registry was right both times.
 - The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries; one group alone is
   530 MB). `scripts/orphan_archives.py` advises keeping the three pending ones unless the
   entry is being dropped. (`209/all` is CLOSED as of 2026-10-24 — that entry now carries its

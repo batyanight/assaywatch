@@ -569,10 +569,28 @@ drift:
   # 55 of Bd's 63 `diverged` records are 2014 JAM81 genome-annotation mRNAs with
   # no ITS in them, anchored at 5-6 mismatches. Across the twelve assays holding
   # 73% of all `diverged` rows, anchors ran from 99% near-perfect (Monkeypox N3R)
-  # to 92% at 5-6 mismatches (Polyomavirus VP1). Do not turn this on until the
-  # anchor test is corrected for archive size and tier-2 has been re-run on the
-  # relabelled screens.
-  count_diverged_as_fail: false
+  # to 92% at 5-6 mismatches (Polyomavirus VP1).
+  #
+  # ON SINCE 2026-10-24, PAIRED WITH anchor_fdr: 0.001 BELOW. Held off for a day
+  # because the anchor test at archive scale had not been built; it is now, and
+  # the pair was re-priced against the now-scoped registry
+  # (docs/2026-10-24-anchor-pair-counterfactual.md on the experiment branch; the
+  # 2026-10-24-reprice-q01/q001 renders are the before/after). The single
+  # objection -- `BORNA_VIRUS_N_gene_Zimmermann_1994` crashing from 98.2% stable
+  # to 16.4% declining -- turned out to be SCOPE, not drift: 209 of the "strong"
+  # anchors crashing Borna were in records for parrot/serin/rattlesnake
+  # bornaviruses, outside the entry's declared Bornaviridae-only scope. Once the
+  # 2026-10-24 scope audit filtered those from the denominator, both Borna
+  # entries are now completely unmoved by the pair at either q.
+  #
+  # The remaining movers are mostly REAL drift against the scoped denominator.
+  # Flagship: MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004 reads 99.9% off and 58.3% on,
+  # with 2,223 of 2,377 newly-counted diverged records deposited in 2022 or
+  # later -- the clade IIb outbreak against a 2004 probe, which is the system
+  # doing its job. Other movers checked by anchor E-value (Cryptosporidium
+  # round2 7.5e-11, Pan_coccidia 2.3e-08, Pan_mycoplasma Rebelo 2.8e-05) are
+  # also strong anchors, not chance.
+  count_diverged_as_fail: true
   # The archive-scale anchor test that the comment above asks for
   # (docs/2026-10-24-archive-anchor.md). Every no_amplicon row now carries the
   # best lone site's PER-RECORD E-value (`anchor_evalue`); with a number here,
@@ -583,8 +601,22 @@ drift:
   # from Bd's 55 chance ones (E 5e-3, product 47); step-up BH passes the first and
   # fails the second. Report-time, so it costs no rescreen and tier-2 can price it.
   # null = off: the label set is unchanged and `count_diverged_as_fail` above keeps
-  # its warning. 0.05 is the conventional FDR and is NOT yet tier-2 approved.
-  anchor_fdr: null
+  # its warning.
+  #
+  # 0.001 CHOSEN OVER THE CONVENTIONAL 0.01, 2026-10-24. BH's bar for rank k out
+  # of m is (k/m) * q, so a SMALLER q relabels MORE anchors as chance -- the
+  # opposite of what the single-threshold intuition expects. The decisive case:
+  # TRICHOMONAS_gallinae_18S has 241 weak anchors (E ~ 7e-3) in a family of 278;
+  # at q = 0.01 their own numbers prop up the bar and they survive, at q = 0.001
+  # all 241 are correctly relabelled chance and the entry returns to 100%.
+  # Monkeypox N3R's 2,377 strong anchors (E ~ 4.3e-10) survive either way, so
+  # q = 0.001 kills chance anchors without touching real divergence. Measured
+  # across the pair-on renders: 8 status moves at 0.001 vs 11 at 0.01 (three
+  # weak-anchor assays return to stable at the smaller q; strong-anchor movers
+  # like Monkeypox are unchanged). Tier-2 cannot adjudicate between 0.01 and
+  # 0.001 (row-identical at both), so the choice is on mechanism and the single
+  # cross-check we have, which both point at 0.001.
+  anchor_fdr: 0.001
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid
   # libraries), so an assay missing one is not evidence about circulating virus.
