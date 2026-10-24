@@ -1,10 +1,10 @@
 id: Tortoise_intranuclear_coccidia_18SrDNA
 name: Tortoise intranuclear coccidian species (TINC) — 18SrDNA
 target:
-  taxid: null
+  taxid: 293274
   gene: 18SrDNA
   genome_type: dsDNA
-  taxon_name: tortoise intranuclear coccidian (TINC, unclassified Eimeriorina)
+  taxon_name: Intranuclear coccidium JW-2004
 chemistry: hydrolysis_probe
 oligos:
   forward:
@@ -18,7 +18,7 @@ oligos:
     seq: GCCGGTCGAACTTCAGCATC
     reporter: 6FAM
     quencher: BHQ
-amplicon_bp: null
+amplicon_bp: 84
 citation:
   doi: 10.1016/j.vetpar.2012.11.029
   design_year: 2013
@@ -49,5 +49,5 @@ source:
     counts are reported in every run. amplicon_bp stays null: the paper gives no qPCR product size and there is no deposited
     TINC 18S sequence cited to measure one from. taxid stays null and TAXID_MISSING stays: the paper calls the organism an
     unclassified intranuclear coccidian and deposits no accession, so there is nothing to resolve against NCBI. doi_verified
-    stays false until scripts/resolve_citations.py approves it.'
+    stays false until scripts/resolve_citations.py approves it. TAXID AND AMPLICON RESOLVED 2026-10-24, which SUPERSEDES the two sentences above saying taxid stays null and amplicon_bp stays null. The organism does have an NCBI node: taxid 293274, scientific name "Intranuclear coccidium JW-2004", rank species, lineage Eukaryota > Sar > Alveolata > Apicomplexa > Conoidasida > Coccidia > unclassified Coccidia. The paper deposits no accession, which is why name-based and full-text searches missed it; the node was deposited from the earlier work Alvarez et al. cite, and JW is this paper''s own senior author, so the identification does not rest on the name alone. It was confirmed BY SEQUENCE instead. esearch on txid293274[Organism:exp] returns exactly two records, AY728896.2 (1,715 bp, 18S partial) and KY683841.1 (663 bp, isolate SpardKv4Fae). On AY728896.2 all three oligos are EXACT and correctly oriented: INCqPCRF at 608..625, the probe at 635..654 and INCqPCR2R as its reverse complement at 673..691, giving a product of 84 bp measured 5'' of the forward primer to 5'' of the reverse, with the probe inside it. amplicon_bp is therefore 84 as a MEASURED value, and the paper states no size, so there is no published figure to disagree with and no amplicon_disagrees_with_paper. KY683841.1 does NOT amplify, and the reason is truncation rather than mismatch: its exact 30-mer anchors place it over AY728896.2 positions 20..620, so it stops 12 bases into the forward primer site and never reaches the product. Consequence to expect: this entry goes from UNSCREENABLE (taxid null, so it was never retrieved at all) to screenable on a 2-record archive, 1 amplifying and 1 truncated, which is far below drift.min_records_for_drift and should read as cannot assess, not as a coverage figure. That is the honest outcome and is the point of the change. Also note the last sentence above is stale in a second way: doi_verified is already true in this file.'
 needs_review: null

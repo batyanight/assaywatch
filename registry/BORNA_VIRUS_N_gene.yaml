@@ -5,6 +5,7 @@ target:
   gene: N gene
   genome_type: ssRNA-
   taxon_name: Bornaviridae
+  scope_taxids: [1714619, 12455]
 chemistry: conventional
 oligos:
   forward:
@@ -53,7 +54,7 @@ source:
     error in a 1994 scan. The stored form is restored and the printed form is recorded as modified_from so the
     disagreement stays visible. NOTE FOR THE MAINTAINER: the sibling BORNA_VIRUS_N_gene_Zimmermann_1994_round2 stores
     the PRINTED form as BornaNestF, so by this measurement that entry cannot detect anything by construction. It is
-    flagged there and deliberately not changed here.'
+    flagged there and deliberately not changed here. SCOPED 2026-10-24 to scope_taxids [1714619, 12455]. taxid 178830 is the whole Bornaviridae family, while Zimmermann et al. 1994 is a Borna disease virus assay: its title is "Detection of Borna disease virus RNA in naturally infected animals by nested PCR". Both taxids are needed and the second is the trap: 1714619 is Orthobornavirus bornaense (rank species, under Bornaviridae > Orthobornavirus), but 12455 "Borna disease virus" sits under Bornaviridae > UNCLASSIFIED Bornaviridae, not under the genus, so a scope list built from the genus node alone silently drops 49 genuine BoDV-1 deposits. Both taxids verified live with efetch -db taxonomy on 2026-10-24. Measured over the WHOLE 2026-10-24 calls table, which is neither the report''s recent window nor patent-filtered: of 1,519 screened records 1,003 are a known taxid outside the scope, 513 are inside it and 3 carry no taxid, so about two thirds of the denominator was a different virus - carbovirus, cultervirus and the parrot, serin and estrildid orthobornaviruses. Note that drift.py''s filter drops only a KNOWN out-of-scope taxid, so the 3 unknowns stay in.'
 needs_review:
 - flag: oligos_not_in_cited_paper
   note: the printed sense primer matches 0 of 1,516 records; the stored form matches 260 (modified_from records the printed one)

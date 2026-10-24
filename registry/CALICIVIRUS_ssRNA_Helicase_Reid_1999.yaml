@@ -5,6 +5,7 @@ target:
   gene: 2C helicase
   genome_type: ssRNA
   taxon_name: Caliciviridae
+  scope_taxids: [3433198]
 chemistry: conventional
 oligos:
   forward:
@@ -53,7 +54,7 @@ source:
     is a CONVENTIONAL PCR, Reid reports the assay working, and a 3''-terminal mismatch is far more tolerable in
     endpoint PCR than in a hydrolysis probe. This entry is therefore a worked example of the per-chemistry scoring gap
     in ROADMAP Phase 2 and must not be read as coverage loss. The sequences stay as published, per the Circovirus
-    precedent that where a paper and the records disagree the registry keeps the published sequence and discloses.'
+    precedent that where a paper and the records disagree the registry keeps the published sequence and discloses. SCOPED 2026-10-24 to scope_taxids [3433198] (Vesivirus exanthema), rank species under Caliciviridae > Vesivirus. Reid 1999 is titled "detection of marine caliciviruses" and reports feline calicivirus negative; taxid 11974 is the whole family and is 99.9 percent norovirus. Measured over the WHOLE 2026-10-24 calls table, which is not the report''s recent window and not patent-filtered: of 84,806 screened records, 67,509 are a known taxid outside the scope and drop out of the drift denominator, 49 are inside it and 17,248 carry no taxid in data/retrieved/.meta.taxid.backfill.tsv.gz. drift.py keeps a record whose taxid is unknown (the filter drops only a KNOWN out-of-scope taxid), so the assessable denominator goes 30 -> 24, not 30 -> 7. The 0 percent does NOT move, and that is the expected result: 17 of the 24 remaining failures are the U146xx/U184xx and U1847x series, i.e. the designers'''' own vesicular exanthema and San Miguel sea lion sequences, which are exactly the records carrying the 3''''-terminal G/C mismatch documented above. So after scoping, this entry''''s 0 percent rests almost entirely on its own design targets and is unambiguously the terminal-mismatch SCORING artefact, no longer confounded with 67,509 noroviruses the assay was never meant to detect. The scope fix is still correct: it removes the confound, it is not a repair of the artefact, which waits on per-chemistry scoring (ROADMAP Phase 2).'
 needs_review:
 - flag: primer_site_polymorphic
   note: Hel1's 3'-terminal G mismatches the C in all 16 target records, so a qPCR-strength terminal rule scores every record as fail

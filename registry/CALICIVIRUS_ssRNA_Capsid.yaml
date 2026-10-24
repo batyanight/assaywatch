@@ -6,6 +6,7 @@ target:
   genome_type: ssRNA+
   taxon_name: Caliciviridae
   query: capsid[Title] OR VP1[Gene] OR VP1[Title] OR "complete genome"[Title]
+  scope_taxids: [3433198]
 chemistry: conventional
 oligos:
   forward:
@@ -36,5 +37,5 @@ source:
     Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. Scope caveat:
     the source paper develops this for MARINE caliciviruses (vesiviruses), while PREDICT ran it as a pan-calicivirus screen,
     and the retrieval group is all Caliciviridae (mostly norovirus). A low detected share here is likely to be scope, not
-    drift, and should read as low coverage.'
+    drift, and should read as low coverage. SCOPED 2026-10-24 to scope_taxids [3433198] (Vesivirus exanthema), which is the fix the caveat above was asking for. Measured over the WHOLE 2026-10-24 calls table, which is not the report''s recent window and not patent-filtered (the report reads 0.0 percent on 16 recent records against a 27 percent baseline, a separate figure): of 67,573 screened records 67,520 are a known taxid outside the scope, 49 are inside it and 4 carry no taxid. The assessable denominator goes from 67 records (9 detect, 5 reduced, 53 fail) to 11 (8 detect, 1 reduced, 2 fail), and the detected share from 20.9 percent to 81.8 percent. Nothing about the assay changed; the 20.9 percent was norovirus. Taxid coverage on this group is 100.0 percent, so unlike the Helicase sibling the filter here is complete.'
 needs_review: null
