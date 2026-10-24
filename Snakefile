@@ -31,6 +31,7 @@ import functools
 import json
 import os
 import subprocess
+from collections import Counter
 from datetime import date
 from pathlib import Path
 
@@ -118,6 +119,20 @@ if _not_live:
 GROUPS = targets_from_registry([Path(REGISTRY)], config)
 # Every assay id this run screens; collect_calls refuses any other.
 CURRENT_ASSAYS = frozenset(a for g in GROUPS.values() for a in g["assays"])
+
+# What `status` each screened assay carried AT RUN TIME, for the provenance
+# sidecar. `active` is not a fixed property: 178 entries were promoted on
+# 2026-10-24, so a report from before that says "180 draft, 1 active" and a
+# reader cannot tell WHICH entries those were, because the registry has moved on
+# since. `git_commit` does not rescue it either -- it is often `(dirty)`, and the
+# 2026-10-24 promotion landed after the run it would have to explain. Recorded as
+# a map rather than a count so "was this assay active for that run" is answerable
+# from the run's own files.
+STATUS_AT_RUN = {
+    a.id: a.status.value
+    for p in iter_files(Path(REGISTRY))
+    if (a := load_assay(p)).id in CURRENT_ASSAYS
+}
 
 # What a cached screen depends on besides its archive: the group's assay files,
 # the scoring settings and the screening code. Its hash is a param of
@@ -531,6 +546,9 @@ rule collect_calls:
                     "thermo": THERMO,
                     "assays_screened": len(CURRENT_ASSAYS),
                     "git_commit": _git_commit(),
+                    # Counts for reading, the map for answering.
+                    "status_counts_at_run": dict(sorted(Counter(STATUS_AT_RUN.values()).items())),
+                    "status_at_run": dict(sorted(STATUS_AT_RUN.items())),
                 },
             },
         )
