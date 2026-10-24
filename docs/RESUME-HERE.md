@@ -2,6 +2,13 @@
 
 ## 2026-10-24: stale documentation, swept and corrected
 
+**One standing instruction retired.** `docs/RESUME-HERE.md`'s 2026-10-21 section carried
+"**Pull before starting a session from now on**", from when a second machine was pushing to
+this repo. The maintainer confirmed on 2026-10-24 that they no longer work on more than one
+machine, so `origin` has a single writer. The instruction is struck where it stood; the
+history of that cross-session merge is left in place.
+
+
 A sweep for references to files that no longer exist, across `docs/*.md`, `CLAUDE.md`,
 `README.md`, `ROADMAP.md` and `CONTRIBUTING.md`. Twelve dangling paths; most were not what
 they looked like.
@@ -784,7 +791,11 @@ Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
   session shipped a **figures feature** (`assaywatch/figures.py` — forest + per-position SVG
   plots, a `figures` Snakemake rule, optional `--figures` on the HTML report, `matplotlib-base`
   in `environment.yml`) while this machine held 56 unpushed commits incl. the S3 `report.py`
-  refactor. **Pull before starting a session from now on.**
+  refactor. ~~**Pull before starting a session from now on.**~~ **NO LONGER APPLIES as of
+  2026-10-24**: the maintainer confirmed they no longer work on more than one machine, so
+  `origin` has a single writer and divergence of this kind cannot recur. The merge below is
+  still worth reading for how a cross-session reconciliation was done, and for the
+  semantically-broken auto-merge it caught.
 - **Merged, not rebased** (the merge-base is itself a cross-session merge, so merges are the
   repo's established reconciliation). Only `report.py` conflicted. Git's 3-way auto-merge was
   **semantically broken**: `html_from` referenced a `figures` it never received (NameError every
