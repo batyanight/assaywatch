@@ -1,5 +1,32 @@
 # Resume point, 2026-10-23 (waves 0-5 of the plan of attack landed; see below)
 
+## 0. OWED: one measurement, not yet run
+
+`core_seconds_per_worker: 100` is justified by reasoning from numbers that ARE
+measured (the granularity-15 run against the byte rule: 18m 33s vs 13m 54s, summed
+job time +8%, parallelism 1.81x -> 1.47x, all in
+`docs/2026-10-18-pipeline-timekeeping-todo.md`). What is NOT measured is that 100
+returns the run to about 14 minutes. The confirming run was started and stopped at
+17 of 335 jobs when the machine was shut down, cleanly - no lock left, all 356
+screens intact.
+
+So the claim in config.yaml beside `core_seconds_per_worker` is that fine
+granularity LOST, which is measured, and not that this particular value wins, which
+is not. Run this on an idle machine with the lid open and nothing else competing -
+pytest in parallel is exactly what contaminated the first two attempts:
+
+    snakemake $(ls data/retrieved/*/*/*.fasta.gz \
+        | sed 's|data/retrieved/|results/screened/|; s|\.fasta\.gz$|.tsv|') \
+        --forcerun screen_archive --config run_date=$(date +%F) --cores 4
+
+Expect about 14 minutes and 25 minutes of summed job time. If it comes in near 18
+again, the cost model is costing wall time even at this granularity and `threads`
+should go back to a constant 1 locally, keeping the model for `priority` and for
+the cluster alone. Note the shell expansion above lists EVERY archive on disk,
+including the 21 orphans, which fails at DAG construction
+(`KeyError: (2093, 'q4185828e3e')`); `scripts/orphan_archives.py` names them, and
+the live-only list is what to screen.
+
 ## 0b. Timekeeping is finished, and 658 MB of archives belong to nobody
 
 `docs/2026-10-18-pipeline-timekeeping-todo.md`. **All seven items are done**: item 7
