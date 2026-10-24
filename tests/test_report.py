@@ -1,6 +1,7 @@
 """Report rendering, including the accession join that is easy to get silently wrong."""
 
 import gzip
+import json
 from datetime import date
 from pathlib import Path
 
@@ -686,3 +687,122 @@ def test_the_report_says_when_the_previous_run_finished(tmp_path):
     run("baseline-2026-10-22", "2026-10-22", "success", "2026-10-22T16:17:50")
     assert "2026-10-22" in freshness_line(tmp_path, "2026-10-23")
     assert freshness_line(tmp_path, "2026-10-22").startswith("Previous successful run: 2026-10-11")
+
+
+# --- the run-timing footer (timekeeping item 7) ----------------------------
+
+
+def _timing_json(results: Path, run_date: str, **over):
+    d = results / run_date
+    d.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "run_date": run_date,
+        "started": "2026-10-23T21:00:00",
+        "finished": "2026-10-23T21:20:00",
+        "status": "success",
+        "stages": [{"name": "retrieve", "seconds": 600.0}, {"name": "screen", "seconds": 540.0}],
+        "elapsed_seconds": 1200.0,
+    }
+    payload.update(over)
+    (d / "run-timing.json").write_text(json.dumps(payload))
+    return d
+
+
+def _bench_tsv(results: Path, taxid: str, group: str, stem: str, seconds: float, when: str):
+    import os
+    from datetime import datetime as _dt
+
+    p = results / "benchmarks" / "screen" / taxid / group / f"{stem}.tsv"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(f"s\th:m:s\tmax_rss\n{seconds}\t0:00:01\tNA\n")
+    ts = _dt.fromisoformat(when).timestamp()
+    os.utime(p, (ts, ts))
+
+
+def test_the_footer_reports_stages_and_the_slowest_groups(tmp_path):
+    from assaywatch.report import timing_lines
+
+    _timing_json(tmp_path, "2026-10-23")
+    _bench_tsv(tmp_path, "10241", "all", "a", 100.0, "2026-10-23T21:05:00")
+    _bench_tsv(tmp_path, "11118", "qabc", "a", 20.0, "2026-10-23T21:06:00")
+    md = "\n".join(timing_lines(tmp_path, "2026-10-23"))
+    assert "## Run timing" in md
+    assert "finished success after 20m" in md
+    assert "| retrieve | 10m 00s |" in md
+    assert "`10241/all`" in md and "83%" in md
+    assert md.index("10241/all") < md.index("11118/qabc"), "slowest first"
+    assert "max_rss" in md and "cpu_time" in md, "the macOS caveat must travel with the numbers"
+
+
+def test_a_benchmark_from_an_earlier_run_is_not_in_the_footer(tmp_path):
+    """The stale-generation trap: benchmarks are keyed by archive, so a cached
+    screen keeps a measurement taken under conditions this run did not have."""
+    from assaywatch.report import timing_lines
+
+    _timing_json(tmp_path, "2026-10-23")
+    _bench_tsv(tmp_path, "10241", "all", "a", 1180.0, "2026-10-22T15:30:00")
+    _bench_tsv(tmp_path, "11118", "qabc", "a", 20.0, "2026-10-23T21:06:00")
+    md = "\n".join(timing_lines(tmp_path, "2026-10-23"))
+    assert "11118/qabc" in md
+    assert "10241/all" not in md, "a benchmark older than this run must not be ranked"
+
+
+def test_an_all_cached_run_says_so_instead_of_showing_stale_rows(tmp_path):
+    from assaywatch.report import timing_lines
+
+    _timing_json(tmp_path, "2026-10-23")
+    _bench_tsv(tmp_path, "10241", "all", "a", 1180.0, "2026-10-22T15:30:00")
+    md = "\n".join(timing_lines(tmp_path, "2026-10-23"))
+    assert "every archive's screen was cached" in md
+    assert "10241/all" not in md
+
+
+def test_an_open_run_borrows_the_last_completed_runs_stages(tmp_path):
+    """The real shape of every report: the Snakefile closes its `workflow` stage
+    in `onsuccess`, which fires AFTER the report rule, so this run's stage has no
+    duration yet. Insisting on it printed an empty table in every run."""
+    from assaywatch.report import timing_lines
+
+    _timing_json(tmp_path, "2026-10-21", stages=[{"name": "workflow", "seconds": 900.0}])
+    _timing_json(
+        tmp_path,
+        "2026-10-23",
+        finished=None,
+        status="running",
+        elapsed_seconds=0.0,
+        stages=[{"name": "workflow", "seconds": None}],
+    )
+    md = "\n".join(timing_lines(tmp_path, "2026-10-23"))
+    assert "finished running" not in md, "an unfinished run must not be called finished"
+    assert "last completed run, 2026-10-21" in md
+    assert "| workflow | 15m 00s |" in md
+
+
+def test_a_completed_run_prefers_its_own_stages(tmp_path):
+    from assaywatch.report import timing_lines
+
+    _timing_json(tmp_path, "2026-10-21", stages=[{"name": "workflow", "seconds": 900.0}])
+    _timing_json(tmp_path, "2026-10-23")
+    md = "\n".join(timing_lines(tmp_path, "2026-10-23"))
+    assert "finished success after 20m 00s" in md
+    assert "last completed run" not in md
+    assert "| retrieve | 10m 00s |" in md
+
+
+def test_no_timing_file_means_no_footer(tmp_path):
+    from assaywatch.report import timing_lines
+
+    assert timing_lines(tmp_path, "2026-10-23") == []
+
+
+def test_the_footer_reaches_both_rendered_reports(tmp_path):
+    from assaywatch.report import render_html, render_markdown
+
+    _timing_json(tmp_path, "2026-10-03")
+    _bench_tsv(tmp_path, "10241", "all", "a", 100.0, "2026-10-23T21:05:00")
+    drifts = _drifting()
+    md = render_markdown(drifts, {}, [], "2026-10-03", results_dir=tmp_path)
+    assert "## Run timing" in md and "10241/all" in md
+    page = render_html(drifts, {}, [], "2026-10-03", results_dir=tmp_path)
+    assert "id='timing'" in page and "<code>10241/all</code>" in page
+    assert "| stage |" not in page, "the markdown table must be rendered as HTML, not pasted"

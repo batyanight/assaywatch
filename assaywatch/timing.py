@@ -311,6 +311,69 @@ class RunManifest:
         return out
 
 
+@dataclass(frozen=True)
+class GroupCost:
+    """What one retrieval group's archives cost to screen, by wall clock."""
+
+    taxid: str
+    group: str
+    archives: int
+    seconds: float
+
+
+def read_screen_benchmarks(
+    bench_dir: Path | str,
+    *,
+    since: datetime | None = None,
+    until: datetime | None = None,
+) -> list[GroupCost]:
+    """Per-group screening cost from Snakemake's `benchmark:` files, slowest first.
+
+    Reads `<bench_dir>/screen/<taxid>/<group>/<stem>.tsv`, each of which holds one
+    data row whose `s` column is that archive's wall time, and sums it per
+    (taxid, group). A group holding several dated archives is one row.
+
+    WALL TIME IS THE ONLY COLUMN USED, and on macOS it is the only one that
+    exists: Snakemake samples with psutil's `memory_full_info()`, which macOS
+    refuses for a child process, and its sampler never sets `data_collected`, so
+    `max_rss`, `cpu_time` and the rest read `NA` however long the job runs
+    (measured 2026-10-22, docs/2026-10-18-pipeline-timekeeping-todo.md). On Linux
+    - CI and a cluster - those columns fill in, which is where `mem_mb` and
+    `threads` become checkable against what an archive actually costs.
+
+    `since`/`until` filter on each file's MTIME, which is the only timestamp a
+    benchmark carries: the files are keyed by archive, not by run date, so a
+    cached screen keeps its last measurement and a directory read without a
+    window mixes generations. Worse, Snakemake measures `time.time()` deltas,
+    which keep advancing while the machine is suspended - the benchmarks written
+    on 2026-10-22 span 91 minutes of laptop sleep and are mostly measuring the
+    suspension. Passing the current run's own window is therefore not a nicety;
+    it is what makes the numbers mean anything.
+    """
+    bench = Path(bench_dir) / "screen"
+    per_group: dict[tuple[str, str], list[float]] = {}
+    for tsv in sorted(bench.glob("*/*/*.tsv")):
+        try:
+            mtime = datetime.fromtimestamp(tsv.stat().st_mtime)
+            if since is not None and mtime < since:
+                continue
+            if until is not None and mtime > until:
+                continue
+            rows = tsv.read_text().splitlines()
+            if len(rows) < 2:
+                continue
+            seconds = float(rows[1].split("\t")[0])
+        except (OSError, ValueError, IndexError):
+            continue
+        per_group.setdefault((tsv.parent.parent.name, tsv.parent.name), []).append(seconds)
+    costs = [
+        GroupCost(taxid=taxid, group=group, archives=len(v), seconds=sum(v))
+        for (taxid, group), v in per_group.items()
+    ]
+    # Slowest first, then by name so equal costs do not reorder between runs.
+    return sorted(costs, key=lambda c: (-c.seconds, c.taxid, c.group))
+
+
 def _elapsed(start_iso: str, end_iso: str) -> float:
     try:
         return (datetime.fromisoformat(end_iso) - datetime.fromisoformat(start_iso)).total_seconds()

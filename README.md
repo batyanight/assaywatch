@@ -88,7 +88,8 @@ Snakefile          the pipeline; profiles/slurm/ runs the same rules on a cluste
 pending/         entries waiting for a verified DOI; never screened (pending/README.md)
 scripts/         registry QA: check_taxids.py (taxid vs NCBI name), indel_check.py,
                  check_amplicons.py (stored amplicon_bp vs measured, over every archive),
-                 verify_oligos_against_paper.py (stored oligo vs the paper that is cited).
+                 verify_oligos_against_paper.py (stored oligo vs the paper that is cited),
+                 orphan_archives.py (archives on disk that no live assay asks for).
                  Papers come in by three routes, in this order: find_open_access.py
                  (Unpaywall/OpenAlex -> a PDF), fetch_europepmc_fulltext.py (open full
                  text as XML, tables included), import_pmc_fulltext.py (the same corpus

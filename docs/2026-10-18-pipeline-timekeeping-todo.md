@@ -2,8 +2,10 @@
 
 Written 2026-10-18 during the 2026-10-17 full run.
 
-**Status, re-checked 2026-10-22: most of this shipped. Items 2 and 7 are what is
-left.** The line that used to stand here - "Nothing here has been implemented" -
+**Status, 2026-10-23: ALL SEVEN ARE DONE.** Item 7 landed today; see
+"Item 7 as built" below, and note that it does not do quite what this list asked
+for, because what it asked for turned out to be unavailable at the moment the
+report is written. The line that used to stand here - "Nothing here has been implemented" -
 was true when written and stale for days afterwards. Per item:
 
 | # | item | state |
@@ -14,13 +16,63 @@ was true when written and stale for days afterwards. Per item:
 | 4 | heartbeat file | **done** - `.tmp/heartbeat-<date>.json`, `heartbeat_seconds` configurable (default 60) |
 | 5 | weighted ETA | **done** - `timing.weighted_eta`, projected from bytes rather than remaining steps |
 | 6 | stuck detector | **done** - `heartbeat(stall_after=...)`, `stall_seconds` configurable (default 900) |
-| 7 | final per-stage summary + top 10 slowest groups in the report footer | **OPEN** - the only column that fills in on macOS is wall time, and it counts machine sleep (measured below), so a slowest-groups table needs either a run known to have stayed awake or `cpu_time`, which reads NA here |
+| 7 | final per-stage summary + top 10 slowest groups in the report footer | **done 2026-10-23** - `report.timing_lines`, rendered into both the markdown and the HTML report. Only benchmarks written inside the run's own window are counted, which is what makes the sleep problem below harmless |
 
-**Item 7 is the only one left.** Read "What the numbers say" below before
-building it: the benchmarks on disk were written across 91 minutes of laptop
+Read "What the numbers say" below before touching any of it: the benchmarks on disk were written across 91 minutes of laptop
 sleep. The RUN_DATE bug
 recorded at the bottom of this file is **fixed** (`timing.resolve_run_date` +
 `write_run_marker`, `Snakefile:79`); it is kept below as the record of why.
+
+## Item 7 as built (2026-10-23)
+
+`assaywatch.report.timing_lines` appends a `## Run timing` section to both the
+markdown and the HTML report, from `assaywatch.timing.read_screen_benchmarks`.
+Two things about it are not what this list asked for, and both are forced:
+
+**The stage table usually describes the PREVIOUS run.** The Snakefile closes its
+`workflow` stage in `onsuccess`, which fires *after* the `report` rule, so while
+the report is being written this run's own stage has no duration yet. A footer
+that insisted on this run's stages would have printed an empty table in every
+run forever. So the footer prefers this run's stages when they are complete - a
+report re-rendered by hand afterwards, which is how it was developed - and falls
+back to the most recent completed run, saying which it is showing. Changing that
+would mean moving the report after `onsuccess`, which is a pipeline-shape change
+for a footer.
+
+**Only benchmarks written inside the run's own window are counted**, filtered on
+file mtime against the manifest's `started`/`finished`. This is what defuses the
+sleep problem recorded below: a benchmark is keyed by archive rather than by run
+date, deliberately, so a cached screen keeps its old measurement and a bare
+directory read mixes generations - including the 2026-10-22 files that span 91
+minutes of suspension. A run whose screens were all cached measured nothing, and
+the footer says exactly that rather than ranking stale rows. Four tests pin these
+two behaviours, because both failure modes are silent: a stale row looks like a
+measurement and an empty table looks like a fast run.
+
+The macOS caveat travels with the numbers rather than living only here: the
+footer states in the report that `max_rss` and `cpu_time` read `NA` on this
+platform, so the column shown is elapsed time and not CPU.
+
+### Found while populating clean benchmarks: 10 orphan retrieval groups
+
+Item 7 needed one set of benchmarks taken on a machine that stayed awake, so
+every archive was force-rescreened under `caffeinate`. Targeting every archive on
+disk failed at DAG construction:
+
+    InputFunctionException in rule screen_archive:
+    KeyError: (2093, 'q4185828e3e')
+
+That archive's group is not in the registry any more. Ten groups are in that
+state - 21 archives, 658 MB, and 99 entries in `data/retrieved/manifest.json`
+that look like ordinary retrieval state. A group dies two ways, both routine: an
+assay leaves `registry/`, or its `target.query` changes, since the group name is
+a hash of the query. Three of the ten were orphaned *that same day* by moving ten
+entries to `pending/`.
+
+`scripts/orphan_archives.py` reports them, attributing each to a `pending/` entry
+where that explains it, and deletes nothing: an assay waiting on a DOI comes back,
+and its archives are the history its baseline needs. It also names the mirror-image
+gap, a live group with no archive at all (currently `209/all`).
 
 ## Item 2 as built (2026-10-22)
 
@@ -104,7 +156,61 @@ currently on disk were written across 91 minutes of sleep and should be treated
 as contaminated: re-populate with the lid open before building anything on them,
 and cost a single archive by running it alone, as the solo figures above do.
 
-### A real finding about the thread heuristic
+### The clean benchmarks, 2026-10-23, and what they settle
+
+Populated under `caffeinate -dims` with the machine awake throughout: 335 of 335
+live archives force-rescreened, **13m 54s elapsed, exit 0**, 335 benchmark files
+written inside the run's own window (`snakemake-2026-10-23-benchmarks.txt`).
+Summed job time is **25m 10s**, so effective parallelism on 4 cores was **1.81x** -
+a real number, where the 1.13x computed from the contaminated set was an artefact
+of job clocks running while nothing executed.
+
+**The sleep diagnosis is confirmed to the second.** The two archives the section
+above costed solo now read, under contention and awake:
+
+| archive | contaminated | solo (section above) | clean, under contention |
+|---|---:|---:|---:|
+| `11320/q2ebd5918b3/2026-10-03` | 1180.1 s | 40.3 s | **36.4 s** |
+| `10508/all/2026-10-03` | 120.7 s | 36.6 s | **40.4 s** |
+
+So the 2026-10-22 files were measuring the suspension, exactly as diagnosed, and
+nothing was wrong with the pipeline. `report.timing_lines` now filters benchmarks
+to the run's own window so a contaminated file cannot be ranked again.
+
+### The thread heuristic: the hypothesis above is WRONG, and the real fault is narrower
+
+The section below proposed sizing workers on record count rather than gzipped
+bytes. On the clean data that is backwards. Across all 335 archives:
+
+| predictor of screening seconds | all (n=335) | above the ~1.2 s startup floor (n=66) |
+|---|---:|---:|
+| gzipped MB | **+0.776** | **+0.753** |
+| record count | +0.490 | +0.289 |
+
+Bytes are the better single predictor, and get *more* so once the fixed
+process-startup cost is excluded. Replacing bytes with records would have made the
+heuristic worse.
+
+What is real is a narrower fault: the worst-sized jobs are **small archives holding
+very many short records**, which the byte rule gives one worker.
+
+| archive | s | MB | records | workers |
+|---|---:|---:|---:|---:|
+| `10241/all/2026-10-03` | 108.6 | 803.0 | 28,388 | 16 |
+| `77643/q8c2ce9448f/2026-10-07` | 88.8 | 1496.6 | 1,179 | 16 |
+| `11051/q63c5fca5b3/2026-10-03` | 60.5 | 27.5 | 59,558 | **1** |
+| `11320/qdf5abd73c1/2026-10-06` | 52.5 | 10.1 | 190,101 | **1** |
+| `12059/qbb80900029/2026-10-03` | 43.6 | 12.8 | 73,182 | **1** |
+| `11320/q2ebd5918b3/2026-10-03` | 36.4 | 5.8 | 182,556 | **1** |
+
+Four of the ten slowest jobs run single-threaded, while a 1.5 GB archive holding
+1,179 records gets 16 workers for 89 s of work and takes cores from the queue. So
+the fix is not to swap the predictor but to take the maximum of a byte term and a
+record term, and to stop over-provisioning the few huge, record-sparse archives.
+**Not implemented**: changing `threads` changes contention, so the before/after has
+to be measured on a quiet machine rather than argued, and that is its own run.
+
+### The earlier note on the thread heuristic (kept; its hypothesis is corrected above)
 
 `threads` and `priority` are both `archive_mb(input)`-derived
 (`SCREEN_MB_PER_THREAD = 25`), and cost does not track bytes:

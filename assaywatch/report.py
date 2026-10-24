@@ -33,7 +33,7 @@ import json
 import sys
 from collections import Counter
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -63,6 +63,7 @@ from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
 from assaywatch.review import OLIGO_DOUBT, ReviewFlag
 from assaywatch.schema import Assay, SpeciesSize, Status
+from assaywatch.timing import format_duration, read_screen_benchmarks
 
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
@@ -309,6 +310,139 @@ def freshness_line(results_dir: Path, run_date: str) -> str:
         return ""
     ago = "the same day" if days == 0 else "1 day earlier" if days == 1 else f"{days} days earlier"
     return f"Previous successful run: {finished} ({ago})."
+
+
+def timing_lines(results_dir: Path, run_date: str, top: int = 10) -> list[str]:
+    """Per-stage wall times and the slowest screening groups, for the footer.
+
+    Item 7 of docs/2026-10-18-pipeline-timekeeping-todo.md, and the last one
+    outstanding. The run that prompted that list stalled for hours on one
+    retrieval group and the log gave no way to tell slow from stuck; items 1-6
+    fixed the live signals, and this is the record left behind afterwards, so the
+    next run's cost can be anticipated from the last one's rather than guessed.
+
+    Both halves are read, never recomputed: stage times from `run-timing.json`
+    (assaywatch.timing.RunManifest writes it) and per-archive wall times from
+    Snakemake's `benchmark:` files under `<results>/benchmarks/`.
+
+    **The stage table usually describes the PREVIOUS run, and says so.** The
+    Snakefile closes its `workflow` stage in `onsuccess`, which fires after the
+    report rule, so while this report is being written this run's own stages have
+    no duration yet -- a footer that insisted on them would print an empty table
+    in every run forever. So this run's stages are used when they are complete
+    (a report re-rendered afterwards, which is the common case by hand) and the
+    most recent completed run's otherwise.
+
+    **Only benchmarks written inside this run's own window are counted.** A
+    benchmark is keyed by archive rather than by run date, deliberately, so a
+    cached screen keeps its last measurement -- which means a bare directory read
+    mixes runs, and Snakemake's wall clock keeps advancing while the machine is
+    suspended. Filtering to the window is what stops the table from ranking a
+    group by how long the laptop was asleep. A run whose screens were all cached
+    measured nothing, and the footer then says so rather than showing stale rows.
+    """
+    this = _read_timing(results_dir / run_date / "run-timing.json")
+    if this is None:
+        return []
+
+    out = ["## Run timing", ""]
+    stages = _complete_stages(this)
+    source = this
+    if not stages:
+        source = _last_completed_run(results_dir, run_date) or this
+        stages = _complete_stages(source)
+    if stages:
+        if source is this and this.get("finished"):
+            elapsed = this.get("elapsed_seconds")
+            status = this.get("status", "unknown")
+            when = f"Run {run_date} finished {status} after {format_duration(elapsed)}."
+        elif source is this:
+            when = f"Stage times for run {run_date} as far as it had got when this report was written."
+        else:
+            when = (
+                f"Stage times below are the last completed run, {source.get('run_date')} "
+                f"({format_duration(source.get('elapsed_seconds'))} in all): this run's own "
+                "stages are still open while its report is being written."
+            )
+        out += [when, "", "| stage | wall time |", "|---|---:|"]
+        out += [f"| {s['name']} | {format_duration(s['seconds'])} |" for s in stages]
+        out.append("")
+
+    costs = read_screen_benchmarks(
+        results_dir / "benchmarks",
+        since=_parse_iso(this.get("started")),
+        until=_parse_iso(this.get("finished")),
+    )
+    if not costs:
+        out += [
+            "No screening benchmarks were written during this run, so there is no "
+            "per-group cost to show: every archive's screen was cached. The figures "
+            "appear again on a run that rescreens.",
+            "",
+        ]
+        return out
+
+    total = sum(c.seconds for c in costs)
+    shown = costs[:top]
+    out += [
+        f"{len(costs)} retrieval groups were screened in this run, {format_duration(total)} "
+        f"of job time in all. The {len(shown)} slowest:",
+        "",
+        "| group | archives | wall time | share |",
+        "|---|---:|---:|---:|",
+    ]
+    out += [
+        f"| `{c.taxid}/{c.group}` | {c.archives} | {format_duration(c.seconds)} | {c.seconds / total:.0%} |"
+        for c in shown
+    ]
+    out += [
+        "",
+        "Wall time per archive, summed per group, from Snakemake's `benchmark:` files. "
+        "On macOS this is the only column that exists - `max_rss` and `cpu_time` read "
+        "`NA` there - so these are elapsed times, not CPU, and a job that spanned a "
+        "machine sleep would be inflated by it. Only benchmarks written during this "
+        "run are counted.",
+        "",
+    ]
+    return out
+
+
+def _read_timing(path: Path) -> dict[str, Any] | None:
+    try:
+        data = json.loads(path.read_text())
+    except (OSError, ValueError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def _complete_stages(data: dict[str, Any]) -> list[dict[str, Any]]:
+    """Stages that have a duration. An open stage has `seconds: None`."""
+    return [s for s in data.get("stages", []) if isinstance(s, dict) and s.get("seconds") is not None]
+
+
+def _last_completed_run(results_dir: Path, run_date: str) -> dict[str, Any] | None:
+    """The most recently finished successful run that is not this one.
+
+    Keyed on the `run_date` INSIDE each file, not the directory name, for the
+    reason `freshness_line` gives: a run directory can be a frozen copy.
+    """
+    best = None
+    for path in sorted(results_dir.glob("*/run-timing.json")):
+        data = _read_timing(path)
+        if data is None or data.get("run_date") == run_date:
+            continue
+        if data.get("status") != "success" or not data.get("finished"):
+            continue
+        if best is None or str(data["finished"]) > str(best["finished"]):
+            best = data
+    return best
+
+
+def _parse_iso(value: object) -> datetime | None:
+    try:
+        return datetime.fromisoformat(str(value))
+    except (TypeError, ValueError):
+        return None
 
 
 def flag_confidence_line(grouped: dict[str, list[AssayDrift]]) -> str:
@@ -622,6 +756,7 @@ class ReportModel:
     nested_families: list[NestedFamily]
     nested_threshold: float
     gaps: list[GapRow]
+    timing: list[str]
 
 
 def _terminated(fragment: str) -> str:
@@ -908,6 +1043,7 @@ def build_model(
         registry_line=registry_status_line(drifts, assays),
         confidence_line=flag_confidence_line(grouped),
         freshness_line=freshness_line(results_dir, run_date) if results_dir else "",
+        timing=timing_lines(results_dir, run_date) if results_dir else [],
         window_months=window,
         widened=sum(1 for a in drifts.values() if a.window_months > window),
         earliest=a0.recent_from if a0 else 0,
@@ -1156,6 +1292,8 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                 f"| {g.evaluable} | {g.screened if g.taxid else 'not searched (no taxid)'} |"
             )
         out.append("")
+    # Last, because it is about the run rather than the assays.
+    out += m.timing
     return "\n".join(out)
 
 
@@ -1218,6 +1356,47 @@ def _assay_cell(assay_id: str, has_detail: set[str]) -> str:
 def _slug(text: str) -> str:
     """A fragment id from a heading or an assay id. Stable between runs."""
     return "".join(c if c.isalnum() else "-" for c in text.lower()).strip("-")
+
+
+def _timing_html(lines: list[str]) -> str:
+    """Render the timing footer's markdown lines as HTML.
+
+    `timing_lines` is written once, in markdown, because both renderers want the
+    same words; this turns its two shapes - a heading and a pipe table - into
+    HTML rather than duplicating the text. Everything is escaped except the
+    backticks, which become <code>.
+    """
+    e = html.escape
+    out, rows = [], []
+
+    def flush() -> None:
+        if not rows:
+            return
+        head, body = rows[0], rows[2:]
+        cells = "".join(f"<th>{e(c)}</th>" for c in head)
+        out.append(f"<table><tr>{cells}</tr>")
+        for r in body:
+            out.append("<tr>" + "".join(f"<td>{_md_code(c)}</td>" for c in r) + "</tr>")
+        out.append("</table>")
+        rows.clear()
+
+    for line in lines:
+        if line.startswith("|"):
+            rows.append([c.strip() for c in line.strip("|").split("|")])
+            continue
+        flush()
+        if line.startswith("## "):
+            out.append(f"<h2 id='timing'>{e(line[3:])}</h2>")
+        elif line:
+            out.append(f"<p class='muted'>{_md_code(line)}</p>")
+    flush()
+    return "\n".join(out)
+
+
+def _md_code(text: str) -> str:
+    """Escape `text`, then turn its `backticked` spans into <code>."""
+    parts = html.escape(text).split("`")
+    return "".join(p if i % 2 == 0 else f"<code>{p}</code>" for i, p in enumerate(parts))
 
 
 def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
@@ -1504,6 +1683,8 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
             "accession groups behind them, are in <code>site-drift.md</code>.</p>"
             f"<figure>{figures['site-positions.svg']}</figure>"
         )
+    if m.timing:
+        parts.append(_timing_html(m.timing))
     parts.append("</body></html>")
     return "\n".join(parts)
 

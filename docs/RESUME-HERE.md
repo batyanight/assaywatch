@@ -1,5 +1,39 @@
 # Resume point, 2026-10-23 (waves 0-5 of the plan of attack landed; see below)
 
+## 0b. Timekeeping is finished, and 658 MB of archives belong to nobody
+
+`docs/2026-10-18-pipeline-timekeeping-todo.md`. **All seven items are done**: item 7
+is `report.timing_lines`, a `## Run timing` footer in both the markdown and the HTML
+report, giving per-stage wall times and the ten slowest retrieval groups.
+
+Two things in it are not what that list asked for, and both are forced. The stage
+table usually describes the PREVIOUS run, because the Snakefile closes its `workflow`
+stage in `onsuccess`, which fires after the `report` rule - insisting on this run's
+own stages would print an empty table in every run forever. And only benchmarks
+written inside the run's own window are counted, which is what defuses the
+sleep-contamination problem that blocked this item: a benchmark is keyed by archive,
+not by run date, so a bare directory read mixes generations.
+
+Found while force-rescreening every archive to get one clean set of benchmarks: a
+targeted run died with `KeyError: (2093, 'q4185828e3e')`, because **10 retrieval
+groups on disk are not in the registry any more** - 21 archives, 658 MB, 99
+manifest entries that look like live state. Three were orphaned the same day by
+moving ten entries to `pending/`. `scripts/orphan_archives.py` reports them and
+deletes nothing. It also names the reverse gap: `209/all` is a live group with no
+archive, so it has never been screened.
+
+The clean benchmarks also settled two open questions. The 2026-10-22 sleep diagnosis
+is confirmed to the second (`11320/q2ebd5918b3` read 1180.1 s contaminated, 40.3 s
+solo, **36.4 s** clean under contention), and effective parallelism on 4 cores is a
+real **1.81x** against the bogus 1.13x. And that doc's own hypothesis about the
+thread heuristic is WRONG: gzipped bytes predict screening time better than record
+count (+0.776 against +0.490; +0.753 against +0.289 above the startup floor), so
+swapping the predictor would have made it worse. The narrower real fault is that
+four of the ten slowest jobs are small, record-dense archives sized to one worker,
+while a 1.5 GB archive holding 1,179 records gets 16. Fix shape: max of a byte term
+and a record term. Not implemented, because changing `threads` changes contention
+and the before/after needs its own quiet run.
+
 ## 0a. The oligo flags are adjudicated; four sequences were wrong
 
 `docs/2026-10-23-oligo-adjudication.md`. Every `near:` and `absent` row was read

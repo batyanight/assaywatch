@@ -6,6 +6,7 @@ crossed midnight, and split its outputs across two date folders.
 """
 
 import json
+import os
 import time
 from datetime import datetime, timedelta
 
@@ -210,3 +211,64 @@ def test_a_failing_probe_does_not_kill_the_run(tmp_path):
     time.sleep(0.15)
     stop()
     assert "probe_error" in json.loads(path.read_text())
+
+
+# --- per-group screening cost (timekeeping item 7) -------------------------
+
+
+def _bench(root, taxid, group, stem, seconds, *, mtime=None):
+    """Write one Snakemake benchmark file, optionally backdated."""
+    p = root / "screen" / taxid / group / f"{stem}.tsv"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(
+        "s\th:m:s\tmax_rss\tmax_vms\tmax_uss\tmax_pss\tio_in\tio_out\tmean_load\tcpu_time\n"
+        f"{seconds}\t0:00:0{int(seconds) % 10}\tNA\tNA\tNA\tNA\tNA\tNA\tNA\tNA\n"
+    )
+    if mtime is not None:
+        os.utime(p, (mtime.timestamp(), mtime.timestamp()))
+    return p
+
+
+def test_group_cost_sums_archives_and_ranks_slowest_first(tmp_path):
+    from assaywatch.timing import read_screen_benchmarks
+
+    _bench(tmp_path, "10241", "all", "2026-10-03", 5.0)
+    _bench(tmp_path, "10241", "all", "2026-10-11", 7.0)
+    _bench(tmp_path, "11118", "qabc", "2026-10-03", 9.0)
+    costs = read_screen_benchmarks(tmp_path)
+    assert [(c.taxid, c.archives, c.seconds) for c in costs] == [("10241", 2, 12.0), ("11118", 1, 9.0)]
+
+
+def test_a_benchmark_outside_the_run_window_is_not_counted(tmp_path):
+    """The whole point of the window: a benchmark is keyed by ARCHIVE, not by run
+    date, so a cached screen keeps an old measurement and a bare read mixes
+    generations -- and Snakemake's wall clock counts machine sleep, so a stale
+    row can be mostly measuring a suspension."""
+    from assaywatch.timing import read_screen_benchmarks
+
+    old = datetime(2026, 10, 22, 15, 0, 0)
+    _bench(tmp_path, "10241", "all", "2026-10-03", 1180.0, mtime=old)
+    _bench(tmp_path, "11118", "qabc", "2026-10-03", 9.0)
+    assert len(read_screen_benchmarks(tmp_path)) == 2
+    windowed = read_screen_benchmarks(tmp_path, since=datetime(2026, 10, 23, 0, 0, 0))
+    assert [c.taxid for c in windowed] == ["11118"]
+
+
+def test_equal_costs_keep_a_stable_order(tmp_path):
+    """A report that diffs between runs over tie order is noise."""
+    from assaywatch.timing import read_screen_benchmarks
+
+    _bench(tmp_path, "999", "b", "s", 4.0)
+    _bench(tmp_path, "111", "a", "s", 4.0)
+    assert [c.taxid for c in read_screen_benchmarks(tmp_path)] == ["111", "999"]
+
+
+def test_an_unreadable_benchmark_is_skipped_not_fatal(tmp_path):
+    from assaywatch.timing import read_screen_benchmarks
+
+    _bench(tmp_path, "10241", "all", "good", 3.0)
+    bad = tmp_path / "screen" / "10241" / "all" / "headeronly.tsv"
+    bad.write_text("s\th:m:s\n")
+    (tmp_path / "screen" / "10241" / "all" / "nonnumeric.tsv").write_text("s\nNA\n")
+    costs = read_screen_benchmarks(tmp_path)
+    assert [(c.taxid, c.archives) for c in costs] == [("10241", 1)]
