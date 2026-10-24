@@ -62,4 +62,6 @@ needs_review:
   note: the 360 bp size rests on 5 amplifying records of 84,810 in the genus; the assay detects
     almost nothing in GenBank
 - flag: oligos_from_secondary_source
-  note: HEL1 reads 22 nt by OCR against the paper's stated 25 nt
+  note: Hel1/Hel2 are printed by Reid 1999 but were designed by Neill & Seal 1995, which
+    the entry's note documents; both 25-mers now verify exact against BOTH papers, so the
+    old OCR doubt is resolved and only the secondary-source provenance remains

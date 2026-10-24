@@ -1,8 +1,8 @@
 id: LEPTOSPIROSIS_Flagillar_filiment_Prote
-name: LEPTOSPIROSIS — Flagillar filiment Protein B gene
+name: LEPTOSPIROSIS — flagellar filament protein B (flaB) gene
 target:
   taxid: 171
-  gene: Flagillar filiment Protein B gene
+  gene: flagellar filament protein B (flaB)
   genome_type: dsDNA
   taxon_name: Leptospira
   query: (flaB[Gene] OR flagellin[Title] OR "flaB"[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]
@@ -31,6 +31,7 @@ submitted_by: null
 status: draft
 source:
   nested_round: null
+  notes_curator: 'SPELLING FIXED 2026-10-24 in the `name` and `target.gene` fields only: both read "Flagillar filiment Protein B gene", two misspellings of "flagellar filament". The gene is flaB, which the retrieval query already spells correctly, so nothing was ever mis-retrieved - target.gene is free text and is not screened on. THE ENTRY ID IS DELIBERATELY NOT RENAMED, even though it carries the same misspelling: docs/validation-cases.tsv keys a scored tier-2 case on this id, and archive directories and several docs reference it, so renaming is a maintainer''s change and not a spelling fix.'
   notes_curator: SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. LeptoF and LeptoR
     both appear verbatim in the open-access full text of PMC3810931, inside a MassTag PCR panel table that also lists Streptococcus
     pneumoniae plysin, Neisseria meningitidis ctrA, Mycobacterium tuberculosis pncA and Toxoplasma gondii B1 - a panel table

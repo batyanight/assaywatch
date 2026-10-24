@@ -1,12 +1,73 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
-## 2026-10-24 daytime: the scope audit, and the five items of it that were applied
+## 2026-10-24 daytime: the scope audit, all ten items worked through
 
 Branch `registry/2026-10-24-scope-fixes`, cut from
 `docs/2026-10-23-elsevier-and-oligo-flags`. The audit itself is read-only and lives in
 `docs/2026-10-24-scope-audit.md`; items **1, 3 and 6** of its ranked list were then applied
-in commits `a784fed` (items 1, 3, 6) and a second commit (items 4, 5): fifteen entries, no
-oligo and no threshold touched. Items 2 and 7 to 10 still wait on a maintainer.
+in three commits. **All ten ranked items have now been worked through, and FOUR of the ten
+proposals were wrong or redundant on contact with the data.** Applied as proposed: 1, 3, 5,
+6, 7. Applied differently because the proposal was wrong: 4. Struck, do not apply: 8, 9, 10.
+**Still open: item 2 only** (the three `scope_narrower_than_taxid` entries with no mechanism:
+AVIPOXVIRUS Baek, CHLAMYDIA Messmer, BATRAVIRUS european).
+
+No oligo and no threshold was touched anywhere. Cumulative report effect, re-rendered from
+one calls table so only the registry differs — **7 assays change status**:
+
+    BORNA_VIRUS_N_gene                      declining     -> stable            20.9% (43) -> 97.6% (165)
+    ORTHOBORNAVIRUS_XP_aquatic_Sigrist      low coverage  -> stable             0.0% (26) -> 100.0% (18)
+    ORTHOBORNAVIRUS_XP_psittacine_Sigrist   low coverage  -> stable            23.1% (26) -> 100.0% (35)
+    ORTHOBORNAVIRUS_XP_passerine_Sigrist    low coverage  -> insufficient data  3.8% (26) -> 4 records
+    CALICIVIRUS_ssRNA_Capsid                low coverage  -> no recent data    baseline 27% (51) -> 82% (11)
+    PERKINSEA_NAG01_18S_cladeAC             insufficient  -> no recent data    baseline 45% (461) -> 54% (388)
+    PERKINSEA_NAG01_18S_cladeD              insufficient  -> no recent data    baseline 36% (461) -> 43% (388)
+
+**THE LESSON, which is more useful than any single fix.** The ranking was built on how clean
+the taxonomy looked when read off NCBI's hierarchy. All four failures failed the same way:
+nobody had checked *what records actually live at the proposed node*, or *what the registry
+already did*. The procedure that worked every time was to group the assay's own calls by
+record taxid and look at where the detections are. Do that first, next time.
+
+- **Item 4 (Helicobacter) was wrong**: 290433 is "uncultured Helicobacteraceae bacterium"
+  under *environmental samples*, a catch-all of unrelated gut and environmental clones, not a
+  GCBI1 node. See below for what was done instead.
+- **Item 7 (Perkinsea) shows the same lesson cuts both ways**: 373149 is ALSO an
+  "environmental samples" node, and it is the right scope, because every single detection for
+  both entries lives inside it and the excluded *Perkinsus* taxa contribute 76 assessable
+  records with **0** detections. Judge such a node by what it contains, never by its name.
+- **Item 8 (LMBV) was redundant and would have been a regression**: both entries are already
+  scoped via `target.query`, and the Li 2025 entry's own note had already rejected this exact
+  proposal in advance ("a scope of txid3432136 alone would silently miss them: 113 records,
+  against 131 for the union used here"). Applying it would drop **10 detected records**.
+- **Item 9 (Tong) was wrong**: the three proposed subfamilies cover **294 of the 931**
+  enumerated ids; 637 would be dropped, mostly `unclassified Paramyxoviridae` including
+  reptilian paramyxovirus, plus a fourth subfamily the proposal never named. When a family has
+  a large `unclassified X` bucket, no set of subtrees covers it and enumeration is the only
+  honest mechanism.
+- **Item 10 (Leptospira) was struck as a scope fix and produced the best finding of the day.**
+  See below.
+
+**THE LEPTOSPIRA FINDING, worth more than the scope change it replaced.** The assay reads
+93.0% whole-archive, and the 138 misses are not spread out: they sit in species described
+after the primers were designed, all scored `fail` (sites present and mismatched, not absent),
+all with the reverse primer mismatched at **position 1 from its 3' terminus** — fatal on its
+own under `terminal_mismatch_fails`. Against the design paper's own Table 1:
+
+    L. kmetyi       0 detected of 13, all fail    paper: Pathogenic, scored +
+    L. adleri       0 of 4,  all fail             paper: Pathogenic, scored +
+    L. gomenensis   0 of 8,  all fail             paper: Pathogenic, scored +
+    L. yasudae      0 of 18, all fail             not in Table 1 (described later)
+    L. wolffii      0 of 14, all fail             paper: Intermediate, scored -   <- control
+
+So three lab-confirmed positives that this pipeline calls complete in-silico failures.
+*L. wolffii* is the control that makes it credible, and the contrast with the species the
+assay was built on is absolute: *L. interrogans* (578 records), *L. borgpetersenii* (209),
+*L. santarosai* (59), *L. weilii* (47), *L. noguchii* (36), *L. kirschneri* (35) all match at
+**penalty 0, no mismatch anywhere**. NOT entered in `docs/validation-cases.tsv`, which
+excludes an assay's own panel validation — but recorded in
+`docs/2026-10-24-scoring-strategy-test-plan.md` as bench evidence for `terminal_mismatch_fails`
+and `by_chemistry`, paired with the CALICIVIRUS Helicase entry's 3'-terminal G/C mismatch,
+which is the same mechanism on a conventional PCR rather than a probe assay.
 
 **The audit's finding.** 146 of 200 entries are scoped broader than species, but most of
 that breadth is correct by design — a pan-family consensus PCR should carry a family

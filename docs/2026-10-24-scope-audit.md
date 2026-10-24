@@ -422,11 +422,18 @@ and does not go stale with every new deposit. Its provenance could not be traced
 
 ## What to do, in order
 
-Ranked by evidence strength times size of the error. **Items 1, 3, 6, 4 and 5 were all
-applied on 2026-10-24**, branch `registry/2026-10-24-scope-fixes`; see the two closing
-sections of this document. Item 4 was applied *differently from how it is proposed below,
-because the proposal was wrong* — read "Item 4 as proposed was wrong" before acting on
-anything else here. Items 2 and 7 to 10 still wait on a maintainer.
+**Every item below has now been worked through, on 2026-10-24, branch
+`registry/2026-10-24-scope-fixes`. Read the closing sections before acting on anything in
+this list, because FOUR of the ten proposals turned out to be wrong or redundant on
+contact with the data.** Applied as proposed: 1, 3, 5, 6, 7. Applied differently, because
+the proposal was wrong: 4. Struck, do not apply: 8, 9, 10. Still open: 2 only.
+
+Ranked by evidence strength times size of the error — and the ranking itself did not
+survive, which is the main lesson. Items were ranked on how clean the taxonomic story
+looked when read off NCBI's hierarchy. The four that failed all failed for the same reason:
+nobody had checked *what records actually live at the proposed node*, or *what the registry
+already did*. The procedure that worked, every time, was to group the assay's own calls by
+record taxid and look at where the detections are.
 
 1. **Caliciviridae, two entries** — `scope_taxids: [3433198]`. 85,628 records against 129
    genuinely in scope, and it explains an existing "0 of 30" artefact. Biggest error,
@@ -639,3 +646,116 @@ from this entry means anything". Its `cross_reactive` flag is not weakened by sc
 served by it — the paper reports that probe at 90% identity to BoDV-1, and BoDV records now
 sit outside the denominator while still being screened, which is exactly the arrangement that
 keeps the cross-reactivity visible.
+
+
+## Items 7 to 10: one applied, three struck
+
+### Item 7, Perkinsea: APPLIED, and it is the case that shows the Helicobacter lesson cuts both ways
+
+Both entries given `scope_taxids: [373149]`, "uncultured Perkinsea". Note that this is an
+**environmental samples** node — structurally the very thing that made item 4 wrong. It is
+right here, and the difference is the whole point:
+
+- For Helicobacter, the environmental node was a catch-all that **did not contain the
+  target**.
+- For Perkinsea, grouping both entries' calls by record taxid puts **every single detection
+  inside 373149** and zero detections anywhere else. The excluded taxa contribute 76
+  assessable records and **0** detections, almost all *Perkinsus olseni* (48) plus
+  *P. marinus*, *P. chesapeaki* and *P. mediterraneus* — molluscan parasites that NAG01
+  primers should not amplify. NAG01 Perkinsea is known almost entirely from environmental
+  18S clone libraries, so that is where its sequences are filed.
+
+So an "environmental samples" node must be judged by what it contains, never by its rank or
+its name. Whole-archive effect: clade A–C 44.8% (208/464) -> 53.6% (208/388), clade D 35.8%
+(166/464) -> 42.8% (166/388).
+
+The clade D entry also gains `retrieval_scope_incomplete`, for a problem no scope list can
+fix. Smilansky et al. section 2.1: "the PPC assay targets this region in a *Rana
+sphenocephala* pathogen (accession: EF675616)". EF675616 carries taxid 453764 under
+**unclassified Alveolata**, not under Perkinsozoa at all, so `txid27997[Organism:exp]` cannot
+reach it. 453764 is deliberately *not* added to `scope_taxids`, because that field filters
+records that were retrieved and adding an unreachable taxid would look like coverage it does
+not give.
+
+### Item 8, LMBV: STRUCK. The registry was already right, and more carefully right than this audit
+
+Do not apply. Both LMBV entries are **already scoped**, via `target.query`, and
+`LMBV_dsDNA_MCP_RPA_Li_2025`'s own curator note had already done this exact analysis and
+rejected the proposal in advance: "a scope of txid3432136 alone would silently miss them:
+113 records, against 131 for the union used here." *Ranavirus micropterus1* (3432136) is the
+formal ICTV species, but Mandarin fish ranavirus (2487147) and *Siniperca chuatsi* ranavirus
+(3045952) sit in NCBI's `unclassified Ranavirus` outside it.
+
+Measured consequence of applying it anyway: **10 detected records would be dropped** from the
+Li 2025 entry — PZ233446, PX883867, PV191281, PV200168, PQ212952, OP628213, OQ267588,
+OQ267587, MG941005, ON595973 — which are precisely the records that entry's note says were
+added after screening the parent taxon empirically. It would be a straight regression. The
+Grizzle entry's `target.query` likewise already pins five taxids including *Micropterus
+salmoides* ranavirus (3045951), which is **not** inside 3432136, so the proposal would
+exclude a record that entry deliberately retrieves.
+
+One correction to the audit's framing: 3432136 *is* a correct ancestor of the Largemouth bass
+virus, Smallmouth bass virus and Santee-Cooper nodes (`176656 > 198068 > 3432136 > 10492`).
+The proposal is not wrong about the hierarchy. It is wrong because the hierarchy is not where
+this lineage's members are filed.
+
+### Item 9, Tong 2008: STRUCK. The three subfamilies cover less than a third of the list
+
+Do not apply. The proposal was to replace the 931 enumerated species ids with three subtree
+ids, `[2560076, 2560080, 2560069]` = Orthoparamyxovirinae, Rubulavirinae, Avulavirinae, on the
+authority of `schema.py`'s comment that one should "name the smallest set of taxa whose
+subtrees cover the design paper's stated range". Tested with `taxonomy.within`: those three
+subfamilies cover **294 of the 931 ids. 637 would be dropped.**
+
+The uncovered 637 are overwhelmingly `unclassified Paramyxoviridae` — unidentified simian
+paramyxovirus, Murayama virus, ovine and canine parainfluenza, **reptilian paramyxovirus**,
+*Salmo salar* paramyxovirus — plus a fourth subfamily, Feraresvirinae, that the proposal does
+not even name. Tong 2008 is a pan-paramyxovirus consensus PCR, so those are in scope, and
+reptilian paramyxovirus matters particularly for a wildlife registry.
+
+The schema's advice is sound in general and wrong here for a reason worth writing down: when
+a large fraction of a family sits in an `unclassified X` bucket, no set of subtrees can cover
+it, and enumeration is the only honest mechanism. That is the same conclusion the LMBV entry
+reached independently. The list stays.
+
+### Item 10, Leptospira: STRUCK as a scope fix, and it produced the best finding of the day
+
+Do not apply as a scope change, and read the entry's new note instead. The intent is
+supported by the paper — Ahmed et al. 2020 claim the assay "has the ability to detect all
+pathogenic *Leptospira* species currently known", and Table 1 tests 73 strains across
+pathogenic, intermediate and non-pathogenic species — but there is no clade node for
+"pathogenic Leptospira", so it means enumerating species by hand against a classification
+revised since 2020, for a measured gain of about 1.5 points.
+
+What the measurement found instead is a **paper-versus-screen disagreement on three named
+species**. Whole-archive the assay reads 1,831 detected of 1,969 assessable (93.0%), and the
+138 misses are not spread out: they concentrate in species described after the primers were
+designed, every one scored `fail` rather than excluded — so the sites are present and
+mismatched, not absent — and every one with the reverse primer mismatching at **position 1
+from its 3' terminus**, which `terminal_mismatch_fails` makes fatal by itself.
+
+| species | screen | paper's Table 1 |
+|---|---|---|
+| *L. kmetyi* | 0 detected of 13, all `fail` | Pathogenic, scored **+** |
+| *L. adleri* | 0 of 4, all `fail` | Pathogenic, scored **+** |
+| *L. gomenensis* | 0 of 8, all `fail` | Pathogenic, scored **+** |
+| *L. yasudae* | 0 of 18, all `fail` | not in Table 1 (described later) |
+| *L. wolffii* | 0 of 14, all `fail` | Intermediate, scored **−** |
+
+*L. wolffii* is the control that makes this credible: the paper scores it negative and the
+screen fails it too, so the screen is not merely failing everything new. And the contrast with
+the species the assay was built on is absolute — *L. interrogans* (578 records),
+*L. borgpetersenii* (209), *L. santarosai* (59), *L. weilii* (47), *L. noguchii* (36) and
+*L. kirschneri* (35) all match at **penalty 0 with no mismatch at any oligo**.
+
+This is *not* entered in `docs/validation-cases.tsv`, because that file explicitly excludes
+"a new assay's own panel validation" and Ahmed 2020 is this assay's own design paper. It is
+however exactly the evidence `docs/2026-10-24-scoring-strategy-test-plan.md` says it lacks:
+three lab-confirmed positives that the current model calls `fail` on a single 3'-terminal
+mismatch, in a hydrolysis-probe assay. Same mechanism as the CALICIVIRUS Helicase entry, same
+conclusion — the per-chemistry scoring gap, not coverage loss.
+
+Note for whoever does build the pathogenic list: *L. kmetyi*, *L. adleri* and *L. gomenensis*
+are pathogenic and stay **inside** it, so scoping would not hide this disagreement. It would
+drop only *L. wolffii* and *L. yasudae*, about 32 of the 138 misses, taking 93.0% to roughly
+94.5%.

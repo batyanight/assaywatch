@@ -53,7 +53,5 @@ source:
     LEFT OPEN: this entry calls its gene 16S, while Cacciotto describes the target as ''a 996 bp region of the 16S-23S rDNA
     intergenic region''. A ~994 bp product is long for a stretch of 16S alone and the intergenic reading is the more likely
     one, but it is Cacciotto''s description of someone else''s assay, so it is flagged rather than written in. Settle it from
-    Feldman''s own text when that paper is in hand.'
-needs_review:
-- flag: target_annotation_uncertain
-  note: the target may be the 16S-23S intergenic spacer rather than 16S
+    Feldman''s own text when that paper is in hand. target_annotation_uncertain CLOSED 2026-10-24, read out of the paper. The flag asked whether the product is 16S or the 16S-23S intergenic spacer. Feldman et al. 2006 settle it twice over: the primers are given with Escherichia coli coordinates, sense at 449 (CTGCTGTTATACAGAAAGAAAAG) and antisense at 1466 (GACTTTGGGCATTACCGGC), and both sit inside the ~1,542 bp 16S gene, nowhere near the 16S-23S spacer; and the text says "The amplified products (993 nucleotides)" and later "993 bp of the 16S rRNA region from the novel box turtle Mycoplasma sp". The registry''s measured 994 bp sits 1 bp from the published 993, which is agreement, not the disagreement the flag implied. The doubt came from Cacciotto et al. describing a "16S-23S intergenic, 996 bp" assay, which is a statement about someone else''s assay and not about this one.'
+needs_review: null

@@ -168,6 +168,31 @@ for both. Below 40, S5 is not fitted and nothing fitted on 11 is defended.
 loses a catch on the development set, or its fitted identity coefficients contradict
 Kwok's order (the M2 failure, which is the test that would have caught it).
 
+**New evidence found 2026-10-24, and it is the right shape for this gate.** The scope
+audit turned up three lab-confirmed POSITIVES that the current model scores `fail` on a
+single 3'-terminal mismatch, all in one assay and all from the design paper's own panel:
+`LEPTOSPIRA_lipL32_Ahmed_2020` against *L. kmetyi* (0 detected of 13 records),
+*L. adleri* (0 of 4) and *L. gomenensis* (0 of 8). Ahmed et al. 2020 Table 1 marks all
+three "Pathogenic" and scores each `+` in the lab. Every failing record carries the
+reverse primer mismatched at position 1 from its 3' terminus and nothing else material,
+while *L. interrogans* (578 records), *L. borgpetersenii* (209), *L. santarosai* (59),
+*L. weilii* (47), *L. noguchii* (36) and *L. kirschneri* (35) match at penalty 0 with no
+mismatch anywhere. *L. wolffii* is a built-in control: the paper scores it `-` and the
+screen fails it too.
+
+Three cautions on using it. It is **one** assay and one paper, so it is three correlated
+points, not three independent ones. It is the assay's **own** panel, so it cannot enter
+`docs/validation-cases.tsv`, which excludes exactly that — but the bar for the S5 bench
+corpus is different from the bar for a tier-2 validation case, and this clears the former.
+And it is a *positive* the model calls negative, i.e. a false negative of the scoring rule,
+whereas the 40-case gate above counts within-family **negatives**; it belongs on the other
+side of the ledger and does not count toward that 40. Its real use is as a direct probe of
+`terminal_mismatch_fails` and of `by_chemistry`: this is a hydrolysis-probe assay, where a
+terminal primer mismatch is far more tolerable than the shipped rule assumes. The
+CALICIVIRUS Helicase entry's 3'-terminal G/C mismatch is the same mechanism on a
+conventional PCR, which makes the pair of them a two-chemistry test of the same knob.
+Evidence: `docs/2026-10-24-scope-audit.md`, item 10.
+
 ## Part 1b: C1 is a separate axis, and it is free
 
 C1 (Beta posterior on the detection proportion, `P(θ < 0.90 | data)` as the flag rule,
