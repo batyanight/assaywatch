@@ -422,10 +422,11 @@ and does not go stale with every new deposit. Its provenance could not be traced
 
 ## What to do, in order
 
-Ranked by evidence strength times size of the error. **Items 1, 3 and 6 were applied
-on 2026-10-24** (commit `a784fed`, branch `registry/2026-10-24-scope-fixes`); see
-"What applying 1, 3 and 6 actually did" at the end of this document. Items 2, 4, 5
-and 7 to 10 were not applied and still wait on a maintainer.
+Ranked by evidence strength times size of the error. **Items 1, 3, 6, 4 and 5 were all
+applied on 2026-10-24**, branch `registry/2026-10-24-scope-fixes`; see the two closing
+sections of this document. Item 4 was applied *differently from how it is proposed below,
+because the proposal was wrong* — read "Item 4 as proposed was wrong" before acting on
+anything else here. Items 2 and 7 to 10 still wait on a maintainer.
 
 1. **Caliciviridae, two entries** — `scope_taxids: [3433198]`. 85,628 records against 129
    genuinely in scope, and it explains an existing "0 of 30" artefact. Biggest error,
@@ -468,9 +469,31 @@ host-clade mapping properly is its own task.
 
 Applied 2026-10-24 in commit `a784fed`: eleven entries, no oligo and no threshold
 touched, the only mechanism used being `target.scope_taxids`. Gate green (1552 passed,
-200 valid, ruff clean, 200 citations checked). `snakemake -n` afterwards plans 9 jobs and
-**zero `screen_archive`**, confirming that a `target` edit does not enter the screen
-signature, so none of this cost a rescreen.
+200 valid, ruff clean, 200 citations checked).
+
+**A claim made here earlier was wrong, and commit `a784fed`'s message repeats it.** It said
+`snakemake -n` plans 9 jobs and zero `screen_archive`, "confirming that a `target` edit does
+not enter the screen signature, so none of this cost a rescreen". That conclusion does not
+follow from that observation. `screen_signature` (`Snakefile:139`) hashes **every assay
+YAML's bytes**, so any registry edit — including a curator-note-only edit — invalidates that
+group's screens. The dry run showed no `screen_archive` jobs only because they sit
+downstream of the `retrieve` **checkpoint**, and Snakemake cannot enumerate post-checkpoint
+jobs in a dry run; it says so in its own output. Measured properly by recomputing
+`screen_signature` against the stored `.sig` files: **all 10 affected archive groups are
+stale and will rescreen** on the next run, 209/qea281b18a4, 10508/all, 11158/q049d549652,
+11974/all, 11974/qd788c82953, 12059/qbb80900029, 151341/all, 178830/all, 186458/all and the
+new 293274/all.
+
+What that rescreen will and will not change was then verified by running it, and the
+Snakefile's own comment on the rule predicts the answer: "a module that COULD change a call
+must invalidate, whether or not this one does." Rescreening 178830/all (the three Borna
+entries, whose edits are `scope_taxids` plus notes) reproduces the stored screen
+**byte for byte**, because `screen.py` never reads `scope_taxids` — scoping is a report-time
+filter in `drift.assess`. Rescreening 209/qea281b18a4 after the Helicobacter amplicon
+correction changes 673 of 5,964 rows, and **only** in the `pair_evalue` and `reason` columns:
+no call, penalty, coordinate or exclusion moves, because an E-value is computed against the
+amplicon's search space and a 3 bp change nudges the number without changing any verdict.
+So the forced rescreen is real work with no expected effect on any status.
 
 Measured by re-rendering `results/2026-10-24/calls.tsv.gz` against the new registry, so
 the registry is the only thing that differs between the two reports. Two assays change
@@ -521,3 +544,98 @@ report rows come out byte-identical and no printed share moves at all. These enu
 lists are near-complete, which is why they exclude so little. Worth knowing before anyone
 spends effort on the remaining enumerated-list items: what item 6 bought is comparability
 between rounds of one protocol, not coverage.
+
+
+## Item 4 as proposed was wrong, and what was done instead
+
+**Do not apply item 4 as it is written above.** It proposes `taxid: 290433` for
+`Helicobacter_16S_Conley_2021`. 290433 was verified live and it is **not** a GCBI1 node: its
+scientific name is *"uncultured Helicobacteraceae bacterium"*, rank species, lineage
+Campylobacterales > Helicobacteraceae > **environmental samples**. Its records are unrelated
+environmental and gut-survey clones — CT_027, VB_018, MS-A162, SRNO176B04c, Flu2_38,
+F2M5Y2A01AY14G and so on. Retargeting this entry at 290433 would swap a genus denominator
+for a grab-bag denominator: still not the target organism, and less interpretable rather
+than more. The audit reached the proposal from the *lineage* of the authors' reference
+record without checking what else lives at that node.
+
+What is true, and is the useful half, is that the reference record exists and the entry
+cannot reach it. Conley et al. write: "Longer DNA sequence of the bacterial 16S rRNA gene was
+obtained from the initial case (Studbook No. 2595) and was used as the reference sequence.
+This representative sequence was deposited in GenBank under accession number MG910456."
+That record is `MG910456.1`, 1,422 bp, titled "Uncultured Helicobacteraceae bacterium clone
+**GCBI1** (2595) 16S ribosomal RNA gene" — GCBI1 being the paper's own provisional name for
+the organism. It carries taxid 290433, so `txid209[Organism:exp]` provably cannot retrieve
+it.
+
+**The assay was then measured against it, and it works.** On MG910456.1 all three oligos are
+exact and correctly oriented: `Helico-New-F` at 99..130, the probe at 150..173 and
+`Helico-New-R` as its reverse complement at 267..289, with the probe inside the product. So
+this entry's standing 0.0% is definitively scope, and definitively not an oligo problem.
+
+Two things followed from that measurement:
+
+- **`amplicon_bp` corrected 194 -> 191.** The paper states the primers "amplified a 194bp
+  region"; on the paper's own reference the product is 191 bp. The measurement wins and the
+  difference is disclosed, per `config.yaml`'s `amplicon:` section and CLAUDE.md.
+  `amplicon_disagrees_with_paper` is now set. This also revises an earlier guess in the
+  entry's own note, that "194 minus the 14 bp insertion is 180, which is exactly the second
+  peak": the true product is 191, so the insertion-free length is 177, and
+  `check_amplicons.py`'s genus-wide peaks at 178 and 180 bp are non-target *Helicobacter*
+  rather than an arithmetic match to anything.
+- **No `scope_taxids` was set, because none can be.** There is no NCBI taxon for
+  *Helicobacter* sp. GCBI1, so no list can express this assay's scope. The entry instead
+  carries `retrieval_scope_incomplete` (its own reference is provably unreachable) and
+  `scope_narrower_than_taxid`, and its `thin_evidence` note was corrected: it said the target
+  "has no GenBank records", when it has exactly one, filed outside the retrieval taxon.
+
+The honest position, now recorded in the entry: the assay is verified against its reference,
+its target has one record that its own retrieval cannot reach, and its detected share against
+genus *Helicobacter* is not a coverage figure and must not be read as one. A real fix is a
+maintainer decision outside this entry — either an accession-level scope mechanism, which the
+schema does not have, or broadening `target.taxid` to Helicobacteraceae so the reference is at
+least screened, which makes the reference reachable but the denominator worse. Neither was
+done unilaterally. **This entry should be struck from the scope backlog: it is not a scope
+bug that scoping can fix.**
+
+Also recorded, not changed: the stored oligo names are `Helico-New-F`, `Helico-New-R` and
+`PROBE1`, while the paper prints `GCBI-Helico-F` and `GCBI-Helico-R` and leaves the probe
+unnamed. Every sequence verifies exact, so this is a naming difference only. Renaming is
+cheap but oligo names can be referenced by test fixtures, so it is left for a maintainer.
+
+## Item 5, the three Sigrist entries, and it is the largest effect in the audit
+
+Applied as proposed, and the paper settles the mapping in its own words rather than by
+inference. Sigrist et al. 2021 section 2.2: three probes detect "either psittacine
+bornaviruses of the species Psittaciform 1 orthobornavirus (PaBV-1/-2/-4/and -7; probe
+BornaP_Fam), passerine bornaviruses (CnBV-1/-2/-3, and EsBV-1; probe BornaC_Aby), or aquatic
+bird bornaviruses (ABBV-1 and -2; probe BornaA_A647N)". Section 3.2 adds the decisive
+exclusion: "BoDV-1 and BoDV-2 were not detected when using any of the three probes."
+
+The genus species list was enumerated (`txid186458[Subtree] AND species[Rank]`) rather than
+assumed, which raised and then settled one real doubt: the genus has **two** psittaciform
+species, `alphapsittaciforme` 1548713 and `betapsittaciforme` 1884878, and the audit proposed
+only the first. The paper claims only Psittaciform 1, naming PaBV-1/-2/-4/-7; PaBV-5 and -6
+constitute Psittaciform 2 and are neither designed for nor tested, and Figure 2's caption
+notes PaBV-6 and PaBV-8 are not even in the design alignment "since no X gene sequences are
+available for these viruses". So `[1548713]` is right, and scoping to what the paper claims
+rather than to what the host order suggests keeps any betapsittaciforme detection visible as
+cross-reactivity instead of silently counting it as success.
+
+Applied: psittacine `[1548713]`, passerine `[1548720, 1548721]` (CnBV is serini, EsBV-1 is
+estrildidae, so the four targets straddle two species), aquatic `[1548722]`.
+
+| entry | before | after |
+|---|---|---|
+| psittacine | low coverage, 23.1% (11%-42%) on 26 | **stable, 100.0% (90%-100%) on 35**, baseline 98% (59) |
+| aquatic | low coverage, **0.0%** (0%-13%) on 26 | **stable, 100.0% (82%-100%) on 18**, baseline 100% (21) |
+| passerine | low coverage, 3.8% (0.7%-19%) on 26 | **insufficient data**, 4 evaluable records, baseline 91% (23) |
+
+The aquatic entry is the clearest case in the whole audit: it read 0.0% detected and now
+reads 100.0%, because every record it was being judged on belonged to one of the other two
+probes' host groups or to the mammalian BoDV lineage. The passerine entry lands on
+"insufficient data" at 4 records, which is the outcome predicted for it and the honest one:
+its own note had already said "a proper retrieval group is needed before any detected share
+from this entry means anything". Its `cross_reactive` flag is not weakened by scoping but
+served by it — the paper reports that probe at 90% identity to BoDV-1, and BoDV records now
+sit outside the denominator while still being screened, which is exactly the arrangement that
+keeps the cross-reactivity visible.

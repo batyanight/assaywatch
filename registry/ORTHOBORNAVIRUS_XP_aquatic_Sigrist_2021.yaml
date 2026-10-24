@@ -6,6 +6,7 @@ target:
   genome_type: ssRNA-
   taxon_name: Orthobornavirus
   query: null
+  scope_taxids: [1548722]
 chemistry: hydrolysis_probe
 oligos:
   forward:
@@ -50,7 +51,7 @@ source:
     the previously published comparison assays listed in supplementary Table S4, which overlaps the same site. So the
     verifier was scoring this registry against a third party''s primer. Nothing is in doubt. One chemistry detail is worth a second eye:
     the reporter is stored as "Alexa 647N" while Figure 2C labels the probe A647N, which is the conventional short form
-    of Atto 647N - Alexa Fluor dyes carry no N suffix. The dye name is not screened and has not been changed here.'
+    of Atto 647N - Alexa Fluor dyes carry no N suffix. The dye name is not screened and has not been changed here. SCOPED 2026-10-24. target.taxid 186458 is the whole genus Orthobornavirus, which holds 17 species including the mammalian BoDV lineage, five snake bornaviruses, a squirrel, a shrew and a skink virus. The paper''s triplex splits into these three entries by probe, one per host group, so each entry was being scored against the other two''s targets plus everything above. The mapping is taken from the paper''s own words rather than inferred. Sigrist et al. 2021 section 2.2: three probes were designed to detect "either psittacine bornaviruses of the species Psittaciform 1 orthobornavirus (PaBV-1/-2/-4/and -7; probe BornaP_Fam), passerine bornaviruses (CnBV-1/-2/-3, and EsBV-1; probe BornaC_Aby), or aquatic bird bornaviruses (ABBV-1 and -2; probe BornaA_A647N)". Section 3.2 confirms it by experiment and adds the decisive exclusion: "BoDV-1 and BoDV-2 were not detected when using any of the three probes". The paper''s pre-2023 ICTV species names map onto current NCBI nodes as Psittaciform 1 -> Orthobornavirus alphapsittaciforme 1548713, Psittaciform 2 -> betapsittaciforme 1884878, Passeriform 1 -> serini 1548720, Passeriform 2 -> estrildidae 1548721, Waterbird 1 -> avisaquaticae 1548722. All verified live with efetch -db taxonomy on 2026-10-24, and the genus species list was enumerated with txid186458[Subtree] AND species[Rank] rather than assumed. THIS ENTRY: BornaA_A647N, scope_taxids [1548722] (avisaquaticae), which covers both ABBV-1 and ABBV-2. This is the entry whose curator note above already said "a proper retrieval group is needed before any detected share from this entry means anything"; this is that fix, applied at the denominator rather than at retrieval, so out-of-scope records stay screened and visible. Note the paper measured sensitivity on ABBV-1 only; ABBV-2 is claimed by design, not by test.'
 needs_review:
 - flag: oligos_read_from_figure
   note: the reverse primer is the reverse complement of a sequence read off a figure

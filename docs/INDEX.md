@@ -54,7 +54,7 @@ Read these before trusting a status.
 | [`2026-10-24-genbank-ceiling.md`](2026-10-24-genbank-ceiling.md) | the GenBank-availability ceiling is 11, not 9: Lotta's fusiform-lineage mitogenome was public from 2014 and the screen calls it `fail` |
 | [`2026-10-24-archive-anchor.md`](2026-10-24-archive-anchor.md) | the lone-anchor test at archive scale: BH over an assay's no_amplicon rows, Bd loses 50 chance anchors and SIV Keele loses none, ships off |
 | [`2026-10-24-scoring-strategy-test-plan.md`](2026-10-24-scoring-strategy-test-plan.md) | plan: a replay harness (footprint columns, `rescore.py`, frozen sets) and a pre-registered ladder of scoring candidates ending in the Bayesian C2 model |
-| [`2026-10-24-scope-audit.md`](2026-10-24-scope-audit.md) | which entries are judged against organisms they were never designed for: 146 broader than species, `scope_taxids` already exists and is applied unevenly, and Helicobacter cannot reach its own reference sequence; items 1, 3 and 6 applied in `a784fed` (Borna 20.9% declining -> 97.6% stable), the rest still open |
+| [`2026-10-24-scope-audit.md`](2026-10-24-scope-audit.md) | which entries are judged against organisms they were never designed for: 146 broader than species, `scope_taxids` already exists and is applied unevenly, and Helicobacter cannot reach its own reference sequence; items 1, 3, 6, 4 and 5 applied (Borna 20.9% declining -> 97.6% stable; Sigrist aquatic 0.0% -> 100.0%), item 4's proposal was wrong and the doc says why, items 2 and 7-10 still open |
 
 ## Design documents, agreed before the code
 

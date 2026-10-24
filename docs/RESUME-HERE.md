@@ -1,12 +1,12 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
-## 2026-10-24 daytime: the scope audit, and the three items of it that were applied
+## 2026-10-24 daytime: the scope audit, and the five items of it that were applied
 
 Branch `registry/2026-10-24-scope-fixes`, cut from
 `docs/2026-10-23-elsevier-and-oligo-flags`. The audit itself is read-only and lives in
 `docs/2026-10-24-scope-audit.md`; items **1, 3 and 6** of its ranked list were then applied
-in commit `a784fed`, eleven entries, `target.scope_taxids` only, no oligo and no threshold
-touched. Items 2, 4, 5 and 7 to 10 still wait on a maintainer.
+in commits `a784fed` (items 1, 3, 6) and a second commit (items 4, 5): fifteen entries, no
+oligo and no threshold touched. Items 2 and 7 to 10 still wait on a maintainer.
 
 **The audit's finding.** 146 of 200 entries are scoped broader than species, but most of
 that breadth is correct by design — a pan-family consensus PCR should carry a family
@@ -38,6 +38,54 @@ not in the screen signature, so none of this cost a rescreen.
 - Item 6 (the four self-disagreeing sibling groups) is now consistent, zero groups
   disagree, but it bought comparability and not coverage: the copied lists exclude 159, 73,
   40 and 5 records, three of five report rows are byte-identical and no printed share moved.
+
+**Items 4 and 5, added later the same day.**
+
+*Item 5, the three Sigrist entries, is the largest effect in the audit.* The paper's own
+words settle the probe-to-species mapping (section 2.2 names the targets per probe; section
+3.2 adds "BoDV-1 and BoDV-2 were not detected when using any of the three probes"), so:
+psittacine `[1548713]`, passerine `[1548720, 1548721]`, aquatic `[1548722]`.
+
+    psittacine   low coverage, 23.1% on 26  ->  stable, 100.0% on 35,  baseline 98% (59)
+    aquatic      low coverage,  0.0% on 26  ->  stable, 100.0% on 18,  baseline 100% (21)
+    passerine    low coverage,  3.8% on 26  ->  insufficient data, 4 records, baseline 91% (23)
+
+The aquatic entry went from detecting nothing to detecting everything: every record it was
+judged on belonged to another probe's host group or to mammalian BoDV. One doubt was raised
+and settled by enumerating the genus rather than assuming it — there are TWO psittaciform
+species, and the audit proposed only `alphapsittaciforme`. That is correct, because the paper
+claims only Psittaciform 1 (PaBV-1/-2/-4/-7); PaBV-5/-6 are Psittaciform 2 and are neither
+designed for nor tested.
+
+*Item 4 as the audit proposed it was WRONG, and the audit doc now says so at length.* It
+proposed `taxid: 290433` for the Helicobacter entry. 290433 is not a GCBI1 node: it is
+"uncultured Helicobacteraceae bacterium" under Helicobacteraceae > environmental samples, a
+catch-all holding unrelated environmental and gut-survey clones. Pointing the entry there
+would swap a genus denominator for a grab-bag one. What IS true: the authors' reference
+MG910456 exists ("deposited in GenBank under accession number MG910456", titled "clone
+GCBI1"), carries taxid 290433, and so is provably unreachable from `txid209[Organism:exp]`.
+Measured on it, all three oligos are exact and oriented and the probe sits inside the product,
+so **the assay is verified against its own reference and its 0.0% is definitively scope**.
+Consequences: `amplicon_bp` corrected 194 -> 191 (measured on MG910456.1 against the paper's
+stated 194, measurement wins, `amplicon_disagrees_with_paper` set), `retrieval_scope_incomplete`
+and `scope_narrower_than_taxid` added, and the `thin_evidence` note corrected — it said the
+target has no GenBank records, when it has exactly one, filed outside the retrieval taxon.
+**No `scope_taxids` was set because none can be**: there is no NCBI taxon for Helicobacter sp.
+GCBI1. Strike this entry from the scope backlog; it is not a scope bug that scoping can fix.
+
+**A WRONG CLAIM FROM EARLIER TODAY, CORRECTED.** Commit `a784fed`'s message and the first
+version of the audit's closing section both say `snakemake -n` planned zero `screen_archive`
+jobs, "confirming that a `target` edit does not enter the screen signature, so none of this
+cost a rescreen". That does not follow. `screen_signature` (`Snakefile:139`) hashes every
+assay YAML's **bytes**, so any registry edit — a curator note alone will do it — invalidates
+that group's screens; the dry run hid them only because they sit downstream of the `retrieve`
+**checkpoint**. Recomputing the signatures against the stored `.sig` files: **all 10 affected
+groups are stale and will rescreen.** What that rescreen changes was then verified by running
+it, and the Snakefile's own comment predicts it: rescreening 178830/all (Borna, `scope_taxids`
+plus notes) is **byte-identical**, because `screen.py` never reads `scope_taxids` — scoping is
+a report-time filter in `drift.assess`; rescreening 209/qea281b18a4 after the amplicon
+correction changes 673 of 5,964 rows and **only** in `pair_evalue` and `reason`, with no call,
+penalty, coordinate or exclusion moving. So it is real work with no expected status effect.
 
 **Still unretrieved.** `Tortoise_intranuclear_coccidia_18SrDNA` went from
 "not searched (no taxid)" to searchable with `taxid: 293274` and a measured
