@@ -69,6 +69,17 @@ statuses moved and 27 assays left the report - that is the accumulated effect of
 2026-10-23 (the verified-DOI gate moving 10 entries to `pending/`, the oligo
 adjudication, patent exclusion), not of tonight's mechanism, which changed no label.
 
+Two bookkeeping consequences of that run, so neither is rediscovered as a fault. Adding
+`clustermaps.py` put it in the report rule's trigger closure, so the four report-stage
+rules correctly re-ran afterwards (4m 05s, exit 0); the re-rendered `report.md` differs
+from the first render by **17 lines, all of them the `## Run timing` footer**, which now
+says no screening benchmarks were written in this run rather than listing the big run's
+slowest groups. That is timekeeping item 7 working as specified - only benchmarks inside
+the run's own window are counted - and it means **`results/2026-10-24/run-timing.json`
+now records the 4-minute re-render, not the 35m 50s run**. The run's real numbers are in
+`docs/2026-10-24-archive-anchor.md` and in `e134e92`'s message. No status, interval or
+verdict differs between the two renders.
+
 **7. The held-out set went from empty to 31 rows**, and missed its drift target.
 `docs/2026-10-24-heldout-candidates.md`. **Not scored; reading it is what spends it.**
 
