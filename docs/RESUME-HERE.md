@@ -40,7 +40,65 @@ table with Ns where the layout broke. The old reader admitted them; the new one 
 not. Written down per the instruction, not fixed; the Deckers oligos themselves were
 verified by hand on 2026-10-18 (RESUME item 4 below).
 
-(Items 3, 6 and 7 of the overnight plan continue below this section as they land.)
+**5. The archive-scale anchor test is built, measured and ships OFF.**
+`docs/2026-10-24-archive-anchor.md`. Wave 2's named next item. Every `no_amplicon` row
+now carries `anchor_evalue`; `calls.apply_anchor_fdr` runs Benjamini-Hochberg over each
+assay's `no_amplicon` rows when `drift.anchor_fdr` is set and relabels a surviving-free
+anchor `chance_anchor`. BH rather than E x record count, because the product cannot
+tell SIV Keele's thousands of real two-mismatch anchors from Bd's 55 chance ones. At
+q = 0.05 Bd loses 50 of 63 `diverged` and Orthoreovirus 228 of 229, while Monkeypox,
+Leucocytozoon, Pan-coccidia and SIV Keele lose nothing.
+
+**Tier-2 does not move one row under it alone.** What it repairs is
+`count_diverged_as_fail`: that switch by itself turns `CMV_UL55_gB_Prepens_2007_round2`
+and `RANAVIRUS_..._MCP_Pallister` @2012 `declining` (wave 2's two false alarms, exactly),
+and the anchor test at q = 0.01 restores the matrix row for row with `diverged` still
+counted as failure. **The pair `count_diverged_as_fail: true` + `anchor_fdr: 0.01` is
+what this measurement recommends, and it is a denominator change, so it waits for you.**
+Its own limit is in the doc: BH is relative, so an archive whose chance anchors are the
+majority is untouched (2,113 Enterovirus rows move not at all).
+
+**6. The full run.** `results/2026-10-24/`, **380 of 380 steps, 35m 50s, exit 0**;
+retrieval fetched 3,061 new records so there are 392 screens against 356. The new column
+forced the rescreen (`score.py` is in the screen closure). **Verified byte-identical**:
+with `anchor_evalue` removed, all 335 rescreened screens hash to exactly what they were
+before, and one archive was rescreened with the pre-change code exported from `e134e92`
+and diffed column by column, 54 of 54 rows identical. `chance_anchor` appears zero times
+in the report, because the knob ships null. Against `results/baseline-2026-10-22`, 5
+statuses moved and 27 assays left the report - that is the accumulated effect of
+2026-10-23 (the verified-DOI gate moving 10 entries to `pending/`, the oligo
+adjudication, patent exclusion), not of tonight's mechanism, which changed no label.
+
+**7. The held-out set went from empty to 31 rows**, and missed its drift target.
+`docs/2026-10-24-heldout-candidates.md`. **Not scored; reading it is what spends it.**
+
+**8. `subcluster.py` has a consumer at last, and it is inert for a measured reason.**
+`assaywatch/clustermaps.py` builds the `cluster` resolver's map from the archives for
+exactly the assays whose `lineage.sublineage` chain names it; with the shipped
+`sublineage: {}` no archive is opened. Measured on Bd, the motivating case: its 175
+evaluable records cluster into **58 + 31 records above the floor and 86 unresolved** in
+159 s, so Bd is not unclusterable, which its own docstring had left open. But it cannot
+change Bd's verdict, and that is arithmetic rather than a threshold: 174 of those 175
+records `detect`, so no partition respecting `min_records_per_lineage: 30` can fall
+below 90%. Bd's real failure sits in its **8,857 `no_site`** records, outside the
+evaluable set, exactly as `docs/2026-10-23-wave3-bd-miss.md` concluded. `group_slug`
+moved to `assaywatch/groups.py` on the way, because importing `retrieve.py` at report
+time pulled the NCBI transport into the report rule's trigger closure - caught by
+`tests/test_triggers.py`'s unrelated-module control.
+
+**Gate at the end of the night: 1,550 tests, validator 200/200, `check_citations` 200
+checked 0 problems, ruff clean.**
+
+### Still yours to decide (nothing below was touched)
+
+- `active`: `scripts/promote.py --tier clean --apply` is the standing recommendation.
+- `count_diverged_as_fail: true` + `drift.anchor_fdr: 0.01`, per item 5.
+- The calicivirus re-cite to Neill & Seal 1995; the three Sigrist oligos; M1.
+- The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries); `209/all`
+  Helicobacter, still never screened.
+- Four held-out rows rest on an oligo that differs from the registry's by one base or a
+  5' trim (see the candidates doc); one of those, the pan-coronavirus Watanabe reverse,
+  is a transcription error on one side or the other and worth settling.
 
 ### The old section 0, kept for the record
 

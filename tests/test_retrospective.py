@@ -522,16 +522,61 @@ def test_precision_is_reported_beside_sensitivity():
     assert "95% CI" in out, "a proportion on ~7 independent events must carry its interval"
 
 
-def test_the_holdout_file_is_empty_and_says_why():
+def test_nothing_reads_the_holdout_file_by_default():
     """A held-out set is spent the first time a threshold decision reads it, so
-    the rule has to be written where the file is, not only in a doc."""
+    the rule has to be written where the file is, not only in a doc.
+
+    This replaced an assertion that the file was EMPTY, which was the right
+    tripwire only while it was empty: the 2026-10-24 sweep populated it
+    (docs/2026-10-24-heldout-candidates.md), which is what wave 4 asked for. What
+    has to hold now is not emptiness but that no default code path consults it,
+    so the two scripts that score cases are pinned to a non-held-out default.
+    """
     p = ROOT / "docs" / "validation-cases-heldout.tsv"
     text = p.read_text()
-    rows = [ln for ln in text.splitlines() if ln and not ln.startswith("#")]
-    assert rows == ["assay_id\tas_of\texpect\tmechanism\tsource"], "held-out set must stay empty until spent"
     assert "no threshold decision may consult this file" in text
     dev = (ROOT / "docs" / "validation-cases.tsv").read_text()
     assert "THIS IS THE DEVELOPMENT SET" in dev, "the development set must say so"
+
+    # retrospective.py scores nothing unless --cases is given; holdout.py defaults
+    # to the development set. Neither may name the held-out file as a default.
+    for script in ("retrospective.py", "holdout.py"):
+        src = (ROOT / "scripts" / script).read_text()
+        assert "validation-cases-heldout" not in src, (
+            f"{script} names the held-out file; it must be reachable only by an explicit --cases"
+        )
+    import re
+
+    retro = (ROOT / "scripts" / "retrospective.py").read_text()
+    assert re.search(r'"--cases",\s*type=Path,\s*default=None', retro), (
+        "retrospective.py --cases must default to None, so a bare run scores no case file"
+    )
+
+
+def test_the_holdout_rows_have_the_development_sets_shape():
+    """Rows are only useful if retrospective.py can read them unchanged, and only
+    honest if every id is a real assay and every row cites a source."""
+    import csv
+
+    def body(path):
+        return [ln for ln in path.read_text().splitlines() if ln.strip() and not ln.startswith("#")]
+
+    held = ROOT / "docs" / "validation-cases-heldout.tsv"
+    dev = ROOT / "docs" / "validation-cases.tsv"
+    hrows = list(csv.DictReader(body(held), delimiter="\t"))
+    assert body(held)[0] == body(dev)[0], "held-out and development sets must share one header"
+    if not hrows:  # empty is a legitimate state; the rest only applies to rows
+        return
+    ids = {q.stem for q in (ROOT / "registry").glob("*.yaml")}
+    for r in hrows:
+        assert r["assay_id"] in ids, f"{r['assay_id']} is not a live registry entry"
+        assert r["expect"] in {"works", "fails", "partial"}, r["expect"]
+        assert r["mechanism"] in {"", "drift", "coverage"}, r["mechanism"]
+        assert "10." in (r["source"] or ""), f"{r['assay_id']} cites no DOI"
+    # A held-out case must not rest on a paper the development set already used.
+    dev_src = dev.read_text()
+    shared = [r["assay_id"] for r in hrows if (r["source"].split()[0]) in dev_src]
+    assert not shared, f"held-out rows citing a development-set DOI: {sorted(set(shared))}"
 
 
 def test_holdout_objective_ignores_weaker_and_undecided():
