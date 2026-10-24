@@ -11,7 +11,35 @@ proposals were wrong or redundant on contact with the data.** Applied as propose
 proposal was wrong: 4. Struck, do not apply: 8, 9, 10. **Nothing in the ranked ten is
 still open.** What remains is a separate finding from the audit body, not one of the ten:
 the three entries carrying `scope_narrower_than_taxid` with no mechanism behind it --
-AVIPOXVIRUS Baek (1,735 records), CHLAMYDIA Messmer (1,668), BATRAVIRUS european (8).
+AVIPOXVIRUS Baek, CHLAMYDIA Messmer, BATRAVIRUS european. **Those three have now been worked
+through as well, and only one was a scope bug.**
+
+- **BATRAVIRUS european: SCOPED** `[1987509, 2282206]` = RaHV-3 and BfHV-1. The paper's
+  EUROPEAN protocol targets exactly those two while the taxid is the whole genus including the
+  North American RaHV-1/RaHV-2, and the measurement matches the protocol: detections at
+  Bufonid herpesvirus 1 (2/2) and Ranid herpesvirus 3 (2/2), RaHV-2 at 0 of 2. Baseline 67%
+  (6) -> 100% (4). Only 4 records, so the status stays "no recent data" and "cannot assess" is
+  still the honest reading -- but the denominator is the right four. The sibling pan protocol
+  is deliberately left unscoped.
+- **AVIPOXVIRUS Baek: NOT SCOPEABLE.** Baek describes a "hummingbird-specific" assay, but
+  there is no NCBI node for the hummingbird clade -- all three detections sit in generic or
+  numbered taxa (*Avipoxvirus sp.* 1928336, which holds 114 assessable of which 1 detects;
+  *Avipoxvirus 1130*; *Avipoxvirus 31239*). 3 of 758 assessable, 0.4%, with Fowlpox alone
+  contributing 379 assessable and 0 detections. Same situation as Helicobacter: needs a
+  mechanism the schema does not have, and the flag is the disclosure. The 0.4% is not an assay
+  problem.
+- **CHLAMYDIA Messmer: NOT A SCOPE BUG, and scoping would hide the finding.** Messmer calls
+  these the "genus-specific first-step primers", so the paper's claim IS the genus. Measured,
+  the assay reaches `reduced` on *C. psittaci* (85/89), *C. abortus* (31/34), *C. pneumoniae*
+  (9/9) and detects *C. crocodili* (18/18), and completely fails *C. trachomatis* (0/301),
+  *C. pecorum* (0/17), *C. muridarum* (0/51), *C. felis* (0/19) and *C. avium* (0/10).
+  **Trachomatis and pecorum were two of the four species the 1997 paper claimed**, so this is
+  a genus assay failing half its own stated range; the rest were split out of the genus after
+  1997. The entry's existing five-mismatch claim is confirmed exactly (forward mismatches at
+  13,12,8,7,6 in all 301 trachomatis records). And separately: **nothing reaches `detect`** --
+  every working species is `reduced` at penalty 3, because the reverse primer mismatches at
+  position 2 from its 3' terminus in every *Chlamydia* record. Same shape as Leptospira, and
+  more scoring evidence rather than scope work.
 
 No oligo and no threshold was touched anywhere. Cumulative report effect, re-rendered from
 one calls table so only the registry differs — **7 assays change status**:
@@ -269,7 +297,9 @@ checked 0 problems, ruff clean.**
 
 - `active`: `scripts/promote.py --tier clean --apply` is the standing recommendation.
 - `count_diverged_as_fail: true` + `drift.anchor_fdr: 0.01`, per item 5.
-- The calicivirus re-cite to Neill & Seal 1995; the three Sigrist oligos; M1.
+- The calicivirus re-cite to Neill & Seal 1995; M1. (The three Sigrist oligos are CLOSED as
+  of 2026-10-24 — both the `BornaPCA6`/`PaBVcon_1401+` and `A647N`/`A674N` questions are
+  answered and the registry was right; see the 2026-10-24 daytime section.)
 - The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries); `209/all`
   Helicobacter, still never screened.
 - Four held-out rows rest on an oligo that differs from the registry's by one base or a
@@ -652,10 +682,19 @@ Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
   are paywalled, which is why the open-access routes never found them. **13 rows left
   `docs/materials-needed.tsv`.** Entamoeba's `design_year` stays null on purpose - the assay
   predates the 2021 paper (it is in the 2018 spreadsheet), so the publication year is not it.
-- **Open, wants the maintainer**: the three `ORTHOBORNAVIRUS_XP_*` Sigrist entries. Their
-  supplement IS now read and DOES carry a primer table (Table S4), and none of their oligos is in
-  it; `BornaPCA6` is 1 edit from the printed `PaBVcon_1401+`, and Table S5 prints `BornaA_A674N`
-  where the registry has `BornaA_A647N`. Also open: the Enterovirus 5'UTR-VP4/VP2 pair, where
+- **CLOSED 2026-10-24** (was: open, wants the maintainer): the three `ORTHOBORNAVIRUS_XP_*`
+  Sigrist entries. Both halves of the question are answered and the registry was right both
+  times. `BornaPCA6` being 1 edit from the printed `PaBVcon_1401+` was resolved on 2026-10-23
+  and is recorded in the entries: `PaBVcon_1401+` is one of the previously published
+  **comparison** assays listed in Table S4, overlapping the same site, so the verifier was
+  scoring this registry against a third party's primer. And the `A674N`/`A647N` clash was
+  settled on 2026-10-24 by counting both PDFs: the paper writes **A647N** where the probe is
+  defined and described (section 2.2, the Figure 3 caption, Figure 2C) and **A674N** in exactly
+  two places, both table column headers (Table 2 and Table S5). Four in running text against
+  two in headers, and 674N is not a real dye, so it is a digit transposition the paper makes
+  twice. The stored `BornaA_A647N` stands. The reporter field was corrected from "Alexa 647N",
+  which the paper never writes, to the printed `A647N`, with `chemistry_detail_missing` noting
+  that the manufacturer is unstated. Still open: the Enterovirus 5'UTR-VP4/VP2 pair, where
   Coiras 2004 (10.1002/jmv.20008, now held) matches `EVRV1` exactly but disagrees on the other
   three oligos and on both product sizes - a modified descendant, so NOT entered.
 - `papers_index --check` now prints `3 PDF(s) ... match no DOI` and exits 0: Coiras 2004,

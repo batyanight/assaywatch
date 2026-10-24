@@ -6,6 +6,7 @@ target:
   genome_type: dsDNA
   taxon_name: Batravirus (formerly Batrachovirus)
   query: terminase[All Fields] OR "complete genome"[Title]
+  scope_taxids: [1987509, 2282206]
 chemistry: conventional
 oligos:
   forward:
@@ -62,6 +63,10 @@ source:
     paper''s Table 3 for this pair: no RaHV-1 amplification (listed as c > 10^6 with no band) and RaHV-2 only at 10^8 or more
     copies, against 10^1 (RaHV-3) and 10^2 (BfHV-1). The detected share against the genus is therefore 2 of 4 distinct viruses
     BY DESIGN: the European protocol was built for RaHV-3 and BfHV-1 and the paper built the panbatrachovirus protocol because
-    it misses the American RaHV-1/2. Flagged so a low genus-level share is not read as drift.'
+    it misses the American RaHV-1/2. Flagged so a low genus-level share is not read as drift. SCOPED 2026-10-24 to scope_taxids [1987509, 2282206] = Ranid herpesvirus 3 (RaHV-3) and Bufonid herpesvirus 1 (BfHV-1), which is this entry''s name and this protocol''s stated purpose: Licheri & Origgi recommend EUPB-FW-2/EUPB-RV-1 as the EUROPEAN batrachovirus protocol, and RaHV-3 and BfHV-1 are the European viruses. target.taxid 3044671 is the whole Batravirus genus, which also holds the North American RaHV-1 and RaHV-2, so this entry was being scored against viruses its protocol is not for. The scope list was confirmed by measurement before it was written, not read off the name: grouping this assay''s calls by record taxid puts its detections at Bufonid herpesvirus 1 (2 of 2) and Ranid herpesvirus 3 (2 of 2), with Ranid herpesvirus 2 at 0 of 2 assessable and Ranid herpesvirus 1 contributing no assessable records - exactly the European/North American split the protocol predicts. Whole-archive effect: 4 detected of 6 assessable (66.7 percent) becomes 4 of 4 (100.0 percent). That is still only 4 records, far below drift.min_records_for_drift, so the honest reading stays "cannot assess" rather than a coverage figure - but the denominator is now the right four records. The sibling BATRAVIRUS_terminase_Licheri_2020_pan_FW4_RV4 is deliberately NOT scoped: it is the paper''s PANBATRACHOVIRUS protocol and the whole genus is correct for it. This closes the bare scope_narrower_than_taxid flag on this entry, which carried no note and no mechanism.'
 needs_review:
 - flag: scope_narrower_than_taxid
+  note: the European protocol targets RaHV-3 and BfHV-1 while the taxid is the whole
+    Batravirus genus, which also holds the North American RaHV-1 and RaHV-2; since
+    2026-10-24 scope_taxids carries the restriction, so the share is no longer computed
+    against the unscoped genus

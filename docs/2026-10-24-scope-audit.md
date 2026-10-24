@@ -430,8 +430,9 @@ because the proposal was wrong: 4. Struck, do not apply: 8, 9, 10. **Nothing in 
 ranked list is still open** — item 2, Bornaviridae, was applied in the first commit
 (`a784fed`). What remains is a separate finding from the audit body and not one of
 these ten: the three entries carrying `scope_narrower_than_taxid` with no mechanism
-behind it (AVIPOXVIRUS Baek, 1,735 records; CHLAMYDIA Messmer, 1,668; BATRAVIRUS
-european, 8).
+behind it (AVIPOXVIRUS Baek, CHLAMYDIA Messmer, BATRAVIRUS european) — **and those three
+were worked through too, on 2026-10-24. See the final section.** Only one of them was a
+scope bug.
 
 Ranked by evidence strength times size of the error — and the ranking itself did not
 survive, which is the main lesson. Items were ranked on how clean the taxonomic story
@@ -764,3 +765,74 @@ Note for whoever does build the pathogenic list: *L. kmetyi*, *L. adleri* and *L
 are pathogenic and stay **inside** it, so scoping would not hide this disagreement. It would
 drop only *L. wolffii* and *L. yasudae*, about 32 of the 138 misses, taking 93.0% to roughly
 94.5%.
+
+
+## The three bare `scope_narrower_than_taxid` entries: one scoped, two unscopeable
+
+These were the audit's other finding: entries that write the problem into a flag and then
+compute the share anyway. Worked through with the same procedure — group the assay's calls
+by record taxid, look at where the detections are. Only one turned out to be a scope bug.
+
+### BATRAVIRUS european: SCOPED, `scope_taxids: [1987509, 2282206]`
+
+The one clean fix of the three. Licheri & Origgi recommend EUPB-FW-2/EUPB-RV-1 as the
+**European** batrachovirus protocol, and RaHV-3 and BfHV-1 are the European viruses, while
+`target.taxid` 3044671 is the whole Batravirus genus including the North American RaHV-1 and
+RaHV-2. The measurement matches the protocol exactly: detections at Bufonid herpesvirus 1
+(2 of 2) and Ranid herpesvirus 3 (2 of 2), Ranid herpesvirus 2 at 0 of 2 assessable, RaHV-1
+contributing none. Baseline goes 67% (6 records) -> 100% (4), with 4 out-of-scope excluded.
+Still only 4 records, so the status stays "no recent data" and the honest reading is still
+"cannot assess" — but the denominator is now the right four. The sibling `_pan_FW4_RV4` is
+deliberately left alone: it is the paper's panbatrachovirus protocol and the genus is correct
+for it. The flag stays, now with the note it never had, pointing at the mechanism.
+
+### AVIPOXVIRUS Baek: NOT SCOPEABLE, and the flag is the disclosure
+
+Baek et al. describe a "hummingbird-specific Avipoxvirus 4b core protein gene" assay, so the
+flag's note is right. But **there is no NCBI node for the hummingbird avipox clade.** All
+three detections sit in generic or numbered taxa: ON568596 in *Avipoxvirus sp.* (1928336,
+which holds 114 assessable records of which only that one detects), MT332851 in *Avipoxvirus
+1130*, JX418296 in *Avipoxvirus 31239*. Naming 1928336 would drag in 113 non-hummingbird
+records; naming the two numbered isolates would give a denominator of 2.
+
+Where the misses are: Fowlpox 379 assessable / 0 detected, *Avipoxvirus sp.* 113 of 114,
+Pigeonpox 87, Turkeypox 20, *Avipoxvirus fowlpox* 16, the Hungary/Wisconsin/Spain/Hawaii
+isolates 12/10/7/5, Canarypox 5 — none detecting. Total 3 of 758, 0.4%. That is a
+species-specific assay measured against a genus archive, exactly as with Helicobacter
+(item 4), and it needs a mechanism the schema does not have. The 0.4% is not an assay
+problem and must not be read as one.
+
+### CHLAMYDIA Messmer round 1: NOT A SCOPE BUG. Scoping would hide the finding
+
+Messmer et al. call these the "genus-specific first-step primers" and report that "neither
+the outer (genus-specific) nor the inner (species-specific) primer sets cross-reacted"; in
+1997 the genus held four species. The paper's claim *is* the genus, so narrowing the taxid
+would quietly redefine the claim rather than test it. Measured (259 of 794 assessable, 32.6%):
+
+| species | detected | mechanism |
+|---|---|---|
+| *C. psittaci* | 85 of 89 | `reduced`, penalty 3, reverse mismatch at position 2 |
+| *C. abortus* | 31 of 34 | `reduced`, penalty 3, same reverse mismatch |
+| *C. pneumoniae* | 9 of 9 | `reduced`, penalty 3, same reverse mismatch |
+| *C. crocodili* | 18 of 18 | detected |
+| *C. trachomatis* | **0 of 301** | forward mismatches at 13,12,8,7,6 (penalty 7); 83 also at position 1 |
+| *C. pecorum* | 0 of 17 | forward mismatch at 7 |
+| *C. muridarum* | 0 of 51 | forward mismatches at 12,8,7 |
+| *C. felis* | 0 of 19 | forward mismatch at 12 |
+| *C. avium* | 0 of 10 | forward mismatches at 8,7,6,4,3,1 |
+
+Two findings, both worth more than a scope list. **The entry's existing five-mismatch claim is
+confirmed exactly** — *C. trachomatis* carries forward mismatches at 13, 12, 8, 7 and 6 in all
+301 assessable records — and *trachomatis* and *pecorum* were **two of the four species the
+1997 paper claimed**, so this is a genus-specific assay that fails half its own stated range.
+The rest (*muridarum*, *felis*, *avium*, *gallinacea*) were split out of the genus after 1997,
+which is the ordinary way a consensus assay ages. Separately: **nothing reaches `detect`.**
+Every species that works is `reduced` at penalty 3, because the reverse primer mismatches at
+position 2 from its 3' terminus in every *Chlamydia* record, detecting and failing alike. The
+best call this assay can achieve on any record is `reduced`, which is worth knowing before
+reading any share it reports.
+
+Same shape as `LEPTOSPIRA_lipL32_Ahmed_2020` (item 10): an aging consensus assay whose misses
+concentrate in named species, whose mechanism is a few primer mismatches rather than absent
+sites, and which is evidence for the per-chemistry and position-weight questions in
+`docs/2026-10-24-scoring-strategy-test-plan.md`. Neither is drift.
