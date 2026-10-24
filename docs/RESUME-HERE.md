@@ -854,7 +854,15 @@ free since this run was owed anyway.
   screened, the report says 204, and the gap is one assay with zero rows. S1's guard is the
   mirror image of this (ids in the table the registry lacks) and by design cannot catch it.
   **The cheap fix is the same shape as S1: name registry assays that produced no calls.**
-  **THE INSTANCE IS FIXED, 2026-10-24; the guard is still wanted.** That entry now carries the
+  **THE GUARD WAS BUILT AND THE INSTANCE IS NOW FIXED TOO.** Checked 2026-10-24: the guard
+  already exists as `collect.assays_without_calls` (`assaywatch/collect.py:238`), is wired into
+  `concatenate_screens` at line 432, is covered by
+  `tests/test_collect.py::test_assays_without_calls_is_the_complement_of_what_was_seen`, and its
+  docstring names this very entry as the case it was written for. It computes
+  `set(known_ids) - seen`, so it catches an assay with no screen file at all and not merely one
+  screened to zero rows, and it warns rather than raising — deliberately, because a skipped
+  group usually has a stated reason and killing a run over it would be the wrong trade. So only
+  the instance was outstanding, and it is now closed: That entry now carries the
   query its sibling and the Conley entry already use, character for character, so the slug is
   identical and it joined the EXISTING `209/qea281b18a4` archive of 6,008 records with nothing
   downloaded. Adding 209 to `large_taxa_allowed` was rejected: it would fetch 843,447 records to
