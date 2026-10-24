@@ -126,8 +126,46 @@ over 13,131 near-complete genomes, all 777 C3L-carrying records give the 82 bp W
 all 9,654 records giving 85 bp lack C3L. The length does not partition the clades cleanly -
 1,901 C3L-negative records also give 82 - so the entry does not claim that it does.
 
-Still unapplied from that doc: Gallardo-Romero 2011 (North American orthopoxviruses, the
-wildlife gap) and Zhao 2013 (parapoxvirus quartet, paper not held).
+## 2026-10-24 evening: Gallardo-Romero 2011 is in, and a 44 nt probe moved the schema
+
+`NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011`, `status: draft`. The
+registry is 204 entries: active 179, draft 24, deprecated 1. This one fills a real hole - the
+registry had pan-pox consensus assays and monkeypox assays and nothing at all for the North
+American wild orthopoxviruses, volepox, skunkpox and raccoonpox, which is as wildlife-diagnostic
+as this registry gets.
+
+**It is properly scoped, which the monkeypox pair could not be.** taxid is the genus
+Orthopoxvirus (10242), because discriminating within that genus is the paper's entire claim,
+and `target.scope_taxids` is `[10256, 28874, 160796]`. Those three species nodes exist. The
+schema asks for the smallest set of SUBTREES rather than an enumeration, and there is no node
+for the North American group, so the enumeration here is forced rather than preferred - said in
+the entry so the next scope audit does not re-raise it.
+
+**The amplicon agrees with the paper, which is worth stating because so few lately have.**
+All 64 nuccore records for the three species were fetched; 7 are complete genomes, and all 7
+give exactly the 156 bp the paper states, with the probe inside. The other 57 are fragments
+that do not reach the locus, so they are silent rather than negative. `thin_evidence` is on the
+entry: 7 informative records cannot support a drift verdict, and the entry's value today is
+coverage plus a baseline.
+
+**Two traps, both worth passing on.**
+
+- **The paper prints its oligos codon-hyphenated**, `5'YGG-ACC-RGG-AGG-TCT-TTC-TGC-ATT 3'`. A
+  plain `[ACGT]{15,}` sweep over the full text returns NOTHING and reads as "this paper prints
+  no oligos", which is the same false negative class as the papers-index one from this morning.
+  The repo's own `verify_oligos_against_paper` is not fooled - it reads all three `exact` - but
+  an ad-hoc extractor is. Worse, the probe ends `-CAC-TTT-BHQ1`, and B and H are valid IUPAC
+  codes, so a naive extractor swallows `BH` off the quencher and yields a 46-mer. It is 44.
+- **That 44 nt probe did not fit the schema and the schema moved.** `OLIGO_MAX` is 40, so a
+  real published probe would have been refused for being what its paper says it is. There is
+  now a separate `PROBE_MAX = 50` beside `PROBE_MIN`, which exists for the mirror-image reason
+  (Haynes 2023's 13-14 nt MGB probes). Primers keep 40. It is safe at this end for the same
+  structural reason the low floor is: a probe is only ever searched inside the span between the
+  two primers. One existing test asserted the old message `length 11 outside 12-40` and now
+  states the real bounds.
+
+Still unapplied from that doc: Zhao 2013 (parapoxvirus quartet), whose paper is not held and
+looks paywalled, so it needs the NYU proxy.
 
 
 ## 2026-10-24: the diverged+anchor_fdr pair SHIPPED at q=0.001

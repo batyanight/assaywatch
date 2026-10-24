@@ -1,0 +1,72 @@
+id: NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011
+name: NORTH AMERICAN ORTHOPOXVIRUS (dsDNA) — G9R myristylated protein TaqMan (Gallardo-Romero 2011)
+target:
+  taxid: 10242
+  gene: myristylated protein (VACV Copenhagen G9R ortholog; VPXV 086, SKPV 086, RCNV 070)
+  genome_type: dsDNA
+  taxon_name: Orthopoxvirus
+  query: null
+  scope_taxids:
+  - 10256
+  - 28874
+  - 160796
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: G9R-NA OPXV forward
+    seq: YGGACCRGGAGGTCTTTCTGCATT
+  reverse:
+    name: G9R-NA OPXV reverse
+    seq: TCTGGCCAACATGATTCTAATACTGCRTC
+  probe:
+    name: G9R-NA OPXV probe
+    seq: AGGGAACGVTAYAATGGYACYGCTCCCAAYTGCTGTCGCACTTT
+    reporter: FAM
+    quencher: BHQ1
+  alternates: []
+amplicon_bp: 156
+citation:
+  doi: 10.1186/1743-422X-8-313
+  design_year: 2011
+  n_sequences_at_design: null
+  as_written: null
+  reference: Gallardo-Romero NF, Velasco-Villa A, Weiss SL, Emerson GL, Carroll DS, Hughes CM, Li Y, Karem KL, Damon IK, Olson
+    VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-24. Fills a real gap: the registry held pan-pox consensus assays and MPXV-specific ones, and
+    NOTHING specific to the North American wild orthopoxviruses - volepox, skunkpox and raccoonpox - which are squarely zoo
+    and wildlife diagnostics. Proposed in the CDC sweep of docs/2026-10-24-mpox-assay-candidates.md. OLIGOS read from the
+    paper''s own Methods sentence, in the Europe PMC full text (PMC3144017). THE PAPER PRINTS THEM IN CODON-STYLE HYPHENATED
+    FORM - "5''YGG-ACC-RGG-AGG-TCT-TTC-TGC-ATT 3''" - which is worth knowing because a plain [ACGT]{15,} search over the full
+    text returns NOTHING and reads as "paper holds no oligos". The hyphens are stripped and nothing else is changed. One transcription
+    trap avoided: the probe is printed "...-CAC-TTT-BHQ1 3''", and B and H are valid IUPAC codes, so a naive extractor swallows
+    "BH" from the quencher and yields a 46-mer. The probe is 44 nt, ending TTT. THE 44 nt PROBE IS WHY assaywatch/schema.py
+    NOW HAS ITS OWN PROBE_MAX. The shared OLIGO_MAX is 40, so this real published probe would have been refused; the ceiling
+    is now 50 for probes and unchanged for primers, documented beside PROBE_MIN, which exists for the mirror-image reason.
+    AMPLICON MEASURED AND IT AGREES WITH THE PAPER, which states 156 bp. Measured 2026-10-24 over all 64 nuccore records of
+    the three species (esearch/efetch, taxids 10256 Raccoonpox, 28874 Volepox, 160796 Skunkpox): 7 of the 64 are complete
+    genomes, and ALL 7 give a product of exactly 156 bp with the probe present inside it, on a degenerate-expanded match.
+    The remaining 57 are short fragments that do not cover the locus, so they are silent rather than negative. Forward, reverse
+    and probe are each exact in the same 7. SCOPED, and here the nodes exist, unlike the monkeypox clades entered the same
+    day: taxid is the genus Orthopoxvirus (10242) because that is the pool the assay must discriminate within - the paper''s
+    whole claim is that it detects the three North American species and NOT the Old World orthopoxviruses - and scope_taxids
+    names the three species that it does claim. The schema''s guidance is to name the smallest set of SUBTREES covering the
+    paper''s range rather than enumerate species; there is no node for the North American orthopoxviruses as a group, so the
+    three species are the smallest available cover and the enumeration is forced, not preferred. Without the scope the denominator
+    would be every orthopoxvirus in GenBank, overwhelmingly vaccinia and monkeypox, and the entry would read as a near-total
+    failure of an assay that is doing exactly what it says. EVIDENCE IS THIN AND THE FLAG SAYS SO: 7 informative records is
+    far too few to support a drift verdict either way. What the entry buys today is coverage of a wildlife taxon the registry
+    was blind to, and a baseline for when more genomes are deposited. status: draft and doi_verified: false on entry; only
+    a maintainer sets active.'
+needs_review:
+- flag: thin_evidence
+  note: only 7 of the 64 records for the three species are complete enough to cover the locus

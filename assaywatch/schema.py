@@ -45,6 +45,17 @@ OLIGO_MIN, OLIGO_MAX = 15, 40
 # the stretch it can chance-match in is tens to hundreds of bases, not a genome.
 # Primers keep OLIGO_MIN, since a primer is searched along the whole record.
 PROBE_MIN = 12
+# A probe's ceiling, above a primer's for the same reason its floor is below one.
+# OLIGO_MAX is 40 and a real published probe sits past it: Gallardo-Romero et al.
+# 2011 (doi:10.1186/1743-422X-8-313) prints the G9R NA OPXV probe as a 44 nt
+# degenerate hydrolysis probe, and refusing it would be refusing an assay for
+# being what its paper says it is. 50 is not a biophysical limit; like PROBE_MIN
+# it is set to admit every published probe seen so far and still catch the error
+# it exists to catch, which at this end is a pasted amplicon rather than a
+# mistyped oligo. Safe for the same structural reason PROBE_MIN is: a probe is
+# searched only inside the span between the two primers (score.screen_one), never
+# along a whole genome. Primers keep OLIGO_MAX.
+PROBE_MAX = 50
 # The floor on the part of a tailed oligo that actually binds the target. It is
 # one base below OLIGO_MIN because a real published primer sits there: Briese et
 # al. 2007 (doi:10.1007/s00705-007-1069-z) Table 1 prints BUN-S3-R as a 6 nt
@@ -207,8 +218,8 @@ class Oligo(Strict):
         # The lower bound depends on the oligo's role, which this validator
         # cannot see; `meets_length_floor` applies it. Here only the absolute
         # floor and the ceiling, so a 3-base string fails on its own terms.
-        if not PROBE_MIN <= len(v) <= OLIGO_MAX:
-            raise ValueError(f"length {len(v)} outside {PROBE_MIN}-{OLIGO_MAX} nt")
+        if not PROBE_MIN <= len(v) <= PROBE_MAX:
+            raise ValueError(f"length {len(v)} outside {PROBE_MIN}-{PROBE_MAX} nt")
         return v
 
     @model_validator(mode="after")
@@ -226,9 +237,10 @@ class Oligo(Strict):
         else:
             is_probe = isinstance(self, Probe)
         floor = PROBE_MIN if is_probe else OLIGO_MIN
-        if len(self.seq) < floor:
+        ceiling = PROBE_MAX if is_probe else OLIGO_MAX
+        if not floor <= len(self.seq) <= ceiling:
             role = "probe" if is_probe else "primer"
-            raise ValueError(f"length {len(self.seq)} outside {floor}-{OLIGO_MAX} nt for a {role}")
+            raise ValueError(f"length {len(self.seq)} outside {floor}-{ceiling} nt for a {role}")
         return self
 
 

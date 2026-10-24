@@ -87,6 +87,14 @@ A PubMed sweep of CDC Poxvirus and Rabies Branch real-time PCR papers (affiliati
 and fit the wildlife/veterinary scope better than another mpox assay. Source: PubMed.
 
 ### A. Gallardo-Romero et al. 2011 — North American orthopoxviruses (STRONG wildlife fit)
+
+> **APPLIED 2026-10-24** as `NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011`,
+> `status: draft`, DOI Crossref-verified, all three oligos `exact` against the paper, amplicon
+> measured at 156 bp and agreeing with the paper's stated 156. Scoped properly, unlike the mpox
+> clades: taxid is the genus Orthopoxvirus (10242) with `target.scope_taxids`
+> `[10256, 28874, 160796]`, the three species nodes, which do exist. Two things it cost:
+> the paper prints its oligos codon-hyphenated so a plain sequence search returns nothing, and
+> its 44 nt probe did not fit the schema, which now has `PROBE_MAX`.
 - Virol J 8:313, [DOI](https://doi.org/10.1186/1743-422X-8-313), PMC3144017 (open access, so oligos verifiable).
 - TaqMan assay on a myristylated protein gene conserved across the NORTH AMERICAN
   orthopoxviruses (Volepox, Skunkpox, Raccoonpox) and distinct from Eurasian OPXV; does not

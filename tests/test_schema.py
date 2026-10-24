@@ -6,7 +6,7 @@ import pytest
 from pydantic import ValidationError
 
 from assaywatch.review import CAVEAT, OPEN, ReviewFlag
-from assaywatch.schema import Assay, Oligo, Status
+from assaywatch.schema import PROBE_MAX, Assay, Oligo, Probe, Status
 
 GOOD = {
     "id": "TEST_assay",
@@ -227,7 +227,8 @@ def test_a_probe_may_be_shorter_than_a_primer():
 
 
 def test_the_probe_floor_still_catches_a_typo():
-    with pytest.raises(ValidationError, match="length 11 outside 12-40"):
+    """The floor is 12 and the ceiling is PROBE_MAX, not the primers' OLIGO_MAX."""
+    with pytest.raises(ValidationError, match="length 11 outside 12-50"):
         Assay.model_validate(variant(**{"oligos.probe.seq": "CGAGTCGAACA"}))
 
 
@@ -478,3 +479,22 @@ def test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending():
     root = Path(__file__).resolve().parents[1]
     assert all(not_live_because(load_assay(p)) is None for p in iter_files(root / "registry"))
     assert all(not_live_because(load_assay(p)) for p in iter_files(root / "pending"))
+
+
+def test_a_probe_may_be_longer_than_a_primer_but_not_unboundedly():
+    """PROBE_MAX is above OLIGO_MAX because a real published probe sits between them.
+
+    Gallardo-Romero et al. 2011 print the G9R NA OPXV probe as 44 nt. The shared
+    40 nt ceiling would have refused that entry for being what its paper says it
+    is, which is the mirror of why PROBE_MIN sits below OLIGO_MIN. A primer keeps
+    the tighter ceiling, and the probe ceiling still refuses a pasted amplicon.
+    """
+    probe44 = "AGGGAACGVTAYAATGGYACYGCTCCCAAYTGCTGTCGCACTTT"
+    assert len(probe44) == 44
+    assert Probe(name="G9R-NA OPXV probe", seq=probe44).seq == probe44
+    # the same length as a primer is still refused
+    with pytest.raises(ValidationError):
+        Oligo(name="f", seq=probe44, orientation="forward")
+    # and a probe has a ceiling of its own
+    with pytest.raises(ValidationError):
+        Probe(name="p", seq="A" * (PROBE_MAX + 1))
