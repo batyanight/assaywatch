@@ -1,5 +1,59 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24 daytime: the scope audit, and the three items of it that were applied
+
+Branch `registry/2026-10-24-scope-fixes`, cut from
+`docs/2026-10-23-elsevier-and-oligo-flags`. The audit itself is read-only and lives in
+`docs/2026-10-24-scope-audit.md`; items **1, 3 and 6** of its ranked list were then applied
+in commit `a784fed`, eleven entries, `target.scope_taxids` only, no oligo and no threshold
+touched. Items 2, 4, 5 and 7 to 10 still wait on a maintainer.
+
+**The audit's finding.** 146 of 200 entries are scoped broader than species, but most of
+that breadth is correct by design — a pan-family consensus PCR should carry a family
+taxid. The real defect is a single-organism assay under a multi-organism denominator, 34
+entries worth checking across 22 papers, all read. The mechanism to fix it already existed
+and was applied unevenly: `target.scope_taxids` (25 entries before this, 30 now), with 13
+more entries pinning organisms in `target.query` instead and **three carrying a
+`scope_narrower_than_taxid` flag with no mechanism behind it at all** — the registry wrote
+the problem down and then computed the share anyway. Those three (AVIPOXVIRUS Baek,
+CHLAMYDIA Messmer, BATRAVIRUS european) are still open.
+
+**What applying 1, 3 and 6 did.** Re-rendered `results/2026-10-24/calls.tsv.gz` against
+the new registry, so only the registry differs. Two status changes:
+
+    BORNA_VIRUS_N_gene        declining -> stable         20.9% (43) -> 97.6% (165)
+    CALICIVIRUS_ssRNA_Capsid  low coverage -> no recent data   baseline 27% (51) -> 82% (11)
+
+Bornaviridae is the case the audit was started to test and it holds: the entry was never
+drifting, two thirds of its denominator was a different virus. The control is its round-1
+sibling, already reading its own target, which moves only 98.2% -> 98.8%.
+`snakemake -n` afterwards plans 9 jobs and **zero `screen_archive`**: a `target` edit is
+not in the screen signature, so none of this cost a rescreen.
+
+**Two things to carry forward.**
+- `drift.py:1053` drops only a record whose taxid is **known** and out of scope; an unknown
+  taxid stays in the denominator. Taxid coverage on the Caliciviridae Helicase group is
+  79.7%, so that entry's assessable set went 30 -> 24, not 30 -> 7. Any future scope fix is
+  only as good as the taxid backfill behind it — measure coverage before predicting a size.
+- Item 6 (the four self-disagreeing sibling groups) is now consistent, zero groups
+  disagree, but it bought comparability and not coverage: the copied lists exclude 159, 73,
+  40 and 5 records, three of five report rows are byte-identical and no printed share moved.
+
+**Still unretrieved.** `Tortoise_intranuclear_coccidia_18SrDNA` went from
+"not searched (no taxid)" to searchable with `taxid: 293274` and a measured
+`amplicon_bp: 84`. Its archive has not been fetched yet. The prediction on record, to check
+on the next run: 2 records, AY728896.2 amplifying and KY683841.1 truncated (it covers only
+AY728896.2 20..620, stopping 12 bases into the forward primer), hence "cannot assess".
+
+**Also found, not fixed:** `RETROVIRUS_RNA_polymerase_SIV_Keele_2009`'s primers are not in
+the cited paper and were not found anywhere (zero hits across `papers/` and in full-text
+search of both sequences and both names); the repo's own oligo-verification run already
+records the sibling pair as `no-oligos`. Keele 2009 only says infection "was confirmed by
+RT-PCR" and cites Santiago 2003, which is paywalled. This outranks any scope question for
+that entry: the citation has to be settled first. Two stale entry ids from withdrawn
+attributions also remain: `Characterization_2001` is Clewley 1998, and `Casas_2005` is Roy
+2009 (the DOI was fixed but the id, `nested_family` and `as_written` still say Casas).
+
 ## 2026-10-24 overnight: the plan of attack from docs/RESUME-HERE.md's open list
 
 Run unattended from 23:59 on 2026-10-23 (plan: `~/.claude/plans/make-a-plan-of-snazzy-dragonfly.md`).

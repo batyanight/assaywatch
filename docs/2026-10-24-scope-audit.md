@@ -422,7 +422,10 @@ and does not go stale with every new deposit. Its provenance could not be traced
 
 ## What to do, in order
 
-Nothing below was applied. Ranked by evidence strength times size of the error.
+Ranked by evidence strength times size of the error. **Items 1, 3 and 6 were applied
+on 2026-10-24** (commit `a784fed`, branch `registry/2026-10-24-scope-fixes`); see
+"What applying 1, 3 and 6 actually did" at the end of this document. Items 2, 4, 5
+and 7 to 10 were not applied and still wait on a maintainer.
 
 1. **Caliciviridae, two entries** — `scope_taxids: [3433198]`. 85,628 records against 129
    genuinely in scope, and it explains an existing "0 of 30" artefact. Biggest error,
@@ -459,3 +462,62 @@ primers are not in the cited paper and were not found anywhere, so the citation 
 settled first; and a `scope_taxids` list for the Roy 2009 adenovirus entries, where the
 direction is right but the excess measured only 98 records of 30,167 and building the
 host-clade mapping properly is its own task.
+
+
+## What applying 1, 3 and 6 actually did
+
+Applied 2026-10-24 in commit `a784fed`: eleven entries, no oligo and no threshold
+touched, the only mechanism used being `target.scope_taxids`. Gate green (1552 passed,
+200 valid, ruff clean, 200 citations checked). `snakemake -n` afterwards plans 9 jobs and
+**zero `screen_archive`**, confirming that a `target` edit does not enter the screen
+signature, so none of this cost a rescreen.
+
+Measured by re-rendering `results/2026-10-24/calls.tsv.gz` against the new registry, so
+the registry is the only thing that differs between the two reports. Two assays change
+status:
+
+| assay | before | after |
+|---|---|---|
+| `BORNA_VIRUS_N_gene` | declining, 20.9% (11%-35%) on 43 recent, baseline 72% (410) | **stable, 97.6% (94%-99%) on 165 recent**, baseline 95% (150) |
+| `CALICIVIRUS_ssRNA_Capsid` | low coverage, 0.0% (0%-19%) on 16 recent, baseline 27% (51) | **no recent data**, baseline 82% (11), 67,511 out-of-scope excluded |
+
+Bornaviridae is the result the audit was started to test, and it holds: the entry was not
+drifting, it was being scored against carbovirus, cultervirus and the parrot, serin and
+estrildid orthobornaviruses. The control is the round-1 sibling
+`BORNA_VIRUS_N_gene_Zimmermann_1994`, which was already reading its own target and moves
+only 98.2% -> 98.8%. The nested round-2 entry stays at 0% as predicted, because its
+printed `BornaNestF` mismatches every known record at the 3'-terminal base; scoping
+removes a confound there, not the cause.
+
+Caliciviridae behaves as predicted in both directions. The Capsid entry stops reporting
+0.0% and its baseline rises from 27% on 51 records to 82% on 11 — the 27% was norovirus,
+exactly as that entry's own curator note had guessed. The Helicase entry stays at 0%, on
+19 records instead of 30, because the records that remain are the U146xx/U184xx series,
+i.e. the designers' own vesicular exanthema and San Miguel sea lion sequences, which carry
+the documented 3'-terminal G/C mismatch. That is the per-chemistry scoring gap, not scope,
+and no scope list can repair it.
+
+One correction to this document's own arithmetic: the "129 records in scope" figure above
+is GenBank's live count for `Vesivirus exanthema`, not what has been screened. Measured on
+the 2026-10-24 calls table the archive holds **49** in-scope records, and taxid coverage on
+the Helicase group is only 79.7%, so 17,248 rows carry no taxid at all. That matters
+mechanically, because `drift.py:1053` drops only a record whose taxid is KNOWN and out of
+scope — an unknown taxid stays in the denominator. The Helicase entry's assessable set
+therefore went 30 -> 24 rather than 30 -> 7. The scope filter is only ever as good as the
+taxid backfill behind it, which is worth remembering before predicting any future fix's
+size.
+
+The tortoise intranuclear coccidian (item 3) now carries `taxid: 293274` and a measured
+`amplicon_bp: 84`, and the report moves it from "not searched (no taxid)" to searchable.
+It has not yet been retrieved, so its two records are not screened in the diff above; the
+next run fetches them. The expectation on record, to check against: 1 amplifying
+(AY728896.2) and 1 truncated (KY683841.1, which covers only AY728896.2 20..620 and stops
+12 bases into the forward primer), which is far below `min_records_for_drift` and should
+read as "cannot assess" rather than as a coverage figure.
+
+Item 6 is hygiene, and the measurement says so plainly. Zero sibling groups now disagree
+about scope, but the copied lists exclude only 159, 73, 40 and 5 records; three of the five
+report rows come out byte-identical and no printed share moves at all. These enumerated
+lists are near-complete, which is why they exclude so little. Worth knowing before anyone
+spends effort on the remaining enumerated-list items: what item 6 bought is comparability
+between rounds of one protocol, not coverage.
