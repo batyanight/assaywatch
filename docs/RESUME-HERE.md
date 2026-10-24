@@ -1,5 +1,53 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24: the diverged+anchor_fdr pair, RE-PRICED against the scoped registry
+
+The earlier recommendation (DO NOT SHIP, `docs/2026-10-24-anchor-pair-counterfactual.md` on
+the `experiment/` branch) rested on ONE objection: turning the pair on crashed
+`BORNA_VIRUS_N_gene_Zimmermann_1994` from 98.2% stable to 16.4% declining on 209 strong
+anchors in parrot/serin/rattlesnake bornaviruses. The 2026-10-24 scope audit showed that case
+was SCOPE, not drift. So the pair was re-priced against the now-scoped, promoted registry,
+config-only, rendered from `results/2026-10-24/calls.tsv.gz` (no rescreen; the knobs live in
+the `drift` block, not the screen signature). Renders kept at
+`results/2026-10-24-reprice-q01` and `-q001`; the shipped scoped baseline is
+`results/2026-10-24` itself.
+
+**The objection is gone.** Both Borna entries are now COMPLETELY UNMOVED by the pair at
+either q: `BORNA_VIRUS_N_gene` 97.6% and `BORNA_VIRUS_N_gene_Zimmermann_1994` 98.8%, stable,
+off / q=0.01 / q=0.001 identical. The 209 anchors that used to crash it were out-of-scope
+records, now excluded from the denominator, so counting them as fail no longer touches the
+verdict.
+
+**What the pair now bites is overwhelmingly REAL divergence.** Status moves from the
+pair-off baseline: 11 at q=0.01, 8 at q=0.001. The flagship mover is the system doing exactly
+its job: `MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004` goes 99.9% (2411 recs) -> 58.3% (4127). The
+~1700 added records are `diverged` with anchor E ~= 4.3e-10 (genuinely present sites, not
+chance), and 2223 of the 2377 diverged records are 2022-or-later: this is the clade IIb mpox
+outbreak, against a 2004 probe. anchor_fdr correctly keeps those strong anchors; a smaller q
+does not and should not relabel them. Checked the other q=0.001 movers by anchor E: Cryptosporidium
+round2 7.5e-11, ARENAVIRUS S 1.8e-07, Pan_coccidia 2.3e-08, Apicoplast 2.0e-05, Pan_mycoplasma
+Rebelo 2.8e-05 -- all strong. Two are mid (~4.3e-04): SIV Keele (already under a citation
+cloud, primers not in its paper) and a 31-record CMV round2 move.
+
+**q=0.001 beats q=0.01, confirmed against the scoped registry.** The direct diff shows 3
+assays return toward stable at the smaller q -- including `TRICHOMONAS_gallinae_18S` (its 241
+weak anchors, E ~= 7e-3, 241 of a family of 278, correctly relabelled as chance only at
+0.001). BH's bar is (k/m)*q, so the smaller q relabels MORE chance anchors, which is the
+counter-intuitive-but-correct direction. The docs' recommended 0.01 is the worse of the two.
+
+**RECOMMENDATION: the pair is now defensible to ship, at q=0.001.** With Borna resolved, the
+remaining bite is real signal, led by a textbook true positive (mpox). The honest caveat for
+the maintainer: this REDEFINES `declining` to count a present-but-mismatched binding site as a
+failure rather than dropping it. For surveillance of evolving pathogens that is arguably the
+point -- an assay that no longer matches circulating virus should read declining. Two entry-
+semantics oddities to note, independent of the pair: `Pan_coccidia..._negative_contro` is a
+negative control (its name), and `Apicoplast_23S` is phylum-wide and amplifies chloroplasts by
+design, so "declining" means little for either. MAINTAINER DECISION, not applied: shipping it
+is `count_diverged_as_fail: true` + `anchor_fdr: 0.001` in config.yaml. Tier-2 still cannot
+choose between 0.01 and 0.001 (it was row-identical at both before the scope work; the
+evaluation set is the bottleneck, which is what docs/2026-10-24-scoring-strategy-test-plan.md
+is about).
+
 ## 2026-10-24: stale documentation, swept and corrected
 
 **One standing instruction retired.** `docs/RESUME-HERE.md`'s 2026-10-21 section carried
