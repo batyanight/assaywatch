@@ -186,8 +186,13 @@ disagreement.
 
 ## New items
 
-- **Wave 3, before any re-test of `count_diverged_as_fail`:** an archive-scale anchor
-  test in `classify_exclusion`; rescreen; tier-2 re-run.
+- ~~**Wave 3, before any re-test of `count_diverged_as_fail`:** an archive-scale anchor
+  test in `classify_exclusion`; rescreen; tier-2 re-run.~~ **DONE 2026-10-24**,
+  `docs/2026-10-24-archive-anchor.md`: BH over each assay's `no_amplicon` rows rather
+  than E x record count (the product cannot tell SIV Keele's real anchors from Bd's
+  chance ones), shipping off as `drift.anchor_fdr`. Bd loses 50 of 63 `diverged`, SIV
+  Keele and Monkeypox lose none. Tier-2 is silent on it alone; paired with
+  `count_diverged_as_fail` at q = 0.01 it removes both false alarms that switch caused.
 - **Find Mutnale 2018's haplotypes in the Bd archive** and see what call they get. If
   they are `no_site` (both primers past six mismatches) or `truncated`, the miss is a
   retrieval or search-budget problem, not a denominator one.
