@@ -1,5 +1,90 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24 evening: 30 papers imported from the maintainer's Downloads, zero verdicts moved
+
+The maintainer dropped ~148 PDFs into `~/Downloads`. Matched by DOI (read from each PDF's own
+first two pages) against `papers/papers-still-needed-2026-10-24.md`: **30 of the 64 wanted
+papers were there** and are now copied into `papers/` under their canonical `doi_stem` names.
+Re-ran the oligo verifier over the enlarged store: **500 rows, zero verdict changes** against
+the pre-import run. That is the designed result — every one of the 30 is List 2 (completeness
+and cross-reactivity reading), none was blocking a stored oligo, which is what "List 1 is
+complete" has meant. `papers/` is gitignored, so the PDFs and the refreshed still-needed list
+(now 34 outstanding: 12 free, 22 paywalled) are local only, not in this commit.
+
+**The two papers that would settle a live SEQUENCE question were NOT in the batch.** Both are
+still wanted and both now matter more than before:
+
+- **Mao et al. 1997** (`10.1006/viro.1996.8435`), the ranavirus MCP design paper. Settles
+  whether the registry's 18-mer reverse or Stöhr's 19-mer is right. Elsevier's API returns
+  only metadata for it (no body), so it needs the PDF or the Virology scan through the proxy.
+- **Neill & Seal 1995** (`10.1016/S0890-8508(95)90962-1`), the calicivirus design paper. We
+  hold it only as an OCR'd Elsevier deposit that corrupts three of its four printed oligos,
+  and the Hel1 3'-terminal G/C question (see above) now turns on whether that deposit misread
+  one base. A clean PDF would settle it outright.
+
+Neither is an Elsevier `jviromet` article, so both are absent from the batch, which was almost
+entirely `jviromet`/`vetmic`/`vetpar` downloads. Content-searching all 148 Downloads PDFs for
+each paper's distinctive primer run confirmed absence (the only hits were the *citing* papers
+reid1999 and johnson2008). The SIV-chain papers Santiago 2003 and Keele 2006 are likewise not
+in the batch.
+
+
+## 2026-10-24 late: the remaining open-list items, worked
+
+**Orphan archives: identified, not deleted.** `docs/2026-10-24-orphan-archives.md`. 636 of the
+658 MB is pre-query history for taxa the registry still covers - the 530 MB group is
+*Ophidiomyces ophidiicola*, the 90 MB one *B. salamandrivorans*. Both have live entries that
+later gained a retrieval query, and the query is part of the group key, so the old whole-taxon
+fetch became unreachable. One group is a genus of moths. The decision was never short of
+authority, only of information.
+
+**The last held-out oligo caveat was a false alarm.** Villanueva 2024's
+`GATCCGCAGACAGYACGT` is the registry's own alternate forward `BornaPCA3A`, and Sigrist 2021
+section 2.2 says the design has "two variants of a degenerate forward primer". Swept the rest
+of the held-out TSV: no other qualified identity. **Mao 1997 is now the only oligo-identity
+question still open there.**
+
+**The Usutu lead paid: three rows, set now 34.** And the literal-oligo search returned
+**Jöst 2011 itself**, so that entry's oligos are verified verbatim against their own design
+paper, 21 nt reverse included. Strongest row is Becker 2012: USUV RNA in 86 of 223 dead birds,
+confirmed by isolation from 18 blackbirds, immunohistochemistry and deep sequencing. None of
+the three is a drift case, so the set's drift shortfall is unchanged.
+
+**The four never-searched families are searched, and the pick was wrong.** Apicoplast 23S
+returns **zero** hits on both oligos, against the guess that plastid primers are widely reused.
+The rich seam is `E_coli_malB_Candrian_1991`, whose forward returns **59** papers - mostly
+prevalence surveys, `works`-shaped not drift-shaped, and a pass of its own. Yersinia and the
+Reid capsid return nothing; the circovirus primers are all degenerate and cannot be searched
+literally. Table in `docs/2026-10-24-heldout-candidates.md`.
+
+### The calicivirus Hel1 terminal base: the evidence has moved, and this one wants a decision
+
+The entry already knew its Hel1 3'-terminal G mismatches the C in all 16 design-target
+records, and treated that as a published primer with a terminal mismatch. Three new facts say
+the G is more likely an error in our copy:
+
+1. **A third paper prints C.** Kolesnikovas 2017 (`10.1007/s10393-016-1195-8`) lists the pair
+   as its Vesivirus helicase assay, credits Neill 1995, and prints hel-1 ending **C**.
+2. **Only C reproduces the published product size.** Over the whole 152,379-record
+   Caliciviridae archive the stored G-form gives **no product in any record**; the C-form gives
+   **16, every one 357 bp**, which is exactly what both papers state. A wrong terminal base
+   cannot reproduce the published amplicon by accident.
+3. **Our only copy of the design paper is OCR'd.** The Elsevier backfile deposit puts a
+   spurious space inside **three of its four** printed oligos. A single-character misread in
+   the fourth is plausible, and we hold no PDF to check.
+
+**Nothing was changed.** The right flag is `oligo_sequence_uncertain`; the schema correctly
+refuses it on an `active` entry, so applying it demotes this one from active (179 -> 178),
+which is a maintainer decision and not a session's. The recommendation and that consequence
+are on the entry. What settles it outright is the **Neill & Seal PDF through the NYU proxy**,
+the same errand Mao 1997 needs - two open questions, one trip.
+
+**Also ready and not entered:** Neill & Seal's *second* pair, `Pol1`/`Pol2` on the RdRp region,
+is absent from the registry although the paper is held and already cited. Unlike the helicase
+pair its sequences match real records as printed - Pol1 in 11, Pol2 in 19, a 520 bp product in
+8 - so it needs only the normal entry process.
+
+
 ## 2026-10-24 late: the seven new entries were SCREENED, and exact matching had misled me three times
 
 Everything below about the new entries was written from exact-match counting. The scorer
