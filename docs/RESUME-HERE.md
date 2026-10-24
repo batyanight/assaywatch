@@ -24,7 +24,23 @@ contend with each other yet pack far better than the cost model's splits did.
 **3. Scoring-strategy test plan** written at the maintainer's request mid-run:
 `docs/2026-10-24-scoring-strategy-test-plan.md`.
 
-(Items 3-7 of the overnight plan continue below this section as they land.)
+**4. The two 2026-10-06 "Also on the laptop" checks are closed.** Item 1 (re-run the
+oligo verifier over `papers/`) was done on 2026-10-23 (`results/oligo-verification-2026-10-23.tsv`).
+Item 2, the reader comparison against real PDFs, ran tonight over 142 papers:
+
+    diff_printed_oligos.py --old-rev 826a905                       127 identical, 15 changed, 7 lost, 47 gained
+    diff_printed_oligos.py --old-rev 50430bb --extractor-only --fail-on-loss   109 identical, 33 changed, 0 lost, 86 gained, exit 0
+
+The composition rule loses nothing. The 7 "lost" against the full old reader are all in
+`10.1186_1743-422x-6-210.pdf` (Deckers 2009, the CMV gB paper) and are not oligos:
+`ASCGGTTTGTTGTA`, `ASGCTGACGGGTTGATCTTGCT`, `ASTGTCCTCACCCAG`, `ASTGTCCTGGTGCTCGCA`
+are the table's "as" (antisense) label glued to the start of a sequence, and
+`GCGCCGCTGNAGNCC`, `GCGGACTCGGTGAT`, `GGAAACGCAGCTCNCG` are fragments of the flattened
+table with Ns where the layout broke. The old reader admitted them; the new one does
+not. Written down per the instruction, not fixed; the Deckers oligos themselves were
+verified by hand on 2026-10-18 (RESUME item 4 below).
+
+(Items 3, 6 and 7 of the overnight plan continue below this section as they land.)
 
 ### The old section 0, kept for the record
 

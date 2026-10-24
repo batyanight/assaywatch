@@ -49,6 +49,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from assaywatch.accession import strip_version  # noqa: E402
+from assaywatch.clustermaps import cluster_assays, cluster_maps  # noqa: E402
 from assaywatch.drift import assess  # noqa: E402
 from assaywatch.lineage import (  # noqa: E402
     load_taxa_cache,
@@ -186,7 +187,11 @@ class Evidence:
 
 
 def load_evidence(
-    calls_path: Path, retrieved: Path, cfg: dict | None = None, query_taxids: dict[str, int] | None = None
+    calls_path: Path,
+    retrieved: Path,
+    cfg: dict | None = None,
+    query_taxids: dict[str, int] | None = None,
+    registry: Path | None = None,
 ) -> Evidence:
     """Read and deduplicate the calls table and the deposit dates, once.
 
@@ -235,7 +240,17 @@ def load_evidence(
     resolvers = titles = None
     if taxids is not None and cfg.get("lineage", {}).get("sublineage"):
         lcfg = cfg["lineage"]
-        resolvers = sublineage_resolvers(lcfg, query_taxids or {})
+        # The cluster resolver's maps come from the archives (clustermaps.py) and need
+        # the registry for the assays' primers; without a registry the resolver defers.
+        maps: dict[str, dict[str, str]] = {}
+        if registry is not None and cluster_assays(lcfg):
+            from assaywatch.validate import iter_files, load_assay
+
+            assay_objs = {a.id: a for a in (load_assay(p) for p in iter_files(registry))}
+            maps, _ = cluster_maps(
+                lcfg, assay_objs, [r for rs in by_assay.values() for r in rs], retrieved, cfg
+            )
+        resolvers = sublineage_resolvers(lcfg, query_taxids or {}, cluster_maps=maps)
         wanted = title_assays(lcfg)
         titles = read_titles(retrieved, {r["record_id"] for a in wanted for r in by_assay.get(a, [])})
 
@@ -288,6 +303,7 @@ def status_as_of(
     assays: set[str] | None = None,
     scope_map: dict[str, set[int]] | None = None,
     query_taxids: dict[str, int] | None = None,
+    registry: Path | None = None,
 ):
     """{assay_id: AssayDrift} as the report would have computed it on `as_of`.
 
@@ -296,7 +312,7 @@ def status_as_of(
     per question, which is what `--cases` does.
     """
     return status_from_evidence(
-        load_evidence(calls_path, retrieved, cfg, query_taxids), cfg, as_of, assays, scope_map
+        load_evidence(calls_path, retrieved, cfg, query_taxids, registry), cfg, as_of, assays, scope_map
     )
 
 
@@ -411,6 +427,7 @@ def main(argv: list[str] | None = None) -> int:
             set(args.assay) if args.assay else None,
             scope_map=scope_map,
             query_taxids=query_taxids,
+            registry=args.registry if args.registry.is_dir() else None,
         )  # one question, so one load
         print(f"{calls}, as of {args.as_of} ({n} records deposited before then)\n")
         for aid, a in sorted(drifts.items()):
@@ -422,7 +439,8 @@ def main(argv: list[str] | None = None) -> int:
     # Comment lines carry each case's provenance; strip them before the header is read.
     body = [ln for ln in args.cases.read_text().splitlines() if ln.strip() and not ln.startswith("#")]
     cases = list(csv.DictReader(body, delimiter="\t"))
-    evidence = load_evidence(calls, args.retrieved, cfg, query_taxids)  # once, not once per case
+    registry = args.registry if args.registry.is_dir() else None
+    evidence = load_evidence(calls, args.retrieved, cfg, query_taxids, registry)  # once, not once per case
 
     # Resolve every case id BEFORE scoring any of them, and refuse to report a
     # confusion matrix that silently omits cases. An id matching nothing is a

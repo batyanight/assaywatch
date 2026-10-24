@@ -53,7 +53,6 @@ from __future__ import annotations
 
 import argparse
 import gzip
-import hashlib
 import json
 import os
 import sys
@@ -66,6 +65,7 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch.credentials import ncbi_api_key, scrub
+from assaywatch.groups import group_slug as group_slug
 
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 Transport = Callable[[str, dict[str, Any]], str]
@@ -191,11 +191,9 @@ def build_query(taxid: int, cfg: dict[str, Any], assay_query: str | None = None)
     return " AND ".join(parts)
 
 
-def group_slug(assay_query: str | None) -> str:
-    """Directory name for a retrieval group under its taxid: `all`, or a query hash."""
-    if not assay_query:
-        return "all"
-    return "q" + hashlib.sha1(assay_query.strip().encode()).hexdigest()[:10]
+# `group_slug` lives in assaywatch/groups.py so that report-time code (clustermaps.py)
+# can name an assay's archive directory without importing this module and its NCBI
+# transport into the report's trigger closure. Re-exported here for its existing callers.
 
 
 # --------------------------------------------------------------------------

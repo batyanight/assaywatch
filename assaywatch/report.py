@@ -1779,10 +1779,16 @@ def assess_as_reported(
     # assays whose chain parses them. Empty config: both stay None.
     resolvers = titles = None
     if taxid_map is not None and lineage_cfg.get("sublineage"):
+        # The cluster resolver's maps, computed from the archives for the assays
+        # whose chain names it (clustermaps.py); empty, and no archive read, otherwise.
+        from assaywatch.clustermaps import cluster_maps
         from assaywatch.lineage import sublineage_resolvers, title_assays
         from assaywatch.metadata import read_titles
 
-        resolvers = sublineage_resolvers(lineage_cfg, {aid: a.target.taxid for aid, a in assays.items()})
+        maps, _ = cluster_maps(lineage_cfg, assays, calls, retrieved, cfg)
+        resolvers = sublineage_resolvers(
+            lineage_cfg, {aid: a.target.taxid for aid, a in assays.items()}, cluster_maps=maps
+        )
         wanted = title_assays(lineage_cfg)
         titles = read_titles(
             retrieved, {strip_version(r["record_id"]) for r in calls if r["assay_id"] in wanted}

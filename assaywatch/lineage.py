@@ -201,15 +201,26 @@ def build_resolvers(
     return resolvers
 
 
-def sublineage_resolvers(lineage_cfg: dict, query_taxids: dict[str, int]) -> dict[str, list[Resolver]]:
+def sublineage_resolvers(
+    lineage_cfg: dict,
+    query_taxids: dict[str, int],
+    cluster_maps: dict[str, dict[str, str]] | None = None,
+) -> dict[str, list[Resolver]]:
     """Resolver chains for every assay named under ``lineage.sublineage``.
 
     ``query_taxids`` is assay_id -> the registry's ``target.taxid``. An assay
     with no entry is absent from the result, and its callers pass
-    ``resolvers=None``, i.e. Phase 1 per-taxid grouping.
+    ``resolvers=None``, i.e. Phase 1 per-taxid grouping. ``cluster_maps`` is
+    assay_id -> {record_id: label} from `clustermaps.cluster_maps`, consumed by
+    a chain that names ``cluster``; absent, that resolver defers on every record.
     """
     entries = lineage_cfg.get("sublineage") or {}
-    return {aid: build_resolvers(e or {}, query_taxid=query_taxids.get(aid)) for aid, e in entries.items()}
+    return {
+        aid: build_resolvers(
+            e or {}, query_taxid=query_taxids.get(aid), cluster_map=(cluster_maps or {}).get(aid)
+        )
+        for aid, e in entries.items()
+    }
 
 
 def title_assays(lineage_cfg: dict) -> set[str]:
