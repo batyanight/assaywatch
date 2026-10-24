@@ -58,6 +58,22 @@ from PubMed; verify independently before entry.
   rule.
 
 ## Recommendation
+
+> **APPLIED 2026-10-24, with one part of this recommendation struck.** The three entries are
+> in `registry/` as `MONKEYPOX_dsDNA_{G2R_generic,G2R_WestAfrican,C3L_CongoBasin}_TaqMan_Li_2010`,
+> `status: draft`, DOI Crossref-verified, all nine oligos verified `exact` against the paper's
+> own text, and every amplicon measured rather than quoted because the paper states no size
+> (90 bp generic, 85 bp WA with a bimodal 82, 100 bp C3L).
+> **The `scope_taxids` half of this recommendation cannot be carried out: NCBI Taxonomy has no
+> node for either monkeypox clade.** The whole subtree of 10244 is two children, *Callithrix
+> jacchus orthopoxvirus* (243803) and Monkeypox virus Zaire-96-I-16 (619591). So both
+> clade-specific entries carry `scope_narrower_than_taxid` as the disclosure instead, the way
+> AVIPOXVIRUS Baek does. It matters most for C3L, which will read ~8% detection for as long as
+> it is unscoped and whose entry says so in terms.
+> The predicted drift finding is confirmed and is larger than expected: the GENERIC assay's
+> primers are exact in only 20.4% (forward) and 23.0% (reverse) of 13,179 monkeypox genomes
+> while its probe is exact in 92.7%.
+
 Add the **Li 2010 G2R trio** (generic + WA + CB) as three entries, taxid 10244 (MPXV) with
 `scope_taxids` splitting WA (clade II) and CB (clade I) once their current NCBI nodes are
 confirmed. It is the reference standard, it clade-types, its oligos are verifiable, and

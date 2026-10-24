@@ -87,6 +87,48 @@ like the first and exempting the two places that reverse-map deliberately and sa
 as a DOI, and `extract_candidate_oligos`, where it is a documented last-resort fallback that
 never keys a cache or a fetch).
 
+## 2026-10-24 evening: the Li 2010 mpox trio is IN, as drafts, and the clade scoping is impossible
+
+The top recommendation of `docs/2026-10-24-mpox-assay-candidates.md` is applied. Three entries,
+`MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010`, `..._G2R_WestAfrican_...` and
+`..._C3L_CongoBasin_...`, all `status: draft`. The registry is 203 entries: active 179, draft
+23, deprecated 1.
+
+**Provenance is clean.** The paper (10.1016/j.jviromet.2010.07.012) was fetched over the
+Elsevier API and prints all nine oligos inline in its Section 2 rather than in a table; all
+nine transcribe character for character and `verify_oligos_against_paper` reads 9 of 9
+`exact`. Crossref verified the DOI through `resolve_citations.py`, as the rule requires.
+
+**Every amplicon is measured, because the paper states no size at all.** 90 bp (generic),
+85 bp (WA, with a real second mode at 82), 100 bp (C3L). One trap worth passing on: these loci
+sit in the inverted terminal repeat, and a first pass that scanned only the plus strand
+reported ZERO C3L products and undercounted the generic by a third. Count both strands here.
+
+**Two findings came out of the measurement, and one of them kills part of the plan.**
+
+- **The clade scoping the candidates doc proposed cannot be done.** NCBI Taxonomy has no node
+  for clade I or clade II: the subtree of 10244 is just *Callithrix jacchus orthopoxvirus*
+  (243803) and Monkeypox virus Zaire-96-I-16 (619591). Both clade-specific entries therefore
+  carry `scope_narrower_than_taxid` as the disclosure, exactly as AVIPOXVIRUS Baek does. **This
+  is a live maintainer question before C3L goes active**: unscoped, a correctly clade-I-specific
+  assay will post a permanent ~92% non-detection that says nothing about the assay. Its entry
+  argues the case in full.
+- **The generic assay has drifted hard, more than the sweep predicted.** Over 13,179
+  genome-length records its forward primer is exact in 20.4% and its reverse in 23.0%, while
+  its probe is exact in 92.7%. Probe-intact, primers-gone is the signature of site drift, not
+  of a bad transcription. The paper calls this assay "completely homologous within the MPXV DNA
+  sequence except one SNP in forward primer sequence", which was true of a 2010 alignment and is
+  not true of GenBank now. It is the Kulesh 2004 story one locus over.
+
+Also measured, and recorded on the WA entry rather than asserted: C3L presence is a clade
+marker (the paper chose that gene because West African strains delete it), and cross-tabulated
+over 13,131 near-complete genomes, all 777 C3L-carrying records give the 82 bp WA product while
+all 9,654 records giving 85 bp lack C3L. The length does not partition the clades cleanly -
+1,901 C3L-negative records also give 82 - so the entry does not claim that it does.
+
+Still unapplied from that doc: Gallardo-Romero 2011 (North American orthopoxviruses, the
+wildlife gap) and Zhao 2013 (parapoxvirus quartet, paper not held).
+
 
 ## 2026-10-24: the diverged+anchor_fdr pair SHIPPED at q=0.001
 

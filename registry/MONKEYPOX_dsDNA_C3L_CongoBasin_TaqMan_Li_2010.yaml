@@ -1,0 +1,64 @@
+id: MONKEYPOX_dsDNA_C3L_CongoBasin_TaqMan_Li_2010
+name: MONKEYPOX virus (dsDNA) — C3L Congo Basin clade TaqMan (Li 2010)
+target:
+  taxid: 10244
+  gene: complement binding protein (C3L)
+  genome_type: dsDNA
+  taxon_name: Monkeypox virus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: C3L_F
+    seq: TGTCTACCTGGATACAGAAAGCAA
+  reverse:
+    name: C3L_R
+    seq: GGCATCTCCGTTTAATACATTGAT
+  probe:
+    name: C3L_P
+    seq: CCCATATATGCTAAATGTACCGGTACCGGA
+    reporter: FAM
+    quencher: BHQ1
+  alternates: []
+amplicon_bp: 100
+citation:
+  doi: 10.1016/j.jviromet.2010.07.012
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: Li Y, Zhao H, Wilkins K, Hughes C, Damon IK. 2010. Real-time PCR assays for the specific detection of monkeypox
+    virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-24 from the paper''s own Section 2 text (see the generic sibling for the quoted sentence and
+    the transcription note). The paper''s claim for this assay is the CONGO BASIN clade, now clade I, not the species. THE
+    PAPER GIVES NO PRODUCT SIZE. MEASURED 2026-10-24 against the existing taxid 10244 archive, 13,179 records of genome length
+    (>=50 kb), of which 13,131 are near-complete (>=180 kb). Products were counted on BOTH strands: this locus sits in the
+    inverted terminal repeat, so a first pass that scanned the plus strand only found zero C3L products and undercounted G2R_G
+    by a third. C3L gives a product in 1,047 genomes, 100 bp in 1,045 of them and 94 bp in 2. READ THE LOW DETECTION RATE
+    AS THE ASSAY WORKING, NOT FAILING. C3L is exact in about 8% of the archive - forward 1,057, reverse 1,052, probe 1,054
+    of 13,179 - and the three numbers agreeing to within five records is the signature of a locus that is either wholly present
+    or wholly absent, not of drift. That is what the paper says should happen: it chose this gene BECAUSE "all known MPXV
+    West African strains delete C3L", so a negative on a clade II genome is the assay''s designed behaviour. Measured on the
+    same records, every genome that carries C3L gives the 82 bp form of the sibling G2R_WA product, and the 9,654 genomes
+    giving the 85 bp form carry no C3L at all. SO THIS ENTRY WILL READ AS A FAILING ASSAY UNTIL IT CAN BE SCOPED, AND IT CANNOT
+    BE SCOPED. NCBI Taxonomy holds no node for either monkeypox clade - the subtree of 10244 is two children, Callithrix jacchus
+    orthopoxvirus (243803) and Monkeypox virus Zaire-96-I-16 (619591), checked with esearch on 2026-10-24 - so there is no
+    scope_taxids list that would restrict the denominator to clade I. Same shape as AVIPOXVIRUS Baek in docs/2026-10-24-scope-audit.md:
+    the flag is the disclosure. A maintainer should weigh that before setting status: active, because an unscoped clade-I
+    assay contributes a permanent ~92% non-detection to the report that means nothing about the assay. The honest alternatives
+    are a clade-I scope mechanism the schema does not yet have, or leaving this entry draft until one exists. status: draft
+    and doi_verified: false on entry; only a maintainer sets active.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: the paper states no product size; 100 bp measured in 1,045 of 1,047 genomes that give a product
+- flag: scope_narrower_than_taxid
+  note: Congo Basin clade only by design, and NCBI Taxonomy has no monkeypox clade node to scope to
