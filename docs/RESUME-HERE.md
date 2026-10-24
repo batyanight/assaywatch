@@ -300,7 +300,7 @@ checked 0 problems, ruff clean.**
 - The calicivirus re-cite to Neill & Seal 1995; M1. (The three Sigrist oligos are CLOSED as
   of 2026-10-24 — both the `BornaPCA6`/`PaBVcon_1401+` and `A647N`/`A674N` questions are
   answered and the registry was right; see the 2026-10-24 daytime section.)
-- The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries); `209/all`
+- The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries). (`209/all` is CLOSED as of 2026-10-24.)
   Helicobacter, still never screened.
 - Four held-out rows rest on an oligo that differs from the registry's by one base or a
   5' trim (see the candidates doc); one of those, the pan-coronavirus Watanabe reverse,
@@ -854,6 +854,20 @@ free since this run was owed anyway.
   screened, the report says 204, and the gap is one assay with zero rows. S1's guard is the
   mirror image of this (ids in the table the registry lacks) and by design cannot catch it.
   **The cheap fix is the same shape as S1: name registry assays that produced no calls.**
+  **THE INSTANCE IS FIXED, 2026-10-24; the guard is still wanted.** That entry now carries the
+  query its sibling and the Conley entry already use, character for character, so the slug is
+  identical and it joined the EXISTING `209/qea281b18a4` archive of 6,008 records with nothing
+  downloaded. Adding 209 to `large_taxa_allowed` was rejected: it would fetch 843,447 records to
+  screen an assay whose product is 398 bp, and the sibling already proves the query suffices.
+  Verified by running the screen: on the first archive file alone the entry produces 1,044
+  `detect`, 11 `reduced`, 94 `fail` and 1,833 `no_amplicon` - 1,055 of 1,149 assessable, 91.8%
+  - where before it had never produced a single row. Also filled `amplicon_bp: 398`, measured
+  (C97+C98 exact in 1,926 of 6,008 records, 398 bp in 1,848 of them, 96%, unimodal so a scalar),
+  which closed its `amplicon_size_unresolved` flag; and corrected its citation page range from
+  114:1174-1180 to Crossref's 114:755-763, which is what the sibling already had, so the two
+  entries no longer disagree about the pages of the one DOI they share. Consequence to expect:
+  adding an assay to a group changes that group's screen signature, so `209/qea281b18a4`
+  rescreens on the next run.
 - **One status move, and it is mine, not GenBank's.**
   `ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2` stable -> declining. Chain, verified end to
   end: the `amplicon_bp` 200 -> 196 correction in `f35ffa1` moved the accepted window from
