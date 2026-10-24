@@ -63,3 +63,39 @@ Add the **Li 2010 G2R trio** (generic + WA + CB) as three entries, taxid 10244 (
 confirmed. It is the reference standard, it clade-types, its oligos are verifiable, and
 watching G2R_WA is the single most informative thing the registry could do about mpox drift.
 Optionally add Huo 2022 later for B.1 lineage typing. Source: PubMed; all DOIs above.
+
+## CDC sweep (2026-10-24): two new candidates, both wildlife-relevant and NOT mpox
+
+A PubMed sweep of CDC Poxvirus and Rabies Branch real-time PCR papers (affiliation
+"Centers for Disease Control") surfaced two assay-DESIGN papers that fill registry gaps
+and fit the wildlife/veterinary scope better than another mpox assay. Source: PubMed.
+
+### A. Gallardo-Romero et al. 2011 — North American orthopoxviruses (STRONG wildlife fit)
+- Virol J 8:313, [DOI](https://doi.org/10.1186/1743-422X-8-313), PMC3144017 (open access, so oligos verifiable).
+- TaqMan assay on a myristylated protein gene conserved across the NORTH AMERICAN
+  orthopoxviruses (Volepox, Skunkpox, Raccoonpox) and distinct from Eurasian OPXV; does not
+  cross-react with other orthopox or the wider Chordopoxvirinae. Sensitivity 1-6 fg.
+- Why it matters here: the registry has pan-pox consensus and MPXV, but NOTHING specific to
+  the North American wild orthopoxviruses -- voles, skunks, raccoons -- which is squarely
+  zoo/wildlife diagnostics. Clean, single-assay add.
+
+### B. Zhao et al. 2013 — Parapoxviruses: orf, pseudocowpox, bovine papular stomatitis
+- J Virol Methods 194:229-234, [DOI](https://doi.org/10.1016/j.jviromet.2013.08.027); no PMC
+  id returned, so likely paywalled -- would need the paper obtained before oligos can be
+  verified (NYU proxy).
+- TaqMan generic parapoxvirus assay + three species-specific (ORFV, PCPV, BPSV) on the RNA
+  polymerase gene. Orf is a common zoonosis of sheep/goats and their handlers; ruminant
+  relevance is high for a wildlife/veterinary registry. Splits into 4 entries by probe.
+
+Not assay-design (excluded): the Nigeria 2017-18 outbreak report
+([DOI](https://doi.org/10.1016/S1473-3099(19)30294-4)), the GeneXpert commercial eval
+([DOI](https://doi.org/10.4269/ajtmh.16-0567), proprietary oligos), the rope-squirrel and
+Gambian-pouched-rat reservoir studies, the lab-acquired cowpox case, and the ST-246 antiviral
+study -- all use PCR but none publish a new verifiable assay.
+
+### Revised recommendation across the whole sweep
+Three clean, in-scope, open-access adds, in priority order: (1) Li 2010 G2R trio (mpox,
+clade-typing, watches the known clade-IIb drift); (2) Gallardo-Romero 2011 North American
+OPXV (fills a wildlife gap, single assay); (3) Zhao 2013 parapox quartet (orf etc., needs the
+paper first). Huo 2022 and Greninger 2022 remain options for mpox lineage/clinical depth.
+Still nothing applied.
