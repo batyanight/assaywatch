@@ -33,7 +33,7 @@ supplement). Seven `supplement` rows left `docs/materials-needed.tsv`.
 |---|---|---|
 | `CDV_H_gene_Mueller_2011_1..4` | 10.7589/0090-3558-47.3.725 | the old reference string already named this paper as a *candidate*; all four primer pairs verify exact against the PDF, so the candidate is now evidence |
 | `Nipah_N_gene` | 10.1016/j.jviromet.2006.11.023 | NP1F/NP1R exact in Wacharapluesadee & Hemachudha 2007, which names them the first round of a duplex nested RT-PCR with NP2F/NP2R — the sibling entry's pair — as the nested round |
-| `Entamoeba_18S_small_subunit_SSU` | 10.1638/2020-0148 | EntF/EntR exact in McFarland 2021; Tracie Seimon is third author, so this is the publication of the "developed in house by Tseimon" assay |
+| `Entamoeba_18S_small_subunit_SSU` | 10.1638/2020-0148 | EntF/EntR exact in McFarland 2021, so this is the publication of the seed list's unpublished assay |
 
 All three were paywalled, which is why `find_open_access.py` and the Europe PMC
 route never found them; `Nipah_N_gene` carried an explicit NO SOURCE FOUND note

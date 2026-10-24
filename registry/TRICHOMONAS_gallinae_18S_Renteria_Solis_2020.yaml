@@ -31,12 +31,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Methods text in papers/ (10.1007_s00436-020-06887-x.pdf), which prints
     both primers and their positions on its design template, GenBank MK172846. VERIFIED against that record: Trig7F is at
     976-995 and Trig7R''s site at 1069-1088, exactly as the paper states, giving the predicted 113 bp. MEASURED on all 346

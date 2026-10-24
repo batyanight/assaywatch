@@ -27,14 +27,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 354
-  - 355
-  positive_control: null
   nested_round: round2
   nested_family: CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000
-  notes: null
   notes_curator: 'SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added. The lineage override fires here on Circovirus
     parrot (3047561, BFDV) at 69/95 = 72.6 percent against a pooled 45.0 percent of 473, turning a low coverage into declining.
     BFDV is not out of this assay''s range: Mankertz et al. 2000 built the consensus primers on an alignment of the rep genes

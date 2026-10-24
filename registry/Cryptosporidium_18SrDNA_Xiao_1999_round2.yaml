@@ -35,15 +35,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 105
-  - 106
-  - 107
-  - 108
-  positive_control: UC5
   nested_round: round2
-  notes: null
   notes_curator: 'SPLIT OUT OF THE PRIMARY ENTRY 2026-10-14, on the evidence the primary entry''s own notes_curator
     had already assembled. Xiao et al. 1999 prints a nested pair of pairs: primary PCR, ''about 1,325 bp'', with TTCTAGAGCTAATACATGCG
     and CCCTAATCCTTCGAAACAGGA; secondary PCR, ''819 to 825 bp (depending on the species)'', with GGAAGGGTTGTATTTATTAGATAAAG

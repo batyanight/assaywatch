@@ -26,12 +26,6 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 647
-  - 648
-  positive_control: Universal control 5
   nested_round: null
-  notes: null
 needs_review:
 - flag: orientation_inferred

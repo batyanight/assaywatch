@@ -46,7 +46,7 @@ from assaywatch.timing import (
     write_run_marker,
 )
 from assaywatch.triggers import source_names
-from assaywatch.validate import iter_files
+from assaywatch.validate import iter_files, load_assay, not_live_because
 
 configfile: "config.yaml"
 
@@ -103,6 +103,14 @@ RUN_DATE, RUN_DATE_REASON = resolve_run_date(config, _STATE_DIR)
 TODAY = RUN_DATE
 SCREEN_MB_PER_THREAD = config.get("screen_mb_per_thread", 25)  # gzipped MB per screening worker
 THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
+
+# Only an assay with a verified DOI goes live. The validator enforces this in CI and
+# pre-commit; checking here as well means a hand-edited registry cannot be screened.
+_not_live = [
+    f"{p.name}: {why}" for p in iter_files(Path(REGISTRY)) if (why := not_live_because(load_assay(p)))
+]
+if _not_live:
+    raise SystemExit("registry entries without a verified DOI:\n  " + "\n  ".join(_not_live))
 
 # {(taxid, group): {"name", "query", "assays"}} from the registry as it stands.
 GROUPS = targets_from_registry([Path(REGISTRY)], config)

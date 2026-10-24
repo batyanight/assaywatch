@@ -29,14 +29,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 493
-  - 494
-  positive_control: null
   nested_round: null
   nested_family: CMV_UL55_gB_Deckers_2009_Deckers_2009
-  notes: null
   notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER (Prepens et al. 2007), BUT THEIR SOURCE IS KNOWN: Deckers M et al.
     2009, Virol J 6:210 (PMID 19941648, PMC2789067; DOI 10.1186/1743-422X-6-210 as returned by PubMed, NOT yet checked against
     Crossref, which was unreachable). Found missing from Prepens 2026-10-05 by scripts/verify_oligos_against_paper.py; source
@@ -44,7 +38,7 @@ source:
     PAIR: round 1 is 4007s GGTGACGTGGTTGACAT(n/i)TC(n/i)CC and 4007as GCAATCGGTTTGTTGTA(n/i)AT(n/i)GC, product 800 bp ("approximate
     values", per the table footnote); round 2 is 4125s and 4125as, product 550 bp. Both stored sequences here match exactly,
     reading (n/i) as N, and the stored amplicon_bp of 800 is the paper''s. So this entry is ROUND 1 of the pair held by CMV_UL55_gB_Deckers_2009_round2_2.
-    source.nested_round stays null on purpose: that field records what the spreadsheet said, and it recorded no round. Prepens
+    source.nested_round stays null on purpose: that field records what the seed list said, and it recorded no round. Prepens
     2007 prints 16 PCR primers in Table 3, four in each of four named sets (RH-gB, LC-gB, CM-gB, CM-MDBP, numbered 2743-2762
     and 3730-3731), plus 7 LNA oligonucleotides in Table 2, and none is 4007-s or 4007-as: the string "4007" does not occur
     in it, and no ACGT-only fragment of 8 or more bases of either sequence, in either orientation, occurs in its text. Deckers''

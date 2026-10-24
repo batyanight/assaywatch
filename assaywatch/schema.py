@@ -319,14 +319,11 @@ class Citation(Strict):
 
 
 class Source(Strict):
-    spreadsheet: str | None = None
     # PREDICT consensus-PCR panel protocol id (P-001..P-041) when this assay's
     # oligos match that protocol's, per the Anthony et al. 2015 supplement. A
     # stable identifier across the PREDICT literature, so an entry can be
     # cross-referenced to it without relying on free text.
     predict_protocol: str | None = Field(default=None, pattern=r"^P-0\d\d$")
-    rows: list[int] | None = None
-    positive_control: str | None = None
     # A nested assay is stored as one entry per round, linked by this field and
     # by `nested_family`. Containment checks the declaration: the round-2 sites
     # must lie inside the round-1 product.

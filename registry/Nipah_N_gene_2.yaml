@@ -30,13 +30,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 633
-  - 634
-  positive_control: Universal control 1
   nested_round: null
-  notes: null
   notes_curator: 'TAXON RENAMED: NCBI now calls txid121791 ''Henipavirus nipahense''; this entry carried the superseded name
     ''Nipah henipavirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses,
     so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. SOURCE
@@ -51,7 +45,7 @@ source:
     both now carry SEQUENCES_READ_FROM_A_CITING_PAPER_NOT_THE_SOURCE so the distinction is visible rather than implied. Confirm
     against Chua''s own methods when that paper is in hand. AMPLICON CONFIRMED, NOT CHANGED: measured against all 426 records
     of the 2026-10-03 Henipavirus nipahense archive, the pair gives a product in 292 and it is 227 bp in every single one
-    - exactly the stored value, which until now rested on the spreadsheet alone. A DRIFT FINDING: the forward primer is exact
+    - exactly the stored value, which until now rested on the seed list alone. A DRIFT FINDING: the forward primer is exact
     in only 56 of those 292 and sits 2 mismatches away in 231; the reverse is exact in 54 and 2 mismatches away in 190. So
     roughly four fifths of deposited Nipah carries two mismatches under each primer while the product length has not moved
     at all. The deposit titles do not separate the two groups - NCBI has renamed the species, so ''Nipah virus'' and ''Henipavirus

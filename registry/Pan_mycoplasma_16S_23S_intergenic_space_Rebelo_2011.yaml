@@ -28,11 +28,5 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 139
-  - 140
-  positive_control: Mycoplasma cynos, DNA extract of bacterial culture (c/o Randy Renshaw, Cornell University), UC4
   nested_round: null
-  notes: null
 needs_review: null

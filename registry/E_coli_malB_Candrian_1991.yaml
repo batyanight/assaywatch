@@ -22,19 +22,13 @@ citation:
   n_sequences_at_design: null
   as_written: Candrain et al. 1991
   doi_verified: true
-  reference: Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (spreadsheet spells it Candrain)
+  reference: Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (seed list spells it Candrain)
 use_context:
 - public_health
 - veterinary
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 770
-  - 771
-  positive_control: null
   nested_round: null
-  notes: null
 needs_review:
 - flag: orientation_inferred

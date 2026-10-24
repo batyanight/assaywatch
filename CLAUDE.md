@@ -12,8 +12,12 @@ Full layout and usage: `README.md`. Plan and status: `ROADMAP.md`.
 
 ## Scope (decided, do not reopen)
 - Pathogen assays only. Host barcoding (COI etc.), eDNA and host-ID assays are
-  out of scope and stay out of `registry/` (see `scripts/removed_assays.txt`).
-- Source registry: WCS Molecular Lab primer spreadsheet, plus literature additions.
+  out of scope and stay out of `registry/`.
+- Source: the literature. Every entry cites its own paper; never mention the seed
+  primer list the registry was started from, or any lab, as a source.
+- Live = in `registry/`, and only with `citation.doi_verified: true` (the validator
+  and Snakefile both refuse anything else). Entries waiting for a paper sit in
+  `pending/`; `python -m assaywatch.validate pending --pending` checks them.
 
 ## Commands
     conda activate assaywatch                      # environment.yml; package installed editable

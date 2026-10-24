@@ -35,11 +35,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-05 from the paper''s own text, read out of the PDF in papers/ rather than transcribed from any secondary list. Candidate surfaced by the journal sweep in docs/2026-10-04-literature-audit.md; sequences extracted with scripts/extract_candidate_oligos.py and then checked against real GenBank records before the entry was trusted. Paranannizziopsis causes a snake fungal disease distinct from ophidiomycosis and was absent from the registry, which previously held only Ophidiomyces. VERIFIED on PZ205981.1: both primers and the probe match, giving an 82 bp product with the probe inside it. amplicon_bp is measured; the paper states no size. Three of four sampled records gave nothing, but those are NG_ reference ITS sequences and a longer OR submission covering a different part of the region, so this needs a proper archive before the detected share means anything. THE PROBE CONTAINS A REAL INOSINE, which the paper explains it placed deliberately. It is stored the way this registry requires: `seq` keeps strict IUPAC with N at that position and `seq_as_written` keeps the I, so matching and degeneracy both read the inosine as one molecule pairing with C, A and T rather than as a 4-fold degenerate position. Reading this probe from `seq` alone would overstate its degeneracy fourfold. The paper notes the assay does not speciate, and that follow-up sequencing of the amplicon distinguishes Paranannizziopsis sp. 1 from sp. 2 by SNPs - so a detection here is a genus call, not a species call.'
 needs_review: null

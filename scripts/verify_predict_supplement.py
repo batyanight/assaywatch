@@ -12,7 +12,7 @@ paper. But the oligos were transcribed from the PREDICT protocol book, Anthony e
 al. 2015, Nat Commun 6:8147, Supplementary Methods (doi 10.1038/ncomms9147,
 CC-BY 4.0), and the book modifies some of them (P-004's `ARS7C-Mod`). So the
 book is what the stored sequences must match, and until 2026-10-21 it was not
-on disk: `docs/materials-needed.tsv` listed 35 entries waiting on it.
+on disk: 35 entries were waiting on it.
 
 The book's layout, per protocol: a `P-0xx <Family>` heading, then a PRIMERS
 block where each oligo is `NAME-SEQ` or `NAME;SEQ` and a `ROUND n` label sits

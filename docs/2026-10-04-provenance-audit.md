@@ -89,7 +89,7 @@ that started this.
 | `Morbillivirus_including_CDV_P_gene_Barrett_2003` | id says 2003, `design_year` 1993 | decide which is the real paper |
 | 4 `modified` entries with a DOI attached | `ARS7C-MOD`, `Ziao18SR1 corrected`, `GEI18SF Mod`, `MOD-FWD`/`MOD-RVS` — the DOI asserts a sequence the paper never printed | each paper's primer table, to recover the unmodified sequence and record the modification as a modification |
 | `Snake_arenavirus_..._Nachweis_2015` | reference is a German title, so no author is readable | the paper |
-| 33 `no-citation` entries | mostly honest "developed at WCS, unpublished" | nothing — but they can never be scope-checked, which is worth stating in the paper |
+| 33 `no-citation` entries | mostly honest "unpublished" | nothing — but they can never be scope-checked, which is worth stating in the paper |
 
 The four `modified`-plus-DOI entries are **worse than the Johnson case**: there
 the citation pointed at the wrong paper, but the sequence was at least somebody's

@@ -27,14 +27,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 726
-  - 727
-  positive_control: null
   nested_round: null
-  notes:
-  - (SIV polymerase) Xreacts w/ gorilla, chimp and Human HIV
   notes_curator: SOURCE FOUND 2026-10-21 and verified against the local PDF. All FOUR Hahn primers are in Takehisa et al.
     2009 with whitespace flattened - HahnF1 and HahnR1 here, HahnF2/HahnR2 in the sibling entry RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009
     - so this is the outer round of the same nested pol assay and the two entries share one source. Found by Europe PMC full-text

@@ -30,15 +30,9 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-029
-  rows:
-  - 723
-  - 724
-  positive_control: null
   nested_round: round2
   nested_family: RETROVIRUS_SIV_pol_PREDICT_P029
-  notes: null
   notes_curator: 'PREDICT panel protocol P-029 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley,
     J.P. et al (1998). Citation updated from Courgnaud 2001 (10.1128/JVI.75.2.857-866.2001) to Clewley 1998: Courgnaud used

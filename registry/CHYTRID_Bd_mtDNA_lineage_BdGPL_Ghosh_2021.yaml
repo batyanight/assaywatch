@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-05. THE SEQUENCES WERE READ OFF AN IMAGE, because this paper gives no primer table: Figure
     1 prints two sections of Bd mtDNA with the primer and probe footprints drawn as boxes over the double-stranded sequence.
     Text extraction returns nothing, so the page was rendered and read, the boxes transcribed, and the reverse primers reverse-complemented

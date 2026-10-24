@@ -27,13 +27,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 342
-  - 343
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised, so verify_oligos_against_paper.py
     had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in
     that script''s doi_stem(). Result: Borna-NF reads near:2. Stored GCCTTGTGTTTCTATGTTTG, paper prints GCCTTGTGTTTCTATCTTTC

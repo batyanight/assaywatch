@@ -31,15 +31,9 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-012
-  rows:
-  - 395
-  - 396
-  positive_control: null
   nested_round: null
   nested_family: ENTEROVIRUS_ssRNA_VP3_VP1
-  notes: null
   notes_curator: 'PREDICT panel protocol P-012 (VP3/VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Nix, W.A.
     (2006). THE in-text VERDICT RESOLVED BY READING TABLE 1, 2026-10-05, another of the rows the 2026-10-04 audit left for

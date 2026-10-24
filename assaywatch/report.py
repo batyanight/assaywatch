@@ -98,7 +98,7 @@ def status_order(grouped: dict[str, Any]) -> list[str]:
 def oligo_twins(assays: dict[str, Assay]) -> dict[str, list[str]]:
     """{assay id: other assays with exactly the same primers and probe}.
 
-    The WCS sheet lists some primer sets more than once (a published name and a
+    The registry holds some primer sets more than once (a published name and a
     lab name, or two rounds that share a primer pair); their rows in the report
     are identical, and the reader should be told so rather than count them twice.
     """

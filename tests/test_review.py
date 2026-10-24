@@ -9,9 +9,7 @@ test counting what is actually in `registry/` does.
 
 from __future__ import annotations
 
-import importlib.util
 import re
-import sys
 from collections import Counter
 from pathlib import Path
 
@@ -149,73 +147,6 @@ def test_open_questions_are_the_minority_they_should_be(entries):
     with_open = [a for a in flagged if a.open_review]
     assert flagged, "the registry has review flags; this test is measuring nothing"
     assert len(with_open) < len(flagged) / 2
-
-
-# --- the two bootstrap scripts, whose output has to be the new shape ---------
-#
-# `parse_wcs_primers.py` builds the drafts and `apply_curation.py` merges
-# curation onto them, so both write `needs_review` before the validator ever
-# sees it. Neither can be run end to end here (the source spreadsheet is a local
-# one-off), but the flag logic in each is pure and is where the S7 edit landed.
-
-
-def _load_script(name: str):
-    spec = importlib.util.spec_from_file_location(name, REGISTRY.parent / "scripts" / f"{name}.py")
-    mod = importlib.util.module_from_spec(spec)
-    sys.modules[name] = mod
-    spec.loader.exec_module(mod)
-    return mod
-
-
-def test_the_parser_emits_items_the_schema_accepts():
-    parse = _load_script("parse_wcs_primers")
-    items = parse.review_items(
-        {"DO_NOT_USE", "NESTED", "NOT_AN_OLIGO_LENGTH"},
-        many_primers=True,
-        orientation_by_position=True,
-    )
-    flags = [i["flag"] for i in items]
-    assert flags == [
-        ReviewFlag.do_not_use.value,
-        ReviewFlag.nested_protocol.value,
-        ReviewFlag.pairing_is_curator_reading.value,
-        ReviewFlag.orientation_inferred.value,
-    ]
-    # NOT_AN_OLIGO_LENGTH is a mark about one spreadsheet row, not a review
-    # flag, and must not leak into the registry's vocabulary.
-    assert "NOT_AN_OLIGO_LENGTH" not in str(items)
-    for item in items:
-        assert set(item) <= {"flag", "note"}
-
-
-def test_the_parser_no_longer_emits_a_flag_for_a_missing_year():
-    """It used to append NO_YEAR, which `citation.design_year` already says."""
-    parse = _load_script("parse_wcs_primers")
-    items = parse.review_items(set(), many_primers=False, orientation_by_position=False)
-    assert items == []
-    assert not any(k.lower() in {f.lower() for f in DERIVABLE} for k in parse.CELL_MARK_TO_FLAG)
-
-
-def test_every_cell_mark_the_parser_knows_maps_to_the_right_flag():
-    """Pinned pair by pair, because the mapping *is* the content of that table.
-
-    `UNTESTED -> do_not_use` would pass any test that only checked the flags
-    were real: both exist, both are open. But `do_not_use` raises a
-    keep-or-delete row in materials-needed.tsv and `not_validated` does not, so
-    the mismapping would manufacture deletion decisions for assays whose only
-    sin is that nobody has run them.
-    """
-    parse = _load_script("parse_wcs_primers")
-    assert parse.CELL_MARK_TO_FLAG == {
-        "DO_NOT_USE": ReviewFlag.do_not_use,
-        "CROSS_REACTIVE": ReviewFlag.cross_reactive,
-        "UNTESTED": ReviewFlag.not_validated,
-        "MODIFIED_IN_HOUSE": ReviewFlag.oligos_modified,
-        "NESTED": ReviewFlag.nested_protocol,
-    }
-    # Every marker the sheet-reader can raise has a home here, so a new pattern
-    # cannot be added upstream and then silently dropped on the way in.
-    assert set(parse.CELL_MARK_TO_FLAG) == set(parse.FLAG_PATTERNS)
 
 
 def test_oligo_doubt_is_narrower_than_caveat_and_excludes_good_practice():

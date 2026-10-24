@@ -28,13 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 786
-  - 787
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'OLIGOS ARE NOT RAHN''S PUBLISHED PAIR. Read 2026-10-20 from the local PDF, which has a text layer. Rahn''s
     Table 3 prints exactly two primers, both in lower case: 139 gtgaaattatcgccacgttcgggcaa at invA 287-312, and 141 tcatcgcaccgtcaaaggaacc
     at 571-550. This entry''s Sal-3 is the 3''-terminal 19 nt of 139, missing GTGAAAT from the 5'' end; Sal-4 is the 3''-terminal

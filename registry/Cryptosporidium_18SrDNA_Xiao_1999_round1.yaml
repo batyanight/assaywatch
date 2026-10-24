@@ -34,15 +34,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 105
-  - 106
-  - 107
-  - 108
-  positive_control: UC5
   nested_round: round1
-  notes: null
   notes_curator: 'RE-CITED AND VINDICATED 2026-10-05. The entry cited Xiao et al. 2000 (Appl Environ Microbiol 66:5492, storm-water
     oocysts), and scripts/verify_oligos_against_paper.py reported all three stored oligos absent from it, which was right:
     that paper does not print them. A Europe PMC full-text search on each sequence returns Xiao et al. 1999 instead, and two

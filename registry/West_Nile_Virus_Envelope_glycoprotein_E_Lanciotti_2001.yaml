@@ -29,14 +29,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 432
-  - 433
-  positive_control: null
   nested_round: null
-  notes:
-  - WNV (N2011-0617, Red tailed hawk, brain)
   notes_curator: 'id corrected 2026-10-04: it misspelled Lanciotti as ''Lancotti''. Crossref confirms the author. THE in-text
     VERDICT IS EXPLAINED, 2026-10-05, and the explanation characterises the modification this entry was already flagged for.
     The 2026-10-04 audit listed WN-1333 and WN-1494c among the rows needing a human to open the primer table; this is that

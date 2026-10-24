@@ -28,13 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 290
-  - 291
-  positive_control: null
   nested_round: round2
-  notes: null
   notes_curator: 'SCOPE TRIAGE 2026-10-20, decision HELD for a maintainer; see docs/2026-10-20-scope-curation.md. Casas et
     al. 2005''s own range is human adenovirus: it validated on 47 prototype HAdV serotypes covering species A to F in clinical
     samples, and tested no non-human adenovirus. But as_written is PREDICT PROTOCOL and the lab uses ADHEX as a pan-adenovirus

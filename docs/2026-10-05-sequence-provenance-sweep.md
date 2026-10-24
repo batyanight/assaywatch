@@ -17,7 +17,7 @@ reduced to their longest unambiguous run - it returned hits for 77.
 |---|---|---|
 | `CMV_..._gB`, `..._round2_2` | cited Prepens 2007, primers absent from it | Deckers 2009 Virol J 6:210, set CMV-gBp1 |
 | `ADENOVIRUS_..._Primate_speci` + `..._Casas_2005` | cited Casas 2005, primers absent from it | Roy 2009 PLoS Pathog 5:e1000503, nested pol PCR |
-| `POXVIRUSES_..._Polymerase_short_2` | "Developed at WCS-TC (unpublished)" | McAloose 2016 Dis Aquat Organ 119:17, via Vila 2019 |
+| `POXVIRUSES_..._Polymerase_short_2` | "unpublished" | McAloose 2016 Dis Aquat Organ 119:17, via Vila 2019 |
 | `Helicobacter_XREACTS_with_general_bac_2` | no citation at all | Conley 2021 PLoS One 16:e0247010 |
 | `PARVOVIRUS_..._dependovirus` | no citation; sibling cited Gao 2002 | Gao 2002 PNAS 99:11854 |
 | `E_coli_O157_H7_hlyA_..._Wang_1997` | "Wang et al 1997 — not resolved" | Wang 1997 J Appl Microbiol 83:727 |

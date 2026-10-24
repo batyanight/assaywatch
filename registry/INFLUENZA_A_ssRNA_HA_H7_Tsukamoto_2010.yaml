@@ -43,12 +43,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.1128_JCM.01264-10.pdf; the text layer is clean,
     no image reading was needed). READ: H7-937Feu (Eurasian forward), H7-937Fam (American forward), H7-1177R and H7-Probe
     (FAM 5'', BHQ 3''; the paper says only BHQ). Transcription cross-check: mixed-base counts as entered (4, 5, 4, 5) equal

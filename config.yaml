@@ -89,7 +89,7 @@ scoring:
   mispair_penalty: {}
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
-  # weighted above the ends. Known gap: of the 44 probe assays here 22 are MGB,
+  # weighted above the ends. Known gap: of the 43 probe assays here 20 are MGB,
   # whose minor-groove binder raises Tm by roughly 15-20 C and makes short probes
   # viable — so an MGB probe's tolerance is not that of a bare oligo of the same
   # length, and these two numbers do not know the difference. `by_chemistry`

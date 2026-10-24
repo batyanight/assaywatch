@@ -31,12 +31,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: P-019
-  rows: null
-  positive_control: null
   nested_round: round1
-  notes: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_01_00306-8.pdf). Alpha1+ and
     Alpha1- are the outer (round 1) primers of the nested RT-PCR described by Sánchez-Seco et al. 2001. Round 2 (Alpha2+/Alpha2-)
     is already in the registry as ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2. Inosine (I) in the published sequences

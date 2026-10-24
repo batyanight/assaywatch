@@ -32,15 +32,9 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-005
-  rows:
-  - 370
-  - 371
-  positive_control: null
   nested_round: round1
   nested_family: CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010
-  notes: null
   notes_curator: 'PREDICT panel protocol P-005 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Quan, P.L.
     et al (2010). THE CITED PAPER AND THE PROTOCOL DISAGREE ON THE REVERSE PRIMER, found 2026-10-05 by scripts/verify_oligos_against_paper.py

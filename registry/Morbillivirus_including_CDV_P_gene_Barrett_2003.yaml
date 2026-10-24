@@ -20,20 +20,14 @@ citation:
   n_sequences_at_design: null
   as_written: Barrett et al, 2003
   doi_verified: true
-  reference: Barrett T et al. 1993. Virology 193:1010-1012 (universal morbillivirus P-gene primers; spreadsheet says 2003)
+  reference: Barrett T et al. 1993. Virology 193:1010-1012 (universal morbillivirus P-gene primers; seed list says 2003)
 use_context:
 - wildlife
 - veterinary
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 564
-  - 565
-  positive_control: Canine distemper (vaccine)
   nested_round: null
-  notes: null
   notes_curator: 'SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added, and the firing lineage turns out to be
     a scorer artefact rather than drift. The override demotes a pooled stable (95.6 percent of 2,815) to low coverage on Morbillivirus
     caprinae (3052343, PPRV) at 0/83. PPRV is the opposite of out of scope: Barrett et al. 1993 is a universal morbillivirus

@@ -29,14 +29,6 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 91
-  - 92
-  positive_control: null
   nested_round: null
-  notes:
-  - Crossreacts with reptile host rRNA, Eimeria, atoxoplasma, toxoplasma, and sarcocyst and did not pick up cryptosporidium,
-    negative control has not worked so far, UC4
 needs_review:
 - flag: cross_reactive

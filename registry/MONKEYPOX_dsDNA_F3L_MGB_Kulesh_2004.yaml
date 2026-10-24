@@ -37,12 +37,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-05 from the paper''s own Table 1, read out of the local PDF. The table prints the F3L assay
     as F3L-F290, F3L-R396 and the MGB probe F3Lp333S-MGB (6FAM/MGBNFQ), with a stated amplicon of 107 bp. amplicon_bp is the
     STATED size pending measurement against real records. MEASURED 2026-10-05 against a 50-genome sample of taxid 10244 drawn

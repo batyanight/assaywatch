@@ -135,7 +135,7 @@ detection either way.
 **Dependoparvovirus, and the direction reverses.** The two Gao entries are Gao 2002
 (`10.1073/pnas.182412299`), verified against the local PDF's printed primers;
 `pan_parvo` has no identifiable design paper at all (its degenerate strings return
-nothing in Europe PMC full text, consistent with `Developed at WCS-unpublished`), so
+nothing in Europe PMC full text, consistent with `unpublished`), so
 no case is possible for it. For the others the only post-design evaluation is Qin
 2021 (`10.1038/s41388-021-01725-5`), which used the signature pair on 728 resections
 and reports ~80% AAV-positive; at its date the option changes the share and not the

@@ -31,14 +31,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-008
-  rows:
-  - 416
-  - 417
-  positive_control: Universal control 1
   nested_round: null
-  notes: null
   notes_curator: 'PREDICT panel protocol P-008 (L), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Zhai, J.
     et al (2007). CONSOLIDATION, NOT IN THE PAPER, found 2026-10-06 when scripts/verify_oligos_against_paper.py reported both

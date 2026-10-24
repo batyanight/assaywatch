@@ -29,14 +29,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-031
-  rows:
-  - 471
-  - 472
-  positive_control: null
   nested_round: round2
-  notes: null
   notes_curator: 'PREDICT panel protocol P-031 (Polymerase), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Van DeVanter, D.R. et al (1996). TAXON RENAMED: NCBI now calls txid10292 ''Orthoherpesviridae''; this entry carried the superseded name ''Herpesviridae''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. AMPLICON MEASURED 2026-10-21: 231 bp, the modal product on 1,828 of 2,934 detected-or-reduced records in the 2026-10-20 calls (was 250). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-031, prints no size for this round (its summary table gives 215-315 bp); the measurement is what is entered.'
 needs_review:
 - flag: orientation_inferred

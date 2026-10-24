@@ -32,15 +32,8 @@ use_context:
 submitted_by: null
 status: deprecated
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 16
-  - 17
-  - 18
-  positive_control: DO NOT USE!!!! X-reactive with host DNA
   nested_round: null
-  notes: null
-  notes_curator: 'Spreadsheet: DO NOT USE, cross-reactive with host DNA; GEI18SR row 18 is the wrong strand and needs reverse-complement. | Oligo annotations moved from name field: GEI18SF (forward): Mod; GEI18SR (reverse): corrected Mod; GEI18SR (alternate[0]): incorrect, need reverse complement'
+  notes_curator: 'Seed list: DO NOT USE, cross-reactive with host DNA; GEI18SR row 18 is the wrong strand and needs reverse-complement. | Oligo annotations moved from name field: GEI18SF (forward): Mod; GEI18SR (reverse): corrected Mod; GEI18SR (alternate[0]): incorrect, need reverse complement'
 needs_review:
 - flag: cross_reactive
 - flag: do_not_use

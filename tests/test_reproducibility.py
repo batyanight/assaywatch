@@ -33,11 +33,11 @@ def test_the_documented_commands_have_their_dependencies_in_the_env():
     """A fresh env must be able to run every command the docs tell a user to run.
 
     Each of these backed a documented command that a core-only install left out
-    (parse_wcs_primers, verify_oligos_against_paper --pdf-dir,
-    verify_predict_supplement, the SLURM profile). If one is dropped from
+    (verify_oligos_against_paper --pdf-dir, verify_predict_supplement, the
+    SLURM profile). If one is dropped from
     environment.yml, the command silently breaks only on a clean machine.
     """
-    for dep in ("openpyxl", "pypdf", "poppler", "snakemake-executor-plugin-slurm"):
+    for dep in ("pypdf", "poppler", "snakemake-executor-plugin-slurm"):
         assert _env_dep(dep) is not None, f"{dep} missing from environment.yml"
 
 

@@ -29,16 +29,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 794
-  - 795
-  positive_control: null
   nested_round: null
-  notes:
-  - Mark Schrenzel,1,* J. Lindsay Oaks,2 Dave Rotstein,3 Gabriel Maalouf,1 Eric Snook,1 Cal Sandfort,4 and Bruce Rideout1
-  - Characterization of a New Species of Adenovirus in Falcons
-  - 'J Clin Microbiol. 2005 July; 43(7): 3402–3413.'
   notes_curator: DOI RESOLVED 2026-10-05, LESS DIRECTLY THAN ITS SIBLING E_coli_O157_hlyA_Wang_1997. That
     entry's primers were found under the same names in a later paper's table citing Wang RF, Cao WW, Cerniglia CE 1997 J Appl
     Microbiol 83:727-736, whose abstract names Y. pseudotuberculosis among its 13 species. YP-3 and YP-4 appear in no open

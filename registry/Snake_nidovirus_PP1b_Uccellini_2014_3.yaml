@@ -27,11 +27,5 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 518
-  - 519
-  positive_control: Universal Control 5 (sizes are different than virus)
   nested_round: null
-  notes: null
 needs_review: null

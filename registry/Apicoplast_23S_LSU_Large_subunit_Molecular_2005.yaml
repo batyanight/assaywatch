@@ -30,14 +30,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 98
-  - 99
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: Primers 23SF and 23SR were designed by Zhu et al. 2000 (Microbiology 146:315-321). Schrenzel et al. 2005
-    (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". WCS spreadsheet listed Schrenzel 2005.
+    (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". The seed list cited Schrenzel 2005.
 needs_review:
 - flag: cross_reactive

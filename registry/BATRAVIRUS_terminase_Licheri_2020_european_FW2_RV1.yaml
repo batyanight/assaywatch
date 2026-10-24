@@ -31,12 +31,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from Licheri & Origgi 2020 (papers/10.1177_1040638720951134.pdf), Table 1, a text table;
     sequences were also checked by eye on a 220 dpi rendering (bold substitution marks included) and are identical to the
     extracted text. The paper runs a primer-optimisation series (Table 3, ten pair combinations) and recommends two protocols:

@@ -180,7 +180,7 @@ for the COVID-19 emergency; confirm current status before citing it as live guid
    confirmed from its source.
 8. **28 of 209 carry `doi_verified: false`.**
 10. **Ordering status had leaked into the pipeline.** `NEED_TO_ORDER` was derived by
-   `parse_wcs_primers.py` from the phrase "need to order" in the 2018 source
+   the seed-list importer (since removed) from the phrase "need to order" in the 2018 source
    spreadsheet — the lab's stock on one day, not a property of an assay — and had
    reached 13 entries, two display names, and two assay ids as a truncated `_ne_`.
    Removed 2026-10-20: the flag, the importer's pattern for it, the names, and the

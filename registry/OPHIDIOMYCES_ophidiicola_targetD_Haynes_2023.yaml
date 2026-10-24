@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 2 (papers/10.1371_journal.pone.0289159.pdf, page 4). The page
     was rendered at 200 dpi and Table 2 and Table 1 were read by eye; the text layer agrees with the image for all 33 sequences.
     WHAT THE PAPER IS: an 11-locus GENOTYPING PANEL, not a detection assay. Eleven primer-probe sets (targets A-K) were designed

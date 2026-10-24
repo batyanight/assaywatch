@@ -35,12 +35,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Methods text (papers/10.1371_journal.pone.0230701.pdf, section ''Real-time
     PCR assay development, validation, and sample analysis''; text layer clean). READ: vAAPV-124f (22 nt), vAAPV-246r (29
     nt) and vAAPV-159p (16 nt, FAM 5'', NFQ-MGB 3''; chemistry mgb). The paper states the assay was designed on GenBank JX418296.1

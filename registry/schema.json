@@ -429,18 +429,6 @@
           "default": null,
           "title": "Notes Curator"
         },
-        "positive_control": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Positive Control"
-        },
         "predict_protocol": {
           "anyOf": [
             {
@@ -453,33 +441,6 @@
           ],
           "default": null,
           "title": "Predict Protocol"
-        },
-        "rows": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "integer"
-              },
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Rows"
-        },
-        "spreadsheet": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Spreadsheet"
         }
       },
       "title": "Source",

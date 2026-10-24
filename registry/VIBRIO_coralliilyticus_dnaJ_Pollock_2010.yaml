@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s Methods text (papers/10.1128_AEM.00330-10.pdf, text layer, checked by
     eye on a 260-dpi page render with pymupdf: no OCR damage). The paper (Pollock et al., Appl Environ Microbiol 2010) designed
     all three oligos: forward Vc_dnaJ_F1 5''-CGGTTCGYGGTGTTTCAAAA-3'' (Y = C/T), reverse Vc_dnaJ_R1 5''-AACCTGACCATGACCGTGACA-3'',

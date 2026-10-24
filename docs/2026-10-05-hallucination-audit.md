@@ -63,8 +63,8 @@ silently resolving it.
 
 This is the honest part of the audit and it is not small.
 
-- **106 oligos sit in 45 entries with no DOI at all.** Mostly honest "developed
-  at WCS, unpublished" lab assays. They cannot be checked against a source,
+- **106 oligos sit in 45 entries with no DOI at all.** Mostly honest "in-house,
+  unpublished" lab assays. They cannot be checked against a source,
   now or ever, unless provenance is recovered.
 - **105 oligos are in papers behind paywalls**, listed in
   `docs/2026-10-05-papers-needed.md`.

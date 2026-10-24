@@ -39,17 +39,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-001
-  rows:
-  - 318
-  - 319
-  - 320
-  - 321
-  - 322
-  positive_control: Universal Control 2(in development)
   nested_round: round1
-  notes: null
   notes_curator: 'PREDICT panel protocol P-001 (RNA-Dependent RNA Polymerase (RdRp)), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Atkins, A. et al (2009). MIXED DESIGN, found 2026-10-05 by scripts/verify_oligos_against_paper.py. Checked against Atkins et al. 2009 directly: Astr4811R (GGYTTNACCCACATNCCAAA) appears in that paper verbatim. The pool alternate AstrRVS1 (GGYTTKACCCACATNCCRAA) does not - it differs at two positions, N->K at base 6 and A->R at base 18. That is a redesign rather than a typo, since the two changes pull in opposite directions (N->K narrows a 4-fold position to 2-fold while A->R widens a fixed base to 2-fold), and the curator note already records every oligo here as matching PREDICT protocol P-001 in the Anthony et al. 2015 supplement. So AstrRVS1 is PREDICT''s modification of Atkins'' reverse primer, and both are published - but by different groups. oligos_designed_here is False because the citation names only Atkins, and the AstroFWD1/AstroFWD2/AstrRVS1 naming convention is the panel''s, not that paper''s. Consequence worth knowing: the pool cross-product pairs Atkins'' primers with PREDICT''s, so some combinations this tool scores were never run by anyone. Splitting the two assays apart would be the honest fix.'
 needs_review:
 - flag: pairing_is_curator_reading

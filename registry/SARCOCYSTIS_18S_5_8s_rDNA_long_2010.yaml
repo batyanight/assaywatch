@@ -153,14 +153,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 111
-  - 112
-  positive_control: UC4, Sarcocystis falcatula from clinical case
   nested_round: null
-  notes: null
-  notes_curator: 'P-ITSR corrected 2026-10-04 from GCCATTTGCGTTCCAGAAATC (spreadsheet; one extra C) to
+  notes_curator: 'P-ITSR corrected 2026-10-04 from GCCATTTGCGTTCCAGAAATC (seed list; one extra C) to
     GCCATTTGCGTTCAGAAATC, as printed by the same group in Rudaityte-Lukosiene, Kutkiene et al. 2026
     (10.3390/pathogens15070709, with P-ITSF identical to ours) and Kirillova, Prakas et al. 2018
     (10.1186/s13071-018-2694-y), and as read by every Sarcocystis record (scripts/indel_check.py).'

@@ -28,19 +28,13 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 630
-  - 631
-  positive_control: Universal control 1
   nested_round: null
-  notes: null
   notes_curator: 'TAXON RENAMED: NCBI now calls txid121791 ''Henipavirus nipahense''; this entry carried the superseded name
     ''Nipah henipavirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses,
     so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. AMPLICON
     CONFIRMED 2026-10-05, provenance still open. Measured against all 426 records of the 2026-10-03 Henipavirus nipahense
     archive: NP1F/NP1R give a product in 201 records and it is 398 bp in every one, exactly the stored value, which had rested
-    on the spreadsheet alone. The same drift appears as in the sibling NP2 entry: the forward is exact in 40 of 201 and one
+    on the seed list alone. The same drift appears as in the sibling NP2 entry: the forward is exact in 40 of 201 and one
     mismatch away in 155, the reverse exact in 40 and two mismatches away in 156. NO SOURCE FOUND, and that is a real negative
     rather than a gap in effort: neither NP1F nor NP1R, nor either reverse complement, appears in any open full text indexed
     by Europe PMC, and neither is in Wong 2003, which is where the sibling pair''s sequences were found. DOI_MISSING stays.

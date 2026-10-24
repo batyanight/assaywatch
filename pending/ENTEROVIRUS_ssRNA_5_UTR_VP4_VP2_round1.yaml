@@ -28,12 +28,6 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 387
-  - 388
-  positive_control: null
   nested_round: round1
-  notes: null
 needs_review:
 - flag: orientation_inferred

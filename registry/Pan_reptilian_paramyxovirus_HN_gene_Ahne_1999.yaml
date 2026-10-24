@@ -28,11 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene external
     primers (primer pair 1+2 in the paper''s Table 1). Positions on Sendai Z strain: 7458-7478 (forward) and 8136-8116 (reverse),
     expected product 679 bp. The L gene primers from this paper are already in the registry as Pan_reptilian_paramyxovirus_L_Ahne_1999

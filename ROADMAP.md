@@ -5,13 +5,14 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 ## Phase 0 (current)
 - [x] repo, environment.yml, pre-commit, CI
 - [x] YAML schema (pydantic) and validator
-- [x] registry imported from the WCS spreadsheet (138 pathogen assays; 38 host/barcoding/universal primers excluded as out of scope)
+- [x] registry seeded from a primer list and curated against the literature (host/barcoding/universal primers excluded as out of scope)
 - [ ] 5 assays promoted to `active`: Bd (Boyle 2004) done 2026-10-04 (stable, 100% of 54 recent);
       Bsal (Blooi 2013) and Oo ITS2 (Bohuski 2015) await their rDNA-query data; ranavirus MCP
       (Pallister 2007) and CDV P (Scagliarini 2007) were "watch" at ~88%
 - [x] run `scripts/resolve_citations.py` once (2026-10-04): 64 DOIs verified, 21 taxids filled;
       5 BAD DOIs left for review. `scripts/check_taxids.py` found and fixed 3 wrong taxids
-- [ ] name, license (MIT code / CC-BY registry), IP question asked in writing
+- [x] name, license (MIT code / CC-BY registry)
+- [x] only assays with a verified DOI are live; the rest wait in `pending/` (2026-10-23)
 
 ## Phase 1: core pipeline
 - [x] `match`: exhaustive vectorised search, both strands, held to brute force in tests

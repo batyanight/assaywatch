@@ -27,13 +27,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 277
-  - 278
-  positive_control: Canine adenovirus type 2 (vaccine)
   nested_round: round2
-  notes: null
   notes_curator: 'SEQUENCES CONFIRMED BY EYE 2026-10-05, clearing another of the in-text rows the 2026-10-04 audit left for
     a human. Wellehan et al. 2004 prints all four nested-PCR primers in its Methods prose rather than in a table, spelling
     out each degenerate code in brackets, and all four match this registry base for base. Two of them look absent to a literal

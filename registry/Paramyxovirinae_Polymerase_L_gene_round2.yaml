@@ -29,14 +29,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-014
-  rows:
-  - 560
-  - 561
-  positive_control: null
   nested_round: round2
   nested_family: Paramyxovirinae_Polymerase_L_gene_Tong_2008
-  notes: null
   notes_curator: 'PREDICT panel protocol P-014 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s rounds 1 and 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Tong, S. et al, (2008).'
 needs_review: null

@@ -28,13 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 546
-  - 547
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'SOURCE FOUND 2026-10-05 by a Europe PMC full-text search on the primer sequences: these are Gao et al. 2002''s
     universal AAV signature-region primers, unmodified apart from the strand of the reverse, the same paper the degenerate
     sibling PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002 already cites. The forward is base-for-base Gao''s 19s. ORIENTATION

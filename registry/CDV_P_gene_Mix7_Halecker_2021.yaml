@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.3390_v13081632.pdf), rendered at 220 dpi and read
     by eye as well as extracted as text; both agree, and the same three sequences are printed in Table 2 of Geiselhardt et
     al. 2022 (10.1128/jcm.02505-21). The paper designed this assay (Mix 7, ''in this study'') from an alignment of 2,075 CDV

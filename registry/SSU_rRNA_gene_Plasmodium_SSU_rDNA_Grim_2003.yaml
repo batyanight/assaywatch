@@ -30,16 +30,9 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 86
-  - 87
-  positive_control: Inca Tern DNA
   nested_round: null
-  notes:
-  - Not great for identifying species
   notes_curator: Primers sense-841 and antisense-844 were designed by Li et al. 1995 (Exp Parasitol 81:182-190). Grim et al.
-    2003 (10.1638/02-070) used them and cited "as described previously [ref 23 = Li et al. 1995]". WCS spreadsheet listed
+    2003 (10.1638/02-070) used them and cited "as described previously [ref 23 = Li et al. 1995]". The seed list cited
     Grim 2003.
 needs_review:
 - flag: amplicon_measured_not_published

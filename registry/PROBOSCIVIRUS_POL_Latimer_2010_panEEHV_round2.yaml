@@ -32,12 +32,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: round2
-  notes: null
   notes_curator: 'Added 2026-10-06 from Latimer et al. (papers/10.1016_j.vetmic.2010.05.042.pdf). Oligos read from Table 2,
     a text table printed sideways on page 24; sequences, L/R labels and pairing columns were checked by eye on a 220 dpi rendering
     of that page (pymupdf) and agree with the extracted text for every oligo used here. Table 2 lists 21 rows but 19 distinct

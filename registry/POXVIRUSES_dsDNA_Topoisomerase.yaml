@@ -28,14 +28,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-035
-  rows:
-  - 693
-  - 694
-  positive_control: Monkeypox or Deerpox DNA, less reactive w/avipox
   nested_round: null
-  notes: null
   notes_curator: 'PREDICT panel protocol P-035 (Topoisomerase 1), confirmed 2026-10-04 by exact match of every oligo to that
     protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
     Bracht, AJ et al (2006).'

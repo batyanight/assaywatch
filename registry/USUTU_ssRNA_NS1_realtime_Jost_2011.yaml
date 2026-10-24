@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-05. Usutu virus was missing from the registry, which is a real gap for a wildlife surveillance
     tool: it is an emerging flavivirus that kills European wild birds, blackbirds especially, and infects people. HOW THIS
     WAS FOUND IS THE POINT. docs/RESUME-HERE.md listed 10.2807/1560-7917.es.2020.25.41.2001732 among the ''image-only primer

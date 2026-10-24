@@ -1,5 +1,16 @@
 # Resume point, 2026-10-23 (waves 0-5 of the plan of attack landed; see below)
 
+## 0. Only verified-DOI assays are live; the seed list is gone
+
+`docs/2026-10-23-verified-doi-gate.md`. `registry/` holds 198 entries, all
+`doi_verified: true`, which the validator and the Snakefile both enforce. The 10
+without a verified DOI are in `pending/` and are never screened. The seed list's
+fields (`source.spreadsheet`, `rows`, `positive_control`, the list's `notes`) and
+its importer are deleted. **Never name the seed list's lab as a source**: there is
+no permission question, because no assay is published on the list's authority. A
+public release is a fresh repository made from a clean snapshot. This private
+repo's history is not rewritten.
+
 ## 1. SETTLED: why the terminal_mismatch_fails run died, and the rule it gives you
 
 This section used to open "**State: `config.yaml` has `terminal_mismatch_fails: false`
@@ -78,7 +89,6 @@ than this summary.
   their second home; the report leads with ten assays and is navigable without a script;
   `scripts/promote.py` lists 173 eligible drafts; the weekly run exists and is dry by
   default; `calls.py` split out of `report.py` and three rules now declare memory.
-  **The WCS provenance email is drafted and NOT SENT**, and it blocks going public.
 - **The Elsevier token works** (`-wave5-elsevier-and-oligo-flags.md`): 10 of 10
   outstanding Elsevier DOIs fetched, **uncheckable oligos 106 -> 38** (13 entries have no
   oligos, 25 no DOI), 466 of 504 checkable and 393 agreeing (84%). 15 candidate genuine
@@ -88,7 +98,7 @@ than this summary.
 - **`scripts/design_era.py`** measures the founding premise: 71 assays were designed
   against under 50 records (`docs/design-era.tsv`).
 
-Open, in rough order: send the IP email; decide what `active` asserts
+Open, in rough order: decide what `active` asserts
 (`scripts/promote.py`, and `docs/2026-10-23-wave5-what-active-means.md` recommends
 `--tier clean` — the oligo-provenance objection to promoting is now much weaker, 38
 uncheckable rather than 106, so this decision is ripe); adjudicate the 15 candidate
@@ -252,7 +262,7 @@ Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
   10.7589/0090-3558-47.3.725 (the old string's own "candidate", now evidence); `Nipah_N_gene` ->
   10.1016/j.jviromet.2006.11.023 (Wacharapluesadee 2007 prints NP1F/NP1R as the outer round of the
   nested pair whose inner round is the sibling entry's); `Entamoeba_18S_small_subunit_SSU` ->
-  10.1638/2020-0148 (McFarland 2021, Seimon third author = the spreadsheet's "Tseimon"). All three
+  10.1638/2020-0148 (McFarland 2021, the publication of the seed list's unpublished assay). All three
   are paywalled, which is why the open-access routes never found them. **13 rows left
   `docs/materials-needed.tsv`.** Entamoeba's `design_year` stays null on purpose - the assay
   predates the 2021 paper (it is in the 2018 spreadsheet), so the publication year is not it.
@@ -811,7 +821,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
       at 5 so that stays true.
     - New: `tests/test_review.py` (13) and `tests/test_materials_needed.py` (12, the first tests
       that script has ever had — deleting the derivation that replaces the dropped flags was
-      invisible before). 16 mutants checked, all caught. `openpyxl` in `parse_wcs_primers.py` is
+      invisible before). 16 mutants checked, all caught. `openpyxl` in the seed-list importer (since removed) is
       now a lazy import, so its pure functions are testable without the `import` extra.
     - `scripts/removed_assays/` is **not** migrated, by decision; its new README says why.
   - **Found while doing S7, unrelated to it: `docs/taxa-cache.json` had two incompatible formats
@@ -845,7 +855,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   the signature keys and the git helper were checked offline against the real screens).
   **TODO (Batya, offline): resolve the 16 entries that have no DOI.**
   `docs/oligos-without-doi.tsv` lists all 33 oligos with sequences, grouped by where the answer
-  must come from: 6 in-house/unpublished (WCS/CII lab records), the Müller 2011 CDV quartet (needs
+  must come from: 6 in-house/unpublished, the Müller 2011 CDV quartet (needs
   the paper), 2 PREDICT-named (the 2013/2015 supplements), and 4 true orphans with no reference at
   all (the two enterovirus rounds and two UHanta round2 entries, three of which also fire lineage
   overrides). The Anthony 2013 mBio supplement is the single most likely to close the UHanta ones.

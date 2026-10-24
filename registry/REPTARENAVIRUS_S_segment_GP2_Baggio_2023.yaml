@@ -64,12 +64,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Primers read from Table 1 of the paper (PDF pages 7-8): the text layer and the pages rendered at 200 dpi
     and read by eye agree for all 13 oligos. THE PAPER RUNS ONE TUBE, NOT PAIRS. Six forward (F1-F6) and seven reverse (R1-R7)
     primers are mixed in a single Phusion Flash RT-PCR (cDNA from random hexamers; F1-F5 and R1-R6 at 0.4 uM, F6 and R7 at

@@ -27,14 +27,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 527
-  - 528
-  - 529
-  positive_control: Universal Control 5
   nested_round: round2
-  notes: null
   notes_curator: 'THIS ENTRY IS THE PAPER''S SECOND ROUND, and the pair it stores is the right one (2026-10-14,
     from the paper, saved to papers/10.1177_104063871002200106.pdf). The methods: "The first round utilized forward
     primer 2090F ... and reverse primer 2334R ...  The second round utilized 2090F and a different reverse primer,

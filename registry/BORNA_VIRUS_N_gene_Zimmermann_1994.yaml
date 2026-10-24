@@ -28,12 +28,6 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 339
-  - 340
-  positive_control: null
   nested_round: null
-  notes: null
 needs_review:
 - flag: nested_protocol

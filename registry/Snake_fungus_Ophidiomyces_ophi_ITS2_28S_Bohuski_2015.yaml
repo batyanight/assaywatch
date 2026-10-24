@@ -33,12 +33,5 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 43
-  - 44
-  - 45
-  positive_control: Universal Control 5
   nested_round: null
-  notes: null
 needs_review: null

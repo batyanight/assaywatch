@@ -52,9 +52,8 @@ statistical references the scoring rule and the drift call rest on.
 ## Provenance
 
 Code is MIT (`LICENSE`); the registry and the curated tables are CC-BY-4.0
-(`LICENSE-registry`). Six entries carry oligos with no published source and are not
-covered by that offer until the provenance question in
-`docs/2026-10-23-wave5-ip-question.md` is answered in writing.
+(`LICENSE-registry`). Every entry in `registry/` cites a paper whose DOI Crossref has
+confirmed; assays without one wait in `pending/` and are never screened or published.
 
 Most of this repository was written by Claude (Anthropic) in a Claude Code session,
 directed by the author: 306 of 330 commits carry a co-authorship trailer.
@@ -67,8 +66,8 @@ every factual claim here verifiable rather than taken on trust.
 registry/        one YAML per assay; validated on every commit. `python -m
                  assaywatch.validate registry` prints the counts rather than this
                  file quoting them, because the ones written here by hand drifted
-                 as the registry grew: 214 files on 2026-10-14, of which 210 are
-                 draft and 44 carry a probe
+                 as the registry grew: 214 files on 2026-10-14, of which 210 were
+                 draft and 44 carried a probe (2026-10-14)
 assaywatch/      the package
   schema.py        pydantic models = the registry schema
   validate.py      `python -m assaywatch.validate registry`
@@ -86,8 +85,8 @@ assaywatch/      the package
   assemblies.py    NCBI Datasets genome sampling for bacterial targets (`asm` groups)
   fasta.py         minimal FASTA reader
 Snakefile          the pipeline; profiles/slurm/ runs the same rules on a cluster
-scripts/         one-off import of the WCS primer spreadsheet (parse -> curate -> resolve),
-                 plus registry QA: check_taxids.py (taxid vs NCBI name), indel_check.py,
+pending/         entries waiting for a verified DOI; never screened (pending/README.md)
+scripts/         registry QA: check_taxids.py (taxid vs NCBI name), indel_check.py,
                  check_amplicons.py (stored amplicon_bp vs measured, over every archive),
                  verify_oligos_against_paper.py (stored oligo vs the paper that is cited).
                  Papers come in by three routes, in this order: find_open_access.py
@@ -156,30 +155,29 @@ does not. `note` carries one line of specifics where the flag alone is not
 enough; the full record stays in `source.notes_curator`. Flags that would only
 restate another field (`citation.doi`, `design_year`, `target.taxid`) are not in
 the vocabulary, because a stored restatement goes stale the moment the field is
-filled: `scripts/materials_needed.py` derives those gaps instead.
+filled, so those gaps are derived from the fields instead.
 
 Inosine is written as N in `seq` (the original is kept in `seq_as_written`).
 Extra oligos found in a source (degenerate cocktails, dye variants) sit under
 `oligos.alternates` with an explicit `orientation`.
 
-## Importing from the WCS spreadsheet
+## Adding an assay
+
+Write one YAML per assay in `registry/`, reading the oligos, amplicon and design
+year from the cited paper's own table, enter the DOI with `doi_verified: false`,
+then let Crossref confirm it:
 
 ```bash
-cd scripts
-python parse_wcs_primers.py --xlsx Primers_for_WCS_Molecular_Lab_updated_021518.xlsx --out-dir out
-python apply_curation.py --drafts out/registry_draft --curation curation.yaml --out ../registry
-python resolve_citations.py --registry ../registry --email you@example.org
+python scripts/resolve_citations.py --registry registry --email you@example.org
+python -m assaywatch.validate registry
 ```
 
-`curation.yaml` is the only place outside-knowledge (taxids, DOIs) is entered;
-the parser is deterministic. Its `exclude` section is where scope is decided:
-host-identification, DNA barcoding, eDNA, internal-control and kingdom-level
-universal primers are parsed but not written to the registry, because they
-target the host or a whole kingdom rather than a pathogen and the drift
-question does not apply to them in the same form. `scripts/removed_assays.txt`
-lists the 38 that were dropped; removing an id from `exclude` and rerunning
-`apply_curation.py` brings it back. `resolve_citations.py` confirms DOIs against
-Crossref and fills missing taxids from NCBI Taxonomy.
+Only an entry with a verified DOI is live. The validator and the Snakefile both
+refuse an entry without one; an assay that has no paper yet waits in `pending/`.
+Host-identification, DNA barcoding, eDNA, internal-control and kingdom-level
+universal primers are out of scope: they target the host or a whole kingdom
+rather than a pathogen, and the drift question does not apply to them in the
+same form.
 
 ## Screening
 
@@ -264,12 +262,12 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    needs forward **and** reverse and detection needs the probe on top. Those are
    serial gates. Three trivial mismatches, one per oligo, land in the same bin as
    one near-lethal 3'-proximal mismatch.
-3. *One table serves every chemistry in the registry* -- 161 conventional PCRs and 44
+3. *One table serves every chemistry in the registry* -- 152 conventional PCRs and 43
    probe assays on 2026-10-23. A 100-fold yield
    loss is a missed Cq cutoff in qPCR and often still a visible band after 40
    cycles of endpoint PCR. The same `fail` is printed for both.
-4. *Probe geometry is length-blind, and MGB-blind.* Of the 44 probe assays here,
-   22 are MGB (the other 22 are plain hydrolysis probes), and the minor-groove binder
+4. *Probe geometry is length-blind, and MGB-blind.* Of the 43 probe assays here,
+   20 are MGB (the other 23 are plain hydrolysis probes), and the minor-groove binder
    adds roughly 15–20 °C of Tm and makes short probes viable; such a probe tolerates
    mismatches a bare oligo of the same length would not. `--thermo` computes the real duplex ΔTm and is the better
    guide where it is available.
@@ -327,9 +325,8 @@ python -m assaywatch.degeneracy registry --tier severe
 ```
 
 lists the assays whose in-silico coverage should be read with the most
-suspicion. Of the 138 imported WCS assays, 74 are negligible, 19 moderate,
-25 high and 21 severe — the severe end being the PREDICT pan-family consensus
-PCRs, which is expected and is the point of them.
+suspicion. The severe end is the PREDICT pan-family consensus PCRs, which is
+expected and is the point of them.
 
 The headline `total_fold` multiplies every oligo, primers and probe, because
 all of it is reagent that does not participate in detecting a given template,
@@ -553,7 +550,7 @@ target:
 Without it the group is the whole taxon, which is right for Bd (nine thousand
 records) and absurd for E. coli (sixteen million, almost all whole-genome
 shotgun contigs). The 44 assays on taxa too large to fetch whole carry a query
-set in `scripts/curation.yaml` under `queries`; the terms OR together gene
+set in their own entry's `target.query`; the terms OR together gene
 names, title phrases and `"complete genome"[Title]` because annotation is
 inconsistent and a complete genome always carries the locus. A record the
 query misses is a record the assay is not judged against — a coverage cost,

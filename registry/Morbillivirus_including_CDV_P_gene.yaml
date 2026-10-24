@@ -27,13 +27,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 567
-  - 568
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is
     quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global
     50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py

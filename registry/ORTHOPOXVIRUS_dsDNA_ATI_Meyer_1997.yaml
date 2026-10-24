@@ -127,12 +127,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06. WHAT THE PAPER IS (the index had no title): Meyer H, Ropp SL, Esposito JJ, J Virol Methods
     64:217-221 (1997), accepted 25 Oct 1996, ''Gene for A-type inclusion body protein is useful for a polymerase chain reaction
     assay to differentiate orthopoxviruses''. DOI: the paper prints its PII as S0166-0934(96)02155-6, which is DOI 10.1016/S0166-0934(96)02155-6;

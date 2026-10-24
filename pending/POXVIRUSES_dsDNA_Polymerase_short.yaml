@@ -34,7 +34,7 @@ citation:
   doi: null
   design_year: null
   n_sequences_at_design: null
-  as_written: Developed at WCS-TC (unpublished)
+  as_written: unpublished
   doi_verified: false
 use_context:
 - wildlife
@@ -42,18 +42,8 @@ use_context:
 submitted_by: null
 status: deprecated
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 678
-  - 679
-  - 680
-  - 681
-  - 682
-  - 683
-  positive_control: null
   nested_round: null
-  notes: null
-  notes_curator: 'Spreadsheet: first TSPoxPol set DID NOT WORK WELL; the shorter second set (next block) is the working version. | Oligo annotations moved from name field: PoxPolF2 (alternate[0]): parapox group; PoxPolF3 (alternate[1]): cetacean/goat  group; PoxPolF4 (alternate[2]): avi group; PoxPolR2 (alternate[3]): parapox group'
+  notes_curator: 'Seed list: first TSPoxPol set DID NOT WORK WELL; the shorter second set (next block) is the working version. | Oligo annotations moved from name field: PoxPolF2 (alternate[0]): parapox group; PoxPolF3 (alternate[1]): cetacean/goat  group; PoxPolF4 (alternate[2]): avi group; PoxPolR2 (alternate[3]): parapox group'
 needs_review:
 - flag: do_not_use
 - flag: oligos_modified

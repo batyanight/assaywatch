@@ -31,14 +31,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-014
-  rows:
-  - 556
-  - 557
-  positive_control: null
   nested_round: round1
   nested_family: Paramyxovirinae_Polymerase_L_gene_Tong_2008
-  notes:
-  - Canine parainfluenza (DA2PPC vaccine)
 needs_review: null

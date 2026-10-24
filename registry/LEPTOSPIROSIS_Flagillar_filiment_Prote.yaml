@@ -30,13 +30,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 154
-  - 155
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. LeptoF and LeptoR
     both appear verbatim in the open-access full text of PMC3810931, inside a MassTag PCR panel table that also lists Streptococcus
     pneumoniae plysin, Neisseria meningitidis ctrA, Mycobacterium tuberculosis pncA and Toxoplasma gondii B1 - a panel table

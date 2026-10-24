@@ -22,8 +22,8 @@ Two things were learnt while migrating it, and both are encoded here.
 At migration, 6 of their 39 instances were wrong: four entries carried
 `DOI_MISSING` with a verified DOI on the same entry and two carried `NO_YEAR`
 with `design_year: 2011`, because the gap had been filled and nobody cleared
-the flag. Those four flags are gone, and `scripts/materials_needed.py` derives
-the gap from the field instead. A derived answer cannot go stale.
+the flag. Those four flags are gone; the gap is derived from the field instead. A
+derived answer cannot go stale.
 
 **Not every caveat is a question.** The old field conflated "a human still has
 to decide something" with "this is a known, settled property of the entry worth
@@ -35,8 +35,7 @@ flagged, so the gate was effectively "almost nothing may ever be active".
 
 `docs/needs-review-migration.tsv` records all 243 old values with the flag and
 note each became, so the migration is auditable and reversible by reading rather
-than by guessing. `scripts/removed_assays/` is deliberately *not* migrated; its
-README says why.
+than by guessing.
 """
 
 from __future__ import annotations

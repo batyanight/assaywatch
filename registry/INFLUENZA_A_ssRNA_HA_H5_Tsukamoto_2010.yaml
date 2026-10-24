@@ -40,12 +40,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.1128_JCM.01264-10.pdf; the text layer is clean,
     no image reading was needed). READ: H5-918F, H5-1166R and H5-Probe (FAM 5'', BHQ 3''; the paper says only BHQ, no number).
     Transcription cross-check: the number of mixed bases in each oligo as entered (5, 3, 5) equals the paper''s own ''No.

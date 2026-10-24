@@ -27,14 +27,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 527
-  - 528
-  - 529
-  positive_control: Universal Control 5
   nested_round: round1
-  notes: null
   notes_curator: 'SPLIT OUT OF THE BASE ENTRY 2026-10-14, on the paper itself (obtained that day and saved to
     papers/10.1177_104063871002200106.pdf). The methods are explicit and this is a SEMI-NESTED design sharing one
     forward primer: "The first round utilized forward primer 2090F ... and reverse primer 2334R ..., which was the

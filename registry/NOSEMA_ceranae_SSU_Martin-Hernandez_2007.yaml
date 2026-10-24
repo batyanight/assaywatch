@@ -31,12 +31,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-07 from Table 2 of Martin-Hernandez et al. 2007 (doi 10.1128/AEM.00270-07; open access, PMC2075036),
     read on the PMC table page (sequences from its text, tails from its underline markup). Table 2 prints two pairs for one
     duplex PCR, entered as sibling entries: 218MITOC (N. ceranae) and 321APIS (N. apis). TAILS: the paper underlines the tail

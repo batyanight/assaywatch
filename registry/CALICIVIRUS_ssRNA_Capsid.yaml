@@ -30,12 +30,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: P-024
-  rows: null
-  positive_control: Calicivirus cDNA
   nested_round: null
-  notes: null
   notes_curator: 'Imported 2026-10-04 from the PREDICT panel''s own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147,
     Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. Scope caveat:
     the source paper develops this for MARINE caliciviruses (vesiviruses), while PREDICT ran it as a pan-calicivirus screen,

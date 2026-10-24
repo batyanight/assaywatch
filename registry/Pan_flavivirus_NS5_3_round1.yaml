@@ -31,13 +31,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 422
-  - 423
-  positive_control: WNV DNA
   nested_round: round1
-  notes: null
   notes_curator: 'PROVENANCE SPLIT, established 2026-10-04 by the provenance audit. The oligo names carry their own attribution
     and the lab was right to do that: `-Zino-` is Scaramozzino and `-GORO-` is Goro Kuno. cFD2 is conventionally attributed
     to Kuno et al. 1998, J Virol 72:73-83, doi:10.1128/JVI.72.1.73-83.1998 (DOI verified against Crossref: ''Phylogeny of

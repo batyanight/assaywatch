@@ -28,11 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_99_00088-9.pdf). Hel1 and Hel2 target the 2C helicase gene of Caliciviridae. The paper reports Hel1 as 25 nt and Hel2 as 18 nt; the OCR-extracted Hel1 sequence is only 22 nt, so sequence may be incomplete - needs verification against the paper table. AMPLICON MEASURED 2026-10-21 as 360 bp in all 5 amplifying records (Vesivirus exanthema and Rabbit vesivirus), a single band, agreeing with the paper''s stated ~357 bp within gel-reading error, so declared as a scalar 360 (config.yaml amplicon section says the measured size wins). Unimodal, so not a range; only 5 of 84,810 genus records amplify at all, hence thin_evidence below.'
 needs_review:
 - flag: thin_evidence

@@ -8,8 +8,8 @@
 
 Why
 ---
-138 of this registry's 151 entries were transcribed from one lab spreadsheet.
-That spreadsheet was a place to start, not the truth, and it has already been
+Most of this registry's entries were seeded from one primer list. That list
+was a place to start, not the truth, and it has already been
 caught in: a Sarcocystis primer carrying one extra C that then failed on 98% of
 records; two orthobunyavirus primers with undeclared cloning tails that matched
 nothing; three taxids naming the wrong organism, one of them a genus of moths;
@@ -910,9 +910,7 @@ def main(argv: list[str] | None = None) -> int:
     for n, path in enumerate(paths, 1):
         a = load_assay(path)
         doi = a.citation.doi
-        read_from = (
-            "spreadsheet" if a.source.spreadsheet else ("predict" if a.source.predict_protocol else "")
-        )
+        read_from = "predict" if a.source.predict_protocol else ""
         pmcid, text, printed, src = None, None, [], ""
         hit = local_paper(a, by_doi, everything) if everything else None
         if hit:

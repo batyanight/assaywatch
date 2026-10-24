@@ -24,7 +24,6 @@ dependencies:
   - snakemake-executor-plugin-slurm   # the SLURM profile (profiles/slurm/) needs it
   # These back documented commands that a core-only `pip install .` leaves out,
   # so a fresh env could not run them (found 2026-10-21 auditing R1):
-  - openpyxl        # scripts/parse_wcs_primers.py reads the source spreadsheet
   - pypdf           # scripts/verify_oligos_against_paper.py --pdf-dir
   - poppler         # provides pdftotext, for scripts/verify_predict_supplement.py and CLAUDE.md's PDF recipe
   - pytest

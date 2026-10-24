@@ -38,12 +38,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.1128_JCM.01264-10.pdf; the text layer is clean,
     no image reading was needed). READ: NP-1200F, NP-1529R (no mixed bases, as the paper says) and NP-Probe (FAM 5'', BHQ
     3''; the paper says only BHQ). Transcription cross-check: mixed-base counts as entered (4, 0, 3) equal the paper''s column,

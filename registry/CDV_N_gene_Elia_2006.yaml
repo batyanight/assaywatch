@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06. SECOND-HAND: Elia et al. 2006 is not in papers/ and neither citing paper prints its DOI,
     so the oligos were read from two papers that cite it and agree with each other base for base: Table 1 of Halecker et al.
     2021 (10.3390/v13081632, ''ELIA-Mix'', reference Elia et al. 2006; table rendered at 220 dpi and read by eye) and the
@@ -66,7 +62,7 @@ source:
     13 contain a product and all 13 fail (penalty 12.5+), whereas Halecker report 2 of 4 PDV samples positive, so the in-silico
     PDV exclusivity is better than their wet-lab result. The other 3,400 CDV records give no_amplicon: 3,384 carry no primer
     site (records not covering the N-gene site) and 16 are truncated. SCOPE: CDV-wide N-gene assay, used as the reference
-    method in Halecker 2021 and at the WCS and Vienna labs in Brown 2020.'
+    method in Halecker 2021 and in two diagnostic laboratories in Brown 2020.'
 needs_review:
 - flag: citation_is_indirect
   note: DOI found 2026-10-06 by a Crossref title search, not printed in either citing paper; the top hit matched title, journal,

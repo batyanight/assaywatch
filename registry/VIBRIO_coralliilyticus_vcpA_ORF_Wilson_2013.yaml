@@ -30,12 +30,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s Methods (''PCR primer development''), read from the text layer of papers/10.1371_journal.pone.0081800.pdf
     (a born-digital PLOS PDF, no OCR damage). THE PAPER HAS TWO PRIMER PAIRS ON THE SAME GENE, vcpA (the Type I zinc metalloprotease
     implicated in virulence), and they are two separate registry entries: a conventional PCR pair that amplifies the whole

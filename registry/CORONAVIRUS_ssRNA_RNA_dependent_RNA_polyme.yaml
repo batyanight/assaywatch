@@ -31,13 +31,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 376
-  - 377
-  positive_control: Coronavirus Plasmid or Universal control 1
   nested_round: null
-  notes: null
   notes_curator: 'SOURCE FOUND 2026-10-21. These are Watanabe et al. 2010''s pan-coronavirus RdRp consensus primers with increased
     degeneracy, the same modification pattern PREDICT applied to Bourhy''s rhabdovirus pair. Watanabe prints GGTTGGGACTATCCTAAGTGTGA
     and CCATCATCAGATAGAATCATCATA; CoV-FWD3 and CoV-RVS3 are identical except at 4 positions each, and EVERY difference is

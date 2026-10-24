@@ -29,15 +29,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 706
-  - 707
-  positive_control: Frog Virus 3 DNA
   nested_round: null
-  notes:
-  - ECV and ESV, 750bp
-  - 150-700bp
   notes_curator: 'PROMOTION TO ACTIVE ATTEMPTED AND WITHDRAWN 2026-10-21. The drift evidence supports it - detected
     share 90.0% (77%-96%) on 40 evaluable records in the 24-month window, status stable - and the entry meets every
     other schema precondition (taxid 10492, DOI verified, design_year 2007). It is held at draft by the amplicon

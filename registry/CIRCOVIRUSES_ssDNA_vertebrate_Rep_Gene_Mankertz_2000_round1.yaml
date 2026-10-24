@@ -28,15 +28,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 350
-  - 351
-  positive_control: null
   nested_round: round1
   nested_family: CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000
-  notes:
-  - '****DID NOT PICK UP FINCH CIRCOVIRUS***'
   notes_curator: 'Primer 174 checked against Mankertz et al. 2000 (Arch Virol 145:2469) on 2026-10-04: the
     paper prints GTGTTTCAC..., as the registry does, so this is the published primer, not a transcription
     error. Circovirus records, including AF086834, read GTGTTCAC... (one T fewer): the extra base is in the

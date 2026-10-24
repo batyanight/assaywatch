@@ -21,9 +21,9 @@ the same sequences are Mao's `FV3-54F`; `HahnF2` sits under Takehisa 2009.
 Whenever a name encodes a person or a virus that is not the cited paper's, the
 entry deserves a second look.
 
-138 of this registry's 151 entries were transcribed from one lab spreadsheet,
-which lists a primer alongside whoever the lab got it from. So this is a
-population-level risk, not one bad row.
+Most of this registry's entries were seeded from one primer list, which names
+a primer alongside whoever supplied it rather than who designed it. So this is
+a population-level risk, not one bad row.
 
 What the classes mean
 ---------------------
@@ -35,7 +35,7 @@ modified         The name says mod/new/corrected/variant, so the stored
                  sequence may not be the published one. With a DOI attached
                  this is worse than the Johnson case: the citation asserts a
                  sequence the paper never printed.
-lab-designed     A `TS...` prefix, the spreadsheet's convention for oligos made
+lab-designed     A `TS...` prefix, the seed list's convention for oligos made
                  or altered in-house. Fine when no DOI claims otherwise.
 unestablished    citation.oligos_designed_here is still null. Not a defect,
                  a to-do: it is the honest default.
@@ -63,7 +63,7 @@ from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 # Name fragments saying the stored sequence may differ from the printed one.
 MODIFIED = re.compile(r"(?:\b|_|-)(mod|modified|new|corrected|variant|same)(?:\b|_|-)|-MOD\b|\bMOD-", re.I)
-# The source spreadsheet's prefix for in-house oligos.
+# The seed list's prefix for in-house oligos.
 LAB_PREFIX = re.compile(r"^TS[-\s]?[A-Za-z0-9]")
 # A reference that names no paper.
 NO_PAPER = re.compile(r"^\s*(developed|predict|unpublished|in[-\s]house|\?)", re.I)
@@ -125,9 +125,7 @@ def audit(path: Path) -> list[dict]:
                 "cited_author": author or "",
                 "design_year": c.design_year or "",
                 "designed_here": "" if c.oligos_designed_here is None else str(c.oligos_designed_here),
-                "read_from": "spreadsheet"
-                if src.spreadsheet
-                else ("predict" if src.predict_protocol else ""),
+                "read_from": "predict" if src.predict_protocol else "",
                 "oligo_names": "|".join(n for n in names if n),
             }
         )
@@ -146,7 +144,7 @@ def audit(path: Path) -> list[dict]:
         add("modified", f"{'; '.join(mod)}" + ("  [and a DOI is attached]" if c.doi else ""))
 
     if any(LAB_PREFIX.match(n) for n in names):
-        add("lab-designed", "TS prefix: made or altered in-house per the source spreadsheet")
+        add("lab-designed", "TS prefix: made or altered in-house per the seed list")
 
     if not ref.strip() or NO_PAPER.match(ref):
         add("no-citation", (ref.strip() or "(empty)")[:60])

@@ -3,6 +3,13 @@
     python -m assaywatch.validate registry/            # all files
     python -m assaywatch.validate registry/foo.yaml    # one file
     python -m assaywatch.validate registry/ --active-only
+    python -m assaywatch.validate pending/ --pending
+
+Every entry in `registry/` must carry a DOI that `scripts/resolve_citations.py`
+has verified (`citation.doi_verified: true`): `registry/` is what the pipeline
+screens and reports and what gets published, and an assay without a verified
+paper behind it does not go live. Entries waiting for one live in `pending/`,
+which `--pending` validates without that rule.
 
 Exit code 1 if any file fails, so this doubles as the pre-commit hook and the
 CI check. Prints one line per failure with the field path and the reason.
@@ -29,6 +36,15 @@ def load_assay(path: Path) -> Assay:
     if assay.id != path.stem:
         raise ValueError(f"id '{assay.id}' does not match file name '{path.stem}'")
     return assay
+
+
+def not_live_because(assay: Assay) -> str | None:
+    """Why this entry may not sit in `registry/`, or None. The rule is a verified DOI."""
+    if assay.citation.doi is None:
+        return "no citation.doi; an assay without a published source belongs in pending/"
+    if not assay.citation.doi_verified:
+        return "citation.doi_verified is false; run scripts/resolve_citations.py, or move it to pending/"
+    return None
 
 
 def iter_files(target: Path):
@@ -81,6 +97,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--active-only", action="store_true", help="only report failures for status=active files")
     ap.add_argument("--quiet", action="store_true")
     ap.add_argument(
+        "--pending",
+        action="store_true",
+        help="validate entries waiting in pending/: schema only, no verified-DOI requirement",
+    )
+    ap.add_argument(
         "--emit-schema",
         type=Path,
         metavar="PATH",
@@ -125,6 +146,9 @@ def main(argv: list[str] | None = None) -> int:
             if assay.id in seen_ids:
                 failures.append(f"{path.name}: duplicate id also in {seen_ids[assay.id].name}")
             seen_ids[assay.id] = path
+            if not args.pending and (why := not_live_because(assay)):
+                failures.append(f"{path.name}: {why}")
+                continue
             by_status[assay.status.value] += 1
             by_chemistry[str(assay.chemistry)] += 1
             n_probe += assay.oligos.probe is not None

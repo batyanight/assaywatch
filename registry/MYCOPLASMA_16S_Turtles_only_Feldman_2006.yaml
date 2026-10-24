@@ -28,13 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 133
-  - 134
-  positive_control: Mycoplasma agassizii, UC4
   nested_round: null
-  notes: null
   notes_curator: 'Scoped 2026-10-04 to the three named chelonian mycoplasmas (Mycoplasmopsis agassizii 33922, Mycoplasma testudineum
     244584, Mycoplasmoides testudinis 33924): 534 records. The assay is chelonian-specific by design ("turtles only" in the
     sheet; Feldman 2006 describes a novel Mycoplasma of eastern box turtles), so that is the denominator its published claim

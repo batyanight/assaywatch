@@ -30,12 +30,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 2 (text layer of papers/10.3390_pathogens12010111.pdf; clean,
     not OCR-damaged. The product size 245 is printed fused to the next primer name as ''245MG-R'', and the other three sizes,
     169/571/333, are fused the same way and agree with the paper''s Results text). THE PAPER IS A VACCINE-DIFFERENTIATION

@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Oligos read from Table 1 of the paper (PDF page 5): the text layer and the page rendered at 200 dpi and
     read by eye agree. The paper''s Tenebrio molitor RNA extraction control oligos (TeneF/TeneR/TeneP, taken from Koppel et
     al. per the paper) are an exogenous control, not honeybee virus targets, and are deliberately excluded from all six honeybee

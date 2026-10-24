@@ -31,12 +31,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-04 to cover the Santee-Cooper group, which no other assay in this registry reaches and which
     is what both MCP assays here trip over (RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008 and RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007).
     CHEMISTRY. This is RPA, not PCR: the primers are the RPA pair F1/R1 of Li et al. 2025, chosen in that paper over two other

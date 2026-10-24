@@ -27,14 +27,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-040
-  rows:
-  - 665
-  - 666
-  positive_control: null
   nested_round: round1
-  notes: null
   notes_curator: 'PREDICT panel protocol P-040 (VP1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Johne, R (2005).'
 needs_review:
 - flag: nested_protocol

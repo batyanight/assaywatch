@@ -20,7 +20,7 @@ citation:
   doi: 10.1638/2020-0148
   design_year: null
   n_sequences_at_design: null
-  as_written: Developed in house by Tseimon
+  as_written: null
   doi_verified: true
   reference: McFarland A, Conley KJ, Seimon TA, Sykes JM. 2021. A retrospective analysis of amoebiasis in reptiles in a zoological
     institution. J Zoo Wildl Med 52:232-240
@@ -30,13 +30,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 21
-  - 22
-  positive_control: null
   nested_round: null
-  notes: null
-  notes_curator: 'CITATION FOUND 2026-10-22. EntF and EntR verify exact against McFarland et al. 2021 (J Zoo Wildl Med 52:232-240), which prints both in its Materials and Methods and says the degenerate pair was developed from an alignment of 16 GenBank Entamoeba SSU sequences for a 502 bp product. Tracie Seimon is the third author, which is the ''developed in house by Tseimon'' of the spreadsheet, so this is the publication of the in-house assay and not a different one. design_year LEFT NULL on purpose: the assay is already in the 2018 spreadsheet, so it was designed on or before 2018 and the 2021 publication year is not its design year. The paper states no design date, so the drift baseline stays open.'
+  notes_curator: 'CITATION FOUND 2026-10-22. EntF and EntR verify exact against McFarland et al. 2021 (J Zoo Wildl Med 52:232-240), which prints both in its Materials and Methods and says the degenerate pair was developed from an alignment of 16 GenBank Entamoeba SSU sequences for a 502 bp product. This is the publication of the seed list''s assay and not a different one. design_year LEFT NULL on purpose: the assay is already in the 2018 seed list, so it was designed on or before 2018 and the 2021 publication year is not its design year. The paper states no design date, so the drift baseline stays open.'
 needs_review:
 - flag: oligos_modified

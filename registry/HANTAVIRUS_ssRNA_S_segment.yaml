@@ -28,11 +28,6 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 438
-  - 439
-  positive_control: Universal control 1
   nested_round: null
   nested_family: HANTAVIRUS_ssRNA_S_segment_nest_A
   notes_curator: 'NESTED FAMILY ASSIGNED FROM GEOMETRY AND A SHARED PRIMER, NOT FROM A PROTOCOL DOCUMENT (2026-10-17). These
@@ -61,7 +56,6 @@ source:
     NEXT for the unattributed rounds: Anthony supplemental material is Text S1 (DOCX), Figure S1, Figure S2
     and Table S1 (PDF), and Table S1 is the herpesvirus cooccurrence table, so Text S1 is the only remaining
     candidate for UHantaF2/R2, UHantaF3/R3 and UHantaF4. DESIGN_YEAR SET TO 2013 (2026-10-22, maintainer decision): the stored sequences are Anthony amended ones and 2013 is when they first exist in print, which matches this entry citation. Recorded caveat: the binding sites are Aitichou 2005 and Anthony only widened degeneracies without moving the primers, so drift at those sites between 2005 and 2013 sits before this baseline and is invisible to the per-year statistics. The other three entries keep design_year null, since their oligos are in neither paper.'
-  notes: null
 needs_review:
 - flag: nested_protocol
   note: the family link was declared from measured primer geometry, not from the source

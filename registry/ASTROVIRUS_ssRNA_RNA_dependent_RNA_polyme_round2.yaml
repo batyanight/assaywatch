@@ -37,17 +37,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-001
-  rows:
-  - 325
-  - 326
-  - 327
-  - 328
-  positive_control: null
   nested_round: round2
-  notes:
-  - AstroRVS1 | same as round 1 | 421bp
   notes_curator: 'MIXED DESIGN, found 2026-10-06: the same split as round 1 (see that entry). scripts/verify_oligos_against_paper.py
     reads Astr4380F and Astr4722R as exact against Atkins et al. 2009, and AstroFWD3 and AstroFWD4 as absent from it. They are
     not Atkins'' primers. Both sit on the site Atkins'' Astr4380F binds: aligned ungapped, each shares 17 bases with Astr4380F
@@ -55,7 +46,7 @@ source:
     AstroFWD2 start 6 nt upstream. They look like the panel''s own variants of one forward primer, extending a few bases 3'' past
     Atkins''. What is NOT established: that P-001 prints them. The 2026-10-04 check against the Anthony et al. 2015 supplement is
     recorded for round 1 only, the supplement is not held locally (PubMed Central does not carry it), and this entry has no
-    record of that check, so FWD3 and FWD4 rest on the spreadsheet row and predict_protocol P-001 alone. To settle it, read the
+    record of that check, so FWD3 and FWD4 rest on the seed-list row and predict_protocol P-001 alone. To settle it, read the
     P-001 round 2 primers in the Supplementary Methods. oligos_designed_here is false for the reason given on round 1: the
     citation names Atkins only, so the pool cross-product pairs Atkins'' primers with the panel''s, and some pairs scored here
     were never run by anyone.'

@@ -32,14 +32,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
   predict_protocol: P-009
-  rows:
-  - 429
-  - 430
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'PREDICT panel protocol P-009 (NS5), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Moureau,
     G. et al, (2007). TAXON RENAMED: NCBI now calls txid11051 ''Orthoflavivirus''; this entry carried the superseded name

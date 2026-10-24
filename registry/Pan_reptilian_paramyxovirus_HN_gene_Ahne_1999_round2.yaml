@@ -28,11 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
-  rows: null
-  positive_control: null
   nested_round: round2
-  notes: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene nested
     primers (primer pair 3+4 in the paper''s Table 1). Positions on Sendai Z strain: 7647-7666 (forward) and 8045-8025 (reverse),
     expected product 399 bp. Round 1 external HN primers are Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999. AMPLICON_BP: 399

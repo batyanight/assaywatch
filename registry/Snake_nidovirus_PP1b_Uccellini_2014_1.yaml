@@ -31,14 +31,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 510
-  - 511
-  - 512
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'PAIRED ACROSS TWO OF THE PAPER''S PRIMER PAIRS - FLAGGED, NOT CHANGED (2026-10-14).
     Uccellini et al. 2014 Table 2 ("Sequences of primers used to amplify the 3,408 fragment of ball python
     Nidovirus") prints SEVEN NUMBERED PAIRS, each a forward and a reverse of the same number, with nucleotide
@@ -54,7 +47,7 @@ source:
     disagreement with the source: the registry pairs across the table''s pairs where the table pairs within them.
 
     WHY IT IS FLAGGED RATHER THAN FIXED. Repairing it means changing which oligos constitute the assay, the most
-    load-bearing field in an entry, and the WCS lab may pair them this way deliberately - these are
+    load-bearing field in an entry, and a lab may pair them this way deliberately - these are
     genome-walking primers for sequencing a 3,408 bp fragment, not a published diagnostic pair, so whether any of
     them belongs in a drift registry is a scope question too. Both are decisions for whoever holds the protocol.
     Until then this entry is screened as stored, and the ROUND SPLIT applied to the Cryptosporidium and adenovirus

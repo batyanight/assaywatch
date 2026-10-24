@@ -430,3 +430,51 @@ def test_the_committed_json_schema_matches_the_models():
     assert on_disk["$comment"].startswith("Generated from assaywatch.schema")
     # and the licence pointer, since this file is the data's published contract
     assert "LICENSE-registry" in on_disk["$comment"]
+
+
+# --- only a verified DOI goes live ----------------------------------------
+
+
+def _write_entry(dir_, **changes):
+    import yaml
+
+    d = variant(**changes)
+    d["status"] = "draft"
+    (dir_ / f"{d['id']}.yaml").write_text(yaml.safe_dump(d, sort_keys=False))
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [{"citation.doi_verified": False}, {"citation.doi": None, "citation.doi_verified": False}],
+    ids=["unverified", "no-doi"],
+)
+def test_the_registry_refuses_an_entry_without_a_verified_doi(tmp_path, changes):
+    from assaywatch.validate import main
+
+    _write_entry(tmp_path, **changes)
+    assert main([str(tmp_path), "--quiet"]) == 1
+    # pending/ holds exactly these, against the same schema.
+    assert main([str(tmp_path), "--quiet", "--pending"]) == 0
+
+
+def test_a_verified_doi_is_live(tmp_path):
+    from assaywatch.validate import main
+
+    _write_entry(tmp_path)
+    assert main([str(tmp_path), "--quiet"]) == 0
+
+
+def test_the_seed_list_fields_cannot_come_back():
+    for field in ("spreadsheet", "rows", "positive_control"):
+        with pytest.raises(ValidationError):
+            Assay.model_validate(variant(**{"source": {field: "x"}}))
+
+
+def test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending():
+    from pathlib import Path
+
+    from assaywatch.validate import iter_files, load_assay, not_live_because
+
+    root = Path(__file__).resolve().parents[1]
+    assert all(not_live_because(load_assay(p)) is None for p in iter_files(root / "registry"))
+    assert all(not_live_because(load_assay(p)) for p in iter_files(root / "pending"))

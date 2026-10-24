@@ -28,11 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0016-5085_98_70589-x.pdf). Same forward
     primer (C97) as the long-amplicon entry Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998 (C97+C05, 1196 bp), but paired
     with C98 instead of C05 to give a shorter product. The paper states the C97+C98 pair produces "approximately 400" bases

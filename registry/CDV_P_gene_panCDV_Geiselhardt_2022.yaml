@@ -41,12 +41,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from the paper''s own Table 2 (papers/10.1128_jcm.02505-21.pdf). The table page was rendered
     at 220 dpi and read by eye as well as extracted as text; the two agree base for base. ROLES: panCDV-F (no wobble) is the
     assay''s forward primer and panCDV-PDV-F (R at position 7) is the variant made to also cover phocine distemper virus;

@@ -28,13 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 729
-  - 730
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Not scoped (a scope attempted 2026-10-04 was reverted): SIVgor has no NCBI taxon and
     SIVcpz (388909) has only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged
     keyword query searches every Entrez field and does not isolate the lineage. Judged against all SIV,

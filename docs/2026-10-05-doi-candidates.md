@@ -5,7 +5,7 @@ reachable where Crossref was not.
 
 `DOI_MISSING` is the registry's commonest `needs_review` flag - 45 of 164
 entries - and 106 oligos cannot be checked against a paper because no DOI says
-which paper. Most of those 45 are genuinely unpublished: WCS in-house assays,
+which paper. Most of those 45 are genuinely unpublished: in-house assays,
 "Tracies unpublished", "developed in house", bare "PREDICT protocol". No DOI
 exists and none should be invented.
 

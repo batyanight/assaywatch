@@ -23,20 +23,13 @@ citation:
   doi: null
   design_year: null
   n_sequences_at_design: null
-  as_written: developed in house
+  as_written: unpublished
   doi_verified: false
 use_context:
 - veterinary
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 570
-  - 571
-  - 572
-  positive_control: UC7
   nested_round: null
-  notes: null
 needs_review:
 - flag: oligos_modified

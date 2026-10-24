@@ -33,14 +33,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 101
-  - 102
-  - 103
-  positive_control: UC4
   nested_round: null
-  notes: null
   notes_curator: 'SOURCE FOUND 2026-10-21 from the PDF Batya supplied, and it is the design paper: Alvarez et al. 2013, ''Development
     of a quantitative PCR for rapid and sensitive diagnosis of an intranuclear coccidian parasite in Testudines (TINC)'',
     Vet Parasitol 193:66-70. All three oligos verified verbatim against it with whitespace flattened, and the primer names

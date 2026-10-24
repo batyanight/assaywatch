@@ -3,7 +3,7 @@
 Prompted by two decisions: ordering status is the lab's workflow and does not belong in
 the pipeline, and **an oligo's name should come from the paper that published it**, not
 from whether it needs ordering. `NEED_TO_ORDER` is gone from the registry, from
-`parse_wcs_primers.py` and from `scripts/materials_needed.py`; two display names and two
+the seed-list importer (since removed) and from `scripts/materials_needed.py`; two display names and two
 assay ids that carried a truncated `_ne_` from it were cleaned up too.
 
 That left the real question: which of the PREDICT-derived entries have no paper, and can

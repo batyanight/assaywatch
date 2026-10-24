@@ -36,12 +36,8 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
   predict_protocol: null
-  rows: null
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'Added 2026-10-06 from Abade dos Santos et al. 2021 (papers/10.3390_v13040715.pdf), Table 1, a text table
     (open access). The paper runs one primer pair in two real-time formats: a TaqMan duplex with an 18S internal control (the
     entry ending _taqman) and an EvaGreen singleplex (the entry ending _evagreen, same primers, no probe). Both entries are

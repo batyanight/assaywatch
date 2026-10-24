@@ -13,10 +13,8 @@
 # MIT was committed. That made the one machine-readable file GitHub surfaces and
 # Zenodo ingests assert all-rights-reserved on a repository that was MIT.
 #
-# NO `doi:` or `date-released:` FIELD YET: there has been no release, and one
-# must not be minted before the WCS spreadsheet provenance is settled in writing
-# (ROADMAP.md, docs/2026-10-23-wave5-ip-question.md). Add both, and
-# `preferred-citation` if a paper appears, at that point.
+# NO `doi:` or `date-released:` FIELD YET: there has been no release. Add both,
+# and `preferred-citation` if a paper appears, at the first release.
 cff-version: 1.2.0
 message: "If you use AssayWatch, please cite it using the metadata below."
 title: AssayWatch

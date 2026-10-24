@@ -194,9 +194,9 @@ is what kept 146 of 208 entries permanently unactivatable before 2026-10-21.
 
 **`submitted_by` is not required, as of 2026-10-21.** Every other precondition is
 evidence about the assay; authorship is not. Once the review-flag rule was fixed,
-`submitted_by` was the only thing blocking 167 of 208 entries — including all
+`submitted_by` was the only thing blocking 167 of 208 entries on 2026-10-21 — including all
 four remaining Phase 0 candidates — because the registry was bulk-imported by one
-curator and 207 of 208 entries leave the field null. Setting it 207 times to one
+curator and 207 of 208 entries (2026-10-21) left the field null. Setting it 207 times to one
 name would have been a rubber stamp. Fill it in if you are submitting an entry;
 do not treat it as a step on the way to `active`.
 

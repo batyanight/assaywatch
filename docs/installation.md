@@ -52,7 +52,6 @@ turned both CI jobs red while the Mac stayed green.
 | `lineage` | scipy, statsmodels | the per-lineage verdict and its multiple-testing correction. **Without it anything that computes a verdict raises**, including most of `tests/test_drift.py` — and the lineage check drives 18 of the 38 `declining` calls, so this is not a side feature. CI runs one job without it on purpose, to prove the rest of the pipeline still works. |
 | `pdf` | pypdf | `scripts/verify_oligos_against_paper.py --pdf-dir` |
 | `thermo` | primer3-py | the duplex-Tm columns, opt-in via `thermo: true` |
-| `import` | openpyxl | reading the source spreadsheet |
 
 Pip alone does **not** install Snakemake or the NCBI CLI tools. Without
 Snakemake you can still use the library and `python -m assaywatch.screen`

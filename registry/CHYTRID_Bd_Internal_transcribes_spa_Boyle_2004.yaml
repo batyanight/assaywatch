@@ -32,18 +32,11 @@ use_context:
 submitted_by: Batya Nightingale
 status: active
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 4
-  - 5
-  - 6
-  positive_control: Bd DNA and plasmid, UC6
   nested_round: null
-  notes: null
   notes_curator: 'Orientation confirmed 2026-10-04: forward ITS1-3 Chytr lies 5'' of reverse 5.8S Chytr in
     rDNA order, and all 79 detects in short Bd ITS records (deposited 18S->28S) have forward on + and
     reverse on -. Promoted to active on the 2026-10-04 run: stable, 100% of 54 recent evaluable records.
-    AMPLICON CORRECTED 121 -> 146 bp on 2026-10-21. The 121 came from the WCS spreadsheet (rows 4-6);
+    AMPLICON CORRECTED 121 -> 146 bp on 2026-10-21. The 121 came from the seed list;
     Boyle et al. 2004 states no product size at all (its only bp figures are a 5918 bp 10-locus total from
     Morehouse et al. and a 740 bp sequencing product, neither this amplicon), so there is nothing to
     disagree with - the measured value simply stands (config.yaml amplicon:). MEASURED from the one Bd
@@ -60,4 +53,4 @@ source:
 needs_review:
 - flag: amplicon_measured_not_published
   note: Boyle 2004 states no product size; 146 bp is the modal of 175 measured products (132-152 bp, ITS1
-    length polymorphism) and replaces the spreadsheet's unexplained 121
+    length polymorphism) and replaces the seed list's unexplained 121

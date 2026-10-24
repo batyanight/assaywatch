@@ -32,14 +32,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: Primers_for_WCS_Molecular_Lab_updated_021518.xlsx
-  rows:
-  - 618
-  - 619
-  - 620
-  positive_control: null
   nested_round: null
-  notes: null
   notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name
     ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval
     uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. CITATION RESOLVED 2026-10-22. The ''candidate'' in the old reference string is confirmed by sequence, not by plausibility: Müller et al. 2011 (J Wildl Dis 47:725-729, 10.7589/0090-3558-47.3.725) prints this entry''s primers, and all four Mueller_2011 entries'' primer pairs verify exact against that PDF. The paper is paywalled, which is why the open-access routes never found it.'

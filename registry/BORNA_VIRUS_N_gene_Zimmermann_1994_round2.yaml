@@ -28,11 +28,7 @@ use_context:
 submitted_by: null
 status: draft
 source:
-  spreadsheet: null
-  rows: null
-  positive_control: null
   nested_round: round2
-  notes: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_0166-0934_94_90098-1.pdf). Internal (nested)
     primers from Zimmermann et al. 1994. The external (round 1) primers are in registry as BORNA_VIRUS_N_gene_Zimmermann_1994.
     The paper labels these as "Internal (nested) primers: antisense 5''-ATTCTTTACCTGGGGACTCA-3'' sense 5''-GCCTTGTGTTTCTATCTTTC-3''".
