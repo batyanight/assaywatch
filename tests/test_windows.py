@@ -400,7 +400,13 @@ def test_drift_refuses_count_diverged_on_windowed_rows():
     # `patent=set()`: the shipped setting excludes patent records since 2026-10-23,
     # and `assess` refuses to run that setting without the set. None of these rows is
     # a patent record, so an empty set is the truth here.
-    assess(rows, years, CFG, patent=set())  # the shipped setting: fine
+    # Both directions are named explicitly rather than leaning on the shipped value,
+    # because the shipped value moved on 2026-10-24 and this test's whole point is the
+    # consequence: with the switch ON, `assess` refuses a window archive's rows, so a
+    # recipient of the distributable cannot re-screen it under the shipped config
+    # unaltered. That is the trade, and it must not be made silently.
+    off = {**CFG, "drift": {**CFG.get("drift", {}), "count_diverged_as_fail": False}}
+    assess(rows, years, off, patent=set())  # off: a windowed row is simply dropped
     on = {**CFG, "drift": {**CFG.get("drift", {}), "count_diverged_as_fail": True}}
     with pytest.raises(ValueError, match="window archive"):
         assess(rows, years, on, patent=set())

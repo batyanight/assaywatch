@@ -54,6 +54,7 @@ Read these before trusting a status.
 | [`2026-10-24-genbank-ceiling.md`](2026-10-24-genbank-ceiling.md) | the GenBank-availability ceiling is 11, not 9: Lotta's fusiform-lineage mitogenome was public from 2014 and the screen calls it `fail` |
 | [`2026-10-24-archive-anchor.md`](2026-10-24-archive-anchor.md) | the lone-anchor test at archive scale: BH over an assay's no_amplicon rows, Bd loses 50 chance anchors and SIV Keele loses none, ships off |
 | [`2026-10-24-scoring-strategy-test-plan.md`](2026-10-24-scoring-strategy-test-plan.md) | plan: a replay harness (footprint columns, `rescore.py`, frozen sets) and a pre-registered ladder of scoring candidates ending in the Bayesian C2 model |
+| [`2026-10-24-anchor-pair-counterfactual.md`](2026-10-24-anchor-pair-counterfactual.md) | the `count_diverged_as_fail` + `anchor_fdr` pair priced on all 183 assays: tier-2 cannot choose q, 0.001 beats 0.01, and Bornaviridae says do not ship |
 
 ## Design documents, agreed before the code
 
