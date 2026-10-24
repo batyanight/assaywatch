@@ -379,12 +379,23 @@ checked 0 problems, ruff clean.**
 ### Still yours to decide (nothing below was touched)
 
 - `active`: `scripts/promote.py --tier clean --apply` is the standing recommendation.
-- `count_diverged_as_fail: true` + `drift.anchor_fdr: 0.01`, per item 5.
+- `count_diverged_as_fail: true` + `drift.anchor_fdr`. **Priced on all 183 assays and the
+  recommendation is DO NOT SHIP** (`docs/2026-10-24-anchor-pair-counterfactual.md`, on the
+  unmerged `experiment/2026-10-24-diverged-and-anchor-fdr` branch, now pushed). Two findings
+  since that line was written: q=0.001 beats the recommended 0.01, because BH's bar is
+  `(k/m)*q` so a SMALLER q relabels more; and the reason not to ship is one no q fixes --
+  Bornaviridae fell 98.2% -> 16.4%, `stable` -> `declining`, on 209 strong anchors that are
+  real sites in parrot, serin and rattlesnake bornaviruses. **The 2026-10-24 scope audit
+  settled that objection: Bornaviridae was SCOPE, not drift.** So the counterfactual should be
+  re-priced against the now-scoped registry before the pair is judged again; the renders it
+  rests on are kept at `results/2026-10-24-{off,anchorfdr,q001}`.
 - The calicivirus re-cite to Neill & Seal 1995; M1. (The three Sigrist oligos are CLOSED as
   of 2026-10-24 — both the `BornaPCA6`/`PaBVcon_1401+` and `A647N`/`A674N` questions are
   answered and the registry was right; see the 2026-10-24 daytime section.)
-- The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries). (`209/all` is CLOSED as of 2026-10-24.)
-  Helicobacter, still never screened.
+- The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries; one group alone is
+  530 MB). `scripts/orphan_archives.py` advises keeping the three pending ones unless the
+  entry is being dropped. (`209/all` is CLOSED as of 2026-10-24 — that entry now carries its
+  sibling's query, joined the existing archive and screens at 91.8%.)
 - Four held-out rows rest on an oligo that differs from the registry's by one base or a
   5' trim (see the candidates doc); one of those, the pan-coronavirus Watanabe reverse,
   is a transcription error on one side or the other and worth settling.

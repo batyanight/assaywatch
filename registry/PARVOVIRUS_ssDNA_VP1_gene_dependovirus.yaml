@@ -26,7 +26,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'SOURCE FOUND 2026-10-05 by a Europe PMC full-text search on the primer sequences: these are Gao et al. 2002''s

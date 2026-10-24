@@ -30,7 +30,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'SANTEE-COOPER BLIND SPOT. This assay does not reach the Santee-Cooper group (ICTV Ranavirus micropterus1: Largemouth bass virus, Smallmouth bass virus, Doctor fish virus, Guppy virus 6, plus the phylogenetically allied but still-unclassified Mandarin fish and Siniperca chuatsi ranaviruses). That lineage sits well apart from the FV3-like viruses and from the Australian and European fish ranaviruses that MCP consensus primers were designed on, and on 2026-10-04 it accounted for most of this assay''''s failing records. A no-amplicon or fail call on a Largemouth bass virus deposit is therefore expected and is not evidence of drift. Those records are covered by LMBV_dsDNA_MCP_RPA_Li_2025, which matches all four LMBV complete genomes this assay fails. BOTH PRIMERS CONFIRMED

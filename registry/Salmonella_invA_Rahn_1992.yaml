@@ -26,7 +26,7 @@ use_context:
 - public_health
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'OLIGOS ARE NOT RAHN''S PUBLISHED PAIR. Read 2026-10-20 from the local PDF, which has a text layer. Rahn''s

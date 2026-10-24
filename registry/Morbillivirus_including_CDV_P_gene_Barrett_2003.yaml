@@ -25,7 +25,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added, and the firing lineage turns out to be

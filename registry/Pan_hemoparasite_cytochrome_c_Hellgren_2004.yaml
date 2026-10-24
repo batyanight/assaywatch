@@ -29,7 +29,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'CONFIRMED 2026-10-05 against the full text via the NYU library: HaemNFI and HaemNR3 are this paper''s own (''initial primers were constructed (HaemNFI ... and HaemNR3 ...)''), and both sequences match character for character, inosine included. AMPLICON SIZE IS SUSPECT. The stored 617 bp is the product of HaemNF/HaemNR2, which the paper attributes to Waldenstrom et al. 2004 - a DIFFERENT first-round pair. For HaemNFI/HaemNR3 the paper states no size. 617 should not be trusted until it is measured on real records. | SCOPE 2026-10-19: scope_taxids is the avian haemosporidia the design paper names in its title, ''A new PCR assay for simultaneous studies of Leucocytozoon, Plasmodium, and Haemoproteus from avian blood'': the five avian Plasmodium subgenera in NCBI (Haemamoeba 418104, Huffia 418105, Novyella 418110, Giovannolaia 418112, Bennettinia 419353; every species NCBI places under them is a bird parasite, checked 2026-10-19), Haemoproteus 77521, Parahaemoproteus 587283 and Leucocytozoon 195944. Before this the assay was judged against all Haemosporida, and its records were mostly mammalian: on the 2026-10-17 calls, 2,240 Laverania (0% detected) and 1,618 subgenus Plasmodium (11%) against about 130 in the avian subgenera (nearly all detected). Deliberately out of scope: Plasmodium records with no subgenus (e.g. 31272 ''Plasmodium sp.'', 783 records at 73%), because NCBI does not say their host; some are avian lineages, and that is a known loss.'

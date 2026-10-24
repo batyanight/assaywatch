@@ -27,7 +27,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'CONFIRMED 2026-10-05 against the full text via the NYU library: HaemFL and HaemR2L are this paper''s own (''constructed 2 new primers, HaemFL ... and HaemR2L ... for Leucocytozoon spp.''), both match exactly including the inosine in HaemR2L, and the 478 bp product is stated in the text. Figure 1''s caption confirms the reverse primers are printed already reverse-complemented, ''as it should be ordered (5''-3'')'', so they are stored as printed.'

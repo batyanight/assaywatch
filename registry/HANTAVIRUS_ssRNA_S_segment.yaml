@@ -26,7 +26,7 @@ use_context:
 - wildlife
 - public_health
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   nested_family: HANTAVIRUS_ssRNA_S_segment_nest_A

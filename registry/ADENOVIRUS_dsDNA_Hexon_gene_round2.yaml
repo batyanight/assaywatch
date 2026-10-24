@@ -26,7 +26,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: round2
   notes_curator: 'SCOPE TRIAGE 2026-10-20, decision HELD for a maintainer; see docs/2026-10-20-scope-curation.md. Casas et

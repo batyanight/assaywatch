@@ -28,7 +28,7 @@ use_context:
 - public_health
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: DOI RESOLVED 2026-10-05 FROM THE PRIMER SEQUENCES. A Europe PMC full-text search on O157-3 and O157-4 finds

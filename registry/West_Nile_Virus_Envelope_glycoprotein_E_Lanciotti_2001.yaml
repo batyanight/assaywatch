@@ -27,7 +27,7 @@ use_context:
 - veterinary
 - public_health
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'id corrected 2026-10-04: it misspelled Lanciotti as ''Lancotti''. Crossref confirms the author. THE in-text

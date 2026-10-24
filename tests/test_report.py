@@ -525,7 +525,14 @@ def test_the_draft_line_does_not_claim_drafts_are_unchecked():
     describe a different rule from the one it enforces."""
     from assaywatch.report import registry_status_line
 
-    assay = _assay("CDV_N_gene_Elia_2006")  # a draft, and Bd is the one active entry
+    # Forced to `draft` rather than picked by id. This read a specific entry on the
+    # assumption it was a draft; the 2026-10-24 promotion made it active and the test
+    # failed although the wording it guards had not changed. The rule under test is
+    # about how a draft is DESCRIBED, so the fixture states the status it needs.
+    from assaywatch.schema import Status
+
+    assay = _assay("CDV_N_gene_Elia_2006").model_copy(update={"status": Status.draft})
+    assert assay.status is Status.draft
     line = registry_status_line({assay.id: None}, {assay.id: assay})
     assert "not for a verified citation" not in line
     assert "maintainer sign-off" in line

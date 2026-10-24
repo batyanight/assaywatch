@@ -29,7 +29,7 @@ use_context:
 - veterinary
 - public_health
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: round1
   notes_curator: 'PROVENANCE SPLIT, established 2026-10-04 by the provenance audit. The oligo names carry their own attribution

@@ -83,7 +83,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'AMPLICON RANGE DECLARED 2026-10-21. This entry carried no declared size (amplicon_bp: null), so it was screened against the global 50-3000 bp window and constrained nothing. It is a pan-Sarcocystis rDNA assay whose product length varies by species, so the readout belongs in amplicon_bp_range + species_sizes, the ORTHOPOXVIRUS ATI pattern. MEASURED from the 2026-10-21 run by scripts/measure_species_sizes.py over 92 amplifying (detect/reduced) records: band envelope 235-836 bp across 13 species; most species cluster at 247-254 bp, with S. zamani (828-836, reduced) and S. sinensis (515, reduced) as long outliers. Range [225, 846] is that envelope plus a 10 bp cushion each end for an unobserved indel (declared_tolerance adds +/-25% on top at screen time). The scattered fail-scored products outside this envelope are chance pairings and stay out of it. Narrowing from the global window newly excludes those as no_amplicon rather than fail; neither counts as detected, so the drift share is unaffected. Needs a rescreen to take effect.'

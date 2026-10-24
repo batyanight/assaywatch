@@ -25,7 +25,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is

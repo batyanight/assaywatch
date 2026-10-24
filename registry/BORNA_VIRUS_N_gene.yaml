@@ -27,7 +27,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised, so verify_oligos_against_paper.py

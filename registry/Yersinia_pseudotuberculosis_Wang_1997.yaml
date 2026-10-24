@@ -27,7 +27,7 @@ use_context:
 - public_health
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: DOI RESOLVED 2026-10-05, LESS DIRECTLY THAN ITS SIBLING E_coli_O157_hlyA_Wang_1997. That

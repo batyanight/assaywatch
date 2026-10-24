@@ -37,7 +37,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. Correction 2026-10-19: NCBI has since merged txid11232 into txid3052342, and records carry 3052342 or its no-rank children (3139435 ''canine distemper virus'', 11233 Onderstepoort). scope_taxids [11232] therefore excluded every record (0 of 604 evaluable kept); now [3052342]. target.taxid stays 11232 because it is the retrieval key, and NCBI resolves the merge. | Oligo annotations moved from name field: CDV-Probe (alternate[0]): no MGB'

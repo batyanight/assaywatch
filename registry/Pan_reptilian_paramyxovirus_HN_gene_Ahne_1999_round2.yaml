@@ -26,7 +26,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: round2
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene nested

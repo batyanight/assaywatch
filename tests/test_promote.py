@@ -43,11 +43,26 @@ def test_apply_changes_exactly_the_status_line(tmp_path):
 
     reg = tmp_path / "registry"
     shutil.copytree(ROOT / "registry", reg)
+    # Put some drafts back first. This used to read the live registry's status
+    # census, so it passed only while promotable drafts happened to exist; the
+    # 2026-10-24 promotion of 178 entries emptied the clean tier and the test
+    # failed without anything being wrong. What is under test is that --apply
+    # replaces ONE line and preserves every comment, so the fixture has to create
+    # the drafts it needs rather than hope for them.
+    seeded = 0
+    for path in sorted(reg.glob("*.yaml")):
+        text = path.read_text()
+        if "\nstatus: active\n" in text:
+            path.write_text(text.replace("\nstatus: active\n", "\nstatus: draft\n", 1))
+            seeded += 1
+        if seeded == 3:
+            break
+    assert seeded == 3, "fixture needs three entries to put back to draft"
     before = {p.name: p.read_text() for p in reg.glob("*.yaml")}
     assert promote.main(["--registry", str(reg), "--tier", "clean", "--apply"]) == 0
 
     changed = [n for n, t in before.items() if (reg / n).read_text() != t]
-    assert changed, "the clean tier should not be empty"
+    assert changed, "the seeded drafts should have been promoted"
     for name in changed:
         old_lines = before[name].splitlines()
         new_lines = (reg / name).read_text().splitlines()

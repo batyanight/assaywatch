@@ -28,7 +28,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: Primers sense-841 and antisense-844 were designed by Li et al. 1995 (Exp Parasitol 81:182-190). Grim et al.

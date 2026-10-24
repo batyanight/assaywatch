@@ -26,7 +26,7 @@ use_context:
 - wildlife
 - public_health
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'TAXON RENAMED: NCBI now calls txid121791 ''Henipavirus nipahense''; this entry carried the superseded name

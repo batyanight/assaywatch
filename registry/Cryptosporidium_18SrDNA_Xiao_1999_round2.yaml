@@ -33,7 +33,7 @@ use_context:
 - veterinary
 - public_health
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: round2
   notes_curator: 'SPLIT OUT OF THE PRIMARY ENTRY 2026-10-14, on the evidence the primary entry''s own notes_curator

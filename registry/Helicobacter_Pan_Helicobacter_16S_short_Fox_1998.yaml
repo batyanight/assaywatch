@@ -27,7 +27,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: draft
+status: active
 source:
   nested_round: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0016-5085_98_70589-x.pdf). Same forward
