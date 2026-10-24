@@ -17,6 +17,10 @@ and this file is where they go so they are not rediscovered from scratch.
 
 ## 1. The GenBank-availability ceiling: the honest score may be 9, not 11
 
+**ANSWERED 2026-10-24: it is 11.** KM610046, the fusiform-lineage mitogenome Lotta 2019
+draws the HaemR2L mismatch on, was public from 2014-12-24 and the screen calls it `fail`.
+`docs/2026-10-24-genbank-ceiling.md`. The paragraphs below are kept as the question as posed.
+
 main's only "ceiling" language is the **taxid-resolution** ceiling
 (`docs/2026-10-18-recalibration.md`) — how many cases lineage grouping could
 reach given how NCBI labels records. The PR named a different and harder limit:

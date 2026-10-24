@@ -50,6 +50,7 @@ Read these before trusting a status.
 | [`2026-10-23-verified-doi-gate.md`](2026-10-23-verified-doi-gate.md) | only verified-DOI assays are live; 10 moved to `pending/`; the seed list's fields and importer removed |
 | [`2026-10-23-wave5-elsevier-and-oligo-flags.md`](2026-10-23-wave5-elsevier-and-oligo-flags.md) | the Elsevier block opened: 68 oligos newly checkable; 6 of 21 near-misses are the matcher finding sibling primers |
 | [`bayesian-scoring-plan.md`](bayesian-scoring-plan.md) | design only: the three things "Bayesian scoring" could mean, with a kill-test each |
+| [`2026-10-24-genbank-ceiling.md`](2026-10-24-genbank-ceiling.md) | the GenBank-availability ceiling is 11, not 9: Lotta's fusiform-lineage mitogenome was public from 2014 and the screen calls it `fail` |
 
 ## Design documents, agreed before the code
 
@@ -118,7 +119,7 @@ Kept because the reasoning is still the record, but do not act on them.
 | `HANDOFF-2026-10-18.md`, `2026-10-18-phase1-complete.md`, `2026-10-18-phase2-handoff.md`, `2026-10-18-session-summary.md` | four documents for one day with no stated precedence. `RESUME-HERE.md` is the live one |
 | [`2026-10-22-lineage-plan-salvage.md`](2026-10-22-lineage-plan-salvage.md) | what was kept from the closed PR #3 |
 | [`2026-10-05-verification-handoff.md`](2026-10-05-verification-handoff.md), [`2026-10-05-list2-worklist.md`](2026-10-05-list2-worklist.md) | worklists from completed passes |
-| [`2026-10-18-pipeline-timekeeping-todo.md`](2026-10-18-pipeline-timekeeping-todo.md) | the timekeeping markers; 5 of 7 shipped |
+| [`2026-10-18-pipeline-timekeeping-todo.md`](2026-10-18-pipeline-timekeeping-todo.md) | the timekeeping markers; all 7 shipped by 2026-10-23 |
 
 ## Derived tables and worklists
 
