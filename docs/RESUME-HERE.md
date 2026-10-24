@@ -752,7 +752,14 @@ checked 0 problems, ruff clean.**
   worked through the same evening and the registry's 18-mer stands on two transcriptions to
   one, but it is **not fully closed**: the design paper, Mao et al. 1997, is the only thing
   that would settle it and Elsevier returns no body for it, so it wants the Virology scan
-  through the NYU proxy. Two held-out rows remain untouched.
+  through the NYU proxy. **The Sigrist row is closed and was a false alarm** (2026-10-24): the
+  `GATCCGCAGACAGYACGT` that Villanueva 2024 prints is the registry's own alternate forward
+  `BornaPCA3A`, already on the entry beside the primary `BornaPCA3`, and Sigrist 2021 section
+  2.2 says in terms that the design has "two variants of a degenerate forward primer". No trim,
+  nothing to reconcile; the row's note now says so. A sweep of
+  `docs/validation-cases-heldout.tsv` for any other qualified identity found none - the two
+  adenovirus rows read "byte-identical" - so **Mao 1997 is the only oligo-identity question
+  still open anywhere in the held-out set.**
 
 ### The old section 0, kept for the record
 
