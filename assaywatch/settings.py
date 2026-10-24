@@ -206,7 +206,7 @@ class Screen(Block):
     cost_startup_s: float = Field(default=1.47, ge=0)
     cost_per_mb_assay: float = Field(default=0.1937, ge=0)
     cost_per_record_assay: float = Field(default=1.55e-4, ge=0)
-    core_seconds_per_worker: float = Field(default=15.0, gt=0)
+    core_seconds_per_worker: float = Field(default=100.0, gt=0)
     max_workers: int = Field(default=16, ge=1)
 
 

@@ -402,11 +402,21 @@ screen:
   cost_startup_s: 1.47          # process start, measured; why splitting tiny archives does not pay
   cost_per_mb_assay: 0.1937     # core-seconds per gzipped MB per assay in the group
   cost_per_record_assay: 1.55e-4  # core-seconds per record per assay
-  # A worker per this much predicted work. 15 is a judgement, not a measurement:
-  # it has to exceed cost_startup_s by enough that an extra worker earns its
-  # start-up, and it sets how coarse the sizing is. Raise it to concentrate
-  # cores on fewer jobs, lower it to spread them.
-  core_seconds_per_worker: 15.0
+  # A worker per this much predicted work, and 100 IS a measurement. 15 was the
+  # first guess and it made local runs 33% SLOWER: forcing all 335 archives at
+  # --cores 4 took 18m 33s against 13m 54s for the byte rule it replaced, with
+  # summed job time UP 8% (25.2 -> 27.2 min) and effective parallelism DOWN from
+  # 1.81x to 1.47x. Both move the same way and contention cannot explain the
+  # first: extra workers add real work (each pays ~1.5 s of start-up plus
+  # pickling), and a job holding four cores stops four jobs holding one each.
+  # Snakemake packs single-threaded jobs better than this model splits them.
+  #
+  # So at 100, locally almost every archive runs on one worker as before, and the
+  # record-dense archives that prompted this are fixed by `priority` instead --
+  # they were never short of workers, they were running LAST. The cost model
+  # still earns its place on a cluster, where `threads` is the sbatch CPU request
+  # and the old rule asked for 16 CPUs for one core's work.
+  core_seconds_per_worker: 100.0
   max_workers: 16               # Snakemake caps this at --cores anyway; the cap is for the cluster
 
 # Duplex Tm per oligo on its binding site (assaywatch/thermo.py). Shown beside

@@ -289,14 +289,31 @@ def test_cost_scales_with_assays_because_each_one_rescans_the_archive():
     assert three - startup == pytest.approx(3 * (one - startup), rel=1e-9)
 
 
-def test_a_record_dense_archive_gets_more_than_one_worker():
-    """The measured fault: 10 MB holding 190,101 records cost 52 s on the single
-    worker the byte rule gave it (`11320/qdf5abd73c1`, 2026-10-23)."""
+def test_a_record_dense_archive_is_ranked_high_but_still_runs_on_one_worker():
+    """The measured shape of the fix, which is not the one first attempted.
+
+    `11320/qdf5abd73c1` is 10 MB holding 190,101 records and cost 52 s on the one
+    worker the byte rule gave it. Splitting such jobs was tried and LOST: at
+    `core_seconds_per_worker: 15` a forced run took 18m 33s against 13m 54s, with
+    summed job time up 8%. So at the shipped granularity it still gets one worker
+    -- what was actually wrong is that `priority` ranked it below archives that
+    cost a fraction as much, so it ran last. The cost model fixes the ranking.
+    """
+    from assaywatch.timing import screen_core_seconds, screen_workers
+
+    dense, bulky = (10.1, 190_101, 1), (54.5, 150, 1)
+    # The byte rule ranked the bulky archive five times higher than the dense one.
+    assert 54.5 // 25 > 10.1 // 25
+    # The cost model ranks the dense one above it, which is what priority reads.
+    assert screen_core_seconds(*dense) > screen_core_seconds(*bulky)
+    assert screen_workers(*dense) == 1
+
+
+def test_a_finer_granularity_would_split_a_dense_archive():
+    """The knob is real, and this is the setting that was measured and rejected."""
     from assaywatch.timing import screen_workers
 
-    byte_rule = max(1, min(16, int(10.1 // 25)))
-    assert byte_rule == 1
-    assert screen_workers(10.1, 190_101, assays=1) > 1
+    assert screen_workers(10.1, 190_101, 1, {"screen": {"core_seconds_per_worker": 15.0}}) > 1
 
 
 def test_a_record_sparse_archive_is_not_given_every_core():

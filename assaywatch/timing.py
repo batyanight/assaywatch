@@ -461,16 +461,26 @@ def screen_workers(
 ) -> int:
     """How many processes to screen one archive with: at least 1, at most the cap.
 
-    Workers scale with predicted work rather than with gzipped bytes. The byte
-    rule gave one worker to a 10 MB archive of 190,101 records that cost 52 s,
-    and four of the ten slowest jobs in the 2026-10-23 run were single-threaded
-    for that reason while a 760 MB archive needing one assay's worth of work got
-    sixteen. Granularity is deliberately coarse: an archive below
-    `core_seconds_per_worker` of predicted work is not worth splitting, because
-    each worker pays the process-startup cost the fit measures at about 1.5 s.
+    Workers scale with predicted work rather than with gzipped bytes, which stops
+    a 760 MB archive needing one assay's worth of work from asking for sixteen
+    CPUs. On a cluster that is the whole point: `threads` is the sbatch request.
+
+    **Granularity is coarse because fine granularity was measured and lost.**
+    `core_seconds_per_worker` began at 15, which split the medium jobs several
+    ways; forcing all 335 archives at `--cores 4` then took 18m 33s against
+    13m 54s for the byte rule, with summed job time UP 8% (25.2 -> 27.2 minutes)
+    and effective parallelism DOWN from 1.81x to 1.47x. Both move together and
+    contention explains neither: each extra worker pays about 1.5 s of start-up
+    plus its pickling, and a job holding four cores stops four jobs holding one
+    each. Snakemake packs single-threaded jobs better than this function splits
+    them, so the default is 100 and locally almost everything runs on one worker.
+
+    The record-dense archives that prompted the whole exercise are not fixed here
+    and do not need to be: they were never short of workers, they were running
+    LAST, because `priority` ranked them by bytes too. That half is free.
     """
     screen = dict((cfg or {}).get("screen") or {})
-    per_worker = float(screen.get("core_seconds_per_worker", 15.0))
+    per_worker = float(screen.get("core_seconds_per_worker", 100.0))
     cap = int(screen.get("max_workers", 16))
     return max(1, min(cap, round(screen_core_seconds(mb, records, assays, cfg) / per_worker)))
 

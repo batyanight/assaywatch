@@ -233,11 +233,38 @@ rescreen is expected to reproduce every screen byte for byte -- checksums were
 taken beforehand and the comparison is the check. Resizing a job on its own reruns
 nothing, because neither `threads` nor `priority` is in the signature.
 
-**Still not measured:** whether this reduces wall time at `--cores 4`. It should
-barely, and may not at all: four single-threaded jobs usually beat one
-four-threaded job, so concentrating cores on a dense archive mostly moves work
-around. The win is the tail (priority) and correct requests on a cluster, where
-`threads` is the sbatch CPU count.
+### MEASURED, and the threads half of this lost
+
+Forcing all 335 archives at `--cores 4`, against the byte rule's 13m 54s:
+
+| | byte rule | cost model, `core_seconds_per_worker: 15` |
+|---|---:|---:|
+| summed job time | 25.2 min | **27.2 min** (+8%) |
+| effective parallelism | 1.81x | **1.47x** |
+| elapsed | 13m 54s | **18m 33s** (+33%) |
+
+Both numbers move the same way and **contention cannot explain the first**: a
+rise in summed job time is extra real work, not waiting. Each extra worker pays
+about 1.5 s of process start-up plus its pickling, and a job holding four cores
+stops four jobs holding one each. Snakemake packs single-threaded jobs better
+than this model splits them.
+
+So `core_seconds_per_worker` is **100**, measured rather than guessed, and
+locally almost every archive is back to one worker. What the cost model keeps is
+the two things that cost nothing:
+
+- **`priority`.** The record-dense archives were never short of workers - they
+  were running LAST, because priority ranked them by bytes too. A 10 MB archive
+  costing 52 s now outranks a 55 MB one costing 15 s, which is the tail fix the
+  original comment on that rule claimed to be for.
+- **Cluster requests.** `threads` is the sbatch CPU count, and the byte rule
+  asked for 16 CPUs for any archive over 400 MB regardless of how many assays
+  wanted it. The biggest now ask for 5, 3, 3 and 2.
+
+The lesson is the same one the oligo work produced earlier the same day: the
+printed argument for a change is not evidence that the change helps, and the
+only way to tell was to run it. Both halves of the heuristic looked equally
+well-motivated; one was worth keeping.
 
 ### The earlier hypothesis about the thread heuristic, refuted above
 

@@ -48,7 +48,19 @@ Two things to know. Putting the constants in `config.yaml` required a new block 
 were invalidated and rescreened - the trigger working as designed, since a module
 that COULD change a call must invalidate whether or not this one does. `screen.py`
 never reads the `screen:` block, so the rescreen is expected to reproduce every
-screen byte for byte. Resizing alone reruns nothing. And the local wall-time gain at `--cores 4` is
+screen byte for byte (verified: all 356 reproduced exactly). Resizing alone reruns nothing.
+
+**The threads half of the fix was then measured and lost.** At
+`core_seconds_per_worker: 15` a forced run of all 335 archives took 18m 33s against
+the byte rule's 13m 54s, with summed job time UP 8% (25.2 -> 27.2 min) and effective
+parallelism DOWN from 1.81x to 1.47x - and a rise in summed job time is extra real
+work, not contention. Each worker pays ~1.5 s of start-up, and a job holding four
+cores stops four jobs holding one. The granularity is now **100** core-seconds per
+worker, measured, so locally almost everything runs single-threaded again. What the
+cost model keeps is `priority` (the dense archives were running LAST, not starved of
+workers) and correct sbatch CPU requests: the biggest archives now ask for 5, 3, 3
+and 2 instead of a flat 16. The old wording below is kept because the prediction in it
+turned out to be right. The local wall-time gain at `--cores 4` is
 expected to be small: the real wins are the tail, via `priority`, which had been
 ranking a 52-second archive near the back of the queue because it was 10 MB, and
 correct CPU requests on SLURM.
