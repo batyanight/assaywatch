@@ -153,6 +153,44 @@ Four assay families were never searched at all because the passes ran out of tim
 Apicoplast 23S is the pick of those: plastid 23S primers are widely reused and widely
 reported to miss genera.
 
+**SEARCHED 2026-10-24, and the pick was the wrong pick.** Literal Europe PMC full-text
+search on each stored oligo:
+
+| family | oligos searched | hits |
+|---|---|---|
+| `Apicoplast_23S_LSU` | both | **0, both** |
+| `CALICIVIRUS` capsid (Reid) | both | 0, both |
+| `CALICIVIRUS` helicase | both | **2, and they matter** |
+| `E_coli_ETEC_LT_Victor_1991` | forward | 1 |
+| `E_coli_O157_hlyA_Wang_1997` | forward | 2 |
+| `E_coli_malB_Candrian_1991` | forward | **59** |
+| `Yersinia_enterocolitica_Ibrahim_1992` | forward | 0 |
+| `CIRCOVIRUSES` both rounds | - | not searchable literally; all four primers are degenerate |
+
+So the guess that apicoplast 23S primers are "widely reused" is not borne out: neither oligo
+appears in any Europe PMC full text. The rich seam is `E_coli_malB_Candrian_1991`, whose
+forward returns **59** papers, mostly prevalence surveys including wildlife-relevant ones
+(migratory birds, dairy value chains); those are `works`-shaped rather than drift-shaped, and
+reading them is a pass of its own.
+
+**The calicivirus helicase hit paid for the whole sweep.** Kolesnikovas 2017,
+*Molecular Detection of Circovirus and Adenovirus in Feces of Fur Seals*
+([10.1007/s10393-016-1195-8](https://doi.org/10.1007/s10393-016-1195-8)), lists this pair as
+its Vesivirus helicase assay, credits Neill 1995, and prints hel-1 ending in **C** where both
+Reid and the Neill & Seal deposit end in **G**. That is the base the entry already knew
+mismatches all 16 of its design-target records. Measured the same day over the whole
+152,379-record Caliciviridae archive: the stored G-form yields **no product in any record**,
+while the C-form yields **16 products, all 357 bp - exactly the size both papers state**. And
+our only copy of the design paper is an Elsevier backfile deposit that puts a spurious space
+inside **three of its four** printed oligos, so a single-character misread in the fourth is
+plausible. Full chain and the maintainer recommendation are on the entry; nothing was changed,
+because a sequence correction and the status change it implies are not a session's to make.
+
+Also found and not entered: Neill & Seal's **second** primer pair, Pol1/Pol2 on the RdRp
+region, is absent from the registry although the paper is held and already cited. Unlike the
+helicase pair its sequences match real records as printed - Pol1 in 11, Pol2 in 19, a 520 bp
+product in 8 - so it is a ready candidate.
+
 ## For the C2 bench corpus
 
 `docs/bayesian-scoring-plan.md` gates the Bayesian per-record model on 40+

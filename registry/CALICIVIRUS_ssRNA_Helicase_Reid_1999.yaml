@@ -93,10 +93,51 @@ source:
     ("Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses..."),
     which is what the sibling Capsid entry already had - so the two entries disagreed about the pages of the one DOI they
     shared. The new reference uses Crossref''s own figures for the 1995 paper, 9:33-37; note the curator note above says 33-38,
-    which is one page out and is superseded here.'
+    which is one page out and is superseded here. A THIRD PAPER PRINTS HEL1 ENDING IN C, AND IT IS THE ONLY ONE THAT AGREES WITH
+    THE TEMPLATE. Found 2026-10-24 by pasting the stored oligos into Europe PMC full-text search. Kolesnikovas et al.
+    2017, "Molecular Detection of Circovirus and Adenovirus in Feces of Fur Seals"
+    (10.1007/s10393-016-1195-8, PMC7087719), Table 1 lists this pair as its Vesivirus helicase assay, credits
+    "Neill et al. (1995)", prints hel-2 identically to the stored AGCGGGTAGTTCAGTCAAGTTCACC - and prints hel-1 as
+    GTCCCAGTATTCGGATTTGTCTGCC, ending C where Reid and the Neill & Seal deposit both end G. So the count is now two
+    papers for G and one for C, and the one for C is the one the sequence data support.
+    AND THE ONLY COPY OF THE DESIGN PAPER WE HOLD IS DEMONSTRABLY OCR''d. The note above treats the Elsevier JATS
+    deposit''s text as authoritative. It should not be read that way without this caveat: of the four oligonucleotides
+    that deposit prints, THREE carry a spurious space inside the sequence - "GCCTTCTGGTATGC CACTAACATCC",
+    "GACGAGCGGTATGATCTTGTTG GTG" and "AGCGGGTAGTTCAG TCAAGTTCACC". A deposit that mangles whitespace inside three of
+    four sequences is a deposit that can misread one character in the fourth, and G/C is a plausible misread. We hold
+    no PDF of Neill & Seal, so there is no clean copy to check against.
+    THE AMPLICON SETTLES IT, AND IT CLOSES THE OPEN QUESTION IN THIS NOTE. The note above says "the declared 360 bp
+    should be re-measured against the table''s 357". Measured 2026-10-24 over the whole 152,379-record Caliciviridae
+    archive: with the stored G-form there is NO product in any record, because Hel1 has no exact site anywhere. With
+    the C-form there are 16 products and every one is **357 bp** - exactly the size both papers state. A primer whose
+    terminal base is wrong cannot reproduce the published product size by accident, so the paper''s own stated
+    amplicon is independent corroboration of C.
+    TAKEN TOGETHER: the template says C in all 16 design-target records, the published product size is reproduced only
+    by C, a citing paper prints C, and the two sources printing G are a 1999 table and an OCR''d backfile deposit that
+    visibly corrupts its sibling sequences. The balance has moved from "the published primer carries a 3''-terminal
+    mismatch" to "G is probably a typesetting or OCR error that has propagated". NOTHING IS CHANGED HERE: a sequence
+    correction is a maintainer decision and the registry''s rule is that the published sequence stands and the
+    disagreement is disclosed. What would settle it outright is the Neill & Seal PDF through the NYU proxy - the same
+    errand the Mao 1997 ranavirus question needs. The flag below is upgraded from a polymorphism note to
+    oligo_sequence_uncertain, because the question is no longer whether the target varies but whether our copy of the
+    primer is right.
+    ONE MORE THING THE SAME PAPER OFFERS, NOT ENTERED. Neill & Seal describe "two distinct regions" and the note above
+    checked only whether the sibling CAPSID entry''s primers were in it. The paper''s OWN second pair is absent from the
+    registry altogether: Pol1 GCCTTCTGGTATGCCACTAACATCC and Pol2 GACGAGCGGTATGATCTTGTTGGTG, the RNA-dependent RNA
+    polymerase region, both 25 nt once the deposit''s spurious spaces are closed. Measured over the same archive, those
+    repairs are corroborated by the data rather than assumed: Pol1 has an exact site in 11 records, Pol2 in 19, and
+    the pair gives a 520 bp product in 8. That is a ready candidate entry from a paper already held and already cited
+    - worth having because, unlike the helicase pair, its sequences match real records as printed.
+    FLAG NOT UPGRADED, DELIBERATELY. The right flag for all this is oligo_sequence_uncertain, and it was tried: the schema
+    refuses it, correctly, because that flag is an OPEN question and an entry carrying one cannot be status: active. So
+    setting it would demote this live entry, and only a maintainer changes status. The flag below therefore stays
+    primer_site_polymorphic with the recommendation recorded in its note. A maintainer applying the upgrade should expect
+    active 178 rather than 179.'
 needs_review:
 - flag: primer_site_polymorphic
   note: Hel1's 3'-terminal G mismatches the C in all 16 target records, so a qPCR-strength terminal rule scores every record
-    as fail
+    as fail; and on the 2026-10-24 evidence the stored G may itself be wrong rather than the target varying, for which
+    oligo_sequence_uncertain is the recommended flag - a maintainer decision, because it is an OPEN flag and would demote
+    this entry from active
 - flag: thin_evidence
   note: the 360 bp size rests on 5 amplifying records of 84,810 in the genus; the assay detects almost nothing in GenBank
