@@ -14,16 +14,6 @@ oligos:
   reverse:
     name: Astr4811R
     seq: GGYTTNACCCACATNCCAAA
-  alternates:
-  - name: AstroFWD1
-    seq: GARTTYGATTGGRCKCGKTAYGA
-    orientation: forward
-  - name: AstroFWD2
-    seq: GARTTYGATTGGRCKAGGTAYGA
-    orientation: forward
-  - name: AstrRVS1
-    seq: GGYTTKACCCACATNCCRAA
-    orientation: reverse
 amplicon_bp: 431
 citation:
   doi: 10.1016/j.vetmic.2008.10.035
@@ -41,9 +31,5 @@ status: draft
 source:
   predict_protocol: P-001
   nested_round: round1
-  notes_curator: 'PREDICT panel protocol P-001 (RNA-Dependent RNA Polymerase (RdRp)), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Atkins, A. et al (2009). MIXED DESIGN, found 2026-10-05 by scripts/verify_oligos_against_paper.py. Checked against Atkins et al. 2009 directly: Astr4811R (GGYTTNACCCACATNCCAAA) appears in that paper verbatim. The pool alternate AstrRVS1 (GGYTTKACCCACATNCCRAA) does not - it differs at two positions, N->K at base 6 and A->R at base 18. That is a redesign rather than a typo, since the two changes pull in opposite directions (N->K narrows a 4-fold position to 2-fold while A->R widens a fixed base to 2-fold), and the curator note already records every oligo here as matching PREDICT protocol P-001 in the Anthony et al. 2015 supplement. So AstrRVS1 is PREDICT''s modification of Atkins'' reverse primer, and both are published - but by different groups. oligos_designed_here is False because the citation names only Atkins, and the AstroFWD1/AstroFWD2/AstrRVS1 naming convention is the panel''s, not that paper''s. Consequence worth knowing: the pool cross-product pairs Atkins'' primers with PREDICT''s, so some combinations this tool scores were never run by anyone. Splitting the two assays apart would be the honest fix.'
-needs_review:
-- flag: pairing_is_curator_reading
-  note: the source lists several primers in one block without saying which pair
-- flag: pooled_as_one_assay
-  note: Atkins' assay and the PREDICT one are pooled here
+  notes_curator: 'PREDICT panel protocol P-001 (RNA-Dependent RNA Polymerase (RdRp)), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Atkins, A. et al (2009). MIXED DESIGN, found 2026-10-05 by scripts/verify_oligos_against_paper.py. Checked against Atkins et al. 2009 directly: Astr4811R (GGYTTNACCCACATNCCAAA) appears in that paper verbatim. The pool alternate AstrRVS1 (GGYTTKACCCACATNCCRAA) does not - it differs at two positions, N->K at base 6 and A->R at base 18. That is a redesign rather than a typo, since the two changes pull in opposite directions (N->K narrows a 4-fold position to 2-fold while A->R widens a fixed base to 2-fold), and the curator note already records every oligo here as matching PREDICT protocol P-001 in the Anthony et al. 2015 supplement. So AstrRVS1 is PREDICT''s modification of Atkins'' reverse primer, and both are published - but by different groups. oligos_designed_here is False because the citation names only Atkins, and the AstroFWD1/AstroFWD2/AstrRVS1 naming convention is the panel''s, not that paper''s. Consequence worth knowing: the pool cross-product pairs Atkins'' primers with PREDICT''s, so some combinations this tool scores were never run by anyone. Splitting the two assays apart would be the honest fix. CORRECTED 2026-10-23: the AstroFWD1/AstroFWD2/AstrRVS1 alternates are not Atkins'' or PREDICT''s. P-001 in the Anthony 2015 supplement prints only Astr4380F, Astr4811R and Astr4722R, so the earlier claim that every oligo here matched P-001, and the reading of AstrRVS1 as PREDICT''s modification of Astr4811R, were both wrong. All of them are Chu et al. 2008 (J Virol, 10.1128/jvi.00857-08), printed verbatim in its Methods, and now have their own entry, ASTROVIRUS_RdRp_Chu_2008_round1. Removed from this entry, which is now Atkins'' Astr4380F/Astr4811R pair as printed.'
+needs_review: null

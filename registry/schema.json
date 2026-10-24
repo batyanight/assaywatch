@@ -102,6 +102,30 @@
     "Oligo": {
       "additionalProperties": false,
       "properties": {
+        "modification_doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modification Doi"
+        },
+        "modified_from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modified From"
+        },
         "name": {
           "anyOf": [
             {
@@ -222,6 +246,30 @@
           ],
           "default": null,
           "title": "Lna"
+        },
+        "modification_doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modification Doi"
+        },
+        "modified_from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modified From"
         },
         "name": {
           "anyOf": [

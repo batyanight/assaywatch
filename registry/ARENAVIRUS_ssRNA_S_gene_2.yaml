@@ -14,6 +14,8 @@ oligos:
   reverse:
     name: ARS7C-MOD
     seq: ATRTGYCKRTGWGTTGG
+    modified_from: ATGTGYCTRTGAGTTGG
+    modification_doi: 10.1038/ncomms9147
 amplicon_bp: 460
 citation:
   doi: 10.1016/S0168-1702(97)01458-5
@@ -57,9 +59,11 @@ source:
     is EXPECTED and is why the oligo is named -MOD and the entry already carried MODIFIED_IN_HOUSE: the stored form is the
     PREDICT P-004 modification, confirmed against the Anthony 2015 supplement on 2026-10-04, not Lozano''s printed primer.
     So the verifier has now independently corroborated that flag. ARS3V''s 3'' difference is NOT explained that way and needs
-    an eye on the PDF table. Both left unchanged.'
+    an eye on the PDF table. Both left unchanged. RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS3V is
+    printed CATGACKMTGAATTYTGTG- with ACA wrapped onto the next line, which is the stored sequence exactly; the ARS ending
+    was the next row''s name glued on. ARS7C is printed ATGTGYCTRTGAGTTGG (17 nt, no leading C), now recorded as the
+    oligo''s modified_from, with the modified form''s source as modification_doi. Neither oligo is in doubt.'
 needs_review:
-- flag: oligos_not_in_cited_paper
-  note: a sequence differs from the cited paper's
 - flag: oligos_modified
+  note: ARS7C-MOD is the PREDICT P-004 widening of Lozano's ARS7C (modified_from, modification_doi)
 - flag: orientation_inferred

@@ -14,13 +14,6 @@ oligos:
   reverse:
     name: Astr4722R
     seq: ARNCKRTCATCNCCATA
-  alternates:
-  - name: AstroFWD3
-    seq: CGKTAYGATGGKACKATHCC
-    orientation: forward
-  - name: AstroFWD4
-    seq: AGGTAYGATGGKACKATHCC
-    orientation: forward
 amplicon_bp: 342
 citation:
   doi: 10.1016/j.vetmic.2008.10.035
@@ -49,8 +42,6 @@ source:
     record of that check, so FWD3 and FWD4 rest on the seed-list row and predict_protocol P-001 alone. To settle it, read the
     P-001 round 2 primers in the Supplementary Methods. oligos_designed_here is false for the reason given on round 1: the
     citation names Atkins only, so the pool cross-product pairs Atkins'' primers with the panel''s, and some pairs scored here
-    were never run by anyone.'
+    were never run by anyone. CORRECTED 2026-10-23: the AstroFWD3/AstroFWD4 alternates are not Atkins'' or PREDICT''s. P-001 in the Anthony 2015 supplement prints only Astr4380F, Astr4811R and Astr4722R, so the earlier claim that every oligo here matched P-001, and the reading of AstrRVS1 as PREDICT''s modification of Astr4811R, were both wrong. All of them are Chu et al. 2008 (J Virol, 10.1128/jvi.00857-08), printed verbatim in its Methods, and now have their own entry, ASTROVIRUS_RdRp_Chu_2008_round2. Removed from this entry, which is now Atkins'' Astr4380F/Astr4722R pair as printed.'
 needs_review:
-- flag: pairing_is_curator_reading
-  note: the source lists several primers in one block without saying which pair
 - flag: nested_protocol

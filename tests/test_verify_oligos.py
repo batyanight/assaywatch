@@ -931,3 +931,75 @@ def test_a_supplement_is_evidence_about_its_own_article(tmp_path):
     # Both claims are named, so the one printing the sequences wins on yield.
     assert path.name == "10.1234_test.2.supp.txt", path
     assert len(vo.printed_oligos(text)) == 2
+
+
+# The CDV arctic variants: each differs by design from its entry's Mueller primer,
+# and the paper text held prints only the Mueller primer.
+MUELLER_2F = "GCGATACAATTGGGATCAGA"
+ARCTIC_2F = "GTGAGACAATTGGGATCAGA"
+SIBLING_TEXT = (
+    "Primers Mueller-2F 5'-GCGATACAATTGGGATCAGA-3' and Mueller-2R 5'-TGGGTGAGCAACAGGTATCA-3' "
+    "amplified the H gene."
+)
+
+
+def test_a_variant_nearest_to_its_own_sibling_reads_sibling_not_near():
+    printed = vo.printed_oligos(SIBLING_TEXT)
+    assert vo.judge(ARCTIC_2F, SIBLING_TEXT, printed, 4)[0] == "near:2"
+    verdict, note = vo.judge(ARCTIC_2F, SIBLING_TEXT, printed, 4, siblings=[("Mueller-2F", MUELLER_2F)])
+    assert verdict == "sibling", (verdict, note)
+    assert "Mueller-2F" in note
+
+
+def test_a_sibling_the_paper_does_not_print_explains_nothing():
+    """A real transcription error must still surface when the entry has alternates."""
+    printed = vo.printed_oligos(SIBLING_TEXT)
+    verdict, _ = vo.judge(ARCTIC_2F, SIBLING_TEXT, printed, 4, siblings=[("other", "ACGTACGTACGTACGTACGT")])
+    assert verdict == "near:2"
+
+
+def test_a_sibling_further_away_than_the_printed_run_explains_nothing():
+    """If the nearest run is closer than the sibling, the sibling is not why it is near."""
+    printed = vo.printed_oligos(SIBLING_TEXT)
+    far = "TGGGTGAGCAACAGGTATCA"  # Mueller-2R, printed, but many edits from ARCTIC_2F
+    verdict, _ = vo.judge(ARCTIC_2F, SIBLING_TEXT, printed, 4, siblings=[("Mueller-2R", far)])
+    assert verdict == "near:2"
+
+
+def test_a_recorded_modification_reads_modified_when_the_paper_prints_the_original():
+    from assaywatch.schema import Oligo
+
+    text = "Primers ARS3V 5'-CATGACKMTGAATTYTGTGACA-3' and ARS7C 5'-ATGTGYCTRTGAGTTGG-3' were used."
+    printed = vo.printed_oligos(text)
+    o = Oligo(
+        name="ARS7C-MOD",
+        seq="ATRTGYCKRTGWGTTGG",
+        modified_from="ATGTGYCTRTGAGTTGG",
+        modification_doi="10.1038/ncomms9147",
+    )
+    verdict, note = vo.judge(o.seq, text, printed, 4)
+    assert verdict.startswith("near:")
+    verdict, note = vo.judge_modified(o, verdict, note, text, printed, 4)
+    assert verdict == "modified" and "10.1038/ncomms9147" in note
+
+
+def test_a_modification_whose_original_is_not_printed_keeps_its_verdict():
+    from assaywatch.schema import Oligo
+
+    text = "Primers 5'-ATTGCGCTGGAACCTTGTCAAGG-3' and 5'-CCTTGGTTAAGGCCTTGGAACCTT-3' were used."
+    printed = vo.printed_oligos(text)
+    o = Oligo(name="X", seq="ACTYCTACGGGAGGCAGCAGTA", modified_from="ACTCCTACGGGAGGCAGCAGTA")
+    verdict, note = vo.judge(o.seq, text, printed, 4)
+    v2, note2 = vo.judge_modified(o, verdict, note, text, printed, 4)
+    assert v2 == verdict and "modified_from" in note2
+
+
+def test_a_modification_doi_needs_the_original_sequence():
+    from pydantic import ValidationError
+
+    from assaywatch.schema import Oligo
+
+    with pytest.raises(ValidationError):
+        Oligo(seq="ACTYCTACGGGAGGCAGCAGTA", modification_doi="10.1038/ncomms9147")
+    with pytest.raises(ValidationError):
+        Oligo(seq="ACTCCTACGGGAGGCAGCAGTA", modified_from="ACTCCTACGGGAGGCAGCAGTA")

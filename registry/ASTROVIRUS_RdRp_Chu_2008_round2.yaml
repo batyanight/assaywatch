@@ -1,0 +1,48 @@
+id: ASTROVIRUS_RdRp_Chu_2008_round2
+name: Astrovirus pan-family RdRp heminested PCR (Chu 2008), round 2
+target:
+  taxid: 39733
+  gene: RNA-dependent RNA polymerase (RdRp)
+  genome_type: ssRNA+
+  taxon_name: Astroviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: ASTNF1
+    seq: CGKTAYGATGGKACKATHCC
+  reverse:
+    name: ASTR1
+    seq: GGYTTKACCCACATNCCRAA
+  alternates:
+  - name: ASTNF2
+    seq: AGGTAYGATGGKACKATHCC
+    orientation: forward
+amplicon_bp: null
+amplicon_bp_range:
+- 367
+- 489
+citation:
+  doi: 10.1128/jvi.00857-08
+  design_year: 2008
+  n_sequences_at_design: null
+  as_written: null
+  reference: Chu DK, Poon LL, Guan Y, Peiris JS. 2008. Novel astroviruses in insectivorous bats. J Virol 82:9107-9114
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  nested_round: round2
+  notes_curator: 'Split out 2026-10-23 from ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2, where these oligos sat as alternates
+    of Atkins 2009 although neither Atkins nor PREDICT P-001 prints them. Chu et al. 2008 Materials and Methods (PMC2546893,
+    read 2026-10-23) prints all five exactly: round 1 is a mix of two forward primers with one reverse, round 2 is heminested
+    with two forward primers and the same reverse; "the expected product size of the second PCR was 422 bp". The two forward
+    primers are one mixture, so they are one forward slot plus an alternate. AMPLICON MEASURED 2026-10-23 by screening this
+    entry against every Astroviridae archive (data/retrieved/39733/all, five snapshots): 2,623 amplifying records, envelope
+    377-479 bp, median 410, 5-95% 398-431. The RdRp product length varies across the family, so it is declared as amplicon_bp_range,
+    the envelope plus a 10 bp cushion each end; Chu''s 422 bp sits inside it (10 exact detects at 422).'
+needs_review:
+- flag: nested_protocol

@@ -262,7 +262,7 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    needs forward **and** reverse and detection needs the probe on top. Those are
    serial gates. Three trivial mismatches, one per oligo, land in the same bin as
    one near-lethal 3'-proximal mismatch.
-3. *One table serves every chemistry in the registry* -- 152 conventional PCRs and 43
+3. *One table serves every chemistry in the registry* -- 154 conventional PCRs and 43
    probe assays on 2026-10-23. A 100-fold yield
    loss is a missed Cq cutoff in qPCR and often still a visible band after 40
    cycles of endpoint PCR. The same `fail` is printed for both.

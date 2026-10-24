@@ -46,7 +46,6 @@ source:
     that paper prints. The paper is readable here - 14 extracted runs is not an image-table failure - which makes this a provenance
     problem rather than an extraction one: either the citation is wrong or the primers come from a different source, the composite-entry
     pattern already recorded for Atkins/PREDICT and Lan/Quan. Resolve by reading the PDF''s primer table and re-citing; do
-    not change the sequences, which produce real products.'
+    not change the sequences, which produce real products. RESOLVED 2026-10-23: against the publisher''s full-text XML of Chmielewicz et al. 2001 (10.1016/S0168-1702(00)00252-5, fetched with the Elsevier token), TERM_707s and TERM_707 both read exact in the paper''s own primer listing. The 2026-10-20 absent came from the PDF''s text extraction, not from the paper; the citation is right and nothing is in doubt.'
 needs_review:
-- flag: oligos_not_in_cited_paper
 - flag: orientation_inferred

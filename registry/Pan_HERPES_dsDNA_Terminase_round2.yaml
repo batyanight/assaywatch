@@ -42,6 +42,5 @@ source:
     had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in
     that script''s doi_stem(). Result: both TERM_708s and TERM_708as read absent, on the same evidence as the round 1 entry
     - 14 oligo-like runs in the cited paper, none within the cap of either stored sequence. Same conclusion: a provenance
-    problem for the whole terminase nest, not an extraction failure. See the round 1 entry''s note.'
-needs_review:
-- flag: oligos_not_in_cited_paper
+    problem for the whole terminase nest, not an extraction failure. See the round 1 entry''s note. RESOLVED 2026-10-23: against the publisher''s full-text XML of Chmielewicz et al. 2001 (10.1016/S0168-1702(00)00252-5, fetched with the Elsevier token), TERM_708s and TERM_708as both read exact in the paper''s own primer listing. The 2026-10-20 absent came from the PDF''s text extraction, not from the paper; the citation is right and nothing is in doubt.'
+needs_review: null

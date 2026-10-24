@@ -70,6 +70,13 @@ near:N         not found, but a printed oligo is N edits away. N=1 or 2 is very
 absent         the paper prints oligos, but none within the distance cap of this
                one. Either the sequence lives in a figure or supplement this
                script cannot read, or it is not this paper's at all
+modified       the oligo records `modified_from`, and the paper prints THAT
+               sequence: the stored difference is a recorded modification.
+               Counted as agreeing
+sibling        would be `near:N`, but the nearest printed run is another oligo of
+               the same entry: a lineage variant or alternate measured against
+               the primer it was derived from. Not a transcription error, and not
+               counted as checkable
 no-oligos      the text held for this paper prints fewer than two oligo-like
                runs (MIN_PRINTED_FOR_ABSENT), so it cannot confirm or deny a
                sequence that it does not contain. Not a finding about the
@@ -780,6 +787,7 @@ def judge(
     cap: int,
     name: str | None = None,
     runs: list[str] | None = None,
+    siblings: list[tuple[str, str]] | None = None,
 ) -> tuple[str, str]:
     """(verdict, note) for one oligo against a paper whose text IS held.
 
@@ -800,6 +808,14 @@ def judge(
     were lost, and "not in this paper" cannot be concluded from what is left.
     """
     verdict, note = check(seq, text, printed if runs is None else runs, cap)
+    if verdict.startswith("near:") and siblings:
+        if hit := nearest_is_sibling(seq, int(verdict[5:]), printed if runs is None else runs, siblings, cap):
+            return "sibling", (
+                f"the nearest printed run is {hit}, another oligo of this entry, {verdict[5:]} edit(s) "
+                "away. A lineage variant or alternate is designed to differ from the primer it was "
+                "derived from, so this is not a transcription error; the paper's own table has to "
+                "be read by eye for this one"
+            )
     if verdict != "absent":
         return verdict, note
     if name and lost_inline(name, text):
@@ -822,6 +838,46 @@ def judge(
             ),
         )
     return verdict, f"{note}; the paper's text printed {len(printed)} oligo-like run(s)"
+
+
+def judge_modified(o, verdict: str, note: str, text: str, printed: list[str], cap: int) -> tuple[str, str]:
+    """Re-judge a deliberately modified oligo on the sequence the paper should print.
+
+    `modified_from` is the published oligo the stored one was changed from. If the
+    paper prints THAT, the entry agrees with its paper about everything it claims,
+    and the stored difference is the recorded modification, not an error.
+    """
+    orig = o.modified_from.replace("I", "N").upper()
+    runs = printed_runs_for(is_probe_slot("", o), orig, text, printed)
+    v, _ = check(orig, text, runs, cap)
+    if v in ("exact", "revcomp"):
+        where = f"published in {o.modification_doi}" if o.modification_doi else "no published source"
+        return (
+            "modified",
+            f"the paper prints modified_from {orig} ({v}); the stored form is a recorded modification ({where})",
+        )
+    return verdict, f"{note}; modified_from {orig} is not printed either ({v})"
+
+
+def nearest_is_sibling(
+    seq: str, d: int, printed: list[str], siblings: list[tuple[str, str]], cap: int
+) -> str | None:
+    """The name of a same-entry oligo that explains a `near:d`, or None.
+
+    The CDV arctic variants read `near:2` and `near:3` against their own entry's
+    Mueller primers, because the nearest printed run to a deliberate variant is
+    the primer it was derived from. A sibling explains the near-miss when the
+    paper prints it (either strand) and it is no further from `seq` than `d`.
+    """
+    listed = [deinosine(p) for p in printed]
+    for sname, sseq in siblings:
+        s = deinosine(sseq)
+        rc = reverse_complement(s)
+        if s == seq or not any(s in p or rc in p for p in listed):
+            continue
+        if min(edit_distance(seq, s, cap), edit_distance(seq, rc, cap)) <= d:
+            return sname
+    return None
 
 
 def near_listing(near: list[dict]) -> list[str]:
@@ -927,15 +983,20 @@ def main(argv: list[str] | None = None) -> int:
         if text:
             printed = printed_oligos(text)
 
-        for slot, o in oligos_of(a):
-            seq = (o.seq_as_written or o.seq).replace("I", "N").upper()
+        entry_oligos = [
+            (slot, o, (o.seq_as_written or o.seq).replace("I", "N").upper()) for slot, o in oligos_of(a)
+        ]
+        for slot, o, seq in entry_oligos:
             if text is None and not doi:
                 verdict, note = "no-doi", "no DOI and no local PDF to check against"
             elif text is None:
                 verdict, note = "no-full-text", "not open access in PMC and no local PDF; needs the PDF"
             else:
                 runs = printed_runs_for(is_probe_slot(slot, o), seq, text, printed)
-                verdict, note = judge(seq, text, printed, args.cap, o.name, runs=runs)
+                siblings = [(s.name or sl, sq) for sl, s, sq in entry_oligos if sl != slot]
+                verdict, note = judge(seq, text, printed, args.cap, o.name, runs=runs, siblings=siblings)
+                if o.modified_from and verdict not in ("exact", "revcomp"):
+                    verdict, note = judge_modified(o, verdict, note, text, printed, args.cap)
             rows.append(
                 {
                     "assay_id": a.id,
@@ -962,7 +1023,18 @@ def main(argv: list[str] | None = None) -> int:
     near_verdicts = sorted(
         {r["verdict"] for r in rows if r["verdict"].startswith("near:")}, key=lambda v: int(v[5:])
     )
-    order = ["exact", "revcomp", "in-text", *near_verdicts, "absent", "no-oligos", "no-full-text", "no-doi"]
+    order = [
+        "exact",
+        "revcomp",
+        "modified",
+        "in-text",
+        *near_verdicts,
+        "absent",
+        "sibling",
+        "no-oligos",
+        "no-full-text",
+        "no-doi",
+    ]
     counts = {k: sum(1 for r in rows if r["verdict"] == k) for k in order}
     print(f"\n{len(rows)} oligos across {len(paths)} entries\n")
     for k in order:
@@ -971,8 +1043,10 @@ def main(argv: list[str] | None = None) -> int:
     # `no-oligos` is not checkable: the file is in hand but too little of it was
     # readable, so counting it would quietly depress the percentage with rows that
     # carry no evidence either way.
-    checkable = sum(counts[k] for k in order if k not in ("no-oligos", "no-full-text", "no-doi"))
-    agreeing = counts["exact"] + counts["revcomp"]
+    # `sibling` is left out for the same reason: the paper was read, but what it showed
+    # is the primer a variant was derived from, which says nothing about the variant.
+    checkable = sum(counts[k] for k in order if k not in ("sibling", "no-oligos", "no-full-text", "no-doi"))
+    agreeing = counts["exact"] + counts["revcomp"] + counts["modified"]
     if checkable:
         print(
             f"\n  {agreeing} of {checkable} checkable oligos agree with their paper ({100 * agreeing / checkable:.0f}%)"

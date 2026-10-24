@@ -49,7 +49,11 @@ source:
     assay that does not read species from length. The old declared 121 gave a 90-151 window whose ceiling
     sat exactly on the largest product, so 2 records at 152 bp were scored no_amplicon/no_pair; the
     correction recovers them (detect 172 -> 174 on this archive) and loses none at the low end (no product
-    falls below 132). amplicon_measured_not_published flagged below.'
+    falls below 132). amplicon_measured_not_published flagged below. OLIGOS CONFIRMED 2026-10-23. The verifier reads all
+    three `absent` because Boyle prints them only inside Fig. 1, an image of the rDNA sequence with primer and probe
+    underlined, captioned GenBank AY598034. Checked against AY598034.1 itself: ITS1-3-Chytr at position 1 (plus strand),
+    Chytr-MGB2 at 31 (plus), 5.8s-Chytr at 125 on the minus strand, product 146 bp, equal to the stored amplicon_bp. So
+    the stored oligos are exactly the paper''s, read through the accession its figure names.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: Boyle 2004 states no product size; 146 bp is the modal of 175 measured products (132-152 bp, ITS1

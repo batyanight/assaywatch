@@ -122,6 +122,14 @@ class Oligo(Strict):
     # of matching_seq, because a tail mismatches every record by design.
     tail_5prime: str | None = None
     orientation: Literal["forward", "reverse", "probe"] | None = None  # only used in `alternates`
+    # A deliberate change to a published oligo (a widened degeneracy, say): the
+    # sequence the cited paper prints, which `seq` was modified from, and the DOI
+    # of the publication that prints the modified form, or None when the
+    # modification has no published source. Recorded so that "the paper wins"
+    # cannot overwrite an intentional change with the sequence it was changed
+    # from, and so that an unpublished modification is visible as one.
+    modified_from: str | None = None
+    modification_doi: str | None = None
 
     @property
     def matching_seq(self) -> str:
@@ -136,7 +144,7 @@ class Oligo(Strict):
             s = s[len(self.tail_5prime) :]
         return s
 
-    @field_validator("seq_as_written")
+    @field_validator("seq_as_written", "modified_from")
     @classmethod
     def as_written_alphabet(cls, v: str | None) -> str | None:
         if v is None:
@@ -146,6 +154,21 @@ class Oligo(Strict):
             bad = sorted(set(v) - set("ACGTURYSWKMBDHVNI"))
             raise ValueError(f"non-IUPAC characters {bad}")
         return v
+
+    @field_validator("modification_doi")
+    @classmethod
+    def modification_doi_shape(cls, v: str | None) -> str | None:
+        if v is not None and not DOI_RE.match(v.strip()):
+            raise ValueError("DOI must look like 10.xxxx/...; strip any https://doi.org/ prefix")
+        return v.strip() if v else v
+
+    @model_validator(mode="after")
+    def a_modification_needs_its_original(self) -> Oligo:
+        if self.modification_doi is not None and self.modified_from is None:
+            raise ValueError("modification_doi without modified_from: record the published sequence too")
+        if self.modified_from is not None and self.modified_from.replace("I", "N") == self.seq:
+            raise ValueError("modified_from equals seq; that is not a modification")
+        return self
 
     @model_validator(mode="after")
     def as_written_matches_seq(self) -> Oligo:
