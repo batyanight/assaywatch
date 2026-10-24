@@ -11,11 +11,11 @@ chemistry: conventional
 oligos:
   forward:
     name: Hel1
-    seq: GTCCCAGTATTCGGATTTGTCTGCG
+    seq: GTCCCAGTATTCGGATTTGTCTGCC
   reverse:
     name: Hel2
     seq: AGCGGGTAGTTCAGTCAAGTTCACC
-amplicon_bp: 360
+amplicon_bp: 357
 citation:
   doi: 10.1016/S0890-8508(95)90962-1
   design_year: 1995
@@ -28,7 +28,7 @@ use_context:
 - wildlife
 - veterinary
 submitted_by: null
-status: active
+status: draft
 source:
   nested_round: null
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_99_00088-9.pdf). Hel1 and Hel2
@@ -132,12 +132,18 @@ source:
     refuses it, correctly, because that flag is an OPEN question and an entry carrying one cannot be status: active. So
     setting it would demote this live entry, and only a maintainer changes status. The flag below therefore stays
     primer_site_polymorphic with the recommendation recorded in its note. A maintainer applying the upgrade should expect
-    active 178 rather than 179.'
+    active 178 rather than 179. APPLIED 2026-10-24: the maintainer took the upgrade. The Hel1 forward 3''-terminal base
+    changed G->C, the flag primer_site_polymorphic was replaced by oligo_sequence_uncertain, amplicon_bp moved 360 -> 357
+    (the C-form measured value, which matches the size both papers state), and status moved active -> draft, so active is
+    now 178. The open question is unchanged: whether our copy of Hel1 is right, which the Neill & Seal PDF through the NYU
+    proxy would settle. The 357 bp figure is the recorded 2026-10-24 C-form measurement and will be re-confirmed on the
+    next pipeline screen.'
 needs_review:
-- flag: primer_site_polymorphic
-  note: Hel1's 3'-terminal G mismatches the C in all 16 target records, so a qPCR-strength terminal rule scores every record
-    as fail; and on the 2026-10-24 evidence the stored G may itself be wrong rather than the target varying, for which
-    oligo_sequence_uncertain is the recommended flag - a maintainer decision, because it is an OPEN flag and would demote
-    this entry from active
+- flag: oligo_sequence_uncertain
+  note: 'Hel1 forward terminal base corrected G->C on 2026-10-24 (maintainer decision): C is what all 16 design targets
+    carry and the only form giving the published 357 bp; the two G sources are a 1999 table and an OCR deposit. No clean
+    PDF held, so the copy stays uncertain pending the NYU-proxy scan. OPEN flag, so the entry is draft. Full rationale in
+    notes_curator.'
 - flag: thin_evidence
-  note: the 360 bp size rests on 5 amplifying records of 84,810 in the genus; the assay detects almost nothing in GenBank
+  note: with the corrected C-form the 357 bp size rests on 16 amplifying records of the 152,379-record Caliciviridae
+    archive; the assay detects almost nothing in GenBank

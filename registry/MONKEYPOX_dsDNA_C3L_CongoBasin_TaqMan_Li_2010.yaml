@@ -34,7 +34,7 @@ use_context:
 - wildlife
 - public_health
 submitted_by: null
-status: draft
+status: active
 source:
   predict_protocol: null
   nested_round: null
@@ -67,7 +67,11 @@ source:
     - 10244, 243803 Callithrix jacchus orthopoxvirus, 619591 Monkeypox virus Zaire-96-I-16 and the species itself.
     Every record in the archive carries the bare 10244. No clade taxon exists to scope to; this entry does not need
     one. status: draft
-    and doi_verified: false on entry; only a maintainer sets active.'
+    and doi_verified: false on entry; only a maintainer sets active.
+    ACTIVATED 2026-10-24: the maintainer set status active. The screen reads 99.3% on 1,060 evaluable records with no
+    scope_taxids needed; the 12,695 clade II genomes are no_site (C3L absent) and never enter the denominator. Both
+    remaining flags (amplicon_measured_not_published, scope_narrower_than_taxid) are recorded caveats, not open
+    questions, so the active gate accepts the entry. This takes active from 178 (after the Reid_1999 demotion) back to 179.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 100 bp measured in 1,045 of 1,047 genomes that give a product

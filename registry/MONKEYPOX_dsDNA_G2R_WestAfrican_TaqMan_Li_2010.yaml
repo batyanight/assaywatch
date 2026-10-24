@@ -79,4 +79,9 @@ source:
     it needs a clade assignment from sequence against an INDEPENDENT locus - C3L presence is the obvious marker and
     the paper itself supplies the rationale, but it is a mechanism the schema does not have. Until then the entry
     stays draft and this note is the disclosure. status: draft and doi_verified: false on entry; only a maintainer
-    sets active.'
+    sets active.
+    REVIEWED 2026-10-24: the maintainer considered the three options (keep draft, activate as-is, or build the C3L
+    clade-call mechanism) and chose to KEEP IT DRAFT. The 2,688 clade-I failures no scope_taxids can exclude make the
+    denominator known-broken and worsening for a non-drift reason, so activating would bake in a misleading verdict.
+    This is settled, not an open question to re-raise: reopen only if the C3L-presence clade call at an independent
+    locus is built.'

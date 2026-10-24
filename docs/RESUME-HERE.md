@@ -1,5 +1,35 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24, later: the three maintainer decisions were taken
+
+The maintainer worked the three priced decisions this session. All three entries re-validate
+(208 valid, 0 problems; active 179, draft 28, deprecated 1) and citations stay 208/208 clean.
+
+- **Calicivirus Hel1 terminal base — corrected G->C, entry demoted to draft.**
+  `CALICIVIRUS_ssRNA_Helicase_Reid_1999`: the forward Hel1 3'-terminal base changed G->C (the
+  form the template carries in all 16 design targets, the only form that reproduces the 357 bp
+  product, and the base Kolesnikovas 2017 prints). `primer_site_polymorphic` replaced by
+  `oligo_sequence_uncertain` (OPEN, so it forces draft), `amplicon_bp` 360->357, status
+  active->draft. Active went 179->178. The open question — is our copy of Hel1 right — is
+  unchanged and still waits on the Neill & Seal PDF through the NYU proxy; 357 bp is the recorded
+  C-form measurement, to be re-confirmed on the next pipeline screen.
+
+- **Congo Basin assay — activated.** `MONKEYPOX_dsDNA_C3L_CongoBasin_TaqMan_Li_2010`:
+  status draft->active. Measured harmless (99.3% on 1,060 evaluable; the 12,695 clade II genomes
+  are `no_site`, C3L absent, and never enter the denominator). Its two flags are recorded caveats,
+  not open questions, so the active gate accepts it. Active went 178->179.
+
+- **West African assay — kept draft, deliberately.** `MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010`:
+  no status change. The 2,688 clade-I failures no `scope_taxids` can exclude make the denominator
+  known-broken and worsening for a non-drift reason, so activation would bake in a misleading
+  verdict. Marked settled in the entry note — reopen only if the C3L-presence clade call at an
+  independent locus is built.
+
+Net registry unchanged at 208/179/28/1. Still open and NOT a session's to take: the two
+proxy-blocked PDFs (Mao 1997, Neill & Seal 1995) — reconfirmed unreachable via PMC/PubMed/Wiley
+this session, both Elsevier with no PMCID — and the uncommitted `scripts/fetch_elsevier.py`
+(fails ruff at lines 22 and 109; left as found, see the night-of note below).
+
 ## 2026-10-24 night: Neill & Seal's second pair is now a registry entry
 
 `CALICIVIRUS_ssRNA_RdRp_Neill_Seal_1995`, draft, DOI verified, both oligos exact. The design
