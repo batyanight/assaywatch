@@ -295,7 +295,167 @@ genus-wide. The EEHV entries only looked wrong because
 `target.taxon_name: "Elephant endotheliotropic herpesvirus 5"` sits next to
 `target.taxid: 548689` (the genus) — internally inconsistent labelling, harmless.
 
-### Unscreenable
+### A mechanic that constrains every fix: taxid is ANDed with query
 
-`Tortoise_intranuclear_coccidia_18SrDNA` has **no taxid at all**, so it has never been
-screened and cannot be. One of only three entries with zero records.
+`retrieve.build_query` (`retrieve.py:175`) emits
+`txid<N>[Organism:exp] AND <length> AND (<query_suffix>) AND (<target.query>)`. So
+**narrowing `target.taxid` below any taxid named in an existing `target.query` union
+silently empties that part of the union.** Several entries' queries name
+`unclassified …` taxids that sit outside the species node one would otherwise pick, which
+is a second reason to prefer `scope_taxids` — a post-retrieval denominator filter — over a
+taxid edit.
+
+### Caliciviridae — Reid 1999, two entries: the worst case in the registry
+
+Current scope is family Caliciviridae, **85,628 records, overwhelmingly norovirus.**
+Genuinely in scope: **129.** A 664-fold over-breadth, both counts verified live.
+
+The paper is titled "…detection of marine caliciviruses" and says it directly: "No RT-PCR
+products or contaminating bands were observed when any of the serotypes of FMDV, SVDV, VSV
+or FCV were tested by either 1F/1R or Hel1/Hel2 primer sets. The RT-PCR method with these
+primers would appear to be specific for members of the marine calicivirus group."
+Validated positives are VESV serotypes, SMSV-1–7, 9–11, 13, bovine Tillamook, cetacean,
+primate (Pan-1) and reptile caliciviruses; validated negatives are SMSV-8, SMSV-12, mink
+calicivirus and feline calicivirus.
+
+Proposal for both: taxid **3433198 `Vesivirus exanthema`** (species, 129 records, verified).
+NCBI's current taxonomy maps the paper's group almost exactly — it holds VESV, SMSV and
+the bovine, cetacean, primate, reptile, skunk and walrus caliciviruses, and it **excludes**
+`Vesivirus felis` (FCV, 2,249 records — the paper's negative), mink calicivirus, and
+SMSV-8 and -12, all three of which NCBI has moved to `unclassified Vesivirus`, mirroring
+the paper's own inference that those "may belong to a different group". Genus `Vesivirus`
+would be the wrong intermediate, since 2,249 of its 2,474 records are the FCV shown
+negative.
+
+**This explains an existing artefact**: the Helicase entry's "0 of 30 detected" and the
+Capsid entry's low coverage are a denominator that is almost entirely norovirus.
+
+Two side findings. The two entries' `reference` strings disagree about page range under one
+DOI — 82:63-73 on Helicase against 82:99-107 on Capsid. And Hel1/Hel2 are footnoted in
+Reid's Table 2 as "Originally described by Neill and Seal (1995)", which independently
+supports the standing re-cite question; the scope conclusion survives either way, since
+that paper names the same organisms. The `needs_review` flag saying Hel1 "reads 22 nt by
+OCR" is now stale — the table prints both at 25 nt. Printed product is 357 bp against the
+registry's measured 360, so `amplicon_disagrees_with_paper` applies.
+
+### Perkinsea — Smilansky 2021, two entries
+
+Designed for NAG01, an amphibian-infecting clade, with the two probes separating clades
+A–C from clade D: "there was no detection of pPPC with the NAG01a-c probe, and no
+detection of pNAG01a-c with the PPC probe." **No NAG01, PPC or clade-level taxid exists** —
+the whole `txid27997[Subtree]` is 133 taxa and none of them names NAG01; the rest is
+*Perkinsus* (oyster parasites), Xcellidae (fish X-cell parasites) and relatives.
+
+The smallest node holding the targets is **373149 `uncultured Perkinsea`** (species, 537
+records), where both the NAG01a-c clone library (KP122572) and the PPC libraries are
+filed. Against today's 1,931 records that removes ~72% of the denominator, which is
+*Perkinsus*/Xcellidae 18S the assay was never built to detect. It is an improvement, not a
+clean fit: 373149 is an environmental-samples bucket and will hold non-NAG01 clones.
+
+The clade-D entry has a harder problem: its own design reference EF675616 is filed as
+taxid 453764 `Rana sphenocephala pathogen MJY-2007`, whose lineage is `unclassified
+Alveolata` — **not under Perkinsea at all**, so neither the current scope nor 373149
+retrieves it. Disclose that rather than chase it; its only common ancestor with 373149 is
+Alveolata.
+
+### Tortoise intranuclear coccidian — a taxid does exist, and it makes the entry screenable
+
+This entry has **no taxid**, so it has never been screened. The paper itself gives nothing
+to resolve against — "Although a genus has not been assigned to this organism" — but the
+earlier TINC work it cites does: NCBI holds **293274 `Intranuclear coccidium JW-2004`**
+(species, verified, 2 records: AY728896.2 and KY683841.1). "JW-2004" is the senior author
+of this very paper.
+
+Identity was confirmed by sequence rather than by name: all three oligos are exact on
+AY728896.2 — forward at position 607, probe at 634, reverse as reverse-complement at 672 —
+giving a **measured amplicon of 84 bp**, which also fills this entry's null `amplicon_bp`
+on real sequence as the registry's rules require.
+
+Note the lineage is `unclassified Coccidia`, **not** Eimeriorina, so the entry's current
+`taxon_name` ("unclassified Eimeriorina") is wrong too. A 2-record denominator is as thin
+as it gets and will report thin evidence rather than drift; the value is that the entry
+becomes screenable at all.
+
+### LMBV — two entries, same answer, different mechanism
+
+Grizzle 2003 is explicitly sub-species: the primer region "was selected to match a portion
+of the LMBV genome that was distinct from the sequence of doctorfish virus and guppy
+virus", and the pair "did not amplify DNA from 4 other ranaviruses or from red seabream
+iridovirus". Genus Ranavirus is too broad as a declared scope. Proposal: **3432136
+`Ranavirus micropterus1`** (species, 113 records) rather than the tighter 176656
+`Largemouth bass virus`, because the paper's own Table 1 reports positives from smallmouth
+bass, spotted bass, bluegill, crappie and chain pickerel, so the validated set is wider
+than the LMBV node. Check 3045951 (*M. salmoides* ranavirus, in `unclassified Ranavirus`)
+before applying — it is in the entry's query union but outside 3432136.
+
+Li 2025 validated against no other ranavirus at all (only bacteria and unrelated fish
+viruses), so the genus is likewise unsupported. Here the recommendation is **`scope_taxids:
+[3432136]` with `target.taxid` left at the genus**, because this entry's query deliberately
+names six `unclassified Ranavirus` taxids that the curator recorded as empirically detected
+— exactly the cross-reactivity the registry wants visible — and the AND mechanic above
+would delete them.
+
+### Apicoplast 23S — Zhu 2000: NO CHANGE
+
+Genuinely phylum-wide by design, and in fact broader: Table 1's specificity column for
+this PCR reads Api = yes, **Chl = yes**, and it was validated on *Eimeria bovis*,
+*Toxoplasma gondii*, *Allium stellatum* and *Spinacia oleracea* — it amplifies plant
+chloroplasts too. Keeping the scope at the phylum is right for a pathogen registry.
+*Cryptosporidium* has no apicoplast and can never amplify, but the entry's title query
+returns 0 *Cryptosporidium* records of 329, so it costs nothing. The "2005" in the entry id
+is a cosmetic leftover — the citation block already correctly says Zhu 2000.
+
+### Paramyxoviridae — Tong 2008: NO CHANGE to the taxid, but its scope list breaks convention
+
+The name/taxid discrepancy is nomenclatural drift, not a scope error: NCBI moved
+Pneumovirinae out to its own family Pneumoviridae (11244), so modern Paramyxoviridae
+(11158) already excludes the one group Tong deliberately carved out with separate primers.
+The 2018 subfamily `Orthoparamyxovirinae` would be too narrow — it drops Rubulavirinae and
+Avulavirinae, and mumps and NDV are among Tong's validated targets.
+
+The real defect is this entry's **`scope_taxids`: roughly 900 enumerated species and strain
+ids**, against the schema's own instruction at `schema.py:258` to "name the smallest set of
+taxa whose subtrees cover the design paper's stated range — a genus or a subfamily, not an
+enumerated species list". `[2560076, 2560080, 2560069]` says the same thing in three ids
+and does not go stale with every new deposit. Its provenance could not be traced in
+`docs/`, so check whether it was built empirically from a screen before replacing it.
+
+## What to do, in order
+
+Nothing below was applied. Ranked by evidence strength times size of the error.
+
+1. **Caliciviridae, two entries** — `scope_taxids: [3433198]`. 85,628 records against 129
+   genuinely in scope, and it explains an existing "0 of 30" artefact. Biggest error,
+   cleanest taxonomic fit.
+2. **Bornaviridae, three entries** — `scope_taxids: [1714619, 12455]`. 66% of the
+   denominator is the wrong virus, and this is the case that started the audit. 12455 is
+   mandatory or 49 genuine BoDV-1 deposits vanish.
+3. **Tortoise intranuclear coccidian** — `taxid: 293274`, `taxon_name: Intranuclear
+   coccidium JW-2004`, and `amplicon_bp: 84` measured on AY728896.2. Turns an entry that
+   has never been screenable into one that can be screened.
+4. **Helicobacter Conley 2021** — `taxid: 290433`. The assay cannot currently reach the
+   reference sequence its own authors deposited. A workaround, and disclose it as one.
+5. **Orthobornavirus Sigrist, three entries** — `[1548713]`, `[1548720, 1548721]`,
+   `[1548722]`. Expect the passerine entry to stop reporting 3.8% and start reporting
+   "cannot assess", which is the honest answer.
+6. **The four PREDICT sibling groups** — copy each sibling's existing list so the two
+   rounds of one protocol are comparable. No paper needed.
+7. **Perkinsea, two entries** — `[373149]`, plus a note that clade D's own reference is
+   unreachable.
+8. **LMBV** — `3432136`: as a taxid for Grizzle, as `scope_taxids` for Li 2025.
+9. **Tong 2008** — replace ~900 enumerated ids with `[2560076, 2560080, 2560069]`, after
+   tracing where the long list came from.
+10. **Leptospira lipL32** — the 16-species pathogenic list, if you want it; no clade node
+    exists, and two species have been renamed since the paper.
+
+Not scope, found on the way, cheap: two stale entry ids (`Characterization_2001` is
+Clewley 1998; `Casas_2005` is Roy 2009), the misspelled `Flagillar filiment` gene string,
+a stale OCR flag on Reid's Hel1, and the `target_annotation_uncertain` flag on Feldman,
+which can be closed because the paper's own coordinates put the product inside 16S and
+state 993 bp against the registry's measured 994.
+
+Deliberately NOT proposed: anything for `RETROVIRUS_RNA_polymerase_SIV_Keele_2009`, whose
+primers are not in the cited paper and were not found anywhere, so the citation has to be
+settled first; and a `scope_taxids` list for the Roy 2009 adenovirus entries, where the
+direction is right but the excess measured only 98 records of 30,167 and building the
+host-clade mapping properly is its own task.
