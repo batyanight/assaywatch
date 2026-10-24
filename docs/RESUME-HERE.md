@@ -1,31 +1,43 @@
-# Resume point, 2026-10-23 (waves 0-5 of the plan of attack landed; see below)
+# Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
-## 0. OWED: one measurement, not yet run
+## 2026-10-24 overnight: the plan of attack from docs/RESUME-HERE.md's open list
 
-`core_seconds_per_worker: 100` is justified by reasoning from numbers that ARE
-measured (the granularity-15 run against the byte rule: 18m 33s vs 13m 54s, summed
-job time +8%, parallelism 1.81x -> 1.47x, all in
-`docs/2026-10-18-pipeline-timekeeping-todo.md`). What is NOT measured is that 100
-returns the run to about 14 minutes. The confirming run was started and stopped at
-17 of 335 jobs when the machine was shut down, cleanly - no lock left, all 356
-screens intact.
+Run unattended from 23:59 on 2026-10-23 (plan: `~/.claude/plans/make-a-plan-of-snazzy-dragonfly.md`).
+Each item below says what was measured or built; nothing that needs a maintainer's
+decision was touched (what `active` asserts, the calicivirus re-cite, orphan archives,
+`209/all`, the Sigrist oligos, M1).
 
-So the claim in config.yaml beside `core_seconds_per_worker` is that fine
-granularity LOST, which is measured, and not that this particular value wins, which
-is not. Run this on an idle machine with the lid open and nothing else competing -
-pytest in parallel is exactly what contaminated the first two attempts:
+**1. The owed `core_seconds_per_worker: 100` measurement is DONE, and 100 wins.** A
+forced rescreen of all 335 live archives (the 21 orphan archives excluded; the shell
+listing in the old recipe below would have failed at DAG construction on them) at
+`--cores 4`, lid open, `caffeinate -i`, battery at 95%, nothing else running:
+**11m 40s wall, 29.0 min summed job time, 2.47x parallelism, exit 0, all 335 screens
+byte-identical** (sha256 before and after). Against the byte rule's 13m 54s / 25.2 min /
+1.81x and granularity 15's 18m 33s / 27.2 min / 1.47x. The number beside the setting in
+`config.yaml` now says measured, with the table. The surprising row: 100 has the
+highest summed job time and the lowest wall time, because four single-threaded jobs
+contend with each other yet pack far better than the cost model's splits did.
+`threads` stays on the model; nothing reverts.
+
+**2. The GenBank-availability ceiling is 11, not 9.** `docs/2026-10-24-genbank-ceiling.md`.
+
+**3. Scoring-strategy test plan** written at the maintainer's request mid-run:
+`docs/2026-10-24-scoring-strategy-test-plan.md`.
+
+(Items 3-7 of the overnight plan continue below this section as they land.)
+
+### The old section 0, kept for the record
+
+`core_seconds_per_worker: 100` was justified by reasoning from numbers that WERE
+measured (granularity 15 vs the byte rule) but the claim that 100 returns the run to
+about 14 minutes had not been run: the confirming run was stopped at 17 of 335 jobs
+when the machine was shut down. The recipe was
 
     snakemake $(ls data/retrieved/*/*/*.fasta.gz \
         | sed 's|data/retrieved/|results/screened/|; s|\.fasta\.gz$|.tsv|') \
         --forcerun screen_archive --config run_date=$(date +%F) --cores 4
 
-Expect about 14 minutes and 25 minutes of summed job time. If it comes in near 18
-again, the cost model is costing wall time even at this granularity and `threads`
-should go back to a constant 1 locally, keeping the model for `priority` and for
-the cluster alone. Note the shell expansion above lists EVERY archive on disk,
-including the 21 orphans, which fails at DAG construction
-(`KeyError: (2093, 'q4185828e3e')`); `scripts/orphan_archives.py` names them, and
-the live-only list is what to screen.
+with the orphan groups from `scripts/orphan_archives.py` removed from the list first.
 
 ## 0b. Timekeeping is finished, and 658 MB of archives belong to nobody
 

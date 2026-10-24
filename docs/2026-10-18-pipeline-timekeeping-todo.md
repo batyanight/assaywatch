@@ -250,7 +250,10 @@ stops four jobs holding one each. Snakemake packs single-threaded jobs better
 than this model splits them.
 
 So `core_seconds_per_worker` is **100**, measured rather than guessed, and
-locally almost every archive is back to one worker. What the cost model keeps is
+locally almost every archive is back to one worker. **Confirmed 2026-10-24**: the
+forced run of all 335 live archives at 100 took **11m 40s** wall, 29.0 min summed,
+2.47x parallelism, every screen byte-identical (`config.yaml` `screen:` has the
+three-row table). The figure of about 14 minutes this section predicted was pessimistic. What the cost model keeps is
 the two things that cost nothing:
 
 - **`priority`.** The record-dense archives were never short of workers - they

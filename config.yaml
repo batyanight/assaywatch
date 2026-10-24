@@ -402,20 +402,25 @@ screen:
   cost_startup_s: 1.47          # process start, measured; why splitting tiny archives does not pay
   cost_per_mb_assay: 0.1937     # core-seconds per gzipped MB per assay in the group
   cost_per_record_assay: 1.55e-4  # core-seconds per record per assay
-  # A worker per this much predicted work, and 100 IS a measurement. 15 was the
-  # first guess and it made local runs 33% SLOWER: forcing all 335 archives at
-  # --cores 4 took 18m 33s against 13m 54s for the byte rule it replaced, with
-  # summed job time UP 8% (25.2 -> 27.2 min) and effective parallelism DOWN from
-  # 1.81x to 1.47x. Both move the same way and contention cannot explain the
-  # first: extra workers add real work (each pays ~1.5 s of start-up plus
-  # pickling), and a job holding four cores stops four jobs holding one each.
-  # Snakemake packs single-threaded jobs better than this model splits them.
+  # A worker per this much predicted work. MEASURED at 100 on 2026-10-24: a forced
+  # run of all 335 live archives at --cores 4, lid open, caffeinate, battery, nothing
+  # else running (docs/RESUME-HERE.md "2026-10-24 overnight"):
   #
-  # So at 100, locally almost every archive runs on one worker as before, and the
-  # record-dense archives that prompted this are fixed by `priority` instead --
-  # they were never short of workers, they were running LAST. The cost model
-  # still earns its place on a cluster, where `threads` is the sbatch CPU request
-  # and the old rule asked for 16 CPUs for one core's work.
+  #   granularity   wall       summed job time   parallelism
+  #   byte rule     13m 54s    25.2 min          1.81x   (the rule this replaced)
+  #   15            18m 33s    27.2 min          1.47x   (first guess, 33% slower)
+  #   100           11m 40s    29.0 min          2.47x   (ships)
+  #
+  # All 335 screens byte-identical before and after. Read the row carefully: 100 has
+  # the HIGHEST summed job time and the LOWEST wall time. At 100 almost every archive
+  # runs single-threaded, so four jobs run at once and each one runs slower under
+  # 4-way contention than it would alone -- but Snakemake packs single-threaded jobs
+  # far better than the cost model splits them, and the tail is fixed by `priority`
+  # (the record-dense archives were never short of workers, they were running LAST).
+  # At 15 the extra workers added real work instead: ~1.5 s start-up plus pickling
+  # each, and a job holding four cores stops four jobs holding one. The cost model
+  # still earns its place on a cluster, where `threads` is the sbatch CPU request and
+  # the old rule asked for 16 CPUs for one core's work.
   core_seconds_per_worker: 100.0
   max_workers: 16               # Snakemake caps this at --cores anyway; the cap is for the cluster
 
