@@ -1,5 +1,40 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24 night: Neill & Seal's second pair is now a registry entry
+
+`CALICIVIRUS_ssRNA_RdRp_Neill_Seal_1995`, draft, DOI verified, both oligos exact. The design
+paper's title promises "two distinct regions"; the registry held only the first (the helicase
+pair). This is the RdRp pair Pol1/Pol2, found while re-reading the held deposit for the Hel1
+question. Registry is 208 (active 179, draft 28, deprecated 1).
+
+Two things worth carrying forward from it:
+
+- **The same OCR deposit corrupts these two oligos too** (a spurious space inside each printed
+  sequence), but here the data settles it where it could not for Hel1: closing the spaces gives
+  two 25-mers that match 11 and 19 real records EXACTLY and reproduce the paper's stated 520 bp.
+  Exact matches to real records cannot come from a mistranscription, so no clean PDF is needed
+  to trust these - the asymmetry with Hel1 (whose disputed base matches nothing) is the whole
+  point. No caveat flag; the provenance is in the entry note.
+- **Screened and scope-corrected, as every new entry now is.** Exact match found 8 amplifying
+  records; the scorer, scope-filtered to Vesivirus exanthema, finds 27 in-scope evaluable at
+  40.7% (9 detect, 2 reduced, 16 fail). The entry carries the scored numbers, not the
+  exact-match 8. thin_evidence: 27 is too few for a drift verdict.
+
+### What is left on the list, and why each is not a session's to finish
+
+- **Mao 1997 and Neill & Seal 1995 as clean PDFs** - would settle the ranavirus 18/19-mer and
+  the calicivirus Hel1 G/C questions. Not in the Downloads batch (confirmed by content-search
+  of all 148 PDFs); need the Virology / Mol Cell Probes scans through the NYU proxy.
+- **The `E_coli_malB_Candrian_1991` seam** - its forward returns 59 Europe PMC papers, mostly
+  E. coli prevalence surveys. They are `works`-shaped not drift-shaped, and reading 59 of them
+  to add held-out rows is a literature pass of its own, not a loose end.
+- **Three maintainer decisions, all priced and none a session's to take:** the West African
+  mpox denominator (2,688 clade-I failures no scope_taxids can exclude); the Congo Basin
+  activation (measured harmless, 99.3%); and the calicivirus Hel1 terminal base (evidence now
+  favours C over the stored G, but a sequence correction + the active->draft demotion it forces
+  is a maintainer call). All are written up where a maintainer will find them.
+
+
 ## 2026-10-24 evening: 30 papers imported from the maintainer's Downloads, zero verdicts moved
 
 The maintainer dropped ~148 PDFs into `~/Downloads`. Matched by DOI (read from each PDF's own
