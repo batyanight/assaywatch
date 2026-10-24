@@ -55,6 +55,7 @@ Read these before trusting a status.
 | [`2026-10-24-archive-anchor.md`](2026-10-24-archive-anchor.md) | the lone-anchor test at archive scale: BH over an assay's no_amplicon rows, Bd loses 50 chance anchors and SIV Keele loses none, ships off |
 | [`2026-10-24-scoring-strategy-test-plan.md`](2026-10-24-scoring-strategy-test-plan.md) | plan: a replay harness (footprint columns, `rescore.py`, frozen sets) and a pre-registered ladder of scoring candidates ending in the Bayesian C2 model |
 | [`2026-10-24-scope-audit.md`](2026-10-24-scope-audit.md) | which entries are judged against organisms they were never designed for: 146 broader than species, `scope_taxids` already exists and is applied unevenly, and Helicobacter cannot reach its own reference sequence; all ten items worked through, 7 assays change status (Borna declining -> stable, Sigrist aquatic 0.0% -> 100.0%), and FOUR of the ten proposals were wrong or redundant on contact with the data -- read the closing sections before acting |
+| [`2026-10-24-mpox-assay-candidates.md`](2026-10-24-mpox-assay-candidates.md) | literature pass for a modern mpox qPCR to ADD (the Kulesh 2004 N3R entry reads 58% on clade IIb): the Li 2010 G2R/C3L reference-standard trio is the top pick, with sequences; nothing applied |
 
 ## Design documents, agreed before the code
 
