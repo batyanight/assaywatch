@@ -52,12 +52,17 @@ source:
     and vesicular exanthema of swine virus (DQ666630, U18741, U18737 among others). SCOPED to scope_taxids [3433198] (Vesivirus
     exanthema), rank species under Caliciviridae > Vesivirus, identical to the helicase sibling and for the same reason: taxid
     11974 is the whole family and is ~99.9 percent norovirus, which this assay was never meant to detect, while the paper
-    reports feline calicivirus negative. The 8 amplifying records are the designers'' own SMSV/VESV/bovine-calicivirus targets,
-    which sit under the Vesivirus scope. AMPLICON 520 bp is the paper''s stated size AND the measured size, which agree exactly,
-    so no amplicon_disagrees flag. THIN by design: only 8 records amplify, because the scope is a handful of vesiviruses with
-    few deposited genomes, so no drift verdict is possible yet and thin_evidence says so. The value is coverage of a wildlife/marine-mammal
-    calicivirus target the registry otherwise reached only through the helicase region. status: draft and doi_verified: false
-    on entry; only a maintainer sets active.'
+    reports feline calicivirus negative. AMPLICON 520 bp is the paper''s stated size AND the measured size, which agree exactly,
+    so no amplicon_disagrees flag. SCREENED 2026-10-24 with the project''s own scorer over the whole 152,379-record archive,
+    then scope-filtered exactly as drift.py does (taxonomy-cache.json.gz, within 3433198): 27 IN-SCOPE evaluable records,
+    40.7 percent detection (9 detect, 2 reduced, 16 fail), 8 known out-of-scope records dropped. Note the gap from the raw
+    exact-match count: pasting each oligo in found 8 records with a perfect product, but the scorer tolerates mismatches and
+    so finds 27 evaluable Vesivirus-exanthema records, 11 of them passing - the same exact-match-understates-the-scorer lesson
+    the monkeypox trio taught the same day. The 16 in-scope fails are vesiviruses the 1995 pair scores below threshold; whether
+    that is breadth of the modern 3433198 node or genuine divergence is not worth adjudicating on 27 records. THIN, therefore:
+    27 evaluable is too few for a drift verdict, which is what thin_evidence records. The value is coverage of a
+    wildlife/marine-mammal calicivirus target the registry otherwise reached only through the helicase region. status: draft
+    and doi_verified: false on entry; only a maintainer sets active.'
 needs_review:
 - flag: thin_evidence
-  note: only 8 Caliciviridae records amplify (the designers' own SMSV/VESV targets), too few for a drift verdict
+  note: 27 in-scope evaluable records (scored, scope-filtered to Vesivirus exanthema), too few for a drift verdict
