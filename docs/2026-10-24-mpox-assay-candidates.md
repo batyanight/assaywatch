@@ -104,6 +104,17 @@ and fit the wildlife/veterinary scope better than another mpox assay. Source: Pu
   zoo/wildlife diagnostics. Clean, single-assay add.
 
 ### B. Zhao et al. 2013 — Parapoxviruses: orf, pseudocowpox, bovine papular stomatitis
+
+> **THREE OF THE FOUR APPLIED 2026-10-24**, as `ORF_VIRUS_dsDNA_RPO147_J6R_TaqMan_Zhao_2013`,
+> `BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` and
+> `Pan_PARAPOX_dsDNA_RPO147_J6R_generic_TaqMan_Zhao_2013`, all `status: draft`, DOIs verified,
+> 9 of 9 oligos `exact`, all three amplicons measured because the paper states none
+> (68, 91, 85 bp).
+> **The "likely paywalled" note below was wrong**: `scripts/fetch_elsevier.py` retrieved the
+> full text with the institutional token on the first attempt. Worth remembering before
+> assuming an Elsevier paper is out of reach.
+> **PCPV_J6R, the fourth, is NOT entered**: its reverse primer is 14 nt and the schema's primer
+> floor is 15. That is a maintainer decision, set out in `docs/RESUME-HERE.md`.
 - J Virol Methods 194:229-234, [DOI](https://doi.org/10.1016/j.jviromet.2013.08.027); no PMC
   id returned, so likely paywalled -- would need the paper obtained before oligos can be
   verified (NYU proxy).

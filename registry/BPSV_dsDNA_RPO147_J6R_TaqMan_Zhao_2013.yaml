@@ -1,0 +1,62 @@
+id: BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013
+name: BOVINE PAPULAR STOMATITIS VIRUS (dsDNA) — RPO147 J6R TaqMan (Zhao 2013)
+target:
+  taxid: 129727
+  gene: RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog)
+  genome_type: dsDNA
+  taxon_name: Bovine papular stomatitis virus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: BPSV_J6R forward
+    seq: GAGATGATCTTGATGTTGTCGTACT
+  reverse:
+    name: BPSV_J6R reverse
+    seq: TGGGCATGATCGTGAAGTAC
+  probe:
+    name: BPSV_J6R probe
+    seq: ATCATCGCGCGCTGGATCAC
+  alternates: []
+amplicon_bp: 91
+citation:
+  doi: 10.1016/j.jviromet.2013.08.027
+  design_year: 2013
+  n_sequences_at_design: null
+  as_written: null
+  reference: Zhao H, Wilkins K, Damon IK, Li Y. 2013. Specific qPCR assays for the detection of orf virus, pseudocowpox virus
+    and bovine papular stomatitis virus. J Virol Methods 194:229-234
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-24. The paper''s own introduction says there were no reported qPCR assays for the specific
+    detection of pseudocowpox or bovine papular stomatitis virus before it, which is why this one is worth holding. Oligos
+    read from the paper''s Table 1, parsed out of the Elsevier JATS deposit papers/10.1016_j.jviromet.2013.08.027.xml cell
+    by cell rather than from the flattened text, because flattening a table puts each label next to the WRONG sequence. THE
+    PAPER WAS ASSUMED PAYWALLED and is not: docs/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned, so likely
+    paywalled", and scripts/fetch_elsevier.py retrieved the full text with the institutional token on the first try. THE PAPER
+    STATES NO PRODUCT SIZE for any of the four assays, so every amplicon here is measured. Measured 2026-10-24 over the 92
+    Parapoxvirus genomes of 100-200 kb in nuccore (esearch/efetch, txid10257): 64 Orf virus, 11 bovine papular stomatitis
+    virus, 6 pseudocowpox virus and 11 not resolved to species. NAMING: Table 1 and the running text disagree - the table
+    says ORFV_J6R and PAPV_J6R where the text says Orf_J6R and PARV_J6R. The table is the oligo source, so its names are used.
+    THE FOURTH ASSAY OF THIS PANEL, PCPV_J6R, IS NOT ENTERED: its reverse primer is 14 nt, below the schema''s 15 nt primer
+    floor, and that floor guards something real. See docs/RESUME-HERE.md. MEASURED: product 91 bp in all 78 genomes that give
+    one. The probe falls inside the product in 7 bovine papular stomatitis genomes and 1 unresolved one, and in no Orf virus
+    or pseudocowpox genome - the specificity claim confirmed on sequence, and carried by the probe rather than the primers,
+    whose sites are shared across the genus. THIN ON ITS OWN TAXON: only 11 BPSV genomes of 100-200 kb exist in nuccore at
+    all, so nothing here can support a drift verdict yet. CHEMISTRY DETAIL MISSING: Table 1 gives no reporter or quencher
+    for any of the four probes. status: draft and doi_verified: false on entry; only a maintainer sets active.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: the paper states no product size; 91 bp measured in all 78 genomes that give a product
+- flag: thin_evidence
+  note: only 11 bovine papular stomatitis genomes of 100-200 kb exist in nuccore
+- flag: chemistry_detail_missing
+  note: Table 1 names no reporter or quencher for the probe

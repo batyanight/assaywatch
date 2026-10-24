@@ -263,12 +263,12 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    needs forward **and** reverse and detection needs the probe on top. Those are
    serial gates. Three trivial mismatches, one per oligo, land in the same bin as
    one near-lethal 3'-proximal mismatch.
-3. *One table serves every chemistry in the registry* -- 154 conventional PCRs and 43
-   probe assays on 2026-10-23. A 100-fold yield
+3. *One table serves every chemistry in the registry* -- 154 conventional PCRs and 50
+   probe assays on 2026-10-24. A 100-fold yield
    loss is a missed Cq cutoff in qPCR and often still a visible band after 40
    cycles of endpoint PCR. The same `fail` is printed for both.
-4. *Probe geometry is length-blind, and MGB-blind.* Of the 47 probe assays here on 2026-10-24,
-   20 are MGB (the other 27 are plain hydrolysis probes), and the minor-groove binder
+4. *Probe geometry is length-blind, and MGB-blind.* Of the 50 probe assays here on 2026-10-24,
+   20 are MGB (the other 30 are plain hydrolysis probes), and the minor-groove binder
    adds roughly 15–20 °C of Tm and makes short probes viable; such a probe tolerates
    mismatches a bare oligo of the same length would not. `--thermo` computes the real duplex ΔTm and is the better
    guide where it is available.

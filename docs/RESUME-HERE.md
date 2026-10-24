@@ -164,8 +164,50 @@ coverage plus a baseline.
   two primers. One existing test asserted the old message `length 11 outside 12-40` and now
   states the real bounds.
 
-Still unapplied from that doc: Zhao 2013 (parapoxvirus quartet), whose paper is not held and
-looks paywalled, so it needs the NYU proxy.
+## 2026-10-24 evening: the parapox quartet, three in and one blocked on a 14 nt primer
+
+Zhao et al. 2013 (10.1016/j.jviromet.2013.08.027). The registry is **207 entries: active 179,
+draft 27, deprecated 1**, and the whole of the 2026-10-24 CDC sweep is now worked through.
+
+**It was never paywalled.** The candidates doc said "no PMC id returned, so likely paywalled -
+would need the paper obtained before oligos can be verified (NYU proxy)". `fetch_elsevier.py`
+had it on the first attempt with the institutional token. That assumption cost nothing this
+time and is worth not repeating: for an Elsevier DOI, try the API before the proxy.
+
+**Three entered, all drafts**: `ORF_VIRUS_...`, `BPSV_...` and `Pan_PARAPOX_..._generic_...`.
+Nine of nine oligos read `exact`. The paper states no product size for any assay, so all three
+amplicons are measured over the 92 Parapoxvirus genomes of 100-200 kb in nuccore: 68, 91 and
+85 bp, each a single value across every genome that gives a product. Orf is a sheep and goat
+zoonosis that reaches the people handling them, and the registry had nothing for the genus.
+
+**Read the table cell by cell, not as text.** Flattening this JATS table puts every label
+beside the WRONG sequence, because each cell's label precedes the next cell's value in reading
+order. Parsed from `<row>`/`<entry>` the four assays come out unambiguous.
+
+**One oligo had to be settled by measurement.** The deposit prints the Orf reverse cell as
+`GCCGAGGAGCAGGTC A` - a 15-mer plus a stray letter, or a 16-mer split by a formatting artefact.
+`GCCGAGGAGCAGGTCA` is exact in the same 78 genomes as the 15-mer, so the template carries that
+A and the 16-mer is the oligo. Entered at 16 nt, and the verifier reads it `exact`.
+
+**A measured gap in the generic assay, recorded because an exact-match screen will overstate
+it.** Its reverse primer matches 0 of 11 bovine papular stomatitis genomes exactly, while its
+forward matches 10 of 11 and its probe 11 of 11, so under exact matching the generic assay
+appears to miss one of the three species it claims. Aligned instead of exact-matched it sits
+**one** mismatch away in all 11, and that mismatch is **7 bases from the 3' end** in every one,
+which a real reaction would be expected to amplify through. It is on the entry as
+`primer_site_polymorphic`, not as a failure.
+
+**MAINTAINER DECISION: the fourth assay, PCPV_J6R, is not entered, and cannot be without
+changing a guard.** Its reverse primer is `CGCACGCGCTTGCT`, 14 nt, against `OLIGO_MIN` of 15.
+`pending/` is no escape: `--pending` relaxes the verified-DOI rule only, and the schema still
+applies. The argument for lowering the floor is the one that carried `PROBE_MAX` the same
+evening - the floors exist "to catch a mistyped 3-base oligo, not to overrule a published
+table", and this is a published table. The argument against is specific and was measured here:
+that 14-mer is exact in **71 of the 92** genomes, including **60 Orf virus** genomes it is not
+meant to detect, which is precisely the chance-matching the 15 nt floor exists to stop. A
+probe is searched only between the primers; a primer is searched along the whole record, so the
+two ceilings are not the same question. Left for the maintainer. The other three entries carry
+the panel, and the pseudocowpox species is the only one of the three now uncovered.
 
 
 ## 2026-10-24: the diverged+anchor_fdr pair SHIPPED at q=0.001
