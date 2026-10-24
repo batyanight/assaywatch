@@ -49,16 +49,28 @@ source:
     or wholly absent, not of drift. That is what the paper says should happen: it chose this gene BECAUSE "all known MPXV
     West African strains delete C3L", so a negative on a clade II genome is the assay''s designed behaviour. Measured on the
     same records, every genome that carries C3L gives the 82 bp form of the sibling G2R_WA product, and the 9,654 genomes
-    giving the 85 bp form carry no C3L at all. SO THIS ENTRY WILL READ AS A FAILING ASSAY UNTIL IT CAN BE SCOPED, AND IT CANNOT
-    BE SCOPED. NCBI Taxonomy holds no node for either monkeypox clade - the subtree of 10244 is two children, Callithrix jacchus
-    orthopoxvirus (243803) and Monkeypox virus Zaire-96-I-16 (619591), checked with esearch on 2026-10-24 - so there is no
-    scope_taxids list that would restrict the denominator to clade I. Same shape as AVIPOXVIRUS Baek in docs/2026-10-24-scope-audit.md:
-    the flag is the disclosure. A maintainer should weigh that before setting status: active, because an unscoped clade-I
-    assay contributes a permanent ~92% non-detection to the report that means nothing about the assay. The honest alternatives
-    are a clade-I scope mechanism the schema does not yet have, or leaving this entry draft until one exists. status: draft
+    giving the 85 bp form carry no C3L at all. SCOPE IS NOT NEEDED HERE, AND THE WARNING THIS ENTRY FIRST CARRIED WAS WRONG.
+    SCREENED 2026-10-24 with the project''s own scorer (python -m assaywatch.screen) over all 13,757 records of the
+    10244 archive. Exact-match counting, which is what the paragraph above uses, is not the scoring model: it cannot
+    see a tolerated mismatch and it says nothing about whether a record is EVALUABLE. The first version of this note
+    predicted "a permanent ~92% non-detection". It does not happen. The screen reads 1,060 evaluable records and
+    99.3% detection (1,053 detect, 7 fail, 2 indeterminate). The 12,695 clade II records do not fail: 12,680 are
+    `no_site` and leave the denominator before any verdict, because the C3L gene is ABSENT rather than mismatched -
+    precisely the design reasoning the paper gives. EVALUABLE is (detect, reduced, fail), so a gene that is not there
+    is silent, not negative. The assay reads as the healthy clade-I-specific assay it is, with no scope_taxids and no
+    new mechanism.
+    THE SCOPE PROBLEM IS REAL BUT IT BELONGS TO THE SIBLING. MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010 is the
+    entry whose out-of-target records ARE evaluable, because its primers amplify clade I while its probe does not
+    bind: 2,688 of its 12,396 evaluable records are clade-I failures. See that entry.
+    NCBI HAS NO CLADE NODE, checked exhaustively on 2026-10-24 and recorded so it is not reopened: the species node
+    is now 3431483 Orthopoxvirus monkeypox, which holds 10244 at rank `isolate`, and its whole subtree is four nodes
+    - 10244, 243803 Callithrix jacchus orthopoxvirus, 619591 Monkeypox virus Zaire-96-I-16 and the species itself.
+    Every record in the archive carries the bare 10244. No clade taxon exists to scope to; this entry does not need
+    one. status: draft
     and doi_verified: false on entry; only a maintainer sets active.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 100 bp measured in 1,045 of 1,047 genomes that give a product
 - flag: scope_narrower_than_taxid
-  note: Congo Basin clade only by design, and NCBI Taxonomy has no monkeypox clade node to scope to
+  note: Congo Basin clade only by design; measured harmless, because clade II records are no_site and leave the
+    denominator before any verdict (99.3% on 1,060 evaluable)

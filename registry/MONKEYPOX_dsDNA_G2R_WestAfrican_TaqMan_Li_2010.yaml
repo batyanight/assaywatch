@@ -59,12 +59,24 @@ source:
     records for AVIPOXVIRUS Baek - the assay''s real scope needs a mechanism the schema does not have, so the flag is the
     disclosure. The 2026-10-24 candidates doc proposed "scope_taxids splitting WA (clade II) and CB (clade I) once their current
     NCBI nodes are confirmed"; they are confirmed not to exist. In practice the denominator barely suffers here, because clade
-    II is most of GenBank, which is exactly why the Congo Basin sibling needs the flag more than this one does. status: draft
-    and doi_verified: false on entry; only a maintainer sets active.'
-needs_review:
-- flag: amplicon_measured_not_published
-  note: the paper states no product size; 85 bp measured in 9,695 genomes and 82 bp in 2,679
-- flag: amplicon_multimodal
-  note: 85 bp in 9,695 records and 82 bp in 2,679; all C3L-carrying records give 82
-- flag: scope_narrower_than_taxid
-  note: claims the West African clade only, and NCBI Taxonomy has no node for either monkeypox clade to scope to
+    II is most of GenBank, which is exactly why the Congo Basin sibling needs the flag more than this one does.
+    SCREENED 2026-10-24, AND THIS IS THE ENTRY OF THE THREE THAT ACTUALLY NEEDS A SCOPE. Run with the project''s own
+    scorer over all 13,757 records of the 10244 archive: 12,396 evaluable, 78.3% detection, and 2,688 FAILURES.
+    Those failures are not drift. Inspected, every one of them has fwd_penalty 0, rev_penalty 0 and NO probe site at
+    all, on an 82 bp product rather than the 85 bp majority form. That is the clade I signature: the paper''s Fig. 1
+    legend describes a three-base difference in this probe''s region between the clades, the 82 bp product is the
+    form every C3L-carrying (clade I) genome gives, and a clade-II-specific probe is supposed not to bind clade I.
+    The primers, being conserved, amplify anyway, so the record is EVALUABLE and the failure counts - which is
+    exactly what does NOT happen to the Congo Basin sibling, whose non-target records are `no_site` and silent.
+    SO THE DENOMINATOR IS WRONG HERE AND CANNOT BE FIXED WITH scope_taxids. NCBI has no clade node (the species
+    3431483 Orthopoxvirus monkeypox has a four-node subtree and every record carries the bare 10244), record titles
+    carry no clade label (measured: 0 of 13,764 deflines say "clade I" or "Congo Basin"; 8.8% say hMPXV and 19 say
+    Zaire), and the per-record taxid sidecar resolves nothing below the species. The three existing sub-lineage
+    resolvers are all unavailable: `subtaxid` has nothing to resolve to, `title` has nothing to read, and `cluster`
+    is an all-pairs step documented as quadratic, which on 12,396 evaluable records is not a run anyone will make.
+    MAINTAINER DECISION, PRICED. 78.3% today is not yet a declining verdict, but the clade I share of GenBank is
+    rising with the 2024-2025 clade Ib outbreak, and this number will fall for a reason that is not drift. Scoping
+    it needs a clade assignment from sequence against an INDEPENDENT locus - C3L presence is the obvious marker and
+    the paper itself supplies the rationale, but it is a mechanism the schema does not have. Until then the entry
+    stays draft and this note is the disclosure. status: draft and doi_verified: false on entry; only a maintainer
+    sets active.'

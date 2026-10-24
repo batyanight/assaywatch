@@ -61,6 +61,12 @@ source:
     would be expected to amplify. Recorded as a polymorphism, not a failure, and recorded at all because an exact-match screen
     WILL report this assay as missing BPSV and the next reader should not rediscover it as drift. The sibling BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013
     covers that species directly. CHEMISTRY DETAIL MISSING: Table 1 gives no reporter or quencher for any of the four probes.
+    SCREENED 2026-10-24, AND THE PREDICTION IN THE PARAGRAPH ABOVE HOLDS. The exact-match gap - the reverse primer
+    matching no bovine papular stomatitis genome - does NOT become a scoring failure. Over the 92 Parapoxvirus
+    genomes the assay reads 100% on Orf virus (64), 100% on pseudocowpox (6) and 90.9% on bovine papular stomatitis
+    (10 of 11 detect, 1 fail): 96.7% overall. The single distal mismatch costs nothing the scorer cares about,
+    which is what "a real reaction would be expected to amplify through" meant, now measured rather than argued.
+    The assay covers all three species it claims.
     status: draft and doi_verified: false on entry; only a maintainer sets active.'
 needs_review:
 - flag: amplicon_measured_not_published

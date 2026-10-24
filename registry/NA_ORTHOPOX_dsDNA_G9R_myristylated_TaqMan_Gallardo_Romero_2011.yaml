@@ -65,8 +65,11 @@ source:
     would be every orthopoxvirus in GenBank, overwhelmingly vaccinia and monkeypox, and the entry would read as a near-total
     failure of an assay that is doing exactly what it says. EVIDENCE IS THIN AND THE FLAG SAYS SO: 7 informative records is
     far too few to support a drift verdict either way. What the entry buys today is coverage of a wildlife taxon the registry
-    was blind to, and a baseline for when more genomes are deposited. status: draft and doi_verified: false on entry; only
-    a maintainer sets active.'
+    was blind to, and a baseline for when more genomes are deposited.
+    SCREENED 2026-10-24 with the project''s own scorer over the same 64 records, and it agrees with the hand
+    measurement: 7 evaluable, 100% detection, and the other 57 records `no_site` - fragments that never reach the
+    locus, silent rather than negative, so they never enter the denominator. Nothing here needed correcting.
+    status: draft and doi_verified: false on entry; only a maintainer sets active.'
 needs_review:
 - flag: thin_evidence
   note: only 7 of the 64 records for the three species are complete enough to cover the locus

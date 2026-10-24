@@ -56,9 +56,13 @@ source:
     and is not true of GenBank today. Compare the registry''s existing MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004, whose 2004 probe
     the 2026-10-24 run reads at 58.3%: this entry is the same story one locus over, and it is why a 2010 reference assay is
     worth watching rather than assuming. NOT SCOPED, and nothing to scope to: the paper''s claim for this assay is MPXV as
-    a whole, which is the taxid. status: draft and doi_verified: false on entry; only a maintainer sets active.'
-needs_review:
-- flag: amplicon_measured_not_published
-  note: the paper states no product size; 90 bp measured in 2,399 of 2,401 genomes that give a product
-- flag: primer_site_polymorphic
-  note: forward exact in 20.4% and reverse in 23.0% of 13,179 genomes while the probe is exact in 92.7%
+    a whole, which is the taxid.
+    SCREENED 2026-10-24, AND IT WALKS BACK THE PARAGRAPH ABOVE. Run with the project''s own scorer over all 13,757
+    records: 12,052 evaluable and 99.9% detection - 3,090 `detect`, 8,954 `reduced`, 8 `fail`. The assay is NOT
+    failing. The exact-match counts above are real but they are not the scoring model, which tolerates mismatches,
+    and reading them as "the primers no longer match most monkeypox" overstated what they mean. What the drift
+    actually looks like is the `reduced` column: 74% of evaluable records score reduced rather than detect, i.e. the
+    primer sites carry mismatches that cost penalty without stopping the reaction. That is a real and reportable
+    ageing of a 2010 assay, and it is a different claim from failure. Kept as a worked example of why an exact-match
+    sweep is a hypothesis and the screen is the measurement. status: draft and doi_verified: false on entry; only a
+    maintainer sets active.'

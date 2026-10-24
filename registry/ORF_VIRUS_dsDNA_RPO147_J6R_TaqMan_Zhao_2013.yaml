@@ -56,8 +56,13 @@ source:
     or bovine papular stomatitis genome, which is the paper''s specificity claim confirmed on sequence. The primers are far
     less discriminating than the probe on their own - this assay''s forward matches 5 non-ORFV genomes - which is the normal
     division of labour in a TaqMan assay and the reason the registry records chemistry per entry. CHEMISTRY DETAIL MISSING:
-    Table 1 gives no reporter or quencher for any of the four probes. status: draft and doi_verified: false on entry; only
-    a maintainer sets active.'
+    Table 1 gives no reporter or quencher for any of the four probes.
+    SCREENED 2026-10-24 with the project''s own scorer over the 92 Parapoxvirus genomes, broken down by species.
+    Against its OWN retrieval taxon, which is what the pipeline judges it on, it is perfect: 64 Orf virus genomes,
+    64 evaluable, 100% `detect`, not one reduced or failed. Its specificity survives scoring and not merely exact
+    matching - 0% on all 11 bovine papular stomatitis genomes and 0% on all 6 pseudocowpox genomes, every one a
+    `fail`. The cleanest of the four assays in this panel.
+    status: draft and doi_verified: false on entry; only a maintainer sets active.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 68 bp measured in all 63 genomes that give a product

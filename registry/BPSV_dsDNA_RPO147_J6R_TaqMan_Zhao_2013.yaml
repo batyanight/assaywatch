@@ -52,11 +52,23 @@ source:
     or pseudocowpox genome - the specificity claim confirmed on sequence, and carried by the probe rather than the primers,
     whose sites are shared across the genus. THIN ON ITS OWN TAXON: only 11 BPSV genomes of 100-200 kb exist in nuccore at
     all, so nothing here can support a drift verdict yet. CHEMISTRY DETAIL MISSING: Table 1 gives no reporter or quencher
-    for any of the four probes. status: draft and doi_verified: false on entry; only a maintainer sets active.'
+    for any of the four probes.
+    SCREENED 2026-10-24 with the project''s own scorer over the 92 Parapoxvirus genomes, by species. Against its
+    own retrieval taxon: 11 evaluable, 81.8% detection (9 detect, 2 fail). Thin, as the flag says.
+    AND IT CROSS-REACTS WITH ORF VIRUS UNDER SCORING, WHICH EXACT MATCHING HID. Its probe is an exact match in no
+    Orf virus genome, so an exact-match sweep calls this assay clean. The scorer, which tolerates mismatches,
+    scores 61 of 64 Orf virus genomes `reduced`, 95.3% detection - meaning the pipeline believes this
+    "BPSV-specific" assay would amplify and report Orf virus with a penalty. The paper''s own validation panel
+    shows no cross-reaction in the wet lab, so this is an in-silico disagreement with the publication rather than a
+    correction of it, and it is the kind this registry exists to surface. It does NOT cross-react with
+    pseudocowpox: 5 of 6 fail, 16.7%.
+    status: draft and doi_verified: false on entry; only a maintainer sets active.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 91 bp measured in all 78 genomes that give a product
 - flag: thin_evidence
   note: only 11 bovine papular stomatitis genomes of 100-200 kb exist in nuccore
+- flag: cross_reactive
+  note: screened, 61 of 64 Orf virus genomes score reduced (95.3% detection), which exact matching did not show
 - flag: chemistry_detail_missing
   note: Table 1 names no reporter or quencher for the probe
