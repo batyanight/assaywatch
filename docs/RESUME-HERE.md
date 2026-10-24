@@ -7,9 +7,11 @@ Branch `registry/2026-10-24-scope-fixes`, cut from
 `docs/2026-10-24-scope-audit.md`; items **1, 3 and 6** of its ranked list were then applied
 in three commits. **All ten ranked items have now been worked through, and FOUR of the ten
 proposals were wrong or redundant on contact with the data.** Applied as proposed: 1, 3, 5,
-6, 7. Applied differently because the proposal was wrong: 4. Struck, do not apply: 8, 9, 10.
-**Still open: item 2 only** (the three `scope_narrower_than_taxid` entries with no mechanism:
-AVIPOXVIRUS Baek, CHLAMYDIA Messmer, BATRAVIRUS european).
+6, 7, and 2 (Bornaviridae, applied in the first commit). Applied differently because the
+proposal was wrong: 4. Struck, do not apply: 8, 9, 10. **Nothing in the ranked ten is
+still open.** What remains is a separate finding from the audit body, not one of the ten:
+the three entries carrying `scope_narrower_than_taxid` with no mechanism behind it --
+AVIPOXVIRUS Baek (1,735 records), CHLAMYDIA Messmer (1,668), BATRAVIRUS european (8).
 
 No oligo and no threshold was touched anywhere. Cumulative report effect, re-rendered from
 one calls table so only the registry differs — **7 assays change status**:

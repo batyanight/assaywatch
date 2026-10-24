@@ -425,8 +425,13 @@ and does not go stale with every new deposit. Its provenance could not be traced
 **Every item below has now been worked through, on 2026-10-24, branch
 `registry/2026-10-24-scope-fixes`. Read the closing sections before acting on anything in
 this list, because FOUR of the ten proposals turned out to be wrong or redundant on
-contact with the data.** Applied as proposed: 1, 3, 5, 6, 7. Applied differently, because
-the proposal was wrong: 4. Struck, do not apply: 8, 9, 10. Still open: 2 only.
+contact with the data.** Applied as proposed: 1, 2, 3, 5, 6, 7. Applied differently,
+because the proposal was wrong: 4. Struck, do not apply: 8, 9, 10. **Nothing in this
+ranked list is still open** — item 2, Bornaviridae, was applied in the first commit
+(`a784fed`). What remains is a separate finding from the audit body and not one of
+these ten: the three entries carrying `scope_narrower_than_taxid` with no mechanism
+behind it (AVIPOXVIRUS Baek, 1,735 records; CHLAMYDIA Messmer, 1,668; BATRAVIRUS
+european, 8).
 
 Ranked by evidence strength times size of the error — and the ranking itself did not
 survive, which is the main lesson. Items were ranked on how clean the taxonomic story
