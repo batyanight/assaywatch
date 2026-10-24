@@ -3,21 +3,35 @@
 ## 0a. The oligo flags are adjudicated; four sequences were wrong
 
 `docs/2026-10-23-oligo-adjudication.md`. Every `near:` and `absent` row was read
-against the paper itself. Agreement is 413 of 462 checkable (89%); the 5 remaining
-`near:` and 24 `absent` are all documented artefacts, mostly oligos that exist only
-inside a figure image. **Four sequences were genuinely wrong and are corrected**:
-Borna-NF (3'-terminal base, so every past call for it is suspect), both calicivirus
-Hel primers (a mis-split wrapped table cell), and CoV-RVS3 (a hybrid of Watanabe's
-length and the panel's degeneracy). **A rescreen is owed on four groups** -
-`178830/all`, `11974/all`, `11118/q4d4730ef3b`, `39733/all` - and has NOT been run.
+against the paper itself, and **every changed sequence was then screened before being
+kept**. Agreement is 415 of 462 checkable (90%); the 5 remaining `near:` and 22
+`absent` are all documented artefacts, mostly oligos that exist only inside a figure
+image. The rescreen HAS been run on all four affected groups.
+
+**Two of four corrections were reverted by measurement, and that is the lesson.**
+Borna-NF's printed form matches 0 of 1,516 records where the stored form matches 260
+(67.5% detected -> 0.0%), and CoV-RVS3's stored 24-mer binds 215 records against 204
+for Watanabe's own and 88 for the panel's 23-mer (40.0% -> 2.2%). Both reverted, both
+back to baseline to the record. The calicivirus pair WAS a real mis-split cell and is
+corrected, confirmed against the Neill & Seal 1995 design paper; its fall to 0/30 is a
+`terminal_mismatch_fails` artefact on a conventional PCR, now a worked example under
+ROADMAP Phase 2. **Screen any future oligo correction before committing it.**
+
+Found on the way: `BORNA_VIRUS_N_gene_Zimmermann_1994_round2` stores the printed form
+and has read 0% in every run, including the baseline, for exactly this reason - a
+false signal nobody had explained. Flagged, not changed.
 
 The policy, decided by the maintainer: **keep both.** Store the form actually run
 and record `modified_from` plus `modification_doi`. 13 oligos now carry it. An
 empty `modification_doi` means the modification is unpublished and exists only here.
 
-Left for a maintainer: whether `E_coli_ETEC_LT_Victor_1991` and
-`RHABDOVIRUS_ssRNA_L_gene_round2` get re-cited to the papers that actually print
-their oligos (Wang 1997, Wray 2016), which would also mean renaming both ids.
+Both re-citation questions resolved WITHOUT a rename: `E_coli_ETEC_LT_Victor_1991`
+keeps Victor because the two primer pairs sit on the same eltA sites a few bases
+apart, so Wang's credit to Victor is real lineage (Victor's primers are now
+`modified_from`); `RHABDOVIRUS_ssRNA_L_gene_round2` keeps Bourhy because PVO3 is
+Bourhy's exactly and only the nested forward comes from Wray, which itself calls it
+unpublished. Still open: whether the calicivirus entry is re-cited to Neill & Seal
+1995, now that the design paper is readable.
 
 ## 0. Only verified-DOI assays are live; the seed list is gone
 
@@ -117,7 +131,7 @@ than this summary.
 - **`scripts/design_era.py`** measures the founding premise: 71 assays were designed
   against under 50 records (`docs/design-era.tsv`).
 
-Open, in rough order: the owed rescreen and the two re-citation decisions above; decide what `active` asserts
+Open, in rough order: decide what `active` asserts
 (`scripts/promote.py`, and `docs/2026-10-23-wave5-what-active-means.md` recommends
 `--tier clean` — the oligo-provenance objection to promoting is now much weaker, 38
 uncheckable rather than 106, so this decision is ripe); collect held-out cases (plan 4.2, shared with the C2 bench corpus in

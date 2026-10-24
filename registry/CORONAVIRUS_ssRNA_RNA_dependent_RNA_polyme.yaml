@@ -16,7 +16,7 @@ oligos:
     modification_doi: 10.1038/ncomms9147
   reverse:
     name: CoV-RVS3
-    seq: CCATCATCASWYRAATCATCATA
+    seq: CCATCATCASWYRGAATCATCATA
     modified_from: CCATCATCAGATAGAATCATCATA
     modification_doi: 10.1038/ncomms9147
 amplicon_bp: 440
@@ -43,6 +43,15 @@ source:
     checked with assaywatch.iupac. This is NOT Quan 2010: the local Quan PDF prints AAYBTVCCWYTICARBTRGG, GGCWCCWCCHGGNGARCAATT
     and GGWAWCCCCAYTGYTGWAYRTC and neither of these, so the entry is a third pair rather than a Quan round. Found by Europe
     PMC full-text search on the oligo names, which returned only users - one of them a paper comparing the Quan and Watanabe
-    assays, which is what pointed at Watanabe. doi_verified stays false until scripts/resolve_citations.py approves it.'
+    assays, which is what pointed at Watanabe. doi_verified stays false until scripts/resolve_citations.py approves it. THE CoV-RVS3 CORRECTION IS REVERTED, 2026-10-23, by measurement, and the stored
+    form is vindicated. Replacing it with PREDICT P-006''s 23-mer and rescreening took this assay from 3,171/7,920
+    detected (40.0 percent) to 3/138 (2.2 percent). Counting exact binding sites across the 25,506 records of the
+    11118/q4d4730ef3b archive: the stored 24-mer CCATCATCASWYRGAATCATCATA has a site in 215 records, Watanabe''s own
+    printed 24-mer CCATCATCAGATAGAATCATCATA in 204, and P-006''s 23-mer CCATCATCASWYRAATCATCATA in 88. So the stored
+    sequence is Watanabe''s primer with the panel''s degeneracy and Watanabe''s length, and it binds better
+    than either published form - the panel dropped a base. Calling it "a hybrid nobody printed" was right about its
+    provenance and wrong about its quality. This is the same pattern already recorded for CoV-RVS1 in the Lan_2010
+    sibling, where the stored 30-mer hits 685 of 884 genomes and the paper''s 33-mer never gets below 4 mismatches.
+    modified_from keeps Watanabe''s printed form visible.'
 needs_review:
 - flag: oligos_modified

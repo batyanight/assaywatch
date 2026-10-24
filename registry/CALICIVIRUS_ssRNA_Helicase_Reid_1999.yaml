@@ -37,8 +37,26 @@ source:
     to the next. Corrected to the printed 25-mers. oligos_designed_here set to FALSE: Table 2''s footnote reads
     "** Originally described by Neill and Seal (1995)", i.e. Neill, J.D. and Seal, B.S., Mol. Cell. Probes 9, 33-38, which
     Reid''s own introduction also names as the source of Hel1/Hel2; Reid is where they are printed and read, not where
-    they were designed. NEEDS A RESCREEN, and the declared 360 bp should be re-measured against the table''s 357.'
+    they were designed. NEEDS A RESCREEN, and the declared 360 bp should be re-measured against the table''s 357. CONFIRMED AGAINST THE DESIGN PAPER, and the
+    0 percent that follows is a SCORING artefact, not drift. Reid''s footnote credits Neill, J.D. and Seal, B.S.
+    1995, Mol Cell Probes 9:33-38, which is 10.1016/S0890-8508(95)90962-1 and was fetched over the Elsevier API on
+    2026-10-23. Its Methods print the four oligonucleotides it designed, and Hel1 reads
+    GTCCCAGTATTCGGATTTGTCTGCG and Hel2 AGCGGGTAGTTCAGTCAAGTTCACC - both exactly as now stored, and Hel1 ending GCG
+    exactly as Reid prints it. So two independent papers agree on the sequences and the 25 nt lengths, and the
+    corrected forms are right. MEASURED against the 84,805-record Caliciviridae archive: Hel2 has an exact site in 17
+    records where the old mis-split 18-mer had none, so that correction is a clear gain. Hel1 has an exact site in
+    NONE, while its first 22 bases match 16 records - and on all 16, which are the designers'' own targets
+    (vesicular exanthema of swine virus, San Miguel sea lion virus and skunk calicivirus, the U146xx series), the
+    template base under Hel1''s 3''-terminal position is C where both papers print G. So the published primer
+    carries a single 3''-terminal mismatch against its own target sequences. `terminal_mismatch_fails: true` makes
+    that fatal on its own, which is why the detected share moved from 5/18 to 0/30 when the wrap was repaired; but this
+    is a CONVENTIONAL PCR, Reid reports the assay working, and a 3''-terminal mismatch is far more tolerable in
+    endpoint PCR than in a hydrolysis probe. This entry is therefore a worked example of the per-chemistry scoring gap
+    in ROADMAP Phase 2 and must not be read as coverage loss. The sequences stay as published, per the Circovirus
+    precedent that where a paper and the records disagree the registry keeps the published sequence and discloses.'
 needs_review:
+- flag: primer_site_polymorphic
+  note: Hel1's 3'-terminal G mismatches the C in all 16 target records, so a qPCR-strength terminal rule scores every record as fail
 - flag: thin_evidence
   note: the 360 bp size rests on 5 amplifying records of 84,810 in the genus; the assay detects
     almost nothing in GenBank

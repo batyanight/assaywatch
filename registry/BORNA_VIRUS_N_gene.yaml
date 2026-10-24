@@ -9,7 +9,8 @@ chemistry: conventional
 oligos:
   forward:
     name: Borna-NF
-    seq: GCCTTGTGTTTCTATCTTTC
+    seq: GCCTTGTGTTTCTATGTTTG
+    modified_from: GCCTTGTGTTTCTATCTTTC
   reverse:
     name: Borna-NR
     seq: ATTCTTTACCTGGGGACTCA
@@ -34,7 +35,7 @@ source:
     - same length, so this is not the end-glue case at all, and the two differences sit at positions 16 and 20, the second
     being the 3''-terminal base. A primer whose 3'' terminus is wrong is the single most consequential kind of registry error,
     and with terminal_mismatch_fails: true it would also change this assay''s calls. Not changed: this needs the PDF read
-    by eye, and if the paper is right the entry''s calls are currently measuring a primer nobody used. CORRECTED 2026-10-23, and this one changes calls.
+    by eye, and if the paper is right the entry''s calls are currently measuring a primer nobody used. CORRECTION ATTEMPTED AND REVERTED, 2026-10-23, by measurement.
     Zimmermann et al. 1994 prints its internal (nested) pair under "Internal (nested) primers:" as antisense
     5''-ATT CTT TAC CTG GGG ACT CA-3'' and sense 5''-GCC TTG TGT TTC TAT CTT TC-3'' (read by eye in the PDF and in the
     publisher XML, which agree, so this is not an extraction artefact). The stored forward was GCCTTGTGTTTCTATGTTTG: the
@@ -43,6 +44,17 @@ source:
     transcription error and not a modification. Corrected to the paper''s GCCTTGTGTTTCTATCTTTC, which is also what the
     sibling entry BORNA_VIRUS_N_gene_Zimmermann_1994_round2 already stored as BornaNestF. The likely origin of the error
     is the paper''s external sense primer GTCACGGCGCGATATGTTTC, whose tail the stored sequence ends with. NEEDS A
-    RESCREEN: every call for this assay was made with the wrong 3'' end.'
+    RESCREEN: every call for this assay was made with the wrong 3'' end. THE REVERT, and why. Changing the stored sequence to the printed one
+    and rescreening took this assay from 308/456 detected (67.5 percent) to 0/372 (0.0 percent). Measured over all
+    1,516 records in the Orthobornavirus archive, the template bases following the shared 15-mer GCCTTGTGTTTCTAT are
+    GTTTG in 260 records, GCTTG in 42 and GTCTG in 1 - and the paper''s CTTTC in NONE. So the printed form carries
+    two mismatches to every known record, one of them at the 3''-terminal base, which `terminal_mismatch_fails`
+    makes fatal by itself; a nested primer that never matched its own target is less likely than a transcription or OCR
+    error in a 1994 scan. The stored form is restored and the printed form is recorded as modified_from so the
+    disagreement stays visible. NOTE FOR THE MAINTAINER: the sibling BORNA_VIRUS_N_gene_Zimmermann_1994_round2 stores
+    the PRINTED form as BornaNestF, so by this measurement that entry cannot detect anything by construction. It is
+    flagged there and deliberately not changed here.'
 needs_review:
+- flag: oligos_not_in_cited_paper
+  note: the printed sense primer matches 0 of 1,516 records; the stored form matches 260 (modified_from records the printed one)
 - flag: orientation_inferred

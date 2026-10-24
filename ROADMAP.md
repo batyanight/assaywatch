@@ -83,6 +83,12 @@ into measurements, and it is also the paper's main figure.
       consensus assays are probably scored too harshly — which would inflate
       `fail` and so the flagged counts. Fix shape: a scoring block per
       chemistry, with the conventional numbers set by tier-2 validation.
+      A worked example arrived 2026-10-23: `CALICIVIRUS_ssRNA_Helicase_Reid_1999`
+      is a conventional PCR whose Hel1, verified against both Reid 1999 and the
+      Neill & Seal 1995 design paper, carries one 3'-terminal mismatch against
+      all 16 of its own target records. `terminal_mismatch_fails` alone takes it
+      to 0 of 30 detected, while the paper reports the assay working. That is the
+      gap this item is about, measured on a real entry.
 - [x] the recent window now widens per assay (`max_window_months`, 60) when the
       standard window holds too few records, which is what made Bd unjudgeable;
       `scripts/retrospective.py` recomputes any past date's verdict, so the

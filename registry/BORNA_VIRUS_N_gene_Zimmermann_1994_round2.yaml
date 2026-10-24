@@ -33,8 +33,19 @@ source:
     primers from Zimmermann et al. 1994. The external (round 1) primers are in registry as BORNA_VIRUS_N_gene_Zimmermann_1994.
     The paper labels these as "Internal (nested) primers: antisense 5''-ATTCTTTACCTGGGGACTCA-3'' sense 5''-GCCTTGTGTTTCTATCTTTC-3''".
     Forward/reverse assignment follows the sense/antisense labels in the paper. AMPLICON_BP: not set; nested product size
-    must be measured against GenBank records (it is internal to the 752 bp external product).'
+    must be measured against GenBank records (it is internal to the 752 bp external product). THIS ENTRY CANNOT DETECT, found 2026-10-23 and NOT fixed here. BornaNestF is
+    stored as GCCTTGTGTTTCTATCTTTC, which is what Zimmermann 1994 prints for its internal sense primer - and measured
+    over all 1,516 records of the Orthobornavirus archive, that sequence has an exact site in NONE of them. The template
+    following the shared 15-mer GCCTTGTGTTTCTAT reads GTTTG in 260 records, GCTTG in 42 and GTCTG in 1. So the printed
+    form differs from every known record at two positions including the 3''-terminal base, which
+    `terminal_mismatch_fails` makes fatal on its own, and this entry will read 0 percent detected for reasons that have
+    nothing to do with drift. The sibling BORNA_VIRUS_N_gene stores GCCTTGTGTTTCTATGTTTG, the 260-record form; that
+    entry was briefly changed to the printed sequence on 2026-10-23 and reverted when its detected share fell from 67.5
+    percent to 0.0. Aligning this entry with the measured form would mean storing a sequence the paper does not print,
+    which is a maintainer decision and the same one the sibling records, so it is flagged rather than applied.'
 needs_review:
+- flag: oligos_not_in_cited_paper
+  note: the printed BornaNestF matches 0 of 1,516 records; the sibling entry's measured form matches 260
 - flag: amplicon_size_unresolved
   note: no product size is declared
 - flag: orientation_inferred
