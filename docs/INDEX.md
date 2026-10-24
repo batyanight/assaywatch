@@ -102,6 +102,7 @@ but only 11 of the 52 negatives are within-family, which is what gates the C2 mo
 | [`2026-10-20-scope-curation.md`](2026-10-20-scope-curation.md), [`2026-10-17-flagged-decisions.md`](2026-10-17-flagged-decisions.md) | per-entry curation decisions |
 | [`2026-10-14-amplicon-sizes-measured.md`](2026-10-14-amplicon-sizes-measured.md) | amplicon sizes measured rather than quoted |
 | [`2026-10-19-taxid-artefacts.md`](2026-10-19-taxid-artefacts.md), [`2026-10-19-subtaxid-resolution.md`](2026-10-19-subtaxid-resolution.md) | taxonomy artefacts |
+| [`2026-10-24-orphan-archives.md`](2026-10-24-orphan-archives.md) | what each of the 10 orphan archive groups actually is: 636 of the 658 MB is pre-query history for taxa still covered (530 MB is *Ophidiomyces*, 90 MB *B. salamandrivorans*), one group is a genus of moths; nothing deleted |
 | [`papers-index.md`](papers-index.md) | the durable record of which papers the registry rests on (`papers/` is gitignored) |
 | [`2026-10-05-papers-needed.md`](2026-10-05-papers-needed.md), [`2026-10-05-doi-candidates.md`](2026-10-05-doi-candidates.md) | what still needs reading |
 | [`2026-10-06-lab-leads.md`](2026-10-06-lab-leads.md) | 188 unworked leads, with an explicit account of how far to trust them |

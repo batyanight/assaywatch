@@ -742,7 +742,13 @@ checked 0 problems, ruff clean.**
 - The calicivirus re-cite to Neill & Seal 1995: **SHIPPED 2026-10-24** (`a784fed`-ish, the `055a9a9` commit); see the daytime section. M1 remains on hold -- tier-2 still kills the one documented candidate (Hellgren Leucocytozoon), so the mispair table ships empty and reopens with the scoring-strategy plan's replay harness, not a config flip. The three Sigrist oligo questions are also closed (`BornaPCA6`/`PaBVcon_1401+` and `A647N`/`A674N`), registry was right both times.
 - The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries; one group alone is
   530 MB). `scripts/orphan_archives.py` advises keeping the three pending ones unless the
-  entry is being dropped. (`209/all` is CLOSED as of 2026-10-24 — that entry now carries its
+  entry is being dropped. **IDENTIFIED 2026-10-24, still not deleted:
+  `docs/2026-10-24-orphan-archives.md` says what every group is.** The headline: 636 of the
+  658 MB is superseded PRE-QUERY history for taxa the registry still covers - the 530 MB
+  group is *Ophidiomyces ophidiicola* and the 90 MB one is *B. salamandrivorans*, both with
+  live entries that have since gained a retrieval query, which is part of the group key. One
+  group, `1430836/all`, is a genus of moths and should go regardless. The decision was never
+  short of authority, only of information; it now has it. (`209/all` is CLOSED as of 2026-10-24 — that entry now carries its
   sibling's query, joined the existing archive and screens at 91.8%.)
 - Four held-out rows rest on an oligo that differs from the registry's by one base or a
   5' trim (see the candidates doc). The pan-coronavirus Watanabe reverse is **SETTLED
