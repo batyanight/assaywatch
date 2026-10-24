@@ -247,6 +247,8 @@ class Drift(Block):
     require_working_baseline: bool = True
     count_diverged_as_fail: bool = False
     exclude_patent_records: bool = False
+    #: null means "record the anchor E-value, relabel nothing" (calls.apply_anchor_fdr).
+    anchor_fdr: float | None = Field(default=None, gt=0, lt=1)
 
     @model_validator(mode="after")
     def windows_are_ordered(self) -> Drift:

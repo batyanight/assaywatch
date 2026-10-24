@@ -292,6 +292,37 @@ def test_exclusion_tells_a_truncated_deposit_from_a_diverged_site():
     assert screen_record(assay, "none", noise(600), CFG).as_row()["exclusion"] == "no_site"
 
 
+def test_a_lone_anchor_writes_its_per_record_evalue_and_an_amplicon_writes_none():
+    """`anchor_evalue` is what calls.apply_anchor_fdr tests at archive scale. It is the
+    best lone site's E (so at or under max_site_evalue when the label rests on an
+    anchor), and blank on a row that formed an amplicon."""
+    import random
+    from pathlib import Path
+
+    from assaywatch.validate import load_assay
+
+    root = Path(__file__).resolve().parents[1]
+    assay = load_assay(root / "registry" / "CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004.yaml")
+    rev = assay.oligos.reverse.matching_seq
+    rng = random.Random(5)
+
+    def noise(n):
+        return "".join(rng.choice("ACGT") for _ in range(n))
+
+    roomy = screen_record(assay, "roomy", noise(900) + reverse_complement(rev) + noise(400), CFG).as_row()
+    assert roomy["exclusion"] == "diverged"
+    assert roomy["anchor_evalue"] != ""
+    assert float(roomy["anchor_evalue"]) <= CFG["scoring"]["max_site_evalue"]
+
+    fwd = assay.oligos.forward.matching_seq
+    gap = assay.amplicon_bp - len(fwd) - len(rev)
+    full = screen_record(
+        assay, "full", noise(50) + fwd + noise(gap) + reverse_complement(rev) + noise(50), CFG
+    )
+    assert full.call != "no_amplicon"
+    assert full.as_row()["anchor_evalue"] == ""
+
+
 def test_thermo_survives_a_primer_pool_of_mixed_lengths():
     """A pool member of a different length than the primary oligo used to crash the screen."""
     import subprocess

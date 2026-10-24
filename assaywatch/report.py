@@ -46,6 +46,7 @@ from assaywatch.accession import version_of as version_of
 # Re-exported: these moved to calls.py so the renderer is not also the project's
 # calls-table I/O library, and `report.read_calls` is where every caller and six
 # test files already look for them.
+from assaywatch.calls import apply_anchor_fdr as apply_anchor_fdr
 from assaywatch.calls import key_calls_by_accession as key_calls_by_accession
 from assaywatch.calls import read_calls as read_calls
 from assaywatch.calls import read_dates as read_dates
@@ -1264,6 +1265,12 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                         + ". `truncated` means the deposit stops before the other primer's site, so it"
                         + " says nothing about the assay; `diverged` means that site is present and does"
                         + " not match."
+                        + (
+                            " `chance_anchor` means the only site found did not survive the archive-scale"
+                            " test (drift.anchor_fdr), so the record is not evidence either way."
+                            if any(k == "chance_anchor" for k, _ in d.exclusions)
+                            else ""
+                        )
                     )
             out.append("")
 
@@ -1842,6 +1849,9 @@ def build(
 
     rounds = {i for v in families(assays).values() for i in v}
     calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds))
+    # The archive-scale anchor test, before anything reads an exclusion label
+    # (drift, nested, lineage all take these rows). Off unless drift.anchor_fdr is set.
+    apply_anchor_fdr(calls, cfg)
     dates = read_dates(retrieved)
     run_date = run_date or calls_path.parent.name
     if today is None:

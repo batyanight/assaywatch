@@ -57,7 +57,7 @@ from assaywatch.lineage import (  # noqa: E402
     title_assays,
 )
 from assaywatch.metadata import read_patent_accessions, read_titles  # noqa: E402
-from assaywatch.report import key_calls_by_accession, read_calls, read_dates  # noqa: E402
+from assaywatch.report import apply_anchor_fdr, key_calls_by_accession, read_calls, read_dates  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
 from assaywatch.taxonomy import Taxonomy, taxonomy_from_config  # noqa: E402
 
@@ -197,7 +197,9 @@ def load_evidence(
     the taxa cache so per-lineage analysis runs during retrospective verdicts.
     """
     by_assay: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for r in key_calls_by_accession(read_calls(calls_path)):
+    rows = key_calls_by_accession(read_calls(calls_path))
+    apply_anchor_fdr(rows, cfg or {})  # the report-time relabel report.build applies; off unless configured
+    for r in rows:
         by_assay[r["assay_id"]].append(r)
 
     taxids: dict[str, int] | None = None

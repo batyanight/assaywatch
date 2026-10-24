@@ -573,6 +573,18 @@ drift:
   # anchor test is corrected for archive size and tier-2 has been re-run on the
   # relabelled screens.
   count_diverged_as_fail: false
+  # The archive-scale anchor test that the comment above asks for
+  # (docs/2026-10-24-archive-anchor.md). Every no_amplicon row now carries the
+  # best lone site's PER-RECORD E-value (`anchor_evalue`); with a number here,
+  # Benjamini-Hochberg runs over each assay's no_amplicon rows at report time and a
+  # `diverged`/`truncated`/`no_pair` anchor that does not survive is relabelled
+  # `chance_anchor`. BH rather than E x record-count because the product cannot
+  # tell SIV Keele's 7,000 real two-mismatch anchors (E 3e-5 each, product 0.25)
+  # from Bd's 55 chance ones (E 5e-3, product 47); step-up BH passes the first and
+  # fails the second. Report-time, so it costs no rescreen and tier-2 can price it.
+  # null = off: the label set is unchanged and `count_diverged_as_fail` above keeps
+  # its warning. 0.05 is the conventional FDR and is NOT yet tier-2 approved.
+  anchor_fdr: null
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid
   # libraries), so an assay missing one is not evidence about circulating virus.

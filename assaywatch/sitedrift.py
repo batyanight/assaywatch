@@ -552,7 +552,7 @@ def build(
 ) -> tuple[str, str, list[AssaySites]]:
     """Site-drift report for every assay in the given statuses."""
     from assaywatch.drift import by_status
-    from assaywatch.report import key_calls_by_accession, read_calls, read_dates
+    from assaywatch.report import apply_anchor_fdr, key_calls_by_accession, read_calls, read_dates
     from assaywatch.validate import iter_files, load_assay
 
     sd = cfg.get("sitedrift", {}) if isinstance(cfg, dict) else {}
@@ -582,6 +582,7 @@ def build(
     from assaywatch.report import assess_as_reported, held_out_reasons
 
     calls = key_calls_by_accession(read_calls(calls_path))
+    apply_anchor_fdr(calls, cfg)  # the same relabel report.build applies, so the two cannot disagree
     drifts, _ = assess_as_reported(calls, dates, assays, retrieved, cfg, today)
     drifts = {aid: d for aid, d in drifts.items() if not held_out_reasons(assays.get(aid))}
     grouped = by_status(drifts)

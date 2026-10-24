@@ -375,6 +375,9 @@ class Call:
             "exclusion": self.extra.get("exclusion", ""),
             # Expected number of pairs this good in a random record like this one (chance.py).
             "pair_evalue": f"{self.extra['pair_evalue']:.2g}" if "pair_evalue" in self.extra else "",
+            # For no_amplicon only: the best lone primer site's per-record E-value, so
+            # the archive-scale anchor test (calls.apply_anchor_fdr) can run at report time.
+            "anchor_evalue": f"{self.extra['anchor_evalue']:.2g}" if "anchor_evalue" in self.extra else "",
             "fwd_penalty": "" if self.forward is None else f"{self.forward.penalty:g}",
             "fwd_mm_from_3prime": mm(self.forward),
             "fwd_ambiguous": amb(self.forward),
@@ -707,8 +710,8 @@ def classify_exclusion(
     comp: tuple,
     amplicon_span: int | None,
     record_len: int | None = None,
-) -> tuple[str, str]:
-    """Why a record yielded no amplicon: (label, one-line detail).
+) -> tuple[str, str, float | None]:
+    """Why a record yielded no amplicon: (label, one-line detail, best lone-site E).
 
     A record with no amplicon is dropped from the drift denominator, and the
     reasons are not equivalent. If the deposit simply stops before the other
@@ -722,6 +725,17 @@ def classify_exclusion(
     missing site's window runs off the end of the record), `diverged` (the
     window is inside the record but nothing credible matches there), `no_pair`
     (both primers credible but never facing each other in range).
+
+    The third value is the lowest per-record E-value among every site found for
+    either primer, or None when nothing was found within the search budget. It is
+    written to the row (`anchor_evalue`) because the per-record credibility test
+    below cannot see multiplicity: a 22-mer six mismatches off has E of about 0.005
+    in a 900 bp record, which passes 0.01, and an archive of 9,496 such records is
+    expected to produce dozens of them - 55 of Bd's 63 `diverged` records are
+    protein-coding mRNAs anchored that way (docs/2026-10-23-wave2-diverged-and-patent.md).
+    The archive-scale test that corrects this needs every row's E first, so it
+    runs at report time over the calls table (`calls.apply_anchor_fdr`,
+    `drift.anchor_fdr`), and this function only records the number.
     """
     # Its own key: `max_pair_evalue: null` means "report the E-value, act on
     # nothing", and reusing it here silently kept filtering at 0.01.
@@ -731,17 +745,18 @@ def classify_exclusion(
     span = int(amplicon_span or cfg["amplicon"]["max_bp"])
     n = record_len or len(record_seq)
 
-    def credible(name: str) -> list[Site]:
+    def with_evalue(name: str) -> list[tuple[Site, float]]:
         o = oligos[name]
-        return [
-            s for s in found.get(name, []) if site_evalue(o, s.n_mismatches + s.n_ambiguous, n, comp) <= max_e
-        ]
+        return [(s, site_evalue(o, s.n_mismatches + s.n_ambiguous, n, comp)) for s in found.get(name, [])]
 
-    cf, cr = credible("forward"), credible("reverse")
+    ef, er = with_evalue("forward"), with_evalue("reverse")
+    best_e = min((e for _, e in ef + er), default=None)
+    cf = [s for s, e in ef if e <= max_e]
+    cr = [s for s, e in er if e <= max_e]
     if cf and cr:
-        return "no_pair", "both primers match credibly but never face each other in range"
+        return "no_pair", "both primers match credibly but never face each other in range", best_e
     if not cf and not cr:
-        return "no_site", "no credible site for either primer"
+        return "no_site", "no credible site for either primer", best_e
     # Which side of the anchor the missing primer should sit on depends ONLY on
     # the anchor's strand, never on which oligo is missing — see the diagram in
     # facing_pairs. Deriving it from the missing oligo's role instead labelled 382
@@ -760,8 +775,8 @@ def classify_exclusion(
     else:
         lo, hi = anchor.start, anchor.start + span
     if lo < 0 or hi > n:
-        return "truncated", f"the record ends before the {missing} primer's window"
-    return "diverged", f"the {missing} primer's window is present but nothing credible matches it"
+        return "truncated", f"the record ends before the {missing} primer's window", best_e
+    return "diverged", f"the {missing} primer's window is present but nothing credible matches it", best_e
 
 
 def screen_one(
@@ -819,10 +834,12 @@ def screen_one(
         if not f_all and not r_all:
             which = "forward and reverse"
         call = Call(assay.id, record_id, "no_amplicon", reason=f"no {which} site within {max_mm} mismatches")
-        label, detail = classify_exclusion(
+        label, detail, anchor_e = classify_exclusion(
             record_seq, oligo_map, found_map, cfg, comp, _declared_hi, record_len
         )
         call.extra["exclusion"] = label
+        if anchor_e is not None:
+            call.extra["anchor_evalue"] = anchor_e
         call.reason = f"{call.reason}; {detail}"
         return call
 
@@ -956,10 +973,12 @@ def screen_one(
         if n_chance:
             reason = f"{n_chance} facing pairs, none distinguishable from chance (E > {max_e:g})"
         call = Call(assay.id, record_id, "no_amplicon", reason=reason)
-        label, detail = classify_exclusion(
+        label, detail, anchor_e = classify_exclusion(
             record_seq, oligo_map, found_map, cfg, comp, _declared_hi, record_len
         )
         call.extra["exclusion"] = "chance_only" if n_chance else label
+        if anchor_e is not None:
+            call.extra["anchor_evalue"] = anchor_e
         call.reason = f"{reason}; {detail}"
         return call
     return best

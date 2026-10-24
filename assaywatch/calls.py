@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import csv
 import gzip
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -59,6 +60,8 @@ def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str,
         )
         # `exclusion` says why an unusable record was unusable (score.classify_exclusion).
         ie = header.index("exclusion") if "exclusion" in header else None
+        # The best lone site's per-record E-value behind that label, for `apply_anchor_fdr`.
+        ian = header.index("anchor_evalue") if "anchor_evalue" in header else None
         # The footprint is known only where the row's own scoring columns are
         # populated (see drift.FOOTPRINT_REQUIRED). Having the six mismatch
         # columns in the HEADER is not enough: `collect.concatenate_screens` unions
@@ -83,6 +86,8 @@ def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str,
                 "call": r[ic],
                 "exclusion": (r[ie] if ie is not None and ie < len(r) else ""),
             }
+            if ian is not None and ian < len(r) and r[ian] != "":
+                row["anchor_evalue"] = float(r[ian])
             if fp_idx is not None and all(i < len(r) and r[i] != "" for i in req_idx):
                 row["footprint"] = footprint_signature(r[i] if i < len(r) else "" for i in fp_idx)
             if span_idx is not None and row["assay_id"] in with_spans:
@@ -91,6 +96,67 @@ def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str,
                     row["amplicon_start"], row["amplicon_end"] = a, b
             rows.append(row)
         return rows
+
+
+#: The label a lone anchor gets when it does not survive the archive-scale test.
+CHANCE_ANCHOR = "chance_anchor"
+#: Exclusion labels that rest on exactly one credible primer site.
+LONE_ANCHOR_LABELS = frozenset({"diverged", "truncated", "no_pair"})
+
+
+def apply_anchor_fdr(rows: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[str, int]:
+    """Relabel lone anchors that do not survive an archive-scale test. Off unless `drift.anchor_fdr` is set.
+
+    `score.classify_exclusion` calls a lone primer site credible when its PER-RECORD
+    E-value is under `scoring.max_site_evalue`. That threshold is set per test and
+    applied across thousands of records, so an archive produces chance anchors in
+    proportion to its size: 55 of Bd's 63 `diverged` records are 2014 JAM81 mRNAs
+    with no ITS locus, anchored by the reverse primer at five or six mismatches
+    (docs/2026-10-23-wave2-diverged-and-patent.md). A `diverged` label there asserts
+    the assay fails on a record that never held its target.
+
+    Why Benjamini-Hochberg over the assay's rows and not "E times the record
+    count": the product cannot tell a real failure set from a chance one. SIV Keele
+    has real two-mismatch anchors on 90% of 8,252 records (E about 3e-5 each, so
+    E x N is 0.25 and would fail a 0.05 cut) while Bd's chance anchors are 55 at
+    5e-3 in 9,496 (E x N 47). Step-up BH separates them: thousands of small p's
+    raise the threshold for each other and all pass; 55 at 5e-3 ranked among 9,000
+    tests face k/m x q of about 2.5e-3 and fail. The family is every `no_amplicon`
+    row of the assay (each record screened and found no amplicon was one test for a
+    lone anchor); rows that recorded no E count as p = 1. A per-record E is treated
+    as a p-value, which it approximates for E << 1 (P(at least one) ~ E).
+
+    Only `diverged`, `truncated` and `no_pair` can move, to `chance_anchor`; a row
+    with no recorded E (an older screen) is never relabelled, because unknown is
+    not the same as chance. Returns {assay_id: rows relabelled}. Mutates `rows`.
+    """
+    q = (cfg.get("drift") or {}).get("anchor_fdr")
+    if q is None:
+        return {}
+    q = float(q)
+    if not 0 < q < 1:
+        raise ValueError(f"drift.anchor_fdr must be between 0 and 1, got {q}")
+    by_assay: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for r in rows:
+        if r.get("call") == "no_amplicon" and (r.get("exclusion") or "") in LONE_ANCHOR_LABELS | {"no_site"}:
+            by_assay[r["assay_id"]].append(r)
+    moved: dict[str, int] = {}
+    for aid, rs in by_assay.items():
+        m = len(rs)
+        ps = sorted(min(1.0, float(r["anchor_evalue"])) if "anchor_evalue" in r else 1.0 for r in rs)
+        # Step-up: the largest rank k with p_(k) <= k/m * q; everything at or below
+        # p_(k) is rejected, so tied p-values share one fate.
+        cut = -1.0
+        for rank, p in enumerate(ps, 1):
+            if p <= rank / m * q:
+                cut = p
+        for r in rs:
+            if (r.get("exclusion") or "") not in LONE_ANCHOR_LABELS or "anchor_evalue" not in r:
+                continue
+            if min(1.0, float(r["anchor_evalue"])) > cut:
+                r["exclusion"] = CHANCE_ANCHOR
+                moved[aid] = moved.get(aid, 0) + 1
+    return moved
 
 
 def read_dates(retrieved_dir: Path) -> dict[str, str]:
