@@ -53,6 +53,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import re
 import sys
 import time
 import urllib.error
@@ -66,7 +67,7 @@ sys.path.insert(0, str(ROOT))
 import yaml  # noqa: E402
 
 from assaywatch.credentials import contact_email, read_secret, read_secret_file  # noqa: E402
-from assaywatch.papers import doi_stem  # noqa: E402
+from assaywatch.papers import doi_stem, held_dois  # noqa: E402
 
 API = "https://api.elsevier.com/content/article/doi/"
 ELSEVIER_PREFIXES = ("10.1016", "10.1006", "10.1053", "10.1054")
@@ -89,23 +90,42 @@ def has_body(xml: str) -> bool:
     """Does this response actually contain the article, or only its metadata?
 
     Elsevier answers 200 with a `full-text-retrieval-response` envelope either
-    way, so the status code says nothing. The article body arrives as
-    `originalText` or a `<xocs:doc>`/`<ce:sections>` block; a metadata-only
-    reply has neither and is a few hundred bytes.
+    way, so the status code says nothing. Require a real `<body>` element.
+
+    The three markers this used to accept - `originalText`, `<xocs:doc>`,
+    `ce:section` - plus a length over 8 KB, are all present in a reply that
+    carries only metadata, an abstract and a long reference list. Mao, Hedrick &
+    Chinchar 1997 (10.1006/viro.1996.8435, the pan-ranavirus MCP design paper)
+    came back that way on 2026-10-24: 110 KB, every marker present, no body, no
+    sequence anywhere in it, and it was saved and reported as "full-text". A
+    paper wrongly recorded as held is the expensive kind of error here - it is
+    what sent a reader after Santee 2003 behind a paywall it is not behind - so
+    the test is now the element itself. Audited over the twelve XML deposits in
+    `papers/` at the time: all twelve carry `<body>`, so nothing already held was
+    overstated by the looser test.
     """
-    return ("originalText" in xml or "<xocs:doc" in xml or "ce:section" in xml) and len(xml) > 8000
+    return re.search(r"<(ja:)?body[\s>]", xml) is not None
 
 
 def outstanding(registry: Path, pdf_dir: Path) -> list[str]:
     """Elsevier DOIs cited by the registry with nothing readable held locally."""
-    held = {p.stem.replace("_", "/").lower() for p in pdf_dir.glob("*")} if pdf_dir.exists() else set()
-    out = []
+    # Forward-mapped through held_dois, never `stem.replace("_", "/")`. That
+    # reverse mapping is what assaywatch/papers.py exists to stop, and it was
+    # still here: it reads `10.1016_s0166-0934_96_02155-6.pdf` back as
+    # `10.1016/s0166-0934/96/02155-6`, which is no DOI, so all eleven
+    # parenthesised Elsevier papers read as missing and would have been
+    # re-fetched over the API. It went unnoticed while those files were stored
+    # under the slash-only spelling, where the reverse mapping happened to come
+    # out right; renaming them to the canonical stem on 2026-10-24 is what
+    # exposed it.
+    candidates = []
     for f in sorted(registry.glob("*.yaml")):
         d = yaml.safe_load(f.read_text())
         doi = ((d.get("citation") or {}).get("doi") or "").lower()
-        if doi.startswith(ELSEVIER_PREFIXES) and doi not in held and doi not in out:
-            out.append(doi)
-    return out
+        if doi.startswith(ELSEVIER_PREFIXES) and doi not in candidates:
+            candidates.append(doi)
+    held = held_dois(candidates, pdf_dir)
+    return [d for d in candidates if d not in held]
 
 
 def main(argv: list[str] | None = None) -> int:

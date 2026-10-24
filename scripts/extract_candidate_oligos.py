@@ -96,6 +96,7 @@ def doi_of(path: Path, text: str, held: list[str] | None = None) -> str:
     # authoritative for its own identity and most stems are unambiguous, and
     # because the exact branch above now catches the case that matters: a file
     # whose DOI the index already knows. Never used to key a cache or a fetch.
+    # This one reverse-maps on purpose, as the paragraph above explains.
     stem = path.stem.replace("_", "/")
     if _vo.DOI_IN_TEXT.fullmatch(stem):
         return stem.lower()

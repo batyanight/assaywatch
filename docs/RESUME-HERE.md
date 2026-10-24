@@ -62,6 +62,31 @@ stored / 204 Watanabe / 88 P-006, over 25,576 records against the 25,506 of the 
 measurement). The registry's 24-mer stands. Resolution written into the candidates doc, where
 the claim was.
 
+**Chasing Mao 1997 for that answer turned up two faults in `scripts/fetch_elsevier.py`,
+and the first one I caused.**
+
+- **`outstanding()` reverse-mapped filename stems**, `p.stem.replace("_", "/")`, to build its
+  "already held" set. That is the mapping `assaywatch/papers.py` exists to stop, and this was
+  its sixth call site, unfixed because it was invisible: while the eleven Elsevier papers sat
+  under the slash-only spelling the reverse mapping happened to come out right. Renaming them
+  to the canonical stem earlier the same evening broke it, and running the fetcher is what
+  showed it - `outstanding()` returned all eleven as missing, every one of them held, ready to
+  be re-fetched over the API. Now forward-mapped through `held_dois`; it returns nothing.
+- **`has_body()` accepted a reply with no article in it.** It tested for `originalText`,
+  `<xocs:doc>` or `ce:section` plus 8 KB, all of which a metadata-and-references reply has.
+  Mao 1997 came back at 110 KB with every marker, no `<body>`, and not one nucleotide in it,
+  and was saved into `papers/` and reported as "full-text". That is the error class this
+  project paid for this morning, a paper wrongly recorded as held, so the test is now the
+  `<body>` element itself. **Audited: all twelve XML deposits already in `papers/` carry a
+  real body**, so nothing held was overstated by the looser test. The Mao file was deleted
+  rather than kept, since keeping it would assert we have read the paper.
+
+Both are pinned by a second control, `test_nothing_reads_a_doi_back_out_of_a_filename`, built
+like the first and exempting the two places that reverse-map deliberately and say so
+(`verify_oligos_against_paper`, which files the result under a prefixed stem key rather than
+as a DOI, and `extract_candidate_oligos`, where it is a documented last-resort fallback that
+never keys a cache or a fetch).
+
 
 ## 2026-10-24: the diverged+anchor_fdr pair SHIPPED at q=0.001
 
@@ -530,9 +555,11 @@ checked 0 problems, ruff clean.**
   5' trim (see the candidates doc). The pan-coronavirus Watanabe reverse is **SETTLED
   2026-10-24**: neither side is a transcription error, Watanabe's held PDF prints the 24-mer,
   the 23-nt form is PREDICT P-006 with a base dropped, and the binding-site counts reproduce
-  (215 / 204 / 88). Written up in the candidates doc. The other three are still open, the
-  nearest being Stöhr 2015's ranavirus MCP reverse, which differs at the 3' end and so
-  changes scoring directly.
+  (215 / 204 / 88). Written up in the candidates doc. Stöhr 2015's ranavirus MCP reverse was
+  worked through the same evening and the registry's 18-mer stands on two transcriptions to
+  one, but it is **not fully closed**: the design paper, Mao et al. 1997, is the only thing
+  that would settle it and Elsevier returns no body for it, so it wants the Virology scan
+  through the NYU proxy. Two held-out rows remain untouched.
 
 ### The old section 0, kept for the record
 

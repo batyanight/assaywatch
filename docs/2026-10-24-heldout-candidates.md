@@ -75,8 +75,31 @@ Rejected on identity, recorded so they are not re-proposed:
 - **Abdelmalek 2022** compares nine *Helicobacter* 16S sets and its worst performer is
   not the registry's Fox 1998 pair.
 - **Stöhr 2015** prints the ranavirus MCP reverse one 3' base longer than the registry
-  stores it. A 3'-end difference changes scoring directly, so this is not the same
-  oligo until someone decides which form is right.
+  stores it. **WORKED THROUGH 2026-10-24, and the registry's form stands on the better
+  evidence, but the design paper could not be read.** The paper is Stöhr et al.,
+  *Phylogeny and differentiation of reptilian and amphibian ranaviruses detected in
+  Europe*, PLoS One, [10.1371/journal.pone.0118633](https://doi.org/10.1371/journal.pone.0118633),
+  open access; its Table 2 prints OL-T2R as `GTCTCTGGAGAAGAAGAAT`, 19 nt, and its own
+  coordinates (97917-97899) independently say 19.
+  The registry's `RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008` stores the 18-mer
+  `GTCTCTGGAGAAGAAGAA`, and **two held papers print exactly that**, both crediting
+  Mao et al. 1997: Johnson 2008 itself, the entry's cited source
+  (`5'-GTCTCTGGAGAAGAAGAA-3'`, "as previously described (Mao et al., 1997)"), and
+  Grizzle 2003, which names the pair FV3-54F / FV3-584R and the 531 bp product.
+  So it is 18 nt in two independent transcriptions against 19 in one.
+  The extra base is **not a conflicting base but a 3' extension, and it is genomically
+  real**: over the 1,711 records of the 10492 archive the 18-mer has an exact site in 236
+  and the 19-mer in 234, so the T is present in all but two of them. The amplicon cannot
+  arbitrate - both forms share the same 5' end, so both give 531 bp.
+  **Mao et al. 1997 ([10.1006/viro.1996.8435](https://doi.org/10.1006/viro.1996.8435),
+  Virology 229:212-220) would settle it and cannot be read.** Unpaywall calls it open
+  access, but Elsevier's API returns metadata, abstract and references only, with no body
+  and no sequence in it (see the `has_body` note in `scripts/fetch_elsevier.py`). Settling
+  this needs the Virology scan through the NYU proxy. Until then the 18-mer stays: it has
+  two transcriptions to one, and it is what the cited paper prints.
+  Scoring note, since this was the stated worry: the difference does move the 3' terminus
+  by one base, but as the added base matches in 234 of 236 records it adds no 3' mismatch;
+  what it would change is the distance-from-3'-end of the mismatches already counted.
 - The Watanabe-derived pan-coronavirus reverse in Habeebur-Rahman 2025 is 23 nt against
   the registry's 24. **RESOLVED 2026-10-24: neither side is a transcription error, and the
   registry's 24-mer stands.** Watanabe 2010 was read directly from the held PDF

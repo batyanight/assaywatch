@@ -106,3 +106,48 @@ def test_nothing_writes_a_filename_by_replacing_only_the_slash():
                     continue
                 bad.append(f"{path.relative_to(root)}:{node.lineno}: {line.strip()}")
     assert not bad, "forward-map through assaywatch.papers.doi_stem instead:\n" + "\n".join(bad)
+
+
+def test_nothing_reads_a_doi_back_out_of_a_filename():
+    """Nothing reverse-maps a stem with `.replace("_", "/")`, the mapping that is not injective.
+
+    Three characters map onto `_`, so the inverse invents DOIs: the module
+    docstring lists five call sites that did it and what each one cost. A sixth
+    survived in `fetch_elsevier.outstanding`, which built its "already held" set
+    that way and so reported all eleven parenthesised Elsevier papers as
+    missing, ready to re-fetch over the API. It hid for as long as it did
+    because those files were stored under the slash-only spelling, where the
+    reverse mapping happened to come out right; renaming them to the canonical
+    stem on 2026-10-24 is what exposed it. Use `held_dois` or `paper_for_doi`.
+
+    `verify_oligos_against_paper` is the one exemption: it reverse-maps to
+    recognise a DOI-shaped filename, then files the result under a prefixed
+    stem key rather than treating it as a DOI, and says so where it does it.
+    """
+    marker = "reverse-maps on purpose"
+    root = Path(__file__).resolve().parent.parent
+    exempt = {"verify_oligos_against_paper.py"}
+    bad = []
+    for d in ("scripts", "assaywatch"):
+        for path in sorted((root / d).rglob("*.py")):
+            if path.name in exempt:
+                continue
+            src = path.read_text(errors="replace")
+            lines = src.splitlines()
+            try:
+                tree = ast.parse(src)
+            except SyntaxError:  # pragma: no cover - nothing in the tree is unparseable
+                continue
+            for node in ast.walk(tree):
+                if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)):
+                    continue
+                if node.func.attr != "replace":
+                    continue
+                args = [a.value for a in node.args if isinstance(a, ast.Constant)]
+                if args[:2] != ["_", "/"]:
+                    continue
+                line = lines[node.lineno - 1]
+                if marker in line or (node.lineno > 1 and marker in lines[node.lineno - 2]):
+                    continue
+                bad.append(f"{path.relative_to(root)}:{node.lineno}: {line.strip()}")
+    assert not bad, "a filename stem is not a DOI; use held_dois/paper_for_doi:\n" + "\n".join(bad)
