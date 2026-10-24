@@ -36,8 +36,9 @@ one-off Python, and over asking Batya to download files by hand.
 ## Reading this repo cheaply
 Search and summarise; don't read large files whole. `rg`, `fd`, `jq`, `mlr` are
 on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
-- `docs/INDEX.md` indexes all 81 files under `docs/`, grouped by what you want,
-  with a `Superseded` section. Start there rather than guessing from filenames.
+- `docs/INDEX.md` indexes every Markdown file under `docs/` (79 of them, plus 15 data
+  files, as of 2026-10-24), grouped by what you want, with a `Superseded` section.
+  Start there rather than guessing from filenames.
 - `docs/YYYY-MM-DD-*.md` are dated session records. Historical: open one only
   when `docs/INDEX.md`, `docs/RESUME-HERE.md` or the task points to it.
 - `registry/` holds 200+ assay YAMLs. Find entries with `rg` (e.g.

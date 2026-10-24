@@ -126,6 +126,31 @@ def unstorable_reason(doi: str) -> str | None:
 SUPPLEMENT_SUFFIX = ".supp"
 
 
+# Every extension `papers/` may hold, and it lives here for the same reason
+# SUPPLEMENT_SUFFIX does: both readers that identify a paper by its filename have
+# to agree on it. When only `verify_oligos_against_paper` knew the list and
+# `papers_index` globbed `*.pdf` alone, the index reported four papers held as
+# `.txt` and twelve as publisher `.xml` as never obtained - its legend says
+# "blank means the paper still needs to be obtained" - so the one durable record
+# of what this project has read understated it by sixteen papers, and a reader
+# went looking for Santiago 2003 behind a paywall it is not behind.
+#
+# A PDF is what a browser download gives; `.xml` is a publisher's own JATS
+# deposit, and `.txt` is what `scripts/import_pmc_fulltext.py` writes from
+# PubMed Central's open-access full text.
+#
+# No format is better than the others, which took a wrong turn to learn. The
+# first version preferred publisher text over a PDF on the reasoning that
+# structured text beats a table pypdf has to rebuild from glyph positions. That is
+# true of the text a publisher deposits in full, and not of PMC full text as served
+# through an MCP tool, which comes back flattened and often (not always: Prepens
+# 2007 and Deckers 2009 kept their primer tables) without its tables - so preferring
+# it would let a table-less text file override a PDF whose primer table extracts
+# perfectly well. `index_papers` picks between them on what they actually yield
+# instead.
+PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
+
+
 def identity_stem(path: Path) -> str:
     """The stem that says WHICH paper a file belongs to, `.supp` marker removed.
 

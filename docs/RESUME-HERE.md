@@ -1,5 +1,81 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24: stale documentation, swept and corrected
+
+A sweep for references to files that no longer exist, across `docs/*.md`, `CLAUDE.md`,
+`README.md`, `ROADMAP.md` and `CONTRIBUTING.md`. Twelve dangling paths; most were not what
+they looked like.
+
+**Five are tooling deleted on purpose, in `84b15d6`** ("198 assays are live, all on a
+verified DOI; the seed list's lab is gone from the tree"), whose message says plainly: "The
+importer, curation.yaml, removed_assays, materials_needed and the openpyxl extra are
+deleted." So `docs/materials-needed.tsv`, `scripts/materials_needed.py`,
+`tests/test_materials_needed.py`, `scripts/removed_assays.txt` / `scripts/removed_assays/`
+and `scripts/curation.yaml` are gone and are not coming back — `Source.spreadsheet`, `rows`
+and `positive_control` were removed from the schema and `Source` is `Strict`, so they cannot
+return. **Every surviving mention of them in this file and in `docs/2026-10-2*.md` sits in a
+DATED section and is history, deliberately left alone**, on that commit's own policy:
+"corrected, or dated where they were history." Read them as a record of what was true then.
+Where the live question is "what papers do we still need", the answer now lives in
+`docs/papers-index.md` (every DOI, with which format is held) and in
+`papers/papers-still-needed-*.md`, not in a committed TSV.
+
+**Four were false positives**, all of them branch or PR names in backticks that look like
+paths: `registry/2026-10-24-scope-fixes`, `docs/2026-10-23-elsevier-and-oligo-flags`,
+`docs/2026-10-15-lineage-plan` (PR #3, docs-only, superseded by
+`docs/2026-10-17-estimand-plan.md`) and `scripts/rescore.py`, which
+`docs/2026-10-24-scoring-strategy-test-plan.md` PROPOSES and has not built yet.
+`assaywatch/archive.py` never existed: it appears inside a blockquote in
+`docs/2026-10-23-wave5-engineering.md` quoting a review's proposal.
+
+**Two were real and are fixed.** `CLAUDE.md` claimed `docs/INDEX.md` "indexes all 81 files
+under `docs/`" when there are 94 (79 Markdown); corrected and dated. And
+`docs/2026-10-24-scope-audit.md`'s own header named the wrong branch, still said "read-only
+audit; no registry entry changed" after that stopped being true, and pointed at
+`docs/2026-10-24-anchor-pair-counterfactual.md`, which lives only on the unmerged
+`experiment/2026-10-24-diverged-and-anchor-fdr` branch and did not come across with the
+cherry-pick. All three corrected in place.
+
+**`docs/INDEX.md` is complete.** A link-regex check said four files were unlisted
+(`HANDOFF-2026-10-18.md` and the three `2026-10-18-phase*/session-summary` docs); they are
+listed, together in one row of the `Superseded` section, as plain names rather than links.
+
+### The papers index was understating what this project has read, by sixteen papers
+
+Found while answering "which papers are still paywalled", and it is the kind of error that
+costs real work: **I went looking for Santiago 2003 behind a paywall it is not behind.**
+
+`scripts/papers_index.py` globbed `*.pdf` alone, while `scripts/verify_oligos_against_paper.py`
+read `.pdf`, `.xml` and `.txt` from its own `PAPER_SUFFIXES`. Two readers of `papers/`
+disagreeing about what counts as a held paper — exactly the failure the `SUPPLEMENT_SUFFIX`
+comment in `assaywatch/papers.py` warns about. The index's legend says "blank means the paper
+still needs to be obtained", so four papers held as PMC `.txt` (Li 2025, Jöst 2011, Chu 2008,
+Xiao 1999 — all cited by live entries) and twelve held as publisher `.xml` read as never
+obtained.
+
+Fixed: `PAPER_SUFFIXES` moved to `assaywatch/papers.py` beside `SUPPLEMENT_SUFFIX`, for the
+same reason, and both readers import it. The index now reports **123 of 123 papers held**,
+names the format per paper (`pdf`, `xml`, `txt`, `pdf, xml`, `pdf suppl`), and 15 papers turn
+out to be held in more than one format. Its unmatched-file warning fell from 14 to 4 and says
+"file(s)" rather than "PDF(s)".
+
+The four it still cannot match are correct: three candidate-provenance PDFs (Coiras 2004,
+Aitichou 2005, Khodeir 2021) and `10.1016_s0890-8508(95)90962-1.xml`, which is **Neill & Seal
+1995** — the calicivirus design paper. That last one matters: it is held, and the index now
+shows it, which is the evidence the open "re-cite the calicivirus entry to Neill & Seal"
+decision needs.
+
+**A REAL GAP FOUND AND DELIBERATELY NOT FIXED.** `doi_stem` replaces `/ ( ) < >` with `_`,
+but the Elsevier API fetcher replaced only the slash, so twelve publisher JATS deposits sit on
+disk as `10.1016_s0016-5085(98)70589-x.xml` and do not match their DOI. `papers_index` now
+accepts both spellings. **`verify_oligos_against_paper` still compares a single stem, so it
+cannot match those twelve to a DOI** — meaning the publisher XML, often the best source for a
+primer table, is invisible to the verifier. Ten of the twelve are also held as PDF so little
+is lost today; the exception is Neill & Seal 1995, held ONLY as that XML. Not fixed here
+because changing what the verifier reads changes oligo-verification output and wants its own
+run to check. Next person: either teach `paper_for_doi`/`identity_stem` both spellings, or
+rename the twelve files to the canonical stem.
+
 ## 2026-10-24 daytime: the scope audit, all ten items worked through
 
 Branch `registry/2026-10-24-scope-fixes`, cut from

@@ -1,9 +1,16 @@
 # Scope audit: which entries are judged against organisms they were never designed for
 
-Branch `experiment/2026-10-24-diverged-and-anchor-fdr`. Read-only audit; no registry
-entry changed. Opened by `docs/2026-10-24-anchor-pair-counterfactual.md`, where the
-`count_diverged_as_fail` pair turned `BORNA_VIRUS_N_gene_Zimmermann_1994` from `stable`
-to `declining` on records belonging to parrot and rattlesnake bornaviruses.
+Branch `registry/2026-10-24-scope-fixes`. **The audit was read-only; the fixes it led to
+were not** — see the closing sections, which record what was applied, what was struck and
+which proposals were wrong.
+
+It was opened by the `count_diverged_as_fail` + `anchor_fdr` counterfactual, which turned
+`BORNA_VIRUS_N_gene_Zimmermann_1994` from `stable` to `declining` on records belonging to
+parrot and rattlesnake bornaviruses. That write-up is
+`docs/2026-10-24-anchor-pair-counterfactual.md`, which lives on the unmerged branch
+`experiment/2026-10-24-diverged-and-anchor-fdr` and is therefore NOT on this branch; this
+document was cherry-picked across without it. The audit's conclusion settled that question:
+Bornaviridae was scope, not drift, so the pair should not ship.
 
 ## The count
 

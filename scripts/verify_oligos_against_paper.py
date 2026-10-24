@@ -134,7 +134,7 @@ sys.path.insert(0, str(ROOT))
 
 from assaywatch.credentials import contact_email, ncbi_interval, with_api_key  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
-from assaywatch.papers import doi_stem, identity_stem  # noqa: E402
+from assaywatch.papers import PAPER_SUFFIXES, doi_stem, identity_stem  # noqa: E402
 
 # Prefix for the filename-stem keys in `by_doi`; a DOI can never start with it.
 STEM_KEY = "stem:"
@@ -280,21 +280,8 @@ def pdf_text(path: Path) -> str:
         return ""
 
 
-# Every extension `papers/` may hold. A PDF is what a browser download gives;
-# `.xml` is a publisher's own JATS deposit, and `.txt` is what
-# `scripts/import_pmc_fulltext.py` writes from PubMed Central's open-access
-# full text.
-#
-# No format is better than the others, which took a wrong turn to learn. The
-# first version preferred publisher text over a PDF on the reasoning that
-# structured text beats a table pypdf has to rebuild from glyph positions. That is
-# true of the text a publisher deposits in full, and not of PMC full text as served
-# through an MCP tool, which comes back flattened and often (not always: Prepens
-# 2007 and Deckers 2009 kept their primer tables) without its tables - so preferring
-# it would let a table-less text file override a PDF whose primer table extracts
-# perfectly well. `index_papers` picks between them on what they actually yield
-# instead.
-PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
+# PAPER_SUFFIXES moved to assaywatch/papers.py on 2026-10-24, so that this reader and
+# papers_index agree on which files count as a held paper; the reasoning is there.
 
 
 # A position a paper writes as "X or inosine" inside a sequence: `(N/I)`, but also
