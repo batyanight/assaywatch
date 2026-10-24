@@ -121,7 +121,32 @@ Rejected on identity, recorded so they are not re-proposed:
 
 Cheapest unexplored win: the **Usutu NS1 realtime (Jöst 2011)** entry. A literal search
 on its stored probe returns three recent papers reusing the exact oligos, which would
-test that entry's own `primer_site_polymorphic` flag. Listed, not read.
+test that entry's own `primer_site_polymorphic` flag. **WORKED 2026-10-24, and it paid:
+three rows added** (the set is now 34), plus one provenance result and one rejection.
+
+- **The entry is now verified against its own design paper.** The literal search returns
+  Jöst 2011 itself (PMC3163883), so all three stored oligos, the 21 nt reverse included,
+  are confirmed verbatim in the paper the entry cites. That was not previously on record.
+- **Becker 2012** (`10.1371/journal.pone.0032604`), the strongest of the three: USUV RNA in
+  86 of 223 dead birds across 6 species, confirmed three independent ways - virus isolated
+  in cell culture from 18 blackbirds, antigen by immunohistochemistry, and the complete
+  polyprotein by deep sequencing.
+- **Lecollinet 2024** (`10.3390/v16010079`), valuable for its date: a 2011 assay detecting
+  systemic USUV and oronasal excretion in experimentally challenged canaries in 2024, which
+  is the direct test the flag wanted. Known-positive material, so it prices sensitivity and
+  not lineage coverage.
+- **Schmidt 2025** (`10.1186/s13071-025-06841-9`), kept but marked weakest: 1 of 1000 louse
+  flies positive, the authors could not sequence that sample, and their Table 1 prints the
+  reverse 3 nt shorter than the registry and Jöst both do (18 nt, with a stated 88 bp
+  fragment against the measured 91 - internally consistent, so their trim rather than a
+  slip). Forward and probe identical.
+- **Rejected on identity: Tracking the urban spread of Usutu virus in southern France**
+  (`10.1371/journal.pntd.0013506`, 2025). It prints the stored forward and reverse exactly,
+  but says the system was "optimized for enhanced specificity to USUV" by a commercial
+  party and runs it as digital PCR, not the published real-time assay. A modified assay on
+  a different platform is not this entry.
+
+None of the three carries `mechanism: drift`, so **the drift shortfall above is unchanged**.
 
 Four assay families were never searched at all because the passes ran out of time:
 `Apicoplast_23S_LSU`, the three *E. coli* entries, `CALICIVIRUS` and `CIRCOVIRUS`.

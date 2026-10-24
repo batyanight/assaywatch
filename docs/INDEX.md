@@ -30,7 +30,7 @@ Read these before trusting a status.
 | [`2026-10-20-pipeline-audit.md`](2026-10-20-pipeline-audit.md) | the later audit, with the bench-panel evidence |
 | [`2026-10-23-wave4-holdout.md`](2026-10-23-wave4-holdout.md) | why the 49 cases are a development set, and what leave-one-out can and cannot say |
 | [`validation-cases.tsv`](validation-cases.tsv) | the cases themselves (the development set) |
-| [`validation-cases-heldout.tsv`](validation-cases-heldout.tsv) | 31 rows as of 2026-10-24, unscored; spent the first time a threshold decision reads it |
+| [`validation-cases-heldout.tsv`](validation-cases-heldout.tsv) | 34 rows as of 2026-10-24, unscored; spent the first time a threshold decision reads it |
 | [`2026-10-24-heldout-candidates.md`](2026-10-24-heldout-candidates.md) | the first held-out sweep: 31 rows from 17 papers, and why the 5-drift-case target was missed |
 
 ## The 2026-10-23 plan of attack, in order
