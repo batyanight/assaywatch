@@ -56,7 +56,7 @@ sys.path.insert(0, str(ROOT))
 
 import yaml  # noqa: E402
 
-from assaywatch.papers import held_dois  # noqa: E402
+from assaywatch.papers import doi_stem, held_dois  # noqa: E402
 
 UNPAYWALL = "https://api.unpaywall.org/v2/"
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
@@ -230,7 +230,7 @@ def main(argv: list[str] | None = None) -> int:
             "title": u.get("title", ""),
         }
         if args.download and row["url_pdf"]:
-            dest = args.pdf_dir / (doi.replace("/", "_") + ".pdf")
+            dest = args.pdf_dir / (doi_stem(doi) + ".pdf")
             if dest.exists():
                 row["downloaded"] = "already"
             else:

@@ -66,6 +66,7 @@ sys.path.insert(0, str(ROOT))
 import yaml  # noqa: E402
 
 from assaywatch.credentials import contact_email, read_secret, read_secret_file  # noqa: E402
+from assaywatch.papers import doi_stem  # noqa: E402
 
 API = "https://api.elsevier.com/content/article/doi/"
 ELSEVIER_PREFIXES = ("10.1016", "10.1006", "10.1053", "10.1054")
@@ -162,7 +163,7 @@ def main(argv: list[str] | None = None) -> int:
                 xml = r.read().decode("utf-8", "replace")
             size = len(xml)
             if has_body(xml):
-                dest = args.pdf_dir / (doi.replace("/", "_") + ".xml")
+                dest = args.pdf_dir / (doi_stem(doi) + ".xml")
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 dest.write_text(xml)
                 status, got = "full-text", got + 1

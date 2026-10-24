@@ -57,6 +57,7 @@ import urllib.request
 from pathlib import Path
 
 from assaywatch.credentials import contact_email
+from assaywatch.papers import PAPER_SUFFIXES, doi_stem
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -65,12 +66,6 @@ import yaml  # noqa: E402
 
 SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 FULLTEXT = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
-# Same convention as verify_oligos_against_paper.py: a DOI names its file.
-PAPER_SUFFIXES = (".pdf", ".xml", ".txt")
-
-
-def doi_stem(doi: str) -> str:
-    return doi.replace("/", "_")
 
 
 def held(pdf_dir: Path, doi: str) -> str | None:

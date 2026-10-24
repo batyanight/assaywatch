@@ -25,6 +25,17 @@ So nothing reverse-maps any more. A caller with a DOI forward-maps it and looks
 for that name; a caller holding only a filename treats the stem as an opaque
 key, never as a DOI.
 
+The WRITING side has to forward-map through the same function, which took until
+2026-10-24 to finish. Three fetchers - `fetch_elsevier`, `fetch_europepmc_fulltext`
+(which carried its own one-line copy) and `find_open_access` - wrote
+`doi.replace("/", "_")`, replacing the slash but not the parentheses, so eleven
+Elsevier JATS deposits landed as `10.1016_s0016-5085(98)70589-x.xml`: a name no
+reader forward-mapping a DOI can produce. `papers_index` had been taught to accept
+both spellings; `verify_oligos_against_paper` compares the canonical stem alone and
+so reached those eleven only by the weaker route of the DOI the deposit prints in
+its own text. All three fetchers now call `doi_stem` and the eleven files were
+renamed. Anything that writes into `papers/` must go through it.
+
 MEASURED over the registry, 2026-10-20: 187 DOIs, 104 distinct, and the only
 characters outside `[A-Za-z0-9.-/]` are `(` and `)`, 20 of each. No DOI contains
 an underscore and no two DOIs share a stem, so the map is injective on the real

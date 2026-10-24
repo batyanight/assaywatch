@@ -1,5 +1,59 @@
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
+## 2026-10-24 evening: the papers/ filename gap is closed, and it cost nothing to close
+
+The gap left open earlier today ("A REAL GAP FOUND AND DELIBERATELY NOT FIXED") is fixed,
+and the run it was waiting for says the fix changes **no oligo verdict at all**. Both halves
+of that matter, so take the correction with the fix.
+
+**Fixed at the source, which is where it was.** Three writers built a `papers/` filename as
+`doi.replace("/", "_")`, replacing the slash but not the parentheses: `scripts/fetch_elsevier.py`,
+`scripts/find_open_access.py`, and `scripts/fetch_europepmc_fulltext.py`, which carried its own
+one-line copy of `doi_stem` AND its own copy of `PAPER_SUFFIXES` -- the same duplication the
+`SUPPLEMENT_SUFFIX` comment in `assaywatch/papers.py` exists to warn about, and the same one
+that cost sixteen papers in the index this morning. All three now call
+`assaywatch.papers.doi_stem`, and the Europe PMC fetcher imports both shared constants instead
+of redefining them.
+
+**The eleven files are renamed to the canonical stem.** Not twelve: the earlier note said
+twelve, the disk holds **eleven**, all `.xml`, all cited by live registry entries. Ten are also
+held as PDF; the exception is Neill & Seal 1995 (`10.1016_s0890-8508_95_90962-1.xml`), the
+calicivirus design paper, held only as that XML. No name collided with an existing file.
+
+**The correction: "invisible to the verifier" was overstated.** The stem lookup did fail --
+`local_paper` compares `doi_stem(doi)` alone, and the on-disk name was not that -- but the
+verifier was reaching all eleven anyway by the other route it has, the DOI a JATS deposit
+prints in its own front matter. Measured rather than assumed: the verifier was run twice over
+the same registry, once against `papers/` as renamed and once against a symlink farm
+reproducing the pre-fix names exactly (the XMLs renamed back, the PDFs left canonical -- a
+first attempt that renamed the PDFs too was a wrong baseline and was thrown away).
+
+    479 rows both runs, same keys, 0 verdict changes
+    40 rows changed only in `checked_against`, all of them the same file under its new name
+    verdicts unchanged: exact 396, absent 22, in-text 20, modified 16, no-oligos 13,
+                        near:1 4, sibling 4, revcomp 3, near:4 1
+
+So nothing in `results/oligo-verification-2026-10-24.tsv` contradicts the 2026-10-23 run. What
+the fix buys is not a recovered paper but a recovered *precedence*: a file NAMED for a DOI
+outranks one that merely prints it, and until today these eleven were winning on the weaker
+claim. For Neill & Seal, the one paper held in no other format, that is the difference between
+being matched by the convention and being matched by luck.
+
+**A control so there is no fourth fetcher.**
+`tests/test_papers.py::test_nothing_writes_a_filename_by_replacing_only_the_slash` parses
+`scripts/` and `assaywatch/` with `ast` and fails on any `.replace("/", "_")` in executable
+code. Parsed, not grepped, so the paragraph in `papers.py` explaining the mistake is not a hit.
+`papers_index` builds the old spelling deliberately, to index a `papers/` copied from an older
+checkout, and is exempted by a marker comment that says so. Positive-controlled: a probe file
+reintroducing the pattern fails the test.
+
+**Gate: 1,552 tests pass, validator 200/200 (active 179, draft 20, deprecated 1),
+check_citations 200 checked 0 problems, ruff clean.** `papers_index --check` exits 0 and its
+unmatched count fell from 4 to 3 -- the three candidate-provenance PDFs (Coiras 2004,
+Aitichou 2005, Khodeir 2021), which are correct to be unmatched. Neill & Seal is no longer
+among them.
+
+
 ## 2026-10-24: the diverged+anchor_fdr pair SHIPPED at q=0.001
 
 Maintainer decision taken after the re-price below. config.yaml now holds

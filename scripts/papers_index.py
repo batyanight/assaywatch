@@ -124,19 +124,22 @@ def local_pdfs(pdf_dir: Path, known_dois: set[str]) -> tuple[dict[str, str], int
                 stems.setdefault(p.stem.lower(), []).append(p.name)
     out, claimed = {}, set()
     for doi in known_dois:
-        # Two stem spellings, because `papers/` holds both. doi_stem replaces
-        # `/`, `(`, `)`, `<` and `>` with `_`, which is what a browser download
-        # was saved as; the Elsevier API fetcher replaced only the slash, so
-        # twelve publisher JATS deposits sit on disk as
-        # `10.1016_s0016-5085(98)70589-x.xml` and do not match. Accepting both
-        # here is why the index can see them. NOTE: `verify_oligos_against_paper`
-        # compares a single stem and so still cannot match those twelve to a DOI
-        # -- recorded in docs/RESUME-HERE.md, not fixed here, because changing
-        # what the verifier reads changes oligo-verification output and wants its
-        # own run to check.
+        # Two stem spellings, kept for files written before 2026-10-24. doi_stem
+        # replaces `/`, `(`, `)`, `<` and `>` with `_`, which is what a browser
+        # download was saved as; three fetchers (Elsevier, Europe PMC,
+        # find_open_access) replaced only the slash, so eleven publisher JATS
+        # deposits sat on disk as `10.1016_s0016-5085(98)70589-x.xml` and matched
+        # nothing. On 2026-10-24 all three fetchers moved to `doi_stem` and the
+        # eleven files were renamed, so nothing writes the slash-only spelling any
+        # more; this variant stays only so a `papers/` copied from an older
+        # checkout still indexes. `verify_oligos_against_paper` compares the
+        # canonical stem alone and now reaches those files too - re-run on
+        # 2026-10-24, 479 rows, zero verdict changes, because a JATS deposit also
+        # prints its own DOI and was being found by that weaker route.
         # A LIST, not a set: set iteration order varies between runs, which made the
         # `held` column print "pdf, xml" or "xml, pdf" at random and the --check hook
         # flake. Canonical stem first, so a PDF is named before a publisher deposit.
+        # The slash-only spelling on purpose: see the paragraph above.
         slash_only = doi.strip().lower().replace("/", "_")
         variants = [doi_stem(doi)] + ([slash_only] if slash_only != doi_stem(doi) else [])
         names = list(

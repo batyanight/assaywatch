@@ -1,5 +1,6 @@
 """The papers/ filename convention: forward only, and injective on the real data."""
 
+import ast
 from pathlib import Path
 
 from assaywatch.papers import doi_stem, held_dois, identity_stem, paper_for_doi
@@ -64,3 +65,44 @@ def test_identity_stem_strips_the_supplement_marker_only():
     assert identity_stem(Path(article + ".pdf")) == article
     # `.supp` inside the DOI itself is not the marker: only a trailing one is.
     assert identity_stem(Path("10.1234_supp.1.pdf")) == "10.1234_supp.1"
+
+
+def test_nothing_writes_a_filename_by_replacing_only_the_slash():
+    """Every writer into `papers/` forward-maps through `doi_stem`, parentheses included.
+
+    `doi.replace("/", "_")` looks like the convention and is not: it leaves `(`
+    and `)` alone, so an Elsevier DOI lands as
+    `10.1016_s0016-5085(98)70589-x.xml`, a name no reader forward-mapping a DOI
+    can produce. Three fetchers did this until 2026-10-24 and eleven publisher
+    JATS deposits on disk had to be renamed. This is the control that keeps the
+    fourth from being written.
+
+    Parsed rather than grepped, so the paragraph in `assaywatch/papers.py` that
+    explains the mistake is not itself a hit. One reader is allowed to build the
+    old spelling on purpose, to index a `papers/` copied from an older checkout;
+    it says so with the marker below.
+    """
+    marker = "slash-only spelling on purpose"
+    root = Path(__file__).resolve().parent.parent
+    bad = []
+    for d in ("scripts", "assaywatch"):
+        for path in sorted((root / d).rglob("*.py")):
+            src = path.read_text(errors="replace")
+            lines = src.splitlines()
+            try:
+                tree = ast.parse(src)
+            except SyntaxError:  # pragma: no cover - nothing in the tree is unparseable
+                continue
+            for node in ast.walk(tree):
+                if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)):
+                    continue
+                if node.func.attr != "replace":
+                    continue
+                args = [a.value for a in node.args if isinstance(a, ast.Constant)]
+                if args[:2] != ["/", "_"]:
+                    continue
+                line = lines[node.lineno - 1]
+                if marker in line or (node.lineno > 1 and marker in lines[node.lineno - 2]):
+                    continue
+                bad.append(f"{path.relative_to(root)}:{node.lineno}: {line.strip()}")
+    assert not bad, "forward-map through assaywatch.papers.doi_stem instead:\n" + "\n".join(bad)
