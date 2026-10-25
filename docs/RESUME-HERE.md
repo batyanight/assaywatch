@@ -178,12 +178,19 @@ could sit in the report without looking anomalous.
    has looked. First hypothesis is scope - these are fungal ITS/IGS loci whose archives may be
    dominated by non-target fungi that should be excluded rather than failed, which is a
    `scope_taxids` question with precedent here. Needs no decision and no network.
-2. **The locus-position test, generalising decision A.** `loci.pair_spans` already computes
-   where an assay's primers could build an amplicon, and `assemblies.extract_loci` uses it. If
-   an evaluable record's amplicon must sit at the locus the assay targets, chance pairs at
-   arbitrary scaffold positions fail that test **regardless of chemistry** - which is what
-   decision A cannot do, being confined to probe-bearing assays. This closes the systemic root
-   cause above rather than one instance of it.
+2. **The locus-identity test, generalising decision A — now DESIGNED, not built:**
+   `docs/2026-10-25-locus-identity-design.md`. Ask whether an amplicon's **interior** is
+   homologous to the assay's own detecting amplicons; the records that detect certainly carry
+   the locus, so they define what it looks like. Deliberately not on the primer sites, where all
+   the confounding lives. It separates Orf's B2L pairs and the *Ophidiomyces* scaffolds (no
+   homology) from the ranavirus and West African mpox failures (homologous, must count), and it
+   needs no probe, so it reaches the 155 conventional entries. **`loci.pair_spans` cannot do it**
+   — it selects on the same `max_mm`/`max_e` the chance pairs already pass. It must live at
+   **screen time** (nothing writes the amplicon sequence), so each iteration costs a ~30-minute
+   rescreen, and it wants a cached per-assay reference. **Blocked on one measurement**: the
+   interior-identity distribution for chance pairs against genuine failures, including a
+   severely diverged conventional assay — because if a drifted target's interior lands as low
+   as a chance pair's, this approach fails like the two before it.
 3. **Per-chemistry scoring** (ROADMAP Phase 2). The largest known distortion and the one with a
    worked example: 155 of 208 entries are `conventional`, `terminal_mismatch_fails: true` is a
    qPCR-strength rule applied to all of them, and on `CALICIVIRUS_ssRNA_Helicase_Reid_1999` it
