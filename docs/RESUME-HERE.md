@@ -1,4 +1,9 @@
-# Resume point, 2026-10-25 (the open list worked to its floor; 2026-10-24 below)
+# Resume point, 2026-10-25 (the open list worked to its floor, one fix shipped, and a plan; 2026-10-24 below)
+
+**Start here:** the plan is the section "where the pipeline actually stands, and the plan",
+below item 7. Short version: the machinery is sound, the *denominator* is the weak layer, the
+thresholds are placeholders fitted against one ground-truth drift event, and visualisation
+should wait until the first three plan steps land.
 
 ## 2026-10-25: four of the open items are closed, and what is left needs a browser or a different instrument
 
@@ -115,6 +120,85 @@ probe's absence.** The West African mpox assay's 2,688 failures are probe-less w
 misses, and a finding that must survive. The discriminator is primer penalty and `pair_evalue`,
 never the probe.
 
+**6. Decision A SHIPPED** (`44c6470`). `calls.apply_chance_pair_test`, at report time beside
+`apply_anchor_fdr`, `drift.chance_pair_test: true`. Re-priced by rendering the report both
+ways: exactly two assays change, no collateral. `targetD` **42.2% (192 ev) -> 100.0% (81 ev)**
+and Orf 75.0% (36) -> 100.0% (27), both Low Coverage -> Stable; headline 39 low coverage -> 37,
+54 stable -> 56. No new threshold: the bar is `scoring.oligo_weak_max` (3.0), already justified.
+
+> **The bug in the first attempt, because it would be easy to reintroduce.** `read_calls` keeps
+> only the columns drift needs - loading the whole two-million-row table as dicts took 3.6 GB -
+> so `probe_site` and the penalties were never on those rows. The first version read keys that
+> did not exist, took its `except` branch on every row, and changed nothing. **A no-op re-price
+> is indistinguishable from a clean one**, which is how it nearly passed. `read_calls` now
+> carries `probeless_penalties` on only the rows that can move, and a test pins that directly.
+
+**7. A candidate from the newest Downloads PDF**, `pending/SIMBU_SEROGROUP_ssRNA_S_segment_TaqMan_Steyn_2020.yaml`.
+van der Walt 2023 (Shamonda virus, Pathogens 12:1100) is now held as
+`papers/10.3390_pathogens12091100.pdf`; its Table 1 prints a Simbu serogroup S-segment TaqMan
+assay no registry entry holds, credited to Steyn 2020 (`10.3201/eid2607.190770`,
+Crossref-resolved, EID so open access and fetchable). It stays in `pending/` because the
+sequences have not been seen in their own design paper. Two notes worth keeping: `pdftotext`
+without `-layout` **swaps that table's forward and reverse**, and the paper's own nested F141
+primer overlaps the forward's 5' end, which is what settles the orientation; and the taxid is
+the genus deliberately, because "Simbu serogroup" is not a taxonomic rank and the species node
+3052441 would exclude the Shuni and Shamonda viruses the assay detects. The same paper also
+designs four assays of its own, all pooled-degenerate, deliberately not entered.
+
+---
+
+## 2026-10-25: where the pipeline actually stands, and the plan
+
+**The pipeline as machinery is in good shape.** validate -> retrieve (checkpoint) ->
+`screen_archive` x425 -> collect -> site_drift / lineage / degeneracy / figures -> report, with
+the trigger closures guarded by `tests/test_triggers.py`, the same rules running under
+`profiles/slurm/`, benchmarks and `run-timing.json` instrumented, byte-identity checks
+practised, and a four-part gate enforced by pre-commit. 1,574 tests. Nothing below is a
+complaint about the engineering.
+
+**The weak layer is the denominator, not the oligos.** That is the honest headline of the last
+three days. Three denominator defects surfaced: Congo Basin C3L (handled correctly as
+`no_site`), the West African clade I failures (real, and unscopable with what exists), and now
+chance pairs. **All three share one root: evaluability is decided from primer placement alone,
+with no test of whether the record carries the target locus at all.** And all three were found
+by accident - by chasing a discrepancy - rather than by a test. List 1 of the papers work is
+complete and the stored oligos are well verified; it is the question *which records deserve to
+be judged* that is carrying the uncertainty.
+
+**The second weak layer is that the thresholds are placeholders.** `ROADMAP.md` says so
+outright, and names `max_mismatches_searched: 6` as "the most consequential number here" and a
+guess. The development set has **one** drift ground-truth event. So a verdict's *direction* is
+informative and its *absolute level* is weakly grounded - which is exactly why a wrong 42.2%
+could sit in the report without looking anomalous.
+
+### The plan, in the order that unblocks the most
+
+1. **Diagnose the three `mgb` fungal assays.** Cheapest, three `active` entries, and newly
+   exposed: after the artefact is removed IGS is 1.4%, ITS2/28S 31.8%, *B. sal* 25.8%. Nobody
+   has looked. First hypothesis is scope - these are fungal ITS/IGS loci whose archives may be
+   dominated by non-target fungi that should be excluded rather than failed, which is a
+   `scope_taxids` question with precedent here. Needs no decision and no network.
+2. **The locus-position test, generalising decision A.** `loci.pair_spans` already computes
+   where an assay's primers could build an amplicon, and `assemblies.extract_loci` uses it. If
+   an evaluable record's amplicon must sit at the locus the assay targets, chance pairs at
+   arbitrary scaffold positions fail that test **regardless of chemistry** - which is what
+   decision A cannot do, being confined to probe-bearing assays. This closes the systemic root
+   cause above rather than one instance of it.
+3. **Per-chemistry scoring** (ROADMAP Phase 2). The largest known distortion and the one with a
+   worked example: 155 of 208 entries are `conventional`, `terminal_mismatch_fails: true` is a
+   qPCR-strength rule applied to all of them, and on `CALICIVIRUS_ssRNA_Helicase_Reid_1999` it
+   alone takes a published, working assay to 0 of 30 detected. It almost certainly inflates
+   `fail` across the conventional majority. It is also why conventional assays could not be
+   assessed for chance pairs: their failures are not currently trustworthy either way.
+4. **Tier-2 retrospective validation**, which is what turns every threshold above from a guess
+   into a fitted number. **Its blocker is cases, and the cheap route to cases is exhausted** -
+   literal oligo search over Europe PMC is spent (see the Candrian seam). So this wants the
+   scoring-strategy replay harness or `docs/2026-10-06-lab-leads.md`, not another sweep.
+5. **Report visualisation, last and deliberately.** Figures, forest plot, site-position plots
+   and clustermaps already exist and are adequate. Until 1-3 land, better presentation makes
+   numbers that are in places wrong more persuasive rather than less, and any layout built
+   against today's denominators gets redrawn when they change.
+
 ### What is left, and what each one now needs
 
 - **Mao 1997 and Neill & Seal 1995** — still the only papers blocking a question rather than a
@@ -129,9 +213,10 @@ never the probe.
 - **Three live groups have never been screened** — **CLOSED 2026-10-25.** `10257/all`,
   `10258/all` and `129727/all` were retrieved and screened by the 2026-10-25 full run. Confirming
   it rather than assuming it is what turned up the chance-pair artefact in item 5.
-- **The chance-pair denominator (item 5)** — a priced maintainer decision, and the only one
-  currently misstating an `active` entry's verdict. Nothing else on this list touches a number
-  the report publishes.
+- **The chance-pair denominator** — **SHIPPED 2026-10-25** for probe-bearing assays (item 6).
+  The general case, covering conventional and SYBR entries, is plan step 2.
+- **Steyn 2020** (`10.3201/eid2607.190770`) — open access, and the one fetch that would move a
+  `pending/` candidate toward live. Cheaper than anything else on the fetch list.
 
 
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
