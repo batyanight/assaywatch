@@ -201,10 +201,23 @@ could sit in the report without looking anomalous.
    needs no probe, so it reaches the 155 conventional entries. **`loci.pair_spans` cannot do it**
    — it selects on the same `max_mm`/`max_e` the chance pairs already pass. It must live at
    **screen time** (nothing writes the amplicon sequence), so each iteration costs a ~30-minute
-   rescreen, and it wants a cached per-assay reference. **Blocked on one measurement**: the
-   interior-identity distribution for chance pairs against genuine failures, including a
-   severely diverged conventional assay — because if a drifted target's interior lands as low
-   as a chance pair's, this approach fails like the two before it.
+   rescreen, and it wants a cached per-assay reference.
+   **The blocking measurement is DONE 2026-10-25 and the approach SURVIVES.** Chance pairs land
+   at **0.32–0.44** identity, real loci at **0.60 and above**, and nothing sits in between —
+   including on `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`, a conventional assay, which is the
+   whole point. Its apparent overlap was my own mis-binning: the six "genuine" failures under
+   0.60 have one primer at exactly the 3.0 bar and amplicon lengths of 143 to 1791 bp, so they
+   are chance pairs resting on a single marginal anchor. **The ceiling is
+   `RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009`**, whose genuinely divergent failures sit at
+   **0.63–0.65**: a threshold of 0.70 would delete all 60, the exact failure that killed the
+   two earlier approaches. **Recommended `scoring.locus_identity_min: 0.50`** (0.55 equally
+   safe, 0.60 cuts into the margin, 0.70 known wrong). Two limitations: a 57 bp amplicon like
+   `RANAVIRUS_..._MCP_Pallister_2007` leaves too little interior to judge, so the test must
+   decline toward *keeping* such a record evaluable; and the 20 bp trim is itself uncalibrated.
+   **A cheaper signal turned up on the way** — those chance pairs gave six different amplicon
+   lengths where a real locus gives one, so length dispersion against the declared size may
+   separate the same cases for almost no computation, and unlike identity it works on short
+   amplicons. Measuring that is smaller than building the identity test and is the next move.
 3. **Per-chemistry scoring** (ROADMAP Phase 2). The largest known distortion and the one with a
    worked example: 155 of 208 entries are `conventional`, `terminal_mismatch_fails: true` is a
    qPCR-strength rule applied to all of them, and on `CALICIVIRUS_ssRNA_Helicase_Reid_1999` it

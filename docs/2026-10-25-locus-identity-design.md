@@ -66,7 +66,53 @@ That has three consequences worth pricing before anyone starts:
 3. **A cached reference is a new input to the screen rule's trigger closure**, and
    `tests/test_triggers.py` exists because that closure has been got wrong before.
 
-## The measurement that has to come first
+## THE MEASUREMENT, DONE 2026-10-25: the gap is real and the safe window is 0.50-0.55
+
+Measured on the real archives. For each assay, amplicon interiors were taken with 20 bp
+trimmed off each end so the primer sites themselves cannot contribute, and each questionable
+interior was scored as its best ungapped identity, both strands, against five interiors from
+records that detect.
+
+| assay | chemistry | detect/reduced | chance-pair shaped | genuine-failure shaped |
+|---|---|---|---|---|
+| `ORF_VIRUS_..._Zhao_2013` | probe | **1.00** (n=40) | **0.32-0.41** (n=60) | none |
+| `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` | conventional | 0.81-1.00, p50 0.97 | **0.33-0.44** (n=17) | 0.32-0.96, p50 0.90 (n=43) |
+| `RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009` | conventional | 0.83-1.00, p50 0.90 | none | **0.63-0.65** (n=60) |
+
+**The apparent overlap in the lyssavirus row is a classification error of mine, not a real
+one.** Its six "genuine" failures below 0.60 all have one primer at exactly the 3.0 boundary
+and the other between 3.0 and 8.5, with amplicon lengths of 143, 404, 773, 877, 1230 and 1791
+bp. A real locus has one length. They are chance pairs resting on a single marginal anchor,
+and my split called them genuine only because one primer scraped the bar. Thresholds of 0.50,
+0.55, 0.60 and 0.70 all lose exactly those six and keep exactly zero chance pairs - identical
+counts at every cut, which is what a clean gap looks like. **Nothing at all sits between 0.44
+and 0.60.**
+
+**So the test works, including on conventional assays, which was the whole point.** Chance
+pairs land at 0.32-0.44, essentially the best-of-many-offsets floor for unrelated DNA. Real
+loci land at 0.60 and above.
+
+**The ceiling is set by SIV Takehisa and it is the risk this document predicted.** That assay
+reads 1.1%, its target is genuinely divergent, and its 60 genuine failures sit at **0.63-0.65**.
+A threshold of 0.70 destroys every one of them - precisely the "discarding real drift" failure
+that killed the `pair_evalue` and probe-only approaches. So:
+
+> **Recommended threshold: 0.50**, with the empirical margin running from 0.44 (highest chance
+> pair) to 0.60 (lowest real locus). 0.55 is equally safe. **0.60 is cutting into the margin
+> and 0.70 is known to be wrong.**
+
+### Two limitations the measurement exposed
+
+1. **Short amplicons have too little interior to score.** `RANAVIRUS_..._MCP_Pallister_2007`
+   could not be measured at all: its amplicon is 57 bp, and trimming 20 bp of primer from each
+   end leaves 17 bp, which is too short for a meaningful identity. Any implementation needs a
+   minimum interior length below which it declines to judge rather than guessing - and it must
+   decline in the direction of keeping the record evaluable, since that is the status quo.
+2. **The 20 bp trim is itself a parameter** and was not calibrated; it was chosen to exceed the
+   longest primer here. Too small and the primer sites leak into the score, inflating chance
+   pairs; too large and short amplicons are lost.
+
+## The measurement specification, as originally written
 
 The threshold is an identity (or alignment-score) floor on the amplicon interior, and **it must
 not be guessed.** The same shape of measurement that settled the chance-pair criterion will
@@ -100,11 +146,25 @@ reads a label where this project's rule is to measure; `scripts/check_taxids.py`
 labels have been wrong before. Not recommended, recorded because it is the first thing anyone
 will suggest.
 
-## Recommendation
+## Recommendation, now that the measurement exists
 
-Do the measurement, on the four worked cases plus at least one severely-diverged conventional
-assay, and bring the identity distribution back before building anything. If the gap is wide,
-build it as a cached per-assay reference with the threshold in `config.yaml`; if the gap is
-narrow, this approach joins `pair_evalue` and the probe test in the record of things that
-looked right and were not, and the fallback is per-entry queries plus accepting that
-conventional denominators stay approximate until tier-2 validation sets them.
+**Build it.** The gap is real (0.44 to 0.60), it holds on conventional assays, and the
+threshold is measured rather than guessed. Shape:
+
+- `scoring.locus_identity_min: 0.50` in `config.yaml`, with the table above as its
+  justification and the SIV ceiling named, so the next person knows 0.70 is not available.
+- A minimum interior length below which the test declines to judge, and declines toward
+  **keeping** the record evaluable - the status quo, so an unmeasurable record cannot be
+  silently dropped. Ranavirus at 57 bp is the case that forces this.
+- A cached per-assay reference built from records that detect, as an auditable artefact rather
+  than a hidden intermediate, and therefore a new input to the screen rule's trigger closure.
+- Screen-time, so expect a full rescreen per iteration and get the threshold right in one pass.
+
+**One cheaper signal found on the way, worth considering first or alongside.** The lyssavirus
+chance pairs gave amplicon lengths of 143, 404, 773, 877, 1230 and 1791 bp for one assay. A
+real locus yields one length, within the declared range; a chance pair yields whatever the
+geometry allows. **Amplicon-length dispersion against the assay's declared size may separate
+the same cases for almost no computation**, and unlike interior identity it works on short
+amplicons. It is not a substitute - a chance pair can land at the right length - but as a first
+filter it is nearly free, and `amplicon_bp` plus `amplicon_bp_range` are already on every
+entry. Measuring it is the obvious next step and smaller than building the identity test.
