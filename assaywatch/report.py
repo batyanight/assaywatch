@@ -1873,7 +1873,23 @@ def build(
     # Its chance-PAIR counterpart, which moves rows OUT of the evaluable set, so
     # it has to run before the denominator is formed for the same reason.
     # Probe-bearing assays only; off unless drift.chance_pair_test is set.
-    apply_chance_pair_test(calls, cfg, {a.id for a in assays.values() if a.oligos.probe is not None})
+    # Each probe-bearing assay with ITS OWN oligo_weak_max, resolved per chemistry:
+    # scoring.by_chemistry may override it, and the test must mean by "blocked"
+    # exactly what the screener meant. See apply_chance_pair_test's docstring.
+    # Guarded on the same knob `apply_chance_pair_test` checks, so a config that
+    # never enables it is not required to carry `oligo_weak_max` - a hand-built
+    # cfg in a test legitimately does not. `calls.py` remains the authority on
+    # whether the test runs; this only decides whether to resolve the bars.
+    probe_bars: dict[str, float] = {}
+    if (cfg.get("drift") or {}).get("chance_pair_test"):
+        from assaywatch.score import scoring_for
+
+        probe_bars = {
+            a.id: float(scoring_for(a.chemistry, cfg)["oligo_weak_max"])
+            for a in assays.values()
+            if a.oligos.probe is not None
+        }
+    apply_chance_pair_test(calls, cfg, probe_bars)
     dates = read_dates(retrieved)
     run_date = run_date or calls_path.parent.name
     if today is None:

@@ -139,12 +139,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--renames", type=Path, default=ROOT / "docs" / "rename-mapping.tsv")
     args = ap.parse_args(argv)
 
-    calls = args.calls
-    if calls is None:
-        runs = sorted(p for p in (ROOT / "results").glob("*/calls.tsv.gz"))
-        if not runs:
-            raise SystemExit("no calls.tsv.gz under results/; run the pipeline first")
-        calls = runs[-1]
+    # Shared with retrospective.py, which is where the by-date rule and the bug it
+    # replaced are documented: `sorted(...)[-1]` picked `baseline-2026-10-22` over
+    # `2026-10-25` because `b` > `2`.
+    calls = args.calls or retro.newest_run(ROOT / "results")
+    if args.calls is None:
+        print(f"scoring {calls.parent.name}/{calls.name}", file=sys.stderr)
     cfg = load_config(args.config)
     scope_map = retro._build_scope_map(args.registry) if args.registry.is_dir() else None
     query_taxids = retro._query_taxids(args.registry) if args.registry.is_dir() else None
@@ -153,7 +153,12 @@ def main(argv: list[str] | None = None) -> int:
         cases = list(csv.DictReader((ln for ln in fh if not ln.startswith("#")), delimiter="\t"))
     print(f"{len(cases)} cases from {args.cases.name}", file=sys.stderr)
 
-    evidence = retro.load_evidence(calls, args.retrieved, cfg, query_taxids)
+    # `registry` is passed for the same reason retrospective.py passes it: without
+    # it a cluster-based sublineage resolver defers here and not there, so the two
+    # scripts would disagree about a lineage. Inert while `lineage.sublineage` is
+    # empty, which is exactly when a divergence like this goes unnoticed.
+    registry = args.registry if args.registry.is_dir() else None
+    evidence = retro.load_evidence(calls, args.retrieved, cfg, query_taxids, registry)
     present = set(evidence.by_assay)
     if args.renames.exists():
         renamed, removed = retro.rename_map(args.renames)

@@ -38,6 +38,7 @@ from __future__ import annotations
 import argparse
 import csv
 import gzip
+import re
 import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -184,6 +185,38 @@ class Evidence:
     titles: dict[str, str] | None = None  # for the assays whose chain parses titles
     taxonomy: Taxonomy | None = None  # scope_taxids ancestry, drift.scope_taxonomy
     patent: set[str] | None = None  # patent-division accessions, drift.exclude_patent_records
+
+
+#: A run directory's date, for `newest_run`. Anywhere in the name, not just the front.
+_RUN_DATE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
+
+
+def newest_run(results: Path) -> Path:
+    """The most recent run's calls table under `results/`, by DATE and not by name.
+
+    `sorted(...)[-1]` was the rule until 2026-10-26, and it is wrong in a way
+    that reads as right: `results/baseline-2026-10-22/` sorts AFTER
+    `results/2026-10-25/`, because `b` > `2`. So a bare `--cases` run scored the
+    frozen October baseline while saying "the newest run", and every candidate
+    priced without an explicit `--calls` would have been measured against a
+    table four days stale and under different scoring rules.
+
+    Ranks by the date in the directory name, preferring the bare `YYYY-MM-DD`
+    form over a suffixed one so `2026-10-25` beats `2026-10-25-experiment` and
+    `baseline-2026-10-22`. A directory with no date in its name sorts last; it
+    is still reachable with `--calls`.
+    """
+    runs = list(results.glob("*/calls.tsv.gz"))
+    if not runs:
+        raise SystemExit(f"no calls.tsv.gz under {results}/; run the pipeline first")
+
+    def key(p: Path) -> tuple:
+        name = p.parent.name
+        m = _RUN_DATE.search(name)
+        dated = (int(m[1]), int(m[2]), int(m[3])) if m else (0, 0, 0)
+        return (dated, m is not None and name == m[0], name)
+
+    return max(runs, key=key)
 
 
 def load_evidence(
@@ -406,12 +439,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = ap.parse_args(argv)
 
-    calls = args.calls
-    if calls is None:
-        runs = sorted(p for p in (ROOT / "results").glob("*/calls.tsv.gz"))
-        if not runs:
-            raise SystemExit("no calls.tsv.gz under results/; run the pipeline first")
-        calls = runs[-1]
+    calls = args.calls or newest_run(ROOT / "results")
+    if args.calls is None:
+        print(f"scoring {calls.parent.name}/{calls.name}", file=sys.stderr)
     cfg = load_config(args.config)
     scope_map = _build_scope_map(args.registry) if args.registry.is_dir() else None
     query_taxids = _query_taxids(args.registry) if args.registry.is_dir() else None

@@ -596,3 +596,41 @@ def test_holdout_objective_ignores_weaker_and_undecided():
     grid = {(24, 15): ["DISAGREES"], (18, 10): ["DISAGREES"], (60, 30): ["agrees"]}
     assert mod.best_cell(grid) == (60, 30)
     assert mod.best_cell({(24, 15): ["DISAGREES"], (18, 10): ["DISAGREES"]}) == (18, 10)
+
+
+def test_the_default_run_is_the_newest_by_date_not_by_name(tmp_path):
+    """`sorted(...)[-1]` picked the frozen baseline over the newest run.
+
+    `results/baseline-2026-10-22/` sorts after `results/2026-10-25/` because
+    `b` > `2`, so a bare `--cases` run scored a table four days stale under
+    different scoring rules while printing "the newest run". Every candidate
+    priced without an explicit `--calls` would have been measured against it.
+    """
+    from scripts.retrospective import newest_run
+
+    results = tmp_path / "results"
+    for name in ("2026-10-22", "baseline-2026-10-22", "2026-10-25", "2026-10-25-experiment"):
+        (results / name).mkdir(parents=True)
+        (results / name / "calls.tsv.gz").write_bytes(b"")
+    # The exact pair that caused the bug, and the bare date preferred over a suffix.
+    assert newest_run(results).parent.name == "2026-10-25"
+
+
+def test_an_undated_run_directory_never_wins_the_default(tmp_path):
+    """It stays reachable with --calls; it just cannot be "the newest"."""
+    from scripts.retrospective import newest_run
+
+    results = tmp_path / "results"
+    for name in ("scratch", "2026-10-01"):
+        (results / name).mkdir(parents=True)
+        (results / name / "calls.tsv.gz").write_bytes(b"")
+    assert newest_run(results).parent.name == "2026-10-01"
+
+
+def test_no_runs_at_all_is_a_clear_exit(tmp_path):
+    import pytest as _pytest
+
+    from scripts.retrospective import newest_run
+
+    with _pytest.raises(SystemExit, match="no calls.tsv.gz"):
+        newest_run(tmp_path / "results")

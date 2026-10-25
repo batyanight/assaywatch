@@ -180,7 +180,7 @@ CHANCE_PAIR = "chance_pair"
 
 
 def apply_chance_pair_test(
-    rows: list[dict[str, Any]], cfg: dict[str, Any], probe_assays: set[str]
+    rows: list[dict[str, Any]], cfg: dict[str, Any], probe_bars: dict[str, float]
 ) -> dict[str, int]:
     """Relabel `fail` rows that are a chance PAIR, not an amplicon. Off unless `drift.chance_pair_test`.
 
@@ -230,20 +230,33 @@ def apply_chance_pair_test(
     leaves penalties alone, which marks ~4,900 rows in the two LYSSAVIRUS
     nucleoprotein entries that are plausibly real coverage failures.
 
-    `probe_assays` is passed rather than inferred from the rows: an assay whose
-    probe never binds anywhere would otherwise look probe-less and have its
-    every failure explained away. Conventional and SYBR assays have no probe and
-    so no locus-presence test; they are out of scope here and the general case
-    wants a locus-POSITION test instead (`loci.pair_spans`).
+    `probe_bars` maps each probe-bearing assay to ITS OWN `oligo_weak_max`, and
+    both halves of that matter. Membership is passed rather than inferred from
+    the rows, because an assay whose probe never binds anywhere would otherwise
+    look probe-less and have its every failure explained away. And the bar is
+    passed per assay rather than read from `cfg["scoring"]`, because
+    `scoring.by_chemistry` can override it: the screener resolves per chemistry
+    through `score.config_for`, and this test reading the base block instead
+    would mean one thing by "blocked" in the screen and another here. The table
+    ships empty today, so nothing diverges yet - but populating it is the whole
+    point of ROADMAP Phase 2, and the first `mgb` or `hydrolysis_probe` override
+    would have desynchronised a live test silently. Caller resolves; see
+    `report.build`.
+
+    Conventional and SYBR assays have no probe and so no locus-presence test;
+    they are out of scope here, and the general case was attempted and rejected
+    (`docs/2026-10-25-locus-identity-design.md`).
 
     Returns {assay_id: rows relabelled}. Mutates `rows`.
     """
     if not (cfg.get("drift") or {}).get("chance_pair_test"):
         return {}
-    bar = float(cfg["scoring"]["oligo_weak_max"])
     moved: dict[str, int] = {}
     for r in rows:
-        if r.get("call") != "fail" or r["assay_id"] not in probe_assays:
+        if r.get("call") != "fail":
+            continue
+        bar = probe_bars.get(r["assay_id"])
+        if bar is None:
             continue
         pen = r.get("probeless_penalties")
         if pen is None:
