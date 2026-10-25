@@ -1,4 +1,17 @@
-# The 10 orphan archive groups, identified (2026-10-24)
+# The 10 orphan archive groups, identified (2026-10-24); two deleted (2026-10-25)
+
+> **2026-10-25, the maintainer's decision.** The two 0 MB groups below are **deleted**:
+> `1430836/all` (*Perigonica*, 19 moth COI records) and `208294/all` (Seadornavirus, 1,115
+> records). Both went to the macOS Trash rather than `rm`, so both are recoverable until it
+> is emptied; both are also re-fetchable from NCBI, being run state rather than source.
+> `scripts/orphan_archives.py` now reports **8 groups, 19 archives, 658 MB**.
+>
+> **The 636 MB stays, deliberately.** Ophidiomyces (530 MB), *B. salamandrivorans* (90 MB),
+> Rhabdoviridae (16 MB), *Mycoplasma* and SIV are kept on the reasoning below: they are the
+> same taxa the registry still covers, fetched more broadly than the entries now ask for, and
+> re-fetching 530 MB from a rate-limited NCBI is the expensive direction. The three pending
+> groups stay too, as the script advises. Nothing in the size table changed, because what was
+> deleted rounds to zero — this decision bought tidiness in the orphan report, not disk.
 
 `scripts/orphan_archives.py` has reported 10 orphan groups, 21 archives, 658 MB for some
 days, and `docs/RESUME-HERE.md` has carried the delete-or-keep as a maintainer decision
