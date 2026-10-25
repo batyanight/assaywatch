@@ -38,7 +38,6 @@ Bytes, never the status code.
 
 import argparse
 import json
-import os
 import re
 import sys
 import time
@@ -49,6 +48,7 @@ from urllib.parse import quote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from assaywatch.credentials import read_secret
 from assaywatch.papers import doi_stem, held_dois
 
 API = "https://api.elsevier.com/content/article/doi/"
@@ -65,23 +65,31 @@ def repo_root() -> Path:
 
 
 def load_credentials() -> tuple[str, str | None]:
-    """Env vars win; otherwise read KEY=VALUE lines from <repo>/.env."""
-    key = os.environ.get("ELSEVIER_API_KEY")
-    inst = os.environ.get("ELSEVIER_INSTTOKEN")
-    env_file = repo_root() / ".env"
-    if (not key or not inst) and env_file.exists():
-        for line in env_file.read_text().splitlines():
-            line = line.strip()
-            if not line or line.startswith("#") or "=" not in line:
-                continue
-            k, v = line.split("=", 1)
-            v = v.strip().strip("'\"")
-            if k.strip() == "ELSEVIER_API_KEY" and not key:
-                key = v
-            elif k.strip() == "ELSEVIER_INSTTOKEN" and not inst:
-                inst = v
+    """The API key and optional institutional token. Never echoed, only measured.
+
+    Read through `assaywatch.credentials`, which is where this project keeps
+    credentials: an environment variable if set, else `.secrets/<name>`. Going
+    through it also means a key file written by Windows PowerShell (UTF-16) or
+    Notepad (a UTF-8 byte-order mark) is decoded correctly, or refused with a
+    reason by `python -m assaywatch.credentials`, rather than being sent with an
+    invisible character on the front of it.
+
+    This replaced a loader that read only environment variables and a `./.env`
+    file. Measured 2026-10-25: neither variable was set, `.env` held a stale
+    `ELSEVIER_API_KEY`, and the real credentials were in `.secrets/elsevier.key`
+    and `.secrets/elsevier.insttoken` all along - so the script sent the stale
+    key, got `AUTHENTICATION_ERROR: Invalid API Key`, and then reported "no
+    ELSEVIER_INSTTOKEN set" about a token sitting on disk. Two wrong answers from
+    one wrong source. `.env` is no longer consulted; `python -m
+    assaywatch.credentials` is the one place that says what is configured.
+    """
+    key = read_secret(("ELSEVIER_API_KEY", "elsevier.key"))
+    inst = read_secret(("ELSEVIER_INSTTOKEN", "elsevier.insttoken"))
     if not key:
-        sys.exit("ELSEVIER_API_KEY not set (env var or .env in repo root).")
+        sys.exit(
+            "ELSEVIER_API_KEY not set. Put it in $ELSEVIER_API_KEY or "
+            ".secrets/elsevier.key, then check with `python -m assaywatch.credentials`."
+        )
     return key, inst or None
 
 
@@ -130,13 +138,50 @@ def explain_error(body: bytes) -> str:
         return txt[:200]
 
 
+def page_count(pdf: bytes) -> int | None:
+    """Pages in this PDF, or None if it cannot be counted.
+
+    The guard behind `first-page-only`. Measured 2026-10-25: this API answered
+    200 with a real, well-formed PDF containing **only the article's first page**
+    for four of five titles tried - `Veterinary Parasitology 178 (2011) 208-216`
+    and `J Virol Methods 195 (2014) 100-105` both arrived as one page, 1.1 MB and
+    850 KB respectively, so neither size nor status nor the `%PDF` magic number
+    distinguishes them from the real thing. Mao 1997 came through complete at 9
+    pages, so it is per-title and not a blanket entitlement limit.
+
+    Saving those under a canonical `doi_stem` name is the error this project
+    calls the expensive one: a paper recorded as held that does not contain its
+    own primer table, which stops anyone looking for it again. Counting pages is
+    the cheapest test that catches it.
+
+    Uses pypdf, which is the `pdf` extra (see docs/installation.md). Without it
+    this returns None and the caller saves as before rather than refusing on an
+    unmeasured guess.
+    """
+    try:
+        import io
+
+        from pypdf import PdfReader
+    except ImportError:
+        return None
+    try:
+        return len(PdfReader(io.BytesIO(pdf)).pages)
+    except Exception:  # noqa: BLE001 - any malformed PDF means "cannot count"
+        return None
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--list", type=Path, help="papers-still-needed markdown to pull 10.1016 DOIs from")
     ap.add_argument("--doi", action="append", default=[], help="explicit DOI (repeatable)")
     ap.add_argument("--pdf-dir", type=Path, default=repo_root() / "papers")
     ap.add_argument("--log", type=Path, default=repo_root() / "results" / "elsevier-fetch.tsv")
-    ap.add_argument("--force", action="store_true", help="re-download even if the slug file exists")
+    ap.add_argument("--force", action="store_true", help="re-download even if the file exists")
+    ap.add_argument(
+        "--allow-single-page",
+        action="store_true",
+        help="keep a one-page reply (for a genuinely one-page article; see page_count)",
+    )
     args = ap.parse_args()
 
     dois = list(args.doi)
@@ -150,7 +195,7 @@ def main() -> None:
     args.log.parent.mkdir(parents=True, exist_ok=True)
     new_log = not args.log.exists()
 
-    counts = {"saved": 0, "skipped": 0, "not-entitled": 0, "error": 0}
+    counts = {"saved": 0, "skipped": 0, "first-page-only": 0, "not-entitled": 0, "error": 0}
     # Forward-mapped through held_dois, never `stem.replace("_", "/")`, and over any
     # extension: eleven of these papers are held as Elsevier `.xml` deposits, and a
     # PDF-only check would re-fetch every one of them over the API.
@@ -171,9 +216,19 @@ def main() -> None:
                 http, ctype, body = fetch_pdf(doi, key, inst)
                 # Trust the bytes, not the status line: a 200 that isn't a PDF is still a miss.
                 if http == 200 and body[:4] == b"%PDF":
-                    out.write_bytes(body)
-                    outcome, detail = "saved", f"{len(body)} bytes"
-                    counts["saved"] += 1
+                    pages = page_count(body)
+                    if pages == 1 and not args.allow_single_page:
+                        # A first-page-only reply. Not saved: see page_count.
+                        outcome = "first-page-only"
+                        detail = (
+                            f"{len(body)} bytes, 1 page - not the article; --allow-single-page to keep it"
+                        )
+                        counts["first-page-only"] += 1
+                    else:
+                        out.write_bytes(body)
+                        outcome = "saved"
+                        detail = f"{len(body)} bytes" + (f", {pages} pages" if pages else "")
+                        counts["saved"] += 1
                 elif http in (401, 403):
                     outcome, detail = "not-entitled", explain_error(body)
                     counts["not-entitled"] += 1
@@ -187,11 +242,22 @@ def main() -> None:
             log.flush()
 
     print("\n" + "  ".join(f"{k}={v}" for k, v in counts.items()))
-    if counts["not-entitled"] and not inst:
-        print(
-            "not-entitled with no ELSEVIER_INSTTOKEN set: this IP is not recognised as NYU's.\n"
-            "Re-run from an NYU-registered network / VPN, or ask the library for an insttoken."
-        )
+    if counts["not-entitled"]:
+        # Say which of the two situations it is, rather than assuming the token is
+        # missing: an insttoken IS configured here, so "no token" was the wrong
+        # diagnosis and sent the reader after the wrong fix.
+        if inst:
+            print(
+                "not-entitled WITH an insttoken configured: the token or key may be "
+                "wrong or expired, or it does not cover this title. Check what is set "
+                "with `python -m assaywatch.credentials`, and the per-DOI statusText "
+                "in the log for which it is."
+            )
+        else:
+            print(
+                "not-entitled with no ELSEVIER_INSTTOKEN set: this IP is not recognised as NYU's.\n"
+                "Re-run from an NYU-registered network / VPN, or ask the library for an insttoken."
+            )
 
 
 if __name__ == "__main__":

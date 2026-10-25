@@ -406,6 +406,35 @@ def test_the_note_is_assembled_once_for_both_formats():
     assert row.note in markdown_from(m, {}) and row.note in html_from(m)
 
 
+def test_chance_pair_exclusions_are_disclosed_in_the_note():
+    """A chance-pair removal has to show up where a reader sees the share.
+
+    The per-assay `Why:` breakdown that names `chance_anchor` is only written for
+    assays with a detail section, so when
+    OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023 went 42.2% -> 100.0% on
+    2026-10-25 it became `stable` and printed as a bare "100.0%, 81 evaluable" -
+    the largest correction in that report was the least visible thing in it.
+    """
+    from assaywatch.report import build_model, html_from, markdown_from
+
+    drifts = _drifting()
+    a = next(iter(drifts.values()))
+    a.exclusions["chance_pair"] = 111
+    m = build_model(drifts, {}, [], "2026-10-03")
+    row = m.sections[0][1][0]
+    assert "111 chance-pair records excluded (drift.chance_pair_test)." in row.note
+    assert row.note in markdown_from(m, {}) and row.note in html_from(m)
+
+
+def test_no_chance_pair_note_when_none_were_excluded():
+    """The knob ships on, so every assay's note would otherwise carry a zero."""
+    from assaywatch.report import build_model
+
+    drifts = _drifting()
+    m = build_model(drifts, {}, [], "2026-10-03")
+    assert "chance-pair" not in m.sections[0][1][0].note
+
+
 def test_the_withheld_nested_share_rule_is_shared_by_both_tables():
     """`not a nest` where the amplicons do not nest, and the bold `no` cell: one
     rule, two emphasis markups."""

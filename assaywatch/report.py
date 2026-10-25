@@ -789,6 +789,17 @@ def _note_for(a: AssayDrift, twins: dict[str, list[str]], assay: Assay | None = 
         parts.append(f"{a.out_of_scope} out-of-scope records excluded")
     if a.patent_excluded:
         parts.append(f"{a.patent_excluded} patent records excluded")
+    # Chance pairs leave the denominator too, and for a reason a reader cannot
+    # guess from the share. Disclosed here because the per-assay `Why:` breakdown
+    # that names `chance_anchor` is only written for assays that get a detail
+    # section: when OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023 went 42.2% ->
+    # 100.0% on 2026-10-25 it moved to `stable` and so printed as a bare
+    # "100.0%, 81 evaluable" with no sign that 111 records had been reclassified.
+    # The largest correction in that report was the least visible thing in it.
+    # getattr, because this function is also called with partial stand-ins that
+    # carry only the fields a given test is about.
+    if n := (getattr(a, "exclusions", None) or {}).get("chance_pair", 0):
+        parts.append(f"{n} chance-pair records excluded (drift.chance_pair_test)")
     return " ".join(p for p in (_terminated(x) for x in parts) if p)
 
 
