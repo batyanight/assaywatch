@@ -78,9 +78,20 @@ detects sit at pair_evalue 1.6e-19–7.7e-15 and the 76 artefact fails at 4.1e-5
 orders of magnitude, all inside the cutoff. All 76 are real Orf virus, but they are **B2L**
 partials and the assay targets **RPO147**.
 
-Measured over every latest screen (134 groups), counting only probe-chemistry assays:
-**28,751 rows in 6 assays**, of which only two verdicts move, because the recent-window and
-minimum-evaluable gates absorb the rest. The one that matters:
+**The criterion took two tries and the first was wrong; the doc carries the correction.**
+`pair_evalue` alone is invalid — a short amplicon in a long genome legitimately scores high,
+because the statistic scales with the search space. `RANAVIRUS_..._MCP_Pallister_2007` makes a
+real **57 bp** product in **~99 kb** at `pair_evalue` 2e-5 with penalties 2.5/2 and the probe
+**present**; keying on the E-value briefly suggested five assays including three `active`
+ranavirus entries would cross 90%, and **that is withdrawn.** The sound test is a `fail` row
+with the **probe site absent** *and* **both primers above `reduced_max: 3.0`** — the probe
+being the target locus's signature. That also bounds it to **probe-bearing assays**;
+conventional entries have no such test and are not assessed (applying the penalty half alone
+to them flags ~4,900 plausibly-genuine lyssavirus coverage failures).
+
+Measured over every latest screen (134 groups): **26,691 rows in 6 probe-bearing assays, of
+53,216 probe-bearing evaluable rows.** Only two verdicts move, the window and minimum gates
+absorbing the rest. The one that matters:
 
 > **`OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023` is `active` and reads 42.2% when it is
 > 100.0%.** `no_amplicon` 25,401, `fail` 111, `detect` 81 — and **all 111 failures are chance
@@ -89,9 +100,13 @@ minimum-evaluable gates absorb the rest. The one that matters:
 > Penalties on those rows are `(6.5, 9)`, `(7, 9)`, `(6, 8.5)` against a `reduced_max` of 3.0.
 
 Orf's whole-archive figure is likewise **88 of 88 genuine evaluable, 100%**, reproducing its
-hand screen exactly — the hand screen used complete genomes, which carry RPO147. How many of
-the 9 non-detections in Orf's *recent* window are artefacts was **not** checked, so treat its
-75.0% as suspect rather than as a known 100%.
+hand screen exactly — the hand screen used complete genomes, which carry RPO147. Its *recent*
+window was checked after the correction: 9 of its 37 recent evaluable rows are artefacts and
+the rest all detect, so 75.7% → 100%, but it is a `draft` entry so no published verdict moves.
+
+**Removing the artefact does not rescue the three `mgb` fungal assays**: IGS 0.1% → 1.4%,
+ITS2/28S 0.8% → 31.8%, *B. sal* 4.4% → 25.8%. They have a large genuine problem that the
+artefact was sitting on top of. Only `targetD` and Orf go to exactly 100.0%.
 
 **Nothing was changed; the lever is a threshold and this is a denominator change.** The doc
 prices three options and names the guard a fix must not break: **do not key the fix on the
