@@ -178,7 +178,30 @@ guess. The development set has **one** drift ground-truth event. So a verdict's 
 informative and its *absolute level* is weakly grounded - which is exactly why a wrong 42.2%
 could sit in the report without looking anomalous.
 
-### The plan, in the order that unblocks the most
+### Where the plan stands after 2026-10-25 (read this before the list)
+
+Steps 1 and 2 are both **resolved, and neither resolved the way the plan expected.** Step 1
+found nothing wrong with the fungal assays and withdrew the number that motivated it. Step 2
+was built, priced and **rejected**. So the denominator problem now has exactly one shipped fix
+(`drift.chance_pair_test`, probe-bearing assays, 277 rows, two verdicts) and **three failed
+attempts at the general case**: a `pair_evalue` cut, Benjamini-Hochberg over pairs, and
+interior identity. Each failed the same way — it could not tell a chance pair from a real
+target that is genuinely divergent — and the third failed hardest, because 48 of 209 entries
+are consensus assays for which divergence is the design intent.
+
+**That is itself the finding.** No per-record sequence statistic separates the two, because for
+a consensus assay the two are the same thing. What distinguishes them is not the sequence but
+the *expectation*: whether this assay is supposed to amplify that lineage. That is lineage
+knowledge, and the project's own machinery for it (`lineage.sublineage`, `clustermaps.py`,
+`subcluster.py`) ships inert with `sublineage: {}`. So the honest path for conventional
+denominators is the one the design doc named as its fallback all along: **they stay
+approximate until tier-2 validation sets the thresholds**, and the lineage machinery is where a
+real fix would start.
+
+**Revised order: 3 and 4 are now the plan**, with the lineage-aware locus reference as a
+candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
+
+### The plan as originally written, in the order that unblocked the most
 
 1. ~~**Diagnose the three `mgb` fungal assays.**~~ **DONE 2026-10-25:**
    `docs/2026-10-25-fungal-assays-diagnosed.md`. **Nothing is wrong with them, and the
