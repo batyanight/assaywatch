@@ -52,13 +52,26 @@ def latest(pat):
     return list(d.values())
 
 
-def rows_for(assay):
+def rows_for(assay, calls=None):
+    """Rows for one assay, from the run's collected calls table.
+
+    NOT from globbing results/screened/*/*/: that directory keeps the screens of
+    ORPHAN groups, which no live assay retrieves any more and which are therefore
+    never rescreened. Measured 2026-10-25: the Rhabdoviridae orphan group
+    11270/all still holds a screen dated 2026-10-03, eleven days before
+    amplicon.declared_tolerance shipped, and its 46,404 rows carry amplicon
+    lengths of 51-2996 bp against a declared 373 - lengths the current screener
+    cannot produce. Reading it as current inflated this measurement's chance-pair
+    counts about a hundredfold. collect_calls is what the report uses, so it is
+    what a measurement quoted beside the report must use.
+    """
+    path = calls or (root + "/results/2026-10-25/calls.tsv.gz")
+    op = gzip.open if str(path).endswith(".gz") else open
     out = []
-    for fp in latest(root + "/results/screened/*/*/*.tsv"):
-        with open(fp) as fh:
-            for r in csv.DictReader(fh, delimiter="\t"):
-                if r["assay_id"] == assay and r["call"] in ("detect", "reduced", "fail"):
-                    out.append(r)
+    with op(path, "rt") as fh:
+        for r in csv.DictReader(fh, delimiter="\t"):
+            if r["assay_id"] == assay and r["call"] in ("detect", "reduced", "fail"):
+                out.append(r)
     return out
 
 

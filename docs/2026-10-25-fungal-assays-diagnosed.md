@@ -1,5 +1,15 @@
 # Step 1 done: the fungal assays are not broken, and one thin real signal is hiding in them
 
+> **Correction, same day, and it reinforces the conclusion.** The rates and row counts below
+> were measured by globbing `results/screened/`, which keeps **orphan** group screens that no
+> live assay retrieves - and both the Ophidiomyces (`1387563/all`, 530 MB) and
+> *B. salamandrivorans* (`1357716/all`, 90 MB) archives are orphans. **None of these three
+> assays appears in `results/2026-10-25/calls.tsv.gz`'s artefact list at all**, so most of the
+> records reasoned about below are not in the current denominator either. The finding stands
+> twice over: nothing is wrong with these entries. The *B. sal* probe-divergence watch item
+> also stands, because those five 2024 records were checked individually against their
+> sequences rather than counted. See `docs/2026-10-25-stale-orphan-screens.md`.
+
 `docs/RESUME-HERE.md` made this plan step 1 on the strength of a number I computed badly.
 After the chance-pair test removed its artefact rows, `Snake_fungus_Ophidiomyces_ophi_IGS`
 read 1.4%, `..._ITS2_28S` 31.8% and `B_salamandrivorans_..._Blooi_2013` 25.8% whole-archive,

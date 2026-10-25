@@ -1,6 +1,17 @@
 # Chance primer pairs are inventing denominators, and one ACTIVE entry reads 42% when it is 100%
 
-> **Correction, same day.** The criterion below was first written as `pair_evalue > 1e-6`
+> **Second correction, same day: every SCOPE figure below is wrong, by about a hundredfold.**
+> They were measured by globbing `results/screened/*/*/*.tsv`, which keeps the screens of
+> **orphan** groups that no live assay retrieves and nothing rescreens - including a
+> Rhabdoviridae screen dated 2026-10-03, before `amplicon.declared_tolerance` shipped. From
+> `results/2026-10-25/calls.tsv.gz`, which is what the report is built from, the true figure is
+> **277 rows across 11 probe-bearing assays out of 924,755 evaluable**, not 26,691 across 6.
+> **The two verdicts that move are unchanged** - those were read from the report, not the glob -
+> and so is everything about the mechanism and the guards. The three `mgb` fungal assays do not
+> appear in the corrected list at all. Full correction and the corrected table:
+> `docs/2026-10-25-stale-orphan-screens.md`.
+
+> **First correction, same day.** The criterion below was first written as `pair_evalue > 1e-6`
 > alone. **That is invalid and the figures keyed to it were wrong.** A short amplicon in a long
 > genome legitimately scores a high pair E-value, because the statistic scales with the search
 > space: `RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007` produces a real **57 bp**

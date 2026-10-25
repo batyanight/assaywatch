@@ -68,6 +68,16 @@ That has three consequences worth pricing before anyone starts:
 
 ## THE MEASUREMENT, DONE 2026-10-25: the gap is real and the safe window is 0.50-0.55
 
+> **Re-run from `calls.tsv.gz` later the same day, and the result improves.** The table
+> immediately below was measured by globbing `results/screened/`, which includes **orphan**
+> group screens from before `amplicon.declared_tolerance` shipped
+> (`docs/2026-10-25-stale-orphan-screens.md`). On current data the lyssavirus chance-pair bin
+> is **empty** and its genuine failures sit at **0.86-0.99**, so the apparent overlap - and the
+> six rows I explained away as mis-binned - were entirely stale. SIV's floor moves to
+> **0.65-0.67**. **The gap therefore widens to 0.41-0.65** and `locus_identity_min: 0.50` sits
+> in the middle of it. The stale table is kept below because the mis-binning analysis it
+> prompted is still the right way to read a low-identity "genuine" row.
+
 Measured on the real archives. For each assay, amplicon interiors were taken with 20 bp
 trimmed off each end so the primer sites themselves cannot contribute, and each questionable
 interior was scored as its best ungapped identity, both strands, against five interiors from

@@ -94,9 +94,15 @@ being the target locus's signature. That also bounds it to **probe-bearing assay
 conventional entries have no such test and are not assessed (applying the penalty half alone
 to them flags ~4,900 plausibly-genuine lyssavirus coverage failures).
 
-Measured over every latest screen (134 groups): **26,691 rows in 6 probe-bearing assays, of
-53,216 probe-bearing evaluable rows.** Only two verdicts move, the window and minimum gates
-absorbing the rest. The one that matters:
+**SCOPE CORRECTED the same day — read `docs/2026-10-25-stale-orphan-screens.md`.** I first
+measured by globbing `results/screened/`, which keeps **orphan** group screens that nothing
+rescreens, one of them dated 2026-10-03 and so predating `amplicon.declared_tolerance`. That
+inflated the count about a hundredfold. From `results/2026-10-25/calls.tsv.gz`, which is what
+the report is built from, the real figure is **277 rows across 11 probe-bearing assays out of
+924,755 evaluable**. The three `mgb` fungal assays are not in the corrected list at all, and of
+West African mpox's 13,239 evaluable rows only **4** are touched, so its 2,688 clade-I failures
+are untouched as required. **Only two verdicts move, and they are unchanged** — those were read
+from the report, never from the glob. The one that matters:
 
 > **`OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023` is `active` and reads 42.2% when it is
 > 100.0%.** `no_amplicon` 25,401, `fail` 111, `detect` 81 — and **all 111 failures are chance
@@ -202,22 +208,27 @@ could sit in the report without looking anomalous.
    — it selects on the same `max_mm`/`max_e` the chance pairs already pass. It must live at
    **screen time** (nothing writes the amplicon sequence), so each iteration costs a ~30-minute
    rescreen, and it wants a cached per-assay reference.
-   **The blocking measurement is DONE 2026-10-25 and the approach SURVIVES.** Chance pairs land
-   at **0.32–0.44** identity, real loci at **0.60 and above**, and nothing sits in between —
-   including on `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`, a conventional assay, which is the
-   whole point. Its apparent overlap was my own mis-binning: the six "genuine" failures under
-   0.60 have one primer at exactly the 3.0 bar and amplicon lengths of 143 to 1791 bp, so they
-   are chance pairs resting on a single marginal anchor. **The ceiling is
+   **The blocking measurement is DONE 2026-10-25 and the approach SURVIVES**, on clean data
+   from `calls.tsv.gz` (`scripts/measure_locus_identity.py`). Chance pairs land at
+   **0.32–0.41** identity, genuine failures at **0.65 and above**, detects at 0.87–1.00, and
+   nothing sits in between — including on `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`, a
+   conventional assay, which is the whole point: it has **no** chance pairs on current screens
+   and its genuine failures sit at 0.86–0.99. **The ceiling is
    `RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009`**, whose genuinely divergent failures sit at
-   **0.63–0.65**: a threshold of 0.70 would delete all 60, the exact failure that killed the
-   two earlier approaches. **Recommended `scoring.locus_identity_min: 0.50`** (0.55 equally
-   safe, 0.60 cuts into the margin, 0.70 known wrong). Two limitations: a 57 bp amplicon like
-   `RANAVIRUS_..._MCP_Pallister_2007` leaves too little interior to judge, so the test must
-   decline toward *keeping* such a record evaluable; and the 20 bp trim is itself uncalibrated.
-   **A cheaper signal turned up on the way** — those chance pairs gave six different amplicon
-   lengths where a real locus gives one, so length dispersion against the declared size may
-   separate the same cases for almost no computation, and unlike identity it works on short
-   amplicons. Measuring that is smaller than building the identity test and is the next move.
+   **0.65–0.67**: a threshold of 0.70 deletes all 60, the exact failure that killed the two
+   earlier approaches. **Recommended `scoring.locus_identity_min: 0.50`**, mid-gap (0.55 safe,
+   0.70 known wrong). Two limitations: a 57 bp amplicon like `RANAVIRUS_..._MCP_Pallister_2007`
+   leaves too little interior to judge, so the test must decline toward *keeping* such a record
+   evaluable; and the 20 bp trim is uncalibrated.
+   > **The cheaper signal was measured and REJECTED as a gate.** Amplicon-length dispersion
+   > looked promising only on stale screens. On current data Orf's chance pairs are all at
+   > exactly 62 bp against a declared 68 — one length, not scatter — `targetD`'s span 56–69
+   > against 57 with **63% within 5 bp**, so a length rule would keep most of the rows that
+   > made the one wrong active verdict, and West African mpox's genuine clade-I failures are all
+   > **82 bp against a declared 85**, so strict equality would delete the finding the design
+   > exists to protect. `amplicon.declared_tolerance: 0.25` already does the coarse version and
+   > is the one config number with a measured defence. **Length is a diagnostic, not a filter**;
+   > interior identity remains the test.
 3. **Per-chemistry scoring** (ROADMAP Phase 2). The largest known distortion and the one with a
    worked example: 155 of 208 entries are `conventional`, `terminal_mismatch_fails: true` is a
    qPCR-strength rule applied to all of them, and on `CALICIVIRUS_ssRNA_Helicase_Reid_1999` it
