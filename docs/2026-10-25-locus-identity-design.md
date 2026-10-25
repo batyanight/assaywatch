@@ -1,4 +1,39 @@
-# Step 2 of the plan, designed: is this amplicon even the assay's locus?
+# Step 2: built, priced, and it DOES NOT WORK. A pan-family assay's success looks like failure to it
+
+> **VERDICT, 2026-10-25, after building and pricing it: do not enable this.**
+> `scoring.locus_identity_min` ships **null** and must stay null. The approach joins
+> `pair_evalue` and the probe-only test in the record of things that looked right and were not,
+> and it fails for a reason none of the earlier analysis anticipated:
+>
+> **For a pan-family or consensus assay, a divergent amplicon interior is what SUCCESS looks
+> like.** Priced offline at 0.50 over the 2026-10-25 run it rejects **1,840 of 9,687 sampled
+> failures**, and the rejections concentrate exactly where they must not.
+> `Pan_HERPES_dsDNA_Polymerase` loses **47 of 47**, and those records are *Proboscivirus
+> elephantidbeta5*, *Mardivirus gallidalpha2* (Marek's disease), *Equid alphaherpesvirus 1*,
+> *Elephant endotheliotropic herpesvirus 5/5B* and *Macropodid alphaherpesvirus 4* — real
+> cross-subfamily herpesviruses and the entire purpose of a pan-herpes assay. They score
+> 0.35–0.41 only because the five reference interiors happened to be human CMV UL54 from one
+> submission batch (`PZ050664`–`PZ050668`). **48 of 209 registry entries are
+> pan/consensus/generic shaped.**
+>
+> **And it cannot reach the two cases that motivated it.** Trimming 20 bp from each end of
+> Orf's 68 bp amplicon leaves 28 bases and `OPHIDIOMYCES targetD`'s 57 bp leaves 17, both under
+> the 30 bp floor, so both come back *unjudgeable*. Those two are probe-bearing and are already
+> handled by `drift.chance_pair_test`.
+>
+> **The only version with a chance of being safe is lineage-aware** — a reference per
+> sublineage rather than per assay, using the machinery in `clustermaps.py` / `subcluster.py` —
+> and that is unproven. The module, its 12 tests, `scripts/build_locus_references.py` and
+> `scripts/price_locus_identity.py` are kept as the evidence and as the basis for that, not
+> because anything here is ready.
+>
+> What stands from the earlier measurement: chance pairs really do sit at 0.32–0.41 and
+> single-target real loci at 0.56 and above (SIV Takehisa's floor over 400 records is **0.56**,
+> not the 0.65 a 60-row sample suggested, so **0.55 is not safe either** — the margin is
+> 0.41–0.56). The signal is real; it just cannot be separated from pan-family divergence by one
+> global threshold.
+
+
 
 The chance-pair test shipped 2026-10-25 covers probe-bearing assays, because the probe is a
 locus-presence signal independent of how well the primers matched. **155 of 208 entries are

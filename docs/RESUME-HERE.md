@@ -198,7 +198,25 @@ could sit in the report without looking anomalous.
    > the report says "insufficient data" and is right to. **An independent source showing the
    > same divergence would make it a drift case**, and the held-out set has exactly one of
    > those today.
-2. **The locus-identity test, generalising decision A — now DESIGNED, not built:**
+2. **The locus-identity test — BUILT, PRICED, AND IT DOES NOT WORK (2026-10-25).**
+   `scoring.locus_identity_min` ships **null and must stay null**; the long comment in
+   `config.yaml` says why at the point of use. **A pan-family assay's success looks like
+   failure to it.** Priced offline at 0.50 it rejects **1,840 of 9,687 sampled failures**, and
+   `Pan_HERPES_dsDNA_Polymerase` loses **47 of 47** — records that are *Proboscivirus*,
+   *Mardivirus gallidalpha2*, *Equid alphaherpesvirus 1*, *Elephant endotheliotropic
+   herpesvirus 5/5B* and *Macropodid alphaherpesvirus 4*, i.e. real cross-subfamily
+   herpesviruses and the entire point of the assay. They score 0.35–0.41 only because the five
+   references happened to be human CMV UL54 from one submission batch. **48 of 209 entries are
+   pan/consensus shaped.** It also cannot judge Orf (68 bp → 28 after trim) or `targetD`
+   (57 bp → 17), the two cases that motivated it, which `drift.chance_pair_test` already
+   covers. **Third approach that looked right and was not**, after `pair_evalue` and probe-only.
+   Also correcting my own earlier number: SIV Takehisa's genuine floor over 400 records is
+   **0.56**, not 0.65, so **0.55 was never safe** and the margin is 0.41–0.56.
+   **The only version with a chance: lineage-aware references**, one per sublineage via
+   `clustermaps.py`/`subcluster.py`. Unproven. The module, 12 tests,
+   `scripts/build_locus_references.py` and `scripts/price_locus_identity.py` are kept as
+   evidence and as the basis for that. Superseded detail below:
+   **The locus-identity test, generalising decision A — originally DESIGNED, not built:**
    `docs/2026-10-25-locus-identity-design.md`. Ask whether an amplicon's **interior** is
    homologous to the assay's own detecting amplicons; the records that detect certainly carry
    the locus, so they define what it looks like. Deliberately not on the primer sites, where all

@@ -122,6 +122,35 @@ scoring:
   # length. Set a number (e.g. 0.01) to call pairs above it no_amplicon instead
   # of scoring them; null reports the E-value but changes no call.
   max_pair_evalue: 0.01
+  # Is a questionable amplicon this assay's locus at all? Compares the amplicon's
+  # INTERIOR, primer sites trimmed off, against interiors from records the assay
+  # detects (assaywatch/locus_identity.py, docs/locus-references.json).
+  #
+  # SHIPS NULL AND MUST STAY NULL. **DO NOT ENABLE THIS.** Built and priced
+  # 2026-10-25, and it is UNSAFE for a reason that is specific and fatal: for a
+  # pan-family or consensus assay, a divergent amplicon interior is what SUCCESS
+  # looks like. Priced offline at 0.50 it rejects 1,840 of 9,687 sampled failures,
+  # and the rejections concentrate exactly where they must not -
+  # Pan_HERPES_dsDNA_Polymerase loses 47 of 47, whose records are Proboscivirus,
+  # Mardivirus gallidalpha2, Equid alphaherpesvirus 1, Elephant endotheliotropic
+  # herpesvirus 5/5B and Macropodid alphaherpesvirus 4. Those are real
+  # cross-subfamily herpesviruses and the entire point of a pan-herpes assay; they
+  # score 0.35-0.41 only because the reference happened to be five human-CMV
+  # records from one submission batch. 48 of 209 entries are pan/consensus shaped.
+  #
+  # It also cannot judge a short amplicon - trimming 20 bp from each end of Orf's
+  # 68 bp or OPHIDIOMYCES targetD's 57 bp leaves 28 and 17 bases - so the two cases
+  # that motivated it are out of reach anyway, and are covered instead by
+  # drift.chance_pair_test.
+  #
+  # Kept rather than deleted because the module, its tests, the reference builder
+  # and scripts/price_locus_identity.py are the evidence, and because a
+  # LINEAGE-AWARE reference (one per sublineage, via clustermaps.py/subcluster.py)
+  # is the only version with a chance of being safe. Unproven.
+  # Full account: docs/2026-10-25-locus-identity-design.md.
+  locus_identity_min: null
+  locus_identity_trim_bp: 20
+  locus_identity_min_interior_bp: 30
   # The call boundaries. These are the least defensible numbers in the file,
   # for a reason that is structural rather than numeric: the penalties from
   # forward, reverse and probe are SUMMED into one budget, but amplification

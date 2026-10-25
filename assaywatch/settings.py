@@ -116,6 +116,13 @@ class Scoring(Block):
     max_pairs_per_record: int = Field(default=5000, gt=0)
     #: null means "report the E-value, act on nothing".
     max_pair_evalue: float | None = 0.01
+    #: Locus-identity test (assaywatch.locus_identity). NULL MEANS OFF AND IT MUST
+    #: STAY NULL: it is unsafe for pan-family assays, where a divergent amplicon
+    #: interior is the success condition. See the long comment in config.yaml and
+    #: docs/2026-10-25-locus-identity-design.md.
+    locus_identity_min: float | None = Field(default=None, gt=0, le=1)
+    locus_identity_trim_bp: int = Field(default=20, ge=0)
+    locus_identity_min_interior_bp: int = Field(default=30, ge=1)
     detect_max: float = Field(default=1.0, ge=0)
     reduced_max: float = Field(default=3.0, ge=0)
     terminal_mismatch_fails: bool = True
