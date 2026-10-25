@@ -1,3 +1,83 @@
+# Resume point, 2026-10-25 (the open list worked to its floor; 2026-10-24 below)
+
+## 2026-10-25: four of the open items are closed, and what is left needs a browser or a different instrument
+
+Plan: `~/.claude/plans/go-to-assaywatch-resume-ancient-shell.md`. The maintainer took four
+decisions up front (keep the 636 MB, commit per item, add held-out rows but do not score,
+reconcile the Elsevier script rather than revert it). Registry **unchanged at 208/179/28/1**
+throughout — nothing below adds an entry or changes an oligo. Gate at the end: 1,563 tests,
+validator 208/208, `check_citations` 208/208, ruff clean.
+
+**1. The Elsevier fetcher is reconciled and commits are unblocked** (`a58e2a9`). It had been
+replaced on disk by a better-shaped implementation that silently dropped both fixes from
+`1786091`, and it failed `ruff BLE001`, which blocked *every* commit in the repo. The new
+shape is kept. `held_dois` is back, and it mattered more than the old note suggested: the
+replacement's "already held" test looked only for `papers/<stem>.pdf`, so the eleven papers
+held as Elsevier `.xml` deposits all read as missing and would have been re-fetched over the
+API. The `<body>` test does **not** return as code, because this version requests
+`application/pdf` and the `%PDF` magic number is the stronger guard — a metadata-only reply
+cannot start with `%PDF`, where it can and did carry every XML marker. Its reasoning, and Mao
+1997 as the case that earned it, is in the module docstring. `slug()` is gone in favour of
+`doi_stem`.
+
+**2. Two of the twelve free papers are held; the other ten need a browser** (`21c06db`).
+Makkonen 2018 and Oidtmann 2006 arrived via `find_open_access.py --download`; index 157 → 159.
+Zero verdict changes, for a stronger reason than last time: **neither DOI is cited by any
+registry or pending entry, so neither can appear in the verifier's output.** List 1 stays
+complete. The other ten are all open per Unpaywall and none needs the proxy — six sit behind a
+publisher bot-check that refuses a scripted agent (Sage ×2, T&F, Wiley, Allen Press ×2) and
+four resolve to a landing page that does not expose its bitstream (DIGITAL.CSIC, CONICET at
+HTTP 500, UCF STARS, an Elsevier JS redirect). **Spoofing a browser agent to automate these
+was attempted and refused, correctly; it is not the way through.** They are listed for a human
+in the new `papers/papers-fetch-list.md`, together with the two proxy papers.
+
+> The verifier's 502 rows do differ from the 2026-10-24b run in three places, none from these
+> papers: `Hel1` moved `exact` → `near:1` because the entry was corrected G→C yesterday while
+> the OCR'd deposit still prints G, and `Pol1`/`Pol2` are new rows from the RdRp entry, both
+> `exact`. That is the corrected registry disagreeing with a known-corrupt deposit, as intended.
+
+**3. Two orphan groups deleted, the 636 MB kept** (`85b2277`). `1430836/all` (*Perigonica*, 19
+moth COI records — host barcoding, out of scope, and the fetch made under a documented
+wrong-taxid error) and `208294/all` (Seadornavirus, 1,115 records, never claimed by any entry).
+Both to the Trash, not `rm`, and both re-fetchable. `orphan_archives.py` now reports **8
+groups, 19 archives**. The total is still 658 MB because what went rounds to zero: this bought
+a shorter orphan report, not disk. The maintainer kept the 636 MB on the doc's reasoning.
+
+**4. The Candrian seam is worked to the end and yields nothing**
+(`docs/2026-10-25-candrian-seam.md`). All 59 papers triaged; **zero clear the held-out bar.**
+They are AMR prevalence surveys that use the primer for species confirmation — exactly
+`works`-shaped, as predicted. Five plausible titles were read in full. The closest, Gerber 2007
+(`10.3201/eid1308.060428`), reports PCR missing **4–20% of hybridizable plasmid genes** — the
+right shape, and the registry does hold an `hlyA` entry — but fails twice over: its `hlyA`
+primers are a 1551 bp pair credited elsewhere, not Wang 1997's 361 bp `O157-3`/`O157-4`, and it
+reports **no malB result at all**, the gene appearing once in its primer table as an unreported
+internal control.
+
+> **The pass paid anyway, in a currency it was not looking for.** Gerber 2007's Table prints
+> `MalBU GACCTCGGTTTAGTTCACAGA`, **byte-identical to the stored `Eco1` forward**, so that oligo
+> now has an independent printed source — worth having, because Candrian 1991 is paywalled and
+> the entry's sequences have never been checked against their own design paper. Two cautions
+> keep it out of the registry as evidence: the reverse is *not* confirmed (Gerber pairs the
+> same forward with a different reverse for 414 bp against the registry's 585), and the paper
+> attributes the primer to "This study" rather than to Candrian. Nothing was changed; the
+> entry's `orientation_inferred` flag is untouched, since `MalBU` is a forward too.
+
+### What is left, and what each one now needs
+
+- **Mao 1997 and Neill & Seal 1995** — still the only papers blocking a question rather than a
+  completeness read, still proxy-blocked. Both are in `papers/papers-fetch-list.md` with their
+  canonical filenames. Note the Hel1 question was *decided* yesterday on measurement, so that
+  PDF now confirms or reverses a decision already taken rather than unblocking one.
+- **The held-out set's drift shortfall** — 34 rows, and **literal oligo search over Europe PMC
+  is now spent.** Every searchable registry oligo has been tried: the Candrian forward was the
+  last rich one, the rest return 0 or are too degenerate to search. Closing the shortfall needs
+  a different instrument — the scoring-strategy plan's replay harness, or
+  `docs/2026-10-06-lab-leads.md`.
+- **Three live groups have never been screened** — `10257/all`, `10258/all`, `129727/all`, the
+  parapoxvirus entries added 2026-10-24. They should be picked up on the next pipeline run;
+  worth confirming that rather than assuming it.
+
+
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)
 
 ## 2026-10-24, later: the three maintainer decisions were taken

@@ -168,7 +168,10 @@ search on each stored oligo:
 | `CIRCOVIRUSES` both rounds | - | not searchable literally; all four primers are degenerate |
 
 So the guess that apicoplast 23S primers are "widely reused" is not borne out: neither oligo
-appears in any Europe PMC full text. The rich seam is `E_coli_malB_Candrian_1991`, whose
+appears in any Europe PMC full text. **The rich seam was worked on 2026-10-25 and is closed:
+zero of the 59 clear the bar, and the pass is written up in
+`docs/2026-10-25-candrian-seam.md` (it did confirm the stored `Eco1` forward against an
+independent printed source).** The rich seam is `E_coli_malB_Candrian_1991`, whose
 forward returns **59** papers, mostly prevalence surveys including wildlife-relevant ones
 (migratory birds, dairy value chains); those are `works`-shaped rather than drift-shaped, and
 reading them is a pass of its own.
