@@ -62,6 +62,44 @@ internal control.
 > attributes the primer to "This study" rather than to Candrian. Nothing was changed; the
 > entry's `orientation_inferred` flag is untouched, since `MalBU` is a forward too.
 
+**5. The full run went, and it found something that was not on the list**
+(`docs/2026-10-25-chance-pairs-invent-denominators.md`). `results/2026-10-25/`, **434 of 434
+steps, 29m 09s, exit 0**. The three parapoxvirus groups are retrieved and screened by the
+pipeline for the first time, which was the point of running it. The run itself is clean and
+additive: of 146 pre-existing scored assays only **3 moved, each by ≤0.2 points** from new
+deposits, **no status changed**, and the six rows new to the report are yesterday's six new
+entries. 181 → 188 scoreable.
+
+**But the Orf entry came back at 75.0% where its note records 100%, and the gap is a scoring
+artefact that misstates an ACTIVE entry's verdict.** `max_pair_evalue: 0.01` admits an amplicon
+formed by chance in a record that does not carry the target; the record becomes `EVALUABLE`, the
+probe is absent because the region is absent, and the row scores `fail`. In Orf the genuine
+detects sit at pair_evalue 1.6e-19–7.7e-15 and the 76 artefact fails at 4.1e-5–8.4e-4 — ten
+orders of magnitude, all inside the cutoff. All 76 are real Orf virus, but they are **B2L**
+partials and the assay targets **RPO147**.
+
+Measured over every latest screen (134 groups), counting only probe-chemistry assays:
+**28,751 rows in 6 assays**, of which only two verdicts move, because the recent-window and
+minimum-evaluable gates absorb the rest. The one that matters:
+
+> **`OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023` is `active` and reads 42.2% when it is
+> 100.0%.** `no_amplicon` 25,401, `fail` 111, `detect` 81 — and **all 111 failures are chance
+> pairs, so it has no genuine failure at all.** It is reported under *Low Coverage* with its
+> CI upper bound below 90%, i.e. as an assay missing more than half of what it should find.
+> Penalties on those rows are `(6.5, 9)`, `(7, 9)`, `(6, 8.5)` against a `reduced_max` of 3.0.
+
+Orf's whole-archive figure is likewise **88 of 88 genuine evaluable, 100%**, reproducing its
+hand screen exactly — the hand screen used complete genomes, which carry RPO147. How many of
+the 9 non-detections in Orf's *recent* window are artefacts was **not** checked, so treat its
+75.0% as suspect rather than as a known 100%.
+
+**Nothing was changed; the lever is a threshold and this is a denominator change.** The doc
+prices three options and names the guard a fix must not break: **do not key the fix on the
+probe's absence.** The West African mpox assay's 2,688 failures are probe-less with
+`fwd_penalty` 0 and `rev_penalty` 0 — real amplification that the clade-II probe genuinely
+misses, and a finding that must survive. The discriminator is primer penalty and `pair_evalue`,
+never the probe.
+
 ### What is left, and what each one now needs
 
 - **Mao 1997 and Neill & Seal 1995** — still the only papers blocking a question rather than a
@@ -73,9 +111,12 @@ internal control.
   last rich one, the rest return 0 or are too degenerate to search. Closing the shortfall needs
   a different instrument — the scoring-strategy plan's replay harness, or
   `docs/2026-10-06-lab-leads.md`.
-- **Three live groups have never been screened** — `10257/all`, `10258/all`, `129727/all`, the
-  parapoxvirus entries added 2026-10-24. They should be picked up on the next pipeline run;
-  worth confirming that rather than assuming it.
+- **Three live groups have never been screened** — **CLOSED 2026-10-25.** `10257/all`,
+  `10258/all` and `129727/all` were retrieved and screened by the 2026-10-25 full run. Confirming
+  it rather than assuming it is what turned up the chance-pair artefact in item 5.
+- **The chance-pair denominator (item 5)** — a priced maintainer decision, and the only one
+  currently misstating an `active` entry's verdict. Nothing else on this list touches a number
+  the report publishes.
 
 
 # Resume point, 2026-10-24 (overnight run of the open list; waves 0-5 of 2026-10-23 below)

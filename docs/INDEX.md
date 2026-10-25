@@ -32,6 +32,7 @@ Read these before trusting a status.
 | [`validation-cases.tsv`](validation-cases.tsv) | the cases themselves (the development set) |
 | [`validation-cases-heldout.tsv`](validation-cases-heldout.tsv) | 34 rows as of 2026-10-24, unscored; spent the first time a threshold decision reads it |
 | [`2026-10-24-heldout-candidates.md`](2026-10-24-heldout-candidates.md) | the first held-out sweep: 31 rows from 17 papers, and why the 5-drift-case target was missed |
+| [`2026-10-25-chance-pairs-invent-denominators.md`](2026-10-25-chance-pairs-invent-denominators.md) | chance primer pairs passing `max_pair_evalue: 0.01` make records that lack the target `EVALUABLE`, then fail them. 28,751 rows in 6 probe assays; two verdicts move, one of them an ACTIVE entry reading **42.2% when every genuine record detects (100%)**. Includes the guard a fix must not break (the West African mpox failures are real). Maintainer decision |
 | [`2026-10-25-candrian-seam.md`](2026-10-25-candrian-seam.md) | the 59-paper Candrian seam worked to the end: zero held-out rows, and why the closest call (Gerber 2007, PCR missing 4-20% of plasmid genes) does not count. Confirms the stored `Eco1` forward against an independent printed source. Literal oligo search over Europe PMC is now spent |
 
 ## The 2026-10-23 plan of attack, in order
