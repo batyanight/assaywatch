@@ -109,9 +109,10 @@ hand screen exactly — the hand screen used complete genomes, which carry RPO14
 window was checked after the correction: 9 of its 37 recent evaluable rows are artefacts and
 the rest all detect, so 75.7% → 100%, but it is a `draft` entry so no published verdict moves.
 
-**Removing the artefact does not rescue the three `mgb` fungal assays**: IGS 0.1% → 1.4%,
-ITS2/28S 0.8% → 31.8%, *B. sal* 4.4% → 25.8%. They have a large genuine problem that the
-artefact was sitting on top of. Only `targetD` and Orf go to exactly 100.0%.
+Removing the artefact takes the three `mgb` fungal assays only to IGS 1.4%, ITS2/28S 31.8%,
+*B. sal* 25.8%, which I first read as "a large genuine problem underneath". **Withdrawn the
+same day** — those are whole-archive rates and the residue is more chance windows, not a
+problem; see plan step 1. Only `targetD` and Orf go to exactly 100.0%.
 
 **Nothing was changed; the lever is a threshold and this is a denominator change.** The doc
 prices three options and names the guard a fix must not break: **do not key the fix on the
@@ -173,11 +174,24 @@ could sit in the report without looking anomalous.
 
 ### The plan, in the order that unblocks the most
 
-1. **Diagnose the three `mgb` fungal assays.** Cheapest, three `active` entries, and newly
-   exposed: after the artefact is removed IGS is 1.4%, ITS2/28S 31.8%, *B. sal* 25.8%. Nobody
-   has looked. First hypothesis is scope - these are fungal ITS/IGS loci whose archives may be
-   dominated by non-target fungi that should be excluded rather than failed, which is a
-   `scope_taxids` question with precedent here. Needs no decision and no network.
+1. ~~**Diagnose the three `mgb` fungal assays.**~~ **DONE 2026-10-25:**
+   `docs/2026-10-25-fungal-assays-diagnosed.md`. **Nothing is wrong with them, and the
+   "1.4% / 31.8% / 25.8%" framing above is WITHDRAWN** - those are whole-archive rates over
+   archives full of WGS contigs, and the report scores a recent window, where all three read
+   *no recent data* or *insufficient data* on **100% baselines**. The low rates were chance
+   32-mer probe windows in contigs that do not contain the locus: strain AMFP15/1 has one
+   contig at probe mismatch **0** and another at **11**, so the high numbers cannot be the ITS
+   locus at all. Same root cause as Orf and targetD, found from the probe side instead of the
+   primer side. The records that detect include `KC762295` and `NR_111867` (**TYPE material**),
+   both at 0.
+   > **One thin real signal, now a watch item, not a correction.** Five *B. sal* records
+   > deposited 2024-12-06 (`PQ661663`-`PQ661667`, SNU isolates) are 161-165 bp sequenced
+   > amplicons with **both primers perfect** and probe-window divergence of **2, 6, 8, 8 and
+   > 12** mismatches - the hydrolysis-probe failure that reads negative on a true positive. It
+   > is five records from one lab on one date, below `min_records_for_drift: 15`, which is why
+   > the report says "insufficient data" and is right to. **An independent source showing the
+   > same divergence would make it a drift case**, and the held-out set has exactly one of
+   > those today.
 2. **The locus-identity test, generalising decision A — now DESIGNED, not built:**
    `docs/2026-10-25-locus-identity-design.md`. Ask whether an amplicon's **interior** is
    homologous to the assay's own detecting amplicons; the records that detect certainly carry
