@@ -617,6 +617,29 @@ drift:
   # 0.001 (row-identical at both), so the choice is on mechanism and the single
   # cross-check we have, which both point at 0.001.
   anchor_fdr: 0.001
+  # The chance-PAIR counterpart of anchor_fdr, for PROBE-BEARING assays only.
+  # anchor_fdr guards the record where ONE primer anchored by chance. When BOTH
+  # do and happen to face each other in range, the record gets an amplicon, so
+  # it joins the EVALUABLE set instead and that test never sees it; the probe
+  # then has nowhere to bind in a locus that is not there, and the row scores
+  # `fail`. Measured 2026-10-25 over 134 groups: 26,691 such rows in 6 assays,
+  # and OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023 published 42.2% while every
+  # record carrying targetD detected - 81 detect, 111 chance pairs, no genuine
+  # failure (docs/2026-10-25-chance-pairs-invent-denominators.md).
+  #
+  # NO THRESHOLD OF ITS OWN, deliberately. The test is: probe site absent AND
+  # both primers above `scoring.oligo_weak_max` (3.0), the bar at which one
+  # oligo alone is already `blocked`. Reusing that number rather than inventing
+  # one keeps this honest - there is no new measurement behind a new constant.
+  #
+  # An E-value test was tried first and does not work, in either form. pair_evalue
+  # scales with match quality as well as length and search space, so a REAL but
+  # divergent site necessarily scores weak: within RANAVIRUS_..._MCP_Pallister_2007
+  # the detects are 2.4e-16 and the genuine fails 5.6e-7..2.2e-5, which looks
+  # exactly like Orf's chance pairs at 4.1e-5..8.4e-4. Lowering max_pair_evalue
+  # throws away the real ranavirus failures, and BH over pairs rejects them too
+  # because it is assay-relative. Both withdrawn 2026-10-25.
+  chance_pair_test: true
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid
   # libraries), so an assay missing one is not evidence about circulating virus.

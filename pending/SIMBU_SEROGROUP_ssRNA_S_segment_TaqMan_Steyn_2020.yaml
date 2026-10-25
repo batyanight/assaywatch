@@ -1,0 +1,87 @@
+id: SIMBU_SEROGROUP_ssRNA_S_segment_TaqMan_Steyn_2020
+name: SIMBU SEROGROUP (ssRNA-) — S segment TaqMan RT-PCR
+target:
+  taxid: 11572
+  gene: S segment
+  genome_type: ssRNA-
+  taxon_name: Orthobunyavirus
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: Ortho(SimbuF152)
+    seq: TAGAGTCTTCTTCCTCAAYCAGAAGAAGGCC
+  reverse:
+    name: Ortho(SimbuR304)
+    seq: GTYAMGGCAMTGTCTGGCACAGGATTTG
+  probe:
+    name: Ortho(Simbu-probe252)
+    seq: TGGTTAATAACCATTTTCC
+amplicon_bp: 152
+citation:
+  doi: 10.3201/eid2607.190770
+  design_year: 2020
+  n_sequences_at_design: null
+  as_written: Steyn et al. 2020
+  doi_verified: false
+  reference: Steyn J et al. 2020. Shuni Virus in Wildlife and Nonequine Domestic Animals, South Africa. Emerg Infect
+    Dis 26:1521-1525
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+  notes_curator: 'CANDIDATE ADDED 2026-10-25 from the maintainer''s Downloads, NOT VERIFIED AGAINST ITS OWN DESIGN
+    PAPER. The oligos are read from Table 1 of van der Walt M et al. 2023, Identification and Molecular
+    Characterization of Shamonda Virus in an Aborted Goat Fetus in South Africa, Pathogens 12:1100,
+    doi:10.3390/pathogens12091100, held as papers/10.3390_pathogens12091100.pdf. That table prints them as the
+    "Simbu Serogroup TaqMan Real-Time RT-PCR Assay", S segment, 152 bp, positions 152-304, and attributes them to
+    its reference [20], which is Steyn 2020 - so this entry cites Steyn and flags the indirect route. Steyn 2020 is
+    Emerging Infectious Diseases and therefore open access; it is NOT yet held, and step 1 of pending/README.md
+    (confirm every sequence against the paper that prints them) is what remains. Crossref resolves the DOI
+    (checked 2026-10-25), but doi_verified stays false until scripts/resolve_citations.py sets it, which is the
+    only thing permitted to.
+
+    THE NAME-TO-SEQUENCE MAPPING WAS CHECKED, not merely transcribed. pdftotext without -layout interleaves this
+    table''s name and sequence columns, and read that way the forward and reverse are swapped. With -layout the
+    rows align as recorded above, and there is an internal cross-check that confirms it: the same paper''s nested
+    S-segment assay prints Ortho(SimbuF141) as CGRTRYYGYTAGAGTCTTCTTCC, whose 3'' end TAGAGTCTTCTTCC is the 5''
+    start of the sequence assigned to F152 here. A forward primer 11 bases downstream of another forward primer
+    must share that overlap, and a reverse primer could not. The oligo names also encode their positions
+    (F152/R304/probe252) consistently with the stated 152-304 span.
+
+    TAXID IS THE GENUS, DELIBERATELY, AND IS WIDER THAN THE ASSAY. "Simbu serogroup" is not a taxonomic rank. NCBI
+    has Simbu orthobunyavirus 3052441, Shuni orthobunyavirus 3052440 and Shamonda orthobunyavirus 159150 as
+    separate species, so no single species node covers the serogroup and 3052441 would wrongly exclude the Shuni
+    and Shamonda viruses this assay is used to detect. 11572 Orthobunyavirus is the same retrieval taxon the four
+    ORTHOBUNYAVIRUS_*_Briese_2007 entries already use. It is far wider than the serogroup, so this entry carries
+    scope_narrower_than_taxid and would need scope work before it could be screened meaningfully.
+
+    AMPLICON: 152 is the published figure. The printed span 152-304 is 153 bp inclusive, an off-by-one of the kind
+    this registry resolves by measurement rather than by argument, so nothing is decided here; amplicon_bp must be
+    measured against real records before this goes live and may well disagree with both numbers.
+
+    NOT THE ONLY ASSAY IN THAT PAPER. van der Walt 2023 Table 1 also prints four assays it designed itself ("This
+    study"), all conventional and all with degenerate pooled primers: a Simbu S-segment nested pair
+    (F141/R718, 576 bp; nested FN403/RN695, 291 bp), a Simbu M-segment hemi-nested pair (M2671+/M3476-, 807 bp;
+    nested M2671+/M3110-, 421 bp) and a pan-orthobunyavirus hemi-nested assay (Peri-F1 and others, 513 bp). Those
+    have clean provenance - the paper that designed them is the paper we hold - and are better candidates than this
+    one on that count, but the paper states the primers could only be tested as pools, not individually, which is
+    the pooled_as_one_assay situation and wants a reading of its own before entry. Deliberately left out of this
+    entry rather than guessed at.'
+needs_review:
+- flag: oligos_from_secondary_source
+  note: read from van der Walt 2023 Table 1, which credits Steyn 2020; Steyn is not held and the sequences have
+    not been seen in it
+- flag: citation_is_indirect
+  note: the cited paper is the one credited for the design, not the one the sequences were read from
+- flag: oligo_source_unresolved
+  note: pending step 1 of pending/README.md - fetch Steyn 2020 (open access, EID) and confirm all three oligos
+    against its own table before this can go live
+- flag: scope_narrower_than_taxid
+  note: the assay is Simbu serogroup specific; taxid 11572 is the whole Orthobunyavirus genus because the serogroup
+    is not a taxonomic rank
+- flag: amplicon_size_unresolved
+  note: published 152 bp against a printed 152-304 span that is 153 bp inclusive; to be measured, not argued

@@ -47,6 +47,7 @@ from assaywatch.accession import version_of as version_of
 # calls-table I/O library, and `report.read_calls` is where every caller and six
 # test files already look for them.
 from assaywatch.calls import apply_anchor_fdr as apply_anchor_fdr
+from assaywatch.calls import apply_chance_pair_test as apply_chance_pair_test
 from assaywatch.calls import key_calls_by_accession as key_calls_by_accession
 from assaywatch.calls import read_calls as read_calls
 from assaywatch.calls import read_dates as read_dates
@@ -1858,6 +1859,10 @@ def build(
     # The archive-scale anchor test, before anything reads an exclusion label
     # (drift, nested, lineage all take these rows). Off unless drift.anchor_fdr is set.
     apply_anchor_fdr(calls, cfg)
+    # Its chance-PAIR counterpart, which moves rows OUT of the evaluable set, so
+    # it has to run before the denominator is formed for the same reason.
+    # Probe-bearing assays only; off unless drift.chance_pair_test is set.
+    apply_chance_pair_test(calls, cfg, {a.id for a in assays.values() if a.oligos.probe is not None})
     dates = read_dates(retrieved)
     run_date = run_date or calls_path.parent.name
     if today is None:

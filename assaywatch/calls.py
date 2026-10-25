@@ -24,6 +24,7 @@ from __future__ import annotations
 import csv
 import gzip
 from collections import defaultdict
+from contextlib import suppress
 from pathlib import Path
 from typing import Any
 
@@ -62,6 +63,16 @@ def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str,
         ie = header.index("exclusion") if "exclusion" in header else None
         # The best lone site's per-record E-value behind that label, for `apply_anchor_fdr`.
         ian = header.index("anchor_evalue") if "anchor_evalue" in header else None
+        # For `apply_chance_pair_test`: the two primer penalties, carried ONLY on a
+        # `fail` row whose probe site is absent. That is the only row the test can
+        # move, and it is a small minority (26,691 of 132,496 evaluable rows on
+        # 2026-10-25), so the memory this costs is bounded by those rows rather than
+        # by the whole table - which is the constraint this function exists to respect.
+        pp_idx = (
+            [header.index(c) for c in ("probe_site", "fwd_penalty", "rev_penalty")]
+            if all(c in header for c in ("probe_site", "fwd_penalty", "rev_penalty"))
+            else None
+        )
         # The footprint is known only where the row's own scoring columns are
         # populated (see drift.FOOTPRINT_REQUIRED). Having the six mismatch
         # columns in the HEADER is not enough: `collect.concatenate_screens` unions
@@ -88,6 +99,11 @@ def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str,
             }
             if ian is not None and ian < len(r) and r[ian] != "":
                 row["anchor_evalue"] = float(r[ian])
+            if pp_idx is not None and row["call"] == "fail" and all(i < len(r) for i in pp_idx):
+                ps, fwd, rev = (r[i] for i in pp_idx)
+                if ps in ("-", "") and fwd != "" and rev != "":
+                    with suppress(ValueError):
+                        row["probeless_penalties"] = (float(fwd), float(rev))
             if fp_idx is not None and all(i < len(r) and r[i] != "" for i in req_idx):
                 row["footprint"] = footprint_signature(r[i] if i < len(r) else "" for i in fp_idx)
             if span_idx is not None and row["assay_id"] in with_spans:
@@ -156,6 +172,89 @@ def apply_anchor_fdr(rows: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[st
             if min(1.0, float(r["anchor_evalue"])) > cut:
                 r["exclusion"] = CHANCE_ANCHOR
                 moved[aid] = moved.get(aid, 0) + 1
+    return moved
+
+
+#: The label a probe-less amplicon gets when its primers are too poor to be a real placement.
+CHANCE_PAIR = "chance_pair"
+
+
+def apply_chance_pair_test(
+    rows: list[dict[str, Any]], cfg: dict[str, Any], probe_assays: set[str]
+) -> dict[str, int]:
+    """Relabel `fail` rows that are a chance PAIR, not an amplicon. Off unless `drift.chance_pair_test`.
+
+    `apply_anchor_fdr` above guards the case where ONE primer anchored by chance,
+    and its docstring states the problem exactly: "a `diverged` label there
+    asserts the assay fails on a record that never held its target". When BOTH
+    primers anchor by chance and happen to face each other in range, the record
+    gets an amplicon instead, so it becomes EVALUABLE and never enters that
+    test's family. It then scores `fail`, because the probe has nowhere to bind
+    in a locus that is not there. Measured 2026-10-25 over 134 groups: 26,691
+    such rows in 6 probe-bearing assays, and
+    `OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023` published 42.2% where every
+    record that actually carries targetD detects - 81 detect, 111 chance pairs,
+    no genuine failure at all (docs/2026-10-25-chance-pairs-invent-denominators.md).
+
+    **Why not an E-value test, of either kind.** `pair_evalue` cannot do this
+    job. It scales with amplicon length, search space AND match quality, so a
+    real site that is merely divergent necessarily scores weak - which is the
+    record a drift registry most needs to count. Within
+    `RANAVIRUS_..._MCP_Pallister_2007` the detects sit at 2.4e-16 and the
+    GENUINE fails at 5.6e-7..2.2e-5, an eight-order gap that looks exactly like
+    Orf's chance pairs at 4.1e-5..8.4e-4. Lowering `max_pair_evalue` discards
+    the real ranavirus failures; Benjamini-Hochberg over pairs rejects them too,
+    being assay-relative, because they are a small weak minority among strong
+    rows just as the chance pairs are. Both were tried and withdrawn the same
+    day.
+
+    **What does separate them is the probe.** It binds inside the amplicon, at
+    the target locus, so its presence tests "is the locus here?" independently
+    of how well the primers matched. The test is therefore conjunctive, and both
+    halves are load-bearing:
+
+    - probe site ABSENT, and
+    - BOTH primers above `scoring.oligo_weak_max` - the bar at which one oligo
+      alone is `blocked`, so neither primer is a working placement.
+
+    `read_calls` carries `probeless_penalties` on exactly the rows that satisfy
+    the first half, so the absent probe site is already established by a row
+    having that key at all; this function decides the second half. Rows from a
+    screen with no penalty columns never get the key, and unknown is not chance.
+
+    Dropping the primer half would break the finding this exists to protect:
+    `MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010` fails 2,688 records that are
+    probe-less with `fwd_penalty` 0 and `rev_penalty` 0 - conserved primers that
+    genuinely amplify clade I, and a clade-II probe that genuinely does not bind
+    it. Real amplification, real failure, must count. Dropping the probe half
+    leaves penalties alone, which marks ~4,900 rows in the two LYSSAVIRUS
+    nucleoprotein entries that are plausibly real coverage failures.
+
+    `probe_assays` is passed rather than inferred from the rows: an assay whose
+    probe never binds anywhere would otherwise look probe-less and have its
+    every failure explained away. Conventional and SYBR assays have no probe and
+    so no locus-presence test; they are out of scope here and the general case
+    wants a locus-POSITION test instead (`loci.pair_spans`).
+
+    Returns {assay_id: rows relabelled}. Mutates `rows`.
+    """
+    if not (cfg.get("drift") or {}).get("chance_pair_test"):
+        return {}
+    bar = float(cfg["scoring"]["oligo_weak_max"])
+    moved: dict[str, int] = {}
+    for r in rows:
+        if r.get("call") != "fail" or r["assay_id"] not in probe_assays:
+            continue
+        pen = r.get("probeless_penalties")
+        if pen is None:
+            # Either the probe site was present, or the screen carried no penalty
+            # columns. Unknown is not chance.
+            continue
+        fwd, rev = pen
+        if fwd > bar and rev > bar:
+            r["call"] = "no_amplicon"
+            r["exclusion"] = CHANCE_PAIR
+            moved[r["assay_id"]] = moved.get(r["assay_id"], 0) + 1
     return moved
 
 

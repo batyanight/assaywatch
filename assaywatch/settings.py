@@ -249,6 +249,10 @@ class Drift(Block):
     exclude_patent_records: bool = False
     #: null means "record the anchor E-value, relabel nothing" (calls.apply_anchor_fdr).
     anchor_fdr: float | None = Field(default=None, gt=0, lt=1)
+    #: The chance-PAIR counterpart of anchor_fdr, for probe-bearing assays only
+    #: (calls.apply_chance_pair_test). No threshold of its own: it reuses
+    #: scoring.oligo_weak_max as the per-primer bar.
+    chance_pair_test: bool = False
 
     @model_validator(mode="after")
     def windows_are_ordered(self) -> Drift:
