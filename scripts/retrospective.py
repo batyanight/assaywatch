@@ -76,7 +76,7 @@ PARTIAL = {"low coverage"}
 UNDECIDED = {"insufficient data", "no recent data", "no data"}
 
 
-def precision_lines(rows: list[tuple[str, str, str, str]]) -> list[str]:
+def precision_lines(rows: list[tuple[str, str, str, str]], intervals: str = "jeffreys") -> list[str]:
     """What the confusion matrix means for someone reading a flag. Rows are
     (expect, mechanism, status, verdict), one per case.
 
@@ -98,18 +98,43 @@ def precision_lines(rows: list[tuple[str, str, str, str]]) -> list[str]:
     - an interval on each proportion, because with ~7 independent failure events
       a one-case change is inside the noise and the number should look like it.
 
-    Wilson, from `assaywatch.interval`, the estimator the report uses; it needs
-    no scipy, which this script must not depend on for a summary.
+    THE ESTIMATOR IS NAMED IN EVERY LINE, and that is not pedantry: the shipped
+    2026-10-22 report said "Intervals are Wilson 95%" over numbers half of which
+    were Wald, which is how a zero-width interval reached a verdict. So a Wilson
+    line says `CI` and a Jeffreys line says `CrI`, because one is a confidence
+    interval about a procedure and the other a credible interval about the
+    quantity, and at these counts a reader is entitled to know which.
+
+    Jeffreys is the default where it can be had, because this matrix is the one
+    place in the project whose counts are single digits
+    (`docs/bayesian-scoring-plan.md` C3), and `docs/2026-10-23-baseline.md`
+    already quotes Jeffreys figures for it. It needs scipy, which is the
+    `[lineage]` extra, so Wilson remains the fallback: this summary must not be
+    the thing that makes scipy mandatory.
     """
     from assaywatch.interval import wilson_interval
+
+    estimator = intervals
+    if estimator == "jeffreys":
+        try:
+            from assaywatch.interval import jeffreys_interval
+
+            jeffreys_interval(1, 2)  # does scipy actually import here
+        except SystemExit:
+            estimator = "wilson"
 
     def frac(k: int, n: int) -> str:
         if not n:
             return f"{k}/{n}"
+        if estimator == "jeffreys":
+            from assaywatch.interval import jeffreys_interval
+
+            lo, hi = jeffreys_interval(k, n)
+            return f"{k}/{n} = {k / n:.0%} (95% CrI {lo:.0%}-{hi:.0%})"
         lo, hi = wilson_interval(k, n)
         return f"{k}/{n} = {k / n:.0%} (95% CI {lo:.0%}-{hi:.0%})"
 
-    out = ["", "precision:"]
+    out = ["", f"precision (intervals: {estimator}):"]
     dec = [r for r in rows if r[2] == "declining"]
     out.append(
         f"  declining calls that were documented failures (PPV): {frac(sum(r[0] == 'fails' for r in dec), len(dec))}"
@@ -118,6 +143,15 @@ def precision_lines(rows: list[tuple[str, str, str, str]]) -> list[str]:
     caught = [r for r in fails if r[3] == "agrees"]
     by_status = Counter(r[2] for r in caught)
     out.append(f"  documented failures caught: {frac(len(caught), len(fails))}")
+    # BOTH denominators, because `undecided` is missing data and not a miss. The
+    # tool declining to judge a case is a different event from judging it wrong,
+    # and 3 of the 11 `fails` rows are declined; reporting only the first ratio
+    # charges the tool for silence, reporting only the second hides how often it
+    # is silent. docs/2026-10-23-baseline.md prints both; this script printed one.
+    decided = [r for r in fails if r[3] != "undecided"]
+    if decided and len(decided) != len(fails):
+        out.append(f"    among the cases it judged at all: {frac(len(caught), len(decided))}")
+        out.append(f"    declined to judge: {len(fails) - len(decided)} of {len(fails)} `fails` cases")
     if caught:
         out.append("    credited to: " + ", ".join(f"{s} {n}" for s, n in by_status.most_common()))
         out.append(
@@ -432,6 +466,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--assay", action="append", help="limit to these assay ids; repeatable")
     ap.add_argument("--cases", type=Path, default=None, help="TSV of expected verdicts")
     ap.add_argument(
+        "--intervals",
+        choices=("jeffreys", "wilson"),
+        default="jeffreys",
+        help="estimator for the precision intervals; jeffreys needs scipy and falls back to wilson",
+    )
+    ap.add_argument(
         "--renames",
         type=Path,
         default=ROOT / "docs" / "rename-mapping.tsv",
@@ -523,7 +563,7 @@ def main(argv: list[str] | None = None) -> int:
         scored.append((c["expect"], c.get("mechanism") or "", status, verdict))
         print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {status:<18} {verdict}")
     print("\nsummary:", ", ".join(f"{e}/{v}: {n}" for (e, v), n in sorted(tally.items())))
-    print("\n".join(precision_lines(scored)))
+    print("\n".join(precision_lines(scored, args.intervals)))
     undecided = sum(n for (_, v), n in tally.items() if v == "undecided")
     if undecided:
         print(f"{undecided} case(s) the tool declined to judge (insufficient data): that is what calibrating")

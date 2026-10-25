@@ -1072,3 +1072,37 @@ def test_every_caller_of_assess_passes_the_patent_set():
             ):
                 missing.append(f"{path.relative_to(root)}:{node.lineno}")
     assert not missing, "assess() called without patent=: " + ", ".join(missing)
+
+
+def test_jeffreys_reproduces_the_baseline_docs_hand_computed_figures():
+    """docs/2026-10-23-baseline.md quotes three Jeffreys intervals, computed by
+    hand because the function did not exist. These are those three."""
+    from assaywatch.interval import jeffreys_interval
+
+    for k, n, lo, hi in ((5, 11, 20.0, 73.0), (5, 8, 29.5, 88.1), (2, 9, 4.9, 54.4)):
+        got = jeffreys_interval(k, n)
+        assert (round(100 * got[0], 1), round(100 * got[1], 1)) == (lo, hi), (k, n, got)
+
+
+def test_jeffreys_edges_and_empty():
+    """The conventional modification: 0 at k=0, 1 at k=n, and (0,1) for n=0 as
+    wilson_interval does. A bare quantile leaves a small residue instead."""
+    from assaywatch.interval import jeffreys_interval
+
+    assert jeffreys_interval(0, 20)[0] == 0.0
+    assert jeffreys_interval(20, 20)[1] == 1.0
+    assert jeffreys_interval(0, 0) == (0.0, 1.0)
+    # Not zero-width at the edges, which is the whole complaint against Wald.
+    assert jeffreys_interval(0, 20)[1] > 0.05
+    assert jeffreys_interval(20, 20)[0] < 0.95
+
+
+def test_jeffreys_is_narrower_as_n_grows_and_contains_the_point():
+    from assaywatch.interval import jeffreys_interval
+
+    widths = []
+    for n in (10, 50, 250):
+        lo, hi = jeffreys_interval(n // 2, n)
+        assert lo < 0.5 < hi
+        widths.append(hi - lo)
+    assert widths == sorted(widths, reverse=True), widths

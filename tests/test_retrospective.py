@@ -519,7 +519,17 @@ def test_precision_is_reported_beside_sensitivity():
     assert "caught by the drift flag itself (declining): 2/11 = 18%" in out
     assert "failure cases by mechanism: coverage 10, drift 1" in out
     assert "working assays called declining (false alarms): 5/32 = 16%" in out
-    assert "95% CI" in out, "a proportion on ~7 independent events must carry its interval"
+    assert "95% CrI" in out, "a proportion on ~7 independent events must carry its interval"
+    # The estimator is named, and CI vs CrI distinguishes them. The shipped
+    # 2026-10-22 report said "Intervals are Wilson 95%" over numbers half of which
+    # were Wald, which is how a zero-width interval reached a verdict.
+    assert "intervals: jeffreys" in out
+    wilson = "\n".join(retro.precision_lines(rows, "wilson"))
+    assert "intervals: wilson" in wilson and "95% CI " in wilson
+    assert "CrI" not in wilson
+    # `undecided` is missing data, not a miss: both denominators are printed.
+    assert "among the cases it judged at all: 5/8" in out
+    assert "declined to judge: 3 of 11" in out
 
 
 def test_nothing_reads_the_holdout_file_by_default():
