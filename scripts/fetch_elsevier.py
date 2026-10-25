@@ -1,231 +1,198 @@
 #!/usr/bin/env python3
-"""Fetch Elsevier full text over the official API, for the papers this registry still needs.
+"""Fetch Elsevier (10.1016/...) PDFs through the Elsevier Article Retrieval API.
 
-    python scripts/fetch_elsevier.py                 # every outstanding Elsevier DOI
-    python scripts/fetch_elsevier.py --doi 10.1016/j.vetmic.2012.07.030 -v
+Usage (from the repo root):
+    python scripts/fetch_elsevier.py --list docs/papers-still-needed-2026-10-24.md
+    python scripts/fetch_elsevier.py --doi 10.1016/j.jviromet.2007.05.021 --doi 10.1016/...
 
-Elsevier is the largest single block of unreadable papers here: 12 of the 33
-outstanding, carrying 42 of the 106 oligos that cannot currently be checked
-against their source. Their publisher site blocks automated browsers outright
-(error CPE00001 on the User-Agent), but Elsevier also runs a documented API for
-exactly this purpose, so that is the route.
+Credentials (read, never printed):
+    ELSEVIER_API_KEY     required. Env var, or a KEY=VALUE line in ./.env (gitignore it).
+    ELSEVIER_INSTTOKEN   optional. Institutional token, only if Elsevier issued you one.
 
-The key
--------
-Read from `.secrets/elsevier.key` or `$ELSEVIER_API_KEY`, both gitignored. It is
-never printed, never logged, and never written into an output file - only its
-length is ever reported, and only to confirm it loaded. Get one free at
-<https://dev.elsevier.com> with an institutional account.
+Output:
+    papers/<doi_stem>.pdf                one file per DOI that came back as a real PDF
+    results/elsevier-fetch.tsv           one row per DOI: doi, http, outcome, detail, path
 
-Entitlement, and what was actually wrong here
---------------------------------------------
-Full text is a SEPARATE entitlement from being able to read ScienceDirect, and a
-valid key does not imply it. Tested 2026-10-05 with a real key, on and off the
-NYU VPN:
+Filenames go through `assaywatch.papers.doi_stem`, like everything else that writes
+into `papers/`. This script used to carry its own `slug()`, a fourth private copy of
+the convention that module exists to hold; its output happened to agree because every
+reader lowercases, which is what made it worth removing before it stopped agreeing.
 
-    /content/search/scopus      200, real results   -> the key is fine
-    /content/article/doi/...    403 AUTHENTICATION_ERROR
-                                "Requestor configuration settings insufficient
-                                 for access to this resource."
+Why the API can say no even with a valid key: full text is gated on *entitlement*, which
+Elsevier decides per request from (a) the article being open access, (b) the request's IP
+being inside a subscribing institution's registered ranges, or (c) an X-ELS-Insttoken.
+A plain key from a non-institutional IP gets OA articles and AUTHORIZATION_ERROR on the rest.
+The TSV makes that visible per DOI instead of guessing.
 
-That message means the key's account is not configured for full-text retrieval.
-It is not an IP problem, so the VPN does not help. The remedy is an Elsevier
-INSTITUTIONAL TOKEN, issued to the institution for text and data mining and sent
-as the `X-ELS-Insttoken` header; it also works off-network. Ask the NYU library
-for one, referencing the ScienceDirect Article Retrieval API.
-
-Put it in `.secrets/elsevier.insttoken` or `$ELSEVIER_INSTTOKEN` and this script
-will send it automatically.
-
-Without entitlement the API can also answer 200 with a metadata-only envelope -
-the same reply you get with no key at all - which is why this script checks for
-an actual body rather than trusting the status code.
-
-Output
-------
-Full text is saved to `papers/` as `<doi with slashes as underscores>.xml`, so
-`verify_oligos_against_paper.py --pdf-dir papers` picks it up beside the PDFs.
-XML is better than a PDF here: no layout to fight, no table cells glued onto
-sequences, and the primer tables come through as text.
+This asks for `application/pdf`, so the guard against a metadata-only reply is the
+`%PDF` magic number rather than the `<body>` test the XML fetcher needed. The reason
+that test exists is worth carrying: Elsevier answers 200 with a
+`full-text-retrieval-response` envelope whether or not it contains the article, so the
+status line says nothing. Mao, Hedrick & Chinchar 1997 (10.1006/viro.1996.8435, the
+pan-ranavirus MCP design paper) came back on 2026-10-24 as 110 KB of metadata,
+abstract and references with no body and no sequence anywhere in it, and was saved and
+reported as full text. A paper wrongly recorded as held is the expensive kind of error
+here - it is what sent a reader after Santee 2003 behind a paywall it is not behind.
+Bytes, never the status code.
 """
 
-from __future__ import annotations
-
 import argparse
-import csv
+import json
+import os
 import re
 import sys
 import time
 import urllib.error
-import urllib.parse
 import urllib.request
 from pathlib import Path
+from urllib.parse import quote
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import yaml  # noqa: E402
-
-from assaywatch.credentials import contact_email, read_secret, read_secret_file  # noqa: E402
-from assaywatch.papers import doi_stem, held_dois  # noqa: E402
+from assaywatch.papers import doi_stem, held_dois
 
 API = "https://api.elsevier.com/content/article/doi/"
-ELSEVIER_PREFIXES = ("10.1016", "10.1006", "10.1053", "10.1054")
+# The needed-papers markdown always renders the DOI as [DOI](https://doi.org/DOI).
+# Matching that exact shape is safer than a loose DOI regex, because some Elsevier
+# DOIs contain parentheses (e.g. 10.1016/s0166-0934(02)00148-9) that a generic
+# pattern would cut in half.
+LINKED_DOI_RE = re.compile(r"\[(10\.1016/[^\]]+)\]\(https://doi\.org/")
+PAUSE_S = 0.5  # stay well under Elsevier's per-second limit
 
 
-def load_secret(explicit: Path | None, env_var: str, default_name: str) -> str:
-    """A credential, from a file or the environment. Never echoed, only measured.
-
-    Read by `assaywatch.credentials`, so a key file from Windows PowerShell (UTF-16)
-    or Notepad (a UTF-8 byte-order mark) is read correctly, or refused with a reason
-    by `python -m assaywatch.credentials`, instead of crashing here or sending a key
-    with an invisible character on the front of it.
-    """
-    if explicit and explicit.exists():
-        return read_secret_file(explicit)
-    return read_secret((env_var, default_name))
+def repo_root() -> Path:
+    return Path(__file__).resolve().parent.parent
 
 
-def has_body(xml: str) -> bool:
-    """Does this response actually contain the article, or only its metadata?
-
-    Elsevier answers 200 with a `full-text-retrieval-response` envelope either
-    way, so the status code says nothing. Require a real `<body>` element.
-
-    The three markers this used to accept - `originalText`, `<xocs:doc>`,
-    `ce:section` - plus a length over 8 KB, are all present in a reply that
-    carries only metadata, an abstract and a long reference list. Mao, Hedrick &
-    Chinchar 1997 (10.1006/viro.1996.8435, the pan-ranavirus MCP design paper)
-    came back that way on 2026-10-24: 110 KB, every marker present, no body, no
-    sequence anywhere in it, and it was saved and reported as "full-text". A
-    paper wrongly recorded as held is the expensive kind of error here - it is
-    what sent a reader after Santee 2003 behind a paywall it is not behind - so
-    the test is now the element itself. Audited over the twelve XML deposits in
-    `papers/` at the time: all twelve carry `<body>`, so nothing already held was
-    overstated by the looser test.
-    """
-    return re.search(r"<(ja:)?body[\s>]", xml) is not None
-
-
-def outstanding(registry: Path, pdf_dir: Path) -> list[str]:
-    """Elsevier DOIs cited by the registry with nothing readable held locally."""
-    # Forward-mapped through held_dois, never `stem.replace("_", "/")`. That
-    # reverse mapping is what assaywatch/papers.py exists to stop, and it was
-    # still here: it reads `10.1016_s0166-0934_96_02155-6.pdf` back as
-    # `10.1016/s0166-0934/96/02155-6`, which is no DOI, so all eleven
-    # parenthesised Elsevier papers read as missing and would have been
-    # re-fetched over the API. It went unnoticed while those files were stored
-    # under the slash-only spelling, where the reverse mapping happened to come
-    # out right; renaming them to the canonical stem on 2026-10-24 is what
-    # exposed it.
-    candidates = []
-    for f in sorted(registry.glob("*.yaml")):
-        d = yaml.safe_load(f.read_text())
-        doi = ((d.get("citation") or {}).get("doi") or "").lower()
-        if doi.startswith(ELSEVIER_PREFIXES) and doi not in candidates:
-            candidates.append(doi)
-    held = held_dois(candidates, pdf_dir)
-    return [d for d in candidates if d not in held]
-
-
-def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--registry", type=Path, default=ROOT / "registry")
-    ap.add_argument("--pdf-dir", type=Path, default=ROOT / "papers")
-    ap.add_argument("--key-file", type=Path, default=None)
-    ap.add_argument(
-        "--insttoken-file",
-        type=Path,
-        default=None,
-        help="Elsevier institutional token; unlocks full text off-network",
-    )
-    ap.add_argument("--doi", action="append")
-    ap.add_argument("--tsv", type=Path, default=ROOT / "results" / "elsevier-fetch.tsv")
-    ap.add_argument("-v", "--verbose", action="store_true")
-    args = ap.parse_args(argv)
-
-    key = load_secret(args.key_file, "ELSEVIER_API_KEY", "elsevier.key")
-    insttoken = load_secret(args.insttoken_file, "ELSEVIER_INSTTOKEN", "elsevier.insttoken")
+def load_credentials() -> tuple[str, str | None]:
+    """Env vars win; otherwise read KEY=VALUE lines from <repo>/.env."""
+    key = os.environ.get("ELSEVIER_API_KEY")
+    inst = os.environ.get("ELSEVIER_INSTTOKEN")
+    env_file = repo_root() / ".env"
+    if (not key or not inst) and env_file.exists():
+        for line in env_file.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            v = v.strip().strip("'\"")
+            if k.strip() == "ELSEVIER_API_KEY" and not key:
+                key = v
+            elif k.strip() == "ELSEVIER_INSTTOKEN" and not inst:
+                inst = v
     if not key:
-        print(
-            "No API key. Put one in .secrets/elsevier.key or $ELSEVIER_API_KEY "
-            "(see .secrets/README.md); free at https://dev.elsevier.com",
-            file=sys.stderr,
-        )
-        return 1
-    # Only the length, never the value.
-    print(
-        f"key loaded ({len(key)} chars)"
-        + (
-            f", institutional token loaded ({len(insttoken)} chars)"
-            if insttoken
-            else ", no institutional token"
-        )
+        sys.exit("ELSEVIER_API_KEY not set (env var or .env in repo root).")
+    return key, inst or None
+
+
+def dois_from_list(path: Path) -> list[str]:
+    seen: list[str] = []
+    for m in LINKED_DOI_RE.finditer(path.read_text()):
+        doi = m.group(1).strip()
+        if doi not in seen:
+            seen.append(doi)
+    return seen
+
+
+def fetch_pdf(doi: str, key: str, inst: str | None) -> tuple[int, str, bytes]:
+    url = API + quote(doi, safe="/") + "?httpAccept=application/pdf"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "X-ELS-APIKey": key,
+            "Accept": "application/pdf",
+            "User-Agent": "assaywatch-fetch/1.0",
+        },
     )
+    if inst:
+        req.add_header("X-ELS-Insttoken", inst)
+    try:
+        with urllib.request.urlopen(req, timeout=90) as r:
+            return r.status, r.headers.get("Content-Type", ""), r.read()
+    except urllib.error.HTTPError as e:
+        # 401/403/404 bodies are JSON with Elsevier's own status code; keep them.
+        return e.code, e.headers.get("Content-Type", ""), e.read()
+    except urllib.error.URLError as e:
+        return 0, "", str(e.reason).encode()
 
-    dois = [d.lower() for d in args.doi] if args.doi else outstanding(args.registry, args.pdf_dir)
-    print(f"{len(dois)} Elsevier DOIs to fetch\n")
 
-    rows, got = [], 0
-    for doi in dois:
-        status, note, size = "", "", 0
-        try:
-            req = urllib.request.Request(
-                API + doi,
-                headers={
-                    "X-ELS-APIKey": key,
-                    **({"X-ELS-Insttoken": insttoken} if insttoken else {}),
-                    "Accept": "text/xml",
-                    "User-Agent": f"assaywatch/0.1 (research; {contact_email() or 'unset'})",
-                },
-            )
-            with urllib.request.urlopen(req, timeout=90) as r:
-                xml = r.read().decode("utf-8", "replace")
-            size = len(xml)
-            if has_body(xml):
-                dest = args.pdf_dir / (doi_stem(doi) + ".xml")
-                dest.parent.mkdir(parents=True, exist_ok=True)
-                dest.write_text(xml)
-                status, got = "full-text", got + 1
-                note = f"{size // 1024} KB"
+def explain_error(body: bytes) -> str:
+    """Pull Elsevier's statusCode/statusText out of an error body, if present."""
+    try:
+        j = json.loads(body.decode("utf-8", "replace"))
+        st = j["service-error"]["status"]
+        return f"{st.get('statusCode')}: {st.get('statusText')}"
+    except (ValueError, KeyError, TypeError, AttributeError):
+        # Not Elsevier's JSON error envelope: a plain-text or HTML body, or JSON
+        # shaped differently. Fall back to the first 200 characters of whatever
+        # arrived, which is what makes an unexpected reply legible in the TSV.
+        txt = body.decode("utf-8", "replace").strip().replace("\t", " ").replace("\n", " ")
+        return txt[:200]
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--list", type=Path, help="papers-still-needed markdown to pull 10.1016 DOIs from")
+    ap.add_argument("--doi", action="append", default=[], help="explicit DOI (repeatable)")
+    ap.add_argument("--pdf-dir", type=Path, default=repo_root() / "papers")
+    ap.add_argument("--log", type=Path, default=repo_root() / "results" / "elsevier-fetch.tsv")
+    ap.add_argument("--force", action="store_true", help="re-download even if the slug file exists")
+    args = ap.parse_args()
+
+    dois = list(args.doi)
+    if args.list:
+        dois += [d for d in dois_from_list(args.list) if d not in dois]
+    if not dois:
+        sys.exit("No DOIs: pass --list <markdown> and/or --doi <doi>.")
+
+    key, inst = load_credentials()
+    args.pdf_dir.mkdir(parents=True, exist_ok=True)
+    args.log.parent.mkdir(parents=True, exist_ok=True)
+    new_log = not args.log.exists()
+
+    counts = {"saved": 0, "skipped": 0, "not-entitled": 0, "error": 0}
+    # Forward-mapped through held_dois, never `stem.replace("_", "/")`, and over any
+    # extension: eleven of these papers are held as Elsevier `.xml` deposits, and a
+    # PDF-only check would re-fetch every one of them over the API.
+    held = held_dois(dois, args.pdf_dir)
+    with args.log.open("a") as log:
+        if new_log:
+            log.write("doi\thttp\toutcome\tdetail\tpath\n")
+        for i, doi in enumerate(dois, 1):
+            out = args.pdf_dir / f"{doi_stem(doi)}.pdf"
+            already = doi.strip().lower() in held and not args.force
+            # A truncated or HTML-bodied `.pdf` left by an earlier run is not a held paper.
+            if already and out.exists() and out.read_bytes()[:4] != b"%PDF":
+                already = False
+            if already:
+                outcome, http, detail = "skipped", "-", "already held"
+                counts["skipped"] += 1
             else:
-                status = "metadata-only"
-                note = "no entitlement from this network, or not in the full-text corpus"
-        except urllib.error.HTTPError as e:
-            status, note = (
-                f"HTTP {e.code}",
-                {
-                    401: "key rejected",
-                    403: (
-                        "no full-text entitlement - the key is valid but its account is not "
-                        "configured for it; an institutional token is what fixes this"
-                    ),
-                    404: "not in the Elsevier full-text corpus",
-                    429: "rate limited - slow down",
-                }.get(e.code, e.reason),
-            )
-        except Exception as e:  # noqa: BLE001
-            status, note = "error", type(e).__name__
-        rows.append({"doi": doi, "status": status, "bytes": size, "note": note})
-        if args.verbose or status != "full-text":
-            print(f"  {status:14s} {doi:42s} {note}")
-        time.sleep(0.8)  # Elsevier's weekly quota is generous, its rate limit is not
+                http, ctype, body = fetch_pdf(doi, key, inst)
+                # Trust the bytes, not the status line: a 200 that isn't a PDF is still a miss.
+                if http == 200 and body[:4] == b"%PDF":
+                    out.write_bytes(body)
+                    outcome, detail = "saved", f"{len(body)} bytes"
+                    counts["saved"] += 1
+                elif http in (401, 403):
+                    outcome, detail = "not-entitled", explain_error(body)
+                    counts["not-entitled"] += 1
+                else:
+                    outcome = "error"
+                    detail = f"content-type={ctype or '?'}; {explain_error(body)}"
+                    counts["error"] += 1
+                time.sleep(PAUSE_S)
+            print(f"[{i:2d}/{len(dois)}] {outcome:13s} {doi}  {detail}")
+            log.write(f"{doi}\t{http}\t{outcome}\t{detail}\t{out if outcome == 'saved' else ''}\n")
+            log.flush()
 
-    print(f"\n  {got} of {len(dois)} full texts saved to {args.pdf_dir}")
-    if got:
-        print("  re-run: python scripts/verify_oligos_against_paper.py --pdf-dir papers")
-    if any(r["status"] == "metadata-only" for r in rows):
+    print("\n" + "  ".join(f"{k}={v}" for k, v in counts.items()))
+    if counts["not-entitled"] and not inst:
         print(
-            "\n  'metadata-only' means the API answered but withheld the body. Check you are on "
-            "the NYU network or VPN - entitlement is by institution, not by key."
+            "not-entitled with no ELSEVIER_INSTTOKEN set: this IP is not recognised as NYU's.\n"
+            "Re-run from an NYU-registered network / VPN, or ask the library for an insttoken."
         )
-    args.tsv.parent.mkdir(parents=True, exist_ok=True)
-    with args.tsv.open("w", newline="") as fh:
-        w = csv.DictWriter(fh, ["doi", "status", "bytes", "note"], delimiter="\t")
-        w.writeheader()
-        w.writerows(rows)
-    return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()
