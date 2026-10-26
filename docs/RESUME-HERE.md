@@ -1,3 +1,136 @@
+# Resume point, 2026-10-26 (the replay harness is built and validated; the ladder is next)
+
+**Start here:** the plan is `~/.claude/plans/go-to-assaywatch-which-giggly-heron.md`, which
+resumes `go-to-assaywatch-resume-ancient-shell.md`. Its §1 and §2 shipped on 2026-10-26 before
+this session; §3 shipped in it. **The decision taken up front: measure the candidate ladder and
+ship nothing.** `docs/validation-cases-heldout.tsv` stays unread.
+
+Registry **unchanged at 209/179/29/1** throughout, and nothing below adds an entry or changes an
+oligo. Gate at each step: 1,655 tests, validator 209/209, pending 10/10, `check_citations`
+209/209, ruff clean.
+
+## 1. The footprint columns are finished and committed (`1fa4672`)
+
+The previous session ended mid-edit with 63 uncommitted lines in `assaywatch/score.py` and no
+tests. The emission was sound; what was missing was the proof. Eight tests now pin the format
+(`oligo:template@distance_from_3prime`) and three completeness rules: identity is recorded for
+**every** mismatch and not only those inside `primer_3prime_window`, because a replay may weight
+it at a different distance; an undetermined record base names no single pair, so it stays in
+`ambiguous` and appears here not at all; and a degenerate oligo base records its own code
+(`Y:T@2`) where `bench_panel.py` expands it, so the agreement test compares meaning, not text.
+Seven of the eight fail without the emission, verified by stashing `score.py` and re-running.
+
+The columns are deliberately **not** in `drift.FOOTPRINT_COLUMNS`, and a test pins that: the
+signature records positions and not bases on purpose, so two records differing only in which base
+sits at a mismatched position merge, which makes footprints fewer and the interval wider, the safe
+direction. Identity there would regroup the duplication analysis and move published intervals.
+
+## 2. The replay harness is built AND validated against a real rescreen (`e396b2b`)
+
+`scripts/rescore.py` with `strategies/s0-shipped.yaml` as its control.
+
+**Why it can be exact:** the distance from the 3' end is recorded per mismatch, so a primer needs
+no sequence and not even its own length. Only `score_probe` needs a length, for its thirds, and no
+probe pool in the registry holds oligos of differing lengths - now a test, because an assay that
+broke it would make every probe penalty here quietly wrong.
+
+**It was validated twice, and only the second test was worth anything.** On the 10244 archive
+(3,971 rows, 266 scored) the S0 replay reproduces every call, penalty and reason, with 171 rows
+requiring a nonzero recomputation. Then the same archive was **genuinely rescreened** under
+`engine: serial` and diffed against the replay of that strategy: **0 disagreements on call,
+penalty and reason across all 3,971 rows.** S0 agreement alone proves little, because a no-op
+replay is indistinguishable from a clean one - which is how the first chance-pair test nearly
+shipped - so liveness is proved separately (95 calls move under a loosened `reduced_max`, 19 under
+serial).
+
+> **The real rescreen found a defect S0 could not.** `screen_one` forces `fail` for an amplicon
+> whose probe has no site, but it does NOT force the penalty: `Call.penalty` is still `decide`'s
+> scalar. The first version returned the row's own penalty there, so under serial it reported 13.5
+> where the screen reported 7.5 on 19 rows - with **zero call disagreements**, because the call was
+> already pinned. Fixed, and pinned by a test that checks both halves.
+
+**The boundary prints on every run, in three parts.** Search knobs are REFUSED, not warned about.
+Denominator knobs are refused too, `max_ambiguous_per_oligo` included although its counts are in
+the table and it could be replayed - moving it moves the denominator, the axis that produced three
+failed candidates on 2026-10-25. A test asserts the two key sets partition `settings.Scoring`, so
+a new scoring key cannot be added without saying which side it falls on. And the one approximation
+that is not a refusal: **candidate selection is frozen.** The table holds only the amplicon the
+screen chose, so a strategy that would make a different candidate win cannot be seen. A strategy
+priced by replay is **PRICED, NOT PROVEN**; shipping one needs a confirming rescreen.
+
+`docs/bench-panels/panels.tsv` carries the panel-to-assay mapping, which until now lived only in
+shell history and in the table in `docs/2026-10-21-M1-identity-aware-penalty.md`. `paper` is the
+independence unit, so the two Meyer files leave out together; Rahn is marked `control` and is never
+a fitting set.
+
+## 3. The Leptospira panel finds FIVE published positives scored `fail`, not three (`6d515ff`)
+
+`docs/bench-panels/ahmed-2020-leptospira.tsv`, from Table 1 of the held PLOS ONE paper. Scored
+under the shipped config: **band detect 7, reduced 2, fail 5; no_band fail 4, no_amplicon 1.** So
+every published negative is correctly not detected, and five published positives read as failures:
+`L. kmetyi`, `L. adleri`, `L. gomenensis`, `L. barantonii` and `L. ellisii`. The entry's own note
+names three. `barantonii` is the one to watch - its records split 2 fail to 1 detect, so a
+representative picked by call rather than by rule could have hidden it either way.
+
+**All five carry `rev1 C:T`**, one mismatch at the reverse primer's 3'-terminal base.
+
+> **It already predicts that S3's switch alone will not rescue them.** Their penalties are 4, 5.5,
+> 4, 8 and 11.5 against `reduced_max` 3.0, so with the terminal rule off every one still clears the
+> bar on its remaining mismatches. That is the M1 coincidence again - `primer_3prime_penalty` 3.0
+> equals `reduced_max` 3.0 - and it is why S3 must be tested under S1's serial gates, not alone.
+
+Three substitutions are disclosed in the panel header, since Table 1 prints no accessions. `L.
+meyeri` is **excluded** and is the trap in that table: it is scored BOTH `+` (serovar Sofia) and
+`-` (serovar Semaranga), so no species-level label is honest for it.
+
+## 4. The second panel's premise is GONE, and this needs a decision
+
+The plan wanted a calicivirus Hel1 panel as the conventional half of a two-chemistry test of
+`terminal_mismatch_fails`, on the strength of "0 of 30 detected on one terminal base". **That
+finding was cured by the 2026-10-24 correction.** Hel1's 3'-terminal base was changed G->C, which
+is the form the template carries, so the terminal mismatch it rested on no longer exists. On
+`results/2026-10-25/` the entry reads **detect 17, reduced 2, fail 12**, not 0 of 30.
+
+So S3's conventional half has no panel behind it today. **`ROADMAP.md` Phase 2 still quotes the 0
+of 30 figure** and should be corrected once the replay confirms it on the new table. The Usutu
+class (a flat 3' window on a conventional primer) is the remaining conventional lead.
+
+## 5. Housekeeping done, and one reconciliation worth keeping
+
+- **The two C2 corpus numbers were never in conflict.** `docs/2026-10-24-scoring-strategy-test-plan.md`
+  gates S5 at 40 within-family negatives; `docs/bayesian-scoring-plan.md` names 60+ across >= 10
+  papers. 40 is that file's **kill floor**, 60 is its **collection target**: 40 is where C2 stops
+  being dead and 60 is where it starts being defensible. A corpus of 45 means "fit it and report
+  the interval honestly", never "the gate is met". Today it is 11. Cross-referenced in both files.
+- The Bayesian plan's "one infrastructure blocker" is recorded as closed by `1fa4672`.
+- **The tier-2 pointer at `docs/2026-10-06-lab-leads.md` is corrected** in two places above: those
+  leads are a source of NEW ASSAYS, not of retrospective validation cases, which need a paper
+  reporting how an assay already in the registry performed.
+- `ROADMAP.md` Phase 0's "5 assays promoted to active" is **ticked**; all five plus Oo IGS and the
+  Pallister intergenic pair read `status: active`. Its per-chemistry counts were refreshed from
+  128 of 138 to the live 155 of 209 and 51 with a probe.
+
+## What is next, in order
+
+1. ~~**The 2026-10-26 full run.**~~ **DONE: 445 of 445 steps, exit 0**, `results/2026-10-26/`.
+   The first screen carrying the footprint columns, and it moved nothing: against
+   `results/2026-10-25/` there are **0 call changes and 0 penalty changes across all 2,676,551
+   common rows**, with 3,343 rows new from one day of deposits. That is the required result - this
+   change writes down what the screen already computed, so a moved verdict would have been a stop.
+2. ~~**S0 against the real table.**~~ **DONE and clean:** `--expect-identical` over the full
+   2,724,036 rows, **0 differing on call, penalty or reason**. The harness is trustworthy on the
+   real table, so the ladder can start.
+3. **The ladder, pre-registered one at a time**: S1 `engine: serial` with the two thresholds fitted
+   on the panels by leave-one-panel-out, then S2 the smooth positional decay, then S3's two
+   switches, then S4 re-testing M1 under S1+S2+S3. Measure and write up; **ship nothing**.
+4. Still open and not started: the Bd miss phase 1 measurement (§5 of the plan),
+   `declared_tolerance`'s four size-less entries (§6), and the remaining housekeeping -
+   `subcluster.py`'s stale docstring, the `lineage_report.py:205` resolver asymmetry, the
+   `by_chemistry` comment's stale counts in `config.yaml`, and Mao 1997 against the
+   `RANAVIRUS_..._MCP_Johnson_2008` provenance note.
+
+---
+
 # Resume point, 2026-10-25 (the open list worked to its floor, one fix shipped, and a plan; 2026-10-24 below)
 
 **Start here:** the plan is the section "where the pipeline actually stands, and the plan",
