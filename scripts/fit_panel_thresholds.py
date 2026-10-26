@@ -180,9 +180,21 @@ def footprints_of(entry: dict[str, Any], cfg: dict[str, Any]) -> list[dict[str, 
 
 
 def score_panel_replayed(
-    footprints: list[dict[str, Any]], cfg: dict[str, Any], weight: dict[str, Any] | None
+    footprints: list[dict[str, Any]],
+    cfg: dict[str, Any],
+    weight: dict[str, Any] | None,
+    undetected: tuple[str, ...] = (),
+    chemistry: str | None = None,
 ) -> dict[str, Any]:
-    """The same tally as `score_panel`, from a frozen footprint plus a curve."""
+    """The same tally as `score_panel`, from a frozen footprint plus a curve.
+
+    `undetected` is S3's probe switch: chemistries for which a `reduced` call is not
+    a detection. On a panel that means a `band` row scored `reduced` becomes an
+    ERROR, because the paper saw a product and the model now predicts a miss. That
+    reading is forced by the switch's own semantics, not a choice: if `reduced` is
+    not a detection then predicting it where the bench saw a band is a false
+    negative.
+    """
     rows, tally = [], Counter()
     for f in footprints:
         if f["call"] in rescore.PASSTHROUGH_CALLS:
@@ -198,6 +210,8 @@ def score_panel_replayed(
                 )
             call, _, penalty = decide(fs, rs, ps, cfg)
             if f["reason"].startswith(rescore.PROBE_ABSENT_REASON):
+                call = "fail"
+            elif call == "reduced" and chemistry is not None and str(chemistry) in undetected:
                 call = "fail"
         want = BAND_CALLS if f["bench"] == "band" else NO_BAND_CALLS
         ok = call in want

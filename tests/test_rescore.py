@@ -406,3 +406,91 @@ def test_a_strategy_carries_its_weight_spec_and_s2_declares_one():
     assert s2.scoring == {}, "S2 varies the curve only; a scoring override too would be two candidates"
     # S0 must stay curve-less, or the control stops being a control.
     assert rescore.load_strategy(REPO / "strategies" / "s0-shipped.yaml").weight is None
+
+
+# --- S3's probe switch: a `reduced` probe call is not a detection ------------------
+
+
+def _probe_row(call="reduced", **over):
+    row = {
+        "assay_id": "A",
+        "record_id": "R1",
+        "call": call,
+        "penalty": "2",
+        "reason": "",
+        "fwd_mispairs": "",
+        "rev_mispairs": "",
+        "probe_mispairs": "G:T@8",
+        "fwd_ambiguous": "0",
+        "rev_ambiguous": "0",
+        "probe_ambiguous": "0",
+        "probe_penalty": "2",
+    }
+    return {**row, **over}
+
+
+def test_the_probe_switch_rewrites_reduced_to_fail_only_for_the_named_chemistries():
+    """Priced as a rewrite because `drift.YearStats.detected` has no config key.
+
+    `detected` is `detect + reduced` and `evaluable` is `detect + reduced + fail`, so
+    moving a row from `reduced` to `fail` takes it out of the numerator and leaves the
+    denominator alone. That is exactly what "not detected" means, which is why the
+    rewrite is arithmetically identical to a per-chemistry `detected` rather than an
+    approximation of one.
+    """
+    probe = {"A": {"chemistry": "hydrolysis_probe", "probe_len": 20}}
+    conv = {"A": {"chemistry": "conventional", "probe_len": None}}
+
+    call, reason, _ = rescore.replay_row(_probe_row(), probe, CFG, None, ("hydrolysis_probe", "mgb"))
+    assert call == "fail"
+    assert "reduced is not detected" in reason
+
+    # A chemistry the switch does not name is untouched.
+    assert rescore.replay_row(_probe_row(), probe, CFG, None, ("mgb",))[0] == "reduced"
+    # And with no switch at all, nothing moves.
+    assert rescore.replay_row(_probe_row(), probe, CFG)[0] == "reduced"
+    # The switch cannot reach a conventional assay even when named, because that
+    # assay's chemistry is not in the list. A conventional row carries no probe, so
+    # its `reduced` comes from the primers: one mid-window mismatch on each, 1.0 + 1.0.
+    conventional = _probe_row(fwd_mispairs="G:T@7", rev_mispairs="G:T@7", probe_mispairs="", probe_penalty="")
+    assert rescore.replay_row(conventional, conv, CFG, None, ("hydrolysis_probe",)) == ("reduced", "", "2")
+
+
+def test_the_probe_switch_leaves_detect_and_fail_alone():
+    """It must move exactly one call class, or it is two candidates."""
+    probe = {"A": {"chemistry": "hydrolysis_probe", "probe_len": 20}}
+    for call, mispairs in (("detect", ""), ("fail", "G:T@8,G:T@9,G:T@10")):
+        row = _probe_row(call=call, probe_mispairs=mispairs)
+        got = rescore.replay_row(row, probe, CFG, None, ("hydrolysis_probe",))[0]
+        assert got != "reduced"
+        assert (
+            "reduced is not detected"
+            not in rescore.replay_row(row, probe, CFG, None, ("hydrolysis_probe",))[1]
+        )
+
+
+def test_a_strategy_naming_an_unknown_chemistry_is_refused(tmp_path):
+    """The chemistry names are checked against the registry's own enum.
+
+    A typo would silently switch nothing and the run would read as "the chemistry axis
+    carries no signal", which is the opposite of the truth.
+    """
+    p = tmp_path / "s.yaml"
+    p.write_text("name: x\nquestion: q\npredicts: p\nkill: k\nreduced_not_detected_for: [hydrolysis_prob]\n")
+    with pytest.raises(SystemExit) as e:
+        rescore.load_strategy(p)
+    assert "hydrolysis_prob" in str(e.value)
+
+
+def test_the_s3_strategies_on_disk_are_what_their_names_claim():
+    s3a = rescore.load_strategy(REPO / "strategies" / "s3a-probe-reduced-not-detected.yaml")
+    s3b = rescore.load_strategy(REPO / "strategies" / "s3b-conventional-terminal-is-reduced.yaml")
+    both = rescore.load_strategy(REPO / "strategies" / "s3-both-switches.yaml")
+    # One switch each, so "test each alone, then together" means what it says.
+    assert s3a.reduced_not_detected_for == ("hydrolysis_probe", "mgb")
+    assert s3a.scoring == {}
+    assert s3b.reduced_not_detected_for == ()
+    assert s3b.scoring == {"by_chemistry": {"conventional": {"terminal_mismatch_fails": False}}}
+    # And the combination is exactly the union, not a third thing.
+    assert both.reduced_not_detected_for == s3a.reduced_not_detected_for
+    assert both.scoring == s3b.scoring

@@ -145,6 +145,20 @@ class Strategy:
     #: Shipping one needs a change to the package AND a rescreen; pricing one does
     #: not, which is the whole point of doing it this way round.
     weight: dict[str, Any] | None = None
+    #: Chemistries for which a `reduced` call must NOT count toward the detected
+    #: share - S3's probe switch, and the influenza mechanism from wave 3: a
+    #: hydrolysis probe that binds badly reports late or not at all, where a primer
+    #: that binds badly still makes product.
+    #:
+    #: `drift.YearStats.detected` is `detect + reduced` in code, with no config key
+    #: and no per-chemistry variant, so this cannot be an overlay. It is priced by
+    #: REWRITING those rows to `fail` in the replayed table, which is arithmetically
+    #: identical for drift: `detected` is `detect + reduced` and `evaluable` is
+    #: `detect + reduced + fail`, so moving a row from `reduced` to `fail` takes it
+    #: out of the numerator and leaves the denominator alone, which is exactly what
+    #: "not detected" means. Shipping it would mean a per-chemistry `detected` in
+    #: `drift.py`, not this rewrite.
+    reduced_not_detected_for: tuple[str, ...] = ()
 
 
 def positional_weight(spec: dict[str, Any] | None, d: int, cfg: dict[str, Any]) -> float:
@@ -184,14 +198,23 @@ def load_strategy(path: Path) -> Strategy:
     if not isinstance(scoring, dict):
         raise SystemExit(f"{path}: `scoring` must be a mapping of overrides")
     weight = doc.get("positional_weight")
-    meta = {k: v for k, v in doc.items() if k not in {"name", "scoring", "positional_weight"}}
+    undetected = tuple(doc.get("reduced_not_detected_for") or ())
+    known = {str(c) for c in Chemistry}
+    unknown = [c for c in undetected if c not in known]
+    if unknown:
+        raise SystemExit(f"{path}: unknown chemistry in reduced_not_detected_for: {', '.join(unknown)}")
+    meta = {
+        k: v
+        for k, v in doc.items()
+        if k not in {"name", "scoring", "positional_weight", "reduced_not_detected_for"}
+    }
     missing = [k for k in ("question", "predicts", "kill") if k not in meta]
     if missing:
         # Part 0.5: pre-register what it changes, what it predicts and what kills it.
         # Enforced rather than asked for, because a candidate without a kill criterion
         # cannot fail, and four of the last five candidates died on theirs.
         raise SystemExit(f"{path}: pre-registration incomplete, missing {', '.join(missing)}")
-    return Strategy(doc["name"], scoring, meta, path, weight)
+    return Strategy(doc["name"], scoring, meta, path, weight, undetected)
 
 
 def refuse_unreplayable(scoring: dict[str, Any]) -> list[str]:
@@ -352,6 +375,7 @@ def replay_row(
     facts: dict[str, dict[str, Any]],
     cfg: dict[str, Any],
     weight: dict[str, Any] | None = None,
+    undetected: tuple[str, ...] = (),
 ) -> tuple[str, str, str]:
     """One row's (call, reason, penalty cell) under the strategy.
 
@@ -401,6 +425,9 @@ def replay_row(
         # Same order as `screen_one`: the forced call and the kept reason, but the
         # recomputed scalar.
         return "fail", row["reason"], f"{total:g}"
+    if new_call == "reduced" and str(assay["chemistry"]) in undetected:
+        # S3's probe switch, priced as a rewrite; see Strategy.reduced_not_detected_for.
+        return "fail", f"{reason}; reduced is not detected for this chemistry".strip("; "), f"{total:g}"
     return new_call, reason, f"{total:g}"
 
 
@@ -410,6 +437,7 @@ def replay(
     facts: dict[str, dict[str, Any]],
     cfg: dict[str, Any],
     weight: dict[str, Any] | None = None,
+    undetected: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     """Write the restored calls table and return what moved."""
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -429,7 +457,7 @@ def replay(
         writer.writeheader()
         for row in reader:
             was = row["call"]
-            call, reason, penalty = replay_row(row, facts, cfg, weight)
+            call, reason, penalty = replay_row(row, facts, cfg, weight, undetected)
             totals[call] += 1
             if call != was:
                 moved[f"{was} -> {call}"] += 1
@@ -603,7 +631,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"out:       {args.out}")
     print()
 
-    result = replay(args.calls, args.out, facts, cfg, strategy.weight)
+    result = replay(args.calls, args.out, facts, cfg, strategy.weight, strategy.reduced_not_detected_for)
     print(f"replayed {sum(result['calls'].values())} rows; {result['n_moved']} calls moved")
     for move, n in sorted(result["moved"].items(), key=lambda x: -x[1]):
         print(f"  {move}: {n}")
