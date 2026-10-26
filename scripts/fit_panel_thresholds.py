@@ -49,6 +49,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from assaywatch.accession import strip_version
 from assaywatch.fasta import read_fasta
 from assaywatch.score import load_config, screen_record
 from assaywatch.validate import load_assay
@@ -65,10 +66,6 @@ NO_BAND_CALLS = {"fail", "no_amplicon", "indeterminate"}
 # "two 3'-window mismatches are still weak rather than blocked".
 OK_GRID = (0.5, 1.0, 1.5, 2.0, 3.0)
 WEAK_GRID = (1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0)
-
-
-def strip_version(acc: str) -> str:
-    return acc.split(".")[0]
 
 
 def read_panel(path: Path) -> dict[str, dict[str, str]]:

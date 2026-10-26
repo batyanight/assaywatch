@@ -32,6 +32,7 @@ Read these before trusting a status.
 | [`validation-cases.tsv`](validation-cases.tsv) | the cases themselves (the development set) |
 | [`validation-cases-heldout.tsv`](validation-cases-heldout.tsv) | 34 rows as of 2026-10-24, unscored; spent the first time a threshold decision reads it |
 | [`2026-10-24-heldout-candidates.md`](2026-10-24-heldout-candidates.md) | the first held-out sweep: 31 rows from 17 papers, and why the 5-drift-case target was missed |
+| [`2026-10-26-s1-serial-killed.md`](2026-10-26-s1-serial-killed.md) | S1 (`engine: serial`) is the first rung of the pre-registered ladder and it is **dead on its own criterion, twice over**: no threshold pair in the grid is clean on the panels, and tier-2 loses two named documented catches (both Paramyxovirinae L-gene at 2019-02-01). Three findings outlive it - **`oligo_ok_max` has no effect on panel accuracy at all**, so the panels can fit only one of its two numbers; the curve bottoms out at `oligo_weak_max: 3.0`, the value already shipped; and **Rahn reports zero cost while Forslund loses within-family negatives**, which is the argument for `role: control` turned into a measurement. Also records that netting would have read a 46% error reduction out of losing seven of ten informative negatives |
 | [`2026-10-26-c3-intervals-and-holdout-drift.md`](2026-10-26-c3-intervals-and-holdout-drift.md) | the tier-2 matrix now carries Jeffreys credible intervals (`interval.jeffreys_interval`, pinned against the three figures `2026-10-23-baseline.md` computed by hand), and every headline spans 25-50 points - so a one- or two-case delta on this set is visibly not a result. Also reports `undecided` as missing data rather than a miss, and records that `holdout.py`'s optimism has drifted from the recorded -1 to -3 |
 | [`2026-10-25-stale-orphan-screens.md`](2026-10-25-stale-orphan-screens.md) | **read before any whole-archive measurement.** `results/screened/` keeps ORPHAN group screens that nothing rescreens - one dated 2026-10-03, before `declared_tolerance` - so globbing it reads months-old scoring rules as current. Inflated three of 2026-10-25's measurements ~100x. Corrects the chance-pair scope to **277 rows in 11 assays** (not 26,691 in 6), re-runs the locus-identity measurement cleaner (gap 0.41-0.65), and explains why amplicon length is a diagnostic and not a filter. The rule: measure from `results/<run>/calls.tsv.gz` |
 | [`2026-10-25-fungal-assays-diagnosed.md`](2026-10-25-fungal-assays-diagnosed.md) | plan step 1, done: the three `mgb` fungal assays are NOT broken and the "1.4%/31.8%/25.8%" framing is withdrawn - those were whole-archive rates, and the report correctly reads no-recent-data / insufficient-data on 100% baselines. The low rates were chance 32-mer windows in WGS contigs (AMFP15/1 has one contig at probe 0 mm and another at 11). Finds one thin real signal: five 2024 *B. sal* ITS amplicon deposits with perfect primers and 2-12 probe mismatches, below the drift minimum and from one lab |
@@ -89,8 +90,13 @@ Read these before trusting a status.
 ## Bench panels: the only truth below the assay level
 
 `docs/bench-panels/*.tsv` with a header comment recording what was read and from where.
-Measured per panel in `2026-10-23-wave2-diverged-and-patent.md`: 160 labelled outcomes,
-but only 11 of the 52 negatives are within-family, which is what gates the C2 model.
+`docs/bench-panels/panels.tsv` maps each panel to the registry entry it scores and names
+its `paper`, which is the independence unit for leave-one-panel-out, and its `role`:
+`fitting`, or `control` for Rahn, whose negatives are other genera and so are never a
+fitting set. Measured per panel in `2026-10-23-wave2-diverged-and-patent.md`: 160 labelled
+outcomes, but only 11 of the 52 negatives are within-family, which is what gates the C2
+model. `docs/bench-panels/ahmed-2020-leptospira.tsv` was added 2026-10-26 and finds five published positives
+scored `fail`, all on one 3'-terminal reverse mismatch.
 
 [`2026-10-19-fap-bench-panel.md`](2026-10-19-fap-bench-panel.md) ·
 [`2026-10-20-meyer-ati-bench-panel.md`](2026-10-20-meyer-ati-bench-panel.md) ·
