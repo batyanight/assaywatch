@@ -212,6 +212,18 @@ class OligoScore:
     mismatches: tuple[int, ...]  # positions from the oligo's 5' end
     mismatches_from_3prime: tuple[int, ...]  # 1 = the 3'-terminal base
     ambiguous: tuple[int, ...] = ()  # undetermined record bases; no penalty
+    #: Each definite mismatch as `oligo:template@distance_from_3prime`, e.g.
+    #: `A:G@2`. The identity Kwok 1990 and Stadhouders 2010 find dominates the
+    #: 3'-end effect, and the one thing the screen computed and then threw away:
+    #: `mismatches_from_3prime` kept where, `mispair_multiplier` used what, and
+    #: nothing wrote what down. Recording it is what lets a scoring candidate be
+    #: REPLAYED over the calls table instead of costing a full rescreen
+    #: (docs/2026-10-24-scoring-strategy-test-plan.md Part 0.1).
+    #:
+    #: Definite mismatches only. An ambiguity code in the record names no single
+    #: mispair, as `mispair_multiplier` explains, so those stay counted in
+    #: `ambiguous` and appear here not at all.
+    mispairs: tuple[str, ...] = ()
 
 
 def mispair_multiplier(oligo_base: str, template_base: str, table: dict[str, Any]) -> float:
@@ -277,7 +289,8 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     table = s.get("mispair_penalty") or {}
     oligo_len = len(oligo)
     penalty, terminal = 0.0, False
-    from3 = []
+    from3: list[int] = []
+    mispairs: list[str] = []
     for pos in site.mismatches:
         d = oligo_len - pos  # 1 = 3'-terminal base
         from3.append(d)
@@ -298,16 +311,21 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
         # unscoped (docs/2026-10-22-M1-tier2.md), 5498 of 5499 Paramyxovirinae
         # flips resting on mismatches outside the window. Beyond it, position
         # alone decides.
+        template = COMPLEMENT.get(rec.upper(), "N")
+        # Recorded for every mismatch, not only those inside the 3' window where
+        # the multiplier acts: a replay may weight identity differently, or at a
+        # different distance, and it cannot invent what was not written down.
+        mispairs.append(f"{oligo[pos].upper()}:{template}@{d}")
         mult = 1.0
         if d <= w3:
-            mult = mispair_multiplier(oligo[pos].upper(), COMPLEMENT.get(rec.upper(), "N"), table)
+            mult = mispair_multiplier(oligo[pos].upper(), template, table)
         penalty += base * mult
         if d == 1 and mult != 0:
             terminal = True
-    return OligoScore(penalty, terminal, site.mismatches, tuple(from3), site.ambiguous)
+    return OligoScore(penalty, terminal, site.mismatches, tuple(from3), site.ambiguous, tuple(mispairs))
 
 
-def score_probe(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
+def score_probe(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     """A probe has no 3' end that matters; the middle third is what holds it on.
 
     A hydrolysis probe is not extended — it is bound and then cleaved — so the
@@ -324,14 +342,30 @@ def score_probe(site: Site, oligo_len: int, cfg: dict[str, Any]) -> OligoScore:
     probes tolerate mismatches a bare oligo of the same length would not, and
     nothing here knows that. `--thermo` computes the actual duplex ΔTm and is the
     better guide where it is available.
+
+    Takes the oligo rather than its length (it did take the length until
+    2026-10-26) so that it can record the mispair identities for replay, the same
+    as `score_primer`. The `@distance` in a probe's mispair is still measured from
+    its 3' end, for one format across all three oligos, and means less here: a
+    probe has no 3' asymmetry, which is this function's whole premise.
     """
     s = cfg["scoring"]
+    oligo_len = len(oligo)
     lo, hi = oligo_len / 3, 2 * oligo_len / 3
     penalty = 0.0
+    mispairs: list[str] = []
     for pos in site.mismatches:
         penalty += s["probe_center_penalty"] if lo <= pos < hi else s["probe_outer_penalty"]
+        rec = site.window[pos] if pos < len(site.window) else "N"
+        template = COMPLEMENT.get(rec.upper(), "N")
+        mispairs.append(f"{oligo[pos].upper()}:{template}@{oligo_len - pos}")
     return OligoScore(
-        penalty, False, site.mismatches, tuple(oligo_len - p for p in site.mismatches), site.ambiguous
+        penalty,
+        False,
+        site.mismatches,
+        tuple(oligo_len - p for p in site.mismatches),
+        site.ambiguous,
+        tuple(mispairs),
     )
 
 
@@ -358,6 +392,12 @@ class Call:
 
         def amb(o: OligoScore | None) -> str:
             return "" if o is None else str(len(o.ambiguous))
+
+        def pairs(o: OligoScore | None) -> str:
+            # Same shape as `mm`: empty for an unscored oligo AND for a clean one,
+            # which is why `drift.FOOTPRINT_REQUIRED` tests the penalty cells
+            # rather than these to tell "no mismatches" from "column absent".
+            return "" if o is None else ",".join(o.mispairs)
 
         return {
             "assay_id": self.assay_id,
@@ -387,6 +427,23 @@ class Call:
             "probe_penalty": "" if self.probe is None else f"{self.probe.penalty:g}",
             "probe_mm_from_3prime": mm(self.probe),
             "probe_ambiguous": amb(self.probe),
+            # WHAT each mismatch is, beside WHERE: `A:G@2,T:C@14`, oligo base to
+            # template base at distance from the 3' end. The screen computed this
+            # and discarded it, which is why every scoring candidate so far cost a
+            # full rescreen to price; with it a candidate is a replay over this
+            # table (docs/2026-10-24-scoring-strategy-test-plan.md Part 0.1).
+            #
+            # DELIBERATELY NOT in `drift.FOOTPRINT_COLUMNS`. That signature
+            # records positions and not bases on purpose - "two records with
+            # different bases at the same position merge. That makes footprints
+            # fewer and the resulting interval wider: the safe direction" - and
+            # adding identity to it would regroup the duplication analysis and
+            # move published intervals. These columns are additive and read only
+            # by a replay. Making the footprint identity-aware is a separate
+            # decision, which that docstring's "honest limits" already anticipates.
+            "fwd_mispairs": pairs(self.forward),
+            "rev_mispairs": pairs(self.reverse),
+            "probe_mispairs": pairs(self.probe),
             "degeneracy_fold": self.extra.get("degeneracy_fold", ""),
             "degeneracy_tier": self.extra.get("degeneracy_tier", ""),
             # For multiplex assays with alternates: which F/R primer names won.
@@ -914,7 +971,7 @@ def screen_one(
         probe_won = probe
         if probe:
             scored = [
-                (score_probe(p, len(o), cfg), p, o)
+                (score_probe(p, o, cfg), p, o)
                 for o, idx in p_indexes
                 for p in idx.within(inner_lo, inner_hi - len(o))
             ]

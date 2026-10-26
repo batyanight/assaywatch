@@ -705,3 +705,165 @@ def test_the_span_is_the_assay_ceiling_not_the_global_one():
         f"got {call.extra['exclusion']!r}: `truncated` on a 2000 bp record means the span came "
         "from amplicon.max_bp (3000) rather than this assay's declared 1700 bp ceiling"
     )
+
+
+# --- The mispair footprint columns (Part 0.1 of the scoring-strategy test plan) -
+# Added 2026-10-26. The screen already finds the mismatch configuration; until now
+# it wrote down WHERE each mismatch sat and threw away WHAT it was, which is why
+# every scoring candidate so far cost a full ~30-minute rescreen to price. These
+# pin the recorded identity so a candidate can be REPLAYED over a calls table.
+# They assert a FORMAT and a completeness rule, never a scoring value: every test
+# above still asserts the penalties, and nothing here changes one.
+
+from assaywatch.drift import FOOTPRINT_COLUMNS, footprint_signature  # noqa: E402
+from assaywatch.score import Call, score_probe  # noqa: E402
+
+_REC_DEGENERATE = "TTGACCGATAGCCAATGAAG"  # faces the Y in _OLIGO_DEGENERATE
+_OLIGO_DEGENERATE = "TTGACCGATAGCCAATGAYG"
+_REC_AMBIGUOUS = "TTAACCGATAGCCAATGATN"  # one definite mismatch, one undetermined base
+
+
+def test_a_mispair_records_oligo_base_template_base_and_distance_from_the_3prime_end():
+    site = _primer_site(_OLIGO, _REC_TERMINAL_GT)
+    sc = score_primer(site, _OLIGO, _scoring())
+    # Primer G at the 3'-terminal base faces record A, so the TEMPLATE base is T:
+    # a G:T wobble, 1 nt from the 3' end. The template base, not the record base,
+    # because that is the pair that forms and the key `mispair_multiplier` reads.
+    assert sc.mispairs == ("G:T@1",)
+    assert sc.mismatches_from_3prime == (1,)
+
+
+def test_mispairs_are_recorded_outside_the_3prime_window_where_identity_does_not_act():
+    """The emission is deliberately wider than the scoring rule that reads it.
+
+    `mispair_multiplier` fires only within `primer_3prime_window`, and
+    `test_a_zeroed_mispair_outside_the_3prime_window_is_not_discounted` pins that.
+    Recording is not scoring: a replay may weight identity at a different distance,
+    and it cannot invent an identity that was never written down.
+    """
+    site = _primer_site(_OLIGO, _REC_5PRIME_GT)
+    sc = score_primer(site, _OLIGO, _scoring())
+    assert sc.mispairs == ("G:T@18",)  # 18 nt out, far beyond the 5 nt window
+    assert sc.penalty == CFG["scoring"]["primer_5prime_penalty"]  # unchanged by recording
+
+
+def test_an_undetermined_record_base_is_counted_as_ambiguous_and_names_no_mispair():
+    """An ambiguity code names no single pair, so it must not invent one.
+
+    This is `mispair_multiplier`'s own rule, carried into the recording: a record
+    N opposite a primer base could be any of four pairs, and writing one down
+    would let a replay discount a mismatch that was never observed.
+    """
+    site = _primer_site(_OLIGO, _REC_AMBIGUOUS)
+    sc = score_primer(site, _OLIGO, _scoring())
+    assert sc.ambiguous == (19,)  # the record's N
+    assert sc.mispairs == ("G:T@18",)  # the definite mismatch only, not two entries
+    assert len(sc.mispairs) == len(sc.mismatches_from_3prime)
+
+
+def test_a_degenerate_oligo_base_records_its_own_code_rather_than_an_expansion():
+    """`Y:T@2`, not `C:T@2/T:T@2`.
+
+    A degenerate primer base is a mixture of oligos, so no single mispair formed;
+    `mispair_multiplier` returns 1.0 for exactly this reason. Recording the code
+    keeps the row faithful to what was there and leaves the expansion to a replay
+    that wants one. `scripts/bench_panel.py::window_mispairs` makes the opposite
+    choice for a human-readable panel, which is why the two formats differ.
+    """
+    site = _primer_site(_OLIGO_DEGENERATE, _REC_DEGENERATE)
+    sc = score_primer(site, _OLIGO_DEGENERATE, _scoring())
+    assert sc.mispairs == ("Y:T@2",)
+    assert mispair_multiplier("Y", "T", {"C:T": 0.0, "T:T": 0.0}) == 1.0
+
+
+def test_a_probes_mispair_distance_is_also_measured_from_its_3prime_end():
+    """One format across all three oligos, even though it means less on a probe.
+
+    `score_probe`'s whole premise is that a probe has no 3' asymmetry, so the
+    distance is carried for uniformity rather than for scoring. It took the oligo
+    LENGTH until 2026-10-26 and now takes the oligo itself, which is the only
+    reason it can name a base at all.
+    """
+    probe = "CCAAGTGTCAGATGC"
+    site = _primer_site(probe, "CCAAGTGACAGATGC")
+    sc = score_probe(site, probe, CFG)
+    assert sc.mispairs == ("T:T@8",)  # position 7 of 15, i.e. 8 from the 3' end
+    assert sc.mismatches_from_3prime == (8,)
+    assert sc.penalty == CFG["scoring"]["probe_center_penalty"]  # unchanged
+    assert sc.terminal_mismatch is False  # a probe never sets it
+
+
+def test_the_recorded_mispairs_agree_with_what_bench_panel_derives_for_the_same_site():
+    """Same mismatch, same template base, same distance - compared as meaning, not as text.
+
+    `scripts/bench_panel.py` has derived this information since the FAP panel, in
+    a different format: position-keyed, slash-joined, and expanding a degenerate
+    oligo base into its alternatives. A string comparison would fail on the format
+    and tell us nothing. The case is FAP59 against HPV16 (NC_001526 4901-4922),
+    the same fixture `tests/test_bench_panel.py` uses, so a drift in either
+    derivation shows up here.
+    """
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "bench_panel", Path(__file__).resolve().parents[1] / "scripts" / "bench_panel.py"
+    )
+    bench_panel = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(bench_panel)
+
+    from assaywatch.iupac import IUPAC, MISMATCH, base_state
+    from assaywatch.match import Site
+
+    oligo, window = "TAACWGTIGGICAYCCWTATT", "TTGCAGTTGGACATCCCTATT"
+    mm = tuple(i for i, (o, t) in enumerate(zip(oligo, window, strict=True)) if base_state(o, t) == MISMATCH)
+    sc = score_primer(Site(0, len(oligo), "+", mm, window, ()), oligo, _scoring())
+
+    # Whole oligo, so the comparison covers the mismatches outside the 3' window too.
+    expected = bench_panel.window_mispairs(oligo, window, len(oligo))
+    assert [p.split("@")[1] for p in sc.mispairs] == [str(d) for d, _ in expected]
+    for recorded, (_, derived) in zip(sc.mispairs, expected, strict=True):
+        pair, _, _ = recorded.partition("@")
+        oligo_base, _, template = pair.partition(":")
+        # bench_panel expands the oligo code; score.py keeps it. Agreement means the
+        # expansion of what score.py recorded IS what bench_panel printed.
+        assert {f"{b}:{template}" for b in IUPAC[oligo_base]} == set(derived.split("/"))
+
+
+def test_the_mispair_columns_are_written_and_are_empty_for_a_clean_or_unscored_oligo():
+    row = Call(
+        "A",
+        "R1",
+        "reduced",
+        forward=OligoScore(3.0, True, (19,), (1,), (), ("G:T@1",)),
+        reverse=OligoScore(0.0, False, (), (), (), ()),
+    ).as_row()
+    assert row["fwd_mispairs"] == "G:T@1"
+    assert row["rev_mispairs"] == ""  # scored and clean
+    assert row["probe_mispairs"] == ""  # no probe on this assay
+    # Comma-joined, the same shape as the positions column beside it.
+    multi = Call(
+        "A", "R2", "fail", forward=OligoScore(3.5, True, (2, 19), (18, 1), (), ("G:T@18", "G:T@1"))
+    ).as_row()
+    assert multi["fwd_mispairs"] == "G:T@18,G:T@1"
+    assert multi["fwd_mm_from_3prime"] == "18,1"
+
+
+def test_adding_identity_columns_leaves_the_footprint_signature_untouched():
+    """The duplication analysis must not regroup, or published intervals move.
+
+    `drift.footprint_signature` records positions and NOT bases on purpose: two
+    records differing only in which base sits at a mismatched position merge, which
+    makes footprints fewer and the interval wider - the safe direction. The new
+    columns are additive and read only by a replay, so neither the column tuple nor
+    a signature built from it may change. Making the footprint identity-aware is a
+    separate decision.
+    """
+    assert "fwd_mispairs" not in FOOTPRINT_COLUMNS
+    assert not any("mispair" in c for c in FOOTPRINT_COLUMNS)
+
+    same_position_different_base = [
+        Call("A", "R1", "fail", forward=OligoScore(3.0, True, (19,), (1,), (), ("G:T@1",))).as_row(),
+        Call("A", "R2", "fail", forward=OligoScore(3.0, True, (19,), (1,), (), ("G:A@1",))).as_row(),
+    ]
+    signatures = {footprint_signature(r[c] for c in FOOTPRINT_COLUMNS) for r in same_position_different_base}
+    assert len(signatures) == 1, "a different base at the same position must still merge"
