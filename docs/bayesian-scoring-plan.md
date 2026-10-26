@@ -297,6 +297,16 @@ Do it once, as infrastructure, independent of whether C2 ever happens. It also u
 per-chemistry work (wave 4.5), and it is what M1 would have needed to diagnose its own
 failure without a hand forensics pass over 5,499 changed records.
 
+> **DONE 2026-10-26** (`1fa4672`). `Call.as_row` now writes `fwd_mispairs`,
+> `rev_mispairs` and `probe_mispairs` as `oligo:template@distance_from_3prime`. Two
+> details this section did not anticipate: the identity is recorded for **every**
+> mismatch and not only those inside `primer_3prime_window`, because a replay may weight
+> identity at a different distance; and a degenerate oligo base records its own code
+> (`Y:T@2`) where `bench_panel.py` expands it to `C:T/T:T`, so the two formats agree in
+> meaning and not in text. The columns are deliberately kept out of
+> `drift.FOOTPRINT_COLUMNS`, which must stay position-only or the duplication analysis
+> regroups and published intervals move.
+
 ### Kill-test
 
 C2 dies if, under **leave-one-panel-out** cross-validation — leave out a whole paper,
@@ -309,6 +319,16 @@ as still standing.
 C2 is also **killed before it starts** if the corpus task above stalls below ~40
 within-family negatives. Say so now, so that a model fitted on 11 is never defended on
 the grounds that the work was already done.
+
+> **The two numbers in this file are a FLOOR and a TARGET, not a disagreement
+> (reconciled 2026-10-26).** `docs/2026-10-24-scoring-strategy-test-plan.md` gates S5 at
+> "at least 40 within-family negatives across several independent papers", which is the
+> ~40 kill floor in the paragraph above, not a different standard. The "60+ across >= 10
+> independent papers" in the corpus section is the collection *target*: the count at which
+> fitting ten coefficients is reasonable rather than merely not fatal. So 40 is where C2
+> stops being dead and 60 is where it starts being defensible, and a corpus of 45 means
+> "fit it and report the interval honestly", never "the gate is met". Today the count is
+> **11**, so both readings agree C2 is not started.
 
 ---
 

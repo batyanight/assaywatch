@@ -164,6 +164,13 @@ within-family negatives across several independent papers (today: 11). The corpu
 sweep is the same literature pass as the held-out case collection, one read per paper
 for both. Below 40, S5 is not fitted and nothing fitted on 11 is defended.
 
+> **The 40 here and the "60+ across >= 10 papers" in `docs/bayesian-scoring-plan.md`
+> are the same standard read at two points (reconciled 2026-10-26).** 40 is that
+> file's kill floor, below which C2 is dead before it starts; 60 is its collection
+> target, the count at which fitting ten coefficients is reasonable rather than merely
+> not fatal. Neither number has moved and neither overrides the other. A corpus of 45
+> means "fit it and report the interval honestly", not "the gate is met".
+
 **Kill for S5:** under LOPO it does not beat the best of S1-S4 on the panels, or it
 loses a catch on the development set, or its fitted identity coefficients contradict
 Kwok's order (the M2 failure, which is the test that would have caught it).

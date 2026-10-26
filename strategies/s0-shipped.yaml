@@ -1,0 +1,21 @@
+# S0 - the shipped budget rule, unmodified. The reference row of every table, and
+# the harness's own control: with no overrides a replay must reproduce the input
+# table's calls exactly, which is what `--expect-identical` asserts.
+#
+# A no-op replay that merely looks clean is how the first chance-pair test nearly
+# shipped: it read keys that did not exist, took its `except` branch on every row
+# and changed nothing, and nothing in the output distinguished that from a correct
+# pass. So S0 is run first, every time, and a disagreement here invalidates every
+# candidate measured afterwards.
+name: s0-shipped
+registered: 2026-10-26
+question: >
+  Does a replay over the footprint columns reproduce what the screen computed?
+predicts: >
+  Zero calls move. Every penalty cell re-renders to the same string, because the
+  replay transcribes score_primer's loop in the same order over the same recorded
+  mismatches.
+kill: >
+  Any moved call. That is a defect in the harness, not a finding about scoring, and
+  it blocks the whole ladder until it is understood.
+scoring: {}

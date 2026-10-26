@@ -279,7 +279,12 @@ candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
 4. **Tier-2 retrospective validation**, which is what turns every threshold above from a guess
    into a fitted number. **Its blocker is cases, and the cheap route to cases is exhausted** -
    literal oligo search over Europe PMC is spent (see the Candrian seam). So this wants the
-   scoring-strategy replay harness or `docs/2026-10-06-lab-leads.md`, not another sweep.
+   scoring-strategy replay harness, not another sweep. **CORRECTED 2026-10-26: this line used to
+   point at `docs/2026-10-06-lab-leads.md` as the other route, and that overstates it.** Those
+   leads are a source of NEW ASSAYS. Tier-2 needs a paper reporting how an assay *already in the
+   registry* performed, which is a different literature. Of the file's 121 DOIs, 45 are
+   PubMed-confirmed and 76 are agent-reported only, and the lab attribution is wrong for at least
+   3 of the 5 high-priority leads.
 5. **Report visualisation, last and deliberately.** Figures, forest plot, site-position plots
    and clustermaps already exist and are adequate. Until 1-3 land, better presentation makes
    numbers that are in places wrong more persuasive rather than less, and any layout built
@@ -294,8 +299,8 @@ candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
 - **The held-out set's drift shortfall** — 34 rows, and **literal oligo search over Europe PMC
   is now spent.** Every searchable registry oligo has been tried: the Candrian forward was the
   last rich one, the rest return 0 or are too degenerate to search. Closing the shortfall needs
-  a different instrument — the scoring-strategy plan's replay harness, or
-  `docs/2026-10-06-lab-leads.md`.
+  a different instrument — the scoring-strategy plan's replay harness. (Not the lab leads; see
+  the correction under plan step 4.)
 - **Three live groups have never been screened** — **CLOSED 2026-10-25.** `10257/all`,
   `10258/all` and `129727/all` were retrieved and screened by the 2026-10-25 full run. Confirming
   it rather than assuming it is what turned up the chance-pair artefact in item 5.

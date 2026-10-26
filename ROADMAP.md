@@ -6,9 +6,13 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
 - [x] repo, environment.yml, pre-commit, CI
 - [x] YAML schema (pydantic) and validator
 - [x] registry seeded from a primer list and curated against the literature (host/barcoding/universal primers excluded as out of scope)
-- [ ] 5 assays promoted to `active`: Bd (Boyle 2004) done 2026-10-04 (stable, 100% of 54 recent);
+- [x] 5 assays promoted to `active`: Bd (Boyle 2004) done 2026-10-04 (stable, 100% of 54 recent);
       Bsal (Blooi 2013) and Oo ITS2 (Bohuski 2015) await their rDNA-query data; ranavirus MCP
-      (Pallister 2007) and CDV P (Scagliarini 2007) were "watch" at ~88%
+      (Pallister 2007) and CDV P (Scagliarini 2007) were "watch" at ~88%.
+      Satisfied; ticked 2026-10-26 after confirming all of them, plus Oo IGS and the
+      Pallister intergenic pair, read `status: active`. The rDNA-query data arrived and the
+      two "watch" assays were promoted on their own evidence, so the wording above is the
+      state this item was WRITTEN in, not the state it closed in
 - [x] run `scripts/resolve_citations.py` once (2026-10-04): 64 DOIs verified, 21 taxids filled;
       5 BAD DOIs left for review. `scripts/check_taxids.py` found and fixed 3 wrong taxids
 - [x] name, license (MIT code / CC-BY registry)
@@ -77,7 +81,9 @@ into measurements, and it is also the paper's main figure.
       thresholds become whatever optimises it rather than whatever looked
       sensible.
 - [ ] **Per-chemistry scoring.** One penalty table is applied to every assay,
-      but 128 of 138 are conventional or consensus PCR and 10 are probe-based.
+      but 155 of 209 are `conventional` and 51 carry a probe (2026-10-26;
+      `python -m assaywatch.validate registry` prints the live tally, and the
+      counts in this line were 128 of 138 when it was written).
       Conventional PCR tolerates mismatches far better than a hydrolysis probe,
       and `terminal_mismatch_fails: true` is a qPCR-strength rule, so the
       consensus assays are probably scored too harshly — which would inflate

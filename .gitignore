@@ -51,3 +51,6 @@ filegraph.png
 # handoff bundles are derived from docs/ and results/; not source
 assaywatch-handoff-*.tar.gz
 .tmp/handoff/
+
+# Bench-panel sequences cached by scripts/rescore.py (fetched from GenBank on demand)
+.tmp/bench-panels/
