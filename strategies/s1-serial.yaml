@@ -1,0 +1,39 @@
+# S1 - `engine: serial`, with its two thresholds fitted on the bench panels by
+# leave-one-paper-out. The engine has been in the codebase and off since 2026-10-21;
+# `oligo_ok_max` and `oligo_weak_max` are placeholders copied from `detect_max` and
+# `reduced_max`, and the panels are the only type-level truth that can set them.
+#
+# The question, prediction and kill criterion below are NOT written after the fact:
+# they are Part 1 S1 of docs/2026-10-24-scoring-strategy-test-plan.md, dated
+# 2026-10-24, and the prediction that it "only loosens" is that document's own.
+#
+# The values here are the CONSTRAINED best cell from
+# `scripts/fit_panel_thresholds.py` - the best of the cells that lose no row S0
+# scores correctly. They are recorded so this file reproduces what was measured.
+# They are NOT a recommendation: see docs/2026-10-26-s1-serial-killed.md. No cell in
+# the grid satisfies the constraint, so S1 is dead on its own criterion and these
+# numbers are the least-bad point in a rejected family.
+name: s1-serial
+registered: 2026-10-26
+question: >
+  Can `engine: serial` - per-oligo gates combined logically, instead of one summed
+  budget - be calibrated on the bench panels without losing a documented catch?
+  The structural argument for it is strong: PCR needs the forward AND the reverse
+  primer to anneal, so three trivial mismatches spread one per oligo are three
+  passable oligos, not a summed 3.0 that lands in the same bin as one near-lethal
+  3'-proximal mismatch.
+predicts: >
+  It only loosens, because every measured move is fail->reduced or reduced->detect,
+  so flags fall. The FAP false fails do not move, because they rest on identity
+  rather than on summing. The influenza probe case gets worse until S3. It should
+  clear the best-evidenced false positive in the registry,
+  RANAVIRUS_..._MCP_Johnson_2008, which fails four LMBV genomes on six DISTAL
+  mismatches summing to 4.0 against `reduced_max` 3.0 while Grizzle's Fig. 1 is a
+  gel of those primers amplifying LMBV.
+kill: >
+  It loses a catch at any threshold pair the panels accept. Stated per catch and
+  never netted against gains.
+scoring:
+  engine: serial
+  oligo_ok_max: 0.5
+  oligo_weak_max: 3.0
