@@ -135,6 +135,45 @@ class Strategy:
     scoring: dict[str, Any]
     meta: dict[str, Any]
     path: Path
+    #: A positional weight curve replacing `score_primer`'s three-band step function,
+    #: for the shape Part 0.2 means by "a small Python callable `footprints -> call`
+    #: for shapes the config cannot express". `config.yaml` has three bands and two
+    #: widths, so a decay cannot be written as an overlay at all.
+    #:
+    #: REPLAY-ONLY, AND THAT IS A HARDER LIMIT THAN IT SOUNDS. `assaywatch/score.py`
+    #: knows only the step function, so a curve priced here cannot be screened with.
+    #: Shipping one needs a change to the package AND a rescreen; pricing one does
+    #: not, which is the whole point of doing it this way round.
+    weight: dict[str, Any] | None = None
+
+
+def positional_weight(spec: dict[str, Any] | None, d: int, cfg: dict[str, Any]) -> float:
+    """The penalty a mismatch `d` bases from the 3' end carries.
+
+    With no spec this IS `score_primer`'s step function, read from the same config
+    keys, so an S0 replay goes down one code path and not two.
+
+    `kind: exponential` is `w0 * 2 ** (-(d - 1) / half_distance)`: the weight at the
+    3'-terminal base is `w0` and it halves every `half_distance` bases toward the 5'
+    end. Motivated by Usutu, where d = 3 is where the step function and the
+    literature part company - the step treats d = 1 and d = 5 as identical at 3.0 and
+    then drops to 1.0 at d = 6, which is a cliff no measurement supports.
+    """
+    s = cfg["scoring"]
+    if not spec:
+        w3, wmid = s["primer_3prime_window"], s["primer_mid_window"]
+        if d <= w3:
+            return s["primer_3prime_penalty"]
+        if d <= w3 + wmid:
+            return s["primer_mid_penalty"]
+        return s["primer_5prime_penalty"]
+    kind = spec.get("kind")
+    if kind != "exponential":
+        raise SystemExit(f"unknown positional weight kind {kind!r}; only `exponential` is implemented")
+    w0 = float(spec["w0"])
+    half = float(spec["half_distance"])
+    floor = float(spec.get("floor", 0.0))
+    return max(floor, w0 * 2.0 ** (-(d - 1) / half))
 
 
 def load_strategy(path: Path) -> Strategy:
@@ -144,14 +183,15 @@ def load_strategy(path: Path) -> Strategy:
     scoring = doc.get("scoring") or {}
     if not isinstance(scoring, dict):
         raise SystemExit(f"{path}: `scoring` must be a mapping of overrides")
-    meta = {k: v for k, v in doc.items() if k not in {"name", "scoring"}}
+    weight = doc.get("positional_weight")
+    meta = {k: v for k, v in doc.items() if k not in {"name", "scoring", "positional_weight"}}
     missing = [k for k in ("question", "predicts", "kill") if k not in meta]
     if missing:
         # Part 0.5: pre-register what it changes, what it predicts and what kills it.
         # Enforced rather than asked for, because a candidate without a kill criterion
         # cannot fail, and four of the last five candidates died on theirs.
         raise SystemExit(f"{path}: pre-registration incomplete, missing {', '.join(missing)}")
-    return Strategy(doc["name"], scoring, meta, path)
+    return Strategy(doc["name"], scoring, meta, path, weight)
 
 
 def refuse_unreplayable(scoring: dict[str, Any]) -> list[str]:
@@ -246,7 +286,10 @@ def parse_mispairs(cell: str) -> tuple[tuple[str, str, int], ...]:
 
 
 def primer_score(
-    mispairs: tuple[tuple[str, str, int], ...], n_ambiguous: int, cfg: dict[str, Any]
+    mispairs: tuple[tuple[str, str, int], ...],
+    n_ambiguous: int,
+    cfg: dict[str, Any],
+    weight: dict[str, Any] | None = None,
 ) -> OligoScore:
     """`score_primer` with the row's recorded footprint standing in for the record.
 
@@ -256,16 +299,15 @@ def primer_score(
     agree exactly, which is what the S0 control measures over every row.
     """
     s = cfg["scoring"]
-    w3, wmid = s["primer_3prime_window"], s["primer_mid_window"]
+    w3 = s["primer_3prime_window"]
     table = s.get("mispair_penalty") or {}
     penalty, terminal = 0.0, False
     for oligo_base, template, d in mispairs:
-        if d <= w3:
-            base = s["primer_3prime_penalty"]
-        elif d <= w3 + wmid:
-            base = s["primer_mid_penalty"]
-        else:
-            base = s["primer_5prime_penalty"]
+        base = positional_weight(weight, d, cfg)
+        # Identity still acts only within the 3' window even under a smooth curve.
+        # The window and the curve answer different questions - where the mispair
+        # effect is measurable, and how the position penalty decays - and merging
+        # them would change two things in one candidate.
         mult = mispair_multiplier(oligo_base, template, table) if d <= w3 else 1.0
         penalty += base * mult
         if d == 1 and mult != 0:
@@ -306,7 +348,10 @@ def _int(cell: str) -> int:
 
 
 def replay_row(
-    row: dict[str, str], facts: dict[str, dict[str, Any]], cfg: dict[str, Any]
+    row: dict[str, str],
+    facts: dict[str, dict[str, Any]],
+    cfg: dict[str, Any],
+    weight: dict[str, Any] | None = None,
 ) -> tuple[str, str, str]:
     """One row's (call, reason, penalty cell) under the strategy.
 
@@ -333,10 +378,10 @@ def replay_row(
     probe_absent = row.get("reason", "").startswith(PROBE_ABSENT_REASON)
 
     fs = primer_score(
-        parse_mispairs(row.get("fwd_mispairs", "")), _int(row.get("fwd_ambiguous", "")), chem_cfg
+        parse_mispairs(row.get("fwd_mispairs", "")), _int(row.get("fwd_ambiguous", "")), chem_cfg, weight
     )
     rs = primer_score(
-        parse_mispairs(row.get("rev_mispairs", "")), _int(row.get("rev_ambiguous", "")), chem_cfg
+        parse_mispairs(row.get("rev_mispairs", "")), _int(row.get("rev_ambiguous", "")), chem_cfg, weight
     )
     ps = None
     if row.get("probe_penalty", "") != "":
@@ -360,7 +405,11 @@ def replay_row(
 
 
 def replay(
-    calls: Path, out_dir: Path, facts: dict[str, dict[str, Any]], cfg: dict[str, Any]
+    calls: Path,
+    out_dir: Path,
+    facts: dict[str, dict[str, Any]],
+    cfg: dict[str, Any],
+    weight: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Write the restored calls table and return what moved."""
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -380,7 +429,7 @@ def replay(
         writer.writeheader()
         for row in reader:
             was = row["call"]
-            call, reason, penalty = replay_row(row, facts, cfg)
+            call, reason, penalty = replay_row(row, facts, cfg, weight)
             totals[call] += 1
             if call != was:
                 moved[f"{was} -> {call}"] += 1
@@ -554,7 +603,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"out:       {args.out}")
     print()
 
-    result = replay(args.calls, args.out, facts, cfg)
+    result = replay(args.calls, args.out, facts, cfg, strategy.weight)
     print(f"replayed {sum(result['calls'].values())} rows; {result['n_moved']} calls moved")
     for move, n in sorted(result["moved"].items(), key=lambda x: -x[1]):
         print(f"  {move}: {n}")

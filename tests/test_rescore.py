@@ -337,3 +337,72 @@ def test_a_search_layer_outcome_passes_through_untouched(call):
         row["reason"],
         "",
     )
+
+
+# --- the positional weight curve (S2's shape, which config.yaml cannot express) ----
+
+
+@pytest.mark.parametrize("d", range(1, 16))
+def test_no_weight_spec_is_exactly_the_shipped_step_function(d):
+    """The default path must BE the step function, not a reimplementation of it.
+
+    An S0 replay has to go down one code path, not two, or the control that licenses
+    the whole ladder would be comparing the harness against itself.
+    """
+    s = CFG["scoring"]
+    w3, wmid = s["primer_3prime_window"], s["primer_mid_window"]
+    if d <= w3:
+        want = s["primer_3prime_penalty"]
+    elif d <= w3 + wmid:
+        want = s["primer_mid_penalty"]
+    else:
+        want = s["primer_5prime_penalty"]
+    assert rescore.positional_weight(None, d, CFG) == want
+    assert rescore.positional_weight({}, d, CFG) == want
+
+
+def test_the_exponential_curve_halves_every_half_distance():
+    spec = {"kind": "exponential", "w0": 3.0, "half_distance": 2.0}
+    assert rescore.positional_weight(spec, 1, CFG) == pytest.approx(3.0)
+    assert rescore.positional_weight(spec, 3, CFG) == pytest.approx(1.5)
+    assert rescore.positional_weight(spec, 5, CFG) == pytest.approx(0.75)
+    # A floor, so a long oligo's 5' end does not decay to free.
+    floored = {**spec, "floor": 1.0}
+    assert rescore.positional_weight(floored, 21, CFG) == pytest.approx(1.0)
+
+
+def test_an_unknown_weight_kind_is_refused_rather_than_silently_ignored():
+    with pytest.raises(SystemExit) as e:
+        rescore.positional_weight({"kind": "logistic", "w0": 3.0, "half_distance": 2.0}, 1, CFG)
+    assert "logistic" in str(e.value)
+
+
+def test_a_curve_changes_the_penalty_but_identity_still_acts_only_in_the_3prime_window():
+    """The window and the curve answer different questions and must not merge.
+
+    `primer_3prime_window` says where the mispair effect is measurable (Kwok 1990,
+    Stadhouders 2010); the curve says how the position penalty decays. A candidate
+    that changed both at once would be two candidates.
+    """
+    cfg = _scoring(mispair_penalty={"G:T": 0.0})
+    spec = {"kind": "exponential", "w0": 2.0, "half_distance": 4.0}
+    # Inside the window: identity zeroes it, curve or no curve.
+    inside = rescore.primer_score(rescore.parse_mispairs("G:T@2"), 0, cfg, spec)
+    assert inside.penalty == 0.0
+    # Outside: identity does not fire, so the curve alone sets the penalty.
+    outside = rescore.primer_score(rescore.parse_mispairs("G:T@9"), 0, cfg, spec)
+    assert outside.penalty == pytest.approx(2.0 * 2.0 ** (-8 / 4.0))
+    # And the step function would have charged the 5'/mid band instead.
+    assert (
+        rescore.primer_score(rescore.parse_mispairs("G:T@9"), 0, cfg).penalty
+        == CFG["scoring"]["primer_mid_penalty"]
+    )
+
+
+def test_a_strategy_carries_its_weight_spec_and_s2_declares_one():
+    s2 = rescore.load_strategy(REPO / "strategies" / "s2-smooth-decay.yaml")
+    assert s2.weight is not None
+    assert s2.weight["kind"] == "exponential"
+    assert s2.scoring == {}, "S2 varies the curve only; a scoring override too would be two candidates"
+    # S0 must stay curve-less, or the control stops being a control.
+    assert rescore.load_strategy(REPO / "strategies" / "s0-shipped.yaml").weight is None

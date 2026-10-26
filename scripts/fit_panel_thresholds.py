@@ -40,6 +40,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import importlib.util
 import itertools
 import json
 import sys
@@ -51,7 +52,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from assaywatch.accession import strip_version
 from assaywatch.fasta import read_fasta
-from assaywatch.score import load_config, screen_record
+from assaywatch.score import decide, load_config, screen_record
 from assaywatch.validate import load_assay
 
 REPO = Path(__file__).resolve().parents[1]
@@ -128,6 +129,93 @@ def score_panel(entry: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any]:
     return {"rows": rows, "tally": dict(tally), "correct": tally["correct"], "wrong": tally["wrong"]}
 
 
+# `scripts/rescore.py` holds the replay arithmetic and the positional-weight curve.
+# Imported rather than re-implemented: a second copy of `score_primer`'s loop is
+# exactly the duplication `assaywatch/accession.py`'s own docstring warns about, and
+# the S0 control below exists to prove the two paths agree.
+_spec = importlib.util.spec_from_file_location("rescore", REPO / "scripts" / "rescore.py")
+rescore = importlib.util.module_from_spec(_spec)
+sys.modules["rescore"] = rescore
+_spec.loader.exec_module(rescore)
+
+
+def footprints_of(entry: dict[str, Any], cfg: dict[str, Any]) -> list[dict[str, Any]]:
+    """Screen the panel ONCE and keep what a replay needs, so a curve can be swept.
+
+    `assaywatch/score.py` knows only the three-band step function, so a smooth decay
+    cannot be screened with at all - it can only be replayed. One screen under the
+    shipped config gives the mismatch configuration (which is what scoring is a
+    function of) and every curve is then arithmetic over it.
+
+    THE APPROXIMATION THIS BUYS, stated because the threshold fit above deliberately
+    avoids it: candidate selection is frozen at the shipped rule's winner, exactly as
+    in `scripts/rescore.py`. For these panels that is a small risk - one assay, one
+    locus, a handful of records each - but it is not zero, and a curve that survived
+    would need a `score.py` change and a real rescreen before it could ship.
+    """
+    out = []
+    for acc, seq in entry["seqs"].items():
+        call = screen_record(entry["assay"], acc, seq, cfg)
+        row = entry["panel"][strip_version(acc)]
+        out.append(
+            {
+                "accession": acc,
+                "label": row["label"],
+                "bench": row["bench"],
+                "call": call.call,
+                "reason": call.reason,
+                "fwd": call.forward.mispairs if call.forward else (),
+                "rev": call.reverse.mispairs if call.reverse else (),
+                "probe": call.probe.mispairs if call.probe else (),
+                "fwd_amb": len(call.forward.ambiguous) if call.forward else 0,
+                "rev_amb": len(call.reverse.ambiguous) if call.reverse else 0,
+                "probe_amb": len(call.probe.ambiguous) if call.probe else 0,
+                "has_probe": call.probe is not None,
+                "probe_len": len(entry["assay"].oligos.probe.matching_seq)
+                if entry["assay"].oligos.probe
+                else None,
+            }
+        )
+    return out
+
+
+def score_panel_replayed(
+    footprints: list[dict[str, Any]], cfg: dict[str, Any], weight: dict[str, Any] | None
+) -> dict[str, Any]:
+    """The same tally as `score_panel`, from a frozen footprint plus a curve."""
+    rows, tally = [], Counter()
+    for f in footprints:
+        if f["call"] in rescore.PASSTHROUGH_CALLS:
+            call = f["call"]
+            penalty = None
+        else:
+            fs = rescore.primer_score(rescore.parse_mispairs(",".join(f["fwd"])), f["fwd_amb"], cfg, weight)
+            rs = rescore.primer_score(rescore.parse_mispairs(",".join(f["rev"])), f["rev_amb"], cfg, weight)
+            ps = None
+            if f["has_probe"]:
+                ps = rescore.probe_score(
+                    rescore.parse_mispairs(",".join(f["probe"])), f["probe_amb"], f["probe_len"] or 0, cfg
+                )
+            call, _, penalty = decide(fs, rs, ps, cfg)
+            if f["reason"].startswith(rescore.PROBE_ABSENT_REASON):
+                call = "fail"
+        want = BAND_CALLS if f["bench"] == "band" else NO_BAND_CALLS
+        ok = call in want
+        rows.append(
+            {
+                "accession": f["accession"],
+                "label": f["label"],
+                "bench": f["bench"],
+                "call": call,
+                "penalty": penalty,
+                "correct": ok,
+            }
+        )
+        tally["correct" if ok else "wrong"] += 1
+        tally[f"{f['bench']}/{call}"] += 1
+    return {"rows": rows, "tally": dict(tally), "correct": tally["correct"], "wrong": tally["wrong"]}
+
+
 def cfg_for(ok_max: float, weak_max: float, base: dict[str, Any]) -> dict[str, Any]:
     cfg = {
         **base,
@@ -145,12 +233,32 @@ def cells() -> list[tuple[float, float]]:
     return [(a, b) for a, b in itertools.product(OK_GRID, WEAK_GRID) if b >= a]
 
 
+# S2's grid. `w0` is the weight at the 3'-terminal base and `half_distance` is how
+# many bases it takes to halve. The shipped step function is w=3.0 flat to d=5, then
+# 1.0 to d=10, then 0.5, so w0 near 3.0 keeps the terminal scale while the decay
+# replaces the cliff at d=6 that no measurement supports.
+W0_GRID = (2.0, 2.5, 3.0, 3.5, 4.0)
+HALF_GRID = (1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0)
+
+
+def weight_cells() -> list[tuple[float, float]]:
+    return list(itertools.product(W0_GRID, HALF_GRID))
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--panels", type=Path, default=REPO / "docs" / "bench-panels" / "panels.tsv")
     ap.add_argument("--fasta-cache", type=Path, default=REPO / ".tmp" / "bench-panels")
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--out", type=Path, default=None, help="write the full result as JSON")
+    ap.add_argument(
+        "--grid",
+        choices=("thresholds", "weight"),
+        default="thresholds",
+        help="thresholds = S1's oligo_ok_max x oligo_weak_max, by real rescreen per cell. "
+        "weight = S2's exponential positional decay, by replay, because score.py knows "
+        "only the three-band step function and cannot screen a curve",
+    )
     args = ap.parse_args(argv)
 
     base = load_config(args.config)
@@ -158,9 +266,13 @@ def main(argv: list[str] | None = None) -> int:
     fitting = [d for d in data if d["role"] == "fitting"]
     control = [d for d in data if d["role"] != "fitting"]
     papers = sorted({d["paper"] for d in fitting})
+    grid = cells() if args.grid == "thresholds" else weight_cells()
     print(f"fitting papers: {', '.join(papers)}")
     print(f"control (never fitted): {', '.join(d['paper'] for d in control)}")
-    print(f"grid: {len(cells())} cells, oligo_ok_max x oligo_weak_max with weak >= ok")
+    if args.grid == "thresholds":
+        print(f"grid: {len(grid)} cells, oligo_ok_max x oligo_weak_max with weak >= ok (rescreened per cell)")
+    else:
+        print(f"grid: {len(grid)} cells, w0 x half_distance, exponential decay (REPLAYED, not rescreened)")
     print()
 
     # The shipped budget rule, as the row every cell is compared against.
@@ -176,10 +288,36 @@ def main(argv: list[str] | None = None) -> int:
     # run for no gain: it is not a fitting set, and what it has to say is whether the
     # ONE chosen cell starts detecting non-targets. It is therefore scored twice, at S0
     # and at the chosen cell, which is the question it answers.
-    scores: dict[tuple[float, float], dict[str, Any]] = {}
-    for ok_max, weak_max in cells():
-        cfg = cfg_for(ok_max, weak_max, base)
-        scores[(ok_max, weak_max)] = {d["name"]: score_panel(d, cfg) for d in fitting}
+    scores: dict[Any, dict[str, Any]] = {}
+    if args.grid == "thresholds":
+        for cell in grid:
+            scores[cell] = {d["name"]: score_panel(d, cfg_for(cell[0], cell[1], base)) for d in fitting}
+    else:
+        prints = {d["name"]: footprints_of(d, base) for d in data}
+        # The control that the replay path agrees with the screen, before any curve is
+        # swept over it. Without this an S2 result would rest on an unverified second
+        # implementation of score_primer's loop, which is how the first chance-pair
+        # test nearly shipped: a no-op is indistinguishable from a clean pass.
+        bad = []
+        for d in data:
+            got = score_panel_replayed(prints[d["name"]], base, None)
+            want = s0[d["name"]]
+            a = {r["accession"]: r["call"] for r in want["rows"]}
+            b = {r["accession"]: r["call"] for r in got["rows"]}
+            bad += [f"{d['name']}:{k} screen={a[k]} replay={b[k]}" for k in a if a[k] != b[k]]
+        if bad:
+            print("REPLAY CONTROL FAILED - the replay does not reproduce the screen:")
+            for x in bad:
+                print(f"  {x}")
+            return 1
+        print(
+            f"replay control: the curve-less replay reproduces the screen on all "
+            f"{sum(len(v) for v in prints.values())} panel rows."
+        )
+        print()
+        for cell in grid:
+            spec = {"kind": "exponential", "w0": cell[0], "half_distance": cell[1]}
+            scores[cell] = {d["name"]: score_panel_replayed(prints[d["name"]], base, spec) for d in fitting}
 
     def wrong_on(cell: tuple[float, float], papers_wanted: set[str]) -> int:
         per = scores[cell]
@@ -212,7 +350,7 @@ def main(argv: list[str] | None = None) -> int:
     all_papers = set(papers)
     s0_wrong = sum(s0[d["name"]]["wrong"] for d in fitting)
 
-    unconstrained = sorted(cells(), key=lambda c: (wrong_on(c, all_papers), c[0], c[1]))[0]
+    unconstrained = sorted(grid, key=lambda c: (wrong_on(c, all_papers), c[0], c[1]))[0]
     lost_there = lost_on(unconstrained, all_papers)
     print(
         f"UNCONSTRAINED best cell (fewest wrong, netting allowed): {unconstrained} "
@@ -227,20 +365,21 @@ def main(argv: list[str] | None = None) -> int:
     # The whole grid, because the interesting result is not the best cell but that
     # NO cell is clean. A table makes that checkable instead of a claim.
     print("the grid (lost = rows S0 gets right that this cell gets wrong):")
-    print(f"  {'ok_max':>7} {'weak_max':>9} {'lost':>5} {'wrong':>6}   lost rows")
-    for c in cells():
+    a_name, b_name = ("ok_max", "weak_max") if args.grid == "thresholds" else ("w0", "half_dist")
+    print(f"  {a_name:>7} {b_name:>9} {'lost':>5} {'wrong':>6}   lost rows")
+    for c in grid:
         lost = lost_on(c, all_papers)
         names = ", ".join(n.split(":")[1].split(" ")[0] for n in lost)
         print(f"  {c[0]:7} {c[1]:9} {len(lost):5} {wrong_on(c, all_papers):6}   {names}")
     print()
 
-    best = sorted(cells(), key=lambda c: rank(c, all_papers))[0]
-    clean = [c for c in cells() if not lost_on(c, all_papers)]
+    best = sorted(grid, key=lambda c: rank(c, all_papers))[0]
+    clean = [c for c in grid if not lost_on(c, all_papers)]
     print(
         f"CONSTRAINED best cell (loses nothing): oligo_ok_max={best[0]}, "
         f"oligo_weak_max={best[1]} -> {wrong_on(best, all_papers)} wrong against S0's {s0_wrong}"
     )
-    print(f"  {len(clean)} of {len(cells())} cells lose nothing")
+    print(f"  {len(clean)} of {len(grid)} cells lose nothing")
     if lost_on(best, all_papers):
         print("  WARNING: even the constrained best loses a row; the constraint is unsatisfiable")
     print()
@@ -250,7 +389,7 @@ def main(argv: list[str] | None = None) -> int:
     lopo_detail = []
     for held in papers:
         train = all_papers - {held}
-        pick = sorted(cells(), key=lambda c: rank(c, train))[0]
+        pick = sorted(grid, key=lambda c: rank(c, train))[0]
         w = wrong_on(pick, {held})
         n = sum(len(scores[pick][d["name"]]["rows"]) for d in fitting if d["paper"] == held)
         lopo_wrong += w
@@ -263,9 +402,12 @@ def main(argv: list[str] | None = None) -> int:
     print()
 
     print("the control panel, never fitted (a rule must not start detecting non-targets):")
-    best_cfg = cfg_for(best[0], best[1], base)
     for d in control:
-        scores[best][d["name"]] = score_panel(d, best_cfg)
+        if args.grid == "thresholds":
+            scores[best][d["name"]] = score_panel(d, cfg_for(best[0], best[1], base))
+        else:
+            spec = {"kind": "exponential", "w0": best[0], "half_distance": best[1]}
+            scores[best][d["name"]] = score_panel_replayed(prints[d["name"]], base, spec)
         print(
             f"  {d['name']}: S0 {s0[d['name']]['wrong']} wrong -> best cell {scores[best][d['name']]['wrong']} wrong"
         )

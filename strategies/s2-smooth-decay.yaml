@@ -1,0 +1,35 @@
+# S2 - replace `score_primer`'s three-band step function with a smooth exponential
+# decay, `w(d) = w0 * 2 ** (-(d - 1) / half_distance)`. Part 1 S2 of
+# docs/2026-10-24-scoring-strategy-test-plan.md, dated 2026-10-24; the question,
+# prediction and kill criterion below are that document's.
+#
+# REPLAY-ONLY. `config.yaml` has three bands and two widths, so a curve cannot be
+# written as an overlay, and `assaywatch/score.py` knows only the step function, so a
+# curve cannot be SCREENED with either. `scripts/rescore.py` implements it for
+# pricing. Shipping one would need a package change and a rescreen, which is the
+# right way round: price first, build second.
+#
+# The values are the constrained best cell from
+# `scripts/fit_panel_thresholds.py --grid weight`, i.e. the best of the cells that
+# lose fewest rows S0 gets right. They are NOT a recommendation: no cell in the grid
+# loses nothing. See docs/2026-10-26-s2-smooth-decay-killed.md.
+name: s2-smooth-decay
+registered: 2026-10-26
+question: >
+  The shipped step function treats a mismatch at d=1 and one at d=5 as identical at
+  3.0 and then drops to 1.0 at d=6. That cliff is an artefact of having three bands,
+  not a measurement. Does a smooth decay with one or two parameters do better?
+  Motivated by Usutu, where d=3 is where the step function and the literature part
+  company.
+predicts: >
+  FAP and Usutu improve; nothing carrying a 3'-terminal mismatch changes, because at
+  d=1 the curve is w0 and the step is `primer_3prime_penalty`, and both are near 3.0.
+kill: >
+  Leucocytozoon @2016-12-31 lost. That case is a documented failure the tool
+  currently catches, and it rests on a G:T mispair at d=2, which is exactly where a
+  decay curve differs most from the step function.
+positional_weight:
+  kind: exponential
+  w0: 2.5
+  half_distance: 5.0
+scoring: {}
