@@ -22,4 +22,5 @@ docs/bench-panels/barrett-1993-morbillivirus.tsv	registry/Morbillivirus_includin
 docs/bench-panels/meyer-1997-ati.tsv	registry/ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997.yaml	meyer-1997	fitting
 docs/bench-panels/meyer-1997-ati-strains.tsv	registry/ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997.yaml	meyer-1997	fitting
 docs/bench-panels/rebelo-2011-mycoplasma.tsv	registry/Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011.yaml	rebelo-2011	fitting
+docs/bench-panels/ahmed-2020-leptospira.tsv	registry/LEPTOSPIRA_lipL32_Ahmed_2020.yaml	ahmed-2020	fitting
 docs/bench-panels/rahn-1992-salmonella-invA.tsv	registry/Salmonella_invA_Rahn_1992.yaml	rahn-1992	control
