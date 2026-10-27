@@ -892,6 +892,10 @@ def triage(rows_by_status: list[tuple[str, list[StatusRow]]], assays: dict[str, 
 
     1. `declining` before `low coverage` -- a measured fall from a level that
        worked is actionable; never having covered a clade is a scope question;
+    1b. among `declining`, rows whose own note names the failing lineage as a
+       coverage gap rather than drift come after the rest (2026-10-27): the
+       status is sound, but the action it points to is the scope question of
+       item 1, not a redesign;
     2. entries with no provenance doubt first -- 24 of the 38 assays called
        declining carried a flag doubting the very oligos the claim rests on, and
        re-reading a paper is a different job from redesigning an assay;
@@ -939,9 +943,23 @@ def triage(rows_by_status: list[tuple[str, list[StatusRow]]], assays: dict[str, 
         for s, r in flagged
         if not (r.degeneracy and r.degeneracy[1] in UNJUDGEABLE_TIERS) and r.duplication == "holds"
     ]
+
+    def named_a_coverage_gap(row: StatusRow) -> bool:
+        """Does this row's own note say the failure is a never-covered lineage?
+
+        `drift.py` writes "so that lineage is a coverage gap rather than drift"
+        when the lineage that drives a `declining` call was below the threshold in
+        every year it was measured. The status is still sound -- the pooled share
+        did fall from a level that worked -- but what a reader can DO about it is
+        a scope question, not a redesign, so it should not lead the list. Added
+        2026-10-27 as criterion 1b; it never changes a status.
+        """
+        return "coverage gap rather than drift" in (row.note or "")
+
     eligible.sort(
         key=lambda sr: (
             sr[0].lower() != "declining",
+            named_a_coverage_gap(sr[1]),
             doubted(sr[1].assay_id),
             sr[1].fraction if sr[1].fraction is not None else 1.0,
             -sr[1].evaluable,

@@ -184,15 +184,32 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   to set the pair together, not each alone. `max_window_months: 60` widens the
   window per assay when it holds too few records, which treats the symptom.
 
-- **`drift.anchor_fdr`'s value has no evidence behind it.** 0.05 and 0.01
-  differ by a factor of two in rows moved (7,206 against 13,693; 2026-10-24
-  run), 0.001 is what ships, and tier-2 separates them on one row. The choice
-  wants the bench panels or a held-out set. `docs/journal/2026-10-24-archive-anchor.md`.
+- **`drift.anchor_fdr`'s value has no evidence behind it, and the bench panels
+  cannot supply any.** 0.05 and 0.01 differ by a factor of two in rows moved (7,206
+  against 13,693; 2026-10-24 run), 0.001 is what ships, and tier-2 separates them on
+  one row (`docs/journal/2026-10-24-archive-anchor.md`). The plan of 2026-10-27 said
+  to price it on the 179 bench rows the way the penalty was; **that is impossible by
+  construction**, worked out before any run: `anchor_fdr` relabels rows between
+  `no_site` and `fail`, and a bench row is scored band / no_band, where `no_site`
+  and `fail` are the same answer. No value of `anchor_fdr` can move a single bench
+  prediction. What is left is a held-out read, which is item 4d's corpus, or
+  accepting that 0.001 is a placeholder with one tier-2 row behind it and saying so
+  in `config.yaml`, which it already does.
 
-- **Deposit date is not collection date.** `collection_date` is already
-  retrieved for `asm` groups and then unused, so a 2025 deposit of 1990s
-  isolates enters the recent window as current diversity. The data is on disk;
-  this is the same shape as the specificity fix, which took a day.
+- **Deposit date is not collection date, and it is not immaterial** (measured
+  2026-10-27, `docs/journal/2026-10-27-deposit-vs-collection-date.md`). Of 1,447
+  assembly records on disk, 1,001 carry a collection year; the median lag to deposit
+  is 5 years, **25.9% were collected ten or more years before they were deposited**,
+  9.8% twenty or more. For a bacterial target built from complete genomes, "recent
+  deposits" is partly a sequencing-backlog signal. Two steps, neither built: (1) for
+  `asm` records, carry `collection_date` as a metadata column (it is parsed today and
+  written only into the title string) and add `drift.window_on: deposit | collection`,
+  default `deposit`, with records lacking a date falling back and being counted;
+  (2) for nuccore — 99.9% of the calls table — `/collection_date` is a source-feature
+  qualifier, not an `esummary` field, so it is a retrieval change plus a re-fetch of
+  every archive, to be priced before it is built. A window that uses collection date
+  for 0.1% of records is a different kind of wrong, so step 1 must say in the report
+  which records it applied to.
 
 - **Populate `lineage.sublineage` for the segmented RNA viruses.**
   `lineage.group_at_rank: species` with `sublineage: {}` means the influenza
@@ -337,13 +354,6 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   journal entry that used it — not a defect.
 
 
-- **Report triage, not report correctness.** Two groups should not lead the
-  report: the `declining` rows whose note ends "a coverage gap, not drift", and
-  the degeneracy-severe assays. Neither is a wrong status — the first are sound
-  pooled calls whose note describes a lineage, and degeneracy is reported
-  beside a verdict and never folded into one. `Start here` now orders 10 assays
-  (2026-10-27) and is the mechanism this would use.
-
 - **A SLURM profile aimed at Greene.** `profiles/slurm/` runs the same rules on
   SLURM generically; nothing in it is tuned to NYU's partitions, QoS or module
   stack.
@@ -451,6 +461,11 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **Triage no longer leads with a coverage gap** (2026-10-27). Degeneracy-severe
+      assays were already held off the Start here list; `declining` rows whose own note
+      says the failing lineage is "a coverage gap rather than drift" now sort after the
+      rest of `declining` and before `low coverage`. No status changes; a test pins that
+      the rows handed in are the rows handed out. `report.triage` criterion 1b.
 - [x] **C1 conjugate, measured as its plan specified** (2026-10-27). Every per-lineage
       interval in the 2026-10-22 report three ways: Wilson and Jeffreys disagree on 1 of
       1,351 lineages, and the 704 zero-width Wald intervals were the only real defect,
