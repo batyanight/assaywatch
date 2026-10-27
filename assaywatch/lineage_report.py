@@ -202,6 +202,15 @@ def main(argv: list[str] | None = None) -> int:
         from assaywatch.validate import iter_files, load_assay
 
         query_taxids = {a.id: a.target.taxid for a in map(load_assay, iter_files(args.registry))}
+        # KNOWN ASYMMETRY WITH report.py, recorded 2026-10-26 and deliberately not
+        # fixed here. `report.py` builds its resolvers with `cluster_maps=` from
+        # `clustermaps.cluster_maps`; this call omits that argument, so a `cluster`
+        # chain would defer here and resolve there, and `lineage.md` and `report.md`
+        # would disagree about the same assay. Inert today because `config.yaml` ships
+        # `lineage.sublineage: {}`, so no chain exists to resolve either way. Not
+        # fixed in passing because a `cluster` chain can turn a verdict `declining`
+        # (docs/2026-10-19-pan-family-cases.md), so making the two agree is a change
+        # to what this report CLAIMS, not a tidy-up, and it needs tier-2 behind it.
         resolvers = sublineage_resolvers(lineage_cfg, query_taxids)
         wanted = title_assays(lineage_cfg)
         titles = read_titles(

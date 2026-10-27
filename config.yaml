@@ -89,7 +89,7 @@ scoring:
   mispair_penalty: {}
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
-  # weighted above the ends. Known gap: of the 50 probe assays here on 2026-10-24, 20 are MGB,
+  # weighted above the ends. Known gap: of the 51 probe assays here on 2026-10-26, 20 are MGB,
   # whose minor-groove binder raises Tm by roughly 15-20 C and makes short probes
   # viable — so an MGB probe's tolerance is not that of a bare oligo of the same
   # length, and these two numbers do not know the difference. `by_chemistry`
@@ -169,7 +169,7 @@ scoring:
   # replicate that in 5'-nuclease assays (<1.5 Cq for A-C/C-A/T-G/G-T versus
   # >7 Cq for A-A/G-A/A-G/C-C). An identity-blind automatic fail is therefore
   # wrong for roughly half of terminal mismatches. It is also a qPCR-grade
-  # verdict applied to the conventional assays -- 161 of 208 on 2026-10-23 -- where a
+  # verdict applied to the conventional assays -- 155 of 209 on 2026-10-26 -- where a
   # 100-fold yield loss is
   # often still a visible band after 40 cycles. The E. coli malB result rests on
   # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
@@ -221,12 +221,24 @@ scoring:
 
   # PER-CHEMISTRY OVERRIDES. Every key above applies to every assay in the registry,
   # whatever its chemistry, and they
-  # are not one kind of assay: 167 are conventional or consensus PCR, 44 are
-  # probe-based (22 MGB, 22 hydrolysis), 2 are SYBR and 1 is RPA (214 files on 2026-10-14; `python -m assaywatch.validate registry` prints the current ones;
-  # the counts written here by hand had drifted to 164/142/21 as the registry
-  # grew, which understated the probe share by half). A rule set at qPCR strength
-  # is wrong for the 142, and wrong in the direction that manufactures `fail`
-  # calls and inflates the flagged count.
+  # are not one kind of assay: 155 are conventional or consensus PCR, 51 are
+  # probe-based (20 MGB, 31 hydrolysis), 2 are SYBR and 1 is RPA (209 files on
+  # 2026-10-26; `python -m assaywatch.validate registry` prints the current ones, and
+  # it exists because the counts written here by hand keep drifting - they read
+  # 164/142/21 once, understating the probe share by half, and 167/44 as recently as
+  # 2026-10-14). A rule set at qPCR strength is wrong for the 155, and wrong in the
+  # direction that manufactures `fail` calls and inflates the flagged count.
+  #
+  # THE ARGUMENT ABOVE IS NOW PARTLY MEASURED, so read this before re-deriving it.
+  # docs/2026-10-26-s3-chemistry-switches.md tested exactly the claim this paragraph
+  # makes - that `terminal_mismatch_fails` at qPCR strength inflates `fail` across the
+  # conventional majority - by exempting conventional chemistry from it. It moves 251
+  # calls of 2.7 million and changes NO verdict anywhere. So the mechanism is real and
+  # its magnitude is negligible, because a record carrying a terminal mismatch almost
+  # always carries others that clear `reduced_max` on their own. The chemistry axis
+  # does carry signal, but on the PROBE side: making a `reduced` probe call not count
+  # as a detection takes documented failures caught from 5/11 to 6/11 with no increase
+  # in false alarms. Neither is shipped.
   #
   # Anything under `by_chemistry.<chemistry>` replaces that key for assays of
   # that chemistry alone. Names come from the schema (conventional, sybr,

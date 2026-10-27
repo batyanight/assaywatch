@@ -19,9 +19,16 @@ the pipeline stays reproducible across machines (conda/renv) with no external
 binary to install. The all-pairs step is quadratic, so feed it only an assay's
 evaluable records; the scaling note in ``cluster`` has the measured cost.
 
-Status (2026-10-19): built and tested, no consumer yet. Bd, the motivating case,
-measured out as a denominator problem rather than a lineage split (see the design
-doc, Mode C), so nothing in the pipeline calls this module.
+Status (2026-10-26): WIRED. `assaywatch/clustermaps.py` consumed this module on
+2026-10-24 and `report.py` builds its sublineage resolvers with those maps, so the
+`cluster` chain is reachable from the report. It is still INERT in practice, for a
+different reason than when this note first said "no consumer yet": `config.yaml`
+ships `lineage.sublineage: {}`, so no assay declares a chain for it to resolve.
+
+Bd, the motivating case, measured out as a denominator problem rather than a lineage
+split (see the design doc, Mode C), and that has not changed: 174 of its 175 evaluable
+records detect, so no partition respecting `min_records_per_lineage: 30` can fall below
+90%, and its real failure sits in the 8,857 `no_site` records.
 
 Everything here is deterministic: a fixed hash (blake2b), deterministic
 bottom-k selection, union-find in input order, and a label assignment keyed on

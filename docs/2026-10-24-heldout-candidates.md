@@ -91,12 +91,24 @@ Rejected on identity, recorded so they are not re-proposed:
   real**: over the 1,711 records of the 10492 archive the 18-mer has an exact site in 236
   and the 19-mer in 234, so the T is present in all but two of them. The amplicon cannot
   arbitrate - both forms share the same 5' end, so both give 531 bp.
-  **Mao et al. 1997 ([10.1006/viro.1996.8435](https://doi.org/10.1006/viro.1996.8435),
-  Virology 229:212-220) would settle it and cannot be read.** Unpaywall calls it open
-  access, but Elsevier's API returns metadata, abstract and references only, with no body
-  and no sequence in it (see the `has_body` note in `scripts/fetch_elsevier.py`). Settling
-  this needs the Virology scan through the NYU proxy. Until then the 18-mer stays: it has
-  two transcriptions to one, and it is what the cited paper prints.
+  **CLOSED 2026-10-26: Mao et al. 1997 is held, and it prints the 18-mer.** The PDF is
+  `papers/10.1006_viro.1996.8435.pdf` (Virology 229:212-220). Its Table 2, "Primers Used
+  for PCR and RT-PCR Analysis", prints the pair as primer 4 `GACTTGGCCACTTATGAC` at amino
+  acid position 15-20 and primer 5 **`GTCTCTGGAGAAGAAGAA`** at 191-186 - both 18 nt, both
+  byte-identical to what the registry stores. So the design paper agrees with the two
+  transcriptions and not with Stöhr's 19-mer, and the count is three to one rather than
+  two to one. The registry's form stands, now on its own design paper rather than on a
+  majority of secondary sources.
+
+  Stöhr's extra T is therefore a 3' extension Stöhr added, not a base Mao's primer had and
+  the registry dropped. That is consistent with the earlier measurement that the T is
+  genomically present in 234 of 236 records: extending a primer onto a conserved base is a
+  reasonable thing for a later paper to do, and it is not evidence about Mao's sequence.
+
+  Superseded, and kept because it is why this took three sessions: Unpaywall called the
+  paper open access while Elsevier's API returned metadata, abstract and references only,
+  with no body and no sequence in it (see the `has_body` note in
+  `scripts/fetch_elsevier.py`), so it read as fetchable and was not.
   Scoring note, since this was the stated worry: the difference does move the 3' terminus
   by one base, but as the added base matches in 234 of 236 records it adds no 3' mismatch;
   what it would change is the distance-from-3'-end of the mismatches already counted.
