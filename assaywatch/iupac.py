@@ -38,6 +38,34 @@ IUPAC: dict[str, str] = {
     "I": "ACT",
 }
 
+# The inverse of IUPAC: a frozenset of bases -> the single code that stands for
+# exactly those. Built from IUPAC so the two can never disagree, and restricted
+# to the eleven true degeneracy codes: "U" is dropped so a set resolves to "T",
+# and "I" is dropped because inosine is one molecule that pairs promiscuously,
+# not a mixture, so it is never the right answer to "which code covers these
+# bases". Used to name the replacement base when a primer position has drifted:
+# given the oligo's base and the bases the records actually carry, the code
+# covering the union is what you would order.
+CODE_FOR: dict[frozenset[str], str] = {}
+for _code, _bases in IUPAC.items():
+    if _code in ("U", "I"):
+        continue
+    CODE_FOR.setdefault(frozenset(_bases), _code)
+del _code, _bases
+
+
+def code_for(bases) -> str | None:
+    """The IUPAC code covering exactly *bases*, or None if there is not one.
+
+    None rather than "N" for an uncoverable set: anything containing a base
+    outside ACGT (an ambiguous record position, say) has no honest code, and
+    silently widening it to N would read as a recommendation to order a fully
+    degenerate position.
+    """
+    want = frozenset(b.upper() for b in bases)
+    return CODE_FOR.get(want) if want <= frozenset("ACGT") else None
+
+
 # Pairings that are real but poor. A weak pair reports as `unknown`: neither
 # evidence that the oligo binds nor evidence that the target has drifted. I:G is
 # the only entry: it forms, so calling it a mismatch would assert drift that may

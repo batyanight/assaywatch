@@ -288,6 +288,9 @@ class Drift(Block):
 class SiteDrift(Block):
     min_records_for_position: int = Field(default=20, ge=0)
     top_footprints: int = Field(default=8, gt=0)
+    #: Share of mismatching records a recommended replacement base must cover.
+    #: See config.yaml: at 1.0 one rare deposit widens the code to `N`.
+    replacement_covers: float = Field(default=0.95, gt=0.0, le=1.0)
 
 
 class Figures(Block):

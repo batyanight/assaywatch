@@ -766,6 +766,18 @@ sitedrift:
   # assay. The tail is long and uninformative — mostly singletons that are
   # sequencing noise or lone variants — so only the commonest are shown.
   top_footprints: 8
+  # Naming a replacement base: what share of the MISMATCHING records the
+  # recommended IUPAC code has to cover. Not 1.0, because a single rare deposit
+  # would then force the code wider than the redesign warrants: at 1.00 a
+  # position where 749 records carry A and one carries C and one T unions to all
+  # four bases and recommends `N`, which is not an order anyone can place. Over
+  # the 2026-10-26 run, 1.00 leaves 591 of 1302 positions orderable and 711
+  # hypervariable; 0.95 leaves 915 orderable and 387 hypervariable, and the codes
+  # it gains are mostly the two-base R and Y that a real redesign uses (R 95->186,
+  # Y 79->163). A judgement about how much of the tail to chase, not a
+  # measurement, and the covered share is printed beside the code so the reader
+  # sees what is being given up.
+  replacement_covers: 0.95
 
 # Figures. These are legibility caps, not thresholds: nothing here changes a
 # verdict, and the figures draw their threshold lines from the drift settings

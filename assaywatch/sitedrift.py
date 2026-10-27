@@ -29,15 +29,15 @@ So for each failing assay this report gives:
 
 Honest limits, which the rendered report repeats
 ------------------------------------------------
-- **Positions, not bases, in THIS report.** The calls table has recorded the
-  substituted base since 2026-10-26 (`score.py` writes `fwd_mispairs` /
-  `rev_mispairs` / `probe_mispairs`, e.g. `A:G@12`, as oligo base, template
-  base and distance from the 3' end), but this module does not read those
-  columns yet. So no row here names a base change, and two records with
-  different bases at one position are one group. The `base` column below is the
-  OLIGO's own base, not the template's -- which is the opposite of what a
-  redesign needs. Aggregating the mispair columns per position is the open work;
-  until then take the replacement base from `calls.tsv.gz`, not from here.
+- **Bases ARE named, since 2026-10-27.** `score.py` has recorded the substituted
+  base since 2026-10-26 (`fwd_mispairs` / `rev_mispairs` / `probe_mispairs`, as
+  `A:G@12`), and this module now aggregates them per position, so a row reads
+  `G->A 749` and names the code covering both. Two things remain true. The
+  FOOTPRINT groups still key on positions alone, so two records differing in
+  base at one position are one group there. And score.py records the TEMPLATE
+  base, which `parse_mispairs` complements back to the record's own base --
+  done once, there, because getting that direction wrong would name the wrong
+  replacement.
 - **Organism names are a heuristic** parsed from the deposit title, not from a
   taxonomy lookup. They are a navigation aid for finding the affected records,
   not a clade assignment.
@@ -69,6 +69,7 @@ from typing import Any
 
 from assaywatch import atomic
 from assaywatch.drift import EVALUABLE, wilson_interval
+from assaywatch.iupac import COMPLEMENT, IUPAC, code_for
 from assaywatch.metadata import read_titles
 
 # Statuses whose assays are worth a site breakdown. "watch" is included because
@@ -80,6 +81,15 @@ MM_COLUMNS = {
     "forward": "fwd_mm_from_3prime",
     "reverse": "rev_mm_from_3prime",
     "probe": "probe_mm_from_3prime",
+}
+
+# The columns that carry the SUBSTITUTED BASE, written by score.py since
+# 2026-10-26 and not read by anything until 2026-10-27. Each cell is a
+# comma-separated list of `OLIGOBASE:TEMPLATEBASE@DISTANCE`, e.g. `G:T@7`.
+MISPAIR_COLUMNS = {
+    "forward": "fwd_mispairs",
+    "reverse": "rev_mispairs",
+    "probe": "probe_mispairs",
 }
 
 # Short labels for footprint patterns. Spelled out rather than sliced, because
@@ -108,6 +118,42 @@ def parse_positions(cell: str | None) -> tuple[int, ...]:
     return tuple(sorted(out))
 
 
+def parse_mispairs(cell: str | None) -> tuple[tuple[str, str, int], ...]:
+    """`"G:T@7,A:C@2"` -> `(("G", "A", 7), ("A", "G", 2))`.
+
+    Returns (oligo base, RECORD base, distance from the oligo's 3' end), and the
+    complement in the middle term is the whole subtlety. score.py records the
+    TEMPLATE base -- `COMPLEMENT[record_base]` -- because a mispair multiplier is
+    defined on the primer base opposite the template base it physically faces
+    (a G:T wobble). But a redesign needs the base the RECORD carries in the
+    oligo's own sense, because that is what the replacement oligo has to pair
+    with. Complementing it back is the difference between "order R" and ordering
+    the wrong base entirely, so it is done once, here, and not at each caller.
+
+    The oligo base comes from the mispair cell and NOT from the registry entry,
+    which makes this pool-safe: score.py wrote whichever alternate actually won
+    the record, so for the ~87 entries carrying `alternates` the base named here
+    belongs to the primer that was really scored. The existing `base` column on
+    PositionStat is read off the PRIMARY oligo and does not have that property.
+    """
+    if not cell:
+        return ()
+    out: list[tuple[str, str, int]] = []
+    for part in str(cell).split(","):
+        part = part.strip()
+        if not part or ":" not in part or "@" not in part:
+            continue
+        pair, _, dist = part.rpartition("@")
+        oligo_base, _, template = pair.partition(":")
+        if not dist.lstrip("-").isdigit():
+            continue
+        oligo_base, template = oligo_base.strip().upper(), template.strip().upper()
+        if not oligo_base or not template:
+            continue
+        out.append((oligo_base, COMPLEMENT.get(template, "N"), int(dist)))
+    return tuple(out)
+
+
 def read_site_calls(path: Path, assay_ids: set[str]) -> list[dict[str, Any]]:
     """Rows for the named assays, keeping the mismatch columns.
 
@@ -129,6 +175,7 @@ def read_site_calls(path: Path, assay_ids: set[str]) -> list[dict[str, Any]]:
         if any(c not in idx for c in need):
             raise ValueError(f"calls table is missing {[c for c in need if c not in idx]}")
         mm_idx = {k: idx.get(v) for k, v in MM_COLUMNS.items()}
+        mp_idx = {k: idx.get(v) for k, v in MISPAIR_COLUMNS.items()}
         for row in reader:
             if row[idx["assay_id"]] not in wanted:
                 continue
@@ -139,6 +186,8 @@ def read_site_calls(path: Path, assay_ids: set[str]) -> list[dict[str, Any]]:
             }
             for oligo, i in mm_idx.items():
                 rec[oligo] = parse_positions(row[i]) if i is not None and i < len(row) else ()
+            for oligo, i in mp_idx.items():
+                rec[f"{oligo}_mispairs"] = parse_mispairs(row[i]) if i is not None and i < len(row) else ()
             rows.append(rec)
     return rows
 
@@ -190,6 +239,111 @@ class PositionStat:
     evaluable_with: int
     detected_without: int
     evaluable_without: int
+    # (oligo base, record base, n records), commonest first, from the mispair
+    # columns. Empty when the screen predates them (2026-10-26) or when no row
+    # recorded one.
+    substitutions: tuple[tuple[str, str, int], ...] = ()
+    #: Share of the mismatching records a recommended replacement must cover
+    #: (`sitedrift.replacement_covers`). 1.0 here so a PositionStat built in a
+    #: test recommends the code covering every base seen.
+    cover: float = 1.0
+
+    @property
+    def scored_bases(self) -> tuple[str, ...]:
+        """The oligo bases the SCREEN actually used at this position.
+
+        More than one means a pool assay whose alternates differ here, in which
+        case `base` (read off the primary oligo) is not the whole story.
+        """
+        return tuple(sorted({o for o, _, _ in self.substitutions}))
+
+    @property
+    def base_disagrees(self) -> bool:
+        """Does the primary oligo's base differ from what was scored?
+
+        True for a pool assay whose winning alternate carries a different base
+        here. The old `base` column is read off the primary oligo regardless of
+        which alternate won the record, so this is the flag that says so.
+        """
+        scored = self.scored_bases
+        return bool(scored) and (len(scored) > 1 or scored[0] != self.base.upper())
+
+    @property
+    def replacement(self) -> str | None:
+        """The IUPAC code covering the oligo's base plus every base the records
+        carry here -- what you would order to restore inclusivity.
+
+        None when there is no honest single code: an ambiguous record position,
+        or a pool whose alternates disagree so that "the" oligo base is not one
+        thing. Deliberately not widened to N in that case, because printing N
+        would read as advice to order a fully degenerate position.
+        """
+        if not self.substitutions:
+            return None
+        scored = self.scored_bases
+        if len(scored) != 1:
+            return None
+        # Only DEFINITE record bases drive a recommendation. An ambiguous record
+        # position (or an unrecognised character, which score.py also writes as
+        # "N") is not evidence that the target has drifted to anything in
+        # particular, and expanding it would union all four bases and recommend
+        # ordering `N` -- the one answer this must never give. If that leaves no
+        # evidence at all, there is nothing to recommend.
+        seen = self._covered_bases()
+        if not seen:
+            return None
+        want: set[str] = set(IUPAC.get(scored[0], scored[0])) | seen
+        code = code_for(want)
+        if code is None or code == scored[0]:
+            return None
+        return code
+
+    def _covered_bases(self) -> set[str]:
+        """The record bases a replacement has to cover, commonest first until
+        `cover` of the mismatching records is accounted for.
+
+        Only DEFINITE bases count. An ambiguous record position (or an
+        unrecognised character, which score.py also writes as "N") is not
+        evidence that the target has drifted to anything in particular, and
+        expanding it would union all four bases and recommend ordering `N` --
+        the one answer this must never give.
+        """
+        definite = [(rb, n) for _, rb, n in self.substitutions if rb in ("A", "C", "G", "T")]
+        if not definite:
+            return set()
+        total = sum(n for _, n in definite)
+        out: set[str] = set()
+        acc = 0
+        for rb, n in sorted(definite, key=lambda x: -x[1]):
+            if acc / total >= self.cover:
+                break
+            out.add(rb)
+            acc += n
+        return out
+
+    @property
+    def replacement_share(self) -> float | None:
+        """Share of the mismatching records the recommended code actually covers."""
+        definite = [(rb, n) for _, rb, n in self.substitutions if rb in ("A", "C", "G", "T")]
+        if not definite:
+            return None
+        keep = self._covered_bases()
+        total = sum(n for *_, n in self.substitutions)
+        return sum(n for rb, n in definite if rb in keep) / total if total else None
+
+    @property
+    def hypervariable(self) -> bool:
+        """Is every base seen here, so that no single oligo covers the position?
+
+        Printed as a word rather than as `N` in the order column: "order N" is
+        not an instruction anyone can act on, and the real reading is that the
+        assay is being screened against more diversity than one oligo spans.
+        """
+        scored = self.scored_bases
+        if len(scored) != 1 or not self.substitutions:
+            return False
+        want = set(IUPAC.get(scored[0], scored[0])) | self._covered_bases()
+        return want >= set("ACGT")
 
     @property
     def share_with(self) -> float | None:
@@ -267,6 +421,7 @@ def position_stats(
     oligo: str,
     seq: str,
     min_records: int,
+    cover: float = 1.0,
 ) -> list[PositionStat]:
     """Per-base statistics for one oligo over the evaluable rows given."""
     length = len(seq)
@@ -274,6 +429,10 @@ def position_stats(
         return []
     # counts[k] = (n_mismatch, n_detected_among_them)
     counts: dict[int, list[int]] = defaultdict(lambda: [0, 0])
+    # subs[k][(oligo_base, record_base)] = n records. Tallied from the mispair
+    # columns, which name the base the record carries; the position table above
+    # can only say THAT a position differs, never to what.
+    subs: dict[int, Counter] = defaultdict(Counter)
     total = 0
     total_detected = 0
     for r in rows:
@@ -284,6 +443,14 @@ def position_stats(
             if 1 <= k <= length:
                 counts[k][0] += 1
                 counts[k][1] += det
+        for oligo_base, rec_base, k in r.get(f"{oligo}_mispairs") or ():
+            # No length guard beyond the shared one: the distance is measured
+            # from the 3' end of the oligo that was actually scored, which for a
+            # pool assay may be a different length from the primary. Positions
+            # past the primary's length are dropped by the same `1 <= k <= length`
+            # rule the counts use, so the two tables stay on one axis.
+            if 1 <= k <= length:
+                subs[k][(oligo_base, rec_base)] += 1
 
     out: list[PositionStat] = []
     for k, (n_mm, det_mm) in sorted(counts.items()):
@@ -300,6 +467,8 @@ def position_stats(
                 evaluable_with=n_mm,
                 detected_without=total_detected - det_mm,
                 evaluable_without=total - n_mm,
+                substitutions=tuple((ob, rb, n) for (ob, rb), n in subs.get(k, Counter()).most_common()),
+                cover=cover,
             )
         )
     # Largest gap first: the position that costs the most detection, not the
@@ -343,6 +512,7 @@ def analyse_assay(
     *,
     min_records: int = 20,
     top_footprints: int = 8,
+    cover: float = 1.0,
 ) -> AssaySites:
     """Site statistics for one assay from its already-deduplicated rows."""
     evaluable = [r for r in rows if r["call"] in EVALUABLE]
@@ -359,7 +529,7 @@ def analyse_assay(
 
     positions: list[PositionStat] = []
     for name, seq in seqs.items():
-        positions.extend(position_stats(evaluable, name, seq, min_records))
+        positions.extend(position_stats(evaluable, name, seq, min_records, cover=cover))
     positions.sort(key=lambda s: (-(s.gap if s.gap is not None else -1), -s.n_mismatch))
 
     return AssaySites(
@@ -404,11 +574,16 @@ def render_markdown(results: Sequence[AssaySites], run_date: str, min_records: i
         "how much detection that position costs. Positions with fewer than "
         f"{min_records} mismatching records are not shown.",
         "",
-        "**What this cannot tell you.** No row here names a base change. The `base` column is "
-        "the *oligo's* base, not the template's; the substituted template base is recorded in "
-        "`calls.tsv.gz` (the `*_mispairs` columns, as `A:G@12` — oligo base, template base, "
-        "distance from the 3' end) and this report does not read it yet, so read the "
-        "replacement base from there. Organism names are parsed from deposit titles as a "
+        "**Reading the base columns.** `base` is the oligo's own base there, from the registry "
+        "entry. `records carry` is what the deposits hold instead, tallied from the scored "
+        "mismatches, and `order` is the IUPAC code covering both — the base you would order to "
+        "restore inclusivity. A star on `base` means the screen scored a different base at that "
+        "position, which happens on a pool assay when the winning alternate differs from the "
+        "primary oligo; `records carry` then names the primer actually used and `base` does not. "
+        "`order` is left blank where no single code is honest, rather than widened to `N`. "
+        "**What this cannot tell you.** The footprint groups below key on positions alone, so "
+        "two records differing in base at one position are still one group there. Organism "
+        "names are parsed from deposit titles as a "
         "navigation aid, not a taxonomy lookup. And a position associated with failure may be "
         "travelling with the real cause elsewhere in the same diverged lineage rather than "
         "causing it — the footprint table below each assay is there so that covariation stays "
@@ -449,13 +624,14 @@ def _render_assay(r: AssaySites) -> list[str]:
 
     if r.positions:
         out += [
-            "| oligo | pos(3') | pos(5') | base | n mismatching | detected\\|mm | 95% CI | "
-            "n clean | detected\\|clean | 95% CI | gap | 3' zone |",
-            "|---|---|---|---|---|---|---|---|---|---|---|---|",
+            "| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | "
+            "detected\\|mm | 95% CI | n clean | detected\\|clean | 95% CI | gap | 3' zone |",
+            "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|",
         ]
         for p in r.positions:
             out.append(
-                f"| {p.oligo} | {p.pos_3prime} | {p.pos_5prime} | `{p.base}` | "
+                f"| {p.oligo} | {p.pos_3prime} | {p.pos_5prime} | `{_base_cell(p)}` | "
+                f"{_subs_cell(p)} | {_order_cell(p)} | "
                 f"{p.n_mismatch:,} | {_pct(p.share_with)} | {_ci(p.ci_with)} | "
                 f"{p.evaluable_without:,} | {_pct(p.share_without)} | {_ci(p.ci_without)} | "
                 f"{_pct(p.gap)} | {'yes' if p.three_prime else ''} |"
@@ -493,6 +669,45 @@ def _render_assay(r: AssaySites) -> list[str]:
     return out
 
 
+def _base_cell(p: PositionStat) -> str:
+    """The oligo base, starred when the screen used a different one.
+
+    `PositionStat.base` is read off the PRIMARY oligo, but the screen scored
+    whichever alternate won each record. For a pool assay those can differ, and
+    silently printing the primary's base would name a base from a different
+    primer. A star says the scored base is in the next column.
+    """
+    return f"{p.base}*" if p.base_disagrees else p.base
+
+
+def _order_cell(p: PositionStat) -> str:
+    """The replacement code and how much of the drift it covers.
+
+    `hypervariable` rather than `N` when every base is seen: "order N" is not an
+    instruction, and the honest reading is that the assay is screened against
+    more diversity than one oligo spans, which is a coverage story and not a
+    redesign.
+    """
+    if p.hypervariable:
+        return "hypervariable"
+    if not p.replacement:
+        return "-"
+    share = p.replacement_share
+    # One decimal, not zero: 749 of 754 is 99.6% and `:.0%` renders it as "100%",
+    # which claims the code covers every drifted record when it does not.
+    return f"`{p.replacement}`" + (f" ({share:.1%})" if share is not None and share < 1 else "")
+
+
+def _subs_cell(p: PositionStat) -> str:
+    """`G->A 749, G->T 5` -- what the records actually carry here."""
+    if not p.substitutions:
+        return "-"
+    shown = p.substitutions[:3]
+    cell = ", ".join(f"{ob}&rarr;{rb} {n:,}" for ob, rb, n in shown)
+    rest = len(p.substitutions) - len(shown)
+    return cell + (f", +{rest} more" if rest else "")
+
+
 def render_tsv(results: Sequence[AssaySites]) -> str:
     cols = [
         "assay_id",
@@ -503,6 +718,14 @@ def render_tsv(results: Sequence[AssaySites]) -> str:
         "pos_3prime",
         "pos_5prime",
         "base",
+        # The base the SCREEN used (the winning alternate's, which for a pool
+        # assay can differ from `base`), what the records carry, and the code
+        # covering both.
+        "scored_base",
+        "substitutions",
+        "replacement",
+        "replacement_covers_share",
+        "hypervariable",
         "n_mismatch",
         "detected_with",
         "evaluable_with",
@@ -528,6 +751,11 @@ def render_tsv(results: Sequence[AssaySites]) -> str:
                         p.pos_3prime,
                         p.pos_5prime,
                         p.base,
+                        "/".join(p.scored_bases),
+                        ";".join(f"{ob}>{rb}:{n}" for ob, rb, n in p.substitutions),
+                        p.replacement or "",
+                        "" if p.replacement_share is None else f"{p.replacement_share:.4f}",
+                        "yes" if p.hypervariable else "no",
                         p.n_mismatch,
                         p.detected_with,
                         p.evaluable_with,
@@ -564,6 +792,7 @@ def build(
     sd = cfg.get("sitedrift", {}) if isinstance(cfg, dict) else {}
     min_records = int(sd.get("min_records_for_position", 20))
     top_footprints = int(sd.get("top_footprints", 8))
+    cover = float(sd.get("replacement_covers", 0.95))
 
     assays = {}
     for path in iter_files(registry):
@@ -615,6 +844,7 @@ def build(
             titles,
             min_records=min_records,
             top_footprints=top_footprints,
+            cover=cover,
         )
         for d in selected
         if d.assay_id in assays

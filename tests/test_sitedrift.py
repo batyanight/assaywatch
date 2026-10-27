@@ -243,13 +243,17 @@ def test_markdown_states_both_conventions_and_the_limits():
     md = render_markdown([_sites()], "2026-10-17", min_records=20)
     assert "pos(3')" in md and "pos(5')" in md
     # The report must carry its own caveats, not rely on the reader knowing them.
-    # Asserted on the claim rather than on the word "never", which is what this
+    # Asserted on the claims rather than on the word "never", which is what this
     # checked until 2026-10-27: the prose it was guarding had gone stale (it said
     # the substituted base is not recorded, which stopped being true on
-    # 2026-10-26) and the proxy word could not notice.
-    assert "No row here names a base change" in md
-    assert "_mispairs" in md and "calls.tsv.gz" in md
-    assert "the *oligo's* base, not the template's" in md
+    # 2026-10-26) and the proxy word could not notice. Rewritten again the same
+    # day, because the base IS now named and the old caveat became the false one.
+    assert "records carry" in md and "order" in md
+    assert "the base you would order to restore inclusivity" in md
+    # The limit that survived: footprint groups still key on positions alone.
+    assert "two records differing in base at one position are still one group" in md
+    # And the pool caveat is stated rather than silently wrong.
+    assert "pool assay when the winning alternate differs" in md
     assert "DEMO" in md and "taxid 123" in md
 
 
@@ -266,3 +270,124 @@ def test_assay_with_no_evaluable_records_renders_without_crashing():
     empty = AssaySites("E", "T", None, "low coverage", {"forward": "ACGT"}, [], [], 0, 0)
     md = render_markdown([empty], "2026-10-17", min_records=20)
     assert "No evaluable records" in md
+
+
+# --------------------------------------------------------------------------
+# Naming the substituted base (2026-10-27). The direction of the complement is
+# the part worth pinning: score.py records the TEMPLATE base, and a redesign
+# needs the base the RECORD carries, so getting it backwards would print the
+# wrong replacement with full confidence.
+# --------------------------------------------------------------------------
+
+
+def test_parse_mispairs_complements_the_template_back_to_the_record_base():
+    from assaywatch.sitedrift import parse_mispairs
+
+    # score.py wrote G:T@7 for an oligo G facing template T. The record itself
+    # therefore carries A (the complement of T) in the oligo's own sense.
+    assert parse_mispairs("G:T@7") == (("G", "A", 7),)
+    assert parse_mispairs("A:C@2,G:A@14") == (("A", "G", 2), ("G", "T", 14))
+    assert parse_mispairs("") == () and parse_mispairs(None) == ()
+    # Malformed cells are dropped, not guessed at.
+    assert parse_mispairs("junk,G:T@,:@5,G:T@7") == (("G", "A", 7),)
+
+
+def test_substitutions_name_the_replacement_code():
+    from assaywatch.sitedrift import PositionStat
+
+    # Oligo G, records carry A: order R.
+    p = PositionStat(
+        oligo="forward",
+        pos_3prime=3,
+        pos_5prime=10,
+        base="G",
+        n_mismatch=754,
+        detected_with=0,
+        evaluable_with=754,
+        detected_without=3,
+        evaluable_without=3,
+        substitutions=(("G", "A", 749), ("G", "T", 5)),
+    )
+    # G plus A plus T is D, not R: the replacement has to cover EVERY base seen,
+    # or it restores inclusivity for 749 records and not the other 5.
+    assert p.replacement == "D"
+    assert p.scored_bases == ("G",)
+    assert not p.base_disagrees
+
+
+def test_a_single_substitution_gives_the_two_base_code():
+    from assaywatch.sitedrift import PositionStat
+
+    p = PositionStat("forward", 3, 10, "G", 749, 0, 749, 3, 3, substitutions=(("G", "A", 749),))
+    assert p.replacement == "R"
+
+
+def test_a_pool_assay_whose_alternates_differ_refuses_to_name_one_base():
+    from assaywatch.sitedrift import PositionStat
+
+    # Two different oligo bases scored at one position: the primary oligo's base
+    # is not "the" base, so no single replacement is honest.
+    p = PositionStat("forward", 3, 10, "G", 100, 0, 100, 0, 0, substitutions=(("G", "A", 60), ("A", "G", 40)))
+    assert p.replacement is None
+    assert p.base_disagrees is True
+    assert p.scored_bases == ("A", "G")
+
+
+def test_no_replacement_is_offered_when_the_code_would_be_the_oligos_own_base():
+    from assaywatch.sitedrift import PositionStat
+
+    # A record base already covered by a degenerate oligo base is not a redesign.
+    p = PositionStat("forward", 3, 10, "R", 10, 0, 10, 0, 0, substitutions=(("R", "A", 10),))
+    assert p.replacement is None
+
+
+def test_an_ambiguous_record_base_gets_no_replacement_rather_than_N():
+    from assaywatch.sitedrift import PositionStat
+
+    p = PositionStat("forward", 3, 10, "G", 10, 0, 10, 0, 0, substitutions=(("G", "N", 10),))
+    assert p.replacement is None
+
+
+def test_replacement_share_says_how_much_of_the_drift_the_code_covers():
+    """Untested at first, and the one line it covers had a 3-tuple unpacked as a
+    pair -- which every other test passed straight over because none of them
+    touched this property."""
+    from assaywatch.sitedrift import PositionStat
+
+    # 749 A and 5 T. At cover=0.95, A alone clears the bar, so the code is R and
+    # it covers 749/754 of the mismatching records, not all of them.
+    p = PositionStat(
+        "forward", 3, 10, "G", 754, 0, 754, 3, 3, substitutions=(("G", "A", 749), ("G", "T", 5)), cover=0.95
+    )
+    assert p.replacement == "R"
+    assert p.replacement_share is not None
+    assert abs(p.replacement_share - 749 / 754) < 1e-9
+    assert not p.hypervariable
+
+    # At cover=1.0 the rare T is chased too, so the code widens and covers all.
+    q = PositionStat(
+        "forward", 3, 10, "G", 754, 0, 754, 3, 3, substitutions=(("G", "A", 749), ("G", "T", 5)), cover=1.0
+    )
+    assert q.replacement == "D" and q.replacement_share == 1.0
+
+
+def test_a_position_carrying_every_base_is_hypervariable_not_an_order_for_N():
+    from assaywatch.sitedrift import PositionStat
+
+    p = PositionStat(
+        "forward",
+        3,
+        10,
+        "G",
+        300,
+        0,
+        300,
+        0,
+        0,
+        substitutions=(("G", "A", 100), ("G", "C", 100), ("G", "T", 100)),
+        cover=1.0,
+    )
+    assert p.hypervariable is True
+    # The code is still N in the machine-readable column; the renderer is what
+    # refuses to print it as an instruction.
+    assert p.replacement == "N"
