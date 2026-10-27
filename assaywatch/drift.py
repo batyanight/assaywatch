@@ -339,6 +339,13 @@ class AssayDrift:
     #: {taxid: Counter(call)} for the records dropped as out of scope -- the
     #: EXCLUSIVITY evidence. See GatheredCalls.out_of_scope_calls.
     out_of_scope_calls: dict[int, Counter] = field(default_factory=dict)
+    #: RECENT evaluable rows whose footprint is COARSE (taxid-derived, for a
+    #: promoted `diverged` record) rather than a real mismatch signature.
+    #: Non-zero means the duplication check rests partly on "same species"
+    #: rather than on "same binding-site pattern", and the note says so.
+    #: Recent-window only, because the note that reports it is about recent
+    #: records.
+    coarse_footprint_rows: int = 0
 
     # Patent-division records excluded by drift.exclude_patent_records.
     patent_excluded: int = 0
@@ -470,6 +477,17 @@ class AssayDrift:
             f"{self.recent_evaluable} recent records share {n_f} distinct footprints "
             f"({self.records_per_footprint:.1f} per footprint)"
         )
+        if self.coarse_footprint_rows:
+            # Say what the count is made of. A coarse class asserts only "same
+            # species, both primers past the search budget", which is weaker than
+            # a shared binding-site pattern, and a reader comparing two assays'
+            # duplication notes should not have to assume they mean the same
+            # thing.
+            shared += (
+                f", of which {self.coarse_footprint_rows} records are grouped only by taxon "
+                "(promoted `diverged` rows, which were never scored and so have no mismatch "
+                "pattern)"
+            )
         by_sample = (
             f"with only {n_f} independent observations (one per footprint) the interval around the "
             f"{share} detected share is {pct(lo)}-{pct(hi)}"
@@ -1143,12 +1161,17 @@ def _gather_calls(
 
     for row in calls:
         aid = row["assay_id"]
+        # Looked up once per row rather than only inside the scope filter, because
+        # the coarse footprint below needs it too.
+        row_txid = None
+        if taxids is not None:
+            rid = row["record_id"]
+            base = strip_version(rid)
+            row_txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
         # Scope filter: when the assay has scope_taxids and the record has a
         # taxid, skip out-of-scope records from the drift denominator.
         if scope_map and aid in scope_map and taxids is not None:
-            rid = row["record_id"]
-            base = strip_version(rid)
-            txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
+            txid = row_txid
             if txid is not None and not in_scope(aid, txid):
                 out.out_of_scope[aid] = out.out_of_scope.get(aid, 0) + 1
                 # The call is kept, keyed by the off-target taxid. A `detect` or
@@ -1179,7 +1202,27 @@ def _gather_calls(
         # Treating that as a footprint collapsed every diverged record into one
         # class however different they were. It is unknown instead, which makes the
         # assay's duplication check unknown - an honest "cannot say".
-        fp = None if (settings.count_diverged and why == "diverged") else row.get("footprint")
+        fp = row.get("footprint")
+        if settings.count_diverged and why == "diverged":
+            # A promoted `diverged` row was never scored, so all six mismatch
+            # columns are empty and it has no real footprint. Leaving it as None
+            # made the footprint count unknown for the WHOLE assay, and 153 of 208
+            # assays have at least one such row -- which is why the report could
+            # say only "2 of 14 flagged assays still hold when duplicated records
+            # are discounted (57 could not be checked)" against 71 flags. The
+            # option that admits the most failure evidence silently disabled the
+            # check on whether that evidence is clones.
+            #
+            # A COARSE footprint instead: the record's taxid, prefixed so it can
+            # never collide with a real signature (which is six `|`-joined fields,
+            # `|||0|0|0` even for an exact match). It asserts less than a mismatch
+            # footprint -- "same species, both primers past the search budget" --
+            # and it errs the safe way: collapsing a taxon's diverged records into
+            # ONE class can only lower the distinct-footprint count, which widens
+            # the interval and makes a flag harder to keep, never easier. With no
+            # taxid there is still nothing to say, so it stays None and the assay
+            # stays unchecked.
+            fp = f"~diverged:{row_txid}" if row_txid is not None else None
         # Whether this row recorded an anchor E-value, which is what separates
         # "a site was found within the mismatch budget and failed the credibility
         # bar" from "nothing was found at all". Carried per row because it is not
@@ -1231,6 +1274,12 @@ def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> Non
             if fp is None:
                 fp_known = False
             else:
+                # RECENT window only. The sentence that reports this is about
+                # the recent records ("224 recent records share 2 distinct
+                # footprints"), so counting both windows put 3,513 inside a
+                # clause about 224 and read as a contradiction.
+                if in_recent and fp.startswith("~diverged:"):
+                    a.coarse_footprint_rows += 1
                 (recent_fp if in_recent else base_fp).add((call, fp))
     if fp_known:
         a.recent_footprints = len(recent_fp)

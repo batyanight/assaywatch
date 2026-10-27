@@ -1109,3 +1109,109 @@ def test_jeffreys_is_narrower_as_n_grows_and_contains_the_point():
         assert lo < 0.5 < hi
         widths.append(hi - lo)
     assert widths == sorted(widths, reverse=True), widths
+
+
+# --------------------------------------------------------------------------
+# count_diverged_as_fail used to disable the duplication check (2026-10-27).
+# --------------------------------------------------------------------------
+
+
+def test_a_promoted_diverged_row_gets_a_coarse_footprint_not_an_unknown_one():
+    """It was None, and one None made the count unknown for the WHOLE assay.
+
+    153 of 208 assays had at least one such row, which is why the report could say
+    only "2 of 14 flagged assays still hold (57 could not be checked)" against 71
+    flags: the option that admits the most failure evidence silently switched off
+    the check on whether that evidence is clones.
+    """
+    from assaywatch.drift import DriftSettings, _gather_calls
+
+    calls = [
+        {"assay_id": "A", "record_id": "r1", "call": "no_amplicon", "exclusion": "diverged"},
+        {"assay_id": "A", "record_id": "r2", "call": "no_amplicon", "exclusion": "diverged"},
+    ]
+    years = {"r1": "2025-01-01", "r2": "2025-01-02"}
+    settings = DriftSettings.from_config({"drift": {"count_diverged_as_fail": True}})
+    g = _gather_calls(
+        calls,
+        years,
+        settings,
+        taxids={"r1": 10, "r2": 11},
+        scope_map=None,
+        taxonomy=None,
+        patent=None,
+        keep_raw=False,
+    )
+    fps = [fp for _, _, _, fp, _ in g.per["A"]]
+    # Two taxa, so two distinct coarse classes -- and neither is None.
+    assert fps == ["~diverged:10", "~diverged:11"]
+    # Prefixed so it can never collide with a real footprint signature, which is
+    # six `|`-joined fields and is `|||0|0|0` even for an exact match.
+    assert all(f.startswith("~") for f in fps)
+
+
+def test_records_of_one_taxon_collapse_to_one_coarse_class_which_is_the_safe_direction():
+    """Collapsing can only LOWER the distinct-footprint count, which widens the
+    interval and makes a flag harder to keep -- never easier."""
+    from assaywatch.drift import DriftSettings, _gather_calls
+
+    calls = [
+        {"assay_id": "A", "record_id": f"r{i}", "call": "no_amplicon", "exclusion": "diverged"}
+        for i in range(50)
+    ]
+    years = {f"r{i}": "2025-01-01" for i in range(50)}
+    g = _gather_calls(
+        calls,
+        years,
+        DriftSettings.from_config({"drift": {"count_diverged_as_fail": True}}),
+        taxids={f"r{i}": 10 for i in range(50)},
+        scope_map=None,
+        taxonomy=None,
+        patent=None,
+        keep_raw=False,
+    )
+    assert {fp for _, _, _, fp, _ in g.per["A"]} == {"~diverged:10"}
+
+
+def test_with_no_taxid_the_assay_stays_honestly_unchecked():
+    """No taxid means nothing to group on, so the old `None` is still right."""
+    from assaywatch.drift import DriftSettings, _gather_calls
+
+    calls = [{"assay_id": "A", "record_id": "r1", "call": "no_amplicon", "exclusion": "diverged"}]
+    g = _gather_calls(
+        calls,
+        {"r1": "2025-01-01"},
+        DriftSettings.from_config({"drift": {"count_diverged_as_fail": True}}),
+        taxids=None,
+        scope_map=None,
+        taxonomy=None,
+        patent=None,
+        keep_raw=False,
+    )
+    assert [fp for _, _, _, fp, _ in g.per["A"]] == [None]
+
+
+def test_an_unpromoted_diverged_row_keeps_its_real_footprint():
+    """Without count_diverged_as_fail the row was scored, so it has a real one."""
+    from assaywatch.drift import DriftSettings, _gather_calls
+
+    calls = [
+        {
+            "assay_id": "A",
+            "record_id": "r1",
+            "call": "no_amplicon",
+            "exclusion": "diverged",
+            "footprint": "|||0|0|0",
+        }
+    ]
+    g = _gather_calls(
+        calls,
+        {"r1": "2025-01-01"},
+        DriftSettings.from_config({"drift": {"count_diverged_as_fail": False}}),
+        taxids={"r1": 10},
+        scope_map=None,
+        taxonomy=None,
+        patent=None,
+        keep_raw=False,
+    )
+    assert [fp for _, _, _, fp, _ in g.per["A"]] == ["|||0|0|0"]
