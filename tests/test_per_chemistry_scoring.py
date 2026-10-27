@@ -35,6 +35,7 @@ from assaywatch.score import (
     scoring_for,
     screen_record,
 )
+from assaywatch.settings import validated
 from assaywatch.validate import load_assay
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,22 +68,45 @@ def write_config(tmp_path, overrides) -> dict:
     return load_config(path)
 
 
-def test_the_shipped_config_overrides_nothing():
-    """If this fails, somebody set a threshold by eye. config.yaml says not to
-    without a validation run behind it."""
+def test_the_shipped_config_overrides_exactly_one_number_for_one_chemistry():
+    """Shipped 2026-10-27, and this test now guards the edges of that decision.
+
+    It used to pin `by_chemistry == {}` on the grounds that an entry here would mean
+    somebody set a threshold by eye. One entry is now measured rather than eyeballed
+    (docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md: 6 of 179
+    bench rows fixed and 0 broken at p = 0.0312, the PPV of `declining` 2/9 -> 3/9,
+    and 280,818 rows of confirming rescreen with 0 call disagreements). So what has
+    to be pinned instead is that it stayed ONE number for ONE chemistry: an entry
+    added without its own evidence fails here, as does a second key creeping into
+    the conventional block.
+    """
     cfg = load_config()
-    assert cfg["scoring"].get("by_chemistry") == {}
-    assert RESOLVED not in cfg
+    by_chem = cfg["scoring"].get("by_chemistry")
+    assert set(by_chem) == {"conventional"}, "only conventional PCR has measured evidence behind it"
+    assert by_chem["conventional"] == {"primer_3prime_penalty": 2.0}
+    assert "terminal_mismatch_fails" not in by_chem["conventional"], (
+        "priced 2026-10-27 and inert: it moves 0 of the 179 bench rows"
+    )
+    # With an override present, `load_config` precomputes the per-chemistry blocks.
+    assert RESOLVED in cfg
+    assert cfg[RESOLVED]["conventional"]["scoring"]["primer_3prime_penalty"] == 2.0
 
 
-def test_without_overrides_every_chemistry_takes_the_identical_path():
-    """Not "the same numbers" - the same object.
+def test_every_chemistry_but_conventional_takes_the_identical_path():
+    """Not "the same numbers" - the same object, for everything not overridden.
 
-    Returning cfg itself is what makes "behaviour is unchanged" a fact about the
-    code rather than a claim about its output.
+    Returning cfg itself is what makes "behaviour is unchanged" a fact about the code
+    rather than a claim about its output. Before 2026-10-27 that held for every
+    chemistry, because `by_chemistry` was empty; now it holds for every chemistry but
+    `conventional`, and the point of the test is unchanged: a probe assay must go down
+    the path it always did, byte for byte, whatever conventional PCR is scored with.
     """
     cfg = load_config()
     for chem in Chemistry:
+        if chem is Chemistry.conventional:
+            assert config_for(chem, cfg) is not cfg
+            assert scoring_for(chem, cfg)["primer_3prime_penalty"] == 2.0
+            continue
         assert config_for(chem, cfg) is cfg, chem
         assert scoring_for(chem, cfg) is cfg["scoring"], chem
 
@@ -525,3 +549,22 @@ def test_indel_check_fail_resolves_the_chemistry_of_the_assay_it_is_given(tmp_pa
         assert call.call == "fail", (name, call.call, call.penalty)  # a fail under every config
         verdicts[name] = indel_check.check_fail(assay, call.as_row(), rec, cfg)["rescued_if_indel_forgiven"]
     assert verdicts == {"strict": False, "mgb_relaxed": True, "only_conventional_relaxed": False}, verdicts
+
+
+def test_a_loaded_config_survives_a_round_trip_through_yaml():
+    """`load_config` writes a cache INTO the dict it returns; dumping it must not break.
+
+    `score.RESOLVED` (`_config_by_chemistry`) holds the per-chemistry resolution so it
+    is computed once rather than per record. Several places dump a loaded config back
+    to YAML and reload it -- the window-archive manifest, a strategy's
+    `config-used.yaml`, the tests' own fixtures -- and `Settings` forbids extra keys,
+    so on 2026-10-27, the day `by_chemistry` stopped being empty, every one of those
+    round trips started failing with "Extra inputs are not permitted". 14 tests in
+    test_windows.py caught it. `validated` now drops `_`-prefixed keys, which is also
+    right on the merits: a cache read from a FILE must never be trusted.
+    """
+    cfg = load_config()
+    assert RESOLVED in cfg, "this test is vacuous if nothing is cached"
+    again = validated(yaml.safe_load(yaml.safe_dump(cfg)))
+    assert RESOLVED not in again, "a cache must not survive a file; it is recomputed"
+    assert again["scoring"]["by_chemistry"] == cfg["scoring"]["by_chemistry"]

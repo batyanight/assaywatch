@@ -28,9 +28,9 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   `## Done`: the Leetz case opened a new held-out set, and TNTBLAST waits until
   someone installs Rosetta 2, builds it for arm64, or runs it on the cluster.
 
-## The next thing, and why it is first
+## Shipped today, and what it still owes
 
-- **Confirm S5 with a rescreen, then decide whether to ship it.**
+- **S5 is live: `by_chemistry.conventional.primer_3prime_penalty: 2.0`** (2026-10-27).
   `strategies/s5-conventional-3prime-penalty.yaml` drops `primer_3prime_penalty`
   from 3.0 to 2.0 for `conventional` only. It is **priced, not proven**
   (`docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md`):
@@ -43,16 +43,26 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
     2/9 -> 3/9 and false alarms 5/32 -> 4/32, because exactly two tier-2 cases move
     and they move in opposite directions on purpose.
 
-  Both pre-registered kill criteria survived, and the confirming rescreen is mostly
-  done: **6 of the 84 affected assays really screened, 280,818 rows, 0 call
-  disagreements**, covering 14,261 of the 19,081 moved calls (74.7%) and both assays
-  that carry a verdict move. The 91 penalty differences all run pessimistic — the
-  real screen finds a better candidate than a replay can see.
+  Both pre-registered kill criteria survived, and the confirming rescreen covered
+  **6 of the 84 affected assays, 280,818 rows, 0 call disagreements**, i.e. 14,261 of
+  the 19,081 moved calls (74.7%) including both assays that carry a verdict move. The
+  91 penalty differences all run pessimistic — the real screen finds a better
+  candidate than a replay can see.
 
-  **What is left is a decision, not a measurement.** 78 small movers remain
-  unrescreened, holding 4,820 calls between them and at most 395 each, which cannot
-  move a verdict alone. Shipping moves every status in every report, so it is yours:
-  `by_chemistry` still ships empty.
+  **What it still owes, now that it is live:**
+
+  - **The next full pipeline run has not happened yet.** Every number in the
+    committed report predates this change, and the scoring config is part of the
+    cache key, so the next `snakemake` rescreens. Expect the 13 statuses the probe
+    switch moved and whatever S5 moves on top; the two verdicts measured here are
+    `Pan_flavivirus_NS5_3_round2` (a false alarm dropped) and the Forslund FAP case
+    (`low coverage` -> `declining`).
+  - **78 small movers were never rescreened** — 4,820 calls between them, at most
+    395 each, so none can move a verdict alone. Still not the same as having checked.
+  - **2.0 is coarser than the evidence deserves.** Kwok 1990 and Stadhouders 2010
+    both report that the cost of a mismatch depends on its IDENTITY, which
+    `scoring.mispair_penalty` can express per pair and a single positional number
+    cannot. 2.5 was priced on the same rows and fixes only 2 of the 6.
 
   **Why this item no longer names `terminal_mismatch_fails`.** For three weeks it
   did, and the 23 false negatives against 1 false positive were read as its

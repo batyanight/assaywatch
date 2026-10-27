@@ -54,7 +54,7 @@ sys.path.insert(0, str(REPO))
 
 from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
-from assaywatch.score import load_config, screen_record  # noqa: E402
+from assaywatch.score import RESOLVED, load_config, screen_record  # noqa: E402
 from assaywatch.validate import load_assay  # noqa: E402
 
 PANELS = REPO / "docs" / "bench-panels" / "panels.tsv"
@@ -66,11 +66,16 @@ BAND_CALLS = ("detect", "reduced")
 #: The candidates, each a `scoring.by_chemistry.conventional` block. Priced one at a
 #: time: the terminal-mismatch rule alone is the change the 23 false negatives argue
 #: for, and the penalty drop is the worked example config.yaml already writes out.
+#: Every arm names its thresholds absolutely, because the SHIPPED baseline moved on
+#: 2026-10-27: `primer_3prime_penalty` for conventional is now 2.0, so `revert_3.0`
+#: is what reproduces the pre-ship comparison and `shipped` is no longer the strict
+#: rule. Read `revert_3.0` against the others to see the original measurement.
 CANDIDATES: dict[str, dict[str, Any]] = {
-    "terminal_only": {"terminal_mismatch_fails": False},
-    "penalty_only_2.0": {"primer_3prime_penalty": 2.0},
-    "penalty_only_2.5": {"primer_3prime_penalty": 2.5},
-    "terminal_and_penalty": {"terminal_mismatch_fails": False, "primer_3prime_penalty": 2.0},
+    "revert_3.0": {"primer_3prime_penalty": 3.0},
+    "terminal_only": {"primer_3prime_penalty": 3.0, "terminal_mismatch_fails": False},
+    "penalty_2.5": {"primer_3prime_penalty": 2.5},
+    "penalty_2.0": {"primer_3prime_penalty": 2.0},
+    "penalty_2.0_no_terminal": {"primer_3prime_penalty": 2.0, "terminal_mismatch_fails": False},
 }
 
 
@@ -83,10 +88,18 @@ def read_tsv(path: Path) -> list[dict[str, str]]:
 def with_override(cfg: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     """`cfg` with one `scoring.by_chemistry.conventional` block applied.
 
-    A deep copy, because `score.resolve_for` caches the merged block on the dict it
-    is handed and a shared mutable would leak one arm's thresholds into the other.
+    A deep copy, because `score.config_for` caches the merged block on the dict it is
+    handed and a shared mutable would leak one arm's thresholds into the other.
+
+    THE CACHE MUST ALSO BE DROPPED, and this was a real bug until the shipped config
+    carried an override of its own. `load_config` precomputes `_config_by_chemistry`
+    whenever `by_chemistry` is non-empty, a deep copy copies it, and `config_for`
+    then answers from it -- so every arm would have scored with the SHIPPED
+    conventional penalty and all the arms would have agreed, which looks exactly
+    like a clean null result. Popping it forces each arm to resolve its own.
     """
     out = copy.deepcopy(cfg)
+    out.pop(RESOLVED, None)
     scoring = out.setdefault("scoring", {})
     scoring["by_chemistry"] = {"conventional": dict(override)}
     return out

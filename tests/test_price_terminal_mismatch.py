@@ -40,10 +40,13 @@ def test_each_arm_sees_its_own_thresholds_and_the_base_config_is_untouched():
     assert config_for("conventional", loose)["scoring"]["primer_3prime_penalty"] == 2.0
     assert config_for("conventional", tight)["scoring"]["primer_3prime_penalty"] == 3.0
     assert base["scoring"]["primer_3prime_penalty"] == shipped_penalty
-    assert not base["scoring"]["by_chemistry"], "the shipped config must stay empty"
 
-    # And an override for one chemistry leaves every other chemistry alone.
+    # And an override for one chemistry leaves every other chemistry alone. The
+    # shipped config itself now carries a conventional override (3.0 -> 2.0, shipped
+    # 2026-10-27), so the untouched chemistry is the one to check: a probe assay must
+    # still see the base penalty whatever an arm does to conventional.
     assert config_for("hydrolysis_probe", loose)["scoring"]["primer_3prime_penalty"] == shipped_penalty
+    assert config_for("hydrolysis_probe", base)["scoring"]["primer_3prime_penalty"] == shipped_penalty
 
 
 def test_mcnemar_is_two_sided_and_ignores_the_concordant_pairs():

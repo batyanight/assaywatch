@@ -136,7 +136,40 @@ two tier-2 verdict moves rest entirely on assays that were really screened. What
 still unproven is a long tail of small movers, none of which can move a verdict on its
 own at these counts.
 
-## Status: PRICED, NOT PROVEN, and not shipped
+## Shipped, the same day, on the maintainer's call
+
+`config.yaml` now carries the first entry `scoring.by_chemistry` has ever held:
+
+    by_chemistry:
+      conventional:
+        primer_3prime_penalty: 2.0
+
+Two things changed shape when it shipped, and both are recorded rather than tidied
+away:
+
+**The test that guarded this block was inverted, not deleted.**
+`test_the_shipped_config_overrides_nothing` existed because an entry here would once
+have meant somebody set a threshold by eye. One entry is now measured, so what needs
+guarding is the edge of the decision: exactly one chemistry, exactly one key, and
+`terminal_mismatch_fails` explicitly absent — it was priced on the same rows the same
+day and moves none of them.
+
+**And the pricing script had a latent bug that only shipping could expose.**
+`load_config` precomputes `_config_by_chemistry` whenever `by_chemistry` is non-empty.
+`with_override` deep-copied the config and the copy carried that cache, so once the
+shipped config had an override of its own, every arm would have resolved to the
+SHIPPED conventional penalty and all the arms would have agreed — which reads exactly
+like a clean null result. The arm isolation was already pinned by a test, so the test
+failed the moment the config changed, and the fix is one `pop`. The measurement above
+was taken while `by_chemistry` was still `{}`, so no cache existed and the arms were
+independent; re-running after the fix reproduces it exactly, with the sign flipped
+(`revert_3.0` now loses 6 rows to the shipped rule, p = 0.0312).
+
+The arms are also named absolutely now — `revert_3.0`, `penalty_2.5`, `penalty_2.0` —
+because "shipped" stopped meaning 3.0 and a relative name would quietly change
+meaning under the reader.
+
+## Status at the time of the decision: PRICED, NOT PROVEN
 
 `config.yaml` still carries `by_chemistry: {}`. Three reasons, in order:
 

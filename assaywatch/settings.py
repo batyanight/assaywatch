@@ -364,6 +364,17 @@ def validated(raw: dict[str, Any]) -> dict[str, Any]:
     """
     from pydantic import ValidationError
 
+    # Keys beginning with `_` are caches this package writes INTO a loaded config
+    # (today just `score.RESOLVED`, the per-chemistry resolution), not user input.
+    # They are dropped rather than refused, because a config dict gets dumped back
+    # to YAML and reloaded in several places -- the window-archive manifest, a
+    # strategy's `config-used.yaml`, the tests' own fixtures -- and `extra: forbid`
+    # turned every one of those round trips into "Extra inputs are not permitted"
+    # the moment `scoring.by_chemistry` stopped being empty on 2026-10-27. Dropping
+    # is also correct on the merits: a stale cache in a file must never be trusted,
+    # and `load_config` recomputes it.
+    raw = {k: v for k, v in raw.items() if not str(k).startswith("_")}
+
     try:
         settings = Settings(**raw)
     except ValidationError as e:
