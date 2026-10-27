@@ -111,7 +111,7 @@ once the earlier years clear the threshold. Same assay as 5 of the 6 bench fixes
 this is PRICED, NOT PROVEN, and the confirming rescreen plus a decision about moving
 every status in every report are what remain.
 `docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md`,
-`strategies/s5-conventional-3prime-penalty.yaml`.
+`strategies/s3b-conventional-3prime-penalty.yaml`.
 
 ## Still open
 

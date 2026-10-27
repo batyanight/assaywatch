@@ -297,7 +297,7 @@ scoring:
   # STILL NOT SHIPPED, for the reason the replay states about itself -- candidate
   # selection is frozen in a replay, so it is PRICED, NOT PROVEN, and shipping it
   # needs a confirming rescreen and then a decision, because it moves every status.
-  # strategies/s5-conventional-3prime-penalty.yaml holds the pre-registered kill
+  # strategies/s3b-conventional-3prime-penalty.yaml holds the pre-registered kill
   # criteria; the write-up is
   # docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md.
   #

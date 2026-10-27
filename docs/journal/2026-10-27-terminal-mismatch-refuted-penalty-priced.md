@@ -9,7 +9,7 @@ exempting conventional chemistry was "the single change this result most support
 
     python scripts/price_terminal_mismatch.py
     python scripts/rescore.py --calls results/2026-10-26/calls.tsv.gz \
-        --strategy strategies/s5-conventional-3prime-penalty.yaml --out .tmp/s5
+        --strategy strategies/s3b-conventional-3prime-penalty.yaml --out .tmp/s5
 
 **It is not. On the bench panels that exemption moves 0 of 179 predictions.**
 
@@ -69,7 +69,7 @@ Priced by replay over the 2026-10-26 calls table (2.72 M rows), against an S0 co
 replayed from the same table on the same day, so the probe switch shipped this morning
 is in both arms and cannot be credited here.
 
-| | S0 (shipped) | S5 (penalty 2.0) |
+| | S0 (shipped) | S3b (penalty 2.0) |
 |---|---|---|
 | calls moved | 0 | **19,081, every one `fail` -> `reduced`** |
 | documented failures caught | 6/11 | 6/11 — **unchanged** |
@@ -115,7 +115,7 @@ call, and **all 63 run the same way: the real screen finds a LOWER penalty**, i.
 better candidate amplicon than the replay could see. 40 of those rows are
 `indeterminate` and 22 `fail`. That is the direction the replay boundary predicts, and
 it means the approximation is pessimistic here rather than flattering: nothing in this
-comparison was credited to S5 that a real screen does not also give it.
+comparison was credited to S3b that a real screen does not also give it.
 
 **Then the four largest remaining movers, for the same reason.** 19,081 calls move
 across 84 assays, but they concentrate: six assays hold three-quarters of them. The
@@ -131,7 +131,7 @@ largest assay still priced moves 395 calls
 remaining 78 together hold 4,820.
 
 Two things follow. The replay is exact here on 280,818 rows, which is a far stronger
-check than the 514,096-row M1 comparison that found 2 call disagreements — and S5's
+check than the 514,096-row M1 comparison that found 2 call disagreements — and S3b's
 two tier-2 verdict moves rest entirely on assays that were really screened. What is
 still unproven is a long tail of small movers, none of which can move a verdict on its
 own at these counts.
@@ -186,7 +186,7 @@ meaning under the reader.
    improves precision without losing a catch — and it is still that thin.
 
 What it is not is a guess. The kill criteria were pre-registered in
-`strategies/s5-conventional-3prime-penalty.yaml` before the run: lose a documented
+`strategies/s3b-conventional-3prime-penalty.yaml` before the run: lose a documented
 catch, or newly predict a band on one of the 16 informative bench negatives. Neither
 happened.
 

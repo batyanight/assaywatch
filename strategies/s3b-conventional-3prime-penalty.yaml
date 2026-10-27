@@ -1,4 +1,10 @@
-# S5 - the 3'-window penalty for conventional PCR, 3.0 -> 2.0.
+# S3b - the 3'-window penalty for conventional PCR, 3.0 -> 2.0.
+#
+# NAMED S5 WHEN IT WAS WRITTEN, AND RENAMED THE SAME DAY. S5 is already taken:
+# docs/journal/2026-10-24-scoring-strategy-test-plan.md Part 1 reserves it for C2, the
+# Bayesian per-record model, which is gated on a corpus that does not exist yet. This
+# candidate belongs to S3's family instead -- per-chemistry decisions, hand-set, as a
+# mechanism probe -- beside S3a, the probe switch. Commits dated 2026-10-27 call it S5.
 #
 # NOT the candidate this project has been naming. For three weeks the per-chemistry
 # argument was `terminal_mismatch_fails: false` for conventional, and the 179 bench
@@ -24,7 +30,7 @@
 # add that it depends on position and master mix. A single number cannot express
 # that. 2.0 is a coarser statement than the evidence supports, and it is the one the
 # commented worked example in config.yaml already writes out.
-name: s5-conventional-3prime-penalty
+name: s3b-conventional-3prime-penalty
 registered: 2026-10-27
 question: >
   Does the 3'-window penalty, rather than the terminal-mismatch boolean, carry the

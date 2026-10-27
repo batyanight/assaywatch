@@ -12,6 +12,12 @@
 - `papers/papers-fetch-list.md` is the one exception, and it is a fetch queue
   rather than a work list: PDFs that need a human and a proxy. The work those
   PDFs unblock is tier-2 validation, below.
+- Two documents are plans from end to end rather than records with a tail —
+  `docs/bayesian-scoring-plan.md` and
+  `docs/journal/2026-10-24-scoring-strategy-test-plan.md`. They keep their detail,
+  their pre-registered predictions and their kill criteria; what is OPEN in them is
+  summarised under "The scoring rule's own test plan" below. The first sweep missed
+  both, because it looked for forward-looking sections and these have no other kind.
 
 New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build plan.
 
@@ -30,8 +36,8 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Shipped today, and what it still owes
 
-- **S5 is live: `by_chemistry.conventional.primer_3prime_penalty: 2.0`** (2026-10-27).
-  `strategies/s5-conventional-3prime-penalty.yaml` drops `primer_3prime_penalty`
+- **S3b is live: `by_chemistry.conventional.primer_3prime_penalty: 2.0`** (2026-10-27).
+  `strategies/s3b-conventional-3prime-penalty.yaml` drops `primer_3prime_penalty`
   from 3.0 to 2.0 for `conventional` only. It is **priced, not proven**
   (`docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md`):
 
@@ -54,7 +60,7 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   - **The next full pipeline run has not happened yet.** Every number in the
     committed report predates this change, and the scoring config is part of the
     cache key, so the next `snakemake` rescreens. Expect the 13 statuses the probe
-    switch moved and whatever S5 moves on top; the two verdicts measured here are
+    switch moved and whatever S3b moves on top; the two verdicts measured here are
     `Pan_flavivirus_NS5_3_round2` (a false alarm dropped) and the Forslund FAP case
     (`low coverage` -> `declining`).
   - **78 small movers were never rescreened** — 4,820 calls between them, at most
@@ -86,6 +92,52 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   Hel1's 3'-terminal base from G to C — the form the template carries in all 16
   design targets, and the only form that reproduces the published 357 bp product
   — removed it. **Do not quote "0 of 30".**
+
+## The scoring rule's own test plan, which this file did not list until 2026-10-27
+
+The scoring method has a ladder of candidates and a kill criterion for each, written
+down on 2026-10-24 in `docs/journal/2026-10-24-scoring-strategy-test-plan.md` Part 1,
+and a three-project Bayesian plan in `docs/bayesian-scoring-plan.md`. Neither was ever
+in this file — the consolidation of 2026-10-27 swept the forward-looking TAILS of
+journals and missed two documents that are forward-looking from end to end. What ships
+today is the **budget rule**: a position-weighted additive penalty, binned at
+`detect_max` 1.0 and `reduced_max` 3.0, with `terminal_mismatch_fails: true` and, since
+2026-10-27, a 2.0 3'-window penalty for conventional PCR.
+
+- **S4: the identity-aware 3' penalty (M1), re-tested.** `mispair_penalty: {}` ships
+  empty, so the rule is identity-blind — a G:T wobble and an A:G mismatch cost the
+  same, which Kwok 1990 and Stadhouders 2010 both say is wrong by about two orders of
+  magnitude in yield. M1 (`G:T` and `T:G` discounted to 0.0) shipped 2026-10-21 and was
+  reverted 2026-10-22 for losing the Leucocytozoon @2016-12-31 catch, by a mechanism
+  that is now partly gone: it lost the catch because a discounted record slid `fail` ->
+  `reduced` and `reduced` counted as detected, and since 2026-10-27 it no longer does
+  for probe chemistries. `strategies/s4-m1-under-s3a.yaml` is written and has never
+  been run. It is an afternoon, and the M1 hold stays in force either way.
+- **C1: a Beta posterior on the detection proportion** (`docs/bayesian-scoring-plan.md`).
+  Replaces Wilson/Newcombe and the flag rule with `P(θ < 0.90 | data)`, and adds
+  hierarchical shrinkage so a 17-record assay borrows strength instead of reading
+  "insufficient data". Report-time, no rescreen, no new dependency beyond scipy, and
+  the plan calls it free. It is a separate axis from scoring and must be held fixed
+  while scoring candidates run, or every table confounds the two.
+- **S5 = C2: the Bayesian per-record model, and it is GATED.**
+  `P(detect) = P(fwd ok) x P(rev ok) x P(probe reports)`, each logistic over identity,
+  position, adjacency and length, with chemistry as a hierarchical intercept and priors
+  from Kwok and Stadhouders. **The gate is at least 40 within-family negatives across
+  several independent papers; there are 11.** Below 40 it is not fitted, and nothing
+  fitted on 11 would be defended. So the blocker is the corpus sweep — the same
+  literature pass as held-out case collection, one read per paper for both — and not
+  the modelling. C2 is also what `docs/related-work.md` would need before claiming a
+  probabilistic matcher.
+- **Done, so that the list is not read as "no Bayes anywhere": C3**, the Bayesian
+  treatment of the validation matrix, ships — every proportion `scripts/retrospective.py`
+  prints carries a Jeffreys interval, which is why the tier-2 figures read "3/9 = 33%
+  (95% CrI 10%-65%)" rather than a bare percentage.
+
+Dead, and recorded so they are not re-proposed: **S1** serial per-oligo gates (no
+threshold pair passed its own criterion, 2026-10-26), **S2** a smooth positional decay
+replacing the 5/5/rest step (2026-10-26), and the **thermodynamic** engine, which has
+never been a scoring input and whose measured advantage over the penalty rule
+evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 
 ## Method debts
 
