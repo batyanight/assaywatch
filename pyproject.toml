@@ -28,7 +28,7 @@ dependencies = ["pydantic>=2", "pyyaml>=6", "numpy>=1.24", "requests>=2", "matpl
 [project.optional-dependencies]
 dev = ["pytest", "ruff==0.16.10", "pre-commit", "build"]   # build: `python -m build`
 pdf = ["pypdf"]   # scripts/verify_oligos_against_paper.py --pdf-dir
-thermo = ["primer3-py"]   # the duplex-Tm columns, opt-in via `thermo: true`
+thermo = ["primer3-py", "biopython"]   # the duplex-Tm columns, opt-in via `thermo: true`; Tm_NN scores the IN-REGISTER duplex
 # The per-lineage binomial test and its BH correction, i.e. the lineage-conditional
 # verdict. Optional on purpose: assaywatch.lineage imports them inside
 # worst_lineage_verdict, so grouping records, reading titles and the diagnostic

@@ -9,6 +9,11 @@ import pytest
 from assaywatch.thermo import COLUMNS, duplex_tm, resolve
 
 primer3 = pytest.importorskip("primer3")
+# Both halves of the `thermo` extra: primer3 still prices the old mis-registration in
+# scripts/compare_thermo.py, and Biopython's Tm_NN is what duplex_tm now computes with.
+# CI installs `.[dev,lineage]` and not `.[thermo]`, so without this skip the first CI
+# run after 2026-10-27 would fail on an import rather than on a result.
+pytest.importorskip("Bio")
 
 from test_score import ASSAYS, CFG, FIX, RECORDS, ROOT  # noqa: E402
 
