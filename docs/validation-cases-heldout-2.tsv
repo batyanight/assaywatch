@@ -51,6 +51,14 @@ assay_id	as_of	expect	mechanism	source
 # as `fails` would teach the harness that a sensitivity result is a coverage
 # result, which is exactly what the `mechanism` column exists to prevent.
 Cryptosporidium_18SrDNA_Xiao_1999_round2	2007-03-25	works		10.1007/s00436-007-0567-y Leetz 2007 Parasitol Res 101:951-962: round-2 primers printed verbatim (Xiao18SF2 GGAAGGGTTGTATTTATTAGATAAAG, Xiao18SR2 AAGGAGTAAGGAACAACCTCCA) and amplified C. parvum HNJ-1 genotype II, RFLP-typed cleanly with Vsp I (628 + 104 bp), repeated on an independent German bovine stock with identical results; the 73.8% in Table 2 is a dilution series, i.e. sensitivity, not coverage
+# ROW ADDED 2026-10-27. Mills, Greninger et al. 2022 (J Clin Virol 159:105373, PMC9783225, open access)
+# prints the G2R generic primers and probe character for character -- identical to
+# MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010 -- and validates them on 2022 outbreak clinical
+# specimens across many sample types (20 MPXV-positive swabs in the quantitative comparison).
+# `works`, mechanism blank: a clinical validation of the stored oligos on circulating virus.
+# `as_of` is the paper's received date, 2 November 2022. Identity was read directly from the
+# open full text, not inferred from the citation.
+MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010	2022-11-02	works		10.1016/j.jcv.2022.105373 Mills 2022 J Clin Virol 159:105373: G2R forward GGAAAATGTAAAGACAACGAATACAG, reverse GCTATCACATAATCTGGAAGCGTA, probe AAGCCGTAATCTATGTTGTCTATCGTGTCC printed verbatim and validated on 2022 clinical specimens; G2R outperformed F3L by ~0.4 Ct
 #
 # NOT A ROW, recorded so the lead is not chased twice:
 # Cryptosporidium_18SrDNA_Xiao_1999_round1 reads VARIANT against the same paper --
