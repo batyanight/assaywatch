@@ -89,11 +89,14 @@ into measurements, and it is also the paper's main figure.
       consensus assays are probably scored too harshly — which would inflate
       `fail` and so the flagged counts. Fix shape: a scoring block per
       chemistry, with the conventional numbers set by tier-2 validation.
-      A worked example arrived 2026-10-23: `CALICIVIRUS_ssRNA_Helicase_Reid_1999`
-      is a conventional PCR whose Hel1, verified against both Reid 1999 and the
-      Neill & Seal 1995 design paper, carries one 3'-terminal mismatch against
-      all 16 of its own target records. `terminal_mismatch_fails` alone takes it
-      to 0 of 30 detected, while the paper reports the assay working.
+      A worked example was claimed 2026-10-23 and has since been **withdrawn**
+      (detailed immediately below): `CALICIVIRUS_ssRNA_Helicase_Reid_1999`, a
+      conventional PCR, was read as carrying one 3'-terminal mismatch in Hel1
+      against all 16 of its own target records, which `terminal_mismatch_fails`
+      alone was said to drive to near-total failure against a paper reporting the
+      assay working. That mismatch turned out to be an error in our stored copy of
+      the oligo, not a chemistry effect, so the figure it produced is void — do
+      not quote it.
       **THAT EXAMPLE IS GONE, and this item lost its best case on 2026-10-26.**
       The 2026-10-24 correction of Hel1's 3'-terminal base from G to C - the form
       the template carries in all 16 design targets, and the only form that
