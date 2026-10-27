@@ -1,3 +1,53 @@
+# Resume point, 2026-10-26 (later: the identity check is built, and it clears NONE of the concentrated signal from open text)
+
+**Start here:** the plan is `~/.claude/plans/go-to-assaywatch-and-breezy-crayon.md`. It acts on
+the binding constraint the entry below names — new tier-2 cases are blocked on **identity**,
+not discovery — by building the cheap identity check that entry asks for and running it over
+the queue's richest rows. Registry **unchanged at 209/179/29/1**; no oligo altered, no
+`config.yaml` value touched. Gate: **1,705 tests pass**, validator 209/209, `check_citations`
+209/209, ruff clean. **Nothing committed** — the working tree carries the changes for the
+maintainer to commit per item.
+
+## What was built
+
+`scripts/check_candidate_identity.py` (11 tests). It answers the one question the citation
+graph cannot: did a citing paper test the assay the registry holds? It takes a candidate (an
+assay id + the citing DOI/PMC id), fetches the paper's open-access full text WITH its tables
+via `fetch_europepmc_fulltext`, and compares the stored oligos against what the paper prints
+using `verify_oligos_against_paper.check` (both strands, codon spacing undone, nearest printed
+run by edit distance). Verdict per assay: **CONFIRMED** (both primers verbatim), **VARIANT** (a
+printed primer differs by a fixed base — not ours; drop it), **UNCONFIRMABLE** (not OA, no
+oligo table, or a primer simply absent). The load-bearing test pins that `near:N` is **never**
+collapsed into CONFIRMED — the exact error that would let the dead candidates through. It
+proposes only: a worksheet TSV, nothing to `registry/`, `pending/` or `validation-cases.tsv`.
+
+## The finding, and it sharpens the one below to a measurement
+
+**Ran over all 9 `mismatch`/`redesign` rows — the queue's concentrated signal — and NONE is
+settleable from open-access text** (`results/retro-identity-concentrated-2026-10-26.tsv`). Two
+are reachable in Europe PMC and neither reprints our oligos: the 2025 enterovirus paper
+(`10.1128/jcm.01492-22`) reprints a **different** assay's primers (the CDC2022 redesign,
+AN887/AN893) and uses the Nix gold-standard by citation only; the MDPI influenza paper
+(`10.3390/v15061344`) cites Spackman in its **references** and prints no primer table at all.
+The other 7 have no open PMC copy — one (`10.1128/jcm.02386-07`, PMC2546769) is in PMC but
+`fullTextXML` returns a persistent HTTP 500. So "identity is the bottleneck, not discovery" is
+now measured on the richest 9 rows: the open-text route clears zero of them, and identity needs
+the PDF and, where the oligos sit in a supplement, the supplement. All 9 are queued in
+`papers/papers-fetch-list.md` with `doi_stem` names, proxy links and a per-row reason; the
+script prefers a local file, so a PDF dropped into `papers/` is picked up on re-run.
+
+> **Watch the Influenza Matrix rows.** The stored reverse is a redesign of Spackman's (two
+> fixed-base substitutions, `needs_review: oligos_modified`), so a paper reprinting Spackman's
+> ORIGINAL reverse will read `VARIANT`, correctly — it tests a different primer from ours.
+
+## Also
+
+`ROADMAP.md` Phase 2's calicivirus **"0 of 30"** worked example no longer reads as a live claim
+— rewritten as withdrawn up front, which is step 2 of the entry below, now done. Nothing else
+in the roadmap changed.
+
+---
+
 # Resume point, 2026-10-26 (the harness is built, the ladder is priced, the held-out set is SPENT, and nothing shipped)
 
 **Start here:** the plan is `~/.claude/plans/go-to-assaywatch-which-giggly-heron.md`, which
