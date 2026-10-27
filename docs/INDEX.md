@@ -19,6 +19,7 @@ the reasoning in them is usually the point.
 | [`related-work.md`](related-work.md) | what else exists, and every reference the method rests on |
 | [`ai-involvement.md`](ai-involvement.md) | how this repository was written, and what checks make it verifiable |
 | [`2026-10-27-four-perspective-review.md`](2026-10-27-four-perspective-review.md) | the repo read from four angles (engineering, methods, bench, newcomer): the denominator problem, the decisions it forced and their reasoning, and what was deliberately deferred |
+| [`2026-10-27-leetz-identity-confirmed.md`](2026-10-27-leetz-identity-confirmed.md) | the first CONFIRMED retrospective identity (Leetz 2007 / Xiao round2) and why it reads `works` despite a 73.8% headline; two other rows closed on content. Raises where a fresh case should be written, since both the dev and held-out sets are spent |
 
 ## What the tool's output is worth
 
