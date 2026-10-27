@@ -768,16 +768,32 @@ drift:
   # than the artefact a loosening always produces - S1 and S2 both bought agreement on
   # working assays by destroying failure detection, and this does not.
   #
-  # WHY IT IS STILL EMPTY. It costs two published positives on the Leptospira bench
-  # panel, `L_mayottensis` and `L_alexanderi`, both `reduced` -> `fail`, so it fails
-  # the standing rule that a documented catch is never netted against a gain. And both
-  # those rows come from a panel built on 2026-10-26 using species-level substitutions
-  # for the strains the paper tested, where the influenza case it gains has been in
-  # docs/validation-cases.tsv throughout. One assay-level catch gained against two
-  # type-level positives lost is a maintainer decision, and the maintainer's decision
-  # on 2026-10-26 was to build the mechanism and leave it off. The mechanism is here;
-  # the numbers are not.
-  reduced_not_detected_for: []
+  # WHAT IT COSTS, stated before what it buys, because this is the part that was
+  # weighed. Two published positives on the Leptospira bench panel,
+  # `L_mayottensis` and `L_alexanderi`, go `reduced` -> `fail`, which breaks the
+  # standing rule that a documented catch is never netted against a gain. Both come
+  # from a panel built on 2026-10-26 using species-level substitutions for the
+  # strains the paper tested, where the influenza case it gains has been in
+  # docs/validation-cases.tsv throughout. So the two sides are not of equal
+  # evidential weight: one assay-level catch on a case that has always been in the
+  # set, against two type-level positives on a panel built with documented
+  # substitutions.
+  #
+  # ON SINCE 2026-10-27, a maintainer decision, with the cost above standing. It was
+  # built and left empty on 2026-10-26 because the choice had not been made. What
+  # the switch does to the current run was measured before it was taken, by
+  # rendering the 2026-10-26 calls table twice:
+  #   13 of 235 statuses move, in both directions
+  #   declining 34 -> 36, low coverage 37 -> 42, watch 12 -> 9, stable 56 -> 52
+  #   INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 goes `stable` -> flagged and
+  #     enters Start here at 6.5% of 30,382 recent records: the documented failure
+  #     this switch exists to catch, no longer called stable
+  #   CDV_P_gene_Scagliarini_2007, an `active` entry, moves watch -> Start here
+  #   INFLUENZA_A_ssRNA_NP_Tsukamoto_2010 and PARVOVIRUS_ssDNA_VP1_gene_dependovirus
+  #     leave Start here; both stay flagged
+  # A status move is not a verdict being right. It is the numerator changing for 51
+  # probe-bearing entries, which is what this setting means.
+  reduced_not_detected_for: [hydrolysis_probe, mgb]
 
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid

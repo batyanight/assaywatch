@@ -274,10 +274,11 @@ class Drift(Block):
     #: scoring.oligo_weak_max as the per-primer bar.
     chance_pair_test: bool = False
     #: Chemistries for which a `reduced` call does NOT count toward the detected
-    #: share. Ships EMPTY, so `detected` is `detect + reduced` for every assay, which
-    #: is what it has always been. See the long comment in config.yaml and
-    #: docs/2026-10-26-s3-chemistry-switches.md for what turning it on would buy and
-    #: cost; it is a maintainer decision and it has not been taken.
+    #: share. The field default is empty, which is what `detected` has always meant
+    #: (`detect + reduced`); config.yaml names `hydrolysis_probe` and `mgb` since
+    #: 2026-10-27, so the shipped behaviour is that a mismatched probe is not a find.
+    #: The long comment in config.yaml carries the decision, what it moves and what
+    #: it costs; docs/2026-10-26-s3-chemistry-switches.md is the measurement.
     reduced_not_detected_for: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")

@@ -1,13 +1,16 @@
 """`drift.reduced_not_detected_for`: a `reduced` probe call need not be a detection.
 
-Built 2026-10-26 and shipped EMPTY, the same pattern as `scoring.engine: serial`,
-`scoring.by_chemistry` and `scoring.locus_identity_min` - the mechanism is here and
-the numbers are not. So the first thing these tests pin is that it is inert, because
-an accidentally-live switch would move published verdicts for 51 entries.
+Built 2026-10-26 and shipped empty, then turned ON for `hydrolysis_probe` and `mgb`
+on 2026-10-27 as a maintainer decision. Priced in
+docs/2026-10-26-s3-chemistry-switches.md: documented failures caught go from 5/11 to
+6/11 with no increase in false alarms, and it costs two published positives on the
+Leptospira bench panel. Re-rendering the 2026-10-26 calls table both ways moved 13 of
+235 statuses, and put INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 -- a documented
+failure the old rule called `stable` -- onto the Start here list.
 
-Priced in docs/2026-10-26-s3-chemistry-switches.md: on for `hydrolysis_probe` and
-`mgb` it takes documented failures caught from 5/11 to 6/11 with no increase in false
-alarms, and costs two published positives on the Leptospira panel.
+So the first test no longer pins that the switch is inert. It pins the live value and,
+more importantly, that `conventional` is NOT in it: a `reduced` conventional PCR is
+still a band on a gel, and that chemistry is 155 of 209 entries (2026-10-27).
 """
 
 from __future__ import annotations
@@ -27,10 +30,19 @@ CFG = load_config()
 CHEMISTRY = {"PROBE": "hydrolysis_probe", "MGB": "mgb", "CONV": "conventional", "SYBR": "sybr"}
 
 
-def test_the_shipped_config_leaves_the_switch_empty_and_selects_nothing():
-    """The load-bearing test. A live switch would move 51 entries' verdicts."""
-    assert CFG["drift"]["reduced_not_detected_for"] == []
-    assert reduced_not_detected_ids(CHEMISTRY, CFG) == set()
+def test_the_shipped_config_names_the_two_probe_chemistries_and_nothing_else():
+    """The load-bearing test, inverted 2026-10-27 when the decision was taken.
+
+    It pinned emptiness while the switch was a mechanism without a decision. The
+    decision is now made, so what has to be pinned is the OTHER failure: this must
+    never reach a chemistry that amplifies to a gel. A `reduced` conventional PCR is
+    still a band, and silently adding `conventional` here would move the detected
+    share of 155 of 209 entries (2026-10-27) without anyone choosing it.
+    """
+    assert CFG["drift"]["reduced_not_detected_for"] == ["hydrolysis_probe", "mgb"]
+    assert reduced_not_detected_ids(CHEMISTRY, CFG) == {"PROBE", "MGB"}
+    assert "conventional" not in CFG["drift"]["reduced_not_detected_for"]
+    assert "sybr" not in CFG["drift"]["reduced_not_detected_for"]
 
 
 def test_the_default_detected_share_is_detect_plus_reduced():
