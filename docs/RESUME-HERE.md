@@ -310,11 +310,53 @@ asymmetry where round 2 had carried its size since entry and round 1 never did.
 > entry's own five products and declined to declare on five records. That was right on that
 > evidence, and nobody had checked whether the cited design paper publishes a size. It does.
 
+## The search for new cases: an instrument, a queue, and no case (`35d0068`..`c1366d7`)
+
+`docs/2026-10-26-retrospective-case-search.md`. With the held-out set spent and the old
+seam exhausted, new cases became the binding constraint, so a new instrument was built:
+`scripts/find_retrospective_cases.py` searches the **citation graph** rather than oligo
+text, because a group using a published assay cites it and does not retype its primers.
+**220 candidates** in `docs/2026-10-26-retrospective-candidates.tsv`, 202 distinct papers
+across 55 design papers.
+
+**Four were read and none became a case.** One was circular - an in silico mismatch count
+concluding the assay still amplifies, which is our own method, so a case on it would be
+the tool confirming itself. Two failed on assay identity by a guess. The fourth failed on
+identity by a **measurement**, and it is the one to understand:
+
+> A 2024 pan-coronavirus head-to-head measures three assays on 141 archived specimens.
+> Its **first** PREDICT protocol is confirmed at sequence level to BE the registry's P-005
+> nested pair, which validates the `docs/validation-cases.tsv` row already citing it. Its
+> **second** is not ours: forward identical, reverse the **23-nt** form where the registry
+> holds the **24-mer** - the exact base the 2026-10-24 sweep ruled on - plus a hemi-nested
+> round we do not hold. And the entry's own notes put that 23-nt variant at **88** exact
+> binding sites against our **215** over 25,576 records, so it binds less than half as
+> often and its low detection rate cannot be attributed to our form.
+
+> **THE FINDING, and it reframes the corpus problem: IDENTITY IS THE BOTTLENECK, NOT
+> DISCOVERY.** A paper reporting an assay's performance names it locally or by citation and
+> rarely reprints its oligos. So the citation graph finds the right papers and cannot by
+> itself confirm the assay tested is the assay we hold. The queue has 220 rows; what is
+> scarce is the hour per row to settle identity. The next move is not another sweep but a
+> cheaper identity check - and the one thing that settles it every time is the paper's
+> primer table, which for the fourth candidate was in a supplementary ZIP two levels deep.
+
+**Also refuted: Furuyama 2018**, which this resume point and the plan both carried as "the
+best candidate anywhere in the sweep for a real H5/H7 drift case" and the only named lead.
+It is a **LAMP** primer-design paper - its primer positions are LAMP positions - and the
+registry holds no LAMP assay. Carried for days on a description that does not survive its
+own abstract. Remove it from the lead list.
+
 ## What is next
 
-1. ~~**Read the held-out set against the M1 branch.**~~ **DONE 2026-10-26, and it rejected
-   M1.** The set is spent. **Nothing is now blocked on a decision; what is blocked is
-   evidence.** Every remaining item below needs new cases, not new reasoning.
+1. ~~**Read the held-out set against the M1 branch.**~~ **DONE, and it rejected M1.** The
+   set is spent. **Nothing is blocked on a decision; what is blocked is evidence.**
+2. **The corpus, and the question has changed.** 220 candidate papers are queued and the
+   constraint is no longer finding them - it is confirming that the assay a paper tested is
+   the assay the registry holds. Three of four reads died there. A cheap identity check is
+   worth more than another sweep. The queue's `groups` column says which rows could yield
+   the scarce `fails` kind: 6 `mismatch` and 3 `redesign` rows are the concentrated signal,
+   and 140 `miss` rows are mostly clinical sensitivity reports.
 2. **Correct `ROADMAP.md` Phase 2's "0 of 30" calicivirus figure**, which the Hel1
    correction invalidated.
 3. **The corpus, which is now the binding constraint on everything above.** Both rejected
