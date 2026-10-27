@@ -235,13 +235,55 @@ Phase 2 stays stopped, and now for measured reasons: it cannot be replayed (no
 `no_amplicon` row carries a site coordinate, confirmed on all 1,789,100), so every
 iteration costs a rescreen.
 
+## The three decisions, taken 2026-10-26
+
+The maintainer took all three the same day. **`main` still ships every scoring value it
+shipped this morning**; one proposal sits on a branch and one mechanism ships inert.
+
+**1. M1: PROPOSED FOR SHIPPING** (`experiment/2026-10-26-m1-proposed`, `50f125b`).
+`mispair_penalty: {G:T: 0.0, T:G: 0.0}` is set on that branch and NOT on `main`, because
+`docs/validation-cases-heldout.tsv` is read once, by the maintainer, when a strategy is
+proposed for shipping, and **that read has not happened**. The config comment on the branch
+carries the whole case at the point of use.
+
+> **The confirming rescreen the decision was conditional on is done, and it measured
+> something worth having** (`docs/2026-10-26-m1-confirming-rescreen.md`, `b6195c2`). M1
+> really rescreened over every tier-2 assay it moves - 514,096 rows across 17 assays - gives
+> **2 call and 11 penalty disagreements** against the replay, 0.0004%, and **all of them
+> pessimistic**: the real screen finds a better candidate than a replay can, because a
+> replay is stuck re-scoring the amplicon the shipped rule chose. So every rejection in the
+> ladder stands without qualification and the survivors are under-credited. Neither
+> disagreement can move a verdict; both fall on one assay at 97.9% of 755 records against a
+> 90% threshold. `scripts/rescore.py` used to call this effect "unmeasured" and now carries
+> the number in the boundary it prints on every run.
+
+**2. The probe switch: BUILT AND SHIPPED OFF** (`f73f8de`).
+`drift.reduced_not_detected_for` ships `[]`, so nothing behaves differently. `YearStats`
+and `AssayDrift` carry `detected_calls`, `drift.reduced_not_detected_ids` maps chemistries
+to assay ids, and both `report.assess_as_reported` and `retrospective.load_evidence` pass
+it. Same house pattern as `engine: serial`, `by_chemistry` and `locus_identity_min`. Six
+tests, and the load-bearing one asserts the shipped config selects **nothing**.
+
+**3. `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1`: LEFT ACTIVE** (`f73f8de`), and its missing
+size turned out to be published all along. Three explanations for its zero detects are ruled
+out and recorded on the entry: not an oligo typo (design paper, PREDICT supplement and
+registry all print `AACAAGAGACACAAATNTTTCCNCC`, three independent sources); not the missing
+size (declaring the paper's 829-1137 bp excludes 75 of 2,075 products, 3.6%, because 96.4%
+were already inside); not an indel artefact, though a real one covers ~7% of failures.
+`amplicon_bp_range: [829, 1137]` is now declared from the paper's Table 1, fixing an
+asymmetry where round 2 had carried its size since entry and round 1 never did.
+
+> **Section 6 asked the wrong question and this is the correction.** It measured only the
+> entry's own five products and declined to declare on five records. That was right on that
+> evidence, and nobody had checked whether the cited design paper publishes a size. It does.
+
 ## What is next
 
-1. **Two maintainer decisions, both written up with what to weigh.** S3a's probe switch
-   (one assay-level catch gained against two type-level positives lost) and M1 (seven
-   panel rescues for no measurable tier-2 cost, on a set that no longer refutes it).
-   Shipping either needs a confirming rescreen, because candidate selection is frozen in
-   a replay.
+1. **Read `docs/validation-cases-heldout.tsv` once, against the M1 branch.** That is the
+   only thing standing between M1 and shipping, and it is the set's designated use. If it
+   holds, merge `experiment/2026-10-26-m1-proposed` and run the full pipeline, which
+   rescreens everything because `scoring` is in the screen signature. If it does not, the
+   branch is the record of what was tried.
 2. **Correct `ROADMAP.md` Phase 2's "0 of 30" calicivirus figure**, which the Hel1
    correction invalidated.
 3. **The corpus, which is now the binding constraint on everything above.** Both rejected
