@@ -14,6 +14,9 @@ oligos:
     name: Myco16-23S-R
     seq: CTCCWTCGACTTYCAGACCCAAGGCAT
 amplicon_bp: null
+amplicon_bp_range:
+- 354
+- 767
 citation:
   doi: 10.1177/1040638711416846
   design_year: 2011
@@ -29,4 +32,7 @@ submitted_by: null
 status: active
 source:
   nested_round: null
-needs_review: null
+  notes_curator: 'AMPLICON RANGE DECLARED 2026-10-26, measured not quoted. This entry carried no declared size at all, so it was screened against the global 50-3000 bp window and `amplicon.declared_tolerance` - the one config number with a measured defence - could not constrain it. Measured from its own detects on results/2026-10-26/calls.tsv.gz: 307 detect/reduced products over 63 DISTINCT lengths, envelope 364-757 bp, modal 460 (22 records) then 385 (18), 452 (14), 463 (13), 491 (12) and 464 (11). Declared as amplicon_bp_range [354, 767], the envelope plus a 10 bp cushion each end, which is the ORTHOPOXVIRUS ATI and Encephalitozoon PTP pattern; declared_tolerance adds a further +/-25% at screen time. THE LENGTH GENUINELY VARIES and that is not noise: the target is the 16S-23S INTERGENIC SPACER, which differs in length between Mycoplasma species, and Rebelo 2011 is an HRM assay whose readout is the melt curve of that variable product. 63 lengths over 307 records is what a continuously variable spacer looks like. NO species_sizes, deliberately, on the reasoning the CHYTRID Bd entry records: species_sizes exists for an assay whose product length IS the identification readout, with a few discrete bands per taxon (ATI, the PTP repeat). Here the spacer length is continuous across a genus of 60+ species and identification is by melt curve, not by band size, so enumerating per-species bands would assert a discreteness the data does not show. NEEDS A RESCREEN TO TAKE EFFECT. Consistent with the 2026-10-25 locus-identity pricing, which rejected 93% of this assay''s sampled failures: an entry with no declared size cannot have a geometry constraint, and now it has one.'
+needs_review:
+- flag: amplicon_multimodal
+  note: 'the 16S-23S intergenic spacer varies in length by species: 364-757 bp over 307 measured products and 63 distinct lengths, declared as amplicon_bp_range'
