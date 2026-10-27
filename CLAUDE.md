@@ -10,6 +10,14 @@ deposited GenBank sequences. One YAML per assay in `registry/`, a Python package
 in `assaywatch/`, a Snakefile that runs retrieve -> screen -> drift -> report.
 Full layout and usage: `README.md`. Plan and status: `ROADMAP.md`.
 
+**One to-do list: `ROADMAP.md`.** Open work goes there and nowhere else. A dated
+doc under `docs/` is a record of what one session found; where it ends in "Next
+steps" or "Still open", that was true on its own date and is marked as history.
+`docs/RESUME-HERE.md` says where work stopped and keeps no list. Finishing an
+item means ticking it in `ROADMAP.md`, not writing a new list in a new file.
+The one deliberate exception is `papers/papers-fetch-list.md`, a queue of PDFs
+that need a human and a proxy rather than a list of work.
+
 ## Scope (decided, do not reopen)
 - Pathogen assays only. Host barcoding (COI etc.), eDNA and host-ID assays are
   out of scope and stay out of `registry/`.

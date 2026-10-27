@@ -150,6 +150,9 @@ documented not to be. Showing the verdict beside the flag is the honest version.
 
 ## Still open from wave 1's territory
 
+> *History, as of 2026-10-23. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 - **889 lineages are still `taxid_<n>`.** `name_lineages_from_taxonomy` names only what
   the taxonomy cache holds. The rest need `scripts/build_taxonomy_cache.py` rerun or an
   NCBI lookup — a data task.

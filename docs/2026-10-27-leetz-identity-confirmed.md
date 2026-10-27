@@ -81,6 +81,9 @@ never be un-read.
 
 ## Still open
 
+> *History, as of 2026-10-27. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 The two Priority 1 papers are **not** among these three and remain the only
 oligo-identity questions blocking a decision: Mao, Hedrick & Chinchar 1997
 (`10.1006_viro.1996.8435.pdf`, the ranavirus MCP 18-mer/19-mer) and Neill & Seal

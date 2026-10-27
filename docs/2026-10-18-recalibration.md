@@ -108,6 +108,9 @@ and would add noise from small-sample lineages.
 
 ## Next steps (not this session)
 
+> *History, as of 2026-10-18. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 1. **Pan-family scope logic** — add an optional `scope_taxids` field to the
    registry schema. When present, only records under those taxids count toward
    the drift denominator. Out-of-scope records are reported separately as

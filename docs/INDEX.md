@@ -9,6 +9,10 @@ Grouped by what you want. Dated files are **session records**: what was measured
 day and what was decided. They are not superseded by later ones unless one says so, and
 the reasoning in them is usually the point.
 
+**None of them is a to-do list.** Eight end in "Next steps" or "Still open"; each of
+those sections now carries a line saying it is history as of its own date. Open work
+lives in ROADMAP.md at the repository root, which is the only to-do list here.
+
 ## Start here
 
 | | |

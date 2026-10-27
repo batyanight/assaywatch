@@ -224,6 +224,9 @@ reads "Chu, D.K.W. et al (2008)" and which prints all five oligos at ~436 bp
 
 ## Still open
 
+> *History, as of 2026-10-23. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 - The **20 `in-text`** rows: the sequence occurs in the paper but not in any
   listed oligo, so it may have been found inside a printed target sequence rather
   than a primer table. Never enumerated.

@@ -94,6 +94,9 @@ The lineage module reads only the calls table (already generated). No screening 
 
 ## Next steps
 
+> *History, as of 2026-10-18. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 1. **Backfill taxids** (requires NCBI email):
    ```bash
    PYTHONPATH=. python scripts/backfill_taxids.py

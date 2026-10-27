@@ -111,6 +111,9 @@ penalty rule's errors are almost all in one direction.** Both halves matter.
 
 ## What to do next, cheapest first
 
+> *History, as of 2026-10-27. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 1. **Fix the registration before trusting any delta-Tm.** Score the in-register
    duplex rather than primer3's most-stable structure. Until then the thermo
    column is least trustworthy on exactly the records that matter, and this

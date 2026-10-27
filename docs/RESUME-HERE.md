@@ -67,22 +67,20 @@ favour: 99 of 179 alignments are off-register, which reports an optimistically s
 a band-heavy panel. TNTBLAST itself could not run (no osx-arm64 build; Rosetta absent).
 See `docs/2026-10-27-thermo-vs-penalty-paired.md`.
 
-## Still open, in the order the evidence supports
+## Still open
 
-1. **Fix `thermo.duplex_tm`'s registration** and re-run the comparison. Until then no ΔTm
-   is trustworthy on the records that matter.
-2. **Price `terminal_mismatch_fails: false` for `conventional`** as a replay. The 23 false
-   negatives are the strongest single argument in the repository for it.
-3. **Turn on `reduced_not_detected_for`** — already measured at 5/11 → 6/11 catches and
-   2/9 → 3/10 precision with no new false alarms, and still shipping off.
-4. **`target.exclusivity_taxids`** plus retrieval, so a near-neighbour an assay claims to
-   exclude is actually fetched. Today BPSV cannot be tested for specificity at all.
-5. **Populate `lineage.sublineage`** for the segmented RNA viruses; the influenza matrix
-   assay is one lineage of 74,861 records and reads stable at 97.1%.
-6. **A trend statistic.** There is still no test for trend anywhere, though
-   `related-work.md` claims decay-as-a-trend as contribution #2.
-7. **The registry is a primer registry, not an assay registry** — annealing conditions in 7
-   of 209 entries, one-step vs two-step RT in none. Needs papers re-read; curation time.
+**In `ROADMAP.md`, which is now the only to-do list in the repository.** Open work
+had accumulated across four files and the forward-looking tail of eight dated
+journals; it is consolidated there, ranked, each item carrying the evidence that
+put it in that position. This file records what a session found and where it
+stopped, and keeps no list of its own.
+
+The three the evidence supports first, for orientation: fix `thermo.duplex_tm`'s
+registration (until then no ΔTm is trustworthy on the records that matter), price
+`terminal_mismatch_fails: false` for `conventional` as a replay (the 23 false
+negatives are the strongest single argument in the repository for it), and turn on
+`reduced_not_detected_for` (already measured, still shipping off). Four decisions
+are waiting on a maintainer at the top of that file.
 
 ## Two housekeeping notes
 

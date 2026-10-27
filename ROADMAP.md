@@ -1,8 +1,285 @@
 # Roadmap
 
-Scope for v0.1 is frozen in the build plan; new ideas go here, not into the sprint.
+**This is the only to-do list in the repository.** If work is open, it is in
+`## Open work` below. Nothing else is authoritative:
 
-## Phase 0 (current)
+- `docs/RESUME-HERE.md` says where the last session stopped and what it found. It
+  no longer carries a list of its own.
+- `docs/YYYY-MM-DD-*.md` are session records. Several end in "Next steps" or
+  "Still open"; those were true on the date in the filename and are kept as
+  history, not as a queue. Anything in them that is still live has been lifted
+  into this file, with a pointer back.
+- `papers/papers-fetch-list.md` is the one exception, and it is a fetch queue
+  rather than a work list: PDFs that need a human and a proxy. The work those
+  PDFs unblock is item 10 here.
+
+New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build plan.
+
+---
+
+# Open work
+
+## Waiting on a maintainer, minutes each
+
+- **Where the Leetz 2007 case gets recorded.** It is the first confirmed
+  retrospective identity and it reads `works`, not `fails`. `docs/validation-cases.tsv`
+  is frozen and spent, so a case from a paper the rule has never seen is worth
+  more as the first row of a new held-out set than as one in-sample row. A
+  dev-set row can never be un-read, which is why this was not decided for you.
+  `docs/2026-10-27-leetz-identity-confirmed.md`.
+- **Rosetta 2, or not.** Without it the TNTBLAST arm of item 1 cannot run on this
+  machine at all (no osx-arm64 build). Installing it is a system change needing
+  admin rights. The alternatives are building TNTBLAST from source for arm64, or
+  running it on a linux-64 box or the cluster.
+- **A dead conda env.** `tntblast` (osx-64) was created and cannot execute.
+  `conda env remove -n tntblast` if you are not installing Rosetta.
+- **The contributor promise.** `CONTRIBUTING.md` ships without the two-week
+  review commitment that was planned for it. That is a promise about your own
+  time, so it is yours to make or drop.
+
+## The next three, in the order the evidence supports
+
+1. **Fix `thermo.duplex_tm`'s registration, then re-run the comparison.**
+   It calls `primer3.calc_heterodimer`, which returns the most stable structure
+   between two sequences rather than the in-register duplex. 99 of 179 bench rows
+   align off-register (2026-10-27), and a shifted near-perfect duplex reports an
+   optimistically small ΔTm — least trustworthy on exactly the heavily mismatched
+   records that matter. Until this lands, no ΔTm in the repository means what it
+   says, and primer3's 20-to-7 advantage over the penalty rule cannot be
+   attributed to thermodynamics rather than to the artefact. `scripts/compare_thermo.py`
+   already measures the off-register rate and takes a second predictor without
+   modification. `docs/2026-10-27-thermo-vs-penalty-paired.md`.
+
+2. **Per-chemistry scoring: price `terminal_mismatch_fails: false` for `conventional`.**
+   One penalty table is applied to every assay, but 155 of 209 are `conventional`
+   and 51 carry a probe (2026-10-26; `python -m assaywatch.validate registry`
+   prints the live tally, and the counts in this line were 128 of 138 when it was
+   first written). `terminal_mismatch_fails: true` is a qPCR-strength rule.
+   `by_chemistry` ships empty. Fix shape: a scoring block per chemistry, with the
+   conventional numbers set by item 10. Price it as a replay over the existing
+   calls table via `scripts/rescore.py` — no retrieval, no rescreen — with the
+   179 bench rows as arbiter.
+
+   **The strongest argument for it is now a measurement.** On those bench rows
+   the shipped rule makes 23 false negatives against 1 false positive
+   (2026-10-27), which is the pessimism the bench review predicted, concentrated
+   in a panel whose published positives fail on a single terminal mismatch.
+
+   **And the threshold sits exactly on the class edge.** `primer_3prime_penalty: 3.0`
+   equals `reduced_max: 3.0`, so one mismatch in the last five bases lands
+   precisely on the detect/fail boundary — and 74.7% of all 284,062 `fail` calls
+   are within one 3'-window mismatch of it (2026-10-27 run). Three-quarters of
+   the `fail` fraction is one threshold coincidence away from moving.
+
+   **Two figures from this item's history must not be quoted.**
+   `CALICIVIRUS_ssRNA_Helicase_Reid_1999` was read as carrying a 3'-terminal
+   mismatch in Hel1 against all 16 of its own target records, and
+   `terminal_mismatch_fails` alone was said to drive it to near-total failure
+   against a paper reporting the assay working. That mismatch was an error in our
+   stored copy of the oligo, not a chemistry effect. The 2026-10-24 correction of
+   Hel1's 3'-terminal base from G to C — the form the template carries in all 16
+   design targets, and the only form that reproduces the published 357 bp product
+   — removed it. **Do not quote "0 of 30".** Separately, exempting conventional
+   chemistry from `terminal_mismatch_fails` across the whole registry moves 251
+   calls of 2.7 million and changes no verdict anywhere
+   (`docs/2026-10-26-s3-chemistry-switches.md`), because a record carrying a
+   terminal mismatch almost always carries others that clear `reduced_max` on
+   their own. So the mechanism is real and the registry-wide effect through that
+   one knob is negligible; what the bench rows show is that the effect is
+   concentrated, not absent.
+
+3. **Turn on `reduced_not_detected_for`.** Already measured: not counting a
+   `reduced` probe call as a detection takes documented failures caught from 5/11
+   to 6/11 and precision from 2/9 to 3/10, with no new false alarms
+   (`docs/2026-10-26-s3-chemistry-switches.md`). 26,691 `reduced` calls on
+   probe-bearing assays carry mismatches in the probe itself and count as
+   detections, 11,956 of them with both primers perfect (2026-10-26 run). It
+   still ships `[]`. A config change plus a report re-render.
+
+## Method debts
+
+4. **A trend over deposit year is claimed and never tested.** No
+   Cochran-Armitage, no logistic regression on year, no rank correlation. The
+   verdict is a two-window contrast against a pooled historical baseline, so an
+   assay whose target had one large deposition burst in 2014 has its baseline set
+   by 2014. `docs/related-work.md` claims decay "as a trend rather than as a
+   single pass/fail" as contribution #2; what ships is a single pass/fail against
+   a pooled comparator.
+
+5. **The drift rules interact and are untested.** `recent_window_months: 24`
+   with `min_records_for_drift: 20` is why Bd (Boyle 2004) read "insufficient
+   data" at 100% detected on 17 recent records: shorten the window and assays
+   fall below the minimum, lengthen it and real change is diluted. Validation has
+   to set the pair together, not each alone. `max_window_months: 60` widens the
+   window per assay when it holds too few records, which treats the symptom.
+
+6. **`drift.anchor_fdr`'s value has no evidence behind it.** 0.05 and 0.01
+   differ by a factor of two in rows moved (7,206 against 13,693; 2026-10-24
+   run), 0.001 is what ships, and tier-2 separates them on one row. The choice
+   wants the bench panels or a held-out set. `docs/2026-10-24-archive-anchor.md`.
+
+7. **Deposit date is not collection date.** `collection_date` is already
+   retrieved for `asm` groups and then unused, so a 2025 deposit of 1990s
+   isolates enters the recent window as current diversity. The data is on disk;
+   this is the same shape as the specificity fix, which took a day.
+
+8. **Populate `lineage.sublineage` for the segmented RNA viruses.**
+   `lineage.group_at_rank: species` with `sublineage: {}` means the influenza
+   matrix assay is one lineage of 74,861 records reading stable at 97.1%
+   (2026-10-26 run), while the paper `docs/related-work.md` names as the
+   benchmark found H3N2 carrying a probe-interfering mutation circulating since
+   2010. H1N1, H3N2 and H5N1 are all *Influenza A virus*. The fix is written as a
+   commented worked example in `config.yaml` for this exact assay id and never
+   populated. The resolver chain it needs already exists
+   (`lineage.build_resolvers`, including homology clusters via
+   `assaywatch.subcluster`).
+
+9. **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
+   already excludes out-of-scope records from the drift denominator and the
+   report computes specificity from the out-of-scope calls that happen to be on
+   disk (18 assays, 2026-10-27). What is missing is fetching a near-neighbour an
+   assay explicitly claims to exclude: BPSV cannot be tested for specificity at
+   all today, because nothing retrieves the neighbour.
+
+## Validation, which sets every threshold above
+
+10. **Tier 2: retrospective validation.** Assemble assays with published
+    follow-up — a paper, erratum or redesign reporting the assay failing on
+    particular lineages, or reporting it still working — and ask whether
+    AssayWatch flags what the literature found, using only records deposited
+    before that paper. That gives a confusion matrix, and the thresholds become
+    whatever optimises it rather than whatever looked sensible. **Every number in
+    `config.yaml` is a placeholder set by eye**, so until this exists the
+    statuses read as "worth looking at", not as measurements. It is also the
+    paper's main figure.
+
+    **The binding constraint is identity, not discovery**, and it is measured:
+    `scripts/check_candidate_identity.py` ran over all 9 `mismatch`/`redesign`
+    rows — the queue's concentrated signal — and open-access text settles none of
+    them (`results/retro-identity-concentrated-2026-10-26.tsv`). Two Priority 1
+    PDFs are the whole blockage: Mao, Hedrick & Chinchar 1997 (the ranavirus MCP
+    18-mer/19-mer) and Neill & Seal 1995 (the calicivirus Hel1 3'-terminal base,
+    which now confirms or reverses a decision already taken on measurement).
+    Both are Elsevier, both need the NYU proxy, both are queued in
+    `papers/papers-fetch-list.md`. The identity script prefers a local file, so a
+    PDF dropped into `papers/` is picked up on re-run.
+
+## Data and curation
+
+11. **889 lineages are still `taxid_<n>`** (2026-10-23 run).
+    `name_lineages_from_taxonomy` names only what the taxonomy cache holds; the
+    rest need `scripts/build_taxonomy_cache.py` rerun or an NCBI lookup. A data
+    task, not a code one.
+
+12. **The registry is a primer registry, not an assay registry.** Annealing or
+    cycling appears in 7 of 209 entries, LoD or efficiency in 23, master mix or
+    Mg²⁺ in 2, sample matrix in 6, and one-step versus two-step RT in none
+    (2026-10-27). That is why `thermo: false` must ship: a ΔTm of −6 °C is
+    irrelevant at Ta 50 and fatal at Ta 62, and the schema cannot say which. Fix
+    shape: `conditions` / `format` / `performance` / `panels` blocks. Deferred
+    because the fix is re-reading papers, which is curation time.
+
+13. **Registry coverage.** Audit the PREDICT consensus-PCR panel for gaps, and
+    add assays in current wildlife-lab use that PREDICT never covered — fungal,
+    bacterial and parasitic targets especially. Sequences only from a source that
+    can be read and cited, never transcribed from a secondary list.
+
+14. **A genus taxid can stop containing its target.** *Mycoplasmopsis agassizii*
+    and *Mycoplasmoides testudinis* both left genus *Mycoplasma*, so a
+    genus-rooted retrieval silently stops fetching the organism the assay names.
+    `scripts/check_taxids.py` cannot see this; it needs a check that every named
+    target organism is still inside its assay's retrieval root. Cheap, and
+    silently wrong today.
+
+15. **Four leftovers from the oligo adjudication** (`docs/2026-10-23-oligo-adjudication.md`),
+    none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
+    paper but in no listed oligo and may have been found inside a printed target
+    rather than a primer table, never enumerated;
+    `BORNA_VIRUS_N_gene_Zimmermann_1994_round2`, which reads 0% by construction
+    because storing the measured form would mean storing a sequence no paper
+    prints; whether `CALICIVIRUS_ssRNA_Helicase_Reid_1999` should be re-cited to
+    Neill & Seal 1995 once that PDF arrives (item 10); and
+    `ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021`, which stores its reporter as
+    "Alexa 647N" where Figure 2C labels the probe A647N, the conventional short
+    form of Atto 647N — not screened, not changed, recorded.
+
+    The lesson from that session is worth keeping: "the paper wins" is the right
+    default for a *sequence* and the wrong default for a *correction*. Two of
+    four changes the printed evidence supported would have destroyed a working
+    assay, and only screening caught it. Any future oligo correction should be
+    screened against its own archive before it is committed, with the
+    before/after detected share reported.
+
+## Hygiene
+
+16. **Documentation is overgrown by roughly 5:1 on the axis that matters**: 85
+    dated session journals totalling ~124,000 words against 10 evergreen
+    documents totalling ~52,000, for ~34,000 lines of code (2026-10-27). The
+    journals are worth keeping — several record a prediction that turned out
+    wrong instead of quietly correcting it. The problem is that they are filed as
+    documentation. Shape: `docs/journal/` and about twelve current reference
+    documents. Not acted on, because it is a judgement about your own research
+    record.
+
+17. **Report triage, not report correctness.** Two groups should not lead the
+    report: the `declining` rows whose note ends "a coverage gap, not drift", and
+    the degeneracy-severe assays. Neither is a wrong status — the first are sound
+    pooled calls whose note describes a lineage, and degeneracy is reported
+    beside a verdict and never folded into one. `Start here` now orders 10 assays
+    (2026-10-27) and is the mechanism this would use.
+
+18. **A SLURM profile aimed at Greene.** `profiles/slurm/` runs the same rules on
+    SLURM generically; nothing in it is tuned to NYU's partitions, QoS or module
+    stack.
+
+## Known limitations, recorded and not work
+
+- **Majority contamination.** `ENTEROVIRUS_ssRNA_VP3_VP1_round2` cannot be
+  addressed by the archive-anchor mechanism by construction
+  (`docs/2026-10-24-archive-anchor.md`).
+- **The denominator is drift-correlated.** A record with one drifted primer
+  counts as a failure; a record with both drifted leaves the denominator as
+  `no_site`. 65.7% of 2.72M rows never reach the statistics, and `no_site` alone
+  is 53% of every row — 357,923 of which did find a site within the mismatch
+  budget and 1,085,008 of which found nothing (2026-10-27 run). The split is
+  measured and printed per assay; the bias itself is not fixed, and may not be
+  fixable without a different estimand.
+- **Records are not independent.** The duplication check removes the duplication
+  it can see (identical footprints); clade structure beyond that is unaddressed,
+  so the footprint count is not a lower bound on the effective sample size.
+- **ARTIC-style tiled schemes** are out of scope (2026-10-04): they would need a
+  scheme object of many amplicons reporting dropout rather than one assay per
+  pair, and quick-lab/primerschemes is CC BY-SA 4.0, which the registry licence
+  would have to accommodate.
+
+---
+
+# The placeholders, for the record
+
+`scoring` (3'/mid/5' primer penalties 3.0 / 1.0 / 0.5 over windows of 5, probe
+centre/outer 2.0 / 1.0, `detect_max` 1.0, `reduced_max` 3.0,
+`terminal_mismatch_fails` true, `max_ambiguous_per_oligo` 2,
+`max_mismatches_searched` 6, `max_pair_evalue` 0.01); `drift`
+(`detect_fraction_threshold` 0.90, `recent_window_months` 24,
+`min_records_for_drift` 20, `min_records_for_coverage` 10, `min_decline` 0.05);
+`degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
+
+One of those is no longer only eyeballed. `drift.min_decline` 0.05 has regulatory
+precedent: FDA's *Policy for Evaluating Impact of Viral Mutations on COVID-19 Tests
+(Revised)* (January 2023, docket FDA-2020-D-0987) tells molecular test developers to
+align their primer/probe sequences against public genome databases periodically and to
+act when mutations "reduce performance by 5% or more from the previously established
+performance". A regulator arrived at the same floor independently, so the number is
+defensible even though this project did not derive it. Two caveats are recorded beside
+the setting in `config.yaml`: the policy is tied to the section 564 COVID-19
+declaration, and its 5% is not stated as points or relative, where ours is percentage
+points of detected share.
+
+---
+
+# Done
+
+## Phase 0
 - [x] repo, environment.yml, pre-commit, CI
 - [x] YAML schema (pydantic) and validator
 - [x] registry seeded from a primer list and curated against the literature (host/barcoding/universal primers excluded as out of scope)
@@ -57,63 +334,7 @@ Scope for v0.1 is frozen in the build plan; new ideas go here, not into the spri
       outliers are consistent same-position indels across all records, i.e. registry oligo
       typos, which makes the script a registry QA tool
 
-## Review
-
-`docs/2026-10-04-pipeline-review.md` reviews the pipeline stage by stage from a
-software and a methods angle, and ranks what is open. The short version: the
-estimand is wrong (one population proportion per assay cannot see a
-lineage-conditional failure, which is why validation catches 1 of 12), the
-denominator conditions on the outcome, records are not independent so the
-intervals are too narrow, and declared amplicon sizes are not enforced.
-
-## Phase 2 (next milestone): validation sets the thresholds
-
-**Every number in `config.yaml` is a placeholder set by eye.** Nothing in the
-reports is calibrated against a known answer, so the statuses should be read as
-"worth looking at", not as measurements. Tier-2 validation is what turns them
-into measurements, and it is also the paper's main figure.
-
-- [ ] **Tier 2: retrospective validation.** Assemble a set of assays with
-      published follow-up — a paper, erratum or redesign that reported the assay
-      failing on particular lineages, or reported it still working — and ask
-      whether AssayWatch flags what the literature found, using only records
-      deposited before that paper. That gives a confusion matrix, and the
-      thresholds become whatever optimises it rather than whatever looked
-      sensible.
-- [ ] **Per-chemistry scoring.** One penalty table is applied to every assay,
-      but 155 of 209 are `conventional` and 51 carry a probe (2026-10-26;
-      `python -m assaywatch.validate registry` prints the live tally, and the
-      counts in this line were 128 of 138 when it was written).
-      Conventional PCR tolerates mismatches far better than a hydrolysis probe,
-      and `terminal_mismatch_fails: true` is a qPCR-strength rule, so the
-      consensus assays are probably scored too harshly — which would inflate
-      `fail` and so the flagged counts. Fix shape: a scoring block per
-      chemistry, with the conventional numbers set by tier-2 validation.
-      A worked example was claimed 2026-10-23 and has since been **withdrawn**
-      (detailed immediately below): `CALICIVIRUS_ssRNA_Helicase_Reid_1999`, a
-      conventional PCR, was read as carrying one 3'-terminal mismatch in Hel1
-      against all 16 of its own target records, which `terminal_mismatch_fails`
-      alone was said to drive to near-total failure against a paper reporting the
-      assay working. That mismatch turned out to be an error in our stored copy of
-      the oligo, not a chemistry effect, so the figure it produced is void — do
-      not quote it.
-      **THAT EXAMPLE IS GONE, and this item lost its best case on 2026-10-26.**
-      The 2026-10-24 correction of Hel1's 3'-terminal base from G to C - the form
-      the template carries in all 16 design targets, and the only form that
-      reproduces the published 357 bp product - removed the mismatch the "0 of 30"
-      figure rested on. That entry now reads detect 17, reduced 2, fail 12, and it
-      is `draft` rather than `active`. Do not quote 0 of 30.
-      **And the claim this item makes was then measured directly, and it is wrong
-      about the magnitude.** `docs/2026-10-26-s3-chemistry-switches.md` exempted
-      conventional chemistry from `terminal_mismatch_fails` and it moves 251 calls
-      of 2.7 million and changes NO verdict anywhere - because a record carrying a
-      terminal mismatch almost always carries others that clear `reduced_max` on
-      their own. So "probably scored too harshly ... would inflate `fail`" is real
-      as a mechanism and negligible as an effect, at least through this one knob.
-      Where the chemistry axis DOES carry signal is the probe side: not counting a
-      `reduced` probe call as a detection takes documented failures caught from
-      5/11 to 6/11 with no increase in false alarms. Neither is shipped; both are
-      maintainer decisions.
+## Phase 2, the parts that are closed
 - [x] the recent window now widens per assay (`max_window_months`, 60) when the
       standard window holds too few records, which is what made Bd unjudgeable;
       `scripts/retrospective.py` recomputes any past date's verdict, so the
@@ -132,6 +353,10 @@ into measurements, and it is also the paper's main figure.
       threshold when each distinct footprint is counted once (the sample-size reduction alone
       cannot see one clone carrying the failures), and records with no footprint information
       make the count unknown instead of counting as one real footprint.
+      Corrected again 2026-10-27: `count_diverged_as_fail` gave a promoted row no footprint, and
+      one such row made the count unknown for the whole assay, so the check ran on 12 of 71 flags
+      and the triage list it gates on was empty. With a coarse taxid-derived footprint, 23 of 71
+      hold and `Start here` shows 10 assays. No status changed.
 - [x] **What the report claims is now what it measured** (2026-10-14, from an
       external review). Three changes, none of them to a computation:
       `declining` requires the assay to have cleared the threshold in some
@@ -147,43 +372,41 @@ into measurements, and it is also the paper's main figure.
       Registry counts are now printed by `python -m assaywatch.validate
       registry` rather than written into prose, where they had drifted to
       164/142/21 against an actual 214/167/44.
-- [ ] **The drift rules interact and are untested.** `recent_window_months: 24`
-      with `min_records_for_drift: 20` is why Bd (Boyle 2004) reads "insufficient
-      data" at 100% detected on 17 recent records: shorten the window and assays
-      fall below the minimum, lengthen it and real change is diluted. Validation
-      has to set the pair together, not each alone.
+      Extended 2026-10-27: the report named Benjamini-Hochberg where the run used Holm, so the
+      label is now read from `config.yaml`; exclusion counts reconcile for all 71 assays; and
+      the `claims` hook built to catch stale prose counts had been silently disabled since three
+      duplicate `files:` keys landed on it, which `check-yaml` now makes an error.
+- [x] **Pan-family scope logic** (`target.scope_taxids`): records outside an
+      assay's declared scope leave the drift denominator and are reported as
+      cross-reactivity instead. Asked for 2026-10-18, shipped; the specificity
+      arm built on it 2026-10-27.
+- [x] **Sequence-cluster lineages** (`assaywatch.subcluster`,
+      `lineage.cluster_resolver`): assays whose target species carries
+      within-taxid diversity at the primer sites can be grouped by primer-site
+      homology and each cluster treated as a lineage. Asked for 2026-10-18.
+- [x] **The lineage binomial no longer overflows.** `comb(n, k) * p**k * q**(n-k)`
+      went to nan above n ~ 1030; it is computed through `binom.cdf` instead
+      (`assaywatch/lineage.py`). Asked for 2026-10-18.
+- [x] **Data integrity before any retrieval** (2026-10-27). An empty efetch page was
+      accepted as zero records and the run recorded, after which the incremental cursor
+      skipped records that were never written; a short page was indistinguishable from the
+      legitimate WGS-master case; the cursor was keyed on the assay query only, so changing
+      a length filter permanently skipped older records that newly qualified; a missing
+      `.sig` wedged the pipeline unrepairably, and declaring it as an output was not enough
+      because nothing requested it; and `--config` overrides moved the cache key, triggered
+      a full rescreen, and never reached the subprocess.
 
-The placeholders, for the record: `scoring` (3'/mid/5' primer penalties 3.0 /
-1.0 / 0.5 over windows of 5, probe centre/outer 2.0 / 1.0, `detect_max` 1.0,
-`reduced_max` 3.0, `terminal_mismatch_fails` true, `max_ambiguous_per_oligo` 2,
-`max_mismatches_searched` 6, `max_pair_evalue` 0.01); `drift`
-(`detect_fraction_threshold` 0.90, `recent_window_months` 24,
-`min_records_for_drift` 20, `min_records_for_coverage` 10, `min_decline` 0.05);
-`degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
+## Review history
 
-One of those is no longer only eyeballed. `drift.min_decline` 0.05 has regulatory
-precedent: FDA's *Policy for Evaluating Impact of Viral Mutations on COVID-19 Tests
-(Revised)* (January 2023, docket FDA-2020-D-0987) tells molecular test developers to
-align their primer/probe sequences against public genome databases periodically and to
-act when mutations "reduce performance by 5% or more from the previously established
-performance". A regulator arrived at the same floor independently, so the number is
-defensible even though this project did not derive it. Two caveats are recorded beside
-the setting in `config.yaml`: the policy is tied to the section 564 COVID-19
-declaration, and its 5% is not stated as points or relative, where ours is percentage
-points of detected share.
+`docs/2026-10-04-pipeline-review.md` reviews the pipeline stage by stage from a
+software and a methods angle. Its short version — the estimand is wrong (one
+population proportion per assay cannot see a lineage-conditional failure, which
+is why validation caught 1 of 12), the denominator conditions on the outcome,
+records are not independent so the intervals are too narrow, and declared
+amplicon sizes are not enforced — is still the best one-paragraph statement of
+what is wrong with the method. Amplicon enforcement shipped; the other three are
+items 4–9 and the limitations above.
 
-## Later
-- SLURM executor profile for Greene
-- contributor template, two-week review promise
-- registry coverage: audit the PREDICT consensus-PCR panel for gaps, and add
-  assays in current wildlife-lab use that PREDICT never covered (fungal,
-  bacterial and parasitic targets especially). Sequences only from a source
-  that can be read and cited, never transcribed from a secondary list
-- genus-level taxids can stop containing an assay's target species when it is
-  reclassified (Mycoplasmopsis agassizii, Mycoplasmoides testudinis left genus
-  Mycoplasma). `check_taxids.py` cannot see this; it needs a check that each
-  assay's named target organisms are still inside its retrieval root
-- ARTIC-style tiled schemes (out of scope 2026-10-04): would need a scheme
-  object of many amplicons reporting dropout, not one assay per pair, and
-  quick-lab/primerschemes is CC BY-SA 4.0, which the registry licence would
-  have to accommodate
+`docs/2026-10-27-four-perspective-review.md` is the most recent, read from four
+angles (engineering, methods, bench diagnostics, a cold newcomer read), and every
+open item it raised is in this file.

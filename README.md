@@ -16,7 +16,8 @@ Status: Phase 1 complete end to end â€” retrieve, screen, assess drift, report â
 and wired into a Snakefile. Retrieval is tested against canned E-utilities
 responses and has been run against the live NCBI API: the 2026-10-06 run screened
 208 of the 211 non-deprecated registry assays against records fetched that day.
-See ROADMAP.md.
+See ROADMAP.md, which is the only to-do list in the repository: open work is
+there, ranked, with the evidence that put each item in its place.
 
 **See the output first:** [`docs/example-run-2026-10-26/report.md`](docs/example-run-2026-10-26/report.md)
 is one real run, committed so it can be read without installing anything: on the

@@ -201,6 +201,9 @@ rule.
 
 ## Recorded but not acted on
 
+> *History, as of 2026-10-27. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 These were found, judged real, and deliberately deferred. Each is a decision not
 to act now, not an oversight.
 

@@ -189,6 +189,9 @@ lives in the 8,857 `no_site` records, outside the evaluable set entirely, which 
 
 ## What is still open
 
+> *History, as of 2026-10-24. The live list is `ROADMAP.md`, the only to-do file
+> in the repository; anything below that is still open was lifted into it.*
+
 - **Deciding the threshold.** 0.05 and 0.01 differ by a factor of two in rows moved
   (7,206 against 13,693). Tier-2 separates them only in the paired configuration above,
   on one row, which is thin evidence for a threshold. If the knob is ever turned on, the
