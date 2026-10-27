@@ -16,7 +16,9 @@ from pathlib import Path
 
 from assaywatch import atomic
 from assaywatch.accession import strip_version
+from assaywatch.drift import DETECTED_CALLS_NO_REDUCED, reduced_not_detected_ids
 from assaywatch.lineage import (
+    DETECTED_DEFAULT,
     load_taxa_cache,
     name_lineages_from_taxonomy,
     per_lineage_stats,
@@ -71,11 +73,19 @@ def render_lineage_report(
     taxid_sidecar: dict,
     min_records: int = 20,
     resolvers: dict[str, list] | None = None,
+    detected_by_assay: dict[str, tuple[str, ...]] | None = None,
 ) -> str:
     """Render markdown report of per-lineage statistics.
 
     ``resolvers`` (assay_id -> sub-lineage chain) splits those assays below
     the taxid, exactly as drift's lineage check does; other assays group per taxid.
+
+    ``detected_by_assay`` (assay_id -> the calls that count as detected) is what
+    `drift.reduced_not_detected_for` decides per chemistry. Without it this report
+    counted a `reduced` probe call as a detection after the pooled verdict stopped
+    doing so (2026-10-27), and the influenza matrix assay read 6.5% in report.md and
+    72-100% per subtype here, from the same calls. An assay absent from the map
+    takes the default, which is what every primer-only assay uses.
     """
     lines = [
         "# Per-Lineage Detection Analysis",
@@ -94,6 +104,7 @@ def render_lineage_report(
             taxid_sidecar,
             min_records=min_records,
             resolvers=resolvers.get(assay_id) if resolvers else None,
+            detected_calls=(detected_by_assay or {}).get(assay_id, DETECTED_DEFAULT),
         )
 
         if not stats:
@@ -221,8 +232,24 @@ def main(argv: list[str] | None = None) -> int:
         for a in wanted:
             for r in calls_by_assay.get(a, []):
                 r["title"] = titles.get(strip_version(r["record_id"]))
+    # The same per-chemistry numerator the pooled verdict uses, so lineage.md and
+    # report.md describe one assay. Read from the registry the way report.py does.
+    from assaywatch.validate import iter_files, load_assay
+
+    chemistry = {a.id: a.chemistry.value for a in map(load_assay, iter_files(args.registry))}
+    not_reduced = reduced_not_detected_ids(chemistry, cfg)
+    detected_by_assay = {a: DETECTED_CALLS_NO_REDUCED for a in not_reduced}
+    print(
+        f"{len(not_reduced)} assays count `reduced` as not detected (drift.reduced_not_detected_for)",
+        file=sys.stderr,
+    )
     md = render_lineage_report(
-        calls_by_assay, taxa_cache, taxid_sidecar, min_records=min_records, resolvers=resolvers
+        calls_by_assay,
+        taxa_cache,
+        taxid_sidecar,
+        min_records=min_records,
+        resolvers=resolvers,
+        detected_by_assay=detected_by_assay,
     )
 
     # Write output

@@ -53,6 +53,18 @@ class LineageStats:
     ci_upper: float
 
 
+#: Which calls count as a detection when a caller does not say. The same default as
+#: `drift.DETECTED_CALLS`, and the same reason it is a PARAMETER everywhere below:
+#: since 2026-10-27 `drift.reduced_not_detected_for` makes a `reduced` probe call not a
+#: detection for probe chemistries, and this module used to hard-code the old answer.
+#: For the 51 probe-bearing entries that put the lineage table -- and
+#: `worst_lineage_verdict`, which can override a pooled status -- on a different
+#: numerator from the verdict beside it: the influenza matrix assay read 6.5% pooled
+#: and 72-100% per subtype from the same calls. Callers pass the assay's own
+#: `detected_calls`; the default exists for tests and for primer-only assays.
+DETECTED_DEFAULT: tuple[str, ...] = ("detect", "reduced")
+
+
 def load_taxa_cache(cache_file: Path | str) -> dict[int, str]:
     """Load taxid -> name mapping from docs/taxa-cache.json."""
     try:
@@ -290,6 +302,7 @@ def lineages_never_covered(
     threshold: float,
     min_records_for_year: int,
     resolvers: list[Resolver] | None = None,
+    detected_calls: tuple[str, ...] = DETECTED_DEFAULT,
 ) -> set[str]:
     """Lineages measured before the recent window that never cleared `threshold`.
 
@@ -305,7 +318,7 @@ def lineages_never_covered(
     able to drive ``declining``.
     """
     measured, worked = _measured_and_working(
-        baseline_calls, taxa_cache, taxid_sidecar, threshold, min_records_for_year, resolvers
+        baseline_calls, taxa_cache, taxid_sidecar, threshold, min_records_for_year, resolvers, detected_calls
     )
     return measured - worked
 
@@ -317,6 +330,7 @@ def lineages_ever_covered(
     threshold: float,
     min_records_for_year: int,
     resolvers: list[Resolver] | None = None,
+    detected_calls: tuple[str, ...] = DETECTED_DEFAULT,
 ) -> set[str]:
     """Lineages that cleared `threshold` in some measured year before the recent window.
 
@@ -329,7 +343,7 @@ def lineages_ever_covered(
     either. See AssayDrift._lineage_check.
     """
     _, worked = _measured_and_working(
-        baseline_calls, taxa_cache, taxid_sidecar, threshold, min_records_for_year, resolvers
+        baseline_calls, taxa_cache, taxid_sidecar, threshold, min_records_for_year, resolvers, detected_calls
     )
     return worked
 
@@ -341,6 +355,7 @@ def _measured_and_working(
     threshold: float,
     min_records_for_year: int,
     resolvers: list[Resolver] | None = None,
+    detected_calls: tuple[str, ...] = DETECTED_DEFAULT,
 ) -> tuple[set[str], set[str]]:
     """(lineages with a measured year, lineages that cleared `threshold` in one).
 
@@ -352,7 +367,7 @@ def _measured_and_working(
         if call["call"] not in ("detect", "reduced", "fail"):
             continue
         c = counts[(lineage_of(call, taxa_cache, taxid_sidecar, resolvers), call["year"])]
-        c[0] += call["call"] != "fail"
+        c[0] += call["call"] in detected_calls
         c[1] += 1
     measured, worked = set(), set()
     for (lin, _), (det, n) in counts.items():
@@ -369,6 +384,7 @@ def per_lineage_stats(
     taxid_sidecar: dict[str, int],
     min_records: int = 20,
     resolvers: list[Resolver] | None = None,
+    detected_calls: tuple[str, ...] = DETECTED_DEFAULT,
 ) -> list[LineageStats]:
     """Compute per-lineage detection stats for one assay's calls.
 
@@ -400,7 +416,7 @@ def per_lineage_stats(
         if n_eval < min_records:
             continue  # Below floor; will be reported as "below floor" row
 
-        n_det = sum(1 for c in lineage_calls if c["call"] in ("detect", "reduced"))
+        n_det = sum(1 for c in lineage_calls if c["call"] in detected_calls)
         share = n_det / n_eval if n_eval > 0 else 0
         ci_lower, ci_upper = confidence_interval(n_det, n_eval)
 

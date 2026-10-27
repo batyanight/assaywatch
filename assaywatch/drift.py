@@ -705,7 +705,14 @@ class AssayDrift:
         from assaywatch.lineage import per_lineage_stats
 
         stats = per_lineage_stats(
-            recent_calls, taxa_cache, taxid_sidecar, min_records=min_records_per_lineage, resolvers=resolvers
+            recent_calls,
+            taxa_cache,
+            taxid_sidecar,
+            min_records=min_records_per_lineage,
+            resolvers=resolvers,
+            # The lineage layer must count a detection the way the pooled share
+            # does, or a probe assay reads two different assays in one report.
+            detected_calls=self.detected_calls,
         )
         for s in stats:
             s.assay_id = self.assay_id
@@ -758,7 +765,12 @@ class AssayDrift:
                 baseline_by_lineage = {
                     s.lineage_name: s
                     for s in per_lineage_stats(
-                        baseline_calls, taxa_cache, taxid_sidecar, min_records=1, resolvers=resolvers
+                        baseline_calls,
+                        taxa_cache,
+                        taxid_sidecar,
+                        min_records=1,
+                        resolvers=resolvers,
+                        detected_calls=self.detected_calls,
                     )
                 }
             self._apply_override(stats, worst_idx, baseline_by_lineage)
@@ -806,7 +818,13 @@ class AssayDrift:
         from assaywatch.lineage import lineage_of, lineages_never_covered
 
         never = lineages_never_covered(
-            baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
+            baseline_calls,
+            taxa_cache,
+            taxid_sidecar,
+            self.threshold,
+            min_records_for_year,
+            resolvers,
+            detected_calls=self.detected_calls,
         )
         buckets = {
             lineage_of(c, taxa_cache, taxid_sidecar, resolvers) for c in recent_calls if c.get("bucket")
@@ -875,7 +893,13 @@ class AssayDrift:
         from assaywatch.lineage import lineages_ever_covered
 
         worked = lineages_ever_covered(
-            baseline_calls, taxa_cache, taxid_sidecar, self.threshold, min_records_for_year, resolvers
+            baseline_calls,
+            taxa_cache,
+            taxid_sidecar,
+            self.threshold,
+            min_records_for_year,
+            resolvers,
+            detected_calls=self.detected_calls,
         )
         if stats[worst_idx].lineage_name in worked:
             return False

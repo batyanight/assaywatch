@@ -227,15 +227,13 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   at. Not enabled, because the lineage counts it would drive verdicts from use the wrong
   numerator for probe chemistry (next item). Extend to the other segmented RNA viruses
   only after measuring that a title regex labels their records.
-- **`lineage.py` still counts `reduced` as detected for every assay** — a defect the
-  probe switch left by omission (2026-10-27). The switch was threaded through
-  `drift.YearStats.detected_calls` and nowhere else; `lineage.py:403` hard-codes
-  `("detect", "reduced")`, so for the 51 probe-bearing entries the lineage table and
-  `worst_lineage_verdict` read a different assay from the one the pooled verdict
-  describes — influenza matrix is 6.5% in the report and 72–100% per subtype in the
-  lineage table, from the same calls. Fix: pass the assay's `detected_calls` into the
-  lineage counting. Not made while a live run is in progress, because `lineage.py` is in
-  the screen signature's import closure. **First code change after the run reports.**
+- **The influenza sublineage entry can now be enabled on consistent numbers.** The
+  defect that blocked it — `lineage.py` counting `reduced` as detected for every assay
+  after the probe switch stopped the pooled share doing so — is fixed (2026-10-27, `##
+  Done`): `lineage.py` was not in the screen hash's closure after all, so the fix did not
+  have to wait. What remains is the decision the config comment requires: enabling a
+  chain can move a verdict, so re-read the subtype table on the corrected numerator,
+  look at the H3N2 per-year table alone, and then decide with tier-2 behind it.
 
 - **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
   already excludes out-of-scope records from the drift denominator and the
@@ -316,10 +314,16 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   either clade, so the clade-specific entries carry `scope_narrower_than_taxid`
   instead of `scope_taxids`.
 
-- **889 lineages are still `taxid_<n>`** (2026-10-23 run).
-  `name_lineages_from_taxonomy` names only what the taxonomy cache holds; the
-  rest need `scripts/build_taxonomy_cache.py` rerun or an NCBI lookup. A data
-  task, not a code one.
+- **775 lineage rows are still `taxid_<n>`, and rebuilding the cache names 3 of them.**
+  Measured 2026-10-27: the rows are 322 distinct taxids, of which 291 have NO RANK in
+  NCBI, 19 are serotypes, 10 subspecies, 1 biotype, 1 strain. `name_lineages_from_taxonomy`
+  names species, and these are not species — they are below it (a serotype grouped on
+  its own id) or beside it (a no-rank clade with no species ancestor). The parent-link
+  cache keeps names only for "unclassified ..." nodes by design, to stay small, so the
+  fix is in `scripts/build_taxonomy_cache.py`: keep the scientific name for every taxid
+  that appears directly in archive metadata (the only ids that can become grouping
+  keys), then rerun it (~1 h of Entrez Direct) and re-render. A code-and-data task, not
+  a data one; the previous item text was wrong about that.
 
 - **The registry is a primer registry, not an assay registry.** Annealing or
   cycling appears in 7 of 209 entries, LoD or efficiency in 23, master mix or
@@ -489,6 +493,14 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **The lineage layer counts a detection the way the verdict does** (2026-10-27).
+      `lineage.py` hard-coded `("detect", "reduced")`; since the probe switch that is wrong
+      for 51 entries, and the influenza matrix assay read 6.5% pooled and 72–100% per
+      subtype from the same calls, with `worst_lineage_verdict` able to override a status
+      on the wrong numerator. `per_lineage_stats`, `lineages_never_covered` and
+      `lineages_ever_covered` take the assay's `detected_calls`; `drift.py` passes its own
+      and `lineage_report.py` reads the chemistry map the way `report.py` does. Four tests
+      pin that the numerator moves and the denominator does not.
 - [x] **The window and the minimum are priced together** (2026-10-27,
       `scripts/window_grid.py`, `docs/journal/2026-10-27-window-minimum-grid.md`). On the
       development set the minimum does nothing to the matrix between 10 and 20 — it only

@@ -60,10 +60,17 @@ describes.
 
 This is a defect the probe switch introduced by omission: the switch was wired through
 `drift.YearStats.detected_calls` and nothing else. The fix is to thread the same
-`detected_calls` into `lineage.py`'s counting — one function, a per-assay argument — and
-it is not made in this entry because `lineage.py` is in the screen signature's import
-closure and a live run is in progress. It goes to the roadmap as owed by the probe
-switch, at the top of what it owes.
+`detected_calls` into `lineage.py`'s counting — one function, a per-assay argument.
+
+> **Fixed the same evening.** `assaywatch.triggers.source_names("screen")` lists the
+> fifteen modules the screen signature hashes, and `lineage.py`, `drift.py` and
+> `lineage_report.py` are not among them, so the fix did not have to wait for the run.
+> `per_lineage_stats`, `lineages_never_covered` and `lineages_ever_covered` now take
+> `detected_calls`; `drift.py` passes its own, and `lineage_report.py` builds the
+> per-assay map from the registry's chemistry exactly as `report.py` does. Four tests pin
+> that the numerator moves and the denominator does not. The table above was rendered
+> BEFORE the fix and is kept as it was, because it is what exposed the defect; the
+> subtype shares for this probe assay will read lower once re-rendered.
 
 ## Decision
 
