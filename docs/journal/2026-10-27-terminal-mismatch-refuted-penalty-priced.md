@@ -96,16 +96,42 @@ And it is the same assay. The FAP pair is where 5 of the 6 bench rows were fixed
 where the tier-2 case moved — one assay's false fails, visible from the bench and from
 the literature at once.
 
+## The confirming rescreen, for the two assays whose verdicts moved
+
+The replay's one approximation is that candidate selection is frozen: the table holds
+only the amplicon the screen chose per record, so a scoring change that would make a
+different candidate win is invisible to it. That matters most where a verdict moved, so
+both of those assays were really rescreened — every archive of their retrieval groups,
+under the replay's own `config-used.yaml`, 25 archives in all.
+
+    python -m assaywatch.screen registry <archive> \
+      --only PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999,Pan_flavivirus_NS5_3_round2 \
+      --config .tmp/s5/config-used.yaml --workers 4
+
+**104,188 rows compared, 0 call disagreements.** Every row the replay produced for
+these two assays was reproduced by a real screen, call for call, and no replayed row
+was missing from the rescreen. 63 rows (0.06%) disagree on the penalty with the same
+call, and **all 63 run the same way: the real screen finds a LOWER penalty**, i.e. a
+better candidate amplicon than the replay could see. 40 of those rows are
+`indeterminate` and 22 `fail`. That is the direction the replay boundary predicts, and
+it means the approximation is pessimistic here rather than flattering: nothing in this
+comparison was credited to S5 that a real screen does not also give it.
+
+So for the two assays that carry the tier-2 moves, S5 is **proven, not priced**. The
+other 82 assays whose calls move are still priced, and a registry-wide confirming
+rescreen is the remaining work.
+
 ## Status: PRICED, NOT PROVEN, and not shipped
 
 `config.yaml` still carries `by_chemistry: {}`. Three reasons, in order:
 
-1. **A replay freezes candidate selection.** The table holds only the amplicon the
-   screen chose per record, so a scoring change that would make a different candidate
-   win cannot be seen here. Measured on 2026-10-26 over 514,096 really-rescreened
-   rows: 2 call disagreements in 0.0004% of rows, all of them pessimistic. Shipping
-   needs a confirming rescreen, which is now cheap because exactly one candidate
-   deserves one.
+1. **A replay freezes candidate selection, and only 2 of the 84 affected assays have
+   been rescreened.** Those two are clean — 104,188 rows, 0 call disagreements, the
+   section above — and they are the two that carry the verdict moves, which is why
+   they were chosen. The other 82 are still priced, and the five largest of them
+   (`Pan_flavivirus_NS5_3_round1` at 5,200 moved calls,
+   `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` at 3,921, `RHABDOVIRUS_ssRNA_L_gene_round2`
+   at 2,101, the Forslund pair) hold two-thirds of the 19,081 moved calls.
 2. **It moves every status in every report**, which is a maintainer's call and not a
    script's.
 3. **The evidence is two independent bench events and two tier-2 cases.** It is the

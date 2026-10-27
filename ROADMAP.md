@@ -46,10 +46,18 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
     2/9 -> 3/9 and false alarms 5/32 -> 4/32, because exactly two tier-2 cases move
     and they move in opposite directions on purpose.
 
-  Both pre-registered kill criteria survived. What is left is the replay's one
-  approximation — candidate selection is frozen, so a rescreen of the assays whose
-  calls move is needed before shipping — and then a maintainer's decision, because
-  it moves every status in every report. `by_chemistry` still ships empty.
+  Both pre-registered kill criteria survived, and the two assays that carry the
+  verdict moves were really rescreened: **104,188 rows, 0 call disagreements**, with
+  63 penalty differences that all run pessimistic (the real screen finds a better
+  candidate than a replay can see). So those two are proven.
+
+  **What is left:** 82 of the 84 assays whose calls move are still priced, and
+  two-thirds of the 19,081 moved calls sit in five of them
+  (`Pan_flavivirus_NS5_3_round1` 5,200, `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`
+  3,921, `RHABDOVIRUS_ssRNA_L_gene_round2` 2,101, the Forslund pair). Rescreening
+  those five would cover it; rescreening all 84 is a registry-scale run. Then it is
+  a maintainer's decision, because shipping moves every status in every report.
+  `by_chemistry` still ships empty.
 
   **Why this item no longer names `terminal_mismatch_fails`.** For three weeks it
   did, and the 23 false negatives against 1 false positive were read as its
