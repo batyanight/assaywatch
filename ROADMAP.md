@@ -177,13 +177,6 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 
 ## Method debts
 
-- **The drift rules interact and are untested.** `recent_window_months: 24`
-  with `min_records_for_drift: 20` is why Bd (Boyle 2004) read "insufficient
-  data" at 100% detected on 17 recent records: shorten the window and assays
-  fall below the minimum, lengthen it and real change is diluted. Validation has
-  to set the pair together, not each alone. `max_window_months: 60` widens the
-  window per assay when it holds too few records, which treats the symptom.
-
 - **`drift.anchor_fdr`'s value has no evidence behind it, and the bench panels
   cannot supply any.** 0.05 and 0.01 differ by a factor of two in rows moved (7,206
   against 13,693; 2026-10-24 run), 0.001 is what ships, and tier-2 separates them on
@@ -265,14 +258,23 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   where others are permanent. Largest: `orientation_inferred` 28,
   `amplicon_measured_not_published` 20, `oligos_from_secondary_source` 19,
   `oligos_modified` 14, `scope_narrower_than_taxid` 13,
-  `pairing_is_curator_reading` 11. The first and the last are the ones a paper or a
-  measurement can actually clear; `oligos_modified` never clears, because it is true.
+  `pairing_is_curator_reading` 11. `oligos_modified` never clears, because it is true.
+  **`orientation_inferred` is measured** (2026-10-27, `scripts/check_orientation.py`):
+  the archive yields products under the stored orientation for 26 of the 28, from 20 to
+  16,410 per entry, and for none does it yield zero; the two Sunshinevirus pairs yield 2
+  each on 8 records. The flag records provenance and stays; what is owed is a `note`
+  on each of the 26 carrying its number — 26 registry edits, after the live run.
+  `pairing_is_curator_reading` needs the paper's protocol text, one read each.
+  The 20 `in-text` oligos are enumerated in `docs/2026-10-27-in-text-oligos.tsv`.
 - **10 entries sit in `pending/`, every one of them for want of a verifiable DOI.**
-  The four `HANTAVIRUS_ssRNA_S_segment` entries are the hard case: their nesting was
-  assigned from amplicon geometry and one shared reverse primer rather than from a
-  protocol, and their own curator note says to re-check that assignment first if a
-  source ever turns up. They cannot go live while
-  `citation.doi_verified` is false, and nothing in the queue will verify them.
+  The three pending `HANTAVIRUS_ssRNA_S_segment` nests (F2/R2, F3/R3, F4/R3) are the
+  hard case, and the plan of 2026-10-27 was wrong about them: it proposed citing
+  Aitichou 2005 with `oligos_modified`, but Aitichou prints only HANTAV1U/L, the
+  ancestors of UHantaF1/R1 — and that pair is already live in `registry/` citing
+  Anthony 2013, which prints it. Nothing on disk prints the three pending pairs; their
+  nesting was read off amplicon geometry and one shared reverse primer, and their own
+  note says to re-check that first if a source appears. They stay pending until one
+  does. The other seven need one literature pass each for a design paper.
 - **The held-out collection target is not met.** Set 2 holds 1 row against a target
   of 15-20 with at least 5 of `mechanism: drift`, and set 1 is spent.
   `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
@@ -461,6 +463,13 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **The window and the minimum are priced together** (2026-10-27,
+      `scripts/window_grid.py`, `docs/journal/2026-10-27-window-minimum-grid.md`). On the
+      development set the minimum does nothing to the matrix between 10 and 20 — it only
+      trades refusals (14 / 15 / 16 declined) — and at 30 it refuses 20 for no gain. The
+      window does: 12 months loses a documented catch (kill), 36 months keeps all six and
+      drops one false alarm (4/32, PPV 2/8). Nothing ships, because the set is spent for
+      threshold-setting; 36 / 15 is the one cell a held-out read would be worth spending on.
 - [x] **Triage no longer leads with a coverage gap** (2026-10-27). Degeneracy-severe
       assays were already held off the Start here list; `declining` rows whose own note
       says the failing lineage is "a coverage gap rather than drift" now sort after the
