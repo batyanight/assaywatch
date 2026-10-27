@@ -264,6 +264,11 @@ class Drift(Block):
     exclude_patent_records: bool = False
     #: null means "record the anchor E-value, relabel nothing" (calls.apply_anchor_fdr).
     anchor_fdr: float | None = Field(default=None, gt=0, lt=1)
+    #: Which rows form the Benjamini-Hochberg family for `anchor_fdr`.
+    #: `lone_anchor` is the rows the test can relabel; `all_no_amplicon` adds
+    #: `no_site`, whose rows carry no E-value and so only enlarge m, tightening
+    #: the bar for the rows that can move. See config.yaml for the measurement.
+    anchor_fdr_family: Literal["tested", "lone_anchor", "all_no_amplicon"] = "tested"
     #: The chance-PAIR counterpart of anchor_fdr, for probe-bearing assays only
     #: (calls.apply_chance_pair_test). No threshold of its own: it reuses
     #: scoring.oligo_weak_max as the per-primer bar.

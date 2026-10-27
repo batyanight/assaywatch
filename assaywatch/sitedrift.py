@@ -68,7 +68,7 @@ from pathlib import Path
 from typing import Any
 
 from assaywatch import atomic
-from assaywatch.drift import EVALUABLE, wilson_interval
+from assaywatch.drift import DETECTED_CALLS, EVALUABLE, wilson_interval
 from assaywatch.iupac import COMPLEMENT, IUPAC, code_for
 from assaywatch.metadata import read_titles
 
@@ -429,9 +429,18 @@ class AssaySites:
     skipped_no_sequence: list[str] = field(default_factory=list)
 
 
-def _detected(call: str) -> bool:
-    """`reduced` counts as detected, exactly as `drift.YearStats.detected` does."""
-    return call in ("detect", "reduced")
+def _detected(call: str, detected_calls: tuple[str, ...] = DETECTED_CALLS) -> bool:
+    """Is this call a detection?
+
+    The docstring used to claim this behaves "exactly as `drift.YearStats.detected`
+    does", which was true only at the default: YearStats reads the assay's
+    `detected_calls`, which `drift.reduced_not_detected_for` can narrow to
+    `detect` alone for a chemistry where a mismatched probe reports nothing. This
+    hardcoded the pair, so the two would have disagreed the moment that setting
+    was filled -- and docs/2026-10-26-s3-chemistry-switches.md is the measured
+    argument for filling it. Defaulted, so every existing caller is unchanged.
+    """
+    return call in detected_calls
 
 
 def position_stats(

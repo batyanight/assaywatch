@@ -1235,7 +1235,17 @@ def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> Non
     if fp_known:
         a.recent_footprints = len(recent_fp)
         a.baseline_footprints = len(base_fp)
-        a.recent_footprints_detected = sum(1 for call, _ in recent_fp if call != "fail")
+        # `in a.detected_calls`, not `!= "fail"`. `detected_calls` exists so that
+        # `drift.reduced_not_detected_for` can make `reduced` NOT count, and
+        # YearStats.detected and recent_fraction both honour it -- this line did
+        # not. So for exactly the assays that switch is for,
+        # `recent_ci_by_footprint` and the `footprint` entry in
+        # `cluster_failures` were computed against a numerator that disagreed
+        # with the share printed beside them: a flag held or withheld on
+        # inconsistent arithmetic. Inert while `reduced_not_detected_for` ships
+        # empty, and docs/2026-10-26-s3-chemistry-switches.md is the measured
+        # case for filling it, which would have made this live.
+        a.recent_footprints_detected = sum(1 for call, _ in recent_fp if call in a.detected_calls)
 
 
 @dataclass(frozen=True)

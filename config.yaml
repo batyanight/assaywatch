@@ -675,6 +675,53 @@ drift:
   # 0.001 (row-identical at both), so the choice is on mechanism and the single
   # cross-check we have, which both point at 0.001.
   anchor_fdr: 0.001
+  # WHICH ROWS FORM THE BH FAMILY. Changed 2026-10-27, and the first attempt was
+  # WRONG in a way the existing tests caught, which is worth recording.
+  #
+  # `tested` (default): rows where the test was actually PERFORMED -- a lone
+  # anchor was found and its E-value recorded -- whatever the exclusion label.
+  # `lone_anchor`: only `diverged` / `truncated` / `no_pair`, the rows this test
+  # can relabel. `all_no_amplicon`: those plus every `no_site` row, which is what
+  # shipped before.
+  #
+  # The reasoning. `no_site` does NOT mean "no site": it means no CREDIBLE site,
+  # i.e. one was found and failed `scoring.max_site_evalue`. Of 1,442,931
+  # `no_site` rows on 2026-10-26, 357,923 recorded an anchor E-value and
+  # 1,085,008 did not. So the label mixes two different things:
+  #   - a record where a weak anchor WAS found. That is a test that failed to
+  #     reject, and a multiple-comparisons family must count it -- counting the
+  #     comparisons you made is the whole point.
+  #   - a record where nothing was found. No hypothesis was tested, so it is not
+  #     a member of the family; it enters as p = 1, can never be rejected, can
+  #     never be relabelled, and its only effect is to enlarge m. Since the bar
+  #     is k/m x q, a larger m TIGHTENS it for the rows that can move, so more
+  #     real anchors get relabelled as chance and leave the failure numerator.
+  #
+  # So `all_no_amplicon` over-counts and `lone_anchor` under-counts. Measured by
+  # replaying results/2026-10-26 at q = 0.001:
+  #   all_no_amplicon  36,184 rows relabelled, 153 assays touched (2026-10-26 run)
+  #   tested           26,875 rows relabelled, 146 assays touched (2026-10-26 run)
+  #   lone_anchor      23,985 rows relabelled, 143 assays touched (2026-10-26 run)
+  # The 9,309 rows between the old default and `tested` were relabelled purely
+  # because 1.08M anchor-less rows padded the families, and that padding scales
+  # with archive size -- partly re-creating the archive-size dependence
+  # anchor_fdr exists to remove.
+  #
+  # WHY NOT `lone_anchor`, which was the recommendation on 2026-10-27 before it
+  # was tested: it drops the 357,923 genuine tests too, which loosens the bar so
+  # that real chance anchors escape. tests/test_anchor_fdr.py is built on exactly
+  # that case -- Bd's 8,900 mRNA records with a weak anchor at E 0.5, which under
+  # `lone_anchor` leave m at 447 and let all 55 chance anchors through as real.
+  # The project's own worked example of a chance anchor stopped being caught. The
+  # test refuted the recommendation before it shipped; `tested` is what survives
+  # it, and it is a principle rather than a split of the difference: count every
+  # record where the question was asked, and no record where it was not.
+  #
+  # Note the direction, which is not self-serving in either case: `tested`
+  # RETAINS 9,309 more rows as genuine failures than the old default, so more
+  # assays can flag, and `declining` already has a positive predictive value of
+  # 2 of 9. All three behaviours are kept so the choice stays reversible.
+  anchor_fdr_family: tested
   # The chance-PAIR counterpart of anchor_fdr, for PROBE-BEARING assays only.
   # anchor_fdr guards the record where ONE primer anchored by chance. When BOTH
   # do and happen to face each other in range, the record gets an amplicon, so

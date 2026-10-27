@@ -141,19 +141,36 @@ def apply_anchor_fdr(rows: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[st
     p = 1. A per-record E is treated as a p-value, which it approximates for
     E << 1 (P(at least one) ~ E).
 
-    THE FAMILY, exactly: rows whose exclusion is `diverged`, `truncated`,
-    `no_pair` or `no_site`. Not every `no_amplicon` row -- `chance_only` and
-    `chance_pair` are outside it. Only the first three can be relabelled, so
-    `no_site` rows enlarge m without ever moving: since the bar is k/m x q, a
-    larger m makes it SMALLER for the rows that can move, so more of them are
-    relabelled `chance_anchor` and (under `drift.count_diverged_as_fail`) leave
-    the failure numerator. Measured 2026-10-27: 12,199 rows across 121 of 195
-    assays are relabelled on account of that padding, and because the padding
-    scales with archive size it partly re-introduces the size dependence this
-    function exists to remove. Whether `no_site` belongs in the family is
-    therefore an OPEN question, not a settled one; the docstring used to say the
-    family was every `no_amplicon` row, which matched neither the code nor the
-    intent.
+    THE FAMILY is `drift.anchor_fdr_family`, and the default changed on
+    2026-10-27 after the first attempt at it was refuted by these tests.
+
+    `tested` (default): rows where the test was actually PERFORMED -- a lone
+    anchor was found and its E-value recorded -- whatever the exclusion label.
+    `lone_anchor`: only the labels this function can relabel. `all_no_amplicon`:
+    those plus every `no_site` row, which is what shipped before.
+
+    `no_site` does not mean "no site": it means no CREDIBLE site, one having been
+    found and failed `scoring.max_site_evalue`. Of 1,442,931 such rows on
+    2026-10-26, 357,923 recorded an E-value and 1,085,008 did not, so the label
+    mixes a test that failed to reject -- which a multiple-comparisons family
+    must count, since counting the comparisons made is the point -- with a record
+    where no hypothesis was tested at all. The latter enters as p = 1, can never
+    be rejected or relabelled, and only enlarges m; and because the bar is
+    k/m x q, a larger m TIGHTENS it for the rows that can move, so more real
+    anchors are relabelled as chance.
+
+    Measured by replaying results/2026-10-26 at q = 0.001: all_no_amplicon
+    relabels 36,184 rows across 153 assays, `tested` 26,875 across 146, and
+    `lone_anchor` 23,985 across 143. The 9,309 between the old default and
+    `tested` moved purely on anchor-less padding, which scales with archive size.
+
+    `lone_anchor` was the recommendation until these tests ran: it drops the
+    357,923 genuine tests as well, loosening the bar until real chance anchors
+    escape. `test_bd_shaped_chance_anchors_are_relabelled_and_the_real_deposits_are_not`
+    is exactly that case -- Bd's 8,900 mRNA records anchored weakly at E 0.5 --
+    and under `lone_anchor` m falls to 447 and all 55 chance anchors pass as
+    real. The project's own worked example stopped being caught, which is how the
+    recommendation was found to be wrong before it shipped.
 
     Only `diverged`, `truncated` and `no_pair` can move, to `chance_anchor`; a row
     with no recorded E (an older screen) is never relabelled, because unknown is
@@ -165,10 +182,23 @@ def apply_anchor_fdr(rows: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[st
     q = float(q)
     if not 0 < q < 1:
         raise ValueError(f"drift.anchor_fdr must be between 0 and 1, got {q}")
+    family = str((cfg.get("drift") or {}).get("anchor_fdr_family", "tested"))
+    if family not in ("tested", "lone_anchor", "all_no_amplicon"):
+        raise ValueError(
+            f"drift.anchor_fdr_family must be tested, lone_anchor or all_no_amplicon, got {family!r}"
+        )
+    labels = LONE_ANCHOR_LABELS if family == "lone_anchor" else LONE_ANCHOR_LABELS | {"no_site"}
     by_assay: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in rows:
-        if r.get("call") == "no_amplicon" and (r.get("exclusion") or "") in LONE_ANCHOR_LABELS | {"no_site"}:
-            by_assay[r["assay_id"]].append(r)
+        if r.get("call") != "no_amplicon" or (r.get("exclusion") or "") not in labels:
+            continue
+        # `tested` additionally requires that a test was actually PERFORMED on
+        # this record: an anchor was found and its E-value recorded. A row with no
+        # anchor at all had no hypothesis to test, so it is not a member of the
+        # family; a row whose anchor was poor IS one, and belongs in m.
+        if family == "tested" and "anchor_evalue" not in r:
+            continue
+        by_assay[r["assay_id"]].append(r)
     moved: dict[str, int] = {}
     for aid, rs in by_assay.items():
         m = len(rs)

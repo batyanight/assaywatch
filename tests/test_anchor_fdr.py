@@ -13,6 +13,8 @@ from __future__ import annotations
 import csv
 import gzip
 
+import pytest
+
 from assaywatch.calls import CHANCE_ANCHOR, apply_anchor_fdr, read_calls
 
 ON = {"drift": {"anchor_fdr": 0.05}}
@@ -142,3 +144,67 @@ def test_read_calls_carries_the_anchor_evalue(tmp_path):
     old = tmp_path / "old.tsv"
     old.write_text("assay_id\trecord_id\tcall\texclusion\nA\tr1\tno_amplicon\tdiverged\n")
     assert "anchor_evalue" not in read_calls(old)[0]
+
+
+# --------------------------------------------------------------------------
+# The family, 2026-10-27. `lone_anchor` was recommended and then refuted by
+# test_bd_shaped_chance_anchors_... above: it drops the weakly-anchored rows,
+# which loosens the bar until the chance anchors this test exists to catch pass
+# as real. These pin all three behaviours so the refutation cannot be undone by
+# a later tidy-up.
+# --------------------------------------------------------------------------
+
+
+def _fam(name):
+    return {"drift": {"anchor_fdr": 0.05, "anchor_fdr_family": name}}
+
+
+def test_lone_anchor_family_loses_the_bd_catch_which_is_why_it_is_not_the_default():
+    """Documenting the wrong answer, so nobody re-adopts it.
+
+    Dropping the 8,900 weakly-anchored rows takes m from 9,347 to 447, the bar at
+    the last rank becomes 0.05, and 5e-3 clears it -- so all 55 chance anchors
+    are called real and nothing is relabelled.
+    """
+    rows = _bd_like()
+    assert apply_anchor_fdr(rows, _fam("lone_anchor")) == {}
+    assert all(r["exclusion"] != CHANCE_ANCHOR for r in rows)
+
+
+def test_tested_family_keeps_the_bd_catch():
+    """Every Bd fixture row recorded an E-value, so all of them were tests."""
+    rows = _bd_like()
+    assert apply_anchor_fdr(rows, _fam("tested")) == {"Bd": 55}
+
+
+def test_a_row_with_no_anchor_is_not_a_member_of_the_tested_family():
+    """The whole point of the change: no anchor means no hypothesis was tested.
+
+    Such a row enters as p = 1 under `all_no_amplicon`, can never be rejected or
+    relabelled, and only enlarges m -- tightening the bar for the rows that can
+    move. Here 2,000 of them drag the bar down far enough to relabel the one
+    genuine anchor; under `tested` they are not counted and it survives.
+    """
+    real = [_row("A", "anchor", exclusion="diverged", e=1e-3)]
+    padding = [_row("A", f"nosite{i}", exclusion="no_site") for i in range(2000)]
+
+    rows = [dict(r) for r in real + padding]
+    assert apply_anchor_fdr(rows, _fam("all_no_amplicon")) == {"A": 1}
+
+    rows = [dict(r) for r in real + padding]
+    assert apply_anchor_fdr(rows, _fam("tested")) == {}
+
+
+def test_a_weakly_anchored_no_site_row_IS_a_member_of_the_tested_family():
+    """`no_site` means no CREDIBLE site, not no site. A weak anchor is a test
+    that failed to reject, and a family must count it."""
+    rows = [_row("A", "anchor", exclusion="diverged", e=1e-3)]
+    rows += [_row("A", f"weak{i}", exclusion="no_site", e=0.4) for i in range(2000)]
+    # Counted, so the bar is tight and the lone real anchor is relabelled --
+    # the same answer `all_no_amplicon` gives, reached for the right reason.
+    assert apply_anchor_fdr(rows, _fam("tested")) == {"A": 1}
+
+
+def test_an_unknown_family_is_refused_rather_than_silently_defaulted():
+    with pytest.raises(ValueError, match="anchor_fdr_family"):
+        apply_anchor_fdr(_bd_like(), _fam("whatever"))
