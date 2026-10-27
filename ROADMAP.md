@@ -104,15 +104,20 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
 `detect_max` 1.0 and `reduced_max` 3.0, with `terminal_mismatch_fails: true` and, since
 2026-10-27, a 2.0 3'-window penalty for conventional PCR.
 
-- **S4: the identity-aware 3' penalty (M1), re-tested.** `mispair_penalty: {}` ships
-  empty, so the rule is identity-blind — a G:T wobble and an A:G mismatch cost the
-  same, which Kwok 1990 and Stadhouders 2010 both say is wrong by about two orders of
-  magnitude in yield. M1 (`G:T` and `T:G` discounted to 0.0) shipped 2026-10-21 and was
-  reverted 2026-10-22 for losing the Leucocytozoon @2016-12-31 catch, by a mechanism
-  that is now partly gone: it lost the catch because a discounted record slid `fail` ->
-  `reduced` and `reduced` counted as detected, and since 2026-10-27 it no longer does
-  for probe chemistries. `strategies/s4-m1-under-s3a.yaml` is written and has never
-  been run. It is an afternoon, and the M1 hold stays in force either way.
+- **S4 is run, and M1 survives: lifting the hold is now a decision.** `mispair_penalty:
+  {}` ships empty, so the rule is identity-blind — a G:T wobble and an A:G mismatch cost
+  the same, which Kwok 1990 and Stadhouders 2010 both put at about two orders of
+  magnitude in yield. M1 (`G:T`/`T:G` discounted to 0.0) was reverted on 2026-10-22 for
+  losing the Leucocytozoon @2016-12-31 catch, because a discounted record slid `fail` ->
+  `reduced` and `reduced` counted as detected. Re-run on 2026-10-27 with the probe
+  switch shipped (`docs/journal/2026-10-27-s4-m1-survives.md`): **no catch lost**, the
+  influenza 2010 case promoted from `low coverage` to `declining` (drift-flag catches
+  3/11 -> 4/11, PPV 3/9 -> 4/10), false alarms unchanged at 4/32, and five bench rows
+  fixed with none broken (FAP 10 -> 6 wrong, Barrett 2 -> 1). Priced by replay, not
+  proven; `scoring.mispair_penalty` stays `{}`. What would precede lifting the hold: a
+  confirming rescreen of the assays carrying its 151,076 moved calls, and pricing the
+  rest of the Kwok table — the A:A / C:C / G:A / A:G *premium*, never tried — beside the
+  discount, since two easy entries are not an identity table.
 - **C1, the hierarchical layer only.** The conjugate half was run on 2026-10-27 as
   the plan specified and is closed (`## Done`): a posterior flag rule moves 2 of 233
   statuses and nothing in tier-2, so `drift.flag_rule` stays `wilson` with the
@@ -314,17 +319,6 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   either clade, so the clade-specific entries carry `scope_narrower_than_taxid`
   instead of `scope_taxids`.
 
-- **775 lineage rows are still `taxid_<n>`, and rebuilding the cache names 3 of them.**
-  Measured 2026-10-27: the rows are 322 distinct taxids, of which 291 have NO RANK in
-  NCBI, 19 are serotypes, 10 subspecies, 1 biotype, 1 strain. `name_lineages_from_taxonomy`
-  names species, and these are not species — they are below it (a serotype grouped on
-  its own id) or beside it (a no-rank clade with no species ancestor). The parent-link
-  cache keeps names only for "unclassified ..." nodes by design, to stay small, so the
-  fix is in `scripts/build_taxonomy_cache.py`: keep the scientific name for every taxid
-  that appears directly in archive metadata (the only ids that can become grouping
-  keys), then rerun it (~1 h of Entrez Direct) and re-render. A code-and-data task, not
-  a data one; the previous item text was wrong about that.
-
 - **The registry is a primer registry, not an assay registry.** Annealing or
   cycling appears in 7 of 209 entries, LoD or efficiency in 23, master mix or
   Mg²⁺ in 2, sample matrix in 6, and one-step versus two-step RT in none
@@ -493,6 +487,16 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **The unnamed lineages were a missing roll-up, not missing names** (2026-10-27).
+      775 of the 1,390 rows in the 2026-10-26 lineage report read `taxid_<n>`. Three
+      diagnoses in one day, each measured: rebuilding the taxonomy cache named 3; keeping
+      names for no-rank grouping keys named 3 more; and then the cause — every one of the
+      322 taxids HAS a species above it (MPXV is 10244, no rank, under species 3431483),
+      and `lineage_report.py` never applied `lineage.group_at_rank: species`, which
+      `drift.py` applies for report.md. So lineage.md said `taxid_10244` where report.md
+      said "Orthopoxvirus monkeypox (3431483)" of the same records. The roll-up is now
+      applied in both: 1,941,507 call rows roll up, **775 unnamed rows become 2**, and
+      1,390 rows become 1,084 because strain-level rows merge into their species.
 - [x] **The lineage layer counts a detection the way the verdict does** (2026-10-27).
       `lineage.py` hard-coded `("detect", "reduced")`; since the probe switch that is wrong
       for 51 entries, and the influenza matrix assay read 6.5% pooled and 72–100% per
