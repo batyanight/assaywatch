@@ -1,3 +1,102 @@
+# Resume point, 2026-10-27 (later: one to-do list, four decisions taken, and a result that refuted itself)
+
+**Start here:** `ROADMAP.md`. It is now the only to-do list in the repository, and the
+one thing to know before reading anything else is that **a result from earlier the same
+day was corrected, not confirmed**. Six commits, every one gated: **1,733 tests pass**
+(was 1,732), validator 209/209, ruff clean, `claims` ok, `check_citations` 209/209,
+`snakemake -n` exit 0. Registry unchanged at 209/179/29/1; no oligo altered.
+
+## What was asked, and what it turned out to require
+
+"What is next on the to-do list" could not be answered from one file. Open work was
+spread across `docs/RESUME-HERE.md`, `ROADMAP.md`, the deferred section of the
+four-perspective review, and the forward-looking tail of **eight** dated journals --
+18 live items, 4 maintainer decisions and 4 known limitations, with no way to tell a
+live item from one closed weeks earlier. Three items the journals still asked for were
+already DONE (`scope_taxids`, sequence-cluster lineages, the lineage binomial overflow)
+and five were live and pointed at by nothing:
+
+- deposit date is not collection date, and `collection_date` is already retrieved and unused;
+- `drift.anchor_fdr`'s value has no evidence behind it (0.05 and 0.01 differ by 2x in rows moved, 0.001 ships);
+- 889 lineages are still `taxid_<n>`;
+- a genus taxid can stop containing its target after a reclassification, and `check_taxids.py` cannot see it;
+- four leftovers from the oligo adjudication.
+
+Everything is in `ROADMAP.md`, ranked, each item carrying the evidence that put it
+there. Item numbers were replaced by names, because a cross-reference to "item 10" rots
+every time an item above it closes.
+
+## The four decisions, and what each cost
+
+**1. The thermodynamic result does not survive its own confound.** `thermo.duplex_tm`
+called `primer3.calc_heterodimer`, which returns the most stable structure between two
+sequences rather than the in-register duplex. It now sums nearest-neighbour terms
+base-for-base (Biopython `Tm_NN`, SantaLucia & Hicks 2004 with the Allawi/SantaLucia
+mismatch tables), so there is no alignment search and no register to get wrong. Re-run:
+**93.9% -> 92.7%, discordance 20-7 -> 21-10, McNemar p = 0.0192 -> 0.0708.** Of the
+sites it can price, 71 would have been mis-registered. So roughly half the morning's
+margin was the artefact the write-up itself had named, and "a thermodynamic predictor
+beats the penalty rule" is not a claim these 179 rows support in either direction.
+**What survives untouched: the penalty rule's 23 false negatives against 1 false
+positive**, which is the penalty arm alone and still the strongest single argument in
+the repository for per-chemistry scoring. Cost: 32 sites cannot be priced at all,
+because adjacent mismatches have no measured term, and the number is now withheld
+(`thermo_note: nn_unsupported`) rather than scored as free.
+
+**2. A mismatched probe is no longer a detection.**
+`drift.reduced_not_detected_for: [hydrolysis_probe, mgb]`. Measured before it was taken
+by rendering the 2026-10-26 calls table both ways: **13 of 235 statuses move, in both
+directions** (declining 34 -> 36, low coverage 37 -> 42, watch 12 -> 9, stable 56 -> 52),
+and `INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003` goes `stable` -> flagged at 6.5%
+of 30,382 recent records -- the documented failure the switch exists to catch.
+`CDV_P_gene_Scagliarini_2007`, an `active` entry, moves watch -> Start here. Cost, which
+stands: two published positives on the Leptospira bench panel go `reduced` -> `fail`.
+
+**3. The project has unread evaluation data again.**
+`docs/validation-cases-heldout-2.tsv`, opened with the Leetz 2007 case -- the first
+CONFIRMED retrospective identity, from a paper the rule has never been shown. It reads
+`works`, because the 73.8% headline is an oocyst dilution series on one isolate, i.e.
+sensitivity, which this tool does not model. Disclosed in the file: it was scored once
+to check the row parses, so one bit is out.
+
+**4. TNTBLAST waits.** No osx-arm64 build and Rosetta 2 needs admin rights. Rosetta, an
+arm64 build from source, or a run on linux-64 or the cluster -- `scripts/compare_thermo.py`
+takes a second predictor unmodified. The dead `tntblast` env can go: `conda env remove -n tntblast`.
+
+## Two things found by accident, and they are the kind worth noticing
+
+**Both Priority 1 papers have been on disk since 2026-10-25 and nobody re-ran the
+verifier.** Mao, Hedrick & Chinchar 1997 prints both ranavirus MCP primers as 18-mers,
+byte-identical to the registry, and prints no 19-mer -- so the 18/19-mer question is
+closed in the registry's favour at three transcriptions to one. The entry recorded this
+on 2026-10-26; the fetch queue did not.
+
+**A file being present is not a paper being readable.** `papers/` holds a 64 KB PDF
+under Neill & Seal's name that yields 488 words of front matter and no nucleotide run of
+10 bases anywhere. The Hel1 3'-terminal base is exactly as unverified as before, and the
+correction taken on measurement still stands alone.
+
+## Housekeeping that will change where you look
+
+- **89 session journals are in `docs/journal/`**, leaving the nine reference documents in
+  `docs/`. 588 references rewritten across 160 files; `docs/journal/README.md` says what
+  the directory is and is not. Nothing deleted, no journal reworded.
+- **`tests/test_docs_links.py`** asserts that every repo-root `docs/...` reference
+  resolves. It found a wrong directory prefix in `fetch_elsevier.py`'s own usage line on
+  its first run, and it is what made the move safe.
+- A dated journal's "Next steps" section now carries a line saying it is history as of
+  its own date. `CLAUDE.md` and `docs/INDEX.md` state the one-list rule, so a new session
+  does not start a fifth list.
+
+## Still open
+
+`ROADMAP.md`. The next item the evidence supports is **per-chemistry scoring**: price
+`terminal_mismatch_fails: false` for `conventional` as a replay via `scripts/rescore.py`,
+with the 179 bench rows as arbiter. The 23 false negatives are the argument, and the ΔTm
+column can now be believed on the records that decide it.
+
+---
+
 # Resume point, 2026-10-27 (a four-perspective review, then its P0-P2 fixes; 16 commits, all gated)
 
 **Start here:** `docs/journal/2026-10-27-four-perspective-review.md` is the review and the
