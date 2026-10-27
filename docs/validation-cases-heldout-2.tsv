@@ -1,0 +1,61 @@
+# TIER-2 HELD-OUT CASES, SET 2. Created 2026-10-27, one row.
+#
+# WHY A SECOND HELD-OUT FILE. docs/validation-cases.tsv is the development set,
+# frozen 2026-10-23, and at least seven config.yaml settings were accepted or
+# rejected against its rows. docs/validation-cases-heldout.tsv was read on
+# 2026-10-26 and is therefore spent: a held-out set is spent the first time it is
+# read, which is the whole point of one. So on 2026-10-27 the project held NO
+# unread evaluation data, and that -- not a shortage of ideas -- is why the 5/11
+# figure cannot be improved on by any amount of tuning.
+#
+# THE ONE RULE: no threshold decision may consult this file until the thresholds
+# are final. Not "should not". If a config.yaml value is changed because of a row
+# in here, this file becomes a second development set and the project is back
+# where it started on 2026-10-26.
+#
+# Score with (and only when the set is worth spending):
+#   python scripts/retrospective.py --cases docs/validation-cases-heldout-2.tsv
+#
+# DISCLOSED: it was scored once on 2026-10-27, immediately after the row was
+# written, to check the row parses and the assay id resolves. The result was
+# `watch` / agrees. Nothing in config.yaml was changed because of it and nothing
+# may be; one bit is out, and pretending otherwise would be worse than saying so.
+#
+# Same columns and same bar as the development set: a paper, erratum or redesign
+# reporting how an assay ALREADY IN THE REGISTRY performed, with `as_of` no later
+# than the sequences its authors could have seen. A new assay's validation
+# against its own panel does not qualify -- it says nothing about drift.
+#
+# Target: 15-20 cases, at least 5 with `mechanism: drift`. Both earlier sets are
+# dominated by coverage-type failures, so the drift flag still rests on about one
+# ground-truth event; that is the gap to close first.
+#
+# Leads: scripts/check_candidate_identity.py over
+# docs/2026-10-26-retrospective-candidates.tsv is now the cheapest source, because
+# it answers the question that actually blocks a row -- did the citing paper test
+# OUR oligos -- before any reading time is spent. See ROADMAP.md, tier-2 validation.
+assay_id	as_of	expect	mechanism	source
+# ROW ADDED 2026-10-27. The first CONFIRMED retrospective identity in the project:
+# both round-2 primers are printed verbatim in the paper and read `exact` against
+# the registry (docs/2026-10-27-leetz-identity-confirmed.md). `as_of` is the
+# received date, 25 March 2007, not the publication date.
+#
+# `works`, and the mechanism matters. The paper's headline is 73.8% positive for
+# the Xiao nested 18S primers, which against detect_fraction_threshold: 0.90 looks
+# like a miss -- but Table 2's denominator is an oocyst DILUTION SERIES on one
+# isolate (>10^4 down to 10^0), so the misses are at low template. That is
+# sensitivity, which this tool does not model: a primer that matches perfectly
+# still fails at one oocyst. On the isolate itself the assay worked twice -- the
+# round-2 product digested cleanly with Vsp I to 628 + 104 bp, and the procedure
+# was repeated with a German bovine stock "with identical results". Recording it
+# as `fails` would teach the harness that a sensitivity result is a coverage
+# result, which is exactly what the `mechanism` column exists to prevent.
+Cryptosporidium_18SrDNA_Xiao_1999_round2	2007-03-25	works		10.1007/s00436-007-0567-y Leetz 2007 Parasitol Res 101:951-962: round-2 primers printed verbatim (Xiao18SF2 GGAAGGGTTGTATTTATTAGATAAAG, Xiao18SR2 AAGGAGTAAGGAACAACCTCCA) and amplified C. parvum HNJ-1 genotype II, RFLP-typed cleanly with Vsp I (628 + 104 bp), repeated on an independent German bovine stock with identical results; the 73.8% in Table 2 is a dilution series, i.e. sensitivity, not coverage
+#
+# NOT A ROW, recorded so the lead is not chased twice:
+# Cryptosporidium_18SrDNA_Xiao_1999_round1 reads VARIANT against the same paper --
+# the round-1 pair Leetz tested is not the one the registry holds, however much it
+# cites Xiao 1999. ENTEROVIRUS_ssRNA_VP3_VP1 (+round2) and
+# INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 are closed as UNCONFIRMABLE by
+# CONTENT rather than by access: Ng 2025 reprints its own CDC2022 redesign and
+# cites the Nix gold standard only, and Slomka 2023 prints no primer table at all.
