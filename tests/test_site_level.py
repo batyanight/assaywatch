@@ -114,3 +114,26 @@ def test_the_archive_path_follows_the_retrieval_group_slug():
     paths = msl.archives_for(assay, REPO / "data" / "retrieved")
     expected = REPO / "data" / "retrieved" / "109871" / group_slug(assay.target.query)
     assert all(p.parent == expected for p in paths)
+
+
+def test_the_offset_is_sampled_strided_and_not_from_the_head_of_the_archive():
+    """Archives are accession-ordered, so their head is never representative.
+
+    This is not a refinement. Sampling the first 200 records made `probe_offsets`
+    return nothing for the twelve assays with the LARGEST discarded populations - the
+    influenza Matrix gene's 93,966 rows among them - so the measurement silently
+    excluded the cases that mattered most while reporting "no record holds all three
+    sites" about archives holding thousands of them. The registry's own LEPTOSPIRA
+    entry note records paying for the same mistake.
+
+    Built as a positive control: every full amplicon sits beyond the sampling limit,
+    so only a strided pass can reach one.
+    """
+    full = _record()
+    truncated = _record()[60:]
+    seqs = {f"T{i}": truncated for i in range(600)}
+    seqs["FULL"] = full  # last, i.e. far past a head-only limit of 200
+    assay = _Assay(FWD, REV, PROBE)
+    assert msl.probe_offsets(assay, seqs, CFG, limit=200), (
+        "a head-only sample misses the one informative record and reports the assay unmeasurable"
+    )

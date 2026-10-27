@@ -82,13 +82,27 @@ def probe_offsets(assay, seqs: dict[str, str], cfg: dict[str, Any], limit: int =
     Taken from the assay's OWN geometry rather than from one hand-picked reference
     record, which is the only part of the Bd investigation's method that was not
     reproducible.
+
+    SAMPLED STRIDED, NEVER FROM THE HEAD, and this is not a refinement. Archives are
+    accession-ordered, so their first records are never representative - the registry's
+    own LEPTOSPIRA entry note records paying for that. Taking the first 200 made this
+    function return nothing for the twelve assays with the LARGEST discarded populations,
+    including the influenza Matrix gene's 93,966 rows, so the measurement silently
+    excluded exactly the cases that matter most and reported "no record holds all three
+    sites" about archives that hold thousands.
     """
     fwd = assay.oligos.forward.matching_seq
     rev = assay.oligos.reverse.matching_seq
     probe = assay.oligos.probe.matching_seq
     mm = int(cfg["scoring"]["max_mismatches_searched"])
     offsets = []
-    for seq in list(seqs.values())[:limit]:
+    values = list(seqs.values())
+    # Evenly spaced over the WHOLE archive, both ends included. A plain `[::stride]`
+    # truncated by `[:limit]` drops the tail, which is the same bias in a smaller
+    # form; spacing by index guarantees the last record is reachable.
+    k = min(limit, len(values))
+    idxs = [0] if k <= 1 else [round(i * (len(values) - 1) / (k - 1)) for i in range(k)]
+    for seq in (values[i] for i in dict.fromkeys(idxs)):
         f = [s for s in find_sites(fwd, seq, mm) if s.n_mismatches == 0]
         r = [s for s in find_sites(rev, seq, mm) if s.n_mismatches == 0]
         p = [s for s in find_sites(probe, seq, mm) if s.n_mismatches <= 1]

@@ -93,8 +93,24 @@ into measurements, and it is also the paper's main figure.
       is a conventional PCR whose Hel1, verified against both Reid 1999 and the
       Neill & Seal 1995 design paper, carries one 3'-terminal mismatch against
       all 16 of its own target records. `terminal_mismatch_fails` alone takes it
-      to 0 of 30 detected, while the paper reports the assay working. That is the
-      gap this item is about, measured on a real entry.
+      to 0 of 30 detected, while the paper reports the assay working.
+      **THAT EXAMPLE IS GONE, and this item lost its best case on 2026-10-26.**
+      The 2026-10-24 correction of Hel1's 3'-terminal base from G to C - the form
+      the template carries in all 16 design targets, and the only form that
+      reproduces the published 357 bp product - removed the mismatch the "0 of 30"
+      figure rested on. That entry now reads detect 17, reduced 2, fail 12, and it
+      is `draft` rather than `active`. Do not quote 0 of 30.
+      **And the claim this item makes was then measured directly, and it is wrong
+      about the magnitude.** `docs/2026-10-26-s3-chemistry-switches.md` exempted
+      conventional chemistry from `terminal_mismatch_fails` and it moves 251 calls
+      of 2.7 million and changes NO verdict anywhere - because a record carrying a
+      terminal mismatch almost always carries others that clear `reduced_max` on
+      their own. So "probably scored too harshly ... would inflate `fail`" is real
+      as a mechanism and negligible as an effect, at least through this one knob.
+      Where the chemistry axis DOES carry signal is the probe side: not counting a
+      `reduced` probe call as a detection takes documented failures caught from
+      5/11 to 6/11 with no increase in false alarms. Neither is shipped; both are
+      maintainer decisions.
 - [x] the recent window now widens per assay (`max_window_months`, 60) when the
       standard window holds too few records, which is what made Bd unjudgeable;
       `scripts/retrospective.py` recomputes any past date's verdict, so the
