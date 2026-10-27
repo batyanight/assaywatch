@@ -207,6 +207,25 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
 
+    # Roll each record's taxid up to its species when `lineage.group_at_rank` says so,
+    # exactly as drift.LineageOptions.taxid_of does for report.md. Until 2026-10-27
+    # this report never did, so a record filed under a no-rank node (MPXV is 10244,
+    # "no rank", under species 3431483) grouped on its own id and printed as
+    # `taxid_10244` while report.md called the same lineage "Orthopoxvirus monkeypox
+    # (3431483)". 775 of the 1,390 rows of the 2026-10-26 lineage report were this,
+    # not missing names: 322 distinct taxids, every one with a species above it.
+    taxonomy = taxonomy_from_config(cfg)
+    if lineage_cfg.get("group_at_rank") == "species" and taxonomy is not None and taxonomy.rank:
+        rolled = 0
+        for rows in calls_by_assay.values():
+            for r in rows:
+                if r["taxid"] is not None:
+                    sp = taxonomy.species_of(r["taxid"])
+                    if sp is not None and sp != r["taxid"]:
+                        r["taxid"] = sp
+                        rolled += 1
+        print(f"{rolled} call rows rolled up to their species (lineage.group_at_rank)", file=sys.stderr)
+
     # Render report
     min_records = lineage_cfg.get("min_records_per_lineage", 30)
     resolvers = None

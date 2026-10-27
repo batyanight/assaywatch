@@ -104,6 +104,26 @@ def main(argv: list[str] | None = None) -> int:
         if (i // BATCH) % 50 == 0:
             print(f"  {min(i + BATCH, len(wanted))}/{len(wanted)}", file=sys.stderr)
 
+    # A record-level taxid with no species on its path to the root becomes a lineage
+    # grouping key under `lineage.group_at_rank: species` -- a no-rank node NCBI files
+    # beside species rather than under one -- and only a kept name can label it.
+    # Keeping names for exactly these keeps the file small. (The 775 `taxid_<n>` rows
+    # of the 2026-10-26 lineage report were first blamed on this and were not it:
+    # every one of those 322 taxids HAS a species above it, and lineage_report.py was
+    # simply not rolling up. Fixed there the same day; this set was 3 ids.)
+    direct = archive_taxids(args.retrieved)
+
+    def has_species_ancestor(t: int) -> bool:
+        seen: set[int] = set()
+        while t in parent and t not in seen:
+            if rank.get(t) == "species":
+                return True
+            seen.add(t)
+            t = parent[t]
+        return rank.get(t) == "species"
+
+    grouping_keys = {t for t in direct if t in rank and not has_species_ancestor(t)}
+
     merged: dict[int, int] = {}
     unresolved = [t for t in wanted if t not in returned and t not in parent]
     for i in range(0, len(unresolved), BATCH):
@@ -123,13 +143,15 @@ def main(argv: list[str] | None = None) -> int:
                 "n_requested": len(wanted),
                 "parent": {str(k): v for k, v in sorted(parent.items())},
                 "rank": {str(k): v for k, v in sorted(rank.items()) if v != "no rank"},
-                # Species names, for per-species report tables, and the
-                # "unclassified ..." nodes, which in_unclassified reads. Every name
-                # would quadruple the committed file for nodes nothing displays.
+                # Species names, for per-species report tables; the "unclassified ..."
+                # nodes, which in_unclassified reads; and the record-level taxids that
+                # have no species above them and so are lineage keys in their own
+                # right (see `grouping_keys`). Every name would quadruple the committed
+                # file for nodes nothing displays; these three sets are what displays.
                 "name": {
                     str(k): v
                     for k, v in sorted(name.items())
-                    if rank.get(k) == "species" or v.startswith("unclassified ")
+                    if rank.get(k) == "species" or v.startswith("unclassified ") or k in grouping_keys
                 },
                 "merged": {str(k): v for k, v in sorted(merged.items())},
                 "missing": missing,
