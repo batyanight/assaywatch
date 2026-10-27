@@ -1,3 +1,99 @@
+# Resume point, 2026-10-27 (a four-perspective review, then its P0-P2 fixes; 16 commits, all gated)
+
+**Start here:** `docs/2026-10-27-four-perspective-review.md` is the review and the
+reasoning behind every decision taken from it. The repository was read from four angles
+(engineering, methods, bench diagnostics, a cold newcomer read), and the findings were
+worked through in order rather than listed. Registry **unchanged at 209/179/29/1**; no
+oligo altered. Gate on every commit: **1,732 tests pass** (was 1,705), ruff clean,
+validator 209/209, `check_citations` ok, `claims` ok, `snakemake -n` exit 0.
+Everything is COMMITTED this time, one commit per finding, with the reasoning in the
+message.
+
+## The two findings that drove it
+
+**The denominator is drift-correlated.** A record with ONE drifted primer is counted as a
+failure; a record with BOTH drifted leaves the denominator as `no_site`. 65.7% of 2.72M
+rows never reach the statistics, and `no_site` alone is 53% of every row — of which
+357,923 DID find a site within the mismatch budget and 1,085,008 found nothing. That split
+is now measured and printed per assay; the bias itself is not fixed.
+
+**Published artefacts described a method the code did not run.** The report named
+Benjamini-Hochberg where the run used Holm; the README gave two incompatible headline
+accuracy figures 466 lines apart; ~15 counts were stale — and the `claims` hook built to
+catch exactly that had been silently disabled since three duplicate `files:` keys landed on
+it. `check-yaml` now makes a duplicate key an error. The repaired hook then rejected three
+of my own commits for undated counts, which is the system working.
+
+## What changed, by theme
+
+- **Data integrity, before any retrieval.** An empty efetch page was accepted as zero
+  records and the run recorded, after which the incremental cursor skipped records that
+  were never written. A short page was indistinguishable from the legitimate WGS-master
+  case. The cursor was keyed on the assay query only, so changing a length filter
+  permanently skipped older records that newly qualified. A missing `.sig` wedged the
+  pipeline unrepairably — and declaring it as an output was NOT enough, because nothing
+  requested it. `--config` overrides moved the cache key and never reached the subprocess;
+  dumping the merged config verbatim would have broken every rule, because `Settings`
+  forbids extras and the merged dict always carries `email`.
+- **Report layer, no rescreen.** Exclusion counts now reconcile (all 71 assays, 0
+  mismatched). Site drift NAMES THE SUBSTITUTED BASE and the code to order — `G->A 751,
+  G->T 3` and `R (99.6%)` — pool-safe, because the oligo base comes from the mispair cell
+  and not from the primary oligo. Footprint groups carry example accessions. Specificity is
+  computed from out-of-scope calls that were already on disk (18 assays). The report opens
+  with a plain-language verdict, what it is not, and the seven statuses defined.
+- **Statistics.** The anchor-FDR family is now `drift.anchor_fdr_family: tested`. My first
+  recommendation (`lone_anchor`) was REFUTED by this repo's own test: it drops the weakly
+  anchored rows, loosening the bar until Bd's 55 chance anchors pass as real. `tested` is
+  the rule those two failures imply. No verdict moved.
+- **`Start here (0)` was an artefact.** `count_diverged_as_fail` gave a promoted row no
+  footprint, and one such row made the duplication count unknown for the whole assay (153
+  of 208 assays have one). So the check ran on 12 of 71 flags, and the triage list it gates
+  on was empty. With a coarse taxid-derived footprint: 23 of 71 hold, and Start here has
+  **10** assays. No status changed — this is what the report can SHOW, not what it concluded.
+
+## The two new results
+
+**Leetz 2007 is the first CONFIRMED retrospective identity** (three PDFs arrived
+mid-session). It reads `works`, not `fails`: its 73.8% is an oocyst dilution series on ONE
+isolate, i.e. sensitivity, and the assay amplified and RFLP-typed cleanly in two stocks. No
+row was written to `docs/validation-cases.tsv` — that set is frozen and spent, and a case
+from a paper the rule has never seen is the first brick of a NEW held-out set. Where it
+goes is a maintainer's call. See `docs/2026-10-27-leetz-identity-confirmed.md`.
+
+**A thermodynamic predictor beats the penalty rule, McNemar p = 0.019.** primer3 93.9% vs
+86.6% on the 179 bench rows, and the shipped rule's errors are **23 false negatives against
+1 false positive** — the pessimism the bench review predicted. Confounded in primer3's
+favour: 99 of 179 alignments are off-register, which reports an optimistically small ΔTm on
+a band-heavy panel. TNTBLAST itself could not run (no osx-arm64 build; Rosetta absent).
+See `docs/2026-10-27-thermo-vs-penalty-paired.md`.
+
+## Still open, in the order the evidence supports
+
+1. **Fix `thermo.duplex_tm`'s registration** and re-run the comparison. Until then no ΔTm
+   is trustworthy on the records that matter.
+2. **Price `terminal_mismatch_fails: false` for `conventional`** as a replay. The 23 false
+   negatives are the strongest single argument in the repository for it.
+3. **Turn on `reduced_not_detected_for`** — already measured at 5/11 → 6/11 catches and
+   2/9 → 3/10 precision with no new false alarms, and still shipping off.
+4. **`target.exclusivity_taxids`** plus retrieval, so a near-neighbour an assay claims to
+   exclude is actually fetched. Today BPSV cannot be tested for specificity at all.
+5. **Populate `lineage.sublineage`** for the segmented RNA viruses; the influenza matrix
+   assay is one lineage of 74,861 records and reads stable at 97.1%.
+6. **A trend statistic.** There is still no test for trend anywhere, though
+   `related-work.md` claims decay-as-a-trend as contribution #2.
+7. **The registry is a primer registry, not an assay registry** — annealing conditions in 7
+   of 209 entries, one-step vs two-step RT in none. Needs papers re-read; curation time.
+
+## Two housekeeping notes
+
+- `papers/*.md` is now TRACKED. `papers/` was ignored as a directory and took the live
+  fetch queue with it, so every status mark on the queue this file points at existed on one
+  laptop only. PDFs and the Europe PMC .xml/.txt deposits are still ignored.
+- A stray conda env `tntblast` (osx-64) was created and cannot execute without Rosetta.
+  Remove with `conda env remove -n tntblast` if you do not intend to install Rosetta.
+
+---
+
 # Resume point, 2026-10-26 (later: the identity check is built, and it clears NONE of the concentrated signal from open text)
 
 **Start here:** the plan is `~/.claude/plans/go-to-assaywatch-and-breezy-crayon.md`. It acts on
