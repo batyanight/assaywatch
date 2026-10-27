@@ -117,10 +117,9 @@ decision for Phase 2, not a measurement this session can make.
 
 - **Site-level evaluation is the valuable half.** 297,651 rows reachable, measured
   exactly, and that number does not depend on any of the above going right.
-- **Gapped alignment is not a peer of it.** 0.046% registry-wide does not justify it as a
-  general scoring change. Whether it earns its place *inside* site-level evaluation is now
-  an open question rather than a measured one, because the measurement that suggested it
-  did (25 of 94 on Bd) is withdrawn.
+- **Gapped alignment is not a peer of it, and section 7 now closes that question
+  against it.** 0.046% registry-wide does not justify it as a general scoring change, and
+  inside the site-level population it explains **1 record in the whole registry**.
 - **Placing a lone probe is a harder sub-problem than the case doc implies**, and it is
   the first thing Phase 2 has to solve. The case doc lists it as an open design question;
   this session established that the obvious answer does not work for the motivating assay.
@@ -157,3 +156,51 @@ caution about it stands and is now stronger: the label is sound but rests on thr
 of sequence evidence, and the wet-lab evidence does not by itself separate sequence
 mismatch from the nested protocol's greater sensitivity. That is for the maintainer to
 weigh.
+
+## 7. The cross-assay measurement, with the corrected method
+
+34 of 48 probe-bearing assays yield a concordant probe offset. Per-assay output in
+`docs/2026-10-26-site-level-per-assay.txt`, kept beside this doc so the totals below can
+be checked and so each unmeasurable assay's reason is readable. The totals:
+
+| | records |
+|---|---:|
+| discarded by the amplicon rule, on the 34 measurable assays | 7,261 |
+| examined | 7,258 |
+| **could be placed at all** | **2,014** |
+| of those, probe footprint wholly inside the deposit | **1,790** |
+| cut by the record edge | 130 |
+| entirely outside | 94 |
+| **of the 1,790, would FAIL the probe** | **1,109** |
+| explained by an indel | **1** |
+
+**Read the 1,109 as a count of judgeable failing sites and never as a coverage figure.**
+A lone 15-to-22-mer probe has no credibility test here, which is the second open design
+question above, and the wave-2 multiplicity problem applies to it with force.
+
+Three things in this table matter more than the totals.
+
+**The 14 unmeasurable assays hold almost all of the population.** The influenza Matrix
+gene alone accounts for 93,966 discarded rows against the 7,261 of every measurable assay
+combined, and `MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004` adds 3,014, Helicobacter 1,121, Bd
+461. So the measurable subset is a small and biased slice, and **the offset method fails
+in rough proportion to how much a case needs it** — an assay is unmeasurable precisely
+when few of its records hold a full amplicon, which is the same condition that makes its
+records truncated. That is the Bd finding again, as a general pattern rather than one
+case.
+
+**Only 2,014 of 7,258 examined records could be placed at all**, because an anchor on a
+strand the assay has no concordant offset for cannot place the probe and is not counted.
+The method is weaker than its headline suggests even where it runs.
+
+**And the concordance gate caught a nonsense offset**: `MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004`
+proposed **+184,379 bases** in 13 of 141 observations, the probe matching somewhere
+unrelated in a poxvirus genome. Refused at 9% concordance, but it shows the method also
+wants a magnitude bound — an offset larger than the declared amplicon is not an offset —
+and that is a third thing Phase 2 must specify.
+
+**The decisive number is the last column.** Across every measurable assay, gapped
+alignment explains **one** failing probe site. The retracted Bd figure suggested gaps
+might earn their place inside site-level evaluation; measured properly across the
+registry, they do not. Gapped scoring stays unbuilt, and the three hand-read Bd records
+remain a local exception rather than the leading edge of a pattern.
