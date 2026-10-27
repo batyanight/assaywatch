@@ -243,7 +243,13 @@ def test_markdown_states_both_conventions_and_the_limits():
     md = render_markdown([_sites()], "2026-10-17", min_records=20)
     assert "pos(3')" in md and "pos(5')" in md
     # The report must carry its own caveats, not rely on the reader knowing them.
-    assert "never" in md and "base" in md
+    # Asserted on the claim rather than on the word "never", which is what this
+    # checked until 2026-10-27: the prose it was guarding had gone stale (it said
+    # the substituted base is not recorded, which stopped being true on
+    # 2026-10-26) and the proxy word could not notice.
+    assert "No row here names a base change" in md
+    assert "_mispairs" in md and "calls.tsv.gz" in md
+    assert "the *oligo's* base, not the template's" in md
     assert "DEMO" in md and "taxid 123" in md
 
 

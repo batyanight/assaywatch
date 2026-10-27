@@ -238,8 +238,9 @@ let probabilities into the report.
 This is the part that decides whether C2 is a project or a wish, and the honest answer
 is worse than it first looks.
 
-`docs/bench-panels/` holds **160 labelled wet-lab outcomes, 108 `band` and 52
-`no_band`** — a design paper's own test panel, one genome per type or strain, with an
+`docs/bench-panels/` holds **179 labelled wet-lab outcomes, 122 `band` and 57
+`no_band`** (recounted 2026-10-27; was 160/108/52 before the Ahmed panel) — a
+design paper's own test panel, one genome per type or strain, with an
 accession so the mismatch configuration is computable by the existing matcher. That
 sounds like a training set. Measured per panel:
 
@@ -247,12 +248,13 @@ sounds like a training set. Measured per panel:
 |---|---:|---:|
 | `rahn-1992-salmonella-invA` | 23 | **41** |
 | `forslund-1999-fap` | 60 | **10** |
+| `ahmed-2020-leptospira` | 14 | **5** |
 | `meyer-1997-ati` | 8 | **1** |
 | `meyer-1997-ati-strains` | 2 | 0 |
 | `rebelo-2011-mycoplasma` | 8 | 0 |
 | `barrett-1993-morbillivirus` | 7 | 0 |
 
-**41 of the 52 negatives are Rahn's, and they are other genera** —
+**41 of the 57 negatives are Rahn's, and they are other genera** —
 *Acinetobacter calcoaceticus*, *Aeromonas hydrophila*, *Bacillus subtilis*,
 *Citrobacter freundii*, *Edwardsiella tarda* and so on. That is a **specificity** panel.
 A model fitted on it learns "sequence far from the target gives no band", which is a
@@ -261,9 +263,12 @@ nothing to do with drift.
 
 The negatives that actually inform a drift model are the **within-family** ones: the 10
 Forslund HPV types the pan-papillomavirus consensus PCR failed to amplify (HPV1, 2, 35,
-41, 44, 55, 63, 66, 71, 74) and Meyer's raccoonpox. **Eleven informative negatives.**
+41, 44, 55, 63, 66, 71, 74), Ahmed's 5 same-genus *Leptospira* (*L. inadai*,
+*licerasiae*, *wolffii*, *broomii*, *fainei*) and Meyer's raccoonpox. **Sixteen
+informative negatives**, of which 15 are threshold-sensitive: Meyer's is gene-absent,
+so it has no site to score and cannot bound a threshold.
 
-Eleven negatives cannot support ten coefficients, however good the priors. So:
+Sixteen negatives cannot support ten coefficients, however good the priors. So:
 
 > **C2's first task is not modelling. It is building the corpus.**
 
@@ -317,7 +322,7 @@ specific target; they are what M1 was trying to fix and what `config.yaml:75` re
 as still standing.
 
 C2 is also **killed before it starts** if the corpus task above stalls below ~40
-within-family negatives. Say so now, so that a model fitted on 11 is never defended on
+within-family negatives. Say so now, so that a model fitted on 16 is never defended on
 the grounds that the work was already done.
 
 > **The two numbers in this file are a FLOOR and a TARGET, not a disagreement

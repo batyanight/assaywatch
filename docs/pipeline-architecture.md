@@ -238,10 +238,14 @@ flowchart TD
 ### 6. Lineage analysis
 
 Calls are split by NCBI taxonomy lineage. Each lineage with enough records gets
-its own drift assessment. Benjamini-Hochberg correction across all lineage
-tests for a given assay controls the false discovery rate — without it, testing
-dozens of lineages would produce spurious "declining" calls. The worst
-*assessable* lineage (after BH filtering) drives the final verdict through a
+its own drift assessment. A multiple-testing correction across all lineage
+tests for a given assay — Holm since 2026-10-23, set by
+`lineage.multiple_testing` — stops dozens of lineage tests producing spurious
+"declining" calls. Holm and not Benjamini-Hochberg because the decision below is
+"any rejected lineage fails the assay", so the event that decides the status is
+*at least one* false rejection: that is family-wise error, which Holm controls,
+not the false discovery rate. The worst *assessable* lineage drives the final
+verdict through a
 one-direction override: it can downgrade a verdict to `declining`, but never
 upgrade one. The rationale: a pathogen lineage expanding where primers have
 mismatches is a real clinical risk even if global numbers look fine.
@@ -262,7 +266,7 @@ flowchart TD
     SPLIT --> L1["lineage A\ndrift assessment"]
     SPLIT --> L2["lineage B\ndrift assessment"]
     SPLIT --> L3["lineage ...\ndrift assessment"]
-    L1 & L2 & L3 --> BH["Benjamini-Hochberg\nFDR correction"]
+    L1 & L2 & L3 --> BH["Holm correction\n(family-wise)"]
     BH --> WORST["worst assessable\nlineage verdict"]
     WORST --> POOL{"pooled verdict?"}
     POOL --> |"stable / watch"| DOWN["declining\n(downgraded)"]
@@ -383,7 +387,7 @@ These are the non-obvious ones; the Snakefile comments cover the rest.
 | Newcombe interval for the difference | Proper CI for the difference of two proportions; doesn't assume normality. |
 | One-direction override for lineage verdicts | A lineage-specific decline is a real clinical risk even when global numbers look fine. Upgrading a global decline because one lineage looks okay would hide problems. |
 | The override is gated below `stable`/`watch` on the lineage's own working baseline | `declining` claims a fall. An assay that never cleared the threshold has none to claim, and ungated the override was flipping `low coverage` verdicts on lineages detecting at or above the pooled share. |
-| BH correction per assay | Without FDR control, testing many lineages produces spurious "declining" calls. |
+| Holm correction per assay | Without it, testing many lineages produces spurious "declining" calls. Family-wise and not FDR, because "any rejected lineage fails the assay" makes at least one false rejection the event that decides the status. |
 | Degeneracy reported but never scored | Pool dilution is an assay design property, not drift. Scoring it would penalize assays for being deliberately broad. |
 | Run date pinned once | Avoids the midnight-crossing bug where a run that starts before midnight and finishes after it creates mismatched date references. |
 | Figures are their own rule, consumed by `report` | Adjusting a plot re-renders the figures and the page and screens nothing. As a hard input, the page can never be published with a figure from an earlier run beside this run's tables. |

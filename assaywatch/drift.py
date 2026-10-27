@@ -320,7 +320,7 @@ class AssayDrift:
     # Per-lineage analysis. When taxids are available, each assay's
     # recent evaluable records are grouped by NCBI taxid and tested per lineage.
     # The worst assessable lineage drives the verdict when it is significantly
-    # below threshold (Benjamini-Hochberg across lineages).
+    # below threshold, corrected across lineages by `lineage_method` below.
     lineage_stats: list[LineageStats] | None = None
     lineage_verdict: str | None = None  # "failing" or "detecting", from worst_lineage_verdict
     # The share of recent evaluable records that sit in assessable lineages

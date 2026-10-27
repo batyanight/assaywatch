@@ -29,12 +29,15 @@ So for each failing assay this report gives:
 
 Honest limits, which the rendered report repeats
 ------------------------------------------------
-- **Positions, not bases.** The calls table records *where* a record differs
-  from the oligo, never *what* it differs to (`drift.footprint_signature` says
-  the same). So this report cannot say "A to G at position 3"; naming the
-  substitution needs a re-alignment pass against the archives, which this
-  module deliberately does not do. Two records with different bases at one
-  position are one group here.
+- **Positions, not bases, in THIS report.** The calls table has recorded the
+  substituted base since 2026-10-26 (`score.py` writes `fwd_mispairs` /
+  `rev_mispairs` / `probe_mispairs`, e.g. `A:G@12`, as oligo base, template
+  base and distance from the 3' end), but this module does not read those
+  columns yet. So no row here names a base change, and two records with
+  different bases at one position are one group. The `base` column below is the
+  OLIGO's own base, not the template's -- which is the opposite of what a
+  redesign needs. Aggregating the mispair columns per position is the open work;
+  until then take the replacement base from `calls.tsv.gz`, not from here.
 - **Organism names are a heuristic** parsed from the deposit title, not from a
   taxonomy lookup. They are a navigation aid for finding the affected records,
   not a clade assignment.
@@ -400,9 +403,11 @@ def render_markdown(results: Sequence[AssaySites], run_date: str, min_records: i
         "how much detection that position costs. Positions with fewer than "
         f"{min_records} mismatching records are not shown.",
         "",
-        "**What this cannot tell you.** The calls table records mismatch *positions*, never "
-        "the substituted base, so no row here names a base change; that needs a re-alignment "
-        "pass against the archives. Organism names are parsed from deposit titles as a "
+        "**What this cannot tell you.** No row here names a base change. The `base` column is "
+        "the *oligo's* base, not the template's; the substituted template base is recorded in "
+        "`calls.tsv.gz` (the `*_mispairs` columns, as `A:G@12` — oligo base, template base, "
+        "distance from the 3' end) and this report does not read it yet, so read the "
+        "replacement base from there. Organism names are parsed from deposit titles as a "
         "navigation aid, not a taxonomy lookup. And a position associated with failure may be "
         "travelling with the real cause elsewhere in the same diverged lineage rather than "
         "causing it — the footprint table below each assay is there so that covariation stays "

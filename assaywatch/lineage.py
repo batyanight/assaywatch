@@ -437,8 +437,9 @@ def worst_lineage_verdict(
 ) -> tuple[str | None, int | None]:
     """Determine verdict from per-lineage analysis.
 
-    Apply Benjamini-Hochberg correction across lineages.  If *any* lineage is
-    significantly below *threshold*, the assay is failing.
+    Apply the *method* multiple-testing correction across lineages -- Holm by
+    default, and see the comment below for why it is not Benjamini-Hochberg. If
+    *any* lineage is significantly below *threshold*, the assay is failing.
 
     Returns
     -------
@@ -472,7 +473,8 @@ def worst_lineage_verdict(
     # nan p-value is never rejected -- so a large lineage could never fail.
     p_values = [float(binom.cdf(stat.n_detected, stat.n_evaluable, threshold)) for stat in lineage_stats]
 
-    # Benjamini-Hochberg FDR control
+    # Multiple-testing control across this assay's lineages. Family-wise by
+    # default (Holm); `method` decides.
     if p_values:
         # `method` and `alpha` come from `lineage.multiple_testing` and
         # `lineage.alpha` in config.yaml. They were `"fdr_bh"` and statsmodels'

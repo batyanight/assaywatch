@@ -745,8 +745,11 @@ Neither half holds:
   Published failures are nearly always lineage-conditional — fails on clade B,
   on the lineage circulating in one region, on the fish ranaviruses the assay
   never claimed. A clade that is 5% of deposits can be 100% of a region's cases,
-  and averaging it away is precisely why the retrospective harness catches 1 of
-  12 documented failures. Per-clade fractions are the fix, and are not built.
+  and averaging it away is precisely why only 2 of the 11 documented failures in
+  `docs/validation-cases.tsv` are caught through the `declining` flag, and why 10
+  of those 11 read as coverage gaps rather than as drift. Per-clade fractions are
+  the fix, and are only partly built (`lineage.group_at_rank` is species, so a
+  genotype below species is still averaged away).
 
 So `detect_fraction_threshold: 0.90` is a judgement about tolerable
 surveillance loss, not a property of PCR: an assay missing 1 in 10 targets is

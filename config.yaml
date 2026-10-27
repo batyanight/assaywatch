@@ -211,9 +211,10 @@ scoring:
   # They ship anyway, rather than null, because `engine: serial` cannot be
   # measured without running and the calibration needs the measurement. The
   # default stays `budget`, so nothing in a shipped run uses them. Deriving
-  # them is the open work: bench panels for sensitivity (only 10 of the 160
-  # panel rows are threshold-sensitive negatives, all of them Forslund's, so
-  # hold them out rather than fit them), Rahn's 41 plus Meyer's 1 gene-absent
+  # them is the open work: bench panels for sensitivity (only 15 of the 179
+  # panel rows are threshold-sensitive negatives -- Forslund's 10 and Ahmed's 5
+  # same-genus Leptospira, recounted 2026-10-27 after the Ahmed panel landed --
+  # so hold them out rather than fit them), Rahn's 41 plus Meyer's 1 gene-absent
   # negatives as the specificity floor, and the 1,793,508 `no_amplicon` rows
   # as an invariant that must not move at all.
   oligo_ok_max: 1.0              # <= this, one oligo is `ok`

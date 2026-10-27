@@ -1,4 +1,16 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    # check-yaml rejects a duplicate mapping key. Added 2026-10-27 after three
+    # consecutive `files:` keys on the `claims` hook below silently collapsed to
+    # the last one: YAML takes last-wins, so `claims` inherited the papers-index
+    # filter and stopped firing on README, ROADMAP, CONTRIBUTING, config.yaml and
+    # score.py -- the prose it exists to police -- while `papers-index` and
+    # `fixtures-current` lost their filters and ran on every commit. The hook
+    # that was meant to catch stale quoted counts was itself disabled by a typo
+    # for as long as the counts were drifting.
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Keep in step with the ruff pin in pyproject.toml and environment.yml: a hook
     # on a different version reformats what the local ruff just formatted, which
@@ -32,6 +44,7 @@ repos:
         entry: conda run -n assaywatch python scripts/papers_index.py --check
         language: system
         pass_filenames: false
+        files: ^(registry/.*\.yaml|docs/papers-index\.(md|cache\.json)|scripts/papers_index\.py)$
       - id: fixtures-current
         # tests/make_fixtures.py reads LIVE registry/*.yaml and config.yaml and
         # rewrites tests/fixtures/. Change a threshold and the hand-derived
@@ -47,6 +60,7 @@ repos:
         entry: conda run -n assaywatch python tests/make_fixtures.py --check
         language: system
         pass_filenames: false
+        files: ^(registry/.*\.yaml|config\.yaml|tests/make_fixtures\.py|tests/fixtures/.*)$
       - id: claims
         # Undated registry counts in prose, against the registry. A dated claim is
         # history and is left alone; an undated one is a current assertion.
@@ -55,8 +69,6 @@ repos:
         language: system
         pass_filenames: false
         files: ^(registry/.*\.yaml|README\.md|ROADMAP\.md|CONTRIBUTING\.md|config\.yaml|assaywatch/score\.py)$
-        files: ^(registry/.*\.yaml|config\.yaml|tests/make_fixtures\.py|tests/fixtures/.*)$
-        files: ^(registry/.*\.yaml|docs/papers-index\.(md|cache\.json)|scripts/papers_index\.py)$
       - id: check-citations
         # Every citation must match Crossref. A reference written from memory is
         # how doi:10.3390/v13071358 was briefly recorded as Nobach et al. when

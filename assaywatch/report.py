@@ -735,6 +735,31 @@ class GapRow:
     screened: object
 
 
+# statsmodels' `multipletests` method names, as a reader should see them. Both
+# renderers used to hardcode "Benjamini-Hochberg" while config.yaml has shipped
+# `lineage.multiple_testing: holm` since 2026-10-23
+# (docs/2026-10-23-wave3-holm.md), so the published report named a correction the
+# run did not apply. Same reason the threshold lines are read from the assessment
+# rather than written into plotting code: a restated setting is free to drift
+# from the one in force.
+ADJUSTMENT_NAMES = {
+    "holm": "Holm",
+    "bonferroni": "Bonferroni",
+    "fdr_bh": "Benjamini-Hochberg",
+    "fdr_by": "Benjamini-Yekutieli",
+}
+
+
+def adjustment_name(cfg: dict[str, Any] | None) -> str:
+    """The display name of the lineage test's multiple-testing correction.
+
+    Falls back to the raw setting rather than a wrong name, so an unmapped
+    method reads as itself instead of as Holm.
+    """
+    method = str(((cfg or {}).get("lineage") or {}).get("multiple_testing", "holm"))
+    return ADJUSTMENT_NAMES.get(method, method)
+
+
 @dataclass(frozen=True)
 class ReportModel:
     """Everything both reports say, decided once."""
@@ -760,6 +785,10 @@ class ReportModel:
     nested_threshold: float
     gaps: list[GapRow]
     timing: list[str]
+    # Read from `lineage.multiple_testing` so both renderers name the correction
+    # the run actually applied. Defaulted, so a ReportModel built in a test
+    # without a config still renders.
+    lineage_adjustment: str = "Holm"
 
 
 def _terminated(fragment: str) -> str:
@@ -1074,6 +1103,7 @@ def build_model(
         ],
         nested_families=have,
         nested_threshold=drift_cfg.get("detect_fraction_threshold", 0.9),
+        lineage_adjustment=adjustment_name(cfg),
         gaps=[
             GapRow(g["assay_id"], g["taxon_name"] or "-", g["taxid"], g["evaluable"], g["screened"])
             for g in gaps
@@ -1180,9 +1210,9 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
         "is the point of measuring per lineage: a pan-family assay can miss one clade entirely",
         "while detecting most of what is deposited. Such a row is marked `pooled: <status>` and",
         "its note names the lineage, its share and its own earlier share. The lineage rule is",
-        "not the pooled one: it is an exact binomial test against the threshold, Benjamini-",
-        "Hochberg-adjusted across that assay's lineages, so it is the looser of the two and",
-        "nothing controls error across assays. Read a lineage override as a reason to look at",
+        "not the pooled one: it is an exact binomial test against the threshold,",
+        f"{m.lineage_adjustment}-adjusted across that assay's lineages, so it is the looser of",
+        "the two and nothing controls error across assays. Read a lineage override as a reason to look at",
         "that clade, not as a measurement of the assay.",
         "",
     ]
@@ -1439,7 +1469,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
         "threshold \u2014 that is the point of measuring per lineage. Such a row is marked "
         "with its pooled status and its note names the lineage, its share and its own earlier "
         "share. The lineage rule is an exact binomial test against the threshold, "
-        "Benjamini-Hochberg-adjusted within the assay, so it is looser than the pooled rule, "
+        f"{e(m.lineage_adjustment)}-adjusted within the assay, so it is looser than the pooled rule, "
         "and nothing controls error across assays: read an override as a reason to look at that "
         "clade rather than as a measurement of the assay.</p>",
     ]

@@ -137,10 +137,23 @@ def apply_anchor_fdr(rows: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[st
     E x N is 0.25 and would fail a 0.05 cut) while Bd's chance anchors are 55 at
     5e-3 in 9,496 (E x N 47). Step-up BH separates them: thousands of small p's
     raise the threshold for each other and all pass; 55 at 5e-3 ranked among 9,000
-    tests face k/m x q of about 2.5e-3 and fail. The family is every `no_amplicon`
-    row of the assay (each record screened and found no amplicon was one test for a
-    lone anchor); rows that recorded no E count as p = 1. A per-record E is treated
-    as a p-value, which it approximates for E << 1 (P(at least one) ~ E).
+    tests face k/m x q of about 2.5e-3 and fail. Rows that recorded no E count as
+    p = 1. A per-record E is treated as a p-value, which it approximates for
+    E << 1 (P(at least one) ~ E).
+
+    THE FAMILY, exactly: rows whose exclusion is `diverged`, `truncated`,
+    `no_pair` or `no_site`. Not every `no_amplicon` row -- `chance_only` and
+    `chance_pair` are outside it. Only the first three can be relabelled, so
+    `no_site` rows enlarge m without ever moving: since the bar is k/m x q, a
+    larger m makes it SMALLER for the rows that can move, so more of them are
+    relabelled `chance_anchor` and (under `drift.count_diverged_as_fail`) leave
+    the failure numerator. Measured 2026-10-27: 12,199 rows across 121 of 195
+    assays are relabelled on account of that padding, and because the padding
+    scales with archive size it partly re-introduces the size dependence this
+    function exists to remove. Whether `no_site` belongs in the family is
+    therefore an OPEN question, not a settled one; the docstring used to say the
+    family was every `no_amplicon` row, which matched neither the code nor the
+    intent.
 
     Only `diverged`, `truncated` and `no_pair` can move, to `chance_anchor`; a row
     with no recorded E (an older screen) is never relabelled, because unknown is
