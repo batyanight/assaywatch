@@ -206,12 +206,30 @@ found the probe at gapped cost **0**.
 > a hand-picked reference, and it means its three hand-read records remain the only
 > sequence evidence of the Bd probe-site deletion. The count is three, not 25.
 
+**Then the cross-assay run closed the question the retraction had opened** (`f3dd0d5`,
+per-assay output in `docs/2026-10-26-site-level-per-assay.txt`). Across all 34 measurable
+probe-bearing assays, gapped alignment explains **one** failing probe site. So gapped
+scoring stays unbuilt on both counts - 0.046% registry-wide and 1 record inside the
+site-level population - and the case doc's three hand-read Bd records are a local
+exception, not the leading edge of a pattern. Totals: 7,261 discarded rows, 2,014
+placeable, 1,790 holding the whole probe footprint, **1,109 of them failing**. Read 1,109
+as a count of judgeable failing sites and never as a coverage figure; a lone probe still
+has no credibility test.
+
 So **site-level evaluation is still the valuable half** - 297,651 rows, and that number
-survives the retraction. What the retraction costs is the claim that gapped alignment
-earns its place inside it; that is an open question again. And **placing a lone probe is
-now the critical path for Phase 2**, not a formality: the case doc lists it as an open
-design question and this session established that the obvious answer fails on the
-motivating assay.
+survives the retraction. And **placing a lone probe is now the critical path for Phase
+2**, not a formality. Three findings feed into it:
+
+- **The offset method fails in rough proportion to how much a case needs it.** 14 of 48
+  assays are unmeasurable and they hold almost all of the population - the influenza
+  Matrix gene alone is 93,966 rows against 7,261 for every measurable assay combined. An
+  assay is unmeasurable precisely when few of its records hold a full amplicon, which is
+  the same condition that makes its records truncated. The Bd finding generalises.
+- **Only 2,014 of 7,258 examined records could be placed at all**, so the method is weaker
+  than its headline even where it runs.
+- **It needs a magnitude bound as well as a concordance gate.** MONKEYPOX N3R proposed an
+  offset of **+184,379 bases**, refused only because 13 of 141 observations agreed with
+  it. An offset larger than the declared amplicon is not an offset.
 
 Phase 2 stays stopped, and now for measured reasons: it cannot be replayed (no
 `no_amplicon` row carries a site coordinate, confirmed on all 1,789,100), so every
