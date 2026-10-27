@@ -157,6 +157,20 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   key, so the next `snakemake` rescreens everything; every committed report and
   figure predates both the probe switch and S3b. Until it runs, the newest numbers
   in the repository describe a configuration that no longer ships.
+
+  **Two runs on 2026-10-27 failed at `collect_calls`, and the second was self-inflicted.**
+  The first found 461 of 482 cached screens stale against the new scoring config —
+  Snakemake held no metadata record for them, so its params trigger never fired, and
+  the signature guard in `collect.py` was the backstop that caught it (correctly: delete
+  and rerun). The second rescreened all 461 and was refused at collect because
+  `settings.py`, `config.yaml` and other modules in the screen hash's import closure
+  were edited and committed WHILE IT RAN, so every fresh screen carried a signature the
+  pipeline no longer expected by the time it was read. The guard cannot tell an
+  innocent mid-run edit from a stale cache, and should not try. What would help: a
+  line in `scripts/weekly_run.sh` that lists dirty paths under `assaywatch/`,
+  `config.yaml`, `registry/` and `Snakefile` at start and refuses `--live` while any
+  exist, so a scheduled run never starts on a half-edited tree; and a rule for the
+  human — nothing in that closure is touched until the run reports. Not built yet.
 - **Four inert switches, grouped here because each is the same shape**: a mechanism
   built, tested, and shipped off for want of evidence. `scoring.mispair_penalty: {}`
   (S4, above), `lineage.unclassified_is_bucket: false` (tier-2 is unchanged by it, so
@@ -356,9 +370,13 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   journal entry that used it — not a defect.
 
 
-- **A SLURM profile aimed at Greene.** `profiles/slurm/` runs the same rules on
-  SLURM generically; nothing in it is tuned to NYU's partitions, QoS or module
-  stack.
+- **The Greene SLURM profile is written and UNTESTED.** `profiles/slurm-greene/config.yaml`
+  (2026-10-27) carries the partition / account / QoS stanzas, the `/scratch` filesystem
+  and 60-day purge, the compute-node network question, and the `sinfo` / `sacctmgr` /
+  `sacct` commands that fill each VERIFY value — written as teaching material, since
+  the mechanics are new. It cannot be tested from this laptop. First submission on a
+  login node closes it; until then every value marked VERIFY is a guess with the
+  command that checks it beside it.
 
 ## Known limitations, recorded and not work
 
