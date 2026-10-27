@@ -37,6 +37,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from assaywatch import atomic
 from assaywatch.accession import strip_version
 
 # Re-exported since accession.py was split out; tests/test_accession.py pins it.
@@ -1994,8 +1995,8 @@ def main(argv: list[str] | None = None) -> int:
         args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date, figures_dir=args.figures
     )
     args.out.mkdir(parents=True, exist_ok=True)
-    (args.out / "report.md").write_text(md)
-    (args.out / "report.html").write_text(page)
+    atomic.write_text(args.out / "report.md", md)
+    atomic.write_text(args.out / "report.html", page)
 
     grouped = by_status(drifts)
     for status in status_order(grouped):

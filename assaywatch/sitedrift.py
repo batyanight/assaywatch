@@ -67,6 +67,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from assaywatch import atomic
 from assaywatch.drift import EVALUABLE, wilson_interval
 from assaywatch.metadata import read_titles
 
@@ -642,8 +643,8 @@ def main(argv: list[str] | None = None) -> int:
     statuses = [s.strip() for s in args.statuses.split(",") if s.strip()]
     md, tsv, results = build(args.calls, args.registry, args.retrieved, cfg, statuses, run_date=args.run_date)
     args.out.mkdir(parents=True, exist_ok=True)
-    (args.out / "site-drift.md").write_text(md)
-    (args.out / "site-drift.tsv").write_text(tsv)
+    atomic.write_text(args.out / "site-drift.md", md)
+    atomic.write_text(args.out / "site-drift.tsv", tsv)
     n_pos = sum(len(r.positions) for r in results)
     print(
         f"{len(results)} assays, {n_pos} reported positions -> {args.out / 'site-drift.md'}",

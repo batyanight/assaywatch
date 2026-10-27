@@ -80,6 +80,7 @@ code:
 from __future__ import annotations
 
 import math
+import os
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -232,6 +233,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--tier", default=None, help="only show this tier")
     ap.add_argument("--tsv", action="store_true", help="tab-separated with a header, for other programs")
+    # -o rather than a shell redirect. `> {output}` creates and TRUNCATES the
+    # declared output before the interpreter loads, so the file Snakemake tracks
+    # was zero bytes for the whole job; on a whole-process death (lid sleep,
+    # kill -9, power loss) a zero-byte degeneracy.tsv with a fresh mtime is what
+    # `rule all` accepts. Writing through a temporary file and renaming makes the
+    # declared path appear only once it is complete.
+    ap.add_argument("-o", "--out", type=Path, default=None, help="write to this file atomically, not stdout")
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
@@ -258,9 +266,19 @@ def main(argv: list[str] | None = None) -> int:
         rows = [r for r in rows if r[5] == args.tier]
 
     if args.tsv:
-        print("assay_id\ttotal_fold\tprimer_fold\tprobe_fold\texpected_cq_delay\tinosine_positions\ttier")
-        for total, pair, probe, dcq, ino, tier, aid in rows:
-            print(f"{aid}\t{total}\t{pair}\t{probe}\t{dcq:.1f}\t{ino}\t{tier}")
+        lines = ["assay_id\ttotal_fold\tprimer_fold\tprobe_fold\texpected_cq_delay\tinosine_positions\ttier"]
+        lines += [
+            f"{aid}\t{total}\t{pair}\t{probe}\t{dcq:.1f}\t{ino}\t{tier}"
+            for total, pair, probe, dcq, ino, tier, aid in rows
+        ]
+        body = "\n".join(lines) + "\n"
+        if args.out is None:
+            print(body, end="")
+        else:
+            tmp = args.out.with_name(f".{args.out.name}.part")
+            tmp.parent.mkdir(parents=True, exist_ok=True)
+            tmp.write_text(body)
+            os.replace(tmp, args.out)
         return 0
 
     width = max((len(r[6]) for r in rows), default=10)

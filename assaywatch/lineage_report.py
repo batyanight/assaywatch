@@ -14,6 +14,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+from assaywatch import atomic
 from assaywatch.accession import strip_version
 from assaywatch.lineage import (
     load_taxa_cache,
@@ -227,7 +228,7 @@ def main(argv: list[str] | None = None) -> int:
     # Write output
     args.out.mkdir(parents=True, exist_ok=True)
     report_path = args.out / "lineage.md"
-    report_path.write_text(md)
+    atomic.write_text(report_path, md)
 
     print(f"wrote {report_path}", file=sys.stderr)
     return 0

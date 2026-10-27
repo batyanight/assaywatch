@@ -51,6 +51,11 @@ Claude outputs/
 .tmp/*.log
 .tmp/heartbeat-*.json
 
+# SLURM leaves one stdout file per job in the submit directory, and with 335
+# screen jobs that is hundreds of untracked files in the repo root after a single
+# cluster run. No rule declares a `log:`, so this is where they land.
+slurm-*.out
+
 # Snakemake's own graph renderings (--dag, --rulegraph, --filegraph). Generated
 # from the Snakefile on demand, so they go stale silently in a commit.
 dag.png

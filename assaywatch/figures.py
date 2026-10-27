@@ -37,6 +37,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
+from assaywatch import atomic
 from assaywatch.drift import newcombe_difference
 from assaywatch.report import DEFAULT_COLOUR, STATUS_COLOUR, STATUS_ORDER
 
@@ -420,7 +421,7 @@ def main(argv: list[str] | None = None) -> int:
     out = args.out / "figures"
     out.mkdir(parents=True, exist_ok=True)
     for name, contents in figures.items():
-        (out / name).write_text(contents)
+        atomic.write_text(out / name, contents)
     print(f"wrote {len(figures)} figures to {out}", file=sys.stderr)
     return 0
 

@@ -413,6 +413,23 @@ def archives(wildcards):
     return out
 
 
+def archive_signatures(wildcards):
+    """The .sig beside each screen, requested so that a missing one is REBUILT.
+
+    Declaring the .sig as an output of screen_archive is necessary and not
+    sufficient: Snakemake only rebuilds a file something asks for, and until
+    2026-10-27 nothing did. So a screen whose .sig was gone -- a kill between
+    screen.py's rename and its signature write, a restore, a .tsv copied from
+    another checkout -- left the .tsv that collect_calls requests present and up
+    to date, Snakemake said "nothing to be done", and `collect_calls` then HARD
+    RAISED on the unsigned screen. No rerun could fix it, because the only file
+    in the DAG was already there; the archive's .tsv had to be deleted by hand.
+    Verified both ways on 2026-10-27: with the .sig missing, asking for the .tsv
+    gives "Nothing to be done" while asking for the .sig schedules the rescreen.
+    """
+    return [f"{p}.sig" for p in archives(wildcards)]
+
+
 def archive_mb(input):
     """Gzipped size of the archive. input.size_mb is async in Snakemake 9 and
     cannot be used for threads or priority, so read the size directly."""
@@ -465,6 +482,14 @@ rule screen_archive:
         fasta=RETRIEVED / "{taxid}" / "{group}" / "{stem}.fasta.gz",
     output:
         calls=SCREENED / "{taxid}" / "{group}" / "{stem}.tsv",
+        # The .sig is written by the same shell command and `collect` HARD-RAISES
+        # on any screen lacking one, so it has to be declared. Undeclared,
+        # Snakemake could neither notice a missing .sig nor rebuild it: the .tsv
+        # it tracks is present and current, so no rerun regenerated the .sig and
+        # every run died in collect_calls until the .tsv was deleted by hand.
+        # Reachable without a bug -- a kill between screen.py's rename and its
+        # signature write, a restore, or a .tsv copied from another checkout.
+        sig=SCREENED / "{taxid}" / "{group}" / "{stem}.tsv.sig",
     params:
         # A params change re-triggers the job, so adding an assay to a group
         # rescreens that group's archives on the next run.
@@ -492,8 +517,13 @@ rule screen_archive:
     threads: screen_threads
     priority: lambda wc, input: int(screen_cost(wc, input))
     resources:
-        mem_mb=lambda wc, input, threads: 2000 + 500 * threads,
-        runtime=240,
+        # Scaled by `attempt` so a retry asks for more than the request that was
+        # just killed. On SLURM resources ARE the sbatch request, and these
+        # constants were fitted on a dev Mac where max_rss is never measured, so
+        # an under-request is the likely failure and a flat value made every
+        # retry fail identically. Locally `attempt` is 1 and this is unchanged.
+        mem_mb=lambda wc, input, threads, attempt: (2000 + 500 * threads) * attempt,
+        runtime=lambda wc, attempt: 240 * attempt,
     # Mirrors output.calls rather than the run date, for the reason given at
     # BENCH. This is what made `threads` and `priority` above checkable, and then
     # correctable: the 2026-10-23 benchmarks are what the cost model is fitted on.
@@ -513,7 +543,10 @@ rule screen_archive:
 rule collect_calls:
     """Concatenate every cached screen, oldest archive first so the newest version wins."""
     input:
-        archives,
+        calls=archives,
+        # Not consumed by concatenate_screens; requested so Snakemake rebuilds a
+        # screen whose signature has gone missing. See archive_signatures.
+        sigs=archive_signatures,
     output:
         RESULTS / RUN_DATE / "calls.tsv.gz",
     params:
@@ -534,7 +567,9 @@ rule collect_calls:
         # results/2026-10-18/ ran under a since-reverted scoring override took
         # noticing a commit three minutes after the run finished.
         concatenate_screens(
-            list(input),
+            # input.calls, not list(input): `input` now also carries the .sig
+            # paths, which are a rebuild dependency and not screens to read.
+            list(input.calls),
             output[0],
             known_ids=CURRENT_ASSAYS,
             expected_signatures={f"{t}/{g}": screen_signature(t, g) for t, g in GROUPS},
@@ -625,7 +660,11 @@ rule degeneracy_table:
         code=_DEGENERACY_PARAMS["code"],
         inputs=_DEGENERACY_PARAMS["inputs"],
     shell:
-        "python -m assaywatch.degeneracy {REGISTRY} --tsv > {output}"
+        # -o, not `> {output}`: a redirect truncates the declared output before
+        # python loads, so the tracked file was empty for the whole job and a
+        # process death left a zero-byte table with a fresh mtime that `rule all`
+        # accepts. -o writes a .part and renames.
+        "python -m assaywatch.degeneracy {REGISTRY} --tsv -o {output}"
 
 
 rule figures:

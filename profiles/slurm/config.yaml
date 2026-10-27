@@ -32,6 +32,15 @@ latency-wait: 60
 rerun-incomplete: true
 printshellcmds: true
 
+# On SLURM `resources` IS the sbatch request, so a job that asks for too little
+# memory is killed by the scheduler rather than slowed down -- and with no
+# restart-times, a rerun recomputed the identical fatal request and died the same
+# way. The memory numbers were fitted on a dev Mac and max_rss is never measured
+# (see the comment on screen_archive's threads), so they are the values most
+# likely to be wrong and were the ones with no retry path. Each attempt now
+# scales the request; see the `attempt`-aware mem_mb on screen_archive.
+restart-times: 3
+
 default-resources:
   - slurm_partition="short"
   - mem_mb=4000

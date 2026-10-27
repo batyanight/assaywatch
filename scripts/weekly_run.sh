@@ -71,7 +71,13 @@ RUN=("$CONDA" run --no-capture-output -n assaywatch)
   # `caffeinate -i` asserts PreventUserIdleSystemSleep, which does NOT stop
   # clamshell sleep: a 2026-10-22 run spent 1h31m of 1h47m asleep with the lid
   # shut. Nothing here can fix that; the install note says to leave the lid open.
-  caffeinate -i "${RUN[@]}" snakemake --cores "$CORES" --config email="$EMAIL"
+  # --rerun-incomplete, which profiles/slurm/config.yaml has always set and this
+  # path did not. Combined with a kill mid-job (the clamshell sleep above, or a
+  # power loss), Snakemake leaves its incomplete-output marker and the NEXT
+  # scheduled run aborts with "Incomplete files exist" instead of resuming --
+  # into results/weekly-logs/launchd.err, which nobody reads. So one interrupted
+  # Sunday silently cost every Sunday after it.
+  caffeinate -i "${RUN[@]}" snakemake --cores "$CORES" --rerun-incomplete --config email="$EMAIL"
 
   # What changed, if anything. --quiet prints nothing on a quiet week, which is
   # what this script was written for.

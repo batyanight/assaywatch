@@ -60,7 +60,7 @@ interface; `find_sites` returning a list of `Site` is the contract.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from functools import lru_cache
+from functools import cache
 
 import numpy as np
 
@@ -103,7 +103,15 @@ class Site:
 MISMATCH, MATCH, UNKNOWN = 0, 1, 2
 
 
-@lru_cache(maxsize=512)
+# maxsize=None, not 512. The key set is bounded by the registry -- 470 distinct
+# oligo sequences today, plus their `seq_as_written` variants -- and screening is
+# record-outer with ALL assays inner, so every oligo is revisited on every
+# record. That is the worst possible access pattern for an LRU: below the cap the
+# hit rate is ~100%, and one oligo past it the rate collapses to ~100% MISS,
+# because by the time an oligo comes round again it has been evicted by the
+# others. It is a cliff, not a gradient, and at 512 it sat about 40 assays away.
+# Each entry is ~256 KB of tables, so the whole registry is bounded and small.
+@cache
 def _match_tables(oligo: str) -> tuple[np.ndarray, ...]:
     """Per oligo position, a 256-entry uint8 table of MISMATCH / MATCH / UNKNOWN.
 
@@ -153,7 +161,10 @@ def _quad_codes(rec: np.ndarray) -> np.ndarray:
     return c[:n] | c[1 : n + 1] << 4 | c[2 : n + 2] << 8 | c[3 : n + 3] << 12
 
 
-@lru_cache(maxsize=512)
+# maxsize=None for the reason given on `_match_tables`, and more sharply here: a
+# miss rebuilds four 65,536-entry tables, which is the cost this cache exists to
+# avoid.
+@cache
 def _scan_plan(oligo: str):
     """65536-entry tables giving the not-MATCH count of each 4-position block,
     most selective block first, and the per-position 0/1 tables for the rest.
