@@ -1,0 +1,46 @@
+# S4 - M1, the identity-aware 3'-window discount, re-tested on the only stack that
+# survives the ladder.
+#
+# RE-SPECIFIED, and the reason is recorded rather than quietly fixed. Part 1 S4 of
+# docs/2026-10-24-scoring-strategy-test-plan.md says "M1 re-tested under S1+S2+S3",
+# on the reasoning that `primer_3prime_penalty` 3.0 equalling `reduced_max` 3.0 is a
+# coincidence that disappears under serial gates. S1 and S2 were both rejected on
+# 2026-10-26, so there are no serial gates and no decay curve, and that coincidence
+# is still there. The only surviving rung is S3a, so S4 is now M1 under budget plus
+# S3a. That is a different experiment from the one written down, and it is weaker: it
+# cannot test the claim S4 was written to test.
+#
+# M1 is `mispair_penalty: {"G:T": 0.0, "T:G": 0.0}`, shipped 2026-10-21 and reverted
+# 2026-10-22 (docs/2026-10-22-M1-tier2.md) because it lost the Leucocytozoon
+# @2016-12-31 catch. The mechanism of that loss is the hinge of this candidate:
+# `drift.py` counts `reduced` as detected, so moving a record from `fail` to `reduced`
+# loses the catch exactly as moving it to `detect` does. Only staying at `fail`
+# preserves it.
+#
+# S3a is precisely the switch that stops `reduced` counting as detected - BUT ONLY
+# FOR PROBE CHEMISTRIES.
+name: s4-m1-under-s3a
+registered: 2026-10-26
+question: >
+  M1 lost the Leucocytozoon catch because a discounted record slid from `fail` to
+  `reduced`, and `reduced` counts as detected. S3a removes exactly that step. Does
+  M1 survive under it?
+predicts: >
+  NO, and the reason is knowable before the run rather than after.
+  `Leucocytozoon_cyt_c_Hellgren_2004` is `chemistry: conventional`, and S3a is
+  confined to `hydrolysis_probe` and `mgb`, so the one mechanism that could have
+  rescued this catch cannot reach the assay that needs it. Checked in the registry
+  before running: four of the five documented catches are conventional and only
+  `CDV_P_gene_Scagliarini_2007` is a probe chemistry (`mgb`). Expect M1 to lose
+  Leucocytozoon again, S3a's influenza gain to survive alongside it, and the two
+  effects to be independent.
+kill: >
+  Any documented catch lost. Named per catch and never netted. If Leucocytozoon falls
+  again then the 2026-10-22 verdict stands unchanged and M1 is closed, not pending.
+reduced_not_detected_for:
+  - hydrolysis_probe
+  - mgb
+scoring:
+  mispair_penalty:
+    G:T: 0.0
+    T:G: 0.0
