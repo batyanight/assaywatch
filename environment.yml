@@ -6,6 +6,7 @@ dependencies:
   - python=3.12
   - matplotlib-base   # figures only; -base skips the GUI toolkits a cluster has no use for
   - numpy
+  - biopython       # MeltingTemp.Tm_NN: the IN-REGISTER duplex Tm in assaywatch/thermo.py
   - primer3-py      # optional: thermodynamic columns (bioconda)
   - pydantic>=2
   - pyyaml

@@ -77,13 +77,16 @@ def read_tsv(path: Path) -> list[dict[str, str]]:
     return list(csv.DictReader(lines, delimiter="\t"))
 
 
-def in_register(oligo: str, site: str) -> bool:
-    """Did primer3 align the WHOLE oligo against the site, base for base?
+def primer3_off_register(oligo: str, site: str) -> bool:
+    """Would primer3 have scored this pair out of register? The OLD defect, measured.
 
-    The ascii structure pairs the two sequences; if the paired run is shorter
-    than the oligo, primer3 has found a shifted or truncated duplex and its Tm is
-    not the in-register one. Conservative: anything unparseable counts as out of
-    register rather than quietly passing.
+    Kept after `thermo.duplex_tm` was fixed, because the fix is only worth
+    believing if the thing it removed is still counted: this is what the
+    2026-10-27 run reported as 99 of 179 rows. `calc_heterodimer` returns the most
+    stable structure between two sequences, so if the paired run in its ascii
+    structure is shorter than the oligo it found a shifted or truncated duplex and
+    its Tm was not the in-register one. Conservative: anything unparseable counts
+    as out of register rather than quietly passing.
     """
     import primer3
 
@@ -93,17 +96,14 @@ def in_register(oligo: str, site: str) -> bool:
     try:
         r = primer3.calc_heterodimer(o, reverse_complement(t), output_structure=True)
     except (OSError, ValueError, RuntimeError):
-        # primer3 refusing the pair is not evidence of registration either way.
-        return False
+        return True
     if not r.structure_found:
-        return False
-    # The SEQ/STR body lines carry the aligned bases; a full-length in-register
-    # duplex pairs every base of the oligo.
+        return True
     paired = max(
         (len(ln.split("\t", 1)[1].strip()) for ln in r.ascii_structure_lines if "\t" in ln),
         default=0,
     )
-    return paired >= len(o)
+    return paired < len(o)
 
 
 def score_record(assay: Any, rid: str, seq: str, cfg: dict[str, Any]) -> dict[str, Any]:
@@ -118,12 +118,18 @@ def score_record(assay: Any, rid: str, seq: str, cfg: dict[str, Any]) -> dict[st
 
     dtms: list[float] = []
     off_register = 0
+    unpriced = 0
     for key, site in (call.extra.get("sites") or {}).items():
         if key not in oligos or site is None:
             continue
         tm, perfect, _ = duplex_tm(oligos[key], site.window, cfg)
+        if tm is None:
+            # Adjacent mismatches have no measured nearest-neighbour term, so the
+            # model withholds the number rather than scoring the step as free.
+            unpriced += 1
+            continue
         dtms.append(tm - perfect)
-        if not in_register(oligos[key], site.window):
+        if primer3_off_register(oligos[key], site.window):
             off_register += 1
     return {
         "record_id": rid,
@@ -132,6 +138,7 @@ def score_record(assay: Any, rid: str, seq: str, cfg: dict[str, Any]) -> dict[st
         "min_dtm": min(dtms) if dtms else None,
         "n_sites": len(dtms),
         "off_register": off_register,
+        "unpriced": unpriced,
     }
 
 
@@ -217,7 +224,10 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"rows scored: {len(rows)}   with a thermo site: {len(scored)}")
     print(f"bench outcomes: {sum(truth)} band, {len(truth) - sum(truth)} no_band")
-    print(f"off-register primer3 alignments: {sum(r['off_register'] for r in rows)}")
+    print(f"sites the NN tables cannot price (adjacent mismatches): {sum(r['unpriced'] for r in rows)}")
+    print(
+        f"of the priced sites, how many primer3 would have mis-registered: {sum(r['off_register'] for r in rows)}"
+    )
     print()
     for name, pred in (("penalty rule (as shipped)", pen), (f"primer3 dTm >= {cut:g} C", thermo)):
         tp, tn, fp, fn = table(pred)
@@ -263,6 +273,7 @@ def main(argv: list[str] | None = None) -> int:
             "min_dtm",
             "n_sites",
             "off_register",
+            "unpriced",
         ]
         args.tsv.parent.mkdir(parents=True, exist_ok=True)
         with args.tsv.open("w", newline="") as fh:

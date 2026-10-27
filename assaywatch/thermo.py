@@ -3,9 +3,30 @@
 The mismatch penalty in score.py is a positional rule of thumb. What a mismatch
 does to binding depends on which mismatch it is and what surrounds it: a G:T
 wobble in a GC-rich stretch costs a degree, an A:C next to the 3' end can cost
-ten. This module puts a number on that with primer3's nearest-neighbour model
-(SantaLucia 1998, with its mismatch parameters), as an extra column beside the
-call, the same way degeneracy rides along: shown, never folded into the call.
+ten. This module puts a number on that with a nearest-neighbour model
+(SantaLucia & Hicks 2004, with the Allawi/SantaLucia mismatch parameters), as an
+extra column beside the call, the same way degeneracy rides along: shown, never
+folded into the call.
+
+THE REGISTER IS THE WHOLE POINT, and it is why this does not use
+`primer3.calc_heterodimer`. That function returns the MOST STABLE structure
+between two sequences, which on a heavily mismatched site is a shifted, shorter,
+near-perfect duplex -- so it reports an optimistically small |ΔTm| exactly where
+the mismatches are worst, which is exactly the record the report is about. It was
+measured on 2026-10-27: 99 of 179 bench rows came back out of register, a
+majority, and because the bench panels are band-heavy (122 of 179) an
+optimistic predictor is flattered by them, so part of primer3's measured
+advantage over the penalty rule may be this artefact rather than thermodynamics
+(docs/2026-10-27-thermo-vs-penalty-paired.md).
+
+Biopython's `MeltingTemp.Tm_NN` takes the alignment as given -- it walks the two
+strands position by position and sums the nearest-neighbour terms, using the
+internal-mismatch and terminal-mismatch tables where a pair is not Watson-Crick.
+There is no search, so there is no register to get wrong. The two engines agree
+to about a degree where primer3 does align in register (63.45 against 62.42 on a
+perfect 21-mer; 49.81 against 49.49 with two internal mismatches), so this is a
+change of register and not of scale. primer3-py stays a dependency: `screen.py`
+uses it elsewhere.
 
 For each oligo of an amplicon it reports
 
@@ -39,7 +60,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from assaywatch.iupac import IUPAC, reverse_complement
+from assaywatch.iupac import IUPAC
 
 COLUMNS = (
     "fwd_tm",
@@ -55,12 +76,20 @@ COLUMNS = (
 DEFAULTS = {"mv_conc": 50.0, "dv_conc": 3.0, "dntp_conc": 0.8, "dna_conc": 250.0}
 
 
-def _primer3():
+def _melting_temp():
     try:
-        import primer3
+        from Bio.SeqUtils import MeltingTemp
     except ImportError as e:  # pragma: no cover - depends on the environment
-        raise SystemExit("thermodynamic columns need primer3-py: conda install -c bioconda primer3-py") from e
-    return primer3
+        raise SystemExit(
+            "thermodynamic columns need biopython: conda install -c conda-forge biopython"
+        ) from e
+    return MeltingTemp
+
+
+#: Salt correction 5 is Owczarzy et al. 2008, the one of Biopython's seven that
+#: accounts for Mg2+ and dNTPs rather than monovalent salt alone. A PCR buffer is
+#: Mg-dominated, so the alternatives would price the wrong ion.
+SALT_CORRECTION = 5
 
 
 def resolve(oligo: str, site: str) -> tuple[str, str, bool]:
@@ -92,16 +121,61 @@ def resolve(oligo: str, site: str) -> tuple[str, str, bool]:
     return "".join(o_out), "".join(t_out), inosine
 
 
-def duplex_tm(oligo: str, site: str, cfg: dict[str, Any]) -> tuple[float, float, bool]:
-    """(Tm on the site, Tm on a perfect site, used inosine)."""
-    p3 = _primer3()
+def _in_register_tm(oligo: str, template: str, cond: dict[str, float]) -> float | None:
+    """Tm of `oligo` paired base-for-base with `template`, no alignment search.
+
+    `template` is the same-sense strand, so the oligo's actual partner is its
+    complement -- which is what `c_seq` wants: the complement positionally
+    aligned with `seq`, NOT the reverse complement.
+
+    None when the model cannot do the arithmetic. The mismatch tables are
+    published for a mismatch FLANKED BY MATCHES (Allawi & SantaLucia), and two
+    ADJACENT mismatches have no measured nearest-neighbour term -- Biopython
+    raises on, say, `GC/TT`. Biopython will silently drop the unknown term if
+    asked (`strict=False`), and dropping it means scoring that step as costing
+    nothing, which overstates stability on precisely the most mismatched sites.
+    That is the same optimism in the same place as the registration bug this
+    function exists to remove, so the number is withheld instead and
+    `thermo_note` says `nn_unsupported`.
+    """
+    mt = _melting_temp()
+    tables = {
+        "nn_table": mt.DNA_NN3,  # SantaLucia & Hicks 2004
+        "imm_table": mt.DNA_IMM1,  # internal mismatches and inosine pairs
+        "tmm_table": mt.DNA_TMM1,  # a mismatch at either terminus
+        "de_table": mt.DNA_DE1,  # dangling ends; unused at equal lengths
+    }
+    salt = {
+        "Na": cond["mv_conc"],
+        "Mg": cond["dv_conc"],
+        "dNTPs": cond["dntp_conc"],
+        "dnac1": cond["dna_conc"],
+        "dnac2": cond["dna_conc"],
+        "saltcorr": SALT_CORRECTION,
+    }
+    try:
+        return float(mt.Tm_NN(oligo, c_seq=template.translate(_COMPLEMENT), **tables, **salt))
+    except ValueError:
+        return None
+
+
+_COMPLEMENT = str.maketrans("ACGT", "TGCA")
+
+
+def duplex_tm(oligo: str, site: str, cfg: dict[str, Any]) -> tuple[float | None, float, bool]:
+    """(Tm on the site, Tm on a perfect site, used inosine).
+
+    Both numbers are in-register by construction, so their difference is the shift
+    the record's own mismatches cause at the position they actually sit. The first
+    is None where the nearest-neighbour tables cannot price the site (adjacent
+    mismatches); the perfect reference is all matches and always computable.
+    """
     cond = {**DEFAULTS, **(cfg.get("thermo_conditions") or {})}
     cond = {k: float(cond[k]) for k in DEFAULTS}
     o, t, inosine = resolve(oligo, site)
-    # The oligo pairs with the strand complementary to `site`, read 5'->3'.
-    tm = p3.calc_heterodimer(o, reverse_complement(t), **cond).tm
-    perfect = p3.calc_heterodimer(o, reverse_complement(o), **cond).tm
-    return tm, perfect, inosine
+    perfect = _in_register_tm(o, o, cond)
+    assert perfect is not None, "a perfectly matched duplex is always in the tables"
+    return _in_register_tm(o, t, cond), perfect, inosine
 
 
 def annotate(call, oligos: dict[str, str], cfg: dict[str, Any]) -> dict[str, str]:
@@ -114,12 +188,17 @@ def annotate(call, oligos: dict[str, str], cfg: dict[str, Any]) -> dict[str, str
         if site is None or key not in oligos:
             continue
         tm, perfect, inosine = duplex_tm(oligos[key], site.window, cfg)
+        if inosine:
+            notes.add("inosine")
+        if tm is None:
+            # Adjacent mismatches: no measured term, so no number rather than an
+            # optimistic one. The row still carries its call and its mismatches.
+            notes.add("nn_unsupported")
+            continue
         dtm = tm - perfect
         out[f"{prefix}_tm"] = f"{tm:.1f}"
         out[f"{prefix}_dtm"] = f"{dtm:.1f}"
         dtms.append(dtm)
-        if inosine:
-            notes.add("inosine")
     if dtms:
         out["thermo_min_dtm"] = f"{min(dtms):.1f}"
     out["thermo_note"] = ",".join(sorted(notes))

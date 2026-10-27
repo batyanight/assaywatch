@@ -1,7 +1,22 @@
-# A thermodynamic predictor beats the penalty rule on the bench panels, p = 0.019
+# A thermodynamic predictor beats the penalty rule on the bench panels — and the margin does not survive fixing the register
 
 2026-10-27. The first head-to-head this project has ever run between its scoring
 rule and a physically grounded alternative, on the only wet-lab truth it holds.
+
+> **CORRECTED THE SAME DAY, and the correction matters more than the original
+> result.** The first run below reported p = 0.0192 with the thermodynamic arm
+> computed by `primer3.calc_heterodimer`, which returns the most stable structure
+> between two sequences rather than the in-register duplex — the confound this
+> write-up named itself, in section 3. `thermo.duplex_tm` was then fixed to score
+> the duplex base-for-base (Biopython `MeltingTemp.Tm_NN`, SantaLucia & Hicks
+> 2004 with the Allawi/SantaLucia mismatch tables; no alignment search, so no
+> register to get wrong), and the comparison was re-run. **The thermodynamic arm
+> loses most of its margin: 92.7% against 93.9%, discordance 21-10 instead of
+> 20-7, McNemar exact two-sided p = 0.0708.** It still wins more discordant pairs
+> than it loses, and at this sample size that is no longer distinguishable from
+> chance. So the honest headline is the one in section 1, which the fix does not
+> touch: the penalty rule's errors are 23 false negatives against 1 false
+> positive. Everything below is the original run; the re-run is at the end.
 
     python scripts/compare_thermo.py
 
@@ -140,3 +155,63 @@ as no-band for it. Three of the seven panels have no negatives at all. One panel
 is 400 dpi OCR of an image-only scan, and one carries three documented
 species-for-strain label substitutions. These are 7 papers, not 7 independent
 measurements of PCR.
+
+---
+
+# The re-run, in register
+
+Same day, same rows, same penalty arm. `thermo.duplex_tm` no longer searches for
+a structure: `MeltingTemp.Tm_NN` walks the two strands position by position and
+sums the nearest-neighbour terms, using the internal- and terminal-mismatch
+tables where a pair is not Watson-Crick. The register is therefore exact by
+construction rather than by luck.
+
+    python scripts/compare_thermo.py
+
+| predictor | accuracy | TP | TN | FP | FN |
+|---|---:|---:|---:|---:|---:|
+| penalty rule, as shipped | 86.6% | 99 | 56 | **1** | **23** |
+| in-register NN, ΔTm >= -16.7 C | 92.7% | 117 | 49 | 8 | 5 |
+| *(primer3 most-stable, the first run)* | *93.9%* | *115* | *53* | *4* | *7* |
+
+The two now disagree on 31 rows: the penalty rule is right and the thermodynamic
+arm wrong on 10, the reverse on 21. **McNemar exact two-sided p = 0.0708.**
+
+**What the fix removed.** The engine change cost the thermodynamic arm 1.2 points
+of accuracy and tripled the number of discordant pairs it loses, from 7 to 10. Of
+the sites it can price, **71 would have been mis-registered by
+`calc_heterodimer`** — so the first run's advantage was, in part, an optimistic
+ΔTm on exactly the mismatched sites that decide the comparison, flattered by a
+band-heavy panel. That was the confound this write-up predicted, and it was worth
+about half the margin.
+
+**What it costs in coverage.** The mismatch parameters are published for a
+mismatch FLANKED BY MATCHES, so two ADJACENT mismatches have no measured term.
+**32 sites cannot be priced at all** and the model now withholds the number
+instead of scoring the unknown step as free — Biopython will drop it silently if
+asked, and dropping it overstates stability on the most mismatched sites, which
+is the same optimism in the same place as the bug being fixed. Those rows carry
+`thermo_note: nn_unsupported`. Net effect on the comparison: 137 rows have a
+thermo site where 138 did.
+
+**What survives, and what does not.**
+
+- *Does not survive:* "a thermodynamic predictor beats the penalty rule,
+  p = 0.019". At p = 0.07, with the threshold still fitted in-sample and the
+  thermodynamic arm therefore still flattered, these 179 rows do not separate the
+  two engines. A reviewer asking "why not a thermodynamic matcher?" cannot be
+  answered with this experiment, in either direction.
+- *Survives untouched:* the penalty rule makes **23 false negatives against 1
+  false positive**. That is a property of the penalty arm alone, which never
+  changed, and it remains the strongest single argument in the repository for
+  per-chemistry scoring. It also keeps the direction of the standing caveat
+  right: a `fail` is weak evidence and a `detect` is strong.
+- *Survives:* Rahn behaves like a control under both engines (the in-register arm
+  gets 1 of its 64 rows wrong, against 0 before), and the Leptospira panel is
+  still where the penalty rule loses most — 5 of 19 wrong, against 3 for
+  thermodynamics.
+
+**And one thing is now cheap that was not.** The thermo column can be believed on
+the records that matter, so the next question — does `terminal_mismatch_fails:
+false` for `conventional` fix those 23 false negatives — can be priced against a
+ΔTm that is not lying about where the mismatches sit.
