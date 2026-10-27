@@ -96,6 +96,19 @@ every oligo can be read from the cited paper's own table — `scripts/verify_oli
 should report `exact`. An entry that meets those three is usually a short read.
 One that does not waits on whichever of them is missing, and the review says so.
 
+**Which flags can ever clear.** A `needs_review` flag is a statement about the
+source, and most stay true however much the archive later confirms the entry.
+`oligos_modified`, `oligos_from_secondary_source`, `oligos_read_from_figure` and
+`amplicon_measured_not_published` never clear: the oligo *was* modified, *was*
+read from a review, *was* read off a figure, the size *was* measured because the
+paper gave none. Do not open a pull request to remove one. What a measurement can
+do is annotate: `orientation_inferred` keeps its flag and gains a `note` saying how
+many archive records yield a product under the stored orientation
+(`scripts/check_orientation.py`), so a reader sees "inferred, and the archive
+confirms it" rather than "inferred" alone. Only `amplicon_disagrees_with_paper`
+and `pairing_is_curator_reading` can clear, and only on a paper that states what
+the entry had to infer.
+
 Three fields deserve care:
 
 - **`seq` versus `seq_as_written`.** `seq` is strict IUPAC, so inosine is written
