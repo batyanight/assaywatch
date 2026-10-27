@@ -218,16 +218,24 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   for 0.1% of records is a different kind of wrong, so step 1 must say in the report
   which records it applied to.
 
-- **Populate `lineage.sublineage` for the segmented RNA viruses.**
-  `lineage.group_at_rank: species` with `sublineage: {}` means the influenza
-  matrix assay is one lineage of 74,861 records reading stable at 97.1%
-  (2026-10-26 run), while the paper `docs/related-work.md` names as the
-  benchmark found H3N2 carrying a probe-interfering mutation circulating since
-  2010. H1N1, H3N2 and H5N1 are all *Influenza A virus*. The fix is written as a
-  commented worked example in `config.yaml` for this exact assay id and never
-  populated. The resolver chain it needs already exists
-  (`lineage.build_resolvers`, including homology clusters via
-  `assaywatch.subcluster`).
+- **`lineage.sublineage` for influenza: the chain works, and enabling it waits on a
+  numerator fix.** Measured 2026-10-27 (`docs/journal/2026-10-27-influenza-sublineage.md`):
+  the title resolver splits the matrix assay into 57 subtypes, and inside the 97% pool
+  H1N2 reads 72.1% (1,917 records) and H5N1 87.6% (3,214) — the lineage-conditional
+  estimand doing what it was designed for. H3N2, the subtype the literature flags, reads
+  99.4% of 38,771; the per-year table for that lineage alone is the next thing to look
+  at. Not enabled, because the lineage counts it would drive verdicts from use the wrong
+  numerator for probe chemistry (next item). Extend to the other segmented RNA viruses
+  only after measuring that a title regex labels their records.
+- **`lineage.py` still counts `reduced` as detected for every assay** — a defect the
+  probe switch left by omission (2026-10-27). The switch was threaded through
+  `drift.YearStats.detected_calls` and nowhere else; `lineage.py:403` hard-codes
+  `("detect", "reduced")`, so for the 51 probe-bearing entries the lineage table and
+  `worst_lineage_verdict` read a different assay from the one the pooled verdict
+  describes — influenza matrix is 6.5% in the report and 72–100% per subtype in the
+  lineage table, from the same calls. Fix: pass the assay's `detected_calls` into the
+  lineage counting. Not made while a live run is in progress, because `lineage.py` is in
+  the screen signature's import closure. **First code change after the run reports.**
 
 - **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
   already excludes out-of-scope records from the drift denominator and the
