@@ -192,8 +192,13 @@ def main(argv: list[str] | None = None) -> int:
             sc = score_probe(found[0], probe, cfg)
             if sc.penalty > cfg["scoring"]["reduced_max"]:
                 failing += 1
+        # flush=True because this run takes tens of minutes and its stdout is normally
+        # redirected to a file, where Python buffers everything and the run looks hung
+        # from outside while it is working perfectly well.
         print(
-            f"{aid[:52]:52} {len(rows):>9,} {seen:>8,} {inside:>8,} {cut:>6,} {outside:>7,} {failing:>6,} {indel:>6,}"
+            f"{aid[:52]:52} {len(rows):>9,} {seen:>8,} {inside:>8,} {cut:>6,} "
+            f"{outside:>7,} {failing:>6,} {indel:>6,}",
+            flush=True,
         )
         for k, v in (
             ("discarded", len(rows)),
