@@ -1,4 +1,4 @@
-# A new instrument for retrospective cases, 220 candidates, and four of them read
+# A new instrument for retrospective cases, 220 candidates, and why none of them is a case yet
 
 The held-out set was spent on 2026-10-26 (`docs/2026-10-26-heldout-read-m1-rejected.md`),
 and the old way of finding cases was already spent before that. So new cases became the
@@ -95,25 +95,53 @@ protocol in that comparison corresponds to
 detection rates in this paper are the lowest of the three assays by a wide margin, on both
 human and wastewater specimens, and it is one of the two that missed an entire genus.
 
-## The one new case proposed, and the check it needs
+## The proposed case, and its WITHDRAWAL on the same check
 
-| field | value |
-|---|---|
-| `assay_id` | `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme` |
-| `as_of` | 2024-03-29 |
-| `expect` | `fails` |
-| `mechanism` | coverage |
-| source | the 2024 pan-CoV head-to-head, already cited in `docs/validation-cases.tsv` for the sibling round |
+A `fails` case was proposed for `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme` at
+2024-03-29, pending one check: the paper's supplementary primer table, since it describes
+its PREDICT protocols as *modified from* their originals. The table was fetched. **The
+case is withdrawn.**
 
-**Why it is not written yet.** The paper describes its two PREDICT protocols as *modified
-from* their original publications, and prints the primer sequences only in a supplementary
-table that the full-text XML does not carry. Writing a `fails` case against an entry on the
-strength of an assay name would be the PP-I mistake with the sign reversed. The check is
-one table: fetch the supplementary file and compare its two PREDICT primer sets against
-`CoV-FWD3`/`CoV-RVS3` and against the P-005 pair.
+| oligo | registry | paper | verdict |
+|---|---|---|---|
+| `CoV-FWD1` | `...GGNACWAAY...` | `...GGIACWAAY...` | same oligo, inosine written as N here |
+| `CoV-RVS1` | | | identical |
+| `CoV-FWD2` | | | identical |
+| `CoV-RVS2` | | | identical |
+| `CoV-FWD3` | | | identical |
+| `CoV-RVS3` | **24 nt** | **23 nt** | **DIFFERENT** |
 
-If they match, this is a documented, wet-lab, genus-level failure of a registry assay — the
-scarce kind, and the first new one since the held-out set was spent.
+**Two things follow, and the second kills the case.**
+
+**The first PREDICT protocol in that paper IS the registry's P-005 nested pair**, confirmed
+at sequence level on all four oligos. The only divergence is that the paper writes inosine
+as I where the registry stores N, which is a representation the project handles
+deliberately. So the existing `docs/validation-cases.tsv` row citing this paper is
+correctly identified, which is worth knowing: that identification was made without this
+table.
+
+**The second is not the registry's entry.** Its forward primer is identical and its
+reverse is the **23-nt form** where the registry holds the **24-mer** — the single base
+the 2026-10-24 sweep investigated and ruled on, concluding "the registry's 24-mer stands"
+because Watanabe's own paper prints it and the 23-nt form is the PREDICT variant with that
+base dropped. The paper's table says "modified from Watanabe" in as many words. It also
+runs a hemi-nested second round on a primer the registry does not hold at all.
+
+And the difference is **material, by the registry's own measurement**: the entry's notes
+record 215 exact binding sites for the stored 24-mer against **88** for the 23-nt PREDICT
+form over 25,576 records. The variant the paper tested binds less than half as often. So
+its low detection rate cannot be attributed to the registry's form, and a `fails` case
+built on it would blame our oligo for a different oligo's result.
+
+> **That is the third candidate in a row killed by assay identity, and the first two were
+> killed by a guess while this one was killed by a measurement.** It is also the sharpest
+> possible illustration of the bottleneck: the instrument found the right paper, the paper
+> measured something that looks exactly like a registry assay, the project had already
+> characterised the one base of difference, and the case still does not exist.
+
+**Net result of this session's search: no usable new case.** The instrument works and the
+queue is real, and converting a row costs an identity check that fails more often than it
+succeeds.
 
 ## Where new cases should go
 
