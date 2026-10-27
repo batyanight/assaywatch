@@ -19,7 +19,8 @@ the reasoning in them is usually the point.
 | [`related-work.md`](related-work.md) | what else exists, and every reference the method rests on |
 | [`ai-involvement.md`](ai-involvement.md) | how this repository was written, and what checks make it verifiable |
 | [`2026-10-27-four-perspective-review.md`](2026-10-27-four-perspective-review.md) | the repo read from four angles (engineering, methods, bench, newcomer): the denominator problem, the decisions it forced and their reasoning, and what was deliberately deferred |
-| [`example-run-2026-10-26/report.md`](example-run-2026-10-26/report.md) | **one real run, committed.** What the tool actually produces, readable without installing anything. `site-drift.md` beside it names the replacement base at each drifted primer position |
+| [`2026-10-27-thermo-vs-penalty-paired.md`](2026-10-27-thermo-vs-penalty-paired.md) | **the first head-to-head against a physically grounded predictor.** primer3 beats the shipped penalty rule on the 179 bench rows, McNemar p = 0.019, and the penalty rule's errors are 23 false negatives against 1 false positive. Includes the confound that favours primer3 |
+| [`example-run-2026-10-26/report.md`](example-run-2026-10-26/report.md) | **one real run, committed.** What the tool actually produces, readable without installing anything. [site-drift.md](example-run-2026-10-26/site-drift.md) beside it names the replacement base at each drifted primer position |
 | [`2026-10-27-leetz-identity-confirmed.md`](2026-10-27-leetz-identity-confirmed.md) | the first CONFIRMED retrospective identity (Leetz 2007 / Xiao round2) and why it reads `works` despite a 73.8% headline; two other rows closed on content. Raises where a fresh case should be written, since both the dev and held-out sets are spent |
 
 ## What the tool's output is worth
