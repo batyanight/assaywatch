@@ -261,8 +261,39 @@ class AssayDrift:
     recent_counts: Counter = field(default_factory=Counter)
     baseline_counts: Counter = field(default_factory=Counter)
     skipped_undated: int = 0
-    # Why unusable records were unusable, from score.classify_exclusion.
+    # Why unusable records were unusable, from score.classify_exclusion. This
+    # counts rows that are genuinely OUT of the denominator.
     exclusions: Counter = field(default_factory=Counter)
+    # Rows that carry an exclusion reason and are nonetheless IN the denominator,
+    # as failures: `diverged` under `drift.count_diverged_as_fail`.
+    #
+    # Split out 2026-10-27. Both used to land in `exclusions`, so the report
+    # printed "Excluded: 4410 no_amplicon" and then a "Why" line whose terms
+    # summed to 7918, the surplus being 3508 records that were NOT excluded but
+    # counted as failures. A reader reconstructing the share from the printed
+    # counts got the wrong denominator, understating it by up to 14,340 records on
+    # one assay, and in the direction of thinking the assay was judged on less
+    # evidence than it was.
+    counted_as_failure: Counter = field(default_factory=Counter)
+    # Rows screened for this assay that produced no amplicon, however they were
+    # then treated. The denominator the detected share is conditioned on is
+    # `recent_evaluable`, and nothing in the report said what fraction of the
+    # screened records that was: 65.7% of all 2.72M rows on 2026-10-26 were
+    # no_amplicon, so every share is taken over about a third of what was looked
+    # at. Counted here so the report can say so per assay.
+    screened_rows: int = 0
+    no_amplicon_rows: int = 0
+    # `no_site` split by whether a credible site was found at all. A `no_site` row
+    # means "no CREDIBLE site for either primer", which conflates two unrelated
+    # facts: the record does not contain the target locus, and it contains the
+    # locus with primers drifted past `scoring.max_mismatches_searched`. The
+    # second is drift and is being dropped from the denominator; the first is not
+    # drift and should be. 357,923 of 1,442,931 `no_site` rows on 2026-10-26 DID
+    # find a site within the mismatch budget and were dropped for failing
+    # `max_site_evalue`, and that was never reported. Distinguished by whether an
+    # anchor E-value was recorded.
+    no_site_with_anchor: int = 0
+    no_site_without_anchor: int = 0
 
     # Filled by `finalise`.
     recent_detected: int = 0
@@ -1131,7 +1162,12 @@ def _gather_calls(
         # class however different they were. It is unknown instead, which makes the
         # assay's duplication check unknown - an honest "cannot say".
         fp = None if (settings.count_diverged and why == "diverged") else row.get("footprint")
-        out.per.setdefault(aid, []).append((iso, call, why, fp))
+        # Whether this row recorded an anchor E-value, which is what separates
+        # "a site was found within the mismatch budget and failed the credibility
+        # bar" from "nothing was found at all". Carried per row because it is not
+        # recoverable from the call or the reason.
+        had_anchor = bool(str(row.get("anchor_evalue", "")).strip())
+        out.per.setdefault(aid, []).append((iso, call, why, fp, had_anchor))
         if keep_raw:
             out.raw.setdefault(aid, []).append((iso, row))
     return out
@@ -1148,9 +1184,24 @@ def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> Non
     recent_fp: set[tuple[str, str]] = set()
     base_fp: set[tuple[str, str]] = set()
     fp_known = True
-    for iso, call, why, fp in rows:
+    for iso, call, why, fp, had_anchor in rows:
+        a.screened_rows += 1
         if why:
-            a.exclusions[why] += 1
+            # A row with an exclusion reason that is nonetheless being counted as
+            # an evaluable call was PROMOTED (`diverged` under
+            # count_diverged_as_fail). It is in the denominator, so it does not
+            # belong in the excluded tally.
+            if call in EVALUABLE:
+                a.counted_as_failure[why] += 1
+            else:
+                a.exclusions[why] += 1
+            if why == "no_site":
+                if had_anchor:
+                    a.no_site_with_anchor += 1
+                else:
+                    a.no_site_without_anchor += 1
+        if call not in EVALUABLE:
+            a.no_amplicon_rows += 1
         if iso is None:
             a.skipped_undated += 1
             continue
@@ -1368,7 +1419,7 @@ def assess(
 
     grouped: dict[str, AssayDrift] = {}
     for assay_id, rows in gathered.per.items():
-        evaluable = sorted((iso for iso, call, _, _ in rows if iso and call in EVALUABLE), reverse=True)
+        evaluable = sorted((iso for iso, call, *_ in rows if iso and call in EVALUABLE), reverse=True)
         months = window.choose(evaluable, settings)
         cutoff = months_back(window.anchor, months)
         a = AssayDrift(

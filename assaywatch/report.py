@@ -708,6 +708,17 @@ class DetailRow:
     clustering_note: str
     unevaluable: dict[str, int]
     exclusions: list[tuple[str, int]]
+    # Rows carrying an exclusion reason that are IN the denominator as failures,
+    # kept apart from `exclusions` so the two are never summed. See
+    # drift.AssayDrift.counted_as_failure.
+    counted_as_failure: list[tuple[str, int]]
+    # How much of what was screened reached the statistics at all.
+    screened_rows: int
+    no_amplicon_rows: int
+    # `no_site` split by whether a site was found within the mismatch budget and
+    # failed the credibility bar, or nothing was found at all.
+    no_site_with_anchor: int
+    no_site_without_anchor: int
 
 
 @dataclass(frozen=True)
@@ -999,6 +1010,11 @@ def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> Detai
         clustering_note=a.clustering_note,
         unevaluable=a.unevaluable(),
         exclusions=a.exclusions.most_common() if a.exclusions else [],
+        counted_as_failure=a.counted_as_failure.most_common() if a.counted_as_failure else [],
+        screened_rows=a.screened_rows,
+        no_amplicon_rows=a.no_amplicon_rows,
+        no_site_with_anchor=a.no_site_with_anchor,
+        no_site_without_anchor=a.no_site_without_anchor,
     )
 
 
@@ -1296,6 +1312,19 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                 ]
             if d.clustering_note:
                 out += ["", f"**Duplication check:** {d.clustering_note}"]
+            if d.screened_rows:
+                # What fraction of what was screened reached the statistics. The
+                # detected share is conditioned on evaluable records only, and
+                # until 2026-10-27 no number anywhere said how big that condition
+                # was -- across the whole 2026-10-26 run it was 34.2%.
+                kept = d.screened_rows - d.no_amplicon_rows
+                pct = 100.0 * kept / d.screened_rows
+                out += [
+                    "",
+                    f"**Denominator:** {kept} of {d.screened_rows} screened records are evaluable "
+                    f"({pct:.1f}%); {d.no_amplicon_rows} are not. Every share above is taken over the "
+                    "evaluable ones.",
+                ]
             if d.unevaluable:
                 out.append("")
                 out.append("Excluded: " + ", ".join(f"{n} {k}" for k, n in sorted(d.unevaluable.items())))
@@ -1304,7 +1333,8 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                 if d.exclusions:
                     out.append("")
                     out.append(
-                        "Why: "
+                        "Why (the `no_amplicon` rows above; `indeterminate` records carry no reason,"
+                        " so these sum to the `no_amplicon` count and not to the whole excluded total): "
                         + ", ".join(f"{n} {k}" for k, n in d.exclusions)
                         + ". `truncated` means the deposit stops before the other primer's site, so it"
                         + " says nothing about the assay; `diverged` means that site is present and does"
@@ -1316,6 +1346,33 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                             else ""
                         )
                     )
+                # Printed as its own line and never added to the one above. These
+                # rows have an exclusion REASON and are in the DENOMINATOR, as
+                # failures; summing the two was how "Excluded: 4410" came to be
+                # followed by a breakdown totalling 7918.
+                if d.counted_as_failure:
+                    out += [
+                        "",
+                        "Counted as failures, NOT excluded: "
+                        + ", ".join(f"{n} {k}" for k, n in d.counted_as_failure)
+                        + ". `drift.count_diverged_as_fail` is on, so a record whose primer site is"
+                        + " present and does not match is in the denominator above as a failure."
+                        + " These are not part of the excluded counts and must not be added to them.",
+                    ]
+                if d.no_site_with_anchor or d.no_site_without_anchor:
+                    # The single largest exclusion class, split for the first time.
+                    # `no_site` conflates "the locus is not in this record" with
+                    # "the locus is here and both primers have drifted past the
+                    # search budget" -- and the second is drift being dropped from
+                    # the denominator.
+                    out += [
+                        "",
+                        f"Of the `no_site` records, {d.no_site_with_anchor} DID have a primer site within "
+                        f"`scoring.max_mismatches_searched` and were dropped for failing the credibility "
+                        f"bar (`scoring.max_site_evalue`), while {d.no_site_without_anchor} had no site at "
+                        "all. The first group may be drift this assay is not being charged for; the second "
+                        "is most likely records that never held the target.",
+                    ]
             out.append("")
 
     if m.nested_families:

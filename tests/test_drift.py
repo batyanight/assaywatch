@@ -936,7 +936,7 @@ def test_an_undated_record_is_skipped_rather_than_bucketed():
     from assaywatch.drift import AssayDrift, Window, _tally_window
 
     a = AssayDrift("A")
-    rows = [(None, "detect", "", None), ("2025-01-01", "detect", "", None)]
+    rows = [(None, "detect", "", None, False), ("2025-01-01", "detect", "", None, False)]
     _tally_window(a, rows, Window(anchor=date(2026, 10, 3), dated=True), 24)
     assert a.skipped_undated == 1
     assert sum(a.recent_counts.values()) == 1
@@ -948,11 +948,14 @@ def test_one_record_without_a_footprint_makes_the_whole_count_unknown():
 
     w = Window(anchor=date(2026, 10, 3), dated=True)
     known = AssayDrift("A")
-    _tally_window(known, [("2025-01-01", "detect", "", "|||0|0|0")], w, 24)
+    _tally_window(known, [("2025-01-01", "detect", "", "|||0|0|0", False)], w, 24)
     assert known.recent_footprints == 1
     unknown = AssayDrift("B")
     _tally_window(
-        unknown, [("2025-01-01", "detect", "", "|||0|0|0"), ("2025-01-02", "fail", "", None)], w, 24
+        unknown,
+        [("2025-01-01", "detect", "", "|||0|0|0", False), ("2025-01-02", "fail", "", None, False)],
+        w,
+        24,
     )
     # Left at its default, which is None and not 0: "cannot say", not "no classes".
     assert unknown.recent_footprints is None
