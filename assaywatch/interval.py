@@ -110,6 +110,28 @@ def jeffreys_interval(k: int, n: int, alpha: float = 0.05) -> tuple[float, float
     return (max(0.0, lower), min(1.0, upper))
 
 
+def posterior_below(k: int, n: int, threshold: float) -> float:
+    """P(theta < threshold | k of n) under the Jeffreys prior Beta(0.5, 0.5).
+
+    The flag rule `docs/bayesian-scoring-plan.md` C1 proposes in place of "the Wilson
+    upper bound is below the threshold": the posterior probability that the true
+    detected share is under the bar. Same prior as `jeffreys_interval`, so the two
+    agree about what the data say and differ only in how the question is put --
+    an interval's edge against a probability mass. 0.5 when n == 0, which is what
+    the prior says and what a caller must treat as "no evidence", never as a flag.
+
+    Needs scipy for the regularised incomplete beta, imported inside for the same
+    reason `jeffreys_interval` does.
+    """
+    if n == 0:
+        return 0.5
+    try:
+        from scipy.special import betainc
+    except ImportError as exc:  # pragma: no cover - mirrors jeffreys_interval
+        raise SystemExit("posterior_below needs scipy: pip install -e '.[lineage]'") from exc
+    return float(betainc(k + 0.5, n - k + 0.5, threshold))
+
+
 def newcombe_difference(k1: int, n1: int, k2: int, n2: int, z: float = Z95) -> tuple[float, float]:
     """CI for p1 - p2 (recent minus baseline) from the two Wilson intervals."""
     if n1 == 0 or n2 == 0:

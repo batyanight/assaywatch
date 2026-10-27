@@ -113,12 +113,17 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   `reduced` and `reduced` counted as detected, and since 2026-10-27 it no longer does
   for probe chemistries. `strategies/s4-m1-under-s3a.yaml` is written and has never
   been run. It is an afternoon, and the M1 hold stays in force either way.
-- **C1: a Beta posterior on the detection proportion** (`docs/bayesian-scoring-plan.md`).
-  Replaces Wilson/Newcombe and the flag rule with `P(θ < 0.90 | data)`, and adds
-  hierarchical shrinkage so a 17-record assay borrows strength instead of reading
-  "insufficient data". Report-time, no rescreen, no new dependency beyond scipy, and
-  the plan calls it free. It is a separate axis from scoring and must be held fixed
-  while scoring candidates run, or every table confounds the two.
+- **C1, the hierarchical layer only.** The conjugate half was run on 2026-10-27 as
+  the plan specified and is closed (`## Done`): a posterior flag rule moves 2 of 233
+  statuses and nothing in tier-2, so `drift.flag_rule` stays `wilson` with the
+  `posterior` mechanism kept for re-asking. What was never about the flag rule is the
+  part still worth building: **30 of the 188 assays screened on the 2026-10-26 run
+  are refused a verdict for want of records**, and no reading of the bar touches that. A Beta-binomial with shrinkage
+  across the lineages of one assay, or across assays of one chemistry, is what lets a
+  17-record assay say something. Design and kill test: `docs/bayesian-scoring-plan.md`
+  C1 "The hierarchical layer" (fitted overdispersion implies independence, or
+  shrinkage removes a documented catch). Report-time, scipy only. It is a separate axis
+  from scoring and must be held fixed while scoring candidates run.
 - **S5 = C2: the Bayesian per-record model, and it is GATED.**
   `P(detect) = P(fwd ok) x P(rev ok) x P(probe reports)`, each logistic over identity,
   position, adjacency and length, with chemistry as a hierarchical intercept and priors
@@ -446,6 +451,15 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **C1 conjugate, measured as its plan specified** (2026-10-27). Every per-lineage
+      interval in the 2026-10-22 report three ways: Wilson and Jeffreys disagree on 1 of
+      1,351 lineages, and the 704 zero-width Wald intervals were the only real defect,
+      already fixed by Wilson on 2026-10-23. `drift.flag_rule: posterior` (P(θ < 0.90) >
+      0.95, Jeffreys prior) moves 2 of 233 statuses, both `watch` -> `low coverage` at
+      small n, and leaves tier-2 identical case for case. Exhaustively over 15 <= n <=
+      400 the two rules disagree on 425 of 69,581 cells and the posterior always flags
+      MORE. Not killed, not adopted: ships `wilson`, mechanism kept.
+      `docs/journal/2026-10-27-c1-posterior-flag-rule.md`.
 - [x] **A scoped taxon that leaves its retrieval root is now detected** (2026-10-27).
       `scripts/check_taxids.py` tests every `scope_taxids` entry's NCBI ancestor list for
       the assay's `target.taxid`, resolving merged ids first — its first run reported

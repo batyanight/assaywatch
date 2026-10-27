@@ -88,7 +88,7 @@ from assaywatch.accession import strip_version
 # Re-exported, not just used: `drift.wilson_interval` is the name figures.py,
 # the tests and scripts/ already import. The estimators moved to interval.py so
 # that lineage.py, which sits below this module, can use the same ones.
-from assaywatch.interval import newcombe_difference, wilson_interval
+from assaywatch.interval import newcombe_difference, posterior_below, wilson_interval
 from assaywatch.trend import Trend, cochran_armitage
 
 if TYPE_CHECKING:
@@ -263,6 +263,14 @@ class AssayDrift:
     # years carry evaluable records, or when there is no variation to test.
     trend_min_years: int = 3
     trend: Trend | None = None
+    # How "the recent share is below the threshold" is decided (drift.flag_rule).
+    # `wilson`: the Wilson upper bound is under it -- every published figure rests on
+    # this. `posterior`: P(theta < threshold | k, n) under the Jeffreys prior exceeds
+    # `flag_credibility` (docs/bayesian-scoring-plan.md C1). Only `below_threshold`
+    # reads these; the declining/low-coverage split is the Newcombe change interval
+    # under either rule.
+    flag_rule: str = "wilson"
+    flag_credibility: float = 0.95
     # Calls split by the recent-window cutoff as records are added (assess). When
     # empty, finalise falls back to splitting `years` at `recent_from`.
     recent_counts: Counter = field(default_factory=Counter)
@@ -417,6 +425,20 @@ class AssayDrift:
             return self.recent_year
         head = str(self.recent_from)[:4]
         return int(head) if head.isdigit() else 0
+
+    def below_threshold(self) -> bool:
+        """Is the recent share below `threshold` by the configured rule?
+
+        `wilson` is the shipped reading and the one every published figure rests on.
+        `posterior` asks the same question of the same counts as a probability mass
+        rather than an interval edge; with the Jeffreys prior the two rarely disagree
+        above a few dozen records, which is the C1 plan's own prediction and the
+        reason the rule is a config switch and not a replacement.
+        """
+        if self.flag_rule == "posterior":
+            mass = posterior_below(self.recent_detected, self.recent_evaluable, self.threshold)
+            return mass > self.flag_credibility
+        return self.recent_ci[1] < self.threshold
 
     @property
     def ever_worked(self) -> bool:
@@ -958,7 +980,7 @@ class AssayDrift:
                 f"the detected share is {pct(self.recent_fraction)} "
                 f"({pct(self.recent_ci[0])}-{pct(self.recent_ci[1])}), too wide to act on"
             )
-        elif self.recent_ci[1] < self.threshold:
+        elif self.below_threshold():
             # Below threshold is two different findings. Declining: the share has
             # fallen, and the interval for the change excludes zero; that is
             # drift. Low coverage: below threshold but not measurably lower than
@@ -1068,6 +1090,9 @@ class DriftSettings:
     #: Years with evaluable records before a Cochran-Armitage trend is reported
     #: (assaywatch/trend.py). Reported beside the verdict, never into it.
     trend_min_years: int = 3
+    #: `wilson` (ships) or `posterior` (C1 experiment). See AssayDrift.below_threshold.
+    flag_rule: str = "wilson"
+    flag_credibility: float = 0.95
 
     @classmethod
     def from_config(cls, cfg: dict[str, Any]) -> DriftSettings:
@@ -1077,6 +1102,8 @@ class DriftSettings:
             base_months=base,
             max_months=max(base, int(d.get("max_window_months", base))),
             threshold=float(d.get("detect_fraction_threshold", 0.9)),
+            flag_rule=str(d.get("flag_rule", "wilson")),
+            flag_credibility=float(d.get("flag_posterior_credibility", 0.95)),
             min_records=int(d.get("min_records_for_drift", 15)),
             min_decline=float(d.get("min_decline", 0.05)),
             require_working_baseline=bool(d.get("require_working_baseline", True)),
@@ -1531,6 +1558,8 @@ def assess(
             window_months=months,
             recent_year=cutoff.year,
             trend_min_years=settings.trend_min_years,
+            flag_rule=settings.flag_rule,
+            flag_credibility=settings.flag_credibility,
         )
         _tally_window(a, rows, window, months)
         a.finalise()

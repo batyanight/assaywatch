@@ -253,6 +253,13 @@ class Degeneracy(Block):
 
 class Drift(Block):
     detect_fraction_threshold: float = Field(default=0.9, ge=0, le=1)
+    #: How "below the threshold" is decided for the recent share. `wilson` is what
+    #: has always shipped: the Wilson upper bound is under the threshold. `posterior`
+    #: is C1 of docs/bayesian-scoring-plan.md: P(theta < threshold | data) under the
+    #: Jeffreys prior exceeds `flag_posterior_credibility`. The second is a mechanism
+    #: for the experiment that plan specifies; it ships off.
+    flag_rule: Literal["wilson", "posterior"] = "wilson"
+    flag_posterior_credibility: float = Field(default=0.95, gt=0.5, lt=1)
     recent_window_months: int = Field(default=24, gt=0)
     max_window_months: int = Field(default=60, gt=0)
     min_records_for_drift: int = Field(default=15, ge=0)

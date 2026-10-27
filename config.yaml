@@ -591,6 +591,23 @@ drift:
   # an individual animal, so the right number depends on the use the reader has
   # in mind. Stated here so it can be argued with.
   detect_fraction_threshold: 0.90
+  # HOW "BELOW THE THRESHOLD" IS DECIDED. `wilson` is what has always shipped: the
+  # recent share is below the bar when its Wilson 95% upper bound is. `posterior` is
+  # C1 of docs/bayesian-scoring-plan.md -- the posterior probability that the true
+  # share is under the bar, Beta(k+0.5, n-k+0.5) under the Jeffreys prior, exceeds
+  # `flag_posterior_credibility`. Same prior as the Jeffreys intervals the tier-2
+  # matrix already prints, so the two agree about what the data say and differ only
+  # in how the question is put: an interval's edge against a probability mass.
+  #
+  # SHIPS `wilson`. The posterior rule exists so the experiment the plan specifies can
+  # be run with `scripts/retrospective.py --config` and nothing rescreened; the plan's
+  # own prediction is that it will not move the tier-2 matrix much, because most
+  # flagged assays are flagged on large n where the two agree to within a point, and
+  # that its gains are at the extremes. 0.95 is the conventional credibility and is
+  # not derived from anything in this project; it is a placeholder like every other
+  # number in this file until tier-2 says otherwise.
+  flag_rule: wilson
+  flag_posterior_credibility: 0.95
   # "Recent" has to be long enough to accumulate records and short enough that a
   # 2008 sequence is not evidence about today. Two years is a compromise with no
   # biological content; for a fast RNA virus it is many substitutions, for a
