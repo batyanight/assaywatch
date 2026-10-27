@@ -354,7 +354,14 @@ def _edited(tree: Path, relative: str, new_text):
         # site_drift selects assays by drift status, so it imports drift.py and report.py
         # figures imports drift.py and report.py (shared colours/constants, its own
         # drift + site assessment), so editing either re-renders the figures too.
-        ("assaywatch/drift.py", lambda s: s + "\n# edited\n", {"report", "site_drift", "figures"}),
+        # lineage_analysis joined drift.py's set on 2026-10-27: lineage_report.py reads
+        # drift.reduced_not_detected_ids so lineage.md counts a detection per chemistry
+        # the way the verdict does, which makes drift.py a real input of that rule.
+        (
+            "assaywatch/drift.py",
+            lambda s: s + "\n# edited\n",
+            {"report", "site_drift", "figures", "lineage_analysis"},
+        ),
         ("assaywatch/report.py", lambda s: s + "\n# edited\n", {"report", "site_drift", "figures"}),
         # schema.py and validate.py once rescreened nothing
         (
