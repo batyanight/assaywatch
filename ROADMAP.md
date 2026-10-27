@@ -27,6 +27,17 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
+- **Do `partial` rows count as successes?** The third of the three decisions PR #3
+  asked for, and the only one never settled: the other two became `scope_taxids` and
+  `lineage.group_at_rank: species`. `scripts/retrospective.py` reports `partial` in
+  its own cells and the headline quotes `fails` only, which is the "score them
+  separately" half of the answer but not a ruling on whether a named `partial` gap
+  counts as a catch. **It decides what the paper's main figure claims**, so it wants
+  settling before the figure is drawn.
+  `docs/journal/2026-10-22-lineage-plan-salvage.md` section 3.
+- **29 commits are unpushed** to `origin/main` as of 2026-10-27, which is where CI
+  runs `validate.yml`. Pushing is yours: everything in them is gated locally, but
+  nothing has been through CI.
 - **The contributor promise.** `CONTRIBUTING.md` ships without the two-week
   review commitment that was planned for it. That is a promise about your own
   time, so it is yours to make or drop.
@@ -139,6 +150,29 @@ replacing the 5/5/rest step (2026-10-26), and the **thermodynamic** engine, whic
 never been a scoring input and whose measured advantage over the penalty rule
 evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 
+## Operations: nothing is actually running on a schedule
+
+- **The weekly re-screen is not installed.** `launchctl list` shows no
+  `com.assaywatch.weekly` job on this machine, and the newest file in
+  `results/weekly-logs/` is dated 2026-10-23. `profiles/launchd/` holds a template
+  and a README, `scripts/weekly_run.sh` is written and dry by default, and README
+  says the tool "re-screens on a schedule" — which is true of the code and false of
+  this laptop. For a project whose contribution is CONTINUOUS re-validation, that
+  gap is the difference between the claim and the artefact.
+- **A full run is owed, and today's change forces it.** Scoring is part of the cache
+  key, so the next `snakemake` rescreens everything; every committed report and
+  figure predates both the probe switch and S3b. Until it runs, the newest numbers
+  in the repository describe a configuration that no longer ships.
+- **Six inert switches, grouped here because each is the same shape**: a mechanism
+  built, tested, and shipped off for want of evidence. `scoring.mispair_penalty: {}`
+  (S4, above), `scoring.locus_identity_min: null` (unproven; the design doc says only
+  a lineage-aware reference could be safe), `lineage.unclassified_is_bucket: false`
+  (tier-2 is unchanged by it, so there is nothing to ship it on),
+  `lineage.sublineage: {}` (below), `thermo: false` (needs the annealing conditions
+  the registry does not carry), and `scoring.engine: serial` (rejected, kept for the
+  record). None is a defect. The list exists so that "the mechanism is here and the
+  numbers are not" stays a count rather than a feeling.
+
 ## Method debts
 
 - **A trend over deposit year is claimed and never tested.** No
@@ -214,6 +248,33 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 
 ## Data and curation
 
+- **216 `needs_review` flags sit on 207 of the 209 entries** (2026-10-27). Not a
+  backlog of errors — a flag is an honest label on a reading that could not be made
+  from the source — but it is 216 open readings, and some classes are actionable
+  where others are permanent. Largest: `orientation_inferred` 28,
+  `amplicon_measured_not_published` 20, `oligos_from_secondary_source` 19,
+  `oligos_modified` 14, `scope_narrower_than_taxid` 13,
+  `pairing_is_curator_reading` 11. The first and the last are the ones a paper or a
+  measurement can actually clear; `oligos_modified` never clears, because it is true.
+- **10 entries sit in `pending/`, every one of them for want of a verifiable DOI.**
+  The four `HANTAVIRUS_ssRNA_S_segment` entries are the hard case: their nesting was
+  assigned from amplicon geometry and one shared reverse primer rather than from a
+  protocol, and their own curator note says to re-check that assignment first if a
+  source ever turns up. They cannot go live while
+  `citation.doi_verified` is false, and nothing in the queue will verify them.
+- **The held-out collection target is not met.** Set 2 holds 1 row against a target
+  of 15-20 with at least 5 of `mechanism: drift`, and set 1 is spent.
+  `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
+  that stayed open. This is the same literature pass as the within-family negative
+  corpus that gates C2, so one read per paper serves both.
+- **Mpox is covered only by two assays from 2004.**
+  `MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004` and `..._F3L_MGB_Kulesh_2004` are the whole
+  of it, and the N3R entry read 58.3% on the 2026-10-24 run with
+  `count_diverged_as_fail` on. A literature pass that day listed modern candidates
+  with their papers: `docs/journal/2026-10-24-mpox-assay-candidates.md`. Adding them
+  is curation, and it is the clearest case of the registry being out of date on a
+  pathogen that matters.
+
 - **889 lineages are still `taxid_<n>`** (2026-10-23 run).
   `name_lineages_from_taxonomy` names only what the taxonomy cache holds; the
   rest need `scripts/build_taxonomy_cache.py` rerun or an NCBI lookup. A data
@@ -259,6 +320,13 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   before/after detected share reported.
 
 ## Hygiene
+
+- **Two one-off scripts are referenced by nothing**: `scripts/measure_amplicon_lengths.py`
+  and `scripts/measure_cmv_gb_amplicons.py`, the second of which measures exactly two
+  CMV gB pairs and is subsumed by the first. Both are measurement tools that did their
+  job, so this is a question of whether a one-off belongs in `scripts/` or in the
+  journal entry that used it — not a defect.
+
 
 - **Documentation is overgrown by roughly 5:1 on the axis that matters**: 85
   dated session journals totalling ~124,000 words against 10 evergreen

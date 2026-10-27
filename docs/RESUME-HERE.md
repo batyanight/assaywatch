@@ -115,7 +115,28 @@ every status in every report are what remain.
 
 ## Still open
 
-`ROADMAP.md`, whose first item is now that confirming rescreen.
+`ROADMAP.md`, which now carries **36 items** after a second sweep found what the first
+one missed. The first sweep looked for forward-looking SECTIONS; it did not catch
+documents that are plans from end to end, and it never looked outside the documentation
+at all. What the second sweep added:
+
+- the scoring rule's own ladder (S4/M1 written and never run; C1 free and unbuilt;
+  C2 gated on 40 within-family negatives against today's 11) and the fact that today's
+  candidate had taken S5's reserved name;
+- **nothing is running on a schedule.** No `com.assaywatch.weekly` job is loaded and
+  the newest weekly log is 2026-10-23, while README says the tool re-screens on a
+  schedule. For a project whose contribution is continuous re-validation that is the
+  gap between the claim and the artefact;
+- a full run is owed, because scoring is in the cache key and every committed report
+  now predates the config that ships;
+- six inert switches counted in one place, so "the mechanism is here and the numbers
+  are not" is a number and not a feeling;
+- 216 `needs_review` flags on 207 of 209 entries; 10 `pending/` entries all blocked on
+  an unverifiable DOI; the held-out target of 15-20 cases against set 2's 1; and mpox
+  covered only by two assays from 2004 when a candidate list from 2026-10-24 exists;
+- two maintainer decisions nobody had written down: whether a `partial` row counts as
+  a success, which decides what the paper's main figure claims, and 29 unpushed
+  commits that CI has never seen.
 
 ---
 
