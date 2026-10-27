@@ -18,7 +18,13 @@ responses and has been run against the live NCBI API: the 2026-10-06 run screene
 208 of the 211 non-deprecated registry assays against records fetched that day.
 See ROADMAP.md.
 
-For a worked example that runs offline in a second, see `examples/README.md`.
+**See the output first:** [`docs/example-run-2026-10-26/report.md`](docs/example-run-2026-10-26/report.md)
+is one real run, committed so it can be read without installing anything: on the
+2026-10-26 run, 188 assays screened, 34 called declining and 10 on the Start here
+list. Its companion
+[`site-drift.md`](docs/example-run-2026-10-26/site-drift.md) names the base to
+order at each drifted primer position. Then `examples/README.md` runs the
+screening step on your own machine, offline, in under a second.
 
 `docs/INDEX.md` indexes the 81 files under `docs/`, grouped by what you want;
 `docs/pipeline-architecture.md` is the best single overview of the pipeline and
@@ -666,8 +672,12 @@ embarrassingly parallel across taxa.
 ## The drift call
 
 `report.md` renders on GitHub; `report.html` is self-contained (inline SVG, no
-CDN, no JavaScript) so it opens from a file:// path or GitHub Pages in a lab
-with no bioinformatician.
+CDN, no JavaScript) so it opens from a file:// path in a lab with no
+bioinformatician. Both are written under `results/<date>/`, which is gitignored,
+so a run's output stays on the machine that produced it --
+`docs/example-run-2026-10-26/` is a committed copy of one, and until 2026-10-27
+there was none, which made this paragraph a promise about files no reader could
+open.
 
 **What goes in the denominator.** Only `detect`, `reduced` and `fail`: records
 where both primers landed in the right orientation and size range, so the call
