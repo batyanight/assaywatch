@@ -61,7 +61,7 @@ to check the row parses, so one bit is out.
 
 **4. TNTBLAST waits.** No osx-arm64 build and Rosetta 2 needs admin rights. Rosetta, an
 arm64 build from source, or a run on linux-64 or the cluster -- `scripts/compare_thermo.py`
-takes a second predictor unmodified. The dead `tntblast` env can go: `conda env remove -n tntblast`.
+takes a second predictor unmodified. The dead `tntblast` env was removed on 2026-10-27.
 
 ## Two things found by accident, and they are the kind worth noticing
 

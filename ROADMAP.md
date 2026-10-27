@@ -21,9 +21,6 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
-- **A dead conda env.** `tntblast` (osx-64) was created and cannot execute.
-  Now that the TNTBLAST arm is deferred (decided 2026-10-27), nothing uses it:
-  `conda env remove -n tntblast`.
 - **The contributor promise.** `CONTRIBUTING.md` ships without the two-week
   review commitment that was planned for it. That is a promise about your own
   time, so it is yours to make or drop.
@@ -46,17 +43,15 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
     2/9 -> 3/9 and false alarms 5/32 -> 4/32, because exactly two tier-2 cases move
     and they move in opposite directions on purpose.
 
-  Both pre-registered kill criteria survived, and the two assays that carry the
-  verdict moves were really rescreened: **104,188 rows, 0 call disagreements**, with
-  63 penalty differences that all run pessimistic (the real screen finds a better
-  candidate than a replay can see). So those two are proven.
+  Both pre-registered kill criteria survived, and the confirming rescreen is mostly
+  done: **6 of the 84 affected assays really screened, 280,818 rows, 0 call
+  disagreements**, covering 14,261 of the 19,081 moved calls (74.7%) and both assays
+  that carry a verdict move. The 91 penalty differences all run pessimistic — the
+  real screen finds a better candidate than a replay can see.
 
-  **What is left:** 82 of the 84 assays whose calls move are still priced, and
-  two-thirds of the 19,081 moved calls sit in five of them
-  (`Pan_flavivirus_NS5_3_round1` 5,200, `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`
-  3,921, `RHABDOVIRUS_ssRNA_L_gene_round2` 2,101, the Forslund pair). Rescreening
-  those five would cover it; rescreening all 84 is a registry-scale run. Then it is
-  a maintainer's decision, because shipping moves every status in every report.
+  **What is left is a decision, not a measurement.** 78 small movers remain
+  unrescreened, holding 4,820 calls between them and at most 395 each, which cannot
+  move a verdict alone. Shipping moves every status in every report, so it is yours:
   `by_chemistry` still ships empty.
 
   **Why this item no longer names `terminal_mismatch_fails`.** For three weeks it

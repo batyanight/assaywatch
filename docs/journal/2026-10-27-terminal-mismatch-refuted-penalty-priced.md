@@ -117,21 +117,35 @@ better candidate amplicon than the replay could see. 40 of those rows are
 it means the approximation is pessimistic here rather than flattering: nothing in this
 comparison was credited to S5 that a real screen does not also give it.
 
-So for the two assays that carry the tier-2 moves, S5 is **proven, not priced**. The
-other 82 assays whose calls move are still priced, and a registry-wide confirming
-rescreen is the remaining work.
+**Then the four largest remaining movers, for the same reason.** 19,081 calls move
+across 84 assays, but they concentrate: six assays hold three-quarters of them. The
+flavivirus, lyssavirus and rhabdovirus groups were rescreened the same way, 36
+archives, 62 MB on disk.
+
+**176,630 rows compared, 0 call disagreements, 28 penalty differences and all 28 again
+pessimistic.** So the confirming rescreen now covers **6 of the 84 assays and 14,261 of
+the 19,081 moved calls — 74.7%** — with not one call differing from the replay. The
+largest assay still priced moves 395 calls
+(`CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme`), then 374
+(`PARVOVIRUS_ssDNA_VP1_gene_dependovirus`) and 333 (`HANTAVIRUS_ssRNA_S_segment`); the
+remaining 78 together hold 4,820.
+
+Two things follow. The replay is exact here on 280,818 rows, which is a far stronger
+check than the 514,096-row M1 comparison that found 2 call disagreements — and S5's
+two tier-2 verdict moves rest entirely on assays that were really screened. What is
+still unproven is a long tail of small movers, none of which can move a verdict on its
+own at these counts.
 
 ## Status: PRICED, NOT PROVEN, and not shipped
 
 `config.yaml` still carries `by_chemistry: {}`. Three reasons, in order:
 
-1. **A replay freezes candidate selection, and only 2 of the 84 affected assays have
-   been rescreened.** Those two are clean — 104,188 rows, 0 call disagreements, the
-   section above — and they are the two that carry the verdict moves, which is why
-   they were chosen. The other 82 are still priced, and the five largest of them
-   (`Pan_flavivirus_NS5_3_round1` at 5,200 moved calls,
-   `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` at 3,921, `RHABDOVIRUS_ssRNA_L_gene_round2`
-   at 2,101, the Forslund pair) hold two-thirds of the 19,081 moved calls.
+1. **A replay freezes candidate selection, and 6 of the 84 affected assays have now
+   been rescreened** — 280,818 rows, 0 call disagreements, 74.7% of every moved call,
+   including both assays that carry a verdict move. What is left unproven is a tail of
+   78 assays holding 4,820 moved calls between them, the largest moving 395. That is
+   thin enough that none of them can move a verdict alone, and it is still not the
+   same as having checked.
 2. **It moves every status in every report**, which is a maintainer's call and not a
    script's.
 3. **The evidence is two independent bench events and two tier-2 cases.** It is the
