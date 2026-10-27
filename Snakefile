@@ -31,6 +31,7 @@ import functools
 import json
 import os
 import subprocess
+import yaml
 from collections import Counter
 from datetime import date
 from pathlib import Path
@@ -49,6 +50,7 @@ from assaywatch.timing import (
     screening_progress,
     write_run_marker,
 )
+from assaywatch.settings import Settings
 from assaywatch.triggers import source_names
 from assaywatch.validate import iter_files, load_assay, not_live_because
 
@@ -105,6 +107,10 @@ RUN_DATE, RUN_DATE_REASON = resolve_run_date(config, _STATE_DIR)
 # starts before midnight and finishes after it stays one run record instead of
 # starting a second one halfway through.
 TODAY = RUN_DATE
+
+# The merged config, written in onstart and passed to every subprocess so that a
+# --config / --configfile override actually reaches the code. See onstart.
+CONFIG_EFFECTIVE = RESULTS / RUN_DATE / "config.effective.yaml"
 THERMO = str(config.get("thermo", False)).lower() in ("1", "true", "yes")
 
 # Only an assay with a verified DOI goes live. The validator enforces this in CI and
@@ -312,6 +318,33 @@ onstart:
     write_run_marker(RUN_DATE, _STATE_DIR)
     (RESULTS / RUN_DATE).mkdir(parents=True, exist_ok=True)
     Path(".tmp").mkdir(exist_ok=True)
+    # Dump the MERGED config -- config.yaml plus any --configfile plus any
+    # --config key=value -- and hand that file to every subprocess.
+    #
+    # Until 2026-10-27 no rule passed a config path at all (except
+    # lineage_analysis, which hardcoded `--config config.yaml`), so every module
+    # called load_config(None) and read DEFAULT_CONFIG, the repo's own
+    # config.yaml, whatever Snakemake had been given. An override therefore moved
+    # the params hash, rescreened all ~335 archives for hours, produced
+    # byte-identical results, and recorded the overridden hash as having produced
+    # them -- decoupling the invalidation signal from the rules actually applied,
+    # which is the failure collect.py's docstrings say burned this project twice.
+    #
+    # Deliberately NOT declared as an input of any rule. Its content is already
+    # hashed into _code_hash via _SCREEN_CFG and into the report/sitedrift/lineage
+    # params, so a real change already invalidates the right jobs; declaring a new
+    # input would instead invalidate every cached screen once, for nothing.
+    # Filtered to the keys `Settings` knows, NOT the raw merged dict. settings.py
+    # sets extra="forbid", and Snakemake's `config` also carries workflow-only
+    # keys -- `email` (always, from --config email=...), plus heartbeat_seconds
+    # and stall_seconds if set -- which are consumed by this file and are fields
+    # on no model. Dumping them verbatim makes score.load_config raise
+    # "Extra inputs are not permitted" and would break EVERY rule on the next
+    # live run; confirmed by trying it on 2026-10-27 before shipping it. The
+    # split is the real distinction: these three configure the workflow, the
+    # other 17 blocks configure the code.
+    _effective = {k: v for k, v in config.items() if k in Settings.model_fields}
+    Path(CONFIG_EFFECTIVE).write_text(yaml.safe_dump(_effective, sort_keys=True))
     _MANIFEST.start_stage("workflow")
     _HB["stop"] = heartbeat(
         Path(".tmp") / f"heartbeat-{RUN_DATE}.json",
@@ -399,7 +432,8 @@ checkpoint retrieve:
     benchmark:
         BENCH / "retrieve" / f"{TODAY}.tsv"
     shell:
-        "python -m assaywatch.retrieve {REGISTRY} --email {EMAIL} --run-record {output.run}"
+        "python -m assaywatch.retrieve {REGISTRY} --email {EMAIL} --run-record {output.run} "
+        "--config {CONFIG_EFFECTIVE}"
 
 
 def archives(wildcards):
@@ -537,7 +571,8 @@ rule screen_archive:
         # check could not fire and a changed code hash did not invalidate them.
         # On disk it is checkable by `collect` whatever Snakemake remembers.
         "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} "
-        "--workers {threads} {params.thermo} --signature {params.signature} -o {output.calls}"
+        "--workers {threads} {params.thermo} --signature {params.signature} -o {output.calls} "
+        "--config {CONFIG_EFFECTIVE}"
 
 
 rule collect_calls:
@@ -618,7 +653,8 @@ rule site_drift:
         runtime=60,
     shell:
         "python -m assaywatch.sitedrift {input.calls} --registry {REGISTRY} "
-        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
+        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
+        "--config {CONFIG_EFFECTIVE}"
 
 
 rule lineage_analysis:
@@ -647,7 +683,7 @@ rule lineage_analysis:
         runtime=60,
     shell:
         "python -m assaywatch.lineage_report {input.calls} "
-        "--retrieved {RETRIEVED} --config config.yaml --registry {REGISTRY} --out {RESULTS}/{RUN_DATE}"
+        "--retrieved {RETRIEVED} --config {CONFIG_EFFECTIVE} --registry {REGISTRY} --out {RESULTS}/{RUN_DATE}"
 
 
 rule degeneracy_table:
@@ -664,7 +700,7 @@ rule degeneracy_table:
         # python loads, so the tracked file was empty for the whole job and a
         # process death left a zero-byte table with a fresh mtime that `rule all`
         # accepts. -o writes a .part and renames.
-        "python -m assaywatch.degeneracy {REGISTRY} --tsv -o {output}"
+        "python -m assaywatch.degeneracy {REGISTRY} --tsv -o {output} --config {CONFIG_EFFECTIVE}"
 
 
 rule figures:
@@ -691,7 +727,8 @@ rule figures:
         runtime=60,
     shell:
         "MPLBACKEND=Agg python -m assaywatch.figures {input.calls} --registry {REGISTRY} "
-        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE}"
+        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
+        "--config {CONFIG_EFFECTIVE}"
 
 
 rule report:
@@ -723,4 +760,4 @@ rule report:
     shell:
         "python -m assaywatch.report {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
-        "--figures {RESULTS}/{RUN_DATE}/figures"
+        "--figures {RESULTS}/{RUN_DATE}/figures --config {CONFIG_EFFECTIVE}"
