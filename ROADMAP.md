@@ -27,20 +27,9 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
-- **Do `partial` rows count as successes?** The third of the three decisions PR #3
-  asked for, and the only one never settled: the other two became `scope_taxids` and
-  `lineage.group_at_rank: species`. `scripts/retrospective.py` reports `partial` in
-  its own cells and the headline quotes `fails` only, which is the "score them
-  separately" half of the answer but not a ruling on whether a named `partial` gap
-  counts as a catch. **It decides what the paper's main figure claims**, so it wants
-  settling before the figure is drawn.
-  `docs/journal/2026-10-22-lineage-plan-salvage.md` section 3.
-- **29 commits are unpushed** to `origin/main` as of 2026-10-27, which is where CI
-  runs `validate.yml`. Pushing is yours: everything in them is gated locally, but
-  nothing has been through CI.
-- **The contributor promise.** `CONTRIBUTING.md` ships without the two-week
-  review commitment that was planned for it. That is a promise about your own
-  time, so it is yours to make or drop.
+- **30 commits are unpushed** to `origin/main` as of 2026-10-27, which is where CI
+  runs `validate.yml`. Everything in them is gated locally, but nothing has been
+  through CI. Authorised 2026-10-27; pushed as the first act of the roadmap plan.
 - **The two Priority 1 decisions of 2026-10-27 are taken** and are recorded in
   `## Done`: the Leetz case opened a new held-out set, and TNTBLAST waits until
   someone installs Rosetta 2, builds it for arm64, or runs it on the cluster.
@@ -163,15 +152,23 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   key, so the next `snakemake` rescreens everything; every committed report and
   figure predates both the probe switch and S3b. Until it runs, the newest numbers
   in the repository describe a configuration that no longer ships.
-- **Six inert switches, grouped here because each is the same shape**: a mechanism
+- **Four inert switches, grouped here because each is the same shape**: a mechanism
   built, tested, and shipped off for want of evidence. `scoring.mispair_penalty: {}`
-  (S4, above), `scoring.locus_identity_min: null` (unproven; the design doc says only
-  a lineage-aware reference could be safe), `lineage.unclassified_is_bucket: false`
-  (tier-2 is unchanged by it, so there is nothing to ship it on),
-  `lineage.sublineage: {}` (below), `thermo: false` (needs the annealing conditions
-  the registry does not carry), and `scoring.engine: serial` (rejected, kept for the
-  record). None is a defect. The list exists so that "the mechanism is here and the
-  numbers are not" stays a count rather than a feeling.
+  (S4, above), `lineage.unclassified_is_bucket: false` (tier-2 is unchanged by it, so
+  there is nothing to ship it on), `lineage.sublineage: {}` (below), and `thermo:
+  false` (needs the annealing conditions the registry does not carry). None is a
+  defect. The list exists so that "the mechanism is here and the numbers are not"
+  stays a count rather than a feeling.
+
+  Two switches that were listed here on 2026-10-27 do not belong: they are not
+  waiting for evidence, the evidence came in against them. `scoring.engine: serial`
+  is S1, rejected 2026-10-26. `scoring.locus_identity_min: null` was built, priced at
+  0.50 over the 2026-10-25 run and **rejected the same day**: it throws out 1,840 of
+  9,687 sampled failures, concentrated exactly where it must not — `Pan_HERPES`
+  loses 47 of 47, because for a pan-family or consensus assay a divergent amplicon
+  interior is what SUCCESS looks like
+  (`docs/journal/2026-10-25-locus-identity-design.md`). Both are in the dead list
+  under the scoring test plan above, and `locus_identity_min` must stay null.
 
 ## Method debts
 
@@ -267,13 +264,19 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
   that stayed open. This is the same literature pass as the within-family negative
   corpus that gates C2, so one read per paper serves both.
-- **Mpox is covered only by two assays from 2004.**
-  `MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004` and `..._F3L_MGB_Kulesh_2004` are the whole
-  of it, and the N3R entry read 58.3% on the 2026-10-24 run with
-  `count_diverged_as_fail` on. A literature pass that day listed modern candidates
-  with their papers: `docs/journal/2026-10-24-mpox-assay-candidates.md`. Adding them
-  is curation, and it is the clearest case of the registry being out of date on a
-  pathogen that matters.
+- **Mpox depth: two optional adds.** This item said "covered only by two assays from
+  2004" when it was written on 2026-10-27, and that was wrong: the Li 2010 G2R trio
+  (`MONKEYPOX_dsDNA_{G2R_generic,G2R_WestAfrican,C3L_CongoBasin}_TaqMan_Li_2010`),
+  `NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011` and
+  `Pan_PARAPOX_dsDNA_RPO147_J6R_generic_TaqMan_Zhao_2013` were all applied on
+  2026-10-24, the day the candidate list was written. What that list still leaves open
+  is optional depth — Huo 2022 for clade IIb/B.1 lineage typing and Mills/Greninger
+  2022 for a clinically validated set — and one finding worth keeping in view: the
+  generic G2R primers are exact in only 20.4% (forward) and 23.0% (reverse) of 13,179
+  MPXV genomes while the probe is exact in 92.7%
+  (`docs/journal/2026-10-24-mpox-assay-candidates.md`). NCBI Taxonomy has no node for
+  either clade, so the clade-specific entries carry `scope_narrower_than_taxid`
+  instead of `scope_taxids`.
 
 - **889 lineages are still `taxid_<n>`** (2026-10-23 run).
   `name_lineages_from_taxonomy` names only what the taxonomy cache holds; the
@@ -327,15 +330,6 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   job, so this is a question of whether a one-off belongs in `scripts/` or in the
   journal entry that used it — not a defect.
 
-
-- **Documentation is overgrown by roughly 5:1 on the axis that matters**: 85
-  dated session journals totalling ~124,000 words against 10 evergreen
-  documents totalling ~52,000, for ~34,000 lines of code (2026-10-27). The
-  journals are worth keeping — several record a prediction that turned out
-  wrong instead of quietly correcting it. The problem is that they are filed as
-  documentation. Shape: `docs/journal/` and about twelve current reference
-  documents. Not acted on, because it is a judgement about your own research
-  record.
 
 - **Report triage, not report correctness.** Two groups should not lead the
   report: the `declining` rows whose note ends "a coverage gap, not drift", and
@@ -451,6 +445,14 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **`partial` rows count as catches, scored separately** (decided 2026-10-27). The
+      third of the three decisions PR #3 asked for, and the last to be settled.
+      `scripts/retrospective.py` prints a `partial gaps named` line of its own and the
+      `fails` numerator — the paper's main figure — never includes one. A test pins
+      that the two lines move independently.
+- [x] **CONTRIBUTING states best-effort review, no turnaround** (2026-10-27), and says
+      what makes a submission quick to review: validator passing, a resolvable DOI, and
+      oligos readable from the cited paper's own table.
 - [x] **The ΔTm column is in register** (2026-10-27). `thermo.duplex_tm` called
       `primer3.calc_heterodimer`, which returns the most stable structure between two
       sequences; on a mismatched site that is a shifted, shorter, near-perfect duplex
