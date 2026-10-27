@@ -84,6 +84,18 @@ Four flags that existed before 2026-10-21 are deliberately absent: `DOI_MISSING`
 document. Do not re-add them in any form. Leave the field null and let the
 consumer ask the field.
 
+## What happens to a submission
+
+Every submission is reviewed by the maintainer. Review is **best effort**: there
+is one maintainer, this is not their job, and no turnaround is promised, because
+a promise about time that cannot be kept is worse than none. What makes a
+submission quick to review is also what makes it correct, so do these first: the
+validator passes (`python -m assaywatch.validate pending --pending` for a new
+entry), the citation has a DOI that `scripts/check_citations.py` can resolve, and
+every oligo can be read from the cited paper's own table — `scripts/verify_oligos_against_paper.py`
+should report `exact`. An entry that meets those three is usually a short read.
+One that does not waits on whichever of them is missing, and the review says so.
+
 Three fields deserve care:
 
 - **`seq` versus `seq_as_written`.** `seq` is strict IUPAC, so inosine is written
