@@ -2,7 +2,7 @@
 """Fetch Elsevier (10.1016/...) PDFs through the Elsevier Article Retrieval API.
 
 Usage (from the repo root):
-    python scripts/fetch_elsevier.py --list docs/papers-still-needed-2026-10-24.md
+    python scripts/fetch_elsevier.py --list papers/papers-still-needed-2026-10-24.md
     python scripts/fetch_elsevier.py --doi 10.1016/j.jviromet.2007.05.021 --doi 10.1016/...
 
 Credentials (read, never printed):

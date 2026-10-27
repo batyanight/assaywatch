@@ -18,7 +18,29 @@ python scripts/papers_index.py --out docs/papers-index.md
 
 ---
 
-## Priority 1 — the two that settle an open sequence question
+## Priority 1 — ONE LEFT, and the copy on disk is unusable (updated 2026-10-27)
+
+**Mao is done and the question is closed.** `10.1006_viro.1996.8435.pdf` has been in
+`papers/` since 2026-10-25 16:00 and nobody re-ran the verifier against it until
+2026-10-27. Its Table 2 prints both primers directly — `GACTTGGCCACTTATGAC` and
+`GTCTCTGGAGAAGAAGAA`, both 18 nt, byte-identical to the registry — and nowhere prints
+a 19-mer. So the 18/19-mer question is settled in the registry's favour at three
+transcriptions to one, Stöhr 2015's extra 3' T is an extension a later paper added,
+and `RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008` records it. The amplicon
+531 bp is unaffected: both forms share the same 5' end.
+
+**Neill & Seal is still open, and a file under its name is NOT a copy of it.**
+`10.1016_s0890-8508_95_90962-1.pdf` exists (64 KB, 2026-10-25) and yields 488 words
+of front matter with **no nucleotide run of 10 bases or more anywhere in it** — the
+primer table is not in the extracted text. So the Hel1 3'-terminal base is exactly as
+unverified as it was. A better copy may be saved under the same name: the verifier
+indexes on what a file yields, so a readable PDF replacing that one wins the DOI.
+
+| paper | save as | proxy link | what it settles |
+|---|---|---|---|
+| Neill & Seal 1995, *Mol Cell Probes* 9:33-38 | `10.1016_s0890-8508_95_90962-1.pdf` | [NYU](https://proxy.library.nyu.edu/login?url=https://doi.org/10.1016/S0890-8508(95)90962-1) | the Hel1 3'-terminal base; see the note below, the decision is already taken on measurement |
+
+### The original Priority 1 entry, kept for its reasoning
 
 These are the only two papers in the project whose absence is blocking a question rather than
 a completeness read. Both are Elsevier with no PMCID, reconfirmed unreachable via

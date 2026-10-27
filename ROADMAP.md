@@ -11,7 +11,7 @@
   into this file, with a pointer back.
 - `papers/papers-fetch-list.md` is the one exception, and it is a fetch queue
   rather than a work list: PDFs that need a human and a proxy. The work those
-  PDFs unblock is item 10 here.
+  PDFs unblock is tier-2 validation, below.
 
 New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build plan.
 
@@ -21,216 +21,196 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
-- **Where the Leetz 2007 case gets recorded.** It is the first confirmed
-  retrospective identity and it reads `works`, not `fails`. `docs/validation-cases.tsv`
-  is frozen and spent, so a case from a paper the rule has never seen is worth
-  more as the first row of a new held-out set than as one in-sample row. A
-  dev-set row can never be un-read, which is why this was not decided for you.
-  `docs/2026-10-27-leetz-identity-confirmed.md`.
-- **Rosetta 2, or not.** Without it the TNTBLAST arm of item 1 cannot run on this
-  machine at all (no osx-arm64 build). Installing it is a system change needing
-  admin rights. The alternatives are building TNTBLAST from source for arm64, or
-  running it on a linux-64 box or the cluster.
 - **A dead conda env.** `tntblast` (osx-64) was created and cannot execute.
-  `conda env remove -n tntblast` if you are not installing Rosetta.
+  Now that the TNTBLAST arm is deferred (decided 2026-10-27), nothing uses it:
+  `conda env remove -n tntblast`.
 - **The contributor promise.** `CONTRIBUTING.md` ships without the two-week
   review commitment that was planned for it. That is a promise about your own
   time, so it is yours to make or drop.
+- **The two Priority 1 decisions of 2026-10-27 are taken** and are recorded in
+  `## Done`: the Leetz case opened a new held-out set, and TNTBLAST waits until
+  someone installs Rosetta 2, builds it for arm64, or runs it on the cluster.
 
-## The next three, in the order the evidence supports
+## The next thing, and why it is first
 
-1. **Fix `thermo.duplex_tm`'s registration, then re-run the comparison.**
-   It calls `primer3.calc_heterodimer`, which returns the most stable structure
-   between two sequences rather than the in-register duplex. 99 of 179 bench rows
-   align off-register (2026-10-27), and a shifted near-perfect duplex reports an
-   optimistically small ΔTm — least trustworthy on exactly the heavily mismatched
-   records that matter. Until this lands, no ΔTm in the repository means what it
-   says, and primer3's 20-to-7 advantage over the penalty rule cannot be
-   attributed to thermodynamics rather than to the artefact. `scripts/compare_thermo.py`
-   already measures the off-register rate and takes a second predictor without
-   modification. `docs/2026-10-27-thermo-vs-penalty-paired.md`.
+- **Per-chemistry scoring: price `terminal_mismatch_fails: false` for `conventional`.**
+  One penalty table is applied to every assay, but 155 of 209 are `conventional`
+  and 51 carry a probe (2026-10-26; `python -m assaywatch.validate registry`
+  prints the live tally, and the counts in this line were 128 of 138 when it was
+  first written). `terminal_mismatch_fails: true` is a qPCR-strength rule.
+  `by_chemistry` ships empty. Fix shape: a scoring block per chemistry, with the
+  conventional numbers set by tier-2 validation. Price it as a replay over the existing
+  calls table via `scripts/rescore.py` — no retrieval, no rescreen — with the
+  179 bench rows as arbiter.
 
-2. **Per-chemistry scoring: price `terminal_mismatch_fails: false` for `conventional`.**
-   One penalty table is applied to every assay, but 155 of 209 are `conventional`
-   and 51 carry a probe (2026-10-26; `python -m assaywatch.validate registry`
-   prints the live tally, and the counts in this line were 128 of 138 when it was
-   first written). `terminal_mismatch_fails: true` is a qPCR-strength rule.
-   `by_chemistry` ships empty. Fix shape: a scoring block per chemistry, with the
-   conventional numbers set by item 10. Price it as a replay over the existing
-   calls table via `scripts/rescore.py` — no retrieval, no rescreen — with the
-   179 bench rows as arbiter.
+  **The strongest argument for it is now a measurement.** On those bench rows
+  the shipped rule makes 23 false negatives against 1 false positive
+  (2026-10-27), which is the pessimism the bench review predicted, concentrated
+  in a panel whose published positives fail on a single terminal mismatch.
 
-   **The strongest argument for it is now a measurement.** On those bench rows
-   the shipped rule makes 23 false negatives against 1 false positive
-   (2026-10-27), which is the pessimism the bench review predicted, concentrated
-   in a panel whose published positives fail on a single terminal mismatch.
+  **And the threshold sits exactly on the class edge.** `primer_3prime_penalty: 3.0`
+  equals `reduced_max: 3.0`, so one mismatch in the last five bases lands
+  precisely on the detect/fail boundary — and 74.7% of all 284,062 `fail` calls
+  are within one 3'-window mismatch of it (2026-10-27 run). Three-quarters of
+  the `fail` fraction is one threshold coincidence away from moving.
 
-   **And the threshold sits exactly on the class edge.** `primer_3prime_penalty: 3.0`
-   equals `reduced_max: 3.0`, so one mismatch in the last five bases lands
-   precisely on the detect/fail boundary — and 74.7% of all 284,062 `fail` calls
-   are within one 3'-window mismatch of it (2026-10-27 run). Three-quarters of
-   the `fail` fraction is one threshold coincidence away from moving.
-
-   **Two figures from this item's history must not be quoted.**
-   `CALICIVIRUS_ssRNA_Helicase_Reid_1999` was read as carrying a 3'-terminal
-   mismatch in Hel1 against all 16 of its own target records, and
-   `terminal_mismatch_fails` alone was said to drive it to near-total failure
-   against a paper reporting the assay working. That mismatch was an error in our
-   stored copy of the oligo, not a chemistry effect. The 2026-10-24 correction of
-   Hel1's 3'-terminal base from G to C — the form the template carries in all 16
-   design targets, and the only form that reproduces the published 357 bp product
-   — removed it. **Do not quote "0 of 30".** Separately, exempting conventional
-   chemistry from `terminal_mismatch_fails` across the whole registry moves 251
-   calls of 2.7 million and changes no verdict anywhere
-   (`docs/2026-10-26-s3-chemistry-switches.md`), because a record carrying a
-   terminal mismatch almost always carries others that clear `reduced_max` on
-   their own. So the mechanism is real and the registry-wide effect through that
-   one knob is negligible; what the bench rows show is that the effect is
-   concentrated, not absent.
-
-3. **Turn on `reduced_not_detected_for`.** Already measured: not counting a
-   `reduced` probe call as a detection takes documented failures caught from 5/11
-   to 6/11 and precision from 2/9 to 3/10, with no new false alarms
-   (`docs/2026-10-26-s3-chemistry-switches.md`). 26,691 `reduced` calls on
-   probe-bearing assays carry mismatches in the probe itself and count as
-   detections, 11,956 of them with both primers perfect (2026-10-26 run). It
-   still ships `[]`. A config change plus a report re-render.
+  **Two figures from this item's history must not be quoted.**
+  `CALICIVIRUS_ssRNA_Helicase_Reid_1999` was read as carrying a 3'-terminal
+  mismatch in Hel1 against all 16 of its own target records, and
+  `terminal_mismatch_fails` alone was said to drive it to near-total failure
+  against a paper reporting the assay working. That mismatch was an error in our
+  stored copy of the oligo, not a chemistry effect. The 2026-10-24 correction of
+  Hel1's 3'-terminal base from G to C — the form the template carries in all 16
+  design targets, and the only form that reproduces the published 357 bp product
+  — removed it. **Do not quote "0 of 30".** Separately, exempting conventional
+  chemistry from `terminal_mismatch_fails` across the whole registry moves 251
+  calls of 2.7 million and changes no verdict anywhere
+  (`docs/2026-10-26-s3-chemistry-switches.md`), because a record carrying a
+  terminal mismatch almost always carries others that clear `reduced_max` on
+  their own. So the mechanism is real and the registry-wide effect through that
+  one knob is negligible; what the bench rows show is that the effect is
+  concentrated, not absent.
 
 ## Method debts
 
-4. **A trend over deposit year is claimed and never tested.** No
-   Cochran-Armitage, no logistic regression on year, no rank correlation. The
-   verdict is a two-window contrast against a pooled historical baseline, so an
-   assay whose target had one large deposition burst in 2014 has its baseline set
-   by 2014. `docs/related-work.md` claims decay "as a trend rather than as a
-   single pass/fail" as contribution #2; what ships is a single pass/fail against
-   a pooled comparator.
+- **A trend over deposit year is claimed and never tested.** No
+  Cochran-Armitage, no logistic regression on year, no rank correlation. The
+  verdict is a two-window contrast against a pooled historical baseline, so an
+  assay whose target had one large deposition burst in 2014 has its baseline set
+  by 2014. `docs/related-work.md` claims decay "as a trend rather than as a
+  single pass/fail" as contribution #2; what ships is a single pass/fail against
+  a pooled comparator.
 
-5. **The drift rules interact and are untested.** `recent_window_months: 24`
-   with `min_records_for_drift: 20` is why Bd (Boyle 2004) read "insufficient
-   data" at 100% detected on 17 recent records: shorten the window and assays
-   fall below the minimum, lengthen it and real change is diluted. Validation has
-   to set the pair together, not each alone. `max_window_months: 60` widens the
-   window per assay when it holds too few records, which treats the symptom.
+- **The drift rules interact and are untested.** `recent_window_months: 24`
+  with `min_records_for_drift: 20` is why Bd (Boyle 2004) read "insufficient
+  data" at 100% detected on 17 recent records: shorten the window and assays
+  fall below the minimum, lengthen it and real change is diluted. Validation has
+  to set the pair together, not each alone. `max_window_months: 60` widens the
+  window per assay when it holds too few records, which treats the symptom.
 
-6. **`drift.anchor_fdr`'s value has no evidence behind it.** 0.05 and 0.01
-   differ by a factor of two in rows moved (7,206 against 13,693; 2026-10-24
-   run), 0.001 is what ships, and tier-2 separates them on one row. The choice
-   wants the bench panels or a held-out set. `docs/2026-10-24-archive-anchor.md`.
+- **`drift.anchor_fdr`'s value has no evidence behind it.** 0.05 and 0.01
+  differ by a factor of two in rows moved (7,206 against 13,693; 2026-10-24
+  run), 0.001 is what ships, and tier-2 separates them on one row. The choice
+  wants the bench panels or a held-out set. `docs/2026-10-24-archive-anchor.md`.
 
-7. **Deposit date is not collection date.** `collection_date` is already
-   retrieved for `asm` groups and then unused, so a 2025 deposit of 1990s
-   isolates enters the recent window as current diversity. The data is on disk;
-   this is the same shape as the specificity fix, which took a day.
+- **Deposit date is not collection date.** `collection_date` is already
+  retrieved for `asm` groups and then unused, so a 2025 deposit of 1990s
+  isolates enters the recent window as current diversity. The data is on disk;
+  this is the same shape as the specificity fix, which took a day.
 
-8. **Populate `lineage.sublineage` for the segmented RNA viruses.**
-   `lineage.group_at_rank: species` with `sublineage: {}` means the influenza
-   matrix assay is one lineage of 74,861 records reading stable at 97.1%
-   (2026-10-26 run), while the paper `docs/related-work.md` names as the
-   benchmark found H3N2 carrying a probe-interfering mutation circulating since
-   2010. H1N1, H3N2 and H5N1 are all *Influenza A virus*. The fix is written as a
-   commented worked example in `config.yaml` for this exact assay id and never
-   populated. The resolver chain it needs already exists
-   (`lineage.build_resolvers`, including homology clusters via
-   `assaywatch.subcluster`).
+- **Populate `lineage.sublineage` for the segmented RNA viruses.**
+  `lineage.group_at_rank: species` with `sublineage: {}` means the influenza
+  matrix assay is one lineage of 74,861 records reading stable at 97.1%
+  (2026-10-26 run), while the paper `docs/related-work.md` names as the
+  benchmark found H3N2 carrying a probe-interfering mutation circulating since
+  2010. H1N1, H3N2 and H5N1 are all *Influenza A virus*. The fix is written as a
+  commented worked example in `config.yaml` for this exact assay id and never
+  populated. The resolver chain it needs already exists
+  (`lineage.build_resolvers`, including homology clusters via
+  `assaywatch.subcluster`).
 
-9. **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
-   already excludes out-of-scope records from the drift denominator and the
-   report computes specificity from the out-of-scope calls that happen to be on
-   disk (18 assays, 2026-10-27). What is missing is fetching a near-neighbour an
-   assay explicitly claims to exclude: BPSV cannot be tested for specificity at
-   all today, because nothing retrieves the neighbour.
+- **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
+  already excludes out-of-scope records from the drift denominator and the
+  report computes specificity from the out-of-scope calls that happen to be on
+  disk (18 assays, 2026-10-27). What is missing is fetching a near-neighbour an
+  assay explicitly claims to exclude: BPSV cannot be tested for specificity at
+  all today, because nothing retrieves the neighbour.
 
 ## Validation, which sets every threshold above
 
-10. **Tier 2: retrospective validation.** Assemble assays with published
-    follow-up — a paper, erratum or redesign reporting the assay failing on
-    particular lineages, or reporting it still working — and ask whether
-    AssayWatch flags what the literature found, using only records deposited
-    before that paper. That gives a confusion matrix, and the thresholds become
-    whatever optimises it rather than whatever looked sensible. **Every number in
-    `config.yaml` is a placeholder set by eye**, so until this exists the
-    statuses read as "worth looking at", not as measurements. It is also the
-    paper's main figure.
+- **Tier 2: retrospective validation.** Assemble assays with published
+  follow-up — a paper, erratum or redesign reporting the assay failing on
+  particular lineages, or reporting it still working — and ask whether
+  AssayWatch flags what the literature found, using only records deposited
+  before that paper. That gives a confusion matrix, and the thresholds become
+  whatever optimises it rather than whatever looked sensible. **Every number in
+  `config.yaml` is a placeholder set by eye**, so until this exists the
+  statuses read as "worth looking at", not as measurements. It is also the
+  paper's main figure.
 
-    **The binding constraint is identity, not discovery**, and it is measured:
-    `scripts/check_candidate_identity.py` ran over all 9 `mismatch`/`redesign`
-    rows — the queue's concentrated signal — and open-access text settles none of
-    them (`results/retro-identity-concentrated-2026-10-26.tsv`). Two Priority 1
-    PDFs are the whole blockage: Mao, Hedrick & Chinchar 1997 (the ranavirus MCP
-    18-mer/19-mer) and Neill & Seal 1995 (the calicivirus Hel1 3'-terminal base,
-    which now confirms or reverses a decision already taken on measurement).
-    Both are Elsevier, both need the NYU proxy, both are queued in
-    `papers/papers-fetch-list.md`. The identity script prefers a local file, so a
-    PDF dropped into `papers/` is picked up on re-run.
+  **The binding constraint is identity, not discovery**, and it is measured:
+  `scripts/check_candidate_identity.py` ran over all 9 `mismatch`/`redesign`
+  rows — the queue's concentrated signal — and open-access text settles none of
+  them (`results/retro-identity-concentrated-2026-10-26.tsv`). Re-run with the
+  PDFs that have arrived since, 2026-10-27: **1 CONFIRMED, 1 VARIANT, 11
+  UNCONFIRMABLE**, of which 6 wait on a PDF, 1 on a persistent Europe PMC HTTP
+  500 (PMC2546769), and 4 are closed on CONTENT — the paper simply does not
+  print our oligos, so no document will settle them. The one CONFIRMED row
+  opened `docs/validation-cases-heldout-2.tsv` on 2026-10-27.
+
+  The next rows therefore need the 6 queued PDFs, not more searching. The
+  identity script prefers a local file, so a PDF dropped into `papers/` is
+  picked up on re-run — and a file being present is not the same as being
+  readable: the Neill & Seal copy on disk yields no sequence at all
+  (`papers/papers-fetch-list.md`).
 
 ## Data and curation
 
-11. **889 lineages are still `taxid_<n>`** (2026-10-23 run).
-    `name_lineages_from_taxonomy` names only what the taxonomy cache holds; the
-    rest need `scripts/build_taxonomy_cache.py` rerun or an NCBI lookup. A data
-    task, not a code one.
+- **889 lineages are still `taxid_<n>`** (2026-10-23 run).
+  `name_lineages_from_taxonomy` names only what the taxonomy cache holds; the
+  rest need `scripts/build_taxonomy_cache.py` rerun or an NCBI lookup. A data
+  task, not a code one.
 
-12. **The registry is a primer registry, not an assay registry.** Annealing or
-    cycling appears in 7 of 209 entries, LoD or efficiency in 23, master mix or
-    Mg²⁺ in 2, sample matrix in 6, and one-step versus two-step RT in none
-    (2026-10-27). That is why `thermo: false` must ship: a ΔTm of −6 °C is
-    irrelevant at Ta 50 and fatal at Ta 62, and the schema cannot say which. Fix
-    shape: `conditions` / `format` / `performance` / `panels` blocks. Deferred
-    because the fix is re-reading papers, which is curation time.
+- **The registry is a primer registry, not an assay registry.** Annealing or
+  cycling appears in 7 of 209 entries, LoD or efficiency in 23, master mix or
+  Mg²⁺ in 2, sample matrix in 6, and one-step versus two-step RT in none
+  (2026-10-27). That is why `thermo: false` must ship: a ΔTm of −6 °C is
+  irrelevant at Ta 50 and fatal at Ta 62, and the schema cannot say which. Fix
+  shape: `conditions` / `format` / `performance` / `panels` blocks. Deferred
+  because the fix is re-reading papers, which is curation time.
 
-13. **Registry coverage.** Audit the PREDICT consensus-PCR panel for gaps, and
-    add assays in current wildlife-lab use that PREDICT never covered — fungal,
-    bacterial and parasitic targets especially. Sequences only from a source that
-    can be read and cited, never transcribed from a secondary list.
+- **Registry coverage.** Audit the PREDICT consensus-PCR panel for gaps, and
+  add assays in current wildlife-lab use that PREDICT never covered — fungal,
+  bacterial and parasitic targets especially. Sequences only from a source that
+  can be read and cited, never transcribed from a secondary list.
 
-14. **A genus taxid can stop containing its target.** *Mycoplasmopsis agassizii*
-    and *Mycoplasmoides testudinis* both left genus *Mycoplasma*, so a
-    genus-rooted retrieval silently stops fetching the organism the assay names.
-    `scripts/check_taxids.py` cannot see this; it needs a check that every named
-    target organism is still inside its assay's retrieval root. Cheap, and
-    silently wrong today.
+- **A genus taxid can stop containing its target.** *Mycoplasmopsis agassizii*
+  and *Mycoplasmoides testudinis* both left genus *Mycoplasma*, so a
+  genus-rooted retrieval silently stops fetching the organism the assay names.
+  `scripts/check_taxids.py` cannot see this; it needs a check that every named
+  target organism is still inside its assay's retrieval root. Cheap, and
+  silently wrong today.
 
-15. **Four leftovers from the oligo adjudication** (`docs/2026-10-23-oligo-adjudication.md`),
-    none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
-    paper but in no listed oligo and may have been found inside a printed target
-    rather than a primer table, never enumerated;
-    `BORNA_VIRUS_N_gene_Zimmermann_1994_round2`, which reads 0% by construction
-    because storing the measured form would mean storing a sequence no paper
-    prints; whether `CALICIVIRUS_ssRNA_Helicase_Reid_1999` should be re-cited to
-    Neill & Seal 1995 once that PDF arrives (item 10); and
-    `ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021`, which stores its reporter as
-    "Alexa 647N" where Figure 2C labels the probe A647N, the conventional short
-    form of Atto 647N — not screened, not changed, recorded.
+- **Four leftovers from the oligo adjudication** (`docs/2026-10-23-oligo-adjudication.md`),
+  none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
+  paper but in no listed oligo and may have been found inside a printed target
+  rather than a primer table, never enumerated;
+  `BORNA_VIRUS_N_gene_Zimmermann_1994_round2`, which reads 0% by construction
+  because storing the measured form would mean storing a sequence no paper
+  prints; whether `CALICIVIRUS_ssRNA_Helicase_Reid_1999` should be re-cited to
+  Neill & Seal 1995 once that PDF arrives (see tier-2 validation); and
+  `ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021`, which stores its reporter as
+  "Alexa 647N" where Figure 2C labels the probe A647N, the conventional short
+  form of Atto 647N — not screened, not changed, recorded.
 
-    The lesson from that session is worth keeping: "the paper wins" is the right
-    default for a *sequence* and the wrong default for a *correction*. Two of
-    four changes the printed evidence supported would have destroyed a working
-    assay, and only screening caught it. Any future oligo correction should be
-    screened against its own archive before it is committed, with the
-    before/after detected share reported.
+  The lesson from that session is worth keeping: "the paper wins" is the right
+  default for a *sequence* and the wrong default for a *correction*. Two of
+  four changes the printed evidence supported would have destroyed a working
+  assay, and only screening caught it. Any future oligo correction should be
+  screened against its own archive before it is committed, with the
+  before/after detected share reported.
 
 ## Hygiene
 
-16. **Documentation is overgrown by roughly 5:1 on the axis that matters**: 85
-    dated session journals totalling ~124,000 words against 10 evergreen
-    documents totalling ~52,000, for ~34,000 lines of code (2026-10-27). The
-    journals are worth keeping — several record a prediction that turned out
-    wrong instead of quietly correcting it. The problem is that they are filed as
-    documentation. Shape: `docs/journal/` and about twelve current reference
-    documents. Not acted on, because it is a judgement about your own research
-    record.
+- **Documentation is overgrown by roughly 5:1 on the axis that matters**: 85
+  dated session journals totalling ~124,000 words against 10 evergreen
+  documents totalling ~52,000, for ~34,000 lines of code (2026-10-27). The
+  journals are worth keeping — several record a prediction that turned out
+  wrong instead of quietly correcting it. The problem is that they are filed as
+  documentation. Shape: `docs/journal/` and about twelve current reference
+  documents. Not acted on, because it is a judgement about your own research
+  record.
 
-17. **Report triage, not report correctness.** Two groups should not lead the
-    report: the `declining` rows whose note ends "a coverage gap, not drift", and
-    the degeneracy-severe assays. Neither is a wrong status — the first are sound
-    pooled calls whose note describes a lineage, and degeneracy is reported
-    beside a verdict and never folded into one. `Start here` now orders 10 assays
-    (2026-10-27) and is the mechanism this would use.
+- **Report triage, not report correctness.** Two groups should not lead the
+  report: the `declining` rows whose note ends "a coverage gap, not drift", and
+  the degeneracy-severe assays. Neither is a wrong status — the first are sound
+  pooled calls whose note describes a lineage, and degeneracy is reported
+  beside a verdict and never folded into one. `Start here` now orders 10 assays
+  (2026-10-27) and is the mechanism this would use.
 
-18. **A SLURM profile aimed at Greene.** `profiles/slurm/` runs the same rules on
-    SLURM generically; nothing in it is tuned to NYU's partitions, QoS or module
-    stack.
+- **A SLURM profile aimed at Greene.** `profiles/slurm/` runs the same rules on
+  SLURM generically; nothing in it is tuned to NYU's partitions, QoS or module
+  stack.
 
 ## Known limitations, recorded and not work
 
@@ -335,6 +315,44 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **The ΔTm column is in register** (2026-10-27). `thermo.duplex_tm` called
+      `primer3.calc_heterodimer`, which returns the most stable structure between two
+      sequences; on a mismatched site that is a shifted, shorter, near-perfect duplex
+      reporting an optimistically small ΔTm, least trustworthy on exactly the records
+      the report is about. It now sums nearest-neighbour terms base-for-base
+      (Biopython `MeltingTemp.Tm_NN`, SantaLucia & Hicks 2004 with the
+      Allawi/SantaLucia mismatch tables), so there is no alignment search and no
+      register to get wrong. **Re-running the bench comparison cost the
+      thermodynamic arm half its margin: p = 0.0192 became p = 0.0708**, so the
+      "thermodynamics beats the penalty rule" claim does not survive its own
+      confound, while the penalty rule's 23 false negatives against 1 false positive
+      do. Adjacent mismatches have no measured term, so 32 sites are withheld with
+      `thermo_note: nn_unsupported` rather than scored as free.
+      `docs/2026-10-27-thermo-vs-penalty-paired.md`.
+- [x] **`reduced_not_detected_for: [hydrolysis_probe, mgb]`** (2026-10-27). A
+      mismatched hydrolysis probe is no longer counted as a detection: detection IS
+      the probe, and there is no gel to look at. Measured before it was taken, by
+      rendering the 2026-10-26 calls table both ways — 13 of 235 statuses move, in
+      both directions, and `INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003` goes
+      `stable` -> flagged at 6.5% of 30,382 recent records, which is the documented
+      failure this switch exists to catch. It costs two published positives on the
+      Leptospira bench panel; that cost stands and is recorded beside the setting.
+- [x] **A new held-out set, opened with the first confirmed identity** (2026-10-27).
+      `docs/validation-cases-heldout-2.tsv`. The development set is frozen and the
+      first held-out set was read on 2026-10-26, so the project had no unread
+      evaluation data; the Leetz 2007 case went there rather than into the dev set,
+      because a dev-set row can never be un-read. It reads `works`: the paper's
+      73.8% is an oocyst dilution series on one isolate, which is sensitivity, and
+      this tool does not model sensitivity.
+- [x] **The TNTBLAST arm is deferred, not forgotten** (decided 2026-10-27). No
+      osx-arm64 build, and Rosetta 2 is a system change needing admin rights. It
+      waits for Rosetta, an arm64 build from source, or a run on linux-64 or the
+      cluster; `scripts/compare_thermo.py` takes a second predictor unmodified.
+- [x] **The ranavirus MCP 18/19-mer question is closed** (2026-10-26, confirmed
+      2026-10-27 by re-running the verifier). Mao, Hedrick & Chinchar 1997 has been
+      on disk since 2026-10-25 and its Table 2 prints both primers as 18-mers,
+      byte-identical to the registry, with no 19-mer anywhere. Stöhr 2015's extra 3'
+      T is a later extension, not a base this registry dropped.
 - [x] the recent window now widens per assay (`max_window_months`, 60) when the
       standard window holds too few records, which is what made Bd unjudgeable;
       `scripts/retrospective.py` recomputes any past date's verdict, so the
