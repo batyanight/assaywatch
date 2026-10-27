@@ -22,7 +22,7 @@ amplicon_bp_range:
 species_sizes:
 # Measured from the 2026-10-17 archive by scripts/measure_species_sizes.py, with
 # 108 patent-division records excluded (they give a construct's length, not a
-# species': docs/2026-10-19-orthopox-ati-vaccinia.md). A length is kept at >= 2
+# species': docs/journal/2026-10-19-orthopox-ati-vaccinia.md). A length is kept at >= 2
 # records and >= 2% of the species' records; kept lengths cluster where a step
 # exceeds 12 bp. Bands cover 88% of monkeypox records, 93% of vaccinia, 94% of
 # cowpox and all of every other species. Not a key: vaccinia 1587-1615 and
@@ -31,7 +31,7 @@ species_sizes:
 # below is the exception, added by hand on 2026-10-20: its product is bench-confirmed
 # by Meyer's own Table 1 (530 bp) while this pipeline scores it fail at 3.5 against a
 # 3.0 cutoff, on five mismatches 9-18 nt from the 3' end with the 3' octamer clean.
-# See docs/2026-10-20-meyer-ati-bench-panel.md.
+# See docs/journal/2026-10-20-meyer-ati-bench-panel.md.
 # Two further fail-scored bands were left out on purpose, both measured:
 #   vaccinia 1226 bp is Modified Vaccinia Ankara (U94848 and MVA-derived constructs),
 #     a real strain with a real ATI deletion, but 6 bp from the ectromelia 1220 band,
@@ -144,7 +144,7 @@ source:
     cowpox 1673 bp. The remeasurement agrees except that it adds bands the hand pass missed (vaccinia 1547 and
     1671, cowpox 1598–1601 and 1505, akhmetapox 1505, taterapox 1628) and drops skunkpox, whose records score
     fail. APPROXIMATE RANGE: 540–1700 bp. The paper''s stated sizes differed
-    by 1–32 bp from measured values for several species. RESOLVED 2026-10-20 as gel sizing, not isolate difference: the four well-matched species sit within 3 bp, and the three outliers (monkeypox 1500, volepox 510, skunkpox 530) are all round numbers read low against non-round measurements (1535–1545, 542, 551). For volepox and skunkpox the records scored are Meyer''s own isolates (volepox CA, skunkpox WA/1978, the only genomes of either species in GenBank), which excludes isolate difference for those two. Monkeypox is partly a strain question: no Copenhagen genome exists, and his Copenhagen is a non-Zairian isolate, so clade IIb is the band to compare. See docs/2026-10-20-meyer-ati-bench-panel.md.
+    by 1–32 bp from measured values for several species. RESOLVED 2026-10-20 as gel sizing, not isolate difference: the four well-matched species sit within 3 bp, and the three outliers (monkeypox 1500, volepox 510, skunkpox 530) are all round numbers read low against non-round measurements (1535–1545, 542, 551). For volepox and skunkpox the records scored are Meyer''s own isolates (volepox CA, skunkpox WA/1978, the only genomes of either species in GenBank), which excludes isolate difference for those two. Monkeypox is partly a strain question: no Copenhagen genome exists, and his Copenhagen is a non-Zairian isolate, so clade IIb is the band to compare. See docs/journal/2026-10-20-meyer-ati-bench-panel.md.
     Measured on: every GenBank Orthopoxvirus (txid10242) genome 100–400 kb (542 non-monkeypox records), plus 162 monkeypox
     strided every 80th, plus 155 ATI-titled records. Non-monkeypox genomes: 410 detect, 79 reduced, 48 fail, 5 no_amplicon
     (75.6% detect among spanning). Monkeypox: 157 detect of 162 (96.9%). Why non-detects in monkeypox and variola: consensus

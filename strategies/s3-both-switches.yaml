@@ -2,7 +2,7 @@
 # together"). S3a is the probe switch, S3b the conventional terminal-mismatch switch;
 # see those two files for the mechanism and the literature behind each.
 #
-# Two hand-set switches, NOT a fitted table. docs/2026-10-24-scoring-strategy-test-plan.md
+# Two hand-set switches, NOT a fitted table. docs/journal/2026-10-24-scoring-strategy-test-plan.md
 # Part 3 forbids hand-fitting a full `by_chemistry` table if C2 is going to happen:
 # these are a probe of whether the chemistry axis carries signal at all, not a second
 # penalty table.

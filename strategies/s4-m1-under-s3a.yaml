@@ -2,7 +2,7 @@
 # survives the ladder.
 #
 # RE-SPECIFIED, and the reason is recorded rather than quietly fixed. Part 1 S4 of
-# docs/2026-10-24-scoring-strategy-test-plan.md says "M1 re-tested under S1+S2+S3",
+# docs/journal/2026-10-24-scoring-strategy-test-plan.md says "M1 re-tested under S1+S2+S3",
 # on the reasoning that `primer_3prime_penalty` 3.0 equalling `reduced_max` 3.0 is a
 # coincidence that disappears under serial gates. S1 and S2 were both rejected on
 # 2026-10-26, so there are no serial gates and no decay curve, and that coincidence
@@ -11,7 +11,7 @@
 # cannot test the claim S4 was written to test.
 #
 # M1 is `mispair_penalty: {"G:T": 0.0, "T:G": 0.0}`, shipped 2026-10-21 and reverted
-# 2026-10-22 (docs/2026-10-22-M1-tier2.md) because it lost the Leucocytozoon
+# 2026-10-22 (docs/journal/2026-10-22-M1-tier2.md) because it lost the Leucocytozoon
 # @2016-12-31 catch. The mechanism of that loss is the hinge of this candidate:
 # `drift.py` counts `reduced` as detected, so moving a record from `fail` to `reduced`
 # loses the catch exactly as moving it to `detect` does. Only staying at `fail`

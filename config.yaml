@@ -3,7 +3,7 @@
 # READ THIS BEFORE TRUSTING A NUMBER BELOW. Almost every threshold here was set
 # by eye from general PCR practice, not fitted to data. Against 49 cases drawn
 # from published follow-up (docs/validation-cases.tsv; scripts/retrospective.py
-# prints all of this; frozen in docs/2026-10-23-baseline.md), the tool is wrong
+# prints all of this; frozen in docs/journal/2026-10-23-baseline.md), the tool is wrong
 # in BOTH directions, which is not what "too conservative" would predict:
 #
 #   documented failures caught         5/11 = 45%  (95% CI 21%-72%)
@@ -18,7 +18,7 @@
 # to distinct papers leaves about seven independent failure events, against
 # which at least seven settings below were tuned: these numbers are IN-SAMPLE,
 # and a one-case change in them is inside the noise.
-# (History: 1 of 12 caught when docs/2026-10-04-pipeline-review.md first
+# (History: 1 of 12 caught when docs/journal/2026-10-04-pipeline-review.md first
 # measured it; precision was first computed 2026-10-23.)
 # Treat a status as "worth a look", never as a measurement.
 #
@@ -60,16 +60,16 @@ scoring:
   # at the 3' terminus it behaves like a match, not a block. That gave it a
   # mechanism as well as the numbers, which is why it shipped first and alone:
   # three bench panels' false fails rest on it (FAP 12 of 14 rest only on T:G,
-  # docs/2026-10-19-fap-bench-panel.md; Barrett 3 of 3,
-  # docs/2026-10-20-scope-curation.md), and Rahn's 41 bench negatives price it at
-  # zero specificity cost (docs/2026-10-20-rahn-invA-bench-panel.md). The other
+  # docs/journal/2026-10-19-fap-bench-panel.md; Barrett 3 of 3,
+  # docs/journal/2026-10-20-scope-curation.md), and Rahn's 41 bench negatives price it at
+  # zero specificity cost (docs/journal/2026-10-20-rahn-invA-bench-panel.md). The other
   # "near-neutral" mispairs (T:C, T:T) are pyrimidine-pyrimidine, not wobbles, and
   # carry neither a bench panel nor a measured specificity cost here, so they stay
   # at 1.0. The severe suppressors (A:G, G:A, C:C, A:A) are penalty INCREASES, not
   # discounts, and wait for their own panels. M2 - reading the discount off a
   # nearest-neighbour dG for free instead of tabulating it - was killed because NN
   # melting inverts Kwok's order (A:A/A:G score as stabilising;
-  # docs/2026-10-21-M2-step0-killtest.md), so an empirical per-mispair knob is the
+  # docs/journal/2026-10-21-M2-step0-killtest.md), so an empirical per-mispair knob is the
   # instrument.
   #
   # Tier-2 killed the value anyway, twice. Applied at EVERY position the discount
@@ -81,8 +81,8 @@ scoring:
   # carry a G:T at d=2 - inside the window, so no scope rule excludes them, and no
   # partial multiplier saves them either: at d=2 a record stays `fail` only while
   # the multiplier is above about 0.83, and drift counts `reduced` as detected.
-  # Measurement in docs/2026-10-22-M1-tier2.md; the earlier global-value run is in
-  # docs/2026-10-21-M1-shipped.md. The project rule decides it - a candidate that
+  # Measurement in docs/journal/2026-10-22-M1-tier2.md; the earlier global-value run is in
+  # docs/journal/2026-10-21-M1-shipped.md. The project rule decides it - a candidate that
   # loses a documented catch is a bad candidate - so the table ships empty and the
   # FAP/Barrett false fails stand. The mechanism and its 3' scope stay in
   # score_primer, inert, for whatever candidate comes next.
@@ -147,7 +147,7 @@ scoring:
   # and scripts/price_locus_identity.py are the evidence, and because a
   # LINEAGE-AWARE reference (one per sublineage, via clustermaps.py/subcluster.py)
   # is the only version with a chance of being safe. Unproven.
-  # Full account: docs/2026-10-25-locus-identity-design.md.
+  # Full account: docs/journal/2026-10-25-locus-identity-design.md.
   locus_identity_min: null
   locus_identity_trim_bp: 20
   locus_identity_min_interior_bp: 30
@@ -231,7 +231,7 @@ scoring:
   # direction that manufactures `fail` calls and inflates the flagged count.
   #
   # THE ARGUMENT ABOVE IS NOW PARTLY MEASURED, so read this before re-deriving it.
-  # docs/2026-10-26-s3-chemistry-switches.md tested exactly the claim this paragraph
+  # docs/journal/2026-10-26-s3-chemistry-switches.md tested exactly the claim this paragraph
   # makes - that `terminal_mismatch_fails` at qPCR strength inflates `fail` across the
   # conventional majority - by exempting conventional chemistry from it. It moves 251
   # calls of 2.7 million and changes NO verdict anywhere. So the mechanism is real and
@@ -283,7 +283,7 @@ scoring:
   # raise a flag, so that measures nothing):
   #   conventional: {terminal_mismatch_fails: false, primer_3prime_penalty: 2.0, reduced_max: 5.0}
   # Its tier-2 result against docs/validation-cases.tsv is in
-  # docs/2026-10-19-conventional-override-validation.md.
+  # docs/journal/2026-10-19-conventional-override-validation.md.
   by_chemistry: {}
 
 amplicon:
@@ -447,7 +447,7 @@ windows:
 # three. For comparison, on the same data: gzipped MB alone 0.827, `MB x assays`
 # alone 0.944, `records x assays` alone 0.091, MB + records 0.845.
 #
-# docs/2026-10-18-pipeline-timekeeping-todo.md had proposed sizing on record
+# docs/journal/2026-10-18-pipeline-timekeeping-todo.md had proposed sizing on record
 # count INSTEAD of bytes. That was wrong twice: bytes are the better single
 # predictor, and the missing variable was neither of them.
 #
@@ -559,7 +559,7 @@ drift:
   # flagged.
   #
   # CALIBRATED 20 -> 15 on 2026-10-21 against docs/validation-cases.tsv, with
-  # recent_window_months held at 24 (docs/2026-10-21-drift-window-calibration.md).
+  # recent_window_months held at 24 (docs/journal/2026-10-21-drift-window-calibration.md).
   # A 2-D sweep over (window, minimum) showed the two knobs act separately: the
   # minimum sets how many cases are `undecided` (17 of ~49 at 20, 15 at this
   # value), the window sets accuracy. Lowering to 15 turns two undecided cases
@@ -619,7 +619,7 @@ drift:
   require_working_baseline: true
   # Count a record as a failure when the partner primer's site is present in the
   # deposit and does not match (exclusion `diverged`), instead of dropping it.
-  # TESTED 2026-10-23 AND KEPT OFF (docs/2026-10-23-wave2-diverged-and-patent.md).
+  # TESTED 2026-10-23 AND KEPT OFF (docs/journal/2026-10-23-wave2-diverged-and-patent.md).
   # On tier-2 it caught no new failure and turned two working assays `declining`
   # (CMV Prepens round 2, Ranavirus Pallister @2012). The reason is the label, not
   # the idea: `diverged` needs one primer site "credible" by a PER-RECORD E-value
@@ -650,7 +650,7 @@ drift:
   # also strong anchors, not chance.
   count_diverged_as_fail: true
   # The archive-scale anchor test that the comment above asks for
-  # (docs/2026-10-24-archive-anchor.md). Every no_amplicon row now carries the
+  # (docs/journal/2026-10-24-archive-anchor.md). Every no_amplicon row now carries the
   # best lone site's PER-RECORD E-value (`anchor_evalue`); with a number here,
   # Benjamini-Hochberg runs over each assay's no_amplicon rows at report time and a
   # `diverged`/`truncated`/`no_pair` anchor that does not survive is relabelled
@@ -730,7 +730,7 @@ drift:
   # `fail`. Measured 2026-10-25 over 134 groups: 26,691 such rows in 6 assays,
   # and OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023 published 42.2% while every
   # record carrying targetD detected - 81 detect, 111 chance pairs, no genuine
-  # failure (docs/2026-10-25-chance-pairs-invent-denominators.md).
+  # failure (docs/journal/2026-10-25-chance-pairs-invent-denominators.md).
   #
   # NO THRESHOLD OF ITS OWN, deliberately. The test is: probe site absent AND
   # both primers above `scoring.oligo_weak_max` (3.0), the bar at which one
@@ -759,7 +759,7 @@ drift:
   # find for the 51 probe-bearing entries, and changes nothing for the other 158.
   #
   # MEASURED, AND IT IS THE BEST-EVIDENCED UNSHIPPED CANDIDATE IN THE PROJECT
-  # (docs/2026-10-26-s3-chemistry-switches.md). Switching it on for those two
+  # (docs/journal/2026-10-26-s3-chemistry-switches.md). Switching it on for those two
   # chemistries takes documented failures caught from 5/11 to 6/11, the precision of
   # `declining` from 2/9 to 3/10, and leaves false alarms UNCHANGED at 5/32. It fixes
   # INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 at 2010-05-30, a documented
@@ -805,7 +805,7 @@ drift:
   # held off for a week because "no validation case names an affected assay", so
   # the validation set could not approve it -- while the ATI flag it fixes had
   # been checked by hand and called a false positive
-  # (docs/2026-10-19-orthopox-ati-vaccinia.md). A 49-case set with ~7 independent
+  # (docs/journal/2026-10-19-orthopox-ati-vaccinia.md). A 49-case set with ~7 independent
   # failure events cannot adjudicate most denominator questions, and using its
   # silence as a veto keeps known-wrong output in the report. The rule now: where
   # the mechanism argument is sound and tier-2 is SILENT, ship with the evidence
@@ -813,7 +813,7 @@ drift:
   # Here: tier-2 unchanged, row for row; 92 assays lose patent records; 5
   # statuses move, in both directions -- the dependovirus VP1 assays fall from
   # 80% to 44% detected once 6,845 engineered AAV capsid records stop propping
-  # them up. Measured in docs/2026-10-23-wave2-diverged-and-patent.md.
+  # them up. Measured in docs/journal/2026-10-23-wave2-diverged-and-patent.md.
   exclude_patent_records: true
 
 # The per-site drift report (assaywatch/sitedrift.py): for the failing assays,
@@ -880,7 +880,7 @@ lineage:
   # that decides a status. Holm is a stopgap: partial pooling
   # (docs/bayesian-scoring-plan.md C1) is the intended replacement, which is why
   # no margin is tuned here. Nothing controls error ACROSS the 200-odd assays.
-  # Measured 2026-10-23 in docs/2026-10-23-wave3-holm.md. statsmodels names:
+  # Measured 2026-10-23 in docs/journal/2026-10-23-wave3-holm.md. statsmodels names:
   # holm | fdr_bh | bonferroni.
   multiple_testing: holm
   alpha: 0.05
@@ -900,7 +900,7 @@ lineage:
   # 14 to 12 disagreements with 6/12 failures caught either way, and on the
   # 2026-10-17 calls 16 of the 201 current assays move declining -> low coverage, none
   # the other way (13 with exact-taxid grouping; the "17 of 213" first recorded counted
-  # removed assays). Evidence: docs/2026-10-19-pan-family-cases.md.
+  # removed assays). Evidence: docs/journal/2026-10-19-pan-family-cases.md.
   # Since 2026-10-20 this flag also gates the override's own denominator: when the
   # POOLED verdict is low coverage or insufficient data, a failing lineage may
   # overturn it only if that lineage itself cleared the threshold in an earlier
@@ -908,7 +908,7 @@ lineage:
   # `declining` claims one. Tier-2 12 -> 10 disagreements, 4/11 caught either way,
   # nothing lost; 2 of 201 current statuses move. Four alternatives were measured
   # and lost, two of them by dropping the one documented drift catch.
-  # Evidence: docs/2026-10-20-pan-family-override.md.
+  # Evidence: docs/journal/2026-10-20-pan-family-override.md.
   require_working_baseline: true
   # Lineage = species, not exact taxid. With `species`, a record's taxid is rolled up
   # to its species-rank ancestor in drift.scope_taxonomy (which must carry ranks:
@@ -917,7 +917,7 @@ lineage:
   # detected, excused by the gate) and 1891763 (the same virus from 2018, "new").
   # null: group by exact taxid, as before. On since 2026-10-19: tier-2 13 -> 12
   # disagreements (Johne 2005 on JCPyV), 4/11 failures caught either way, no other
-  # case moves. Evidence: docs/2026-10-19-taxid-artefacts.md.
+  # case moves. Evidence: docs/journal/2026-10-19-taxid-artefacts.md.
   group_at_rank: species
   # With the working-baseline gate: a lineage under an NCBI "unclassified ..." node
   # is a bucket of untyped records, so it cannot claim to be new to the archive.
@@ -927,7 +927,7 @@ lineage:
   # Off: tier-2 is unchanged by it (the enterovirus case it was built for still
   # disagrees, on the next lineage down), so there is no evidence to ship it on.
   unclassified_is_bucket: false
-  # Sub-lineage resolver chains, per assay (docs/2026-10-19-subtaxid-resolution.md).
+  # Sub-lineage resolver chains, per assay (docs/journal/2026-10-19-subtaxid-resolution.md).
   # Empty: every assay is grouped per taxid, exactly as before. An entry can turn a
   # verdict into `declining`, so like any threshold here it goes through tier-2
   # validation (scripts/retrospective.py --cases) before it is added. Shape:

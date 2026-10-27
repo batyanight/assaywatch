@@ -40,7 +40,7 @@ source:
     a single rev5 T:G, PPRV on rev3 G:T plus fwd4 C:C. That rev5 T:G is in 4 of the 7 rows, measles included, so it is a fixed
     feature of MorbR against the genus and Barrett amplified them all anyway. So the 0/83 PPRV share is at least partly the
     3''-window penalty, not loss of coverage, and this panel is the second independent one after Forslund FAP to land on mispair
-    identity in the 3'' window (docs/2026-10-19-fap-bench-panel.md). No config change here; the knob needs tier-2. MEASURED
+    identity in the 3'' window (docs/journal/2026-10-19-fap-bench-panel.md). No config change here; the knob needs tier-2. MEASURED
     while reading: the paper says "a 429 nucleotide DNA fragment" and the 2026-10-17 calls give 429 bp in 4,326 of 4,347 detected
     or reduced records. The two entries holding this pair disagreed, 429 here and 430 there; both now read 429 (inside declared_tolerance
     either way, so no call moves).'

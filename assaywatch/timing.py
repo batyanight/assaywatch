@@ -337,7 +337,7 @@ def read_screen_benchmarks(
     exists: Snakemake samples with psutil's `memory_full_info()`, which macOS
     refuses for a child process, and its sampler never sets `data_collected`, so
     `max_rss`, `cpu_time` and the rest read `NA` however long the job runs
-    (measured 2026-10-22, docs/2026-10-18-pipeline-timekeeping-todo.md). On Linux
+    (measured 2026-10-22, docs/journal/2026-10-18-pipeline-timekeeping-todo.md). On Linux
     - CI and a cluster - those columns fill in, which is where `mem_mb` and
     `threads` become checkable against what an archive actually costs.
 
@@ -430,7 +430,7 @@ def screen_core_seconds(
     alone reaches 0.827 and `MB x assays` alone 0.944; the record term adds the
     last 0.008 and is what sizes an archive of many short records correctly.
 
-    `docs/2026-10-18-pipeline-timekeeping-todo.md` proposed replacing bytes with
+    `docs/journal/2026-10-18-pipeline-timekeeping-todo.md` proposed replacing bytes with
     record count. That was wrong twice over: bytes are the better single predictor
     (0.827 against 0.091 for `records x assays`), and the missing variable was
     neither, it was how many assays the group holds.

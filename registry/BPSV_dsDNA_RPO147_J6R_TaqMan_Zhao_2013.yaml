@@ -40,7 +40,7 @@ source:
     detection of pseudocowpox or bovine papular stomatitis virus before it, which is why this one is worth holding. Oligos
     read from the paper''s Table 1, parsed out of the Elsevier JATS deposit papers/10.1016_j.jviromet.2013.08.027.xml cell
     by cell rather than from the flattened text, because flattening a table puts each label next to the WRONG sequence. THE
-    PAPER WAS ASSUMED PAYWALLED and is not: docs/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned, so likely
+    PAPER WAS ASSUMED PAYWALLED and is not: docs/journal/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned, so likely
     paywalled", and scripts/fetch_elsevier.py retrieved the full text with the institutional token on the first try. THE PAPER
     STATES NO PRODUCT SIZE for any of the four assays, so every amplicon here is measured. Measured 2026-10-24 over the 92
     Parapoxvirus genomes of 100-200 kb in nuccore (esearch/efetch, txid10257): 64 Orf virus, 11 bovine papular stomatitis

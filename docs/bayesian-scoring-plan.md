@@ -1,7 +1,7 @@
 # Bayesian methods for scoring: the plan before the code
 
 Status: **design only, 2026-10-23. Nothing implemented.** Written in the shape of
-`docs/2026-10-17-estimand-plan.md`, which worked: state the design, make a falsifiable
+`docs/journal/2026-10-17-estimand-plan.md`, which worked: state the design, make a falsifiable
 prediction, and agree the kill-test before writing anything.
 
 References for everything below are in `docs/related-work.md` §5 and §6.
@@ -18,7 +18,7 @@ what to do.
 | **C3** | the validation matrix | point sensitivity | a day | none |
 
 Recommended order: **C3 -> C1 conjugate -> C1 hierarchical -> the identity column ->
-C2.** C3 is pure honesty and is already partly done (`docs/2026-10-23-baseline.md`).
+C2.** C3 is pure honesty and is already partly done (`docs/journal/2026-10-23-baseline.md`).
 C1 fixes behaviour that ships today. C2 is the research contribution and is gated on a
 data problem, below, that is bigger than the modelling problem.
 
@@ -196,7 +196,7 @@ MGB versus plain probe, and the primer3 nearest-neighbour ΔTm on the real bindi
 
 It also dissolves the arithmetic coincidence that killed M1. `primer_3prime_penalty:
 3.0` happens to equal `reduced_max: 3.0`, so a single mismatch two bases from the 3'
-end lands exactly on the class boundary, and `docs/2026-10-22-M1-tier2.md` showed the
+end lands exactly on the class boundary, and `docs/journal/2026-10-22-M1-tier2.md` showed the
 whole G:T wobble question was decided by that coincidence rather than by biology
 ("a multiplier of 0.8 is not a discount"). A fitted continuous model has no such edge.
 
@@ -326,7 +326,7 @@ within-family negatives. Say so now, so that a model fitted on 16 is never defen
 the grounds that the work was already done.
 
 > **The two numbers in this file are a FLOOR and a TARGET, not a disagreement
-> (reconciled 2026-10-26).** `docs/2026-10-24-scoring-strategy-test-plan.md` gates S5 at
+> (reconciled 2026-10-26).** `docs/journal/2026-10-24-scoring-strategy-test-plan.md` gates S5 at
 > "at least 40 within-family negatives across several independent papers", which is the
 > ~40 kill floor in the paragraph above, not a different standard. The "60+ across >= 10
 > independent papers" in the corpus section is the collection *target*: the count at which
@@ -340,7 +340,7 @@ the grounds that the work was already done.
 ## C3 — Bayesian treatment of the validation matrix
 
 Cheapest item here and the one that most improves the project's honesty. Partly done
-already in `docs/2026-10-23-baseline.md`, which records:
+already in `docs/journal/2026-10-23-baseline.md`, which records:
 
 | quantity | point | 95% credible interval (Jeffreys) |
 |---|---:|---|
@@ -363,7 +363,7 @@ Remaining C3 work:
 - **Make threshold selection a decision problem with a stated loss.**
   expected loss = (cost of a missed drift) × P(miss) + (cost of a false alarm) ×
   P(false alarm). The project already has the instinct without the formalism:
-  `docs/2026-10-21-drift-window-calibration.md:58-90` overruled its own grid optimum
+  `docs/journal/2026-10-21-drift-window-calibration.md:58-90` overruled its own grid optimum
   *because the loss function was wrong* — as-of scoring cannot see the slow-to-warn
   cost. Writing the loss down would have made that argument formal rather than
   narrative, and it is the same move that would settle `detect_fraction_threshold: 0.90`.

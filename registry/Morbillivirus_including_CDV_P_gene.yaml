@@ -34,7 +34,7 @@ source:
     over every archive of this entry''s own retrieval group measures a modal 429 bp on 1798 products, with 100% of all products
     within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies.
     That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See
-    docs/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what
+    docs/journal/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what
     marks it as measured. SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added, and the firing lineage turns
     out to be a scorer artefact rather than drift. The override demotes a pooled stable (95.6 percent of 2,815) to low coverage
     on Morbillivirus caprinae (3052343, PPRV) at 0/83. PPRV is the opposite of out of scope: Barrett et al. 1993 is a universal
@@ -47,7 +47,7 @@ source:
     dolphin morbillivirus on a single rev5 T:G, PPRV on rev3 G:T plus fwd4 C:C. That rev5 T:G is in 4 of the 7 rows, measles
     included, so it is a fixed feature of MorbR against the genus and Barrett amplified them all anyway. So the 0/83 PPRV
     share is at least partly the 3''-window penalty, not loss of coverage, and this panel is the second independent one after
-    Forslund FAP to land on mispair identity in the 3'' window (docs/2026-10-19-fap-bench-panel.md). No config change here;
+    Forslund FAP to land on mispair identity in the 3'' window (docs/journal/2026-10-19-fap-bench-panel.md). No config change here;
     the knob needs tier-2. MEASURED while reading: the paper says "a 429 nucleotide DNA fragment" and the 2026-10-17 calls
     give 429 bp in 4,326 of 4,347 detected or reduced records. The two entries holding this pair disagreed, 429 here and 430
     there; both now read 429 (inside declared_tolerance either way, so no call moves).'

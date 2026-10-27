@@ -3,7 +3,7 @@
 # WHY THIS FILE EXISTS. `scripts/bench_panel.py` takes one --panel, one --assay and
 # one --fasta, so it cannot be looped over docs/bench-panels/*.tsv without knowing
 # which assay each panel belongs to. Until 2026-10-26 that mapping lived only in
-# shell history and in the table in docs/2026-10-21-M1-identity-aware-penalty.md,
+# shell history and in the table in docs/journal/2026-10-21-M1-identity-aware-penalty.md,
 # which is where every row below was read from and re-checked against the registry.
 # `scripts/rescore.py` reads this to score every panel for a candidate strategy,
 # which is Part 0.4's "bench panels: band/no-band accuracy per panel".

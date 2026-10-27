@@ -119,7 +119,7 @@ class Scoring(Block):
     #: Locus-identity test (assaywatch.locus_identity). NULL MEANS OFF AND IT MUST
     #: STAY NULL: it is unsafe for pan-family assays, where a divergent amplicon
     #: interior is the success condition. See the long comment in config.yaml and
-    #: docs/2026-10-25-locus-identity-design.md.
+    #: docs/journal/2026-10-25-locus-identity-design.md.
     locus_identity_min: float | None = Field(default=None, gt=0, le=1)
     locus_identity_trim_bp: int = Field(default=20, ge=0)
     locus_identity_min_interior_bp: int = Field(default=30, ge=1)
@@ -278,7 +278,7 @@ class Drift(Block):
     #: (`detect + reduced`); config.yaml names `hydrolysis_probe` and `mgb` since
     #: 2026-10-27, so the shipped behaviour is that a mismatched probe is not a find.
     #: The long comment in config.yaml carries the decision, what it moves and what
-    #: it costs; docs/2026-10-26-s3-chemistry-switches.md is the measurement.
+    #: it costs; docs/journal/2026-10-26-s3-chemistry-switches.md is the measurement.
     reduced_not_detected_for: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")

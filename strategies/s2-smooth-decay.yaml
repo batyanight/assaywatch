@@ -1,6 +1,6 @@
 # S2 - replace `score_primer`'s three-band step function with a smooth exponential
 # decay, `w(d) = w0 * 2 ** (-(d - 1) / half_distance)`. Part 1 S2 of
-# docs/2026-10-24-scoring-strategy-test-plan.md, dated 2026-10-24; the question,
+# docs/journal/2026-10-24-scoring-strategy-test-plan.md, dated 2026-10-24; the question,
 # prediction and kill criterion below are that document's.
 #
 # REPLAY-ONLY. `config.yaml` has three bands and two widths, so a curve cannot be
@@ -12,7 +12,7 @@
 # The values are the constrained best cell from
 # `scripts/fit_panel_thresholds.py --grid weight`, i.e. the best of the cells that
 # lose fewest rows S0 gets right. They are NOT a recommendation: no cell in the grid
-# loses nothing. See docs/2026-10-26-s2-smooth-decay-killed.md.
+# loses nothing. See docs/journal/2026-10-26-s2-smooth-decay-killed.md.
 name: s2-smooth-decay
 registered: 2026-10-26
 question: >

@@ -265,7 +265,7 @@ class Target(Strict):
     # Which taxids are "in scope" for drift assessment. When set, only
     # records whose taxid is in this list, OR a descendant of one, count toward
     # the drift denominator (`drift.scope_taxonomy`, ancestry since 2026-10-19;
-    # see docs/2026-10-19-scope-ancestry.md). Out-of-scope records are still
+    # see docs/journal/2026-10-19-scope-ancestry.md). Out-of-scope records are still
     # retrieved and screened (for cross-reactivity reporting) but do not
     # influence the stable/declining call. Because matching is ancestral, name
     # the smallest set of taxa whose subtrees cover the design paper's stated

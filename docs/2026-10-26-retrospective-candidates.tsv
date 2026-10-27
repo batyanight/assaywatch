@@ -7,7 +7,7 @@
 # its results rather than its abstract, and the assay must be the one the registry
 # holds rather than a modified version of it. Four rows were read on 2026-10-26 and
 # three of them failed one of those tests; see
-# docs/2026-10-26-retrospective-case-search.md.
+# docs/journal/2026-10-26-retrospective-case-search.md.
 #
 # `groups` says which phrase family matched and so what kind of case a row could
 # become: miss and mismatch could yield the scarce `fails` kind, weakened and

@@ -78,7 +78,7 @@ def jeffreys_interval(k: int, n: int, alpha: float = 0.05) -> tuple[float, float
 
     Jeffreys rather than Wilson here because it is the Bayesian interval with the
     reference prior Beta(0.5, 0.5), so it reads as a statement about the
-    quantity rather than about a procedure, and `docs/2026-10-23-baseline.md`
+    quantity rather than about a procedure, and `docs/journal/2026-10-23-baseline.md`
     already quotes its figures - computed by hand, because this function did not
     exist. Brown, Cai & DasGupta 2001 (doi:10.1214/ss/1009213286) recommend it
     for small n alongside Wilson.
@@ -95,7 +95,7 @@ def jeffreys_interval(k: int, n: int, alpha: float = 0.05) -> tuple[float, float
     at k = n the upper bound is 1, rather than the bare quantile's small residue.
     `n == 0` gives (0, 1), as `wilson_interval` does.
 
-    Pinned in tests against all three figures `docs/2026-10-23-baseline.md`
+    Pinned in tests against all three figures `docs/journal/2026-10-23-baseline.md`
     reports: 5/11 -> (20.0%, 73.0%), 5/8 -> (29.5%, 88.1%), 2/9 -> (4.9%, 54.4%).
     """
     if n == 0:

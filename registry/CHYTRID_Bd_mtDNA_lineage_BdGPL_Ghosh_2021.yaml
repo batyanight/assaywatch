@@ -55,7 +55,7 @@ source:
     the registry. These two assays are DESIGNED NOT TO DETECT most Bd. A detected fraction computed over all Bd records is
     meaningless for them - a low share is the assay succeeding at discrimination, not failing at detection. They cannot be
     read with the same threshold as a pan-lineage assay such as CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004, and they are
-    the concrete case the per-clade estimand discussion in section 3.1 of docs/2026-10-04-pipeline-review.md is about. This
+    the concrete case the per-clade estimand discussion in section 3.1 of docs/journal/2026-10-04-pipeline-review.md is about. This
     entry is the BdGPL probe. Measured on CP161941.1: forward at 117701, reverse at 117770, a 98 bp product with the probe
     inside it. amplicon_bp is measured; the paper states no size. BdGPL is the panzootic lineage behind global amphibian declines,
     so a detection here is the finding that matters epidemiologically. Its sibling is CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021.

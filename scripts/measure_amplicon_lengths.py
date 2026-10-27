@@ -3,7 +3,7 @@
     python scripts/measure_amplicon_lengths.py <assay_id> [<assay_id> ...]
 
 The evidence that amplicon length is a DIAGNOSTIC AND NOT A FILTER
-(docs/2026-10-25-stale-orphan-screens.md). Measured 2026-10-25 from the run's
+(docs/journal/2026-10-25-stale-orphan-screens.md). Measured 2026-10-25 from the run's
 collected calls: Orf's chance pairs are all at exactly 62 bp against a declared 68,
 one length rather than scatter; OPHIDIOMYCES targetD's span 56-69 against 57 with
 63% inside 5 bp, so a length rule would keep most of the rows behind the one wrong

@@ -278,7 +278,7 @@ def main(argv: list[str] | None = None) -> int:
         "",
         "## Papers still wanted",
         "",
-        "See `docs/2026-10-05-papers-needed.md` for the prioritised list of papers not yet "
+        "See `docs/journal/2026-10-05-papers-needed.md` for the prioritised list of papers not yet "
         "obtained, and `papers/papers-still-needed.md` for links.",
         "",
     ]

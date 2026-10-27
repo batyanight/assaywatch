@@ -44,7 +44,7 @@ source:
   nested_round: null
   notes_curator: 'ADDED 2026-10-24. Fills a real gap: the registry held pan-pox consensus assays and MPXV-specific ones, and
     NOTHING specific to the North American wild orthopoxviruses - volepox, skunkpox and raccoonpox - which are squarely zoo
-    and wildlife diagnostics. Proposed in the CDC sweep of docs/2026-10-24-mpox-assay-candidates.md. OLIGOS read from the
+    and wildlife diagnostics. Proposed in the CDC sweep of docs/journal/2026-10-24-mpox-assay-candidates.md. OLIGOS read from the
     paper''s own Methods sentence, in the Europe PMC full text (PMC3144017). THE PAPER PRINTS THEM IN CODON-STYLE HYPHENATED
     FORM - "5''YGG-ACC-RGG-AGG-TCT-TTC-TGC-ATT 3''" - which is worth knowing because a plain [ACGT]{15,} search over the full
     text returns NOTHING and reads as "paper holds no oligos". The hyphens are stripped and nothing else is changed. One transcription

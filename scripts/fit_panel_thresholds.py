@@ -3,7 +3,7 @@
 
     python scripts/fit_panel_thresholds.py --out .tmp/fit/serial.json
 
-S1 of `docs/2026-10-24-scoring-strategy-test-plan.md` Part 1. `engine: serial` has
+S1 of `docs/journal/2026-10-24-scoring-strategy-test-plan.md` Part 1. `engine: serial` has
 been in the codebase and off since 2026-10-21, and its `oligo_ok_max`/`oligo_weak_max`
 are placeholders copied from the budget thresholds `detect_max`/`reduced_max`. They
 are the only two numbers the serial engine adds, and the bench panels are the only

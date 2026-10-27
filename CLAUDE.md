@@ -44,11 +44,13 @@ one-off Python, and over asking Batya to download files by hand.
 ## Reading this repo cheaply
 Search and summarise; don't read large files whole. `rg`, `fd`, `jq`, `mlr` are
 on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
-- `docs/INDEX.md` indexes every Markdown file under `docs/` (79 of them, plus 15 data
-  files, as of 2026-10-24), grouped by what you want, with a `Superseded` section.
-  Start there rather than guessing from filenames.
-- `docs/YYYY-MM-DD-*.md` are dated session records. Historical: open one only
-  when `docs/INDEX.md`, `docs/RESUME-HERE.md` or the task points to it.
+- `docs/INDEX.md` indexes everything under `docs/` (9 reference documents, 89 journals
+  and 12 data files as of 2026-10-27), grouped by what you want, with a `Superseded`
+  section. Start there rather than guessing from filenames.
+- `docs/journal/YYYY-MM-DD-*.md` are dated session records, and `docs/*.md` is the
+  short reference set. A journal is history: open one only when `docs/INDEX.md`,
+  `docs/RESUME-HERE.md` or the task points to it, and write a new session's record
+  into `docs/journal/`, never into `docs/`.
 - `registry/` holds 200+ assay YAMLs. Find entries with `rg` (e.g.
   `rg -l 'Canine distemper' registry/`) or run the validator; never open them in bulk.
 - `docs/*.tsv` (master sheet, lab leads, validation cases): see columns with

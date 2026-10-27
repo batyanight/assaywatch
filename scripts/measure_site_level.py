@@ -3,7 +3,7 @@
 
     python scripts/measure_site_level.py --assay CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004
 
-Phase 1 of the Bd-miss plan (`docs/2026-10-23-wave3-bd-miss.md`, "the fix this points
+Phase 1 of the Bd-miss plan (`docs/journal/2026-10-23-wave3-bd-miss.md`, "the fix this points
 to"). **Measures only. Changes no call, no verdict and no config.**
 
 THE QUESTION. A record is scored only if it holds the whole amplicon, so a deposit that

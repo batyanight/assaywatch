@@ -107,7 +107,7 @@ def precision_lines(rows: list[tuple[str, str, str, str]], intervals: str = "jef
 
     Jeffreys is the default where it can be had, because this matrix is the one
     place in the project whose counts are single digits
-    (`docs/bayesian-scoring-plan.md` C3), and `docs/2026-10-23-baseline.md`
+    (`docs/bayesian-scoring-plan.md` C3), and `docs/journal/2026-10-23-baseline.md`
     already quotes Jeffreys figures for it. It needs scipy, which is the
     `[lineage]` extra, so Wilson remains the fallback: this summary must not be
     the thing that makes scipy mandatory.
@@ -147,7 +147,7 @@ def precision_lines(rows: list[tuple[str, str, str, str]], intervals: str = "jef
     # tool declining to judge a case is a different event from judging it wrong,
     # and 3 of the 11 `fails` rows are declined; reporting only the first ratio
     # charges the tool for silence, reporting only the second hides how often it
-    # is silent. docs/2026-10-23-baseline.md prints both; this script printed one.
+    # is silent. docs/journal/2026-10-23-baseline.md prints both; this script printed one.
     decided = [r for r in fails if r[3] != "undecided"]
     if decided and len(decided) != len(fails):
         out.append(f"    among the cases it judged at all: {frac(len(caught), len(decided))}")

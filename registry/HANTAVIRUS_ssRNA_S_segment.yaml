@@ -41,7 +41,7 @@ source:
     and UHantaR1 are both in the open-access full text of Anthony et al. 2013, ''A strategy to estimate unknown viral diversity
     in mammals'' (PMC3760253), checked with whitespace flattened. Same group as the Anthony et al. 2015 PREDICT paper this
     entry''s oligos were transcribed from. The nested and alternate rounds are NOT in that main text - UHantaF2/R2, UHantaF3/R3
-    and UHantaF4 are all absent - so they are probably in its supplementary material and remain unattributed; see docs/2026-10-21-predict-primer-provenance.md.
+    and UHantaF4 are all absent - so they are probably in its supplementary material and remain unattributed; see docs/journal/2026-10-21-predict-primer-provenance.md.
     doi_verified stays false until scripts/resolve_citations.py approves it. ANCESTOR FOUND 2026-10-22: Aitichou et al. 2005, doi:10.1016/j.jviromet.2004.10.004, J Virol Methods
     124:21-26, is the existing protocol Anthony modified - it is Anthony reference 56, and Anthony states
     the hantavirus consensus primers were modified from it to increase the degeneracy of the assay. Aitichou

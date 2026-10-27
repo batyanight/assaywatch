@@ -27,7 +27,8 @@ list. Its companion
 order at each drifted primer position. Then `examples/README.md` runs the
 screening step on your own machine, offline, in under a second.
 
-`docs/INDEX.md` indexes the 81 files under `docs/`, grouped by what you want;
+`docs/INDEX.md` indexes everything under `docs/` — nine reference documents, the 89
+dated session records in `docs/journal/`, and 12 data files — grouped by what you want;
 `docs/pipeline-architecture.md` is the best single overview of the pipeline and
 `docs/installation.md` covers setup in more detail than the Setup section below.
 
@@ -285,7 +286,7 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
 None of this is hidden in code: every threshold is annotated in `config.yaml`
 with its justification or an admission that it has none, and the standing
 numbers are in
-[docs/2026-10-04-pipeline-review.md](docs/2026-10-04-pipeline-review.md).
+[docs/journal/2026-10-04-pipeline-review.md](docs/journal/2026-10-04-pipeline-review.md).
 Against 49 cases from published follow-up the tool catches 5 of 11 documented
 failures — only 2 of them through the `declining` flag — and only 2 of its 9
 `declining` calls were real failures. Both numbers are in-sample, on about seven

@@ -2,7 +2,7 @@
 
 Built 2026-10-26 and shipped empty, then turned ON for `hydrolysis_probe` and `mgb`
 on 2026-10-27 as a maintainer decision. Priced in
-docs/2026-10-26-s3-chemistry-switches.md: documented failures caught go from 5/11 to
+docs/journal/2026-10-26-s3-chemistry-switches.md: documented failures caught go from 5/11 to
 6/11 with no increase in false alarms, and it costs two published positives on the
 Leptospira bench panel. Re-rendering the 2026-10-26 calls table both ways moved 13 of
 235 statuses, and put INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 -- a documented

@@ -46,7 +46,7 @@ source:
     AND CLOSED 2026-10-20. The override fires on Adeno-associated virus (272636) at 1329/1525 = 87.2 percent against a pooled
     80.2 percent of 2,456 - better than the pool, on the assay''s own target, since Gao et al. 2002 calls these the universal
     AAV signature-region primers. Fifth worked example of the above-pooled pattern. The AAV patent skew is separately documented
-    in docs/2026-10-19-orthopox-ati-vaccinia.md: patents are detected MORE than natural records here, 84.3 vs 45.3 percent
+    in docs/journal/2026-10-19-orthopox-ati-vaccinia.md: patents are detected MORE than natural records here, 84.3 vs 45.3 percent
     on the exact Gao pair.'
 needs_review:
 - flag: oligos_modified

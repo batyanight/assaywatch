@@ -2,7 +2,7 @@
 
 Disclosed because the git history makes it obvious and a reader should not have to
 reconstruct it from commit trailers, and because a project that audits itself for
-fabricated citations (`docs/2026-10-05-hallucination-audit.md`) has no business being
+fabricated citations (`docs/journal/2026-10-05-hallucination-audit.md`) has no business being
 coy about it.
 
 ## The numbers, from the log
@@ -29,7 +29,7 @@ go wrong:
 - **Citations.** `scripts/check_citations.py` verifies every registry DOI against a
   committed Crossref cache, in pre-commit and in CI. It exists because a reference was
   once written from memory and attributed to the wrong authors —
-  `docs/2026-10-05-hallucination-audit.md` records the incident, the audit that
+  `docs/journal/2026-10-05-hallucination-audit.md` records the incident, the audit that
   followed (1 real problem in 119 checkable entries) and the gate that now makes it a
   build failure. `.pre-commit-config.yaml` records a separate regeneration that found
   ten fabricated DOIs in a papers index.
@@ -41,8 +41,8 @@ go wrong:
 - **Numbers in prose.** The documents in `docs/` quote measurements. Where a figure
   came from a run, the command that produces it is given beside it. Several documents
   exist specifically to record a prediction that turned out wrong
-  (`docs/2026-10-23-wave2-diverged-and-patent.md`,
-  `docs/2026-10-23-wave1-report-honesty.md`) rather than to quietly correct it.
+  (`docs/journal/2026-10-23-wave2-diverged-and-patent.md`,
+  `docs/journal/2026-10-23-wave1-report-honesty.md`) rather than to quietly correct it.
 - **Thresholds.** `config.yaml` annotates every number with its justification or an
   explicit admission that it has none, and `scripts/retrospective.py` reports how well
   those numbers do against documented assay failures, including the direction that
@@ -66,5 +66,5 @@ python scripts/check_citations.py
 ```
 
 Then read `config.yaml`'s header, which states what the thresholds are worth, and
-`docs/2026-10-23-baseline.md`, which states what the tool's output is worth. Both are
+`docs/journal/2026-10-23-baseline.md`, which states what the tool's output is worth. Both are
 less flattering than a reader might expect, which is the point.

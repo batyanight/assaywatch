@@ -59,7 +59,7 @@ PATTERNS = [
 #: earlier version wanted "on <date>" or "as of <date>" and flagged two claims
 #: that carry a bare "(2026-10-14)", which is a date stamp by any reading. The
 #: project's own rule is that "a check that cries wolf gets switched off"
-#: (docs/2026-10-05-hallucination-audit.md), and the cost of being loose is that
+#: (docs/journal/2026-10-05-hallucination-audit.md), and the cost of being loose is that
 #: a stale count sharing a line with an unrelated date is missed.
 DATED = re.compile(r"\d{4}-\d{2}-\d{2}")
 

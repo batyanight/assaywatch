@@ -5,8 +5,8 @@
         --out /tmp/overrides.tsv
 
 Three docs in a row re-derived "the 17 overrides" by hand from a calls table
-(docs/2026-10-19-taxid-artefacts.md, docs/2026-10-19-pan-family-cases.md,
-docs/2026-10-20-pan-family-override.md), and the set moves with every rule
+(docs/journal/2026-10-19-taxid-artefacts.md, docs/journal/2026-10-19-pan-family-cases.md,
+docs/journal/2026-10-20-pan-family-override.md), and the set moves with every rule
 change, so it is worth a script. Read-only: it writes one TSV and touches
 nothing else.
 
@@ -15,7 +15,7 @@ does — is the firing lineage one the assay's design paper ever claimed? — so
 carries the lineage's name and rank, whether it is already inside the entry's
 `scope_taxids`, and whether that paper is on disk to read.
 
-`above_pooled` marks the pattern docs/2026-10-20-pan-family-override.md point 2
+`above_pooled` marks the pattern docs/journal/2026-10-20-pan-family-override.md point 2
 is about: the "failing" lineage detects at or above the pooled share, so the
 override is calling a better-than-average slice of the pool a decline.
 

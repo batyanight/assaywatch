@@ -37,7 +37,7 @@
 assay_id	as_of	expect	mechanism	source
 # ROW ADDED 2026-10-27. The first CONFIRMED retrospective identity in the project:
 # both round-2 primers are printed verbatim in the paper and read `exact` against
-# the registry (docs/2026-10-27-leetz-identity-confirmed.md). `as_of` is the
+# the registry (docs/journal/2026-10-27-leetz-identity-confirmed.md). `as_of` is the
 # received date, 25 March 2007, not the publication date.
 #
 # `works`, and the mechanism matters. The paper's headline is 73.8% positive for

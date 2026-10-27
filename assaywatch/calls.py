@@ -128,7 +128,7 @@ def apply_anchor_fdr(rows: list[dict[str, Any]], cfg: dict[str, Any]) -> dict[st
     applied across thousands of records, so an archive produces chance anchors in
     proportion to its size: 55 of Bd's 63 `diverged` records are 2014 JAM81 mRNAs
     with no ITS locus, anchored by the reverse primer at five or six mismatches
-    (docs/2026-10-23-wave2-diverged-and-patent.md). A `diverged` label there asserts
+    (docs/journal/2026-10-23-wave2-diverged-and-patent.md). A `diverged` label there asserts
     the assay fails on a record that never held its target.
 
     Why Benjamini-Hochberg over the assay's rows and not "E times the record
@@ -237,7 +237,7 @@ def apply_chance_pair_test(
     such rows in 6 probe-bearing assays, and
     `OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023` published 42.2% where every
     record that actually carries targetD detects - 81 detect, 111 chance pairs,
-    no genuine failure at all (docs/2026-10-25-chance-pairs-invent-denominators.md).
+    no genuine failure at all (docs/journal/2026-10-25-chance-pairs-invent-denominators.md).
 
     **Why not an E-value test, of either kind.** `pair_evalue` cannot do this
     job. It scales with amplicon length, search space AND match quality, so a
@@ -288,7 +288,7 @@ def apply_chance_pair_test(
 
     Conventional and SYBR assays have no probe and so no locus-presence test;
     they are out of scope here, and the general case was attempted and rejected
-    (`docs/2026-10-25-locus-identity-design.md`).
+    (`docs/journal/2026-10-25-locus-identity-design.md`).
 
     Returns {assay_id: rows relabelled}. Mutates `rows`.
     """

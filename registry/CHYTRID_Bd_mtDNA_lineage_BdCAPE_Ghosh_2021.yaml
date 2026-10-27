@@ -55,7 +55,7 @@ source:
     the registry. These two assays are DESIGNED NOT TO DETECT most Bd. A detected fraction computed over all Bd records is
     meaningless for them - a low share is the assay succeeding at discrimination, not failing at detection. They cannot be
     read with the same threshold as a pan-lineage assay such as CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004, and they are
-    the concrete case the per-clade estimand discussion in section 3.1 of docs/2026-10-04-pipeline-review.md is about. This
+    the concrete case the per-clade estimand discussion in section 3.1 of docs/journal/2026-10-04-pipeline-review.md is about. This
     entry is the BdCAPE probe. The 64 bp product was recovered from both CP161941.1 and CP161942.1, in each case differing
     from the figure only at the two probe-site SNPs described above, because both are BdGPL genomes. amplicon_bp is measured;
     the paper states no size. BdCAPE is the Cape lineage of southern Africa, which co-occurs with BdGPL in the Orange River

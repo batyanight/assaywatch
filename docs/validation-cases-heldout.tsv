@@ -5,7 +5,7 @@
 # the first time it is read. docs/validation-cases.tsv is the development set and
 # is where tuning happens; a matrix from that file is in-sample and
 # scripts/holdout.py prices what the tuning bought
-# (docs/2026-10-23-wave4-holdout.md).
+# (docs/journal/2026-10-23-wave4-holdout.md).
 #
 # Same columns and same bar as the development set: a paper, erratum or redesign
 # reporting how an assay ALREADY IN THE REGISTRY performed, with `as_of` no later
@@ -17,7 +17,7 @@
 # flag currently has one ground-truth event; that is the gap to close first.
 #
 # Leads: scripts/scan_literature.py (proposes, never adds) and
-# docs/2026-10-06-lab-leads.md. Read each paper once for both this and the C2
+# docs/journal/2026-10-06-lab-leads.md. Read each paper once for both this and the C2
 # bench corpus in docs/bayesian-scoring-plan.md.
 #
 # Score with:
@@ -26,7 +26,7 @@
 assay_id	as_of	expect	mechanism	source
 #
 # ROWS ADDED 2026-10-24 by a literature sweep over the 200 live registry entries
-# (three passes, one per third of the registry; see docs/2026-10-24-heldout-candidates.md
+# (three passes, one per third of the registry; see docs/journal/2026-10-24-heldout-candidates.md
 # for the leads that did NOT clear the bar and for every assay searched without result).
 # Each row was accepted only where the full text was read AND the assay identity was
 # confirmed by printed primer names or sequences. Independence is NOT assumed: a row
@@ -65,7 +65,7 @@ Salmonella_invA_Rahn_1992	2024-10-01	partial	coverage	10.3389/fmicb.2024.1504621
 TILV_ssRNA_segment3_ME1_ME2_Kembou_2017	2025-08-25	works		10.1371/journal.pone.0344743 Supradhnya Namdeo 2026: Table 1 prints ME1 and ME2 with the registry's primer names, exact sequences and 250 bp amplicon. Used as the reference standard against a new latex agglutination test, with 151 of 194 field samples positive. Worth having because the registry entry itself was accepted on thin in-silico evidence.
 Reptarenavirus_GP_Aqrawi_2015	2026-08-12	works		10.3390/ani16193112 Otero Soberon 2026: Methods print MDS-400 and MDS-402 character-for-character as the registry stores them (MDS-402 is the registry forward). 18 of 28 Peruvian snakes positive, across 6 of 7 taxa sampled.
 #
-# ROWS ADDED 2026-10-24 (late) from the Usutu lead that docs/2026-10-24-heldout-candidates.md called the
+# ROWS ADDED 2026-10-24 (late) from the Usutu lead that docs/journal/2026-10-24-heldout-candidates.md called the
 # cheapest unexplored win. Method was the one that doc recommends: paste each stored oligo into Europe PMC
 # full-text search in quotes. It also returned Joest 2011 ITSELF, so the entry's oligos are now verified
 # verbatim against their own design paper, the 21 nt reverse included.

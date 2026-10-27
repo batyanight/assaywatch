@@ -23,7 +23,7 @@ def test_looks_like_patent_reads_the_citation_not_the_subject():
     assert not looks_like_patent("Modified Microbial Nucleic Acid")
     assert not looks_like_patent("RESEQUENCING PATHOGEN MICROARRAY")
     # Engineered but deposited normally: not a patent record, and not this
-    # function's business to guess. See docs/2026-10-19-orthopox-ati-vaccinia.md.
+    # function's business to guess. See docs/journal/2026-10-19-orthopox-ati-vaccinia.md.
     assert not looks_like_patent(ENGINEERED)
     assert not looks_like_patent("")
 

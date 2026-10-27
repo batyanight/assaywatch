@@ -40,7 +40,7 @@ source:
     match the paper''s own: section 2.3 prints forward primer INCqPCRF (5''-GTTTGGTCCGCCTCCTTG-3'') and the probe (5''-6FAM-GCCGGTCGAACTTCAGCATC-BHQ-3''),
     and section 2.2 prints the reverse as INC-qPCR2R (5''-AACCCGCACAGTGAAGTGG-3'') where it is also used as the inner primer
     of a conventional nested PCR. This entry had read no-hit on every Europe PMC search of all three sequences and both names
-    in either orientation (docs/2026-10-21-predict-primer-provenance.md), because Vet Parasitol is not in the open-access
+    in either orientation (docs/journal/2026-10-21-predict-primer-provenance.md), because Vet Parasitol is not in the open-access
     full-text index - which is the limit of that method, not evidence an assay is unpublished. TWO CORRECTIONS THE PAPER FORCES.
     chemistry was `mgb` and is now `hydrolysis_probe`: the probe carries a Black Hole Quencher, not a minor-groove binder,
     and the paper describes ordinary 5'' exonuclease probe digestion. quencher was MGB-NFQ and is now BHQ, reporter FAM is

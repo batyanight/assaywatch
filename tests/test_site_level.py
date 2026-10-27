@@ -3,7 +3,7 @@
 Phase 1 of the Bd-miss plan measures how much evidence the amplicon-level rule
 discards. The only real logic in it is the offset method: place the probe by its
 measured distance from whichever primer IS credible, because a truncated deposit has
-no second primer to anchor on. That is the step `docs/2026-10-23-wave3-bd-miss.md`
+no second primer to anchor on. That is the step `docs/journal/2026-10-23-wave3-bd-miss.md`
 names as the first open design question, so it is the step worth pinning.
 """
 

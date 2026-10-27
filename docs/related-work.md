@@ -71,7 +71,7 @@ today:
 2. **Detection indexed by deposit year**, which makes decay visible as a trend rather
    than as a single pass/fail against today's database. Primer Monitor alerts on
    crossing a threshold; AssayWatch reports the series.
-3. **A lineage-conditional estimand.** Designed (`docs/2026-10-17-estimand-plan.md`),
+3. **A lineage-conditional estimand.** Designed (`docs/journal/2026-10-17-estimand-plan.md`),
    partly implemented, and the part that reached production is the part that design
    document predicted would be least capable. Not yet a contribution.
 
@@ -119,7 +119,7 @@ assumes about PCR"; repeated here so the reference list is in one place.
 
   Both establish that mismatch **identity** dominates at the 3' terminus: A:A, A:G, G:A
   and C:C suppress yield by orders of magnitude while T:G, T:C and T:T are nearly free.
-  Both measure that effect *at the 3' end*, which is why `docs/2026-10-22-M1-tier2.md`
+  Both measure that effect *at the 3' end*, which is why `docs/journal/2026-10-22-M1-tier2.md`
   scoped the discount to `primer_3prime_window` and why a 5'/mid wobble discount is
   unsupported. Their quantitative tables are the natural **priors** for the identity
   coefficients in `docs/bayesian-scoring-plan.md` C2.

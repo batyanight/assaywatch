@@ -15,7 +15,7 @@ keeps the screens of orphan groups, which no live assay retrieves and nothing
 rescreens, so their rows carry whatever scoring rules were in force when they
 were written - one of them predates `amplicon.declared_tolerance` by eleven days.
 Globbing it inflated three measurements about a hundredfold on 2026-10-25
-(docs/2026-10-25-stale-orphan-screens.md). `collect_calls` is what the report is
+(docs/journal/2026-10-25-stale-orphan-screens.md). `collect_calls` is what the report is
 built from, so it is what a reference quoted beside the report must come from.
 
 A reference is only ever taken from a `detect`. A `reduced` record also carries

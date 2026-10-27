@@ -3,7 +3,7 @@
 
     python scripts/holdout.py --calls results/baseline-2026-10-22/calls.tsv.gz
 
-THE PROBLEM THIS MEASURES. `docs/2026-10-23-baseline.md` records that at least
+THE PROBLEM THIS MEASURES. `docs/journal/2026-10-23-baseline.md` records that at least
 seven `config.yaml` settings were accepted or rejected on their effect on the 49
 cases in `docs/validation-cases.tsv`, which collapse to about seven independent
 failure events. A matrix reported from those same cases is therefore optimistic
@@ -11,7 +11,7 @@ by an unknown amount, and "unknown" is the part this fixes.
 
 WHAT IT DOES. Leave-one-out over a stated selection rule, on the one pair of
 settings the project has already swept as a grid
-(`docs/2026-10-21-drift-window-calibration.md`): `recent_window_months` x
+(`docs/journal/2026-10-21-drift-window-calibration.md`): `recent_window_months` x
 `min_records_for_drift`. For each case, the rule picks the grid cell that scores
 best on the OTHER 48 cases, and that cell is then used to score the held-out
 case. The spread between the in-sample best and this estimate is the optimism.
@@ -27,7 +27,7 @@ uncosted, which is the honest treatment.
 WHAT IT IS NOT. Not a substitute for held-out cases (plan item 4.2). LOO
 estimates the optimism of a selection rule applied to THIS sample; it cannot
 see a bias shared by every case in it, and
-`docs/2026-10-21-drift-window-calibration.md` documents exactly such a bias --
+`docs/journal/2026-10-21-drift-window-calibration.md` documents exactly such a bias --
 as-of scoring cannot see the cost of warning late, so the grid prefers a long
 window for a reason that has nothing to do with being right.
 
@@ -57,7 +57,7 @@ retro = importlib.util.module_from_spec(_spec)
 sys.modules["retro"] = retro
 _spec.loader.exec_module(retro)
 
-#: The sweep, as `docs/2026-10-21-drift-window-calibration.md` ran it.
+#: The sweep, as `docs/journal/2026-10-21-drift-window-calibration.md` ran it.
 WINDOWS = (18, 24, 36, 48, 60)
 MINIMUMS = (10, 15, 20, 30)
 
@@ -209,7 +209,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"    - {s}")
     print(
         "\n  LOO prices the optimism of a selection rule on THIS sample. It cannot see a\n"
-        "  bias every case shares: docs/2026-10-21-drift-window-calibration.md documents\n"
+        "  bias every case shares: docs/journal/2026-10-21-drift-window-calibration.md documents\n"
         "  one (as-of scoring cannot see the cost of warning late). Held-out cases, not\n"
         "  resampling, are what answers that."
     )

@@ -2,7 +2,7 @@
 
 Synthetic sequences only -- validation against the real Bd archives (JEL423/
 JAM81 must co-cluster; BdCAPE vs BdGPL seeds must separate) happens when the
-pipeline can read data/, per docs/2026-10-19-subtaxid-resolution.md decision 3.
+pipeline can read data/, per docs/journal/2026-10-19-subtaxid-resolution.md decision 3.
 These tests pin the mechanism: masking, strand-invariance, the distance
 estimator at both extremes, correct grouping/labelling, and determinism.
 """

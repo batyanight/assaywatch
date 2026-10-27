@@ -26,7 +26,7 @@ CFG = load_config()
 # rules, and a planted mismatch at a primer G becomes an incidental G:T wobble -
 # so any non-empty scoring.mispair_penalty changes their calls for a reason the
 # fixture never meant to test. config.yaml ships the table empty (the G:T/T:G
-# value was tried and reverted, docs/2026-10-22-M1-tier2.md), so today this is a
+# value was tried and reverted, docs/journal/2026-10-22-M1-tier2.md), so today this is a
 # no-op; it stays explicit so the fixture tests keep testing position, count and
 # terminal behaviour whatever a later candidate puts in the table. The mechanism
 # itself is pinned by the dedicated identity tests below.
@@ -328,7 +328,7 @@ def test_call_does_not_depend_on_record_orientation(row):
 # --- M1: identity-aware 3'-window penalty (scoring.mispair_penalty) -----------
 # Added 2026-10-21. These pin the mechanism, not a shipped value: config.yaml
 # ships mispair_penalty: {} and every other test above asserts the empty-table
-# behaviour is unchanged. See docs/2026-10-20-pipeline-audit.md M1.
+# behaviour is unchanged. See docs/journal/2026-10-20-pipeline-audit.md M1.
 
 from assaywatch.match import find_sites as _find_sites  # noqa: E402
 from assaywatch.score import mispair_multiplier, score_primer  # noqa: E402
@@ -376,7 +376,7 @@ def test_a_zeroed_mispair_drops_the_penalty_and_exempts_the_terminal_fail():
 
 # The same G:T wobble moved OUT of the 3' window: identity must NOT fire there.
 # Kwok's effect is 3'-specific; discounting internal G:T across whole record sets
-# masked three real coverage drops in tier-2 (docs/2026-10-22-M1-tier2.md).
+# masked three real coverage drops in tier-2 (docs/journal/2026-10-22-M1-tier2.md).
 _REC_5PRIME_GT = "TTAACCGATAGCCAATGATG"  # primer G at pos 2 (d=18) faces record A -> G:T
 
 

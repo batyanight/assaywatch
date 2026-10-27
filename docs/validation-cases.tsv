@@ -14,7 +14,7 @@
 # is tuning a threshold on it and calling the result a measurement. New cases
 # collected from 2026-10-23 on belong in a HELD-OUT file that no threshold
 # decision may consult until the thresholds are final (plan item 4.2); see
-# docs/2026-10-23-wave4-holdout.md.
+# docs/journal/2026-10-23-wave4-holdout.md.
 #
 # Each row: an assay, a date, and what the literature later reported about how
 # that assay actually performed. scripts/retrospective.py recomputes the status
@@ -111,7 +111,7 @@ Snake_nidovirus_PP1b_Uccellini_2014_1	2019-05-30	fails	coverage	10.3389/fvets.20
 Salmonella_invA_Rahn_1992	2002-05-24	works		10.1128/AEM.69.1.290-296.2003 Malorny 2003: the Rahn invA primer set was selected as the most selective of four candidates, gave 99.6% inclusivity and 100% exclusivity on 364 strains, and 98% analytical accuracy in a 16-laboratory international trial
 Shigella_ipaH_Sethabutr_1993	2012-10-12	works		10.1128/JCM.02713-12 Lindsay 2013 (first author Lindsay): ipaH qPCR across 3,533 children in four countries detected 155 additional moderate-to-severe diarrhoea cases, a 90% increase over culture, and was proposed as the new reference standard
 Pan_mycoplasma_16S_All_Van_1992	1994-01-01	works		10.1128/aem.60.1.149-152.1994 van Kuppeveld 1994: the group-specific 16S rRNA mycoplasma PCR was evaluated on 104 cell cultures against culture, fluorochrome staining and DNA-rRNA hybridisation with no reported false negatives, against 4 for culture. as_of is the issue date, a loose upper bound
-# Ceiling checked 2026-10-24 (docs/2026-10-24-genbank-ceiling.md): the fusiform-lineage
+# Ceiling checked 2026-10-24 (docs/journal/2026-10-24-genbank-ceiling.md): the fusiform-lineage
 # mitogenome Lotta 2019 draws its HaemR2L mismatch on (KM610046) was public from 2014-12-24,
 # two years before this as_of, and the screen calls it `fail` for the Leucocytozoon round.
 # Both rows below are reachable in principle; the denominator is 11, not 9.
@@ -128,7 +128,7 @@ POLYOMAVIRUS_dsDNA_VP1_Johne_2005	2019-08-29	partial		10.3390/v11100930 Ehlers 2
 RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008	2002-11-20	works		10.3354/dao054029 Grizzle 2003 Fig.1: these oligos are byte-identical to FV3-54F/FV3-584R of Mao 1997, and the gel shows them amplifying DNA from ALL ranaviruses tested including LMBV, doctorfish virus, guppy virus, FV3 and EHNV from both Eurasian perch and rainbow trout; only red seabream iridovirus (a megalocytivirus) was not amplified. Product 531 bp, not the 500 in the source spreadsheet. The tool calls fail on contemporary LMBV genomes on 6 distal mismatches (13/15/16 fwd, 6/10/11 rev from the 3' ends, neither 3' terminus disturbed) totalling 4.0 against reduced_max 3.0 - a false positive driven entirely by additive summing, see review doc 3.5
 LMBV_dsDNA_MCP_Grizzle_2003	2002-11-20	works		10.3354/dao054029 Grizzle 2003: LMBV288F-535R amplified a 248 bp product from 30 isolates presumptively identified as LMBV, drawn from 9 fish species (8 centrarchids plus chain pickerel Esox niger) and 25 locations across 12 US states; every fish that was cell-culture positive was also PCR positive, and the limit of detection was 2.7 PFU/ml of culture medium. Both primers match the stated design accession AF080250 with zero mismatches
 LMBV_dsDNA_MCP_Grizzle_2003	2002-11-20	partial		10.3354/dao054029 Grizzle 2003 Fig.1 specificity panel: by design this pair does NOT amplify doctorfish virus or guppy virus - which Mao 1999 had concluded are the same species as LMBV - nor FV3, EHNV or red seabream iridovirus. Recorded as `partial` because a species-level denominator counts that as non-detection while the paper counts it as the assay working; the registry entry excludes doctorfish and guppy from the denominator for exactly this reason. Screening confirms 6 mismatches across the pair on each
-# Added 2026-10-05. docs/2026-10-05-list2-worklist.md settled that
+# Added 2026-10-05. docs/journal/2026-10-05-list2-worklist.md settled that
 # 10.3390/jof7040258 publishes no new primers and so belongs here rather than in
 # registry/; this is that row, which had not actually been written. `as_of` is
 # the submission date (9 March 2021), which is loose - the fieldwork and the

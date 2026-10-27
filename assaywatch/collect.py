@@ -216,7 +216,7 @@ def _raise_for_unverifiable_signatures(found: Sequence[Path], total: int) -> Non
     only screens Snakemake could not invalidate - it holds no metadata record for
     them, so its params check cannot fire - and the table a tier-2 verdict was
     then taken off silently mixed two scoring generations
-    (docs/2026-10-22-M1-tier2.md). They were rescreened the same day, so every
+    (docs/journal/2026-10-22-M1-tier2.md). They were rescreened the same day, so every
     screen on disk carries a signature now and every new one writes its own. An
     unsigned screen from here on is a stale file restored from somewhere, and the
     honest answer is that a table cannot be built on top of it.

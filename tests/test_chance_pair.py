@@ -3,7 +3,7 @@
 `apply_anchor_fdr` guards the record where ONE primer anchored by chance. When BOTH
 do and face each other in range, the record gets an amplicon, joins the EVALUABLE
 set, and fails for want of a probe site in a locus that is not there - so that test
-never sees it (docs/2026-10-25-chance-pairs-invent-denominators.md).
+never sees it (docs/journal/2026-10-25-chance-pairs-invent-denominators.md).
 
 These pin the shape of the correction rather than its arithmetic, because it has no
 arithmetic: off is a no-op; the two headline cases move; and above all the two rows

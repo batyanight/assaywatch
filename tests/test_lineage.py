@@ -224,7 +224,7 @@ def test_guard_threshold_is_a_real_fraction():
     assert 0 < MIN_RESOLVED_SHARE <= 1
 
 
-# --- sub-taxid resolver chain (docs/2026-10-19-subtaxid-resolution.md) ---
+# --- sub-taxid resolver chain (docs/journal/2026-10-19-subtaxid-resolution.md) ---
 # The chain splits a single taxid into finer sub-lineages. Default behaviour
 # (resolvers=None) must stay byte-for-byte the Phase 1 per-taxid grouping;
 # the tests above already lock that, so here we exercise the chain itself.

@@ -34,7 +34,7 @@ source:
     BFDV is not out of this assay''s range: Mankertz et al. 2000 built the consensus primers on an alignment of the rep genes
     of PCV1, PCV2 and BFDV, and BFDV-infected parrot liver is one of the four DNAs it tested, so BFDV is both a design sequence
     and a bench positive. The firing lineage detects 27.6 points BETTER than the pool, which makes this a worked example of
-    the above-pooled override pattern in docs/2026-10-20-pan-family-override.md point 2 rather than a scope error. The narrower
+    the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md point 2 rather than a scope error. The narrower
     scope the paper does support - it says the primers use rep regions conserved in "vertebrate circoviruses", and this entry''s
     own name says vertebrate - would exclude genus Cyclovirus (742914), described a decade after the paper. MEASURED on the
     2026-10-17 calls: Cyclovirus holds 741 records but only 4 evaluable ones, against 7,752 evaluable under genus Circovirus,

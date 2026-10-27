@@ -50,7 +50,7 @@ source:
     the pooled share and the verdict are unchanged to the digit (declining, 43.5 percent of 177). Separately, the lineage
     override fires here on Mammarenavirus choriomeningitidis at 41/78 = 52.6 percent against that pooled 43.5 percent. LCM
     is the prototype species of the family and one of the viruses Lozano amplified, and it detects 9 points BETTER than the
-    pool, so this is a second worked example of the above-pooled override pattern in docs/2026-10-20-pan-family-override.md
+    pool, so this is a second worked example of the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md
     point 2, not something scope can fix. VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised,
     so verify_oligos_against_paper.py had never reached the local PDF - it read no-full-text, "no local PDF", while the file
     sat in papers/. Cause and fix in that script''s doi_stem(). Result: both oligos differ from the paper. ARS3V reads near:2

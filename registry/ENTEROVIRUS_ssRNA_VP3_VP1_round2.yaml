@@ -38,6 +38,6 @@ source:
     against a pooled 26.3 percent of 3,074, so the firing lineage detects 41 points BETTER than the pool. Enterovirus B cannot
     be out of range: the cited paper is titled "Sensitive, Seminested PCR Amplification of VP1 Sequences for Direct Identification
     of All Enterovirus Serotypes" and claims all proposed EV serotypes tested. Third worked example of the above-pooled override
-    pattern in docs/2026-10-20-pan-family-override.md point 2, and the largest, on 1,063 records.'
+    pattern in docs/journal/2026-10-20-pan-family-override.md point 2, and the largest, on 1,063 records.'
 needs_review:
 - flag: amplicon_measured_not_published

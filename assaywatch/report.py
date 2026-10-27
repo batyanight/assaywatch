@@ -325,7 +325,7 @@ def freshness_line(results_dir: Path, run_date: str) -> str:
 def timing_lines(results_dir: Path, run_date: str, top: int = 10) -> list[str]:
     """Per-stage wall times and the slowest screening groups, for the footer.
 
-    Item 7 of docs/2026-10-18-pipeline-timekeeping-todo.md, and the last one
+    Item 7 of docs/journal/2026-10-18-pipeline-timekeeping-todo.md, and the last one
     outstanding. The run that prompted that list stalled for hours on one
     retrieval group and the log gave no way to tell slow from stuck; items 1-6
     fixed the live signals, and this is the record left behind afterwards, so the
@@ -574,7 +574,7 @@ def nested_section(
 
 # --- The report model -------------------------------------------------------
 #
-# S3 in docs/2026-10-20-pipeline-audit.md: `render_markdown` and `render_html`
+# S3 in docs/journal/2026-10-20-pipeline-audit.md: `render_markdown` and `render_html`
 # were 377 lines of parallel layout, so every report change was made twice and
 # the two drifted - which is what `scripts/report_diff.py` was left parsing.
 #
@@ -760,7 +760,7 @@ class GapRow:
 # statsmodels' `multipletests` method names, as a reader should see them. Both
 # renderers used to hardcode "Benjamini-Hochberg" while config.yaml has shipped
 # `lineage.multiple_testing: holm` since 2026-10-23
-# (docs/2026-10-23-wave3-holm.md), so the published report named a correction the
+# (docs/journal/2026-10-23-wave3-holm.md), so the published report named a correction the
 # run did not apply. Same reason the threshold lines are read from the assessment
 # rather than written into plotting code: a restated setting is free to drift
 # from the one in force.

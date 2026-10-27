@@ -437,7 +437,7 @@ def _detected(call: str, detected_calls: tuple[str, ...] = DETECTED_CALLS) -> bo
     `detected_calls`, which `drift.reduced_not_detected_for` can narrow to
     `detect` alone for a chemistry where a mismatched probe reports nothing. This
     hardcoded the pair, so the two would have disagreed the moment that setting
-    was filled -- and docs/2026-10-26-s3-chemistry-switches.md is the measured
+    was filled -- and docs/journal/2026-10-26-s3-chemistry-switches.md is the measured
     argument for filling it. Defaulted, so every existing caller is unchanged.
     """
     return call in detected_calls

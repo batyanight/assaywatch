@@ -217,7 +217,7 @@ class YearStats:
         `reduced` is therefore not a detection. It ships EMPTY, so nothing in the
         registry behaves differently today.
 
-        Measured on 2026-10-26 (docs/2026-10-26-s3-chemistry-switches.md): switching
+        Measured on 2026-10-26 (docs/journal/2026-10-26-s3-chemistry-switches.md): switching
         it on for `hydrolysis_probe` and `mgb` takes documented failures caught from
         5/11 to 6/11 and the precision of `declining` from 2/9 to 3/10 with NO
         increase in false alarms, and fixes the influenza matrix-gene case, a
@@ -657,7 +657,7 @@ class AssayDrift:
         The override runs in ONE direction only: a pooled ``stable`` can become
         ``declining`` if a lineage is failing, but a pooled ``declining`` is
         never upgraded to ``stable`` by the lineage check. This follows
-        Decision 2 in docs/2026-10-17-estimand-plan.md: the worst assessable
+        Decision 2 in docs/journal/2026-10-17-estimand-plan.md: the worst assessable
         lineage drives the call.
 
         The body is a chain of gates, each of which can end the decision, and
@@ -765,7 +765,7 @@ class AssayDrift:
         ``declining``: it was never covered, so it has not drifted. If it fails
         under a pooled stable/watch the assay becomes ``low coverage`` instead.
         A lineage with no earlier measured year (new to the archive) still can.
-        See docs/2026-10-19-pan-family-cases.md.
+        See docs/journal/2026-10-19-pan-family-cases.md.
 
         A recent call flagged ``bucket`` (lineage.unclassified_is_bucket) counts
         as never covered: an unclassified taxid is not a lineage, so it cannot be
@@ -804,7 +804,7 @@ class AssayDrift:
         # LINEAGE, and the status on the row is the POOLED verdict, which in these
         # cases is a real measured fall from a level that worked. The 2026-10-23
         # audit read the bare wording as the row contradicting its own heading
-        # (docs/2026-10-23-baseline.md records the correction); two estimands in
+        # (docs/journal/2026-10-23-baseline.md records the correction); two estimands in
         # one sentence need saying apart.
         self.note += (
             f"; separately, lineage {gap.lineage_name} ({gap.n_evaluable} records) detects only "
@@ -839,7 +839,7 @@ class AssayDrift:
         33 records of an NCBI reclassification artefact (Enterovirus VP3/VP1
         round2 as of 2018-09-30). Tier-2: 12 -> 10 disagreements, 4/11 caught
         either way, nothing lost; 2 of 201 current statuses move. Evidence:
-        docs/2026-10-20-pan-family-override.md.
+        docs/journal/2026-10-20-pan-family-override.md.
         """
         if baseline_calls is None:
             return False
@@ -1038,7 +1038,7 @@ def months_back(anchor: date, months: int) -> date:
 class DriftSettings:
     """Every `drift.*` setting one `assess` call reads, in one place.
 
-    S4 in docs/2026-10-20-pipeline-audit.md: `assess` was 300 lines and a reader
+    S4 in docs/journal/2026-10-20-pipeline-audit.md: `assess` was 300 lines and a reader
     could not hold its control flow in mind, on the path that produces a
     verdict. The settings were a dozen locals threaded through it; naming them
     is what lets the stages below take an argument instead of a closure.
@@ -1292,7 +1292,7 @@ def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> Non
         # `cluster_failures` were computed against a numerator that disagreed
         # with the share printed beside them: a flag held or withheld on
         # inconsistent arithmetic. Inert while `reduced_not_detected_for` ships
-        # empty, and docs/2026-10-26-s3-chemistry-switches.md is the measured
+        # empty, and docs/journal/2026-10-26-s3-chemistry-switches.md is the measured
         # case for filling it, which would have made this live.
         a.recent_footprints_detected = sum(1 for call, _ in recent_fp if call in a.detected_calls)
 

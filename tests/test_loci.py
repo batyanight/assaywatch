@@ -1,6 +1,6 @@
 """Where an assay's primers could build an amplicon: `loci.pair_spans`.
 
-S9 in docs/2026-10-20-pipeline-audit.md: 67 loc with no own test file and no
+S9 in docs/journal/2026-10-20-pipeline-audit.md: 67 loc with no own test file and no
 direct test reference at all, while `windows.py` and `assemblies.py` both cut
 archives on its output. A span this misses is sequence thrown away before any
 screen sees it, and no later stage can notice: the record simply does not

@@ -498,7 +498,7 @@ def test_the_shipped_cases_give_every_fails_row_a_mechanism_and_no_other_row_one
 def test_precision_is_reported_beside_sensitivity():
     """Every statement of performance until 2026-10-23 was sensitivity. This is
     the frozen baseline's own matrix, reduced to the rows that matter, and the
-    numbers in docs/2026-10-23-baseline.md must come out of it."""
+    numbers in docs/journal/2026-10-23-baseline.md must come out of it."""
     rows = (
         # the two declining calls that were real failures
         [("fails", "coverage", "declining", "agrees"), ("fails", "drift", "declining", "agrees")]
@@ -538,7 +538,7 @@ def test_nothing_reads_the_holdout_file_by_default():
 
     This replaced an assertion that the file was EMPTY, which was the right
     tripwire only while it was empty: the 2026-10-24 sweep populated it
-    (docs/2026-10-24-heldout-candidates.md), which is what wave 4 asked for. What
+    (docs/journal/2026-10-24-heldout-candidates.md), which is what wave 4 asked for. What
     has to hold now is not emptiness but that no default code path consults it,
     so the two scripts that score cases are pinned to a non-held-out default.
     """

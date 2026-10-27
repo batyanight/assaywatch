@@ -22,14 +22,14 @@ the whole safety factor.
 By default only records the assay would amplify count (`detect` or `reduced`),
 and patent division deposits are always dropped: an ATI product from an
 engineered vector is a construct's length, not a species'
-(docs/2026-10-19-orthopox-ati-vaccinia.md).
+(docs/journal/2026-10-19-orthopox-ati-vaccinia.md).
 
 `--include-fail` also counts a `fail`-scored record whose primer sites span a
 product. A length is a property of the template rather than of the yield, so if
 the table is meant to help someone interpret a band they have in hand, a band
 the pipeline would not amplify still belongs in it: Meyer 1997 got a 530 bp
 skunkpox product that this pipeline scores `fail` at 551 bp
-(docs/2026-10-20-meyer-ati-bench-panel.md). It is not the default because a
+(docs/journal/2026-10-20-meyer-ati-bench-panel.md). It is not the default because a
 `fail` also covers a record whose sites are present and diverged, including
 UNVERIFIED and engineered deposits, so the lengths it admits need reading
 rather than trusting. Either way the output says how each band's records

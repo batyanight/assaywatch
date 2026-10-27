@@ -748,7 +748,7 @@ def test_a_screen_storing_no_signature_is_refused(tmp_path):
     failed a run over nothing. Then a threshold really changed - the M1 wobble
     discount - and those 20 were the only screens Snakemake could not invalidate,
     so the table a tier-2 verdict came off mixed two scoring generations
-    (docs/2026-10-22-M1-tier2.md). Every screen on disk is signed now, so an
+    (docs/journal/2026-10-22-M1-tier2.md). Every screen on disk is signed now, so an
     unsigned one means a stale file restored from somewhere."""
     screens = tmp_path / "results" / "screened" / "10292" / "qb41"
     screens.mkdir(parents=True)

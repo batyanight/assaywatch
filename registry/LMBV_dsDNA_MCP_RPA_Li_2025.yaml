@@ -50,7 +50,7 @@ source:
     bass virus, Doctor fish virus, Guppy virus 6 and Guppyfish iridovirus). But Mandarin fish ranavirus (txid2487147) and
     Siniperca chuatsi ranavirus (txid3045952) are phylogenetically allied and sit in NCBI''s `unclassified Ranavirus`, so
     a scope of txid3432136 alone would silently miss them: 113 records, against 131 for the union used here. The query is
-    a positive union rather than an exclusion, which also sidesteps the leading-NOT trap documented in docs/2026-10-04-assay-investigations.md.
+    a positive union rather than an exclusion, which also sidesteps the leading-NOT trap documented in docs/journal/2026-10-04-assay-investigations.md.
     THE SCOPE WAS SET EMPIRICALLY, AND THAT IS THE PROCEDURE TO REPEAT. The first draft of this query listed only micropterus1
     plus the Mandarin fish and Siniperca chuatsi taxids. Screening the assay against the whole genus archive then showed it
     also detects four records the query would have excluded, all of them sitting in `unclassified Ranavirus`: Macropharyngodon

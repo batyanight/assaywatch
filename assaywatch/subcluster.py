@@ -5,7 +5,7 @@ distinguishing label in their defline -- *Batrachochytrium dendrobatidis*
 BdGPL vs BdCAPE is the motivating case (all taxid 109871, zero lineage tokens
 in any title). The only remaining signal is sequence homology, so we cluster
 the records and hand each cluster to the per-lineage machinery as its own
-"lineage". See docs/2026-10-19-subtaxid-resolution.md, decisions 2-4.
+"lineage". See docs/journal/2026-10-19-subtaxid-resolution.md, decisions 2-4.
 
 The one hard constraint (estimand plan): cluster on sequence **outside the
 primer and probe footprints**. Cluster on the binding sites and the lineage is

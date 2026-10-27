@@ -1,6 +1,6 @@
 # Resume point, 2026-10-27 (a four-perspective review, then its P0-P2 fixes; 16 commits, all gated)
 
-**Start here:** `docs/2026-10-27-four-perspective-review.md` is the review and the
+**Start here:** `docs/journal/2026-10-27-four-perspective-review.md` is the review and the
 reasoning behind every decision taken from it. The repository was read from four angles
 (engineering, methods, bench diagnostics, a cold newcomer read), and the findings were
 worked through in order rather than listed. Registry **unchanged at 209/179/29/1**; no
@@ -58,14 +58,14 @@ mid-session). It reads `works`, not `fails`: its 73.8% is an oocyst dilution ser
 isolate, i.e. sensitivity, and the assay amplified and RFLP-typed cleanly in two stocks. No
 row was written to `docs/validation-cases.tsv` — that set is frozen and spent, and a case
 from a paper the rule has never seen is the first brick of a NEW held-out set. Where it
-goes is a maintainer's call. See `docs/2026-10-27-leetz-identity-confirmed.md`.
+goes is a maintainer's call. See `docs/journal/2026-10-27-leetz-identity-confirmed.md`.
 
 **A thermodynamic predictor beats the penalty rule, McNemar p = 0.019.** primer3 93.9% vs
 86.6% on the 179 bench rows, and the shipped rule's errors are **23 false negatives against
 1 false positive** — the pessimism the bench review predicted. Confounded in primer3's
 favour: 99 of 179 alignments are off-register, which reports an optimistically small ΔTm on
 a band-heavy panel. TNTBLAST itself could not run (no osx-arm64 build; Rosetta absent).
-See `docs/2026-10-27-thermo-vs-penalty-paired.md`.
+See `docs/journal/2026-10-27-thermo-vs-penalty-paired.md`.
 
 ## Still open
 
@@ -227,7 +227,7 @@ selection is frozen**, so a priced strategy is **priced, not proven**.
 | M1 identity-aware 3' discount | **maintainer decision** | 0 | **17 (rescues 7)** |
 | M1 + S3a | **maintainer decision** | 0 | 19 |
 
-**S1** (`docs/2026-10-26-s1-serial-killed.md`). All 31 grid cells lose a row the shipped
+**S1** (`docs/journal/2026-10-26-s1-serial-killed.md`). All 31 grid cells lose a row the shipped
 rule gets right, floor 2. Two named tier-2 catches fall, both Paramyxovirinae L-gene at
 2019-02-01. Three findings outlive it: **`oligo_ok_max` has no effect on panel accuracy
 at all**, so the panels can fit only one of the engine's two numbers; the curve bottoms
@@ -235,7 +235,7 @@ out at `oligo_weak_max: 3.0`, the value already shipped; and **Rahn reports zero
 while Forslund loses within-family negatives**, which is the argument for `role: control`
 turned into a measurement.
 
-**S2** (`docs/2026-10-26-s2-smooth-decay-killed.md`). **Passes its own kill criterion and
+**S2** (`docs/journal/2026-10-26-s2-smooth-decay-killed.md`). **Passes its own kill criterion and
 destroys four catches nobody named**, including `CDV_P_gene_Scagliarini_2007` @2021-07-06,
 the single `fails`+`drift` row in the development set. Failures caught 5/11 -> 1/11, PPV
 2/9 -> 0/4, while false alarms IMPROVE 5/32 -> 2/32 - so total disagreements go 10 -> 11
@@ -243,7 +243,7 @@ and **an aggregate reads it as neutral.** The fitted curve discounts the whole 3
 rather than smoothing the cliff. **Lesson for the protocol: a named kill criterion is a
 probe and can be insensitive; the standing no-lost-catch rule is what does the work.**
 
-**S3** (`docs/2026-10-26-s3-chemistry-switches.md`). The probe switch takes documented
+**S3** (`docs/journal/2026-10-26-s3-chemistry-switches.md`). The probe switch takes documented
 failures caught 5/11 -> **6/11** and PPV 2/9 -> **3/10** with **no increase in false
 alarms**, fixing the influenza Matrix-gene case it predicted. The only rung that
 TIGHTENS, so its extra flags are evidence rather than a loosening artefact. It fails its
@@ -252,14 +252,14 @@ calls. The conventional switch is **inert**: 251 calls of 2.7 M, no verdict anyw
 which answers a ROADMAP Phase 2 claim that `terminal_mismatch_fails` inflates `fail`
 across the conventional majority.
 
-**S4 / M1** (`docs/2026-10-26-s4-m1-no-longer-refuted.md`). Re-specified, because S1 and
+**S4 / M1** (`docs/journal/2026-10-26-s4-m1-no-longer-refuted.md`). Re-specified, because S1 and
 S2 died and the stack S4 was to be tested under no longer exists. **M1 alone changes ZERO
 rows of the 49-case matrix** and rescues **7** documented panel false fails (5 FAP, 2
 Barrett) at no panel loss and no cost on Rahn. The 17 Leucocytozoon record movements
 reproduce the 2026-10-22 record EXACTLY; what changed is that the verdict is no longer
 near its boundary - that window now holds 21 records and M1 moves the interval's upper
 bound 50% -> 55% against a 90% threshold. Verified by a real rescreen, so not a harness
-artefact. `docs/2026-10-22-M1-tier2.md` is marked **superseded in its conclusion.**
+artefact. `docs/journal/2026-10-22-M1-tier2.md` is marked **superseded in its conclusion.**
 
 > **What that does NOT establish.** M1 is **no longer refuted by the evidence that
 > refuted it**, which is smaller than being supported. The set is 49 cases collapsing to
@@ -310,7 +310,7 @@ reduced, so its 369 failures have no baseline to decline from).
 primer 4 `GACTTGGCCACTTATGAC` (aa 15-20) and primer 5 `GTCTCTGGAGAAGAAGAA` (aa 191-186),
 both 18 nt and byte-identical to the registry. So `oligos_from_secondary_source` is
 **confirmed rather than asserted**, and the **18/19-mer question is CLOSED** three
-transcriptions to one against Stöhr 2015's 19-mer, which `docs/2026-10-24-heldout-candidates.md`
+transcriptions to one against Stöhr 2015's 19-mer, which `docs/journal/2026-10-24-heldout-candidates.md`
 had left open pending the NYU proxy. **Neill & Seal 1995 is now the only sequence
 question still open**, and only half-held as page 33 of a 33-38 article.
 
@@ -322,7 +322,7 @@ a floor (40) and a target (60) rather than a disagreement; ROADMAP Phase 0 ticke
 
 ## 8. The Bd miss, priced, and one claim retracted the same day (`faae47d`, `ab77623`, `ec578d0`)
 
-`docs/2026-10-26-bd-phase1-site-level-measured.md`. **Read its own correction notice
+`docs/journal/2026-10-26-bd-phase1-site-level-measured.md`. **Read its own correction notice
 first.** Two findings hold and one is withdrawn.
 
 **Holds — gapped matching is worth 0.046%.** 426 of 932,856 evaluable fails, from
@@ -385,20 +385,20 @@ The maintainer took all three the same day. **`main` still ships every scoring v
 shipped this morning**; one proposal sits on a branch and one mechanism ships inert.
 
 **1. M1: PROPOSED, THEN REJECTED BY THE HELD-OUT SET, the same day** (`faeee0e`;
-`docs/2026-10-26-heldout-read-m1-rejected.md`). **`main` is unchanged** and
+`docs/journal/2026-10-26-heldout-read-m1-rejected.md`). **`main` is unchanged** and
 `experiment/2026-10-26-m1-proposed` is **not merged**, kept as the record with the rejection
 written above the case for it.
 
 > **THE HELD-OUT SET HAS BEEN READ AND IS SPENT.** `docs/validation-cases-heldout.tsv` was
 > consulted once, on the maintainer's instruction, for the one decision it was reserved for.
-> No future candidate can use it, and `docs/2026-10-24-heldout-candidates.md` already
+> No future candidate can use it, and `docs/journal/2026-10-24-heldout-candidates.md` already
 > records that literal oligo search over Europe PMC is exhausted - so **new cases now block
 > the whole calibration programme** rather than sitting on a backlog.
 
 It passes the half of its gate I pre-registered and fails the half I omitted. I wrote "M1
 merges only if the held-out set loses no documented catch", and by that it passes: 4/9
 caught on both tables, nothing lost. But M1's own gate, set in
-`docs/2026-10-21-M1-shipped.md` and applied at the 2026-10-22 revert, has two halves -
+`docs/journal/2026-10-21-M1-shipped.md` and applied at the 2026-10-22 revert, has two halves -
 "caught failures do not fall AND no works/partial case newly disagrees" - and the second
 fails. `Morbillivirus_including_CDV_P_gene` @2014-03-01, a documented `works` case, goes
 `low coverage`/weaker to **`declining`/DISAGREES**. The drift flag's precision falls
@@ -424,7 +424,7 @@ enough** - which is the real lesson about a development set that has informed se
 decisions.
 
 > **The confirming rescreen the decision was conditional on is done, and it measured
-> something worth having** (`docs/2026-10-26-m1-confirming-rescreen.md`, `b6195c2`). M1
+> something worth having** (`docs/journal/2026-10-26-m1-confirming-rescreen.md`, `b6195c2`). M1
 > really rescreened over every tier-2 assay it moves - 514,096 rows across 17 assays - gives
 > **2 call and 11 penalty disagreements** against the replay, 0.0004%, and **all of them
 > pessimistic**: the real screen finds a better candidate than a replay can, because a
@@ -456,7 +456,7 @@ asymmetry where round 2 had carried its size since entry and round 1 never did.
 
 ## The search for new cases: an instrument, a queue, and no case (`35d0068`..`c1366d7`)
 
-`docs/2026-10-26-retrospective-case-search.md`. With the held-out set spent and the old
+`docs/journal/2026-10-26-retrospective-case-search.md`. With the held-out set spent and the old
 seam exhausted, new cases became the binding constraint, so a new instrument was built:
 `scripts/find_retrospective_cases.py` searches the **citation graph** rather than oligo
 text, because a group using a published assay cites it and does not retype its primers.
@@ -564,7 +564,7 @@ groups, 19 archives**. The total is still 658 MB because what went rounds to zer
 a shorter orphan report, not disk. The maintainer kept the 636 MB on the doc's reasoning.
 
 **4. The Candrian seam is worked to the end and yields nothing**
-(`docs/2026-10-25-candrian-seam.md`). All 59 papers triaged; **zero clear the held-out bar.**
+(`docs/journal/2026-10-25-candrian-seam.md`). All 59 papers triaged; **zero clear the held-out bar.**
 They are AMR prevalence surveys that use the primer for species confirmation — exactly
 `works`-shaped, as predicted. Five plausible titles were read in full. The closest, Gerber 2007
 (`10.3201/eid1308.060428`), reports PCR missing **4–20% of hybridizable plasmid genes** — the
@@ -583,7 +583,7 @@ internal control.
 > entry's `orientation_inferred` flag is untouched, since `MalBU` is a forward too.
 
 **5. The full run went, and it found something that was not on the list**
-(`docs/2026-10-25-chance-pairs-invent-denominators.md`). `results/2026-10-25/`, **434 of 434
+(`docs/journal/2026-10-25-chance-pairs-invent-denominators.md`). `results/2026-10-25/`, **434 of 434
 steps, 29m 09s, exit 0**. The three parapoxvirus groups are retrieved and screened by the
 pipeline for the first time, which was the point of running it. The run itself is clean and
 additive: of 146 pre-existing scored assays only **3 moved, each by ≤0.2 points** from new
@@ -609,7 +609,7 @@ being the target locus's signature. That also bounds it to **probe-bearing assay
 conventional entries have no such test and are not assessed (applying the penalty half alone
 to them flags ~4,900 plausibly-genuine lyssavirus coverage failures).
 
-**SCOPE CORRECTED the same day — read `docs/2026-10-25-stale-orphan-screens.md`.** I first
+**SCOPE CORRECTED the same day — read `docs/journal/2026-10-25-stale-orphan-screens.md`.** I first
 measured by globbing `results/screened/`, which keeps **orphan** group screens that nothing
 rescreens, one of them dated 2026-10-03 and so predating `amplicon.declared_tolerance`. That
 inflated the count about a hundredfold. From `results/2026-10-25/calls.tsv.gz`, which is what
@@ -719,7 +719,7 @@ candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
 ### The plan as originally written, in the order that unblocked the most
 
 1. ~~**Diagnose the three `mgb` fungal assays.**~~ **DONE 2026-10-25:**
-   `docs/2026-10-25-fungal-assays-diagnosed.md`. **Nothing is wrong with them, and the
+   `docs/journal/2026-10-25-fungal-assays-diagnosed.md`. **Nothing is wrong with them, and the
    "1.4% / 31.8% / 25.8%" framing above is WITHDRAWN** - those are whole-archive rates over
    archives full of WGS contigs, and the report scores a recent window, where all three read
    *no recent data* or *insufficient data* on **100% baselines**. The low rates were chance
@@ -755,7 +755,7 @@ candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
    `scripts/build_locus_references.py` and `scripts/price_locus_identity.py` are kept as
    evidence and as the basis for that. Superseded detail below:
    **The locus-identity test, generalising decision A — originally DESIGNED, not built:**
-   `docs/2026-10-25-locus-identity-design.md`. Ask whether an amplicon's **interior** is
+   `docs/journal/2026-10-25-locus-identity-design.md`. Ask whether an amplicon's **interior** is
    homologous to the assay's own detecting amplicons; the records that detect certainly carry
    the locus, so they define what it looks like. Deliberately not on the primer sites, where all
    the confounding lives. It separates Orf's B2L pairs and the *Ophidiomyces* scaffolds (no
@@ -795,7 +795,7 @@ candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
    into a fitted number. **Its blocker is cases, and the cheap route to cases is exhausted** -
    literal oligo search over Europe PMC is spent (see the Candrian seam). So this wants the
    scoring-strategy replay harness, not another sweep. **CORRECTED 2026-10-26: this line used to
-   point at `docs/2026-10-06-lab-leads.md` as the other route, and that overstates it.** Those
+   point at `docs/journal/2026-10-06-lab-leads.md` as the other route, and that overstates it.** Those
    leads are a source of NEW ASSAYS. Tier-2 needs a paper reporting how an assay *already in the
    registry* performed, which is a different literature. Of the file's 121 DOIs, 45 are
    PubMed-confirmed and 76 are agent-reported only, and the lab attribution is wrong for at least
@@ -923,7 +923,7 @@ in the batch.
 
 ## 2026-10-24 late: the remaining open-list items, worked
 
-**Orphan archives: identified, not deleted.** `docs/2026-10-24-orphan-archives.md`. 636 of the
+**Orphan archives: identified, not deleted.** `docs/journal/2026-10-24-orphan-archives.md`. 636 of the
 658 MB is pre-query history for taxa the registry still covers - the 530 MB group is
 *Ophidiomyces ophidiicola*, the 90 MB one *B. salamandrivorans*. Both have live entries that
 later gained a retrieval query, and the query is part of the group key, so the old whole-taxon
@@ -947,7 +947,7 @@ returns **zero** hits on both oligos, against the guess that plastid primers are
 The rich seam is `E_coli_malB_Candrian_1991`, whose forward returns **59** papers - mostly
 prevalence surveys, `works`-shaped not drift-shaped, and a pass of its own. Yersinia and the
 Reid capsid return nothing; the circovirus primers are all degenerate and cannot be searched
-literally. Table in `docs/2026-10-24-heldout-candidates.md`.
+literally. Table in `docs/journal/2026-10-24-heldout-candidates.md`.
 
 ### The calicivirus Hel1 terminal base: the evidence has moved, and this one wants a decision
 
@@ -1102,7 +1102,7 @@ Aitichou 2005, Khodeir 2021), which are correct to be unmatched. Neill & Seal is
 among them.
 
 **Second item off the open list the same evening: the pan-coronavirus Watanabe reverse.**
-`docs/2026-10-24-heldout-candidates.md` called it "a transcription error on one side or the
+`docs/journal/2026-10-24-heldout-candidates.md` called it "a transcription error on one side or the
 other". It is neither. Watanabe 2010 is held locally and prints primer 2 as a 24-mer; the
 23-nt form is PREDICT P-006 with the G at position 14 dropped; and the 2026-10-23
 binding-site counts in the entry's own notes reproduce exactly on a re-count today (215
@@ -1137,7 +1137,7 @@ never keys a cache or a fetch).
 
 ## 2026-10-24 evening: the Li 2010 mpox trio is IN, as drafts, and the clade scoping is impossible
 
-The top recommendation of `docs/2026-10-24-mpox-assay-candidates.md` is applied. Three entries,
+The top recommendation of `docs/journal/2026-10-24-mpox-assay-candidates.md` is applied. Three entries,
 `MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010`, `..._G2R_WestAfrican_...` and
 `..._C3L_CongoBasin_...`, all `status: draft`. The registry is 203 entries: active 179, draft
 23, deprecated 1.
@@ -1328,7 +1328,7 @@ negative control (its name), and `Apicoplast_23S` is phylum-wide and amplifies c
 design, so "declining" means little for either. MAINTAINER DECISION, not applied: shipping it
 is `count_diverged_as_fail: true` + `anchor_fdr: 0.001` in config.yaml. Tier-2 still cannot
 choose between 0.01 and 0.001 (it was row-identical at both before the scope work; the
-evaluation set is the bottleneck, which is what docs/2026-10-24-scoring-strategy-test-plan.md
+evaluation set is the bottleneck, which is what docs/journal/2026-10-24-scoring-strategy-test-plan.md
 is about).
 
 ## 2026-10-24: stale documentation, swept and corrected
@@ -1361,21 +1361,21 @@ Where the live question is "what papers do we still need", the answer now lives 
 **Four were false positives**, all of them branch or PR names in backticks that look like
 paths: `registry/2026-10-24-scope-fixes`, `docs/2026-10-23-elsevier-and-oligo-flags`,
 `docs/2026-10-15-lineage-plan` (PR #3, docs-only, superseded by
-`docs/2026-10-17-estimand-plan.md`) and `scripts/rescore.py`, which
-`docs/2026-10-24-scoring-strategy-test-plan.md` PROPOSES and has not built yet.
+`docs/journal/2026-10-17-estimand-plan.md`) and `scripts/rescore.py`, which
+`docs/journal/2026-10-24-scoring-strategy-test-plan.md` PROPOSES and has not built yet.
 `assaywatch/archive.py` never existed: it appears inside a blockquote in
-`docs/2026-10-23-wave5-engineering.md` quoting a review's proposal.
+`docs/journal/2026-10-23-wave5-engineering.md` quoting a review's proposal.
 
 **Two were real and are fixed.** `CLAUDE.md` claimed `docs/INDEX.md` "indexes all 81 files
 under `docs/`" when there are 94 (79 Markdown); corrected and dated. And
-`docs/2026-10-24-scope-audit.md`'s own header named the wrong branch, still said "read-only
+`docs/journal/2026-10-24-scope-audit.md`'s own header named the wrong branch, still said "read-only
 audit; no registry entry changed" after that stopped being true, and pointed at
 `docs/2026-10-24-anchor-pair-counterfactual.md`, which lives only on the unmerged
 `experiment/2026-10-24-diverged-and-anchor-fdr` branch and did not come across with the
 cherry-pick. All three corrected in place.
 
 **`docs/INDEX.md` is complete.** A link-regex check said four files were unlisted
-(`HANDOFF-2026-10-18.md` and the three `2026-10-18-phase*/session-summary` docs); they are
+(`journal/HANDOFF-2026-10-18.md` and the three `2026-10-18-phase*/session-summary` docs); they are
 listed, together in one row of the `Superseded` section, as plain names rather than links.
 
 ### The papers index was understating what this project has read, by sixteen papers
@@ -1418,7 +1418,7 @@ rename the twelve files to the canonical stem.
 
 Branch `registry/2026-10-24-scope-fixes`, cut from
 `docs/2026-10-23-elsevier-and-oligo-flags`. The audit itself is read-only and lives in
-`docs/2026-10-24-scope-audit.md`; items **1, 3 and 6** of its ranked list were then applied
+`docs/journal/2026-10-24-scope-audit.md`; items **1, 3 and 6** of its ranked list were then applied
 in three commits. **All ten ranked items have now been worked through, and FOUR of the ten
 proposals were wrong or redundant on contact with the data.** Applied as proposed: 1, 3, 5,
 6, 7, and 2 (Bornaviridae, applied in the first commit). Applied differently because the
@@ -1509,7 +1509,7 @@ assay was built on is absolute: *L. interrogans* (578 records), *L. borgpetersen
 *L. santarosai* (59), *L. weilii* (47), *L. noguchii* (36), *L. kirschneri* (35) all match at
 **penalty 0, no mismatch anywhere**. NOT entered in `docs/validation-cases.tsv`, which
 excludes an assay's own panel validation — but recorded in
-`docs/2026-10-24-scoring-strategy-test-plan.md` as bench evidence for `terminal_mismatch_fails`
+`docs/journal/2026-10-24-scoring-strategy-test-plan.md` as bench evidence for `terminal_mismatch_fails`
 and `by_chemistry`, paired with the CALICIVIRUS Helicase entry's 3'-terminal G/C mismatch,
 which is the same mechanism on a conventional PCR rather than a probe assay.
 
@@ -1626,10 +1626,10 @@ highest summed job time and the lowest wall time, because four single-threaded j
 contend with each other yet pack far better than the cost model's splits did.
 `threads` stays on the model; nothing reverts.
 
-**2. The GenBank-availability ceiling is 11, not 9.** `docs/2026-10-24-genbank-ceiling.md`.
+**2. The GenBank-availability ceiling is 11, not 9.** `docs/journal/2026-10-24-genbank-ceiling.md`.
 
 **3. Scoring-strategy test plan** written at the maintainer's request mid-run:
-`docs/2026-10-24-scoring-strategy-test-plan.md`.
+`docs/journal/2026-10-24-scoring-strategy-test-plan.md`.
 
 **4. The two 2026-10-06 "Also on the laptop" checks are closed.** Item 1 (re-run the
 oligo verifier over `papers/`) was done on 2026-10-23 (`results/oligo-verification-2026-10-23.tsv`).
@@ -1648,7 +1648,7 @@ not. Written down per the instruction, not fixed; the Deckers oligos themselves 
 verified by hand on 2026-10-18 (RESUME item 4 below).
 
 **5. The archive-scale anchor test is built, measured and ships OFF.**
-`docs/2026-10-24-archive-anchor.md`. Wave 2's named next item. Every `no_amplicon` row
+`docs/journal/2026-10-24-archive-anchor.md`. Wave 2's named next item. Every `no_amplicon` row
 now carries `anchor_evalue`; `calls.apply_anchor_fdr` runs Benjamini-Hochberg over each
 assay's `no_amplicon` rows when `drift.anchor_fdr` is set and relabels a surviving-free
 anchor `chance_anchor`. BH rather than E x record count, because the product cannot
@@ -1684,11 +1684,11 @@ says no screening benchmarks were written in this run rather than listing the bi
 slowest groups. That is timekeeping item 7 working as specified - only benchmarks inside
 the run's own window are counted - and it means **`results/2026-10-24/run-timing.json`
 now records the 4-minute re-render, not the 35m 50s run**. The run's real numbers are in
-`docs/2026-10-24-archive-anchor.md` and in `e134e92`'s message. No status, interval or
+`docs/journal/2026-10-24-archive-anchor.md` and in `e134e92`'s message. No status, interval or
 verdict differs between the two renders.
 
 **7. The held-out set went from empty to 31 rows**, and missed its drift target.
-`docs/2026-10-24-heldout-candidates.md`. **Not scored; reading it is what spends it.**
+`docs/journal/2026-10-24-heldout-candidates.md`. **Not scored; reading it is what spends it.**
 
 **8. `subcluster.py` has a consumer at last, and it is inert for a measured reason.**
 `assaywatch/clustermaps.py` builds the `cluster` resolver's map from the archives for
@@ -1699,7 +1699,7 @@ evaluable records cluster into **58 + 31 records above the floor and 86 unresolv
 change Bd's verdict, and that is arithmetic rather than a threshold: 174 of those 175
 records `detect`, so no partition respecting `min_records_per_lineage: 30` can fall
 below 90%. Bd's real failure sits in its **8,857 `no_site`** records, outside the
-evaluable set, exactly as `docs/2026-10-23-wave3-bd-miss.md` concluded. `group_slug`
+evaluable set, exactly as `docs/journal/2026-10-23-wave3-bd-miss.md` concluded. `group_slug`
 moved to `assaywatch/groups.py` on the way, because importing `retrieve.py` at report
 time pulled the NCBI transport into the report rule's trigger closure - caught by
 `tests/test_triggers.py`'s unrelated-module control.
@@ -1720,7 +1720,7 @@ checked 0 problems, ruff clean.**
 - The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries; one group alone is
   530 MB). `scripts/orphan_archives.py` advises keeping the three pending ones unless the
   entry is being dropped. **IDENTIFIED 2026-10-24, still not deleted:
-  `docs/2026-10-24-orphan-archives.md` says what every group is.** The headline: 636 of the
+  `docs/journal/2026-10-24-orphan-archives.md` says what every group is.** The headline: 636 of the
   658 MB is superseded PRE-QUERY history for taxa the registry still covers - the 530 MB
   group is *Ophidiomyces ophidiicola* and the 90 MB one is *B. salamandrivorans*, both with
   live entries that have since gained a retrieval query, which is part of the group key. One
@@ -1759,7 +1759,7 @@ with the orphan groups from `scripts/orphan_archives.py` removed from the list f
 
 ## 0b. Timekeeping is finished, and 658 MB of archives belong to nobody
 
-`docs/2026-10-18-pipeline-timekeeping-todo.md`. **All seven items are done**: item 7
+`docs/journal/2026-10-18-pipeline-timekeeping-todo.md`. **All seven items are done**: item 7
 is `report.timing_lines`, a `## Run timing` footer in both the markdown and the HTML
 report, giving per-stage wall times and the ten slowest retrieval groups.
 
@@ -1824,7 +1824,7 @@ correct CPU requests on SLURM.
 
 ## 0a. The oligo flags are adjudicated; four sequences were wrong
 
-`docs/2026-10-23-oligo-adjudication.md`. Every `near:` and `absent` row was read
+`docs/journal/2026-10-23-oligo-adjudication.md`. Every `near:` and `absent` row was read
 against the paper itself, and **every changed sequence was then screened before being
 kept**. Agreement is 415 of 462 checkable (90%); the 5 remaining `near:` and 22
 `absent` are all documented artefacts, mostly oligos that exist only inside a figure
@@ -1857,7 +1857,7 @@ unpublished. Still open: whether the calicivirus entry is re-cited to Neill & Se
 
 ## 0. Only verified-DOI assays are live; the seed list is gone
 
-`docs/2026-10-23-verified-doi-gate.md`. `registry/` holds 198 entries, all
+`docs/journal/2026-10-23-verified-doi-gate.md`. `registry/` holds 198 entries, all
 `doi_verified: true`, which the validator and the Snakefile both enforce. The 10
 without a verified DOI are in `pending/` and are never screened. The seed list's
 fields (`source.spreadsheet`, `rows`, `positive_control`, the list's `notes`) and
@@ -1921,21 +1921,21 @@ An outside evaluation on 2026-10-23 produced a plan worked through in waves on b
 `review/2026-10-23-plan-of-attack`). Each wave has its own dated record; read those rather
 than this summary.
 
-- **Wave 0** `docs/2026-10-23-baseline.md` — `results/baseline-2026-10-22/` frozen as the
+- **Wave 0** `docs/journal/2026-10-23-baseline.md` — `results/baseline-2026-10-22/` frozen as the
   comparison point, the full tier-2 matrix, and the first precision figure ever computed:
   **2 of 9 `declining` calls were real failures**.
-- **Wave 1** `docs/2026-10-23-wave1-report-honesty.md` — **704 of 1,512 per-lineage
+- **Wave 1** `docs/journal/2026-10-23-wave1-report-honesty.md` — **704 of 1,512 per-lineage
   intervals were zero-width** (a Wald interval in `lineage.py`); 19 assays carried a
   status their own registry entry denies; the duplication check never saw an overridden
   flag.
-- **Wave 2** `docs/2026-10-23-wave2-diverged-and-patent.md` — `count_diverged_as_fail`
+- **Wave 2** `docs/journal/2026-10-23-wave2-diverged-and-patent.md` — `count_diverged_as_fail`
   tested and **kept off** (55 of Bd's 63 `diverged` records are 2014 JAM81 mRNAs matched
   by chance); `exclude_patent_records` turned **on**, on mechanism, without tier-2
   approval, with the rule for doing that written beside the setting.
 - **Wave 3** `-wave3-bd-miss.md`, `-wave3-usutu.md`, `-wave3-influenza.md`,
   `-wave3-holm.md` — all three documented misses are **scoring** problems, not
   statistical ones. Holm replaced BH and moved nothing yet.
-- **Wave 4** `docs/2026-10-23-wave4-holdout.md` — `validation-cases.tsv` is now labelled
+- **Wave 4** `docs/journal/2026-10-23-wave4-holdout.md` — `validation-cases.tsv` is now labelled
   the **development set**; `scripts/holdout.py` prices what tuning on it bought;
   `validation-cases-heldout.tsv` is empty on purpose.
 - **Wave 5** `-wave5-config-schema.md`, `-wave5-triage.md`, `-wave5-what-active-means.md`,
@@ -1954,7 +1954,7 @@ than this summary.
   against under 50 records (`docs/design-era.tsv`).
 
 Open, in rough order: decide what `active` asserts
-(`scripts/promote.py`, and `docs/2026-10-23-wave5-what-active-means.md` recommends
+(`scripts/promote.py`, and `docs/journal/2026-10-23-wave5-what-active-means.md` recommends
 `--tier clean` — the oligo-provenance objection to promoting is now much weaker, 38
 uncheckable rather than 106, so this decision is ripe); collect held-out cases (plan 4.2, shared with the C2 bench corpus in
 `docs/bayesian-scoring-plan.md`); build the archive-scale anchor test that
@@ -1962,7 +1962,7 @@ uncheckable rather than 106, so this decision is ripe); collect held-out cases (
 
 ## 2026-10-22, M1 tier-2: DECIDED. The wobble discount is reverted
 
-Full write-up: `docs/2026-10-22-M1-tier2.md`.
+Full write-up: `docs/journal/2026-10-22-M1-tier2.md`.
 
 - **`mispair_penalty` is back to `{}`.** The shipped global value lost three documented
   catches (`fails` correctly flagged 5 -> 2). Scoping the multiplier to
@@ -2001,7 +2001,7 @@ revert forced all 330 to rescreen anyway because `mispair_penalty` is part of `_
 identically to the pre-M1 table.** So the revert is complete and the 20 stale screens never
 moved a tier-2 verdict - the same answer the 2026-10-21 by-hand diff got. That 5 of 11, on
 330 same-day signature-verified screens, is the number every future one-knob test is
-measured against. Write-up: `docs/2026-10-22-unsigned-screens-cleared.md`.
+measured against. Write-up: `docs/journal/2026-10-22-unsigned-screens-cleared.md`.
 
 **And `collect` now refuses an unsigned screen** rather than warning and exiting 0
 (`_raise_for_unverifiable_signatures`, sibling of `_raise_for_stale_signatures`). The
@@ -2016,7 +2016,7 @@ so an unsigned screen from here on is a stale file restored from somewhere.
 date** - a screen is cached across runs, so a date-keyed benchmark would be missing for every
 cached archive next run). Verified it does not churn the cache: `snakemake -n` after adding
 the directive schedules **zero** `screen_archive` jobs, and `tests/test_triggers.py` still
-passes 44/44. Full write-up in `docs/2026-10-18-pipeline-timekeeping-todo.md`, which now has
+passes 44/44. Full write-up in `docs/journal/2026-10-18-pipeline-timekeeping-todo.md`, which now has
 only item 7 open.
 
 **Expect wall time only on the laptop, and do not go looking for the bug.** Snakemake samples
@@ -2084,16 +2084,16 @@ made blocking.
 ## 2026-10-22, PR #3 closed; three things salvaged out of it first
 
 `docs/2026-10-15-lineage-plan` was docs-only and superseded by
-`docs/2026-10-17-estimand-plan.md`, which a parallel session shipped from two days later
+`docs/journal/2026-10-17-estimand-plan.md`, which a parallel session shipped from two days later
 (BH not Bonferroni, `mechanism` column not `lineage`, species-rank grouping, no
 `drift.subgroup`). It also conflicted on this file with ~140 commits of staleness on its
-side. Salvaged into `docs/2026-10-22-lineage-plan-salvage.md` before closing:
+side. Salvaged into `docs/journal/2026-10-22-lineage-plan-salvage.md` before closing:
 
 - **A GenBank-availability ceiling nobody on main had written down.** If Lotta 2019's cyt b
   sequences postdate the 2016-12-31 cutoff, the two Hellgren rows are uncatchable by any
   in-silico method and **the honest ceiling is 9 of 11, not 11** - i.e. every "N of 11" in
   the project quotes an unreachable denominator. Distinct from the taxid-resolution ceiling
-  in `docs/2026-10-18-recalibration.md`. Checkable locally with no network (archives carry
+  in `docs/journal/2026-10-18-recalibration.md`. Checkable locally with no network (archives carry
   deposition dates); it was Phase 0's go/no-go and was never run. It does NOT weaken the
   M1 revert - that rests on the pooled coverage call, a different estimand.
 - **Footprint groups as lineage units**, with the per-unit `no_site`/`diverged` exclusion
@@ -2104,7 +2104,7 @@ side. Salvaged into `docs/2026-10-22-lineage-plan-salvage.md` before closing:
 
 ## 2026-10-22, the `.supp` convention reached the oligo verifier; 3 citations resolved
 
-Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
+Full write-up: `docs/journal/2026-10-22-supplements-and-three-citations.md`.
 
 - `verify_oligos_against_paper.py` did not know the `<doi stem>.supp.<ext>` convention that
   `papers_index.py` has used since 2026-10-21, so a supplement was indexed under a DOI nothing
@@ -2192,7 +2192,7 @@ Full write-up: `docs/2026-10-22-supplements-and-three-citations.md`.
 
 `min_records_for_drift` 20 -> 15 (`8cee3b5`), `recent_window_months` left at 24. A 2-D sweep
 against `docs/validation-cases.tsv` (drift is report-time, no rescreen;
-`docs/2026-10-21-drift-window-calibration.md`) showed the knobs act separately: the minimum
+`docs/journal/2026-10-21-drift-window-calibration.md`) showed the knobs act separately: the minimum
 sets `undecided` (17 of ~49 at 20, 15 at the new value), the window sets accuracy. min 15 turns
 2 undecided cases into correct calls (one catching a real fail, Leucocytozoon @2016), adds
 **zero** new false declines, moves 11 of 208 statuses (insufficient data 42 -> 34). Report-only,
@@ -2417,7 +2417,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   1. **Tier-2 silently dropped renamed assays.** `retrospective.py` scored 13 case rows of 50 as
      `no data` because their ids had been renamed — 4 of the 12 `fails` cases. It now resolves ids
      through `docs/rename-mapping.tsv` both ways and **aborts** on an id that matches nothing.
-     `docs/2026-10-20-tier2-rename-resolution.md`.
+     `docs/journal/2026-10-20-tier2-rename-resolution.md`.
   2. **`report_diff.py` fixed and trustworthy again.** Two causes, not one: a denylist of
      non-status headings promoted `## Nested protocols` to a status, AND the row regex skipped
      every id tagged `(pooled: …)` — 21 rows, exactly the 17 declining + 4 low coverage that
@@ -2470,8 +2470,8 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   `docs/rename-mapping.tsv`, which drops four rows for assays since removed — the counting flaw
   this file warns about. `drift.py` gained `lineage_worst_idx` so the firing lineage needs no
   prose parse. At 2026-10-17: **21 overrides, 15 on a pooled `low coverage`, 6 above-pooled.**
-- **Scope curation is not the lever `docs/2026-10-20-pan-family-override.md` point 3 took it for**
-  (`docs/2026-10-20-scope-curation.md`). Four design papers read; in all four the firing lineage is
+- **Scope curation is not the lever `docs/journal/2026-10-20-pan-family-override.md` point 3 took it for**
+  (`docs/journal/2026-10-20-scope-curation.md`). Four design papers read; in all four the firing lineage is
   inside the stated range, and in three it is a virus the paper amplified: rabies is the genome
   Bourhy 2005 gives PVO3's coordinates on, LCM is Lozano 1997's "prototype of the family", BFDV is
   one of three sequences Mankertz 2000 aligned, PPRV is one of six viruses Barrett 1993 amplified.
@@ -2502,7 +2502,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
 ## 2026-10-19
 
 - **Sub-taxid resolver chain** in `lineage.py` (`94cea06`), design in
-  `docs/2026-10-19-subtaxid-resolution.md`. **Wired in (step 1 of 4):** `lineage.sublineage`
+  `docs/journal/2026-10-19-subtaxid-resolution.md`. **Wired in (step 1 of 4):** `lineage.sublineage`
   in `config.yaml` (shipped `{}`), passed through `drift.assess` (report and retrospective)
   and `lineage_report` (new `--registry`). Titles come from `assaywatch/metadata.py`
   (`read_titles`, moved out of `sitedrift.py`). With the block empty, tier-2 output is
@@ -2519,7 +2519,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   times underflow), so a large lineage could never be judged failing. It now uses `binom.cdf`.
   Tier-2: no case changes. Current statuses: one changes, `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`
   low coverage -> declining (rabies taxid 11292 lineage at 404/1,896).
-- **scope_taxids now match descendants** (`docs/2026-10-19-scope-ancestry.md`). Exact matching
+- **scope_taxids now match descendants** (`docs/journal/2026-10-19-scope-ancestry.md`). Exact matching
   dropped strain/no-rank records under each listed species, about 90% of in-scope records. The
   "14→9 disagreements" below was measured on that remainder. With ancestry, tier-2 is
   **6/12 failures caught, 14 disagreements** (was 5/12, 9). The new disagreements are pan-family
@@ -2527,7 +2527,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   override to stable/watch drops caught failures to 1/12, so the open question is the estimand
   for pan-family assays, not a rule. Rebuild the tree with `scripts/build_taxonomy_cache.py`
   after a retrieval brings new taxa.
-- **Pan-family cases audited** (`docs/2026-10-19-pan-family-cases.md`). The lineage override
+- **Pan-family cases audited** (`docs/journal/2026-10-19-pan-family-cases.md`). The lineage override
   fires on lineages never detected at any point in their history (MERS-CoV 0/558 for pan-CoV,
   Zika for pan-flavivirus, *P. falciparum* for the avian Hellgren primers), and three of its five
   pan-family "caught" failures are caught for the wrong reason. New
@@ -2537,11 +2537,11 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   `fails` cases (11 coverage, 1 drift), gate **on**: 6/12 caught, 12 disagreements. **Step 2 done:** Hellgren
   assays scoped to avian haemosporidia; unsupported Pan_Plasmodium case retired; FAP left family-wide
   because Forslund 1999 amplified HPV16. Tier-2 4/11 caught, 13 disagreements (the wrong-reason catches gone).
-  **FAP vs HPV16 done** (`docs/2026-10-19-fap-bench-panel.md`): HPV16 fails on one G·T wobble 5 nt from
+  **FAP vs HPV16 done** (`docs/journal/2026-10-19-fap-bench-panel.md`): HPV16 fails on one G·T wobble 5 nt from
   the 3' end. On Forslund's own 70-type panel the scorer fails 14 of 60 types the bench amplified;
   12 of those rest only on T:G mispairs. First type-level evidence for identity-aware 3' penalties;
   no config change. `scripts/bench_panel.py` + `docs/bench-panels/` take more panels.
-  **Taxid artefacts done** (`docs/2026-10-19-taxid-artefacts.md`): lineages now group at species
+  **Taxid artefacts done** (`docs/journal/2026-10-19-taxid-artefacts.md`): lineages now group at species
   rank (`lineage.group_at_rank`, taxonomy cache carries ranks). JCPyV was split across 10632/1891763.
   Tier-2 **4/11 caught, 12 disagreements** (was 13). 1193974 is an unclassified bucket of CVA6; the
   bucket rule ships off because that case disagrees on the next lineage down anyway.
@@ -2549,7 +2549,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   still in the 2026-10-17 calls). The gate's "17 of 213" had the same flaw: on current IDs
   it is 13 of 201 with exact-taxid grouping, 16 with the roll-up on. Every status count
   from the 2026-10-17 calls needs the removed IDs dropped; the next screening run fixes it.
-  **Orthopox ATI read by hand** (`docs/2026-10-19-orthopox-ati-vaccinia.md`): 101 of its 112 recent
+  **Orthopox ATI read by hand** (`docs/journal/2026-10-19-orthopox-ati-vaccinia.md`): 101 of its 112 recent
   vaccinia records are GenBank patent-division constructs (vectors, chimeras), and all 10 genuinely
   natural records detect. The `declining` was a false positive. New `drift.exclude_patent_records`
   (shipped **off**: tier-2 unchanged, no validation case touches an affected assay) would move 6
@@ -2563,13 +2563,13 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   measured by `scripts/measure_species_sizes.py` with patent records excluded, shown as a `product bp`
   column. The bands overlap across vaccinia/cowpox/variola/monkeypox-IIb near 1600 bp, so size alone
   names no species there — the XbaI-digest caveat in numbers.
-  **Patent option: no tier-2 case can judge it** (`docs/2026-10-19-orthopox-ati-vaccinia.md`,
+  **Patent option: no tier-2 case can judge it** (`docs/journal/2026-10-19-orthopox-ati-vaccinia.md`,
   2026-10-20 section). Searched both arenavirus and all three dependoparvovirus assays: with the
   option on and off the verdicts are identical at every date before 2026. And the direction
   reverses for AAV — patents are detected MORE than natural records (exact Gao pair 84.3% vs
   45.3%), so there they mask a real coverage gap instead of creating a false one. `pan_parvo`'s
   `declining` is not patent-driven. It needs evidence tier-2 cannot supply.
-  **Pan-family override settled** (`docs/2026-10-20-pan-family-override.md`): a failing lineage can
+  **Pan-family override settled** (`docs/journal/2026-10-20-pan-family-override.md`): a failing lineage can
   overturn a pooled `low coverage` only if that lineage itself once cleared the threshold. Tier-2
   **4/11 caught, 10 disagreements** (was 12), 2 of 201 statuses move. Four alternatives measured and
   lost; adding a "lineage < pooled share" gate would reach 9 but rests on one row.
@@ -2583,12 +2583,12 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   Salmonella — the paper IS on disk, `papers/10.1016_0890-8508_92_90002-f.pdf`, with 630
   Salmonella serovars in Table 1 and 142 non-Salmonella strains across 21 genera in Table 2, the
   first real negative set); the remaining override cases whose design paper is on disk
-  (`docs/2026-10-20-scope-curation.md` lists them, with the ADENOVIRUS Hexon composite held for a
+  (`docs/journal/2026-10-20-scope-curation.md` lists them, with the ADENOVIRUS Hexon composite held for a
   maintainer call). The "cases for the above-pooled pattern" item is partly answered: see the BFDV
   and LCM examples in that doc.
-  **TODO: the 19 pipeline-audit proposals** (`docs/2026-10-20-pipeline-audit.md` §5), each
+  **TODO: the 19 pipeline-audit proposals** (`docs/journal/2026-10-20-pipeline-audit.md` §5), each
   approval-gated individually, ranked in its §7. Top of the list: ~~**M1**~~ MECHANISM DONE
-  2026-10-21 (`docs/2026-10-21-M1-identity-aware-penalty.md`): `scoring.mispair_penalty` ships `{}`
+  2026-10-21 (`docs/journal/2026-10-21-M1-identity-aware-penalty.md`): `scoring.mispair_penalty` ships `{}`
   (byte-identical), and the G:T/T:G candidate rescues 8 bench false fails (FAP 5, Barrett 3) at
   zero specificity cost on Rahn's 41 negatives. HELD BY BATYA 2026-10-21: keep the knob off
   until she decides whether to pursue identity-based scoring at all (the nearest-neighbour ΔG
@@ -2725,7 +2725,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
 
   **Still pending from the audit:** R1 container/lockfile.
   ~~Then **M2** nearest-neighbour ΔG as its own project.~~ **M2 KILLED at Step 0,
-  2026-10-21** (`docs/2026-10-21-M2-step0-killtest.md`): the gating kill-test shows
+  2026-10-21** (`docs/journal/2026-10-21-M2-step0-killtest.md`): the gating kill-test shows
   `calc_heterodimer`'s terminal ΔΔG/ΔTm does **not** reproduce Kwok's 3'-mispair
   severity ordering — the severe (A:G/G:A/C:C/A:A) and neutral (T:G/G:T/T:C/T:T)
   classes overlap in two contexts, and A:A/A:G come out *stabilising* (wrong sign).
@@ -2768,7 +2768,7 @@ dates, `python -m assaywatch.validate registry`) before acting on them; it goes 
 
 `scope_taxids` is an optional field on `Target` in the registry schema. When set, only records
 whose taxid is in the list count toward the drift denominator. (Since 2026-10-19: in the list *or a descendant of a listed taxid*; see
-`docs/2026-10-19-scope-ancestry.md`. The 14→9 result below predates that and is superseded.) Out-of-scope records are excluded
+`docs/journal/2026-10-19-scope-ancestry.md`. The 14→9 result below predates that and is superseded.) Out-of-scope records are excluded
 and tallied in `AssayDrift.out_of_scope`. Records with no taxid are kept (conservative). This is
 exact-match v1 — no NCBI taxonomy ancestry expansion yet.
 
@@ -2799,11 +2799,11 @@ YAMLs). Four new tests in `test_drift.py`.
 The lineage-conditional estimand is live. Per-lineage detection analysis groups records by
 NCBI taxid, runs a one-sided binomial test per lineage, applies Benjamini-Hochberg FDR
 correction, and overrides a pooled stable/watch to declining when the worst assessable lineage
-fails. Design: `docs/2026-10-17-estimand-plan.md`. Implementation:
-`docs/2026-10-18-phase2-handoff.md`. The import is lazy (scipy/statsmodels stay optional for
+fails. Design: `docs/journal/2026-10-17-estimand-plan.md`. Implementation:
+`docs/journal/2026-10-18-phase2-handoff.md`. The import is lazy (scipy/statsmodels stay optional for
 rules that don't use lineage analysis).
 
-Recalibration (`docs/2026-10-18-recalibration.md`, run 2026-10-18) against 50 validation
+Recalibration (`docs/journal/2026-10-18-recalibration.md`, run 2026-10-18) against 50 validation
 cases: the tool now catches **6 of 12** documented failures (was 1 of 12). After scope_taxids
 population, **9 disagree** (was 14) — a 27% error rate (was 42%). The 5 resolved disagreements
 were pan-family scope cases removed by scope filtering. The remaining 9:
@@ -2877,7 +2877,7 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 - **Declared amplicon size enforced** (`b08a46a`): `declared_tolerance: 0.25`, chosen from
   the knee of |observed/declared - 1|. 13 entries that declared no size got a measured one
   (flagged `AMPLICON_BP_MEASURED_NOT_PUBLISHED`), 8 left unset; see
-  `docs/2026-10-14-amplicon-sizes-measured.md`. A mistranscribed `amplicon_bp` now voids an
+  `docs/journal/2026-10-14-amplicon-sizes-measured.md`. A mistranscribed `amplicon_bp` now voids an
   assay's calls, so run `scripts/check_amplicons.py` when an assay's numbers collapse.
 - **Nested protocols** (`b08a46a`, `assaywatch/nested.py`): the report adds each nested
   family's joint coverage (both rounds succeed) beside each round's own share. Lyssavirus N
@@ -2898,7 +2898,7 @@ before that it plans just `validate` and `retrieve`, which needs the network.
 | registry | **209 valid, 0 problems**: 206 draft, 2 deprecated, 1 active (`python -m assaywatch.validate registry` prints current counts) |
 | chemistry | conventional 162, hydrolysis probe 22, MGB 22, SYBR 2, RPA 1; 44 with a probe, 165 primers only |
 | tests | 1282 passed; ruff clean; 187 citations checked, 0 Crossref problems (22 entries have no DOI) |
-| validation | **50 cases**; **4 of 11** `fails` caught, **10 disagreements**, 17 undecided — the same on the 2026-10-17 and 2026-10-20 calls once renamed ids resolve (`docs/2026-10-20-tier2-rename-resolution.md`). CORRECTION: an earlier edit of this file said 2026-10-17 gave 3/11 and 9 and that 2026-10-20 reproduced the published figure "for the first time". Both were wrong. The published 4/11 was always right; the 3/11 was this repo silently scoring 13 case rows as `no data` because their assay ids had been renamed, and the 22→17 undecided movement between the two tables was that bug, not the newer run's extra records. |
+| validation | **50 cases**; **4 of 11** `fails` caught, **10 disagreements**, 17 undecided — the same on the 2026-10-17 and 2026-10-20 calls once renamed ids resolve (`docs/journal/2026-10-20-tier2-rename-resolution.md`). CORRECTION: an earlier edit of this file said 2026-10-17 gave 3/11 and 9 and that 2026-10-20 reproduced the published figure "for the first time". Both were wrong. The published 4/11 was always right; the 3/11 was this repo silently scoring 13 case rows as `no data` because their assay ids had been renamed, and the 22→17 undecided movement between the two tables was that bug, not the newer run's extra records. |
 | last full run | **2026-10-20** (21:25–21:54, 28m 54s, 291/291 steps, `status: success`), the first on the current config since the conventional override was reverted: 208 assays — 37 declining, 38 low coverage, 11 watch, 43 insufficient data, 17 no recent data, 62 stable. Control that it is really the current scorer: Paramyxovirinae L round1 reads 5,135 `fail` / 1,884 `reduced`, matching 2026-10-17's 5,131 / 1,884 against 2026-10-18's 33 / 6,984. |
 | do not measure on | `results/2026-10-18/calls.tsv.gz`, screened under the reverted `by_chemistry.conventional` override (see 2026-10-20 above). `results/2026-10-15/` and earlier predate the lineage estimand. |
 
@@ -2910,7 +2910,7 @@ Verified against the repo 2026-10-20.
 `eutils.ncbi.nlm.nih.gov`, `www.ebi.ac.uk`, `api.crossref.org`, `api.unpaywall.org` and
 `api.openalex.org`, so they cannot measure `amplicon_bp`, verify a DOI or retrieve. A cloud
 session can read and review code, and PubMed/PMC through an MCP tool. Full write-up:
-`docs/2026-10-05-cloud-session-findings.md`.
+`docs/journal/2026-10-05-cloud-session-findings.md`.
 
 ## The NCBI API key
 
@@ -3008,11 +3008,11 @@ trusted.
 ## Then, in value order
 
 0. ~~**The lineage-conditional estimand.**~~ **DONE (2026-10-18).** Design:
-   `docs/2026-10-17-estimand-plan.md`. Implementation: `docs/2026-10-18-phase2-handoff.md`.
-   Recalibration: `docs/2026-10-18-recalibration.md`. Catches 6 of 12 documented failures.
+   `docs/journal/2026-10-17-estimand-plan.md`. Implementation: `docs/journal/2026-10-18-phase2-handoff.md`.
+   Recalibration: `docs/journal/2026-10-18-recalibration.md`. Catches 6 of 12 documented failures.
    Remaining disagreements are structural (pan-family scope and taxid resolution), not threshold.
    **Pan-family scope logic code done (`24ca7a7`); populate registry on Mac.**
-1. **Nested families — mostly DONE 2026-10-17, see `docs/2026-10-17-nested-family-key.md`.**
+1. **Nested families — mostly DONE 2026-10-17, see `docs/journal/2026-10-17-nested-family-key.md`.**
    The id base was not a sufficient family key, and it had manufactured two of the three
    "non-nesting" findings: the coronavirus RdRp rounds are a real nest (6,667 of the 6,671
    records both rounds can be judged on), and so are both CMV gB nests once each paper's own
@@ -3044,7 +3044,7 @@ trusted.
    with `amplicon_bp_range: [540, 1700]`: 95.3% detected on 4,474 evaluable records (stable).
    PANPOX pair rescreened with re-scoped GC genera: highGC 95.7% (23 records, stable), lowGC
    100% (4,550 records, stable).
-2. **Flagged decisions — nine settled 2026-10-17, see `docs/2026-10-17-flagged-decisions.md`.**
+2. **Flagged decisions — nine settled 2026-10-17, see `docs/journal/2026-10-17-flagged-decisions.md`.**
    Bacteria: Chlamydia genus primer KEPT as printed (PMC finds that form in two later wet studies
    and the corrected form in none — the defect is the penalty table, not the sequence); C.
    trachomatis serovar split ACCEPTED as a true finding; psittaci/abortus cross-reaction NOTED only;
@@ -3080,7 +3080,7 @@ trusted.
      says the primers were designed to bind conserved sites, but cites an earlier use in great
      apes), and clear the flag. Details are in each entry's `notes_curator`.
 5. **DOIs: the 2026-10-05 candidate list is CLOSED (2026-10-17).** All five candidates in
-   `docs/2026-10-05-doi-candidates.md` plus the two Wang 1997 entries are applied and
+   `docs/journal/2026-10-05-doi-candidates.md` plus the two Wang 1997 entries are applied and
    Crossref-verified; `check_citations.py` reports 182 checked, 0 problems. Also finished that
    day: Nosema bombi re-cited to Klee 2006 and both CMV gB 4007/4125 entries to Deckers 2009
    (`10.1186/1743-422X-6-210`), all verified through `resolve_citations.py`.
@@ -3109,7 +3109,7 @@ trusted.
    relaxation always produces. Tier-2 validation then showed it catches **2** of the documented
    failures instead of **5** (loses Paramyxovirinae round2, Forslund L1, Hellgren). Total
    disagreements went from 10 to 11. Back to `by_chemistry: {}`. Full result and the
-   one-knob-at-a-time tests to run next: `docs/2026-10-19-conventional-override-validation.md`.
+   one-knob-at-a-time tests to run next: `docs/journal/2026-10-19-conventional-override-validation.md`.
 9. **Primer-name audit** — scoped 2026-10-18, not yet executed.
 
    **Assay-ID renames (40 entries).** Mapping in `docs/rename-mapping.tsv`.

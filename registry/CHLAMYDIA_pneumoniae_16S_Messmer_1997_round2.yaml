@@ -37,7 +37,7 @@ source:
     and ''Species-specific second-step primers'' paragraphs) and CHECKED BY EYE against a 300-dpi render of that page made
     with pymupdf: this PDF is a scan with an OCR text layer, so the layer was not trusted alone. The layer and the image agree
     on every base of all seven oligos; the only OCR damage is the prime mark printed as ''59339'' (5''->3''). This is the
-    same paper (Messmer et al., J Clin Microbiol 1997; 10.1128/jcm.35.8.2043-2046.1997) that docs/2026-10-05-list2-worklist.md
+    same paper (Messmer et al., J Clin Microbiol 1997; 10.1128/jcm.35.8.2043-2046.1997) that docs/journal/2026-10-05-list2-worklist.md
     records as ''both rounds found no product in 8 strided 16S records, OCR-damaged''. The primer text is in fact intact,
     and the earlier null is explained by coverage: many C. psittaci 16S deposits are 3''-half fragments that do not contain
     the sites (see below). THE PAPER IS A NESTED, MULTIPLEX 16S rRNA PCR: step 1 is genus-specific (436 bp); step 2 puts five

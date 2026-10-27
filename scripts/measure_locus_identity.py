@@ -2,7 +2,7 @@
 
     python scripts/measure_locus_identity.py <assay_id> [<assay_id> ...]
 
-The evidence behind `docs/2026-10-25-locus-identity-design.md`, kept so the numbers
+The evidence behind `docs/journal/2026-10-25-locus-identity-design.md`, kept so the numbers
 in it can be re-run rather than quoted. For one assay it takes the interiors of the
 amplicons found in records that `detect` - trimming 20 bp off each end so the primer
 sites themselves cannot contribute - and scores every failing record's interior as

@@ -2,7 +2,7 @@
 
 `score.classify_exclusion` judges a lone primer site by a per-record E-value, and an
 archive of thousands of records clears that bar by chance in proportion to its size
-(docs/2026-10-23-wave2-diverged-and-patent.md; docs/2026-10-24-archive-anchor.md).
+(docs/journal/2026-10-23-wave2-diverged-and-patent.md; docs/journal/2026-10-24-archive-anchor.md).
 These pin the report-time correction: off is a no-op, Bd-shaped chance anchors are
 relabelled, SIV-shaped real ones are not, ties share a fate, and rows that never
 recorded an E are left alone.

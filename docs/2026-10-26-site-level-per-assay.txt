@@ -1,5 +1,5 @@
 # scripts/measure_site_level.py --cap 4000, 2026-10-26, against results/2026-10-26/calls.tsv.gz
-# Totals and caveats are in docs/2026-10-26-bd-phase1-site-level-measured.md section 7.
+# Totals and caveats are in docs/journal/2026-10-26-bd-phase1-site-level-measured.md section 7.
 # `fails` is a count of judgeable failing probe sites and is NOT a coverage figure:
 # a lone probe has no credibility test here. 14 assays are unmeasurable and each
 # line says why; they hold almost all of the discarded population.

@@ -13,7 +13,7 @@ What it clusters, and why only that:
   (`subcluster.cluster`), and records the screen could not judge contribute nothing
   to a per-lineage verdict anyway.
 - **Masked over the amplicon span** (design decision A of
-  `docs/2026-10-19-subtaxid-resolution.md`): `loci.pair_spans` finds every amplicon
+  `docs/journal/2026-10-19-subtaxid-resolution.md`): `loci.pair_spans` finds every amplicon
   the screener could build and `subcluster.mask_regions` blanks it, so the lineage is
   defined by sequence the assay does not measure. Cluster on the binding sites and
   every assay shows a failing cluster by construction.

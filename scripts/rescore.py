@@ -4,7 +4,7 @@
     python scripts/rescore.py --calls results/2026-10-26/calls.tsv.gz \
         --strategy strategies/s0-shipped.yaml --out .tmp/rescore/s0/
 
-Part 0.2 of `docs/2026-10-24-scoring-strategy-test-plan.md`. Scoring is a function
+Part 0.2 of `docs/journal/2026-10-24-scoring-strategy-test-plan.md`. Scoring is a function
 of the mismatch configuration, and the screen already finds that configuration; as
 of 2026-10-26 it also writes the whole of it down (`*_mispairs`, commit `1fa4672`).
 So a candidate scoring rule no longer costs a ~30-minute rescreen to price - it is
@@ -48,7 +48,7 @@ THE BOUNDARY, three parts, printed on every run because Part 0.1 requires it:
    priced here is never flattered by this approximation. Both call disagreements fell
    on one assay whose verdict sits at 97.9% of 755 records against a 90% threshold,
    so neither could move it. Write-up in
-   docs/2026-10-26-m1-confirming-rescreen.md.
+   docs/journal/2026-10-26-m1-confirming-rescreen.md.
 
 Determinism: the same table and strategy give the same output byte for byte. The
 S0 strategy is the control - it is the shipped config with nothing overridden, and
@@ -564,7 +564,7 @@ def run_script(name: str, args: list[str]) -> dict[str, Any]:
 
 
 BOUNDARY = """\
-REPLAY BOUNDARY (docs/2026-10-24-scoring-strategy-test-plan.md Part 0.1)
+REPLAY BOUNDARY (docs/journal/2026-10-24-scoring-strategy-test-plan.md Part 0.1)
   A replay changes how a found site is SCORED, never which sites are FOUND.
   Refused here, because they need a rescreen: max_mismatches_searched,
   max_site_evalue, max_pairs_per_record, gapped alignment, the amplicon window.

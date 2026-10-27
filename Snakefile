@@ -70,7 +70,7 @@ RETRIEVED = Path(config.get("retrieved_dir", "data/retrieved"))
 RESULTS = Path(config.get("results_dir", "results"))
 SCREENED = RESULTS / "screened"
 # Per-job wall time and max RSS (timekeeping item 2,
-# docs/2026-10-18-pipeline-timekeeping-todo.md). Deliberately NOT under
+# docs/journal/2026-10-18-pipeline-timekeeping-todo.md). Deliberately NOT under
 # RESULTS/RUN_DATE: a screen is cached across runs, so a date-keyed benchmark
 # would be absent for every cached archive on the next run, and the whole point
 # of the cache is that those 330 jobs do not re-execute. Keyed by the archive
@@ -536,7 +536,7 @@ rule screen_archive:
     # worker and near-bottom priority to a 10 MB archive of 190,101 records that
     # cost 52 s, while a 760 MB archive needing one assay's work got sixteen: cost
     # scales with bytes TIMES the number of assays in the group, which is what the
-    # old rule left out. Measured in docs/2026-10-18-pipeline-timekeeping-todo.md;
+    # old rule left out. Measured in docs/journal/2026-10-18-pipeline-timekeeping-todo.md;
     # the fit is assaywatch.timing.screen_core_seconds, and its constants live in
     # config.yaml under `screen:`. Snakemake caps threads at --cores.
     #

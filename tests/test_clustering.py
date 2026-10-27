@@ -230,7 +230,7 @@ def test_the_malb_case_is_reported_as_resting_on_two_footprints_not_as_surviving
     92 identical failures against 70 identical detections: two footprints. The
     clustered Wilson upper bound at n = 2 is 88%, 'below the 90% threshold', so
     with no floor the check said the flag 'does not depend on duplicated records'.
-    docs/2026-10-04-pipeline-review.md says it will report this flag as resting on
+    docs/journal/2026-10-04-pipeline-review.md says it will report this flag as resting on
     a single footprint deposited 92 times.
     """
     a = assess(*rows(MALB), CFG, today=TODAY)["A"]

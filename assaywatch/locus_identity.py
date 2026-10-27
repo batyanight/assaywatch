@@ -13,8 +13,8 @@ primer-shaped matches by construction, and a genuinely divergent real site has
 poor ones.
 
 MEASURED 2026-10-25 over `results/2026-10-25/calls.tsv.gz`
-(`docs/2026-10-25-locus-identity-design.md`, corrected in
-`docs/2026-10-25-stale-orphan-screens.md`):
+(`docs/journal/2026-10-25-locus-identity-design.md`, corrected in
+`docs/journal/2026-10-25-stale-orphan-screens.md`):
 
     ORF_VIRUS ... Zhao 2013      detect 1.00        chance pairs 0.32-0.41
     LYSSAVIRUSES N gene (conv.)  detect 0.86-0.99   no chance pairs; genuine fails 0.86-0.99

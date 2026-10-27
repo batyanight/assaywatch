@@ -25,7 +25,7 @@ screen depends on. Of the 173 eligible drafts, 73 carry a flag in
 `review.OLIGO_DOUBT` (`orientation_inferred`, `oligos_modified`,
 `oligos_from_secondary_source`, `oligos_not_in_cited_paper`, ...), and only 87 of
 384 oligos registry-wide are confirmed against their source paper
-(docs/2026-10-05-hallucination-audit.md). So:
+(docs/journal/2026-10-05-hallucination-audit.md). So:
 
     --tier clean      173 eligible MINUS the 73 with oligo doubt = 100 entries
     --tier eligible   all 173, i.e. `active` means exactly what the validator checks

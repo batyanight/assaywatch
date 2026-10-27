@@ -1,6 +1,6 @@
 # S3, switch 1 of 2, tested alone. For probe chemistries a `reduced` call does not
 # count toward the detected share. Part 1 S3 of
-# docs/2026-10-24-scoring-strategy-test-plan.md, dated 2026-10-24.
+# docs/journal/2026-10-24-scoring-strategy-test-plan.md, dated 2026-10-24.
 #
 # This is the only rung so far that TIGHTENS. S1 and S2 both died by loosening, and
 # both died on the same ten Forslund negatives, so a switch that makes an assay
@@ -28,7 +28,7 @@ predicts: >
 kill: >
   Any documented catch lost. Named per catch and never netted. Stated as the general
   rule rather than as one case, because S2 passed its named probe and destroyed four
-  catches nobody had named (docs/2026-10-26-s2-smooth-decay-killed.md).
+  catches nobody had named (docs/journal/2026-10-26-s2-smooth-decay-killed.md).
 reduced_not_detected_for:
   - hydrolysis_probe
   - mgb

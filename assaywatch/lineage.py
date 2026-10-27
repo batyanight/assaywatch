@@ -10,7 +10,7 @@ Per-lineage analysis asks: what is the worst-case detection among the clades
 this assay was asked to detect?
 
 Sub-taxid resolution (estimand "Phase 2", see
-docs/2026-10-19-subtaxid-resolution.md): some biologically distinct lineages
+docs/journal/2026-10-19-subtaxid-resolution.md): some biologically distinct lineages
 collapse into one NCBI taxid. A per-assay *resolver chain* assigns a finer
 sub-lineage label from the cheapest sufficient signal — a more specific
 per-record taxid, a label parsed from the record title, or a sequence-homology

@@ -25,7 +25,7 @@
 # non-Salmonella strain. Gene-absent negatives score `no_amplicon`, which is
 # threshold-independent. So this panel CANNOT bound a relaxation of reduced_max
 # or of the 3'-window penalty, which is what a negative set was wanted for
-# (docs/2026-10-19-fap-bench-panel.md, docs/2026-10-20-meyer-ati-bench-panel.md).
+# (docs/journal/2026-10-19-fap-bench-panel.md, docs/journal/2026-10-20-meyer-ati-bench-panel.md).
 # What it CAN test, and nothing has yet, is whether the scorer invents a product
 # in 20 genera of mostly-Enterobacteriaceae neighbours - the max_pair_evalue
 # chance-pairing guard and the declared-size filter. Note Rahn saw exactly that

@@ -55,7 +55,7 @@ source:
     open: the legend was read from the deposit''s caption text without the figure, and the measurement is the better evidence
     of the two. NOT SCOPEABLE, and this is the reason for the scope flag rather than a scope_taxids list. NCBI Taxonomy holds
     no node for either monkeypox clade: the whole subtree of 10244 is two children, Callithrix jacchus orthopoxvirus (243803)
-    and Monkeypox virus Zaire-96-I-16 (619591), checked with esearch on 2026-10-24. The situation is the one docs/2026-10-24-scope-audit.md
+    and Monkeypox virus Zaire-96-I-16 (619591), checked with esearch on 2026-10-24. The situation is the one docs/journal/2026-10-24-scope-audit.md
     records for AVIPOXVIRUS Baek - the assay''s real scope needs a mechanism the schema does not have, so the flag is the
     disclosure. The 2026-10-24 candidates doc proposed "scope_taxids splitting WA (clade II) and CB (clade I) once their current
     NCBI nodes are confirmed"; they are confirmed not to exist. In practice the denominator barely suffers here, because clade

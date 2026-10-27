@@ -210,7 +210,7 @@ def main(argv: list[str] | None = None) -> int:
         # would disagree about the same assay. Inert today because `config.yaml` ships
         # `lineage.sublineage: {}`, so no chain exists to resolve either way. Not
         # fixed in passing because a `cluster` chain can turn a verdict `declining`
-        # (docs/2026-10-19-pan-family-cases.md), so making the two agree is a change
+        # (docs/journal/2026-10-19-pan-family-cases.md), so making the two agree is a change
         # to what this report CLAIMS, not a tidy-up, and it needs tier-2 behind it.
         resolvers = sublineage_resolvers(lineage_cfg, query_taxids)
         wanted = title_assays(lineage_cfg)

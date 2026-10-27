@@ -1078,7 +1078,7 @@ def test_every_caller_of_assess_passes_the_patent_set():
 
 
 def test_jeffreys_reproduces_the_baseline_docs_hand_computed_figures():
-    """docs/2026-10-23-baseline.md quotes three Jeffreys intervals, computed by
+    """docs/journal/2026-10-23-baseline.md quotes three Jeffreys intervals, computed by
     hand because the function did not exist. These are those three."""
     from assaywatch.interval import jeffreys_interval
 

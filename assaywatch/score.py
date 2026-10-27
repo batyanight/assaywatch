@@ -218,7 +218,7 @@ class OligoScore:
     #: `mismatches_from_3prime` kept where, `mispair_multiplier` used what, and
     #: nothing wrote what down. Recording it is what lets a scoring candidate be
     #: REPLAYED over the calls table instead of costing a full rescreen
-    #: (docs/2026-10-24-scoring-strategy-test-plan.md Part 0.1).
+    #: (docs/journal/2026-10-24-scoring-strategy-test-plan.md Part 0.1).
     #:
     #: Definite mismatches only. An ambiguity code in the record names no single
     #: mispair, as `mispair_multiplier` explains, so those stay counted in
@@ -270,13 +270,13 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     extension. It is scoped to the window on purpose: both papers measure the
     effect at the 3' end, and when the discount ran unscoped it erased internal
     G:T wobbles across whole record sets and cost three documented tier-2 catches
-    (docs/2026-10-22-M1-tier2.md). Beyond the window, position alone decides.
+    (docs/journal/2026-10-22-M1-tier2.md). Beyond the window, position alone decides.
 
     The table ships EMPTY, so by default this does nothing. The G:T/T:G wobble is
     the one candidate that has been tried: three bench panels (FAP, Barrett,
     Meyer) argue for discounting it and Rahn's negatives price it at zero
     specificity cost, but at 0.0 it lost a documented tier-2 catch both unscoped
-    and scoped, so it was reverted (docs/2026-10-22-M1-tier2.md). No value ships
+    and scoped, so it was reverted (docs/journal/2026-10-22-M1-tier2.md). No value ships
     without a tier-2 run behind it.
 
     Still NOT captured: mismatch COUNT interactions. Two adjacent mismatches are
@@ -308,7 +308,7 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
         # not duplex melting. Applied to a 5'/mid mismatch the same discount
         # erased internal G:T wobbles across whole record sets and masked real
         # coverage drops - three documented tier-2 catches fell when it ran
-        # unscoped (docs/2026-10-22-M1-tier2.md), 5498 of 5499 Paramyxovirinae
+        # unscoped (docs/journal/2026-10-22-M1-tier2.md), 5498 of 5499 Paramyxovirinae
         # flips resting on mismatches outside the window. Beyond it, position
         # alone decides.
         template = COMPLEMENT.get(rec.upper(), "N")
@@ -431,7 +431,7 @@ class Call:
             # template base at distance from the 3' end. The screen computed this
             # and discarded it, which is why every scoring candidate so far cost a
             # full rescreen to price; with it a candidate is a replay over this
-            # table (docs/2026-10-24-scoring-strategy-test-plan.md Part 0.1).
+            # table (docs/journal/2026-10-24-scoring-strategy-test-plan.md Part 0.1).
             #
             # DELIBERATELY NOT in `drift.FOOTPRINT_COLUMNS`. That signature
             # records positions and not bases on purpose - "two records with
@@ -473,7 +473,7 @@ def classify(total: float, terminal: bool, cfg: dict[str, Any]) -> str:
       the same bin as one near-lethal 3'-proximal mismatch, and a probe defect
       (which costs signal linearly) trades against a primer defect (which costs
       the exponential). Per-oligo verdicts combined logically is the right
-      model; see docs/2026-10-04-pipeline-review.md. That model now exists as
+      model; see docs/journal/2026-10-04-pipeline-review.md. That model now exists as
       `scoring.engine: serial` (`oligo_verdict` + `combine`), and the two
       disagree on 182,185 of 912,111 calls - but it is `budget` that
       `detect_max` and `reduced_max` were set against, so it stays the default
@@ -789,7 +789,7 @@ def classify_exclusion(
     below cannot see multiplicity: a 22-mer six mismatches off has E of about 0.005
     in a 900 bp record, which passes 0.01, and an archive of 9,496 such records is
     expected to produce dozens of them - 55 of Bd's 63 `diverged` records are
-    protein-coding mRNAs anchored that way (docs/2026-10-23-wave2-diverged-and-patent.md).
+    protein-coding mRNAs anchored that way (docs/journal/2026-10-23-wave2-diverged-and-patent.md).
     The archive-scale test that corrects this needs every row's E first, so it
     runs at report time over the calls table (`calls.apply_anchor_fdr`,
     `drift.anchor_fdr`), and this function only records the number.

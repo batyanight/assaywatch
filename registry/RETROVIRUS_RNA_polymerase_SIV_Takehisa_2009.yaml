@@ -33,6 +33,6 @@ source:
     SIVcpz (388909) has only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged
     keyword query searches every Entrez field and does not isolate the lineage. Judged against all SIV,
     with the lineage breakdown recorded instead: SIVgor 8/8 detected, SIVcpz 15/30, everything else 5/181.
-    See docs/2026-10-04-assay-investigations.md.'
+    See docs/journal/2026-10-04-assay-investigations.md.'
 needs_review:
 - flag: amplicon_measured_not_published

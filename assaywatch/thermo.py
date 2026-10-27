@@ -17,7 +17,7 @@ measured on 2026-10-27: 99 of 179 bench rows came back out of register, a
 majority, and because the bench panels are band-heavy (122 of 179) an
 optimistic predictor is flattered by them, so part of primer3's measured
 advantage over the penalty rule may be this artefact rather than thermodynamics
-(docs/2026-10-27-thermo-vs-penalty-paired.md).
+(docs/journal/2026-10-27-thermo-vs-penalty-paired.md).
 
 Biopython's `MeltingTemp.Tm_NN` takes the alignment as given -- it walks the two
 strands position by position and sums the nearest-neighbour terms, using the

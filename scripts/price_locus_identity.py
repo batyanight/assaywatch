@@ -9,7 +9,7 @@ module offline to the run's own calls and archives, which gives the per-assay
 effect for the cost of one pass over the FASTA files.
 
 Reads `results/<run>/calls.tsv.gz`, never a glob over `results/screened/`; see
-docs/2026-10-25-stale-orphan-screens.md for what that mistake cost.
+docs/journal/2026-10-25-stale-orphan-screens.md for what that mistake cost.
 """
 
 from __future__ import annotations

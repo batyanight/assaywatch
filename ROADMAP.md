@@ -65,7 +65,7 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   — removed it. **Do not quote "0 of 30".** Separately, exempting conventional
   chemistry from `terminal_mismatch_fails` across the whole registry moves 251
   calls of 2.7 million and changes no verdict anywhere
-  (`docs/2026-10-26-s3-chemistry-switches.md`), because a record carrying a
+  (`docs/journal/2026-10-26-s3-chemistry-switches.md`), because a record carrying a
   terminal mismatch almost always carries others that clear `reduced_max` on
   their own. So the mechanism is real and the registry-wide effect through that
   one knob is negligible; what the bench rows show is that the effect is
@@ -91,7 +91,7 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 - **`drift.anchor_fdr`'s value has no evidence behind it.** 0.05 and 0.01
   differ by a factor of two in rows moved (7,206 against 13,693; 2026-10-24
   run), 0.001 is what ships, and tier-2 separates them on one row. The choice
-  wants the bench panels or a held-out set. `docs/2026-10-24-archive-anchor.md`.
+  wants the bench panels or a held-out set. `docs/journal/2026-10-24-archive-anchor.md`.
 
 - **Deposit date is not collection date.** `collection_date` is already
   retrieved for `asm` groups and then unused, so a 2025 deposit of 1990s
@@ -171,7 +171,7 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   target organism is still inside its assay's retrieval root. Cheap, and
   silently wrong today.
 
-- **Four leftovers from the oligo adjudication** (`docs/2026-10-23-oligo-adjudication.md`),
+- **Four leftovers from the oligo adjudication** (`docs/journal/2026-10-23-oligo-adjudication.md`),
   none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
   paper but in no listed oligo and may have been found inside a printed target
   rather than a primer table, never enumerated;
@@ -216,7 +216,7 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 - **Majority contamination.** `ENTEROVIRUS_ssRNA_VP3_VP1_round2` cannot be
   addressed by the archive-anchor mechanism by construction
-  (`docs/2026-10-24-archive-anchor.md`).
+  (`docs/journal/2026-10-24-archive-anchor.md`).
 - **The denominator is drift-correlated.** A record with one drifted primer
   counts as a failure; a record with both drifted leaves the denominator as
   `no_site`. 65.7% of 2.72M rows never reach the statistics, and `no_site` alone
@@ -301,7 +301,7 @@ points of detected share.
 - [x] `pair_evalue` per amplicon (chance.py); scoring guard available, off by default
 - [x] `scoring.max_pair_evalue: 0.01`; flagged assays split into declining / low coverage (2026-10-04)
 - [x] check the two suspected oligo typos (Sarcocystis long rev, Circovirus Mankertz fwd) against
-      the papers (2026-10-04, `docs/2026-10-04-first-run-review.md` "Follow-up"). Sarcocystis
+      the papers (2026-10-04, `docs/journal/2026-10-04-first-run-review.md` "Follow-up"). Sarcocystis
       P-ITSR WAS a typo, an extra C from the spreadsheet, and is corrected (98% failing -> 96%
       detected). Circovirus #174 is NOT a typo: the paper prints the extra T, so the registry
       keeps the published sequence. Both flags cleared
@@ -328,7 +328,7 @@ points of detected share.
       confound, while the penalty rule's 23 false negatives against 1 false positive
       do. Adjacent mismatches have no measured term, so 32 sites are withheld with
       `thermo_note: nn_unsupported` rather than scored as free.
-      `docs/2026-10-27-thermo-vs-penalty-paired.md`.
+      `docs/journal/2026-10-27-thermo-vs-penalty-paired.md`.
 - [x] **`reduced_not_detected_for: [hydrolysis_probe, mgb]`** (2026-10-27). A
       mismatched hydrolysis probe is no longer counted as a detection: detection IS
       the probe, and there is no gel to look at. Measured before it was taken, by
@@ -416,7 +416,7 @@ points of detected share.
 
 ## Review history
 
-`docs/2026-10-04-pipeline-review.md` reviews the pipeline stage by stage from a
+`docs/journal/2026-10-04-pipeline-review.md` reviews the pipeline stage by stage from a
 software and a methods angle. Its short version — the estimand is wrong (one
 population proportion per assay cannot see a lineage-conditional failure, which
 is why validation caught 1 of 12), the denominator conditions on the outcome,
@@ -425,6 +425,6 @@ amplicon sizes are not enforced — is still the best one-paragraph statement of
 what is wrong with the method. Amplicon enforcement shipped; the other three are
 items 4–9 and the limitations above.
 
-`docs/2026-10-27-four-perspective-review.md` is the most recent, read from four
+`docs/journal/2026-10-27-four-perspective-review.md` is the most recent, read from four
 angles (engineering, methods, bench diagnostics, a cold newcomer read), and every
 open item it raised is in this file.
