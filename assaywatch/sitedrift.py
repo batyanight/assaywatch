@@ -96,6 +96,17 @@ MISPAIR_COLUMNS = {
 # `"forward"[:3]` is `"for"`, which reads as a typo in the rendered table.
 _ABBREV = {"forward": "fwd", "reverse": "rev", "probe": "prb"}
 
+# How many accessions to name per footprint group. Enough to pull the records and
+# eyeball the alignment, few enough not to turn the table into a list of ids. Not
+# in config.yaml because it changes nothing about any verdict -- it is a legibility
+# cap, like `figures.max_forest_rows`.
+EXAMPLE_ACCESSIONS = 6
+
+# A lead sentence is written only when one shared pattern covers at least this
+# much of an assay's evaluable records. Legibility, not a threshold: it changes
+# which sentence is printed first and nothing about any verdict.
+LEAD_MIN_SHARE = 0.10
+
 # A mismatch this close to the 3' end blocks extension far more effectively
 # than one further back, so the report marks them rather than leaving the
 # reader to count. Not a threshold used in any calculation.
@@ -379,6 +390,13 @@ class FootprintGroup:
     calls: Counter = field(default_factory=Counter)
     years: Counter = field(default_factory=Counter)
     organisms: Counter = field(default_factory=Counter)
+    #: A few accessions carrying this pattern, so the group can be LOOKED AT.
+    #: The preamble promised "the groups of accessions that carry each pattern"
+    #: and then printed title-derived organism names; no accession appeared in
+    #: any human-readable output, so checking a claim about 472 records meant
+    #: writing an awk over a 17 MB gzipped table. Capped rather than complete:
+    #: the point is a way in, and the TSV carries the same list.
+    examples: list[str] = field(default_factory=list)
 
     @property
     def dominant_call(self) -> str:
@@ -493,6 +511,8 @@ def footprint_groups(
         g.n += 1
         g.calls[r["call"]] += 1
         acc = r["record_id"]
+        if len(g.examples) < EXAMPLE_ACCESSIONS:
+            g.examples.append(acc)
         d = dates.get(acc)
         if d:
             g.years[str(d)[:4]] += 1
@@ -622,6 +642,14 @@ def _render_assay(r: AssaySites) -> list[str]:
         out += ["No evaluable records, so no site statistics.", ""]
         return out
 
+    # The finding, before the method. The position table is the instrument and
+    # the footprint groups are the result, and the result was printed second: for
+    # Avipoxvirus the table said six positions mismatch, and the sentence worth
+    # reading -- that 472 of 757 records share ONE pattern, are mostly Fowlpox
+    # virus deposited 2023-2026, and all fail -- was below it.
+    if lead := _lead_line(r):
+        out += [lead, ""]
+
     if r.positions:
         out += [
             "| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | "
@@ -657,16 +685,46 @@ def _render_assay(r: AssaySites) -> list[str]:
     out += [
         "**Footprint groups** (records sharing one mismatch pattern)",
         "",
-        "| pattern | records | dominant call | deposit years | organisms (heuristic) |",
-        "|---|---|---|---|---|",
+        "| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |",
+        "|---|---|---|---|---|---|",
     ]
     for g in r.footprints:
         years = ", ".join(f"{y}×{n}" for y, n in sorted(g.years.items())[-4:]) or "-"
         orgs = ", ".join(f"{o}×{n}" for o, n in g.organisms.most_common(3)) or "-"
         label = "no mismatches" if g.clean else g.describe()
-        out.append(f"| {label} | {g.n:,} | {g.dominant_call} | {years} | {orgs} |")
+        eg = ", ".join(f"`{a}`" for a in g.examples) or "-"
+        if g.n > len(g.examples):
+            eg += f" (+{g.n - len(g.examples):,})"
+        out.append(f"| {label} | {g.n:,} | {g.dominant_call} | {years} | {orgs} | {eg} |")
     out.append("")
     return out
+
+
+def _lead_line(r: AssaySites) -> str:
+    """One sentence naming the biggest shared mismatch pattern, or "".
+
+    Only when a single non-clean footprint covers a reportable share of the
+    evaluable records: a lead sentence about 3% of them would be noise dressed as
+    a finding.
+    """
+    if not r.footprints or not r.n_evaluable:
+        return ""
+    top = max((g for g in r.footprints if not g.clean), key=lambda g: g.n, default=None)
+    if top is None:
+        return ""
+    share = top.n / r.n_evaluable
+    if share < LEAD_MIN_SHARE:
+        return ""
+    org = top.organisms.most_common(1)
+    years = sorted(top.years)
+    span = f"{years[0]}-{years[-1]}" if len(years) > 1 else (years[0] if years else "")
+    bits = [f"**{top.n:,} of {r.n_evaluable:,} evaluable records ({share:.0%}) share one mismatch pattern"]
+    if org:
+        bits.append(f", mostly {org[0][0]}")
+    if span:
+        bits.append(f", deposited {span}")
+    bits.append(f", and the group's dominant call is `{top.dominant_call}`.**")
+    return "".join(bits)
 
 
 def _base_cell(p: PositionStat) -> str:
