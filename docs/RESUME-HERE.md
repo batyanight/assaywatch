@@ -176,24 +176,44 @@ live 155/51/209 while saying the argument "rests on exactly these numbers");
 asymmetry documented and deliberately not fixed; the two C2 corpus numbers reconciled as
 a floor (40) and a target (60) rather than a disagreement; ROADMAP Phase 0 ticked.
 
-## 8. The Bd miss, priced (`faae47d`, `ab77623`)
+## 8. The Bd miss, priced, and one claim retracted the same day (`faae47d`, `ab77623`, `ec578d0`)
 
-`docs/2026-10-26-bd-phase1-site-level-measured.md`. Its two diagnosed causes are worth
-wildly different amounts:
+`docs/2026-10-26-bd-phase1-site-level-measured.md`. **Read its own correction notice
+first.** Two findings hold and one is withdrawn.
 
-- **Gapped matching: 426 of 932,856 evaluable fails, 0.046%.** Reproduces the 2026-10-04
-  "not worth building". Its real use is registry QA, and its worst outlier is
-  `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` at 7.0% - the same entry section 6 found never
-  reaches `detect`.
-- **The amplicon-level rule discards 297,651 rows that carry a credible primer site**,
-  10.9% of the table. `no_site` is 1,442,931 and genuinely unreachable, which bounds the
-  idea.
-- **On Bd:** 122 of 461 discarded records hold the whole probe footprint, **94 of those
-  would fail**, and **25 of the 94 are indel-explained** where the case doc names 3 by
-  hand.
+**Holds — gapped matching is worth 0.046%.** 426 of 932,856 evaluable fails, from
+`indel_check.py`, reproducing the 2026-10-04 "not worth building". Its real use is
+registry QA, and its worst outlier is `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` at 7.0% -
+the same entry section 6 found never reaches `detect`.
 
-So **site-level evaluation is the fix and gapped alignment is its dependency, not its
-peer.** Phase 2 stays stopped, and now for measured reasons: it cannot be replayed (no
+**Holds — the amplicon-level rule discards 297,651 rows that carry a credible primer
+site**, 10.9% of the table, counted exactly from the calls table with no offset involved.
+`no_site` is 1,442,931 and genuinely unreachable, which bounds the whole idea.
+
+**WITHDRAWN — the Bd probe-site table** (122 judgeable of 461, 94 failing, 25
+indel-explained). It rested on a probe offset that one record in three agreed with. Two
+bugs: offsets pooled across record orientations, so Bd's ITS deposits mixed **+93 with
+-95** and the mode of contradictory numbers placed the probe nowhere; and the tolerance
+for finding the probe was +/-5 bases, which made a slightly-off offset fatal. Caught
+because a sibling assay read **42 of 42 failures as indel-explained** and a hand check
+found the probe at gapped cost **0**.
+
+> **And the corrected answer is harder: Bd is UNMEASURABLE by this route.** Of its 9,493
+> records exactly **three** hold a clean forward, reverse and probe site together, and
+> they disagree. An offset needs full-amplicon records and Bd barely has any - which is
+> the same fact as the case itself, so **the assay that motivated site-level evaluation is
+> the one whose geometry this approach cannot calibrate.** That is why the case doc needed
+> a hand-picked reference, and it means its three hand-read records remain the only
+> sequence evidence of the Bd probe-site deletion. The count is three, not 25.
+
+So **site-level evaluation is still the valuable half** - 297,651 rows, and that number
+survives the retraction. What the retraction costs is the claim that gapped alignment
+earns its place inside it; that is an open question again. And **placing a lone probe is
+now the critical path for Phase 2**, not a formality: the case doc lists it as an open
+design question and this session established that the obvious answer fails on the
+motivating assay.
+
+Phase 2 stays stopped, and now for measured reasons: it cannot be replayed (no
 `no_amplicon` row carries a site coordinate, confirmed on all 1,789,100), so every
 iteration costs a rescreen.
 
