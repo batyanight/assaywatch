@@ -1,4 +1,4 @@
-# Resume point, 2026-10-26 (the harness is built and the whole ladder is priced; nothing shipped)
+# Resume point, 2026-10-26 (the harness is built, the ladder is priced, the held-out set is SPENT, and nothing shipped)
 
 **Start here:** the plan is `~/.claude/plans/go-to-assaywatch-which-giggly-heron.md`, which
 resumed `go-to-assaywatch-resume-ancient-shell.md`. **Sections 1 to 8 are now all done or
@@ -240,11 +240,44 @@ iteration costs a rescreen.
 The maintainer took all three the same day. **`main` still ships every scoring value it
 shipped this morning**; one proposal sits on a branch and one mechanism ships inert.
 
-**1. M1: PROPOSED FOR SHIPPING** (`experiment/2026-10-26-m1-proposed`, `50f125b`).
-`mispair_penalty: {G:T: 0.0, T:G: 0.0}` is set on that branch and NOT on `main`, because
-`docs/validation-cases-heldout.tsv` is read once, by the maintainer, when a strategy is
-proposed for shipping, and **that read has not happened**. The config comment on the branch
-carries the whole case at the point of use.
+**1. M1: PROPOSED, THEN REJECTED BY THE HELD-OUT SET, the same day** (`faeee0e`;
+`docs/2026-10-26-heldout-read-m1-rejected.md`). **`main` is unchanged** and
+`experiment/2026-10-26-m1-proposed` is **not merged**, kept as the record with the rejection
+written above the case for it.
+
+> **THE HELD-OUT SET HAS BEEN READ AND IS SPENT.** `docs/validation-cases-heldout.tsv` was
+> consulted once, on the maintainer's instruction, for the one decision it was reserved for.
+> No future candidate can use it, and `docs/2026-10-24-heldout-candidates.md` already
+> records that literal oligo search over Europe PMC is exhausted - so **new cases now block
+> the whole calibration programme** rather than sitting on a backlog.
+
+It passes the half of its gate I pre-registered and fails the half I omitted. I wrote "M1
+merges only if the held-out set loses no documented catch", and by that it passes: 4/9
+caught on both tables, nothing lost. But M1's own gate, set in
+`docs/2026-10-21-M1-shipped.md` and applied at the 2026-10-22 revert, has two halves -
+"caught failures do not fall AND no works/partial case newly disagrees" - and the second
+fails. `Morbillivirus_including_CDV_P_gene` @2014-03-01, a documented `works` case, goes
+`low coverage`/weaker to **`declining`/DISAGREES**. The drift flag's precision falls
+3/4 = 75% to 1/3 = 33%, and the shipped rule's **perfect 0-of-17 false-alarm record on that
+set breaks**.
+
+Not a replay artefact: that assay was not among the 17 rescreened earlier, so it was
+rescreened - 37,522 records, **0 call disagreements**.
+
+> **AND THE MECHANISM IS A FINDING ABOUT THE DRIFT MODEL, not about M1.** M1 makes that
+> assay's RECENT window better, 64.9% to 67.6%, and that is what flips it, because it lifts
+> the baseline years by more, so "no measurable fall" (-25% to +6%) becomes a measurable one
+> (-43% to -14%). **A uniform loosening can MANUFACTURE a `declining` verdict.** The test
+> plan's standing rule - "a change that only loosens will always cut flags; that is not
+> evidence" - is true of COVERAGE flags and false of DRIFT flags, and nothing in the
+> ladder's reasoning anticipated it. Every loosening candidate should be read against this.
+
+It is the same defect the 2026-10-22 revert recorded, on a different case four days apart.
+So M1's characteristic failure is manufacturing a false `declining`, and what changed in
+between is only that the development set stopped containing a case that shows it. **M1
+changes zero of 49 development rows and rescues 7 bench-panel false fails, and that was not
+enough** - which is the real lesson about a development set that has informed several
+decisions.
 
 > **The confirming rescreen the decision was conditional on is done, and it measured
 > something worth having** (`docs/2026-10-26-m1-confirming-rescreen.md`, `b6195c2`). M1
@@ -279,11 +312,9 @@ asymmetry where round 2 had carried its size since entry and round 1 never did.
 
 ## What is next
 
-1. **Read `docs/validation-cases-heldout.tsv` once, against the M1 branch.** That is the
-   only thing standing between M1 and shipping, and it is the set's designated use. If it
-   holds, merge `experiment/2026-10-26-m1-proposed` and run the full pipeline, which
-   rescreens everything because `scoring` is in the screen signature. If it does not, the
-   branch is the record of what was tried.
+1. ~~**Read the held-out set against the M1 branch.**~~ **DONE 2026-10-26, and it rejected
+   M1.** The set is spent. **Nothing is now blocked on a decision; what is blocked is
+   evidence.** Every remaining item below needs new cases, not new reasoning.
 2. **Correct `ROADMAP.md` Phase 2's "0 of 30" calicivirus figure**, which the Hel1
    correction invalidated.
 3. **The corpus, which is now the binding constraint on everything above.** Both rejected
