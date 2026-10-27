@@ -159,6 +159,26 @@ def precision_lines(rows: list[tuple[str, str, str, str]], intervals: str = "jef
         )
     mech = Counter((r[1] or "unrecorded") for r in fails)
     out.append("  failure cases by mechanism: " + ", ".join(f"{m} {n}" for m, n in sorted(mech.items())))
+    # `partial` cases COUNT AS CATCHES AND ARE SCORED SEPARATELY. Decided 2026-10-27;
+    # it was the third of the three decisions PR #3 asked for and the only one never
+    # settled (docs/journal/2026-10-22-lineage-plan-salvage.md section 3). A `partial`
+    # case is a paper reporting the assay covers some of its target's diversity and
+    # not the rest; the tool naming that gap is a catch of a different KIND from
+    # flagging a documented failure, so it gets its own line and never joins the
+    # `fails` numerator above. Pooling them would let a coverage statement inflate the
+    # drift headline, which is the paper's main figure.
+    partials = [r for r in rows if r[0] == "partial"]
+    if partials:
+        named = [r for r in partials if r[3] == "agrees"]
+        out.append(
+            f"  partial gaps named (scored separately, never pooled with fails): {frac(len(named), len(partials))}"
+        )
+        if named:
+            by_status_p = Counter(r[2] for r in named)
+            out.append("    credited to: " + ", ".join(f"{s} {n}" for s, n in by_status_p.most_common()))
+        weaker = sum(1 for r in partials if r[3] == "weaker")
+        if weaker:
+            out.append(f"    read as working (weaker, not a contradiction): {weaker} of {len(partials)}")
     works = [r for r in rows if r[0] == "works"]
     alarms = sum(1 for r in works if r[2] == "declining")
     out.append(f"  working assays called declining (false alarms): {frac(alarms, len(works))}")

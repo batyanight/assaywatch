@@ -77,6 +77,11 @@ clustering to be needed for the rest.
 
 ## 3. The open decision: do `partial` rows count as successes?
 
+> **Settled 2026-10-27: yes, scored separately.** A named `partial` gap counts as a
+> catch, reported on its own line in `scripts/retrospective.py`'s summary and never
+> pooled into the `fails` numerator, which is the paper's main figure. The text below is
+> the question as it stood.
+
 Of the three decisions the PR asked for, two were settled on main without
 reference to it — intended scope per assay became `scope_taxids` plus
 `docs/journal/2026-10-20-scope-curation.md`, and "which ranks count as units" was settled

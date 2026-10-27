@@ -383,6 +383,12 @@ def test_cases_print_the_verdict_each_status_implies(tmp_path, capsys):
         "works/DISAGREES: 1, works/agrees: 2, works/undecided: 1"
     ) in out
     assert "1 case(s) the tool declined to judge" in out
+    # `partial` rows are scored on their own line and NEVER join the `fails` numerator
+    # (decided 2026-10-27). The one partial row here reads `stable`, i.e. weaker, so
+    # the named-gap count is 0 of 1 and the fails line is untouched at 1/2.
+    assert "documented failures caught: 1/2" in out
+    assert "partial gaps named (scored separately, never pooled with fails): 0/1" in out
+    assert "read as working (weaker, not a contradiction): 1 of 1" in out
 
 
 # --------------------------------------------------------------------------
