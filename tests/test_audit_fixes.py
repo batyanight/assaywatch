@@ -39,6 +39,36 @@ def test_fasta_blank_header_and_spaced_sequence(tmp_path):
     assert list(read_fasta(p)) == [("", "ACGT"), ("r2", "ACGT")]
 
 
+def test_non_fasta_archive_raises_instead_of_reading_as_zero_records(tmp_path):
+    """2026-10-27. An error document used to read as an archive with no records.
+
+    Everything before the first '>' was discarded silently, so `screen.py` wrote
+    a signed, header-only calls table and exited 0 -- and that archive vanished
+    from the drift denominator, which reads as an assay with less data rather
+    than as a broken input. It is the one failure the exclusion taxonomy cannot
+    label, because the records never reach it.
+    """
+    from assaywatch.fasta import NotFasta
+
+    p = tmp_path / "error.fasta"
+    p.write_text("<eFetchResult><ERROR>Invalid uid</ERROR></eFetchResult>\n")
+    with pytest.raises(NotFasta):
+        list(read_fasta(p))
+
+
+def test_blank_lines_before_the_first_header_are_still_fine(tmp_path):
+    p = tmp_path / "ok.fasta"
+    p.write_text("\n\n>AB1 x\nACGT\n")
+    assert list(read_fasta(p)) == [("AB1", "ACGT")]
+
+
+def test_an_empty_archive_yields_nothing_without_raising(tmp_path):
+    """Distinct from a non-FASTA file: there is no content to misread."""
+    p = tmp_path / "empty.fasta"
+    p.write_text("")
+    assert list(read_fasta(p)) == []
+
+
 def test_probe_site_inside_amplicon_is_found_however_many_copies_lie_elsewhere():
     a = ASSAYS[BD]
     probe = a.oligos.probe.matching_seq

@@ -185,6 +185,14 @@ class Retrieve(Block):
     query_suffix: str | None = None
     max_records_per_taxon: int = Field(default=100_000, gt=0)
     incremental_overlap_days: int = Field(default=3, ge=0)
+    #: Fraction of the summary count that may come back without sequence before
+    #: the run is refused instead of noted. Guards a page NCBI did not answer
+    #: from being committed to the manifest, after which the incremental cursor
+    #: skips records that were never written. See config.yaml for the reasoning.
+    max_unexplained_shortfall: float = Field(default=0.02, ge=0.0, le=1.0)
+    #: Absolute floor on the same allowance, so a small group is not judged by a
+    #: percentage of a small number.
+    min_shortfall_allowance: int = Field(default=20, ge=0)
     #: Taxa opted past `max_records_per_taxon`, by taxid, one at a time.
     large_taxa_allowed: list[int] = Field(default_factory=list)
 

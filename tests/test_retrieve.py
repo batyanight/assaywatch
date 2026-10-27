@@ -368,3 +368,111 @@ def test_esummary_error_is_raised_not_ignored(cfg):
 
     with pytest.raises(RetrievalError):
         retrieve_taxon(10241, cfg, Errors(3), run_date="2026-10-03")
+
+
+# --------------------------------------------------------------------------
+# A truncated fetch must be distinguishable from a complete one (2026-10-27).
+#
+# Before these, an empty efetch page returned 0 records without raising, the
+# shortfall was recorded as a note indistinguishable from the legitimate
+# WGS-master case, and the run went into the manifest with today's date -- after
+# which the incremental cursor asked only for records modified since, so the
+# dropped records could never be fetched by any later run.
+# --------------------------------------------------------------------------
+
+
+def test_empty_efetch_page_raises_rather_than_counting_zero(cfg, tmp_path):
+    class EmptyPage(FakeNCBI):
+        def __call__(self, endpoint, params):
+            if endpoint == "efetch" and int(params["retstart"]) > 0:
+                return ""
+            return super().__call__(endpoint, params)
+
+    with pytest.raises(RetrievalError, match="empty page"):
+        retrieve_taxon(10241, cfg, EmptyPage(7), run_date="2026-10-03")
+    # And nothing that looks like an archive is left behind.
+    d = tmp_path / "retrieved" / "10241" / "all"
+    assert not list(d.glob("*.fasta.gz")) and not list(d.glob(".*.part"))
+
+
+def test_whitespace_only_efetch_page_also_raises(cfg):
+    class Blank(FakeNCBI):
+        def __call__(self, endpoint, params):
+            if endpoint == "efetch" and int(params["retstart"]) > 0:
+                return "\n\n   \n"
+            return super().__call__(endpoint, params)
+
+    with pytest.raises(RetrievalError, match="empty page"):
+        retrieve_taxon(10241, cfg, Blank(7), run_date="2026-10-03")
+
+
+def test_large_shortfall_is_refused_and_leaves_no_manifest_entry(cfg, tmp_path):
+    """One page answers with a single record instead of its full three."""
+
+    class Thin(FakeNCBI):
+        def __call__(self, endpoint, params):
+            if endpoint == "efetch" and int(params["retstart"]) == 0:
+                return ">AB00000 Test record 0\nACGTACGTAC\n"
+            return super().__call__(endpoint, params)
+
+    # allowance floor 0 and fraction 0, so any shortfall is unexplained
+    cfg["retrieve"]["min_shortfall_allowance"] = 0
+    cfg["retrieve"]["max_unexplained_shortfall"] = 0.0
+    with pytest.raises(RetrievalError, match="shortfall"):
+        retrieve_taxon(10241, cfg, Thin(7), run_date="2026-10-03")
+    d = tmp_path / "retrieved" / "10241" / "all"
+    assert not list(d.glob("*.fasta.gz")) and not list(d.glob(".*.part"))
+    assert load_manifest(cfg) == {"runs": []}
+
+
+def test_small_shortfall_within_allowance_is_recorded_with_a_note(cfg):
+    """The legitimate WGS-master case still passes, and says how short it was."""
+
+    class Thin(FakeNCBI):
+        def __call__(self, endpoint, params):
+            if endpoint == "efetch" and int(params["retstart"]) == 0:
+                return ">AB00000 Test record 0\nACGTACGTAC\n"
+            return super().__call__(endpoint, params)
+
+    cfg["retrieve"]["min_shortfall_allowance"] = 20  # the default floor
+    run = retrieve_taxon(10241, cfg, Thin(7), run_date="2026-10-03")
+    assert run.n_fetched == 5  # 7 summaries, one page short by 2
+    assert "summaries without sequence" in run.note
+    assert "page shortfall 2" in run.note
+
+
+# --------------------------------------------------------------------------
+# The incremental cursor must not outlive the query it was built from.
+# --------------------------------------------------------------------------
+
+
+def test_changed_length_filter_forces_a_full_fetch(cfg):
+    """The group slug hashes the assay query only, so it cannot see this change."""
+    record_run(cfg, retrieve_taxon(109871, cfg, FakeNCBI(5), run_date="2026-09-01"))
+    assert last_run_date(load_manifest(cfg), 109871) == "2026/09/01"
+
+    cfg["retrieve"]["min_length"] = 50  # widened: older short records now qualify
+    fake = FakeNCBI(5)
+    second = retrieve_taxon(109871, cfg, fake, run_date="2026-10-03")
+    assert second.mode == "full" and second.since is None
+    params = next(p for e, p in fake.calls if e == "esearch")
+    # The whole point: no lower date bound, so nothing older is skipped. `until`
+    # is always pinned to the run date, so mindate is present but unbounded.
+    assert params["mindate"] == "1800/01/01"
+    assert "50:100000000[SLEN]" in params["term"]  # fetched under the NEW filter
+
+
+def test_unchanged_query_still_goes_incremental(cfg):
+    record_run(cfg, retrieve_taxon(109871, cfg, FakeNCBI(5), run_date="2026-09-01"))
+    second = retrieve_taxon(109871, cfg, FakeNCBI(2), run_date="2026-10-03")
+    assert second.mode == "incremental" and second.since == "2026/08/29"
+
+
+def test_last_run_date_filters_on_the_recorded_query(cfg):
+    record_run(cfg, retrieve_taxon(109871, cfg, FakeNCBI(5), run_date="2026-09-01"))
+    manifest = load_manifest(cfg)
+    recorded = manifest["runs"][0]["query"]
+    assert last_run_date(manifest, 109871, query=recorded) == "2026/09/01"
+    assert last_run_date(manifest, 109871, query="txid109871[Organism:exp] AND other") is None
+    # Without a query the cursor is unconditional, which is what `asm` groups use.
+    assert last_run_date(manifest, 109871) == "2026/09/01"

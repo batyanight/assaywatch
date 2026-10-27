@@ -305,13 +305,35 @@ def load_manifest(cfg: dict[str, Any]) -> dict[str, Any]:
     return json.loads(p.read_text()) if p.exists() else {"runs": []}
 
 
-def last_run_date(manifest: dict[str, Any], taxid: int, group: str = "all") -> str | None:
-    """The most recent successful run for this group, as YYYY/MM/DD for Entrez."""
-    dates = [
-        r["run_date"]
-        for r in manifest["runs"]
-        if r["taxid"] == taxid and r.get("group", "all") == group and r["n_fetched"] >= 0
-    ]
+def last_run_date(
+    manifest: dict[str, Any],
+    taxid: int,
+    group: str = "all",
+    query: str | None = None,
+) -> str | None:
+    """The most recent successful run for this group, as YYYY/MM/DD for Entrez.
+
+    When *query* is given, only runs recorded under that same query count.
+
+    Why that matters: the group slug hashes the ASSAY's query alone
+    (`groups.group_slug`), but `build_query` also folds in `retrieve.min_length`,
+    `max_length` and `query_suffix`. Change a length filter and the slug does not
+    move, so the next run would go incremental under a NEW query and ask only for
+    records modified since the last run -- permanently missing every older record
+    that newly qualifies under the widened filter. This module's docstring said
+    to pass `--full` after changing a length filter; nothing enforced it, and the
+    records lost that way cannot be recovered by a later incremental run.
+    Comparing the recorded query refuses the cursor instead of trusting a note.
+
+    The old filter `r["n_fetched"] >= 0` is gone: a record count is never
+    negative, so it excluded nothing and read as a guard against failed runs.
+    Failed runs are not in the manifest at all -- `fetch_taxon` raises before
+    `record_run` -- which is what actually provides that guarantee.
+    """
+    runs = [r for r in manifest["runs"] if r["taxid"] == taxid and r.get("group", "all") == group]
+    if query is not None:
+        runs = [r for r in runs if r.get("query") == query]
+    dates = [r["run_date"] for r in runs]
     return max(dates).replace("-", "/") if dates else None
 
 
@@ -440,7 +462,29 @@ def retrieve_taxon(
     if int(r.get("page_size", 500)) < 1:
         raise RetrievalError("retrieve.page_size must be at least 1")
     manifest = load_manifest(cfg)
-    since = None if full else last_run_date(manifest, taxid, group)
+    since = None if full else last_run_date(manifest, taxid, group, query=query)
+    if not full and since is None:
+        # No cursor under THIS query. Either the group has never been fetched, or
+        # it has been fetched under a different one -- a changed length filter or
+        # query_suffix, which the group slug cannot see. Say which, because the
+        # two look identical from the outside and the second is the one that
+        # would otherwise have silently skipped records.
+        prior = last_run_date(manifest, taxid, group)
+        if prior is not None:
+            prior_queries = sorted(
+                {
+                    r.get("query", "")
+                    for r in manifest["runs"]
+                    if r["taxid"] == taxid and r.get("group", "all") == group and r.get("query") != query
+                }
+            )
+            print(
+                f"taxid {taxid} group {group}: full fetch, not incremental. The last run "
+                f"({prior}) recorded a different query, so an incremental fetch would ask only "
+                f"for records modified since then and would permanently miss older records that "
+                f"newly qualify.\n  now:    {query}\n  before: " + "\n  before: ".join(prior_queries),
+                file=sys.stderr,
+            )
     # datetype=mdat, not cdat: the query asks what CHANGED since the last run,
     # not what was created. A submitter revising a sequence can turn a mismatch
     # into a match, so a revision matters as much as a new deposit.
@@ -540,13 +584,43 @@ def retrieve_taxon(
         fetch_pages = -(-handle["count"] // fetch_retmax)
 
         n = 0
+        for_page_shortfall = 0
         with gzip.open(fasta_tmp, "wt") as fh:
             for page in range(fetch_pages):
                 # Checked inside with_refresh, so an expired handle reported in the
                 # body of a 200 response is refreshed and retried like any other.
                 chunk, k = with_refresh(efetch_checked, page, fetch_retmax)
+                # What this page should have held. An empty page already raised in
+                # check_fasta_page; this catches a page that came back SHORT, which
+                # is the same loss by a smaller amount.
+                expected = min(fetch_retmax, handle["count"] - page * fetch_retmax)
+                if k < expected:
+                    for_page_shortfall += expected - k
                 n += k
                 fh.write(chunk if chunk.endswith("\n") else chunk + "\n")
+
+        # A shortfall has one legitimate cause -- WGS master records, which have a
+        # summary but no sequence -- and one illegitimate one: a page NCBI did not
+        # fully answer. Before 2026-10-27 both produced the same note, so the two
+        # were indistinguishable, and the run was recorded either way; the
+        # incremental cursor then advanced past records that were never written.
+        # Tolerate the configured share, refuse the rest, and refuse it HERE,
+        # before os.replace, so a rejected run leaves no archive and no manifest
+        # entry to skip past.
+        shortfall = n_meta - n
+        if shortfall > 0:
+            tol = float(r.get("max_unexplained_shortfall", 0.02))
+            floor = int(r.get("min_shortfall_allowance", 20))
+            allowed_short = max(floor, int(tol * n_meta))
+            if shortfall > allowed_short:
+                raise RetrievalError(
+                    f"taxid {taxid} group {group}: {n} records fetched against {n_meta} summaries, "
+                    f"a shortfall of {shortfall} over the {allowed_short} allowed "
+                    f"({tol:.1%} of {n_meta}, floor {floor}). WGS master records explain a few "
+                    f"summaries without sequence; this is too many, so it is treated as pages NCBI "
+                    f"did not answer. Nothing was written and the manifest was not advanced. "
+                    f"Rerun; if the shortfall is real, raise retrieve.max_unexplained_shortfall."
+                )
     except BaseException:
         # Leave nothing that looks like an archive, finished or not.
         meta_tmp.unlink(missing_ok=True)
@@ -560,10 +634,13 @@ def retrieve_taxon(
     run.n_fetched = n
     run.fasta = str(fasta_path)
     run.metadata = str(meta_path)
-    if n < n_meta:
-        # Usually WGS master records, which have a summary but no sequence;
-        # logged so that a dropped page would not pass unnoticed either.
-        run.note = (run.note + "; " if run.note else "") + f"{n_meta - n} summaries without sequence"
+    if shortfall > 0:
+        # Within tolerance, so recorded rather than refused -- but say which pages
+        # were short, because "summaries without sequence" alone could not tell a
+        # WGS master from a thin page.
+        run.note = (run.note + "; " if run.note else "") + (
+            f"{shortfall} summaries without sequence (page shortfall {for_page_shortfall})"
+        )
     return run
 
 
@@ -578,9 +655,20 @@ def check_fasta_page(chunk: str) -> int:
     NCBI can answer 200 with an error document instead of sequence. Written to
     the archive, that text was counted as records (by its '>' characters) and
     the run was recorded as a success, so the next run skipped past it.
+
+    An EMPTY body raises too, as of 2026-10-27. It used to return 0: the guard
+    above reads `if body and not body.startswith(">")`, which is False for an
+    empty string, so an empty page was accepted, contributed 0 to the run's
+    record count, and the run was still recorded with today's date -- after
+    which the incremental cursor asked only for records modified since, and the
+    page's records were gone for good. A page is only ever requested when
+    `esearch` said there were records left to fetch, so an empty one is NCBI
+    failing to answer, never a legitimate end-of-run.
     """
     body = chunk.lstrip()
-    if body and not body.startswith(">"):
+    if not body:
+        raise RetrievalError("efetch returned an empty page where records were expected")
+    if not body.startswith(">"):
         head = body[:200]
         if "history" in head.lower() or "query" in head.lower():
             raise HistoryExpired(f"efetch: {head}")

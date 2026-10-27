@@ -377,6 +377,22 @@ retrieve:
   query_suffix: null          # e.g. 'NOT "whole genome shotgun"[Title]' to trim bulk
   max_records_per_taxon: 100000
   incremental_overlap_days: 3 # each incremental run re-asks for these days, for records NCBI indexes late
+
+  # How much of a fetch may come back missing before the run is REFUSED rather
+  # than noted. A shortfall (fewer FASTA records than esummary summaries) has one
+  # legitimate cause -- WGS master records, which carry a summary and no sequence
+  # -- and one that loses data: a page NCBI did not fully answer. Until
+  # 2026-10-27 both produced the same note and the run was recorded either way,
+  # after which the incremental cursor advanced past records that were never
+  # written, so they could not be re-fetched by any later run.
+  #
+  # Values are a judgement, not a measurement: WGS masters run to a handful per
+  # group in this registry, while a dropped page costs a whole efetch page
+  # (`page_size`, or less for large records). The floor exists so a small group
+  # is not judged by a percentage of a small number. Raise the fraction only with
+  # a group whose shortfall you have checked by hand and believe.
+  max_unexplained_shortfall: 0.02  # of the summary count
+  min_shortfall_allowance: 20      # records, whichever is larger
   # Taxa allowed past the cap, by taxid. Opt in deliberately. Influenza A
   # segment 7 is ~180,000 records on first fetch (and incremental after);
   # that is a known cost, accepted on 2026-10-03.
