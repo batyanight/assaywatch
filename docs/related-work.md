@@ -70,7 +70,12 @@ today:
    consensus panels.
 2. **Detection indexed by deposit year**, which makes decay visible as a trend rather
    than as a single pass/fail against today's database. Primer Monitor alerts on
-   crossing a threshold; AssayWatch reports the series.
+   crossing a threshold; AssayWatch reports the series. Honestly stated: the *verdict*
+   is still a two-window contrast (recent against a pooled baseline). What makes the
+   series more than a table is the Cochran-Armitage trend test printed beside each
+   flagged assay since 2026-10-27 (`assaywatch/trend.py`) — reported, never folded
+   into the status, and with no significance threshold because the project has no
+   evidence to set one.
 3. **A lineage-conditional estimand.** Designed (`docs/journal/2026-10-17-estimand-plan.md`),
    partly implemented, and the part that reached production is the part that design
    document predicted would be least capable. Not yet a contribution.

@@ -172,14 +172,6 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 
 ## Method debts
 
-- **A trend over deposit year is claimed and never tested.** No
-  Cochran-Armitage, no logistic regression on year, no rank correlation. The
-  verdict is a two-window contrast against a pooled historical baseline, so an
-  assay whose target had one large deposition burst in 2014 has its baseline set
-  by 2014. `docs/related-work.md` claims decay "as a trend rather than as a
-  single pass/fail" as contribution #2; what ships is a single pass/fail against
-  a pooled comparator.
-
 - **The drift rules interact and are untested.** `recent_window_months: 24`
   with `min_records_for_drift: 20` is why Bd (Boyle 2004) read "insufficient
   data" at 100% detected on 17 recent records: shorten the window and assays
@@ -296,12 +288,21 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   bacterial and parasitic targets especially. Sequences only from a source that
   can be read and cited, never transcribed from a secondary list.
 
-- **A genus taxid can stop containing its target.** *Mycoplasmopsis agassizii*
-  and *Mycoplasmoides testudinis* both left genus *Mycoplasma*, so a
-  genus-rooted retrieval silently stops fetching the organism the assay names.
-  `scripts/check_taxids.py` cannot see this; it needs a check that every named
-  target organism is still inside its assay's retrieval root. Cheap, and
-  silently wrong today.
+- **18 entries carry a taxid NCBI has merged away**, found 2026-10-27 by the new
+  containment check: 11232 → 3052342 (9 CDV entries), 121791 → 3052225 (2 Nipah),
+  11051 → 3044782 (3 flavivirus), 10292 → 3044472 (4 herpesvirus). Retrieval still
+  resolves a merged id, which is why nothing noticed, and an entry on a retired id is
+  one taxonomy release from an empty archive. **The fix has a cost**: `data/retrieved/`
+  is keyed by taxid, so changing `target.taxid` moves the group and re-fetches it. Do
+  it as its own live run with a `report_diff` behind it.
+  `docs/journal/2026-10-27-taxid-containment-and-merged-roots.md`.
+- **11 `taxon_name` mismatches, two kinds, open since 2026-10-04.** Three are ICTV
+  binomial renames where the stored name is the paper's (ABPV, BQCV, SBV): a name-only
+  edit in the house pattern, no retrieval effect. Eight are a species-level name on a
+  deliberate genus-level taxid narrowed by query (LMBV on *Ranavirus*, seven EEHV
+  entries on *Proboscivirus*) — the Mycoplasma shape — and `check_taxids.py` calls
+  them `MISMATCH` because it cannot tell deliberate from wrong. It needs a status that
+  reads the `query`, or the entries need a note. Same journal entry.
 
 - **Four leftovers from the oligo adjudication** (`docs/journal/2026-10-23-oligo-adjudication.md`),
   none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
@@ -445,6 +446,22 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **A scoped taxon that leaves its retrieval root is now detected** (2026-10-27).
+      `scripts/check_taxids.py` tests every `scope_taxids` entry's NCBI ancestor list for
+      the assay's `target.taxid`, resolving merged ids first — its first run reported
+      4,113 escapes, every one a false reading of a merged root, which is how the 18
+      retired taxids above were found. Second run: 0 escapes. The Mycoplasma case that
+      motivated it is rooted at a phylum and scoped by query, so it is not the shape
+      this guards; nothing in the registry is, today.
+- [x] **A trend statistic exists** (2026-10-27). `assaywatch/trend.py` runs the
+      Cochran-Armitage test over deposit year and the report prints z and a two-sided p
+      under every flagged assay's per-year table. Beside the verdict, never into it — a
+      test pins that two assays with opposite trends inside the same baseline get
+      identical statuses — and with no threshold, because the project has no evidence
+      to set one. `related-work.md` contribution #2 now says what ships. Still owed: a
+      version over distinct footprints rather than records, since the same clade
+      structure that narrows every interval inflates this z.
+      `docs/journal/2026-10-27-trend-statistic.md`.
 - [x] **`partial` rows count as catches, scored separately** (decided 2026-10-27). The
       third of the three decisions PR #3 asked for, and the last to be settled.
       `scripts/retrospective.py` prints a `partial gaps named` line of its own and the

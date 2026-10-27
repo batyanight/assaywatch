@@ -280,6 +280,11 @@ class Drift(Block):
     #: The long comment in config.yaml carries the decision, what it moves and what
     #: it costs; docs/journal/2026-10-26-s3-chemistry-switches.md is the measurement.
     reduced_not_detected_for: list[str] = Field(default_factory=list)
+    #: Years with evaluable records an assay needs before the Cochran-Armitage
+    #: trend over deposit year is reported beside its verdict (assaywatch/trend.py).
+    #: Never a verdict input, and there is no p-value threshold anywhere: the
+    #: statistic is printed and the reader judges it.
+    trend_min_years: int = Field(default=3, ge=2)
 
     @model_validator(mode="after")
     def windows_are_ordered(self) -> Drift:

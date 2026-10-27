@@ -89,6 +89,7 @@ from assaywatch.accession import strip_version
 # the tests and scripts/ already import. The estimators moved to interval.py so
 # that lineage.py, which sits below this module, can use the same ones.
 from assaywatch.interval import newcombe_difference, wilson_interval
+from assaywatch.trend import Trend, cochran_armitage
 
 if TYPE_CHECKING:
     from assaywatch.lineage import LineageStats
@@ -256,6 +257,12 @@ class AssayDrift:
     # a month name when records are dated to the day, so it cannot be parsed
     # back into a year; `finalise`'s fallback split needs the number.
     recent_year: int | None = None
+    # Cochran-Armitage trend over deposit year (assaywatch/trend.py), filled by
+    # `finalise` from `years` and REPORTED BESIDE THE VERDICT, never into it: the
+    # status logic below does not read it. None when fewer than `trend_min_years`
+    # years carry evaluable records, or when there is no variation to test.
+    trend_min_years: int = 3
+    trend: Trend | None = None
     # Calls split by the recent-window cutoff as records are added (assess). When
     # empty, finalise falls back to splitting `years` at `recent_from`.
     recent_counts: Counter = field(default_factory=Counter)
@@ -934,6 +941,11 @@ class AssayDrift:
             self.baseline_detected,
             self.baseline_evaluable,
         )
+        # Beside the verdict. Nothing below this line reads `self.trend`.
+        self.trend = cochran_armitage(
+            [(y, s.detected, s.evaluable) for y, s in self.years.items()],
+            min_years=self.trend_min_years,
+        )
 
         if self.recent_evaluable == 0:
             self.status = "no recent data"
@@ -1053,6 +1065,9 @@ class DriftSettings:
     min_records_for_year: int
     count_diverged: bool
     exclude_patent: bool
+    #: Years with evaluable records before a Cochran-Armitage trend is reported
+    #: (assaywatch/trend.py). Reported beside the verdict, never into it.
+    trend_min_years: int = 3
 
     @classmethod
     def from_config(cls, cfg: dict[str, Any]) -> DriftSettings:
@@ -1066,6 +1081,7 @@ class DriftSettings:
             min_decline=float(d.get("min_decline", 0.05)),
             require_working_baseline=bool(d.get("require_working_baseline", True)),
             min_records_for_year=int(d.get("min_records_for_coverage", 10)),
+            trend_min_years=int(d.get("trend_min_years", 3)),
             # A record whose partner binding site is present in the deposit and does
             # not match is evidence the assay would not amplify it, but it leaves the
             # denominator as no_amplicon, which biases that denominator toward the
@@ -1514,6 +1530,7 @@ def assess(
             min_records_for_year=settings.min_records_for_year,
             window_months=months,
             recent_year=cutoff.year,
+            trend_min_years=settings.trend_min_years,
         )
         _tally_window(a, rows, window, months)
         a.finalise()

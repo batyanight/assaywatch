@@ -68,6 +68,7 @@ from assaywatch.nested import assess as assess_nested
 from assaywatch.review import OLIGO_DOUBT, ReviewFlag
 from assaywatch.schema import Assay, SpeciesSize, Status
 from assaywatch.timing import format_duration, read_screen_benchmarks
+from assaywatch.trend import describe as describe_trend
 
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
@@ -708,6 +709,9 @@ class DetailRow:
     doi: str
     degeneracy_note: str
     years: list[tuple[int, int, int, str]]
+    # One clause under the per-year table: the Cochran-Armitage trend, or why there
+    # is none. Reported, never a verdict input (assaywatch/trend.py).
+    trend: str
     species: SpeciesBlock | None
     out_of_scope: int
     # (label, predicted-detected, screened, share) per off-target taxon, worst
@@ -1047,6 +1051,7 @@ def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> Detai
         doi=assay.citation.doi if assay and assay.citation.doi else "",
         degeneracy_note=(deg.note(cfg) or "") if deg else "",
         years=year_table_rows(a),
+        trend=describe_trend(a.trend, a.trend_min_years),
         species=species,
         out_of_scope=a.out_of_scope,
         exclusivity=exclusivity_rows(a, taxonomy),
@@ -1408,6 +1413,7 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
             out += ["", "| deposit year | detected | evaluable | share |", "|---|---|---|---|"]
             for year, det, ev, frac in d.years:
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
+            out += ["", f"*{d.trend}*"]
             if d.species:
                 sp = d.species
                 out += [
@@ -1843,6 +1849,7 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
             for year, det, ev, frac in d.years:
                 parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
             parts.append("</table>")
+            parts.append(f"<p class='muted'>{e(d.trend)}</p>")
             if d.species:
                 sp = d.species
                 parts.append(
