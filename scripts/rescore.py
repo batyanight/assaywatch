@@ -35,10 +35,20 @@ THE BOUNDARY, three parts, printed on every run because Part 0.1 requires it:
    only the winner; a scoring change can reorder those candidates, and a replay
    cannot see a candidate that is not in the table. So a replay is exact for the
    amplicon the screen chose and silent about the one it might have chosen
-   instead. The effect is bounded by how many records hold more than one candidate
-   and is unmeasured. A strategy that passes its gate here is therefore PRICED,
-   not proven: shipping one needs a confirming rescreen, which is cheap once
-   exactly one candidate deserves it.
+   instead. A strategy that passes its gate here is therefore PRICED, not proven:
+   shipping one needs a confirming rescreen, which is cheap once exactly one
+   candidate deserves it.
+
+   MEASURED 2026-10-26, and it is small and one-directional. M1 was really
+   rescreened over every tier-2 assay whose calls it moves - 514,096 rows across 17
+   assays - and compared against the replay of the same strategy: **2 call
+   disagreements and 11 penalty disagreements, 0 on the reason**. That is 0.0004% of
+   rows. Every one of the 13 runs the same way: the REAL screen finds a better
+   candidate than the replay could see, so the replay is PESSIMISTIC and a candidate
+   priced here is never flattered by this approximation. Both call disagreements fell
+   on one assay whose verdict sits at 97.9% of 755 records against a 90% threshold,
+   so neither could move it. Write-up in
+   docs/2026-10-26-m1-confirming-rescreen.md.
 
 Determinism: the same table and strategy give the same output byte for byte. The
 S0 strategy is the control - it is the shipped config with nothing overridden, and
@@ -562,9 +572,11 @@ REPLAY BOUNDARY (docs/2026-10-24-scoring-strategy-test-plan.md Part 0.1)
   count_diverged_as_fail, patent exclusion, scope, drift.anchor_fdr.
   NOT a refusal, and the one real approximation: candidate selection is frozen.
   The table holds only the amplicon the screen chose per record, so a strategy
-  that would make a different candidate win cannot be seen here. A strategy
-  priced by replay is PRICED, NOT PROVEN; shipping one needs a confirming
-  rescreen.\
+  that would make a different candidate win cannot be seen here. Measured on
+  2026-10-26 over 514,096 really-rescreened rows: 2 call and 11 penalty
+  disagreements, 0.0004%, and ALL of them pessimistic - the real screen finds a
+  better candidate than the replay can. A strategy priced by replay is PRICED,
+  NOT PROVEN; shipping one needs a confirming rescreen.\
 """
 
 
