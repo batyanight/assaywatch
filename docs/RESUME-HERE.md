@@ -88,12 +88,34 @@ correction taken on measurement still stands alone.
   its own date. `CLAUDE.md` and `docs/INDEX.md` state the one-list rule, so a new session
   does not start a fifth list.
 
+## Per-chemistry scoring was then priced, and the knob this project has named for three weeks is inert
+
+**`terminal_mismatch_fails: false` for `conventional` moves 0 of the 179 bench rows.**
+The 23 false negatives are real; that is not what causes them. Same answer the
+2026-10-26 registry-wide run gave from the other end — 251 calls of 2.7M, no verdict
+changed — because a record whose primer carries a terminal mismatch almost always
+carries others that already exceed `reduced_max`.
+
+**`primer_3prime_penalty` 3.0 -> 2.0 for conventional is the half that works**, and it
+is now the best-evidenced scoring candidate the project has: 6 of 179 bench rows fixed,
+0 broken, McNemar exact **p = 0.0312**, none of the 16 bench negatives that can punish a
+loosening moved, and nothing fitted. Over the 2.72M-row calls table, against an S0
+control replayed the same day: 19,081 calls move, every one `fail` -> `reduced`;
+documented failures caught stays 6/11; PPV of `declining` 2/9 -> 3/9; false alarms 5/32
+-> 4/32. Exactly two tier-2 cases move, in opposite directions on purpose —
+`Pan_flavivirus_NS5_3_round2` loses a false alarm, and the Forslund FAP failure moves
+`low coverage` -> `declining`, because `require_working_baseline` can only see a decline
+once the earlier years clear the threshold. Same assay as 5 of the 6 bench fixes.
+
+**Not shipped.** `by_chemistry` is still `{}`: a replay freezes candidate selection, so
+this is PRICED, NOT PROVEN, and the confirming rescreen plus a decision about moving
+every status in every report are what remain.
+`docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md`,
+`strategies/s5-conventional-3prime-penalty.yaml`.
+
 ## Still open
 
-`ROADMAP.md`. The next item the evidence supports is **per-chemistry scoring**: price
-`terminal_mismatch_fails: false` for `conventional` as a replay via `scripts/rescore.py`,
-with the 179 bench rows as arbiter. The 23 false negatives are the argument, and the ΔTm
-column can now be believed on the records that decide it.
+`ROADMAP.md`, whose first item is now that confirming rescreen.
 
 ---
 

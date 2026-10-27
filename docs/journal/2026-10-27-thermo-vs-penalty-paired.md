@@ -212,6 +212,15 @@ thermo site where 138 did.
   thermodynamics.
 
 **And one thing is now cheap that was not.** The thermo column can be believed on
-the records that matter, so the next question — does `terminal_mismatch_fails:
-false` for `conventional` fix those 23 false negatives — can be priced against a
-ΔTm that is not lying about where the mismatches sit.
+the records that matter, so the next question — what in the scoring rule causes those
+23 false negatives — can be asked against a ΔTm that is not lying about where the
+mismatches sit.
+
+> **That question was answered the same day, and the answer was not the knob this
+> document assumed.** Exempting `conventional` chemistry from
+> `terminal_mismatch_fails` moves **0 of these 179 rows**. Dropping
+> `primer_3prime_penalty` from 3.0 to 2.0 for conventional fixes 6 and breaks none
+> (p = 0.0312), and adding the terminal exemption on top of it changes nothing row
+> for row. See `2026-10-27-terminal-mismatch-refuted-penalty-priced.md`. So this
+> document's section 1 is right that the rule is pessimistic and wrong about where
+> the pessimism lives.

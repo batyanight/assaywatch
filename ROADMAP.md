@@ -33,28 +33,38 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## The next thing, and why it is first
 
-- **Per-chemistry scoring: price `terminal_mismatch_fails: false` for `conventional`.**
-  One penalty table is applied to every assay, but 155 of 209 are `conventional`
-  and 51 carry a probe (2026-10-26; `python -m assaywatch.validate registry`
-  prints the live tally, and the counts in this line were 128 of 138 when it was
-  first written). `terminal_mismatch_fails: true` is a qPCR-strength rule.
-  `by_chemistry` ships empty. Fix shape: a scoring block per chemistry, with the
-  conventional numbers set by tier-2 validation. Price it as a replay over the existing
-  calls table via `scripts/rescore.py` — no retrieval, no rescreen — with the
-  179 bench rows as arbiter.
+- **Confirm S5 with a rescreen, then decide whether to ship it.**
+  `strategies/s5-conventional-3prime-penalty.yaml` drops `primer_3prime_penalty`
+  from 3.0 to 2.0 for `conventional` only. It is **priced, not proven**
+  (`docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md`):
 
-  **The strongest argument for it is now a measurement.** On those bench rows
-  the shipped rule makes 23 false negatives against 1 false positive
-  (2026-10-27), which is the pessimism the bench review predicted, concentrated
-  in a panel whose published positives fail on a single terminal mismatch.
+  - bench panels: fixes 6 of 179 rows, breaks 0, McNemar exact p = 0.0312, and
+    none of the 16 negatives that can punish a loosening moves. Nothing is fitted,
+    so that is not an in-sample figure;
+  - registry replay over 2.72M rows: 19,081 calls move, every one `fail` ->
+    `reduced`; documented failures caught stays 6/11; the PPV of `declining` goes
+    2/9 -> 3/9 and false alarms 5/32 -> 4/32, because exactly two tier-2 cases move
+    and they move in opposite directions on purpose.
 
-  **And the threshold sits exactly on the class edge.** `primer_3prime_penalty: 3.0`
-  equals `reduced_max: 3.0`, so one mismatch in the last five bases lands
-  precisely on the detect/fail boundary — and 74.7% of all 284,062 `fail` calls
-  are within one 3'-window mismatch of it (2026-10-27 run). Three-quarters of
-  the `fail` fraction is one threshold coincidence away from moving.
+  Both pre-registered kill criteria survived. What is left is the replay's one
+  approximation — candidate selection is frozen, so a rescreen of the assays whose
+  calls move is needed before shipping — and then a maintainer's decision, because
+  it moves every status in every report. `by_chemistry` still ships empty.
 
-  **Two figures from this item's history must not be quoted.**
+  **Why this item no longer names `terminal_mismatch_fails`.** For three weeks it
+  did, and the 23 false negatives against 1 false positive were read as its
+  evidence. Scored directly, exempting conventional chemistry from it moves **0 of
+  179 bench rows** — the same answer the 2026-10-26 registry-wide measurement gave
+  from the other end (251 calls of 2.7M, no verdict changed), because a record whose
+  primer carries a terminal mismatch almost always carries others that already
+  exceed `reduced_max`. The pessimism is real; that knob is not where it lives.
+
+  **The threshold coincidence is why the penalty is the live suspect.**
+  `primer_3prime_penalty: 3.0` equals `reduced_max: 3.0`, so one mismatch anywhere
+  in the last five bases lands precisely on the detect/fail boundary — and 74.7% of
+  all 284,062 `fail` calls sit within one 3'-window mismatch of it (2026-10-27 run).
+
+  **One figure from this item's history must not be quoted.**
   `CALICIVIRUS_ssRNA_Helicase_Reid_1999` was read as carrying a 3'-terminal
   mismatch in Hel1 against all 16 of its own target records, and
   `terminal_mismatch_fails` alone was said to drive it to near-total failure
@@ -62,14 +72,7 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   stored copy of the oligo, not a chemistry effect. The 2026-10-24 correction of
   Hel1's 3'-terminal base from G to C — the form the template carries in all 16
   design targets, and the only form that reproduces the published 357 bp product
-  — removed it. **Do not quote "0 of 30".** Separately, exempting conventional
-  chemistry from `terminal_mismatch_fails` across the whole registry moves 251
-  calls of 2.7 million and changes no verdict anywhere
-  (`docs/journal/2026-10-26-s3-chemistry-switches.md`), because a record carrying a
-  terminal mismatch almost always carries others that clear `reduced_max` on
-  their own. So the mechanism is real and the registry-wide effect through that
-  one knob is negligible; what the bench rows show is that the effect is
-  concentrated, not absent.
+  — removed it. **Do not quote "0 of 30".**
 
 ## Method debts
 

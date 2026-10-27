@@ -278,6 +278,29 @@ scoring:
   # every status in every report, and a threshold changed by eye is exactly what
   # the top of this file warns against.
   #
+  # MEASURED 2026-10-27, AND THE TWO LINES ABOVE DO NOT CARRY EQUAL WEIGHT.
+  # `terminal_mismatch_fails: false` for conventional moves 0 of the 179 bench rows
+  # (scripts/price_terminal_mismatch.py). Nothing. The reasoning above it is sound
+  # and the knob is still inert, because a record whose primer carries a terminal
+  # mismatch almost always carries others that already exceed `reduced_max`, so
+  # removing the automatic fail changes the REASON and not the call -- which is why
+  # the registry-wide version of the same switch moved 251 calls of 2.7M and changed
+  # no verdict (docs/journal/2026-10-26-s3-chemistry-switches.md).
+  #
+  # `primer_3prime_penalty: 2.0` for conventional is the half that does the work,
+  # and it is the best-evidenced scoring candidate this project has produced:
+  # 6 of 179 bench rows fixed, 0 broken, McNemar exact p = 0.0312, none of the 16
+  # bench negatives that can punish a loosening moved, and over the 2.72M-row
+  # calls table 19,081 calls move (every one fail -> reduced) while documented
+  # failures caught stays 6/11, the PPV of `declining` goes 2/9 -> 3/9 and false
+  # alarms 5/32 -> 4/32. Nothing in that is fitted: it is one fixed number.
+  # STILL NOT SHIPPED, for the reason the replay states about itself -- candidate
+  # selection is frozen in a replay, so it is PRICED, NOT PROVEN, and shipping it
+  # needs a confirming rescreen and then a decision, because it moves every status.
+  # strategies/s5-conventional-3prime-penalty.yaml holds the pre-registered kill
+  # criteria; the write-up is
+  # docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md.
+  #
   # Candidate under test (committed live in c15a3b7, reverted 2026-10-19 because
   # the only evidence was "87 -> 44 drift flags", and loosening scoring cannot
   # raise a flag, so that measures nothing):
