@@ -73,6 +73,12 @@ if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
 
 STATUS_ORDER = list(DRIFT_STATUS_ORDER)  # drift.py owns the vocabulary; see its comment there
+
+# How many off-target taxa the cross-reactivity table may name per assay. A
+# legibility cap, like the triage list's: the table is sorted worst first, so the
+# rows that matter are the ones shown. Nothing about a verdict depends on it,
+# which is why it is not in config.yaml.
+MAX_EXCLUSIVITY_ROWS = 10
 STATUS_COLOUR = {
     "declining": "#b3261e",
     "low coverage": "#8a4b9c",
@@ -704,6 +710,10 @@ class DetailRow:
     years: list[tuple[int, int, int, str]]
     species: SpeciesBlock | None
     out_of_scope: int
+    # (label, predicted-detected, screened, share) per off-target taxon, worst
+    # first: the EXCLUSIVITY arm. Empty when the assay declares no scope_taxids
+    # or no out-of-scope record was screened.
+    exclusivity: list[tuple[str, int, int, float]]
     patent_excluded: int
     clustering_note: str
     unevaluable: dict[str, int]
@@ -989,6 +999,39 @@ def _status_row(a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[s
     )
 
 
+def exclusivity_rows(a: AssayDrift, taxonomy: Taxonomy | None = None) -> list[tuple[str, int, int, float]]:
+    """(taxon, predicted-detected, screened, share) per off-target taxon.
+
+    The INCLUSIVITY arm asks whether an assay still detects its target. This is
+    the other half: of the records screened and then dropped as out of scope,
+    how many is the assay predicted to amplify anyway. Both numbers were already
+    computed -- the records are screened before the scope filter runs -- and only
+    the total count survived into the report, so an assay predicted to amplify
+    95% of a near-neighbour's genomes and one predicted to amplify none of them
+    printed the same row.
+
+    `detect` or `reduced` is the signal, and it needs no separate probe gate: a
+    primer pair with no probe site between it is already scored `fail`
+    (`score._call_rank`), so a detection on a probe assay implies the probe bound.
+
+    Worst first, so a real cross-reaction leads. This is a PREDICTION from
+    sequence like every other number here, and a high share is a reason to look
+    at the published exclusivity panel, not a finding that the assay
+    cross-reacts.
+    """
+    rows: list[tuple[str, int, int, float]] = []
+    for taxid, calls in (a.out_of_scope_calls or {}).items():
+        screened = sum(calls.values())
+        if not screened:
+            continue
+        detected = sum(n for call, n in calls.items() if call in a.detected_calls)
+        name = (taxonomy.name.get(taxid) if taxonomy else None) or f"taxid {taxid}"
+        label = f"{name} ({taxid})" if name != f"taxid {taxid}" else name
+        rows.append((label, detected, screened, detected / screened))
+    rows.sort(key=lambda r: (-r[3], -r[2]))
+    return rows
+
+
 def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> DetailRow:
     assay = assays.get(a.assay_id)
     deg = assay_degeneracy(assay) if assay else None
@@ -1006,6 +1049,7 @@ def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> Detai
         years=year_table_rows(a),
         species=species,
         out_of_scope=a.out_of_scope,
+        exclusivity=exclusivity_rows(a, taxonomy),
         patent_excluded=a.patent_excluded,
         clustering_note=a.clustering_note,
         unevaluable=a.unevaluable(),
@@ -1304,6 +1348,27 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                     "",
                     f"**Out of scope:** {d.out_of_scope} records excluded (taxid not in scope_taxids).",
                 ]
+                if d.exclusivity:
+                    # The other half of the question. Those records were screened
+                    # before the scope filter ran, so this costs nothing new.
+                    out += [
+                        "",
+                        "**Predicted cross-reactivity** (the out-of-scope records above, worst "
+                        "first). A share here is what the assay is predicted to amplify OFF "
+                        "target; for a probe assay a detection implies the probe bound too, "
+                        "because primers with no probe site between them score `fail`. Like "
+                        "every number here it is a prediction from sequence: read a high share "
+                        "as a reason to check the paper's exclusivity panel, not as a finding "
+                        "that the assay cross-reacts.",
+                        "",
+                        "| off-target taxon | predicted detected | screened | share |",
+                        "|---|---|---|---|",
+                    ]
+                    for label, det, n, share in d.exclusivity[:MAX_EXCLUSIVITY_ROWS]:
+                        out.append(f"| {md(label)} | {det:,} | {n:,} | {pct(share)} |")
+                    if len(d.exclusivity) > MAX_EXCLUSIVITY_ROWS:
+                        out.append(f"| _+{len(d.exclusivity) - MAX_EXCLUSIVITY_ROWS} more taxa_ | | | |")
+                    out.append("")
             if d.patent_excluded:
                 out += [
                     "",
@@ -1318,11 +1383,16 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                 # until 2026-10-27 no number anywhere said how big that condition
                 # was -- across the whole 2026-10-26 run it was 34.2%.
                 kept = d.screened_rows - d.no_amplicon_rows
-                pct = 100.0 * kept / d.screened_rows
+                # NOT `pct`: that is the imported formatter, and shadowing it here
+                # made the cross-reactivity table below reference it before
+                # assignment. Caught by ruff F823, which would otherwise have been
+                # a runtime error on the first assay with an exclusivity table.
+                evaluable_share = 100.0 * kept / d.screened_rows
                 out += [
                     "",
                     f"**Denominator:** {kept} of {d.screened_rows} screened records are evaluable "
-                    f"({pct:.1f}%); {d.no_amplicon_rows} are not. Every share above is taken over the "
+                    f"({evaluable_share:.1f}%); {d.no_amplicon_rows} are not. Every share above is "
+                    "taken over the "
                     "evaluable ones.",
                 ]
             if d.unevaluable:

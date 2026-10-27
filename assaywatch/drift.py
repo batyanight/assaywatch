@@ -336,6 +336,9 @@ class AssayDrift:
     # whose taxid is not in the scope set are excluded from the drift
     # denominator and counted here instead.
     out_of_scope: int = 0
+    #: {taxid: Counter(call)} for the records dropped as out of scope -- the
+    #: EXCLUSIVITY evidence. See GatheredCalls.out_of_scope_calls.
+    out_of_scope_calls: dict[int, Counter] = field(default_factory=dict)
 
     # Patent-division records excluded by drift.exclude_patent_records.
     patent_excluded: int = 0
@@ -1106,6 +1109,13 @@ class GatheredCalls:
     per: dict[str, list[tuple[str | None, str, str, str | None]]] = field(default_factory=dict)
     raw: dict[str, list[tuple[str | None, dict[str, Any]]]] = field(default_factory=dict)
     out_of_scope: dict[str, int] = field(default_factory=dict)
+    # {assay_id: {taxid: Counter(call)}} for the records dropped as out of scope.
+    # Until 2026-10-27 only the COUNT above survived, so an assay predicted to
+    # amplify 95% of a near-neighbour's genomes and one predicted to amplify none
+    # of them produced identical report rows. The calls were already computed and
+    # then discarded, which made specificity the one question this pipeline could
+    # not answer even though it had the evidence on disk.
+    out_of_scope_calls: dict[str, dict[int, Counter]] = field(default_factory=dict)
     patent: dict[str, int] = field(default_factory=dict)
 
 
@@ -1141,6 +1151,14 @@ def _gather_calls(
             txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
             if txid is not None and not in_scope(aid, txid):
                 out.out_of_scope[aid] = out.out_of_scope.get(aid, 0) + 1
+                # The call is kept, keyed by the off-target taxid. A `detect` or
+                # `reduced` here is predicted CROSS-REACTIVITY: for a probe assay
+                # it already implies the probe bound, because a primer pair with
+                # no probe site between it is scored `fail`
+                # (`score._call_rank`, "no probe site inside amplicon"). So the
+                # call alone is the right signal and no separate probe gate is
+                # needed.
+                out.out_of_scope_calls.setdefault(aid, {}).setdefault(txid, Counter())[row["call"]] += 1
                 continue
         if settings.exclude_patent and strip_version(row["record_id"]) in patent:
             out.patent[aid] = out.patent.get(aid, 0) + 1
@@ -1474,6 +1492,7 @@ def assess(
             a._cluster_verdict()
 
         a.out_of_scope = gathered.out_of_scope.get(assay_id, 0)
+        a.out_of_scope_calls = gathered.out_of_scope_calls.get(assay_id, {})
         a.patent_excluded = gathered.patent.get(assay_id, 0)
         grouped[assay_id] = a
     return grouped
