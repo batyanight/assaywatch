@@ -18,6 +18,7 @@ the reasoning in them is usually the point.
 | [`RESUME-HERE.md`](RESUME-HERE.md) | where work actually stopped, newest first |
 | [`related-work.md`](related-work.md) | what else exists, and every reference the method rests on |
 | [`ai-involvement.md`](ai-involvement.md) | how this repository was written, and what checks make it verifiable |
+| [`2026-10-27-four-perspective-review.md`](2026-10-27-four-perspective-review.md) | the repo read from four angles (engineering, methods, bench, newcomer): the denominator problem, the decisions it forced and their reasoning, and what was deliberately deferred |
 
 ## What the tool's output is worth
 
