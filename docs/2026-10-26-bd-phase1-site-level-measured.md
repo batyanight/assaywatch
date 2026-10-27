@@ -1,18 +1,24 @@
-# The Bd miss priced: the amplicon rule discards 297,651 rows, and gapped matching is worth 0.046%
+# The Bd miss priced: 297,651 rows are discarded with a credible site, gaps are worth 0.046%, and Bd's own geometry cannot be measured
 
 Phase 1 of the Bd-miss plan. **Measurement only** — no call, verdict, threshold or
 config changes, and nothing written to `results/`.
 
-`docs/2026-10-23-wave3-bd-miss.md` diagnoses the 2017 Bd miss as **two** modelling
-choices: scoring only records that hold the whole amplicon, and matching without gaps.
-It proposes fixing both together. Phase 1 asks what each is worth separately, and the
-answer is that they are worth wildly different amounts — which changes what Phase 2
-should be.
+> **THIS DOCUMENT CORRECTS ITSELF, same day.** Its first version reported a Bd probe-site
+> table (122 judgeable of 461, 94 failing, 25 indel-explained) and those numbers are
+> **WITHDRAWN**. They came from a probe offset that one record in three agreed with. The
+> section "the method's limit, and Bd is inside it" explains what went wrong and why the
+> corrected answer is that Bd is unmeasurable by this route. The two findings that do not
+> depend on an offset — the discarded population and the indel rate — are unchanged.
 
-## The ungapped half is worth almost nothing registry-wide
+`docs/2026-10-23-wave3-bd-miss.md` diagnoses the 2017 Bd miss as **two** modelling
+choices: scoring only records that hold the whole amplicon, and matching without gaps. It
+proposes fixing both together. Phase 1 asks what each is worth separately.
+
+## 1. The ungapped half is worth almost nothing registry-wide
 
 Re-measured with `scripts/indel_check.py` on current data (85,615 sampled calls across
-204 assays, seed 1, 300 per assay):
+204 assays, seed 1, 300 per assay). **This measurement involves no offset and is not
+affected by the correction above.**
 
 | | |
 |---|---|
@@ -22,11 +28,10 @@ Re-measured with `scripts/indel_check.py` on current data (85,615 sampled calls 
 | estimated `no_amplicon` rows an indel would turn into an amplicon | 921 |
 
 That reproduces the 2026-10-04 conclusion — "a clean single-base indel explains well
-under 1% of evaluable records for every assay but three" — and so the verdict that
-gapped scoring is not worth building for its own sake still stands.
+under 1% of evaluable records for every assay but three" — so the verdict that gapped
+scoring is not worth building for its own sake still stands.
 
-What the script is actually good for is registry QA, which is also what 2026-10-04
-concluded. The outliers by share of their own evaluable records:
+What the script is good for is registry QA, which is also what 2026-10-04 concluded:
 
 | assay | evaluable | fails an indel explains | share |
 |---|---:|---:|---:|
@@ -36,19 +41,17 @@ concluded. The outliers by share of their own evaluable records:
 | `Cryptosporidium_18SrDNA_Xiao_1999_round2` | 1,178 | 19 | 1.6% |
 | `CIRCOVIRUSES_..._Rep_Gene_Mankertz_2000_round2` | 6,458 | 63 | 1.0% |
 
-A consistent same-position indel across a whole record set is an oligo typo, not
-biology. `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` is worth singling out: section 6 of
-this plan measured the same entry as reaching `detect` **zero** times in 14,537 records,
-and a 7% indel share is the second independent signal that something about that entry is
-wrong rather than that polyomaviruses have drifted.
+A consistent same-position indel across a whole record set is an oligo typo, not biology.
+`POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` is worth singling out: section 6 of this plan
+measured the same entry as reaching `detect` **zero** times in 14,537 records, and a 7%
+indel share is a second independent signal that the entry is wrong rather than that
+polyomaviruses have drifted. `B_salamandrivorans_..._Blooi_2013` reads 16.7% and is
+noise: one record of six evaluable.
 
-`B_salamandrivorans_..._Blooi_2013` reads 16.7% and is noise: that is one record of six
-evaluable.
+## 2. The amplicon-level half discards a tenth of the table
 
-## The amplicon-level half is worth a great deal
-
-Counted exactly from `results/2026-10-26/calls.tsv.gz`, with the classes
-`score.classify_exclusion` defines:
+Counted exactly from `results/2026-10-26/calls.tsv.gz`, using the classes
+`score.classify_exclusion` defines. **No offset is involved here either.**
 
 | `no_amplicon` class | rows | reachable at site level? |
 |---|---:|---|
@@ -63,95 +66,94 @@ So **297,651 rows carry at least one credible primer site and are discarded whol
 10.9% of all 2,724,036 rows and 16.6% of the `no_amplicon` rows. The `truncated` rows
 alone span 185 assays.
 
-`chance_only` is excluded on purpose. Those records do have primer sites, but their
-pairs are indistinguishable from chance, and admitting them is exactly the error the
-2026-10-25 chance-pair work exists to prevent. Counting them would add 48,518 rows whose
-sites nobody should trust.
+`chance_only` is excluded on purpose: those records do have primer sites, but their pairs
+are indistinguishable from chance, and admitting them is the error the 2026-10-25
+chance-pair work exists to prevent.
 
-`no_site` is four fifths of the discarded population and is genuinely unreachable, which
-is worth stating because it bounds the whole idea: site-level evaluation is not a way to
-recover most of what the screen drops. It is a way to recover a specific tenth of it.
+`no_site` is four fifths of the discarded population and genuinely unreachable, which
+bounds the whole idea. Site-level evaluation is not a way to recover most of what the
+screen drops. It is a way to reach a specific tenth of it.
 
-## On Bd, the mechanism is now quantified rather than illustrated
+## 3. The method's limit, and Bd is inside it
 
-`scripts/measure_site_level.py --assay CHYTRID_Bd_...`:
+To judge a probe in a record that lacks a primer, the probe has to be *placed* without
+its amplicon. The Bd investigation did that with one hand-picked reference record
+(`MW147112.1`). `scripts/measure_site_level.py` tried to make that reproducible by taking
+the modal probe-to-reverse-primer offset over the assay's own records. **Two bugs in that
+idea produced the withdrawn numbers, and the second one is not fixable for Bd.**
 
-| | records |
-|---|---:|
-| discarded by the amplicon rule (`truncated` + `diverged` + `no_pair`) | 461 |
-| examined | 461 |
-| **probe footprint wholly inside the deposit — judgeable** | **122** |
-| probe footprint cut by the record start | 295 |
-| probe footprint entirely outside the record | 44 |
-| **of the 122, would FAIL the probe** | **94** |
-| of those 94, explained by an indel at edit cost <= 3 | **25** |
+**Bug one: the offsets were pooled across orientations.** A record deposited in the
+reverse orientation mirrors every site, so the probe sits at a negative offset from the
+reverse primer in one orientation and a positive one in the other. Bd's ITS deposits come
+in both. Pooling them mixed **+93 with −95**, and the "mode" of mutually contradictory
+numbers placed the probe nowhere near its real position. Nothing then matched there, so
+every record counted as failing, and a gapped alignment against the wrong window invented
+an indel rate. Offsets are now keyed by the anchor's strand.
 
-Three things follow.
+**How it was caught**, because it would otherwise have shipped: the first cross-assay run
+reported `USUTU_ssRNA_NS1_realtime_Jost_2011` as **42 of 42 probe failures explained by an
+indel**, which is too clean to be real. A hand check of the same records found the probe
+at gapped alignment **cost 0** — present and perfect. The Usutu figure was never
+published; it is recorded here because it is what exposed the Bd figures beside it.
 
-**The case doc's hand-read sample generalises.** It reports that for 27 of 33
-Table S1 records GenBank does not hold the whole probe site; across all 461 discarded
-records it is 339 of 461, the same 73%.
+**Bug two, and the real limit: an offset needs full-amplicon records, and Bd has three.**
+Of Bd's 9,493 archived records, exactly **three** hold a clean forward site, reverse site
+and probe site together, and they disagree: +93, −95, −84. One observation per value.
+`usable_offsets` now requires at least 5 concordant observations and a 60% majority, so
+**Bd is reported as unmeasurable** rather than measured wrongly.
 
-**It names three records with a 3'-end deletion; there are 25.** `AB435217`, `JN870747`
-and `AB723981` were found by hand. At edit cost <= 3 the same signature appears in 25 of
-the 94 site-level failures.
+That is not a defect to work around. It is the same fact as the case itself: Bd's probe
+site cannot be located from Bd's own deposits because almost every Bd deposit is
+truncated. **The assay that motivated site-level evaluation is the assay whose geometry
+this approach cannot calibrate**, which is exactly why the case doc needed a hand-picked
+reference, and it means the case doc's three hand-read records remain the only sequence
+evidence of the Bd probe-site deletion. The count is three, not 25.
 
-**And the two halves of the diagnosis interact rather than compete.** Gapped matching is
-negligible across the registry (0.046%) and material *inside* the population that
-site-level evaluation would newly reach (25 of 94, 27%). Neither finding is visible
-without the other: measuring gaps registry-wide says "don't build it", and measuring
-gaps inside the truncated population says "you will need it once you look there".
+A sound Bd measurement needs a different anchor — the declared amplicon geometry plus the
+reverse site, or a curated full-length reference recorded as such — and that is a design
+decision for Phase 2, not a measurement this session can make.
 
-## What this says about Phase 2, and it is not what the plan assumed
+## 4. What this says about Phase 2
 
-The plan treats Phase 2 as one change — "site-level coverage with gapped alignment
-feeding the verdict". The measurement splits it:
+- **Site-level evaluation is the valuable half.** 297,651 rows reachable, measured
+  exactly, and that number does not depend on any of the above going right.
+- **Gapped alignment is not a peer of it.** 0.046% registry-wide does not justify it as a
+  general scoring change. Whether it earns its place *inside* site-level evaluation is now
+  an open question rather than a measured one, because the measurement that suggested it
+  did (25 of 94 on Bd) is withdrawn.
+- **Placing a lone probe is a harder sub-problem than the case doc implies**, and it is
+  the first thing Phase 2 has to solve. The case doc lists it as an open design question;
+  this session established that the obvious answer does not work for the motivating assay.
+- **It cannot be replayed, confirmed rather than predicted.** No `no_amplicon` row carries
+  any site coordinate: `fwd_site`, `rev_site` and `probe_site` are empty on all 1,789,100
+  of them, because there is no winning amplicon to write them from. So every iteration of
+  a site-level rule costs a full rescreen, exactly as `scripts/rescore.py`'s replay
+  boundary says a search-layer change must.
 
-- **Site-level evaluation is the valuable half** and should be specified first, on its
-  own, against the 297,651 rows it reaches.
-- **Gapped alignment is a dependency of that half, not a peer of it.** It buys 0.046%
-  registry-wide, which does not justify it, and ~27% of the new site-level failures on
-  Bd, which does. So it should be built *inside* site-level evaluation and not shipped as
-  a general scoring change.
-
-**And it cannot be replayed, which is now confirmed rather than predicted.** No
-`no_amplicon` row carries any site coordinate: `fwd_site`, `rev_site` and `probe_site`
-are empty on all 1,789,100 of them, because there is no winning amplicon to write them
-from. The population can be counted from the table; nothing about where its sites sit
-can be. So every iteration of a site-level rule costs a full rescreen, exactly as
-`scripts/rescore.py`'s replay boundary says a search-layer change must.
-
-That is the main reason to keep Phase 2 stopped. It is a search-layer and estimand
+Phase 2 stays stopped, and the reasons are now measured: it is a search-layer and estimand
 change on the denominator axis, it cannot be priced cheaply, and the denominator axis
 produced three failed candidates on 2026-10-25.
 
-## Two open design questions, one of which this run answers
+## 5. Two open design questions, and one that got harder
 
-The case doc lists three open questions for the design doc. One is now settled by method
-rather than by argument:
+The case doc lists three open questions. The first was *how to locate a site in a
+truncated record without the partner primer to anchor it* — and this session's answer is
+that the assay's own geometry cannot supply it where it is most needed. That question is
+now **harder, not settled**, and is the critical path for Phase 2.
 
-> *how to locate a site in a truncated record without the partner primer to anchor it*
-
-The Bd investigation placed the probe using one hand-picked reference record
-(`MW147112.1`), which is the single part of its method that could not be reproduced.
-`measure_site_level.py` takes the **modal offset over the assay's own detecting
-records** instead, so the anchor is the assay's own geometry, and an assay with no record
-holding all three sites is skipped and said so rather than anchored on a guess. Four
-tests pin that, including that `no_site` must never be counted as reachable — counting it
-would inflate the population roughly fivefold.
-
-The two that remain are unchanged and both are real:
+The other two are unchanged and both real:
 
 - **A lone site needs its own credibility test.** The archive-scale multiplicity problem
-  from wave 2 applies with force to a 15-mer probe, and nothing here reports a site-level
-  failure *share* for that reason. The 94 above is a count of judgeable failing sites, not
-  a coverage figure, and it must not be read as one.
-- **How a site-level failure enters a verdict, if at all**, versus being reported beside
-  it the way degeneracy and thermodynamics are.
+  from wave 2 applies with force to a 15-mer probe, so nothing here reports a site-level
+  failure *share*, and the per-assay counts below are counts of judgeable failing sites,
+  never coverage figures.
+- **How a site-level failure enters a verdict, if at all**, versus being reported beside it
+  the way degeneracy and thermodynamics are.
 
-## What was not done
+## 6. What was not done
 
 No verdict moved. The Bd `fails` label at 2017-03-31 is unchanged, and the case doc's
-caution about it stands: the label is sound but rests on less sequence evidence than its
-note implies, and the wet-lab evidence does not by itself separate sequence mismatch from
-the nested protocol's greater sensitivity. That is still for the maintainer to weigh.
+caution about it stands and is now stronger: the label is sound but rests on three records
+of sequence evidence, and the wet-lab evidence does not by itself separate sequence
+mismatch from the nested protocol's greater sensitivity. That is for the maintainer to
+weigh.

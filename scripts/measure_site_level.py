@@ -76,39 +76,71 @@ def wanted_rows(calls: Path, assay_id: str) -> dict[str, str]:
     return out
 
 
-def probe_offsets(assay, seqs: dict[str, str], cfg: dict[str, Any], limit: int = 200) -> list[int]:
-    """The probe's measured offset from the reverse site, over records that hold both.
+def probe_offsets(
+    assay, seqs: dict[str, str], cfg: dict[str, Any], limit: int = 200
+) -> dict[str, tuple[int, int, int]]:
+    """Per anchor strand: (modal offset from the reverse site, that offset's count, total).
 
     Taken from the assay's OWN geometry rather than from one hand-picked reference
     record, which is the only part of the Bd investigation's method that was not
     reproducible.
 
-    SAMPLED STRIDED, NEVER FROM THE HEAD, and this is not a refinement. Archives are
-    accession-ordered, so their first records are never representative - the registry's
-    own LEPTOSPIRA entry note records paying for that. Taking the first 200 made this
-    function return nothing for the twelve assays with the LARGEST discarded populations,
-    including the influenza Matrix gene's 93,966 rows, so the measurement silently
-    excluded exactly the cases that matter most and reported "no record holds all three
-    sites" about archives that hold thousands.
+    KEYED BY THE ANCHOR'S STRAND, and this is not a detail. A record deposited in the
+    reverse orientation has every site mirrored, so the probe sits at a NEGATIVE offset
+    from the reverse primer in one orientation and a positive one in the other. Ignoring
+    that mixed +93 with -95 for Bd, whose ITS deposits come in both orientations, and the
+    modal value of three mutually contradictory numbers then placed the probe nowhere
+    near its real position - after which no record matched there, every record counted as
+    failing, and a gapped alignment against the wrong window invented an indel rate.
+    That produced "42 of 42 Usutu probe failures are indel-explained" where a hand check
+    of the same records finds the probe at gapped cost 0.
+
+    SAMPLED EVENLY ACROSS THE WHOLE ARCHIVE, never from the head: archives are
+    accession-ordered, so a head sample made the twelve assays with the largest
+    discarded populations read as unmeasurable, the influenza Matrix gene's 93,966 rows
+    among them. The registry's LEPTOSPIRA entry note records paying for the same mistake.
+
+    The caller decides whether an offset is usable. Returning the count and the total is
+    what lets it: one concordant observation out of three is not geometry.
     """
     fwd = assay.oligos.forward.matching_seq
     rev = assay.oligos.reverse.matching_seq
     probe = assay.oligos.probe.matching_seq
     mm = int(cfg["scoring"]["max_mismatches_searched"])
-    offsets = []
     values = list(seqs.values())
     # Evenly spaced over the WHOLE archive, both ends included. A plain `[::stride]`
-    # truncated by `[:limit]` drops the tail, which is the same bias in a smaller
-    # form; spacing by index guarantees the last record is reachable.
+    # truncated by `[:limit]` drops the tail, which is the same bias in a smaller form.
     k = min(limit, len(values))
     idxs = [0] if k <= 1 else [round(i * (len(values) - 1) / (k - 1)) for i in range(k)]
+    seen: dict[str, collections.Counter] = {"+": collections.Counter(), "-": collections.Counter()}
     for seq in (values[i] for i in dict.fromkeys(idxs)):
         f = [s for s in find_sites(fwd, seq, mm) if s.n_mismatches == 0]
         r = [s for s in find_sites(rev, seq, mm) if s.n_mismatches == 0]
         p = [s for s in find_sites(probe, seq, mm) if s.n_mismatches <= 1]
         if f and r and p:
-            offsets.append(p[0].start - r[0].start)
-    return offsets
+            seen[r[0].strand][p[0].start - r[0].start] += 1
+    out = {}
+    for strand, c in seen.items():
+        if c:
+            offset, n = c.most_common(1)[0]
+            out[strand] = (offset, n, sum(c.values()))
+    return out
+
+
+# An offset is only geometry if the assay's own records agree on it. One concordant
+# observation out of three is not, and accepting it is what invented the Usutu indel
+# rate: a wrong position means nothing matches there, so every record reads as failing.
+MIN_OFFSET_OBS = 5
+MIN_OFFSET_SHARE = 0.6
+
+
+def usable_offsets(offs: dict[str, tuple[int, int, int]]) -> dict[str, int]:
+    """The strands whose modal offset is concordant enough to place a probe with."""
+    return {
+        strand: offset
+        for strand, (offset, n, total) in offs.items()
+        if n >= MIN_OFFSET_OBS and n / total >= MIN_OFFSET_SHARE
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -147,15 +179,18 @@ def main(argv: list[str] | None = None) -> int:
         for f in archives:
             for rid, s in read_fasta(f):
                 seqs[strip_version(rid.split()[0])] = s
-        offs = probe_offsets(assay, seqs, cfg)
-        if not offs:
-            print(
-                f"{aid[:52]:52} {len(rows):>9,} {'-':>8}   no record holds all three sites; offset unmeasurable",
-                flush=True,
+        measured = probe_offsets(assay, seqs, cfg)
+        offsets = usable_offsets(measured)
+        if not offsets:
+            detail = (
+                "no record holds all three sites"
+                if not measured
+                else "offset not concordant: "
+                + ", ".join(f"{s}{o} in {n}/{tot}" for s, (o, n, tot) in sorted(measured.items()))
             )
+            print(f"{aid[:52]:52} {len(rows):>9,} {'-':>8}   {detail}; unmeasurable", flush=True)
             totals["skipped"] += 1
             continue
-        offset = collections.Counter(offs).most_common(1)[0][0]
 
         rev = assay.oligos.reverse.matching_seq
         fwd = assay.oligos.forward.matching_seq
@@ -182,6 +217,12 @@ def main(argv: list[str] | None = None) -> int:
             if anchor is None:
                 continue
             oligo, site = anchor
+            # The offset is per strand, because a record deposited in the reverse
+            # orientation mirrors every site. An anchor on a strand the assay has no
+            # concordant offset for cannot place the probe, so it is not counted.
+            if site.strand not in offsets:
+                continue
+            offset = offsets[site.strand]
             start = site.start + offset if oligo is rev else site.start - offset
             if start < 0 or start + len(probe) > len(seq):
                 if start + len(probe) <= 0 or start >= len(seq):
@@ -191,16 +232,32 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             inside += 1
             # Judge the probe where it is present. Ungapped first, as the pipeline does.
-            found = [s for s in find_sites(probe, seq, mm) if abs(s.start - start) <= 5]
+            #
+            # THE TOLERANCE IS A WHOLE PROBE LENGTH, NOT 5 BASES, and the first version
+            # of this got it wrong in a way that invented a finding. With a +/-5 window a
+            # slightly-off modal offset means the probe is never "found", so EVERY record
+            # counts as failing and the gapped check below then runs against a window
+            # that does not contain the site - where a 22-mer forced into a 32 bp window
+            # scores low by accident. That read as "42 of 42 Usutu probe failures are
+            # indel-explained", and a hand check of the same records found the probe at
+            # gapped cost 0. Searching the neighbourhood instead of asserting a position
+            # is what makes the offset a hint rather than a claim.
+            window = len(probe)
+            found = [s for s in find_sites(probe, seq, mm) if abs(s.start - start) <= window]
             if not found:
-                # Present by geometry but not matchable within the search budget: the
-                # strongest form of "this site would fail", and exactly what an ungapped
-                # matcher reports for a deletion.
+                # No placement of the probe anywhere near where the geometry says it
+                # should be, within the search budget. That is the strongest form of
+                # "this site would fail", and it is exactly what an ungapped matcher
+                # reports for a deletion.
                 failing += 1
-                # `gapped.align` is the measurement spike built for exactly this
-                # question and documented as never scored. Used here to ASK whether an
-                # indel explains the failure, not to decide anything.
-                if align(probe, seq[max(0, start - 5) : start + len(probe) + 5]).cost <= 3:
+                lo = max(0, start - window)
+                al = align(probe, seq[lo : start + 2 * window])
+                # `gapped.align` is the measurement spike built for this question and
+                # documented as never scored. Used here only to ASK whether an indel
+                # explains the failure, and it must actually FIND an indel to count -
+                # a low cost alone is satisfied by a few mismatches and says nothing
+                # about gaps.
+                if al.n_indels and al.cost <= 3:
                     indel += 1
                 continue
             sc = score_probe(found[0], probe, cfg)
@@ -230,7 +287,10 @@ def main(argv: list[str] | None = None) -> int:
         f"{totals['cut']:>6,} {totals['outside']:>7,} {totals['failing']:>6,} {totals['indel']:>6,}"
     )
     if totals["skipped"]:
-        print(f"({totals['skipped']} assays skipped: no record holds all three sites, so no offset)")
+        print(
+            f"({totals['skipped']} assays skipped: no concordant probe offset, so the probe "
+            "cannot be placed. Each one's reason is on its line above.)"
+        )
     return 0
 
 

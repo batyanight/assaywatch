@@ -68,28 +68,72 @@ def test_the_probe_offset_is_measured_from_the_assay_s_own_records():
 
     The Bd investigation placed the probe using one reference record (MW147112.1),
     which is the one part of its method that nobody else could reproduce. Taking the
-    modal offset over the assay's own detecting records makes it reproducible.
+    modal offset over the assay's own records makes it reproducible - where the assay
+    has enough records that hold all three sites, which is a real condition and not a
+    formality.
     """
     rec = _record()
     assay = _Assay(FWD, REV, PROBE)
-    offsets = msl.probe_offsets(assay, {"R1": rec, "R2": rec}, CFG)
-    assert offsets, "no record yielded an offset, so the method found nothing to anchor on"
-    assert len(set(offsets)) == 1, "identical records must give identical offsets"
-    # The probe sits upstream of the reverse site, so the offset is negative.
-    assert offsets[0] < 0
-    # And it reconstructs the probe's true position from the reverse site alone.
+    offs = msl.probe_offsets(assay, {f"R{i}": rec for i in range(10)}, CFG)
+    assert offs, "no record yielded an offset, so the method found nothing to anchor on"
+    # Keyed by the ANCHOR's strand, because a mirrored record mirrors every offset.
+    ((strand, (offset, n, total)),) = offs.items()
+    assert n == total == 10, "identical records must all agree"
+    assert offset < 0, "the probe sits upstream of a minus-strand reverse site"
+
     from assaywatch.match import find_sites
 
     rev_site = next(s for s in find_sites(REV, rec, 0))
     probe_site = next(s for s in find_sites(PROBE, rec, 0))
-    assert rev_site.start + offsets[0] == probe_site.start
+    assert rev_site.strand == strand
+    assert rev_site.start + offset == probe_site.start
 
 
 def test_an_assay_whose_records_never_hold_all_three_sites_yields_no_offset():
     """Then the assay is skipped and said so, rather than anchored on a guess."""
     truncated = _record()[60:]  # starts after the forward primer
     assay = _Assay(FWD, REV, PROBE)
-    assert msl.probe_offsets(assay, {"R1": truncated}, CFG) == []
+    assert msl.probe_offsets(assay, {"R1": truncated}, CFG) == {}
+
+
+def test_a_mirrored_record_does_not_contaminate_the_forward_orientation_s_offset():
+    """The bug that invented a finding, pinned.
+
+    A record deposited in the reverse orientation has every site mirrored, so the probe
+    sits at a NEGATIVE offset from the reverse primer in one orientation and a POSITIVE
+    one in the other. Pooling them and taking the mode mixed +93 with -95 for Bd, whose
+    ITS deposits come in both orientations, and the winner of three mutually
+    contradictory numbers placed the probe nowhere near its real position. Nothing then
+    matched there, every record counted as failing, and a gapped alignment against the
+    wrong window produced an indel rate out of thin air.
+    """
+    from assaywatch.iupac import reverse_complement
+
+    rec = _record()
+    mirrored = reverse_complement(rec)
+    offs = msl.probe_offsets(_Assay(FWD, REV, PROBE), {"F": rec, "R": mirrored}, CFG)
+    assert set(offs) == {"+", "-"}, "the two orientations must be kept apart"
+    plus, minus = offs["+"][0], offs["-"][0]
+    assert plus > 0 > minus, f"offsets should have opposite signs, got {plus} and {minus}"
+    # Each is internally consistent: one observation each, so neither is usable.
+    assert msl.usable_offsets(offs) == {}
+
+
+def test_an_offset_only_one_record_agrees_on_is_refused():
+    """Concordance is the gate, and Bd is the case that needs it.
+
+    Bd has 9,493 records and only three hold all three sites cleanly, giving +93, -95
+    and -84 - one observation per value. Accepting the mode of that is what produced
+    the retracted Bd figures. `usable_offsets` requires both a floor on observations
+    and a majority share.
+    """
+    assert msl.usable_offsets({"-": (-95, 1, 2), "+": (93, 1, 1)}) == {}
+    # Enough observations but no majority: still refused.
+    assert msl.usable_offsets({"-": (-95, 5, 20)}) == {}
+    # A clear majority on enough observations is accepted.
+    assert msl.usable_offsets({"-": (-95, 18, 20)}) == {"-": -95}
+    assert msl.MIN_OFFSET_OBS >= 5
+    assert msl.MIN_OFFSET_SHARE >= 0.6
 
 
 def test_only_the_exclusion_classes_that_carry_a_credible_site_are_counted():
