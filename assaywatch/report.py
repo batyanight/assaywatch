@@ -1196,6 +1196,83 @@ def _md_cells(r: StatusRow) -> tuple[str, str, str, str]:
     return frac, ci, base, deg
 
 
+def _plain_summary(m: ReportModel) -> list[str]:
+    """The verdict in a sentence, what the report is not, and the vocabulary.
+
+    The opening used to be one line of six undefined category names, and the
+    section designed to be the lede -- "Start here" -- is empty whenever nothing
+    clears the confirmation bar, which is the common case: on 2026-10-26 it read
+    "Start here (0)" with 34 assays called declining twenty-five lines below it.
+    A reader who is not the author concluded nothing had happened.
+
+    Written from the model's own counts rather than restated, so it cannot drift
+    from the tables.
+    """
+    by_status = {status: len(rows) for status, rows in m.sections}
+    declining = by_status.get("declining", 0)
+    low = by_status.get("low coverage", 0)
+    if not m.n_assays:
+        return []
+    lede = (
+        f"**In one line:** of {m.n_assays} published assays re-checked against GenBank records "
+        f"deposited up to {m.run_date}, {declining} appear to be detecting measurably less of "
+        f"their target than they once did, and {low} have never covered much of the taxon they "
+        "are screened against."
+    )
+    if m.triage and m.triage.rows:
+        lede += f" {len(m.triage.rows)} are listed under Start here as worth looking at first."
+    else:
+        lede += (
+            " None cleared every confirmation check, so the Start here list below is empty --"
+            " which means the flags need looking at, not that nothing was found."
+        )
+    # The honest size of what the report CANNOT say, in the opening rather than
+    # inferable from the counts line. Many of these are the targets a zoo or
+    # One-Health laboratory would actually reach for -- the elephant
+    # herpesviruses, the snake and reptile viruses, the Batrachochytrium lineage
+    # assays -- and burying it reads as coverage the report does not have.
+    cannot = sum(by_status.get(s, 0) for s in ("insufficient data", "no recent data"))
+    unsayable = cannot + len(m.held_out)
+    caveat = ""
+    if unsayable:
+        caveat = (
+            f"**What cannot be said at all:** {unsayable} of {m.n_assays + len(m.held_out)} "
+            f"screened assays carry no usable verdict -- {by_status.get('insufficient data', 0)} "
+            f"with too few recent records, {by_status.get('no recent data', 0)} with nothing "
+            f"newly deposited, and {len(m.held_out)} not scoreable at all."
+        )
+        if m.triage and m.triage.held_degenerate:
+            caveat += (
+                f" A further {m.triage.held_degenerate} are held off the triage list because "
+                "their primer pools are so degenerate that an in-silico detection is close to a "
+                "tautology."
+            )
+        caveat += (
+            " Sparsely sequenced targets are exactly the ones this tool is for, and they are "
+            "the ones it can say least about."
+        )
+    return [
+        lede,
+        "",
+        *([caveat, ""] if caveat else []),
+        "**What this is not.** Every number here is a prediction from sequence alone: whether "
+        "each oligo still matches what has been deposited, never whether the reaction still "
+        "works at the bench. No assay was run in a laboratory. There is no thermodynamic model "
+        "and no limit of detection, so this cannot tell a missed cycle-threshold cutoff from a "
+        "faint band. A flag is a reason to pull an assay's records and look, never a result.",
+        "",
+        "**The verdicts.** `declining` -- detection has fallen from a level that previously "
+        "cleared the threshold. `low coverage` -- detection is below the threshold but was "
+        "never measurably higher, usually an assay screened against more diversity than it was "
+        "designed for. `watch` -- below the threshold, but the interval still reaches it, so "
+        "there are too few records to be sure. `insufficient data` -- too few recent evaluable "
+        "records to judge; never flagged. `no recent data` -- nothing new deposited in the "
+        "window. `stable` -- no evidence of loss. `not scoreable` -- a registry problem, such "
+        "as an unresolved product size, rather than anything about the assay.",
+        "",
+    ]
+
+
 def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] | None = None) -> str:
     out = [f"# AssayWatch report — {m.run_date}", ""]
     counts = ", ".join(f"{n} {s}" for s, n in m.counts)
@@ -1205,6 +1282,7 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
         else ""
     )
     out += [f"{m.n_assays} assays screened: {counts}.{held}", ""]
+    out += _plain_summary(m)
     if m.registry_line:
         out += [m.registry_line, ""]
     if m.confidence_line:
