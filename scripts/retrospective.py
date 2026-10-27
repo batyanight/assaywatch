@@ -51,7 +51,7 @@ sys.path.insert(0, str(ROOT))
 
 from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.clustermaps import cluster_assays, cluster_maps  # noqa: E402
-from assaywatch.drift import assess  # noqa: E402
+from assaywatch.drift import assess, reduced_not_detected_ids  # noqa: E402
 from assaywatch.lineage import (  # noqa: E402
     load_taxa_cache,
     name_lineages_from_taxonomy,
@@ -219,6 +219,10 @@ class Evidence:
     titles: dict[str, str] | None = None  # for the assays whose chain parses titles
     taxonomy: Taxonomy | None = None  # scope_taxids ancestry, drift.scope_taxonomy
     patent: set[str] | None = None  # patent-division accessions, drift.exclude_patent_records
+    #: {assay_id: chemistry}, for drift.reduced_not_detected_for. Needs --registry;
+    #: None means the switch cannot be applied, which is the same as it being empty
+    #: under the shipped config.
+    chemistry: dict[str, str] | None = None
 
 
 #: A run directory's date, for `newest_run`. Anywhere in the name, not just the front.
@@ -327,8 +331,21 @@ def load_evidence(
     patent = None
     if cfg and (cfg.get("drift") or {}).get("exclude_patent_records"):
         patent = read_patent_accessions(retrieved, {r["record_id"] for rs in by_assay.values() for r in rs})
+    chemistry = None
+    if registry is not None:
+        from assaywatch.validate import iter_files, load_assay
+
+        chemistry = {a.id: str(a.chemistry) for a in map(load_assay, iter_files(registry))}
     return Evidence(
-        read_dates(retrieved), dict(by_assay), taxids, taxa_cache, resolvers, titles, taxonomy, patent
+        read_dates(retrieved),
+        dict(by_assay),
+        taxids,
+        taxa_cache,
+        resolvers,
+        titles,
+        taxonomy,
+        patent,
+        chemistry,
     )
 
 
@@ -359,6 +376,8 @@ def status_from_evidence(
         titles=evidence.titles,
         taxonomy=evidence.taxonomy,
         patent=evidence.patent,
+        # Empty under the shipped config; needs --registry to be applicable at all.
+        reduced_not_detected=reduced_not_detected_ids(evidence.chemistry or {}, cfg),
     ), len(rows)
 
 

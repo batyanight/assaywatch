@@ -96,6 +96,34 @@ if TYPE_CHECKING:
 
 EVALUABLE = ("detect", "reduced", "fail")
 
+# Which of those count as the assay having detected. The default for every assay,
+# and a separate tuple from EVALUABLE because the two answer different questions:
+# EVALUABLE is "could this record be judged at all", which is a denominator, and
+# this is "did the assay find it", which is a numerator. `YearStats.detected`
+# explains when the default is wrong.
+DETECTED_CALLS = ("detect", "reduced")
+
+# The alternative `drift.reduced_not_detected_for` selects, for the chemistries it
+# names. Nothing selects it while that setting ships empty.
+DETECTED_CALLS_NO_REDUCED = ("detect",)
+
+
+def reduced_not_detected_ids(chemistry: dict[str, str], cfg: dict[str, Any]) -> set[str]:
+    """Assay ids whose `reduced` calls must not count toward the detected share.
+
+    Takes a plain `{assay_id: chemistry}` map rather than the assay objects, so this
+    module stays free of the schema: drift decides what a CALL means and the registry
+    decides what an ASSAY is, and the two have no business importing each other.
+
+    Returns an empty set under the shipped config, because
+    `drift.reduced_not_detected_for` ships empty.
+    """
+    wanted = {str(c) for c in (cfg.get("drift", {}).get("reduced_not_detected_for") or ())}
+    if not wanted:
+        return set()
+    return {aid for aid, chem in chemistry.items() if str(chem) in wanted}
+
+
 # The verdict vocabulary, owned here because this is the only module that assigns
 # one. Worst first, which is also the order the report prints its sections in.
 # `NO_DATA` is the AssayDrift default and not a verdict `assess` reaches, so it is
@@ -170,6 +198,9 @@ def footprint_signature(values: Iterable[str]) -> str:
 class YearStats:
     year: int
     counts: Counter = field(default_factory=Counter)
+    #: Which calls count toward `detected`. The default is every assay's behaviour
+    #: and the only one `config.yaml` ships; see `DETECTED_CALLS`.
+    detected_calls: tuple[str, ...] = DETECTED_CALLS
 
     @property
     def evaluable(self) -> int:
@@ -177,8 +208,25 @@ class YearStats:
 
     @property
     def detected(self) -> int:
-        """`reduced` counts as detected: it amplifies, just later."""
-        return self.counts["detect"] + self.counts["reduced"]
+        """`reduced` counts as detected by default: it amplifies, just later.
+
+        NOT ALWAYS THE RIGHT MODEL, and `detected_calls` is the mechanism for saying
+        so. For a hydrolysis probe, detection IS the probe: a probe that binds badly
+        reports late or not at all, where a primer that binds badly still makes
+        product. `drift.reduced_not_detected_for` names the chemistries for which
+        `reduced` is therefore not a detection. It ships EMPTY, so nothing in the
+        registry behaves differently today.
+
+        Measured on 2026-10-26 (docs/2026-10-26-s3-chemistry-switches.md): switching
+        it on for `hydrolysis_probe` and `mgb` takes documented failures caught from
+        5/11 to 6/11 and the precision of `declining` from 2/9 to 3/10 with NO
+        increase in false alarms, and fixes the influenza matrix-gene case, a
+        documented failure the shipped rule calls `stable`. It also costs two
+        published positives on the Leptospira bench panel. That trade is a
+        maintainer decision and it has not been taken, which is why the mechanism is
+        here and the numbers are not.
+        """
+        return sum(self.counts[c] for c in self.detected_calls)
 
     @property
     def fraction(self) -> float | None:
@@ -188,6 +236,10 @@ class YearStats:
 @dataclass
 class AssayDrift:
     assay_id: str
+    #: Which calls count toward this assay's detected share. Set from
+    #: `drift.reduced_not_detected_for` and the assay's chemistry; the default is
+    #: what every assay has always used. See `YearStats.detected`.
+    detected_calls: tuple[str, ...] = DETECTED_CALLS
     years: dict[int, YearStats] = field(default_factory=dict)
     recent_from: int | str = 0  # a year, or an ISO date when records are dated to the day
     threshold: float = 0.9
@@ -802,7 +854,8 @@ class AssayDrift:
 
     def finalise(self) -> AssayDrift:
         if self.recent_counts or self.baseline_counts:
-            r, b = YearStats(0, self.recent_counts), YearStats(0, self.baseline_counts)
+            r = YearStats(0, self.recent_counts, self.detected_calls)
+            b = YearStats(0, self.baseline_counts, self.detected_calls)
             self.recent_detected, self.recent_evaluable = r.detected, r.evaluable
             self.baseline_detected, self.baseline_evaluable = b.detected, b.evaluable
         else:
@@ -1101,7 +1154,8 @@ def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> Non
         if iso is None:
             a.skipped_undated += 1
             continue
-        a.years.setdefault(int(iso[:4]), YearStats(int(iso[:4]))).counts[call] += 1
+        year = a.years.setdefault(int(iso[:4]), YearStats(int(iso[:4]), detected_calls=a.detected_calls))
+        year.counts[call] += 1
         in_recent = window.inside(iso, months)
         (a.recent_counts if in_recent else a.baseline_counts)[call] += 1
         if call in EVALUABLE:
@@ -1239,6 +1293,7 @@ def assess(
     titles: dict[str, str] | None = None,
     taxonomy: Taxonomy | None = None,
     patent: set[str] | None = None,
+    reduced_not_detected: set[str] | None = None,
 ) -> dict[str, AssayDrift]:
     """Group calls by assay and deposit date and work out each assay's status.
 
@@ -1318,6 +1373,11 @@ def assess(
         cutoff = months_back(window.anchor, months)
         a = AssayDrift(
             assay_id,
+            detected_calls=(
+                DETECTED_CALLS_NO_REDUCED
+                if reduced_not_detected and assay_id in reduced_not_detected
+                else DETECTED_CALLS
+            ),
             recent_from=(cutoff.strftime("%b %Y") if window.dated else cutoff.year),
             threshold=settings.threshold,
             min_records=settings.min_records,

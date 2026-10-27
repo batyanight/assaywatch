@@ -260,6 +260,12 @@ class Drift(Block):
     #: (calls.apply_chance_pair_test). No threshold of its own: it reuses
     #: scoring.oligo_weak_max as the per-primer bar.
     chance_pair_test: bool = False
+    #: Chemistries for which a `reduced` call does NOT count toward the detected
+    #: share. Ships EMPTY, so `detected` is `detect + reduced` for every assay, which
+    #: is what it has always been. See the long comment in config.yaml and
+    #: docs/2026-10-26-s3-chemistry-switches.md for what turning it on would buy and
+    #: cost; it is a maintainer decision and it has not been taken.
+    reduced_not_detected_for: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def windows_are_ordered(self) -> Drift:

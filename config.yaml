@@ -681,6 +681,40 @@ drift:
   # throws away the real ranavirus failures, and BH over pairs rejects them too
   # because it is assay-relative. Both withdrawn 2026-10-25.
   chance_pair_test: true
+
+  # WHICH CALLS COUNT AS THE ASSAY HAVING DETECTED, per chemistry. Empty means
+  # `detect + reduced` for every assay, which is what this project has always done
+  # and what `drift.YearStats.detected` documents: "`reduced` counts as detected, it
+  # amplifies, just later".
+  #
+  # THAT IS RIGHT FOR A PRIMER AND WRONG FOR A PROBE, which is the whole content of
+  # this setting. A primer that binds badly still makes product, so a late band is a
+  # band. For a hydrolysis probe, detection IS the probe: a probe that binds badly
+  # reports late or not at all, and there is no gel to look at. Naming
+  # `hydrolysis_probe` and `mgb` here stops a `reduced` probe call being counted as a
+  # find for the 51 probe-bearing entries, and changes nothing for the other 158.
+  #
+  # MEASURED, AND IT IS THE BEST-EVIDENCED UNSHIPPED CANDIDATE IN THE PROJECT
+  # (docs/2026-10-26-s3-chemistry-switches.md). Switching it on for those two
+  # chemistries takes documented failures caught from 5/11 to 6/11, the precision of
+  # `declining` from 2/9 to 3/10, and leaves false alarms UNCHANGED at 5/32. It fixes
+  # INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 at 2010-05-30, a documented
+  # failure the shipped rule calls `stable`. It is also the only candidate of the four
+  # on the 2026-10-26 ladder that TIGHTENS, so its extra flags are evidence rather
+  # than the artefact a loosening always produces - S1 and S2 both bought agreement on
+  # working assays by destroying failure detection, and this does not.
+  #
+  # WHY IT IS STILL EMPTY. It costs two published positives on the Leptospira bench
+  # panel, `L_mayottensis` and `L_alexanderi`, both `reduced` -> `fail`, so it fails
+  # the standing rule that a documented catch is never netted against a gain. And both
+  # those rows come from a panel built on 2026-10-26 using species-level substitutions
+  # for the strains the paper tested, where the influenza case it gains has been in
+  # docs/validation-cases.tsv throughout. One assay-level catch gained against two
+  # type-level positives lost is a maintainer decision, and the maintainer's decision
+  # on 2026-10-26 was to build the mechanism and leave it off. The mechanism is here;
+  # the numbers are not.
+  reduced_not_detected_for: []
+
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid
   # libraries), so an assay missing one is not evidence about circulating virus.

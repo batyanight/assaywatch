@@ -60,6 +60,7 @@ from assaywatch.drift import (
     by_status,
     coverage_gaps,
     pct,
+    reduced_not_detected_ids,
 )
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
@@ -1837,6 +1838,13 @@ def assess_as_reported(
         titles=titles,
         taxonomy=taxonomy,
         patent=patent,
+        # Which assays may not count a `reduced` call as a detection. Empty under
+        # the shipped config, and passed from here because this function is the
+        # single funnel both report.md and site-drift.md go through, so the two
+        # cannot disagree about it either.
+        reduced_not_detected=reduced_not_detected_ids(
+            {aid: str(a.chemistry) for aid, a in assays.items()}, cfg
+        ),
     )
     return drifts, taxonomy
 
