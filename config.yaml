@@ -38,6 +38,23 @@ scoring:
   primer_3prime_window: 5        # last N nt of the 3' end
   primer_3prime_penalty: 3.0
   primer_mid_window: 5           # positions 6-10 from the 3' end
+  # 1.0 EQUALS `detect_max` EXACTLY, so one mid-window mismatch lands on the
+  # detect/reduced boundary and a second mismatch anywhere crosses it. That decides a
+  # large share of this project's flags: over the 2026-10-27 run's site table, 69 sites
+  # across 23 assays show a non-3'-window mismatch carried by >=200 records where
+  # detection falls from above 80% to below 20% (36 of those sites on `low coverage`
+  # assays, 33 on `declining` ones).
+  #
+  # MEASURED, AND NOT MERELY UNPRICED: halving it to 0.5 (S7, 2026-10-28) moves 45,797
+  # calls, leaves tier-2 identical case for case, leaves bench accuracy identical at
+  # 92.7% -- and newly predicts a band on two within-family bench negatives, HPV55 and
+  # HPV44 on the Forslund FAP panel. It was killed on that pre-registered criterion.
+  # What the panels say is stronger than "no evidence": the positives that would reward
+  # loosening this number and the within-family negatives that punish it MOVE TOGETHER,
+  # so no value of it separates them. Only identity could, which is why
+  # `mispair_penalty` exists and why extending it to this window alone (S7b) is the
+  # registered candidate. Until then 1.0 stands as a shape, not a measurement.
+  # Evidence: docs/journal/2026-10-28-s7-mid-window-killed.md.
   primer_mid_penalty: 1.0
   primer_5prime_penalty: 0.5
   # MISMATCH IDENTITY. The three penalties above weight a mismatch by position

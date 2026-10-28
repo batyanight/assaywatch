@@ -1,4 +1,15 @@
-# S7 - the mid-window penalty, 1.0 -> 0.5.
+# S7 - the mid-window penalty, 1.0 -> 0.5. KILLED 2026-10-28, on its own criterion.
+#
+# RESULT, before the reasoning below: 45,797 calls move (30,673 reduced->detect, 15,124
+# fail->reduced), tier-2 is identical case for case (6/11 caught, PPV 4/10, 4/32 false
+# alarms), bench accuracy is identical at 92.7% -- and it NEWLY PREDICTS A BAND ON TWO
+# WITHIN-FAMILY BENCH NEGATIVES, HPV55 and HPV44 on the Forslund FAP panel, both at
+# penalty 3.0 where the shipped rule has them above reduced_max. That is the second kill
+# criterion word for word. See docs/journal/2026-10-28-s7-mid-window-killed.md.
+#
+# The finding that outlives it: on these panels the positives and the within-family
+# negatives are not separated by the mid-window penalty, so no value of it fixes one
+# without breaking the other. Only identity could, which is S7b.
 #
 # WHY THIS CANDIDATE EXISTS, and why it is not tuning on held-out data. Held-out set
 # 2's one false alarm (Mills 2022 on MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010) was

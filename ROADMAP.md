@@ -126,22 +126,21 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   prints carries a Jeffreys interval, which is why the tier-2 figures read "3/9 = 33%
   (95% CrI 10%-65%)" rather than a bare percentage.
 
-- **S7 = the mid-window penalty, 1.0 -> 0.5, registered 2026-10-28**
-  (`strategies/s7-mid-window-penalty.yaml`). `primer_mid_penalty` equals `detect_max`
-  exactly, so one mid-window mismatch sits on the detect/reduced boundary and a second
-  anywhere crosses it — the coincidence S3b priced one band down. 69 sites across 23
-  assays show a non-3′ mismatch where detection falls from above 80% to below 20%. Kill
-  criteria are S3b's, written before the numbers: it dies if it loses a documented tier-2
-  catch, stated per catch and never netted, or if it newly predicts a band on any of the
-  16 within-family bench negatives. **S7b**, the better candidate, is to extend
-  `mispair_penalty` to the mid window alone — identity rather than position, which is what
-  Kwok and Stadhouders actually measure — and it needs a `mispair_window` setting rather
-  than an overlay, so it is registered and not yet priced.
+- **S7b = identity in the mid window, registered 2026-10-28 and unpriced.** Extend
+  `scoring.mispair_penalty` to the mid window ALONE — identity rather than position, which
+  is what Kwok 1990 and Stadhouders 2010 measure. The unscoped version was measured and
+  rejected on 2026-10-22 (it erased internal wobbles and cost three documented catches);
+  mid-only has never been tried, and it is the candidate that could discount the G:T
+  wobble costing the monkeypox G2R assay its verdict while leaving the A:A and A:C
+  mispairs in the FAP negatives at full price. Needs a `mispair_window` setting rather
+  than a config overlay, which is why it is not priced yet.
 
 Dead, and recorded so they are not re-proposed: **S1** serial per-oligo gates (no
 threshold pair passed its own criterion, 2026-10-26), **S2** a smooth positional decay
 replacing the 5/5/rest step (2026-10-26), **S6** the Kwok premium on severe mispairs
-(breaks a bench row and adds a false alarm for no catch, 2026-10-27), and the
+(breaks a bench row and adds a false alarm for no catch, 2026-10-27), **S7** halving the
+mid-window penalty (identical tier-2 and identical 92.7% bench accuracy, and it newly
+predicts a band on two within-family bench negatives, 2026-10-28), and the
 **thermodynamic** engine, which has never been a scoring input and whose measured
 advantage over the penalty rule evaporated once its register was fixed (2026-10-27,
 p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
