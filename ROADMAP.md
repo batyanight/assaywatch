@@ -241,32 +241,18 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   Extending the chain to the other segmented RNA viruses stays conditional on measuring
   that a title regex labels their records; nothing has.
 
-- **`target.exclusivity_taxids` is built and seeded; populating the rest is curation**
-  (2026-10-27, `## Done`). `scripts/extract_exclusivity.py` prints every sentence in which
-  a paper claims its assay does NOT amplify something, with the entries citing it: **118
-  of the 178 papers on disk carry at least one**. Most are not usable as they stand, and
-  the reason is worth keeping: a pan-family paper's specificity claim is usually about
-  antibodies, or about "unrelated agents", and the 17 assays whose reports already show
-  out-of-scope records are showing WITHIN-family taxa and synthetic constructs, which no
-  paper claimed to exclude. What is usable is the species-specific assays, where the
-  paper names the neighbour it must be told apart from. One set is seeded (BPSV) and the
-  retrieval cost is the thing to weigh — each named taxon is a new archive — but **two
-  more are read and ready to add** (2026-10-28), both cheap:
-
-  - **The Huo 2022 mpox panel**: "All three new MPXV generic and specific assays did not
-    cross-react with variola, cowpox, camelpox, taterapox, ectramelia, vaccinia and
-    Raccoonpox virus DNA." Taxids looked up live: 10255, 10243, 28873, 28871, 12643,
-    10245, 10256 — **3,772 records in total**, against 1.6M already on disk. They belong
-    on the two F3L MPXV entries and NOT on the non-MPXV orthopox entry, whose targets
-    they are. The B.1 SNP probes' claim is lineage-level inside MPXV, which
-    `exclusivity_taxids` cannot express.
-  - **The rest of Zhao 2013**: orf virus (10258) and pseudocowpox (129726) for the ORFV
-    entry, and molluscum contagiosum (10279) with seal parapoxvirus (187984) for the
-    generic PAPV entry, which is what that paper's "other available high GC poxvirus
-    DNA" clause names.
-
-## Validation, which sets every threshold above
-
+- **`target.exclusivity_taxids`: three sets in, and the rest is one paper at a time**
+  (2026-10-28). `scripts/extract_exclusivity.py` prints every sentence in which a paper
+  claims its assay does NOT amplify something — **118 of the 178 papers on disk carry at
+  least one** — and most are not usable as they stand: a pan-family paper's claim is
+  usually about antibodies or "unrelated agents", and the 17 assays whose reports show
+  out-of-scope records are showing within-family taxa and synthetic constructs that no
+  paper claimed to exclude. What is usable is the species-specific assays, where the paper
+  names the neighbour it must be told apart from. BPSV, the two Huo 2022 F3L mpox entries,
+  the ORFV entry and the generic PAPV entry now carry them (134 retrieval groups, up from
+  125); seven of the nine new groups hold nothing until the next run fetches them. What is
+  left is reading, and the retrieval cost is the thing to weigh — each named taxon is a
+  new archive, though the orthopox set is only 3,772 records.
 - **Tier 2: retrospective validation.** Assemble assays with published
   follow-up — a paper, erratum or redesign reporting the assay failing on
   particular lineages, or reporting it still working — and ask whether

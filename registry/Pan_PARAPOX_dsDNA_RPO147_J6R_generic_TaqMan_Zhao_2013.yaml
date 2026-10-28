@@ -10,6 +10,9 @@ target:
   - 10258
   - 129726
   - 129727
+  exclusivity_taxids:
+  - 10279
+  - 187984
 chemistry: hydrolysis_probe
 oligos:
   forward:
@@ -51,10 +54,10 @@ source:
     ORFV, PCPV and BPSV", so scope_taxids names exactly those three and the taxid is the genus they sit in. Oligos read from
     the paper''s Table 1, parsed out of the Elsevier JATS deposit papers/10.1016_j.jviromet.2013.08.027.xml cell by cell rather
     than from the flattened text, because flattening a table puts each label next to the WRONG sequence. THE PAPER WAS ASSUMED
-    PAYWALLED and is not: docs/journal/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned, so likely paywalled", and
-    scripts/fetch_elsevier.py retrieved the full text with the institutional token on the first try. THE PAPER STATES NO PRODUCT
-    SIZE for any of the four assays, so every amplicon here is measured. Measured 2026-10-24 over the 92 Parapoxvirus genomes
-    of 100-200 kb in nuccore (esearch/efetch, txid10257): 64 Orf virus, 11 bovine papular stomatitis virus, 6 pseudocowpox
+    PAYWALLED and is not: docs/journal/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned, so likely paywalled",
+    and scripts/fetch_elsevier.py retrieved the full text with the institutional token on the first try. THE PAPER STATES
+    NO PRODUCT SIZE for any of the four assays, so every amplicon here is measured. Measured 2026-10-24 over the 92 Parapoxvirus
+    genomes of 100-200 kb in nuccore (esearch/efetch, txid10257): 64 Orf virus, 11 bovine papular stomatitis virus, 6 pseudocowpox
     virus and 11 not resolved to species. NAMING: Table 1 and the running text disagree - the table says ORFV_J6R and PAPV_J6R
     where the text says Orf_J6R and PARV_J6R. The table is the oligo source, so its names are used. THE FOURTH ASSAY OF THIS
     PANEL, PCPV_J6R, IS NOT ENTERED: its reverse primer is 14 nt, below the schema''s 15 nt primer floor, and that floor guards
@@ -68,13 +71,25 @@ source:
     would be expected to amplify. Recorded as a polymorphism, not a failure, and recorded at all because an exact-match screen
     WILL report this assay as missing BPSV and the next reader should not rediscover it as drift. The sibling BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013
     covers that species directly. CHEMISTRY DETAIL MISSING: Table 1 gives no reporter or quencher for any of the four probes.
-    SCREENED 2026-10-24, AND THE PREDICTION IN THE PARAGRAPH ABOVE HOLDS. The exact-match gap - the reverse primer
-    matching no bovine papular stomatitis genome - does NOT become a scoring failure. Over the 92 Parapoxvirus
-    genomes the assay reads 100% on Orf virus (64), 100% on pseudocowpox (6) and 90.9% on bovine papular stomatitis
-    (10 of 11 detect, 1 fail): 96.7% overall. The single distal mismatch costs nothing the scorer cares about,
-    which is what "a real reaction would be expected to amplify through" meant, now measured rather than argued.
-    The assay covers all three species it claims.
-    status: draft and doi_verified: false on entry; only a maintainer sets active.'
+    SCREENED 2026-10-24, AND THE PREDICTION IN THE PARAGRAPH ABOVE HOLDS. The exact-match gap - the reverse primer matching
+    no bovine papular stomatitis genome - does NOT become a scoring failure. Over the 92 Parapoxvirus genomes the assay reads
+    100% on Orf virus (64), 100% on pseudocowpox (6) and 90.9% on bovine papular stomatitis (10 of 11 detect, 1 fail): 96.7%
+    overall. The single distal mismatch costs nothing the scorer cares about, which is what "a real reaction would be expected
+    to amplify through" meant, now measured rather than argued. The assay covers all three species it claims. status: draft
+    and doi_verified: false on entry; only a maintainer sets active.
+
+
+    EXCLUSIVITY TAXIDS ADDED 2026-10-28: molluscum contagiosum virus (10279) and seal parapoxvirus (187984), which is what
+    this paper''s "other available high GC poxvirus DNA (sealpox virus, molluscum contagiosum virus, or orthopoxvirus nucleic
+    acid)" names for the GENERIC assay. The three ruminant parapoxviruses are its targets and are not listed. ONE OF THESE
+    SITS INSIDE THE TARGET GENUS: seal parapoxvirus 187984 is under Parapoxvirus 10257 (checked live: lineage ...Poxviridae;
+    Chordopoxvirinae; Parapoxvirus; Parapoxvirus sealpox), so declaring it excluded takes its records OUT of this assay''s
+    own drift denominator. That is the right answer and it is a verdict-affecting change, so it is disclosed here: a genus-wide
+    assay that its own paper says does not detect one species of the genus should not be scored as failing on that species''
+    records. Molluscum contagiosum is outside the genus (Molluscipoxvirus), so it only ever contributed cross-reactivity evidence.
+    Orthopoxvirus DNA is in the paper''s clause too and is NOT listed, because the clause covers all four assays of the panel
+    and this entry''s own differentiation is within the parapoxviruses; the orthopox taxids are on the Huo 2022 mpox entries
+    where they are the tested claim.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 85 bp measured in all 66 genomes that give a product

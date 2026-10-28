@@ -6,6 +6,14 @@ target:
   genome_type: dsDNA
   taxon_name: Monkeypox virus
   query: null
+  exclusivity_taxids:
+  - 10243
+  - 10245
+  - 10255
+  - 10256
+  - 12643
+  - 28871
+  - 28873
 chemistry: hydrolysis_probe
 oligos:
   forward:
@@ -49,7 +57,18 @@ source:
     the Li 2010 siblings), so the entry is unscoped and carries scope_narrower_than_taxid. AMPLICON NOT STATED BY THE PAPER.
     MEASURED 2026-10-27 by screening this entry against every archive of taxids 10244 and 10242: 179 bp in 28,847 of 28,921
     products (185 bp in 67) over 35,539 records of the 10244 and 10242 archives; calls detect 20,675 / reduced 529 / fail
-    7,696 / no_amplicon 6,618 -- the fails are the clade I records this probe is designed not to bind. DOI resolved through Crossref by scripts/resolve_citations.py on 2026-10-27; status draft; only a maintainer sets active.'
+    7,696 / no_amplicon 6,618 -- the fails are the clade I records this probe is designed not to bind. DOI resolved through
+    Crossref by scripts/resolve_citations.py on 2026-10-27; status draft; only a maintainer sets active.
+
+
+    EXCLUSIVITY TAXIDS ADDED 2026-10-28, from the paper''s own specificity claim: "All three new MPXV generic and specific
+    assays did not cross-react with variola, cowpox, camelpox, taterapox, ectramelia, vaccinia and Raccoonpox virus DNA."
+    ("ectramelia" is the paper''s spelling of ectromelia.) Taxids looked up live with esearch, not from memory: variola 10255,
+    cowpox 10243, camelpox 28873, taterapox 28871, ectromelia 12643, vaccinia 10245 (NCBI''s Orthopoxvirus vaccinia), raccoonpox
+    10256. All seven are siblings of monkeypox under Orthopoxvirus (10242), so none is inside this entry''s own target subtree.
+    Together they are 3,772 nuccore records of 100-100,000,000 nt, against 1.6M already on disk, so the retrieval is cheap.
+    NOT added to ORTHOPOXVIRUS_dsDNA_F3L_region_nonMPXV_TaqMan_Huo_2022, whose TARGETS they are, and not to the two B.1 SNP
+    entries, whose claim is lineage-level inside MPXV and cannot be written as a taxid.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; measured 2026-10-27, see notes_curator

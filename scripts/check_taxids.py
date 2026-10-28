@@ -35,6 +35,10 @@ And since 2026-10-27, one line per `scope_taxids` entry whose NCBI lineage does 
 contain the assay's `target.taxid`:
 
     ESCAPED   a scoped taxon is no longer inside the retrieval root
+    EXCL_INSIDE   a taxon the paper claims the assay excludes sits INSIDE the
+              assay's own target subtree, so its records leave the drift
+              denominator. Legal and sometimes right; never silent
+    EXCL_UNKNOWN  a claimed-excluded taxid NCBI does not know
     MERGED    the registry's taxid is an old id NCBI has merged into a new one;
               retrieval still resolves it, and the entry should carry the new id
 
@@ -161,16 +165,21 @@ def main() -> int:
 
     entries = []
     scopes: list[tuple[str, int, int]] = []  # (assay, root taxid, scoped taxid)
+    excl: list[tuple[str, int, int]] = []  # (assay, root taxid, claimed-excluded taxid)
     for path in sorted(args.registry.glob("*.yaml")):
         target = (yaml.safe_load(path.read_text()) or {}).get("target") or {}
         pinned = [int(m) for m in re.findall(r"txid(\d+)\[Organism", target.get("query") or "")]
         entries.append((path.stem, target.get("taxid"), (target.get("taxon_name") or "").strip(), pinned))
         if target.get("taxid"):
             scopes += [(path.stem, int(target["taxid"]), int(s)) for s in (target.get("scope_taxids") or [])]
+            excl += [
+                (path.stem, int(target["taxid"]), int(e)) for e in (target.get("exclusivity_taxids") or [])
+            ]
 
     wanted = (
         {t for _, t, _, _ in entries if t}
         | {s for _, _, s in scopes}
+        | {e for _, _, e in excl}
         | {p for _, _, _, pinned in entries for p in pinned}
     )
     taxa = fetch_taxa(sorted(wanted), args.email)
@@ -222,11 +231,36 @@ def main() -> int:
             root_name = taxa[root][0] if root in taxa else "?"
             print(f"ESCAPED\t{aid}\t{scoped}\t{sci} is no longer inside {root} ({root_name})")
             escaped += 1
+    # An exclusivity taxon is checked and REPORTED, never refused, and the two
+    # shapes mean different things. Outside the target's subtree is the ordinary
+    # case: a near neighbour the paper says the assay does not amplify. Inside it is
+    # legitimate too -- Zhao 2013's generic parapoxvirus assay claims not to detect
+    # seal parapoxvirus, which is a species of the genus the assay targets -- but it
+    # takes those records out of the assay's own drift denominator, so it is worth
+    # naming on its own line rather than passing in silence. The schema cannot do
+    # this check: it has no taxonomy.
+    inside = unknown = 0
+    for aid, root, claimed in excl:
+        if claimed not in taxa:
+            print(f"EXCL_UNKNOWN\t{aid}\t{claimed}\tclaimed-excluded taxid not found at NCBI")
+            unknown += 1
+            continue
+        sci, _, _, ancestors, _ = taxa[claimed]
+        canonical_root = taxa[root][4] if root in taxa else root
+        if canonical_root in ancestors:
+            root_name = taxa[root][0] if root in taxa else "?"
+            print(
+                f"EXCL_INSIDE\t{aid}\t{claimed}\t{sci} is INSIDE {root} ({root_name}): its records "
+                "leave this assay's own denominator"
+            )
+            inside += 1
     print(
-        f"{bad} mismatched taxids; {merged} merged root taxids; {escaped} scoped taxa outside their retrieval root",
+        f"{bad} mismatched taxids; {merged} merged root taxids; "
+        f"{escaped} scoped taxa outside their retrieval root; "
+        f"{inside} claimed exclusions inside their own target, {unknown} unknown",
         file=sys.stderr,
     )
-    return 1 if bad or escaped else 0
+    return 1 if bad or escaped or unknown else 0
 
 
 if __name__ == "__main__":

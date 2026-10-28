@@ -90,3 +90,35 @@ takes the same two days of curation from 444 archive rescreens to 47.
 appears in the report for the first time (`no recent data`), because changing its flag
 from `oligo_sequence_uncertain` to `oligos_modified` removed the OPEN flag that had been
 holding it out of the status tables. 19 `no recent data` becomes 20; nothing else moves.
+
+## Two more claims added the same day
+
+With the signature no longer charging a rescreen for a note, the two sets read earlier
+went in (`scripts/add_exclusivity.py`'s edits, quoted claims in each entry):
+
+- **Huo 2022's mpox panel**, on the two F3L MPXV entries: variola 10255, cowpox 10243,
+  camelpox 28873, taterapox 28871, ectromelia 12643, vaccinia 10245, raccoonpox 10256 —
+  seven siblings of monkeypox under *Orthopoxvirus*, 3,772 nuccore records, from the
+  paper's own sentence. Not on the non-MPXV orthopox entry, whose targets they are, and
+  not on the B.1 SNP probes, whose claim is lineage-level inside MPXV and cannot be a
+  taxid.
+- **The rest of Zhao 2013**: BPSV and pseudocowpox on the ORFV entry (the mirror of
+  BPSV's pair), and molluscum contagiosum 10279 with seal parapoxvirus 187984 on the
+  generic PAPV entry.
+
+Retrieval groups go 125 → 134. Seven of the nine new ones hold nothing yet; the next run
+fetches them.
+
+**One of them sits inside its own target genus, which is legal and had to be checked.**
+Seal parapoxvirus is under *Parapoxvirus* 10257, the generic assay's target, so declaring
+it excluded takes its records out of that assay's own denominator — right, because an
+assay its paper says does not detect one species of its genus should not be scored as
+failing on that species. `scripts/check_taxids.py` now reports this shape as
+`EXCL_INSIDE` rather than refusing it (the schema cannot: it has no taxonomy), and the
+whole registry yields exactly one such line. **Measured cost: 3 evaluable records, and no
+status moves** — the risk I disclosed before measuring it turned out to be three records
+on a `stable` assay. The sealpox claim itself reads 0 of 3 detected, 0 amplified: true,
+and far too thin to mean anything yet.
+
+The same run of `check_taxids.py` reports **0 merged root taxids**, which is the retired-taxid
+migration of 2026-10-27 confirmed against NCBI rather than against its own script.
