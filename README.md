@@ -19,12 +19,14 @@ responses and has been run against the live NCBI API: the 2026-10-06 run screene
 See ROADMAP.md, which is the only to-do list in the repository: open work is
 there, ranked, with the evidence that put each item in its place.
 
-**See the output first:** [`docs/example-run-2026-10-26/report.md`](docs/example-run-2026-10-26/report.md)
+**See the output first:** [`docs/example-run-2026-10-27/report.md`](docs/example-run-2026-10-27/report.md)
 is one real run, committed so it can be read without installing anything: on the
-2026-10-26 run, 188 assays screened, 34 called declining and 10 on the Start here
+2026-10-27 run, 188 assays screened, 42 called declining and 10 on the Start here
 list. Its companion
-[`site-drift.md`](docs/example-run-2026-10-26/site-drift.md) names the base to
-order at each drifted primer position. Then `examples/README.md` runs the
+[`site-drift.md`](docs/example-run-2026-10-27/site-drift.md) names the base to
+order at each drifted primer position. The previous committed run,
+`docs/example-run-2026-10-26/`, is the last one under the scoring that shipped before
+2026-10-27, kept so the two can be diffed. Then `examples/README.md` runs the
 screening step on your own machine, offline, in under a second.
 
 `docs/INDEX.md` indexes everything under `docs/` — nine reference documents, the 89

@@ -307,20 +307,6 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
   that stayed open. This is the same literature pass as the within-family negative
   corpus that gates C2, so one read per paper serves both.
-- **Mpox depth: two optional adds.** This item said "covered only by two assays from
-  2004" when it was written on 2026-10-27, and that was wrong: the Li 2010 G2R trio
-  (`MONKEYPOX_dsDNA_{G2R_generic,G2R_WestAfrican,C3L_CongoBasin}_TaqMan_Li_2010`),
-  `NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011` and
-  `Pan_PARAPOX_dsDNA_RPO147_J6R_generic_TaqMan_Zhao_2013` were all applied on
-  2026-10-24, the day the candidate list was written. What that list still leaves open
-  is optional depth — Huo 2022 for clade IIb/B.1 lineage typing and Mills/Greninger
-  2022 for a clinically validated set — and one finding worth keeping in view: the
-  generic G2R primers are exact in only 20.4% (forward) and 23.0% (reverse) of 13,179
-  MPXV genomes while the probe is exact in 92.7%
-  (`docs/journal/2026-10-24-mpox-assay-candidates.md`). NCBI Taxonomy has no node for
-  either clade, so the clade-specific entries carry `scope_narrower_than_taxid`
-  instead of `scope_taxids`.
-
 - **The registry is a primer registry, not an assay registry.** Annealing or
   cycling appears in 7 of 209 entries (counted 2026-10-27, before the five mpox adds), LoD or efficiency in 23, master mix or
   Mg²⁺ in 2, sample matrix in 6, and one-step versus two-step RT in none
@@ -489,6 +475,27 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **Five Huo 2022 entries add clade- and lineage-level mpox typing** (2026-10-27).
+      Two multiplex panels designed on 138 poxvirus genomes, one entry per probe: clade
+      IIa/IIb, clade I and non-MPXV orthopoxvirus on one F3L-region pair (179 bp,
+      measured on 28,921 products), B.1 and non-B.1 SNP probes on a second (81 bp). 15 of
+      15 oligos `exact` against the open text; DOI resolved and checked; all `draft`.
+      Mills/Greninger 2022, the other candidate, designs nothing — its G2R set IS the
+      registry's Li 2010 generic entry, which made it the second row of held-out set 2
+      instead (`docs/validation-cases-heldout-2.tsv`, a `works` case on 2022 clinical
+      specimens with identity read from the page).
+- [x] **28 `orientation_inferred` flags carry the archive's answer** (2026-10-27): the
+      product count under the stored orientation from the 2026-10-27 run, appended to
+      each flag's note and never substituted for it. 26 confirmed by twenty or more
+      products, two Sunshinevirus pairs too thin to say. Three bee-virus `taxon_name`s
+      now carry NCBI's binomial with the paper's name in parentheses.
+- [x] **The full run under today's scoring, published** (2026-10-27,
+      `docs/example-run-2026-10-27/`, `docs/journal/2026-10-27-live-run-and-schedule.md`).
+      16 statuses move against 2026-10-26; both S3b predictions checked, one of them
+      corrected in the write-up (the flavivirus move was a 2017 retrospective verdict, not
+      a 2026 status). S3b's replay agrees with the real screen on all but 8 of 2,679,894
+      rows, which closes the 78 unrescreened movers. The weekly launchd job is installed
+      live on this machine for Sunday 09:00.
 - [x] **The unnamed lineages were a missing roll-up, not missing names** (2026-10-27).
       775 of the 1,390 rows in the 2026-10-26 lineage report read `taxid_<n>`. Three
       diagnoses in one day, each measured: rebuilding the taxonomy cache named 3; keeping
