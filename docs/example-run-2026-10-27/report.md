@@ -1,22 +1,22 @@
 # AssayWatch report — 2026-10-27
 
-193 assays screened: 42 declining, 34 low coverage, 8 watch, 30 insufficient data, 19 no recent data, 60 stable. 20 further screened assays are not scoreable and carry no status.
+194 assays screened: 42 declining, 34 low coverage, 8 watch, 30 insufficient data, 20 no recent data, 60 stable. 19 further screened assays are not scoreable and carry no status.
 
-**In one line:** of 193 published assays re-checked against GenBank records deposited up to 2026-10-27, 42 appear to be detecting measurably less of their target than they once did, and 34 have never covered much of the taxon they are screened against. 10 are listed under Start here as worth looking at first.
+**In one line:** of 194 published assays re-checked against GenBank records deposited up to 2026-10-27, 42 appear to be detecting measurably less of their target than they once did, and 34 have never covered much of the taxon they are screened against. 10 are listed under Start here as worth looking at first.
 
-**What cannot be said at all:** 69 of 213 screened assays carry no usable verdict -- 30 with too few recent records, 19 with nothing newly deposited, and 20 not scoreable at all. A further 25 are held off the triage list because their primer pools are so degenerate that an in-silico detection is close to a tautology. Sparsely sequenced targets are exactly the ones this tool is for, and they are the ones it can say least about.
+**What cannot be said at all:** 69 of 213 screened assays carry no usable verdict -- 30 with too few recent records, 20 with nothing newly deposited, and 19 not scoreable at all. A further 25 are held off the triage list because their primer pools are so degenerate that an in-silico detection is close to a tautology. Sparsely sequenced targets are exactly the ones this tool is for, and they are the ones it can say least about.
 
 **What this is not.** Every number here is a prediction from sequence alone: whether each oligo still matches what has been deposited, never whether the reaction still works at the bench. No assay was run in a laboratory. There is no thermodynamic model and no limit of detection, so this cannot tell a missed cycle-threshold cutoff from a faint band. A flag is a reason to pull an assay's records and look, never a result.
 
 **The verdicts.** `declining` -- detection has fallen from a level that previously cleared the threshold. `low coverage` -- detection is below the threshold but was never measurably higher, usually an assay screened against more diversity than it was designed for. `watch` -- below the threshold, but the interval still reaches it, so there are too few records to be sure. `insufficient data` -- too few recent evaluable records to judge; never flagged. `no recent data` -- nothing new deposited in the window. `stable` -- no evidence of loss. `not scoreable` -- a registry problem, such as an unresolved product size, rather than anything about the assay.
 
-Registry status: 178 active, 15 draft. `draft` is a maintainer sign-off, not a data check: 12 of the 15 drafts here already carry a verified DOI, a taxid and a design year with no open review question. What does vary between entries is oligo provenance, flagged in the note column of every row below.
+Registry status: 178 active, 16 draft. `draft` is a maintainer sign-off, not a data check: 13 of the 16 drafts here already carry a verified DOI, a taxid and a design year with no open review question. What does vary between entries is oligo provenance, flagged in the note column of every row below.
 
 **Duplication check:** 21 of 76 flagged assays still hold when duplicated records are discounted (each distinct binding-site footprint counted once, and the sample size cut to the number of footprints). The note on each assay that did not hold says which test it failed.
 
 Previous successful run: 2026-10-26 (1 day earlier).
 
-Recent window: 24 months, widened for 53 assays that held too few records; earliest shown Oct 2024; threshold 90% detected; at least 15 recent evaluable records to flag. Deprecated assays are not screened.
+Recent window: 24 months, widened for 54 assays that held too few records; earliest shown Oct 2024; threshold 90% detected; at least 15 recent evaluable records to flag. Deprecated assays are not screened.
 
 ## Start here (10)
 
@@ -80,7 +80,7 @@ that clade, not as a measurement of the assay.
 | `MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010` | draft | 45.9% | 44%-47% | 4351 | 95% (8113) | 1x negligible | fails: too_few | detected share 45.9% (44%-47%) since Oct 2024, upper bound below the 90% threshold; change from baseline -51% to -48%. 5 patent records excluded. |
 | `CHLAMYDIA_trachomatis_16S_Messmer_1997_round2` | active | 46.2% | 32%-61% | 39 | 74% (323) | 1x negligible | fails: too_few,footprint,change | detected share 46.2% (32%-61%) since Oct 2024, upper bound below the 90% threshold; change from baseline -43% to -12%. Entry flags: primer_site_polymorphic. 1 patent records excluded. |
 | `MONKEYPOX_dsDNA_F3L_region_cladeIIab_TaqMan_Huo_2022` | draft | 47.6% | 46%-49% | 4485 | 93% (8566) | 1x negligible | fails: too_few | detected share 47.6% (46%-49%) since Oct 2024, upper bound below the 90% threshold; change from baseline -47% to -43%. Entry flags: amplicon_measured_not_published, scope_narrower_than_taxid. 5 patent records excluded. |
-| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1` | active | 48.0% | 43%-53% | 358 | 71% (627) | 331776x severe | fails: footprint | detected share 48.0% (43%-53%) since Oct 2024, upper bound below the 90% threshold; change from baseline -29% to -17%; separately, lineage Orthoreovirus piscis (3431498) (182 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: pairing_is_curator_reading. 52 patent records excluded. |
+| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1` | active | 48.0% | 43%-53% | 358 | 71% (627) | 331776x severe | fails: footprint | detected share 48.0% (43%-53%) since Oct 2024, upper bound below the 90% threshold; change from baseline -29% to -17%; separately, lineage Orthoreovirus piscis (3431498) (182 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: conditions_not_printed, pairing_is_curator_reading. 52 patent records excluded. |
 | `PD_WNS_ITS1_Shuey_2014` | active | 50.0% | 28%-72% | 16 | 86% (441) | 1x negligible | fails: too_few,change | detected share 50.0% (28%-72%) since Oct 2023, upper bound below the 90% threshold; change from baseline -58% to -14% (window widened to 36 months to reach 15 evaluable records). |
 | `ARENAVIRUS_ssRNA_S_gene_2` (pooled: low coverage) | active | 51.4% | 43%-60% | 138 | 66% (1418) | 256x high | fails: change | pooled share 51.4% has low coverage, but lineage Mammarenavirus lassaense (3052310) (37 records) detects 75.7% (59.9%-86.6%); lineage verdict overrides to declining. Entry flags: oligos_modified, orientation_inferred. 473 out-of-scope records excluded. 226 patent records excluded. |
 | `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1` (pooled: low coverage) | active | 51.9% | 50%-54% | 1641 | 55% (5429) | 1327104x severe | fails: change | pooled share 51.9% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (165 records) detects only 0.0% (0.0%-2.3%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining. 262 out-of-scope records excluded. |
@@ -94,7 +94,7 @@ that clade, not as a measurement of the assay.
 | `BQCV_capsid_Rossi_2024` | active | 65.1% | 57%-72% | 152 | 83% (1057) | 1x negligible | fails: change | detected share 65.1% (57%-72%) since Oct 2024, upper bound below the 90% threshold; change from baseline -26% to -11%. Entry flags: oligos_from_secondary_source. 3 patent records excluded. |
 | `Pan_hemoparasite_cytochrome_c_Hellgren_2004` | active | 67.0% | 60%-73% | 194 | 86% (829) | 1x negligible | holds | detected share 67.0% (60%-73%) since Oct 2024, upper bound below the 90% threshold; change from baseline -27% to -13%. Entry flags: oligos_not_in_cited_paper, orientation_inferred. 13071 out-of-scope records excluded. |
 | `CDV_H_gene_Mueller_2011_1` | active | 68.4% | 59%-77% | 95 | 94% (418) | 2x negligible | holds | detected share 68.4% (59%-77%) since Oct 2024, upper bound below the 90% threshold; change from baseline -36% to -17%. 61 patent records excluded. |
-| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010` | active | 69.8% | 65%-74% | 361 | 88% (671) | 147456x severe | holds | detected share 69.8% (65%-74%) since Oct 2024, upper bound below the 90% threshold; change from baseline -24% to -13%. 52 patent records excluded. |
+| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010` | active | 69.8% | 65%-74% | 361 | 88% (671) | 147456x severe | holds | detected share 69.8% (65%-74%) since Oct 2024, upper bound below the 90% threshold; change from baseline -24% to -13%. Entry flags: conditions_not_printed. 52 patent records excluded. |
 | `RHABDOVIRUS_ssRNA_L_gene_round1` (pooled: low coverage) | active | 70.6% | 68%-73% | 1295 | 74% (5455) | 221184x severe | fails: change | pooled share 70.6% has low coverage, but lineage Lyssavirus rabies (11292) (968 records) detects 84.9% (82.5%-87.0%), down from 95.1% on 3678 earlier records; lineage verdict overrides to declining. 769 out-of-scope records excluded. |
 | `DWVB_polyprotein_Rossi_2024` | active | 75.0% | 51%-90% | 16 | 100% (41) | 1x negligible | fails: too_few,recent,change | detected share 75.0% (51%-90%) since Oct 2024, upper bound below the 90% threshold; change from baseline -49% to -8%. Entry flags: oligos_from_secondary_source, scope_narrower_than_taxid. |
 | `PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999` (pooled: low coverage) | active | 75.1% | 73%-77% | 1591 | 56% (14684) | 288x high | fails: change | pooled share 75.1% has low coverage, but lineage Alphapapillomavirus 9 (337041) (320 records) detects only 12.8% (9.6%-16.9%), down from 43.7% on 9521 earlier records; lineage verdict overrides to declining. Entry flags: orientation_inferred. 1064 patent records excluded. |
@@ -176,7 +176,7 @@ that clade, not as a measurement of the assay.
 | `Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015` | active | 62.5% | 31%-86% | 8 | 100% (17) | 1x negligible | - | 8 evaluable records since Oct 2021, below the minimum of 15; the detected share is 62% (31%-86%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
 | `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999` | active | 66.7% | 30%-90% | 6 | 64% (22) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 67% (30%-90%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 3 patent records excluded. |
 | `PROBOSCIVIRUS_POL_Latimer_2010_panEEHV_round2` | active | 92.9% | 69%-99% | 14 | 100% (25) | 1024x high | - | 14 evaluable records since Oct 2021, below the minimum of 15; the detected share is 93% (69%-99%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
-| `BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` | draft | 100.0% | 70%-100% | 9 | 100% (10) | 1x negligible | - | 9 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (70%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published, chemistry_detail_missing, cross_reactive, thin_evidence. 2 patent records excluded. |
+| `BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` | draft | 100.0% | 70%-100% | 9 | 100% (10) | 1x negligible | - | 9 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (70%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published, chemistry_detail_missing, cross_reactive, thin_evidence. 2692 out-of-scope records excluded. 2 patent records excluded. |
 | `CHLAMYDIA_pneumoniae_16S_Messmer_1997_round2` | active | 100.0% | 57%-100% | 5 | 100% (11) | 1x negligible | - | 5 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (57%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
 | `CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021` | active | 100.0% | 34%-100% | 2 | 33% (6) | 1x negligible | - | 2 evaluable records since Oct 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on. Entry flags: oligos_read_from_figure, scope_narrower_than_taxid. 2 patent records excluded. |
 | `Cryptosporidium_18SrDNA_Xiao_1999_round1` | active | 100.0% | 78%-100% | 14 | 95% (131) | 1x negligible | - | 14 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (78%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: oligos_modified. |
@@ -192,13 +192,14 @@ that clade, not as a measurement of the assay.
 | `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999_round2` | active | 100.0% | 61%-100% | 6 | 88% (24) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (61%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 3 patent records excluded. |
 | `REPTARENAVIRUS_S_segment_GP2_Baggio_2023` | active | 100.0% | 70%-100% | 9 | 95% (105) | 1x negligible | - | 9 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (70%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: pooled_as_one_assay. |
 
-## No Recent Data (19)
+## No Recent Data (20)
 
 | assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | duplication | note |
 |---|---|---|---|---|---|---|---|---|
 | `BATRAVIRUS_terminase_Licheri_2020_european_FW2_RV1` | active | - | - | 0 | 100% (4) | 128x moderate | - | no evaluable records deposited since Oct 2024. Entry flags: scope_narrower_than_taxid. 4 out-of-scope records excluded. |
 | `BATRAVIRUS_terminase_Licheri_2020_pan_FW4_RV4` | active | - | - | 0 | 100% (8) | 995328x severe | - | no evaluable records deposited since Oct 2024. |
 | `CALICIVIRUS_ssRNA_Capsid` | active | - | - | 0 | 100% (11) | 1x negligible | - | no evaluable records deposited since Oct 2024. 67551 out-of-scope records excluded. |
+| `CALICIVIRUS_ssRNA_Helicase_Reid_1999` | draft | - | - | 0 | 71% (24) | 1x negligible | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: oligos_modified, thin_evidence. 84725 out-of-scope records excluded. 4 patent records excluded. |
 | `CALICIVIRUS_ssRNA_RdRp_Neill_Seal_1995` | draft | - | - | 0 | 40% (25) | 1x negligible | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: thin_evidence. 84725 out-of-scope records excluded. 4 patent records excluded. |
 | `INFLUENZA_A_ssRNA_HA_H5_Tsukamoto_2010` | active | - | - | 0 | 87% (7600) | 8192x severe | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_multimodal, retrieval_scope_incomplete. |
 | `INFLUENZA_A_ssRNA_HA_H7_Tsukamoto_2010` | active | - | - | 0 | 57% (3290) | 12288x severe | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: primer_site_polymorphic, retrieval_scope_incomplete. |
@@ -281,7 +282,7 @@ that clade, not as a measurement of the assay.
 | `Yersinia_enterocolitica_Ibrahim_1992` | active | 100.0% | 80%-100% | 15 | 100% (22) | 1x negligible | - | detected share 100.0% (80%-100%) since Oct 2023 (window widened to 36 months to reach 15 evaluable records). Entry flags: amplicon_disagrees_with_paper, oligos_not_in_cited_paper, orientation_inferred. |
 | `Yersinia_pseudotuberculosis_Wang_1997` | active | 100.0% | 81%-100% | 16 | 100% (49) | 1x negligible | - | detected share 100.0% (81%-100%) since Oct 2022 (window widened to 48 months to reach 15 evaluable records). Entry flags: orientation_inferred. 2 patent records excluded. |
 
-## Not scoreable (20)
+## Not scoreable (19)
 
 These assays were screened, and their records still count in the nested,
 degeneracy and per-lineage tables, but their entry carries a review item that
@@ -292,7 +293,6 @@ for them, including the one they would otherwise have had.
 | assay | entry | why | note |
 |---|---|---|---|
 | `BORNA_VIRUS_N_gene_Zimmermann_1994_round2` | draft | `amplicon_size_unresolved` | no product size is declared |
-| `CALICIVIRUS_ssRNA_Helicase_Reid_1999` | draft | `oligo_sequence_uncertain` | Hel1 forward terminal base corrected G->C on 2026-10-24 (maintainer decision): C is what all 16 design targets carry and the only form giving the published 357 bp; the two G sources are a 1999 table and an OCR deposit. No clean PDF held, so the copy stays uncertain pending the NYU-proxy scan. OPEN flag, so the entry is draft. Full rationale in notes_curator. |
 | `CDV_P_gene_Mix3_Halecker_2021` | draft | `duplicate_entry_unresolved` | overlaps CDV_P_gene_Scagliarini_2007: shares CDV3-R, and the forward and probe are degenerate modifications of it; decide whether both entries stay |
 | `CDV_P_gene_panCDV_Geiselhardt_2022` | draft | `target_scope_unresolved` | also detects PDV (Morbillivirus phocae, txid3052347) while the taxid here is CDV only; decide whether a PDV-scoped entry is wanted |
 | `FRANCISELLA_tularensis_tul4_Long_1993` | draft | `oligo_sequence_uncertain` | the probe is omitted: the OCR of its sequence was not reliable enough to enter |
@@ -537,7 +537,7 @@ Designed 2002, doi:10.1128/JCM.40.9.3256-3260.2002
 
 *trend over deposit year: falling, z = -91.65, two-sided p = 0 across 37 years and 90291 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-*hierarchical fit over 1 lineages: mu = 6.5%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+*hierarchical fit over 13 lineages: mu = 5.7%, phi = 0.4 (intraclass correlation 0.696); worst lineage after shrinkage H3N2 at 0.3% (0.2%-0.4%, raw 0.3% on 15319); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Duplication check:** 30382 recent records share 157 distinct footprints (193.5 per footprint), of which 33 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 157 independent observations (one per footprint) the interval around the 6% detected share is 4%-11%, and counting each footprint once, 19 of 157 footprints amplify (12%; interval 8%-18%); each is below the 90% threshold, and the fall from baseline (-18% to -9%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
 
@@ -592,21 +592,21 @@ Designed 2004, doi:10.1645/GE-184R1
 
 **Out of scope:** 20251 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Hepatocystis sp. SSJ-2010 (903504) | 125 | 125 | 100% |
-| Hepatocystis sp. TLG-2012 (1266736) | 74 | 74 | 100% |
-| Plasmodium billcollinsi (720590) | 42 | 42 | 100% |
-| Plasmodium tupinambi (3448513) | 29 | 29 | 100% |
-| Plasmodiidae sp. (2605378) | 22 | 22 | 100% |
-| Plasmodium brasilianum (5824) | 12 | 12 | 100% |
-| Haemosporida sp. A LB-2015 (1699099) | 11 | 11 | 100% |
-| Nycteria heischi (1891981) | 10 | 10 | 100% |
-| taxid 31271 | 10 | 10 | 100% |
-| taxid 138297 | 10 | 10 | 100% |
-| _+3163 more taxa_ | | | |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Hepatocystis sp. SSJ-2010 (903504) |  | 125 | 125 | 125 | 100% |
+| Hepatocystis sp. TLG-2012 (1266736) |  | 74 | 74 | 74 | 100% |
+| Plasmodium floridense (31275) |  | 65 | 65 | 65 | 100% |
+| Plasmodium billcollinsi (720590) |  | 42 | 42 | 42 | 100% |
+| Plasmodium blacklocki (nom. inval.) (880536) |  | 35 | 35 | 35 | 100% |
+| Plasmodium tupinambi (3448513) |  | 29 | 29 | 29 | 100% |
+| Polychromophilus murinus (1147704) |  | 28 | 28 | 28 | 100% |
+| taxid 864142 |  | 25 | 25 | 25 | 100% |
+| Plasmodiidae sp. (2605378) |  | 22 | 22 | 22 | 100% |
+| Polychromophilus sp. (1715677) |  | 19 | 19 | 19 | 100% |
+| _+3163 more taxa_ | | | | | |
 
 
 **Duplication check:** 148 recent records share 23 distinct footprints (6.4 per footprint), of which 40 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 23 and 304 independent observations the fall from baseline is -16% to +11%, which no longer excludes zero.
@@ -734,15 +734,15 @@ Designed 2006, doi:10.1128/JCM.00542-06
 
 **Out of scope:** 40 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Enterovirus PV1 (3569731) | 1 | 1 | 100% |
-| Enterovirus E11 (3569727) | 13 | 14 | 93% |
-| Enterovirus E9 (3569730) | 1 | 2 | 50% |
-| Enterovirus E13 (3569728) | 0 | 16 | 0% |
-| Enterovirus E6 (3569729) | 0 | 7 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Enterovirus E11 (3569727) |  | 13 | 13 | 13 | 100% |
+| Enterovirus PV1 (3569731) |  | 1 | 1 | 1 | 100% |
+| Enterovirus E9 (3569730) |  | 1 | 1 | 2 | 50% |
+| Enterovirus E13 (3569728) |  | 0 | 0 | 16 | 0% |
+| Enterovirus E6 (3569729) |  | 0 | 0 | 7 | 0% |
 
 
 **Duplication check:** 4533 recent records share 307 distinct footprints (14.8 per footprint), of which 1425 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 307 and 2141 independent observations the fall from baseline is +2% to +11%, which no longer excludes zero.
@@ -863,11 +863,11 @@ Designed 2001, doi:10.1128/JCM.39.5.1922-1927.2001
 
 **Out of scope:** 1 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Balclutha incisa flavivirus 1 (3140651) | 0 | 1 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Balclutha incisa flavivirus 1 (3140651) |  | 0 | 0 | 0 | 0% |
 
 
 **Duplication check:** 9443 recent records share 141 distinct footprints (67.0 per footprint), of which 244 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 141 and 316 independent observations the fall from baseline is -16% to +2%, which no longer excludes zero.
@@ -939,11 +939,11 @@ Designed 2001, doi:10.1128/JCM.39.5.1922-1927.2001
 
 **Out of scope:** 1 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Balclutha incisa flavivirus 1 (3140651) | 0 | 1 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Balclutha incisa flavivirus 1 (3140651) |  | 0 | 0 | 0 | 0% |
 
 
 **Duplication check:** 9489 recent records share 192 distinct footprints (49.4 per footprint), of which 315 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 192 independent observations (one per footprint) the interval around the 35% detected share is 29%-42%, and counting each footprint once, 66 of 192 footprints amplify (34%; interval 28%-41%); each is below the 90% threshold, and the fall from baseline (-17% to -0.7%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
@@ -1593,21 +1593,21 @@ Designed 1997, doi:10.1016/S0168-1702(97)01458-5
 
 **Out of scope:** 473 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| unidentified Reptarenavirus (1654823) | 0 | 210 | 0% |
-| taxid 1672385 | 0 | 15 | 0% |
-| taxid 2447921 | 0 | 12 | 0% |
-| taxid 1382279 | 0 | 12 | 0% |
-| taxid 2447931 | 0 | 9 | 0% |
-| Aurora borealis virus (1672381) | 0 | 9 | 0% |
-| Aurora borealis virus 3 (2447924) | 0 | 9 | 0% |
-| taxid 2116467 | 0 | 9 | 0% |
-| taxid 1303019 | 0 | 9 | 0% |
-| Alethinophid 3 reptarenavirus (1653399) | 0 | 8 | 0% |
-| _+57 more taxa_ | | | |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| taxid 1672385 |  | 0 | 0 | 7 | 0% |
+| taxid 1382279 |  | 0 | 0 | 1 | 0% |
+| unidentified Reptarenavirus (1654823) |  | 0 | 0 | 1 | 0% |
+| taxid 2764090 |  | 0 | 0 | 0 | 0% |
+| Antennavirus trematomi (3426385) |  | 0 | 0 | 0 | 0% |
+| taxid 3138838 |  | 0 | 0 | 0 | 0% |
+| taxid 2447930 |  | 0 | 0 | 0 | 0% |
+| taxid 2461343 |  | 0 | 0 | 0 | 0% |
+| taxid 2848326 |  | 0 | 0 | 0 | 0% |
+| taxid 2447931 |  | 0 | 0 | 0 | 0% |
+| _+57 more taxa_ | | | | | |
 
 
 **Patent records:** 226 excluded (GenBank patent division; drift.exclude_patent_records).
@@ -1669,21 +1669,21 @@ Designed 2010, doi:10.1128/mBio.00208-10
 
 **Out of scope:** 262 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Rodent coronavirus MmONCAN (3687432) | 1 | 2 | 50% |
-| Rodent coronavirus PlONCAN (3687427) | 10 | 23 | 43% |
-| Rodent coronavirus PmONCAN (3687430) | 3 | 19 | 16% |
-| Betacoronavirus (694002) | 0 | 158 | 0% |
-| Alphacoronavirus (693996) | 0 | 42 | 0% |
-| Rodent coronavirus CgONCAN (3687429) | 0 | 6 | 0% |
-| Rodent coronavirus MpONCAN (3687431) | 0 | 4 | 0% |
-| Igacovirus sp. (3049965) | 0 | 2 | 0% |
-| Rodent coronavirus NiONCAN (3687428) | 0 | 2 | 0% |
-| Malhaem virus 1 (3456161) | 0 | 1 | 0% |
-| _+3 more taxa_ | | | |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Rodent coronavirus PlONCAN (3687427) |  | 10 | 10 | 10 | 100% |
+| Rodent coronavirus PmONCAN (3687430) |  | 3 | 3 | 3 | 100% |
+| Rodent coronavirus MmONCAN (3687432) |  | 1 | 1 | 1 | 100% |
+| Malhaem virus 1 (3456161) |  | 0 | 0 | 0 | 0% |
+| Igacovirus sp. (3049965) |  | 0 | 0 | 0 | 0% |
+| Betacoronavirus (694002) |  | 0 | 0 | 0 | 0% |
+| Alphacoronavirus (693996) |  | 0 | 0 | 0 | 0% |
+| Eulipotyphlan coronavirus BbONCAN (3687426) |  | 0 | 0 | 0 | 0% |
+| Rodent coronavirus NiONCAN (3687428) |  | 0 | 0 | 0 | 0% |
+| Rodent coronavirus CgONCAN (3687429) |  | 0 | 0 | 0 | 0% |
+| _+3 more taxa_ | | | | | |
 
 
 **Duplication check:** 1641 recent records share 201 distinct footprints (8.2 per footprint), of which 24 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 201 and 480 independent observations the fall from baseline is -11% to +5%, which no longer excludes zero.
@@ -2198,21 +2198,21 @@ Designed 2004, doi:10.1645/GE-184R1
 
 **Out of scope:** 13071 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Hepatocystis sp. TLG-2012 (1266736) | 74 | 74 | 100% |
-| Plasmodium tupinambi (3448513) | 29 | 29 | 100% |
-| Haemosporida sp. B LB-2015 (1699100) | 27 | 27 | 100% |
-| Plasmodium sp. BM-2016a (1830315) | 24 | 24 | 100% |
-| Plasmodiidae sp. (2605378) | 22 | 22 | 100% |
-| Plasmodium brasilianum (5824) | 12 | 12 | 100% |
-| Haemosporida sp. A LB-2015 (1699099) | 11 | 11 | 100% |
-| Nycteria heischi (1891981) | 10 | 10 | 100% |
-| taxid 31271 | 10 | 10 | 100% |
-| taxid 138297 | 10 | 10 | 100% |
-| _+1970 more taxa_ | | | |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Hepatocystis sp. TLG-2012 (1266736) |  | 74 | 74 | 74 | 100% |
+| Plasmodium floridense (31275) |  | 65 | 65 | 65 | 100% |
+| Hepatocystis sp. AA-2012 (1164881) |  | 56 | 56 | 56 | 100% |
+| Hepatocystis sp. 1 JS-2013 (1410048) |  | 36 | 36 | 36 | 100% |
+| Plasmodium tupinambi (3448513) |  | 29 | 29 | 29 | 100% |
+| Haemosporida sp. B LB-2015 (1699100) |  | 27 | 27 | 27 | 100% |
+| taxid 864142 |  | 24 | 24 | 24 | 100% |
+| Plasmodium sp. BM-2016a (1830315) |  | 24 | 24 | 24 | 100% |
+| unidentified Haemosporida (51530) |  | 23 | 23 | 23 | 100% |
+| Plasmodiidae sp. (2605378) |  | 22 | 22 | 22 | 100% |
+| _+1970 more taxa_ | | | | | |
 
 
 **Duplication check:** 194 recent records share 33 distinct footprints (5.9 per footprint). Both reductions leave the flag in place: with only 33 independent observations (one per footprint) the interval around the 67% detected share is 50%-81%, and counting each footprint once, 20 of 33 footprints amplify (61%; interval 44%-75%); each is below the 90% threshold, and the fall from baseline (-37% to -3%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
@@ -2410,21 +2410,21 @@ Designed 2005, doi:10.1099/vir.0.81128-0
 
 **Out of scope:** 769 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| taxid 2497337 | 6 | 6 | 100% |
-| taxid 195059 | 4 | 4 | 100% |
-| taxid 11307 | 4 | 4 | 100% |
-| Betanucleorhabdovirus taraxi (3427245) | 2 | 2 | 100% |
-| Betanucleorhabdovirus picridis (3427244) | 2 | 2 | 100% |
-| taxid 2950850 | 2 | 2 | 100% |
-| taxid 2950883 | 2 | 2 | 100% |
-| Asparagales alphanucleorhabdovirus 1 (3479778) | 2 | 2 | 100% |
-| taxid 3141832 | 2 | 2 | 100% |
-| taxid 2721273 | 2 | 2 | 100% |
-| _+192 more taxa_ | | | |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Dichorhavirus orchidaceae (152177) |  | 8 | 8 | 8 | 100% |
+| taxid 2497337 |  | 6 | 6 | 6 | 100% |
+| taxid 195059 |  | 4 | 4 | 4 | 100% |
+| taxid 11307 |  | 4 | 4 | 4 | 100% |
+| taxid 3084645 |  | 3 | 3 | 3 | 100% |
+| Betanucleorhabdovirus taraxi (3427245) |  | 2 | 2 | 2 | 100% |
+| Betanucleorhabdovirus picridis (3427244) |  | 2 | 2 | 2 | 100% |
+| taxid 2950850 |  | 2 | 2 | 2 | 100% |
+| taxid 2950883 |  | 2 | 2 | 2 | 100% |
+| Asparagales alphanucleorhabdovirus 1 (3479778) |  | 2 | 2 | 2 | 100% |
+| _+192 more taxa_ | | | | | |
 
 
 **Duplication check:** 1295 recent records share 181 distinct footprints (7.2 per footprint), of which 36 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 181 and 525 independent observations the fall from baseline is -11% to +4%, which no longer excludes zero.
@@ -2722,21 +2722,21 @@ Designed 2010, doi:10.1128/mBio.00208-10
 
 **Out of scope:** 262 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Rodent coronavirus MmONCAN (3687432) | 1 | 2 | 50% |
-| Rodent coronavirus PlONCAN (3687427) | 10 | 23 | 43% |
-| Rodent coronavirus PmONCAN (3687430) | 3 | 19 | 16% |
-| Betacoronavirus (694002) | 0 | 158 | 0% |
-| Alphacoronavirus (693996) | 0 | 42 | 0% |
-| Rodent coronavirus CgONCAN (3687429) | 0 | 6 | 0% |
-| Rodent coronavirus MpONCAN (3687431) | 0 | 4 | 0% |
-| Igacovirus sp. (3049965) | 0 | 2 | 0% |
-| Rodent coronavirus NiONCAN (3687428) | 0 | 2 | 0% |
-| Malhaem virus 1 (3456161) | 0 | 1 | 0% |
-| _+3 more taxa_ | | | |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Rodent coronavirus PlONCAN (3687427) |  | 10 | 10 | 10 | 100% |
+| Rodent coronavirus PmONCAN (3687430) |  | 3 | 3 | 3 | 100% |
+| Rodent coronavirus MmONCAN (3687432) |  | 1 | 1 | 1 | 100% |
+| Malhaem virus 1 (3456161) |  | 0 | 0 | 0 | 0% |
+| Igacovirus sp. (3049965) |  | 0 | 0 | 0 | 0% |
+| Betacoronavirus (694002) |  | 0 | 0 | 0 | 0% |
+| Alphacoronavirus (693996) |  | 0 | 0 | 0 | 0% |
+| Eulipotyphlan coronavirus BbONCAN (3687426) |  | 0 | 0 | 0 | 0% |
+| Rodent coronavirus NiONCAN (3687428) |  | 0 | 0 | 0 | 0% |
+| Rodent coronavirus CgONCAN (3687429) |  | 0 | 0 | 0 | 0% |
+| _+3 more taxa_ | | | | | |
 
 
 **Duplication check:** 1569 recent records share 89 distinct footprints (17.6 per footprint), of which 9 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 89 and 160 independent observations the fall from baseline is -1% to +21%, which no longer excludes zero.
@@ -2803,11 +2803,11 @@ Designed 2001, doi:10.1016/S0168-1702(00)00252-5
 
 **Out of scope:** 1 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| synthetic construct (32630) | 1 | 1 | 100% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| synthetic construct (32630) |  | 1 | 1 | 1 | 100% |
 
 
 **Duplication check:** 331 recent records share 30 distinct footprints (11.0 per footprint). This flag does not hold up: with only 30 independent observations (one per footprint) the interval around the 79% detected share is 62%-90%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
@@ -3201,14 +3201,14 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 
 **Out of scope:** 7 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| synthetic construct (32630) | 0 | 3 | 0% |
-| Mirounga angustirostris polyomavirus 1 (3902555) | 0 | 2 | 0% |
-| Homo sapiens (9606) | 0 | 1 | 0% |
-| Cricetulus griseus (10029) | 0 | 1 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Homo sapiens (9606) |  | 0 | 0 | 0 | 0% |
+| synthetic construct (32630) |  | 0 | 0 | 0 | 0% |
+| Cricetulus griseus (10029) |  | 0 | 0 | 0 | 0% |
+| Mirounga angustirostris polyomavirus 1 (3902555) |  | 0 | 0 | 0 | 0% |
 
 
 **Patent records:** 372 excluded (GenBank patent division; drift.exclude_patent_records).
@@ -3413,14 +3413,14 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 
 **Out of scope:** 7 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| synthetic construct (32630) | 0 | 3 | 0% |
-| Mirounga angustirostris polyomavirus 1 (3902555) | 0 | 2 | 0% |
-| Homo sapiens (9606) | 0 | 1 | 0% |
-| Cricetulus griseus (10029) | 0 | 1 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| synthetic construct (32630) |  | 0 | 0 | 2 | 0% |
+| Mirounga angustirostris polyomavirus 1 (3902555) |  | 0 | 0 | 2 | 0% |
+| Homo sapiens (9606) |  | 0 | 0 | 0 | 0% |
+| Cricetulus griseus (10029) |  | 0 | 0 | 0 | 0% |
 
 
 **Patent records:** 372 excluded (GenBank patent division; drift.exclude_patent_records).
@@ -3497,14 +3497,14 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 
 **Out of scope:** 7 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| synthetic construct (32630) | 0 | 3 | 0% |
-| Mirounga angustirostris polyomavirus 1 (3902555) | 0 | 2 | 0% |
-| Homo sapiens (9606) | 0 | 1 | 0% |
-| Cricetulus griseus (10029) | 0 | 1 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| synthetic construct (32630) |  | 0 | 0 | 2 | 0% |
+| Mirounga angustirostris polyomavirus 1 (3902555) |  | 0 | 0 | 2 | 0% |
+| Homo sapiens (9606) |  | 0 | 0 | 0 | 0% |
+| Cricetulus griseus (10029) |  | 0 | 0 | 0 | 0% |
 
 
 **Patent records:** 372 excluded (GenBank patent division; drift.exclude_patent_records).
@@ -3782,21 +3782,21 @@ Designed 1997, doi:10.1016/S0168-1702(97)01458-5
 
 **Out of scope:** 473 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| unidentified Reptarenavirus (1654823) | 0 | 210 | 0% |
-| taxid 1672385 | 0 | 15 | 0% |
-| taxid 2447921 | 0 | 12 | 0% |
-| taxid 1382279 | 0 | 12 | 0% |
-| taxid 2447931 | 0 | 9 | 0% |
-| Aurora borealis virus (1672381) | 0 | 9 | 0% |
-| Aurora borealis virus 3 (2447924) | 0 | 9 | 0% |
-| taxid 2116467 | 0 | 9 | 0% |
-| taxid 1303019 | 0 | 9 | 0% |
-| Alethinophid 3 reptarenavirus (1653399) | 0 | 8 | 0% |
-| _+57 more taxa_ | | | |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| unidentified Reptarenavirus (1654823) |  | 0 | 0 | 25 | 0% |
+| taxid 1672385 |  | 0 | 0 | 5 | 0% |
+| taxid 2447931 |  | 0 | 0 | 4 | 0% |
+| Aurora borealis virus (1672381) |  | 0 | 0 | 2 | 0% |
+| S5-like reptarenavirus (1938918) |  | 0 | 0 | 2 | 0% |
+| taxid 1223561 |  | 0 | 0 | 2 | 0% |
+| taxid 1223562 |  | 0 | 0 | 2 | 0% |
+| taxid 2461343 |  | 0 | 0 | 1 | 0% |
+| S10-like virus (2301526) |  | 0 | 0 | 1 | 0% |
+| S7-like reptarenavirus (2448019) |  | 0 | 0 | 1 | 0% |
+| _+57 more taxa_ | | | | | |
 
 
 **Patent records:** 226 excluded (GenBank patent division; drift.exclude_patent_records).
@@ -4494,11 +4494,11 @@ Designed 2008, doi:10.1128/JCM.00192-08
 
 **Out of scope:** 73 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Pyeongtaek Microtus paramyxovirus (3412626) | 0 | 73 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Pyeongtaek Microtus paramyxovirus (3412626) |  | 0 | 0 | 0 | 0% |
 
 
 **Duplication check:** 3971 recent records share 150 distinct footprints (26.5 per footprint), of which 42 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 150 independent observations (one per footprint) the interval around the 62% detected share is 54%-69%, and counting each footprint once, 10 of 150 footprints amplify (7%; interval 4%-12%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
@@ -4684,11 +4684,11 @@ Designed 2008, doi:10.1128/JCM.00192-08
 
 **Out of scope:** 73 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Pyeongtaek Microtus paramyxovirus (3412626) | 6 | 73 | 8% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Pyeongtaek Microtus paramyxovirus (3412626) |  | 6 | 6 | 6 | 100% |
 
 
 **Duplication check:** 4278 recent records share 187 distinct footprints (22.9 per footprint), of which 69 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 187 independent observations (one per footprint) the interval around the 72% detected share is 66%-78%, and counting each footprint once, 92 of 187 footprints amplify (49%; interval 42%-56%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
@@ -4888,12 +4888,12 @@ Designed 1996, doi:10.1128/jcm.34.7.1666-1671.1996
 
 **Out of scope:** 2 records excluded (taxid not in scope_taxids).
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts. A row marked `claimed` is a taxon the cited paper says this assay does NOT amplify (`target.exclusivity_taxids`), retrieved on purpose to test that claim; the rest are whatever else was in the archives this assay was screened against, which is a coincidence and not a panel.
 
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Cervid gammaherpesvirus (3683214) | 0 | 1 | 0% |
-| synthetic construct (32630) | 0 | 1 | 0% |
+| off-target taxon | claimed | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|
+| Cervid gammaherpesvirus (3683214) |  | 0 | 0 | 0 | 0% |
+| synthetic construct (32630) |  | 0 | 0 | 0 | 0% |
 
 
 **Duplication check:** 357 recent records share 32 distinct footprints (11.2 per footprint), of which 3 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 32 independent observations (one per footprint) the interval around the 83% detected share is 66%-92%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
@@ -5329,6 +5329,28 @@ an upper bound.
 
 3 further entries declare a `source.nested_round` but have no sibling by id, so their protocol could not be assembled and nothing is reported for them: `BORNA_VIRUS_N_gene_Zimmermann_1994_round2`, `PROBOSCIVIRUS_POL_Latimer_2010_EEHV6_round2`, `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999_round2`. Which entries belong together is a curation question — the Chlamydia nest, for one, runs a genus-level round 1 into three species-specific round 2 entries on three taxids.
 
+## Published exclusivity claims, tested
+
+Each of these assays names, in `target.exclusivity_taxids`, a taxon its own paper says
+it does NOT amplify, and that taxon is retrieved on purpose so the claim can be screened.
+This section exists separately from the per-assay detail above because it must not depend
+on the assay's own status: an assay whose neighbour had to be fetched is usually one with
+too few records of its own to be flagged, and its claim would then be computed and never
+shown.
+
+`evaluable` counts off-target records that yielded a product and so could be judged at
+all; `share` is the fraction of those the assay is predicted to amplify. The whole-archive
+count is larger and would be the wrong denominator -- most records of a neighbour taxon are
+short fragments holding no product for anything, and dividing by them manufactures a
+reassuring number. Like every figure here it is a prediction from sequence: a high share
+disagrees with the paper's own panel and is worth reading that panel for, not a finding
+that the assay cross-reacts in a tube.
+
+| assay | status | claimed taxon | predicted detected | amplified | evaluable | share |
+|---|---|---|---|---|---|---|
+| `BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` | insufficient data | taxid 10258 | 0 | 82 | 85 | 0% |
+| `BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` | insufficient data | taxid 129726 | 0 | 1 | 15 | 0% |
+
 ## Coverage gaps
 
 These assays cannot be validated against sequence data because the sequence data
@@ -5353,25 +5375,10 @@ An assay with no taxid was never searched: that is a registry gap, not a data ga
 
 ## Run timing
 
-Stage times below are the last completed run, 2026-10-26 (30m 20s in all): this run's own stages are still open while its report is being written.
+Run 2026-10-27 finished success after 6m 58s.
 
 | stage | wall time |
 |---|---:|
-| workflow | 30m 20s |
+| workflow | 6m 57s |
 
-124 retrieval groups were screened in this run, 54m 53s of job time in all. The 10 slowest:
-
-| group | archives | wall time | share |
-|---|---:|---:|---:|
-| `10244/all` | 9 | 9m 31s | 17% |
-| `10241/all` | 13 | 5m 10s | 9% |
-| `10242/all` | 9 | 4m 58s | 9% |
-| `77643/q8c2ce9448f` | 1 | 4m 31s | 8% |
-| `1387563/qdb308affab` | 1 | 4m 27s | 8% |
-| `171/q4a36c8adaa` | 6 | 2m 57s | 5% |
-| `77643/qa99de05d40` | 1 | 2m 50s | 5% |
-| `10241/q059a427e43` | 11 | 2m 03s | 4% |
-| `11051/q63c5fca5b3` | 17 | 1m 05s | 2% |
-| `11320/qdf5abd73c1` | 17 | 57s | 2% |
-
-Wall time per archive, summed per group, from Snakemake's `benchmark:` files. On macOS this is the only column that exists - `max_rss` and `cpu_time` read `NA` there - so these are elapsed times, not CPU, and a job that spanned a machine sleep would be inflated by it. Only benchmarks written during this run are counted.
+No screening benchmarks were written during this run, so there is no per-group cost to show: every archive's screen was cached. The figures appear again on a run that rescreens.

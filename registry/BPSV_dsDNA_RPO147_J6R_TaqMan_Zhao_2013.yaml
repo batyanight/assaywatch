@@ -48,49 +48,59 @@ source:
     detection of pseudocowpox or bovine papular stomatitis virus before it, which is why this one is worth holding. Oligos
     read from the paper''s Table 1, parsed out of the Elsevier JATS deposit papers/10.1016_j.jviromet.2013.08.027.xml cell
     by cell rather than from the flattened text, because flattening a table puts each label next to the WRONG sequence. THE
-    PAPER WAS ASSUMED PAYWALLED and is not: docs/journal/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned, so likely
-    paywalled", and scripts/fetch_elsevier.py retrieved the full text with the institutional token on the first try. THE PAPER
-    STATES NO PRODUCT SIZE for any of the four assays, so every amplicon here is measured. Measured 2026-10-24 over the 92
-    Parapoxvirus genomes of 100-200 kb in nuccore (esearch/efetch, txid10257): 64 Orf virus, 11 bovine papular stomatitis
-    virus, 6 pseudocowpox virus and 11 not resolved to species. NAMING: Table 1 and the running text disagree - the table
-    says ORFV_J6R and PAPV_J6R where the text says Orf_J6R and PARV_J6R. The table is the oligo source, so its names are used.
-    THE FOURTH ASSAY OF THIS PANEL, PCPV_J6R, IS NOT ENTERED: its reverse primer is 14 nt, below the schema''s 15 nt primer
-    floor, and that floor guards something real. See docs/RESUME-HERE.md. MEASURED: product 91 bp in all 78 genomes that give
-    one. The probe falls inside the product in 7 bovine papular stomatitis genomes and 1 unresolved one, and in no Orf virus
-    or pseudocowpox genome - the specificity claim confirmed on sequence, and carried by the probe rather than the primers,
-    whose sites are shared across the genus. THIN ON ITS OWN TAXON: only 11 BPSV genomes of 100-200 kb exist in nuccore at
-    all, so nothing here can support a drift verdict yet. CHEMISTRY DETAIL MISSING: Table 1 gives no reporter or quencher
-    for any of the four probes.
-    SCREENED 2026-10-24 with the project''s own scorer over the 92 Parapoxvirus genomes, by species. Against its
-    own retrieval taxon: 11 evaluable, 81.8% detection (9 detect, 2 fail). Thin, as the flag says.
-    AND IT CROSS-REACTS WITH ORF VIRUS UNDER SCORING, WHICH EXACT MATCHING HID. Its probe is an exact match in no
-    Orf virus genome, so an exact-match sweep calls this assay clean. The scorer, which tolerates mismatches,
-    scores 61 of 64 Orf virus genomes `reduced`, 95.3% detection - meaning the pipeline believes this
-    "BPSV-specific" assay would amplify and report Orf virus with a penalty. The paper''s own validation panel
-    shows no cross-reaction in the wet lab, so this is an in-silico disagreement with the publication rather than a
-    correction of it, and it is the kind this registry exists to surface. It does NOT cross-react with
-    pseudocowpox: 5 of 6 fail, 16.7%.
-    status: draft and doi_verified: false on entry; only a maintainer sets active.
-    EXCLUSIVITY TAXIDS ADDED 2026-10-27, the first entry to carry them: Orf virus (10258) and
-    pseudocowpox virus (129726), the two near neighbours this assay is published to distinguish
-    itself from. The paper''s claim, quoted: "The new parapoxvirus generic assay and the three
-    parapoxvirus species-specific assays demonstrated the specificities to the available parapox
-    DNA respectively, and did not cross-react with other available high GC poxvirus DNA (sealpox
-    virus, molluscum contagiosum virus, or orthopoxvirus nucleic acid) (Table 2)." Sealpox,
-    molluscum contagiosum and the orthopoxviruses are part of that claim and are NOT listed,
-    because Table 2 tests them as "other high GC poxvirus" controls rather than as the
-    differentiation the assay is for, and because the same clause covers all four assays of the
-    panel; the two parapoxvirus neighbours are what this entry has to separate itself from, and
-    they are what the 2026-10-24 hand screen already found a disagreement on. Listing them makes
-    that screen part of the pipeline rather than a note: the two taxa are now retrieved on this
-    assay''s own query, screened every run, and reported in the predicted cross-reactivity table
-    marked `claimed`.'
+    PAPER WAS ASSUMED PAYWALLED and is not: docs/journal/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned,
+    so likely paywalled", and scripts/fetch_elsevier.py retrieved the full text with the institutional token on the first
+    try. THE PAPER STATES NO PRODUCT SIZE for any of the four assays, so every amplicon here is measured. Measured 2026-10-24
+    over the 92 Parapoxvirus genomes of 100-200 kb in nuccore (esearch/efetch, txid10257): 64 Orf virus, 11 bovine papular
+    stomatitis virus, 6 pseudocowpox virus and 11 not resolved to species. NAMING: Table 1 and the running text disagree -
+    the table says ORFV_J6R and PAPV_J6R where the text says Orf_J6R and PARV_J6R. The table is the oligo source, so its names
+    are used. THE FOURTH ASSAY OF THIS PANEL, PCPV_J6R, IS NOT ENTERED: its reverse primer is 14 nt, below the schema''s 15
+    nt primer floor, and that floor guards something real. See docs/RESUME-HERE.md. MEASURED: product 91 bp in all 78 genomes
+    that give one. The probe falls inside the product in 7 bovine papular stomatitis genomes and 1 unresolved one, and in
+    no Orf virus or pseudocowpox genome - the specificity claim confirmed on sequence, and carried by the probe rather than
+    the primers, whose sites are shared across the genus. THIN ON ITS OWN TAXON: only 11 BPSV genomes of 100-200 kb exist
+    in nuccore at all, so nothing here can support a drift verdict yet. CHEMISTRY DETAIL MISSING: Table 1 gives no reporter
+    or quencher for any of the four probes. SCREENED 2026-10-24 with the project''s own scorer over the 92 Parapoxvirus genomes,
+    by species. Against its own retrieval taxon: 11 evaluable, 81.8% detection (9 detect, 2 fail). Thin, as the flag says.
+    AND IT CROSS-REACTS WITH ORF VIRUS UNDER SCORING, WHICH EXACT MATCHING HID. Its probe is an exact match in no Orf virus
+    genome, so an exact-match sweep calls this assay clean. The scorer, which tolerates mismatches, scores 61 of 64 Orf virus
+    genomes `reduced`, 95.3% detection - meaning the pipeline believes this "BPSV-specific" assay would amplify and report
+    Orf virus with a penalty. The paper''s own validation panel shows no cross-reaction in the wet lab, so this is an in-silico
+    disagreement with the publication rather than a correction of it, and it is the kind this registry exists to surface.
+    It does NOT cross-react with pseudocowpox: 5 of 6 fail, 16.7%. status: draft and doi_verified: false on entry; only a
+    maintainer sets active. EXCLUSIVITY TAXIDS ADDED 2026-10-27, the first entry to carry them: Orf virus (10258) and pseudocowpox
+    virus (129726), the two near neighbours this assay is published to distinguish itself from. The paper''s claim, quoted:
+    "The new parapoxvirus generic assay and the three parapoxvirus species-specific assays demonstrated the specificities
+    to the available parapox DNA respectively, and did not cross-react with other available high GC poxvirus DNA (sealpox
+    virus, molluscum contagiosum virus, or orthopoxvirus nucleic acid) (Table 2)." Sealpox, molluscum contagiosum and the
+    orthopoxviruses are part of that claim and are NOT listed, because Table 2 tests them as "other high GC poxvirus" controls
+    rather than as the differentiation the assay is for, and because the same clause covers all four assays of the panel;
+    the two parapoxvirus neighbours are what this entry has to separate itself from, and they are what the 2026-10-24 hand
+    screen already found a disagreement on. Listing them makes that screen part of the pipeline rather than a note: the two
+    taxa are now retrieved on this assay''s own query, screened every run, and reported in the predicted cross-reactivity
+    table marked `claimed`.
+
+
+    RECONCILED 2026-10-28 WITH THE SHIPPED PROBE RULE, and the disagreement with Zhao''s panel dissolves. The 2026-10-24 hand
+    screen over 92 complete Parapoxvirus genomes is still right about what it measured -- the amplicon forms -- but it counted
+    `reduced` as a detection, which for a hydrolysis probe reports the primers and says nothing about the reporter. Since
+    `drift.reduced_not_detected_for: [hydrolysis_probe, mgb]` shipped, the pipeline reads the same records as NOT detected.
+    Measured on the 2026-10-27 run, now that exclusivity_taxids fetches both neighbours: orf virus 2,498 records screened,
+    85 evaluable, 82 `reduced` and 3 `fail`, 0 detected; pseudocowpox 178 screened, 15 evaluable, 1 `reduced` and 14 `fail`,
+    0 detected; and BPSV''s own target 128 screened, 20 evaluable, 20 `detect`. So the primers ARE genus-specific and the
+    probe is what separates the species -- which is what Zhao et al. say in their own discussion: "the specificity of the
+    probe plays a major role for the differentiation ... the primers used in these assays may not be species-specific but
+    are genus-specific". The `cross_reactive` flag STAYS, because a product forming in 82 of 85 orf virus records is a real
+    property of this assay and would be a band on a gel; what changes is that it is no longer a disagreement with the publication.
+    See docs/journal/2026-10-28-bpsv-exclusivity-reconciled.md.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 91 bp measured in all 78 genomes that give a product
 - flag: thin_evidence
   note: only 11 bovine papular stomatitis genomes of 100-200 kb exist in nuccore
 - flag: cross_reactive
-  note: screened, 61 of 64 Orf virus genomes score reduced (95.3% detection), which exact matching did not show
+  note: the amplicon forms in 82 of 85 evaluable orf virus records (2026-10-27 run), which a gel would show as a band; the
+    assay is predicted to DETECT none of them, because a mismatched hydrolysis probe is not a detection. Not a disagreement
+    with Zhao's panel -- see notes_curator
 - flag: chemistry_detail_missing
   note: Table 1 names no reporter or quencher for the probe

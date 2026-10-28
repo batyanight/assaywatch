@@ -32,7 +32,7 @@ import html
 import json
 import sys
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -54,8 +54,8 @@ from assaywatch.calls import read_calls as read_calls
 from assaywatch.calls import read_dates as read_dates
 from assaywatch.calls import read_years as read_years
 from assaywatch.degeneracy import assay_degeneracy
-from assaywatch.drift import STATUS_ORDER as DRIFT_STATUS_ORDER
 from assaywatch.drift import (
+    EVALUABLE,
     AssayDrift,
     assess,
     by_status,
@@ -63,6 +63,7 @@ from assaywatch.drift import (
     pct,
     reduced_not_detected_ids,
 )
+from assaywatch.drift import STATUS_ORDER as DRIFT_STATUS_ORDER
 from assaywatch.hierarchical import describe as describe_hierarchical
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
@@ -721,7 +722,7 @@ class DetailRow:
     # (label, predicted-detected, screened, share) per off-target taxon, worst
     # first: the EXCLUSIVITY arm. Empty when the assay declares no scope_taxids
     # or no out-of-scope record was screened.
-    exclusivity: list[tuple[str, int, int, float, bool]]
+    exclusivity: list[tuple[str, int, int, int, float, bool]]
     patent_excluded: int
     clustering_note: str
     unevaluable: dict[str, int]
@@ -737,6 +738,10 @@ class DetailRow:
     # failed the credibility bar, or nothing was found at all.
     no_site_with_anchor: int
     no_site_without_anchor: int
+    #: The assay's own verdict, carried so a section that does not depend on status
+    #: can still print it. Defaulted, because every caller before 2026-10-28 built
+    #: this row for a flagged assay whose status the section it sat in already said.
+    status: str = ""
 
 
 @dataclass(frozen=True)
@@ -815,10 +820,66 @@ class ReportModel:
     nested_threshold: float
     gaps: list[GapRow]
     timing: list[str]
+    #: One row per assay with `target.exclusivity_taxids`, FLAGGED OR NOT. The
+    #: cross-reactivity table lives inside the flagged-assay detail section, so an
+    #: assay whose neighbours were retrieved on purpose showed nothing at all when
+    #: its own coverage was too thin to flag -- which is the usual case for an assay
+    #: you had to fetch a neighbour for. Defaulted, so a model built in a test
+    #: without claims still renders.
+    claims: list[DetailRow] = field(default_factory=list)
     # Read from `lineage.multiple_testing` so both renderers name the correction
     # the run actually applied. Defaulted, so a ReportModel built in a test
     # without a config still renders.
     lineage_adjustment: str = "Holm"
+
+
+def exclusivity_section(claims: list[DetailRow]) -> list[str]:
+    """What each published exclusivity claim looks like against the archive.
+
+    The predicted-cross-reactivity table inside a flagged assay's detail block only
+    exists for a flagged assay, so BPSV -- the first entry to declare
+    `target.exclusivity_taxids`, whose two neighbour archives were retrieved for
+    exactly this -- showed nothing in the 2026-10-27 report: 2,692 off-target calls
+    computed and invisible, because 9 evaluable records of its own is `insufficient
+    data`. An assay you had to fetch a neighbour for is usually an assay too thin to
+    flag, so the claim needs a section that does not depend on status.
+
+    Claimed rows only. Whatever else happened to be in the archives is a coincidence
+    and already appears, where it appears at all, in the detail block.
+    """
+    rows = [(d, [r for r in d.exclusivity if r[5]]) for d in claims]
+    rows = [(d, rs) for d, rs in rows if rs]
+    if not rows:
+        return []
+    out = [
+        "## Published exclusivity claims, tested",
+        "",
+        "Each of these assays names, in `target.exclusivity_taxids`, a taxon its own paper says",
+        "it does NOT amplify, and that taxon is retrieved on purpose so the claim can be screened.",
+        "This section exists separately from the per-assay detail above because it must not depend",
+        "on the assay's own status: an assay whose neighbour had to be fetched is usually one with",
+        "too few records of its own to be flagged, and its claim would then be computed and never",
+        "shown.",
+        "",
+        "`evaluable` counts off-target records that yielded a product and so could be judged at",
+        "all; `share` is the fraction of those the assay is predicted to amplify. The whole-archive",
+        "count is larger and would be the wrong denominator -- most records of a neighbour taxon are",
+        "short fragments holding no product for anything, and dividing by them manufactures a",
+        "reassuring number. Like every figure here it is a prediction from sequence: a high share",
+        "disagrees with the paper's own panel and is worth reading that panel for, not a finding",
+        "that the assay cross-reacts in a tube.",
+        "",
+        "| assay | status | claimed taxon | predicted detected | amplified | evaluable | share |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for d, rs in rows:
+        for label, det, amp, n, share, _ in rs:
+            out.append(
+                f"| `{md(d.assay_id)}` | {md(d.status)} | {md(label)} | {det:,} | {amp:,} "
+                f"| {n:,} | {pct(share)} |"
+            )
+    out.append("")
+    return out
 
 
 def _terminated(fragment: str) -> str:
@@ -1027,8 +1088,8 @@ def _status_row(a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[s
 
 def exclusivity_rows(
     a: AssayDrift, taxonomy: Taxonomy | None = None, claimed: set[int] | None = None
-) -> list[tuple[str, int, int, float, bool]]:
-    """(taxon, predicted-detected, screened, share, claimed) per off-target taxon.
+) -> list[tuple[str, int, int, int, float, bool]]:
+    """(taxon, detected, amplified, evaluable, share, claimed) per off-target taxon.
 
     The INCLUSIVITY arm asks whether an assay still detects its target. This is
     the other half: of the records screened and then dropped as out of scope,
@@ -1041,6 +1102,9 @@ def exclusivity_rows(
     `detect` or `reduced` is the signal, and it needs no separate probe gate: a
     primer pair with no probe site between it is already scored `fail`
     (`score._call_rank`), so a detection on a probe assay implies the probe bound.
+
+    `screened` in the returned tuple is the EVALUABLE count -- off-target records that
+    yielded a product and so could be judged -- not every record screened.
 
     `claimed` is `target.exclusivity_taxids`: the taxa the paper says the assay
     does not amplify, which are retrieved on purpose. Those rows sort first and
@@ -1057,14 +1121,32 @@ def exclusivity_rows(
     claimed = claimed or set()
     rows: list[tuple[str, int, int, float, bool]] = []
     for taxid, calls in (a.out_of_scope_calls or {}).items():
+        # THE DENOMINATOR IS EVALUABLE RECORDS, not everything screened, for the same
+        # reason the inclusivity arm's is: a `no_amplicon` or `no_site` record is one
+        # that does not contain the locus, which says nothing about whether the assay
+        # would amplify this taxon. Dividing by everything screened read BPSV's claim
+        # as "0 of 2,498 orf virus records" on the 2026-10-28 render, where 2,484 of
+        # those records are short fragments that hold no product for anything -- a
+        # reassuring number assembled from the wrong rows. The `screened` column stays,
+        # so the gap between the two is visible.
+        evaluable = sum(n for call, n in calls.items() if call in EVALUABLE)
         screened = sum(calls.values())
         if not screened:
             continue
         detected = sum(n for call, n in calls.items() if call in a.detected_calls)
+        # AMPLIFIED IS A SECOND, DIFFERENT ANSWER and it has to be printed beside the
+        # first. For a probe assay `reduced` is not a detection
+        # (`drift.reduced_not_detected_for`), so an assay whose probe is mismatched on
+        # every neighbour record reads 0% detected -- while a product still forms, and
+        # on a gel you would see a band. BPSV on orf virus is exactly that: 0 of 85
+        # evaluable detected, 82 of 85 amplified. Printing only the first would make a
+        # published exclusivity claim look confirmed by the number that says least.
+        amplified = sum(n for call, n in calls.items() if call in ("detect", "reduced"))
         name = (taxonomy.name.get(taxid) if taxonomy else None) or f"taxid {taxid}"
         label = f"{name} ({taxid})" if name != f"taxid {taxid}" else name
-        rows.append((label, detected, screened, detected / screened, taxid in claimed))
-    rows.sort(key=lambda r: (not r[4], -r[3], -r[2]))
+        share = detected / evaluable if evaluable else 0.0
+        rows.append((label, detected, amplified, evaluable, share, taxid in claimed))
+    rows.sort(key=lambda r: (not r[5], -r[4], -r[3]))
     return rows
 
 
@@ -1089,6 +1171,7 @@ def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> Detai
         species=species,
         out_of_scope=a.out_of_scope,
         exclusivity=exclusivity_rows(a, taxonomy, claimed),
+        status=a.status,
         patent_excluded=a.patent_excluded,
         clustering_note=a.clustering_note,
         unevaluable=a.unevaluable(),
@@ -1197,6 +1280,11 @@ def build_model(
         held_out=held_out,
         duplication=duplication_summary(flagged),
         details=[_detail_row(a, assays, cfg, taxonomy) for a in flagged],
+        claims=[
+            _detail_row(a, assays, cfg, taxonomy)
+            for a in drifts.values()
+            if (assays.get(a.assay_id) and assays[a.assay_id].target.exclusivity_taxids)
+        ],
         nested_rows=[
             _nested_row(f, frozenset(aid for aid, _ in held.values()))
             for f in sorted(have, key=nested_sort_key)
@@ -1485,14 +1573,14 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                         "claim; the rest are whatever else was in the archives this assay "
                         "was screened against, which is a coincidence and not a panel.",
                         "",
-                        "| off-target taxon | claimed | predicted detected | screened | share |",
-                        "|---|---|---|---|---|",
+                        "| off-target taxon | claimed | predicted detected | amplified | evaluable | share |",
+                        "|---|---|---|---|---|---|",
                     ]
-                    for label, det, n, share, claimed in d.exclusivity[:MAX_EXCLUSIVITY_ROWS]:
+                    for label, det, amp, n, share, claimed in d.exclusivity[:MAX_EXCLUSIVITY_ROWS]:
                         mark = "claimed" if claimed else ""
-                        out.append(f"| {md(label)} | {mark} | {det:,} | {n:,} | {pct(share)} |")
+                        out.append(f"| {md(label)} | {mark} | {det:,} | {amp:,} | {n:,} | {pct(share)} |")
                     if len(d.exclusivity) > MAX_EXCLUSIVITY_ROWS:
-                        out.append(f"| _+{len(d.exclusivity) - MAX_EXCLUSIVITY_ROWS} more taxa_ | | | | |")
+                        out.append(f"| _+{len(d.exclusivity) - MAX_EXCLUSIVITY_ROWS} more taxa_ | | | | | |")
                     out.append("")
             if d.patent_excluded:
                 out += [
@@ -1576,6 +1664,8 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
         out += nested_section(
             {f.family: f for f in m.nested_families}, assays, m.nested_threshold, m.nested_rows
         )
+
+    out += exclusivity_section(m.claims)
 
     out += ["## Coverage gaps", ""]
     if not m.gaps:

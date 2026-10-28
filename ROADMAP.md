@@ -27,18 +27,19 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
-- **Five values have to be DELETED, which `extract_conditions.py` cannot do** (it adds
-  and fixes). Each came from the wrong assay in a multi-assay paper and is listed with
-  its reason in `docs/journal/2026-10-27-conditions-curator-pass.md`:
-  `CMV_UL55_gB_Deckers_2009.conditions.mg_mm`, the three
-  `ORTHOBORNAVIRUS_XP_*_Sigrist_2021.conditions.mg_mm`, and
-  `LEPTOSPIROSIS_Flagillar_filiment_Prote.conditions.annealing_c`.
-- **The seven PDFs** on the Desktop list (`assaywatch-pdfs-needed-2026-10-27.md`), which
-  gate held-out set 2, the C2 corpus and the Hel1 re-citation.
-
-- **The two Priority 1 decisions of 2026-10-27 are taken** and are recorded in
-  `## Done`: the Leetz case opened a new held-out set, and TNTBLAST waits until
-  someone installs Rosetta 2, builds it for arm64, or runs it on the cluster.
+- **One proposed tier-2 row needs a works/fails verdict**: Quackenbush 1998 on
+  `Pan_HERPES_dsDNA_Polymerase_round2`, written into
+  `docs/validation-cases-heldout-2.tsv` marked PROPOSED on 2026-10-28 and read as
+  `works` — the nest sequenced a ~250 bp product from five green turtle fibropapillomas
+  that is 53% identical to its nearest relatives. The arguable part is stated in the
+  file: the same paper reports tumour-free skin and two olive ridley turtles as PCR
+  negative, which is a true negative and not a failure.
+- **Whether any entry becomes `active`.** `CALICIVIRUS_ssRNA_Helicase_Reid_1999` lost its
+  only OPEN flag on 2026-10-28 (`oligo_sequence_uncertain` → `oligos_modified`), so it is
+  now eligible on the schema's terms; `thin_evidence` and 16 amplifying records of
+  152,379 are the reason not to. Nothing else changed status.
+- **Everything the fetch list was waiting for is in** (2026-10-28), and the two Priority 1
+  decisions of 2026-10-27 are taken and recorded in `## Done`.
 
 ## Shipped today, and what it still owes
 
@@ -135,12 +136,20 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Operations
 
-- **The report shows no cross-reactivity table for an unflagged assay**, so BPSV's 2,692
-  off-target calls — the whole point of retrieving its two neighbours — are computed and
-  invisible, because that table lives inside the flagged-assay detail section. What it
-  needs is a section of its own listing every entry with `target.exclusivity_taxids`,
-  claimed rows first, independent of status. Started 2026-10-27 and reverted rather than
-  left half-built.
+- **A one-word note edit in `registry/` rescreens every archive**, because the screen
+  signature hashes the whole directory's bytes rather than each entry's. Measured
+  2026-10-28: changing one review flag, deleting five `mg_mm` values and adding three
+  provenance notes — no sequence, no query, no threshold — made `snakemake` plan **357
+  screen jobs**, a full pass over 2.7M rows for a calls table that cannot change. The run
+  was stopped and the report rendered from the existing calls table instead; Sunday's
+  scheduled run is the confirming rescreen.
+
+  The fix is a per-entry signature: hash each assay's own YAML into the job that screens
+  the archives it appears in, so an edit to one entry rescreens one entry's groups. That
+  is also what would make curation cheap — the conditions and exclusivity work ahead of
+  this is hundreds of note edits, and today each one of them costs a full rescreen.
+  Worth doing before that curation, not after.
+
 
 - **The weekly re-screen is installed on this machine only** (2026-10-27, live,
   Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
@@ -190,6 +199,18 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   under the scoring test plan above, and `locus_identity_min` must stay null.
 
 ## Method debts
+
+- **A clinical validation and this pipeline disagree about the monkeypox G2R generic
+  assay, and it is now a held-out measurement rather than a worry** (2026-10-28). Mills
+  2022 validated `MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010` on 2022 outbreak clinical
+  specimens across many sample types; the shipped config calls it `declining`. It is the
+  one false alarm among held-out set 2's three rows. Two candidate explanations, and
+  telling them apart is the work: the denominator problem already recorded here — 2022
+  outbreak genomes are a small recent slice of a large archive, so a sequence-based share
+  can fall while the assay works on what is circulating — or a real miss. The first is
+  testable with no new data: compare the assay's detected share on 2022-and-later records
+  alone against its windowed share. **Nothing may be tuned on this row**; it is held-out
+  data and the file's rule stands.
 
 - **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
   the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
@@ -243,9 +264,21 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   antibodies, or about "unrelated agents", and the 17 assays whose reports already show
   out-of-scope records are showing WITHIN-family taxa and synthetic constructs, which no
   paper claimed to exclude. What is usable is the species-specific assays, where the
-  paper names the neighbour it must be told apart from. Three sets are seeded; the rest
-  of that reading is open, and the retrieval cost is the thing to weigh — each named
-  taxon is a new archive.
+  paper names the neighbour it must be told apart from. One set is seeded (BPSV) and the
+  retrieval cost is the thing to weigh — each named taxon is a new archive — but **two
+  more are read and ready to add** (2026-10-28), both cheap:
+
+  - **The Huo 2022 mpox panel**: "All three new MPXV generic and specific assays did not
+    cross-react with variola, cowpox, camelpox, taterapox, ectramelia, vaccinia and
+    Raccoonpox virus DNA." Taxids looked up live: 10255, 10243, 28873, 28871, 12643,
+    10245, 10256 — **3,772 records in total**, against 1.6M already on disk. They belong
+    on the two F3L MPXV entries and NOT on the non-MPXV orthopox entry, whose targets
+    they are. The B.1 SNP probes' claim is lineage-level inside MPXV, which
+    `exclusivity_taxids` cannot express.
+  - **The rest of Zhao 2013**: orf virus (10258) and pseudocowpox (129726) for the ORFV
+    entry, and molluscum contagiosum (10279) with seal parapoxvirus (187984) for the
+    generic PAPV entry, which is what that paper's "other available high GC poxvirus
+    DNA" clause names.
 
 ## Validation, which sets every threshold above
 
@@ -259,21 +292,27 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   statuses read as "worth looking at", not as measurements. It is also the
   paper's main figure.
 
-  **The binding constraint is identity, not discovery**, and it is measured:
-  `scripts/check_candidate_identity.py` ran over all 9 `mismatch`/`redesign`
-  rows — the queue's concentrated signal — and open-access text settles none of
-  them (`results/retro-identity-concentrated-2026-10-26.tsv`). Re-run with the
-  PDFs that have arrived since, 2026-10-27: **1 CONFIRMED, 1 VARIANT, 11
-  UNCONFIRMABLE**, of which 6 wait on a PDF, 1 on a persistent Europe PMC HTTP
-  500 (PMC2546769), and 4 are closed on CONTENT — the paper simply does not
-  print our oligos, so no document will settle them. The one CONFIRMED row
-  opened `docs/validation-cases-heldout-2.tsv` on 2026-10-27.
+  **The binding constraint was identity, and with every PDF in it is now CONTENT.**
+  `scripts/check_candidate_identity.py` over the `mismatch`/`redesign` rows read 1
+  CONFIRMED / 1 VARIANT / 11 UNCONFIRMABLE on 2026-10-27, with 6 of those waiting on a
+  PDF. All six arrived 2026-10-28 and the queue now reads **2 CONFIRMED, 1 VARIANT, 10
+  UNCONFIRMABLE** (`results/retro-identity-2026-10-28.tsv`) — and **not one of the newly
+  readable papers prints our oligos**. Tsukamoto 2008 prints 29 and Csordas 2004 prints
+  12, none ours; the second CONFIRMED (Süß 2009 on the Salmonella invA pair) is a
+  synthetic-template mismatch study and not a case at all. So this queue is spent: no
+  document will settle the remaining rows, and the next tier-2 rows have to come from a
+  different search rather than from more fetching.
 
-  The next rows therefore need the 6 queued PDFs, not more searching. The
-  identity script prefers a local file, so a PDF dropped into `papers/` is
-  picked up on re-run — and a file being present is not the same as being
-  readable: the Neill & Seal copy on disk yields no sequence at all
-  (`papers/papers-fetch-list.md`).
+  **Where they will come from instead.** Quackenbush 1998 was in the batch as a
+  *completeness* paper and turned out to be a tier-2 candidate — it uses the pan-herpes
+  nest and reports what it found. That is the pattern worth exploiting: the citing-paper
+  graph was searched for phrases about FAILURE, and a paper that simply USES a registry
+  assay and reports a result is just as scoreable. `scripts/find_retrospective_cases.py`
+  could be re-run for use-and-report language, which is a cheap change to a script and
+  the only lead left that does not need new PDFs.
+
+  **Set 2 is partially spent**: 3 rows, all read 2026-10-28, 1 agrees / 1 weaker / 1
+  false alarm. See the held-out item under Data and curation.
 
 ## Data and curation
 
@@ -489,6 +528,20 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **A published exclusivity claim is visible, and the first one tested reconciles two
+      numbers this registry carried in contradiction** (2026-10-28,
+      `docs/journal/2026-10-28-bpsv-exclusivity-reconciled.md`). The report has a
+      status-independent `## Published exclusivity claims, tested` section, because the
+      cross-reactivity table lived inside the flagged-assay detail block and BPSV is
+      `insufficient data` — so its 2,692 off-target calls were computed and invisible, which
+      is the usual case for an assay whose neighbour had to be fetched. Two fixes made it
+      worth printing: the denominator is EVALUABLE off-target records, not everything
+      screened (the orf virus claim read "0 of 2,498" where 2,413 of those records hold no
+      product for anything), and `amplified` prints beside `detected`, because a mismatched
+      hydrolysis probe is not a detection and the assay forms a product in 82 of 85
+      evaluable orf virus records while detecting none of them. The 2026-10-24 hand screen
+      and Zhao's panel were never in conflict: the primers are genus-specific and the probe
+      separates the species, which is what the paper says.
 - [x] **A reader's pass over the 64 papers the automatic one refused** (2026-10-27,
       `docs/journal/2026-10-27-conditions-curator-pass.md`). 236 values read by hand with
       the sentence each came from, and **twelve values an earlier pass had written

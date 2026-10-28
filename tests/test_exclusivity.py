@@ -106,5 +106,36 @@ def test_a_claimed_row_sorts_first_and_is_marked():
         }
 
     rows = exclusivity_rows(FakeDrift(), None, {ORF_VIRUS})
-    assert [r[4] for r in rows] == [True, False]
+    assert [r[5] for r in rows] == [True, False]
     assert rows[0][0] == "taxid 10258" and rows[0][1] == 61
+    # (label, detected, amplified, evaluable, share, claimed): detected and amplified
+    # are the same here because this fixture's detected_calls include `reduced`.
+    assert rows[0][1:4] == (61, 61, 64)
+
+
+def test_a_probe_assay_that_amplifies_a_neighbour_reads_zero_detected_and_says_so():
+    """BPSV on orf virus, with the real 2026-10-27 numbers.
+
+    `drift.reduced_not_detected_for` means a mismatched hydrolysis probe is not a
+    detection, so an assay whose probe is degraded on every one of a neighbour's
+    records reads 0% DETECTED -- while a product still forms in 82 of 85, which on a
+    gel is a band. The 2026-10-24 hand screen of this entry reported the same records
+    as "95.3% detection" because it predates that switch. Both numbers are true of
+    different questions, so the table prints both; printing only the first would make
+    a published exclusivity claim look confirmed by the number that says least.
+    """
+
+    class FakeDrift:
+        detected_calls = ("detect",)  # a hydrolysis probe: `reduced` is not detection
+        out_of_scope_calls = {
+            ORF_VIRUS: {"reduced": 82, "fail": 3, "no_amplicon": 2413},
+            PSEUDOCOWPOX: {"reduced": 1, "fail": 14, "no_amplicon": 163},
+        }
+
+    rows = {r[0]: r for r in exclusivity_rows(FakeDrift(), None, {ORF_VIRUS, PSEUDOCOWPOX})}
+    label, detected, amplified, evaluable, share, claimed = rows["taxid 10258"]
+    assert (detected, amplified, evaluable) == (0, 82, 85)
+    assert share == 0.0 and claimed
+    # And the 2,413 records with no product are NOT in the denominator: dividing by
+    # them would read 0 of 2,498, a reassuring number assembled from the wrong rows.
+    assert evaluable == 85

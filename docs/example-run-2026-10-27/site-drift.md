@@ -969,7 +969,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## Pan_flavivirus_NS5_3_round2
 
-Orthoflavivirus (formerly Flavivirus) (taxid 11051) — status **declining** — 33,608 evaluable of 61,179 screened records
+Orthoflavivirus (formerly Flavivirus) (taxid 3044782) — status **declining** — 33,608 evaluable of 61,179 screened records
 
 - forward: `5'-AARGGHAGYMCDGCHATHTGGT-3'` (22 nt)
 - reverse: `5'-GTGTCCCAGCCGGCGGTGTCATCAGC-3'` (26 nt)
@@ -1250,7 +1250,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## Pan_flavivirus_NS5_3_round1
 
-Orthoflavivirus (formerly Flavivirus) (taxid 11051) — status **declining** — 33,496 evaluable of 61,179 screened records
+Orthoflavivirus (formerly Flavivirus) (taxid 3044782) — status **declining** — 33,496 evaluable of 61,179 screened records
 
 - forward: `5'-AACATGATGGGRAARAGRGARAA-3'` (23 nt)
 - reverse: `5'-GTGTCCCAGCCGGCGGTGTCATCAGC-3'` (26 nt)
@@ -1881,7 +1881,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## CDV_N_gene_Elia_2006
 
-Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **declining** — 664 evaluable of 4,013 screened records
+Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342) — status **declining** — 664 evaluable of 4,013 screened records
 
 - forward: `5'-AGCTAGTTTCATCTTAACTATCAAATT-3'` (27 nt)
 - reverse: `5'-TTAACTCTCCAGAAAACTCATGC-3'` (23 nt)
@@ -2344,7 +2344,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## CDV_H_gene_Mueller_2011_1
 
-Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **declining** — 512 evaluable of 4,013 screened records
+Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342) — status **declining** — 512 evaluable of 4,013 screened records
 
 - forward: `5'-GGGCTCAGGTAGTCCARCAA-3'` (20 nt)
 - reverse: `5'-CCTCCGGAGAGTGCTGATAA-3'` (20 nt)
@@ -2690,7 +2690,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## CDV_P_gene_Scagliarini_2007
 
-Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **declining** — 604 evaluable of 4,013 screened records
+Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342) — status **declining** — 604 evaluable of 4,013 screened records
 
 - forward: `5'-GTCGGTAATCGAGGATTCGAGAG-3'` (23 nt)
 - reverse: `5'-GCCGAAAGAATATCCCCAGTTAG-3'` (23 nt)
@@ -2890,7 +2890,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## Pan_HERPES_dsDNA_Terminase_round2
 
-Orthoherpesviridae (formerly Herpesviridae) (taxid 10292) — status **declining** — 3,122 evaluable of 3,811 screened records
+Orthoherpesviridae (formerly Herpesviridae) (taxid 3044472) — status **declining** — 3,122 evaluable of 3,811 screened records
 
 - forward: `5'-GCAAGATCATNTTYRTITCITC-3'` (22 nt)
 - reverse: `5'-TGTTGGTCGTRWAIGCIGGRT-3'` (21 nt)
@@ -2980,7 +2980,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## Pan_HERPES_dsDNA_Polymerase_round2
 
-Orthoherpesviridae (formerly Herpesviridae) (taxid 10292) — status **low coverage** — 3,671 evaluable of 7,713 screened records
+Orthoherpesviridae (formerly Herpesviridae) (taxid 3044472) — status **low coverage** — 3,671 evaluable of 7,713 screened records
 
 - forward: `5'-TGTAACTCGGTGTAYGGNTTYACNGGNGT-3'` (29 nt)
 - reverse: `5'-CACAGAGTCCGTRTCNCCRTADAT-3'` (24 nt)
@@ -3220,7 +3220,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## CDV_H_gene_Mueller_2011_2
 
-Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **watch** — 1,959 evaluable of 4,013 screened records
+Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342) — status **watch** — 1,959 evaluable of 4,013 screened records
 
 - forward: `5'-GCGATACAATTGGGATCAGA-3'` (20 nt)
 - reverse: `5'-TGGGTGAGCAACAGGTATCA-3'` (20 nt)
