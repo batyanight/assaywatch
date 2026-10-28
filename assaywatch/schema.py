@@ -422,6 +422,105 @@ class Source(Strict):
     notes_curator: str | None = None
 
 
+class RTFormat(StrEnum):
+    """Where reverse transcription happens, for an RNA target."""
+
+    one_step = "one_step"  # RT and PCR in one tube, one program
+    two_step = "two_step"  # cDNA synthesised separately, then amplified
+    none = "none"  # DNA target, or the paper amplifies cDNA it did not make
+
+
+class Conditions(Strict):
+    """The thermal protocol, as the paper prints it. Nothing here is screened.
+
+    THIS BLOCK EXISTS BECAUSE `thermo: false` CANNOT BE LIFTED WITHOUT IT. A ΔTm of
+    −6 °C is irrelevant at an annealing temperature of 50 °C and fatal at 62, and
+    until 2026-10-27 the schema could not say which an assay used, so a
+    thermodynamic call would have been made at a temperature the registry invented.
+    The nearest-neighbour model `thermo.duplex_tm` runs needs exactly what is here:
+    a temperature to compare a Tm against, the monovalent and divalent salt, and
+    the oligo concentration. Those are its inputs, not decoration.
+
+    Every field is optional and most entries will carry none, which is the honest
+    state: a published assay often prints "standard cycling conditions" and nothing
+    else. An entry whose paper prints no protocol at all takes the
+    `conditions_not_printed` review flag, so "we did not read it" and "the paper
+    does not say" stay different answers. Values are READ FROM THE PAPER and quoted
+    in the curator note, never inferred from the chemistry or from what is usual.
+    """
+
+    # The annealing temperature, or for a two-temperature protocol the combined
+    # anneal/extend step -- which one is in the note, because they are not the
+    # same thing and a Tm comparison needs to know.
+    annealing_c: float | None = Field(default=None, ge=20, le=80)
+    annealing_seconds: int | None = Field(default=None, ge=1, le=600)
+    extension_c: float | None = Field(default=None, ge=20, le=80)
+    denature_c: float | None = Field(default=None, ge=80, le=105)
+    cycles: int | None = Field(default=None, ge=1, le=99)
+    rt: RTFormat | None = None
+    # Free text, as printed: a named commercial mix is the only honest record of
+    # a buffer whose composition the vendor does not publish.
+    master_mix: str | None = None
+    # The salt and oligo concentrations the Tm model takes. mM and nM.
+    mg_mm: float | None = Field(default=None, ge=0, le=20)
+    na_mm: float | None = Field(default=None, ge=0, le=1000)
+    primer_nm: float | None = Field(default=None, ge=0, le=5000)
+    probe_nm: float | None = Field(default=None, ge=0, le=5000)
+    # Other assays run in the same tube, by registry id where they are in the
+    # registry. The one part of "format" the rest of the schema cannot say:
+    # endpoint against real-time is `chemistry`, nesting is `source.nested_round`,
+    # and a pool entered as one assay is the `pooled_as_one_assay` flag -- but
+    # which separate entries share a reaction is recorded nowhere.
+    multiplexed_with: list[str] | None = None
+
+
+class Performance(Strict):
+    """What the paper measured about its own assay. Reported, never scored.
+
+    A limit of detection is a wet-lab sensitivity measurement on an isolate or a
+    dilution series, and this project does not model sensitivity -- the Leetz 2007
+    held-out case turns on exactly that distinction. So nothing here enters a
+    verdict. It is kept because a reader comparing two assays on the same target
+    asks for it immediately, and because an efficiency far from 100% is a reason
+    to read an entry's other numbers more carefully.
+    """
+
+    # As printed, with its units, because papers state an LoD per reaction, per
+    # mL, per gram of tissue or as a TCID50, and a bare number would silently
+    # equate them.
+    lod: str | None = None
+    # Only when the paper's LoD is genomic copies per reaction, so the common
+    # case is comparable without re-parsing prose.
+    lod_copies_per_reaction: float | None = Field(default=None, ge=0)
+    efficiency_pct: float | None = Field(default=None, ge=50, le=130)
+    r_squared: float | None = Field(default=None, ge=0, le=1)
+    dynamic_range: str | None = None
+
+
+class Panel(Strict):
+    """One validation panel the paper ran, as counts.
+
+    The inclusivity and exclusivity panels in a methods paper are the wet-lab
+    answer to the question this pipeline answers from sequence, which makes them
+    the only direct comparison available for an assay with no published follow-up.
+    Counts, not prose, so `scripts/retrospective.py` can one day read them.
+    """
+
+    name: str
+    n_tested: int | None = Field(default=None, ge=0)
+    n_detected: int | None = Field(default=None, ge=0)
+    # The taxa the panel covered, where it names them. For an exclusivity panel
+    # these are the same taxa `target.exclusivity_taxids` retrieves.
+    taxids: list[int] | None = None
+    note: str | None = None
+
+    @model_validator(mode="after")
+    def detected_does_not_exceed_tested(self) -> Panel:
+        if self.n_tested is not None and self.n_detected is not None and self.n_detected > self.n_tested:
+            raise ValueError(f"panel {self.name!r}: n_detected {self.n_detected} > n_tested {self.n_tested}")
+        return self
+
+
 class SpeciesSize(Strict):
     """One product-length band this assay gives for one species, as measured.
 
@@ -491,6 +590,14 @@ class Assay(Strict):
     # one the audit was right to call abandoned.
     species_sizes: list[SpeciesSize] | None = None
     citation: Citation
+    # The protocol, as published. See the blocks' own docstrings: `conditions` is
+    # what `thermo: false` is waiting for, `performance` and `panels` are what the
+    # paper measured and are reported rather than scored. All three were added
+    # 2026-10-27 empty, the way `by_chemistry` was, so the shape is fixed before
+    # 164 papers are read into it.
+    conditions: Conditions | None = None
+    performance: Performance | None = None
+    panels: list[Panel] | None = None
     use_context: list[str] = Field(default_factory=list)
     # Who contributed this entry, for a genuine third-party submission. Null on
     # 207 of 208 entries, because the registry was bulk-imported by one curator,

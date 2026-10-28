@@ -99,6 +99,178 @@
       "title": "Citation",
       "type": "object"
     },
+    "Conditions": {
+      "additionalProperties": false,
+      "description": "The thermal protocol, as the paper prints it. Nothing here is screened.\n\nTHIS BLOCK EXISTS BECAUSE `thermo: false` CANNOT BE LIFTED WITHOUT IT. A \u0394Tm of\n\u22126 \u00b0C is irrelevant at an annealing temperature of 50 \u00b0C and fatal at 62, and\nuntil 2026-10-27 the schema could not say which an assay used, so a\nthermodynamic call would have been made at a temperature the registry invented.\nThe nearest-neighbour model `thermo.duplex_tm` runs needs exactly what is here:\na temperature to compare a Tm against, the monovalent and divalent salt, and\nthe oligo concentration. Those are its inputs, not decoration.\n\nEvery field is optional and most entries will carry none, which is the honest\nstate: a published assay often prints \"standard cycling conditions\" and nothing\nelse. An entry whose paper prints no protocol at all takes the\n`conditions_not_printed` review flag, so \"we did not read it\" and \"the paper\ndoes not say\" stay different answers. Values are READ FROM THE PAPER and quoted\nin the curator note, never inferred from the chemistry or from what is usual.",
+      "properties": {
+        "annealing_c": {
+          "anyOf": [
+            {
+              "maximum": 80,
+              "minimum": 20,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annealing C"
+        },
+        "annealing_seconds": {
+          "anyOf": [
+            {
+              "maximum": 600,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annealing Seconds"
+        },
+        "cycles": {
+          "anyOf": [
+            {
+              "maximum": 99,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycles"
+        },
+        "denature_c": {
+          "anyOf": [
+            {
+              "maximum": 105,
+              "minimum": 80,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Denature C"
+        },
+        "extension_c": {
+          "anyOf": [
+            {
+              "maximum": 80,
+              "minimum": 20,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Extension C"
+        },
+        "master_mix": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Master Mix"
+        },
+        "mg_mm": {
+          "anyOf": [
+            {
+              "maximum": 20,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mg Mm"
+        },
+        "multiplexed_with": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Multiplexed With"
+        },
+        "na_mm": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Na Mm"
+        },
+        "primer_nm": {
+          "anyOf": [
+            {
+              "maximum": 5000,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Primer Nm"
+        },
+        "probe_nm": {
+          "anyOf": [
+            {
+              "maximum": 5000,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probe Nm"
+        },
+        "rt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RTFormat"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "Conditions",
+      "type": "object"
+    },
     "Oligo": {
       "additionalProperties": false,
       "properties": {
@@ -232,6 +404,147 @@
       "title": "Oligos",
       "type": "object"
     },
+    "Panel": {
+      "additionalProperties": false,
+      "description": "One validation panel the paper ran, as counts.\n\nThe inclusivity and exclusivity panels in a methods paper are the wet-lab\nanswer to the question this pipeline answers from sequence, which makes them\nthe only direct comparison available for an assay with no published follow-up.\nCounts, not prose, so `scripts/retrospective.py` can one day read them.",
+      "properties": {
+        "n_detected": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Detected"
+        },
+        "n_tested": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Tested"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "taxids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxids"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Panel",
+      "type": "object"
+    },
+    "Performance": {
+      "additionalProperties": false,
+      "description": "What the paper measured about its own assay. Reported, never scored.\n\nA limit of detection is a wet-lab sensitivity measurement on an isolate or a\ndilution series, and this project does not model sensitivity -- the Leetz 2007\nheld-out case turns on exactly that distinction. So nothing here enters a\nverdict. It is kept because a reader comparing two assays on the same target\nasks for it immediately, and because an efficiency far from 100% is a reason\nto read an entry's other numbers more carefully.",
+      "properties": {
+        "dynamic_range": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dynamic Range"
+        },
+        "efficiency_pct": {
+          "anyOf": [
+            {
+              "maximum": 130,
+              "minimum": 50,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Efficiency Pct"
+        },
+        "lod": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lod"
+        },
+        "lod_copies_per_reaction": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lod Copies Per Reaction"
+        },
+        "r_squared": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "R Squared"
+        }
+      },
+      "title": "Performance",
+      "type": "object"
+    },
     "Probe": {
       "additionalProperties": false,
       "properties": {
@@ -359,6 +672,16 @@
       "title": "Probe",
       "type": "object"
     },
+    "RTFormat": {
+      "description": "Where reverse transcription happens, for an RNA target.",
+      "enum": [
+        "one_step",
+        "two_step",
+        "none"
+      ],
+      "title": "RTFormat",
+      "type": "string"
+    },
     "ReviewFlag": {
       "description": "Every value `needs_review[].flag` may take.\n\nAdding one is a deliberate act: it must be a category a filter would ask\nfor, not one entry's story. If it would only ever apply to a single assay,\nit is a `note` on a broader flag, or it is `curation_decision_pending`.",
       "enum": [
@@ -392,7 +715,8 @@
         "thin_evidence",
         "not_screenable",
         "target_annotation_uncertain",
-        "chemistry_detail_missing"
+        "chemistry_detail_missing",
+        "conditions_not_printed"
       ],
       "title": "ReviewFlag",
       "type": "string"
@@ -550,6 +874,21 @@
     "Target": {
       "additionalProperties": false,
       "properties": {
+        "exclusivity_taxids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exclusivity Taxids"
+        },
         "gene": {
           "anyOf": [
             {
@@ -670,6 +1009,17 @@
     "citation": {
       "$ref": "#/$defs/Citation"
     },
+    "conditions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Conditions"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
     "id": {
       "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,120}$",
       "title": "Id",
@@ -696,6 +1046,32 @@
     },
     "oligos": {
       "$ref": "#/$defs/Oligos"
+    },
+    "panels": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Panel"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Panels"
+    },
+    "performance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Performance"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     },
     "source": {
       "anyOf": [

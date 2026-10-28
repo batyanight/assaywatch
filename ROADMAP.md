@@ -215,12 +215,13 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   Extending the chain to the other segmented RNA viruses stays conditional on measuring
   that a title regex labels their records; nothing has.
 
-- **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
-  already excludes out-of-scope records from the drift denominator and the
-  report computes specificity from the out-of-scope calls that happen to be on
-  disk (18 assays, 2026-10-27). What is missing is fetching a near-neighbour an
-  assay explicitly claims to exclude: BPSV cannot be tested for specificity at
-  all today, because nothing retrieves the neighbour.
+- **`target.exclusivity_taxids` is built; what is left is populating it** (2026-10-27,
+  `## Done`). One entry carries it, BPSV against orf virus and pseudocowpox virus. The
+  work left is curation, one paper at a time: a published exclusivity panel is a table
+  in the paper, and reading it is the same per-paper read as the conditions blocks below.
+  The 18 assays whose reports already show out-of-scope records are where to start,
+  since a coincidental cross-reaction that the paper tested is worth promoting to a
+  claim.
 
 ## Validation, which sets every threshold above
 
@@ -440,6 +441,16 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **A near neighbour a paper claims to exclude is fetched on purpose** (2026-10-27).
+      `target.exclusivity_taxids`: each named taxon becomes its own retrieval group on
+      the assay's own query, so a published specificity claim can be screened instead of
+      being represented by whatever happened to be on disk. No new group kind and no new
+      cap; the scope filter already keeps those records out of the denominator and the
+      cross-reactivity table already shows them, now marked `claimed` so a reader can
+      tell a specificity result from a coincidence. The schema refuses the target's own
+      taxid and anything also in `scope_taxids`. BPSV is the first entry: 124 retrieval
+      groups become 125, because its orf virus arm shares the archive `ORF_VIRUS_...
+      _Zhao_2013` already fetches and only pseudocowpox virus is new.
 - [x] **The influenza matrix probe is failing on H3N2 and H1N1 and working on the avian
       subtypes** (2026-10-27, `docs/journal/2026-10-27-influenza-sublineage-enabled.md`).
       `lineage.sublineage` is on for that assay: a title regex splits one NCBI name into

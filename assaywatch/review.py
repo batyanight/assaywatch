@@ -135,6 +135,12 @@ class ReviewFlag(StrEnum):
     # A chemistry detail the source never stated: a reporter, a quencher, the
     # length of a tail.
     chemistry_detail_missing = "chemistry_detail_missing"
+    # The paper prints no thermal protocol: no annealing temperature, no cycling.
+    # Separate from `chemistry_detail_missing`, which is about the oligo, because
+    # this one is the reason `thermo: false` ships -- a mismatch's cost cannot be
+    # read without the temperature the reaction ran at. A filter that returns
+    # this flag is asking which entries can never support a thermodynamic call.
+    conditions_not_printed = "conditions_not_printed"
 
 
 #: The flags that are open questions. Membership is a property of the flag, not
