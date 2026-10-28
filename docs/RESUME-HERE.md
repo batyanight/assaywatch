@@ -1,3 +1,60 @@
+# Resume point, 2026-10-28 (afternoon: the signature fixed, S7 killed, the influenza verdict decomposed)
+
+**Start here:** `ROADMAP.md`. Tree clean, everything pushed, 1,823 tests, registry 214/214.
+Six commits since the midday entry below.
+
+- **The screen signature hashes screen-relevant fields, not file bytes** — and the first
+  diagnosis of that problem was wrong, which the journal says first. Two days of curation
+  go from 444 archive rescreens to 47. `scripts/stale_screens.py` answers "what will the
+  next run rescreen, and which entry made it so" without starting one. **It costs one more
+  full rescreen now** (changing `signature.py` moves the code hash) and Sunday's job
+  absorbs it.
+- **Three more exclusivity claims in**: Huo 2022's seven orthopox siblings on the two F3L
+  mpox entries, and the rest of Zhao 2013 on the ORFV and generic PAPV entries. 134
+  retrieval groups, up from 125. One claim sits inside its own target genus (seal
+  parapoxvirus under *Parapoxvirus*), which is legal, now reported as `EXCL_INSIDE` by
+  `check_taxids.py`, and cost 3 evaluable records and no status.
+- **The held-out false alarm is traced to one base**, and a defect was in the way: `sitedrift`
+  counted a mismatched probe as a detection (the third place that has turned up). With it
+  fixed, the monkeypox G2R assay's 2022-era records carry a G:T wobble at position 8 of the
+  reverse primer — 1.0 + 0.5 crosses `detect_max`, and for a probe assay `reduced` is not a
+  detection. **69 sites on 23 assays share the shape.**
+- **S7, halving the mid-window penalty, is dead on its own criterion.** 45,797 calls move,
+  tier-2 identical, bench accuracy identical at 92.7%, and it newly predicts a band on two
+  within-family bench negatives. What outlives it: on these panels the rows that reward
+  loosening and the rows that punish it move together, so only identity could separate
+  them — S7b, registered, needs a `mispair_window` setting. `config.yaml` says this beside
+  the setting now.
+- **H3N2 was never detected** — the per-year block's first answer, 1.1% in 2005 against
+  0.1% in 2025 — and the influenza assay's pooled 6.5% decomposes into a twenty-year
+  coverage gap, a real fall in the subtypes it does detect, and 4,729 untyped 2026 records
+  at 0.1%.
+- A `use` phrase family for `find_retrospective_cases.py`, opt-in, because the week's only
+  tier-2 candidate had no failure word in it.
+
+## Next, in order
+
+1. **A sequence-based influenza subtype resolver.** 4,729 records in 2026 alone sit
+   unclassified because their titles stopped naming the subtype; the title resolver cannot
+   reach them and they are pushing a verdict around.
+2. **S7b**: a `mispair_window` setting, then price identity in the mid window alone — the
+   candidate the literature actually supports and the one that could separate the G2R
+   wobble from the FAP negatives' A:A and A:C mispairs.
+3. **`drift.window_on` step 1** (collection date for `asm` records), now also measurable
+   per lineage thanks to the per-year rows.
+4. **The `use`-family search**, then `check_candidate_identity.py` over whatever it
+   returns: set 2 needs 12 more rows and 22 of the 23 mid-window assays are not monkeypox.
+5. Trend over distinct footprints rather than records.
+
+## Still yours
+
+- The **Quackenbush 1998 verdict** (row marked PROPOSED in held-out set 2).
+- Whether `CALICIVIRUS_ssRNA_Helicase_Reid_1999` is worth considering for `active` now its
+  last OPEN flag is gone. My reading: no, on `thin_evidence` — 16 amplifying records of
+  152,379.
+
+---
+
 # Resume point, 2026-10-28 (the queued papers arrived; Hel1 settled, BPSV reconciled, exclusivity visible)
 
 **Start here:** `ROADMAP.md` — 29 open items, 67 closed. Tree clean, everything pushed,
