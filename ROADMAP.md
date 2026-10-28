@@ -130,9 +130,11 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
 
 Dead, and recorded so they are not re-proposed: **S1** serial per-oligo gates (no
 threshold pair passed its own criterion, 2026-10-26), **S2** a smooth positional decay
-replacing the 5/5/rest step (2026-10-26), and the **thermodynamic** engine, which has
-never been a scoring input and whose measured advantage over the penalty rule
-evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
+replacing the 5/5/rest step (2026-10-26), **S6** the Kwok premium on severe mispairs
+(breaks a bench row and adds a false alarm for no catch, 2026-10-27), and the
+**thermodynamic** engine, which has never been a scoring input and whose measured
+advantage over the penalty rule evaporated once its register was fixed (2026-10-27,
+p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Operations
 
@@ -482,8 +484,11 @@ points of detected share.
       no catch lost, the influenza 2010 case promoted to the drift flag, PPV 3/9 -> 4/10,
       five bench rows fixed and none broken). The rule is no longer wholly identity-blind.
       **Still owed:** the next full run is its confirming rescreen (the scoring hash
-      forces one), and the Kwok premium — A:G, G:A, C:C, A:A as penalty increases — has
-      never been priced; two discount entries are not an identity table.
+      forces one). The Kwok premium — A:G, G:A, C:C at 2.0, A:A at 1.5 — was priced
+      the same evening as S6 and **killed on both pre-registered criteria**: one FAP
+      band row broken and nothing fixed, one false alarm added and no catch
+      (`docs/journal/2026-10-27-s6-kwok-premium-killed.md`). The discount half is the
+      half this registry can use.
 - [x] **Five Huo 2022 entries add clade- and lineage-level mpox typing** (2026-10-27).
       Two multiplex panels designed on 138 poxvirus genomes, one entry per probe: clade
       IIa/IIb, clade I and non-MPXV orthopoxvirus on one F3L-region pair (179 bp,
