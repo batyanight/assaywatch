@@ -1,3 +1,57 @@
+# Resume point, 2026-10-27 (overnight: the live run done, conditions curated from 64 papers, TNTBLAST run at last)
+
+**Start here:** `ROADMAP.md`. Plan: `~/.claude/plans/quizzical-snuggling-corbato.md`, second
+pass. Phases 1-5 are committed and **phase 3's live run has RUN**; 12 commits tonight, 1,795
+tests, registry 214/214 valid, tree clean.
+
+## What the run said
+
+**0 of 193 statuses move** against the committed M1 run — after a defect it exposed was
+fixed. The run first moved BPSV `insufficient data` -> `low coverage`, and the cause was
+the exclusivity feature committed hours earlier: `drift.gather`'s scope filter only runs for
+an assay that declares `scope_taxids`, and BPSV declares none, so the orf virus and
+pseudocowpox archives fetched for its specificity claim were counted in its own denominator.
+A declared exclusion is now out of scope independently of `scope_taxids`, in the report and
+in tier-2 both. The 18 retired taxids rescreened with nothing moving, which is the right
+answer: Entrez had been resolving them all along.
+
+## Done since the last entry
+
+- **TNTBLAST ran** (Rosetta 2 installed; `tntblast` 2.77 osx-64). The engine PCR_strainer
+  wraps reads **64.8%** on the 179 bench rows with two fitted parameters, against the
+  penalty rule's **92.7%** as it ships, 58-8 on the discordant rows, p < 0.0001. Per-panel
+  oracle cuts take it to 87.7%: the weakness is that a Tm needs the assay's own annealing
+  temperature, which is the argument `thermo: false` rests on, now measured.
+- **`conditions` populated twice**: 119 entries from the automatic pass, then a reader's
+  pass over all 64 papers it refused — 236 values by hand, 12 of them corrections. Two of
+  those matter: BPSV anneals at 60 C (the paper says so in as many words) and the influenza
+  matrix set at 60 C over 45 cycles, where the entry carried the H7 assay's 58.
+- **Six extraction bugs**, five of which produced a plausible value: an RT step read as the
+  annealing step, a label nearer the wrong number, a spaced-out decimal point, a decimal
+  comma, a stock read as a final concentration, and a degree sign the PDF renders as the
+  digit 8 ("948C" reads as 48 C). All pinned in `tests/test_extract_conditions.py`.
+- **C1b designed** (the pooled floor that refuses 30 assays a verdict), kill tests
+  pre-registered, not built. **Duplicate-key gate** added after one entry's note turned out
+  to have been discarded by every loader for three days.
+- The PDF list you asked for is on your Desktop: `assaywatch-pdfs-needed-2026-10-27.md`.
+
+## Next, in order
+
+1. **Five hand edits the tool cannot make**, all listed in `ROADMAP.md` under the registry
+   item: a value has to be DELETED, not fixed. `CMV_UL55_gB_Deckers_2009.mg_mm`, the three
+   `ORTHOBORNAVIRUS_XP_*.mg_mm`, and `LEPTOSPIROSIS_Flagillar_filiment_Prote.annealing_c`
+   each came from the wrong assay in a multi-assay paper.
+2. **The report shows no exclusivity table for an unflagged assay.** BPSV's 2,692
+   off-target calls are computed and invisible, because the cross-reactivity table lives in
+   the flagged-assay detail section. A section of its own, listing every entry with
+   `exclusivity_taxids`, was started and reverted rather than left half-built.
+3. **Refresh `docs/example-run-2026-10-27/`** from `results/2026-10-27` (it is the same
+   statuses, but the run carries the conditions and exclusivity work).
+4. Then the roadmap's remaining items: `drift.window_on` step 1, the per-lineage per-year
+   table, the trend over footprints, and the exclusivity curation the digest opens up.
+
+---
+
 # Resume point, 2026-10-27 (late night: the second roadmap pass — SCOPED taxids, influenza sublineage on, exclusivity_taxids, conditions blocks)
 
 **Start here:** `ROADMAP.md`. Plan: `~/.claude/plans/quizzical-snuggling-corbato.md`

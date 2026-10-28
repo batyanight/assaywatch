@@ -27,6 +27,15 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
+- **Five values have to be DELETED, which `extract_conditions.py` cannot do** (it adds
+  and fixes). Each came from the wrong assay in a multi-assay paper and is listed with
+  its reason in `docs/journal/2026-10-27-conditions-curator-pass.md`:
+  `CMV_UL55_gB_Deckers_2009.conditions.mg_mm`, the three
+  `ORTHOBORNAVIRUS_XP_*_Sigrist_2021.conditions.mg_mm`, and
+  `LEPTOSPIROSIS_Flagillar_filiment_Prote.conditions.annealing_c`.
+- **The seven PDFs** on the Desktop list (`assaywatch-pdfs-needed-2026-10-27.md`), which
+  gate held-out set 2, the C2 corpus and the Hel1 re-citation.
+
 - **The two Priority 1 decisions of 2026-10-27 are taken** and are recorded in
   `## Done`: the Leetz case opened a new held-out set, and TNTBLAST waits until
   someone installs Rosetta 2, builds it for arm64, or runs it on the cluster.
@@ -125,6 +134,13 @@ advantage over the penalty rule evaporated once its register was fixed (2026-10-
 p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Operations
+
+- **The report shows no cross-reactivity table for an unflagged assay**, so BPSV's 2,692
+  off-target calls — the whole point of retrieving its two neighbours — are computed and
+  invisible, because that table lives inside the flagged-assay detail section. What it
+  needs is a section of its own listing every entry with `target.exclusivity_taxids`,
+  claimed rows first, independent of status. Started 2026-10-27 and reverted rather than
+  left half-built.
 
 - **The weekly re-screen is installed on this machine only** (2026-10-27, live,
   Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
