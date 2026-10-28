@@ -307,8 +307,15 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   four papers USE a 5'-UTR/VP2 assay and none designs one; for the poxvirus polymerase
   set, nothing. The design papers, if they exist, are not findable by assay description,
   which is the same wall the identity work hit.
-- **The held-out collection target is not met.** Set 2 holds 1 row against a target
-  of 15-20 with at least 5 of `mechanism: drift`, and set 1 is spent.
+- **The held-out collection target is not met, and set 2 is now partially spent.** It
+  holds 3 rows against a target of 15-20 with at least 5 of `mechanism: drift`, and set 1
+  is spent. All three of set 2's rows were read on 2026-10-28 (disclosed in the file and in
+  `docs/journal/2026-10-28-papers-arrived.md`) because checking that a proposed row parses
+  scores every row: **1 agrees, 1 weaker, 1 false alarm**. The false alarm is the
+  informative one — Mills 2022 validated the G2R generic monkeypox assay on 2022 outbreak
+  clinical specimens and the shipped config calls it `declining`. Nothing was changed
+  because of it and nothing may be. **One row awaits the maintainer's verdict**: Quackenbush
+  1998 on `Pan_HERPES_dsDNA_Polymerase_round2`, proposed `works`.
   `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
   that stayed open. This is the same literature pass as the within-family negative
   corpus that gates C2, so one read per paper serves both.

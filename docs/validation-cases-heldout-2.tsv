@@ -21,6 +21,23 @@
 # `watch` / agrees. Nothing in config.yaml was changed because of it and nothing
 # may be; one bit is out, and pretending otherwise would be worse than saying so.
 #
+# DISCLOSED AGAIN, 2026-10-28: scored a second time after the Quackenbush row was
+# proposed, for the same reason -- to check it parses -- and the whole file was read,
+# because --cases scores every row. So all three rows are now out, and they say:
+#
+#   Cryptosporidium_18SrDNA_Xiao_1999_round2    works  -> watch         agrees
+#   MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010  works  -> declining     DISAGREES
+#   Pan_HERPES_dsDNA_Polymerase_round2          works  -> low coverage  weaker
+#
+# ONE FALSE ALARM IN THREE HELD-OUT ROWS, and it is the informative one: Mills 2022
+# validated the G2R generic assay on 2022 outbreak clinical specimens, and the shipped
+# config calls it `declining`. The development set's false-alarm rate is 4/32 = 12%;
+# this is 1/3, on three rows, so the interval is useless (95% CrI 4%-82%) and the
+# POINT of recording it is that the number exists and was not chosen. Nothing in
+# config.yaml was changed because of it, and under the file's own rule nothing may be.
+# The honest status of this file is now: partially spent, 3 bits out, and worth no
+# further reads until it holds enough rows to be worth spending.
+#
 # Same columns and same bar as the development set: a paper, erratum or redesign
 # reporting how an assay ALREADY IN THE REGISTRY performed, with `as_of` no later
 # than the sequences its authors could have seen. A new assay's validation
@@ -67,3 +84,32 @@ MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010	2022-11-02	works		10.1016/j.jcv.2022.
 # INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 are closed as UNCONFIRMABLE by
 # CONTENT rather than by access: Ng 2025 reprints its own CDC2022 redesign and
 # cites the Nix gold standard only, and Slomka 2023 prints no primer table at all.
+#
+# ROW PROPOSED 2026-10-28, AWAITING MAINTAINER SIGN-OFF. Quackenbush et al. 1998
+# (Virology 246:392-399, received 26 February 1998) USES the VanDevanter pan-herpes
+# DPOL nest this entry holds -- it cites VanDevanter 1996 by name and all four oligos
+# (DFA, KG1, TGV, IYG) occur verbatim in its text -- and reports what it found: a
+# ~250 bp round-2 band from five green turtle fibropapillomas, whose sequence is only
+# 53% identical to its nearest relatives (BHV-1, PRV) across the 183 bp between TGV
+# and IYG. That is the pan-family claim doing exactly what it is for: amplifying a
+# herpesvirus roughly half-divergent from anything then known, now Chelonid
+# herpesvirus 5. `works`, mechanism blank.
+#
+# WHY IT IS PROPOSED RATHER THAN WRITTEN BY ME: the works/fails call is the
+# maintainer's. Strike the row if you read it differently -- the arguable part is that
+# the paper also reports tumour-free skin and two olive ridley turtles as PCR
+# NEGATIVE, which is a true negative for those samples and not an assay failure.
+Pan_HERPES_dsDNA_Polymerase_round2	1998-02-26	works		10.1006/viro.1998.9207 Quackenbush 1998 Virology 246:392-399: cites VanDevanter 1996 and prints DFA/KG1/TGV/IYG; ~250 bp round-2 product sequenced from five green turtle fibropapillomas, 53% identical to BHV-1/PRV between TGV and IYG (PROPOSED, awaiting sign-off)
+#
+# NOT A ROW, recorded 2026-10-28 so the lead is not chased twice:
+# 10.1016/j.mimet.2008.12.003 reads CONFIRMED against Salmonella_invA_Rahn_1992 -- the
+# first new CONFIRMED since 2026-10-27 -- and is still not a case. It is Suess, Flekna,
+# Wagner & Hein 2009 (J Microbiol Methods 76:316-319; the retrospective queue and the
+# fetch list both called it "Malorny"), a METHODOLOGICAL study: a synthetic 100 bp
+# template flanked by Rahn's primers 139/141, then eight forward primers and six probes
+# carrying deliberate mismatches, each measured for quantification error. Our oligos are
+# printed because they are the scaffold of someone else's experiment, and nothing in it
+# reports the Rahn assay performing on anything real. Its finding -- primer-region
+# mismatches cost up to 63% in quantification while barely changing the curve, probe-region
+# mismatches up to 33% and worse in kind -- is recorded as a C2 prior source in
+# docs/bayesian-scoring-plan.md instead.

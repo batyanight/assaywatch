@@ -87,3 +87,40 @@ recording: a quoted `notes_curator` scalar that CONTAINS `'` at a line end canno
 appended to by searching for the closing quote, and doing so cut one entry's note in half.
 A YAML round trip, which `resolve_citations.py` and `retire_merged_taxids.py` already use,
 is the way to make a structural registry edit.
+
+## A held-out row proposed, and the file spent a second time
+
+Quackenbush et al. 1998 (*Virology* 246:392–399) is in `papers/` as one of the ten
+completeness papers, and it turns out to be a tier-2 candidate rather than a completeness
+read: it USES the VanDevanter pan-herpes DPOL nest the registry holds — cites it by name,
+and all four oligos occur verbatim in its text — and reports a ~250 bp round-2 product
+sequenced from five green turtle fibropapillomas, **53% identical to its nearest relatives
+across the 183 bp between TGV and IYG**. A pan-family assay amplifying a herpesvirus half
+divergent from anything then known is the clearest `works` reading available. The row is
+written into `docs/validation-cases-heldout-2.tsv` marked PROPOSED and awaiting the
+maintainer's verdict, with the arguable part stated: the same paper reports tumour-free
+skin and two olive ridley turtles as PCR negative, which is a true negative and not a
+failure.
+
+**Checking that the row parses scored the whole file, so set 2 is now partially spent and
+this is the disclosure.** Three rows, read 2026-10-28:
+
+| case | expect | status | verdict |
+|---|---|---|---|
+| `Cryptosporidium_18SrDNA_Xiao_1999_round2` | works | watch | agrees |
+| `MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010` | works | declining | **DISAGREES** |
+| `Pan_HERPES_dsDNA_Polymerase_round2` | works | low coverage | weaker |
+
+**One false alarm in three held-out rows, and it is the informative one.** Mills 2022
+validated the G2R generic monkeypox assay on 2022 outbreak clinical specimens across many
+sample types, and the shipped config calls that assay `declining`. The development set's
+false-alarm rate is 4/32 = 12%; this is 1/3 on three rows, so the interval (95% CrI
+4%–82%) says nothing and the point of recording it is that the number exists and was not
+chosen. Nothing in `config.yaml` changed because of it, and under the file's own rule
+nothing may.
+
+What it does say is where to look next: the G2R generic assay is flagged on sequence while
+a clinical validation says it works, which is either the denominator problem this project
+already records — 2022 outbreak genomes are a small, recent slice of a large archive — or a
+real disagreement worth a journal of its own. That is a measurement, not a tuning
+opportunity.
