@@ -10,10 +10,15 @@ hold and said to keep going. Six more commits, 1,763 tests, registry 214.
   `docs/example-run-2026-10-27/` is refreshed to this run (193 assays, 42 declining).
 - **S6, the Kwok premium, is dead** on both pre-registered criteria: one FAP band row
   broken and nothing fixed, one false alarm added and no catch.
-- **C1's hierarchical layer is built** (`assaywatch/hierarchical.py`), printed beside each
-  verdict, never into it. First real read: multi-lineage assays fit φ 0.3–11.7, intraclass
-  correlation 0.08–0.78 — the first half of the plan's kill test does not fire. The second
-  half needs a `lineage.verdict_from: holm | posterior` switch, not built.
+- **C1's hierarchical layer is built and measured on both halves of its plan**
+  (`assaywatch/hierarchical.py`), printed beside each verdict. First kill test: multi-lineage
+  assays fit φ 0.3–11.7, intraclass correlation 0.08–0.78 — does not fire. Second kill test:
+  `lineage.verdict_from: posterior` leaves tier-2 identical and moves 0 of 240 statuses —
+  does not fire, and changes nothing. Ships beside the verdict, `verdict_from: holm`. The
+  30 refused assays are refused on the pooled count before any lineage is looked at, which
+  is a different item and now a roadmap entry.
+- **The `score.py` cache footgun is closed at its source**: the per-chemistry cache is keyed
+  to the scoring block it came from.
 - **`weekly_run.sh --live` refuses a dirty tree** under the hashed paths; proved to fire.
 - The pending entries were searched on PubMed and the design papers are not findable by
   assay description; recorded in the roadmap.
