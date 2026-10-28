@@ -39,3 +39,4 @@ source:
     these primers and cited "PCR conditions were as previously reported [ref 8 = Clewley 1998]". NESTED FAMILY DECLARED 2026-10-21: P-029 prints DR1/DR2 as round 1 and DR4/DR5 as round 2 of one protocol, and the positions agree: on all 3,703 records in the 2026-10-20 calls where both pairs give a product, the DR4/DR5 product lies inside the DR1/DR2 product (inset 503 bp at one end and 92 bp at the other on 3,596 of them).'
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 4010 products and 4242 none under this orientation (2026-10-27 run), so the inference stands

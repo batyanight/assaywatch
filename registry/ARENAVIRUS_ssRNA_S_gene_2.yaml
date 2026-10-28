@@ -67,3 +67,4 @@ needs_review:
 - flag: oligos_modified
   note: ARS7C-MOD is the PREDICT P-004 widening of Lozano's ARS7C (modified_from, modification_doi)
 - flag: orientation_inferred
+  note: the archive yields 1640 products and 4814 none under this orientation (2026-10-27 run), so the inference stands

@@ -55,3 +55,4 @@ needs_review:
 - flag: citation_is_indirect
   note: Wang 1997 credits Victor 1991, which prints different LT primers
 - flag: orientation_inferred
+  note: the archive yields 49 products and 398 none under this orientation (2026-10-27 run), so the inference stands

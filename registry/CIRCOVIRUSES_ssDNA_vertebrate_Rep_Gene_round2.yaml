@@ -42,3 +42,4 @@ source:
     records (bat, rodent, fur seal) that are vertebrate circoviruses. Revisit if Cyclovirus deposits become evaluable in numbers.'
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 7772 products and 16582 none under this orientation (2026-10-27 run), so the inference stands

@@ -29,3 +29,4 @@ source:
   nested_round: null
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 47 products and 17 none under this orientation (2026-10-27 run), so the inference stands

@@ -57,3 +57,4 @@ source:
     Not changed: read the Table in the PDF by eye before touching the sequence. RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS16V is printed GGCATWGANCCAAACTGA- with TT wrapped onto the next line, which is the stored sequence exactly; the near:2 was the wrap. Both oligos are Lozano''s as printed, and the verifier now reads both exact.'
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 740 products and 5714 none under this orientation (2026-10-27 run), so the inference stands

@@ -37,3 +37,4 @@ needs_review:
 - flag: oligos_not_in_cited_paper
   note: the paper's 617 bp product belongs to a different primer pair
 - flag: orientation_inferred
+  note: the archive yields 6475 products and 25602 none under this orientation (2026-10-27 run), so the inference stands

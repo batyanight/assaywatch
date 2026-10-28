@@ -34,3 +34,4 @@ source:
   notes_curator: 'PREDICT panel protocol P-038 (L1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Forslund, O. et al (1999).'
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 16413 products and 26672 none under this orientation (2026-10-27 run), so the inference stands

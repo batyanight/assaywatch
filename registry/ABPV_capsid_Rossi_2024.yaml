@@ -4,7 +4,7 @@ target:
   taxid: 3047346
   gene: capsid protein gene
   genome_type: ssRNA+
-  taxon_name: Acute bee paralysis virus
+  taxon_name: Aparavirus apisacutum (acute bee paralysis virus; the paper's name, renamed by ICTV)
   query: null
 chemistry: mgb
 oligos:

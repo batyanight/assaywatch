@@ -38,3 +38,4 @@ source:
     in hand.
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 91 products and 4 none under this orientation (2026-10-27 run), so the inference stands

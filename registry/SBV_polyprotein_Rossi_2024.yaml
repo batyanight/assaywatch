@@ -4,7 +4,7 @@ target:
   taxid: 3048309
   gene: polyprotein gene
   genome_type: ssRNA+
-  taxon_name: Sacbrood virus
+  taxon_name: Iflavirus sacbroodi (sacbrood virus; the paper's name, renamed by ICTV)
   query: null
 chemistry: hydrolysis_probe
 oligos:

@@ -40,3 +40,4 @@ source:
     because a 13-species compilation may have taken some primer sets from earlier papers.
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 162 products and 485 none under this orientation (2026-10-27 run), so the inference stands

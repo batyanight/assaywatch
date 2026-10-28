@@ -4,7 +4,7 @@ target:
   taxid: 3047684
   gene: capsid protein gene
   genome_type: ssRNA+
-  taxon_name: Black queen cell virus
+  taxon_name: Triatovirus nigereginacellulae (black queen cell virus; the paper's name, renamed by ICTV)
   query: null
 chemistry: mgb
 oligos:

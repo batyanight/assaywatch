@@ -59,3 +59,4 @@ needs_review:
 - flag: oligos_not_in_cited_paper
   note: the printed sense primer matches 0 of 1,516 records; the stored form matches 260 (modified_from records the printed one)
 - flag: orientation_inferred
+  note: the archive yields 456 products and 1064 none under this orientation (2026-10-27 run), so the inference stands

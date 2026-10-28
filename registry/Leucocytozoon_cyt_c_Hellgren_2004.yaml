@@ -34,3 +34,4 @@ source:
 needs_review:
 - flag: cross_reactive
 - flag: orientation_inferred
+  note: the archive yields 340 products and 7567 none under this orientation (2026-10-27 run), so the inference stands

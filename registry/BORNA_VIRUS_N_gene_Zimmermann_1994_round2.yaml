@@ -50,4 +50,4 @@ needs_review:
 - flag: amplicon_size_unresolved
   note: no product size is declared
 - flag: orientation_inferred
-  note: inferred from the paper's labels
+  note: inferred from the paper's labels. the archive yields 369 products and 1151 none under this orientation (2026-10-27 run), so the inference stands

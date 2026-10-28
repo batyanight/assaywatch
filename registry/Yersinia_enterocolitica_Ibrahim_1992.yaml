@@ -36,3 +36,4 @@ needs_review:
 - flag: oligos_not_in_cited_paper
   note: the forward primer is shifted against the paper's
 - flag: orientation_inferred
+  note: the archive yields 39 products and 2 none under this orientation (2026-10-27 run), so the inference stands

@@ -33,3 +33,4 @@ source:
 needs_review:
 - flag: amplicon_measured_not_published
 - flag: orientation_inferred
+  note: the archive yields 1066 products and 4942 none under this orientation (2026-10-27 run), so the inference stands

@@ -50,5 +50,6 @@ source:
     text even though both sequences are present in it.'
 needs_review:
 - flag: orientation_inferred
+  note: the archive yields 479 products and 578 none under this orientation (2026-10-27 run), so the inference stands
 - flag: oligos_not_in_cited_paper
   note: the oligos are shorter than the paper's
