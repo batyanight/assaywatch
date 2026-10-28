@@ -371,6 +371,41 @@ def test_the_shipped_sublineage_block_labels_a_real_influenza_title():
     assert resolve_sublineage(call, 11320, {11320: "Influenza A virus"}, chain) == "H1N1"
 
 
+def test_the_shipped_pattern_reads_the_partial_subtypes_genbank_actually_prints():
+    """Real 2026 title forms, because the first pattern could not read them.
+
+    `\\((H\\d+N\\d+)\\)` required both numbers, so 3,857 of 4,729 evaluable
+    records deposited in 2026 fell into the unlabelled bucket while carrying a
+    subtype in the title -- 2,220 `(H1pdm09)` and 1,607 `(H3)`
+    (docs/journal/2026-10-28-influenza-decomposed.md). Every string below is a
+    form taken from `data/retrieved` metadata; the last two are the limits that
+    keep the broadened pattern from labelling a gene name.
+    """
+    import yaml
+
+    cfg = yaml.safe_load((ROOT / "config.yaml").read_text())
+    block = cfg["lineage"]["sublineage"]["INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003"]
+    chain = build_resolvers(block, query_taxid=11320)
+    cache = {11320: "Influenza A virus"}
+
+    def label(title):
+        return resolve_sublineage({"record_id": "x", "call": "detect", "title": title}, 11320, cache, chain)
+
+    assert label("Influenza A virus (A/New York/26/2026(H3)) segment 7") == "H3"
+    assert label("Influenza A virus (A/Hawaii/1/2026(H1pdm09)) segment 7") == "H1pdm09"
+    assert label("Influenza A virus (A/swine/Iowa/15/1930(H1N1)) segment 7") == "H1N1"
+    assert label("Influenza A virus (A/x/1/2026(H3N2)) segment 7") == "H3N2"
+    assert label("Influenza A virus (A/x/1/2026(HxNx)) segment 7") == "HxNx"
+    assert label("Influenza A virus (A/x/1/2026(H3Nx)) segment 7") == "H3Nx"
+    assert label("Influenza A virus (A/x/1/2026(HxN2)) segment 7") == "HxN2"
+    assert label("Influenza A virus (A/x/1/2026(H1N2v)) segment 7") == "H1N2v"
+    assert label("Influenza A virus (A/x/1/2026(H5)) segment 7") == "H5"
+    # A gene name in parentheses is not a subtype, and an unlabelled record falls
+    # back to the taxid name -- the residual bucket the broadening is meant to clean.
+    assert label("Influenza A virus matrix protein (M1) gene") == "Influenza A virus"
+    assert label("Influenza A virus segment 7, complete sequence") == "Influenza A virus"
+
+
 def test_sublineage_resolvers_and_title_assays_read_the_config_block():
     lcfg = {
         "sublineage": {

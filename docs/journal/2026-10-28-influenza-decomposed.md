@@ -58,26 +58,71 @@ Three effects, and they pull in the same direction for different reasons:
    56.2% (2025), 39.4% (2026)**. That is drift, in the records this assay works on, and it
    is invisible in the pooled number because the pooled number is dominated by subtypes it
    never worked on.
-3. **A recent flood of untyped records.** 2026 alone holds **4,729 evaluable records whose
-   title names no subtype, detected at 0.1%**, against 111 in 2025 and 136 in 2018. A title
-   convention changed, the sublineage resolver cannot classify them, and they sit in the
-   unsubtyped bucket pushing the pooled share down. On the numbers above they behave like
-   H3N2/H1N1, which is the obvious guess and is not evidence.
+3. **A recent flood of records the title pattern could not read.** 2026 alone holds
+   **4,729 evaluable records whose title names no subtype *to this pattern*, detected at
+   0.1%**, against 111 in 2025 and 136 in 2018. That one is not a third effect: see below.
+   It is effect 1 again, hidden behind a regex.
+
+## The third effect was my own regex
+
+The decomposition above says 4,729 records in one year carry no subtype, and the obvious
+next move is a resolver that reads the subtype out of the sequence. Measuring the bucket
+first (`<scratchpad>/untyped.py`) killed that plan before it was written. All 4,729 are
+<1.2 kb M-segment records, 4,657 of them score `reduced`, and **3,857 carry a subtype right
+there in the title**:
+
+| what the parenthetical says | records |
+|---|---|
+| `H1pdm09` | 2,220 |
+| `H3` | 1,607 |
+| `HxNx`, `H3Nx`, `H1`, `H1N2v`, `HxN2`, `HxN8`, `H5`, `H1Nx`, `HxN1` | 30 |
+| nothing | 872 |
+
+The shipped pattern was `\((H\d+N\d+)\)` — both numbers required. GenBank prints
+`A/New York/26/2026(H3)` when the N is untyped and `A/Hawaii/1/2026(H1pdm09)` for the 2009
+pandemic H1N1 lineage, and neither matches. So there was no new phenomenon in 2026, only a
+convention this project could not read.
+
+Broadened to `\((H\d+(?:N\d+v?|Nx|pdm\d+)?|Hx(?:N\d+|Nx)?)\)` and shipped, after both gates
+`config.yaml` requires of a sublineage change: tier-2 identical case for case on the
+development set (6/11 caught, PPV 4/10, 4/32 false alarms, 2/6 partial gaps) and
+`report_diff` against `results/2026-10-27` printing **No assay changed status** — 0 of 193.
+
+What it changes is the one thing it was meant to:
+
+| | narrow | broadened |
+|---|---|---|
+| H1pdm09 | — | 0 of 2,220 (0.0%) |
+| H3 | — | 5 of 1,745 (0.3%) |
+| H1 / HxN2 / H3Nx | — | 0 of 115, 2 of 56, 1 of 52 |
+| residual *Alphainfluenzavirus influenzae* | 638 of 6,853 (**9.3%**) | 594 of 2,571 (**23.1%**) |
+
+Both tables above are renders off `results/2026-10-27/calls.tsv.gz` with the two configs;
+neither the dated run directory nor `docs/example-run-2026-10-27/` was rewritten, because
+each is a record of what ran that day beside its own `config.effective.yaml` and the pattern
+was not in it. Sunday's run is the first whose artefacts carry the broadened pattern.
+
+4,188 records move out of the residual carrying 8 detections between them, which is effect 1
+exactly: `H1pdm09` is pandemic H1N1 and `H3` is H3N2 with the N left off, the two subtypes
+the probe has never matched. They were sitting in the unlabelled bucket halving its
+apparent share. The records that genuinely carry no subtype are detected at 23.1%, not
+9.3% — the pattern was not just missing labels, it was corrupting the one row that is
+supposed to mean "unknown".
 
 ## Why this matters beyond one assay
 
 The 2026-10-04 review's complaint was that "one population proportion per assay cannot see
 a lineage-conditional failure". This is the same complaint from the other side: one
-population proportion cannot tell a **coverage gap**, **drift** and a **metadata artefact**
-apart, and for this assay all three are present at once in a single number that reads
-"6.5%, down 15 points".
+population proportion cannot tell a **coverage gap** from **drift**, and for this assay both
+are present at once in a single number that reads "6.5%, down 15 points". The third thing it
+looked like it could not tell apart — a metadata artefact — turned out not to exist.
 
 What the per-year block buys is the ability to say which. It is report-only, costs nothing,
 and changes no verdict — the honest place for a decomposition that the estimand cannot
 carry.
 
-**What it argues for next**, and neither is done here: the untyped bucket deserves a
-resolver that reads the subtype from the sequence rather than the title, since 4,729 records
-in one year is no longer an edge case; and the per-year rows make `drift.window_on`
-(deposit against collection date) measurable per lineage rather than per assay, which is
-the other half of asking when a fall happened.
+**What it argues for next**: the per-year rows make `drift.window_on` (deposit against
+collection date) measurable per lineage rather than per assay, which is the other half of
+asking when a fall happened. The sequence-based subtype resolver is **not** on that list any
+more, and the reason is the point of this entry — the 872 records that carry no label at all
+do not justify a classifier, and the 3,857 that do never needed one.

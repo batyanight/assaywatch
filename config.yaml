@@ -1076,7 +1076,28 @@ lineage:
   # not for a verdict it changes -- the condition this block's own rule sets.
   # Extend to the other segmented RNA viruses only after measuring that a title
   # regex labels their records; nothing here assumes it does.
+  #
+  # BROADENED 2026-10-28 (docs/journal/2026-10-28-influenza-decomposed.md). The
+  # original `\((H\d+N\d+)\)` required BOTH an H and an N number, so it could not
+  # read a partial subtype -- and GenBank prints plenty: `A/New York/26/2026(H3)`,
+  # `A/Hawaii/1/2026(H1pdm09)`, `(HxNx)`, `(H1N2v)`, `(H3Nx)`. 4,729 evaluable
+  # records deposited in 2026 fell into the unlabelled bucket under the narrow
+  # pattern, and 3,857 of them DO carry a subtype in the title (2,220 `H1pdm09`,
+  # 1,607 `H3`, the rest Hx/Nx forms). The broadened pattern moves 4,188 records
+  # across all years into 5 new lineages -- H1pdm09 (0 of 2,220), H3 (5 of 1,745),
+  # H1 (0 of 115), HxN2 (2 of 56), H3Nx (1 of 52), so 8 of 4,188 = 0.2% -- and the
+  # residual unlabelled bucket goes from 6,853 records at 9.3% to 2,571 at 23.1%.
+  # That is the point of the change: those 4,188 were dragging a bucket of
+  # genuinely untitled records down by a factor of two, and they are the same
+  # human-circulating subtypes the probe already fails (H1pdm09 is the 2009
+  # pandemic H1N1 lineage; `H3` is H3N2 with the N left off), so they belong in
+  # their own rows and not in a residual. Gates, as this block's rule requires:
+  # tier-2 identical case for case on the development set (6/11 caught, PPV 4/10,
+  # 4/32 false alarms, 2/6 partial gaps, all unchanged) and `report_diff` against
+  # results/2026-10-27 prints "No assay changed status" -- 0 of 193 move. The `v`
+  # (variant) and `pdm` suffixes are allowed because GenBank prints them; a bare
+  # `(M1)` gene name does not match, which is tested.
   sublineage:
     INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003:
       chain: [title]
-      title: {pattern: '\((H\d+N\d+)\)'}
+      title: {pattern: '\((H\d+(?:N\d+v?|Nx|pdm\d+)?|Hx(?:N\d+|Nx)?)\)'}

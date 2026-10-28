@@ -257,17 +257,6 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   for 0.1% of records is a different kind of wrong, so step 1 must say in the report
   which records it applied to.
 
-- **The untyped influenza bucket needs a resolver that reads the sequence, not the
-  title** (found 2026-10-28, `docs/journal/2026-10-28-influenza-decomposed.md`). The
-  per-lineage per-year block is built and it decomposed this assay's 6.5% into three
-  things: a twenty-year coverage gap (H3N2 and H1N1 never detected, 1.1% in 2005 and 0.1%
-  in 2025, while they grew from a quarter of deposits to 86%), a REAL fall in the subtypes
-  it does detect (88–90% in 2009–2011 to 32–56% since 2022), and **4,729 evaluable records
-  in 2026 alone whose title names no subtype, detected at 0.1%** — a deposit-title
-  convention changed and the title resolver cannot classify them. 111 such records in 2025,
-  136 in 2018: this is new and it is large. A resolver that reads the subtype from the
-  sequence would move those 4,729 records out of the unsubtyped bucket; nothing else here
-  can.
 - **`target.exclusivity_taxids`: three sets in, and the rest is one paper at a time**
   (2026-10-28). `scripts/extract_exclusivity.py` prints every sentence in which a paper
   claims its assay does NOT amplify something — **118 of the 178 papers on disk carry at
@@ -533,10 +522,24 @@ points of detected share.
       metadata pass that already ran. It answered the question it was built for on its first
       run: H3N2 has **never** been detected by the influenza matrix assay, 1.1% in 2005
       against 0.1% in 2025, so that lineage is a coverage gap of twenty years' standing and
-      not drift. It also separated three effects inside one pooled 6.5%: that gap, a real
-      fall in the subtypes the assay does detect, and a 2026 flood of untyped records. One
-      population proportion cannot tell those apart, which is the 2026-10-04 review's
+      not drift. It also separated two effects inside one pooled 6.5%: that gap and a real
+      fall in the subtypes the assay does detect (88–90% in 2009–2011 to 32–56% since 2022).
+      One population proportion cannot tell those apart, which is the 2026-10-04 review's
       complaint from the other side.
+- [x] **The "2026 flood of untyped influenza records" was a regex that could not read a
+      partial subtype** (2026-10-28, same journal). The decomposition's apparent third
+      effect was 4,729 evaluable 2026 records "whose title names no subtype", and the item
+      opened on it asked for a resolver that reads the subtype from the sequence. Measuring
+      the bucket first killed that: **3,857 of the 4,729 carry a subtype in the title**
+      (2,220 `H1pdm09`, 1,607 `H3`), and the shipped `\((H\d+N\d+)\)` required both numbers.
+      Broadened to `\((H\d+(?:N\d+v?|Nx|pdm\d+)?|Hx(?:N\d+|Nx)?)\)` and shipped under both
+      of `config.yaml`'s gates (tier-2 identical, `report_diff` "No assay changed status").
+      4,188 records across all years leave the residual bucket carrying 8 detections, into
+      H1pdm09 (0 of 2,220), H3 (5 of 1,745), H1, HxN2, H3Nx — effect 1 again, since
+      `H1pdm09` is pandemic H1N1 and `H3` is H3N2 with the N untyped. The residual
+      *Alphainfluenzavirus influenzae* row goes from 9.3% to **23.1%**: the pattern was not
+      only missing labels, it was halving the share of the row that means "unknown". **No
+      sequence-based subtype resolver is wanted** — 872 records carry no label at all.
 - [x] **A registry edit that cannot change a call no longer rescreens anything**
   (2026-10-28, `docs/journal/2026-10-28-screen-signature-projection.md`). **The claim
   this item was opened with was wrong**: the signature was already per-group, not
