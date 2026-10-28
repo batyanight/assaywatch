@@ -71,3 +71,31 @@ def test_an_assay_drift_hands_its_own_detected_calls_to_the_lineage_layer():
     assert (a.recent_detected, a.recent_evaluable) == (5, 10)
     stats = per_lineage_stats(_calls(5, 3, 2), CACHE, {}, min_records=1, detected_calls=a.detected_calls)
     assert (stats[0].n_detected, stats[0].n_evaluable) == (a.recent_detected, a.recent_evaluable)
+
+
+def test_the_per_year_block_only_covers_lineages_below_the_threshold():
+    """Per year, worst first, capped -- and built on the same grouping as the share table.
+
+    `lineage.md` could say a lineage detects 1.2% and not whether that is a fall or has
+    always been so, which is the question the influenza matrix assay's 57 subtypes raised
+    on 2026-10-27. The answer for H3N2 turned out to be "always": 1.1% in 2005 and 0.1%
+    in 2025 (docs/journal/2026-10-28-influenza-decomposed.md).
+    """
+    from assaywatch.lineage_report import render_lineage_report
+
+    # Two lineages: one healthy, one failing, both above the floor.
+    calls = []
+    for i in range(30):
+        calls.append({"record_id": f"good{i}", "call": "detect", "taxid": 11320})
+    for i in range(30):
+        calls.append({"record_id": f"bad{i}", "call": "fail", "taxid": 11321})
+    years = {f"good{i}": 2020 + i % 2 for i in range(30)} | {f"bad{i}": 2020 + i % 2 for i in range(30)}
+    cache = {11320: "healthy_lineage", 11321: "failing_lineage"}
+
+    md = render_lineage_report({"A": calls}, cache, {}, min_records=10, years=years, threshold=0.9)
+    assert "**failing_lineage**" in md, "a lineage below the threshold needs its years shown"
+    assert "**healthy_lineage**" not in md, "a healthy lineage does not need a year table"
+    assert "| 2020 | 15 | 0 | 0.0% |" in md
+    # Without years the block is absent entirely, so the report is unchanged for a caller
+    # that does not have dates.
+    assert "Per year" not in render_lineage_report({"A": calls}, cache, {}, min_records=10)

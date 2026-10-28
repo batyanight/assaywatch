@@ -257,13 +257,17 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   for 0.1% of records is a different kind of wrong, so step 1 must say in the report
   which records it applied to.
 
-- **The influenza sublineage chain is on; what is left is the per-lineage per-year
-  table.** Enabled 2026-10-27 (`## Done`). The next thing to read is whether H3N2's
-  1.2% is a recent fall or has always been there, and the report prints per-year tables
-  per ASSAY, not per lineage, so that is a reporting change rather than a measurement.
-  Extending the chain to the other segmented RNA viruses stays conditional on measuring
-  that a title regex labels their records; nothing has.
-
+- **The untyped influenza bucket needs a resolver that reads the sequence, not the
+  title** (found 2026-10-28, `docs/journal/2026-10-28-influenza-decomposed.md`). The
+  per-lineage per-year block is built and it decomposed this assay's 6.5% into three
+  things: a twenty-year coverage gap (H3N2 and H1N1 never detected, 1.1% in 2005 and 0.1%
+  in 2025, while they grew from a quarter of deposits to 86%), a REAL fall in the subtypes
+  it does detect (88–90% in 2009–2011 to 32–56% since 2022), and **4,729 evaluable records
+  in 2026 alone whose title names no subtype, detected at 0.1%** — a deposit-title
+  convention changed and the title resolver cannot classify them. 111 such records in 2025,
+  136 in 2018: this is new and it is large. A resolver that reads the subtype from the
+  sequence would move those 4,729 records out of the unsubtyped bucket; nothing else here
+  can.
 - **`target.exclusivity_taxids`: three sets in, and the rest is one paper at a time**
   (2026-10-28). `scripts/extract_exclusivity.py` prints every sentence in which a paper
   claims its assay does NOT amplify something — **118 of the 178 papers on disk carry at
@@ -522,6 +526,17 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **Per-lineage per-year rows, and the influenza verdict decomposed** (2026-10-28,
+      `docs/journal/2026-10-28-influenza-decomposed.md`). `lineage.md` carries a per-year
+      block under each lineage below the threshold — 252 blocks, 3,652 rows, grouped by the
+      same `lineage.lineage_of` the share table uses, from deposit years read in the
+      metadata pass that already ran. It answered the question it was built for on its first
+      run: H3N2 has **never** been detected by the influenza matrix assay, 1.1% in 2005
+      against 0.1% in 2025, so that lineage is a coverage gap of twenty years' standing and
+      not drift. It also separated three effects inside one pooled 6.5%: that gap, a real
+      fall in the subtypes the assay does detect, and a 2026 flood of untyped records. One
+      population proportion cannot tell those apart, which is the 2026-10-04 review's
+      complaint from the other side.
 - [x] **A registry edit that cannot change a call no longer rescreens anything**
   (2026-10-28, `docs/journal/2026-10-28-screen-signature-projection.md`). **The claim
   this item was opened with was wrong**: the signature was already per-group, not

@@ -19,6 +19,7 @@ from assaywatch.accession import strip_version
 from assaywatch.drift import DETECTED_CALLS_NO_REDUCED, reduced_not_detected_ids
 from assaywatch.lineage import (
     DETECTED_DEFAULT,
+    lineage_of,
     load_taxa_cache,
     name_lineages_from_taxonomy,
     per_lineage_stats,
@@ -74,11 +75,21 @@ def render_lineage_report(
     min_records: int = 20,
     resolvers: dict[str, list] | None = None,
     detected_by_assay: dict[str, tuple[str, ...]] | None = None,
+    years: dict[str, int] | None = None,
+    threshold: float = 0.90,
+    max_year_blocks: int = 5,
 ) -> str:
     """Render markdown report of per-lineage statistics.
 
     ``resolvers`` (assay_id -> sub-lineage chain) splits those assays below
     the taxid, exactly as drift's lineage check does; other assays group per taxid.
+
+    ``years`` (accession -> deposit year, keyed unversioned) turns on a per-year block
+    under each lineage that sits below ``threshold``. Without it the report could say
+    that a lineage detects 1.2% and not whether that is a fall or has always been so --
+    the question the influenza matrix assay's 57 subtypes raised on 2026-10-27 and this
+    report could not answer. At most ``max_year_blocks`` lineages per assay, worst
+    first, because the whole table is 1,084 rows and most of them are healthy.
 
     ``detected_by_assay`` (assay_id -> the calls that count as detected) is what
     `drift.reduced_not_detected_for` decides per chemistry. Without it this report
@@ -125,8 +136,80 @@ def render_lineage_report(
             )
 
         lines.append("")
+        if years:
+            lines += _per_year_blocks(
+                calls,
+                stats,
+                taxa_cache,
+                taxid_sidecar,
+                resolvers.get(assay_id) if resolvers else None,
+                (detected_by_assay or {}).get(assay_id, DETECTED_DEFAULT),
+                years,
+                threshold,
+                max_year_blocks,
+            )
 
     return "\n".join(lines)
+
+
+def _per_year_blocks(
+    calls: list[dict],
+    stats: list,
+    taxa_cache: dict[int, str],
+    taxid_sidecar: dict,
+    resolvers: list | None,
+    detected_calls: tuple[str, ...],
+    years: dict[str, int],
+    threshold: float,
+    limit: int,
+) -> list[str]:
+    """Per-year rows for the lineages below `threshold`, worst first.
+
+    A lineage's share answers "how much of it does this assay detect"; it cannot answer
+    "since when", and that is the question a reader of a 1.2% lineage actually has. The
+    influenza matrix assay raised it on 2026-10-27 -- H3N2 reads 1.2% of 38,771 records,
+    and whether that is a recent fall or the way it has always been decides whether the
+    assay drifted or was never right for that subtype.
+
+    Grouped with `lineage.lineage_of`, the same function `per_lineage_stats` groups by,
+    so a row here and a row above cannot disagree about which lineage a record is in.
+    """
+    below = [s for s in stats if s.share < threshold][:limit]
+    if not below:
+        return []
+    wanted = {s.lineage_name for s in below}
+    # (lineage, year) -> [detected, evaluable]
+    tally: dict[tuple[str, int], list[int]] = defaultdict(lambda: [0, 0])
+    for call in calls:
+        if call["call"] not in ("detect", "reduced", "fail"):
+            continue
+        key = lineage_of(call, taxa_cache, taxid_sidecar, resolvers)
+        if key not in wanted:
+            continue
+        year = years.get(strip_version(call.get("record_id") or ""))
+        if year is None:
+            continue
+        slot = tally[(key, year)]
+        slot[0] += call["call"] in detected_calls
+        slot[1] += 1
+
+    out = [
+        f"Per year, for the {len(below)} worst lineage(s) below {threshold:.0%}. A share",
+        "says how much of a lineage is detected; these rows say since when.",
+        "",
+    ]
+    for stat in below:
+        rows = sorted((y, d, n) for (k, y), (d, n) in tally.items() if k == stat.lineage_name)
+        if not rows:
+            continue
+        out.append(f"**{stat.lineage_name}** — {stat.share:.1%} overall")
+        out.append("")
+        out.append("| Year | N Evaluable | N Detected | Share |")
+        out.append("|---|---|---|---|")
+        for year, det, n in rows:
+            out.append(f"| {year} | {n} | {det} | {det / n:.1%} |")
+        out.append("")
+    return out
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -173,18 +256,37 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{len(taxid_sidecar)} taxids from {sidecar_path.name}", file=sys.stderr)
 
     n_from_meta = 0
+    # Deposit years come out of the same pass, from the `created` column every archive
+    # metadata table carries: one extra lookup per line and no extra I/O, which is why
+    # the per-year block below costs nothing. `updated` is the later date and is not
+    # what a drift axis means; report.py windows on the same `created` field.
+    years: dict[str, int] = {}
     for meta_path in sorted(args.retrieved.rglob("*.meta.tsv.gz")):
         with gzip.open(meta_path, "rt") as f:
             header = (f.readline() or "").rstrip("\n").split("\t")
-            if "taxid" not in header or "accession" not in header:
+            if "accession" not in header:
+                continue
+            ai = header.index("accession")
+            ci = header.index("created") if "created" in header else None
+            if ci is not None:
+                for line in f:
+                    parts = line.rstrip("\n").split("\t")
+                    if len(parts) <= max(ai, ci):
+                        continue
+                    acc, created = strip_version(parts[ai]), parts[ci][:4]
+                    if created.isdigit():
+                        years[acc] = int(created)
+                f.seek(0)
+                f.readline()
+            if "taxid" not in header:
                 continue  # pre-taxid archive; the sidecar covers it
-            ai, ti = header.index("accession"), header.index("taxid")
+            ti = header.index("taxid")
             for line in f:
                 parts = line.rstrip("\n").split("\t")
                 if len(parts) > max(ai, ti) and parts[ti].isdigit():
                     taxid_sidecar[strip_version(parts[ai])] = int(parts[ti])
                     n_from_meta += 1
-    print(f"{n_from_meta} taxids from archive metadata", file=sys.stderr)
+    print(f"{n_from_meta} taxids and {len(years)} deposit years from archive metadata", file=sys.stderr)
 
     metadata = {}
 
@@ -269,6 +371,10 @@ def main(argv: list[str] | None = None) -> int:
         min_records=min_records,
         resolvers=resolvers,
         detected_by_assay=detected_by_assay,
+        years=years,
+        # The same threshold the verdict uses, so "below threshold" means one thing in
+        # both files rather than two.
+        threshold=float((cfg.get("drift") or {}).get("detect_fraction_threshold", 0.90)),
     )
 
     # Write output
