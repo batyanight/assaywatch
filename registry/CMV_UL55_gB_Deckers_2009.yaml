@@ -24,6 +24,8 @@ citation:
     novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology Journal
     2009, 6, 210.
   oligos_designed_here: null
+conditions:
+  mg_mm: 2.0
 use_context:
 - wildlife
 submitted_by: null

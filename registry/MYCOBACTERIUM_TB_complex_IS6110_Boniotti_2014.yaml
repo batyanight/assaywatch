@@ -26,6 +26,9 @@ citation:
     Isolates in Wild Boar from Northern Italy. Journal of Clinical Microbiology 52, 2834-2843 (2014).
   doi_verified: true
   oligos_designed_here: null
+conditions:
+  mg_mm: 1.5
+  annealing_c: 58.0
 use_context:
 - wildlife
 - veterinary

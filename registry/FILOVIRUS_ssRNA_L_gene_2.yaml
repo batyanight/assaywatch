@@ -25,6 +25,10 @@ citation:
     microbiology 45, 224-226, doi:Doi 10.1128/Jcm.01893-06 (2007).
   doi_verified: true
   oligos_designed_here: false
+conditions:
+  rt: one_step
+  mg_mm: 2.5
+  cycles: 35
 use_context:
 - wildlife
 - public_health

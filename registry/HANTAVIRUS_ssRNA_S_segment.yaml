@@ -22,6 +22,8 @@ citation:
   oligos_designed_here: true
   doi_verified: true
   reference: Anthony SJ et al. 2013. mBio 4:e00598-13 (universal hantavirus S-segment primers UHantaF1/UHantaR1)
+conditions:
+  annealing_c: 52.0
 use_context:
 - wildlife
 - public_health

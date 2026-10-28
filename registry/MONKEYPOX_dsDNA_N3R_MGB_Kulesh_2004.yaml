@@ -31,6 +31,8 @@ citation:
     using real-time 3'-minor groove binder TaqMan assays on the Roche LightCycler. Lab Invest 84:1200-1208
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 45
 use_context:
 - wildlife
 - public_health

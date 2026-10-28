@@ -22,6 +22,9 @@ citation:
   reference: Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of Lyssavirus
     genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
   doi_verified: true
+conditions:
+  rt: one_step
+  cycles: 25
 use_context:
 - wildlife
 - veterinary

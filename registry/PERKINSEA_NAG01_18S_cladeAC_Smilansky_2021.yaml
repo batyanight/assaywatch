@@ -30,6 +30,9 @@ citation:
   reference: Smilansky, V., Chambouvet, A., Reeves, M., Richards, T. A. & Milner, D. S. A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues. Royal Society Open Science 8, 202150 (2021).
   doi_verified: true
   oligos_designed_here: false
+conditions:
+  cycles: 40
+  annealing_c: 55.6
 use_context:
 - wildlife
 submitted_by: null

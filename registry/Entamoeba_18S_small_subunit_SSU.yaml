@@ -24,6 +24,8 @@ citation:
   doi_verified: true
   reference: McFarland A, Conley KJ, Seimon TA, Sykes JM. 2021. A retrospective analysis of amoebiasis in reptiles in a zoological
     institution. J Zoo Wildl Med 52:232-240
+conditions:
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

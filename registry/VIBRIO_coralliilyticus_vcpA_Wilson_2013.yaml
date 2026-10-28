@@ -25,6 +25,8 @@ citation:
     and Quantification Method for the Coral Pathogen Vibrio coralliilyticus. PLoS ONE 8, e81800 (2013).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  mg_mm: 1.25
 use_context:
 - wildlife
 submitted_by: null

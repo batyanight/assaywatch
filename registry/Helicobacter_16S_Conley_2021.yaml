@@ -29,6 +29,8 @@ citation:
   reference: Conley KJ et al. 2021. Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman
     blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana). PLoS One 16:e0247010
   oligos_designed_here: true
+conditions:
+  cycles: 50
 use_context:
 - wildlife
 - veterinary

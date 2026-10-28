@@ -26,6 +26,9 @@ citation:
     and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5
     (1997).
   doi_verified: true
+conditions:
+  mg_mm: 1.5
+  cycles: 40
 use_context:
 - wildlife
 - public_health

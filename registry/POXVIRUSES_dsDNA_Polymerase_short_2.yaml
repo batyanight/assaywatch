@@ -37,6 +37,10 @@ citation:
   doi_verified: true
   reference: McAloose D, ..., Seimon T, ..., Uhart M. 2016. Post-mortem findings in southern right whales Eubalaena australis
     at Peninsula Valdes, Argentina, 2003-2012. Dis Aquat Organ 119:17-36 (pan-poxvirus DNA polymerase PCR)
+conditions:
+  rt: one_step
+  cycles: 45
+  annealing_c: 60.0
 use_context:
 - wildlife
 - veterinary

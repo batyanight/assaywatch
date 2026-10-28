@@ -121,6 +121,9 @@ citation:
     assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).
   doi_verified: true
   oligos_designed_here: null
+conditions:
+  mg_mm: 2.5
+  annealing_c: 40.0
 use_context:
 - public_health
 - veterinary

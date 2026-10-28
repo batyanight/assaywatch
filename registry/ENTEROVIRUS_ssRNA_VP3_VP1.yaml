@@ -26,6 +26,9 @@ citation:
   doi_verified: true
   reference: Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (222/224 VP3-VP1 primers)
   oligos_designed_here: false
+conditions:
+  rt: two_step
+  cycles: 40
 use_context:
 - wildlife
 - public_health

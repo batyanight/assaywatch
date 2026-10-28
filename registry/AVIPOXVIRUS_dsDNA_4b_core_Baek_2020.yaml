@@ -30,6 +30,8 @@ citation:
     Avipoxvirus DNA in various sample types from hummingbirds. PLoS ONE 15(6):e0230701 (2020).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 40
 use_context:
 - wildlife
 submitted_by: null

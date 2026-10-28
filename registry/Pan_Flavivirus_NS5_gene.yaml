@@ -27,6 +27,10 @@ citation:
   reference: Moureau, G. et al. A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses.
     Vector Borne Zoonotic Dis 7, 467-478 (2007).
   doi_verified: true
+conditions:
+  rt: one_step
+  annealing_c: 48.0
+  cycles: 40
 use_context:
 - wildlife
 - veterinary

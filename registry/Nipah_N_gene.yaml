@@ -22,6 +22,9 @@ citation:
   doi_verified: true
   reference: Wacharapluesadee S, Hemachudha T. 2007. Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens
     of bats. J Virol Methods 141:97-101
+conditions:
+  rt: one_step
+  annealing_c: 55.0
 use_context:
 - wildlife
 - public_health

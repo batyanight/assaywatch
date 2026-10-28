@@ -29,6 +29,9 @@ citation:
   reference: Farias, M. E. M., LaPointe, D. A., Atkinson, C. T., Czerwonka, C., Shrestha, R. & Jarvi, S. I. Taqman real-time PCR detects Avipoxvirus DNA in blood of Hawai'i 'Amakihi (Hemignathus virens). PLoS ONE 5, e10745 (2010).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 55
+  mg_mm: 1.5
 use_context:
 - wildlife
 submitted_by: null

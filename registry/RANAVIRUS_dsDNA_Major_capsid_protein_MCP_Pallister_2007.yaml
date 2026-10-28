@@ -26,6 +26,8 @@ citation:
   as_written: Pallister et al, 2007
   doi_verified: true
   reference: Pallister J et al. 2007. J Fish Dis 30:427-438
+conditions:
+  cycles: 30
 use_context:
 - wildlife
 - veterinary

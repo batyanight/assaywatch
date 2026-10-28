@@ -30,6 +30,9 @@ citation:
     distemper virus in dogs by real-time RT-PCR. J Virol Methods 2006;136:171-176.
   doi_verified: true
   oligos_designed_here: null
+conditions:
+  cycles: 45
+  rt: one_step
 use_context:
 - wildlife
 - veterinary

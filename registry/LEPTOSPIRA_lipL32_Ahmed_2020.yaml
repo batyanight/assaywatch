@@ -29,6 +29,8 @@ citation:
   reference: Ahmed, A., Goris, M. G. A. & Meijer, M. C. Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection. PLOS ONE 15, e0241584 (2020).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 45
 use_context:
 - wildlife
 submitted_by: null

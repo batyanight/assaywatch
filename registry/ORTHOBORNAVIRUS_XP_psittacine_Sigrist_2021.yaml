@@ -33,6 +33,10 @@ citation:
   reference: Sigrist, B., Geers, J., Albini, S., Rubbenstroth, D. & Wolfrum, N. A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses. Viruses 13, 1358 (2021).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  rt: one_step
+  cycles: 45
+  mg_mm: 3.0
 use_context:
 - wildlife
 - veterinary

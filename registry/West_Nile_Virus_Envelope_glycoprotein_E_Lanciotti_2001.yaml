@@ -22,6 +22,8 @@ citation:
     Encephalitis, J. Clin. Microbiology, Dec 2001, p4506-4513.
   doi_verified: true
   reference: Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
+conditions:
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

@@ -23,6 +23,8 @@ citation:
   as_written: null
   doi_verified: true
   reference: Zimmermann W et al. 1994. J Virol Methods 46:133-143 (nested round)
+conditions:
+  mg_mm: 1.5
 use_context:
 - wildlife
 - veterinary

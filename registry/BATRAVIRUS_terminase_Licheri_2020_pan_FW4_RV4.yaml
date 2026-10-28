@@ -25,6 +25,8 @@ citation:
     of Veterinary Diagnostic Investigation 2020, 32(6):864-872.
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 40
 use_context:
 - wildlife
 - veterinary

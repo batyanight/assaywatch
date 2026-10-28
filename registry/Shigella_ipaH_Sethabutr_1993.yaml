@@ -22,6 +22,9 @@ citation:
   as_written: Sethabutr et al, 1993
   doi_verified: true
   reference: Sethabutr O et al. 1993. J Infect Dis 167:458-461
+conditions:
+  annealing_c: 50.0
+  cycles: 35
 use_context:
 - public_health
 - veterinary

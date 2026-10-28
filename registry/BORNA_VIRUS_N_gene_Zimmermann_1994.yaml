@@ -23,6 +23,8 @@ citation:
     of Virological Methods. 46, 133-143.
   doi_verified: true
   reference: Zimmermann W et al. 1994. J Virol Methods 46:133-143
+conditions:
+  mg_mm: 1.5
 use_context:
 - wildlife
 - veterinary

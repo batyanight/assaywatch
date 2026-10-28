@@ -23,6 +23,9 @@ citation:
   as_written: Candrain et al. 1991
   doi_verified: true
   reference: Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (seed list spells it Candrain)
+conditions:
+  cycles: 50
+  annealing_c: 55.0
 use_context:
 - public_health
 - veterinary

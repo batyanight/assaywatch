@@ -24,6 +24,8 @@ citation:
   doi_verified: true
   reference: Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)
   oligos_designed_here: false
+conditions:
+  mg_mm: 1.5
 use_context:
 - wildlife
 - veterinary

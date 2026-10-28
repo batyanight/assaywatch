@@ -22,6 +22,10 @@ citation:
   as_written: Feldman et al 2006. JWD
   doi_verified: true
   reference: Feldman SH et al. 2006. J Wildl Dis 42:279-288
+conditions:
+  mg_mm: 1.5
+  annealing_c: 55.0
+  cycles: 35
 use_context:
 - wildlife
 - veterinary

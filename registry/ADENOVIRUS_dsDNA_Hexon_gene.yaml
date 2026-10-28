@@ -21,6 +21,9 @@ citation:
   as_written: PREDICT PROTOCOL
   doi_verified: true
   reference: Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
+conditions:
+  mg_mm: 4.0
+  cycles: 30
 use_context:
 - wildlife
 - veterinary

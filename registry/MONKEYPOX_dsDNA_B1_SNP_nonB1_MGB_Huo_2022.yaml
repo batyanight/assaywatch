@@ -31,6 +31,8 @@ citation:
     Biosaf Health 4:392-398
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 45
 use_context:
 - public_health
 - wildlife

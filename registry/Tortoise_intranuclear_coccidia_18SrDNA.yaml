@@ -27,6 +27,8 @@ citation:
   doi_verified: true
   reference: Alvarez WA et al. 2013. Vet Parasitol 193:66-70 (the TINC qPCR design paper; INCqPCRF/INCqPCR2R and the 6FAM-BHQ
     probe)
+conditions:
+  annealing_c: 48.0
 use_context:
 - veterinary
 - wildlife

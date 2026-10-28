@@ -35,6 +35,8 @@ citation:
     2022;60(5).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 60.0
 use_context:
 - wildlife
 - veterinary

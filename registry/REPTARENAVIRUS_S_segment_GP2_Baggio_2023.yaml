@@ -58,6 +58,8 @@ citation:
     RT-PCR Method for the Detection of Reptarenavirus Infection. Viruses 2023, 15, 2313.
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 42
 use_context:
 - wildlife
 - veterinary

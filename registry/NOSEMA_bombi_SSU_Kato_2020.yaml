@@ -24,6 +24,9 @@ citation:
   reference: 'Klee, J.; Tek Tay, W.; Paxton, R. J. Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences. Journal of Invertebrate Pathology 2006, 91, 98-104.'
   doi_verified: true
   oligos_designed_here: null
+conditions:
+  mg_mm: 2.5
+  cycles: 45
 use_context:
 - wildlife
 submitted_by: null

@@ -23,6 +23,8 @@ citation:
   doi_verified: true
   reference: Fox JG et al. 1998. Gastroenterology 114:755-763
   oligos_designed_here: true
+conditions:
+  annealing_c: 55.0
 use_context:
 - wildlife
 - veterinary

@@ -23,6 +23,9 @@ citation:
   doi_verified: true
   reference: Ibrahim A, Liesack W, Stackebrandt E. 1992. J Clin Microbiol 30:1942-1947
   oligos_designed_here: true
+conditions:
+  annealing_c: 60.0
+  cycles: 35
 use_context:
 - public_health
 - veterinary

@@ -25,6 +25,9 @@ citation:
     system. Frontiers in Microbiology 16, 1599006 (2025).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 40
+  rt: one_step
 use_context:
 - wildlife
 - veterinary

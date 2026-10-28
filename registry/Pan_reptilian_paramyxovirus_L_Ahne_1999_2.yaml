@@ -21,6 +21,8 @@ citation:
   as_written: Ahne et al. Virus Research 63 (1999) 65–74
   doi_verified: true
   reference: Ahne W et al. 1999. Virus Res 63:65-74
+conditions:
+  cycles: 30
 use_context:
 - veterinary
 - wildlife

@@ -22,6 +22,8 @@ citation:
   doi_verified: true
   reference: Rebelo, A. R., Parker, L. & Cai, H. Y. Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples. Journal of Veterinary Diagnostic Investigation 23, 932-936 (2011).
   oligos_designed_here: false
+conditions:
+  cycles: 35
 use_context:
 - wildlife
 - veterinary

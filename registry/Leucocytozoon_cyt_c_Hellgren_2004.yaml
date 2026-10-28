@@ -23,6 +23,8 @@ citation:
   doi_verified: true
   reference: Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemFL/HaemR2L)
   oligos_designed_here: true
+conditions:
+  mg_mm: 1.5
 use_context:
 - wildlife
 - veterinary

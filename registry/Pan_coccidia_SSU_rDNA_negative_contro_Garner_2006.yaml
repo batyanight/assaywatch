@@ -23,6 +23,8 @@ citation:
     43: 311–320'
   doi_verified: true
   reference: Garner MM et al. 2006. Vet Pathol 43:311-320
+conditions:
+  cycles: 40
 use_context:
 - wildlife
 - veterinary

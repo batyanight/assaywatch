@@ -22,6 +22,10 @@ citation:
   doi_verified: true
   reference: Johnson AJ et al. 2008. J Wildl Dis 44:851-863
   oligos_designed_here: false
+conditions:
+  mg_mm: 1.5
+  annealing_c: 50.0
+  cycles: 25
 use_context:
 - wildlife
 - veterinary

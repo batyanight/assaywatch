@@ -26,6 +26,8 @@ citation:
     of Apis mellifera by Nosema ceranae. Appl Environ Microbiol 73:6331-6338
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 10
 use_context:
 - veterinary
 submitted_by: null

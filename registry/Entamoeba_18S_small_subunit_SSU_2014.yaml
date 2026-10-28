@@ -25,6 +25,9 @@ citation:
     in a cheloian collection. Journal of Medical Microbiology (2014), 63, 271-283.
   doi_verified: true
   reference: García G et al. 2014. J Med Microbiol 63:271-283
+conditions:
+  mg_mm: 2.0
+  cycles: 35
 use_context:
 - wildlife
 - veterinary

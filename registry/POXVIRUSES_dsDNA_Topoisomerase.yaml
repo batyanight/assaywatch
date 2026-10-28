@@ -22,6 +22,8 @@ citation:
   reference: Bracht, A. J. et al. Genetic identification of novel poxviruses of cetaceans and pinnipeds. Archives of virology
     151, 423-438, doi:Doi 10.1007/s00705-005-0679-6 (2006).
   doi_verified: true
+conditions:
+  cycles: 39
 use_context:
 - wildlife
 - veterinary

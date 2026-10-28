@@ -28,6 +28,8 @@ citation:
     and bovine papular stomatitis virus. J Virol Methods 194:229-234
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 62.5
 use_context:
 - wildlife
 - veterinary

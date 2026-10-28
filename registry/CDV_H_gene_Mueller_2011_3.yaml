@@ -26,6 +26,8 @@ citation:
   doi_verified: true
   reference: Müller A, Silva E, Santos N, Thompson G. 2011. Domestic dog origin of canine distemper virus in free-ranging
     wolves in Portugal as revealed by hemagglutinin gene characterization. J Wildl Dis 47:725-729
+conditions:
+  annealing_c: 57.0
 use_context:
 - wildlife
 - veterinary

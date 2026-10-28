@@ -22,6 +22,8 @@ citation:
   as_written: J Am Vet Med Assoc. 2011 Dec 15;239(12):1584-8.
   doi_verified: true
   reference: Sledge DG et al. 2011. J Am Vet Med Assoc 239:1584-1588
+conditions:
+  cycles: 40
 use_context:
 - veterinary
 submitted_by: null

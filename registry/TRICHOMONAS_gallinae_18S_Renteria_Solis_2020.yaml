@@ -25,6 +25,9 @@ citation:
     assay for detection and quantification of Trichomonas gallinae.
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 55.0
+  cycles: 40
 use_context:
 - wildlife
 - veterinary

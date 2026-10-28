@@ -22,6 +22,9 @@ citation:
   as_written: Rahn et al, 1992
   doi_verified: true
   reference: Rahn K et al. 1992. Mol Cell Probes 6:271-279
+conditions:
+  mg_mm: 1.25
+  cycles: 35
 use_context:
 - public_health
 - veterinary

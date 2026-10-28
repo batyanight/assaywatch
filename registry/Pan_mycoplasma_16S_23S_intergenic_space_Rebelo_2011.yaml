@@ -25,6 +25,8 @@ citation:
     isolated from ruminant, avian, and canine samples. J Vet Diagn Invest. 23(5): 932-936'
   doi_verified: true
   reference: Rebelo AR et al. 2011. J Vet Diagn Invest 23:932-936
+conditions:
+  cycles: 35
 use_context:
 - wildlife
 - veterinary

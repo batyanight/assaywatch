@@ -23,6 +23,8 @@ citation:
   as_written: Forslund, O 1999
   doi_verified: true
   reference: Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
+conditions:
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

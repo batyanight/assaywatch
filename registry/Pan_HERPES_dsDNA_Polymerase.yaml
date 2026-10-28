@@ -28,6 +28,10 @@ citation:
   doi_verified: true
   reference: VanDevanter DR et al. 1996. J Clin Microbiol 34:1666-1671 (DFA/ILK/KG1 nested pan-herpesvirus DPOL PCR)
   oligos_designed_here: true
+conditions:
+  mg_mm: 2.0
+  annealing_c: 48.0
+  cycles: 30
 use_context:
 - wildlife
 - veterinary

@@ -24,6 +24,9 @@ citation:
   doi_verified: true
   reference: Wang RF, Cao WW, Cerniglia CE. 1997. A universal protocol for PCR detection of 13 species of foodborne pathogens
     in foods. J Appl Microbiol 83:727-736
+conditions:
+  cycles: 35
+  annealing_c: 50.0
 use_context:
 - public_health
 - veterinary

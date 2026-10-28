@@ -22,6 +22,9 @@ citation:
   as_written: null
   doi_verified: true
   reference: Takehisa J et al. 2009. J Virol 83:1635-1648 (outer primers of the nested pol set; HahnF1/HahnR1)
+conditions:
+  annealing_c: 55.0
+  cycles: 35
 use_context:
 - wildlife
 submitted_by: null

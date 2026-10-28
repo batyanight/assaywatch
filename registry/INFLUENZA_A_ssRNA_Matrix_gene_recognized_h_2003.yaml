@@ -32,6 +32,9 @@ citation:
   doi_verified: true
   reference: Spackman E et al. 2002. J Clin Microbiol 40:3256-3260 (matrix primers/probe); 2003 Avian Dis 47:1079 is the field validation, doi 10.1637/0005-2086-47.S3.1079
   oligos_designed_here: false
+conditions:
+  mg_mm: 3.75
+  annealing_c: 58.0
 use_context:
 - wildlife
 - veterinary

@@ -29,6 +29,8 @@ citation:
   reference: Victor T, du Toit R, van Zyl J, Bester AJ, van Helden PD. 1991. Improved method for the routine identification
     of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit. J Clin Microbiol
     29:158-161
+conditions:
+  mg_mm: 2.0
 use_context:
 - public_health
 - veterinary

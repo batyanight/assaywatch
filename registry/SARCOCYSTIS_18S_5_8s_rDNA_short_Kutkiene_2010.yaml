@@ -79,6 +79,8 @@ citation:
     from the barnacle goose (Branta leucopsis). Parasitol Res; 2010; 107:879-888
   doi_verified: true
   reference: Kutkienė L et al. 2010. Parasitol Res 107:879-888
+conditions:
+  cycles: 35
 use_context:
 - wildlife
 - veterinary

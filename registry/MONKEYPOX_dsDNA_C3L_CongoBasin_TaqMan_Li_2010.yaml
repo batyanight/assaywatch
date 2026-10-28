@@ -30,6 +30,8 @@ citation:
     virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 60.0
 use_context:
 - wildlife
 - public_health

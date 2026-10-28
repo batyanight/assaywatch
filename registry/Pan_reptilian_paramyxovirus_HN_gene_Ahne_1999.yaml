@@ -22,6 +22,8 @@ citation:
   doi_verified: true
   reference: Ahne W et al. 1999. Virus Res 63:65-74
   oligos_designed_here: true
+conditions:
+  cycles: 30
 use_context:
 - wildlife
 - veterinary

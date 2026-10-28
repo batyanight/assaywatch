@@ -29,6 +29,8 @@ citation:
   reference: Shuey, M. M., Drees, K. P., Lindner, D. L., Keim, P. & Foster, J. T. Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species. Applied and Environmental Microbiology 80, 1726-1731 (2014).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 62.0
 use_context:
 - wildlife
 submitted_by: null

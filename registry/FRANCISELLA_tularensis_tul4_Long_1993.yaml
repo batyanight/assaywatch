@@ -25,6 +25,8 @@ citation:
   reference: Long, G. W., Oprandy, J. J., Narayanan, R. B., Fortier, A. H., Porter, K. R. & Nacy, C. A. Detection of Francisella tularensis in blood by polymerase chain reaction. Journal of Clinical Microbiology 31, 152-154 (1993).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 56.0
 use_context:
 - wildlife
 submitted_by: null

@@ -26,6 +26,8 @@ citation:
   as_written: Boyle et al, 2004
   doi_verified: true
   reference: Boyle DG et al. 2004. Dis Aquat Org 60:141-148
+conditions:
+  cycles: 50
 use_context:
 - wildlife
 - veterinary

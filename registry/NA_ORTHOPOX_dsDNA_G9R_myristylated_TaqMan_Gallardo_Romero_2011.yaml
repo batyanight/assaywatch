@@ -34,6 +34,9 @@ citation:
     VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 40
+  annealing_c: 60.0
 use_context:
 - wildlife
 - veterinary

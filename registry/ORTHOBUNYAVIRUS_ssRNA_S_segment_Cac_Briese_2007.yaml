@@ -23,6 +23,8 @@ citation:
   reference: 'Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

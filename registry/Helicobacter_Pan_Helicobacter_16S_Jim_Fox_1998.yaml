@@ -22,6 +22,8 @@ citation:
   as_written: 'Fox J. et al. 1998: DOI: https://doi.org/10.1016/S0016-5085(98)70589-X'
   doi_verified: true
   reference: Fox JG et al. 1998. Gastroenterology 114:755-763
+conditions:
+  annealing_c: 55.0
 use_context:
 - wildlife
 - veterinary

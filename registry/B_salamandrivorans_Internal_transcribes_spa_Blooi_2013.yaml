@@ -28,6 +28,8 @@ citation:
   doi_verified: true
   reference: Blooi M et al. 2013. J Clin Microbiol 51:4173-4177
   oligos_designed_here: false
+conditions:
+  cycles: 40
 use_context:
 - wildlife
 - veterinary
