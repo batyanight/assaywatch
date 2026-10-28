@@ -63,6 +63,7 @@ from assaywatch.drift import (
     pct,
     reduced_not_detected_ids,
 )
+from assaywatch.hierarchical import describe as describe_hierarchical
 from assaywatch.nested import NestedFamily, unpaired
 from assaywatch.nested import assess as assess_nested
 from assaywatch.review import OLIGO_DOUBT, ReviewFlag
@@ -712,6 +713,9 @@ class DetailRow:
     # One clause under the per-year table: the Cochran-Armitage trend, or why there
     # is none. Reported, never a verdict input (assaywatch/trend.py).
     trend: str
+    # One clause after the lineage material: the assay's lineages under one fitted
+    # Beta-binomial (C1 hierarchical). Reported, never a verdict input.
+    hierarchical: str
     species: SpeciesBlock | None
     out_of_scope: int
     # (label, predicted-detected, screened, share) per off-target taxon, worst
@@ -1070,6 +1074,7 @@ def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> Detai
         degeneracy_note=(deg.note(cfg) or "") if deg else "",
         years=year_table_rows(a),
         trend=describe_trend(a.trend, a.trend_min_years),
+        hierarchical=describe_hierarchical(a.hierarchical, a.threshold) if a.lineage_stats else "",
         species=species,
         out_of_scope=a.out_of_scope,
         exclusivity=exclusivity_rows(a, taxonomy),
@@ -1432,6 +1437,8 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
             for year, det, ev, frac in d.years:
                 out.append(f"| {year} | {det} | {ev} | {frac} |")
             out += ["", f"*{d.trend}*"]
+            if d.hierarchical:
+                out += ["", f"*{d.hierarchical}*"]
             if d.species:
                 sp = d.species
                 out += [
@@ -1868,6 +1875,8 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
                 parts.append(f"<tr><td>{year}</td><td>{det}</td><td>{ev}</td><td>{frac}</td></tr>")
             parts.append("</table>")
             parts.append(f"<p class='muted'>{e(d.trend)}</p>")
+            if d.hierarchical:
+                parts.append(f"<p class='muted'>{e(d.hierarchical)}</p>")
             if d.species:
                 sp = d.species
                 parts.append(

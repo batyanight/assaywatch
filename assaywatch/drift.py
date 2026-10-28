@@ -88,6 +88,7 @@ from assaywatch.accession import strip_version
 # Re-exported, not just used: `drift.wilson_interval` is the name figures.py,
 # the tests and scripts/ already import. The estimators moved to interval.py so
 # that lineage.py, which sits below this module, can use the same ones.
+from assaywatch.hierarchical import HierarchicalFit
 from assaywatch.interval import newcombe_difference, posterior_below, wilson_interval
 from assaywatch.trend import Trend, cochran_armitage
 
@@ -271,6 +272,10 @@ class AssayDrift:
     # under either rule.
     flag_rule: str = "wilson"
     flag_credibility: float = 0.95
+    # C1's hierarchical layer (assaywatch/hierarchical.py): the assay's lineages under
+    # one fitted Beta-binomial, filled by `_lineage_check` and reported beside the
+    # verdict. Not a verdict input; a test pins that.
+    hierarchical: HierarchicalFit | None = None
     # Calls split by the recent-window cutoff as records are added (assess). When
     # empty, finalise falls back to splitting `years` at `recent_from`.
     recent_counts: Counter = field(default_factory=Counter)
@@ -717,6 +722,25 @@ class AssayDrift:
         for s in stats:
             s.assay_id = self.assay_id
         self.lineage_stats = stats
+
+        # C1's hierarchical layer, BESIDE the verdict: one Beta-binomial over every
+        # lineage with any record (not only those above the floor), fitted on the
+        # lineages above it. Nothing below this line reads `self.hierarchical`.
+        from assaywatch.hierarchical import fit_assay
+
+        every = per_lineage_stats(
+            recent_calls,
+            taxa_cache,
+            taxid_sidecar,
+            min_records=1,
+            resolvers=resolvers,
+            detected_calls=self.detected_calls,
+        )
+        self.hierarchical = fit_assay(
+            [(s.lineage_name, s.n_detected, s.n_evaluable) for s in every],
+            self.threshold,
+            min_records=min_records_per_lineage,
+        )
 
         # What share of recent evaluable records sit in assessable lineages?
         n_in_assessable = sum(s.n_evaluable for s in stats)

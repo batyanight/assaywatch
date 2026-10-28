@@ -105,17 +105,15 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
 `detect_max` 1.0 and `reduced_max` 3.0, with `terminal_mismatch_fails: true` and, since
 2026-10-27, a 2.0 3'-window penalty for conventional PCR.
 
-- **C1, the hierarchical layer only.** The conjugate half was run on 2026-10-27 as
-  the plan specified and is closed (`## Done`): a posterior flag rule moves 2 of 233
-  statuses and nothing in tier-2, so `drift.flag_rule` stays `wilson` with the
-  `posterior` mechanism kept for re-asking. What was never about the flag rule is the
-  part still worth building: **30 of the 188 assays screened on the 2026-10-26 run
-  are refused a verdict for want of records**, and no reading of the bar touches that. A Beta-binomial with shrinkage
-  across the lineages of one assay, or across assays of one chemistry, is what lets a
-  17-record assay say something. Design and kill test: `docs/bayesian-scoring-plan.md`
-  C1 "The hierarchical layer" (fitted overdispersion implies independence, or
-  shrinkage removes a documented catch). Report-time, scipy only. It is a separate axis
-  from scoring and must be held fixed while scoring candidates run.
+- **C1's hierarchical layer: built and printed, kill test owed.** `assaywatch/hierarchical.py`
+  fits one Beta-binomial over an assay's lineages by moments (μ the pooled share, φ off the
+  excess between-lineage variance), gives every lineage a shrunk share, a credible interval
+  and P(θ < threshold), and `drift._lineage_check` prints the result beside the verdict
+  (`docs/journal/2026-10-27-c1-hierarchical-layer.md`). Not a verdict input; a test pins it.
+  What is owed is the plan's kill test — "φ implies no overdispersion, or shrinkage removes a
+  documented catch" — which needs the first run that carries the line (the M1 run in
+  progress on 2026-10-27) read, and tier-2 re-run with the shrunk worst lineage in place of
+  the Holm one. Only then is "should it drive the override" a question with evidence.
 - **S5 = C2: the Bayesian per-record model, and it is GATED.**
   `P(detect) = P(fwd ok) x P(rev ok) x P(probe reports)`, each logistic over identity,
   position, adjacency and length, with chemistry as a hierarchical intercept and priors
@@ -297,7 +295,14 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   Anthony 2013, which prints it. Nothing on disk prints the three pending pairs; their
   nesting was read off amplicon geometry and one shared reverse primer, and their own
   note says to re-check that first if a source appears. They stay pending until one
-  does. The other seven need one literature pass each for a design paper.
+  does. Of the other seven, two are `as_written: unpublished` protocol oligos (pan-parvo
+  VP1, polyomavirus VP1) and stay pending by definition. The rest were searched on
+  PubMed on 2026-10-27 and not found: for the feline morbillivirus L-gene pair the only
+  hit is De Luca 2018 (10.1016/j.jviromet.2018.05.002), which targets P/V/C and only
+  cites "a generic RT-PCR targeting the L gene"; for the enterovirus EVRV1/EVRV2 pair,
+  four papers USE a 5'-UTR/VP2 assay and none designs one; for the poxvirus polymerase
+  set, nothing. The design papers, if they exist, are not findable by assay description,
+  which is the same wall the identity work hit.
 - **The held-out collection target is not met.** Set 2 holds 1 row against a target
   of 15-20 with at least 5 of `mechanism: drift`, and set 1 is spent.
   `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
