@@ -200,6 +200,38 @@ CALICIVIRUS Helicase entry's 3'-terminal G/C mismatch is the same mechanism on a
 conventional PCR, which makes the pair of them a two-chemistry test of the same knob.
 Evidence: `docs/journal/2026-10-24-scope-audit.md`, item 10.
 
+## Part 1c: S7, added 2026-10-28, and where it came from
+
+The ladder as written moves down the 3′ window (S3b, shipped) and across identity (S4/M1,
+shipped). It never named the **mid window**, and that turns out to be where most of the
+project's flags are decided.
+
+**S7: `primer_mid_penalty` 1.0 → 0.5.** The arithmetic is S3b's one band up:
+`primer_mid_penalty` equals `detect_max` exactly, so a single mid-window mismatch lands on
+the detect/reduced boundary and a second mismatch anywhere crosses it. Over the
+2026-10-27 run's site table, **69 sites across 23 assays** show a non-3′-window mismatch
+carried by ≥200 records where detection falls from above 80% to below 20% — 36 of those
+sites on `low coverage` assays, 33 on `declining` ones. Registered in
+`strategies/s7-mid-window-penalty.yaml` with S3b's kill criteria: it dies if it loses a
+documented tier-2 catch, stated per catch and never netted against gains, or if it newly
+predicts a band on any of the 16 within-family bench negatives.
+
+**S7b, the better candidate, is not priceable with an overlay.** Kwok 1990 and Stadhouders
+2010 measure IDENTITY, not position, and `scoring.mispair_penalty` already expresses it —
+but `score.penalty_for` applies the table only inside the 3′ window, because applying it
+everywhere erased internal wobbles and cost three documented catches
+(`2026-10-22-M1-tier2.md`). Extending it to the **mid window alone** has never been tried
+and needs a `mispair_window` setting. Registered; unpriced.
+
+**Where S7 came from matters for the protocol.** The lead is held-out data: set 2's one
+false alarm, Mills 2022 on the monkeypox G2R generic assay, traced to a G:T wobble at
+position 8 of the reverse primer (`2026-10-28-g2r-false-alarm-traced.md`). Part 3 forbids
+tuning on held-out rows and that stands — **what the row supplied is the QUESTION, and the
+answer is being bought with the development set and the bench panels**, which are the sets
+Part 0.3 freezes for exactly this. If S7 ships, the held-out row must not be re-read to
+check it; the next row for that assay's class has to be a new one, and 22 of those 23
+assays are not monkeypox.
+
 ## Part 1b: C1 is a separate axis, and it is free
 
 C1 (Beta posterior on the detection proportion, `P(θ < 0.90 | data)` as the flag rule,
