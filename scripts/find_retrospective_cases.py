@@ -99,6 +99,49 @@ GROUPS: dict[str, list[str]] = {
     ],
 }
 
+# OPT-IN, and deliberately not part of the default queue. `GROUPS` above is
+# failure-weighted on purpose and a test pins that, because the development set already
+# holds 32 `works` rows against one `fails`+`drift` row, and a works-hunting family
+# would swamp the queue with cases the project does not need.
+#
+# It exists because of a paper this search would never have found. Quackenbush et al.
+# 1998 was fetched as completeness reading and turned out to be the strongest tier-2
+# candidate available: it USES the pan-herpes DPOL nest and reports sequencing a product
+# 53% identical to its nearest relatives from five green turtle fibropapillomas. No
+# failure word anywhere in it.
+#
+# So the family sits here, asked for with `--include use`, for the day the
+# failure-weighted queue runs out -- which it now has: every row of the 2026-10-26
+# concentrated queue is closed on content or on access as of 2026-10-28. Expect a long
+# queue and let `scripts/check_candidate_identity.py` filter it, which is the measured
+# order of work: identity is the binding constraint and it is the cheap test.
+OPTIONAL_GROUPS: dict[str, list[str]] = {
+    "use": [
+        "using the assay",
+        "using this assay",
+        "using primers described",
+        "using the primers of",
+        "previously published primers",
+        "published primers",
+        "pan-herpesvirus pcr",
+        "consensus pcr",
+        "nested pcr was performed",
+        "screened by pcr",
+        "amplified using primers",
+    ],
+}
+
+
+def groups_for(include=()) -> dict[str, list[str]]:
+    """The failure-weighted families, plus any opt-in family asked for by name."""
+    out = dict(GROUPS)
+    for name in include:
+        if name not in OPTIONAL_GROUPS:
+            raise SystemExit(f"unknown phrase family {name!r}; known: {', '.join(OPTIONAL_GROUPS)}")
+        out[name] = OPTIONAL_GROUPS[name]
+    return out
+
+
 # WHY THE API FILTER IS NOT THE FILTER, measured 2026-10-26. Europe PMC's
 # `ABSTRACT:"..."` does NOT enforce adjacency: on one design paper it took 131 citing
 # papers to 58, and none of the first three returned abstracts contained any phrase at
@@ -168,14 +211,14 @@ def citing_with_phrases(source: str, pmid: str, phrases: list[str], page: int = 
     return out
 
 
-def matched_groups(abstract: str) -> list[str]:
+def matched_groups(abstract: str, groups: dict[str, list[str]] | None = None) -> list[str]:
     low = (abstract or "").lower()
-    return [g for g, ps in GROUPS.items() if any(p in low for p in ps)]
+    return [g for g, ps in (groups or GROUPS).items() if any(p in low for p in ps)]
 
 
-def matched_phrases(abstract: str) -> list[str]:
+def matched_phrases(abstract: str, groups: dict[str, list[str]] | None = None) -> list[str]:
     low = (abstract or "").lower()
-    return [p for ps in GROUPS.values() for p in ps if p in low]
+    return [p for ps in (groups or GROUPS).values() for p in ps if p in low]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -183,6 +226,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--registry", type=Path, default=REPO / "registry")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--delay", type=float, default=0.34, help="seconds between API calls")
+    ap.add_argument(
+        "--include",
+        action="append",
+        default=[],
+        metavar="FAMILY",
+        help="add an opt-in phrase family (see OPTIONAL_GROUPS). `use` hunts papers that "
+        "simply RUN a registry assay and report a result, which is scoreable whatever the "
+        "result and is how the only tier-2 candidate of 2026-10-28 was found. Off by "
+        "default: the queue is failure-weighted because a documented failure is the scarce case.",
+    )
     ap.add_argument(
         "--limit", type=int, default=None, help="only the first N design papers (for a smoke test)"
     )
@@ -199,9 +252,10 @@ def main(argv: list[str] | None = None) -> int:
     dois = sorted(by_doi)
     if args.limit:
         dois = dois[: args.limit]
-    all_phrases = [p for ps in GROUPS.values() for p in ps]
+    groups = groups_for(tuple(args.include))
+    all_phrases = [p for ps in groups.values() for p in ps]
     print(f"{len(by_doi)} verified design DOIs behind {sum(len(v) for v in by_doi.values())} entries")
-    print(f"searching {len(dois)} of them, {len(all_phrases)} phrases in {len(GROUPS)} groups\n")
+    print(f"searching {len(dois)} of them, {len(all_phrases)} phrases in {len(groups)} groups\n")
 
     rows: list[dict] = []
     unresolved: list[str] = []
@@ -221,8 +275,8 @@ def main(argv: list[str] | None = None) -> int:
             # The design paper citing itself, or a self-citation of the same record.
             if h.get("doi") == doi:
                 continue
-            groups = matched_groups(h.get("abstractText") or "")
-            if not groups:
+            matched = matched_groups(h.get("abstractText") or "", groups)
+            if not matched:
                 # The API's loose match, not a real one. Dropped rather than recorded:
                 # see the note above GROUPS.
                 continue
@@ -236,8 +290,8 @@ def main(argv: list[str] | None = None) -> int:
                     "year": h.get("pubYear") or "",
                     "open_access": h.get("isOpenAccess") or "",
                     "pmcid": h.get("pmcid") or "",
-                    "groups": ",".join(sorted(groups)),
-                    "phrases": "; ".join(matched_phrases(h.get("abstractText") or "")),
+                    "groups": ",".join(sorted(matched)),
+                    "phrases": "; ".join(matched_phrases(h.get("abstractText") or "", groups)),
                     "journal": h.get("journalTitle") or h.get("journalAbbreviation") or "",
                     "title": (h.get("title") or "").replace("\t", " ").strip(),
                 }

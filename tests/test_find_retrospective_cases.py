@@ -34,6 +34,18 @@ def test_the_phrase_groups_are_failure_weighted_and_disjoint():
     """
     assert set(frc.GROUPS) == {"miss", "mismatch", "weakened", "redesign"}
     assert "works" not in frc.GROUPS, "a works-hunting group would swamp the queue"
+    # A use-and-report family EXISTS since 2026-10-28, because the only tier-2 candidate
+    # found that week had no failure word in it -- Quackenbush 1998 simply ran the
+    # pan-herpes nest and reported a product 53% identical to its nearest relatives. It
+    # is opt-in for the reason this test exists: by default the queue stays weighted
+    # towards the scarce case.
+    assert set(frc.OPTIONAL_GROUPS) == {"use"}
+    assert frc.groups_for() == frc.GROUPS
+    assert set(frc.groups_for(("use",))) == set(frc.GROUPS) | {"use"}
+    import pytest as _pytest
+
+    with _pytest.raises(SystemExit):
+        frc.groups_for(("nonsense",))
     seen: set[str] = set()
     for phrases in frc.GROUPS.values():
         assert phrases
