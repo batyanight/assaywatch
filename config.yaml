@@ -83,10 +83,25 @@ scoring:
   # the multiplier is above about 0.83, and drift counts `reduced` as detected.
   # Measurement in docs/journal/2026-10-22-M1-tier2.md; the earlier global-value run is in
   # docs/journal/2026-10-21-M1-shipped.md. The project rule decides it - a candidate that
-  # loses a documented catch is a bad candidate - so the table ships empty and the
-  # FAP/Barrett false fails stand. The mechanism and its 3' scope stay in
-  # score_primer, inert, for whatever candidate comes next.
-  mispair_penalty: {}
+  # loses a documented catch is a bad candidate - so the table shipped empty and the
+  # FAP/Barrett false fails stood. The mechanism and its 3' scope stayed in
+  # score_primer, inert, for whatever candidate came next.
+  #
+  # THE HOLD WAS LIFTED 2026-10-27, A MAINTAINER DECISION, AFTER THE COST WAS
+  # MEASURED AWAY. The Leucocytozoon catch was lost because a discounted record slid
+  # fail -> reduced and `reduced` counted as detected. drift.reduced_not_detected_for
+  # (shipped the same morning) stops a `reduced` probe call counting as a find, and
+  # Leucocytozoon_cyt_c_Hellgren_2004 is a probe assay. S4 re-ran M1 under that config
+  # against the shipped replay (docs/journal/2026-10-27-s4-m1-survives.md):
+  #   documented failures caught  6/11 -> 6/11, the Leucocytozoon catch STANDS
+  #   caught by `declining` itself  3/11 -> 4/11 (influenza 2010 promoted)
+  #   PPV of `declining`           3/9 -> 4/10;  false alarms 4/32 -> 4/32
+  #   bench rows wrong: FAP 10 -> 6, Barrett 2 -> 1, every other panel unchanged
+  # Nothing fitted: these are the two values M1 shipped with. What is NOT in this
+  # table, deliberately: the Kwok premium (A:G, G:A, C:C, A:A as penalty INCREASES)
+  # has never been priced, and the run that confirms this replay for real is the
+  # next full run, which the shipped scoring hash forces.
+  mispair_penalty: {"G:T": 0.0, "T:G": 0.0}
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
   # weighted above the ends. Known gap: of the 51 probe assays here on 2026-10-26, 20 are MGB,

@@ -1,6 +1,11 @@
 # S4 - M1, the identity-aware 3'-window discount, re-tested on the only stack that
 # survives the ladder.
 #
+# RUN 2026-10-27 AND THE HOLD LIFTED THE SAME DAY: config.yaml now ships
+# scoring.mispair_penalty {"G:T": 0.0, "T:G": 0.0}. docs/journal/2026-10-27-s4-m1-survives.md
+# has the measurement; the kill criterion below did not fire. This file is kept as the
+# pre-registration it was and as the replay that reproduces the pricing.
+#
 # RE-SPECIFIED, and the reason is recorded rather than quietly fixed. Part 1 S4 of
 # docs/journal/2026-10-24-scoring-strategy-test-plan.md says "M1 re-tested under S1+S2+S3",
 # on the reasoning that `primer_3prime_penalty` 3.0 equalling `reduced_max` 3.0 is a

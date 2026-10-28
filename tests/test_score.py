@@ -17,7 +17,7 @@ from assaywatch.fasta import read_fasta
 from assaywatch.iupac import reverse_complement
 from assaywatch.match import find_sites
 from assaywatch.schema import Assay
-from assaywatch.score import classify, load_config, screen_record
+from assaywatch.score import RESOLVED, classify, load_config, screen_record
 
 ROOT = Path(__file__).resolve().parents[1]
 FIX = Path(__file__).resolve().parent / "fixtures"
@@ -31,6 +31,13 @@ CFG = load_config()
 # terminal behaviour whatever a later candidate puts in the table. The mechanism
 # itself is pinned by the dedicated identity tests below.
 CFG_NO_MISPAIR = {**CFG, "scoring": {**CFG["scoring"], "mispair_penalty": {}}}
+# `load_config` caches the per-chemistry resolution INSIDE the dict it returns
+# (`score.RESOLVED`), and a shallow copy carries that cache, so `config_for` would
+# answer from the shipped table however this copy's `scoring` reads. Found
+# 2026-10-27 when the M1 table shipped: three fixture rows planted on a primer G
+# read as free wobbles for conventional assays. Same footgun
+# scripts/price_terminal_mismatch.py hit the same day; the cache must be dropped.
+CFG_NO_MISPAIR.pop(RESOLVED, None)
 RECORDS = dict(read_fasta(FIX / "records.fasta"))
 MANIFEST = list(csv.DictReader((FIX / "manifest.tsv").open(), delimiter="\t"))
 ASSAYS = {

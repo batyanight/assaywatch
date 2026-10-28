@@ -105,20 +105,6 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
 `detect_max` 1.0 and `reduced_max` 3.0, with `terminal_mismatch_fails: true` and, since
 2026-10-27, a 2.0 3'-window penalty for conventional PCR.
 
-- **S4 is run, and M1 survives: lifting the hold is now a decision.** `mispair_penalty:
-  {}` ships empty, so the rule is identity-blind — a G:T wobble and an A:G mismatch cost
-  the same, which Kwok 1990 and Stadhouders 2010 both put at about two orders of
-  magnitude in yield. M1 (`G:T`/`T:G` discounted to 0.0) was reverted on 2026-10-22 for
-  losing the Leucocytozoon @2016-12-31 catch, because a discounted record slid `fail` ->
-  `reduced` and `reduced` counted as detected. Re-run on 2026-10-27 with the probe
-  switch shipped (`docs/journal/2026-10-27-s4-m1-survives.md`): **no catch lost**, the
-  influenza 2010 case promoted from `low coverage` to `declining` (drift-flag catches
-  3/11 -> 4/11, PPV 3/9 -> 4/10), false alarms unchanged at 4/32, and five bench rows
-  fixed with none broken (FAP 10 -> 6 wrong, Barrett 2 -> 1). Priced by replay, not
-  proven; `scoring.mispair_penalty` stays `{}`. What would precede lifting the hold: a
-  confirming rescreen of the assays carrying its 151,076 moved calls, and pricing the
-  rest of the Kwok table — the A:A / C:C / G:A / A:G *premium*, never tried — beside the
-  discount, since two easy entries are not an identity table.
 - **C1, the hierarchical layer only.** The conjugate half was run on 2026-10-27 as
   the plan specified and is closed (`## Done`): a posterior flag rule moves 2 of 233
   statuses and nothing in tier-2, so `drift.flag_rule` stays `wilson` with the
@@ -197,6 +183,16 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   under the scoring test plan above, and `locus_identity_min` must stay null.
 
 ## Method debts
+
+- **`score.load_config` caches the per-chemistry resolution inside the dict it returns,
+  and a shallow copy carries the cache.** `config_for` then answers from the shipped
+  table however the copy's `scoring` block reads. It bit twice on 2026-10-27, both times
+  the day a table stopped being empty: `scripts/price_terminal_mismatch.py` would have
+  scored every arm with the shipped penalty, and three fixture rows in `tests/test_score.py`
+  read a planted G as a free wobble. Both callers now `pop(RESOLVED)`; the footgun is in
+  `score.py`, which is in the screen hash's closure and so waits for a quiet moment
+  between runs. Shape of the fix: key the cache on the identity of the `scoring` block
+  it was computed from, or stop storing it in the config dict at all.
 
 - **`drift.anchor_fdr`'s value has no evidence behind it, and the bench panels
   cannot supply any.** 0.05 and 0.01 differ by a factor of two in rows moved (7,206
@@ -475,6 +471,13 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **M1 ships: `scoring.mispair_penalty: {"G:T": 0.0, "T:G": 0.0}`** (hold lifted
+      2026-10-27, a maintainer decision, after S4 measured its only documented cost away:
+      no catch lost, the influenza 2010 case promoted to the drift flag, PPV 3/9 -> 4/10,
+      five bench rows fixed and none broken). The rule is no longer wholly identity-blind.
+      **Still owed:** the next full run is its confirming rescreen (the scoring hash
+      forces one), and the Kwok premium — A:G, G:A, C:C, A:A as penalty increases — has
+      never been priced; two discount entries are not an identity table.
 - [x] **Five Huo 2022 entries add clade- and lineage-level mpox typing** (2026-10-27).
       Two multiplex panels designed on 138 poxvirus genomes, one entry per probe: clade
       IIa/IIb, clade I and non-MPXV orthopoxvirus on one F3L-region pair (179 bp,
