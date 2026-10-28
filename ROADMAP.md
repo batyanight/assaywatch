@@ -27,9 +27,6 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
-- **30 commits are unpushed** to `origin/main` as of 2026-10-27, which is where CI
-  runs `validate.yml`. Everything in them is gated locally, but nothing has been
-  through CI. Authorised 2026-10-27; pushed as the first act of the roadmap plan.
 - **The two Priority 1 decisions of 2026-10-27 are taken** and are recorded in
   `## Done`: the Leetz case opened a new held-out set, and TNTBLAST waits until
   someone installs Rosetta 2, builds it for arm64, or runs it on the cluster.
@@ -151,11 +148,11 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   `settings.py`, `config.yaml` and other modules in the screen hash's import closure
   were edited and committed WHILE IT RAN, so every fresh screen carried a signature the
   pipeline no longer expected by the time it was read. The guard cannot tell an
-  innocent mid-run edit from a stale cache, and should not try. What would help: a
-  line in `scripts/weekly_run.sh` that lists dirty paths under `assaywatch/`,
-  `config.yaml`, `registry/` and `Snakefile` at start and refuses `--live` while any
-  exist, so a scheduled run never starts on a half-edited tree; and a rule for the
-  human — nothing in that closure is touched until the run reports. Not built yet.
+  innocent mid-run edit from a stale cache, and should not try. Both halves of the fix
+  are in: `scripts/weekly_run.sh` refuses `--live` while any path under `assaywatch/`,
+  `config.yaml`, `registry/` or `Snakefile` is dirty, so a scheduled run never starts on
+  a half-edited tree; and the rule for the human is that nothing in that closure is
+  touched until the run reports.
 - **Four inert switches, grouped here because each is the same shape**: a mechanism
   built, tested, and shipped off for want of evidence. `scoring.mispair_penalty: {}`
   (S4, above), `lineage.unclassified_is_bucket: false` (tier-2 is unchanged by it, so
@@ -209,22 +206,18 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   for 0.1% of records is a different kind of wrong, so step 1 must say in the report
   which records it applied to.
 
-- **`lineage.sublineage` for influenza: the chain works, and enabling it waits on a
-  numerator fix.** Measured 2026-10-27 (`docs/journal/2026-10-27-influenza-sublineage.md`):
-  the title resolver splits the matrix assay into 57 subtypes, and inside the 97% pool
-  H1N2 reads 72.1% (1,917 records) and H5N1 87.6% (3,214) — the lineage-conditional
-  estimand doing what it was designed for. H3N2, the subtype the literature flags, reads
-  99.4% of 38,771; the per-year table for that lineage alone is the next thing to look
-  at. Not enabled, because the lineage counts it would drive verdicts from use the wrong
-  numerator for probe chemistry (next item). Extend to the other segmented RNA viruses
-  only after measuring that a title regex labels their records.
-- **The influenza sublineage entry can now be enabled on consistent numbers.** The
-  defect that blocked it — `lineage.py` counting `reduced` as detected for every assay
-  after the probe switch stopped the pooled share doing so — is fixed (2026-10-27, `##
-  Done`): `lineage.py` was not in the screen hash's closure after all, so the fix did not
-  have to wait. What remains is the decision the config comment requires: enabling a
-  chain can move a verdict, so re-read the subtype table on the corrected numerator,
-  look at the H3N2 per-year table alone, and then decide with tier-2 behind it.
+- **`lineage.sublineage` for influenza: the chain works and is ready to enable.**
+  Measured 2026-10-27 (`docs/journal/2026-10-27-influenza-sublineage.md`): the title
+  resolver splits the matrix assay into 57 subtypes, and inside the 97% pool H1N2 reads
+  72.1% (1,917 records) and H5N1 87.6% (3,214) — the lineage-conditional estimand doing
+  what it was designed for. H3N2, the subtype the literature flags, reads 99.4% of
+  38,771. Those figures predate the numerator fix (`lineage.py` counted `reduced` as
+  detected for every assay after the probe switch stopped the pooled share doing so;
+  fixed the same day, `## Done`), so they will read lower on the corrected count. What
+  remains is what the config comment requires of any chain, because enabling one can move
+  a verdict: re-read the subtype table on the corrected numerator, look at the H3N2
+  per-year table alone, and decide with tier-2 behind it. Extend to the other segmented
+  RNA viruses only after measuring that a title regex labels their records.
 
 - **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
   already excludes out-of-scope records from the drift denominator and the
@@ -319,14 +312,6 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   is keyed by taxid, so changing `target.taxid` moves the group and re-fetches it. Do
   it as its own live run with a `report_diff` behind it.
   `docs/journal/2026-10-27-taxid-containment-and-merged-roots.md`.
-- **11 `taxon_name` mismatches, two kinds, open since 2026-10-04.** Three are ICTV
-  binomial renames where the stored name is the paper's (ABPV, BQCV, SBV): a name-only
-  edit in the house pattern, no retrieval effect. Eight are a species-level name on a
-  deliberate genus-level taxid narrowed by query (LMBV on *Ranavirus*, seven EEHV
-  entries on *Proboscivirus*) — the Mycoplasma shape — and `check_taxids.py` calls
-  them `MISMATCH` because it cannot tell deliberate from wrong. It needs a status that
-  reads the `query`, or the entries need a note. Same journal entry.
-
 - **Four leftovers from the oligo adjudication** (`docs/journal/2026-10-23-oligo-adjudication.md`),
   none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
   paper but in no listed oligo and may have been found inside a printed target
@@ -347,13 +332,6 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   before/after detected share reported.
 
 ## Hygiene
-
-- **Two one-off scripts are referenced by nothing**: `scripts/measure_amplicon_lengths.py`
-  and `scripts/measure_cmv_gb_amplicons.py`, the second of which measures exactly two
-  CMV gB pairs and is subsumed by the first. Both are measurement tools that did their
-  job, so this is a question of whether a one-off belongs in `scripts/` or in the
-  journal entry that used it — not a defect.
-
 
 - **The Greene SLURM profile is written and UNTESTED.** `profiles/slurm-greene/config.yaml`
   (2026-10-27) carries the partition / account / QoS stanzas, the `/scratch` filesystem
@@ -466,6 +444,17 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **The `taxon_name` mismatches are closed at both ends, and 0 remain** (2026-10-27,
+      open since 2026-10-04). Three were ICTV binomial renames where the stored name was
+      the paper's (ABPV, BQCV, SBV), renamed with the paper's name kept in parentheses.
+      The other eight were never wrong: a species-level name on a deliberate genus-level
+      taxid narrowed by explicit organism taxids in the query (Grizzle 2003 LMBV on genus
+      *Ranavirus*, seven Latimer 2010 EEHV entries on genus *Proboscivirus*), which
+      `check_taxids.py` could only read as `MISMATCH`. It now has a `SCOPED` status that
+      reads the query, requires every pinned organism taxid to descend from the entry's
+      own taxid — a query reaching outside the root is the Mycoplasma failure again and
+      still reports `MISMATCH` — and then asks whether one of them carries the stored
+      name. All eight resolve, naming the species they fetch. 0 mismatched taxids.
 - [x] **C1's hierarchical layer, measured on both halves of its plan** (2026-10-27).
       Built (`assaywatch/hierarchical.py`), printed beside every verdict; first kill test
       does not fire (φ 0.3–11.7 on multi-lineage assays, intraclass correlation

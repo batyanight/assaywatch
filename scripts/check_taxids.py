@@ -14,8 +14,22 @@ name and lineage of each taxid and prints one line per assay:
               binomial renaming made most virus species names synonyms)
     RANK      the names differ but taxon_name appears in the taxid's lineage
               or the other way round (usually a species vs genus choice)
+    SCOPED    the name is not the taxid's, but the retrieval `query` pins
+              `txid<N>[Organism:exp]` terms inside that taxid and one of them
+              IS the organism the name says -- a deliberate narrowing
     MISMATCH  neither: the taxid points at something else
     MISSING   no taxid set (resolve_citations.py can fill these)
+
+SCOPED EXISTS BECAUSE EIGHT ENTRIES WERE READING AS WRONG SINCE 2026-10-04. Seven
+Latimer 2010 EEHV entries sit on genus *Proboscivirus* (548689) and the Grizzle 2003
+LMBV entry on genus *Ranavirus* (10492), each narrowed to its own species by explicit
+organism taxids in the query -- the house pattern for an assay whose species has no
+usable retrieval root of its own. The name check could only say the genus is not
+called "Elephant endotheliotropic herpesvirus 5", so a deliberate design and a wrong
+taxid printed the same line. This reads the query, checks that every organism taxid in
+it descends from the entry's own taxid, and asks whether one of them carries the stored
+name; only then is the narrowing confirmed. A query that pins a taxon OUTSIDE the root
+still reports MISMATCH, because that is the Mycoplasma failure in a second disguise.
 
 And since 2026-10-27, one line per `scope_taxids` entry whose NCBI lineage does NOT
 contain the assay's `target.taxid`:
@@ -42,6 +56,7 @@ each scoped taxon's ancestor list and refuses when the root is not in it.
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 import time
 import xml.etree.ElementTree as ET
@@ -108,6 +123,35 @@ def fetch_taxa(taxids: list[int], email: str) -> dict[int, tuple[str, str, set[s
     return out
 
 
+def narrowed_to(
+    name: str,
+    root: int,
+    pinned: list[int],
+    taxa: dict[int, tuple[str, str, set[str], set[int], int]],
+) -> str:
+    """The pinned organism this entry's `taxon_name` names, or "" if none does.
+
+    Two conditions, both required. Every taxid the query pins must descend from the
+    entry's own taxid, or the query is reaching outside the retrieval root and the
+    MISMATCH stands. And one of them must carry the stored name: equal to NCBI's
+    scientific name, one of its synonyms, or either string inside the other -- the
+    last case is what lets "Elephant endotheliotropic herpesvirus 3 and 4" match the
+    two taxa it names, since the registry entry covers a pair of species on one
+    primer pair and NCBI has no name for the pair.
+    """
+    if not name or not pinned or any(p not in taxa for p in pinned):
+        return ""
+    canonical_root = taxa[root][4] if root in taxa else root
+    if any(canonical_root not in taxa[p][3] for p in pinned):
+        return ""
+    for p in pinned:
+        sci, _, other, _, _ = taxa[p]
+        low = sci.lower()
+        if name == low or name in other or low in name or name in low:
+            return f"{sci} ({p})"
+    return ""
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--registry", type=Path, required=True)
@@ -119,14 +163,19 @@ def main() -> int:
     scopes: list[tuple[str, int, int]] = []  # (assay, root taxid, scoped taxid)
     for path in sorted(args.registry.glob("*.yaml")):
         target = (yaml.safe_load(path.read_text()) or {}).get("target") or {}
-        entries.append((path.stem, target.get("taxid"), (target.get("taxon_name") or "").strip()))
+        pinned = [int(m) for m in re.findall(r"txid(\d+)\[Organism", target.get("query") or "")]
+        entries.append((path.stem, target.get("taxid"), (target.get("taxon_name") or "").strip(), pinned))
         if target.get("taxid"):
             scopes += [(path.stem, int(target["taxid"]), int(s)) for s in (target.get("scope_taxids") or [])]
 
-    wanted = {t for _, t, _ in entries if t} | {s for _, _, s in scopes}
+    wanted = (
+        {t for _, t, _, _ in entries if t}
+        | {s for _, _, s in scopes}
+        | {p for _, _, _, pinned in entries for p in pinned}
+    )
     taxa = fetch_taxa(sorted(wanted), args.email)
     bad = 0
-    for aid, taxid, name in entries:
+    for aid, taxid, name, pinned in entries:
         if not taxid:
             status, ncbi = "MISSING", ""
         elif taxid not in taxa:
@@ -143,6 +192,9 @@ def main() -> int:
                 status = "RANK"
             else:
                 status = "MISMATCH"
+                scoped_to = narrowed_to(first, taxid, pinned, taxa)
+                if scoped_to:
+                    status, ncbi = "SCOPED", f"{sci} narrowed by query to {scoped_to}"
         bad += status == "MISMATCH"
         if status != "OK" or not args.quiet:
             print(f"{status}\t{aid}\t{taxid or '-'}\tregistry: {name}\tncbi: {ncbi}")
@@ -153,7 +205,7 @@ def main() -> int:
     # Not an error -- esearch resolves a merged id -- but an entry carrying an id
     # NCBI has retired is one taxonomy release away from carrying nothing.
     merged = 0
-    for aid, taxid, _ in entries:
+    for aid, taxid, _, _ in entries:
         if taxid and taxid in taxa and taxa[taxid][4] != taxid:
             print(f"MERGED\t{aid}\t{taxid}\tnow {taxa[taxid][4]} ({taxa[taxid][0]})")
             merged += 1
