@@ -159,6 +159,91 @@ loses a documented tier-2 catch — i.e. if it buys nothing but a dependency on 
 The hierarchical layer dies if the fitted φ_a implies no overdispersion (records really
 are independent) or if shrinkage removes a documented catch.
 
+### Both halves were measured on 2026-10-27, and neither kill test fired
+
+Recorded here because this section's predictions can now be checked against numbers
+rather than re-argued. `docs/journal/2026-10-27-c1-posterior-flag-rule.md` and
+`-c1-second-kill-test.md` hold the detail; the short version:
+
+- **C1-conjugate**: Wilson and Jeffreys disagree on 1 of 1,351 lineage intervals. The
+  posterior flag rule (`P(θ < 0.90) > 0.95`) moves 2 of 233 statuses, both `watch` →
+  `low coverage` at small n, and leaves tier-2 identical case for case. Exhaustively
+  over 15 ≤ n ≤ 400 the two rules disagree on 425 of 69,581 cells and the posterior
+  always flags MORE. The prediction above — "if the matrix is the only thing measured,
+  C1 will look like it did nothing" — was right, and the 704 zero-width Wald intervals
+  it was really about had already been fixed by Wilson on 2026-10-23.
+- **The hierarchical layer** (`assaywatch/hierarchical.py`): fitted φ 0.3–11.7 on
+  multi-lineage assays, intraclass correlation 0.08–0.78, so the first kill test does
+  not fire — the records are nothing like independent, and that is now a parameter
+  rather than a prose caveat. Driving the override from the shrunk worst lineage
+  (`lineage.verdict_from: posterior`) moves **0 of 240 statuses** and leaves tier-2
+  identical, so the second does not fire either. It ships beside the verdict.
+
+Both therefore ship **off**: `drift.flag_rule: wilson`, `lineage.verdict_from: holm`.
+What the layer earns is honest numbers for thin lineages — a 0.0% (0.0%–0.0%) lineage
+reads 1.3% (0.0%–4.7%) — not a different decision.
+
+### C1b — the floor the hierarchical layer cannot reach, which is where the refusals are
+
+**The defect.** This section claimed above that "the assessability floor becomes soft"
+and named "the 48 assays currently refused a verdict" as one of C1's three gains. That
+is wrong, and the 2026-10-27 run is what showed it: `min_records_for_drift` is applied
+to the **pooled** recent count inside `drift.finalise`, *before* any lineage is looked
+at. The hierarchical layer shrinks across lineages, so it cannot reach an assay that
+never gets a lineage table at all. 30 assays are refused this way (2026-10-27 run), and
+for a 17-record assay there is no lineage to borrow from.
+
+**The model.** Borrow across ASSAYS instead, within one chemistry:
+
+    θ_a ~ Beta(μ_c · φ_c, (1 − μ_c) · φ_c)      for assay a of chemistry c
+    k_a ~ Binomial(n_a, θ_a)
+
+μ_c and φ_c fitted by the same moment-matching as `hierarchical.fit_assay`, on the
+assays of that chemistry that DO clear the floor; a refused assay then gets a posterior
+on its own θ_a, shrunk toward its chemistry's level, and the verdict comes from
+`P(θ_a < threshold) > credibility` exactly as `drift.flag_rule: posterior` already
+computes it. Nothing new is needed numerically: `hierarchical.py` and
+`interval.posterior_below` are both in place, and the change is which units the
+Beta-binomial is fitted over.
+
+**Why this is the only route left.** Three alternatives were considered and are worse.
+Widening the recent window is already priced (`2026-10-27-window-minimum-grid.md`): 36
+months keeps every catch, and widening does not help an assay whose whole archive is 17
+records. Lowering the floor was priced on the same grid: between 10 and 20 it only
+trades refusals, and at 30 it refuses 20 assays for no gain. And declining to judge
+remains defensible — it is what ships — but it is a refusal on the *estimator's*
+terms, not the evidence's: a 17-record assay with 2 detections is not weak evidence of
+drift, it is reasonable evidence, and a confidence interval simply has no way to say so.
+
+**The cost, stated before anything is built.** This imports an assumption the
+within-assay layer did not need: that assays of one chemistry are exchangeable draws
+from one distribution. They are not, obviously — a pan-family consensus PCR and a
+species-specific probe assay sit in the same `conventional` or `hydrolysis_probe`
+bucket and have nothing else in common. So the prior does real work here, where in the
+within-assay layer it mostly did not, and an assay with 17 records will be told largely
+what its chemistry's other assays say. That is the trade: a verdict with a stated,
+borrowed prior, against no verdict at all.
+
+**The kill tests, pre-registered.** C1b dies if either fires:
+
+1. **It changes a verdict that is already judgeable.** Fitted on the clearing assays
+   and applied to them, it must reproduce their shipped statuses; a disagreement on an
+   assay with hundreds of records means the pooled prior is overwhelming real data.
+2. **It manufactures a catch tier-2 cannot confirm.** Of the 30 refused assays, the
+   ones it promotes to `declining` must not include a case the literature reports as
+   *working*. There are `works` cases among the refusals (Salmonella invA, Shigella
+   ipaH, the pan-mycoplasma 16S, Bd), which makes this testable: a false alarm there is
+   a kill, not a shrug.
+
+**What it would be worth.** Tier-2 currently declines to judge 15 of its cases and 3 of
+its 11 documented failures. Those three are the whole of the difference between "6/11
+caught" and "6/8 among the cases it judged at all", and that gap is the strongest thing
+anyone can say against this project's central number. C1b is the only mechanism on the
+table that could close it rather than explain it.
+
+**Not built.** Design only, 2026-10-27, by the same rule the rest of this plan follows:
+a mechanism is written down with its kill criteria first, and measured before it ships.
+
 ---
 
 ## C2 — A Bayesian amplification model for the per-record call

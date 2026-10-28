@@ -15,6 +15,20 @@ In-silico PCR — matching oligos against sequence and counting mismatches — i
 and in two cases solved thermodynamically rather than positionally. AssayWatch's
 contribution is not the engine.
 
+**That concession is now measured rather than conceded.** The engine PCR_strainer wraps,
+thermonucleotideBLAST, was run head to head with the shipped penalty rule on the 179
+labelled wet-lab outcomes in `docs/bench-panels/`
+(`docs/journal/2026-10-27-tntblast-head-to-head.md`, 2026-10-27). TNTBLAST, given two
+free parameters fitted on those same rows against a penalty rule running exactly as it
+ships, reads **64.8% against 92.7%**, and the paired comparison goes 58–8 to the penalty
+rule (McNemar p < 0.0001). The reason is not thermodynamics: with a separate cut fitted
+per panel it reads 87.7%, and on the Salmonella specificity panel its separation is
+total. **A melting temperature only means something against the temperature the reaction
+ran at**, which is a property of each assay's protocol — so a single global cut asks it
+to be right about seven protocols at once. That is the same argument `thermo: false`
+rests on, and the registry carries an annealing temperature for one of those six assays,
+which is why the comparison with each assay's published Ta cannot be run yet.
+
 | tool | what it does | what it does not do |
 |---|---|---|
 | **PCR_strainer** | Assesses the inclusivity of primer and probe oligos from diagnostic qPCR assays and amplicon schemes against large genome sets. Wraps `thermonucleotideBLAST` (TNTBLAST), so matching is thermodynamic, not a positional penalty table. Installable as `pcr-strainer`. | No curated assay registry; no longitudinal axis; run on demand against a genome set you supply. |

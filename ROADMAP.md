@@ -177,9 +177,13 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 - **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
   the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
-  before any lineage is looked at. Softening that floor is a different change — a
-  posterior on the pooled share with a prior borrowed across assays of one chemistry —
-  and it is the only route left to a verdict for a 17-record assay. Not designed.
+  before any lineage is looked at. **Designed 2026-10-27 as C1b** in
+  `docs/bayesian-scoring-plan.md`, with its two kill tests pre-registered, the
+  alternatives priced and rejected, and the cost stated — it borrows a prior across
+  assays of one chemistry, which are not exchangeable in any honest sense, so the prior
+  does real work where the within-assay layer's barely did. Not built. What it would be
+  worth: tier-2 declines to judge 3 of its 11 documented failures, which is the whole
+  difference between "6/11 caught" and "6/8 among the cases it judged at all".
 
 - **`drift.anchor_fdr`'s value has no evidence behind it, and the bench panels
   cannot supply any.** 0.05 and 0.01 differ by a factor of two in rows moved (7,206

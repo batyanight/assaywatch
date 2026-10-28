@@ -166,6 +166,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--cache", type=Path, default=CACHE)
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--tsv", type=Path, default=None, help="per-record detail")
+    ap.add_argument(
+        "--tntblast",
+        type=Path,
+        default=None,
+        help="scripts/tntblast_arm.py output: adds TNTBLAST as a third arm on the same rows",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
@@ -215,6 +221,64 @@ def main(argv: list[str] | None = None) -> int:
     assert best is not None
     _, cut, thermo = best
 
+    # The TNTBLAST arm, read from scripts/tntblast_arm.py and given the same one free
+    # parameter as primer3's: one Tm cut, fitted on these same rows. The cut applies to
+    # the LIMITING oligo of the best amplicon -- the colder of the two primers, or the
+    # probe where there is one -- because an amplicon reported by a probe assay needs
+    # all three to bind, which is what TNTBLAST's own -e/-E pair expresses.
+    tnt_pred: list[bool] | None = None
+    tnt_cuts: tuple[float, float] = (0.0, 0.0)
+    tnt_missing = 0
+    if args.tntblast:
+        tnt: dict[tuple[str, str], tuple[float, float | None] | None] = {}
+        for r in read_tsv(args.tntblast):
+            key = (r["panel"], r["record_id"])
+            if not r["n_amplicons"] or int(r["n_amplicons"]) == 0 or not r["primer_tm"]:
+                tnt[key] = None  # no amplicon at any cut
+                continue
+            tnt[key] = (float(r["primer_tm"]), float(r["probe_tm"]) if r["probe_tm"] else None)
+        pairs = [tnt.get((r["panel"], r["record_id"])) for r in rows]
+        tnt_missing = sum(1 for r in rows if (r["panel"], r["record_id"]) not in tnt)
+        # TWO free parameters, deliberately -- its own -e and -E, each fitted on these
+        # same rows. One cut on the limiting oligo would be the tidier comparison and
+        # the objection would be that TNTBLAST was handed one knob where it ships with
+        # two, so it gets both, and its accuracy is that much further an upper bound.
+        best_t = None
+        for i in range(0, 161):
+            ecut = i / 2.0
+            for j in range(0, 161):
+                pcut = j / 2.0
+                pred = [(x is not None and x[0] >= ecut and (x[1] is None or x[1] >= pcut)) for x in pairs]
+                acc = sum(p == t for p, t in zip(pred, truth, strict=True))
+                if best_t is None or acc > best_t[0]:
+                    best_t = (acc, (ecut, pcut), pred)
+        assert best_t is not None
+        _, tnt_cuts, tnt_pred = best_t
+
+        # And the same fit PER PANEL, which is the interesting number: an annealing
+        # temperature is a property of an assay, not of a method, so a single global
+        # cut asks TNTBLAST to be right about seven protocols at once. This is an
+        # oracle -- each panel keeps its own best pair -- so it is an upper bound on
+        # what per-assay conditions could buy a thermodynamic predictor.
+        tnt_oracle = []
+        for panel_name in sorted({r["panel"] for r in rows}):
+            idx = [i for i, r in enumerate(rows) if r["panel"] == panel_name]
+            sub_truth = [truth[i] for i in idx]
+            sub_pairs = [pairs[i] for i in idx]
+            bestp = None
+            for i in range(0, 161):
+                ecut = i / 2.0
+                for j in range(0, 161):
+                    pcut = j / 2.0
+                    pred = [
+                        (x is not None and x[0] >= ecut and (x[1] is None or x[1] >= pcut)) for x in sub_pairs
+                    ]
+                    acc = sum(p == t for p, t in zip(pred, sub_truth, strict=True))
+                    if bestp is None or acc > bestp[0]:
+                        bestp = (acc, (ecut, pcut), len(idx))
+            assert bestp is not None
+            tnt_oracle.append((panel_name, *bestp))
+
     def table(pred):
         tp = sum(p and t for p, t in zip(pred, truth, strict=True))
         tn = sum((not p) and (not t) for p, t in zip(pred, truth, strict=True))
@@ -229,20 +293,30 @@ def main(argv: list[str] | None = None) -> int:
         f"of the priced sites, how many primer3 would have mis-registered: {sum(r['off_register'] for r in rows)}"
     )
     print()
-    for name, pred in (("penalty rule (as shipped)", pen), (f"primer3 dTm >= {cut:g} C", thermo)):
+    arms = [("penalty rule (as shipped)", pen), (f"primer3 dTm >= {cut:g} C", thermo)]
+    if tnt_pred is not None:
+        arms.append((f"tntblast -e {tnt_cuts[0]:g} -E {tnt_cuts[1]:g}", tnt_pred))
+        if tnt_missing:
+            print(f"WARNING {tnt_missing} rows have no tntblast row and count as no amplicon")
+    for name, pred in arms:
         tp, tn, fp, fn = table(pred)
         acc = (tp + tn) / len(truth)
         print(f"{name:28s}  acc {acc:6.1%}   TP {tp:3d}  TN {tn:3d}  FP {fp:3d}  FN {fn:3d}")
 
-    b = sum(p and not q for p, q in zip(pen, thermo, strict=True))
-    c = sum(q and not p for p, q in zip(pen, thermo, strict=True))
-    pen_right = sum((p == t) and (q != t) for p, q, t in zip(pen, thermo, truth, strict=True))
-    th_right = sum((q == t) and (p != t) for p, q, t in zip(pen, thermo, truth, strict=True))
-    print()
-    print(f"predictions differ on {b + c} rows")
-    print(f"  penalty right / thermo wrong: {pen_right}")
-    print(f"  thermo right / penalty wrong: {th_right}")
-    print(f"  McNemar exact two-sided p = {mcnemar_exact(pen_right, th_right):.4f}")
+    def pairwise(name_a: str, a: list[bool], name_b: str, b_pred: list[bool]) -> None:
+        differ = sum(x != y for x, y in zip(a, b_pred, strict=True))
+        a_right = sum((x == t) and (y != t) for x, y, t in zip(a, b_pred, truth, strict=True))
+        b_right = sum((y == t) and (x != t) for x, y, t in zip(a, b_pred, truth, strict=True))
+        print()
+        print(f"{name_a} against {name_b}: predictions differ on {differ} rows")
+        print(f"  {name_a} right / {name_b} wrong: {a_right}")
+        print(f"  {name_b} right / {name_a} wrong: {b_right}")
+        print(f"  McNemar exact two-sided p = {mcnemar_exact(a_right, b_right):.4f}")
+
+    pairwise("penalty", pen, "primer3", thermo)
+    if tnt_pred is not None:
+        pairwise("penalty", pen, "tntblast", tnt_pred)
+        pairwise("primer3", thermo, "tntblast", tnt_pred)
     print()
     print("Per panel (bench band/no_band, then each predictor's errors):")
     for panel in sorted({r["panel"] for r in rows}):
@@ -255,6 +329,15 @@ def main(argv: list[str] | None = None) -> int:
             f"  {panel:34s} {sum(st):3d}/{len(st) - sum(st):<3d}  "
             f"penalty {ep:3d} wrong   thermo {et:3d} wrong   ({role})"
         )
+    if tnt_pred is not None:
+        right = sum(a for _, a, _, _ in tnt_oracle)
+        print()
+        print(
+            f"tntblast with a SEPARATE cut fitted per panel (an oracle): "
+            f"{right}/{len(truth)} = {right / len(truth):.1%}"
+        )
+        for panel_name, acc, (ecut, pcut), n in tnt_oracle:
+            print(f"  {panel_name:34s} {acc:3d}/{n:<3d}  -e {ecut:g} -E {pcut:g}")
     print()
     print("The thermodynamic arm's threshold was fitted on these same rows, so its")
     print("accuracy is an in-sample upper bound; the penalty rule ran as it ships.")
