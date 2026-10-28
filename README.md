@@ -382,7 +382,20 @@ oligo on its actual binding site, and its shift from a perfect site:
 
 ΔTm is the column to read: absolute Tm depends on the salt and oligo
 concentrations in `thermo_conditions`, which differ between protocols, and the
-shift caused by the record's mismatches depends on them much less. Degenerate
+shift caused by the record's mismatches depends on them much less.
+
+**Why it is reported and not scored, measured rather than asserted** (2026-10-27,
+`docs/journal/2026-10-27-tntblast-head-to-head.md`): a ΔTm only means something against
+the temperature the reaction ran at, and that is a property of each assay's protocol.
+Run thermonucleotideBLAST — the engine PCR_strainer wraps, and so the one this question
+is really about — over the 179 labelled wet-lab outcomes in `docs/bench-panels/`, and
+with two free parameters fitted on those same rows it reads 64.8% against the penalty
+rule's 92.7% as it ships, 58–8 on the discordant rows. Fit a separate cut per panel and
+it reads 87.7%, and on the Salmonella specificity panel its separation is total. The
+weakness is the single global cut, not the thermodynamics. `conditions.annealing_c`
+(2026-10-27) is what would let each assay be judged at its own temperature; until most
+entries carry one, a thermodynamic call would be made at a temperature the registry
+invented. Degenerate
 positions take the record's base when the pool has it (that pool member is the
 one that amplifies), and undetermined record bases are modelled as matches, as
 in scoring. On the flavivirus archive the median worst ΔTm was −5 °C for

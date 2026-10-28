@@ -219,13 +219,17 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   Extending the chain to the other segmented RNA viruses stays conditional on measuring
   that a title regex labels their records; nothing has.
 
-- **`target.exclusivity_taxids` is built; what is left is populating it** (2026-10-27,
-  `## Done`). One entry carries it, BPSV against orf virus and pseudocowpox virus. The
-  work left is curation, one paper at a time: a published exclusivity panel is a table
-  in the paper, and reading it is the same per-paper read as the conditions blocks below.
-  The 18 assays whose reports already show out-of-scope records are where to start,
-  since a coincidental cross-reaction that the paper tested is worth promoting to a
-  claim.
+- **`target.exclusivity_taxids` is built and seeded; populating the rest is curation**
+  (2026-10-27, `## Done`). `scripts/extract_exclusivity.py` prints every sentence in which
+  a paper claims its assay does NOT amplify something, with the entries citing it: **118
+  of the 178 papers on disk carry at least one**. Most are not usable as they stand, and
+  the reason is worth keeping: a pan-family paper's specificity claim is usually about
+  antibodies, or about "unrelated agents", and the 17 assays whose reports already show
+  out-of-scope records are showing WITHIN-family taxa and synthetic constructs, which no
+  paper claimed to exclude. What is usable is the species-specific assays, where the
+  paper names the neighbour it must be told apart from. Three sets are seeded; the rest
+  of that reading is open, and the retrieval cost is the thing to weigh — each named
+  taxon is a new archive.
 
 ## Validation, which sets every threshold above
 
@@ -292,19 +296,30 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
   that stayed open. This is the same literature pass as the within-family negative
   corpus that gates C2, so one read per paper serves both.
-- **The registry is becoming an assay registry; the rest of the reading is a
-  reader's.** The blocks exist and 119 entries carry a protocol (2026-10-27,
-  `## Done`): 47 an annealing temperature against 7 before, 84 a cycle count, 28
-  magnesium, 14 an RT format. What is left is in
-  `docs/2026-10-27-conditions-proposals.tsv`, every row with the paper's own sentence
-  beside it: **270 rows only a reader can fill** (an LoD and a master mix are quoted
-  prose; the oligo concentrations need someone to say whether a number is a stock or a
-  final concentration), **122 ambiguous** (the paper prints two protocols and only a
-  reader knows which is this entry's), **79 nested rounds** (the rounds of a nest
-  share a paper and almost never share a programme). `panels` is untouched: each one
-  is a table in a paper and a read of its own. 34 papers on disk print no protocol at
-  all and are flagged `conditions_not_printed`, which is a fact about the paper.
-  Lifting `thermo: false` is now arguable for the 47 and still dishonest for the rest.
+- **The registry is becoming an assay registry; what is left needs the maintainer, not
+  another pass.** Two passes landed 2026-10-27 (`## Done`): the automatic one over the
+  values a paper states once, and a reader's pass over all 64 papers the first refused.
+  What remains:
+
+  - **Three entries carry a value that is now disbelieved and cannot be replaced by the
+    tool**, because `extract_conditions.py` only adds and fixes and these need a
+    DELETION: `CMV_UL55_gB_Deckers_2009`'s `mg_mm` and the three Sigrist
+    `ORTHOBORNAVIRUS_XP_*` entries' `mg_mm` came from the conventional arm of a paper
+    whose probe assay is the registry entry, and `LEPTOSPIROSIS_Flagillar_filiment_Prote`'s
+    `annealing_c` is one of three programmes in a MassTag paper and cannot be attributed
+    to the flaB assay. A hand edit each.
+  - **The remaining rows in `docs/2026-10-27-conditions-proposals.tsv`**: the LoDs and
+    master mixes, which are quoted prose rather than numbers, and the oligo
+    concentrations, where only a reader can say whether a number is a stock or a final
+    concentration. Both passes left them deliberately.
+  - **`panels` is untouched.** Each one is a table in a paper and a read of its own.
+  - **Two protocol shapes the schema cannot hold**: a touchdown or step-down (Lan 2010,
+    Bocavirus, a 1998 SIV nest) has no single annealing temperature, and Ahne 1999
+    deliberately varied its own between 40 and 50 °C by isolate. Each affected entry
+    records the temperature its working cycles run at, or none, and says so.
+
+  Lifting `thermo: false` is arguable for the entries that now carry an annealing
+  temperature and still dishonest for the rest.
 
 - **Registry coverage.** Audit the PREDICT consensus-PCR panel for gaps, and
   add assays in current wildlife-lab use that PREDICT never covered — fungal,
@@ -451,6 +466,19 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **A reader's pass over the 64 papers the automatic one refused** (2026-10-27,
+      `docs/journal/2026-10-27-conditions-curator-pass.md`). 236 values read by hand with
+      the sentence each came from, and **twelve values an earlier pass had written
+      corrected**, every one of them an attribution rather than an extraction: Xiao 1999's
+      two programmes (55 °C is the nested RFLP protocol the registry holds, 60 °C the
+      full-length SSU it cloned), Latimer 2010's "redundant POL PCR" against "all other
+      PCR amplification", Zhao 2013 saying in its own words that BPSV is kept at 60 where
+      the automatic pass had read 62.5 off the PCPV assay, and Spackman 2002's matrix set
+      at 60 °C where the entry carried the H7 assay's 58. A sixth extraction bug came out
+      of it: a degree sign the PDF renders as the digit 8, so "948C" matched as 48 °C —
+      which is where `Pan_HERPES_dsDNA_Polymerase`'s 48 came from, against a paper that
+      prints 46. Re-running the whole pass after the fix moved 2 of 644 proposals, both
+      that entry, and recovered two values whose hand-read agrees.
 - [x] **The registry knows what temperature 119 of its assays ran at** (2026-10-27,
       `docs/journal/2026-10-27-conditions-first-pass.md`). `conditions` / `performance`
       / `panels` validated empty first, then `scripts/extract_conditions.py` read the

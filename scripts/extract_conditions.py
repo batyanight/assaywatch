@@ -97,11 +97,19 @@ def sentences(text: str) -> list[str]:
     number torn from its sentence costs everything.
     """
     flat = re.sub(r"\s+", " ", text)
+    # A DEGREE SIGN THE PDF LOST BECOMES THE DIGIT 8, and "948C" then reads as a
+    # temperature of 48 C. That is how Pan_HERPES_dsDNA_Polymerase came to carry an
+    # annealing temperature of 48 from a paper that prints 46: the sentence is "30 s
+    # of denaturation at 948C, 60 s of annealing at 468C", and a two-digit match
+    # inside "948C" is "48". Normalised here, where it is cheap, rather than guarded
+    # at each pattern: three digits before a C, the last of them 8, is a lost degree
+    # sign in every paper on disk. 728 C and 948 C are not PCR temperatures.
+    flat = re.sub(r"(?<!\d)(\d{2})8\s*C\b", r"\1 C", flat)
     parts = re.split(r"(?<=[.;])\s+(?=[A-Z(])", flat)
     return [p.strip() for p in parts if 10 < len(p) < MAX_SENTENCE]
 
 
-TEMP_RE = re.compile(r"(\d{2}(?:\.\d)?)\s*(?:°|◦|°)?\s*C\b")
+TEMP_RE = re.compile(r"(?<!\d)(\d{2}(?:\.\d)?)\s*(?:°|◦|°)?\s*C\b")
 
 
 def _temps(s: str) -> list[float]:
@@ -248,6 +256,63 @@ def propose_for(text: str) -> list[tuple[str, str, str, str, str]]:
     return rows
 
 
+def digest(args) -> int:
+    """Per paper: the entries that cite it, and every protocol sentence in it.
+
+    `--only-sole` deliberately refuses the rows where a paper prints more than one
+    protocol, or where the entry is one round of a nest. Those are not noise -- they
+    are the papers that describe a panel, a touchdown or a nest, which is most of a
+    methods literature -- and resolving them needs a reader who can see ALL the
+    candidate sentences at once beside ALL the entries that cite the paper. Printing
+    them per paper means each PDF is read once instead of once per entry: 88 entries
+    with an ambiguous row cite 47 papers.
+    """
+    proposals = list(csv.DictReader(args.digest.open(), delimiter="\t"))
+    want = {
+        r["paper"]
+        for r in proposals
+        if "AMBIGUOUS" in r.get("how", "")
+        or "middle-of-three" in r.get("how", "")
+        or re.search(r"_round\d", r["assay_id"])
+    }
+    by_paper: dict[str, list[dict[str, str]]] = {}
+    for r in proposals:
+        if r["paper"] in want:
+            by_paper.setdefault(r["paper"], []).append(r)
+
+    meta = {}
+    for path in sorted(args.registry.glob("*.yaml")):
+        doc = yaml.safe_load(path.read_text()) or {}
+        meta[path.stem] = doc
+
+    for paper in sorted(by_paper):
+        rows = by_paper[paper]
+        print("=" * 100)
+        print(f"PAPER {paper}")
+        for aid in sorted({r["assay_id"] for r in rows}):
+            doc = meta.get(aid) or {}
+            t = doc.get("target") or {}
+            cond = doc.get("conditions") or {}
+            print(
+                f"  ENTRY {aid}\n"
+                f"        gene={t.get('gene')!r} chemistry={doc.get('chemistry')} "
+                f"amplicon={doc.get('amplicon_bp')} nested_round={(doc.get('source') or {}).get('nested_round')!r}\n"
+                f"        already has: {cond or '-'}"
+            )
+        print("  PROPOSED, with the sentence each came from:")
+        for r in sorted(rows, key=lambda r: (r["field"], r["assay_id"])):
+            print(f"    {r['field']:14s} {r['value']:>12s}  [{r['how']}]")
+            print(f"      {r['sentence'][:300]}")
+        text = text_of(args.papers / paper)
+        print("  EVERY PROTOCOL SENTENCE IN THE PAPER:")
+        for s in sentences(text):
+            low = s.lower()
+            if re.search(r"anneal|cycl|\d\d\s*(?:°|◦|°)?\s*c\b|one-step|two-step|mgcl", low):
+                print(f"    - {s[:400]}")
+    print(f"\n{len(by_paper)} papers printed", file=sys.stderr)
+    return 0
+
+
 def entries(registry: Path) -> list[tuple[str, str]]:
     """[(assay_id, doi)] for every entry that cites a DOI."""
     out = []
@@ -359,8 +424,40 @@ def apply_rows(args) -> int:
             values = {r["field"]: r["value"] for r in items if r["block"] == block}
             if not values:
                 continue
-            if re.search(rf"^{block}:", new_text, flags=re.M):
-                print(f"SKIP {aid}: {block} already present; edit it by hand", file=sys.stderr)
+            existing = re.search(rf"^{block}:\n((?:  \S.*\n)*)", new_text, flags=re.M)
+            if existing:
+                # MERGED, never replaced: the first pass wrote the values a paper
+                # states once, and a reader's pass adds the ones it could not. A field
+                # already in the file wins, because something put it there on purpose.
+                have = set(re.findall(r"^  (\w+):", existing.group(1), flags=re.M))
+                # A row whose `how` begins with FIX is a reader CORRECTING a value an
+                # earlier pass wrote, which is the one case where overwriting is the
+                # point: the automatic pass put 62.5 C on BPSV from a sentence about a
+                # different assay in the same panel, and the paper says 60. Allowed
+                # only with --allow-fix, so an ordinary apply can never silently
+                # change a value that is already in a file.
+                fixes = {
+                    r["field"]: r["value"]
+                    for r in items
+                    if r["block"] == block and r.get("how", "").startswith("FIX")
+                }
+                if fixes and args.allow_fix:
+                    for field, value in fixes.items():
+                        if field in have:
+                            new_text = re.sub(
+                                rf"(^{block}:\n(?:  \S.*\n)*?)  {field}: .*\n",
+                                rf"\g<1>  {field}: {value}\n",
+                                new_text,
+                                count=1,
+                                flags=re.M,
+                            )
+                            have.add(field)
+                add = {k: v for k, v in values.items() if k not in have}
+                if not add:
+                    continue
+                lines = "".join(f"  {k}: {v}\n" for k, v in add.items())
+                at = existing.end()
+                new_text = new_text[:at] + lines + new_text[at:]
                 continue
             # Inserted before `use_context:`, which every entry carries, so the
             # file keeps its hand-written order and every other byte.
@@ -369,6 +466,23 @@ def apply_rows(args) -> int:
                 print(f"SKIP {aid}: no use_context anchor", file=sys.stderr)
                 continue
             new_text = new_text[: anchor.start()] + _block_yaml(block, values) + new_text[anchor.start() :]
+        # A review flag is a list item, not a field, and its note is the evidence.
+        for r in (x for x in items if x["block"] == "needs_review"):
+            flag = r["field"]
+            if re.search(rf"^- flag: {flag}$", new_text, flags=re.M):
+                continue
+            note = (r.get("how") or "").replace("\n", " ").strip()
+            item = f"- flag: {flag}\n  note: {note}\n" if note else f"- flag: {flag}\n"
+            if re.search(r"^needs_review:\n", new_text, flags=re.M):
+                new_text = re.sub(
+                    r"^needs_review:\n", f"needs_review:\n{item}", new_text, count=1, flags=re.M
+                )
+            elif re.search(r"^needs_review: null$", new_text, flags=re.M):
+                new_text = re.sub(
+                    r"^needs_review: null$", f"needs_review:\n{item.rstrip()}", new_text, count=1, flags=re.M
+                )
+            else:
+                new_text = new_text.rstrip("\n") + f"\nneeds_review:\n{item}"
         if new_text != text:
             changed += 1
             fields = ", ".join(sorted(f"{r['block']}.{r['field']}" for r in items))
@@ -391,15 +505,29 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--papers", type=Path, default=REPO / "papers")
     ap.add_argument("--propose", type=Path, help="write a proposal TSV here")
     ap.add_argument("--apply", type=Path, help="a reviewed proposal TSV to apply")
+    ap.add_argument(
+        "--digest",
+        type=Path,
+        help="a proposal TSV: print, per paper, the entries citing it and every protocol "
+        "sentence in it, for the rows --only-sole refuses",
+    )
     ap.add_argument("--write", action="store_true", help="with --apply: actually edit the registry")
+    ap.add_argument(
+        "--allow-fix",
+        action="store_true",
+        help="with --apply: let a row whose `how` begins with FIX replace a value already "
+        "in the file. Without it, a field already present always wins.",
+    )
     ap.add_argument(
         "--only-sole",
         action="store_true",
         help="with --apply: take only values the paper states once, and no nested round",
     )
     args = ap.parse_args(argv)
-    if bool(args.propose) == bool(args.apply):
-        ap.error("give exactly one of --propose or --apply")
+    if sum(map(bool, (args.propose, args.apply, args.digest))) != 1:
+        ap.error("give exactly one of --propose, --apply or --digest")
+    if args.digest:
+        return digest(args)
     return propose(args) if args.propose else apply_rows(args)
 
 
