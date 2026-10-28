@@ -1,3 +1,27 @@
+# Resume point, 2026-10-27 (night: the M1 hold lifted and confirmed by screen, the Kwok premium killed, C1's hierarchical layer built)
+
+**Start here:** `ROADMAP.md`. After the evening entry below, the maintainer lifted the M1
+hold and said to keep going. Six more commits, 1,763 tests, registry 214.
+
+- **M1 ships**: `scoring.mispair_penalty: {"G:T": 0.0, "T:G": 0.0}`. Run 4 — the fourth
+  full run of the day — is its confirming rescreen: the real screen agrees with the S4
+  replay on all but **153 of 2,679,894 rows** (the other 110,606 "disagreements" are the
+  replay's own probe rewrite), every one pessimistic. 8 statuses move against run 3;
+  `docs/example-run-2026-10-27/` is refreshed to this run (193 assays, 42 declining).
+- **S6, the Kwok premium, is dead** on both pre-registered criteria: one FAP band row
+  broken and nothing fixed, one false alarm added and no catch.
+- **C1's hierarchical layer is built** (`assaywatch/hierarchical.py`), printed beside each
+  verdict, never into it. First real read: multi-lineage assays fit φ 0.3–11.7, intraclass
+  correlation 0.08–0.78 — the first half of the plan's kill test does not fire. The second
+  half needs a `lineage.verdict_from: holm | posterior` switch, not built.
+- **`weekly_run.sh --live` refuses a dirty tree** under the hashed paths; proved to fire.
+- The pending entries were searched on PubMed and the design papers are not findable by
+  assay description; recorded in the roadmap.
+- One footgun recorded for `score.py`: `load_config` caches the per-chemistry resolution
+  inside the dict it returns, and shallow copies carry it. Two callers now drop it.
+
+---
+
 # Resume point, 2026-10-27 (evening: the roadmap plan executed — 26 commits, 1,759 tests, the first run under today's scoring, and the schedule installed)
 
 **Start here:** `ROADMAP.md` (30 open items, 57 closed). The plan approved this afternoon

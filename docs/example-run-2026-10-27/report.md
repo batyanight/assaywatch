@@ -1,18 +1,18 @@
 # AssayWatch report — 2026-10-27
 
-188 assays screened: 42 declining, 34 low coverage, 7 watch, 30 insufficient data, 19 no recent data, 56 stable. 20 further screened assays are not scoreable and carry no status.
+193 assays screened: 42 declining, 34 low coverage, 8 watch, 30 insufficient data, 19 no recent data, 60 stable. 20 further screened assays are not scoreable and carry no status.
 
-**In one line:** of 188 published assays re-checked against GenBank records deposited up to 2026-10-27, 42 appear to be detecting measurably less of their target than they once did, and 34 have never covered much of the taxon they are screened against. 10 are listed under Start here as worth looking at first.
+**In one line:** of 193 published assays re-checked against GenBank records deposited up to 2026-10-27, 42 appear to be detecting measurably less of their target than they once did, and 34 have never covered much of the taxon they are screened against. 10 are listed under Start here as worth looking at first.
 
-**What cannot be said at all:** 69 of 208 screened assays carry no usable verdict -- 30 with too few recent records, 19 with nothing newly deposited, and 20 not scoreable at all. A further 26 are held off the triage list because their primer pools are so degenerate that an in-silico detection is close to a tautology. Sparsely sequenced targets are exactly the ones this tool is for, and they are the ones it can say least about.
+**What cannot be said at all:** 69 of 213 screened assays carry no usable verdict -- 30 with too few recent records, 19 with nothing newly deposited, and 20 not scoreable at all. A further 25 are held off the triage list because their primer pools are so degenerate that an in-silico detection is close to a tautology. Sparsely sequenced targets are exactly the ones this tool is for, and they are the ones it can say least about.
 
 **What this is not.** Every number here is a prediction from sequence alone: whether each oligo still matches what has been deposited, never whether the reaction still works at the bench. No assay was run in a laboratory. There is no thermodynamic model and no limit of detection, so this cannot tell a missed cycle-threshold cutoff from a faint band. A flag is a reason to pull an assay's records and look, never a result.
 
 **The verdicts.** `declining` -- detection has fallen from a level that previously cleared the threshold. `low coverage` -- detection is below the threshold but was never measurably higher, usually an assay screened against more diversity than it was designed for. `watch` -- below the threshold, but the interval still reaches it, so there are too few records to be sure. `insufficient data` -- too few recent evaluable records to judge; never flagged. `no recent data` -- nothing new deposited in the window. `stable` -- no evidence of loss. `not scoreable` -- a registry problem, such as an unresolved product size, rather than anything about the assay.
 
-Registry status: 178 active, 10 draft. `draft` is a maintainer sign-off, not a data check: 7 of the 10 drafts here already carry a verified DOI, a taxid and a design year with no open review question. What does vary between entries is oligo provenance, flagged in the note column of every row below.
+Registry status: 178 active, 15 draft. `draft` is a maintainer sign-off, not a data check: 12 of the 15 drafts here already carry a verified DOI, a taxid and a design year with no open review question. What does vary between entries is oligo provenance, flagged in the note column of every row below.
 
-**Duplication check:** 20 of 76 flagged assays still hold when duplicated records are discounted (each distinct binding-site footprint counted once, and the sample size cut to the number of footprints). The note on each assay that did not hold says which test it failed.
+**Duplication check:** 21 of 76 flagged assays still hold when duplicated records are discounted (each distinct binding-site footprint counted once, and the sample size cut to the number of footprints). The note on each assay that did not hold says which test it failed.
 
 Previous successful run: 2026-10-26 (1 day earlier).
 
@@ -26,18 +26,18 @@ doubt first, then the largest shortfall below the threshold on the most records.
 
 | assay | status | detected (recent) | 95% CI | evaluable | baseline (n) |
 |---|---|---|---|---|---|
-| `CDV_H_gene_Mueller_2011_1` | declining | 66.3% | 56%-75% | 95 | 94% (418) |
+| `MONKEYPOX_dsDNA_B1_SNP_lineageB1_TaqMan_Huo_2022` | declining | 38.0% | 37%-39% | 4406 | 90% (8369) |
+| `CDV_H_gene_Mueller_2011_1` | declining | 68.4% | 59%-77% | 95 | 94% (418) |
 | `INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003` | declining | 6.5% | 6%-7% | 30382 | 21% (59909) |
 | `Pan_flavivirus_NS5_3_round1` | declining | 35.4% | 34%-36% | 9489 | 45% (24647) |
 | `West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001` | declining | 63.6% | 61%-66% | 1722 | 87% (5362) |
-| `PARVOVIRUS_ssDNA_VP1_gene_dependovirus` | declining | 45.3% | 39%-51% | 256 | 72% (1772) |
-| `Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006` | low coverage | 23.8% | 22%-26% | 1653 | 36% (10186) |
-| `Cryptosporidium_18SrDNA_Xiao_1999_round2` | low coverage | 71.6% | 65%-77% | 225 | 63% (1437) |
+| `Pan_hemoparasite_cytochrome_c_Hellgren_2004` | declining | 67.0% | 60%-73% | 194 | 86% (829) |
+| `Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006` | low coverage | 24.4% | 22%-27% | 1653 | 37% (10186) |
+| `Cryptosporidium_18SrDNA_Xiao_1999_round2` | low coverage | 71.6% | 65%-77% | 225 | 64% (1437) |
 | `ARENAVIRUS_ssRNA_S_gene` | low coverage | 14.3% | 8%-24% | 70 | 39% (988) |
 | `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` | low coverage | 0.0% | 0%-0.6% | 650 | 0.3% (1715) |
-| `POXVIRUSES_dsDNA_Polymerase` | low coverage | 4.1% | 4%-5% | 5142 | 3% (9346) |
 
-Kept off this list but unchanged in the tables below: 26 are degeneracy high or severe, where in-silico detection is close to a tautology; 40 carry a flag the duplication check did not confirm.
+Kept off this list but unchanged in the tables below: 25 are degeneracy high or severe, where in-silico detection is close to a tautology; 39 carry a flag the duplication check did not confirm.
 
 `detected` means predicted to amplify (`detect` or `reduced`). The denominator is
 evaluable records only: those where both primers landed in the right orientation and
@@ -62,44 +62,44 @@ that clade, not as a measurement of the assay.
 
 | assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | duplication | note |
 |---|---|---|---|---|---|---|---|---|
-| `RETROVIRUS_RNA_polymerase_SIV_Keele_2009` | active | 0.0% | 0%-2% | 224 | 6% (3623) | 4x negligible | fails: too_few,change | detected share 0.0% (0%-2%) since Oct 2024, upper bound below the 90% threshold; change from baseline -7% to -5%. |
+| `RETROVIRUS_RNA_polymerase_SIV_Keele_2009` | active | 0.0% | 0%-2% | 224 | 7% (3623) | 4x negligible | fails: too_few,change | detected share 0.0% (0%-2%) since Oct 2024, upper bound below the 90% threshold; change from baseline -8% to -5%. |
+| `RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009` (pooled: low coverage) | active | 0.0% | 0%-2% | 226 | 4% (5073) | 144x high | fails: too_few,change | pooled share 0.0% has low coverage, but lineage Lentivirus simimdef (3418654) (226 records) detects 0.0% (0.0%-1.7%), down from 4.4% on 4804 earlier records; lineage verdict overrides to declining. Entry flags: amplicon_measured_not_published. |
 | `ABPV_capsid_Rossi_2024` | active | 5.6% | 1.0%-26% | 18 | 82% (106) | 4608x severe | fails: too_few | detected share 5.6% (1.0%-26%) since Oct 2024, upper bound below the 90% threshold; change from baseline -84% to -55%. 8 patent records excluded. |
 | `INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003` | active | 6.5% | 6%-7% | 30382 | 21% (59909) | 32x moderate | holds | detected share 6.5% (6%-7%) since Oct 2024, upper bound below the 90% threshold; change from baseline -15% to -14%. Entry flags: oligos_modified. |
-| `Pan_Plasmodium_sp_and_Haemopro_cytochrome_c` | active | 8.8% | 5%-14% | 148 | 16% (1625) | 1x negligible | fails: change | detected share 8.8% (5%-14%) since Oct 2024, upper bound below the 90% threshold; change from baseline -12% to -2%; separately, lineage Haemoproteus sp. (191679) (65 records) detects only 7.7% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: oligos_from_secondary_source, oligos_read_from_figure. 20251 out-of-scope records excluded. |
-| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010` | active | 12.2% | 9%-16% | 361 | 49% (671) | 147456x severe | holds | detected share 12.2% (9%-16%) since Oct 2024, upper bound below the 90% threshold; change from baseline -42% to -32%; separately, lineage Orthoreovirus piscis (3431498) (182 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 52 patent records excluded. |
+| `Pan_Plasmodium_sp_and_Haemopro_cytochrome_c` | active | 9.5% | 6%-15% | 148 | 18% (1625) | 1x negligible | fails: change | detected share 9.5% (6%-15%) since Oct 2024, upper bound below the 90% threshold; change from baseline -12% to -2%; separately, lineage Haemoproteus sp. (191679) (65 records) detects only 7.7% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: oligos_from_secondary_source, oligos_read_from_figure. 20251 out-of-scope records excluded. |
 | `MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004` (pooled: low coverage) | active | 15.0% | 14%-16% | 4113 | 7% (8255) | 1x negligible | fails: too_few,change | pooled share 15.0% has low coverage, but lineage Orthopoxvirus monkeypox (3431483) (2409 records) detects 25.6% (23.9%-27.4%); lineage verdict overrides to declining. Entry flags: primer_site_polymorphic. 5 patent records excluded. |
-| `RHABDOVIRUS_ssRNA_L_gene_round1` (pooled: low coverage) | active | 17.5% | 16%-20% | 1295 | 19% (5455) | 221184x severe | fails: change | pooled share 17.5% has low coverage, but lineage Lyssavirus rabies (11292) (968 records) detects only 15.3% (13.2%-17.7%), down from 17.7% on 3678 earlier records; lineage verdict overrides to declining. 769 out-of-scope records excluded. |
 | `ENTEROVIRUS_ssRNA_VP3_VP1_round2` (pooled: low coverage) | active | 18.5% | 17%-20% | 4533 | 12% (35931) | 16384x severe | fails: change | pooled share 18.5% has low coverage, but lineage Enterovirus betacoxsackie (3428502) (1063 records) detects 67.6% (64.8%-70.4%); lineage verdict overrides to declining. Entry flags: amplicon_measured_not_published. 40 out-of-scope records excluded. |
-| `Leucocytozoon_cyt_c_Hellgren_2004` (pooled: low coverage) | active | 25.9% | 19%-35% | 112 | 15% (1309) | 1x negligible | fails: change | pooled share 25.9% has low coverage, but lineage Leucocytozoon sp. (1504291) (88 records) detects 33.0% (24.0%-43.3%), down from 90.2% on 122 earlier records; lineage verdict overrides to declining. Entry flags: cross_reactive, orientation_inferred. |
+| `Leucocytozoon_cyt_c_Hellgren_2004` (pooled: low coverage) | active | 25.9% | 19%-35% | 112 | 16% (1309) | 1x negligible | fails: change | pooled share 25.9% has low coverage, but lineage Leucocytozoon sp. (1504291) (88 records) detects 33.0% (24.0%-43.3%), down from 91.8% on 122 earlier records; lineage verdict overrides to declining. Entry flags: cross_reactive, orientation_inferred. |
 | `Pan_flavivirus_NS5_3_round2` (pooled: low coverage) | active | 26.2% | 25%-27% | 9443 | 34% (24659) | 648x high | fails: change | pooled share 26.2% has low coverage, but lineage Orthoflavivirus japonicum (3048158) (186 records) detects only 3.8% (1.8%-7.6%), down from 58.3% on 494 earlier records; lineage verdict overrides to declining. Entry flags: oligos_from_secondary_source. 1 out-of-scope records excluded. |
 | `Pan_flavivirus_NS5_3_round1` (pooled: low coverage) | active | 35.4% | 34%-36% | 9489 | 45% (24647) | 16x moderate | holds | pooled share 35.4% has low coverage, but lineage Orthoflavivirus usutuense (3048443) (428 records) detects only 0.0% (0.0%-0.9%), down from 12.3% on 592 earlier records; lineage verdict overrides to declining. Entry flags: amplicon_measured_not_published, oligos_from_secondary_source. 1 out-of-scope records excluded. |
-| `DWVB_polyprotein_Rossi_2024` | active | 37.5% | 18%-61% | 16 | 90% (41) | 1x negligible | fails: too_few | detected share 37.5% (18%-61%) since Oct 2024, upper bound below the 90% threshold; change from baseline -73% to -26%. Entry flags: oligos_from_secondary_source, scope_narrower_than_taxid. |
-| `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme` (pooled: low coverage) | draft | 38.7% | 36%-41% | 1743 | 46% (6250) | 384x high | fails: change | pooled share 38.7% has low coverage, but lineage Bat coronavirus (1508220) (172 records) detects only 25.0% (19.1%-32.0%), down from 73.9% on 176 earlier records; lineage verdict overrides to declining. Entry flags: oligos_modified. |
+| `MONKEYPOX_dsDNA_B1_SNP_lineageB1_TaqMan_Huo_2022` | draft | 38.0% | 37%-39% | 4406 | 90% (8369) | 1x negligible | holds | detected share 38.0% (37%-39%) since Oct 2024, upper bound below the 90% threshold; change from baseline -53% to -50%. Entry flags: amplicon_measured_not_published, scope_narrower_than_taxid. 5 patent records excluded. |
 | `CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1` | active | 38.7% | 35%-42% | 679 | 56% (8702) | 1536x high | holds | detected share 38.7% (35%-42%) since Oct 2024, upper bound below the 90% threshold; change from baseline -21% to -14%; separately, lineage Circovirus canine (3047721) (33 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: orientation_inferred. 222 patent records excluded. |
-| `Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011` | active | 39.1% | 31%-47% | 138 | 51% (523) | 8x negligible | fails: change | detected share 39.1% (31%-47%) since Oct 2024, upper bound below the 90% threshold; change from baseline -21% to -3%. Entry flags: amplicon_multimodal. 55 patent records excluded. |
-| `CDV_H_gene_Mueller_2011_4` | active | 44.8% | 35%-55% | 87 | 69% (276) | 1x negligible | fails: change | detected share 44.8% (35%-55%) since Oct 2024, upper bound below the 90% threshold; change from baseline -36% to -12%. Entry flags: pairing_is_curator_reading. 61 patent records excluded. |
-| `PARVOVIRUS_ssDNA_VP1_gene_dependovirus` | active | 45.3% | 39%-51% | 256 | 72% (1772) | 1x negligible | holds | detected share 45.3% (39%-51%) since Oct 2024, upper bound below the 90% threshold; change from baseline -33% to -20%; separately, lineage Dependoparvovirus anseriform1 (1511895) (125 records) detects only 12.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: oligos_modified. 6845 patent records excluded. |
-| `MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010` | draft | 45.9% | 44%-47% | 4351 | 95% (8109) | 1x negligible | fails: too_few | detected share 45.9% (44%-47%) since Oct 2024, upper bound below the 90% threshold; change from baseline -51% to -48%. 5 patent records excluded. 4 chance-pair records excluded (drift.chance_pair_test). |
+| `Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011` | active | 40.6% | 33%-49% | 138 | 51% (523) | 8x negligible | fails: change | detected share 40.6% (33%-49%) since Oct 2024, upper bound below the 90% threshold; change from baseline -19% to -1%. Entry flags: amplicon_multimodal. 55 patent records excluded. |
+| `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme` (pooled: low coverage) | draft | 41.4% | 39%-44% | 1743 | 48% (6250) | 384x high | fails: change | pooled share 41.4% has low coverage, but lineage Bat coronavirus (1508220) (172 records) detects only 25.6% (19.6%-32.6%), down from 75.6% on 176 earlier records; lineage verdict overrides to declining. Entry flags: oligos_modified. |
+| `MONKEYPOX_dsDNA_F3L_region_cladeI_TaqMan_Huo_2022` (pooled: low coverage) | draft | 44.3% | 43%-46% | 4484 | 6% (8566) | 1x negligible | fails: change | pooled share 44.3% has low coverage, but lineage Orthopoxvirus monkeypox (3431483) (4122 records) detects 48.2% (46.6%-49.7%); lineage verdict overrides to declining. Entry flags: amplicon_measured_not_published, scope_narrower_than_taxid. 5 patent records excluded. |
+| `MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010` | draft | 45.9% | 44%-47% | 4351 | 95% (8113) | 1x negligible | fails: too_few | detected share 45.9% (44%-47%) since Oct 2024, upper bound below the 90% threshold; change from baseline -51% to -48%. 5 patent records excluded. |
 | `CHLAMYDIA_trachomatis_16S_Messmer_1997_round2` | active | 46.2% | 32%-61% | 39 | 74% (323) | 1x negligible | fails: too_few,footprint,change | detected share 46.2% (32%-61%) since Oct 2024, upper bound below the 90% threshold; change from baseline -43% to -12%. Entry flags: primer_site_polymorphic. 1 patent records excluded. |
-| `ARENAVIRUS_ssRNA_S_gene_2` (pooled: low coverage) | active | 47.1% | 39%-55% | 138 | 62% (1418) | 256x high | fails: change | pooled share 47.1% has low coverage, but lineage Mammarenavirus lassaense (3052310) (37 records) detects 75.7% (59.9%-86.6%); lineage verdict overrides to declining. Entry flags: oligos_modified, orientation_inferred. 473 out-of-scope records excluded. 226 patent records excluded. |
+| `MONKEYPOX_dsDNA_F3L_region_cladeIIab_TaqMan_Huo_2022` | draft | 47.6% | 46%-49% | 4485 | 93% (8566) | 1x negligible | fails: too_few | detected share 47.6% (46%-49%) since Oct 2024, upper bound below the 90% threshold; change from baseline -47% to -43%. Entry flags: amplicon_measured_not_published, scope_narrower_than_taxid. 5 patent records excluded. |
+| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1` | active | 48.0% | 43%-53% | 358 | 71% (627) | 331776x severe | fails: footprint | detected share 48.0% (43%-53%) since Oct 2024, upper bound below the 90% threshold; change from baseline -29% to -17%; separately, lineage Orthoreovirus piscis (3431498) (182 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: pairing_is_curator_reading. 52 patent records excluded. |
 | `PD_WNS_ITS1_Shuey_2014` | active | 50.0% | 28%-72% | 16 | 86% (441) | 1x negligible | fails: too_few,change | detected share 50.0% (28%-72%) since Oct 2023, upper bound below the 90% threshold; change from baseline -58% to -14% (window widened to 36 months to reach 15 evaluable records). |
+| `ARENAVIRUS_ssRNA_S_gene_2` (pooled: low coverage) | active | 51.4% | 43%-60% | 138 | 66% (1418) | 256x high | fails: change | pooled share 51.4% has low coverage, but lineage Mammarenavirus lassaense (3052310) (37 records) detects 75.7% (59.9%-86.6%); lineage verdict overrides to declining. Entry flags: oligos_modified, orientation_inferred. 473 out-of-scope records excluded. 226 patent records excluded. |
 | `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1` (pooled: low coverage) | active | 51.9% | 50%-54% | 1641 | 55% (5429) | 1327104x severe | fails: change | pooled share 51.9% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (165 records) detects only 0.0% (0.0%-2.3%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining. 262 out-of-scope records excluded. |
 | `SBV_polyprotein_Rossi_2024` | active | 52.4% | 38%-67% | 42 | 87% (323) | 6x negligible | fails: too_few | detected share 52.4% (38%-67%) since Oct 2024, upper bound below the 90% threshold; change from baseline -50% to -20%. Entry flags: oligos_from_secondary_source. 1 patent records excluded. |
 | `CDV_N_gene_Elia_2006` (pooled: low coverage) | active | 57.1% | 48%-66% | 105 | 51% (554) | 1x negligible | fails: change | pooled share 57.1% has low coverage, but lineage Morbillivirus canis (3052342) (105 records) detects 57.1% (47.6%-66.2%); lineage verdict overrides to declining. Entry flags: amplicon_disagrees_with_paper, citation_is_indirect, oligos_from_secondary_source. 61 patent records excluded. |
 | `MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010` (pooled: low coverage) | draft | 57.9% | 56%-59% | 4328 | 7% (7987) | 1x negligible | fails: too_few,footprint,change | pooled share 57.9% has low coverage, but lineage Orthopoxvirus monkeypox (3431483) (4163 records) detects 60.2% (58.7%-61.7%); lineage verdict overrides to declining. 5 patent records excluded. |
 | `E_coli_malB_Candrian_1991` | active | 59.2% | 45%-72% | 49 | 74% (277) | 1x negligible | fails: too_few,change | detected share 59.2% (45%-72%) since Oct 2024, upper bound below the 90% threshold; change from baseline -30% to -1%. Entry flags: orientation_inferred. |
-| `INFLUENZA_A_ssRNA_NP_Tsukamoto_2010` (pooled: low coverage) | active | 60.7% | 60%-61% | 69571 | 61% (117340) | 128x moderate | fails: change | pooled share 60.7% has low coverage, but lineage Alphainfluenzavirus influenzae (2955291) (69561 records) detects 60.7% (60.4%-61.1%), down from 60.9% on 117286 earlier records; lineage verdict overrides to declining. Entry flags: retrieval_scope_incomplete. |
+| `INFLUENZA_A_ssRNA_NP_Tsukamoto_2010` (pooled: low coverage) | active | 60.8% | 60%-61% | 69571 | 61% (117340) | 128x moderate | fails: change | pooled share 60.8% has low coverage, but lineage Alphainfluenzavirus influenzae (2955291) (69561 records) detects 60.8% (60.5%-61.2%), down from 61.2% on 117286 earlier records; lineage verdict overrides to declining. Entry flags: retrieval_scope_incomplete. |
 | `FILOVIRUS_ssRNA_L_gene` | active | 62.1% | 52%-71% | 95 | 98% (3818) | 2x negligible | fails: too_few,footprint | detected share 62.1% (52%-71%) since Oct 2024, upper bound below the 90% threshold; change from baseline -46% to -27%; separately, lineage Orthoebolavirus bundibugyoense (3052458) (35 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: pairing_is_curator_reading. 85 patent records excluded. |
-| `Pan_hemoparasite_cytochrome_c_Hellgren_2004` | active | 62.4% | 55%-69% | 194 | 79% (829) | 1x negligible | fails: change | detected share 62.4% (55%-69%) since Oct 2024, upper bound below the 90% threshold; change from baseline -24% to -9%. Entry flags: oligos_not_in_cited_paper, orientation_inferred. 13071 out-of-scope records excluded. |
 | `West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001` | active | 63.6% | 61%-66% | 1722 | 87% (5362) | 1x negligible | holds | detected share 63.6% (61%-66%) since Oct 2024, upper bound below the 90% threshold; change from baseline -26% to -21%. Entry flags: oligos_modified. 89 patent records excluded. |
 | `BQCV_capsid_Rossi_2024` | active | 65.1% | 57%-72% | 152 | 83% (1057) | 1x negligible | fails: change | detected share 65.1% (57%-72%) since Oct 2024, upper bound below the 90% threshold; change from baseline -26% to -11%. Entry flags: oligos_from_secondary_source. 3 patent records excluded. |
-| `RHABDOVIRUS_ssRNA_L_gene_round2` (pooled: low coverage) | active | 66.2% | 64%-69% | 1271 | 66% (5352) | 36864x severe | fails: change | pooled share 66.2% has low coverage, but lineage Lyssavirus rabies (11292) (939 records) detects 68.8% (65.8%-71.7%); lineage verdict overrides to declining. Entry flags: oligos_from_secondary_source. 769 out-of-scope records excluded. |
-| `CDV_H_gene_Mueller_2011_1` | active | 66.3% | 56%-75% | 95 | 94% (418) | 2x negligible | holds | detected share 66.3% (56%-75%) since Oct 2024, upper bound below the 90% threshold; change from baseline -38% to -19%. 61 patent records excluded. |
-| `CDV_H_gene_Mueller_2011_2` (pooled: low coverage) | active | 66.5% | 59%-73% | 188 | 64% (1744) | 1x negligible | fails: change | pooled share 66.5% has low coverage, but lineage Morbillivirus canis (3052342) (188 records) detects 66.5% (59.5%-72.8%); lineage verdict overrides to declining. Entry flags: pairing_is_curator_reading. 61 patent records excluded. |
-| `Pan_HERPES_dsDNA_Polymerase_round2` | active | 71.4% | 67%-76% | 357 | 80% (3350) | 12288x severe | fails: change | detected share 71.4% (67%-76%) since Oct 2024, upper bound below the 90% threshold; change from baseline -14% to -4%. Entry flags: orientation_inferred. 2 out-of-scope records excluded. |
-| `PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999` (pooled: low coverage) | active | 73.2% | 71%-75% | 1591 | 54% (14684) | 288x high | fails: change | pooled share 73.2% has low coverage, but lineage Alphapapillomavirus 9 (337041) (320 records) detects only 12.8% (9.6%-16.9%), down from 43.5% on 9521 earlier records; lineage verdict overrides to declining. Entry flags: orientation_inferred. 1064 patent records excluded. |
-| `CDV_P_gene_Scagliarini_2007` (pooled: low coverage) | active | 75.3% | 66%-83% | 93 | 71% (509) | 1x negligible | fails: change | pooled share 75.3% has low coverage, but lineage Morbillivirus canis (3052342) (93 records) detects 75.3% (65.6%-82.9%); lineage verdict overrides to declining. 61 patent records excluded. |
-| `ADENOVIRUS_dsDNA_Hexon_gene` (pooled: low coverage) | active | 76.3% | 74%-78% | 1499 | 68% (4736) | 16x moderate | fails: change | pooled share 76.3% has low coverage, but lineage Mastadenovirus caesari (3241411) (185 records) detects only 65.4% (58.3%-71.9%), down from 71.1% on 795 earlier records; lineage verdict overrides to declining. Entry flags: cross_reactive. 1043 patent records excluded. |
+| `Pan_hemoparasite_cytochrome_c_Hellgren_2004` | active | 67.0% | 60%-73% | 194 | 86% (829) | 1x negligible | holds | detected share 67.0% (60%-73%) since Oct 2024, upper bound below the 90% threshold; change from baseline -27% to -13%. Entry flags: oligos_not_in_cited_paper, orientation_inferred. 13071 out-of-scope records excluded. |
+| `CDV_H_gene_Mueller_2011_1` | active | 68.4% | 59%-77% | 95 | 94% (418) | 2x negligible | holds | detected share 68.4% (59%-77%) since Oct 2024, upper bound below the 90% threshold; change from baseline -36% to -17%. 61 patent records excluded. |
+| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010` | active | 69.8% | 65%-74% | 361 | 88% (671) | 147456x severe | holds | detected share 69.8% (65%-74%) since Oct 2024, upper bound below the 90% threshold; change from baseline -24% to -13%. 52 patent records excluded. |
+| `RHABDOVIRUS_ssRNA_L_gene_round1` (pooled: low coverage) | active | 70.6% | 68%-73% | 1295 | 74% (5455) | 221184x severe | fails: change | pooled share 70.6% has low coverage, but lineage Lyssavirus rabies (11292) (968 records) detects 84.9% (82.5%-87.0%), down from 95.1% on 3678 earlier records; lineage verdict overrides to declining. 769 out-of-scope records excluded. |
+| `DWVB_polyprotein_Rossi_2024` | active | 75.0% | 51%-90% | 16 | 100% (41) | 1x negligible | fails: too_few,recent,change | detected share 75.0% (51%-90%) since Oct 2024, upper bound below the 90% threshold; change from baseline -49% to -8%. Entry flags: oligos_from_secondary_source, scope_narrower_than_taxid. |
+| `PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999` (pooled: low coverage) | active | 75.1% | 73%-77% | 1591 | 56% (14684) | 288x high | fails: change | pooled share 75.1% has low coverage, but lineage Alphapapillomavirus 9 (337041) (320 records) detects only 12.8% (9.6%-16.9%), down from 43.7% on 9521 earlier records; lineage verdict overrides to declining. Entry flags: orientation_inferred. 1064 patent records excluded. |
+| `CDV_P_gene_Scagliarini_2007` (pooled: low coverage) | active | 75.3% | 66%-83% | 93 | 73% (509) | 1x negligible | fails: change | pooled share 75.3% has low coverage, but lineage Morbillivirus canis (3052342) (93 records) detects 75.3% (65.6%-82.9%); lineage verdict overrides to declining. 61 patent records excluded. |
+| `ADENOVIRUS_dsDNA_Hexon_gene` (pooled: low coverage) | active | 77.9% | 76%-80% | 1499 | 70% (4736) | 16x moderate | fails: change | pooled share 77.9% has low coverage, but lineage Mastadenovirus caesari (3241411) (185 records) detects only 65.4% (58.3%-71.9%), down from 71.3% on 795 earlier records; lineage verdict overrides to declining. Entry flags: cross_reactive. 1043 patent records excluded. |
 | `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2` (pooled: low coverage) | active | 79.2% | 77%-81% | 1569 | 69% (5313) | 12288x severe | fails: change | pooled share 79.2% has low coverage, but lineage Betacoronavirus sp. (1928434) (47 records) detects only 19.1% (10.4%-32.5%), down from 100.0% on 15 earlier records; lineage verdict overrides to declining. 262 out-of-scope records excluded. |
 | `Pan_HERPES_dsDNA_Terminase_round2` | active | 79.5% | 75%-83% | 331 | 92% (2790) | 128x moderate | fails: recent | detected share 79.5% (75%-83%) since Oct 2024, upper bound below the 90% threshold; change from baseline -18% to -9%; separately, lineage Varicellovirus humanalpha3 (3050294) (54 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 1 out-of-scope records excluded. |
 | `HANTAVIRUS_ssRNA_S_segment` (pooled: watch) | active | 88.0% | 85%-91% | 443 | 96% (3848) | 31104x severe | fails: recent | pooled share 88.0% is above the 90% threshold, but lineage Orthohantavirus tulaense (3052503) (102 records) detects only 64.7% (55.1%-73.3%), down from 93.3% on 386 earlier records; lineage verdict overrides to declining. Entry flags: nested_protocol. 83 patent records excluded. |
@@ -113,45 +113,46 @@ that clade, not as a measurement of the assay.
 | `Apicoplast_23S_LSU_Large_subunit_Molecular_2005` | active | 0.0% | 0%-12% | 27 | 0% (85) | 8x negligible | fails: too_few | detected share 0.0% (0%-12%) since Oct 2024, upper bound below the 90% threshold; change from baseline -4% to +12% (no measurable fall from a baseline of 0%). Entry flags: cross_reactive. |
 | `Helicobacter_16S_Conley_2021` | active | 0.0% | 0%-5% | 75 | 0% (1080) | 1x negligible | fails: too_few | detected share 0.0% (0%-5%) since Oct 2024, upper bound below the 90% threshold; change from baseline -0.4% to +5% (no measurable fall from a baseline of 0%). Entry flags: amplicon_disagrees_with_paper, cross_reactive, retrieval_scope_incomplete, scope_narrower_than_taxid, thin_evidence. 1 patent records excluded. |
 | `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1` | active | 0.0% | 0%-0.6% | 650 | 0.3% (1715) | 128x moderate | holds | detected share 0.0% (0%-0.6%) since Oct 2024, upper bound below the 90% threshold; change from baseline -0.7% to +0.3% (no measurable fall from a baseline of 0.3%); separately, lineage Betapolyomavirus hominis (1891762) (548 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: nested_protocol. 7 out-of-scope records excluded. 372 patent records excluded. |
-| `RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009` | active | 0.0% | 0%-2% | 226 | 3% (5073) | 144x high | fails: too_few | detected share 0.0% (0%-2%) since Oct 2024, upper bound below the 90% threshold; change from baseline -4% to -1% (fell less than the 5% that counts as declining, from a baseline of 3%); separately, lineage Lentivirus simimdef (3418654) (226 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: amplicon_measured_not_published. |
-| `ORTHOBUNYAVIRUS_ssRNA_M_segment_internal_Briese_2007` | active | 0.3% | 0.1%-2% | 296 | 31% (262) | 4096x high | fails: too_few | detected share 0.3% (0.1%-2%) since Oct 2024, upper bound below the 90% threshold; change from baseline -36% to -25% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 31%); separately, lineage Orthobunyavirus oropoucheense (3052429) (278 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. |
+| `ORTHOBUNYAVIRUS_ssRNA_M_segment_internal_Briese_2007` | active | 0.3% | 0.1%-2% | 296 | 35% (262) | 4096x high | fails: too_few | detected share 0.3% (0.1%-2%) since Oct 2024, upper bound below the 90% threshold; change from baseline -41% to -29% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 35%); separately, lineage Orthobunyavirus oropoucheense (3052429) (278 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. |
+| `ORTHOPOXVIRUS_dsDNA_F3L_region_nonMPXV_TaqMan_Huo_2022` | draft | 0.6% | 0.4%-0.8% | 5163 | 5% (8998) | 1x negligible | holds | detected share 0.6% (0.4%-0.8%) since Oct 2024, upper bound below the 90% threshold; change from baseline -5% to -4% (fell less than the 5% that counts as declining, from a baseline of 5%); separately, lineage Orthopoxvirus monkeypox (3431483) (4698 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: amplicon_measured_not_published. 570 patent records excluded. |
 | `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2` | active | 2.0% | 1%-3% | 944 | 9% (5658) | 1536x high | holds | detected share 2.0% (1%-3%) since Oct 2024, upper bound below the 90% threshold; change from baseline -8% to -6% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 9%); separately, lineage Betapolyomavirus hominis (1891762) (811 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: amplicon_measured_not_published, nested_protocol. Same oligos as POLYOMAVIRUS_dsDNA_VP1_Johne_2005. 7 out-of-scope records excluded. 372 patent records excluded. |
 | `POLYOMAVIRUS_dsDNA_VP1_Johne_2005` | active | 2.0% | 1%-3% | 944 | 9% (5658) | 1536x high | holds | detected share 2.0% (1%-3%) since Oct 2024, upper bound below the 90% threshold; change from baseline -8% to -6% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 9%); separately, lineage Betapolyomavirus hominis (1891762) (811 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: nested_protocol. Same oligos as POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2. 7 out-of-scope records excluded. 372 patent records excluded. |
 | `POXVIRUSES_dsDNA_Polymerase` | active | 4.1% | 4%-5% | 5142 | 3% (9346) | 1x negligible | holds | detected share 4.1% (4%-5%) since Oct 2024, upper bound below the 90% threshold; change from baseline +0.9% to +2% (rose from a baseline of 3%); separately, lineage Orthopoxvirus monkeypox (3431483) (4869 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 735 patent records excluded. |
 | `Snake_nidovirus_PP1b_Uccellini_2014_2` | active | 4.3% | 0.8%-21% | 23 | 14% (37) | 1x negligible | fails: too_few | detected share 4.3% (0.8%-21%) since Oct 2023, upper bound below the 90% threshold; change from baseline -24% to +9% (no measurable fall from a baseline of 14%) (window widened to 36 months to reach 15 evaluable records). Entry flags: pairing_is_curator_reading. 11 patent records excluded. |
-| `ORTHOBUNYAVIRUS_ssRNA_M_segment` | active | 5.0% | 0.9%-24% | 20 | 29% (207) | 192x high | fails: too_few | detected share 5.0% (0.9%-24%) since Oct 2022, upper bound below the 90% threshold; change from baseline -31% to -4% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 29%) (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_multimodal. |
+| `MONKEYPOX_dsDNA_B1_SNP_nonB1_MGB_Huo_2022` | draft | 9.9% | 9%-11% | 4405 | 3% (8368) | 1x negligible | fails: too_few | detected share 9.9% (9%-11%) since Oct 2024, upper bound below the 90% threshold; change from baseline +6% to +8% (rose from a baseline of 3%); separately, lineage Orthopoxvirus monkeypox (3431483) (4363 records) detects only 10.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: amplicon_measured_not_published, scope_narrower_than_taxid. 5 patent records excluded. |
 | `ORTHOBUNYAVIRUS_ssRNA_L_segment_Briese_2007` | active | 13.0% | 5%-32% | 23 | 30% (169) | 64x moderate | fails: too_few | detected share 13.0% (5%-32%) since Oct 2022, upper bound below the 90% threshold; change from baseline -28% to +4% (no measurable fall from a baseline of 30%) (window widened to 48 months to reach 15 evaluable records). |
 | `ARENAVIRUS_ssRNA_S_gene` | active | 14.3% | 8%-24% | 70 | 39% (988) | 8x negligible | holds | detected share 14.3% (8%-24%) since Oct 2024, upper bound below the 90% threshold; change from baseline -32% to -14% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 39%). Entry flags: orientation_inferred. 473 out-of-scope records excluded. 226 patent records excluded. |
 | `Snake_nidovirus_PP1b_Uccellini_2014_3` | active | 17.6% | 6%-41% | 17 | 33% (27) | 1x negligible | fails: too_few | detected share 17.6% (6%-41%) since Oct 2023, upper bound below the 90% threshold; change from baseline -38% to +12% (no measurable fall from a baseline of 33%) (window widened to 36 months to reach 15 evaluable records). 11 patent records excluded. |
-| `Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006` | active | 23.8% | 22%-26% | 1653 | 36% (10186) | 128x moderate | holds | detected share 23.8% (22%-26%) since Oct 2024, upper bound below the 90% threshold; change from baseline -14% to -10% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 36%). Entry flags: cross_reactive. |
-| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1` | active | 24.0% | 20%-29% | 358 | 50% (627) | 331776x severe | holds | detected share 24.0% (20%-29%) since Oct 2024, upper bound below the 90% threshold; change from baseline -32% to -20% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 50%); separately, lineage Orthoreovirus piscis (3431498) (182 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: pairing_is_curator_reading. 52 patent records excluded. |
-| `DWVA_polyprotein_Rossi_2024` | active | 25.0% | 13%-43% | 28 | 80% (40) | 1x negligible | fails: too_few | detected share 25.0% (13%-43%) since Oct 2024, upper bound below the 90% threshold; change from baseline -71% to -31% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 80%). Entry flags: oligos_from_secondary_source, scope_narrower_than_taxid. |
-| `ORTHOBUNYAVIRUS_ssRNA_S_segment` | active | 26.7% | 11%-52% | 15 | 34% (166) | 1x negligible | fails: too_few | detected share 26.7% (11%-52%) since Oct 2022, upper bound below the 90% threshold; change from baseline -25% to +19% (no measurable fall from a baseline of 34%) (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_multimodal. |
+| `Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006` | active | 24.4% | 22%-27% | 1653 | 37% (10186) | 128x moderate | holds | detected share 24.4% (22%-27%) since Oct 2024, upper bound below the 90% threshold; change from baseline -15% to -10% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 37%). Entry flags: cross_reactive. |
+| `ORTHOBUNYAVIRUS_ssRNA_S_segment` | active | 26.7% | 11%-52% | 15 | 35% (166) | 1x negligible | fails: too_few | detected share 26.7% (11%-52%) since Oct 2022, upper bound below the 90% threshold; change from baseline -26% to +18% (no measurable fall from a baseline of 35%) (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_multimodal. |
 | `CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_round2` | active | 30.7% | 28%-34% | 748 | 39% (8657) | 1536x high | holds | detected share 30.7% (28%-34%) since Oct 2024, upper bound below the 90% threshold; change from baseline -11% to -4% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 39%); separately, lineage Circovirus pigeon (3050342) (69 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: orientation_inferred. 222 patent records excluded. |
 | `SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003` | active | 31.8% | 16%-53% | 22 | 47% (712) | 1x negligible | fails: too_few,footprint | detected share 31.8% (16%-53%) since Oct 2023, upper bound below the 90% threshold; change from baseline -31% to +6% (no measurable fall from a baseline of 47%) (window widened to 36 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. |
 | `ASTROVIRUS_RdRp_Chu_2008_round1` | active | 34.6% | 31%-38% | 691 | 48% (2234) | 2048x high | holds | detected share 34.6% (31%-38%) since Oct 2024, upper bound below the 90% threshold; change from baseline -18% to -9% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 48%); lineage Mamastrovirus suisencephalomyelitidis (3703181) (35 records) detects only 8.6%, but neither it nor the pooled share ever cleared the threshold, so there is no fall to call a decline. Entry flags: amplicon_measured_not_published, nested_protocol. 29 patent records excluded. |
-| `CHLAMYDIA_genus_16S_Messmer_1997_round1` | active | 40.7% | 31%-51% | 86 | 39% (728) | 1x negligible | fails: too_few | detected share 40.7% (31%-51%) since Oct 2024, upper bound below the 90% threshold; change from baseline -9% to +13% (no measurable fall from a baseline of 39%); separately, lineage Chlamydia trachomatis (813) (39 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: primer_site_polymorphic, scope_narrower_than_taxid. 1 patent records excluded. |
-| `SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010` | active | 61.1% | 39%-80% | 18 | 47% (172) | 16x moderate | fails: too_few | detected share 61.1% (39%-80%) since Oct 2022, upper bound below the 90% threshold; change from baseline -10% to +34% (no measurable fall from a baseline of 47%) (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_multimodal. |
+| `ORTHOBUNYAVIRUS_ssRNA_M_segment` | active | 35.0% | 18%-57% | 20 | 31% (207) | 192x high | fails: too_few | detected share 35.0% (18%-57%) since Oct 2022, upper bound below the 90% threshold; change from baseline -14% to +27% (no measurable fall from a baseline of 31%) (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_multimodal. |
+| `DWVA_polyprotein_Rossi_2024` | active | 39.3% | 24%-58% | 28 | 85% (40) | 1x negligible | fails: too_few | detected share 39.3% (24%-58%) since Oct 2024, upper bound below the 90% threshold; change from baseline -63% to -23% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 85%). Entry flags: oligos_from_secondary_source, scope_narrower_than_taxid. |
+| `CHLAMYDIA_genus_16S_Messmer_1997_round1` | active | 41.9% | 32%-52% | 86 | 40% (728) | 1x negligible | fails: too_few | detected share 41.9% (32%-52%) since Oct 2024, upper bound below the 90% threshold; change from baseline -8% to +13% (no measurable fall from a baseline of 40%); separately, lineage Chlamydia trachomatis (813) (39 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: primer_site_polymorphic, scope_narrower_than_taxid. 1 patent records excluded. |
+| `SARCOCYSTIS_18S_5_8s_rDNA_short_Kutkiene_2010` | active | 61.1% | 39%-80% | 18 | 49% (172) | 16x moderate | fails: too_few | detected share 61.1% (39%-80%) since Oct 2022, upper bound below the 90% threshold; change from baseline -11% to +32% (no measurable fall from a baseline of 49%) (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_multimodal. |
 | `Paramyxovirinae_Polymerase_L_gene_round2` | active | 61.7% | 60%-63% | 3971 | 10% (4906) | 384x high | holds | detected share 61.7% (60%-63%) since Oct 2024, upper bound below the 90% threshold; change from baseline +50% to +53% (rose from a baseline of 10%); separately, lineage Morbillivirus canis (3052342) (84 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 73 out-of-scope records excluded. |
-| `AVIPOXVIRUS_dsDNA_4b_core_Farias_2010` | active | 62.5% | 43%-79% | 24 | 77% (228) | 1x negligible | fails: too_few | detected share 62.5% (43%-79%) since Oct 2024, upper bound below the 90% threshold; change from baseline -35% to +3% (no measurable fall from a baseline of 77%). Entry flags: amplicon_disagrees_with_paper. 7 patent records excluded. 1 chance-pair records excluded (drift.chance_pair_test). |
-| `Cryptosporidium_18SrDNA_Xiao_1999_round2` | active | 71.6% | 65%-77% | 225 | 63% (1437) | 1x negligible | holds | detected share 71.6% (65%-77%) since Oct 2024, upper bound below the 90% threshold; change from baseline +2% to +14% (rose from a baseline of 63%). |
+| `AVIPOXVIRUS_dsDNA_4b_core_Farias_2010` | active | 62.5% | 43%-79% | 24 | 76% (229) | 1x negligible | fails: too_few | detected share 62.5% (43%-79%) since Oct 2024, upper bound below the 90% threshold; change from baseline -34% to +3% (no measurable fall from a baseline of 76%). Entry flags: amplicon_disagrees_with_paper. 7 patent records excluded. |
+| `Cryptosporidium_18SrDNA_Xiao_1999_round2` | active | 71.6% | 65%-77% | 225 | 64% (1437) | 1x negligible | holds | detected share 71.6% (65%-77%) since Oct 2024, upper bound below the 90% threshold; change from baseline +1% to +14% (rose from a baseline of 64%). |
 | `Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1` | active | 72.3% | 71%-74% | 4278 | 36% (6505) | 768x high | holds | detected share 72.3% (71%-74%) since Oct 2024, upper bound below the 90% threshold; change from baseline +35% to +38% (rose from a baseline of 36%); separately, lineage Orthorubulavirus hominis (3052556) (126 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 73 out-of-scope records excluded. |
-| `Encephalitozoon_18S_General_Encephalitoz_Muller_1999` | active | 72.7% | 56%-85% | 33 | 71% (83) | 1x negligible | fails: too_few,recent,footprint | detected share 72.7% (56%-85%) since Oct 2022, upper bound below the 90% threshold; change from baseline -17% to +18% (no measurable fall from a baseline of 71%) (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 4 patent records excluded. |
 | `ASTROVIRUS_RdRp_Chu_2008_round2` | active | 78.4% | 75%-81% | 716 | 78% (2591) | 1536x high | holds | detected share 78.4% (75%-81%) since Oct 2024, upper bound below the 90% threshold; change from baseline -3% to +4% (no measurable fall from a baseline of 78%); separately, lineage Goose astrovirus (1349999) (46 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: nested_protocol. 29 patent records excluded. |
+| `Pan_HERPES_dsDNA_Polymerase_round2` | active | 82.6% | 78%-86% | 357 | 85% (3350) | 12288x severe | fails: recent | detected share 82.6% (78%-86%) since Oct 2024, upper bound below the 90% threshold; change from baseline -7% to +1% (no measurable fall from a baseline of 85%). Entry flags: orientation_inferred. 2 out-of-scope records excluded. |
 | `ADENOVIRUS_dsDNA_Polymerase_Primate_speci` | active | 84.9% | 83%-87% | 1086 | 74% (2936) | 1x negligible | fails: recent | detected share 84.9% (83%-87%) since Oct 2024, upper bound below the 90% threshold; change from baseline +8% to +14% (rose from a baseline of 74%); separately, lineage Mastadenovirus faecale (3241426) (100 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 1012 patent records excluded. |
-| `ADENOVIRUS_dsDNA_Hexon_gene_round2` | active | 87.9% | 86%-89% | 1427 | 89% (4267) | 8x negligible | fails: recent | detected share 87.9% (86%-89%) since Oct 2024, upper bound below the 90% threshold; change from baseline -3% to +0.8% (no measurable fall from a baseline of 89%); separately, lineage Aviadenovirus hepatitidis (3426530) (49 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 1043 patent records excluded. |
-| `ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005` (pooled: stable) | active | 90.6% | 89%-92% | 1079 | 78% (2875) | 16x moderate | fails: recent | detected share 90.6% (89%-92%) since Oct 2024; separately, lineage Mastadenovirus faecale (3241426) (103 records) detects only 43.7% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 1012 patent records excluded. |
-| `Morbillivirus_including_CDV_P_gene` (pooled: stable) | active | 95.6% | 95%-96% | 2820 | 79% (2118) | 1x negligible | fails: recent | detected share 95.6% (95%-96%) since Oct 2024; separately, lineage Morbillivirus caprinae (3052343) (81 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: amplicon_measured_not_published. Same oligos as Morbillivirus_including_CDV_P_gene_Barrett_2003. 181 patent records excluded. |
-| `Morbillivirus_including_CDV_P_gene_Barrett_2003` (pooled: stable) | active | 95.6% | 95%-96% | 2820 | 79% (2118) | 1x negligible | fails: recent | detected share 95.6% (95%-96%) since Oct 2024; separately, lineage Morbillivirus caprinae (3052343) (81 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Same oligos as Morbillivirus_including_CDV_P_gene. 181 patent records excluded. |
+| `ADENOVIRUS_dsDNA_Hexon_gene_round2` | active | 88.0% | 86%-90% | 1427 | 90% (4267) | 8x negligible | fails: recent | detected share 88.0% (86%-90%) since Oct 2024, upper bound below the 90% threshold; change from baseline -4% to +0.2% (no measurable fall from a baseline of 90%); separately, lineage Aviadenovirus hepatitidis (3426530) (49 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 1043 patent records excluded. |
+| `ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005` (pooled: stable) | active | 91.3% | 89%-93% | 1079 | 79% (2875) | 16x moderate | fails: recent | detected share 91.3% (89%-93%) since Oct 2024; separately, lineage Mastadenovirus faecale (3241426) (103 records) detects only 43.7% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. 1012 patent records excluded. |
+| `Morbillivirus_including_CDV_P_gene` (pooled: stable) | active | 95.8% | 95%-96% | 2820 | 90% (2118) | 1x negligible | fails: recent | detected share 95.8% (95%-96%) since Oct 2024; separately, lineage Morbillivirus caprinae (3052343) (81 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Entry flags: amplicon_measured_not_published. Same oligos as Morbillivirus_including_CDV_P_gene_Barrett_2003. 181 patent records excluded. |
+| `Morbillivirus_including_CDV_P_gene_Barrett_2003` (pooled: stable) | active | 95.8% | 95%-96% | 2820 | 90% (2118) | 1x negligible | fails: recent | detected share 95.8% (95%-96%) since Oct 2024; separately, lineage Morbillivirus caprinae (3052343) (81 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift. Same oligos as Morbillivirus_including_CDV_P_gene. 181 patent records excluded. |
 
-## Watch (7)
+## Watch (8)
 
 | assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | duplication | note |
 |---|---|---|---|---|---|---|---|---|
 | `SARCOCYSTIS_18S_5_8s_rDNA_long_2010` | active | 80.0% | 55%-93% | 15 | 99% (154) | 1x negligible | - | detected share 80.0% is below the 90% threshold, but its interval (55%-93%) still reaches it (window widened to 48 months to reach 15 evaluable records). |
 | `VIBRIO_coralliilyticus_dnaJ_Pollock_2010` | active | 80.0% | 55%-93% | 15 | 61% (56) | 2x negligible | - | detected share 80.0% is below the 90% threshold, but its interval (55%-93%) still reaches it. Entry flags: primer_site_polymorphic. |
-| `RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007` | active | 84.7% | 75%-91% | 72 | 90% (178) | 1x negligible | - | detected share 84.7% is below the 90% threshold, but its interval (75%-91%) still reaches it. Entry flags: amplicon_multimodal, oligos_from_secondary_source. |
-| `Entamoeba_18S_small_subunit_SSU` | draft | 87.5% | 78%-93% | 80 | 98% (134) | 288x high | - | detected share 87.5% is below the 90% threshold, but its interval (78%-93%) still reaches it (window widened to 48 months to reach 15 evaluable records). Entry flags: oligos_modified. |
+| `Entamoeba_18S_small_subunit_SSU` | draft | 87.5% | 78%-93% | 80 | 99% (134) | 288x high | - | detected share 87.5% is below the 90% threshold, but its interval (78%-93%) still reaches it (window widened to 48 months to reach 15 evaluable records). Entry flags: oligos_modified. |
+| `CDV_H_gene_Mueller_2011_2` | active | 88.8% | 84%-93% | 188 | 90% (1744) | 1x negligible | - | detected share 88.8% is below the 90% threshold, but its interval (84%-93%) still reaches it. Entry flags: pairing_is_curator_reading. 61 patent records excluded. |
+| `RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007` | active | 88.9% | 80%-94% | 72 | 91% (178) | 1x negligible | - | detected share 88.9% is below the 90% threshold, but its interval (80%-94%) still reaches it. Entry flags: amplicon_multimodal, oligos_from_secondary_source. |
 | `RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008` | active | 89.5% | 81%-95% | 76 | 80% (250) | 1x negligible | - | detected share 89.5% is below the 90% threshold, but its interval (81%-95%) still reaches it. Entry flags: amplicon_disagrees_with_paper, oligos_from_secondary_source. |
 | `MONKEYPOX_dsDNA_F3L_MGB_Kulesh_2004` | active | 89.7% | 89%-91% | 4469 | 99% (8564) | 1x negligible | - | detected share 89.7% is below the 90% threshold, but its interval (89%-91%) still reaches it. 5 patent records excluded. |
 | `RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007` | active | 89.9% | 81%-95% | 79 | 81% (273) | 1x negligible | - | detected share 89.9% is below the 90% threshold, but its interval (81%-95%) still reaches it. Entry flags: amplicon_measured_not_published, oligos_read_from_figure. |
@@ -162,23 +163,23 @@ that clade, not as a measurement of the assay.
 |---|---|---|---|---|---|---|---|---|
 | `B_salamandrivorans_Internal_transcribes_spa_Blooi_2013` | active | 0.0% | 0%-43% | 5 | 100% (1) | 1x negligible | - | 5 evaluable records since Oct 2024, below the minimum of 15; the detected share is 0% (0%-43%), too wide to act on. Entry flags: oligos_from_secondary_source. |
 | `CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021` | active | 0.0% | 0%-56% | 3 | 0% (6) | 1x negligible | - | 3 evaluable records since Oct 2024, below the minimum of 15; the detected share is 0% (0%-56%), too wide to act on. Entry flags: oligos_read_from_figure, scope_narrower_than_taxid. 2 patent records excluded. |
-| `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999` | active | 0.0% | 0%-39% | 6 | 18% (22) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 0% (0%-39%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 3 patent records excluded. |
 | `Pan_reptilian_paramyxovirus_L_Ahne_1999` | active | 0.0% | 0%-39% | 6 | 43% (14) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 0% (0%-39%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: orientation_inferred. 3 patent records excluded. |
-| `Pan_reptilian_paramyxovirus_L_Ahne_1999_2` | active | 0.0% | 0%-39% | 6 | 25% (16) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 0% (0%-39%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: orientation_inferred. 3 patent records excluded. |
 | `LMBV_dsDNA_MCP_Grizzle_2003` | active | 16.7% | 5%-45% | 12 | 45% (22) | 1x negligible | - | 12 evaluable records since Oct 2021, below the minimum of 15; the detected share is 17% (5%-45%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
 | `ORTHOBUNYAVIRUS_ssRNA_M_segment_5prime_Briese_2007` | active | 21.4% | 8%-48% | 14 | 7% (76) | 128x moderate | - | 14 evaluable records since Oct 2021, below the minimum of 15; the detected share is 21% (8%-48%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
 | `Reptarenavirus_GP_Aqrawi_2015` | active | 22.2% | 6%-55% | 9 | 59% (105) | 16x moderate | - | 9 evaluable records since Oct 2021, below the minimum of 15; the detected share is 22% (6%-55%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: orientation_inferred. |
-| `Snake_nidovirus_PP1b_Uccellini_2014_1` | active | 40.0% | 17%-69% | 10 | 33% (18) | 1x negligible | - | 10 evaluable records since Oct 2021, below the minimum of 15; the detected share is 40% (17%-69%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: pairing_is_curator_reading. 11 patent records excluded. |
+| `Snake_nidovirus_PP1b_Uccellini_2014_1` | active | 40.0% | 17%-69% | 10 | 56% (18) | 1x negligible | - | 10 evaluable records since Oct 2021, below the minimum of 15; the detected share is 40% (17%-69%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: pairing_is_curator_reading. 11 patent records excluded. |
 | `ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021` | active | 50.0% | 15%-85% | 4 | 78% (23) | 64x moderate | - | 4 evaluable records since Oct 2021, below the minimum of 15; the detected share is 50% (15%-85%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: cross_reactive, oligos_read_from_figure. 1275 out-of-scope records excluded. |
-| `Ferlavirus_L_gene_Hyndman_2012` | active | 57.1% | 25%-84% | 7 | 41% (46) | 1x negligible | - | 7 evaluable records since Oct 2021, below the minimum of 15; the detected share is 57% (25%-84%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: orientation_inferred. 3 patent records excluded. |
+| `Pan_reptilian_paramyxovirus_L_Ahne_1999_2` | active | 50.0% | 19%-81% | 6 | 69% (16) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 50% (19%-81%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: orientation_inferred. 3 patent records excluded. |
+| `Ferlavirus_L_gene_Hyndman_2012` | active | 57.1% | 25%-84% | 7 | 43% (46) | 1x negligible | - | 7 evaluable records since Oct 2021, below the minimum of 15; the detected share is 57% (25%-84%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: orientation_inferred. 3 patent records excluded. |
 | `Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001` | active | 58.3% | 32%-81% | 12 | 43% (23) | 1x negligible | - | 12 evaluable records since Oct 2021, below the minimum of 15; the detected share is 58% (32%-81%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_multimodal, thin_evidence. 3 patent records excluded. |
 | `PROBOSCIVIRUS_POL_Latimer_2010_panEEHV_round1` | active | 58.3% | 32%-81% | 12 | 65% (20) | 1024x high | - | 12 evaluable records since Oct 2021, below the minimum of 15; the detected share is 58% (32%-81%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
 | `Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015` | active | 62.5% | 31%-86% | 8 | 100% (17) | 1x negligible | - | 8 evaluable records since Oct 2021, below the minimum of 15; the detected share is 62% (31%-86%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
-| `BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` | draft | 77.8% | 45%-94% | 9 | 100% (10) | 1x negligible | - | 9 evaluable records since Oct 2021, below the minimum of 15; the detected share is 78% (45%-94%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published, chemistry_detail_missing, cross_reactive, thin_evidence. 2 patent records excluded. |
+| `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999` | active | 66.7% | 30%-90% | 6 | 64% (22) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 67% (30%-90%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 3 patent records excluded. |
 | `PROBOSCIVIRUS_POL_Latimer_2010_panEEHV_round2` | active | 92.9% | 69%-99% | 14 | 100% (25) | 1024x high | - | 14 evaluable records since Oct 2021, below the minimum of 15; the detected share is 93% (69%-99%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
+| `BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` | draft | 100.0% | 70%-100% | 9 | 100% (10) | 1x negligible | - | 9 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (70%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published, chemistry_detail_missing, cross_reactive, thin_evidence. 2 patent records excluded. |
 | `CHLAMYDIA_pneumoniae_16S_Messmer_1997_round2` | active | 100.0% | 57%-100% | 5 | 100% (11) | 1x negligible | - | 5 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (57%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
 | `CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021` | active | 100.0% | 34%-100% | 2 | 33% (6) | 1x negligible | - | 2 evaluable records since Oct 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on. Entry flags: oligos_read_from_figure, scope_narrower_than_taxid. 2 patent records excluded. |
-| `Cryptosporidium_18SrDNA_Xiao_1999_round1` | active | 100.0% | 78%-100% | 14 | 92% (131) | 1x negligible | - | 14 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (78%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: oligos_modified. |
+| `Cryptosporidium_18SrDNA_Xiao_1999_round1` | active | 100.0% | 78%-100% | 14 | 95% (131) | 1x negligible | - | 14 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (78%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: oligos_modified. |
 | `E_coli_ETEC_LT_Victor_1991` | active | 100.0% | 21%-100% | 1 | 96% (27) | 1x negligible | - | 1 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: citation_is_indirect, oligos_from_secondary_source, orientation_inferred. |
 | `E_coli_O157_hlyA_Wang_1997` | active | 100.0% | 34%-100% | 2 | 100% (96) | 1x negligible | - | 2 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: orientation_inferred. |
 | `MYCOPLASMA_16S_Turtles_only_Feldman_2006` | active | 100.0% | 34%-100% | 2 | 100% (27) | 1x negligible | - | 2 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
@@ -188,7 +189,7 @@ that clade, not as a measurement of the assay.
 | `PROBOSCIVIRUS_POL_Latimer_2010_EEHV34_round1` | active | 100.0% | 34%-100% | 2 | 78% (9) | 1x negligible | - | 2 evaluable records since Oct 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on. |
 | `PROBOSCIVIRUS_POL_Latimer_2010_EEHV34_round2` | active | 100.0% | 34%-100% | 2 | 100% (10) | 1x negligible | - | 2 evaluable records since Oct 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on. |
 | `PROBOSCIVIRUS_POL_Latimer_2010_EEHV34_round3` | active | 100.0% | 51%-100% | 4 | 91% (11) | 1x negligible | - | 4 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (51%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). |
-| `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999_round2` | active | 100.0% | 61%-100% | 6 | 79% (24) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (61%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 3 patent records excluded. |
+| `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999_round2` | active | 100.0% | 61%-100% | 6 | 88% (24) | 1x negligible | - | 6 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (61%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 3 patent records excluded. |
 | `REPTARENAVIRUS_S_segment_GP2_Baggio_2023` | active | 100.0% | 70%-100% | 9 | 95% (105) | 1x negligible | - | 9 evaluable records since Oct 2021, below the minimum of 15; the detected share is 100% (70%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records). Entry flags: pooled_as_one_assay. |
 
 ## No Recent Data (19)
@@ -197,10 +198,10 @@ that clade, not as a measurement of the assay.
 |---|---|---|---|---|---|---|---|---|
 | `BATRAVIRUS_terminase_Licheri_2020_european_FW2_RV1` | active | - | - | 0 | 100% (4) | 128x moderate | - | no evaluable records deposited since Oct 2024. Entry flags: scope_narrower_than_taxid. 4 out-of-scope records excluded. |
 | `BATRAVIRUS_terminase_Licheri_2020_pan_FW4_RV4` | active | - | - | 0 | 100% (8) | 995328x severe | - | no evaluable records deposited since Oct 2024. |
-| `CALICIVIRUS_ssRNA_Capsid` | active | - | - | 0 | 82% (11) | 1x negligible | - | no evaluable records deposited since Oct 2024. 67551 out-of-scope records excluded. |
+| `CALICIVIRUS_ssRNA_Capsid` | active | - | - | 0 | 100% (11) | 1x negligible | - | no evaluable records deposited since Oct 2024. 67551 out-of-scope records excluded. |
 | `CALICIVIRUS_ssRNA_RdRp_Neill_Seal_1995` | draft | - | - | 0 | 40% (25) | 1x negligible | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: thin_evidence. 84725 out-of-scope records excluded. 4 patent records excluded. |
 | `INFLUENZA_A_ssRNA_HA_H5_Tsukamoto_2010` | active | - | - | 0 | 87% (7600) | 8192x severe | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: amplicon_multimodal, retrieval_scope_incomplete. |
-| `INFLUENZA_A_ssRNA_HA_H7_Tsukamoto_2010` | active | - | - | 0 | 56% (3290) | 12288x severe | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: primer_site_polymorphic, retrieval_scope_incomplete. |
+| `INFLUENZA_A_ssRNA_HA_H7_Tsukamoto_2010` | active | - | - | 0 | 57% (3290) | 12288x severe | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: primer_site_polymorphic, retrieval_scope_incomplete. |
 | `LEPORID_GAMMAHERPESVIRUS_5_gB_Abade_dos_Santos_2021_taqman` | active | - | - | 0 | 100% (5) | 1x negligible | - | no evaluable records deposited since Oct 2024. Entry flags: shares_oligos_with_sibling. |
 | `NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011` | draft | - | - | 0 | 100% (7) | 384x high | - | no evaluable records deposited since Oct 2024. Entry flags: thin_evidence. 18244 out-of-scope records excluded. |
 | `PERKINSEA_NAG01_18S_cladeAC_Smilansky_2021` | active | - | - | 0 | 50% (391) | 4x negligible | - | no evaluable records deposited since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: oligos_from_secondary_source. 1389 out-of-scope records excluded. |
@@ -215,57 +216,61 @@ that clade, not as a measurement of the assay.
 | `Sunshinevirus_RdRp_Hyndman_2012_2` | active | - | - | 0 | 100% (2) | 1x negligible | - | no evaluable records deposited since Oct 2024. Entry flags: orientation_inferred. 3 patent records excluded. |
 | `Tortoise_intranuclear_coccidia_18SrDNA` | active | - | - | 0 | 100% (1) | 1x negligible | - | no evaluable records deposited since Oct 2024. |
 
-## Stable (56)
+## Stable (60)
 
 | assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | duplication | note |
 |---|---|---|---|---|---|---|---|---|
-| `USUTU_ssRNA_NS1_realtime_Jost_2011` | active | 90.1% | 87%-93% | 392 | 95% (684) | 1x negligible | - | detected share 90.1% (87%-93%) since Oct 2024. Entry flags: primer_site_polymorphic. 2 patent records excluded. |
+| `USUTU_ssRNA_NS1_realtime_Jost_2011` | active | 90.1% | 87%-93% | 392 | 96% (684) | 1x negligible | - | detected share 90.1% (87%-93%) since Oct 2024. Entry flags: primer_site_polymorphic. 2 patent records excluded. |
+| `PARVOVIRUS_ssDNA_VP1_gene_dependovirus` | active | 90.2% | 86%-93% | 256 | 89% (1772) | 1x negligible | - | detected share 90.2% (86%-93%) since Oct 2024. Entry flags: oligos_modified. 6845 patent records excluded. |
 | `CMV_UL55_gB_Deckers_2009_round2` | active | 90.6% | 76%-97% | 32 | 94% (542) | 32x moderate | - | detected share 90.6% (76%-97%) since Oct 2024. Entry flags: citation_is_indirect. 762 patent records excluded. |
 | `Pan_HERPES_dsDNA_Terminase` | active | 91.5% | 88%-94% | 282 | 89% (2329) | 128x moderate | - | detected share 91.5% (88%-94%) since Oct 2024. Entry flags: orientation_inferred. 1 out-of-scope records excluded. |
+| `RHABDOVIRUS_ssRNA_L_gene_round2` | active | 91.8% | 90%-93% | 1271 | 95% (5352) | 36864x severe | - | detected share 91.8% (90%-93%) since Oct 2024. Entry flags: oligos_from_secondary_source. 769 out-of-scope records excluded. |
 | `TILV_ssRNA_segment3_ME1_ME2_Kembou_2017` | active | 92.0% | 75%-98% | 25 | 97% (77) | 1x negligible | - | detected share 92.0% (75%-98%) since Oct 2022 (window widened to 48 months to reach 15 evaluable records). Entry flags: citation_is_indirect, thin_evidence. |
-| `CBPV_RNA1_Rossi_2024` | active | 92.3% | 76%-98% | 26 | 87% (124) | 16x moderate | - | detected share 92.3% (76%-98%) since Oct 2024. 3 patent records excluded. |
 | `BOCAVIRUS_ssDNA_NS1_gene_round1` | active | 92.9% | 90%-95% | 425 | 64% (1625) | 1024x high | - | detected share 92.9% (90%-95%) since Oct 2024. 13 patent records excluded. |
-| `CHLAMYDIA_psittaci_16S_Messmer_1997_round2` | active | 93.8% | 72%-99% | 16 | 98% (146) | 1x negligible | - | detected share 93.8% (72%-99%) since Oct 2024. Entry flags: cross_reactive. |
 | `Helicobacter_Pan_Helicobacter_16S_Jim_Fox_1998` | active | 94.1% | 84%-98% | 51 | 89% (484) | 1x negligible | - | detected share 94.1% (84%-98%) since Oct 2024. Entry flags: amplicon_measured_not_published, orientation_inferred. 1 patent records excluded. |
 | `POXVIRUSES_dsDNA_Topoisomerase` | active | 94.4% | 94%-95% | 5092 | 97% (9462) | 1x negligible | - | detected share 94.4% (94%-95%) since Oct 2024. 735 patent records excluded. |
 | `BOCAVIRUS_ssDNA_NS1_gene_round2` | active | 95.2% | 93%-97% | 415 | 68% (1526) | 2048x high | - | detected share 95.2% (93%-97%) since Oct 2024. 13 patent records excluded. |
 | `ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2` | active | 95.8% | 94%-97% | 711 | 90% (2598) | 131072x severe | - | detected share 95.8% (94%-97%) since Oct 2024. Entry flags: nested_protocol. 29 patent records excluded. |
 | `ADENOVIRUS_dsDNA_Pan_Polymerase_round2` | active | 96.0% | 95%-97% | 1251 | 97% (3608) | 10616832x severe | - | detected share 96.0% (95%-97%) since Oct 2024. Entry flags: amplicon_multimodal. 159 out-of-scope records excluded. 991 patent records excluded. |
+| `CBPV_RNA1_Rossi_2024` | active | 96.2% | 81%-99% | 26 | 90% (124) | 16x moderate | - | detected share 96.2% (81%-99%) since Oct 2024. 3 patent records excluded. |
 | `CDV_P_gene_Mix7_Halecker_2021` | active | 96.5% | 90%-99% | 86 | 91% (287) | 16x moderate | - | detected share 96.5% (90%-99%) since Oct 2024. 61 patent records excluded. |
-| `CDV_H_gene_Mueller_2011_3` | active | 96.8% | 93%-99% | 186 | 96% (1692) | 1x negligible | - | detected share 96.8% (93%-99%) since Oct 2024. Entry flags: pairing_is_curator_reading. 61 patent records excluded. |
+| `CDV_H_gene_Mueller_2011_3` | active | 96.8% | 93%-99% | 186 | 97% (1692) | 1x negligible | - | detected share 96.8% (93%-99%) since Oct 2024. Entry flags: pairing_is_curator_reading. 61 patent records excluded. |
 | `CMV_UL55_gB_Deckers_2009` | active | 96.9% | 84%-99% | 32 | 84% (595) | 256x high | - | detected share 96.9% (84%-99%) since Oct 2024. Entry flags: citation_is_indirect. 762 patent records excluded. |
 | `CMV_UL55_gB_Prepens_2007_round1` | active | 96.9% | 84%-99% | 32 | 91% (643) | 512x high | - | detected share 96.9% (84%-99%) since Oct 2024. Entry flags: amplicon_measured_not_published. 762 patent records excluded. |
 | `CMV_UL55_gB_Prepens_2007_round2` | active | 96.9% | 84%-99% | 32 | 97% (664) | 8192x severe | - | detected share 96.9% (84%-99%) since Oct 2024. Entry flags: amplicon_measured_not_published. 762 patent records excluded. |
 | `Pan_PARAPOX_dsDNA_RPO147_J6R_generic_TaqMan_Zhao_2013` | draft | 96.9% | 84%-99% | 32 | 95% (86) | 1x negligible | - | detected share 96.9% (84%-99%) since Oct 2024. Entry flags: amplicon_measured_not_published, chemistry_detail_missing, primer_site_polymorphic. 322 out-of-scope records excluded. 53 patent records excluded. |
 | `PHLEBOVIRUS_ssRNA_L_segment_round2` | active | 97.2% | 93%-99% | 142 | 85% (320) | 8192x severe | - | detected share 97.2% (93%-99%) since Oct 2024. |
-| `Pan_Flavivirus_NS5_gene` | active | 97.3% | 97%-98% | 9398 | 98% (24378) | 768x high | - | detected share 97.3% (97%-98%) since Oct 2024. 1 out-of-scope records excluded. |
-| `MONKEYPOX_dsDNA_C3L_CongoBasin_TaqMan_Li_2010` | active | 97.9% | 96%-99% | 609 | 98% (464) | 1x negligible | - | detected share 97.9% (96%-99%) since Oct 2024. Entry flags: amplicon_measured_not_published, scope_narrower_than_taxid. 5 patent records excluded. 2 chance-pair records excluded (drift.chance_pair_test). |
+| `Pan_Flavivirus_NS5_gene` | active | 97.6% | 97%-98% | 9398 | 99% (24378) | 768x high | - | detected share 97.6% (97%-98%) since Oct 2024. 1 out-of-scope records excluded. |
+| `MONKEYPOX_dsDNA_C3L_CongoBasin_TaqMan_Li_2010` | active | 97.9% | 96%-99% | 609 | 98% (466) | 1x negligible | - | detected share 97.9% (96%-99%) since Oct 2024. Entry flags: amplicon_measured_not_published, scope_narrower_than_taxid. 5 patent records excluded. |
 | `PHLEBOVIRUS_ssRNA_L_segment_round1` | active | 98.1% | 90%-100% | 54 | 96% (216) | 256x high | - | detected share 98.1% (90%-100%) since Oct 2024. |
 | `LEPTOSPIRA_lipL32_Ahmed_2020` | active | 98.2% | 96%-99% | 442 | 88% (1472) | 32x moderate | - | detected share 98.2% (96%-99%) since Oct 2024. Entry flags: primer_site_polymorphic, scope_narrower_than_taxid. 42 chance-pair records excluded (drift.chance_pair_test). |
 | `ADENOVIRUS_dsDNA_Pan_Polymerase_round1` | active | 98.4% | 97%-99% | 1175 | 91% (3783) | 1811939328x severe | - | detected share 98.4% (97%-99%) since Oct 2024. Entry flags: amplicon_multimodal. 159 out-of-scope records excluded. 991 patent records excluded. |
-| `POXVIRUSES_dsDNA_Polymerase_short_2` | active | 98.5% | 98%-99% | 5351 | 97% (9708) | 4x negligible | - | detected share 98.5% (98%-99%) since Oct 2024. Entry flags: oligos_from_secondary_source, oligos_modified, pairing_is_curator_reading. 735 patent records excluded. |
 | `ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round1` | active | 98.6% | 97%-99% | 694 | 96% (2360) | 32768x severe | - | detected share 98.6% (97%-99%) since Oct 2024. 29 patent records excluded. |
-| `RETROVIRUS_RNA_polymerase_SIV` | active | 98.7% | 96%-100% | 226 | 54% (4988) | 4x negligible | - | detected share 98.7% (96%-100%) since Oct 2024. |
-| `BORNA_VIRUS_N_gene` | active | 98.8% | 96%-100% | 165 | 98% (150) | 1x negligible | - | detected share 98.8% (96%-100%) since Oct 2023 (window widened to 36 months to reach 15 evaluable records). Entry flags: oligos_not_in_cited_paper, orientation_inferred. 1005 out-of-scope records excluded. 12 patent records excluded. |
-| `PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002` | active | 98.8% | 97%-100% | 256 | 98% (1775) | 6912x severe | - | detected share 98.8% (97%-100%) since Oct 2024. Entry flags: oligos_modified. 6845 patent records excluded. |
+| `POXVIRUSES_dsDNA_Polymerase_short_2` | active | 98.6% | 98%-99% | 5351 | 97% (9708) | 4x negligible | - | detected share 98.6% (98%-99%) since Oct 2024. Entry flags: oligos_from_secondary_source, oligos_modified, pairing_is_curator_reading. 735 patent records excluded. |
+| `RETROVIRUS_RNA_polymerase_SIV` | active | 98.7% | 96%-100% | 226 | 55% (4988) | 4x negligible | - | detected share 98.7% (96%-100%) since Oct 2024. |
+| `CDV_H_gene_Mueller_2011_4` | active | 98.9% | 94%-100% | 87 | 99% (276) | 1x negligible | - | detected share 98.9% (94%-100%) since Oct 2024. Entry flags: pairing_is_curator_reading. 61 patent records excluded. |
 | `Helicobacter_Pan_Helicobacter_16S_short_Fox_1998` | active | 99.0% | 95%-100% | 102 | 91% (1049) | 1x negligible | - | detected share 99.0% (95%-100%) since Oct 2024. Entry flags: shares_oligos_with_sibling. 1 patent records excluded. |
-| `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2` | active | 99.1% | 99%-99% | 2043 | 98% (11904) | 96x moderate | - | detected share 99.1% (99%-99%) since Oct 2024. 47 patent records excluded. |
 | `ENTEROVIRUS_ssRNA_VP3_VP1` | active | 99.1% | 98%-99% | 1222 | 96% (8093) | 64x moderate | - | detected share 99.1% (98%-99%) since Oct 2024. Entry flags: amplicon_disagrees_with_paper. 40 out-of-scope records excluded. |
-| `RETROVIRUS_RNA_polymerase_SIV_Characterization_2001` | active | 99.6% | 98%-100% | 226 | 98% (3785) | 576x high | - | detected share 99.6% (98%-100%) since Oct 2024. Entry flags: orientation_inferred. |
+| `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2` | active | 99.2% | 99%-99% | 2043 | 98% (11904) | 96x moderate | - | detected share 99.2% (99%-99%) since Oct 2024. 47 patent records excluded. |
+| `RETROVIRUS_RNA_polymerase_SIV_Characterization_2001` | active | 99.6% | 98%-100% | 226 | 99% (3785) | 576x high | - | detected share 99.6% (98%-100%) since Oct 2024. Entry flags: orientation_inferred. |
+| `PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002` | active | 99.6% | 98%-100% | 256 | 98% (1775) | 6912x severe | - | detected share 99.6% (98%-100%) since Oct 2024. Entry flags: oligos_modified. 6845 patent records excluded. |
 | `ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round1` | active | 99.7% | 99%-100% | 3773 | 95% (4713) | 512x high | - | detected share 99.7% (99%-100%) since Oct 2024. Entry flags: oligos_modified. 339 patent records excluded. |
+| `BORNA_VIRUS_N_gene` | active | 100.0% | 98%-100% | 165 | 100% (150) | 1x negligible | - | detected share 100.0% (98%-100%) since Oct 2023 (window widened to 36 months to reach 15 evaluable records). Entry flags: oligos_not_in_cited_paper, orientation_inferred. 1005 out-of-scope records excluded. 12 patent records excluded. |
 | `BORNA_VIRUS_N_gene_Zimmermann_1994` | active | 100.0% | 98%-100% | 165 | 98% (147) | 1x negligible | - | detected share 100.0% (98%-100%) since Oct 2023 (window widened to 36 months to reach 15 evaluable records). Entry flags: nested_protocol. 1005 out-of-scope records excluded. 12 patent records excluded. |
+| `CHLAMYDIA_psittaci_16S_Messmer_1997_round2` | active | 100.0% | 81%-100% | 16 | 100% (146) | 1x negligible | - | detected share 100.0% (81%-100%) since Oct 2024. Entry flags: cross_reactive. |
 | `CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004` | active | 100.0% | 82%-100% | 17 | 87% (163) | 1x negligible | - | detected share 100.0% (82%-100%) since Oct 2024. Entry flags: orientation_inferred. 2 patent records excluded. |
 | `CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004` | active | 100.0% | 82%-100% | 17 | 97% (162) | 1x negligible | - | detected share 100.0% (82%-100%) since Oct 2024. Entry flags: amplicon_measured_not_published. 2 patent records excluded. |
+| `Encephalitozoon_18S_General_Encephalitoz_Muller_1999` | active | 100.0% | 90%-100% | 33 | 87% (83) | 1x negligible | - | detected share 100.0% (90%-100%) since Oct 2022 (window widened to 48 months to reach 15 evaluable records). Entry flags: amplicon_measured_not_published. 4 patent records excluded. |
 | `FILOVIRUS_ssRNA_L_gene_2` | active | 100.0% | 87%-100% | 25 | 99% (3537) | 288x high | - | detected share 100.0% (87%-100%) since Oct 2024. Entry flags: oligos_modified. 85 patent records excluded. |
 | `MYCOBACTERIUM_TB_complex_IS6110_Boniotti_2014` | active | 100.0% | 99%-100% | 274 | 100% (3738) | 1x negligible | - | detected share 100.0% (99%-100%) since Oct 2024. 6 patent records excluded. |
 | `MYCOPLASMA_gallisepticum_parE_Kang_2023` | active | 100.0% | 88%-100% | 27 | 100% (68) | 1x negligible | - | detected share 100.0% (88%-100%) since Oct 2023 (window widened to 36 months to reach 15 evaluable records). |
 | `NOSEMA_ceranae_SSU_Martin-Hernandez_2007` | active | 100.0% | 88%-100% | 28 | 79% (849) | 1x negligible | - | detected share 100.0% (88%-100%) since Oct 2024. Entry flags: oligos_read_from_figure. |
-| `Nipah_N_gene` | active | 100.0% | 85%-100% | 21 | 93% (186) | 1x negligible | - | detected share 100.0% (85%-100%) since Oct 2024. 13 patent records excluded. |
+| `Nipah_N_gene` | active | 100.0% | 85%-100% | 21 | 97% (186) | 1x negligible | - | detected share 100.0% (85%-100%) since Oct 2024. 13 patent records excluded. |
 | `Nipah_N_gene_2` | active | 100.0% | 86%-100% | 23 | 98% (275) | 1x negligible | - | detected share 100.0% (86%-100%) since Oct 2024. Entry flags: oligos_from_secondary_source, primer_site_polymorphic. 13 patent records excluded. |
 | `OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023` | active | 100.0% | 95%-100% | 81 | - | 1x negligible | - | detected share 100.0% (95%-100%) since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: chemistry_detail_missing, pairing_is_curator_reading, retrieval_scope_incomplete, thin_evidence. 111 chance-pair records excluded (drift.chance_pair_test). |
 | `ORF_VIRUS_dsDNA_RPO147_J6R_TaqMan_Zhao_2013` | draft | 100.0% | 88%-100% | 27 | 100% (56) | 1x negligible | - | detected share 100.0% (88%-100%) since Oct 2024. Entry flags: amplicon_measured_not_published, chemistry_detail_missing. 51 patent records excluded. 76 chance-pair records excluded (drift.chance_pair_test). |
 | `ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021` | active | 100.0% | 82%-100% | 18 | 100% (21) | 16x moderate | - | detected share 100.0% (82%-100%) since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: chemistry_detail_missing, oligos_read_from_figure. 1278 out-of-scope records excluded. |
-| `ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021` | active | 100.0% | 90%-100% | 35 | 97% (59) | 64x moderate | - | detected share 100.0% (90%-100%) since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: oligos_read_from_figure. 721 out-of-scope records excluded. |
+| `ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021` | active | 100.0% | 90%-100% | 35 | 98% (59) | 64x moderate | - | detected share 100.0% (90%-100%) since Oct 2021 (window widened to 60 months to reach 15 evaluable records). Entry flags: oligos_read_from_figure. 721 out-of-scope records excluded. |
 | `RETROVIRUS_RNA_polymerase_SIV_2` | active | 100.0% | 98%-100% | 226 | 83% (4495) | 768x high | - | detected share 100.0% (98%-100%) since Oct 2024. Entry flags: orientation_inferred. |
 | `RETROVIRUS_RNA_polymerase_SIV_3` | draft | 100.0% | 98%-100% | 226 | 99% (4991) | 27648x severe | - | detected share 100.0% (98%-100%) since Oct 2024. Entry flags: cross_reactive. |
 | `Salmonella_invA_Rahn_1992` | active | 100.0% | 93%-100% | 55 | 98% (409) | 1x negligible | - | detected share 100.0% (93%-100%) since Oct 2024. Entry flags: oligos_not_in_cited_paper, orientation_inferred. |
@@ -310,7 +315,7 @@ for them, including the one they would otherwise have had.
 
 ## Detail for flagged assays
 
-**Duplication check:** 20 of 76 flagged assays still hold when duplicated records are discounted (each distinct binding-site footprint counted once, and the sample size cut to the number of footprints). The note on each assay that did not hold says which test it failed.
+**Duplication check:** 21 of 76 flagged assays still hold when duplicated records are discounted (each distinct binding-site footprint counted once, and the sample size cut to the number of footprints). The note on each assay that did not hold says which test it failed.
 
 ### `RETROVIRUS_RNA_polymerase_SIV_Keele_2009`
 
@@ -329,21 +334,21 @@ Designed 2009, doi:10.1038/nature08200
 | 1997 | 0 | 1 | 0% |
 | 1998 | 0 | 1 | 0% |
 | 1999 | 1 | 2 | 50% |
-| 2001 | 7 | 16 | 44% |
-| 2002 | 5 | 9 | 56% |
-| 2003 | 3 | 7 | 43% |
+| 2001 | 8 | 16 | 50% |
+| 2002 | 6 | 9 | 67% |
+| 2003 | 4 | 7 | 57% |
 | 2004 | 0 | 29 | 0% |
 | 2005 | 0 | 4 | 0% |
-| 2006 | 1 | 11 | 9% |
+| 2006 | 4 | 11 | 36% |
 | 2007 | 5 | 6 | 83% |
-| 2008 | 1 | 7 | 14% |
+| 2008 | 2 | 7 | 29% |
 | 2009 | 5 | 46 | 11% |
 | 2010 | 3 | 22 | 14% |
 | 2011 | 6 | 7 | 86% |
-| 2012 | 2 | 6 | 33% |
-| 2013 | 0 | 660 | 0% |
-| 2014 | 13 | 54 | 24% |
-| 2015 | 3 | 6 | 50% |
+| 2012 | 4 | 6 | 67% |
+| 2013 | 1 | 660 | 0.2% |
+| 2014 | 25 | 54 | 46% |
+| 2015 | 6 | 6 | 100% |
 | 2016 | 0 | 93 | 0% |
 | 2017 | 170 | 172 | 99% |
 | 2018 | 1 | 1 | 100% |
@@ -356,9 +361,9 @@ Designed 2009, doi:10.1038/nature08200
 | 2025 | 0 | 204 | 0% |
 | 2026 | 0 | 20 | 0% |
 
-*trend over deposit year: falling, z = -14.42, two-sided p = 3.83e-47 across 35 years and 3847 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -16.27, two-sided p = 1.53e-59 across 35 years and 3847 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Duplication check:** 224 recent records share 2 distinct footprints (112.0 per footprint), of which 223 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 2 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; with only 2 and 74 independent observations the fall from baseline is -14% to +59%, which no longer excludes zero.
+**Duplication check:** 224 recent records share 2 distinct footprints (112.0 per footprint), of which 223 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 2 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; with only 2 and 73 independent observations the fall from baseline is -15% to +59%, which no longer excludes zero.
 
 **Denominator:** 3847 of 8252 screened records are evaluable (46.6%); 4405 are not. Every share above is taken over the evaluable ones.
 
@@ -369,6 +374,68 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 3513 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 2948 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 519 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
+### `RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009`
+
+**Lineage override:** pooled status was low coverage.  
+RETROVIRUS (RNA) — polymerase (SIV)  
+Designed 2009, doi:10.1128/JVI.02311-08  
+**Degeneracy:** 144-fold degenerate (144-fold primers x 1-fold probe); each member is ~6.9e-03 of the reaction, ~7 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 1990 | 0 | 1 | 0% |
+| 1991 | 0 | 2 | 0% |
+| 1992 | 0 | 2 | 0% |
+| 1993 | 0 | 12 | 0% |
+| 1994 | 0 | 1 | 0% |
+| 1995 | 0 | 1 | 0% |
+| 1996 | 1 | 2 | 50% |
+| 1997 | 0 | 2 | 0% |
+| 1998 | 0 | 3 | 0% |
+| 1999 | 2 | 3 | 67% |
+| 2001 | 0 | 8 | 0% |
+| 2002 | 2 | 7 | 29% |
+| 2003 | 2 | 10 | 20% |
+| 2004 | 0 | 28 | 0% |
+| 2005 | 0 | 14 | 0% |
+| 2006 | 4 | 20 | 20% |
+| 2007 | 5 | 8 | 62% |
+| 2008 | 2 | 9 | 22% |
+| 2009 | 5 | 1244 | 0.4% |
+| 2010 | 1 | 863 | 0.1% |
+| 2011 | 4 | 7 | 57% |
+| 2012 | 4 | 11 | 36% |
+| 2013 | 1 | 39 | 3% |
+| 2014 | 0 | 7 | 0% |
+| 2015 | 9 | 10 | 90% |
+| 2016 | 0 | 87 | 0% |
+| 2017 | 169 | 173 | 98% |
+| 2018 | 0 | 1 | 0% |
+| 2019 | 0 | 384 | 0% |
+| 2020 | 0 | 155 | 0% |
+| 2021 | 1 | 99 | 1% |
+| 2022 | 1 | 3 | 33% |
+| 2023 | 0 | 3 | 0% |
+| 2024 | 0 | 1854 | 0% |
+| 2025 | 0 | 206 | 0% |
+| 2026 | 0 | 20 | 0% |
+
+*trend over deposit year: falling, z = -2.54, two-sided p = 0.011 across 36 years and 5299 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 0.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
+**Duplication check:** 226 recent records share 3 distinct footprints (75.3 per footprint). This flag does not hold up: only 3 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; with only 3 and 117 independent observations the fall from baseline is -10% to +52%, which no longer excludes zero.
+
+**Denominator:** 5299 of 8252 screened records are evaluable (64.2%); 2953 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 1 indeterminate, 2952 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1454 truncated, 1423 no_site, 74 chance_anchor, 1 no_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Counted as failures, NOT excluded: 269 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+
+Of the `no_site` records, 6 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 1417 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `ABPV_capsid_Rossi_2024`
 
@@ -446,31 +513,33 @@ Designed 2002, doi:10.1128/JCM.40.9.3256-3260.2002
 | 2003 | 42 | 45 | 93% |
 | 2004 | 53 | 55 | 96% |
 | 2005 | 83 | 648 | 13% |
-| 2006 | 618 | 1357 | 46% |
+| 2006 | 619 | 1357 | 46% |
 | 2007 | 316 | 777 | 41% |
-| 2008 | 398 | 626 | 64% |
-| 2009 | 738 | 1772 | 42% |
-| 2010 | 667 | 2192 | 30% |
-| 2011 | 158 | 306 | 52% |
-| 2012 | 126 | 537 | 23% |
-| 2013 | 261 | 849 | 31% |
+| 2008 | 399 | 626 | 64% |
+| 2009 | 740 | 1772 | 42% |
+| 2010 | 669 | 2192 | 31% |
+| 2011 | 159 | 306 | 52% |
+| 2012 | 127 | 537 | 24% |
+| 2013 | 262 | 849 | 31% |
 | 2014 | 351 | 1216 | 29% |
-| 2015 | 444 | 872 | 51% |
-| 2016 | 769 | 4246 | 18% |
-| 2017 | 1197 | 2055 | 58% |
-| 2018 | 1566 | 5180 | 30% |
-| 2019 | 917 | 7429 | 12% |
-| 2020 | 1561 | 5221 | 30% |
-| 2021 | 904 | 2050 | 44% |
+| 2015 | 445 | 872 | 51% |
+| 2016 | 775 | 4246 | 18% |
+| 2017 | 1207 | 2055 | 59% |
+| 2018 | 1567 | 5180 | 30% |
+| 2019 | 918 | 7429 | 12% |
+| 2020 | 1570 | 5221 | 30% |
+| 2021 | 921 | 2050 | 45% |
 | 2022 | 449 | 5435 | 8% |
 | 2023 | 316 | 8063 | 4% |
-| 2024 | 770 | 10126 | 8% |
-| 2025 | 1267 | 16674 | 8% |
-| 2026 | 494 | 12477 | 4% |
+| 2024 | 772 | 10126 | 8% |
+| 2025 | 1270 | 16674 | 8% |
+| 2026 | 496 | 12477 | 4% |
 
-*trend over deposit year: falling, z = -91.54, two-sided p = 0 across 37 years and 90291 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -91.65, two-sided p = 0 across 37 years and 90291 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Duplication check:** 30382 recent records share 156 distinct footprints (194.8 per footprint), of which 33 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 156 independent observations (one per footprint) the interval around the 6% detected share is 4%-11%, and counting each footprint once, 17 of 156 footprints amplify (11%; interval 7%-17%); each is below the 90% threshold, and the fall from baseline (-18% to -9%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
+*hierarchical fit over 1 lineages: mu = 6.5%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
+**Duplication check:** 30382 recent records share 157 distinct footprints (193.5 per footprint), of which 33 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 157 independent observations (one per footprint) the interval around the 6% detected share is 4%-11%, and counting each footprint once, 19 of 157 footprints amplify (12%; interval 8%-18%); each is below the 90% threshold, and the fall from baseline (-18% to -9%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
 
 **Denominator:** 90291 of 184766 screened records are evaluable (48.9%); 94475 are not. Every share above is taken over the evaluable ones.
 
@@ -491,22 +560,22 @@ Designed 2004, doi:10.1645/GE-184R1
 |---|---|---|---|
 | 1998 | 3 | 3 | 100% |
 | 2000 | 0 | 0 | - |
-| 2002 | 6 | 36 | 17% |
+| 2002 | 9 | 36 | 25% |
 | 2003 | 0 | 0 | - |
 | 2004 | 3 | 5 | 60% |
 | 2005 | 1 | 63 | 2% |
-| 2006 | 4 | 26 | 15% |
+| 2006 | 5 | 26 | 19% |
 | 2007 | 0 | 22 | 0% |
 | 2008 | 0 | 60 | 0% |
-| 2009 | 2 | 38 | 5% |
-| 2010 | 16 | 85 | 19% |
+| 2009 | 4 | 38 | 11% |
+| 2010 | 23 | 85 | 27% |
 | 2011 | 9 | 83 | 11% |
 | 2012 | 1 | 29 | 3% |
-| 2013 | 7 | 17 | 41% |
+| 2013 | 8 | 17 | 47% |
 | 2014 | 1 | 218 | 0.5% |
 | 2015 | 8 | 57 | 14% |
 | 2016 | 9 | 39 | 23% |
-| 2017 | 51 | 208 | 25% |
+| 2017 | 56 | 208 | 27% |
 | 2018 | 24 | 64 | 38% |
 | 2019 | 3 | 37 | 8% |
 | 2020 | 5 | 262 | 2% |
@@ -515,9 +584,11 @@ Designed 2004, doi:10.1645/GE-184R1
 | 2023 | 16 | 103 | 16% |
 | 2024 | 26 | 78 | 33% |
 | 2025 | 8 | 76 | 11% |
-| 2026 | 4 | 69 | 6% |
+| 2026 | 5 | 69 | 7% |
 
-*trend over deposit year: rising, z = +5.21, two-sided p = 1.93e-07 across 25 years and 1773 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +3.98, two-sided p = 7.03e-05 across 25 years and 1773 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 7.7%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Out of scope:** 20251 records excluded (taxid not in scope_taxids).
 
@@ -531,10 +602,10 @@ Designed 2004, doi:10.1645/GE-184R1
 | Plasmodium tupinambi (3448513) | 29 | 29 | 100% |
 | Plasmodiidae sp. (2605378) | 22 | 22 | 100% |
 | Plasmodium brasilianum (5824) | 12 | 12 | 100% |
+| Haemosporida sp. A LB-2015 (1699099) | 11 | 11 | 100% |
+| Nycteria heischi (1891981) | 10 | 10 | 100% |
 | taxid 31271 | 10 | 10 | 100% |
 | taxid 138297 | 10 | 10 | 100% |
-| taxid 5826 | 6 | 6 | 100% |
-| Nycteria sp. JS-2015 (1649013) | 6 | 6 | 100% |
 | _+3163 more taxa_ | | | |
 
 
@@ -549,70 +620,6 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 981 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 5 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 8988 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
-### `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010`
-
-ORTHOREOVIRUS (dsRNA) — RNA polymerase  
-Designed 2010, doi:10.1177/104063871002200106  
-**Degeneracy:** 147456-fold degenerate (147456-fold primers x 1-fold probe); ~17 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 1985 | 0 | 0 | - |
-| 1987 | 0 | 0 | - |
-| 1988 | 0 | 0 | - |
-| 1989 | 0 | 0 | - |
-| 1991 | 0 | 0 | - |
-| 1992 | 0 | 0 | - |
-| 1993 | 1 | 1 | 100% |
-| 1994 | 2 | 2 | 100% |
-| 1995 | 0 | 0 | - |
-| 1997 | 0 | 0 | - |
-| 1998 | 0 | 0 | - |
-| 1999 | 0 | 0 | - |
-| 2000 | 0 | 0 | - |
-| 2001 | 1 | 1 | 100% |
-| 2002 | 0 | 0 | - |
-| 2003 | 0 | 0 | - |
-| 2004 | 0 | 0 | - |
-| 2005 | 1 | 1 | 100% |
-| 2006 | 2 | 2 | 100% |
-| 2007 | 1 | 1 | 100% |
-| 2008 | 0 | 0 | - |
-| 2009 | 3 | 6 | 50% |
-| 2010 | 5 | 7 | 71% |
-| 2011 | 3 | 10 | 30% |
-| 2012 | 27 | 29 | 93% |
-| 2013 | 6 | 15 | 40% |
-| 2014 | 11 | 33 | 33% |
-| 2015 | 18 | 32 | 56% |
-| 2016 | 10 | 24 | 42% |
-| 2017 | 13 | 18 | 72% |
-| 2018 | 11 | 33 | 33% |
-| 2019 | 12 | 32 | 38% |
-| 2020 | 27 | 152 | 18% |
-| 2021 | 43 | 60 | 72% |
-| 2022 | 32 | 46 | 70% |
-| 2023 | 36 | 72 | 50% |
-| 2024 | 70 | 99 | 71% |
-| 2025 | 27 | 322 | 8% |
-| 2026 | 14 | 34 | 41% |
-
-*trend over deposit year: falling, z = -7.66, two-sided p = 1.79e-14 across 24 years and 1032 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Patent records:** 52 excluded (GenBank patent division; drift.exclude_patent_records).
-
-**Duplication check:** 361 recent records share 26 distinct footprints (13.9 per footprint). Both reductions leave the flag in place: with only 26 independent observations (one per footprint) the interval around the 12% detected share is 4%-30%, and counting each footprint once, 11 of 26 footprints amplify (42%; interval 26%-61%); each is below the 90% threshold, and the fall from baseline (-51% to -17%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
-
-**Denominator:** 1032 of 14479 screened records are evaluable (7.1%); 13447 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 13447 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 13154 no_site, 219 chance_anchor, 74 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
-
-Counted as failures, NOT excluded: 3 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
-
-Of the `no_site` records, 205 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 12949 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004`
 
@@ -653,6 +660,8 @@ Designed 2004, doi:10.1038/labinvest.3700143
 
 *trend over deposit year: rising, z = +12.24, two-sided p = 1.8e-34 across 16 years and 12368 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 25.6%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Patent records:** 5 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 4113 recent records share 6 distinct footprints (685.5 per footprint), of which 1704 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 6 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; with only 6 and 12 independent observations the fall from baseline is -21% to +48%, which no longer excludes zero.
@@ -666,86 +675,6 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 2377 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 1 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 733 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
-### `RHABDOVIRUS_ssRNA_L_gene_round1`
-
-**Lineage override:** pooled status was low coverage.  
-RHABDOVIRUS (ssRNA) — L (pan-rhabdovirus, PREDICT P-016 round 1)  
-Designed 2005, doi:10.1099/vir.0.81128-0  
-**Degeneracy:** 221184-fold degenerate (221184-fold primers x 1-fold probe); ~18 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 1985 | 1 | 1 | 100% |
-| 1986 | 1 | 1 | 100% |
-| 1988 | 0 | 0 | - |
-| 1989 | 1 | 1 | 100% |
-| 1990 | 2 | 2 | 100% |
-| 1993 | 2 | 3 | 67% |
-| 1994 | 0 | 0 | - |
-| 1995 | 0 | 5 | 0% |
-| 1997 | 2 | 6 | 33% |
-| 1999 | 0 | 10 | 0% |
-| 2000 | 3 | 4 | 75% |
-| 2001 | 0 | 1 | 0% |
-| 2002 | 5 | 7 | 71% |
-| 2003 | 0 | 2 | 0% |
-| 2004 | 0 | 3 | 0% |
-| 2005 | 1 | 8 | 12% |
-| 2006 | 0 | 3 | 0% |
-| 2007 | 19 | 27 | 70% |
-| 2008 | 23 | 42 | 55% |
-| 2009 | 10 | 27 | 37% |
-| 2010 | 15 | 31 | 48% |
-| 2011 | 6 | 22 | 27% |
-| 2012 | 54 | 218 | 25% |
-| 2013 | 29 | 59 | 49% |
-| 2014 | 43 | 98 | 44% |
-| 2015 | 195 | 317 | 62% |
-| 2016 | 64 | 388 | 16% |
-| 2017 | 49 | 569 | 9% |
-| 2018 | 57 | 295 | 19% |
-| 2019 | 33 | 692 | 5% |
-| 2020 | 79 | 494 | 16% |
-| 2021 | 67 | 247 | 27% |
-| 2022 | 98 | 452 | 22% |
-| 2023 | 128 | 960 | 13% |
-| 2024 | 84 | 992 | 8% |
-| 2025 | 116 | 455 | 25% |
-| 2026 | 65 | 308 | 21% |
-
-*trend over deposit year: falling, z = -12.61, two-sided p = 1.85e-36 across 35 years and 6750 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Out of scope:** 769 records excluded (taxid not in scope_taxids).
-
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
-
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| taxid 11307 | 4 | 4 | 100% |
-| Betanucleorhabdovirus taraxi (3427245) | 2 | 2 | 100% |
-| Betanucleorhabdovirus picridis (3427244) | 2 | 2 | 100% |
-| taxid 2563012 | 2 | 2 | 100% |
-| Artemisia betanucleorhabdovirus 2 (3478605) | 1 | 1 | 100% |
-| Hogweed alphacytorhabdovirus 1 (3478598) | 1 | 1 | 100% |
-| Alphaplatrhavirus dendriticum (3426245) | 1 | 1 | 100% |
-| Betanucleorhabdovirus sp. 'kurdistanfragariae' (3449943) | 1 | 1 | 100% |
-| Beet leaf curl betanucleorhabdovirus (3118959) | 1 | 1 | 100% |
-| taxid 3064197 | 1 | 1 | 100% |
-| _+192 more taxa_ | | | |
-
-
-**Duplication check:** 1295 recent records share 181 distinct footprints (7.2 per footprint), of which 36 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 181 and 525 independent observations the fall from baseline is -7% to +6%, which no longer excludes zero.
-
-**Denominator:** 6750 of 9126 screened records are evaluable (74.0%); 2376 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 9 indeterminate, 2367 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 2101 no_site, 170 truncated, 95 chance_anchor, 1 chance_only. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
-
-Counted as failures, NOT excluded: 128 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
-
-Of the `no_site` records, 138 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 1963 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `ENTEROVIRUS_ssRNA_VP3_VP1_round2`
 
@@ -783,7 +712,7 @@ Designed 2006, doi:10.1128/JCM.00542-06
 | 2009 | 116 | 751 | 15% |
 | 2010 | 76 | 833 | 9% |
 | 2011 | 66 | 1233 | 5% |
-| 2012 | 278 | 1952 | 14% |
+| 2012 | 280 | 1952 | 14% |
 | 2013 | 326 | 2137 | 15% |
 | 2014 | 213 | 2934 | 7% |
 | 2015 | 310 | 2530 | 12% |
@@ -799,7 +728,9 @@ Designed 2006, doi:10.1128/JCM.00542-06
 | 2025 | 407 | 2337 | 17% |
 | 2026 | 369 | 1923 | 19% |
 
-*trend over deposit year: rising, z = +9.66, two-sided p = 4.44e-22 across 42 years and 40464 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +9.63, two-sided p = 5.79e-22 across 42 years and 40464 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 3 lineages: mu = 27.1%, phi = 0.9 (intraclass correlation 0.540); worst lineage after shrinkage Enterovirus alphacoxsackie (3428500) at 0.2% (0.1%-0.5%, raw 0.2% on 1815); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Out of scope:** 40 records excluded (taxid not in scope_taxids).
 
@@ -848,20 +779,22 @@ Designed 2004, doi:10.1645/GE-184R1
 | 2014 | 2 | 152 | 1% |
 | 2015 | 3 | 17 | 18% |
 | 2016 | 4 | 4 | 100% |
-| 2017 | 12 | 33 | 36% |
+| 2017 | 14 | 33 | 42% |
 | 2018 | 18 | 24 | 75% |
 | 2019 | 0 | 698 | 0% |
-| 2020 | 61 | 67 | 91% |
+| 2020 | 62 | 67 | 93% |
 | 2021 | 0 | 69 | 0% |
 | 2022 | 3 | 34 | 9% |
-| 2023 | 16 | 31 | 52% |
+| 2023 | 17 | 31 | 55% |
 | 2024 | 45 | 55 | 82% |
 | 2025 | 20 | 76 | 26% |
 | 2026 | 8 | 35 | 23% |
 
-*trend over deposit year: rising, z = +2.93, two-sided p = 0.00343 across 22 years and 1421 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +2.96, two-sided p = 0.00305 across 22 years and 1421 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Duplication check:** 112 recent records share 23 distinct footprints (4.9 per footprint), of which 24 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 23 and 106 independent observations the fall from baseline is -5% to +32%, which no longer excludes zero.
+*hierarchical fit over 1 lineages: mu = 33.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
+**Duplication check:** 112 recent records share 23 distinct footprints (4.9 per footprint), of which 24 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 23 and 106 independent observations the fall from baseline is -6% to +31%, which no longer excludes zero.
 
 **Denominator:** 1421 of 7904 screened records are evaluable (18.0%); 6483 are not. Every share above is taken over the evaluable ones.
 
@@ -926,6 +859,8 @@ Designed 2001, doi:10.1128/JCM.39.5.1922-1927.2001
 
 *trend over deposit year: falling, z = -24.48, two-sided p = 2.45e-132 across 40 years and 34102 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 10 lineages: mu = 26.9%, phi = 4.0 (intraclass correlation 0.201); worst lineage after shrinkage Orthoflavivirus zikaense (3048459) at 1.3% (0.0%-4.7%, raw 0.0% on 77); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
 **Out of scope:** 1 records excluded (taxid not in scope_taxids).
 
 **Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
@@ -986,7 +921,7 @@ Designed 2001, doi:10.1128/JCM.39.5.1922-1927.2001
 | 2013 | 160 | 320 | 50% |
 | 2014 | 522 | 815 | 64% |
 | 2015 | 336 | 568 | 59% |
-| 2016 | 816 | 1052 | 78% |
+| 2016 | 817 | 1052 | 78% |
 | 2017 | 735 | 1460 | 50% |
 | 2018 | 537 | 1122 | 48% |
 | 2019 | 255 | 709 | 36% |
@@ -998,7 +933,9 @@ Designed 2001, doi:10.1128/JCM.39.5.1922-1927.2001
 | 2025 | 1655 | 3226 | 51% |
 | 2026 | 1265 | 5578 | 23% |
 
-*trend over deposit year: falling, z = -17.32, two-sided p = 3.37e-67 across 40 years and 34136 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -17.33, two-sided p = 2.94e-67 across 40 years and 34136 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 10 lineages: mu = 36.8%, phi = 11.7 (intraclass correlation 0.079); worst lineage after shrinkage Orthoflavivirus usutuense (3048443) at 1.0% (0.3%-2.1%, raw 0.0% on 428); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Out of scope:** 1 records excluded (taxid not in scope_taxids).
 
@@ -1021,86 +958,59 @@ Counted as failures, NOT excluded: 640 diverged. `drift.count_diverged_as_fail` 
 
 Of the `no_site` records, 1716 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 24034 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-### `DWVB_polyprotein_Rossi_2024`
+### `MONKEYPOX_dsDNA_B1_SNP_lineageB1_TaqMan_Huo_2022`
 
-DEFORMED WING VIRUS B — polyprotein gene RT-qPCR, MGB probe (Rossi 2024)  
-Designed 2024, doi:10.3390/microorganisms12061105  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 2020 | 0 | 0 | - |
-| 2022 | 0 | 0 | - |
-| 2023 | 37 | 41 | 90% |
-| 2024 | 0 | 0 | - |
-| 2025 | 3 | 10 | 30% |
-| 2026 | 3 | 6 | 50% |
-
-*trend over deposit year: falling, z = -3.83, two-sided p = 0.000127 across 3 years and 57 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Duplication check:** 16 recent records share 8 distinct footprints (2.0 per footprint). This flag does not hold up: only 8 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
-
-**Denominator:** 57 of 737 screened records are evaluable (7.7%); 680 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 1 indeterminate, 679 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 670 no_site, 9 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match.
-
-Of the `no_site` records, 0 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 670 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
-### `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme`
-
-**Lineage override:** pooled status was low coverage.  
-CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase  
-Designed ?, doi:10.3201/eid1608.100208  
-**Degeneracy:** 384-fold degenerate (384-fold primers x 1-fold probe); each member is ~2.6e-03 of the reaction, ~9 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
+MONKEYPOX virus (dsDNA) — Panel 2 B.1 lineage SNP probe (Huo 2022)  
+Designed 2022, doi:10.1016/j.bsheal.2022.10.005  
 
 | deposit year | detected | evaluable | share |
 |---|---|---|---|
-| 1993 | 1 | 2 | 50% |
-| 1997 | 2 | 2 | 100% |
+| 1993 | 0 | 0 | - |
+| 1996 | 0 | 0 | - |
+| 1997 | 0 | 0 | - |
 | 1998 | 0 | 0 | - |
-| 1999 | 1 | 1 | 100% |
-| 2000 | 5 | 5 | 100% |
-| 2001 | 5 | 7 | 71% |
-| 2002 | 1 | 1 | 100% |
-| 2003 | 1 | 61 | 2% |
-| 2004 | 5 | 76 | 7% |
-| 2005 | 5 | 32 | 16% |
-| 2006 | 53 | 73 | 73% |
-| 2007 | 25 | 38 | 66% |
-| 2008 | 14 | 28 | 50% |
-| 2009 | 50 | 111 | 45% |
-| 2010 | 21 | 48 | 44% |
-| 2011 | 13 | 86 | 15% |
-| 2012 | 38 | 100 | 38% |
-| 2013 | 97 | 209 | 46% |
-| 2014 | 121 | 333 | 36% |
-| 2015 | 298 | 477 | 62% |
-| 2016 | 96 | 287 | 33% |
-| 2017 | 361 | 656 | 55% |
-| 2018 | 202 | 431 | 47% |
-| 2019 | 131 | 313 | 42% |
-| 2020 | 277 | 459 | 60% |
-| 2021 | 187 | 457 | 41% |
-| 2022 | 202 | 499 | 40% |
-| 2023 | 528 | 1139 | 46% |
-| 2024 | 256 | 468 | 55% |
-| 2025 | 286 | 970 | 29% |
-| 2026 | 296 | 624 | 47% |
+| 1999 | 0 | 0 | - |
+| 2000 | 0 | 0 | - |
+| 2001 | 0 | 2 | 0% |
+| 2002 | 0 | 0 | - |
+| 2003 | 0 | 0 | - |
+| 2004 | 0 | 2 | 0% |
+| 2005 | 0 | 7 | 0% |
+| 2007 | 0 | 0 | - |
+| 2008 | 0 | 0 | - |
+| 2009 | 0 | 0 | - |
+| 2010 | 0 | 5 | 0% |
+| 2011 | 0 | 2 | 0% |
+| 2012 | 0 | 0 | - |
+| 2013 | 0 | 1 | 0% |
+| 2014 | 0 | 24 | 0% |
+| 2015 | 0 | 11 | 0% |
+| 2018 | 0 | 1 | 0% |
+| 2019 | 0 | 8 | 0% |
+| 2020 | 0 | 37 | 0% |
+| 2022 | 3259 | 3332 | 98% |
+| 2023 | 3087 | 3101 | 100% |
+| 2024 | 1379 | 2047 | 67% |
+| 2025 | 715 | 1893 | 38% |
+| 2026 | 753 | 2302 | 33% |
 
-*trend over deposit year: falling, z = -0.13, two-sided p = 0.897 across 30 years and 7993 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -51.69, two-sided p = 0 across 16 years and 12775 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Duplication check:** 1743 recent records share 126 distinct footprints (13.8 per footprint), of which 19 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 126 and 302 independent observations the fall from baseline is -18% to +3%, which no longer excludes zero.
+*hierarchical fit over 1 lineages: mu = 38.4%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
-**Denominator:** 7993 of 25559 screened records are evaluable (31.3%); 17566 are not. Every share above is taken over the evaluable ones.
+**Patent records:** 5 excluded (GenBank patent division; drift.exclude_patent_records).
 
-Excluded: 2 indeterminate, 17564 no_amplicon
+**Duplication check:** 4406 recent records share 16 distinct footprints (275.4 per footprint), of which 42 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 16 independent observations (one per footprint) the interval around the 38% detected share is 19%-62%, and counting each footprint once, 2 of 16 footprints amplify (12%; interval 3%-36%); each is below the 90% threshold, and the fall from baseline (-72% to -21%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 14531 no_site, 2750 truncated, 283 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+**Denominator:** 12775 of 13752 screened records are evaluable (92.9%); 977 are not. Every share above is taken over the evaluable ones.
 
-Counted as failures, NOT excluded: 69 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+Excluded: 14 indeterminate, 963 no_amplicon
 
-Of the `no_site` records, 51 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 14480 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 959 no_site, 3 chance_anchor, 1 no_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Counted as failures, NOT excluded: 72 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+
+Of the `no_site` records, 410 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 549 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1`
 
@@ -1128,7 +1038,7 @@ Designed 2000, doi:10.1007/s007050070002
 | 2011 | 215 | 232 | 93% |
 | 2012 | 132 | 157 | 84% |
 | 2013 | 183 | 217 | 84% |
-| 2014 | 252 | 324 | 78% |
+| 2014 | 253 | 324 | 78% |
 | 2015 | 272 | 372 | 73% |
 | 2016 | 326 | 406 | 80% |
 | 2017 | 255 | 476 | 54% |
@@ -1136,13 +1046,15 @@ Designed 2000, doi:10.1007/s007050070002
 | 2019 | 370 | 786 | 47% |
 | 2020 | 152 | 419 | 36% |
 | 2021 | 317 | 825 | 38% |
-| 2022 | 417 | 732 | 57% |
+| 2022 | 418 | 732 | 57% |
 | 2023 | 525 | 1177 | 45% |
 | 2024 | 305 | 993 | 31% |
 | 2025 | 149 | 353 | 42% |
 | 2026 | 108 | 308 | 35% |
 
-*trend over deposit year: falling, z = -33.28, two-sided p = 7.37e-243 across 31 years and 9381 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -33.29, two-sided p = 6.26e-243 across 31 years and 9381 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 3 lineages: mu = 69.2%, phi = 0.3 (intraclass correlation 0.776); worst lineage after shrinkage Circovirus goose (3047842) at 0.3% (0.0%-2.4%, raw 0.0% on 63); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 222 excluded (GenBank patent division; drift.exclude_patent_records).
 
@@ -1206,9 +1118,9 @@ Designed 2011, doi:10.1177/1040638711416846
 | 2023 | 9 | 43 | 21% |
 | 2024 | 41 | 43 | 95% |
 | 2025 | 32 | 106 | 30% |
-| 2026 | 20 | 30 | 67% |
+| 2026 | 22 | 30 | 73% |
 
-*trend over deposit year: falling, z = -3.52, two-sided p = 0.000432 across 23 years and 661 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -3.33, two-sided p = 0.000858 across 23 years and 661 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
 **Per species** (product size names the species here, 354-767 bp, so the share above pools readouts that mean different things; Oct 2024 on, no assessability floor):
 
@@ -1229,7 +1141,7 @@ Designed 2011, doi:10.1177/1040638711416846
 | Mycoplasma sp. 1579d (3699021) | - | 2 | 2 | 100% |
 | Mycoplasma sp. 332 (3458236) | - | 2 | 2 | 100% |
 | Mycoplasma sp. 3341 (3447506) | - | 2 | 2 | 100% |
-| Mycoplasma sp. 3686h (3699019) | - | 0 | 2 | 0% |
+| Mycoplasma sp. 3686h (3699019) | - | 2 | 2 | 100% |
 | Mycoplasma sp. 480 (3440155) | - | 2 | 2 | 100% |
 | Mycoplasma todarodis (1937191) | - | 2 | 2 | 100% |
 | Mycoplasma amphoriforme (273136) | - | 0 | 1 | 0% |
@@ -1245,7 +1157,7 @@ Designed 2011, doi:10.1177/1040638711416846
 
 **Patent records:** 55 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 138 recent records share 16 distinct footprints (8.6 per footprint), of which 80 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 16 and 58 independent observations the fall from baseline is -35% to +15%, which no longer excludes zero.
+**Duplication check:** 138 recent records share 16 distinct footprints (8.6 per footprint), of which 80 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 16 and 58 independent observations the fall from baseline is -34% to +16%, which no longer excludes zero.
 
 **Denominator:** 661 of 24191 screened records are evaluable (2.7%); 23530 are not. Every share above is taken over the evaluable ones.
 
@@ -1257,129 +1169,117 @@ Counted as failures, NOT excluded: 316 diverged. `drift.count_diverged_as_fail` 
 
 Of the `no_site` records, 4829 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 17724 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-### `CDV_H_gene_Mueller_2011_4`
+### `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme`
 
-Canine distemper virus specific — H gene  
-Designed 2011, doi:10.7589/0090-3558-47.3.725  
+**Lineage override:** pooled status was low coverage.  
+CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase  
+Designed ?, doi:10.3201/eid1608.100208  
+**Degeneracy:** 384-fold degenerate (384-fold primers x 1-fold probe); each member is ~2.6e-03 of the reaction, ~9 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
 
 | deposit year | detected | evaluable | share |
 |---|---|---|---|
-| 1985 | 0 | 0 | - |
-| 1989 | 0 | 0 | - |
-| 1990 | 0 | 0 | - |
-| 1992 | 0 | 0 | - |
-| 1993 | 1 | 1 | 100% |
-| 1994 | 0 | 0 | - |
-| 1995 | 0 | 0 | - |
+| 1993 | 1 | 2 | 50% |
+| 1997 | 2 | 2 | 100% |
+| 1998 | 0 | 0 | - |
+| 1999 | 1 | 1 | 100% |
+| 2000 | 5 | 5 | 100% |
+| 2001 | 5 | 7 | 71% |
+| 2002 | 1 | 1 | 100% |
+| 2003 | 1 | 61 | 2% |
+| 2004 | 5 | 76 | 7% |
+| 2005 | 5 | 32 | 16% |
+| 2006 | 54 | 73 | 74% |
+| 2007 | 25 | 38 | 66% |
+| 2008 | 14 | 28 | 50% |
+| 2009 | 51 | 111 | 46% |
+| 2010 | 21 | 48 | 44% |
+| 2011 | 14 | 86 | 16% |
+| 2012 | 38 | 100 | 38% |
+| 2013 | 97 | 209 | 46% |
+| 2014 | 123 | 333 | 37% |
+| 2015 | 304 | 477 | 64% |
+| 2016 | 98 | 287 | 34% |
+| 2017 | 361 | 656 | 55% |
+| 2018 | 203 | 431 | 47% |
+| 2019 | 132 | 313 | 42% |
+| 2020 | 278 | 459 | 61% |
+| 2021 | 190 | 457 | 42% |
+| 2022 | 228 | 499 | 46% |
+| 2023 | 547 | 1139 | 48% |
+| 2024 | 270 | 468 | 58% |
+| 2025 | 319 | 970 | 33% |
+| 2026 | 310 | 624 | 50% |
+
+*trend over deposit year: rising, z = +1.48, two-sided p = 0.138 across 30 years and 7993 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 12 lineages: mu = 41.0%, phi = 0.2 (intraclass correlation 0.854); worst lineage after shrinkage Alphacoronavirus porci (3433789) at 0.0% (0.0%-0.2%, raw 0.0% on 306); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
+**Duplication check:** 1743 recent records share 126 distinct footprints (13.8 per footprint), of which 19 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 126 and 302 independent observations the fall from baseline is -16% to +4%, which no longer excludes zero.
+
+**Denominator:** 7993 of 25559 screened records are evaluable (31.3%); 17566 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 2 indeterminate, 17564 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 14531 no_site, 2750 truncated, 283 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Counted as failures, NOT excluded: 69 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+
+Of the `no_site` records, 51 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 14480 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
+### `MONKEYPOX_dsDNA_F3L_region_cladeI_TaqMan_Huo_2022`
+
+**Lineage override:** pooled status was low coverage.  
+MONKEYPOX virus (dsDNA) — Panel 1 clade I probe (Huo 2022)  
+Designed 2022, doi:10.1016/j.bsheal.2022.10.005  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 1993 | 0 | 0 | - |
 | 1996 | 0 | 0 | - |
 | 1997 | 0 | 0 | - |
-| 1998 | 2 | 2 | 100% |
-| 1999 | 1 | 1 | 100% |
-| 2000 | 1 | 1 | 100% |
-| 2001 | 1 | 1 | 100% |
-| 2002 | 3 | 3 | 100% |
-| 2003 | 3 | 5 | 60% |
-| 2004 | 2 | 2 | 100% |
-| 2005 | 3 | 3 | 100% |
-| 2006 | 0 | 0 | - |
-| 2007 | 0 | 4 | 0% |
-| 2008 | 5 | 5 | 100% |
-| 2009 | 1 | 4 | 25% |
-| 2010 | 3 | 3 | 100% |
-| 2011 | 2 | 3 | 67% |
-| 2012 | 7 | 7 | 100% |
-| 2013 | 1 | 9 | 11% |
-| 2014 | 5 | 15 | 33% |
-| 2015 | 8 | 8 | 100% |
-| 2016 | 11 | 21 | 52% |
-| 2017 | 8 | 10 | 80% |
-| 2018 | 18 | 24 | 75% |
-| 2019 | 18 | 23 | 78% |
-| 2020 | 43 | 51 | 84% |
-| 2021 | 8 | 9 | 89% |
-| 2022 | 16 | 41 | 39% |
-| 2023 | 12 | 12 | 100% |
-| 2024 | 9 | 10 | 90% |
-| 2025 | 3 | 12 | 25% |
-| 2026 | 35 | 73 | 48% |
+| 1998 | 0 | 0 | - |
+| 1999 | 0 | 0 | - |
+| 2000 | 0 | 0 | - |
+| 2001 | 2 | 2 | 100% |
+| 2002 | 0 | 0 | - |
+| 2003 | 0 | 0 | - |
+| 2004 | 0 | 1 | 0% |
+| 2005 | 2 | 7 | 29% |
+| 2007 | 0 | 0 | - |
+| 2008 | 0 | 0 | - |
+| 2009 | 0 | 0 | - |
+| 2010 | 1 | 3 | 33% |
+| 2011 | 2 | 2 | 100% |
+| 2012 | 0 | 0 | - |
+| 2013 | 2 | 2 | 100% |
+| 2014 | 23 | 24 | 96% |
+| 2015 | 6 | 11 | 55% |
+| 2018 | 0 | 3 | 0% |
+| 2019 | 0 | 8 | 0% |
+| 2020 | 10 | 37 | 27% |
+| 2022 | 1 | 3446 | 0% |
+| 2023 | 3 | 3132 | 0.1% |
+| 2024 | 500 | 2099 | 24% |
+| 2025 | 682 | 1886 | 36% |
+| 2026 | 1300 | 2387 | 54% |
 
-*trend over deposit year: falling, z = -2.47, two-sided p = 0.0136 across 29 years and 363 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +48.03, two-sided p = 0 across 16 years and 13050 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Patent records:** 61 excluded (GenBank patent division; drift.exclude_patent_records).
+*hierarchical fit over 1 lineages: mu = 48.2%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
-**Duplication check:** 87 recent records share 16 distinct footprints (5.4 per footprint). This flag does not hold up: with only 16 and 54 independent observations the fall from baseline is -48% to +2%, which no longer excludes zero.
+**Patent records:** 5 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Denominator:** 363 of 3952 screened records are evaluable (9.2%); 3589 are not. Every share above is taken over the evaluable ones.
+**Duplication check:** 4484 recent records share 15 distinct footprints (298.9 per footprint), of which 362 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 15 and 16 independent observations the fall from baseline is +7% to +62%, which no longer excludes zero.
 
-Excluded: 3589 no_amplicon
+**Denominator:** 13050 of 13752 screened records are evaluable (94.9%); 702 are not. Every share above is taken over the evaluable ones.
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1797 truncated, 1554 no_site, 238 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Excluded: 10 indeterminate, 692 no_amplicon
 
-Counted as failures, NOT excluded: 2 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 692 no_site. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match.
 
-Of the `no_site` records, 114 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 1440 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Counted as failures, NOT excluded: 426 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
-### `PARVOVIRUS_ssDNA_VP1_gene_dependovirus`
-
-PARVOVIRUS (ssDNA) — VP1 gene (dependovirus)  
-Designed 2002, doi:10.1073/pnas.182412299  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 1982 | 0 | 0 | - |
-| 1984 | 0 | 0 | - |
-| 1988 | 0 | 0 | - |
-| 1990 | 0 | 0 | - |
-| 1991 | 1 | 1 | 100% |
-| 1993 | 1 | 1 | 100% |
-| 1994 | 0 | 0 | - |
-| 1995 | 3 | 6 | 50% |
-| 1996 | 2 | 2 | 100% |
-| 1997 | 0 | 2 | 0% |
-| 1998 | 3 | 3 | 100% |
-| 1999 | 2 | 4 | 50% |
-| 2001 | 3 | 4 | 75% |
-| 2002 | 2 | 2 | 100% |
-| 2003 | 38 | 41 | 93% |
-| 2004 | 96 | 114 | 84% |
-| 2005 | 4 | 8 | 50% |
-| 2006 | 5 | 15 | 33% |
-| 2007 | 8 | 14 | 57% |
-| 2008 | 21 | 31 | 68% |
-| 2009 | 1 | 16 | 6% |
-| 2010 | 1 | 4 | 25% |
-| 2011 | 449 | 472 | 95% |
-| 2012 | 1 | 3 | 33% |
-| 2013 | 11 | 25 | 44% |
-| 2014 | 45 | 60 | 75% |
-| 2015 | 11 | 49 | 22% |
-| 2016 | 23 | 45 | 51% |
-| 2017 | 6 | 22 | 27% |
-| 2018 | 227 | 284 | 80% |
-| 2019 | 87 | 122 | 71% |
-| 2020 | 33 | 84 | 39% |
-| 2021 | 114 | 139 | 82% |
-| 2022 | 55 | 80 | 69% |
-| 2023 | 9 | 51 | 18% |
-| 2024 | 11 | 75 | 15% |
-| 2025 | 81 | 117 | 69% |
-| 2026 | 35 | 132 | 27% |
-
-*trend over deposit year: falling, z = -12.52, two-sided p = 6.09e-36 across 33 years and 2028 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Patent records:** 6845 excluded (GenBank patent division; drift.exclude_patent_records).
-
-**Duplication check:** 256 recent records share 48 distinct footprints (5.3 per footprint), of which 1 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 48 independent observations (one per footprint) the interval around the 45% detected share is 32%-59%, and counting each footprint once, 25 of 48 footprints amplify (52%; interval 38%-66%); each is below the 90% threshold, and the fall from baseline (-41% to -11%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
-
-**Denominator:** 2028 of 3240 screened records are evaluable (62.6%); 1212 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 1 indeterminate, 1211 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 905 no_site, 301 truncated, 3 no_pair, 2 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
-
-Counted as failures, NOT excluded: 29 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
-
-Of the `no_site` records, 0 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 905 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Of the `no_site` records, 2 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 690 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010`
 
@@ -1402,7 +1302,7 @@ Designed 2010, doi:10.1016/j.jviromet.2010.07.012
 | 2007 | 0 | 0 | - |
 | 2008 | 0 | 0 | - |
 | 2009 | 0 | 0 | - |
-| 2010 | 0 | 1 | 0% |
+| 2010 | 0 | 5 | 0% |
 | 2011 | 0 | 2 | 0% |
 | 2012 | 0 | 0 | - |
 | 2013 | 0 | 2 | 0% |
@@ -1417,17 +1317,19 @@ Designed 2010, doi:10.1016/j.jviromet.2010.07.012
 | 2025 | 1017 | 1767 | 58% |
 | 2026 | 773 | 2373 | 33% |
 
-*trend over deposit year: falling, z = -49.23, two-sided p = 0 across 16 years and 12460 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -48.32, two-sided p = 0 across 16 years and 12464 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 46.2%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Patent records:** 5 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 4351 recent records share 7 distinct footprints (621.6 per footprint), of which 30 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 7 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
 
-**Denominator:** 12460 of 13752 screened records are evaluable (90.6%); 1292 are not. Every share above is taken over the evaluable ones.
+**Denominator:** 12464 of 13752 screened records are evaluable (90.6%); 1288 are not. Every share above is taken over the evaluable ones.
 
-Excluded: 10 indeterminate, 1282 no_amplicon
+Excluded: 10 indeterminate, 1278 no_amplicon
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1272 no_site, 4 chance_pair, 3 no_pair, 3 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1272 no_site, 3 no_pair, 3 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
 
 Counted as failures, NOT excluded: 68 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
@@ -1463,6 +1365,8 @@ Designed 1997, doi:10.1128/jcm.35.8.2043-2046.1997
 
 *trend over deposit year: rising, z = +5.38, two-sided p = 7.26e-08 across 20 years and 362 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 46.2%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Patent records:** 1 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 39 recent records share 4 distinct footprints (9.8 per footprint). This flag does not hold up: only 4 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; counting each footprint once, 3 of 4 footprints amplify (75%; interval 30%-95%), which reaches the 90% threshold: the failing records are concentrated on few footprints; with only 4 and 4 independent observations the fall from baseline is -67% to +30%, which no longer excludes zero. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
@@ -1475,88 +1379,123 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 
 Of the `no_site` records, 9 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 7 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-### `ARENAVIRUS_ssRNA_S_gene_2`
+### `MONKEYPOX_dsDNA_F3L_region_cladeIIab_TaqMan_Huo_2022`
 
-**Lineage override:** pooled status was low coverage.  
-ARENAVIRUS (ssRNA) — S gene  
-Designed 1997, doi:10.1016/S0168-1702(97)01458-5  
-**Degeneracy:** 256-fold degenerate (256-fold primers x 1-fold probe); each member is ~3.9e-03 of the reaction, ~8 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
+MONKEYPOX virus (dsDNA) — Panel 1 clade IIa/IIb probe (Huo 2022)  
+Designed 2022, doi:10.1016/j.bsheal.2022.10.005  
 
 | deposit year | detected | evaluable | share |
 |---|---|---|---|
-| 1985 | 0 | 1 | 0% |
-| 1986 | 0 | 0 | - |
-| 1987 | 1 | 1 | 100% |
-| 1989 | 3 | 5 | 60% |
-| 1990 | 1 | 1 | 100% |
-| 1991 | 1 | 1 | 100% |
-| 1992 | 1 | 1 | 100% |
-| 1993 | 4 | 4 | 100% |
-| 1995 | 3 | 3 | 100% |
-| 1996 | 2 | 2 | 100% |
-| 1997 | 2 | 6 | 33% |
-| 1998 | 0 | 4 | 0% |
-| 1999 | 1 | 1 | 100% |
-| 2000 | 2 | 4 | 50% |
-| 2001 | 2 | 7 | 29% |
-| 2002 | 6 | 19 | 32% |
-| 2003 | 4 | 5 | 80% |
-| 2004 | 10 | 20 | 50% |
-| 2005 | 2 | 3 | 67% |
-| 2006 | 11 | 15 | 73% |
-| 2007 | 3 | 13 | 23% |
-| 2008 | 11 | 22 | 50% |
-| 2009 | 34 | 51 | 67% |
-| 2010 | 10 | 24 | 42% |
-| 2011 | 11 | 28 | 39% |
-| 2012 | 34 | 45 | 76% |
-| 2013 | 3 | 9 | 33% |
-| 2014 | 198 | 225 | 88% |
-| 2015 | 18 | 23 | 78% |
-| 2016 | 13 | 25 | 52% |
-| 2017 | 20 | 37 | 54% |
-| 2018 | 261 | 443 | 59% |
-| 2019 | 50 | 63 | 79% |
-| 2020 | 10 | 43 | 23% |
-| 2021 | 32 | 39 | 82% |
-| 2022 | 38 | 60 | 63% |
-| 2023 | 67 | 145 | 46% |
-| 2024 | 14 | 23 | 61% |
-| 2025 | 16 | 61 | 26% |
-| 2026 | 48 | 74 | 65% |
+| 1993 | 0 | 0 | - |
+| 1996 | 0 | 0 | - |
+| 1997 | 0 | 0 | - |
+| 1998 | 0 | 0 | - |
+| 1999 | 0 | 0 | - |
+| 2000 | 0 | 0 | - |
+| 2001 | 0 | 2 | 0% |
+| 2002 | 0 | 0 | - |
+| 2003 | 0 | 0 | - |
+| 2004 | 1 | 1 | 100% |
+| 2005 | 5 | 7 | 71% |
+| 2007 | 0 | 0 | - |
+| 2008 | 0 | 0 | - |
+| 2009 | 0 | 0 | - |
+| 2010 | 0 | 3 | 0% |
+| 2011 | 0 | 2 | 0% |
+| 2012 | 0 | 0 | - |
+| 2013 | 0 | 2 | 0% |
+| 2014 | 1 | 24 | 4% |
+| 2015 | 5 | 11 | 45% |
+| 2018 | 3 | 3 | 100% |
+| 2019 | 8 | 8 | 100% |
+| 2020 | 27 | 37 | 73% |
+| 2022 | 3440 | 3446 | 100% |
+| 2023 | 3122 | 3132 | 100% |
+| 2024 | 1529 | 2099 | 73% |
+| 2025 | 1136 | 1887 | 60% |
+| 2026 | 791 | 2387 | 33% |
 
-*trend over deposit year: falling, z = -2.22, two-sided p = 0.0261 across 39 years and 1556 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -54.74, two-sided p = 0 across 16 years and 13051 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Out of scope:** 473 records excluded (taxid not in scope_taxids).
+*hierarchical fit over 1 lineages: mu = 51.8%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+**Patent records:** 5 excluded (GenBank patent division; drift.exclude_patent_records).
 
-| off-target taxon | predicted detected | screened | share |
+**Duplication check:** 4485 recent records share 14 distinct footprints (320.4 per footprint), of which 362 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 14 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
+
+**Denominator:** 13051 of 13752 screened records are evaluable (94.9%); 701 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 9 indeterminate, 692 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 692 no_site. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match.
+
+Counted as failures, NOT excluded: 426 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+
+Of the `no_site` records, 2 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 690 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
+### `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1`
+
+ORTHOREOVIRUS (dsRNA) — RNA polymerase  
+Designed 2010, doi:10.1177/104063871002200106  
+**Degeneracy:** 331776-fold degenerate (331776-fold primers x 1-fold probe); ~18 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
+
+| deposit year | detected | evaluable | share |
 |---|---|---|---|
-| unidentified Reptarenavirus (1654823) | 0 | 210 | 0% |
-| taxid 1672385 | 0 | 15 | 0% |
-| taxid 2447921 | 0 | 12 | 0% |
-| taxid 1382279 | 0 | 12 | 0% |
-| taxid 2447931 | 0 | 9 | 0% |
-| Aurora borealis virus (1672381) | 0 | 9 | 0% |
-| Aurora borealis virus 3 (2447924) | 0 | 9 | 0% |
-| taxid 2116467 | 0 | 9 | 0% |
-| taxid 1303019 | 0 | 9 | 0% |
-| Alethinophid 3 reptarenavirus (1653399) | 0 | 8 | 0% |
-| _+57 more taxa_ | | | |
+| 1985 | 0 | 0 | - |
+| 1987 | 0 | 0 | - |
+| 1988 | 0 | 0 | - |
+| 1989 | 0 | 0 | - |
+| 1991 | 0 | 0 | - |
+| 1992 | 0 | 0 | - |
+| 1993 | 1 | 1 | 100% |
+| 1994 | 2 | 2 | 100% |
+| 1995 | 0 | 0 | - |
+| 1997 | 0 | 0 | - |
+| 1998 | 0 | 0 | - |
+| 1999 | 0 | 0 | - |
+| 2000 | 0 | 0 | - |
+| 2001 | 1 | 1 | 100% |
+| 2002 | 0 | 0 | - |
+| 2003 | 0 | 0 | - |
+| 2004 | 0 | 0 | - |
+| 2005 | 0 | 0 | - |
+| 2006 | 2 | 2 | 100% |
+| 2007 | 1 | 1 | 100% |
+| 2008 | 0 | 0 | - |
+| 2009 | 6 | 6 | 100% |
+| 2010 | 7 | 7 | 100% |
+| 2011 | 8 | 8 | 100% |
+| 2012 | 12 | 12 | 100% |
+| 2013 | 10 | 15 | 67% |
+| 2014 | 29 | 33 | 88% |
+| 2015 | 27 | 32 | 84% |
+| 2016 | 20 | 24 | 83% |
+| 2017 | 16 | 18 | 89% |
+| 2018 | 16 | 33 | 48% |
+| 2019 | 20 | 31 | 65% |
+| 2020 | 40 | 152 | 26% |
+| 2021 | 22 | 35 | 63% |
+| 2022 | 44 | 46 | 96% |
+| 2023 | 70 | 74 | 95% |
+| 2024 | 98 | 99 | 99% |
+| 2025 | 134 | 319 | 42% |
+| 2026 | 33 | 34 | 97% |
 
+*trend over deposit year: falling, z = -4.45, two-sided p = 8.66e-06 across 23 years and 985 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Patent records:** 226 excluded (GenBank patent division; drift.exclude_patent_records).
+*hierarchical fit over 2 lineages: mu = 43.3%, phi = 0.0 (intraclass correlation 0.963); worst lineage after shrinkage Orthoreovirus piscis (3431498) at 0.0% (0.0%-0.1%, raw 0.0% on 182); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
-**Duplication check:** 138 recent records share 43 distinct footprints (3.2 per footprint). This flag does not hold up: with only 43 and 195 independent observations the fall from baseline is -31% to +1%, which no longer excludes zero.
+**Patent records:** 52 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Denominator:** 1556 of 5755 screened records are evaluable (27.0%); 4199 are not. Every share above is taken over the evaluable ones.
+**Duplication check:** 358 recent records share 33 distinct footprints (10.8 per footprint). This flag does not hold up: counting each footprint once, 30 of 33 footprints amplify (91%; interval 76%-97%), which reaches the 90% threshold: the failing records are concentrated on few footprints. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
 
-Excluded: 2 indeterminate, 4197 no_amplicon
+**Denominator:** 985 of 14479 screened records are evaluable (6.8%); 13494 are not. Every share above is taken over the evaluable ones.
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 3767 no_site, 383 chance_only, 46 chance_anchor, 1 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Excluded: 13494 no_amplicon
 
-Of the `no_site` records, 3726 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 41 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 13170 no_site, 265 chance_anchor, 59 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Of the `no_site` records, 7610 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 5560 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `PD_WNS_ITS1_Shuey_2014`
 
@@ -1597,6 +1536,91 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 3 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 18 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 12208 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
+### `ARENAVIRUS_ssRNA_S_gene_2`
+
+**Lineage override:** pooled status was low coverage.  
+ARENAVIRUS (ssRNA) — S gene  
+Designed 1997, doi:10.1016/S0168-1702(97)01458-5  
+**Degeneracy:** 256-fold degenerate (256-fold primers x 1-fold probe); each member is ~3.9e-03 of the reaction, ~8 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 1985 | 0 | 1 | 0% |
+| 1986 | 0 | 0 | - |
+| 1987 | 1 | 1 | 100% |
+| 1989 | 3 | 5 | 60% |
+| 1990 | 1 | 1 | 100% |
+| 1991 | 1 | 1 | 100% |
+| 1992 | 1 | 1 | 100% |
+| 1993 | 4 | 4 | 100% |
+| 1995 | 3 | 3 | 100% |
+| 1996 | 2 | 2 | 100% |
+| 1997 | 2 | 6 | 33% |
+| 1998 | 0 | 4 | 0% |
+| 1999 | 1 | 1 | 100% |
+| 2000 | 3 | 4 | 75% |
+| 2001 | 2 | 7 | 29% |
+| 2002 | 6 | 19 | 32% |
+| 2003 | 4 | 5 | 80% |
+| 2004 | 10 | 20 | 50% |
+| 2005 | 2 | 3 | 67% |
+| 2006 | 13 | 15 | 87% |
+| 2007 | 3 | 13 | 23% |
+| 2008 | 11 | 22 | 50% |
+| 2009 | 34 | 51 | 67% |
+| 2010 | 12 | 24 | 50% |
+| 2011 | 16 | 28 | 57% |
+| 2012 | 36 | 45 | 80% |
+| 2013 | 7 | 9 | 78% |
+| 2014 | 199 | 225 | 88% |
+| 2015 | 18 | 23 | 78% |
+| 2016 | 16 | 25 | 64% |
+| 2017 | 22 | 37 | 59% |
+| 2018 | 277 | 443 | 63% |
+| 2019 | 54 | 63 | 86% |
+| 2020 | 10 | 43 | 23% |
+| 2021 | 33 | 39 | 85% |
+| 2022 | 39 | 60 | 65% |
+| 2023 | 72 | 145 | 50% |
+| 2024 | 14 | 23 | 61% |
+| 2025 | 22 | 61 | 36% |
+| 2026 | 48 | 74 | 65% |
+
+*trend over deposit year: falling, z = -2.17, two-sided p = 0.0298 across 39 years and 1556 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 2 lineages: mu = 57.5%, phi = 9.7 (intraclass correlation 0.094); worst lineage after shrinkage Mammarenavirus machupoense (3052317) at 25.7% (10.1%-45.5%, raw 0.0% on 12); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
+**Out of scope:** 473 records excluded (taxid not in scope_taxids).
+
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+
+| off-target taxon | predicted detected | screened | share |
+|---|---|---|---|
+| unidentified Reptarenavirus (1654823) | 0 | 210 | 0% |
+| taxid 1672385 | 0 | 15 | 0% |
+| taxid 2447921 | 0 | 12 | 0% |
+| taxid 1382279 | 0 | 12 | 0% |
+| taxid 2447931 | 0 | 9 | 0% |
+| Aurora borealis virus (1672381) | 0 | 9 | 0% |
+| Aurora borealis virus 3 (2447924) | 0 | 9 | 0% |
+| taxid 2116467 | 0 | 9 | 0% |
+| taxid 1303019 | 0 | 9 | 0% |
+| Alethinophid 3 reptarenavirus (1653399) | 0 | 8 | 0% |
+| _+57 more taxa_ | | | |
+
+
+**Patent records:** 226 excluded (GenBank patent division; drift.exclude_patent_records).
+
+**Duplication check:** 138 recent records share 44 distinct footprints (3.1 per footprint). This flag does not hold up: with only 44 and 203 independent observations the fall from baseline is -30% to +1%, which no longer excludes zero.
+
+**Denominator:** 1556 of 5755 screened records are evaluable (27.0%); 4199 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 2 indeterminate, 4197 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 3767 no_site, 383 chance_only, 46 chance_anchor, 1 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Of the `no_site` records, 3726 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 41 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1`
 
@@ -1640,6 +1664,8 @@ Designed 2010, doi:10.1128/mBio.00208-10
 | 2026 | 336 | 570 | 59% |
 
 *trend over deposit year: falling, z = -8.11, two-sided p = 4.91e-16 across 30 years and 7070 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 12 lineages: mu = 52.7%, phi = 0.6 (intraclass correlation 0.633); worst lineage after shrinkage Alphacoronavirus chicagoense (3433756) at 0.2% (0.0%-1.2%, raw 0.0% on 165); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Out of scope:** 262 records excluded (taxid not in scope_taxids).
 
@@ -1709,6 +1735,8 @@ Designed 2024, doi:10.3390/microorganisms12061105
 
 *trend over deposit year: falling, z = -2.49, two-sided p = 0.0127 across 24 years and 365 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 52.4%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Patent records:** 1 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 42 recent records share 12 distinct footprints (3.5 per footprint). This flag does not hold up: only 12 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
@@ -1772,6 +1800,8 @@ Designed 2006, doi:10.1016/j.jviromet.2006.05.004
 
 *trend over deposit year: falling, z = -1.32, two-sided p = 0.187 across 30 years and 659 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 57.1%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Patent records:** 61 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 105 recent records share 23 distinct footprints (4.6 per footprint). This flag does not hold up: with only 23 and 89 independent observations the fall from baseline is -16% to +27%, which no longer excludes zero.
@@ -1823,6 +1853,8 @@ Designed 2010, doi:10.1016/j.jviromet.2010.07.012
 
 *trend over deposit year: rising, z = +41.25, two-sided p = 0 across 16 years and 12315 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 60.2%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Patent records:** 5 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 4328 recent records share 11 distinct footprints (393.5 per footprint), of which 165 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 11 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; counting each footprint once, 9 of 11 footprints amplify (82%; interval 52%-95%), which reaches the 90% threshold: the failing records are concentrated on few footprints; with only 11 and 25 independent observations the fall from baseline is +19% to +74%, which no longer excludes zero. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
@@ -1871,6 +1903,8 @@ Designed 1991, doi:10.1016/0168-1605(91)90148-I
 
 *trend over deposit year: falling, z = -3.08, two-sided p = 0.00206 across 24 years and 326 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 59.2%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Duplication check:** 49 recent records share 5 distinct footprints (9.8 per footprint). This flag does not hold up: only 5 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; with only 5 and 6 independent observations the fall from baseline is -56% to +33%, which no longer excludes zero.
 
 **Denominator:** 326 of 401 screened records are evaluable (81.3%); 75 are not. Every share above is taken over the evaluable ones.
@@ -1897,7 +1931,7 @@ Designed 2010, doi:10.1128/JCM.01264-10
 | 1990 | 22 | 30 | 73% |
 | 1991 | 2 | 8 | 25% |
 | 1992 | 8 | 9 | 89% |
-| 1993 | 74 | 89 | 83% |
+| 1993 | 75 | 89 | 84% |
 | 1994 | 6 | 8 | 75% |
 | 1995 | 4 | 4 | 100% |
 | 1996 | 0 | 3 | 0% |
@@ -1910,31 +1944,33 @@ Designed 2010, doi:10.1128/JCM.01264-10
 | 2003 | 73 | 109 | 67% |
 | 2004 | 117 | 130 | 90% |
 | 2005 | 194 | 837 | 23% |
-| 2006 | 987 | 1947 | 51% |
-| 2007 | 629 | 1193 | 53% |
-| 2008 | 914 | 1146 | 80% |
-| 2009 | 2164 | 2647 | 82% |
-| 2010 | 2844 | 3433 | 83% |
-| 2011 | 2424 | 3029 | 80% |
-| 2012 | 2473 | 3505 | 71% |
-| 2013 | 3967 | 4903 | 81% |
-| 2014 | 3283 | 4739 | 69% |
-| 2015 | 3788 | 5106 | 74% |
-| 2016 | 4424 | 7102 | 62% |
-| 2017 | 3720 | 7889 | 47% |
-| 2018 | 3936 | 6893 | 57% |
-| 2019 | 5509 | 11712 | 47% |
-| 2020 | 6090 | 7525 | 81% |
-| 2021 | 2691 | 3132 | 86% |
-| 2022 | 2683 | 8804 | 30% |
-| 2023 | 7170 | 13397 | 54% |
-| 2024 | 15666 | 23412 | 67% |
-| 2025 | 22100 | 35912 | 62% |
-| 2026 | 15539 | 28063 | 55% |
+| 2006 | 990 | 1947 | 51% |
+| 2007 | 632 | 1193 | 53% |
+| 2008 | 915 | 1146 | 80% |
+| 2009 | 2166 | 2647 | 82% |
+| 2010 | 2857 | 3433 | 83% |
+| 2011 | 2432 | 3029 | 80% |
+| 2012 | 2507 | 3505 | 72% |
+| 2013 | 3993 | 4903 | 81% |
+| 2014 | 3292 | 4739 | 69% |
+| 2015 | 3818 | 5106 | 75% |
+| 2016 | 4436 | 7102 | 62% |
+| 2017 | 3735 | 7889 | 47% |
+| 2018 | 3968 | 6893 | 58% |
+| 2019 | 5517 | 11712 | 47% |
+| 2020 | 6235 | 7525 | 83% |
+| 2021 | 2698 | 3132 | 86% |
+| 2022 | 2692 | 8804 | 31% |
+| 2023 | 7196 | 13397 | 54% |
+| 2024 | 15675 | 23412 | 67% |
+| 2025 | 22125 | 35912 | 62% |
+| 2026 | 15560 | 28063 | 55% |
 
-*trend over deposit year: falling, z = -30.72, two-sided p = 2.95e-207 across 41 years and 186911 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -31.72, two-sided p = 8.32e-221 across 41 years and 186911 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Duplication check:** 69571 recent records share 202 distinct footprints (344.4 per footprint), of which 10 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 202 and 472 independent observations the fall from baseline is -8% to +8%, which no longer excludes zero.
+*hierarchical fit over 1 lineages: mu = 60.8%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
+**Duplication check:** 69571 recent records share 202 distinct footprints (344.4 per footprint), of which 10 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 202 and 473 independent observations the fall from baseline is -8% to +7%, which no longer excludes zero.
 
 **Denominator:** 186911 of 191425 screened records are evaluable (97.6%); 4514 are not. Every share above is taken over the evaluable ones.
 
@@ -1994,6 +2030,8 @@ Designed 2007, doi:10.1128/Jcm.01893-06
 
 *trend over deposit year: falling, z = -7.22, two-sided p = 5.27e-13 across 33 years and 3913 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 2 lineages: mu = 49.3%, phi = 0.0 (intraclass correlation 1.000); worst lineage after shrinkage Orthoebolavirus bundibugyoense (3052458) at 0.0% (0.0%-0.0%, raw 0.0% on 35); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
 **Patent records:** 85 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 95 recent records share 8 distinct footprints (11.9 per footprint). This flag does not hold up: only 8 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; counting each footprint once, 6 of 8 footprints amplify (75%; interval 41%-93%), which reaches the 90% threshold: the failing records are concentrated on few footprints. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
@@ -2007,74 +2045,6 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 1 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 2 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 523 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
-### `Pan_hemoparasite_cytochrome_c_Hellgren_2004`
-
-Pan-hemoparasite — cytochrome c  
-Designed 2004, doi:10.1645/GE-184R1  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 1998 | 3 | 3 | 100% |
-| 2000 | 0 | 0 | - |
-| 2002 | 37 | 38 | 97% |
-| 2003 | 0 | 0 | - |
-| 2004 | 5 | 5 | 100% |
-| 2005 | 1 | 41 | 2% |
-| 2006 | 15 | 15 | 100% |
-| 2007 | 3 | 3 | 100% |
-| 2008 | 27 | 32 | 84% |
-| 2009 | 34 | 41 | 83% |
-| 2010 | 71 | 81 | 88% |
-| 2011 | 19 | 32 | 59% |
-| 2012 | 1 | 7 | 14% |
-| 2013 | 8 | 11 | 73% |
-| 2014 | 12 | 13 | 92% |
-| 2015 | 14 | 14 | 100% |
-| 2016 | 11 | 12 | 92% |
-| 2017 | 70 | 76 | 92% |
-| 2018 | 75 | 78 | 96% |
-| 2019 | 6 | 16 | 38% |
-| 2020 | 85 | 87 | 98% |
-| 2021 | 4 | 4 | 100% |
-| 2022 | 59 | 61 | 97% |
-| 2023 | 87 | 99 | 88% |
-| 2024 | 7 | 61 | 11% |
-| 2025 | 69 | 121 | 57% |
-| 2026 | 51 | 72 | 71% |
-
-*trend over deposit year: falling, z = -2.07, two-sided p = 0.0382 across 25 years and 1023 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Out of scope:** 13071 records excluded (taxid not in scope_taxids).
-
-**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
-
-| off-target taxon | predicted detected | screened | share |
-|---|---|---|---|
-| Hepatocystis sp. TLG-2012 (1266736) | 74 | 74 | 100% |
-| Plasmodium tupinambi (3448513) | 29 | 29 | 100% |
-| Haemosporida sp. B LB-2015 (1699100) | 27 | 27 | 100% |
-| Plasmodium sp. BM-2016a (1830315) | 24 | 24 | 100% |
-| Plasmodiidae sp. (2605378) | 22 | 22 | 100% |
-| Plasmodium brasilianum (5824) | 12 | 12 | 100% |
-| Haemosporida sp. A LB-2015 (1699099) | 11 | 11 | 100% |
-| Nycteria heischi (1891981) | 10 | 10 | 100% |
-| taxid 31271 | 10 | 10 | 100% |
-| taxid 138297 | 10 | 10 | 100% |
-| _+1970 more taxa_ | | | |
-
-
-**Duplication check:** 194 recent records share 33 distinct footprints (5.9 per footprint). This flag does not hold up: with only 33 and 89 independent observations the fall from baseline is -35% to +0.9%, which no longer excludes zero.
-
-**Denominator:** 1023 of 18968 screened records are evaluable (5.4%); 17945 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 17945 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 16581 no_site, 948 truncated, 402 chance_anchor, 14 no_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
-
-Counted as failures, NOT excluded: 2 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
-
-Of the `no_site` records, 4998 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 11583 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001`
 
@@ -2117,6 +2087,8 @@ Designed 2001, doi:10.1128/JCM.39.12.4506-4513.2001
 | 2026 | 36 | 405 | 9% |
 
 *trend over deposit year: falling, z = -25.58, two-sided p = 2.45e-144 across 29 years and 7084 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 63.7%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Patent records:** 89 excluded (GenBank patent division; drift.exclude_patent_records).
 
@@ -2169,6 +2141,8 @@ Designed 2024, doi:10.3390/microorganisms12061105
 
 *trend over deposit year: falling, z = -2.49, two-sided p = 0.0129 across 25 years and 1209 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 65.1%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Patent records:** 3 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 152 recent records share 25 distinct footprints (6.1 per footprint). This flag does not hold up: with only 25 and 79 independent observations the fall from baseline is -39% to +0.1%, which no longer excludes zero.
@@ -2183,85 +2157,75 @@ Counted as failures, NOT excluded: 3 diverged. `drift.count_diverged_as_fail` is
 
 Of the `no_site` records, 30 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 313 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-### `RHABDOVIRUS_ssRNA_L_gene_round2`
+### `Pan_hemoparasite_cytochrome_c_Hellgren_2004`
 
-**Lineage override:** pooled status was low coverage.  
-RHABDOVIRUS (ssRNA) — L (pan-rhabdovirus, PREDICT P-016 round 2)  
-Designed 2005, doi:10.1099/vir.0.81128-0  
-**Degeneracy:** 36864-fold degenerate (36864-fold primers x 1-fold probe); ~15 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
+Pan-hemoparasite — cytochrome c  
+Designed 2004, doi:10.1645/GE-184R1  
 
 | deposit year | detected | evaluable | share |
 |---|---|---|---|
-| 1985 | 1 | 1 | 100% |
-| 1986 | 1 | 1 | 100% |
-| 1988 | 0 | 0 | - |
-| 1989 | 1 | 1 | 100% |
-| 1990 | 2 | 2 | 100% |
-| 1993 | 2 | 2 | 100% |
-| 1994 | 0 | 0 | - |
-| 1995 | 0 | 2 | 0% |
-| 1997 | 4 | 4 | 100% |
-| 1999 | 2 | 2 | 100% |
-| 2000 | 4 | 4 | 100% |
-| 2001 | 1 | 1 | 100% |
-| 2002 | 6 | 7 | 86% |
-| 2003 | 2 | 2 | 100% |
-| 2004 | 2 | 2 | 100% |
-| 2005 | 4 | 7 | 57% |
-| 2006 | 3 | 5 | 60% |
-| 2007 | 22 | 27 | 81% |
-| 2008 | 38 | 42 | 90% |
-| 2009 | 21 | 21 | 100% |
-| 2010 | 51 | 54 | 94% |
-| 2011 | 18 | 20 | 90% |
-| 2012 | 197 | 214 | 92% |
-| 2013 | 52 | 56 | 93% |
-| 2014 | 79 | 92 | 86% |
-| 2015 | 252 | 316 | 80% |
-| 2016 | 294 | 397 | 74% |
-| 2017 | 163 | 582 | 28% |
-| 2018 | 154 | 301 | 51% |
-| 2019 | 275 | 609 | 45% |
-| 2020 | 337 | 445 | 76% |
-| 2021 | 167 | 244 | 68% |
-| 2022 | 304 | 459 | 66% |
-| 2023 | 813 | 969 | 84% |
-| 2024 | 654 | 1000 | 65% |
-| 2025 | 206 | 431 | 48% |
-| 2026 | 236 | 301 | 78% |
+| 1998 | 3 | 3 | 100% |
+| 2000 | 0 | 0 | - |
+| 2002 | 38 | 38 | 100% |
+| 2003 | 0 | 0 | - |
+| 2004 | 5 | 5 | 100% |
+| 2005 | 1 | 41 | 2% |
+| 2006 | 15 | 15 | 100% |
+| 2007 | 3 | 3 | 100% |
+| 2008 | 30 | 32 | 94% |
+| 2009 | 36 | 41 | 88% |
+| 2010 | 73 | 81 | 90% |
+| 2011 | 20 | 32 | 62% |
+| 2012 | 1 | 7 | 14% |
+| 2013 | 8 | 11 | 73% |
+| 2014 | 13 | 13 | 100% |
+| 2015 | 14 | 14 | 100% |
+| 2016 | 11 | 12 | 92% |
+| 2017 | 70 | 76 | 92% |
+| 2018 | 75 | 78 | 96% |
+| 2019 | 7 | 16 | 44% |
+| 2020 | 86 | 87 | 99% |
+| 2021 | 4 | 4 | 100% |
+| 2022 | 59 | 61 | 97% |
+| 2023 | 93 | 99 | 94% |
+| 2024 | 52 | 61 | 85% |
+| 2025 | 69 | 121 | 57% |
+| 2026 | 60 | 72 | 83% |
 
-*trend over deposit year: falling, z = -2.33, two-sided p = 0.0197 across 35 years and 6623 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +1.44, two-sided p = 0.149 across 25 years and 1023 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Out of scope:** 769 records excluded (taxid not in scope_taxids).
+*hierarchical fit over 2 lineages: mu = 58.9%, phi = 0.9 (intraclass correlation 0.526); worst lineage after shrinkage Haemoproteus pallidus (389271) at 7.7% (0.0%-34.4%, raw 0.0% on 6); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
+**Out of scope:** 13071 records excluded (taxid not in scope_taxids).
 
 **Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
 
 | off-target taxon | predicted detected | screened | share |
 |---|---|---|---|
-| taxid 3083351 | 4 | 4 | 100% |
-| taxid 3128382 | 1 | 1 | 100% |
-| Betaplatrhavirus himastelon (3427268) | 1 | 1 | 100% |
-| taxid 3084896 | 1 | 1 | 100% |
-| taxid 3084895 | 1 | 1 | 100% |
-| taxid 2910403 | 1 | 1 | 100% |
-| taxid 2910388 | 1 | 1 | 100% |
-| taxid 2910389 | 1 | 1 | 100% |
-| taxid 2793798 | 1 | 1 | 100% |
-| taxid 2729339 | 1 | 1 | 100% |
-| _+192 more taxa_ | | | |
+| Hepatocystis sp. TLG-2012 (1266736) | 74 | 74 | 100% |
+| Plasmodium tupinambi (3448513) | 29 | 29 | 100% |
+| Haemosporida sp. B LB-2015 (1699100) | 27 | 27 | 100% |
+| Plasmodium sp. BM-2016a (1830315) | 24 | 24 | 100% |
+| Plasmodiidae sp. (2605378) | 22 | 22 | 100% |
+| Plasmodium brasilianum (5824) | 12 | 12 | 100% |
+| Haemosporida sp. A LB-2015 (1699099) | 11 | 11 | 100% |
+| Nycteria heischi (1891981) | 10 | 10 | 100% |
+| taxid 31271 | 10 | 10 | 100% |
+| taxid 138297 | 10 | 10 | 100% |
+| _+1970 more taxa_ | | | |
 
 
-**Duplication check:** 1271 recent records share 108 distinct footprints (11.8 per footprint), of which 16 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 108 and 225 independent observations the fall from baseline is -11% to +11%, which no longer excludes zero.
+**Duplication check:** 194 recent records share 33 distinct footprints (5.9 per footprint). Both reductions leave the flag in place: with only 33 independent observations (one per footprint) the interval around the 67% detected share is 50%-81%, and counting each footprint once, 20 of 33 footprints amplify (61%; interval 44%-75%); each is below the 90% threshold, and the fall from baseline (-37% to -3%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
 
-**Denominator:** 6623 of 9126 screened records are evaluable (72.6%); 2503 are not. Every share above is taken over the evaluable ones.
+**Denominator:** 1023 of 18968 screened records are evaluable (5.4%); 17945 are not. Every share above is taken over the evaluable ones.
 
-Excluded: 10 indeterminate, 2493 no_amplicon
+Excluded: 17945 no_amplicon
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 2038 no_site, 403 truncated, 44 chance_anchor, 8 chance_only. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 16581 no_site, 948 truncated, 402 chance_anchor, 14 no_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
 
-Counted as failures, NOT excluded: 47 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+Counted as failures, NOT excluded: 2 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
-Of the `no_site` records, 1302 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 736 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Of the `no_site` records, 4998 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 11583 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `CDV_H_gene_Mueller_2011_1`
 
@@ -2307,13 +2271,15 @@ Designed 2011, doi:10.7589/0090-3558-47.3.725
 | 2023 | 10 | 12 | 83% |
 | 2024 | 17 | 17 | 100% |
 | 2025 | 12 | 13 | 92% |
-| 2026 | 49 | 80 | 61% |
+| 2026 | 51 | 80 | 64% |
 
-*trend over deposit year: falling, z = -5.82, two-sided p = 5.91e-09 across 33 years and 513 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -5.58, two-sided p = 2.4e-08 across 33 years and 513 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 68.4%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Patent records:** 61 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 95 recent records share 24 distinct footprints (4.0 per footprint). Both reductions leave the flag in place: with only 24 independent observations (one per footprint) the interval around the 66% detected share is 46%-82%, and counting each footprint once, 16 of 24 footprints amplify (67%; interval 47%-82%); each is below the 90% threshold, and the fall from baseline (-48% to -10%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
+**Duplication check:** 95 recent records share 25 distinct footprints (3.8 per footprint). Both reductions leave the flag in place: with only 25 independent observations (one per footprint) the interval around the 68% detected share is 49%-83%, and counting each footprint once, 18 of 25 footprints amplify (72%; interval 52%-86%); each is below the 90% threshold, and the fall from baseline (-46% to -8%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
 
 **Denominator:** 513 of 3952 screened records are evaluable (13.0%); 3439 are not. Every share above is taken over the evaluable ones.
 
@@ -2325,142 +2291,179 @@ Counted as failures, NOT excluded: 5 diverged. `drift.count_diverged_as_fail` is
 
 Of the `no_site` records, 384 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 1462 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-### `CDV_H_gene_Mueller_2011_2`
+### `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010`
 
-**Lineage override:** pooled status was low coverage.  
-Canine distemper virus specific — H gene  
-Designed 2011, doi:10.7589/0090-3558-47.3.725  
+ORTHOREOVIRUS (dsRNA) — RNA polymerase  
+Designed 2010, doi:10.1177/104063871002200106  
+**Degeneracy:** 147456-fold degenerate (147456-fold primers x 1-fold probe); ~17 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
 
 | deposit year | detected | evaluable | share |
 |---|---|---|---|
 | 1985 | 0 | 0 | - |
+| 1987 | 0 | 0 | - |
+| 1988 | 0 | 0 | - |
 | 1989 | 0 | 0 | - |
-| 1990 | 0 | 0 | - |
+| 1991 | 0 | 0 | - |
 | 1992 | 0 | 0 | - |
 | 1993 | 1 | 1 | 100% |
-| 1994 | 1 | 1 | 100% |
+| 1994 | 2 | 2 | 100% |
 | 1995 | 0 | 0 | - |
-| 1996 | 12 | 13 | 92% |
-| 1997 | 0 | 3 | 0% |
-| 1998 | 2 | 3 | 67% |
-| 1999 | 7 | 8 | 88% |
-| 2000 | 2 | 2 | 100% |
-| 2001 | 4 | 5 | 80% |
-| 2002 | 5 | 5 | 100% |
-| 2003 | 9 | 11 | 82% |
-| 2004 | 15 | 15 | 100% |
-| 2005 | 16 | 37 | 43% |
-| 2006 | 12 | 18 | 67% |
-| 2007 | 31 | 50 | 62% |
-| 2008 | 16 | 54 | 30% |
-| 2009 | 40 | 116 | 34% |
-| 2010 | 28 | 47 | 60% |
-| 2011 | 43 | 57 | 75% |
-| 2012 | 23 | 57 | 40% |
-| 2013 | 33 | 57 | 58% |
-| 2014 | 82 | 111 | 74% |
-| 2015 | 15 | 52 | 29% |
-| 2016 | 16 | 51 | 31% |
-| 2017 | 40 | 84 | 48% |
-| 2018 | 105 | 165 | 64% |
-| 2019 | 49 | 76 | 64% |
-| 2020 | 72 | 104 | 69% |
-| 2021 | 228 | 257 | 89% |
-| 2022 | 89 | 103 | 86% |
-| 2023 | 93 | 97 | 96% |
-| 2024 | 29 | 88 | 33% |
-| 2025 | 21 | 35 | 60% |
-| 2026 | 101 | 149 | 68% |
+| 1997 | 0 | 0 | - |
+| 1998 | 0 | 0 | - |
+| 1999 | 0 | 0 | - |
+| 2000 | 0 | 0 | - |
+| 2001 | 1 | 1 | 100% |
+| 2002 | 0 | 0 | - |
+| 2003 | 0 | 0 | - |
+| 2004 | 0 | 0 | - |
+| 2005 | 1 | 1 | 100% |
+| 2006 | 2 | 2 | 100% |
+| 2007 | 1 | 1 | 100% |
+| 2008 | 0 | 0 | - |
+| 2009 | 6 | 6 | 100% |
+| 2010 | 5 | 7 | 71% |
+| 2011 | 8 | 10 | 80% |
+| 2012 | 29 | 29 | 100% |
+| 2013 | 15 | 15 | 100% |
+| 2014 | 21 | 33 | 64% |
+| 2015 | 29 | 32 | 91% |
+| 2016 | 19 | 24 | 79% |
+| 2017 | 17 | 18 | 94% |
+| 2018 | 31 | 33 | 94% |
+| 2019 | 27 | 32 | 84% |
+| 2020 | 143 | 152 | 94% |
+| 2021 | 58 | 60 | 97% |
+| 2022 | 39 | 46 | 85% |
+| 2023 | 55 | 72 | 76% |
+| 2024 | 85 | 99 | 86% |
+| 2025 | 219 | 322 | 68% |
+| 2026 | 29 | 34 | 85% |
 
-*trend over deposit year: rising, z = +5.79, two-sided p = 6.86e-09 across 33 years and 1932 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -5.02, two-sided p = 5.19e-07 across 24 years and 1032 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Patent records:** 61 excluded (GenBank patent division; drift.exclude_patent_records).
+*hierarchical fit over 2 lineages: mu = 67.2%, phi = 0.6 (intraclass correlation 0.615); worst lineage after shrinkage Orthoreovirus 'civet orthoreovirus' (3461089) at 25.9% (0.0%-89.9%, raw 0.0% on 1); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
-**Duplication check:** 188 recent records share 48 distinct footprints (3.9 per footprint). This flag does not hold up: with only 48 and 163 independent observations the fall from baseline is -13% to +17%, which no longer excludes zero.
+**Patent records:** 52 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Denominator:** 1932 of 3952 screened records are evaluable (48.9%); 2020 are not. Every share above is taken over the evaluable ones.
+**Duplication check:** 361 recent records share 26 distinct footprints (13.9 per footprint). Both reductions leave the flag in place: with only 26 independent observations (one per footprint) the interval around the 70% detected share is 51%-84%, and counting each footprint once, 20 of 26 footprints amplify (77%; interval 58%-89%); each is below the 90% threshold, and the fall from baseline (-38% to -2%) still excludes zero. So the flag does not rest on identical footprints deposited repeatedly.
 
-Excluded: 2020 no_amplicon
+**Denominator:** 1032 of 14479 screened records are evaluable (7.1%); 13447 are not. Every share above is taken over the evaluable ones.
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1575 no_site, 434 truncated, 11 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Excluded: 13447 no_amplicon
 
-Counted as failures, NOT excluded: 5 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 13154 no_site, 219 chance_anchor, 74 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
 
-Of the `no_site` records, 40 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 1535 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Counted as failures, NOT excluded: 3 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
-### `Pan_HERPES_dsDNA_Polymerase_round2`
+Of the `no_site` records, 205 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 12949 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-Pan-HERPES (dsDNA) — Polymerase  
-Designed 1996, doi:10.1128/jcm.34.7.1666-1671.1996  
-**Degeneracy:** 12288-fold degenerate (12288-fold primers x 1-fold probe); ~14 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
+### `RHABDOVIRUS_ssRNA_L_gene_round1`
+
+**Lineage override:** pooled status was low coverage.  
+RHABDOVIRUS (ssRNA) — L (pan-rhabdovirus, PREDICT P-016 round 1)  
+Designed 2005, doi:10.1099/vir.0.81128-0  
+**Degeneracy:** 221184-fold degenerate (221184-fold primers x 1-fold probe); ~18 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
 
 | deposit year | detected | evaluable | share |
 |---|---|---|---|
+| 1985 | 1 | 1 | 100% |
 | 1986 | 1 | 1 | 100% |
-| 1987 | 3 | 3 | 100% |
-| 1988 | 2 | 2 | 100% |
-| 1989 | 0 | 0 | - |
+| 1988 | 0 | 0 | - |
+| 1989 | 1 | 1 | 100% |
 | 1990 | 2 | 2 | 100% |
-| 1991 | 1 | 2 | 50% |
-| 1992 | 2 | 2 | 100% |
 | 1993 | 2 | 3 | 67% |
-| 1994 | 0 | 1 | 0% |
-| 1995 | 2 | 4 | 50% |
-| 1996 | 0 | 1 | 0% |
-| 1997 | 5 | 11 | 45% |
-| 1998 | 1 | 6 | 17% |
-| 1999 | 1 | 15 | 7% |
-| 2000 | 2 | 15 | 13% |
-| 2001 | 10 | 20 | 50% |
-| 2002 | 7 | 9 | 78% |
-| 2003 | 7 | 12 | 58% |
-| 2004 | 21 | 41 | 51% |
-| 2005 | 16 | 28 | 57% |
-| 2006 | 12 | 17 | 71% |
-| 2007 | 7 | 17 | 41% |
-| 2008 | 9 | 16 | 56% |
-| 2009 | 5 | 17 | 29% |
-| 2010 | 73 | 76 | 96% |
-| 2011 | 69 | 92 | 75% |
-| 2012 | 130 | 159 | 82% |
-| 2013 | 52 | 67 | 78% |
-| 2014 | 63 | 104 | 61% |
-| 2015 | 187 | 235 | 80% |
-| 2016 | 252 | 279 | 90% |
-| 2017 | 176 | 216 | 81% |
-| 2018 | 248 | 303 | 82% |
-| 2019 | 560 | 611 | 92% |
-| 2020 | 55 | 69 | 80% |
-| 2021 | 75 | 105 | 71% |
-| 2022 | 150 | 231 | 65% |
-| 2023 | 217 | 273 | 79% |
-| 2024 | 316 | 359 | 88% |
-| 2025 | 119 | 165 | 72% |
-| 2026 | 74 | 118 | 63% |
+| 1994 | 0 | 0 | - |
+| 1995 | 0 | 5 | 0% |
+| 1997 | 4 | 6 | 67% |
+| 1999 | 0 | 10 | 0% |
+| 2000 | 4 | 4 | 100% |
+| 2001 | 0 | 1 | 0% |
+| 2002 | 5 | 7 | 71% |
+| 2003 | 2 | 2 | 100% |
+| 2004 | 1 | 3 | 33% |
+| 2005 | 3 | 8 | 38% |
+| 2006 | 2 | 3 | 67% |
+| 2007 | 23 | 27 | 85% |
+| 2008 | 33 | 42 | 79% |
+| 2009 | 14 | 27 | 52% |
+| 2010 | 22 | 31 | 71% |
+| 2011 | 15 | 22 | 68% |
+| 2012 | 197 | 218 | 90% |
+| 2013 | 45 | 59 | 76% |
+| 2014 | 54 | 98 | 55% |
+| 2015 | 259 | 317 | 82% |
+| 2016 | 318 | 388 | 82% |
+| 2017 | 456 | 569 | 80% |
+| 2018 | 253 | 295 | 86% |
+| 2019 | 559 | 692 | 81% |
+| 2020 | 329 | 494 | 67% |
+| 2021 | 98 | 247 | 40% |
+| 2022 | 291 | 452 | 64% |
+| 2023 | 871 | 960 | 91% |
+| 2024 | 704 | 992 | 71% |
+| 2025 | 214 | 455 | 47% |
+| 2026 | 174 | 308 | 56% |
 
-*trend over deposit year: rising, z = +6.48, two-sided p = 8.94e-11 across 40 years and 3707 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -6.74, two-sided p = 1.6e-11 across 35 years and 6750 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Out of scope:** 2 records excluded (taxid not in scope_taxids).
+*hierarchical fit over 2 lineages: mu = 85.4%, phi = 300.8 (intraclass correlation 0.003); worst lineage after shrinkage Tahe rhabdovirus 3 (2983976) at 79.8% (75.2%-84.0%, raw 0.0% on 21); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
+**Out of scope:** 769 records excluded (taxid not in scope_taxids).
 
 **Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
 
 | off-target taxon | predicted detected | screened | share |
 |---|---|---|---|
-| Cervid gammaherpesvirus (3683214) | 0 | 1 | 0% |
-| synthetic construct (32630) | 0 | 1 | 0% |
+| taxid 2497337 | 6 | 6 | 100% |
+| taxid 195059 | 4 | 4 | 100% |
+| taxid 11307 | 4 | 4 | 100% |
+| Betanucleorhabdovirus taraxi (3427245) | 2 | 2 | 100% |
+| Betanucleorhabdovirus picridis (3427244) | 2 | 2 | 100% |
+| taxid 2950850 | 2 | 2 | 100% |
+| taxid 2950883 | 2 | 2 | 100% |
+| Asparagales alphanucleorhabdovirus 1 (3479778) | 2 | 2 | 100% |
+| taxid 3141832 | 2 | 2 | 100% |
+| taxid 2721273 | 2 | 2 | 100% |
+| _+192 more taxa_ | | | |
 
 
-**Duplication check:** 357 recent records share 32 distinct footprints (11.2 per footprint), of which 3 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 32 and 160 independent observations the fall from baseline is -27% to +6%, which no longer excludes zero.
+**Duplication check:** 1295 recent records share 181 distinct footprints (7.2 per footprint), of which 36 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 181 and 525 independent observations the fall from baseline is -11% to +4%, which no longer excludes zero.
 
-**Denominator:** 3707 of 7711 screened records are evaluable (48.1%); 4004 are not. Every share above is taken over the evaluable ones.
+**Denominator:** 6750 of 9126 screened records are evaluable (74.0%); 2376 are not. Every share above is taken over the evaluable ones.
 
-Excluded: 1 indeterminate, 4003 no_amplicon
+Excluded: 9 indeterminate, 2367 no_amplicon
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 2274 no_site, 1122 truncated, 343 no_pair, 264 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 2101 no_site, 170 truncated, 95 chance_anchor, 1 chance_only. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
 
-Counted as failures, NOT excluded: 36 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+Counted as failures, NOT excluded: 128 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
-Of the `no_site` records, 20 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 2254 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Of the `no_site` records, 138 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 1963 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
+### `DWVB_polyprotein_Rossi_2024`
+
+DEFORMED WING VIRUS B — polyprotein gene RT-qPCR, MGB probe (Rossi 2024)  
+Designed 2024, doi:10.3390/microorganisms12061105  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 2020 | 0 | 0 | - |
+| 2022 | 0 | 0 | - |
+| 2023 | 41 | 41 | 100% |
+| 2024 | 0 | 0 | - |
+| 2025 | 9 | 10 | 90% |
+| 2026 | 3 | 6 | 50% |
+
+*trend over deposit year: falling, z = -3.94, two-sided p = 8.25e-05 across 3 years and 57 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+**Duplication check:** 16 recent records share 8 distinct footprints (2.0 per footprint). This flag does not hold up: only 8 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; with only 8 independent observations (one per footprint) the interval around the 75% detected share is 41%-93%, which no longer rules out the 90% threshold; with only 8 and 7 independent observations the fall from baseline is -59% to +15%, which no longer excludes zero. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
+
+**Denominator:** 57 of 737 screened records are evaluable (7.7%); 680 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 1 indeterminate, 679 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 670 no_site, 9 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match.
+
+Of the `no_site` records, 0 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 670 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999`
 
@@ -2481,46 +2484,48 @@ Designed 1999, doi:10.1099/0022-1317-80-9-2437
 | 1990 | 1 | 1 | 100% |
 | 1991 | 3 | 7 | 43% |
 | 1992 | 2 | 3 | 67% |
-| 1993 | 48 | 63 | 76% |
+| 1993 | 50 | 63 | 79% |
 | 1994 | 3 | 5 | 60% |
-| 1995 | 20 | 58 | 34% |
-| 1996 | 4 | 7 | 57% |
-| 1997 | 3 | 12 | 25% |
+| 1995 | 21 | 58 | 36% |
+| 1996 | 5 | 7 | 71% |
+| 1997 | 5 | 12 | 42% |
 | 1998 | 22 | 27 | 81% |
 | 1999 | 3 | 8 | 38% |
-| 2000 | 7 | 13 | 54% |
-| 2001 | 9 | 11 | 82% |
-| 2002 | 6 | 25 | 24% |
+| 2000 | 10 | 13 | 77% |
+| 2001 | 10 | 11 | 91% |
+| 2002 | 16 | 25 | 64% |
 | 2003 | 7 | 21 | 33% |
-| 2004 | 14 | 22 | 64% |
-| 2005 | 37 | 56 | 66% |
+| 2004 | 16 | 22 | 73% |
+| 2005 | 38 | 56 | 68% |
 | 2006 | 13 | 33 | 39% |
-| 2007 | 70 | 96 | 73% |
-| 2008 | 131 | 160 | 82% |
-| 2009 | 43 | 147 | 29% |
-| 2010 | 123 | 142 | 87% |
-| 2011 | 591 | 678 | 87% |
-| 2012 | 184 | 377 | 49% |
-| 2013 | 150 | 190 | 79% |
-| 2014 | 314 | 393 | 80% |
-| 2015 | 141 | 216 | 65% |
-| 2016 | 417 | 909 | 46% |
-| 2017 | 413 | 703 | 59% |
-| 2018 | 299 | 3266 | 9% |
-| 2019 | 154 | 348 | 44% |
-| 2020 | 487 | 1500 | 32% |
-| 2021 | 2177 | 2329 | 93% |
-| 2022 | 406 | 716 | 57% |
-| 2023 | 528 | 684 | 77% |
-| 2024 | 1087 | 1448 | 75% |
-| 2025 | 983 | 1215 | 81% |
-| 2026 | 179 | 373 | 48% |
+| 2007 | 72 | 96 | 75% |
+| 2008 | 133 | 160 | 83% |
+| 2009 | 49 | 147 | 33% |
+| 2010 | 125 | 142 | 88% |
+| 2011 | 606 | 678 | 89% |
+| 2012 | 210 | 377 | 56% |
+| 2013 | 156 | 190 | 82% |
+| 2014 | 323 | 393 | 82% |
+| 2015 | 146 | 216 | 68% |
+| 2016 | 429 | 909 | 47% |
+| 2017 | 438 | 703 | 62% |
+| 2018 | 350 | 3266 | 11% |
+| 2019 | 174 | 348 | 50% |
+| 2020 | 503 | 1500 | 34% |
+| 2021 | 2192 | 2329 | 94% |
+| 2022 | 412 | 716 | 58% |
+| 2023 | 560 | 684 | 82% |
+| 2024 | 1152 | 1448 | 80% |
+| 2025 | 995 | 1215 | 82% |
+| 2026 | 197 | 373 | 53% |
 
-*trend over deposit year: rising, z = +11.19, two-sided p = 4.51e-29 across 43 years and 16275 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +10.43, two-sided p = 1.75e-25 across 43 years and 16275 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 5 lineages: mu = 77.3%, phi = 0.3 (intraclass correlation 0.791); worst lineage after shrinkage Bovine Dyokappapapillomavirus (3477800) at 3.3% (0.0%-23.6%, raw 0.0% on 6); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 1064 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 1591 recent records share 200 distinct footprints (8.0 per footprint), of which 3 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 200 and 864 independent observations the fall from baseline is +12% to +26%, which no longer excludes zero.
+**Duplication check:** 1591 recent records share 200 distinct footprints (8.0 per footprint), of which 3 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 200 and 863 independent observations the fall from baseline is +12% to +25%, which no longer excludes zero.
 
 **Denominator:** 16275 of 41947 screened records are evaluable (38.8%); 25672 are not. Every share above is taken over the evaluable ones.
 
@@ -2566,24 +2571,26 @@ Designed 2007, doi:10.1007/s11259-007-0020-9
 | 2012 | 23 | 35 | 66% |
 | 2013 | 15 | 22 | 68% |
 | 2014 | 3 | 16 | 19% |
-| 2015 | 12 | 21 | 57% |
+| 2015 | 13 | 21 | 62% |
 | 2016 | 25 | 27 | 93% |
 | 2017 | 10 | 11 | 91% |
 | 2018 | 14 | 24 | 58% |
 | 2019 | 29 | 30 | 97% |
 | 2020 | 34 | 50 | 68% |
-| 2021 | 3 | 9 | 33% |
-| 2022 | 37 | 43 | 86% |
-| 2023 | 3 | 14 | 21% |
+| 2021 | 4 | 9 | 44% |
+| 2022 | 40 | 43 | 93% |
+| 2023 | 7 | 14 | 50% |
 | 2024 | 14 | 17 | 82% |
 | 2025 | 12 | 15 | 80% |
 | 2026 | 56 | 76 | 74% |
 
-*trend over deposit year: falling, z = -0.22, two-sided p = 0.823 across 33 years and 602 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +0.44, two-sided p = 0.662 across 33 years and 602 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 75.3%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Patent records:** 61 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 93 recent records share 19 distinct footprints (4.9 per footprint). This flag does not hold up: with only 19 and 54 independent observations the fall from baseline is -20% to +24%, which no longer excludes zero.
+**Duplication check:** 93 recent records share 19 distinct footprints (4.9 per footprint). This flag does not hold up: with only 19 and 54 independent observations the fall from baseline is -22% to +22%, which no longer excludes zero.
 
 **Denominator:** 602 of 3952 screened records are evaluable (15.2%); 3350 are not. Every share above is taken over the evaluable ones.
 
@@ -2627,34 +2634,36 @@ Designed 2005, doi:10.1128/JCM.43.12.6176-6182.2005
 | 2002 | 5 | 9 | 56% |
 | 2003 | 37 | 45 | 82% |
 | 2004 | 21 | 29 | 72% |
-| 2005 | 96 | 103 | 93% |
+| 2005 | 97 | 103 | 94% |
 | 2006 | 19 | 20 | 95% |
 | 2007 | 23 | 44 | 52% |
-| 2008 | 107 | 125 | 86% |
-| 2009 | 90 | 102 | 88% |
-| 2010 | 59 | 92 | 64% |
-| 2011 | 55 | 83 | 66% |
-| 2012 | 81 | 97 | 84% |
-| 2013 | 152 | 195 | 78% |
-| 2014 | 70 | 93 | 75% |
-| 2015 | 134 | 160 | 84% |
-| 2016 | 53 | 165 | 32% |
-| 2017 | 141 | 245 | 58% |
+| 2008 | 108 | 125 | 86% |
+| 2009 | 91 | 102 | 89% |
+| 2010 | 69 | 92 | 75% |
+| 2011 | 62 | 83 | 75% |
+| 2012 | 83 | 97 | 86% |
+| 2013 | 157 | 195 | 81% |
+| 2014 | 73 | 93 | 78% |
+| 2015 | 145 | 160 | 91% |
+| 2016 | 54 | 165 | 33% |
+| 2017 | 149 | 245 | 61% |
 | 2018 | 108 | 130 | 83% |
-| 2019 | 126 | 250 | 50% |
-| 2020 | 428 | 592 | 72% |
+| 2019 | 133 | 250 | 53% |
+| 2020 | 459 | 592 | 78% |
 | 2021 | 446 | 508 | 88% |
-| 2022 | 259 | 462 | 56% |
-| 2023 | 451 | 733 | 62% |
-| 2024 | 278 | 442 | 63% |
-| 2025 | 341 | 542 | 63% |
-| 2026 | 723 | 874 | 83% |
+| 2022 | 264 | 462 | 57% |
+| 2023 | 469 | 733 | 64% |
+| 2024 | 282 | 442 | 64% |
+| 2025 | 353 | 542 | 65% |
+| 2026 | 732 | 874 | 84% |
 
-*trend over deposit year: falling, z = -1.73, two-sided p = 0.0832 across 36 years and 6235 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -2.30, two-sided p = 0.0212 across 36 years and 6235 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 5 lineages: mu = 88.7%, phi = 1.0 (intraclass correlation 0.498); worst lineage after shrinkage Aviadenovirus hepatitidis (3426530) at 1.8% (0.0%-6.8%, raw 0.0% on 49); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 1043 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 1499 recent records share 94 distinct footprints (15.9 per footprint), of which 105 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 94 and 266 independent observations the fall from baseline is -2% to +18%, which no longer excludes zero.
+**Duplication check:** 1499 recent records share 94 distinct footprints (15.9 per footprint), of which 105 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 94 and 269 independent observations the fall from baseline is -3% to +17%, which no longer excludes zero.
 
 **Denominator:** 6235 of 37920 screened records are evaluable (16.4%); 31685 are not. Every share above is taken over the evaluable ones.
 
@@ -2687,7 +2696,7 @@ Designed 2010, doi:10.1128/mBio.00208-10
 | 2005 | 13 | 32 | 41% |
 | 2006 | 18 | 45 | 40% |
 | 2007 | 33 | 37 | 89% |
-| 2008 | 16 | 24 | 67% |
+| 2008 | 18 | 24 | 75% |
 | 2009 | 47 | 92 | 51% |
 | 2010 | 32 | 45 | 71% |
 | 2011 | 39 | 86 | 45% |
@@ -2707,7 +2716,9 @@ Designed 2010, doi:10.1128/mBio.00208-10
 | 2025 | 748 | 871 | 86% |
 | 2026 | 422 | 562 | 75% |
 
-*trend over deposit year: rising, z = +16.34, two-sided p = 4.85e-60 across 30 years and 6882 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +16.23, two-sided p = 3.17e-59 across 30 years and 6882 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 11 lineages: mu = 81.2%, phi = 0.4 (intraclass correlation 0.715); worst lineage after shrinkage Betacoronavirus cameli (3433633) at 0.6% (0.0%-3.4%, raw 0.0% on 58); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Out of scope:** 262 records excluded (taxid not in scope_taxids).
 
@@ -2788,6 +2799,8 @@ Designed 2001, doi:10.1016/S0168-1702(00)00252-5
 
 *trend over deposit year: rising, z = +2.94, two-sided p = 0.00326 across 36 years and 3121 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 3 lineages: mu = 69.3%, phi = 0.0 (intraclass correlation 1.000); worst lineage after shrinkage Varicellovirus humanalpha3 (3050294) at 0.0% (0.0%-0.0%, raw 0.0% on 54); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
 **Out of scope:** 1 records excluded (taxid not in scope_taxids).
 
 **Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
@@ -2844,7 +2857,7 @@ Designed 2013, doi:10.1128/mbio.00598-13
 | 2014 | 186 | 199 | 93% |
 | 2015 | 46 | 47 | 98% |
 | 2016 | 211 | 214 | 99% |
-| 2017 | 86 | 95 | 91% |
+| 2017 | 87 | 95 | 92% |
 | 2018 | 271 | 285 | 95% |
 | 2019 | 193 | 217 | 89% |
 | 2020 | 198 | 203 | 98% |
@@ -2855,7 +2868,9 @@ Designed 2013, doi:10.1128/mbio.00598-13
 | 2025 | 194 | 199 | 97% |
 | 2026 | 187 | 232 | 81% |
 
-*trend over deposit year: falling, z = -3.37, two-sided p = 0.00074 across 38 years and 4291 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -3.38, two-sided p = 0.00072 across 38 years and 4291 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 6 lineages: mu = 89.2%, phi = 3.4 (intraclass correlation 0.227); worst lineage after shrinkage Orthohantavirus luxiense (3052484) at 48.7% (22.6%-75.1%, raw 33.3% on 9); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 83 excluded (GenBank patent division; drift.exclude_patent_records).
 
@@ -2924,6 +2939,8 @@ Designed 2001, doi:10.1016/S0166-0934(01)00306-8
 | 2026 | 3338 | 3368 | 99% |
 
 *trend over deposit year: rising, z = +8.88, two-sided p = 6.5e-19 across 39 years and 8730 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 2 lineages: mu = 99.5%, phi = 4.8 (intraclass correlation 0.171); worst lineage after shrinkage Alphavirus mayaro (3426306) at 16.2% (5.5%-31.1%, raw 0.0% on 25); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 339 excluded (GenBank patent division; drift.exclude_patent_records).
 
@@ -3164,6 +3181,8 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 
 *trend over deposit year: falling, z = -1.22, two-sided p = 0.223 across 37 years and 2365 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 1 lineages: mu = 0.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
 **Per species** (product size names the species here, 829-1137 bp, so the share above pools readouts that mean different things; Oct 2024 on, no assessability floor):
 
 | species | product bp | detected | evaluable | share |
@@ -3206,65 +3225,6 @@ Counted as failures, NOT excluded: 299 diverged. `drift.count_diverged_as_fail` 
 
 Of the `no_site` records, 44 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 8448 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-### `RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009`
-
-RETROVIRUS (RNA) — polymerase (SIV)  
-Designed 2009, doi:10.1128/JVI.02311-08  
-**Degeneracy:** 144-fold degenerate (144-fold primers x 1-fold probe); each member is ~6.9e-03 of the reaction, ~7 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 1990 | 0 | 1 | 0% |
-| 1991 | 0 | 2 | 0% |
-| 1992 | 0 | 2 | 0% |
-| 1993 | 0 | 12 | 0% |
-| 1994 | 0 | 1 | 0% |
-| 1995 | 0 | 1 | 0% |
-| 1996 | 1 | 2 | 50% |
-| 1997 | 0 | 2 | 0% |
-| 1998 | 0 | 3 | 0% |
-| 1999 | 2 | 3 | 67% |
-| 2001 | 0 | 8 | 0% |
-| 2002 | 1 | 7 | 14% |
-| 2003 | 1 | 10 | 10% |
-| 2004 | 0 | 28 | 0% |
-| 2005 | 0 | 14 | 0% |
-| 2006 | 3 | 20 | 15% |
-| 2007 | 0 | 8 | 0% |
-| 2008 | 2 | 9 | 22% |
-| 2009 | 5 | 1244 | 0.4% |
-| 2010 | 0 | 863 | 0% |
-| 2011 | 3 | 7 | 43% |
-| 2012 | 2 | 11 | 18% |
-| 2013 | 1 | 39 | 3% |
-| 2014 | 0 | 7 | 0% |
-| 2015 | 9 | 10 | 90% |
-| 2016 | 0 | 87 | 0% |
-| 2017 | 126 | 173 | 73% |
-| 2018 | 0 | 1 | 0% |
-| 2019 | 0 | 384 | 0% |
-| 2020 | 0 | 155 | 0% |
-| 2021 | 1 | 99 | 1% |
-| 2022 | 1 | 3 | 33% |
-| 2023 | 0 | 3 | 0% |
-| 2024 | 0 | 1854 | 0% |
-| 2025 | 0 | 206 | 0% |
-| 2026 | 0 | 20 | 0% |
-
-*trend over deposit year: falling, z = -1.86, two-sided p = 0.0623 across 36 years and 5299 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Duplication check:** 226 recent records share 3 distinct footprints (75.3 per footprint). This flag does not hold up: only 3 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
-
-**Denominator:** 5299 of 8252 screened records are evaluable (64.2%); 2953 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 1 indeterminate, 2952 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1454 truncated, 1423 no_site, 74 chance_anchor, 1 no_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
-
-Counted as failures, NOT excluded: 269 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
-
-Of the `no_site` records, 6 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 1417 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
 ### `ORTHOBUNYAVIRUS_ssRNA_M_segment_internal_Briese_2007`
 
 ORTHOBUNYAVIRUS (ssRNA) — M segment internal, BUN-M-IXf/XIIr (Briese 2007)  
@@ -3297,18 +3257,20 @@ Designed 2007, doi:10.1007/s00705-007-1069-z
 | 2014 | 5 | 21 | 24% |
 | 2015 | 8 | 23 | 35% |
 | 2016 | 16 | 42 | 38% |
-| 2017 | 5 | 30 | 17% |
-| 2018 | 3 | 10 | 30% |
+| 2017 | 13 | 30 | 43% |
+| 2018 | 5 | 10 | 50% |
 | 2019 | 1 | 27 | 4% |
 | 2020 | 2 | 3 | 67% |
 | 2021 | 8 | 10 | 80% |
-| 2022 | 6 | 12 | 50% |
-| 2023 | 2 | 20 | 10% |
+| 2022 | 7 | 12 | 58% |
+| 2023 | 3 | 20 | 15% |
 | 2024 | 0 | 19 | 0% |
 | 2025 | 0 | 104 | 0% |
 | 2026 | 1 | 187 | 0.5% |
 
-*trend over deposit year: falling, z = -11.29, two-sided p = 1.41e-29 across 28 years and 558 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -11.20, two-sided p = 3.87e-29 across 28 years and 558 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 0.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Duplication check:** 296 recent records share 11 distinct footprints (26.9 per footprint), of which 7 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 11 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
 
@@ -3321,6 +3283,75 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 27 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 887 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 409 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
+### `ORTHOPOXVIRUS_dsDNA_F3L_region_nonMPXV_TaqMan_Huo_2022`
+
+ORTHOPOXVIRUS (dsDNA) — Panel 1 other-orthopoxvirus probe (Huo 2022)  
+Designed 2022, doi:10.1016/j.bsheal.2022.10.005  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 1984 | 0 | 0 | - |
+| 1985 | 0 | 0 | - |
+| 1986 | 0 | 0 | - |
+| 1987 | 0 | 0 | - |
+| 1988 | 0 | 0 | - |
+| 1989 | 0 | 0 | - |
+| 1990 | 0 | 0 | - |
+| 1991 | 2 | 2 | 100% |
+| 1992 | 0 | 0 | - |
+| 1993 | 4 | 4 | 100% |
+| 1994 | 1 | 1 | 100% |
+| 1995 | 0 | 0 | - |
+| 1996 | 0 | 0 | - |
+| 1997 | 1 | 1 | 100% |
+| 1998 | 1 | 1 | 100% |
+| 1999 | 3 | 3 | 100% |
+| 2000 | 1 | 1 | 100% |
+| 2001 | 2 | 4 | 50% |
+| 2002 | 6 | 6 | 100% |
+| 2003 | 2 | 2 | 100% |
+| 2004 | 3 | 4 | 75% |
+| 2005 | 5 | 12 | 42% |
+| 2006 | 68 | 68 | 100% |
+| 2007 | 4 | 4 | 100% |
+| 2008 | 5 | 5 | 100% |
+| 2009 | 13 | 13 | 100% |
+| 2010 | 4 | 11 | 36% |
+| 2011 | 11 | 13 | 85% |
+| 2012 | 15 | 16 | 94% |
+| 2013 | 32 | 34 | 94% |
+| 2014 | 43 | 67 | 64% |
+| 2015 | 6 | 17 | 35% |
+| 2016 | 2 | 4 | 50% |
+| 2017 | 38 | 40 | 95% |
+| 2018 | 16 | 21 | 76% |
+| 2019 | 24 | 33 | 73% |
+| 2020 | 16 | 54 | 30% |
+| 2021 | 25 | 25 | 100% |
+| 2022 | 15 | 3461 | 0.4% |
+| 2023 | 15 | 3147 | 0.5% |
+| 2024 | 36 | 2135 | 2% |
+| 2025 | 6 | 2215 | 0.3% |
+| 2026 | 23 | 2737 | 0.8% |
+
+*trend over deposit year: falling, z = -70.88, two-sided p = 0 across 33 years and 14161 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 0.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
+**Patent records:** 570 excluded (GenBank patent division; drift.exclude_patent_records).
+
+**Duplication check:** 5163 recent records share 20 distinct footprints (258.1 per footprint), of which 435 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 20 independent observations (one per footprint) the interval around the 0.6% detected share is 0%-17%, and counting each footprint once, 3 of 20 footprints amplify (15%; interval 5%-36%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
+
+**Denominator:** 14161 of 17738 screened records are evaluable (79.8%); 3577 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 12 indeterminate, 3565 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 3561 no_site, 3 chance_anchor, 1 no_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Counted as failures, NOT excluded: 501 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+
+Of the `no_site` records, 4 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 3557 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2`
 
@@ -3367,7 +3398,7 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 | 2016 | 11 | 83 | 13% |
 | 2017 | 10 | 81 | 12% |
 | 2018 | 52 | 328 | 16% |
-| 2019 | 192 | 544 | 35% |
+| 2019 | 194 | 544 | 36% |
 | 2020 | 33 | 68 | 49% |
 | 2021 | 9 | 123 | 7% |
 | 2022 | 9 | 191 | 5% |
@@ -3376,7 +3407,9 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 | 2025 | 3 | 436 | 0.7% |
 | 2026 | 14 | 433 | 3% |
 
-*trend over deposit year: rising, z = +10.59, two-sided p = 3.37e-26 across 41 years and 6602 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +10.63, two-sided p = 2.2e-26 across 41 years and 6602 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 0.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Out of scope:** 7 records excluded (taxid not in scope_taxids).
 
@@ -3449,7 +3482,7 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 | 2016 | 11 | 83 | 13% |
 | 2017 | 10 | 81 | 12% |
 | 2018 | 52 | 328 | 16% |
-| 2019 | 192 | 544 | 35% |
+| 2019 | 194 | 544 | 36% |
 | 2020 | 33 | 68 | 49% |
 | 2021 | 9 | 123 | 7% |
 | 2022 | 9 | 191 | 5% |
@@ -3458,7 +3491,9 @@ Designed 2005, doi:10.1128/JVI.79.6.3883-3887.2005
 | 2025 | 3 | 436 | 0.7% |
 | 2026 | 14 | 433 | 3% |
 
-*trend over deposit year: rising, z = +10.59, two-sided p = 3.37e-26 across 41 years and 6602 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +10.63, two-sided p = 2.2e-26 across 41 years and 6602 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 0.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Out of scope:** 7 records excluded (taxid not in scope_taxids).
 
@@ -3539,6 +3574,8 @@ Designed 2006, doi:10.1007/s00705-005-0679-6
 
 *trend over deposit year: falling, z = -9.73, two-sided p = 2.2e-22 across 33 years and 14488 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 2 lineages: mu = 3.8%, phi = 0.0 (intraclass correlation 0.995); worst lineage after shrinkage Orthopoxvirus monkeypox (3431483) at 0.0% (0.0%-0.0%, raw 0.0% on 4869); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
 **Patent records:** 735 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 5142 recent records share 17 distinct footprints (302.5 per footprint), of which 2 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 17 independent observations (one per footprint) the interval around the 4% detected share is 0.5%-25%, and counting each footprint once, 4 of 17 footprints amplify (24%; interval 10%-47%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
@@ -3588,73 +3625,59 @@ Counted as failures, NOT excluded: 4 diverged. `drift.count_diverged_as_fail` is
 
 Of the `no_site` records, 8 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 143 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
-### `ORTHOBUNYAVIRUS_ssRNA_M_segment`
+### `MONKEYPOX_dsDNA_B1_SNP_nonB1_MGB_Huo_2022`
 
-ORTHOBUNYAVIRUS (ssRNA) — M segment (PREDICT P-023)  
-Designed 2007, doi:10.1007/s00705-007-1069-z  
-**Degeneracy:** 192-fold degenerate (192-fold primers x 1-fold probe); each member is ~5.2e-03 of the reaction, ~8 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
+MONKEYPOX virus (dsDNA) — Panel 2 non-B.1 clades MGB probe (Huo 2022)  
+Designed 2022, doi:10.1016/j.bsheal.2022.10.005  
 
 | deposit year | detected | evaluable | share |
 |---|---|---|---|
-| 1989 | 1 | 1 | 100% |
-| 1993 | 1 | 2 | 50% |
-| 1995 | 2 | 2 | 100% |
-| 1996 | 0 | 7 | 0% |
+| 1993 | 0 | 0 | - |
+| 1996 | 0 | 0 | - |
 | 1997 | 0 | 0 | - |
-| 1998 | 4 | 4 | 100% |
-| 1999 | 1 | 1 | 100% |
-| 2000 | 7 | 7 | 100% |
-| 2001 | 4 | 5 | 80% |
-| 2002 | 2 | 3 | 67% |
-| 2003 | 4 | 6 | 67% |
-| 2004 | 0 | 5 | 0% |
-| 2005 | 0 | 0 | - |
-| 2006 | 0 | 0 | - |
-| 2007 | 0 | 5 | 0% |
+| 1998 | 0 | 0 | - |
+| 1999 | 0 | 0 | - |
+| 2000 | 0 | 0 | - |
+| 2001 | 0 | 2 | 0% |
+| 2002 | 0 | 0 | - |
+| 2003 | 0 | 0 | - |
+| 2004 | 1 | 2 | 50% |
+| 2005 | 5 | 7 | 71% |
+| 2007 | 0 | 0 | - |
 | 2008 | 0 | 0 | - |
-| 2009 | 2 | 6 | 33% |
-| 2010 | 0 | 4 | 0% |
-| 2011 | 0 | 0 | - |
-| 2012 | 0 | 2 | 0% |
-| 2013 | 1 | 5 | 20% |
-| 2014 | 4 | 29 | 14% |
-| 2015 | 2 | 20 | 10% |
-| 2016 | 4 | 21 | 19% |
-| 2017 | 12 | 29 | 41% |
-| 2018 | 3 | 13 | 23% |
-| 2019 | 1 | 10 | 10% |
-| 2020 | 1 | 7 | 14% |
-| 2021 | 3 | 11 | 27% |
-| 2022 | 0 | 4 | 0% |
-| 2023 | 0 | 6 | 0% |
-| 2024 | 0 | 9 | 0% |
-| 2025 | 0 | 2 | 0% |
-| 2026 | 1 | 1 | 100% |
+| 2009 | 0 | 0 | - |
+| 2010 | 0 | 5 | 0% |
+| 2011 | 0 | 2 | 0% |
+| 2012 | 0 | 0 | - |
+| 2013 | 0 | 1 | 0% |
+| 2014 | 1 | 24 | 4% |
+| 2015 | 5 | 11 | 45% |
+| 2018 | 1 | 1 | 100% |
+| 2019 | 8 | 8 | 100% |
+| 2020 | 27 | 37 | 73% |
+| 2022 | 69 | 3332 | 2% |
+| 2023 | 8 | 3101 | 0.3% |
+| 2024 | 128 | 2046 | 6% |
+| 2025 | 406 | 1892 | 21% |
+| 2026 | 29 | 2302 | 1% |
 
-*trend over deposit year: falling, z = -4.94, two-sided p = 8e-07 across 29 years and 227 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +5.04, two-sided p = 4.62e-07 across 16 years and 12773 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Per species** (product size names the species here, 201-1090 bp, so the share above pools readouts that mean different things; Oct 2022 on, no assessability floor):
+*hierarchical fit over 1 lineages: mu = 10.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
-| species | product bp | detected | evaluable | share |
-|---|---|---|---|---|
-| Orthobunyavirus oropoucheense (3052429) | - | 0 | 10 | 0% |
-| Orthobunyavirus bunyamweraense (3052381) | - | 0 | 2 | 0% |
-| Orthobunyavirus kowanyamaense (3060477) | - | 0 | 2 | 0% |
-| Orthobunyavirus manzanillaense (3052416) | - | 0 | 2 | 0% |
-| Orthobunyavirus cacheense (3052385) | - | 1 | 1 | 100% |
-| Orthobunyavirus lacrosseense (3052409) | - | 0 | 1 | 0% |
-| Orthobunyavirus schmallenbergense (3052437) | - | 0 | 1 | 0% |
-| Orthobunyavirus trinitiense (3052451) | - | 0 | 1 | 0% |
+**Patent records:** 5 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 20 recent records share 14 distinct footprints (1.4 per footprint). This flag does not hold up: only 14 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
+**Duplication check:** 4405 recent records share 14 distinct footprints (314.6 per footprint), of which 42 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: only 14 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
 
-**Denominator:** 227 of 2083 screened records are evaluable (10.9%); 1856 are not. Every share above is taken over the evaluable ones.
+**Denominator:** 12773 of 13752 screened records are evaluable (92.9%); 979 are not. Every share above is taken over the evaluable ones.
 
-Excluded: 1856 no_amplicon
+Excluded: 16 indeterminate, 963 no_amplicon
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1428 chance_only, 408 no_site, 20 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 959 no_site, 3 chance_anchor, 1 no_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
 
-Of the `no_site` records, 408 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 0 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+Counted as failures, NOT excluded: 72 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+
+Of the `no_site` records, 410 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 549 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `ORTHOBUNYAVIRUS_ssRNA_L_segment_Briese_2007`
 
@@ -3834,44 +3857,46 @@ Designed 2006, doi:10.1354/vp.43-3-311
 | 1989 | 0 | 1 | 0% |
 | 1991 | 0 | 0 | - |
 | 1992 | 4 | 8 | 50% |
-| 1993 | 7 | 16 | 44% |
-| 1994 | 7 | 15 | 47% |
+| 1993 | 9 | 16 | 56% |
+| 1994 | 8 | 15 | 53% |
 | 1995 | 3 | 4 | 75% |
 | 1996 | 3 | 6 | 50% |
 | 1997 | 17 | 35 | 49% |
-| 1998 | 22 | 35 | 63% |
-| 1999 | 23 | 64 | 36% |
-| 2000 | 2 | 16 | 12% |
-| 2001 | 44 | 67 | 66% |
-| 2002 | 13 | 32 | 41% |
-| 2003 | 9 | 64 | 14% |
-| 2004 | 25 | 113 | 22% |
-| 2005 | 66 | 185 | 36% |
-| 2006 | 31 | 78 | 40% |
-| 2007 | 72 | 321 | 22% |
-| 2008 | 121 | 399 | 30% |
-| 2009 | 41 | 139 | 29% |
-| 2010 | 85 | 303 | 28% |
+| 1998 | 29 | 35 | 83% |
+| 1999 | 45 | 64 | 70% |
+| 2000 | 4 | 16 | 25% |
+| 2001 | 45 | 67 | 67% |
+| 2002 | 15 | 32 | 47% |
+| 2003 | 24 | 64 | 38% |
+| 2004 | 26 | 113 | 23% |
+| 2005 | 74 | 185 | 40% |
+| 2006 | 32 | 78 | 41% |
+| 2007 | 76 | 321 | 24% |
+| 2008 | 122 | 399 | 31% |
+| 2009 | 42 | 139 | 30% |
+| 2010 | 110 | 303 | 36% |
 | 2011 | 147 | 268 | 55% |
-| 2012 | 134 | 317 | 42% |
+| 2012 | 144 | 317 | 45% |
 | 2013 | 279 | 498 | 56% |
 | 2014 | 201 | 495 | 41% |
-| 2015 | 226 | 367 | 62% |
+| 2015 | 239 | 367 | 65% |
 | 2016 | 288 | 631 | 46% |
-| 2017 | 381 | 698 | 55% |
+| 2017 | 382 | 698 | 55% |
 | 2018 | 326 | 708 | 46% |
 | 2019 | 207 | 819 | 25% |
-| 2020 | 260 | 697 | 37% |
+| 2020 | 263 | 697 | 38% |
 | 2021 | 152 | 758 | 20% |
 | 2022 | 105 | 428 | 25% |
-| 2023 | 141 | 803 | 18% |
-| 2024 | 234 | 975 | 24% |
-| 2025 | 199 | 930 | 21% |
-| 2026 | 167 | 546 | 31% |
+| 2023 | 144 | 803 | 18% |
+| 2024 | 240 | 975 | 25% |
+| 2025 | 203 | 930 | 22% |
+| 2026 | 172 | 546 | 32% |
 
-*trend over deposit year: falling, z = -12.85, two-sided p = 9.16e-38 across 36 years and 11839 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -16.36, two-sided p = 3.83e-60 across 36 years and 11839 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
-**Duplication check:** 1653 recent records share 133 distinct footprints (12.4 per footprint), of which 1212 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 133 independent observations (one per footprint) the interval around the 24% detected share is 17%-32%, and counting each footprint once, 17 of 133 footprints amplify (13%; interval 8%-20%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
+*hierarchical fit over 2 lineages: mu = 100.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
+**Duplication check:** 1653 recent records share 133 distinct footprints (12.4 per footprint), of which 1212 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 133 independent observations (one per footprint) the interval around the 24% detected share is 18%-32%, and counting each footprint once, 19 of 133 footprints amplify (14%; interval 9%-21%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
 
 **Denominator:** 11839 of 56412 screened records are evaluable (21.0%); 44573 are not. Every share above is taken over the evaluable ones.
 
@@ -3882,93 +3907,6 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 7366 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 1443 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 29424 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
-### `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1`
-
-ORTHOREOVIRUS (dsRNA) — RNA polymerase  
-Designed 2010, doi:10.1177/104063871002200106  
-**Degeneracy:** 331776-fold degenerate (331776-fold primers x 1-fold probe); ~18 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 1985 | 0 | 0 | - |
-| 1987 | 0 | 0 | - |
-| 1988 | 0 | 0 | - |
-| 1989 | 0 | 0 | - |
-| 1991 | 0 | 0 | - |
-| 1992 | 0 | 0 | - |
-| 1993 | 1 | 1 | 100% |
-| 1994 | 2 | 2 | 100% |
-| 1995 | 0 | 0 | - |
-| 1997 | 0 | 0 | - |
-| 1998 | 0 | 0 | - |
-| 1999 | 0 | 0 | - |
-| 2000 | 0 | 0 | - |
-| 2001 | 1 | 1 | 100% |
-| 2002 | 0 | 0 | - |
-| 2003 | 0 | 0 | - |
-| 2004 | 0 | 0 | - |
-| 2005 | 0 | 0 | - |
-| 2006 | 2 | 2 | 100% |
-| 2007 | 1 | 1 | 100% |
-| 2008 | 0 | 0 | - |
-| 2009 | 3 | 6 | 50% |
-| 2010 | 5 | 7 | 71% |
-| 2011 | 4 | 8 | 50% |
-| 2012 | 10 | 12 | 83% |
-| 2013 | 4 | 15 | 27% |
-| 2014 | 15 | 33 | 45% |
-| 2015 | 18 | 32 | 56% |
-| 2016 | 9 | 24 | 38% |
-| 2017 | 10 | 18 | 56% |
-| 2018 | 11 | 33 | 33% |
-| 2019 | 12 | 31 | 39% |
-| 2020 | 28 | 152 | 18% |
-| 2021 | 18 | 35 | 51% |
-| 2022 | 32 | 46 | 70% |
-| 2023 | 49 | 74 | 66% |
-| 2024 | 81 | 99 | 82% |
-| 2025 | 70 | 319 | 22% |
-| 2026 | 13 | 34 | 38% |
-
-*trend over deposit year: falling, z = -3.38, two-sided p = 0.00073 across 23 years and 985 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Patent records:** 52 excluded (GenBank patent division; drift.exclude_patent_records).
-
-**Duplication check:** 358 recent records share 33 distinct footprints (10.8 per footprint). Both reductions leave the flag in place: with only 33 independent observations (one per footprint) the interval around the 24% detected share is 13%-41%, and counting each footprint once, 17 of 33 footprints amplify (52%; interval 35%-67%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
-
-**Denominator:** 985 of 14479 screened records are evaluable (6.8%); 13494 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 13494 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 13170 no_site, 265 chance_anchor, 59 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
-
-Of the `no_site` records, 7610 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 5560 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
-### `DWVA_polyprotein_Rossi_2024`
-
-DEFORMED WING VIRUS A — polyprotein gene RT-qPCR, MGB probe (Rossi 2024)  
-Designed 2024, doi:10.3390/microorganisms12061105  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 2022 | 3 | 6 | 50% |
-| 2023 | 27 | 32 | 84% |
-| 2024 | 2 | 2 | 100% |
-| 2025 | 4 | 21 | 19% |
-| 2026 | 3 | 7 | 43% |
-
-*trend over deposit year: falling, z = -3.54, two-sided p = 0.0004 across 5 years and 68 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Duplication check:** 28 recent records share 13 distinct footprints (2.2 per footprint). This flag does not hold up: only 13 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
-
-**Denominator:** 68 of 223 screened records are evaluable (30.5%); 155 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 155 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 140 no_site, 15 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match.
-
-Of the `no_site` records, 2 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 138 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `ORTHOBUNYAVIRUS_ssRNA_S_segment`
 
@@ -3986,7 +3924,7 @@ Designed 2007, doi:10.1007/s00705-007-1069-z
 | 1999 | 0 | 0 | - |
 | 2000 | 0 | 0 | - |
 | 2001 | 0 | 0 | - |
-| 2002 | 2 | 9 | 22% |
+| 2002 | 3 | 9 | 33% |
 | 2003 | 0 | 1 | 0% |
 | 2004 | 2 | 3 | 67% |
 | 2005 | 0 | 0 | - |
@@ -3997,7 +3935,7 @@ Designed 2007, doi:10.1007/s00705-007-1069-z
 | 2010 | 1 | 2 | 50% |
 | 2011 | 4 | 4 | 100% |
 | 2012 | 2 | 5 | 40% |
-| 2013 | 1 | 8 | 12% |
+| 2013 | 2 | 8 | 25% |
 | 2014 | 6 | 14 | 43% |
 | 2015 | 1 | 10 | 10% |
 | 2016 | 10 | 20 | 50% |
@@ -4012,7 +3950,7 @@ Designed 2007, doi:10.1007/s00705-007-1069-z
 | 2025 | 0 | 4 | 0% |
 | 2026 | 0 | 0 | - |
 
-*trend over deposit year: falling, z = -2.49, two-sided p = 0.0126 across 26 years and 181 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -2.70, two-sided p = 0.007 across 26 years and 181 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
 **Per species** (product size names the species here, 283-1120 bp, so the share above pools readouts that mean different things; Oct 2022 on, no assessability floor):
 
@@ -4069,7 +4007,7 @@ Designed 2000, doi:10.1007/s007050070002
 | 2015 | 142 | 366 | 39% |
 | 2016 | 238 | 401 | 59% |
 | 2017 | 312 | 631 | 49% |
-| 2018 | 164 | 396 | 41% |
+| 2018 | 165 | 396 | 42% |
 | 2019 | 225 | 520 | 43% |
 | 2020 | 57 | 269 | 21% |
 | 2021 | 174 | 770 | 23% |
@@ -4080,6 +4018,8 @@ Designed 2000, doi:10.1007/s007050070002
 | 2026 | 81 | 329 | 25% |
 
 *trend over deposit year: falling, z = -4.58, two-sided p = 4.73e-06 across 31 years and 9405 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 3 lineages: mu = 50.9%, phi = 2.4 (intraclass correlation 0.293); worst lineage after shrinkage Circovirus pigeon (3050342) at 1.7% (0.1%-5.7%, raw 0.0% on 69); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 222 excluded (GenBank patent division; drift.exclude_patent_records).
 
@@ -4193,11 +4133,13 @@ Designed 2008, doi:10.1128/jvi.00857-08
 | 2021 | 92 | 199 | 46% |
 | 2022 | 152 | 320 | 48% |
 | 2023 | 237 | 458 | 52% |
-| 2024 | 114 | 221 | 52% |
+| 2024 | 115 | 221 | 52% |
 | 2025 | 119 | 466 | 26% |
 | 2026 | 88 | 190 | 46% |
 
-*trend over deposit year: falling, z = -4.67, two-sided p = 3.07e-06 across 29 years and 2925 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -4.64, two-sided p = 3.49e-06 across 29 years and 2925 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 7 lineages: mu = 29.1%, phi = 0.9 (intraclass correlation 0.530); worst lineage after shrinkage Avastrovirus intestini (3426506) at 1.7% (0.0%-11.5%, raw 0.0% on 14); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Per species** (product size names the species here, 337-477 bp, so the share above pools readouts that mean different things; Oct 2024 on, no assessability floor):
 
@@ -4282,6 +4224,99 @@ Counted as failures, NOT excluded: 20 diverged. `drift.count_diverged_as_fail` i
 
 Of the `no_site` records, 4054 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 7902 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
+### `ORTHOBUNYAVIRUS_ssRNA_M_segment`
+
+ORTHOBUNYAVIRUS (ssRNA) — M segment (PREDICT P-023)  
+Designed 2007, doi:10.1007/s00705-007-1069-z  
+**Degeneracy:** 192-fold degenerate (192-fold primers x 1-fold probe); each member is ~5.2e-03 of the reaction, ~8 cycles of Cq delay at best, and bench sensitivity is well below in-silico coverage  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 1989 | 1 | 1 | 100% |
+| 1993 | 1 | 2 | 50% |
+| 1995 | 2 | 2 | 100% |
+| 1996 | 0 | 7 | 0% |
+| 1997 | 0 | 0 | - |
+| 1998 | 4 | 4 | 100% |
+| 1999 | 1 | 1 | 100% |
+| 2000 | 7 | 7 | 100% |
+| 2001 | 4 | 5 | 80% |
+| 2002 | 2 | 3 | 67% |
+| 2003 | 4 | 6 | 67% |
+| 2004 | 1 | 5 | 20% |
+| 2005 | 0 | 0 | - |
+| 2006 | 0 | 0 | - |
+| 2007 | 0 | 5 | 0% |
+| 2008 | 0 | 0 | - |
+| 2009 | 2 | 6 | 33% |
+| 2010 | 2 | 4 | 50% |
+| 2011 | 0 | 0 | - |
+| 2012 | 0 | 2 | 0% |
+| 2013 | 1 | 5 | 20% |
+| 2014 | 5 | 29 | 17% |
+| 2015 | 2 | 20 | 10% |
+| 2016 | 5 | 21 | 24% |
+| 2017 | 12 | 29 | 41% |
+| 2018 | 3 | 13 | 23% |
+| 2019 | 1 | 10 | 10% |
+| 2020 | 1 | 7 | 14% |
+| 2021 | 3 | 11 | 27% |
+| 2022 | 2 | 4 | 50% |
+| 2023 | 1 | 6 | 17% |
+| 2024 | 3 | 9 | 33% |
+| 2025 | 0 | 2 | 0% |
+| 2026 | 1 | 1 | 100% |
+
+*trend over deposit year: falling, z = -3.85, two-sided p = 0.000116 across 29 years and 227 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+**Per species** (product size names the species here, 201-1090 bp, so the share above pools readouts that mean different things; Oct 2022 on, no assessability floor):
+
+| species | product bp | detected | evaluable | share |
+|---|---|---|---|---|
+| Orthobunyavirus oropoucheense (3052429) | - | 3 | 10 | 30% |
+| Orthobunyavirus bunyamweraense (3052381) | - | 2 | 2 | 100% |
+| Orthobunyavirus kowanyamaense (3060477) | - | 0 | 2 | 0% |
+| Orthobunyavirus manzanillaense (3052416) | - | 1 | 2 | 50% |
+| Orthobunyavirus cacheense (3052385) | - | 1 | 1 | 100% |
+| Orthobunyavirus lacrosseense (3052409) | - | 0 | 1 | 0% |
+| Orthobunyavirus schmallenbergense (3052437) | - | 0 | 1 | 0% |
+| Orthobunyavirus trinitiense (3052451) | - | 0 | 1 | 0% |
+
+**Duplication check:** 20 recent records share 14 distinct footprints (1.4 per footprint). This flag does not hold up: only 14 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
+
+**Denominator:** 227 of 2083 screened records are evaluable (10.9%); 1856 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 1856 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1428 chance_only, 408 no_site, 20 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Of the `no_site` records, 408 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 0 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
+### `DWVA_polyprotein_Rossi_2024`
+
+DEFORMED WING VIRUS A — polyprotein gene RT-qPCR, MGB probe (Rossi 2024)  
+Designed 2024, doi:10.3390/microorganisms12061105  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 2022 | 4 | 6 | 67% |
+| 2023 | 28 | 32 | 88% |
+| 2024 | 2 | 2 | 100% |
+| 2025 | 5 | 21 | 24% |
+| 2026 | 6 | 7 | 86% |
+
+*trend over deposit year: falling, z = -2.71, two-sided p = 0.00681 across 5 years and 68 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+**Duplication check:** 28 recent records share 13 distinct footprints (2.2 per footprint). This flag does not hold up: only 13 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
+
+**Denominator:** 68 of 223 screened records are evaluable (30.5%); 155 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 155 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 140 no_site, 15 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match.
+
+Of the `no_site` records, 2 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 138 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
 ### `CHLAMYDIA_genus_16S_Messmer_1997_round1`
 
 CHLAMYDIA (genus) — 16S rRNA nested multiplex PCR, first step (Messmer 1997)  
@@ -4293,13 +4328,13 @@ Designed 1997, doi:10.1128/jcm.35.8.2043-2046.1997
 | 1993 | 1 | 1 | 100% |
 | 1995 | 2 | 2 | 100% |
 | 1996 | 0 | 1 | 0% |
-| 1997 | 64 | 77 | 83% |
+| 1997 | 66 | 77 | 86% |
 | 1998 | 0 | 1 | 0% |
 | 1999 | 1 | 2 | 50% |
 | 2000 | 1 | 2 | 50% |
 | 2001 | 0 | 1 | 0% |
 | 2002 | 0 | 0 | - |
-| 2003 | 7 | 9 | 78% |
+| 2003 | 8 | 9 | 89% |
 | 2004 | 1 | 1 | 100% |
 | 2005 | 1 | 22 | 5% |
 | 2006 | 2 | 3 | 67% |
@@ -4307,7 +4342,7 @@ Designed 1997, doi:10.1128/jcm.35.8.2043-2046.1997
 | 2008 | 1 | 3 | 33% |
 | 2009 | 2 | 12 | 17% |
 | 2010 | 4 | 16 | 25% |
-| 2011 | 15 | 21 | 71% |
+| 2011 | 16 | 21 | 76% |
 | 2012 | 10 | 39 | 26% |
 | 2013 | 7 | 38 | 18% |
 | 2014 | 0 | 8 | 0% |
@@ -4321,10 +4356,12 @@ Designed 1997, doi:10.1128/jcm.35.8.2043-2046.1997
 | 2022 | 25 | 27 | 93% |
 | 2023 | 1 | 1 | 100% |
 | 2024 | 22 | 40 | 55% |
-| 2025 | 24 | 61 | 39% |
+| 2025 | 25 | 61 | 41% |
 | 2026 | 6 | 19 | 32% |
 
-*trend over deposit year: falling, z = -5.66, two-sided p = 1.47e-08 across 32 years and 814 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -6.05, two-sided p = 1.46e-09 across 32 years and 814 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 1 lineages: mu = 0.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Patent records:** 1 excluded (GenBank patent division; drift.exclude_patent_records).
 
@@ -4373,7 +4410,7 @@ Designed 2010, doi:10.1007/s00436-010-1945-4
 | 2014 | 34 | 35 | 97% |
 | 2015 | 3 | 35 | 9% |
 | 2016 | 9 | 15 | 60% |
-| 2017 | 0 | 7 | 0% |
+| 2017 | 3 | 7 | 43% |
 | 2018 | 22 | 31 | 71% |
 | 2019 | 0 | 21 | 0% |
 | 2020 | 5 | 5 | 100% |
@@ -4384,7 +4421,7 @@ Designed 2010, doi:10.1007/s00436-010-1945-4
 | 2025 | 0 | 6 | 0% |
 | 2026 | 0 | 0 | - |
 
-*trend over deposit year: rising, z = +2.30, two-sided p = 0.0214 across 16 years and 190 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +2.38, two-sided p = 0.0171 across 16 years and 190 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
 **Per species** (product size names the species here, 225-846 bp, so the share above pools readouts that mean different things; Oct 2022 on, no assessability floor):
 
@@ -4453,6 +4490,8 @@ Designed 2008, doi:10.1128/JCM.00192-08
 
 *trend over deposit year: rising, z = +40.54, two-sided p = 0 across 36 years and 8877 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 6 lineages: mu = 65.0%, phi = 0.2 (intraclass correlation 0.857); worst lineage after shrinkage Respirovirus pneumoniae (3049953) at 0.0% (0.0%-0.2%, raw 0.0% on 550); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
 **Out of scope:** 73 records excluded (taxid not in scope_taxids).
 
 **Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
@@ -4513,23 +4552,23 @@ Designed 2010, doi:10.1371/journal.pone.0010745
 | 2019 | 1 | 4 | 25% |
 | 2020 | 2 | 3 | 67% |
 | 2021 | 0 | 2 | 0% |
-| 2022 | 14 | 16 | 88% |
+| 2022 | 14 | 17 | 82% |
 | 2023 | 28 | 29 | 97% |
 | 2024 | 7 | 8 | 88% |
 | 2025 | 14 | 15 | 93% |
 | 2026 | 1 | 8 | 12% |
 
-*trend over deposit year: falling, z = -0.88, two-sided p = 0.377 across 21 years and 252 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -0.99, two-sided p = 0.322 across 21 years and 253 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
 **Patent records:** 7 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 24 recent records share 6 distinct footprints (4.0 per footprint). This flag does not hold up: only 6 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything.
 
-**Denominator:** 252 of 1727 screened records are evaluable (14.6%); 1475 are not. Every share above is taken over the evaluable ones.
+**Denominator:** 253 of 1727 screened records are evaluable (14.6%); 1474 are not. Every share above is taken over the evaluable ones.
 
-Excluded: 1475 no_amplicon
+Excluded: 1474 no_amplicon
 
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1389 no_site, 55 truncated, 30 chance_anchor, 1 chance_pair. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 1389 no_site, 55 truncated, 30 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
 
 Counted as failures, NOT excluded: 2 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
@@ -4571,13 +4610,15 @@ Designed 1999, doi:10.1128/aem.65.4.1578-1583.1999
 | 2019 | 61 | 78 | 78% |
 | 2020 | 22 | 79 | 28% |
 | 2021 | 18 | 43 | 42% |
-| 2022 | 45 | 58 | 78% |
-| 2023 | 140 | 345 | 41% |
+| 2022 | 46 | 58 | 79% |
+| 2023 | 144 | 345 | 42% |
 | 2024 | 104 | 139 | 75% |
 | 2025 | 99 | 114 | 87% |
 | 2026 | 59 | 101 | 58% |
 
-*trend over deposit year: falling, z = -6.68, two-sided p = 2.47e-11 across 32 years and 1662 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: falling, z = -6.51, two-sided p = 7.51e-11 across 32 years and 1662 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 2 lineages: mu = 100.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
 
 **Duplication check:** 225 recent records share 32 distinct footprints (7.0 per footprint), of which 56 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). Both reductions leave the flag in place: with only 32 independent observations (one per footprint) the interval around the 72% detected share is 54%-84%, and counting each footprint once, 8 of 32 footprints amplify (25%; interval 13%-42%); each is below the 90% threshold. So the flag does not rest on identical footprints deposited repeatedly.
 
@@ -4630,14 +4671,16 @@ Designed 2008, doi:10.1128/JCM.00192-08
 | 2018 | 110 | 519 | 21% |
 | 2019 | 96 | 467 | 21% |
 | 2020 | 289 | 688 | 42% |
-| 2021 | 232 | 709 | 33% |
+| 2021 | 233 | 709 | 33% |
 | 2022 | 364 | 694 | 52% |
 | 2023 | 318 | 542 | 59% |
 | 2024 | 396 | 1165 | 34% |
 | 2025 | 957 | 1780 | 54% |
 | 2026 | 2095 | 2424 | 86% |
 
-*trend over deposit year: rising, z = +26.11, two-sided p = 3.02e-150 across 37 years and 10783 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +26.10, two-sided p = 3.21e-150 across 37 years and 10783 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 9 lineages: mu = 74.7%, phi = 0.1 (intraclass correlation 0.945); worst lineage after shrinkage Respirovirus pneumoniae (3049953) at 0.0% (0.0%-0.1%, raw 0.0% on 548); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Out of scope:** 73 records excluded (taxid not in scope_taxids).
 
@@ -4659,64 +4702,6 @@ Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so t
 Counted as failures, NOT excluded: 223 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
 
 Of the `no_site` records, 86 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 3938 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
-
-### `Encephalitozoon_18S_General_Encephalitoz_Muller_1999`
-
-Encephalitozoon — 18S (General Encephalitozoon)  
-Designed 1999, doi:10.1128/CDLI.6.2.243-246.1999  
-
-| deposit year | detected | evaluable | share |
-|---|---|---|---|
-| 1993 | 6 | 6 | 100% |
-| 1994 | 1 | 1 | 100% |
-| 1995 | 3 | 3 | 100% |
-| 1996 | 3 | 3 | 100% |
-| 1997 | 0 | 0 | - |
-| 1998 | 2 | 2 | 100% |
-| 1999 | 5 | 5 | 100% |
-| 2000 | 1 | 1 | 100% |
-| 2001 | 4 | 4 | 100% |
-| 2002 | 0 | 0 | - |
-| 2003 | 0 | 0 | - |
-| 2004 | 0 | 0 | - |
-| 2005 | 0 | 0 | - |
-| 2006 | 0 | 6 | 0% |
-| 2007 | 0 | 0 | - |
-| 2008 | 2 | 2 | 100% |
-| 2009 | 0 | 0 | - |
-| 2010 | 6 | 8 | 75% |
-| 2011 | 0 | 0 | - |
-| 2012 | 8 | 12 | 67% |
-| 2013 | 2 | 2 | 100% |
-| 2014 | 0 | 0 | - |
-| 2015 | 0 | 0 | - |
-| 2016 | 1 | 1 | 100% |
-| 2017 | 0 | 0 | - |
-| 2018 | 0 | 0 | - |
-| 2019 | 0 | 0 | - |
-| 2020 | 0 | 0 | - |
-| 2021 | 3 | 3 | 100% |
-| 2022 | 14 | 26 | 54% |
-| 2023 | 22 | 22 | 100% |
-| 2024 | 0 | 0 | - |
-| 2025 | 0 | 3 | 0% |
-| 2026 | 0 | 6 | 0% |
-
-*trend over deposit year: falling, z = -2.73, two-sided p = 0.00626 across 19 years and 116 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
-
-**Patent records:** 4 excluded (GenBank patent division; drift.exclude_patent_records).
-
-**Duplication check:** 33 recent records share 4 distinct footprints (8.2 per footprint). This flag does not hold up: only 4 distinct footprint(s), fewer than the 15 independent observations the record-level rule needs before it will flag anything; with only 4 independent observations (one per footprint) the interval around the 73% detected share is 28%-95%, which no longer rules out the 90% threshold; counting each footprint once, 3 of 4 footprints amplify (75%; interval 30%-95%), which reaches the 90% threshold: the failing records are concentrated on few footprints. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
-
-**Denominator:** 116 of 9091 screened records are evaluable (1.3%); 8975 are not. Every share above is taken over the evaluable ones.
-
-Excluded: 8975 no_amplicon
-
-Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 8688 no_site, 208 chance_anchor, 79 truncated. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
-
-Counted as failures, NOT excluded: 11 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
-
-Of the `no_site` records, 248 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 8440 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
 ### `ASTROVIRUS_RdRp_Chu_2008_round2`
 
@@ -4763,6 +4748,8 @@ Designed 2008, doi:10.1128/jvi.00857-08
 | 2026 | 138 | 191 | 72% |
 
 *trend over deposit year: falling, z = -7.94, two-sided p = 2e-15 across 29 years and 3307 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 7 lineages: mu = 79.1%, phi = 1.0 (intraclass correlation 0.489); worst lineage after shrinkage Goose astrovirus (1349999) at 1.8% (0.0%-6.9%, raw 0.0% on 46); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Per species** (product size names the species here, 367-489 bp, so the share above pools readouts that mean different things; Oct 2024 on, no assessability floor):
 
@@ -4845,6 +4832,82 @@ Counted as failures, NOT excluded: 6 diverged. `drift.count_diverged_as_fail` is
 
 Of the `no_site` records, 4801 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 6964 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
 
+### `Pan_HERPES_dsDNA_Polymerase_round2`
+
+Pan-HERPES (dsDNA) — Polymerase  
+Designed 1996, doi:10.1128/jcm.34.7.1666-1671.1996  
+**Degeneracy:** 12288-fold degenerate (12288-fold primers x 1-fold probe); ~14 cycles of Cq delay at best if it amplifies at all. In-silico detection is close to a tautology here and says little about whether this assay works  
+
+| deposit year | detected | evaluable | share |
+|---|---|---|---|
+| 1986 | 1 | 1 | 100% |
+| 1987 | 3 | 3 | 100% |
+| 1988 | 2 | 2 | 100% |
+| 1989 | 0 | 0 | - |
+| 1990 | 2 | 2 | 100% |
+| 1991 | 1 | 2 | 50% |
+| 1992 | 2 | 2 | 100% |
+| 1993 | 2 | 3 | 67% |
+| 1994 | 1 | 1 | 100% |
+| 1995 | 2 | 4 | 50% |
+| 1996 | 0 | 1 | 0% |
+| 1997 | 7 | 11 | 64% |
+| 1998 | 1 | 6 | 17% |
+| 1999 | 2 | 15 | 13% |
+| 2000 | 4 | 15 | 27% |
+| 2001 | 11 | 20 | 55% |
+| 2002 | 7 | 9 | 78% |
+| 2003 | 10 | 12 | 83% |
+| 2004 | 22 | 41 | 54% |
+| 2005 | 18 | 28 | 64% |
+| 2006 | 12 | 17 | 71% |
+| 2007 | 7 | 17 | 41% |
+| 2008 | 9 | 16 | 56% |
+| 2009 | 6 | 17 | 35% |
+| 2010 | 73 | 76 | 96% |
+| 2011 | 74 | 92 | 80% |
+| 2012 | 134 | 159 | 84% |
+| 2013 | 54 | 67 | 81% |
+| 2014 | 75 | 104 | 72% |
+| 2015 | 195 | 235 | 83% |
+| 2016 | 263 | 279 | 94% |
+| 2017 | 182 | 216 | 84% |
+| 2018 | 273 | 303 | 90% |
+| 2019 | 596 | 611 | 98% |
+| 2020 | 66 | 69 | 96% |
+| 2021 | 82 | 105 | 78% |
+| 2022 | 162 | 231 | 70% |
+| 2023 | 239 | 273 | 88% |
+| 2024 | 322 | 359 | 90% |
+| 2025 | 133 | 165 | 81% |
+| 2026 | 100 | 118 | 85% |
+
+*trend over deposit year: rising, z = +9.09, two-sided p = 9.98e-20 across 40 years and 3707 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 3 lineages: mu = 100.0%, lineages no more spread than binomial sampling predicts, so no shrinkage was applied and each posterior is the lineage alone*
+
+**Out of scope:** 2 records excluded (taxid not in scope_taxids).
+
+**Predicted cross-reactivity** (the out-of-scope records above, worst first). A share here is what the assay is predicted to amplify OFF target; for a probe assay a detection implies the probe bound too, because primers with no probe site between them score `fail`. Like every number here it is a prediction from sequence: read a high share as a reason to check the paper's exclusivity panel, not as a finding that the assay cross-reacts.
+
+| off-target taxon | predicted detected | screened | share |
+|---|---|---|---|
+| Cervid gammaherpesvirus (3683214) | 0 | 1 | 0% |
+| synthetic construct (32630) | 0 | 1 | 0% |
+
+
+**Duplication check:** 357 recent records share 32 distinct footprints (11.2 per footprint), of which 3 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 32 independent observations (one per footprint) the interval around the 83% detected share is 66%-92%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
+
+**Denominator:** 3707 of 7711 screened records are evaluable (48.1%); 4004 are not. Every share above is taken over the evaluable ones.
+
+Excluded: 1 indeterminate, 4003 no_amplicon
+
+Why (the `no_amplicon` rows above; `indeterminate` records carry no reason, so these sum to the `no_amplicon` count and not to the whole excluded total): 2274 no_site, 1122 truncated, 343 no_pair, 264 chance_anchor. `truncated` means the deposit stops before the other primer's site, so it says nothing about the assay; `diverged` means that site is present and does not match. `chance_anchor` means the only site found did not survive the archive-scale test (drift.anchor_fdr), so the record is not evidence either way.
+
+Counted as failures, NOT excluded: 36 diverged. `drift.count_diverged_as_fail` is on, so a record whose primer site is present and does not match is in the denominator above as a failure. These are not part of the excluded counts and must not be added to them.
+
+Of the `no_site` records, 20 DID have a primer site within `scoring.max_mismatches_searched` and were dropped for failing the credibility bar (`scoring.max_site_evalue`), while 2254 had no site at all. The first group may be drift this assay is not being charged for; the second is most likely records that never held the target.
+
 ### `ADENOVIRUS_dsDNA_Polymerase_Primate_speci`
 
 ADENOVIRUS (dsDNA) — Polymerase (Primate-specific)  
@@ -4900,6 +4963,8 @@ Designed 2009, doi:10.1371/journal.ppat.1000503
 
 *trend over deposit year: rising, z = +1.01, two-sided p = 0.311 across 34 years and 4022 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
 
+*hierarchical fit over 4 lineages: mu = 88.2%, phi = 0.2 (intraclass correlation 0.869); worst lineage after shrinkage Mastadenovirus faecale (3241426) at 0.1% (0.0%-1.2%, raw 0.0% on 100); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
+
 **Patent records:** 1012 excluded (GenBank patent division; drift.exclude_patent_records).
 
 **Duplication check:** 1086 recent records share 53 distinct footprints (20.5 per footprint), of which 22 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 53 independent observations (one per footprint) the interval around the 85% detected share is 73%-92%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
@@ -4947,27 +5012,29 @@ Designed 2005, doi:10.1128/JCM.43.12.6176-6182.2005
 | 2005 | 99 | 107 | 93% |
 | 2006 | 20 | 22 | 91% |
 | 2007 | 26 | 34 | 76% |
-| 2008 | 113 | 115 | 98% |
+| 2008 | 114 | 115 | 99% |
 | 2009 | 100 | 103 | 97% |
-| 2010 | 61 | 93 | 66% |
-| 2011 | 67 | 80 | 84% |
+| 2010 | 73 | 93 | 78% |
+| 2011 | 69 | 80 | 86% |
 | 2012 | 89 | 90 | 99% |
 | 2013 | 165 | 168 | 98% |
-| 2014 | 79 | 90 | 88% |
-| 2015 | 146 | 165 | 88% |
+| 2014 | 80 | 90 | 89% |
+| 2015 | 148 | 165 | 90% |
 | 2016 | 59 | 93 | 63% |
 | 2017 | 151 | 180 | 84% |
 | 2018 | 107 | 141 | 76% |
 | 2019 | 156 | 189 | 83% |
 | 2020 | 559 | 574 | 97% |
 | 2021 | 498 | 516 | 97% |
-| 2022 | 341 | 415 | 82% |
-| 2023 | 577 | 618 | 93% |
-| 2024 | 339 | 399 | 85% |
-| 2025 | 383 | 483 | 79% |
-| 2026 | 788 | 860 | 92% |
+| 2022 | 342 | 415 | 82% |
+| 2023 | 583 | 618 | 94% |
+| 2024 | 342 | 399 | 86% |
+| 2025 | 384 | 483 | 80% |
+| 2026 | 789 | 860 | 92% |
 
-*trend over deposit year: rising, z = +1.77, two-sided p = 0.0767 across 38 years and 5694 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +1.04, two-sided p = 0.297 across 38 years and 5694 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 5 lineages: mu = 94.2%, phi = 0.4 (intraclass correlation 0.720); worst lineage after shrinkage Aviadenovirus hepatitidis (3426530) at 0.7% (0.0%-4.3%, raw 0.0% on 49); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 1043 excluded (GenBank patent division; drift.exclude_patent_records).
 
@@ -4997,7 +5064,7 @@ Designed 2009, doi:10.1371/journal.ppat.1000503
 | 1984 | 0 | 0 | - |
 | 1985 | 2 | 2 | 100% |
 | 1986 | 0 | 0 | - |
-| 1987 | 0 | 1 | 0% |
+| 1987 | 1 | 1 | 100% |
 | 1988 | 0 | 0 | - |
 | 1989 | 0 | 0 | - |
 | 1990 | 0 | 0 | - |
@@ -5013,36 +5080,38 @@ Designed 2009, doi:10.1371/journal.ppat.1000503
 | 2000 | 0 | 0 | - |
 | 2001 | 10 | 10 | 100% |
 | 2002 | 3 | 4 | 75% |
-| 2003 | 6 | 10 | 60% |
-| 2004 | 21 | 25 | 84% |
+| 2003 | 8 | 10 | 80% |
+| 2004 | 22 | 25 | 88% |
 | 2005 | 20 | 27 | 74% |
 | 2006 | 16 | 18 | 89% |
 | 2007 | 9 | 9 | 100% |
-| 2008 | 25 | 31 | 81% |
-| 2009 | 72 | 78 | 92% |
+| 2008 | 26 | 31 | 84% |
+| 2009 | 74 | 78 | 95% |
 | 2010 | 28 | 40 | 70% |
 | 2011 | 21 | 27 | 78% |
 | 2012 | 70 | 71 | 99% |
-| 2013 | 93 | 104 | 89% |
+| 2013 | 97 | 104 | 93% |
 | 2014 | 39 | 49 | 80% |
-| 2015 | 56 | 64 | 88% |
-| 2016 | 46 | 64 | 72% |
-| 2017 | 122 | 150 | 81% |
-| 2018 | 137 | 160 | 86% |
+| 2015 | 59 | 64 | 92% |
+| 2016 | 49 | 64 | 77% |
+| 2017 | 126 | 150 | 84% |
+| 2018 | 138 | 160 | 86% |
 | 2019 | 136 | 145 | 94% |
-| 2020 | 198 | 293 | 68% |
-| 2021 | 298 | 348 | 86% |
-| 2022 | 220 | 409 | 54% |
-| 2023 | 407 | 495 | 82% |
-| 2024 | 228 | 306 | 75% |
-| 2025 | 339 | 371 | 91% |
+| 2020 | 200 | 293 | 68% |
+| 2021 | 302 | 348 | 87% |
+| 2022 | 222 | 409 | 54% |
+| 2023 | 412 | 495 | 83% |
+| 2024 | 236 | 306 | 77% |
+| 2025 | 340 | 371 | 92% |
 | 2026 | 582 | 627 | 93% |
 
-*trend over deposit year: rising, z = +1.95, two-sided p = 0.0512 across 31 years and 3954 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +0.82, two-sided p = 0.411 across 31 years and 3954 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 4 lineages: mu = 93.6%, phi = 1.0 (intraclass correlation 0.494); worst lineage after shrinkage Mastadenovirus adami (3241402) at 19.1% (0.5%-58.9%, raw 0.0% on 4); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 1012 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 1079 recent records share 37 distinct footprints (29.2 per footprint), of which 23 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 37 independent observations (one per footprint) the interval around the 91% detected share is 77%-97%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
+**Duplication check:** 1079 recent records share 37 distinct footprints (29.2 per footprint), of which 23 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 37 independent observations (one per footprint) the interval around the 91% detected share is 78%-97%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
 
 **Denominator:** 3954 of 29202 screened records are evaluable (13.5%); 25248 are not. Every share above is taken over the evaluable ones.
 
@@ -5072,44 +5141,46 @@ Designed 1993, doi:10.1006/viro.1993.1217
 | 1992 | 3 | 3 | 100% |
 | 1993 | 7 | 8 | 88% |
 | 1994 | 2 | 2 | 100% |
-| 1995 | 6 | 7 | 86% |
+| 1995 | 7 | 7 | 100% |
 | 1996 | 2 | 2 | 100% |
 | 1997 | 1 | 1 | 100% |
 | 1998 | 6 | 6 | 100% |
-| 1999 | 3 | 4 | 75% |
+| 1999 | 4 | 4 | 100% |
 | 2000 | 13 | 13 | 100% |
 | 2001 | 3 | 4 | 75% |
 | 2002 | 16 | 16 | 100% |
-| 2003 | 7 | 9 | 78% |
+| 2003 | 9 | 9 | 100% |
 | 2004 | 3 | 6 | 50% |
-| 2005 | 8 | 9 | 89% |
+| 2005 | 9 | 9 | 100% |
 | 2006 | 5 | 5 | 100% |
 | 2007 | 23 | 25 | 92% |
 | 2008 | 47 | 48 | 98% |
 | 2009 | 13 | 14 | 93% |
-| 2010 | 79 | 113 | 70% |
-| 2011 | 114 | 121 | 94% |
-| 2012 | 16 | 21 | 76% |
+| 2010 | 111 | 113 | 98% |
+| 2011 | 119 | 121 | 98% |
+| 2012 | 18 | 21 | 86% |
 | 2013 | 9 | 10 | 90% |
-| 2014 | 112 | 127 | 88% |
-| 2015 | 73 | 84 | 87% |
-| 2016 | 31 | 46 | 67% |
-| 2017 | 19 | 57 | 33% |
-| 2018 | 66 | 87 | 76% |
+| 2014 | 113 | 127 | 89% |
+| 2015 | 74 | 84 | 88% |
+| 2016 | 37 | 46 | 80% |
+| 2017 | 25 | 57 | 44% |
+| 2018 | 81 | 87 | 93% |
 | 2019 | 67 | 73 | 92% |
-| 2020 | 203 | 278 | 73% |
+| 2020 | 270 | 278 | 97% |
 | 2021 | 200 | 232 | 86% |
-| 2022 | 211 | 318 | 66% |
-| 2023 | 172 | 195 | 88% |
+| 2022 | 281 | 318 | 88% |
+| 2023 | 192 | 195 | 98% |
 | 2024 | 161 | 198 | 81% |
-| 2025 | 718 | 774 | 93% |
-| 2026 | 1950 | 2016 | 97% |
+| 2025 | 721 | 774 | 93% |
+| 2026 | 1951 | 2016 | 97% |
 
-*trend over deposit year: rising, z = +8.98, two-sided p = 2.78e-19 across 38 years and 4938 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +2.98, two-sided p = 0.00285 across 38 years and 4938 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 3 lineages: mu = 96.9%, phi = 0.1 (intraclass correlation 0.929); worst lineage after shrinkage Morbillivirus caprinae (3052343) at 0.1% (0.0%-1.0%, raw 0.0% on 81); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 181 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 2820 recent records share 36 distinct footprints (78.3 per footprint), of which 19 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 36 independent observations (one per footprint) the interval around the 96% detected share is 84%-99%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
+**Duplication check:** 2820 recent records share 34 distinct footprints (82.9 per footprint), of which 19 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 34 independent observations (one per footprint) the interval around the 96% detected share is 83%-99%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
 
 **Denominator:** 4938 of 37338 screened records are evaluable (13.2%); 32400 are not. Every share above is taken over the evaluable ones.
 
@@ -5139,44 +5210,46 @@ Designed 1993, doi:10.1006/viro.1993.1217
 | 1992 | 3 | 3 | 100% |
 | 1993 | 7 | 8 | 88% |
 | 1994 | 2 | 2 | 100% |
-| 1995 | 6 | 7 | 86% |
+| 1995 | 7 | 7 | 100% |
 | 1996 | 2 | 2 | 100% |
 | 1997 | 1 | 1 | 100% |
 | 1998 | 6 | 6 | 100% |
-| 1999 | 3 | 4 | 75% |
+| 1999 | 4 | 4 | 100% |
 | 2000 | 13 | 13 | 100% |
 | 2001 | 3 | 4 | 75% |
 | 2002 | 16 | 16 | 100% |
-| 2003 | 7 | 9 | 78% |
+| 2003 | 9 | 9 | 100% |
 | 2004 | 3 | 6 | 50% |
-| 2005 | 8 | 9 | 89% |
+| 2005 | 9 | 9 | 100% |
 | 2006 | 5 | 5 | 100% |
 | 2007 | 23 | 25 | 92% |
 | 2008 | 47 | 48 | 98% |
 | 2009 | 13 | 14 | 93% |
-| 2010 | 79 | 113 | 70% |
-| 2011 | 114 | 121 | 94% |
-| 2012 | 16 | 21 | 76% |
+| 2010 | 111 | 113 | 98% |
+| 2011 | 119 | 121 | 98% |
+| 2012 | 18 | 21 | 86% |
 | 2013 | 9 | 10 | 90% |
-| 2014 | 112 | 127 | 88% |
-| 2015 | 73 | 84 | 87% |
-| 2016 | 31 | 46 | 67% |
-| 2017 | 19 | 57 | 33% |
-| 2018 | 66 | 87 | 76% |
+| 2014 | 113 | 127 | 89% |
+| 2015 | 74 | 84 | 88% |
+| 2016 | 37 | 46 | 80% |
+| 2017 | 25 | 57 | 44% |
+| 2018 | 81 | 87 | 93% |
 | 2019 | 67 | 73 | 92% |
-| 2020 | 203 | 278 | 73% |
+| 2020 | 270 | 278 | 97% |
 | 2021 | 200 | 232 | 86% |
-| 2022 | 211 | 318 | 66% |
-| 2023 | 172 | 195 | 88% |
+| 2022 | 281 | 318 | 88% |
+| 2023 | 192 | 195 | 98% |
 | 2024 | 161 | 198 | 81% |
-| 2025 | 718 | 774 | 93% |
-| 2026 | 1950 | 2016 | 97% |
+| 2025 | 721 | 774 | 93% |
+| 2026 | 1951 | 2016 | 97% |
 
-*trend over deposit year: rising, z = +8.98, two-sided p = 2.78e-19 across 38 years and 4938 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+*trend over deposit year: rising, z = +2.98, two-sided p = 0.00285 across 38 years and 4938 records (Cochran-Armitage; records are not independent, so read the direction and not the certainty)*
+
+*hierarchical fit over 3 lineages: mu = 96.9%, phi = 0.1 (intraclass correlation 0.929); worst lineage after shrinkage Morbillivirus caprinae (3052343) at 0.1% (0.0%-1.0%, raw 0.0% on 81); P(some lineage < 90%) = 1.000 treating lineages as independent given the fit. Reported beside the verdict; not a verdict input (C1 hierarchical, docs/bayesian-scoring-plan.md)*
 
 **Patent records:** 181 excluded (GenBank patent division; drift.exclude_patent_records).
 
-**Duplication check:** 2820 recent records share 36 distinct footprints (78.3 per footprint), of which 19 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 36 independent observations (one per footprint) the interval around the 96% detected share is 84%-99%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
+**Duplication check:** 2820 recent records share 34 distinct footprints (82.9 per footprint), of which 19 records are grouped only by taxon (promoted `diverged` rows, which were never scored and so have no mismatch pattern). This flag does not hold up: with only 34 independent observations (one per footprint) the interval around the 96% detected share is 83%-99%, which no longer rules out the 90% threshold. The failing records may well be real; what this says is that the SHARE failing may reflect how many near-identical records were deposited rather than how much of the population the assay misses.
 
 **Denominator:** 4938 of 37338 screened records are evaluable (13.2%); 32400 are not. Every share above is taken over the evaluable ones.
 
@@ -5207,34 +5280,32 @@ an upper bound.
 
 | protocol | round 1 | round 2 alone | run as a nest | records | inner inside outer | round 1 failures (diverged) |
 |---|---|---|---|---|---|---|
-| `RHABDOVIRUS_ssRNA_L_gene` | 19% | 63% | 18% | 6,926 | yes | 5,638 (248 diverged) |
-| `ASTROVIRUS_RdRp_Chu_2008` | 46% | 80% | 36% | 2,901 | yes | 1,576 (20 diverged) |
-| `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` (not scoreable) | 59% | 100% | 59% | 13,567 | yes | 5,574 (18 diverged) |
+| `ASTROVIRUS_RdRp_Chu_2008` | 46% | 80% | 36% | 2,901 | yes | 1,575 (20 diverged) |
+| `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene` (not scoreable) | 59% | 100% | 59% | 13,567 | yes | 5,572 (18 diverged) |
 | `PROBOSCIVIRUS_POL_Latimer_2010_panEEHV` | 62% | 97% | 59% | 32 | yes | 12 (0 diverged) |
+| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010` | 63% | 81% | 46% | 987 | yes | 365 (0 diverged) |
 | `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010` | 57% | 71% | 46% | 6,754 | yes | 2,911 (53 diverged) |
-| `ADENOVIRUS_dsDNA_Hexon_gene` | 79% | 92% | 79% | 5,863 | yes | 1,203 (37 diverged) |
+| `RHABDOVIRUS_ssRNA_L_gene` | 72% | 90% | 71% | 6,926 | yes | 1,907 (248 diverged) |
+| `ADENOVIRUS_dsDNA_Hexon_gene` | 82% | 92% | 81% | 5,863 | yes | 1,070 (37 diverged) |
 | `POLYOMAVIRUS_dsDNA_PREDICT_VP1` | 0.2% | 11% | 0% | 2,316 | yes | 2,311 (289 diverged) |
 | `Pan_HERPES_dsDNA_Terminase` | 90% | 90% | 81% | 2,586 | yes | 256 (20 diverged) |
 | `CMV_UL55_gB_Deckers_2009_Prepens_2007` | 92% | 98% | 92% | 732 | yes | 58 (2 diverged) |
-| `Cryptosporidium_18SrDNA_Xiao_1999` | 93% | 98% | 92% | 145 | yes | 10 (2 diverged) |
-| `Pan_flavivirus_NS5_3` | 42% | 32% | 28% | 33,881 | yes | 19,538 (441 diverged) |
-| `ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005` | 82% | 79% | 77% | 4,243 | yes | 750 (68 diverged) |
-| `CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000` | 70% | 36% | 33% | 7,506 | yes | 2,280 (1,166 diverged) |
-| `ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene` | 97% | 96% | 94% | 8,356 | yes | 234 (223 diverged) |
+| `Cryptosporidium_18SrDNA_Xiao_1999` | 95% | 98% | 94% | 145 | yes | 7 (2 diverged) |
+| `Pan_flavivirus_NS5_3` | 42% | 32% | 28% | 33,881 | yes | 19,537 (441 diverged) |
+| `CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000` | 70% | 36% | 34% | 7,506 | yes | 2,278 (1,166 diverged) |
+| `ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene` | 97% | 96% | 94% | 8,356 | yes | 224 (223 diverged) |
+| `ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005` | 84% | 79% | 77% | 4,243 | yes | 699 (68 diverged) |
 | `ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme` | 97% | 97% | 95% | 3,060 | yes | 102 (20 diverged) |
-| `ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010` | 41% | 34% | 32% | 987 | yes | 585 (0 diverged) |
 | `PHLEBOVIRUS_ssRNA_L_segment` | 97% | 96% | 94% | 269 | yes | 8 (1 diverged) |
-| `Pan_HERPES_dsDNA_Polymerase` (not scoreable) | 98% | 80% | 79% | 3,462 | yes | 69 (26 diverged) |
 | `CMV_UL55_gB_Deckers_2009_Deckers_2009` | 95% | 95% | 94% | 589 | yes | 28 (0 diverged) |
-| `ENTEROVIRUS_ssRNA_VP3_VP1` | 97% | 12% | not a nest | 6,843 | **no** (56/3,794) | 172 (0 diverged) |
-| `ADENOVIRUS_dsDNA_Pan_Polymerase` | 99% | 99% | 99% | 4,958 | yes | 35 (0 diverged) |
-| `RETROVIRUS_SIV_pol_PREDICT_P029` | 99% | 99% | 98% | 3,965 | yes | 28 (0 diverged) |
-| `Paramyxovirinae_Polymerase_L_gene_Tong_2008` | 61% | 33% | 33% | 8,831 | yes | 3,473 (112 diverged) |
+| `Pan_HERPES_dsDNA_Polymerase` (not scoreable) | 98% | 86% | 86% | 3,462 | yes | 59 (26 diverged) |
+| `ENTEROVIRUS_ssRNA_VP3_VP1` | 98% | 12% | not a nest | 6,843 | **no** (53/3,794) | 163 (0 diverged) |
+| `ADENOVIRUS_dsDNA_Pan_Polymerase` | 99% | 99% | 99% | 4,958 | yes | 33 (0 diverged) |
+| `Paramyxovirinae_Polymerase_L_gene_Tong_2008` | 61% | 33% | 33% | 8,831 | yes | 3,472 (112 diverged) |
 | `BOCAVIRUS_ssDNA_NS1_gene` | 74% | 74% | 74% | 1,941 | yes | 511 (504 diverged) |
+| `RETROVIRUS_SIV_pol_PREDICT_P029` | 100% | 99% | 99% | 3,965 | yes | 8 (0 diverged) |
 
-**`ENTEROVIRUS_ssRNA_VP3_VP1`** — These entries are labelled as rounds of one protocol, but their amplicons do not nest: on 3,794 records scored by both, the inner product lies inside the outer on 56. A nested reaction amplifies the outer product, so these two cannot be running that way - either the round labels are wrong or they are separate assays that share a name. No conditional coverage is reported for them, because conditioning round 2 on a round 1 that does not feed it would invent a number. Curation, not a calculation.
-
-**`RHABDOVIRUS_ssRNA_L_gene`** — Run as published, this nest detects 18.0% of the 6,926 records both rounds can be judged on: round 1 reaches 18.6% and round 2 62.5% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 44.6% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template. The rounds share reverse, so their failures are not independent - an escape there takes both.
+**`ENTEROVIRUS_ssRNA_VP3_VP1`** — These entries are labelled as rounds of one protocol, but their amplicons do not nest: on 3,794 records scored by both, the inner product lies inside the outer on 53. A nested reaction amplifies the outer product, so these two cannot be running that way - either the round labels are wrong or they are separate assays that share a name. No conditional coverage is reported for them, because conditioning round 2 on a round 1 that does not feed it would invent a number. Curation, not a calculation.
 
 **`ASTROVIRUS_RdRp_Chu_2008`** — Run as published, this nest detects 36.3% of the 2,901 records both rounds can be judged on: round 1 reaches 45.7% and round 2 80.1% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 43.8% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template. The rounds share reverse, so their failures are not independent - an escape there takes both.
 
@@ -5242,17 +5313,19 @@ an upper bound.
 
 **`PROBOSCIVIRUS_POL_Latimer_2010_panEEHV`** — Run as published, this nest detects 59.4% of the 32 records both rounds can be judged on: round 1 reaches 62.5% and round 2 96.9% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 37.5% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template. That crosses the 90% threshold: round 2 alone reads as working and the protocol does not. The rounds share reverse, so their failures are not independent - an escape there takes both.
 
-**`CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010`** — Run as published, this nest detects 46.2% of the 6,754 records both rounds can be judged on: round 1 reaches 56.9% and round 2 71.2% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 25.1% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template.
+**`ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010`** — Run as published, this nest detects 45.7% of the 987 records both rounds can be judged on: round 1 reaches 63.0% and round 2 81.3% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 35.6% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template. The rounds share forward, so their failures are not independent - an escape there takes both.
 
-**`ADENOVIRUS_dsDNA_Hexon_gene`** — Run as published, this nest detects 78.9% of the 5,863 records both rounds can be judged on: round 1 reaches 79.5% and round 2 91.6% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 12.7% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template. That crosses the 90% threshold: round 2 alone reads as working and the protocol does not. The rounds share reverse, so their failures are not independent - an escape there takes both.
+**`CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010`** — Run as published, this nest detects 46.2% of the 6,754 records both rounds can be judged on: round 1 reaches 56.9% and round 2 71.3% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 25.1% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template.
+
+**`RHABDOVIRUS_ssRNA_L_gene`** — Run as published, this nest detects 71.1% of the 6,926 records both rounds can be judged on: round 1 reaches 72.5% and round 2 89.5% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 18.5% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template. The rounds share reverse, so their failures are not independent - an escape there takes both.
+
+**`ADENOVIRUS_dsDNA_Hexon_gene`** — Run as published, this nest detects 81.0% of the 5,863 records both rounds can be judged on: round 1 reaches 81.7% and round 2 92.1% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 11.1% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template. That crosses the 90% threshold: round 2 alone reads as working and the protocol does not. The rounds share reverse, so their failures are not independent - an escape there takes both.
 
 **`POLYOMAVIRUS_dsDNA_PREDICT_VP1`** — Run as published, this nest detects 0.0% of the 2,316 records both rounds can be judged on: round 1 reaches 0.2% and round 2 10.8% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 10.8% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template.
 
 **`Pan_HERPES_dsDNA_Terminase`** — Run as published, this nest detects 81.3% of the 2,586 records both rounds can be judged on: round 1 reaches 90.1% and round 2 89.9% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 8.6% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template.
 
 **`CMV_UL55_gB_Deckers_2009_Prepens_2007`** — Run as published, this nest detects 92.1% of the 732 records both rounds can be judged on: round 1 reaches 92.1% and round 2 98.5% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 6.4% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template.
-
-**`Cryptosporidium_18SrDNA_Xiao_1999`** — Run as published, this nest detects 91.7% of the 145 records both rounds can be judged on: round 1 reaches 93.1% and round 2 97.9% on its own. Round 2's own figure is what it would do as a DIRECT PCR; within the nest 6.2% of that coverage is unreachable, because round 1 escapes on those records and leaves the inner reaction no enriched template.
 
 3 further entries declare a `source.nested_round` but have no sibling by id, so their protocol could not be assembled and nothing is reported for them: `BORNA_VIRUS_N_gene_Zimmermann_1994_round2`, `PROBOSCIVIRUS_POL_Latimer_2010_EEHV6_round2`, `Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999_round2`. Which entries belong together is a curation question — the Chlamydia nest, for one, runs a genus-level round 1 into three species-specific round 2 entries on three taxids.
 
@@ -5286,19 +5359,19 @@ Stage times below are the last completed run, 2026-10-26 (30m 20s in all): this 
 |---|---:|
 | workflow | 30m 20s |
 
-124 retrieval groups were screened in this run, 1h 24m 14s of job time in all. The 10 slowest:
+124 retrieval groups were screened in this run, 54m 53s of job time in all. The 10 slowest:
 
 | group | archives | wall time | share |
 |---|---:|---:|---:|
-| `10244/all` | 9 | 8m 59s | 11% |
-| `10241/all` | 12 | 6m 47s | 8% |
-| `10242/all` | 9 | 6m 04s | 7% |
-| `77643/q8c2ce9448f` | 1 | 5m 01s | 6% |
-| `1387563/qdb308affab` | 1 | 4m 19s | 5% |
-| `171/q4a36c8adaa` | 6 | 3m 37s | 4% |
-| `10241/q059a427e43` | 10 | 3m 23s | 4% |
-| `77643/qa99de05d40` | 1 | 3m 19s | 4% |
-| `11051/q63c5fca5b3` | 17 | 2m 39s | 3% |
-| `10508/all` | 9 | 2m 17s | 3% |
+| `10244/all` | 9 | 9m 31s | 17% |
+| `10241/all` | 13 | 5m 10s | 9% |
+| `10242/all` | 9 | 4m 58s | 9% |
+| `77643/q8c2ce9448f` | 1 | 4m 31s | 8% |
+| `1387563/qdb308affab` | 1 | 4m 27s | 8% |
+| `171/q4a36c8adaa` | 6 | 2m 57s | 5% |
+| `77643/qa99de05d40` | 1 | 2m 50s | 5% |
+| `10241/q059a427e43` | 11 | 2m 03s | 4% |
+| `11051/q63c5fca5b3` | 17 | 1m 05s | 2% |
+| `11320/qdf5abd73c1` | 17 | 57s | 2% |
 
 Wall time per archive, summed per group, from Snakemake's `benchmark:` files. On macOS this is the only column that exists - `max_rss` and `cpu_time` read `NA` there - so these are elapsed times, not CPU, and a job that spanned a machine sleep would be inflated by it. Only benchmarks written during this run are counted.

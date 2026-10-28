@@ -1,6 +1,6 @@
 # AssayWatch site drift — 2026-10-27
 
-85 assays with a site breakdown. For each, the oligo positions where records differ from the primer, and the groups of accessions that carry each pattern.
+86 assays with a site breakdown. For each, the oligo positions where records differ from the primer, and the groups of accessions that carry each pattern.
 
 **How to read this.** `pos(3')` counts from the 3' end, where 1 is the 3'-terminal base — the screen's own convention, and the one that matters for extension. `pos(5')` counts from the 5' end, which is how the oligo is written and ordered. `detected|mm` is the detected share among records that mismatch at that position; `detected|clean` is the share among records that do not. The `gap` between them is how much detection that position costs. Positions with fewer than 20 mismatching records are not shown.
 
@@ -172,17 +172,17 @@ Simian immunodeficiency virus (taxid 11723) — status **declining** — 334 eva
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 24 | 5 | `C` | C&rarr;T 97 | `Y` | 97 | 13.4% | 8-22% | 237 | 92.0% | 88-95% | 78.6% |  |
-| reverse | 18 | 11 | `T` | T&rarr;C 96 | `Y` | 96 | 13.5% | 8-22% | 238 | 91.6% | 87-94% | 78.1% |  |
-| reverse | 21 | 8 | `C` | C&rarr;T 95, C&rarr;A 1 | `Y` (99.0%) | 96 | 13.5% | 8-22% | 238 | 91.6% | 87-94% | 78.1% |  |
-| forward | 3 | 18 | `T` | T&rarr;C 67 | `Y` | 67 | 9.0% | 4-18% | 267 | 84.3% | 79-88% | 75.3% | yes |
-| reverse | 27 | 2 | `A` | A&rarr;T 111, A&rarr;C 2, A&rarr;G 1 | `W` (97.4%) | 114 | 20.2% | 14-28% | 220 | 94.5% | 91-97% | 74.4% |  |
-| forward | 7 | 14 | `A` | A&rarr;G 41, A&rarr;T 7 | `D` | 48 | 8.3% | 3-20% | 286 | 79.4% | 74-84% | 71.0% |  |
-| forward | 6 | 15 | `A` | A&rarr;G 42 | `R` | 42 | 9.5% | 4-22% | 292 | 77.7% | 73-82% | 68.2% |  |
-| forward | 9 | 12 | `Y` | Y&rarr;A 61, Y&rarr;G 17 | hypervariable | 78 | 23.1% | 15-34% | 256 | 83.2% | 78-87% | 60.1% |  |
-| forward | 15 | 6 | `C` | C&rarr;A 70, C&rarr;T 50, C&rarr;G 21 | hypervariable | 141 | 36.2% | 29-44% | 193 | 93.3% | 89-96% | 57.1% |  |
-| reverse | 17 | 12 | `T` | T&rarr;C 53, T&rarr;G 1 | `Y` (98.1%) | 54 | 25.9% | 16-39% | 280 | 77.5% | 72-82% | 51.6% |  |
-| reverse | 3 | 26 | `G` | G&rarr;A 28 | `R` | 28 | 39.3% | 24-58% | 306 | 71.9% | 67-77% | 32.6% | yes |
+| reverse | 24 | 5 | `C` | C&rarr;T 97 | `Y` | 97 | 22.7% | 15-32% | 237 | 98.7% | 96-100% | 76.1% |  |
+| reverse | 18 | 11 | `T` | T&rarr;C 96 | `Y` | 96 | 22.9% | 16-32% | 238 | 98.3% | 96-99% | 75.4% |  |
+| reverse | 21 | 8 | `C` | C&rarr;T 95, C&rarr;A 1 | `Y` (99.0%) | 96 | 22.9% | 16-32% | 238 | 98.3% | 96-99% | 75.4% |  |
+| forward | 6 | 15 | `A` | A&rarr;G 42 | `R` | 42 | 11.9% | 5-25% | 292 | 86.0% | 82-89% | 74.1% |  |
+| reverse | 27 | 2 | `A` | A&rarr;T 111, A&rarr;C 2, A&rarr;G 1 | `W` (97.4%) | 114 | 32.5% | 25-42% | 220 | 99.5% | 97-100% | 67.1% |  |
+| forward | 7 | 14 | `A` | A&rarr;G 42, A&rarr;T 7 | `D` | 49 | 22.4% | 13-36% | 285 | 86.0% | 81-90% | 63.5% |  |
+| forward | 9 | 12 | `Y` | Y&rarr;A 62, Y&rarr;G 17 | hypervariable | 79 | 38.0% | 28-49% | 255 | 88.6% | 84-92% | 50.7% |  |
+| reverse | 17 | 12 | `T` | T&rarr;C 53, T&rarr;G 1 | `Y` (98.1%) | 54 | 40.7% | 29-54% | 280 | 83.6% | 79-87% | 42.8% |  |
+| forward | 3 | 18 | `T` | T&rarr;C 68 | `Y` | 68 | 42.6% | 32-54% | 266 | 85.3% | 81-89% | 42.7% | yes |
+| forward | 15 | 6 | `C` | C&rarr;A 69, C&rarr;T 50, C&rarr;G 22 | hypervariable | 141 | 52.5% | 44-61% | 193 | 94.3% | 90-97% | 41.8% |  |
+| reverse | 3 | 26 | `G` | G&rarr;A 28 | `R` | 28 | 42.9% | 27-61% | 306 | 79.7% | 75-84% | 36.9% | yes |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -194,14 +194,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 9,15 | 13 | reduced | 2010×1, 2011×2, 2015×2, 2021×1 | Simian immunodeficiency×11, SIVcpz proviral×2 | `MW815971`, `EF535993`, `HM803689`, `FJ424871`, `FJ424866`, `FJ424865` (+7) |
 | fwd 15; rev 17,18,21,24,27 | 12 | reduced | 2014×12 | Simian immunodeficiency×12 | `KJ467498`, `KJ467497`, `KJ467496`, `KJ467495`, `KJ467493`, `KJ467491` (+6) |
 | fwd 3,6,15; rev 17,18,21,24,27 | 10 | fail | 2014×10 | Simian immunodeficiency×10 | `KJ467483`, `KJ467481`, `KJ467480`, `KJ467478`, `KJ467477`, `KJ467476` (+4) |
-| fwd 3,9,15 | 8 | fail | 2008×1, 2012×1, 2013×1, 2015×3 | Simian immunodeficiency×8 | `EF535994`, `DQ373064`, `DQ373063`, `KP861923`, `KP004994`, `KP004989` (+2) |
-| rev 3 | 8 | reduced | 2017×8 | Simian immunodeficiency×8 | `KY989665`, `KY989664`, `KY989662`, `KY989654`, `KY989638`, `KY989624` (+2) |
-| fwd 3,15; rev 17,18,21,24,27 | 7 | fail | 2014×7 | Simian immunodeficiency×7 | `KJ467494`, `KJ467492`, `KJ467485`, `KJ467484`, `KJ467460`, `KJ467454` (+1) |
+| fwd 3,9,15 | 8 | reduced | 2008×1, 2012×1, 2013×1, 2015×3 | Simian immunodeficiency×8 | `EF535994`, `DQ373064`, `DQ373063`, `KP861923`, `KP004994`, `KP004989` (+2) |
+| rev 3 | 8 | detect | 2017×8 | Simian immunodeficiency×8 | `KY989665`, `KY989664`, `KY989662`, `KY989654`, `KY989638`, `KY989624` (+2) |
+| fwd 3,15; rev 17,18,21,24,27 | 7 | reduced | 2014×7 | Simian immunodeficiency×7 | `KJ467494`, `KJ467492`, `KJ467485`, `KJ467484`, `KJ467460`, `KJ467454` (+1) |
 | fwd 3,9,15; rev 17,18,21,24,27 | 7 | fail | 2014×7 | Simian immunodeficiency×7 | `KJ467482`, `KJ467475`, `KJ467474`, `KJ467473`, `KJ467472`, `KJ467469` (+1) |
 
 ## RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009
 
-Simian immunodeficiency virus (taxid 11723) — status **low coverage** — 5,030 evaluable of 8,252 screened records
+Simian immunodeficiency virus (taxid 11723) — status **declining** — 5,030 evaluable of 8,252 screened records
 
 - forward: `5'-AYAAYCCHCAAAGTCAAGGAGTRGT-3'` (25 nt)
 - reverse: `5'-GTCCTTTCCAAATDGGRTCTCTGCTGTC-3'` (28 nt)
@@ -210,23 +210,23 @@ Simian immunodeficiency virus (taxid 11723) — status **low coverage** — 5,03
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 4 | 25 | `T` | T&rarr;C 4,826, T&rarr;G 1, T&rarr;A 1 | `Y` (100.0%) | 4,828 | 0.0% | 0-0% | 202 | 77.7% | 71-83% | 77.7% | yes |
-| reverse | 3 | 26 | `G` | G&rarr;T 4,798, G&rarr;A 171, G&rarr;C 16 | `K` (96.2%) | 4,985 | 2.6% | 2-3% | 45 | 66.7% | 52-79% | 64.1% | yes |
-| reverse | 16 | 13 | `T` | T&rarr;G 4,783, T&rarr;C 197, T&rarr;A 5 | `K` (95.9%) | 4,985 | 2.6% | 2-3% | 45 | 66.7% | 52-79% | 64.1% |  |
-| reverse | 14 | 15 | `G` | G&rarr;T 4,772, G&rarr;C 7, G&rarr;A 1 | `K` (99.8%) | 4,780 | 0.0% | 0-0% | 250 | 63.2% | 57-69% | 63.2% |  |
-| reverse | 18 | 11 | `A` | A&rarr;C 4,860, A&rarr;G 8, A&rarr;T 4 | `M` (99.8%) | 4,872 | 2.7% | 2-3% | 158 | 17.7% | 13-24% | 15.1% |  |
-| forward | 15 | 11 | `A` | A&rarr;G 3,638 | `R` | 3,638 | 0.1% | 0-0% | 1,392 | 11.1% | 10-13% | 11.0% |  |
-| forward | 9 | 17 | `A` | A&rarr;G 2,812, A&rarr;T 3 | `R` (99.9%) | 2,815 | 0.0% | 0-0% | 2,215 | 7.1% | 6-8% | 7.1% |  |
-| reverse | 24 | 5 | `T` | T&rarr;C 2,765 | `Y` | 2,765 | 0.0% | 0-0% | 2,265 | 7.0% | 6-8% | 7.0% |  |
-| forward | 12 | 14 | `T` | T&rarr;C 2,022, T&rarr;A 22 | `Y` (98.9%) | 2,044 | 0.0% | 0-0% | 2,986 | 5.3% | 5-6% | 5.2% |  |
-| reverse | 15 | 14 | `D` | D&rarr;C 2,024 | hypervariable | 2,024 | 0.1% | 0-0% | 3,006 | 5.2% | 4-6% | 5.0% |  |
-| forward | 4 | 22 | `T` | T&rarr;C 33, T&rarr;G 1, T&rarr;A 1 | `B` (97.1%) | 35 | 0.0% | 0-10% | 4,995 | 3.2% | 3-4% | 3.2% | yes |
-| forward | 14 | 12 | `A` | A&rarr;T 28, A&rarr;G 7 | `D` | 35 | 0.0% | 0-10% | 4,995 | 3.2% | 3-4% | 3.2% |  |
-| forward | 5 | 21 | `G` | G&rarr;T 26, G&rarr;A 7 | `D` | 33 | 0.0% | 0-10% | 4,997 | 3.2% | 3-4% | 3.2% | yes |
-| reverse | 6 | 23 | `G` | G&rarr;C 18, G&rarr;T 10 | `B` | 28 | 0.0% | 0-12% | 5,002 | 3.2% | 3-4% | 3.2% |  |
-| forward | 13 | 13 | `G` | G&rarr;C 27 | `S` | 27 | 0.0% | 0-12% | 5,003 | 3.2% | 3-4% | 3.2% |  |
-| reverse | 27 | 2 | `T` | T&rarr;G 29, T&rarr;A 12, T&rarr;C 3 | hypervariable | 44 | 2.3% | 0-12% | 4,986 | 3.1% | 3-4% | 0.9% |  |
-| forward | 6 | 20 | `A` | A&rarr;G 30, A&rarr;T 7, A&rarr;C 2 | hypervariable | 39 | 10.3% | 4-24% | 4,991 | 3.1% | 3-4% | -7.2% |  |
+| reverse | 4 | 25 | `T` | T&rarr;C 4,826, T&rarr;G 1, T&rarr;A 1 | `Y` (100.0%) | 4,828 | 0.2% | 0-0% | 202 | 100.0% | 98-100% | 99.8% | yes |
+| reverse | 3 | 26 | `G` | G&rarr;T 4,798, G&rarr;A 171, G&rarr;C 16 | `K` (96.2%) | 4,985 | 3.4% | 3-4% | 45 | 93.3% | 82-98% | 89.9% | yes |
+| reverse | 16 | 13 | `T` | T&rarr;G 4,783, T&rarr;C 197, T&rarr;A 5 | `K` (95.9%) | 4,985 | 3.5% | 3-4% | 45 | 88.9% | 77-95% | 85.4% |  |
+| reverse | 14 | 15 | `G` | G&rarr;T 4,772, G&rarr;C 7, G&rarr;A 1 | `K` (99.8%) | 4,780 | 0.0% | 0-0% | 250 | 84.8% | 80-89% | 84.8% |  |
+| reverse | 18 | 11 | `A` | A&rarr;C 4,860, A&rarr;G 8, A&rarr;T 4 | `M` (99.8%) | 4,872 | 3.6% | 3-4% | 158 | 24.7% | 19-32% | 21.1% |  |
+| forward | 15 | 11 | `A` | A&rarr;G 3,638 | `R` | 3,638 | 0.1% | 0-0% | 1,392 | 15.0% | 13-17% | 14.9% |  |
+| reverse | 24 | 5 | `T` | T&rarr;C 2,765 | `Y` | 2,765 | 0.3% | 0-1% | 2,265 | 9.0% | 8-10% | 8.7% |  |
+| forward | 12 | 14 | `T` | T&rarr;C 2,022, T&rarr;A 22 | `Y` (98.9%) | 2,044 | 0.1% | 0-0% | 2,986 | 7.1% | 6-8% | 7.0% |  |
+| reverse | 15 | 14 | `D` | D&rarr;C 2,024 | hypervariable | 2,024 | 0.2% | 0-1% | 3,006 | 6.9% | 6-8% | 6.7% |  |
+| forward | 9 | 17 | `A` | A&rarr;G 2,812, A&rarr;T 3 | `R` (99.9%) | 2,815 | 1.6% | 1-2% | 2,215 | 7.6% | 7-9% | 6.1% |  |
+| forward | 14 | 12 | `A` | A&rarr;T 28, A&rarr;G 7 | `D` | 35 | 0.0% | 0-10% | 4,995 | 4.3% | 4-5% | 4.3% |  |
+| forward | 5 | 21 | `G` | G&rarr;T 26, G&rarr;A 7 | `D` | 33 | 0.0% | 0-10% | 4,997 | 4.3% | 4-5% | 4.3% | yes |
+| reverse | 6 | 23 | `G` | G&rarr;C 18, G&rarr;T 10 | `B` | 28 | 0.0% | 0-12% | 5,002 | 4.3% | 4-5% | 4.3% |  |
+| forward | 13 | 13 | `G` | G&rarr;C 27 | `S` | 27 | 0.0% | 0-12% | 5,003 | 4.3% | 4-5% | 4.3% |  |
+| reverse | 27 | 2 | `T` | T&rarr;G 29, T&rarr;A 12, T&rarr;C 3 | hypervariable | 44 | 2.3% | 0-12% | 4,986 | 4.3% | 4-5% | 2.0% |  |
+| forward | 4 | 22 | `T` | T&rarr;C 33, T&rarr;G 1, T&rarr;A 1 | `B` (97.1%) | 35 | 5.7% | 2-19% | 4,995 | 4.2% | 4-5% | -1.5% | yes |
+| forward | 6 | 20 | `A` | A&rarr;G 30, A&rarr;T 7, A&rarr;C 2 | hypervariable | 39 | 15.4% | 7-30% | 4,991 | 4.1% | 4-5% | -11.2% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -237,9 +237,9 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 9,15; rev 3,4,14,16,18,24 | 2,621 | fail | 2023×3, 2024×1735, 2025×203, 2026×20 | Simian immunodeficiency×2614, Simian-Chimpanzee immunodeficiency×5, Simian×2 | `PZ775881`, `PZ775880`, `PZ775879`, `PZ775878`, `PZ775877`, `PZ775876` (+2,615) |
 | fwd 12; rev 3,4,14,15,16,18 | 1,087 | fail | 2009×640, 2010×447 | Simian immunodeficiency×1087 | `FJ402541`, `FJ402539`, `FJ402538`, `FJ402537`, `FJ402536`, `FJ402534` (+1,081) |
 | fwd 12,15; rev 3,4,14,15,16,18 | 828 | fail | 2010×328, 2012×6, 2016×34, 2017×1 | Simian immunodeficiency×828 | `MF370842`, `AY965480`, `KX089855`, `KX089854`, `KX089853`, `KX089852` (+822) |
-| rev 3,16,18 | 128 | reduced | 1996×1, 2017×126, 2022×1 | Simian immunodeficiency×128 | `ON933805`, `KY989753`, `KY989752`, `KY989751`, `KY989749`, `KY989748` (+122) |
+| rev 3,16,18 | 128 | detect | 1996×1, 2017×126, 2022×1 | Simian immunodeficiency×128 | `ON933805`, `KY989753`, `KY989752`, `KY989751`, `KY989749`, `KY989748` (+122) |
 | fwd 9,15; rev 3,4,14,16,24 | 78 | fail | 2019×3, 2024×75 | Simian immunodeficiency×78 | `PP458484`, `PP458483`, `PP458482`, `PP458481`, `PP458480`, `PP458479` (+72) |
-| fwd 9; rev 3,16,18 | 42 | fail | 2017×42 | Simian immunodeficiency×42 | `KY989750`, `KY989745`, `KY989744`, `KY989743`, `KY989739`, `KY989721` (+36) |
+| fwd 9; rev 3,16,18 | 42 | reduced | 2017×42 | Simian immunodeficiency×42 | `KY989750`, `KY989745`, `KY989744`, `KY989743`, `KY989739`, `KY989721` (+36) |
 | fwd 9,15; rev 3,4,14,16,24,27 | 23 | fail | 2019×23 | Simian immunodeficiency×23 | `MN442954`, `MN442953`, `MN442952`, `MN442951`, `MN442950`, `MN442949` (+17) |
 | no mismatches | 16 | detect | 2011×1, 2013×1, 2015×6, 2021×1 | Simian immunodeficiency×16 | `MW815971`, `AF115393`, `FJ424871`, `FJ424866`, `FJ424865`, `FJ424864` (+10) |
 
@@ -254,26 +254,26 @@ Orthobunyavirus (taxid 11572) — status **low coverage** — 531 evaluable of 2
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 2 | 19 | `C` | C&rarr;T 330, C&rarr;G 8 | `Y` (97.6%) | 338 | 0.0% | 0-1% | 193 | 42.5% | 36-50% | 42.5% | yes |
-| reverse | 14 | 7 | `T` | T&rarr;C 330, T&rarr;A 16, T&rarr;G 6 | `H` (98.3%) | 352 | 2.8% | 2-5% | 179 | 40.2% | 33-48% | 37.4% |  |
-| reverse | 7 | 14 | `C` | C&rarr;T 378, C&rarr;A 10, C&rarr;G 4 | `Y` (96.4%) | 392 | 6.6% | 5-10% | 139 | 40.3% | 33-49% | 33.7% |  |
-| reverse | 12 | 9 | `T` | T&rarr;G 316, T&rarr;C 84, T&rarr;A 1 | `B` (99.8%) | 401 | 7.2% | 5-10% | 130 | 40.8% | 33-49% | 33.5% |  |
-| reverse | 16 | 5 | `T` | T&rarr;A 322, T&rarr;C 28, T&rarr;G 13 | `H` (96.4%) | 363 | 5.8% | 4-9% | 168 | 36.3% | 29-44% | 30.5% |  |
-| reverse | 10 | 11 | `G` | G&rarr;T 18, G&rarr;A 8, G&rarr;C 7 | hypervariable | 33 | 0.0% | 0-10% | 498 | 16.5% | 13-20% | 16.5% |  |
-| forward | 3 | 18 | `Y` | Y&rarr;G 24, Y&rarr;A 7 | hypervariable | 31 | 0.0% | 0-11% | 500 | 16.4% | 13-20% | 16.4% | yes |
-| forward | 4 | 17 | `W` | W&rarr;G 22, W&rarr;C 8 | hypervariable | 30 | 0.0% | 0-11% | 501 | 16.4% | 13-20% | 16.4% | yes |
-| reverse | 1 | 20 | `C` | C&rarr;T 14, C&rarr;A 13, C&rarr;G 2 | hypervariable | 29 | 0.0% | 0-12% | 502 | 16.3% | 13-20% | 16.3% | yes |
-| forward | 17 | 4 | `G` | G&rarr;A 16, G&rarr;T 12 | `D` | 28 | 0.0% | 0-12% | 503 | 16.3% | 13-20% | 16.3% |  |
-| reverse | 19 | 2 | `T` | T&rarr;G 16, T&rarr;A 11, T&rarr;C 1 | `D` (96.4%) | 28 | 0.0% | 0-12% | 503 | 16.3% | 13-20% | 16.3% |  |
-| reverse | 5 | 16 | `T` | T&rarr;C 22, T&rarr;G 5 | `B` | 27 | 0.0% | 0-12% | 504 | 16.3% | 13-20% | 16.3% | yes |
-| forward | 1 | 20 | `G` | G&rarr;A 13, G&rarr;T 11 | `D` | 24 | 0.0% | 0-14% | 507 | 16.2% | 13-20% | 16.2% | yes |
-| reverse | 8 | 13 | `A` | A&rarr;C 8, A&rarr;G 7, A&rarr;T 5 | hypervariable | 20 | 0.0% | 0-16% | 511 | 16.0% | 13-19% | 16.0% |  |
-| reverse | 13 | 8 | `T` | T&rarr;C 15, T&rarr;G 14, T&rarr;A 4 | hypervariable | 33 | 3.0% | 1-15% | 498 | 16.3% | 13-20% | 13.2% |  |
-| reverse | 3 | 18 | `K` | K&rarr;A 32, K&rarr;C 27 | hypervariable | 59 | 5.1% | 2-14% | 472 | 16.7% | 14-20% | 11.7% | yes |
-| reverse | 6 | 15 | `A` | A&rarr;G 24, A&rarr;T 9, A&rarr;C 4 | hypervariable | 37 | 24.3% | 13-40% | 494 | 14.8% | 12-18% | -9.5% |  |
-| reverse | 17 | 4 | `G` | G&rarr;A 70, G&rarr;C 20, G&rarr;T 19 | hypervariable | 109 | 24.8% | 18-34% | 422 | 13.0% | 10-17% | -11.7% |  |
-| reverse | 9 | 12 | `K` | K&rarr;A 49, K&rarr;C 21 | hypervariable | 70 | 38.6% | 28-50% | 461 | 11.9% | 9-15% | -26.6% |  |
-| reverse | 18 | 3 | `K` | K&rarr;A 51, K&rarr;C 28 | hypervariable | 79 | 49.4% | 39-60% | 452 | 9.5% | 7-13% | -39.9% |  |
+| reverse | 2 | 19 | `C` | C&rarr;T 330, C&rarr;G 6 | `Y` (98.2%) | 336 | 0.0% | 0-1% | 195 | 48.2% | 41-55% | 48.2% | yes |
+| reverse | 7 | 14 | `C` | C&rarr;T 376, C&rarr;A 10, C&rarr;G 4 | `Y` (96.4%) | 390 | 6.7% | 5-10% | 141 | 48.2% | 40-56% | 41.6% |  |
+| reverse | 14 | 7 | `T` | T&rarr;C 330, T&rarr;A 16, T&rarr;G 6 | `H` (98.3%) | 352 | 4.0% | 2-7% | 179 | 44.7% | 38-52% | 40.7% |  |
+| reverse | 16 | 5 | `T` | T&rarr;A 322, T&rarr;C 28, T&rarr;G 13 | `H` (96.4%) | 363 | 5.8% | 4-9% | 168 | 43.5% | 36-51% | 37.7% |  |
+| reverse | 12 | 9 | `T` | T&rarr;G 316, T&rarr;C 84, T&rarr;A 1 | `B` (99.8%) | 401 | 9.2% | 7-12% | 130 | 43.8% | 36-52% | 34.6% |  |
+| reverse | 10 | 11 | `G` | G&rarr;T 18, G&rarr;A 8, G&rarr;C 7 | hypervariable | 33 | 0.0% | 0-10% | 498 | 18.9% | 16-23% | 18.9% |  |
+| forward | 3 | 18 | `Y` | Y&rarr;G 24, Y&rarr;A 7 | hypervariable | 31 | 0.0% | 0-11% | 500 | 18.8% | 16-22% | 18.8% | yes |
+| forward | 4 | 17 | `W` | W&rarr;G 22, W&rarr;C 8 | hypervariable | 30 | 0.0% | 0-11% | 501 | 18.8% | 16-22% | 18.8% | yes |
+| reverse | 1 | 20 | `C` | C&rarr;T 14, C&rarr;A 13, C&rarr;G 2 | hypervariable | 29 | 0.0% | 0-12% | 502 | 18.7% | 16-22% | 18.7% | yes |
+| forward | 17 | 4 | `G` | G&rarr;A 16, G&rarr;T 12 | `D` | 28 | 0.0% | 0-12% | 503 | 18.7% | 16-22% | 18.7% |  |
+| reverse | 19 | 2 | `T` | T&rarr;G 16, T&rarr;A 9, T&rarr;C 1 | `D` (96.2%) | 26 | 0.0% | 0-13% | 505 | 18.6% | 15-22% | 18.6% |  |
+| forward | 1 | 20 | `G` | G&rarr;A 13, G&rarr;T 11 | `D` | 24 | 0.0% | 0-14% | 507 | 18.5% | 15-22% | 18.5% | yes |
+| reverse | 8 | 13 | `A` | A&rarr;C 8, A&rarr;G 7, A&rarr;T 5 | hypervariable | 20 | 0.0% | 0-16% | 511 | 18.4% | 15-22% | 18.4% |  |
+| reverse | 3 | 18 | `K` | K&rarr;A 34, K&rarr;C 27 | hypervariable | 61 | 4.9% | 2-13% | 470 | 19.4% | 16-23% | 14.4% | yes |
+| reverse | 6 | 15 | `A` | A&rarr;G 24, A&rarr;T 9, A&rarr;C 4 | hypervariable | 37 | 24.3% | 13-40% | 494 | 17.2% | 14-21% | -7.1% |  |
+| reverse | 17 | 4 | `G` | G&rarr;A 70, G&rarr;C 20, G&rarr;T 17 | hypervariable | 107 | 29.0% | 21-38% | 424 | 14.9% | 12-19% | -14.1% |  |
+| reverse | 13 | 8 | `T` | T&rarr;C 15, T&rarr;G 14, T&rarr;A 6 | hypervariable | 35 | 37.1% | 23-54% | 496 | 16.3% | 13-20% | -20.8% |  |
+| reverse | 5 | 16 | `T` | T&rarr;C 24, T&rarr;G 5 | `B` | 29 | 41.4% | 26-59% | 502 | 16.3% | 13-20% | -25.0% | yes |
+| reverse | 9 | 12 | `K` | K&rarr;A 49, K&rarr;C 21 | hypervariable | 70 | 42.9% | 32-55% | 461 | 13.9% | 11-17% | -29.0% |  |
+| reverse | 18 | 3 | `K` | K&rarr;A 51, K&rarr;C 28 | hypervariable | 79 | 59.5% | 48-70% | 452 | 10.4% | 8-14% | -49.1% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -290,6 +290,39 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | rev 6,7,12 | 8 | reduced | 2006×2, 2022×6 | Ngari virus×6, Batai virus×2 | `MT929321`, `MT929318`, `ON755199`, `ON755198`, `ON755197`, `ON755196` (+2) |
 | rev 9,18 | 7 | reduced | 2003×4, 2009×2, 2019×1 | Maguari virus×4, Tensaw virus×3 | `NC_043548`, `FJ943508`, `FJ943506`, `AY286446`, `AY286445`, `AY286444` (+1) |
 
+## ORTHOPOXVIRUS_dsDNA_F3L_region_nonMPXV_TaqMan_Huo_2022
+
+Orthopoxvirus (taxid 10242) — status **low coverage** — 13,788 evaluable of 18,308 screened records
+
+- forward: `5'-ATCCTCTCTCATTGATTTTTCGCGGGA-3'` (27 nt)
+- reverse: `5'-TGGAGAAGCGAGAAGTTAATAAAGC-3'` (25 nt)
+- probe: `5'-TCGTCGGAGCTGTACACCATAGCAC-3'` (25 nt)
+
+**10,593 of 13,788 evaluable records (77%) share one mismatch pattern, mostly Monkeypox virus, deposited 2004-2026, and the group's dominant call is `reduced`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| reverse | 14 | 12 | `G` | G&rarr;A 25 | `R` | 25 | 96.0% | 80-99% | 13,763 | 99.7% | 100-100% | 3.7% |  |
+| probe | 17 | 9 | `G` | G&rarr;A 2,587, G&rarr;T 15 | `R` (99.4%) | 2,602 | 99.4% | 99-100% | 11,186 | 99.7% | 100-100% | 0.3% |  |
+| probe | 3 | 23 | `C` | C&rarr;T 2,582 | `Y` | 2,582 | 99.5% | 99-100% | 11,206 | 99.7% | 100-100% | 0.2% | yes |
+| probe | 11 | 15 | `C` | C&rarr;A 10,607, C&rarr;T 1 | `M` (100.0%) | 10,608 | 99.9% | 100-100% | 3,180 | 99.0% | 99-99% | -0.9% |  |
+| probe | 21 | 5 | `C` | C&rarr;T 10,607 | `Y` | 10,607 | 99.9% | 100-100% | 3,181 | 99.0% | 99-99% | -0.9% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| prb 11,21 | 10,593 | reduced | 2023×3122, 2024×1528, 2025×1452, 2026×1004 | Monkeypox virus×10055, Orthopoxvirus monkeypox×536, Mutant×2 | `OZ561975`, `OZ561965`, `OZ561964`, `OZ561963`, `OZ561962`, `OZ561960` (+10,587) |
+| prb 3,17 | 2,569 | reduced | 2023×3, 2024×500, 2025×686, 2026×1331 | Monkeypox virus×2533, Orthopoxvirus monkeypox×36 | `OZ555904`, `OZ555901`, `OZ555900`, `OZ555899`, `OZ540336`, `OZ540332` (+2,563) |
+| no mismatches | 538 | detect | 2023×10, 2024×48, 2025×23, 2026×101 | Cowpox virus×103, Vaccinia virus×101, Variola virus×82 | `LC948760`, `LC948759`, `LC948758`, `LC948757`, `LC948756`, `LC948755` (+532) |
+| rev 14 | 24 | detect | 2020×4, 2023×8, 2025×1, 2026×5 | Orthopoxvirus vaccinia×17, Vaccinia virus×4, Buffalopox virus×2 | `PX423484`, `PX423483`, `PX423482`, `PX423481`, `PX423480`, `PV798393` (+18) |
+| prb 17 | 16 | detect | 2014×1, 2018×2, 2021×8, 2026×1 | Ectromelia virus×15, Orthopoxvirus akhmetapox×1 | `PX585983`, `NC_004105`, `OU343159`, `OU343158`, `OU343157`, `OU343156` (+10) |
+| rev 5; prb 3,17 | 12 | fail | 2024×11, 2025×1 | Monkeypox virus×12 | `OZ254519`, `PQ221720`, `PQ221719`, `PQ221718`, `PQ221717`, `PQ221716` (+6) |
+| rev 18; prb 11,21 | 11 | fail | 2015×1, 2025×2, 2026×8 | Monkeypox virus×8, Orthopoxvirus monkeypox×3 | `PX990728`, `PX782070`, `PX782069`, `PV993194`, `PV993193`, `PX122227` (+5) |
+| fwd 6 | 5 | detect | 2011×1, 2015×1, 2017×1, 2018×1 | Cowpox virus×5 | `LT993226`, `LT896722`, `LN864566`, `HQ420897`, `DQ437593` |
+
 ## POLYOMAVIRUS_dsDNA_PREDICT_VP1_round2
 
 Polyomaviridae (taxid 151341) — status **low coverage** — 6,443 evaluable of 14,537 screened records
@@ -301,26 +334,26 @@ Polyomaviridae (taxid 151341) — status **low coverage** — 6,443 evaluable of
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 16 | 14 | `G` | G&rarr;T 6,030, G&rarr;C 1 | `K` (100.0%) | 6,031 | 2.5% | 2-3% | 412 | 89.6% | 86-92% | 87.1% |  |
-| forward | 20 | 11 | `G` | G&rarr;T 5,468, G&rarr;A 419, G&rarr;C 27, +1 more | `D` (99.5%) | 5,915 | 1.9% | 2-2% | 528 | 77.1% | 73-80% | 75.2% |  |
-| forward | 25 | 6 | `A` | A&rarr;T 3,143, A&rarr;C 2,238, A&rarr;G 1 | `H` (100.0%) | 5,382 | 0.2% | 0-0% | 1,061 | 48.0% | 45-51% | 47.8% |  |
-| forward | 14 | 17 | `C` | C&rarr;G 5,473, C&rarr;A 208, C&rarr;T 69 | `S` (95.2%) | 5,750 | 3.0% | 3-3% | 693 | 50.2% | 47-54% | 47.2% |  |
-| reverse | 23 | 7 | `T` | T&rarr;A 5,346, T&rarr;C 1 | `W` (100.0%) | 5,347 | 0.1% | 0-0% | 1,096 | 46.6% | 44-50% | 46.5% |  |
-| forward | 24 | 7 | `A` | A&rarr;T 3,138, A&rarr;C 3 | `W` (99.9%) | 3,141 | 0.3% | 0-1% | 3,302 | 15.4% | 14-17% | 15.2% |  |
-| forward | 23 | 8 | `T` | T&rarr;G 2,227, T&rarr;C 26, T&rarr;A 11 | `K` (98.4%) | 2,264 | 0.3% | 0-1% | 4,179 | 12.3% | 11-13% | 11.9% |  |
+| reverse | 16 | 14 | `G` | G&rarr;T 6,030, G&rarr;C 1 | `K` (100.0%) | 6,031 | 2.5% | 2-3% | 412 | 89.8% | 87-92% | 87.3% |  |
+| forward | 20 | 11 | `G` | G&rarr;T 5,468, G&rarr;A 419, G&rarr;C 27, +1 more | `D` (99.5%) | 5,915 | 1.9% | 2-2% | 528 | 77.5% | 74-81% | 75.6% |  |
+| forward | 25 | 6 | `A` | A&rarr;T 3,143, A&rarr;C 2,238, A&rarr;G 1 | `H` (100.0%) | 5,382 | 0.2% | 0-0% | 1,061 | 48.2% | 45-51% | 48.0% |  |
+| forward | 14 | 17 | `C` | C&rarr;G 5,473, C&rarr;A 208, C&rarr;T 69 | `S` (95.2%) | 5,750 | 3.0% | 3-3% | 693 | 50.4% | 47-54% | 47.4% |  |
+| reverse | 23 | 7 | `T` | T&rarr;A 5,346, T&rarr;C 1 | `W` (100.0%) | 5,347 | 0.1% | 0-0% | 1,096 | 46.8% | 44-50% | 46.7% |  |
+| forward | 24 | 7 | `A` | A&rarr;T 3,138, A&rarr;C 3 | `W` (99.9%) | 3,141 | 0.3% | 0-1% | 3,302 | 15.5% | 14-17% | 15.2% |  |
+| forward | 23 | 8 | `T` | T&rarr;G 2,227, T&rarr;C 26, T&rarr;A 11 | `K` (98.4%) | 2,264 | 0.3% | 0-1% | 4,179 | 12.3% | 11-13% | 12.0% |  |
 | reverse | 4 | 26 | `C` | C&rarr;T 850 | `Y` | 850 | 0.0% | 0-0% | 5,593 | 9.3% | 9-10% | 9.3% | yes |
 | forward | 17 | 14 | `T` | T&rarr;G 2,555, T&rarr;A 141, T&rarr;C 11 | `D` (99.6%) | 2,707 | 3.3% | 3-4% | 3,736 | 11.5% | 11-13% | 8.2% |  |
-| reverse | 18 | 12 | `C` | C&rarr;T 3,650, C&rarr;A 111, C&rarr;G 20 | `Y` (96.5%) | 3,781 | 5.0% | 4-6% | 2,662 | 12.4% | 11-14% | 7.3% |  |
-| reverse | 27 | 3 | `C` | C&rarr;A 2,304, C&rarr;T 141, C&rarr;G 1 | `H` (100.0%) | 2,446 | 3.6% | 3-4% | 3,997 | 10.8% | 10-12% | 7.3% |  |
-| reverse | 21 | 9 | `A` | A&rarr;C 2,519, A&rarr;T 322, A&rarr;G 65 | `H` (97.8%) | 2,906 | 5.4% | 5-6% | 3,537 | 10.2% | 9-11% | 4.8% |  |
+| reverse | 18 | 12 | `C` | C&rarr;T 3,650, C&rarr;A 111, C&rarr;G 20 | `Y` (96.5%) | 3,781 | 5.1% | 4-6% | 2,662 | 12.4% | 11-14% | 7.3% |  |
+| reverse | 27 | 3 | `C` | C&rarr;A 2,304, C&rarr;T 141, C&rarr;G 1 | `H` (100.0%) | 2,446 | 3.6% | 3-4% | 3,997 | 10.8% | 10-12% | 7.2% |  |
+| reverse | 21 | 9 | `A` | A&rarr;C 2,519, A&rarr;T 322, A&rarr;G 65 | `H` (97.8%) | 2,906 | 5.4% | 5-6% | 3,537 | 10.3% | 9-11% | 4.8% |  |
 | forward | 10 | 21 | `C` | C&rarr;T 192, C&rarr;A 4 | `Y` (98.0%) | 196 | 4.1% | 2-8% | 6,247 | 8.2% | 8-9% | 4.1% |  |
 | reverse | 24 | 6 | `A` | A&rarr;G 60, A&rarr;C 6, A&rarr;T 2 | `V` (97.1%) | 68 | 4.4% | 2-12% | 6,375 | 8.1% | 7-9% | 3.7% |  |
 | reverse | 29 | 1 | `C` | C&rarr;T 48, C&rarr;A 2, C&rarr;G 1 | `H` (98.0%) | 51 | 7.8% | 3-18% | 6,392 | 8.1% | 7-9% | 0.2% |  |
-| reverse | 25 | 5 | `C` | C&rarr;G 150, C&rarr;A 3, C&rarr;T 2 | `S` (96.8%) | 155 | 9.7% | 6-15% | 6,288 | 8.0% | 7-9% | -1.7% |  |
-| reverse | 19 | 11 | `C` | C&rarr;T 396, C&rarr;A 1 | `Y` (99.7%) | 397 | 10.8% | 8-14% | 6,046 | 7.9% | 7-9% | -3.0% |  |
+| reverse | 25 | 5 | `C` | C&rarr;G 150, C&rarr;A 3, C&rarr;T 2 | `S` (96.8%) | 155 | 9.7% | 6-15% | 6,288 | 8.0% | 7-9% | -1.6% |  |
+| reverse | 19 | 11 | `C` | C&rarr;T 396, C&rarr;A 1 | `Y` (99.7%) | 397 | 11.1% | 8-15% | 6,046 | 7.9% | 7-9% | -3.2% |  |
 | reverse | 15 | 15 | `A` | A&rarr;G 938, A&rarr;C 212, A&rarr;T 155 | hypervariable | 1,305 | 13.4% | 12-15% | 5,138 | 6.7% | 6-7% | -6.7% |  |
 | forward | 19 | 12 | `G` | G&rarr;A 76 | `R` | 76 | 15.8% | 9-26% | 6,367 | 8.0% | 7-9% | -7.8% |  |
-| forward | 26 | 5 | `A` | A&rarr;G 465, A&rarr;C 33, A&rarr;T 1 | `V` (99.8%) | 499 | 23.2% | 20-27% | 5,944 | 6.8% | 6-7% | -16.5% |  |
+| forward | 26 | 5 | `A` | A&rarr;G 465, A&rarr;C 33, A&rarr;T 1 | `V` (99.8%) | 499 | 23.2% | 20-27% | 5,944 | 6.8% | 6-7% | -16.4% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -348,26 +381,26 @@ Polyomaviridae (taxid 151341) — status **low coverage** — 6,443 evaluable of
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 16 | 14 | `G` | G&rarr;T 6,030, G&rarr;C 1 | `K` (100.0%) | 6,031 | 2.5% | 2-3% | 412 | 89.6% | 86-92% | 87.1% |  |
-| forward | 20 | 11 | `G` | G&rarr;T 5,468, G&rarr;A 419, G&rarr;C 27, +1 more | `D` (99.5%) | 5,915 | 1.9% | 2-2% | 528 | 77.1% | 73-80% | 75.2% |  |
-| forward | 25 | 6 | `A` | A&rarr;T 3,143, A&rarr;C 2,238, A&rarr;G 1 | `H` (100.0%) | 5,382 | 0.2% | 0-0% | 1,061 | 48.0% | 45-51% | 47.8% |  |
-| forward | 14 | 17 | `C` | C&rarr;G 5,473, C&rarr;A 208, C&rarr;T 69 | `S` (95.2%) | 5,750 | 3.0% | 3-3% | 693 | 50.2% | 47-54% | 47.2% |  |
-| reverse | 23 | 7 | `T` | T&rarr;A 5,346, T&rarr;C 1 | `W` (100.0%) | 5,347 | 0.1% | 0-0% | 1,096 | 46.6% | 44-50% | 46.5% |  |
-| forward | 24 | 7 | `A` | A&rarr;T 3,138, A&rarr;C 3 | `W` (99.9%) | 3,141 | 0.3% | 0-1% | 3,302 | 15.4% | 14-17% | 15.2% |  |
-| forward | 23 | 8 | `T` | T&rarr;G 2,227, T&rarr;C 26, T&rarr;A 11 | `K` (98.4%) | 2,264 | 0.3% | 0-1% | 4,179 | 12.3% | 11-13% | 11.9% |  |
+| reverse | 16 | 14 | `G` | G&rarr;T 6,030, G&rarr;C 1 | `K` (100.0%) | 6,031 | 2.5% | 2-3% | 412 | 89.8% | 87-92% | 87.3% |  |
+| forward | 20 | 11 | `G` | G&rarr;T 5,468, G&rarr;A 419, G&rarr;C 27, +1 more | `D` (99.5%) | 5,915 | 1.9% | 2-2% | 528 | 77.5% | 74-81% | 75.6% |  |
+| forward | 25 | 6 | `A` | A&rarr;T 3,143, A&rarr;C 2,238, A&rarr;G 1 | `H` (100.0%) | 5,382 | 0.2% | 0-0% | 1,061 | 48.2% | 45-51% | 48.0% |  |
+| forward | 14 | 17 | `C` | C&rarr;G 5,473, C&rarr;A 208, C&rarr;T 69 | `S` (95.2%) | 5,750 | 3.0% | 3-3% | 693 | 50.4% | 47-54% | 47.4% |  |
+| reverse | 23 | 7 | `T` | T&rarr;A 5,346, T&rarr;C 1 | `W` (100.0%) | 5,347 | 0.1% | 0-0% | 1,096 | 46.8% | 44-50% | 46.7% |  |
+| forward | 24 | 7 | `A` | A&rarr;T 3,138, A&rarr;C 3 | `W` (99.9%) | 3,141 | 0.3% | 0-1% | 3,302 | 15.5% | 14-17% | 15.2% |  |
+| forward | 23 | 8 | `T` | T&rarr;G 2,227, T&rarr;C 26, T&rarr;A 11 | `K` (98.4%) | 2,264 | 0.3% | 0-1% | 4,179 | 12.3% | 11-13% | 12.0% |  |
 | reverse | 4 | 26 | `C` | C&rarr;T 850 | `Y` | 850 | 0.0% | 0-0% | 5,593 | 9.3% | 9-10% | 9.3% | yes |
 | forward | 17 | 14 | `T` | T&rarr;G 2,555, T&rarr;A 141, T&rarr;C 11 | `D` (99.6%) | 2,707 | 3.3% | 3-4% | 3,736 | 11.5% | 11-13% | 8.2% |  |
-| reverse | 18 | 12 | `C` | C&rarr;T 3,650, C&rarr;A 111, C&rarr;G 20 | `Y` (96.5%) | 3,781 | 5.0% | 4-6% | 2,662 | 12.4% | 11-14% | 7.3% |  |
-| reverse | 27 | 3 | `C` | C&rarr;A 2,304, C&rarr;T 141, C&rarr;G 1 | `H` (100.0%) | 2,446 | 3.6% | 3-4% | 3,997 | 10.8% | 10-12% | 7.3% |  |
-| reverse | 21 | 9 | `A` | A&rarr;C 2,519, A&rarr;T 322, A&rarr;G 65 | `H` (97.8%) | 2,906 | 5.4% | 5-6% | 3,537 | 10.2% | 9-11% | 4.8% |  |
+| reverse | 18 | 12 | `C` | C&rarr;T 3,650, C&rarr;A 111, C&rarr;G 20 | `Y` (96.5%) | 3,781 | 5.1% | 4-6% | 2,662 | 12.4% | 11-14% | 7.3% |  |
+| reverse | 27 | 3 | `C` | C&rarr;A 2,304, C&rarr;T 141, C&rarr;G 1 | `H` (100.0%) | 2,446 | 3.6% | 3-4% | 3,997 | 10.8% | 10-12% | 7.2% |  |
+| reverse | 21 | 9 | `A` | A&rarr;C 2,519, A&rarr;T 322, A&rarr;G 65 | `H` (97.8%) | 2,906 | 5.4% | 5-6% | 3,537 | 10.3% | 9-11% | 4.8% |  |
 | forward | 10 | 21 | `C` | C&rarr;T 192, C&rarr;A 4 | `Y` (98.0%) | 196 | 4.1% | 2-8% | 6,247 | 8.2% | 8-9% | 4.1% |  |
 | reverse | 24 | 6 | `A` | A&rarr;G 60, A&rarr;C 6, A&rarr;T 2 | `V` (97.1%) | 68 | 4.4% | 2-12% | 6,375 | 8.1% | 7-9% | 3.7% |  |
 | reverse | 29 | 1 | `C` | C&rarr;T 48, C&rarr;A 2, C&rarr;G 1 | `H` (98.0%) | 51 | 7.8% | 3-18% | 6,392 | 8.1% | 7-9% | 0.2% |  |
-| reverse | 25 | 5 | `C` | C&rarr;G 150, C&rarr;A 3, C&rarr;T 2 | `S` (96.8%) | 155 | 9.7% | 6-15% | 6,288 | 8.0% | 7-9% | -1.7% |  |
-| reverse | 19 | 11 | `C` | C&rarr;T 396, C&rarr;A 1 | `Y` (99.7%) | 397 | 10.8% | 8-14% | 6,046 | 7.9% | 7-9% | -3.0% |  |
+| reverse | 25 | 5 | `C` | C&rarr;G 150, C&rarr;A 3, C&rarr;T 2 | `S` (96.8%) | 155 | 9.7% | 6-15% | 6,288 | 8.0% | 7-9% | -1.6% |  |
+| reverse | 19 | 11 | `C` | C&rarr;T 396, C&rarr;A 1 | `Y` (99.7%) | 397 | 11.1% | 8-15% | 6,046 | 7.9% | 7-9% | -3.2% |  |
 | reverse | 15 | 15 | `A` | A&rarr;G 938, A&rarr;C 212, A&rarr;T 155 | hypervariable | 1,305 | 13.4% | 12-15% | 5,138 | 6.7% | 6-7% | -6.7% |  |
 | forward | 19 | 12 | `G` | G&rarr;A 76 | `R` | 76 | 15.8% | 9-26% | 6,367 | 8.0% | 7-9% | -7.8% |  |
-| forward | 26 | 5 | `A` | A&rarr;G 465, A&rarr;C 33, A&rarr;T 1 | `V` (99.8%) | 499 | 23.2% | 20-27% | 5,944 | 6.8% | 6-7% | -16.5% |  |
+| forward | 26 | 5 | `A` | A&rarr;G 465, A&rarr;C 33, A&rarr;T 1 | `V` (99.8%) | 499 | 23.2% | 20-27% | 5,944 | 6.8% | 6-7% | -16.4% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -464,56 +497,9 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 5,8,11; rev 1,4,13,19 | 2 | fail | 2024×2 | Serpentovirinae sp.×2 | `PP898873`, `PP898865` |
 | fwd 2,5,11,17; rev 1,4,13,16,19 | 2 | fail | 2024×2 | Serpentovirinae sp.×2 | `PP898869`, `PP898868` |
 
-## ORTHOBUNYAVIRUS_ssRNA_M_segment
-
-Orthobunyavirus (taxid 11572) — status **low coverage** — 227 evaluable of 2,083 screened records
-
-- forward: `5'-TCNAARGGHTGYGGNAATGT-3'` (20 nt)
-- reverse: `5'-AGTAGTGTGCTACC-3'` (14 nt)
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 2 | 19 | `G` | G&rarr;A 32, G&rarr;T 27, G&rarr;C 6 | hypervariable | 65 | 0.0% | 0-6% | 162 | 37.0% | 30-45% | 37.0% | yes |
-| reverse | 3 | 12 | `A` | A&rarr;C 52, A&rarr;T 7, A&rarr;G 2 | `H` (96.7%) | 61 | 0.0% | 0-6% | 166 | 36.1% | 29-44% | 36.1% | yes |
-| reverse | 6 | 9 | `G` | G&rarr;A 30, G&rarr;T 22, G&rarr;C 6 | hypervariable | 58 | 0.0% | 0-6% | 169 | 35.5% | 29-43% | 35.5% |  |
-| reverse | 1 | 14 | `C` | C&rarr;A 33, C&rarr;T 15, C&rarr;G 9 | hypervariable | 57 | 0.0% | 0-6% | 170 | 35.3% | 29-43% | 35.3% | yes |
-| forward | 7 | 14 | `G` | G&rarr;T 31, G&rarr;C 13, G&rarr;A 9 | hypervariable | 53 | 0.0% | 0-7% | 174 | 34.5% | 28-42% | 34.5% |  |
-| forward | 10 | 11 | `G` | G&rarr;T 28, G&rarr;A 17, G&rarr;C 6 | hypervariable | 51 | 0.0% | 0-7% | 176 | 34.1% | 27-41% | 34.1% |  |
-| forward | 8 | 13 | `G` | G&rarr;T 28, G&rarr;A 21, G&rarr;C 5 | hypervariable | 54 | 1.9% | 0-10% | 173 | 34.1% | 27-41% | 32.3% |  |
-| reverse | 8 | 7 | `G` | G&rarr;A 23, G&rarr;C 8, G&rarr;T 2 | hypervariable | 33 | 0.0% | 0-10% | 194 | 30.9% | 25-38% | 30.9% |  |
-| forward | 3 | 18 | `T` | T&rarr;C 15, T&rarr;A 9, T&rarr;G 8 | hypervariable | 32 | 0.0% | 0-11% | 195 | 30.8% | 25-38% | 30.8% | yes |
-| forward | 16 | 5 | `A` | A&rarr;T 11, A&rarr;C 10, A&rarr;G 6 | hypervariable | 27 | 0.0% | 0-12% | 200 | 30.0% | 24-37% | 30.0% |  |
-| forward | 1 | 20 | `T` | T&rarr;A 12, T&rarr;C 8, T&rarr;G 6 | hypervariable | 26 | 0.0% | 0-13% | 201 | 29.9% | 24-37% | 29.9% | yes |
-| reverse | 2 | 13 | `C` | C&rarr;T 13, C&rarr;A 8 | `H` | 21 | 0.0% | 0-15% | 206 | 29.1% | 23-36% | 29.1% | yes |
-| forward | 13 | 8 | `G` | G&rarr;T 59, G&rarr;A 26, G&rarr;C 10 | hypervariable | 95 | 11.6% | 7-20% | 132 | 37.1% | 29-46% | 25.5% |  |
-| forward | 19 | 2 | `C` | C&rarr;G 35, C&rarr;A 23, C&rarr;T 11 | hypervariable | 69 | 15.9% | 9-26% | 158 | 31.0% | 24-39% | 15.1% |  |
-| forward | 4 | 17 | `A` | A&rarr;G 28, A&rarr;T 27, A&rarr;C 6 | hypervariable | 61 | 16.4% | 9-28% | 166 | 30.1% | 24-37% | 13.7% | yes |
-| forward | 14 | 7 | `G` | G&rarr;T 40, G&rarr;A 20, G&rarr;C 4 | hypervariable | 64 | 17.2% | 10-28% | 163 | 30.1% | 24-37% | 12.9% |  |
-| forward | 12 | 9 | `H` | H&rarr;G 29 | hypervariable | 29 | 24.1% | 12-42% | 198 | 26.8% | 21-33% | 2.6% |  |
-| reverse | 13 | 2 | `G` | G&rarr;T 30, G&rarr;A 2 | `D` | 32 | 34.4% | 20-52% | 195 | 25.1% | 20-32% | -9.2% |  |
-| reverse | 14 | 1 | `A` | A&rarr;T 20, A&rarr;G 11, A&rarr;C 4 | hypervariable | 35 | 34.3% | 21-51% | 192 | 25.0% | 19-32% | -9.3% |  |
-| reverse | 11 | 4 | `A` | A&rarr;T 20, A&rarr;C 4, A&rarr;G 1 | `H` (96.0%) | 25 | 36.0% | 20-55% | 202 | 25.2% | 20-32% | -10.8% |  |
-| forward | 20 | 1 | `T` | T&rarr;G 35, T&rarr;A 22, T&rarr;C 11 | hypervariable | 68 | 35.3% | 25-47% | 159 | 22.6% | 17-30% | -12.7% |  |
-| forward | 17 | 4 | `A` | A&rarr;C 59, A&rarr;T 2 | `M` (96.7%) | 61 | 45.9% | 34-58% | 166 | 19.3% | 14-26% | -26.6% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| fwd 4,7,10,12,13,14; rev 6 | 14 | fail | 2015×9, 2020×1, 2024×4 | Oropouche virus×14 | `PP992528`, `PP992527`, `PP477317`, `PP477316`, `MN264268`, `KP691604` (+8) |
-| no mismatches | 12 | detect | 2002×2, 2015×2, 2018×1, 2020×1 | La×4, Keystone virus×3, Melao virus×2 | `MN264271`, `NC_004109`, `MH016785`, `KT630292`, `KT630289`, `U88057` (+6) |
-| fwd 17 | 11 | detect | 2003×4, 2009×2, 2018×1, 2019×1 | Cache×4, Maguari virus×4, Tensaw virus×3 | `NC_043548`, `MH166878`, `AF186243`, `AF186242`, `AF186241`, `FJ943508` (+5) |
-| fwd 4,20 | 9 | reduced | 2017×9 | Wolkberg virus×9 | `NC_034631`, `KX470582`, `KX470579`, `KX470570`, `KX470567`, `KX470564` (+3) |
-| fwd 17; rev 11,12,13,14 | 9 | reduced | 1999×1, 2000×4, 2001×4 | Cache×9 | `AF234767`, `AF231115`, `AF231114`, `AF231113`, `AF231119`, `AF231118` (+3) |
-| rev 2,6,8,13 | 8 | fail | 2017×8 | Khatanga virus×4, Inkoo virus×4 | `KT288306`, `KT288303`, `KT288300`, `KT288297`, `KT288282`, `KT288279` (+2) |
-| fwd 2,17; rev 2,4,8,11,14 | 8 | fail | 2016×8 | Batai virus×8 | `KT313714`, `KT313711`, `KT313708`, `KT313705`, `KT313702`, `KT313699` (+2) |
-| fwd 2,4,8,20; rev 6 | 7 | fail | 2012×1, 2013×3, 2019×2, 2024×1 | Schmallenberg virus×7 | `PP616750`, `NC_043584`, `MF154865`, `KC355458`, `KC355455`, `JX853180` (+1) |
-
 ## ABPV_capsid_Rossi_2024
 
-Acute bee paralysis virus (taxid 3047346) — status **declining** — 122 evaluable of 990 screened records
+Aparavirus apisacutum (acute bee paralysis virus; the paper's name, renamed by ICTV) (taxid 3047346) — status **declining** — 122 evaluable of 990 screened records
 
 - forward: `5'-TTTGTTTCAAAYAARATGTTYATGAAAYC-3'` (29 nt)
 - reverse: `5'-BTWGAHACAGTCTCTGGACACAT-3'` (23 nt)
@@ -552,32 +538,32 @@ Influenza A virus (taxid 11320) — status **declining** — 89,624 evaluable of
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 2 | 23 | `C` | C&rarr;T 981, C&rarr;A 121, C&rarr;G 4 | `H` (99.6%) | 1,106 | 0.3% | 0-1% | 88,518 | 98.3% | 98-98% | 98.1% | yes |
-| reverse | 3 | 22 | `C` | C&rarr;T 198, C&rarr;A 2 | `Y` (99.0%) | 200 | 0.0% | 0-2% | 89,424 | 97.3% | 97-97% | 97.3% | yes |
-| forward | 5 | 20 | `G` | G&rarr;A 58, G&rarr;C 1 | `R` (98.3%) | 59 | 0.0% | 0-6% | 89,565 | 97.2% | 97-97% | 97.2% | yes |
-| reverse | 2 | 23 | `T` | T&rarr;C 26, T&rarr;A 21, T&rarr;G 1 | `H` (97.9%) | 48 | 0.0% | 0-7% | 89,576 | 97.2% | 97-97% | 97.2% | yes |
-| probe | 14 | 7 | `C` | C&rarr;T 63, C&rarr;A 1 | `Y` (98.4%) | 64 | 10.9% | 5-21% | 89,560 | 97.2% | 97-97% | 86.2% |  |
-| probe | 6 | 15 | `A` | A&rarr;G 61 | `R` | 61 | 24.6% | 16-37% | 89,563 | 97.2% | 97-97% | 72.6% |  |
-| reverse | 21 | 4 | `A` | A&rarr;G 347, A&rarr;C 1 | `R` (99.7%) | 348 | 30.2% | 26-35% | 89,276 | 97.4% | 97-97% | 67.2% |  |
-| reverse | 7 | 18 | `G` | G&rarr;A 317, G&rarr;T 198 | `D` | 515 | 34.6% | 31-39% | 89,109 | 97.5% | 97-98% | 62.9% |  |
-| probe | 18 | 3 | `A` | A&rarr;G 2,480, A&rarr;C 396, A&rarr;T 53 | `V` (98.2%) | 2,929 | 63.0% | 61-65% | 86,695 | 98.3% | 98-98% | 35.3% |  |
-| reverse | 15 | 10 | `A` | A&rarr;G 197, A&rarr;T 112, A&rarr;C 19 | hypervariable | 328 | 62.5% | 57-68% | 89,296 | 97.3% | 97-97% | 34.8% |  |
-| forward | 8 | 17 | `C` | C&rarr;T 696, C&rarr;A 450, C&rarr;G 14 | `H` (98.8%) | 1,160 | 76.4% | 74-79% | 88,464 | 97.4% | 97-98% | 21.0% |  |
-| forward | 24 | 1 | `A` | A&rarr;G 26, A&rarr;T 26, A&rarr;C 4 | hypervariable | 56 | 78.6% | 66-87% | 89,568 | 97.1% | 97-97% | 18.6% |  |
-| forward | 16 | 9 | `C` | C&rarr;T 27, C&rarr;A 2, C&rarr;G 1 | `H` (96.7%) | 30 | 80.0% | 63-90% | 89,594 | 97.1% | 97-97% | 17.1% |  |
-| forward | 9 | 16 | `C` | C&rarr;A 32, C&rarr;G 1 | `M` (97.0%) | 33 | 84.8% | 69-93% | 89,591 | 97.1% | 97-97% | 12.3% |  |
-| reverse | 18 | 7 | `G` | G&rarr;A 5,941, G&rarr;C 4,893, G&rarr;T 2,396, +3 more | hypervariable | 13,295 | 89.1% | 89-90% | 76,329 | 98.5% | 98-99% | 9.4% |  |
-| forward | 13 | 12 | `C` | C&rarr;T 64, C&rarr;G 4 | `B` | 68 | 89.7% | 80-95% | 89,556 | 97.1% | 97-97% | 7.4% |  |
-| forward | 14 | 11 | `T` | T&rarr;C 106, T&rarr;A 6, T&rarr;G 1 | `H` (99.1%) | 113 | 92.0% | 86-96% | 89,511 | 97.1% | 97-97% | 5.1% |  |
-| reverse | 23 | 2 | `G` | G&rarr;A 159 | `R` | 159 | 94.3% | 90-97% | 89,465 | 97.1% | 97-97% | 2.8% |  |
-| reverse | 14 | 11 | `T` | T&rarr;C 30,231, T&rarr;G 7, T&rarr;A 1 | `Y` (100.0%) | 30,239 | 95.4% | 95-96% | 59,385 | 98.0% | 98-98% | 2.7% |  |
-| reverse | 9 | 16 | `A` | A&rarr;C 30,856, A&rarr;T 175, A&rarr;G 149 | `M` (99.0%) | 31,180 | 95.4% | 95-96% | 58,444 | 98.0% | 98-98% | 2.7% |  |
-| reverse | 16 | 9 | `C` | C&rarr;T 39, C&rarr;G 1, C&rarr;A 1 | `Y` (95.1%) | 41 | 97.6% | 87-100% | 89,583 | 97.1% | 97-97% | -0.4% |  |
-| reverse | 13 | 12 | `C` | C&rarr;T 29,290 | `Y` | 29,290 | 97.7% | 97-98% | 60,334 | 96.9% | 97-97% | -0.8% |  |
-| forward | 11 | 14 | `R` | R&rarr;T 28,839, R&rarr;C 26 | `D` (99.9%) | 28,865 | 99.8% | 100-100% | 60,759 | 95.9% | 96-96% | -3.9% |  |
-| forward | 17 | 8 | `T` | T&rarr;C 40,754, T&rarr;A 1 | `Y` (100.0%) | 40,755 | 99.6% | 100-100% | 48,869 | 95.0% | 95-95% | -4.6% |  |
-| reverse | 24 | 1 | `T` | T&rarr;A 40,178, T&rarr;C 213, T&rarr;G 37, +1 more | `W` (99.4%) | 40,429 | 99.7% | 100-100% | 49,195 | 95.0% | 95-95% | -4.7% |  |
-| reverse | 22 | 3 | `A` | A&rarr;C 89,475, A&rarr;T 15 | `M` (100.0%) | 89,490 | 97.2% | 97-97% | 134 | 45.5% | 37-54% | -51.7% |  |
+| forward | 2 | 23 | `C` | C&rarr;T 981, C&rarr;A 121, C&rarr;G 4 | `H` (99.6%) | 1,106 | 0.3% | 0-1% | 88,518 | 98.4% | 98-99% | 98.2% | yes |
+| reverse | 3 | 22 | `C` | C&rarr;T 198, C&rarr;A 2 | `Y` (99.0%) | 200 | 0.0% | 0-2% | 89,424 | 97.4% | 97-98% | 97.4% | yes |
+| probe | 14 | 7 | `C` | C&rarr;T 63, C&rarr;A 1 | `Y` (98.4%) | 64 | 10.9% | 5-21% | 89,560 | 97.3% | 97-97% | 86.4% |  |
+| probe | 6 | 15 | `A` | A&rarr;G 61 | `R` | 61 | 24.6% | 16-37% | 89,563 | 97.3% | 97-97% | 72.7% |  |
+| reverse | 21 | 4 | `A` | A&rarr;G 347, A&rarr;C 1 | `R` (99.7%) | 348 | 30.2% | 26-35% | 89,276 | 97.5% | 97-98% | 67.3% |  |
+| reverse | 7 | 18 | `G` | G&rarr;A 317, G&rarr;T 198 | `D` | 515 | 34.6% | 31-39% | 89,109 | 97.6% | 97-98% | 63.0% |  |
+| reverse | 2 | 23 | `T` | T&rarr;C 26, T&rarr;A 21, T&rarr;G 1 | `H` (97.9%) | 48 | 52.1% | 38-66% | 89,576 | 97.3% | 97-97% | 45.2% | yes |
+| probe | 18 | 3 | `A` | A&rarr;G 2,480, A&rarr;C 396, A&rarr;T 53 | `V` (98.2%) | 2,929 | 63.0% | 61-65% | 86,695 | 98.4% | 98-98% | 35.4% |  |
+| reverse | 15 | 10 | `A` | A&rarr;G 197, A&rarr;T 112, A&rarr;C 19 | hypervariable | 328 | 62.5% | 57-68% | 89,296 | 97.4% | 97-97% | 34.9% |  |
+| forward | 8 | 17 | `C` | C&rarr;T 696, C&rarr;A 450, C&rarr;G 14 | `H` (98.8%) | 1,160 | 76.7% | 74-79% | 88,464 | 97.5% | 97-98% | 20.8% |  |
+| forward | 24 | 1 | `A` | A&rarr;G 26, A&rarr;T 26, A&rarr;C 4 | hypervariable | 56 | 78.6% | 66-87% | 89,568 | 97.2% | 97-97% | 18.7% |  |
+| forward | 16 | 9 | `C` | C&rarr;T 27, C&rarr;A 2, C&rarr;G 1 | `H` (96.7%) | 30 | 80.0% | 63-90% | 89,594 | 97.2% | 97-97% | 17.2% |  |
+| forward | 9 | 16 | `C` | C&rarr;A 32, C&rarr;G 1 | `M` (97.0%) | 33 | 84.8% | 69-93% | 89,591 | 97.2% | 97-97% | 12.4% |  |
+| reverse | 18 | 7 | `G` | G&rarr;A 5,941, G&rarr;C 4,893, G&rarr;T 2,396, +3 more | hypervariable | 13,295 | 89.3% | 89-90% | 76,329 | 98.6% | 99-99% | 9.4% |  |
+| forward | 13 | 12 | `C` | C&rarr;T 64, C&rarr;G 4 | `B` | 68 | 89.7% | 80-95% | 89,556 | 97.2% | 97-97% | 7.5% |  |
+| forward | 14 | 11 | `T` | T&rarr;C 106, T&rarr;A 6, T&rarr;G 1 | `H` (99.1%) | 113 | 92.0% | 86-96% | 89,511 | 97.2% | 97-97% | 5.2% |  |
+| reverse | 14 | 11 | `T` | T&rarr;C 30,231, T&rarr;G 7, T&rarr;A 1 | `Y` (100.0%) | 30,239 | 95.4% | 95-96% | 59,385 | 98.2% | 98-98% | 2.7% |  |
+| reverse | 9 | 16 | `A` | A&rarr;C 30,856, A&rarr;T 175, A&rarr;G 149 | `M` (99.0%) | 31,180 | 95.5% | 95-96% | 58,444 | 98.2% | 98-98% | 2.7% |  |
+| reverse | 23 | 2 | `G` | G&rarr;A 159 | `R` | 159 | 95.0% | 90-97% | 89,465 | 97.2% | 97-97% | 2.3% |  |
+| reverse | 16 | 9 | `C` | C&rarr;T 39, C&rarr;G 1, C&rarr;A 1 | `Y` (95.1%) | 41 | 97.6% | 87-100% | 89,583 | 97.2% | 97-97% | -0.3% |  |
+| reverse | 13 | 12 | `C` | C&rarr;T 29,290 | `Y` | 29,290 | 97.7% | 98-98% | 60,334 | 97.0% | 97-97% | -0.7% |  |
+| forward | 5 | 20 | `G` | G&rarr;A 58, G&rarr;C 1 | `R` (98.3%) | 59 | 98.3% | 91-100% | 89,565 | 97.2% | 97-97% | -1.1% | yes |
+| forward | 11 | 14 | `R` | R&rarr;T 28,839, R&rarr;C 26 | `D` (99.9%) | 28,865 | 99.8% | 100-100% | 60,759 | 96.0% | 96-96% | -3.8% |  |
+| forward | 17 | 8 | `T` | T&rarr;C 40,754, T&rarr;A 1 | `Y` (100.0%) | 40,755 | 99.7% | 100-100% | 48,869 | 95.2% | 95-95% | -4.5% |  |
+| reverse | 24 | 1 | `T` | T&rarr;A 40,178, T&rarr;C 213, T&rarr;G 37, +1 more | `W` (99.4%) | 40,429 | 99.7% | 100-100% | 49,195 | 95.2% | 95-95% | -4.6% |  |
+| reverse | 22 | 3 | `A` | A&rarr;C 89,475, A&rarr;T 15 | `M` (100.0%) | 89,490 | 97.3% | 97-97% | 134 | 45.5% | 37-54% | -51.8% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -605,32 +591,32 @@ Haemosporida (taxid 5819) — status **declining** — 6,630 evaluable of 32,039
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 13 | 11 | `C` | C&rarr;A 6,545, C&rarr;G 2 | `M` (100.0%) | 6,547 | 23.6% | 23-25% | 83 | 97.6% | 92-99% | 74.0% |  |
-| forward | 17 | 7 | `C` | C&rarr;T 6,137, C&rarr;A 4 | `Y` (99.9%) | 6,141 | 19.5% | 19-20% | 489 | 87.5% | 84-90% | 68.0% |  |
-| reverse | 1 | 24 | `T` | T&rarr;A 1,907, T&rarr;C 12, T&rarr;G 4 | `W` (99.2%) | 1,923 | 0.0% | 0-0% | 4,707 | 34.5% | 33-36% | 34.5% | yes |
-| reverse | 4 | 21 | `T` | T&rarr;A 2,394, T&rarr;C 11, T&rarr;G 1 | `W` (99.5%) | 2,406 | 5.3% | 4-6% | 4,224 | 35.4% | 34-37% | 30.2% | yes |
-| forward | 2 | 22 | `T` | T&rarr;C 1,648, T&rarr;A 1 | `Y` (99.9%) | 1,649 | 2.5% | 2-3% | 4,981 | 31.8% | 30-33% | 29.2% | yes |
-| forward | 8 | 16 | `T` | T&rarr;C 1,741 | `Y` | 1,741 | 5.1% | 4-6% | 4,889 | 31.4% | 30-33% | 26.4% |  |
-| forward | 18 | 6 | `G` | G&rarr;C 495, G&rarr;T 1 | `S` (99.8%) | 496 | 0.4% | 0-1% | 6,134 | 26.4% | 25-28% | 26.0% |  |
-| forward | 19 | 5 | `T` | T&rarr;G 492, T&rarr;A 1, T&rarr;C 1 | `K` (99.6%) | 494 | 0.4% | 0-1% | 6,136 | 26.4% | 25-28% | 26.0% |  |
-| reverse | 16 | 9 | `T` | T&rarr;A 2,526, T&rarr;G 6, T&rarr;C 2 | `W` (99.7%) | 2,534 | 8.6% | 8-10% | 4,096 | 34.3% | 33-36% | 25.7% |  |
-| forward | 1 | 23 | `G` | G&rarr;T 292, G&rarr;A 2, G&rarr;C 1 | `K` (99.0%) | 295 | 0.0% | 0-1% | 6,335 | 25.6% | 25-27% | 25.6% | yes |
-| forward | 5 | 19 | `G` | G&rarr;A 229, G&rarr;T 4 | `R` (98.3%) | 233 | 0.0% | 0-2% | 6,397 | 25.4% | 24-26% | 25.4% | yes |
-| forward | 7 | 17 | `A` | A&rarr;T 137, A&rarr;C 46 | `H` | 183 | 0.0% | 0-2% | 6,447 | 25.2% | 24-26% | 25.2% |  |
-| forward | 16 | 8 | `T` | T&rarr;A 49, T&rarr;C 2, T&rarr;G 1 | `H` (98.1%) | 52 | 0.0% | 0-7% | 6,578 | 24.7% | 24-26% | 24.7% |  |
-| reverse | 2 | 23 | `G` | G&rarr;A 35, G&rarr;T 6, G&rarr;C 4 | hypervariable | 45 | 0.0% | 0-8% | 6,585 | 24.7% | 24-26% | 24.7% | yes |
-| reverse | 14 | 11 | `G` | G&rarr;A 100, G&rarr;T 10 | `D` | 110 | 0.9% | 0-5% | 6,520 | 24.9% | 24-26% | 24.0% |  |
-| reverse | 9 | 16 | `G` | G&rarr;C 49, G&rarr;A 22 | `V` | 71 | 1.4% | 0-8% | 6,559 | 24.7% | 24-26% | 23.3% |  |
-| reverse | 5 | 20 | `A` | A&rarr;G 73, A&rarr;T 1 | `R` (98.6%) | 74 | 4.1% | 1-11% | 6,556 | 24.7% | 24-26% | 20.7% | yes |
-| reverse | 8 | 17 | `A` | A&rarr;C 497 | `M` | 497 | 6.6% | 5-9% | 6,133 | 25.9% | 25-27% | 19.3% |  |
-| reverse | 24 | 1 | `G` | G&rarr;A 30, G&rarr;T 4, G&rarr;C 2 | hypervariable | 36 | 8.3% | 3-22% | 6,594 | 24.6% | 24-26% | 16.2% |  |
-| reverse | 23 | 2 | `C` | C&rarr;A 157, C&rarr;G 7, C&rarr;T 2 | `V` (98.8%) | 166 | 17.5% | 12-24% | 6,464 | 24.7% | 24-26% | 7.2% |  |
-| reverse | 10 | 15 | `T` | T&rarr;A 3,362, T&rarr;G 354 | `D` | 3,716 | 21.3% | 20-23% | 2,914 | 28.5% | 27-30% | 7.2% |  |
-| reverse | 13 | 12 | `A` | A&rarr;G 51, A&rarr;T 1 | `R` (98.1%) | 52 | 32.7% | 22-46% | 6,578 | 24.4% | 23-25% | -8.3% |  |
-| reverse | 22 | 3 | `A` | A&rarr;G 163, A&rarr;C 2 | `R` (98.8%) | 165 | 46.7% | 39-54% | 6,465 | 23.9% | 23-25% | -22.7% |  |
-| forward | 14 | 10 | `T` | T&rarr;C 668, T&rarr;A 1 | `Y` (99.9%) | 669 | 55.5% | 52-59% | 5,961 | 21.0% | 20-22% | -34.4% |  |
-| reverse | 19 | 6 | `A` | A&rarr;G 18, A&rarr;C 3 | `V` | 21 | 76.2% | 55-89% | 6,609 | 24.3% | 23-25% | -51.9% |  |
-| forward | 23 | 1 | `A` | A&rarr;T 44, A&rarr;G 23, A&rarr;C 10 | hypervariable | 77 | 79.2% | 69-87% | 6,553 | 23.9% | 23-25% | -55.4% |  |
+| forward | 13 | 11 | `C` | C&rarr;A 6,545, C&rarr;G 2 | `M` (100.0%) | 6,547 | 25.5% | 24-27% | 83 | 98.8% | 93-100% | 73.3% |  |
+| forward | 17 | 7 | `C` | C&rarr;T 6,137, C&rarr;A 4 | `Y` (99.9%) | 6,141 | 21.3% | 20-22% | 489 | 90.4% | 87-93% | 69.1% |  |
+| reverse | 1 | 24 | `T` | T&rarr;A 1,907, T&rarr;C 12, T&rarr;G 4 | `W` (99.2%) | 1,923 | 0.1% | 0-0% | 4,707 | 37.2% | 36-39% | 37.1% | yes |
+| reverse | 4 | 21 | `T` | T&rarr;A 2,394, T&rarr;C 11, T&rarr;G 1 | `W` (99.5%) | 2,406 | 6.1% | 5-7% | 4,224 | 37.9% | 36-39% | 31.8% | yes |
+| forward | 8 | 16 | `T` | T&rarr;C 1,741 | `Y` | 1,741 | 5.7% | 5-7% | 4,889 | 33.7% | 32-35% | 28.0% |  |
+| forward | 1 | 23 | `G` | G&rarr;T 292, G&rarr;A 2, G&rarr;C 1 | `K` (99.0%) | 295 | 0.0% | 0-1% | 6,335 | 27.6% | 27-29% | 27.6% | yes |
+| forward | 5 | 19 | `G` | G&rarr;A 229, G&rarr;T 4 | `R` (98.3%) | 233 | 0.0% | 0-2% | 6,397 | 27.4% | 26-28% | 27.4% | yes |
+| forward | 7 | 17 | `A` | A&rarr;T 137, A&rarr;C 46 | `H` | 183 | 0.0% | 0-2% | 6,447 | 27.1% | 26-28% | 27.1% |  |
+| forward | 18 | 6 | `G` | G&rarr;C 495, G&rarr;T 1 | `S` (99.8%) | 496 | 1.6% | 1-3% | 6,134 | 28.4% | 27-30% | 26.8% |  |
+| forward | 19 | 5 | `T` | T&rarr;G 492, T&rarr;A 1, T&rarr;C 1 | `K` (99.6%) | 494 | 1.6% | 1-3% | 6,136 | 28.4% | 27-30% | 26.8% |  |
+| forward | 16 | 8 | `T` | T&rarr;A 49, T&rarr;C 2, T&rarr;G 1 | `H` (98.1%) | 52 | 0.0% | 0-7% | 6,578 | 26.6% | 26-28% | 26.6% |  |
+| reverse | 2 | 23 | `G` | G&rarr;A 35, G&rarr;T 6, G&rarr;C 4 | hypervariable | 45 | 0.0% | 0-8% | 6,585 | 26.6% | 26-28% | 26.6% | yes |
+| reverse | 14 | 11 | `G` | G&rarr;A 100, G&rarr;T 10 | `D` | 110 | 0.9% | 0-5% | 6,520 | 26.8% | 26-28% | 25.9% |  |
+| reverse | 9 | 16 | `G` | G&rarr;C 49, G&rarr;A 22 | `V` | 71 | 1.4% | 0-8% | 6,559 | 26.7% | 26-28% | 25.3% |  |
+| reverse | 16 | 9 | `T` | T&rarr;A 2,526, T&rarr;G 6, T&rarr;C 2 | `W` (99.7%) | 2,534 | 10.9% | 10-12% | 4,096 | 36.0% | 35-37% | 25.1% |  |
+| forward | 2 | 22 | `T` | T&rarr;C 1,648, T&rarr;A 1 | `Y` (99.9%) | 1,649 | 9.4% | 8-11% | 4,981 | 32.0% | 31-33% | 22.6% | yes |
+| reverse | 24 | 1 | `G` | G&rarr;A 30, G&rarr;T 4, G&rarr;C 2 | hypervariable | 36 | 8.3% | 3-22% | 6,594 | 26.5% | 25-28% | 18.2% |  |
+| reverse | 8 | 17 | `A` | A&rarr;C 497 | `M` | 497 | 10.7% | 8-14% | 6,133 | 27.7% | 27-29% | 17.0% |  |
+| reverse | 10 | 15 | `T` | T&rarr;A 3,362, T&rarr;G 354 | `D` | 3,716 | 22.1% | 21-23% | 2,914 | 31.9% | 30-34% | 9.8% |  |
+| reverse | 23 | 2 | `C` | C&rarr;A 157, C&rarr;G 7, C&rarr;T 2 | `V` (98.8%) | 166 | 17.5% | 12-24% | 6,464 | 26.6% | 26-28% | 9.2% |  |
+| reverse | 5 | 20 | `A` | A&rarr;G 73, A&rarr;T 1 | `R` (98.6%) | 74 | 23.0% | 15-34% | 6,556 | 26.4% | 25-28% | 3.5% | yes |
+| reverse | 13 | 12 | `A` | A&rarr;G 51, A&rarr;T 1 | `R` (98.1%) | 52 | 32.7% | 22-46% | 6,578 | 26.3% | 25-27% | -6.3% |  |
+| reverse | 22 | 3 | `A` | A&rarr;G 163, A&rarr;C 2 | `R` (98.8%) | 165 | 50.3% | 43-58% | 6,465 | 25.8% | 25-27% | -24.5% |  |
+| forward | 14 | 10 | `T` | T&rarr;C 668, T&rarr;A 1 | `Y` (99.9%) | 669 | 56.5% | 53-60% | 5,961 | 23.0% | 22-24% | -33.5% |  |
+| reverse | 19 | 6 | `A` | A&rarr;G 18, A&rarr;C 3 | `V` | 21 | 76.2% | 55-89% | 6,609 | 26.2% | 25-27% | -50.0% |  |
+| forward | 23 | 1 | `A` | A&rarr;T 44, A&rarr;G 23, A&rarr;C 10 | hypervariable | 77 | 80.5% | 70-88% | 6,553 | 25.8% | 25-27% | -54.8% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -647,26 +633,21 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 13,17,18,19; rev 4,10 | 238 | fail | 2016×16, 2017×28, 2022×169, 2025×6 | Plasmodium gaboni×212, Plasmodium sp.×20, Plasmodium billbrayi×6 | `PV805958`, `PV805950`, `PV805949`, `PV805947`, `PV805932`, `PV805931` (+232) |
 | fwd 13,17; rev 8,10,16 | 207 | fail | 2023×28, 2024×3, 2025×47, 2026×12 | Haemoproteus sp.×148, Parahaemoproteus sp.×20, Haemoproteus majoris×6 | `LC909103`, `LC909098`, `LC909097`, `LC909096`, `LC909095`, `LC867943` (+201) |
 
-## ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010
+## MONKEYPOX_dsDNA_B1_SNP_nonB1_MGB_Huo_2022
 
-Orthoreovirus (taxid 10882) — status **declining** — 1,033 evaluable of 14,531 screened records
+Monkeypox virus (taxid 10244) — status **low coverage** — 12,701 evaluable of 13,757 screened records
 
-- forward: `5'-GGBTCMACNGCYACYTCBACYGAGCA-3'` (26 nt)
-- reverse: `5'-CCRTCRTCWCCYTGRCAKACRTARTT-3'` (26 nt)
+- forward: `5'-AGTACACAGACCTCCACCAC-3'` (20 nt)
+- reverse: `5'-AGTAATTGACCTACTGGTCTAGGG-3'` (24 nt)
+- probe: `5'-AGTCCAAAATCCGCCA-3'` (16 nt)
 
-**337 of 1,033 evaluable records (33%) share one mismatch pattern, mostly Piscine orthoreovirus, deposited 2013-2025, and the group's dominant call is `fail`.**
+**9,187 of 12,701 evaluable records (72%) share one mismatch pattern, mostly Monkeypox virus, deposited 2022-2026, and the group's dominant call is `reduced`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 6 | 21 | `Y` | Y&rarr;G 489, Y&rarr;A 127 | hypervariable | 616 | 2.9% | 2-5% | 417 | 86.6% | 83-90% | 83.6% |  |
-| forward | 3 | 24 | `G` | G&rarr;A 610 | `R` | 610 | 6.1% | 4-8% | 423 | 80.9% | 77-84% | 74.8% | yes |
-| reverse | 9 | 18 | `K` | K&rarr;A 489, K&rarr;C 349 | hypervariable | 838 | 25.1% | 22-28% | 195 | 86.7% | 81-91% | 61.6% |  |
-| forward | 21 | 6 | `M` | M&rarr;T 417, M&rarr;G 216 | hypervariable | 633 | 13.6% | 11-16% | 400 | 73.2% | 69-77% | 59.7% |  |
-| forward | 15 | 12 | `Y` | Y&rarr;G 267, Y&rarr;A 16 | hypervariable | 283 | 7.1% | 5-11% | 750 | 47.9% | 44-51% | 40.8% |  |
-| forward | 12 | 15 | `Y` | Y&rarr;A 173, Y&rarr;G 167 | hypervariable | 340 | 19.1% | 15-24% | 693 | 45.3% | 42-49% | 26.2% |  |
-| forward | 9 | 18 | `B` | B&rarr;A 27 | hypervariable | 27 | 37.0% | 22-56% | 1,006 | 36.7% | 34-40% | -0.4% |  |
-| reverse | 18 | 9 | `W` | W&rarr;G 35, W&rarr;C 22 | hypervariable | 57 | 40.4% | 29-53% | 976 | 36.5% | 34-40% | -3.9% |  |
-| forward | 24 | 3 | `B` | B&rarr;A 109 | hypervariable | 109 | 90.8% | 84-95% | 924 | 30.3% | 27-33% | -60.5% |  |
+| reverse | 24 | 1 | `A` | A&rarr;G 2,813, A&rarr;T 1 | `R` (100.0%) | 2,814 | 0.1% | 0-0% | 9,887 | 99.9% | 100-100% | 99.9% |  |
+| forward | 5 | 16 | `A` | A&rarr;G 2,814 | `R` | 2,814 | 0.2% | 0-0% | 9,887 | 99.9% | 100-100% | 99.7% | yes |
+| probe | 6 | 11 | `C` | C&rarr;T 9,197 | `Y` | 9,197 | 99.9% | 100-100% | 3,504 | 19.8% | 18-21% | -80.2% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -674,14 +655,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| fwd 3,6,21; rev 9 | 337 | fail | 2019×9, 2020×108, 2021×13, 2025×182 | Piscine orthoreovirus×328, Piscine reovirus×6, Sequence×2 | `PV409545`, `PV409535`, `PV409525`, `PV409515`, `PV409505`, `PV409495` (+331) |
-| rev 9 | 138 | detect | 2023×19, 2024×6, 2025×15, 2026×3 | Mammalian orthoreovirus×130, Orthoreovirus sp.×2, Cataraqui virus×1 | `PZ764064`, `PZ005679`, `PV855983`, `PX871018`, `PX401510`, `PX244563` (+132) |
-| fwd 3,6,12,15,21; rev 9 | 87 | fail | 2023×3, 2024×1, 2025×57, 2026×4 | Avian orthoreovirus×86, Avian reovirus×1 | `PZ525050`, `PX942574`, `PX942566`, `PX942556`, `PV448237`, `PQ069026` (+81) |
-| fwd 6,12,15,21; rev 9 | 73 | fail | 2015×2, 2023×11, 2024×9, 2025×44 | Avian orthoreovirus×73 | `PQ068936`, `PQ068926`, `PQ068916`, `PQ068906`, `PQ068896`, `PV406122` (+67) |
-| fwd 3,6,12,15; rev 9 | 57 | fail | 2023×6, 2024×9, 2025×4, 2026×10 | Avian orthoreovirus×56, Duck reovirus×1 | `OP313856`, `OP313846`, `OP302733`, `PZ206355`, `PZ112220`, `PZ112210` (+51) |
-| fwd 21,24 | 44 | detect | 2023×7, 2024×11, 2025×3, 2026×3 | Duck reovirus×33, Avian orthoreovirus×5, Goose orthoreovirus×2 | `PZ332856`, `PZ123232`, `PQ567546`, `PZ016822`, `PV296163`, `PV296162` (+38) |
-| fwd 24 | 41 | detect | 2024×41 | Mammalian orthoreovirus×41 | `LC818806`, `LC818796`, `LC818786`, `LC818772`, `LC818762`, `LC818752` (+35) |
-| no mismatches | 32 | detect | 2022×1, 2023×1, 2025×3, 2026×3 | Mammalian orthoreovirus×24, Reovirus serotype×3, JP×2 | `QQ447910`, `QQ447907`, `PV818064`, `PV804332`, `AF368033`, `PV005835` (+26) |
+| prb 6 | 9,187 | reduced | 2023×3084, 2024×1379, 2025×713, 2026×753 | Monkeypox virus×9185, Mutant×2 | `OZ561975`, `OZ561965`, `OZ561964`, `OZ561963`, `OZ561962`, `OZ561960` (+9,181) |
+| fwd 5; rev 24 | 2,805 | fail | 2023×3, 2024×511, 2025×765, 2026×1479 | Monkeypox virus×2805 | `OZ555904`, `OZ555901`, `OZ555900`, `OZ555899`, `OZ540336`, `OZ540332` (+2,799) |
+| no mismatches | 678 | detect | 2023×8, 2024×125, 2025×405, 2026×29 | Monkeypox virus×678 | `OZ531712`, `OZ531711`, `OZ531706`, `OZ531700`, `OZ501870`, `OZ501843` (+672) |
+| rev 20 | 7 | detect | 2005×2, 2020×3, 2022×1, 2025×1 | Monkeypox virus×7 | `PV982292`, `OK573020`, `MT903348`, `MT903347`, `MT903346`, `DQ011157` (+1) |
+| fwd 5 | 5 | reduced | 2024×3, 2025×2 | Monkeypox virus×5 | `OZ254422`, `OZ254274`, `PQ221653`, `PQ221590`, `PQ221588` |
+| fwd 4; prb 6 | 3 | fail | 2026×3 | Monkeypox virus×3 | `OZ501866`, `OZ501842`, `OZ501830` |
+| fwd 7; prb 6 | 2 | reduced | 2023×2 | Monkeypox virus×2 | `OQ468954`, `OQ419051` |
+| fwd 6 | 2 | detect | 2024×2 | Monkeypox virus×2 | `PP860032`, `PP860028` |
 
 ## ORTHOBUNYAVIRUS_ssRNA_L_segment_Briese_2007
 
@@ -692,16 +673,17 @@ Orthobunyavirus (taxid 11572) — status **low coverage** — 158 evaluable of 2
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 6 | 10 | `C` | C&rarr;A 42, C&rarr;T 14, C&rarr;G 13 | hypervariable | 69 | 0.0% | 0-5% | 89 | 59.6% | 49-69% | 59.6% |  |
-| forward | 11 | 5 | `G` | G&rarr;C 40, G&rarr;A 18, G&rarr;T 10 | hypervariable | 68 | 0.0% | 0-5% | 90 | 58.9% | 49-68% | 58.9% |  |
-| forward | 8 | 8 | `T` | T&rarr;A 43, T&rarr;G 14, T&rarr;C 3 | `D` (95.0%) | 60 | 0.0% | 0-6% | 98 | 54.1% | 44-64% | 54.1% |  |
-| forward | 7 | 9 | `A` | A&rarr;T 25, A&rarr;C 23, A&rarr;G 1 | `H` (98.0%) | 49 | 0.0% | 0-7% | 109 | 48.6% | 39-58% | 48.6% |  |
-| forward | 13 | 3 | `T` | T&rarr;C 26, T&rarr;A 8, T&rarr;G 4 | hypervariable | 38 | 0.0% | 0-9% | 120 | 44.2% | 36-53% | 44.2% |  |
+| forward | 11 | 5 | `G` | G&rarr;C 40, G&rarr;A 29, G&rarr;T 1 | `V` (98.6%) | 70 | 0.0% | 0-5% | 88 | 60.2% | 50-70% | 60.2% |  |
+| forward | 8 | 8 | `T` | T&rarr;A 43, T&rarr;G 23, T&rarr;C 3 | `D` (95.7%) | 69 | 0.0% | 0-5% | 89 | 59.6% | 49-69% | 59.6% |  |
+| forward | 6 | 10 | `C` | C&rarr;A 42, C&rarr;G 13, C&rarr;T 3 | hypervariable | 58 | 0.0% | 0-6% | 100 | 53.0% | 43-62% | 53.0% |  |
+| forward | 7 | 9 | `A` | A&rarr;T 23, A&rarr;C 23, A&rarr;G 1 | `H` (97.9%) | 47 | 0.0% | 0-8% | 111 | 47.7% | 39-57% | 47.7% |  |
+| forward | 13 | 3 | `T` | T&rarr;C 26, T&rarr;A 10, T&rarr;G 2 | hypervariable | 38 | 0.0% | 0-9% | 120 | 44.2% | 36-53% | 44.2% |  |
 | forward | 1 | 15 | `A` | A&rarr;T 21, A&rarr;C 8, A&rarr;G 7 | hypervariable | 36 | 0.0% | 0-10% | 122 | 43.4% | 35-52% | 43.4% | yes |
-| forward | 5 | 11 | `T` | T&rarr;C 20, T&rarr;A 15, T&rarr;G 9 | hypervariable | 44 | 2.3% | 0-12% | 114 | 45.6% | 37-55% | 43.3% | yes |
-| forward | 12 | 4 | `A` | A&rarr;G 24, A&rarr;T 6, A&rarr;C 2 | hypervariable | 32 | 0.0% | 0-11% | 126 | 42.1% | 34-51% | 42.1% |  |
-| forward | 14 | 2 | `G` | G&rarr;T 14, G&rarr;A 13, G&rarr;C 1 | `D` (96.4%) | 28 | 0.0% | 0-12% | 130 | 40.8% | 33-49% | 40.8% |  |
-| forward | 3 | 13 | `C` | C&rarr;T 13, C&rarr;G 12, C&rarr;A 2 | hypervariable | 27 | 0.0% | 0-12% | 131 | 40.5% | 32-49% | 40.5% | yes |
+| forward | 12 | 4 | `A` | A&rarr;G 26, A&rarr;T 6, A&rarr;C 2 | hypervariable | 34 | 0.0% | 0-10% | 124 | 42.7% | 34-52% | 42.7% |  |
+| forward | 2 | 14 | `T` | T&rarr;C 20, T&rarr;A 8, T&rarr;G 1 | `H` (96.6%) | 29 | 0.0% | 0-12% | 129 | 41.1% | 33-50% | 41.1% | yes |
+| forward | 3 | 13 | `C` | C&rarr;T 24, C&rarr;G 3, C&rarr;A 2 | hypervariable | 29 | 0.0% | 0-12% | 129 | 41.1% | 33-50% | 41.1% | yes |
+| forward | 5 | 11 | `T` | T&rarr;C 20, T&rarr;A 15 | `H` | 35 | 2.9% | 1-15% | 123 | 42.3% | 34-51% | 39.4% | yes |
+| forward | 4 | 12 | `Y` | Y&rarr;A 18, Y&rarr;G 2 | hypervariable | 20 | 0.0% | 0-16% | 138 | 38.4% | 31-47% | 38.4% | yes |
 | reverse | 5 | 26 | `W` | W&rarr;G 22, W&rarr;C 10 | hypervariable | 32 | 18.8% | 9-35% | 126 | 37.3% | 29-46% | 18.6% | yes |
 | reverse | 26 | 5 | `K` | K&rarr;A 34, K&rarr;C 3 | hypervariable | 37 | 24.3% | 13-40% | 121 | 36.4% | 28-45% | 12.0% |  |
 | reverse | 17 | 14 | `M` | M&rarr;T 51, M&rarr;G 3 | hypervariable | 54 | 27.8% | 18-41% | 104 | 36.5% | 28-46% | 8.8% |  |
@@ -716,7 +698,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| fwd 3,5,6,11,14,15; rev 14,20 | 9 | fail | 2020×9 | La×9 | `MT294293`, `MT294292`, `MT294291`, `MT294290`, `MT294286`, `MT294285` (+3) |
+| fwd 2,3,4,8,11,15; rev 14,20 | 9 | fail | 2020×9 | La×9 | `MT294293`, `MT294292`, `MT294291`, `MT294290`, `MT294286`, `MT294285` (+3) |
 | rev 14,15,23 | 9 | reduced | 2017×9 | Wolkberg virus×9 | `NC_034633`, `KX470581`, `KX470578`, `KX470569`, `KX470566`, `KX470563` (+3) |
 | no mismatches | 9 | detect | 1991×1, 1994×1, 2011×6, 2014×1 | La×7, Bunyamwera virus×1, Batai virus×1 | `NC_001925`, `KJ187038`, `GU206125`, `GU206128`, `GU206134`, `GU206137` (+3) |
 | fwd 6,7,8,11,13; rev 26 | 8 | fail | 2016×8 | Anadyr virus×8 | `KT313759`, `KT313756`, `KT313753`, `KT313750`, `KT313747`, `KT313744` (+2) |
@@ -734,26 +716,26 @@ Arenaviridae (taxid 11617) — status **low coverage** — 740 evaluable of 6,45
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 3 | 18 | `A` | A&rarr;G 169, A&rarr;T 8, A&rarr;C 2 | `D` (98.9%) | 179 | 5.0% | 3-9% | 561 | 75.6% | 72-79% | 70.6% | yes |
+| forward | 3 | 18 | `A` | A&rarr;G 168, A&rarr;T 9, A&rarr;C 2 | `D` (98.9%) | 179 | 5.0% | 3-9% | 561 | 75.6% | 72-79% | 70.6% | yes |
 | reverse | 1 | 19 | `C` | C&rarr;T 45, C&rarr;G 25 | `B` | 70 | 0.0% | 0-5% | 670 | 64.6% | 61-68% | 64.6% | yes |
 | reverse | 5 | 15 | `T` | T&rarr;G 45, T&rarr;C 23 | `B` | 68 | 0.0% | 0-5% | 672 | 64.4% | 61-68% | 64.4% | yes |
 | reverse | 2 | 18 | `G` | G&rarr;T 46 | `K` | 46 | 0.0% | 0-8% | 694 | 62.4% | 59-66% | 62.4% | yes |
 | forward | 5 | 16 | `T` | T&rarr;A 41, T&rarr;G 4 | `D` | 45 | 0.0% | 0-8% | 695 | 62.3% | 59-66% | 62.3% | yes |
 | forward | 1 | 20 | `T` | T&rarr;A 33, T&rarr;C 4, T&rarr;G 1 | `H` (97.4%) | 38 | 0.0% | 0-9% | 702 | 61.7% | 58-65% | 61.7% | yes |
-| forward | 7 | 14 | `A` | A&rarr;T 34, A&rarr;C 1 | `W` (97.1%) | 35 | 0.0% | 0-10% | 705 | 61.4% | 58-65% | 61.4% |  |
+| forward | 7 | 14 | `A` | A&rarr;T 34, A&rarr;C 2 | `H` | 36 | 0.0% | 0-10% | 704 | 61.5% | 58-65% | 61.5% |  |
 | reverse | 7 | 13 | `C` | C&rarr;T 22, C&rarr;G 3 | `B` | 25 | 0.0% | 0-13% | 715 | 60.6% | 57-64% | 60.6% |  |
-| forward | 17 | 4 | `A` | A&rarr;G 48 | `R` | 48 | 2.1% | 0-11% | 692 | 62.4% | 59-66% | 60.3% |  |
+| forward | 17 | 4 | `A` | A&rarr;G 48, A&rarr;T 1 | `R` (98.0%) | 49 | 2.0% | 0-11% | 691 | 62.5% | 59-66% | 60.5% |  |
 | reverse | 18 | 2 | `G` | G&rarr;C 13, G&rarr;T 6, G&rarr;A 4 | hypervariable | 23 | 13.0% | 5-32% | 717 | 60.0% | 56-63% | 46.9% |  |
 | reverse | 19 | 1 | `C` | C&rarr;T 27, C&rarr;A 10, C&rarr;G 9, +1 more | hypervariable | 47 | 31.9% | 20-46% | 693 | 60.3% | 57-64% | 28.4% |  |
 | forward | 19 | 2 | `G` | G&rarr;T 115, G&rarr;A 22, G&rarr;C 12 | hypervariable | 149 | 38.9% | 31-47% | 591 | 63.5% | 59-67% | 24.5% |  |
-| forward | 6 | 15 | `C` | C&rarr;T 250, C&rarr;G 9, C&rarr;A 3 | `Y` (95.4%) | 262 | 44.7% | 39-51% | 478 | 66.1% | 62-70% | 21.5% |  |
+| forward | 6 | 15 | `C` | C&rarr;T 249, C&rarr;G 9, C&rarr;A 3 | `Y` (95.4%) | 261 | 44.8% | 39-51% | 479 | 66.0% | 62-70% | 21.1% |  |
 | forward | 18 | 3 | `C` | C&rarr;A 65, C&rarr;T 58, C&rarr;G 30 | hypervariable | 153 | 44.4% | 37-52% | 587 | 62.2% | 58-66% | 17.7% |  |
 | forward | 16 | 5 | `T` | T&rarr;C 73, T&rarr;A 46, T&rarr;G 7 | hypervariable | 126 | 45.2% | 37-54% | 614 | 61.2% | 57-65% | 16.0% |  |
 | forward | 11 | 10 | `C` | C&rarr;T 95, C&rarr;G 16, C&rarr;A 5 | `B` (95.7%) | 116 | 50.0% | 41-59% | 624 | 60.1% | 56-64% | 10.1% |  |
 | forward | 8 | 13 | `A` | A&rarr;T 89, A&rarr;C 10, A&rarr;G 10 | hypervariable | 109 | 51.4% | 42-61% | 631 | 59.7% | 56-64% | 8.4% |  |
 | forward | 20 | 1 | `G` | G&rarr;C 85, G&rarr;A 15, G&rarr;T 6 | hypervariable | 106 | 52.8% | 43-62% | 634 | 59.5% | 56-63% | 6.6% |  |
-| forward | 9 | 12 | `A` | A&rarr;G 169, A&rarr;C 16 | `V` | 185 | 54.1% | 47-61% | 555 | 60.0% | 56-64% | 5.9% |  |
-| forward | 13 | 8 | `A` | A&rarr;T 397, A&rarr;C 90, A&rarr;G 3 | `H` (99.4%) | 490 | 56.7% | 52-61% | 250 | 62.0% | 56-68% | 5.3% |  |
+| forward | 9 | 12 | `A` | A&rarr;G 168, A&rarr;C 16 | `V` | 184 | 54.3% | 47-61% | 556 | 59.9% | 56-64% | 5.5% |  |
+| forward | 13 | 8 | `A` | A&rarr;T 396, A&rarr;C 90, A&rarr;G 3 | `H` (99.4%) | 489 | 56.9% | 52-61% | 251 | 61.8% | 56-68% | 4.9% |  |
 | reverse | 12 | 8 | `G` | G&rarr;T 448, G&rarr;A 142, G&rarr;C 1, +1 more | `D` (99.7%) | 592 | 57.9% | 54-62% | 148 | 60.8% | 53-68% | 2.9% |  |
 | forward | 15 | 6 | `W` | W&rarr;G 170, W&rarr;C 28 | hypervariable | 198 | 67.2% | 60-73% | 542 | 55.4% | 51-59% | -11.8% |  |
 | reverse | 14 | 6 | `C` | C&rarr;A 530, C&rarr;G 21, C&rarr;T 6, +1 more | `M` (95.0%) | 558 | 63.8% | 60-68% | 182 | 42.3% | 35-50% | -21.5% |  |
@@ -801,64 +783,6 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | rev 18; prb 10 | 1 | reduced | 2023×1 | Monkeypox virus×1 | `OQ261696` |
 | prb 2,3,10 | 1 | fail | 2022×1 | Monkeypox virus×1 | `OP536776` |
 
-## RHABDOVIRUS_ssRNA_L_gene_round1
-
-Rhabdoviridae (taxid 11270) — status **declining** — 6,951 evaluable of 9,895 screened records
-
-- forward: `5'-RAAGGYAGRTTTTTYKCDYTRATG-3'` (24 nt)
-- reverse: `5'-CCADMCBTTTTGYCKYARRCCTTC-3'` (24 nt)
-
-**720 of 6,951 evaluable records (10%) share one mismatch pattern, mostly Lyssavirus rabies, deposited 2008-2024, and the group's dominant call is `fail`.**
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 3 | 22 | `T` | T&rarr;C 4,915 | `Y` | 4,915 | 7.3% | 7-8% | 2,036 | 45.6% | 43-48% | 38.3% | yes |
-| reverse | 6 | 19 | `R` | R&rarr;C 1,754, R&rarr;T 1,314, R&rarr;Y 1 | hypervariable | 3,069 | 6.8% | 6-8% | 3,882 | 27.8% | 26-29% | 21.0% |  |
-| forward | 8 | 17 | `C` | C&rarr;G 277, C&rarr;A 6 | `S` (97.9%) | 283 | 0.0% | 0-1% | 6,668 | 19.3% | 18-20% | 19.3% |  |
-| reverse | 16 | 9 | `T` | T&rarr;A 233, T&rarr;C 13, T&rarr;G 1 | `H` (99.6%) | 247 | 0.0% | 0-2% | 6,704 | 19.2% | 18-20% | 19.2% |  |
-| reverse | 15 | 10 | `T` | T&rarr;C 4,930 | `Y` | 4,930 | 13.0% | 12-14% | 2,021 | 32.1% | 30-34% | 19.1% |  |
-| reverse | 10 | 15 | `K` | K&rarr;A 239 | `D` | 239 | 0.4% | 0-2% | 6,712 | 19.2% | 18-20% | 18.8% |  |
-| forward | 3 | 22 | `A` | A&rarr;T 23, A&rarr;C 23 | `H` | 46 | 0.0% | 0-8% | 6,905 | 18.7% | 18-20% | 18.7% | yes |
-| forward | 11 | 14 | `T` | T&rarr;A 33, T&rarr;C 3, T&rarr;G 1 | `H` (97.3%) | 37 | 0.0% | 0-9% | 6,914 | 18.6% | 18-20% | 18.6% |  |
-| forward | 1 | 24 | `G` | G&rarr;A 12, G&rarr;C 8, G&rarr;T 4 | hypervariable | 24 | 0.0% | 0-14% | 6,927 | 18.6% | 18-20% | 18.6% | yes |
-| reverse | 17 | 8 | `T` | T&rarr;C 21, T&rarr;A 2 | `H` | 23 | 0.0% | 0-14% | 6,928 | 18.6% | 18-20% | 18.6% |  |
-| forward | 4 | 21 | `R` | R&rarr;C 246, R&rarr;T 126, R&rarr;Y 1 | hypervariable | 373 | 1.3% | 1-3% | 6,578 | 19.5% | 19-20% | 18.2% | yes |
-| forward | 14 | 11 | `T` | T&rarr;G 235, T&rarr;A 87 | `D` | 322 | 1.6% | 1-4% | 6,629 | 19.4% | 18-20% | 17.8% |  |
-| forward | 15 | 10 | `T` | T&rarr;G 234, T&rarr;A 161, T&rarr;C 28 | hypervariable | 423 | 2.1% | 1-4% | 6,528 | 19.6% | 19-21% | 17.5% |  |
-| reverse | 7 | 18 | `R` | R&rarr;T 39, R&rarr;C 10 | hypervariable | 49 | 2.0% | 0-11% | 6,902 | 18.6% | 18-20% | 16.6% |  |
-| forward | 9 | 16 | `K` | K&rarr;A 43 | `D` | 43 | 2.3% | 0-12% | 6,908 | 18.6% | 18-20% | 16.3% |  |
-| forward | 24 | 1 | `R` | R&rarr;T 80, R&rarr;C 39 | hypervariable | 119 | 2.5% | 1-7% | 6,832 | 18.8% | 18-20% | 16.3% |  |
-| reverse | 19 | 6 | `C` | C&rarr;A 32, C&rarr;T 7, C&rarr;G 3 | hypervariable | 42 | 2.4% | 0-12% | 6,909 | 18.6% | 18-20% | 16.2% |  |
-| reverse | 20 | 5 | `M` | M&rarr;G 18, M&rarr;T 17 | hypervariable | 35 | 2.9% | 1-15% | 6,916 | 18.6% | 18-20% | 15.8% |  |
-| reverse | 9 | 16 | `Y` | Y&rarr;G 473, Y&rarr;A 369 | hypervariable | 842 | 5.0% | 4-7% | 6,109 | 20.4% | 19-21% | 15.4% |  |
-| forward | 21 | 4 | `G` | G&rarr;C 183, G&rarr;T 6, G&rarr;A 1 | `S` (96.3%) | 190 | 3.7% | 2-7% | 6,761 | 18.9% | 18-20% | 15.3% |  |
-| forward | 22 | 3 | `A` | A&rarr;G 3,396, A&rarr;T 396, A&rarr;C 211 | hypervariable | 4,003 | 12.4% | 11-13% | 2,948 | 26.9% | 25-28% | 14.5% |  |
-| forward | 20 | 5 | `G` | G&rarr;C 395, G&rarr;A 2 | `S` (99.5%) | 397 | 7.8% | 6-11% | 6,554 | 19.2% | 18-20% | 11.4% |  |
-| forward | 18 | 7 | `A` | A&rarr;C 4,829, A&rarr;G 3, A&rarr;T 1 | `M` (99.9%) | 4,833 | 15.2% | 14-16% | 2,118 | 26.2% | 24-28% | 11.0% |  |
-| forward | 7 | 18 | `D` | D&rarr;C 2,310 | hypervariable | 2,310 | 12.1% | 11-13% | 4,641 | 21.7% | 21-23% | 9.7% |  |
-| reverse | 21 | 4 | `D` | D&rarr;C 488 | hypervariable | 488 | 11.5% | 9-15% | 6,463 | 19.1% | 18-20% | 7.6% |  |
-| forward | 6 | 19 | `Y` | Y&rarr;A 20, Y&rarr;G 6 | hypervariable | 26 | 11.5% | 4-29% | 6,925 | 18.6% | 18-19% | 7.0% |  |
-| forward | 13 | 12 | `T` | T&rarr;C 3,065, T&rarr;A 250, T&rarr;G 199 | hypervariable | 3,514 | 16.6% | 15-18% | 3,437 | 20.5% | 19-22% | 4.0% |  |
-| forward | 19 | 6 | `Y` | Y&rarr;G 652, Y&rarr;A 650 | hypervariable | 1,302 | 15.4% | 14-17% | 5,649 | 19.3% | 18-20% | 3.9% |  |
-| reverse | 12 | 13 | `Y` | Y&rarr;A 384, Y&rarr;G 290 | hypervariable | 674 | 15.7% | 13-19% | 6,277 | 18.8% | 18-20% | 3.1% |  |
-| forward | 16 | 9 | `R` | R&rarr;T 87, R&rarr;C 52 | hypervariable | 139 | 23.0% | 17-31% | 6,812 | 18.4% | 18-19% | -4.6% |  |
-| forward | 23 | 2 | `A` | A&rarr;C 467, A&rarr;T 385, A&rarr;G 32 | `H` (96.4%) | 884 | 31.3% | 28-34% | 6,067 | 16.7% | 16-18% | -14.7% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| fwd 18; rev 3,6,15 | 720 | fail | 2020×38, 2022×58, 2023×3, 2024×11 | Lyssavirus rabies×719, Rabies virus×1 | `PP447332`, `PP447331`, `PP447330`, `PP447329`, `PP447328`, `PP447327` (+714) |
-| fwd 13,18,22; rev 3,6,15 | 543 | fail | 2021×8, 2023×85, 2024×122, 2025×47 | Lyssavirus rabies×457, Rabies virus×56, Rabies lyssavirus×30 | `PV855415`, `PV855414`, `PV855413`, `PV855412`, `PV855411`, `PV855410` (+537) |
-| fwd 7,18; rev 3,15 | 524 | fail | 2022×3, 2023×32, 2024×366, 2025×1 | Lyssavirus rabies×459, Rabies virus×60, Rabies lyssavirus×5 | `MG458304`, `PQ671590`, `OR971675`, `OR971674`, `OR971673`, `OR971672` (+518) |
-| fwd 7,18,22; rev 3 | 423 | fail | 2022×65, 2023×297, 2024×23, 2025×22 | Rabies virus×308, Lyssavirus rabies×111, Rabies lyssavirus×4 | `MG458314`, `PP736759`, `PV606732`, `PV606731`, `PV606730`, `PQ671603` (+417) |
-| fwd 18,22; rev 3,15 | 415 | fail | 2019×116, 2020×158, 2023×16, 2024×37 | Lyssavirus rabies×363, Rabies virus×51, Rabies lyssavirus×1 | `MG458319`, `MG458313`, `OR920350`, `OR920348`, `OR920307`, `OR920295` (+409) |
-| fwd 7,13,18,22; rev 3,6,15 | 291 | fail | 2022×2, 2024×135, 2025×136, 2026×2 | Lyssavirus rabies×276, Rabies virus×9, Rabies lyssavirus×6 | `PZ334451`, `PX682069`, `OR045939`, `PV584369`, `PV584368`, `PV584367` (+285) |
-| fwd 13,18,22; rev 3,15 | 219 | fail | 2023×24, 2024×5, 2025×3, 2026×4 | Lyssavirus rabies×178, Rabies virus×30, Rabies lyssavirus×6 | `PV730233`, `OZ470011`, `NC_139265`, `PX789578`, `PV591864`, `MG458317` (+213) |
-| fwd 13,18; rev 15 | 217 | reduced | 2021×15, 2022×1, 2023×2, 2026×1 | Rabies virus×164, Rabies lyssavirus×26, Lyssavirus rabies×24 | `PX991851`, `OQ068400`, `OP642459`, `OV696601`, `MT895968`, `MT895967` (+211) |
-
 ## Snake_nidovirus_PP1b_Uccellini_2014_3
 
 Serpentovirinae (snake nidoviruses, Tobaniviridae) (taxid 2508240) — status **low coverage** — 44 evaluable of 290 screened records
@@ -870,10 +794,10 @@ Serpentovirinae (snake nidoviruses, Tobaniviridae) (taxid 2508240) — status **
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 2 | 19 | `T` | T&rarr;G 21, T&rarr;A 3, T&rarr;C 2 | hypervariable | 26 | 0.0% | 0-13% | 18 | 66.7% | 44-84% | 66.7% | yes |
 | forward | 18 | 3 | `C` | C&rarr;A 19, C&rarr;G 3, C&rarr;T 3 | hypervariable | 25 | 0.0% | 0-13% | 19 | 63.2% | 41-81% | 63.2% |  |
 | reverse | 8 | 13 | `T` | T&rarr;G 19, T&rarr;A 6 | `D` | 25 | 0.0% | 0-13% | 19 | 63.2% | 41-81% | 63.2% |  |
-| reverse | 6 | 15 | `A` | A&rarr;T 19, A&rarr;C 4, A&rarr;G 1 | `H` (95.8%) | 24 | 0.0% | 0-14% | 20 | 60.0% | 39-78% | 60.0% |  |
+| reverse | 2 | 19 | `T` | T&rarr;G 19, T&rarr;A 3, T&rarr;C 2 | hypervariable | 24 | 0.0% | 0-14% | 20 | 60.0% | 39-78% | 60.0% | yes |
+| reverse | 6 | 15 | `A` | A&rarr;T 19, A&rarr;C 2, A&rarr;G 1 | `H` (95.5%) | 22 | 0.0% | 0-15% | 22 | 54.5% | 35-73% | 54.5% |  |
 | reverse | 11 | 10 | `G` | G&rarr;A 18, G&rarr;T 6, G&rarr;C 6 | hypervariable | 30 | 23.3% | 12-41% | 14 | 35.7% | 16-61% | 12.4% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
@@ -902,33 +826,33 @@ Enterovirus (taxid 12059) — status **declining** — 24,161 evaluable of 73,27
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 26 | 2 | `A` | A&rarr;T 10,078, A&rarr;G 1,061, A&rarr;C 447 | `D` (96.1%) | 11,586 | 0.5% | 0-1% | 12,575 | 41.9% | 41-43% | 41.4% |  |
+| reverse | 26 | 2 | `A` | A&rarr;T 10,078, A&rarr;G 1,061, A&rarr;C 447 | `D` (96.1%) | 11,586 | 0.5% | 0-1% | 12,575 | 41.9% | 41-43% | 41.5% |  |
 | forward | 16 | 11 | `C` | C&rarr;A 10,786, C&rarr;G 59, C&rarr;T 1 | `M` (99.4%) | 10,846 | 0.1% | 0-0% | 13,315 | 40.0% | 39-41% | 39.9% |  |
-| forward | 17 | 10 | `A` | A&rarr;C 10,154, A&rarr;G 667, A&rarr;T 31 | `V` (99.7%) | 10,852 | 0.2% | 0-0% | 13,309 | 39.9% | 39-41% | 39.6% |  |
+| forward | 17 | 10 | `A` | A&rarr;C 10,154, A&rarr;G 667, A&rarr;T 31 | `V` (99.7%) | 10,852 | 0.2% | 0-0% | 13,309 | 39.9% | 39-41% | 39.7% |  |
 | reverse | 25 | 3 | `C` | C&rarr;T 16,583, C&rarr;G 534, C&rarr;A 97 | `Y` (96.3%) | 17,214 | 10.7% | 10-11% | 6,947 | 50.3% | 49-51% | 39.6% |  |
-| reverse | 24 | 4 | `T` | T&rarr;C 7,884, T&rarr;G 4,900, T&rarr;A 3,213, +1 more | hypervariable | 15,998 | 8.7% | 8-9% | 8,163 | 48.2% | 47-49% | 39.6% |  |
-| reverse | 20 | 8 | `C` | C&rarr;G 14,402, C&rarr;A 30 | `S` (99.8%) | 14,432 | 6.2% | 6-7% | 9,729 | 45.5% | 44-46% | 39.2% |  |
+| reverse | 24 | 4 | `T` | T&rarr;C 7,884, T&rarr;G 4,900, T&rarr;A 3,213, +1 more | hypervariable | 15,998 | 8.7% | 8-9% | 8,163 | 48.3% | 47-49% | 39.6% |  |
+| reverse | 20 | 8 | `C` | C&rarr;G 14,402, C&rarr;A 30 | `S` (99.8%) | 14,432 | 6.3% | 6-7% | 9,729 | 45.5% | 45-46% | 39.2% |  |
 | reverse | 18 | 10 | `A` | A&rarr;C 9,368, A&rarr;T 4,853, A&rarr;G 2,373 | hypervariable | 16,594 | 12.5% | 12-13% | 7,567 | 42.9% | 42-44% | 30.4% |  |
 | forward | 18 | 9 | `G` | G&rarr;A 9,080, G&rarr;C 6,167, G&rarr;T 2,209 | hypervariable | 17,456 | 15.5% | 15-16% | 6,705 | 39.1% | 38-40% | 23.5% |  |
 | reverse | 19 | 9 | `C` | C&rarr;T 33, C&rarr;A 6, C&rarr;G 1 | `H` (97.5%) | 40 | 0.0% | 0-9% | 24,121 | 22.1% | 22-23% | 22.1% |  |
 | forward | 25 | 2 | `C` | C&rarr;A 23, C&rarr;T 2, C&rarr;G 1 | `H` (96.2%) | 26 | 0.0% | 0-13% | 24,135 | 22.1% | 22-23% | 22.1% |  |
-| reverse | 7 | 21 | `Y` | Y&rarr;A 99, Y&rarr;G 8 | hypervariable | 107 | 0.9% | 0-5% | 24,054 | 22.1% | 22-23% | 21.2% |  |
+| reverse | 7 | 21 | `Y` | Y&rarr;A 99, Y&rarr;G 8 | hypervariable | 107 | 0.9% | 0-5% | 24,054 | 22.2% | 22-23% | 21.2% |  |
 | forward | 23 | 4 | `G` | G&rarr;A 337, G&rarr;T 19, G&rarr;C 1 | `D` (99.7%) | 357 | 1.7% | 1-4% | 23,804 | 22.4% | 22-23% | 20.7% |  |
-| forward | 12 | 15 | `A` | A&rarr;T 7,015, A&rarr;C 6,527, A&rarr;G 2,669, +1 more | hypervariable | 16,212 | 15.4% | 15-16% | 7,949 | 35.7% | 35-37% | 20.3% |  |
+| forward | 12 | 15 | `A` | A&rarr;T 7,015, A&rarr;C 6,527, A&rarr;G 2,669, +1 more | hypervariable | 16,212 | 15.4% | 15-16% | 7,949 | 35.7% | 35-37% | 20.4% |  |
 | reverse | 23 | 5 | `G` | G&rarr;A 18, G&rarr;C 15, G&rarr;T 15 | hypervariable | 48 | 2.1% | 0-11% | 24,113 | 22.1% | 22-23% | 20.0% |  |
 | forward | 22 | 5 | `C` | C&rarr;T 214, C&rarr;A 62, C&rarr;G 1 | `H` (99.6%) | 277 | 2.9% | 1-6% | 23,884 | 22.3% | 22-23% | 19.4% |  |
 | forward | 26 | 1 | `C` | C&rarr;A 54, C&rarr;T 15 | `H` | 69 | 2.9% | 1-10% | 24,092 | 22.1% | 22-23% | 19.2% |  |
 | forward | 5 | 22 | `A` | A&rarr;G 19, A&rarr;C 2, A&rarr;T 2 | hypervariable | 23 | 4.3% | 1-21% | 24,138 | 22.1% | 22-23% | 17.7% | yes |
 | forward | 11 | 16 | `G` | G&rarr;A 103, G&rarr;C 6, G&rarr;T 2 | `V` (98.2%) | 111 | 6.3% | 3-12% | 24,050 | 22.1% | 22-23% | 15.8% |  |
 | forward | 10 | 17 | `Y` | Y&rarr;A 52, Y&rarr;G 39 | hypervariable | 91 | 7.7% | 4-15% | 24,070 | 22.1% | 22-23% | 14.4% |  |
-| reverse | 21 | 7 | `A` | A&rarr;G 7,049, A&rarr;T 3,384, A&rarr;C 1,159 | hypervariable | 11,592 | 17.0% | 16-18% | 12,569 | 26.7% | 26-28% | 9.7% |  |
+| reverse | 21 | 7 | `A` | A&rarr;G 7,049, A&rarr;T 3,384, A&rarr;C 1,159 | hypervariable | 11,592 | 17.0% | 16-18% | 12,569 | 26.7% | 26-28% | 9.8% |  |
 | forward | 21 | 6 | `A` | A&rarr;G 4,792, A&rarr;T 2,435, A&rarr;C 2,261 | hypervariable | 9,488 | 17.8% | 17-19% | 14,673 | 24.8% | 24-26% | 7.1% |  |
 | forward | 24 | 3 | `A` | A&rarr;T 3,947, A&rarr;G 2,155, A&rarr;C 2,049, +1 more | hypervariable | 8,152 | 18.2% | 17-19% | 16,009 | 24.0% | 23-25% | 5.8% |  |
 | reverse | 22 | 6 | `G` | G&rarr;C 446, G&rarr;A 97, G&rarr;T 53 | hypervariable | 596 | 17.3% | 14-21% | 23,565 | 22.2% | 22-23% | 4.9% |  |
 | forward | 20 | 7 | `C` | C&rarr;T 5,965, C&rarr;G 10, C&rarr;A 9 | `Y` (99.7%) | 5,984 | 22.0% | 21-23% | 18,177 | 22.1% | 21-23% | 0.0% |  |
 | reverse | 15 | 13 | `T` | T&rarr;A 4,344, T&rarr;G 2,597, T&rarr;C 1,724 | hypervariable | 8,665 | 23.8% | 23-25% | 15,496 | 21.1% | 20-22% | -2.7% |  |
 | forward | 15 | 12 | `A` | A&rarr;T 4,397, A&rarr;C 2,907, A&rarr;G 2,678 | hypervariable | 9,982 | 34.7% | 34-36% | 14,179 | 13.1% | 13-14% | -21.6% |  |
-| reverse | 27 | 1 | `T` | T&rarr;C 5,360, T&rarr;G 3,359, T&rarr;A 2,082 | hypervariable | 10,801 | 34.4% | 34-35% | 13,360 | 12.0% | 12-13% | -22.4% |  |
+| reverse | 27 | 1 | `T` | T&rarr;C 5,360, T&rarr;G 3,359, T&rarr;A 2,082 | hypervariable | 10,801 | 34.4% | 34-35% | 13,360 | 12.1% | 12-13% | -22.4% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -954,37 +878,37 @@ Apicomplexa (taxid 5794) — status **low coverage** — 4,473 evaluable of 56,4
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 1 | 22 | `A` | A&rarr;G 134, A&rarr;T 48, A&rarr;C 11 | hypervariable | 193 | 0.0% | 0-2% | 4,280 | 94.4% | 94-95% | 94.4% | yes |
-| reverse | 1 | 22 | `A` | A&rarr;T 32, A&rarr;C 23, A&rarr;G 16 | hypervariable | 71 | 0.0% | 0-5% | 4,402 | 91.8% | 91-93% | 91.8% | yes |
-| reverse | 5 | 18 | `C` | C&rarr;T 195, C&rarr;A 18, C&rarr;G 18 | hypervariable | 231 | 3.5% | 2-7% | 4,242 | 95.1% | 94-96% | 91.6% | yes |
-| forward | 2 | 21 | `G` | G&rarr;A 107, G&rarr;C 25, G&rarr;T 6 | `V` (95.7%) | 138 | 2.9% | 1-7% | 4,335 | 93.1% | 92-94% | 90.3% | yes |
-| forward | 3 | 20 | `A` | A&rarr;G 82, A&rarr;T 19, A&rarr;C 9 | hypervariable | 110 | 5.5% | 3-11% | 4,363 | 92.5% | 92-93% | 87.1% | yes |
-| forward | 4 | 19 | `T` | T&rarr;C 36, T&rarr;A 8, T&rarr;G 2 | `H` (95.7%) | 46 | 4.3% | 1-15% | 4,427 | 91.3% | 90-92% | 86.9% | yes |
-| reverse | 13 | 10 | `R` | R&rarr;C 17, R&rarr;T 7 | hypervariable | 24 | 4.2% | 1-20% | 4,449 | 90.8% | 90-92% | 86.7% |  |
-| reverse | 6 | 17 | `A` | A&rarr;T 79, A&rarr;G 37, A&rarr;C 9 | hypervariable | 125 | 8.8% | 5-15% | 4,348 | 92.7% | 92-93% | 83.9% |  |
-| reverse | 2 | 21 | `A` | A&rarr;G 40, A&rarr;C 13 | `V` | 53 | 7.5% | 3-18% | 4,420 | 91.4% | 90-92% | 83.8% | yes |
-| forward | 6 | 17 | `A` | A&rarr;T 22, A&rarr;G 1, A&rarr;C 1 | `D` (95.8%) | 24 | 8.3% | 2-26% | 4,449 | 90.8% | 90-92% | 82.5% |  |
-| forward | 20 | 3 | `Y` | Y&rarr;A 31 | `H` | 31 | 9.7% | 3-25% | 4,442 | 90.9% | 90-92% | 81.3% |  |
-| forward | 21 | 2 | `C` | C&rarr;T 43, C&rarr;A 4, C&rarr;G 1 | `H` (97.9%) | 48 | 10.4% | 5-22% | 4,425 | 91.2% | 90-92% | 80.8% |  |
-| forward | 8 | 15 | `C` | C&rarr;T 25, C&rarr;A 2, C&rarr;G 2 | hypervariable | 29 | 10.3% | 4-26% | 4,444 | 90.9% | 90-92% | 80.5% |  |
-| reverse | 14 | 9 | `C` | C&rarr;T 292, C&rarr;G 32, C&rarr;A 31 | hypervariable | 355 | 19.4% | 16-24% | 4,118 | 96.5% | 96-97% | 77.0% |  |
-| reverse | 4 | 19 | `G` | G&rarr;A 357, G&rarr;C 36, G&rarr;T 18 | `V` (95.6%) | 411 | 22.9% | 19-27% | 4,062 | 97.2% | 97-98% | 74.3% | yes |
-| reverse | 12 | 11 | `T` | T&rarr;A 93, T&rarr;C 70, T&rarr;G 2 | `H` (98.8%) | 165 | 19.4% | 14-26% | 4,308 | 93.1% | 92-94% | 73.7% |  |
-| reverse | 15 | 8 | `R` | R&rarr;T 10, R&rarr;C 10 | hypervariable | 20 | 20.0% | 8-42% | 4,453 | 90.7% | 90-91% | 70.7% |  |
-| reverse | 17 | 6 | `Y` | Y&rarr;G 12, Y&rarr;A 10 | hypervariable | 22 | 22.7% | 10-43% | 4,451 | 90.7% | 90-92% | 68.0% |  |
-| reverse | 7 | 16 | `C` | C&rarr;T 54, C&rarr;A 31, C&rarr;G 2 | `H` (97.7%) | 87 | 24.1% | 16-34% | 4,386 | 91.7% | 91-92% | 67.5% |  |
-| reverse | 8 | 15 | `A` | A&rarr;G 39, A&rarr;C 12, A&rarr;T 4 | hypervariable | 55 | 27.3% | 17-40% | 4,418 | 91.1% | 90-92% | 63.9% |  |
-| reverse | 3 | 20 | `C` | C&rarr;T 26, C&rarr;G 24, C&rarr;A 8 | hypervariable | 58 | 27.6% | 18-40% | 4,415 | 91.2% | 90-92% | 63.6% | yes |
-| forward | 12 | 11 | `A` | A&rarr;G 16, A&rarr;C 3, A&rarr;T 2 | hypervariable | 21 | 38.1% | 21-59% | 4,452 | 90.6% | 90-91% | 52.5% |  |
-| forward | 19 | 4 | `A` | A&rarr;G 87, A&rarr;T 8, A&rarr;C 3 | `D` (96.9%) | 98 | 42.9% | 34-53% | 4,375 | 91.4% | 91-92% | 48.6% |  |
-| forward | 13 | 10 | `T` | T&rarr;G 61, T&rarr;A 27, T&rarr;C 9 | hypervariable | 97 | 44.3% | 35-54% | 4,376 | 91.4% | 91-92% | 47.1% |  |
-| reverse | 9 | 14 | `R` | R&rarr;T 51, R&rarr;C 49 | hypervariable | 100 | 69.0% | 59-77% | 4,373 | 90.9% | 90-92% | 21.9% |  |
-| reverse | 10 | 13 | `A` | A&rarr;G 108, A&rarr;C 38, A&rarr;T 10 | hypervariable | 156 | 73.7% | 66-80% | 4,317 | 91.0% | 90-92% | 17.2% |  |
-| forward | 10 | 13 | `G` | G&rarr;A 33 | `R` | 33 | 75.8% | 59-87% | 4,440 | 90.5% | 90-91% | 14.7% |  |
-| forward | 17 | 6 | `A` | A&rarr;G 31, A&rarr;T 4, A&rarr;C 1 | `D` (97.2%) | 36 | 77.8% | 62-88% | 4,437 | 90.5% | 90-91% | 12.7% |  |
-| forward | 15 | 8 | `A` | A&rarr;C 31, A&rarr;T 1 | `M` (96.9%) | 32 | 78.1% | 61-89% | 4,441 | 90.5% | 90-91% | 12.3% |  |
-| reverse | 16 | 7 | `T` | T&rarr;C 244, T&rarr;A 5, T&rarr;G 2 | `Y` (97.2%) | 251 | 80.9% | 76-85% | 4,222 | 90.9% | 90-92% | 10.1% |  |
-| forward | 18 | 5 | `T` | T&rarr;G 30, T&rarr;A 6 | `D` | 36 | 80.6% | 65-90% | 4,437 | 90.4% | 90-91% | 9.9% |  |
+| forward | 1 | 22 | `A` | A&rarr;G 134, A&rarr;T 48, A&rarr;C 11 | hypervariable | 193 | 0.0% | 0-2% | 4,280 | 97.7% | 97-98% | 97.7% | yes |
+| reverse | 1 | 22 | `A` | A&rarr;T 32, A&rarr;C 23, A&rarr;G 16 | hypervariable | 71 | 0.0% | 0-5% | 4,402 | 95.0% | 94-96% | 95.0% | yes |
+| forward | 2 | 21 | `G` | G&rarr;A 107, G&rarr;C 25, G&rarr;T 6 | `V` (95.7%) | 138 | 2.9% | 1-7% | 4,335 | 96.3% | 96-97% | 93.4% | yes |
+| forward | 3 | 20 | `A` | A&rarr;G 82, A&rarr;T 19, A&rarr;C 9 | hypervariable | 110 | 5.5% | 3-11% | 4,363 | 95.7% | 95-96% | 90.2% | yes |
+| forward | 4 | 19 | `T` | T&rarr;C 36, T&rarr;A 8, T&rarr;G 2 | `H` (95.7%) | 46 | 4.3% | 1-15% | 4,427 | 94.4% | 94-95% | 90.0% | yes |
+| reverse | 13 | 10 | `R` | R&rarr;C 17, R&rarr;T 7 | hypervariable | 24 | 4.2% | 1-20% | 4,449 | 93.9% | 93-95% | 89.8% |  |
+| reverse | 6 | 17 | `A` | A&rarr;T 79, A&rarr;G 37, A&rarr;C 9 | hypervariable | 125 | 9.6% | 6-16% | 4,348 | 95.9% | 95-96% | 86.3% |  |
+| forward | 6 | 17 | `A` | A&rarr;T 22, A&rarr;G 1, A&rarr;C 1 | `D` (95.8%) | 24 | 8.3% | 2-26% | 4,449 | 93.9% | 93-95% | 85.6% |  |
+| forward | 20 | 3 | `Y` | Y&rarr;A 31 | `H` | 31 | 9.7% | 3-25% | 4,442 | 94.0% | 93-95% | 84.4% |  |
+| forward | 21 | 2 | `C` | C&rarr;T 43, C&rarr;A 4, C&rarr;G 1 | `H` (97.9%) | 48 | 10.4% | 5-22% | 4,425 | 94.4% | 94-95% | 83.9% |  |
+| forward | 8 | 15 | `C` | C&rarr;T 25, C&rarr;A 2, C&rarr;G 2 | hypervariable | 29 | 10.3% | 4-26% | 4,444 | 94.0% | 93-95% | 83.6% |  |
+| reverse | 12 | 11 | `T` | T&rarr;A 93, T&rarr;C 70, T&rarr;G 2 | `H` (98.8%) | 165 | 20.0% | 15-27% | 4,308 | 96.3% | 96-97% | 76.3% |  |
+| reverse | 17 | 6 | `Y` | Y&rarr;G 12, Y&rarr;A 10 | hypervariable | 22 | 22.7% | 10-43% | 4,451 | 93.8% | 93-94% | 71.1% |  |
+| reverse | 15 | 8 | `R` | R&rarr;T 10, R&rarr;C 10 | hypervariable | 20 | 25.0% | 11-47% | 4,453 | 93.8% | 93-94% | 68.8% |  |
+| reverse | 7 | 16 | `C` | C&rarr;T 54, C&rarr;A 31, C&rarr;G 2 | `H` (97.7%) | 87 | 26.4% | 18-37% | 4,386 | 94.8% | 94-95% | 68.3% |  |
+| reverse | 2 | 21 | `A` | A&rarr;G 40, A&rarr;C 13 | `V` | 53 | 26.4% | 16-40% | 4,420 | 94.3% | 94-95% | 67.8% | yes |
+| reverse | 3 | 20 | `C` | C&rarr;T 26, C&rarr;G 24, C&rarr;A 8 | hypervariable | 58 | 27.6% | 18-40% | 4,415 | 94.3% | 94-95% | 66.7% | yes |
+| reverse | 8 | 15 | `A` | A&rarr;G 39, A&rarr;C 12, A&rarr;T 4 | hypervariable | 55 | 29.1% | 19-42% | 4,418 | 94.3% | 94-95% | 65.2% |  |
+| forward | 12 | 11 | `A` | A&rarr;G 16, A&rarr;C 3, A&rarr;T 2 | hypervariable | 21 | 38.1% | 21-59% | 4,452 | 93.7% | 93-94% | 55.6% |  |
+| forward | 19 | 4 | `A` | A&rarr;G 87, A&rarr;T 8, A&rarr;C 3 | `D` (96.9%) | 98 | 43.9% | 34-54% | 4,375 | 94.6% | 94-95% | 50.7% |  |
+| forward | 13 | 10 | `T` | T&rarr;G 61, T&rarr;A 27, T&rarr;C 9 | hypervariable | 97 | 45.4% | 36-55% | 4,376 | 94.5% | 94-95% | 49.2% |  |
+| reverse | 14 | 9 | `C` | C&rarr;T 292, C&rarr;G 32, C&rarr;A 31 | hypervariable | 355 | 55.2% | 50-60% | 4,118 | 96.7% | 96-97% | 41.5% |  |
+| reverse | 4 | 19 | `G` | G&rarr;A 357, G&rarr;C 36, G&rarr;T 18 | `V` (95.6%) | 411 | 56.4% | 52-61% | 4,062 | 97.2% | 97-98% | 40.7% | yes |
+| reverse | 5 | 18 | `C` | C&rarr;T 195, C&rarr;A 18, C&rarr;G 18 | hypervariable | 231 | 55.8% | 49-62% | 4,242 | 95.5% | 95-96% | 39.7% | yes |
+| reverse | 9 | 14 | `R` | R&rarr;T 51, R&rarr;C 49 | hypervariable | 100 | 70.0% | 60-78% | 4,373 | 94.0% | 93-95% | 24.0% |  |
+| reverse | 10 | 13 | `A` | A&rarr;G 108, A&rarr;C 38, A&rarr;T 10 | hypervariable | 156 | 74.4% | 67-81% | 4,317 | 94.1% | 93-95% | 19.8% |  |
+| forward | 10 | 13 | `G` | G&rarr;A 33 | `R` | 33 | 75.8% | 59-87% | 4,440 | 93.6% | 93-94% | 17.8% |  |
+| forward | 15 | 8 | `A` | A&rarr;C 31, A&rarr;T 1 | `M` (96.9%) | 32 | 78.1% | 61-89% | 4,441 | 93.6% | 93-94% | 15.4% |  |
+| forward | 17 | 6 | `A` | A&rarr;G 31, A&rarr;T 4, A&rarr;C 1 | `D` (97.2%) | 36 | 80.6% | 65-90% | 4,437 | 93.6% | 93-94% | 13.0% |  |
+| forward | 18 | 5 | `T` | T&rarr;G 30, T&rarr;A 6 | `D` | 36 | 80.6% | 65-90% | 4,437 | 93.6% | 93-94% | 13.0% |  |
+| reverse | 16 | 7 | `T` | T&rarr;C 244, T&rarr;A 5, T&rarr;G 2 | `Y` (97.2%) | 251 | 86.1% | 81-90% | 4,222 | 93.9% | 93-95% | 7.8% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -994,79 +918,12 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 |---|---|---|---|---|---|
 | no mismatches | 3,422 | detect | 2023×106, 2024×193, 2025×172, 2026×143 | Hepatozoon sp.×417, Sarcocystis sp.×228, Sarcocystis cruzi×142 | `PZ661905`, `PZ661859`, `QB043393`, `PZ661788`, `PZ359813`, `PZ359812` (+3,416) |
 | rev 16 | 161 | detect | 2023×17, 2024×17, 2025×11, 2026×11 | Hepatozoon canis×114, Hepatozoon sp.×28, Cryptosporidium serpentis×5 | `PZ873231`, `PZ873227`, `PZ873225`, `PZ873209`, `PZ155372`, `PZ155371` (+155) |
-| rev 4,5,14 | 121 | fail | 2023×2, 2024×6, 2025×4, 2026×4 | Cryptosporidium parvum×91, Cryptosporidium sp.×9, Cryptosporidium meleagridis×6 | `PZ944843`, `PZ944842`, `PZ944841`, `PZ621322`, `PQ834959`, `PQ834958` (+115) |
+| rev 4,5,14 | 121 | reduced | 2023×2, 2024×6, 2025×4, 2026×4 | Cryptosporidium parvum×91, Cryptosporidium sp.×9, Cryptosporidium meleagridis×6 | `PZ944843`, `PZ944842`, `PZ944841`, `PZ621322`, `PQ834959`, `PQ834958` (+115) |
 | rev 10 | 88 | detect | 2020×2, 2021×5, 2023×3, 2024×3 | Sarcocystis singaporensis×29, Sarcocystis sp.×15, Sarcocystis zamani×11 | `LC830208`, `OR976521`, `OR976520`, `ON979685`, `ON979684`, `ON972386` (+82) |
 | fwd 1,2,3; rev 4,6,12,14 | 58 | fail | 2021×42, 2024×2, 2025×6, 2026×1 | Gregarina sp.×44, Eugregarinorida sp.×4, Gregarina lutescens×2 | `PX830635`, `PV594003`, `PV594002`, `PV594001`, `PV594000`, `PV593999` (+52) |
 | rev 9 | 48 | detect | 2021×1, 2022×7, 2024×3, 2025×1 | Sarcocystis bertrami×25, Sarcocystis asinus×6, Sarcocystis fayeri×5 | `LC857068`, `OR680781`, `LC796017`, `LC796016`, `OP626897`, `OM971701` (+42) |
-| rev 4,14 | 39 | reduced | 2023×1, 2024×10, 2025×7, 2026×2 | Corallicolida sp.×12, Apicomplexa sp.×12, Anthozoaphila gnarlus×8 | `PV426990`, `PX990216`, `PQ863704`, `PQ863701`, `PQ863700`, `PQ863699` (+33) |
+| rev 4,14 | 39 | detect | 2023×1, 2024×10, 2025×7, 2026×2 | Corallicolida sp.×12, Apicomplexa sp.×12, Anthozoaphila gnarlus×8 | `PV426990`, `PX990216`, `PQ863704`, `PQ863701`, `PQ863700`, `PQ863699` (+33) |
 | fwd 10,15,17,18,19 | 24 | reduced | 2016×23, 2026×1 | Nematopsis temporariae×24 | `OZ557594`, `KT717659`, `KT717658`, `KT717657`, `KT717656`, `KT717655` (+18) |
-
-## ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1
-
-Orthoreovirus (taxid 10882) — status **low coverage** — 989 evaluable of 14,531 screened records
-
-- forward: `5'-GGBTCMACNGCYACYTCBACYGAGCA-3'` (26 nt)
-- reverse: `5'-CDATGTCRTAHWYCCANCCRAA-3'` (22 nt)
-
-**337 of 989 evaluable records (34%) share one mismatch pattern, mostly Piscine orthoreovirus, deposited 2013-2025, and the group's dominant call is `fail`.**
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 3 | 24 | `G` | G&rarr;A 609 | `R` | 609 | 5.6% | 4-8% | 380 | 96.8% | 95-98% | 91.3% | yes |
-| forward | 6 | 21 | `Y` | Y&rarr;G 489, Y&rarr;A 127 | hypervariable | 616 | 14.8% | 12-18% | 373 | 83.4% | 79-87% | 68.6% |  |
-| reverse | 14 | 9 | `T` | T&rarr;A 351 | `W` | 351 | 0.0% | 0-1% | 638 | 63.0% | 59-67% | 63.0% |  |
-| reverse | 2 | 21 | `A` | A&rarr;C 350 | `M` | 350 | 0.0% | 0-1% | 639 | 62.9% | 59-67% | 62.9% | yes |
-| reverse | 1 | 22 | `A` | A&rarr;T 349 | `W` | 349 | 0.0% | 0-1% | 640 | 62.8% | 59-66% | 62.8% | yes |
-| forward | 21 | 6 | `M` | M&rarr;T 416, M&rarr;G 214 | hypervariable | 630 | 24.3% | 21-28% | 359 | 69.4% | 64-74% | 45.1% |  |
-| forward | 9 | 18 | `B` | B&rarr;A 26 | hypervariable | 26 | 26.9% | 14-46% | 963 | 41.0% | 38-44% | 14.1% |  |
-| forward | 15 | 12 | `Y` | Y&rarr;G 267, Y&rarr;A 17 | hypervariable | 284 | 33.5% | 28-39% | 705 | 43.5% | 40-47% | 10.1% |  |
-| reverse | 19 | 4 | `T` | T&rarr;C 41, T&rarr;G 1 | `Y` (97.6%) | 42 | 38.1% | 25-53% | 947 | 40.8% | 38-44% | 2.7% |  |
-| forward | 12 | 15 | `Y` | Y&rarr;A 172, Y&rarr;G 167 | hypervariable | 339 | 39.2% | 34-45% | 650 | 41.4% | 38-45% | 2.2% |  |
-| reverse | 12 | 11 | `H` | H&rarr;G 360 | hypervariable | 360 | 45.6% | 40-51% | 629 | 37.8% | 34-42% | -7.7% |  |
-| reverse | 18 | 5 | `G` | G&rarr;A 148, G&rarr;C 2 | `R` (98.7%) | 150 | 59.3% | 51-67% | 839 | 37.3% | 34-41% | -22.0% |  |
-| forward | 24 | 3 | `B` | B&rarr;A 109 | hypervariable | 109 | 89.9% | 83-94% | 880 | 34.5% | 31-38% | -55.4% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| fwd 3,6,21; rev 1,2,14 | 337 | fail | 2019×9, 2020×108, 2021×13, 2025×182 | Piscine orthoreovirus×328, Piscine reovirus×6, Sequence×2 | `PV409545`, `PV409535`, `PV409525`, `PV409515`, `PV409505`, `PV409495` (+331) |
-| no mismatches | 118 | detect | 2023×19, 2024×4, 2025×14, 2026×5 | Mammalian orthoreovirus×105, Reovirus serotype×3, JP×2 | `PZ764064`, `QQ447910`, `QQ447907`, `PZ005679`, `PV855983`, `PV818064` (+112) |
-| fwd 3,6,12,15,21; rev 12 | 82 | fail | 2023×4, 2024×1, 2025×56, 2026×5 | Avian orthoreovirus×82 | `PZ525050`, `PX942584`, `PX942574`, `PX942566`, `PX942556`, `PV448237` (+76) |
-| fwd 6,12,15,21; rev 12 | 73 | reduced | 2015×1, 2023×11, 2024×10, 2025×44 | Avian orthoreovirus×73 | `PQ068936`, `PQ068926`, `PQ068916`, `PQ068906`, `PQ068896`, `PV406122` (+67) |
-| fwd 3,6,12,15; rev 12 | 47 | fail | 2023×6, 2024×6, 2025×2, 2026×7 | Avian orthoreovirus×45, Duck reovirus×1, Orthoreovirus sp.×1 | `OP313856`, `OP313846`, `OP302733`, `PZ112220`, `PZ112210`, `PZ112190` (+41) |
-| fwd 24; rev 18 | 41 | detect | 2024×41 | Mammalian orthoreovirus×41 | `LC818806`, `LC818796`, `LC818786`, `LC818772`, `LC818762`, `LC818752` (+35) |
-| fwd 21,24; rev 12 | 36 | reduced | 2022×5, 2023×7, 2024×9, 2025×3 | Duck reovirus×29, Avian orthoreovirus×5, Muscovy duck×2 | `PQ567546`, `PV296163`, `PV296162`, `PQ456204`, `PQ346622`, `PQ346612` (+30) |
-| rev 18 | 15 | detect | 2022×2, 2023×1, 2025×2, 2026×1 | Mammalian orthoreovirus×14, Cataraqui virus×1 | `PX871018`, `PV089291`, `PQ768068`, `OP963624`, `OP057385`, `OP037832` (+9) |
-
-## DWVA_polyprotein_Rossi_2024
-
-Deformed wing virus A (taxid 2951794) — status **low coverage** — 68 evaluable of 223 screened records
-
-- forward: `5'-CTTTGTCTTCATTAAAGCCAC-3'` (21 nt)
-- reverse: `5'-CTCATTAACTGTGTCGTTGAT-3'` (21 nt)
-- probe: `5'-TGCGTGGAATGCGTCC-3'` (16 nt)
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 7 | 15 | `C` | C&rarr;T 23 | `Y` | 23 | 13.0% | 5-32% | 45 | 95.6% | 85-99% | 82.5% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| no mismatches | 30 | detect | 2023×23, 2024×1, 2025×4, 2026×2 | Deformed wing×30 | `PX663591`, `PX663590`, `PX309089`, `PV664190`, `PV664186`, `PV239925` (+24) |
-| fwd 2,5; rev 4,7 | 6 | fail | 2025×6 | Deformed wing×6 | `LC905098`, `LC905097`, `LC905095`, `LC905093`, `LC905086`, `LC905085` |
-| rev 4,7 | 4 | fail | 2025×1, 2026×3 | Deformed wing×4 | `PX663592`, `PX663589`, `PX663587`, `LC905089` |
-| fwd 17; prb 3 | 4 | reduced | 2023×4 | Deformed wing×4 | `OR497393`, `OR497381`, `OR497379`, `OR497378` |
-| rev 1,4,7,10 | 3 | fail | 2025×3 | Deformed wing×3 | `LC905094`, `LC905091`, `LC905090` |
-| fwd 17 | 3 | detect | 2022×3 | Deformed wing×3 | `MZ867714`, `MZ867712`, `MZ867711` |
-| rev 7 | 1 | detect | 2026×1 | Deformed wing×1 | `PX663586` |
-| fwd 2,14 | 1 | fail | 2026×1 | Deformed wing×1 | `PX703942` |
 
 ## Leucocytozoon_cyt_c_Hellgren_2004
 
@@ -1079,21 +936,21 @@ Leucocytozoon (taxid 195944) — status **declining** — 340 evaluable of 7,904
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 2 | 24 | `G` | G&rarr;A 107 | `R` | 107 | 0.9% | 0-5% | 233 | 98.7% | 96-100% | 97.8% | yes |
-| reverse | 1 | 25 | `C` | C&rarr;A 88, C&rarr;T 12, C&rarr;G 2 | `H` (98.0%) | 102 | 0.0% | 0-4% | 238 | 97.1% | 94-99% | 97.1% | yes |
-| reverse | 25 | 1 | `C` | C&rarr;A 84, C&rarr;G 6 | `V` | 90 | 0.0% | 0-4% | 250 | 92.4% | 88-95% | 92.4% |  |
-| reverse | 16 | 10 | `G` | G&rarr;A 78, G&rarr;T 6 | `D` | 84 | 0.0% | 0-4% | 256 | 90.2% | 86-93% | 90.2% |  |
-| forward | 16 | 8 | `T` | T&rarr;A 62 | `W` | 62 | 0.0% | 0-6% | 278 | 83.1% | 78-87% | 83.1% |  |
-| forward | 5 | 19 | `A` | A&rarr;G 32, A&rarr;T 4 | `D` | 36 | 0.0% | 0-10% | 304 | 76.0% | 71-80% | 76.0% | yes |
-| reverse | 24 | 2 | `A` | A&rarr;G 21 | `R` | 21 | 0.0% | 0-15% | 319 | 72.4% | 67-77% | 72.4% |  |
-| forward | 14 | 10 | `T` | T&rarr;C 28, T&rarr;A 15 | `H` | 43 | 7.0% | 2-19% | 297 | 76.8% | 72-81% | 69.8% |  |
-| forward | 7 | 17 | `T` | T&rarr;A 94, T&rarr;C 45 | `H` | 139 | 28.1% | 21-36% | 201 | 95.5% | 92-98% | 67.5% |  |
-| reverse | 11 | 15 | `G` | G&rarr;C 62, G&rarr;A 24 | `V` | 86 | 27.9% | 20-38% | 254 | 81.5% | 76-86% | 53.6% |  |
-| reverse | 18 | 8 | `T` | T&rarr;A 95, T&rarr;C 1 | `W` (99.0%) | 96 | 33.3% | 25-43% | 244 | 81.6% | 76-86% | 48.2% |  |
-| forward | 17 | 7 | `T` | T&rarr;C 25, T&rarr;A 4 | `H` | 29 | 27.6% | 15-46% | 311 | 71.7% | 66-76% | 44.1% |  |
-| forward | 8 | 16 | `C` | C&rarr;T 182 | `Y` | 182 | 51.6% | 44-59% | 158 | 86.7% | 81-91% | 35.1% |  |
-| forward | 2 | 22 | `T` | T&rarr;C 31 | `Y` | 31 | 38.7% | 24-56% | 309 | 70.9% | 66-76% | 32.2% | yes |
-| reverse | 12 | 14 | `A` | A&rarr;T 79, A&rarr;G 32 | `D` | 111 | 92.8% | 86-96% | 229 | 55.9% | 49-62% | -36.9% |  |
+| reverse | 1 | 25 | `C` | C&rarr;A 88, C&rarr;T 12, C&rarr;G 2 | `H` (98.0%) | 102 | 0.0% | 0-4% | 238 | 98.7% | 96-100% | 98.7% | yes |
+| reverse | 2 | 24 | `G` | G&rarr;A 107 | `R` | 107 | 3.7% | 1-9% | 233 | 99.1% | 97-100% | 95.4% | yes |
+| reverse | 16 | 10 | `G` | G&rarr;A 78, G&rarr;T 6 | `D` | 84 | 0.0% | 0-4% | 256 | 91.8% | 88-95% | 91.8% |  |
+| reverse | 25 | 1 | `C` | C&rarr;A 84, C&rarr;G 6 | `V` | 90 | 2.2% | 1-8% | 250 | 93.2% | 89-96% | 91.0% |  |
+| forward | 16 | 8 | `T` | T&rarr;A 62 | `W` | 62 | 0.0% | 0-6% | 278 | 84.5% | 80-88% | 84.5% |  |
+| forward | 5 | 19 | `A` | A&rarr;G 32, A&rarr;T 4 | `D` | 36 | 0.0% | 0-10% | 304 | 77.3% | 72-82% | 77.3% | yes |
+| reverse | 24 | 2 | `A` | A&rarr;G 21 | `R` | 21 | 0.0% | 0-15% | 319 | 73.7% | 69-78% | 73.7% |  |
+| forward | 14 | 10 | `T` | T&rarr;C 28, T&rarr;A 15 | `H` | 43 | 7.0% | 2-19% | 297 | 78.1% | 73-82% | 71.1% |  |
+| forward | 7 | 17 | `T` | T&rarr;A 94, T&rarr;C 45 | `H` | 139 | 28.1% | 21-36% | 201 | 97.5% | 94-99% | 69.5% |  |
+| reverse | 11 | 15 | `G` | G&rarr;C 62, G&rarr;A 24 | `V` | 86 | 27.9% | 20-38% | 254 | 83.1% | 78-87% | 55.2% |  |
+| reverse | 18 | 8 | `T` | T&rarr;A 95, T&rarr;C 1 | `W` (99.0%) | 96 | 35.4% | 27-45% | 244 | 82.4% | 77-87% | 47.0% |  |
+| forward | 17 | 7 | `T` | T&rarr;C 25, T&rarr;A 4 | `H` | 29 | 31.0% | 17-49% | 311 | 72.7% | 67-77% | 41.6% |  |
+| forward | 8 | 16 | `C` | C&rarr;T 182 | `Y` | 182 | 52.7% | 46-60% | 158 | 88.0% | 82-92% | 35.2% |  |
+| forward | 2 | 22 | `T` | T&rarr;C 31 | `Y` | 31 | 45.2% | 29-62% | 309 | 71.5% | 66-76% | 26.4% | yes |
+| reverse | 12 | 14 | `A` | A&rarr;T 79, A&rarr;G 32 | `D` | 111 | 93.7% | 88-97% | 229 | 57.2% | 51-63% | -36.5% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1169,23 +1026,24 @@ Orthobunyavirus (taxid 11572) — status **low coverage** — 181 evaluable of 2
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 2 | 14 | `A` | A&rarr;C 30, A&rarr;G 20, A&rarr;T 13 | hypervariable | 63 | 1.6% | 0-8% | 118 | 50.0% | 41-59% | 48.4% | yes |
-| forward | 2 | 14 | `A` | A&rarr;T 22, A&rarr;C 17, A&rarr;G 12 | hypervariable | 51 | 0.0% | 0-7% | 130 | 46.2% | 38-55% | 46.2% | yes |
-| reverse | 1 | 15 | `C` | C&rarr;A 31, C&rarr;G 9, C&rarr;T 6 | hypervariable | 46 | 0.0% | 0-8% | 135 | 44.4% | 36-53% | 44.4% | yes |
-| reverse | 4 | 12 | `C` | C&rarr;T 21, C&rarr;A 15, C&rarr;G 9 | hypervariable | 45 | 0.0% | 0-8% | 136 | 44.1% | 36-53% | 44.1% | yes |
-| forward | 1 | 15 | `C` | C&rarr;T 20, C&rarr;A 16, C&rarr;G 5 | hypervariable | 41 | 0.0% | 0-9% | 140 | 42.9% | 35-51% | 42.9% | yes |
-| reverse | 6 | 10 | `C` | C&rarr;T 18, C&rarr;G 8, C&rarr;A 2 | hypervariable | 28 | 0.0% | 0-12% | 153 | 39.2% | 32-47% | 39.2% |  |
-| reverse | 9 | 7 | `G` | G&rarr;C 11, G&rarr;A 11, G&rarr;T 4 | hypervariable | 26 | 0.0% | 0-13% | 155 | 38.7% | 31-47% | 38.7% |  |
-| reverse | 10 | 6 | `T` | T&rarr;A 20, T&rarr;C 3, T&rarr;G 1 | `H` (95.8%) | 24 | 0.0% | 0-14% | 157 | 38.2% | 31-46% | 38.2% |  |
-| reverse | 13 | 3 | `T` | T&rarr;A 20, T&rarr;C 10, T&rarr;G 8 | hypervariable | 38 | 5.3% | 1-17% | 143 | 40.6% | 33-49% | 35.3% |  |
-| forward | 11 | 5 | `G` | G&rarr;T 17, G&rarr;C 5, G&rarr;A 4 | hypervariable | 26 | 7.7% | 2-24% | 155 | 37.4% | 30-45% | 29.7% |  |
-| forward | 15 | 1 | `A` | A&rarr;G 14, A&rarr;T 11, A&rarr;C 3 | hypervariable | 28 | 14.3% | 6-31% | 153 | 36.6% | 29-44% | 22.3% |  |
-| reverse | 12 | 4 | `A` | A&rarr;C 11, A&rarr;G 10, A&rarr;T 9 | hypervariable | 30 | 16.7% | 7-34% | 151 | 36.4% | 29-44% | 19.8% |  |
-| reverse | 11 | 5 | `G` | G&rarr;T 23, G&rarr;C 20, G&rarr;A 16 | hypervariable | 59 | 23.7% | 15-36% | 122 | 37.7% | 30-47% | 14.0% |  |
-| forward | 7 | 9 | `A` | A&rarr;T 15, A&rarr;G 11, A&rarr;C 1 | `D` (96.3%) | 27 | 22.2% | 11-41% | 154 | 35.1% | 28-43% | 12.8% |  |
-| reverse | 14 | 2 | `G` | G&rarr;A 24, G&rarr;T 16, G&rarr;C 6 | hypervariable | 46 | 30.4% | 19-45% | 135 | 34.1% | 27-42% | 3.6% |  |
-| reverse | 7 | 9 | `G` | G&rarr;T 23, G&rarr;A 21, G&rarr;C 12 | hypervariable | 56 | 32.1% | 21-45% | 125 | 33.6% | 26-42% | 1.5% |  |
-| reverse | 15 | 1 | `A` | A&rarr;C 15, A&rarr;T 12, A&rarr;G 6 | hypervariable | 33 | 42.4% | 27-59% | 148 | 31.1% | 24-39% | -11.3% |  |
+| forward | 2 | 14 | `A` | A&rarr;T 22, A&rarr;C 17, A&rarr;G 12 | hypervariable | 51 | 0.0% | 0-7% | 130 | 47.7% | 39-56% | 47.7% | yes |
+| reverse | 4 | 12 | `C` | C&rarr;A 22, C&rarr;T 18, C&rarr;G 10 | hypervariable | 50 | 0.0% | 0-7% | 131 | 47.3% | 39-56% | 47.3% | yes |
+| reverse | 1 | 15 | `C` | C&rarr;A 32, C&rarr;G 8, C&rarr;T 6 | hypervariable | 46 | 0.0% | 0-8% | 135 | 45.9% | 38-54% | 45.9% | yes |
+| forward | 1 | 15 | `C` | C&rarr;T 20, C&rarr;A 16, C&rarr;G 5 | hypervariable | 41 | 0.0% | 0-9% | 140 | 44.3% | 36-53% | 44.3% | yes |
+| reverse | 2 | 14 | `A` | A&rarr;C 29, A&rarr;T 13, A&rarr;G 5 | hypervariable | 47 | 2.1% | 0-11% | 134 | 45.5% | 37-54% | 43.4% | yes |
+| reverse | 3 | 13 | `C` | C&rarr;A 14, C&rarr;G 8 | `V` | 22 | 0.0% | 0-15% | 159 | 39.0% | 32-47% | 39.0% | yes |
+| reverse | 6 | 10 | `C` | C&rarr;T 17, C&rarr;G 4, C&rarr;A 1 | `B` (95.5%) | 22 | 0.0% | 0-15% | 159 | 39.0% | 32-47% | 39.0% |  |
+| reverse | 9 | 7 | `G` | G&rarr;A 9, G&rarr;T 7, G&rarr;C 6 | hypervariable | 22 | 0.0% | 0-15% | 159 | 39.0% | 32-47% | 39.0% |  |
+| reverse | 5 | 11 | `T` | T&rarr;C 22, T&rarr;A 4 | `H` | 26 | 3.8% | 1-19% | 155 | 39.4% | 32-47% | 35.5% | yes |
+| reverse | 13 | 3 | `T` | T&rarr;A 10, T&rarr;C 10, T&rarr;G 5 | hypervariable | 25 | 8.0% | 2-25% | 156 | 38.5% | 31-46% | 30.5% |  |
+| forward | 11 | 5 | `G` | G&rarr;T 20, G&rarr;C 5, G&rarr;A 4 | hypervariable | 29 | 10.3% | 4-26% | 152 | 38.8% | 31-47% | 28.5% |  |
+| reverse | 12 | 4 | `A` | A&rarr;C 13, A&rarr;G 12, A&rarr;T 12 | hypervariable | 37 | 13.5% | 6-28% | 144 | 39.6% | 32-48% | 26.1% |  |
+| forward | 15 | 1 | `A` | A&rarr;G 14, A&rarr;T 12, A&rarr;C 5 | hypervariable | 31 | 16.1% | 7-33% | 150 | 38.0% | 31-46% | 21.9% |  |
+| reverse | 11 | 5 | `G` | G&rarr;C 29, G&rarr;T 19, G&rarr;A 12 | hypervariable | 60 | 23.3% | 14-35% | 121 | 39.7% | 31-49% | 16.3% |  |
+| forward | 7 | 9 | `A` | A&rarr;T 15, A&rarr;G 11, A&rarr;C 1 | `D` (96.3%) | 27 | 22.2% | 11-41% | 154 | 36.4% | 29-44% | 14.1% |  |
+| reverse | 14 | 2 | `G` | G&rarr;A 24, G&rarr;T 19, G&rarr;C 6 | hypervariable | 49 | 28.6% | 18-42% | 132 | 36.4% | 29-45% | 7.8% |  |
+| reverse | 15 | 1 | `A` | A&rarr;T 17, A&rarr;C 15, A&rarr;G 9 | hypervariable | 41 | 34.1% | 22-49% | 140 | 34.3% | 27-42% | 0.1% |  |
+| reverse | 7 | 9 | `G` | G&rarr;A 23, G&rarr;T 22, G&rarr;C 7 | hypervariable | 52 | 34.6% | 23-48% | 129 | 34.1% | 26-43% | -0.5% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1196,7 +1054,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | no mismatches | 29 | detect | 2018×4, 2019×1, 2020×3, 2023×1 | Melao virus×3, Anopheles×3, Triniti virus×2 | `NC_078269`, `MG792215`, `MN268730`, `MN268727`, `MN268724`, `NC_043698` (+23) |
 | fwd 1,2,11,15; rev 4,7,11 | 12 | fail | 2003×1, 2007×7, 2009×3, 2015×1 | Akabane virus×12 | `NC_009895`, `AB968526`, `FJ498801`, `FJ498800`, `FJ498798`, `AB100604` (+6) |
 | rev 7,11,14,15 | 9 | reduced | 2014×2, 2016×6, 2023×1 | Oropouche virus×7, Iquitos virus×2 | `OP407854`, `KP795101`, `KP795095`, `KP795089`, `KP795086`, `KP795080` (+3) |
-| fwd 7; rev 2,7,10,11,13,14 | 7 | fail | 2012×1, 2015×5, 2020×1 | Schmallenberg virus×6, Orthobunyavirus schmallenbergense×1 | `LC557487`, `KP731870`, `KP731869`, `KP731868`, `KP731867`, `KP731866` (+1) |
+| fwd 7; rev 3,4,5,11,12,14 | 7 | fail | 2012×1, 2015×5, 2020×1 | Schmallenberg virus×6, Orthobunyavirus schmallenbergense×1 | `LC557487`, `KP731870`, `KP731869`, `KP731868`, `KP731867`, `KP731866` (+1) |
 | rev 1,2 | 6 | fail | 2013×1, 2014×2, 2019×2, 2021×1 | Facey's×2, Ingwavuma virus×2, Jatobal virus×2 | `NC_055186`, `NC_043590`, `NC_043576`, `KF697141`, `KF697136`, `JQ675601` |
 | fwd 7 | 6 | detect | 2004×1, 2010×1, 2011×4 | Oropouche virus×5, Batai virus×1 | `NC_005777`, `HM470138`, `HM470136`, `HM470134`, `HM470133`, `FJ436804` |
 | fwd 2; rev 2 | 6 | fail | 2016×1, 2018×5 | Gamboa virus×4, Pueblo×1, Trubanaman virus×1 | `KX900440`, `KX900437`, `KX900434`, `KX900431`, `KX900428`, `KU661981` |
@@ -1216,33 +1074,33 @@ Circoviridae (taxid 39724) — status **low coverage** — 7,772 evaluable of 24
 | reverse | 18 | 10 | `S` | S&rarr;A 2,860, S&rarr;T 12 | `V` (99.6%) | 2,872 | 0.7% | 0-1% | 4,900 | 72.9% | 72-74% | 72.3% |  |
 | reverse | 24 | 4 | `A` | A&rarr;G 6,006, A&rarr;T 4 | `R` (99.9%) | 6,010 | 32.5% | 31-34% | 1,762 | 92.9% | 92-94% | 60.4% |  |
 | forward | 7 | 21 | `G` | G&rarr;C 995, G&rarr;A 13, G&rarr;T 7 | `S` (98.0%) | 1,015 | 0.2% | 0-1% | 6,757 | 53.1% | 52-54% | 52.9% |  |
-| forward | 8 | 20 | `A` | A&rarr;T 974, A&rarr;G 34, A&rarr;C 24 | `D` (97.7%) | 1,032 | 0.4% | 0-1% | 6,740 | 53.2% | 52-54% | 52.8% |  |
+| forward | 8 | 20 | `A` | A&rarr;T 974, A&rarr;G 34, A&rarr;C 24 | `D` (97.7%) | 1,032 | 0.4% | 0-1% | 6,740 | 53.2% | 52-54% | 52.9% |  |
 | reverse | 15 | 13 | `A` | A&rarr;G 994, A&rarr;C 4 | `R` (99.6%) | 998 | 1.4% | 1-2% | 6,774 | 52.8% | 52-54% | 51.4% |  |
 | forward | 24 | 4 | `T` | T&rarr;G 5,288, T&rarr;C 1,093, T&rarr;A 26 | `B` (99.6%) | 6,407 | 37.4% | 36-39% | 1,365 | 87.8% | 86-89% | 50.4% |  |
 | reverse | 23 | 5 | `C` | C&rarr;G 48, C&rarr;T 4, C&rarr;A 1 | `B` (98.1%) | 53 | 0.0% | 0-7% | 7,719 | 46.5% | 45-48% | 46.5% |  |
-| reverse | 5 | 23 | `G` | G&rarr;C 34, G&rarr;A 2, G&rarr;T 2 | hypervariable | 38 | 0.0% | 0-9% | 7,734 | 46.4% | 45-48% | 46.4% | yes |
-| forward | 19 | 9 | `A` | A&rarr;G 22, A&rarr;T 3, A&rarr;C 3 | hypervariable | 28 | 0.0% | 0-12% | 7,744 | 46.4% | 45-47% | 46.4% |  |
-| reverse | 9 | 19 | `V` | V&rarr;T 27 | hypervariable | 27 | 0.0% | 0-12% | 7,745 | 46.4% | 45-47% | 46.4% |  |
+| reverse | 5 | 23 | `G` | G&rarr;C 34, G&rarr;A 2, G&rarr;T 2 | hypervariable | 38 | 0.0% | 0-9% | 7,734 | 46.5% | 45-48% | 46.5% | yes |
+| forward | 19 | 9 | `A` | A&rarr;G 22, A&rarr;T 3, A&rarr;C 3 | hypervariable | 28 | 0.0% | 0-12% | 7,744 | 46.4% | 45-48% | 46.4% |  |
+| reverse | 9 | 19 | `V` | V&rarr;T 27 | hypervariable | 27 | 0.0% | 0-12% | 7,745 | 46.4% | 45-48% | 46.4% |  |
 | forward | 1 | 27 | `A` | A&rarr;G 25, A&rarr;T 1 | `R` (96.2%) | 26 | 0.0% | 0-13% | 7,746 | 46.4% | 45-47% | 46.4% | yes |
 | reverse | 22 | 6 | `T` | T&rarr;A 17, T&rarr;C 5, T&rarr;G 1 | `H` (95.7%) | 23 | 0.0% | 0-14% | 7,749 | 46.4% | 45-47% | 46.4% |  |
 | reverse | 13 | 15 | `A` | A&rarr;T 45, A&rarr;C 28, A&rarr;G 6 | hypervariable | 79 | 1.3% | 0-7% | 7,693 | 46.7% | 46-48% | 45.4% |  |
 | reverse | 14 | 14 | `C` | C&rarr;A 29, C&rarr;G 5, C&rarr;T 1 | `V` (97.1%) | 35 | 2.9% | 1-15% | 7,737 | 46.4% | 45-48% | 43.6% |  |
 | reverse | 12 | 16 | `M` | M&rarr;T 16, M&rarr;G 10 | hypervariable | 26 | 3.8% | 1-19% | 7,746 | 46.4% | 45-47% | 42.5% |  |
-| reverse | 27 | 1 | `T` | T&rarr;A 982, T&rarr;C 220, T&rarr;G 8 | `H` (99.3%) | 1,210 | 11.7% | 10-14% | 6,562 | 52.6% | 51-54% | 40.8% |  |
+| reverse | 27 | 1 | `T` | T&rarr;A 982, T&rarr;C 220, T&rarr;G 8 | `H` (99.3%) | 1,210 | 11.7% | 10-14% | 6,562 | 52.6% | 51-54% | 40.9% |  |
 | forward | 9 | 19 | `C` | C&rarr;T 448, C&rarr;G 2 | `Y` (99.6%) | 450 | 8.2% | 6-11% | 7,322 | 48.6% | 47-50% | 40.3% |  |
 | forward | 16 | 12 | `A` | A&rarr;C 17, A&rarr;G 7, A&rarr;T 2 | hypervariable | 26 | 11.5% | 4-29% | 7,746 | 46.3% | 45-47% | 34.8% |  |
 | forward | 3 | 25 | `A` | A&rarr;G 188, A&rarr;T 4, A&rarr;C 1 | `R` (97.4%) | 193 | 19.7% | 15-26% | 7,579 | 46.9% | 46-48% | 27.2% | yes |
 | forward | 27 | 1 | `G` | G&rarr;T 208, G&rarr;A 114, G&rarr;C 85 | hypervariable | 407 | 23.6% | 20-28% | 7,365 | 47.5% | 46-49% | 23.9% |  |
 | forward | 6 | 22 | `T` | T&rarr;C 153, T&rarr;G 27, T&rarr;A 26 | hypervariable | 206 | 28.6% | 23-35% | 7,566 | 46.7% | 46-48% | 18.1% |  |
-| forward | 20 | 8 | `G` | G&rarr;A 5,241, G&rarr;C 51 | `R` (99.0%) | 5,292 | 41.3% | 40-43% | 2,480 | 56.6% | 55-59% | 15.3% |  |
+| forward | 20 | 8 | `G` | G&rarr;A 5,241, G&rarr;C 51 | `R` (99.0%) | 5,292 | 41.4% | 40-43% | 2,480 | 56.6% | 55-59% | 15.2% |  |
 | forward | 26 | 2 | `G` | G&rarr;C 5,232, G&rarr;A 2 | `S` (100.0%) | 5,234 | 41.9% | 41-43% | 2,538 | 55.2% | 53-57% | 13.3% |  |
 | reverse | 21 | 7 | `C` | C&rarr;T 5,246 | `Y` | 5,246 | 42.5% | 41-44% | 2,526 | 54.0% | 52-56% | 11.6% |  |
 | reverse | 26 | 2 | `C` | C&rarr;T 5,424, C&rarr;G 2, C&rarr;A 1 | `Y` (99.9%) | 5,427 | 43.4% | 42-45% | 2,345 | 52.8% | 51-55% | 9.4% |  |
 | forward | 15 | 13 | `R` | R&rarr;T 28, R&rarr;C 6 | hypervariable | 34 | 50.0% | 34-66% | 7,738 | 46.2% | 45-47% | -3.8% |  |
-| forward | 17 | 11 | `R` | R&rarr;C 43 | `V` | 43 | 60.5% | 46-74% | 7,729 | 46.1% | 45-47% | -14.3% |  |
-| forward | 21 | 7 | `T` | T&rarr;C 120 | `Y` | 120 | 68.3% | 60-76% | 7,652 | 45.9% | 45-47% | -22.5% |  |
-| reverse | 3 | 25 | `S` | S&rarr;T 648, S&rarr;A 74 | hypervariable | 722 | 79.9% | 77-83% | 7,050 | 42.8% | 42-44% | -37.2% | yes |
-| reverse | 6 | 22 | `Y` | Y&rarr;G 215, Y&rarr;A 108 | hypervariable | 323 | 82.7% | 78-86% | 7,449 | 44.6% | 44-46% | -38.0% |  |
+| forward | 17 | 11 | `R` | R&rarr;C 43 | `V` | 43 | 60.5% | 46-74% | 7,729 | 46.2% | 45-47% | -14.3% |  |
+| forward | 21 | 7 | `T` | T&rarr;C 120 | `Y` | 120 | 68.3% | 60-76% | 7,652 | 45.9% | 45-47% | -22.4% |  |
+| reverse | 3 | 25 | `S` | S&rarr;T 648, S&rarr;A 74 | hypervariable | 722 | 79.9% | 77-83% | 7,050 | 42.8% | 42-44% | -37.1% | yes |
+| reverse | 6 | 22 | `Y` | Y&rarr;G 215, Y&rarr;A 108 | hypervariable | 323 | 82.7% | 78-86% | 7,449 | 44.7% | 44-46% | -38.0% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1308,25 +1166,25 @@ Astroviridae (taxid 39733) — status **low coverage** — 2,917 evaluable of 16
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 4 | 20 | `A` | A&rarr;T 1,657, A&rarr;C 1 | `W` (99.9%) | 1,658 | 19.5% | 18-22% | 1,259 | 79.5% | 77-82% | 60.0% | yes |
+| forward | 4 | 20 | `A` | A&rarr;T 1,657, A&rarr;C 1 | `W` (99.9%) | 1,658 | 19.5% | 18-22% | 1,259 | 79.6% | 77-82% | 60.0% | yes |
 | reverse | 13 | 8 | `C` | C&rarr;T 254, C&rarr;A 7, C&rarr;G 6 | `Y` (95.1%) | 267 | 1.1% | 0-3% | 2,650 | 49.9% | 48-52% | 48.8% |  |
 | reverse | 14 | 7 | `A` | A&rarr;C 18, A&rarr;T 10, A&rarr;G 1 | `H` (96.6%) | 29 | 0.0% | 0-12% | 2,888 | 45.9% | 44-48% | 45.9% |  |
-| reverse | 2 | 19 | `A` | A&rarr;C 18, A&rarr;T 5, A&rarr;G 2 | hypervariable | 25 | 0.0% | 0-13% | 2,892 | 45.8% | 44-48% | 45.8% | yes |
+| reverse | 2 | 19 | `A` | A&rarr;C 18, A&rarr;T 5, A&rarr;G 2 | hypervariable | 25 | 0.0% | 0-13% | 2,892 | 45.9% | 44-48% | 45.9% | yes |
 | reverse | 16 | 5 | `T` | T&rarr;A 18, T&rarr;G 6 | `D` | 24 | 0.0% | 0-14% | 2,893 | 45.8% | 44-48% | 45.8% |  |
 | reverse | 5 | 16 | `C` | C&rarr;G 20, C&rarr;A 3 | `V` | 23 | 0.0% | 0-14% | 2,894 | 45.8% | 44-48% | 45.8% | yes |
 | reverse | 1 | 20 | `A` | A&rarr;G 10, A&rarr;T 7, A&rarr;C 4 | hypervariable | 21 | 0.0% | 0-15% | 2,896 | 45.8% | 44-48% | 45.8% | yes |
 | reverse | 12 | 9 | `C` | C&rarr;A 19, C&rarr;T 7, C&rarr;G 1 | `H` (96.3%) | 27 | 3.7% | 1-18% | 2,890 | 45.8% | 44-48% | 42.1% |  |
-| forward | 9 | 15 | `K` | K&rarr;C 998, K&rarr;A 690 | hypervariable | 1,688 | 28.0% | 26-30% | 1,229 | 69.3% | 67-72% | 41.3% |  |
-| reverse | 11 | 10 | `C` | C&rarr;A 10, C&rarr;G 7, C&rarr;T 4 | hypervariable | 21 | 4.8% | 1-23% | 2,896 | 45.7% | 44-48% | 41.0% |  |
-| forward | 6 | 18 | `K*` | K&rarr;C 897, G&rarr;A 243, K&rarr;A 204, +1 more | - | 1,345 | 33.4% | 31-36% | 1,572 | 55.7% | 53-58% | 22.3% |  |
-| forward | 11 | 13 | `R` | R&rarr;T 69, R&rarr;C 2 | `D` (97.2%) | 71 | 26.8% | 18-38% | 2,846 | 45.9% | 44-48% | 19.1% |  |
-| forward | 20 | 4 | `T` | T&rarr;A 932, T&rarr;C 532, T&rarr;G 49 | `H` (96.8%) | 1,513 | 42.0% | 40-44% | 1,404 | 49.1% | 47-52% | 7.2% |  |
+| forward | 9 | 15 | `K` | K&rarr;C 998, K&rarr;A 690 | hypervariable | 1,688 | 28.1% | 26-30% | 1,229 | 69.3% | 67-72% | 41.2% |  |
+| reverse | 11 | 10 | `C` | C&rarr;A 10, C&rarr;G 7, C&rarr;T 4 | hypervariable | 21 | 4.8% | 1-23% | 2,896 | 45.8% | 44-48% | 41.0% |  |
+| forward | 6 | 18 | `K*` | K&rarr;C 897, G&rarr;A 243, K&rarr;A 204, +1 more | - | 1,345 | 33.4% | 31-36% | 1,572 | 55.8% | 53-58% | 22.4% |  |
+| forward | 11 | 13 | `R` | R&rarr;T 69, R&rarr;C 2 | `D` (97.2%) | 71 | 26.8% | 18-38% | 2,846 | 45.9% | 44-48% | 19.2% |  |
+| forward | 20 | 4 | `T` | T&rarr;A 932, T&rarr;C 532, T&rarr;G 49 | `H` (96.8%) | 1,513 | 42.0% | 40-44% | 1,404 | 49.2% | 47-52% | 7.2% |  |
 | reverse | 19 | 2 | `G` | G&rarr;T 336, G&rarr;C 54, G&rarr;A 24 | hypervariable | 414 | 42.0% | 37-47% | 2,503 | 46.0% | 44-48% | 4.0% |  |
 | reverse | 20 | 1 | `G` | G&rarr;C 229, G&rarr;T 156, G&rarr;A 10 | `B` (97.5%) | 395 | 43.8% | 39-49% | 2,522 | 45.7% | 44-48% | 1.9% |  |
-| reverse | 15 | 6 | `K` | K&rarr;A 1,232, K&rarr;C 308 | hypervariable | 1,540 | 47.7% | 45-50% | 1,377 | 42.8% | 40-45% | -4.9% |  |
-| forward | 18 | 6 | `Y` | Y&rarr;G 987, Y&rarr;A 41 | `B` (96.0%) | 1,028 | 48.8% | 46-52% | 1,889 | 43.6% | 41-46% | -5.3% |  |
-| forward | 15 | 9 | `T` | T&rarr;C 1,663, T&rarr;G 1, T&rarr;S 1 | `Y` (99.9%) | 1,665 | 50.3% | 48-53% | 1,252 | 38.9% | 36-42% | -11.4% |  |
-| forward | 19 | 5 | `T` | T&rarr;C 245, T&rarr;G 10, T&rarr;A 10 | `B` (96.2%) | 265 | 92.5% | 89-95% | 2,652 | 40.7% | 39-43% | -51.7% |  |
+| reverse | 15 | 6 | `K` | K&rarr;A 1,232, K&rarr;C 308 | hypervariable | 1,540 | 47.8% | 45-50% | 1,377 | 42.8% | 40-45% | -4.9% |  |
+| forward | 18 | 6 | `Y` | Y&rarr;G 987, Y&rarr;A 41 | `B` (96.0%) | 1,028 | 48.8% | 46-52% | 1,889 | 43.6% | 41-46% | -5.2% |  |
+| forward | 15 | 9 | `T` | T&rarr;C 1,663, T&rarr;G 1, T&rarr;S 1 | `Y` (99.9%) | 1,665 | 50.4% | 48-53% | 1,252 | 38.9% | 36-42% | -11.5% |  |
+| forward | 19 | 5 | `T` | T&rarr;C 245, T&rarr;G 10, T&rarr;A 10 | `B` (96.2%) | 265 | 92.5% | 89-95% | 2,652 | 40.8% | 39-43% | -51.7% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1342,6 +1200,53 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 4,20 | 87 | reduced | 2022×11, 2023×14, 2024×1, 2025×3 | Avian nephritis×56, Chicken astrovirus×15, Avastrovirus sp.×10 | `OR951013`, `PP871786`, `PV093023`, `PV093022`, `OR220065`, `OR220064` (+81) |
 | fwd 4,9,15 | 77 | fail | 2023×4, 2024×3, 2025×27, 2026×10 | Porcine astrovirus×28, Mamastrovirus×14, Mamastrovirus sp.×10 | `PZ660278`, `ON624269`, `PX942056`, `PX942048`, `PX942040`, `PX941828` (+71) |
 | fwd 4,6,9,15; rev 15 | 65 | fail | 2023×6, 2024×2, 2025×20, 2026×5 | Murine astrovirus×16, Bovine astrovirus×10, Mamastrovirus sp.×8 | `QB068546`, `PX692893`, `PX692891`, `PX941967`, `PX941894`, `PX221758` (+59) |
+
+## ORTHOBUNYAVIRUS_ssRNA_M_segment
+
+Orthobunyavirus (taxid 11572) — status **low coverage** — 227 evaluable of 2,083 screened records
+
+- forward: `5'-TCNAARGGHTGYGGNAATGT-3'` (20 nt)
+- reverse: `5'-AGTAGTGTGCTACC-3'` (14 nt)
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| reverse | 3 | 12 | `A` | A&rarr;C 52, A&rarr;T 4, A&rarr;G 2 | `H` (96.6%) | 58 | 0.0% | 0-6% | 169 | 42.0% | 35-50% | 42.0% | yes |
+| forward | 8 | 13 | `G` | G&rarr;T 36, G&rarr;A 23, G&rarr;C 7 | hypervariable | 66 | 1.5% | 0-8% | 161 | 43.5% | 36-51% | 42.0% |  |
+| reverse | 1 | 14 | `C` | C&rarr;A 33, C&rarr;T 14, C&rarr;G 7 | hypervariable | 54 | 0.0% | 0-7% | 173 | 41.0% | 34-48% | 41.0% | yes |
+| reverse | 6 | 9 | `G` | G&rarr;A 23, G&rarr;T 19, G&rarr;C 6 | hypervariable | 48 | 0.0% | 0-7% | 179 | 39.7% | 33-47% | 39.7% |  |
+| forward | 7 | 14 | `G` | G&rarr;T 16, G&rarr;C 16, G&rarr;A 9 | hypervariable | 41 | 0.0% | 0-9% | 186 | 38.2% | 31-45% | 38.2% |  |
+| forward | 5 | 16 | `A` | A&rarr;T 17, A&rarr;G 11, A&rarr;C 5 | hypervariable | 33 | 0.0% | 0-10% | 194 | 36.6% | 30-44% | 36.6% | yes |
+| reverse | 8 | 7 | `G` | G&rarr;A 16, G&rarr;C 8, G&rarr;T 3 | hypervariable | 27 | 0.0% | 0-12% | 200 | 35.5% | 29-42% | 35.5% |  |
+| forward | 10 | 11 | `G` | G&rarr;A 41, G&rarr;T 12, G&rarr;C 6 | hypervariable | 59 | 5.1% | 2-14% | 168 | 40.5% | 33-48% | 35.4% |  |
+| reverse | 4 | 11 | `T` | T&rarr;A 11, T&rarr;C 9 | `H` | 20 | 0.0% | 0-16% | 207 | 34.3% | 28-41% | 34.3% | yes |
+| forward | 2 | 19 | `G` | G&rarr;A 57, G&rarr;T 15, G&rarr;C 7 | hypervariable | 79 | 11.4% | 6-20% | 148 | 41.9% | 34-50% | 30.5% | yes |
+| forward | 1 | 20 | `T` | T&rarr;C 18, T&rarr;A 11, T&rarr;G 6 | hypervariable | 35 | 5.7% | 2-19% | 192 | 35.9% | 29-43% | 30.2% | yes |
+| forward | 16 | 5 | `A` | A&rarr;C 14, A&rarr;T 9, A&rarr;G 6 | hypervariable | 29 | 6.9% | 2-22% | 198 | 34.8% | 29-42% | 28.0% |  |
+| forward | 19 | 2 | `C` | C&rarr;A 33, C&rarr;G 33, C&rarr;T 27 | hypervariable | 93 | 15.1% | 9-24% | 134 | 42.5% | 34-51% | 27.5% |  |
+| forward | 13 | 8 | `G` | G&rarr;T 55, G&rarr;A 28, G&rarr;C 8 | hypervariable | 91 | 16.5% | 10-25% | 136 | 41.2% | 33-50% | 24.7% |  |
+| forward | 3 | 18 | `T` | T&rarr;C 26, T&rarr;A 10, T&rarr;G 9 | hypervariable | 45 | 15.6% | 8-29% | 182 | 35.2% | 29-42% | 19.6% | yes |
+| forward | 14 | 7 | `G` | G&rarr;T 37, G&rarr;A 23, G&rarr;C 4 | hypervariable | 64 | 21.9% | 14-33% | 163 | 35.0% | 28-43% | 13.1% |  |
+| forward | 4 | 17 | `A` | A&rarr;G 21, A&rarr;T 9, A&rarr;C 5 | hypervariable | 35 | 28.6% | 16-45% | 192 | 31.8% | 26-39% | 3.2% | yes |
+| reverse | 13 | 2 | `G` | G&rarr;T 28, G&rarr;A 1 | `K` (96.6%) | 29 | 37.9% | 23-56% | 198 | 30.3% | 24-37% | -7.6% |  |
+| reverse | 14 | 1 | `A` | A&rarr;T 18, A&rarr;G 15 | `D` | 33 | 39.4% | 25-56% | 194 | 29.9% | 24-37% | -9.5% |  |
+| forward | 20 | 1 | `T` | T&rarr;G 33, T&rarr;A 14, T&rarr;C 11 | hypervariable | 58 | 43.1% | 31-56% | 169 | 27.2% | 21-34% | -15.9% |  |
+| reverse | 11 | 4 | `A` | A&rarr;T 20, A&rarr;G 1 | `W` (95.2%) | 21 | 47.6% | 28-68% | 206 | 29.6% | 24-36% | -18.0% |  |
+| forward | 17 | 4 | `A` | A&rarr;C 80, A&rarr;T 2 | `M` (97.6%) | 82 | 43.9% | 34-55% | 145 | 24.1% | 18-32% | -19.8% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| fwd 2,5,10,14,17,19 | 16 | fail | 2017×1, 2020×1, 2024×3, 2025×1 | Oropouche virus×16 | `PQ801465`, `PP992528`, `PP477317`, `PP477316`, `MN264268`, `MF620128` (+10) |
+| no mismatches | 12 | detect | 2002×2, 2015×2, 2018×1, 2020×1 | La×4, Keystone virus×3, Melao virus×2 | `MN264271`, `NC_004109`, `MH016785`, `KT630292`, `KT630289`, `U88057` (+6) |
+| fwd 17 | 11 | detect | 2003×4, 2009×2, 2018×1, 2019×1 | Cache×4, Maguari virus×4, Tensaw virus×3 | `NC_043548`, `MH166878`, `AF186243`, `AF186242`, `AF186241`, `FJ943508` (+5) |
+| fwd 4,20 | 9 | reduced | 2017×9 | Wolkberg virus×9 | `NC_034631`, `KX470582`, `KX470579`, `KX470570`, `KX470567`, `KX470564` (+3) |
+| fwd 17; rev 11,12,13,14 | 9 | reduced | 1999×1, 2000×4, 2001×4 | Cache×9 | `AF234767`, `AF231115`, `AF231114`, `AF231113`, `AF231119`, `AF231118` (+3) |
+| fwd 2,17; rev 2,4,8,11,14 | 8 | fail | 2016×8 | Batai virus×8 | `KT313714`, `KT313711`, `KT313708`, `KT313705`, `KT313702`, `KT313699` (+2) |
+| fwd 1,2,8,10,13,19; rev 6 | 7 | fail | 2012×1, 2013×3, 2019×2, 2024×1 | Schmallenberg virus×7 | `PP616750`, `NC_043584`, `MF154865`, `KC355458`, `KC355455`, `JX853180` (+1) |
+| rev 2,6,8,13 | 6 | fail | 2017×6 | Inkoo virus×4, Khatanga virus×2 | `KT288306`, `KT288297`, `KT288282`, `KT288279`, `KT288276`, `KT288273` |
 
 ## Pan_flavivirus_NS5_3_round1
 
@@ -1361,10 +1266,10 @@ Orthoflavivirus (formerly Flavivirus) (taxid 11051) — status **declining** —
 | forward | 18 | 6 | `G` | G&rarr;C 87, G&rarr;A 81, G&rarr;T 12 | hypervariable | 180 | 3.3% | 2-7% | 33,316 | 43.0% | 43-44% | 39.7% |  |
 | forward | 19 | 5 | `T` | T&rarr;C 173, T&rarr;A 3, T&rarr;G 3 | `Y` (96.6%) | 179 | 3.4% | 2-7% | 33,317 | 43.0% | 43-44% | 39.7% |  |
 | forward | 7 | 17 | `G` | G&rarr;A 226, G&rarr;T 1 | `R` (99.6%) | 227 | 3.5% | 2-7% | 33,269 | 43.1% | 43-44% | 39.6% |  |
-| forward | 21 | 3 | `C` | C&rarr;T 1,447, C&rarr;G 2 | `Y` (99.9%) | 1,449 | 6.4% | 5-8% | 32,047 | 44.5% | 44-45% | 38.0% |  |
+| forward | 21 | 3 | `C` | C&rarr;T 1,447, C&rarr;G 2 | `Y` (99.9%) | 1,449 | 6.4% | 5-8% | 32,047 | 44.5% | 44-45% | 38.1% |  |
 | reverse | 6 | 21 | `A` | A&rarr;G 3,686, A&rarr;C 6, A&rarr;T 1 | `R` (99.8%) | 3,693 | 10.2% | 9-11% | 29,803 | 46.9% | 46-47% | 36.7% |  |
 | reverse | 24 | 3 | `G` | G&rarr;A 6,550, G&rarr;T 2 | `R` (100.0%) | 6,552 | 17.3% | 16-18% | 26,944 | 49.0% | 48-50% | 31.7% |  |
-| reverse | 18 | 9 | `G` | G&rarr;T 19,738, G&rarr;A 3,763, G&rarr;C 841, +2 more | `D` (96.5%) | 24,344 | 35.1% | 35-36% | 9,152 | 63.3% | 62-64% | 28.2% |  |
+| reverse | 18 | 9 | `G` | G&rarr;T 19,738, G&rarr;A 3,763, G&rarr;C 841, +2 more | `D` (96.5%) | 24,344 | 35.1% | 35-36% | 9,152 | 63.4% | 62-64% | 28.2% |  |
 | reverse | 12 | 15 | `G` | G&rarr;T 22,213, G&rarr;A 2,492, G&rarr;C 2,332, +2 more | hypervariable | 27,039 | 38.0% | 37-39% | 6,457 | 63.1% | 62-64% | 25.1% |  |
 | forward | 20 | 4 | `A` | A&rarr;C 18, A&rarr;T 4, A&rarr;G 3 | hypervariable | 25 | 32.0% | 17-52% | 33,471 | 42.8% | 42-43% | 10.8% |  |
 | forward | 8 | 16 | `A` | A&rarr;C 3,299, A&rarr;T 1, A&rarr;Y 1 | `M` (99.9%) | 3,301 | 38.7% | 37-40% | 30,195 | 43.3% | 43-44% | 4.6% |  |
@@ -1387,56 +1292,21 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | rev 3,12,15,18 | 1,642 | fail | 2023×146, 2024×272, 2025×85, 2026×17 | Dengue virus×654, Yellow fever×629, Powassan virus×334 | `PZ671926`, `PZ671925`, `PZ324381`, `PZ521690`, `PZ454037`, `PZ385152` (+1,636) |
 | rev 3,6,12,15,18 | 1,480 | fail | 2023×246, 2024×214, 2025×33, 2026×47 | Dengue virus×1480 | `PZ454015`, `PZ454014`, `PZ454013`, `PZ454012`, `PZ454011`, `PZ454008` (+1,474) |
 
-## DWVB_polyprotein_Rossi_2024
+## MONKEYPOX_dsDNA_B1_SNP_lineageB1_TaqMan_Huo_2022
 
-Deformed wing virus B (taxid 2498590) — status **declining** — 57 evaluable of 737 screened records
+Monkeypox virus (taxid 10244) — status **declining** — 12,703 evaluable of 13,757 screened records
 
-- forward: `5'-TTTATCTTCATTAAAACCGCCA-3'` (22 nt)
-- reverse: `5'-CTCATTAACTGAGTTGTTGTC-3'` (21 nt)
-- probe: `5'-ATCTTTTGAGAGGGATGAGA-3'` (20 nt)
+- forward: `5'-AGTACACAGACCTCCACCAC-3'` (20 nt)
+- reverse: `5'-AGTAATTGACCTACTGGTCTAGGG-3'` (24 nt)
+- probe: `5'-AAACCAGTCCAAAATTCGCCACAA-3'` (24 nt)
 
-**6 of 57 evaluable records (11%) share one mismatch pattern, mostly Deformed wing, deposited 2023-2025, and the group's dominant call is `reduced`.**
-
-No single position reaches the reporting threshold: the mismatches are spread thinly rather than concentrated. The footprint table below is the informative view for this assay.
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| no mismatches | 29 | detect | 2023×25, 2025×2, 2026×2 | Deformed wing×29 | `PZ565201`, `PZ565199`, `PV664207`, `PV239926`, `OR497392`, `OR497391` (+23) |
-| rev 4 | 6 | reduced | 2023×1, 2025×5 | Deformed wing×6 | `PV664191`, `PV664187`, `PV664182`, `PV664176`, `PV664167`, `OR361548` |
-| prb 19 | 5 | detect | 2023×5 | Deformed wing×5 | `OR497394`, `OR497384`, `OR497383`, `OR361549`, `OR361543` |
-| fwd 16 | 4 | detect | 2023×4 | Deformed wing×4 | `OR497395`, `OR497385`, `OR497382`, `OR497380` |
-| fwd 19 | 3 | detect | 2023×3 | Deformed wing×3 | `OR497396`, `OR497387`, `OR497386` |
-| rev 16 | 2 | detect | 2025×1, 2026×1 | Deformed wing×2 | `PZ565200`, `PP418870` |
-| fwd 4; prb 19 | 2 | fail | 2023×2 | Deformed wing×2 | `OR361539`, `OR361538` |
-| fwd 1,4,10,19; rev 4 | 1 | fail | 2026×1 | Deformed wing×1 | `PX663595` |
-
-## CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme
-
-Coronaviridae (taxid 11118) — status **declining** — 7,924 evaluable of 25,559 screened records
-
-- forward: `5'-GGTTGGGAYTAYCCHAARTGTGA-3'` (23 nt)
-- reverse: `5'-CCATCATCASWYRGAATCATCATA-3'` (24 nt)
-
-**1,420 of 7,924 evaluable records (18%) share one mismatch pattern, mostly Human coronavirus, deposited 1993-2026, and the group's dominant call is `detect`.**
+**2,805 of 12,703 evaluable records (22%) share one mismatch pattern, mostly Monkeypox virus, deposited 2004-2026, and the group's dominant call is `fail`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 1 | 24 | `A` | A&rarr;T 2,911, A&rarr;G 943, A&rarr;C 60 | `D` (98.5%) | 3,914 | 0.0% | 0-0% | 4,010 | 89.2% | 88-90% | 89.2% | yes |
-| reverse | 2 | 23 | `T` | T&rarr;A 1,037, T&rarr;G 569 | `D` | 1,606 | 3.4% | 3-4% | 6,318 | 55.8% | 55-57% | 52.4% | yes |
-| reverse | 4 | 21 | `C` | C&rarr;T 520, C&rarr;A 378, C&rarr;G 152 | hypervariable | 1,050 | 0.8% | 0-1% | 6,874 | 51.9% | 51-53% | 51.2% | yes |
-| reverse | 24 | 1 | `C` | C&rarr;G 728, C&rarr;T 2 | `S` (99.7%) | 730 | 5.3% | 4-7% | 7,194 | 49.2% | 48-50% | 43.9% |  |
-| reverse | 13 | 12 | `Y` | Y&rarr;A 2,434, Y&rarr;G 446 | hypervariable | 2,880 | 18.2% | 17-20% | 5,044 | 60.5% | 59-62% | 42.3% |  |
-| reverse | 8 | 17 | `T` | T&rarr;C 20, T&rarr;A 1 | `Y` (95.2%) | 21 | 9.5% | 3-29% | 7,903 | 45.2% | 44-46% | 35.7% |  |
-| forward | 9 | 15 | `H` | H&rarr;G 82 | hypervariable | 82 | 14.6% | 9-24% | 7,842 | 45.5% | 44-47% | 30.8% |  |
-| reverse | 19 | 6 | `A` | A&rarr;G 623, A&rarr;C 2, A&rarr;T 1 | `R` (99.5%) | 626 | 17.1% | 14-20% | 7,298 | 47.6% | 46-49% | 30.5% |  |
-| forward | 3 | 21 | `T` | T&rarr;C 1,639 | `Y` | 1,639 | 21.4% | 19-23% | 6,285 | 51.4% | 50-53% | 30.0% | yes |
-| reverse | 10 | 15 | `A` | A&rarr;T 1,668, A&rarr;G 1,271 | `D` | 2,939 | 36.0% | 34-38% | 4,985 | 50.6% | 49-52% | 14.6% |  |
-| reverse | 16 | 9 | `A` | A&rarr;T 389, A&rarr;G 218, A&rarr;C 89, +2 more | hypervariable | 698 | 37.5% | 34-41% | 7,226 | 45.9% | 45-47% | 8.4% |  |
-| reverse | 22 | 3 | `A` | A&rarr;G 1,556, A&rarr;T 2 | `R` (99.9%) | 1,558 | 58.1% | 56-61% | 6,366 | 42.0% | 41-43% | -16.1% |  |
-| reverse | 11 | 14 | `G` | G&rarr;A 3,694, G&rarr;C 1 | `R` (100.0%) | 3,695 | 54.6% | 53-56% | 4,229 | 36.9% | 35-38% | -17.7% |  |
-| forward | 21 | 3 | `T` | T&rarr;A 849, T&rarr;C 337, T&rarr;G 73 | hypervariable | 1,259 | 62.9% | 60-66% | 6,665 | 41.8% | 41-43% | -21.1% |  |
+| forward | 5 | 16 | `A` | A&rarr;G 2,815 | `R` | 2,815 | 0.0% | 0-0% | 9,888 | 100.0% | 100-100% | 100.0% | yes |
+| reverse | 24 | 1 | `A` | A&rarr;G 2,814, A&rarr;T 1 | `R` (100.0%) | 2,815 | 0.1% | 0-0% | 9,888 | 99.9% | 100-100% | 99.8% |  |
+| probe | 9 | 16 | `T` | T&rarr;C 3,502 | `Y` | 3,502 | 19.6% | 18-21% | 9,201 | 100.0% | 100-100% | 80.4% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1444,14 +1314,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| rev 11 | 1,420 | detect | 2023×226, 2024×97, 2025×138, 2026×157 | Human coronavirus×816, Bovine coronavirus×251, Porcine hemagglutinating×48 | `QB036323`, `LC918947`, `LC918946`, `LC642814`, `PZ892151`, `OZ540712` (+1,414) |
-| fwd 3; rev 1,13 | 1,117 | fail | 2023×47, 2024×49, 2025×204, 2026×71 | Porcine epidemic×1100, UNVERIFIED_ASMBLY:×15, Alphacoronavirus porci×1 | `PZ463692`, `PZ949040`, `PZ433557`, `PZ433556`, `PZ433555`, `PZ433554` (+1,111) |
-| rev 1,2,4,10,11 | 789 | fail | 2023×112, 2024×44, 2025×165, 2026×37 | Infectious bronchitis×473, Porcine deltacoronavirus×262, Porcine coronavirus×13 | `PX388002`, `PX388001`, `PX103085`, `PX103084`, `PZ823619`, `PZ426367` (+783) |
-| rev 10,22 | 725 | reduced | 2022×17, 2023×25, 2024×14, 2025×12 | Middle×717, Human betacoronavirus×4, Betacoronavirus×2 | `PP086048`, `OR987496`, `OR987495`, `OR987494`, `OR987493`, `OR987492` (+719) |
-| rev 1,13,24 | 498 | fail | 2023×47, 2024×10, 2025×11, 2026×29 | SARS coronavirus×268, Sarbecovirus sp.×57, Betacoronavirus sp.×37 | `PV344449`, `PV344448`, `PV344447`, `PV344446`, `PV344445`, `PV344444` (+492) |
-| rev 1,13,22 | 291 | fail | 2023×62, 2024×15, 2025×85, 2026×12 | Human coronavirus×283, Unidentified human×4, Human×2 | `PZ673863`, `LC720428`, `LC687402`, `LC687394`, `LC922677`, `LC922676` (+285) |
-| fwd 3,21; rev 13 | 239 | reduced | 2023×50, 2024×34, 2025×27, 2026×78 | Human coronavirus×236, Mutant×2, Unidentified human×1 | `LC654445`, `LC922646`, `PZ086305`, `PZ086302`, `PZ086301`, `PZ086300` (+233) |
-| fwd 21; rev 11 | 185 | detect | 2023×38, 2024×9, 2025×12, 2026×18 | Transmissible gastroenteritis×48, Canine coronavirus×41, Feline coronavirus×21 | `PZ799096`, `LC932283`, `LC932282`, `LC932281`, `LC932280`, `LC932279` (+179) |
+| no mismatches | 9,190 | detect | 2023×3084, 2024×1379, 2025×716, 2026×753 | Monkeypox virus×9188, Mutant×2 | `OZ561975`, `OZ561965`, `OZ561964`, `OZ561963`, `OZ561962`, `OZ561960` (+9,184) |
+| fwd 5; rev 24; prb 9 | 2,805 | fail | 2023×3, 2024×511, 2025×765, 2026×1479 | Monkeypox virus×2805 | `OZ555904`, `OZ555901`, `OZ555900`, `OZ555899`, `OZ540336`, `OZ540332` (+2,799) |
+| prb 9 | 676 | reduced | 2023×8, 2024×125, 2025×403, 2026×29 | Monkeypox virus×676 | `OZ531712`, `OZ531711`, `OZ531706`, `OZ531700`, `OZ501870`, `OZ501843` (+670) |
+| rev 20; prb 9 | 7 | reduced | 2005×2, 2020×3, 2022×1, 2025×1 | Monkeypox virus×7 | `PV982292`, `OK573020`, `MT903348`, `MT903347`, `MT903346`, `DQ011157` (+1) |
+| fwd 5; prb 9 | 5 | fail | 2024×3, 2025×2 | Monkeypox virus×5 | `OZ254422`, `OZ254274`, `PQ221653`, `PQ221590`, `PQ221588` |
+| fwd 4 | 3 | reduced | 2026×3 | Monkeypox virus×3 | `OZ501866`, `OZ501842`, `OZ501830` |
+| fwd 7 | 2 | detect | 2023×2 | Monkeypox virus×2 | `OQ468954`, `OQ419051` |
+| fwd 6; prb 9 | 2 | reduced | 2024×2 | Monkeypox virus×2 | `PP860032`, `PP860028` |
 
 ## CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1
 
@@ -1464,34 +1334,34 @@ Circoviridae (taxid 39724) — status **declining** — 6,454 evaluable of 24,31
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 17 | 11 | `C` | C&rarr;A 577, C&rarr;T 252, C&rarr;G 10 | `H` (98.8%) | 839 | 0.2% | 0-1% | 5,615 | 93.0% | 92-94% | 92.8% |  |
+| forward | 17 | 11 | `C` | C&rarr;A 577, C&rarr;T 252, C&rarr;G 10 | `H` (98.8%) | 839 | 0.2% | 0-1% | 5,615 | 93.1% | 92-94% | 92.8% |  |
 | reverse | 22 | 6 | `C` | C&rarr;G 722, C&rarr;T 12, C&rarr;A 1 | `S` (98.2%) | 735 | 0.0% | 0-1% | 5,719 | 91.4% | 91-92% | 91.4% |  |
 | forward | 1 | 27 | `A` | A&rarr;C 336, A&rarr;T 265, A&rarr;G 32, +1 more | hypervariable | 634 | 0.0% | 0-1% | 5,820 | 89.8% | 89-91% | 89.8% | yes |
-| forward | 2 | 26 | `G` | G&rarr;C 299, G&rarr;T 250, G&rarr;A 32 | hypervariable | 581 | 0.2% | 0-1% | 5,873 | 89.0% | 88-90% | 88.8% | yes |
-| reverse | 25 | 3 | `C` | C&rarr;G 291, C&rarr;T 109, C&rarr;A 16 | `B` (96.2%) | 416 | 1.0% | 0-2% | 6,038 | 86.5% | 86-87% | 85.5% |  |
-| reverse | 16 | 12 | `S` | S&rarr;T 327, S&rarr;A 31 | hypervariable | 358 | 0.8% | 0-2% | 6,096 | 85.7% | 85-87% | 84.8% |  |
+| forward | 2 | 26 | `G` | G&rarr;C 299, G&rarr;T 250, G&rarr;A 32 | hypervariable | 581 | 0.5% | 0-2% | 5,873 | 89.0% | 88-90% | 88.5% | yes |
+| reverse | 25 | 3 | `C` | C&rarr;G 291, C&rarr;T 109, C&rarr;A 16 | `B` (96.2%) | 416 | 1.0% | 0-2% | 6,038 | 86.5% | 86-87% | 85.6% |  |
+| reverse | 16 | 12 | `S` | S&rarr;T 327, S&rarr;A 31 | hypervariable | 358 | 0.8% | 0-2% | 6,096 | 85.7% | 85-87% | 84.9% |  |
 | forward | 7 | 21 | `C` | C&rarr;A 136, C&rarr;G 32, C&rarr;T 10 | hypervariable | 178 | 0.0% | 0-2% | 6,276 | 83.3% | 82-84% | 83.3% |  |
 | forward | 27 | 1 | `G` | G&rarr;T 93, G&rarr;C 46, G&rarr;A 3 | `B` (97.9%) | 142 | 0.0% | 0-3% | 6,312 | 82.8% | 82-84% | 82.8% |  |
-| forward | 8 | 20 | `C` | C&rarr;T 182, C&rarr;A 2 | `Y` (98.9%) | 184 | 0.5% | 0-3% | 6,270 | 83.3% | 82-84% | 82.8% |  |
+| forward | 8 | 20 | `C` | C&rarr;T 182, C&rarr;A 2 | `Y` (98.9%) | 184 | 0.5% | 0-3% | 6,270 | 83.4% | 82-84% | 82.8% |  |
 | forward | 6 | 22 | `T` | T&rarr;C 123, T&rarr;A 87, T&rarr;G 47 | hypervariable | 257 | 1.9% | 1-4% | 6,197 | 84.3% | 83-85% | 82.3% |  |
 | reverse | 17 | 11 | `T` | T&rarr;C 42, T&rarr;G 27, T&rarr;A 8 | hypervariable | 77 | 0.0% | 0-5% | 6,377 | 82.0% | 81-83% | 82.0% |  |
 | reverse | 26 | 2 | `T` | T&rarr;C 95, T&rarr;G 50, T&rarr;A 2 | `B` (98.6%) | 147 | 2.0% | 1-6% | 6,307 | 82.8% | 82-84% | 80.8% |  |
-| reverse | 20 | 8 | `C` | C&rarr;T 29, C&rarr;G 1 | `Y` (96.7%) | 30 | 3.3% | 1-17% | 6,424 | 81.3% | 80-82% | 78.0% |  |
+| reverse | 20 | 8 | `C` | C&rarr;T 29, C&rarr;G 1 | `Y` (96.7%) | 30 | 3.3% | 1-17% | 6,424 | 81.4% | 80-82% | 78.0% |  |
 | reverse | 12 | 16 | `W` | W&rarr;G 513, W&rarr;C 70 | hypervariable | 583 | 11.5% | 9-14% | 5,871 | 87.9% | 87-89% | 76.4% |  |
 | reverse | 19 | 9 | `C` | C&rarr;G 21, C&rarr;T 11, C&rarr;A 2 | hypervariable | 34 | 5.9% | 2-19% | 6,420 | 81.4% | 80-82% | 75.5% |  |
-| forward | 3 | 25 | `M` | M&rarr;T 309, M&rarr;G 75 | hypervariable | 384 | 10.4% | 8-14% | 6,070 | 85.4% | 85-86% | 75.0% | yes |
-| forward | 18 | 10 | `B` | B&rarr;A 42 | hypervariable | 42 | 7.1% | 2-19% | 6,412 | 81.5% | 80-82% | 74.3% |  |
+| forward | 3 | 25 | `M` | M&rarr;T 309, M&rarr;G 75 | hypervariable | 384 | 10.4% | 8-14% | 6,070 | 85.5% | 85-86% | 75.1% | yes |
+| forward | 18 | 10 | `B` | B&rarr;A 42 | hypervariable | 42 | 7.1% | 2-19% | 6,412 | 81.5% | 81-82% | 74.3% |  |
 | reverse | 24 | 4 | `T` | T&rarr;C 493, T&rarr;G 213, T&rarr;A 136 | hypervariable | 842 | 17.7% | 15-20% | 5,612 | 90.5% | 90-91% | 72.8% |  |
-| forward | 23 | 5 | `T` | T&rarr;C 21, T&rarr;A 2 | `H` | 23 | 8.7% | 2-27% | 6,431 | 81.2% | 80-82% | 72.5% |  |
-| reverse | 18 | 10 | `R` | R&rarr;T 24, R&rarr;C 11 | hypervariable | 35 | 14.3% | 6-29% | 6,419 | 81.3% | 80-82% | 67.1% |  |
+| forward | 23 | 5 | `T` | T&rarr;C 21, T&rarr;A 2 | `H` | 23 | 8.7% | 2-27% | 6,431 | 81.3% | 80-82% | 72.6% |  |
+| reverse | 18 | 10 | `R` | R&rarr;T 24, R&rarr;C 11 | hypervariable | 35 | 14.3% | 6-29% | 6,419 | 81.4% | 80-82% | 67.1% |  |
 | reverse | 9 | 19 | `A` | A&rarr;G 148, A&rarr;C 2 | `R` (98.7%) | 150 | 21.3% | 16-29% | 6,304 | 82.4% | 81-83% | 61.1% |  |
-| forward | 21 | 7 | `C` | C&rarr;T 181, C&rarr;G 16 | `B` | 197 | 45.2% | 38-52% | 6,257 | 82.1% | 81-83% | 36.9% |  |
+| forward | 21 | 7 | `C` | C&rarr;T 181, C&rarr;G 16 | `B` | 197 | 45.7% | 39-53% | 6,257 | 82.1% | 81-83% | 36.4% |  |
 | forward | 24 | 4 | `T` | T&rarr;G 5,133, T&rarr;C 584, T&rarr;A 5 | `B` (99.9%) | 5,722 | 83.3% | 82-84% | 732 | 62.8% | 59-66% | -20.5% |  |
 | forward | 15 | 13 | `Y` | Y&rarr;G 4,636, Y&rarr;A 25 | `B` (99.5%) | 4,661 | 90.5% | 90-91% | 1,793 | 56.3% | 54-59% | -34.2% |  |
-| reverse | 27 | 1 | `A` | A&rarr;T 5,357, A&rarr;C 366, A&rarr;G 36 | `H` (99.4%) | 5,759 | 85.4% | 84-86% | 695 | 44.2% | 41-48% | -41.2% |  |
-| forward | 25 | 3 | `G` | G&rarr;T 5,374, G&rarr;C 2 | `K` (100.0%) | 5,376 | 87.9% | 87-89% | 1,078 | 46.4% | 43-49% | -41.5% |  |
-| forward | 26 | 2 | `T` | T&rarr;G 5,373, T&rarr;A 1, T&rarr;C 1 | `K` (100.0%) | 5,375 | 87.9% | 87-89% | 1,079 | 46.3% | 43-49% | -41.6% |  |
-| reverse | 21 | 7 | `C` | C&rarr;A 4,969, C&rarr;T 279, C&rarr;G 133 | `H` (97.5%) | 5,381 | 88.1% | 87-89% | 1,073 | 45.0% | 42-48% | -43.1% |  |
+| reverse | 27 | 1 | `A` | A&rarr;T 5,357, A&rarr;C 366, A&rarr;G 36 | `H` (99.4%) | 5,759 | 85.4% | 84-86% | 695 | 44.3% | 41-48% | -41.1% |  |
+| forward | 25 | 3 | `G` | G&rarr;T 5,374, G&rarr;C 2 | `K` (100.0%) | 5,376 | 87.9% | 87-89% | 1,078 | 46.5% | 44-49% | -41.5% |  |
+| forward | 26 | 2 | `T` | T&rarr;G 5,373, T&rarr;A 1, T&rarr;C 1 | `K` (100.0%) | 5,375 | 87.9% | 87-89% | 1,079 | 46.4% | 43-49% | -41.5% |  |
+| reverse | 21 | 7 | `C` | C&rarr;A 4,969, C&rarr;T 279, C&rarr;G 133 | `H` (97.5%) | 5,381 | 88.2% | 87-89% | 1,073 | 45.1% | 42-48% | -43.1% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1508,6 +1378,33 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 6,7,8,27; rev 16,21,22,24,25,26 | 73 | fail | 2021×22, 2022×25, 2023×14, 2024×3 | Porcine circovirus×72, Circovirus sp.×1 | `PQ043545`, `PP067098`, `PP067097`, `OQ970017`, `OQ970016`, `OQ658351` (+67) |
 | rev 24,27 | 62 | detect | 2016×2, 2019×3, 2023×1, 2024×10 | Beak and×62 | `OR424529`, `OR424520`, `OR424513`, `OR424507`, `OQ995104`, `OQ995102` (+56) |
 
+## DWVA_polyprotein_Rossi_2024
+
+Deformed wing virus A (taxid 2951794) — status **low coverage** — 68 evaluable of 223 screened records
+
+- forward: `5'-CTTTGTCTTCATTAAAGCCAC-3'` (21 nt)
+- reverse: `5'-CTCATTAACTGTGTCGTTGAT-3'` (21 nt)
+- probe: `5'-TGCGTGGAATGCGTCC-3'` (16 nt)
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| reverse | 7 | 15 | `C` | C&rarr;T 23 | `Y` | 23 | 52.2% | 33-71% | 45 | 97.8% | 88-100% | 45.6% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| no mismatches | 30 | detect | 2023×23, 2024×1, 2025×4, 2026×2 | Deformed wing×30 | `PX663591`, `PX663590`, `PX309089`, `PV664190`, `PV664186`, `PV239925` (+24) |
+| fwd 2,5; rev 4,7 | 6 | fail | 2025×6 | Deformed wing×6 | `LC905098`, `LC905097`, `LC905095`, `LC905093`, `LC905086`, `LC905085` |
+| rev 4,7 | 4 | detect | 2025×1, 2026×3 | Deformed wing×4 | `PX663592`, `PX663589`, `PX663587`, `LC905089` |
+| fwd 17; prb 3 | 4 | reduced | 2023×4 | Deformed wing×4 | `OR497393`, `OR497381`, `OR497379`, `OR497378` |
+| rev 1,4,7,10 | 3 | reduced | 2025×3 | Deformed wing×3 | `LC905094`, `LC905091`, `LC905090` |
+| fwd 17 | 3 | detect | 2022×3 | Deformed wing×3 | `MZ867714`, `MZ867712`, `MZ867711` |
+| rev 7 | 1 | detect | 2026×1 | Deformed wing×1 | `PX663586` |
+| fwd 2,14 | 1 | fail | 2026×1 | Deformed wing×1 | `PX703942` |
+
 ## Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011
 
 Mycoplasma (taxid 2093) — status **declining** — 345 evaluable of 24,246 screened records
@@ -1519,13 +1416,13 @@ Mycoplasma (taxid 2093) — status **declining** — 345 evaluable of 24,246 scr
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 11 | 17 | `A` | A&rarr;T 20, A&rarr;C 2 | `H` | 22 | 0.0% | 0-15% | 323 | 99.4% | 98-100% | 99.4% |  |
-| reverse | 19 | 9 | `A` | A&rarr;C 21, A&rarr;T 3, A&rarr;G 2 | hypervariable | 26 | 23.1% | 11-42% | 319 | 98.7% | 97-100% | 75.7% |  |
-| reverse | 14 | 14 | `C` | C&rarr;T 31, C&rarr;A 1 | `Y` (96.9%) | 32 | 43.8% | 28-61% | 313 | 98.1% | 96-99% | 54.3% |  |
-| forward | 14 | 7 | `T` | T&rarr;C 25 | `Y` | 25 | 68.0% | 48-83% | 320 | 95.0% | 92-97% | 27.0% |  |
-| forward | 19 | 2 | `C` | C&rarr;A 73 | `M` | 73 | 74.0% | 63-83% | 272 | 98.2% | 96-99% | 24.2% |  |
-| reverse | 21 | 7 | `C` | C&rarr;A 21 | `M` | 21 | 100.0% | 85-100% | 324 | 92.6% | 89-95% | -7.4% |  |
-| reverse | 25 | 3 | `C` | C&rarr;T 345 | `Y` | 345 | 93.0% | 90-95% | 0 | - | 0-100% | - |  |
+| reverse | 11 | 17 | `A` | A&rarr;T 20, A&rarr;C 2 | `H` | 22 | 0.0% | 0-15% | 323 | 100.0% | 99-100% | 100.0% |  |
+| reverse | 19 | 9 | `A` | A&rarr;C 21, A&rarr;T 3, A&rarr;G 2 | hypervariable | 26 | 23.1% | 11-42% | 319 | 99.4% | 98-100% | 76.3% |  |
+| reverse | 14 | 14 | `C` | C&rarr;T 31, C&rarr;A 1 | `Y` (96.9%) | 32 | 43.8% | 28-61% | 313 | 98.7% | 97-100% | 55.0% |  |
+| forward | 19 | 2 | `C` | C&rarr;A 73 | `M` | 73 | 76.7% | 66-85% | 272 | 98.2% | 96-99% | 21.4% |  |
+| forward | 14 | 7 | `T` | T&rarr;C 25 | `Y` | 25 | 76.0% | 57-89% | 320 | 95.0% | 92-97% | 19.0% |  |
+| reverse | 21 | 7 | `C` | C&rarr;A 21 | `M` | 21 | 100.0% | 85-100% | 324 | 93.2% | 90-95% | -6.8% |  |
+| reverse | 25 | 3 | `C` | C&rarr;T 345 | `Y` | 345 | 93.6% | 91-96% | 0 | - | 0-100% | - |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1542,6 +1439,47 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 7; rev 25 | 6 | reduced | 2005×1, 2009×1, 2017×2, 2019×2 | Mycoplasma testudineum×6 | `NZ_NNCE01000002`, `NZ_SNWN01000010`, `SNWN01000010`, `NNCE01000002`, `FJ666138`, `AY973570` |
 | fwd 12,16,17,18,19,20; rev 10,11,14,19,25 | 6 | fail | 2022×4, 2023×2 | Mycoplasma bradburyae×6 | `NZ_JAJHZN010000014`, `NZ_JAJHZO010000008`, `NZ_CP101415`, `NZ_CP101414`, `CP101415`, `CP101414` |
 
+## CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme
+
+Coronaviridae (taxid 11118) — status **declining** — 7,924 evaluable of 25,559 screened records
+
+- forward: `5'-GGTTGGGAYTAYCCHAARTGTGA-3'` (23 nt)
+- reverse: `5'-CCATCATCASWYRGAATCATCATA-3'` (24 nt)
+
+**1,420 of 7,924 evaluable records (18%) share one mismatch pattern, mostly Human coronavirus, deposited 1993-2026, and the group's dominant call is `detect`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| reverse | 1 | 24 | `A` | A&rarr;T 2,911, A&rarr;G 943, A&rarr;C 60 | `D` (98.5%) | 3,914 | 0.0% | 0-0% | 4,010 | 92.3% | 91-93% | 92.3% | yes |
+| reverse | 2 | 23 | `T` | T&rarr;A 1,037, T&rarr;G 569 | `D` | 1,606 | 3.4% | 3-4% | 6,318 | 57.7% | 57-59% | 54.3% | yes |
+| reverse | 4 | 21 | `C` | C&rarr;T 520, C&rarr;A 378, C&rarr;G 152 | hypervariable | 1,050 | 0.8% | 0-1% | 6,874 | 53.8% | 53-55% | 53.0% | yes |
+| reverse | 24 | 1 | `C` | C&rarr;G 728, C&rarr;T 2 | `S` (99.7%) | 730 | 5.5% | 4-7% | 7,194 | 50.9% | 50-52% | 45.4% |  |
+| reverse | 13 | 12 | `Y` | Y&rarr;A 2,434, Y&rarr;G 446 | hypervariable | 2,880 | 19.9% | 19-21% | 5,044 | 62.0% | 61-63% | 42.1% |  |
+| reverse | 8 | 17 | `T` | T&rarr;C 20, T&rarr;A 1 | `Y` (95.2%) | 21 | 9.5% | 3-29% | 7,903 | 46.8% | 46-48% | 37.3% |  |
+| reverse | 19 | 6 | `A` | A&rarr;G 623, A&rarr;C 2, A&rarr;T 1 | `R` (99.5%) | 626 | 20.0% | 17-23% | 7,298 | 49.0% | 48-50% | 29.1% |  |
+| forward | 3 | 21 | `T` | T&rarr;C 1,639 | `Y` | 1,639 | 28.9% | 27-31% | 6,285 | 51.4% | 50-53% | 22.5% | yes |
+| reverse | 10 | 15 | `A` | A&rarr;T 1,668, A&rarr;G 1,271 | `D` | 2,939 | 38.0% | 36-40% | 4,985 | 51.9% | 51-53% | 13.9% |  |
+| forward | 9 | 15 | `H` | H&rarr;G 82 | hypervariable | 82 | 40.2% | 30-51% | 7,842 | 46.8% | 46-48% | 6.6% |  |
+| reverse | 16 | 9 | `A` | A&rarr;T 389, A&rarr;G 218, A&rarr;C 89, +2 more | hypervariable | 698 | 45.4% | 42-49% | 7,226 | 46.9% | 46-48% | 1.4% |  |
+| reverse | 22 | 3 | `A` | A&rarr;G 1,556, A&rarr;T 2 | `R` (99.9%) | 1,558 | 59.3% | 57-62% | 6,366 | 43.7% | 42-45% | -15.7% |  |
+| reverse | 11 | 14 | `G` | G&rarr;A 3,694, G&rarr;C 1 | `R` (100.0%) | 3,695 | 56.7% | 55-58% | 4,229 | 38.0% | 37-39% | -18.7% |  |
+| forward | 21 | 3 | `T` | T&rarr;A 849, T&rarr;C 337, T&rarr;G 73 | hypervariable | 1,259 | 68.8% | 66-71% | 6,665 | 42.6% | 41-44% | -26.2% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| rev 11 | 1,420 | detect | 2023×226, 2024×97, 2025×138, 2026×157 | Human coronavirus×816, Bovine coronavirus×251, Porcine hemagglutinating×48 | `QB036323`, `LC918947`, `LC918946`, `LC642814`, `PZ892151`, `OZ540712` (+1,414) |
+| fwd 3; rev 1,13 | 1,117 | fail | 2023×47, 2024×49, 2025×204, 2026×71 | Porcine epidemic×1100, UNVERIFIED_ASMBLY:×15, Alphacoronavirus porci×1 | `PZ463692`, `PZ949040`, `PZ433557`, `PZ433556`, `PZ433555`, `PZ433554` (+1,111) |
+| rev 1,2,4,10,11 | 789 | fail | 2023×112, 2024×44, 2025×165, 2026×37 | Infectious bronchitis×473, Porcine deltacoronavirus×262, Porcine coronavirus×13 | `PX388002`, `PX388001`, `PX103085`, `PX103084`, `PZ823619`, `PZ426367` (+783) |
+| rev 10,22 | 725 | reduced | 2022×17, 2023×25, 2024×14, 2025×12 | Middle×717, Human betacoronavirus×4, Betacoronavirus×2 | `PP086048`, `OR987496`, `OR987495`, `OR987494`, `OR987493`, `OR987492` (+719) |
+| rev 1,13,24 | 498 | fail | 2023×47, 2024×10, 2025×11, 2026×29 | SARS coronavirus×268, Sarbecovirus sp.×57, Betacoronavirus sp.×37 | `PV344449`, `PV344448`, `PV344447`, `PV344446`, `PV344445`, `PV344444` (+492) |
+| rev 1,13,22 | 291 | fail | 2023×62, 2024×15, 2025×85, 2026×12 | Human coronavirus×283, Unidentified human×4, Human×2 | `PZ673863`, `LC720428`, `LC687402`, `LC687394`, `LC922677`, `LC922676` (+285) |
+| fwd 3,21; rev 13 | 239 | detect | 2023×50, 2024×34, 2025×27, 2026×78 | Human coronavirus×236, Mutant×2, Unidentified human×1 | `LC654445`, `LC922646`, `PZ086305`, `PZ086302`, `PZ086301`, `PZ086300` (+233) |
+| fwd 21; rev 11 | 185 | detect | 2023×38, 2024×9, 2025×12, 2026×18 | Transmissible gastroenteritis×48, Canine coronavirus×41, Feline coronavirus×21 | `PZ799096`, `LC932283`, `LC932282`, `LC932281`, `LC932280`, `LC932279` (+179) |
+
 ## CHLAMYDIA_genus_16S_Messmer_1997_round1
 
 Chlamydia (taxid 810) — status **low coverage** — 794 evaluable of 1,668 screened records
@@ -1553,16 +1491,16 @@ Chlamydia (taxid 810) — status **low coverage** — 794 evaluable of 1,668 scr
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 8 | 11 | `G` | G&rarr;T 420, G&rarr;A 26, G&rarr;C 19 | `D` (95.9%) | 465 | 0.6% | 0-2% | 329 | 96.4% | 94-98% | 95.7% |  |
-| forward | 12 | 7 | `T` | T&rarr;C 449, T&rarr;A 19 | `Y` (95.9%) | 468 | 4.3% | 3-7% | 326 | 92.0% | 89-94% | 87.8% |  |
-| forward | 7 | 12 | `A` | A&rarr;G 469, A&rarr;C 12 | `R` (97.5%) | 481 | 7.1% | 5-10% | 313 | 91.4% | 88-94% | 84.3% |  |
-| forward | 6 | 13 | `C` | C&rarr;T 379, C&rarr;A 1 | `Y` (99.7%) | 380 | 0.0% | 0-1% | 414 | 77.3% | 73-81% | 77.3% |  |
-| forward | 13 | 6 | `A` | A&rarr;G 367 | `R` | 367 | 0.0% | 0-1% | 427 | 74.9% | 71-79% | 74.9% |  |
-| forward | 1 | 18 | `G` | G&rarr;A 110, G&rarr;T 11, G&rarr;C 2 | `D` (98.4%) | 123 | 0.0% | 0-3% | 671 | 47.7% | 44-51% | 47.7% | yes |
-| forward | 9 | 10 | `T` | T&rarr;A 19, T&rarr;C 7 | `H` | 26 | 0.0% | 0-13% | 768 | 41.7% | 38-45% | 41.7% |  |
-| forward | 11 | 8 | `A` | A&rarr;T 19, A&rarr;G 3 | `D` | 22 | 0.0% | 0-15% | 772 | 41.5% | 38-45% | 41.5% |  |
-| forward | 17 | 2 | `C` | C&rarr;A 19, C&rarr;T 1 | `M` (95.0%) | 20 | 5.0% | 1-24% | 774 | 41.2% | 38-45% | 36.2% |  |
-| reverse | 2 | 17 | `T` | T&rarr;A 793, T&rarr;G 1 | `W` (99.9%) | 794 | 40.3% | 37-44% | 0 | - | 0-100% | - | yes |
+| forward | 8 | 11 | `G` | G&rarr;T 420, G&rarr;A 26, G&rarr;C 19 | `D` (95.9%) | 465 | 0.6% | 0-2% | 329 | 97.9% | 96-99% | 97.2% |  |
+| forward | 12 | 7 | `T` | T&rarr;C 449, T&rarr;A 19 | `Y` (95.9%) | 468 | 4.3% | 3-7% | 326 | 93.6% | 90-96% | 89.3% |  |
+| forward | 7 | 12 | `A` | A&rarr;G 469, A&rarr;C 12 | `R` (97.5%) | 481 | 7.3% | 5-10% | 313 | 92.7% | 89-95% | 85.4% |  |
+| forward | 6 | 13 | `C` | C&rarr;T 379, C&rarr;A 1 | `Y` (99.7%) | 380 | 0.0% | 0-1% | 414 | 78.5% | 74-82% | 78.5% |  |
+| forward | 13 | 6 | `A` | A&rarr;G 367 | `R` | 367 | 0.0% | 0-1% | 427 | 76.1% | 72-80% | 76.1% |  |
+| forward | 1 | 18 | `G` | G&rarr;A 110, G&rarr;T 11, G&rarr;C 2 | `D` (98.4%) | 123 | 0.0% | 0-3% | 671 | 48.4% | 45-52% | 48.4% | yes |
+| forward | 9 | 10 | `T` | T&rarr;A 19, T&rarr;C 7 | `H` | 26 | 0.0% | 0-13% | 768 | 42.3% | 39-46% | 42.3% |  |
+| forward | 11 | 8 | `A` | A&rarr;T 19, A&rarr;G 3 | `D` | 22 | 0.0% | 0-15% | 772 | 42.1% | 39-46% | 42.1% |  |
+| forward | 17 | 2 | `C` | C&rarr;A 19, C&rarr;T 1 | `M` (95.0%) | 20 | 5.0% | 1-24% | 774 | 41.9% | 38-45% | 36.9% |  |
+| reverse | 2 | 17 | `T` | T&rarr;A 793, T&rarr;G 1 | `W` (99.9%) | 794 | 40.9% | 38-44% | 0 | - | 0-100% | - | yes |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1631,24 +1569,22 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 5,6,9,10,15; rev 4,5,7,8,11,18 | 41 | fail | 2022×41 | Ophidiomyces ophidiicola×41 | `NW_026054648`, `JALBCH010000013`, `JALBCE010000013`, `JALBBV010000010`, `JALBBX010000168`, `JALBBT010000029` (+35) |
 | fwd 5,6,12,14,15,18; rev 1,2,9,14,17,19 | 24 | fail | 2022×24 | Ophidiomyces ophidiicola×24 | `JALBCH010000101`, `JALBCF010000120`, `JALBCD010000100`, `JALBBY010000169`, `JALBBZ010000104`, `JALBBU010000092` (+18) |
 
-## CDV_H_gene_Mueller_2011_4
+## MONKEYPOX_dsDNA_F3L_region_cladeI_TaqMan_Huo_2022
 
-Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **declining** — 365 evaluable of 4,013 screened records
+Monkeypox virus (taxid 10244) — status **declining** — 12,624 evaluable of 13,757 screened records
 
-- forward: `5'-ATCCCCCATGTGTTGACATT-3'` (20 nt)
-- reverse: `5'-GACCTCAGGGTATAGAATCTGG-3'` (22 nt)
+- forward: `5'-ATCCTCTCTCATTGATTTTTCGCGGGA-3'` (27 nt)
+- reverse: `5'-TGGAGAAGCGAGAAGTTAATAAAGC-3'` (25 nt)
+- probe: `5'-TCGTCGGAACTGTACACCATAGTAC-3'` (25 nt)
+
+**10,057 of 12,624 evaluable records (80%) share one mismatch pattern, mostly Monkeypox virus, deposited 2004-2026, and the group's dominant call is `fail`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 1 | 22 | `G` | G&rarr;A 129 | `R` | 129 | 0.0% | 0-3% | 236 | 99.2% | 97-100% | 99.2% | yes |
-| reverse | 13 | 10 | `G` | G&rarr;A 37 | `R` | 37 | 2.7% | 0-14% | 328 | 71.0% | 66-76% | 68.3% |  |
-| forward | 15 | 6 | `C*` | C&rarr;T 23, T&rarr;C 2 | - | 25 | 28.0% | 14-48% | 340 | 66.8% | 62-72% | 38.8% |  |
-| forward | 6 | 15 | `G*` | G&rarr;A 106, A&rarr;G 28 | - | 134 | 40.3% | 32-49% | 231 | 77.9% | 72-83% | 37.6% |  |
-| forward | 18 | 3 | `C` | C&rarr;T 35, C&rarr;A 16 | `H` | 51 | 35.3% | 24-49% | 314 | 68.8% | 63-74% | 33.5% |  |
-| forward | 9 | 12 | `G` | G&rarr;A 37, G&rarr;C 1 | `R` (97.4%) | 38 | 39.5% | 26-55% | 327 | 67.0% | 62-72% | 27.5% |  |
-| forward | 19 | 2 | `T` | T&rarr;C 82, T&rarr;G 1 | `Y` (98.8%) | 83 | 74.7% | 64-83% | 282 | 61.0% | 55-67% | -13.7% |  |
-| reverse | 8 | 15 | `G` | G&rarr;A 36 | `R` | 36 | 97.2% | 86-100% | 329 | 60.5% | 55-66% | -36.7% |  |
-| forward | 20 | 1 | `A` | A&rarr;C 32, A&rarr;G 10 | `V` | 42 | 100.0% | 92-100% | 323 | 59.4% | 54-65% | -40.6% |  |
+| probe | 3 | 23 | `T` | T&rarr;C 10,068 | `Y` | 10,068 | 0.0% | 0-0% | 2,556 | 99.6% | 99-100% | 99.6% | yes |
+| probe | 11 | 15 | `C` | C&rarr;A 10,068 | `M` | 10,068 | 0.0% | 0-0% | 2,556 | 99.6% | 99-100% | 99.6% |  |
+| probe | 17 | 9 | `A` | A&rarr;G 10,068 | `R` | 10,068 | 0.0% | 0-0% | 2,556 | 99.6% | 99-100% | 99.6% |  |
+| probe | 21 | 5 | `C` | C&rarr;T 10,068 | `Y` | 10,068 | 0.0% | 0-0% | 2,556 | 99.6% | 99-100% | 99.6% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1656,70 +1592,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| no mismatches | 92 | detect | 2021×1, 2023×1, 2024×1, 2026×31 | Morbillivirus canis×71, Canine distemper×19, Canine morbillivirus×2 | `PX254110`, `PZ812018`, `PZ812017`, `PZ812016`, `PZ812015`, `PZ812014` (+86) |
-| fwd 6; rev 1,13 | 34 | fail | 2019×3, 2022×25, 2026×6 | Canine morbillivirus×25, Morbillivirus canis×9 | `PX610320`, `PX610319`, `PX954424`, `OP209189`, `OP209188`, `OP209187` (+28) |
-| fwd 6; rev 1 | 25 | fail | 2018×1, 2020×2, 2025×1, 2026×18 | Morbillivirus canis×20, Canine distemper×5 | `PX938971`, `PX938970`, `PX734755`, `PX734754`, `PX734753`, `PX734752` (+19) |
-| fwd 19; rev 8 | 25 | reduced | 2021×2, 2024×6, 2025×3, 2026×3 | Morbillivirus canis×14, Canine distemper×11 | `PZ168248`, `PZ043805`, `PZ043803`, `PV778034`, `PV778033`, `PQ860808` (+19) |
-| fwd 6,20 | 25 | reduced | 2008×3, 2017×3, 2018×4, 2022×5 | Canine distemper×6, Morbillivirus canis×5, Canine morbillivirus×5 | `D00758`, `OL441602`, `OL441601`, `OL441596`, `OL441595`, `MW497605` (+19) |
-| fwd 19 | 22 | detect | 2017×1, 2018×3, 2019×2, 2022×2 | Canine distemper×11, Morbillivirus canis×9, Canine morbillivirus×2 | `LC342298`, `AB753776`, `AB753775`, `AB687721`, `AB687720`, `ON206669` (+16) |
-| fwd 15,18; rev 1 | 14 | fail | 2016×3, 2021×1, 2025×5, 2026×2 | Morbillivirus canis×8, Canine distemper×6 | `PX656912`, `PX656910`, `PP847352`, `PP847351`, `PP847350`, `PP847349` (+8) |
-| fwd 6,9,19; rev 1 | 14 | fail | 2009×1, 2011×1, 2013×6, 2014×6 | Morbillivirus canis×14 | `AB490681`, `AB490680`, `AB490679`, `AB490674`, `AB490672`, `AB490670` (+8) |
-
-## PARVOVIRUS_ssDNA_VP1_gene_dependovirus
-
-Dependoparvovirus (taxid 10803) — status **declining** — 6,922 evaluable of 10,085 screened records
-
-- forward: `5'-GGTAATGCCTCAGGAAATTGGCATT-3'` (25 nt)
-- reverse: `5'-GAATCCCCAATTGTTGTTGATGAGTC-3'` (26 nt)
-
-**1,212 of 6,922 evaluable records (18%) share one mismatch pattern, mostly JP, deposited 1991-2026, and the group's dominant call is `reduced`.**
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 11 | 15 | `A` | A&rarr;T 450 | `W` | 450 | 2.0% | 1-4% | 6,472 | 89.3% | 89-90% | 87.3% |  |
-| forward | 4 | 22 | `C` | C&rarr;T 26, C&rarr;G 3, C&rarr;A 1 | `B` (96.7%) | 30 | 0.0% | 0-11% | 6,892 | 84.0% | 83-85% | 84.0% | yes |
-| reverse | 4 | 23 | `A` | A&rarr;G 26 | `R` | 26 | 0.0% | 0-13% | 6,896 | 84.0% | 83-85% | 84.0% | yes |
-| reverse | 15 | 12 | `T` | T&rarr;G 688, T&rarr;A 113 | `D` | 801 | 10.4% | 8-13% | 6,121 | 93.2% | 93-94% | 82.9% |  |
-| reverse | 24 | 3 | `A` | A&rarr;T 772, A&rarr;G 235, A&rarr;C 1 | `D` (99.9%) | 1,008 | 13.5% | 12-16% | 5,914 | 95.6% | 95-96% | 82.1% |  |
-| forward | 10 | 16 | `A` | A&rarr;G 700 | `R` | 700 | 11.7% | 10-14% | 6,222 | 91.7% | 91-92% | 80.0% |  |
-| reverse | 26 | 1 | `G` | G&rarr;C 367, G&rarr;A 124, G&rarr;T 81 | hypervariable | 572 | 20.5% | 17-24% | 6,350 | 89.3% | 89-90% | 68.9% |  |
-| reverse | 23 | 4 | `T` | T&rarr;G 457, T&rarr;C 71, T&rarr;A 7 | `B` (98.7%) | 535 | 21.7% | 18-25% | 6,387 | 88.8% | 88-90% | 67.2% |  |
-| reverse | 5 | 22 | `G` | G&rarr;A 560, G&rarr;C 2 | `R` (99.6%) | 562 | 30.1% | 26-34% | 6,360 | 88.4% | 88-89% | 58.3% | yes |
-| forward | 23 | 3 | `T` | T&rarr;C 244 | `Y` | 244 | 28.3% | 23-34% | 6,678 | 85.7% | 85-86% | 57.4% |  |
-| forward | 20 | 6 | `T` | T&rarr;C 44, T&rarr;G 10, T&rarr;A 3 | hypervariable | 57 | 36.8% | 26-50% | 6,865 | 84.0% | 83-85% | 47.2% |  |
-| reverse | 2 | 25 | `T` | T&rarr;C 394, T&rarr;G 26, T&rarr;A 7 | `B` (98.4%) | 427 | 48.0% | 43-53% | 6,495 | 86.0% | 85-87% | 38.0% | yes |
-| forward | 14 | 12 | `A` | A&rarr;G 3,400, A&rarr;C 655, A&rarr;T 4 | `V` (99.9%) | 4,059 | 72.5% | 71-74% | 2,863 | 99.4% | 99-100% | 26.9% |  |
-| reverse | 6 | 21 | `T` | T&rarr;C 95 | `Y` | 95 | 57.9% | 48-67% | 6,827 | 84.0% | 83-85% | 26.1% |  |
-| reverse | 11 | 16 | `G` | G&rarr;A 36 | `R` | 36 | 75.0% | 59-86% | 6,886 | 83.7% | 83-85% | 8.7% |  |
-| forward | 2 | 24 | `T` | T&rarr;C 26, T&rarr;G 3 | `B` | 29 | 89.7% | 74-96% | 6,893 | 83.6% | 83-84% | -6.0% | yes |
-| reverse | 14 | 13 | `G` | G&rarr;A 73 | `R` | 73 | 90.4% | 82-95% | 6,849 | 83.6% | 83-84% | -6.8% |  |
-| reverse | 17 | 10 | `A` | A&rarr;G 5,962, A&rarr;T 1 | `R` (100.0%) | 5,963 | 85.3% | 84-86% | 959 | 73.6% | 71-76% | -11.6% |  |
-| reverse | 18 | 9 | `A` | A&rarr;G 69, A&rarr;C 2 | `R` (97.2%) | 71 | 97.2% | 90-99% | 6,851 | 83.5% | 83-84% | -13.7% |  |
-| reverse | 16 | 11 | `T` | T&rarr;C 48, T&rarr;G 1 | `Y` (98.0%) | 49 | 98.0% | 89-100% | 6,873 | 83.5% | 83-84% | -14.4% |  |
-| forward | 7 | 19 | `T` | T&rarr;C 52 | `Y` | 52 | 98.1% | 90-100% | 6,870 | 83.5% | 83-84% | -14.5% |  |
-| reverse | 13 | 14 | `T` | T&rarr;C 52, T&rarr;G 1 | `Y` (98.1%) | 53 | 98.1% | 90-100% | 6,869 | 83.5% | 83-84% | -14.6% |  |
-| forward | 21 | 5 | `A` | A&rarr;G 1,804, A&rarr;C 22 | `R` (98.8%) | 1,826 | 94.5% | 93-95% | 5,096 | 79.7% | 79-81% | -14.8% |  |
-| reverse | 8 | 19 | `G` | G&rarr;A 175 | `R` | 175 | 98.3% | 95-99% | 6,747 | 83.3% | 82-84% | -15.0% |  |
-| forward | 17 | 9 | `C` | C&rarr;T 25, C&rarr;A 1 | `Y` (96.2%) | 26 | 100.0% | 87-100% | 6,896 | 83.6% | 83-84% | -16.4% |  |
-| forward | 9 | 17 | `A` | A&rarr;G 51 | `R` | 51 | 100.0% | 93-100% | 6,871 | 83.5% | 83-84% | -16.5% |  |
-| reverse | 25 | 2 | `A` | A&rarr;G 51 | `R` | 51 | 100.0% | 93-100% | 6,871 | 83.5% | 83-84% | -16.5% |  |
-| forward | 18 | 8 | `C` | C&rarr;T 52 | `Y` | 52 | 100.0% | 93-100% | 6,870 | 83.5% | 83-84% | -16.5% |  |
-| forward | 19 | 7 | `G` | G&rarr;T 4,443 | `K` | 4,443 | 97.0% | 96-97% | 2,479 | 59.7% | 58-62% | -37.2% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| fwd 14,19; rev 17 | 1,212 | reduced | 2023×74, 2024×331, 2025×113, 2026×335 | JP×756, Sequence×193, KR×143 | `PW109654`, `QT440062`, `QT440061`, `QT440059`, `QT440056`, `QT440055` (+1,206) |
-| fwd 14,19,21; rev 17 | 877 | reduced | 2023×51, 2024×225, 2025×92, 2026×228 | JP×529, Sequence×143, KR×99 | `QW189513`, `QW180445`, `PW084209`, `PW109657`, `PW109650`, `QT440037` (+871) |
-| fwd 19,21; rev 17 | 754 | reduced | 2023×61, 2024×248, 2025×45, 2026×211 | JP×509, KR×109, Sequence×105 | `QT440069`, `QT440065`, `QT440060`, `QT440041`, `QT440040`, `QT440039` (+748) |
-| fwd 19; rev 17 | 540 | detect | 2023×34, 2024×153, 2025×46, 2026×146 | JP×345, Sequence×79, Adeno-associated virus×58 | `QT440070`, `QT440068`, `QT440066`, `QT440054`, `QT440053`, `QT440052` (+534) |
-| no mismatches | 349 | detect | 2023×19, 2024×92, 2025×33, 2026×99 | JP×214, Sequence×61, KR×49 | `PW079099`, `PW079098`, `PW079097`, `PW079096`, `PW079095`, `PW079094` (+343) |
-| rev 17 | 301 | detect | 2023×19, 2024×89, 2025×24, 2026×82 | JP×196, Sequence×43, KR×33 | `QT439990`, `QT399423`, `QS432632`, `QS432631`, `QS432623`, `QS432622` (+295) |
-| fwd 14; rev 17 | 269 | detect | 2023×23, 2024×109, 2025×15, 2026×87 | JP×210, KR×36, Sequence×13 | `QT439995`, `QT439994`, `QT439993`, `QT439992`, `QT439991`, `QT439971` (+263) |
-| fwd 14; rev 5,15,24 | 233 | fail | 2023×28, 2024×3, 2025×9, 2026×61 | Goose parvovirus×222, Duck parvovirus×5, Dependoparvovirus anseriform1×3 | `PX374795`, `PX374794`, `PX374793`, `PX374792`, `PX374791`, `PX374790` (+227) |
+| prb 3,11,17,21 | 10,057 | fail | 2023×3122, 2024×1528, 2025×1134, 2026×786 | Monkeypox virus×10055, Mutant×2 | `OZ561975`, `OZ561965`, `OZ561964`, `OZ561963`, `OZ561962`, `OZ561960` (+10,051) |
+| no mismatches | 2,540 | detect | 2023×3, 2024×506, 2025×682, 2026×1300 | Monkeypox virus×2540 | `OZ555904`, `OZ555901`, `OZ555900`, `OZ555899`, `OZ540336`, `OZ540332` (+2,534) |
+| rev 5 | 12 | reduced | 2024×11, 2025×1 | Monkeypox virus×12 | `OZ254519`, `PQ221720`, `PQ221719`, `PQ221718`, `PQ221717`, `PQ221716` (+6) |
+| rev 18; prb 3,11,17,21 | 8 | fail | 2015×1, 2025×2, 2026×5 | Monkeypox virus×8 | `PV993194`, `PV993193`, `PX122227`, `PX119016`, `PX119015`, `OZ261637` (+2) |
+| fwd 2,3,4,6,14; rev 1,17; prb 4,14,19,20,23 | 2 | fail | 2010×2 | Modified×2 | `FV537352`, `FV537351` |
+| prb 4,7,8,9,12,13 | 1 | fail | 2025×1 | Monkeypox virus×1 | `OZ254691` |
+| fwd 14; prb 3,11,17,21 | 1 | fail | 2024×1 | Monkeypox virus×1 | `PQ218891` |
+| prb 3,8,11,17,21 | 1 | fail | 2022×1 | Monkeypox virus×1 | `OP650030` |
 
 ## MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010
 
@@ -1767,6 +1647,108 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | rev 3 | 51 | reduced | 2016×7, 2017×6, 2024×8, 2025×8 | Chlamydia trachomatis×50, JP×1 | `NZ_CP156066`, `NZ_CP156067`, `NZ_CP156061`, `NZ_CP156062`, `NZ_CP010569`, `NZ_CP010567` (+45) |
 | fwd 5,7 | 5 | reduced | 2005×2, 2013×1, 2025×2 | Chlamydia trachomatis×5 | `NZ_CP166125`, `CP166125`, `CP006945`, `DQ019297`, `DQ019291` |
 
+## MONKEYPOX_dsDNA_F3L_region_cladeIIab_TaqMan_Huo_2022
+
+Monkeypox virus (taxid 10244) — status **declining** — 12,625 evaluable of 13,757 screened records
+
+- forward: `5'-ATCCTCTCTCATTGATTTTTCGCGGGA-3'` (27 nt)
+- reverse: `5'-TGGAGAAGCGAGAAGTTAATAAAGC-3'` (25 nt)
+- probe: `5'-TCGTTGGAGCTGTAAACCATAGCAC-3'` (25 nt)
+
+**2,533 of 12,625 evaluable records (20%) share one mismatch pattern, mostly Monkeypox virus, deposited 2001-2026, and the group's dominant call is `fail`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| probe | 3 | 23 | `C` | C&rarr;T 2,546 | `Y` | 2,546 | 0.0% | 0-0% | 10,079 | 99.9% | 100-100% | 99.9% | yes |
+| probe | 11 | 15 | `A` | A&rarr;C 2,546 | `M` | 2,546 | 0.0% | 0-0% | 10,079 | 99.9% | 100-100% | 99.9% |  |
+| probe | 17 | 9 | `G` | G&rarr;A 2,546 | `R` | 2,546 | 0.0% | 0-0% | 10,079 | 99.9% | 100-100% | 99.9% |  |
+| probe | 21 | 5 | `T` | T&rarr;C 2,546 | `Y` | 2,546 | 0.0% | 0-0% | 10,079 | 99.9% | 100-100% | 99.9% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| no mismatches | 10,066 | detect | 2023×3122, 2024×1534, 2025×1136, 2026×787 | Monkeypox virus×10064, Mutant×2 | `OZ561975`, `OZ561965`, `OZ561964`, `OZ561963`, `OZ561962`, `OZ561960` (+10,060) |
+| prb 3,11,17,21 | 2,533 | fail | 2023×3, 2024×500, 2025×682, 2026×1299 | Monkeypox virus×2533 | `OZ555904`, `OZ555901`, `OZ555900`, `OZ555899`, `OZ540336`, `OZ540332` (+2,527) |
+| rev 5; prb 3,11,17,21 | 12 | fail | 2024×11, 2025×1 | Monkeypox virus×12 | `OZ254519`, `PQ221720`, `PQ221719`, `PQ221718`, `PQ221717`, `PQ221716` (+6) |
+| rev 18 | 8 | detect | 2015×1, 2025×2, 2026×5 | Monkeypox virus×8 | `PV993194`, `PV993193`, `PX122227`, `PX119016`, `PX119015`, `OZ261637` (+2) |
+| fwd 2,3,4,6,14; rev 1,17 | 2 | fail | 2010×2 | Modified×2 | `FV537352`, `FV537351` |
+| fwd 14 | 1 | detect | 2024×1 | Monkeypox virus×1 | `PQ218891` |
+| prb 8 | 1 | detect | 2022×1 | Monkeypox virus×1 | `OP650030` |
+| fwd 6 | 1 | detect | 2022×1 | Monkeypox virus×1 | `OP415222` |
+
+## ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010_round1
+
+Orthoreovirus (taxid 10882) — status **declining** — 989 evaluable of 14,531 screened records
+
+- forward: `5'-GGBTCMACNGCYACYTCBACYGAGCA-3'` (26 nt)
+- reverse: `5'-CDATGTCRTAHWYCCANCCRAA-3'` (22 nt)
+
+**337 of 989 evaluable records (34%) share one mismatch pattern, mostly Piscine orthoreovirus, deposited 2013-2025, and the group's dominant call is `fail`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| reverse | 14 | 9 | `T` | T&rarr;A 351 | `W` | 351 | 0.0% | 0-1% | 638 | 97.5% | 96-98% | 97.5% |  |
+| reverse | 2 | 21 | `A` | A&rarr;C 350 | `M` | 350 | 0.0% | 0-1% | 639 | 97.3% | 96-98% | 97.3% | yes |
+| reverse | 1 | 22 | `A` | A&rarr;T 349 | `W` | 349 | 0.0% | 0-1% | 640 | 97.2% | 96-98% | 97.2% | yes |
+| forward | 3 | 24 | `G` | G&rarr;A 609 | `R` | 609 | 41.7% | 38-46% | 380 | 96.8% | 95-98% | 55.1% | yes |
+| forward | 21 | 6 | `M` | M&rarr;T 416, M&rarr;G 214 | hypervariable | 630 | 43.2% | 39-47% | 359 | 97.5% | 95-99% | 54.3% |  |
+| forward | 6 | 21 | `Y` | Y&rarr;G 489, Y&rarr;A 127 | hypervariable | 616 | 42.5% | 39-46% | 373 | 96.5% | 94-98% | 54.0% |  |
+| forward | 9 | 18 | `B` | B&rarr;A 26 | hypervariable | 26 | 80.8% | 62-91% | 963 | 62.4% | 59-65% | -18.4% |  |
+| forward | 24 | 3 | `B` | B&rarr;A 109 | hypervariable | 109 | 91.7% | 85-96% | 880 | 59.3% | 56-63% | -32.4% |  |
+| reverse | 18 | 5 | `G` | G&rarr;A 148, G&rarr;C 2 | `R` (98.7%) | 150 | 91.3% | 86-95% | 839 | 57.8% | 54-61% | -33.5% |  |
+| reverse | 19 | 4 | `T` | T&rarr;C 41, T&rarr;G 1 | `Y` (97.6%) | 42 | 97.6% | 88-100% | 947 | 61.4% | 58-64% | -36.3% |  |
+| forward | 15 | 12 | `Y` | Y&rarr;G 267, Y&rarr;A 17 | hypervariable | 284 | 95.4% | 92-97% | 705 | 49.8% | 46-53% | -45.6% |  |
+| forward | 12 | 15 | `Y` | Y&rarr;A 172, Y&rarr;G 167 | hypervariable | 339 | 96.5% | 94-98% | 650 | 45.4% | 42-49% | -51.1% |  |
+| reverse | 12 | 11 | `H` | H&rarr;G 360 | hypervariable | 360 | 95.6% | 93-97% | 629 | 44.2% | 40-48% | -51.4% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| fwd 3,6,21; rev 1,2,14 | 337 | fail | 2019×9, 2020×108, 2021×13, 2025×182 | Piscine orthoreovirus×328, Piscine reovirus×6, Sequence×2 | `PV409545`, `PV409535`, `PV409525`, `PV409515`, `PV409505`, `PV409495` (+331) |
+| no mismatches | 118 | detect | 2023×19, 2024×4, 2025×14, 2026×5 | Mammalian orthoreovirus×105, Reovirus serotype×3, JP×2 | `PZ764064`, `QQ447910`, `QQ447907`, `PZ005679`, `PV855983`, `PV818064` (+112) |
+| fwd 3,6,12,15,21; rev 12 | 82 | reduced | 2023×4, 2024×1, 2025×56, 2026×5 | Avian orthoreovirus×82 | `PZ525050`, `PX942584`, `PX942574`, `PX942566`, `PX942556`, `PV448237` (+76) |
+| fwd 6,12,15,21; rev 12 | 73 | reduced | 2015×1, 2023×11, 2024×10, 2025×44 | Avian orthoreovirus×73 | `PQ068936`, `PQ068926`, `PQ068916`, `PQ068906`, `PQ068896`, `PV406122` (+67) |
+| fwd 3,6,12,15; rev 12 | 47 | reduced | 2023×6, 2024×6, 2025×2, 2026×7 | Avian orthoreovirus×45, Duck reovirus×1, Orthoreovirus sp.×1 | `OP313856`, `OP313846`, `OP302733`, `PZ112220`, `PZ112210`, `PZ112190` (+41) |
+| fwd 24; rev 18 | 41 | detect | 2024×41 | Mammalian orthoreovirus×41 | `LC818806`, `LC818796`, `LC818786`, `LC818772`, `LC818762`, `LC818752` (+35) |
+| fwd 21,24; rev 12 | 36 | reduced | 2022×5, 2023×7, 2024×9, 2025×3 | Duck reovirus×29, Avian orthoreovirus×5, Muscovy duck×2 | `PQ567546`, `PV296163`, `PV296162`, `PQ456204`, `PQ346622`, `PQ346612` (+30) |
+| rev 18 | 15 | detect | 2022×2, 2023×1, 2025×2, 2026×1 | Mammalian orthoreovirus×14, Cataraqui virus×1 | `PX871018`, `PV089291`, `PQ768068`, `OP963624`, `OP057385`, `OP037832` (+9) |
+
+## PD_WNS_ITS1_Shuey_2014
+
+Pseudogymnoascus destructans (taxid 655981) — status **declining** — 454 evaluable of 12,691 screened records
+
+- forward: `5'-CTTTGTTTATTACACTTTGTTGCTTT-3'` (26 nt)
+- reverse: `5'-CCGTTGTTGAAAGTTTTAACTATTATAT-3'` (28 nt)
+- probe: `5'-CTTGCCAGAGGACTAA-3'` (16 nt)
+
+**57 of 454 evaluable records (13%) share one mismatch pattern, mostly Pseudogymnoascus destructans, deposited 2016-2025, and the group's dominant call is `reduced`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| probe | 2 | 15 | `A` | A&rarr;T 66 | `W` | 66 | 95.5% | 87-98% | 388 | 99.7% | 99-100% | 4.3% | yes |
+| probe | 3 | 14 | `T` | T&rarr;C 66 | `Y` | 66 | 95.5% | 87-98% | 388 | 99.7% | 99-100% | 4.3% | yes |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| no mismatches | 375 | detect | 2021×14, 2022×10, 2024×1, 2025×7 | Pseudogymnoascus destructans×242, Geomyces destructans×133 | `PP958286`, `PP958285`, `PP958284`, `PP958283`, `PP958282`, `PP958281` (+369) |
+| prb 2,3 | 57 | reduced | 2022×3, 2023×10, 2024×3, 2025×2 | Pseudogymnoascus destructans×57 | `PX393942`, `PV104929`, `PQ741281`, `PP384908`, `PP384903`, `OR653265` (+51) |
+| fwd 13 | 7 | detect | 2015×7 | Pseudogymnoascus destructans×7 | `LN871295`, `LN871294`, `LN871293`, `LN871292`, `LN871291`, `LN871288` (+1) |
+| fwd 6 | 5 | detect | 2021×5 | Pseudogymnoascus destructans×5 | `LR739063`, `LR739061`, `LR739057`, `LR739055`, `LR739053` |
+| prb 2,3,15 | 4 | reduced | 2020×1, 2022×2, 2025×1 | Pseudogymnoascus destructans×4 | `PP794600`, `OP377706`, `OM967389`, `MW031239` |
+| fwd 16; prb 2,3,15 | 2 | fail | 2025×2 | Pseudogymnoascus destructans×2 | `PX657289`, `PX657263` |
+| fwd 2,3; prb 2,3 | 1 | reduced | 2018×1 | Pseudogymnoascus destructans×1 | `MK182422` |
+| fwd 14; prb 2,3 | 1 | reduced | 2017×1 | Pseudogymnoascus destructans×1 | `MG001399` |
+
 ## ARENAVIRUS_ssRNA_S_gene_2
 
 Arenaviridae (taxid 11617) — status **declining** — 1,640 evaluable of 6,454 screened records
@@ -1778,30 +1760,30 @@ Arenaviridae (taxid 11617) — status **declining** — 1,640 evaluable of 6,454
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 2 | 16 | `G` | G&rarr;T 22, G&rarr;C 19, G&rarr;A 8 | hypervariable | 49 | 0.0% | 0-7% | 1,591 | 63.2% | 61-66% | 63.2% | yes |
-| reverse | 4 | 14 | `T` | T&rarr;G 17, T&rarr;C 14, T&rarr;A 12 | hypervariable | 43 | 0.0% | 0-8% | 1,597 | 63.0% | 61-65% | 63.0% | yes |
-| reverse | 1 | 17 | `G` | G&rarr;C 14, G&rarr;T 13, G&rarr;A 12 | hypervariable | 39 | 0.0% | 0-9% | 1,601 | 62.8% | 60-65% | 62.8% | yes |
-| reverse | 5 | 13 | `G` | G&rarr;T 21, G&rarr;C 7, G&rarr;A 6 | hypervariable | 34 | 0.0% | 0-10% | 1,606 | 62.6% | 60-65% | 62.6% | yes |
-| reverse | 14 | 4 | `T` | T&rarr;C 15, T&rarr;A 14, T&rarr;G 5 | hypervariable | 34 | 0.0% | 0-10% | 1,606 | 62.6% | 60-65% | 62.6% |  |
-| reverse | 8 | 10 | `T` | T&rarr;A 25, T&rarr;G 6 | `D` | 31 | 0.0% | 0-11% | 1,609 | 62.5% | 60-65% | 62.5% |  |
-| reverse | 13 | 5 | `G` | G&rarr;C 20, G&rarr;A 7, G&rarr;T 2 | hypervariable | 29 | 0.0% | 0-12% | 1,611 | 62.4% | 60-65% | 62.4% |  |
-| reverse | 7 | 11 | `G` | G&rarr;C 23, G&rarr;A 4 | `V` | 27 | 0.0% | 0-12% | 1,613 | 62.4% | 60-65% | 62.4% |  |
-| reverse | 15 | 3 | `R` | R&rarr;C 15, R&rarr;T 9 | hypervariable | 24 | 0.0% | 0-14% | 1,616 | 62.3% | 60-65% | 62.3% |  |
-| forward | 6 | 17 | `G` | G&rarr;A 10, G&rarr;C 8, G&rarr;T 5 | hypervariable | 23 | 0.0% | 0-14% | 1,617 | 62.2% | 60-65% | 62.2% |  |
-| reverse | 17 | 1 | `A` | A&rarr;C 39, A&rarr;G 11, A&rarr;T 1 | `V` (98.0%) | 51 | 3.9% | 1-13% | 1,589 | 63.2% | 61-66% | 59.3% |  |
-| forward | 5 | 18 | `T` | T&rarr;C 76, T&rarr;G 1 | `Y` (98.7%) | 77 | 5.2% | 2-13% | 1,563 | 64.1% | 62-66% | 58.9% | yes |
-| forward | 2 | 21 | `C` | C&rarr;T 370, C&rarr;A 1, C&rarr;G 1 | `Y` (99.5%) | 372 | 16.1% | 13-20% | 1,268 | 74.6% | 72-77% | 58.5% | yes |
-| reverse | 3 | 15 | `T` | T&rarr;G 183, T&rarr;C 127, T&rarr;A 88 | hypervariable | 398 | 17.1% | 14-21% | 1,242 | 75.5% | 73-78% | 58.4% | yes |
-| forward | 19 | 4 | `G` | G&rarr;A 54, G&rarr;T 3, G&rarr;C 1 | `D` (98.3%) | 58 | 10.3% | 5-21% | 1,582 | 63.2% | 61-66% | 52.9% |  |
-| reverse | 10 | 8 | `K` | K&rarr;A 22, K&rarr;C 8 | hypervariable | 30 | 10.0% | 3-26% | 1,610 | 62.3% | 60-65% | 52.3% |  |
-| reverse | 11 | 7 | `C` | C&rarr;T 17, C&rarr;G 7, C&rarr;A 4 | hypervariable | 28 | 10.7% | 4-27% | 1,612 | 62.2% | 60-65% | 51.5% |  |
-| forward | 20 | 3 | `T` | T&rarr;C 268, T&rarr;G 3, T&rarr;A 2 | `Y` (98.2%) | 273 | 23.8% | 19-29% | 1,367 | 68.8% | 66-71% | 45.0% |  |
-| reverse | 16 | 2 | `T` | T&rarr;C 390, T&rarr;G 92, T&rarr;A 21 | `B` (95.8%) | 503 | 47.9% | 44-52% | 1,137 | 67.3% | 65-70% | 19.4% |  |
-| reverse | 6 | 12 | `W` | W&rarr;G 744, W&rarr;C 16 | `D` (97.9%) | 760 | 51.6% | 48-55% | 880 | 69.8% | 67-73% | 18.2% |  |
-| reverse | 12 | 6 | `Y` | Y&rarr;A 41, Y&rarr;G 34 | hypervariable | 75 | 52.0% | 41-63% | 1,565 | 61.8% | 59-64% | 9.8% |  |
-| forward | 11 | 12 | `A` | A&rarr;G 852, A&rarr;T 3 | `R` (99.6%) | 855 | 59.1% | 56-62% | 785 | 63.8% | 60-67% | 4.8% |  |
-| forward | 14 | 9 | `T` | T&rarr;A 943, T&rarr;G 474, T&rarr;C 31 | `D` (97.9%) | 1,448 | 62.2% | 60-65% | 192 | 55.2% | 48-62% | -6.9% |  |
-| forward | 17 | 6 | `C` | C&rarr;T 1,306, C&rarr;G 39, C&rarr;A 8 | `Y` (96.5%) | 1,353 | 63.5% | 61-66% | 287 | 51.2% | 45-57% | -12.3% |  |
+| reverse | 2 | 16 | `G` | G&rarr;C 21, G&rarr;T 18, G&rarr;A 11 | hypervariable | 50 | 0.0% | 0-7% | 1,590 | 66.8% | 64-69% | 66.8% | yes |
+| reverse | 1 | 17 | `G` | G&rarr;A 20, G&rarr;C 16, G&rarr;T 11 | hypervariable | 47 | 0.0% | 0-8% | 1,593 | 66.7% | 64-69% | 66.7% | yes |
+| reverse | 4 | 14 | `T` | T&rarr;C 17, T&rarr;A 15, T&rarr;G 12 | hypervariable | 44 | 0.0% | 0-8% | 1,596 | 66.5% | 64-69% | 66.5% | yes |
+| reverse | 5 | 13 | `G` | G&rarr;T 23, G&rarr;A 10, G&rarr;C 7 | hypervariable | 40 | 0.0% | 0-9% | 1,600 | 66.4% | 64-69% | 66.4% | yes |
+| reverse | 14 | 4 | `T` | T&rarr;C 15, T&rarr;A 13, T&rarr;G 9 | hypervariable | 37 | 0.0% | 0-9% | 1,603 | 66.3% | 64-69% | 66.3% |  |
+| reverse | 8 | 10 | `T` | T&rarr;A 25, T&rarr;G 6 | `D` | 31 | 0.0% | 0-11% | 1,609 | 66.0% | 64-68% | 66.0% |  |
+| reverse | 13 | 5 | `G` | G&rarr;C 19, G&rarr;A 11, G&rarr;T 1 | `V` (96.8%) | 31 | 0.0% | 0-11% | 1,609 | 66.0% | 64-68% | 66.0% |  |
+| reverse | 7 | 11 | `G` | G&rarr;C 22, G&rarr;T 4, G&rarr;A 4 | hypervariable | 30 | 0.0% | 0-11% | 1,610 | 66.0% | 64-68% | 66.0% |  |
+| reverse | 15 | 3 | `R` | R&rarr;C 13, R&rarr;T 9 | hypervariable | 22 | 0.0% | 0-15% | 1,618 | 65.6% | 63-68% | 65.6% |  |
+| reverse | 17 | 1 | `A` | A&rarr;C 37, A&rarr;G 14, A&rarr;T 1 | `V` (98.1%) | 52 | 3.8% | 1-13% | 1,588 | 66.8% | 64-69% | 62.9% |  |
+| forward | 2 | 21 | `C` | C&rarr;T 370, C&rarr;A 1, C&rarr;G 1 | `Y` (99.5%) | 372 | 17.2% | 14-21% | 1,268 | 78.7% | 76-81% | 61.5% | yes |
+| forward | 6 | 17 | `G` | G&rarr;A 10, G&rarr;C 8, G&rarr;T 5 | hypervariable | 23 | 8.7% | 2-27% | 1,617 | 65.6% | 63-68% | 56.9% |  |
+| reverse | 10 | 8 | `K` | K&rarr;A 24, K&rarr;C 6 | hypervariable | 30 | 10.0% | 3-26% | 1,610 | 65.8% | 63-68% | 55.8% |  |
+| reverse | 11 | 7 | `C` | C&rarr;T 20, C&rarr;G 7, C&rarr;A 4 | hypervariable | 31 | 16.1% | 7-33% | 1,609 | 65.7% | 63-68% | 49.6% |  |
+| forward | 19 | 4 | `G` | G&rarr;A 54, G&rarr;T 3, G&rarr;C 1 | `D` (98.3%) | 58 | 17.2% | 10-29% | 1,582 | 66.5% | 64-69% | 49.3% |  |
+| reverse | 3 | 15 | `T` | T&rarr;G 178, T&rarr;C 128, T&rarr;A 88 | hypervariable | 394 | 27.7% | 23-32% | 1,246 | 76.5% | 74-79% | 48.8% | yes |
+| forward | 20 | 3 | `T` | T&rarr;C 268, T&rarr;G 3, T&rarr;A 2 | `Y` (98.2%) | 273 | 28.6% | 24-34% | 1,367 | 72.0% | 70-74% | 43.4% |  |
+| forward | 5 | 18 | `T` | T&rarr;C 76, T&rarr;G 1 | `Y` (98.7%) | 77 | 37.7% | 28-49% | 1,563 | 66.1% | 64-68% | 28.4% | yes |
+| reverse | 16 | 2 | `T` | T&rarr;C 392, T&rarr;G 93, T&rarr;A 20 | `B` (96.0%) | 505 | 48.1% | 44-52% | 1,135 | 72.2% | 69-75% | 24.0% |  |
+| reverse | 6 | 12 | `W` | W&rarr;G 742, W&rarr;C 16 | `D` (97.9%) | 758 | 55.8% | 52-59% | 882 | 72.4% | 69-75% | 16.6% |  |
+| reverse | 12 | 6 | `Y` | Y&rarr;A 41, Y&rarr;G 34 | hypervariable | 75 | 56.0% | 45-67% | 1,565 | 65.2% | 63-67% | 9.2% |  |
+| forward | 11 | 12 | `A` | A&rarr;G 852, A&rarr;T 3 | `R` (99.6%) | 855 | 61.4% | 58-65% | 785 | 68.4% | 65-72% | 7.0% |  |
+| forward | 14 | 9 | `T` | T&rarr;A 943, T&rarr;G 474, T&rarr;C 31 | `D` (97.9%) | 1,448 | 65.9% | 63-68% | 192 | 56.2% | 49-63% | -9.6% |  |
+| forward | 17 | 6 | `C` | C&rarr;T 1,306, C&rarr;G 39, C&rarr;A 8 | `Y` (96.5%) | 1,353 | 67.2% | 65-70% | 287 | 53.3% | 48-59% | -13.9% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -1817,36 +1799,6 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 2,14,17,20; rev 3,6 | 47 | fail | 2014×1, 2018×39, 2021×1, 2023×6 | Mammarenavirus lassaense×41, Lassa mammarenavirus×5, Lassa virus×1 | `OR147792`, `LC388592`, `LC387488`, `LC387484`, `LC387482`, `LC387480` (+41) |
 | fwd 2,14,17 | 42 | reduced | 2023×3, 2024×1, 2025×4, 2026×12 | Mammarenavirus lassaense×16, Mammarenavirus choriomeningitidis×8, Morogoro mammarenavirus×7 | `QB068545`, `QB068543`, `QB068542`, `QB068537`, `QB068533`, `QB068530` (+36) |
 | fwd 2,11,14; rev 3,6,16 | 41 | fail | 2020×1, 2022×1, 2025×9, 2026×2 | Mammarenavirus machupoense×20, Machupo virus×20, Machupo mammarenavirus×1 | `PV088375`, `PV861685`, `PV861683`, `PV861681`, `PV861679`, `PV861677` (+35) |
-
-## PD_WNS_ITS1_Shuey_2014
-
-Pseudogymnoascus destructans (taxid 655981) — status **declining** — 454 evaluable of 12,691 screened records
-
-- forward: `5'-CTTTGTTTATTACACTTTGTTGCTTT-3'` (26 nt)
-- reverse: `5'-CCGTTGTTGAAAGTTTTAACTATTATAT-3'` (28 nt)
-- probe: `5'-CTTGCCAGAGGACTAA-3'` (16 nt)
-
-**57 of 454 evaluable records (13%) share one mismatch pattern, mostly Pseudogymnoascus destructans, deposited 2016-2025, and the group's dominant call is `reduced`.**
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| probe | 2 | 15 | `A` | A&rarr;T 66 | `W` | 66 | 93.9% | 85-98% | 388 | 99.7% | 99-100% | 5.8% | yes |
-| probe | 3 | 14 | `T` | T&rarr;C 66 | `Y` | 66 | 93.9% | 85-98% | 388 | 99.7% | 99-100% | 5.8% | yes |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| no mismatches | 375 | detect | 2021×14, 2022×10, 2024×1, 2025×7 | Pseudogymnoascus destructans×242, Geomyces destructans×133 | `PP958286`, `PP958285`, `PP958284`, `PP958283`, `PP958282`, `PP958281` (+369) |
-| prb 2,3 | 57 | reduced | 2022×3, 2023×10, 2024×3, 2025×2 | Pseudogymnoascus destructans×57 | `PX393942`, `PV104929`, `PQ741281`, `PP384908`, `PP384903`, `OR653265` (+51) |
-| fwd 13 | 7 | detect | 2015×7 | Pseudogymnoascus destructans×7 | `LN871295`, `LN871294`, `LN871293`, `LN871292`, `LN871291`, `LN871288` (+1) |
-| fwd 6 | 5 | detect | 2021×5 | Pseudogymnoascus destructans×5 | `LR739063`, `LR739061`, `LR739057`, `LR739055`, `LR739053` |
-| prb 2,3,15 | 4 | reduced | 2020×1, 2022×2, 2025×1 | Pseudogymnoascus destructans×4 | `PP794600`, `OP377706`, `OM967389`, `MW031239` |
-| fwd 16; prb 2,3,15 | 2 | fail | 2025×2 | Pseudogymnoascus destructans×2 | `PX657289`, `PX657263` |
-| fwd 2,3; prb 2,3 | 1 | fail | 2018×1 | Pseudogymnoascus destructans×1 | `MK182422` |
-| fwd 14; prb 2,3 | 1 | reduced | 2017×1 | Pseudogymnoascus destructans×1 | `MG001399` |
 
 ## CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1
 
@@ -1899,7 +1851,7 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 ## SBV_polyprotein_Rossi_2024
 
-Sacbrood virus (taxid 3048309) — status **declining** — 365 evaluable of 900 screened records
+Iflavirus sacbroodi (sacbrood virus; the paper's name, renamed by ICTV) (taxid 3048309) — status **declining** — 365 evaluable of 900 screened records
 
 - forward: `5'-AAYGTCCACTACACCGAAATGT-3'` (22 nt)
 - reverse: `5'-TAHGAGGTAATAACTTTTCGCCA-3'` (23 nt)
@@ -2038,43 +1990,43 @@ Influenza A virus (taxid 11320) — status **declining** — 186,847 evaluable o
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| probe | 14 | 11 | `T` | T&rarr;C 55,071, T&rarr;A 45, T&rarr;G 3, +1 more | `Y` (99.9%) | 55,121 | 2.3% | 2-2% | 131,726 | 98.8% | 99-99% | 96.5% |  |
-| probe | 1 | 24 | `Y` | Y&rarr;A 31,671, Y&rarr;G 27 | `H` (99.9%) | 31,698 | 3.1% | 3-3% | 155,149 | 84.1% | 84-84% | 81.0% | yes |
-| probe | 7 | 18 | `T` | T&rarr;C 65,302, T&rarr;A 6, T&rarr;G 5 | `Y` (100.0%) | 65,313 | 17.8% | 18-18% | 121,534 | 98.6% | 99-99% | 80.8% |  |
-| forward | 20 | 1 | `A` | A&rarr;G 65,069, A&rarr;C 548 | `R` (99.2%) | 65,617 | 18.4% | 18-19% | 121,230 | 98.5% | 98-99% | 80.1% |  |
-| reverse | 1 | 22 | `G` | G&rarr;T 65, G&rarr;A 23, G&rarr;C 3 | `D` (96.7%) | 91 | 0.0% | 0-4% | 186,756 | 70.4% | 70-71% | 70.4% | yes |
-| probe | 13 | 12 | `Y` | Y&rarr;G 1,039, Y&rarr;A 47 | `B` (95.7%) | 1,086 | 10.4% | 9-12% | 185,761 | 70.7% | 71-71% | 60.3% |  |
+| probe | 14 | 11 | `T` | T&rarr;C 55,071, T&rarr;A 45, T&rarr;G 3, +1 more | `Y` (99.9%) | 55,121 | 2.3% | 2-2% | 131,726 | 98.9% | 99-99% | 96.5% |  |
+| probe | 1 | 24 | `Y` | Y&rarr;A 31,671, Y&rarr;G 27 | `H` (99.9%) | 31,698 | 3.2% | 3-3% | 155,149 | 84.2% | 84-84% | 81.0% | yes |
+| probe | 7 | 18 | `T` | T&rarr;C 65,302, T&rarr;A 6, T&rarr;G 5 | `Y` (100.0%) | 65,313 | 17.8% | 18-18% | 121,534 | 98.7% | 99-99% | 80.9% |  |
+| forward | 20 | 1 | `A` | A&rarr;G 65,069, A&rarr;C 548 | `R` (99.2%) | 65,617 | 18.4% | 18-19% | 121,230 | 98.6% | 98-99% | 80.2% |  |
+| probe | 13 | 12 | `Y` | Y&rarr;G 1,039, Y&rarr;A 47 | `B` (95.7%) | 1,086 | 10.4% | 9-12% | 185,761 | 70.8% | 71-71% | 60.4% |  |
 | reverse | 4 | 19 | `T` | T&rarr;A 33, T&rarr;C 1, T&rarr;G 1 | `H` (97.1%) | 35 | 11.4% | 5-26% | 186,812 | 70.4% | 70-71% | 59.0% | yes |
-| reverse | 2 | 21 | `A` | A&rarr;G 542, A&rarr;C 23, A&rarr;T 5 | `R` (95.1%) | 570 | 30.4% | 27-34% | 186,277 | 70.5% | 70-71% | 40.1% | yes |
+| reverse | 1 | 22 | `G` | G&rarr;T 65, G&rarr;A 23, G&rarr;C 3 | `D` (96.7%) | 91 | 15.4% | 9-24% | 186,756 | 70.4% | 70-71% | 55.1% | yes |
+| reverse | 2 | 21 | `A` | A&rarr;G 542, A&rarr;C 23, A&rarr;T 5 | `R` (95.1%) | 570 | 30.4% | 27-34% | 186,277 | 70.5% | 70-71% | 40.2% | yes |
 | probe | 10 | 15 | `C` | C&rarr;T 132, C&rarr;A 2, C&rarr;G 1 | `Y` (97.8%) | 135 | 40.0% | 32-48% | 186,712 | 70.4% | 70-71% | 30.4% |  |
-| forward | 18 | 3 | `R` | R&rarr;T 219, R&rarr;C 137 | hypervariable | 356 | 47.5% | 42-53% | 186,491 | 70.4% | 70-71% | 22.9% |  |
-| probe | 19 | 6 | `G` | G&rarr;C 425, G&rarr;A 10, G&rarr;T 8 | `S` (95.9%) | 443 | 49.9% | 45-55% | 186,404 | 70.4% | 70-71% | 20.5% |  |
+| forward | 18 | 3 | `R` | R&rarr;T 219, R&rarr;C 137 | hypervariable | 356 | 47.5% | 42-53% | 186,491 | 70.5% | 70-71% | 23.0% |  |
 | reverse | 7 | 16 | `A` | A&rarr;G 34, A&rarr;T 4 | `D` | 38 | 50.0% | 35-65% | 186,809 | 70.4% | 70-71% | 20.4% |  |
-| forward | 17 | 4 | `T` | T&rarr;C 66, T&rarr;A 3, T&rarr;G 1 | `H` (98.6%) | 70 | 51.4% | 40-63% | 186,777 | 70.4% | 70-71% | 18.9% |  |
-| forward | 5 | 16 | `A` | A&rarr;C 219, A&rarr;G 4, A&rarr;T 1 | `M` (97.8%) | 224 | 61.2% | 55-67% | 186,623 | 70.4% | 70-71% | 9.2% | yes |
-| probe | 15 | 10 | `G` | G&rarr;A 19, G&rarr;C 6, G&rarr;T 1 | `V` (96.2%) | 26 | 61.5% | 43-78% | 186,821 | 70.4% | 70-71% | 8.8% |  |
-| reverse | 19 | 4 | `T` | T&rarr;C 510, T&rarr;G 76, T&rarr;A 24 | `B` (96.1%) | 610 | 62.8% | 59-67% | 186,237 | 70.4% | 70-71% | 7.6% |  |
-| forward | 9 | 12 | `Y` | Y&rarr;A 2,665, Y&rarr;G 476 | hypervariable | 3,141 | 62.9% | 61-65% | 183,706 | 70.5% | 70-71% | 7.6% |  |
-| reverse | 8 | 15 | `G` | G&rarr;A 108, G&rarr;T 4, G&rarr;C 1 | `R` (95.6%) | 113 | 67.3% | 58-75% | 186,734 | 70.4% | 70-71% | 3.1% |  |
-| reverse | 11 | 12 | `G` | G&rarr;A 1,148, G&rarr;C 7, G&rarr;T 2 | `R` (99.2%) | 1,157 | 69.1% | 66-72% | 185,690 | 70.4% | 70-71% | 1.2% |  |
-| probe | 16 | 9 | `C` | C&rarr;A 38, C&rarr;T 36, C&rarr;G 3 | `H` (96.1%) | 77 | 74.0% | 63-83% | 186,770 | 70.4% | 70-71% | -3.7% |  |
-| reverse | 20 | 3 | `A` | A&rarr;G 358, A&rarr;T 37, A&rarr;C 12 | `D` (97.1%) | 407 | 77.1% | 73-81% | 186,440 | 70.4% | 70-71% | -6.8% |  |
-| forward | 19 | 2 | `G` | G&rarr;A 4,930, G&rarr;T 18, G&rarr;C 3 | `R` (99.6%) | 4,951 | 78.4% | 77-80% | 181,896 | 70.1% | 70-70% | -8.3% |  |
-| forward | 4 | 17 | `G` | G&rarr;A 479, G&rarr;T 2 | `R` (99.6%) | 481 | 81.9% | 78-85% | 186,366 | 70.3% | 70-71% | -11.6% | yes |
-| probe | 4 | 21 | `G` | G&rarr;A 541, G&rarr;T 1, G&rarr;C 1 | `R` (99.6%) | 543 | 83.6% | 80-86% | 186,304 | 70.3% | 70-71% | -13.3% | yes |
+| forward | 17 | 4 | `T` | T&rarr;C 66, T&rarr;A 3, T&rarr;G 1 | `H` (98.6%) | 70 | 51.4% | 40-63% | 186,777 | 70.4% | 70-71% | 19.0% |  |
+| forward | 5 | 16 | `A` | A&rarr;C 219, A&rarr;G 4, A&rarr;T 1 | `M` (97.8%) | 224 | 61.2% | 55-67% | 186,623 | 70.4% | 70-71% | 9.3% | yes |
+| probe | 15 | 10 | `G` | G&rarr;A 19, G&rarr;C 6, G&rarr;T 1 | `V` (96.2%) | 26 | 61.5% | 43-78% | 186,821 | 70.4% | 70-71% | 8.9% |  |
+| reverse | 19 | 4 | `T` | T&rarr;C 510, T&rarr;G 76, T&rarr;A 24 | `B` (96.1%) | 610 | 62.8% | 59-67% | 186,237 | 70.4% | 70-71% | 7.7% |  |
+| forward | 9 | 12 | `Y` | Y&rarr;A 2,665, Y&rarr;G 476 | hypervariable | 3,141 | 63.1% | 61-65% | 183,706 | 70.5% | 70-71% | 7.5% |  |
+| probe | 19 | 6 | `G` | G&rarr;C 425, G&rarr;A 10, G&rarr;T 8 | `S` (95.9%) | 443 | 63.0% | 58-67% | 186,404 | 70.4% | 70-71% | 7.5% |  |
+| reverse | 11 | 12 | `G` | G&rarr;A 1,148, G&rarr;C 7, G&rarr;T 2 | `R` (99.2%) | 1,157 | 69.3% | 67-72% | 185,690 | 70.4% | 70-71% | 1.1% |  |
+| reverse | 8 | 15 | `G` | G&rarr;A 108, G&rarr;T 4, G&rarr;C 1 | `R` (95.6%) | 113 | 72.6% | 64-80% | 186,734 | 70.4% | 70-71% | -2.2% |  |
+| probe | 16 | 9 | `C` | C&rarr;A 38, C&rarr;T 36, C&rarr;G 3 | `H` (96.1%) | 77 | 74.0% | 63-83% | 186,770 | 70.4% | 70-71% | -3.6% |  |
+| reverse | 20 | 3 | `A` | A&rarr;G 358, A&rarr;T 37, A&rarr;C 12 | `D` (97.1%) | 407 | 77.4% | 73-81% | 186,440 | 70.4% | 70-71% | -7.0% |  |
+| forward | 19 | 2 | `G` | G&rarr;A 4,930, G&rarr;T 18, G&rarr;C 3 | `R` (99.6%) | 4,951 | 79.1% | 78-80% | 181,896 | 70.2% | 70-70% | -8.9% |  |
+| probe | 4 | 21 | `G` | G&rarr;A 541, G&rarr;T 1, G&rarr;C 1 | `R` (99.6%) | 543 | 83.6% | 80-86% | 186,304 | 70.4% | 70-71% | -13.2% | yes |
 | reverse | 18 | 5 | `T` | T&rarr;G 22, T&rarr;C 10, T&rarr;A 3 | hypervariable | 35 | 85.7% | 71-94% | 186,812 | 70.4% | 70-71% | -15.3% |  |
-| probe | 23 | 2 | `T` | T&rarr;C 362, T&rarr;G 7, T&rarr;A 1 | `Y` (97.8%) | 370 | 86.8% | 83-90% | 186,477 | 70.3% | 70-71% | -16.4% |  |
-| forward | 6 | 15 | `A` | A&rarr;T 202, A&rarr;C 176, A&rarr;G 1 | `H` (99.7%) | 379 | 86.8% | 83-90% | 186,468 | 70.3% | 70-71% | -16.5% |  |
+| probe | 23 | 2 | `T` | T&rarr;C 362, T&rarr;G 7, T&rarr;A 1 | `Y` (97.8%) | 370 | 86.8% | 83-90% | 186,477 | 70.4% | 70-71% | -16.4% |  |
+| forward | 6 | 15 | `A` | A&rarr;T 202, A&rarr;C 176, A&rarr;G 1 | `H` (99.7%) | 379 | 86.8% | 83-90% | 186,468 | 70.4% | 70-71% | -16.4% |  |
 | reverse | 21 | 2 | `C` | C&rarr;G 18, C&rarr;T 16, C&rarr;A 5 | hypervariable | 39 | 87.2% | 73-94% | 186,808 | 70.4% | 70-71% | -16.8% |  |
-| probe | 9 | 16 | `T` | T&rarr;C 1,637, T&rarr;G 2 | `Y` (99.9%) | 1,639 | 87.6% | 86-89% | 185,208 | 70.2% | 70-70% | -17.3% |  |
+| probe | 9 | 16 | `T` | T&rarr;C 1,637, T&rarr;G 2 | `Y` (99.9%) | 1,639 | 87.6% | 86-89% | 185,208 | 70.3% | 70-70% | -17.3% |  |
 | reverse | 14 | 9 | `T` | T&rarr;C 48, T&rarr;A 4 | `H` | 52 | 88.5% | 77-95% | 186,795 | 70.4% | 70-71% | -18.1% |  |
 | probe | 17 | 8 | `T` | T&rarr;C 57, T&rarr;G 34, T&rarr;A 10 | hypervariable | 101 | 90.1% | 83-95% | 186,746 | 70.4% | 70-71% | -19.7% |  |
 | probe | 22 | 3 | `C` | C&rarr;T 491, C&rarr;A 35, C&rarr;G 5 | `H` (99.1%) | 531 | 93.0% | 91-95% | 186,316 | 70.3% | 70-71% | -22.7% |  |
-| reverse | 5 | 18 | `A` | A&rarr;G 1,478, A&rarr;T 5, A&rarr;C 1 | `R` (99.6%) | 1,484 | 93.1% | 92-94% | 185,363 | 70.2% | 70-70% | -22.9% | yes |
-| probe | 20 | 5 | `G` | G&rarr;A 46, G&rarr;C 1, G&rarr;T 1 | `R` (95.8%) | 48 | 93.8% | 83-98% | 186,799 | 70.4% | 70-71% | -23.4% |  |
-| probe | 18 | 7 | `Y` | Y&rarr;G 370, Y&rarr;A 67 | hypervariable | 437 | 96.6% | 94-98% | 186,410 | 70.3% | 70-71% | -26.3% |  |
+| reverse | 5 | 18 | `A` | A&rarr;G 1,478, A&rarr;T 5, A&rarr;C 1 | `R` (99.6%) | 1,484 | 93.3% | 92-94% | 185,363 | 70.2% | 70-70% | -23.0% | yes |
+| probe | 20 | 5 | `G` | G&rarr;A 46, G&rarr;C 1, G&rarr;T 1 | `R` (95.8%) | 48 | 93.8% | 83-98% | 186,799 | 70.4% | 70-71% | -23.3% |  |
+| forward | 4 | 17 | `G` | G&rarr;A 479, G&rarr;T 2 | `R` (99.6%) | 481 | 96.5% | 94-98% | 186,366 | 70.3% | 70-71% | -26.1% | yes |
+| probe | 18 | 7 | `Y` | Y&rarr;G 370, Y&rarr;A 67 | hypervariable | 437 | 96.6% | 94-98% | 186,410 | 70.4% | 70-71% | -26.2% |  |
 | reverse | 22 | 1 | `G` | G&rarr;T 22, G&rarr;C 6, G&rarr;A 3 | hypervariable | 31 | 96.8% | 84-99% | 186,816 | 70.4% | 70-71% | -26.4% |  |
-| reverse | 17 | 6 | `G` | G&rarr;A 401, G&rarr;T 7 | `R` (98.3%) | 408 | 98.8% | 97-99% | 186,439 | 70.3% | 70-71% | -28.5% |  |
+| reverse | 17 | 6 | `G` | G&rarr;A 401, G&rarr;T 7 | `R` (98.3%) | 408 | 98.8% | 97-99% | 186,439 | 70.4% | 70-71% | -28.4% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2098,16 +2050,16 @@ Sarcocystis (taxid 5812) — status **low coverage** — 190 evaluable of 30,869
 - forward: `5'-ATTGAGTGTTCCGGTGAATTA-3'` (21 nt)
 - reverse: `5'-GGGATTCARTKGYYGAAA-3'` (18 nt)
 
-**74 of 190 evaluable records (39%) share one mismatch pattern, mostly Sarcocystis miescheriana, deposited 2015-2025, and the group's dominant call is `fail`.**
+**71 of 190 evaluable records (37%) share one mismatch pattern, mostly Sarcocystis miescheriana, deposited 2015-2025, and the group's dominant call is `fail`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 8 | 11 | `K` | K&rarr;C 79, K&rarr;A 3 | `B` (96.3%) | 82 | 3.7% | 1-10% | 108 | 82.4% | 74-88% | 78.7% |  |
-| reverse | 16 | 3 | `G` | G&rarr;A 87, G&rarr;C 6, G&rarr;T 1 | `V` (98.9%) | 94 | 10.6% | 6-18% | 96 | 85.4% | 77-91% | 74.8% |  |
-| reverse | 15 | 4 | `A` | A&rarr;C 90, A&rarr;T 5, A&rarr;G 3 | `H` (96.9%) | 98 | 12.2% | 7-20% | 92 | 87.0% | 79-92% | 74.7% |  |
-| reverse | 14 | 5 | `T` | T&rarr;A 88, T&rarr;C 2, T&rarr;G 2 | `W` (95.7%) | 92 | 13.0% | 8-21% | 98 | 81.6% | 73-88% | 68.6% |  |
-| reverse | 18 | 1 | `G` | G&rarr;A 89, G&rarr;C 2 | `R` (97.8%) | 91 | 13.2% | 8-22% | 99 | 80.8% | 72-87% | 67.6% |  |
-| reverse | 11 | 8 | `A` | A&rarr;C 88, A&rarr;G 1 | `M` (98.9%) | 89 | 14.6% | 9-23% | 101 | 78.2% | 69-85% | 63.6% |  |
+| reverse | 8 | 11 | `K` | K&rarr;C 76, K&rarr;A 3 | `B` (96.2%) | 79 | 3.8% | 1-11% | 111 | 82.9% | 75-89% | 79.1% |  |
+| reverse | 16 | 3 | `G` | G&rarr;A 84, G&rarr;C 6, G&rarr;T 1 | `V` (98.9%) | 91 | 11.0% | 6-19% | 99 | 85.9% | 78-91% | 74.9% |  |
+| reverse | 15 | 4 | `A` | A&rarr;C 87, A&rarr;T 5, A&rarr;G 3 | `H` (96.8%) | 95 | 12.6% | 7-21% | 95 | 87.4% | 79-93% | 74.7% |  |
+| reverse | 14 | 5 | `T` | T&rarr;A 85, T&rarr;C 2, T&rarr;G 2 | `W` (95.5%) | 89 | 13.5% | 8-22% | 101 | 82.2% | 74-88% | 68.7% |  |
+| reverse | 18 | 1 | `G` | G&rarr;A 86, G&rarr;C 2 | `R` (97.7%) | 88 | 13.6% | 8-22% | 102 | 81.4% | 73-88% | 67.7% |  |
+| reverse | 11 | 8 | `A` | A&rarr;C 85, A&rarr;G 1 | `M` (98.8%) | 86 | 15.1% | 9-24% | 104 | 78.8% | 70-86% | 63.7% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2116,13 +2068,13 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
 | no mismatches | 78 | detect | 2020×5, 2021×6, 2023×4, 2024×6 | Sarcocystis lutrae×33, Sarcocystis lari×12, Sarcocystis halieti×8 | `CAXOTS010000019`, `CAXOTS010000032`, `CAXOTS010000033`, `CAXOTS010000034`, `CAXOTS010000037`, `CAXOTS010000054` (+72) |
-| rev 8,11,14,15,16,18 | 74 | fail | 2017×7, 2018×7, 2019×20, 2025×2 | Sarcocystis miescheriana×16, Sarcocystis sinensis×16, Sarcocystis bovini×9 | `PV470858`, `PV470857`, `MH590230`, `MK867470`, `MK867469`, `MK867468` (+68) |
+| rev 8,11,14,15,16,18 | 71 | fail | 2017×4, 2018×7, 2019×20, 2025×2 | Sarcocystis miescheriana×16, Sarcocystis sinensis×16, Sarcocystis bovini×9 | `PV470858`, `PV470857`, `MH590230`, `MK867470`, `MK867469`, `MK867468` (+65) |
 | rev 11,14,15,16,18 | 9 | reduced | 2016×9 | Sarcocystis zamani×9 | `KU244528`, `KU244527`, `KU244526`, `KU244525`, `KU244524`, `KU244523` (+3) |
 | rev 2,3,4,5 | 4 | fail | 2025×4 | Sarcocystis chenggongensis×4 | `PX632651`, `PX632650`, `PX632649`, `PX632648` |
 | fwd 3,8,9,17,18,21; rev 10,12,13,15,16,17 | 3 | fail | 2000×1, 2002×2 | SnEST4b04b12.y1 cSn×1, SnEST4a46a11.y1 cSn×1, SnEST4a06d08.y1 cSn×1 | `BU086209`, `BM303981`, `BE635461` |
+| rev 3,4,9 | 3 | reduced | 2017×3 | Sarcocystis dehongensis×3 | `KY711380`, `KY711379`, `KY711378` |
 | rev 8,11,14,15,18 | 3 | reduced | 2015×3 | Sarcocystis sinensis×3 | `KT901180`, `KT901178`, `KT901177` |
 | fwd 4; rev 8,11,14,15,16,18 | 2 | fail | 2018×2 | Sarcocystis arieticanis×2 | `MH413044`, `MH413043` |
-| fwd 5,8,12,15,16,20; rev 9,13,15 | 2 | fail | 2002×1, 2004×1 | SnESTbab01e09.y1×1, SnEST4a48h03.y1 cSn×1 | `CV194453`, `BM304216` |
 
 ## Paramyxovirinae_Polymerase_L_gene_round2
 
@@ -2208,56 +2160,6 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 8,11 | 25 | reduced | 2024×18, 2025×5, 2026×2 | Orthomarburgvirus marburgense×25 | `PZ112889`, `PZ112888`, `PV700541`, `PV700540`, `PV700539`, `PV700538` (+19) |
 | fwd 14,16,23; rev 15 | 22 | reduced | 2017×1, 2020×1, 2022×1, 2025×2 | Lake×10, Sequence×4, Marburg marburgvirus×3 | `PD166177`, `PD166176`, `OK572966`, `MT321489`, `NC_024781`, `KU059750` (+16) |
 | fwd 14,16,17,20,23; rev 12,15,18 | 7 | fail | 2015×1, 2017×1, 2018×1, 2022×1 | Tai×4, Sequence×2, Cote d'Ivoire×1 | `OK573000`, `MH121167`, `NC_014372`, `MS811583`, `KU182910`, `JA489027` (+1) |
-
-## Pan_hemoparasite_cytochrome_c_Hellgren_2004
-
-Haemosporida (taxid 5819) — status **declining** — 6,475 evaluable of 32,039 screened records
-
-- forward: `5'-CATATATTAAGAGAAITATGGAG-3'` (23 nt)
-- reverse: `5'-ATAGAAAGATAAGAAATACCATTC-3'` (24 nt)
-
-**1,750 of 6,475 evaluable records (27%) share one mismatch pattern, mostly Plasmodium falciparum, deposited 1993-2026, and the group's dominant call is `fail`.**
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 12 | 13 | `G` | G&rarr;A 4,292 | `R` | 4,292 | 9.3% | 9-10% | 2,183 | 85.1% | 84-86% | 75.7% |  |
-| forward | 18 | 6 | `A` | A&rarr;T 4,450, A&rarr;C 284, A&rarr;G 86 | `H` (98.2%) | 4,820 | 16.8% | 16-18% | 1,655 | 87.6% | 86-89% | 70.8% |  |
-| reverse | 18 | 7 | `A` | A&rarr;T 4,883, A&rarr;G 9, A&rarr;C 6 | `W` (99.7%) | 4,898 | 18.6% | 18-20% | 1,577 | 85.3% | 83-87% | 66.6% |  |
-| reverse | 9 | 16 | `A` | A&rarr;G 3,852 | `R` | 3,852 | 11.0% | 10-12% | 2,623 | 69.9% | 68-72% | 58.8% |  |
-| reverse | 16 | 9 | `A` | A&rarr;G 6,086, A&rarr;C 121 | `R` (98.1%) | 6,207 | 32.5% | 31-34% | 268 | 90.7% | 87-94% | 58.2% |  |
-| reverse | 21 | 4 | `G` | G&rarr;A 5,928 | `R` | 5,928 | 30.9% | 30-32% | 547 | 78.4% | 75-82% | 47.6% |  |
-| reverse | 13 | 12 | `A` | A&rarr;G 1,816 | `R` | 1,816 | 3.0% | 2-4% | 4,659 | 47.3% | 46-49% | 44.3% |  |
-| forward | 21 | 3 | `T` | T&rarr;C 2,494 | `Y` | 2,494 | 9.3% | 8-10% | 3,981 | 50.9% | 49-52% | 41.7% |  |
-| forward | 2 | 22 | `A` | A&rarr;T 141, A&rarr;G 63 | `D` | 204 | 0.0% | 0-2% | 6,271 | 36.0% | 35-37% | 36.0% | yes |
-| forward | 1 | 23 | `G` | G&rarr;A 139, G&rarr;C 59, G&rarr;T 1 | `V` (99.5%) | 199 | 0.0% | 0-2% | 6,276 | 36.0% | 35-37% | 36.0% | yes |
-| forward | 22 | 2 | `A` | A&rarr;C 61, A&rarr;T 57, A&rarr;G 1 | `H` (99.2%) | 119 | 0.0% | 0-3% | 6,356 | 35.5% | 34-37% | 35.5% |  |
-| forward | 5 | 19 | `T` | T&rarr;A 65, T&rarr;C 1 | `W` (98.5%) | 66 | 0.0% | 0-6% | 6,409 | 35.2% | 34-36% | 35.2% | yes |
-| forward | 3 | 21 | `G` | G&rarr;T 56, G&rarr;C 8, G&rarr;A 1 | `B` (98.5%) | 65 | 0.0% | 0-6% | 6,410 | 35.2% | 34-36% | 35.2% | yes |
-| forward | 4 | 20 | `G` | G&rarr;A 64 | `R` | 64 | 0.0% | 0-6% | 6,411 | 35.2% | 34-36% | 35.2% | yes |
-| forward | 12 | 12 | `A` | A&rarr;G 39 | `R` | 39 | 0.0% | 0-9% | 6,436 | 35.1% | 34-36% | 35.1% |  |
-| forward | 23 | 1 | `C` | C&rarr;T 123 | `Y` | 123 | 0.8% | 0-4% | 6,352 | 35.5% | 34-37% | 34.7% |  |
-| forward | 10 | 14 | `A` | A&rarr;G 68, A&rarr;T 1 | `R` (98.6%) | 69 | 1.4% | 0-8% | 6,406 | 35.2% | 34-36% | 33.8% |  |
-| forward | 9 | 15 | `A` | A&rarr;G 613, A&rarr;T 2 | `R` (99.7%) | 615 | 5.9% | 4-8% | 5,860 | 37.9% | 37-39% | 32.1% |  |
-| reverse | 15 | 10 | `T` | T&rarr;C 46 | `Y` | 46 | 4.3% | 1-15% | 6,429 | 35.1% | 34-36% | 30.7% |  |
-| reverse | 3 | 22 | `T` | T&rarr;C 55, T&rarr;A 1 | `Y` (98.2%) | 56 | 5.4% | 2-15% | 6,419 | 35.1% | 34-36% | 29.8% | yes |
-| forward | 6 | 18 | `A` | A&rarr;G 41, A&rarr;C 2 | `R` (95.3%) | 43 | 9.3% | 4-22% | 6,432 | 35.0% | 34-36% | 25.7% |  |
-| reverse | 24 | 1 | `A` | A&rarr;G 100 | `R` | 100 | 48.0% | 38-58% | 6,375 | 34.7% | 34-36% | -13.3% |  |
-| forward | 17 | 7 | `T` | T&rarr;A 336, T&rarr;C 129, T&rarr;G 13 | `H` (97.3%) | 478 | 89.3% | 86-92% | 5,997 | 30.5% | 29-32% | -58.8% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| fwd 18,21; rev 9,12,13,16,18,21 | 1,750 | fail | 2023×17, 2024×1, 2025×37, 2026×4 | Plasmodium falciparum×1334, Plasmodium sp.×210, Plasmodium reichenowi×151 | `PZ698056`, `PX684229`, `PX684216`, `PX684208`, `PV806003`, `PV806000` (+1,744) |
-| fwd 18; rev 9,12,16,18,21 | 1,562 | fail | 2023×23, 2024×4, 2025×32, 2026×4 | Plasmodium vivax×1043, Plasmodium sp.×133, Plasmodium cf.×118 | `PZ512988`, `PZ512987`, `LC909092`, `LC909091`, `PQ362418`, `PQ362417` (+1,556) |
-| fwd 9,18,21; rev 12,16,18,21 | 484 | fail | 2016×66, 2017×33, 2022×167, 2025×12 | Plasmodium gaboni×260, Plasmodium sp.×181, Plasmodium adleri×30 | `PV805989`, `PV805985`, `PV805982`, `PV805958`, `PV805950`, `PV805949` (+478) |
-| fwd 17; rev 16,18,21 | 261 | reduced | 2018×5, 2019×1, 2022×14, 2025×6 | Hepatocystis sp.×260, Leucocytozoon grallariae×1 | `PQ362391`, `PQ362390`, `PQ362387`, `PQ362386`, `PQ362385`, `PQ362384` (+255) |
-| rev 16,21 | 228 | detect | 2023×15, 2024×5, 2025×32, 2026×4 | Plasmodium sp.×79, Haemoproteus sp.×30, Unidentified×21 | `PX123976`, `PX123975`, `LC909105`, `PV948515`, `PV948052`, `PV948051` (+222) |
-| rev 16 | 171 | detect | 2023×21, 2024×2, 2025×44, 2026×2 | Haemoproteus sp.×113, Haemoproteus belopolskyi×10, Parahaemoproteus sp.×9 | `LC909096`, `LC867943`, `PV944104`, `PV944103`, `PV944102`, `PV944101` (+165) |
-| fwd 18; rev 16,21 | 168 | reduced | 2019×30, 2022×2, 2023×3, 2025×30 | Plasmodium sp.×55, Haemosporida sp.×34, Plasmodium tupinambi×29 | `PV948024`, `PQ680073`, `PQ680072`, `PQ680071`, `PQ680070`, `PQ680069` (+162) |
-| fwd 18; rev 9,16,18,21 | 141 | reduced | 2018×1, 2019×1, 2023×8, 2025×16 | Plasmodium sp.×108, Plasmodium inui×27, Plasmodium cynomolgi×4 | `PQ362415`, `PQ362414`, `PQ362413`, `PQ362412`, `PQ362411`, `PQ362410` (+135) |
 
 ## AVIPOXVIRUS_dsDNA_4b_core_Farias_2010
 
@@ -2347,11 +2249,11 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | rev 11 | 77 | detect | 2019×10, 2023×5, 2024×46, 2025×1 | West×75, Sequence×2 | `OZ309756`, `PQ005989`, `PQ005988`, `PQ005987`, `PQ005986`, `PQ005985` (+71) |
 | fwd 22 | 58 | detect | 2010×2, 2023×22, 2025×25, 2026×9 | West×55, MAG×3 | `PZ437308`, `PZ437306`, `PZ437305`, `PZ266570`, `PZ266569`, `PZ266568` (+52) |
 | fwd 2,5,11,12; rev 5,8,14,17,20 | 54 | fail | 2003×2, 2012×1, 2016×28, 2024×2 | Kunjin virus×52, West×2 | `LC802099`, `LC802098`, `KX394411`, `KX394410`, `KX394409`, `KX394408` (+48) |
-| rev 2 | 53 | reduced | 2023×8, 2024×4, 2025×6, 2026×7 | West×53 | `PZ437307`, `PZ437304`, `PZ266567`, `PZ266563`, `PZ260029`, `PZ260028` (+47) |
+| rev 2 | 53 | detect | 2023×8, 2024×4, 2025×6, 2026×7 | West×53 | `PZ437307`, `PZ437304`, `PZ266567`, `PZ266563`, `PZ260029`, `PZ260028` (+47) |
 
 ## BQCV_capsid_Rossi_2024
 
-Black queen cell virus (taxid 3047684) — status **declining** — 1,208 evaluable of 1,596 screened records
+Triatovirus nigereginacellulae (black queen cell virus; the paper's name, renamed by ICTV) (taxid 3047684) — status **declining** — 1,208 evaluable of 1,596 screened records
 
 - forward: `5'-GTGCGGGAGATGATATGGA-3'` (19 nt)
 - reverse: `5'-CCGTCTGAGATGCATGAATAC-3'` (21 nt)
@@ -2390,40 +2292,40 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | rev 2,17 | 17 | fail | 2022×2, 2024×1, 2025×5, 2026×1 | Black queen×17 | `PZ682691`, `PV904198`, `PV904194`, `PV904191`, `PV904190`, `PV806692` (+11) |
 | fwd 15,18 | 16 | detect | 2015×13, 2026×3 | Black queen×16 | `PX625598`, `PX625592`, `PX625590`, `KP675929`, `KP675928`, `KP675927` (+10) |
 
-## RHABDOVIRUS_ssRNA_L_gene_round2
+## Pan_hemoparasite_cytochrome_c_Hellgren_2004
 
-Rhabdoviridae (taxid 11270) — status **declining** — 7,082 evaluable of 9,895 screened records
+Haemosporida (taxid 5819) — status **declining** — 6,475 evaluable of 32,039 screened records
 
-- forward: `5'-AARTGGAAYAAYCAYCARMG-3'` (20 nt)
-- reverse: `5'-CCADMCBTTTTGYCKYARRCCTTC-3'` (24 nt)
+- forward: `5'-CATATATTAAGAGAAITATGGAG-3'` (23 nt)
+- reverse: `5'-ATAGAAAGATAAGAAATACCATTC-3'` (24 nt)
 
-**1,908 of 7,082 evaluable records (27%) share one mismatch pattern, mostly Lyssavirus rabies, deposited 2003-2026, and the group's dominant call is `reduced`.**
+**1,750 of 6,475 evaluable records (27%) share one mismatch pattern, mostly Plasmodium falciparum, deposited 1993-2026, and the group's dominant call is `fail`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 4 | 17 | `A` | A&rarr;T 657, A&rarr;G 9 | `W` (98.6%) | 666 | 0.0% | 0-1% | 6,416 | 68.4% | 67-69% | 68.4% | yes |
-| forward | 5 | 16 | `C` | C&rarr;A 648, C&rarr;T 32, C&rarr;G 7 | `H` (99.0%) | 687 | 0.3% | 0-1% | 6,395 | 68.6% | 67-70% | 68.3% | yes |
-| forward | 11 | 10 | `A` | A&rarr;C 300, A&rarr;G 169, A&rarr;T 146 | hypervariable | 615 | 1.0% | 0-2% | 6,467 | 67.7% | 67-69% | 66.8% |  |
-| forward | 9 | 12 | `Y` | Y&rarr;G 243, Y&rarr;A 196 | hypervariable | 439 | 1.1% | 0-3% | 6,643 | 65.9% | 65-67% | 64.8% |  |
-| forward | 10 | 11 | `A` | A&rarr;G 171, A&rarr;C 153, A&rarr;T 124 | hypervariable | 448 | 1.8% | 1-3% | 6,634 | 66.0% | 65-67% | 64.2% |  |
-| forward | 3 | 18 | `R` | R&rarr;C 26, R&rarr;T 23 | hypervariable | 49 | 0.0% | 0-7% | 7,033 | 62.4% | 61-63% | 62.4% | yes |
-| reverse | 20 | 5 | `M` | M&rarr;G 28, M&rarr;T 17 | hypervariable | 45 | 0.0% | 0-8% | 7,037 | 62.3% | 61-63% | 62.3% |  |
-| forward | 6 | 15 | `Y` | Y&rarr;G 138, Y&rarr;A 68 | hypervariable | 206 | 1.5% | 0-4% | 6,876 | 63.7% | 63-65% | 62.3% |  |
-| forward | 15 | 6 | `G` | G&rarr;A 14, G&rarr;T 14, G&rarr;C 7 | hypervariable | 35 | 0.0% | 0-10% | 7,047 | 62.2% | 61-63% | 62.2% |  |
-| forward | 18 | 3 | `R` | R&rarr;T 14, R&rarr;C 6 | hypervariable | 20 | 0.0% | 0-16% | 7,062 | 62.1% | 61-63% | 62.1% |  |
-| reverse | 6 | 19 | `R` | R&rarr;C 1,774, R&rarr;T 1,466, R&rarr;Y 1 | hypervariable | 3,241 | 28.3% | 27-30% | 3,841 | 90.3% | 89-91% | 62.0% |  |
-| forward | 20 | 1 | `A` | A&rarr;G 43, A&rarr;T 18 | `D` | 61 | 1.6% | 0-9% | 7,021 | 62.5% | 61-64% | 60.8% |  |
-| forward | 19 | 2 | `A` | A&rarr;C 38, A&rarr;G 13, A&rarr;T 3 | hypervariable | 54 | 1.9% | 0-10% | 7,028 | 62.4% | 61-64% | 60.5% |  |
-| forward | 17 | 4 | `T` | T&rarr;A 13, T&rarr;G 9, T&rarr;C 3 | hypervariable | 25 | 8.0% | 2-25% | 7,057 | 62.1% | 61-63% | 54.1% |  |
-| reverse | 19 | 6 | `C` | C&rarr;A 17, C&rarr;G 13, C&rarr;T 11 | hypervariable | 41 | 14.6% | 7-28% | 7,041 | 62.2% | 61-63% | 47.6% |  |
-| forward | 8 | 13 | `C` | C&rarr;A 360, C&rarr;T 182, C&rarr;G 1 | `H` (99.8%) | 543 | 23.4% | 20-27% | 6,539 | 65.1% | 64-66% | 41.7% |  |
-| reverse | 9 | 16 | `Y` | Y&rarr;A 399, Y&rarr;G 322 | hypervariable | 721 | 34.5% | 31-38% | 6,361 | 65.0% | 64-66% | 30.5% |  |
-| forward | 7 | 14 | `A` | A&rarr;T 84, A&rarr;G 18, A&rarr;C 15 | hypervariable | 117 | 32.5% | 25-41% | 6,965 | 62.4% | 61-64% | 29.9% |  |
-| reverse | 7 | 18 | `R` | R&rarr;T 38, R&rarr;C 10 | hypervariable | 48 | 33.3% | 22-47% | 7,034 | 62.1% | 61-63% | 28.8% |  |
-| reverse | 3 | 22 | `T` | T&rarr;C 4,902 | `Y` | 4,902 | 55.9% | 55-57% | 2,180 | 75.4% | 74-77% | 19.5% | yes |
-| reverse | 15 | 10 | `T` | T&rarr;C 4,956 | `Y` | 4,956 | 57.6% | 56-59% | 2,126 | 71.9% | 70-74% | 14.3% |  |
-| reverse | 12 | 13 | `Y` | Y&rarr;A 292, Y&rarr;G 213 | hypervariable | 505 | 54.3% | 50-59% | 6,577 | 62.5% | 61-64% | 8.3% |  |
-| reverse | 21 | 4 | `D` | D&rarr;C 585 | hypervariable | 585 | 56.4% | 52-60% | 6,497 | 62.4% | 61-64% | 6.0% |  |
+| reverse | 12 | 13 | `G` | G&rarr;A 4,292 | `R` | 4,292 | 9.4% | 9-10% | 2,183 | 90.6% | 89-92% | 81.2% |  |
+| forward | 18 | 6 | `A` | A&rarr;T 4,450, A&rarr;C 284, A&rarr;G 86 | `H` (98.2%) | 4,820 | 17.8% | 17-19% | 1,655 | 92.0% | 91-93% | 74.2% |  |
+| reverse | 18 | 7 | `A` | A&rarr;T 4,883, A&rarr;G 9, A&rarr;C 6 | `W` (99.7%) | 4,898 | 19.7% | 19-21% | 1,577 | 89.9% | 88-91% | 70.2% |  |
+| reverse | 9 | 16 | `A` | A&rarr;G 3,852 | `R` | 3,852 | 11.1% | 10-12% | 2,623 | 74.4% | 73-76% | 63.2% |  |
+| reverse | 16 | 9 | `A` | A&rarr;G 6,086, A&rarr;C 121 | `R` (98.1%) | 6,207 | 34.4% | 33-36% | 268 | 91.4% | 87-94% | 57.0% |  |
+| reverse | 21 | 4 | `G` | G&rarr;A 5,928 | `R` | 5,928 | 32.0% | 31-33% | 547 | 88.5% | 86-91% | 56.5% |  |
+| reverse | 13 | 12 | `A` | A&rarr;G 1,816 | `R` | 1,816 | 3.0% | 2-4% | 4,659 | 49.9% | 48-51% | 46.9% |  |
+| forward | 21 | 3 | `T` | T&rarr;C 2,494 | `Y` | 2,494 | 9.3% | 8-10% | 3,981 | 54.0% | 52-56% | 44.7% |  |
+| forward | 2 | 22 | `A` | A&rarr;T 141, A&rarr;G 63 | `D` | 204 | 0.0% | 0-2% | 6,271 | 38.0% | 37-39% | 38.0% | yes |
+| forward | 22 | 2 | `A` | A&rarr;C 61, A&rarr;T 57, A&rarr;G 1 | `H` (99.2%) | 119 | 0.0% | 0-3% | 6,356 | 37.4% | 36-39% | 37.4% |  |
+| forward | 4 | 20 | `G` | G&rarr;A 64 | `R` | 64 | 0.0% | 0-6% | 6,411 | 37.1% | 36-38% | 37.1% | yes |
+| forward | 12 | 12 | `A` | A&rarr;G 39 | `R` | 39 | 0.0% | 0-9% | 6,436 | 37.0% | 36-38% | 37.0% |  |
+| forward | 23 | 1 | `C` | C&rarr;T 123 | `Y` | 123 | 1.6% | 0-6% | 6,352 | 37.4% | 36-39% | 35.8% |  |
+| forward | 10 | 14 | `A` | A&rarr;G 68, A&rarr;T 1 | `R` (98.6%) | 69 | 1.4% | 0-8% | 6,406 | 37.1% | 36-38% | 35.7% |  |
+| forward | 5 | 19 | `T` | T&rarr;A 65, T&rarr;C 1 | `W` (98.5%) | 66 | 1.5% | 0-8% | 6,409 | 37.1% | 36-38% | 35.6% | yes |
+| forward | 3 | 21 | `G` | G&rarr;T 56, G&rarr;C 8, G&rarr;A 1 | `B` (98.5%) | 65 | 1.5% | 0-8% | 6,410 | 37.1% | 36-38% | 35.6% | yes |
+| forward | 6 | 18 | `A` | A&rarr;G 41, A&rarr;C 2 | `R` (95.3%) | 43 | 9.3% | 4-22% | 6,432 | 36.9% | 36-38% | 27.6% |  |
+| forward | 9 | 15 | `A` | A&rarr;G 613, A&rarr;T 2 | `R` (99.7%) | 615 | 12.0% | 10-15% | 5,860 | 39.4% | 38-41% | 27.3% |  |
+| reverse | 15 | 10 | `T` | T&rarr;C 46 | `Y` | 46 | 23.9% | 14-38% | 6,429 | 36.8% | 36-38% | 12.9% |  |
+| forward | 1 | 23 | `G` | G&rarr;A 139, G&rarr;C 59, G&rarr;T 1 | `V` (99.5%) | 199 | 36.2% | 30-43% | 6,276 | 36.8% | 36-38% | 0.6% | yes |
+| reverse | 24 | 1 | `A` | A&rarr;G 100 | `R` | 100 | 48.0% | 38-58% | 6,375 | 36.6% | 35-38% | -11.4% |  |
+| reverse | 3 | 22 | `T` | T&rarr;C 55, T&rarr;A 1 | `Y` (98.2%) | 56 | 91.1% | 81-96% | 6,419 | 36.3% | 35-37% | -54.8% | yes |
+| forward | 17 | 7 | `T` | T&rarr;A 336, T&rarr;C 129, T&rarr;G 13 | `H` (97.3%) | 478 | 90.4% | 87-93% | 5,997 | 32.5% | 31-34% | -57.9% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2431,14 +2333,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| rev 3,15 | 1,908 | reduced | 2023×341, 2024×444, 2025×28, 2026×103 | Lyssavirus rabies×1608, Rabies virus×219, Rabies lyssavirus×42 | `PZ673884`, `PV641717`, `PV641712`, `PV641711`, `PZ227621`, `PZ227620` (+1,902) |
-| rev 3,6,15 | 1,647 | fail | 2023×96, 2024×280, 2025×164, 2026×5 | Lyssavirus rabies×1463, Rabies virus×81, Rabies lyssavirus×39 | `PZ334451`, `PZ273747`, `PX682069`, `PZ179863`, `PV591862`, `PX458642` (+1,641) |
-| rev 3 | 644 | reduced | 2023×359, 2024×48, 2025×74, 2026×1 | Rabies virus×321, Lyssavirus rabies×287, Rabies lyssavirus×11 | `PZ227534`, `MG458314`, `PP736759`, `OR046015`, `OR046014`, `OR046013` (+638) |
-| rev 15 | 389 | detect | 2023×5, 2024×15, 2025×22, 2026×25 | Rabies virus×199, Lyssavirus rabies×118, Rabies lyssavirus×31 | `PX896059`, `PX896058`, `PX896057`, `PZ324373`, `PZ324372`, `PZ324371` (+383) |
-| rev 6,15,21 | 210 | reduced | 2023×1, 2024×53, 2025×4, 2026×2 | European bat×196, Rhabdoviridae sp.×3, Drosophila affinis×3 | `PZ871809`, `PX733926`, `PV454708`, `PV454707`, `PV454706`, `PQ615102` (+204) |
-| no mismatches | 190 | detect | 2023×21, 2024×31, 2025×2, 2026×3 | Vesicular stomatitis×128, Merida-like virus×23, Rabies virus×16 | `PZ324370`, `PZ289968`, `PZ289841`, `PQ683189`, `Y09762`, `PQ773030` (+184) |
-| rev 6,15 | 179 | reduced | 2023×10, 2024×4, 2025×12, 2026×13 | Vesicular stomatitis×76, Merida virus×18, Rhabdoviridae sp.×14 | `NC_139361`, `NC_116599`, `NC_139269`, `PX833266`, `PX990464`, `PV335221` (+173) |
-| rev 3,6 | 102 | reduced | 2023×5, 2024×3, 2025×5, 2026×1 | Drosophila melanogaster×37, Bole×6, Alpharicinrhavirus bole×5 | `NC_139268`, `MW491753`, `MW208811`, `PQ616705`, `PQ616704`, `PQ616703` (+96) |
+| fwd 18,21; rev 9,12,13,16,18,21 | 1,750 | fail | 2023×17, 2024×1, 2025×37, 2026×4 | Plasmodium falciparum×1334, Plasmodium sp.×210, Plasmodium reichenowi×151 | `PZ698056`, `PX684229`, `PX684216`, `PX684208`, `PV806003`, `PV806000` (+1,744) |
+| fwd 18; rev 9,12,16,18,21 | 1,562 | fail | 2023×23, 2024×4, 2025×32, 2026×4 | Plasmodium vivax×1043, Plasmodium sp.×133, Plasmodium cf.×118 | `PZ512988`, `PZ512987`, `LC909092`, `LC909091`, `PQ362418`, `PQ362417` (+1,556) |
+| fwd 9,18,21; rev 12,16,18,21 | 484 | fail | 2016×66, 2017×33, 2022×167, 2025×12 | Plasmodium gaboni×260, Plasmodium sp.×181, Plasmodium adleri×30 | `PV805989`, `PV805985`, `PV805982`, `PV805958`, `PV805950`, `PV805949` (+478) |
+| fwd 17; rev 16,18,21 | 261 | reduced | 2018×5, 2019×1, 2022×14, 2025×6 | Hepatocystis sp.×260, Leucocytozoon grallariae×1 | `PQ362391`, `PQ362390`, `PQ362387`, `PQ362386`, `PQ362385`, `PQ362384` (+255) |
+| rev 16,21 | 228 | detect | 2023×15, 2024×5, 2025×32, 2026×4 | Plasmodium sp.×79, Haemoproteus sp.×30, Unidentified×21 | `PX123976`, `PX123975`, `LC909105`, `PV948515`, `PV948052`, `PV948051` (+222) |
+| rev 16 | 171 | detect | 2023×21, 2024×2, 2025×44, 2026×2 | Haemoproteus sp.×113, Haemoproteus belopolskyi×10, Parahaemoproteus sp.×9 | `LC909096`, `LC867943`, `PV944104`, `PV944103`, `PV944102`, `PV944101` (+165) |
+| fwd 18; rev 16,21 | 168 | reduced | 2019×30, 2022×2, 2023×3, 2025×30 | Plasmodium sp.×55, Haemosporida sp.×34, Plasmodium tupinambi×29 | `PV948024`, `PQ680073`, `PQ680072`, `PQ680071`, `PQ680070`, `PQ680069` (+162) |
+| fwd 18; rev 9,16,18,21 | 141 | reduced | 2018×1, 2019×1, 2023×8, 2025×16 | Plasmodium sp.×108, Plasmodium inui×27, Plasmodium cynomolgi×4 | `PQ362415`, `PQ362414`, `PQ362413`, `PQ362412`, `PQ362411`, `PQ362410` (+135) |
 
 ## CDV_H_gene_Mueller_2011_1
 
@@ -2451,17 +2353,17 @@ Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **d
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 1 | 20 | `A` | A&rarr;G 41 | `R` | 41 | 0.0% | 0-9% | 471 | 97.7% | 96-99% | 97.7% | yes |
-| reverse | 3 | 18 | `T` | T&rarr;C 76, T&rarr;A 3 | `Y` (96.2%) | 79 | 50.6% | 40-61% | 433 | 97.0% | 95-98% | 46.4% | yes |
-| reverse | 18 | 3 | `T` | T&rarr;C 119, T&rarr;A 4 | `Y` (96.7%) | 123 | 65.9% | 57-74% | 389 | 97.4% | 95-99% | 31.6% |  |
-| reverse | 15 | 6 | `G` | G&rarr;A 167, G&rarr;C 38, G&rarr;T 5 | `V` (97.6%) | 210 | 79.0% | 73-84% | 302 | 97.4% | 95-99% | 18.3% |  |
-| reverse | 2 | 19 | `A` | A&rarr;G 20 | `R` | 20 | 80.0% | 58-92% | 492 | 90.2% | 87-93% | 10.2% | yes |
-| forward | 13 | 8 | `G` | G&rarr;A 64 | `R` | 64 | 90.6% | 81-96% | 448 | 89.7% | 87-92% | -0.9% |  |
-| reverse | 16 | 5 | `C` | C&rarr;T 33 | `Y` | 33 | 97.0% | 85-99% | 479 | 89.4% | 86-92% | -7.6% |  |
-| reverse | 12 | 9 | `G` | G&rarr;T 35, G&rarr;A 3 | `D` | 38 | 97.4% | 87-100% | 474 | 89.2% | 86-92% | -8.1% |  |
-| reverse | 20 | 1 | `C` | C&rarr;G 90, C&rarr;T 6, C&rarr;A 1 | `B` (99.0%) | 97 | 96.9% | 91-99% | 415 | 88.2% | 85-91% | -8.7% |  |
-| reverse | 9 | 12 | `T` | T&rarr;G 51 | `K` | 51 | 100.0% | 93-100% | 461 | 88.7% | 86-91% | -11.3% |  |
-| reverse | 13 | 8 | `A` | A&rarr;T 55, A&rarr;G 5 | `D` | 60 | 100.0% | 94-100% | 452 | 88.5% | 85-91% | -11.5% |  |
+| reverse | 1 | 20 | `A` | A&rarr;G 41 | `R` | 41 | 0.0% | 0-9% | 471 | 98.1% | 96-99% | 98.1% | yes |
+| reverse | 3 | 18 | `T` | T&rarr;C 76, T&rarr;A 3 | `Y` (96.2%) | 79 | 53.2% | 42-64% | 433 | 97.0% | 95-98% | 43.8% | yes |
+| reverse | 18 | 3 | `T` | T&rarr;C 119, T&rarr;A 4 | `Y` (96.7%) | 123 | 65.9% | 57-74% | 389 | 97.9% | 96-99% | 32.1% |  |
+| reverse | 15 | 6 | `G` | G&rarr;A 167, G&rarr;C 38, G&rarr;T 5 | `V` (97.6%) | 210 | 79.0% | 73-84% | 302 | 98.0% | 96-99% | 19.0% |  |
+| reverse | 2 | 19 | `A` | A&rarr;G 20 | `R` | 20 | 90.0% | 70-97% | 492 | 90.2% | 87-93% | 0.2% | yes |
+| forward | 13 | 8 | `G` | G&rarr;A 64 | `R` | 64 | 90.6% | 81-96% | 448 | 90.2% | 87-93% | -0.4% |  |
+| reverse | 16 | 5 | `C` | C&rarr;T 33 | `Y` | 33 | 97.0% | 85-99% | 479 | 89.8% | 87-92% | -7.2% |  |
+| reverse | 12 | 9 | `G` | G&rarr;T 35, G&rarr;A 3 | `D` | 38 | 97.4% | 87-100% | 474 | 89.7% | 87-92% | -7.7% |  |
+| reverse | 20 | 1 | `C` | C&rarr;G 90, C&rarr;T 6, C&rarr;A 1 | `B` (99.0%) | 97 | 96.9% | 91-99% | 415 | 88.7% | 85-91% | -8.2% |  |
+| reverse | 9 | 12 | `T` | T&rarr;G 51 | `K` | 51 | 100.0% | 93-100% | 461 | 89.2% | 86-92% | -10.8% |  |
+| reverse | 13 | 8 | `A` | A&rarr;T 55, A&rarr;G 5 | `D` | 60 | 100.0% | 94-100% | 452 | 88.9% | 86-92% | -11.1% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2474,43 +2376,30 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | rev 13,15 | 55 | detect | 2018×55 | Morbillivirus canis×55 | `MF953469`, `MF953468`, `MF953467`, `MF953466`, `MF953465`, `MF953464` (+49) |
 | rev 1,3,15,18 | 33 | fail | 2005×1, 2018×5, 2020×3, 2026×24 | Morbillivirus canis×26, Canine distemper×7 | `PZ812018`, `PZ812017`, `PZ812016`, `PZ812015`, `PZ812014`, `PZ812013` (+27) |
 | rev 9,12,15,18 | 32 | reduced | 2008×3, 2017×5, 2018×4, 2022×9 | Canine morbillivirus×9, Canine distemper×9, Morbillivirus canis×5 | `D00758`, `OL441602`, `OL441601`, `OL441600`, `OL441599`, `OL441598` (+26) |
-| rev 3 | 29 | reduced | 2021×1, 2024×4, 2025×2, 2026×14 | Morbillivirus canis×23, Canine distemper×6 | `PX734755`, `PX734753`, `PX734752`, `PX734751`, `PX734750`, `PX734749` (+23) |
+| rev 3 | 29 | detect | 2021×1, 2024×4, 2025×2, 2026×14 | Morbillivirus canis×23, Canine distemper×6 | `PX734755`, `PX734753`, `PX734752`, `PX734751`, `PX734750`, `PX734749` (+23) |
 | rev 15 | 24 | detect | 2018×1, 2019×3, 2022×4, 2026×7 | Morbillivirus canis×11, Canine distemper×9, Canine morbillivirus×4 | `PX610320`, `PX610319`, `PX789678`, `PX789674`, `OP209189`, `OP209188` (+18) |
 | fwd 13; rev 15,16 | 19 | reduced | 2022×19 | Canine morbillivirus×19 | `OK557797`, `OK557796`, `OK557795`, `OK557794`, `OK557793`, `OK557792` (+13) |
 
-## CDV_H_gene_Mueller_2011_2
+## ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010
 
-Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **declining** — 1,959 evaluable of 4,013 screened records
+Orthoreovirus (taxid 10882) — status **declining** — 1,033 evaluable of 14,531 screened records
 
-- forward: `5'-GCGATACAATTGGGATCAGA-3'` (20 nt)
-- reverse: `5'-TGGGTGAGCAACAGGTATCA-3'` (20 nt)
+- forward: `5'-GGBTCMACNGCYACYTCBACYGAGCA-3'` (26 nt)
+- reverse: `5'-CCRTCRTCWCCYTGRCAKACRTARTT-3'` (26 nt)
 
-**342 of 1,959 evaluable records (17%) share one mismatch pattern, mostly Canine distemper, deposited 2003-2026, and the group's dominant call is `fail`.**
+**337 of 1,033 evaluable records (33%) share one mismatch pattern, mostly Piscine orthoreovirus, deposited 2013-2025, and the group's dominant call is `reduced`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 2 | 19 | `G` | G&rarr;A 659, G&rarr;T 2, G&rarr;C 1 | `R` (99.5%) | 662 | 8.5% | 7-11% | 1,297 | 93.4% | 92-95% | 84.9% | yes |
-| forward | 12 | 9 | `A` | A&rarr;G 555, A&rarr;C 2 | `R` (99.6%) | 557 | 4.8% | 3-7% | 1,402 | 88.4% | 87-90% | 83.6% |  |
-| reverse | 9 | 12 | `C` | C&rarr;T 516, C&rarr;A 3, C&rarr;G 1 | `Y` (99.2%) | 520 | 6.0% | 4-8% | 1,439 | 85.9% | 84-88% | 79.9% |  |
-| forward | 6 | 15 | `A` | A&rarr;G 590, A&rarr;C 33 | `V` | 623 | 13.0% | 11-16% | 1,336 | 88.8% | 87-90% | 75.8% |  |
-| forward | 1 | 20 | `A` | A&rarr;G 76, A&rarr;T 1 | `R` (98.7%) | 77 | 0.0% | 0-5% | 1,882 | 67.3% | 65-69% | 67.3% | yes |
-| forward | 4 | 17 | `C` | C&rarr;A 14, C&rarr;T 12 | `H` | 26 | 0.0% | 0-13% | 1,933 | 65.5% | 63-68% | 65.5% | yes |
-| reverse | 10 | 11 | `A` | A&rarr;G 38 | `R` | 38 | 2.6% | 0-13% | 1,921 | 65.9% | 64-68% | 63.3% |  |
-| forward | 19 | 2 | `C` | C&rarr;T 711 | `Y` | 711 | 27.1% | 24-31% | 1,248 | 86.1% | 84-88% | 58.9% |  |
-| reverse | 8 | 13 | `A` | A&rarr;G 40, A&rarr;C 2 | `R` (95.2%) | 42 | 19.0% | 10-33% | 1,917 | 65.7% | 64-68% | 46.6% |  |
-| reverse | 3 | 18 | `T` | T&rarr;C 15, T&rarr;A 4, T&rarr;G 1 | `H` (95.0%) | 20 | 30.0% | 15-52% | 1,939 | 65.0% | 63-67% | 35.0% | yes |
-| reverse | 11 | 10 | `A` | A&rarr;G 1,632, A&rarr;C 3, A&rarr;T 1 | `R` (99.8%) | 1,636 | 62.5% | 60-65% | 323 | 75.9% | 71-80% | 13.4% |  |
-| forward | 8 | 13 | `G` | G&rarr;A 31 | `R` | 31 | 51.6% | 35-68% | 1,928 | 64.9% | 63-67% | 13.3% |  |
-| reverse | 14 | 7 | `A` | A&rarr;G 12, A&rarr;T 8, A&rarr;C 1 | `D` (95.2%) | 21 | 66.7% | 45-83% | 1,938 | 64.7% | 62-67% | -2.0% |  |
-| forward | 13 | 8 | `A` | A&rarr;T 39, A&rarr;G 10, A&rarr;C 5 | hypervariable | 54 | 72.2% | 59-82% | 1,905 | 64.5% | 62-67% | -7.8% |  |
-| forward | 10 | 11 | `T` | T&rarr;C 51, T&rarr;G 2 | `Y` (96.2%) | 53 | 73.6% | 60-84% | 1,906 | 64.4% | 62-67% | -9.2% |  |
-| reverse | 12 | 9 | `C` | C&rarr;A 13, C&rarr;T 7, C&rarr;G 1 | `H` (95.2%) | 21 | 76.2% | 55-89% | 1,938 | 64.6% | 62-67% | -11.6% |  |
-| reverse | 17 | 4 | `G` | G&rarr;A 233, G&rarr;T 10 | `R` (95.9%) | 243 | 75.7% | 70-81% | 1,716 | 63.1% | 61-65% | -12.6% |  |
-| reverse | 20 | 1 | `T` | T&rarr;C 60, T&rarr;G 9, T&rarr;A 8 | hypervariable | 77 | 83.1% | 73-90% | 1,882 | 63.9% | 62-66% | -19.2% |  |
-| reverse | 18 | 3 | `G` | G&rarr;A 35, G&rarr;C 1 | `R` (97.2%) | 36 | 86.1% | 71-94% | 1,923 | 64.3% | 62-66% | -21.8% |  |
-| forward | 14 | 7 | `C` | C&rarr;T 48, C&rarr;A 1 | `Y` (98.0%) | 49 | 87.8% | 76-94% | 1,910 | 64.1% | 62-66% | -23.7% |  |
-| forward | 15 | 6 | `A` | A&rarr;T 81, A&rarr;G 53, A&rarr;C 2 | `D` (98.5%) | 136 | 86.8% | 80-91% | 1,823 | 63.0% | 61-65% | -23.7% |  |
-| reverse | 2 | 19 | `C` | C&rarr;G 130, C&rarr;T 18, C&rarr;A 6 | `B` (96.1%) | 154 | 90.9% | 85-95% | 1,805 | 62.4% | 60-65% | -28.5% | yes |
+| forward | 15 | 12 | `Y` | Y&rarr;G 267, Y&rarr;A 16 | hypervariable | 283 | 37.5% | 32-43% | 750 | 98.8% | 98-99% | 61.3% |  |
+| forward | 12 | 15 | `Y` | Y&rarr;A 173, Y&rarr;G 167 | hypervariable | 340 | 46.8% | 42-52% | 693 | 99.3% | 98-100% | 52.5% |  |
+| forward | 6 | 21 | `Y` | Y&rarr;G 489, Y&rarr;A 127 | hypervariable | 616 | 70.3% | 67-74% | 417 | 99.3% | 98-100% | 29.0% |  |
+| forward | 21 | 6 | `M` | M&rarr;T 417, M&rarr;G 216 | hypervariable | 633 | 71.7% | 68-75% | 400 | 98.2% | 96-99% | 26.5% |  |
+| reverse | 9 | 18 | `K` | K&rarr;A 489, K&rarr;C 349 | hypervariable | 838 | 78.8% | 76-81% | 195 | 95.9% | 92-98% | 17.1% |  |
+| forward | 9 | 18 | `B` | B&rarr;A 27 | hypervariable | 27 | 66.7% | 48-81% | 1,006 | 82.4% | 80-85% | 15.7% |  |
+| reverse | 18 | 9 | `W` | W&rarr;G 35, W&rarr;C 22 | hypervariable | 57 | 80.7% | 69-89% | 976 | 82.1% | 80-84% | 1.4% |  |
+| forward | 3 | 24 | `G` | G&rarr;A 610 | `R` | 610 | 82.8% | 80-86% | 423 | 80.9% | 77-84% | -1.9% | yes |
+| forward | 24 | 3 | `B` | B&rarr;A 109 | hypervariable | 109 | 92.7% | 86-96% | 924 | 80.7% | 78-83% | -11.9% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2518,45 +2407,57 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| fwd 2,6,12,19; rev 9,11 | 342 | fail | 2023×3, 2024×39, 2025×8, 2026×29 | Canine distemper×228, Morbillivirus canis×99, Canine morbillivirus×15 | `PZ171056`, `PZ845994`, `PZ845993`, `PZ845992`, `PZ845991`, `PZ845990` (+336) |
-| rev 11 | 234 | detect | 2023×10, 2024×8, 2025×6, 2026×6 | Canine distemper×107, Morbillivirus canis×63, Canine morbillivirus×57 | `PZ766579`, `PX610320`, `PX610319`, `PX656912`, `PX656911`, `PX656910` (+228) |
-| no mismatches | 194 | detect | 2021×3, 2022×4, 2025×1, 2026×38 | Morbillivirus canis×100, Canine distemper×63, Sequence×14 | `PZ812018`, `PZ812017`, `PZ812016`, `PZ812015`, `PZ812014`, `PZ812013` (+188) |
-| rev 2,11 | 138 | reduced | 2011×5, 2021×129, 2022×4 | Morbillivirus canis×127, Canine morbillivirus×6, Canine distemper×5 | `MW828751`, `MW828750`, `MW828749`, `MW828748`, `OK667044`, `OK667043` (+132) |
-| fwd 19; rev 11 | 109 | detect | 2023×1, 2024×1, 2025×2, 2026×18 | Canine distemper×72, Morbillivirus canis×26, Canine morbillivirus×7 | `PX445144`, `PX938971`, `PX938970`, `PX734755`, `PX734753`, `PX734752` (+103) |
-| rev 11,17 | 95 | detect | 2021×8, 2022×2, 2023×43, 2024×1 | Morbillivirus canis×85, Canine morbillivirus×7, Canine distemper×3 | `PP683092`, `OR733215`, `OR733214`, `OR515853`, `OR515852`, `OR515851` (+89) |
-| fwd 15; rev 11 | 70 | detect | 2022×8, 2023×10, 2024×3, 2025×1 | Canine distemper×26, Canine morbillivirus×18, Morbillivirus canis×15 | `OR120159`, `PQ625782`, `PQ241502`, `PQ241501`, `AB472691`, `AB472690` (+64) |
-| fwd 2,14; rev 11 | 39 | reduced | 2020×2, 2023×7, 2024×1, 2025×8 | Morbillivirus canis×39 | `OR880602`, `OR880601`, `OR880600`, `OR880599`, `OR880598`, `PV712681` (+33) |
+| fwd 3,6,21; rev 9 | 337 | reduced | 2019×9, 2020×108, 2021×13, 2025×182 | Piscine orthoreovirus×328, Piscine reovirus×6, Sequence×2 | `PV409545`, `PV409535`, `PV409525`, `PV409515`, `PV409505`, `PV409495` (+331) |
+| rev 9 | 138 | detect | 2023×19, 2024×6, 2025×15, 2026×3 | Mammalian orthoreovirus×130, Orthoreovirus sp.×2, Cataraqui virus×1 | `PZ764064`, `PZ005679`, `PV855983`, `PX871018`, `PX401510`, `PX244563` (+132) |
+| fwd 3,6,12,15,21; rev 9 | 87 | fail | 2023×3, 2024×1, 2025×57, 2026×4 | Avian orthoreovirus×86, Avian reovirus×1 | `PZ525050`, `PX942574`, `PX942566`, `PX942556`, `PV448237`, `PQ069026` (+81) |
+| fwd 6,12,15,21; rev 9 | 73 | fail | 2015×2, 2023×11, 2024×9, 2025×44 | Avian orthoreovirus×73 | `PQ068936`, `PQ068926`, `PQ068916`, `PQ068906`, `PQ068896`, `PV406122` (+67) |
+| fwd 3,6,12,15; rev 9 | 57 | reduced | 2023×6, 2024×9, 2025×4, 2026×10 | Avian orthoreovirus×56, Duck reovirus×1 | `OP313856`, `OP313846`, `OP302733`, `PZ206355`, `PZ112220`, `PZ112210` (+51) |
+| fwd 21,24 | 44 | detect | 2023×7, 2024×11, 2025×3, 2026×3 | Duck reovirus×33, Avian orthoreovirus×5, Goose orthoreovirus×2 | `PZ332856`, `PZ123232`, `PQ567546`, `PZ016822`, `PV296163`, `PV296162` (+38) |
+| fwd 24 | 41 | detect | 2024×41 | Mammalian orthoreovirus×41 | `LC818806`, `LC818796`, `LC818786`, `LC818772`, `LC818762`, `LC818752` (+35) |
+| no mismatches | 32 | detect | 2022×1, 2023×1, 2025×3, 2026×3 | Mammalian orthoreovirus×24, Reovirus serotype×3, JP×2 | `QQ447910`, `QQ447907`, `PV818064`, `PV804332`, `AF368033`, `PV005835` (+26) |
 
-## Pan_HERPES_dsDNA_Polymerase_round2
+## RHABDOVIRUS_ssRNA_L_gene_round1
 
-Orthoherpesviridae (formerly Herpesviridae) (taxid 10292) — status **declining** — 3,671 evaluable of 7,713 screened records
+Rhabdoviridae (taxid 11270) — status **declining** — 6,951 evaluable of 9,895 screened records
 
-- forward: `5'-TGTAACTCGGTGTAYGGNTTYACNGGNGT-3'` (29 nt)
-- reverse: `5'-CACAGAGTCCGTRTCNCCRTADAT-3'` (24 nt)
+- forward: `5'-RAAGGYAGRTTTTTYKCDYTRATG-3'` (24 nt)
+- reverse: `5'-CCADMCBTTTTGYCKYARRCCTTC-3'` (24 nt)
 
-**864 of 3,671 evaluable records (24%) share one mismatch pattern, mostly Human alphaherpesvirus, deposited 1986-2026, and the group's dominant call is `reduced`.**
+**720 of 6,951 evaluable records (10%) share one mismatch pattern, mostly Lyssavirus rabies, deposited 2008-2024, and the group's dominant call is `reduced`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 1 | 24 | `T` | T&rarr;C 296 | `Y` | 296 | 0.0% | 0-1% | 3,375 | 86.9% | 86-88% | 86.9% | yes |
-| reverse | 19 | 6 | `A` | A&rarr;T 232 | `W` | 232 | 1.7% | 1-4% | 3,439 | 85.2% | 84-86% | 83.5% |  |
-| reverse | 20 | 5 | `G` | G&rarr;C 232 | `S` | 232 | 1.7% | 1-4% | 3,439 | 85.2% | 84-86% | 83.5% |  |
-| forward | 20 | 10 | `G` | G&rarr;T 157, G&rarr;A 1 | `K` (99.4%) | 158 | 1.9% | 1-5% | 3,513 | 83.4% | 82-85% | 81.5% |  |
-| forward | 1 | 29 | `T` | T&rarr;C 59, T&rarr;G 1 | `Y` (98.3%) | 60 | 0.0% | 0-6% | 3,611 | 81.3% | 80-82% | 81.3% | yes |
-| forward | 11 | 19 | `T` | T&rarr;G 38 | `K` | 38 | 0.0% | 0-9% | 3,633 | 80.8% | 79-82% | 80.8% |  |
-| reverse | 3 | 22 | `D` | D&rarr;C 38 | hypervariable | 38 | 0.0% | 0-9% | 3,633 | 80.8% | 79-82% | 80.8% | yes |
-| forward | 7 | 23 | `C` | C&rarr;G 128, C&rarr;A 3 | `S` (97.7%) | 131 | 2.3% | 1-7% | 3,540 | 82.8% | 82-84% | 80.5% |  |
-| forward | 8 | 22 | `A` | A&rarr;T 128, A&rarr;C 3, A&rarr;G 2 | `W` (96.2%) | 133 | 3.0% | 1-7% | 3,538 | 82.8% | 82-84% | 79.8% |  |
-| reverse | 15 | 10 | `C` | C&rarr;G 513, C&rarr;T 293, C&rarr;A 261 | hypervariable | 1,067 | 58.3% | 55-61% | 2,604 | 88.8% | 88-90% | 30.5% |  |
-| forward | 24 | 6 | `C` | C&rarr;T 630 | `Y` | 630 | 61.6% | 58-65% | 3,041 | 83.7% | 82-85% | 22.1% |  |
-| forward | 23 | 7 | `T` | T&rarr;G 854 | `K` | 854 | 64.4% | 61-68% | 2,817 | 84.6% | 83-86% | 20.2% |  |
-| forward | 18 | 12 | `G` | G&rarr;C 592, G&rarr;T 477, G&rarr;A 474 | hypervariable | 1,543 | 73.9% | 72-76% | 2,128 | 84.3% | 83-86% | 10.3% |  |
-| forward | 27 | 3 | `T` | T&rarr;C 1,783 | `Y` | 1,783 | 74.7% | 73-77% | 1,888 | 84.9% | 83-86% | 10.1% |  |
-| reverse | 24 | 1 | `C` | C&rarr;T 1,143, C&rarr;A 640, C&rarr;G 458 | hypervariable | 2,241 | 76.2% | 74-78% | 1,430 | 85.8% | 84-88% | 9.6% |  |
-| reverse | 18 | 7 | `G` | G&rarr;A 794 | `R` | 794 | 72.8% | 70-76% | 2,877 | 81.9% | 80-83% | 9.1% |  |
-| forward | 21 | 9 | `G` | G&rarr;C 1,124, G&rarr;T 300, G&rarr;A 163 | hypervariable | 1,587 | 76.5% | 74-79% | 2,084 | 82.5% | 81-84% | 6.0% |  |
-| reverse | 21 | 4 | `A` | A&rarr;G 2,116, A&rarr;C 745, A&rarr;T 21 | `V` (99.3%) | 2,882 | 80.9% | 79-82% | 789 | 76.3% | 73-79% | -4.6% |  |
-| reverse | 22 | 3 | `C` | C&rarr;T 1,410, C&rarr;G 710, C&rarr;A 17 | `B` (99.2%) | 2,137 | 89.7% | 88-91% | 1,534 | 66.3% | 64-69% | -23.4% |  |
+| forward | 8 | 17 | `C` | C&rarr;G 277, C&rarr;A 6 | `S` (97.9%) | 283 | 0.0% | 0-1% | 6,668 | 75.3% | 74-76% | 75.3% |  |
+| reverse | 16 | 9 | `T` | T&rarr;A 233, T&rarr;C 13, T&rarr;G 1 | `H` (99.6%) | 247 | 0.0% | 0-2% | 6,704 | 74.9% | 74-76% | 74.9% |  |
+| reverse | 9 | 16 | `Y` | Y&rarr;G 473, Y&rarr;A 369 | hypervariable | 842 | 6.4% | 5-8% | 6,109 | 81.3% | 80-82% | 74.9% |  |
+| forward | 4 | 21 | `R` | R&rarr;C 246, R&rarr;T 126, R&rarr;Y 1 | hypervariable | 373 | 1.6% | 1-3% | 6,578 | 76.2% | 75-77% | 74.6% | yes |
+| reverse | 10 | 15 | `K` | K&rarr;A 239 | `D` | 239 | 0.4% | 0-2% | 6,712 | 74.8% | 74-76% | 74.4% |  |
+| forward | 15 | 10 | `T` | T&rarr;G 234, T&rarr;A 161, T&rarr;C 28 | hypervariable | 423 | 3.1% | 2-5% | 6,528 | 76.7% | 76-78% | 73.6% |  |
+| forward | 3 | 22 | `A` | A&rarr;T 23, A&rarr;C 23 | `H` | 46 | 0.0% | 0-8% | 6,905 | 72.7% | 72-74% | 72.7% | yes |
+| forward | 1 | 24 | `G` | G&rarr;A 12, G&rarr;C 8, G&rarr;T 4 | hypervariable | 24 | 0.0% | 0-14% | 6,927 | 72.5% | 71-74% | 72.5% | yes |
+| reverse | 17 | 8 | `T` | T&rarr;C 21, T&rarr;A 2 | `H` | 23 | 0.0% | 0-14% | 6,928 | 72.5% | 71-74% | 72.5% |  |
+| forward | 14 | 11 | `T` | T&rarr;G 235, T&rarr;A 87 | `D` | 322 | 4.0% | 2-7% | 6,629 | 75.5% | 74-77% | 71.5% |  |
+| forward | 9 | 16 | `K` | K&rarr;A 43 | `D` | 43 | 2.3% | 0-12% | 6,908 | 72.7% | 72-74% | 70.3% |  |
+| reverse | 7 | 18 | `R` | R&rarr;T 39, R&rarr;C 10 | hypervariable | 49 | 4.1% | 1-14% | 6,902 | 72.7% | 72-74% | 68.6% |  |
+| forward | 21 | 4 | `G` | G&rarr;C 183, G&rarr;T 6, G&rarr;A 1 | `S` (96.3%) | 190 | 8.9% | 6-14% | 6,761 | 74.0% | 73-75% | 65.1% |  |
+| forward | 24 | 1 | `R` | R&rarr;T 80, R&rarr;C 39 | hypervariable | 119 | 9.2% | 5-16% | 6,832 | 73.3% | 72-74% | 64.1% |  |
+| forward | 11 | 14 | `T` | T&rarr;A 33, T&rarr;C 3, T&rarr;G 1 | `H` (97.3%) | 37 | 10.8% | 4-25% | 6,914 | 72.6% | 71-74% | 61.8% |  |
+| forward | 6 | 19 | `Y` | Y&rarr;A 20, Y&rarr;G 6 | hypervariable | 26 | 11.5% | 4-29% | 6,925 | 72.5% | 71-74% | 60.9% |  |
+| forward | 20 | 5 | `G` | G&rarr;C 395, G&rarr;A 2 | `S` (99.5%) | 397 | 15.4% | 12-19% | 6,554 | 75.7% | 75-77% | 60.3% |  |
+| reverse | 21 | 4 | `D` | D&rarr;C 488 | hypervariable | 488 | 18.0% | 15-22% | 6,463 | 76.3% | 75-77% | 58.3% |  |
+| reverse | 12 | 13 | `Y` | Y&rarr;A 384, Y&rarr;G 290 | hypervariable | 674 | 22.6% | 20-26% | 6,277 | 77.6% | 77-79% | 55.0% |  |
+| forward | 19 | 6 | `Y` | Y&rarr;G 652, Y&rarr;A 650 | hypervariable | 1,302 | 29.8% | 27-32% | 5,649 | 82.0% | 81-83% | 52.2% |  |
+| reverse | 19 | 6 | `C` | C&rarr;A 32, C&rarr;T 7, C&rarr;G 3 | hypervariable | 42 | 21.4% | 12-36% | 6,909 | 72.5% | 71-74% | 51.1% |  |
+| reverse | 20 | 5 | `M` | M&rarr;G 18, M&rarr;T 17 | hypervariable | 35 | 25.7% | 14-42% | 6,916 | 72.5% | 71-74% | 46.8% |  |
+| forward | 16 | 9 | `R` | R&rarr;T 87, R&rarr;C 52 | hypervariable | 139 | 26.6% | 20-35% | 6,812 | 73.2% | 72-74% | 46.5% |  |
+| forward | 23 | 2 | `A` | A&rarr;C 467, A&rarr;T 385, A&rarr;G 32 | `H` (96.4%) | 884 | 37.7% | 35-41% | 6,067 | 77.3% | 76-78% | 39.6% |  |
+| forward | 13 | 12 | `T` | T&rarr;C 3,065, T&rarr;A 250, T&rarr;G 199 | hypervariable | 3,514 | 53.8% | 52-55% | 3,437 | 91.1% | 90-92% | 37.3% |  |
+| reverse | 6 | 19 | `R` | R&rarr;C 1,754, R&rarr;T 1,314, R&rarr;Y 1 | hypervariable | 3,069 | 53.2% | 51-55% | 3,882 | 87.2% | 86-88% | 34.0% |  |
+| forward | 22 | 3 | `A` | A&rarr;G 3,396, A&rarr;T 396, A&rarr;C 211 | hypervariable | 4,003 | 67.9% | 66-69% | 2,948 | 78.1% | 77-80% | 10.2% |  |
+| forward | 7 | 18 | `D` | D&rarr;C 2,310 | hypervariable | 2,310 | 68.3% | 66-70% | 4,641 | 74.2% | 73-75% | 5.9% |  |
+| reverse | 15 | 10 | `T` | T&rarr;C 4,930 | `Y` | 4,930 | 76.5% | 75-78% | 2,021 | 61.8% | 60-64% | -14.7% |  |
+| reverse | 3 | 22 | `T` | T&rarr;C 4,915 | `Y` | 4,915 | 83.3% | 82-84% | 2,036 | 45.6% | 43-48% | -37.6% | yes |
+| forward | 18 | 7 | `A` | A&rarr;C 4,829, A&rarr;G 3, A&rarr;T 1 | `M` (99.9%) | 4,833 | 85.5% | 84-86% | 2,118 | 42.0% | 40-44% | -43.5% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2564,14 +2465,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| rev 21,22,24 | 864 | reduced | 2023×129, 2024×49, 2025×15, 2026×47 | Human alphaherpesvirus×603, Human herpesvirus×252, Mutant×6 | `PZ347688`, `PV105598`, `PV105591`, `PV105590`, `PV105585`, `PZ169712` (+858) |
-| fwd 18,21,23,27; rev 21,22 | 484 | reduced | 2021×1, 2023×1, 2024×3, 2025×8 | UNVERIFIED_ASMBLY:×230, Human gammaherpesvirus×217, Human herpesvirus×27 | `PQ428139`, `PQ428134`, `OR134772`, `OR134771`, `OR134770`, `OR134769` (+478) |
-| fwd 27; rev 21,22,24 | 428 | reduced | 2023×2, 2024×167, 2025×7, 2026×12 | Human alphaherpesvirus×310, Human herpesvirus×105, Macacine alphaherpesvirus×7 | `PX974241`, `PZ135825`, `PZ135824`, `PZ135823`, `PZ169720`, `PZ169719` (+422) |
-| fwd 21,24; rev 18 | 314 | reduced | 2023×9, 2024×5, 2025×55, 2026×6 | Human alphaherpesvirus×203, Human herpesvirus×57, Varicellovirus humanalpha3×51 | `PV796772`, `PV796771`, `PV796770`, `PV737807`, `PV737806`, `PV700517` (+308) |
-| fwd 18,27; rev 15,21 | 238 | reduced | 2022×1, 2023×1, 2024×58, 2025×22 | Equid herpesvirus×119, Equid alphaherpesvirus×117, Equine herpesvirus×2 | `PQ630631`, `PQ630630`, `PQ630629`, `PQ630628`, `PQ630627`, `PQ630626` (+232) |
-| fwd 27; rev 1,21,24 | 180 | fail | 2023×20, 2024×4, 2025×13, 2026×24 | Suid alphaherpesvirus×76, Bovine alphaherpesvirus×68, Suid herpesvirus×17 | `PQ662995`, `PQ662994`, `PQ662993`, `PQ662992`, `PQ662991`, `PQ662990` (+174) |
-| fwd 18,21; rev 15,18,24 | 129 | reduced | 2023×12, 2024×17, 2025×1, 2026×7 | Gallid alphaherpesvirus×80, Gallid herpesvirus×28, Mutant×15 | `PZ112168`, `PX522223`, `PX496590`, `PX492157`, `PX499072`, `PX499071` (+123) |
-| fwd 18,21; rev 15,18,21,24 | 113 | reduced | 2021×13, 2023×29, 2024×8, 2025×8 | Felid alphaherpesvirus×108, Mutant×3, Felid herpesvirus×2 | `PV843457`, `PV209842`, `PQ672601`, `PQ672600`, `PQ672599`, `OR703025` (+107) |
+| fwd 18; rev 3,6,15 | 720 | reduced | 2020×38, 2022×58, 2023×3, 2024×11 | Lyssavirus rabies×719, Rabies virus×1 | `PP447332`, `PP447331`, `PP447330`, `PP447329`, `PP447328`, `PP447327` (+714) |
+| fwd 13,18,22; rev 3,6,15 | 543 | reduced | 2021×8, 2023×85, 2024×122, 2025×47 | Lyssavirus rabies×457, Rabies virus×56, Rabies lyssavirus×30 | `PV855415`, `PV855414`, `PV855413`, `PV855412`, `PV855411`, `PV855410` (+537) |
+| fwd 7,18; rev 3,15 | 524 | reduced | 2022×3, 2023×32, 2024×366, 2025×1 | Lyssavirus rabies×459, Rabies virus×60, Rabies lyssavirus×5 | `MG458304`, `PQ671590`, `OR971675`, `OR971674`, `OR971673`, `OR971672` (+518) |
+| fwd 7,18,22; rev 3 | 423 | reduced | 2022×65, 2023×297, 2024×23, 2025×22 | Rabies virus×308, Lyssavirus rabies×111, Rabies lyssavirus×4 | `MG458314`, `PP736759`, `PV606732`, `PV606731`, `PV606730`, `PQ671603` (+417) |
+| fwd 18,22; rev 3,15 | 415 | reduced | 2019×116, 2020×158, 2023×16, 2024×37 | Lyssavirus rabies×363, Rabies virus×51, Rabies lyssavirus×1 | `MG458319`, `MG458313`, `OR920350`, `OR920348`, `OR920307`, `OR920295` (+409) |
+| fwd 7,13,18,22; rev 3,6,15 | 291 | fail | 2022×2, 2024×135, 2025×136, 2026×2 | Lyssavirus rabies×276, Rabies virus×9, Rabies lyssavirus×6 | `PZ334451`, `PX682069`, `OR045939`, `PV584369`, `PV584368`, `PV584367` (+285) |
+| fwd 13,18,22; rev 3,15 | 219 | reduced | 2023×24, 2024×5, 2025×3, 2026×4 | Lyssavirus rabies×178, Rabies virus×30, Rabies lyssavirus×6 | `PV730233`, `OZ470011`, `NC_139265`, `PX789578`, `PV591864`, `MG458317` (+213) |
+| fwd 13,18; rev 15 | 217 | reduced | 2021×15, 2022×1, 2023×2, 2026×1 | Rabies virus×164, Rabies lyssavirus×26, Lyssavirus rabies×24 | `PX991851`, `OQ068400`, `OP642459`, `OV696601`, `MT895968`, `MT895967` (+211) |
 
 ## Cryptosporidium_18SrDNA_Xiao_1999_round2
 
@@ -2582,26 +2483,26 @@ Cryptosporidium (taxid 5806) — status **low coverage** — 1,178 evaluable of 
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 1 | 22 | `A` | A&rarr;C 61, A&rarr;T 4, A&rarr;G 2 | `H` (97.0%) | 67 | 0.0% | 0-5% | 1,111 | 96.2% | 95-97% | 96.2% | yes |
-| reverse | 4 | 19 | `T` | T&rarr;C 61, T&rarr;A 2, T&rarr;G 1 | `Y` (95.3%) | 64 | 0.0% | 0-6% | 1,114 | 96.0% | 95-97% | 96.0% | yes |
-| reverse | 5 | 18 | `C` | C&rarr;A 54, C&rarr;T 9, C&rarr;G 1 | `H` (98.4%) | 64 | 0.0% | 0-6% | 1,114 | 96.0% | 95-97% | 96.0% | yes |
-| reverse | 2 | 21 | `C` | C&rarr;T 53, C&rarr;A 8 | `H` | 61 | 0.0% | 0-6% | 1,117 | 95.7% | 94-97% | 95.7% | yes |
-| reverse | 21 | 2 | `A` | A&rarr;G 21, A&rarr;T 4 | `D` | 25 | 48.0% | 30-67% | 1,153 | 91.7% | 90-93% | 43.7% |  |
-| reverse | 13 | 10 | `G` | G&rarr;A 15, G&rarr;C 13, G&rarr;T 1 | `V` (96.6%) | 29 | 55.2% | 38-72% | 1,149 | 91.6% | 90-93% | 36.5% |  |
-| reverse | 19 | 4 | `G` | G&rarr;A 26, G&rarr;T 2, G&rarr;C 1 | `D` (96.6%) | 29 | 62.1% | 44-77% | 1,149 | 91.5% | 90-93% | 29.4% |  |
-| forward | 19 | 8 | `T` | T&rarr;G 36, T&rarr;A 2 | `D` | 38 | 63.2% | 47-77% | 1,140 | 91.7% | 90-93% | 28.5% |  |
-| reverse | 22 | 1 | `A` | A&rarr;T 13, A&rarr;G 10 | `D` | 23 | 65.2% | 45-81% | 1,155 | 91.3% | 89-93% | 26.0% |  |
-| forward | 14 | 13 | `T` | T&rarr;A 47, T&rarr;G 1 | `W` (97.9%) | 48 | 68.8% | 55-80% | 1,130 | 91.7% | 90-93% | 22.9% |  |
-| forward | 24 | 3 | `A` | A&rarr;G 40, A&rarr;T 6, A&rarr;C 1 | `D` (97.9%) | 47 | 70.2% | 56-81% | 1,131 | 91.6% | 90-93% | 21.4% |  |
-| forward | 15 | 12 | `A` | A&rarr;G 39, A&rarr;T 24 | `D` | 63 | 74.6% | 63-84% | 1,115 | 91.7% | 90-93% | 17.1% |  |
-| forward | 22 | 5 | `G` | G&rarr;A 36, G&rarr;T 2, G&rarr;C 1 | `D` (97.4%) | 39 | 76.9% | 62-87% | 1,139 | 91.2% | 89-93% | 14.3% |  |
-| forward | 17 | 10 | `G` | G&rarr;T 80 | `K` | 80 | 81.2% | 71-88% | 1,098 | 91.4% | 90-93% | 10.2% |  |
-| forward | 18 | 9 | `T` | T&rarr;G 34, T&rarr;C 2 | `B` | 36 | 83.3% | 68-92% | 1,142 | 91.0% | 89-93% | 7.6% |  |
-| forward | 23 | 4 | `A` | A&rarr;G 131, A&rarr;T 2 | `R` (98.5%) | 133 | 85.7% | 79-91% | 1,045 | 91.4% | 90-93% | 5.7% |  |
-| forward | 20 | 7 | `G` | G&rarr;T 70, G&rarr;A 6 | `D` | 76 | 85.5% | 76-92% | 1,102 | 91.1% | 89-93% | 5.6% |  |
-| forward | 26 | 1 | `G` | G&rarr;A 51, G&rarr;T 18 | `D` | 69 | 85.5% | 75-92% | 1,109 | 91.1% | 89-93% | 5.6% |  |
-| forward | 25 | 2 | `G` | G&rarr;A 132, G&rarr;T 2 | `R` (98.5%) | 134 | 87.3% | 81-92% | 1,044 | 91.2% | 89-93% | 3.9% |  |
-| forward | 16 | 11 | `T` | T&rarr;G 56, T&rarr;C 1 | `K` (98.2%) | 57 | 87.7% | 77-94% | 1,121 | 90.9% | 89-92% | 3.2% |  |
+| reverse | 1 | 22 | `A` | A&rarr;C 61, A&rarr;T 4, A&rarr;G 2 | `H` (97.0%) | 67 | 0.0% | 0-5% | 1,111 | 96.7% | 95-98% | 96.7% | yes |
+| reverse | 4 | 19 | `T` | T&rarr;C 61, T&rarr;A 2, T&rarr;G 1 | `Y` (95.3%) | 64 | 0.0% | 0-6% | 1,114 | 96.4% | 95-97% | 96.4% | yes |
+| reverse | 5 | 18 | `C` | C&rarr;A 54, C&rarr;T 9, C&rarr;G 1 | `H` (98.4%) | 64 | 0.0% | 0-6% | 1,114 | 96.4% | 95-97% | 96.4% | yes |
+| reverse | 2 | 21 | `C` | C&rarr;T 53, C&rarr;A 8 | `H` | 61 | 0.0% | 0-6% | 1,117 | 96.2% | 95-97% | 96.2% | yes |
+| reverse | 21 | 2 | `A` | A&rarr;G 21, A&rarr;T 4 | `D` | 25 | 48.0% | 30-67% | 1,153 | 92.1% | 90-94% | 44.1% |  |
+| reverse | 13 | 10 | `G` | G&rarr;A 15, G&rarr;C 13, G&rarr;T 1 | `V` (96.6%) | 29 | 55.2% | 38-72% | 1,149 | 92.1% | 90-94% | 36.9% |  |
+| reverse | 19 | 4 | `G` | G&rarr;A 26, G&rarr;T 2, G&rarr;C 1 | `D` (96.6%) | 29 | 62.1% | 44-77% | 1,149 | 91.9% | 90-93% | 29.8% |  |
+| forward | 19 | 8 | `T` | T&rarr;G 36, T&rarr;A 2 | `D` | 38 | 63.2% | 47-77% | 1,140 | 92.1% | 90-94% | 28.9% |  |
+| reverse | 22 | 1 | `A` | A&rarr;T 13, A&rarr;G 10 | `D` | 23 | 65.2% | 45-81% | 1,155 | 91.7% | 90-93% | 26.5% |  |
+| forward | 14 | 13 | `T` | T&rarr;A 47, T&rarr;G 1 | `W` (97.9%) | 48 | 68.8% | 55-80% | 1,130 | 92.1% | 90-94% | 23.4% |  |
+| forward | 24 | 3 | `A` | A&rarr;G 40, A&rarr;T 6, A&rarr;C 1 | `D` (97.9%) | 47 | 70.2% | 56-81% | 1,131 | 92.0% | 90-93% | 21.8% |  |
+| forward | 15 | 12 | `A` | A&rarr;G 39, A&rarr;T 24 | `D` | 63 | 74.6% | 63-84% | 1,115 | 92.1% | 90-94% | 17.5% |  |
+| forward | 22 | 5 | `G` | G&rarr;A 36, G&rarr;T 2, G&rarr;C 1 | `D` (97.4%) | 39 | 76.9% | 62-87% | 1,139 | 91.7% | 90-93% | 14.7% |  |
+| forward | 17 | 10 | `G` | G&rarr;T 80 | `K` | 80 | 81.2% | 71-88% | 1,098 | 91.9% | 90-93% | 10.6% |  |
+| forward | 18 | 9 | `T` | T&rarr;G 34, T&rarr;C 2 | `B` | 36 | 83.3% | 68-92% | 1,142 | 91.4% | 90-93% | 8.1% |  |
+| forward | 26 | 1 | `G` | G&rarr;A 51, G&rarr;T 18 | `D` | 69 | 85.5% | 75-92% | 1,109 | 91.5% | 90-93% | 6.0% |  |
+| forward | 20 | 7 | `G` | G&rarr;T 70, G&rarr;A 6 | `D` | 76 | 86.8% | 77-93% | 1,102 | 91.5% | 90-93% | 4.6% |  |
+| forward | 23 | 4 | `A` | A&rarr;G 131, A&rarr;T 2 | `R` (98.5%) | 133 | 87.2% | 80-92% | 1,045 | 91.7% | 90-93% | 4.5% |  |
+| forward | 16 | 11 | `T` | T&rarr;G 56, T&rarr;C 1 | `K` (98.2%) | 57 | 87.7% | 77-94% | 1,121 | 91.3% | 90-93% | 3.6% |  |
+| forward | 25 | 2 | `G` | G&rarr;A 132, G&rarr;T 2 | `R` (98.5%) | 134 | 89.6% | 83-94% | 1,044 | 91.4% | 90-93% | 1.8% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2629,24 +2530,24 @@ Paramyxoviridae (taxid 11158) — status **low coverage** — 10,566 evaluable o
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 19 | 8 | `A` | A&rarr;T 5,200 | `W` | 5,200 | 5.8% | 5-6% | 5,366 | 95.6% | 95-96% | 89.8% |  |
+| forward | 19 | 8 | `A` | A&rarr;T 5,200 | `W` | 5,200 | 5.8% | 5-6% | 5,366 | 95.7% | 95-96% | 89.9% |  |
 | reverse | 18 | 11 | `C` | C&rarr;A 2,792, C&rarr;G 312, C&rarr;T 71 | `V` (97.8%) | 3,175 | 1.5% | 1-2% | 7,391 | 72.9% | 72-74% | 71.4% |  |
-| reverse | 26 | 3 | `T` | T&rarr;A 4,718, T&rarr;G 669, T&rarr;C 184, +1 more | `D` (96.7%) | 5,572 | 20.2% | 19-21% | 4,994 | 86.3% | 85-87% | 66.1% |  |
+| reverse | 26 | 3 | `T` | T&rarr;A 4,718, T&rarr;G 669, T&rarr;C 184, +1 more | `D` (96.7%) | 5,572 | 20.2% | 19-21% | 4,994 | 86.3% | 85-87% | 66.0% |  |
 | forward | 20 | 7 | `T` | T&rarr;C 1,453, T&rarr;G 2, T&rarr;A 1 | `Y` (99.8%) | 1,456 | 0.3% | 0-1% | 9,110 | 59.6% | 59-61% | 59.3% |  |
-| reverse | 22 | 7 | `G` | G&rarr;A 3,482, G&rarr;C 204 | `V` | 3,686 | 14.4% | 13-16% | 6,880 | 71.3% | 70-72% | 56.9% |  |
-| reverse | 21 | 8 | `T` | T&rarr;C 3,685, T&rarr;A 63 | `Y` (98.3%) | 3,748 | 15.1% | 14-16% | 6,818 | 71.4% | 70-72% | 56.3% |  |
+| reverse | 22 | 7 | `G` | G&rarr;A 3,482, G&rarr;C 204 | `V` | 3,686 | 14.4% | 13-16% | 6,880 | 71.3% | 70-72% | 57.0% |  |
+| reverse | 21 | 8 | `T` | T&rarr;C 3,685, T&rarr;A 63 | `Y` (98.3%) | 3,748 | 15.1% | 14-16% | 6,818 | 71.4% | 70-72% | 56.4% |  |
 | forward | 18 | 9 | `T` | T&rarr;A 2,629, T&rarr;C 1,127, T&rarr;G 346 | hypervariable | 4,102 | 17.0% | 16-18% | 6,464 | 73.3% | 72-74% | 56.3% |  |
 | forward | 24 | 3 | `A` | A&rarr;G 3,444 | `R` | 3,444 | 15.5% | 14-17% | 7,122 | 68.8% | 68-70% | 53.3% |  |
 | forward | 16 | 11 | `G` | G&rarr;A 16, G&rarr;C 11 | `V` | 27 | 0.0% | 0-12% | 10,539 | 51.6% | 51-53% | 51.6% |  |
-| reverse | 24 | 5 | `A` | A&rarr;C 2,362, A&rarr;T 2,072 | `H` | 4,434 | 22.9% | 22-24% | 6,132 | 72.0% | 71-73% | 49.1% |  |
+| reverse | 24 | 5 | `A` | A&rarr;C 2,362, A&rarr;T 2,072 | `H` | 4,434 | 22.9% | 22-24% | 6,132 | 72.1% | 71-73% | 49.2% |  |
 | reverse | 19 | 10 | `A` | A&rarr;G 1,860, A&rarr;C 1,836 | `V` | 3,696 | 20.2% | 19-22% | 6,870 | 68.2% | 67-69% | 48.0% |  |
 | forward | 15 | 12 | `T` | T&rarr;C 2,111, T&rarr;A 14 | `Y` (99.3%) | 2,125 | 15.3% | 14-17% | 8,441 | 60.5% | 59-62% | 45.2% |  |
-| forward | 7 | 20 | `T` | T&rarr;C 228 | `Y` | 228 | 8.3% | 5-13% | 10,338 | 52.4% | 51-53% | 44.0% |  |
+| forward | 7 | 20 | `T` | T&rarr;C 228 | `Y` | 228 | 8.3% | 5-13% | 10,338 | 52.4% | 51-53% | 44.1% |  |
 | reverse | 25 | 4 | `G` | G&rarr;C 63 | `S` | 63 | 17.5% | 10-29% | 10,503 | 51.6% | 51-53% | 34.2% |  |
 | reverse | 20 | 9 | `T` | T&rarr;C 2,269, T&rarr;G 485, T&rarr;A 450 | hypervariable | 3,204 | 31.2% | 30-33% | 7,362 | 60.2% | 59-61% | 29.0% |  |
 | forward | 17 | 10 | `T` | T&rarr;A 264, T&rarr;C 3 | `W` (98.9%) | 267 | 34.5% | 29-40% | 10,299 | 51.9% | 51-53% | 17.4% |  |
-| reverse | 23 | 6 | `A` | A&rarr;T 4,719, A&rarr;C 1,702, A&rarr;G 697 | hypervariable | 7,118 | 62.9% | 62-64% | 3,448 | 27.7% | 26-29% | -35.3% |  |
-| reverse | 27 | 2 | `C` | C&rarr;A 4,905, C&rarr;T 14 | `M` (99.7%) | 4,919 | 93.9% | 93-95% | 5,647 | 14.4% | 14-15% | -79.5% |  |
+| reverse | 23 | 6 | `A` | A&rarr;T 4,719, A&rarr;C 1,702, A&rarr;G 697 | hypervariable | 7,118 | 63.0% | 62-64% | 3,448 | 27.7% | 26-29% | -35.3% |  |
+| reverse | 27 | 2 | `C` | C&rarr;A 4,905, C&rarr;T 14 | `M` (99.7%) | 4,919 | 94.0% | 93-95% | 5,647 | 14.4% | 14-15% | -79.6% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2663,97 +2564,30 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 15,18,19,20,24; rev 19,20,24,26 | 200 | fail | 2023×7, 2024×6, 2025×11, 2026×9 | Avian paramyxovirus×153, Newcastle disease×24, Avian orthoavulavirus×22 | `PZ519057`, `PZ360914`, `PZ360911`, `PZ645901`, `PV455366`, `PV455364` (+194) |
 | fwd 18,19,20; rev 18,20,21,22,24 | 200 | fail | 2023×2, 2024×36, 2025×64, 2026×25 | Human orthorubulavirus×190, Human parainfluenza×4, Orthorubulavirus laryngotracheitidis×3 | `PV980074`, `PZ245065`, `PZ245064`, `PZ245063`, `PZ245062`, `PZ245061` (+194) |
 
-## Encephalitozoon_18S_General_Encephalitoz_Muller_1999
+## DWVB_polyprotein_Rossi_2024
 
-Encephalitozoon (taxid 6033) — status **low coverage** — 105 evaluable of 9,095 screened records
+Deformed wing virus B (taxid 2498590) — status **declining** — 57 evaluable of 737 screened records
 
-- forward: `5'-CACCAGGTTGATTCTGCCTGAC-3'` (22 nt)
-- reverse: `5'-CCTCTCCGGAACCAAACCCTG-3'` (21 nt)
+- forward: `5'-TTTATCTTCATTAAAACCGCCA-3'` (22 nt)
+- reverse: `5'-CTCATTAACTGAGTTGTTGTC-3'` (21 nt)
+- probe: `5'-ATCTTTTGAGAGGGATGAGA-3'` (20 nt)
 
-**31 of 105 evaluable records (30%) share one mismatch pattern, mostly Encephalitozoon hellem, deposited 2012-2023, and the group's dominant call is `reduced`.**
+**6 of 57 evaluable records (11%) share one mismatch pattern, mostly Deformed wing, deposited 2023-2025, and the group's dominant call is `detect`.**
 
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 2 | 20 | `T` | T&rarr;C 32 | `Y` | 32 | 31.2% | 18-49% | 73 | 100.0% | 95-100% | 68.8% | yes |
-| reverse | 10 | 12 | `C` | C&rarr;T 70, C&rarr;A 1 | `Y` (98.6%) | 71 | 69.0% | 58-79% | 34 | 100.0% | 90-100% | 31.0% |  |
-| forward | 20 | 3 | `C` | C&rarr;T 72 | `Y` | 72 | 69.4% | 58-79% | 33 | 100.0% | 90-100% | 30.6% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+No single position reaches the reporting threshold: the mismatches are spread thinly rather than concentrated. The footprint table below is the informative view for this assay.
 
 **Footprint groups** (records sharing one mismatch pattern)
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| fwd 20; rev 10 | 31 | reduced | 2012×8, 2021×1, 2022×11, 2023×11 | Encephalitozoon hellem×31 | `NC_018474`, `NC_018473`, `NC_018469`, `NC_018468`, `CP002718`, `CP002713` (+25) |
-| fwd 20; rev 2,10 | 22 | fail | 2010×2, 2022×11, 2025×3, 2026×6 | Encephalitozoon intestinalis×16, Encephalitozoon sp.×6 | `OZ485645`, `OZ485644`, `OZ485643`, `OZ485642`, `OZ485641`, `OZ485640` (+16) |
-| fwd 20 | 19 | detect | 2013×1, 2021×1, 2022×1, 2023×11 | Encephalitozoon cuniculi×16, chromosome×2, Chain×1 | `CP091441`, `CP091440`, `CP091439`, `CP091438`, `CP091437`, `CP091436` (+13) |
-| no mismatches | 13 | detect | 2008×1, 2013×1, 2021×1, 2022×1 | Encephalitozoon cuniculi×6, E.cuniculi small×3, Encephalitozoon intestinalis×2 | `L17072`, `L07255`, `OQ077202`, `MW588203`, `KF169729`, `EU436735` (+7) |
-| rev 2,10 | 10 | reduced | 1993×2, 1994×1, 1995×1, 2010×6 | Encephalitozoon intestinalis×6, Septata intestinalis×2, Encephalitozoon sp.×2 | `NC_014419`, `NC_014418`, `NC_014415`, `CP001946`, `CP001945`, `CP001942` (+4) |
-| rev 10 | 7 | detect | 1995×1, 1999×3, 2000×1, 2022×1 | Encephalitozoon hellem×7 | `OM777677`, `L19070`, `AF177920`, `AF118143`, `AF118142`, `AF272836` (+1) |
-| fwd 16,18,19,21,22 | 1 | reduced | 2016×1 | Encephalitozoon pogonae×1 | `KR998311` |
-| rev 10,14 | 1 | reduced | 2008×1 | Encephalitozoon cuniculi×1 | `EU847242` |
-
-## PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999
-
-Papillomaviridae (taxid 151340) — status **declining** — 16,361 evaluable of 43,011 screened records
-
-- forward: `5'-TAACWGTIGGICAYCCWTATT-3'` (21 nt)
-- reverse: `5'-CCWATATCWVHCATITCICCATC-3'` (23 nt)
-
-**4,018 of 16,361 evaluable records (25%) share one mismatch pattern, mostly Human papillomavirus, deposited 1993-2026, and the group's dominant call is `fail`.**
-
-| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 5 | 17 | `W` | W&rarr;C 6,337, W&rarr;G 146 | `H` (97.7%) | 6,483 | 17.6% | 17-19% | 9,878 | 81.4% | 81-82% | 63.8% | yes |
-| forward | 19 | 3 | `A` | A&rarr;G 8,354, A&rarr;C 126, A&rarr;T 79 | `R` (97.6%) | 8,559 | 26.3% | 25-27% | 7,802 | 88.8% | 88-90% | 62.5% |  |
-| reverse | 3 | 21 | `A` | A&rarr;G 1,329, A&rarr;T 19, A&rarr;S 1 | `R` (98.5%) | 1,349 | 2.4% | 2-3% | 15,012 | 60.9% | 60-62% | 58.6% | yes |
-| reverse | 12 | 12 | `C` | C&rarr;A 56, C&rarr;T 21, C&rarr;G 3 | `H` (96.2%) | 80 | 0.0% | 0-5% | 16,281 | 56.4% | 56-57% | 56.4% |  |
-| forward | 1 | 21 | `T` | T&rarr;C 54, T&rarr;A 11, T&rarr;G 1 | `H` (98.5%) | 66 | 0.0% | 0-6% | 16,295 | 56.3% | 56-57% | 56.3% | yes |
-| forward | 13 | 9 | `G` | G&rarr;T 49, G&rarr;A 4, G&rarr;C 2 | `D` (96.4%) | 55 | 0.0% | 0-7% | 16,306 | 56.3% | 56-57% | 56.3% |  |
-| forward | 6 | 16 | `C` | C&rarr;A 50, C&rarr;T 4 | `H` | 54 | 0.0% | 0-7% | 16,307 | 56.3% | 56-57% | 56.3% |  |
-| forward | 12 | 10 | `G` | G&rarr;T 50, G&rarr;A 3, G&rarr;C 1 | `D` (98.1%) | 54 | 0.0% | 0-7% | 16,307 | 56.3% | 56-57% | 56.3% |  |
-| reverse | 22 | 2 | `C` | C&rarr;A 51, C&rarr;T 2 | `M` (96.2%) | 53 | 0.0% | 0-7% | 16,308 | 56.3% | 56-57% | 56.3% |  |
-| forward | 8 | 14 | `Y` | Y&rarr;A 50, Y&rarr;G 2 | `H` (96.2%) | 52 | 0.0% | 0-7% | 16,309 | 56.3% | 56-57% | 56.3% |  |
-| reverse | 10 | 14 | `T` | T&rarr;G 11, T&rarr;A 9 | `D` | 20 | 0.0% | 0-16% | 16,341 | 56.2% | 55-57% | 56.2% |  |
-| reverse | 4 | 20 | `C` | C&rarr;T 53, C&rarr;A 6, C&rarr;G 1 | `H` (98.3%) | 60 | 1.7% | 0-9% | 16,301 | 56.3% | 56-57% | 54.6% | yes |
-| reverse | 23 | 1 | `C` | C&rarr;T 56, C&rarr;A 17, C&rarr;G 3 | `H` (96.1%) | 76 | 2.6% | 1-9% | 16,285 | 56.4% | 56-57% | 53.7% |  |
-| forward | 15 | 7 | `T` | T&rarr;C 32, T&rarr;A 6 | `H` | 38 | 2.6% | 0-13% | 16,323 | 56.2% | 55-57% | 53.6% |  |
-| forward | 4 | 18 | `T` | T&rarr;C 50, T&rarr;A 8, T&rarr;G 3 | `H` (95.1%) | 61 | 3.3% | 1-11% | 16,300 | 56.3% | 56-57% | 53.0% | yes |
-| reverse | 16 | 8 | `C` | C&rarr;A 71, C&rarr;G 35, C&rarr;T 2 | `V` (98.1%) | 108 | 3.7% | 1-9% | 16,253 | 56.5% | 56-57% | 52.8% |  |
-| reverse | 13 | 11 | `H` | H&rarr;G 27 | hypervariable | 27 | 3.7% | 1-18% | 16,334 | 56.2% | 55-57% | 52.5% |  |
-| reverse | 21 | 3 | `W` | W&rarr;G 849, W&rarr;C 136 | hypervariable | 985 | 7.2% | 6-9% | 15,376 | 59.2% | 58-60% | 52.0% |  |
-| forward | 7 | 15 | `C` | C&rarr;G 11, C&rarr;A 7, C&rarr;T 3 | hypervariable | 21 | 4.8% | 1-23% | 16,340 | 56.2% | 55-57% | 51.4% |  |
-| reverse | 8 | 16 | `T` | T&rarr;G 19, T&rarr;A 11, T&rarr;C 5 | hypervariable | 35 | 5.7% | 2-19% | 16,326 | 56.2% | 55-57% | 50.5% |  |
-| forward | 21 | 1 | `T` | T&rarr;A 51, T&rarr;G 10, T&rarr;C 7 | hypervariable | 68 | 7.4% | 3-16% | 16,293 | 56.3% | 56-57% | 49.0% |  |
-| forward | 2 | 20 | `T` | T&rarr;C 1,890, T&rarr;G 33, T&rarr;A 20 | `Y` (97.3%) | 1,943 | 13.0% | 12-15% | 14,418 | 61.9% | 61-63% | 48.9% | yes |
-| reverse | 5 | 19 | `C` | C&rarr;G 23, C&rarr;A 1, C&rarr;T 1 | `V` (96.0%) | 25 | 12.0% | 4-30% | 16,336 | 56.2% | 55-57% | 44.2% | yes |
-| reverse | 17 | 7 | `T` | T&rarr;G 18, T&rarr;C 3, T&rarr;A 3 | hypervariable | 24 | 12.5% | 4-31% | 16,337 | 56.2% | 55-57% | 43.7% |  |
-| reverse | 7 | 17 | `C` | C&rarr;G 86, C&rarr;T 61, C&rarr;A 11 | hypervariable | 158 | 19.0% | 14-26% | 16,203 | 56.5% | 56-57% | 37.5% |  |
-| forward | 3 | 19 | `A` | A&rarr;T 425, A&rarr;G 3, A&rarr;C 2 | `W` (98.8%) | 430 | 24.7% | 21-29% | 15,931 | 57.0% | 56-58% | 32.3% | yes |
-| forward | 20 | 2 | `A` | A&rarr;T 9,232, A&rarr;G 2,271, A&rarr;C 213 | `D` (98.2%) | 11,716 | 51.0% | 50-52% | 4,645 | 68.9% | 68-70% | 17.8% |  |
-| forward | 17 | 5 | `W` | W&rarr;C 310, W&rarr;G 136 | hypervariable | 446 | 43.0% | 39-48% | 15,915 | 56.5% | 56-57% | 13.4% |  |
-| reverse | 20 | 4 | `A` | A&rarr;G 14,184, A&rarr;T 56, A&rarr;C 2 | `R` (99.6%) | 14,242 | 55.0% | 54-56% | 2,119 | 63.4% | 61-65% | 8.4% |  |
-| reverse | 18 | 6 | `A` | A&rarr;G 3,007, A&rarr;T 505, A&rarr;C 103 | `D` (97.2%) | 3,615 | 50.7% | 49-52% | 12,746 | 57.6% | 57-58% | 6.9% |  |
-| forward | 18 | 4 | `C` | C&rarr;T 445, C&rarr;A 102, C&rarr;G 20 | `H` (96.5%) | 567 | 50.8% | 47-55% | 15,794 | 56.3% | 56-57% | 5.5% |  |
-| reverse | 19 | 5 | `T` | T&rarr;C 339, T&rarr;A 74, T&rarr;G 46 | hypervariable | 459 | 58.4% | 54-63% | 15,902 | 56.0% | 55-57% | -2.3% |  |
-| forward | 16 | 6 | `G` | G&rarr;A 325, G&rarr;T 320, G&rarr;C 57 | hypervariable | 702 | 73.5% | 70-77% | 15,659 | 55.3% | 55-56% | -18.2% |  |
-| reverse | 15 | 9 | `W` | W&rarr;C 2,020, W&rarr;G 85 | `H` (96.0%) | 2,105 | 81.2% | 79-83% | 14,256 | 52.4% | 52-53% | -28.8% |  |
-| forward | 10 | 12 | `C` | C&rarr;A 2,886, C&rarr;G 1 | `M` (100.0%) | 2,887 | 89.3% | 88-90% | 13,474 | 49.0% | 48-50% | -40.2% |  |
-
-_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
-
-**Footprint groups** (records sharing one mismatch pattern)
-
-| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
-|---|---|---|---|---|---|
-| fwd 5,19,20; rev 20 | 4,018 | fail | 2023×14, 2024×32, 2025×143, 2026×96 | Human papillomavirus×3963, Sequence×27, JP×16 | `PZ377076`, `PZ377075`, `PZ377074`, `PZ377073`, `PZ377069`, `QQ287240` (+4,012) |
-| fwd 20; rev 20 | 2,392 | detect | 2023×87, 2024×217, 2025×1, 2026×4 | Human papillomavirus×2386, Sequence×4, Patent application×2 | `PZ638625`, `PZ638624`, `QW261821`, `QW261799`, `PV012261`, `PQ177836` (+2,386) |
-| fwd 2,19; rev 3,18,20 | 1,054 | fail | 2022×7, 2023×17, 2024×145, 2026×3 | Human papillomavirus×1050, Patent application×2, Sequence×2 | `PZ638627`, `QW261823`, `QW261801`, `PP792123`, `PP792122`, `PP792121` (+1,048) |
-| fwd 10,19,20; rev 20 | 935 | reduced | 2023×26, 2024×171, 2025×22, 2026×3 | Human papillomavirus×924, JP×4, Sequence×3 | `PZ669445`, `QW261829`, `QW261807`, `PQ720438`, `PQ720434`, `PX463235` (+929) |
-| fwd 10; rev 20 | 801 | reduced | 2023×15, 2024×131, 2025×168, 2026×61 | Human papillomavirus×777, JP×8, Sequence×8 | `PZ377083`, `PZ377082`, `PZ377081`, `PZ377079`, `QW261820`, `QW261798` (+795) |
-| fwd 10; rev 15,20 | 755 | reduced | 2023×21, 2024×78, 2025×589, 2026×2 | Human papillomavirus×741, Sequence×7, JP×4 | `QW261825`, `QW261803`, `PV419492`, `PV419490`, `PV419489`, `PV419486` (+749) |
-| fwd 5,19,20; rev 20,21 | 729 | fail | 2022×60, 2023×12, 2025×10, 2026×2 | Human papillomavirus×729 | `PZ377077`, `PZ628165`, `PX461756`, `PX461754`, `PV051158`, `PV051145` (+723) |
-| fwd 5,20; rev 20 | 551 | reduced | 2022×140, 2023×2, 2024×174, 2025×2 | Human papillomavirus×551 | `PV012271`, `PV012260`, `PQ177660`, `PQ177659`, `PQ177658`, `PQ177657` (+545) |
+| no mismatches | 29 | detect | 2023×25, 2025×2, 2026×2 | Deformed wing×29 | `PZ565201`, `PZ565199`, `PV664207`, `PV239926`, `OR497392`, `OR497391` (+23) |
+| rev 4 | 6 | detect | 2023×1, 2025×5 | Deformed wing×6 | `PV664191`, `PV664187`, `PV664182`, `PV664176`, `PV664167`, `OR361548` |
+| prb 19 | 5 | detect | 2023×5 | Deformed wing×5 | `OR497394`, `OR497384`, `OR497383`, `OR361549`, `OR361543` |
+| fwd 16 | 4 | detect | 2023×4 | Deformed wing×4 | `OR497395`, `OR497385`, `OR497382`, `OR497380` |
+| fwd 19 | 3 | detect | 2023×3 | Deformed wing×3 | `OR497396`, `OR497387`, `OR497386` |
+| rev 16 | 2 | detect | 2025×1, 2026×1 | Deformed wing×2 | `PZ565200`, `PP418870` |
+| fwd 4; prb 19 | 2 | detect | 2023×2 | Deformed wing×2 | `OR361539`, `OR361538` |
+| fwd 1,4,10,19; rev 4 | 1 | fail | 2026×1 | Deformed wing×1 | `PX663595` |
 
 ## ORF_VIRUS_dsDNA_RPO147_J6R_TaqMan_Zhao_2013
 
@@ -2793,6 +2627,67 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 11 | 1 | detect | 2025×1 | Orf virus×1 | `PP911590` |
 | fwd 1,9,13,15,18; rev 4,7,9,12,13,16 | 1 | fail | 2013×1 | Orf virus×1 | `KF478800` |
 
+## PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999
+
+Papillomaviridae (taxid 151340) — status **declining** — 16,361 evaluable of 43,011 screened records
+
+- forward: `5'-TAACWGTIGGICAYCCWTATT-3'` (21 nt)
+- reverse: `5'-CCWATATCWVHCATITCICCATC-3'` (23 nt)
+
+**4,018 of 16,361 evaluable records (25%) share one mismatch pattern, mostly Human papillomavirus, deposited 1993-2026, and the group's dominant call is `fail`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| forward | 5 | 17 | `W` | W&rarr;C 6,337, W&rarr;G 148 | `H` (97.7%) | 6,485 | 18.6% | 18-20% | 9,876 | 84.5% | 84-85% | 65.9% | yes |
+| forward | 19 | 3 | `A` | A&rarr;G 8,354, A&rarr;C 126, A&rarr;T 69 | `R` (97.7%) | 8,549 | 27.3% | 26-28% | 7,812 | 92.4% | 92-93% | 65.2% |  |
+| reverse | 3 | 21 | `A` | A&rarr;G 1,329, A&rarr;T 19, A&rarr;S 1 | `R` (98.5%) | 1,349 | 4.2% | 3-5% | 15,012 | 63.2% | 62-64% | 59.1% | yes |
+| forward | 13 | 9 | `G` | G&rarr;T 49, G&rarr;C 7, G&rarr;A 3 | hypervariable | 59 | 0.0% | 0-6% | 16,302 | 58.6% | 58-59% | 58.6% |  |
+| forward | 12 | 10 | `G` | G&rarr;T 50, G&rarr;C 5, G&rarr;A 3 | hypervariable | 58 | 0.0% | 0-6% | 16,303 | 58.6% | 58-59% | 58.6% |  |
+| forward | 6 | 16 | `C` | C&rarr;A 50, C&rarr;T 3 | `H` | 53 | 0.0% | 0-7% | 16,308 | 58.6% | 58-59% | 58.6% |  |
+| reverse | 22 | 2 | `C` | C&rarr;A 51, C&rarr;T 2 | `M` (96.2%) | 53 | 0.0% | 0-7% | 16,308 | 58.6% | 58-59% | 58.6% |  |
+| forward | 8 | 14 | `Y` | Y&rarr;A 50 | `H` | 50 | 0.0% | 0-7% | 16,311 | 58.6% | 58-59% | 58.6% |  |
+| reverse | 4 | 20 | `C` | C&rarr;T 53, C&rarr;A 6, C&rarr;G 1 | `H` (98.3%) | 60 | 1.7% | 0-9% | 16,301 | 58.6% | 58-59% | 56.9% | yes |
+| reverse | 12 | 12 | `C` | C&rarr;A 56, C&rarr;T 21, C&rarr;G 3 | `H` (96.2%) | 80 | 2.5% | 1-9% | 16,281 | 58.7% | 58-59% | 56.2% |  |
+| reverse | 23 | 1 | `C` | C&rarr;T 56, C&rarr;A 17, C&rarr;G 3 | `H` (96.1%) | 76 | 2.6% | 1-9% | 16,285 | 58.6% | 58-59% | 56.0% |  |
+| reverse | 16 | 8 | `C` | C&rarr;A 71, C&rarr;G 35, C&rarr;T 2 | `V` (98.1%) | 108 | 3.7% | 1-9% | 16,253 | 58.7% | 58-59% | 55.0% |  |
+| forward | 15 | 7 | `T` | T&rarr;C 22, T&rarr;A 5 | `H` | 27 | 3.7% | 1-18% | 16,334 | 58.5% | 58-59% | 54.8% |  |
+| reverse | 13 | 11 | `H` | H&rarr;G 27 | hypervariable | 27 | 3.7% | 1-18% | 16,334 | 58.5% | 58-59% | 54.8% |  |
+| reverse | 21 | 3 | `W` | W&rarr;G 849, W&rarr;C 136 | hypervariable | 985 | 10.2% | 8-12% | 15,376 | 61.5% | 61-62% | 51.3% |  |
+| reverse | 8 | 16 | `T` | T&rarr;G 19, T&rarr;A 11, T&rarr;C 5 | hypervariable | 35 | 11.4% | 5-26% | 16,326 | 58.5% | 58-59% | 47.0% |  |
+| forward | 21 | 1 | `T` | T&rarr;A 51, T&rarr;G 10, T&rarr;C 7 | hypervariable | 68 | 11.8% | 6-22% | 16,293 | 58.6% | 58-59% | 46.8% |  |
+| reverse | 5 | 19 | `C` | C&rarr;G 23, C&rarr;A 1, C&rarr;T 1 | `V` (96.0%) | 25 | 12.0% | 4-30% | 16,336 | 58.4% | 58-59% | 46.4% | yes |
+| reverse | 10 | 14 | `T` | T&rarr;G 11, T&rarr;A 9 | `D` | 20 | 15.0% | 5-36% | 16,341 | 58.4% | 58-59% | 43.4% |  |
+| reverse | 17 | 7 | `T` | T&rarr;G 18, T&rarr;C 3, T&rarr;A 3 | hypervariable | 24 | 16.7% | 7-36% | 16,337 | 58.4% | 58-59% | 41.8% |  |
+| forward | 4 | 18 | `T` | T&rarr;C 50, T&rarr;A 14, T&rarr;G 3 | `H` (95.5%) | 67 | 23.9% | 15-35% | 16,294 | 58.5% | 58-59% | 34.6% | yes |
+| forward | 2 | 20 | `T` | T&rarr;C 1,901, T&rarr;G 33, T&rarr;A 20 | `Y` (97.3%) | 1,954 | 30.6% | 29-33% | 14,407 | 62.1% | 61-63% | 31.5% | yes |
+| reverse | 7 | 17 | `C` | C&rarr;G 86, C&rarr;T 61, C&rarr;A 11 | hypervariable | 158 | 33.5% | 27-41% | 16,203 | 58.6% | 58-59% | 25.1% |  |
+| forward | 3 | 19 | `A` | A&rarr;T 425, A&rarr;G 3 | `W` (99.3%) | 428 | 36.0% | 32-41% | 15,933 | 59.0% | 58-60% | 23.0% | yes |
+| reverse | 20 | 4 | `A` | A&rarr;G 14,184, A&rarr;T 56, A&rarr;C 2 | `R` (99.6%) | 14,242 | 55.9% | 55-57% | 2,119 | 74.9% | 73-77% | 19.0% |  |
+| forward | 20 | 2 | `A` | A&rarr;T 9,235, A&rarr;G 2,269, A&rarr;C 213 | `D` (98.2%) | 11,717 | 53.2% | 52-54% | 4,644 | 71.3% | 70-73% | 18.1% |  |
+| forward | 17 | 5 | `W` | W&rarr;C 318, W&rarr;G 136 | hypervariable | 454 | 49.3% | 45-54% | 15,907 | 58.6% | 58-59% | 9.3% |  |
+| reverse | 18 | 6 | `A` | A&rarr;G 3,007, A&rarr;T 505, A&rarr;C 103 | `D` (97.2%) | 3,615 | 55.6% | 54-57% | 12,746 | 59.2% | 58-60% | 3.6% |  |
+| forward | 1 | 21 | `T` | T&rarr;C 59, T&rarr;A 11, T&rarr;G 1 | `H` (98.6%) | 71 | 54.9% | 43-66% | 16,290 | 58.4% | 58-59% | 3.5% | yes |
+| forward | 18 | 4 | `C` | C&rarr;T 445, C&rarr;A 102, C&rarr;G 20 | `H` (96.5%) | 567 | 65.6% | 62-69% | 15,794 | 58.1% | 57-59% | -7.5% |  |
+| reverse | 19 | 5 | `T` | T&rarr;C 339, T&rarr;A 74, T&rarr;G 46 | hypervariable | 459 | 68.8% | 64-73% | 15,902 | 58.1% | 57-59% | -10.8% |  |
+| forward | 16 | 6 | `G` | G&rarr;A 325, G&rarr;T 320, G&rarr;C 54 | hypervariable | 699 | 78.3% | 75-81% | 15,662 | 57.5% | 57-58% | -20.8% |  |
+| reverse | 15 | 9 | `W` | W&rarr;C 2,020, W&rarr;G 85 | `H` (96.0%) | 2,105 | 85.4% | 84-87% | 14,256 | 54.4% | 54-55% | -31.0% |  |
+| forward | 10 | 12 | `C` | C&rarr;A 2,880, C&rarr;G 6 | `M` (99.8%) | 2,886 | 91.5% | 90-92% | 13,475 | 51.3% | 50-52% | -40.2% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| fwd 5,19,20; rev 20 | 4,018 | fail | 2023×14, 2024×32, 2025×143, 2026×96 | Human papillomavirus×3963, Sequence×27, JP×16 | `PZ377076`, `PZ377075`, `PZ377074`, `PZ377073`, `PZ377069`, `QQ287240` (+4,012) |
+| fwd 20; rev 20 | 2,392 | detect | 2023×87, 2024×217, 2025×1, 2026×4 | Human papillomavirus×2386, Sequence×4, Patent application×2 | `PZ638625`, `PZ638624`, `QW261821`, `QW261799`, `PV012261`, `PQ177836` (+2,386) |
+| fwd 2,19; rev 3,18,20 | 1,054 | fail | 2022×7, 2023×17, 2024×145, 2026×3 | Human papillomavirus×1050, Patent application×2, Sequence×2 | `PZ638627`, `QW261823`, `QW261801`, `PP792123`, `PP792122`, `PP792121` (+1,048) |
+| fwd 10,19,20; rev 20 | 935 | reduced | 2023×26, 2024×171, 2025×22, 2026×3 | Human papillomavirus×924, JP×4, Sequence×3 | `PZ669445`, `QW261829`, `QW261807`, `PQ720438`, `PQ720434`, `PX463235` (+929) |
+| fwd 10; rev 20 | 801 | reduced | 2023×15, 2024×131, 2025×168, 2026×61 | Human papillomavirus×777, JP×8, Sequence×8 | `PZ377083`, `PZ377082`, `PZ377081`, `PZ377079`, `QW261820`, `QW261798` (+795) |
+| fwd 10; rev 15,20 | 755 | reduced | 2023×21, 2024×78, 2025×589, 2026×2 | Human papillomavirus×741, Sequence×7, JP×4 | `QW261825`, `QW261803`, `PV419492`, `PV419490`, `PV419489`, `PV419486` (+749) |
+| fwd 5,19,20; rev 20,21 | 729 | fail | 2022×60, 2023×12, 2025×10, 2026×2 | Human papillomavirus×729 | `PZ377077`, `PZ628165`, `PX461756`, `PX461754`, `PV051158`, `PV051145` (+723) |
+| fwd 5,20; rev 20 | 551 | reduced | 2022×140, 2023×2, 2024×174, 2025×2 | Human papillomavirus×551 | `PV012271`, `PV012260`, `PQ177660`, `PQ177659`, `PQ177658`, `PQ177657` (+545) |
+
 ## CDV_P_gene_Scagliarini_2007
 
 Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **declining** — 604 evaluable of 4,013 screened records
@@ -2805,18 +2700,18 @@ Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **d
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 2 | 22 | `A` | A&rarr;G 75 | `R` | 75 | 0.0% | 0-5% | 529 | 97.0% | 95-98% | 97.0% | yes |
-| forward | 16 | 8 | `A` | A&rarr;G 30 | `R` | 30 | 0.0% | 0-11% | 574 | 89.4% | 87-92% | 89.4% |  |
-| forward | 1 | 23 | `G` | G&rarr;A 27, G&rarr;C 2 | `V` | 29 | 0.0% | 0-12% | 575 | 89.2% | 86-91% | 89.2% | yes |
-| probe | 16 | 9 | `C` | C&rarr;T 20 | `Y` | 20 | 0.0% | 0-16% | 584 | 87.8% | 85-90% | 87.8% |  |
-| forward | 8 | 16 | `T` | T&rarr;C 43, T&rarr;G 1 | `Y` (97.7%) | 44 | 27.3% | 16-42% | 560 | 89.5% | 87-92% | 62.2% |  |
-| forward | 19 | 5 | `G` | G&rarr;A 40 | `R` | 40 | 32.5% | 20-48% | 564 | 88.7% | 86-91% | 56.2% |  |
-| reverse | 20 | 4 | `G` | G&rarr;A 43, G&rarr;T 1 | `R` (97.7%) | 44 | 79.5% | 65-89% | 560 | 85.4% | 82-88% | 5.8% |  |
-| forward | 20 | 4 | `G` | G&rarr;A 499 | `R` | 499 | 84.0% | 80-87% | 105 | 89.5% | 82-94% | 5.6% |  |
-| forward | 17 | 7 | `A` | A&rarr;G 29 | `R` | 29 | 93.1% | 78-98% | 575 | 84.5% | 81-87% | -8.6% |  |
-| reverse | 23 | 1 | `G` | G&rarr;A 65 | `R` | 65 | 93.8% | 85-98% | 539 | 83.9% | 81-87% | -10.0% |  |
-| probe | 9 | 16 | `C` | C&rarr;T 36 | `Y` | 36 | 94.4% | 82-98% | 568 | 84.3% | 81-87% | -10.1% |  |
-| forward | 23 | 1 | `G` | G&rarr;A 38 | `R` | 38 | 94.7% | 83-99% | 566 | 84.3% | 81-87% | -10.5% |  |
+| forward | 2 | 22 | `A` | A&rarr;G 75 | `R` | 75 | 0.0% | 0-5% | 529 | 99.1% | 98-100% | 99.1% | yes |
+| forward | 16 | 8 | `A` | A&rarr;G 30 | `R` | 30 | 0.0% | 0-11% | 574 | 91.3% | 89-93% | 91.3% |  |
+| forward | 1 | 23 | `G` | G&rarr;A 27, G&rarr;C 2 | `V` | 29 | 0.0% | 0-12% | 575 | 91.1% | 89-93% | 91.1% | yes |
+| probe | 16 | 9 | `C` | C&rarr;T 20 | `Y` | 20 | 0.0% | 0-16% | 584 | 89.7% | 87-92% | 89.7% |  |
+| forward | 8 | 16 | `T` | T&rarr;C 43, T&rarr;G 1 | `Y` (97.7%) | 44 | 27.3% | 16-42% | 560 | 91.4% | 89-93% | 64.2% |  |
+| forward | 19 | 5 | `G` | G&rarr;A 40 | `R` | 40 | 32.5% | 20-48% | 564 | 90.6% | 88-93% | 58.1% |  |
+| forward | 20 | 4 | `G` | G&rarr;A 499 | `R` | 499 | 85.6% | 82-88% | 105 | 92.4% | 86-96% | 6.8% |  |
+| reverse | 20 | 4 | `G` | G&rarr;A 43, G&rarr;T 1 | `R` (97.7%) | 44 | 84.1% | 71-92% | 560 | 87.0% | 84-90% | 2.9% |  |
+| forward | 17 | 7 | `A` | A&rarr;G 29 | `R` | 29 | 93.1% | 78-98% | 575 | 86.4% | 83-89% | -6.7% |  |
+| probe | 9 | 16 | `C` | C&rarr;T 36 | `Y` | 36 | 94.4% | 82-98% | 568 | 86.3% | 83-89% | -8.2% |  |
+| forward | 23 | 1 | `G` | G&rarr;A 38 | `R` | 38 | 100.0% | 91-100% | 566 | 85.9% | 83-88% | -14.1% |  |
+| reverse | 23 | 1 | `G` | G&rarr;A 65 | `R` | 65 | 100.0% | 94-100% | 539 | 85.2% | 82-88% | -14.8% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2844,43 +2739,43 @@ Adenoviridae (taxid 10508) — status **declining** — 6,188 evaluable of 38,96
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 5 | 14 | `A` | A&rarr;G 276, A&rarr;T 86, A&rarr;C 8 | `D` (97.8%) | 370 | 0.0% | 0-1% | 5,818 | 80.1% | 79-81% | 80.1% | yes |
-| reverse | 14 | 5 | `G` | G&rarr;T 214, G&rarr;C 109, G&rarr;A 3 | `B` (99.1%) | 326 | 0.0% | 0-1% | 5,862 | 79.5% | 78-81% | 79.5% |  |
-| reverse | 16 | 3 | `T` | T&rarr;C 272, T&rarr;A 107, T&rarr;G 8 | `H` (97.9%) | 387 | 1.0% | 0-3% | 5,801 | 80.3% | 79-81% | 79.3% |  |
-| reverse | 4 | 15 | `T` | T&rarr;C 242, T&rarr;G 19, T&rarr;A 16 | hypervariable | 277 | 0.0% | 0-1% | 5,911 | 78.9% | 78-80% | 78.9% | yes |
-| reverse | 6 | 13 | `C` | C&rarr;A 86, C&rarr;G 67, C&rarr;T 64 | hypervariable | 217 | 0.0% | 0-2% | 5,971 | 78.1% | 77-79% | 78.1% |  |
-| reverse | 1 | 18 | `T` | T&rarr;A 119, T&rarr;C 53, T&rarr;G 37 | hypervariable | 209 | 0.0% | 0-2% | 5,979 | 78.0% | 77-79% | 78.0% | yes |
-| forward | 2 | 20 | `A` | A&rarr;C 170, A&rarr;T 27, A&rarr;G 11 | hypervariable | 208 | 0.0% | 0-2% | 5,980 | 78.0% | 77-79% | 78.0% | yes |
-| reverse | 10 | 9 | `A` | A&rarr;C 134, A&rarr;T 37, A&rarr;G 16 | hypervariable | 187 | 0.0% | 0-2% | 6,001 | 77.7% | 77-79% | 77.7% |  |
-| reverse | 2 | 17 | `T` | T&rarr;A 133, T&rarr;C 20, T&rarr;G 10 | hypervariable | 163 | 0.0% | 0-2% | 6,025 | 77.4% | 76-78% | 77.4% | yes |
-| forward | 5 | 17 | `A` | A&rarr;T 78, A&rarr;C 34, A&rarr;G 28 | hypervariable | 140 | 0.0% | 0-3% | 6,048 | 77.1% | 76-78% | 77.1% | yes |
-| forward | 17 | 5 | `A` | A&rarr;T 410, A&rarr;G 10, A&rarr;C 4 | `W` (96.7%) | 424 | 3.8% | 2-6% | 5,764 | 80.6% | 80-82% | 76.8% |  |
-| reverse | 17 | 2 | `A` | A&rarr;G 102, A&rarr;C 50, A&rarr;T 10 | hypervariable | 162 | 0.6% | 0-3% | 6,026 | 77.4% | 76-78% | 76.7% |  |
-| forward | 8 | 14 | `T` | T&rarr;G 85, T&rarr;A 10, T&rarr;C 5 | `D` (95.0%) | 100 | 0.0% | 0-4% | 6,088 | 76.6% | 76-78% | 76.6% |  |
-| forward | 1 | 21 | `A` | A&rarr;T 90, A&rarr;C 7 | `H` | 97 | 0.0% | 0-4% | 6,091 | 76.6% | 75-78% | 76.6% | yes |
-| forward | 7 | 15 | `A` | A&rarr;C 74, A&rarr;G 10, A&rarr;T 7 | hypervariable | 91 | 0.0% | 0-4% | 6,097 | 76.5% | 75-78% | 76.5% |  |
-| reverse | 13 | 6 | `G` | G&rarr;C 137, G&rarr;T 57, G&rarr;A 13 | hypervariable | 207 | 1.4% | 0-4% | 5,981 | 77.9% | 77-79% | 76.5% |  |
-| reverse | 8 | 11 | `A` | A&rarr;T 36, A&rarr;C 17, A&rarr;G 11 | hypervariable | 64 | 0.0% | 0-6% | 6,124 | 76.1% | 75-77% | 76.1% |  |
-| forward | 19 | 3 | `A` | A&rarr;C 240, A&rarr;G 18, A&rarr;T 14 | hypervariable | 272 | 2.9% | 1-6% | 5,916 | 78.7% | 78-80% | 75.7% |  |
-| forward | 14 | 8 | `T` | T&rarr;A 11, T&rarr;C 11, T&rarr;G 4 | hypervariable | 26 | 0.0% | 0-13% | 6,162 | 75.7% | 75-77% | 75.7% |  |
-| forward | 4 | 18 | `T` | T&rarr;A 10, T&rarr;G 5, T&rarr;C 5 | hypervariable | 20 | 0.0% | 0-16% | 6,168 | 75.6% | 75-77% | 75.6% | yes |
-| forward | 6 | 16 | `C` | C&rarr;T 446, C&rarr;A 3 | `Y` (99.3%) | 449 | 5.3% | 4-8% | 5,739 | 80.8% | 80-82% | 75.5% |  |
-| forward | 3 | 19 | `G` | G&rarr;A 156, G&rarr;C 127, G&rarr;T 22 | hypervariable | 305 | 3.6% | 2-6% | 5,883 | 79.1% | 78-80% | 75.5% | yes |
-| reverse | 3 | 16 | `G` | G&rarr;A 29, G&rarr;C 16, G&rarr;T 1 | `V` (97.8%) | 46 | 2.2% | 0-11% | 6,142 | 75.9% | 75-77% | 73.7% | yes |
-| forward | 20 | 2 | `A` | A&rarr;T 79, A&rarr;C 32, A&rarr;G 10 | hypervariable | 121 | 6.6% | 3-13% | 6,067 | 76.7% | 76-78% | 70.1% |  |
-| reverse | 7 | 12 | `G` | G&rarr;A 369, G&rarr;T 7, G&rarr;C 1 | `R` (97.9%) | 377 | 13.5% | 10-17% | 5,811 | 79.4% | 78-80% | 65.8% |  |
-| reverse | 11 | 8 | `T` | T&rarr;A 30, T&rarr;G 13, T&rarr;C 4 | hypervariable | 47 | 10.6% | 5-23% | 6,141 | 75.9% | 75-77% | 65.2% |  |
-| forward | 18 | 4 | `C` | C&rarr;T 605, C&rarr;G 82, C&rarr;A 8 | `B` (98.8%) | 695 | 19.7% | 17-23% | 5,493 | 82.4% | 81-83% | 62.7% |  |
-| forward | 16 | 6 | `C` | C&rarr;G 47, C&rarr;A 31, C&rarr;T 14 | hypervariable | 92 | 21.7% | 15-31% | 6,096 | 76.2% | 75-77% | 54.4% |  |
-| forward | 15 | 7 | `C` | C&rarr;A 484, C&rarr;T 410, C&rarr;G 27 | `H` (97.1%) | 921 | 30.0% | 27-33% | 5,267 | 83.3% | 82-84% | 53.3% |  |
-| forward | 9 | 13 | `S` | S&rarr;T 784, S&rarr;A 67 | hypervariable | 851 | 30.4% | 27-34% | 5,337 | 82.5% | 81-84% | 52.1% |  |
-| forward | 11 | 11 | `G` | G&rarr;A 78, G&rarr;C 72, G&rarr;T 7 | `V` (95.5%) | 157 | 40.8% | 33-49% | 6,031 | 76.3% | 75-77% | 35.5% |  |
-| forward | 21 | 1 | `C` | C&rarr;A 1,422, C&rarr;G 741, C&rarr;T 389 | hypervariable | 2,552 | 59.1% | 57-61% | 3,636 | 86.7% | 86-88% | 27.6% |  |
-| reverse | 15 | 4 | `G` | G&rarr;A 424, G&rarr;C 264, G&rarr;T 101 | hypervariable | 789 | 51.6% | 48-55% | 5,399 | 78.8% | 78-80% | 27.2% |  |
-| forward | 10 | 12 | `A` | A&rarr;C 988, A&rarr;T 110, A&rarr;G 66 | hypervariable | 1,164 | 56.6% | 54-59% | 5,024 | 79.7% | 79-81% | 23.1% |  |
-| reverse | 12 | 7 | `G` | G&rarr;A 1,461, G&rarr;C 13, G&rarr;T 6 | `R` (98.7%) | 1,480 | 58.9% | 56-61% | 4,708 | 80.5% | 79-82% | 21.6% |  |
-| reverse | 9 | 10 | `R` | R&rarr;T 773, R&rarr;C 556 | hypervariable | 1,329 | 68.3% | 66-71% | 4,859 | 77.3% | 76-78% | 9.0% |  |
-| reverse | 18 | 1 | `K` | K&rarr;A 2,132, K&rarr;C 164 | hypervariable | 2,296 | 71.0% | 69-73% | 3,892 | 77.9% | 77-79% | 6.9% |  |
+| reverse | 5 | 14 | `A` | A&rarr;G 276, A&rarr;T 86, A&rarr;C 8 | `D` (97.8%) | 370 | 0.0% | 0-1% | 5,818 | 82.5% | 81-83% | 82.5% | yes |
+| reverse | 14 | 5 | `G` | G&rarr;T 216, G&rarr;C 109, G&rarr;A 9 | `B` (97.3%) | 334 | 0.0% | 0-1% | 5,854 | 82.0% | 81-83% | 82.0% |  |
+| reverse | 16 | 3 | `T` | T&rarr;C 272, T&rarr;A 103, T&rarr;G 8 | `H` (97.9%) | 383 | 1.3% | 1-3% | 5,805 | 82.6% | 82-84% | 81.3% |  |
+| forward | 2 | 20 | `A` | A&rarr;C 166, A&rarr;T 27, A&rarr;G 11 | hypervariable | 204 | 0.0% | 0-2% | 5,984 | 80.2% | 79-81% | 80.2% | yes |
+| reverse | 4 | 15 | `T` | T&rarr;C 242, T&rarr;G 19, T&rarr;A 16 | hypervariable | 277 | 1.4% | 1-4% | 5,911 | 81.1% | 80-82% | 79.7% | yes |
+| reverse | 1 | 18 | `T` | T&rarr;A 121, T&rarr;C 53, T&rarr;G 37 | hypervariable | 211 | 0.9% | 0-3% | 5,977 | 80.3% | 79-81% | 79.3% | yes |
+| reverse | 17 | 2 | `A` | A&rarr;G 100, A&rarr;C 50, A&rarr;T 12 | hypervariable | 162 | 0.6% | 0-3% | 6,026 | 79.6% | 79-81% | 79.0% |  |
+| forward | 17 | 5 | `A` | A&rarr;T 408, A&rarr;G 10, A&rarr;C 4 | `W` (96.7%) | 422 | 4.0% | 3-6% | 5,766 | 82.9% | 82-84% | 78.9% |  |
+| forward | 8 | 14 | `T` | T&rarr;G 85, T&rarr;A 10, T&rarr;C 7 | hypervariable | 102 | 0.0% | 0-4% | 6,086 | 78.9% | 78-80% | 78.9% |  |
+| forward | 1 | 21 | `A` | A&rarr;T 92, A&rarr;C 9 | `H` | 101 | 0.0% | 0-4% | 6,087 | 78.8% | 78-80% | 78.8% | yes |
+| reverse | 10 | 9 | `A` | A&rarr;C 134, A&rarr;T 37, A&rarr;G 14 | hypervariable | 185 | 1.1% | 0-4% | 6,003 | 79.9% | 79-81% | 78.8% |  |
+| forward | 7 | 15 | `A` | A&rarr;C 74, A&rarr;G 10, A&rarr;T 7 | hypervariable | 91 | 0.0% | 0-4% | 6,097 | 78.7% | 78-80% | 78.7% |  |
+| forward | 5 | 17 | `A` | A&rarr;T 78, A&rarr;C 34, A&rarr;G 28 | hypervariable | 140 | 0.7% | 0-4% | 6,048 | 79.3% | 78-80% | 78.6% | yes |
+| forward | 19 | 3 | `A` | A&rarr;C 240, A&rarr;G 18, A&rarr;T 14 | hypervariable | 272 | 2.9% | 1-6% | 5,916 | 81.0% | 80-82% | 78.0% |  |
+| forward | 14 | 8 | `T` | T&rarr;C 13, T&rarr;A 7, T&rarr;G 4 | hypervariable | 24 | 0.0% | 0-14% | 6,164 | 77.9% | 77-79% | 77.9% |  |
+| forward | 4 | 18 | `T` | T&rarr;A 12, T&rarr;G 5, T&rarr;C 5 | hypervariable | 22 | 0.0% | 0-15% | 6,166 | 77.8% | 77-79% | 77.8% | yes |
+| reverse | 13 | 6 | `G` | G&rarr;C 137, G&rarr;T 57, G&rarr;A 7 | `B` (96.5%) | 201 | 2.5% | 1-6% | 5,987 | 80.1% | 79-81% | 77.6% |  |
+| forward | 6 | 16 | `C` | C&rarr;T 450, C&rarr;A 5 | `Y` (98.9%) | 455 | 6.2% | 4-9% | 5,733 | 83.2% | 82-84% | 77.1% |  |
+| reverse | 6 | 13 | `C` | C&rarr;A 86, C&rarr;G 67, C&rarr;T 64 | hypervariable | 217 | 4.1% | 2-8% | 5,971 | 80.2% | 79-81% | 76.1% |  |
+| reverse | 2 | 17 | `T` | T&rarr;A 133, T&rarr;C 20, T&rarr;G 10 | hypervariable | 163 | 4.9% | 3-9% | 6,025 | 79.5% | 78-81% | 74.6% | yes |
+| reverse | 8 | 11 | `A` | A&rarr;T 38, A&rarr;C 17, A&rarr;G 11 | hypervariable | 66 | 4.5% | 2-13% | 6,122 | 78.3% | 77-79% | 73.8% |  |
+| forward | 20 | 2 | `A` | A&rarr;T 77, A&rarr;C 30, A&rarr;G 10 | hypervariable | 117 | 7.7% | 4-14% | 6,071 | 78.9% | 78-80% | 71.2% |  |
+| reverse | 7 | 12 | `G` | G&rarr;A 369, G&rarr;T 5, G&rarr;C 1 | `R` (98.4%) | 375 | 13.6% | 10-17% | 5,813 | 81.7% | 81-83% | 68.1% |  |
+| reverse | 11 | 8 | `T` | T&rarr;A 40, T&rarr;G 7, T&rarr;C 4 | hypervariable | 51 | 13.7% | 7-26% | 6,137 | 78.1% | 77-79% | 64.4% |  |
+| forward | 18 | 4 | `C` | C&rarr;T 607, C&rarr;G 82, C&rarr;A 8 | `B` (98.9%) | 697 | 20.8% | 18-24% | 5,491 | 84.8% | 84-86% | 64.0% |  |
+| reverse | 3 | 16 | `G` | G&rarr;A 33, G&rarr;C 16, G&rarr;T 1 | `V` (98.0%) | 50 | 20.0% | 11-33% | 6,138 | 78.0% | 77-79% | 58.0% | yes |
+| forward | 15 | 7 | `C` | C&rarr;A 484, C&rarr;T 408, C&rarr;G 27 | `H` (97.1%) | 919 | 31.0% | 28-34% | 5,269 | 85.7% | 85-87% | 54.7% |  |
+| forward | 16 | 6 | `C` | C&rarr;G 47, C&rarr;A 27, C&rarr;T 14 | hypervariable | 88 | 25.0% | 17-35% | 6,100 | 78.3% | 77-79% | 53.3% |  |
+| forward | 9 | 13 | `S` | S&rarr;T 788, S&rarr;A 67 | hypervariable | 855 | 32.2% | 29-35% | 5,333 | 84.8% | 84-86% | 52.7% |  |
+| forward | 3 | 19 | `G` | G&rarr;A 164, G&rarr;C 121, G&rarr;T 20 | hypervariable | 305 | 41.3% | 36-47% | 5,883 | 79.4% | 78-80% | 38.1% | yes |
+| forward | 11 | 11 | `G` | G&rarr;A 76, G&rarr;C 74, G&rarr;T 7 | `V` (95.5%) | 157 | 50.3% | 43-58% | 6,031 | 78.3% | 77-79% | 27.9% |  |
+| reverse | 15 | 4 | `G` | G&rarr;A 422, G&rarr;C 264, G&rarr;T 99 | hypervariable | 785 | 54.5% | 51-58% | 5,403 | 80.9% | 80-82% | 26.4% |  |
+| forward | 10 | 12 | `A` | A&rarr;C 988, A&rarr;T 110, A&rarr;G 66 | hypervariable | 1,164 | 57.9% | 55-61% | 5,024 | 82.1% | 81-83% | 24.2% |  |
+| forward | 21 | 1 | `C` | C&rarr;A 1,422, C&rarr;G 741, C&rarr;T 389 | hypervariable | 2,552 | 63.6% | 62-65% | 3,636 | 87.3% | 86-88% | 23.8% |  |
+| reverse | 12 | 7 | `G` | G&rarr;A 1,463, G&rarr;C 13, G&rarr;T 4 | `R` (98.9%) | 1,480 | 65.3% | 63-68% | 4,708 | 81.4% | 80-82% | 16.1% |  |
+| reverse | 9 | 10 | `R` | R&rarr;T 771, R&rarr;C 556 | hypervariable | 1,327 | 68.8% | 66-71% | 4,861 | 79.9% | 79-81% | 11.1% |  |
+| reverse | 18 | 1 | `K` | K&rarr;A 2,132, K&rarr;C 164 | hypervariable | 2,296 | 76.0% | 74-78% | 3,892 | 78.5% | 77-80% | 2.5% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -2964,19 +2859,19 @@ Coronaviridae (taxid 11118) — status **declining** — 6,864 evaluable of 25,5
 | reverse | 10 | 13 | `G` | G&rarr;T 29 | `K` | 29 | 0.0% | 0-12% | 6,835 | 72.0% | 71-73% | 72.0% |  |
 | reverse | 11 | 12 | `T` | T&rarr;G 29 | `K` | 29 | 0.0% | 0-12% | 6,835 | 72.0% | 71-73% | 72.0% |  |
 | reverse | 8 | 15 | `T` | T&rarr;G 27, T&rarr;C 1 | `K` (96.4%) | 28 | 0.0% | 0-12% | 6,836 | 72.0% | 71-73% | 72.0% |  |
-| reverse | 7 | 16 | `G` | G&rarr;C 28 | `S` | 28 | 3.6% | 1-18% | 6,836 | 71.9% | 71-73% | 68.4% |  |
+| reverse | 7 | 16 | `G` | G&rarr;C 28 | `S` | 28 | 3.6% | 1-18% | 6,836 | 72.0% | 71-73% | 68.4% |  |
 | forward | 20 | 2 | `G` | G&rarr;C 1,754, G&rarr;T 267, G&rarr;A 36 | `B` (98.2%) | 2,057 | 28.8% | 27-31% | 4,807 | 90.0% | 89-91% | 61.2% |  |
-| forward | 19 | 3 | `C` | C&rarr;T 53, C&rarr;G 9 | `B` | 62 | 16.1% | 9-27% | 6,802 | 72.2% | 71-73% | 56.0% |  |
-| reverse | 6 | 17 | `W` | W&rarr;G 269, W&rarr;C 76 | hypervariable | 345 | 21.4% | 17-26% | 6,519 | 74.3% | 73-75% | 52.9% |  |
-| forward | 6 | 16 | `R` | R&rarr;C 581, R&rarr;T 428 | hypervariable | 1,009 | 27.4% | 25-30% | 5,855 | 79.3% | 78-80% | 51.9% |  |
-| reverse | 21 | 2 | `G` | G&rarr;A 4,048 | `R` | 4,048 | 56.3% | 55-58% | 2,816 | 93.8% | 93-95% | 37.5% |  |
-| reverse | 22 | 1 | `G` | G&rarr;T 4,145, G&rarr;C 1,608, G&rarr;A 1,037 | hypervariable | 6,790 | 71.4% | 70-72% | 74 | 94.6% | 87-98% | 23.2% |  |
-| reverse | 18 | 5 | `W` | W&rarr;G 771, W&rarr;C 66 | hypervariable | 837 | 58.5% | 55-62% | 6,027 | 73.5% | 72-75% | 14.9% |  |
+| forward | 19 | 3 | `C` | C&rarr;T 53, C&rarr;G 9 | `B` | 62 | 16.1% | 9-27% | 6,802 | 72.2% | 71-73% | 56.1% |  |
+| reverse | 6 | 17 | `W` | W&rarr;G 269, W&rarr;C 76 | hypervariable | 345 | 21.4% | 17-26% | 6,519 | 74.4% | 73-75% | 52.9% |  |
+| forward | 6 | 16 | `R` | R&rarr;C 581, R&rarr;T 428 | hypervariable | 1,009 | 27.4% | 25-30% | 5,855 | 79.3% | 78-80% | 52.0% |  |
+| reverse | 21 | 2 | `G` | G&rarr;A 4,048 | `R` | 4,048 | 56.3% | 55-58% | 2,816 | 93.9% | 93-95% | 37.6% |  |
+| reverse | 22 | 1 | `G` | G&rarr;T 4,145, G&rarr;C 1,608, G&rarr;A 1,037 | hypervariable | 6,790 | 71.4% | 70-73% | 74 | 94.6% | 87-98% | 23.2% |  |
+| reverse | 18 | 5 | `W` | W&rarr;G 771, W&rarr;C 66 | hypervariable | 837 | 58.5% | 55-62% | 6,027 | 73.5% | 72-75% | 15.0% |  |
 | forward | 15 | 7 | `W` | W&rarr;G 111, W&rarr;C 105 | hypervariable | 216 | 61.6% | 55-68% | 6,648 | 72.0% | 71-73% | 10.4% |  |
 | forward | 21 | 1 | `G` | G&rarr;A 3,760, G&rarr;T 2,651, G&rarr;C 86, +1 more | `D` (98.7%) | 6,498 | 71.3% | 70-72% | 366 | 79.0% | 74-83% | 7.7% |  |
-| forward | 18 | 4 | `W` | W&rarr;C 155, W&rarr;G 77 | hypervariable | 232 | 78.0% | 72-83% | 6,632 | 71.4% | 70-73% | -6.6% |  |
+| forward | 18 | 4 | `W` | W&rarr;C 155, W&rarr;G 77 | hypervariable | 232 | 78.0% | 72-83% | 6,632 | 71.5% | 70-73% | -6.5% |  |
 | reverse | 16 | 7 | `C` | C&rarr;T 90, C&rarr;G 5, C&rarr;A 1 | `B` (99.0%) | 96 | 90.6% | 83-95% | 6,768 | 71.4% | 70-72% | -19.2% |  |
-| forward | 12 | 10 | `H` | H&rarr;G 302 | hypervariable | 302 | 93.0% | 90-95% | 6,562 | 70.7% | 70-72% | -22.4% |  |
+| forward | 12 | 10 | `H` | H&rarr;G 302 | hypervariable | 302 | 93.7% | 90-96% | 6,562 | 70.7% | 70-72% | -23.0% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3047,7 +2942,7 @@ No single position reaches the reporting threshold: the mismatches are spread th
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
 | no mismatches | 155 | detect | 2020×5, 2021×6, 2024×6, 2025×6 | Sarcocystis lutrae×32, Sarcocystis sinensis×19, Sarcocystis miescheriana×16 | `PX632651`, `PX632650`, `PX632649`, `PX632648`, `PV470858`, `PV470857` (+149) |
-| rev 2 | 4 | reduced | 2017×3, 2018×1 | Sarcocystis dehongensis×3, Sarcocystis bertrami×1 | `MH025635`, `KY711380`, `KY711379`, `KY711378` |
+| rev 2 | 4 | detect | 2017×3, 2018×1 | Sarcocystis dehongensis×3, Sarcocystis bertrami×1 | `MH025635`, `KY711380`, `KY711379`, `KY711378` |
 | fwd 4 | 2 | reduced | 2018×2 | Sarcocystis arieticanis×2 | `MH413044`, `MH413043` |
 | fwd 11,12,20; rev 3,8,11 | 1 | fail | 2024×1 | Sarcocystis calchasi×1 | `CAXOTS010000001` |
 | fwd 4,5,12,18,20; rev 10,11,18,19 | 1 | fail | 2024×1 | Sarcocystis calchasi×1 | `CAXOTS010000012` |
@@ -3083,21 +2978,36 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | prb 6 | 2 | reduced | 2016×2 | Vibrio coralliilyticus×2 | `NZ_CP016556`, `CP016556` |
 | fwd 16,19; rev 12; prb 7,10,13 | 2 | fail | 2023×2 | Vibrio coralliilyticus×2 | `NZ_CP120719`, `CP120719` |
 
-## RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007
+## Pan_HERPES_dsDNA_Polymerase_round2
 
-Ranavirus (taxid 10492) — status **watch** — 250 evaluable of 1,466 screened records
+Orthoherpesviridae (formerly Herpesviridae) (taxid 10292) — status **low coverage** — 3,671 evaluable of 7,713 screened records
 
-- forward: `5'-AGAAATCTTGCGAGACCG-3'` (18 nt)
-- reverse: `5'-AACTGTTGGTGATTGCAGC-3'` (19 nt)
+- forward: `5'-TGTAACTCGGTGTAYGGNTTYACNGGNGT-3'` (29 nt)
+- reverse: `5'-CACAGAGTCCGTRTCNCCRTADAT-3'` (24 nt)
 
-**140 of 250 evaluable records (56%) share one mismatch pattern, mostly Santee-Cooper ranavirus, deposited 1994-2026, and the group's dominant call is `detect`.**
+**864 of 3,671 evaluable records (24%) share one mismatch pattern, mostly Human alphaherpesvirus, deposited 1986-2026, and the group's dominant call is `reduced`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 1 | 18 | `G` | G&rarr;A 21, G&rarr;C 1 | `R` (95.5%) | 22 | 0.0% | 0-15% | 228 | 97.4% | 94-99% | 97.4% | yes |
-| forward | 2 | 17 | `C` | C&rarr;G 17, C&rarr;A 4, C&rarr;T 1 | `V` (95.5%) | 22 | 0.0% | 0-15% | 228 | 97.4% | 94-99% | 97.4% | yes |
-| reverse | 18 | 2 | `A` | A&rarr;G 17, A&rarr;C 3 | `V` | 20 | 15.0% | 5-36% | 230 | 95.2% | 92-97% | 80.2% |  |
-| reverse | 17 | 3 | `C` | C&rarr;A 156 | `M` | 156 | 96.2% | 92-98% | 94 | 76.6% | 67-84% | -19.6% |  |
+| reverse | 19 | 6 | `A` | A&rarr;T 232 | `W` | 232 | 3.4% | 2-7% | 3,439 | 91.5% | 91-92% | 88.1% |  |
+| reverse | 20 | 5 | `G` | G&rarr;C 232 | `S` | 232 | 3.4% | 2-7% | 3,439 | 91.5% | 91-92% | 88.1% |  |
+| forward | 20 | 10 | `G` | G&rarr;T 157, G&rarr;A 1 | `K` (99.4%) | 158 | 1.9% | 1-5% | 3,513 | 89.7% | 89-91% | 87.8% |  |
+| forward | 1 | 29 | `T` | T&rarr;C 59, T&rarr;G 1 | `Y` (98.3%) | 60 | 0.0% | 0-6% | 3,611 | 87.4% | 86-88% | 87.4% | yes |
+| forward | 11 | 19 | `T` | T&rarr;G 38 | `K` | 38 | 0.0% | 0-9% | 3,633 | 86.8% | 86-88% | 86.8% |  |
+| forward | 7 | 23 | `C` | C&rarr;G 128, C&rarr;A 3 | `S` (97.7%) | 131 | 2.3% | 1-7% | 3,540 | 89.0% | 88-90% | 86.7% |  |
+| forward | 8 | 22 | `A` | A&rarr;T 128, A&rarr;C 3, A&rarr;G 2 | `W` (96.2%) | 133 | 3.0% | 1-7% | 3,538 | 89.1% | 88-90% | 86.1% |  |
+| reverse | 3 | 22 | `D` | D&rarr;C 38 | hypervariable | 38 | 5.3% | 1-17% | 3,633 | 86.8% | 86-88% | 81.5% | yes |
+| reverse | 15 | 10 | `C` | C&rarr;G 513, C&rarr;T 293, C&rarr;A 261 | hypervariable | 1,067 | 60.1% | 57-63% | 2,604 | 96.5% | 96-97% | 36.5% |  |
+| forward | 24 | 6 | `C` | C&rarr;T 630 | `Y` | 630 | 61.6% | 58-65% | 3,041 | 91.0% | 90-92% | 29.4% |  |
+| forward | 23 | 7 | `T` | T&rarr;G 854 | `K` | 854 | 66.4% | 63-69% | 2,817 | 91.9% | 91-93% | 25.5% |  |
+| forward | 18 | 12 | `G` | G&rarr;C 592, G&rarr;T 477, G&rarr;A 474 | hypervariable | 1,543 | 75.0% | 73-77% | 2,128 | 93.9% | 93-95% | 18.9% |  |
+| reverse | 18 | 7 | `G` | G&rarr;A 794 | `R` | 794 | 72.8% | 70-76% | 2,877 | 89.6% | 88-91% | 16.8% |  |
+| forward | 21 | 9 | `G` | G&rarr;C 1,124, G&rarr;T 300, G&rarr;A 163 | hypervariable | 1,587 | 77.2% | 75-79% | 2,084 | 92.6% | 91-94% | 15.4% |  |
+| reverse | 1 | 24 | `T` | T&rarr;C 296 | `Y` | 296 | 74.7% | 69-79% | 3,375 | 86.9% | 86-88% | 12.3% | yes |
+| reverse | 24 | 1 | `C` | C&rarr;T 1,143, C&rarr;A 640, C&rarr;G 458 | hypervariable | 2,241 | 85.4% | 84-87% | 1,430 | 86.9% | 85-89% | 1.5% |  |
+| forward | 27 | 3 | `T` | T&rarr;C 1,783 | `Y` | 1,783 | 85.4% | 84-87% | 1,888 | 86.5% | 85-88% | 1.1% |  |
+| reverse | 22 | 3 | `C` | C&rarr;T 1,410, C&rarr;G 710, C&rarr;A 17 | `B` (99.2%) | 2,137 | 90.6% | 89-92% | 1,534 | 79.4% | 77-81% | -11.2% |  |
+| reverse | 21 | 4 | `A` | A&rarr;G 2,116, A&rarr;C 745, A&rarr;T 21 | `V` (99.3%) | 2,882 | 88.4% | 87-90% | 789 | 76.8% | 74-80% | -11.6% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3105,14 +3015,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| rev 17 | 140 | detect | 2023×2, 2024×9, 2025×48, 2026×6 | Santee-Cooper ranavirus×47, Frog virus×39, Common midwife×16 | `PZ441287`, `PX692941`, `PX692939`, `PX692938`, `PX692937`, `PX562879` (+134) |
-| no mismatches | 63 | detect | 2015×16, 2016×5, 2019×1, 2020×15 | Ambystoma tigrinum×33, Epizootic haematopoietic×18, European sheatfish×3 | `NC_030842`, `NC_028461`, `NC_005832`, `NC_017940`, `MT510743`, `MT510742` (+57) |
-| fwd 1,2,6; rev 4,6,8,10,18,19 | 17 | fail | 2023×3, 2024×1, 2025×5, 2026×3 | Largemouth bass×9, Mandarin fish×3, Siniperca chuatsi×2 | `PZ233446`, `PX883867`, `PX879566`, `PV833272`, `PX463212`, `PV191281` (+11) |
-| fwd 8; rev 17 | 6 | reduced | 2017×1, 2025×5 | Santee-Cooper ranavirus×5, Rana esculenta×1 | `OQ718185`, `OQ718184`, `OQ718168`, `OQ718167`, `OQ718165`, `MF538628` |
-| fwd 12 | 6 | detect | 2019×6 | Ranavirus ambystoma1×6 | `MK580533`, `MK580532`, `MK580531`, `MK580535`, `MK580536`, `MK580534` |
-| fwd 1; rev 17 | 4 | fail | 2020×1, 2025×3 | Santee-Cooper ranavirus×3, Tiger frog×1 | `OQ718217`, `OQ718216`, `OQ718204`, `MT512502` |
-| rev 18 | 3 | detect | 2019×2, 2023×1 | Lumpfish ranavirus×3 | `NC_075538`, `MH665360`, `MH665358` |
-| fwd 5; rev 17 | 2 | reduced | 2018×1, 2026×1 | Frog virus×1, Rana nigromaculata×1 | `PX692940`, `MG791866` |
+| rev 21,22,24 | 864 | reduced | 2023×129, 2024×49, 2025×15, 2026×47 | Human alphaherpesvirus×603, Human herpesvirus×252, Mutant×6 | `PZ347688`, `PV105598`, `PV105591`, `PV105590`, `PV105585`, `PZ169712` (+858) |
+| fwd 18,21,23,27; rev 21,22 | 484 | reduced | 2021×1, 2023×1, 2024×3, 2025×8 | UNVERIFIED_ASMBLY:×230, Human gammaherpesvirus×217, Human herpesvirus×27 | `PQ428139`, `PQ428134`, `OR134772`, `OR134771`, `OR134770`, `OR134769` (+478) |
+| fwd 27; rev 21,22,24 | 428 | reduced | 2023×2, 2024×167, 2025×7, 2026×12 | Human alphaherpesvirus×310, Human herpesvirus×105, Macacine alphaherpesvirus×7 | `PX974241`, `PZ135825`, `PZ135824`, `PZ135823`, `PZ169720`, `PZ169719` (+422) |
+| fwd 21,24; rev 18 | 314 | reduced | 2023×9, 2024×5, 2025×55, 2026×6 | Human alphaherpesvirus×203, Human herpesvirus×57, Varicellovirus humanalpha3×51 | `PV796772`, `PV796771`, `PV796770`, `PV737807`, `PV737806`, `PV700517` (+308) |
+| fwd 18,27; rev 15,21 | 238 | reduced | 2022×1, 2023×1, 2024×58, 2025×22 | Equid herpesvirus×119, Equid alphaherpesvirus×117, Equine herpesvirus×2 | `PQ630631`, `PQ630630`, `PQ630629`, `PQ630628`, `PQ630627`, `PQ630626` (+232) |
+| fwd 27; rev 1,21,24 | 180 | reduced | 2023×20, 2024×4, 2025×13, 2026×24 | Suid alphaherpesvirus×76, Bovine alphaherpesvirus×68, Suid herpesvirus×17 | `PQ662995`, `PQ662994`, `PQ662993`, `PQ662992`, `PQ662991`, `PQ662990` (+174) |
+| fwd 18,21; rev 15,18,24 | 129 | reduced | 2023×12, 2024×17, 2025×1, 2026×7 | Gallid alphaherpesvirus×80, Gallid herpesvirus×28, Mutant×15 | `PZ112168`, `PX522223`, `PX496590`, `PX492157`, `PX499072`, `PX499071` (+123) |
+| fwd 18,21; rev 15,18,21,24 | 113 | reduced | 2021×13, 2023×29, 2024×8, 2025×8 | Felid alphaherpesvirus×108, Mutant×3, Felid herpesvirus×2 | `PV843457`, `PV209842`, `PQ672601`, `PQ672600`, `PQ672599`, `OR703025` (+107) |
 
 ## ADENOVIRUS_dsDNA_Polymerase_Primate_speci
 
@@ -3171,9 +3081,9 @@ Entamoeba (taxid 5758) — status **watch** — 214 evaluable of 3,324 screened 
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 10 | 15 | `W` | W&rarr;G 71 | `D` | 71 | 84.5% | 74-91% | 143 | 98.6% | 95-100% | 14.1% |  |
-| reverse | 6 | 17 | `T` | T&rarr;C 71 | `Y` | 71 | 84.5% | 74-91% | 143 | 98.6% | 95-100% | 14.1% |  |
-| reverse | 11 | 12 | `T` | T&rarr;C 72, T&rarr;A 1 | `Y` (98.6%) | 73 | 84.9% | 75-91% | 141 | 98.6% | 95-100% | 13.7% |  |
+| forward | 10 | 15 | `W` | W&rarr;G 71 | `D` | 71 | 84.5% | 74-91% | 143 | 100.0% | 97-100% | 15.5% |  |
+| reverse | 6 | 17 | `T` | T&rarr;C 71 | `Y` | 71 | 84.5% | 74-91% | 143 | 100.0% | 97-100% | 15.5% |  |
+| reverse | 11 | 12 | `T` | T&rarr;C 72, T&rarr;A 1 | `Y` (98.6%) | 73 | 84.9% | 75-91% | 141 | 100.0% | 97-100% | 15.1% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3186,9 +3096,9 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 10; rev 6,9,11 | 11 | fail | 2010×1, 2023×10 | Entamoeba sp.×11 | `OM900095`, `OM900091`, `OM900089`, `OM900080`, `OM900069`, `OM900067` (+5) |
 | rev 22 | 7 | detect | 1999×2, 2009×1, 2010×3, 2020×1 | Entamoeba coli×7 | `MN914079`, `AB444953`, `FR686449`, `FR686439`, `FR686364`, `AF149915` (+1) |
 | fwd 10; rev 7,11 | 1 | reduced | 2023×1 | Entamoeba sp.×1 | `OM900060` |
-| fwd 5,6; rev 4 | 1 | fail | 2009×1 | Entamoeba muris×1 | `AB445018` |
+| fwd 5,6; rev 4 | 1 | reduced | 2009×1 | Entamoeba muris×1 | `AB445018` |
 | rev 10 | 1 | detect | 2010×1 | Entamoeba sp.×1 | `FR686365` |
-| fwd 5,6; rev 13,22 | 1 | fail | 2010×1 | Entamoeba sp.×1 | `FR686360` |
+| fwd 5,6; rev 13,22 | 1 | reduced | 2010×1 | Entamoeba sp.×1 | `FR686360` |
 
 ## ADENOVIRUS_dsDNA_Hexon_gene_round2
 
@@ -3201,40 +3111,40 @@ Adenoviridae (taxid 10508) — status **low coverage** — 6,010 evaluable of 38
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 14 | 5 | `G` | G&rarr;T 237, G&rarr;C 31, G&rarr;A 18 | hypervariable | 286 | 0.0% | 0-1% | 5,724 | 94.0% | 93-95% | 94.0% |  |
-| reverse | 4 | 15 | `T` | T&rarr;C 199, T&rarr;G 38, T&rarr;A 13 | hypervariable | 250 | 0.0% | 0-2% | 5,760 | 93.5% | 93-94% | 93.5% | yes |
-| reverse | 5 | 14 | `A` | A&rarr;G 198, A&rarr;T 38, A&rarr;C 3 | `D` (98.7%) | 239 | 0.0% | 0-2% | 5,771 | 93.3% | 93-94% | 93.3% | yes |
-| reverse | 16 | 3 | `T` | T&rarr;C 256, T&rarr;G 30 | `B` | 286 | 2.1% | 1-5% | 5,724 | 93.9% | 93-95% | 91.8% |  |
-| forward | 11 | 8 | `A` | A&rarr;C 56, A&rarr;T 36, A&rarr;G 12 | hypervariable | 104 | 0.0% | 0-4% | 5,906 | 91.1% | 90-92% | 91.1% |  |
-| forward | 14 | 5 | `T` | T&rarr;C 47, T&rarr;G 33, T&rarr;A 8 | hypervariable | 88 | 0.0% | 0-4% | 5,922 | 90.9% | 90-92% | 90.9% |  |
-| forward | 1 | 18 | `G` | G&rarr;A 40, G&rarr;T 30, G&rarr;C 8 | hypervariable | 78 | 0.0% | 0-5% | 5,932 | 90.7% | 90-91% | 90.7% | yes |
-| forward | 16 | 3 | `C` | C&rarr;A 39, C&rarr;T 28, C&rarr;G 8 | hypervariable | 75 | 0.0% | 0-5% | 5,935 | 90.7% | 90-91% | 90.7% |  |
-| forward | 8 | 11 | `C` | C&rarr;T 33, C&rarr;A 29, C&rarr;G 12 | hypervariable | 74 | 0.0% | 0-5% | 5,936 | 90.7% | 90-91% | 90.7% |  |
-| reverse | 10 | 9 | `A` | A&rarr;T 38, A&rarr;C 23, A&rarr;G 6 | hypervariable | 67 | 0.0% | 0-5% | 5,943 | 90.6% | 90-91% | 90.6% |  |
-| forward | 10 | 9 | `A` | A&rarr;G 40, A&rarr;T 14, A&rarr;C 7 | hypervariable | 61 | 0.0% | 0-6% | 5,949 | 90.5% | 90-91% | 90.5% |  |
-| reverse | 1 | 18 | `T` | T&rarr;A 27, T&rarr;G 24, T&rarr;C 7 | hypervariable | 58 | 0.0% | 0-6% | 5,952 | 90.4% | 90-91% | 90.4% | yes |
-| forward | 17 | 2 | `C` | C&rarr;G 28, C&rarr;A 11, C&rarr;T 10 | hypervariable | 49 | 0.0% | 0-7% | 5,961 | 90.3% | 90-91% | 90.3% |  |
-| reverse | 6 | 13 | `C` | C&rarr;A 51, C&rarr;T 33, C&rarr;G 23 | hypervariable | 107 | 0.9% | 0-5% | 5,903 | 91.2% | 90-92% | 90.2% |  |
-| forward | 7 | 12 | `A` | A&rarr;T 21, A&rarr;G 19, A&rarr;C 3 | hypervariable | 43 | 0.0% | 0-8% | 5,967 | 90.2% | 89-91% | 90.2% |  |
-| forward | 5 | 14 | `C` | C&rarr;A 26, C&rarr;T 8, C&rarr;W 1 | `H` (97.1%) | 35 | 0.0% | 0-10% | 5,975 | 90.1% | 89-91% | 90.1% | yes |
-| forward | 4 | 15 | `A` | A&rarr;T 24, A&rarr;C 5, A&rarr;G 2 | hypervariable | 31 | 0.0% | 0-11% | 5,979 | 90.0% | 89-91% | 90.0% | yes |
-| reverse | 17 | 2 | `A` | A&rarr;T 45, A&rarr;C 25, A&rarr;G 14 | hypervariable | 84 | 1.2% | 0-6% | 5,926 | 90.8% | 90-92% | 89.6% |  |
-| reverse | 13 | 6 | `G` | G&rarr;C 54, G&rarr;T 33, G&rarr;A 17 | hypervariable | 104 | 2.9% | 1-8% | 5,906 | 91.1% | 90-92% | 88.2% |  |
-| reverse | 8 | 11 | `A` | A&rarr;G 14, A&rarr;T 14, A&rarr;C 4 | hypervariable | 32 | 3.1% | 1-16% | 5,978 | 90.0% | 89-91% | 86.9% |  |
-| forward | 13 | 6 | `T` | T&rarr;G 37, T&rarr;A 15, T&rarr;C 13 | hypervariable | 65 | 6.2% | 2-15% | 5,945 | 90.5% | 90-91% | 84.3% |  |
-| reverse | 2 | 17 | `T` | T&rarr;C 29, T&rarr;G 24, T&rarr;A 23 | hypervariable | 76 | 6.6% | 3-14% | 5,934 | 90.6% | 90-91% | 84.1% | yes |
-| reverse | 3 | 16 | `G` | G&rarr;A 32, G&rarr;C 11, G&rarr;T 1 | `V` (97.7%) | 44 | 6.8% | 2-18% | 5,966 | 90.2% | 89-91% | 83.4% | yes |
-| reverse | 11 | 8 | `T` | T&rarr;A 69, T&rarr;G 17, T&rarr;C 17 | hypervariable | 103 | 11.7% | 7-19% | 5,907 | 90.9% | 90-92% | 79.3% |  |
-| forward | 3 | 16 | `C` | C&rarr;T 87, C&rarr;G 32, C&rarr;A 10 | hypervariable | 129 | 14.7% | 10-22% | 5,881 | 91.2% | 90-92% | 76.5% | yes |
-| forward | 2 | 17 | `C` | C&rarr;A 224, C&rarr;T 8, C&rarr;G 3 | `M` (95.3%) | 235 | 35.7% | 30-42% | 5,775 | 91.8% | 91-92% | 56.0% | yes |
-| reverse | 15 | 4 | `G` | G&rarr;A 438, G&rarr;C 252, G&rarr;T 108 | hypervariable | 798 | 56.3% | 53-60% | 5,212 | 94.7% | 94-95% | 38.4% |  |
-| reverse | 7 | 12 | `G` | G&rarr;A 279, G&rarr;T 10 | `R` (96.5%) | 289 | 70.6% | 65-76% | 5,721 | 90.5% | 90-91% | 19.9% |  |
-| forward | 6 | 13 | `C` | C&rarr;T 532, C&rarr;G 26, C&rarr;A 5 | `B` (99.1%) | 563 | 81.0% | 78-84% | 5,447 | 90.5% | 90-91% | 9.5% |  |
-| forward | 9 | 10 | `C` | C&rarr;T 681, C&rarr;G 13, C&rarr;A 8 | `Y` (97.0%) | 702 | 84.6% | 82-87% | 5,308 | 90.2% | 89-91% | 5.6% |  |
-| reverse | 18 | 1 | `K` | K&rarr;A 2,071, K&rarr;C 161 | hypervariable | 2,232 | 86.8% | 85-88% | 3,778 | 91.2% | 90-92% | 4.4% |  |
-| reverse | 9 | 10 | `R` | R&rarr;T 743, R&rarr;C 491 | hypervariable | 1,234 | 87.1% | 85-89% | 4,776 | 90.2% | 89-91% | 3.1% |  |
-| reverse | 12 | 7 | `G` | G&rarr;A 1,353, G&rarr;T 6 | `R` (99.6%) | 1,359 | 88.4% | 87-90% | 4,651 | 89.9% | 89-91% | 1.4% |  |
-| forward | 18 | 1 | `C` | C&rarr;T 2,820, C&rarr;A 15, C&rarr;G 8 | `Y` (99.2%) | 2,843 | 90.6% | 89-92% | 3,167 | 88.6% | 87-90% | -2.0% |  |
+| reverse | 14 | 5 | `G` | G&rarr;T 239, G&rarr;C 31, G&rarr;A 20 | hypervariable | 290 | 0.3% | 0-2% | 5,720 | 94.6% | 94-95% | 94.3% |  |
+| reverse | 5 | 14 | `A` | A&rarr;G 198, A&rarr;T 38, A&rarr;C 3 | `D` (98.7%) | 239 | 0.0% | 0-2% | 5,771 | 93.8% | 93-94% | 93.8% | yes |
+| reverse | 4 | 15 | `T` | T&rarr;C 199, T&rarr;G 38, T&rarr;A 13 | hypervariable | 250 | 0.4% | 0-2% | 5,760 | 94.0% | 93-95% | 93.6% | yes |
+| reverse | 16 | 3 | `T` | T&rarr;C 256, T&rarr;G 30, T&rarr;A 2 | `B` (99.3%) | 288 | 2.4% | 1-5% | 5,722 | 94.5% | 94-95% | 92.0% |  |
+| forward | 11 | 8 | `A` | A&rarr;C 57, A&rarr;T 36, A&rarr;G 12 | hypervariable | 105 | 0.0% | 0-4% | 5,905 | 91.7% | 91-92% | 91.7% |  |
+| forward | 14 | 5 | `T` | T&rarr;C 48, T&rarr;G 33, T&rarr;A 8 | hypervariable | 89 | 0.0% | 0-4% | 5,921 | 91.4% | 91-92% | 91.4% |  |
+| forward | 16 | 3 | `C` | C&rarr;A 39, C&rarr;T 28, C&rarr;G 8 | hypervariable | 75 | 0.0% | 0-5% | 5,935 | 91.2% | 90-92% | 91.2% |  |
+| forward | 8 | 11 | `C` | C&rarr;T 33, C&rarr;A 27, C&rarr;G 12 | hypervariable | 72 | 0.0% | 0-5% | 5,938 | 91.2% | 90-92% | 91.2% |  |
+| reverse | 10 | 9 | `A` | A&rarr;T 36, A&rarr;C 23, A&rarr;G 6 | hypervariable | 65 | 0.0% | 0-6% | 5,945 | 91.1% | 90-92% | 91.1% |  |
+| forward | 10 | 9 | `A` | A&rarr;G 41, A&rarr;T 14, A&rarr;C 6 | hypervariable | 61 | 0.0% | 0-6% | 5,949 | 91.0% | 90-92% | 91.0% |  |
+| forward | 17 | 2 | `C` | C&rarr;G 28, C&rarr;A 11, C&rarr;T 10 | hypervariable | 49 | 0.0% | 0-7% | 5,961 | 90.8% | 90-92% | 90.8% |  |
+| forward | 7 | 12 | `A` | A&rarr;T 23, A&rarr;G 19, A&rarr;C 3 | hypervariable | 45 | 0.0% | 0-8% | 5,965 | 90.7% | 90-91% | 90.7% |  |
+| forward | 5 | 14 | `C` | C&rarr;A 26, C&rarr;T 8, C&rarr;W 1 | `H` (97.1%) | 35 | 0.0% | 0-10% | 5,975 | 90.6% | 90-91% | 90.6% | yes |
+| forward | 4 | 15 | `A` | A&rarr;T 24, A&rarr;C 5, A&rarr;G 2 | hypervariable | 31 | 0.0% | 0-11% | 5,979 | 90.5% | 90-91% | 90.5% | yes |
+| reverse | 17 | 2 | `A` | A&rarr;T 45, A&rarr;C 25, A&rarr;G 14 | hypervariable | 84 | 1.2% | 0-6% | 5,926 | 91.3% | 91-92% | 90.1% |  |
+| reverse | 13 | 6 | `G` | G&rarr;C 54, G&rarr;T 35, G&rarr;A 17 | hypervariable | 106 | 2.8% | 1-8% | 5,904 | 91.6% | 91-92% | 88.8% |  |
+| reverse | 1 | 18 | `T` | T&rarr;A 27, T&rarr;G 24, T&rarr;C 7 | hypervariable | 58 | 3.4% | 1-12% | 5,952 | 90.9% | 90-92% | 87.5% | yes |
+| forward | 13 | 6 | `T` | T&rarr;G 37, T&rarr;A 16, T&rarr;C 11 | hypervariable | 64 | 6.2% | 2-15% | 5,946 | 91.0% | 90-92% | 84.7% |  |
+| reverse | 8 | 11 | `A` | A&rarr;G 14, A&rarr;T 12, A&rarr;C 4 | hypervariable | 30 | 6.7% | 2-21% | 5,980 | 90.5% | 90-91% | 83.8% |  |
+| reverse | 11 | 8 | `T` | T&rarr;A 69, T&rarr;G 17, T&rarr;C 17 | hypervariable | 103 | 11.7% | 7-19% | 5,907 | 91.4% | 91-92% | 79.8% |  |
+| reverse | 6 | 13 | `C` | C&rarr;A 51, C&rarr;T 35, C&rarr;G 21 | hypervariable | 107 | 13.1% | 8-21% | 5,903 | 91.5% | 91-92% | 78.4% |  |
+| forward | 3 | 16 | `C` | C&rarr;T 87, C&rarr;G 32, C&rarr;A 10 | hypervariable | 129 | 14.7% | 10-22% | 5,881 | 91.7% | 91-92% | 77.0% | yes |
+| forward | 1 | 18 | `G` | G&rarr;A 45, G&rarr;T 28, G&rarr;C 6 | hypervariable | 79 | 15.2% | 9-25% | 5,931 | 91.1% | 90-92% | 75.9% | yes |
+| reverse | 2 | 17 | `T` | T&rarr;C 29, T&rarr;G 24, T&rarr;A 23 | hypervariable | 76 | 15.8% | 9-26% | 5,934 | 91.0% | 90-92% | 75.2% | yes |
+| reverse | 3 | 16 | `G` | G&rarr;A 34, G&rarr;C 11, G&rarr;T 1 | `V` (97.8%) | 46 | 26.1% | 16-40% | 5,964 | 90.6% | 90-91% | 64.5% | yes |
+| forward | 2 | 17 | `C` | C&rarr;A 224, C&rarr;T 8, C&rarr;G 3 | `M` (95.3%) | 235 | 36.2% | 30-42% | 5,775 | 92.3% | 92-93% | 56.1% | yes |
+| reverse | 15 | 4 | `G` | G&rarr;A 438, G&rarr;C 252, G&rarr;T 106 | hypervariable | 796 | 57.7% | 54-61% | 5,214 | 95.0% | 94-96% | 37.4% |  |
+| reverse | 7 | 12 | `G` | G&rarr;A 279, G&rarr;T 12 | `R` (95.9%) | 291 | 70.8% | 65-76% | 5,719 | 91.0% | 90-92% | 20.3% |  |
+| forward | 6 | 13 | `C` | C&rarr;T 532, C&rarr;G 26, C&rarr;A 5 | `B` (99.1%) | 563 | 81.9% | 78-85% | 5,447 | 90.9% | 90-92% | 9.0% |  |
+| forward | 9 | 10 | `C` | C&rarr;T 681, C&rarr;G 13, C&rarr;A 8 | `Y` (97.0%) | 702 | 85.6% | 83-88% | 5,308 | 90.7% | 90-91% | 5.0% |  |
+| reverse | 18 | 1 | `K` | K&rarr;A 2,071, K&rarr;C 161 | hypervariable | 2,232 | 87.2% | 86-89% | 3,778 | 91.7% | 91-93% | 4.5% |  |
+| reverse | 9 | 10 | `R` | R&rarr;T 743, R&rarr;C 491 | hypervariable | 1,234 | 87.9% | 86-90% | 4,776 | 90.6% | 90-91% | 2.7% |  |
+| reverse | 12 | 7 | `G` | G&rarr;A 1,353, G&rarr;T 6 | `R` (99.6%) | 1,359 | 89.1% | 87-91% | 4,651 | 90.3% | 89-91% | 1.2% |  |
+| forward | 18 | 1 | `C` | C&rarr;T 2,820, C&rarr;A 15, C&rarr;G 8 | `Y` (99.2%) | 2,843 | 91.0% | 90-92% | 3,167 | 89.2% | 88-90% | -1.8% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3263,35 +3173,35 @@ Orthohantavirus (taxid 1980442) — status **declining** — 4,316 evaluable of 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | reverse | 1 | 20 | `C` | C&rarr;A 62, C&rarr;T 57, C&rarr;G 1 | `H` (99.2%) | 120 | 0.0% | 0-3% | 4,196 | 98.3% | 98-99% | 98.3% | yes |
-| forward | 16 | 3 | `G` | G&rarr;A 55, G&rarr;T 28, G&rarr;C 12 | hypervariable | 95 | 0.0% | 0-4% | 4,221 | 97.7% | 97-98% | 97.7% |  |
-| forward | 2 | 17 | `Y` | Y&rarr;G 38, Y&rarr;A 27 | hypervariable | 65 | 0.0% | 0-6% | 4,251 | 97.0% | 96-98% | 97.0% | yes |
-| forward | 7 | 12 | `G` | G&rarr;A 21, G&rarr;C 21, G&rarr;T 9 | hypervariable | 51 | 0.0% | 0-7% | 4,265 | 96.7% | 96-97% | 96.7% |  |
-| forward | 1 | 18 | `T` | T&rarr;A 25, T&rarr;G 19, T&rarr;C 2 | `D` (95.7%) | 46 | 0.0% | 0-8% | 4,270 | 96.6% | 96-97% | 96.6% | yes |
+| forward | 16 | 3 | `G` | G&rarr;A 55, G&rarr;T 31, G&rarr;C 12 | hypervariable | 98 | 0.0% | 0-4% | 4,218 | 97.8% | 97-98% | 97.8% |  |
+| forward | 2 | 17 | `Y` | Y&rarr;G 38, Y&rarr;A 27 | hypervariable | 65 | 0.0% | 0-6% | 4,251 | 97.1% | 97-98% | 97.1% | yes |
+| forward | 1 | 18 | `T` | T&rarr;A 25, T&rarr;G 19, T&rarr;C 3 | hypervariable | 47 | 0.0% | 0-8% | 4,269 | 96.7% | 96-97% | 96.7% | yes |
+| forward | 7 | 12 | `G` | G&rarr;A 21, G&rarr;C 17, G&rarr;T 9 | hypervariable | 47 | 0.0% | 0-8% | 4,269 | 96.7% | 96-97% | 96.7% |  |
 | reverse | 2 | 19 | `G` | G&rarr;A 83, G&rarr;T 6, G&rarr;C 2 | `D` (97.8%) | 91 | 1.1% | 0-6% | 4,225 | 97.6% | 97-98% | 96.5% | yes |
 | reverse | 8 | 13 | `T` | T&rarr;C 39, T&rarr;A 1 | `Y` (97.5%) | 40 | 0.0% | 0-9% | 4,276 | 96.5% | 96-97% | 96.5% |  |
-| forward | 15 | 4 | `G` | G&rarr;T 53, G&rarr;C 36, G&rarr;A 21 | hypervariable | 110 | 1.8% | 1-6% | 4,206 | 98.0% | 98-98% | 96.2% |  |
+| forward | 15 | 4 | `G` | G&rarr;T 52, G&rarr;C 32, G&rarr;A 21 | hypervariable | 105 | 1.9% | 1-7% | 4,211 | 97.9% | 97-98% | 96.0% |  |
 | reverse | 13 | 8 | `T` | T&rarr;A 60, T&rarr;C 11, T&rarr;G 6 | hypervariable | 77 | 1.3% | 0-7% | 4,239 | 97.3% | 97-98% | 96.0% |  |
 | reverse | 5 | 16 | `T` | T&rarr;G 62, T&rarr;C 7, T&rarr;A 5 | hypervariable | 74 | 1.4% | 0-7% | 4,242 | 97.2% | 97-98% | 95.9% | yes |
-| forward | 9 | 10 | `C` | C&rarr;A 52, C&rarr;T 15, C&rarr;G 5 | hypervariable | 72 | 1.4% | 0-7% | 4,244 | 97.2% | 97-98% | 95.8% |  |
-| reverse | 19 | 2 | `C` | C&rarr;A 36, C&rarr;T 14, C&rarr;G 8 | hypervariable | 58 | 3.4% | 1-12% | 4,258 | 96.8% | 96-97% | 93.4% |  |
-| forward | 6 | 13 | `C` | C&rarr;T 18, C&rarr;G 8, C&rarr;A 5 | hypervariable | 31 | 3.2% | 1-16% | 4,285 | 96.2% | 96-97% | 93.0% |  |
-| reverse | 20 | 1 | `C` | C&rarr;T 20, C&rarr;A 2 | `H` | 22 | 4.5% | 1-22% | 4,294 | 96.0% | 95-97% | 91.5% |  |
-| reverse | 4 | 17 | `C` | C&rarr;T 33, C&rarr;G 2, C&rarr;A 1 | `B` (97.2%) | 36 | 5.6% | 2-18% | 4,280 | 96.3% | 96-97% | 90.8% | yes |
-| forward | 11 | 8 | `R` | R&rarr;T 29, R&rarr;C 6 | hypervariable | 35 | 5.7% | 2-19% | 4,281 | 96.3% | 96-97% | 90.6% |  |
-| forward | 13 | 6 | `C` | C&rarr;G 34, C&rarr;A 32, C&rarr;T 16 | hypervariable | 82 | 7.3% | 3-15% | 4,234 | 97.3% | 97-98% | 90.0% |  |
-| forward | 12 | 7 | `A` | A&rarr;C 58, A&rarr;G 14, A&rarr;T 9 | hypervariable | 81 | 8.6% | 4-17% | 4,235 | 97.2% | 97-98% | 88.6% |  |
-| forward | 4 | 15 | `G` | G&rarr;A 50, G&rarr;T 38, G&rarr;C 37 | hypervariable | 125 | 10.4% | 6-17% | 4,191 | 98.1% | 98-98% | 87.7% | yes |
-| forward | 10 | 9 | `A` | A&rarr;T 23, A&rarr;G 11, A&rarr;C 4 | hypervariable | 38 | 18.4% | 9-33% | 4,278 | 96.3% | 96-97% | 77.8% |  |
+| forward | 9 | 10 | `C` | C&rarr;A 52, C&rarr;T 14, C&rarr;G 5 | hypervariable | 71 | 1.4% | 0-8% | 4,245 | 97.2% | 97-98% | 95.8% |  |
+| reverse | 19 | 2 | `C` | C&rarr;A 36, C&rarr;T 14, C&rarr;G 8 | hypervariable | 58 | 3.4% | 1-12% | 4,258 | 96.9% | 96-97% | 93.4% |  |
+| forward | 6 | 13 | `C` | C&rarr;T 19, C&rarr;G 8, C&rarr;A 5 | hypervariable | 32 | 3.1% | 1-16% | 4,284 | 96.3% | 96-97% | 93.2% |  |
+| reverse | 20 | 1 | `C` | C&rarr;T 20, C&rarr;A 2 | `H` | 22 | 4.5% | 1-22% | 4,294 | 96.1% | 95-97% | 91.5% |  |
+| forward | 11 | 8 | `R` | R&rarr;T 32, R&rarr;C 7 | hypervariable | 39 | 5.1% | 1-17% | 4,277 | 96.4% | 96-97% | 91.3% |  |
+| reverse | 4 | 17 | `C` | C&rarr;T 33, C&rarr;G 2, C&rarr;A 1 | `B` (97.2%) | 36 | 5.6% | 2-18% | 4,280 | 96.4% | 96-97% | 90.8% | yes |
+| forward | 13 | 6 | `C` | C&rarr;G 34, C&rarr;A 32, C&rarr;T 16 | hypervariable | 82 | 8.5% | 4-17% | 4,234 | 97.3% | 97-98% | 88.7% |  |
+| forward | 12 | 7 | `A` | A&rarr;C 59, A&rarr;G 14, A&rarr;T 13 | hypervariable | 86 | 9.3% | 5-17% | 4,230 | 97.4% | 97-98% | 88.0% |  |
+| forward | 4 | 15 | `G` | G&rarr;A 55, G&rarr;C 36, G&rarr;T 34 | hypervariable | 125 | 11.2% | 7-18% | 4,191 | 98.1% | 98-98% | 86.9% | yes |
+| forward | 10 | 9 | `A` | A&rarr;T 23, A&rarr;G 15, A&rarr;C 4 | hypervariable | 42 | 16.7% | 8-31% | 4,274 | 96.4% | 96-97% | 79.7% |  |
 | forward | 8 | 11 | `W` | W&rarr;C 28, W&rarr;G 27 | hypervariable | 55 | 80.0% | 68-88% | 4,261 | 95.8% | 95-96% | 15.8% |  |
-| forward | 18 | 1 | `G` | G&rarr;C 1,565, G&rarr;T 34, G&rarr;A 12 | `S` (97.1%) | 1,611 | 92.4% | 91-94% | 2,705 | 97.4% | 97-98% | 5.0% |  |
-| forward | 17 | 2 | `W` | W&rarr;C 208, W&rarr;G 22 | hypervariable | 230 | 92.2% | 88-95% | 4,086 | 95.8% | 95-96% | 3.6% |  |
+| forward | 18 | 1 | `G` | G&rarr;C 1,565, G&rarr;T 34, G&rarr;A 9 | `S` (97.3%) | 1,608 | 92.7% | 91-94% | 2,708 | 97.3% | 97-98% | 4.7% |  |
+| forward | 17 | 2 | `W` | W&rarr;C 208, W&rarr;G 17 | hypervariable | 225 | 94.2% | 90-97% | 4,091 | 95.7% | 95-96% | 1.5% |  |
 | forward | 5 | 14 | `H` | H&rarr;G 141 | hypervariable | 141 | 94.3% | 89-97% | 4,175 | 95.6% | 95-96% | 1.3% | yes |
-| reverse | 15 | 6 | `T` | T&rarr;A 616, T&rarr;G 304, T&rarr;C 135, +1 more | hypervariable | 1,056 | 97.0% | 96-98% | 3,260 | 95.1% | 94-96% | -1.8% |  |
-| reverse | 3 | 18 | `W` | W&rarr;G 248, W&rarr;C 44 | hypervariable | 292 | 97.6% | 95-99% | 4,024 | 95.4% | 95-96% | -2.2% | yes |
+| reverse | 15 | 6 | `T` | T&rarr;A 616, T&rarr;G 304, T&rarr;C 135, +1 more | hypervariable | 1,056 | 97.0% | 96-98% | 3,260 | 95.2% | 94-96% | -1.8% |  |
+| reverse | 3 | 18 | `W` | W&rarr;G 248, W&rarr;C 44 | hypervariable | 292 | 97.6% | 95-99% | 4,024 | 95.5% | 95-96% | -2.2% | yes |
 | reverse | 12 | 9 | `D` | D&rarr;C 430 | hypervariable | 430 | 97.9% | 96-99% | 3,886 | 95.3% | 95-96% | -2.6% |  |
-| reverse | 6 | 15 | `H` | H&rarr;G 64 | hypervariable | 64 | 98.4% | 92-100% | 4,252 | 95.5% | 95-96% | -2.9% |  |
-| forward | 14 | 5 | `V` | V&rarr;T 1,209 | hypervariable | 1,209 | 98.8% | 98-99% | 3,107 | 94.3% | 93-95% | -4.4% |  |
-| reverse | 18 | 3 | `W` | W&rarr;G 246, W&rarr;C 116 | hypervariable | 362 | 99.7% | 98-100% | 3,954 | 95.2% | 94-96% | -4.5% |  |
+| reverse | 6 | 15 | `H` | H&rarr;G 64 | hypervariable | 64 | 98.4% | 92-100% | 4,252 | 95.6% | 95-96% | -2.9% |  |
+| forward | 14 | 5 | `V` | V&rarr;T 1,209 | hypervariable | 1,209 | 98.8% | 98-99% | 3,107 | 94.4% | 94-95% | -4.4% |  |
+| reverse | 18 | 3 | `W` | W&rarr;G 246, W&rarr;C 116 | hypervariable | 362 | 99.7% | 98-100% | 3,954 | 95.2% | 95-96% | -4.5% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3307,6 +3217,86 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 | fwd 14; rev 12,15 | 170 | reduced | 2019×23, 2020×9, 2021×42, 2023×7 | Orthohantavirus puumalaense×137, Puumala virus×33 | `OQ283013`, `OQ283012`, `OQ283011`, `OQ283010`, `OQ283009`, `OQ283008` (+164) |
 | fwd 14; rev 18 | 152 | detect | 2023×8, 2024×31, 2025×1, 2026×1 | Orthohantavirus puumalaense×105, Puumala orthohantavirus×40, Puumala virus×7 | `PX026263`, `PQ660168`, `OQ606921`, `OQ606918`, `OR999070`, `OR974366` (+146) |
 | fwd 14; rev 3,15 | 141 | reduced | 2016×1, 2017×3, 2020×4, 2021×124 | Orthohantavirus puumalaense×132, Puumala virus×9 | `MT453710`, `MT453677`, `MT453676`, `MT453675`, `MT453674`, `MT453673` (+135) |
+
+## CDV_H_gene_Mueller_2011_2
+
+Morbillivirus canis (formerly Canine morbillivirus) (taxid 11232) — status **watch** — 1,959 evaluable of 4,013 screened records
+
+- forward: `5'-GCGATACAATTGGGATCAGA-3'` (20 nt)
+- reverse: `5'-TGGGTGAGCAACAGGTATCA-3'` (20 nt)
+
+**342 of 1,959 evaluable records (17%) share one mismatch pattern, mostly Canine distemper, deposited 2003-2026, and the group's dominant call is `reduced`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| forward | 1 | 20 | `A` | A&rarr;G 76, A&rarr;T 1 | `R` (98.7%) | 77 | 0.0% | 0-5% | 1,882 | 93.7% | 93-95% | 93.7% | yes |
+| forward | 4 | 17 | `C` | C&rarr;A 14, C&rarr;T 12 | `H` | 26 | 0.0% | 0-13% | 1,933 | 91.3% | 90-92% | 91.3% | yes |
+| reverse | 10 | 11 | `A` | A&rarr;G 38 | `R` | 38 | 2.6% | 0-13% | 1,921 | 91.8% | 90-93% | 89.1% |  |
+| forward | 8 | 13 | `G` | G&rarr;A 31 | `R` | 31 | 58.1% | 41-74% | 1,928 | 90.6% | 89-92% | 32.5% |  |
+| reverse | 3 | 18 | `T` | T&rarr;C 15, T&rarr;A 4, T&rarr;G 1 | `H` (95.0%) | 20 | 60.0% | 39-78% | 1,939 | 90.4% | 89-92% | 30.4% | yes |
+| reverse | 14 | 7 | `A` | A&rarr;G 12, A&rarr;T 8, A&rarr;C 1 | `D` (95.2%) | 21 | 66.7% | 45-83% | 1,938 | 90.3% | 89-92% | 23.6% |  |
+| reverse | 12 | 9 | `C` | C&rarr;A 13, C&rarr;T 7, C&rarr;G 1 | `H` (95.2%) | 21 | 76.2% | 55-89% | 1,938 | 90.2% | 89-91% | 14.0% |  |
+| forward | 2 | 19 | `G` | G&rarr;A 659, G&rarr;T 2, G&rarr;C 1 | `R` (99.5%) | 662 | 81.3% | 78-84% | 1,297 | 94.5% | 93-96% | 13.3% | yes |
+| reverse | 9 | 12 | `C` | C&rarr;T 516, C&rarr;A 3, C&rarr;G 1 | `Y` (99.2%) | 520 | 80.8% | 77-84% | 1,439 | 93.4% | 92-95% | 12.6% |  |
+| forward | 12 | 9 | `A` | A&rarr;G 555, A&rarr;C 2 | `R` (99.6%) | 557 | 81.1% | 78-84% | 1,402 | 93.6% | 92-95% | 12.4% |  |
+| forward | 6 | 15 | `A` | A&rarr;G 590, A&rarr;C 33 | `V` | 623 | 82.7% | 79-85% | 1,336 | 93.5% | 92-95% | 10.8% |  |
+| forward | 19 | 2 | `C` | C&rarr;T 711 | `Y` | 711 | 84.5% | 82-87% | 1,248 | 93.2% | 92-94% | 8.7% |  |
+| forward | 10 | 11 | `T` | T&rarr;C 51, T&rarr;G 2 | `Y` (96.2%) | 53 | 84.9% | 73-92% | 1,906 | 90.2% | 89-91% | 5.3% |  |
+| forward | 13 | 8 | `A` | A&rarr;T 39, A&rarr;G 10, A&rarr;C 5 | hypervariable | 54 | 87.0% | 76-94% | 1,905 | 90.1% | 89-91% | 3.1% |  |
+| reverse | 17 | 4 | `G` | G&rarr;A 233, G&rarr;T 10 | `R` (95.9%) | 243 | 91.8% | 88-95% | 1,716 | 89.8% | 88-91% | -2.0% |  |
+| forward | 15 | 6 | `A` | A&rarr;T 81, A&rarr;G 53, A&rarr;C 2 | `D` (98.5%) | 136 | 91.9% | 86-95% | 1,823 | 89.9% | 88-91% | -2.0% |  |
+| reverse | 20 | 1 | `T` | T&rarr;C 60, T&rarr;G 9, T&rarr;A 8 | hypervariable | 77 | 92.2% | 84-96% | 1,882 | 90.0% | 89-91% | -2.3% |  |
+| reverse | 2 | 19 | `C` | C&rarr;G 130, C&rarr;T 18, C&rarr;A 6 | `B` (96.1%) | 154 | 92.2% | 87-95% | 1,805 | 89.9% | 88-91% | -2.3% | yes |
+| reverse | 8 | 13 | `A` | A&rarr;G 40, A&rarr;C 2 | `R` (95.2%) | 42 | 92.9% | 81-98% | 1,917 | 90.0% | 89-91% | -2.9% |  |
+| forward | 14 | 7 | `C` | C&rarr;T 48, C&rarr;A 1 | `Y` (98.0%) | 49 | 95.9% | 86-99% | 1,910 | 89.9% | 88-91% | -6.0% |  |
+| reverse | 18 | 3 | `G` | G&rarr;A 35, G&rarr;C 1 | `R` (97.2%) | 36 | 97.2% | 86-100% | 1,923 | 89.9% | 88-91% | -7.3% |  |
+| reverse | 4 | 17 | `A*` | G&rarr;A 1,632, G&rarr;C 2, A&rarr;T 2 | - | 1,636 | 91.9% | 90-93% | 323 | 80.8% | 76-85% | -11.1% | yes |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| fwd 2,6,12,19; rev 4,9 | 342 | reduced | 2023×3, 2024×39, 2025×8, 2026×29 | Canine distemper×228, Morbillivirus canis×99, Canine morbillivirus×15 | `PZ171056`, `PZ845994`, `PZ845993`, `PZ845992`, `PZ845991`, `PZ845990` (+336) |
+| rev 4 | 234 | detect | 2023×10, 2024×8, 2025×6, 2026×6 | Canine distemper×107, Morbillivirus canis×63, Canine morbillivirus×57 | `PZ766579`, `PX610320`, `PX610319`, `PX656912`, `PX656911`, `PX656910` (+228) |
+| no mismatches | 194 | detect | 2021×3, 2022×4, 2025×1, 2026×38 | Morbillivirus canis×100, Canine distemper×63, Sequence×14 | `PZ812018`, `PZ812017`, `PZ812016`, `PZ812015`, `PZ812014`, `PZ812013` (+188) |
+| rev 2,4 | 138 | reduced | 2011×5, 2021×129, 2022×4 | Morbillivirus canis×127, Canine morbillivirus×6, Canine distemper×5 | `MW828751`, `MW828750`, `MW828749`, `MW828748`, `OK667044`, `OK667043` (+132) |
+| fwd 19; rev 4 | 109 | detect | 2023×1, 2024×1, 2025×2, 2026×18 | Canine distemper×72, Morbillivirus canis×26, Canine morbillivirus×7 | `PX445144`, `PX938971`, `PX938970`, `PX734755`, `PX734753`, `PX734752` (+103) |
+| rev 4,17 | 94 | detect | 2021×7, 2022×2, 2023×43, 2024×1 | Morbillivirus canis×85, Canine morbillivirus×6, Canine distemper×3 | `PP683092`, `OR733215`, `OR733214`, `OR515853`, `OR515852`, `OR515851` (+88) |
+| fwd 15; rev 4 | 70 | detect | 2022×8, 2023×10, 2024×3, 2025×1 | Canine distemper×26, Canine morbillivirus×18, Morbillivirus canis×15 | `OR120159`, `PQ625782`, `PQ241502`, `PQ241501`, `AB472691`, `AB472690` (+64) |
+| fwd 2,14; rev 4 | 39 | detect | 2020×2, 2023×7, 2024×1, 2025×8 | Morbillivirus canis×39 | `OR880602`, `OR880601`, `OR880600`, `OR880599`, `OR880598`, `PV712681` (+33) |
+
+## RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007
+
+Ranavirus (taxid 10492) — status **watch** — 250 evaluable of 1,466 screened records
+
+- forward: `5'-AGAAATCTTGCGAGACCG-3'` (18 nt)
+- reverse: `5'-AACTGTTGGTGATTGCAGC-3'` (19 nt)
+
+**140 of 250 evaluable records (56%) share one mismatch pattern, mostly Santee-Cooper ranavirus, deposited 1994-2026, and the group's dominant call is `detect`.**
+
+| oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| forward | 2 | 17 | `C` | C&rarr;G 17, C&rarr;A 4, C&rarr;T 1 | `V` (95.5%) | 22 | 0.0% | 0-15% | 228 | 99.1% | 97-100% | 99.1% | yes |
+| reverse | 18 | 2 | `A` | A&rarr;G 17, A&rarr;C 3 | `V` | 20 | 15.0% | 5-36% | 230 | 97.0% | 94-99% | 82.0% |  |
+| forward | 1 | 18 | `G` | G&rarr;A 21, G&rarr;C 1 | `R` (95.5%) | 22 | 18.2% | 7-39% | 228 | 97.4% | 94-99% | 79.2% | yes |
+| reverse | 17 | 3 | `C` | C&rarr;A 156 | `M` | 156 | 98.7% | 95-100% | 94 | 76.6% | 67-84% | -22.1% |  |
+
+_Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
+
+**Footprint groups** (records sharing one mismatch pattern)
+
+| pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
+|---|---|---|---|---|---|
+| rev 17 | 140 | detect | 2023×2, 2024×9, 2025×48, 2026×6 | Santee-Cooper ranavirus×47, Frog virus×39, Common midwife×16 | `PZ441287`, `PX692941`, `PX692939`, `PX692938`, `PX692937`, `PX562879` (+134) |
+| no mismatches | 63 | detect | 2015×16, 2016×5, 2019×1, 2020×15 | Ambystoma tigrinum×33, Epizootic haematopoietic×18, European sheatfish×3 | `NC_030842`, `NC_028461`, `NC_005832`, `NC_017940`, `MT510743`, `MT510742` (+57) |
+| fwd 1,2,6; rev 4,6,8,10,18,19 | 17 | fail | 2023×3, 2024×1, 2025×5, 2026×3 | Largemouth bass×9, Mandarin fish×3, Siniperca chuatsi×2 | `PZ233446`, `PX883867`, `PX879566`, `PV833272`, `PX463212`, `PV191281` (+11) |
+| fwd 8; rev 17 | 6 | reduced | 2017×1, 2025×5 | Santee-Cooper ranavirus×5, Rana esculenta×1 | `OQ718185`, `OQ718184`, `OQ718168`, `OQ718167`, `OQ718165`, `MF538628` |
+| fwd 12 | 6 | detect | 2019×6 | Ranavirus ambystoma1×6 | `MK580533`, `MK580532`, `MK580531`, `MK580535`, `MK580536`, `MK580534` |
+| fwd 1; rev 17 | 4 | detect | 2020×1, 2025×3 | Santee-Cooper ranavirus×3, Tiger frog×1 | `OQ718217`, `OQ718216`, `OQ718204`, `MT512502` |
+| rev 18 | 3 | detect | 2019×2, 2023×1 | Lumpfish ranavirus×3 | `NC_075538`, `MH665360`, `MH665358` |
+| fwd 5; rev 17 | 2 | reduced | 2018×1, 2026×1 | Frog virus×1, Rana nigromaculata×1 | `PX692940`, `MG791866` |
 
 ## RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008
 
@@ -3418,27 +3408,27 @@ Mastadenovirus (taxid 10509) — status **low coverage** — 4,179 evaluable of 
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| reverse | 6 | 20 | `T` | T&rarr;C 294, T&rarr;G 1 | `Y` (99.7%) | 295 | 0.0% | 0-1% | 3,884 | 89.9% | 89-91% | 89.9% |  |
-| forward | 10 | 22 | `T` | T&rarr;A 208, T&rarr;C 11, T&rarr;G 4 | `H` (98.2%) | 223 | 0.0% | 0-2% | 3,956 | 88.3% | 87-89% | 88.3% |  |
-| forward | 3 | 29 | `G` | G&rarr;A 265, G&rarr;C 7, G&rarr;T 5 | `R` (95.7%) | 277 | 3.2% | 2-6% | 3,902 | 89.3% | 88-90% | 86.0% | yes |
-| reverse | 1 | 25 | `G` | G&rarr;T 34, G&rarr;A 32, G&rarr;C 1 | `D` (98.5%) | 67 | 0.0% | 0-5% | 4,112 | 84.9% | 84-86% | 84.9% | yes |
-| forward | 25 | 7 | `G` | G&rarr;T 26 | `K` | 26 | 0.0% | 0-13% | 4,153 | 84.1% | 83-85% | 84.1% |  |
-| reverse | 18 | 8 | `C` | C&rarr;T 46 | `Y` | 46 | 4.3% | 1-15% | 4,133 | 84.5% | 83-86% | 80.1% |  |
-| forward | 24 | 8 | `Y` | Y&rarr;A 33, Y&rarr;G 32 | hypervariable | 65 | 13.8% | 7-24% | 4,114 | 84.7% | 84-86% | 70.8% |  |
-| forward | 22 | 10 | `T` | T&rarr;G 58, T&rarr;C 4, T&rarr;A 2 | `B` (96.9%) | 64 | 14.1% | 8-25% | 4,115 | 84.7% | 84-86% | 70.6% |  |
-| forward | 27 | 5 | `G` | G&rarr;T 28, G&rarr;C 22, G&rarr;A 4 | hypervariable | 54 | 22.2% | 13-35% | 4,125 | 84.4% | 83-85% | 62.2% |  |
-| reverse | 9 | 17 | `C` | C&rarr;T 728, C&rarr;A 327, C&rarr;G 9 | `H` (99.2%) | 1,064 | 42.0% | 39-45% | 3,115 | 97.8% | 97-98% | 55.8% |  |
-| forward | 21 | 11 | `C` | C&rarr;T 15, C&rarr;G 6 | `B` | 21 | 28.6% | 14-50% | 4,158 | 83.9% | 83-85% | 55.3% |  |
-| reverse | 24 | 2 | `G` | G&rarr;A 669, G&rarr;T 350, G&rarr;C 13 | `D` (98.7%) | 1,032 | 42.6% | 40-46% | 3,147 | 97.0% | 96-98% | 54.4% |  |
-| forward | 13 | 19 | `T` | T&rarr;G 1,210, T&rarr;C 2, T&rarr;A 1 | `K` (99.8%) | 1,213 | 50.6% | 48-53% | 2,966 | 97.1% | 96-98% | 46.4% |  |
-| forward | 30 | 2 | `G` | G&rarr;A 17, G&rarr;T 4, G&rarr;C 3 | hypervariable | 24 | 37.5% | 21-57% | 4,155 | 83.9% | 83-85% | 46.4% |  |
-| forward | 28 | 4 | `T` | T&rarr;G 32, T&rarr;C 12, T&rarr;A 3 | hypervariable | 47 | 38.3% | 26-53% | 4,132 | 84.1% | 83-85% | 45.8% |  |
-| reverse | 8 | 18 | `T` | T&rarr;G 36, T&rarr;A 27 | `D` | 63 | 52.4% | 40-64% | 4,116 | 84.1% | 83-85% | 31.7% |  |
-| forward | 12 | 20 | `G` | G&rarr;C 630, G&rarr;T 108, G&rarr;A 12 | `B` (98.4%) | 750 | 58.1% | 55-62% | 3,429 | 89.2% | 88-90% | 31.0% |  |
-| forward | 20 | 12 | `T` | T&rarr;C 33 | `Y` | 33 | 54.5% | 38-70% | 4,146 | 83.8% | 83-85% | 29.3% |  |
-| forward | 11 | 21 | `G` | G&rarr;C 48, G&rarr;T 11 | `B` | 59 | 59.3% | 47-71% | 4,120 | 83.9% | 83-85% | 24.6% |  |
-| reverse | 14 | 12 | `C` | C&rarr;T 1,758, C&rarr;G 66, C&rarr;A 8 | `Y` (96.0%) | 1,832 | 78.8% | 77-81% | 2,347 | 87.3% | 86-89% | 8.5% |  |
-| reverse | 12 | 14 | `G` | G&rarr;A 1,666, G&rarr;T 227, G&rarr;C 5 | `D` (99.7%) | 1,898 | 82.1% | 80-84% | 2,281 | 84.8% | 83-86% | 2.7% |  |
+| reverse | 6 | 20 | `T` | T&rarr;C 294, T&rarr;G 1 | `Y` (99.7%) | 295 | 0.0% | 0-1% | 3,884 | 91.2% | 90-92% | 91.2% |  |
+| forward | 10 | 22 | `T` | T&rarr;A 208, T&rarr;C 11, T&rarr;G 4 | `H` (98.2%) | 223 | 0.0% | 0-2% | 3,956 | 89.6% | 89-90% | 89.6% |  |
+| reverse | 1 | 25 | `G` | G&rarr;T 34, G&rarr;A 32, G&rarr;C 1 | `D` (98.5%) | 67 | 4.5% | 2-12% | 4,112 | 86.1% | 85-87% | 81.6% | yes |
+| reverse | 18 | 8 | `C` | C&rarr;T 46 | `Y` | 46 | 6.5% | 2-18% | 4,133 | 85.7% | 85-87% | 79.2% |  |
+| forward | 25 | 7 | `G` | G&rarr;T 26 | `K` | 26 | 11.5% | 4-29% | 4,153 | 85.3% | 84-86% | 73.7% |  |
+| forward | 24 | 8 | `Y` | Y&rarr;A 33, Y&rarr;G 32 | hypervariable | 65 | 13.8% | 7-24% | 4,114 | 85.9% | 85-87% | 72.1% |  |
+| forward | 22 | 10 | `T` | T&rarr;G 58, T&rarr;C 4, T&rarr;A 2 | `B` (96.9%) | 64 | 14.1% | 8-25% | 4,115 | 85.9% | 85-87% | 71.8% |  |
+| forward | 3 | 29 | `G` | G&rarr;A 265, G&rarr;C 7, G&rarr;T 5 | `R` (95.7%) | 277 | 20.6% | 16-26% | 3,902 | 89.4% | 88-90% | 68.8% | yes |
+| forward | 27 | 5 | `G` | G&rarr;T 28, G&rarr;C 22, G&rarr;A 4 | hypervariable | 54 | 27.8% | 18-41% | 4,125 | 85.6% | 84-87% | 57.8% |  |
+| forward | 21 | 11 | `C` | C&rarr;T 15, C&rarr;G 6 | `B` | 21 | 28.6% | 14-50% | 4,158 | 85.1% | 84-86% | 56.5% |  |
+| reverse | 24 | 2 | `G` | G&rarr;A 669, G&rarr;T 350, G&rarr;C 13 | `D` (98.7%) | 1,032 | 44.2% | 41-47% | 3,147 | 98.1% | 98-99% | 53.9% |  |
+| reverse | 9 | 17 | `C` | C&rarr;T 728, C&rarr;A 327, C&rarr;G 9 | `H` (99.2%) | 1,064 | 45.3% | 42-48% | 3,115 | 98.3% | 98-99% | 53.0% |  |
+| forward | 30 | 2 | `G` | G&rarr;A 17, G&rarr;T 4, G&rarr;C 3 | hypervariable | 24 | 37.5% | 21-57% | 4,155 | 85.1% | 84-86% | 47.6% |  |
+| forward | 28 | 4 | `T` | T&rarr;G 32, T&rarr;C 12, T&rarr;A 3 | hypervariable | 47 | 38.3% | 26-53% | 4,132 | 85.3% | 84-86% | 47.0% |  |
+| forward | 13 | 19 | `T` | T&rarr;G 1,210, T&rarr;C 2, T&rarr;A 1 | `K` (99.8%) | 1,213 | 52.1% | 49-55% | 2,966 | 98.2% | 98-99% | 46.1% |  |
+| reverse | 8 | 18 | `T` | T&rarr;G 36, T&rarr;A 27 | `D` | 63 | 52.4% | 40-64% | 4,116 | 85.3% | 84-86% | 32.9% |  |
+| forward | 12 | 20 | `G` | G&rarr;C 630, G&rarr;T 108, G&rarr;A 12 | `B` (98.4%) | 750 | 60.9% | 57-64% | 3,429 | 90.0% | 89-91% | 29.1% |  |
+| forward | 20 | 12 | `T` | T&rarr;C 33 | `Y` | 33 | 63.6% | 47-78% | 4,146 | 85.0% | 84-86% | 21.3% |  |
+| forward | 11 | 21 | `G` | G&rarr;C 48, G&rarr;T 11 | `B` | 59 | 71.2% | 59-81% | 4,120 | 85.0% | 84-86% | 13.8% |  |
+| reverse | 14 | 12 | `C` | C&rarr;T 1,758, C&rarr;G 66, C&rarr;A 8 | `Y` (96.0%) | 1,832 | 78.9% | 77-81% | 2,347 | 89.4% | 88-91% | 10.6% |  |
+| reverse | 12 | 14 | `G` | G&rarr;A 1,666, G&rarr;T 227, G&rarr;C 5 | `D` (99.7%) | 1,898 | 83.8% | 82-85% | 2,281 | 85.7% | 84-87% | 1.9% |  |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3462,27 +3452,30 @@ Morbillivirus (taxid 11229) — status **low coverage** — 4,934 evaluable of 3
 - forward: `5'-ATGTTTATGATCACAGCGGT-3'` (20 nt)
 - reverse: `5'-ATTGGGTTGCACCACTTGTC-3'` (20 nt)
 
-**3,783 of 4,934 evaluable records (77%) share one mismatch pattern, mostly Measles virus, deposited 1988-2026, and the group's dominant call is `reduced`.**
+**3,783 of 4,934 evaluable records (77%) share one mismatch pattern, mostly Measles virus, deposited 1988-2026, and the group's dominant call is `detect`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 12 | 9 | `G` | G&rarr;A 274, G&rarr;T 5 | `R` (98.2%) | 279 | 0.0% | 0-1% | 4,655 | 94.4% | 94-95% | 94.4% |  |
-| forward | 11 | 10 | `A` | A&rarr;G 240, A&rarr;C 4 | `R` (98.4%) | 244 | 0.4% | 0-2% | 4,690 | 93.7% | 93-94% | 93.3% |  |
-| forward | 10 | 11 | `T` | T&rarr;C 182, T&rarr;A 6 | `Y` (96.8%) | 188 | 0.5% | 0-3% | 4,746 | 92.6% | 92-93% | 92.0% |  |
-| reverse | 3 | 18 | `G` | G&rarr;A 272, G&rarr;T 1 | `R` (99.6%) | 273 | 2.6% | 1-5% | 4,661 | 94.1% | 93-95% | 91.6% | yes |
-| forward | 2 | 19 | `G` | G&rarr;T 24, G&rarr;A 8 | `D` | 32 | 0.0% | 0-11% | 4,902 | 89.6% | 89-90% | 89.6% | yes |
-| reverse | 4 | 17 | `T` | T&rarr;G 110 | `K` | 110 | 1.8% | 1-6% | 4,824 | 91.0% | 90-92% | 89.2% | yes |
-| forward | 14 | 7 | `A` | A&rarr;C 27, A&rarr;T 3, A&rarr;G 2 | hypervariable | 32 | 6.2% | 2-20% | 4,902 | 89.6% | 89-90% | 83.3% |  |
-| forward | 6 | 15 | `A` | A&rarr;G 325, A&rarr;T 72, A&rarr;C 2 | `D` (99.5%) | 399 | 15.8% | 13-20% | 4,535 | 95.5% | 95-96% | 79.7% |  |
-| reverse | 15 | 6 | `G` | G&rarr;A 36 | `R` | 36 | 11.1% | 4-25% | 4,898 | 89.6% | 89-90% | 78.5% |  |
-| reverse | 20 | 1 | `A` | A&rarr;G 206, A&rarr;C 194, A&rarr;T 71 | hypervariable | 471 | 22.3% | 19-26% | 4,463 | 96.1% | 95-97% | 73.8% |  |
-| forward | 4 | 17 | `C` | C&rarr;G 262, C&rarr;T 82 | `B` | 344 | 20.6% | 17-25% | 4,590 | 94.2% | 93-95% | 73.5% | yes |
-| reverse | 19 | 2 | `T` | T&rarr;C 50, T&rarr;G 4, T&rarr;A 1 | `B` (98.2%) | 55 | 38.2% | 27-51% | 4,879 | 89.6% | 89-90% | 51.4% |  |
-| reverse | 18 | 3 | `T` | T&rarr;C 190, T&rarr;G 16, T&rarr;A 1 | `B` (99.5%) | 207 | 44.9% | 38-52% | 4,727 | 91.0% | 90-92% | 46.1% |  |
-| forward | 15 | 6 | `T` | T&rarr;C 41, T&rarr;G 2 | `Y` (95.3%) | 43 | 62.8% | 48-76% | 4,891 | 89.3% | 88-90% | 26.5% |  |
-| reverse | 6 | 15 | `C` | C&rarr;T 406, C&rarr;A 21 | `Y` (95.1%) | 427 | 85.7% | 82-89% | 4,507 | 89.4% | 88-90% | 3.7% |  |
-| forward | 19 | 2 | `T` | T&rarr;C 27, T&rarr;G 3 | `B` | 30 | 90.0% | 74-97% | 4,904 | 89.0% | 88-90% | -1.0% |  |
-| reverse | 5 | 16 | `T` | T&rarr;C 4,199, T&rarr;G 2 | `Y` (100.0%) | 4,201 | 94.0% | 93-95% | 733 | 61.0% | 57-64% | -33.0% | yes |
+| forward | 9 | 12 | `C` | C&rarr;G 222, C&rarr;A 45 | `V` | 267 | 0.0% | 0-1% | 4,667 | 99.2% | 99-99% | 99.2% |  |
+| forward | 17 | 4 | `T` | T&rarr;G 257, T&rarr;A 7, T&rarr;C 1 | `K` (97.0%) | 265 | 0.4% | 0-2% | 4,669 | 99.1% | 99-99% | 98.7% |  |
+| forward | 16 | 5 | `T` | T&rarr;A 263, T&rarr;C 1 | `W` (99.6%) | 264 | 0.4% | 0-2% | 4,670 | 99.1% | 99-99% | 98.7% |  |
+| forward | 10 | 11 | `T` | T&rarr;C 266, T&rarr;A 6 | `Y` (97.8%) | 272 | 1.1% | 0-3% | 4,662 | 99.2% | 99-99% | 98.1% |  |
+| reverse | 3 | 18 | `G` | G&rarr;A 272, G&rarr;T 1 | `R` (99.6%) | 273 | 2.6% | 1-5% | 4,661 | 99.1% | 99-99% | 96.6% | yes |
+| forward | 12 | 9 | `G` | G&rarr;A 19, G&rarr;T 4 | `D` | 23 | 0.0% | 0-14% | 4,911 | 94.2% | 94-95% | 94.2% |  |
+| forward | 14 | 7 | `A` | A&rarr;C 283, A&rarr;T 2, A&rarr;G 2 | `M` (98.6%) | 287 | 6.3% | 4-10% | 4,647 | 99.2% | 99-99% | 92.9% |  |
+| forward | 2 | 19 | `G` | G&rarr;A 264, G&rarr;T 24 | `D` | 288 | 8.3% | 6-12% | 4,646 | 99.1% | 99-99% | 90.8% | yes |
+| forward | 11 | 10 | `A` | A&rarr;G 18, A&rarr;C 3 | `V` | 21 | 4.8% | 1-23% | 4,913 | 94.2% | 93-95% | 89.4% |  |
+| reverse | 20 | 1 | `A` | A&rarr;G 206, A&rarr;C 194, A&rarr;T 71 | hypervariable | 471 | 39.9% | 36-44% | 4,463 | 99.5% | 99-100% | 59.6% |  |
+| forward | 15 | 6 | `T` | T&rarr;C 41, T&rarr;G 2 | `Y` (95.3%) | 43 | 62.8% | 48-76% | 4,891 | 94.1% | 93-95% | 31.3% |  |
+| reverse | 15 | 6 | `G` | G&rarr;A 36 | `R` | 36 | 77.8% | 62-88% | 4,898 | 93.9% | 93-95% | 16.1% |  |
+| forward | 4 | 17 | `C` | C&rarr;T 82, C&rarr;G 7 | `B` | 89 | 79.8% | 70-87% | 4,845 | 94.1% | 93-95% | 14.3% | yes |
+| forward | 6 | 15 | `A` | A&rarr;G 71, A&rarr;T 71, A&rarr;C 2 | `D` (98.6%) | 144 | 84.7% | 78-90% | 4,790 | 94.1% | 93-95% | 9.3% |  |
+| forward | 19 | 2 | `T` | T&rarr;C 27, T&rarr;G 4 | `B` | 31 | 87.1% | 71-95% | 4,903 | 93.8% | 93-94% | 6.7% |  |
+| reverse | 18 | 3 | `T` | T&rarr;C 190, T&rarr;G 16, T&rarr;A 1 | `B` (99.5%) | 207 | 87.9% | 83-92% | 4,727 | 94.1% | 93-95% | 6.1% |  |
+| reverse | 6 | 15 | `C` | C&rarr;T 406, C&rarr;A 21 | `Y` (95.1%) | 427 | 89.5% | 86-92% | 4,507 | 94.2% | 93-95% | 4.7% |  |
+| reverse | 19 | 2 | `T` | T&rarr;C 50, T&rarr;G 4, T&rarr;A 1 | `B` (98.2%) | 55 | 90.9% | 80-96% | 4,879 | 93.8% | 93-94% | 2.9% |  |
+| reverse | 4 | 17 | `T` | T&rarr;G 110 | `K` | 110 | 92.7% | 86-96% | 4,824 | 93.8% | 93-94% | 1.1% | yes |
+| reverse | 5 | 16 | `T` | T&rarr;C 4,199, T&rarr;G 2 | `Y` (100.0%) | 4,201 | 99.5% | 99-100% | 733 | 61.0% | 57-64% | -38.5% | yes |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3490,14 +3483,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| rev 5 | 3,783 | reduced | 2023×151, 2024×147, 2025×702, 2026×1874 | Measles virus×3484, Morbillivirus hominis×169, Measles morbillivirus×102 | `QB035549`, `QB035548`, `QB035547`, `QB035546`, `QB035545`, `QB035544` (+3,777) |
+| rev 5 | 3,783 | detect | 2023×151, 2024×147, 2025×702, 2026×1874 | Measles virus×3484, Morbillivirus hominis×169, Measles morbillivirus×102 | `QB035549`, `QB035548`, `QB035547`, `QB035546`, `QB035545`, `QB035544` (+3,777) |
+| fwd 2,9,10,14,16,17; rev 3,20 | 231 | fail | 2023×2, 2024×33, 2025×32, 2026×33 | Morbillivirus caprinae×122, Peste-des-petits-ruminants virus×78, Peste des×27 | `PX459241`, `PX460962`, `PX460961`, `PX460960`, `PZ706560`, `PX685424` (+225) |
 | rev 6 | 201 | detect | 2023×6, 2024×4, 2025×7, 2026×62 | Morbillivirus canis×144, Canine distemper×47, Canine morbillivirus×10 | `PX254110`, `PV167797`, `PZ812018`, `PZ812017`, `PZ812016`, `PZ812015` (+195) |
-| fwd 4,6,10,11,12; rev 3,20 | 118 | fail | 2023×1, 2024×6, 2025×8, 2026×20 | Peste-des-petits-ruminants virus×53, Morbillivirus caprinae×36, Peste des×26 | `PX459241`, `PZ706560`, `PX685424`, `PX685421`, `PX685420`, `PX685419` (+112) |
-| rev 4,5 | 100 | fail | 2016×6, 2020×2, 2022×70, 2023×18 | Measles virus×100 | `ON035992`, `ON035991`, `ON035989`, `ON035988`, `ON035986`, `ON035985` (+94) |
-| fwd 4,6,11,12; rev 3,20 | 83 | fail | 2023×1, 2024×1, 2025×26, 2026×13 | Morbillivirus caprinae×61, Peste-des-petits-ruminants virus×20, Peste des×1 | `PX460962`, `PX460961`, `PX460960`, `PX685422`, `PX685415`, `PX685414` (+77) |
+| rev 4,5 | 100 | reduced | 2016×6, 2020×2, 2022×70, 2023×18 | Measles virus×100 | `ON035992`, `ON035991`, `ON035989`, `ON035988`, `ON035986`, `ON035985` (+94) |
 | no mismatches | 73 | detect | 2021×1, 2022×8, 2024×2, 2026×1 | Canine distemper×28, Morbillivirus canis×15, Canine morbillivirus×8 | `PX656921`, `PC304176`, `PC304170`, `AB606409`, `AB212727`, `OL441602` (+67) |
 | fwd 4; rev 6 | 69 | reduced | 2023×3, 2024×10, 2025×4, 2026×3 | Morbillivirus canis×38, Canine distemper×27, Canine morbillivirus×4 | `PZ168248`, `PZ043805`, `PZ043803`, `PV778034`, `PV778033`, `PV645846` (+63) |
 | fwd 6; rev 6,18 | 60 | reduced | 2019×1, 2021×48, 2022×2, 2026×3 | Phocine morbillivirus×51, Phocine distemper×5, Morbillivirus phocae×3 | `PX610323`, `PX610322`, `PX610321`, `MW642078`, `MW642077`, `OK104991` (+54) |
+| rev 5,20 | 49 | detect | 2020×38, 2021×4, 2023×7 | Rinderpest morbillivirus×38, Measles virus×11 | `OP951103`, `OP951102`, `OP951101`, `OP951100`, `OP951099`, `OP951098` (+43) |
 
 ## Morbillivirus_including_CDV_P_gene_Barrett_2003
 
@@ -3506,27 +3499,30 @@ Morbillivirus (taxid 11229) — status **low coverage** — 4,934 evaluable of 3
 - forward: `5'-ATGTTTATGATCACAGCGGT-3'` (20 nt)
 - reverse: `5'-ATTGGGTTGCACCACTTGTC-3'` (20 nt)
 
-**3,783 of 4,934 evaluable records (77%) share one mismatch pattern, mostly Measles virus, deposited 1988-2026, and the group's dominant call is `reduced`.**
+**3,783 of 4,934 evaluable records (77%) share one mismatch pattern, mostly Measles virus, deposited 1988-2026, and the group's dominant call is `detect`.**
 
 | oligo | pos(3') | pos(5') | base | records carry | order | n mismatching | detected\|mm | 95% CI | n clean | detected\|clean | 95% CI | gap | 3' zone |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| forward | 12 | 9 | `G` | G&rarr;A 274, G&rarr;T 5 | `R` (98.2%) | 279 | 0.0% | 0-1% | 4,655 | 94.4% | 94-95% | 94.4% |  |
-| forward | 11 | 10 | `A` | A&rarr;G 240, A&rarr;C 4 | `R` (98.4%) | 244 | 0.4% | 0-2% | 4,690 | 93.7% | 93-94% | 93.3% |  |
-| forward | 10 | 11 | `T` | T&rarr;C 182, T&rarr;A 6 | `Y` (96.8%) | 188 | 0.5% | 0-3% | 4,746 | 92.6% | 92-93% | 92.0% |  |
-| reverse | 3 | 18 | `G` | G&rarr;A 272, G&rarr;T 1 | `R` (99.6%) | 273 | 2.6% | 1-5% | 4,661 | 94.1% | 93-95% | 91.6% | yes |
-| forward | 2 | 19 | `G` | G&rarr;T 24, G&rarr;A 8 | `D` | 32 | 0.0% | 0-11% | 4,902 | 89.6% | 89-90% | 89.6% | yes |
-| reverse | 4 | 17 | `T` | T&rarr;G 110 | `K` | 110 | 1.8% | 1-6% | 4,824 | 91.0% | 90-92% | 89.2% | yes |
-| forward | 14 | 7 | `A` | A&rarr;C 27, A&rarr;T 3, A&rarr;G 2 | hypervariable | 32 | 6.2% | 2-20% | 4,902 | 89.6% | 89-90% | 83.3% |  |
-| forward | 6 | 15 | `A` | A&rarr;G 325, A&rarr;T 72, A&rarr;C 2 | `D` (99.5%) | 399 | 15.8% | 13-20% | 4,535 | 95.5% | 95-96% | 79.7% |  |
-| reverse | 15 | 6 | `G` | G&rarr;A 36 | `R` | 36 | 11.1% | 4-25% | 4,898 | 89.6% | 89-90% | 78.5% |  |
-| reverse | 20 | 1 | `A` | A&rarr;G 206, A&rarr;C 194, A&rarr;T 71 | hypervariable | 471 | 22.3% | 19-26% | 4,463 | 96.1% | 95-97% | 73.8% |  |
-| forward | 4 | 17 | `C` | C&rarr;G 262, C&rarr;T 82 | `B` | 344 | 20.6% | 17-25% | 4,590 | 94.2% | 93-95% | 73.5% | yes |
-| reverse | 19 | 2 | `T` | T&rarr;C 50, T&rarr;G 4, T&rarr;A 1 | `B` (98.2%) | 55 | 38.2% | 27-51% | 4,879 | 89.6% | 89-90% | 51.4% |  |
-| reverse | 18 | 3 | `T` | T&rarr;C 190, T&rarr;G 16, T&rarr;A 1 | `B` (99.5%) | 207 | 44.9% | 38-52% | 4,727 | 91.0% | 90-92% | 46.1% |  |
-| forward | 15 | 6 | `T` | T&rarr;C 41, T&rarr;G 2 | `Y` (95.3%) | 43 | 62.8% | 48-76% | 4,891 | 89.3% | 88-90% | 26.5% |  |
-| reverse | 6 | 15 | `C` | C&rarr;T 406, C&rarr;A 21 | `Y` (95.1%) | 427 | 85.7% | 82-89% | 4,507 | 89.4% | 88-90% | 3.7% |  |
-| forward | 19 | 2 | `T` | T&rarr;C 27, T&rarr;G 3 | `B` | 30 | 90.0% | 74-97% | 4,904 | 89.0% | 88-90% | -1.0% |  |
-| reverse | 5 | 16 | `T` | T&rarr;C 4,199, T&rarr;G 2 | `Y` (100.0%) | 4,201 | 94.0% | 93-95% | 733 | 61.0% | 57-64% | -33.0% | yes |
+| forward | 9 | 12 | `C` | C&rarr;G 222, C&rarr;A 45 | `V` | 267 | 0.0% | 0-1% | 4,667 | 99.2% | 99-99% | 99.2% |  |
+| forward | 17 | 4 | `T` | T&rarr;G 257, T&rarr;A 7, T&rarr;C 1 | `K` (97.0%) | 265 | 0.4% | 0-2% | 4,669 | 99.1% | 99-99% | 98.7% |  |
+| forward | 16 | 5 | `T` | T&rarr;A 263, T&rarr;C 1 | `W` (99.6%) | 264 | 0.4% | 0-2% | 4,670 | 99.1% | 99-99% | 98.7% |  |
+| forward | 10 | 11 | `T` | T&rarr;C 266, T&rarr;A 6 | `Y` (97.8%) | 272 | 1.1% | 0-3% | 4,662 | 99.2% | 99-99% | 98.1% |  |
+| reverse | 3 | 18 | `G` | G&rarr;A 272, G&rarr;T 1 | `R` (99.6%) | 273 | 2.6% | 1-5% | 4,661 | 99.1% | 99-99% | 96.6% | yes |
+| forward | 12 | 9 | `G` | G&rarr;A 19, G&rarr;T 4 | `D` | 23 | 0.0% | 0-14% | 4,911 | 94.2% | 94-95% | 94.2% |  |
+| forward | 14 | 7 | `A` | A&rarr;C 283, A&rarr;T 2, A&rarr;G 2 | `M` (98.6%) | 287 | 6.3% | 4-10% | 4,647 | 99.2% | 99-99% | 92.9% |  |
+| forward | 2 | 19 | `G` | G&rarr;A 264, G&rarr;T 24 | `D` | 288 | 8.3% | 6-12% | 4,646 | 99.1% | 99-99% | 90.8% | yes |
+| forward | 11 | 10 | `A` | A&rarr;G 18, A&rarr;C 3 | `V` | 21 | 4.8% | 1-23% | 4,913 | 94.2% | 93-95% | 89.4% |  |
+| reverse | 20 | 1 | `A` | A&rarr;G 206, A&rarr;C 194, A&rarr;T 71 | hypervariable | 471 | 39.9% | 36-44% | 4,463 | 99.5% | 99-100% | 59.6% |  |
+| forward | 15 | 6 | `T` | T&rarr;C 41, T&rarr;G 2 | `Y` (95.3%) | 43 | 62.8% | 48-76% | 4,891 | 94.1% | 93-95% | 31.3% |  |
+| reverse | 15 | 6 | `G` | G&rarr;A 36 | `R` | 36 | 77.8% | 62-88% | 4,898 | 93.9% | 93-95% | 16.1% |  |
+| forward | 4 | 17 | `C` | C&rarr;T 82, C&rarr;G 7 | `B` | 89 | 79.8% | 70-87% | 4,845 | 94.1% | 93-95% | 14.3% | yes |
+| forward | 6 | 15 | `A` | A&rarr;G 71, A&rarr;T 71, A&rarr;C 2 | `D` (98.6%) | 144 | 84.7% | 78-90% | 4,790 | 94.1% | 93-95% | 9.3% |  |
+| forward | 19 | 2 | `T` | T&rarr;C 27, T&rarr;G 4 | `B` | 31 | 87.1% | 71-95% | 4,903 | 93.8% | 93-94% | 6.7% |  |
+| reverse | 18 | 3 | `T` | T&rarr;C 190, T&rarr;G 16, T&rarr;A 1 | `B` (99.5%) | 207 | 87.9% | 83-92% | 4,727 | 94.1% | 93-95% | 6.1% |  |
+| reverse | 6 | 15 | `C` | C&rarr;T 406, C&rarr;A 21 | `Y` (95.1%) | 427 | 89.5% | 86-92% | 4,507 | 94.2% | 93-95% | 4.7% |  |
+| reverse | 19 | 2 | `T` | T&rarr;C 50, T&rarr;G 4, T&rarr;A 1 | `B` (98.2%) | 55 | 90.9% | 80-96% | 4,879 | 93.8% | 93-94% | 2.9% |  |
+| reverse | 4 | 17 | `T` | T&rarr;G 110 | `K` | 110 | 92.7% | 86-96% | 4,824 | 93.8% | 93-94% | 1.1% | yes |
+| reverse | 5 | 16 | `T` | T&rarr;C 4,199, T&rarr;G 2 | `Y` (100.0%) | 4,201 | 99.5% | 99-100% | 733 | 61.0% | 57-64% | -38.5% | yes |
 
 _Both denominators are shown because a large `gap` can rest on a handful of clean records: when almost every record mismatches at a position, the comparison group is tiny and the interval, not the point estimate, is the honest summary. A position mismatching in nearly all records usually means the assay is being screened against a wider group than it was designed for, rather than that the group recently changed._
 
@@ -3534,14 +3530,14 @@ _Both denominators are shown because a large `gap` can rest on a handful of clea
 
 | pattern | records | dominant call | deposit years | organisms (heuristic) | example accessions |
 |---|---|---|---|---|---|
-| rev 5 | 3,783 | reduced | 2023×151, 2024×147, 2025×702, 2026×1874 | Measles virus×3484, Morbillivirus hominis×169, Measles morbillivirus×102 | `QB035549`, `QB035548`, `QB035547`, `QB035546`, `QB035545`, `QB035544` (+3,777) |
+| rev 5 | 3,783 | detect | 2023×151, 2024×147, 2025×702, 2026×1874 | Measles virus×3484, Morbillivirus hominis×169, Measles morbillivirus×102 | `QB035549`, `QB035548`, `QB035547`, `QB035546`, `QB035545`, `QB035544` (+3,777) |
+| fwd 2,9,10,14,16,17; rev 3,20 | 231 | fail | 2023×2, 2024×33, 2025×32, 2026×33 | Morbillivirus caprinae×122, Peste-des-petits-ruminants virus×78, Peste des×27 | `PX459241`, `PX460962`, `PX460961`, `PX460960`, `PZ706560`, `PX685424` (+225) |
 | rev 6 | 201 | detect | 2023×6, 2024×4, 2025×7, 2026×62 | Morbillivirus canis×144, Canine distemper×47, Canine morbillivirus×10 | `PX254110`, `PV167797`, `PZ812018`, `PZ812017`, `PZ812016`, `PZ812015` (+195) |
-| fwd 4,6,10,11,12; rev 3,20 | 118 | fail | 2023×1, 2024×6, 2025×8, 2026×20 | Peste-des-petits-ruminants virus×53, Morbillivirus caprinae×36, Peste des×26 | `PX459241`, `PZ706560`, `PX685424`, `PX685421`, `PX685420`, `PX685419` (+112) |
-| rev 4,5 | 100 | fail | 2016×6, 2020×2, 2022×70, 2023×18 | Measles virus×100 | `ON035992`, `ON035991`, `ON035989`, `ON035988`, `ON035986`, `ON035985` (+94) |
-| fwd 4,6,11,12; rev 3,20 | 83 | fail | 2023×1, 2024×1, 2025×26, 2026×13 | Morbillivirus caprinae×61, Peste-des-petits-ruminants virus×20, Peste des×1 | `PX460962`, `PX460961`, `PX460960`, `PX685422`, `PX685415`, `PX685414` (+77) |
+| rev 4,5 | 100 | reduced | 2016×6, 2020×2, 2022×70, 2023×18 | Measles virus×100 | `ON035992`, `ON035991`, `ON035989`, `ON035988`, `ON035986`, `ON035985` (+94) |
 | no mismatches | 73 | detect | 2021×1, 2022×8, 2024×2, 2026×1 | Canine distemper×28, Morbillivirus canis×15, Canine morbillivirus×8 | `PX656921`, `PC304176`, `PC304170`, `AB606409`, `AB212727`, `OL441602` (+67) |
 | fwd 4; rev 6 | 69 | reduced | 2023×3, 2024×10, 2025×4, 2026×3 | Morbillivirus canis×38, Canine distemper×27, Canine morbillivirus×4 | `PZ168248`, `PZ043805`, `PZ043803`, `PV778034`, `PV778033`, `PV645846` (+63) |
 | fwd 6; rev 6,18 | 60 | reduced | 2019×1, 2021×48, 2022×2, 2026×3 | Phocine morbillivirus×51, Phocine distemper×5, Morbillivirus phocae×3 | `PX610323`, `PX610322`, `PX610321`, `MW642078`, `MW642077`, `OK104991` (+54) |
+| rev 5,20 | 49 | detect | 2020×38, 2021×4, 2023×7 | Rinderpest morbillivirus×38, Measles virus×11 | `OP951103`, `OP951102`, `OP951101`, `OP951100`, `OP951099`, `OP951098` (+43) |
 
 ## ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2
 

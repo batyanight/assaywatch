@@ -110,10 +110,13 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   excess between-lineage variance), gives every lineage a shrunk share, a credible interval
   and P(θ < threshold), and `drift._lineage_check` prints the result beside the verdict
   (`docs/journal/2026-10-27-c1-hierarchical-layer.md`). Not a verdict input; a test pins it.
-  What is owed is the plan's kill test — "φ implies no overdispersion, or shrinkage removes a
-  documented catch" — which needs the first run that carries the line (the M1 run in
-  progress on 2026-10-27) read, and tier-2 re-run with the shrunk worst lineage in place of
-  the Holm one. Only then is "should it drive the override" a question with evidence.
+  The first half of the plan's kill test — "φ implies no overdispersion" — was read on the
+  M1 run and does not fire: multi-lineage assays fit φ between 0.3 and 11.7, intraclass
+  correlation 0.08–0.78 (`docs/journal/2026-10-27-m1-confirming-rescreen.md`). The second
+  half — "shrinkage removes a documented catch" — needs a `lineage.verdict_from:
+  holm | posterior` switch so tier-2 can be re-run with the shrunk worst lineage driving
+  the override. Not built; it is the next thing C1 needs, and the one that would let the
+  layer become a verdict input on evidence.
 - **S5 = C2: the Bayesian per-record model, and it is GATED.**
   `P(detect) = P(fwd ok) x P(rev ok) x P(probe reports)`, each logistic over identity,
   position, adjacency and length, with chemistry as a hierarchical intercept and priors
@@ -483,8 +486,9 @@ points of detected share.
       2026-10-27, a maintainer decision, after S4 measured its only documented cost away:
       no catch lost, the influenza 2010 case promoted to the drift flag, PPV 3/9 -> 4/10,
       five bench rows fixed and none broken). The rule is no longer wholly identity-blind.
-      **Still owed:** the next full run is its confirming rescreen (the scoring hash
-      forces one). The Kwok premium — A:G, G:A, C:C at 2.0, A:A at 1.5 — was priced
+      **Confirmed by screen the same night** (`docs/journal/2026-10-27-m1-confirming-rescreen.md`):
+      the real run agrees with the S4 replay on all but 153 of 2,679,894 rows, every
+      disagreement pessimistic; 8 statuses move against the pre-M1 run. The Kwok premium — A:G, G:A, C:C at 2.0, A:A at 1.5 — was priced
       the same evening as S6 and **killed on both pre-registered criteria**: one FAP
       band row broken and nothing fixed, one false alarm added and no catch
       (`docs/journal/2026-10-27-s6-kwok-premium-killed.md`). The discount half is the

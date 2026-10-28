@@ -21,7 +21,7 @@ there, ranked, with the evidence that put each item in its place.
 
 **See the output first:** [`docs/example-run-2026-10-27/report.md`](docs/example-run-2026-10-27/report.md)
 is one real run, committed so it can be read without installing anything: on the
-2026-10-27 run, 188 assays screened, 42 called declining and 10 on the Start here
+2026-10-27 run, 193 assays screened, 42 called declining and 10 on the Start here
 list. Its companion
 [`site-drift.md`](docs/example-run-2026-10-27/site-drift.md) names the base to
 order at each drifted primer position. The previous committed run,
