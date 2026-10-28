@@ -23,6 +23,8 @@ citation:
   doi_verified: true
   reference: Hsu M et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira interrogans
     flaB Fwd/Rev)
+conditions:
+  annealing_c: 55.0
 use_context:
 - wildlife
 - veterinary
@@ -31,13 +33,26 @@ submitted_by: null
 status: draft
 source:
   nested_round: null
-  notes_curator: 'SPELLING FIXED 2026-10-24 in the `name` and `target.gene` fields only: both read "Flagillar filiment Protein B gene", two misspellings of "flagellar filament". The gene is flaB, which the retrieval query already spells correctly, so nothing was ever mis-retrieved - target.gene is free text and is not screened on. THE ENTRY ID IS DELIBERATELY NOT RENAMED, even though it carries the same misspelling: docs/validation-cases.tsv keys a scored tier-2 case on this id, and archive directories and several docs reference it, so renaming is a maintainer''s change and not a spelling fix.'
-  notes_curator: SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. LeptoF and LeptoR
-    both appear verbatim in the open-access full text of PMC3810931, inside a MassTag PCR panel table that also lists Streptococcus
-    pneumoniae plysin, Neisseria meningitidis ctrA, Mycobacterium tuberculosis pncA and Toxoplasma gondii B1 - a panel table
-    records what a study ran, not necessarily what it designed. The table labels the target 'Leptospira interrogans flaB',
-    which independently corroborates this entry's gene. Flagged printed-not-proven-first-publication, the same treatment as
-    Atkins/PREDICT and Lan/Quan. doi_verified stays false until scripts/resolve_citations.py approves it.
+  notes_curator: >-
+    SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. LeptoF and LeptoR
+    both appear verbatim in the open-access full text of PMC3810931, inside a MassTag PCR panel table that also lists
+    Streptococcus pneumoniae plysin, Neisseria meningitidis ctrA, Mycobacterium tuberculosis pncA and Toxoplasma gondii
+    B1 - a panel table records what a study ran, not necessarily what it designed. The table labels the target
+    "Leptospira interrogans flaB", which independently corroborates this entry's gene. Flagged
+    printed-not-proven-first-publication, the same treatment as Atkins/PREDICT and Lan/Quan. doi_verified stays false
+    until scripts/resolve_citations.py approves it.
+
+    SPELLING FIXED 2026-10-24 in the `name` and `target.gene` fields only: both read "Flagillar filiment Protein B
+    gene", two misspellings of "flagellar filament". The gene is flaB, which the retrieval query already spells
+    correctly, so nothing was ever mis-retrieved - target.gene is free text and is not screened on. THE ENTRY ID IS
+    DELIBERATELY NOT RENAMED, even though it carries the same misspelling: docs/validation-cases.tsv keys a scored
+    tier-2 case on this id, and archive directories and several docs reference it, so renaming is a maintainer's
+    change and not a spelling fix.
+
+    THE TWO NOTES ABOVE WERE TWO `notes_curator` KEYS IN ONE MAPPING until 2026-10-27, so every loader kept the
+    second and silently discarded the first: the spelling note existed in the file and in no loaded entry. Found by
+    pre-commit's check-yaml, which only sees a file a commit touches, three days after the duplicate landed. The
+    validator could not see it, because pydantic is handed a dict that has already lost the key.
 needs_review:
 - flag: citation_is_indirect
   note: the cited paper is where these oligos are printed, not proven to be their first publication

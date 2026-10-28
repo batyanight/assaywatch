@@ -28,6 +28,20 @@ repos:
         language: system
         pass_filenames: false
         files: ^registry/.*\.yaml$
+      - id: duplicate-keys
+        # check-yaml above answers the same question, and only about the files one
+        # commit touches. That is how two `notes_curator` keys sat in
+        # LEPTOSPIROSIS_Flagillar_filiment_Prote.yaml for three days: the entry
+        # validated, screened and reported while carrying only the second note,
+        # because yaml.safe_load takes last-wins and hands pydantic a mapping that
+        # has already lost the key. This asks it of EVERY registry file on any
+        # registry commit, so a duplicate introduced by a bulk edit or a script is
+        # found when it happens rather than when something unrelated touches it.
+        name: no registry file gives a key twice
+        entry: conda run -n assaywatch python scripts/check_duplicate_keys.py --registry registry pending
+        language: system
+        pass_filenames: false
+        files: ^(registry|pending)/.*\.yaml$
       - id: papers-index
         # docs/papers-index.md is the only durable record of WHICH papers this
         # registry rests on, because papers/ is gitignored. It went stale twice
