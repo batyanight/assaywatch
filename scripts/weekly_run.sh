@@ -8,8 +8,9 @@
 # log shows the result -- bursts on 10-03/04/05, then 10-14, 10-18, 10-20, 10-22.
 #
 #   scripts/weekly_run.sh                 # dry run: prints the job plan, fetches nothing
-#   scripts/weekly_run.sh --live          # the real run
+#   scripts/weekly_run.sh --live          # the real run (refuses a dirty tree under the hashed paths)
 #   scripts/weekly_run.sh --live --cores 8
+#   scripts/weekly_run.sh --live --allow-dirty   # override the dirty-tree refusal, knowingly
 #
 # WHY DRY RUN IS THE DEFAULT. A live run reaches eutils.ncbi.nlm.nih.gov and
 # api.ncbi.nlm.nih.gov, needs a contact address and an API key, and writes
@@ -22,9 +23,11 @@ set -euo pipefail
 
 CORES=4
 LIVE=0
+ALLOW_DIRTY=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --live) LIVE=1; shift ;;
+    --allow-dirty) ALLOW_DIRTY=1; shift ;;
     --cores) CORES="$2"; shift 2 ;;
     -h|--help) sed -n '2,30p' "$0"; exit 0 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
@@ -65,6 +68,24 @@ RUN=("$CONDA" run --no-capture-output -n assaywatch)
   if [[ -z "$EMAIL" ]]; then
     echo "refusing a live run with no contact address: write one to .secrets/email" >&2
     exit 1
+  fi
+
+  # A live run must not start on a half-edited tree. The screen signature hashes
+  # the modules `assaywatch.triggers.source_names("screen")` names, config.yaml's
+  # scoring/amplicon/degeneracy/thermo blocks and the registry; an edit to any of
+  # them between the first screen and collect_calls makes every fresh screen read
+  # as stale and the run fails at the end. It happened on 2026-10-27, after 461
+  # archives were rescreened (docs/journal/2026-10-27-live-run-and-schedule.md).
+  # Uncommitted changes under those paths are refused; `--allow-dirty` is the
+  # override for a human who knows the edit is not in the closure.
+  if [[ "$ALLOW_DIRTY" -eq 0 ]]; then
+    DIRTY="$(git -C "$REPO" status --porcelain -- assaywatch config.yaml registry Snakefile 2>/dev/null || true)"
+    if [[ -n "$DIRTY" ]]; then
+      echo "refusing a live run: uncommitted changes under paths the screen signature hashes:" >&2
+      echo "$DIRTY" >&2
+      echo "commit or stash them, or pass --allow-dirty if you know the edit is outside the closure" >&2
+      exit 1
+    fi
   fi
   "${RUN[@]}" python -m assaywatch.credentials
 

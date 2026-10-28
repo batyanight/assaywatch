@@ -139,9 +139,10 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 - **The weekly re-screen is installed on this machine only** (2026-10-27, live,
   Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
   machine-local state: the other MacBooks are not scheduled, and README's "re-screens
-  on a schedule" is true of exactly one laptop. Still owed in `scripts/weekly_run.sh`:
-  refuse `--live` on a dirty tree under `assaywatch/`, `config.yaml`, `registry/` or
-  `Snakefile`, which is the guard the second failed run of 2026-10-27 needed.
+  on a schedule" is true of exactly one laptop. `scripts/weekly_run.sh --live` now
+  refuses a tree with uncommitted changes under `assaywatch/`, `config.yaml`,
+  `registry/` or `Snakefile` (`--allow-dirty` overrides, knowingly) — the guard the
+  second failed run of 2026-10-27 needed, proved to fire on an untracked probe file.
 - **The full run under today's scoring exists**: `results/2026-10-27/`, committed as
   `docs/example-run-2026-10-27/`. 16 statuses moved against 2026-10-26, the probe
   switch's and S3b's among them, and the S3b replay was checked against it row for
