@@ -1,3 +1,79 @@
+# Resume point, 2026-10-27 (evening: the roadmap plan executed — 26 commits, 1,759 tests, the first run under today's scoring, and the schedule installed)
+
+**Start here:** `ROADMAP.md` (30 open items, 57 closed). The plan approved this afternoon
+(`~/.claude/plans/quizzical-snuggling-corbato.md`) ran phases 0–3 to completion, most of 4,
+and 5; what it could not finish is named in the roadmap with the reason. Every commit was
+gated: **1,759 tests pass** (was 1,737 at the plan), validator 214/214, ruff, `claims`,
+`check_citations` 214/214. Pushed; CI green on the last push before this entry.
+Registry: **214 entries** (five Huo 2022 mpox entries added), 179 active / 34 draft / 1
+deprecated; no oligo altered, no status set active.
+
+## The decisions that were taken, and landed
+
+`partial` rows count as catches **scored separately** (retrospective.py prints a line of
+their own, never pooled into `fails`). CONTRIBUTING states best-effort review and which
+flags never clear. Operations were authorised and done: pushed; the full live run exists
+(`results/2026-10-27/`, committed as `docs/example-run-2026-10-27/`); the weekly launchd
+job is **installed live on this machine for Sunday 09:00**, dry-fired once first.
+
+## Measured today, with the number that decides each
+
+- **Trend statistic** — Cochran–Armitage over deposit year, beside the verdict and never
+  into it, no threshold. The claim `related-work.md` makes as contribution #2 now has a
+  statistic behind it. `assaywatch/trend.py`.
+- **C1 run as its plan specified** — Wilson and Jeffreys disagree on 1 of 1,351 lineages;
+  a posterior flag rule moves 2 of 233 statuses and nothing in tier-2. Ships `wilson`;
+  the hierarchical layer is the part worth building (30 of 188 assays refused a verdict).
+- **S4 run** — M1's G:T discount **survives** the kill test that retired it: no catch
+  lost, influenza promoted to the drift flag (PPV 3/9 → 4/10), five bench rows fixed,
+  none broken. Priced, not shipped; lifting the hold is the maintainer's.
+- **Window × minimum grid** — the minimum does nothing to the matrix between 10 and 20;
+  12 months loses a catch; **36 months keeps all six and drops a false alarm**. Nothing
+  ships; 36/15 is the cell a held-out read would be worth spending on.
+- **`anchor_fdr` cannot be priced on the bench panels, by construction** — it relabels
+  `no_site`↔`fail`, both no-band. Worked out before any run was wasted on it.
+- **Deposit ≠ collection date is not immaterial**: of 1,001 dated assembly records,
+  25.9% were collected ten or more years before deposit. Reaches `asm` only; two steps
+  named, neither built.
+- **Containment check** — 0 scoped taxa outside their root; found instead **18 entries
+  on retired taxids** (CDV, Nipah, flavivirus, herpesvirus roots) and 11 name mismatches.
+- **Influenza sublineage chain works** — H1N2 72.1% and H5N1 87.6% inside a 97% pool;
+  H3N2 (the literature's subtype) 99.4%. **It exposed a defect**: `lineage.py` counted
+  `reduced` as detected for probe assays after the verdict stopped doing so. **Fixed**,
+  with the lineage report now also applying the species roll-up it never applied —
+  **775 unnamed lineage rows became 2.**
+- **Orientation**: the archive confirms 26 of 28 inferred orientations; each flag now
+  carries its count. **In-text oligos**: 20 enumerated. **Hantavirus pending entries**:
+  the plan's premise was wrong (Aitichou covers only the pair already live).
+- **S3b confirmed on the whole table**: the replay and the real run disagree on **8 of
+  2,679,894 rows**.
+
+## Two runs failed before the third succeeded, and the second was mine
+
+461 of 482 cached screens were stale with no Snakemake metadata to notice (the signature
+guard caught it). Then all 461 were rescreened and refused, because I edited `settings.py`
+and other hashed modules while the run was going. **Rule, now in ROADMAP: nothing in
+`assaywatch.triggers.source_names("screen")` and nothing in `registry/` is touched until a
+run reports.** A dirty-tree refusal in `weekly_run.sh` is owed.
+
+## Three things I got wrong today and corrected in place
+
+Mpox was never "two assays from 2004"; `locus_identity_min` was rejected, not unproven;
+the Pan_flavivirus "false alarm dropped" was a 2017 retrospective verdict, not a 2026
+status. Each is corrected where it was stated, with the correction dated.
+
+## What is left, in the order the roadmap now has it
+
+The hierarchical layer of C1; lifting (or not) the M1 hold, after a confirming rescreen
+and the Kwok premium priced beside the discount; `target.exclusivity_taxids`; the
+assay-conditions schema blocks (schema first, then the 189 PDFs); the 18 retired taxids,
+as their own live run; the six `pending/` entries still wanting a design paper; the
+held-out and C2 corpus, which needs the six queued PDFs behind the proxy; and the Greene
+profile's first submission. Nothing on that list needs a decision from you to start except
+the M1 hold and the retired-taxid run, which moves archives.
+
+---
+
 # Resume point, 2026-10-27 (later: one to-do list, four decisions taken, and a result that refuted itself)
 
 **Start here:** `ROADMAP.md`. It is now the only to-do list in the repository, and the

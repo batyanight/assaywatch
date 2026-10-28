@@ -150,7 +150,7 @@ replacing the 5/5/rest step (2026-10-26), and the **thermodynamic** engine, whic
 never been a scoring input and whose measured advantage over the penalty rule
 evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 
-## Operations: nothing is actually running on a schedule
+## Operations
 
 - **The weekly re-screen is installed on this machine only** (2026-10-27, live,
   Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
