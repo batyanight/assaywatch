@@ -1,3 +1,62 @@
+# Resume point, 2026-10-28 (the queued papers arrived; Hel1 settled, BPSV reconciled, exclusivity visible)
+
+**Start here:** `ROADMAP.md` — 29 open items, 67 closed. Tree clean, everything pushed,
+1,797 tests, registry 214/214 valid.
+
+## What the papers changed
+
+- **`papers/papers-fetch-list.md` is empty for the first time.** All seven priority PDFs
+  and the ten open-access ones are in `papers/`; 171 papers held, 118 cited.
+- **Hel1 is settled the other way**: Neill & Seal print a 3′ **G**, so three sources agree
+  and the stored C is a deliberate modification, not a typo fix. The published primer
+  carries a 3′-terminal mismatch against all 16 of its own target records. Flag
+  `oligo_sequence_uncertain` → `oligos_modified`, which removed the last OPEN flag and
+  brought the entry into the report (`no recent data`).
+- **The retrospective identity queue is spent**, and now on CONTENT rather than access: 2
+  CONFIRMED, 1 VARIANT, 10 UNCONFIRMABLE, and not one newly readable paper prints our
+  oligos. Tsukamoto 2008 prints 29 and Csordas 2004 prints 12, none ours; the new
+  CONFIRMED (Süß 2009) is a synthetic-template mismatch study, not a case — recorded
+  instead as a C2 prior source.
+- **A completeness paper turned out to be a case**: Quackenbush 1998 uses the pan-herpes
+  nest and sequenced a product 53% identical to its nearest relatives. Row written
+  PROPOSED, awaiting a verdict.
+- **Held-out set 2 is partially spent**, disclosed: 3 rows read, 1 agrees / 1 weaker / **1
+  false alarm** (Mills 2022 on the G2R generic mpox assay, which the config calls
+  declining). Nothing was tuned on it and nothing may be.
+- **BPSV's contradiction dissolved**: the amplicon forms in 82 of 85 evaluable orf virus
+  records and the assay detects none of them, because a mismatched hydrolysis probe is not
+  a detection. Zhao's panel and the pipeline agree. The report has a status-independent
+  `## Published exclusivity claims, tested` section, over evaluable records, printing
+  `amplified` beside `detected`.
+- The five misattributed `conditions` values are deleted, each with its reason.
+
+## The one thing to fix before the next curation pass
+
+**A one-word note edit in `registry/` rescreens every archive.** Today's flag change, five
+deletions and three notes planned **357 screen jobs**, because the screen signature hashes
+the whole directory. The run was stopped and the report rendered from the existing calls
+table; Sunday's scheduled job is the confirming rescreen. A per-entry signature is in
+`ROADMAP.md` under Operations, and the conditions and exclusivity curation ahead is
+hundreds of note edits — so it belongs first.
+
+`results/2026-10-28.partial-stopped/` is that abandoned run, kept rather than deleted.
+
+## Next, in order
+
+1. **Per-entry screen signature** (above), so curation stops costing full rescreens.
+2. **Two exclusivity sets are read and ready to add** (ROADMAP, Data and curation): the
+   Huo 2022 mpox panel's seven orthopox taxids — 3,772 records, taxids already looked up —
+   and the rest of Zhao 2013 for the ORFV and generic PAPV entries.
+3. **The Mills disagreement**, as a measurement rather than a worry: compare the G2R
+   generic assay's detected share on 2022-and-later records against its windowed share.
+4. **Re-run `find_retrospective_cases.py` for use-and-report language.** Quackenbush shows
+   the citing-paper graph holds scoreable papers that never use failure words, and that is
+   the only tier-2 lead left that needs no new PDFs.
+5. Then the standing items: `drift.window_on` step 1, the per-lineage per-year table, the
+   trend over distinct footprints.
+
+---
+
 # Resume point, 2026-10-27 (overnight: the live run done, conditions curated from 64 papers, TNTBLAST run at last)
 
 **Start here:** `ROADMAP.md`. Plan: `~/.claude/plans/quizzical-snuggling-corbato.md`, second
