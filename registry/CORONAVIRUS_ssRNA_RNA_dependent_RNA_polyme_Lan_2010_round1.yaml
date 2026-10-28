@@ -27,6 +27,9 @@ citation:
   as_written: Lan et al 2010 (PREDICT protocol)
   doi_verified: true
   reference: Quan PL et al. 2010. mBio 1:e00208-10 (PREDICT pan-CoV RdRp nested PCR; sheet says 'Lan et al 2010')
+conditions:
+  annealing_c: 50
+  cycles: 50
 use_context:
 - wildlife
 - veterinary

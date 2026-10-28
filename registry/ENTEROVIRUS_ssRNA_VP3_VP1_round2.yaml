@@ -23,6 +23,10 @@ citation:
   as_written: PREDICT PROTOCOL
   doi_verified: true
   reference: Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (AN88/AN89 VP1 primers)
+conditions:
+  annealing_c: 60
+  cycles: 40
+  rt: none
 use_context:
 - wildlife
 - public_health

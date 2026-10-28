@@ -29,6 +29,9 @@ citation:
   reference: Chu DK, Poon LL, Guan Y, Peiris JS. 2008. Novel astroviruses in insectivorous bats. J Virol 82:9107-9114
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 50
+  cycles: 40
 use_context:
 - wildlife
 - veterinary

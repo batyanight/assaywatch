@@ -21,6 +21,9 @@ citation:
   as_written: null
   doi_verified: true
   reference: Prepens S et al. 2007. Virol J 4:84
+conditions:
+  annealing_c: 45
+  mg_mm: 2.0
 use_context:
 - wildlife
 submitted_by: null

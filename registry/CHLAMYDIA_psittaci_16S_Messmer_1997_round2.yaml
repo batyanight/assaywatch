@@ -25,6 +25,10 @@ citation:
     PCR to psittacosis outbreaks. Journal of Clinical Microbiology 35, 2043-2046 (1997).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 55
+  cycles: 35
+  mg_mm: 2.5
 use_context:
 - public_health
 - veterinary

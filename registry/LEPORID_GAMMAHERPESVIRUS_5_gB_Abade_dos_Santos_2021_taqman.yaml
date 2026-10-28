@@ -30,6 +30,10 @@ citation:
     Gammaherpesvirus 5 Using Evagreen or Taqman Technologies. Viruses 2021, 13, 715.
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 62
+  cycles: 49
+  probe_nm: 200
 use_context:
 - wildlife
 - veterinary

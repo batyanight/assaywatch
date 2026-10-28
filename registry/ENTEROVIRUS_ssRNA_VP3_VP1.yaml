@@ -29,6 +29,7 @@ citation:
 conditions:
   rt: two_step
   cycles: 40
+  annealing_c: 55
 use_context:
 - wildlife
 - public_health

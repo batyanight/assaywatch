@@ -24,6 +24,8 @@ citation:
   reference: Bourhy, H., Cowley, J. A., Larrous, F., Holmes, E. C. & Walker, P. J. Phylogenetic relationships among rhabdoviruses
     inferred using the L polymerase gene. J Gen Virol 86, 2849-2858 (2005).
   doi_verified: true
+conditions:
+  mg_mm: 2.5
 use_context:
 - wildlife
 - veterinary

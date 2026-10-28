@@ -30,6 +30,9 @@ citation:
   reference: Lorch, J. M. et al. Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus. Frontiers in Microbiology 14, 1302586 (2023).
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 60
+  cycles: 40
 use_context:
 - wildlife
 submitted_by: null

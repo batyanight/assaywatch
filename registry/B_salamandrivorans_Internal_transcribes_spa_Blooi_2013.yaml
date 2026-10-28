@@ -30,6 +30,11 @@ citation:
   oligos_designed_here: false
 conditions:
   cycles: 40
+  annealing_c: 62
+  probe_nm: 250
+performance:
+  efficiency_pct: 94
+  lod: 0.1 genomic equivalent of zoospores per PCR
 use_context:
 - wildlife
 - veterinary

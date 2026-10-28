@@ -27,6 +27,9 @@ citation:
     EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).'
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 50
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

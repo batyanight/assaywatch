@@ -25,6 +25,10 @@ citation:
   reference: Sanchez-Seco, M. P. et al. Detection and identification of Toscana and other phleboviruses by RT-nested-PCR assays
     with degenerated primers. J Med Virol 71, 140-149 (2003).
   doi_verified: true
+conditions:
+  annealing_c: 45
+  cycles: 40
+  rt: one_step
 use_context:
 - wildlife
 - veterinary

@@ -22,6 +22,9 @@ citation:
   as_written: null
   doi_verified: true
   reference: Johne R et al. 2005. J Virol 79:3883-3887 (VP1 2f/2r = VP12F-JO2F / VP12R-JO2R)
+conditions:
+  annealing_c: 56
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

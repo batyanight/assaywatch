@@ -28,6 +28,9 @@ citation:
   doi_verified: true
   reference: Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the PREDICT
     panel)
+conditions:
+  annealing_c: 50
+  primer_nm: 200
 use_context:
 - wildlife
 - veterinary

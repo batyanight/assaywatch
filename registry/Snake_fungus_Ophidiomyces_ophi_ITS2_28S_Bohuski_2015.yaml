@@ -27,6 +27,11 @@ citation:
   as_written: Bohuski et al. BMC Veterinary Research (2015) 11:95 DOI 10.1186/s12917-015-0407-8
   doi_verified: true
   reference: Bohuski E et al. 2015. BMC Vet Res 11:95
+conditions:
+  annealing_c: 60
+  cycles: 40
+  primer_nm: 400
+  probe_nm: 200
 use_context:
 - wildlife
 - veterinary

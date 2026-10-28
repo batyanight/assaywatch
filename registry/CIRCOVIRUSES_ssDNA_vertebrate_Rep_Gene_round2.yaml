@@ -21,6 +21,8 @@ citation:
   as_written: null
   doi_verified: true
   reference: Mankertz A et al. 2000. Arch Virol 145:2469-2479 (nested round)
+conditions:
+  annealing_c: 49
 use_context:
 - wildlife
 - veterinary

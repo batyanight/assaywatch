@@ -37,6 +37,7 @@ conditions:
   rt: one_step
   cycles: 45
   mg_mm: 3.0
+  annealing_c: 57
 use_context:
 - wildlife
 - veterinary

@@ -28,7 +28,10 @@ citation:
   reference: Alvarez WA et al. 2013. Vet Parasitol 193:66-70 (the TINC qPCR design paper; INCqPCRF/INCqPCR2R and the 6FAM-BHQ
     probe)
 conditions:
-  annealing_c: 48.0
+  annealing_c: 60
+  cycles: 50
+performance:
+  efficiency_pct: 81.6
 use_context:
 - veterinary
 - wildlife

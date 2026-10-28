@@ -29,6 +29,7 @@ citation:
 conditions:
   mg_mm: 1.5
   cycles: 40
+  annealing_c: 55
 use_context:
 - wildlife
 - public_health

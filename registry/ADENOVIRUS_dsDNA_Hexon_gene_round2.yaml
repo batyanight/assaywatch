@@ -22,6 +22,10 @@ citation:
   as_written: null
   doi_verified: true
   reference: Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
+conditions:
+  annealing_c: 50
+  cycles: 30
+  mg_mm: 4.0
 use_context:
 - wildlife
 - veterinary

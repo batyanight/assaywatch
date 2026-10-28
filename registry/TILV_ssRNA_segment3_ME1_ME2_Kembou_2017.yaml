@@ -25,6 +25,9 @@ citation:
   reference: Kembou Tsofack, J. E., Zamostiano, R., Watted, S., Berkowitz, A., Rosenbluth, E. et al. Detection of Tilapia Lake Virus in Clinical Samples by Culturing and Nested Reverse Transcription-PCR. Journal of Clinical Microbiology 55, 759-767 (2017).
   doi_verified: true
   oligos_designed_here: false
+conditions:
+  annealing_c: 60
+  primer_nm: 300
 use_context:
 - wildlife
 submitted_by: null

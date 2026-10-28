@@ -27,6 +27,7 @@ citation:
   oligos_designed_here: true
 conditions:
   annealing_c: 56.0
+  cycles: 39
 use_context:
 - wildlife
 submitted_by: null

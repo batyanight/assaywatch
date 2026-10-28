@@ -25,6 +25,9 @@ citation:
 conditions:
   rt: one_step
   annealing_c: 55.0
+  cycles: 35
+  mg_mm: 2.5
+  primer_nm: 600
 use_context:
 - wildlife
 - public_health

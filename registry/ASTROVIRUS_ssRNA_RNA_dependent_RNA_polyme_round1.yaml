@@ -23,6 +23,9 @@ citation:
   reference: Atkins, A. et al. Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus). Veterinary microbiology 136, 160-165, doi:10.1016/j.vetmic.2008.10.035 (2009).
   doi_verified: true
   oligos_designed_here: false
+conditions:
+  annealing_c: 45
+  cycles: 36
 use_context:
 - wildlife
 - veterinary

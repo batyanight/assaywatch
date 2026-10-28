@@ -891,6 +891,8 @@ citation:
   as_written: null
   doi_verified: true
   reference: 'TERM_707/708 terminase primers: Chmielewicz B et al. (Ehlers group, Robert Koch Institute) — not resolved'
+conditions:
+  annealing_c: 45
 use_context:
 - wildlife
 - veterinary

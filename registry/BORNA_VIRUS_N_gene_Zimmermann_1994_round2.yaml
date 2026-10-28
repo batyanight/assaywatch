@@ -23,6 +23,9 @@ citation:
   doi_verified: true
   reference: Zimmermann W et al. 1994. J Virol Methods 46:133-143
   oligos_designed_here: true
+conditions:
+  annealing_c: 54
+  cycles: 22
 use_context:
 - wildlife
 - veterinary

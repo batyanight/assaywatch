@@ -60,6 +60,41 @@ def test_the_registry_asks_for_both_bpsv_neighbours():
     assert groups[(PSEUDOCOWPOX, slug)]["name"] != "Bovine papular stomatitis virus"
 
 
+def test_a_claimed_neighbour_never_counts_toward_the_denominator():
+    """The defect the 2026-10-27 run found, with the real numbers behind it.
+
+    The scope filter only runs for an assay that declares `scope_taxids`, and the first
+    entry to carry `exclusivity_taxids` declared none. So its two neighbour archives --
+    retrieved for its specificity claim -- were counted IN its own drift denominator,
+    and it moved from `insufficient data` to `low coverage`: the pipeline read orf virus
+    records as evidence that a BPSV assay still detects BPSV. An exclusion is out of
+    scope whatever else the entry says.
+    """
+    from assaywatch.drift import assess
+    from assaywatch.taxonomy import Taxonomy
+
+    # 129727 BPSV (the target), 10258 orf virus (claimed excluded). Flat tree: each
+    # taxon is its own parent, which is all `within` needs for a declared taxid.
+    taxonomy = Taxonomy(parent={129727: None, 10258: None}, rank={}, name={}, merged={})
+    rows = [{"assay_id": "A", "record_id": f"own{i}", "call": "detect", "species": ""} for i in range(40)] + [
+        {"assay_id": "A", "record_id": f"orf{i}", "call": "fail", "species": ""} for i in range(40)
+    ]
+    years = {r["record_id"]: "2026-01-01" for r in rows}
+    taxids = {f"own{i}": 129727 for i in range(40)} | {f"orf{i}": 10258 for i in range(40)}
+    cfg = {"drift": {}, "scoring": {}, "lineage": {}}
+
+    without = assess(rows, years, cfg, taxids=taxids, taxonomy=taxonomy)["A"]
+    with_claim = assess(rows, years, cfg, taxids=taxids, taxonomy=taxonomy, exclude_map={"A": {10258}})["A"]
+
+    # Unguarded, the neighbour halves the detected share and doubles the denominator.
+    assert without.out_of_scope == 0
+    assert with_claim.out_of_scope == 40
+    assert with_claim.recent_evaluable == without.recent_evaluable - 40
+    assert with_claim.recent_fraction == 1.0 and without.recent_fraction == 0.5
+    # And the records are kept as the specificity evidence they were fetched to be.
+    assert with_claim.out_of_scope_calls[10258]["fail"] == 40
+
+
 def test_a_claimed_row_sorts_first_and_is_marked():
     class FakeDrift:
         detected_calls = ("detect", "reduced")

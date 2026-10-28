@@ -22,6 +22,9 @@ citation:
   as_written: PREDICT PROTOCOL
   doi_verified: true
   reference: Wellehan JF et al. 2004. J Virol 78:13366-13369 (pan-adenovirus pol nested PCR)
+conditions:
+  annealing_c: 46
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

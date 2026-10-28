@@ -31,6 +31,9 @@ citation:
     29:158-161
 conditions:
   mg_mm: 2.0
+  annealing_c: 55
+  cycles: 35
+  primer_nm: 400
 use_context:
 - public_health
 - veterinary

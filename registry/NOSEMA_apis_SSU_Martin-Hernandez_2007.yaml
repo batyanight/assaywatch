@@ -27,7 +27,9 @@ citation:
   doi_verified: true
   oligos_designed_here: true
 conditions:
-  cycles: 10
+  cycles: 30
+  annealing_c: 61.8
+  primer_nm: 400
 use_context:
 - veterinary
 submitted_by: null

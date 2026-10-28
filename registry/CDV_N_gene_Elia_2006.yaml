@@ -33,6 +33,12 @@ citation:
 conditions:
   cycles: 45
   rt: one_step
+  annealing_c: 48
+  primer_nm: 600
+  probe_nm: 400
+performance:
+  efficiency_pct: 82.4
+  lod: 1e2 copies standard RNA, 3.13e2 copies genomic RNA
 use_context:
 - wildlife
 - veterinary

@@ -34,7 +34,10 @@ citation:
   oligos_designed_here: false
 conditions:
   mg_mm: 3.75
-  annealing_c: 58.0
+  annealing_c: 60
+  cycles: 45
+  rt: one_step
+  probe_nm: 300
 use_context:
 - wildlife
 - veterinary

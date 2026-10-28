@@ -23,6 +23,9 @@ citation:
     VIROLOGY, Mar. 2005, p. 3883–3887
   doi_verified: true
   reference: Johne R et al. 2005. J Virol 79:3883-3887
+conditions:
+  annealing_c: 56
+  cycles: 45
 use_context:
 - wildlife
 - veterinary

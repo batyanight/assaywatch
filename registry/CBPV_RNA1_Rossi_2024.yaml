@@ -33,6 +33,7 @@ citation:
 conditions:
   annealing_c: 54.0
   cycles: 50
+  rt: one_step
 use_context:
 - veterinary
 - wildlife

@@ -35,6 +35,8 @@ citation:
     for the quantification of canine distemper virus. Veterinary Research Communications, 31(Suppl. 1), 261–263)
   doi_verified: true
   reference: Scagliarini A et al. 2007. Vet Res Commun 31(Suppl 1):261-263
+performance:
+  lod: 10 copies/ml, one-step and two-step alike
 use_context:
 - wildlife
 - veterinary

@@ -442,16 +442,22 @@ def apply_rows(args) -> int:
                     if r["block"] == block and r.get("how", "").startswith("FIX")
                 }
                 if fixes and args.allow_fix:
+                    # Replaced INSIDE the block's own text, never by a pattern over the
+                    # whole file: a lazy `(?:  \S.*\n)*?` under re.M ran past the end of
+                    # `conditions:` and rewrote the first line of `use_context:`,
+                    # corrupting six files on its first run. The block's span is already
+                    # known, so the edit is bounded by it.
+                    start, end = existing.start(1), existing.end(1)
+                    body = new_text[start:end]
                     for field, value in fixes.items():
                         if field in have:
-                            new_text = re.sub(
-                                rf"(^{block}:\n(?:  \S.*\n)*?)  {field}: .*\n",
-                                rf"\g<1>  {field}: {value}\n",
-                                new_text,
-                                count=1,
-                                flags=re.M,
+                            body = re.sub(
+                                rf"^  {field}: .*$", f"  {field}: {value}", body, count=1, flags=re.M
                             )
                             have.add(field)
+                    new_text = new_text[:start] + body + new_text[end:]
+                    existing = re.search(rf"^{block}:\n((?:  \S.*\n)*)", new_text, flags=re.M)
+                    assert existing is not None
                 add = {k: v for k, v in values.items() if k not in have}
                 if not add:
                     continue

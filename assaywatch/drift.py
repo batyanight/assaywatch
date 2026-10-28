@@ -1253,6 +1253,7 @@ def _gather_calls(
     *,
     taxids: dict[str, int] | None,
     scope_map: dict[str, set[int]] | None,
+    exclude_map: dict[str, set[int]] | None = None,
     taxonomy: Taxonomy | None,
     patent: set[str] | None,
     keep_raw: bool,
@@ -1260,6 +1261,7 @@ def _gather_calls(
     """Bucket every call row per assay. The window cannot be chosen until the dates are known."""
     out = GatheredCalls()
     scope_canon: dict[str, set[int]] = {}
+    exclude_canon: dict[str, set[int]] = {}
 
     def in_scope(aid: str, txid: int) -> bool:
         if taxonomy is None:
@@ -1267,6 +1269,24 @@ def _gather_calls(
         if aid not in scope_canon:
             scope_canon[aid] = {taxonomy.canonical(t) for t in scope_map[aid]}
         return taxonomy.within(txid, scope_canon[aid])
+
+    def claimed_excluded(aid: str, txid: int) -> bool:
+        """Is this record a taxon the paper claims the assay does NOT amplify?
+
+        SEPARATE FROM THE SCOPE FILTER, because that filter only runs for an assay
+        that declares `scope_taxids`, and the first entry to carry
+        `exclusivity_taxids` declared none. Its two neighbour archives were
+        retrieved for its specificity claim and then counted IN its own drift
+        denominator, which moved it from `insufficient data` to `low coverage` on
+        the 2026-10-27 run: the pipeline read a near neighbour as evidence that the
+        assay still detects its target. A declared exclusion is out of scope
+        whatever else the entry says.
+        """
+        if taxonomy is None:
+            return txid in exclude_map[aid]
+        if aid not in exclude_canon:
+            exclude_canon[aid] = {taxonomy.canonical(t) for t in exclude_map[aid]}
+        return taxonomy.within(txid, exclude_canon[aid])
 
     for row in calls:
         aid = row["assay_id"]
@@ -1278,10 +1298,16 @@ def _gather_calls(
             base = strip_version(rid)
             row_txid = taxids.get(rid) if taxids.get(rid) is not None else taxids.get(base)
         # Scope filter: when the assay has scope_taxids and the record has a
-        # taxid, skip out-of-scope records from the drift denominator.
-        if scope_map and aid in scope_map and taxids is not None:
+        # taxid, skip out-of-scope records from the drift denominator. A taxon the
+        # paper claims the assay excludes is out of scope on its own, with or
+        # without a scope list.
+        scoped_out = scope_map and aid in scope_map and taxids is not None and row_txid is not None
+        excluded = exclude_map and aid in exclude_map and taxids is not None and row_txid is not None
+        if scoped_out or excluded:
             txid = row_txid
-            if txid is not None and not in_scope(aid, txid):
+            if txid is not None and (
+                (excluded and claimed_excluded(aid, txid)) or (scoped_out and not in_scope(aid, txid))
+            ):
                 out.out_of_scope[aid] = out.out_of_scope.get(aid, 0) + 1
                 # The call is kept, keyed by the off-target taxid. A `detect` or
                 # `reduced` here is predicted CROSS-REACTIVITY: for a probe assay
@@ -1530,6 +1556,10 @@ def assess(
     taxids: dict[str, int] | None = None,
     taxa_cache: dict[int, str] | None = None,
     scope_map: dict[str, set[int]] | None = None,
+    #: assay_id -> the taxa its paper claims it does NOT amplify
+    #: (`target.exclusivity_taxids`). Out of the denominator independently of
+    #: `scope_map`, which only covers an assay that declares `scope_taxids`.
+    exclude_map: dict[str, set[int]] | None = None,
     resolvers: dict[str, list] | None = None,
     titles: dict[str, str] | None = None,
     taxonomy: Taxonomy | None = None,
@@ -1602,6 +1632,7 @@ def assess(
         settings,
         taxids=taxids,
         scope_map=scope_map,
+        exclude_map=exclude_map,
         taxonomy=taxonomy,
         patent=patent,
         keep_raw=taxids is not None,

@@ -27,6 +27,9 @@ citation:
   oligos_designed_here: false
 conditions:
   mg_mm: 1.25
+  annealing_c: 64
+  cycles: 30
+  primer_nm: 200
 use_context:
 - wildlife
 submitted_by: null

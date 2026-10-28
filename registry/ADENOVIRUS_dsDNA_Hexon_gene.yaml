@@ -24,6 +24,7 @@ citation:
 conditions:
   mg_mm: 4.0
   cycles: 30
+  annealing_c: 50
 use_context:
 - wildlife
 - veterinary

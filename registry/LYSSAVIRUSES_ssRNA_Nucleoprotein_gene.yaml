@@ -24,7 +24,8 @@ citation:
   doi_verified: true
 conditions:
   rt: one_step
-  cycles: 25
+  cycles: 30
+  annealing_c: 53
 use_context:
 - wildlife
 - veterinary

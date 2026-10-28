@@ -29,6 +29,11 @@ citation:
   reference: 'Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic
     analysis of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583'
   oligos_designed_here: true
+conditions:
+  annealing_c: 55
+  cycles: 35
+  mg_mm: 6.0
+  primer_nm: 200
 use_context:
 - wildlife
 - veterinary

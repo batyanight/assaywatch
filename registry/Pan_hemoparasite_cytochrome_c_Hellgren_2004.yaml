@@ -27,6 +27,9 @@ citation:
   oligos_designed_here: true
 conditions:
   mg_mm: 1.5
+  annealing_c: 50
+  cycles: 20
+  primer_nm: 600
 use_context:
 - wildlife
 - veterinary

@@ -24,6 +24,10 @@ citation:
   doi_verified: true
   reference: Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
   oligos_designed_here: true
+conditions:
+  annealing_c: 52
+  cycles: 40
+  rt: one_step
 use_context:
 - wildlife
 - veterinary

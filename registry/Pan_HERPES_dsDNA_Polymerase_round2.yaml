@@ -889,6 +889,11 @@ citation:
   as_written: null
   doi_verified: true
   reference: VanDevanter DR et al. 1996. J Clin Microbiol 34:1666-1671 (TGV/IYG round 2)
+conditions:
+  annealing_c: 46
+  cycles: 45
+  mg_mm: 2.0
+  primer_nm: 200
 use_context:
 - wildlife
 - veterinary

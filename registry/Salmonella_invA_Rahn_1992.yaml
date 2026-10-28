@@ -25,6 +25,7 @@ citation:
 conditions:
   mg_mm: 1.25
   cycles: 35
+  annealing_c: 53
 use_context:
 - public_health
 - veterinary

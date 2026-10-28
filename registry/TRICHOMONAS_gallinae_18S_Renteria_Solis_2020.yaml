@@ -28,6 +28,7 @@ citation:
 conditions:
   annealing_c: 55.0
   cycles: 40
+  primer_nm: 300
 use_context:
 - wildlife
 - veterinary

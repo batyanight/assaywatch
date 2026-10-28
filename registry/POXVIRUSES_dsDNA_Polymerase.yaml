@@ -25,6 +25,8 @@ citation:
   doi_verified: true
 conditions:
   cycles: 39
+  annealing_c: 45
+  primer_nm: 200
 use_context:
 - wildlife
 - veterinary

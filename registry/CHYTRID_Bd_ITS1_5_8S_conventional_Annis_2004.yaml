@@ -23,6 +23,8 @@ citation:
   reference: Annis SL et al. 2004. J Wildl Dis 40:420-428
 conditions:
   cycles: 30
+  annealing_c: 60
+  mg_mm: 0.9
 use_context:
 - wildlife
 - veterinary

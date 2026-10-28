@@ -24,6 +24,9 @@ citation:
   reference: Li Y, Meyer H, Zhao H, Damon IK. 2010. GC content-based pan-pox universal PCR assays for poxvirus detection. J Clin Microbiol 48:268-276
   doi_verified: true
   oligos_designed_here: true
+conditions:
+  annealing_c: 65
+  mg_mm: 2.25
 use_context:
 - wildlife
 - veterinary

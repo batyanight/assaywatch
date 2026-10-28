@@ -2066,13 +2066,22 @@ def assess_as_reported(
             taxid_map = None
             taxa_cache_data = None
 
-    # Build scope map from registry: assay_id → set of in-scope taxids.
+    # Build scope map from registry: assay_id → set of in-scope taxids, and the
+    # exclusion map beside it: the taxa each paper claims its assay does NOT
+    # amplify. The second is not a special case of the first -- an entry can carry
+    # an exclusivity claim and no scope list, which is how BPSV's two neighbour
+    # archives were counted in its own denominator on the 2026-10-27 run.
     scope_map: dict[str, set[int]] | None = None
+    exclude_map: dict[str, set[int]] | None = None
     for aid, assay in assays.items():
         if assay.target.scope_taxids:
             if scope_map is None:
                 scope_map = {}
             scope_map[aid] = set(assay.target.scope_taxids)
+        if assay.target.exclusivity_taxids:
+            if exclude_map is None:
+                exclude_map = {}
+            exclude_map[aid] = set(assay.target.exclusivity_taxids)
 
     # Sub-lineage resolver chains (lineage.sublineage), and titles for the
     # assays whose chain parses them. Empty config: both stay None.
@@ -2120,6 +2129,7 @@ def assess_as_reported(
         taxids=taxid_map,
         taxa_cache=taxa_cache_data,
         scope_map=scope_map,
+        exclude_map=exclude_map,
         resolvers=resolvers,
         titles=titles,
         taxonomy=taxonomy,

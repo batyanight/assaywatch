@@ -375,6 +375,7 @@ def status_from_evidence(
     as_of: date,
     assays: set[str] | None = None,
     scope_map: dict[str, set[int]] | None = None,
+    exclude_map: dict[str, set[int]] | None = None,
 ):
     """{assay_id: AssayDrift} as the report would have computed it on `as_of`."""
     cutoff = as_of.isoformat()
@@ -392,6 +393,7 @@ def status_from_evidence(
         taxids=evidence.taxids,
         taxa_cache=evidence.taxa_cache,
         scope_map=scope_map,
+        exclude_map=exclude_map,
         resolvers=evidence.resolvers,
         titles=evidence.titles,
         taxonomy=evidence.taxonomy,
@@ -408,6 +410,7 @@ def status_as_of(
     as_of: date,
     assays: set[str] | None = None,
     scope_map: dict[str, set[int]] | None = None,
+    exclude_map: dict[str, set[int]] | None = None,
     query_taxids: dict[str, int] | None = None,
     registry: Path | None = None,
 ):
@@ -418,7 +421,12 @@ def status_as_of(
     per question, which is what `--cases` does.
     """
     return status_from_evidence(
-        load_evidence(calls_path, retrieved, cfg, query_taxids, registry), cfg, as_of, assays, scope_map
+        load_evidence(calls_path, retrieved, cfg, query_taxids, registry),
+        cfg,
+        as_of,
+        assays,
+        scope_map,
+        exclude_map,
     )
 
 
@@ -429,18 +437,29 @@ def _query_taxids(registry: Path) -> dict[str, int]:
     return {a.id: a.target.taxid for a in map(load_assay, iter_files(registry))}
 
 
-def _build_scope_map(registry: Path) -> dict[str, set[int]] | None:
-    """Build assay_id → set of in-scope taxids from registry YAMLs, same as report.py."""
+def _build_scope_map(registry: Path) -> tuple[dict[str, set[int]] | None, dict[str, set[int]] | None]:
+    """(scope map, exclusion map) from registry YAMLs, the same two report.py builds.
+
+    The second is `target.exclusivity_taxids`: taxa a paper claims its assay does NOT
+    amplify, out of the denominator whether or not the entry declares `scope_taxids`.
+    Tier-2 has to apply the same rule as the report or a retrospective verdict is
+    computed on a different denominator from the one that ships.
+    """
     from assaywatch.validate import iter_files, load_assay
 
     scope_map: dict[str, set[int]] | None = None
+    exclude_map: dict[str, set[int]] | None = None
     for path in iter_files(registry):
         a = load_assay(path)
         if a.target.scope_taxids:
             if scope_map is None:
                 scope_map = {}
             scope_map[a.id] = set(a.target.scope_taxids)
-    return scope_map
+        if a.target.exclusivity_taxids:
+            if exclude_map is None:
+                exclude_map = {}
+            exclude_map[a.id] = set(a.target.exclusivity_taxids)
+    return scope_map, exclude_map
 
 
 def rename_map(path: Path) -> tuple[dict[str, str], set[str]]:
@@ -522,7 +541,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.calls is None:
         print(f"scoring {calls.parent.name}/{calls.name}", file=sys.stderr)
     cfg = load_config(args.config)
-    scope_map = _build_scope_map(args.registry) if args.registry.is_dir() else None
+    scope_map, exclude_map = _build_scope_map(args.registry) if args.registry.is_dir() else (None, None)
     query_taxids = _query_taxids(args.registry) if args.registry.is_dir() else None
 
     if not args.cases:
@@ -535,6 +554,7 @@ def main(argv: list[str] | None = None) -> int:
             args.as_of,
             set(args.assay) if args.assay else None,
             scope_map=scope_map,
+            exclude_map=exclude_map,
             query_taxids=query_taxids,
             registry=args.registry if args.registry.is_dir() else None,
         )  # one question, so one load
@@ -594,7 +614,9 @@ def main(argv: list[str] | None = None) -> int:
             tally[(c["expect"], "removed")] += 1
             print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {'-':<18} removed")
             continue
-        drifts, _ = status_from_evidence(evidence, cfg, as_of, {rid}, scope_map=scope_map)
+        drifts, _ = status_from_evidence(
+            evidence, cfg, as_of, {rid}, scope_map=scope_map, exclude_map=exclude_map
+        )
         a = drifts.get(rid)
         status = a.status if a else "no data"
         _, verdict = classify(status, c["expect"], c.get("mechanism") or None)

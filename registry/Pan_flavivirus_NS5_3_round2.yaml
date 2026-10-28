@@ -240,6 +240,11 @@ citation:
   doi_verified: true
   reference: Scaramozzino N et al. 2001 (cFD2); FS778 hemi-nested forward also from this paper
   oligos_designed_here: false
+conditions:
+  annealing_c: 54
+  cycles: 35
+  mg_mm: 1.5
+  rt: none
 use_context:
 - wildlife
 - veterinary

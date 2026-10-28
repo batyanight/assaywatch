@@ -22,6 +22,9 @@ citation:
   as_written: PREDICT PROTOCOL
   doi_verified: true
   reference: Kapoor A et al. 2010. PLoS ONE 5:e11948 (PANBOV primers)
+conditions:
+  annealing_c: 57
+  cycles: 35
 use_context:
 - wildlife
 - veterinary

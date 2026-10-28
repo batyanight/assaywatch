@@ -240,6 +240,12 @@ citation:
   doi_verified: true
   reference: Scaramozzino N et al. 2001. J Clin Microbiol 39:1922-1927 (MAMD / cFD2 universal flavivirus NS5 primers)
   oligos_designed_here: false
+conditions:
+  annealing_c: 53
+  cycles: 25
+  mg_mm: 1.5
+  primer_nm: 500
+  rt: two_step
 use_context:
 - wildlife
 - veterinary

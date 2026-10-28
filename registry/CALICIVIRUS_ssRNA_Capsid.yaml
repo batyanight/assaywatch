@@ -25,6 +25,11 @@ citation:
     of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107
     (1999).
   doi_verified: true
+conditions:
+  annealing_c: 55
+  cycles: 35
+  mg_mm: 1.5
+  rt: two_step
 use_context:
 - wildlife
 - veterinary

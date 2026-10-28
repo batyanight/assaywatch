@@ -28,6 +28,7 @@ citation:
   oligos_designed_here: true
 conditions:
   cycles: 40
+  annealing_c: 50
 use_context:
 - wildlife
 - veterinary

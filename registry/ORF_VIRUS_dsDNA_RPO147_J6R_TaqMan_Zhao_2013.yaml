@@ -30,6 +30,9 @@ citation:
   oligos_designed_here: true
 conditions:
   annealing_c: 62.5
+  cycles: 45
+  primer_nm: 400
+  probe_nm: 200
 use_context:
 - wildlife
 - veterinary
