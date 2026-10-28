@@ -185,18 +185,30 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Method debts
 
-- **A clinical validation and this pipeline disagree about the monkeypox G2R generic
-  assay, and it is now a held-out measurement rather than a worry** (2026-10-28). Mills
-  2022 validated `MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010` on 2022 outbreak clinical
-  specimens across many sample types; the shipped config calls it `declining`. It is the
-  one false alarm among held-out set 2's three rows. Two candidate explanations, and
-  telling them apart is the work: the denominator problem already recorded here — 2022
-  outbreak genomes are a small recent slice of a large archive, so a sequence-based share
-  can fall while the assay works on what is circulating — or a real miss. The first is
-  testable with no new data: compare the assay's detected share on 2022-and-later records
-  alone against its windowed share. **Nothing may be tuned on this row**; it is held-out
-  data and the file's rule stands.
+- **One mid-window mismatch is the boundary, and it drives 69 sites on 23 assays**
+  (traced 2026-10-28, `docs/journal/2026-10-28-g2r-false-alarm-traced.md`). Held-out set
+  2's one false alarm has a single mechanical cause, followed to the base: the 2022-era
+  monkeypox records carry a G:T wobble at position 8 of the G2R reverse primer and an A>G
+  at position 21 of the forward, which price at 1.0 + 0.5 and cross `detect_max: 1.0`, so
+  8,947 records score `reduced` — and for a hydrolysis probe `reduced` is not a detection.
+  M1's identity discount prices G:T at 0.0 but applies only inside the 3′ window, by the
+  measured decision of 2026-10-22. Every step is deliberate; together they say a primer
+  with one internal wobble detects nothing, where Mills 2022 validated the assay
+  clinically.
 
+  **The generalisation is the item.** `primer_mid_penalty: 1.0` equals `detect_max: 1.0`,
+  so one mid-window mismatch sits exactly on the band boundary and a second anywhere
+  pushes past it — the same coincidence already recorded for `primer_3prime_penalty: 3.0`
+  against `reduced_max: 3.0`. Over the run's site table, **69 sites across 23 assays**
+  show a non-3′ mismatch carried by ≥200 records where detection falls from >80% to <20%,
+  split 36 on `low coverage` assays and 33 on `declining` ones.
+
+  **What may and may not settle it.** Not the Mills row: tuning on it would make held-out
+  data a second development set. The bench panels may be spent, and the first question is
+  whether any of their 179 rows turns on a single mid-window mismatch — if none does, the
+  mid-window penalty rests on nothing this project can measure, and `config.yaml` should
+  say so. A second held-out row would settle it properly, and 22 of those 23 assays are
+  not monkeypox.
 - **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
   the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
   before any lineage is looked at. **Designed 2026-10-27 as C1b** in

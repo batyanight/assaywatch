@@ -391,3 +391,28 @@ def test_a_position_carrying_every_base_is_hypervariable_not_an_order_for_N():
     # The code is still N in the machine-readable column; the renderer is what
     # refuses to print it as an instruction.
     assert p.replacement == "N"
+
+
+def test_a_probe_assay_counts_a_mismatched_probe_the_way_the_report_does():
+    """The site table and the report must agree about what a detection is.
+
+    `_detected` took a `detected_calls` parameter so `drift.reduced_not_detected_for`
+    could narrow it, and no caller ever passed one -- so for all 56 probe assays the
+    site table counted a mismatched probe as a detection while the report did not.
+    Measured 2026-10-28 on MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010: its two
+    commonest variant sites read 99.97% and 99.98% detected in site-drift.tsv against
+    the report's 57.9%, and the whole gap was this.
+    """
+    from assaywatch.sitedrift import position_stats
+
+    # Ten records carrying a mismatch at position 3 from the 3' end: five amplify
+    # cleanly, five amplify with a degraded probe.
+    rows = [{"call": "detect", "probe": (3,)} for _ in range(5)]
+    rows += [{"call": "reduced", "probe": (3,)} for _ in range(5)]
+    seq = "ACGTACGTACGT"
+
+    (both,) = position_stats(rows, "probe", seq, min_records=1)
+    (strict,) = position_stats(rows, "probe", seq, min_records=1, detected_calls=("detect",))
+    assert both.detected_with == 10, "the default still counts `reduced` as a detection"
+    assert strict.detected_with == 5, "a probe assay must not count a degraded probe"
+    assert both.evaluable_with == strict.evaluable_with == 10

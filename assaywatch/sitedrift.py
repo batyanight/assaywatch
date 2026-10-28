@@ -449,8 +449,18 @@ def position_stats(
     seq: str,
     min_records: int,
     cover: float = 1.0,
+    detected_calls: tuple[str, ...] = DETECTED_CALLS,
 ) -> list[PositionStat]:
-    """Per-base statistics for one oligo over the evaluable rows given."""
+    """Per-base statistics for one oligo over the evaluable rows given.
+
+    `detected_calls` is the ASSAY's, threaded from its `AssayDrift`. The default was
+    a defect rather than a convenience: `_detected` took the parameter so
+    `drift.reduced_not_detected_for` could narrow it, and nothing ever passed it, so
+    every probe assay's site table counted a mismatched probe as a detection while
+    the report did not. Measured 2026-10-28 on the monkeypox G2R generic assay: its
+    two commonest variant sites read 99.97% and 99.98% detected here against a
+    report figure of 57.9%, and the gap was entirely this.
+    """
     length = len(seq)
     if not length:
         return []
@@ -464,7 +474,7 @@ def position_stats(
     total_detected = 0
     for r in rows:
         total += 1
-        det = _detected(r["call"])
+        det = _detected(r["call"], detected_calls)
         total_detected += det
         for k in r.get(oligo) or ():
             if 1 <= k <= length:
@@ -542,8 +552,13 @@ def analyse_assay(
     min_records: int = 20,
     top_footprints: int = 8,
     cover: float = 1.0,
+    detected_calls: tuple[str, ...] = DETECTED_CALLS,
 ) -> AssaySites:
-    """Site statistics for one assay from its already-deduplicated rows."""
+    """Site statistics for one assay from its already-deduplicated rows.
+
+    `detected_calls` comes from the assay's own `AssayDrift`, so a chemistry where a
+    mismatched probe reports nothing is counted here the way the report counts it.
+    """
     evaluable = [r for r in rows if r["call"] in EVALUABLE]
     seqs: dict[str, str] = {}
     missing: list[str] = []
@@ -558,7 +573,9 @@ def analyse_assay(
 
     positions: list[PositionStat] = []
     for name, seq in seqs.items():
-        positions.extend(position_stats(evaluable, name, seq, min_records, cover=cover))
+        positions.extend(
+            position_stats(evaluable, name, seq, min_records, cover=cover, detected_calls=detected_calls)
+        )
     positions.sort(key=lambda s: (-(s.gap if s.gap is not None else -1), -s.n_mismatch))
 
     return AssaySites(
@@ -912,6 +929,7 @@ def build(
             min_records=min_records,
             top_footprints=top_footprints,
             cover=cover,
+            detected_calls=d.detected_calls,
         )
         for d in selected
         if d.assay_id in assays
