@@ -23,8 +23,6 @@ citation:
   doi_verified: true
   reference: Hsu M et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira interrogans
     flaB Fwd/Rev)
-conditions:
-  annealing_c: 55.0
 use_context:
 - wildlife
 - veterinary
@@ -53,6 +51,8 @@ source:
     second and silently discarded the first: the spelling note existed in the file and in no loaded entry. Found by
     pre-commit's check-yaml, which only sees a file a commit touches, three days after the duplicate landed. The
     validator could not see it, because pydantic is handed a dict that has already lost the key.
+
+    CONDITIONS CORRECTED 2026-10-28: an `annealing_c: 55.0` written by the automatic pass of 2026-10-27 is REMOVED, not replaced. Hsu 2013 prints three programmes -- a 35-cycle PCR annealing at 45 C, a first MassTag PCR of 18 cycles, and a labelling PCR of 49 cycles that starts at 25 C and moves to 55 C -- and nothing in the text attributes one of them to the flaB primer pair this entry carries. Unattributable, so unrecorded.
 needs_review:
 - flag: citation_is_indirect
   note: the cited paper is where these oligos are printed, not proven to be their first publication

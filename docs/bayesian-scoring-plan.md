@@ -183,6 +183,28 @@ Both therefore ship **off**: `drift.flag_rule: wilson`, `lineage.verdict_from: h
 What the layer earns is honest numbers for thin lineages — a 0.0% (0.0%–0.0%) lineage
 reads 1.3% (0.0%–4.7%) — not a different decision.
 
+### One more prior source, found 2026-10-28 while closing a tier-2 row
+
+Süß, Flekna, Wagner & Hein 2009 (*J Microbiol Methods* 76:316–319,
+10.1016/j.mimet.2008.12.003) is a **labelled mismatch→effect dataset on a controlled
+template**, which is the kind of evidence C2's priors need and the registry has almost
+none of. They flanked a synthetic 100 bp construct with Rahn's invA primers 139/141, then
+built eight forward primers and six probes carrying deliberate mismatches and measured
+each one's quantification error against the perfect-match reference in the same run.
+
+Their result is the shape this project's `reduced` band asserts without evidence: a small
+number of primer-region mismatches alters the amplification curve only slightly and costs
+up to **63%** in quantification, while probe-region mismatches are worse in kind — up to
+**33%** error with more pronounced curve effects, on a readout that IS the probe. It joins
+Kwok 1990 and Stadhouders 2010 as a prior source rather than a fitting set: it is one
+locus, one synthetic template, and 14 designed variants, so it constrains the direction and
+rough size of a per-mismatch effect and cannot stand in for the 40 within-family negatives
+C2 is gated on (there are 11).
+
+It reached this plan by being read for something else, which is the argument for doing the
+corpus sweep as one literature pass: the paper was in the retrospective queue as a
+candidate `fails` case, and it is not one.
+
 ### C1b — the floor the hierarchical layer cannot reach, which is where the refusals are
 
 **The defect.** This section claimed above that "the assessability floor becomes soft"

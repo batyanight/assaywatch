@@ -1,20 +1,23 @@
-# Fetch list — what only a signed-in browser can get (2026-10-25)
+# Fetch list — EMPTY as of 2026-10-28
 
-Everything a script can legally reach has been fetched. What is left needs you in a browser,
-for one of two reasons: NYU entitlement, or a publisher bot-check that refuses a scripted
-agent. Neither is worked around here by pretending to be a browser; that is why this file
-exists instead.
+**Every paper this list asked for is now in `papers/`.** The seven priority rows were
+fetched on 2026-10-28 (two of them renamed out of `~/Downloads` into their `doi_stem`
+names) and the ten Priority-2 open-access papers came in the same batch. What each one
+settled is in `docs/journal/2026-10-28-papers-arrived.md`; the short version:
 
-Save each into `papers/` under the **exact filename in the `save as` column**. The name is
-`assaywatch.papers.doi_stem(doi)` and every reader forward-maps a DOI to it, so a file under
-any other name is invisible to `verify_oligos_against_paper.py` and to `papers_index.py`.
+- **Neill & Seal 1995** — the Hel1 question is settled, the other way: the paper prints a
+  3' **G**, so the stored C is a deliberate modification and not a typo fix. Entry
+  reflagged `oligos_modified`.
+- **10.1016/j.mimet.2008.12.003** — identity CONFIRMED and **not a case**: Süß et al.
+  2009 is a synthetic-template mismatch study, not a field report. Recorded instead as a
+  prior source in `docs/bayesian-scoring-plan.md`.
+- **Tsukamoto 2008** (29 oligos printed) and **Csordas 2004** (12) — neither prints ours.
+  Closed on content; no document will change them.
 
-After adding any of them:
+Nothing is waiting on a human and a proxy. The 22 genuinely paywalled papers in
+`papers-still-needed-2026-10-24.md` are completeness reading and were never on this list.
 
-```bash
-python scripts/verify_oligos_against_paper.py --pdf-dir papers --tsv results/oligo-verification.tsv
-python scripts/papers_index.py --out docs/papers-index.md
-```
+The sections below are kept as the record of what was asked for and why.
 
 ---
 

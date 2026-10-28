@@ -24,8 +24,6 @@ citation:
     novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology Journal
     2009, 6, 210.
   oligos_designed_here: null
-conditions:
-  mg_mm: 2.0
 use_context:
 - wildlife
 submitted_by: null
@@ -62,7 +60,14 @@ source:
     and the DOI was added to docs/papers-index.cache.json. oligos_designed_here is set to NULL rather than true: Deckers says
     the primers were designed to bind conserved sites but also cites an earlier use in great apes, so whether they were first
     published there is not settled by this paper - the same reading applied to the Nosema/Klee re-citation. The RECITE_AFTER_CROSSREF_CHECK
-    flag is cleared; a flag recording the composite provenance remains.'
+    flag is cleared; a flag recording the composite provenance remains.
+
+
+    CONDITIONS CORRECTED 2026-10-28: a `mg_mm: 2.0` written by the automatic pass of 2026-10-27 is REMOVED, not replaced.
+    It came from the 46 C / 40-cycle programme in Deckers 2009, which is the pan-herpes DPOL PCR; this entry''s 800 bp gB
+    product is the TaKaRa ExTaq long PCR at 45 C over 30 cycles, whose magnesium the paper gives only as ''ExTaq buffer with
+    MgCl2''. A value from the wrong assay in a multi-assay paper is worse than no value, and the one that replaced it in six
+    files an hour earlier was a regex running past the end of its block.'
 needs_review:
 - flag: citation_is_indirect
   note: the cited paper is where these oligos are printed, not proven to be their first publication
