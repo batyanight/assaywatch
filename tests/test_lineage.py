@@ -1,6 +1,7 @@
 """Tests for assaywatch.lineage."""
 
 import gzip
+from pathlib import Path
 
 import pytest
 
@@ -21,6 +22,8 @@ from assaywatch.lineage import (
     worst_lineage_verdict,
 )
 from assaywatch.lineage_report import MIN_RESOLVED_SHARE, read_calls_with_taxid
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_lineage_resolution():
@@ -345,6 +348,27 @@ def test_subtaxid_before_another_resolver_needs_the_query_taxid():
     assert len(build_resolvers(cfg, query_taxid=11320)) == 2
     # subtaxid last (or alone) is fine without it: nothing follows to defer to.
     assert len(build_resolvers({"chain": ["subtaxid"]})) == 1
+
+
+def test_the_shipped_sublineage_block_labels_a_real_influenza_title():
+    """The config that ships, not a fixture: the one live chain must resolve.
+
+    `lineage.sublineage` has been a worked example in a comment for a week and is
+    live for one assay since 2026-10-27. A regex in a YAML string is quoted twice
+    over, so the thing worth pinning is not the mechanism (tested above) but that
+    the pattern as COMMITTED still pulls a subtype out of a GenBank title.
+    """
+    import yaml
+
+    cfg = yaml.safe_load((ROOT / "config.yaml").read_text())
+    block = cfg["lineage"]["sublineage"]["INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003"]
+    chain = build_resolvers(block, query_taxid=11320)
+    call = {
+        "record_id": "x",
+        "call": "detect",
+        "title": "Influenza A virus (A/swine/Iowa/15/1930(H1N1)) segment 7",
+    }
+    assert resolve_sublineage(call, 11320, {11320: "Influenza A virus"}, chain) == "H1N1"
 
 
 def test_sublineage_resolvers_and_title_assays_read_the_config_block():

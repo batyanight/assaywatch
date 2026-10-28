@@ -1043,4 +1043,23 @@ lineage:
   #     title: {pattern: '\((H\d+N\d+)\)'}   # capture group 1 is the label
   #   AVIPOXVIRUS_dsDNA_4b_core_Baek_2020:
   #     chain: [subtaxid]                   # the record's own taxid, below the query taxid
-  sublineage: {}
+  #
+  # ON since 2026-10-27 for the influenza matrix assay, and for no other assay:
+  # measured 2026-10-27 (docs/journal/2026-10-27-influenza-sublineage-enabled.md).
+  # Influenza A records carry their subtype in the GenBank title, so a title regex
+  # labels them without a taxonomy change -- 57 subtypes out of one taxid that NCBI
+  # calls Alphainfluenzavirus influenzae. What the split shows, on the corrected
+  # numerator (this is a hydrolysis probe, so `reduced` is not a detection): the
+  # pooled 6.5% is almost entirely H3N2 (1.2% of 38,771) and H1N1 (2.6% of 27,725),
+  # while 30 avian subtypes read 85-100%. The probe is failing on the human-
+  # circulating subtypes and working on the rest, which a single pooled proportion
+  # cannot say. Enabling it moves NOTHING: tier-2 is identical case for case and 0
+  # of 193 statuses change, because the pooled verdict was already `declining` and
+  # the worst lineage was already failing. So it is adopted for what it REPORTS,
+  # not for a verdict it changes -- the condition this block's own rule sets.
+  # Extend to the other segmented RNA viruses only after measuring that a title
+  # regex labels their records; nothing here assumes it does.
+  sublineage:
+    INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003:
+      chain: [title]
+      title: {pattern: '\((H\d+N\d+)\)'}

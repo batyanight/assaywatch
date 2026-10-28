@@ -1,8 +1,8 @@
 # docs/ index
 
-**Nine reference documents sit in `docs/`; the 89 dated session records are in
+**Nine reference documents sit in `docs/`; the 105 dated session records are in
 [`journal/`](journal/README.md).** Until 2026-10-27 they were all one flat directory, so
-a reader met 89 journals before the nine documents written to be read — a ratio of
+a reader met the journals before the nine documents written to be read — a ratio of
 roughly 5:1 in words on the axis that matters (~124,000 against ~52,000, for ~34,000
 lines of code). Nothing was deleted and no journal lost a word.
 
@@ -35,6 +35,7 @@ ROADMAP.md at the repository root, which is the only to-do list here.
 | [`journal/2026-10-27-c1-hierarchical-layer.md`](journal/2026-10-27-c1-hierarchical-layer.md) | C1's hierarchical layer built: one Beta-binomial over an assay's lineages, fitted by moments, every lineage shrunk and given a posterior, printed beside the verdict and never into it. Its kill test waits for the first run that carries it |
 | [`journal/2026-10-27-live-run-and-schedule.md`](journal/2026-10-27-live-run-and-schedule.md) | the first full run under today's scoring (16 statuses move against 2026-10-26, both S3b predictions checked and one corrected), S3b confirmed on the whole table (8 call disagreements in 2.68M rows), two failed runs explained -- one self-inflicted -- and the weekly launchd job installed live for Sunday 09:00 |
 | [`journal/2026-10-27-s4-m1-survives.md`](journal/2026-10-27-s4-m1-survives.md) | **M1, the G:T wobble discount retired on 2026-10-22, survives its own kill test** once `reduced` is not a detection for probes: no catch lost, the influenza case promoted to the drift flag (PPV 3/9 -> 4/10), five bench rows fixed and none broken. Priced, not proven, not shipped; the hold is the maintainer's |
+| [`journal/2026-10-27-influenza-sublineage-enabled.md`](journal/2026-10-27-influenza-sublineage-enabled.md) | the chain is ON for the influenza matrix assay, and on the corrected numerator the subtype table inverts: **H3N2 reads 1.2% of 38,771 records and H1N1 2.6%, while thirty avian subtypes read 85-100%**. The pooled 6.5% was the two human-circulating subtypes. Tier-2 identical, 0 of 193 statuses move, so it is adopted for what it reports |
 | [`journal/2026-10-27-influenza-sublineage.md`](journal/2026-10-27-influenza-sublineage.md) | the title resolver splits the influenza matrix assay into 57 subtypes: H1N2 reads 72.1% and H5N1 87.6% inside a 97% pool, H3N2 99.4% (the literature's subtype is not the one that fails here). **Exposed a defect: lineage.py still counts `reduced` as detected for probe assays**, so the lineage layer and the verdict disagree |
 | [`journal/2026-10-27-window-minimum-grid.md`](journal/2026-10-27-window-minimum-grid.md) | the drift window and the record minimum priced together on the development set: the minimum does nothing to the matrix between 10 and 20 (it only trades refusals), 12 months loses a documented catch, **36 months keeps every catch and drops a false alarm**. Nothing ships; the cell a held-out read would be worth spending on is named |
 | [`journal/2026-10-27-curation-measurements.md`](journal/2026-10-27-curation-measurements.md) | `orientation_inferred`: the archive yields products under the stored orientation for 26 of 28 flagged entries and zero for none; the 20 `in-text` oligos enumerated; the Hantavirus pending entries cannot be cited to Aitichou (the plan assumed they could); the 11 taxon_name mismatches split into two kinds |

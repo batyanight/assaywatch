@@ -153,11 +153,13 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   `config.yaml`, `registry/` or `Snakefile` is dirty, so a scheduled run never starts on
   a half-edited tree; and the rule for the human is that nothing in that closure is
   touched until the run reports.
-- **Four inert switches, grouped here because each is the same shape**: a mechanism
-  built, tested, and shipped off for want of evidence. `scoring.mispair_penalty: {}`
-  (S4, above), `lineage.unclassified_is_bucket: false` (tier-2 is unchanged by it, so
-  there is nothing to ship it on), `lineage.sublineage: {}` (below), and `thermo:
-  false` (needs the annealing conditions the registry does not carry). None is a
+- **Two inert switches, grouped here because each is the same shape**: a mechanism
+  built, tested, and shipped off for want of evidence.
+  `lineage.unclassified_is_bucket: false` (tier-2 is unchanged by it, so there is
+  nothing to ship it on) and `thermo: false` (needs the annealing conditions the
+  registry does not carry). Two have left the list by being turned on:
+  `scoring.mispair_penalty` carries the G:T / T:G discount (M1) and
+  `lineage.sublineage` carries the influenza chain, both 2026-10-27. None is a
   defect. The list exists so that "the mechanism is here and the numbers are not"
   stays a count rather than a feeling.
 
@@ -206,18 +208,12 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   for 0.1% of records is a different kind of wrong, so step 1 must say in the report
   which records it applied to.
 
-- **`lineage.sublineage` for influenza: the chain works and is ready to enable.**
-  Measured 2026-10-27 (`docs/journal/2026-10-27-influenza-sublineage.md`): the title
-  resolver splits the matrix assay into 57 subtypes, and inside the 97% pool H1N2 reads
-  72.1% (1,917 records) and H5N1 87.6% (3,214) — the lineage-conditional estimand doing
-  what it was designed for. H3N2, the subtype the literature flags, reads 99.4% of
-  38,771. Those figures predate the numerator fix (`lineage.py` counted `reduced` as
-  detected for every assay after the probe switch stopped the pooled share doing so;
-  fixed the same day, `## Done`), so they will read lower on the corrected count. What
-  remains is what the config comment requires of any chain, because enabling one can move
-  a verdict: re-read the subtype table on the corrected numerator, look at the H3N2
-  per-year table alone, and decide with tier-2 behind it. Extend to the other segmented
-  RNA viruses only after measuring that a title regex labels their records.
+- **The influenza sublineage chain is on; what is left is the per-lineage per-year
+  table.** Enabled 2026-10-27 (`## Done`). The next thing to read is whether H3N2's
+  1.2% is a recent fall or has always been there, and the report prints per-year tables
+  per ASSAY, not per lineage, so that is a reporting change rather than a measurement.
+  Extending the chain to the other segmented RNA viruses stays conditional on measuring
+  that a title regex labels their records; nothing has.
 
 - **`target.exclusivity_taxids`, plus retrieval for it.** `scope_taxids`
   already excludes out-of-scope records from the drift denominator and the
@@ -444,6 +440,14 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **The influenza matrix probe is failing on H3N2 and H1N1 and working on the avian
+      subtypes** (2026-10-27, `docs/journal/2026-10-27-influenza-sublineage-enabled.md`).
+      `lineage.sublineage` is on for that assay: a title regex splits one NCBI name into
+      57 subtypes, and on the corrected numerator the ordering inverts against the
+      pre-fix table — H3N2 1.2% of 38,771, H1N1 2.6% of 27,725, H5N1 34.0%, and thirty
+      avian subtypes at 85–100%. The pooled 6.5% is the two human-circulating subtypes;
+      a single proportion could not say that. Enabling it moves nothing (tier-2 identical
+      case for case, 0 of 193 statuses), so it is adopted for what it reports.
 - [x] **The `taxon_name` mismatches are closed at both ends, and 0 remain** (2026-10-27,
       open since 2026-10-04). Three were ICTV binomial renames where the stored name was
       the paper's (ABPV, BQCV, SBV), renamed with the paper's name kept in parentheses.
