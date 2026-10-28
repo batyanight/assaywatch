@@ -149,9 +149,15 @@ def config_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> dict[str, Any
     shipped default - so the scoring path is identical to the one that existed
     before per-chemistry scoring rather than merely equivalent to it.
     """
+    # The cache is trusted only while it was computed from THIS `scoring` block. A
+    # shallow copy that swaps the block -- tests clearing mispair_penalty, a pricing
+    # script overlaying by_chemistry -- carried the stale cache and was answered
+    # from the shipped table; it bit twice on 2026-10-27, the day a table stopped
+    # being empty. Identity, not equality: a deepcopy preserves the relation and so
+    # keeps its own cache; a swap breaks it and recomputes.
     pre = cfg.get(RESOLVED)
-    if pre is not None and str(chemistry) in pre:
-        return pre[str(chemistry)]
+    if pre is not None and pre.get("scoring") is cfg.get("scoring") and str(chemistry) in pre["resolved"]:
+        return pre["resolved"][str(chemistry)]
     scoring = scoring_for(chemistry, cfg)
     return cfg if scoring is cfg.get("scoring") else {**cfg, "scoring": scoring}
 
@@ -201,7 +207,8 @@ def load_config(path: Path | None = None) -> dict[str, Any]:
         if scoring is not cfg.get("scoring"):
             resolved[str(chem)] = {**cfg, "scoring": scoring}
     if resolved:
-        cfg[RESOLVED] = resolved
+        # Keyed to the scoring block it came from; see `config_for`.
+        cfg[RESOLVED] = {"scoring": cfg["scoring"], "resolved": resolved}
     return cfg
 
 

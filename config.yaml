@@ -980,6 +980,17 @@ lineage:
   # holm | fdr_bh | bonferroni.
   multiple_testing: holm
   alpha: 0.05
+  # WHICH LINEAGE READING DRIVES THE OVERRIDE. `holm` (ships): the corrected binomial
+  # test over raw lineage shares, as above. `posterior`: the worst lineage AFTER
+  # shrinkage under C1's hierarchical fit (assaywatch/hierarchical.py), failing when
+  # P(theta < threshold) exceeds posterior_credibility. Shrinkage is the model's own
+  # answer to the multiplicity Holm bolts on and to the winner's curse of an argmin
+  # over noisy shares. This exists so the plan's second kill test -- "shrinkage
+  # removes a documented catch" -- can be run with scripts/retrospective.py --config;
+  # it ships `holm` until that test has been read. Measured 2026-10-27, see
+  # docs/journal/2026-10-27-m1-confirming-rescreen.md and the entry that follows it.
+  verdict_from: holm
+  posterior_credibility: 0.95
   # Minimum evaluable records per lineage for assessability
   min_records_per_lineage: 30  # calibrated: Pareto improvement over 20 (-1 FP, 0 TP loss in retrospective)
   # Path to taxa id -> name cache, used to display lineage names in reports

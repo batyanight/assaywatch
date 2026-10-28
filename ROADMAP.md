@@ -105,18 +105,6 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
 `detect_max` 1.0 and `reduced_max` 3.0, with `terminal_mismatch_fails: true` and, since
 2026-10-27, a 2.0 3'-window penalty for conventional PCR.
 
-- **C1's hierarchical layer: built and printed, kill test owed.** `assaywatch/hierarchical.py`
-  fits one Beta-binomial over an assay's lineages by moments (μ the pooled share, φ off the
-  excess between-lineage variance), gives every lineage a shrunk share, a credible interval
-  and P(θ < threshold), and `drift._lineage_check` prints the result beside the verdict
-  (`docs/journal/2026-10-27-c1-hierarchical-layer.md`). Not a verdict input; a test pins it.
-  The first half of the plan's kill test — "φ implies no overdispersion" — was read on the
-  M1 run and does not fire: multi-lineage assays fit φ between 0.3 and 11.7, intraclass
-  correlation 0.08–0.78 (`docs/journal/2026-10-27-m1-confirming-rescreen.md`). The second
-  half — "shrinkage removes a documented catch" — needs a `lineage.verdict_from:
-  holm | posterior` switch so tier-2 can be re-run with the shrunk worst lineage driving
-  the override. Not built; it is the next thing C1 needs, and the one that would let the
-  layer become a verdict input on evidence.
 - **S5 = C2: the Bayesian per-record model, and it is GATED.**
   `P(detect) = P(fwd ok) x P(rev ok) x P(probe reports)`, each logistic over identity,
   position, adjacency and length, with chemistry as a hierarchical intercept and priors
@@ -188,15 +176,11 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Method debts
 
-- **`score.load_config` caches the per-chemistry resolution inside the dict it returns,
-  and a shallow copy carries the cache.** `config_for` then answers from the shipped
-  table however the copy's `scoring` block reads. It bit twice on 2026-10-27, both times
-  the day a table stopped being empty: `scripts/price_terminal_mismatch.py` would have
-  scored every arm with the shipped penalty, and three fixture rows in `tests/test_score.py`
-  read a planted G as a free wobble. Both callers now `pop(RESOLVED)`; the footgun is in
-  `score.py`, which is in the screen hash's closure and so waits for a quiet moment
-  between runs. Shape of the fix: key the cache on the identity of the `scoring` block
-  it was computed from, or stop storing it in the config dict at all.
+- **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
+  the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
+  before any lineage is looked at. Softening that floor is a different change — a
+  posterior on the pooled share with a prior borrowed across assays of one chemistry —
+  and it is the only route left to a verdict for a 17-record assay. Not designed.
 
 - **`drift.anchor_fdr`'s value has no evidence behind it, and the bench panels
   cannot supply any.** 0.05 and 0.01 differ by a factor of two in rows moved (7,206
@@ -482,6 +466,17 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **C1's hierarchical layer, measured on both halves of its plan** (2026-10-27).
+      Built (`assaywatch/hierarchical.py`), printed beside every verdict; first kill test
+      does not fire (φ 0.3–11.7 on multi-lineage assays, intraclass correlation
+      0.08–0.78); second kill test does not fire either — `lineage.verdict_from: posterior`
+      leaves tier-2 identical and moves 0 of 240 statuses
+      (`docs/journal/2026-10-27-c1-second-kill-test.md`). As a verdict input it changes
+      nothing, so it ships beside the verdict with `verdict_from: holm`. What it earns is
+      honest numbers for thin lineages, not a different decision.
+- [x] **`score.load_config`'s per-chemistry cache is keyed to the scoring block it came
+      from** (2026-10-27), so a shallow copy that swaps the block recomputes instead of
+      answering from the shipped table — the footgun that bit two callers today.
 - [x] **M1 ships: `scoring.mispair_penalty: {"G:T": 0.0, "T:G": 0.0}`** (hold lifted
       2026-10-27, a maintainer decision, after S4 measured its only documented cost away:
       no catch lost, the influenza 2010 case promoted to the drift flag, PPV 3/9 -> 4/10,

@@ -329,6 +329,13 @@ class Lineage(Block):
     #: so what needs controlling is the chance of at least one false rejection.
     multiple_testing: Literal["holm", "bonferroni", "fdr_bh", "fdr_by"] = "holm"
     alpha: float = Field(default=0.05, gt=0, lt=1)
+    #: Which lineage reading drives the override. `holm`: the corrected binomial
+    #: test over raw lineage shares (ships). `posterior`: the shrunk worst lineage
+    #: of C1's hierarchical fit, failing when P(theta < threshold) exceeds
+    #: `posterior_credibility`. The mechanism for the plan's second kill test
+    #: ("shrinkage removes a documented catch"); it ships off.
+    verdict_from: Literal["holm", "posterior"] = "holm"
+    posterior_credibility: float = Field(default=0.95, gt=0.5, lt=1)
     min_records_per_lineage: int = Field(default=30, ge=0)
     taxa_cache: str | None = None
     taxid_backfill: str | None = None

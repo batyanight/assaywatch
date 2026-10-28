@@ -89,7 +89,7 @@ def test_the_shipped_config_overrides_exactly_one_number_for_one_chemistry():
     )
     # With an override present, `load_config` precomputes the per-chemistry blocks.
     assert RESOLVED in cfg
-    assert cfg[RESOLVED]["conventional"]["scoring"]["primer_3prime_penalty"] == 2.0
+    assert cfg[RESOLVED]["resolved"]["conventional"]["scoring"]["primer_3prime_penalty"] == 2.0
 
 
 def test_every_chemistry_but_conventional_takes_the_identical_path():
@@ -231,7 +231,7 @@ def test_resolution_is_precomputed_once_for_overridden_chemistries(tmp_path):
     """Resolution happens per record, so it must not allocate per record."""
     cfg = write_config(tmp_path, {"conventional": {"detect_max": 2.0}})
     assert RESOLVED in cfg
-    assert set(cfg[RESOLVED]) == {"conventional"}
+    assert set(cfg[RESOLVED]["resolved"]) == {"conventional"}
     first = config_for(Chemistry.conventional, cfg)
     assert config_for(Chemistry.conventional, cfg) is first
     assert first["scoring"]["detect_max"] == 2.0

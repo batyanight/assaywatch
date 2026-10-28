@@ -75,3 +75,33 @@ def test_the_verdict_never_reads_the_fit():
     plain, fitted = build(False), build(True)
     assert fitted.hierarchical is not None and plain.hierarchical is None
     assert (plain.status, plain.recent_ci, plain.note) == (fitted.status, fitted.recent_ci, fitted.note)
+
+
+def test_the_posterior_verdict_switch_ships_off_and_reads_the_shrunk_worst_lineage():
+    """`lineage.verdict_from: posterior` is the mechanism for the plan's second kill test.
+
+    It ships `holm`. Under `posterior`, `_worst_lineage` names the SHRUNK worst lineage and
+    fails the assay when its posterior mass under the threshold exceeds the credibility;
+    when the fit found no overdispersion, or the shrunk worst lineage has no row above the
+    floor, it falls back to Holm rather than naming a lineage the report cannot show.
+    """
+    from assaywatch.lineage import LineageStats
+    from assaywatch.score import load_config
+
+    assert load_config()["lineage"]["verdict_from"] == "holm"
+
+    def stat(name, k, n):
+        return LineageStats("A", name, None, n, k, k / n, 0.0, 1.0)
+
+    stats = [stat("low", 120, 200), stat("mid", 180, 200), stat("high", 198, 200)]
+    a = AssayDrift("A", lineage_verdict_from="posterior")
+    a.hierarchical = fit_assay([("low", 120, 200), ("mid", 180, 200), ("high", 198, 200)], 0.9)
+    verdict, idx = a._worst_lineage(stats)
+    assert verdict == "failing" and stats[idx].lineage_name == "low"
+
+    # No overdispersion -> no fit to read -> Holm decides.
+    b = AssayDrift("B", lineage_verdict_from="posterior")
+    b.hierarchical = fit_assay([("x", 90, 100), ("y", 90, 100), ("z", 90, 100)], 0.9)
+    assert b.hierarchical is not None and b.hierarchical.phi is None
+    holm = AssayDrift("B")._worst_lineage([stat("x", 90, 100), stat("y", 90, 100), stat("z", 90, 100)])
+    assert b._worst_lineage([stat("x", 90, 100), stat("y", 90, 100), stat("z", 90, 100)]) == holm

@@ -393,6 +393,9 @@ class AssayDrift:
     # from `lineage.multiple_testing` / `lineage.alpha` before the lineage check.
     lineage_method: str = "holm"
     lineage_alpha: float = 0.05
+    # `lineage.verdict_from`: `holm` (ships) or `posterior`; see `_worst_lineage`.
+    lineage_verdict_from: str = "holm"
+    lineage_credibility: float = 0.95
     # The pooled status before lineage override, so the report can show both.
     status_pooled: str | None = None
     # Index into `lineage_stats` of the lineage that drove the override. The note
@@ -666,9 +669,24 @@ class AssayDrift:
         self.flag_survives_clustering = not failures
 
     def _worst_lineage(self, stats: list) -> tuple[str | None, int | None]:
-        """`lineage.worst_lineage_verdict` with this assay's threshold and correction."""
+        """`lineage.worst_lineage_verdict` with this assay's threshold and correction.
+
+        Under `lineage.verdict_from: posterior` the worst lineage is the shrunk one
+        from C1's hierarchical fit and the test is its posterior mass under the
+        threshold. Falls back to Holm when there is no fit to read, when the fit
+        found no overdispersion (nothing to shrink across), or when the shrunk worst
+        lineage is below the assessability floor and so has no row in `stats` to
+        name -- a lineage the report cannot show must not drive its verdict.
+        """
         from assaywatch.lineage import worst_lineage_verdict
 
+        fit = self.hierarchical
+        if self.lineage_verdict_from == "posterior" and fit is not None and fit.phi is not None:
+            worst = fit.lineages[0]
+            idx = next((i for i, s in enumerate(stats) if s.lineage_name == worst.lineage), None)
+            if idx is not None:
+                failing = worst.p_below > self.lineage_credibility
+                return ("failing" if failing else "detecting"), (idx if failing else None)
         return worst_lineage_verdict(stats, self.threshold, self.lineage_method, self.lineage_alpha)
 
     def _lineage_check(
@@ -1398,6 +1416,8 @@ class LineageOptions:
     buckets_on: bool
     method: str = "holm"
     alpha: float = 0.05
+    verdict_from: str = "holm"
+    credibility: float = 0.95
 
     @classmethod
     def from_config(cls, cfg: dict[str, Any], taxonomy: Taxonomy | None) -> LineageOptions:
@@ -1421,6 +1441,8 @@ class LineageOptions:
             buckets_on=buckets_on,
             method=str(lcfg.get("multiple_testing", "holm")),
             alpha=float(lcfg.get("alpha", 0.05)),
+            verdict_from=str(lcfg.get("verdict_from", "holm")),
+            credibility=float(lcfg.get("posterior_credibility", 0.95)),
         )
 
     def taxid_of(
@@ -1631,6 +1653,8 @@ def assess(
             )
             a.species_counts = _species_counts(recent_calls)
             a.lineage_method, a.lineage_alpha = lineage_opts.method, lineage_opts.alpha
+            a.lineage_verdict_from = lineage_opts.verdict_from
+            a.lineage_credibility = lineage_opts.credibility
             a._lineage_check(
                 recent_calls,
                 taxa_cache,
