@@ -1,7 +1,7 @@
 id: CDV_P_gene_panCDV_Geiselhardt_2022
 name: CANINE DISTEMPER VIRUS — P gene pan-genotypic TaqMan RT-qPCR (Geiselhardt 2022)
 target:
-  taxid: 11232
+  taxid: 3052342
   gene: P
   genome_type: ssRNA-
   taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
@@ -74,7 +74,13 @@ source:
     morbillivirus records (txid3052347, a separate taxon, not in this entry''s archive): 59 span the amplicon and all 59 detect
     at 160 bp with the probe, matching the paper''s PDV claim. SCOPE: taxid is CDV only; the assay is designed to detect PDV
     as well, which the CDV archive does not measure. America-3, America-5 and Asia-3 have no P-gene sequence in GenBank to
-    test (the paper says so too). Sensitivity (LOD) figures are the paper''s and were not checked here.'
+    test (the paper says so too). Sensitivity (LOD) figures are the paper''s and were not checked here.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
 needs_review:
 - flag: target_scope_unresolved
   note: also detects PDV (Morbillivirus phocae, txid3052347) while the taxid here is CDV only; decide whether a PDV-scoped

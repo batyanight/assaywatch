@@ -1,7 +1,7 @@
 id: CDV_N_gene_Elia_2006
 name: CANINE DISTEMPER VIRUS — N gene TaqMan RT-qPCR (Elia 2006)
 target:
-  taxid: 11232
+  taxid: 3052342
   gene: N
   genome_type: ssRNA-
   taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
@@ -65,7 +65,13 @@ source:
     13 contain a product and all 13 fail (penalty 12.5+), whereas Halecker report 2 of 4 PDV samples positive, so the in-silico
     PDV exclusivity is better than their wet-lab result. The other 3,400 CDV records give no_amplicon: 3,384 carry no primer
     site (records not covering the N-gene site) and 16 are truncated. SCOPE: CDV-wide N-gene assay, used as the reference
-    method in Halecker 2021 and in two diagnostic laboratories in Brown 2020.'
+    method in Halecker 2021 and in two diagnostic laboratories in Brown 2020.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
 needs_review:
 - flag: citation_is_indirect
   note: DOI found 2026-10-06 by a Crossref title search, not printed in either citing paper; the top hit matched title, journal,

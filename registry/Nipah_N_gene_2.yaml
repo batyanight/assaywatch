@@ -1,7 +1,7 @@
 id: Nipah_N_gene_2
 name: Nipah — N gene
 target:
-  taxid: 121791
+  taxid: 3052225
   gene: N gene
   genome_type: ssRNA-
   taxon_name: Henipavirus nipahense (formerly Nipah henipavirus)
@@ -50,7 +50,13 @@ source:
     roughly four fifths of deposited Nipah carries two mismatches under each primer while the product length has not moved
     at all. The deposit titles do not separate the two groups - NCBI has renamed the species, so ''Nipah virus'' and ''Henipavirus
     nipahense'' both appear in each - and attributing the split to the Malaysia-versus-Bangladesh lineage divide would need
-    the sequences aligned, which has not been done here. The numbers are recorded; the cause is not claimed.'
+    the sequences aligned, which has not been done here. The numbers are recorded; the cause is not claimed.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 121791 into 3052225 (Henipavirus nipahense), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/121791/ moved to data/retrieved/3052225/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
 needs_review:
 - flag: primer_site_polymorphic
   note: the primer sites have drifted 2 nt in most records

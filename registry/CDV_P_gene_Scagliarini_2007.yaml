@@ -1,11 +1,12 @@
 id: CDV_P_gene_Scagliarini_2007
 name: Canine distemper virus — P gene real-time RT-PCR CDVF4/CDVR3 (Scagliarini 2007)
 target:
-  taxid: 11232
+  taxid: 3052342
   gene: P
   genome_type: ssRNA-
   taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
-  scope_taxids: [3052342]
+  scope_taxids:
+  - 3052342
 chemistry: mgb
 oligos:
   forward:
@@ -30,7 +31,8 @@ citation:
   doi: 10.1007/s11259-007-0020-9
   design_year: 2007
   n_sequences_at_design: null
-  as_written: Scagliarini, A., Dal Pozzo, F., Gallina, L., Vaccari, F. and Morganti, L., 2007. TaqMan based real time PCR for the quantification of canine distemper virus. Veterinary Research Communications, 31(Suppl. 1), 261–263)
+  as_written: Scagliarini, A., Dal Pozzo, F., Gallina, L., Vaccari, F. and Morganti, L., 2007. TaqMan based real time PCR
+    for the quantification of canine distemper virus. Veterinary Research Communications, 31(Suppl. 1), 261–263)
   doi_verified: true
   reference: Scagliarini A et al. 2007. Vet Res Commun 31(Suppl 1):261-263
 use_context:
@@ -40,5 +42,16 @@ submitted_by: null
 status: active
 source:
   nested_round: null
-  notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. Correction 2026-10-19: NCBI has since merged txid11232 into txid3052342, and records carry 3052342 or its no-rank children (3139435 ''canine distemper virus'', 11233 Onderstepoort). scope_taxids [11232] therefore excluded every record (0 of 604 evaluable kept); now [3052342]. target.taxid stays 11232 because it is the retrieval key, and NCBI resolves the merge. | Oligo annotations moved from name field: CDV-Probe (alternate[0]): no MGB'
+  notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name
+    ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. Correction 2026-10-19: NCBI has since merged
+    txid11232 into txid3052342, and records carry 3052342 or its no-rank children (3139435 ''canine distemper virus'', 11233
+    Onderstepoort). scope_taxids [11232] therefore excluded every record (0 of 604 evaluable kept); now [3052342]. target.taxid
+    stays 11232 because it is the retrieval key, and NCBI resolves the merge. | Oligo annotations moved from name field: CDV-Probe
+    (alternate[0]): no MGB
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
 needs_review: null

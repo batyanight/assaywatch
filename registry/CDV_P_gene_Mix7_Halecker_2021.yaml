@@ -1,7 +1,7 @@
 id: CDV_P_gene_Mix7_Halecker_2021
 name: CANINE DISTEMPER VIRUS — P gene TaqMan RT-qPCR CDV-Mix 7 (Halecker 2021)
 target:
-  taxid: 11232
+  taxid: 3052342
   gene: P
   genome_type: ssRNA-
   taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
@@ -60,5 +60,11 @@ source:
     no primer site; 9 truncated; 20 labelled diverged, which are N, M/F, L and H-gene records that do not cover the P region).
     Against 116 PDV records (txid3052347) all 59 spanning records fail, consistent with the paper''s PDV-negative result.
     Analytical sensitivity, specificity and the 98.9% diagnostic sensitivity are the paper''s and were not checked. SCOPE:
-    CDV-wide; validation panel was mostly European lineages.'
+    CDV-wide; validation panel was mostly European lineages.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
 needs_review: null

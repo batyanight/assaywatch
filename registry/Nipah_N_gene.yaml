@@ -1,7 +1,7 @@
 id: Nipah_N_gene
 name: Nipah — N gene
 target:
-  taxid: 121791
+  taxid: 3052225
   gene: N gene
   genome_type: ssRNA-
   taxon_name: Henipavirus nipahense (formerly Nipah henipavirus)
@@ -46,5 +46,11 @@ source:
     of OPEN full text, and this paper is paywalled: Wacharapluesadee & Hemachudha 2007 (J Virol Methods 141:97-101) prints
     NP1F and NP1R in its Table 1 and names them as the first-round pair of a duplex nested RT-PCR, with NP2F/NP2R - the sibling
     entry''s pair, already traced to Chua 2000 - as the nested round, which is exactly the relationship the two entries record.
-    Both sequences verify exact against the PDF. design_year set to 2007, the publication year of the pair.'
+    Both sequences verify exact against the PDF. design_year set to 2007, the publication year of the pair.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 121791 into 3052225 (Henipavirus nipahense), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/121791/ moved to data/retrieved/3052225/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
 needs_review: null
