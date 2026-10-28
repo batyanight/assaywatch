@@ -1,3 +1,50 @@
+# Resume point, 2026-10-27 (late night: the second roadmap pass — SCOPED taxids, influenza sublineage on, exclusivity_taxids, conditions blocks)
+
+**Start here:** `ROADMAP.md`. Plan: `~/.claude/plans/quizzical-snuggling-corbato.md`
+(second pass, written and approved tonight). Phases 1, 2, 4 and 5 are committed; **phase
+3, the retired-taxid live run, has NOT been started** and is the next thing to do.
+Six commits, 1,786 tests, registry 214, validator 214/214. Not yet pushed if `git log
+origin/main..HEAD` says so.
+
+- **The 8 `taxon_name` mismatches were never wrong**, open since 2026-10-04:
+  `check_taxids.py` now has a `SCOPED` status that reads the retrieval query, requires
+  every pinned organism taxid to descend from the entry's own taxid, and asks whether one
+  of them carries the stored name. 0 mismatched taxids. The 18 MERGED taxids are still
+  there and are phase 3's work.
+- **The influenza sublineage chain is ON**, and the subtype table inverts on the corrected
+  numerator: H3N2 1.2% of 38,771, H1N1 2.6%, H5N1 34.0%, thirty avian subtypes 85-100%.
+  The pooled 6.5% was the two human-circulating subtypes. Tier-2 identical, 0 of 193
+  statuses move.
+- **`target.exclusivity_taxids` is built.** A near neighbour a paper claims to exclude is
+  now its own retrieval group on the assay's own query. BPSV is the first entry (orf virus
+  10258, pseudocowpox 129726); 124 retrieval groups become 125, because orf virus shares
+  an archive that already exists. The report marks those rows `claimed`.
+- **`conditions` / `performance` / `panels` exist and 119 entries carry a protocol**:
+  47 an annealing temperature against 7 before, 84 cycles, 28 magnesium, 14 an RT format.
+  `scripts/extract_conditions.py` proposes with the paper's sentence quoted;
+  `docs/2026-10-27-conditions-proposals.tsv` holds all 644 rows, including the 270 only a
+  reader can fill, the 122 ambiguous and the 79 nested rounds. Five extraction bugs are
+  recorded in the journal; four of them pass any range check.
+- **A duplicate YAML key had silently eaten one entry's note for three days.**
+  `scripts/check_duplicate_keys.py` is now a pre-commit gate over every registry and
+  pending file, because `check-yaml` only sees the files one commit touches.
+
+## What phase 3 needs, in order
+
+1. The tree must be clean and committed (the live run refuses a dirty tree under the
+   hashed paths), and nothing under `assaywatch/`, `config.yaml`, `registry/` or
+   `Snakefile` may be edited while it runs.
+2. Rewrite `target.taxid` on the 18 MERGED entries to the canonical id
+   `check_taxids.py` prints (11232 -> 3052342 CDV x9, 121791 -> 3052225 Nipah x2,
+   11051 -> 3044782 flavivirus x3, 10292 -> 3044472 herpesvirus x4).
+3. `data/retrieved/<taxid>/` is keyed by taxid: move the four root directories to the
+   new ids, then `python scripts/rebuild_manifest.py`.
+4. `scripts/weekly_run.sh --live --cores 4`, lid open. Then `scripts/report_diff.py`
+   against `results/2026-10-27`. It is also the confirming rescreen for the schema and
+   registry edits above, and the run that first fetches pseudocowpox for BPSV.
+
+---
+
 # Resume point, 2026-10-27 (night: the M1 hold lifted and confirmed by screen, the Kwok premium killed, C1's hierarchical layer built)
 
 **Start here:** `ROADMAP.md`. After the evening entry below, the maintainer lifted the M1

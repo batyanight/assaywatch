@@ -288,13 +288,19 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
   that stayed open. This is the same literature pass as the within-family negative
   corpus that gates C2, so one read per paper serves both.
-- **The registry is a primer registry, not an assay registry.** Annealing or
-  cycling appears in 7 of 209 entries (counted 2026-10-27, before the five mpox adds), LoD or efficiency in 23, master mix or
-  Mg²⁺ in 2, sample matrix in 6, and one-step versus two-step RT in none
-  (2026-10-27). That is why `thermo: false` must ship: a ΔTm of −6 °C is
-  irrelevant at Ta 50 and fatal at Ta 62, and the schema cannot say which. Fix
-  shape: `conditions` / `format` / `performance` / `panels` blocks. Deferred
-  because the fix is re-reading papers, which is curation time.
+- **The registry is becoming an assay registry; the rest of the reading is a
+  reader's.** The blocks exist and 119 entries carry a protocol (2026-10-27,
+  `## Done`): 47 an annealing temperature against 7 before, 84 a cycle count, 28
+  magnesium, 14 an RT format. What is left is in
+  `docs/2026-10-27-conditions-proposals.tsv`, every row with the paper's own sentence
+  beside it: **270 rows only a reader can fill** (an LoD and a master mix are quoted
+  prose; the oligo concentrations need someone to say whether a number is a stock or a
+  final concentration), **122 ambiguous** (the paper prints two protocols and only a
+  reader knows which is this entry's), **79 nested rounds** (the rounds of a nest
+  share a paper and almost never share a programme). `panels` is untouched: each one
+  is a table in a paper and a read of its own. 34 papers on disk print no protocol at
+  all and are flagged `conditions_not_printed`, which is a fact about the paper.
+  Lifting `thermo: false` is now arguable for the 47 and still dishonest for the rest.
 
 - **Registry coverage.** Audit the PREDICT consensus-PCR panel for gaps, and
   add assays in current wildlife-lab use that PREDICT never covered — fungal,
@@ -441,6 +447,23 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **The registry knows what temperature 119 of its assays ran at** (2026-10-27,
+      `docs/journal/2026-10-27-conditions-first-pass.md`). `conditions` / `performance`
+      / `panels` validated empty first, then `scripts/extract_conditions.py` read the
+      178 papers on disk and proposed 644 values with the sentence each came from;
+      `--apply --only-sole` took the 292 that need no judgement. Five extraction bugs
+      were found by looking at the numbers, four of which pass any range check — a
+      spaced-out decimal point read 25 mM where the paper says 1.25, a decimal comma
+      read 0 mM, and a 50 mM stock was read as a final concentration the same sentence
+      states as 1.5 mM. `format` is not a block, and the reason is in the commit.
+- [x] **A registry key given twice loaded silently, and one entry's note was lost for
+      three days** (2026-10-27). `yaml.safe_load` takes last-wins, so two
+      `notes_curator` keys left the first value in the file and in no loaded entry,
+      past the validator, the screen and the report. `scripts/check_duplicate_keys.py`
+      walks the node tree — by the time there is a dict the evidence is gone — and runs
+      over every registry and pending file on any registry commit, where `check-yaml`
+      sees only the files one commit touches. That is the second gate in two days found
+      to be looking at a subset, both times through a duplicate YAML key.
 - [x] **A near neighbour a paper claims to exclude is fetched on purpose** (2026-10-27).
       `target.exclusivity_taxids`: each named taxon becomes its own retrieval group on
       the assay's own query, so a published specificity claim can be screened instead of
