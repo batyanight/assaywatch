@@ -136,7 +136,7 @@ scoring:
   # herpesvirus 5/5B and Macropodid alphaherpesvirus 4. Those are real
   # cross-subfamily herpesviruses and the entire point of a pan-herpes assay; they
   # score 0.35-0.41 only because the reference happened to be five human-CMV
-  # records from one submission batch. 48 of 209 entries are pan/consensus shaped.
+  # records from one submission batch. 48 of 209 entries (2026-10-27 count) are pan/consensus shaped.
   #
   # It also cannot judge a short amplicon - trimming 20 bp from each end of Orf's
   # 68 bp or OPHIDIOMYCES targetD's 57 bp leaves 28 and 17 bases - so the two cases
@@ -222,9 +222,9 @@ scoring:
 
   # PER-CHEMISTRY OVERRIDES. Every key above applies to every assay in the registry,
   # whatever its chemistry, and they
-  # are not one kind of assay: 155 are conventional or consensus PCR, 51 are
-  # probe-based (20 MGB, 31 hydrolysis), 2 are SYBR and 1 is RPA (209 files on
-  # 2026-10-26; `python -m assaywatch.validate registry` prints the current ones, and
+  # are not one kind of assay (209 files on 2026-10-26): 155 are conventional or consensus PCR, 51 are
+  # probe-based (20 MGB, 31 hydrolysis), 2 are SYBR and 1 is RPA, all as of 2026-10-26;
+  # `python -m assaywatch.validate registry` prints the current ones, and
   # it exists because the counts written here by hand keep drifting - they read
   # 164/142/21 once, understating the probe share by half, and 167/44 as recently as
   # 2026-10-14). A rule set at qPCR strength is wrong for the 155, and wrong in the

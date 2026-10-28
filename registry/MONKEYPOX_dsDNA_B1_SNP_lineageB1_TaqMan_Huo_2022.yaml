@@ -1,0 +1,55 @@
+id: MONKEYPOX_dsDNA_B1_SNP_lineageB1_TaqMan_Huo_2022
+name: MONKEYPOX virus (dsDNA) — Panel 2 B.1 lineage SNP probe (Huo 2022)
+target:
+  taxid: 10244
+  gene: SNP-typing locus at 183519-183542 of ON563414.2
+  genome_type: dsDNA
+  taxon_name: Monkeypox virus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: Huo2022_P2_F
+    seq: AGTACACAGACCTCCACCAC
+  reverse:
+    name: Huo2022_P2_R
+    seq: AGTAATTGACCTACTGGTCTAGGG
+  probe:
+    name: Huo2022_P2_B1_P
+    seq: AAACCAGTCCAAAATTCGCCACAA
+    reporter: HEX
+    quencher: BHQ1
+  alternates: []
+amplicon_bp: 81
+citation:
+  doi: 10.1016/j.bsheal.2022.10.005
+  design_year: 2022
+  n_sequences_at_design: 138
+  as_written: null
+  reference: Huo S, Chen Y, Lu R, Zhang Z, Zhang G, Zhao L, Deng Y, Wu C, Tan W. 2022. Development of two multiplex real-time
+    PCR assays for simultaneous detection and differentiation of monkeypox virus IIa, IIb, and I clades and the B.1 lineage.
+    Biosaf Health 4:392-398
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- public_health
+- wildlife
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-27 from the open-access full text (PMC9633113, Europe PMC) Table 1 "Primers and probes designed
+    in this study" and Section 2.3, which assigns each probe to its target by reporter dye. Panel 2 shares one primer pair
+    across its probes; each probe is one entry here, the pattern the Li 2010 G2R trio uses. This probe is the one Section
+    2.3 labels HEX/BHQ1, specific to the 2022 B.1 lineage, a single-nucleotide-polymorphism probe at 183519-183542 of MPXV_USA_2022_MA001
+    (ON563414.2). A lineage that has no NCBI node; unscoped, scope_narrower_than_taxid. AMPLICON NOT STATED BY THE PAPER.
+    MEASURED 2026-10-27 by screening this entry against every archive of taxids 10244 and 10242: 81 bp in 28,882 of 28,888
+    products over 35,539 records; calls detect 18,909 / reduced 1,396 / fail 8,530 / no_amplicon 6,651 -- a single-nucleotide
+    probe, so the fails are non-B.1 clades by design. DOI resolved through Crossref by scripts/resolve_citations.py on 2026-10-27; status draft; only a maintainer sets active.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: the paper states no product size; measured 2026-10-27, see notes_curator
+- flag: scope_narrower_than_taxid
+  note: a clade- or lineage-specific probe; NCBI Taxonomy has no node for any MPXV clade or lineage, so the denominator is
+    the whole species by necessity

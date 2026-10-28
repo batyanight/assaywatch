@@ -63,8 +63,9 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
     switch moved and whatever S3b moves on top; the two verdicts measured here are
     `Pan_flavivirus_NS5_3_round2` (a false alarm dropped) and the Forslund FAP case
     (`low coverage` -> `declining`).
-  - **78 small movers were never rescreened** — 4,820 calls between them, at most
-    395 each, so none can move a verdict alone. Still not the same as having checked.
+  - ~~78 small movers were never rescreened~~ — the 2026-10-27 run rescreened
+    everything, and the replay agrees with it on all but 8 of 2,679,894 shared rows
+    (6 `fail` -> `no_amplicon`, 2 `fail` -> `reduced`, none on a tier-2 case). Closed.
   - **2.0 is coarser than the evidence deserves.** Kwok 1990 and Stadhouders 2010
     both report that the cost of a mismatch depends on its IDENTITY, which
     `scoring.mispair_penalty` can express per pair and a single positional number
@@ -151,17 +152,18 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
 
 ## Operations: nothing is actually running on a schedule
 
-- **The weekly re-screen is not installed.** `launchctl list` shows no
-  `com.assaywatch.weekly` job on this machine, and the newest file in
-  `results/weekly-logs/` is dated 2026-10-23. `profiles/launchd/` holds a template
-  and a README, `scripts/weekly_run.sh` is written and dry by default, and README
-  says the tool "re-screens on a schedule" — which is true of the code and false of
-  this laptop. For a project whose contribution is CONTINUOUS re-validation, that
-  gap is the difference between the claim and the artefact.
-- **A full run is owed, and today's change forces it.** Scoring is part of the cache
-  key, so the next `snakemake` rescreens everything; every committed report and
-  figure predates both the probe switch and S3b. Until it runs, the newest numbers
-  in the repository describe a configuration that no longer ships.
+- **The weekly re-screen is installed on this machine only** (2026-10-27, live,
+  Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
+  machine-local state: the other MacBooks are not scheduled, and README's "re-screens
+  on a schedule" is true of exactly one laptop. Still owed in `scripts/weekly_run.sh`:
+  refuse `--live` on a dirty tree under `assaywatch/`, `config.yaml`, `registry/` or
+  `Snakefile`, which is the guard the second failed run of 2026-10-27 needed.
+- **The full run under today's scoring exists**: `results/2026-10-27/`, committed as
+  `docs/example-run-2026-10-27/`. 16 statuses moved against 2026-10-26, the probe
+  switch's and S3b's among them, and the S3b replay was checked against it row for
+  row: 8 call disagreements in 2,679,894. **Owed by that run**: the groups of the 31
+  entries edited afterwards (28 orientation notes, 3 renames) and the five new mpox
+  entries rescreen on Sunday, because the signature hashes the registry.
 
   **Two runs on 2026-10-27 failed at `collect_calls`, and the second was self-inflicted.**
   The first found 461 of 482 cached screens stale against the new scoring config —
@@ -320,7 +322,7 @@ evaporated once its register was fixed (2026-10-27, p = 0.019 -> 0.071).
   instead of `scope_taxids`.
 
 - **The registry is a primer registry, not an assay registry.** Annealing or
-  cycling appears in 7 of 209 entries, LoD or efficiency in 23, master mix or
+  cycling appears in 7 of 209 entries (counted 2026-10-27, before the five mpox adds), LoD or efficiency in 23, master mix or
   Mg²⁺ in 2, sample matrix in 6, and one-step versus two-step RT in none
   (2026-10-27). That is why `thermo: false` must ship: a ΔTm of −6 °C is
   irrelevant at Ta 50 and fatal at Ta 62, and the schema cannot say which. Fix
