@@ -39,4 +39,6 @@ submitted_by: null
 status: active
 source:
   nested_round: null
+  notes_curator: >-
+    A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 2015 (J Vet Diagn Invest, doi:10.1177/1040638715573983, held in papers/) prints Oo-RT-ITS-R verbatim. Both papers are from 2015 and the citation is unchanged -- Bohuski prints the whole assay and is where this entry was read from -- but a second independent printing of a stored sequence is worth recording, because it is the check a transcription error cannot survive. Allender's own assay targets ITS1 rather than ITS2, so it is a different assay sharing a primer and not a duplicate of this entry.
 needs_review: null
