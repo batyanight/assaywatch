@@ -136,21 +136,6 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Operations
 
-- **A one-word note edit in `registry/` rescreens every archive**, because the screen
-  signature hashes the whole directory's bytes rather than each entry's. Measured
-  2026-10-28: changing one review flag, deleting five `mg_mm` values and adding three
-  provenance notes — no sequence, no query, no threshold — made `snakemake` plan **357
-  screen jobs**, a full pass over 2.7M rows for a calls table that cannot change. The run
-  was stopped and the report rendered from the existing calls table instead; Sunday's
-  scheduled run is the confirming rescreen.
-
-  The fix is a per-entry signature: hash each assay's own YAML into the job that screens
-  the archives it appears in, so an edit to one entry rescreens one entry's groups. That
-  is also what would make curation cheap — the conditions and exclusivity work ahead of
-  this is hundreds of note edits, and today each one of them costs a full rescreen.
-  Worth doing before that curation, not after.
-
-
 - **The weekly re-screen is installed on this machine only** (2026-10-27, live,
   Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
   machine-local state: the other MacBooks are not scheduled, and README's "re-screens
@@ -528,6 +513,19 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **A registry edit that cannot change a call no longer rescreens anything**
+  (2026-10-28, `docs/journal/2026-10-28-screen-signature-projection.md`). **The claim
+  this item was opened with was wrong**: the signature was already per-group, not
+  whole-registry — `screen_signature(taxid, group)` hashed only that group's own assay
+  files, and the "357 screen jobs" read off a stopped run were the post-checkpoint DAG's
+  denominator, not a work queue. What was true is subtler: it hashed each entry's whole
+  YAML, so a curator's note, a review-flag wording or a `conditions` block invalidated
+  every group holding that entry. `signature.screen_key` now hashes the screen-relevant
+  projection instead. Replaying the two days of curation: **108 of 125 groups and 444
+  archives rescreen under the old scheme, 10 groups and 47 archives under the new one**,
+  and those 10 are the ones that should — four retired-taxid roots, BPSV and its two
+  neighbours gaining `exclusivity_taxids`, the calicivirus flag change, and the
+  orthoreovirus pair gaining a flag.
 - [x] **A published exclusivity claim is visible, and the first one tested reconciles two
       numbers this registry carried in contradiction** (2026-10-28,
       `docs/journal/2026-10-28-bpsv-exclusivity-reconciled.md`). The report has a

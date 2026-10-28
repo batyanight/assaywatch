@@ -74,18 +74,17 @@ Both are pinned in `tests/test_exclusivity.py` with these numbers.
 
 ## One operational finding, recorded because it will shape the next week's work
 
-Re-rendering this report should have been a report job. It planned **357 screen jobs**:
-the screen signature hashes the whole of `registry/`, so today's edits — one review flag
-changed, five `mg_mm` values deleted, three provenance notes added, no sequence and no
-threshold touched — invalidated every cached screen in the project. The run was stopped
-and the report rendered directly from `results/2026-10-27/calls.tsv.gz`, which is the
-same table either way because nothing that affects a call changed. Sunday's scheduled run
-is the confirming rescreen.
+Re-rendering this report should have been a report job, and it started screening instead.
+The run was stopped and the report rendered directly from `results/2026-10-27/calls.tsv.gz`,
+which is the same table either way because nothing affecting a call had changed.
 
-It matters more than it sounds: the curation ahead of this — conditions for the entries
-that still lack them, exclusivity claims for the species-specific assays — is hundreds of
-note edits, and at one full rescreen each it is unaffordable. A per-entry signature is now
-a roadmap item under Operations.
+**The diagnosis written here first was wrong and is corrected in
+`2026-10-28-screen-signature-projection.md`.** It said the signature hashes the whole of
+`registry/`; it does not, and never did — it hashes each GROUP's own assay files. What was
+true is that it hashed each entry's whole YAML, so a note or a `conditions` block
+invalidated the groups holding that entry: 312 of 494 cached screens, after 192 entries
+were curated. `signature.screen_key` now hashes only the screen-relevant fields, which
+takes the same two days of curation from 444 archive rescreens to 47.
 
 **One status did move, and for a good reason.** `CALICIVIRUS_ssRNA_Helicase_Reid_1999`
 appears in the report for the first time (`no recent data`), because changing its flag

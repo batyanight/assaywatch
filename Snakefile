@@ -51,6 +51,7 @@ from assaywatch.timing import (
     write_run_marker,
 )
 from assaywatch.settings import Settings
+from assaywatch.signature import screen_key
 from assaywatch.triggers import source_names
 from assaywatch.validate import iter_files, load_assay, not_live_because
 
@@ -165,10 +166,19 @@ def screen_signature(taxid, group):
     left stale results in place. Anything that can change a call belongs in here:
     miss one (schema.py, which owns Oligo.matching_seq, was missed at first) and
     the pipeline silently reports yesterday's answers.
+
+    IT HASHES EACH ENTRY'S SCREEN-RELEVANT FIELDS, NOT ITS BYTES (2026-10-28).
+    Hashing the file meant a curator's note, a review flag's wording or a
+    `conditions` block invalidated every group holding that entry, and the measured
+    cost of that was 312 of 494 cached screens stale after two days of curation in
+    which no sequence, amplicon or query changed. `signature.screen_key` keeps the
+    fields a call can depend on and drops provenance prose; the projection is listed
+    and justified there, and pinned against the schema by a test, because leaving a
+    field out is the dangerous direction.
     """
     h = hashlib.sha1(_code_hash.encode())
     for aid in sorted(GROUPS[(taxid, group)]["assays"]):
-        h.update((Path(REGISTRY) / f"{aid}.yaml").read_bytes())
+        h.update(screen_key(yaml.safe_load((Path(REGISTRY) / f"{aid}.yaml").read_text())))
     return h.hexdigest()[:16]
 
 

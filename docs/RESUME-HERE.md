@@ -32,12 +32,16 @@
 
 ## The one thing to fix before the next curation pass
 
-**A one-word note edit in `registry/` rescreens every archive.** Today's flag change, five
-deletions and three notes planned **357 screen jobs**, because the screen signature hashes
-the whole directory. The run was stopped and the report rendered from the existing calls
-table; Sunday's scheduled job is the confirming rescreen. A per-entry signature is in
-`ROADMAP.md` under Operations, and the conditions and exclusivity curation ahead is
-hundreds of note edits — so it belongs first.
+**Fixed the same day, and the first diagnosis was wrong.** A re-render started screening,
+which I attributed to the signature hashing the whole of `registry/`. It does not: it
+hashes each GROUP's assay files, and the 357 jobs were a stopped run's DAG denominator
+read as a work queue. The real defect was that it hashed each entry's whole YAML, so a
+note or a `conditions` value invalidated that entry's groups — 312 of 494 screens stale
+after 192 entries were curated. `signature.screen_key` now hashes the screen-relevant
+projection: the same two days of curation go from 444 archive rescreens to 47, and the
+ten groups that remain are the ones that should.
+`scripts/stale_screens.py` answers "what will the next run rescreen, and why" without
+starting one — which is what should have been asked first.
 
 `results/2026-10-28.partial-stopped/` is that abandoned run, kept rather than deleted.
 
