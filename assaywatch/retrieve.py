@@ -418,14 +418,33 @@ def targets_from_registry(
             if assay.status.value == "deprecated" or assay.target.taxid is None:
                 continue
             pair = (assay.oligos.forward.matching_seq, assay.oligos.reverse.matching_seq)
-            keys = [(assay.target.taxid, group_slug(assay.target.query), assay.target.query)]
+            # (taxid, group, query, name): the name is the GROUP's taxon, which for
+            # an exclusivity group is not the assay's own, and nothing here knows
+            # the neighbour's name -- so it is left unset and filled by whichever
+            # assay actually targets that taxid, if any does.
+            name = assay.target.taxon_name
+            keys = [(assay.target.taxid, group_slug(assay.target.query), assay.target.query, name)]
             if assay.target.taxid in asm_taxa:
-                keys.append((assay.target.taxid, "asm", None))
-            for taxid, group, query in keys:
+                keys.append((assay.target.taxid, "asm", None, name))
+            # A taxon the paper claims the assay excludes gets its own group, on
+            # the assay's own query so only the relevant locus is fetched. It
+            # needs no new kind of group and no new cap: the group is an ordinary
+            # nuccore fetch, held by `retrieve.max_records_per_taxon` like every
+            # other, and because the taxid sits outside the target's subtree the
+            # scope filter keeps those records out of the drift denominator and
+            # the report's cross-reactivity table picks them up. When another
+            # assay targets that same taxid under the same query, the two share
+            # one archive and the neighbour is fetched once -- which is the point
+            # of keying groups by (taxid, query) rather than by assay.
+            for excl in assay.target.exclusivity_taxids or []:
+                keys.append((excl, group_slug(assay.target.query), assay.target.query, None))
+            for taxid, group, query, group_name in keys:
                 slot = out.setdefault(
                     (taxid, group),
-                    {"name": assay.target.taxon_name, "query": query, "assays": [], "pairs": []},
+                    {"name": group_name, "query": query, "assays": [], "pairs": []},
                 )
+                if slot["name"] is None and group_name is not None:
+                    slot["name"] = group_name
                 slot["assays"].append(assay.id)
                 if pair not in slot["pairs"]:
                     slot["pairs"].append(pair)

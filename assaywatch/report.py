@@ -721,7 +721,7 @@ class DetailRow:
     # (label, predicted-detected, screened, share) per off-target taxon, worst
     # first: the EXCLUSIVITY arm. Empty when the assay declares no scope_taxids
     # or no out-of-scope record was screened.
-    exclusivity: list[tuple[str, int, int, float]]
+    exclusivity: list[tuple[str, int, int, float, bool]]
     patent_excluded: int
     clustering_note: str
     unevaluable: dict[str, int]
@@ -1025,8 +1025,10 @@ def _status_row(a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[s
     )
 
 
-def exclusivity_rows(a: AssayDrift, taxonomy: Taxonomy | None = None) -> list[tuple[str, int, int, float]]:
-    """(taxon, predicted-detected, screened, share) per off-target taxon.
+def exclusivity_rows(
+    a: AssayDrift, taxonomy: Taxonomy | None = None, claimed: set[int] | None = None
+) -> list[tuple[str, int, int, float, bool]]:
+    """(taxon, predicted-detected, screened, share, claimed) per off-target taxon.
 
     The INCLUSIVITY arm asks whether an assay still detects its target. This is
     the other half: of the records screened and then dropped as out of scope,
@@ -1040,12 +1042,20 @@ def exclusivity_rows(a: AssayDrift, taxonomy: Taxonomy | None = None) -> list[tu
     primer pair with no probe site between it is already scored `fail`
     (`score._call_rank`), so a detection on a probe assay implies the probe bound.
 
-    Worst first, so a real cross-reaction leads. This is a PREDICTION from
+    `claimed` is `target.exclusivity_taxids`: the taxa the paper says the assay
+    does not amplify, which are retrieved on purpose. Those rows sort first and
+    are marked, because they answer a published claim, where the rest answer
+    "whatever else happened to be in an archive this assay was screened against"
+    -- a distinction a reader cannot otherwise make from the table, and the
+    difference between a specificity result and a coincidence.
+
+    Then worst first, so a real cross-reaction leads. This is a PREDICTION from
     sequence like every other number here, and a high share is a reason to look
     at the published exclusivity panel, not a finding that the assay
     cross-reacts.
     """
-    rows: list[tuple[str, int, int, float]] = []
+    claimed = claimed or set()
+    rows: list[tuple[str, int, int, float, bool]] = []
     for taxid, calls in (a.out_of_scope_calls or {}).items():
         screened = sum(calls.values())
         if not screened:
@@ -1053,14 +1063,15 @@ def exclusivity_rows(a: AssayDrift, taxonomy: Taxonomy | None = None) -> list[tu
         detected = sum(n for call, n in calls.items() if call in a.detected_calls)
         name = (taxonomy.name.get(taxid) if taxonomy else None) or f"taxid {taxid}"
         label = f"{name} ({taxid})" if name != f"taxid {taxid}" else name
-        rows.append((label, detected, screened, detected / screened))
-    rows.sort(key=lambda r: (-r[3], -r[2]))
+        rows.append((label, detected, screened, detected / screened, taxid in claimed))
+    rows.sort(key=lambda r: (not r[4], -r[3], -r[2]))
     return rows
 
 
 def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> DetailRow:
     assay = assays.get(a.assay_id)
     deg = assay_degeneracy(assay) if assay else None
+    claimed = set(assay.target.exclusivity_taxids or []) if assay else set()
     species = None
     if assay and assay.amplicon_bp_range and a.species_counts:
         lo, hi = assay.amplicon_bp_range
@@ -1077,7 +1088,7 @@ def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> Detai
         hierarchical=describe_hierarchical(a.hierarchical, a.threshold) if a.lineage_stats else "",
         species=species,
         out_of_scope=a.out_of_scope,
-        exclusivity=exclusivity_rows(a, taxonomy),
+        exclusivity=exclusivity_rows(a, taxonomy, claimed),
         patent_excluded=a.patent_excluded,
         clustering_note=a.clustering_note,
         unevaluable=a.unevaluable(),
@@ -1468,15 +1479,20 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
                         "because primers with no probe site between them score `fail`. Like "
                         "every number here it is a prediction from sequence: read a high share "
                         "as a reason to check the paper's exclusivity panel, not as a finding "
-                        "that the assay cross-reacts.",
+                        "that the assay cross-reacts. A row marked `claimed` is a taxon the "
+                        "cited paper says this assay does NOT amplify "
+                        "(`target.exclusivity_taxids`), retrieved on purpose to test that "
+                        "claim; the rest are whatever else was in the archives this assay "
+                        "was screened against, which is a coincidence and not a panel.",
                         "",
-                        "| off-target taxon | predicted detected | screened | share |",
-                        "|---|---|---|---|",
+                        "| off-target taxon | claimed | predicted detected | screened | share |",
+                        "|---|---|---|---|---|",
                     ]
-                    for label, det, n, share in d.exclusivity[:MAX_EXCLUSIVITY_ROWS]:
-                        out.append(f"| {md(label)} | {det:,} | {n:,} | {pct(share)} |")
+                    for label, det, n, share, claimed in d.exclusivity[:MAX_EXCLUSIVITY_ROWS]:
+                        mark = "claimed" if claimed else ""
+                        out.append(f"| {md(label)} | {mark} | {det:,} | {n:,} | {pct(share)} |")
                     if len(d.exclusivity) > MAX_EXCLUSIVITY_ROWS:
-                        out.append(f"| _+{len(d.exclusivity) - MAX_EXCLUSIVITY_ROWS} more taxa_ | | | |")
+                        out.append(f"| _+{len(d.exclusivity) - MAX_EXCLUSIVITY_ROWS} more taxa_ | | | | |")
                     out.append("")
             if d.patent_excluded:
                 out += [

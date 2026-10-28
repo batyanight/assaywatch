@@ -271,11 +271,48 @@ class Target(Strict):
     # the smallest set of taxa whose subtrees cover the design paper's stated
     # range -- a genus or a subfamily, not an enumerated species list.
     scope_taxids: list[int] | None = None
+    # Taxa the CITED PAPER CLAIMS this assay does not amplify. `scope_taxids` says
+    # which records count toward the drift denominator; this says which off-target
+    # taxa are worth having on disk to test a published exclusivity claim against.
+    # Each one becomes its own retrieval group (retrieve.targets_from_registry) on
+    # the assay's own gene query, so a near-neighbour is fetched deliberately
+    # instead of being represented by whatever happened to be downloaded for some
+    # other assay -- which is why BPSV could not be tested for specificity at all
+    # until 2026-10-27, despite the report having had a cross-reactivity arm since
+    # 2026-10-23.
+    #
+    # Records retrieved this way are outside the target's subtree, so the existing
+    # scope filter drops them from the denominator and the report's predicted
+    # cross-reactivity table picks them up. Nothing scores them; a high share is a
+    # reason to read the paper's exclusivity panel, as that table already says.
+    exclusivity_taxids: list[int] | None = None
     # Extra Entrez term ANDed onto the taxon query at retrieval, e.g.
     # `invA[Gene] OR "invasion protein"[Title]`. Without it the whole taxon is
     # fetched, which for E. coli is sixteen million records. Assays with the
     # same taxid and the same query share one retrieval group and one archive.
     query: str | None = None
+
+    @model_validator(mode="after")
+    def exclusivity_is_off_target(self) -> Target:
+        """An exclusivity taxon may not be the target, or be listed in scope.
+
+        Both mistakes are easy and both are silent. The target's own taxid would
+        fetch the target archive a second time under a second group key, double
+        counting it; a taxid already in `scope_taxids` would be retrieved as an
+        off-target neighbour and then counted IN the drift denominator, so the
+        same records would answer both arms. Ancestry is not checked here -- the
+        schema has no taxonomy -- and `scripts/check_taxids.py` is where a claimed
+        neighbour that sits inside the target's subtree is caught against NCBI.
+        """
+        excl = self.exclusivity_taxids or []
+        if self.taxid is not None and self.taxid in excl:
+            raise ValueError(f"exclusivity_taxids contains the target taxid {self.taxid}")
+        both = sorted(set(excl) & set(self.scope_taxids or []))
+        if both:
+            raise ValueError(f"taxids are both in scope and claimed excluded: {both}")
+        if len(set(excl)) != len(excl):
+            raise ValueError("exclusivity_taxids has duplicates")
+        return self
 
     @model_validator(mode="after")
     def query_does_not_begin_with_not(self) -> Target:
