@@ -138,19 +138,22 @@ scoring:
   # were lost at EVERY position with `reduced` counting as detected; both conditions
   # have since changed, which is why it was worth measuring rather than assuming.
   #
-  # PRICED 2026-10-29 AT 10, PASSES, AND STILL NULL. The measurement did what it was
-  # meant to: 31,237 calls move, every one a loosening; tier-2 identical case for case;
-  # the bench improves by ONE row (PPRV Nigeria75/1, fail 4.0 -> reduced 3.0 on a single
-  # mid-window wobble) and NO within-family negative gains a band, so HPV55 and HPV44 --
-  # the rows that killed S7 -- stay `fail`. Identity separated what position could not.
-  # The reason the number here is still null is the report: 7 flags fall, 5 distinct
-  # assays stop being flagged, 6 of the 7 rows have no ground truth either way, and the
-  # 7th is held-out set 2's one false alarm (G2R generic, `declining -> stable`) fixed by
-  # exactly the predicted mechanism. That is the strongest number S7b has and the one
-  # number a threshold may not be fitted to. On data this project may spend, S7b is one
-  # bench row. A maintainer decides; a replay prices and does not prove, so shipping it
-  # also means a confirming rescreen. Account: docs/journal/2026-10-29-s7b-priced.md.
-  mispair_window: null
+  # PRICED 2026-10-29 AT 10 AND PASSED. 31,237 calls move, every one a loosening;
+  # tier-2 identical case for case; the bench improves by ONE row (PPRV Nigeria75/1,
+  # fail 4.0 -> reduced 3.0 on a single mid-window wobble) and NO within-family negative
+  # gains a band, so HPV55 and HPV44 -- the rows that killed S7 -- stay `fail`. Identity
+  # separated what position could not. Account: docs/journal/2026-10-29-s7b-priced.md.
+  #
+  # SHIPPED 2026-10-30 BY MAINTAINER DECISION. It was held one day because the report
+  # also drops 7 flags on 5 assays, 6 with no ground truth, and the 7th is held-out set
+  # 2's one false alarm (G2R generic, `declining -> stable`) fixed by exactly the
+  # predicted mechanism -- its strongest number and the one a threshold may not be
+  # fitted to. The decision was taken on the bench row and the separation criterion
+  # alone, BEFORE held-out set 2's eleven unscored rows were read (they were scored the
+  # same day, after this value was set; docs/journal/2026-10-30-decisions.md). A replay
+  # prices and does not prove: the confirming rescreen is the next full run, which this
+  # change forces because `scoring` is in the screen hash.
+  mispair_window: 10
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
   # weighted above the ends. Known gap: of the 51 probe assays here on 2026-10-26, 20 are MGB,

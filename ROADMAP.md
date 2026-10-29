@@ -27,19 +27,12 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
-- **One proposed tier-2 row needs a works/fails verdict**: Quackenbush 1998 on
-  `Pan_HERPES_dsDNA_Polymerase_round2`, written into
-  `docs/validation-cases-heldout-2.tsv` marked PROPOSED on 2026-10-28 and read as
-  `works` — the nest sequenced a ~250 bp product from five green turtle fibropapillomas
-  that is 53% identical to its nearest relatives. The arguable part is stated in the
-  file: the same paper reports tumour-free skin and two olive ridley turtles as PCR
-  negative, which is a true negative and not a failure.
-- **Whether any entry becomes `active`.** `CALICIVIRUS_ssRNA_Helicase_Reid_1999` lost its
-  only OPEN flag on 2026-10-28 (`oligo_sequence_uncertain` → `oligos_modified`), so it is
-  now eligible on the schema's terms; `thin_evidence` and 16 amplifying records of
-  152,379 are the reason not to. Nothing else changed status.
-- **Everything the fetch list was waiting for is in** (2026-10-28), and the two Priority 1
-  decisions of 2026-10-27 are taken and recorded in `## Done`.
+- **Nothing, as of 2026-10-30.** The four calls that sat here were taken that day and are
+  in `docs/journal/2026-10-30-decisions.md`: S7b shipped; the Quackenbush 1998 row and the
+  eleven `use`-family rows of `docs/validation-cases-heldout-2.tsv` accepted as proposed and
+  the set scored; `CALICIVIRUS_ssRNA_Helicase_Reid_1999` stays `draft` on `thin_evidence`
+  (16 amplifying records of 152,379), recorded in the entry. Whether the repo goes public
+  is still the maintainer's and is not blocking anything.
 
 ## S3b, shipped 2026-10-27, and what it still owes
 
@@ -124,22 +117,16 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   prints carries a Jeffreys interval, which is why the tier-2 figures read "3/9 = 33%
   (95% CrI 10%-65%)" rather than a bare percentage.
 
-- **S7b: PRICED, PASSES, AND WAITING ON A MAINTAINER'S CALL** (2026-10-29,
-  `docs/journal/2026-10-29-s7b-priced.md`). `scoring.mispair_window: 10` extends identity
-  to the mid window alone. It passes all three pre-registered criteria: tier-2 identical
-  case for case, the bench improves 166/179 -> 167/179 (PPRV Nigeria75/1, `fail` 4.0 ->
-  `reduced` 3.0 on one mid-window wobble), and **no within-family negative gains a band**,
-  so the positives and negatives separated where S7's position-only version moved them
-  together. 31,237 calls move, all loosening.
-  **The reason it is not shipped**: the report drops 7 flags (5 distinct assays), 6 of
-  them with no ground truth either way, and the 7th is held-out set 2's one false alarm
-  (G2R generic, `declining -> stable`) fixed by exactly the predicted mechanism. That is
-  its strongest number and the one number a threshold may not be fitted to. On data the
-  project may spend, S7b is one bench row and tier-2-neutral. `mispair_window` stays null
-  until a maintainer decides; shipping it also needs a confirming rescreen, since a replay
-  prices and does not prove. What would settle it is cases on those 5 assays, not a third
-  value of the knob — see the tier-2 item below, which gained 13 CONFIRMED pairs the same
-  day, two of them on ADENOVIRUS hexon and pan-herpes.
+- **S7b: SHIPPED 2026-10-30, `scoring.mispair_window: 10`**, priced 2026-10-29
+  (`docs/journal/2026-10-29-s7b-priced.md`), decided and recorded in
+  `docs/journal/2026-10-30-decisions.md`. It passed all three pre-registered criteria:
+  tier-2 identical case for case, bench 166/179 -> 167/179 (PPRV Nigeria75/1), and no
+  within-family negative gains a band. 31,237 calls move in the replay, all loosening. The
+  maintainer took the decision on the bench row and the separation criterion, knowing that
+  the report also drops 7 flags (5 assays), one of them held-out set 2's false alarm, and
+  before set 2's eleven unscored rows were read. **What it still owes: the confirming
+  rescreen**, which the next full run performs because `scoring` is in the screen hash;
+  expect the 7 flags to fall and compare against the replay with `report_diff`.
 
 Dead, and recorded so they are not re-proposed: **S1** serial per-oligo gates (no
 threshold pair passed its own criterion, 2026-10-26), **S2** a smooth positional decay
@@ -332,13 +319,19 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   `retrospective.py`, since `--cases` scores every row. Remaining: the maintainer's
   works/fails sign-off on all eleven, and the 93 `use` rows that did not reach CONFIRMED.
 
-  **Set 2: 14 rows, 3 spent, 11 unread** (2026-10-29). The three read on 2026-10-28 gave
-  1 agrees / 1 weaker / 1 false alarm. The count target (15-20) is effectively met; the
-  **drift target is not — still zero rows with `mechanism: drift`**, so the flag the
-  pipeline is named for rests on about one ground-truth event. A `use`-family search
-  cannot close that, because a paper reporting a target moving out from under an assay is
-  rarer than one reporting a clade it never reached. See the held-out item under Data and
-  curation.
+  **Set 2: 14 rows, ALL SPENT 2026-10-30** (`docs/journal/2026-10-30-decisions.md`). The
+  maintainer accepted the twelve proposed rows as written and the set was scored, after the
+  S7b decision and under both the pre-S7b calls and the S7b replay: works 3 agree / 2 weaker
+  / **5 `declining`** (4 under S7b, the Mills row being the one that moves), fails 2 caught
+  (both as `low coverage`) / 1 missed (Hellgren pan-hemoparasite, 98.9% `stable`: a clade
+  failure the pooled share cannot see), partial 1 agrees. **False alarms 5/10 against 4/32 on
+  the development set**, and four of the five are pan-family consensus assays whose paper
+  reports them amplifying a divergent virus from a few positives — a `works` about field
+  sensitivity scored against a status about coverage of deposited diversity. Proposed there,
+  for the matrix's scoring rule and not for `config.yaml`: a pan-family `works` against
+  `low coverage` is agreement, as `partial` already is. The count target (15-20) is met; the
+  **drift target is not — still zero rows with `mechanism: drift`** in either set. No unread
+  evaluation data exists again; the next rows need a drift-mechanism search.
 
 ## Data and curation
 
@@ -373,18 +366,13 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   four papers USE a 5'-UTR/VP2 assay and none designs one; for the poxvirus polymerase
   set, nothing. The design papers, if they exist, are not findable by assay description,
   which is the same wall the identity work hit.
-- **The held-out collection target is not met, and set 2 is now partially spent.** It
-  holds 3 rows against a target of 15-20 with at least 5 of `mechanism: drift`, and set 1
-  is spent. All three of set 2's rows were read on 2026-10-28 (disclosed in the file and in
-  `docs/journal/2026-10-28-papers-arrived.md`) because checking that a proposed row parses
-  scores every row: **1 agrees, 1 weaker, 1 false alarm**. The false alarm is the
-  informative one — Mills 2022 validated the G2R generic monkeypox assay on 2022 outbreak
-  clinical specimens and the shipped config calls it `declining`. Nothing was changed
-  because of it and nothing may be. **One row awaits the maintainer's verdict**: Quackenbush
-  1998 on `Pan_HERPES_dsDNA_Polymerase_round2`, proposed `works`.
-  `docs/journal/2026-10-24-heldout-candidates.md` records the first sweep and the gap
-  that stayed open. This is the same literature pass as the within-family negative
-  corpus that gates C2, so one read per paper serves both.
+- **Both held-out sets are spent; the drift-mechanism target is not met.** Set 1 was read
+  2026-10-26, set 2's first three rows 2026-10-28 and the remaining eleven 2026-10-30 (above,
+  under tier-2). Of 14 rows in set 2, 3 are `fails` and all three are `mechanism: coverage`;
+  no row in either set is `mechanism: drift`. `docs/journal/2026-10-24-heldout-candidates.md`
+  records the first sweep. The same literature pass is the within-family negative corpus
+  that gates C2, so one read per paper serves both; the search that finds a drift case is
+  not the `use` family and has to be designed (see RESUME-HERE).
 - **The registry is becoming an assay registry; what is left needs the maintainer, not
   another pass.** Two passes landed 2026-10-27 (`## Done`): the automatic one over the
   values a paper states once, and a reader's pass over all 64 papers the first refused.
@@ -546,6 +534,13 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
         reorganised into stage subpackages; the CLI gives one entry point per stage.
 
 ## Hygiene
+
+- **`registry.edit()` rewraps long quoted scalars** (found 2026-10-30): on
+  `CALICIVIRUS_ssRNA_Helicase_Reid_1999` it re-emitted a 120-line hand-wrapped
+  `notes_curator` as one line. Comments, key order and quoting survive; the folding width
+  does not. Fix: give the ruamel dumper the width the files are written at (the `_WIDTH`
+  `write()` already uses) and add a round-trip test on an entry with a wrapped quoted scalar.
+  Until then, prose edits on such entries are text edits.
 
 - **The Greene SLURM profile is written and UNTESTED.** `profiles/slurm-greene/config.yaml`
   (2026-10-27) carries the partition / account / QoS stanzas, the `/scratch` filesystem

@@ -410,7 +410,8 @@ def test_mispair_window_decides_how_far_identity_reaches_and_defaults_to_the_3pr
 
     # Null (what ships): identity acts only within primer_3prime_window, so a mid
     # mismatch keeps its full position penalty however the table reads.
-    assert score_primer(site, _OLIGO, _scoring(mispair_penalty=table)).penalty == mid
+    # The shipped config reaches 10 since S7b (2026-10-30), so a G:T at distance 10 is free there.
+    assert score_primer(site, _OLIGO, _scoring(mispair_penalty=table)).penalty == 0.0
     assert score_primer(site, _OLIGO, _scoring(mispair_penalty=table, mispair_window=None)).penalty == mid
     # The S7b candidate: 10 bases reaches the mid window, and the wobble goes free.
     assert score_primer(site, _OLIGO, _scoring(mispair_penalty=table, mispair_window=10)).penalty == 0.0
@@ -422,9 +423,10 @@ def test_mispair_window_decides_how_far_identity_reaches_and_defaults_to_the_3pr
     assert sc.terminal_mismatch is True
 
 
-def test_the_shipped_config_leaves_identity_scoped_to_the_3prime_window():
-    """`mispair_window` ships null, so M1's scope is unchanged until S7b is priced."""
-    assert CFG["scoring"]["mispair_window"] is None
+def test_the_shipped_config_reaches_identity_into_the_mid_window():
+    """S7b shipped 2026-10-30: `mispair_window: 10`, so M1's G:T / T:G discount covers the
+    3' and mid windows (positions 1 to 10 from the 3' end) and nothing beyond."""
+    assert CFG["scoring"]["mispair_window"] == 10
 
 
 def test_a_partial_multiplier_scales_the_penalty_but_keeps_the_terminal_flag():

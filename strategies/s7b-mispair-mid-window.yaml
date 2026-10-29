@@ -1,5 +1,10 @@
 # S7b - identity in the mid window: `mispair_window: null (=5) -> 10`.
 #
+# SHIPPED 2026-10-30 by maintainer decision, one day after pricing; the paragraphs below
+# are the state in which the decision was put. config.yaml carries the value and the
+# reasoning; docs/journal/2026-10-30-decisions.md the record. The confirming rescreen is
+# the next full run.
+#
 # PRICED 2026-10-29, PASSES ALL THREE KILL CRITERIA, NOT SHIPPED. Result first:
 # 31,237 calls move (22,600 reduced->detect, 8,637 fail->reduced), tier-2 is identical
 # case for case (6/11 caught, PPV 4/10, 4/32 false alarms, 2/6 partial gaps), the bench

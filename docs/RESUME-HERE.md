@@ -1,18 +1,37 @@
-# Resume point, 2026-10-30 (the roadmap reconciled; nothing else changed)
+# Resume point, 2026-10-30 (four decisions taken, S7b shipped, set 2 spent)
 
-**Start here:** `ROADMAP.md`. Six open items were already done and are now closed by
-pointer (`docs/journal/2026-10-30-roadmap-reconciled.md`). `rg -n '^\- \[ \]' ROADMAP.md`
-returns nothing: every remaining item is prose under its section, and each is either a
-maintainer's call or build work in the order below.
+**Start here:** `ROADMAP.md`, then `docs/journal/2026-10-30-decisions.md`. The roadmap was
+reconciled against the repo first (`docs/journal/2026-10-30-roadmap-reconciled.md`: six
+items were already done). Then the maintainer batched the four calls that had been waiting:
+
+- **S7b shipped**: `scoring.mispair_window: 10`. Decided on the bench row and the separation
+  criterion BEFORE held-out set 2 was read. `scoring` is in the screen hash, so **the next
+  full run rescreens everything** and is the confirming rescreen; compare it with the S7b
+  replay by `report_diff` and expect 7 flags to fall.
+- **Held-out set 2 is spent**: twelve proposed rows accepted as written and scored. Works
+  3 agree / 2 weaker / 5 `declining` (4 under S7b; the Mills row is the one that moves, as
+  predicted); fails 2 caught as `low coverage`, 1 missed (Hellgren pan-hemoparasite, a clade
+  failure at 98.9% pooled). **5/10 false alarms against 4/32 on the development set**, four
+  of them pan-family assays whose published `works` is field sensitivity, not coverage.
+  Proposed for the matrix's rule, not for `config.yaml`: pan-family `works` vs
+  `low coverage` is agreement. No unread evaluation data exists; still zero `drift` rows.
+- **Reid 1999 stays `draft`** on `thin_evidence`; recorded in the entry.
+- `registry.edit()` rewraps hand-wrapped quoted scalars to one line (Hygiene item).
 
 ## Next, in order
 
-1. **Maintainer's sitting**: S7b ship or hold; the eleven proposed held-out rows (Hellgren
-   `fails` first); Quackenbush 1998; Reid 1999 to `active`?; repo public?
-2. `drift.window_on` step 1, interface proposed before code.
-3. The 93 `use` rows that did not reach CONFIRMED.
-4. Trend over distinct footprints.
-5. Design the drift-mechanism case hunt before building anything.
+1. `drift.window_on` step 1, interface approved 2026-10-30: `collected` column in the asm
+   metadata, `drift.window_on: deposit | collection`, one `record_date()` with counted
+   fallbacks, report says per assay how many records it applied to.
+2. The 93 `use` rows that did not reach CONFIRMED: 58 rows over 13 papers print an oligo
+   table and still missed (scratch worksheet from `docs/2026-10-29-use-identity.tsv`).
+3. Per-year share over distinct footprints beside the per-record share.
+4. Design the drift-mechanism case hunt before building anything.
+
+## Still yours
+
+- Whether the repo goes public.
+- The matrix-rule proposal above (pan-family `works` against `low coverage`).
 
 # Resume point, 2026-10-29 (evening: the architecture day; everything merged)
 

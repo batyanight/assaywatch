@@ -1,7 +1,16 @@
 # TIER-2 HELD-OUT CASES, SET 2. Created 2026-10-27 with one row; 14 rows as of
-# 2026-10-29, of which THE ELEVEN ADDED THAT DAY HAVE NEVER BEEN SCORED. The file
-# was not run through scripts/retrospective.py when they were written -- deliberately,
-# because `--cases` scores every row and that is how the first three rows got spent.
+# 2026-10-29. SIGNED OFF AND SCORED 2026-10-30: the maintainer accepted all twelve
+# proposed rows (Quackenbush 1998 and the eleven `use`-family rows) as written, and the
+# file was then run through scripts/retrospective.py, so THIS SET IS SPENT. From that
+# day it is a second development set and may not be the reason any threshold moves.
+# The S7b decision (`scoring.mispair_window: 10`) was taken BEFORE this scoring, on the
+# bench row and the separation criterion; the set was scored under both the pre-S7b
+# calls table (results/2026-10-27) and the S7b replay of it, and both results are in
+# docs/journal/2026-10-30-decisions.md.
+#
+# The eleven rows added 2026-10-29 were never scored before that day; the file was kept
+# out of scripts/retrospective.py when they were written, deliberately, because
+# `--cases` scores every row and that is how the first three rows got spent.
 #
 # WHY A SECOND HELD-OUT FILE. docs/validation-cases.tsv is the development set,
 # frozen 2026-10-23, and at least seven config.yaml settings were accepted or
@@ -105,7 +114,7 @@ MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010	2022-11-02	works		10.1016/j.jcv.2022.
 # CONTENT rather than by access: Ng 2025 reprints its own CDC2022 redesign and
 # cites the Nix gold standard only, and Slomka 2023 prints no primer table at all.
 #
-# ROW PROPOSED 2026-10-28, AWAITING MAINTAINER SIGN-OFF. Quackenbush et al. 1998
+# ROW PROPOSED 2026-10-28, SIGNED OFF AS PROPOSED BY THE MAINTAINER 2026-10-30. Quackenbush et al. 1998
 # (Virology 246:392-399, received 26 February 1998) USES the VanDevanter pan-herpes
 # DPOL nest this entry holds -- it cites VanDevanter 1996 by name and all four oligos
 # (DFA, KG1, TGV, IYG) occur verbatim in its text -- and reports what it found: a
@@ -135,7 +144,7 @@ Pan_HERPES_dsDNA_Polymerase_round2	1998-02-26	works		10.1006/viro.1998.9207 Quac
 # docs/bayesian-scoring-plan.md instead.
 #
 # ========================================================================
-# ELEVEN ROWS PROPOSED 2026-10-29, ALL AWAITING MAINTAINER SIGN-OFF.
+# ELEVEN ROWS PROPOSED 2026-10-29, ALL SIGNED OFF AS PROPOSED BY THE MAINTAINER 2026-10-30.
 #
 # Source: the `use`-family retrospective re-run (ROADMAP, tier-2). Instead of
 # hunting phrases about failure, it hunts papers that simply RUN a registry assay

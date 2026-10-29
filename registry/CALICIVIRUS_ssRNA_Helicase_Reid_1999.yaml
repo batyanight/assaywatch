@@ -158,4 +158,5 @@ needs_review:
     see notes_curator.'
 - flag: thin_evidence
   note: with the corrected C-form the 357 bp size rests on 16 amplifying records of the 152,379-record Caliciviridae archive;
-    the assay detects almost nothing in GenBank
+    the assay detects almost nothing in GenBank. MAINTAINER DECISION 2026-10-30 -- eligible for `active` since the 2026-10-28
+    flag change, kept `draft` on this flag alone; revisit if a `use`-family case or a re-citation to Neill & Seal 1995 appears.
