@@ -565,7 +565,8 @@ def queue_for_human(doi: str, reason: str, fetch_list: Path) -> None:
 # --- obtain: the chain curate runs ---------------------------------------------
 
 
-def _download_pdf(url: str, get: Get, email: str) -> bytes | None:
+def download_pdf(url: str, get: Get, email: str) -> bytes | None:
+    """The bytes of a PDF a free-copy route pointed at, or None; retries a 403 once as a browser."""
     status, ctype, body = get(url, {**_ua(email), "Accept": "application/pdf,*/*"})
     if status == 403:
         status, ctype, body = get(url, {"User-Agent": BROWSER_UA, "Accept": "application/pdf,*/*"})
@@ -610,7 +611,7 @@ def obtain(
     for route in (unpaywall, openalex):
         oa = route(doi, get, email=email)
         if oa and oa.url_pdf:
-            pdf = _download_pdf(oa.url_pdf, get, email)
+            pdf = download_pdf(oa.url_pdf, get, email)
             if pdf:
                 return store(doi, pdf, paper_dir, kind="pdf"), oa.source
             reasons.append(f"{oa.source} PDF link did not serve a PDF")
