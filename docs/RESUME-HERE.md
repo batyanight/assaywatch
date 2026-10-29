@@ -1,3 +1,60 @@
+# Resume point, 2026-10-29 (the influenza regex, S7b priced and held, eleven cases proposed)
+
+**Start here:** `ROADMAP.md`. Tree clean, everything pushed, 1,845 tests, registry 214/214.
+Five commits since the entry below.
+
+- **The "2026 flood of untyped influenza records" was my own regex.** The decomposition's
+  apparent third effect — 4,729 evaluable 2026 records with no subtype — dissolved on
+  measurement: **3,857 of them carry a subtype in the title**, 2,220 `(H1pdm09)` and 1,607
+  `(H3)`, which `\((H\d+N\d+)\)` cannot read because it requires both numbers.
+  Broadened and shipped under both of `config.yaml`'s gates (tier-2 identical,
+  `report_diff` "No assay changed status"). 4,188 records leave the residual bucket
+  carrying 8 detections, and that bucket goes from 9.3% to **23.1%** — the pattern was
+  halving the share of the one row that means "unknown". **No sequence-based subtype
+  resolver is wanted**; 872 records carry no label at all.
+- **`scoring.mispair_window` exists**: how far from the 3' end `mispair_penalty` acts, null
+  meaning `primer_3prime_window`. The scope was a constant in `score_primer`; it is a
+  config number now, and a replayable one, because `*_mispairs` are recorded at every
+  distance.
+- **S7b passes all three of its criteria and is NOT shipped.** Tier-2 identical, bench
+  166/179 → 167/179, and **no within-family negative gains a band** — the positives and
+  negatives separated where S7's position-only version moved them together. But the report
+  drops 7 flags (5 assays), 6 with no ground truth, and the 7th is held-out set 2's one
+  false alarm fixed by exactly the predicted mechanism. That is its strongest number and
+  the one a threshold may not be fitted to. **A stale S0 control nearly made this look
+  three times better than it is** — the one on disk predated M1 and S3b.
+- **Searching for papers that USE an assay found 13 CONFIRMED pairs in one run**, against 2
+  in three weeks of failure-weighted searching. All 7 papers read the same day; **eleven
+  rows proposed**, so set 2 is 14 rows, 11 never scored. The valuable three come from one
+  paper that locates a two-base 3'-end mismatch in HaemNFI and HaemR2L against the clade
+  the Hellgren nest cannot amplify — a documented failure with the mechanism at base level.
+- **Still zero rows with `mechanism: drift`.** Every documented failure this project holds
+  is a clade never covered, not a target that moved. The flag the pipeline is named for
+  rests on about one ground-truth event, and the `use` family cannot close that.
+
+## Next, in order
+
+1. **`drift.window_on` step 1** (collection date for `asm` records), measurable per lineage
+   now that the per-year rows exist.
+2. **The 93 `use` rows that did not reach CONFIRMED** — `docs/2026-10-29-use-identity.tsv`
+   says why for each, and most are "prints no oligo table". The ones that print one and
+   still missed are the cheap re-read.
+3. Trend over distinct footprints rather than records.
+4. A **drift-mechanism** case hunt. Nothing in the current method finds one; that needs a
+   different search, not more rows of the same shape.
+
+## Still yours
+
+- **S7b: ship `mispair_window: 10` or leave it null.** See
+  `docs/journal/2026-10-29-s7b-priced.md`; shipping also means a confirming rescreen.
+- **The works/fails sign-off on eleven proposed rows** in `docs/validation-cases-heldout-2.tsv`,
+  the three Hellgren `fails` rows first, since they are the ones that could move a verdict.
+- The **Quackenbush 1998 verdict** (also PROPOSED, from 2026-10-28).
+- Whether `CALICIVIRUS_ssRNA_Helicase_Reid_1999` is worth considering for `active`. My
+  reading: no, on `thin_evidence` — 16 amplifying records of 152,379.
+
+---
+
 # Resume point, 2026-10-28 (afternoon: the signature fixed, S7 killed, the influenza verdict decomposed)
 
 **Start here:** `ROADMAP.md`. Tree clean, everything pushed, 1,823 tests, registry 214/214.
