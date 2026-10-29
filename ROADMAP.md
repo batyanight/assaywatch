@@ -548,10 +548,13 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
         extract_conditions, extract_exclusivity, stale_screens and
         find_retrospective_cases, because the roadmap's open work or the resume point
         names them.
-  - [ ] 5g Verify, then maybe: `report.py` `markdown_from` and `html_from` (~290 lines
-        each) over the same model; if they walk the same sections, render once to a
-        section list and keep two serialisers. The package is NOT reorganised into
-        stage subpackages; the CLI already gives one entry point per stage.
+  - [x] 5g verified 2026-10-29, and NOT done, on purpose. `markdown_from` (287 lines) and
+        `html_from` (290) share no helper: each walks the ReportModel with its own cell
+        builders, and the HTML one carries widgets the Markdown cannot (sparklines, the
+        timing block, slugs for anchors). A shared section list would have to carry
+        format-specific payloads, which is a redesign of the report, not a cleanup. Left
+        as two renderers over one model, which is what they are. The package is NOT
+        reorganised into stage subpackages; the CLI gives one entry point per stage.
 
 ## Hygiene
 
