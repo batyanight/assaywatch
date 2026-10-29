@@ -319,13 +319,28 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   ADENOVIRUS_dsDNA_Hexon_gene (+round2) in 10.1016/j.nmni.2019.100640. **Each is now a
   reading assignment, not a row**: the works/fails call and the as-of date come from the
   paper's results. Two of the seven touch assays S7b unflags, which is what would settle
-  that candidate. The raptor paper (10.1186/s12936-021-04019-z) is the most valuable lead
-  in the batch: it states a mechanistic 3'-end failure of the Hellgren nest against one
-  parasite group and adds a second protocol to cover it, which is the scarce
-  `fails`/`coverage` shape set 2 is short of.
+  that candidate.
 
-  **Set 2 is partially spent**: 3 rows, all read 2026-10-28, 1 agrees / 1 weaker / 1
-  false alarm. See the held-out item under Data and curation.
+  **All seven were read the same day and eleven rows are proposed**
+  (`docs/journal/2026-10-29-use-family-cases.md`): 3 `fails`/`coverage` from the raptor
+  paper, which locates a two-base 3'-end mismatch in HaemNFI and HaemR2L against the
+  clade the Hellgren nest cannot amplify and screens every sample again with another
+  protocol to cover it; 7 `works` (pan-herpes DPOL on equine samples and on a novel pudu
+  gammaherpesvirus, Chu pan-astrovirus 16/16 by nest, pan-adenovirus hexon on 4 of 775
+  DRC rodents); 1 `partial`, the only head-to-head in the batch, where a Cameroon survey
+  ran two pan-CoV protocols on the same samples and ours produced 64 positive results
+  against the other's 173. Two near-misses recorded as NOT A ROW. **Set 2 is now 14 rows,
+  11 of them never scored** — the file was deliberately not run through
+  `retrospective.py`, since `--cases` scores every row. Remaining: the maintainer's
+  works/fails sign-off on all eleven, and the 93 `use` rows that did not reach CONFIRMED.
+
+  **Set 2: 14 rows, 3 spent, 11 unread** (2026-10-29). The three read on 2026-10-28 gave
+  1 agrees / 1 weaker / 1 false alarm. The count target (15-20) is effectively met; the
+  **drift target is not — still zero rows with `mechanism: drift`**, so the flag the
+  pipeline is named for rests on about one ground-truth event. A `use`-family search
+  cannot close that, because a paper reporting a target moving out from under an assay is
+  rarer than one reporting a clade it never reached. See the held-out item under Data and
+  curation.
 
 ## Data and curation
 
