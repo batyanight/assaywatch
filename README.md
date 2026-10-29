@@ -85,6 +85,7 @@ assaywatch/      the package
   degeneracy.py    primer-pool accounting; `python -m assaywatch.degeneracy registry`
   match.py         exhaustive search for oligo binding sites, both strands
   score.py         position-weighted mismatch penalty and the per-record call
+  ncbi.py          the one NCBI client: key, pacing, retry, taxonomy parsers, and the only writer of the taxonomy caches
   retrieve.py      NCBI fetch, incremental, archived; `python -m assaywatch.retrieve`
   drift.py         per-assay proportions with Wilson / Newcombe intervals
   report.py        `python -m assaywatch.report` -> report.md and a standalone report.html

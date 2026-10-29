@@ -53,22 +53,18 @@ import io
 import json
 import math
 import os
-import time
 import zipfile
 from collections import Counter
-from collections.abc import Callable, Iterator
+from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any
 
-from assaywatch.credentials import scrub
 from assaywatch.loci import pair_spans
+from assaywatch.ncbi import DATASETS as DATASETS
+from assaywatch.ncbi import Fetch, NcbiError, datasets
 from assaywatch.score import max_mismatches_searched
-
-DATASETS = "https://api.ncbi.nlm.nih.gov/datasets/v2"
-# (path under DATASETS, query params, Accept header) -> response body
-Fetch = Callable[[str, dict[str, Any], str], bytes]
 
 TSV_FIELDS = (
     "accession",
@@ -81,7 +77,7 @@ TSV_FIELDS = (
 EARLIEST = date(1990, 1, 1)
 
 
-class AssemblyError(RuntimeError):
+class AssemblyError(NcbiError):
     pass
 
 
@@ -113,40 +109,8 @@ class AssemblyMeta:
 
 
 def datasets_transport(api_key: str | None, timeout: int = 300) -> Fetch:
-    """The real transport. Datasets allows 5 requests/s without a key, 10 with one."""
-    import requests
-
-    min_interval = 0.11 if api_key else 0.21
-    state = {"last": 0.0}
-
-    def call(path: str, params: dict[str, Any], accept: str) -> bytes:
-        headers = {"Accept": accept}
-        if api_key:
-            headers["api-key"] = api_key
-        for attempt in range(5):
-            wait = min_interval - (time.monotonic() - state["last"])
-            if wait > 0:
-                time.sleep(wait)
-            state["last"] = time.monotonic()
-            try:
-                resp = requests.get(f"{DATASETS}/{path}", params=params, headers=headers, timeout=timeout)
-                body = resp.content
-            except requests.RequestException as e:
-                if attempt == 4:
-                    raise AssemblyError(f"{path}: {scrub(e)}") from e
-                time.sleep(2**attempt)
-                continue
-            if resp.status_code in (429, 500, 502, 503, 504):
-                time.sleep(2**attempt)
-                continue
-            if resp.status_code >= 400:
-                raise AssemblyError(
-                    f"{path}: HTTP {resp.status_code} {scrub(body.decode('utf-8', 'replace'))[:200]!r}"
-                )
-            return body
-        raise AssemblyError(f"{path} failed after 5 attempts")
-
-    return call
+    """The real Datasets transport; see `assaywatch.ncbi.datasets`."""
+    return datasets(api_key, timeout)
 
 
 # --------------------------------------------------------------------------

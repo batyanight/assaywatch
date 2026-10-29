@@ -56,9 +56,7 @@ import gzip
 import json
 import os
 import sys
-import time
 import xml.etree.ElementTree as ET
-from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
@@ -66,21 +64,17 @@ from typing import Any
 
 from assaywatch.credentials import ncbi_api_key, scrub
 from assaywatch.groups import group_slug as group_slug
+from assaywatch.ncbi import EUTILS as EUTILS
+from assaywatch.ncbi import HistoryExpired as HistoryExpired
+from assaywatch.ncbi import NcbiError, Transport, eutils
 
-EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
-Transport = Callable[[str, dict[str, Any]], str]
 
-
-class RetrievalError(RuntimeError):
-    pass
+class RetrievalError(NcbiError):
+    """A retrieval that cannot be completed."""
 
 
 class TooManyRecords(RetrievalError):
     """The taxon is larger than the configured cap and has not been opted in."""
-
-
-class HistoryExpired(RetrievalError):
-    """NCBI's history server dropped the WebEnv between calls; re-search and retry."""
 
 
 @dataclass
@@ -127,44 +121,8 @@ class TaxonRun:
 
 
 def http_transport(email: str, api_key: str | None, timeout: int = 60) -> Transport:
-    """The real transport. Imports requests lazily so tests need no network stack."""
-    import requests
-
-    min_interval = 0.11 if api_key else 0.34  # 10/s with a key, 3/s without
-    state = {"last": 0.0}
-
-    def call(endpoint: str, params: dict[str, Any]) -> str:
-        params = {**params, "email": email, "tool": "assaywatch"}
-        if api_key:
-            params["api_key"] = api_key
-        for attempt in range(5):
-            wait = min_interval - (time.monotonic() - state["last"])
-            if wait > 0:
-                time.sleep(wait)
-            state["last"] = time.monotonic()
-            try:
-                resp = requests.post(f"{EUTILS}/{endpoint}.fcgi", data=params, timeout=timeout)
-                # Reading the body is where a large efetch page actually fails
-                # ("Response ended prematurely"); it has to be inside the try.
-                body = resp.text
-            except requests.RequestException as e:
-                if attempt == 4:
-                    raise RetrievalError(f"{endpoint}: {scrub(e)}") from e
-                time.sleep(2**attempt)
-                continue
-            # 429 and 5xx are transient; everything else is a bug in the query
-            # or a blocked network, and retrying will not help.
-            if resp.status_code in (429, 500, 502, 503, 504):
-                time.sleep(2**attempt)
-                continue
-            if resp.status_code == 400 and "history" in body.lower():
-                raise HistoryExpired(f"{endpoint}: {scrub(body)[:200]}")
-            if resp.status_code >= 400:
-                raise RetrievalError(f"{endpoint}: HTTP {resp.status_code} {scrub(body)[:200]}")
-            return body
-        raise RetrievalError(f"{endpoint} failed after 5 attempts")
-
-    return call
+    """The real E-utilities transport; see `assaywatch.ncbi.eutils`."""
+    return eutils(email, api_key, timeout)
 
 
 # --------------------------------------------------------------------------
