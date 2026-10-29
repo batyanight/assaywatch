@@ -443,6 +443,85 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   screened against its own archive before it is committed, with the
   before/after detected share reported.
 
+## Architecture: fit the engineering principles (decided 2026-10-29, grilled)
+
+The design was interviewed and settled on 2026-10-29; the decisions below are taken
+and are not reopened by the steps. Vocabulary is `GLOSSARY.md`. Every step is its
+own branch and PR into `main`, merged when pytest, the validator, ruff and
+`check_citations` pass; the weekly run keeps using `main`. The principles this
+answers are in `~/.claude/CLAUDE.md` (Engineering principles 2 to 5, Reproducibility).
+
+Decisions:
+- A one-off analysis script is a record, not a tool: once its finding is in this file
+  or a journal it moves to `scripts/archive/`, untested, and git keeps the version
+  that produced the number. A script is LIVE only if the Snakefile, CI, pre-commit,
+  `weekly_run.sh`, or the curation workflow in `CONTRIBUTING.md` / `pending/README.md`
+  calls it. About 25 live, about 70 archived.
+- One `assaywatch` CLI with subcommands (`cli.py` holds parsing and nothing else);
+  `python -m assaywatch.<stage>` keeps working through the same parsers during migration.
+- `assaywatch curate <entry>` runs the whole curation chain and is write-through: it
+  fills measured and resolved fields (`amplicon_bp`, `amplicon_disagrees_with_paper`,
+  `doi_verified` when Crossref agrees, taxids) and stops only where judgement is needed
+  (`status`, disagreements with the paper). Only a maintainer sets `active`, as before.
+- When the PDF is missing, `curate` tries Europe PMC, Unpaywall and Elsevier (key
+  present), and on failure appends the DOI to `papers/papers-fetch-list.md` and marks
+  the entry waiting. It never blocks.
+- `ncbi.py` owns transport (key, rate limit, retry, Entrez and Datasets) AND the two
+  taxonomy caches through typed functions; it is their only writer. They stay two files.
+- Renames to glossary words happen only at the new interfaces (`registry`, `ncbi`,
+  `papers`, `cli`, `curate`); existing internals keep their names until touched, and
+  the glossary records the aliases (`hit`, `acc`, `entry`, `n_eval`, `undetected`).
+- Test tiers: `pytest -m fast` (pure functions on fixtures, under 10 s) for the
+  write-test-run loop; plain `pytest` excludes `slow`; the trigger test is `slow` and
+  stays in its own CI job.
+
+Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first):
+
+- [ ] **1. Glossary.** `GLOSSARY.md` drafted 2026-10-29 (98 terms). The 7 the scan
+      could not define (tier-2, ground truth, evaluable vs assessable, undecided,
+      C-numbers vs S-ladder, the retrospective families, lineage Modes A/B/C) were
+      resolved from the repo the same day, each with its source cited. Left to do:
+      commit on branch `glossary` with the `CLAUDE.md` pointer.
+- [ ] **2. Reproducibility.** Branch `reproducibility`. Resolve the repo root from the
+      file's own location in `scripts/measure_locus_identity.py` and
+      `scripts/measure_amplicon_lengths.py`. Move `LEAD_MIN_SHARE` and
+      `THREE_PRIME_ZONE` (sitedrift), `MIN_RESOLVED_SHARE` (lineage_report) and
+      `TRIM_BP` (locus_identity) into `config.yaml` with their justification; schema
+      limits (`PROBE_MIN` etc.) stay in code because they are validation, not scoring.
+      Rename `scripts/master_sheet.py` → `assay_sheet.py` and
+      `docs/assay-master-sheet.{md,tsv}` → `assay-sheet.*`; `Conditions.master_mix`
+      keeps its name because it is the reagent's. Move the top-level `snakemake*.txt`
+      logs under `results/logs/`.
+- [ ] **3. Test tiers.** Branch `test-tiers`. Register `fast` and `slow` markers in
+      `pyproject.toml`; mark `tests/test_triggers.py` slow; default `addopts` excludes
+      slow; CI's trigger job runs `-m slow`. Profile the remaining ~90 s and report
+      before changing any test; target under 60 s. Build the `fast` tier from the
+      pure-function tests (iupac, match, score, chance, interval, windows, degeneracy).
+- [ ] **4. Hints enforced.** Branch `type-hints`. Add ruff `ANN` for `assaywatch/`
+      only; fix the 11 unannotated defs. Scripts and tests stay exempt until step 5.
+- [ ] **5. Deep modules and the CLI.** Signatures are proposed to the owner before any
+      internals are written; each module is written test-first on the fixtures.
+  - [ ] 5a `registry.py`: load, find, atomically write entries (absorbs `atomic.py`,
+        `groups.py`, `loci.py`). Replaces the 14 scripts that glob `registry/` and
+        the 18 that `yaml.safe_load` it themselves.
+  - [ ] 5b `cli.py` + `assaywatch` console script; Snakefile, CI, README, CLAUDE.md
+        move to the subcommand spelling.
+  - [ ] 5c `ncbi.py` as decided above; `retrieve.py` and `assemblies.py` become
+        stage logic on top; `taxonomy.py`, `accession.py`, the transport half of
+        `credentials.py`, and the two `fetch_taxa` copies fold in.
+  - [ ] 5d `papers.py` absorbs the Europe PMC, Elsevier, Unpaywall and Crossref
+        fetching spread over six scripts, plus the duplicated `pmcid_for`, `doi_of`,
+        `paper_text`, `registry_dois`.
+  - [ ] 5e `curate.py` as decided above, with `CONTRIBUTING.md` and
+        `pending/README.md` rewritten around it.
+  - [ ] 5f Migrate the live scripts onto the modules in batches of five, suite green
+        between batches; then move the rest to `scripts/archive/` with a one-line
+        index naming the finding each one produced and where it is recorded.
+  - [ ] 5g Verify, then maybe: `report.py` `markdown_from` and `html_from` (~290 lines
+        each) over the same model; if they walk the same sections, render once to a
+        section list and keep two serialisers. The package is NOT reorganised into
+        stage subpackages; the CLI already gives one entry point per stage.
+
 ## Hygiene
 
 - **The Greene SLURM profile is written and UNTESTED.** `profiles/slurm-greene/config.yaml`
