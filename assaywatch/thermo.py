@@ -58,9 +58,13 @@ position by position, in the same spirit as the scorer:
 
 from __future__ import annotations
 
-from typing import Any
+from types import ModuleType
+from typing import TYPE_CHECKING, Any
 
 from assaywatch.iupac import IUPAC
+
+if TYPE_CHECKING:
+    from assaywatch.score import Call
 
 COLUMNS = (
     "fwd_tm",
@@ -76,7 +80,7 @@ COLUMNS = (
 DEFAULTS = {"mv_conc": 50.0, "dv_conc": 3.0, "dntp_conc": 0.8, "dna_conc": 250.0}
 
 
-def _melting_temp():
+def _melting_temp() -> ModuleType:
     try:
         from Bio.SeqUtils import MeltingTemp
     except ImportError as e:  # pragma: no cover - depends on the environment
@@ -178,7 +182,7 @@ def duplex_tm(oligo: str, site: str, cfg: dict[str, Any]) -> tuple[float | None,
     return _in_register_tm(o, t, cond), perfect, inosine
 
 
-def annotate(call, oligos: dict[str, str], cfg: dict[str, Any]) -> dict[str, str]:
+def annotate(call: Call, oligos: dict[str, str], cfg: dict[str, Any]) -> dict[str, str]:
     """Thermo columns for one Call; empty strings when there is no amplicon."""
     out = dict.fromkeys(COLUMNS, "")
     sites = call.extra.get("sites") or {}

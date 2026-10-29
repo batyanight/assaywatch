@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import sys
 from collections import Counter
+from collections.abc import Iterator
 from pathlib import Path
 
 import yaml
@@ -47,7 +48,7 @@ def not_live_because(assay: Assay) -> str | None:
     return None
 
 
-def iter_files(target: Path):
+def iter_files(target: Path) -> Iterator[Path]:
     if target.is_dir():
         yield from sorted(p for p in target.glob("*.yaml") if p.name != "README.md")
     else:

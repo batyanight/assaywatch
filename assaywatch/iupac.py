@@ -7,6 +7,7 @@ known answers before any alignment library is involved.
 from __future__ import annotations
 
 import itertools
+from collections.abc import Iterable
 
 IUPAC: dict[str, str] = {
     "A": "A",
@@ -54,7 +55,7 @@ for _code, _bases in IUPAC.items():
 del _code, _bases
 
 
-def code_for(bases) -> str | None:
+def code_for(bases: Iterable[str]) -> str | None:
     """The IUPAC code covering exactly *bases*, or None if there is not one.
 
     None rather than "N" for an uncoverable set: anything containing a base

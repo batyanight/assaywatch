@@ -61,6 +61,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from functools import cache
+from typing import Any
 
 import numpy as np
 
@@ -165,7 +166,9 @@ def _quad_codes(rec: np.ndarray) -> np.ndarray:
 # miss rebuilds four 65,536-entry tables, which is the cost this cache exists to
 # avoid.
 @cache
-def _scan_plan(oligo: str):
+def _scan_plan(
+    oligo: str,
+) -> tuple[list[np.ndarray], list[np.ndarray], list[tuple[int, np.ndarray]], list[int]]:
     """65536-entry tables giving the not-MATCH count of each 4-position block,
     most selective block first, and the per-position 0/1 tables for the rest.
 
@@ -199,7 +202,9 @@ def _scan_plan(oligo: str):
     return tables, nm, quads, singles
 
 
-def _search_one_strand(oligo: str, rec: np.ndarray, codes: np.ndarray, max_mm: int):
+def _search_one_strand(
+    oligo: str, rec: np.ndarray, codes: np.ndarray, max_mm: int
+) -> dict[int, tuple[Any, Any]]:
     """{start: (mismatch positions, ambiguous positions)} in one orientation.
 
     Every offset is evaluated. The not-MATCH count only grows with each position,
@@ -258,7 +263,9 @@ def _search_one_strand(oligo: str, rec: np.ndarray, codes: np.ndarray, max_mm: i
 _LAST: list = [None, None]
 
 
-def _prepare(record: str):
+def _prepare(
+    record: str,
+) -> tuple[str, np.ndarray, np.ndarray, str, np.ndarray, np.ndarray, dict[Any, Any]]:
     if _LAST[0] is not record:
         up, rc = record.upper(), reverse_complement(record)
         a = np.frombuffer(up.encode("ascii", "replace"), dtype=np.uint8)

@@ -78,7 +78,9 @@ def tail(oligo: str, comp: tuple[float, float, float, float] = UNIFORM) -> tuple
     return tuple(out)
 
 
-def site_evalue(oligo: str, k: int, record_len: int, comp=UNIFORM) -> float:
+def site_evalue(
+    oligo: str, k: int, record_len: int, comp: tuple[float, float, float, float] = UNIFORM
+) -> float:
     """Expected number of sites for ONE oligo within `k` misses, either strand.
 
     Used to decide whether a lone oligo hit means anything, which matters for
@@ -97,7 +99,7 @@ def pair_evalue(
     k_rev: int,
     record_len: int,
     cfg: dict[str, Any],
-    comp=UNIFORM,
+    comp: tuple[float, float, float, float] = UNIFORM,
     window_bp: int | None = None,
 ) -> float:
     """Expected number of pairs at least this good in a random record like this one.

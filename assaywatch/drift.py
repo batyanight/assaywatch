@@ -1247,7 +1247,7 @@ class GatheredCalls:
 
 
 def _gather_calls(
-    calls,
+    calls: Iterable[dict[str, Any]],
     years: dict[str, int | str],
     settings: DriftSettings,
     *,

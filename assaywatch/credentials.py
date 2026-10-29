@@ -69,7 +69,9 @@ import os
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -297,7 +299,9 @@ def describe_contact(*, root: Path | None = None) -> str:
     )
 
 
-def check_ncbi_key(*, root: Path | None = None, urlopen=urllib.request.urlopen) -> tuple[bool | None, str]:
+def check_ncbi_key(
+    *, root: Path | None = None, urlopen: Callable[..., Any] = urllib.request.urlopen
+) -> tuple[bool | None, str]:
     """Ask NCBI whether it accepts the key: (accepted, message), message scrubbed.
 
     `accepted` is None when there is no key or the question could not be asked.

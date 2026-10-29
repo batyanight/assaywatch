@@ -60,11 +60,14 @@ from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from assaywatch.credentials import scrub
 from assaywatch.loci import pair_spans
 from assaywatch.score import max_mismatches_searched
+
+if TYPE_CHECKING:
+    from assaywatch.retrieve import TaxonRun
 
 DATASETS = "https://api.ncbi.nlm.nih.gov/datasets/v2"
 # (path under DATASETS, query params, Accept header) -> response body
@@ -405,7 +408,7 @@ def retrieve_assemblies(
     full: bool = False,
     dry_run: bool = False,
     run_date: str | None = None,
-):
+) -> TaxonRun:
     """Fetch one `asm` group. Returns a TaxonRun; writes nothing when dry_run."""
     from assaywatch.retrieve import TaxonRun, archive_stem, last_run_date, load_manifest
 

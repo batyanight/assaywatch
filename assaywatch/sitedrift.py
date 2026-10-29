@@ -65,7 +65,7 @@ from collections import Counter, defaultdict
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, TextIO
 
 from assaywatch import atomic
 from assaywatch.drift import DETECTED_CALLS, EVALUABLE, wilson_interval
@@ -113,7 +113,7 @@ LEAD_MIN_SHARE = 0.10
 THREE_PRIME_ZONE = 5
 
 
-def _open(path: Path):
+def _open(path: Path) -> TextIO:
     return gzip.open(path, "rt", newline="") if str(path).endswith(".gz") else open(path, newline="")
 
 
