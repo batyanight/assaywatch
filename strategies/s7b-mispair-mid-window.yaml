@@ -1,5 +1,22 @@
 # S7b - identity in the mid window: `mispair_window: null (=5) -> 10`.
 #
+# PRICED 2026-10-29, PASSES ALL THREE KILL CRITERIA, NOT SHIPPED. Result first:
+# 31,237 calls move (22,600 reduced->detect, 8,637 fail->reduced), tier-2 is identical
+# case for case (6/11 caught, PPV 4/10, 4/32 false alarms, 2/6 partial gaps), the bench
+# goes from 166/179 to 167/179 on ONE row (PPRV Nigeria75/1, Barrett panel, fail 4.0 ->
+# reduced 3.0 on one mid-window wobble), and NO within-family negative gains a band --
+# HPV55 and HPV44, which killed S7, stay `fail`. So the positives and the negatives
+# separated, which is what identity was supposed to do and position could not.
+#
+# WHY IT IS NOT SHIPPED ANYWAY. The report drops 7 flags, all falling, and one of them
+# is MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010 `declining -> stable` -- held-out set
+# 2's one false alarm, fixed by the exact mechanism this candidate predicted. That is
+# the strongest number it has and it is the one number the rules forbid counting. On
+# data the project may spend, S7b is one bench row better and tier-2-neutral, which is
+# thin for a change that unflags 5 distinct assays with no ground truth on 6 of the 7
+# rows. The call is the maintainer's. Full account:
+# docs/journal/2026-10-29-s7b-priced.md.
+#
 # WHY IT EXISTS. S7 (primer_mid_penalty 1.0 -> 0.5) was killed on its own criterion
 # 2026-10-28: it newly predicted a band on HPV55 and HPV44, two within-family negatives
 # on the Forslund FAP panel, while leaving tier-2 and bench accuracy identical

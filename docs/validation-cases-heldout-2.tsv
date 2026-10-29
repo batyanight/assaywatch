@@ -38,6 +38,15 @@
 # The honest status of this file is now: partially spent, 3 bits out, and worth no
 # further reads until it holds enough rows to be worth spending.
 #
+# DISCLOSED A THIRD TIME, 2026-10-29: not a score run, but the G2R row was consulted
+# again. S7b (`scoring.mispair_window: 10`) was priced by replay, and its report diff
+# shows MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010 moving `declining -> stable`, i.e.
+# fixing the false alarm this file records. Nothing in config.yaml was changed because
+# of it -- `mispair_window` stays null and the candidate waits for a maintainer -- and
+# the reasoning is written down in docs/journal/2026-10-29-s7b-priced.md precisely so
+# that a later reader can see the result was NOT used as the justification. No new bit
+# left the file; the row that was already out is what spoke.
+#
 # Same columns and same bar as the development set: a paper, erratum or redesign
 # reporting how an assay ALREADY IN THE REGISTRY performed, with `as_of` no later
 # than the sequences its authors could have seen. A new assay's validation

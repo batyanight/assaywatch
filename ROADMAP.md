@@ -126,14 +126,22 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   prints carries a Jeffreys interval, which is why the tier-2 figures read "3/9 = 33%
   (95% CrI 10%-65%)" rather than a bare percentage.
 
-- **S7b = identity in the mid window, registered 2026-10-28 and unpriced.** Extend
-  `scoring.mispair_penalty` to the mid window ALONE — identity rather than position, which
-  is what Kwok 1990 and Stadhouders 2010 measure. The unscoped version was measured and
-  rejected on 2026-10-22 (it erased internal wobbles and cost three documented catches);
-  mid-only has never been tried, and it is the candidate that could discount the G:T
-  wobble costing the monkeypox G2R assay its verdict while leaving the A:A and A:C
-  mispairs in the FAP negatives at full price. Needs a `mispair_window` setting rather
-  than a config overlay, which is why it is not priced yet.
+- **S7b: PRICED, PASSES, AND WAITING ON A MAINTAINER'S CALL** (2026-10-29,
+  `docs/journal/2026-10-29-s7b-priced.md`). `scoring.mispair_window: 10` extends identity
+  to the mid window alone. It passes all three pre-registered criteria: tier-2 identical
+  case for case, the bench improves 166/179 -> 167/179 (PPRV Nigeria75/1, `fail` 4.0 ->
+  `reduced` 3.0 on one mid-window wobble), and **no within-family negative gains a band**,
+  so the positives and negatives separated where S7's position-only version moved them
+  together. 31,237 calls move, all loosening.
+  **The reason it is not shipped**: the report drops 7 flags (5 distinct assays), 6 of
+  them with no ground truth either way, and the 7th is held-out set 2's one false alarm
+  (G2R generic, `declining -> stable`) fixed by exactly the predicted mechanism. That is
+  its strongest number and the one number a threshold may not be fitted to. On data the
+  project may spend, S7b is one bench row and tier-2-neutral. `mispair_window` stays null
+  until a maintainer decides; shipping it also needs a confirming rescreen, since a replay
+  prices and does not prove. What would settle it is cases on those 5 assays, not a third
+  value of the knob — see the tier-2 item below, which gained 13 CONFIRMED pairs the same
+  day, two of them on ADENOVIRUS hexon and pan-herpes.
 
 Dead, and recorded so they are not re-proposed: **S1** serial per-oligo gates (no
 threshold pair passed its own criterion, 2026-10-26), **S2** a smooth positional decay
@@ -297,6 +305,24 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   assay and reports a result is just as scoreable. `scripts/find_retrospective_cases.py`
   could be re-run for use-and-report language, which is a cheap change to a script and
   the only lead left that does not need new PDFs.
+
+  **That re-run happened 2026-10-29 and it worked.** `--include use` (the opt-in phrase
+  family) returned 248 candidate rows, 93 of them `use`, and
+  `check_candidate_identity.py` over that family read **13 CONFIRMED (paper, assay) pairs
+  over 7 papers, 3 VARIANT, 153 UNCONFIRMABLE** — against 2 CONFIRMED in the whole
+  project before. Worksheet: `<scratch>/identity-use.tsv`. The seven papers, every oligo
+  `exact`: Pan_HERPES_dsDNA_Polymerase (+round2) in 10.5455/ovj.2024.v14.i1.48,
+  10.1080/01652176.2022.2149879 and 10.1186/s12891-020-3052-8;
+  CORONAVIRUS..._round2 in 10.1093/ve/veab110; Leucocytozoon_cyt_c_Hellgren_2004,
+  Pan_Plasmodium... and Pan_hemoparasite... in 10.1186/s12936-021-04019-z;
+  ASTROVIRUS_RdRp_Chu_2008 (round1+round2) in 10.4142/jvs.2021.22.e84;
+  ADENOVIRUS_dsDNA_Hexon_gene (+round2) in 10.1016/j.nmni.2019.100640. **Each is now a
+  reading assignment, not a row**: the works/fails call and the as-of date come from the
+  paper's results. Two of the seven touch assays S7b unflags, which is what would settle
+  that candidate. The raptor paper (10.1186/s12936-021-04019-z) is the most valuable lead
+  in the batch: it states a mechanistic 3'-end failure of the Hellgren nest against one
+  parasite group and adds a second protocol to cover it, which is the scarce
+  `fails`/`coverage` shape set 2 is short of.
 
   **Set 2 is partially spent**: 3 rows, all read 2026-10-28, 1 agrees / 1 weaker / 1
   false alarm. See the held-out item under Data and curation.

@@ -132,13 +132,24 @@ scoring:
   # Mills/G2R false alarm that opened the question rests on a G:T wobble at reverse
   # position 8 -- in the mid window, costing a full 1.0, and a wobble this table
   # already calls free at d<=5. `mispair_window: 10` would discount exactly that class
-  # and nothing a position penalty can reach. It has NOT been priced, and it inherits
-  # the warning that killed unscoped M1: at d>5 a free G:T erased internal wobbles
-  # across whole record sets and cost three documented tier-2 catches
-  # (docs/journal/2026-10-22-M1-tier2.md). Those were lost at EVERY position with
-  # `reduced` counting as detected; both of those conditions have since changed, which
-  # is why it is worth measuring rather than assuming. Gates before any value ships:
-  # tier-2 on the development set, every bench panel, and the 69 mid-window sites.
+  # and nothing a position penalty can reach. It inherits the warning that killed
+  # unscoped M1: at d>5 a free G:T erased internal wobbles across whole record sets and
+  # cost three documented tier-2 catches (docs/journal/2026-10-22-M1-tier2.md). Those
+  # were lost at EVERY position with `reduced` counting as detected; both conditions
+  # have since changed, which is why it was worth measuring rather than assuming.
+  #
+  # PRICED 2026-10-29 AT 10, PASSES, AND STILL NULL. The measurement did what it was
+  # meant to: 31,237 calls move, every one a loosening; tier-2 identical case for case;
+  # the bench improves by ONE row (PPRV Nigeria75/1, fail 4.0 -> reduced 3.0 on a single
+  # mid-window wobble) and NO within-family negative gains a band, so HPV55 and HPV44 --
+  # the rows that killed S7 -- stay `fail`. Identity separated what position could not.
+  # The reason the number here is still null is the report: 7 flags fall, 5 distinct
+  # assays stop being flagged, 6 of the 7 rows have no ground truth either way, and the
+  # 7th is held-out set 2's one false alarm (G2R generic, `declining -> stable`) fixed by
+  # exactly the predicted mechanism. That is the strongest number S7b has and the one
+  # number a threshold may not be fitted to. On data this project may spend, S7b is one
+  # bench row. A maintainer decides; a replay prices and does not prove, so shipping it
+  # also means a confirming rescreen. Account: docs/journal/2026-10-29-s7b-priced.md.
   mispair_window: null
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
