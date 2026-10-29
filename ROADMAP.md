@@ -534,14 +534,20 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
         write-through for doi_verified / target.taxid / unset amplicon_bp, TODO for
         judgement, status never touched. printed.py holds the paper-text functions the
         verifier script now imports. CONTRIBUTING and pending/README rewritten.
-  - [ ] 5f Migrate the live scripts onto the modules in batches of five, suite green
-        between batches; then move the rest to `scripts/archive/` with a one-line
-        index naming the finding each one produced and where it is recorded.
-        WAITS for the owner's OK (decided 2026-10-29). Candidates by module:
-        registry: 14 globbers + 18 safe_load callers; ncbi: build_taxonomy_cache,
-        check_taxids, backfill_taxids, assay_sheet, check_submission; papers:
-        fetch_europepmc_fulltext, fetch_elsevier, find_open_access,
-        import_pmc_fulltext, papers_index, resolve_citations, check_citations.
+  - [x] 5f (2026-10-29, PR `scripts-migration`, built on `curate`). Three batches, suite
+        green between each: the curation and CI scripts (check_duplicate_keys,
+        check_citations, papers_index, resolve_citations; check_submission is now a shim
+        over `assaywatch curate --dry-run`); the NCBI and literature callers
+        (check_taxids, build_taxonomy_cache, backfill_taxids, fetch_europepmc_fulltext,
+        find_open_access); and every remaining registry reader (check_amplicons,
+        check_orientation, promote, and eight scripts that name registry.files /
+        registry.load_one). Then twenty one-off analyses moved to `scripts/archive/`
+        with an index of what each measured and where it is recorded; their seven
+        test files sit in `tests/archive/`, kept and not collected. 34 live scripts.
+        Kept live by judgement, not by the strict caller rule: check_candidate_identity,
+        extract_conditions, extract_exclusivity, stale_screens and
+        find_retrospective_cases, because the roadmap's open work or the resume point
+        names them.
   - [ ] 5g Verify, then maybe: `report.py` `markdown_from` and `html_from` (~290 lines
         each) over the same model; if they walk the same sections, render once to a
         section list and keep two serialisers. The package is NOT reorganised into
