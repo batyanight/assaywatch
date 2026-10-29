@@ -62,7 +62,7 @@ from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, TextIO
 
 from assaywatch.credentials import ncbi_api_key, scrub
 from assaywatch.groups import group_slug as group_slug
@@ -346,7 +346,7 @@ def write_manifest(cfg: dict[str, Any], manifest: dict[str, Any]) -> None:
     os.replace(tmp, p)
 
 
-def acquire_lock(cfg: dict[str, Any]):
+def acquire_lock(cfg: dict[str, Any]) -> TextIO:
     """Hold an exclusive lock on the retrieval directory until this process exits.
 
     Two retrievals at once (a scheduled pipeline run and a manual one) would
@@ -569,7 +569,7 @@ def retrieve_taxon(
             )
         return fresh
 
-    def with_refresh(call, *args):
+    def with_refresh(call: Callable[..., Any], *args: Any) -> Any:
         nonlocal handle
         try:
             return call(transport, handle, *args)

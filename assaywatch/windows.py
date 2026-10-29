@@ -282,7 +282,9 @@ def _candidate_batches(fasta: Path, sites: dict[str, list], target_bp: int) -> I
         yield batch
 
 
-def _cut_results(batches: Iterator[list], search, cfg, buffer: int, workers: int) -> Iterator[tuple]:
+def _cut_results(
+    batches: Iterator[list], search: dict[str, Any], cfg: dict[str, Any], buffer: int, workers: int
+) -> Iterator[tuple]:
     if workers <= 1:
         _init_cut(search, cfg, buffer)
         for batch in batches:

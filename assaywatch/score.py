@@ -605,7 +605,7 @@ def _call_rank(call: str, reason: str) -> float:
 class SiteIndex:
     """Sites sorted by start, for range queries; results come back in _rank order."""
 
-    def __init__(self, sites: list[Site]):
+    def __init__(self, sites: list[Site]) -> None:
         self.sites = sorted(sites, key=lambda x: x.start)
         self.starts = [x.start for x in self.sites]
 

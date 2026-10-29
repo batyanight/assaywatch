@@ -1067,7 +1067,9 @@ def _duplication_cell(a: AssayDrift) -> str:
     return "fails: " + ",".join(a.cluster_failures)
 
 
-def _status_row(a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[str]], cfg) -> StatusRow:
+def _status_row(
+    a: AssayDrift, assays: dict[str, Assay], twins: dict[str, list[str]], cfg: dict[str, Any] | None
+) -> StatusRow:
     assay = assays.get(a.assay_id)
     deg = assay_degeneracy(assay) if assay else None
     return StatusRow(
@@ -1150,7 +1152,9 @@ def exclusivity_rows(
     return rows
 
 
-def _detail_row(a: AssayDrift, assays: dict[str, Assay], cfg, taxonomy) -> DetailRow:
+def _detail_row(
+    a: AssayDrift, assays: dict[str, Assay], cfg: dict[str, Any] | None, taxonomy: Taxonomy | None
+) -> DetailRow:
     assay = assays.get(a.assay_id)
     deg = assay_degeneracy(assay) if assay else None
     claimed = set(assay.target.exclusivity_taxids or []) if assay else set()
@@ -1209,7 +1213,7 @@ def _nested_row(f: NestedFamily, held_ids: frozenset[str] = frozenset()) -> Nest
     )
 
 
-def nested_sort_key(f: NestedFamily):
+def nested_sort_key(f: NestedFamily) -> tuple[bool, float]:
     """Largest coverage loss first, families with no computable gap last."""
     return (f.gap is None, -(f.gap or 0))
 

@@ -26,13 +26,13 @@ import gzip
 from collections import defaultdict
 from contextlib import suppress
 from pathlib import Path
-from typing import Any
+from typing import Any, TextIO
 
 from assaywatch.accession import strip_version, version_of
 from assaywatch.drift import FOOTPRINT_COLUMNS, FOOTPRINT_REQUIRED, footprint_signature
 
 
-def _open(path: Path):
+def _open(path: Path) -> TextIO:
     return gzip.open(path, "rt") if str(path).endswith(".gz") else open(path)
 
 

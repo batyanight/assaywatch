@@ -47,7 +47,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -79,7 +79,7 @@ def family_of(assay_id: str, assay: Any = None) -> str:
     return declared or family_id(assay_id)
 
 
-def families(assays) -> dict[str, list[str]]:
+def families(assays: Mapping[str, Any]) -> dict[str, list[str]]:
     """{family: [assay ids]} for every family carrying more than one round.
 
     Membership is the registry's word, not the geometry. Round 2's amplicon
@@ -335,7 +335,7 @@ class NestedFamily:
         return text
 
 
-def assess(assays: dict[str, Any], calls) -> dict[str, NestedFamily]:
+def assess(assays: dict[str, Any], calls: Iterable[Mapping[str, Any]]) -> dict[str, NestedFamily]:
     """Per-record nested coverage for every two-round family in the registry.
 
     `calls` is any iterable of screen rows (`assay_id`, `record_id`, `call`,

@@ -25,9 +25,13 @@ from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from assaywatch.accession import strip_version
 from assaywatch.interval import wilson_interval
+
+if TYPE_CHECKING:
+    from assaywatch.taxonomy import Taxonomy
 
 # scipy and statsmodels are imported inside worst_lineage_verdict, the only
 # function that needs them, so that the pipeline rules which merely read
@@ -75,7 +79,7 @@ def load_taxa_cache(cache_file: Path | str) -> dict[int, str]:
         return {}
 
 
-def name_lineages_from_taxonomy(taxa_cache: dict[int, str], taxonomy) -> dict[int, str]:
+def name_lineages_from_taxonomy(taxa_cache: dict[int, str], taxonomy: "Taxonomy | None") -> dict[int, str]:
     """`taxa_cache` with a "Name (taxid)" label added for every species the tree names.
 
     docs/taxa-cache.json holds ten hand-entered names, so almost every lineage
