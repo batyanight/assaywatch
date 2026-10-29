@@ -96,6 +96,8 @@ assaywatch/      the package
   chance.py        E-value of a primer pair: could it be chance in a record this long?
   assemblies.py    NCBI Datasets genome sampling for bacterial targets (`asm` groups)
   fasta.py         minimal FASTA reader
+  papers.py        the papers/ naming convention and the literature client: Crossref, open-access routes, Europe PMC
+                   full text, Elsevier, storage, and `obtain`, the chain curate runs
 Snakefile          the pipeline; profiles/slurm/ runs the same rules on a cluster
 pending/         entries waiting for a verified DOI; never screened (pending/README.md)
 scripts/         registry QA: check_taxids.py (taxid vs NCBI name), indel_check.py,
