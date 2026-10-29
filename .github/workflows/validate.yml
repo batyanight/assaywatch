@@ -61,7 +61,7 @@ jobs:
       # Pinned to the minor that passes, since this job can now turn the build red.
       # Bump it deliberately and read the rerun assertions when you do.
       - run: pip install -e ".[dev]" "snakemake>=9.27,<9.28"
-      - run: pytest -q tests/test_triggers.py
+      - run: pytest -q -m slow tests/test_triggers.py
 
   # EVERY OTHER JOB AND EVERY DOCUMENTED COMMAND USES AN EDITABLE INSTALL, so
   # nothing here could see what a real install does. `pip install .` yields a
