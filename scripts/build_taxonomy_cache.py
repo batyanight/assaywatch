@@ -5,7 +5,7 @@
 
 Covers every taxid in the retrieved archives (backfill sidecar plus metadata
 taxid columns) and every `target.taxid` and `scope_taxids` entry in the registry.
-Run it on the Mac (needs Entrez Direct and eutils.ncbi.nlm.nih.gov) after a
+Run it on the Mac (needs eutils.ncbi.nlm.nih.gov; the client is assaywatch.ncbi) after a
 retrieval brings in new taxa. assaywatch.taxonomy reads the result offline.
 
 For each batch, `efetch -format xml` returns the taxon with its full lineage,
@@ -22,17 +22,14 @@ from __future__ import annotations
 import argparse
 import csv
 import gzip
-import json
-import subprocess
 import sys
-import xml.etree.ElementTree as ET
-from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
+from assaywatch import ncbi, registry  # noqa: E402
+from assaywatch.credentials import contact_email  # noqa: E402
 
 BATCH = 200
 
@@ -54,25 +51,13 @@ def archive_taxids(retrieved: Path) -> set[int]:
     return out
 
 
-def registry_taxids(registry: Path) -> set[int]:
+def registry_taxids(registry_dir: Path) -> set[int]:
     out: set[int] = set()
-    for path in iter_files(registry):
-        a = load_assay(path)
+    for a in registry.load(registry_dir).values():
         if a.target.taxid is not None:
             out.add(a.target.taxid)
         out.update(a.target.scope_taxids or [])
     return out
-
-
-def efetch(ids: list[int], fmt: str) -> str:
-    # stdin from /dev/null: Entrez Direct blocks reading a pipe otherwise.
-    return subprocess.run(
-        ["efetch", "-db", "taxonomy", "-id", ",".join(map(str, ids)), "-format", fmt],
-        stdin=subprocess.DEVNULL,
-        capture_output=True,
-        text=True,
-        check=True,
-    ).stdout
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -80,87 +65,41 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--retrieved", type=Path, default=ROOT / "data" / "retrieved")
     ap.add_argument("--registry", type=Path, default=ROOT / "registry")
     ap.add_argument("--out", type=Path, default=ROOT / "docs" / "taxonomy-cache.json.gz")
+    ap.add_argument("--email", default=None, help="contact address for NCBI (default: the configured one)")
     args = ap.parse_args(argv)
+    email = args.email or contact_email()
+    if not email:
+        ap.error("--email is required (or set ASSAYWATCH_EMAIL / .secrets/email)")
 
     wanted = sorted(archive_taxids(args.retrieved) | registry_taxids(args.registry))
     print(f"{len(wanted)} taxids to resolve", file=sys.stderr)
+    transport = ncbi.eutils(email, ncbi.api_key())
+    records = ncbi.taxon_records(wanted, transport, batch=BATCH)
+    tree = ncbi.taxonomy_tree(records)
 
-    parent: dict[int, int] = {}
-    rank: dict[int, str] = {}
-    name: dict[int, str] = {}
-    returned: set[int] = set()
-    for i in range(0, len(wanted), BATCH):
-        root = ET.fromstring(efetch(wanted[i : i + BATCH], "xml"))
-        for taxon in root.findall("Taxon"):
-            tid = int(taxon.findtext("TaxId"))
-            returned.add(tid)
-            nodes = taxon.findall("LineageEx/Taxon") + [taxon]
-            path = [int(t.findtext("TaxId")) for t in nodes]
-            for up, down in zip(path, path[1:], strict=False):
-                parent[down] = up
-            for t, node in zip(path, nodes, strict=True):
-                rank[t] = node.findtext("Rank") or "no rank"
-                name[t] = node.findtext("ScientificName") or ""
-        if (i // BATCH) % 50 == 0:
-            print(f"  {min(i + BATCH, len(wanted))}/{len(wanted)}", file=sys.stderr)
-
-    # A record-level taxid with no species on its path to the root becomes a lineage
-    # grouping key under `lineage.group_at_rank: species` -- a no-rank node NCBI files
-    # beside species rather than under one -- and only a kept name can label it.
-    # Keeping names for exactly these keeps the file small. (The 775 `taxid_<n>` rows
-    # of the 2026-10-26 lineage report were first blamed on this and were not it:
-    # every one of those 322 taxids HAS a species above it, and lineage_report.py was
-    # simply not rolling up. Fixed there the same day; this set was 3 ids.)
     direct = archive_taxids(args.retrieved)
 
     def has_species_ancestor(t: int) -> bool:
         seen: set[int] = set()
-        while t in parent and t not in seen:
-            if rank.get(t) == "species":
+        while t in tree.parent and t not in seen:
+            if tree.rank.get(t) == "species":
                 return True
             seen.add(t)
-            t = parent[t]
-        return rank.get(t) == "species"
+            t = tree.parent[t]
+        return tree.rank.get(t) == "species"
 
-    grouping_keys = {t for t in direct if t in rank and not has_species_ancestor(t)}
+    # Record-level taxids with no species above them are lineage keys in their own
+    # right, so their names are kept (see save_taxonomy_cache).
+    grouping_keys = {t for t in direct if t in tree.rank and not has_species_ancestor(t)}
 
-    merged: dict[int, int] = {}
-    unresolved = [t for t in wanted if t not in returned and t not in parent]
-    for i in range(0, len(unresolved), BATCH):
-        root = ET.fromstring(efetch(unresolved[i : i + BATCH], "docsum"))
-        for doc in root.iter("DocumentSummary"):
-            tid, aka = doc.findtext("TaxId"), doc.findtext("AkaTaxId")
-            if tid and aka and aka.isdigit() and int(aka) not in (0, int(tid)):
-                merged[int(tid)] = int(aka)
+    unresolved = [t for t in wanted if t not in records]
+    merged = ncbi.merged_taxids(unresolved, transport, batch=BATCH)
     missing = sorted(t for t in unresolved if t not in merged)
-
-    args.out.parent.mkdir(parents=True, exist_ok=True)
-    with gzip.open(args.out, "wt") as fh:
-        json.dump(
-            {
-                "description": "NCBI taxonomy parent links and merges; built by scripts/build_taxonomy_cache.py",
-                "built": date.today().isoformat(),
-                "n_requested": len(wanted),
-                "parent": {str(k): v for k, v in sorted(parent.items())},
-                "rank": {str(k): v for k, v in sorted(rank.items()) if v != "no rank"},
-                # Species names, for per-species report tables; the "unclassified ..."
-                # nodes, which in_unclassified reads; and the record-level taxids that
-                # have no species above them and so are lineage keys in their own
-                # right (see `grouping_keys`). Every name would quadruple the committed
-                # file for nodes nothing displays; these three sets are what displays.
-                "name": {
-                    str(k): v
-                    for k, v in sorted(name.items())
-                    if rank.get(k) == "species" or v.startswith("unclassified ") or k in grouping_keys
-                },
-                "merged": {str(k): v for k, v in sorted(merged.items())},
-                "missing": missing,
-            },
-            fh,
-            separators=(",", ":"),
-        )
+    ncbi.save_taxonomy_cache(
+        args.out, records, merged=merged, n_requested=len(wanted), missing=missing, name_keys=grouping_keys
+    )
     print(
-        f"{len(parent)} parent links, {len(rank)} ranks, {len(merged)} merges, {len(missing)} missing -> {args.out}",
+        f"wrote {args.out}: {len(tree.parent)} parent links, {len(merged)} merged, {len(missing)} missing",
         file=sys.stderr,
     )
     return 0

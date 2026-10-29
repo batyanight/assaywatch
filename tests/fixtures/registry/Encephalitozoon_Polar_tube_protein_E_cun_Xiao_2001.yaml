@@ -1,0 +1,50 @@
+id: Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001
+name: Encephalitozoon — Polar tube protein (E. cuniculi only)
+target:
+  taxid: 6035
+  gene: Polar tube protein (E. cuniculi only)
+  genome_type: dsDNA
+  taxon_name: Encephalitozoon cuniculi
+chemistry: conventional
+oligos:
+  forward:
+    name: EcPTPF
+    seq: GCAGTTCCAGGCTACTAC
+  reverse:
+    name: EcPTPR
+    seq: AGGAACTCCGGATGTTCC
+amplicon_bp: null
+amplicon_bp_range: [275, 373]
+species_sizes:
+# Measured by scripts/measure_species_sizes.py from the 2026-10-21 run: band envelope 285-363
+# + 10 bp cushion each end. Two discrete bands for the one target species: the polar tube protein
+# gene carries a variable number of tandem repeats, which is the length polymorphism Xiao 2001
+# genotypes E. cuniculi by. config.yaml amplicon section: the measured size wins over any published one.
+- taxid: 6035
+  bp: [285, 285]
+  n_records: 9
+  note: Encephalitozoon cuniculi (fewer PTP repeats)
+- taxid: 6035
+  bp: [363, 363]
+  n_records: 8
+  note: Encephalitozoon cuniculi (more PTP repeats)
+citation:
+  doi: 10.1128/JCM.39.6.2248-2253.2001
+  design_year: 2001
+  n_sequences_at_design: null
+  as_written: Xiao, et al. JOURNAL OF CLINICAL MICROBIOLOGY. 2001
+  doi_verified: true
+  reference: Xiao L, Li L, Visvesvara GS, Moura H, Didier ES, Lal AA. 2001. Genotyping Encephalitozoon cuniculi by multilocus
+    analyses of genes with repetitive sequences. J Clin Microbiol 39:2248-2253
+use_context:
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'AMPLICON RANGE DECLARED 2026-10-21. Carried no declared size, so it was screened against the global 50-3000 bp window. The polar tube protein gene is a tandem-repeat locus and Xiao 2001 exists to GENOTYPE E. cuniculi by its length, so the product is bimodal within the one target species: 285 bp (9 records) and 363 bp (8 records), measured from the 2026-10-21 run over 17 amplifying records. Declared as amplicon_bp_range [275, 373] (envelope 285-363 + 10 bp cushion each end; declared_tolerance adds +/-25% at screen time) with the two bands in species_sizes, the ORTHOPOXVIRUS ATI pattern of one taxid carrying several bands. Thin at 17 records but the bimodality is the assay''s designed readout, not noise. Needs a rescreen to take effect.'
+needs_review:
+- flag: amplicon_multimodal
+  note: the PTP repeat length is the readout; two bands (285, 363 bp) for E. cuniculi, declared as amplicon_bp_range
+- flag: thin_evidence
+  note: 17 amplifying records support the two bands

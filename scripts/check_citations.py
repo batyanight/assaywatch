@@ -40,63 +40,15 @@ Exit code 1 on any mismatch, so this runs as a pre-commit hook and in CI.
 from __future__ import annotations
 
 import argparse
-import json
-import re
 import sys
-import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import yaml  # noqa: E402
+from assaywatch import papers, registry  # noqa: E402
 
-
-def fold(s: str) -> str:
-    """Lowercase, strip accents, and normalise the several dash characters to '-'.
-
-    Crossref returns 'Vázquez-Morón' and 'Sánchez‐Seco' - the latter with a
-    non-breaking hyphen - where a reference typed on an English keyboard has
-    'Vazquez-Moron'. Those are the same name and must not be reported as a
-    mismatch, or the check becomes noise and gets ignored.
-    """
-    s = unicodedata.normalize("NFKD", s)
-    s = "".join(c for c in s if not unicodedata.combining(c))
-    s = re.sub(r"[‐-―−]", "-", s)
-    return s.lower()
-
-
-def surname_tokens(family: str) -> list[str]:
-    """The parts of a surname worth looking for, e.g. 'van Kuppeveld' -> both words."""
-    return [t for t in re.split(r"[-\s']+", fold(family)) if len(t) >= 3]
-
-
-def check(entry: dict, meta: dict) -> list[str]:
-    """Problems with one entry's citation against its Crossref record."""
-    c = entry.get("citation") or {}
-    ref = (c.get("reference") or "") or (c.get("as_written") or "")
-    problems = []
-
-    family = meta.get("first_author") or ""
-    if family and ref.strip():
-        toks = surname_tokens(family)
-        # A compound surname only needs one distinctive part present.
-        if toks and not any(t in fold(ref) for t in toks):
-            problems.append(f"reference does not name Crossref's first author {family!r}: {ref[:110]!r}")
-    elif family and not ref.strip():
-        problems.append(f"no reference text, though Crossref knows the paper ({family})")
-
-    year = meta.get("year")
-    if year:
-        years = {int(y) for y in re.findall(r"\b((?:19|20)\d{2})\b", ref)}
-        dy = c.get("design_year")
-        candidates = years | ({dy} if dy else set())
-        # Online-first publication legitimately straddles two years.
-        if candidates and not any(abs(y - year) <= 1 for y in candidates):
-            problems.append(
-                f"no year within 1 of Crossref's {year}; reference/design_year give {sorted(candidates)}"
-            )
-    return problems
+# The two rules (first author named, year within one) live in assaywatch.papers.citation_problems.
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -127,24 +79,22 @@ def main(argv: list[str] | None = None) -> int:
     if not args.cache.exists():
         print("no Crossref cache; run scripts/papers_index.py first", file=sys.stderr)
         return 1
-    cache = json.loads(args.cache.read_text())
-
+    cache = papers.load_index_cache(args.cache)
     failures: list[str] = []
     checked = no_doi = unresolved = 0
-    for f in sorted(args.registry.glob("*.yaml")):
-        d = yaml.safe_load(f.read_text())
-        doi = ((d.get("citation") or {}).get("doi") or "").lower()
+    for f in registry.files(args.registry):
+        assay = registry.load_one(f)
+        doi = (assay.citation.doi or "").lower()
         if not doi:
             no_doi += 1
             continue
-        meta = cache.get(doi)
-        if meta is None:
+        if doi not in cache or cache[doi] is None:
             unresolved += 1
-            failures.append(f"{d['id']}: DOI {doi} does not resolve on Crossref")
+            failures.append(f"{assay.id}: DOI {doi} does not resolve on Crossref")
             continue
         checked += 1
-        for p in check(d, meta):
-            failures.append(f"{d['id']}: {p}")
+        for p in papers.citation_problems(cache[doi], assay.citation.model_dump()):
+            failures.append(f"{assay.id}: {p}")
 
     if not args.quiet:
         for line in failures:

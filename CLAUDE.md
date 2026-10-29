@@ -25,12 +25,13 @@ that need a human and a proxy rather than a list of work.
   primer list the registry was started from, or any lab, as a source.
 - Live = in `registry/`, and only with `citation.doi_verified: true` (the validator
   and Snakefile both refuse anything else). Entries waiting for a paper sit in
-  `pending/`; `python -m assaywatch.validate pending --pending` checks them.
+  `pending/`; `assaywatch validate pending --pending` checks them.
 
 ## Commands
     conda activate assaywatch                      # environment.yml; package installed editable
+    assaywatch curate registry/ENTRY.yaml --email you@example.org   # the curation chain on one entry; --dry-run, --offline
     pytest -m fast                                 # pure functions on the fixtures, ~5 s: the write-test-run loop
-    pytest -q && python -m assaywatch.validate registry   # everything except `slow`, ~45 s
+    pytest -q && assaywatch validate registry   # everything except `slow`, ~45 s
     pytest -m slow                                 # the Snakemake dry-run tests (~80 s); CI runs them as their own job
     ruff check . && ruff format --check .
     python scripts/check_citations.py              # CI runs this too
@@ -48,7 +49,7 @@ one-off Python, and over asking Batya to download files by hand.
 Search and summarise; don't read large files whole. `rg`, `fd`, `jq`, `mlr` are
 on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
 - `GLOSSARY.md` is the project vocabulary: use its terms in names, comments and commit messages, and add a term there before inventing a new word.
-- `docs/INDEX.md` indexes everything under `docs/` (9 reference documents, 118 journals
+- `docs/INDEX.md` indexes everything under `docs/` (9 reference documents, 119 journals
   and 22 data files as of 2026-10-29), grouped by what you want, with a `Superseded`
   section. Start there rather than guessing from filenames.
 - `docs/journal/YYYY-MM-DD-*.md` are dated session records, and `docs/*.md` is the
@@ -78,7 +79,8 @@ on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
   primers sit. The paper still says whether the length *varies*, which is what
   calls for `amplicon_bp_range`. Reasoning in `config.yaml` under `amplicon:`.
 - No citation from memory. A DOI is entered with `doi_verified: false` and only
-  `scripts/resolve_citations.py` + `scripts/check_citations.py` may approve it.
+  Crossref, through `assaywatch curate` (or `scripts/resolve_citations.py`) and
+  checked by `scripts/check_citations.py`, may approve it.
   If Crossref is unreachable, the entry waits.
 - No scoring numbers in code. Thresholds live in `config.yaml`, with their
   justification (or the admission there is none) in comments.
@@ -89,7 +91,7 @@ on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
   `api.unpaywall.org`, `api.openalex.org`, `www.ebi.ac.uk`. Cloud sandboxes have
   been blocked from these; run network steps on the Mac.
 - NCBI key: `$NCBI_API_KEY` or `.secrets/ncbi.key`. Check with
-  `python -m assaywatch.credentials`. Never print, log or commit a key.
+  `assaywatch credentials`. Never print, log or commit a key.
 - `papers/` holds copyrighted PDFs: gitignored, local only, never commit.
 
 ## Scratch, not source of truth

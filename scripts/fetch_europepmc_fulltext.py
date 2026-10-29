@@ -48,84 +48,42 @@ This writes into a gitignored directory and fetches only open-access content.
 from __future__ import annotations
 
 import argparse
-import json
-import re
 import sys
 import time
-import urllib.parse
-import urllib.request
 from pathlib import Path
 
 from assaywatch.credentials import contact_email
-from assaywatch.papers import PAPER_SUFFIXES, doi_stem
+from assaywatch.papers import doi_stem
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-import yaml  # noqa: E402
+from assaywatch import papers, registry  # noqa: E402
 
-SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
-FULLTEXT = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
+_GET = papers.http(timeout=120)
 
 
 def held(pdf_dir: Path, doi: str) -> str | None:
-    """Any file in pdf_dir already standing for this DOI, case-insensitively."""
-    want = doi_stem(doi).lower()
-    for p in sorted(pdf_dir.iterdir()):
-        if p.suffix.lower() in PAPER_SUFFIXES and p.stem.lower() == want:
-            return p.name
-    return None
+    """Any file in pdf_dir already standing for this DOI."""
+    p = papers.paper_for_doi(doi, pdf_dir)
+    return p.name if p else None
 
 
-def registry_dois(registry: Path) -> dict[str, list[str]]:
+def registry_dois(registry_dir: Path) -> dict[str, list[str]]:
     """{doi: [assay ids]} over every entry that cites one."""
     out: dict[str, list[str]] = {}
-    for path in sorted(registry.glob("*.yaml")):
-        doc = yaml.safe_load(path.read_text()) or {}
-        doi = ((doc.get("citation") or {}).get("doi") or "").strip()
-        if doi:
-            out.setdefault(doi, []).append(doc.get("id", path.stem))
+    for a in registry.load(registry_dir).values():
+        if a.citation.doi:
+            out.setdefault(a.citation.doi.strip(), []).append(a.id)
     return out
 
 
-def get(url: str, timeout: int = 60) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": f"assaywatch ({contact_email() or 'unset'})"})
-    with urllib.request.urlopen(req, timeout=timeout) as fh:
-        return fh.read().decode("utf-8", "replace")
-
-
 def pmcid_for(doi: str) -> str | None:
-    """Ask Europe PMC which PMC id, if any, holds this DOI's open full text."""
-    q = urllib.parse.urlencode(
-        {"query": f'DOI:"{doi}"', "format": "json", "pageSize": 5, "resultType": "lite"}
-    )
-    try:
-        hits = json.loads(get(f"{SEARCH}?{q}"))["resultList"]["result"]
-    except Exception:  # noqa: BLE001 - no hit and a dead search are the same answer here: nothing
-        return None
-    for r in hits:
-        # inPMC/isOpenAccess are strings "Y"/"N" in this API.
-        if r.get("pmcid") and (r.get("isOpenAccess") == "Y" or r.get("inPMC") == "Y"):
-            return r["pmcid"]
-    return None
+    return papers.pmcid_for(doi, _GET, email=contact_email() or "")
 
 
-def flatten(xml: str) -> str:
-    """XML -> text, keeping table structure legible.
-
-    Cells are separated by ` | ` and rows by newlines. Without that a primer name
-    and its sequence arrive fused ("2743sCGCAAATCGCAGA..."), which is exactly the
-    failure that makes an extracted sequence unusable.
-    """
-    text = re.sub(r"<(table-wrap|table)\b", r"\n<\1", xml)
-    text = re.sub(r"</t[dh]>", " | ", text)
-    text = re.sub(r"</tr>", "\n", text)
-    text = re.sub(r"</(p|title|caption|sec|abstract|table-wrap)>", "\n", text)
-    text = re.sub(r"<[^>]+>", "", text)
-    text = text.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
-    text = re.sub(r"&#x?[0-9A-Fa-f]+;", " ", text)
-    text = re.sub(r"[ \t]+", " ", text)
-    return re.sub(r"\n{3,}", "\n\n", text).strip()
+# `flatten` is papers.flatten_xml; the name stays for check_candidate_identity.
+flatten = papers.flatten_xml
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -160,18 +118,15 @@ def main(argv: list[str] | None = None) -> int:
             if args.verbose:
                 print(f"  no open PMC copy   {doi}")
             continue
-        try:
-            xml = get(FULLTEXT.format(pmcid=pmcid), timeout=120)
-        except Exception as exc:  # noqa: BLE001 - one paper's fetch must not end the run
-            print(f"  fetch failed       {doi}  {pmcid}: {exc}")
-            time.sleep(0.3)
-            continue
+        text = papers.europepmc_fulltext(pmcid, _GET, email=contact_email() or "")
         time.sleep(0.3)
-        text = flatten(xml)
+        if text is None:
+            print(f"  fetch failed       {doi}  {pmcid}")
+            continue
         # An abstract-only deposit comes back a few thousand characters long and
         # is not worth writing: it cannot confirm or deny a primer, and a file
         # present stops find_open_access.py looking for the real thing.
-        if len(text) < 6000:
+        if len(text) < papers.FULLTEXT_MIN_CHARS:
             empty += 1
             if args.verbose:
                 print(f"  abstract only      {doi}  {pmcid}  ({len(text)} chars)")

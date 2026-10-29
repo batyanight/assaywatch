@@ -15,6 +15,8 @@ from pathlib import Path
 import pytest
 import yaml
 
+from assaywatch import printed as printed_mod
+
 ROOT = Path(__file__).resolve().parents[1]
 _spec = importlib.util.spec_from_file_location("vo", ROOT / "scripts" / "verify_oligos_against_paper.py")
 vo = importlib.util.module_from_spec(_spec)
@@ -639,7 +641,8 @@ def test_the_notation_is_normalised_by_every_way_a_paper_is_read(tmp_path, monke
         got = vo.printed_oligos(vo.file_text(path))
         assert want_a in got and want_b in got, (path.suffix, got)
 
-    monkeypatch.setattr(vo, "pdf_text", lambda p: raw)
+    # pdf_text lives in assaywatch.printed now; file_text looks it up there.
+    monkeypatch.setattr(printed_mod, "pdf_text", lambda p: raw)
     got = vo.printed_oligos(vo.file_text(tmp_path / "c.pdf"))
     assert want_a in got and want_b in got, ("pdf", got)
 

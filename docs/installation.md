@@ -28,7 +28,7 @@ Verify:
 ```bash
 pytest -q
 ruff check . && ruff format --check .
-python -m assaywatch.validate registry
+assaywatch validate registry
 python scripts/check_citations.py
 ```
 
@@ -54,7 +54,7 @@ turned both CI jobs red while the Mac stayed green.
 | `thermo` | primer3-py | the duplex-Tm columns, opt-in via `thermo: true` |
 
 Pip alone does **not** install Snakemake or the NCBI CLI tools. Without
-Snakemake you can still use the library and `python -m assaywatch.screen`
+Snakemake you can still use the library and `assaywatch screen`
 directly — see `examples/README.md` — but not the `Snakefile` pipeline.
 
 ## The NCBI command-line tools
@@ -90,8 +90,8 @@ the key never touches a filesystem, a chat window or a diff.
 Check it was picked up, without printing it:
 
 ```bash
-python -m assaywatch.credentials            # says which credentials are visible
-python -m assaywatch.credentials --check    # also asks NCBI whether it accepts the key
+assaywatch credentials            # says which credentials are visible
+assaywatch credentials --check    # also asks NCBI whether it accepts the key
 ```
 
 A key that is unusable — more than one line, control characters, an empty or

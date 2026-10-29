@@ -556,8 +556,8 @@ def test_nothing_reads_the_holdout_file_by_default():
 
     # retrospective.py scores nothing unless --cases is given; holdout.py defaults
     # to the development set. Neither may name the held-out file as a default.
-    for script in ("retrospective.py", "holdout.py"):
-        src = (ROOT / "scripts" / script).read_text()
+    for script in (ROOT / "scripts" / "retrospective.py", ROOT / "scripts" / "archive" / "holdout.py"):
+        src = script.read_text()
         assert "validation-cases-heldout" not in src, (
             f"{script} names the held-out file; it must be reachable only by an explicit --cases"
         )
@@ -603,7 +603,7 @@ def test_holdout_objective_ignores_weaker_and_undecided():
     whatever is right."""
     import importlib.util
 
-    spec = importlib.util.spec_from_file_location("holdout", ROOT / "scripts" / "holdout.py")
+    spec = importlib.util.spec_from_file_location("holdout", ROOT / "scripts" / "archive" / "holdout.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     assert mod.objective(["DISAGREES", "agrees", "weaker", "undecided", "removed"]) == 1

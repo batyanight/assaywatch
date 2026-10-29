@@ -19,7 +19,7 @@ Both services want a contact email in the request (Crossref's "polite pool",
 NCBI's Entrez policy); pass yours with --email. NCBI allows 3 requests/s
 without an API key; this script sleeps accordingly.
 
-Requires: pyyaml, requests
+The Crossref rule is assaywatch.papers.citation_matches; the lookup is assaywatch.ncbi.
 """
 
 from __future__ import annotations
@@ -28,75 +28,12 @@ import argparse
 import re
 import sys
 import time
-import unicodedata
 from pathlib import Path
-
-import requests
-import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.credentials import ncbi_interval, scrub, with_api_key  # noqa: E402
-
-CROSSREF = "https://api.crossref.org/works/{doi}"
-ESEARCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-
-
-def crossref_lookup(doi: str, email: str) -> dict | None:
-    r = requests.get(CROSSREF.format(doi=doi), params={"mailto": email}, timeout=30)
-    if r.status_code == 404:
-        return None
-    r.raise_for_status()
-    return r.json()["message"]
-
-
-def fold(text: str) -> str:
-    """Lowercase, strip accents and normalise dashes, so Vazquez-Moron matches Vázquez-Morón.
-
-    Journals, Crossref and the registry disagree about diacritics on the same
-    author, and an author check that fails on an accent reports a correct DOI
-    as pointing at the wrong paper.
-    """
-    stripped = unicodedata.normalize("NFKD", text)
-    folded = "".join(c for c in stripped if not unicodedata.combining(c)).lower()
-    # Crossref writes some names with a Unicode hyphen (Sánchez‐Seco); journals
-    # and the registry use a plain one. Treat every dash as the same character.
-    return re.sub(r"[\u2010-\u2015\u2212]", "-", folded)
-
-
-def crossref_matches(msg: dict, year: int | None, reference: str) -> tuple[bool, str]:
-    """Does the Crossref record look like the paper named in `reference`?"""
-    cr_year = None
-    for key in ("published-print", "published-online", "issued", "created"):
-        parts = msg.get(key, {}).get("date-parts", [[None]])[0]
-        if parts and parts[0]:
-            cr_year = parts[0]
-            break
-    authors = msg.get("author") or []
-    family = (authors[0].get("family") or "") if authors else ""
-    title = (msg.get("title") or [""])[0]
-    year_ok = (year is None) or (cr_year == year) or (cr_year is not None and abs(cr_year - year) <= 1)
-    author_ok = bool(family) and fold(family) in fold(reference)
-    summary = f"{family} {cr_year}: {title[:70]}"
-    return (year_ok and author_ok), summary
-
-
-def taxid_lookup(name: str, email: str) -> list[str]:
-    try:
-        r = requests.get(
-            ESEARCH,
-            params=with_api_key(
-                {"db": "taxonomy", "term": name, "retmode": "json", "email": email, "tool": "assaywatch"}
-            ),
-            timeout=30,
-        )
-        r.raise_for_status()
-    except requests.RequestException as e:
-        # The URL in requests' message carries `api_key=...`; scrub it, and drop
-        # the chained original whose traceback would print the same URL.
-        raise SystemExit(f"NCBI taxonomy search failed: {scrub(e)}") from None
-    return r.json()["esearchresult"].get("idlist", [])
+from assaywatch import ncbi, papers, registry  # noqa: E402
 
 
 def main() -> None:
@@ -107,54 +44,46 @@ def main() -> None:
     ap.add_argument("--skip-dois", action="store_true")
     ap.add_argument("--skip-taxids", action="store_true")
     args = ap.parse_args()
-
+    get = papers.http()
+    transport = ncbi.eutils(args.email, ncbi.api_key())
     doi_cache: dict[str, tuple[bool, str]] = {}
-    tax_cache: dict[str, list[str]] = {}
-
-    for path in sorted(args.registry.glob("*.yaml")):
-        doc = yaml.safe_load(path.read_text())
-        changed = False
-        cit, tgt = doc.get("citation", {}), doc.get("target", {})
-
-        doi = cit.get("doi")
-        if doi and not cit.get("doi_verified") and not args.skip_dois:
+    tax_cache: dict[str, list[int]] = {}
+    for path in registry.files(args.registry):
+        assay = registry.load_one(path)
+        changes: dict[str, object] = {}
+        doi = assay.citation.doi
+        if doi and not assay.citation.doi_verified and not args.skip_dois:
             if doi not in doi_cache:
-                msg = crossref_lookup(doi, args.email)
+                cit = papers.crossref(doi, get, email=args.email)
                 doi_cache[doi] = (
                     (False, "404 not found")
-                    if msg is None
-                    else crossref_matches(msg, cit.get("design_year"), cit.get("reference") or "")
+                    if cit is None
+                    else papers.citation_matches(
+                        cit, assay.citation.design_year, assay.citation.reference or ""
+                    )
                 )
                 time.sleep(0.2)
             ok, summary = doi_cache[doi]
-            print(f"{'OK ' if ok else 'BAD'} {doc['id'][:55]:<55} {doi:<40} {summary}")
+            print(f"{'OK ' if ok else 'BAD'} {assay.id[:55]:<55} {doi:<40} {summary}")
             if ok:
-                cit["doi_verified"] = True
-                changed = True
-
-        name = tgt.get("taxon_name")
-        if name and not tgt.get("taxid") and not args.skip_taxids:
+                changes["citation.doi_verified"] = True
+        name = assay.target.taxon_name
+        if name and not assay.target.taxid and not args.skip_taxids:
             # Strip parenthetical commentary before querying ("Ferlavirus (snake...)").
             query = re.sub(r"\(.*?\)", "", name).strip()
             if query not in tax_cache:
-                tax_cache[query] = taxid_lookup(query, args.email)
-                time.sleep(ncbi_interval())
+                tax_cache[query] = ncbi.taxids_named(query, transport)
             ids = tax_cache[query]
             if len(ids) == 1:
-                tgt["taxid"] = int(ids[0])
-                changed = True
-                print(f"TAX {doc['id'][:55]:<55} {query!r} -> {ids[0]}")
+                changes["target.taxid"] = ids[0]
+                print(f"TAX {assay.id[:55]:<55} {query!r} -> {ids[0]}")
             else:
-                print(f"TAX {doc['id'][:55]:<55} {query!r} -> {len(ids)} hits {ids[:5]} (left null)")
-
-        if changed and not args.dry_run:
-            # `needs_review` is not touched. It used to discard DOI_UNVERIFIED
-            # and TAXID_MISSING here, which is how four entries ended up
-            # carrying DOI_MISSING beside a verified DOI: a flag that restates
-            # a field has to be cleared by hand on every path that fills the
-            # field, and one path always gets missed. Those flags are gone and
-            # consumers derive them from the fields. See assaywatch.review.
-            path.write_text(yaml.safe_dump(doc, sort_keys=False, allow_unicode=True, width=120))
+                print(f"TAX {assay.id[:55]:<55} {query!r} -> {len(ids)} hits {ids[:5]} (left null)")
+        if changes and not args.dry_run:
+            # `needs_review` is not touched: consumers derive the citation and taxid
+            # flags from the fields (see assaywatch.review). registry.edit keeps the
+            # file's comments and key order, which a whole-document re-dump did not.
+            registry.edit(path, changes)
 
 
 if __name__ == "__main__":

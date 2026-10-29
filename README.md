@@ -80,15 +80,19 @@ registry/        one YAML per assay; validated on every commit. `python -m
                  draft and 44 carried a probe (2026-10-14)
 assaywatch/      the package
   schema.py        pydantic models = the registry schema
-  validate.py      `python -m assaywatch.validate registry`
+  registry.py      the one door to the entries: load / load_one / write / edit (comment-preserving) / archive_dir
+  validate.py      `assaywatch validate registry`; its loaders are registry.py's
+  curate.py        `assaywatch curate <entry>`: the curation chain, write-through, stopping where judgement is needed
+  printed.py       what a paper prints, and whether a stored oligo is in it (exact / revcomp / in-text / near / absent)
   iupac.py         degenerate-base helpers, inosine, three-state comparison
-  degeneracy.py    primer-pool accounting; `python -m assaywatch.degeneracy registry`
+  degeneracy.py    primer-pool accounting; `assaywatch degeneracy registry`
   match.py         exhaustive search for oligo binding sites, both strands
   score.py         position-weighted mismatch penalty and the per-record call
-  retrieve.py      NCBI fetch, incremental, archived; `python -m assaywatch.retrieve`
+  ncbi.py          the one NCBI client: key, pacing, retry, taxonomy parsers, and the only writer of the taxonomy caches
+  retrieve.py      NCBI fetch, incremental, archived; `assaywatch retrieve`
   drift.py         per-assay proportions with Wilson / Newcombe intervals
-  report.py        `python -m assaywatch.report` -> report.md and a standalone report.html
-  screen.py        `python -m assaywatch.screen <assays> <fasta>` -> TSV of calls
+  report.py        `assaywatch report` -> report.md and a standalone report.html
+  screen.py        `assaywatch screen <assays> <fasta>` -> TSV of calls
   thermo.py        optional duplex Tm / ΔTm columns per oligo (primer3-py); never scored
   gapped.py        gapped oligo search used only by scripts/indel_check.py; never scored
   chance.py        E-value of a primer pair: could it be chance in a record this long?
@@ -127,7 +131,7 @@ published assays for targets already in the registry, and never adds any.
 conda env create -f environment.yml   # primer3-py comes from bioconda; pip cannot build it on arm64
 conda activate assaywatch
 pre-commit install
-pytest -q && python -m assaywatch.validate registry
+pytest -q && assaywatch validate registry
 ```
 
 `environment.yml` installs the package in editable mode (`pip: -e .`), so
@@ -182,7 +186,7 @@ then let Crossref confirm it:
 
 ```bash
 python scripts/resolve_citations.py --registry registry --email you@example.org
-python -m assaywatch.validate registry
+assaywatch validate registry
 ```
 
 Only an entry with a verified DOI is live. The validator and the Snakefile both
@@ -195,7 +199,7 @@ same form.
 ## Screening
 
 ```bash
-python -m assaywatch.screen registry/CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004.yaml \
+assaywatch screen registry/CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004.yaml \
     tests/fixtures/records.fasta -o calls.tsv
 ```
 
@@ -334,7 +338,7 @@ than folded into them. Every row of a screen carries `degeneracy_fold` and
 `degeneracy_tier` for its assay, and
 
 ```bash
-python -m assaywatch.degeneracy registry --tier severe
+assaywatch degeneracy registry --tier severe
 ```
 
 lists the assays whose in-silico coverage should be read with the most

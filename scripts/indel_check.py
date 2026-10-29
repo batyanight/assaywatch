@@ -47,12 +47,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch import registry  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.gapped import align, hamming_scan, scan  # noqa: E402
 from assaywatch.iupac import reverse_complement  # noqa: E402
 from assaywatch.match import find_sites  # noqa: E402
 from assaywatch.score import config_for, load_config, screen_record  # noqa: E402
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 PAD = 4  # bases either side of a known site searched for a gapped placement
 
@@ -295,7 +295,7 @@ def main(argv=None) -> int:
     from assaywatch.retrieve import targets_from_registry
 
     groups = targets_from_registry([args.registry], cfg)
-    assays = {a.id: a for a in (load_assay(p) for p in iter_files(args.registry))}
+    assays = {a.id: a for a in (registry.load_one(p) for p in registry.files(args.registry))}
     picked, seen, totals = sample_calls(args.screened, args.per_assay, args.seed, groups, args.retrieved)
     if not totals:
         raise SystemExit(f"no screened calls under {args.screened} for the registry's current groups")

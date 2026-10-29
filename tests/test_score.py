@@ -844,7 +844,7 @@ def test_the_recorded_mispairs_agree_with_what_bench_panel_derives_for_the_same_
     import importlib.util
 
     spec = importlib.util.spec_from_file_location(
-        "bench_panel", Path(__file__).resolve().parents[1] / "scripts" / "bench_panel.py"
+        "bench_panel", Path(__file__).resolve().parents[1] / "scripts" / "archive" / "bench_panel.py"
     )
     bench_panel = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(bench_panel)

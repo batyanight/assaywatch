@@ -41,12 +41,9 @@ from __future__ import annotations
 
 import argparse
 import csv
-import json
 import sys
 import time
-import urllib.error
-import urllib.parse
-import urllib.request
+from dataclasses import asdict
 from pathlib import Path
 
 from assaywatch.credentials import contact_email
@@ -54,93 +51,27 @@ from assaywatch.credentials import contact_email
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import yaml  # noqa: E402
-
+from assaywatch import papers, registry  # noqa: E402
 from assaywatch.papers import doi_stem, held_dois  # noqa: E402
 
-UNPAYWALL = "https://api.unpaywall.org/v2/"
-EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
-UA = {"User-Agent": f"assaywatch/0.1 (research tool; {contact_email() or 'unset'})"}
-# Some publishers serve a free PDF but refuse an unfamiliar User-Agent with a
-# 403 - an anti-bot rule, not a paywall; Inter-Research's Diseases of Aquatic
-# Organisms is one. On a 403 the fetch is retried once with a browser string.
-# This is only ever applied to files Unpaywall already reports as open, and the
-# request rate stays low.
-BROWSER_UA = {
-    "User-Agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
-    ),
-    "Accept": "application/pdf,*/*",
-}
-
-
-def get_json(url: str, timeout: int = 40):
-    try:
-        req = urllib.request.Request(url, headers=UA)
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            return json.loads(r.read().decode())
-    except Exception:  # noqa: BLE001 - a missing record is data, not a crash
-        return None
+_GET = papers.http(timeout=40)
 
 
 def unpaywall(doi: str, email: str) -> dict:
-    d = get_json(f"{UNPAYWALL}{urllib.parse.quote(doi, safe='')}?email={urllib.parse.quote(email)}")
-    if not d:
-        return {}
-    best = d.get("best_oa_location") or {}
-    # Prefer a location that actually offers a PDF; best_oa_location sometimes
-    # only has a landing page while another location has the file itself.
-    pdf = best.get("url_for_pdf")
-    if not pdf:
-        for loc in d.get("oa_locations") or []:
-            if loc.get("url_for_pdf"):
-                best, pdf = loc, loc["url_for_pdf"]
-                break
-    return {
-        "is_oa": bool(d.get("is_oa")),
-        "oa_status": d.get("oa_status") or "",
-        "host_type": best.get("host_type") or "",
-        "version": best.get("version") or "",
-        "url_pdf": pdf or "",
-        "url_landing": best.get("url_for_landing_page") or best.get("url") or "",
-        "title": (d.get("title") or "")[:110],
-    }
+    oa = papers.unpaywall(doi, _GET, email=email)
+    return asdict(oa) if oa else {}
 
 
 def openalex(doi: str, email: str) -> dict:
-    """OpenAlex's view of where a free copy is.
-
-    Worth querying alongside Unpaywall even though both ultimately describe the
-    same landscape: they disagree in practice. For doi:10.1177/1040638711416846
-    Unpaywall reported no PDF while OpenAlex gave a direct publisher PDF link.
-    Two cheap lookups are better than missing a paper.
-    """
-    d = get_json(
-        f"https://api.openalex.org/works/doi:{urllib.parse.quote(doi, safe='')}"
-        f"?mailto={urllib.parse.quote(email)}"
-    )
-    if not d:
-        return {}
-    loc = d.get("best_oa_location") or {}
-    return {
-        "is_oa": bool((d.get("open_access") or {}).get("is_oa")),
-        "url_pdf": loc.get("pdf_url") or "",
-        "version": loc.get("version") or "",
-        "host_type": loc.get("source", {}).get("type", "") if isinstance(loc.get("source"), dict) else "",
-    }
+    oa = papers.openalex(doi, _GET, email=email)
+    return asdict(oa) if oa else {}
 
 
 def pmcid(doi: str) -> str:
-    q = urllib.parse.urlencode({"query": f'DOI:"{doi}"', "format": "json", "resultType": "lite"})
-    d = get_json(f"{EPMC}/search?{q}")
-    for r in ((d or {}).get("resultList") or {}).get("result", []):
-        if r.get("pmcid") and r.get("isOpenAccess") == "Y":
-            return r["pmcid"]
-    return ""
+    return papers.pmcid_for(doi, _GET, email=contact_email() or "") or ""
 
 
-def needed_dois(registry: Path, pdf_dir: Path) -> list[tuple[str, list[str]]]:
+def needed_dois(registry_dir: Path, pdf_dir: Path) -> list[tuple[str, list[str]]]:
     """DOIs cited by the registry for which no local copy of the paper is held.
 
     "Local copy", not "local PDF": verify_oligos_against_paper reads `.pdf`,
@@ -151,17 +82,13 @@ def needed_dois(registry: Path, pdf_dir: Path) -> list[tuple[str, list[str]]]:
     # Forward-mapped, never reverse. Reverse-mapping filenames reported 10 of
     # the 26 "missing" DOIs as missing while their PDFs were in papers/, all of
     # them with parenthesised DOIs; see assaywatch/papers.py.
-    all_dois = [
-        ((yaml.safe_load(f.read_text()).get("citation") or {}).get("doi") or "")
-        for f in sorted(registry.glob("*.yaml"))
-    ]
-    held = held_dois([d for d in all_dois if d], pdf_dir)
+    assays = list(registry.load(registry_dir).values())
+    held = held_dois([a.citation.doi for a in assays if a.citation.doi], pdf_dir)
     by_doi: dict[str, list[str]] = {}
-    for f in sorted(registry.glob("*.yaml")):
-        d = yaml.safe_load(f.read_text())
-        doi = ((d.get("citation") or {}).get("doi") or "").lower()
+    for a in assays:
+        doi = (a.citation.doi or "").lower()
         if doi and doi not in held:
-            by_doi.setdefault(doi, []).append(d["id"])
+            by_doi.setdefault(doi, []).append(a.id)
     return sorted(by_doi.items())
 
 
@@ -234,28 +161,16 @@ def main(argv: list[str] | None = None) -> int:
             if dest.exists():
                 row["downloaded"] = "already"
             else:
-                try:
-                    blob = b""
-                    for headers in (UA, BROWSER_UA):
-                        try:
-                            req = urllib.request.Request(row["url_pdf"], headers=headers)
-                            with urllib.request.urlopen(req, timeout=120) as r:
-                                blob = r.read()
-                            break
-                        except urllib.error.HTTPError as he:
-                            if he.code != 403 or headers is BROWSER_UA:
-                                raise
-                            time.sleep(1.0)
-                    # A paywall often answers with an HTML interstitial and a 200.
-                    if blob[:5] == b"%PDF-":
-                        args.pdf_dir.mkdir(parents=True, exist_ok=True)
-                        dest.write_bytes(blob)
-                        row["downloaded"] = f"{len(blob) // 1024} KB"
-                        got += 1
-                    else:
-                        row["downloaded"] = "not a PDF"
-                except Exception as e:  # noqa: BLE001
-                    row["downloaded"] = f"failed: {type(e).__name__}"
+                # A paywall often answers with an HTML interstitial and a 200;
+                # download_pdf returns None for anything that is not a PDF.
+                blob = papers.download_pdf(row["url_pdf"], _GET, args.email or "")
+                if blob:
+                    args.pdf_dir.mkdir(parents=True, exist_ok=True)
+                    dest.write_bytes(blob)
+                    row["downloaded"] = f"{len(blob) // 1024} KB"
+                    got += 1
+                else:
+                    row["downloaded"] = "not a PDF"
                 time.sleep(0.5)
         rows.append(row)
         if args.verbose:

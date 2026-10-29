@@ -71,7 +71,7 @@ def load_credentials() -> tuple[str, str | None]:
     credentials: an environment variable if set, else `.secrets/<name>`. Going
     through it also means a key file written by Windows PowerShell (UTF-16) or
     Notepad (a UTF-8 byte-order mark) is decoded correctly, or refused with a
-    reason by `python -m assaywatch.credentials`, rather than being sent with an
+    reason by `assaywatch credentials`, rather than being sent with an
     invisible character on the front of it.
 
     This replaced a loader that read only environment variables and a `./.env`
@@ -88,7 +88,7 @@ def load_credentials() -> tuple[str, str | None]:
     if not key:
         sys.exit(
             "ELSEVIER_API_KEY not set. Put it in $ELSEVIER_API_KEY or "
-            ".secrets/elsevier.key, then check with `python -m assaywatch.credentials`."
+            ".secrets/elsevier.key, then check with `assaywatch credentials`."
         )
     return key, inst or None
 
@@ -250,7 +250,7 @@ def main() -> None:
             print(
                 "not-entitled WITH an insttoken configured: the token or key may be "
                 "wrong or expired, or it does not cover this title. Check what is set "
-                "with `python -m assaywatch.credentials`, and the per-DOI statusText "
+                "with `assaywatch credentials`, and the per-DOI statusText "
                 "in the log for which it is."
             )
         else:

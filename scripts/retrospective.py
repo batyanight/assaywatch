@@ -335,9 +335,9 @@ def load_evidence(
         # the registry for the assays' primers; without a registry the resolver defers.
         maps: dict[str, dict[str, str]] = {}
         if registry is not None and cluster_assays(lcfg):
-            from assaywatch.validate import iter_files, load_assay
+            from assaywatch import registry as registry_mod
 
-            assay_objs = {a.id: a for a in (load_assay(p) for p in iter_files(registry))}
+            assay_objs = {a.id: a for a in (registry_mod.load_one(p) for p in registry_mod.files(registry))}
             maps, _ = cluster_maps(
                 lcfg, assay_objs, [r for rs in by_assay.values() for r in rs], retrieved, cfg
             )
@@ -353,9 +353,9 @@ def load_evidence(
         patent = read_patent_accessions(retrieved, {r["record_id"] for rs in by_assay.values() for r in rs})
     chemistry = None
     if registry is not None:
-        from assaywatch.validate import iter_files, load_assay
+        from assaywatch import registry as registry_mod
 
-        chemistry = {a.id: str(a.chemistry) for a in map(load_assay, iter_files(registry))}
+        chemistry = {a.id: str(a.chemistry) for a in map(registry_mod.load_one, registry_mod.files(registry))}
     return Evidence(
         read_dates(retrieved),
         dict(by_assay),
@@ -432,9 +432,9 @@ def status_as_of(
 
 def _query_taxids(registry: Path) -> dict[str, int]:
     """assay_id -> target.taxid, which a `subtaxid` resolver defers at."""
-    from assaywatch.validate import iter_files, load_assay
+    from assaywatch import registry as registry_mod
 
-    return {a.id: a.target.taxid for a in map(load_assay, iter_files(registry))}
+    return {a.id: a.target.taxid for a in map(registry_mod.load_one, registry_mod.files(registry))}
 
 
 def _build_scope_map(registry: Path) -> tuple[dict[str, set[int]] | None, dict[str, set[int]] | None]:
@@ -445,12 +445,12 @@ def _build_scope_map(registry: Path) -> tuple[dict[str, set[int]] | None, dict[s
     Tier-2 has to apply the same rule as the report or a retrospective verdict is
     computed on a different denominator from the one that ships.
     """
-    from assaywatch.validate import iter_files, load_assay
+    from assaywatch import registry as registry_mod
 
     scope_map: dict[str, set[int]] | None = None
     exclude_map: dict[str, set[int]] | None = None
-    for path in iter_files(registry):
-        a = load_assay(path)
+    for path in registry_mod.files(registry):
+        a = registry_mod.load_one(path)
         if a.target.scope_taxids:
             if scope_map is None:
                 scope_map = {}

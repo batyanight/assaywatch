@@ -59,12 +59,15 @@ interface; `find_sites` returning a list of `Site` is the contract.
 
 from __future__ import annotations
 
+from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from functools import cache
 from typing import Any
 
 import numpy as np
 
+from assaywatch.chance import composition, pair_evalue
 from assaywatch.iupac import IUPAC, WEAK_PAIRS, reverse_complement
 
 
@@ -296,3 +299,118 @@ def find_sites(oligo: str, record: str, max_mismatches: int = 6) -> list[Site]:
         ]
         memo[key] = sorted(sites, key=lambda x: (x.start, x.strand))
     return list(memo[key])
+
+
+# --- from a site to an amplicon ----------------------------------------------------
+# `pair_spans` lived in loci.py "importing only chance and match, so that the screener
+# can depend on the window format without depending on retrieval". That property
+# holds here too: match imports iupac and chance, nothing else.
+
+
+def pair_spans(
+    seq: str,
+    pairs: list[tuple[str, str]],
+    cfg: dict[str, Any],
+    max_mm: int,
+    max_e: float,
+    lo_bp: int,
+    hi_bp: int,
+) -> list[tuple[int, int]]:
+    """0-based half-open spans of every amplicon the screener could build in `seq`.
+
+    Forward and reverse sites facing each other on opposite strands (either
+    orientation), `lo_bp`-`hi_bp` apart, each within `max_mm` mismatches, and the pair's
+    chance E-value at most `max_e` in a record of this length and composition. Every
+    such pair, not only the best: the cut around them must hold whichever one a later
+    screen picks. Shared by the assembly pre-cut and the distributable window archives.
+    """
+    comp = composition(seq)
+    sites: dict[str, dict[str, list]] = {}
+
+    def on(oligo: str, strand: str) -> list:
+        # find_sites scans both strands at once; do it once per oligo.
+        if oligo not in sites:
+            found = find_sites(oligo, seq, max_mm)
+            sites[oligo] = {st: [x for x in found if x.strand == st] for st in "+-"}
+        return sites[oligo][strand]
+
+    spans = []
+    for fwd, rev in pairs:
+        # Both orientations, as in score.screen_record: the locus may sit on either strand.
+        for f_strand, r_strand in (("+", "-"), ("-", "+")):
+            r_sites = on(rev, r_strand)
+            if not r_sites:
+                continue
+            for f in on(fwd, f_strand):
+                for r in r_sites:
+                    lo, hi = (f.start, r.end) if f_strand == "+" else (r.start, f.end)
+                    facing = r.start > f.start if f_strand == "+" else f.start > r.start
+                    if not (facing and lo_bp <= hi - lo <= hi_bp):
+                        continue
+                    e = pair_evalue(
+                        fwd,
+                        rev,
+                        f.n_mismatches + f.n_ambiguous,
+                        r.n_mismatches + r.n_ambiguous,
+                        len(seq),
+                        cfg,
+                        comp,
+                    )
+                    if e <= max_e:
+                        spans.append((lo, hi))
+    return spans
+
+
+def modal_amplicon(
+    records: Iterable[tuple[str, str]],
+    fwd: str,
+    rev: str,
+    *,
+    max_mm: int = 3,
+    max_len: int = 4000,
+    limit: int | None = None,
+) -> tuple[int, int, Counter[int]]:
+    """(records seen, records with a product, Counter of product lengths) for one pair.
+
+    The measurement behind `amplicon_bp`: in each record the best product is the
+    facing pair of sites with the fewest mismatches, then the shortest. A record seen
+    twice (a revision in a later archive) is measured once. Moved here from
+    scripts/check_amplicons.py so `curate` and the audit measure the same way.
+    """
+    lengths: Counter[int] = Counter()
+    n_records = n_products = 0
+    seen: set[str] = set()
+    for rid, seq in records:
+        acc = rid.split()[0].rpartition(".")[0] or rid.split()[0]
+        if acc in seen:
+            continue
+        seen.add(acc)
+        if limit and n_records >= limit:
+            break
+        n_records += 1
+        seq = seq.upper()
+        f_sites = find_sites(fwd, seq, max_mm)
+        if not f_sites:
+            continue
+        r_sites = find_sites(rev, seq, max_mm)
+        if not r_sites:
+            continue
+        best = None
+        for f in f_sites:
+            for r in r_sites:
+                if f.strand == r.strand:
+                    continue
+                if f.strand == "+" and not f.start < r.start:
+                    continue
+                if f.strand == "-" and not r.start < f.start:
+                    continue
+                length = max(f.end, r.end) - min(f.start, r.start)
+                if not 20 <= length <= max_len:
+                    continue
+                key = (f.n_mismatches + r.n_mismatches, length)
+                if best is None or key < best:
+                    best = key
+        if best:
+            n_products += 1
+            lengths[best[1]] += 1
+    return n_records, n_products, lengths

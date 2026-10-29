@@ -15,19 +15,17 @@ re-fetchable), so it is safe to run and re-run during development.
 import argparse
 import gzip
 import sys
-import xml.etree.ElementTree as ET
 from collections import defaultdict
 from pathlib import Path
 
-from assaywatch.credentials import ncbi_api_key
-from assaywatch.retrieve import http_transport
+from assaywatch import ncbi
+from assaywatch.score import load_config
 
 
 def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
     """Fetch and store taxids for all existing accessions in retrieved archives."""
     retrieved_dir = Path(cfg.get("retrieved_dir", "data/retrieved"))
-    api_key = ncbi_api_key()
-    transport = http_transport(email, api_key)
+    transport = ncbi.eutils(email, ncbi.api_key())
 
     # Collect all accessions across all groups
     accession_to_uid = {}
@@ -79,7 +77,6 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
     batch_size = 500
     for batch_start in range(0, len(uids_list), batch_size):
         batch_uids = uids_list[batch_start : batch_start + batch_size]
-        uid_list = ",".join(batch_uids)
 
         if (batch_start // batch_size) % 100 == 0:
             print(
@@ -88,23 +85,9 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
             )
 
         try:
-            xml = transport(
-                "esummary",
-                {
-                    "db": "nuccore",
-                    "id": uid_list,
-                    "retmode": "xml",
-                },
-            )
-            root = ET.fromstring(xml)
-
-            for doc in root.findall("DocSum"):
-                uid = doc.findtext("Id")
-                taxid_elem = doc.find(".//Item[@Name='TaxId']")
-                if taxid_elem is not None:
-                    taxid = taxid_elem.text
-                    for acc in uid_to_accs.get(uid, ()):
-                        acc_to_taxid[acc] = taxid
+            for uid, taxid in ncbi.taxids_of_uids(batch_uids, transport, batch=batch_size).items():
+                for acc in uid_to_accs.get(uid, ()):
+                    acc_to_taxid[acc] = str(taxid)
         except Exception as e:  # noqa: BLE001 - one batch failing must not lose the others
             print(
                 f"Error fetching batch {batch_start // batch_size + 1}: {type(e).__name__}", file=sys.stderr
@@ -128,8 +111,6 @@ def backfill_taxids(cfg: dict, email: str, dry_run: bool = False) -> None:
 
 
 if __name__ == "__main__":
-    import yaml
-
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--email", required=True, help="Contact address for NCBI E-utilities")
     ap.add_argument("--config", type=Path, default=Path("config.yaml"))
@@ -138,5 +119,5 @@ if __name__ == "__main__":
     )
     args = ap.parse_args()
 
-    cfg = yaml.safe_load(open(args.config))
+    cfg = load_config(args.config)
     backfill_taxids(cfg, email=args.email, dry_run=args.dry_run)

@@ -25,46 +25,26 @@ paper, is exactly the failure this project has hit before.
 from __future__ import annotations
 
 import argparse
-import json
-import re
 import sys
 import time
-import urllib.parse
-import urllib.request
 from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import yaml  # noqa: E402
 
+from assaywatch import papers, registry  # noqa: E402
+from assaywatch.credentials import contact_email  # noqa: E402
 from assaywatch.papers import PAPER_SUFFIXES, SUPPLEMENT_SUFFIX, doi_stem  # noqa: E402
 
-CROSSREF = "https://api.crossref.org/works/"
+
+def crossref(doi: str) -> papers.Citation | None:
+    """Crossref's record for a DOI, or None if it does not resolve (assaywatch.papers)."""
+    return papers.crossref(doi, _GET, email=contact_email() or "")
 
 
-def crossref(doi: str) -> dict | None:
-    """Title, journal, year and authors for a DOI, or None if it does not resolve."""
-    try:
-        url = CROSSREF + urllib.parse.quote(doi, safe="")
-        with urllib.request.urlopen(url, timeout=45) as r:
-            m = json.loads(r.read().decode())["message"]
-    except Exception:  # noqa: BLE001 - a dead DOI is data, not a crash
-        return None
-    # Crossref embeds italics as tags in titles; strip them so the index is plain text.
-    title = re.sub(r"<[^>]+>", "", (m.get("title") or [""])[0])
-    title = re.sub(r"\s+", " ", title).strip()
-    dates = (m.get("issued") or {}).get("date-parts") or [[None]]
-    authors = [a.get("family", "") for a in (m.get("author") or []) if a.get("family")]
-    return {
-        "title": title,
-        "journal": (m.get("container-title") or [""])[0],
-        "year": dates[0][0],
-        "volume": m.get("volume") or "",
-        "first_author": authors[0] if authors else "",
-        "n_authors": len(authors),
-    }
+_GET = papers.http(timeout=45)
 
 
 # Sources the registry depends on that no single entry CITES, so
@@ -82,11 +62,9 @@ SHARED_SOURCES = {
 def registry_citations() -> dict[str, list[str]]:
     """{doi: [assay ids citing it]} over the whole registry."""
     out: dict[str, list[str]] = defaultdict(list)
-    for f in sorted((ROOT / "registry").glob("*.yaml")):
-        d = yaml.safe_load(f.read_text())
-        doi = (d.get("citation") or {}).get("doi")
-        if doi:
-            out[doi.lower()].append(d["id"])
+    for assay in registry.load(ROOT / "registry").values():
+        if assay.citation.doi:
+            out[assay.citation.doi.lower()].append(assay.id)
     return out
 
 
@@ -169,9 +147,7 @@ def main(argv: list[str] | None = None) -> int:
     # Loaded even under --refresh: other scripts cache DOIs this one never
     # visits (List 2 candidates, the literature scan), and starting from an empty
     # dict silently dropped 102 of them. --refresh re-fetches only what it indexes.
-    cache: dict = {}
-    if args.cache.exists():
-        cache = json.loads(args.cache.read_text())
+    cache: dict[str, papers.Citation | None] = papers.load_index_cache(args.cache)
 
     cited = registry_citations()
     # The cache's own keys count as known DOIs: they are what earlier runs
@@ -197,19 +173,19 @@ def main(argv: list[str] | None = None) -> int:
         if meta is None:
             print(f"  DOI DOES NOT RESOLVE: {doi}", file=sys.stderr)
     if fetched:
-        args.cache.write_text(json.dumps(cache, indent=1, sort_keys=True) + "\n")
+        papers.save_index_cache(args.cache, cache)
         print(f"fetched {fetched} records into {args.cache.name}")
 
     rows = []
     for doi in dois:
-        m = cache.get(doi) or {}
+        m = cache.get(doi)
         rows.append(
             {
                 "doi": doi,
-                "year": m.get("year") or "",
-                "journal": m.get("journal") or "",
-                "title": m.get("title") or "(DOI did not resolve)",
-                "author": m.get("first_author") or "",
+                "year": (m.year if m else None) or "",
+                "journal": (m.journal if m else "") or "",
+                "title": (m.title if m else "") or "(DOI did not resolve)",
+                "author": (m.first_author if m else "") or "",
                 "pdf": held.get(doi, ""),
                 "assays": cited.get(doi, []),
                 "shared": SHARED_SOURCES.get(doi, ""),

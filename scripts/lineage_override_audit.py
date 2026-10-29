@@ -47,9 +47,9 @@ from retrospective import (  # noqa: E402
     status_from_evidence,
 )
 
+from assaywatch import registry  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
 from assaywatch.taxonomy import taxonomy_from_config  # noqa: E402
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 COLUMNS = [
     "assay_id",
@@ -115,7 +115,7 @@ def main(argv: list[str] | None = None) -> int:
     cfg = load_config(args.config)
     taxonomy = taxonomy_from_config(cfg)
     scope_map = _build_scope_map(args.registry) or {}
-    entries = {a.id: a for a in map(load_assay, iter_files(args.registry))}
+    entries = {a.id: a for a in map(registry.load_one, registry.files(args.registry))}
     renamed, removed = rename_map(args.renames)
 
     evidence = load_evidence(args.calls, args.retrieved, cfg, _query_taxids(args.registry))

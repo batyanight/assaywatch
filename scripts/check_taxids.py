@@ -62,68 +62,33 @@ from __future__ import annotations
 import argparse
 import re
 import sys
-import time
-import xml.etree.ElementTree as ET
 from pathlib import Path
-
-import requests
-import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.credentials import ncbi_interval, scrub, with_api_key  # noqa: E402
+from assaywatch import ncbi, registry  # noqa: E402
 
-EFETCH = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+Taxon = tuple[str, str, set[str], set[int], int]
 
 
-def fetch_taxa(taxids: list[int], email: str) -> dict[int, tuple[str, str, set[str], set[int], int]]:
-    """{taxid: (scientific name, lineage, other names, ancestor taxids, canonical id)} in batches of 100.
+def fetch_taxa(taxids: list[int], email: str) -> dict[int, Taxon]:
+    """{taxid: (scientific name, lineage, other names, ancestor taxids, canonical id)}.
 
-    The ancestor set comes from `LineageEx`, which lists every ranked ancestor with
-    its TaxId; the taxon's own CANONICAL id is included so that a scope equal to
-    the root passes trivially. A merged taxid is keyed under the old id too (see
-    the AkaTaxIds loop), and the canonical id says which one NCBI now uses.
+    The shape this script has always worked in, filled from assaywatch.ncbi: a merged
+    taxid is keyed under the old id too, and the canonical id says which one NCBI
+    uses now.
     """
-    out: dict[int, tuple[str, str, set[str], set[int], int]] = {}
-    for i in range(0, len(taxids), 100):
-        batch = taxids[i : i + 100]
-        try:
-            r = requests.get(
-                EFETCH,
-                params=with_api_key(
-                    {"db": "taxonomy", "id": ",".join(map(str, batch)), "email": email, "tool": "assaywatch"}
-                ),
-                timeout=60,
-            )
-            r.raise_for_status()
-        except requests.RequestException as e:
-            # requests puts the full URL in its message, and with a key set the
-            # URL carries `api_key=...`. `from None` also drops the chained
-            # original, whose traceback would print the same URL.
-            raise SystemExit(f"NCBI taxonomy request failed: {scrub(e)}") from None
-        for taxon in ET.fromstring(r.text).findall("Taxon"):
-            tid = int(taxon.findtext("TaxId"))
-            other = {
-                (el.text or "").strip().lower()
-                for el in taxon.findall("OtherNames/*")
-                if el.tag != "Name" and el.text
-            }
-            other |= {
-                (el.findtext("DispName") or "").strip().lower() for el in taxon.findall("OtherNames/Name")
-            }
-            ancestors = {int(t.text) for t in taxon.findall("LineageEx/Taxon/TaxId") if t.text} | {tid}
-            out[tid] = (
-                taxon.findtext("ScientificName") or "",
-                taxon.findtext("Lineage") or "",
-                other,
-                ancestors,
-                tid,
-            )
-            # A merged taxid comes back under its new id; keep the old one too.
-            for akas in taxon.findall("AkaTaxIds/TaxId"):
-                out[int(akas.text)] = out[tid]
-        time.sleep(ncbi_interval())
+    transport = ncbi.eutils(email, ncbi.api_key())
+    out: dict[int, Taxon] = {}
+    for tid, rec in ncbi.taxon_records(taxids, transport).items():
+        out[tid] = (
+            rec.scientific_name,
+            rec.lineage_text,
+            set(rec.other_names),
+            set(rec.ancestors),
+            rec.taxid,
+        )
     return out
 
 
@@ -166,15 +131,13 @@ def main() -> int:
     entries = []
     scopes: list[tuple[str, int, int]] = []  # (assay, root taxid, scoped taxid)
     excl: list[tuple[str, int, int]] = []  # (assay, root taxid, claimed-excluded taxid)
-    for path in sorted(args.registry.glob("*.yaml")):
-        target = (yaml.safe_load(path.read_text()) or {}).get("target") or {}
-        pinned = [int(m) for m in re.findall(r"txid(\d+)\[Organism", target.get("query") or "")]
-        entries.append((path.stem, target.get("taxid"), (target.get("taxon_name") or "").strip(), pinned))
-        if target.get("taxid"):
-            scopes += [(path.stem, int(target["taxid"]), int(s)) for s in (target.get("scope_taxids") or [])]
-            excl += [
-                (path.stem, int(target["taxid"]), int(e)) for e in (target.get("exclusivity_taxids") or [])
-            ]
+    for assay in registry.load(args.registry).values():
+        target = assay.target
+        pinned = [int(m) for m in re.findall(r"txid(\d+)\[Organism", target.query or "")]
+        entries.append((assay.id, target.taxid, (target.taxon_name or "").strip(), pinned))
+        if target.taxid:
+            scopes += [(assay.id, target.taxid, int(x)) for x in (target.scope_taxids or [])]
+            excl += [(assay.id, target.taxid, int(e)) for e in (target.exclusivity_taxids or [])]
 
     wanted = (
         {t for _, t, _, _ in entries if t}

@@ -842,7 +842,7 @@ points of detected share.
       and `lineage_report.py` reads the chemistry map the way `report.py` does. Four tests
       pin that the numerator moves and the denominator does not.
 - [x] **The window and the minimum are priced together** (2026-10-27,
-      `scripts/window_grid.py`, `docs/journal/2026-10-27-window-minimum-grid.md`). On the
+      `scripts/archive/window_grid.py`, `docs/journal/2026-10-27-window-minimum-grid.md`). On the
       development set the minimum does nothing to the matrix between 10 and 20 — it only
       trades refusals (14 / 15 / 16 declined) — and at 30 it refuses 20 for no gain. The
       window does: 12 months loses a documented catch (kill), 36 months keeps all six and
@@ -918,7 +918,7 @@ points of detected share.
 - [x] **The TNTBLAST arm is deferred, not forgotten** (decided 2026-10-27). No
       osx-arm64 build, and Rosetta 2 is a system change needing admin rights. It
       waits for Rosetta, an arm64 build from source, or a run on linux-64 or the
-      cluster; `scripts/compare_thermo.py` takes a second predictor unmodified.
+      cluster; `scripts/archive/compare_thermo.py` takes a second predictor unmodified.
 - [x] **The ranavirus MCP 18/19-mer question is closed** (2026-10-26, confirmed
       2026-10-27 by re-running the verifier). Mao, Hedrick & Chinchar 1997 has been
       on disk since 2026-10-25 and its Table 2 prints both primers as 18-mers,

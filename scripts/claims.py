@@ -37,7 +37,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
+from assaywatch import registry  # noqa: E402
 
 #: Files whose prose is checked. Dated session records under docs/ are history
 #: and are left alone; these are the documents a reader is pointed at.
@@ -65,7 +65,7 @@ DATED = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
 def live_counts() -> dict[str, int]:
-    assays = [load_assay(p) for p in iter_files(ROOT / "registry")]
+    assays = [registry.load_one(p) for p in registry.files(ROOT / "registry")]
     status = Counter(a.status.value for a in assays)
     chem = Counter(a.chemistry.value for a in assays)
     return {
@@ -115,8 +115,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  {where:28s} {key}: says {quoted}, registry has {now}")
         print(f"      {text}")
     print(
-        "\nFix by giving the number a run date, pointing at "
-        "`python -m assaywatch.validate registry`, or correcting it."
+        "\nFix by giving the number a run date, pointing at `assaywatch validate registry`, or correcting it."
     )
     return 1 if args.check else 0
 
