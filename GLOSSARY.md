@@ -180,7 +180,7 @@ word for a concept.
 
 **taxa cache** — `docs/taxa-cache.json`, the lineage analysis's taxid-to-name map (`config.yaml lineage.taxa_cache`); not the taxon records.
 
-**taxon record** — an entry in `docs/taxon-records.cache.json`: NCBI scientific name, common name and rank for a taxid, used by the master sheet (`docs/assay-master-sheet.md`).
+**taxon record** — an entry in `docs/taxon-records.cache.json`: NCBI scientific name, common name and rank for a taxid, used by the assay sheet (`docs/assay-sheet.md`).
 
 **pipeline stages** — Snakefile rules `validate`, `retrieve`, `screen_archive`, `collect_calls`, `report`, `site_drift`, `lineage_analysis`, `degeneracy_table`, `figures`; `all` requests the outputs (`Snakefile`).
 
