@@ -1,11 +1,11 @@
-# Assay master sheet
+# Assay sheet
 
-`assay-master-sheet.tsv` has one row per assay, 208 rows and 36 columns. Open it in a spreadsheet; this page is the key and the caveats.
+`assay-sheet.tsv` has one row per assay, 208 rows and 36 columns. Open it in a spreadsheet; this page is the key and the caveats.
 
 Regenerate after any registry change:
 
 ```bash
-python scripts/master_sheet.py
+python scripts/assay_sheet.py
 ```
 
 ## Where each column comes from

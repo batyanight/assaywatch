@@ -30,9 +30,6 @@ from assaywatch.metadata import read_titles
 from assaywatch.score import load_config
 from assaywatch.taxonomy import taxonomy_from_config
 
-# Below this share of call rows carrying a taxid, the join is assumed broken.
-MIN_RESOLVED_SHARE = 0.5
-
 
 def read_calls_with_taxid(calls_path: Path, metadata: dict, taxid_sidecar: dict) -> dict[str, list[dict]]:
     """Read calls table and enrich with taxids from metadata.
@@ -223,6 +220,7 @@ def main(argv: list[str] | None = None) -> int:
 
     cfg = load_config(args.config)
     lineage_cfg = cfg.get("lineage", {})
+    min_resolved_share = float(lineage_cfg.get("min_resolved_share", 0.5))
 
     # Load taxa cache, then name what the taxonomy can name. report.py already
     # did this and this module did not, so report.md said "lineage Haemoproteus
@@ -300,10 +298,10 @@ def main(argv: list[str] | None = None) -> int:
     n_taxid = sum(1 for v in calls_by_assay.values() for r in v if r["taxid"] is not None)
     share = n_taxid / n_rows if n_rows else 0.0
     print(f"taxid resolved for {n_taxid}/{n_rows} call rows ({share:.1%})", file=sys.stderr)
-    if n_rows and share < MIN_RESOLVED_SHARE:
+    if n_rows and share < min_resolved_share:
         print(
             f"error: only {share:.1%} of call rows resolved to a taxid "
-            f"(expected >= {MIN_RESOLVED_SHARE:.0%}). The accession join is probably "
+            f"(expected >= {min_resolved_share:.0%}). The accession join is probably "
             f"broken, or the backfill sidecar is missing. Not writing lineage.md.",
             file=sys.stderr,
         )

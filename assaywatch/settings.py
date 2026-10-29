@@ -46,6 +46,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from assaywatch.locus_identity import TRIM_BP
 from assaywatch.schema import Chemistry
 
 
@@ -127,7 +128,7 @@ class Scoring(Block):
     #: interior is the success condition. See the long comment in config.yaml and
     #: docs/journal/2026-10-25-locus-identity-design.md.
     locus_identity_min: float | None = Field(default=None, gt=0, le=1)
-    locus_identity_trim_bp: int = Field(default=20, ge=0)
+    locus_identity_trim_bp: int = Field(default=TRIM_BP, ge=0)
     locus_identity_min_interior_bp: int = Field(default=30, ge=1)
     detect_max: float = Field(default=1.0, ge=0)
     reduced_max: float = Field(default=3.0, ge=0)
@@ -315,6 +316,7 @@ class SiteDrift(Block):
     #: Share of mismatching records a recommended replacement base must cover.
     #: See config.yaml: at 1.0 one rare deposit widens the code to `N`.
     replacement_covers: float = Field(default=0.95, gt=0.0, le=1.0)
+    lead_min_share: float = Field(default=0.10, gt=0.0, le=1.0)
 
 
 class Figures(Block):
@@ -344,6 +346,7 @@ class Lineage(Block):
     posterior_credibility: float = Field(default=0.95, gt=0.5, lt=1)
     min_records_per_lineage: int = Field(default=30, ge=0)
     taxa_cache: str | None = None
+    min_resolved_share: float = Field(default=0.5, gt=0.0, le=1.0)
     taxid_backfill: str | None = None
     require_working_baseline: bool = True
     group_at_rank: Literal["species"] | None = "species"

@@ -102,16 +102,6 @@ _ABBREV = {"forward": "fwd", "reverse": "rev", "probe": "prb"}
 # cap, like `figures.max_forest_rows`.
 EXAMPLE_ACCESSIONS = 6
 
-# A lead sentence is written only when one shared pattern covers at least this
-# much of an assay's evaluable records. Legibility, not a threshold: it changes
-# which sentence is printed first and nothing about any verdict.
-LEAD_MIN_SHARE = 0.10
-
-# A mismatch this close to the 3' end blocks extension far more effectively
-# than one further back, so the report marks them rather than leaving the
-# reader to count. Not a threshold used in any calculation.
-THREE_PRIME_ZONE = 5
-
 
 def _open(path: Path) -> TextIO:
     return gzip.open(path, "rt", newline="") if str(path).endswith(".gz") else open(path, newline="")
@@ -258,6 +248,11 @@ class PositionStat:
     #: (`sitedrift.replacement_covers`). 1.0 here so a PositionStat built in a
     #: test recommends the code covering every base seen.
     cover: float = 1.0
+    #: How many bases from the 3' end count as the 3' end for the marker column and
+    #: the figure's shading. Read from `scoring.primer_3prime_window` so this table
+    #: and the scorer cannot disagree about where the 3' end stops. 5 here is only
+    #: the default for a PositionStat built in a test.
+    three_prime_zone: int = 5
 
     @property
     def scored_bases(self) -> tuple[str, ...]:
@@ -380,7 +375,7 @@ class PositionStat:
 
     @property
     def three_prime(self) -> bool:
-        return self.pos_3prime <= THREE_PRIME_ZONE
+        return self.pos_3prime <= self.three_prime_zone
 
 
 @dataclass
@@ -427,6 +422,9 @@ class AssaySites:
     n_evaluable: int
     n_rows: int
     skipped_no_sequence: list[str] = field(default_factory=list)
+    #: `sitedrift.lead_min_share`: the share of evaluable records one footprint must
+    #: cover before the lead sentence is written. Legibility only, no verdict reads it.
+    lead_min_share: float = 0.10
 
 
 def _detected(call: str, detected_calls: tuple[str, ...] = DETECTED_CALLS) -> bool:
@@ -450,6 +448,7 @@ def position_stats(
     min_records: int,
     cover: float = 1.0,
     detected_calls: tuple[str, ...] = DETECTED_CALLS,
+    three_prime_zone: int = 5,
 ) -> list[PositionStat]:
     """Per-base statistics for one oligo over the evaluable rows given.
 
@@ -506,6 +505,7 @@ def position_stats(
                 evaluable_without=total - n_mm,
                 substitutions=tuple((ob, rb, n) for (ob, rb), n in subs.get(k, Counter()).most_common()),
                 cover=cover,
+                three_prime_zone=three_prime_zone,
             )
         )
     # Largest gap first: the position that costs the most detection, not the
@@ -553,6 +553,8 @@ def analyse_assay(
     top_footprints: int = 8,
     cover: float = 1.0,
     detected_calls: tuple[str, ...] = DETECTED_CALLS,
+    three_prime_zone: int = 5,
+    lead_min_share: float = 0.10,
 ) -> AssaySites:
     """Site statistics for one assay from its already-deduplicated rows.
 
@@ -574,7 +576,15 @@ def analyse_assay(
     positions: list[PositionStat] = []
     for name, seq in seqs.items():
         positions.extend(
-            position_stats(evaluable, name, seq, min_records, cover=cover, detected_calls=detected_calls)
+            position_stats(
+                evaluable,
+                name,
+                seq,
+                min_records,
+                cover=cover,
+                detected_calls=detected_calls,
+                three_prime_zone=three_prime_zone,
+            )
         )
     positions.sort(key=lambda s: (-(s.gap if s.gap is not None else -1), -s.n_mismatch))
 
@@ -589,6 +599,7 @@ def analyse_assay(
         n_evaluable=len(evaluable),
         n_rows=len(rows),
         skipped_no_sequence=missing,
+        lead_min_share=lead_min_share,
     )
 
 
@@ -739,7 +750,7 @@ def _lead_line(r: AssaySites) -> str:
     if top is None:
         return ""
     share = top.n / r.n_evaluable
-    if share < LEAD_MIN_SHARE:
+    if share < r.lead_min_share:
         return ""
     org = top.organisms.most_common(1)
     years = sorted(top.years)
@@ -877,6 +888,9 @@ def build(
     min_records = int(sd.get("min_records_for_position", 20))
     top_footprints = int(sd.get("top_footprints", 8))
     cover = float(sd.get("replacement_covers", 0.95))
+    lead_min_share = float(sd.get("lead_min_share", 0.10))
+    scoring = cfg.get("scoring", {}) if isinstance(cfg, dict) else {}
+    three_prime_zone = int(scoring.get("primer_3prime_window", 5))
 
     assays = {}
     for path in iter_files(registry):
@@ -930,6 +944,8 @@ def build(
             top_footprints=top_footprints,
             cover=cover,
             detected_calls=d.detected_calls,
+            three_prime_zone=three_prime_zone,
+            lead_min_share=lead_min_share,
         )
         for d in selected
         if d.assay_id in assays

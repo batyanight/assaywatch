@@ -264,7 +264,8 @@ def site_positions(results: list[AssaySites], limit: int = 6) -> str:
     if not shown:
         return _empty("no position met the minimum record count")
 
-    from assaywatch.sitedrift import THREE_PRIME_ZONE
+    # One run has one `scoring.primer_3prime_window`, so every panel shares the zone.
+    zone = shown[0].positions[0].three_prime_zone
 
     panels: list[tuple[AssaySites, str, list]] = []
     for r in shown:
@@ -305,9 +306,7 @@ def site_positions(results: list[AssaySites], limit: int = 6) -> str:
         # The 3' zone is counted from the 3' end, so its 5' coordinates depend on
         # the oligo's length rather than being a fixed span.
         if seq:
-            ax.axvspan(
-                len(seq) - THREE_PRIME_ZONE + 0.5, len(seq) + 0.5, color="#b3261e", alpha=0.07, zorder=0
-            )
+            ax.axvspan(len(seq) - zone + 0.5, len(seq) + 0.5, color="#b3261e", alpha=0.07, zorder=0)
 
         ax.axhline(0.0, color="#444", lw=0.8, zorder=2)
         if seq:
@@ -334,7 +333,7 @@ def site_positions(results: list[AssaySites], limit: int = 6) -> str:
     fig.text(
         0.5,
         0.07 / height,
-        f"shaded: 3'-terminal {THREE_PRIME_ZONE} bases     amber base: already degenerate",
+        f"shaded: 3'-terminal {zone} bases     amber base: already degenerate",
         ha="center",
         va="bottom",
         fontsize=6.5,
