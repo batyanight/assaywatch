@@ -408,7 +408,7 @@ rule validate:
     output:
         touch(RESULTS / RUN_DATE / ".registry-valid"),
     shell:
-        "python -m assaywatch.validate {input.registry}"
+        "assaywatch validate {input.registry}"
 
 
 checkpoint retrieve:
@@ -442,7 +442,7 @@ checkpoint retrieve:
     benchmark:
         BENCH / "retrieve" / f"{TODAY}.tsv"
     shell:
-        "python -m assaywatch.retrieve {REGISTRY} --email {EMAIL} --run-record {output.run} "
+        "assaywatch retrieve {REGISTRY} --email {EMAIL} --run-record {output.run} "
         "--config {CONFIG_EFFECTIVE}"
 
 
@@ -580,7 +580,7 @@ rule screen_archive:
         # 2026-10-21 run found 20 screens with no such record, where the params
         # check could not fire and a changed code hash did not invalidate them.
         # On disk it is checkable by `collect` whatever Snakemake remembers.
-        "python -m assaywatch.screen {REGISTRY} {input.fasta} --only {params.only} "
+        "assaywatch screen {REGISTRY} {input.fasta} --only {params.only} "
         "--workers {threads} {params.thermo} --signature {params.signature} -o {output.calls} "
         "--config {CONFIG_EFFECTIVE}"
 
@@ -662,7 +662,7 @@ rule site_drift:
         mem_mb=3000,
         runtime=60,
     shell:
-        "python -m assaywatch.sitedrift {input.calls} --registry {REGISTRY} "
+        "assaywatch sitedrift {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
         "--config {CONFIG_EFFECTIVE}"
 
@@ -692,7 +692,7 @@ rule lineage_analysis:
         mem_mb=3000,
         runtime=60,
     shell:
-        "python -m assaywatch.lineage_report {input.calls} "
+        "assaywatch lineage-report {input.calls} "
         "--retrieved {RETRIEVED} --config {CONFIG_EFFECTIVE} --registry {REGISTRY} --out {RESULTS}/{RUN_DATE}"
 
 
@@ -710,7 +710,7 @@ rule degeneracy_table:
         # python loads, so the tracked file was empty for the whole job and a
         # process death left a zero-byte table with a fresh mtime that `rule all`
         # accepts. -o writes a .part and renames.
-        "python -m assaywatch.degeneracy {REGISTRY} --tsv -o {output} --config {CONFIG_EFFECTIVE}"
+        "assaywatch degeneracy {REGISTRY} --tsv -o {output} --config {CONFIG_EFFECTIVE}"
 
 
 rule figures:
@@ -736,7 +736,7 @@ rule figures:
         mem_mb=4000,
         runtime=60,
     shell:
-        "MPLBACKEND=Agg python -m assaywatch.figures {input.calls} --registry {REGISTRY} "
+        "MPLBACKEND=Agg assaywatch figures {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
         "--config {CONFIG_EFFECTIVE}"
 
@@ -768,6 +768,6 @@ rule report:
         mem_mb=3000,
         runtime=60,
     shell:
-        "python -m assaywatch.report {input.calls} --registry {REGISTRY} "
+        "assaywatch report {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
         "--figures {RESULTS}/{RUN_DATE}/figures --config {CONFIG_EFFECTIVE}"

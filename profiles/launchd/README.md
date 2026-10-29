@@ -39,7 +39,7 @@ run has fired and the log looks right, add `--live`:
 
 then `launchctl unload` and `load` again. A live run needs a contact address in
 `.secrets/email` and refuses to start without one; it checks the NCBI key through
-`python -m assaywatch.credentials` before fetching.
+`assaywatch credentials` before fetching.
 
 ## What it does
 

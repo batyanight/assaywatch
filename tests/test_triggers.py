@@ -30,6 +30,7 @@ from pathlib import Path
 
 import pytest
 
+from assaywatch.cli import STAGES
 from assaywatch.triggers import direct_imports, import_closure, source_names
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -216,8 +217,12 @@ def test_every_downstream_rule_carries_a_hash_of_its_code_as_a_param(rule, modul
     assert f'source_names("{module}")' in SNAKEFILE
 
 
+# `assaywatch <stage>` in a rule's shell string, for the stages the CLI knows.
+_STAGE_CALL = r"\bassaywatch (" + "|".join(re.escape(n) for n in STAGES) + r")\b"
+
+
 def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
-    """A new rule that calls `python -m assaywatch.x` must either hash x or say,
+    """A new rule that calls `assaywatch x` must either hash x or say,
     here, why not. retrieve is exempt on purpose: its params are the groups asked
     for, because refetching on a code edit would hit NCBI for nothing; validate is
     exempt because it only gates the run."""
@@ -234,7 +239,7 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         "figures": "figures",
     }
     for rule, block in rule_blocks(SNAKEFILE).items():
-        for module in re.findall(r"python -m assaywatch\.(\w+)", block):
+        for module in (m.replace("-", "_") for m in re.findall(_STAGE_CALL, block)):
             assert rule in exempt or hashed.get(rule) == module, (
                 f"rule {rule!r} runs assaywatch.{module} but nothing hashes it: add a params hash "
                 "(see _package_hash in the Snakefile) or exempt it here with a reason"

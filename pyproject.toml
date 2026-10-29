@@ -38,7 +38,8 @@ thermo = ["primer3-py", "biopython"]   # the duplex-Tm columns, opt-in via `ther
 lineage = ["scipy>=1.11", "statsmodels>=0.14"]
 
 [project.scripts]
-assaywatch-validate = "assaywatch.validate:main"
+assaywatch = "assaywatch.cli:main"
+assaywatch-validate = "assaywatch.validate:main"   # kept: older docs and shells name it
 
 [tool.setuptools.dynamic]
 version = {attr = "assaywatch.__version__"}

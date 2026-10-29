@@ -87,7 +87,7 @@ to know whether to re-validate.
 
 ```mermaid
 flowchart LR
-    A[("registry/*.yaml")] --> B["validate\n(python -m assaywatch.validate)"]
+    A[("registry/*.yaml")] --> B["validate\n(assaywatch validate)"]
     B --> C[".registry-valid\n(sentinel touch file)"]
     B -- "fails on" --> D["bad taxid\ninvalid IUPAC\nduplicate name"]
 
