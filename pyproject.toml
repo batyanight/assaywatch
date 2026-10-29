@@ -23,7 +23,8 @@ authors = [{name = "Batya R. Nightingale"}]
 # conda's matplotlib-base - R1a in mirror image. Guarded by
 # tests/test_reproducibility.py. If figures should be opt-in, gate the rule in
 # `all` first and then move this to an extra; do not just move it.
-dependencies = ["pydantic>=2", "pyyaml>=6", "numpy>=1.24", "requests>=2", "matplotlib>=3.8"]
+# ruamel.yaml is the comment-preserving writer behind registry.edit; PyYAML stays the reader.
+dependencies = ["pydantic>=2", "pyyaml>=6", "ruamel.yaml>=0.18", "numpy>=1.24", "requests>=2", "matplotlib>=3.8"]
 
 [project.optional-dependencies]
 dev = ["pytest", "ruff==0.16.10", "pre-commit", "build"]   # build: `python -m build`

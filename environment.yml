@@ -10,6 +10,7 @@ dependencies:
   - primer3-py      # optional: thermodynamic columns (bioconda)
   - pydantic>=2
   - pyyaml
+  - ruamel.yaml>=0.18   # registry.edit: round-trip writes that keep an entry's comments
   - requests
   - scipy
   - statsmodels

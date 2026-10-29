@@ -20,55 +20,19 @@ from __future__ import annotations
 import argparse
 import sys
 from collections import Counter
-from collections.abc import Iterator
 from pathlib import Path
 
 import yaml
 from pydantic import ValidationError
 
+from assaywatch import registry
 from assaywatch.schema import Assay
 
-
-def load_assay(path: Path) -> Assay:
-    """Parse and validate one assay file.
-
-    Parsing 214 YAMLs with PyYAML costs about two seconds and a single process asks for
-    the same files several times (a report, a retrospective run and the tests each load
-    the registry more than once). The parsed Assay is cached per (path, size, mtime), so
-    an edited file is always re-read, and every caller gets its own deep copy: nobody
-    can mutate another caller's assay through the cache.
-    """
-    st = path.stat()
-    key = (str(path), st.st_size, st.st_mtime_ns)
-    cached = _ASSAY_CACHE.get(key)
-    if cached is None:
-        data = yaml.safe_load(path.read_text())
-        if not isinstance(data, dict):
-            raise ValueError("top level is not a mapping")
-        cached = Assay.model_validate(data)
-        if cached.id != path.stem:
-            raise ValueError(f"id '{cached.id}' does not match file name '{path.stem}'")
-        _ASSAY_CACHE[key] = cached
-    return cached.model_copy(deep=True)
-
-
-_ASSAY_CACHE: dict[tuple[str, int, int], Assay] = {}
-
-
-def not_live_because(assay: Assay) -> str | None:
-    """Why this entry may not sit in `registry/`, or None. The rule is a verified DOI."""
-    if assay.citation.doi is None:
-        return "no citation.doi; an assay without a published source belongs in pending/"
-    if not assay.citation.doi_verified:
-        return "citation.doi_verified is false; run scripts/resolve_citations.py, or move it to pending/"
-    return None
-
-
-def iter_files(target: Path) -> Iterator[Path]:
-    if target.is_dir():
-        yield from sorted(p for p in target.glob("*.yaml") if p.name != "README.md")
-    else:
-        yield target
+# The registry's reading rules live in assaywatch.registry; these names stay so
+# that nothing importing them has to change in the same commit that moved them.
+load_assay = registry.load_one
+iter_files = registry.files
+not_live_because = registry.not_live_because
 
 
 def _tally(counts: Counter) -> str:

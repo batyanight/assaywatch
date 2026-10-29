@@ -80,7 +80,8 @@ registry/        one YAML per assay; validated on every commit. `python -m
                  draft and 44 carried a probe (2026-10-14)
 assaywatch/      the package
   schema.py        pydantic models = the registry schema
-  validate.py      `python -m assaywatch.validate registry`
+  registry.py      the one door to the entries: load / load_one / write / edit (comment-preserving) / archive_dir
+  validate.py      `python -m assaywatch.validate registry`; its loaders are registry.py's
   iupac.py         degenerate-base helpers, inosine, three-state comparison
   degeneracy.py    primer-pool accounting; `python -m assaywatch.degeneracy registry`
   match.py         exhaustive search for oligo binding sites, both strands
