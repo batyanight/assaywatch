@@ -1,3 +1,45 @@
+# Resume point, 2026-10-29 (evening: the architecture day; everything merged)
+
+**Start here:** `ROADMAP.md` "Architecture" (every step ticked, decisions recorded), then
+`GLOSSARY.md`. Tree clean, everything pushed, no PR open, 1,782 default tests + 12 slow,
+registry 214/214. Full record: `docs/journal/2026-10-29-architecture.md`.
+
+- **The code now fits the engineering principles in `~/.claude/CLAUDE.md`.** One door to
+  the entries (`assaywatch/registry.py`), one NCBI client (`ncbi.py`), one literature
+  client (`papers.py`), one command (`assaywatch <stage>`), and `assaywatch curate <entry>`
+  runs the curation chain write-through. 34 live scripts use the modules; 20 one-off
+  analyses are in `scripts/archive/` with an index. `pytest` is 43 s and `pytest -m fast`
+  is 5 s.
+- **Commands changed spelling.** `assaywatch validate registry`, `assaywatch curate
+  registry/X.yaml --email ...`, `pytest -m fast`, `pytest -m slow`. `python -m
+  assaywatch.<stage>` still works. `scripts/check_submission.py` is a shim over
+  `curate --dry-run`; `scripts/master_sheet.py` is `assay_sheet.py`.
+- **GitHub Actions ran nothing today**: the private repo's free minutes were spent (macOS
+  jobs cost ten to one). CI is now Ubuntu-only and runs PR branches once; it resumes
+  2026-11-01. The gate is local and was run on every commit.
+- **Nothing scientific changed.** No scoring number, no verdict, no registry field moved;
+  the Snakefile's rules and the report renderers are as they were. The two renderers were
+  checked for shared logic and have none (ROADMAP 5g).
+- **Two judgement calls to know about:** `bench_panel.py` and `holdout.py` are archived
+  although the open scoring test plan quotes their numbers (two package tests still load
+  them from the archive); five scripts stayed live because open work names them.
+
+## Next, in order
+
+The scientific list of the morning's entry below stands unchanged (window_on step 1, the
+93 `use` rows, trend over footprints, a drift-mechanism hunt). On the code side:
+
+1. Try `assaywatch curate` on the next entry you add; its "Left for a human" list is the
+   worklist. The oligo step reports the raw verdict only; the verifier script's judgement
+   for `modified_from` and sibling runs is not folded in yet.
+2. When an archived script is wanted again, run it from `scripts/archive/`; it is
+   untested but runnable.
+
+## Still yours
+
+- **S7b** (below) is still unshipped; nothing today touched it.
+- Whether to make the repo public (unlimited Actions minutes, branch protection).
+
 # Resume point, 2026-10-29 (the influenza regex, S7b priced and held, eleven cases proposed)
 
 **Start here:** `ROADMAP.md`. Tree clean, everything pushed, 1,845 tests, registry 214/214.
