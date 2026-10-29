@@ -396,6 +396,37 @@ def test_a_zeroed_mispair_outside_the_3prime_window_is_not_discounted():
     assert sc.terminal_mismatch is False
 
 
+# The same wobble in the MID window (d=10), which is the class S7b is about: the
+# Mills/G2R false alarm rests on a G:T at reverse position 8, costing a full
+# primer_mid_penalty while the table already calls that mispair free at d<=5.
+_REC_MID_GT = "TTGACCGATAACCAATGATG"  # primer G at pos 10 (d=10) faces record A -> G:T
+
+
+def test_mispair_window_decides_how_far_identity_reaches_and_defaults_to_the_3prime_window():
+    site = _primer_site(_OLIGO, _REC_MID_GT)
+    assert site.mismatches == (10,)  # one mismatch, 10 nt from the 3' end: mid window
+    table = {"G:T": 0.0}
+    mid = CFG["scoring"]["primer_mid_penalty"]
+
+    # Null (what ships): identity acts only within primer_3prime_window, so a mid
+    # mismatch keeps its full position penalty however the table reads.
+    assert score_primer(site, _OLIGO, _scoring(mispair_penalty=table)).penalty == mid
+    assert score_primer(site, _OLIGO, _scoring(mispair_penalty=table, mispair_window=None)).penalty == mid
+    # The S7b candidate: 10 bases reaches the mid window, and the wobble goes free.
+    assert score_primer(site, _OLIGO, _scoring(mispair_penalty=table, mispair_window=10)).penalty == 0.0
+    # Narrowing below the window turns identity off entirely, including at the
+    # terminus, where it also stops exempting terminal_mismatch_fails.
+    terminal = _primer_site(_OLIGO, _REC_TERMINAL_GT)
+    sc = score_primer(terminal, _OLIGO, _scoring(mispair_penalty=table, mispair_window=0))
+    assert sc.penalty == CFG["scoring"]["primer_3prime_penalty"]
+    assert sc.terminal_mismatch is True
+
+
+def test_the_shipped_config_leaves_identity_scoped_to_the_3prime_window():
+    """`mispair_window` ships null, so M1's scope is unchanged until S7b is priced."""
+    assert CFG["scoring"]["mispair_window"] is None
+
+
 def test_a_partial_multiplier_scales_the_penalty_but_keeps_the_terminal_flag():
     site = _primer_site(_OLIGO, _REC_TERMINAL_GT)
     sc = score_primer(site, _OLIGO, _scoring(mispair_penalty={"G:T": 0.5}))

@@ -68,22 +68,26 @@ _CASES = [
     ("a 5' mismatch outside every penalty window", "TTAACCGATAGCCAATGATG"),
     ("two mismatches in different bands", "TTAACCGATAGCCAATGATA"),
     ("a clean site", "TTGACCGATAGCCAATGATG"),
+    ("a G:T wobble in the mid window, which is S7b's class", "TTGACCGATAACCAATGATG"),
 ]
 
 
 @pytest.mark.parametrize(("label", "record"), [(c[0], c[1]) for c in _CASES])
 @pytest.mark.parametrize("mispair_table", [{}, {"G:T": 0.0}, {"G:T": 0.5}])
-def test_primer_score_reproduces_score_primer(label, record, mispair_table):
+@pytest.mark.parametrize("mispair_window", [None, 10])
+def test_primer_score_reproduces_score_primer(label, record, mispair_table, mispair_window):
     """The replay transcribes `score_primer`'s loop; this is what holds it to it.
 
     Deliberately a transcription and not a call into `score_primer`, because that
     function takes a `Site` and a record sequence, and inventing a window to reach
     it would mean reconstructing bases the calls table does not hold. A
     transcription can drift from its original, so it is pinned across the
-    `mispair_penalty` table too - identity acts only inside the 3' window, and a
-    replay that applied it everywhere would read as a cheap improvement.
+    `mispair_penalty` table too - identity acts only inside its own window, and a
+    replay that applied it everywhere would read as a cheap improvement. Pinned
+    across `mispair_window` as well, since S7b widens that window in a replay and
+    the two implementations have to widen together.
     """
-    cfg = _scoring(mispair_penalty=mispair_table)
+    cfg = _scoring(mispair_penalty=mispair_table, mispair_window=mispair_window)
     site = next(s for s in find_sites(_OLIGO, record, 4) if s.strand == "+")
     want = score_primer(site, _OLIGO, cfg)
     got = rescore.primer_score(rescore.parse_mispairs(",".join(want.mispairs)), len(site.ambiguous), cfg)

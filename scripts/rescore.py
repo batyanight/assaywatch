@@ -98,6 +98,10 @@ REPLAYABLE_KEYS = frozenset(
         "primer_mid_penalty",
         "primer_5prime_penalty",
         "mispair_penalty",
+        # Replayable because `mispairs` is recorded at every distance, not only
+        # inside the window the run acted on: widening identity's reach (S7b) needs
+        # no rescreen.
+        "mispair_window",
         "probe_center_penalty",
         "probe_outer_penalty",
         "detect_max",
@@ -332,16 +336,20 @@ def primer_score(
     agree exactly, which is what the S0 control measures over every row.
     """
     s = cfg["scoring"]
-    w3 = s["primer_3prime_window"]
     table = s.get("mispair_penalty") or {}
+    # How far identity reaches: `mispair_window`, null meaning primer_3prime_window.
+    # This is why `mispairs` is recorded at every distance and not only inside the
+    # window -- widening it (S7b) is a replay, not a rescreen.
+    wmis = s.get("mispair_window")
+    wmis = s["primer_3prime_window"] if wmis is None else wmis
     penalty, terminal = 0.0, False
     for oligo_base, template, d in mispairs:
         base = positional_weight(weight, d, cfg)
-        # Identity still acts only within the 3' window even under a smooth curve.
-        # The window and the curve answer different questions - where the mispair
-        # effect is measurable, and how the position penalty decays - and merging
-        # them would change two things in one candidate.
-        mult = mispair_multiplier(oligo_base, template, table) if d <= w3 else 1.0
+        # Identity acts only within its own window even under a smooth curve. The
+        # window and the curve answer different questions - where the mispair effect
+        # is measurable, and how the position penalty decays - and merging them
+        # would change two things in one candidate.
+        mult = mispair_multiplier(oligo_base, template, table) if d <= wmis else 1.0
         penalty += base * mult
         if d == 1 and mult != 0:
             terminal = True

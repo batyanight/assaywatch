@@ -278,6 +278,8 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     effect at the 3' end, and when the discount ran unscoped it erased internal
     G:T wobbles across whole record sets and cost three documented tier-2 catches
     (docs/journal/2026-10-22-M1-tier2.md). Beyond the window, position alone decides.
+    How far it reaches is `scoring.mispair_window`, null meaning the 3' window;
+    the scope is a config number like every other, not a constant in here.
 
     The table ships EMPTY, so by default this does nothing. The G:T/T:G wobble is
     the one candidate that has been tried: three bench panels (FAP, Barrett,
@@ -294,6 +296,11 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     s = cfg["scoring"]
     w3, wmid = s["primer_3prime_window"], s["primer_mid_window"]
     table = s.get("mispair_penalty") or {}
+    # How far identity reaches. Null = the 3' window, which is what M1 shipped;
+    # `scoring.mispair_window` exists so S7b can price a longer reach without the
+    # scope living in code. See the config comment for why the default is w3.
+    wmis = s.get("mispair_window")
+    wmis = w3 if wmis is None else wmis
     oligo_len = len(oligo)
     penalty, terminal = 0.0, False
     from3: list[int] = []
@@ -324,7 +331,7 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
         # different distance, and it cannot invent what was not written down.
         mispairs.append(f"{oligo[pos].upper()}:{template}@{d}")
         mult = 1.0
-        if d <= w3:
+        if d <= wmis:
             mult = mispair_multiplier(oligo[pos].upper(), template, table)
         penalty += base * mult
         if d == 1 and mult != 0:

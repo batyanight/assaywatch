@@ -108,6 +108,12 @@ class Scoring(Block):
     #: free-form ("G:T"), so this stays a dict; `mispair_multiplier` validates
     #: membership at use. Empty scores byte-identically to no table at all.
     mispair_penalty: dict[str, float] = Field(default_factory=dict)
+    #: How far from the 3' end `mispair_penalty` acts, in bases. NULL means
+    #: `primer_3prime_window`, which is where M1 shipped it and where Kwok and
+    #: Stadhouders measure the effect; a larger number is the S7b candidate and
+    #: must carry its own tier-2 and bench run. Any value is clamped nowhere: a
+    #: window longer than the primer simply means "every position".
+    mispair_window: int | None = Field(default=None, ge=0)
     probe_center_penalty: float = Field(default=2.0, ge=0)
     probe_outer_penalty: float = Field(default=1.0, ge=0)
     max_ambiguous_per_oligo: int = Field(default=2, ge=0)

@@ -119,6 +119,27 @@ scoring:
   # has never been priced, and the run that confirms this replay for real is the
   # next full run, which the shipped scoring hash forces.
   mispair_penalty: {"G:T": 0.0, "T:G": 0.0}
+  # HOW FAR IDENTITY REACHES, in bases from the 3' end. NULL = primer_3prime_window
+  # (5), which is where M1 shipped and where Kwok and Stadhouders measure: at the 3'
+  # end a mispair is about extension geometry, and that is a different mechanism from
+  # the duplex-melting cost of an internal one. The scope is a number here rather
+  # than a constant in score_primer because S7b is a candidate to widen it.
+  #
+  # WHY S7b IS THE REGISTERED CANDIDATE. S7 (primer_mid_penalty 1.0 -> 0.5) was killed
+  # because the positives that reward loosening the mid window and the within-family
+  # negatives that punish it move together, so no POSITION-blind value separates them
+  # (docs/journal/2026-10-28-s7-mid-window-killed.md). Identity can, in principle: the
+  # Mills/G2R false alarm that opened the question rests on a G:T wobble at reverse
+  # position 8 -- in the mid window, costing a full 1.0, and a wobble this table
+  # already calls free at d<=5. `mispair_window: 10` would discount exactly that class
+  # and nothing a position penalty can reach. It has NOT been priced, and it inherits
+  # the warning that killed unscoped M1: at d>5 a free G:T erased internal wobbles
+  # across whole record sets and cost three documented tier-2 catches
+  # (docs/journal/2026-10-22-M1-tier2.md). Those were lost at EVERY position with
+  # `reduced` counting as detected; both of those conditions have since changed, which
+  # is why it is worth measuring rather than assuming. Gates before any value ships:
+  # tier-2 on the development set, every bench panel, and the 69 mid-window sites.
+  mispair_window: null
   # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
   # mismatch in the middle destabilises the duplex most, so the centre is
   # weighted above the ends. Known gap: of the 51 probe assays here on 2026-10-26, 20 are MGB,
