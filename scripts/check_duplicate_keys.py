@@ -22,38 +22,14 @@ import argparse
 import sys
 from pathlib import Path
 
-import yaml
-
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO))
 
+from assaywatch.registry import duplicate_keys  # noqa: E402
+from assaywatch.registry import files as entry_files  # noqa: E402
 
-class _DupeFinder(yaml.SafeLoader):
-    """A loader that collects repeated keys instead of quietly keeping the last."""
-
-    def __init__(self, stream):
-        super().__init__(stream)
-        self.duplicates: list[tuple[str, int]] = []
-
-    def construct_mapping(self, node, deep=False):
-        seen: set[object] = set()
-        for key_node, _ in node.value:
-            key = self.construct_object(key_node, deep=deep)
-            if key in seen:
-                self.duplicates.append((str(key), key_node.start_mark.line + 1))
-            seen.add(key)
-        return super().construct_mapping(node, deep=deep)
-
-
-_DupeFinder.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _DupeFinder.construct_mapping)
-
-
-def duplicates_in(text: str) -> list[tuple[str, int]]:
-    loader = _DupeFinder(text)
-    try:
-        loader.get_single_data()
-        return loader.duplicates
-    finally:
-        loader.dispose()
+# The finder lives in assaywatch.registry (curate asks it too); the name stays for the test.
+duplicates_in = duplicate_keys
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -64,8 +40,7 @@ def main(argv: list[str] | None = None) -> int:
     bad = 0
     files = 0
     for root in args.registry:
-        paths = sorted(root.glob("*.yaml")) if root.is_dir() else [root]
-        for path in paths:
+        for path in entry_files(root):
             files += 1
             for key, line in duplicates_in(path.read_text()):
                 print(f"DUPLICATE\t{path.name}:{line}\t{key}")
