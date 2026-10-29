@@ -21,7 +21,8 @@ from assaywatch.lineage import (
     title_resolver,
     worst_lineage_verdict,
 )
-from assaywatch.lineage_report import MIN_RESOLVED_SHARE, read_calls_with_taxid
+from assaywatch.lineage_report import read_calls_with_taxid
+from assaywatch.score import load_config
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -224,7 +225,8 @@ def test_join_reports_none_for_an_accession_nobody_knows(tmp_path):
 
 def test_guard_threshold_is_a_real_fraction():
     """The run aborts below this share rather than writing an all-unresolved report."""
-    assert 0 < MIN_RESOLVED_SHARE <= 1
+    share = load_config(ROOT / "config.yaml")["lineage"]["min_resolved_share"]
+    assert 0 < share <= 1
 
 
 # --- sub-taxid resolver chain (docs/journal/2026-10-19-subtaxid-resolution.md) ---

@@ -10,7 +10,6 @@ import gzip
 import pytest
 
 from assaywatch.sitedrift import (
-    THREE_PRIME_ZONE,
     PositionStat,
     footprint_groups,
     organism_from_title,
@@ -65,7 +64,16 @@ def test_five_prime_end_maps_to_the_largest_three_prime_index():
     stats = position_stats([row("fail", forward=[5])] * 3, "forward", seq, min_records=1)
     s = stats[0]
     assert (s.pos_3prime, s.pos_5prime, s.base) == (5, 1, "G")
-    assert s.three_prime is (5 <= THREE_PRIME_ZONE)
+    assert s.three_prime is (5 <= s.three_prime_zone)
+
+
+def test_three_prime_zone_follows_the_scorers_window():
+    """The marker must come from `scoring.primer_3prime_window`, not a second constant."""
+    seq = "GCGTA"
+    rows = [row("fail", forward=[3])] * 3
+    wide = position_stats(rows, "forward", seq, min_records=1, three_prime_zone=3)[0]
+    narrow = position_stats(rows, "forward", seq, min_records=1, three_prime_zone=2)[0]
+    assert (wide.three_prime, narrow.three_prime) == (True, False)
 
 
 def test_positions_outside_the_oligo_are_ignored():
