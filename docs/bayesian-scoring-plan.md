@@ -385,7 +385,7 @@ pan-family assay — the shape Forslund 1999 has. Consensus-PCR papers are the r
 seam because they routinely tabulate which types amplified and which did not, and this
 registry is full of them (PREDICT panels, pan-herpes, pan-flavivirus, pan-paramyxovirus,
 pan-adenovirus). Target: **60+ within-family negatives across >= 10 independent papers**
-before fitting anything. `scripts/bench_panel.py` and `docs/bench-panels/*.tsv` already
+before fitting anything. `scripts/archive/bench_panel.py` and `docs/bench-panels/*.tsv` already
 define the format, so each new panel is a TSV and a header comment recording what was
 read and from where.
 
@@ -395,7 +395,7 @@ for C2 — and reading each paper once for both is the only sane way to do it.
 
 ### The one infrastructure blocker, worth doing early and separately
 
-`scripts/bench_panel.py:9-20` already screens a panel with the real matcher and prints
+`scripts/archive/bench_panel.py:9-20` already screens a panel with the real matcher and prints
 the **mispair identity** per 3'-window mismatch ("a W opposite template G prints
 A:G/T:G"), so the feature extractor is most of the way written — it prints a summary
 where it needs to emit a table.

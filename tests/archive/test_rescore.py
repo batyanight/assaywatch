@@ -1,4 +1,4 @@
-"""`scripts/rescore.py` replays a scoring strategy over a calls table.
+"""`scripts/archive/rescore.py` replays a scoring strategy over a calls table.
 
 The point of the harness is that it must agree with the screen. So the tests that
 matter here are agreement tests: `primer_score`/`probe_score` against
@@ -21,10 +21,10 @@ from assaywatch.match import Site, find_sites
 from assaywatch.score import load_config, oligo_pools, score_primer, score_probe
 from assaywatch.validate import iter_files, load_assay
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[2]
 CFG = load_config()
 
-spec = importlib.util.spec_from_file_location("rescore", REPO / "scripts" / "rescore.py")
+spec = importlib.util.spec_from_file_location("rescore", REPO / "scripts" / "archive" / "rescore.py")
 rescore = importlib.util.module_from_spec(spec)
 # Registered BEFORE exec_module, unlike tests/test_bench_panel.py: rescore.py defines a
 # dataclass, and `dataclasses` resolves a field's type through

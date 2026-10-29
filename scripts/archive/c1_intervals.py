@@ -32,7 +32,7 @@ import re
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
 from assaywatch.interval import Z95, jeffreys_interval, wilson_interval  # noqa: E402

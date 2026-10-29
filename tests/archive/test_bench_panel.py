@@ -1,10 +1,10 @@
-"""scripts/bench_panel.py reads a site on either strand and names the mispair facing each primer base."""
+"""scripts/archive/bench_panel.py reads a site on either strand and names the mispair facing each primer base."""
 
 import importlib.util
 from pathlib import Path
 
 spec = importlib.util.spec_from_file_location(
-    "bench_panel", Path(__file__).resolve().parents[1] / "scripts" / "bench_panel.py"
+    "bench_panel", Path(__file__).resolve().parents[2] / "scripts" / "archive" / "bench_panel.py"
 )
 bench_panel = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(bench_panel)

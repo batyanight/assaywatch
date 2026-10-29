@@ -1,4 +1,4 @@
-"""scripts/diff_printed_oligos.py: compare two versions of the oligo reader over real files.
+"""scripts/archive/diff_printed_oligos.py: compare two versions of the oligo reader over real files.
 
 The tool exists so that a threshold change can be checked against the PDFs held
 locally. What has to be true of it: an identical reader reports no change; an
@@ -18,8 +18,10 @@ from pathlib import Path
 
 import pytest
 
-ROOT = Path(__file__).resolve().parents[1]
-_spec = importlib.util.spec_from_file_location("diff_printed", ROOT / "scripts" / "diff_printed_oligos.py")
+ROOT = Path(__file__).resolve().parents[2]
+_spec = importlib.util.spec_from_file_location(
+    "diff_printed", ROOT / "scripts" / "archive" / "diff_printed_oligos.py"
+)
 dp = importlib.util.module_from_spec(_spec)
 sys.modules["diff_printed"] = dp
 _spec.loader.exec_module(dp)

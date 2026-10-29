@@ -48,14 +48,14 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from assaywatch.accession import strip_version
 from assaywatch.fasta import read_fasta
 from assaywatch.score import decide, load_config, screen_record
 from assaywatch.validate import load_assay
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[2]
 
 BAND_CALLS = {"detect", "reduced"}
 NO_BAND_CALLS = {"fail", "no_amplicon", "indeterminate"}
@@ -133,7 +133,7 @@ def score_panel(entry: dict[str, Any], cfg: dict[str, Any]) -> dict[str, Any]:
 # Imported rather than re-implemented: a second copy of `score_primer`'s loop is
 # exactly the duplication `assaywatch/accession.py`'s own docstring warns about, and
 # the S0 control below exists to prove the two paths agree.
-_spec = importlib.util.spec_from_file_location("rescore", REPO / "scripts" / "rescore.py")
+_spec = importlib.util.spec_from_file_location("rescore", REPO / "scripts" / "archive" / "rescore.py")
 rescore = importlib.util.module_from_spec(_spec)
 sys.modules["rescore"] = rescore
 _spec.loader.exec_module(rescore)

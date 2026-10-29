@@ -443,7 +443,7 @@ sensitivity, which this tool does not model. Disclosed in the file: it was score
 to check the row parses, so one bit is out.
 
 **4. TNTBLAST waits.** No osx-arm64 build and Rosetta 2 needs admin rights. Rosetta, an
-arm64 build from source, or a run on linux-64 or the cluster -- `scripts/compare_thermo.py`
+arm64 build from source, or a run on linux-64 or the cluster -- `scripts/archive/compare_thermo.py`
 takes a second predictor unmodified. The dead `tntblast` env was removed on 2026-10-27.
 
 ## Two things found by accident, and they are the kind worth noticing
@@ -715,7 +715,7 @@ day of deposits. That was the required result, not a pleasant one.
 
 ## 3. The harness (`e396b2b`), and how it is trusted
 
-`scripts/rescore.py` with `strategies/s0-shipped.yaml` as its control. A primer needs no
+`scripts/archive/rescore.py` with `strategies/s0-shipped.yaml` as its control. A primer needs no
 sequence and not even its own length, because the distance from its 3' end is recorded
 per mismatch; only `score_probe` needs a length, and no probe pool in the registry holds
 differing lengths, which is a test rather than an assumption.
@@ -956,7 +956,7 @@ decisions.
 > replay is stuck re-scoring the amplicon the shipped rule chose. So every rejection in the
 > ladder stands without qualification and the survivors are under-credited. Neither
 > disagreement can move a verdict; both fall on one assay at 97.9% of 755 records against a
-> 90% threshold. `scripts/rescore.py` used to call this effect "unmeasured" and now carries
+> 90% threshold. `scripts/archive/rescore.py` used to call this effect "unmeasured" and now carries
 > the number in the boundary it prints on every run.
 
 **2. The probe switch: BUILT AND SHIPPED OFF** (`f73f8de`).
@@ -1277,7 +1277,7 @@ candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
    **0.56**, not 0.65, so **0.55 was never safe** and the margin is 0.41–0.56.
    **The only version with a chance: lineage-aware references**, one per sublineage via
    `clustermaps.py`/`subcluster.py`. Unproven. The module, 12 tests,
-   `scripts/build_locus_references.py` and `scripts/price_locus_identity.py` are kept as
+   `scripts/archive/build_locus_references.py` and `scripts/price_locus_identity.py` are kept as
    evidence and as the basis for that. Superseded detail below:
    **The locus-identity test, generalising decision A — originally DESIGNED, not built:**
    `docs/journal/2026-10-25-locus-identity-design.md`. Ask whether an amplicon's **interior** is
@@ -1290,7 +1290,7 @@ candidate inside 4 rather than a step of its own. 5 is unchanged and still last.
    **screen time** (nothing writes the amplicon sequence), so each iteration costs a ~30-minute
    rescreen, and it wants a cached per-assay reference.
    **The blocking measurement is DONE 2026-10-25 and the approach SURVIVES**, on clean data
-   from `calls.tsv.gz` (`scripts/measure_locus_identity.py`). Chance pairs land at
+   from `calls.tsv.gz` (`scripts/archive/measure_locus_identity.py`). Chance pairs land at
    **0.32–0.41** identity, genuine failures at **0.65 and above**, detects at 0.87–1.00, and
    nothing sits in between — including on `LYSSAVIRUSES_ssRNA_Nucleoprotein_gene`, a
    conventional assay, which is the whole point: it has **no** chance pairs on current screens
@@ -1886,7 +1886,7 @@ Where the live question is "what papers do we still need", the answer now lives 
 **Four were false positives**, all of them branch or PR names in backticks that look like
 paths: `registry/2026-10-24-scope-fixes`, `docs/2026-10-23-elsevier-and-oligo-flags`,
 `docs/2026-10-15-lineage-plan` (PR #3, docs-only, superseded by
-`docs/journal/2026-10-17-estimand-plan.md`) and `scripts/rescore.py`, which
+`docs/journal/2026-10-17-estimand-plan.md`) and `scripts/archive/rescore.py`, which
 `docs/journal/2026-10-24-scoring-strategy-test-plan.md` PROPOSES and has not built yet.
 `assaywatch/archive.py` never existed: it appears inside a blockquote in
 `docs/journal/2026-10-23-wave5-engineering.md` quoting a review's proposal.
@@ -2243,7 +2243,7 @@ checked 0 problems, ruff clean.**
   shipping record.
 - The calicivirus re-cite to Neill & Seal 1995: **SHIPPED 2026-10-24** (`a784fed`-ish, the `055a9a9` commit); see the daytime section. M1 remains on hold -- tier-2 still kills the one documented candidate (Hellgren Leucocytozoon), so the mispair table ships empty and reopens with the scoring-strategy plan's replay harness, not a config flip. The three Sigrist oligo questions are also closed (`BornaPCA6`/`PaBVcon_1401+` and `A647N`/`A674N`), registry was right both times.
 - The 10 orphan archive groups (658 MB, 3 belong to `pending/` entries; one group alone is
-  530 MB). `scripts/orphan_archives.py` advises keeping the three pending ones unless the
+  530 MB). `scripts/archive/orphan_archives.py` advises keeping the three pending ones unless the
   entry is being dropped. **IDENTIFIED 2026-10-24, still not deleted:
   `docs/journal/2026-10-24-orphan-archives.md` says what every group is.** The headline: 636 of the
   658 MB is superseded PRE-QUERY history for taxa the registry still covers - the 530 MB
@@ -2280,7 +2280,7 @@ when the machine was shut down. The recipe was
         | sed 's|data/retrieved/|results/screened/|; s|\.fasta\.gz$|.tsv|') \
         --forcerun screen_archive --config run_date=$(date +%F) --cores 4
 
-with the orphan groups from `scripts/orphan_archives.py` removed from the list first.
+with the orphan groups from `scripts/archive/orphan_archives.py` removed from the list first.
 
 ## 0b. Timekeeping is finished, and 658 MB of archives belong to nobody
 
@@ -2300,7 +2300,7 @@ Found while force-rescreening every archive to get one clean set of benchmarks: 
 targeted run died with `KeyError: (2093, 'q4185828e3e')`, because **10 retrieval
 groups on disk are not in the registry any more** - 21 archives, 658 MB, 99
 manifest entries that look like live state. Three were orphaned the same day by
-moving ten entries to `pending/`. `scripts/orphan_archives.py` reports them and
+moving ten entries to `pending/`. `scripts/archive/orphan_archives.py` reports them and
 deletes nothing. It also names the reverse gap: `209/all` is a live group with no
 archive, so it has never been screened.
 
@@ -2461,7 +2461,7 @@ than this summary.
   `-wave3-holm.md` — all three documented misses are **scoring** problems, not
   statistical ones. Holm replaced BH and moved nothing yet.
 - **Wave 4** `docs/journal/2026-10-23-wave4-holdout.md` — `validation-cases.tsv` is now labelled
-  the **development set**; `scripts/holdout.py` prices what tuning on it bought;
+  the **development set**; `scripts/archive/holdout.py` prices what tuning on it bought;
   `validation-cases-heldout.tsv` is empty on purpose.
 - **Wave 5** `-wave5-config-schema.md`, `-wave5-triage.md`, `-wave5-what-active-means.md`,
   `-wave5-ip-question.md`, `-wave5-engineering.md`,
@@ -3065,7 +3065,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   **FAP vs HPV16 done** (`docs/journal/2026-10-19-fap-bench-panel.md`): HPV16 fails on one G·T wobble 5 nt from
   the 3' end. On Forslund's own 70-type panel the scorer fails 14 of 60 types the bench amplified;
   12 of those rest only on T:G mispairs. First type-level evidence for identity-aware 3' penalties;
-  no config change. `scripts/bench_panel.py` + `docs/bench-panels/` take more panels.
+  no config change. `scripts/archive/bench_panel.py` + `docs/bench-panels/` take more panels.
   **Taxid artefacts done** (`docs/journal/2026-10-19-taxid-artefacts.md`): lineages now group at species
   rank (`lineage.group_at_rank`, taxonomy cache carries ranks). JCPyV was split across 10632/1891763.
   Tier-2 **4/11 caught, 12 disagreements** (was 13). 1193974 is an unclassified bucket of CVA6; the
@@ -3134,7 +3134,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   metadata-less screens match their groups exactly. ~~The Anthony supplement~~ DONE 2026-10-21:
   fetched from nature.com (CC-BY 4.0; DOI 10.1038/ncomms9147 confirmed on Crossref) to
   `papers/10.1038_ncomms9147.supp.pdf` (local, gitignored like the rest of `papers/`).
-  `scripts/verify_predict_supplement.py` parses all 41 protocol sections: **74 of 74 oligos in the
+  `scripts/archive/verify_predict_supplement.py` parses all 41 protocol sections: **74 of 74 oligos in the
   37 `predict_protocol` entries match exactly**, rounds agree (semi-nested shared primers are printed
   once, under round 1). Table: `docs/predict-supplement-verification.tsv`. The `predict-supplement`
   bucket (36 rows) is gone from `docs/materials-needed.tsv`. Amplicons measured on the 2026-10-20
@@ -3521,8 +3521,8 @@ composition rule alone (`--extractor-only`, which gives both versions the same r
 reverse consensus primer, and a Prepens 2007 primer. (`--extractor-only` excludes the
 `(N/I)` reading change by design, so the Prepens gain is the composition rule, not the notation.)
 
-    python scripts/diff_printed_oligos.py --papers papers --old-rev 826a905
-    python scripts/diff_printed_oligos.py --papers papers --old-rev 50430bb --extractor-only --fail-on-loss
+    python scripts/archive/diff_printed_oligos.py --papers papers --old-rev 826a905
+    python scripts/archive/diff_printed_oligos.py --papers papers --old-rev 50430bb --extractor-only --fail-on-loss
 
 It reads each paper with the old and the new reader, taking the old script straight from git, and
 lists oligos LOST and GAINED. Read the lost ones first. `--fail-on-loss` exits 1 on a loss and 2

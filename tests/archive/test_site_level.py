@@ -1,4 +1,4 @@
-"""`scripts/measure_site_level.py` locates a probe site without its amplicon.
+"""`scripts/archive/measure_site_level.py` locates a probe site without its amplicon.
 
 Phase 1 of the Bd-miss plan measures how much evidence the amplicon-level rule
 discards. The only real logic in it is the offset method: place the probe by its
@@ -15,11 +15,11 @@ from pathlib import Path
 
 from assaywatch.score import load_config
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[2]
 CFG = load_config()
 
 spec = importlib.util.spec_from_file_location(
-    "measure_site_level", REPO / "scripts" / "measure_site_level.py"
+    "measure_site_level", REPO / "scripts" / "archive" / "measure_site_level.py"
 )
 msl = importlib.util.module_from_spec(spec)
 sys.modules["measure_site_level"] = msl

@@ -44,7 +44,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from assaywatch.accession import strip_version
 from assaywatch.chance import composition, site_evalue
@@ -55,7 +55,7 @@ from assaywatch.match import find_sites
 from assaywatch.score import load_config, score_probe
 from assaywatch.validate import iter_files, load_assay
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[2]
 REACHABLE = ("truncated", "diverged", "no_pair")
 
 

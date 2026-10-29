@@ -1,4 +1,4 @@
-"""`scripts/window_grid.py`: the overlay must change exactly the two keys it names.
+"""`scripts/archive/window_grid.py`: the overlay must change exactly the two keys it names.
 
 The grid prices `recent_window_months` and `min_records_for_drift` together by writing
 one config per cell and handing it to `scripts/retrospective.py`. A regex overlay that
@@ -18,11 +18,13 @@ import yaml
 
 from assaywatch.settings import validated
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def _module():
-    spec = importlib.util.spec_from_file_location("window_grid", ROOT / "scripts" / "window_grid.py")
+    spec = importlib.util.spec_from_file_location(
+        "window_grid", ROOT / "scripts" / "archive" / "window_grid.py"
+    )
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

@@ -73,7 +73,7 @@ from typing import Any
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from assaywatch.schema import Chemistry
 from assaywatch.score import (
@@ -87,7 +87,7 @@ from assaywatch.score import (
 from assaywatch.settings import validated
 from assaywatch.validate import iter_files, load_assay
 
-REPO = Path(__file__).resolve().parents[1]
+REPO = Path(__file__).resolve().parents[2]
 
 # Scoring keys a replay may change, because every input they read is in the row.
 REPLAYABLE_KEYS = frozenset(
@@ -537,7 +537,7 @@ def run_panels(manifest: Path, cfg_path: Path, cache: Path) -> list[dict[str, An
         proc = subprocess.run(
             [
                 sys.executable,
-                str(REPO / "scripts" / "bench_panel.py"),
+                str(REPO / "scripts" / "archive" / "bench_panel.py"),
                 "--panel",
                 str(panel),
                 "--assay",

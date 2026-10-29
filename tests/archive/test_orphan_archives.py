@@ -13,8 +13,8 @@ from pathlib import Path
 import pytest
 import yaml
 
-ROOT = Path(__file__).resolve().parents[1]
-_spec = importlib.util.spec_from_file_location("orph", ROOT / "scripts" / "orphan_archives.py")
+ROOT = Path(__file__).resolve().parents[2]
+_spec = importlib.util.spec_from_file_location("orph", ROOT / "scripts" / "archive" / "orphan_archives.py")
 orph = importlib.util.module_from_spec(_spec)
 sys.modules["orph"] = orph
 _spec.loader.exec_module(orph)

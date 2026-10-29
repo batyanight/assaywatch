@@ -74,6 +74,7 @@ ignore = ["ANN401"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+norecursedirs = ["archive", "fixtures", ".*"]   # tests/archive/: the archived scripts' tests, kept, not run
 # Three tiers. `pytest -m fast` is the write-test-run loop (pure functions on the tiny
 # fixtures, seconds). Plain `pytest` runs everything except `slow`. `pytest -m slow`
 # runs the Snakemake dry-run tests, which CI runs as its own job; a command-line -m
