@@ -20,13 +20,16 @@ items were already done). Then the maintainer batched the four calls that had be
 
 ## Next, in order
 
-1. `drift.window_on` step 1, interface approved 2026-10-30: `collected` column in the asm
-   metadata, `drift.window_on: deposit | collection`, one `record_date()` with counted
-   fallbacks, report says per assay how many records it applied to.
-2. The 93 `use` rows that did not reach CONFIRMED: 58 rows over 13 papers print an oligo
-   table and still missed (scratch worksheet from `docs/2026-10-29-use-identity.tsv`).
-3. Per-year share over distinct footprints beside the per-record share.
-4. Design the drift-mechanism case hunt before building anything.
+Designed the same evening, one question at a time (`docs/journal/2026-10-30-design-grilled.md`):
+
+1. The **collection-year lens**: one report-wide section for asm assays (deposit-clock share,
+   collection-year share, gap, coverage of the lens). Not a switch; no status can move.
+2. A **second trend over distinct footprints**, printed beside the by-record one.
+3. The **redesign-paper phrase family** in `find_retrospective_cases.py`, pre-registered, with
+   the strict bar for `mechanism: drift`.
+4. A **scope per row** in the cases files and the per-lineage lookup in `retrospective.py`.
+5. The 93 `use` rows that did not reach CONFIRMED: 58 rows over 13 papers print an oligo
+   table and still missed.
 
 ## Still yours
 
