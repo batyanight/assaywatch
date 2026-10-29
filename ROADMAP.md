@@ -507,24 +507,41 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
       ruff `ANN` is on for `assaywatch/` only; `ANN401` (explicit `Any`) is ignored on
       purpose. Scripts and tests stay exempt until step 5f.
 
-- [ ] **5. Deep modules and the CLI.** Signatures are proposed to the owner before any
-      internals are written; each module is written test-first on the fixtures.
-  - [ ] 5a `registry.py`: load, find, atomically write entries (absorbs `atomic.py`,
-        `groups.py`, `loci.py`). Replaces the 14 scripts that glob `registry/` and
-        the 18 that `yaml.safe_load` it themselves.
-  - [ ] 5b `cli.py` + `assaywatch` console script; Snakefile, CI, README, CLAUDE.md
-        move to the subcommand spelling.
-  - [ ] 5c `ncbi.py` as decided above; `retrieve.py` and `assemblies.py` become
-        stage logic on top; `taxonomy.py`, `accession.py`, the transport half of
-        `credentials.py`, and the two `fetch_taxa` copies fold in.
-  - [ ] 5d `papers.py` absorbs the Europe PMC, Elsevier, Unpaywall and Crossref
-        fetching spread over six scripts, plus the duplicated `pmcid_for`, `doi_of`,
-        `paper_text`, `registry_dois`.
-  - [ ] 5e `curate.py` as decided above, with `CONTRIBUTING.md` and
-        `pending/README.md` rewritten around it.
+- [ ] **5. Deep modules and the CLI.** 5a-5e done 2026-10-29, one PR each, every one
+      green on pytest (default and slow), the validator, ruff and check_citations.
+      Interfaces are at the top of each PR and in each module docstring.
+  - [x] 5a `registry.py` (PR `registry`): files / load_one / load / not_live_because /
+        write / edit / archive_dir, RegistryError listing every bad file. edit() keeps
+        comments, key order and quoting (ruamel.yaml round-trip; PyYAML reads) and
+        validates before writing. atomic.py and groups.py are re-exports; pair_spans
+        moved to match.py (not registry: it is amplicon geometry). 19 tests on a
+        three-entry fixture.
+  - [x] 5b `cli.py` (PR `cli`): `assaywatch <stage>`; each stage keeps its own
+        parser; `python -m assaywatch <stage>` and the old `python -m assaywatch.<stage>`
+        both still work. 42 call sites moved to the new spelling; the trigger test's rule
+        accounting reads it.
+  - [x] 5c `ncbi.py` (PR `ncbi`): eutils / datasets transports with injectable HTTP and
+        sleep, TaxonRecord and the parsers, taxids_of_uids, taxids_named, the tree
+        builder, and the reader/writer of the two JSON caches (two files, one writer).
+        Found: a key handed to a transport was never scrubbed from errors. The
+        taxa-name READER stays in lineage.py: importing ncbi there put credentials.py
+        into every report rerun, which the trigger test caught.
+  - [x] 5d `papers.py` (PR `papers`): Crossref + citation_matches + citation_problems,
+        unpaywall / openalex / pmcid_for, europepmc_fulltext with tables legible,
+        elsevier_pdf, store, queue_for_human, and obtain(doi) = the chain. Every
+        network call takes a Get; 17 tests.
+  - [x] 5e `curate.py` (PR `curate`, built on the four above): the chain of eight steps,
+        write-through for doi_verified / target.taxid / unset amplicon_bp, TODO for
+        judgement, status never touched. printed.py holds the paper-text functions the
+        verifier script now imports. CONTRIBUTING and pending/README rewritten.
   - [ ] 5f Migrate the live scripts onto the modules in batches of five, suite green
         between batches; then move the rest to `scripts/archive/` with a one-line
         index naming the finding each one produced and where it is recorded.
+        WAITS for the owner's OK (decided 2026-10-29). Candidates by module:
+        registry: 14 globbers + 18 safe_load callers; ncbi: build_taxonomy_cache,
+        check_taxids, backfill_taxids, assay_sheet, check_submission; papers:
+        fetch_europepmc_fulltext, fetch_elsevier, find_open_access,
+        import_pmc_fulltext, papers_index, resolve_citations, check_citations.
   - [ ] 5g Verify, then maybe: `report.py` `markdown_from` and `html_from` (~290 lines
         each) over the same model; if they walk the same sections, render once to a
         section list and keep two serialisers. The package is NOT reorganised into
