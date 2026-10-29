@@ -23,10 +23,12 @@ import glob
 import gzip
 import statistics
 import sys
+from pathlib import Path
 
 import yaml
 
-root = "/Users/batya/assaywatch"
+# The repo root, from this file's own location, so the script runs from any checkout.
+root = str(Path(__file__).resolve().parent.parent)
 
 decl = {}
 for f in glob.glob(root + "/registry/*.yaml"):

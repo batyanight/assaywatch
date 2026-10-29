@@ -36,7 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from assaywatch.accession import strip_version
 
-root = "/Users/batya/assaywatch"
+root = str(Path(__file__).resolve().parent.parent)
 
 
 def rc(s):
