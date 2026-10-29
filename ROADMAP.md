@@ -41,7 +41,7 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 - **Everything the fetch list was waiting for is in** (2026-10-28), and the two Priority 1
   decisions of 2026-10-27 are taken and recorded in `## Done`.
 
-## Shipped today, and what it still owes
+## S3b, shipped 2026-10-27, and what it still owes
 
 - **S3b is live: `by_chemistry.conventional.primer_3prime_penalty: 2.0`** (2026-10-27).
   `strategies/s3b-conventional-3prime-penalty.yaml` drops `primer_3prime_penalty`
@@ -64,12 +64,10 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
   **What it still owes, now that it is live:**
 
-  - **The next full pipeline run has not happened yet.** Every number in the
-    committed report predates this change, and the scoring config is part of the
-    cache key, so the next `snakemake` rescreens. Expect the 13 statuses the probe
-    switch moved and whatever S3b moves on top; the two verdicts measured here are
-    `Pan_flavivirus_NS5_3_round2` (a false alarm dropped) and the Forslund FAP case
-    (`low coverage` -> `declining`).
+  - ~~The next full pipeline run has not happened yet~~ — it ran the same night
+    (`results/2026-10-27/`, committed as `docs/example-run-2026-10-27/`; see Operations).
+    16 statuses moved, the probe switch's and S3b's among them. Closed 2026-10-30, when the
+    roadmap was reconciled against the repo.
   - ~~78 small movers were never rescreened~~ — the 2026-10-27 run rescreened
     everything, and the replay agrees with it on all but 8 of 2,679,894 shared rows
     (6 `fail` -> `no_amplicon`, 2 `fail` -> `reduced`, none on a tier-2 case). Closed.
@@ -354,8 +352,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   **`orientation_inferred` is measured** (2026-10-27, `scripts/check_orientation.py`):
   the archive yields products under the stored orientation for 26 of the 28, from 20 to
   16,410 per entry, and for none does it yield zero; the two Sunshinevirus pairs yield 2
-  each on 8 records. The flag records provenance and stays; what is owed is a `note`
-  on each of the 26 carrying its number — 26 registry edits, after the live run.
+  each on 8 records. The flag records provenance and stays. ~~What is owed is a `note` on
+  each of the 26 carrying its number~~ — all 28 carry one ("the archive yields N products
+  and M none under this orientation (2026-10-27 run)"); verified 2026-10-30.
   `pairing_is_curator_reading` needs the paper's protocol text, one read each.
   The 20 `in-text` oligos are enumerated in `docs/2026-10-27-in-text-oligos.tsv`.
 - **10 entries sit in `pending/`, every one of them for want of a verifiable DOI.**
@@ -391,13 +390,11 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   values a paper states once, and a reader's pass over all 64 papers the first refused.
   What remains:
 
-  - **Three entries carry a value that is now disbelieved and cannot be replaced by the
-    tool**, because `extract_conditions.py` only adds and fixes and these need a
-    DELETION: `CMV_UL55_gB_Deckers_2009`'s `mg_mm` and the three Sigrist
-    `ORTHOBORNAVIRUS_XP_*` entries' `mg_mm` came from the conventional arm of a paper
-    whose probe assay is the registry entry, and `LEPTOSPIROSIS_Flagillar_filiment_Prote`'s
-    `annealing_c` is one of three programmes in a MassTag paper and cannot be attributed
-    to the flaB assay. A hand edit each.
+  - ~~Three entries carry a value that is now disbelieved~~ — done 2026-10-28, each a
+    hand deletion with a `CONDITIONS CORRECTED` note: `CMV_UL55_gB_Deckers_2009` and the
+    three Sigrist `ORTHOBORNAVIRUS_XP_*` entries lose the conventional arm's `mg_mm`;
+    `LEPTOSPIROSIS_Flagillar_filiment_Prote` loses an `annealing_c` that no sentence
+    attributes to the flaB pair. Verified against the files 2026-10-30.
   - **The remaining rows in `docs/2026-10-27-conditions-proposals.tsv`**: the LoDs and
     master mixes, which are quoted prose rather than numbers, and the oligo
     concentrations, where only a reader can say whether a number is a stock or a final
@@ -416,14 +413,6 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   bacterial and parasitic targets especially. Sequences only from a source that
   can be read and cited, never transcribed from a secondary list.
 
-- **18 entries carry a taxid NCBI has merged away**, found 2026-10-27 by the new
-  containment check: 11232 → 3052342 (9 CDV entries), 121791 → 3052225 (2 Nipah),
-  11051 → 3044782 (3 flavivirus), 10292 → 3044472 (4 herpesvirus). Retrieval still
-  resolves a merged id, which is why nothing noticed, and an entry on a retired id is
-  one taxonomy release from an empty archive. **The fix has a cost**: `data/retrieved/`
-  is keyed by taxid, so changing `target.taxid` moves the group and re-fetches it. Do
-  it as its own live run with a `report_diff` behind it.
-  `docs/journal/2026-10-27-taxid-containment-and-merged-roots.md`.
 - **Four leftovers from the oligo adjudication** (`docs/journal/2026-10-23-oligo-adjudication.md`),
   none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
   paper but in no listed oligo and may have been found inside a printed target
@@ -477,11 +466,11 @@ Decisions:
 
 Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first):
 
-- [ ] **1. Glossary.** `GLOSSARY.md` drafted 2026-10-29 (98 terms). The 7 the scan
+- [x] **1. Glossary.** `GLOSSARY.md` drafted 2026-10-29 (98 terms). The 7 the scan
       could not define (tier-2, ground truth, evaluable vs assessable, undecided,
       C-numbers vs S-ladder, the retrospective families, lineage Modes A/B/C) were
-      resolved from the repo the same day, each with its source cited. Left to do:
-      commit on branch `glossary` with the `CLAUDE.md` pointer.
+      resolved from the repo the same day, each with its source cited. Committed on
+      branch `glossary` (3928be8) and merged; `CLAUDE.md` points at it. Ticked 2026-10-30.
 - [x] **2. Reproducibility** (2026-10-29, PR `reproducibility`). Two scripts no longer
       hardcode `/Users/batya/assaywatch`. Of the four constants the plan named, only two
       moved to config: `THREE_PRIME_ZONE` was a second copy of
@@ -507,7 +496,7 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
       ruff `ANN` is on for `assaywatch/` only; `ANN401` (explicit `Any`) is ignored on
       purpose. Scripts and tests stay exempt until step 5f.
 
-- [ ] **5. Deep modules and the CLI.** 5a-5e done 2026-10-29, one PR each, every one
+- [x] **5. Deep modules and the CLI.** 5a-5g done 2026-10-29 (5g by deciding not to), one PR each, every one
       green on pytest (default and slow), the validator, ruff and check_citations.
       Interfaces are at the top of each PR and in each module docstring.
   - [x] 5a `registry.py` (PR `registry`): files / load_one / load / not_live_because /
@@ -669,6 +658,14 @@ points of detected share.
       typos, which makes the script a registry QA tool
 
 ## Phase 2, the parts that are closed
+- [x] **18 entries on a retired taxid now carry the canonical id** (2026-10-27,
+      `docs/journal/2026-10-27-retired-taxids.md`; found by the containment check in
+      `docs/journal/2026-10-27-taxid-containment-and-merged-roots.md`). 11232 → 3052342
+      (9 CDV), 121791 → 3052225 (2 Nipah), 11051 → 3044782 (3 flavivirus), 10292 → 3044472
+      (4 herpesvirus). `data/retrieved/` was moved under the new ids and the manifest
+      rebuilt in the same commit, so nothing re-fetched; each entry carries a `TAXID
+      RETIRED` note. `check_taxids.py` reports 0 merged roots since (2026-10-28). The
+      roadmap line for this stayed open until 2026-10-30, three days after the work.
 - [x] **Per-lineage per-year rows, and the influenza verdict decomposed** (2026-10-28,
       `docs/journal/2026-10-28-influenza-decomposed.md`). `lineage.md` carries a per-year
       block under each lineage below the threshold — 252 blocks, 3,652 rows, grouped by the

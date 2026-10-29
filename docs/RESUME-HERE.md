@@ -1,3 +1,19 @@
+# Resume point, 2026-10-30 (the roadmap reconciled; nothing else changed)
+
+**Start here:** `ROADMAP.md`. Six open items were already done and are now closed by
+pointer (`docs/journal/2026-10-30-roadmap-reconciled.md`). `rg -n '^\- \[ \]' ROADMAP.md`
+returns nothing: every remaining item is prose under its section, and each is either a
+maintainer's call or build work in the order below.
+
+## Next, in order
+
+1. **Maintainer's sitting**: S7b ship or hold; the eleven proposed held-out rows (Hellgren
+   `fails` first); Quackenbush 1998; Reid 1999 to `active`?; repo public?
+2. `drift.window_on` step 1, interface proposed before code.
+3. The 93 `use` rows that did not reach CONFIRMED.
+4. Trend over distinct footprints.
+5. Design the drift-mechanism case hunt before building anything.
+
 # Resume point, 2026-10-29 (evening: the architecture day; everything merged)
 
 **Start here:** `ROADMAP.md` "Architecture" (every step ticked, decisions recorded), then
