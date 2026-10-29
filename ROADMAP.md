@@ -482,23 +482,31 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
       C-numbers vs S-ladder, the retrospective families, lineage Modes A/B/C) were
       resolved from the repo the same day, each with its source cited. Left to do:
       commit on branch `glossary` with the `CLAUDE.md` pointer.
-- [ ] **2. Reproducibility.** Branch `reproducibility`. Resolve the repo root from the
-      file's own location in `scripts/measure_locus_identity.py` and
-      `scripts/measure_amplicon_lengths.py`. Move `LEAD_MIN_SHARE` and
-      `THREE_PRIME_ZONE` (sitedrift), `MIN_RESOLVED_SHARE` (lineage_report) and
-      `TRIM_BP` (locus_identity) into `config.yaml` with their justification; schema
-      limits (`PROBE_MIN` etc.) stay in code because they are validation, not scoring.
-      Rename `scripts/master_sheet.py` → `assay_sheet.py` and
-      `docs/assay-master-sheet.{md,tsv}` → `assay-sheet.*`; `Conditions.master_mix`
-      keeps its name because it is the reagent's. Move the top-level `snakemake*.txt`
-      logs under `results/logs/`.
-- [ ] **3. Test tiers.** Branch `test-tiers`. Register `fast` and `slow` markers in
-      `pyproject.toml`; mark `tests/test_triggers.py` slow; default `addopts` excludes
-      slow; CI's trigger job runs `-m slow`. Profile the remaining ~90 s and report
-      before changing any test; target under 60 s. Build the `fast` tier from the
-      pure-function tests (iupac, match, score, chance, interval, windows, degeneracy).
-- [ ] **4. Hints enforced.** Branch `type-hints`. Add ruff `ANN` for `assaywatch/`
-      only; fix the 11 unannotated defs. Scripts and tests stay exempt until step 5.
+- [x] **2. Reproducibility** (2026-10-29, PR `reproducibility`). Two scripts no longer
+      hardcode `/Users/batya/assaywatch`. Of the four constants the plan named, only two
+      moved to config: `THREE_PRIME_ZONE` was a second copy of
+      `scoring.primer_3prime_window` (both 5), so the site table's 3' marker could have
+      drifted from the scorer; it now reads that key and travels on the data
+      (`PositionStat.three_prime_zone`). `LEAD_MIN_SHARE` and `MIN_RESOLVED_SHARE` became
+      `sitedrift.lead_min_share` and `lineage.min_resolved_share`. `TRIM_BP` was already
+      `scoring.locus_identity_trim_bp`; the settings default now reads the one constant.
+      `scripts/master_sheet.py` is `assay_sheet.py` and the docs are `docs/assay-sheet.*`
+      (journals and `RESUME-HERE.md` keep the old name as history). Run logs moved to
+      `results/logs/` (gitignored).
+
+- [x] **3. Test tiers** (2026-10-29, PR `test-tiers`). Default `pytest` 168 s → 43 s;
+      `pytest -m fast` is 235 tests in 5 s. Two causes: the 12 Snakemake dry-run tests are
+      now `slow` (CI's snakemake job runs `-m slow`; the other trigger tests stay in the
+      default run), and `validate.load_assay` was re-parsing 214 YAMLs for every caller
+      (a retrospective test paid 2 s each, 15 s in all), so it caches by path, size and
+      mtime and hands out deep copies. The fast tier is one list in `tests/conftest.py`.
+      The remaining 43 s is spread thinly: the next-largest costs are `test_match`'s
+      brute-force comparison (2.5 s) and `test_score`'s screen runs (about 5 s).
+
+- [x] **4. Hints enforced** (2026-10-29, PR `type-hints`). 29 functions annotated and
+      ruff `ANN` is on for `assaywatch/` only; `ANN401` (explicit `Any`) is ignored on
+      purpose. Scripts and tests stay exempt until step 5f.
+
 - [ ] **5. Deep modules and the CLI.** Signatures are proposed to the owner before any
       internals are written; each module is written test-first on the fixtures.
   - [ ] 5a `registry.py`: load, find, atomically write entries (absorbs `atomic.py`,
