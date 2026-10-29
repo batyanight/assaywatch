@@ -30,13 +30,29 @@ from assaywatch.schema import Assay
 
 
 def load_assay(path: Path) -> Assay:
-    data = yaml.safe_load(path.read_text())
-    if not isinstance(data, dict):
-        raise ValueError("top level is not a mapping")
-    assay = Assay.model_validate(data)
-    if assay.id != path.stem:
-        raise ValueError(f"id '{assay.id}' does not match file name '{path.stem}'")
-    return assay
+    """Parse and validate one assay file.
+
+    Parsing 214 YAMLs with PyYAML costs about two seconds and a single process asks for
+    the same files several times (a report, a retrospective run and the tests each load
+    the registry more than once). The parsed Assay is cached per (path, size, mtime), so
+    an edited file is always re-read, and every caller gets its own deep copy: nobody
+    can mutate another caller's assay through the cache.
+    """
+    st = path.stat()
+    key = (str(path), st.st_size, st.st_mtime_ns)
+    cached = _ASSAY_CACHE.get(key)
+    if cached is None:
+        data = yaml.safe_load(path.read_text())
+        if not isinstance(data, dict):
+            raise ValueError("top level is not a mapping")
+        cached = Assay.model_validate(data)
+        if cached.id != path.stem:
+            raise ValueError(f"id '{cached.id}' does not match file name '{path.stem}'")
+        _ASSAY_CACHE[key] = cached
+    return cached.model_copy(deep=True)
+
+
+_ASSAY_CACHE: dict[tuple[str, int, int], Assay] = {}
 
 
 def not_live_because(assay: Assay) -> str | None:

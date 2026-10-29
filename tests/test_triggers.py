@@ -431,6 +431,7 @@ def _edited(tree: Path, relative: str, new_text):
         "degeneracy config",
     ],
 )
+@pytest.mark.slow
 def test_an_edit_reruns_exactly_the_rules_that_depend_on_it(tree, relative, edit, expected):
     restore = _edited(tree, relative, edit)
     try:
@@ -440,6 +441,7 @@ def test_an_edit_reruns_exactly_the_rules_that_depend_on_it(tree, relative, edit
     assert not _planned(_snakemake(tree, "-n")), "restoring the file should leave nothing to do"
 
 
+@pytest.mark.slow
 def test_editing_an_assay_nothing_screens_still_refreshes_the_degeneracy_table_and_report(tree):
     """degeneracy.tsv and the report read every assay, and neither names the
     registry as an input. Before they hashed it, only an added or removed file
@@ -472,6 +474,7 @@ def test_the_retrieve_rule_hashes_the_settings_a_genome_is_cut_with():
     assert "from assaywatch.assemblies import cut_parameters" in SNAKEFILE
 
 
+@pytest.mark.slow
 def test_the_snakefile_refuses_to_run_without_a_contact_address(tree):
     """No `--config email=` and no address on disk: refuse, do not invent one.
 
@@ -506,6 +509,7 @@ def test_the_snakefile_refuses_to_run_without_a_contact_address(tree):
     assert "--email None" not in out
 
 
+@pytest.mark.slow
 def test_the_snakefile_accepts_an_address_from_the_environment(tree):
     """The documented fallback has to work, or the check above just blocks every run."""
     pytest.importorskip("snakemake")
