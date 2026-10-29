@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """One row per assay: paper, target, scope, parameters, and how well each is verified.
 
-    python scripts/master_sheet.py
-    python scripts/master_sheet.py --refresh-taxa    # re-fetch names from NCBI
+    python scripts/assay_sheet.py
+    python scripts/assay_sheet.py --refresh-taxa    # re-fetch names from NCBI
 
-Writes `docs/assay-master-sheet.tsv` (the sheet) and `docs/assay-master-sheet.md`
+Writes `docs/assay-sheet.tsv` (the sheet) and `docs/assay-sheet.md`
 (a readable summary). Everything is pulled from a source of record:
 
     registry/*.yaml                         ids, oligos, scope, parameters
@@ -168,8 +168,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument(
         "--verification", type=Path, default=ROOT / "results" / "oligo-verification-2026-10-05.tsv"
     )
-    ap.add_argument("--out", type=Path, default=ROOT / "docs" / "assay-master-sheet.tsv")
-    ap.add_argument("--md", type=Path, default=ROOT / "docs" / "assay-master-sheet.md")
+    ap.add_argument("--out", type=Path, default=ROOT / "docs" / "assay-sheet.tsv")
+    ap.add_argument("--md", type=Path, default=ROOT / "docs" / "assay-sheet.md")
     ap.add_argument("--email", default=None)
     ap.add_argument("--refresh-taxa", action="store_true")
     args = ap.parse_args(argv)
@@ -283,15 +283,15 @@ def main(argv: list[str] | None = None) -> int:
     n_flag = sum(1 for r in rows if r["review_flags"])
     n_open = sum(1 for r in rows if r["review_open"])
     md = [
-        "# Assay master sheet",
+        "# Assay sheet",
         "",
-        f"`assay-master-sheet.tsv` has one row per assay, {len(rows)} rows and {len(COLS)} columns. "
+        f"`assay-sheet.tsv` has one row per assay, {len(rows)} rows and {len(COLS)} columns. "
         "Open it in a spreadsheet; this page is the key and the caveats.",
         "",
         "Regenerate after any registry change:",
         "",
         "```bash",
-        "python scripts/master_sheet.py",
+        "python scripts/assay_sheet.py",
         "```",
         "",
         "## Where each column comes from",

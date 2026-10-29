@@ -75,9 +75,9 @@ def test_a_cache_file_has_one_format_and_one_writer():
 
     `docs/taxa-cache.json` is the lineage analysis's taxid -> name mapping, read
     by `lineage.load_taxa_cache` out of a `taxa` sub-object and named in
-    config.yaml. `scripts/master_sheet.py` keyed a full NCBI record by taxid
+    config.yaml. `scripts/assay_sheet.py` keyed a full NCBI record by taxid
     string in the same file, so whichever ran last won: commit 780df17 wrote the
-    lineage stub over 247 records, and the next master_sheet run would have
+    lineage stub over 247 records, and the next assay_sheet run would have
     written them back over the stub. They are separate files from 2026-10-21.
 
     The check is on the shapes rather than the paths, because renaming either
@@ -87,18 +87,18 @@ def test_a_cache_file_has_one_format_and_one_writer():
     lineage_cache = json.loads((ROOT / lineage_path).read_text())
     assert set(lineage_cache) == {"description", "taxa"}, (
         f"{lineage_path} holds something other than the lineage mapping; "
-        "another writer has claimed it (see scripts/master_sheet.py --taxa-cache)"
+        "another writer has claimed it (see scripts/assay_sheet.py --taxa-cache)"
     )
     assert all(k.isdigit() for k in lineage_cache["taxa"])
 
-    # The path master_sheet.py writes, read off its argparse default rather than
+    # The path assay_sheet.py writes, read off its argparse default rather than
     # searched for: that file names docs/taxa-cache.json in a comment saying not
     # to use it, and a substring search would read the warning as the bug.
-    src = (ROOT / "scripts" / "master_sheet.py").read_text()
+    src = (ROOT / "scripts" / "assay_sheet.py").read_text()
     default = re.search(r'add_argument\(\s*"--taxa-cache".*?default=([^)]*\))', src, re.S)
-    assert default, "could not find master_sheet.py's --taxa-cache default"
+    assert default, "could not find assay_sheet.py's --taxa-cache default"
     assert "taxa-cache.json" not in default.group(1), (
-        f"master_sheet.py defaults to {lineage_path}, which the lineage analysis owns"
+        f"assay_sheet.py defaults to {lineage_path}, which the lineage analysis owns"
     )
 
 
