@@ -1,6 +1,9 @@
 name: validate
+# Push to main and pull requests only: `push:` alone ran every PR branch twice
+# (once as a push, once as a PR), which is minutes the free tier does not have.
 on:
   push:
+    branches: [main]
   pull_request:
 jobs:
   test:
@@ -12,7 +15,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        # macOS was dropped on 2026-10-29: a macOS minute costs ten of the free tier's
+        # 2,000 a month, and the matrix had used the month up by the 29th. The primary
+        # development machine IS macOS arm64, and every commit runs the full gate on it
+        # locally before it is pushed, so the platform is covered where it matters.
+        os: [ubuntu-latest]
         python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
