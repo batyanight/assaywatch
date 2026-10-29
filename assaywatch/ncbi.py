@@ -314,6 +314,17 @@ def taxids_of_uids(uids: Iterable[str], transport: Transport, batch: int = 500) 
     return out
 
 
+def taxids_named(name: str, transport: Transport) -> list[int]:
+    """Taxids whose name matches `name` in NCBI Taxonomy (esearch). One hit is an
+    answer; zero or several are a question for the curator."""
+    body = transport("esearch", {"db": "taxonomy", "term": name, "retmode": "json"})
+    try:
+        ids = json.loads(body)["esearchresult"].get("idlist", [])
+    except (json.JSONDecodeError, KeyError, TypeError):
+        return []
+    return [int(i) for i in ids if str(i).isdigit()]
+
+
 # --- the parent tree the scope test reads -----------------------------------------
 
 

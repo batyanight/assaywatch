@@ -222,3 +222,37 @@ def group_slug(assay_query: str | None) -> str:
 def archive_dir(assay: Assay, retrieved: Path) -> Path:
     """`data/retrieved/<taxid>/<slug>/`: where this assay's sequence archives sit."""
     return Path(retrieved) / str(assay.target.taxid) / group_slug(assay.target.query)
+
+
+# --- duplicate keys -------------------------------------------------------------
+# PyYAML keeps the LAST of two equal keys and says nothing, which twice made the
+# validator, the screen and the report all look at a subset of an entry. The
+# pre-commit hook and `curate` both ask this.
+
+
+class _DupeFinder(yaml.SafeLoader):
+    def __init__(self, stream: str) -> None:
+        super().__init__(stream)
+        self.duplicates: list[tuple[str, int]] = []
+
+    def construct_mapping(self, node: yaml.MappingNode, deep: bool = False) -> dict[Any, Any]:
+        seen: set[object] = set()
+        for key_node, _ in node.value:
+            key = self.construct_object(key_node, deep=deep)
+            if key in seen:
+                self.duplicates.append((str(key), key_node.start_mark.line + 1))
+            seen.add(key)
+        return super().construct_mapping(node, deep=deep)
+
+
+_DupeFinder.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _DupeFinder.construct_mapping)
+
+
+def duplicate_keys(text: str) -> list[tuple[str, int]]:
+    """[(key, line)] for every mapping key given twice in one YAML document."""
+    loader = _DupeFinder(text)
+    try:
+        loader.get_single_data()
+        return loader.duplicates
+    finally:
+        loader.dispose()

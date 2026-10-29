@@ -131,14 +131,27 @@ Three fields deserve care:
 ## 2. Check it
 
 ```bash
-python scripts/check_submission.py registry/YOUR_ASSAY.yaml --email you@example.org
+assaywatch curate registry/YOUR_ASSAY.yaml --email you@example.org
 ```
 
-This runs, in increasing cost: schema and oligo validity; a scan for restriction
-sites sitting at an oligo's 5' end; the degeneracy of the primer pool; whether
-the DOI resolves to the paper the entry names; whether the taxid still means
-what the entry says; and then the decisive one — whether the oligos actually
-find their amplicon in real records for that target.
+One command runs the whole chain and prints one line per step: schema and oligo
+validity, with a scan for restriction sites at an oligo's 5' end and the
+degeneracy of the pool; no YAML key given twice; whether the DOI resolves at
+Crossref to the paper the reference names; whether the taxid still means what the
+entry says; the cited paper itself, fetched into `papers/` when an open copy
+exists (Europe PMC, Unpaywall, OpenAlex, Elsevier with a key) and otherwise
+queued on `papers/papers-fetch-list.md` for a human; every stored oligo against
+what that paper prints; the amplicon measured over the local archive; and then
+the decisive one — whether the oligos actually find their amplicon in real
+records for that target.
+
+It is write-through. What can be resolved or measured is written into the entry
+and reported as `WROTE`: `citation.doi_verified: true` when Crossref agrees with
+the reference, `target.taxid` when the taxon name gives exactly one NCBI hit, and
+`amplicon_bp` when it was unset. What needs judgement is reported as `TODO` and
+left alone: a stored amplicon size the archive disagrees with, an oligo the paper
+does not print, a paper nobody can fetch. `status` is never touched. `--dry-run`
+reports the writes without making them; `--offline` skips the network steps.
 
 That last check is the one that matters. **An assay whose primers match nothing
 in their own target taxon is far more likely to be mistyped than to be a
@@ -238,9 +251,8 @@ resolve the id.
 
 ## Reviewing a submission
 
-Maintainers: run `scripts/check_submission.py` on the entry, then
-`scripts/check_taxids.py` and `scripts/resolve_citations.py` over the registry,
-and screen the assay's group before merging. If the assay's performance has been
+Maintainers: run `assaywatch curate` on the entry and clear its "Left for a
+human" list, then screen the assay's group before merging. If the assay's performance has been
 reported anywhere in the literature, add a row to `docs/validation-cases.tsv` —
 that file is the only thing calibrating the thresholds in `config.yaml`, and it
 is dated to the latest sequence each cited paper could have seen so that the

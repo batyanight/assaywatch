@@ -82,6 +82,8 @@ assaywatch/      the package
   schema.py        pydantic models = the registry schema
   registry.py      the one door to the entries: load / load_one / write / edit (comment-preserving) / archive_dir
   validate.py      `assaywatch validate registry`; its loaders are registry.py's
+  curate.py        `assaywatch curate <entry>`: the curation chain, write-through, stopping where judgement is needed
+  printed.py       what a paper prints, and whether a stored oligo is in it (exact / revcomp / in-text / near / absent)
   iupac.py         degenerate-base helpers, inosine, three-state comparison
   degeneracy.py    primer-pool accounting; `assaywatch degeneracy registry`
   match.py         exhaustive search for oligo binding sites, both strands

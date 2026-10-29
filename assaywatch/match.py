@@ -59,6 +59,8 @@ interface; `find_sites` returning a list of `Site` is the contract.
 
 from __future__ import annotations
 
+from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from functools import cache
 from typing import Any
@@ -357,3 +359,58 @@ def pair_spans(
                     if e <= max_e:
                         spans.append((lo, hi))
     return spans
+
+
+def modal_amplicon(
+    records: Iterable[tuple[str, str]],
+    fwd: str,
+    rev: str,
+    *,
+    max_mm: int = 3,
+    max_len: int = 4000,
+    limit: int | None = None,
+) -> tuple[int, int, Counter[int]]:
+    """(records seen, records with a product, Counter of product lengths) for one pair.
+
+    The measurement behind `amplicon_bp`: in each record the best product is the
+    facing pair of sites with the fewest mismatches, then the shortest. A record seen
+    twice (a revision in a later archive) is measured once. Moved here from
+    scripts/check_amplicons.py so `curate` and the audit measure the same way.
+    """
+    lengths: Counter[int] = Counter()
+    n_records = n_products = 0
+    seen: set[str] = set()
+    for rid, seq in records:
+        acc = rid.split()[0].rpartition(".")[0] or rid.split()[0]
+        if acc in seen:
+            continue
+        seen.add(acc)
+        if limit and n_records >= limit:
+            break
+        n_records += 1
+        seq = seq.upper()
+        f_sites = find_sites(fwd, seq, max_mm)
+        if not f_sites:
+            continue
+        r_sites = find_sites(rev, seq, max_mm)
+        if not r_sites:
+            continue
+        best = None
+        for f in f_sites:
+            for r in r_sites:
+                if f.strand == r.strand:
+                    continue
+                if f.strand == "+" and not f.start < r.start:
+                    continue
+                if f.strand == "-" and not r.start < f.start:
+                    continue
+                length = max(f.end, r.end) - min(f.start, r.start)
+                if not 20 <= length <= max_len:
+                    continue
+                key = (f.n_mismatches + r.n_mismatches, length)
+                if best is None or key < best:
+                    best = key
+        if best:
+            n_products += 1
+            lengths[best[1]] += 1
+    return n_records, n_products, lengths

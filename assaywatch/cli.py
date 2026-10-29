@@ -19,6 +19,10 @@ import sys
 #: stage name -> (module, one line of help). Order is the pipeline's.
 STAGES: dict[str, tuple[str, str]] = {
     "validate": ("assaywatch.validate", "check every entry against the schema and the live rule"),
+    "curate": (
+        "assaywatch.curate",
+        "run the curation chain on an entry: verify, measure, fill in, list what is left",
+    ),
     "credentials": (
         "assaywatch.credentials",
         "find the NCBI key and, with --check, ask NCBI whether it works",

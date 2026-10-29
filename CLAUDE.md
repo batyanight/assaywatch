@@ -29,6 +29,7 @@ that need a human and a proxy rather than a list of work.
 
 ## Commands
     conda activate assaywatch                      # environment.yml; package installed editable
+    assaywatch curate registry/ENTRY.yaml --email you@example.org   # the curation chain on one entry; --dry-run, --offline
     pytest -m fast                                 # pure functions on the fixtures, ~5 s: the write-test-run loop
     pytest -q && assaywatch validate registry   # everything except `slow`, ~45 s
     pytest -m slow                                 # the Snakemake dry-run tests (~80 s); CI runs them as their own job
@@ -77,7 +78,8 @@ on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
   primers sit. The paper still says whether the length *varies*, which is what
   calls for `amplicon_bp_range`. Reasoning in `config.yaml` under `amplicon:`.
 - No citation from memory. A DOI is entered with `doi_verified: false` and only
-  `scripts/resolve_citations.py` + `scripts/check_citations.py` may approve it.
+  Crossref, through `assaywatch curate` (or `scripts/resolve_citations.py`) and
+  checked by `scripts/check_citations.py`, may approve it.
   If Crossref is unreachable, the entry waits.
 - No scoring numbers in code. Thresholds live in `config.yaml`, with their
   justification (or the admission there is none) in comments.
