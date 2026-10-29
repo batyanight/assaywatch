@@ -87,7 +87,7 @@ RUN=("$CONDA" run --no-capture-output -n assaywatch)
       exit 1
     fi
   fi
-  "${RUN[@]}" python -m assaywatch.credentials
+  "${RUN[@]}" assaywatch credentials
 
   # `caffeinate -i` asserts PreventUserIdleSystemSleep, which does NOT stop
   # clamshell sleep: a 2026-10-22 run spent 1h31m of 1h47m asleep with the lid

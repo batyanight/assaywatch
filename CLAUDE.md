@@ -25,11 +25,11 @@ that need a human and a proxy rather than a list of work.
   primer list the registry was started from, or any lab, as a source.
 - Live = in `registry/`, and only with `citation.doi_verified: true` (the validator
   and Snakefile both refuse anything else). Entries waiting for a paper sit in
-  `pending/`; `python -m assaywatch.validate pending --pending` checks them.
+  `pending/`; `assaywatch validate pending --pending` checks them.
 
 ## Commands
     conda activate assaywatch                      # environment.yml; package installed editable
-    pytest -q && python -m assaywatch.validate registry
+    pytest -q && assaywatch validate registry
     ruff check . && ruff format --check .
     python scripts/check_citations.py              # CI runs this too
     snakemake -n                                   # dry run: prints the job plan, downloads nothing
@@ -85,7 +85,7 @@ on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
   `api.unpaywall.org`, `api.openalex.org`, `www.ebi.ac.uk`. Cloud sandboxes have
   been blocked from these; run network steps on the Mac.
 - NCBI key: `$NCBI_API_KEY` or `.secrets/ncbi.key`. Check with
-  `python -m assaywatch.credentials`. Never print, log or commit a key.
+  `assaywatch credentials`. Never print, log or commit a key.
 - `papers/` holds copyrighted PDFs: gitignored, local only, never commit.
 
 ## Scratch, not source of truth

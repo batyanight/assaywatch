@@ -115,8 +115,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  {where:28s} {key}: says {quoted}, registry has {now}")
         print(f"      {text}")
     print(
-        "\nFix by giving the number a run date, pointing at "
-        "`python -m assaywatch.validate registry`, or correcting it."
+        "\nFix by giving the number a run date, pointing at `assaywatch validate registry`, or correcting it."
     )
     return 1 if args.check else 0
 

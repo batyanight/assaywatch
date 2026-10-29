@@ -90,7 +90,7 @@ Every submission is reviewed by the maintainer. Review is **best effort**: there
 is one maintainer, this is not their job, and no turnaround is promised, because
 a promise about time that cannot be kept is worse than none. What makes a
 submission quick to review is also what makes it correct, so do these first: the
-validator passes (`python -m assaywatch.validate pending --pending` for a new
+validator passes (`assaywatch validate pending --pending` for a new
 entry), the citation has a DOI that `scripts/check_citations.py` can resolve, and
 every oligo can be read from the cited paper's own table — `scripts/verify_oligos_against_paper.py`
 should report `exact`. An entry that meets those three is usually a short read.
@@ -154,8 +154,8 @@ before the entry is trusted.
 If the target has no archive yet, fetch one first:
 
 ```bash
-python -m assaywatch.retrieve registry/YOUR_ASSAY.yaml --email you@example.org --dry-run
-python -m assaywatch.retrieve registry/YOUR_ASSAY.yaml --email you@example.org
+assaywatch retrieve registry/YOUR_ASSAY.yaml --email you@example.org --dry-run
+assaywatch retrieve registry/YOUR_ASSAY.yaml --email you@example.org
 ```
 
 ## 2b. Check the sequences against the paper, not against a spreadsheet
@@ -166,7 +166,7 @@ python scripts/verify_oligos_against_paper.py --assay YOUR_ASSAY --pdf-dir ~/Dow
 
 **The literature is the truth. A lab spreadsheet is a place to start.** 138 of
 the entries here were transcribed from one spreadsheet (138 of 151 at the time; the
-registry has grown since -- `python -m assaywatch.validate registry` prints the current
+registry has grown since -- `assaywatch validate registry` prints the current
 counts), and that spreadsheet
 has already been caught in a *Sarcocystis* primer carrying an extra C, two
 undeclared cloning tails, three taxids naming the wrong organism, five DOIs

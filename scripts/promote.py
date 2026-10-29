@@ -113,7 +113,7 @@ def main(argv: list[str] | None = None) -> int:
         path.write_text(text.replace("\nstatus: draft\n", "\nstatus: active\n", 1))
         changed += 1
     print(f"\nset status: active on {changed} entries. Now run:")
-    print("  python -m assaywatch.validate registry && pytest -q")
+    print("  assaywatch validate registry && pytest -q")
     return 0
 
 

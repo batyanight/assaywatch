@@ -4,13 +4,13 @@ Assay entries that are **not live**: they have no DOI that Crossref has confirme
 so the pipeline never screens them, the report never lists them, and they are not
 part of the published registry.
 
-The rule is enforced in two places. `python -m assaywatch.validate registry` fails
+The rule is enforced in two places. `assaywatch validate registry` fails
 on any entry without `citation.doi_verified: true`, which is the CI and pre-commit
 gate. The Snakefile repeats the check before planning a run.
 
 These entries use the same schema as `registry/`, and are checked with
 
-    python -m assaywatch.validate pending --pending
+    assaywatch validate pending --pending
 
 ## How an entry goes live
 

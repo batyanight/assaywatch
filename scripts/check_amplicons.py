@@ -36,7 +36,7 @@ Caveats the output carries, rather than hiding:
 * **Heavily degenerate primers match loosely.** A 16,384-fold pool will find a
   site somewhere in most records, and the resulting "product" can be spurious.
   `--min-records` and the reported `n_products` are there to judge this; the
-  degeneracy column repeats what `python -m assaywatch.degeneracy` says.
+  degeneracy column repeats what `assaywatch degeneracy` says.
 * **Partial deposits cannot give a product** even when the primers are perfect,
   so a low `n_products` against a large `n_records` is usually the archive's
   composition rather than the assay's failure.
