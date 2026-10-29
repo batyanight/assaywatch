@@ -55,8 +55,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch import registry  # noqa: E402
 from assaywatch.score import load_config  # noqa: E402
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 
 def deposits_by_taxon(retrieved: Path) -> dict[int, list[int]]:
@@ -103,7 +103,7 @@ def main(argv: list[str] | None = None) -> int:
     years = deposits_by_taxon(retrieved)
 
     rows = []
-    for assay in sorted((load_assay(p) for p in iter_files(args.registry)), key=lambda a: a.id):
+    for assay in sorted((registry.load_one(p) for p in registry.files(args.registry)), key=lambda a: a.id):
         taxid, design = assay.target.taxid, assay.citation.design_year
         if taxid is None or design is None or taxid not in years:
             continue

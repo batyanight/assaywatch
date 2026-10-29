@@ -36,7 +36,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
+from assaywatch import registry as registry_mod  # noqa: E402
 
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
 # Terms that mark a paper as likely to contain a usable assay. Kept broad on
@@ -109,8 +109,8 @@ def full_text_signals(pmcid: str) -> tuple[str, int]:
 def registry_targets(registry: Path) -> dict[str, set[str]]:
     """{taxon name: set of genes already covered}, skipping deprecated entries."""
     out: dict[str, set[str]] = {}
-    for path in iter_files(registry):
-        a = load_assay(path)
+    for path in registry_mod.files(registry):
+        a = registry_mod.load_one(path)
         if a.status.value == "deprecated" or not a.target.taxon_name:
             continue
         name = a.target.taxon_name.split(" (")[0].strip()

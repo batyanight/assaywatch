@@ -57,11 +57,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-import yaml  # noqa: E402
 
+from assaywatch import registry  # noqa: E402
 from assaywatch.collect import stem_order  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
-from assaywatch.match import find_sites  # noqa: E402
+from assaywatch.match import modal_amplicon  # noqa: E402
 from assaywatch.retrieve import group_slug  # noqa: E402
 from assaywatch.schema import Assay  # noqa: E402
 from assaywatch.score import oligo_pools  # noqa: E402
@@ -132,26 +132,19 @@ def pool_size(seq: str) -> int:
     return n
 
 
-def pairs_of(doc: dict) -> list[tuple[str, str, str]]:
+def pairs_of(doc: dict | Assay) -> list[tuple[str, str, str]]:
     """Every (label, forward, reverse) this entry can amplify with, declared pair first.
 
     WHY EVERY COMBINATION. This script measured `oligos.forward` against
     `oligos.reverse` and nothing else, while the screener builds a POOL from
     `oligos.alternates` (score.oligo_pools) and takes the best product over the
-    cross product. So the audit and the screener were measuring different
-    assays, and the audit always agreed with itself: on 2026-10-14 three entries
-    whose stored size the audit called correct were being scored by the pipeline
-    on a completely different product - the nested secondary pair of the
-    CRYPTOSPORIDIA entry (832 bp against a declared 1319), the 2334R reverse of
-    ORTHOREOVIRUS Landolfi (274 against 163), the PythonNido3F forward of the
-    snake nidovirus entry (223 against 1694). An alternate that makes a DIFFERENT
-    PRODUCT is a second assay in one record, not a pool member.
-
-    Sequences come from the schema (`matching_seq`), not from raw YAML, for the
-    same reason: `seq` writes inosine as N, so reading it searched with a
-    four-fold degenerate base where the screener uses a single promiscuous one.
+    cross product, so the audit and the screener were measuring different assays.
+    An alternate that makes a DIFFERENT PRODUCT is a second assay in one record.
+    Sequences come from the schema (`matching_seq`), not from raw YAML: `seq` writes
+    inosine as N, which would search a four-fold degenerate base where the screener
+    uses a single promiscuous one.
     """
-    assay = Assay.model_validate(doc)
+    assay = doc if isinstance(doc, Assay) else Assay.model_validate(doc)
     fwd, rev, _ = oligo_pools(assay)
     out = []
     for i, f in enumerate(fwd):
@@ -162,51 +155,13 @@ def pairs_of(doc: dict) -> list[tuple[str, str, str]]:
 
 
 def measure(paths, fwd: str, rev: str, max_mm: int, max_len: int, limit: int | None):
-    """Modal product over every archive of the group, oldest first.
+    """Modal product over every archive of the group: match.modal_amplicon over `_records`.
 
     `paths` is a list because retrieval is incremental and one day's file is not
     the group (see archives_for). A record seen in two archives is a revision of
-    the same accession and is measured once, the latest version winning, which is
-    what the pipeline's own collect step does.
+    the same accession and is measured once, the latest version winning.
     """
-    lengths: collections.Counter = collections.Counter()
-    n_records = n_products = 0
-    seen: set[str] = set()
-    for _rid, seq in _records(paths):
-        acc = _rid.split()[0].rpartition(".")[0] or _rid.split()[0]
-        if acc in seen:
-            continue
-        seen.add(acc)
-        if limit and n_records >= limit:
-            break
-        n_records += 1
-        seq = seq.upper()
-        f_sites = find_sites(fwd, seq, max_mm)
-        if not f_sites:
-            continue
-        r_sites = find_sites(rev, seq, max_mm)
-        if not r_sites:
-            continue
-        best = None
-        for f in f_sites:
-            for r in r_sites:
-                if f.strand == r.strand:
-                    continue
-                # The forward primer must sit upstream of the reverse one.
-                if f.strand == "+" and not f.start < r.start:
-                    continue
-                if f.strand == "-" and not r.start < f.start:
-                    continue
-                length = max(f.end, r.end) - min(f.start, r.start)
-                if not 20 <= length <= max_len:
-                    continue
-                key = (f.n_mismatches + r.n_mismatches, length)
-                if best is None or key < best:
-                    best = key
-        if best:
-            n_products += 1
-            lengths[best[1]] += 1
-    return n_records, n_products, lengths
+    return modal_amplicon(_records(paths), fwd, rev, max_mm=max_mm, max_len=max_len, limit=limit)
 
 
 def _records(paths):
@@ -241,19 +196,16 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     rows = []
-    paths = sorted(args.registry.glob("*.yaml"))
-    for path in paths:
-        doc = yaml.safe_load(path.read_text()) or {}
-        if args.assay and args.assay.lower() not in doc.get("id", "").lower():
+    for assay in registry.load(args.registry).values():
+        if args.assay and args.assay.lower() not in assay.id.lower():
             continue
-        stored = doc.get("amplicon_bp")
-        taxid = (doc.get("target") or {}).get("taxid")
-        archive, group = archives_for(taxid, (doc.get("target") or {}).get("query"))
+        stored = assay.amplicon_bp
+        taxid = assay.target.taxid
+        archive, group = archives_for(taxid, assay.target.query)
         try:
-            combinations = pairs_of(doc)
-        # An entry the schema rejects is the validator's problem, not this script's.
+            combinations = pairs_of(assay)
         except Exception as e:  # noqa: BLE001 - skip the entry, keep auditing the rest
-            print(f"  skipped {doc.get('id', path.stem)}: {e}", file=sys.stderr)
+            print(f"  skipped {assay.id}: {e}", file=sys.stderr)
             continue
         if not (combinations and archive):
             continue
@@ -291,7 +243,7 @@ def main(argv: list[str] | None = None) -> int:
             verdict = "DISAGREES"
         rows.append(
             {
-                "assay_id": doc.get("id", path.stem),
+                "assay_id": assay.id,
                 "taxid": taxid,
                 "stored_bp": stored or "",
                 "measured_bp": modal or "",
@@ -309,7 +261,7 @@ def main(argv: list[str] | None = None) -> int:
         )
         if args.verbose:
             print(
-                f"  {verdict:<10} {doc.get('id', '')[:52]:<52} stored {stored} measured {modal} ({modal_n}/{n_products})"
+                f"  {verdict:<10} {assay.id[:52]:<52} stored {stored} measured {modal} ({modal_n}/{n_products})"
             )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)

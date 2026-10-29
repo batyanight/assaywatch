@@ -52,10 +52,10 @@ from typing import Any
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
+from assaywatch import registry  # noqa: E402
 from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.score import RESOLVED, load_config, screen_record  # noqa: E402
-from assaywatch.validate import load_assay  # noqa: E402
 
 PANELS = REPO / "docs" / "bench-panels" / "panels.tsv"
 CACHE = REPO / ".tmp" / "bench-panels"
@@ -142,7 +142,7 @@ def main(argv: list[str] | None = None) -> int:
     rows: list[dict[str, Any]] = []
     for entry in read_tsv(args.panels):
         panel = REPO / entry["panel"]
-        assay = load_assay(REPO / entry["assay"])
+        assay = registry.load_one(REPO / entry["assay"])
         fasta = args.cache / (panel.stem + ".fasta")
         if not fasta.exists():
             print(f"skip {panel.stem}: no cached sequences at {fasta}", file=sys.stderr)

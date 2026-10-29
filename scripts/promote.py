@@ -42,12 +42,15 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+import yaml
+from pydantic import ValidationError
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch import registry  # noqa: E402
 from assaywatch.review import OLIGO_DOUBT  # noqa: E402
 from assaywatch.schema import Status  # noqa: E402
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
 
 
 def oligo_doubts(assay) -> list[str]:
@@ -67,7 +70,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--apply", action="store_true", help="write status: active (needs --tier)")
     args = ap.parse_args(argv)
 
-    assays = {a.id: (a, p) for p in iter_files(args.registry) for a in [load_assay(p)]}
+    assays = {a.id: (a, p) for p in registry.files(args.registry) for a in [registry.load_one(p)]}
     drafts = {i: (a, p) for i, (a, p) in assays.items() if a.status is Status.draft}
     eligible = {i: (a, p) for i, (a, p) in drafts.items() if not a.missing_for_active}
     clean = {i: (a, p) for i, (a, p) in eligible.items() if not oligo_doubts(a)}
@@ -102,15 +105,24 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\nProposed only. Add --apply to set status: active on these {len(chosen)}.")
         return 0
 
-    # Minimal edit: rewrite the one `status:` line, so comments, key order and
-    # formatting survive. Round-tripping YAML would reformat 100 files.
+    # Minimal edit: rewrite the one top-level `status:` line, so comments, key order
+    # and line folding survive byte for byte (registry.edit keeps comments and order
+    # but re-folds long scalars, and this file's diff should be exactly one line).
+    # The result is validated as an Assay before it is written, so an entry the
+    # schema would refuse as `active` is skipped rather than broken.
     changed = 0
     for i, (_, path) in sorted(chosen.items()):
         text = path.read_text()
         if "\nstatus: draft\n" not in text:
             print(f"  SKIPPED {i}: no top-level `status: draft` line to replace", file=sys.stderr)
             continue
-        path.write_text(text.replace("\nstatus: draft\n", "\nstatus: active\n", 1))
+        new_text = text.replace("\nstatus: draft\n", "\nstatus: active\n", 1)
+        try:
+            registry._validate(path, yaml.safe_load(new_text))
+        except (ValueError, ValidationError) as e:
+            print(f"  SKIPPED {i}: {registry._one_line(e)}", file=sys.stderr)
+            continue
+        registry.write_text(path, new_text)
         changed += 1
     print(f"\nset status: active on {changed} entries. Now run:")
     print("  assaywatch validate registry && pytest -q")

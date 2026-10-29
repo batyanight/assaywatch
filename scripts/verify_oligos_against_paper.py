@@ -156,7 +156,7 @@ from assaywatch.printed import printed_runs_for as printed_runs_for  # noqa: E40
 
 # Prefix for the filename-stem keys in `by_doi`; a DOI can never start with it.
 STEM_KEY = "stem:"
-from assaywatch.validate import iter_files, load_assay  # noqa: E402
+from assaywatch import registry  # noqa: E402
 
 CONVERTER = "https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/"
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
@@ -590,7 +590,7 @@ def main(argv: list[str] | None = None) -> int:
     # repository carries none. See assaywatch.credentials.contact_email.
     args.email = args.email or contact_email()
 
-    paths = list(iter_files(args.registry))
+    paths = list(registry.files(args.registry))
     if args.assay:
         want = set(args.assay)
         paths = [p for p in paths if p.stem in want]
@@ -617,7 +617,7 @@ def main(argv: list[str] | None = None) -> int:
 
     rows: list[dict] = []
     for n, path in enumerate(paths, 1):
-        a = load_assay(path)
+        a = registry.load_one(path)
         doi = a.citation.doi
         read_from = "predict" if a.source.predict_protocol else ""
         pmcid, text, printed, src = None, None, [], ""

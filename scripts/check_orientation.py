@@ -36,22 +36,20 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-import yaml
-
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO))
+
+from assaywatch import registry  # noqa: E402
 
 PRODUCT = {"detect", "reduced", "fail"}
 
 
-def flagged_entries(registry: Path, flag: str) -> list[str]:
-    out = []
-    for path in sorted(registry.glob("*.yaml")):
-        doc = yaml.safe_load(path.read_text()) or {}
-        for item in doc.get("needs_review") or []:
-            if isinstance(item, dict) and item.get("flag") == flag:
-                out.append(doc["id"])
-                break
-    return out
+def flagged_entries(registry_dir: Path, flag: str) -> list[str]:
+    return [
+        a.id
+        for a in registry.load(registry_dir).values()
+        if any(str(i.flag) == flag for i in a.needs_review or [])
+    ]
 
 
 def main(argv: list[str] | None = None) -> int:
