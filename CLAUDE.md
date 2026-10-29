@@ -44,8 +44,8 @@ one-off Python, and over asking Batya to download files by hand.
 ## Reading this repo cheaply
 Search and summarise; don't read large files whole. `rg`, `fd`, `jq`, `mlr` are
 on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
-- `docs/INDEX.md` indexes everything under `docs/` (9 reference documents, 105 journals
-  and 19 data files as of 2026-10-27), grouped by what you want, with a `Superseded`
+- `docs/INDEX.md` indexes everything under `docs/` (9 reference documents, 118 journals
+  and 22 data files as of 2026-10-29), grouped by what you want, with a `Superseded`
   section. Start there rather than guessing from filenames.
 - `docs/journal/YYYY-MM-DD-*.md` are dated session records, and `docs/*.md` is the
   short reference set. A journal is history: open one only when `docs/INDEX.md`,

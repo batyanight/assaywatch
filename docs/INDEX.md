@@ -1,6 +1,6 @@
 # docs/ index
 
-**Nine reference documents sit in `docs/`; the 105 dated session records are in
+**Nine reference documents sit in `docs/`; the 118 dated session records are in
 [`journal/`](journal/README.md).** Until 2026-10-27 they were all one flat directory, so
 a reader met the journals before the nine documents written to be read — a ratio of
 roughly 5:1 in words on the axis that matters (~124,000 against ~52,000, for ~34,000
