@@ -63,3 +63,12 @@ select = ["E", "F", "I", "B", "UP", "BLE", "RUF100"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Three tiers. `pytest -m fast` is the write-test-run loop (pure functions on the tiny
+# fixtures, seconds). Plain `pytest` runs everything except `slow`. `pytest -m slow`
+# runs the Snakemake dry-run tests, which CI runs as its own job; a command-line -m
+# replaces the one below.
+addopts = "-m 'not slow'"
+markers = [
+    "fast: pure functions on the tiny fixtures; the write-test-run loop, seconds",
+    "slow: shells out to Snakemake; excluded from a plain pytest, run by CI's snakemake job",
+]

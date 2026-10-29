@@ -29,14 +29,17 @@ that need a human and a proxy rather than a list of work.
 
 ## Commands
     conda activate assaywatch                      # environment.yml; package installed editable
-    pytest -q && python -m assaywatch.validate registry
+    pytest -m fast                                 # pure functions on the fixtures, ~5 s: the write-test-run loop
+    pytest -q && python -m assaywatch.validate registry   # everything except `slow`, ~45 s
+    pytest -m slow                                 # the Snakemake dry-run tests (~80 s); CI runs them as their own job
     ruff check . && ruff format --check .
     python scripts/check_citations.py              # CI runs this too
     snakemake -n                                   # dry run: prints the job plan, downloads nothing
     caffeinate -i snakemake --cores 4 --config email=you@example.org   # lid OPEN: -i does not stop clamshell sleep
     scripts/weekly_run.sh [--live]                 # the scheduled run; dry by default. profiles/launchd/
     snakemake --profile profiles/slurm --config email=you@example.org   # same rules on SLURM
-A change is not done until pytest, the validator, ruff and check_citations pass.
+A change is not done until pytest, the validator, ruff and check_citations pass. Run `pytest -m slow` as well when a change touches the
+Snakefile, a `config.yaml` section a rule hashes, or which modules a stage imports.
 NCBI CLIs are in the env: `esearch | efetch` (Entrez Direct) and `datasets`
 (NCBI Datasets). Prefer them for quick GenBank/taxonomy lookups over writing
 one-off Python, and over asking Batya to download files by hand.
