@@ -350,6 +350,12 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   EQA reports are the second and third sources. Zero rows meeting the strict bar is a
   possible and honest outcome.
 
+  **The redesign family is BUILT and RUN** (2026-10-30, `docs/journal/2026-10-30-redesign-family.md`):
+  `--include late_redesign`, six phrases and a five-year clock on `citation.design_year`, pre-registered
+  in the script before the run. **Two rows, neither a primer redesign, zero toward a drift case.** The
+  first of Q5's three sources is exhausted; the fast-evolving-target literature and EQA reports remain,
+  and neither is a citation-graph phrase search.
+
   **The matrix takes a scope per row, and the mechanism is BUILT** (2026-10-30,
   `docs/journal/2026-10-30-scope-column-and-use-rows-closed.md`). Both case files accept an
   optional `scope_taxid`; `retrospective.py` scores that lineage's own records with the same
