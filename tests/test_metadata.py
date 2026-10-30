@@ -147,3 +147,8 @@ def test_collection_years_read_the_column_and_fall_back_to_the_title(tmp_path):
         collection_year("2010/2011") is None
     )  # a range is undatable to a year, by decision (Q2, 2026-10-30)
     assert collection_year("") is None and collection_year("13-May-2010") == 2010
+    # The month-year form, which the 2026-10-30 nuccore backfill showed is 156 of the
+    # first 3,663 dates GenBank served -- the one spelling the first regex missed.
+    assert collection_year("Jan-2011") == 2011 and collection_year("Jun-2011") == 2011
+    # Still a range, still undatable, even spelled with days and months.
+    assert collection_year("01-Apr-2010/30-Jun-2010") is None
