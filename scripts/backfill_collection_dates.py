@@ -40,6 +40,38 @@ HERE = Path(__file__).resolve().parents[1]
 SIDECAR = HERE / "data" / "collection-dates" / "collection-dates.tsv"
 COLUMNS = ("accession", "collection_date", "status")
 
+# How often the patient path is taken, printed on every progress line. Added when the
+# live run fell from a probed 143 records/sec to 12 and nothing in the output could say
+# whether NCBI was throttling or the retries were eating the time.
+RETRIES = {"n": 0, "splits": 0}
+
+# Seconds of history the progress line's rate describes. Long enough to smooth a slow
+# batch, short enough that it stops describing the past once the past has changed.
+RATE_WINDOW = 120.0
+
+
+def recent_rate(samples: list[tuple[float, int]], window: float = RATE_WINDOW) -> float:
+    """Records per second over the last `window` seconds, from (monotonic, done) pairs.
+
+    Deliberately NOT an average since the start. This fetch opens slowly while NCBI works
+    off preceding load and then recovers; averaged from the start, that opening dominates
+    for tens of thousands of records. A run that had reached 69 records/sec was reported in
+    single digits with an ETA of 400+ hours instead of 4.5, and was killed on that reading.
+    Zero when there is not yet enough history to divide by, rather than a guess.
+    """
+    if len(samples) < 2:
+        return 0.0
+    t_end, done_end = samples[-1]
+    cut = t_end - window
+    base = next((s for s in samples if s[0] >= cut), samples[0])
+    # A window that caught only the final sample: fall back to the whole history rather
+    # than reporting nothing on a run whose batches are slower than the window.
+    if base[0] == t_end:
+        base = samples[0]
+    elapsed = t_end - base[0]
+    return (done_end - base[1]) / elapsed if elapsed > 0 else 0.0
+
+
 # A flatfile record ends at `//`; VERSION carries accession.version, which is how the
 # calls table spells a record id. LOCUS drops the version and so cannot be joined on.
 _VERSION = re.compile(r"^VERSION\s+(\S+)", re.M)
@@ -134,6 +166,7 @@ def fetch_batch(
         try:
             return parse(_efetch(call, ids, sliced=True))
         except ncbi.NcbiError:
+            RETRIES["n"] += 1
             if attempt < attempts - 1:
                 sleep(2.0 * (attempt + 1))
     if len(ids) == 1:
@@ -141,6 +174,7 @@ def fetch_batch(
             return parse(_efetch(call, ids, sliced=False))
         except ncbi.NcbiError:
             return {}
+    RETRIES["splits"] += 1
     out: dict[str, str] = {}
     step = max(1, len(ids) // 4)
     for i in range(0, len(ids), step):
@@ -151,7 +185,7 @@ def fetch_batch(
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--results", type=Path, help="a run directory under results/ (default: the newest)")
-    ap.add_argument("--batch", type=int, default=200, help="accessions per efetch POST")
+    ap.add_argument("--batch", type=int, default=100, help="accessions per efetch POST")
     ap.add_argument("--limit", type=int, help="stop after this many accessions (a probe)")
     ap.add_argument("--email", help="contact address (default: .secrets/email)")
     args = ap.parse_args()
@@ -176,6 +210,7 @@ def main() -> int:
     SIDECAR.parent.mkdir(parents=True, exist_ok=True)
     new = not SIDECAR.exists()
     started = time.monotonic()
+    samples: list[tuple[float, int]] = [(started, 0)]
     dated = blank = missing = 0
     with SIDECAR.open("a") as out:
         if new:
@@ -197,12 +232,16 @@ def main() -> int:
                     blank += 1
             out.flush()
             n = i + len(chunk)
-            rate = n / max(time.monotonic() - started, 1e-9)
+            now = time.monotonic()
+            samples.append((now, n))
+            rate = recent_rate(samples)
+            overall = n / max(now - started, 1e-9)
             left = (len(todo) - n) / rate if rate else 0
+            eta = f"eta {left / 3600:.1f} h" if rate else "eta unknown"
             print(
-                f"  {n:>9,}/{len(todo):,}  {rate:5.1f} rec/s  "
+                f"  {n:>9,}/{len(todo):,}  {rate:5.1f} rec/s now ({overall:5.1f} avg)  "
                 f"{dated:,} dated / {blank:,} no date / {missing:,} missing  "
-                f"eta {left / 3600:.1f} h",
+                f"retries {RETRIES['n']} splits {RETRIES['splits']}  {eta}",
                 flush=True,
             )
     return 0

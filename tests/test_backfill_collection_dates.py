@@ -15,6 +15,8 @@ import gzip
 import importlib.util
 from pathlib import Path
 
+import pytest
+
 from assaywatch import ncbi
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -120,6 +122,37 @@ def test_accessions_of_a_run_drop_assemblies_and_duplicates(tmp_path: Path):
     # Assemblies carry their collection date already; asking for them would be work
     # for nothing. Order is the table's, so a resumed run asks in a stable order.
     assert _module().accessions_of_run(run) == ["AB000001.1", "AB000003.1"]
+
+
+def test_the_rate_is_measured_over_a_window_not_since_the_start():
+    """A cumulative average is the wrong number to steer by, and it cost a working run.
+
+    The fetch opens slowly while NCBI works off whatever load preceded it, then recovers.
+    Averaged since start, that opening drags the figure down for tens of thousands of
+    records: a run that had reached 69 records/sec still showed single digits early, and
+    the ETA derived from it read 400+ hours instead of 4.5. The run was killed on that
+    reading. The rate now describes the recent past, which is the only part that predicts
+    the near future.
+    """
+    mod = _module()
+
+    # Ten one-second steps of 10 records each: 10/s throughout.
+    steady = [(float(i), i * 10) for i in range(11)]
+    assert mod.recent_rate(steady) == pytest.approx(10.0)
+
+    # A slow first minute, then fast. The windowed rate must follow the fast part; an
+    # average since the start would still be reporting the slow one.
+    opening = [(float(i), i) for i in range(60)]  # 1/s
+    then = [(60.0 + i, 60 + i * 100) for i in range(1, 11)]  # 100/s
+    samples = opening + then
+    assert mod.recent_rate(samples, window=10.0) == pytest.approx(100.0, rel=0.2)
+    cumulative = samples[-1][1] / samples[-1][0]
+    assert cumulative < 20.0  # what the old line would have printed
+
+    # Degenerate inputs must not divide by zero or crash a six-hour job.
+    assert mod.recent_rate([]) == 0.0
+    assert mod.recent_rate([(1.0, 100)]) == 0.0
+    assert mod.recent_rate([(1.0, 100), (1.0, 200)]) == 0.0
 
 
 def test_settled_reads_back_with_or_without_a_header(tmp_path: Path):
