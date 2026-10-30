@@ -1047,7 +1047,7 @@ report:
   # Only set this once the backfill has FINISHED. A partial sidecar is not wrong --
   # undatable records are counted, not dropped -- but a lens whose collection column
   # rests on 2% of records invites exactly the misreading it exists to prevent.
-  collection_sidecar: null
+  collection_sidecar: data/collection-dates/collection-dates.tsv
 
 # Per-lineage detection analysis (phase 1 of estimand rebuild).
 # Each record is assigned a lineage by its NCBI taxid. Verdicts condition
