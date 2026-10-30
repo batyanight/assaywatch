@@ -154,7 +154,7 @@ word for a concept.
 
 **site drift** — which oligo positions are failing and in which footprint groups of accessions, for assays the main report calls declining (`sitedrift.py`).
 
-**trend** — a test for a monotone slide in the detected share by deposit year, reported beside the verdict, never folded into it (`trend.py`, `config.yaml drift: trend_min_years`).
+**trend** — a Cochran-Armitage test for a monotone slide in the detected share by deposit year, reported beside the verdict, never folded into it (`trend.py`, `config.yaml drift: trend_min_years`). Printed twice since 2026-10-30: by record (an upper bound on the evidence, since duplicated deposits count as independent) and **by footprint** (each distinct footprint counted once per year; nearer a lower bound, since a sequencing error in a primer site mints a footprint). When they disagree on direction the report says so.
 
 **hierarchical layer (C1)** — Beta-binomial partial pooling of an assay's lineages; reported, never a verdict unless `verdict_from: posterior` (`hierarchical.py`).
 

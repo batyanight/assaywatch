@@ -1324,7 +1324,12 @@ def _detail_row(
         doi=assay.citation.doi if assay and assay.citation.doi else "",
         degeneracy_note=(deg.note(cfg) or "") if deg else "",
         years=year_table_rows(a),
-        trend=describe_trend(a.trend, a.trend_min_years),
+        trend=describe_trend(
+            a.trend,
+            a.trend_min_years,
+            by_footprint=a.trend_by_footprint,
+            footprints_known=a.recent_footprints is not None,
+        ),
         hierarchical=describe_hierarchical(a.hierarchical, a.threshold) if a.lineage_stats else "",
         species=species,
         out_of_scope=a.out_of_scope,

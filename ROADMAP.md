@@ -235,12 +235,17 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   accepting that 0.001 is a placeholder with one tier-2 row behind it and saying so
   in `config.yaml`, which it already does.
 
-- **The trend test counts duplicated records as independent evidence** (designed 2026-10-30,
-  grilled, Q4). A second Cochran-Armitage trend over distinct footprints per year, printed
-  beside the by-record one: by-record is an upper bound on the evidence, by-footprint nearer a
-  lower bound (sequencing error inflates footprints; clade structure beyond the primer sites is
-  invisible), and the report says so in one clause when they disagree. Neither feeds the
-  verdict; absent with the reason when footprints are unknown.
+- **The trend test counted clones as evidence, and 35 of 64 significant declines do not
+  survive the correction** (built 2026-10-30, `docs/journal/2026-10-30-footprint-trend.md`).
+  A second Cochran-Armitage trend over distinct footprints per year now prints beside the
+  by-record one. On the 2026-10-27 run: 710,427 records become 39,640 footprints, assays with
+  p < 0.05 go **64 -> 32**, the median |z| ratio is 3.3, and **23 of 74 disagree on
+  direction** (the report says so in those rows). One assay goes from p = 0 on 90,291 records
+  to p = 0.63 on 1,953 footprints. Read by-record as an upper bound on the evidence and
+  by-footprint as nearer a lower bound: a sequencing error in a primer site mints a footprint,
+  and clade structure beyond the sites is invisible to it. Neither feeds the verdict. **What is
+  left**: nothing is owed here, but the same correction is not applied to the per-year table's
+  shares or to the lineage tests, which remain per record.
 - **Deposit date is not collection date, and the lens that shows it is BUILT** (2026-10-30,
   `docs/journal/2026-10-30-collection-year-lens.md`; measured 2026-10-27,
   `docs/journal/2026-10-27-deposit-vs-collection-date.md`). Not a switch: a report-wide

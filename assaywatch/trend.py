@@ -87,15 +87,54 @@ def cochran_armitage(
     return Trend(z=z, p=p_two_sided, n_years=len(rows), n_records=total_n)
 
 
-def describe(trend: Trend | None, min_years: int) -> str:
-    """One clause for a report, or the reason there is none."""
+def describe(
+    trend: Trend | None,
+    min_years: int,
+    *,
+    by_footprint: Trend | None = None,
+    footprints_known: bool = False,
+) -> str:
+    """One or two clauses for a report, or the reason there is none.
+
+    With `footprints_known`, a second clause gives the same test over distinct footprints
+    per year, and the framing the two deserve (decided 2026-10-30, design-grilled Q4): the
+    by-record figure is an upper bound on the evidence, because duplicated deposits are
+    counted as independent; the by-footprint figure is nearer a lower bound, because a
+    sequencing error in a primer site mints a footprint of its own and clade structure
+    beyond the sites is invisible to it. When the two disagree on direction the clause says
+    so, since that is the case where the by-record trend was carried by duplicated records.
+    There is no threshold here and none is implied.
+    """
     if trend is None:
-        return (
+        head = (
             f"trend over deposit year: not tested (fewer than {min_years} years with "
             "evaluable records, or no variation)"
         )
+    else:
+        head = (
+            f"trend over deposit year: {trend.direction}, z = {trend.z:+.2f}, two-sided p = {trend.p:.3g} "
+            f"across {trend.n_years} years and {trend.n_records} records (Cochran-Armitage; records are not "
+            f"independent, so read the direction and not the certainty)"
+        )
+    if not footprints_known:
+        return head + "; by footprint: not available, the footprints are unknown for this calls table"
+    if by_footprint is None:
+        tail = (
+            f"by distinct footprint: not tested (fewer than {min_years} years with footprints, or no "
+            "variation)"
+        )
+    else:
+        tail = (
+            f"by distinct footprint, each binding-site footprint counted once per year: "
+            f"{by_footprint.direction}, z = {by_footprint.z:+.2f}, two-sided p = {by_footprint.p:.3g} across "
+            f"{by_footprint.n_years} years and {by_footprint.n_records} footprints"
+        )
+        if trend is not None and trend.direction != by_footprint.direction:
+            tail += (
+                " -- the two disagree on direction, so the by-record trend was carried by duplicated records"
+            )
     return (
-        f"trend over deposit year: {trend.direction}, z = {trend.z:+.2f}, two-sided p = {trend.p:.3g} "
-        f"across {trend.n_years} years and {trend.n_records} records (Cochran-Armitage; records are not "
-        f"independent, so read the direction and not the certainty)"
+        f"{head}; {tail}. Read the by-record figure as an upper bound on the evidence and the "
+        "by-footprint figure as nearer a lower bound: duplicated deposits inflate the first, "
+        "sequencing errors in a primer site inflate the second"
     )

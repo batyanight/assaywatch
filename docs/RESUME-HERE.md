@@ -25,7 +25,9 @@ Designed the same evening, one question at a time (`docs/journal/2026-10-30-desi
 1. ~~The collection-year lens~~ built the same night (PR `collection-lens`,
    `docs/journal/2026-10-30-collection-year-lens.md`): the share barely moves, the recent
    sample halves.
-2. A **second trend over distinct footprints**, printed beside the by-record one.
+2. ~~A second trend over distinct footprints~~ built (PR `footprint-trend`,
+   `docs/journal/2026-10-30-footprint-trend.md`): **64 significant declines become 32**, 23
+   of 74 flip direction. The verdict's own shares and the lineage tests are still per record.
 3. The **redesign-paper phrase family** in `find_retrospective_cases.py`, pre-registered, with
    the strict bar for `mechanism: drift`.
 4. A **scope per row** in the cases files and the per-lineage lookup in `retrospective.py`.

@@ -81,3 +81,72 @@ def test_the_trend_is_computed_in_finalise_and_the_verdict_ignores_it():
         falling.note,
     )
     assert "Cochran-Armitage" in describe(rising.trend, 3)
+
+
+# --- the second trend, over distinct footprints (2026-10-30, design-grilled Q4) --------------
+
+
+def _rows(year_table):
+    """{year: [(call, footprint, copies)]} -> call rows carrying a footprint, plus the years."""
+    calls, years, i = [], {}, 0
+    for year, specs in year_table.items():
+        for call, fp, copies in specs:
+            for _ in range(copies):
+                rid = f"FP{i:05d}"
+                calls.append({"assay_id": "A", "record_id": rid, "call": call, "footprint": fp})
+                years[rid] = year
+                i += 1
+    return calls, years
+
+
+def test_the_footprint_trend_discounts_duplicated_records_and_never_moves_the_verdict():
+    """Three baseline years with five distinct detecting footprints each; then 2023, where
+    one clone was deposited a hundred times; then 2025, where one failing clone was deposited
+    a hundred times. By record that is a steep slide carried by two clones; by footprint it is
+    five, five, five, one, zero -- still falling, but on 17 observations rather than 215."""
+    from test_drift import CFG, TODAY
+
+    from assaywatch.drift import assess
+
+    table = {y: [("detect", f"f{y}{k}", 1) for k in range(5)] for y in (2020, 2021, 2022)}
+    table[2023] = [("detect", "clone23", 100)]
+    table[2025] = [("fail", "clone25", 100)]
+    calls, years = _rows(table)
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert a.trend is not None and a.trend_by_footprint is not None
+    assert a.trend.n_records == 215 and a.trend_by_footprint.n_records == 17
+    assert a.trend.direction == a.trend_by_footprint.direction == "falling"
+    assert abs(a.trend_by_footprint.z) < abs(a.trend.z)
+    # The verdict is what the records say; neither trend touches it.
+    assert a.status == "declining" and a.recent_fraction == 0.0
+
+    text = describe(a.trend, 3, by_footprint=a.trend_by_footprint, footprints_known=True)
+    assert "by distinct footprint" in text and "17 footprints" in text
+    assert "upper bound" in text and "lower bound" in text
+
+
+def test_the_footprint_trend_is_absent_when_any_evaluable_row_lacks_a_footprint():
+    from test_drift import CFG, TODAY
+
+    from assaywatch.drift import assess
+
+    table = {y: [("detect", f"f{y}", 3), ("fail", f"g{y}", 2)] for y in (2020, 2021, 2022, 2025)}
+    calls, years = _rows(table)
+    calls[0]["footprint"] = None  # one row from a screen that wrote no footprint columns
+    a = assess(calls, years, CFG, today=TODAY)["A"]
+    assert a.trend is not None and a.trend_by_footprint is None and a.recent_footprints is None
+    text = describe(a.trend, 3, by_footprint=None, footprints_known=False)
+    assert "footprints are unknown" in text
+
+
+def test_the_two_trends_say_so_when_they_disagree_on_direction():
+    from assaywatch.trend import Trend
+
+    rec = Trend(z=-3.0, p=0.003, n_years=4, n_records=400)
+    fp = Trend(z=0.4, p=0.7, n_years=4, n_records=12)
+    text = describe(rec, 3, by_footprint=fp, footprints_known=True)
+    assert "disagree on direction" in text
+    same = describe(
+        rec, 3, by_footprint=Trend(z=-1.1, p=0.27, n_years=4, n_records=12), footprints_known=True
+    )
+    assert "disagree" not in same

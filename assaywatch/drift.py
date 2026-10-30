@@ -203,10 +203,23 @@ class YearStats:
     #: Which calls count toward `detected`. The default is every assay's behaviour
     #: and the only one `config.yaml` ships; see `DETECTED_CALLS`.
     detected_calls: tuple[str, ...] = DETECTED_CALLS
+    #: Distinct (call, footprint) classes among this year's evaluable records, so a
+    #: trend can be run over footprints as well as records (2026-10-30, Q4 of
+    #: docs/journal/2026-10-30-design-grilled.md). None when any evaluable row of the
+    #: ASSAY lacked a footprint: a partial set would be a lower bound presented as a count.
+    footprints: set[tuple[str, str]] | None = None
 
     @property
     def evaluable(self) -> int:
         return sum(self.counts[c] for c in EVALUABLE)
+
+    @property
+    def footprint_evaluable(self) -> int:
+        return len(self.footprints or ())
+
+    @property
+    def footprint_detected(self) -> int:
+        return sum(1 for call, _ in (self.footprints or ()) if call in self.detected_calls)
 
     @property
     def detected(self) -> int:
@@ -264,6 +277,12 @@ class AssayDrift:
     # years carry evaluable records, or when there is no variation to test.
     trend_min_years: int = 3
     trend: Trend | None = None
+    #: The same test with each distinct footprint counted once per year. The by-record
+    #: trend is an upper bound on the evidence (duplicated deposits count as independent),
+    #: this one is nearer a lower bound (a sequencing error in a primer site mints a new
+    #: footprint; clade structure beyond the sites is invisible). None when footprints are
+    #: unknown for the assay. Reported beside the verdict, never into it.
+    trend_by_footprint: Trend | None = None
     # How "the recent share is below the threshold" is decided (drift.flag_rule).
     # `wilson`: the Wilson upper bound is under it -- every published figure rests on
     # this. `posterior`: P(theta < threshold | k, n) under the Jeffreys prior exceeds
@@ -1034,6 +1053,13 @@ class AssayDrift:
             [(y, s.detected, s.evaluable) for y, s in self.years.items()],
             min_years=self.trend_min_years,
         )
+        # The same test with duplicated footprints counted once per year. Only when every
+        # year's footprints are known; `_tally_window` clears them all otherwise.
+        if self.years and all(s.footprints is not None for s in self.years.values() if s.evaluable):
+            self.trend_by_footprint = cochran_armitage(
+                [(y, s.footprint_detected, s.footprint_evaluable) for y, s in self.years.items()],
+                min_years=self.trend_min_years,
+            )
 
         if self.recent_evaluable == 0:
             self.status = "no recent data"
@@ -1416,6 +1442,15 @@ def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> Non
                 if in_recent and fp.startswith("~diverged:"):
                     a.coarse_footprint_rows += 1
                 (recent_fp if in_recent else base_fp).add((call, fp))
+                if year.footprints is None:
+                    year.footprints = set()
+                year.footprints.add((call, fp))
+    if not fp_known:
+        # One unknown row makes the per-year footprint counts unknown for the whole assay,
+        # for the same reason the window counts are: a partial count is a lower bound on
+        # distinct footprints, and a trend over lower bounds is not a trend.
+        for y in a.years.values():
+            y.footprints = None
     if fp_known:
         a.recent_footprints = len(recent_fp)
         a.baseline_footprints = len(base_fp)
