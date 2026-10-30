@@ -31,8 +31,9 @@ Designed the same evening, one question at a time (`docs/journal/2026-10-30-desi
 2. ~~A second trend over distinct footprints~~ built (PR `footprint-trend`,
    `docs/journal/2026-10-30-footprint-trend.md`): **64 significant declines become 32**, 23
    of 74 flip direction. The verdict's own shares and the lineage tests are still per record.
-3. The **redesign-paper phrase family** in `find_retrospective_cases.py`, pre-registered, with
-   the strict bar for `mechanism: drift`.
+3. ~~The redesign-paper phrase family~~ built and run (PR `redesign-family`,
+   `docs/journal/2026-10-30-redesign-family.md`): **2 rows, neither a primer redesign, zero
+   toward a drift case.** The strict bar was never reached. Q5's other two sources remain.
 4. ~~A scope per row~~ built (PR `case-scope`): `scope_taxid` is accepted and scored on the
    named lineage. **The values are yours to fill**, one taxid per row from the paper; the four
    pan-family rows of set 2 are where it pays.
