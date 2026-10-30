@@ -218,12 +218,33 @@ def main() -> int:
     ap.add_argument("--batch", type=int, default=100, help="accessions per efetch POST")
     ap.add_argument("--limit", type=int, help="stop after this many accessions (a probe)")
     ap.add_argument("--email", help="contact address (default: .secrets/email)")
+    ap.add_argument(
+        "--window-only",
+        action="store_true",
+        help="only records whose collection date could still reach a recent window "
+        "(drift.max_window_months); the rest provably cannot move a reported number",
+    )
     args = ap.parse_args()
 
     run = args.results or newest_run(HERE)
     wanted = accessions_of_run(run)
     done = settled(SIDECAR)
     todo = [a for a in wanted if a not in done]
+    if args.window_only:
+        import yaml as _yaml
+
+        from assaywatch.calls import accessions_worth_dating, earliest_relevant_year
+
+        cfg = _yaml.safe_load((HERE / "config.yaml").read_text())
+        year = earliest_relevant_year(cfg)
+        before = len(todo)
+        todo = accessions_worth_dating(HERE / cfg.get("retrieved_dir", "data/retrieved"), todo, year)
+        print(
+            f"window-only: deposits from {year} onward can still matter; "
+            f"{before - len(todo):,} of {before:,} outstanding records dropped as provably "
+            f"irrelevant to the lens",
+            flush=True,
+        )
     if args.limit:
         todo = todo[: args.limit]
     print(
