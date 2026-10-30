@@ -87,6 +87,25 @@ RUN=("$CONDA" run --no-capture-output -n assaywatch)
       exit 1
     fi
   fi
+  # WHICH CODE THIS RUN USED. The launchd job runs whatever is CHECKED OUT, not
+  # `main`: the dirty-tree refusal above catches a half-edited tree but not a
+  # clean unmerged branch, so a scheduled run can quietly execute unreviewed
+  # code. It nearly did on 2026-11-01, with the whole 2026-10-30 stack unmerged
+  # and `scoring.mispair_window` still null on `main`. Warning rather than
+  # refusing is deliberate (decided 2026-10-30): running a branch live on purpose
+  # is a thing this script is used for. What was not acceptable was being unable
+  # to tell afterwards, so the branch and commit go to the log and to a durable
+  # record beside it.
+  BRANCH="$(git -C "$REPO" rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
+  COMMIT="$(git -C "$REPO" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+  echo "code: branch $BRANCH at $COMMIT"
+  printf '%s\t%s\t%s\t%s\n' "$(date -Iseconds)" "$BRANCH" "$COMMIT" live \
+    >> "$(dirname "$LOG")/run-provenance.tsv"
+  if [[ "$BRANCH" != "main" ]]; then
+    echo "WARNING: this live run is NOT on main. It is running $BRANCH at $COMMIT," >&2
+    echo "         which may contain code no review has seen. Results will be labelled" >&2
+    echo "         with that branch in run-provenance.tsv beside this log." >&2
+  fi
   "${RUN[@]}" assaywatch credentials
 
   # `caffeinate -i` asserts PreventUserIdleSystemSleep, which does NOT stop
