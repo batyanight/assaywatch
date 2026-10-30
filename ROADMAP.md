@@ -269,11 +269,27 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   nuccore keeps `/collection_date` in the flatfile's `source` feature and nowhere else, so
   `scripts/backfill_collection_dates.py` fetches records rather than summaries, one base of
   sequence each, into a gitignored sidecar that touches nothing the weekly job guards.
-  **75% of records carry a date**; 1.24M accessions at a measured ~150 records/sec.
-  **Left**: `metadata.collection_year()` already takes three of GenBank's four spellings
-  (`2010`, `2013-12-27`, `16-Mar-2009`) and misses the month-year form (`Jan-2011`) --
-  **156 of the first 3,663 dates fetched**, plus a handful of ranges it refuses on purpose.
-  One regex, then the lens covers every assay rather than the 13 with assemblies.
+  The month-year regex is **fixed** (2026-10-30): `collection_year()` now reads 98.97% of
+  7,687 fetched dates, and all 79 it refuses are ranges, refused on purpose.
+
+  **Three corrections to what this item claimed on the day it was written**, all found by
+  reading the fetch's own output instead of trusting its summary line:
+
+  - The rate was never ~150 records/sec sustained, and the fetch was never throttled. The
+    progress line printed a cumulative average since start, so a slow opening dominated it
+    for tens of thousands of records: a run at 69 records/sec with 4.5 hours left reported
+    0.8 and an ETA of 400+ hours, **and was stopped on that reading**. Fixed (PR #25) to
+    report a 120-second window and print both figures.
+  - `newest_run()` sorted run directories lexicographically, and `'b' > '2'`, so it read
+    `results/baseline-2026-10-22` instead of `results/2026-10-27` -- the whole backfill was
+    working a five-day-old run's accession list. Fixed in the same PR.
+  - 425 record ids are shaped `pdb|29TK|N` and are not accessions at all; they are now
+    settled unasked.
+
+  **Left**: the fetch itself, resumed 2026-10-30 against the correct run. The date rate is
+  **not** the 75% first sampled -- of 147,200 records settled so far, 50,963 carry a date
+  and 96,207 do not, because the early accession blocks are patent-era deposits that carry
+  none. `report.collection_sidecar` stays null until the fetch finishes.
 - **`target.exclusivity_taxids`: three sets in, and the rest is one paper at a time**
   (2026-10-28). `scripts/extract_exclusivity.py` prints every sentence in which a paper
   claims its assay does NOT amplify something — **118 of the 178 papers on disk carry at
@@ -405,12 +421,16 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Data and curation
 
-- **216 `needs_review` flags sit on 207 of the 209 entries** (2026-10-27). Not a
-  backlog of errors — a flag is an honest label on a reading that could not be made
-  from the source — but it is 216 open readings, and some classes are actionable
+- **227 `needs_review` flags sit on 154 of the 214 entries** (re-measured 2026-10-30 with
+  `registry.load_one`, superseding "216 on 207 of 209" from 2026-10-27. Two other methods
+  disagreed on the same day: `grep -c 'flag:'` counted 228 flags, and an inventory pass
+  reported a different entry count again, so take a registry count from the loader -- which
+  is what the validator and the report read -- and not from a pattern).
+  Not a backlog of errors — a flag is an honest label on a reading that could not be made
+  from the source — but it is 227 open readings, and some classes are actionable
   where others are permanent. Largest: `orientation_inferred` 28,
-  `amplicon_measured_not_published` 20, `oligos_from_secondary_source` 19,
-  `oligos_modified` 14, `scope_narrower_than_taxid` 13,
+  `amplicon_measured_not_published` 25, `oligos_from_secondary_source` 19,
+  `scope_narrower_than_taxid` 17, `oligos_modified` 15,
   `pairing_is_curator_reading` 11. `oligos_modified` never clears, because it is true.
   **`orientation_inferred` is measured** (2026-10-27, `scripts/check_orientation.py`):
   the archive yields products under the stored orientation for 26 of the 28, from 20 to

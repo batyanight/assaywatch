@@ -13,9 +13,12 @@ items were already done). Then the maintainer batched the four calls that had be
   predicted); fails 2 caught as `low coverage`, 1 missed (Hellgren pan-hemoparasite, a clade
   failure at 98.9% pooled). **5/10 false alarms against 4/32 on the development set**, four
   of them pan-family assays whose published `works` is field sensitivity, not coverage.
-  Proposed for the matrix's rule, not for `config.yaml`: pan-family `works` vs
-  `low coverage` is agreement. No unread evaluation data exists. Three rows
-  carry `mechanism: drift` and none meets the strict bar; two are one inferred event.
+  Proposed for the matrix's rule and then **REJECTED 2026-10-30**: scoring a pan-family
+  `works` against `low coverage` as agreement would declare a real disagreement to be
+  agreement, by a rule proposed after seeing which rows it rescued. The mismatch is between
+  the paper's CLAIM and its EVIDENCE, so it is fixed with 34 `scope_taxid` reads instead.
+  No unread evaluation data exists. Three rows carry `mechanism: drift` and none meets the
+  strict bar; two are one inferred event.
 - **Reid 1999 stays `draft`** on `thin_evidence`; recorded in the entry.
 - `registry.edit()` **unfolded** long quoted scalars to one line; fixed the same day
   (`docs/journal/2026-10-30-registry-edit-fold-width.md`), so prose edits on wrapped
@@ -44,8 +47,18 @@ Designed the same evening, one question at a time (`docs/journal/2026-10-30-desi
 
 ## Still yours
 
-- Whether the repo goes public.
-- The matrix-rule proposal above (pan-family `works` against `low coverage`).
+- The 34 `scope_taxid` values (`docs/2026-10-30-scope-worksheet.tsv`), one read per row.
+- Pulling the two paywalled influenza candidates for the drift hunt.
+
+**Closed 2026-10-30, so not on this list any more**: the repo is public; the matrix-rule
+proposal is rejected in favour of per-row scope; **`drift.window_on` is closed** -- the
+verdict always runs on deposit date and the collection-year lens is reported beside it,
+because a verdict that moved with a metadata field a quarter of records lack would be less
+trustworthy, not more. Every "standing item: `drift.window_on` step 1" below is history;
+the string appears nowhere in `ROADMAP.md` or `config.yaml` and never will.
+- `drift.anchor_fdr: 0.001` is closed as a stated placeholder: no bench panel can ever bear
+  on it, because it relabels rows between `no_site` and `fail` where a bench row is
+  band/no-band and those are the same answer.
 
 # Resume point, 2026-10-29 (evening: the architecture day; everything merged)
 
