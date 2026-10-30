@@ -129,7 +129,49 @@ OPTIONAL_GROUPS: dict[str, list[str]] = {
         "screened by pcr",
         "amplified using primers",
     ],
+    # PRE-REGISTERED 2026-10-30 (`docs/journal/2026-10-30-design-grilled.md` Q5, Q6), the
+    # first of three sources for a `mechanism: drift` case; neither set holds one. A
+    # group that redesigns a published assay YEARS later usually says what changed in the
+    # target, and that is the only kind of paper in the citation graph that could show
+    # the same lineage changing over time at primer sites. The phrases are the three the
+    # decision names plus their close morphological forms, and nothing broader. The
+    # family's second half is a clock (`late_enough`): a hit carries this label only when
+    # the citing paper is `MIN_YEARS_AFTER_DESIGN` or more years after the design paper.
+    #
+    # THE BAR, which reading applies and this search cannot: `drift` needs the paper to
+    # show the SAME lineage changing over time at primer sites - an alignment, a table,
+    # or named substitutions with years. "Newer isolates fail, older work" is `coverage`
+    # or not a row. EXPECTATION, written before the run: a short queue (the default
+    # `redesign` group drew 4 rows of 248 on 2026-10-29), most of it redesigns for breadth
+    # or for a new platform rather than for drift, and ZERO rows meeting the bar is a
+    # legitimate outcome. The bar is not relaxed to produce rows.
+    "late_redesign": [
+        "redesign",
+        "re-design",
+        "updated primers",
+        "updated probe",
+        "modified to accommodate",
+        "modified to account for",
+    ],
 }
+
+# Why five: Q5's own number. A redesign within a few years of the design paper is a
+# correction of the design or an extension of its breadth; drift at primer sites takes
+# sequencing seasons to accumulate and to be noticed. Not a scoring threshold - it
+# decides which papers are READ, not what any assay is called - so it lives here with
+# the phrases it qualifies rather than in `config.yaml`.
+MIN_YEARS_AFTER_DESIGN = 5
+CLOCKED_FAMILIES = {"late_redesign"}
+
+
+def late_enough(design_year, citing_year) -> bool:
+    """True when the citing paper is MIN_YEARS_AFTER_DESIGN or more years after the design
+    paper. An unknown year on either side is excluded, not admitted (the Q2 rule)."""
+    try:
+        gap = int(citing_year) - int(design_year)
+    except (TypeError, ValueError):
+        return False
+    return gap >= MIN_YEARS_AFTER_DESIGN
 
 
 def groups_for(include=()) -> dict[str, list[str]]:
@@ -221,6 +263,19 @@ def matched_phrases(abstract: str, groups: dict[str, list[str]] | None = None) -
     return [p for ps in (groups or GROUPS).values() for p in ps if p in low]
 
 
+def admit(abstract: str, groups: dict[str, list[str]], design_year, citing_year) -> list[str]:
+    """The per-hit decision: which family labels this hit carries, sorted.
+
+    Exact substring on the abstract (see the note above `GROUPS`), then the clocked
+    families keep their label only past `late_enough`. A hit left with no label is
+    dropped by the caller, not recorded.
+    """
+    matched = matched_groups(abstract, groups)
+    if not late_enough(design_year, citing_year):
+        matched = [g for g in matched if g not in CLOCKED_FAMILIES]
+    return sorted(matched)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--registry", type=Path, default=REPO / "registry")
@@ -234,7 +289,9 @@ def main(argv: list[str] | None = None) -> int:
         help="add an opt-in phrase family (see OPTIONAL_GROUPS). `use` hunts papers that "
         "simply RUN a registry assay and report a result, which is scoreable whatever the "
         "result and is how the only tier-2 candidate of 2026-10-28 was found. Off by "
-        "default: the queue is failure-weighted because a documented failure is the scarce case.",
+        "default: the queue is failure-weighted because a documented failure is the scarce case. "
+        "`late_redesign` (pre-registered 2026-10-30) hunts redesigns published "
+        f"{MIN_YEARS_AFTER_DESIGN}+ years after the design paper, the first source for a drift case.",
     )
     ap.add_argument(
         "--limit", type=int, default=None, help="only the first N design papers (for a smoke test)"
@@ -244,11 +301,13 @@ def main(argv: list[str] | None = None) -> int:
     # One design paper can back several entries (nested rounds, renamed siblings), so
     # the search is per DOI and the result is mapped back to every assay that cites it.
     by_doi: dict[str, list[str]] = {}
+    design_year: dict[str, int | None] = {}
     for path in iter_files(args.registry):
         a = load_assay(path)
         doi = (a.citation.doi or "").strip()
         if doi and a.citation.doi_verified:
             by_doi.setdefault(doi, []).append(a.id)
+            design_year.setdefault(doi, a.citation.design_year)
     dois = sorted(by_doi)
     if args.limit:
         dois = dois[: args.limit]
@@ -275,10 +334,10 @@ def main(argv: list[str] | None = None) -> int:
             # The design paper citing itself, or a self-citation of the same record.
             if h.get("doi") == doi:
                 continue
-            matched = matched_groups(h.get("abstractText") or "", groups)
+            matched = admit(h.get("abstractText") or "", groups, design_year[doi], h.get("pubYear"))
             if not matched:
-                # The API's loose match, not a real one. Dropped rather than recorded:
-                # see the note above GROUPS.
+                # The API's loose match, not a real one, or a clocked family's hit that
+                # is too early. Dropped rather than recorded: see the note above GROUPS.
                 continue
             rows.append(
                 {
@@ -288,9 +347,10 @@ def main(argv: list[str] | None = None) -> int:
                     "citing_pmid": h.get("pmid") or h.get("id") or "",
                     "citing_doi": h.get("doi") or "",
                     "year": h.get("pubYear") or "",
+                    "design_year": design_year[doi] or "",
                     "open_access": h.get("isOpenAccess") or "",
                     "pmcid": h.get("pmcid") or "",
-                    "groups": ",".join(sorted(matched)),
+                    "groups": ",".join(matched),
                     "phrases": "; ".join(matched_phrases(h.get("abstractText") or "", groups)),
                     "journal": h.get("journalTitle") or h.get("journalAbbreviation") or "",
                     "title": (h.get("title") or "").replace("\t", " ").strip(),
