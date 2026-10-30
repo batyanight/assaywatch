@@ -24,12 +24,19 @@ from __future__ import annotations
 import csv
 import gzip
 from collections import defaultdict
+from collections.abc import Iterable
 from contextlib import suppress
+from datetime import date
 from pathlib import Path
 from typing import Any, TextIO
 
 from assaywatch.accession import strip_version, version_of
-from assaywatch.drift import FOOTPRINT_COLUMNS, FOOTPRINT_REQUIRED, footprint_signature
+from assaywatch.drift import (
+    FOOTPRINT_COLUMNS,
+    FOOTPRINT_REQUIRED,
+    footprint_signature,
+    months_back,
+)
 
 
 def _open(path: Path) -> TextIO:
@@ -333,6 +340,52 @@ def read_dates(retrieved_dir: Path) -> dict[str, str]:
 def read_years(retrieved_dir: Path) -> dict[str, int]:
     """{accession without version: deposit year}, newest revision winning."""
     return {acc: int(d[:4]) for acc, d in read_dates(retrieved_dir).items()}
+
+
+def earliest_relevant_year(cfg: dict[str, Any], today: date | None = None) -> int:
+    """The earliest deposit YEAR whose record's collection date can still matter.
+
+    The collection-year lens re-dates records by collection year, so a record whose
+    collection year cannot reach any recent window cannot change a number the lens prints.
+    Two facts make that decidable without fetching anything:
+
+    * the widest window any assay reaches is `drift.max_window_months`, after every
+      widening -- `recent_window_months` is the BASE and would be the silent wrong answer,
+      discarding records a widened window still reaches;
+    * collection precedes deposit. Measured 2026-10-30 over 59,968 records carrying both a
+      collection year and a deposit year: zero have a collection year later than their
+      deposit year.
+
+    So a record deposited before this year was collected before it too, and asking GenBank
+    for its collection date is work that cannot move a reported number.
+
+    A YEAR and not a date, because `drift.Window.inside` compares `int(iso[:4]) >=
+    edge.year` for the bare-year input the collection clock passes. A record collected in
+    January of the edge year is recent against an October cutoff, so a date comparison
+    would discard records that still count.
+    """
+    months = int((cfg.get("drift") or {}).get("max_window_months", 24))
+    return months_back(today or date.today(), months).year
+
+
+def accessions_worth_dating(retrieved_dir: Path, accessions: Iterable[str], earliest_year: int) -> list[str]:
+    """The subset of `accessions` whose collection date could still matter.
+
+    Keys come back spelled the way the caller asked, matching the archives with or without
+    a version, so a caller holding versioned nuccore record ids can use the result directly.
+
+    **Fails open**: a record whose deposit year is unknown is KEPT. 97 records in the
+    2026-10-27 calls table carry no deposit date, and an undatable deposit cannot be
+    PROVEN irrelevant -- trading a provable filter for a guess is the one thing this must
+    not do.
+    """
+    dates = read_dates(Path(retrieved_dir))
+    out: list[str] = []
+    for acc in accessions:
+        iso = dates.get(acc) or dates.get(strip_version(acc)) or ""
+        if not iso[:4].isdigit() or int(iso[:4]) >= earliest_year:
+            out.append(acc)
+    return out
 
 
 def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
