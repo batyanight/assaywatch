@@ -42,8 +42,9 @@ def test_the_cutoff_is_a_year_and_comes_from_the_widest_window_not_the_base():
     # Exact calendar arithmetic, via drift.months_back, not 30.44-day months.
     assert C.earliest_relevant_year(CFG, today=date(2026, 1, 31)) == 2021
     assert C.earliest_relevant_year(CFG, today=date(2026, 2, 1)) == 2021
-    # An empty config must not silently mean "everything is irrelevant".
-    assert C.earliest_relevant_year({}, today=date(2026, 10, 30)) == 2024
+    # An empty config falls back to the settings model's 60, not to the base window.
+    # tests/test_settings.py pins that agreement, and caught 24 here on the first attempt.
+    assert C.earliest_relevant_year({}, today=date(2026, 10, 30)) == 2021
 
 
 def test_a_record_whose_deposit_year_is_unknown_is_kept(tmp_path: Path):

@@ -364,7 +364,10 @@ def earliest_relevant_year(cfg: dict[str, Any], today: date | None = None) -> in
     January of the edge year is recent against an October cutoff, so a date comparison
     would discard records that still count.
     """
-    months = int((cfg.get("drift") or {}).get("max_window_months", 24))
+    # 60 is `settings.Drift.max_window_months`, and tests/test_settings.py asserts this
+    # fallback matches the model. It caught 24 here on the first attempt -- the BASE window,
+    # the very substitution the paragraph above warns about.
+    months = int((cfg.get("drift") or {}).get("max_window_months", 60))
     return months_back(today or date.today(), months).year
 
 
