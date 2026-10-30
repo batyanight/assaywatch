@@ -14,7 +14,8 @@ items were already done). Then the maintainer batched the four calls that had be
   failure at 98.9% pooled). **5/10 false alarms against 4/32 on the development set**, four
   of them pan-family assays whose published `works` is field sensitivity, not coverage.
   Proposed for the matrix's rule, not for `config.yaml`: pan-family `works` vs
-  `low coverage` is agreement. No unread evaluation data exists; still zero `drift` rows.
+  `low coverage` is agreement. No unread evaluation data exists. Three rows
+  carry `mechanism: drift` and none meets the strict bar; two are one inferred event.
 - **Reid 1999 stays `draft`** on `thin_evidence`; recorded in the entry.
 - `registry.edit()` **unfolded** long quoted scalars to one line; fixed the same day
   (`docs/journal/2026-10-30-registry-edit-fold-width.md`), so prose edits on wrapped
@@ -118,7 +119,9 @@ Five commits since the entry below.
   rows proposed**, so set 2 is 14 rows, 11 never scored. The valuable three come from one
   paper that locates a two-base 3'-end mismatch in HaemNFI and HaemR2L against the clade
   the Hellgren nest cannot amplify — a documented failure with the mechanism at base level.
-- **Still zero rows with `mechanism: drift`.** Every documented failure this project holds
+- **No row yet DEMONSTRATES drift.** Three carry `mechanism: drift` -- the CDV row and the
+  Kulesh 2004 monkeypox pair, which their own notes call one inferred event -- and none
+  meets the strict bar of 2026-10-30. Every documented failure this project holds
   is a clade never covered, not a target that moved. The flag the pipeline is named for
   rests on about one ground-truth event, and the `use` family cannot close that.
 
