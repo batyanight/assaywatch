@@ -38,11 +38,16 @@ PATENT_TITLE = re.compile(r"^(?:[A-Z]{2} [\d/]+-[A-Z]\d*/\d+:|Patent application
 # Where assemblies.py puts the BioSample collection date inside the title, for archives
 # written before the `collected` column existed (2026-10-30).
 COLLECTED_IN_TITLE = re.compile(r"; collected (?P<date>[^;]*)$")
-# A collection date is kept only as a YEAR. BioSample dates arrive as 2010-05-13, 2010-05,
-# 2010, 13-May-2010, "missing", "not collected", "2010/2011". The lens that reads them
-# works in years (decided 2026-10-30, docs/journal/2026-10-30-design-grilled.md Q2): no
-# invented days, and a RANGE is undatable to a year rather than taken at its first year.
-_YEAR_ONLY = re.compile(r"^(?:\d{1,2}-[A-Za-z]{3}-)?(\d{4})(?:-\d{2}(?:-\d{2})?)?(?:T.*)?$")
+# A collection date is kept only as a YEAR. GenBank and BioSample dates arrive as
+# 2010-05-13, 2010-05, 2010, 13-May-2010, May-2010, "missing", "not collected",
+# "2010/2011". The lens that reads them works in years (decided 2026-10-30,
+# docs/journal/2026-10-30-design-grilled.md Q2): no invented days, and a RANGE is
+# undatable to a year rather than taken at its first year.
+#
+# The day in the day-month-year form is optional because it is optional in the data: the
+# nuccore backfill measured the bare month-year spelling at 156 of the first 3,663 dates
+# GenBank served, and the first version of this pattern silently dropped every one of them.
+_YEAR_ONLY = re.compile(r"^(?:(?:\d{1,2}-)?[A-Za-z]{3}-)?(\d{4})(?:-\d{2}(?:-\d{2})?)?(?:T.*)?$")
 
 
 def looks_like_patent(title: str) -> bool:

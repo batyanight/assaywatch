@@ -70,3 +70,7 @@ assaywatch-handoff-*.tar.gz
 
 # Bench-panel sequences cached by scripts/rescore.py (fetched from GenBank on demand)
 .tmp/bench-panels/
+
+# Collection dates fetched from GenBank flatfiles by scripts/backfill_collection_dates.py.
+# Regenerable run state, like data/retrieved/: a 1.2M-row sidecar, not an input.
+data/collection-dates/
