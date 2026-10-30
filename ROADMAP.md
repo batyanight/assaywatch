@@ -355,8 +355,16 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   sensitivity scored against a status about coverage of deposited diversity. Proposed there,
   for the matrix's scoring rule and not for `config.yaml`: a pan-family `works` against
   `low coverage` is agreement, as `partial` already is. The count target (15-20) is met; the
-  **drift target is not — still zero rows with `mechanism: drift`** in either set. No unread
-  evaluation data exists again; the next rows need a drift-mechanism search.
+  **drift target is not**, though not for the reason this item claimed until 2026-10-30. It
+  said zero rows carry `mechanism: drift`. **Three do**: `CDV_P_gene_Scagliarini_2007`
+  (`fails`) in the development set, and the two Kulesh 2004 monkeypox rows (`partial`) in
+  held-out set 1. What is true is that **none of the three meets the strict bar** set that
+  day, and two of them are not two cases: their own source notes say the mechanism is an
+  inference rather than the paper's word, and that they are ONE EVENT. The CDV row rests on
+  a proficiency test plus an alignment against current variants, which is a redesign
+  motive, not a lineage tracked over time at primer sites. So the honest statement is that
+  no row yet DEMONSTRATES drift. No unread evaluation data exists again; the next rows need
+  a drift-mechanism search.
 
   **The drift-mechanism search is designed and NOT built** (2026-10-30, grilled,
   `docs/journal/2026-10-30-design-grilled.md` Q5-Q6): redesign papers first, as a new
@@ -431,7 +439,8 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 - **Both held-out sets are spent; the drift-mechanism target is not met.** Set 1 was read
   2026-10-26, set 2's first three rows 2026-10-28 and the remaining eleven 2026-10-30 (above,
   under tier-2). Of 14 rows in set 2, 3 are `fails` and all three are `mechanism: coverage`;
-  no row in either set is `mechanism: drift`. `docs/journal/2026-10-24-heldout-candidates.md`
+  set 2 has no `mechanism: drift` row, set 1 has two (the Kulesh 2004 monkeypox pair, one
+  inferred event) and the development set one, none of which meets the strict bar. `docs/journal/2026-10-24-heldout-candidates.md`
   records the first sweep. The same literature pass is the within-family negative corpus
   that gates C2, so one read per paper serves both; the search that finds a drift case is
   not the `use` family and has to be designed (see RESUME-HERE).
