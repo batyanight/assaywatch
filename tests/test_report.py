@@ -842,3 +842,77 @@ def test_the_footer_reaches_both_rendered_reports(tmp_path):
     page = render_html(drifts, {}, [], "2026-10-03", results_dir=tmp_path)
     assert "id='timing'" in page and "<code>10241/all</code>" in page
     assert "| stage |" not in page, "the markdown table must be rendered as HTML, not pasted"
+
+
+# --- the collection-year lens (2026-10-30, docs/journal/2026-10-30-design-grilled.md Q1-Q3) ----
+
+
+def _asm_calls_and_meta(tmp_path, assay_id, n=40):
+    """Twenty genomes deposited in 2025 and twenty in 2019, every 2025 deposit collected
+    back in 2012. By deposit year the recent window is all 2025 records; by collection year
+    nothing recent exists at all, so the two clocks must disagree."""
+    retrieved = tmp_path / "retrieved" / "562" / "asm"
+    retrieved.mkdir(parents=True)
+    calls_path = tmp_path / "calls.tsv"
+    rows = [("assay_id", "record_id", "call")]
+    meta = []
+    for i in range(n):
+        acc = f"GCA_{i:09d}"
+        deposited = 2025 if i < n // 2 else 2019
+        collected = "2012-06-01" if deposited == 2025 else str(deposited)
+        call = "fail" if (deposited == 2025 and i % 2 == 0) else "detect"
+        rows.append((assay_id, f"{acc}.1", call))
+        title = f"Escherichia coli S{i}; Complete Genome; 2 loci; collected {collected}"
+        meta.append((acc, acc, f"{deposited}-03-01", f"{deposited}-03-01", "500", title))
+    calls_path.write_text("\n".join("\t".join(r) for r in rows) + "\n")
+    with gzip.open(retrieved / "2026-10-03.meta.tsv.gz", "wt") as fh:
+        fh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
+        for m in meta:
+            fh.write("\t".join(m) + "\n")
+    return calls_path, tmp_path / "retrieved"
+
+
+def test_the_collection_year_lens_shows_both_clocks_and_moves_no_status(tmp_path):
+    from assaywatch.report import collection_lens_rows
+
+    assay_id = "E_coli_malB_Candrian_1991"
+    calls_path, retrieved = _asm_calls_and_meta(tmp_path, assay_id)
+    md, page, drifts = build(
+        calls_path, ROOT / "registry", retrieved, CFG, run_date="2026-10-03", today=date(2026, 10, 3)
+    )
+    # The verdict is still on the deposit clock: 2025 deposits, half failing.
+    assert drifts[assay_id].recent_fraction == 0.5
+    assert "## Collection year against deposit year" in md
+    assert "Collection year against deposit year" in page
+    lens = md[md.index("## Collection year against deposit year") :]
+    row = next(ln for ln in lens.splitlines() if ln.startswith(f"| `{assay_id}`"))
+    # 40 asm records, all 40 carry a collection year; deposit clock 50.0% of 20; collection
+    # clock has nothing recent (everything was collected by 2019), so it says so.
+    assert "| 40 | 40 |" in row and "50.0%" in row and "no recent records" in row
+
+    rows = collection_lens_rows(
+        [{"assay_id": assay_id, "record_id": f"GCA_{i:09d}", "call": "detect"} for i in range(4)]
+        + [{"assay_id": "OTHER", "record_id": "AB00001", "call": "detect"}],
+        {f"GCA_{i:09d}": f"2025-01-0{i + 1}" for i in range(4)},
+        retrieved,
+        CFG,
+        date(2026, 10, 3),
+    )
+    # One row per assay with asm records; nuccore-only assays are not in the lens.
+    assert [r.assay_id for r in rows] == [assay_id]
+    assert rows[0].records == 4 and rows[0].dated == 4
+
+
+def test_a_report_without_asm_records_has_no_lens_section(tmp_path):
+    md, page, _ = build(
+        _write_empty_calls(tmp_path),
+        ROOT / "registry",
+        tmp_path / "retrieved_empty",
+        CFG,
+        run_date="2026-10-03",
+        today=date(2026, 10, 3),
+    )
+    assert (
+        "Collection year against deposit year" not in md
+        and "Collection year against deposit year" not in page
+    )

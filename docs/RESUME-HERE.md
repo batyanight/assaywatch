@@ -22,8 +22,9 @@ items were already done). Then the maintainer batched the four calls that had be
 
 Designed the same evening, one question at a time (`docs/journal/2026-10-30-design-grilled.md`):
 
-1. The **collection-year lens**: one report-wide section for asm assays (deposit-clock share,
-   collection-year share, gap, coverage of the lens). Not a switch; no status can move.
+1. ~~The collection-year lens~~ built the same night (PR `collection-lens`,
+   `docs/journal/2026-10-30-collection-year-lens.md`): the share barely moves, the recent
+   sample halves.
 2. A **second trend over distinct footprints**, printed beside the by-record one.
 3. The **redesign-paper phrase family** in `find_retrospective_cases.py`, pre-registered, with
    the strict bar for `mechanism: drift`.

@@ -241,19 +241,16 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   lower bound (sequencing error inflates footprints; clade structure beyond the primer sites is
   invisible), and the report says so in one clause when they disagree. Neither feeds the
   verdict; absent with the reason when footprints are unknown.
-- **Deposit date is not collection date, and it is not immaterial** (measured
-  2026-10-27, `docs/journal/2026-10-27-deposit-vs-collection-date.md`). Of 1,447
-  assembly records on disk, 1,001 carry a collection year; the median lag to deposit
-  is 5 years, **25.9% were collected ten or more years before they were deposited**,
-  9.8% twenty or more. **Designed 2026-10-30, grilled** (`docs/journal/2026-10-30-design-grilled.md`
-  Q1-Q3): NOT a `drift.window_on` switch — deposit date stays the verdict's clock. A
-  **collection-year lens**: one report-wide section, only when asm assays exist, one row per
-  asm assay with the recent share by deposit clock, by collection YEAR (the existing
-  year-granularity window reused; no invented days), the gap in points, and how many records
-  carried a four-digit collection year. `assemblies.py` gains a `collected` metadata column;
-  existing archives are read from the title string. No status can move. Nuccore (99.9% of
-  calls) is out of scope for the lens until `/collection_date` is retrieved, which is a
-  re-fetch to be priced separately.
+- **Deposit date is not collection date, and the lens that shows it is BUILT** (2026-10-30,
+  `docs/journal/2026-10-30-collection-year-lens.md`; measured 2026-10-27,
+  `docs/journal/2026-10-27-deposit-vs-collection-date.md`). Not a switch: a report-wide
+  section re-dates each assembly record by its collection YEAR and recomputes the recent share
+  beside the deposit-clock one. On the 2026-10-27 run the share barely moves (E. coli malB
+  56.7% of 60 -> 64.0% of 25, every 100% stays 100%) and the sample does: the recent
+  denominator shrinks by half to two thirds once a record is dated by when its isolate
+  existed, so the backlog narrows the verdict's interval rather than manufacturing a decline.
+  **Left**: nuccore (99.9% of calls) carries no collection date in `esummary`; bringing it in
+  is a retrieval change plus a re-fetch of every archive, to be priced before it is built.
 - **`target.exclusivity_taxids`: three sets in, and the rest is one paper at a time**
   (2026-10-28). `scripts/extract_exclusivity.py` prints every sentence in which a paper
   claims its assay does NOT amplify something — **118 of the 178 papers on disk carry at

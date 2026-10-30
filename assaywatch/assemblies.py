@@ -439,7 +439,10 @@ def retrieve_assemblies(
     n_with_locus = n_missing = 0
     try:
         with gzip.open(fasta_tmp, "wt") as fh, gzip.open(meta_tmp, "wt") as mh:
-            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
+            # `collected` is the BioSample collection date as given (a full date, a year, a
+            # range or "missing"); the lens that reads it keeps only the year
+            # (metadata.collection_year). The title keeps the same text for older readers.
+            mh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\tcollected\n")
             for acc, contigs in iter_genomes(fetch, list(by_acc), int(a.get("batch", 10))):
                 m = by_acc[acc]
                 if not contigs:
@@ -455,7 +458,9 @@ def retrieve_assemblies(
                         fh.write(seq[i : i + 80] + "\n")
                 collected = m.collection_date or "missing"
                 title = f"{m.organism} {m.strain}; {m.level}; {n_win} loci; collected {collected}"
-                mh.write(f"{acc}\t{acc}\t{m.release_date}\t{m.release_date}\t{len(seq)}\t{title}\n")
+                mh.write(
+                    f"{acc}\t{acc}\t{m.release_date}\t{m.release_date}\t{len(seq)}\t{title}\t{m.collection_date}\n"
+                )
     except BaseException:
         fasta_tmp.unlink(missing_ok=True)
         meta_tmp.unlink(missing_ok=True)

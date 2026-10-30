@@ -124,6 +124,12 @@ word for a concept.
 
 **baseline** — the pooled earlier records an assay's recent window is contrasted with (`drift.py`).
 
+**deposit date** — the day a record first appeared in GenBank (`created` in the metadata; esummary `CreateDate`, or an assembly's `release_date`); the clock every verdict, window and trend runs on (`calls.read_dates`).
+
+**collection date** — the day the isolate behind a record was collected, as BioSample gives it (a full date, a year-month, a bare year, a range or "missing"); carried for assembly records only, in the `collected` metadata column and, for older archives, in the title (`assemblies.py`, `metadata.collection_year`).
+
+**collection-year lens** — the report section that re-dates each assembly record by its collection YEAR and recomputes the recent share beside the deposit-clock one; a lens on sequencing backlog that moves no status (`report.collection_lens_rows`; decided 2026-10-30, `docs/journal/2026-10-30-design-grilled.md` Q1-Q3).
+
 **recent window** — the latest `recent_window_months` (24) of deposit dates, widened a year at a time up to `max_window_months` (60) when records are scarce (`config.yaml drift:`).
 
 **status** — the per-assay drift verdict: `stable`, `watch`, `declining`, `low coverage`, `insufficient data` (`drift.py`, `README.md` "The drift call").

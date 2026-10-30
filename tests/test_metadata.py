@@ -75,3 +75,75 @@ def test_only_the_accessions_asked_for_come_back(tmp_path):
     )
     assert read_patent_accessions(root, set()) == set()
     assert read_patent_accessions(root, {"PZ835181"}) == set()
+
+
+# --- collection years for asm records --------------------------------------------------
+
+
+def _asm_meta(path, rows, with_column):
+    header = "uid\taccession\tcreated\tupdated\tlength\ttitle" + ("\tcollected" if with_column else "") + "\n"
+    with gzip.open(path, "wt") as fh:
+        fh.write(header)
+        for acc, created, title, collected in rows:
+            line = f"{acc}\t{acc}\t{created}\t{created}\t500\t{title}"
+            fh.write(line + (f"\t{collected}" if with_column else "") + "\n")
+
+
+def test_collection_years_read_the_column_and_fall_back_to_the_title(tmp_path):
+    """Archives written before 2026-10-30 carry the collection date only inside the title
+    ("...; collected 2010-05-13"); newer ones carry a `collected` column. Both are read,
+    the column winning, and only a four-digit year is kept: BioSample dates arrive as full
+    dates, year-month, bare years, ranges and "missing", and the lens works in years."""
+    from assaywatch.metadata import collection_year, read_collection_years
+
+    old = tmp_path / "1" / "asm"
+    old.mkdir(parents=True)
+    _asm_meta(
+        old / "2026-10-01.meta.tsv.gz",
+        [
+            (
+                "GCA_000000001.1",
+                "2020-01-01",
+                "Testus coli S1; Complete Genome; 2 loci; collected 2010-05-13",
+                "",
+            ),
+            ("GCA_000000002.1", "2020-01-01", "Testus coli S2; Complete Genome; 2 loci; collected 2011", ""),
+            (
+                "GCA_000000003.1",
+                "2020-01-01",
+                "Testus coli S3; Complete Genome; 2 loci; collected missing",
+                "",
+            ),
+            (
+                "GCA_000000004.1",
+                "2020-01-01",
+                "Testus coli S4; Complete Genome; 2 loci; collected 2010/2011",
+                "",
+            ),
+        ],
+        with_column=False,
+    )
+    new = tmp_path / "2" / "asm"
+    new.mkdir(parents=True)
+    _asm_meta(
+        new / "2026-11-01.meta.tsv.gz",
+        [
+            (
+                "GCA_000000005.1",
+                "2021-01-01",
+                "Testus coli S5; Complete Genome; 2 loci; collected 2012-03",
+                "2012-03",
+            )
+        ],
+        with_column=True,
+    )
+    want = {f"GCA_00000000{i}" for i in range(1, 6)}
+    got = read_collection_years(tmp_path, want)
+    assert got == {"GCA_000000001": 2010, "GCA_000000002": 2011, "GCA_000000005": 2012}
+    # The pure parser, so the rule is stated once and testable without files.
+    assert collection_year("2010-05-13") == 2010 and collection_year("2011") == 2011
+    assert collection_year("missing") is None and collection_year("not collected") is None
+    assert (
+        collection_year("2010/2011") is None
+    )  # a range is undatable to a year, by decision (Q2, 2026-10-30)
+    assert collection_year("") is None and collection_year("13-May-2010") == 2010

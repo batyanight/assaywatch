@@ -35,6 +35,15 @@ from assaywatch.accession import strip_version
 # records: 150 title matches all `|pat|`, 150 non-matches none).
 PATENT_TITLE = re.compile(r"^(?:[A-Z]{2} [\d/]+-[A-Z]\d*/\d+:|Patent application sequence for )")
 
+# Where assemblies.py puts the BioSample collection date inside the title, for archives
+# written before the `collected` column existed (2026-10-30).
+COLLECTED_IN_TITLE = re.compile(r"; collected (?P<date>[^;]*)$")
+# A collection date is kept only as a YEAR. BioSample dates arrive as 2010-05-13, 2010-05,
+# 2010, 13-May-2010, "missing", "not collected", "2010/2011". The lens that reads them
+# works in years (decided 2026-10-30, docs/journal/2026-10-30-design-grilled.md Q2): no
+# invented days, and a RANGE is undatable to a year rather than taken at its first year.
+_YEAR_ONLY = re.compile(r"^(?:\d{1,2}-[A-Za-z]{3}-)?(\d{4})(?:-\d{2}(?:-\d{2})?)?(?:T.*)?$")
+
 
 def looks_like_patent(title: str) -> bool:
     """True if the deposit title names a patent (GenBank patent division).
@@ -92,6 +101,49 @@ def read_patent_accessions(retrieved_dir: Path, accessions: set[str]) -> set[str
                     flag = row.get("is_patent")
                     if flag == "1" or (flag is None and looks_like_patent(row.get("title") or "")):
                         out.add(acc)
+        except (OSError, EOFError, csv.Error):
+            continue
+    return out
+
+
+def collection_year(text: str | None) -> int | None:
+    """The four-digit year of a BioSample collection date, or None when it has none.
+
+    Accepts ISO prefixes (2010, 2010-05, 2010-05-13, with or without a time) and the
+    day-month-year form (13-May-2010). Anything else -- "missing", "not collected", a
+    range such as 2010/2011 -- is None. See `_YEAR_ONLY` for why a range is not a year.
+    """
+    m = _YEAR_ONLY.match((text or "").strip())
+    return int(m.group(1)) if m else None
+
+
+def read_collection_years(retrieved_dir: Path, accessions: set[str]) -> dict[str, int]:
+    """{accession without version: collection year} for the asm records asked for.
+
+    Reads the `collected` column where the archive has one and the `; collected ...` tail
+    of the title where it does not (archives written before 2026-10-30). Only records with
+    a four-digit collection year appear; the caller counts the rest as undatable. Only
+    `asm/` directories are read: nuccore metadata carries no collection date, and the
+    99.9% of calls it covers are out of the lens by construction until `/collection_date`
+    is retrieved for them.
+    """
+    out: dict[str, int] = {}
+    if not accessions:
+        return out
+    for meta in sorted(Path(retrieved_dir).rglob("asm/*.meta.tsv.gz")):
+        try:
+            with gzip.open(meta, "rt", newline="") as fh:
+                for row in csv.DictReader(fh, delimiter="\t"):
+                    acc = strip_version(row.get("accession") or "")
+                    if acc not in accessions or acc in out:
+                        continue
+                    text = row.get("collected")
+                    if text is None:
+                        m = COLLECTED_IN_TITLE.search(row.get("title") or "")
+                        text = m.group("date") if m else ""
+                    year = collection_year(text)
+                    if year is not None:
+                        out[acc] = year
         except (OSError, EOFError, csv.Error):
             continue
     return out

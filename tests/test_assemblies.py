@@ -392,3 +392,22 @@ def test_a_group_cut_before_settings_were_recorded_is_adopted_not_re_cut(cfg, tm
     changed = _edited(cfg, ("scoring", "max_mismatches_searched"), 8)
     run = retrieve_assemblies(109871, changed, fake, pairs=pairs, assays=[BD], run_date="2026-10-06")
     assert "re-cutting every genome" in run.note
+
+
+def test_the_metadata_carries_the_collection_date_as_its_own_column(cfg, tmp_path):
+    """Before 2026-10-30 the collection date lived only inside the title string. The
+    collection-year lens reads a `collected` column, raw as BioSample gives it."""
+    metas = [meta(i, f"20{18 + i % 4}-03-0{1 + i % 5}") for i in range(3)]
+    genomes = {m.accession: _bd_genome(i) for i, m in enumerate(metas)}
+    run = retrieve_assemblies(
+        109871,
+        cfg,
+        FakeDatasets(metas, genomes),
+        pairs=_pairs(ASSAYS[BD]),
+        assays=[BD],
+        run_date="2026-10-04",
+    )
+    with gzip.open(run.metadata, "rt") as fh:
+        rows = list(csv.DictReader(fh, delimiter="\t"))
+    assert rows and all(r["collected"] == "2010" for r in rows)
+    assert all("collected 2010" in r["title"] for r in rows)  # the title keeps it too, for older readers

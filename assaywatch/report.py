@@ -770,6 +770,36 @@ class GapRow:
     screened: object
 
 
+@dataclass(frozen=True)
+class LensRow:
+    """One assembly-backed assay seen on two clocks: deposit year and collection year.
+
+    A LENS, not a verdict (decided 2026-10-30, `docs/journal/2026-10-30-design-grilled.md`
+    Q1-Q3): the status is computed on the deposit clock as always, and this row only
+    shows what the same records say when each is dated by the year it was collected.
+    Both shares here are computed the same plain way (the pooled year-granularity window
+    over the assay's asm records, no scope filter, no lineage step), so the two columns
+    differ by the clock and nothing else; the deposit-clock share can therefore differ
+    slightly from the status table's. `None` for a share means no evaluable record fell
+    in that clock's recent window.
+    """
+
+    assay_id: str
+    records: int  # asm records screened for this assay
+    dated: int  # of those, how many carry a four-digit collection year
+    by_deposit: float | None
+    by_deposit_n: int
+    by_collection: float | None
+    by_collection_n: int
+
+    @property
+    def gap(self) -> float | None:
+        """Collection-clock share minus deposit-clock share; None if either is missing."""
+        if self.by_deposit is None or self.by_collection is None:
+            return None
+        return self.by_collection - self.by_deposit
+
+
 # statsmodels' `multipletests` method names, as a reader should see them. Both
 # renderers used to hardcode "Benjamini-Hochberg" while config.yaml has shipped
 # `lineage.multiple_testing: holm` since 2026-10-23
@@ -831,6 +861,130 @@ class ReportModel:
     # the run actually applied. Defaulted, so a ReportModel built in a test
     # without a config still renders.
     lineage_adjustment: str = "Holm"
+    #: The collection-year lens: one row per assay with asm records, empty otherwise.
+    collection_lens: list[LensRow] = field(default_factory=list)
+
+
+def collection_lens_rows(
+    calls: list[dict[str, Any]],
+    dates: dict[str, Any],
+    retrieved: Path,
+    cfg: dict[str, Any],
+    today: date | None,
+) -> list[LensRow]:
+    """Re-date every assembly record by its collection year and recompute the recent share.
+
+    Deposit date is not collection date: of 1,447 assembly records on disk on 2026-10-27,
+    1,001 carried a collection year, the median lag to deposit was 5 years and 25.9% were
+    collected ten or more years before deposit
+    (`docs/journal/2026-10-27-deposit-vs-collection-date.md`). For a bacterial target built
+    from complete genomes, "recent deposits" is partly a sequencing-backlog signal. This
+    shows how much, per assay, without touching the verdict.
+
+    Assembly records are the `GCA_`/`GCF_` accessions; nuccore records carry no collection
+    date in their metadata and are out of the lens by construction. Both clocks run the
+    same year-granularity `assess` (bare years in, so `Window` compares years), which is
+    the code path the drift tests have always used; no day is invented for a record that
+    only names a year. A record without a four-digit collection year is skipped on the
+    collection clock and counted in `dated`.
+    """
+    from assaywatch.drift import assess
+    from assaywatch.metadata import read_collection_years
+
+    asm_rows = [r for r in calls if r["record_id"].startswith(("GCA_", "GCF_"))]
+    if not asm_rows:
+        return []
+    accs = {r["record_id"] for r in asm_rows}
+    collected = read_collection_years(retrieved, accs)
+    deposit_years: dict[str, int] = {}
+    for acc in accs:
+        text = str(dates.get(acc) or "")
+        if text[:4].isdigit():
+            deposit_years[acc] = int(text[:4])
+    # Plain pooled assessment, both clocks alike. An assembly record is never a patent
+    # deposit (the `asm` group is sampled from NCBI Datasets, not the patent division), so
+    # the patent set `drift.exclude_patent_records` asks for is empty here by construction.
+    by_deposit = assess(asm_rows, deposit_years, cfg, today=today, patent=set())
+    by_collection = assess(asm_rows, collected, cfg, today=today, patent=set())
+    per_assay: dict[str, list[dict[str, Any]]] = {}
+    for r in asm_rows:
+        per_assay.setdefault(r["assay_id"], []).append(r)
+    out = []
+    for aid in sorted(per_assay):
+        d, c = by_deposit.get(aid), by_collection.get(aid)
+        out.append(
+            LensRow(
+                assay_id=aid,
+                records=len(per_assay[aid]),
+                dated=sum(1 for r in per_assay[aid] if r["record_id"] in collected),
+                by_deposit=d.recent_fraction if d else None,
+                by_deposit_n=d.recent_evaluable if d else 0,
+                by_collection=c.recent_fraction if c else None,
+                by_collection_n=c.recent_evaluable if c else 0,
+            )
+        )
+    return out
+
+
+def _lens_share(share: float | None, n: int) -> str:
+    return f"{share:.1%} of {n}" if share is not None else "no recent records"
+
+
+def _lens_gap(row: LensRow) -> str:
+    g = row.gap
+    return f"{g * 100:+.1f} points" if g is not None else "-"
+
+
+LENS_HEADING = "Collection year against deposit year, for assembly-backed assays"
+LENS_INTRO = (
+    "The verdicts above date every record by the year it was DEPOSITED. For the assays "
+    "whose archives are sampled genome assemblies, the metadata also carries the year each "
+    "isolate was COLLECTED, and the two differ by a median of five years on this archive. "
+    "This table re-dates the same records by collection year and recomputes the recent share "
+    "the same way, so the two columns differ by the clock and nothing else. It is a lens on "
+    "how much of a recent fall is a sequencing backlog rather than a change in what "
+    "circulates; it moves no status. Records without a four-digit collection year are "
+    "skipped on the collection clock and counted. Nuccore records carry no collection date "
+    "in their metadata, so this covers assembly records only."
+)
+LENS_COLUMNS = (
+    "assay",
+    "asm records",
+    "with collection year",
+    "recent share by deposit year",
+    "recent share by collection year",
+    "gap",
+)
+
+
+def lens_cells(r: LensRow) -> tuple[str, ...]:
+    """The six cells of one lens row, shared by both renderers."""
+    return (
+        r.assay_id,
+        str(r.records),
+        str(r.dated),
+        _lens_share(r.by_deposit, r.by_deposit_n),
+        _lens_share(r.by_collection, r.by_collection_n),
+        _lens_gap(r),
+    )
+
+
+def lens_section_md(rows: list[LensRow]) -> list[str]:
+    if not rows:
+        return []
+    out = [
+        f"## {LENS_HEADING}",
+        "",
+        LENS_INTRO,
+        "",
+        "| " + " | ".join(LENS_COLUMNS) + " |",
+        "|" + "---|" * len(LENS_COLUMNS),
+    ]
+    for r in rows:
+        aid, *rest = lens_cells(r)
+        out.append(f"| `{aid}` | " + " | ".join(rest) + " |")
+    out.append("")
+    return out
 
 
 def exclusivity_section(claims: list[DetailRow]) -> list[str]:
@@ -1227,6 +1381,7 @@ def build_model(
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
     results_dir: Path | None = None,
+    collection_lens: list[LensRow] | None = None,
 ) -> ReportModel:
     """Decide what the report says. Neither serialiser decides anything else."""
     # Assays the registry says cannot be scored leave every status table before
@@ -1296,6 +1451,7 @@ def build_model(
         nested_families=have,
         nested_threshold=drift_cfg.get("detect_fraction_threshold", 0.9),
         lineage_adjustment=adjustment_name(cfg),
+        collection_lens=list(collection_lens or []),
         gaps=[
             GapRow(g["assay_id"], g["taxon_name"] or "-", g["taxid"], g["evaluable"], g["screened"])
             for g in gaps
@@ -1312,9 +1468,10 @@ def render_markdown(
     nested: dict[str, NestedFamily] | None = None,
     taxonomy: Taxonomy | None = None,
     results_dir: Path | None = None,
+    collection_lens: list[LensRow] | None = None,
 ) -> str:
     """Markdown, so the report reads on GitHub with nothing built."""
-    model = build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir)
+    model = build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir, collection_lens)
     return markdown_from(model, assays, cfg)
 
 
@@ -1670,6 +1827,7 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
         )
 
     out += exclusivity_section(m.claims)
+    out += lens_section_md(m.collection_lens)
 
     out += ["## Coverage gaps", ""]
     if not m.gaps:
@@ -1729,9 +1887,10 @@ def render_html(
     taxonomy: Taxonomy | None = None,
     results_dir: Path | None = None,
     figures: dict[str, str] | None = None,
+    collection_lens: list[LensRow] | None = None,
 ) -> str:
     """One self-contained file: no CDN, inline SVG charts, opens anywhere."""
-    model = build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir)
+    model = build_model(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir, collection_lens)
     return html_from(model, figures)
 
 
@@ -2056,6 +2215,14 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
                 note = e(f.note(m.nested_threshold))
                 parts.append(f"<p class='muted'><b><code>{e(f.family)}</code></b> — {note}</p>")
 
+    if m.collection_lens:
+        parts.append(f"<h2 id='collection-lens'>{e(LENS_HEADING)}</h2><p class='lead'>{e(LENS_INTRO)}</p>")
+        parts.append("<table><tr>" + "".join(f"<th>{e(c)}</th>" for c in LENS_COLUMNS) + "</tr>")
+        for r in m.collection_lens:
+            aid, *rest = lens_cells(r)
+            cells = "".join(f"<td>{e(c)}</td>" for c in rest)
+            parts.append(f"<tr><td><code>{e(aid)}</code></td>{cells}</tr>")
+        parts.append("</table>")
     parts.append("<h2 id='coverage-gaps'>Coverage gaps</h2>")
     if not m.gaps:
         parts.append("<p class='muted'>Every assay has enough evaluable records to say something.</p>")
@@ -2312,8 +2479,12 @@ def build(
     # run-timing.json is, so the freshness line reads from the calls path rather
     # than needing the config's results_dir threaded in.
     results_dir = calls_path.parent.parent
+    # The collection-year lens, over the same deduplicated calls and dates the verdict used.
+    lens = collection_lens_rows(calls, dates, retrieved, cfg, today)
     return (
-        render_markdown(drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir),
+        render_markdown(
+            drifts, assays, gaps, run_date, cfg, nested, taxonomy, results_dir, collection_lens=lens
+        ),
         # Keyword arguments: `results_dir` was added before `figures` in the
         # signature, and a positional call silently handed the figures dict to it.
         render_html(
@@ -2326,6 +2497,7 @@ def build(
             taxonomy,
             results_dir=results_dir,
             figures=read_figures(figures_dir),
+            collection_lens=lens,
         ),
         drifts,
     )
