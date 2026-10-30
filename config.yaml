@@ -807,6 +807,15 @@ drift:
   # like Monkeypox are unchanged). Tier-2 cannot adjudicate between 0.01 and
   # 0.001 (row-identical at both), so the choice is on mechanism and the single
   # cross-check we have, which both point at 0.001.
+  #
+  # CLOSED AS A STATED PLACEHOLDER, 2026-10-30, rather than carried as a method debt.
+  # No bench panel can ever bear on this number, and that is provable rather than a
+  # matter of effort: anchor_fdr relabels rows between `no_site` and `fail`, and a bench
+  # row records band or no band, where those two are the SAME answer. No value of this
+  # setting can move a single bench prediction. Tier-2 separates 0.01 from 0.001 on one
+  # row. So the honest status is: a mechanism argument, one cross-check, one tier-2 row,
+  # and no instrument that could do better short of a new held-out corpus. It stays 0.001
+  # and stops being listed as owed work.
   anchor_fdr: 0.001
   # WHICH ROWS FORM THE BH FAMILY. Changed 2026-10-27, and the first attempt was
   # WRONG in a way the existing tests caught, which is worth recording.
