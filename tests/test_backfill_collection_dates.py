@@ -15,6 +15,8 @@ import gzip
 import importlib.util
 from pathlib import Path
 
+import pytest
+
 from assaywatch import ncbi
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -120,6 +122,70 @@ def test_accessions_of_a_run_drop_assemblies_and_duplicates(tmp_path: Path):
     # Assemblies carry their collection date already; asking for them would be work
     # for nothing. Order is the table's, so a resumed run asks in a stable order.
     assert _module().accessions_of_run(run) == ["AB000001.1", "AB000003.1"]
+
+
+def test_the_rate_is_measured_over_a_window_not_since_the_start():
+    """A cumulative average is the wrong number to steer by, and it cost a working run.
+
+    The fetch opens slowly while NCBI works off whatever load preceded it, then recovers.
+    Averaged since start, that opening drags the figure down for tens of thousands of
+    records: a run that had reached 69 records/sec still showed single digits early, and
+    the ETA derived from it read 400+ hours instead of 4.5. The run was killed on that
+    reading. The rate now describes the recent past, which is the only part that predicts
+    the near future.
+    """
+    mod = _module()
+
+    # Ten one-second steps of 10 records each: 10/s throughout.
+    steady = [(float(i), i * 10) for i in range(11)]
+    assert mod.recent_rate(steady) == pytest.approx(10.0)
+
+    # A slow first minute, then fast. The windowed rate must follow the fast part; an
+    # average since the start would still be reporting the slow one.
+    opening = [(float(i), i) for i in range(60)]  # 1/s
+    then = [(60.0 + i, 60 + i * 100) for i in range(1, 11)]  # 100/s
+    samples = opening + then
+    assert mod.recent_rate(samples, window=10.0) == pytest.approx(100.0, rel=0.2)
+    cumulative = samples[-1][1] / samples[-1][0]
+    assert cumulative < 20.0  # what the old line would have printed
+
+    # Degenerate inputs must not divide by zero or crash a six-hour job.
+    assert mod.recent_rate([]) == 0.0
+    assert mod.recent_rate([(1.0, 100)]) == 0.0
+    assert mod.recent_rate([(1.0, 100), (1.0, 200)]) == 0.0
+
+
+def test_newest_run_takes_the_latest_date_not_the_last_name(tmp_path: Path):
+    """`sorted()[-1]` over run directories is a lexicographic sort, and 'b' > '2'.
+
+    `results/baseline-2026-10-22` therefore sorted after `results/2026-10-27`, so the
+    backfill spent the night fetching the accession list of a five-day-old baseline run.
+    Most accessions overlap, so little was wasted, but records present only in the current
+    run would never have been asked for and the lens would have counted them undatable.
+    """
+    import gzip as gz
+
+    for name in ("2026-10-27", "baseline-2026-10-22", "2026-10-24-prescope-baseline"):
+        d = tmp_path / "results" / name
+        d.mkdir(parents=True)
+        with gz.open(d / "calls.tsv.gz", "wt") as fh:
+            fh.write("assay_id\trecord_id\tcall\nA\tAB000001.1\tdetect\n")
+    (tmp_path / "results" / "no-calls-here").mkdir()
+    assert _module().newest_run(tmp_path).name == "2026-10-27"
+
+
+def test_a_record_id_that_is_not_an_accession_is_settled_without_a_request(tmp_path: Path):
+    """425 ids in the 2026-10-27 calls table are shaped `pdb|29TK|N`.
+
+    They are not accessions: no flatfile answers for them, and a route that puts record
+    ids in a URL path would send a raw `|`. Settling them without a request keeps them out
+    of every batch and stops a resumed run asking again for ever.
+    """
+    mod = _module()
+    assert mod.is_accession("AB000001.1")
+    assert mod.is_accession("NC_001234")
+    assert not mod.is_accession("pdb|29TK|N")
+    assert not mod.is_accession("")
 
 
 def test_settled_reads_back_with_or_without_a_header(tmp_path: Path):
