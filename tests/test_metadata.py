@@ -152,3 +152,56 @@ def test_collection_years_read_the_column_and_fall_back_to_the_title(tmp_path):
     assert collection_year("Jan-2011") == 2011 and collection_year("Jun-2011") == 2011
     # Still a range, still undatable, even spelled with days and months.
     assert collection_year("01-Apr-2010/30-Jun-2010") is None
+
+
+def test_the_sidecar_answers_for_nuccore_and_the_archives_fill_the_gaps(tmp_path):
+    """`scripts/backfill_collection_dates.py` writes the dates nuccore metadata lacks.
+
+    The archives carry a collection date only for `asm` records, which is 13 assays of 214.
+    The sidecar covers every record the run screened, so it is read first and the archives
+    answer only where it is silent. A row that settled with no date, or that NCBI would not
+    serve, is an answer and must not be mistaken for a gap the archives might fill.
+    """
+    import gzip
+
+    from assaywatch.metadata import read_collection_years
+
+    sidecar = tmp_path / "collection-dates.tsv"
+    sidecar.write_text(
+        "accession\tcollection_date\tstatus\n"
+        "AB000001.1\t16-Mar-2009\tok\n"
+        "AB000002.2\tJan-2011\tok\n"
+        "AB000003.1\t\tnodate\n"
+        "AB000004.1\t\tmissing\n"
+        "GCA_000000009\t1999\tok\n"
+    )
+    asm = tmp_path / "7777" / "all" / "asm"
+    asm.mkdir(parents=True)
+    with gzip.open(asm / "a.meta.tsv.gz", "wt", newline="") as fh:
+        fh.write("accession\ttitle\tcollected\n")
+        fh.write("GCA_000000008.1\tsomething\t2012\n")
+        # The sidecar wins where both have an answer.
+        fh.write("GCA_000000009.1\tsomething\t2020\n")
+
+    want = {"AB000001.1", "AB000002.2", "AB000003.1", "AB000004.1", "GCA_000000008", "GCA_000000009"}
+    got = read_collection_years(tmp_path, want, sidecar=sidecar)
+    assert got == {
+        "AB000001.1": 2009,
+        "AB000002.2": 2011,
+        "GCA_000000008": 2012,
+        "GCA_000000009": 1999,
+    }
+    # Keys come back spelled the way the caller asked, version or no version, so a caller
+    # holding nuccore record ids can look them up without stripping anything.
+    assert read_collection_years(tmp_path, {"AB000001.1"}, sidecar=sidecar) == {"AB000001.1": 2009}
+    assert read_collection_years(tmp_path, {"AB000001"}, sidecar=sidecar) == {"AB000001": 2009}
+    # No sidecar: unchanged behaviour, archives only.
+    assert read_collection_years(tmp_path, want) == {
+        "GCA_000000008": 2012,
+        "GCA_000000009": 2020,
+    }
+    # A sidecar that does not exist is not an error; the archives still answer.
+    assert read_collection_years(tmp_path, want, sidecar=tmp_path / "nope.tsv") == {
+        "GCA_000000008": 2012,
+        "GCA_000000009": 2020,
+    }

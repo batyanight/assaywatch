@@ -122,26 +122,59 @@ def collection_year(text: str | None) -> int | None:
     return int(m.group(1)) if m else None
 
 
-def read_collection_years(retrieved_dir: Path, accessions: set[str]) -> dict[str, int]:
-    """{accession without version: collection year} for the asm records asked for.
+def read_collection_years(
+    retrieved_dir: Path,
+    accessions: set[str],
+    *,
+    sidecar: Path | None = None,
+) -> dict[str, int]:
+    """{accession as the caller spelled it: collection year}, for the records asked for.
 
-    Reads the `collected` column where the archive has one and the `; collected ...` tail
-    of the title where it does not (archives written before 2026-10-30). Only records with
-    a four-digit collection year appear; the caller counts the rest as undatable. Only
-    `asm/` directories are read: nuccore metadata carries no collection date, and the
-    99.9% of calls it covers are out of the lens by construction until `/collection_date`
-    is retrieved for them.
+    Two sources, in order. The `sidecar` is what `scripts/backfill_collection_dates.py`
+    fetched from the GenBank flatfiles, and it covers every record a run screened, nuccore
+    included; the retrieval archives carry a collection date only for `asm` records, which
+    is 13 assays of 214. So the sidecar answers first and the archives fill its gaps. A
+    sidecar row that settled with no date, or that NCBI would not serve, is an answer and
+    not a gap: it is left out of the result like any undatable record, and the archives are
+    not consulted for it, because they have nothing to say about a nuccore accession.
+
+    From the archives, reads the `collected` column where it exists and the
+    `; collected ...` tail of the title where it does not (archives written before
+    2026-10-30). Only records with a four-digit collection year appear; the caller counts
+    the rest as undatable.
+
+    Keys are spelled the way the caller asked. An accession matches with or without its
+    version, so a caller holding versioned nuccore record ids and one holding bare assembly
+    accessions both get keys they can look up directly.
     """
     out: dict[str, int] = {}
     if not accessions:
         return out
+    bare = {strip_version(a): a for a in accessions}
+
+    def asked_as(acc: str) -> str | None:
+        """The caller's own spelling of `acc`, or None if they did not ask for it."""
+        return acc if acc in accessions else bare.get(strip_version(acc))
+
+    answered: set[str] = set()
+    if sidecar is not None and Path(sidecar).exists():
+        with Path(sidecar).open(newline="") as fh:
+            for row in csv.DictReader(fh, delimiter="\t"):
+                key = asked_as((row.get("accession") or "").strip())
+                if key is None:
+                    continue
+                answered.add(key)
+                year = collection_year(row.get("collection_date"))
+                if year is not None:
+                    out[key] = year
     for meta in sorted(Path(retrieved_dir).rglob("asm/*.meta.tsv.gz")):
         try:
             with gzip.open(meta, "rt", newline="") as fh:
                 for row in csv.DictReader(fh, delimiter="\t"):
-                    acc = strip_version(row.get("accession") or "")
-                    if acc not in accessions or acc in out:
+                    key = asked_as(row.get("accession") or "")
+                    if key is None or key in out or key in answered:
                         continue
+                    acc = key
                     text = row.get("collected")
                     if text is None:
                         m = COLLECTED_IN_TITLE.search(row.get("title") or "")
