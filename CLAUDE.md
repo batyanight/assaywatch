@@ -49,7 +49,7 @@ one-off Python, and over asking Batya to download files by hand.
 Search and summarise; don't read large files whole. `rg`, `fd`, `jq`, `mlr` are
 on PATH (Homebrew). If one is missing, say so rather than falling back to `cat`.
 - `GLOSSARY.md` is the project vocabulary: use its terms in names, comments and commit messages, and add a term there before inventing a new word.
-- `docs/INDEX.md` indexes everything under `docs/` (9 reference documents, 129 journals
+- `docs/INDEX.md` indexes everything under `docs/` (9 reference documents, 130 journals
   and 23 data files as of 2026-10-30), grouped by what you want, with a `Superseded`
   section. Start there rather than guessing from filenames.
 - `docs/journal/YYYY-MM-DD-*.md` are dated session records, and `docs/*.md` is the
