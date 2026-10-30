@@ -155,6 +155,39 @@ def test_the_rate_is_measured_over_a_window_not_since_the_start():
     assert mod.recent_rate([(1.0, 100), (1.0, 200)]) == 0.0
 
 
+def test_newest_run_takes_the_latest_date_not_the_last_name(tmp_path: Path):
+    """`sorted()[-1]` over run directories is a lexicographic sort, and 'b' > '2'.
+
+    `results/baseline-2026-10-22` therefore sorted after `results/2026-10-27`, so the
+    backfill spent the night fetching the accession list of a five-day-old baseline run.
+    Most accessions overlap, so little was wasted, but records present only in the current
+    run would never have been asked for and the lens would have counted them undatable.
+    """
+    import gzip as gz
+
+    for name in ("2026-10-27", "baseline-2026-10-22", "2026-10-24-prescope-baseline"):
+        d = tmp_path / "results" / name
+        d.mkdir(parents=True)
+        with gz.open(d / "calls.tsv.gz", "wt") as fh:
+            fh.write("assay_id\trecord_id\tcall\nA\tAB000001.1\tdetect\n")
+    (tmp_path / "results" / "no-calls-here").mkdir()
+    assert _module().newest_run(tmp_path).name == "2026-10-27"
+
+
+def test_a_record_id_that_is_not_an_accession_is_settled_without_a_request(tmp_path: Path):
+    """425 ids in the 2026-10-27 calls table are shaped `pdb|29TK|N`.
+
+    They are not accessions: no flatfile answers for them, and a route that puts record
+    ids in a URL path would send a raw `|`. Settling them without a request keeps them out
+    of every batch and stops a resumed run asking again for ever.
+    """
+    mod = _module()
+    assert mod.is_accession("AB000001.1")
+    assert mod.is_accession("NC_001234")
+    assert not mod.is_accession("pdb|29TK|N")
+    assert not mod.is_accession("")
+
+
 def test_settled_reads_back_with_or_without_a_header(tmp_path: Path):
     mod = _module()
     p = tmp_path / "collection-dates.tsv"

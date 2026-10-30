@@ -32,6 +32,7 @@ import re
 import sys
 import time
 from collections.abc import Callable
+from datetime import datetime
 from pathlib import Path
 
 from assaywatch import ncbi
@@ -95,11 +96,40 @@ def accessions_of_run(results: Path) -> list[str]:
     return list(seen)
 
 
+_RUN_DATE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
+
+
 def newest_run(root: Path) -> Path:
-    runs = sorted(p for p in (root / "results").glob("*") if (p / "calls.tsv.gz").exists())
+    """The most recent run directory holding a calls table, by DATE not by name.
+
+    A lexicographic sort put `results/baseline-2026-10-22` after `results/2026-10-27`,
+    because 'b' > '2', so the backfill read a five-day-old baseline run's accession list.
+    Run directories carry their date in the name, sometimes with a prefix or suffix
+    (`baseline-2026-10-22`, `2026-10-24-prescope-baseline`), so the date is matched
+    wherever it sits; a directory with no date in its name falls back to its mtime.
+    """
+    runs = [p for p in (root / "results").glob("*") if (p / "calls.tsv.gz").exists()]
     if not runs:
         raise SystemExit("no run under results/ has a calls.tsv.gz to read accessions from")
-    return runs[-1]
+
+    def when(p: Path) -> tuple[int, int, int]:
+        m = _RUN_DATE.search(p.name)
+        if m:
+            return (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+        stamp = datetime.fromtimestamp(p.stat().st_mtime)
+        return (stamp.year, stamp.month, stamp.day)
+
+    return max(runs, key=when)
+
+
+def is_accession(record_id: str) -> bool:
+    """True for a plain `accession[.version]`.
+
+    425 ids in the 2026-10-27 calls table are shaped `pdb|29TK|N`. No flatfile answers
+    for them, so asking costs a round trip to learn nothing, and a route that puts record
+    ids in a URL path would send a raw `|`.
+    """
+    return bool(record_id) and "|" not in record_id
 
 
 def settled(sidecar: Path) -> set[str]:
@@ -201,6 +231,17 @@ def main() -> int:
         f"{len(todo):,} to fetch in batches of {args.batch}",
         flush=True,
     )
+    odd = [a for a in todo if not is_accession(a)]
+    todo = [a for a in todo if is_accession(a)]
+    if odd:
+        SIDECAR.parent.mkdir(parents=True, exist_ok=True)
+        new_file = not SIDECAR.exists()
+        with SIDECAR.open("a") as out:
+            if new_file:
+                out.write("\t".join(COLUMNS) + "\n")
+            for acc in odd:
+                out.write(f"{acc}\t\tnot_an_accession\n")
+        print(f"{len(odd):,} record ids are not accessions and were settled unasked", flush=True)
     if not todo:
         return 0
 
