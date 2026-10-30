@@ -219,11 +219,17 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   split 36 on `low coverage` assays and 33 on `declining` ones.
 
   **What may and may not settle it.** Not the Mills row: tuning on it would make held-out
-  data a second development set. The bench panels may be spent, and the first question is
-  whether any of their 179 rows turns on a single mid-window mismatch — if none does, the
-  mid-window penalty rests on nothing this project can measure, and `config.yaml` should
-  say so. A second held-out row would settle it properly, and 22 of those 23 assays are
-  not monkeypox.
+  data a second development set. The bench-panel question was MEASURED 2026-10-30
+  (`docs/journal/2026-10-30-mid-window-on-the-bench.md`): sweeping `primer_mid_penalty`
+  over 0.0–2.0, **8 of the 179 rows change their band/no-band prediction**, so the
+  parameter is not unmeasurable as this item supposed — one bench row does turn on it. But
+  **all 8 sit in `fitting` panels**, the ones a model may be tuned on; the single `control`
+  panel (specificity only, never fittable) is unmoved at every value. So the bench still
+  cannot *settle* the value without fitting on exactly the rows reserved for fitting:
+  agreement is 162–163 of 179 flat across 0.0–1.0 and only falls above it (FN-dominated, as
+  everywhere here), which rules out the high end but does not choose between 0.0, 0.5 and
+  the shipped 1.0. A second held-out row is still what would settle it, and 22 of those 23
+  assays are not monkeypox.
 - **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
   the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
   before any lineage is looked at. **Designed 2026-10-27 as C1b** in
