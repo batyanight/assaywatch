@@ -1,4 +1,16 @@
 # TIER-2 HELD-OUT CASES, SET 2. Created 2026-10-27 with one row; 14 rows as of
+# POPULATION FOR `scope_taxid`, decided 2026-10-30: every row whose assay carries more
+# than one claim-scope taxid in `target.scope_taxids` -- **34 rows across all three case
+# files** (17 development, 10 held-out set 1, 7 held-out set 2), over 17 assays and 34
+# distinct source papers, listed in docs/2026-10-30-scope-worksheet.tsv.
+# The population is a property of the REGISTRY, readable without looking at any verdict,
+# which is what keeps it from being "the rows whose false alarms were inconvenient". It is
+# dominated by rows that can move AGAINST us: 11 of the 34 are `fails` rows, where scoping
+# to a well-covered lineage can turn a catch into a miss. The agreement rule is NOT
+# changed -- a pan-family `works` against `low coverage` stays a disagreement -- and the
+# pooled verdict is printed beside every scoped one. A single-target assay needs no scope:
+# its scope IS its target, so the remaining 63 rows stay blank by construction, not by
+# omission.
 # OPTIONAL COLUMN `scope_taxid` (2026-10-30): the lineage the paper actually tested.
 # Where it is given and per-lineage statistics exist, scripts/retrospective.py scores
 # that lineage's own records instead of the assay's pooled share, and prints which rows
@@ -90,7 +102,6 @@
 # docs/2026-10-26-retrospective-candidates.tsv is now the cheapest source, because
 # it answers the question that actually blocks a row -- did the citing paper test
 # OUR oligos -- before any reading time is spent. See ROADMAP.md, tier-2 validation.
-assay_id	as_of	expect	mechanism	source
 # ROW ADDED 2026-10-27. The first CONFIRMED retrospective identity in the project:
 # both round-2 primers are printed verbatim in the paper and read `exact` against
 # the registry (docs/journal/2026-10-27-leetz-identity-confirmed.md). `as_of` is the
@@ -106,7 +117,6 @@ assay_id	as_of	expect	mechanism	source
 # was repeated with a German bovine stock "with identical results". Recording it
 # as `fails` would teach the harness that a sensitivity result is a coverage
 # result, which is exactly what the `mechanism` column exists to prevent.
-Cryptosporidium_18SrDNA_Xiao_1999_round2	2007-03-25	works		10.1007/s00436-007-0567-y Leetz 2007 Parasitol Res 101:951-962: round-2 primers printed verbatim (Xiao18SF2 GGAAGGGTTGTATTTATTAGATAAAG, Xiao18SR2 AAGGAGTAAGGAACAACCTCCA) and amplified C. parvum HNJ-1 genotype II, RFLP-typed cleanly with Vsp I (628 + 104 bp), repeated on an independent German bovine stock with identical results; the 73.8% in Table 2 is a dilution series, i.e. sensitivity, not coverage
 # ROW ADDED 2026-10-27. Mills, Greninger et al. 2022 (J Clin Virol 159:105373, PMC9783225, open access)
 # prints the G2R generic primers and probe character for character -- identical to
 # MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010 -- and validates them on 2022 outbreak clinical
@@ -114,7 +124,6 @@ Cryptosporidium_18SrDNA_Xiao_1999_round2	2007-03-25	works		10.1007/s00436-007-05
 # `works`, mechanism blank: a clinical validation of the stored oligos on circulating virus.
 # `as_of` is the paper's received date, 2 November 2022. Identity was read directly from the
 # open full text, not inferred from the citation.
-MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010	2022-11-02	works		10.1016/j.jcv.2022.105373 Mills 2022 J Clin Virol 159:105373: G2R forward GGAAAATGTAAAGACAACGAATACAG, reverse GCTATCACATAATCTGGAAGCGTA, probe AAGCCGTAATCTATGTTGTCTATCGTGTCC printed verbatim and validated on 2022 clinical specimens; G2R outperformed F3L by ~0.4 Ct
 #
 # NOT A ROW, recorded so the lead is not chased twice:
 # Cryptosporidium_18SrDNA_Xiao_1999_round1 reads VARIANT against the same paper --
@@ -138,7 +147,6 @@ MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010	2022-11-02	works		10.1016/j.jcv.2022.
 # maintainer's. Strike the row if you read it differently -- the arguable part is that
 # the paper also reports tumour-free skin and two olive ridley turtles as PCR
 # NEGATIVE, which is a true negative for those samples and not an assay failure.
-Pan_HERPES_dsDNA_Polymerase_round2	1998-02-26	works		10.1006/viro.1998.9207 Quackenbush 1998 Virology 246:392-399: cites VanDevanter 1996 and prints DFA/KG1/TGV/IYG; ~250 bp round-2 product sequenced from five green turtle fibropapillomas, 53% identical to BHV-1/PRV between TGV and IYG (PROPOSED, awaiting sign-off)
 #
 # NOT A ROW, recorded 2026-10-28 so the lead is not chased twice:
 # 10.1016/j.mimet.2008.12.003 reads CONFIRMED against Salmonella_invA_Rahn_1992 -- the
@@ -198,9 +206,6 @@ Pan_HERPES_dsDNA_Polymerase_round2	1998-02-26	works		10.1006/viro.1998.9207 Quac
 # development set, where a pan-family assay misses one branch, and `mechanism:
 # coverage` is what the column exists to record -- but if the maintainer reads a
 # clade-specific miss inside a working survey as `partial`, strike and re-enter.
-Pan_hemoparasite_cytochrome_c_Hellgren_2004	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemNFI/HaemNR3 printed verbatim; the paper states the nest cannot amplify CytB of the L. toddi group, locating a two bp 3'-end mismatch in HaemNFI (AG vs GC), and screened all 183 samples again with a group-specific protocol to cover it (PROPOSED, awaiting sign-off)
-Leucocytozoon_cyt_c_Hellgren_2004	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemFL/HaemR2L printed verbatim; two bp 3'-end mismatch in HaemR2L against L. toddi group sequences (GC vs CT/TT/AT), so the group's lineages were recovered with other primers entirely (PROPOSED, awaiting sign-off)
-Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemF/HaemR2 printed verbatim; the discussion reports four 3'-region mismatches in HaemR2 to the hBUBT1 clade and names that as the likely reason for its "extremely scarce molecular genetic record" elsewhere, the paper's own sequences for it coming from other primers (PROPOSED, awaiting sign-off)
 #
 # ------------------------------------------------------------------------
 # TWO `works` ROWS: the VanDevanter pan-herpes nest on equine samples. Received
@@ -208,8 +213,6 @@ Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	2022-01-05	fails	coverage	10.1186/s1
 # are named in the methods (DFA/ILK/KG1 then TGV/IYG) and both reads are `exact`.
 # The assay typed EHV-1 and EHV-4 across vaginal swabs, nasal swabs and whole blood
 # and the products were sequenced; this is a pan-family assay doing routine work.
-Pan_HERPES_dsDNA_Polymerase	2023-10-01	works		10.5455/ovj.2024.v14.i1.48 Open Vet J 14:48 (PMC11018441), received 2023-10-01: DFA/ILK/KG1 printed verbatim as the primary mixture, cited to Van Devanter 1996; EHV-1 and EHV-4 detected and typed in Arabian horses (50% and 10% of aborted-mare vaginal swabs, 28% and 36% of nasal swabs) (PROPOSED, awaiting sign-off)
-Pan_HERPES_dsDNA_Polymerase_round2	2023-10-01	works		10.5455/ovj.2024.v14.i1.48 Open Vet J 14:48 (PMC11018441), received 2023-10-01: TGV plus the downstream inner primer printed as the secondary mixture; the nested product is what was typed and sequenced for EHV-1/EHV-4 (PROPOSED, awaiting sign-off)
 #
 # ONE `works` ROW, ROUND 1 ONLY: the same nest on Chilean pudus, where it amplified
 # a herpesvirus whose polymerase is only 78.7% identical to its nearest relative
@@ -218,7 +221,6 @@ Pan_HERPES_dsDNA_Polymerase_round2	2023-10-01	works		10.5455/ovj.2024.v14.i1.48 
 # clearest `works` there is. ROUND 2 IS NOT A ROW: it reads VARIANT, because this
 # paper's inner/sequencing primers (TGVseq, IYGseq) are not the pair the registry
 # holds. `as_of` is the Crossref registration date, earlier than the issue date.
-Pan_HERPES_dsDNA_Polymerase	2022-11-21	works		10.1080/01652176.2022.2149879 Vet Q (PMC9809401): DFA/ILK/KG1 printed verbatim, cited to VanDevanter 1996; herpesvirus DNA confirmed in 5 of 66 pudus, four sequencing to CpHV-2 and one to a novel gammaherpesvirus 78.7% identical to fallow deer lymphotropic herpesvirus (PROPOSED, awaiting sign-off)
 #
 # ------------------------------------------------------------------------
 # TWO `works` ROWS: the Chu 2008 pan-astrovirus heminest in a buffalo-calf enteritis
@@ -227,8 +229,6 @@ Pan_HERPES_dsDNA_Polymerase	2022-11-21	works		10.1080/01652176.2022.2149879 Vet 
 # as a candidate new species. The 62.5% in round 1 alone is SENSITIVITY, not
 # coverage -- the nest is what the assay is -- which is the same distinction the
 # Leetz/Cryptosporidium row above turns on.
-ASTROVIRUS_RdRp_Chu_2008_round1	2021-09-27	works		10.4142/jvs.2021.22.e84 J Vet Sci 22:e84 (PMC8636656): ASTF1/ASTR1 printed verbatim as the pan-astrovirus ORF1b assay; 10/16 buffalo-calf samples positive in the single round, all 16 with the nest, sequences >99% nt identical to each other (PROPOSED, awaiting sign-off)
-ASTROVIRUS_RdRp_Chu_2008_round2	2021-09-27	works		10.4142/jvs.2021.22.e84 J Vet Sci 22:e84 (PMC8636656): ASTF2 with the shared reverse printed verbatim; 16 of 16 positive by nested RT-PCR, the product sequenced to a candidate new Mamastrovirus species up to 85% aa identical to bovine AstVs (PROPOSED, awaiting sign-off)
 #
 # TWO `works` ROWS: the pan-adenovirus hexon seminest on 775 rodents from the DRC.
 # Four positives (0.5%), sequences 81-91% nt identical to MAdV-2, i.e. novel
@@ -238,8 +238,6 @@ ASTROVIRUS_RdRp_Chu_2008_round2	2021-09-27	works		10.4142/jvs.2021.22.e84 J Vet 
 # was detected" -- which is an honest doubt about sensitivity against no gold
 # standard, not a documented miss. A maintainer who reads that as a named gap
 # should make these `partial` instead.
-ADENOVIRUS_dsDNA_Hexon_gene	2019-12-31	works		10.1016/j.nmni.2019.100640 New Microbes New Infect (PMC6997563): ADHEX1F/ADHEX1R printed verbatim for the first round of the hexon seminest; AdV DNA detected in 4 of 775 DRC rodents, species confirmed by cytochrome b barcoding (PROPOSED, awaiting sign-off)
-ADENOVIRUS_dsDNA_Hexon_gene_round2	2019-12-31	works		10.1016/j.nmni.2019.100640 New Microbes New Infect (PMC6997563): ADHEX2F with ADHEX1R printed verbatim for the second round; the ~334 bp hexon products sequenced to four novel adenoviruses, 81-91% nt identical to MAdV-2 (PROPOSED, awaiting sign-off)
 #
 # ------------------------------------------------------------------------
 # ONE `partial` ROW, AND THE ONLY HEAD-TO-HEAD IN THE BATCH. Nieto-Rabiela et al.
@@ -261,7 +259,6 @@ ADENOVIRUS_dsDNA_Hexon_gene_round2	2019-12-31	works		10.1016/j.nmni.2019.100640 
 # results", and the same animal appears more than once across rectal swab, oral
 # swab, liver, spleen and plasma. The per-animal cross-tab is not published, so the
 # 2.7x is a ratio of results and not of animals missed.
-CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	2022-01-05	partial	coverage	10.1093/ve/veab110 Virus Evol 8:veab110 (PMC8867583): CoV-FWD2/CoV-RVS2 printed verbatim in Table 1 as the nested family-level RdRp assay; CoV RNA detected in 175 bats, 1 civet and 1 shrew overall, with "the Quan PCR protocols produced 64 positive results" against 173 for the second protocol in the same samples (PROPOSED, awaiting sign-off)
 #
 # ------------------------------------------------------------------------
 # NOT A ROW, recorded 2026-10-29 so the lead is not chased twice:
@@ -275,3 +272,18 @@ CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	2022-01-05	partial	coverage	10
 # herpesvirus positive controls amplified, which is a control and not a drift
 # observation -- the same reason this file's header refuses a new assay's validation
 # against its own panel.
+assay_id	as_of	expect	mechanism	source	scope_taxid
+Cryptosporidium_18SrDNA_Xiao_1999_round2	2007-03-25	works		10.1007/s00436-007-0567-y Leetz 2007 Parasitol Res 101:951-962: round-2 primers printed verbatim (Xiao18SF2 GGAAGGGTTGTATTTATTAGATAAAG, Xiao18SR2 AAGGAGTAAGGAACAACCTCCA) and amplified C. parvum HNJ-1 genotype II, RFLP-typed cleanly with Vsp I (628 + 104 bp), repeated on an independent German bovine stock with identical results; the 73.8% in Table 2 is a dilution series, i.e. sensitivity, not coverage	
+MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010	2022-11-02	works		10.1016/j.jcv.2022.105373 Mills 2022 J Clin Virol 159:105373: G2R forward GGAAAATGTAAAGACAACGAATACAG, reverse GCTATCACATAATCTGGAAGCGTA, probe AAGCCGTAATCTATGTTGTCTATCGTGTCC printed verbatim and validated on 2022 clinical specimens; G2R outperformed F3L by ~0.4 Ct	
+Pan_HERPES_dsDNA_Polymerase_round2	1998-02-26	works		10.1006/viro.1998.9207 Quackenbush 1998 Virology 246:392-399: cites VanDevanter 1996 and prints DFA/KG1/TGV/IYG; ~250 bp round-2 product sequenced from five green turtle fibropapillomas, 53% identical to BHV-1/PRV between TGV and IYG (PROPOSED, awaiting sign-off)	
+Pan_hemoparasite_cytochrome_c_Hellgren_2004	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemNFI/HaemNR3 printed verbatim; the paper states the nest cannot amplify CytB of the L. toddi group, locating a two bp 3'-end mismatch in HaemNFI (AG vs GC), and screened all 183 samples again with a group-specific protocol to cover it (PROPOSED, awaiting sign-off)	
+Leucocytozoon_cyt_c_Hellgren_2004	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemFL/HaemR2L printed verbatim; two bp 3'-end mismatch in HaemR2L against L. toddi group sequences (GC vs CT/TT/AT), so the group's lineages were recovered with other primers entirely (PROPOSED, awaiting sign-off)	
+Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemF/HaemR2 printed verbatim; the discussion reports four 3'-region mismatches in HaemR2 to the hBUBT1 clade and names that as the likely reason for its "extremely scarce molecular genetic record" elsewhere, the paper's own sequences for it coming from other primers (PROPOSED, awaiting sign-off)	
+Pan_HERPES_dsDNA_Polymerase	2023-10-01	works		10.5455/ovj.2024.v14.i1.48 Open Vet J 14:48 (PMC11018441), received 2023-10-01: DFA/ILK/KG1 printed verbatim as the primary mixture, cited to Van Devanter 1996; EHV-1 and EHV-4 detected and typed in Arabian horses (50% and 10% of aborted-mare vaginal swabs, 28% and 36% of nasal swabs) (PROPOSED, awaiting sign-off)	
+Pan_HERPES_dsDNA_Polymerase_round2	2023-10-01	works		10.5455/ovj.2024.v14.i1.48 Open Vet J 14:48 (PMC11018441), received 2023-10-01: TGV plus the downstream inner primer printed as the secondary mixture; the nested product is what was typed and sequenced for EHV-1/EHV-4 (PROPOSED, awaiting sign-off)	
+Pan_HERPES_dsDNA_Polymerase	2022-11-21	works		10.1080/01652176.2022.2149879 Vet Q (PMC9809401): DFA/ILK/KG1 printed verbatim, cited to VanDevanter 1996; herpesvirus DNA confirmed in 5 of 66 pudus, four sequencing to CpHV-2 and one to a novel gammaherpesvirus 78.7% identical to fallow deer lymphotropic herpesvirus (PROPOSED, awaiting sign-off)	
+ASTROVIRUS_RdRp_Chu_2008_round1	2021-09-27	works		10.4142/jvs.2021.22.e84 J Vet Sci 22:e84 (PMC8636656): ASTF1/ASTR1 printed verbatim as the pan-astrovirus ORF1b assay; 10/16 buffalo-calf samples positive in the single round, all 16 with the nest, sequences >99% nt identical to each other (PROPOSED, awaiting sign-off)	
+ASTROVIRUS_RdRp_Chu_2008_round2	2021-09-27	works		10.4142/jvs.2021.22.e84 J Vet Sci 22:e84 (PMC8636656): ASTF2 with the shared reverse printed verbatim; 16 of 16 positive by nested RT-PCR, the product sequenced to a candidate new Mamastrovirus species up to 85% aa identical to bovine AstVs (PROPOSED, awaiting sign-off)	
+ADENOVIRUS_dsDNA_Hexon_gene	2019-12-31	works		10.1016/j.nmni.2019.100640 New Microbes New Infect (PMC6997563): ADHEX1F/ADHEX1R printed verbatim for the first round of the hexon seminest; AdV DNA detected in 4 of 775 DRC rodents, species confirmed by cytochrome b barcoding (PROPOSED, awaiting sign-off)	
+ADENOVIRUS_dsDNA_Hexon_gene_round2	2019-12-31	works		10.1016/j.nmni.2019.100640 New Microbes New Infect (PMC6997563): ADHEX2F with ADHEX1R printed verbatim for the second round; the ~334 bp hexon products sequenced to four novel adenoviruses, 81-91% nt identical to MAdV-2 (PROPOSED, awaiting sign-off)	
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	2022-01-05	partial	coverage	10.1093/ve/veab110 Virus Evol 8:veab110 (PMC8867583): CoV-FWD2/CoV-RVS2 printed verbatim in Table 1 as the nested family-level RdRp assay; CoV RNA detected in 175 bats, 1 civet and 1 shrew overall, with "the Quan PCR protocols produced 64 positive results" against 173 for the second protocol in the same samples (PROPOSED, awaiting sign-off)	
