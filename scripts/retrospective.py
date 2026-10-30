@@ -185,6 +185,63 @@ def precision_lines(rows: list[tuple[str, str, str, str]], intervals: str = "jef
     return out
 
 
+#: Evaluable records a named lineage needs before its own share is worth scoring. Read from
+#: `drift.min_records_for_coverage` where a config is given; this is the fallback for a
+#: hand-built cfg in a test, and the same number drift.py uses to decide a lineage is
+#: assessable at all.
+SCOPE_MIN_RECORDS = 10
+
+
+def scope_verdict(
+    a, taxid: int, threshold: float, expect: str, min_records: int = SCOPE_MIN_RECORDS
+) -> tuple[str | None, str]:
+    """What the tool says about ONE named lineage of an assay, or None to use the pooled status.
+
+    Why this exists (2026-10-30, `docs/journal/2026-10-30-design-grilled.md` Q7). A paper
+    that reports a pan-family nest amplifying a divergent virus from a handful of positives
+    is reporting on the lineage it tested. The pooled status is about every deposit for the
+    family. Scoring the first against the second put four pan-family assays among held-out
+    set 2's five false alarms. A case row may therefore name `scope_taxid`, and this answers
+    the question that paper actually answered.
+
+    Returns `(got, basis)`. `got` is `works`, `fails`, `undecided`, or None when the scope
+    cannot be honoured, in which case `basis` says why and the caller uses the pooled
+    verdict. There is no `partial` here: partial means "some of the diversity and not the
+    rest", which is a statement about an assay across lineages and cannot be made about one.
+    For the same reason a `partial` expectation ignores its scope.
+
+    THE TEST IS THE SAME BINOMIAL `worst_lineage_verdict` USES AND WITHOUT ITS CORRECTION.
+    That function asks "is ANY lineage of this assay failing", so it controls the family-wise
+    error across every lineage it looked at. Here the lineage was named in advance, from the
+    paper, before any share was computed. There is no family of tests, so
+    no multiple-testing correction applies -- only the one test that was asked for.
+    """
+    if expect == "partial":
+        return None, "scope ignored: a `partial` expectation is about several lineages, not one"
+    stats = getattr(a, "lineage_stats", None)
+    if not stats:
+        return None, "no per-lineage statistics for this assay (no taxids, or the lineage extra is absent)"
+    match = next((s for s in stats if s.taxid == taxid), None)
+    if match is None:
+        return None, f"no per-lineage statistics for taxid {taxid} among {len(stats)} lineages"
+    if match.n_evaluable < min_records:
+        return (
+            "undecided",
+            f"lineage {taxid}: {match.n_evaluable} evaluable records, fewer than {min_records}",
+        )
+    try:
+        from scipy.stats import binom
+    except ImportError:
+        return None, "the per-lineage test needs scipy (the `lineage` extra); pooled verdict used"
+    p = float(binom.cdf(match.n_detected, match.n_evaluable, threshold))
+    below = p < 0.05
+    basis = (
+        f"lineage {taxid}: {match.n_detected} of {match.n_evaluable} detected "
+        f"({match.share:.1%}), binomial p = {p:.3g} against the {threshold:.0%} threshold"
+    )
+    return ("fails" if below else "works"), basis
+
+
 def classify(status: str, expect: str, mechanism: str | None = None) -> tuple[str, str]:
     """(what the tool said, how that compares with the paper) for one case.
 
@@ -606,6 +663,12 @@ def main(argv: list[str] | None = None) -> int:
 
     tally: Counter = Counter()
     scored: list[tuple[str, str, str, str]] = []
+    # Rows scored on a named lineage rather than the pooled status, and the reason a scope
+    # that was given could not be honoured. Printed after the matrix: a reader must be able
+    # to see which rows were asked a different question.
+    scoped: list[str] = []
+    scope_skipped: list[str] = []
+    scope_min = int((cfg.get("drift") or {}).get("min_records_for_coverage", SCOPE_MIN_RECORDS))
     print(f"{'assay':<52} {'as of':<11} {'expect':<7} {'status':<18} verdict")
     for i, c in enumerate(cases):
         as_of = date.fromisoformat(c["as_of"])
@@ -619,11 +682,34 @@ def main(argv: list[str] | None = None) -> int:
         )
         a = drifts.get(rid)
         status = a.status if a else "no data"
-        _, verdict = classify(status, c["expect"], c.get("mechanism") or None)
+        shown = status
+        scope = (c.get("scope_taxid") or "").strip()
+        got_scoped = None
+        if scope and a is not None:
+            got_scoped, basis = scope_verdict(a, int(scope), a.threshold, c["expect"], scope_min)
+            (scoped if got_scoped else scope_skipped).append(f"  {c['assay_id']} @ {c['as_of']}: {basis}")
+        if got_scoped == "undecided":
+            verdict = "undecided"
+            shown = f"{status} [lineage n/a]"
+        elif got_scoped:
+            # The named lineage answers the paper's question, so it is what is classified.
+            # `classify` reads a STATUS, so the lineage answer is given to it as the status
+            # the tool would carry for that lineage alone.
+            lineage_status = "declining" if got_scoped == "fails" else "stable"
+            _, verdict = classify(lineage_status, c["expect"], c.get("mechanism") or None)
+            shown = f"{status} [lineage {got_scoped}]"
+        else:
+            _, verdict = classify(status, c["expect"], c.get("mechanism") or None)
         tally[(c["expect"], verdict)] += 1
         scored.append((c["expect"], c.get("mechanism") or "", status, verdict))
-        print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {status:<18} {verdict}")
+        print(f"{c['assay_id'][:52]:<52} {c['as_of']:<11} {c['expect']:<7} {shown:<18} {verdict}")
     print("\nsummary:", ", ".join(f"{e}/{v}: {n}" for (e, v), n in sorted(tally.items())))
+    if scoped:
+        print(f"\n{len(scoped)} row(s) scored on a NAMED LINEAGE rather than the pooled status:")
+        print("\n".join(scoped))
+    if scope_skipped:
+        print(f"\n{len(scope_skipped)} row(s) name a scope that could not be honoured (pooled status used):")
+        print("\n".join(scope_skipped))
     print("\n".join(precision_lines(scored, args.intervals)))
     undecided = sum(n for (_, v), n in tally.items() if v == "undecided")
     if undecided:

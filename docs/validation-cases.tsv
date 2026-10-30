@@ -1,4 +1,14 @@
 # Tier-2 retrospective validation cases.
+# OPTIONAL COLUMN `scope_taxid` (2026-10-30): the lineage the paper actually tested.
+# Where it is given and per-lineage statistics exist, scripts/retrospective.py scores
+# that lineage's own records instead of the assay's pooled share, and prints which rows
+# were scored that way. It exists because four of held-out set 2's five false alarms are
+# pan-family nests whose paper reports them amplifying a divergent virus from a handful
+# of positives: that `works` is about one lineage, the pooled status about every deposit
+# for the family. The rule was chosen AFTER set 2 was read, so on these rows it is a
+# description and not a score; its first honest test is on rows not yet collected.
+# See docs/journal/2026-10-30-design-grilled.md Q7.
+#
 #
 # THIS IS THE DEVELOPMENT SET, FROZEN 2026-10-23. It is not a test set and a
 # matrix reported from it is not an out-of-sample measurement. At least seven

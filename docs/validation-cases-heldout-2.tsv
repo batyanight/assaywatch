@@ -1,4 +1,14 @@
 # TIER-2 HELD-OUT CASES, SET 2. Created 2026-10-27 with one row; 14 rows as of
+# OPTIONAL COLUMN `scope_taxid` (2026-10-30): the lineage the paper actually tested.
+# Where it is given and per-lineage statistics exist, scripts/retrospective.py scores
+# that lineage's own records instead of the assay's pooled share, and prints which rows
+# were scored that way. It exists because four of held-out set 2's five false alarms are
+# pan-family nests whose paper reports them amplifying a divergent virus from a handful
+# of positives: that `works` is about one lineage, the pooled status about every deposit
+# for the family. The rule was chosen AFTER set 2 was read, so on these rows it is a
+# description and not a score; its first honest test is on rows not yet collected.
+# See docs/journal/2026-10-30-design-grilled.md Q7.
+#
 # 2026-10-29. SIGNED OFF AND SCORED 2026-10-30: the maintainer accepted all twelve
 # proposed rows (Quackenbush 1998 and the eleven `use`-family rows) as written, and the
 # file was then run through scripts/retrospective.py, so THIS SET IS SPENT. From that

@@ -30,9 +30,12 @@ Designed the same evening, one question at a time (`docs/journal/2026-10-30-desi
    of 74 flip direction. The verdict's own shares and the lineage tests are still per record.
 3. The **redesign-paper phrase family** in `find_retrospective_cases.py`, pre-registered, with
    the strict bar for `mechanism: drift`.
-4. A **scope per row** in the cases files and the per-lineage lookup in `retrospective.py`.
-5. The 93 `use` rows that did not reach CONFIRMED: 58 rows over 13 papers print an oligo
-   table and still missed.
+4. ~~A scope per row~~ built (PR `case-scope`): `scope_taxid` is accepted and scored on the
+   named lineage. **The values are yours to fill**, one taxid per row from the paper; the four
+   pan-family rows of set 2 are where it pays.
+5. ~~The 93 `use` rows~~ closed with no new case
+   (`docs/journal/2026-10-30-scope-column-and-use-rows-closed.md`): four candidate pairs, all
+   explained, one of them the citing paper retyping a degenerate primer a base short.
 
 ## Still yours
 

@@ -650,3 +650,62 @@ def test_no_runs_at_all_is_a_clear_exit(tmp_path):
 
     with _pytest.raises(SystemExit, match="no calls.tsv.gz"):
         newest_run(tmp_path / "results")
+
+
+# --- a scope per case row (2026-10-30, docs/journal/2026-10-30-design-grilled.md Q7) ---------
+
+
+def _drift_with_lineages(status, lineages):
+    """An AssayDrift with a pooled status and per-lineage stats, as `assess` would leave it."""
+    from assaywatch.drift import AssayDrift
+    from assaywatch.lineage import LineageStats
+
+    a = AssayDrift("A")
+    a.status = status
+    a.threshold = 0.9
+    a.lineage_stats = [LineageStats("A", str(t), t, n, d, d / n, 0.0, 1.0) for t, d, n in lineages]
+    return a
+
+
+def test_a_named_lineage_is_scored_on_its_own_records_not_the_pooled_share():
+    """Why the column exists: four of set 2's five false alarms are pan-family nests whose
+    paper reports them amplifying a divergent virus from a handful of positives. The paper's
+    `works` is about the lineage it tested; the pooled status is about every deposit for the
+    family. With a scope, the matrix asks the question the paper answered."""
+    pooled_declining = _drift_with_lineages("declining", [(11234, 95, 100), (99999, 2, 100)])
+    got, basis = retro.scope_verdict(pooled_declining, 11234, 0.9, "works")
+    assert got == "works" and "lineage 11234" in basis and "95" in basis
+    # The same assay, asked about the clade that really is not covered.
+    got, basis = retro.scope_verdict(pooled_declining, 99999, 0.9, "fails")
+    assert got == "fails" and "lineage 99999" in basis
+
+
+def test_a_scope_that_cannot_be_honoured_falls_back_to_the_pooled_verdict_and_says_so():
+    a = _drift_with_lineages("stable", [(11234, 95, 100)])
+    got, basis = retro.scope_verdict(a, 55555, 0.9, "works")  # taxid not among the lineages
+    assert got is None and "no per-lineage" in basis
+    # A `partial` expectation is a statement about several lineages, so a single scope
+    # cannot answer it and the pooled verdict stands.
+    got, basis = retro.scope_verdict(a, 11234, 0.9, "partial")
+    assert got is None and "partial" in basis
+    # No lineage analysis at all (no taxids, or the lineage extra absent).
+    bare = _drift_with_lineages("stable", [])
+    bare.lineage_stats = None
+    got, basis = retro.scope_verdict(bare, 11234, 0.9, "works")
+    assert got is None and "no per-lineage" in basis
+
+
+def test_a_lineage_with_too_few_records_is_undecided_rather_than_scored():
+    a = _drift_with_lineages("stable", [(11234, 1, 2)])
+    got, basis = retro.scope_verdict(a, 11234, 0.9, "fails")
+    assert got == "undecided" and "2 evaluable" in basis
+
+
+def test_the_scope_is_tested_without_a_correction_across_lineages_on_purpose():
+    """`worst_lineage_verdict` corrects across every lineage of an assay because it asks
+    "is ANY lineage failing". A case names one lineage in advance, which is the one
+    situation where a family-wise correction would be wrong."""
+    import inspect
+
+    doc = inspect.getdoc(retro.scope_verdict) or ""
+    assert "named in advance" in doc and "no multiple-testing correction" in doc

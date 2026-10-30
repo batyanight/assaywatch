@@ -323,7 +323,8 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   against the other's 173. Two near-misses recorded as NOT A ROW. **Set 2 is now 14 rows,
   11 of them never scored** — the file was deliberately not run through
   `retrospective.py`, since `--cases` scores every row. Remaining: the maintainer's
-  works/fails sign-off on all eleven, and the 93 `use` rows that did not reach CONFIRMED.
+  works/fails sign-off on all eleven (taken 2026-10-30), and the 93 `use` rows that did not
+  reach CONFIRMED (closed 2026-10-30, below).
 
   **Set 2: 14 rows, ALL SPENT 2026-10-30** (`docs/journal/2026-10-30-decisions.md`). The
   maintainer accepted the twelve proposed rows as written and the set was scored, after the
@@ -338,6 +339,35 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   `low coverage` is agreement, as `partial` already is. The count target (15-20) is met; the
   **drift target is not — still zero rows with `mechanism: drift`** in either set. No unread
   evaluation data exists again; the next rows need a drift-mechanism search.
+
+  **The drift-mechanism search is designed and NOT built** (2026-10-30, grilled,
+  `docs/journal/2026-10-30-design-grilled.md` Q5-Q6): redesign papers first, as a new
+  pre-registered phrase family in `scripts/find_retrospective_cases.py` over the citation
+  graph already on disk, restricted to citing papers published some years after the design
+  paper. **Strict bar for `mechanism: drift`**: the paper must show the same lineage changing
+  over time at primer sites (an alignment, a table, or named substitutions with years);
+  "newer isolates fail" alone is `coverage` or not a row. Fast-evolving-target literature and
+  EQA reports are the second and third sources. Zero rows meeting the strict bar is a
+  possible and honest outcome.
+
+  **The matrix takes a scope per row, and the mechanism is BUILT** (2026-10-30,
+  `docs/journal/2026-10-30-scope-column-and-use-rows-closed.md`). Both case files accept an
+  optional `scope_taxid`; `retrospective.py` scores that lineage's own records with the same
+  binomial `worst_lineage_verdict` uses and WITHOUT its family-wise correction, since the
+  lineage is named in advance, and prints which rows were scored that way and which scopes it
+  could not honour. Chosen after set 2 was read, so on set 2 it is a description and not a
+  score. **What is owed: the scope values themselves** — one taxid per row, read from the
+  paper, which is a maintainer's read; the four pan-family rows of set 2 are where it pays.
+
+  **The 93 `use` rows that did not reach CONFIRMED are CLOSED** (same journal), with no new
+  case and a mechanical reason for each class: 126 oligo rows cite the assay without printing
+  any table, 73 are behind a paywall, 49 print a table ours is not in. The 57 rows over 13
+  papers that do print a table yield exactly four candidate pairs, and all four are explained
+  — the pudu paper retyped VanDevanter's IYG one base short (the design PDF confirms the
+  registry's 24-mer, 5 of 5 exact), and the two coronavirus entries store PREDICT
+  modifications, which a paper printing the original can never confirm. **The lesson worth
+  keeping**: a `near:1` on a degenerate oligo is usually the CITING paper's transcription
+  error, not ours. Only the 73 paywalled rows could still move, and the yield looks low.
 
 ## Data and curation
 
