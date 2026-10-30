@@ -571,12 +571,12 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
 
 ## Hygiene
 
-- **`registry.edit()` rewraps long quoted scalars** (found 2026-10-30): on
-  `CALICIVIRUS_ssRNA_Helicase_Reid_1999` it re-emitted a 120-line hand-wrapped
-  `notes_curator` as one line. Comments, key order and quoting survive; the folding width
-  does not. Fix: give the ruamel dumper the width the files are written at (the `_WIDTH`
-  `write()` already uses) and add a round-trip test on an entry with a wrapped quoted scalar.
-  Until then, prose edits on such entries are text edits.
+- [x] **`registry.edit()` unfolded long quoted scalars** (found and fixed 2026-10-30,
+  `docs/journal/2026-10-30-registry-edit-fold-width.md`). The dumper's width was
+  `1_000_000`, so an edit re-emitted the Reid note as one 2,893-character line; it now
+  folds at `_WIDTH`, the width `write()` uses. Over all 214 entries the change reformats
+  192 on their first edit, changes the content of none and changes none twice. Prose edits
+  on wrapped entries go through `registry.edit()` again.
 
 - **The Greene SLURM profile is written and UNTESTED.** `profiles/slurm-greene/config.yaml`
   (2026-10-27) carries the partition / account / QoS stanzas, the `/scratch` filesystem

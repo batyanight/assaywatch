@@ -166,6 +166,29 @@ def test_edit_keeps_comments_key_order_and_flow_style(tmp_path: Path):
     assert "amplicon_bp: null" in after
 
 
+def test_edit_folds_long_scalars_at_the_width_entries_are_written_at(tmp_path: Path):
+    """An edit must not widen the file. `write()` folds at `_WIDTH`; `edit()` used an
+    effectively infinite width, so one edit re-emitted an already-folded curator note as
+    a single multi-thousand-character line and the diff was the whole note.
+    """
+    path = tmp_path / PLAIN.name
+    before = PLAIN.read_text()
+    path.write_text(before)
+    note = yaml.safe_load(before)["source"]["notes_curator"]
+    widest = max(len(ln) for ln in before.splitlines())
+
+    registry.edit(path, {"amplicon_bp": 150})
+
+    after = path.read_text()
+    assert max(len(ln) for ln in after.splitlines()) <= widest
+    # Folding is cosmetic: the note reads back character for character.
+    assert yaml.safe_load(after)["source"]["notes_curator"] == note
+    # And the reformat is paid once: ruamel folds where PyYAML did not in a few places,
+    # so an entry's first edit can reflow a long note, but a second edit changes nothing.
+    registry.edit(path, {"amplicon_bp": 151})
+    assert path.read_text() == after.replace("amplicon_bp: 150", "amplicon_bp: 151")
+
+
 def test_edit_validates_before_writing_and_leaves_the_file_untouched_on_failure(tmp_path: Path):
     path = tmp_path / PLAIN.name
     path.write_text(PLAIN.read_text())

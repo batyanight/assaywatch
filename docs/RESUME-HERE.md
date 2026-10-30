@@ -16,7 +16,10 @@ items were already done). Then the maintainer batched the four calls that had be
   Proposed for the matrix's rule, not for `config.yaml`: pan-family `works` vs
   `low coverage` is agreement. No unread evaluation data exists; still zero `drift` rows.
 - **Reid 1999 stays `draft`** on `thin_evidence`; recorded in the entry.
-- `registry.edit()` rewraps hand-wrapped quoted scalars to one line (Hygiene item).
+- `registry.edit()` **unfolded** long quoted scalars to one line; fixed the same day
+  (`docs/journal/2026-10-30-registry-edit-fold-width.md`), so prose edits on wrapped
+  entries go through `registry.edit()` again. First edit of an entry may reflow its
+  notes once: 192 of 214 entries do, none change content, none change twice.
 
 ## Next, in order
 

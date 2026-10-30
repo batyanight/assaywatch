@@ -183,10 +183,11 @@ def edit(path: Path, changes: dict[str, Any]) -> Assay:
     path = Path(path)
     rt = YAML(typ="rt")
     rt.preserve_quotes = True
-    # Never re-fold a long string (a one-line curator note would otherwise come back as
-    # eight lines in the diff), and write `null` the way every entry already spells it
-    # rather than ruamel's default blank.
-    rt.width = 1_000_000
+    # Fold at the width entries are written at, so an edit does not widen the file: at an
+    # effectively infinite width one edit re-emitted an already-folded curator note as a
+    # single multi-thousand-character line and the diff was the whole note. Also write
+    # `null` the way every entry already spells it rather than ruamel's default blank.
+    rt.width = _WIDTH
     rt.representer.add_representer(
         type(None), lambda r, _: r.represent_scalar("tag:yaml.org,2002:null", "null")
     )
