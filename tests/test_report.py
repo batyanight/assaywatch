@@ -903,6 +903,49 @@ def test_the_collection_year_lens_shows_both_clocks_and_moves_no_status(tmp_path
     assert rows[0].records == 4 and rows[0].dated == 4
 
 
+def test_the_lens_covers_nuccore_too_once_a_collection_date_sidecar_is_configured(tmp_path):
+    """Without the sidecar the lens is 13 assays of 214, because only `asm` metadata
+    carries a collection date. `report.collection_sidecar` points at what
+    `scripts/backfill_collection_dates.py` fetched, and the lens then covers every assay.
+
+    The patent set matters here and does not in the assembly-only case: an assembly is
+    never a patent deposit, but nuccore records can be, and the lens exists to isolate the
+    CLOCK. If one column excluded patent records and the other did not, the two would
+    differ for a second reason and the table would be worthless.
+    """
+    from assaywatch.report import collection_lens_rows
+
+    assay_id = "E_coli_malB_Candrian_1991"
+    _, retrieved = _asm_calls_and_meta(tmp_path, assay_id)
+    sidecar = tmp_path / "collection-dates.tsv"
+    sidecar.write_text(
+        "accession\tcollection_date\tstatus\n"
+        "AB00001.1\t2025\tok\n"
+        "AB00002.1\tJun-2025\tok\n"
+        "AB00003.1\t\tnodate\n"
+    )
+    calls = [{"assay_id": "NUCCORE_ONLY", "record_id": f"AB0000{i}.1", "call": "detect"} for i in (1, 2, 3)]
+    dates = {f"AB0000{i}.1": "2025-01-01" for i in (1, 2, 3)}
+
+    # No sidecar configured: a nuccore-only assay is not in the lens at all.
+    assert collection_lens_rows(calls, dates, retrieved, CFG, date(2026, 10, 3)) == []
+
+    cfg = {**CFG, "report": {**CFG.get("report", {}), "collection_sidecar": str(sidecar)}}
+    rows = collection_lens_rows(calls, dates, retrieved, cfg, date(2026, 10, 3))
+    assert [r.assay_id for r in rows] == ["NUCCORE_ONLY"]
+    # Three records, two of them datable; the third settled with no date and is counted
+    # as undatable rather than dropped from the denominator.
+    assert rows[0].records == 3 and rows[0].dated == 2
+    assert rows[0].scope == "all"
+    # The prose has to stop claiming nuccore carries no collection date.
+    from assaywatch.report import lens_intro, lens_section_md
+
+    assert "assembly records only" in lens_intro("asm")
+    assert "assembly records only" not in lens_intro("all")
+    section = "\n".join(lens_section_md(rows))
+    assert "records" in section and "asm records" not in section
+
+
 def test_a_report_without_asm_records_has_no_lens_section(tmp_path):
     md, page, _ = build(
         _write_empty_calls(tmp_path),

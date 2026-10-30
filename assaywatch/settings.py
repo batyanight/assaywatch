@@ -330,6 +330,13 @@ class Report(Block):
     #: past a dozen it is another table. Not a scoring number -- it changes what
     #: leads the page, never a status.
     max_triage_rows: int = Field(default=10, gt=0)
+    #: Path to the collection-date sidecar scripts/backfill_collection_dates.py
+    #: wrote, or null. Null confines the collection-year lens to `asm` records,
+    #: whose archives already carry a collection date (13 assays of 214); a path
+    #: extends it to every record the run screened. Under `report` and not `drift`
+    #: so the lens never enters the drift hash: it moves no status. Only a string,
+    #: never resolved here -- the report resolves it against the repo root.
+    collection_sidecar: str | None = None
 
 
 class Lineage(Block):

@@ -791,6 +791,9 @@ class LensRow:
     by_deposit_n: int
     by_collection: float | None
     by_collection_n: int
+    # "asm" when only assembly records could be dated, "all" when a collection-date
+    # sidecar covered every record the run screened. It changes what the table claims.
+    scope: str = "asm"
 
     @property
     def gap(self) -> float | None:
@@ -889,13 +892,26 @@ def collection_lens_rows(
     collection clock and counted in `dated`.
     """
     from assaywatch.drift import assess
-    from assaywatch.metadata import read_collection_years
+    from assaywatch.metadata import read_collection_years, read_patent_accessions
 
-    asm_rows = [r for r in calls if r["record_id"].startswith(("GCA_", "GCF_"))]
+    sidecar_path = (cfg.get("report") or {}).get("collection_sidecar")
+    sidecar = Path(sidecar_path) if sidecar_path else None
+    scope = "all" if sidecar is not None else "asm"
+    asm_rows = (
+        list(calls)
+        if sidecar is not None
+        else [r for r in calls if r["record_id"].startswith(("GCA_", "GCF_"))]
+    )
     if not asm_rows:
         return []
     accs = {r["record_id"] for r in asm_rows}
-    collected = read_collection_years(retrieved, accs)
+    collected = read_collection_years(retrieved, accs, sidecar=sidecar)
+    # An assembly is never a patent deposit, so the assembly-only lens can pass an empty
+    # set. A nuccore record can be, and both clocks must exclude the same records or the
+    # two columns differ for a reason other than the clock, which is the whole point.
+    patent: set[str] = set()
+    if sidecar is not None and (cfg.get("drift") or {}).get("exclude_patent_records"):
+        patent = read_patent_accessions(retrieved, accs)
     deposit_years: dict[str, int] = {}
     for acc in accs:
         text = str(dates.get(acc) or "")
@@ -904,8 +920,8 @@ def collection_lens_rows(
     # Plain pooled assessment, both clocks alike. An assembly record is never a patent
     # deposit (the `asm` group is sampled from NCBI Datasets, not the patent division), so
     # the patent set `drift.exclude_patent_records` asks for is empty here by construction.
-    by_deposit = assess(asm_rows, deposit_years, cfg, today=today, patent=set())
-    by_collection = assess(asm_rows, collected, cfg, today=today, patent=set())
+    by_deposit = assess(asm_rows, deposit_years, cfg, today=today, patent=patent)
+    by_collection = assess(asm_rows, collected, cfg, today=today, patent=patent)
     per_assay: dict[str, list[dict[str, Any]]] = {}
     for r in asm_rows:
         per_assay.setdefault(r["assay_id"], []).append(r)
@@ -921,6 +937,7 @@ def collection_lens_rows(
                 by_deposit_n=d.recent_evaluable if d else 0,
                 by_collection=c.recent_fraction if c else None,
                 by_collection_n=c.recent_evaluable if c else 0,
+                scope=scope,
             )
         )
     return out
@@ -935,26 +952,58 @@ def _lens_gap(row: LensRow) -> str:
     return f"{g * 100:+.1f} points" if g is not None else "-"
 
 
-LENS_HEADING = "Collection year against deposit year, for assembly-backed assays"
-LENS_INTRO = (
-    "The verdicts above date every record by the year it was DEPOSITED. For the assays "
-    "whose archives are sampled genome assemblies, the metadata also carries the year each "
-    "isolate was COLLECTED, and the two differ by a median of five years on this archive. "
-    "This table re-dates the same records by collection year and recomputes the recent share "
-    "the same way, so the two columns differ by the clock and nothing else. It is a lens on "
-    "how much of a recent fall is a sequencing backlog rather than a change in what "
-    "circulates; it moves no status. Records without a four-digit collection year are "
-    "skipped on the collection clock and counted. Nuccore records carry no collection date "
-    "in their metadata, so this covers assembly records only."
-)
-LENS_COLUMNS = (
-    "assay",
-    "asm records",
-    "with collection year",
-    "recent share by deposit year",
-    "recent share by collection year",
-    "gap",
-)
+def lens_heading(scope: str = "asm") -> str:
+    where = "for assembly-backed assays" if scope == "asm" else "across every assay"
+    return f"Collection year against deposit year, {where}"
+
+
+def lens_intro(scope: str = "asm") -> str:
+    """The section's own statement of what it can and cannot see.
+
+    Two versions, because the honest claim changed. Until the collection dates were
+    fetched from the GenBank flatfiles, only assembly metadata carried one, and saying so
+    was the point. With the sidecar in place the lens covers every record the run
+    screened, and the limitation that remains is a different one: a quarter of records
+    carry no collection date at all, and they are counted rather than quietly dropped.
+    """
+    common = (
+        "The verdicts above date every record by the year it was DEPOSITED. The metadata "
+        "also carries the year each isolate was COLLECTED, and the two differ by a median "
+        "of five years on this archive. This table re-dates the same records by collection "
+        "year and recomputes the recent share the same way, so the two columns differ by "
+        "the clock and nothing else. It is a lens on how much of a recent fall is a "
+        "sequencing backlog rather than a change in what circulates; it moves no status. "
+        "Records without a four-digit collection year are skipped on the collection clock "
+        "and counted."
+    )
+    if scope == "asm":
+        return common + (
+            " Nuccore records carry no collection date in their metadata, so this covers "
+            "assembly records only."
+        )
+    return common + (
+        " Collection dates for nuccore records come from the GenBank flatfiles, fetched by "
+        "scripts/backfill_collection_dates.py; about a quarter of records carry none, and a "
+        "date spelled as a range is refused rather than taken at its first year."
+    )
+
+
+def lens_columns(scope: str = "asm") -> tuple[str, ...]:
+    return (
+        "assay",
+        "asm records" if scope == "asm" else "records",
+        "with collection year",
+        "recent share by deposit year",
+        "recent share by collection year",
+        "gap",
+    )
+
+
+# The assembly-only spellings, kept as names because the report tests and the HTML
+# renderer both reach for them.
+LENS_HEADING = lens_heading("asm")
+LENS_INTRO = lens_intro("asm")
+LENS_COLUMNS = lens_columns("asm")
 
 
 def lens_cells(r: LensRow) -> tuple[str, ...]:
@@ -972,13 +1021,15 @@ def lens_cells(r: LensRow) -> tuple[str, ...]:
 def lens_section_md(rows: list[LensRow]) -> list[str]:
     if not rows:
         return []
+    scope = rows[0].scope
+    cols = lens_columns(scope)
     out = [
-        f"## {LENS_HEADING}",
+        f"## {lens_heading(scope)}",
         "",
-        LENS_INTRO,
+        lens_intro(scope),
         "",
-        "| " + " | ".join(LENS_COLUMNS) + " |",
-        "|" + "---|" * len(LENS_COLUMNS),
+        "| " + " | ".join(cols) + " |",
+        "|" + "---|" * len(cols),
     ]
     for r in rows:
         aid, *rest = lens_cells(r)
@@ -2221,8 +2272,12 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
                 parts.append(f"<p class='muted'><b><code>{e(f.family)}</code></b> — {note}</p>")
 
     if m.collection_lens:
-        parts.append(f"<h2 id='collection-lens'>{e(LENS_HEADING)}</h2><p class='lead'>{e(LENS_INTRO)}</p>")
-        parts.append("<table><tr>" + "".join(f"<th>{e(c)}</th>" for c in LENS_COLUMNS) + "</tr>")
+        scope = m.collection_lens[0].scope
+        parts.append(
+            f"<h2 id='collection-lens'>{e(lens_heading(scope))}</h2>"
+            f"<p class='lead'>{e(lens_intro(scope))}</p>"
+        )
+        parts.append("<table><tr>" + "".join(f"<th>{e(c)}</th>" for c in lens_columns(scope)) + "</tr>")
         for r in m.collection_lens:
             aid, *rest = lens_cells(r)
             cells = "".join(f"<td>{e(c)}</td>" for c in rest)

@@ -128,7 +128,7 @@ word for a concept.
 
 **collection date** — the day the isolate behind a record was collected, as BioSample gives it (a full date, a year-month, a bare year, a range or "missing"); carried for assembly records only, in the `collected` metadata column and, for older archives, in the title (`assemblies.py`, `metadata.collection_year`).
 
-**collection-year lens** — the report section that re-dates each assembly record by its collection YEAR and recomputes the recent share beside the deposit-clock one; a lens on sequencing backlog that moves no status (`report.collection_lens_rows`; decided 2026-10-30, `docs/journal/2026-10-30-design-grilled.md` Q1-Q3).
+**collection-year lens** — the report section that re-dates each record by its collection YEAR and recomputes the recent share beside the deposit-clock one; a lens on sequencing backlog that moves no status (`report.collection_lens_rows`; decided 2026-10-30, `docs/journal/2026-10-30-design-grilled.md` Q1-Q3). Assembly records only until `report.collection_sidecar` names the file `scripts/backfill_collection_dates.py` fetched; then every record.
 
 **recent window** — the latest `recent_window_months` (24) of deposit dates, widened a year at a time up to `max_window_months` (60) when records are scarce (`config.yaml drift:`).
 

@@ -1025,6 +1025,21 @@ report:
   # measured. It changes what leads the page, never a status.
   max_triage_rows: 10
 
+  # Where scripts/backfill_collection_dates.py wrote the collection dates it fetched
+  # from the GenBank flatfiles. null means the collection-year lens sees only `asm`
+  # records, whose archives carry a collection date already: 13 assays of 214.
+  #
+  # Set it and the lens covers every record a run screened. It is a path and not a
+  # flag because the sidecar is run state, gitignored like data/retrieved/, and a
+  # report must be able to say it was rendered without one. It lives under `report:`
+  # rather than `drift:` on purpose: the lens is printed beside the verdict and moves
+  # no status, so it must not enter the drift hash and force a recompute.
+  #
+  # Only set this once the backfill has FINISHED. A partial sidecar is not wrong --
+  # undatable records are counted, not dropped -- but a lens whose collection column
+  # rests on 2% of records invites exactly the misreading it exists to prevent.
+  collection_sidecar: null
+
 # Per-lineage detection analysis (phase 1 of estimand rebuild).
 # Each record is assigned a lineage by its NCBI taxid. Verdicts condition
 # on the worst-performing lineage among those assessable.
