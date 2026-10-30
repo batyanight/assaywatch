@@ -27,12 +27,23 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
 
 ## Waiting on a maintainer, minutes each
 
-- **Nothing, as of 2026-10-30.** The four calls that sat here were taken that day and are
-  in `docs/journal/2026-10-30-decisions.md`: S7b shipped; the Quackenbush 1998 row and the
-  eleven `use`-family rows of `docs/validation-cases-heldout-2.tsv` accepted as proposed and
-  the set scored; `CALICIVIRUS_ssRNA_Helicase_Reid_1999` stays `draft` on `thin_evidence`
-  (16 amplifying records of 152,379), recorded in the entry. Whether the repo goes public
-  is still the maintainer's and is not blocking anything.
+- **The 34 `scope_taxid` values**, one read per row from the row's OWN source paper:
+  which lineage did that paper's positives belong to? The population, the rule behind it
+  and the reading order are in `docs/2026-10-30-scope-worksheet.tsv`; the column now
+  exists in all three case files. A guessed lineage is worse than a pooled score, so a
+  paper that does not say leaves the row blank and says so. **34 rows over 17 assays and
+  34 papers** -- 17 development, 10 held-out set 1, 7 held-out set 2 -- and 11 of them are
+  `fails` rows, where a scope can turn a catch into a miss.
+
+- **Nothing else, as of 2026-10-30.** Nine calls have been taken across two sittings and
+  are recorded in `docs/journal/2026-10-30-decisions.md` and
+  `docs/journal/2026-10-30-decisions-round-2.md`: S7b shipped; the twelve proposed rows
+  accepted and set 2 spent; `CALICIVIRUS_ssRNA_Helicase_Reid_1999` stays `draft`; the
+  2026-10-30 stack merged to `main`; the `scope_taxid` population fixed by registry
+  property with the agreement rule left alone; **the repo is public** (2026-10-30, history
+  scanned for keys and copyrighted PDFs first, both clean); the full nuccore
+  collection-date backfill approved and started; and the drift-mechanism search routed to
+  a fresh session.
 
 ## S3b, shipped 2026-10-27, and what it still owes
 
@@ -254,8 +265,15 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   56.7% of 60 -> 64.0% of 25, every 100% stays 100%) and the sample does: the recent
   denominator shrinks by half to two thirds once a record is dated by when its isolate
   existed, so the backlog narrows the verdict's interval rather than manufacturing a decline.
-  **Left**: nuccore (99.9% of calls) carries no collection date in `esummary`; bringing it in
-  is a retrieval change plus a re-fetch of every archive, to be priced before it is built.
+  **Priced and started 2026-10-30** (`docs/journal/2026-10-30-decisions-round-2.md`):
+  nuccore keeps `/collection_date` in the flatfile's `source` feature and nowhere else, so
+  `scripts/backfill_collection_dates.py` fetches records rather than summaries, one base of
+  sequence each, into a gitignored sidecar that touches nothing the weekly job guards.
+  **75% of records carry a date**; 1.24M accessions at a measured ~150 records/sec.
+  **Left**: `metadata.collection_year()` already takes three of GenBank's four spellings
+  (`2010`, `2013-12-27`, `16-Mar-2009`) and misses the month-year form (`Jan-2011`) --
+  **156 of the first 3,663 dates fetched**, plus a handful of ranges it refuses on purpose.
+  One regex, then the lens covers every assay rather than the 13 with assemblies.
 - **`target.exclusivity_taxids`: three sets in, and the rest is one paper at a time**
   (2026-10-28). `scripts/extract_exclusivity.py` prints every sentence in which a paper
   claims its assay does NOT amplify something — **118 of the 178 papers on disk carry at
@@ -348,7 +366,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   over time at primer sites (an alignment, a table, or named substitutions with years);
   "newer isolates fail" alone is `coverage` or not a row. Fast-evolving-target literature and
   EQA reports are the second and third sources. Zero rows meeting the strict bar is a
-  possible and honest outcome.
+  possible and honest outcome. **Route decided 2026-10-30: a fresh session on this task
+  alone**, starting from that journal's Q5-Q6; the first attempt was interrupted and the
+  content could not be reproduced in the same session.
 
   **The redesign family is BUILT and RUN** (2026-10-30, `docs/journal/2026-10-30-redesign-family.md`):
   `--include late_redesign`, six phrases and a five-year clock on `citation.design_year`, pre-registered
