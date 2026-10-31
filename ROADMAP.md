@@ -302,6 +302,24 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   that script will verify, so it wants the same before/after count over the registry that the
   year rule got. Small, and the same shape as the defect that rule had.
 
+- **An archive can go quiet without anything complaining, and the guard for it is weak.**
+  `scripts/check_archive_recency.py` (2026-10-30) lists every group whose newest deposit is
+  older than 18 months, loudest where a SIBLING group under the same taxid is current -- the
+  comparison that found the influenza case by hand. **Its value is measured and modest.** Run
+  against the registry it returned four sibling-gap candidates and **all four were fine**,
+  cleared by one `esearch` each: three hold exactly what their query can return (MTB
+  helicase 25/25, EEHV5 20/20, EEHV6 6/6) and the fourth holds more than its query now
+  returns (E. coli LT 122 against 62). A narrow gene query under a well-deposited taxon
+  always looks stale beside a broad one.
+
+  **And it would not have isolated the influenza case either**: that group held 44,627
+  records against a query returning 44,633, so query and archive agreed exactly while the
+  query's definition had gone blind. No comparison of a query against itself can see NCBI
+  changing an annotation practice at the far end. What the script buys is a short list -- 13
+  groups of 134 -- with the numbers to clear each by hand, which is how the case was found.
+  A `--probe` flag was built and removed: it needed the network, and a switch that looks
+  like a verdict while being unable to deliver one is worse than a documented command.
+
 - **`printed.py` cannot verify a probe whose internal quencher is written inside the
   sequence** (found 2026-10-30 while curating the CDC H3 pair). Shu 2026 Table 1 prints
   `CAG GAT CAC /ZEN/ATA TGG GSC CTG TCC CAG`, so `printed_oligos` never sees the 27 bases as
