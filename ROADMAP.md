@@ -61,8 +61,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   to 2026 (matrix 187,534; NP 194,149). NCBI has stopped assigning subtype taxids to new
   influenza deposits: the seven H3Nx taxids AND HA return **0** records for 2024-2026 against
   **95,155** without that restriction. **So the H5 and H7 verdicts in every report this
-  project has produced were computed on data stopping in 2021 and 2020, and neither assay can
-  show recent drift by construction.** This is what made set 3's Shu row unjudgeable.
+  project has produced read `no recent data`, naming the Oct 2021 cutoff, so no wrong verdict
+  was ever published -- but neither assay can show recent drift by construction, and the message
+  reads as a fact about the taxon where it was a fact about the query.** This is what made set 3's Shu row unjudgeable.
   **The obvious fix is wrong**: broadening to `txid11320 AND HA` makes the denominator every
   influenza A hemagglutinin record, so a correctly specific subtyping assay would read as
   detecting a small share of its own archive and look like it was failing — which is the
@@ -300,6 +301,24 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   verifiable by one tool and not the other. Not fixed here: changing it changes which entries
   that script will verify, so it wants the same before/after count over the registry that the
   year rule got. Small, and the same shape as the defect that rule had.
+
+- **An archive can go quiet without anything complaining, and the guard for it is weak.**
+  `scripts/check_archive_recency.py` (2026-10-30) lists every group whose newest deposit is
+  older than 18 months, loudest where a SIBLING group under the same taxid is current -- the
+  comparison that found the influenza case by hand. **Its value is measured and modest.** Run
+  against the registry it returned four sibling-gap candidates and **all four were fine**,
+  cleared by one `esearch` each: three hold exactly what their query can return (MTB
+  helicase 25/25, EEHV5 20/20, EEHV6 6/6) and the fourth holds more than its query now
+  returns (E. coli LT 122 against 62). A narrow gene query under a well-deposited taxon
+  always looks stale beside a broad one.
+
+  **And it would not have isolated the influenza case either**: that group held 44,627
+  records against a query returning 44,633, so query and archive agreed exactly while the
+  query's definition had gone blind. No comparison of a query against itself can see NCBI
+  changing an annotation practice at the far end. What the script buys is a short list -- 13
+  groups of 134 -- with the numbers to clear each by hand, which is how the case was found.
+  A `--probe` flag was built and removed: it needed the network, and a switch that looks
+  like a verdict while being unable to deliver one is worse than a documented command.
 
 - **`printed.py` cannot verify a probe whose internal quencher is written inside the
   sequence** (found 2026-10-30 while curating the CDC H3 pair). Shu 2026 Table 1 prints

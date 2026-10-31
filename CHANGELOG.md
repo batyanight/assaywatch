@@ -49,8 +49,12 @@ without a different estimand.
 live.** NCBI has stopped assigning influenza subtype taxids to new deposits, so
 four entries whose retrieval query named those taxids had archives that ended
 years earlier — H5's newest deposit was 2021, H7's was 2020. Neither assay could
-show recent drift by construction, and their verdicts in every earlier report
-rested on data that old. Fixed: those entries now share a broad hemagglutinin
+show recent drift by construction. No wrong verdict was published: both committed
+example runs report these assays as "no evaluable records deposited since Oct
+2021", so the tool declined to judge them and named the cutoff. The defect is that
+the message reads as a fact about the taxon when it was a fact about the query, so
+four live assays sat unjudgeable while the report looked correct. Fixed: those
+entries now share a broad hemagglutinin
 query and restrict their own population by the subtype stated in each record's
 description (`target.title_requires`).
 
