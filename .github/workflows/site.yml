@@ -40,10 +40,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -e ".[site]"
+      - run: pip install -e ".[site,dev]"
       # Regenerate rather than trust what is committed: if the generated pages
       # and run.json have drifted apart, the published site should show the data,
       # and `git diff --exit-code` below says so loudly rather than silently.
+      # The page-rendering tests need Bokeh, so they skip in the core test job
+      # (which installs no site extras) and run here, where it is installed.
+      - run: pytest tests/test_site.py -q
       - run: python -m assaywatch.site_render --data website/data --out website
       - name: the committed pages match what the data renders
         run: git diff --exit-code --stat website/ || (echo "::error::website/ is stale; re-run assaywatch.site_render and commit" && exit 1)
