@@ -1,0 +1,67 @@
+id: POXVIRUSES_dsDNA_Polymerase_short_2
+name: POXVIRUSES (dsDNA) — Polymerase short
+target:
+  taxid: 10241
+  gene: Polymerase short
+  genome_type: dsDNA
+  taxon_name: Chordopoxvirinae
+chemistry: conventional
+oligos:
+  forward:
+    name: PoxPolF1
+    seq: TATAGAGCGAGTACAGTCATCAAG
+  reverse:
+    name: PoxPolR1
+    seq: CANACATTNGGATAYARACTATTATAATC
+    seq_as_written: CAIACATTIGGATAYARACTATTATAATC
+  alternates:
+  - name: PoxPolF2
+    seq: GCGAGYACCTGCATCAAG
+    orientation: forward
+  - name: PoxPolF3
+    seq: TAYAGAGCTAGTACGTTAATAAAA
+    orientation: forward
+  - name: PoxPolF4
+    seq: TATAGGGCHAGTACKCTTATTAAA
+    orientation: forward
+  - name: PoxPolR2
+    seq: CGTTNGGGTAYARGCTGTTGTAGTC
+    seq_as_written: CGTTIGGGTAYARGCTGTTGTAGTC
+    orientation: reverse
+amplicon_bp: 192
+citation:
+  doi: 10.3354/dao02986
+  design_year: 2016
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: McAloose D, ..., Seimon T, ..., Uhart M. 2016. Post-mortem findings in southern right whales Eubalaena australis
+    at Peninsula Valdes, Argentina, 2003-2012. Dis Aquat Organ 119:17-36 (pan-poxvirus DNA polymerase PCR)
+conditions:
+  rt: none
+  cycles: 45
+  annealing_c: 45
+  primer_nm: 1000
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'PUBLISHED, FOUND 2026-10-05. A Europe PMC full-text search on TSPoxPolF1 finds Vila AR et al. 2019 PLoS
+    One 14:e0213667 (PMC6469779, huemul deer parapoxvirus), whose Table 1 prints this entry''s six oligos exactly as stored
+    here - TSPoxPolF1 TATAGAGCGAGTACAGTCATCAAG, F2 GCGAGYACCTGCATCAAG, F3, F4, R1 and R2 with I where the registry has N -
+    with the 192 bp amplicon, and cites them to McAloose et al. 2016 Dis Aquat Organ 119:17-36. Vila also describes the design: consensus regions from an alignment of some
+    20 chordopox and parapox species, short enough for FFPE tissue. So the seed list''s ''unpublished'' is out of date. Cited to McAloose 2016 as the first publication; the sequences are confirmed through
+    Vila''s table, not McAloose''s own, because the int-res.com open-access PDF answers scripted requests with 401. Confirm
+    against McAloose by eye. The sibling POXVIRUSES_dsDNA_Polymerase_short (DO_NOT_USE) holds the longer forms with GGNCC
+    3'' tails, which Vila does not print. FLAG ADDED 2026-10-05 for consistency with Nipah_N_gene_2, which was traced the
+    same way on the same day: this entry''s sequences were read from Vila 2019''s Table 1 and its citation taken from that
+    table''s Reference column, not from McAloose 2016 itself, whose open-access PDF answers a scripted request with 401. The
+    attribution is well supported - Vila names McAloose per primer set - but it is second-hand, and the flag makes that visible rather than implied.'
+needs_review:
+- flag: oligos_modified
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair
+- flag: oligos_from_secondary_source

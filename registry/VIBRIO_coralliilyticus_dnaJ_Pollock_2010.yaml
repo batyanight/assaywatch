@@ -1,0 +1,71 @@
+id: VIBRIO_coralliilyticus_dnaJ_Pollock_2010
+name: VIBRIO CORALLIILYTICUS — dnaJ TaqMan MGB qPCR (Pollock 2010)
+target:
+  taxid: 190893
+  gene: dnaJ
+  genome_type: dsDNA
+  taxon_name: Vibrio coralliilyticus
+  query: dnaJ[All Fields] OR "complete genome"[Title] OR "chromosome"[Title]
+chemistry: mgb
+oligos:
+  forward:
+    name: Vc_dnaJ_F1
+    seq: CGGTTCGYGGTGTTTCAAAA
+  reverse:
+    name: Vc_dnaJ_R1
+    seq: AACCTGACCATGACCGTGACA
+  probe:
+    name: Vc_dnaJ_TMP
+    seq: CAGTGGCGCGAAG
+    reporter: FAM
+    quencher: MGB-NFQ
+  alternates: []
+amplicon_bp: 128
+citation:
+  doi: 10.1128/aem.00330-10
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: Pollock, F. J., Morris, P. J., Willis, B. L. & Bourne, D. G. Detection and Quantification of the Coral Pathogen
+    Vibrio coralliilyticus by Real-Time PCR with TaqMan Fluorescent Probes. Applied and Environmental Microbiology 76, 5282-5286
+    (2010).
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 60.0
+use_context:
+- wildlife
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-06 from the paper''s Methods text (papers/10.1128_AEM.00330-10.pdf, text layer, checked by
+    eye on a 260-dpi page render with pymupdf: no OCR damage). The paper (Pollock et al., Appl Environ Microbiol 2010) designed
+    all three oligos: forward Vc_dnaJ_F1 5''-CGGTTCGYGGTGTTTCAAAA-3'' (Y = C/T), reverse Vc_dnaJ_R1 5''-AACCTGACCATGACCGTGACA-3'',
+    and TaqMan probe Vc_dnaJ_TMP 5''-6-FAM-CAGTGGCGCGAAG-MGBNFQ-3'' (13 nt, minor-groove-binder non-fluorescent quencher;
+    the candidate extractor''s ''AMCAGTGGCGCGAAGMGBN'' is an artefact of the printed label). THE PAPER''S POSITIONS VERIFIED:
+    it states a 128 bp region, nucleotides 363-490 of dnaJ, chosen for SNPs conserved within V. coralliilyticus. On GenBank
+    AB263028.1 (V. coralliilyticus dnaJ partial cds, strain GTC 2777, 517 bp) F1 sits at 363-382 and the reverse complement
+    of R1 at 470-490, exactly the paper''s coordinates and 128 bp, with the probe at 427-439 between them. The paper''s own
+    13 deposits HM215568-HM215580 (398 bp each) end before the R1 site, so only F1 can be checked on them: F1 is at 282-301
+    in all 13 and matches exactly in 12; strain C2 (HM215569, the strain the paper reports as failing to amplify) has one
+    base different at position 2 of F1 (CCGTTCG for CGGTTCG), which would not by itself explain a wet failure, so the cause
+    lies elsewhere, probably in the part of the amplicon those records do not cover. MEASURED on the complete NCBI Datasets
+    census of V. coralliilyticus (txid190893) downloaded 2026-10-06: 101 assembly accessions = 54 distinct assemblies once
+    GenBank/RefSeq pairs are collapsed (14 complete genome, 4 chromosome, 8 scaffold, 28 contig level). Every one of the 54
+    gives a 128 bp product (the paper''s figure): 51 ''detect'', 3 ''reduced'' (RE90, SCSIO 43001, Rb102, each with one or
+    two mismatches in a primer), and the best product per assembly is the unit (other contigs of the same assembly carry dnaJ
+    paralogs that give partial-match ''fail'' products and are not the target). Detected share among assemblies: 51/54, with
+    all 54 amplifying. THE PROBE IS THE PROBLEM. Counting the 13-mer by exact search inside each best product (the screen
+    cannot, see below): exact in 37 of 54 assemblies, one mismatch in 2 (strains 58 and SCSIO 43001), two mismatches in 14
+    (variant CAGCGGTGCGAAG; e.g. S2052, S2043, RE22 x2, AIC-5, AIC-7, C154, 071316B, H1, G2-37, SCP4, S3W2-15 and RE90) and
+    three in 1 (Rb102, TAGCGGTGCGAAG). So about a quarter of V. coralliilyticus genomes carry a probe site with two internal
+    mismatches that a 13-mer MGB probe is unlikely to tolerate, while the primers still match. THE SCREEN WITH PROBE: among
+    the 54 distinct assemblies, 37 detect, 5 reduced (with 1-2 mismatches per oligo), 12 fail (mostly due to probe mismatches).
+    The paper reports detection of 12 of 13 coral strains and gives no specificity data by dnaJ allele. SCOPE: a species-level
+    assay by design (SNPs conserved within V. coralliilyticus), reported by the paper to miss one Caribbean strain (C2) and
+    to give late non-specific Ct values with five other Vibrio and a Shewanella; cross-reaction was not re-tested here.'
+needs_review:
+- flag: primer_site_polymorphic
+  note: the probe site carries 2 mismatches in 14 of 54 genomes

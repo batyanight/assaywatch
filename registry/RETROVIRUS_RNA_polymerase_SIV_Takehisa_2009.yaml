@@ -1,0 +1,41 @@
+id: RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009
+name: RETROVIRUS (RNA) — polymerase (SIV)
+target:
+  taxid: 11723
+  gene: polymerase (SIV)
+  genome_type: ssRNA-RT
+  taxon_name: Simian immunodeficiency virus
+  query: pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: HahnF2
+    seq: AYAAYCCHCAAAGTCAAGGAGTRGT
+  reverse:
+    name: HahnR2
+    seq: GTCCTTTCCAAATDGGRTCTCTGCTGTC
+amplicon_bp: 285
+citation:
+  doi: 10.1128/JVI.02311-08
+  design_year: 2009
+  n_sequences_at_design: null
+  as_written: Takehisa et al. Origin and Biology of Simian Immunodeficiency Virus in Wild-Living Western Gorillas, JOURNAL
+    OF VIROLOGY, Feb. 2009, p. 1635–1648
+  doi_verified: true
+  reference: Takehisa J et al. 2009. J Virol 83:1635-1648
+conditions:
+  annealing_c: 55.0
+  cycles: 35
+use_context:
+- wildlife
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'Not scoped (a scope attempted 2026-10-04 was reverted): SIVgor has no NCBI taxon and
+    SIVcpz (388909) has only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged
+    keyword query searches every Entrez field and does not isolate the lineage. Judged against all SIV,
+    with the lineage breakdown recorded instead: SIVgor 8/8 detected, SIVcpz 15/30, everything else 5/181.
+    See docs/journal/2026-10-04-assay-investigations.md.'
+needs_review:
+- flag: amplicon_measured_not_published

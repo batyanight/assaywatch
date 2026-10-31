@@ -1,0 +1,61 @@
+id: ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005
+name: ADENOVIRUS (dsDNA) — Polymerase (Primate-specific)
+target:
+  taxid: 10509
+  gene: Polymerase (Primate-specific)
+  genome_type: dsDNA
+  taxon_name: Mastadenovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: Casas-F1
+    seq: TGATGCGYTTCTTACCTYTGGTYTCCATGAG
+  reverse:
+    name: Casas-R1
+    seq: AGTTYTACATGCTGGGCTCTTACCG
+amplicon_bp: 1512
+citation:
+  doi: 10.1371/journal.ppat.1000503
+  design_year: 2009
+  n_sequences_at_design: null
+  as_written: 'Casas, I (2005).  Journal of Clinical Microbiology. 43: 6176-6182'
+  doi_verified: true
+  reference: Roy S, Vandenberghe LH, Kryazhimskiy S, Grant R, Calcedo R, Yuan X, Keough M, Sandhu A, Wang Q, Medina-Jaszek
+    CA, Plotkin JB, Wilson JM. 2009. Isolation and characterization of adenoviruses persistently shed from the gastrointestinal
+    tract of non-human primates. PLoS Pathog 5:e1000503 (nested DNA polymerase PCR, outer primers)
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: round1
+  nested_family: ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005
+  notes_curator: 'SOURCE FOUND AND RE-CITED 2026-10-05. The entry cited Casas et al. 2005 J Clin Microbiol 43:6176, and that
+    paper does not print these primers: its local PDF carries exactly four oligo-like runs, all of them the hexon primers
+    held by ADENOVIRUS_dsDNA_Hexon_gene and its round 2 sibling, which verify exact. The polymerase pairs are absent from
+    it. A Europe PMC full-text search finds both pairs in Roy S et al. 2009 PLoS Pathog 5:e1000503 (PMC2698151), which prints
+    them in one sentence as a single nested polymerase PCR - ''outer primers, TGATGCGYTTCTTACCTYTGGTYTCCATGAG and AGTTYTACATGCTGGGCTCTTACCG,
+    and inner primers, GTGACAAAGAGGCTGTCCGTGTCCCCGTA and TCACGTGGCCTACACTTACAAGCCAATCAC'' - matching the registry base for
+    base. Roy gives no citation of its own for them, and it is the earliest publication of them that is findable: the only
+    other open texts printing them are later and downstream (Roy 2011 PLoS One 6:e24859, Medkour 2020 Viruses 12:657 ''Fw/Rw
+    inere'', Kosoltanapiwat 2022 One Health 15:100434 ''Adeno-pol F2/R2''). Cited to Roy 2009 as first publication. This is
+    the same shape as the CMV gB case settled earlier today: one seed list citation covering a paper''s own pair plus a
+    pair from somewhere else. The two entries also belong together - they are rounds of one nested assay, which the ids do
+    not say. F1/R1 are the OUTER pair. AMPLICON MEASURED against all 30,139 records in the 2026-10-03 Mastadenovirus archive
+    (up to 4 mismatches per primer): a product in 4,103 records, 1512 bp in 2,068 and 1515 bp in 1,903. The stored 1560 matches
+    none of them; corrected to the modal 1512. Note for the drift report rather than an error: R1 sits one mismatch from the
+    template in 3,020 of those records and matches perfectly in only 67, which is a property of the target population and
+    of a primer published with one Y, not a transcription slip - the sequence is what Roy prints. CONFIRMED AGAINST THE PAPER
+    ITSELF, later on 2026-10-05. The Roy 2009 PDF was fetched as gold open access, and this entry''s outer pair F1/R1 now
+    verifies exact against it directly. (The inner pair in the sibling entry reads in-text rather than exact, because Roy
+    prints all four primers inside one running sentence rather than in a table, which is the weaker of the two matches the
+    verifier distinguishes - not a discrepancy in the sequence.) SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids
+    added. The override fires on Mastadenovirus faecale (3241426) at 52/114 = 45.6 percent; its records are Human mastadenovirus
+    F, the enteric HAdV-40/41 serotypes. In range by claim: Roy et al. 2009 describes "a nested PCR specific for the DNA polymerase
+    gene" aimed at "a conserved region of the DNA polymerase gene" across the adenoviruses that infect primates, and HAdV-F
+    is a primate adenovirus. Not demonstrated, though - the isolates Roy recovered fell into species B, C and E, and no species
+    F was amplified there, so this is a weaker in-range verdict than the other cases and the 45.6 percent deserves a look
+    at the oligo level before it is read as drift.'
+needs_review: null

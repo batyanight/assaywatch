@@ -1,0 +1,289 @@
+# TIER-2 HELD-OUT CASES, SET 2. Created 2026-10-27 with one row; 14 rows as of
+# POPULATION FOR `scope_taxid`, decided 2026-10-30: every row whose assay carries more
+# than one claim-scope taxid in `target.scope_taxids` -- **34 rows across all three case
+# files** (17 development, 10 held-out set 1, 7 held-out set 2), over 17 assays and 34
+# distinct source papers, listed in docs/2026-10-30-scope-worksheet.tsv.
+# The population is a property of the REGISTRY, readable without looking at any verdict,
+# which is what keeps it from being "the rows whose false alarms were inconvenient". It is
+# dominated by rows that can move AGAINST us: 11 of the 34 are `fails` rows, where scoping
+# to a well-covered lineage can turn a catch into a miss. The agreement rule is NOT
+# changed -- a pan-family `works` against `low coverage` stays a disagreement -- and the
+# pooled verdict is printed beside every scoped one. A single-target assay needs no scope:
+# its scope IS its target, so the remaining 63 rows stay blank by construction, not by
+# omission.
+# OPTIONAL COLUMN `scope_taxid` (2026-10-30): the lineage the paper actually tested.
+# Where it is given and per-lineage statistics exist, scripts/retrospective.py scores
+# that lineage's own records instead of the assay's pooled share, and prints which rows
+# were scored that way. It exists because four of held-out set 2's five false alarms are
+# pan-family nests whose paper reports them amplifying a divergent virus from a handful
+# of positives: that `works` is about one lineage, the pooled status about every deposit
+# for the family. The rule was chosen AFTER set 2 was read, so on these rows it is a
+# description and not a score; its first honest test is on rows not yet collected.
+# See docs/journal/2026-10-30-design-grilled.md Q7.
+#
+# 2026-10-29. SIGNED OFF AND SCORED 2026-10-30: the maintainer accepted all twelve
+# proposed rows (Quackenbush 1998 and the eleven `use`-family rows) as written, and the
+# file was then run through scripts/retrospective.py, so THIS SET IS SPENT. From that
+# day it is a second development set and may not be the reason any threshold moves.
+# The S7b decision (`scoring.mispair_window: 10`) was taken BEFORE this scoring, on the
+# bench row and the separation criterion; the set was scored under both the pre-S7b
+# calls table (results/2026-10-27) and the S7b replay of it, and both results are in
+# docs/journal/2026-10-30-decisions.md.
+#
+# The eleven rows added 2026-10-29 were never scored before that day; the file was kept
+# out of scripts/retrospective.py when they were written, deliberately, because
+# `--cases` scores every row and that is how the first three rows got spent.
+#
+# WHY A SECOND HELD-OUT FILE. docs/validation-cases.tsv is the development set,
+# frozen 2026-10-23, and at least seven config.yaml settings were accepted or
+# rejected against its rows. docs/validation-cases-heldout.tsv was read on
+# 2026-10-26 and is therefore spent: a held-out set is spent the first time it is
+# read, which is the whole point of one. So on 2026-10-27 the project held NO
+# unread evaluation data, and that -- not a shortage of ideas -- is why the 5/11
+# figure cannot be improved on by any amount of tuning.
+#
+# THE ONE RULE: no threshold decision may consult this file until the thresholds
+# are final. Not "should not". If a config.yaml value is changed because of a row
+# in here, this file becomes a second development set and the project is back
+# where it started on 2026-10-26.
+#
+# Score with (and only when the set is worth spending):
+#   python scripts/retrospective.py --cases docs/validation-cases-heldout-2.tsv
+#
+# DISCLOSED: it was scored once on 2026-10-27, immediately after the row was
+# written, to check the row parses and the assay id resolves. The result was
+# `watch` / agrees. Nothing in config.yaml was changed because of it and nothing
+# may be; one bit is out, and pretending otherwise would be worse than saying so.
+#
+# DISCLOSED AGAIN, 2026-10-28: scored a second time after the Quackenbush row was
+# proposed, for the same reason -- to check it parses -- and the whole file was read,
+# because --cases scores every row. So all three rows are now out, and they say:
+#
+#   Cryptosporidium_18SrDNA_Xiao_1999_round2    works  -> watch         agrees
+#   MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010  works  -> declining     DISAGREES
+#   Pan_HERPES_dsDNA_Polymerase_round2          works  -> low coverage  weaker
+#
+# ONE FALSE ALARM IN THREE HELD-OUT ROWS, and it is the informative one: Mills 2022
+# validated the G2R generic assay on 2022 outbreak clinical specimens, and the shipped
+# config calls it `declining`. The development set's false-alarm rate is 4/32 = 12%;
+# this is 1/3, on three rows, so the interval is useless (95% CrI 4%-82%) and the
+# POINT of recording it is that the number exists and was not chosen. Nothing in
+# config.yaml was changed because of it, and under the file's own rule nothing may be.
+# The honest status of this file is now: partially spent, 3 bits out, and worth no
+# further reads until it holds enough rows to be worth spending.
+#
+# DISCLOSED A THIRD TIME, 2026-10-29: not a score run, but the G2R row was consulted
+# again. S7b (`scoring.mispair_window: 10`) was priced by replay, and its report diff
+# shows MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010 moving `declining -> stable`, i.e.
+# fixing the false alarm this file records. Nothing in config.yaml was changed because
+# of it -- `mispair_window` stays null and the candidate waits for a maintainer -- and
+# the reasoning is written down in docs/journal/2026-10-29-s7b-priced.md precisely so
+# that a later reader can see the result was NOT used as the justification. No new bit
+# left the file; the row that was already out is what spoke.
+#
+# Same columns and same bar as the development set: a paper, erratum or redesign
+# reporting how an assay ALREADY IN THE REGISTRY performed, with `as_of` no later
+# than the sequences its authors could have seen. A new assay's validation
+# against its own panel does not qualify -- it says nothing about drift.
+#
+# Target: 15-20 cases, at least 5 with `mechanism: drift`. Both earlier sets are
+# dominated by coverage-type failures, so the drift flag still rests on about one
+# ground-truth event; that is the gap to close first.
+#
+# WHERE THE FILE STANDS, 2026-10-29: 14 rows -- 10 `works`, 3 `fails` (all
+# `coverage`), 1 `partial` (`coverage`). The count target is met and the DRIFT
+# target is not: still zero rows with `mechanism: drift`, because a paper that
+# documents an assay decaying over time is rarer than one documenting a clade it
+# never covered. Three of the first four rows are spent; the other eleven are not,
+# so the set is worth spending once the thresholds are final -- which they are not
+# while S7b waits (docs/journal/2026-10-29-s7b-priced.md).
+#
+# Leads: scripts/check_candidate_identity.py over
+# docs/2026-10-26-retrospective-candidates.tsv is now the cheapest source, because
+# it answers the question that actually blocks a row -- did the citing paper test
+# OUR oligos -- before any reading time is spent. See ROADMAP.md, tier-2 validation.
+# ROW ADDED 2026-10-27. The first CONFIRMED retrospective identity in the project:
+# both round-2 primers are printed verbatim in the paper and read `exact` against
+# the registry (docs/journal/2026-10-27-leetz-identity-confirmed.md). `as_of` is the
+# received date, 25 March 2007, not the publication date.
+#
+# `works`, and the mechanism matters. The paper's headline is 73.8% positive for
+# the Xiao nested 18S primers, which against detect_fraction_threshold: 0.90 looks
+# like a miss -- but Table 2's denominator is an oocyst DILUTION SERIES on one
+# isolate (>10^4 down to 10^0), so the misses are at low template. That is
+# sensitivity, which this tool does not model: a primer that matches perfectly
+# still fails at one oocyst. On the isolate itself the assay worked twice -- the
+# round-2 product digested cleanly with Vsp I to 628 + 104 bp, and the procedure
+# was repeated with a German bovine stock "with identical results". Recording it
+# as `fails` would teach the harness that a sensitivity result is a coverage
+# result, which is exactly what the `mechanism` column exists to prevent.
+# ROW ADDED 2026-10-27. Mills, Greninger et al. 2022 (J Clin Virol 159:105373, PMC9783225, open access)
+# prints the G2R generic primers and probe character for character -- identical to
+# MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010 -- and validates them on 2022 outbreak clinical
+# specimens across many sample types (20 MPXV-positive swabs in the quantitative comparison).
+# `works`, mechanism blank: a clinical validation of the stored oligos on circulating virus.
+# `as_of` is the paper's received date, 2 November 2022. Identity was read directly from the
+# open full text, not inferred from the citation.
+#
+# NOT A ROW, recorded so the lead is not chased twice:
+# Cryptosporidium_18SrDNA_Xiao_1999_round1 reads VARIANT against the same paper --
+# the round-1 pair Leetz tested is not the one the registry holds, however much it
+# cites Xiao 1999. ENTEROVIRUS_ssRNA_VP3_VP1 (+round2) and
+# INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 are closed as UNCONFIRMABLE by
+# CONTENT rather than by access: Ng 2025 reprints its own CDC2022 redesign and
+# cites the Nix gold standard only, and Slomka 2023 prints no primer table at all.
+#
+# ROW PROPOSED 2026-10-28, SIGNED OFF AS PROPOSED BY THE MAINTAINER 2026-10-30. Quackenbush et al. 1998
+# (Virology 246:392-399, received 26 February 1998) USES the VanDevanter pan-herpes
+# DPOL nest this entry holds -- it cites VanDevanter 1996 by name and all four oligos
+# (DFA, KG1, TGV, IYG) occur verbatim in its text -- and reports what it found: a
+# ~250 bp round-2 band from five green turtle fibropapillomas, whose sequence is only
+# 53% identical to its nearest relatives (BHV-1, PRV) across the 183 bp between TGV
+# and IYG. That is the pan-family claim doing exactly what it is for: amplifying a
+# herpesvirus roughly half-divergent from anything then known, now Chelonid
+# herpesvirus 5. `works`, mechanism blank.
+#
+# WHY IT IS PROPOSED RATHER THAN WRITTEN BY ME: the works/fails call is the
+# maintainer's. Strike the row if you read it differently -- the arguable part is that
+# the paper also reports tumour-free skin and two olive ridley turtles as PCR
+# NEGATIVE, which is a true negative for those samples and not an assay failure.
+#
+# NOT A ROW, recorded 2026-10-28 so the lead is not chased twice:
+# 10.1016/j.mimet.2008.12.003 reads CONFIRMED against Salmonella_invA_Rahn_1992 -- the
+# first new CONFIRMED since 2026-10-27 -- and is still not a case. It is Suess, Flekna,
+# Wagner & Hein 2009 (J Microbiol Methods 76:316-319; the retrospective queue and the
+# fetch list both called it "Malorny"), a METHODOLOGICAL study: a synthetic 100 bp
+# template flanked by Rahn's primers 139/141, then eight forward primers and six probes
+# carrying deliberate mismatches, each measured for quantification error. Our oligos are
+# printed because they are the scaffold of someone else's experiment, and nothing in it
+# reports the Rahn assay performing on anything real. Its finding -- primer-region
+# mismatches cost up to 63% in quantification while barely changing the curve, probe-region
+# mismatches up to 33% and worse in kind -- is recorded as a C2 prior source in
+# docs/bayesian-scoring-plan.md instead.
+#
+# ========================================================================
+# ELEVEN ROWS PROPOSED 2026-10-29, ALL SIGNED OFF AS PROPOSED BY THE MAINTAINER 2026-10-30.
+#
+# Source: the `use`-family retrospective re-run (ROADMAP, tier-2). Instead of
+# hunting phrases about failure, it hunts papers that simply RUN a registry assay
+# and report a result. `check_candidate_identity.py --groups use` read 13 CONFIRMED
+# (paper, assay) pairs over 7 papers, every oligo `exact`; each paper's RESULTS
+# section was then read from the Europe PMC full text, not its abstract.
+#
+# DATES: none of these publishers put a received date in the JATS history element
+# and Crossref carries none either, so `as_of` is the earliest public date each
+# paper has -- the Europe PMC pub-date or the Crossref registration date, whichever
+# is earlier -- and the note says which. That is later than the archive the authors
+# actually worked against, so each row is slightly GENEROUS to the tool; the
+# alternative (guessing a submission date) would be worse.
+#
+# ------------------------------------------------------------------------
+# THREE `fails` ROWS FROM ONE PAPER, AND THEY ARE THE SCARCE KIND.
+# Himmel, Harl et al. 2022, Malar J 21:1 (PMC8729155), screened 183 accipitriform
+# raptors with the Hellgren 2004 nest and states a MECHANISTIC coverage failure
+# twice over, in its own words and at base level:
+#
+#   Methods: "The nested PCR assay by [6] does not allow amplification of the CytB
+#   in parasites of the L. toddi group. In particular, the forward primer of the
+#   first PCR, HaemNFI, shows a two bp mismatch at the 3'-end compared to L. toddi
+#   group sequences (AG vs GC), and the nested reverse primer HaemR2L [...] features
+#   a two bp mismatch at the 3'-end (GC [complement] vs CT, TT, or AT)."
+#
+#   Discussion: "Both 'nest 2' reverse primers (HaemR2 and HaemR2L) of the standard
+#   PCR protocol by [6] feature four mismatches in the 3'-region to lineages of this
+#   group, which might explain the extremely scarce molecular genetic record in
+#   other studies."
+#
+# And it acted on it: every sample was screened a SECOND time with a different
+# protocol specific to that group, and the paper's own L. toddi-group and hBUBT1
+# sequences came from those other primers, not from ours. A documented failure with
+# the mismatch located at the 3' end of named oligos is exactly what this project
+# claims to predict, so these three rows test the tool at its own game.
+#
+# CAVEAT THE MAINTAINER SHOULD WEIGH: the same nest found 80 of 183 birds (44%)
+# infected, so it plainly works on most of what it meets. The failure is
+# clade-specific. That is the same shape as the Paramyxovirinae rows already in the
+# development set, where a pan-family assay misses one branch, and `mechanism:
+# coverage` is what the column exists to record -- but if the maintainer reads a
+# clade-specific miss inside a working survey as `partial`, strike and re-enter.
+#
+# ------------------------------------------------------------------------
+# TWO `works` ROWS: the VanDevanter pan-herpes nest on equine samples. Received
+# date IS in the JATS history here, 1 October 2023, so `as_of` is exact. Both rounds
+# are named in the methods (DFA/ILK/KG1 then TGV/IYG) and both reads are `exact`.
+# The assay typed EHV-1 and EHV-4 across vaginal swabs, nasal swabs and whole blood
+# and the products were sequenced; this is a pan-family assay doing routine work.
+#
+# ONE `works` ROW, ROUND 1 ONLY: the same nest on Chilean pudus, where it amplified
+# a herpesvirus whose polymerase is only 78.7% identical to its nearest relative
+# (named Pudu gammaherpesvirus 1) plus four animals carrying CpHV-2 at 100%
+# identity. A pan-family assay recovering something previously unknown is the
+# clearest `works` there is. ROUND 2 IS NOT A ROW: it reads VARIANT, because this
+# paper's inner/sequencing primers (TGVseq, IYGseq) are not the pair the registry
+# holds. `as_of` is the Crossref registration date, earlier than the issue date.
+#
+# ------------------------------------------------------------------------
+# TWO `works` ROWS: the Chu 2008 pan-astrovirus heminest in a buffalo-calf enteritis
+# outbreak. 10 of 16 samples positive in the single round and 16 of 16 with the
+# nest, sequenced to a strain up to 85% aa identical to bovine AstVs and proposed
+# as a candidate new species. The 62.5% in round 1 alone is SENSITIVITY, not
+# coverage -- the nest is what the assay is -- which is the same distinction the
+# Leetz/Cryptosporidium row above turns on.
+#
+# TWO `works` ROWS: the pan-adenovirus hexon seminest on 775 rodents from the DRC.
+# Four positives (0.5%), sequences 81-91% nt identical to MAdV-2, i.e. novel
+# adenoviruses amplified by a consensus assay. The authors disclose their own
+# caveat -- "Both PCRs probably have their limitations and it seems reasonable to
+# assume that the actual AdV prevalence, in either case, will be higher than what
+# was detected" -- which is an honest doubt about sensitivity against no gold
+# standard, not a documented miss. A maintainer who reads that as a named gap
+# should make these `partial` instead.
+#
+# ------------------------------------------------------------------------
+# ONE `partial` ROW, AND THE ONLY HEAD-TO-HEAD IN THE BATCH. Nieto-Rabiela et al.
+# 2022 screened ~3,000 Cameroonian animals with TWO pan-CoV protocols at once and
+# reports the tally for each: "The Watanabe PCR protocol produced 173 positive
+# results, while the Quan PCR protocols produced 64 positive results." The registry
+# holds the Quan pair (CoV-FWD2/CoV-RVS2, cited to 10.1128/mBio.00208-10), so our
+# assay found CoV RNA -- plainly not `fails` -- while a second pan-CoV assay on the
+# same samples found 2.7x more, which is a named gap and so not plainly `works`
+# either. `partial` is the column the project has for exactly that.
+#
+# WHY THE OTHER CORONAVIRUS ENTRY IS NOT A ROW: the paper also prints
+# CoV-FWD3/CoV-RVS3, which `CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme` holds -- but
+# that entry stores the Drexler modification (modification_doi 10.1038/ncomms9147),
+# not Watanabe's original, so it reads VARIANT. The checker and the registry agree,
+# and the 173 positives are therefore NOT ours to claim.
+#
+# READ THE COUNTS CAREFULLY before signing this one off: 173 and 64 are "positive
+# results", and the same animal appears more than once across rectal swab, oral
+# swab, liver, spleen and plasma. The per-animal cross-tab is not published, so the
+# 2.7x is a ratio of results and not of animals missed.
+#
+# ------------------------------------------------------------------------
+# NOT A ROW, recorded 2026-10-29 so the lead is not chased twice:
+# 10.1186/s12891-020-3052-8 (PMC6961364) reads CONFIRMED for both pan-herpes rounds
+# -- DFA, ILK, KG1, TGV and IYG all printed verbatim -- and is still not a case.
+# Fifteen herniated disc samples were ALL NEGATIVE by the nest, and independent
+# untargeted sequencing of the same samples found no herpesvirus either, so this is
+# a true negative and not an assay failure: the study's point is that it could not
+# replicate Alpantaki 2011, with p < 0.001 against that paper's 80% positive rate.
+# The one fact in it about our assay is that the Equine herpesvirus 1 and crocodile
+# herpesvirus positive controls amplified, which is a control and not a drift
+# observation -- the same reason this file's header refuses a new assay's validation
+# against its own panel.
+assay_id	as_of	expect	mechanism	source	scope_taxid
+Cryptosporidium_18SrDNA_Xiao_1999_round2	2007-03-25	works		10.1007/s00436-007-0567-y Leetz 2007 Parasitol Res 101:951-962: round-2 primers printed verbatim (Xiao18SF2 GGAAGGGTTGTATTTATTAGATAAAG, Xiao18SR2 AAGGAGTAAGGAACAACCTCCA) and amplified C. parvum HNJ-1 genotype II, RFLP-typed cleanly with Vsp I (628 + 104 bp), repeated on an independent German bovine stock with identical results; the 73.8% in Table 2 is a dilution series, i.e. sensitivity, not coverage	
+MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010	2022-11-02	works		10.1016/j.jcv.2022.105373 Mills 2022 J Clin Virol 159:105373: G2R forward GGAAAATGTAAAGACAACGAATACAG, reverse GCTATCACATAATCTGGAAGCGTA, probe AAGCCGTAATCTATGTTGTCTATCGTGTCC printed verbatim and validated on 2022 clinical specimens; G2R outperformed F3L by ~0.4 Ct	
+Pan_HERPES_dsDNA_Polymerase_round2	1998-02-26	works		10.1006/viro.1998.9207 Quackenbush 1998 Virology 246:392-399: cites VanDevanter 1996 and prints DFA/KG1/TGV/IYG; ~250 bp round-2 product sequenced from five green turtle fibropapillomas, 53% identical to BHV-1/PRV between TGV and IYG (signed off as proposed 2026-10-30)	
+Pan_hemoparasite_cytochrome_c_Hellgren_2004	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemNFI/HaemNR3 printed verbatim; the paper states the nest cannot amplify CytB of the L. toddi group, locating a two bp 3'-end mismatch in HaemNFI (AG vs GC), and screened all 183 samples again with a group-specific protocol to cover it (signed off as proposed 2026-10-30)	
+Leucocytozoon_cyt_c_Hellgren_2004	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemFL/HaemR2L printed verbatim; two bp 3'-end mismatch in HaemR2L against L. toddi group sequences (GC vs CT/TT/AT), so the group's lineages were recovered with other primers entirely (signed off as proposed 2026-10-30)	
+Pan_Plasmodium_sp_and_Haemopro_cytochrome_c	2022-01-05	fails	coverage	10.1186/s12936-021-04019-z Himmel 2022 Malar J 21:1 (PMC8729155): HaemF/HaemR2 printed verbatim; the discussion reports four 3'-region mismatches in HaemR2 to the hBUBT1 clade and names that as the likely reason for its "extremely scarce molecular genetic record" elsewhere, the paper's own sequences for it coming from other primers (signed off as proposed 2026-10-30)	
+Pan_HERPES_dsDNA_Polymerase	2023-10-01	works		10.5455/ovj.2024.v14.i1.48 Open Vet J 14:48 (PMC11018441), received 2023-10-01: DFA/ILK/KG1 printed verbatim as the primary mixture, cited to Van Devanter 1996; EHV-1 and EHV-4 detected and typed in Arabian horses (50% and 10% of aborted-mare vaginal swabs, 28% and 36% of nasal swabs) (signed off as proposed 2026-10-30)	
+Pan_HERPES_dsDNA_Polymerase_round2	2023-10-01	works		10.5455/ovj.2024.v14.i1.48 Open Vet J 14:48 (PMC11018441), received 2023-10-01: TGV plus the downstream inner primer printed as the secondary mixture; the nested product is what was typed and sequenced for EHV-1/EHV-4 (signed off as proposed 2026-10-30)	
+Pan_HERPES_dsDNA_Polymerase	2022-11-21	works		10.1080/01652176.2022.2149879 Vet Q (PMC9809401): DFA/ILK/KG1 printed verbatim, cited to VanDevanter 1996; herpesvirus DNA confirmed in 5 of 66 pudus, four sequencing to CpHV-2 and one to a novel gammaherpesvirus 78.7% identical to fallow deer lymphotropic herpesvirus (signed off as proposed 2026-10-30)	
+ASTROVIRUS_RdRp_Chu_2008_round1	2021-09-27	works		10.4142/jvs.2021.22.e84 J Vet Sci 22:e84 (PMC8636656): ASTF1/ASTR1 printed verbatim as the pan-astrovirus ORF1b assay; 10/16 buffalo-calf samples positive in the single round, all 16 with the nest, sequences >99% nt identical to each other (signed off as proposed 2026-10-30)	
+ASTROVIRUS_RdRp_Chu_2008_round2	2021-09-27	works		10.4142/jvs.2021.22.e84 J Vet Sci 22:e84 (PMC8636656): ASTF2 with the shared reverse printed verbatim; 16 of 16 positive by nested RT-PCR, the product sequenced to a candidate new Mamastrovirus species up to 85% aa identical to bovine AstVs (signed off as proposed 2026-10-30)	
+ADENOVIRUS_dsDNA_Hexon_gene	2019-12-31	works		10.1016/j.nmni.2019.100640 New Microbes New Infect (PMC6997563): ADHEX1F/ADHEX1R printed verbatim for the first round of the hexon seminest; AdV DNA detected in 4 of 775 DRC rodents, species confirmed by cytochrome b barcoding (signed off as proposed 2026-10-30)	
+ADENOVIRUS_dsDNA_Hexon_gene_round2	2019-12-31	works		10.1016/j.nmni.2019.100640 New Microbes New Infect (PMC6997563): ADHEX2F with ADHEX1R printed verbatim for the second round; the ~334 bp hexon products sequenced to four novel adenoviruses, 81-91% nt identical to MAdV-2 (signed off as proposed 2026-10-30)	
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2	2022-01-05	partial	coverage	10.1093/ve/veab110 Virus Evol 8:veab110 (PMC8867583): CoV-FWD2/CoV-RVS2 printed verbatim in Table 1 as the nested family-level RdRp assay; CoV RNA detected in 175 bats, 1 civet and 1 shrew overall, with "the Quan PCR protocols produced 64 positive results" against 173 for the second protocol in the same samples (signed off as proposed 2026-10-30)	

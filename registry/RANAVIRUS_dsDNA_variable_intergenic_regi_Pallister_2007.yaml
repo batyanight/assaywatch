@@ -1,0 +1,78 @@
+id: RANAVIRUS_dsDNA_variable_intergenic_regi_Pallister_2007
+name: RANAVIRUS (dsDNA) — variable intergenic region
+target:
+  taxid: 10492
+  gene: variable intergenic region
+  genome_type: dsDNA
+  taxon_name: Ranavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: Pallister-16F
+    seq: AGAAATCTTGCGAGACCG
+  reverse:
+    name: Pallister-16R
+    seq: AACTGTTGGTGATTGCAGC
+amplicon_bp: null
+amplicon_bp_range: [186, 749]
+citation:
+  doi: 10.1111/j.1365-2761.2007.00828.x
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: Pallister et al, 2007
+  doi_verified: true
+  reference: Pallister J et al. 2007. J Fish Dis 30:427-438
+  oligos_designed_here: false
+conditions:
+  cycles: 30
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'PROMOTION TO ACTIVE ATTEMPTED AND WITHDRAWN 2026-10-21. The drift evidence supports it - detected
+    share 90.0% (77%-96%) on 40 evaluable records in the 24-month window, status stable - and the entry meets every
+    other schema precondition (taxid 10492, DOI verified, design_year 2007). It is held at draft by the amplicon
+    defect below, found while checking the entry for promotion, which the validator correctly refuses to let an
+    `active` entry carry. AMPLICON: THE DECLARED SCALAR IS WRONG AND IS HIDING RECORDS. Pallister et al. 2007
+    answers this directly (papers/, p. 4): "The amplification product obtained using the 16R and 16F primers was
+    substantially smaller for BIV than for EHNV, ECV and ESV - around 200 bp for BIV, approximately 700 bp for EHNV
+    and slightly larger for ECV and ESV." So the product length is SPECIES-DEPENDENT by design - this is the
+    variable intergenic region, and the variation is the locus - and 200 bp is the BIV figure only. Measured on the
+    2026-10-21 run: of 128 records yielding a product the sizes are 244 bp (44), 228 (39), 212 (37), 227 (6), 209 (1)
+    and 196 (1), all BIV-scale, and separately 61 records carry BOTH primer sites with no facing pair inside the
+    150-250 bp window the scalar implies ("sites found but no facing pair within 150-250 bp; both primers match").
+    Those 61 are the EHNV/ECV/ESV end of the assay and are counted as no_amplicon purely because of the declared
+    size - a 48% understatement of the evaluable denominator. RESOLVED 2026-10-21 as amplicon_bp_range [186, 749], RANGE-ONLY. The 10492 archives were
+    rescreened with the size window opened: detect/reduced products jump from 128 to 324 records spanning 196-739
+    bp - the EHNV/ECV/ESV ~700 bp end Pallister describes, recovered. NO species_sizes, because length does not
+    cleanly name a species here: within Ranavirus micropterus1 alone the product ladders 212-308 bp, so the
+    intergenic length varies by isolate, not by species as Pallister''s four reference isotypes suggested. The
+    range is the measured envelope + a 10 bp cushion (config.yaml amplicon: the measured size wins). PROMOTION
+    STILL WAITS ON THE FULL RESCREEN, now for a different reason: the old 90.0%% stable counted only the BIV-scale
+    products that detect well; including the ~700 bp end, much of which scores reduced or fail, will LOWER the real
+    detected share, so the status has to be re-read on the next run before this is promoted. A related case, though not the
+    identical defect: ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2 had a wrong SCALAR hiding 31 records on
+    2026-10-21 and was corrected to a scalar, not a range. OLIGO ATTRIBUTION, established 2026-10-21: Pallister
+    credits 16R and 16F to Jancovich et al. 2005 in five places - twice in Methods ("the PCR primers used to amplify
+    the variable region - 16R and 16F (Jancovich et al. 2005)") and in the legends of Figures 2, 3 and 4 - so this
+    entry cites the paper the sequences were READ FROM, not one shown to have designed them, and
+    oligos_designed_here is false. The credited paper, exactly as Pallister''s reference list prints it and with no
+    DOI printed there: "Jancovich J.K., Davidson E.W., Parameswaran N., Mao J., Chinchar G., Collins J.P., Jacobs
+    B.L. & Storfer A. (2005) Evidence for emergence of an amphibian iridoviral disease because of human-enhanced
+    spread. Molecular Ecology 14, 213-224." THE CITATION IS DELIBERATELY NOT MOVED. Nothing here establishes that
+    Jancovich 2005 prints these sequences: it is not in papers/, no DOI for it is verified, the two primer sequences
+    in this entry were read from Pallister''s own Methods text, and Pallister''s Introduction describes Jancovich
+    2005 as having USED this variable region "to assign four different isotypes to salamander viruses" rather than
+    as having designed primers for it. 16F/16R may trace back further still. Re-cite only once the Jancovich paper
+    is on disk and its DOI is Crossref-verified, following NOSEMA_bombi_SSU_Kato_2020, which moved to Klee 2006 on
+    exactly that evidence and still left oligos_designed_here null because Klee was unread.'
+needs_review:
+- flag: amplicon_multimodal
+  note: the variable intergenic region is species- and isolate-dependent; 324 products span 196-739 bp (BIV ~200 to
+    EHNV/ECV/ESV ~700, per Pallister), declared as amplicon_bp_range [186, 749] range-only
+- flag: oligos_from_secondary_source
+  note: Pallister et al. 2007 credits 16R and 16F to Jancovich et al. 2005 in three places, so this entry cites the
+    paper that used these primers rather than the one that designed them

@@ -1,0 +1,60 @@
+id: CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme
+name: CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase
+target:
+  taxid: 11118
+  gene: RNA-dependent RNA polymerase
+  genome_type: ssRNA+
+  taxon_name: Coronaviridae
+  query: (RdRp[Gene] OR orf1ab[Gene] OR ORF1ab[Title] OR "RNA-dependent RNA polymerase"[Title] OR "complete genome"[Title])
+    NOT txid2697049[Organism:exp]
+chemistry: conventional
+oligos:
+  forward:
+    name: CoV-FWD3
+    seq: GGTTGGGAYTAYCCHAARTGTGA
+    modified_from: GGTTGGGACTATCCTAAGTGTGA
+    modification_doi: 10.1038/ncomms9147
+  reverse:
+    name: CoV-RVS3
+    seq: CCATCATCASWYRGAATCATCATA
+    modified_from: CCATCATCAGATAGAATCATCATA
+    modification_doi: 10.1038/ncomms9147
+amplicon_bp: 440
+citation:
+  doi: 10.3201/eid1608.100208
+  design_year: null
+  n_sequences_at_design: null
+  as_written: PREDICT protocol
+  doi_verified: true
+  reference: Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the PREDICT
+    panel)
+conditions:
+  annealing_c: 50
+  primer_nm: 200
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+  notes_curator: 'SOURCE FOUND 2026-10-21. These are Watanabe et al. 2010''s pan-coronavirus RdRp consensus primers with increased
+    degeneracy, the same modification pattern PREDICT applied to Bourhy''s rhabdovirus pair. Watanabe prints GGTTGGGACTATCCTAAGTGTGA
+    and CCATCATCAGATAGAATCATCATA; CoV-FWD3 and CoV-RVS3 are identical except at 4 positions each, and EVERY difference is
+    an IUPAC superset of Watanabe''s base (fwd 9 C->Y, 12 T->Y, 15 T->H, 18 G->R; rev 10 G->S, 11 A->W, 12 T->Y, 13 A->R),
+    checked with assaywatch.iupac. This is NOT Quan 2010: the local Quan PDF prints AAYBTVCCWYTICARBTRGG, GGCWCCWCCHGGNGARCAATT
+    and GGWAWCCCCAYTGYTGWAYRTC and neither of these, so the entry is a third pair rather than a Quan round. Found by Europe
+    PMC full-text search on the oligo names, which returned only users - one of them a paper comparing the Quan and Watanabe
+    assays, which is what pointed at Watanabe. doi_verified stays false until scripts/resolve_citations.py approves it. THE CoV-RVS3 CORRECTION IS REVERTED, 2026-10-23, by measurement, and the stored
+    form is vindicated. Replacing it with PREDICT P-006''s 23-mer and rescreening took this assay from 3,171/7,920
+    detected (40.0 percent) to 3/138 (2.2 percent). Counting exact binding sites across the 25,506 records of the
+    11118/q4d4730ef3b archive: the stored 24-mer CCATCATCASWYRGAATCATCATA has a site in 215 records, Watanabe''s own
+    printed 24-mer CCATCATCAGATAGAATCATCATA in 204, and P-006''s 23-mer CCATCATCASWYRAATCATCATA in 88. So the stored
+    sequence is Watanabe''s primer with the panel''s degeneracy and Watanabe''s length, and it binds better
+    than either published form - the panel dropped a base. Calling it "a hybrid nobody printed" was right about its
+    provenance and wrong about its quality. This is the same pattern already recorded for CoV-RVS1 in the Lan_2010
+    sibling, where the stored 30-mer hits 685 of 884 genomes and the paper''s 33-mer never gets below 4 mismatches.
+    modified_from keeps Watanabe''s printed form visible.'
+needs_review:
+- flag: oligos_modified

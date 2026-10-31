@@ -1,0 +1,49 @@
+id: MYCOBACTERIUM_TB_complex_helicase_MTCHeli_Hermes_2018
+name: MYCOBACTERIUM TUBERCULOSIS COMPLEX - helicase TaqMan (MTC Heli)
+target:
+  taxid: 77643
+  gene: helicase
+  genome_type: dsDNA
+  taxon_name: Mycobacterium tuberculosis complex
+  query: helicase[Title]
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: MTC-HELI-4F
+    seq: TTGATCAGGTCGACGATGTAG
+  reverse:
+    name: MTC-HELI-4R
+    seq: TCACCACCGACAAAGCGTC
+  probe:
+    name: MTC-HELI-4FAM
+    seq: TCAACGACCCCAACGACTGGTGC
+    reporter: FAM
+    quencher: BHQ-1
+  alternates: []
+amplicon_bp: 91
+citation:
+  doi: 10.1371/journal.pone.0207365
+  design_year: 2018
+  n_sequences_at_design: null
+  as_written: null
+  reference: Hermes R, Saragusty J, Moser I, Barth SA, Holtze S, Lecu A, Cracknell J, Williams D, Goeritz F, Hildebrandt TB. 2018. Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros. PLoS One 13:e0207365
+  doi_verified: true
+  oligos_designed_here: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-05 from the paper''s S1 Table, which is a supplementary DOCX rather than anything in the PDF. This matters, because the entry for this paper in docs/RESUME-HERE.md listed it among the ''image-only primer tables'' needing a page rendered and read by eye - that is wrong. The PDF never prints the sequences at all; it says ''Sequences of the used primers and probes are listed in the S1 Table'', and PLOS serves that supplement openly at journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0207365.s001&type=supplementary . Reading it needed the cell line breaks preserved: the three oligos of each assay sit in ONE table cell separated by soft breaks, so a plain text dump concatenates them and the boundary between forward and reverse becomes guesswork. A first careless read of this table split the Heli pair as TTGATCAGGTCGACGATGTAGTC / ACCACCGACAAAGCGTC, which is wrong by two bases at each end; the cell breaks give TTGATCAGGTCGACGATGTAG / TCACCACCGACAAAGCGTC.
+    Recorded because that is precisely how a fabricated sequence enters a registry. PROVENANCE: this paper did not design these oligos and does not say who did in a citable way. S1 Table''s own Reference column reads ''Anonymous, 2017'' for both MTC assays and ''Nieter, 2016'' for the genus 16S assay, neither of which resolves to anything in the reference list; the acknowledgements thank Bernd Hoffmann, Heike Koehler and Petra Moebius ''for the development of the MTC qPCR'', which reads as unpublished in-house work at FLI. oligos_designed_here is therefore false and the credited source is recorded verbatim rather than guessed at - the Nobach mistake was inventing a citation that looked right. The fourth assay in that table, IC beta-actin (ACT2-1030-F / ACT-1135-R / ACT-1081-1105-YAK, credited to Toussaint 2007), is a HOST extraction control and is deliberately not entered, for the same reason the tilapia beta-actin pair was left out: screening a host housekeeping gene against a bacterial
+    taxon reports guaranteed non-detection as drift. MEASURED 2026-10-05 against complete mycobacterial chromosomes fetched for the purpose - one Mycobacterium tuberculosis (CM184409.1), one M. avium subsp. hominissuis (NZ_CP199875.1) and one Mycobacterium sp. (CM135953.1). The sample is small because NCBI was being shared with other work at the time and most fetches came back empty; it is enough to fix an amplicon and to show the specificity, and it is NOT enough for a coverage statistic, so no such number is claimed here. This pair gives a 91 bp product in the M. tuberculosis chromosome with both primers and the probe at zero mismatches, and NO product in either non-tuberculosis mycobacterium, where the primers sit 2-3 mismatches away and the probe is absent or 3 mismatches off. That is the intended behaviour of an MTC-specific assay. amplicon_bp 91 is measured; the paper states no size. CITATION CORRECTED BEFORE THIS ENTRY WAS EVER COMMITTED, and the correction is worth keeping. The reference
+    string was first written from memory as ''Horn F, ... Tuberculosis in rhinoceros - a case report and review of the literature'', which is not this paper. scripts/check_submission.py and scripts/resolve_citations.py both rejected it on the spot - ''DOI resolves to Hermes 2018: Differential detection of tuberculous and non-tuberculous mycobacteria, which does not match the entry'' - and the reference was replaced with Crossref''s record. That gate exists because a reference was once invented here and went unnoticed; this is it working on a live attempt, and it is the reason nothing in this registry should be typed from recollection.
+
+
+    SCREENED 2026-10-07 (counted by call from results/2026-10-07/calls.tsv.gz): 313 records, of which 25 are gene-level GenBank records from this entry query helicase[Title] and 288 are complete-genome assemblies (GCA_ ids) cut to candidate loci by the asm group. Calls: 299 detect, 6 reduced, 8 fail. These are counts of calls, not a coverage statistic; the failing and non-amplifying records were not examined.'
+needs_review:
+- flag: citation_unresolved
+  note: oligos come from an uncitable source (anonymous, 2017)

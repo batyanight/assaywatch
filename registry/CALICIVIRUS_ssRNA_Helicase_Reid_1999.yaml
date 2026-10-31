@@ -1,0 +1,162 @@
+id: CALICIVIRUS_ssRNA_Helicase_Reid_1999
+name: CALICIVIRUS (ssRNA) — Helicase (Reid 1999)
+target:
+  taxid: 11974
+  gene: 2C helicase
+  genome_type: ssRNA
+  taxon_name: Caliciviridae
+  scope_taxids:
+  - 3433198
+chemistry: conventional
+oligos:
+  forward:
+    name: Hel1
+    seq: GTCCCAGTATTCGGATTTGTCTGCC
+  reverse:
+    name: Hel2
+    seq: AGCGGGTAGTTCAGTCAAGTTCACC
+amplicon_bp: 357
+citation:
+  doi: 10.1016/S0890-8508(95)90962-1
+  design_year: 1995
+  n_sequences_at_design: null
+  as_written: Neill & Seal 1995, read via Reid et al. 1999 Table 2
+  doi_verified: true
+  reference: Neill JD, Seal BS 1995. Mol Cell Probes 9:33-37
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0166-0934_99_00088-9.pdf). Hel1 and Hel2
+    target the 2C helicase gene of Caliciviridae. The paper reports Hel1 as 25 nt and Hel2 as 18 nt; the OCR-extracted Hel1
+    sequence is only 22 nt, so sequence may be incomplete - needs verification against the paper table. AMPLICON MEASURED
+    2026-10-21 as 360 bp in all 5 amplifying records (Vesivirus exanthema and Rabbit vesivirus), a single band, agreeing with
+    the paper''s stated ~357 bp within gel-reading error, so declared as a scalar 360 (config.yaml amplicon section says the
+    measured size wins). Unimodal, so not a range; only 5 of 84,810 genus records amplify at all, hence thin_evidence below.
+    BOTH OLIGOS CORRECTED 2026-10-23, and the cause is one mis-split table cell. Reid et al. 1999 Table 2 prints each primer
+    as a 25-mer wrapped after a hyphen: Hel1 "GTCCCAGTATTCGGATTTGTCT-" / "GCG" and Hel2 "AGCGGGTAGTTCAGT-" / "CAAGTTCACC",
+    both with length 25 in the table''s own nt column and a 357 bp product. The registry held Hel1 truncated to its first
+    line (22 nt) and Hel2 as Hel1''s wrapped tail GCG glued onto Hel2''s first line (18 nt) - so the continuation of one primer
+    had been prepended to the next. Corrected to the printed 25-mers. oligos_designed_here set to FALSE: Table 2''s footnote
+    reads "** Originally described by Neill and Seal (1995)", i.e. Neill, J.D. and Seal, B.S., Mol. Cell. Probes 9, 33-38,
+    which Reid''s own introduction also names as the source of Hel1/Hel2; Reid is where they are printed and read, not where
+    they were designed. NEEDS A RESCREEN, and the declared 360 bp should be re-measured against the table''s 357. CONFIRMED
+    AGAINST THE DESIGN PAPER, and the 0 percent that follows is a SCORING artefact, not drift. Reid''s footnote credits Neill,
+    J.D. and Seal, B.S. 1995, Mol Cell Probes 9:33-38, which is 10.1016/S0890-8508(95)90962-1 and was fetched over the Elsevier
+    API on 2026-10-23. Its Methods print the four oligonucleotides it designed, and Hel1 reads GTCCCAGTATTCGGATTTGTCTGCG and
+    Hel2 AGCGGGTAGTTCAGTCAAGTTCACC - both exactly as now stored, and Hel1 ending GCG exactly as Reid prints it. So two independent
+    papers agree on the sequences and the 25 nt lengths, and the corrected forms are right. MEASURED against the 84,805-record
+    Caliciviridae archive: Hel2 has an exact site in 17 records where the old mis-split 18-mer had none, so that correction
+    is a clear gain. Hel1 has an exact site in NONE, while its first 22 bases match 16 records - and on all 16, which are
+    the designers'' own targets (vesicular exanthema of swine virus, San Miguel sea lion virus and skunk calicivirus, the
+    U146xx series), the template base under Hel1''s 3''-terminal position is C where both papers print G. So the published
+    primer carries a single 3''-terminal mismatch against its own target sequences. `terminal_mismatch_fails: true` makes
+    that fatal on its own, which is why the detected share moved from 5/18 to 0/30 when the wrap was repaired; but this is
+    a CONVENTIONAL PCR, Reid reports the assay working, and a 3''-terminal mismatch is far more tolerable in endpoint PCR
+    than in a hydrolysis probe. This entry is therefore a worked example of the per-chemistry scoring gap in ROADMAP Phase
+    2 and must not be read as coverage loss. The sequences stay as published, per the Circovirus precedent that where a paper
+    and the records disagree the registry keeps the published sequence and discloses. SCOPED 2026-10-24 to scope_taxids [3433198]
+    (Vesivirus exanthema), rank species under Caliciviridae > Vesivirus. Reid 1999 is titled "detection of marine caliciviruses"
+    and reports feline calicivirus negative; taxid 11974 is the whole family and is 99.9 percent norovirus. Measured over
+    the WHOLE 2026-10-24 calls table, which is not the report''s recent window and not patent-filtered: of 84,806 screened
+    records, 67,509 are a known taxid outside the scope and drop out of the drift denominator, 49 are inside it and 17,248
+    carry no taxid in data/retrieved/.meta.taxid.backfill.tsv.gz. drift.py keeps a record whose taxid is unknown (the filter
+    drops only a KNOWN out-of-scope taxid), so the assessable denominator goes 30 -> 24, not 30 -> 7. The 0 percent does NOT
+    move, and that is the expected result: 17 of the 24 remaining failures are the U146xx/U184xx and U1847x series, i.e. the
+    designers'''' own vesicular exanthema and San Miguel sea lion sequences, which are exactly the records carrying the 3''''-terminal
+    G/C mismatch documented above. So after scoping, this entry''''s 0 percent rests almost entirely on its own design targets
+    and is unambiguously the terminal-mismatch SCORING artefact, no longer confounded with 67,509 noroviruses the assay was
+    never meant to detect. The scope fix is still correct: it removes the confound, it is not a repair of the artefact, which
+    waits on per-chemistry scoring (ROADMAP Phase 2). RE-CITED 2026-10-24 to the design paper, a maintainer decision. citation.doi
+    moves from Reid et al. 1999 (10.1016/S0166-0934(99)00088-9) to Neill & Seal 1995 (10.1016/S0890-8508(95)90962-1), design_year
+    from 1999 to 1995, and oligos_designed_here from false to TRUE, because the cited paper is now the paper that designed
+    these primers rather than the one that printed them. The oligos_from_secondary_source flag is removed for the same reason:
+    there is no longer a secondary source in the chain. THE EVIDENCE, and it is unusually strong for a provenance change here.
+    Reid''s Table 2 footnote reads "** Originally described by Neill and Seal (1995)" and Reid''s own introduction names them
+    as the source. The 1995 paper is titled "Development of PCR primers for specific amplification of two distinct regions
+    of the genomes of San Miguel sea-lion and vesicular exanthema of swine viruses" - it declares itself the design paper
+    in its own title, and the organisms it names are exactly the Vesivirus exanthema scope this entry was given earlier today.
+    Its full text is held locally as the Elsevier JATS deposit papers/10.1016_s0890-8508(95)90962-1.xml, and searching it
+    finds BOTH stored oligos verbatim: Hel1 GTCCCAGTATTCGGATTTGTCTGCG and Hel2 AGCGGGTAGTTCAGTCAAGTTCACC. So two independent
+    papers print identical sequences and identical 25 nt lengths. SCOPED TO THIS ENTRY ONLY. Neill & Seal describe "two distinct
+    regions", so the sibling CALICIVIRUS_ssRNA_Capsid was checked against the same full text and its primers are NOT there:
+    Reid-1F GTGAGGTGTTTGAGAATTAG and Reid-1R ACATCAATTCCGCCAGACCA are both absent. Those are Reid''s own, which is what their
+    names say, so that entry keeps its Reid citation and is not re-cited. WHAT THIS CHANGES BEYOND BOOKKEEPING, stated because
+    it is not purely clerical: design_year dates the drift baseline, i.e. which deposits the designers could plausibly have
+    seen. Moving it 1999 -> 1995 moves that boundary back four years for this entry. That is the correct boundary - the primers
+    really were designed in 1995 - but it is a number that feeds scoring, not just a label. AND A TRANSCRIPTION ERROR CORRECTED
+    ON THE WAY. The old reference string read "J Virol Methods 82:63-73", but Crossref gives 82:99-107 for 10.1016/S0166-0934(99)00088-9
+    ("Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses..."),
+    which is what the sibling Capsid entry already had - so the two entries disagreed about the pages of the one DOI they
+    shared. The new reference uses Crossref''s own figures for the 1995 paper, 9:33-37; note the curator note above says 33-38,
+    which is one page out and is superseded here. A THIRD PAPER PRINTS HEL1 ENDING IN C, AND IT IS THE ONLY ONE THAT AGREES
+    WITH THE TEMPLATE. Found 2026-10-24 by pasting the stored oligos into Europe PMC full-text search. Kolesnikovas et al.
+    2017, "Molecular Detection of Circovirus and Adenovirus in Feces of Fur Seals" (10.1007/s10393-016-1195-8, PMC7087719),
+    Table 1 lists this pair as its Vesivirus helicase assay, credits "Neill et al. (1995)", prints hel-2 identically to the
+    stored AGCGGGTAGTTCAGTCAAGTTCACC - and prints hel-1 as GTCCCAGTATTCGGATTTGTCTGCC, ending C where Reid and the Neill &
+    Seal deposit both end G. So the count is now two papers for G and one for C, and the one for C is the one the sequence
+    data support. AND THE ONLY COPY OF THE DESIGN PAPER WE HOLD IS DEMONSTRABLY OCR''d. The note above treats the Elsevier
+    JATS deposit''s text as authoritative. It should not be read that way without this caveat: of the four oligonucleotides
+    that deposit prints, THREE carry a spurious space inside the sequence - "GCCTTCTGGTATGC CACTAACATCC", "GACGAGCGGTATGATCTTGTTG
+    GTG" and "AGCGGGTAGTTCAG TCAAGTTCACC". A deposit that mangles whitespace inside three of four sequences is a deposit that
+    can misread one character in the fourth, and G/C is a plausible misread. We hold no PDF of Neill & Seal, so there is no
+    clean copy to check against. THE AMPLICON SETTLES IT, AND IT CLOSES THE OPEN QUESTION IN THIS NOTE. The note above says
+    "the declared 360 bp should be re-measured against the table''s 357". Measured 2026-10-24 over the whole 152,379-record
+    Caliciviridae archive: with the stored G-form there is NO product in any record, because Hel1 has no exact site anywhere.
+    With the C-form there are 16 products and every one is **357 bp** - exactly the size both papers state. A primer whose
+    terminal base is wrong cannot reproduce the published product size by accident, so the paper''s own stated amplicon is
+    independent corroboration of C. TAKEN TOGETHER: the template says C in all 16 design-target records, the published product
+    size is reproduced only by C, a citing paper prints C, and the two sources printing G are a 1999 table and an OCR''d backfile
+    deposit that visibly corrupts its sibling sequences. The balance has moved from "the published primer carries a 3''-terminal
+    mismatch" to "G is probably a typesetting or OCR error that has propagated". NOTHING IS CHANGED HERE: a sequence correction
+    is a maintainer decision and the registry''s rule is that the published sequence stands and the disagreement is disclosed.
+    What would settle it outright is the Neill & Seal PDF through the NYU proxy - the same errand the Mao 1997 ranavirus question
+    needs. The flag below is upgraded from a polymorphism note to oligo_sequence_uncertain, because the question is no longer
+    whether the target varies but whether our copy of the primer is right. ONE MORE THING THE SAME PAPER OFFERS, NOT ENTERED.
+    Neill & Seal describe "two distinct regions" and the note above checked only whether the sibling CAPSID entry''s primers
+    were in it. The paper''s OWN second pair is absent from the registry altogether: Pol1 GCCTTCTGGTATGCCACTAACATCC and Pol2
+    GACGAGCGGTATGATCTTGTTGGTG, the RNA-dependent RNA polymerase region, both 25 nt once the deposit''s spurious spaces are
+    closed. Measured over the same archive, those repairs are corroborated by the data rather than assumed: Pol1 has an exact
+    site in 11 records, Pol2 in 19, and the pair gives a 520 bp product in 8. That is a ready candidate entry from a paper
+    already held and already cited - worth having because, unlike the helicase pair, its sequences match real records as printed.
+    FLAG NOT UPGRADED, DELIBERATELY. The right flag for all this is oligo_sequence_uncertain, and it was tried: the schema
+    refuses it, correctly, because that flag is an OPEN question and an entry carrying one cannot be status: active. So setting
+    it would demote this live entry, and only a maintainer changes status. The flag below therefore stays primer_site_polymorphic
+    with the recommendation recorded in its note. A maintainer applying the upgrade should expect active 178 rather than 179.
+    APPLIED 2026-10-24: the maintainer took the upgrade. The Hel1 forward 3''-terminal base changed G->C, the flag primer_site_polymorphic
+    was replaced by oligo_sequence_uncertain, amplicon_bp moved 360 -> 357 (the C-form measured value, which matches the size
+    both papers state), and status moved active -> draft, so active is now 178. The open question is unchanged: whether our
+    copy of Hel1 is right, which the Neill & Seal PDF through the NYU proxy would settle. The 357 bp figure is the recorded
+    2026-10-24 C-form measurement and will be re-confirmed on the next pipeline screen.
+
+
+    HEL1''S PUBLISHED BASE IS G, AND THAT SETTLES THE QUESTION THE OTHER WAY. The clean Neill & Seal 1995 PDF arrived 2026-10-28
+    (papers/10.1016_s0890-8508_95_90962-1.pdf, 630 KB, replacing a 64 KB copy whose text layer held no sequence at all) and
+    prints, in its Materials and Methods: "Hel1 (5''-GTCCCAGTATTCGGATTTGTCTGCG-3'')". Twenty-five bases, identical to this
+    entry except the last, which is G. So THREE independent sources now print G -- the design paper itself, Reid 1999''s table,
+    and the OCR''d Elsevier deposit -- and the stored G was never our transcription error. WHAT THAT MEANS: the published
+    primer carries a single 3''-terminal mismatch against every one of the 16 Caliciviridae records that give its product,
+    and the C-form this entry carries is a DELIBERATE MODIFICATION rather than a typo fix. Measured 2026-10-24 over the whole
+    152,379-record archive, the G-form yields no product in any record and the C-form yields 16, every one at the 357 bp both
+    papers state. The maintainer''s decision of 2026-10-28 is to keep the measured C-form live and record the published form
+    here: an assay stored as published that detects nothing is a worse description of the literature than one stored as it
+    works with the departure disclosed, which is the lesson of docs/journal/2026-10-23-oligo-adjudication.md -- the paper
+    wins for a SEQUENCE and loses for a CORRECTION. The flag is therefore `oligos_modified`, not `oligo_sequence_uncertain`:
+    nothing about the reading is uncertain any more. WHAT IS STILL OPEN: whether the published G is a typesetting error in
+    the 1995 paper or the primer its authors really used, which no document on disk can answer -- they report the assay amplifying
+    a 350 bp fragment from every calicivirus they tested, which a 3''-terminally mismatched primer would not do at the 55
+    C and 60 C annealing temperatures the paper also prints.'
+needs_review:
+- flag: oligos_modified
+  note: 'Hel1''s 3''-terminal base is stored as C where Neill & Seal 1995 print G, a deliberate departure taken on measurement:
+    the C-form is what all 16 design targets carry and the only form giving the published 357 bp, and the G-form yields no
+    product anywhere in the 152,379-record archive. Settled 2026-10-28 against the clean design-paper PDF, which prints G;
+    see notes_curator.'
+- flag: thin_evidence
+  note: with the corrected C-form the 357 bp size rests on 16 amplifying records of the 152,379-record Caliciviridae archive;
+    the assay detects almost nothing in GenBank. MAINTAINER DECISION 2026-10-30 -- eligible for `active` since the 2026-10-28
+    flag change, kept `draft` on this flag alone; revisit if a `use`-family case or a re-citation to Neill & Seal 1995 appears.

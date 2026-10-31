@@ -1,0 +1,37 @@
+name: assaywatch
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - matplotlib-base   # figures only; -base skips the GUI toolkits a cluster has no use for
+  - numpy
+  - biopython       # MeltingTemp.Tm_NN: the IN-REGISTER duplex Tm in assaywatch/thermo.py
+  - primer3-py      # optional: thermodynamic columns (bioconda)
+  - pydantic>=2
+  - pyyaml
+  - ruamel.yaml>=0.18   # registry.edit: round-trip writes that keep an entry's comments
+  - requests
+  - scipy
+  - statsmodels
+  # NCBI command-line tools for ad-hoc lookups outside the package
+  # (esearch/efetch/xtract, and `datasets` for genomes). The pipeline itself
+  # calls the APIs directly and does not need these.
+  - entrez-direct
+  - ncbi-datasets-cli
+  # Pinned to the same minor CI runs (.github/workflows/validate.yml). A fresh
+  # env and CI resolving to different Snakemake majors is how a rerun-trigger
+  # regression hides; tests/test_reproducibility.py asserts the two agree.
+  - snakemake-minimal>=9.27,<9.28
+  - snakemake-executor-plugin-slurm   # the SLURM profile (profiles/slurm/) needs it
+  # These back documented commands that a core-only `pip install .` leaves out,
+  # so a fresh env could not run them (found 2026-10-21 auditing R1):
+  - pypdf           # scripts/verify_oligos_against_paper.py --pdf-dir
+  - poppler         # provides pdftotext, for scripts/verify_predict_supplement.py and CLAUDE.md's PDF recipe
+  - pytest
+  - ruff=0.16.10   # pinned to match .pre-commit-config.yaml and pyproject.toml
+  - pre-commit
+  - python-build   # `python -m build` (the `dev` extra)
+  - pip
+  - pip:
+      - -e .

@@ -1,0 +1,46 @@
+id: ADENOVIRUS_dsDNA_Hexon_gene
+name: ADENOVIRUS (dsDNA) — Hexon gene
+target:
+  taxid: 10508
+  gene: Hexon gene
+  genome_type: dsDNA
+  taxon_name: Adenoviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: ADHEX1F
+    seq: CAACACCTAYGASTACATGAA
+  reverse:
+    name: ADHEX1R
+    seq: KATGGGGTARAGCATGTT
+amplicon_bp: 475
+citation:
+  doi: 10.1128/JCM.43.12.6176-6182.2005
+  design_year: 2005
+  n_sequences_at_design: null
+  as_written: PREDICT PROTOCOL
+  doi_verified: true
+  reference: Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
+conditions:
+  mg_mm: 4.0
+  cycles: 30
+  annealing_c: 50
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  nested_family: ADENOVIRUS_dsDNA_Hexon_gene
+  notes_curator: 'SCOPE TRIAGE 2026-10-20, decision HELD for a maintainer; see docs/journal/2026-10-20-scope-curation.md. Casas et
+    al. 2005''s own range is human adenovirus: it validated on 47 prototype HAdV serotypes covering species A to F in clinical
+    samples, and tested no non-human adenovirus. But as_written is PREDICT PROTOCOL, a pan-adenovirus
+    wildlife screening protocol, so this is an Atkins/PREDICT-style composite and the scope belongs to whichever source is operative.
+    What the audit adds: the two rounds fire on different lineages, and only one of them turns on that question. Round 1 fires
+    on Mastadenovirus caesari (3241411), whose records are Human mastadenovirus C - a species Casas explicitly typed, so IN
+    range even under the narrowest reading, and scoping to human adenovirus would not remove that override. Round 2 fires
+    on Aviadenovirus hepatitidis (3426530), fowl adenovirus, at 0 of 49 - out of Casas''s range and inside PREDICT''s. So
+    the composite question decides one override and not the other.'
+needs_review:
+- flag: cross_reactive

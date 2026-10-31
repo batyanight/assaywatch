@@ -1,0 +1,34 @@
+# Bench panel: Barrett et al. 1993 (doi:10.1006/viro.1993.1217), "universal"
+# morbillivirus P-gene primers, the pair this registry holds as MorbF/MorbR.
+# The PDF on disk is an image scan with no text layer; read 2026-10-20 from a
+# 400 dpi tesseract OCR of its three pages, and the two primer sequences in that
+# OCR match the registry base for base (the OCR renders one T as I).
+#
+# The claim: "We have identified a 'universal' morbillivirus primer set, based
+# on highly conserved regions of the morbillivirus phosphoprotein (P) gene and
+# used this to amplify a region surrounding the RNA editing site from all known
+# members of the group" (abstract). The Methods name the six viruses whose
+# amplified DNA was cloned and sequenced: "RNA purified from Vero cells infected
+# with rinderpest virus (RPV), peste des petits ruminants virus (PPRV), canine
+# distemper virus (CDV), phocine distemper virus (PDV), and the dolphin (DMV) and
+# porpoise (PMV) morbilliviruses". Measles is the seventh row: the primer
+# coordinates are given on the measles P mRNA (nt 400-419 and 808-828) and
+# measles is one of the four sequences the primers were aligned from, so the
+# paper treats it as amplified, though it is not in that Methods list.
+# Amplicon: "a 429 nucleotide DNA fragment which spanned the RNA editing site".
+#
+# NO NEGATIVES. The paper reports no virus that failed to amplify, so this panel
+# can show false fails and cannot show false detects. Same limitation as
+# docs/bench-panels/rebelo-2011-mycoplasma.tsv.
+#
+# One genome per species, RefSeq where there is one. PMV has no complete genome;
+# KF650727.1 is its P gene as a 429 bp partial, which is the Barrett product
+# itself, so that row tests the sites that actually primed rather than a genome.
+accession	label	bench
+NC_001498.1	measles	band
+NC_006296.2	rinderpest_KabeteO	band
+NC_006383.2	PPRV_Nigeria75_1	band
+NC_001921.1	CDV_Onderstepoort	band
+NC_028249.1	PDV_WaddenSea_1988	band
+NC_005283.1	dolphin_morbillivirus	band
+KF650727.1	porpoise_morbillivirus_53_90	band

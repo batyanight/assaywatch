@@ -1,0 +1,1178 @@
+# Thresholds and run settings. Nothing numeric about scoring lives in code.
+#
+# READ THIS BEFORE TRUSTING A NUMBER BELOW. Almost every threshold here was set
+# by eye from general PCR practice, not fitted to data. Against 49 cases drawn
+# from published follow-up (docs/validation-cases.tsv; scripts/retrospective.py
+# prints all of this; frozen in docs/journal/2026-10-23-baseline.md), the tool is wrong
+# in BOTH directions, which is not what "too conservative" would predict:
+#
+#   documented failures caught         5/11 = 45%  (95% CI 21%-72%)
+#     ... of which by `declining`       2/11 = 18%  (95% CI 5%-48%); the other
+#         three are `low coverage`, credited for coverage-mechanism failures
+#   `declining` calls that were real    2/9  = 22%  (95% CI 6%-55%)
+#   working assays called `declining`   5/32 = 16%  (95% CI 7%-32%)
+#
+# Two more facts change how those read. 10 of the 11 failure cases are
+# `mechanism: coverage` and one is `drift`, so the drift flag has one ground-
+# truth event; what is validated is coverage auditing. And collapsing the cases
+# to distinct papers leaves about seven independent failure events, against
+# which at least seven settings below were tuned: these numbers are IN-SAMPLE,
+# and a one-case change in them is inside the noise.
+# (History: 1 of 12 caught when docs/journal/2026-10-04-pipeline-review.md first
+# measured it; precision was first computed 2026-10-23.)
+# Treat a status as "worth a look", never as a measurement.
+#
+# Where the literature does constrain a number, it is cited at that number.
+# Where it does not, the comment says so rather than inventing a rationale.
+registry_dir: registry
+retrieved_dir: data/retrieved
+results_dir: results
+
+scoring:
+  # WHY POSITION MATTERS. A polymerase extends from a primer's 3' end, so a
+  # mismatch there obstructs extension itself, while one near the 5' end only
+  # costs a little duplex stability and is often tolerated. That ordering is
+  # solid (Kwok et al. 1990, Nucleic Acids Res 18:999,
+  # doi:10.1093/nar/18.4.999). The WEIGHTS below are not: 3.0 / 1.0 / 0.5 over
+  # windows of 5 is a plausible shape, not a measured one.
+  primer_3prime_window: 5        # last N nt of the 3' end
+  primer_3prime_penalty: 3.0
+  primer_mid_window: 5           # positions 6-10 from the 3' end
+  # 1.0 EQUALS `detect_max` EXACTLY, so one mid-window mismatch lands on the
+  # detect/reduced boundary and a second mismatch anywhere crosses it. That decides a
+  # large share of this project's flags: over the 2026-10-27 run's site table, 69 sites
+  # across 23 assays show a non-3'-window mismatch carried by >=200 records where
+  # detection falls from above 80% to below 20% (36 of those sites on `low coverage`
+  # assays, 33 on `declining` ones).
+  #
+  # MEASURED, AND NOT MERELY UNPRICED: halving it to 0.5 (S7, 2026-10-28) moves 45,797
+  # calls, leaves tier-2 identical case for case, leaves bench accuracy identical at
+  # 92.7% -- and newly predicts a band on two within-family bench negatives, HPV55 and
+  # HPV44 on the Forslund FAP panel. It was killed on that pre-registered criterion.
+  # What the panels say is stronger than "no evidence": the positives that would reward
+  # loosening this number and the within-family negatives that punish it MOVE TOGETHER,
+  # so no value of it separates them. Only identity could, which is why
+  # `mispair_penalty` exists and why extending it to this window alone (S7b) is the
+  # registered candidate. Until then 1.0 stands as a shape, not a measurement.
+  # Evidence: docs/journal/2026-10-28-s7-mid-window-killed.md.
+  primer_mid_penalty: 1.0
+  primer_5prime_penalty: 0.5
+  # MISMATCH IDENTITY. The three penalties above weight a mismatch by position
+  # only. Kwok et al. 1990 (doi:10.1093/nar/18.4.999) and Stadhouders et al.
+  # 2010 (doi:10.2353/jmoldx.2010.090035) both find the effect is dominated by
+  # WHICH mispair forms: A:G, G:A, C:C (about 100-fold) and A:A (about 20-fold)
+  # suppress yield, while T:G, G:T, T:C and T:T are nearly free — a T:G wobble
+  # still stacks. `mispair_penalty` multiplies a mismatch's position penalty by
+  # the value for its {primer base}:{template base}, where the template base is
+  # the one the primer faces on the strand it binds (score.mispair_multiplier).
+  # Only definite A/C/G/T mispairs are looked up; a degenerate primer base or an
+  # ambiguity code in the record names no single mispair and keeps the full
+  # position penalty. A multiplier of 0 also exempts a 3'-terminal mismatch from
+  # terminal_mismatch_fails below, since a mispair declared free does not impede
+  # extension.
+  #
+  # SHIPS EMPTY: the G:T/T:G wobble was tried at 0 and reverted 2026-10-22.
+  # Biologically it is the one mismatch that is a genuine wobble base pair -
+  # near-Watson-Crick geometry, it stacks, and Taq routinely extends from it - so
+  # at the 3' terminus it behaves like a match, not a block. That gave it a
+  # mechanism as well as the numbers, which is why it shipped first and alone:
+  # three bench panels' false fails rest on it (FAP 12 of 14 rest only on T:G,
+  # docs/journal/2026-10-19-fap-bench-panel.md; Barrett 3 of 3,
+  # docs/journal/2026-10-20-scope-curation.md), and Rahn's 41 bench negatives price it at
+  # zero specificity cost (docs/journal/2026-10-20-rahn-invA-bench-panel.md). The other
+  # "near-neutral" mispairs (T:C, T:T) are pyrimidine-pyrimidine, not wobbles, and
+  # carry neither a bench panel nor a measured specificity cost here, so they stay
+  # at 1.0. The severe suppressors (A:G, G:A, C:C, A:A) are penalty INCREASES, not
+  # discounts, and wait for their own panels. M2 - reading the discount off a
+  # nearest-neighbour dG for free instead of tabulating it - was killed because NN
+  # melting inverts Kwok's order (A:A/A:G score as stabilising;
+  # docs/journal/2026-10-21-M2-step0-killtest.md), so an empirical per-mispair knob is the
+  # instrument.
+  #
+  # Tier-2 killed the value anyway, twice. Applied at EVERY position the discount
+  # cost three documented catches (correctly flagged `fails` 5 -> 2). SCOPE: the
+  # table now acts only on a mismatch inside primer_3prime_window, which is where
+  # Kwok and Stadhouders measure the effect and where score_primer confines it.
+  # Two of the three catches came back; the third did not.
+  # Leucocytozoon_cyt_c_Hellgren_2004 @2016-12-31 turns on 17 records that each
+  # carry a G:T at d=2 - inside the window, so no scope rule excludes them, and no
+  # partial multiplier saves them either: at d=2 a record stays `fail` only while
+  # the multiplier is above about 0.83, and drift counts `reduced` as detected.
+  # Measurement in docs/journal/2026-10-22-M1-tier2.md; the earlier global-value run is in
+  # docs/journal/2026-10-21-M1-shipped.md. The project rule decides it - a candidate that
+  # loses a documented catch is a bad candidate - so the table shipped empty and the
+  # FAP/Barrett false fails stood. The mechanism and its 3' scope stayed in
+  # score_primer, inert, for whatever candidate came next.
+  #
+  # THE HOLD WAS LIFTED 2026-10-27, A MAINTAINER DECISION, AFTER THE COST WAS
+  # MEASURED AWAY. The Leucocytozoon catch was lost because a discounted record slid
+  # fail -> reduced and `reduced` counted as detected. drift.reduced_not_detected_for
+  # (shipped the same morning) stops a `reduced` probe call counting as a find, and
+  # Leucocytozoon_cyt_c_Hellgren_2004 is a probe assay. S4 re-ran M1 under that config
+  # against the shipped replay (docs/journal/2026-10-27-s4-m1-survives.md):
+  #   documented failures caught  6/11 -> 6/11, the Leucocytozoon catch STANDS
+  #   caught by `declining` itself  3/11 -> 4/11 (influenza 2010 promoted)
+  #   PPV of `declining`           3/9 -> 4/10;  false alarms 4/32 -> 4/32
+  #   bench rows wrong: FAP 10 -> 6, Barrett 2 -> 1, every other panel unchanged
+  # Nothing fitted: these are the two values M1 shipped with. What is NOT in this
+  # table, deliberately: the Kwok premium (A:G, G:A, C:C, A:A as penalty INCREASES)
+  # has never been priced, and the run that confirms this replay for real is the
+  # next full run, which the shipped scoring hash forces.
+  mispair_penalty: {"G:T": 0.0, "T:G": 0.0}
+  # HOW FAR IDENTITY REACHES, in bases from the 3' end. NULL = primer_3prime_window
+  # (5), which is where M1 shipped and where Kwok and Stadhouders measure: at the 3'
+  # end a mispair is about extension geometry, and that is a different mechanism from
+  # the duplex-melting cost of an internal one. The scope is a number here rather
+  # than a constant in score_primer because S7b is a candidate to widen it.
+  #
+  # WHY S7b IS THE REGISTERED CANDIDATE. S7 (primer_mid_penalty 1.0 -> 0.5) was killed
+  # because the positives that reward loosening the mid window and the within-family
+  # negatives that punish it move together, so no POSITION-blind value separates them
+  # (docs/journal/2026-10-28-s7-mid-window-killed.md). Identity can, in principle: the
+  # Mills/G2R false alarm that opened the question rests on a G:T wobble at reverse
+  # position 8 -- in the mid window, costing a full 1.0, and a wobble this table
+  # already calls free at d<=5. `mispair_window: 10` would discount exactly that class
+  # and nothing a position penalty can reach. It inherits the warning that killed
+  # unscoped M1: at d>5 a free G:T erased internal wobbles across whole record sets and
+  # cost three documented tier-2 catches (docs/journal/2026-10-22-M1-tier2.md). Those
+  # were lost at EVERY position with `reduced` counting as detected; both conditions
+  # have since changed, which is why it was worth measuring rather than assuming.
+  #
+  # PRICED 2026-10-29 AT 10 AND PASSED. 31,237 calls move, every one a loosening;
+  # tier-2 identical case for case; the bench improves by ONE row (PPRV Nigeria75/1,
+  # fail 4.0 -> reduced 3.0 on a single mid-window wobble) and NO within-family negative
+  # gains a band, so HPV55 and HPV44 -- the rows that killed S7 -- stay `fail`. Identity
+  # separated what position could not. Account: docs/journal/2026-10-29-s7b-priced.md.
+  #
+  # SHIPPED 2026-10-30 BY MAINTAINER DECISION. It was held one day because the report
+  # also drops 7 flags on 5 assays, 6 with no ground truth, and the 7th is held-out set
+  # 2's one false alarm (G2R generic, `declining -> stable`) fixed by exactly the
+  # predicted mechanism -- its strongest number and the one a threshold may not be
+  # fitted to. The decision was taken on the bench row and the separation criterion
+  # alone, BEFORE held-out set 2's eleven unscored rows were read (they were scored the
+  # same day, after this value was set; docs/journal/2026-10-30-decisions.md). A replay
+  # prices and does not prove: the confirming rescreen is the next full run, which this
+  # change forces because `scoring` is in the screen hash.
+  mispair_window: 10
+  # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
+  # mismatch in the middle destabilises the duplex most, so the centre is
+  # weighted above the ends. Known gap: of the 51 probe assays here on 2026-10-26, 20 are MGB,
+  # whose minor-groove binder raises Tm by roughly 15-20 C and makes short probes
+  # viable — so an MGB probe's tolerance is not that of a bare oligo of the same
+  # length, and these two numbers do not know the difference. `by_chemistry`
+  # below can now tell `mgb` from `hydrolysis_probe`; what it cannot do is tell a
+  # 15-mer from a 32-mer, which is a length-scaling problem, not a chemistry one.
+  probe_center_penalty: 2.0      # central third of the probe
+  probe_outer_penalty: 1.0
+  # A record base the oligo only partly covers (an N, or a code the oligo does
+  # not fully contain) is unknown, not a mismatch, and costs nothing when
+  # scoring: charging for it would make a submitter's sequencing quality
+  # indistinguishable from drift. Above this many under one oligo, too little of
+  # the binding site is known to judge, and the record is `indeterminate` rather
+  # than scored. The number is a guess and is length-blind — two Ns in a 15 nt
+  # probe is 13% of the footprint, in a 32-mer 6%. It fires on about 1 call in
+  # 1,800, so it is currently doing very little.
+  max_ambiguous_per_oligo: 2
+  # How many positions of an oligo may fail to match before a site stops being
+  # looked for at all. This is the most consequential number here: an oligo at
+  # more mismatches than this is not scored as a failure, it is invisible. It was
+  # read from code with this default and never appeared in config, which broke
+  # this file's own promise that no scoring number lives in code.
+  max_mismatches_searched: 6
+  # Credibility threshold for a LONE oligo hit, used when labelling why a record
+  # yielded no amplicon. Separate from max_pair_evalue so that setting that to
+  # null really does stop all filtering.
+  max_site_evalue: 0.01
+  max_pairs_per_record: 5000     # safety cap on candidate amplicons per record (best-matched kept)
+  # Chance-pair guard (assaywatch/chance.py). Every amplicon gets a pair_evalue:
+  # the expected number of primer pairs this good in a random record of the same
+  # length. Set a number (e.g. 0.01) to call pairs above it no_amplicon instead
+  # of scoring them; null reports the E-value but changes no call.
+  max_pair_evalue: 0.01
+  # Is a questionable amplicon this assay's locus at all? Compares the amplicon's
+  # INTERIOR, primer sites trimmed off, against interiors from records the assay
+  # detects (assaywatch/locus_identity.py, docs/locus-references.json).
+  #
+  # SHIPS NULL AND MUST STAY NULL. **DO NOT ENABLE THIS.** Built and priced
+  # 2026-10-25, and it is UNSAFE for a reason that is specific and fatal: for a
+  # pan-family or consensus assay, a divergent amplicon interior is what SUCCESS
+  # looks like. Priced offline at 0.50 it rejects 1,840 of 9,687 sampled failures,
+  # and the rejections concentrate exactly where they must not -
+  # Pan_HERPES_dsDNA_Polymerase loses 47 of 47, whose records are Proboscivirus,
+  # Mardivirus gallidalpha2, Equid alphaherpesvirus 1, Elephant endotheliotropic
+  # herpesvirus 5/5B and Macropodid alphaherpesvirus 4. Those are real
+  # cross-subfamily herpesviruses and the entire point of a pan-herpes assay; they
+  # score 0.35-0.41 only because the reference happened to be five human-CMV
+  # records from one submission batch. 48 of 209 entries (2026-10-27 count) are pan/consensus shaped.
+  #
+  # It also cannot judge a short amplicon - trimming 20 bp from each end of Orf's
+  # 68 bp or OPHIDIOMYCES targetD's 57 bp leaves 28 and 17 bases - so the two cases
+  # that motivated it are out of reach anyway, and are covered instead by
+  # drift.chance_pair_test.
+  #
+  # Kept rather than deleted because the module, its tests, the reference builder
+  # and scripts/price_locus_identity.py are the evidence, and because a
+  # LINEAGE-AWARE reference (one per sublineage, via clustermaps.py/subcluster.py)
+  # is the only version with a chance of being safe. Unproven.
+  # Full account: docs/journal/2026-10-25-locus-identity-design.md.
+  locus_identity_min: null
+  locus_identity_trim_bp: 20
+  locus_identity_min_interior_bp: 30
+  # The call boundaries. These are the least defensible numbers in the file,
+  # for a reason that is structural rather than numeric: the penalties from
+  # forward, reverse and probe are SUMMED into one budget, but amplification
+  # needs forward AND reverse, and detection needs that AND the probe. Those are
+  # serial gates, not a shared pool, so three harmless mismatches (1.0 + 1.0 +
+  # 1.0) land in the same bin as one near-lethal 3'-proximal mismatch, and a
+  # probe defect (which costs signal) trades against a primer defect (which
+  # costs the exponential). The fix is per-oligo verdicts combined logically;
+  # see the review doc. Until then these two numbers paper over that.
+  detect_max: 1.0                # <= detect
+  reduced_max: 3.0               # <= reduced efficiency; above = fail
+  # KNOWN TO BE TOO BLUNT. A 3'-terminal mismatch can be severe, but which one
+  # matters: Kwok 1990 (doi:10.1093/nar/18.4.999) found only A:G, G:A, C:C and
+  # A:A strongly suppress yield, while T:G, T:C and T:T are near-neutral, and
+  # Stadhouders et al. 2010 (J Mol Diagn, doi:10.2353/jmoldx.2010.090035)
+  # replicate that in 5'-nuclease assays (<1.5 Cq for A-C/C-A/T-G/G-T versus
+  # >7 Cq for A-A/G-A/A-G/C-C). An identity-blind automatic fail is therefore
+  # wrong for roughly half of terminal mismatches. It is also a qPCR-grade
+  # verdict applied to the conventional assays -- 155 of 209 on 2026-10-26 -- where a
+  # 100-fold yield loss is
+  # often still a visible band after 40 cycles. The E. coli malB result rests on
+  # this rule: 92 failures, all one A->G at the reverse 3' base, which IS in the
+  # severe class — but the rule got there without checking.
+  terminal_mismatch_fails: true  # any mismatch at the 3'-most base = fail
+
+  # HOW THE OLIGOS COMBINE. `detect_max`/`reduced_max` above are compared
+  # against the SUM of the forward, reverse and probe penalties. That is the
+  # defect the two comments above both point at, and it is the one measured to
+  # decide most of the call set:
+  #
+  #   rows whose call `decide` makes (excludes no_amplicon,
+  #     indeterminate and the probe-less fail, all invariant)        912,111
+  #   fails the `terminal_mismatch_fails` identity rule drives    1,618 (0.60%)
+  #   fails in 3.01-6.0, just above the `reduced_max` cut       213,398 (79.1%)
+  #   calls that move when the same penalties are judged
+  #     per oligo (replayed through decide(), not estimated)     182,185 (20.0%)
+  #
+  # So identity-blindness - what `mispair_penalty` above is aimed at - decides
+  # 0.6% of fails, while the shared budget decides about 79%.
+  #
+  #   budget  the summed total, compared against detect_max/reduced_max. What
+  #           every number in this file was set against. The shipped default.
+  #   serial  each oligo judged on its own penalty, worst one decides:
+  #           any blocked -> fail, any weak -> reduced, else detect. Amplification
+  #           needs forward AND reverse, and detection needs the probe on top,
+  #           so they are serial gates and not a shared budget.
+  engine: budget                 # budget | serial
+  # THE PER-OLIGO THRESHOLDS ARE NOT CALIBRATED, AND THESE VALUES ARE A
+  # PLACEHOLDER. They are `detect_max` and `reduced_max` reused unchanged, and
+  # those two were set against a SUM of up to three oligos. Reused per oligo
+  # they can only ever loosen: all 182,185 moves measured above are
+  # fail->reduced (95,066) or reduced->detect (87,119), and none tighten -
+  # nothing can move to `fail` that was not already there, because a terminal
+  # mismatch still blocks its own oligo. So 20.0% is an upper bound on
+  # movement, not a prediction,
+  # and the right values for this meaning are almost certainly lower.
+  #
+  # They ship anyway, rather than null, because `engine: serial` cannot be
+  # measured without running and the calibration needs the measurement. The
+  # default stays `budget`, so nothing in a shipped run uses them. Deriving
+  # them is the open work: bench panels for sensitivity (only 15 of the 179
+  # panel rows are threshold-sensitive negatives -- Forslund's 10 and Ahmed's 5
+  # same-genus Leptospira, recounted 2026-10-27 after the Ahmed panel landed --
+  # so hold them out rather than fit them), Rahn's 41 plus Meyer's 1 gene-absent
+  # negatives as the specificity floor, and the 1,793,508 `no_amplicon` rows
+  # as an invariant that must not move at all.
+  oligo_ok_max: 1.0              # <= this, one oligo is `ok`
+  oligo_weak_max: 3.0            # <= this it is `weak`; above, `blocked`
+
+  # PER-CHEMISTRY OVERRIDES. Every key above applies to every assay in the registry,
+  # whatever its chemistry, and they
+  # are not one kind of assay (209 files on 2026-10-26): 155 are conventional or consensus PCR, 51 are
+  # probe-based (20 MGB, 31 hydrolysis), 2 are SYBR and 1 is RPA, all as of 2026-10-26;
+  # `python -m assaywatch.validate registry` prints the current ones, and
+  # it exists because the counts written here by hand keep drifting - they read
+  # 164/142/21 once, understating the probe share by half, and 167/44 as recently as
+  # 2026-10-14). A rule set at qPCR strength is wrong for the 155, and wrong in the
+  # direction that manufactures `fail` calls and inflates the flagged count.
+  #
+  # THE ARGUMENT ABOVE IS NOW PARTLY MEASURED, so read this before re-deriving it.
+  # docs/journal/2026-10-26-s3-chemistry-switches.md tested exactly the claim this paragraph
+  # makes - that `terminal_mismatch_fails` at qPCR strength inflates `fail` across the
+  # conventional majority - by exempting conventional chemistry from it. It moves 251
+  # calls of 2.7 million and changes NO verdict anywhere. So the mechanism is real and
+  # its magnitude is negligible, because a record carrying a terminal mismatch almost
+  # always carries others that clear `reduced_max` on their own. The chemistry axis
+  # does carry signal, but on the PROBE side: making a `reduced` probe call not count
+  # as a detection takes documented failures caught from 5/11 to 6/11 with no increase
+  # in false alarms. Neither is shipped.
+  #
+  # Anything under `by_chemistry.<chemistry>` replaces that key for assays of
+  # that chemistry alone. Names come from the schema (conventional, sybr,
+  # hydrolysis_probe, mgb, lna, rpa); an unknown name, or an unknown key inside
+  # one, is a hard error at load rather than a silent no-op — a typo that simply
+  # failed to apply would leave a run looking recalibrated when it was not.
+  #
+  # SHIPPED EMPTY ON PURPOSE. The mechanism is here; the numbers are not. Every
+  # threshold in this file was set by eye, and tier-2 validation is what turns
+  # them into measurements — so the way to fill this in is to fit it against the
+  # confusion matrix from docs/validation-cases.tsv, not to pick numbers that
+  # sound more lenient. Until then every chemistry gets the numbers above, and
+  # the output is identical to a config carrying no `by_chemistry` at all.
+  #
+  # The first candidate, once validation can test it, is the one that already
+  # has literature behind it. `terminal_mismatch_fails: true` is identity-blind.
+  # Kwok et al. 1990 (doi:10.1093/nar/18.4.999) found that only A:G, G:A and C:C
+  # (about 100-fold) and A:A (about 20-fold) strongly suppress yield, with T against
+  # G, C or T minimal; Stadhouders et al. 2010 (doi:10.2353/jmoldx.2010.090035) report
+  # the same split in 5'-nuclease assays, by example (A-C, C-A, T-G, G-T under 1.5 Cq;
+  # A-A, G-A, A-G, C-C over 7 Cq), and add that the effect depends on position and
+  # master mix. An
+  # automatic fail is therefore wrong for roughly half of terminal mismatches,
+  # and most wrong for conventional PCR, where the lost yield is often still a
+  # band. Expressing that would look like:
+  #
+  # by_chemistry:
+  #   conventional:
+  #     terminal_mismatch_fails: false
+  #     primer_3prime_penalty: 2.0
+  #   rpa:
+  #     # 30-35mers at 37-42 C with a recombinase; Taq's penalties are not these.
+  #     terminal_mismatch_fails: false
+  #
+  # Do not uncomment that without the validation run behind it. It would move
+  # every status in every report, and a threshold changed by eye is exactly what
+  # the top of this file warns against.
+  #
+  # MEASURED 2026-10-27, AND THE TWO LINES ABOVE DO NOT CARRY EQUAL WEIGHT.
+  # `terminal_mismatch_fails: false` for conventional moves 0 of the 179 bench rows
+  # (scripts/price_terminal_mismatch.py). Nothing. The reasoning above it is sound
+  # and the knob is still inert, because a record whose primer carries a terminal
+  # mismatch almost always carries others that already exceed `reduced_max`, so
+  # removing the automatic fail changes the REASON and not the call -- which is why
+  # the registry-wide version of the same switch moved 251 calls of 2.7M and changed
+  # no verdict (docs/journal/2026-10-26-s3-chemistry-switches.md).
+  #
+  # `primer_3prime_penalty: 2.0` for conventional is the half that does the work,
+  # and it is the best-evidenced scoring candidate this project has produced:
+  # 6 of 179 bench rows fixed, 0 broken, McNemar exact p = 0.0312, none of the 16
+  # bench negatives that can punish a loosening moved, and over the 2.72M-row
+  # calls table 19,081 calls move (every one fail -> reduced) while documented
+  # failures caught stays 6/11, the PPV of `declining` goes 2/9 -> 3/9 and false
+  # alarms 5/32 -> 4/32. Nothing in that is fitted: it is one fixed number.
+  # STILL NOT SHIPPED, for the reason the replay states about itself -- candidate
+  # selection is frozen in a replay, so it is PRICED, NOT PROVEN, and shipping it
+  # needs a confirming rescreen and then a decision, because it moves every status.
+  # strategies/s3b-conventional-3prime-penalty.yaml holds the pre-registered kill
+  # criteria; the write-up is
+  # docs/journal/2026-10-27-terminal-mismatch-refuted-penalty-priced.md.
+  #
+  # SHIPPED 2026-10-27, a maintainer decision, and the first entry this block has
+  # ever carried. What it rests on, in the order that matters:
+  #   - bench panels: 6 of 179 rows fixed, 0 broken, McNemar exact p = 0.0312, with
+  #     nothing fitted -- one fixed number, not a tuned threshold. None of the 16
+  #     negatives that can punish a loosening moves (41 of the 57 are Rahn's
+  #     other-genus rows where nothing anchors, so they cannot).
+  #   - tier 2: documented failures caught stays 6/11, the PPV of `declining` goes
+  #     2/9 -> 3/9 and false alarms 5/32 -> 4/32. Two cases move, in opposite
+  #     directions: Pan_flavivirus_NS5_3_round2 drops a false alarm, and the
+  #     Forslund FAP failure moves low coverage -> declining because
+  #     drift.require_working_baseline can only read a shortfall as a DECLINE once
+  #     the earlier years clear the threshold.
+  #   - confirming rescreen: 6 of the 84 assays whose calls move, 280,818 rows,
+  #     0 call disagreements against the replay, including both assays that carry a
+  #     verdict move. 91 penalty differences, every one pessimistic.
+  # WHAT IS STILL OWED, stated here because shipping is when it stops being
+  # hypothetical: 78 small movers were never rescreened (4,820 calls between them,
+  # at most 395 each), and the number 2.0 is coarser than the evidence deserves --
+  # Kwok and Stadhouders both say the cost of a mismatch depends on its IDENTITY,
+  # which `mispair_penalty` can express and this cannot. 2.5 was also priced and
+  # fixes only 2 of the 6 rows.
+  #
+  # Candidate under test (committed live in c15a3b7, reverted 2026-10-19 because
+  # the only evidence was "87 -> 44 drift flags", and loosening scoring cannot
+  # raise a flag, so that measures nothing):
+  #   conventional: {terminal_mismatch_fails: false, primer_3prime_penalty: 2.0, reduced_max: 5.0}
+  # Its tier-2 result against docs/validation-cases.tsv is in
+  # docs/journal/2026-10-19-conventional-override-validation.md.
+  by_chemistry:
+    conventional:
+      # 3.0 equalled reduced_max exactly, so one mismatch anywhere in the last five
+      # bases was a fail on its own. At 2.0 one is `reduced` and two still fail.
+      primer_3prime_penalty: 2.0
+
+amplicon:
+  min_bp: 50
+  # Constrain an amplicon to the assay's own declared amplicon_bp, within this
+  # fraction, instead of only to min_bp..max_bp above. A product far from the
+  # declared size is not that assay amplifying: the extension time, probe
+  # geometry and efficiency all belong to something else.
+  #
+  # ON since 2026-10-14 (it was null, and review 3.4 called that a correctness
+  # gap: in the 2026-10-07 run 874 detect/reduced calls sat on products more
+  # than twice the declared size and 1,454 on less than half, including a
+  # 1931 bp product credited to a 194 bp assay). The fixtures that blocked it
+  # are regenerated: tests/make_fixtures.py now sizes its spacers from each
+  # assay's declared amplicon_bp instead of a fixed 20 nt.
+  #
+  # 0.25 IS MEASURED, not eyeballed, which makes it the one number in this file
+  # with a defence. Over the 610,420 detect/reduced calls of the 2026-10-07 run
+  # whose assay declares a size, |observed/declared - 1| has a knee at about
+  # 0.2: +/-15% keeps 98.92%, +/-20% keeps 99.26%, +/-25% keeps 99.32%, and
+  # past that the curve flattens (+/-50% keeps 99.57%) because what remains is
+  # genuinely a different product, not a template indel. 0.25 sits just past
+  # the knee: it drops 4,141 calls, of which the great majority are the ones
+  # review 3.4 is about.
+  #
+  # IT DEPENDS ON THE REGISTRY BEING RIGHT. A mistranscribed amplicon_bp now
+  # voids that assay's calls instead of being inert, so it is worth knowing what
+  # the three assays whose MEASURED product was furthest from their declared size
+  # turned out to be. Not transcription errors: measured over the first 400
+  # records of each archive (290 for the nidovirus one, which holds no more),
+  # the declared pair gives 1320, 161 and 1695 bp against a declared 1319, 163
+  # and 1694. Every one of those numbers is right.
+  #
+  # WHAT THEY ARE IS TWO PRODUCTS IN ONE ENTRY. Each holds a second amplicon in
+  # `oligos.alternates` - the nested secondary pair for CRYPTOSPORIDIA (832 bp,
+  # the paper's "819 to 825"), the 2334R reverse for ORTHOREOVIRUS (274 bp), the
+  # PythonNido3F forward for NIDOVIRUS (223 bp) - and `score.oligo_pools` treats
+  # alternates as interchangeable pool members, which is right for a consensus
+  # cocktail and wrong for a second round. With the size filter off, the
+  # alternate's product often scored better and was credited to the assay; with
+  # it on, the out-of-window combination is no_amplicon and the screener falls
+  # back to the declared pair, so the credited product is now the declared one in
+  # all three (their call distributions barely move: Crypto 3 detect, Orthoreo 7
+  # detect / 4 reduced / 18 fail, Nidovirus 5 detect / 51 fail on those samples).
+  # That is the filter doing exactly what it is for.
+  #
+  # 20 entries (of 214 on 2026-10-14) carry a forward or reverse alternate that could form a
+  # second product this way, 9 of them with a declared size and the
+  # MULTIPLE_PRIMERS_IN_BLOCK flag - including two of the worst oversized-product
+  # offenders before the filter, ADENOVIRUS_dsDNA_Tracies_unpublished_nest_
+  # Tracies (410 calls, up to 8.8x declared) and ASTROVIRUS_ssRNA_RNA_dependent_
+  # RNA_polyme_round2 (42 calls, up to 7.8x). The real fix is curation, and the
+  # registry already names it: one entry per round, as the CMV gB and adenovirus
+  # polymerase assays have. See the NESTED_ROUNDS_IN_ONE_ENTRY_SECONDARY_PAIR_IN_
+  # ALTERNATES note on the CRYPTOSPORIDIA entry.
+  declared_tolerance: 0.25
+  #
+  # THE MEASURED SIZE WINS OVER THE PUBLISHED ONE. Maintainer's decision,
+  # 2026-10-21. Where a product size measured from deposited sequence disagrees
+  # with the size a paper states, `amplicon_bp` / `amplicon_bp_range` takes the
+  # MEASURED value. A published size is usually read off a gel - a band's
+  # apparent length against a ladder - while the measured one is computed from
+  # where the primers sit in the record. The measurement is the better
+  # instrument, and it is the one that has to be right, because the window above
+  # is built from it and a wrong centre throws away real amplifications.
+  #
+  # This sharpens CLAUDE.md's "Measure, never quote" from a rule about
+  # provenance into one about precedence: the paper is a cross-check, not the
+  # arbiter. A disagreement is DISCLOSED rather than resolved in the paper's
+  # favour - `amplicon_disagrees_with_paper` with both numbers in the note,
+  # which is a recorded caveat in assaywatch/review.py and so no bar to
+  # `status: active`.
+  #
+  # The paper is still worth reading for WHETHER the length varies and roughly
+  # where, which is what says a scalar is the wrong shape. Pallister et al. 2007
+  # on the ranavirus variable intergenic region is the example: "around 200 bp
+  # for BIV, approximately 700 bp for EHNV" is useless as a number and decisive
+  # as a signal that the locus needs `amplicon_bp_range`.
+  max_bp: 3000
+  record_min_overhang_bp: 100    # assembly extraction only (assemblies.py): how far a cut
+                                 # window reaches past the amplicon. Scoring does NOT require
+                                 # records to extend past the product.
+
+# Sequence retrieval from NCBI. These are the decisions that shape what the
+# drift metric can see, so they live here rather than in code.
+retrieve:
+  page_size: 500              # records per esummary call, and the efetch ceiling
+  page_target_bytes: 20000000 # efetch pages shrink so one response stays near this size
+  min_length: 100             # skip fragments too short to contain any amplicon
+  max_length: null            # whole genomes are fine: an amplicon may sit anywhere
+  query_suffix: null          # e.g. 'NOT "whole genome shotgun"[Title]' to trim bulk
+  max_records_per_taxon: 100000
+  incremental_overlap_days: 3 # each incremental run re-asks for these days, for records NCBI indexes late
+
+  # How much of a fetch may come back missing before the run is REFUSED rather
+  # than noted. A shortfall (fewer FASTA records than esummary summaries) has one
+  # legitimate cause -- WGS master records, which carry a summary and no sequence
+  # -- and one that loses data: a page NCBI did not fully answer. Until
+  # 2026-10-27 both produced the same note and the run was recorded either way,
+  # after which the incremental cursor advanced past records that were never
+  # written, so they could not be re-fetched by any later run.
+  #
+  # Values are a judgement, not a measurement: WGS masters run to a handful per
+  # group in this registry, while a dropped page costs a whole efetch page
+  # (`page_size`, or less for large records). The floor exists so a small group
+  # is not judged by a percentage of a small number. Raise the fraction only with
+  # a group whose shortfall you have checked by hand and believe.
+  max_unexplained_shortfall: 0.02  # of the summary count
+  min_shortfall_allowance: 20      # records, whichever is larger
+  # Taxa allowed past the cap, by taxid. Opt in deliberately. Influenza A
+  # segment 7 is ~180,000 records on first fetch (and incremental after);
+  # that is a known cost, accepted on 2026-10-03.
+  large_taxa_allowed: [11320]
+
+# Assembly-level retrieval (assaywatch/assemblies.py) for bacterial targets whose
+# gene-level nuccore deposits stop around 2012, when the same genes started
+# arriving inside whole genomes. Each listed taxid gets an extra `asm` group:
+# up to `per_year` GenBank assemblies per release year, sampled in a stable
+# arbitrary order and cut down to the loci the taxon's assays could bind.
+# Complete genomes and chromosomes only: the locus is never split across
+# contigs, and plasmid-borne targets (ipaH, LT, O157 hlyA) come with them.
+assemblies:
+  # 77643 and 1763 added 2026-10-07. The Mycobacterium assays are the case this
+  # mechanism describes: the MTC helicase target has 25 gene-level nuccore records
+  # against 1,095 complete genomes, so a gene query cannot screen it and a query
+  # that includes `"complete genome"[Title]` pulls ~5 GB of multi-megabase records
+  # through efetch - which it did, failing after 7h41m with read timeouts and
+  # premature responses on 1763 and twice on 77643.
+  taxa: [562, 620, 28901, 630, 633, 171, 77643, 1763]   # E. coli, Shigella, Salmonella, Y. enterocolitica, Y. pseudotuberculosis, Leptospira, M. tuberculosis complex, Mycobacterium
+  levels: [complete_genome, chromosome]
+  per_year: 20
+  batch: 10          # genomes per download request
+  max_pair_evalue: 0.01   # keep a window only around a pair distinguishable from chance
+
+# Distributable window archives (assaywatch/windows.py): each record cut to the stretches
+# around every pair its group's assays could build, plus `buffer_bp` each side, so the
+# retrieved data can be shipped (about 160 MB gzipped for the 2026-10-07 run, against
+# 6.6 GB of whole records). The buffer is context only: a later screen with a larger
+# overhang or a wider probe search still sees real bases, while anything that could find
+# a site OUTSIDE the windows is refused by the screener (windows.check_against).
+# 300 is a judgement, not a measurement: 3x record_min_overhang_bp, about 1.6x the 100 bp
+# archive's size, chosen to leave room to raise that overhang without a re-fetch.
+windows:
+  buffer_bp: 300
+
+# How a screening job is SIZED. None of this changes a screen's output -- the
+# output is byte-identical whatever --workers it runs with -- so these are
+# scheduling numbers only, and they are deliberately not part of the screen
+# signature: resizing a job must not invalidate a cached screen.
+#
+# `cost_*` predict one archive's screening work in CORE-seconds and are the only
+# numbers here that were FITTED rather than chosen. Least squares on 335
+# benchmarks taken 2026-10-23 with the machine held awake under `caffeinate`
+# (`snakemake-2026-10-23-benchmarks.txt`, 13m 54s, exit 0):
+#
+#   core-seconds ~ 1.47 + 0.1937*(MB x assays) + 1.55e-4*(records x assays)
+#
+# R2 = 0.952. The assay count is the term the old rule left out and it is
+# mechanical, not fitted: an archive is screened against every assay that asked
+# for its group, so the same records cost three times as much in a group of
+# three. For comparison, on the same data: gzipped MB alone 0.827, `MB x assays`
+# alone 0.944, `records x assays` alone 0.091, MB + records 0.845.
+#
+# docs/journal/2026-10-18-pipeline-timekeeping-todo.md had proposed sizing on record
+# count INSTEAD of bytes. That was wrong twice: bytes are the better single
+# predictor, and the missing variable was neither of them.
+#
+# Two caveats, because these look more precise than they are. The fit is on
+# core-seconds (wall time x threads the job actually got), which separates work
+# from the parallelism it received but over-counts a multi-worker job whose
+# serial part does not scale, so cost_per_mb_assay is an upper bound. And every
+# job was measured under the heuristic being replaced.
+screen:
+  cost_startup_s: 1.47          # process start, measured; why splitting tiny archives does not pay
+  cost_per_mb_assay: 0.1937     # core-seconds per gzipped MB per assay in the group
+  cost_per_record_assay: 1.55e-4  # core-seconds per record per assay
+  # A worker per this much predicted work. MEASURED at 100 on 2026-10-24: a forced
+  # run of all 335 live archives at --cores 4, lid open, caffeinate, battery, nothing
+  # else running (docs/RESUME-HERE.md "2026-10-24 overnight"):
+  #
+  #   granularity   wall       summed job time   parallelism
+  #   byte rule     13m 54s    25.2 min          1.81x   (the rule this replaced)
+  #   15            18m 33s    27.2 min          1.47x   (first guess, 33% slower)
+  #   100           11m 40s    29.0 min          2.47x   (ships)
+  #
+  # All 335 screens byte-identical before and after. Read the row carefully: 100 has
+  # the HIGHEST summed job time and the LOWEST wall time. At 100 almost every archive
+  # runs single-threaded, so four jobs run at once and each one runs slower under
+  # 4-way contention than it would alone -- but Snakemake packs single-threaded jobs
+  # far better than the cost model splits them, and the tail is fixed by `priority`
+  # (the record-dense archives were never short of workers, they were running LAST).
+  # At 15 the extra workers added real work instead: ~1.5 s start-up plus pickling
+  # each, and a job holding four cores stops four jobs holding one. The cost model
+  # still earns its place on a cluster, where `threads` is the sbatch CPU request and
+  # the old rule asked for 16 CPUs for one core's work.
+  core_seconds_per_worker: 100.0
+  max_workers: 16               # Snakemake caps this at --cores anyway; the cap is for the cluster
+
+# Duplex Tm per oligo on its binding site (assaywatch/thermo.py). Shown beside
+# the call, never scored. Turn on with `thermo: true` here or
+# `--config thermo=true`; needs primer3-py. The conditions below are typical
+# qPCR mastermix values; ΔTm (the column worth reading) depends on them much
+# less than absolute Tm does.
+#
+# Why ΔTm and not Tm: absolute Tm depends on the mastermix, and we do not know
+# the submitter's. ΔTm — the drop from the perfect-match duplex to the observed
+# one — is the quantity that answers "would this still anneal at the published
+# annealing temperature", and it is far less sensitive to these conditions. A
+# position-weighted mismatch penalty and a ΔTm disagree often (a mid-primer A:T
+# loss can cost more stability than a 3'-terminal G:T), which is the point of
+# showing it: it is an independent check on the scoring, not an input to it.
+thermo: false
+thermo_conditions:
+  mv_conc: 50       # mM monovalent cations
+  dv_conc: 3.0      # mM Mg2+
+  dntp_conc: 0.8    # mM total dNTPs
+  dna_conc: 250     # nM oligo
+
+# Degeneracy is never scored; these tiers only annotate how much weight a
+# `detect` call deserves. The biology: a degenerate primer is a MIXTURE, so each
+# individual species is present at 1/N of the nominal concentration. A match
+# found against a 4096-fold pool is therefore a much weaker claim of detection
+# than the same match against a single oligo — the matching species may be too
+# dilute to prime efficiently, and the other 4095 compete for template and
+# promote mispriming. The tier boundaries are conventional rather than measured
+# (consensus-PCR panels like PREDICT routinely run in the hundreds-fold range and
+# work); see assaywatch/degeneracy.py.
+degeneracy:
+  tiers:
+    - [8, negligible]
+    - [128, moderate]
+    - [4096, high]
+
+# WHAT DRIFT IS AND IS NOT. The quantity computed here is the proportion of
+# GenBank records for a taxon in which the assay's oligos still match. That is
+# not the same as the proportion of INFECTIONS it would still detect, for three
+# biological reasons, and every threshold below inherits all three:
+#   1. GenBank is a convenience sample of sequencing effort, not of circulating
+#      diversity. An outbreak gets hundreds of near-identical deposits; endemic
+#      background gets none. Records are also not independent — a 2022 mpox
+#      cluster is one epidemiological event with 500 votes.
+#   2. Records are deposited for reasons correlated with the assay. A locus is
+#      often sequenced BECAUSE an assay amplified it, which enriches for matches,
+#      while a variant that escapes detection may never be sequenced at all.
+#      The bias runs toward optimism, so a `stable` verdict is weaker evidence
+#      than a `declining` one.
+#   3. Most published assays are implicitly lineage-specific — designed and
+#      validated on the clade in front of the authors. One population proportion
+#      per assay cannot express "still works on clade A, lost clade B", which is
+#      what nearly all 12 documented failures in docs/validation-cases.tsv
+#      actually are. This is why the tool catches only one of them.
+drift:
+  # Below this fraction matching, call it failing. 0.90 is a judgement about
+  # tolerable surveillance loss, not a property of PCR: an assay missing 1 in 10
+  # targets is still useful for prevalence and useless for ruling out disease in
+  # an individual animal, so the right number depends on the use the reader has
+  # in mind. Stated here so it can be argued with.
+  detect_fraction_threshold: 0.90
+  # HOW "BELOW THE THRESHOLD" IS DECIDED. `wilson` is what has always shipped: the
+  # recent share is below the bar when its Wilson 95% upper bound is. `posterior` is
+  # C1 of docs/bayesian-scoring-plan.md -- the posterior probability that the true
+  # share is under the bar, Beta(k+0.5, n-k+0.5) under the Jeffreys prior, exceeds
+  # `flag_posterior_credibility`. Same prior as the Jeffreys intervals the tier-2
+  # matrix already prints, so the two agree about what the data say and differ only
+  # in how the question is put: an interval's edge against a probability mass.
+  #
+  # SHIPS `wilson`. The posterior rule exists so the experiment the plan specifies can
+  # be run with `scripts/retrospective.py --config` and nothing rescreened; the plan's
+  # own prediction is that it will not move the tier-2 matrix much, because most
+  # flagged assays are flagged on large n where the two agree to within a point, and
+  # that its gains are at the extremes. 0.95 is the conventional credibility and is
+  # not derived from anything in this project; it is a placeholder like every other
+  # number in this file until tier-2 says otherwise.
+  flag_rule: wilson
+  flag_posterior_credibility: 0.95
+  # "Recent" has to be long enough to accumulate records and short enough that a
+  # 2008 sequence is not evidence about today. Two years is a compromise with no
+  # biological content; for a fast RNA virus it is many substitutions, for a
+  # fungus it may be none.
+  recent_window_months: 24
+  # Sparsely sequenced taxa are exactly the ones this tool is for, and for them a
+  # 24-month window is often empty. Widening to 5 years buys statistical power at
+  # the cost of currency — the Bd assay (Boyle 2004) only becomes assessable at
+  # 36 months, where it sits at 100% of 54 records. On the 2026-10-04 run 116 of 141
+  # assays never needed
+  # the widening.
+  max_window_months: 60
+  # Below this many records a proportion's confidence interval is wide enough to
+  # span the threshold either way, so flagging would be noise. Reported, never
+  # flagged.
+  #
+  # CALIBRATED 20 -> 15 on 2026-10-21 against docs/validation-cases.tsv, with
+  # recent_window_months held at 24 (docs/journal/2026-10-21-drift-window-calibration.md).
+  # A 2-D sweep over (window, minimum) showed the two knobs act separately: the
+  # minimum sets how many cases are `undecided` (17 of ~49 at 20, 15 at this
+  # value), the window sets accuracy. Lowering to 15 turns two undecided cases
+  # into correct calls - one of them catching a real fail (Leucocytozoon
+  # cyt-c @2016) - and introduces zero new false declines; 15 records still give
+  # a usable Wilson interval. It moves 11 of 208 headline statuses. Lowering
+  # further to 10 gains little and starts flagging on intervals too wide to
+  # trust. The window was deliberately NOT widened: 48-60 months scores better on
+  # the validation set but dilutes "recent" to 4-5 years and reshapes 20-53
+  # statuses, a trade the historical as-of validation set cannot measure - left
+  # as a maintainer decision in the calibration doc.
+  min_records_for_drift: 15
+  min_records_for_coverage: 10      # fewer than this in total -> a coverage gap, not a result
+  # Taxonomy tree for scope_taxids (assaywatch/taxonomy.py). With it a record is in
+  # scope when its taxid or any ancestor is listed. Without it the match was exact,
+  # which dropped strain- and no-rank-level records under the listed species: about
+  # 90% of in-scope records in every scoped assay on 2026-10-17. Not a threshold;
+  # it is NCBI's tree, rebuilt by scripts/build_taxonomy_cache.py.
+  scope_taxonomy: docs/taxonomy-cache.json.gz
+  # A 2-point fall is sampling, not evolution. 5 points was set by eye as the floor
+  # on "a change worth a human reading it"; the Newcombe interval on the difference
+  # is the honest version and is already reported beside it.
+  #
+  # A regulator reached the same figure independently, which is precedent for the
+  # number rather than a derivation of it. FDA, "Policy for Evaluating Impact of
+  # Viral Mutations on COVID-19 Tests (Revised)", January 2023, docket
+  # FDA-2020-D-0987 (www.fda.gov/media/146171/download), recommends that molecular
+  # test developers "periodically conduct sequence alignment of their primer/probe
+  # sequences with publicly available SARS-CoV-2 genomes" and consider "whether the
+  # aggregate of mutations could impact a particular test to reduce performance by
+  # 5% or more from the previously established performance". That is this project's
+  # whole premise, recommended practice rather than a novelty.
+  #
+  # Two caveats, both read off the guidance itself rather than secondhand coverage:
+  # 1. It "is intended to remain in effect only for the duration of the declaration
+  #    under section 564" for COVID-19 IVDs, so cite it as precedent and confirm the
+  #    declaration's current status before calling it live guidance.
+  # 2. The guidance uses 5% twice and the two are not the same test: a mutation seen
+  #    in >5% of database sequences (over >=2000 sequences in a recent week, month or
+  #    quarter) is the cue to LOOK; a >=5% reduction from established performance is
+  #    the cue to ACT. `min_decline` is the second. Ours is 5 PERCENTAGE POINTS of
+  #    detected share; the guidance does not say whether its 5% is points or
+  #    relative, so the agreement is in the figure, not in a shared definition.
+  min_decline: 0.05
+  # `declining` is read as "this assay has drifted", so reserve it for assays
+  # that were working to begin with: the baseline share must itself have reached
+  # `detect_fraction_threshold`. Added 2026-10-14. Of the 37 assays labelled
+  # declining in the 2026-10-07 run, 31 had a baseline below the threshold
+  # (median 68%) — an assay that matched 14% of its taxon two years ago and
+  # matches 0% now was never covering that pool, and most of the movement is in
+  # which clades were deposited, which is caveat 1 at the top of this block.
+  # Those assays become `low coverage`, with a note saying they are also
+  # falling; nothing is hidden, and the category that implies degradation stops
+  # being the usual home for assays used beyond their design. Set false to get
+  # the old behaviour, where any statistically real fall of at least
+  # `min_decline` counts.
+  require_working_baseline: true
+  # Count a record as a failure when the partner primer's site is present in the
+  # deposit and does not match (exclusion `diverged`), instead of dropping it.
+  # TESTED 2026-10-23 AND KEPT OFF (docs/journal/2026-10-23-wave2-diverged-and-patent.md).
+  # On tier-2 it caught no new failure and turned two working assays `declining`
+  # (CMV Prepens round 2, Ranavirus Pallister @2012). The reason is the label, not
+  # the idea: `diverged` needs one primer site "credible" by a PER-RECORD E-value
+  # of 0.01, and an archive is thousands of records, so chance anchors clear it.
+  # 55 of Bd's 63 `diverged` records are 2014 JAM81 genome-annotation mRNAs with
+  # no ITS in them, anchored at 5-6 mismatches. Across the twelve assays holding
+  # 73% of all `diverged` rows, anchors ran from 99% near-perfect (Monkeypox N3R)
+  # to 92% at 5-6 mismatches (Polyomavirus VP1).
+  #
+  # ON SINCE 2026-10-24, PAIRED WITH anchor_fdr: 0.001 BELOW. Held off for a day
+  # because the anchor test at archive scale had not been built; it is now, and
+  # the pair was re-priced against the now-scoped registry
+  # (docs/2026-10-24-anchor-pair-counterfactual.md on the experiment branch; the
+  # 2026-10-24-reprice-q01/q001 renders are the before/after). The single
+  # objection -- `BORNA_VIRUS_N_gene_Zimmermann_1994` crashing from 98.2% stable
+  # to 16.4% declining -- turned out to be SCOPE, not drift: 209 of the "strong"
+  # anchors crashing Borna were in records for parrot/serin/rattlesnake
+  # bornaviruses, outside the entry's declared Bornaviridae-only scope. Once the
+  # 2026-10-24 scope audit filtered those from the denominator, both Borna
+  # entries are now completely unmoved by the pair at either q.
+  #
+  # The remaining movers are mostly REAL drift against the scoped denominator.
+  # Flagship: MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004 reads 99.9% off and 58.3% on,
+  # with 2,223 of 2,377 newly-counted diverged records deposited in 2022 or
+  # later -- the clade IIb outbreak against a 2004 probe, which is the system
+  # doing its job. Other movers checked by anchor E-value (Cryptosporidium
+  # round2 7.5e-11, Pan_coccidia 2.3e-08, Pan_mycoplasma Rebelo 2.8e-05) are
+  # also strong anchors, not chance.
+  count_diverged_as_fail: true
+  # The archive-scale anchor test that the comment above asks for
+  # (docs/journal/2026-10-24-archive-anchor.md). Every no_amplicon row now carries the
+  # best lone site's PER-RECORD E-value (`anchor_evalue`); with a number here,
+  # Benjamini-Hochberg runs over each assay's no_amplicon rows at report time and a
+  # `diverged`/`truncated`/`no_pair` anchor that does not survive is relabelled
+  # `chance_anchor`. BH rather than E x record-count because the product cannot
+  # tell SIV Keele's 7,000 real two-mismatch anchors (E 3e-5 each, product 0.25)
+  # from Bd's 55 chance ones (E 5e-3, product 47); step-up BH passes the first and
+  # fails the second. Report-time, so it costs no rescreen and tier-2 can price it.
+  # null = off: the label set is unchanged and `count_diverged_as_fail` above keeps
+  # its warning.
+  #
+  # 0.001 CHOSEN OVER THE CONVENTIONAL 0.01, 2026-10-24. BH's bar for rank k out
+  # of m is (k/m) * q, so a SMALLER q relabels MORE anchors as chance -- the
+  # opposite of what the single-threshold intuition expects. The decisive case:
+  # TRICHOMONAS_gallinae_18S has 241 weak anchors (E ~ 7e-3) in a family of 278;
+  # at q = 0.01 their own numbers prop up the bar and they survive, at q = 0.001
+  # all 241 are correctly relabelled chance and the entry returns to 100%.
+  # Monkeypox N3R's 2,377 strong anchors (E ~ 4.3e-10) survive either way, so
+  # q = 0.001 kills chance anchors without touching real divergence. Measured
+  # across the pair-on renders: 8 status moves at 0.001 vs 11 at 0.01 (three
+  # weak-anchor assays return to stable at the smaller q; strong-anchor movers
+  # like Monkeypox are unchanged). Tier-2 cannot adjudicate between 0.01 and
+  # 0.001 (row-identical at both), so the choice is on mechanism and the single
+  # cross-check we have, which both point at 0.001.
+  #
+  # CLOSED AS A STATED PLACEHOLDER, 2026-10-30, rather than carried as a method debt.
+  # No bench panel can ever bear on this number, and that is provable rather than a
+  # matter of effort: anchor_fdr relabels rows between `no_site` and `fail`, and a bench
+  # row records band or no band, where those two are the SAME answer. No value of this
+  # setting can move a single bench prediction. Tier-2 separates 0.01 from 0.001 on one
+  # row. So the honest status is: a mechanism argument, one cross-check, one tier-2 row,
+  # and no instrument that could do better short of a new held-out corpus. It stays 0.001
+  # and stops being listed as owed work.
+  anchor_fdr: 0.001
+  # WHICH ROWS FORM THE BH FAMILY. Changed 2026-10-27, and the first attempt was
+  # WRONG in a way the existing tests caught, which is worth recording.
+  #
+  # `tested` (default): rows where the test was actually PERFORMED -- a lone
+  # anchor was found and its E-value recorded -- whatever the exclusion label.
+  # `lone_anchor`: only `diverged` / `truncated` / `no_pair`, the rows this test
+  # can relabel. `all_no_amplicon`: those plus every `no_site` row, which is what
+  # shipped before.
+  #
+  # The reasoning. `no_site` does NOT mean "no site": it means no CREDIBLE site,
+  # i.e. one was found and failed `scoring.max_site_evalue`. Of 1,442,931
+  # `no_site` rows on 2026-10-26, 357,923 recorded an anchor E-value and
+  # 1,085,008 did not. So the label mixes two different things:
+  #   - a record where a weak anchor WAS found. That is a test that failed to
+  #     reject, and a multiple-comparisons family must count it -- counting the
+  #     comparisons you made is the whole point.
+  #   - a record where nothing was found. No hypothesis was tested, so it is not
+  #     a member of the family; it enters as p = 1, can never be rejected, can
+  #     never be relabelled, and its only effect is to enlarge m. Since the bar
+  #     is k/m x q, a larger m TIGHTENS it for the rows that can move, so more
+  #     real anchors get relabelled as chance and leave the failure numerator.
+  #
+  # So `all_no_amplicon` over-counts and `lone_anchor` under-counts. Measured by
+  # replaying results/2026-10-26 at q = 0.001:
+  #   all_no_amplicon  36,184 rows relabelled, 153 assays touched (2026-10-26 run)
+  #   tested           26,875 rows relabelled, 146 assays touched (2026-10-26 run)
+  #   lone_anchor      23,985 rows relabelled, 143 assays touched (2026-10-26 run)
+  # The 9,309 rows between the old default and `tested` were relabelled purely
+  # because 1.08M anchor-less rows padded the families, and that padding scales
+  # with archive size -- partly re-creating the archive-size dependence
+  # anchor_fdr exists to remove.
+  #
+  # WHY NOT `lone_anchor`, which was the recommendation on 2026-10-27 before it
+  # was tested: it drops the 357,923 genuine tests too, which loosens the bar so
+  # that real chance anchors escape. tests/test_anchor_fdr.py is built on exactly
+  # that case -- Bd's 8,900 mRNA records with a weak anchor at E 0.5, which under
+  # `lone_anchor` leave m at 447 and let all 55 chance anchors through as real.
+  # The project's own worked example of a chance anchor stopped being caught. The
+  # test refuted the recommendation before it shipped; `tested` is what survives
+  # it, and it is a principle rather than a split of the difference: count every
+  # record where the question was asked, and no record where it was not.
+  #
+  # Note the direction, which is not self-serving in either case: `tested`
+  # RETAINS 9,309 more rows as genuine failures than the old default, so more
+  # assays can flag, and `declining` already has a positive predictive value of
+  # 2 of 9. All three behaviours are kept so the choice stays reversible.
+  anchor_fdr_family: tested
+
+  # A TREND OVER DEPOSIT YEAR, reported beside the verdict and never into it.
+  # docs/related-work.md claims "decay visible as a trend rather than a single
+  # pass/fail" as contribution #2, and until 2026-10-27 nothing tested for one: the
+  # verdict is a two-window contrast against a pooled baseline, so a steady slide and
+  # a single step read identically. assaywatch/trend.py runs the Cochran-Armitage
+  # test with the deposit years as scores (closed form, recomputable from the
+  # per-year table) and the report prints z and a two-sided p under that table.
+  #
+  # THERE IS NO THRESHOLD, DELIBERATELY. Whether 0.05 or 0.001 would be the bar is a
+  # question this project has no evidence to answer, so no status moves on it. The
+  # one number here is the minimum count of years with evaluable records: below
+  # three a "trend" is a line through two points. Three is a floor set by the
+  # meaning of the word, not a fitted value.
+  trend_min_years: 3
+  # The chance-PAIR counterpart of anchor_fdr, for PROBE-BEARING assays only.
+  # anchor_fdr guards the record where ONE primer anchored by chance. When BOTH
+  # do and happen to face each other in range, the record gets an amplicon, so
+  # it joins the EVALUABLE set instead and that test never sees it; the probe
+  # then has nowhere to bind in a locus that is not there, and the row scores
+  # `fail`. Measured 2026-10-25 over 134 groups: 26,691 such rows in 6 assays,
+  # and OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023 published 42.2% while every
+  # record carrying targetD detected - 81 detect, 111 chance pairs, no genuine
+  # failure (docs/journal/2026-10-25-chance-pairs-invent-denominators.md).
+  #
+  # NO THRESHOLD OF ITS OWN, deliberately. The test is: probe site absent AND
+  # both primers above `scoring.oligo_weak_max` (3.0), the bar at which one
+  # oligo alone is already `blocked`. Reusing that number rather than inventing
+  # one keeps this honest - there is no new measurement behind a new constant.
+  #
+  # An E-value test was tried first and does not work, in either form. pair_evalue
+  # scales with match quality as well as length and search space, so a REAL but
+  # divergent site necessarily scores weak: within RANAVIRUS_..._MCP_Pallister_2007
+  # the detects are 2.4e-16 and the genuine fails 5.6e-7..2.2e-5, which looks
+  # exactly like Orf's chance pairs at 4.1e-5..8.4e-4. Lowering max_pair_evalue
+  # throws away the real ranavirus failures, and BH over pairs rejects them too
+  # because it is assay-relative. Both withdrawn 2026-10-25.
+  chance_pair_test: true
+
+  # WHICH CALLS COUNT AS THE ASSAY HAVING DETECTED, per chemistry. Empty means
+  # `detect + reduced` for every assay, which is what this project has always done
+  # and what `drift.YearStats.detected` documents: "`reduced` counts as detected, it
+  # amplifies, just later".
+  #
+  # THAT IS RIGHT FOR A PRIMER AND WRONG FOR A PROBE, which is the whole content of
+  # this setting. A primer that binds badly still makes product, so a late band is a
+  # band. For a hydrolysis probe, detection IS the probe: a probe that binds badly
+  # reports late or not at all, and there is no gel to look at. Naming
+  # `hydrolysis_probe` and `mgb` here stops a `reduced` probe call being counted as a
+  # find for the 51 probe-bearing entries, and changes nothing for the other 158.
+  #
+  # MEASURED, AND IT IS THE BEST-EVIDENCED UNSHIPPED CANDIDATE IN THE PROJECT
+  # (docs/journal/2026-10-26-s3-chemistry-switches.md). Switching it on for those two
+  # chemistries takes documented failures caught from 5/11 to 6/11, the precision of
+  # `declining` from 2/9 to 3/10, and leaves false alarms UNCHANGED at 5/32. It fixes
+  # INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 at 2010-05-30, a documented
+  # failure the shipped rule calls `stable`. It is also the only candidate of the four
+  # on the 2026-10-26 ladder that TIGHTENS, so its extra flags are evidence rather
+  # than the artefact a loosening always produces - S1 and S2 both bought agreement on
+  # working assays by destroying failure detection, and this does not.
+  #
+  # WHAT IT COSTS, stated before what it buys, because this is the part that was
+  # weighed. Two published positives on the Leptospira bench panel,
+  # `L_mayottensis` and `L_alexanderi`, go `reduced` -> `fail`, which breaks the
+  # standing rule that a documented catch is never netted against a gain. Both come
+  # from a panel built on 2026-10-26 using species-level substitutions for the
+  # strains the paper tested, where the influenza case it gains has been in
+  # docs/validation-cases.tsv throughout. So the two sides are not of equal
+  # evidential weight: one assay-level catch on a case that has always been in the
+  # set, against two type-level positives on a panel built with documented
+  # substitutions.
+  #
+  # ON SINCE 2026-10-27, a maintainer decision, with the cost above standing. It was
+  # built and left empty on 2026-10-26 because the choice had not been made. What
+  # the switch does to the current run was measured before it was taken, by
+  # rendering the 2026-10-26 calls table twice:
+  #   13 of 235 statuses move, in both directions
+  #   declining 34 -> 36, low coverage 37 -> 42, watch 12 -> 9, stable 56 -> 52
+  #   INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003 goes `stable` -> flagged and
+  #     enters Start here at 6.5% of 30,382 recent records: the documented failure
+  #     this switch exists to catch, no longer called stable
+  #   CDV_P_gene_Scagliarini_2007, an `active` entry, moves watch -> Start here
+  #   INFLUENZA_A_ssRNA_NP_Tsukamoto_2010 and PARVOVIRUS_ssDNA_VP1_gene_dependovirus
+  #     leave Start here; both stay flagged
+  # A status move is not a verdict being right. It is the numerator changing for 51
+  # probe-bearing entries, which is what this setting means.
+  reduced_not_detected_for: [hydrolysis_probe, mgb]
+
+  # Drop GenBank patent-division records from the denominator. They are engineered
+  # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid
+  # libraries), so an assay missing one is not evidence about circulating virus.
+  # 21,769 of 1.53M archived records are patent deposits, but they concentrate:
+  # 101 of the 112 recent vaccinia records for Orthopox ATI Meyer 1997, and 2,182
+  # of 2,456 for the dependoparvovirus VP1 assays.
+  # ON SINCE 2026-10-23, WITHOUT TIER-2 APPROVAL, AND THAT IS DELIBERATE. It was
+  # held off for a week because "no validation case names an affected assay", so
+  # the validation set could not approve it -- while the ATI flag it fixes had
+  # been checked by hand and called a false positive
+  # (docs/journal/2026-10-19-orthopox-ati-vaccinia.md). A 49-case set with ~7 independent
+  # failure events cannot adjudicate most denominator questions, and using its
+  # silence as a veto keeps known-wrong output in the report. The rule now: where
+  # the mechanism argument is sound and tier-2 is SILENT, ship with the evidence
+  # recorded; where tier-2 CONTRADICTS, do not (the M1 lesson still holds).
+  # Here: tier-2 unchanged, row for row; 92 assays lose patent records; 5
+  # statuses move, in both directions -- the dependovirus VP1 assays fall from
+  # 80% to 44% detected once 6,845 engineered AAV capsid records stop propping
+  # them up. Measured in docs/journal/2026-10-23-wave2-diverged-and-patent.md.
+  exclude_patent_records: true
+
+# The per-site drift report (assaywatch/sitedrift.py): for the failing assays,
+# which oligo positions are drifting and in which groups of accessions. It reads
+# the calls table only, so it adds no screening work.
+sitedrift:
+  # A position is shown only when at least this many evaluable records mismatch
+  # there. Below it, the detected-share comparison has an interval too wide to
+  # read, exactly as for min_records_for_drift above — the position is real but
+  # says nothing yet.
+  min_records_for_position: 20
+  # How many footprint groups (records sharing one mismatch pattern) to list per
+  # assay. The tail is long and uninformative — mostly singletons that are
+  # sequencing noise or lone variants — so only the commonest are shown.
+  top_footprints: 8
+  # Naming a replacement base: what share of the MISMATCHING records the
+  # recommended IUPAC code has to cover. Not 1.0, because a single rare deposit
+  # would then force the code wider than the redesign warrants: at 1.00 a
+  # position where 749 records carry A and one carries C and one T unions to all
+  # four bases and recommends `N`, which is not an order anyone can place. Over
+  # the 2026-10-26 run, 1.00 leaves 591 of 1302 positions orderable and 711
+  # hypervariable; 0.95 leaves 915 orderable and 387 hypervariable, and the codes
+  # it gains are mostly the two-base R and Y that a real redesign uses (R 95->186,
+  # Y 79->163). A judgement about how much of the tail to chase, not a
+  # measurement, and the covered share is printed beside the code so the reader
+  # sees what is being given up.
+  replacement_covers: 0.95
+  # A "lead" sentence ("N% of evaluable records share this pattern...") is written
+  # at the top of an assay's site table only when its commonest non-clean footprint
+  # covers at least this share of the assay's evaluable records. Legibility, not a
+  # threshold: it changes which sentence is printed first and nothing about any
+  # verdict. 0.10 is a judgement about when a pattern is worth leading with, not a
+  # measurement.
+  lead_min_share: 0.10
+  # (The 3'-end marker in the site table and figure is NOT set here. It reads
+  # scoring.primer_3prime_window, so the report and the scorer share one definition
+  # of where the 3' end stops.)
+
+# Figures. These are legibility caps, not thresholds: nothing here changes a
+# verdict, and the figures draw their threshold lines from the drift settings
+# above so a plot cannot disagree with the table beside it. They live here
+# rather than in figures.py only so that a reader who wants the whole registry
+# on one axis can have it without editing code.
+figures:
+  # Rows in the forest plot. Past roughly this many the assay labels collide at
+  # any sane figure height. The cut keeps the worst, which are the rows anyone
+  # opened the figure for; the full set is in report.md.
+  max_forest_rows: 40
+  # Assays in the per-position figure. Each contributes up to three panels
+  # (forward, reverse, probe), so this is a cap of about eighteen panels.
+  max_site_assays: 6
+
+# What the report leads with (assaywatch/report.py `triage`).
+report:
+  # The report flagged 93 of 204 assays on 2026-10-22 and ordered every section
+  # by ascending detected share, so what led the page was whichever assay had the
+  # lowest number -- for this registry, always a pan-family consensus PCR screened
+  # against a whole family. A reader was given no way in. This caps the triage
+  # list at the top; the full status tables are unchanged below it. Ten because
+  # the list is meant to be actionable in one sitting, not because ten is
+  # measured. It changes what leads the page, never a status.
+  max_triage_rows: 10
+
+  # Where scripts/backfill_collection_dates.py wrote the collection dates it fetched
+  # from the GenBank flatfiles. null means the collection-year lens sees only `asm`
+  # records, whose archives carry a collection date already: 13 assays of 214.
+  #
+  # Set it and the lens covers every record a run screened. It is a path and not a
+  # flag because the sidecar is run state, gitignored like data/retrieved/, and a
+  # report must be able to say it was rendered without one. It lives under `report:`
+  # rather than `drift:` on purpose: the lens is printed beside the verdict and moves
+  # no status, so it must not enter the drift hash and force a recompute.
+  #
+  # Only set this once the backfill has FINISHED. A partial sidecar is not wrong --
+  # undatable records are counted, not dropped -- but a lens whose collection column
+  # rests on 2% of records invites exactly the misreading it exists to prevent.
+  collection_sidecar: null
+
+# Per-lineage detection analysis (phase 1 of estimand rebuild).
+# Each record is assigned a lineage by its NCBI taxid. Verdicts condition
+# on the worst-performing lineage among those assessable.
+lineage:
+  # Correction across one assay's lineages, and its level. The rule that uses it
+  # is "ANY lineage significantly below the threshold fails the assay", so what
+  # needs controlling is the probability of AT LEAST ONE false rejection: FWER,
+  # i.e. Holm (1979; no Crossref DOI, JSTOR 4615733). It was Benjamini-Hochberg
+  # with statsmodels' default 0.05, both hardcoded in lineage.py; BH controls the
+  # expected SHARE of false rejections among rejections, which is not the event
+  # that decides a status. Holm is a stopgap: partial pooling
+  # (docs/bayesian-scoring-plan.md C1) is the intended replacement, which is why
+  # no margin is tuned here. Nothing controls error ACROSS the 200-odd assays.
+  # Measured 2026-10-23 in docs/journal/2026-10-23-wave3-holm.md. statsmodels names:
+  # holm | fdr_bh | bonferroni.
+  multiple_testing: holm
+  alpha: 0.05
+  # WHICH LINEAGE READING DRIVES THE OVERRIDE. `holm` (ships): the corrected binomial
+  # test over raw lineage shares, as above. `posterior`: the worst lineage AFTER
+  # shrinkage under C1's hierarchical fit (assaywatch/hierarchical.py), failing when
+  # P(theta < threshold) exceeds posterior_credibility. Shrinkage is the model's own
+  # answer to the multiplicity Holm bolts on and to the winner's curse of an argmin
+  # over noisy shares. This exists so the plan's second kill test -- "shrinkage
+  # removes a documented catch" -- can be run with scripts/retrospective.py --config;
+  # it ships `holm` until that test has been read. Measured 2026-10-27, see
+  # docs/journal/2026-10-27-m1-confirming-rescreen.md and the entry that follows it.
+  verdict_from: holm
+  posterior_credibility: 0.95
+  # Minimum evaluable records per lineage for assessability
+  min_records_per_lineage: 30  # calibrated: Pareto improvement over 20 (-1 FP, 0 TP loss in retrospective)
+  # Path to taxa id -> name cache, used to display lineage names in reports
+  taxa_cache: docs/taxa-cache.json
+  # Below this share of call rows carrying a taxid, the accession join is assumed
+  # broken and the lineage report refuses to write. A silently broken join (wrong
+  # column, versioned vs unversioned accessions) yields a report of nothing but
+  # "unresolved", which reads as a finding about the data. A guard against a bug, not
+  # a calibrated value: a healthy run resolves well above this.
+  min_resolved_share: 0.5
+  # Path to taxid backfill sidecar (generated by scripts/backfill_taxids.py)
+  # for records retrieved before taxid field was added
+  taxid_backfill: "data/retrieved/.meta.taxid.backfill.tsv.gz"
+  # drift.require_working_baseline, per lineage: only a lineage that cleared the
+  # detection threshold in some earlier year (on >= min_records_for_coverage
+  # records) can turn a verdict into `declining`. One the assay never detected,
+  # failing under a pooled stable/watch, gives `low coverage` and names it.
+  # A lineage with no earlier measured year (new to the archive) can still drive it.
+  # On since 2026-10-19: tier-2 with each fails case's mechanism recorded goes from
+  # 14 to 12 disagreements with 6/12 failures caught either way, and on the
+  # 2026-10-17 calls 16 of the 201 current assays move declining -> low coverage, none
+  # the other way (13 with exact-taxid grouping; the "17 of 213" first recorded counted
+  # removed assays). Evidence: docs/journal/2026-10-19-pan-family-cases.md.
+  # Since 2026-10-20 this flag also gates the override's own denominator: when the
+  # POOLED verdict is low coverage or insufficient data, a failing lineage may
+  # overturn it only if that lineage itself cleared the threshold in an earlier
+  # measured year. A pooled low coverage says no fall was ever shown, and
+  # `declining` claims one. Tier-2 12 -> 10 disagreements, 4/11 caught either way,
+  # nothing lost; 2 of 201 current statuses move. Four alternatives were measured
+  # and lost, two of them by dropping the one documented drift catch.
+  # Evidence: docs/journal/2026-10-20-pan-family-override.md.
+  require_working_baseline: true
+  # Lineage = species, not exact taxid. With `species`, a record's taxid is rolled up
+  # to its species-rank ancestor in drift.scope_taxonomy (which must carry ranks:
+  # rebuild with scripts/build_taxonomy_cache.py), so a no-rank strain and its
+  # species are one lineage. Exact taxids split JC polyomavirus into 10632 (never
+  # detected, excused by the gate) and 1891763 (the same virus from 2018, "new").
+  # null: group by exact taxid, as before. On since 2026-10-19: tier-2 13 -> 12
+  # disagreements (Johne 2005 on JCPyV), 4/11 failures caught either way, no other
+  # case moves. Evidence: docs/journal/2026-10-19-taxid-artefacts.md.
+  group_at_rank: species
+  # With the working-baseline gate: a lineage under an NCBI "unclassified ..." node
+  # is a bucket of untyped records, so it cannot claim to be new to the archive.
+  # Failing, it gives `low coverage`, not `declining`. 1193974 "Human enterovirus"
+  # held 33 coxsackievirus A6 records in 2018, a type 86107 shows never covered.
+  # Cost: a genuinely novel virus filed as unclassified cannot drive `declining`.
+  # Off: tier-2 is unchanged by it (the enterovirus case it was built for still
+  # disagrees, on the next lineage down), so there is no evidence to ship it on.
+  unclassified_is_bucket: false
+  # Sub-lineage resolver chains, per assay (docs/journal/2026-10-19-subtaxid-resolution.md).
+  # Empty: every assay is grouped per taxid, exactly as before. An entry can turn a
+  # verdict into `declining`, so like any threshold here it goes through tier-2
+  # validation (scripts/retrospective.py --cases) before it is added. Shape:
+  #   INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003:
+  #     chain: [title]                      # first resolver to return a label wins
+  #     title: {pattern: '\((H\d+N\d+)\)'}   # capture group 1 is the label
+  #   AVIPOXVIRUS_dsDNA_4b_core_Baek_2020:
+  #     chain: [subtaxid]                   # the record's own taxid, below the query taxid
+  #
+  # ON since 2026-10-27 for the influenza matrix assay, and for no other assay:
+  # measured 2026-10-27 (docs/journal/2026-10-27-influenza-sublineage-enabled.md).
+  # Influenza A records carry their subtype in the GenBank title, so a title regex
+  # labels them without a taxonomy change -- 57 subtypes out of one taxid that NCBI
+  # calls Alphainfluenzavirus influenzae. What the split shows, on the corrected
+  # numerator (this is a hydrolysis probe, so `reduced` is not a detection): the
+  # pooled 6.5% is almost entirely H3N2 (1.2% of 38,771) and H1N1 (2.6% of 27,725),
+  # while 30 avian subtypes read 85-100%. The probe is failing on the human-
+  # circulating subtypes and working on the rest, which a single pooled proportion
+  # cannot say. Enabling it moves NOTHING: tier-2 is identical case for case and 0
+  # of 193 statuses change, because the pooled verdict was already `declining` and
+  # the worst lineage was already failing. So it is adopted for what it REPORTS,
+  # not for a verdict it changes -- the condition this block's own rule sets.
+  # Extend to the other segmented RNA viruses only after measuring that a title
+  # regex labels their records; nothing here assumes it does.
+  #
+  # BROADENED 2026-10-28 (docs/journal/2026-10-28-influenza-decomposed.md). The
+  # original `\((H\d+N\d+)\)` required BOTH an H and an N number, so it could not
+  # read a partial subtype -- and GenBank prints plenty: `A/New York/26/2026(H3)`,
+  # `A/Hawaii/1/2026(H1pdm09)`, `(HxNx)`, `(H1N2v)`, `(H3Nx)`. 4,729 evaluable
+  # records deposited in 2026 fell into the unlabelled bucket under the narrow
+  # pattern, and 3,857 of them DO carry a subtype in the title (2,220 `H1pdm09`,
+  # 1,607 `H3`, the rest Hx/Nx forms). The broadened pattern moves 4,188 records
+  # across all years into 5 new lineages -- H1pdm09 (0 of 2,220), H3 (5 of 1,745),
+  # H1 (0 of 115), HxN2 (2 of 56), H3Nx (1 of 52), so 8 of 4,188 = 0.2% -- and the
+  # residual unlabelled bucket goes from 6,853 records at 9.3% to 2,571 at 23.1%.
+  # That is the point of the change: those 4,188 were dragging a bucket of
+  # genuinely untitled records down by a factor of two, and they are the same
+  # human-circulating subtypes the probe already fails (H1pdm09 is the 2009
+  # pandemic H1N1 lineage; `H3` is H3N2 with the N left off), so they belong in
+  # their own rows and not in a residual. Gates, as this block's rule requires:
+  # tier-2 identical case for case on the development set (6/11 caught, PPV 4/10,
+  # 4/32 false alarms, 2/6 partial gaps, all unchanged) and `report_diff` against
+  # results/2026-10-27 prints "No assay changed status" -- 0 of 193 move. The `v`
+  # (variant) and `pdm` suffixes are allowed because GenBank prints them; a bare
+  # `(M1)` gene name does not match, which is tested.
+  sublineage:
+    INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003:
+      chain: [title]
+      title: {pattern: '\((H\d+(?:N\d+v?|Nx|pdm\d+)?|Hx(?:N\d+|Nx)?)\)'}

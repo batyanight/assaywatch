@@ -1,0 +1,39 @@
+id: PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999
+name: PAPILLOMAVIRUS (dsDNA) — L1 gene
+target:
+  taxid: 151340
+  gene: L1 gene
+  genome_type: dsDNA
+  taxon_name: Papillomaviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: FAP-59
+    seq: TAACWGTNGGNCAYCCWTATT
+    seq_as_written: TAACWGTIGGICAYCCWTATT
+  reverse:
+    name: FAP-64
+    seq: CCWATATCWVHCATNTCNCCATC
+    seq_as_written: CCWATATCWVHCATITCICCATC
+amplicon_bp: 476
+citation:
+  doi: 10.1099/0022-1317-80-9-2437
+  design_year: 1999
+  n_sequences_at_design: null
+  as_written: Forslund, O 1999
+  doi_verified: true
+  reference: Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
+conditions:
+  cycles: 45
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-038
+  nested_round: null
+  notes_curator: 'PREDICT panel protocol P-038 (L1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Forslund, O. et al (1999).'
+needs_review:
+- flag: orientation_inferred
+  note: the archive yields 16413 products and 26672 none under this orientation (2026-10-27 run), so the inference stands

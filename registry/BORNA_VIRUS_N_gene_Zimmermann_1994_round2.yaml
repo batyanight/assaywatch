@@ -1,0 +1,56 @@
+id: BORNA_VIRUS_N_gene_Zimmermann_1994_round2
+name: BORNA VIRUS — N gene (nested)
+target:
+  taxid: 178830
+  gene: N gene
+  genome_type: ssRNA-
+  taxon_name: Bornaviridae
+  scope_taxids: [1714619, 12455]
+chemistry: conventional
+oligos:
+  forward:
+    name: BornaNestF
+    seq: GCCTTGTGTTTCTATCTTTC
+  reverse:
+    name: BornaNestR
+    seq: ATTCTTTACCTGGGGACTCA
+amplicon_bp: null
+citation:
+  doi: 10.1016/0166-0934(94)90098-1
+  design_year: 1994
+  n_sequences_at_design: null
+  as_written: Zimmermann et al. 1994
+  doi_verified: true
+  reference: Zimmermann W et al. 1994. J Virol Methods 46:133-143
+  oligos_designed_here: true
+conditions:
+  annealing_c: 54
+  cycles: 22
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  nested_round: round2
+  notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_0166-0934_94_90098-1.pdf). Internal (nested)
+    primers from Zimmermann et al. 1994. The external (round 1) primers are in registry as BORNA_VIRUS_N_gene_Zimmermann_1994.
+    The paper labels these as "Internal (nested) primers: antisense 5''-ATTCTTTACCTGGGGACTCA-3'' sense 5''-GCCTTGTGTTTCTATCTTTC-3''".
+    Forward/reverse assignment follows the sense/antisense labels in the paper. AMPLICON_BP: not set; nested product size
+    must be measured against GenBank records (it is internal to the 752 bp external product). THIS ENTRY CANNOT DETECT, found 2026-10-23 and NOT fixed here. BornaNestF is
+    stored as GCCTTGTGTTTCTATCTTTC, which is what Zimmermann 1994 prints for its internal sense primer - and measured
+    over all 1,516 records of the Orthobornavirus archive, that sequence has an exact site in NONE of them. The template
+    following the shared 15-mer GCCTTGTGTTTCTAT reads GTTTG in 260 records, GCTTG in 42 and GTCTG in 1. So the printed
+    form differs from every known record at two positions including the 3''-terminal base, which
+    `terminal_mismatch_fails` makes fatal on its own, and this entry will read 0 percent detected for reasons that have
+    nothing to do with drift. The sibling BORNA_VIRUS_N_gene stores GCCTTGTGTTTCTATGTTTG, the 260-record form; that
+    entry was briefly changed to the printed sequence on 2026-10-23 and reverted when its detected share fell from 67.5
+    percent to 0.0. Aligning this entry with the measured form would mean storing a sequence the paper does not print,
+    which is a maintainer decision and the same one the sibling records, so it is flagged rather than applied. SCOPED 2026-10-24 to scope_taxids [1714619, 12455]. taxid 178830 is the whole Bornaviridae family, while Zimmermann et al. 1994 is a Borna disease virus assay: its title is "Detection of Borna disease virus RNA in naturally infected animals by nested PCR". Both taxids are needed and the second is the trap: 1714619 is Orthobornavirus bornaense (rank species, under Bornaviridae > Orthobornavirus), but 12455 "Borna disease virus" sits under Bornaviridae > UNCLASSIFIED Bornaviridae, not under the genus, so a scope list built from the genus node alone silently drops 49 genuine BoDV-1 deposits. Both taxids verified live with efetch -db taxonomy on 2026-10-24. Measured over the WHOLE 2026-10-24 calls table, which is neither the report''s recent window nor patent-filtered: of 1,519 screened records 1,003 are a known taxid outside the scope, 513 are inside it and 3 carry no taxid, so about two thirds of the denominator was a different virus - carbovirus, cultervirus and the parrot, serin and estrildid orthobornaviruses. Note that drift.py''s filter drops only a KNOWN out-of-scope taxid, so the 3 unknowns stay in. Scoping does NOT rescue this entry: inside the scope it reads 0 detected of 318 assessable records, because the printed BornaNestF mismatches every known record at its 3''-terminal base, as recorded above. The scope fix removes a confound here; it does not change the verdict. AMPLICON RE-MEASURED 2026-10-26, AND THE FINDING IS THAT THERE IS NOTHING TO MEASURE FROM. On results/2026-10-26/calls.tsv.gz this entry reads 1,151 no_amplicon and 369 fail, with ZERO detect and ZERO reduced. It never once amplifies, so its 369 failures have no product of its own to be anchored against and no size can be derived without inventing one. That is why amplicon_size_unresolved stays and no number is written here. Worth stating plainly for whoever reads the 369 failures: they are not evidence of drift, because an assay that has never succeeded in this archive has no baseline to decline from.'
+needs_review:
+- flag: oligos_not_in_cited_paper
+  note: the printed BornaNestF matches 0 of 1,516 records; the sibling entry's measured form matches 260
+- flag: amplicon_size_unresolved
+  note: no product size is declared
+- flag: orientation_inferred
+  note: inferred from the paper's labels. the archive yields 369 products and 1151 none under this orientation (2026-10-27 run), so the inference stands

@@ -1,0 +1,163 @@
+id: SARCOCYSTIS_18S_5_8s_rDNA_long_2010
+name: SARCOCYSTIS — 18S-5.8s rDNA (long)
+target:
+  taxid: 5812
+  gene: 18S-5.8s rDNA (long)
+  genome_type: dsDNA
+  taxon_name: Sarcocystis
+chemistry: conventional
+oligos:
+  forward:
+    name: P-ITSF
+    seq: ATTGAGTGTTCCGGTGAATTA
+  reverse:
+    name: P-ITSR
+    seq: GCCATTTGCGTTCAGAAATC
+amplicon_bp: null
+amplicon_bp_range: [568, 1294]
+species_sizes:
+# Measured by scripts/measure_species_sizes.py from the 2026-10-21 run: band envelope 578-1284 + 10 bp cushion each end.
+# The length is the readout for this pan-genus assay, so the bands are the structured
+# field rather than prose. config.yaml amplicon: the measured size wins over any published one.
+- taxid: 1587505
+  bp: [1174, 1183]
+  n_records: 33
+  note: Sarcocystis lutrae
+- taxid: 103879
+  bp: [608, 614]
+  n_records: 16
+  note: Sarcocystis sinensis
+- taxid: 103879
+  bp: [587, 588]
+  n_records: 3
+  note: Sarcocystis sinensis
+- taxid: 94644
+  bp: [859, 872]
+  n_records: 13
+  note: Sarcocystis miescheriana
+- taxid: 94644
+  bp: [838, 838]
+  n_records: 3
+  note: Sarcocystis miescheriana
+- taxid: 1696070
+  bp: [1109, 1111]
+  n_records: 13
+  note: Sarcocystis lari
+- taxid: 137009
+  bp: [921, 929]
+  n_records: 9
+  note: Sarcocystis zamani
+- taxid: 1749070
+  bp: [603, 610]
+  n_records: 6
+  note: Sarcocystis bovini
+- taxid: 1749070
+  bp: [585, 588]
+  n_records: 3
+  note: Sarcocystis bovini
+- taxid: 2068653
+  bp: [1077, 1079]
+  n_records: 8
+  note: Sarcocystis halieti
+- taxid: 1749069
+  bp: [578, 586]
+  n_records: 6
+  note: Sarcocystis bovifelis
+- taxid: 1749069
+  bp: [610, 610]
+  n_records: 1
+  note: Sarcocystis bovifelis
+- taxid: 1344799
+  bp: [1075, 1087]
+  n_records: 6
+  note: Sarcocystis calchasi
+- taxid: 59669
+  bp: [1138, 1140]
+  n_records: 4
+  note: Sarcocystis sp.
+- taxid: 59669
+  bp: [815, 815]
+  n_records: 1
+  note: Sarcocystis sp.
+- taxid: 2753566
+  bp: [1186, 1187]
+  n_records: 5
+  note: Sarcocystis wenzeli
+- taxid: 1962270
+  bp: [928, 930]
+  n_records: 5
+  note: Sarcocystis bertrami
+- taxid: 3475062
+  bp: [1167, 1174]
+  n_records: 4
+  note: Sarcocystis chenggongensis
+- taxid: 5818
+  bp: [778, 782]
+  n_records: 4
+  note: Sarcocystis tenella
+- taxid: 1127630
+  bp: [840, 840]
+  n_records: 3
+  note: Sarcocystis zuoi
+- taxid: 1127630
+  bp: [885, 885]
+  n_records: 1
+  note: Sarcocystis zuoi
+- taxid: 102713
+  bp: [853, 858]
+  n_records: 3
+  note: Sarcocystis suihominis
+- taxid: 5815
+  bp: [780, 780]
+  n_records: 3
+  note: Sarcocystis arieticanis
+- taxid: 2007305
+  bp: [608, 610]
+  n_records: 3
+  note: Sarcocystis dehongensis
+- taxid: 1929461
+  bp: [880, 880]
+  n_records: 2
+  note: Sarcocystis medusiformis
+- taxid: 805401
+  bp: [1191, 1191]
+  n_records: 2
+  note: Sarcocystis rileyi
+- taxid: 137008
+  bp: [779, 779]
+  n_records: 1
+  note: Sarcocystis singaporensis
+- taxid: 137008
+  bp: [814, 814]
+  n_records: 1
+  note: Sarcocystis singaporensis
+- taxid: 1250548
+  bp: [947, 947]
+  n_records: 1
+  note: Sarcocystis caninum
+- taxid: 42890
+  bp: [1284, 1284]
+  n_records: 1
+  note: Sarcocystis neurona
+citation:
+  doi: 10.1007/s00436-010-1945-4
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: ': Kutkiene L, et al. The mallard duck (Anas platyrhynchos) as intermediate host for Sarcocystis wobeseri sp.
+    nov. from the barnacle goose (Branta leucopsis). Parasitol Res; 2010; 107:879-888'
+  doi_verified: true
+  reference: Kutkienė L et al. 2010. Parasitol Res 107:879-888
+conditions:
+  cycles: 35
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'P-ITSR corrected 2026-10-04 from GCCATTTGCGTTCCAGAAATC (seed list; one extra C) to
+    GCCATTTGCGTTCAGAAATC, as printed by the same group in Rudaityte-Lukosiene, Kutkiene et al. 2026
+    (10.3390/pathogens15070709, with P-ITSF identical to ours) and Kirillova, Prakas et al. 2018
+    (10.1186/s13071-018-2694-y), and as read by every Sarcocystis record (scripts/indel_check.py).'
+needs_review: null

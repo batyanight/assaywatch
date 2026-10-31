@@ -1,0 +1,52 @@
+id: PARVOVIRUS_ssDNA_VP1_gene_dependovirus
+name: PARVOVIRUS (ssDNA) — VP1 gene (dependovirus)
+target:
+  taxid: 10803
+  gene: VP1 gene (dependovirus)
+  genome_type: ssDNA
+  taxon_name: Dependoparvovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: 19SAAVF
+    seq: GGTAATGCCTCAGGAAATTGGCATT
+  reverse:
+    name: 18asAAVR
+    seq: GAATCCCCAATTGTTGTTGATGAGTC
+amplicon_bp: 255
+citation:
+  doi: 10.1073/pnas.182412299
+  design_year: 2002
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Gao GP et al. 2002. Proc Natl Acad Sci USA 99:11854-11859 (AAV signature-region primers 19s/18as)
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'SOURCE FOUND 2026-10-05 by a Europe PMC full-text search on the primer sequences: these are Gao et al. 2002''s
+    universal AAV signature-region primers, unmodified apart from the strand of the reverse, the same paper the degenerate
+    sibling PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002 already cites. The forward is base-for-base Gao''s 19s. ORIENTATION
+    CHECKED 2026-10-05, and the stored form is the one to order. Gao et al. 2002 PNAS 99:11854 (local PDF) prints ''Sequences
+    for the primers are 5-GGTAATGCCTCAGGAAATTGGCATT-3 (19s) and 5-GACTCATCAACAACAATTGGGGATTC-3 (18as)''. The registry''s reverse
+    is the reverse complement of that 18as, which the verifier reports as `revcomp` and calls normal for a reverse primer
+    - the two strings mark the same site, and in records carrying both, 19s and 18as-as-printed both match the plus strand
+    at the same position (e.g. PW079099 at 57 and 289) while the stored form matches the minus strand there. Only the stored
+    orientation works as a primer molecule: measured with assaywatch.match on every fifth record of the 2026-10-03 Dependoparvovirus
+    archive (2,009 records, up to 4 mismatches per primer), 19s with 18as as printed gives a product in NO record, because
+    both sit on the same strand, while 19s with the stored reverse complement gives one in 1,345, 255 bp in 647 (261 in 399,
+    258 in 223). Gao describes the signature region as ''about 255 bp'', so the measurement agrees with the paper on the amplicon.
+    The paper''s table prints the sense-strand sequence of the reverse site rather than the oligo; the ''(corrected)''
+    in the oligo name records exactly that, and is right. amplicon_bp set to the measured 255, from null. SCOPE QUESTION ASKED
+    AND CLOSED 2026-10-20. The override fires on Adeno-associated virus (272636) at 1329/1525 = 87.2 percent against a pooled
+    80.2 percent of 2,456 - better than the pool, on the assay''s own target, since Gao et al. 2002 calls these the universal
+    AAV signature-region primers. Fifth worked example of the above-pooled pattern. The AAV patent skew is separately documented
+    in docs/journal/2026-10-19-orthopox-ati-vaccinia.md: patents are detected MORE than natural records here, 84.3 vs 45.3 percent
+    on the exact Gao pair.'
+needs_review:
+- flag: oligos_modified

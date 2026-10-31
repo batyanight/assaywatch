@@ -1,0 +1,51 @@
+id: POXVIRUSES_dsDNA_Polymerase_short
+name: POXVIRUSES (dsDNA) — Polymerase short
+target:
+  taxid: 10241
+  gene: Polymerase short
+  genome_type: dsDNA
+  taxon_name: Chordopoxvirinae
+chemistry: conventional
+oligos:
+  forward:
+    name: PoxPolF1
+    seq: TATAGAGCGAGTACAGTCATCAAGGGTCC
+  reverse:
+    name: PoxPolR1
+    seq: CANACATTNGGATAYARACTATTATAATC
+    seq_as_written: CAIACATTIGGATAYARACTATTATAATC
+  alternates:
+  - name: PoxPolF2
+    seq: TACCGVGCGAGYACCTGCATCAAGGGMCC
+    orientation: forward
+  - name: PoxPolF3
+    seq: TAYAGAGCTAGTACGTTAATAAAAGGNCC
+    seq_as_written: TAYAGAGCTAGTACGTTAATAAAAGGICC
+    orientation: forward
+  - name: PoxPolF4
+    seq: TATAGGGCHAGTACKCTTATTAAAGGWCC
+    orientation: forward
+  - name: PoxPolR2
+    seq: CANACGTTNGGGTAYARGCTGTTGTAGTC
+    seq_as_written: CAIACGTTIGGGTAYARGCTGTTGTAGTC
+    orientation: reverse
+amplicon_bp: 192
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: unpublished
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: deprecated
+source:
+  nested_round: null
+  notes_curator: 'Seed list: first TSPoxPol set DID NOT WORK WELL; the shorter second set (next block) is the working version. | Oligo annotations moved from name field: PoxPolF2 (alternate[0]): parapox group; PoxPolF3 (alternate[1]): cetacean/goat  group; PoxPolF4 (alternate[2]): avi group; PoxPolR2 (alternate[3]): parapox group'
+needs_review:
+- flag: do_not_use
+- flag: oligos_modified
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

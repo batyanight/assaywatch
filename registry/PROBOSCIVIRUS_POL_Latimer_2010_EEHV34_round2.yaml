@@ -1,0 +1,70 @@
+id: PROBOSCIVIRUS_POL_Latimer_2010_EEHV34_round2
+name: EEHV3/EEHV4 — DNA polymerase, EEHV3/4-specific nested PCR round 2 (Latimer 2010)
+target:
+  taxid: 548689
+  gene: DNA polymerase (U38/POL)
+  genome_type: dsDNA
+  taxon_name: Elephant endotheliotropic herpesvirus 3 and 4
+  query: (txid548913[Organism:exp] OR txid548914[Organism:exp] OR txid3060652[Organism:exp] OR txid3050274[Organism:exp])
+    AND ("DNA polymerase"[Title] OR U38[Gene] OR POL[Gene] OR "complete genome"[Title] OR "partial genome"[Title])
+chemistry: conventional
+oligos:
+  forward:
+    name: EB4P-B2
+    seq: ATCCTGGCGCAGCTGCTGAC
+  reverse:
+    name: EB4P-A1
+    seq: CGTTGAAGGTGTCGCAGAT
+  alternates: []
+amplicon_bp: 259
+citation:
+  doi: 10.1016/j.vetmic.2010.05.042
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: 'Latimer E, Zong JC, Heaggans SY, Richman LK, Hayward GS. Detection and Evaluation of Novel Herpesviruses in
+    Routine and Pathological Samples from Asian and African Elephants: Identification of Two New Probosciviruses (EEHV5 and
+    EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).'
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 50
+  cycles: 45
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: round2
+  notes_curator: 'Added 2026-10-06 from Latimer et al. (papers/10.1016_j.vetmic.2010.05.042.pdf). Oligos read from Table 2,
+    a text table printed sideways on page 24; sequences, L/R labels and pairing columns were checked by eye on a 220 dpi rendering
+    of that page (pymupdf) and agree with the extracted text for every oligo used here. Table 2 lists 21 rows but 19 distinct
+    oligos (6784 and 6785 each appear in two blocks). Designed in this paper (Methods: six new sets of EEHV DNA POL primers
+    designed for these studies). Not designed here, not in Table 2, not entered: the CODEHOPS pan-herpes set 2595/2596/2597
+    and the EEHV3 TER set 6707/6708/6727/6728, both credited to Garner et al. 2009. ORIENTATION was established by locating
+    each oligo on GenBank records, not by trusting the table''s L/R column: in the EEHV blocks L is sense and R is antisense
+    (as labelled), but in the PAN-EGHV block the labels are inverted (see the note on what was not entered). This entry =
+    6720 (EB4P B2, sense) + 6719 (EB4P A1, antisense), Table 2 column 2A, second round of the EEHV3/4-specific set, nested
+    inside the round-1 product (6720 starts 148 nt after 7400 on the EEHV3 and EEHV4 genomes). Verified on EU658934 (6720
+    at 325-344, 1 mismatch) and on EU658936 (EEHV3; 6719 at 81-99 and 6720 at 320-339, both 0 mismatches), the paper''s own
+    accessions. HOW MEASURED. Every record the target.query returns was screened (all of them, not a sample; retrieved 2026-10-06
+    with NCBI esearch/efetch, min length 100 bp as in config.yaml) with assaywatch.screen. Whether a record SPANS the amplicon
+    was decided independently of the screener: each record was mapped with blastn to complete reference genome(s) of the target
+    species, the primer-to-primer interval was taken from the screen of the reference genome, and a record counts as spanning
+    when its alignment covers that whole interval, both primer sites included (4 nt end slack for BLAST end trimming). Most
+    GenBank EEHV POL deposits are the sequence BETWEEN the amplification primers, so one or both primer sites are absent:
+    those records give no_amplicon because the site is missing, not because the primer fails, and are excluded from the detected
+    share. Spanning counts include RefSeq NC_ copies of GenBank genomes (NC_020474, NC_024696, NC_028379, NC_077039), so the
+    number of independent sequences is a few lower. RESULT. 26 records retrieved; calls over all of them {''detect'': 8, ''no_amplicon'':
+    6, ''reduced'': 4, ''fail'': 8}. Spanning records: 12; calls among spanning {''detect'': 8, ''reduced'': 4}; by species
+    EEHV3 {''detect'': 5}; EEHV4 {''detect'': 3, ''reduced'': 4}. Product sizes among spanning records: 259 bp x12. SIZE.
+    Table 2 prints 250 bp. Measured 259 bp on every spanning record: the paper''s EU658934 and EU658936, other short deposits
+    and the EEHV3/EEHV4 genomes. The paper''s figure is 9 bp short; amplicon_bp is 259. DECOY PRODUCTS. Eight records (all
+    short, 252-405 bp) get ''fail'' with a 142-bp product: 6720 pairs with a 5-mismatch decoy 6719 site while the real 6719
+    site (259 bp from 6720) lies beyond the record end. They are non-spanning, not failures. 4 of the 12 spanning records
+    are ''reduced'': all EEHV4, where 6720 carries a mismatch (penalty 0.5), as on the paper''s EU658934. SCOPE. EEHV3 and
+    EEHV4 only; same species-restricted query as the round-1 entry (26 records). The PAN-EGHV/EGHV2/EGHV3 block of Table 2
+    (6784, 6785, 6786, 6787, 6788, 7486, 7489) was not entered; the reasons are in the note of the panEEHV_round1 entry.'
+needs_review: null

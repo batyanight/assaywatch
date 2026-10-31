@@ -1,0 +1,40 @@
+# S6 - the OTHER half of the Kwok table: the mispairs that suppress yield, as penalty
+# INCREASES, priced beside the G:T/T:G discount that shipped on 2026-10-27.
+#
+# M1 discounted the one mispair Kwok 1990 (doi:10.1093/nar/18.4.999) and Stadhouders
+# 2010 (doi:10.2353/jmoldx.2010.090035) found nearly free. Both papers' real finding is
+# the asymmetry: A:G, G:A and C:C suppress yield about a hundredfold and A:A about
+# twentyfold, while T against G, C or T barely registers. A table that only discounts
+# is half an identity table, and ROADMAP has said so since the hold was lifted.
+#
+# THE NUMBERS ARE A PROBE, NOT A FIT. `mispair_penalty` multiplies the position penalty,
+# so 2.0 makes one severe mispair in the 3' window cost 4.0 for conventional PCR (over
+# reduced_max 3.0 -- an outright fail) and 6.0 for probe chemistries; 1.5 makes an A:A
+# cost 3.0 / 4.5. Two values, chosen to express "severe" and "moderate" on the scale the
+# rule already uses, and nothing more precise than that is claimed. If this candidate
+# survives its kill test, the next question is the size of the premium, on the bench
+# panels, one value at a time -- not here.
+#
+# WHAT A PREMIUM CAN AND CANNOT DO, before the run. It only tightens: every move is
+# toward `fail`. So on the bench panels it can only BREAK band rows and FIX no_band rows
+# (and 41 of the 57 no_band rows are Rahn's, which no scoring change reaches); on tier-2
+# it can add catches AND add false alarms. A tightening that adds a catch is the one
+# direction the project's standing caveat says is evidence rather than artefact.
+name: s6-kwok-premium
+registered: 2026-10-27
+question: >
+  Does charging the mispairs Kwok and Stadhouders found severe -- A:G, G:A, C:C at
+  twice the position penalty, A:A at one and a half times -- catch anything the shipped
+  rule misses, and at what cost in bench band rows and tier-2 false alarms?
+predicts: >
+  It tightens only. On the bench panels it breaks some band rows in the FAP and Leptospira
+  panels, where published positives carry single 3'-window mismatches, and fixes none of
+  the informative negatives, because those already fail. On tier-2 it adds at most one
+  catch and at least one false alarm, because a premium cannot distinguish an assay that
+  drifted from a pan-family assay screened past its design range.
+kill: >
+  It breaks a bench band row that the shipped rule gets right without fixing an
+  informative no_band row; or it adds a false alarm on tier-2 without adding a catch.
+  Either alone kills it. Stated per row and per case, never netted.
+scoring:
+  mispair_penalty: {"G:T": 0.0, "T:G": 0.0, "A:G": 2.0, "G:A": 2.0, "C:C": 2.0, "A:A": 1.5}

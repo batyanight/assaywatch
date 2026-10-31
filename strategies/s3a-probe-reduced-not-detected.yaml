@@ -1,0 +1,35 @@
+# S3, switch 1 of 2, tested alone. For probe chemistries a `reduced` call does not
+# count toward the detected share. Part 1 S3 of
+# docs/journal/2026-10-24-scoring-strategy-test-plan.md, dated 2026-10-24.
+#
+# This is the only rung so far that TIGHTENS. S1 and S2 both died by loosening, and
+# both died on the same ten Forslund negatives, so a switch that makes an assay
+# harder to call healthy is the one with a chance.
+#
+# The mechanism is wave 3's influenza case: a hydrolysis probe that binds badly
+# reports late or not at all, because detection IS the probe. A primer that binds
+# badly still makes product, which is why `reduced` counting as detected is right for
+# a primer and wrong for a probe. `drift.YearStats.detected` is `detect + reduced` in
+# code with no per-chemistry variant, so this is priced by rewriting those rows to
+# `fail`, which is arithmetically identical for drift. Shipping it means a
+# per-chemistry `detected` in `drift.py`.
+name: s3a-probe-reduced-not-detected
+registered: 2026-10-26
+question: >
+  Does the chemistry axis carry signal at all? This is the cheap frequentist probe of
+  what the C2 model would estimate, and it asks one thing: should a `reduced` probe
+  call count as a detection?
+predicts: >
+  Detected shares fall for the 51 probe-bearing entries and for nothing else, so
+  flags RISE rather than fall - the opposite direction from S1 and S2, and therefore
+  evidence rather than the artefact of a loosening. The influenza Matrix-gene case at
+  2010-05-30, a documented failure the tool currently calls `stable`, is the one it
+  should fix.
+kill: >
+  Any documented catch lost. Named per catch and never netted. Stated as the general
+  rule rather than as one case, because S2 passed its named probe and destroyed four
+  catches nobody had named (docs/journal/2026-10-26-s2-smooth-decay-killed.md).
+reduced_not_detected_for:
+  - hydrolysis_probe
+  - mgb
+scoring: {}

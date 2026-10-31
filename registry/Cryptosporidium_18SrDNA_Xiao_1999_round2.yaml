@@ -1,0 +1,62 @@
+id: Cryptosporidium_18SrDNA_Xiao_1999_round2
+name: CRYPTOSPORIDIA — 18SrDNA
+target:
+  taxid: 5806
+  gene: 18SrDNA
+  genome_type: dsDNA
+  taxon_name: Cryptosporidium
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: Xiao18SF2
+    seq: GGAAGGGTTGTATTTATTAGATAAAG
+  reverse:
+    name: Xiao18SR2
+    seq: AAGGAGTAAGGAACAACCTCCA
+amplicon_bp: 822
+citation:
+  doi: 10.1128/aem.65.4.1578-1583.1999
+  design_year: 1999
+  n_sequences_at_design: null
+  as_written: 'Identification of Species and Sources of Cryptosporidium Oocysts in Storm Waters with a Small-Subunit rRNA-Based
+
+    Diagnostic and Genotyping Tool. LIHUA XIAO,1* KERRI ALDERISIO,2 JOSEF LIMOR,1 MICHAEL ROYER,3 AND ALTAF A. LAL1, APPLIED
+
+    AND ENVIRONMENTAL MICROBIOLOGY, Dec. 2000, p. 5492–5498'
+  doi_verified: true
+  reference: 'Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic
+    analysis of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583'
+  oligos_designed_here: true
+conditions:
+  annealing_c: 55
+  cycles: 35
+  mg_mm: 3.0
+  primer_nm: 200
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: active
+source:
+  nested_round: round2
+  notes_curator: 'SPLIT OUT OF THE PRIMARY ENTRY 2026-10-14, on the evidence the primary entry''s own notes_curator
+    had already assembled. Xiao et al. 1999 prints a nested pair of pairs: primary PCR, ''about 1,325 bp'', with TTCTAGAGCTAATACATGCG
+    and CCCTAATCCTTCGAAACAGGA; secondary PCR, ''819 to 825 bp (depending on the species)'', with GGAAGGGTTGTATTTATTAGATAAAG
+    and AAGGAGTAAGGAACAACCTCCA. This entry is the SECONDARY pair, which sat in the primary entry''s oligos.alternates
+    until now. WHY THAT MATTERED RATHER THAN BEING UNTIDY: score.oligo_pools treats alternates as interchangeable
+    members of one pool and takes the best product over the cross product, which is right for a consensus cocktail
+    and wrong for a second round. Screened as one entry, the secondary pair''s 822 bp product was being credited
+    to an assay declaring 1319 bp - and with amplicon.declared_tolerance on (2026-10-14) it was instead discarded,
+    taking the entry from `stable` to `insufficient data` in the tier-2 retrospective because the records carrying
+    it no longer counted for anything. Split, each round is screened and reported on its own product.
+
+    AMPLICON MEASURED, NOT COPIED. scripts/check_amplicons.py over every Cryptosporidium archive gives a modal 822
+    bp on 240 records for this pair (871 bp on 13 for the cross-pairing F1 x R2, which is not an assay), against
+    the paper''s stated 819-825. amplicon_bp is the measurement; the paper''s range is consistent with it. The primary
+    entry measures 1319 exactly, which is why its stored value stands.
+
+    The oligos themselves were verified against this paper by scripts/verify_oligos_against_paper.py: Ziao18SF2 and
+    Ziao18SR2 both read exact. Neither carries the in-house correction that the primary entry''s reverse does.'
+needs_review: null

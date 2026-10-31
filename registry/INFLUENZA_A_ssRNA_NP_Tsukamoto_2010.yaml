@@ -1,0 +1,70 @@
+id: INFLUENZA_A_ssRNA_NP_Tsukamoto_2010
+name: Influenza A virus — nucleoprotein (NP) gene rRT-PCR (Tsukamoto 2010)
+target:
+  taxid: 11320
+  gene: NP (nucleoprotein)
+  genome_type: ssRNA-
+  taxon_name: Influenza A virus
+  query: '"segment 5"[Title] OR nucleoprotein[Title] OR NP[Gene]'
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: NP-1200F
+    seq: AGRTAYTGGGCYATAAGRAC
+  reverse:
+    name: NP-1529R
+    seq: GCATTGTCTCCGAAGAAATAAG
+  probe:
+    name: NP-Probe
+    seq: ATCGGGYTCGTYGCCTTTTCGTCY
+    reporter: FAM
+    quencher: BHQ
+  alternates: []
+amplicon_bp: 329
+citation:
+  doi: 10.1128/JCM.01264-10
+  design_year: 2010
+  n_sequences_at_design: 218
+  as_written: null
+  reference: Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of diverse
+    H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer and probe
+    sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  cycles: 35
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.1128_JCM.01264-10.pdf; the text layer is clean,
+    no image reading was needed). READ: NP-1200F, NP-1529R (no mixed bases, as the paper says) and NP-Probe (FAM 5'', BHQ
+    3''; the paper says only BHQ). Transcription cross-check: mixed-base counts as entered (4, 0, 3) equal the paper''s column,
+    and the paper''s 329 bp product is reproduced exactly. It is the paper''s internal avian-influenza generic assay (all
+    355 AIVs tested were NP-positive), designed on 218 NP genes from the Influenza Virus Resource and modified from the same
+    lab''s earlier primers (Tsukamoto 2008, J Clin Microbiol 46:3048, the paper''s ref 9), so oligos_designed_here is true.
+    The probe is anti-sense: it is found on the minus strand in every product. MEASURED on a STRIDED sample of GenBank influenza
+    A NP records (every 630th of 190,105 uids from txid11320 AND ("segment 5"[Title] OR nucleoprotein[Title] OR NP[Gene]),
+    302 records fetched 2026-10-06). Calls: detect 181, reduced 36, fail 79, no_amplicon 6. All 6 no_amplicon are records
+    of at most 1,472 bp, shorter than the product end (about 1,510), and none of the 137 records longer than 1,538 bp is no_amplicon,
+    so that is coverage. Among the 296 records that carry a product: 61.1% detect, 73.3% detect or reduced, 26.7% fail. All
+    296 products are exactly 329 bp (unimodal, and equal to the paper''s figure, so amplicon_bp 329 is measured and agrees).
+    Probe site present inside the product in all 217 detect/reduced calls. THE FAILS ARE ONE LINEAGE: 74 of the 79 are human-lineage
+    H3N2 (of 102 H3N2 records, 4 detect, 24 reduced, 74 fail), a pattern shared by 75 of the 79 fails: one mismatch at base
+    1 of NP-1200F and two or three probe mismatches (probe bases 11, 18 and usually 24) that sum past the fail line; the reverse
+    primer is intact in 78 of 79. Split by whether the strain name carries an animal-host token: records with one (the assay''s
+    intended target) 137, of which 120 detect, 9 reduced, 4 fail, 4 no_amplicon (partial); records without one (human-style
+    names) 163, of which 60 detect, 27 reduced, 74 fail, 2 no_amplicon. By subtype: H1N1 72 of 74 detect, H5N1 33 of 35, H9N2
+    13 of 15. SCOPE, flagged and not resolved: this is an avian influenza assay, and taxid 11320 covers all influenza A including
+    the human seasonal lineages it was never meant to detect, so a detected share well below 100% is by design for human H3N2;
+    it is a candidate for host or lineage scoping once that registry-wide decision is made (as with the Leptospira lipL32
+    entry). The paper tested it only on avian isolates. The paper''s supplement is not in the PDF. The H5 and H7 assays from
+    the same paper are separate entries.'
+needs_review:
+- flag: retrieval_scope_incomplete
+  note: 'an avian assay screened against all influenza A: human H3N2 fails, which is expected, not drift'

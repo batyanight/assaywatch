@@ -1,0 +1,70 @@
+id: CDV_P_gene_Mix7_Halecker_2021
+name: CANINE DISTEMPER VIRUS — P gene TaqMan RT-qPCR CDV-Mix 7 (Halecker 2021)
+target:
+  taxid: 3052342
+  gene: P
+  genome_type: ssRNA-
+  taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: CDV-1808-F
+    seq: AGGARCAGGCCTAYCATGTCA
+  reverse:
+    name: CDV-1903-R
+    seq: TRCTGCTGACCTCTTGAATCTC
+  probe:
+    name: CDV-1842-FAM
+    seq: ATGCCTCAAARCCCTCAGAGAGAATCC
+    reporter: FAM
+    quencher: BHQ1
+  alternates: []
+amplicon_bp: 96
+citation:
+  doi: 10.3390/v13081632
+  design_year: 2021
+  n_sequences_at_design: 2075
+  as_written: null
+  reference: Halecker S, Bock S, Beer M, Hoffmann B. A New Molecular Detection System for Canine Distemper Virus Based on
+    a Double-Check Strategy. Viruses 2021;13:1632.
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  rt: one_step
+  annealing_c: 56.0
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.3390_v13081632.pdf), rendered at 220 dpi and read
+    by eye as well as extracted as text; both agree, and the same three sequences are printed in Table 2 of Geiselhardt et
+    al. 2022 (10.1128/jcm.02505-21). The paper designed this assay (Mix 7, ''in this study'') from an alignment of 2,075 CDV
+    sequences and selected it from 12 candidate mixes (Mix 4-15). The oligo names encode their positions (1808, 1842, 1903).
+    EXCLUDED from the paper''s Table 1: ELIA-Mix (Elia 2006, entered separately), CDV-Mix 3 (entered separately), and the
+    EGFP and beta-Actin internal-control mixes (heterologous and host controls, not CDV targets). The other 11 initial mixes
+    (Mix 4-6, 8-15) are only in the supplement and were not read. VERIFIED on MN267060.1 (S460/15, Europe-1): forward at 1808-1828,
+    probe at 1842-1868 (plus strand), reverse site at 1882-1903: a 96 bp product, the paper''s figure, and the positions the
+    names and the Geiselhardt 2022 text (''bp 1808 to 1903'') give. Retrieval: the archive is every GenBank nuccore record
+    under txid11232 (Morbillivirus canis; 4,063 records on 2026-10-06), fetched whole rather than strided because the total
+    is small. ''Spanning'' below means the record holds the whole primer-to-primer window, judged by the screen producing
+    a product or, for records with none, by a BLAST of the MN267060.1 window covering both ends. MEASURED: 377 records span
+    the amplicon and all 377 give exactly 96 bp with the probe present: 347 detect, 18 reduced, 12 fail (92.0% detect, 96.8%
+    detect+reduced); 298 are genomes and all 12 failures are genomes. The forward primer''s position 2 mismatches in 75 of
+    377 records and the reverse primer carries scattered mismatches (position 1 in 32); on the Asia-4 genomes MH496772-MH496774
+    the reverse primer and probe carry mismatches, as Geiselhardt 2022 reports. The other 3,686 give no_amplicon (3,657 with
+    no primer site; 9 truncated; 20 labelled diverged, which are N, M/F, L and H-gene records that do not cover the P region).
+    Against 116 PDV records (txid3052347) all 59 spanning records fail, consistent with the paper''s PDV-negative result.
+    Analytical sensitivity, specificity and the 98.9% diagnostic sensitivity are the paper''s and were not checked. SCOPE:
+    CDV-wide; validation panel was mostly European lineages.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+needs_review: null

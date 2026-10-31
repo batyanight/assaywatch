@@ -1,0 +1,163 @@
+id: ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997
+name: ORTHOPOXVIRUS (dsDNA) — A-type inclusion body (ATI) gene consensus PCR, species by amplicon size (Meyer 1997)
+target:
+  taxid: 10242
+  gene: ATI (A-type inclusion body protein)
+  genome_type: dsDNA
+  taxon_name: Orthopoxvirus
+  query: null
+chemistry: conventional
+oligos:
+  forward:
+    name: ATI-up-1
+    seq: AATACAAGGAGGATCT
+  reverse:
+    name: ATI-low-1
+    seq: CTTAACTTTTTCTTTCTC
+  alternates: []
+amplicon_bp: null
+amplicon_bp_range:
+- 540
+- 1700
+species_sizes:
+# Measured from the 2026-10-17 archive by scripts/measure_species_sizes.py, with
+# 108 patent-division records excluded (they give a construct's length, not a
+# species': docs/journal/2026-10-19-orthopox-ati-vaccinia.md). A length is kept at >= 2
+# records and >= 2% of the species' records; kept lengths cluster where a step
+# exceeds 12 bp. Bands cover 88% of monkeypox records, 93% of vaccinia, 94% of
+# cowpox and all of every other species. Not a key: vaccinia 1587-1615 and
+# cowpox 1598-1601 overlap, so a band in that region does not name one species.
+# Only records the assay would amplify (detect or reduced) count. The skunkpox row
+# below is the exception, added by hand on 2026-10-20: its product is bench-confirmed
+# by Meyer's own Table 1 (530 bp) while this pipeline scores it fail at 3.5 against a
+# 3.0 cutoff, on five mismatches 9-18 nt from the 3' end with the 3' octamer clean.
+# See docs/journal/2026-10-20-meyer-ati-bench-panel.md.
+# Two further fail-scored bands were left out on purpose, both measured:
+#   vaccinia 1226 bp is Modified Vaccinia Ankara (U94848 and MVA-derived constructs),
+#     a real strain with a real ATI deletion, but 6 bp from the ectromelia 1220 band,
+#     so admitting it would make that reading ambiguous without adding a species.
+#   camelpox 615 bp rests on two patent deposits titled "Modified Microbial Nucleic
+#     Acid", which the patent-title fallback cannot see (assaywatch/metadata.py).
+# `scripts/measure_species_sizes.py --include-fail` reproduces all three; it is not
+# what populated this block, and should not be until the is_patent backfill lands.
+- taxid: 3431483
+  bp: [1535, 1545]
+  n_records: 9113
+  note: Orthopoxvirus monkeypox
+- taxid: 3431483
+  bp: [1067, 1067]
+  n_records: 1981
+  note: Orthopoxvirus monkeypox
+- taxid: 10245
+  bp: [1587, 1615]
+  n_records: 130
+  note: Orthopoxvirus vaccinia
+- taxid: 10245
+  bp: [1547, 1547]
+  n_records: 19
+  note: Orthopoxvirus vaccinia
+- taxid: 10245
+  bp: [1671, 1671]
+  n_records: 5
+  note: Orthopoxvirus vaccinia
+- taxid: 10245
+  bp: [1573, 1573]
+  n_records: 4
+  note: Orthopoxvirus vaccinia
+- taxid: 3431481
+  bp: [1598, 1601]
+  n_records: 62
+  note: Orthopoxvirus cowpox
+- taxid: 3431481
+  bp: [1673, 1673]
+  n_records: 51
+  note: Orthopoxvirus cowpox
+- taxid: 3431481
+  bp: [1505, 1505]
+  n_records: 3
+  note: Orthopoxvirus cowpox
+- taxid: 3431487
+  bp: [1576, 1583]
+  n_records: 81
+  note: Orthopoxvirus variola
+- taxid: 3431482
+  bp: [1220, 1220]
+  n_records: 14
+  note: Orthopoxvirus ectromelia
+- taxid: 3431480
+  bp: [879, 879]
+  n_records: 12
+  note: Orthopoxvirus camelpox
+- taxid: 2200830
+  bp: [1505, 1505]
+  n_records: 7
+  note: Orthopoxvirus akhmetapox
+- taxid: 467146
+  bp: [1601, 1601]
+  n_records: 4
+  note: Cowpox-Vaccinia virus
+- taxid: 2734574
+  bp: [1673, 1673]
+  n_records: 2
+  note: Orthopoxvirus abatinomacacapox
+- taxid: 3431488
+  bp: [542, 542]
+  n_records: 2
+  note: Orthopoxvirus volepox
+- taxid: 3431485
+  bp: [551, 551]
+  n_records: 2
+  note: Orthopoxvirus skunkpox (bench-confirmed by Meyer 1997 at 530 bp; scored fail here)
+- taxid: 3431486
+  bp: [1628, 1628]
+  n_records: 2
+  note: Orthopoxvirus taterapox
+citation:
+  doi: 10.1016/S0166-0934(96)02155-6
+  design_year: 1996
+  n_sequences_at_design: null
+  as_written: null
+  reference: Meyer H, Ropp SL, Esposito JJ. Gene for A-type inclusion body protein is useful for a polymerase chain reaction
+    assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).
+  doi_verified: true
+  oligos_designed_here: null
+conditions:
+  mg_mm: 2.5
+  annealing_c: 40.0
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-06. WHAT THE PAPER IS (the index had no title): Meyer H, Ropp SL, Esposito JJ, J Virol Methods
+    64:217-221 (1997), accepted 25 Oct 1996, ''Gene for A-type inclusion body protein is useful for a polymerase chain reaction
+    assay to differentiate orthopoxviruses''. DOI: the paper prints its PII as S0166-0934(96)02155-6, which is DOI 10.1016/S0166-0934(96)02155-6;
+    doi_verified stays false for the resolver. READ: papers/10.1016_s0166-0934_96_02155-6.pdf is a scan with an OCR text layer.
+    The page carrying the primers (page 3) was rendered at 200 dpi and read by eye: ATI-up-1 5''-AATACAAGGAGGATCT-3'' (16
+    nt) and ATI-low-1 5''-CTTAACTTTTTCTTTCTC-3'' (18 nt). The cycling is 25 cycles with 40 °C annealing, a low-stringency
+    consensus pair; oligos_designed_here is null (the paper extends Meyer et al. 1994 but does not say the oligos were first
+    published there). DIFFERENTIATION ASSAY: one consensus pair across the genus, with product LENGTH (and an XbaI digest)
+    identifying the species. MEASURED AMPLICON SIZES BY SPECIES: now the structured `species_sizes` field above,
+    remeasured 2026-10-19 from the whole archive with patent records excluded. The hand measurement this
+    replaces (2026-10-06) read: volepox 542 bp; skunkpox 551 bp; ectromelia 1220 bp; camelpox 879 bp; variola
+    1576–1583 bp; monkeypox 1067 bp (clade I) or 1533–1545 bp (clade IIb, mode 1538 bp); vaccinia 1594–1606 bp;
+    cowpox 1673 bp. The remeasurement agrees except that it adds bands the hand pass missed (vaccinia 1547 and
+    1671, cowpox 1598–1601 and 1505, akhmetapox 1505, taterapox 1628) and drops skunkpox, whose records score
+    fail. APPROXIMATE RANGE: 540–1700 bp. The paper''s stated sizes differed
+    by 1–32 bp from measured values for several species. RESOLVED 2026-10-20 as gel sizing, not isolate difference: the four well-matched species sit within 3 bp, and the three outliers (monkeypox 1500, volepox 510, skunkpox 530) are all round numbers read low against non-round measurements (1535–1545, 542, 551). For volepox and skunkpox the records scored are Meyer''s own isolates (volepox CA, skunkpox WA/1978, the only genomes of either species in GenBank), which excludes isolate difference for those two. Monkeypox is partly a strain question: no Copenhagen genome exists, and his Copenhagen is a non-Zairian isolate, so clade IIb is the band to compare. See docs/journal/2026-10-20-meyer-ati-bench-panel.md.
+    Measured on: every GenBank Orthopoxvirus (txid10242) genome 100–400 kb (542 non-monkeypox records), plus 162 monkeypox
+    strided every 80th, plus 155 ATI-titled records. Non-monkeypox genomes: 410 detect, 79 reduced, 48 fail, 5 no_amplicon
+    (75.6% detect among spanning). Monkeypox: 157 detect of 162 (96.9%). Why non-detects in monkeypox and variola: consensus
+    pair has obligate mismatches in some lineages; pipeline rules score them as reduced or fail. NO REGISTRY OVERLAP: no 15
+    nt window of either primer occurs in existing poxvirus entries. SCOPE: genus-wide; interpret results by species, not by
+    genus-wide share.'
+needs_review:
+- flag: amplicon_multimodal
+  note: 'the product length is the readout: 540-1700 bp by species, declared as amplicon_bp_range'
+- flag: not_screenable
+  note: identification is by product size plus an XbaI digest, which the screen cannot model
+- flag: oligo_source_unresolved
+  note: a Meyer 1994 origin is suspected but not established

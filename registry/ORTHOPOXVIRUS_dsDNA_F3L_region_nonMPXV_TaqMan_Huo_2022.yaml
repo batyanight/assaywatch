@@ -1,0 +1,55 @@
+id: ORTHOPOXVIRUS_dsDNA_F3L_region_nonMPXV_TaqMan_Huo_2022
+name: ORTHOPOXVIRUS (dsDNA) — Panel 1 other-orthopoxvirus probe (Huo 2022)
+target:
+  taxid: 10242
+  gene: F3L region (positions 46313-46491 of ON563414.2)
+  genome_type: dsDNA
+  taxon_name: Orthopoxvirus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: Huo2022_P1_F
+    seq: ATCCTCTCTCATTGATTTTTCGCGGGA
+  reverse:
+    name: Huo2022_P1_R
+    seq: TGGAGAAGCGAGAAGTTAATAAAGC
+  probe:
+    name: Huo2022_P1_OPXV_P
+    seq: TCGTCGGAGCTGTACACCATAGCAC
+    reporter: HEX
+    quencher: BHQ1
+  alternates: []
+amplicon_bp: 179
+citation:
+  doi: 10.1016/j.bsheal.2022.10.005
+  design_year: 2022
+  n_sequences_at_design: 138
+  as_written: null
+  reference: Huo S, Chen Y, Lu R, Zhang Z, Zhang G, Zhao L, Deng Y, Wu C, Tan W. 2022. Development of two multiplex real-time
+    PCR assays for simultaneous detection and differentiation of monkeypox virus IIa, IIb, and I clades and the B.1 lineage.
+    Biosaf Health 4:392-398
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  cycles: 45
+use_context:
+- public_health
+- wildlife
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-27 from the open-access full text (PMC9633113, Europe PMC) Table 1 "Primers and probes designed
+    in this study" and Section 2.3, which assigns each probe to its target by reporter dye. Panel 1 shares one primer pair
+    across its probes; each probe is one entry here, the pattern the Li 2010 G2R trio uses. This probe is the one Section
+    2.3 labels HEX/BHQ1, specific to orthopoxviruses OTHER than MPXV, so the target is the genus and MPXV records are expected
+    to read as probe mismatches by design; a specificity reading, not drift. Rooted at the genus taxid 10242. AMPLICON NOT
+    STATED BY THE PAPER. MEASURED 2026-10-27 by screening this entry against every archive of taxids 10244 and 10242: 179
+    bp in 28,847 of 28,921 products; against the MPXV-dominated archives the probe reads reduced on 28,242 records, which
+    is its design (it excludes MPXV by one or two probe mismatches), so its detected share must be read against non-MPXV orthopoxvirus
+    records only. DOI resolved through Crossref by scripts/resolve_citations.py on 2026-10-27; status draft; only a maintainer sets active.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: the paper states no product size; measured 2026-10-27, see notes_curator

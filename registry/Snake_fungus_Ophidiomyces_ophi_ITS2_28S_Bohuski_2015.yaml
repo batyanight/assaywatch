@@ -1,0 +1,44 @@
+id: Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015
+name: Ophidiomyces ophidiicola — ITS2 real-time PCR (Bohuski 2015)
+target:
+  taxid: 1387563
+  gene: ITS2
+  genome_type: dsDNA
+  taxon_name: Ophidiomyces ophidiicola
+  query: 'ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR 28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
+chemistry: mgb
+oligos:
+  forward:
+    name: Oo-RT-ITS-F
+    seq: GAGTGTATGGGAATCTGTTTC
+  reverse:
+    name: Oo-RT-ITS-R
+    seq: GGTCAAACCGGAAAGAATG
+  probe:
+    name: Oo-RT-ITS-PROBE
+    seq: TCTCGCTCGAAGACCCGATCG
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 82
+citation:
+  doi: 10.1186/s12917-015-0407-8
+  design_year: 2015
+  n_sequences_at_design: null
+  as_written: Bohuski et al. BMC Veterinary Research (2015) 11:95 DOI 10.1186/s12917-015-0407-8
+  doi_verified: true
+  reference: Bohuski E et al. 2015. BMC Vet Res 11:95
+conditions:
+  annealing_c: 60
+  cycles: 40
+  primer_nm: 400
+  probe_nm: 200
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: >-
+    A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 2015 (J Vet Diagn Invest, doi:10.1177/1040638715573983, held in papers/) prints Oo-RT-ITS-R verbatim. Both papers are from 2015 and the citation is unchanged -- Bohuski prints the whole assay and is where this entry was read from -- but a second independent printing of a stored sequence is worth recording, because it is the check a transcription error cannot survive. Allender's own assay targets ITS1 rather than ITS2, so it is a different assay sharing a primer and not a duplicate of this entry.
+needs_review: null

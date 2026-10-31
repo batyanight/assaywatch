@@ -1,0 +1,36 @@
+id: Encephalitozoon_18S_General_Encephalitoz_Muller_1999
+name: Encephalitozoon — 18S (General Encephalitozoon)
+target:
+  taxid: 6033
+  gene: 18S (General Encephalitozoon)
+  genome_type: dsDNA
+  taxon_name: Encephalitozoon
+chemistry: conventional
+oligos:
+  forward:
+    name: PMP1F
+    seq: CACCAGGTTGATTCTGCCTGAC
+  reverse:
+    name: PMP1R
+    seq: CCTCTCCGGAACCAAACCCTG
+amplicon_bp: 279
+citation:
+  doi: 10.1128/CDLI.6.2.243-246.1999
+  design_year: 1999
+  n_sequences_at_design: null
+  as_written: Muller, A et al. CLINICAL AND DIAGNOSTIC LABORATORY IMMUNOLOGY 1999
+  doi_verified: true
+  reference: 'seed list: Müller A et al. 1999 Clin Diagn Lab Immunol; PMP1/PMP2 pan-microsporidial primers are usually credited
+    to Fedorko DP et al. 1995 J Clin Microbiol 33:1739 — check which paper these sequences come from'
+conditions:
+  cycles: 35
+  annealing_c: 60
+use_context:
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global 50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py over every archive of this entry''s own retrieval group measures a modal 279 bp on 45 products, with 100% of all products within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies. That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See docs/journal/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what marks it as measured.'
+needs_review:
+- flag: amplicon_measured_not_published

@@ -1,0 +1,44 @@
+id: PARANANNIZZIOPSIS_ITS_Lorch_2023
+name: PARANANNIZZIOPSIS spp. — ITS qPCR (Lorch 2023)
+target:
+  taxid: 1387564
+  gene: ITS
+  genome_type: dsDNA
+  taxon_name: Paranannizziopsis
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: Pf-ITS-F
+    seq: AGCACGGCTTGTGTGTT
+  reverse:
+    name: Pf-ITS-R
+    seq: CGCAGACACCTGGAACTC
+  probe:
+    name: Pf-ITS-P
+    seq: TGGACGGGCCTNAAATGCAGT
+    seq_as_written: TGGACGGGCCTIAAATGCAGT
+    reporter: FAM
+    quencher: BHQ-1
+  alternates: []
+amplicon_bp: 82
+citation:
+  doi: 10.3389/fmicb.2023.1302586
+  design_year: 2023
+  n_sequences_at_design: null
+  as_written: null
+  reference: Lorch, J. M. et al. Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus. Frontiers in Microbiology 14, 1302586 (2023).
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 60
+  cycles: 40
+use_context:
+- wildlife
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-05 from the paper''s own text, read out of the PDF in papers/ rather than transcribed from any secondary list. Candidate surfaced by the journal sweep in docs/journal/2026-10-04-literature-audit.md; sequences extracted with scripts/extract_candidate_oligos.py and then checked against real GenBank records before the entry was trusted. Paranannizziopsis causes a snake fungal disease distinct from ophidiomycosis and was absent from the registry, which previously held only Ophidiomyces. VERIFIED on PZ205981.1: both primers and the probe match, giving an 82 bp product with the probe inside it. amplicon_bp is measured; the paper states no size. Three of four sampled records gave nothing, but those are NG_ reference ITS sequences and a longer OR submission covering a different part of the region, so this needs a proper archive before the detected share means anything. THE PROBE CONTAINS A REAL INOSINE, which the paper explains it placed deliberately. It is stored the way this registry requires: `seq` keeps strict IUPAC with N at that position and `seq_as_written` keeps the I, so matching and degeneracy both read the inosine as one molecule pairing with C, A and T rather than as a 4-fold degenerate position. Reading this probe from `seq` alone would overstate its degeneracy fourfold. The paper notes the assay does not speciate, and that follow-up sequencing of the amplicon distinguishes Paranannizziopsis sp. 1 from sp. 2 by SNPs - so a detection here is a genus call, not a species call.'
+needs_review: null

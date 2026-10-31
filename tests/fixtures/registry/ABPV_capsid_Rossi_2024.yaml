@@ -1,0 +1,69 @@
+id: ABPV_capsid_Rossi_2024
+name: ACUTE BEE PARALYSIS VIRUS — capsid gene RT-qPCR, MGB probe (Rossi 2024)
+target:
+  taxid: 3047346
+  gene: capsid protein gene
+  genome_type: ssRNA+
+  taxon_name: Aparavirus apisacutum (acute bee paralysis virus; the paper's name, renamed by ICTV)
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: APVF
+    seq: TTTGTTTCAAAYAARATGTTYATGAAAYC
+  reverse:
+    name: APVR
+    seq: BTWGAHACAGTCTCTGGACACAT
+  probe:
+    name: APVP
+    seq: TATGGTGGAAAYKCTGARAAYAAT
+    reporter: FAM
+    quencher: MGBEQ
+  alternates: []
+amplicon_bp: 143
+citation:
+  doi: 10.3390/microorganisms12061105
+  design_year: 2024
+  n_sequences_at_design: 43
+  as_written: null
+  reference: Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative
+    PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 54.0
+  cycles: 50
+  rt: one_step
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Oligos read from Table 1 of the paper (PDF page 5): the text layer and the page rendered at 200 dpi and
+    read by eye agree. The paper''s Tenebrio molitor RNA extraction control oligos (TeneF/TeneR/TeneP, taken from Koppel et
+    al. per the paper) are an exogenous control, not honeybee virus targets, and are deliberately excluded from all six honeybee
+    virus entries made from this paper; its synthetic RNA calibrators carry no oligos. The paper tests the six assays singly
+    and as duplexes (ABPV/BQCV, DWVA/DWVB, CBPV/SBV; also BQCV/DWVA and ABPV/DWVB); each virus is its own entry here. One-step
+    RT-qPCR, 50 C 15 min RT, 95 C 2 min, 50 cycles of 95 C 15 s / 54 C 30 s, 0.2 uM each primer and probe. Screened with assaywatch.screen
+    on 2026-10-06 against GenBank records fetched by esearch/efetch the same day. ''Spanning'' below means a record that gives
+    a product, or that the tool labels diverged or chance-only, or that the tool labels no_site but whose sequence still carries
+    the cited reference amplicon region (an 11-mer chain covering at least 80% of it); records the tool labels truncated (they
+    end inside a primer window) are not counted as spanning. DESIGN: new in this paper (Table 1 reference column reads ''This
+    study''; designed on an alignment of 43 sequences). VERIFIED against the cited accession ON648748.1 (ABPV isolate 376/2020,
+    9,452 nt): APVF sits at 8323-8351 and APVR at 8443-8465 with 0 mismatches, giving 143 bp; the paper''s stated span 8324-8466
+    is the same 143 bp shifted by one position. The probe APVP sits at 8362-8385 with 1 mismatch (position 15 of 24, a T in
+    the oligo where this record has C) - a single central mismatch against the paper''s own cited record, not a transcription
+    slip (the rendered table agrees with the text). MEASURED on every record of Acute bee paralysis virus in GenBank with
+    length >= 100 bp (txid3047346, species rank; 989 records, not a sample): detect 88, reduced 22, fail 12, no_amplicon 867.
+    122 records give a product: 121 at 143 bp and 1 at 145 bp, so amplicon_bp 143 is both the paper''s figure and the measured
+    mode; the probe has a site inside the product in 122 of 122. COVERAGE: 865 of the 867 no_amplicon records are partial
+    deposits that do not span the site (median 560 bp, longest 5,516 bp; the tool labels 856 no_site and 9 truncated); 2 are
+    diverged (primer window present, forward site not found). Among the 124 records that span the site (122 products plus
+    those 2), detect = 88 (71.0%), detect+reduced = 110 (88.7%), 12 fail (a primer penalty above the tool''s reduced limit,
+    all with a product of normal size). SCOPE: the target taxon is ABPV only; Israeli acute paralysis virus and Kashmir bee
+    virus are separate species and are not retrieved. Both primers and the probe carry degenerate bases (4,608-fold pool;
+    tool tier ''severe''), so a detect here is a detect for the best member of the pool.'
+needs_review: null

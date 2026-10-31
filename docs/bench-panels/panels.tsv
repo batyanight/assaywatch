@@ -1,0 +1,26 @@
+# Which registry entry each bench panel scores, and where its sequences come from.
+#
+# WHY THIS FILE EXISTS. `scripts/bench_panel.py` takes one --panel, one --assay and
+# one --fasta, so it cannot be looped over docs/bench-panels/*.tsv without knowing
+# which assay each panel belongs to. Until 2026-10-26 that mapping lived only in
+# shell history and in the table in docs/journal/2026-10-21-M1-identity-aware-penalty.md,
+# which is where every row below was read from and re-checked against the registry.
+# `scripts/rescore.py` reads this to score every panel for a candidate strategy,
+# which is Part 0.4's "bench panels: band/no-band accuracy per panel".
+#
+# A panel is a design paper's own test set, so it is the only truth below the assay
+# level. `paper` is the independence unit: leave-one-panel-out means leaving out a
+# whole paper, never a row, because the rows of one panel share a primer pair and a
+# lab. The two Meyer files are ONE paper and must be left out together.
+#
+# `role`: fitting = a model may be fitted on it. control = specificity only, never a
+# fitting set, because its negatives are other genera and teach "sequence far from
+# the target gives no band", which scoring.max_pair_evalue already answers.
+panel	assay	paper	role
+docs/bench-panels/forslund-1999-fap.tsv	registry/PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999.yaml	forslund-1999	fitting
+docs/bench-panels/barrett-1993-morbillivirus.tsv	registry/Morbillivirus_including_CDV_P_gene_Barrett_2003.yaml	barrett-1993	fitting
+docs/bench-panels/meyer-1997-ati.tsv	registry/ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997.yaml	meyer-1997	fitting
+docs/bench-panels/meyer-1997-ati-strains.tsv	registry/ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997.yaml	meyer-1997	fitting
+docs/bench-panels/rebelo-2011-mycoplasma.tsv	registry/Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011.yaml	rebelo-2011	fitting
+docs/bench-panels/ahmed-2020-leptospira.tsv	registry/LEPTOSPIRA_lipL32_Ahmed_2020.yaml	ahmed-2020	fitting
+docs/bench-panels/rahn-1992-salmonella-invA.tsv	registry/Salmonella_invA_Rahn_1992.yaml	rahn-1992	control

@@ -1,0 +1,43 @@
+id: LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2
+name: LYSSAVIRUSES (ssRNA) — Nucleoprotein gene
+target:
+  taxid: 11286
+  gene: Nucleoprotein gene
+  genome_type: ssRNA-
+  taxon_name: Lyssavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: GRAB2F
+    seq: AARATGTGYGCNAAYTGGAG
+    seq_as_written: AARATGTGYGCIAAYTGGAG
+  reverse:
+    name: GRAB2R
+    seq: TCYTGHCCNGGCTCRAACAT
+    seq_as_written: TCYTGHCCIGGCTCRAACAT
+amplicon_bp: 259
+citation:
+  doi: 10.1016/j.jviromet.2006.03.008
+  design_year: 2006
+  n_sequences_at_design: null
+  as_written: null
+  reference: Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of Lyssavirus
+    genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
+  doi_verified: true
+conditions:
+  annealing_c: 53
+  cycles: 30
+  rt: none
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-017
+  nested_round: round2
+  notes_curator: 'PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that
+    protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
+    Vazquez-Moron, S. et al (2006).'
+needs_review: null

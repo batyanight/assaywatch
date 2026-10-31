@@ -1,0 +1,40 @@
+id: ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2
+name: ALPHAVIRUSES (Togaviridae  ssRNA) — NSP4 gene
+target:
+  taxid: 11019
+  gene: NSP4 gene
+  genome_type: ssRNA+
+  taxon_name: Alphavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: Alpha2F
+    seq: GNAAYTGYAAYGTNACNCARATG
+    seq_as_written: GIAAYTGYAAYGTIACICARATG
+  reverse:
+    name: Alpha2R
+    seq: GCRAANARNGCNGCNGCYTYNGGNCC
+    seq_as_written: GCRAAIARIGCIGCIGCYTYIGGICC
+amplicon_bp: 196
+citation:
+  doi: 10.1016/S0166-0934(01)00306-8
+  design_year: 2001
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
+conditions:
+  cycles: 40
+  mg_mm: 2.5
+  rt: none
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-019
+  nested_round: round2
+  notes_curator: 'PREDICT panel protocol P-019 (NSP4), confirmed 2026-10-04 by exact match of every oligo to that protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Sanchez-Seco, M.P. et al (2001). AMPLICON MEASURED 2026-10-21: 196 bp, the modal product on 8,386 of 8,405 detected-or-reduced records in the 2026-10-20 calls (was 200). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-019, prints 195 bp; the measurement is what is entered.'
+needs_review: null

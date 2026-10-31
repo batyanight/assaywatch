@@ -1,0 +1,71 @@
+id: Helicobacter_16S_Conley_2021
+name: Helicobacter — 16S rRNA qPCR (Helico New F/R + PROBE1)
+target:
+  taxid: 209
+  gene: 16S rRNA
+  genome_type: dsDNA
+  taxon_name: Helicobacter
+  query: ("16S ribosomal RNA"[Title] OR "16S rRNA"[Title] OR 16S[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]
+chemistry: mgb
+oligos:
+  forward:
+    name: Helico-New-F
+    seq: TAGATAACATGCCCTTTAGTCTGGGATAGCCA
+  reverse:
+    name: Helico-New-R
+    seq: GTGTGTCCGTTCACCCTCTCAGG
+  probe:
+    name: PROBE1
+    seq: CTGGATACTCCCCAAGGGGATACC
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 191
+citation:
+  doi: 10.1371/journal.pone.0247010
+  design_year: 2021
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Conley KJ et al. 2021. Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman
+    blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana). PLoS One 16:e0247010
+  oligos_designed_here: true
+conditions:
+  cycles: 50
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'PUBLISHED, FOUND 2026-10-05 by
+    a Europe PMC full-text search on the primer sequences. Conley et al. 2021 (PMC7894872) prints all three oligos exactly
+    as stored - GCBI-Helico-F, GCBI-Helico-R and a 6FAM/MGBNFQ TaqMan probe - and states ''we developed a Taqman qPCR assay
+    specific for Helicobacter sp. Grand Cayman Blue Iguana 1 (GCBI1)'', with a 194 bp product, matching the stored amplicon_bp.
+    SCOPE NOTE: the paper designs this for one provisional Helicobacter species,
+    the probe sitting on a 14 bp insertion unique to it, while target is the whole genus Helicobacter (taxid 209). Judged
+    against the genus it will look like poor coverage, and that is a scope mismatch, not drift. CONFIRMED AGAINST THE PAPER ITSELF, later on 2026-10-05. The
+    Conley 2021 PDF was fetched as gold open access, and all three oligos - both primers and the probe - now verify exact
+    against it directly rather than through a full-text search. AMPLICON NOT MEASURABLE, AND THAT IS THE FINDING, 2026-10-05.
+    The new scripts/check_amplicons.py flags this entry as disagreeing with its stored 194 bp, measuring 178 bp in 206 records
+    and 180 in 178. The flag is an artefact of scope and the stored 194 should NOT be changed. Screening the whole Helicobacter
+    archive for Conley''s probe, CTGGATACTCCCCAAGGGGATACC, returns ZERO records with an exact site - not one. The probe was
+    designed on a 14 bp insertion the paper says is unique to Helicobacter sp. Grand Cayman Blue Iguana 1, a provisional species,
+    and that organism is simply not represented in GenBank''s Helicobacter nucleotide records. So every product the measurement
+    found came from a non-target Helicobacter, and 194 minus the 14 bp insertion is 180, which is exactly the second peak.
+    The paper''s figure is right for the organism the assay is for; the database cannot corroborate it because the organism
+    is not in the database. This is the general caveat for any species-specific assay screened against a genus archive, and
+    it is the reason check_amplicons.py reports rather than edits. THE REFERENCE SEQUENCE WAS FOUND, AND THE ASSAY IS CONFIRMED AGAINST IT, 2026-10-24. This supersedes the claim above that the target organism "is simply not represented in GenBank''s Helicobacter nucleotide records" and the thin_evidence note that said it has no GenBank records. It has exactly one, and the paper says so: Conley et al. print "Longer DNA sequence of the bacterial 16S rRNA gene was obtained from the initial case (Studbook No. 2595) and was used as the reference sequence. This representative sequence was deposited in GenBank under accession number MG910456." That record is titled "Uncultured Helicobacteraceae bacterium clone GCBI1 (2595) 16S ribosomal RNA gene", 1,422 bp, and GCBI1 is the paper''s own provisional name for the organism. MEASURED on MG910456.1: all three oligos are exact and correctly oriented, Helico-New-F at 99..130, the probe at 150..173 and Helico-New-R as its reverse complement at 267..289, with the probe inside the product. So the assay works on its own target and the 0.0 percent this entry reports is DEFINITIVELY scope, not drift, and not an oligo problem. WHY THE GENUS ARCHIVE CANNOT SEE IT: MG910456 carries taxid 290433, "uncultured Helicobacteraceae bacterium", whose lineage is Campylobacterales > Helicobacteraceae > environmental samples. It is NOT under genus Helicobacter 209, so this entry''s retrieval term txid209[Organism:exp] provably cannot reach it. That is now flagged as retrieval_scope_incomplete. AMPLICON CORRECTED 194 -> 191, and this is the measurement winning over the publication exactly as config.yaml''s amplicon section and CLAUDE.md require. The paper states the primers "amplified a 194bp region"; on the paper''s own reference sequence the product is 191 bp. amplicon_disagrees_with_paper is set and both numbers are recorded here. This also revises the earlier guess above that "194 minus the 14 bp insertion is 180, which is exactly the second peak": the true product on the target is 191, so the insertion-free length is 177, and check_amplicons.py''s two genus-wide peaks at 178 and 180 bp are non-target Helicobacter rather than an exact arithmetic match to anything. NO SCOPE FIX IS POSSIBLE HERE, and docs/journal/2026-10-24-scope-audit.md item 4 was WRONG to propose taxid 290433. 290433 is not a GCBI1 node, it is a generic catch-all for uncultured Helicobacteraceae, and its records are unrelated environmental and gut survey clones - CT_027, VB_018, MS-A162, SRNO176B04c, Flu2_38, F2M5Y2A01AY14G and so on. Retargeting this entry at 290433 would replace a genus denominator with a grab-bag denominator: still not the target organism, and less interpretable, not more. There is no NCBI taxon for Helicobacter sp. GCBI1, so no scope_taxids list can express this assay''s scope, and scope_taxids is deliberately NOT set. The honest position is the one now recorded in the flags: the assay is verified against its reference, its target has one record which its own retrieval cannot reach, and its detected share against genus Helicobacter is not a coverage figure and should not be read as one. What would actually fix it is a maintainer decision outside this entry: either an accession-level scope mechanism, which the schema does not have, or broadening target.taxid to Helicobacteraceae so the reference is at least screened - which makes the reference reachable but the denominator worse, and so is not done unilaterally. ONE MORE DISCREPANCY, recorded not fixed: the stored oligo names are Helico-New-F, Helico-New-R and PROBE1, while the paper prints GCBI-Helico-F and GCBI-Helico-R and leaves the probe unnamed. The SEQUENCES all verify exact against the paper, so this is a naming difference only; the note above saying the paper "prints all three oligos exactly as stored" is true of the sequences and not of the names. Renaming is cheap but oligo names can be referenced by test fixtures, so it is left for a maintainer. The chemistry IS right, unlike the TINC entry: the paper prints 5''-6FAM-...-MGBNFQ-3'', so mgb and MGB-NFQ are correct.'
+needs_review:
+- flag: cross_reactive
+- flag: thin_evidence
+  note: the target organism has exactly one GenBank record, MG910456, and it sits outside this
+    entry's retrieval taxon
+- flag: scope_narrower_than_taxid
+  note: designed for one provisional species, Helicobacter sp. GCBI1, while the taxid is the
+    whole genus Helicobacter
+- flag: retrieval_scope_incomplete
+  note: MG910456, the paper's own reference sequence, carries taxid 290433 under
+    Helicobacteraceae > environmental samples, so txid209[Organism:exp] cannot reach it
+- flag: amplicon_disagrees_with_paper
+  note: measured 191 bp on MG910456.1, the paper's own reference; the paper states 194 bp

@@ -1,0 +1,65 @@
+id: USUTU_ssRNA_NS1_realtime_Jost_2011
+name: USUTU VIRUS (ssRNA+) — NS1 real-time RT-PCR (Jöst 2011)
+target:
+  taxid: 64286
+  gene: NS1
+  genome_type: ssRNA+
+  taxon_name: Usutu virus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: USUTU-F
+    seq: CGTTCTCGACTTTGACTA
+  reverse:
+    name: USUTU-R
+    seq: GCTAGTAGTAGTTCTTATGGA
+  probe:
+    name: USUTU-P
+    seq: ACCGTCACAATCACTGAAGCAT
+    reporter: FAM
+    quencher: BHQ-1
+  alternates: []
+amplicon_bp: 91
+citation:
+  doi: 10.4269/ajtmh.2011.11-0248
+  design_year: 2011
+  n_sequences_at_design: null
+  as_written: null
+  reference: Jöst H, Bialonski A, Maus D, Sambri V, Eiden M, Groschup MH, Günther S, Becker N, Schmidt-Chanasit J. 2011. Isolation
+    of Usutu virus in Germany. Am J Trop Med Hyg 85:551-553
+  doi_verified: true
+  oligos_designed_here: true
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-05. Usutu virus was missing from the registry, which is a real gap for a wildlife surveillance
+    tool: it is an emerging flavivirus that kills European wild birds, blackbirds especially, and infects people. HOW THIS
+    WAS FOUND IS THE POINT. docs/RESUME-HERE.md listed 10.2807/1560-7917.es.2020.25.41.2001732 among the ''image-only primer
+    tables'' to be rendered and read by eye. That paper, Folly et al. 2020 Eurosurveillance on Usutu in UK wild birds, has
+    no primer table at all, as an image or otherwise: it is a rapid communication that USES two published assays and cites
+    them, ''a specific reverse transcription PCR (RT-PCR) assay [6]'' and ''a pan-flavivirus RT-PCR [7]''. Its reference 6
+    is this paper, which is green open access in PubMed Central (PMC3163883) and prints the assay in its own Methods. So the
+    work was never a read-by-eye job; it was a reference to follow. THE SEQUENCES are quoted from that text: USUTU F 5''-CGTTCTCGACTTTGACTA-3''
+    at nucleotide positions 3294-3311, USUTU R 5''-GCTAGTAGTAGTTCTTATGGA-3'' at 3384-3364, and probe USUTU P 5''-FAM-ACCGTCACAATCACTGAAGCAT-BHQ1-3''
+    at 3325-3346, numbered against USUV strain Vienna, GenBank AY453411. The paper calls it ''newly designed'' and names its
+    target ''a 91-nucleotide region of the nonstructural protein 1 gene'', so oligos_designed_here is true. MEASURED 2026-10-05
+    against 60 Usutu records of 1-12 kb, strided by date over the 1,274 available so the sample is not just recent deposits:
+    51 give a product and every single one of them is 91 bp, which is the paper''s own figure confirmed rather than quoted.
+    The 9 that give none are short partial sequences that do not reach NS1. A DRIFT OBSERVATION WORTH THE ENTRY EXISTING:
+    the probe is exact in all 51, but the primers are not - the forward is exact in 29 and one mismatch off in 20, the reverse
+    exact in 23 and one mismatch off in 26. So roughly half of deposited Usutu now carries a single mismatch under each primer
+    while the probe site has not moved at all. Nothing is changed here; the sequences are what the paper prints, and this
+    is what the pipeline is for. Reference 7 of the Folly paper, Johnson N et al. 2010 Vector Borne Zoonotic Dis 10:665 (10.1089/vbz.2009.0210),
+    is the pan-flavivirus assay used alongside it; it is closed access and is NOT this registry''s existing Pan_Flavivirus_NS5_gene
+    entry, which is Moureau 2007. Worth adding to the fetch list rather than guessing at. VERIFIED AGAINST THE PAPER, later
+    on 2026-10-05: the open-access full text was saved into papers/ as 10.4269_ajtmh.2011.11-0248.txt and scripts/verify_oligos_against_paper.py
+    now reads it, reporting all three oligos - both primers and the probe - exact.'
+needs_review:
+- flag: primer_site_polymorphic
+  note: the primer sites have drifted 1 nt in about half of records

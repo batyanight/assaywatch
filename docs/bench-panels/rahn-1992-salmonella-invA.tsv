@@ -1,0 +1,109 @@
+# Bench panel: Rahn et al. 1992 (doi:10.1016/0890-8508(92)90002-F), invA PCR for
+# Salmonella. Read 2026-10-20 from the local PDF, which has a text layer.
+#
+# THE OLIGOS. Rahn's Table 3 prints primers 139 (gtgaaattatcgccacgttcgggcaa, invA
+# 287-312) and 141 (tcatcgcaccgtcaaaggaacc, 571-550), both in lower case. The
+# registry entry Salmonella_invA_Rahn_1992 holds 5'-truncated forms of both -
+# Sal-3 is the 3'-terminal 19 of 139's 26 nt, Sal-4 the 3'-terminal 19 of 141's
+# 22 - so it is a MORE permissive assay than the paper's, and its amplicon_bp of
+# 275 follows the truncation (285 from Table 3's locations, less the 7 and 3
+# dropped bases; the paper's text says 284). Flagged OLIGOS_TRUNCATED_VS_PAPER.
+# Score this panel with BOTH pairs: the stored one measures the registry, and
+# 139/141 measures the paper's claim.
+#
+# THE CLAIM. Table 1: 630 Salmonella strains across the serovars, "This method
+# detected all but four of 630 Salmonella strains, with a 99.4% sensitivity".
+# Table 2: 142 non-Salmonella strains across 21 genera, and "no hybridization was
+# evident in any non-Salmonella strain".
+#
+# WHAT THIS PANEL CAN AND CANNOT SHOW. Rahn attributes every negative to the invA
+# gene being ABSENT, not to primer mismatch: for the four Salmonella failures,
+# "the failure to amplify invA homologous sequences was most likely due to the
+# absence of the invA gene in these Salmonella strains, since Southern
+# hybridization analysis with a probe containing the whole invA gene also failed
+# to detect any homology", and the same hybridisation was negative for every
+# non-Salmonella strain. Gene-absent negatives score `no_amplicon`, which is
+# threshold-independent. So this panel CANNOT bound a relaxation of reduced_max
+# or of the 3'-window penalty, which is what a negative set was wanted for
+# (docs/journal/2026-10-19-fap-bench-panel.md, docs/journal/2026-10-20-meyer-ati-bench-panel.md).
+# What it CAN test, and nothing has yet, is whether the scorer invents a product
+# in 20 genera of mostly-Enterobacteriaceae neighbours - the max_pair_evalue
+# chance-pairing guard and the declared-size filter. Note Rahn saw exactly that
+# on the bench: "Non-specific amplification of a few non-Salmonella strains
+# resulted in a product that was distinctly different in size".
+#
+# THE FOUR SALMONELLA NEGATIVES ARE NOT REPRESENTABLE. Two S. litchfield and two
+# S. senftenberg isolates failed, on gene absence in those specific strains; the
+# isolates cannot be identified in GenBank and arbitrary genomes of those serovars
+# carry invA. Senftenberg is included as a `band` row because 9 of its 11 strains
+# amplified; litchfield is left out, being 0 of 2.
+#
+# One RefSeq complete genome per taxon, 1-15 Mb. Not representable, no RefSeq
+# complete genome: Actinobacillus lignieresii, Aeromonas sobria, Serratia
+# liquefaciens (Table 2) and S. enterica subsp. houtenae (Table 1, subsp IV).
+# So 20 of Rahn's 21 non-Salmonella genera are here.
+accession	label	bench
+NZ_CP009102.1	S_Typhimurium	band
+NZ_CP007253.1	S_Enteritidis	band
+NZ_CP012091.1	S_Typhi	band
+NZ_CP009559.1	S_Paratyphi_A	band
+NZ_CP107010.1	S_Paratyphi_B	band
+NZ_CP007639.1	S_Choleraesuis	band
+NZ_CP019179.1	S_Dublin	band
+NZ_CP019035.1	S_Gallinarum	band
+NZ_CP068386.1	S_Pullorum	band
+NZ_CP010280.1	S_Newport	band
+NZ_CP005995.1	S_Heidelberg	band
+NZ_CP016410.1	S_Infantis	band
+NZ_CP025445.1	S_Agona	band
+NZ_CP007530.1	S_Montevideo	band
+NZ_CP011396.1	S_Thompson	band
+NZ_CP016837.1	S_Senftenberg	band
+NZ_CP007531.1	S_Anatum	band
+NZ_CP045447.1	S_Schwarzengrund	band
+NZ_CP022500.1	S_Kentucky	band
+NZ_CP154881.1	S_Javiana	band
+NZ_CP022139.1	subsp_II_salamae	band
+NZ_CP082954.1	subsp_IIIa_arizonae	band
+NZ_CP011288.1	subsp_IIIb_diarizonae	band
+NZ_CP020000.1	Acinetobacter_calcoaceticus	no_band
+NZ_CP026055.1	Aeromonas_caviae	no_band
+NZ_CP007566.1	Aeromonas_hydrophila	no_band
+NZ_CP021654.1	Aeromonas_salmonicida	no_band
+NZ_CP009318.1	Bacillus_cereus	no_band
+NZ_CP009920.1	Bacillus_megaterium	no_band
+NC_000964.3	Bacillus_subtilis	no_band
+NZ_CP007607.1	Bacillus_thuringiensis	no_band
+NZ_CP011132.1	Citrobacter_amalonaticus	no_band
+NZ_CP023527.1	Citrobacter_koseri	no_band
+NZ_CP011612.1	Citrobacter_freundii	no_band
+NZ_CP023706.1	Edwardsiella_tarda	no_band
+NZ_CP011574.1	Klebsiella_aerogenes	no_band
+NZ_CP016889.1	Pantoea_agglomerans	no_band
+NZ_CP009756.1	Enterobacter_cloacae	no_band
+NZ_CP011047.1	Cronobacter_sakazakii	no_band
+NC_000913.3	Escherichia_coli	no_band
+NZ_CP042941.1	Escherichia_hermannii	no_band
+NZ_CP009706.1	Hafnia_alvei	no_band
+NZ_CP011597.1	Klebsiella_oxytoca	no_band
+NC_016845.1	Klebsiella_pneumoniae	no_band
+NZ_CP033200.1	Micrococcus_luteus	no_band
+NZ_CP011098.1	Mannheimia_haemolytica	no_band
+NZ_CP008918.1	Pasteurella_multocida	no_band
+NZ_CP012675.1	Proteus_mirabilis	no_band
+NZ_CP023505.1	Morganella_morganii	no_band
+NZ_CP017671.1	Providencia_rettgeri	no_band
+NZ_CP033736.1	Proteus_vulgaris	no_band
+NZ_CP008920.1	Providencia_stuartii	no_band
+NC_002516.2	Pseudomonas_aeruginosa	no_band
+NZ_CP008896.1	Pseudomonas_fluorescens	no_band
+NZ_CP009974.1	Pseudomonas_putida	no_band
+NZ_CP027793.1	Rhodococcus_hoagii	no_band
+NZ_AP013063.1	Serratia_marcescens	no_band
+NZ_CP010829.1	Shigella_sonnei	no_band
+NC_007795.1	Staphylococcus_aureus	no_band
+NZ_CP009046.1	Staphylococcus_epidermidis	no_band
+NZ_CP008747.1	Staphylococcus_hyicus	no_band
+NZ_CP004081.1	Enterococcus_faecalis	no_band
+NZ_CP007241.1	Streptococcus_pyogenes	no_band
+NZ_CP009367.1	Yersinia_enterocolitica	no_band

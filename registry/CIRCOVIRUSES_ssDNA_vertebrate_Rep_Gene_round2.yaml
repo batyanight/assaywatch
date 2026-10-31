@@ -1,0 +1,47 @@
+id: CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_round2
+name: CIRCOVIRUSES- (ssDNA) (vertebrate circoviruses) — Rep Gene
+target:
+  taxid: 39724
+  gene: Rep Gene
+  genome_type: ssDNA
+  taxon_name: Circoviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: '176'
+    seq: GGATAATGARRARTAYTGCAGTAAAGA
+  reverse:
+    name: '177'
+    seq: TCKACTCTTSCCACAMCCVGGYGGSCC
+amplicon_bp: 270
+citation:
+  doi: 10.1007/s007050070002
+  design_year: 2000
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Mankertz A et al. 2000. Arch Virol 145:2469-2479 (nested round)
+conditions:
+  annealing_c: 49
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: round2
+  nested_family: CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000
+  notes_curator: 'SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added. The lineage override fires here on Circovirus
+    parrot (3047561, BFDV) at 69/95 = 72.6 percent against a pooled 45.0 percent of 473, turning a low coverage into declining.
+    BFDV is not out of this assay''s range: Mankertz et al. 2000 built the consensus primers on an alignment of the rep genes
+    of PCV1, PCV2 and BFDV, and BFDV-infected parrot liver is one of the four DNAs it tested, so BFDV is both a design sequence
+    and a bench positive. The firing lineage detects 27.6 points BETTER than the pool, which makes this a worked example of
+    the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md point 2 rather than a scope error. The narrower
+    scope the paper does support - it says the primers use rep regions conserved in "vertebrate circoviruses", and this entry''s
+    own name says vertebrate - would exclude genus Cyclovirus (742914), described a decade after the paper. MEASURED on the
+    2026-10-17 calls: Cyclovirus holds 741 records but only 4 evaluable ones, against 7,752 evaluable under genus Circovirus,
+    so scoping changes nothing and is not worth an allow-list that would also have to re-admit the 434 unclassified Circoviridae
+    records (bat, rodent, fur seal) that are vertebrate circoviruses. Revisit if Cyclovirus deposits become evaluable in numbers.'
+needs_review:
+- flag: orientation_inferred
+  note: the archive yields 7772 products and 16582 none under this orientation (2026-10-27 run), so the inference stands

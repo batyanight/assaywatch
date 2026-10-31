@@ -1,0 +1,61 @@
+id: MYCOPLASMA_16S_Turtles_only_Feldman_2006
+name: MYCOPLASMA — 16S (Turtles only)
+target:
+  taxid: 544448
+  gene: 16S (Turtles only)
+  genome_type: dsDNA
+  taxon_name: Mycoplasmatota (scoped by query to the three chelonian mycoplasmas)
+  query: (txid33922[Organism:exp] OR txid244584[Organism:exp] OR txid33924[Organism:exp])
+chemistry: conventional
+oligos:
+  forward:
+    name: Feldman-Fwd
+    seq: CTGCTGTTATACAGAAAGAAAAG
+  reverse:
+    name: Feldman-Rev
+    seq: GACTTTGGGCATTACCGGC
+amplicon_bp: 994
+citation:
+  doi: 10.7589/0090-3558-42.2.279
+  design_year: 2006
+  n_sequences_at_design: null
+  as_written: Feldman et al 2006. JWD
+  doi_verified: true
+  reference: Feldman SH et al. 2006. J Wildl Dis 42:279-288
+conditions:
+  mg_mm: 1.5
+  annealing_c: 55.0
+  cycles: 35
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'Scoped 2026-10-04 to the three named chelonian mycoplasmas (Mycoplasmopsis agassizii 33922, Mycoplasma testudineum
+    244584, Mycoplasmoides testudinis 33924): 534 records. The assay is chelonian-specific by design ("turtles only" in the
+    sheet; Feldman 2006 describes a novel Mycoplasma of eastern box turtles), so that is the denominator its published claim
+    is about; against the whole genus (24,523 records) it detected 0-4% in every year, which is specificity, not drift. The
+    retrieval root is the phylum because two of the three species have been reclassified out of genus Mycoplasma (Mycoplasmopsis,
+    Mycoplasmoides), so a query under txid2093 reached only 94 of the 534 records. Scoped by organism, not free text: an untagged
+    Entrez keyword searches every field, which is how the first attempt picked up assembly contigs and missed most of the
+    right records. SEQUENCES CONFIRMED AND THE CITATION HELD UP, 2026-10-05. scripts/verify_oligos_against_paper.py reports
+    both oligos absent, and that is a fact about what is held rather than about the entry: Feldman 2006 is in J Wildl Dis,
+    which answers a scripted download with a 401, so there is no local copy to read. A Europe PMC full-text search on each
+    sequence finds them in Cacciotto et al. 2025 (Ann N Y Acad Sci, PMC12728326), which prints both verbatim - ''previously
+    described primers, Box-F (5''-CTGCTGTTATACAGAAAGAAAAG-3'') and Box-R (5''-GACTTTGGGCATTACCGGC-3'')'' - and credits them
+    to Feldman S. H., Wimsatt J., Marchang R. E., et al., ''A Novel Mycoplasma Detected in Association With Upper Respiratory
+    Disease Syndrome in Free-Ranging Eastern Box Turtles (Terrapene carolina carolina) in Virginia'', J Wildl Dis. That is
+    the paper this entry already cites, so unlike the four provenance failures found today this citation is correct and only
+    the evidence for it was missing. The working names ''Feldman Fwd/Rev'' are kept; the published names are Box-F and Box-R.
+    AMPLICON MEASURED against all 528 records of the 2026-10-04 archive for this entry''s three-taxon query: 29 give a product,
+    994 bp in 16 of them, 992 in 5, 995 in 4 and 1006 in 4, with the forward primer exact in all 29 and the reverse exact
+    in 20. amplicon_bp moves 990 to the measured 994; Cacciotto states 996, so paper, registry and measurement all sit within
+    a few bases. SCOPE CONFIRMED: the products come from Mycoplasmopsis agassizii (17), Mycoplasma testudineum (8) and Mycoplasma
+    cheloniae (1), which is exactly the three chelonian mycoplasmas the target query was written to cover. ONE DISCREPANCY
+    LEFT OPEN: this entry calls its gene 16S, while Cacciotto describes the target as ''a 996 bp region of the 16S-23S rDNA
+    intergenic region''. A ~994 bp product is long for a stretch of 16S alone and the intergenic reading is the more likely
+    one, but it is Cacciotto''s description of someone else''s assay, so it is flagged rather than written in. Settle it from
+    Feldman''s own text when that paper is in hand. target_annotation_uncertain CLOSED 2026-10-24, read out of the paper. The flag asked whether the product is 16S or the 16S-23S intergenic spacer. Feldman et al. 2006 settle it twice over: the primers are given with Escherichia coli coordinates, sense at 449 (CTGCTGTTATACAGAAAGAAAAG) and antisense at 1466 (GACTTTGGGCATTACCGGC), and both sit inside the ~1,542 bp 16S gene, nowhere near the 16S-23S spacer; and the text says "The amplified products (993 nucleotides)" and later "993 bp of the 16S rRNA region from the novel box turtle Mycoplasma sp". The registry''s measured 994 bp sits 1 bp from the published 993, which is agreement, not the disagreement the flag implied. The doubt came from Cacciotto et al. describing a "16S-23S intergenic, 996 bp" assay, which is a statement about someone else''s assay and not about this one.'
+needs_review: null

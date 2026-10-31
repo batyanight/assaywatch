@@ -1,0 +1,59 @@
+id: Salmonella_invA_Rahn_1992
+name: Salmonella, invA gene
+target:
+  taxid: 28901
+  gene: null
+  genome_type: dsDNA
+  taxon_name: Salmonella enterica
+  query: (invA[Gene] OR "invasion protein"[Title] OR invA[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: Sal-3
+    seq: TATCGCCACGTTCGGGCAA
+  reverse:
+    name: Sal-4
+    seq: TCGCACCGTCAAAGGAACC
+amplicon_bp: 275
+citation:
+  doi: 10.1016/0890-8508(92)90002-F
+  design_year: 1992
+  n_sequences_at_design: null
+  as_written: Rahn et al, 1992
+  doi_verified: true
+  reference: Rahn K et al. 1992. Mol Cell Probes 6:271-279
+conditions:
+  mg_mm: 1.25
+  cycles: 35
+  annealing_c: 53
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'OLIGOS ARE NOT RAHN''S PUBLISHED PAIR. Read 2026-10-20 from the local PDF, which has a text layer. Rahn''s
+    Table 3 prints exactly two primers, both in lower case: 139 gtgaaattatcgccacgttcgggcaa at invA 287-312, and 141 tcatcgcaccgtcaaaggaacc
+    at 571-550. This entry''s Sal-3 is the 3''-terminal 19 nt of 139, missing GTGAAAT from the 5'' end; Sal-4 is the 3''-terminal
+    19 nt of 141, missing TCA. The 3'' ends are identical, so the binding sites are the same and the truncation can only lower
+    the penalty an oligo can accumulate, which makes this entry a MORE permissive assay than the paper''s. The sizes agree
+    with that reading rather than with the paper: Table 3''s locations give 285 bp and the text says "the specific 284 bp
+    product", while 285 minus the 7 and 3 dropped bases is 275, and the 2026-10-17 calls measure 275 bp in 467 of 468 detected
+    or reduced records. So amplicon_bp: 275 is correct FOR THE OLIGOS AS STORED and wrong for the citation. Not changed here:
+    substituting 139/141 changes every call for this assay and is a maintainer''s decision, the same way the Chlamydia genus
+    16S primer was kept as printed on 2026-10-17. Note that the validation case backing this entry (Malorny 2003, 99.6 percent
+    inclusivity on 364 strains) validated 139/141, not this pair. Why it was missed until now: the paper has been on disk
+    all along, but scripts/verify_oligos_against_paper.py reported no-full-text, "no local PDF; needs the PDF". Two independent
+    reasons, both in that script. (1) The papers/ naming convention maps /, ( and ) all to _, and the reverse mapping only
+    undoes /, so this file''s stem reconstructs as 10.1016/0890-8508/92/90002-f, which still fullmatches the DOI pattern and
+    so indexes the paper under a DOI nothing asks for while also marking it "named" and barring it from the surname-and-year
+    fallback. Ten PDFs on disk, covering 20 registry entries, have parenthesised DOIs and are unreachable this way, Meyer
+    1997 ATI and Lozano 1997 among them. (2) printed_oligos requires at least 60 percent upper case, on the stated premise
+    that "papers set sequences in capitals"; Rahn sets both primers entirely in lower case, so it extracts 0 oligos from this
+    text even though both sequences are present in it.'
+needs_review:
+- flag: orientation_inferred
+  note: the archive yields 479 products and 578 none under this orientation (2026-10-27 run), so the inference stands
+- flag: oligos_not_in_cited_paper
+  note: the oligos are shorter than the paper's

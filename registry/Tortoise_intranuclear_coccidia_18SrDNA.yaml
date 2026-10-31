@@ -1,0 +1,58 @@
+id: Tortoise_intranuclear_coccidia_18SrDNA
+name: Tortoise intranuclear coccidian species (TINC) — 18SrDNA
+target:
+  taxid: 293274
+  gene: 18SrDNA
+  genome_type: dsDNA
+  taxon_name: Intranuclear coccidium JW-2004
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: INCqPCRF
+    seq: GTTTGGTCCGCCTCCTTG
+  reverse:
+    name: INCqPCR2R
+    seq: AACCCGCACAGTGAAGTGG
+  probe:
+    name: Probe
+    seq: GCCGGTCGAACTTCAGCATC
+    reporter: 6FAM
+    quencher: BHQ
+amplicon_bp: 84
+citation:
+  doi: 10.1016/j.vetpar.2012.11.029
+  design_year: 2013
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Alvarez WA et al. 2013. Vet Parasitol 193:66-70 (the TINC qPCR design paper; INCqPCRF/INCqPCR2R and the 6FAM-BHQ
+    probe)
+conditions:
+  annealing_c: 60
+  cycles: 50
+performance:
+  efficiency_pct: 81.6
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'SOURCE FOUND 2026-10-21 from the PDF Batya supplied, and it is the design paper: Alvarez et al. 2013, ''Development
+    of a quantitative PCR for rapid and sensitive diagnosis of an intranuclear coccidian parasite in Testudines (TINC)'',
+    Vet Parasitol 193:66-70. All three oligos verified verbatim against it with whitespace flattened, and the primer names
+    match the paper''s own: section 2.3 prints forward primer INCqPCRF (5''-GTTTGGTCCGCCTCCTTG-3'') and the probe (5''-6FAM-GCCGGTCGAACTTCAGCATC-BHQ-3''),
+    and section 2.2 prints the reverse as INC-qPCR2R (5''-AACCCGCACAGTGAAGTGG-3'') where it is also used as the inner primer
+    of a conventional nested PCR. This entry had read no-hit on every Europe PMC search of all three sequences and both names
+    in either orientation (docs/journal/2026-10-21-predict-primer-provenance.md), because Vet Parasitol is not in the open-access
+    full-text index - which is the limit of that method, not evidence an assay is unpublished. TWO CORRECTIONS THE PAPER FORCES.
+    chemistry was `mgb` and is now `hydrolysis_probe`: the probe carries a Black Hole Quencher, not a minor-groove binder,
+    and the paper describes ordinary 5'' exonuclease probe digestion. quencher was MGB-NFQ and is now BHQ, reporter FAM is
+    now 6FAM as printed. Neither changes a call today, because config.yaml ships `by_chemistry: {}` so every chemistry scores
+    alike, but the chemistry field is what any future per-chemistry calibration would key on and the registry''s chemistry
+    counts are reported in every run. amplicon_bp stays null: the paper gives no qPCR product size and there is no deposited
+    TINC 18S sequence cited to measure one from. taxid stays null and TAXID_MISSING stays: the paper calls the organism an
+    unclassified intranuclear coccidian and deposits no accession, so there is nothing to resolve against NCBI. doi_verified
+    stays false until scripts/resolve_citations.py approves it. TAXID AND AMPLICON RESOLVED 2026-10-24, which SUPERSEDES the two sentences above saying taxid stays null and amplicon_bp stays null. The organism does have an NCBI node: taxid 293274, scientific name "Intranuclear coccidium JW-2004", rank species, lineage Eukaryota > Sar > Alveolata > Apicomplexa > Conoidasida > Coccidia > unclassified Coccidia. The paper deposits no accession, which is why name-based and full-text searches missed it; the node was deposited from the earlier work Alvarez et al. cite, and JW is this paper''s own senior author, so the identification does not rest on the name alone. It was confirmed BY SEQUENCE instead. esearch on txid293274[Organism:exp] returns exactly two records, AY728896.2 (1,715 bp, 18S partial) and KY683841.1 (663 bp, isolate SpardKv4Fae). On AY728896.2 all three oligos are EXACT and correctly oriented: INCqPCRF at 608..625, the probe at 635..654 and INCqPCR2R as its reverse complement at 673..691, giving a product of 84 bp measured 5'' of the forward primer to 5'' of the reverse, with the probe inside it. amplicon_bp is therefore 84 as a MEASURED value, and the paper states no size, so there is no published figure to disagree with and no amplicon_disagrees_with_paper. KY683841.1 does NOT amplify, and the reason is truncation rather than mismatch: its exact 30-mer anchors place it over AY728896.2 positions 20..620, so it stops 12 bases into the forward primer site and never reaches the product. Consequence to expect: this entry goes from UNSCREENABLE (taxid null, so it was never retrieved at all) to screenable on a 2-record archive, 1 amplifying and 1 truncated, which is far below drift.min_records_for_drift and should read as cannot assess, not as a coverage figure. That is the honest outcome and is the point of the change. Also note the last sentence above is stale in a second way: doi_verified is already true in this file.'
+needs_review: null

@@ -1,0 +1,22 @@
+# M1 alone under the shipped budget engine, as the reference row for S4. Without it,
+# S4's result could not be split into "what M1 does" and "what S3a does", and the
+# 2026-10-22 revert would be taken on trust rather than reproduced on today's table.
+#
+# This is a REPRODUCTION of a closed decision, not a new candidate. It exists so that
+# S4's comparison has a middle column.
+name: s4-m1-alone
+registered: 2026-10-26
+question: >
+  Does the 2026-10-22 M1 revert reproduce on the 2026-10-26 calls table, four days and
+  one chance-pair fix later?
+predicts: >
+  Leucocytozoon @2016-12-31 is lost, as recorded. The FAP and Barrett panel false
+  fails are rescued, as recorded.
+kill: >
+  Not a candidate for shipping, so nothing kills it. A DISAGREEMENT with the
+  2026-10-22 record would be the finding, and would mean that decision needs re-taking
+  rather than citing.
+scoring:
+  mispair_penalty:
+    G:T: 0.0
+    T:G: 0.0

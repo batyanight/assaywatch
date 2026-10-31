@@ -1,0 +1,44 @@
+id: Snake_fungus_Ophidiomyces_ophi_IGS_Bohuski_2015
+name: Ophidiomyces ophidiicola — IGS real-time PCR (Bohuski 2015)
+target:
+  taxid: 1387563
+  gene: IGS
+  genome_type: dsDNA
+  taxon_name: Ophidiomyces ophidiicola
+  query: 'ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR 28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
+chemistry: mgb
+oligos:
+  forward:
+    name: Oo-RT-IGS-F
+    seq: CGGGTGAATTACCCAGTT
+  reverse:
+    name: Oo-RT-IGS-R
+    seq: AGCCATCCTTCCCTACAT
+  probe:
+    name: Oo-RT-IGS-PROBE
+    seq: ATACTCTCCGGGCGCTTGTCTTCC
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 133
+citation:
+  doi: 10.1186/s12917-015-0407-8
+  design_year: 2015
+  n_sequences_at_design: null
+  as_written: Bohuski et al. BMC Veterinary Research (2015) 11:95 DOI 10.1186/s12917-015-0407-8
+  doi_verified: true
+  reference: Bohuski E et al. 2015. BMC Vet Res 11:95
+conditions:
+  annealing_c: 60
+  cycles: 40
+  primer_nm: 400
+  probe_nm: 200
+performance:
+  efficiency_pct: 95.02
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+needs_review: null

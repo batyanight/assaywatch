@@ -1,0 +1,40 @@
+id: POXVIRUSES_dsDNA_Topoisomerase
+name: POXVIRUSES (dsDNA) — Topoisomerase
+target:
+  taxid: 10241
+  gene: Topoisomerase
+  genome_type: dsDNA
+  taxon_name: Chordopoxvirinae
+chemistry: conventional
+oligos:
+  forward:
+    name: FP-DNAtopo
+    seq: TAATGGAAACAAGTTTTTTTAT
+  reverse:
+    name: RP-DNAtopo
+    seq: CCAAAAATTATATAAAAACG
+amplicon_bp: 344
+citation:
+  doi: 10.1007/s00705-005-0679-6
+  design_year: 2006
+  n_sequences_at_design: null
+  as_written: PREDICT protocol
+  reference: Bracht, A. J. et al. Genetic identification of novel poxviruses of cetaceans and pinnipeds. Archives of virology
+    151, 423-438, doi:Doi 10.1007/s00705-005-0679-6 (2006).
+  doi_verified: true
+conditions:
+  cycles: 39
+  annealing_c: 45
+  primer_nm: 200
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-035
+  nested_round: null
+  notes_curator: 'PREDICT panel protocol P-035 (Topoisomerase 1), confirmed 2026-10-04 by exact match of every oligo to that
+    protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
+    Bracht, AJ et al (2006).'
+needs_review: null

@@ -1,0 +1,62 @@
+id: NOSEMA_ceranae_SSU_Martin-Hernandez_2007
+name: VAIRIMORPHA (NOSEMA) CERANAE - SSU rRNA duplex PCR, 218MITOC (Martin-Hernandez 2007)
+target:
+  taxid: 40302
+  gene: SSU rRNA
+  genome_type: dsDNA
+  taxon_name: Vairimorpha ceranae
+  query: 16S[Title] OR 18S[Title] OR "small subunit"[Title] OR SSU[Title] OR rRNA[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: 218MITOC-FOR
+    seq: CGGCGACGATGTGATATGAAAATATTAA
+    tail_5prime: CGG
+  reverse:
+    name: 218MITOC-REV
+    seq: CCCGGTCATTCTCAAACAAAAAACCG
+    tail_5prime: CCCGG
+amplicon_bp: 211
+citation:
+  doi: 10.1128/AEM.00270-07
+  design_year: 2007
+  n_sequences_at_design: 4
+  as_written: null
+  reference: Martín-Hernández R, Meana A, Prieto L, Salvador AM, Garrido-Bailón E, Higes M. 2007. Outcome of Colonization
+    of Apis mellifera by Nosema ceranae. Appl Environ Microbiol 73:6331-6338
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  cycles: 30
+  annealing_c: 61.8
+  primer_nm: 400
+use_context:
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-07 from Table 2 of Martin-Hernandez et al. 2007 (doi 10.1128/AEM.00270-07; open access, PMC2075036),
+    read on the PMC table page (sequences from its text, tails from its underline markup). Table 2 prints two pairs for one
+    duplex PCR, entered as sibling entries: 218MITOC (N. ceranae) and 321APIS (N. apis). TAILS: the paper underlines the tail
+    bases and states that G or GC tails were added to the 5'' end of all primers to make the melting temperatures of each
+    primer set equal; they are recorded in tail_5prime so matching uses only the template-binding bases. The tail lengths
+    are taken from the underlining and are flagged for review (TAIL_LENGTHS_FROM_PAPER_UNDERLINE). DESIGN: oligos_designed_here
+    is true on the paper''s own methods: primers were selected by eye from a ClustalW alignment of GenBank 16S rRNA sequences
+    (N. apis DQ235446, U76706, U97150, U26534, X73894, X74112; N. ceranae DQ329034, U26533, DQ078785, DQ286728; plus N. bombi,
+    N. portugal and N. trichoplusiae for specificity), with a second requirement of two amplicon lengths separable on agarose;
+    annealing 61.8 C by gradient. The N. ceranae pair is the one Kato et al. 2020 Table 1 reprints as 218MITOC; scored without
+    tail handling it called 136 of 152 product-bearing records fail on 5'' penalties alone (see NOSEMA_bombi_SSU_Kato_2020).
+    MEASURED 2026-10-07 by screening the 1,535 records of the query 16S[Title] OR 18S[Title] OR "small subunit"[Title] OR
+    SSU[Title] OR rRNA[Title] within txid 40302, fetched the same day (counted by call): 659 no_amplicon, 523 detect, 201
+    fail, 152 reduced; the no_amplicon rows by exclusion are 485 no_site, 174 truncated. Product length between the binding
+    sites is 211 bp in 733 of 876 products (other lengths: 212 in 71, 210 in 66, 215 in 3, 203 in 1, 209 in 1, 213 in 1);
+    adding the 8 tail bases (3 + 5) gives 219, inside the paper''s stated 218-219, and amplicon_bp is the measured 211. The
+    201 fail rows are not the tails: 124 have mismatches only in the forward primer (at positions 1-24 from its 3'' end),
+    1 only in the reverse primer (positions 1-19), and 76 in both; 70 products carry a mismatch at the reverse primer''s 3''-most
+    base and 1 at the forward primer''s. These are counts of calls, not a coverage statistic, and the failing records were
+    not examined one by one. SCOPE: single species.'
+needs_review:
+- flag: oligos_read_from_figure
+  note: tail boundaries read from the paper's underlining

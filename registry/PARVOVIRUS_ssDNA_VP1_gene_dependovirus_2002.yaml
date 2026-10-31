@@ -1,0 +1,47 @@
+id: PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002
+name: PARVOVIRUS (ssDNA) — VP1 gene (dependovirus)
+target:
+  taxid: 10803
+  gene: VP1 gene (dependovirus)
+  genome_type: ssDNA
+  taxon_name: Dependoparvovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: 19SAAVF
+    seq: GGYAATKCCTCVGGWRATTGGCATT
+    modified_from: GGTAATGCCTCAGGAAATTGGCATT
+  reverse:
+    name: 18asAAVR
+    seq: GADBCCCCARTKGTTGTTGATRAGYC
+    modified_from: GAATCCCCAATTGTTGTTGATGAGTC
+amplicon_bp: 255
+citation:
+  doi: 10.1073/pnas.182412299
+  design_year: 2002
+  n_sequences_at_design: null
+  as_written: Modified (unpublished) from Gao et al PNAS 2002
+  doi_verified: true
+  reference: Gao GP et al. 2002. Proc Natl Acad Sci USA 99:11854-11859
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'AMPLICON AND ORIENTATION CHECKED 2026-10-05. ORIENTATION CHECKED 2026-10-05, and the stored form is the
+    one to order. Gao et al. 2002 PNAS 99:11854 (local PDF) prints ''Sequences for the primers are 5-GGTAATGCCTCAGGAAATTGGCATT-3
+    (19s) and 5-GACTCATCAACAACAATTGGGGATTC-3 (18as)''. The registry''s reverse is the reverse complement of that 18as, which
+    the verifier reports as `revcomp` and calls normal for a reverse primer - the two strings mark the same site, and in records
+    carrying both, 19s and 18as-as-printed both match the plus strand at the same position (e.g. PW079099 at 57 and 289) while
+    the stored form matches the minus strand there. Only the stored orientation works as a primer molecule: measured with
+    assaywatch.match on every fifth record of the 2026-10-03 Dependoparvovirus archive (2,009 records, up to 4 mismatches
+    per primer), 19s with 18as as printed gives a product in NO record, because both sit on the same strand, while 19s with
+    the stored reverse complement gives one in 1,345, 255 bp in 647 (261 in 399, 258 in 223). Gao describes the signature
+    region as ''about 255 bp'', so the measurement agrees with the paper on the amplicon. The paper''s table prints the sense-strand
+    sequence of the reverse site rather than the oligo; the ''(corrected)'' in the oligo name records exactly that,
+    and is right. The degenerate TS pair measured the same way gives a product in 1,380 of 2,009, 255 bp in 650, 261 in 403,
+    258 in 223. The stored 316 matches no record and is corrected to 255.'
+needs_review:
+- flag: oligos_modified

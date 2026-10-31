@@ -1,0 +1,112 @@
+id: INFLUENZA_A_M1_Yang_2014
+name: Influenza A virus — M1 gene real-time RT-PCR, degenerate (Yang 2014, "At" assay)
+target:
+  taxid: 11320
+  gene: M1 (matrix)
+  genome_type: ssRNA-
+  taxon_name: Influenza A virus
+  query: '"segment 7"[Title] OR ("matrix protein"[Title] AND M[Gene])'
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: FluA-144Ft
+    seq: AAGACCAATYYTGTCACCTYTGA
+    modified_from: AAGACCAATCCTGTCACCTCTGA
+    modification_doi: 10.1128/JCM.02467-13
+  reverse:
+    name: FLUA-214Rt
+    seq: TAAAGCGTCTRCGYTGCAGTCC
+    modified_from: CAAAGCGTCTACGCTGCAGTCC
+    modification_doi: 10.1128/JCM.02467-13
+  probe:
+    name: FluA-184Pt
+    seq: TTTGTNTTCACGCTCACCGT
+    modified_from: TTTGTGTTCACGCTCACCGT
+    modification_doi: 10.1128/JCM.02467-13
+    reporter: FAM
+    quencher: BBQ
+amplicon_bp: 95
+citation:
+  doi: 10.1128/JCM.02467-13
+  design_year: 2014
+  n_sequences_at_design: 50
+  as_written: 'Yang J-R, Kuo C-Y, Huang H-Y, et al. Newly emerging mutations in the matrix genes of the human influenza A(H1N1)pdm09
+    and A(H3N2) viruses reduce the detection sensitivity of real-time reverse transcription-PCR. J Clin Microbiol 2014;52:76-82'
+  doi_verified: true
+  reference: Yang J-R et al. 2014. J Clin Microbiol 52:76-82
+  oligos_designed_here: false
+conditions:
+  annealing_c: 53
+  cycles: 45
+  rt: one_step
+  primer_nm: 1000
+  probe_nm: 250
+use_context:
+- public_health
+status: draft
+submitted_by: null
+source:
+  nested_round: null
+  notes_curator: 'ENTERED 2026-10-30 beside INFLUENZA_A_M1_Ward_2004. This is the "At" assay the Taiwan CDC built to recover
+    the sensitivity that accumulated M-gene substitutions had cost Ward''s original; the paper says in as many words that
+    its oligos "were modified from those described by Ward et al. (15) but targeted the same regions of the genome". It is
+    entered so that the registry holds the documented FIX next to the assay that decayed, and it is the second half of the
+    drift case recorded in docs/journal/2026-10-30-two-strict-bar-drift-cases.md.
+
+    THE REVERSE PRIMER IS STORED REVERSE-COMPLEMENTED FROM THE PAPER, WHICH IS THE ROUTINE CASE AND NOT A CORRECTION. Yang
+    prints FLUA-214Rt as 5''-GGACTGCARCGYAGACGCTTTA-3''. Tested against a real record (PZ777374.2) with the project''s own
+    matcher, that sequence binds the PLUS strand; its reverse complement binds the MINUS strand at exactly the site Ward''s
+    antisenseA occupies (216-238), which is where a working reverse primer sits. The stored form is therefore the functional
+    primer. printed.py''s own verifier reads the stored sequence as `revcomp` against this PDF and says so in as many words
+    -- "listed as its reverse complement, which is normal for a reverse primer" -- so the project already treats a paper printing
+    the template-strand form as ordinary. Ward happens to print the other convention, which is the only reason this is worth
+    a note at all. It is recorded because the choice is not cosmetic: the scorer''s 3'' window carries a penalty of 3.0 against
+    0.5 at the 5'' end, so storing the mirrored form would mis-price every mismatch in the primer, and on a drift case that
+    is the whole measurement. modified_from holds Ward''s primer in the same (functional) orientation, so the two entries
+    are directly comparable.
+
+    OLIGOS VERIFIED AGAINST THE HELD PDF 2026-10-30. curate could not fetch this paper (PMC3911422 carries no full text and
+    neither the Unpaywall nor the OpenAlex link served a PDF), so its oligo step was skipped and the check was run directly
+    against papers/yang-2014-10.1128_JCM.02467-13.pdf with printed.compare: forward `exact`, probe `exact`, reverse `revcomp`
+    as described above. Nothing here rests on a sequence read by eye.
+
+    WHAT THE MODIFICATION ACTUALLY IS, position by position, in the stored orientation: forward  Ward AAGACCAATCCTGTCACCTCTGA
+    -> stored AAGACCAATYYTGTCACCTYTGA 3 changes, all widenings: pos10 C->Y, pos11 C->Y, pos20 C->Y reverse  Ward CAAAGCGTCTACGCTGCAGTCC
+    -> stored TAAAGCGTCTRCGYTGCAGTCC 3 changes: pos1 C->T is a FIXED-BASE SUBSTITUTION, pos11 A->R and pos14 C->Y are widenings
+    probe    Ward TTTGTGTTCACGCTCACCGT -> stored TTTGTNTTCACGCTCACCGT 1 change, a widening to fully degenerate: pos6 G->N
+    So this is a degenerate relaxation everywhere except the reverse primer''s 5''-terminal base, which is a real substitution.
+    A 5''-terminal change is close to free for amplification, but it means the entry is not purely a widening of Ward''s and
+    oligos_designed_here is false with oligos_modified flagged.
+
+    The degeneracy is within what the screener will handle: scoring.max_ambiguous_per_oligo counts undetermined bases in the
+    RECORD, not IUPAC codes in the oligo, so the forward''s three codes (degeneracy 8) are not near any limit.
+
+    AMPLICON MEASURED AT 95 bp, the same as Ward''s, over the same first 4,000 records of the shared archive: both primers
+    bind within 2 mismatches in 3,991 of them, every one gives 95 bp, probe in 3,984. That it finds 16 more records than Ward''s
+    oligos do (3,991 against 3,975) is the widening doing what the paper says it does, and is a sanity check rather than a
+    result: it is a count of binding sites, not of detections.
+
+    Same retrieval group as Ward and Spackman (query unchanged), so this entry adds no fetch.
+
+    Conditions are the paper''s LightCycler 480 RNA master hydrolysis probe protocol: 1 uM each primer, 250 nM probe, 3.25
+    mM Mn(OAc)2, 63 C for 3 min then 95 C for 30 s, then 45 cycles of 95 C 10 s / 53 C 30 s / 72 C 3 s. n_sequences_at_design
+    records the 50 M-gene sequences the study deposited (KF495607-KF495656), which is the alignment the degenerate positions
+    were chosen from.
+
+    CROSSREF AGREED 2026-10-30, AND doi_verified IS HELD FALSE ANYWAY, DELIBERATELY. `assaywatch curate` resolved this DOI
+    and matched it to the entry (Yang 2014, "Newly Emerging Mutations in the Matrix Genes of the Human Influenza A(H1N1)pdm09
+    and A(H3N2) Viruses") and wrote doi_verified: true. It was then set back to false by hand, because "live" in this repository
+    means a verified DOI and nothing else: registry.not_live_because looks at the DOI alone and ignores status, so an entry
+    in pending/ carrying a verified DOI reads as LIVE while sitting in the directory for things that are not, and tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending
+    fails on exactly that. The maintainer asked for these entries to wait in pending/ for sign-off, and that is incompatible
+    with the flag being true, so the flag waits too. No information is lost: the resolution is recorded here and `assaywatch
+    curate` re-sets the flag in one command at promotion. '
+needs_review:
+- flag: oligos_modified
+  note: degenerate widening of Ward 2004 at six positions, plus one fixed-base substitution at the reverse primer's 5' 
+    terminus
+- flag: orientation_inferred
+  note: the paper prints the reverse primer on the template strand; stored reverse-complemented, verified by strand of 
+    binding on PZ777374.2
+- flag: amplicon_disagrees_with_paper
+  note: measured 95 bp on 3,991 of 4,000 archive records; Ward, whose region this assay keeps, says 104

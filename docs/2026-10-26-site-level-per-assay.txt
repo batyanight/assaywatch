@@ -1,0 +1,60 @@
+# scripts/measure_site_level.py --cap 4000, 2026-10-26, against results/2026-10-26/calls.tsv.gz
+# Totals and caveats are in docs/journal/2026-10-26-bd-phase1-site-level-measured.md section 7.
+# `fails` is a count of judgeable failing probe sites and is NOT a coverage figure:
+# a lone probe has no credibility test here. 14 assays are unmeasurable and each
+# line says why; they hold almost all of the discarded population.
+Records the amplicon rule discards, and how many carry a JUDGEABLE probe site.
+judgeable = the probe's whole footprint lies inside the deposited sequence.
+
+assay                                                discarded examined probe in    cut outside  fails  indel
+-------------------------------------------------------------------------------------------------------------
+ABPV_capsid_Rossi_2024                                      12       12        2      0       3      1      0
+AVIPOXVIRUS_dsDNA_4b_core_Baek_2020                        356        -   no record holds all three sites; unmeasurable
+AVIPOXVIRUS_dsDNA_4b_core_Farias_2010                       87       87       86      0       0     34      0
+BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013                      19       19        5      0       0      5      0
+BQCV_capsid_Rossi_2024                                      41       41       28      0       0     27      0
+B_salamandrivorans_Internal_transcribes_spa_Blooi_20         1        -   offset not concordant: +32 in 1/1; unmeasurable
+CBPV_RNA1_Rossi_2024                                        34       34       33      0       1      0      0
+CDV_N_gene_Elia_2006                                        14       14        6      5       0      4      0
+CDV_P_gene_Mix3_Halecker_2021                                8        8        2      0       0      0      0
+CDV_P_gene_Mix7_Halecker_2021                               25       25        9      2       0      8      0
+CDV_P_gene_Scagliarini_2007                                  9        -   offset not concordant: --46 in 4/4; unmeasurable
+CDV_P_gene_panCDV_Geiselhardt_2022                         231      231      223      0       0     15      0
+CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004             461        -   offset not concordant: +93 in 1/1, --95 in 1/2; unmeasurable
+CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021                  54        -   no record holds all three sites; unmeasurable
+CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021                   83        -   offset not concordant: +45 in 1/1; unmeasurable
+DWVA_polyprotein_Rossi_2024                                 15       15       13      0       0      0      0
+DWVB_polyprotein_Rossi_2024                                  9        9        5      0       0      0      0
+Helicobacter_16S_Conley_2021                             1,121        -   no record holds all three sites; unmeasurable
+INFLUENZA_A_ssRNA_HA_H5_Tsukamoto_2010                     618      618       41      8       7      1      0
+INFLUENZA_A_ssRNA_HA_H7_Tsukamoto_2010                     100      100       11      3       1      0      0
+INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003         93,966        -   no record holds all three sites; unmeasurable
+INFLUENZA_A_ssRNA_NP_Tsukamoto_2010                      3,370    3,370      124      0       0      6      0
+LEPTOSPIRA_lipL32_Ahmed_2020                               148      148       59     83       6     25      0
+MONKEYPOX_dsDNA_C3L_CongoBasin_TaqMan_Li_2010               15       15        6      0       0      2      0
+MONKEYPOX_dsDNA_F3L_MGB_Kulesh_2004                        381      381      308      0       0    287      0
+MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010              74       74       33      0       0     29      0
+MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010                 283      283       89      0       0     79      0
+MONKEYPOX_dsDNA_N3R_MGB_Kulesh_2004                      3,014        -   offset not concordant: +184379 in 13/141, --81 in 2/2; unmeasurable
+MYCOBACTERIUM_TB_complex_IS1081_Hermes_2018                  2        2        2      0       0      1      0
+MYCOBACTERIUM_TB_complex_helicase_MTCHeli_Hermes_201         3        0        0      0       0      0      0
+MYCOBACTERIUM_genus_16S_rRNA_Hermes_2018                   931      931       84      5      57     50      1
+NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_R        48        -   no record holds all three sites; unmeasurable
+OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023               118        -   no record holds all three sites; unmeasurable
+ORF_VIRUS_dsDNA_RPO147_J6R_TaqMan_Zhao_2013                132      132      102     18       0    102      0
+ORTHOBORNAVIRUS_XP_aquatic_Sigrist_2021                     16       16        8      0       8      5      0
+ORTHOBORNAVIRUS_XP_passerine_Sigrist_2021                   16        -   offset not concordant: --46 in 1/1; unmeasurable
+ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021                  16       16        7      1       8      7      0
+PD_WNS_ITS1_Shuey_2014                                      11       11        8      0       0      4      0
+PERKINSEA_NAG01_18S_cladeAC_Smilansky_2021                 233      233      228      3       0    181      0
+PERKINSEA_NAG01_18S_cladeD_Smilansky_2021                  233      233      228      2       1    198      0
+Pan_PARAPOX_dsDNA_RPO147_J6R_generic_TaqMan_Zhao_201       432        -   offset not concordant: +40 in 4/4; unmeasurable
+RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2        38       38       38      0       0     38      0
+SBV_polyprotein_Rossi_2024                                  11       11        0      0       2      0      0
+SIMBU_SEROGROUP_ssRNA_S_segment_TaqMan_Steyn_2020          217        -   no record holds all three sites; unmeasurable
+Snake_fungus_Ophidiomyces_ophi_ITS2_28S_Bohuski_2015        89       89        0      0       0      0      0
+USUTU_ssRNA_NS1_realtime_Jost_2011                          49       49        2      0       0      0      0
+VIBRIO_coralliilyticus_dnaJ_Pollock_2010                    13       13        0      0       0      0      0
+-------------------------------------------------------------------------------------------------------------
+TOTAL                                                    7,261    7,258    1,790    130      94  1,109      1
+(14 assays skipped: no concordant probe offset, so the probe cannot be placed. Each one's reason is on its line above.)

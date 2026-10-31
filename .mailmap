@@ -1,0 +1,11 @@
+# One person, five git identities. Without this, GitHub's contributor graph and
+# `git shortlog` show four or five humans where there is one, and any
+# bibliometric tool counting contributors gets it wrong.
+#
+# The canonical identity is the institutional one, since that is what CITATION.cff
+# and the ORCID record carry.
+Batya Nightingale <nightb02@nyu.edu> <batya.nightingale@gmail.com>
+Batya Nightingale <nightb02@nyu.edu> <batya@Mac.lan>
+Batya Nightingale <nightb02@nyu.edu> <81974864+batyanight@users.noreply.github.com>
+Batya Nightingale <nightb02@nyu.edu> batyanight <batya.nightingale@gmail.com>
+Batya Nightingale <nightb02@nyu.edu> Batya <batya@Mac.lan>

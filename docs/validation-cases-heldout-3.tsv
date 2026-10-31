@@ -1,0 +1,52 @@
+# TIER-2 HELD-OUT CASES, SET 3. Opened 2026-10-30 with TWO rows, both `mechanism: drift`.
+# This file exists because sets 1 and 2 are both spent and neither contains a row that
+# DEMONSTRATES drift: of the three rows in the whole corpus carrying `mechanism: drift`,
+# none meets the strict bar set on 2026-10-30, and two of them are one inferred event. The
+# tool's premise is temporal decay at primer sites, so until a row here clears that bar
+# the premise is untested.
+#
+# THE STRICT BAR (docs/journal/2026-10-30-design-grilled.md Q6): the paper must show the
+# SAME LINEAGE CHANGING OVER TIME at primer or probe binding sites -- an alignment, a
+# substitution table, or named substitutions with collection years. "Newer isolates fail"
+# without that is `coverage`, or not a row at all.
+#
+# BOTH ROWS SCORED 2026-10-31: one agrees, one MISSES. The Shu row reads `low coverage`
+# where the case expects `fails`, and the reason is a limitation rather than a threshold:
+# the CDC H3 v1 assay reads as non-detecting from 2016 onward (0.4% in 2019, 0.2% in 2026)
+# because one central probe mismatch disqualifies detection for a hydrolysis probe, so it
+# sat at the floor before Shu's drift began and the drift could not move it further. A
+# two-window contrast cannot see drift in an assay already scoring at the floor. Full
+# record: docs/journal/2026-10-31-subtype-filter-measured.md.
+#
+# SCORED 2026-10-30, SO THIS SET IS SPENT. One row agrees and one was undecided:
+# INFLUENZA_A_M1_Ward_2004 reads `declining` as of 2013-09-06 (86.2% of 5,847 recent
+# records, upper bound below the 90% threshold), which AGREES with Yang 2014 -- the first
+# documented failure this project has ever caught by the drift flag itself rather than by
+# `low coverage`. On the same records the documented redesign reads `stable` at 91.6%, and
+# the two entries differ in nothing but their oligos, which is the control that makes the
+# row worth trusting. INFLUENZA_A_HA_H3_CDC_Shu_2026 reads `no recent data`: its archive
+# stops in 2018, because the seven H3Nx subtype taxids return 0 records for 2024-2026
+# against 95,155 without that restriction. Full record, including the same defect found
+# live on the Tsukamoto H5 and H7 entries, in docs/journal/2026-10-30-set3-scored.md.
+#
+# IT WAS OPENED AS THE FIRST GENUINE TEST OF THE SCOPED MATRIX, AND IT WAS NOT ONE.
+# `scope_taxid` was built on 2026-10-30 and chosen AFTER held-out set 2 had been read, so
+# on set 2 it can only be a re-description; these two scopes were read from the source
+# papers before any verdict existed, which would have made this a score. NEITHER COULD BE
+# HONOURED. The matrix archive's lineage layer sees one lineage: 18 of its 19 metadata
+# files predate the `taxid` column and the one that has it reports every record as the
+# parent 11320. So a scoped matrix is still untested, and needs a set 4 on an assay whose
+# archive resolves below the species. The claim that this file tested it has been corrected
+# here rather than left standing.
+#
+# THE SECOND ROW LANDED THE SAME DAY. It was written and withheld for part of 2026-10-30,
+# because the CDC H3 assay could not be entered: citing the paper that prints its oligos
+# rather than the FDA 510(k) that defines it put its design_year 18 years from its DOI's
+# year, and papers.citation_matches required them within one. The maintainer's call was to
+# teach that check to read a year from the reference text, which citation_problems already
+# did -- so CI passed the entry curate refused. Both now share papers.year_agrees,
+# measured over every entry with a cached DOI (220) as moving no verdict either way. See
+# docs/journal/2026-10-30-citation-year-rule.md.
+assay_id	as_of	expect	mechanism	source	scope_taxid
+INFLUENZA_A_M1_Ward_2004	2013-09-06	fails	drift	10.1128/JCM.02467-13 Yang 2014 J Clin Microbiol 52:76-82: names Ward 2004 as its reference 15 and as "Aw1 in this study" (Discussion), and reports it losing sensitivity to M-gene substitutions that accumulated in the SAME lineage over time -- G238A in 11-12 A(H1N1)pdm09 isolates in 2010-2011, joining C154T (earlier), G225A and T228C through 2012-2013, located by the Fig. 2 alignments in the forward and reverse primer-binding regions. 6 of 40 specimens read negative by Aw1 and positive by the degenerate redesign, and Ct shortened 3.1-14.25 cycles across the H1N1pdm09 panel (Table 1). The redesign is itself in the registry as INFLUENZA_A_M1_Yang_2014. Oligos verified against the held PDF: forward and probe exact, reverse revcomp as printed	114727
+INFLUENZA_A_HA_H3_CDC_Shu_2026	2026-10-27	fails	drift	10.1128/jcm.00727-26 Shu 2026 J Clin Microbiol (issued 2026-10-27): the FDA-cleared CDC A(H3) subtyping component losing sensitivity to reverse-primer mismatches that accumulated in one lineage over time -- A21G with T23G/T23C/T23A, the 3C.2a1b.2a clade emerging in 2020 and the mutation reaching 96% of globally circulating viruses by the end of 2021 (GISAID 2020-2023), with a measurable Ct shift between H3 and the H3_v2 redesign and both oligo sets printed in Table 1. 30 of 60 non-subclade-K specimens collected in 2022 carried A21G; 19 of 19 subclade K specimens collected in 2025 carried A21G plus a second mismatch. The redesign is in the registry as INFLUENZA_A_HA_H3_v2_Shu_2026. Both primers verified exact against the held PDF; the probe cannot be machine-verified because Table 1 writes /ZEN/ inside the sequence	119210

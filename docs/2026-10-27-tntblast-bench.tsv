@@ -1,0 +1,180 @@
+panel	assay_id	role	record_id	bench	n_amplicons	primer_tm	probe_tm
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001356	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001352	no_band	144	21.9717	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001457	band	24	30.1219	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	JN211194	band	54	34.6548	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001355	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	M12737	band	40	25.7180	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001596	band	92	35.9659	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_075235	band	8	27.1223	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	X74466	band	20	25.7180	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	MT068446	band	8	25.2754	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PZ256268	band	35	39.2710	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	X74468	band	28	33.0502	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001526	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	JN211195	band	7	23.6638	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001357	band	40	24.4608	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	X74470	band	40	37.7028	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	KY969593	band	49	36.4656	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	U31779	band	49	36.4656	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	U31780	band	20	28.7990	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PZ726167	band	35	35.9659	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	U31782	band	30	36.4715	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	X74471	band	8	24.4026	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001583	band	2	21.0956	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	AB211993	band	148	21.9717	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	U31783	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	U31784	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971102	band	24	27.9425	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_075191	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001586	band	4	27.7305	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_075233	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001587	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PZ638627	no_band	72	20.6562	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	JF304769	band	55	35.4860	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	U31786	band	56	34.4942	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_075251	band	36	34.4942	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PQ662296	band	14	24.3596	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971079	band	2	20.4804	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001354	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PZ754637	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971078	band	12	25.2754	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971071	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PX473505	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PZ726168	band	18	32.1402	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001690	band	48	24.8843	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001591	band	20	32.2362	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001691	band	18	32.4358	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PX488480	band	2	21.0956	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971041	band	10	25.2754	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001593	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001676	band	18	27.9425	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	LR861883	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PV358401	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	MK463925	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PQ720434	band	4	25.2754	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PX466687	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001693	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001694	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971022	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_001458	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	X70829	band	40	33.3588	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PV358394	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971075	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PZ342470	band	6	21.0956	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PQ720437	band	4	24.3596	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PV358395	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	NC_039089	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	PQ720435	band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971057	band	2	20.2885	
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	OP971090	no_band	0		
+forslund-1999-fap	PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999	fitting	Y15173	band	2	21.7921	
+barrett-1993-morbillivirus	Morbillivirus_including_CDV_P_gene_Barrett_2003	fitting	NC_001498	band	8	54.4248	
+barrett-1993-morbillivirus	Morbillivirus_including_CDV_P_gene_Barrett_2003	fitting	NC_006296	band	20	51.2150	
+barrett-1993-morbillivirus	Morbillivirus_including_CDV_P_gene_Barrett_2003	fitting	NC_006383	band	15	34.3716	
+barrett-1993-morbillivirus	Morbillivirus_including_CDV_P_gene_Barrett_2003	fitting	NC_001921	band	12	55.0160	
+barrett-1993-morbillivirus	Morbillivirus_including_CDV_P_gene_Barrett_2003	fitting	NC_028249	band	6	47.3289	
+barrett-1993-morbillivirus	Morbillivirus_including_CDV_P_gene_Barrett_2003	fitting	NC_005283	band	6	46.7750	
+barrett-1993-morbillivirus	Morbillivirus_including_CDV_P_gene_Barrett_2003	fitting	KF650727	band	2	55.0160	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_001611	band	4	38.5399	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_063383	band	4	41.2957	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_003663	band	4	43.3284	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_006998	band	14	43.3284	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_004105	band	3	43.3284	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_003391	band	10	43.3284	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_031033	band	6	25.7062	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_027213	no_band	6	23.5341	
+meyer-1997-ati	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_031038	band	2	21.9708	
+meyer-1997-ati-strains	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	L22579	band	4	38.5399	
+meyer-1997-ati-strains	ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997	fitting	NC_003310	band	5	41.2957	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	NZ_CP005933	band	184	54.6497	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	NZ_AP014657	band	102	57.6772	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	NZ_CP024049	band	237	57.6772	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	NZ_AP017902	band	191	54.6497	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	NZ_CP039447	band	156	54.6497	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	NZ_CP141039	band	128	57.6772	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	U29676	band	8	37.0207	
+rebelo-2011-mycoplasma	Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011	fitting	AY762641	band	8	54.6497	
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_JQRT01000072	band	312	62.1102	67.2853
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_JQGT01000049	band	646	60.3721	62.5539
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_JCCMFS010000010	band	1544	62.4551	68.7682
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_CP020414	band	22971	61.2763	68.9134
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_JBHILG010000018	band	204	61.2763	65.6013
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_AKWD02000024	band	1258	62.1102	67.2477
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_AHOE02000011	band	17560	62.1102	67.2853
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_AHQY01000102	band	1499	62.1102	62.5539
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_CP030147	band	45216	59.1520	64.0381
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_NPDO01000002	band	19947	56.2086	67.2853
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_RQHG01000018	band	15432	56.2086	68.2784
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_RQEZ01000075	band	8714	52.9103	64.1567
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_NPEH01000464	band	80	52.9103	63.8702
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_RQGN01000105	band	1450	56.2086	68.9134
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_MCRM02000005	no_band	5347	45.5981	38.2539
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_AFLO01000035	no_band	10201	42.0033	24.5861
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_JBHILJ010000002	no_band	13163	43.8112	47.4153
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_AHMO02000004	no_band	15306	43.7865	38.2539
+ahmed-2020-leptospira	LEPTOSPIRA_lipL32_Ahmed_2020	fitting	NZ_AKWZ02000002	no_band	12869	47.0878	53.5453
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009102	band	23082	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP007253	band	22514	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP012091	band	22546	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009559	band	21684	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP107010	band	22455	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP007639	band	22880	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP019179	band	23159	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP019035	band	22256	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP068386	band	22664	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP010280	band	23318	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP005995	band	23020	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP016410	band	22672	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP025445	band	22523	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP007530	band	22329	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011396	band	22915	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP016837	band	23519	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP007531	band	22804	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP045447	band	21894	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP022500	band	22776	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP154881	band	22173	60.8029	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP022139	band	22224	56.8413	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP082954	band	22249	59.2423	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011288	band	21835	59.2423	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP020000	no_band	2495	35.8355	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP026055	no_band	33769	44.8276	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP007566	no_band	32584	46.4608	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP021654	no_band	25361	44.8276	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009318	no_band	1694	42.3882	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009920	no_band	2758	39.3105	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NC_000964	no_band	4685	42.6721	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP007607	no_band	1730	45.4385	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011132	no_band	35603	44.1320	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP023527	no_band	29019	46.2571	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011612	no_band	25048	47.8440	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP023706	no_band	22684	44.1526	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011574	no_band	27969	51.7213	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP016889	no_band	28101	47.2318	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009756	no_band	37578	46.1963	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011047	no_band	43610	45.1484	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NC_000913	no_band	24907	44.4051	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP042941	no_band	32024	50.9589	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009706	no_band	18321	43.9619	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011597	no_band	35318	47.5104	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NC_016845	no_band	35362	45.7303	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP033200	no_band	46366	50.8712	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP011098	no_band	7443	41.7192	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP008918	no_band	3243	40.3597	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP012675	no_band	2973	42.3317	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP023505	no_band	15393	43.0197	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP017671	no_band	4242	40.1133	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP033736	no_band	2836	46.4728	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP008920	no_band	4886	44.4051	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NC_002516	no_band	51584	47.3782	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP008896	no_band	52228	46.1963	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009974	no_band	49720	49.7671	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP027793	no_band	119176	51.9190	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_AP013063	no_band	53320	47.2318	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP010829	no_band	26082	43.8124	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NC_007795	no_band	726	35.8355	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009046	no_band	467	35.8355	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP008747	no_band	1365	39.9712	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP004081	no_band	1956	41.9673	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP007241	no_band	894	35.6344	
+rahn-1992-salmonella-invA	Salmonella_invA_Rahn_1992	control	NZ_CP009367	no_band	12695	41.5787	

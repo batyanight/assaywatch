@@ -1,0 +1,38 @@
+id: Entamoeba_18S_small_subunit_SSU
+name: Entamoeba — 18S small subunit (SSU)
+target:
+  taxid: 5758
+  gene: 18S small subunit (SSU)
+  genome_type: dsDNA
+  taxon_name: Entamoeba
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title] OR "ribosomal RNA"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: EntF
+    seq: CGAACGAGACTKDAWCYTATTWAT
+  reverse:
+    name: EntR
+    seq: AATTTCACCTHTWTNTTCAATC
+    seq_as_written: AATTTCACCTHTWTITTCAATC
+amplicon_bp: 572
+citation:
+  doi: 10.1638/2020-0148
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: McFarland A, Conley KJ, Seimon TA, Sykes JM. 2021. A retrospective analysis of amoebiasis in reptiles in a zoological
+    institution. J Zoo Wildl Med 52:232-240
+conditions:
+  cycles: 45
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+  notes_curator: 'CITATION FOUND 2026-10-22. EntF and EntR verify exact against McFarland et al. 2021 (J Zoo Wildl Med 52:232-240), which prints both in its Materials and Methods and says the degenerate pair was developed from an alignment of 16 GenBank Entamoeba SSU sequences for a 502 bp product. This is the publication of the seed list''s assay and not a different one. design_year LEFT NULL on purpose: the assay is already in the 2018 seed list, so it was designed on or before 2018 and the 2021 publication year is not its design year. The paper states no design date, so the drift baseline stays open.'
+needs_review:
+- flag: oligos_modified

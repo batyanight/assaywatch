@@ -1,0 +1,48 @@
+id: B_salamandrivorans_Internal_transcribes_spa_Blooi_2013
+name: Batrachochytrium salamandrivorans — ITS real-time PCR STerF/STerR (Blooi 2013)
+target:
+  taxid: 1357716
+  gene: ITS1-5.8S rDNA
+  genome_type: dsDNA
+  taxon_name: Batrachochytrium salamandrivorans
+  query: ITS[Title] OR ITS1[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR "5.8S"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]
+chemistry: mgb
+oligos:
+  forward:
+    name: STerF
+    seq: TGCTCCATCTCCCCCTCTTCA
+  reverse:
+    name: STerR
+    seq: TGAACGCACATTGCACTCTAC
+  probe:
+    name: STerPROBE
+    seq: ACAAGAAAATACTATTGATTCTCAAACAGGCA
+    reporter: HEX
+    quencher: MGB-NFQ
+amplicon_bp: null
+citation:
+  doi: 10.1128/JCM.02313-13
+  design_year: 2013
+  n_sequences_at_design: null
+  as_written: Blooi et al. JCM, 2013.
+  doi_verified: true
+  reference: Blooi M et al. 2013. J Clin Microbiol 51:4173-4177
+  oligos_designed_here: false
+conditions:
+  cycles: 40
+  annealing_c: 62
+  probe_nm: 250
+performance:
+  efficiency_pct: 94
+  lod: 0.1 genomic equivalent of zoospores per PCR
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'Seed list lists STerR before STerF; parser assigned by name suffix. Probe fluorophore flagged ''VERIFY'' in the seed list. PROVENANCE SPLIT, found 2026-10-05 by scripts/check_primer_provenance.py and confirmed by reading Blooi et al. 2013''s Methods. This entry is a COMPOSITE and the citation covers only part of it:\n  - STerF and STerR are NOT Blooi''s. The paper says ''The previously described forward primer     STerF ... and reverse primer STerR ... were used to detect the 5.8S rRNA gene of B.     salamandrivorans (6)''. Its reference (6) is Martel, A., Spitzen-van der Sluijs, A., Blooi,     M. et al., ''Batrachochytrium salamandrivorans sp. nov. causes lethal chytridiomycosis in     amphibians'', PNAS 110, 15325-15329 (2013), doi:10.1073/pnas.1307356110 (verified against     Crossref). The scope of these two primers must be read from Martel 2013.\n  - The probe IS Blooi''s: ''The B. salamandrivorans-specific Cy5-labeled probe STerC ... was     developed using Kodon''. Note the paper calls it STerC where this registry stores STerPROBE.\nSo Blooi 2013 contributed the probe and the qPCR, not the primer pair, and oligos_designed_here is False. All three sequences match the paper exactly. The primers target the 5.8S rRNA gene; GenBank KC762295 is the reference the paper names. AMPLICON MEASURED 2026-10-26 AND DELIBERATELY NOT DECLARED. This entry declares no size, so amplicon.declared_tolerance cannot constrain it and it screens against the global 50-3000 bp window. Measured on results/2026-10-26/calls.tsv.gz: the assay has only 12 rows in the whole retrieval - 6 no_amplicon, 4 fail, 1 reduced, 1 detect - and exactly TWO products, both 161 bp. Two observations are not a declaration, and this entry is status: active, so writing 161 into it would narrow a published assay''s screening window on the strength of two records. The number is recorded here instead and the flag says so. It is consistent with the B. salamandrivorans watch item in docs/RESUME-HERE.md, whose five SNU records of 2024-12-06 are 161-165 bp sequenced amplicons, so seven independent observations now sit in 161-165. DECLARE 161 ONCE THE RETRIEVAL IS WIDER: the thin archive is the real problem here, not the missing size - this is one of the assays ROADMAP Phase 0 records as having waited on its rDNA-query data. THE FLAG IS NOT SET, AND THAT IS THE SCHEMA''S DECISION RATHER THAN A JUDGEMENT CALL. amplicon_size_unresolved is an OPEN QUESTION, and the validator correctly refuses an open question on an active entry, so setting it here would demote this entry from active. That is a maintainer decision and not a session''s, exactly as the CALICIVIRUS Hel1 terminal base was. The measurement above is therefore recorded as a caveat in this note instead. A maintainer who wants the flag should expect active 179 -> 178.'
+needs_review:
+- flag: oligos_from_secondary_source
+  note: primers from Martel 2013, probe from Blooi
