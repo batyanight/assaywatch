@@ -199,3 +199,11 @@ table.aw-lineage th:nth-child(5) { width: 18%; }
 @media (max-width: 45em) {
   table.aw-lineage th:nth-child(5), table.aw-lineage td:nth-child(5) { display: none; }
 }
+
+/* An off-site link says so before it is clicked, rather than surprising the
+   reader with a new tab. Not on buttons, images or the header/footer chrome. */
+.md-typeset a[target="_blank"]:not(.md-button)::after {
+  content: "\2197"; font-size: 0.78em; margin-left: 0.12em;
+  color: var(--aw-ink-muted); vertical-align: 0.1em;
+}
+.md-typeset a[target="_blank"]:has(img)::after { content: none; }

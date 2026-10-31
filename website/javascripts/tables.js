@@ -101,3 +101,33 @@ function awInitPipeline() {
 }
 document.addEventListener('DOMContentLoaded', awInitPipeline);
 if (window.document$ && window.document$.subscribe) window.document$.subscribe(awInitPipeline);
+
+/* Links that leave the site open in a new tab.
+
+   Applied to every off-site link rather than just the DOI, so the rule is one a
+   reader can learn: anything that leaves assaywatch opens beside it, anything
+   within it navigates in place. A page of assay dashboards is something you
+   read across, and losing your position in a 217-row table to follow a citation
+   is the wrong trade.
+
+   `rel="noopener noreferrer"` goes with every one: without `noopener` the opened
+   page gets a handle on this one through `window.opener`, which is a tab-jacking
+   route, and it also keeps the new tab off this one's process.
+
+   Progressive enhancement: with JavaScript off the links still work, they just
+   navigate in place. */
+function awExternalLinks() {
+  const here = location.hostname;
+  document.querySelectorAll('.md-content a[href]').forEach(a => {
+    if (a.dataset.awExt) return;
+    let host;
+    try { host = new URL(a.href, location.href).hostname; } catch { return; }
+    if (!host || host === here) return;
+    a.dataset.awExt = '1';
+    a.target = '_blank';
+    a.rel = (a.rel ? a.rel + ' ' : '') + 'noopener noreferrer';
+    if (!a.title) a.title = 'opens in a new tab';
+  });
+}
+document.addEventListener('DOMContentLoaded', awExternalLinks);
+if (window.document$ && window.document$.subscribe) window.document$.subscribe(awExternalLinks);

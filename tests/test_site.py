@@ -413,3 +413,21 @@ def test_a_lineage_whose_interval_clears_the_threshold_is_not_marked_as_failing(
     low = next(r for r in rows if "Clearly below" in r)
     assert "aw-lin-ok" in wide and "aw-lin-flag" not in wide
     assert "aw-lin-fail" in low and "aw-lin-flag" in low
+
+
+def test_off_site_links_are_opened_safely_and_internal_ones_are_not_touched():
+    """The DOI and taxonomy links leave the site, and a reader following a
+    citation should not lose their place in a 217-row table. The rule is applied
+    by host rather than by naming particular domains, so a link added later
+    behaves the same without anyone remembering this.
+
+    `noopener` is the part that matters beyond convenience: without it the opened
+    page can reach back through `window.opener`.
+    """
+    js = (ROOT / "website" / "javascripts" / "tables.js").read_text()
+    assert "awExternalLinks" in js
+    assert "noopener" in js and "noreferrer" in js
+    assert "host === here" in js, "internal links must stay in the same tab"
+    # It must run again after an instant-navigation page swap, or it applies only
+    # to the first page a reader lands on.
+    assert js.count("document$.subscribe") >= 3
