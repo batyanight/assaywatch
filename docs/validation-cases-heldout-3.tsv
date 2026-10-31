@@ -1,0 +1,33 @@
+# TIER-2 HELD-OUT CASES, SET 3. Opened 2026-10-30 with ONE row. This file exists because
+# sets 1 and 2 are both spent and neither contains a row that DEMONSTRATES drift: of the
+# three rows in the whole corpus carrying `mechanism: drift`, none meets the strict bar set
+# on 2026-10-30, and two of them are one inferred event. The tool's premise is temporal
+# decay at primer sites, so until a row here clears that bar the premise is untested.
+#
+# THE STRICT BAR (docs/journal/2026-10-30-design-grilled.md Q6): the paper must show the
+# SAME LINEAGE CHANGING OVER TIME at primer or probe binding sites -- an alignment, a
+# substitution table, or named substitutions with collection years. "Newer isolates fail"
+# without that is `coverage`, or not a row at all.
+#
+# THIS SET IS NOT YET SCORED, AND THE REASON IS MECHANICAL. Its row names
+# INFLUENZA_A_M1_Ward_2004, which sits in pending/ awaiting maintainer sign-off, and a
+# pending entry is never screened: the validator and the Snakefile both refuse anything
+# without citation.doi_verified, so no calls table can contain it. The set is scored once
+# that entry is promoted to registry/ and a screen covers it. See
+# docs/journal/2026-10-30-influenza-drift-entries.md.
+#
+# IT IS ALSO THE FIRST GENUINE TEST OF THE SCOPED MATRIX. `scope_taxid` was built on
+# 2026-10-30 and chosen AFTER held-out set 2 had been read, so on set 2 it can only be a
+# re-description. Here the scope is filled from the source paper before any verdict is
+# known, which is what makes it a score. The pooled verdict is printed beside the scoped
+# one, as the 2026-10-30 scope decision requires.
+#
+# A SECOND ROW IS WRITTEN AND WITHHELD. Shu 2026 (10.1128/jcm.00727-26) clears the strict
+# bar on the CDC H3 subtyping assay, but that assay cannot currently be entered: citing the
+# paper that prints its oligos rather than the FDA 510(k) that defines it puts its
+# design_year 18 years from its DOI's year, and papers.citation_matches refuses to verify
+# any such entry. The row is held in
+# docs/journal/2026-10-30-influenza-drift-entries.md, ready to paste, and lands if and when
+# that one decision is taken.
+assay_id	as_of	expect	mechanism	source	scope_taxid
+INFLUENZA_A_M1_Ward_2004	2013-09-06	fails	drift	10.1128/JCM.02467-13 Yang 2014 J Clin Microbiol 52:76-82: names Ward 2004 as its reference 15 and as "Aw1 in this study" (Discussion), and reports it losing sensitivity to M-gene substitutions that accumulated in the SAME lineage over time -- G238A in 11-12 A(H1N1)pdm09 isolates in 2010-2011, joining C154T (earlier), G225A and T228C through 2012-2013, located by the Fig. 2 alignments in the forward and reverse primer-binding regions. 6 of 40 specimens read negative by Aw1 and positive by the degenerate redesign, and Ct shortened 3.1-14.25 cycles across the H1N1pdm09 panel (Table 1). The redesign is itself in the registry as INFLUENZA_A_M1_Yang_2014. Oligos verified against the held PDF: forward and probe exact, reverse revcomp as printed	114727

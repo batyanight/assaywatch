@@ -145,3 +145,19 @@ row to `docs/validation-cases.tsv`.
 `needs_review: oligos_modified`). A paper reprinting Spackman's **original** reverse will read
 `VARIANT`, correctly — it is testing a different primer from ours, so it is not a case for
 this assay however much it cites it.
+
+## Queued by `assaywatch curate` (needs a human and a proxy)
+
+**Both rows below are ALREADY HELD — do not fetch either.** `curate` queues on its own failure
+to retrieve, and it cannot see a PDF that is already in `papers/` under a name it did not
+choose. Both oligo sets were read from the held copies on 2026-10-30 and checked with
+`printed.compare` (`docs/journal/2026-10-30-influenza-drift-entries.md`). Kept rather than
+deleted because the queueing behaviour is worth knowing: a DOI appearing here is evidence that
+the automatic chain failed, not that the paper is missing.
+
+- ~~[10.1128/jcm.00727-26](https://doi.org/10.1128/jcm.00727-26)~~ — **HELD** as
+  `papers/shu-2026-10.1128_jcm.00727-26.pdf`. Queued 2026-10-30 (not in PMC; neither the
+  Unpaywall nor the OpenAlex link served a PDF).
+- ~~[10.1128/JCM.02467-13](https://doi.org/10.1128/JCM.02467-13)~~ — **HELD** as
+  `papers/yang-2014-10.1128_JCM.02467-13.pdf`. Queued 2026-10-30 (PMC3911422 carries no full
+  text; neither link served a PDF).
