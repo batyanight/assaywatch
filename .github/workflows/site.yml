@@ -41,15 +41,21 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e ".[site,dev]"
-      # Regenerate rather than trust what is committed: if the generated pages
-      # and run.json have drifted apart, the published site should show the data,
-      # and `git diff --exit-code` below says so loudly rather than silently.
       # The page-rendering tests need Bokeh, so they skip in the core test job
       # (which installs no site extras) and run here, where it is installed.
+      # This step is also the staleness check: it compares the committed markdown
+      # against a fresh render with Bokeh's per-render ids normalised, so every
+      # number, label and sentence must match while the noise does not.
       - run: pytest tests/test_site.py -q
+      # Regenerate rather than trust what is committed, so the published site
+      # always shows what run.json actually says.
+      #
+      # There is deliberately NO `git diff --exit-code` here. Bokeh mints a fresh
+      # element id and document uuid on every render, so regenerated pages are
+      # never byte-identical to the committed ones and such a check can only ever
+      # fail -- it did, on the first deploy, listing 202 files as stale with
+      # nothing wrong with any of them.
       - run: python -m assaywatch.site_render --data website/data --out website
-      - name: the committed pages match what the data renders
-        run: git diff --exit-code --stat website/ || (echo "::error::website/ is stale; re-run assaywatch.site_render and commit" && exit 1)
       - run: mkdocs build --strict
       - uses: actions/upload-pages-artifact@v3
         with:
