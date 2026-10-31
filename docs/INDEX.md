@@ -1,6 +1,6 @@
 # docs/ index
 
-**Ten reference documents sit in `docs/`; the 135 dated session records are in
+**Ten reference documents sit in `docs/`; the 136 dated session records are in
 [`journal/`](journal/README.md).** Until 2026-10-27 they were all one flat directory, so
 a reader met the journals before the nine documents written to be read — a ratio of
 roughly 5:1 in words on the axis that matters (~124,000 against ~52,000, for ~34,000
@@ -89,7 +89,8 @@ Read these before trusting a status.
 | | |
 |---|---|
 | [`example-run-2026-10-31/`](example-run-2026-10-31/report.md) | **the release run**, and S7b's confirming rescreen: all 580-odd archives rescreened because `scoring` is in the screen hash. 11 assays changed status, every one an improvement: `stable` 60 -> 72, `watch` 8 -> 5, `low coverage` 34 -> 31. S7b's one pre-registered prediction landed, G2R generic monkeypox moving `declining -> stable`, and the two Tsukamoto influenza assays left `no recent data` for the first time |
-| [`state-of-the-project.md`](state-of-the-project.md) | **start here.** One page: what the tool does, what its output is worth, every threshold that is still a placeholder, the four known limitations, what cannot be finished and why, and the readings owed with their counts. Written for a reader who will not read 135 journals |
+| [`journal/2026-10-31-subtype-filter-measured.md`](journal/2026-10-31-subtype-filter-measured.md) | the subtype filter's before/after check: **share up and count down in all four assays, no case where it falls**, so the filter keeps no target records out. H5 would read `declining` at 49.8% WITHOUT it and reads `stable` at 96.2% with it, so it prevents a fabricated decline on a live assay. **Set 3's second row MISSES**: the CDC H3 assay reads non-detecting from 2016 (0.4% in 2019), because one central probe mismatch disqualifies detection for a hydrolysis probe, so it sat at the floor before Shu's drift began. A two-window contrast cannot see drift in an assay already at the floor |
+| [`state-of-the-project.md`](state-of-the-project.md) | **start here.** One page: what the tool does, what its output is worth, every threshold that is still a placeholder, the four known limitations, what cannot be finished and why, and the readings owed with their counts. Written for a reader who will not read 136 journals |
 | [`journal/2026-10-23-baseline.md`](journal/2026-10-23-baseline.md) | the frozen comparison run, the full tier-2 matrix, and the precision figure: 2 of 9 `declining` calls were real failures |
 | [`journal/2026-10-04-pipeline-review.md`](journal/2026-10-04-pipeline-review.md) | the original stage-by-stage review; the estimand critique starts here |
 | [`journal/2026-10-20-pipeline-audit.md`](journal/2026-10-20-pipeline-audit.md) | the later audit, with the bench-panel evidence |

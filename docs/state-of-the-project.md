@@ -43,9 +43,15 @@ date window, scoring config and chemistry. So the verdict difference is
 attributable to the primer and probe sequences and to nothing else. That control is
 why the row is worth more than the verdict alone.
 
-**One case is one case.** On this set the precision of `declining` is 1/1 and
-documented failures caught is 1/2. Both intervals are one row wide and neither is
-a precision estimate.
+**One case is one case, and the second row of that set is a MISS.** On held-out set 3 the
+precision of `declining` is 1/1 and documented failures caught is 1/2; both intervals are
+one row wide and neither is a precision estimate. The miss is instructive: Shu 2026
+documents drift in the CDC H3 assay, and this tool cannot score it because that assay reads
+as non-detecting from 2016 onward under our own rule -- one central probe mismatch
+disqualifies detection for a hydrolysis probe -- so it sat at the floor before the drift
+began. **A two-window contrast cannot see drift in an assay already scoring at the floor.**
+That is a limitation of the estimand, not a threshold to tune
+(`docs/journal/2026-10-31-subtype-filter-measured.md`).
 
 **The broader validation, and it is weaker.** Against the development set of 50
 cases, on the 2026-10-31 run: documented failures caught **6/11** (**6/8** among

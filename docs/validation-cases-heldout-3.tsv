@@ -10,7 +10,15 @@
 # substitution table, or named substitutions with collection years. "Newer isolates fail"
 # without that is `coverage`, or not a row at all.
 #
-# SCORED 2026-10-30, SO THIS SET IS SPENT. One row agrees and one is undecided:
+# BOTH ROWS SCORED 2026-10-31: one agrees, one MISSES. The Shu row reads `low coverage`
+# where the case expects `fails`, and the reason is a limitation rather than a threshold:
+# the CDC H3 v1 assay reads as non-detecting from 2016 onward (0.4% in 2019, 0.2% in 2026)
+# because one central probe mismatch disqualifies detection for a hydrolysis probe, so it
+# sat at the floor before Shu's drift began and the drift could not move it further. A
+# two-window contrast cannot see drift in an assay already scoring at the floor. Full
+# record: docs/journal/2026-10-31-subtype-filter-measured.md.
+#
+# SCORED 2026-10-30, SO THIS SET IS SPENT. One row agrees and one was undecided:
 # INFLUENZA_A_M1_Ward_2004 reads `declining` as of 2013-09-06 (86.2% of 5,847 recent
 # records, upper bound below the 90% threshold), which AGREES with Yang 2014 -- the first
 # documented failure this project has ever caught by the drift flag itself rather than by
