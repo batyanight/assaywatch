@@ -14,7 +14,7 @@ word for a concept.
 
 **primer** — a forward or reverse oligo; scored by its distance from the 3' end.
 
-**probe** — the internal oligo of a `hydrolysis_probe`, `mgb` or `lna` assay; absent in `conventional`, `sybr` and `rpa` assays, so 155 of 209 entries have none (`config.yaml scoring:`).
+**probe** — the internal oligo of a `hydrolysis_probe`, `mgb` or `lna` assay; absent in `conventional`, `sybr` and `rpa` assays, so 158 of 218 entries have none (`assaywatch validate registry` prints the split; `config.yaml scoring:` for how a probe is scored).
 
 **chemistry** — the assay's detection format, one of `conventional`, `sybr`, `hydrolysis_probe`, `mgb`, `lna`, `rpa`; scoring overrides are keyed on it (`schema.py` `Chemistry`, `config.yaml scoring: by_chemistry`).
 

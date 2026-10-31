@@ -11,6 +11,11 @@ because none of them can be recomputed without the archives.
 
 ## v0.1.0 — 2026-10-31
 
+Archived at Zenodo: [10.5281/zenodo.23841794](https://doi.org/10.5281/zenodo.23841794)
+(this version) under the concept DOI
+[10.5281/zenodo.23841793](https://doi.org/10.5281/zenodo.23841793), which always
+resolves to the newest release and is what `CITATION.cff` carries.
+
 The first release. Nothing was tagged before it, so everything here is "new" in
 the sense that nothing was ever published; what follows is what the artifact is
 rather than what changed.
