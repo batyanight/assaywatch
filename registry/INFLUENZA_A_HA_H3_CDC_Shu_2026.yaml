@@ -29,7 +29,7 @@ citation:
   as_written: 'Shu B, et al. 2026. J Clin Microbiol, doi 10.1128/jcm.00727-26, Table 1 ("H3 forward primer", "H3 reverse primer",
     "H3 probe"); the assay itself is the FDA-cleared CDC Human Influenza Virus Real-Time RT-PCR Diagnostic Panel A(H3) component,
     510(k) K080570'
-  doi_verified: false
+  doi_verified: true
   reference: Shu B et al. 2026. J Clin Microbiol (prints the oligos); assay source FDA 510(k) K080570 (2008)
   oligos_designed_here: false
 conditions:
@@ -75,24 +75,23 @@ source:
     on the minus strand, which independently confirms the printed orientation is the functional one.
 
 
-    RESOLVED 2026-10-30, BY THE RULE AND NOT BY AN EXCEPTION. This entry was blocked for part of a day:
-    papers.citation_matches required Crossref''s year to be within one of design_year, and this is the first entry in
-    the registry whose assay and whose citation are genuinely 18 years apart (design_year 2008, the 510(k); DOI 2026,
-    the paper that prints the oligos). A check of all 214 live entries found NO precedent -- not one had a design_year
-    more than a year from its DOI''s year -- so the rule had never had to express this. The maintainer''s call was to
-    teach citation_matches to read a year from the reference text, which citation_problems ALREADY did; that is why CI
-    passed this entry while curate refused it, one rule answering one question two ways. Both now share
-    papers.year_agrees (docs/journal/2026-10-30-citation-year-rule.md). Measured before the change shipped: over every
-    entry with a cached DOI, 220 of them, NO verdict moves either way, so the loosening enables this case and changes
-    nothing already in the registry. curate now resolves this DOI and matches it to the entry.
+    RESOLVED 2026-10-30, BY THE RULE AND NOT BY AN EXCEPTION. This entry was blocked for part of a day: papers.citation_matches
+    required Crossref''s year to be within one of design_year, and this is the first entry in the registry whose assay and
+    whose citation are genuinely 18 years apart (design_year 2008, the 510(k); DOI 2026, the paper that prints the oligos).
+    A check of all 214 live entries found NO precedent -- not one had a design_year more than a year from its DOI''s year
+    -- so the rule had never had to express this. The maintainer''s call was to teach citation_matches to read a year from
+    the reference text, which citation_problems ALREADY did; that is why CI passed this entry while curate refused it, one
+    rule answering one question two ways. Both now share papers.year_agrees (docs/journal/2026-10-30-citation-year-rule.md).
+    Measured before the change shipped: over every entry with a cached DOI, 220 of them, NO verdict moves either way, so the
+    loosening enables this case and changes nothing already in the registry. curate now resolves this DOI and matches it to
+    the entry.
 
-    CROSSREF AGREED 2026-10-30, AND doi_verified IS HELD FALSE ANYWAY, DELIBERATELY, as on the three sibling entries.
-    "Live" in this repository means a verified DOI and nothing else: registry.not_live_because looks at the DOI alone
-    and ignores status, so an entry in pending/ carrying a verified DOI reads as LIVE while sitting in the directory
-    for things that are not, and
-    tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending fails on exactly that.
-    The maintainer asked for these entries to wait in pending/ for sign-off, so the flag waits too. `assaywatch
-    curate` re-sets it in one command at promotion.
+    CROSSREF AGREED 2026-10-30, AND doi_verified IS HELD FALSE ANYWAY, DELIBERATELY, as on the three sibling entries. "Live"
+    in this repository means a verified DOI and nothing else: registry.not_live_because looks at the DOI alone and ignores
+    status, so an entry in pending/ carrying a verified DOI reads as LIVE while sitting in the directory for things that are
+    not, and tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending fails on exactly that.
+    The maintainer asked for these entries to wait in pending/ for sign-off, so the flag waits too. `assaywatch curate` re-sets
+    it in one command at promotion.
 
     THE CURATE `amplify` FAILURE IS AN ARCHIVE ARTIFACT, MEASURED AND EXPLAINED. curate reported no amplicon in 33 sampled
     records with every oligo 7-8 mismatches off. This entry''s own retrieval group is q2fad34153e, which has never been fetched,
