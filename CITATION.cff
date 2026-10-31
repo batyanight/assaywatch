@@ -17,8 +17,12 @@
 # (pyproject.toml reads that one dynamically). Nothing checks this file against it,
 # so bump it in the same commit as the tag.
 #
-# `date-released:` is the tag date. `doi:` is added in the commit after the tag,
-# once Zenodo has minted it for the release; the tagged tree therefore predates it. Add `preferred-citation` if a paper appears.
+# `date-released:` is the tag date. `doi:` was added in the commit after the tag,
+# once Zenodo minted it for the release; the tagged tree therefore predates it.
+# The DOI here is the CONCEPT doi, which always resolves to the newest version, so a
+# citation of this file follows the project rather than pinning to v0.1.0. The
+# version-specific doi for v0.1.0 is 10.5281/zenodo.23841794 and is in CHANGELOG.md.
+# Add `preferred-citation` if a paper appears.
 cff-version: 1.2.0
 message: "If you use AssayWatch, please cite it using the metadata below."
 title: AssayWatch
@@ -39,6 +43,7 @@ authors:
 repository-code: "https://github.com/batyanight/assaywatch"
 version: 0.1.0
 date-released: 2026-10-31
+doi: 10.5281/zenodo.23841793
 license: MIT
 # `license:` above names the CODE licence, so this points at the code licence too.
 # It pointed at LICENSE-registry until 2026-10-30, which meant this file declared

@@ -54,6 +54,21 @@ PROSE = (
     "docs/related-work.md",
     "CITATION.cff",
     "docs/state-of-the-project.md",
+    # Added 2026-10-31 with the website. These four are the published site's
+    # prose, which is read far more than any file in the repository, so a stale
+    # count there is the most visible kind. The generated pages under
+    # website/assays/ are NOT here: they are rendered from website/data/run.json
+    # and tests/test_site.py checks them against it, which is a tighter check
+    # than a regex over prose.
+    "website/index.md",
+    "website/what-the-output-is-worth.md",
+    "website/how-the-scoring-works.md",
+    "website/how-it-was-tested.md",
+    "website/scoping.md",
+    "website/pipeline.md",
+    # The glossary quotes chemistry counts ("155 of 209 entries have none").
+    # The website renders it verbatim, so policing the source covers both.
+    "GLOSSARY.md",
 )
 
 #: A quoted count is stale if the sentence around it matches one of these and the
