@@ -41,7 +41,20 @@ from assaywatch import registry  # noqa: E402
 
 #: Files whose prose is checked. Dated session records under docs/ are history
 #: and are left alone; these are the documents a reader is pointed at.
-PROSE = ("README.md", "ROADMAP.md", "CONTRIBUTING.md", "config.yaml", "assaywatch/score.py")
+PROSE = (
+    "README.md",
+    "ROADMAP.md",
+    "CONTRIBUTING.md",
+    "config.yaml",
+    "assaywatch/score.py",
+    # Added 2026-10-30. Both carry registry counts and neither was checked:
+    # related-work.md asserted 208 entries while the registry held 218, and
+    # CITATION.cff is the one machine-readable file GitHub surfaces and Zenodo
+    # ingests, so a stale count there travels furthest.
+    "docs/related-work.md",
+    "CITATION.cff",
+    "docs/state-of-the-project.md",
+)
 
 #: A quoted count is stale if the sentence around it matches one of these and the
 #: number is not the live value. The pattern is deliberately narrow.
