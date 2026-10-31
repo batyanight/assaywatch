@@ -44,8 +44,8 @@ extra_css:
 # BokehJS, pinned, loaded once for every chart on the site. Must match
 # assaywatch.site_charts.BOKEH_VERSION; tests/test_site.py asserts it does.
 extra_javascript:
-  - https://cdn.bokeh.org/bokeh/release/bokeh-3.6.2.min.js
-  - https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.6.2.min.js
+  - https://cdn.bokeh.org/bokeh/release/bokeh-3.10.1.min.js
+  - https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.10.1.min.js
   - javascripts/tables.js
 
 markdown_extensions:

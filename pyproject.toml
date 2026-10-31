@@ -53,7 +53,7 @@ lineage = ["scipy>=1.11", "statsmodels>=0.14"]
 # Optional because nothing in the pipeline imports them -- assaywatch.site's
 # extract phase runs in the pipeline environment and writes plain JSON, and only
 # the render phase needs these. See .github/workflows/site.yml.
-site = ["mkdocs-material>=9.5", "bokeh>=3.6,<3.7"]
+site = ["mkdocs-material>=9.5", "bokeh>=3.10,<3.11"]  # bokeh pinned to assaywatch.site_charts.BOKEH_VERSION; a test holds them together
 
 [project.urls]
 Homepage = "https://github.com/batyanight/assaywatch"

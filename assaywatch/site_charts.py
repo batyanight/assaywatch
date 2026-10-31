@@ -27,8 +27,17 @@ from typing import Any
 
 from assaywatch import palette
 
-#: Pinned, and at least two weeks old. The page template must load the same version.
-BOKEH_VERSION = "3.6.2"
+#: The ONE Bokeh version. Three things must agree and they are checked by
+#: tests/test_site.py: the `site` extra in pyproject.toml, which decides what
+#: renders the pages; this constant; and the CDN script tags in mkdocs.yml, which
+#: decide what hydrates them in the browser.
+#:
+#: They did not agree on first publish. Pages were rendered by 3.10.1 (what was
+#: installed locally), the extra pinned <3.7, and the CDN served 3.6.2 -- so the
+#: published pages would have carried a document the loaded BokehJS might not
+#: read, and CI's committed-pages check failed on the markup difference, which is
+#: how it was found. Bump all three together or not at all.
+BOKEH_VERSION = "3.10.1"
 
 _TOOLS = "pan,box_zoom,wheel_zoom,reset,save"
 

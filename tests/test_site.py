@@ -138,6 +138,26 @@ def test_bokeh_version_matches_the_script_tag_the_site_loads():
     )
 
 
+def test_the_installed_bokeh_is_the_version_the_pages_were_rendered_with():
+    """The third leg of the version triangle, and the one that actually bit.
+
+    The CDN tag and the constant agreeing is not enough: the pages are rendered
+    by whatever Bokeh is INSTALLED, and a newer one emits different markup. On
+    first publish the pages were built by 3.10.1 while the extra pinned <3.7 and
+    the CDN served 3.6.2, so the published document and the script meant to read
+    it came from versions four minor releases apart.
+    """
+    bokeh = pytest.importorskip("bokeh")
+    from assaywatch import site_charts
+
+    installed = bokeh.__version__
+    major_minor = ".".join(installed.split(".")[:2])
+    assert major_minor == ".".join(site_charts.BOKEH_VERSION.split(".")[:2]), (
+        f"bokeh {installed} is installed but site_charts.BOKEH_VERSION is "
+        f"{site_charts.BOKEH_VERSION}; pages rendered now would not match the CDN script"
+    )
+
+
 def test_every_status_the_pipeline_can_emit_has_a_colour_and_a_meaning():
     """A status added to `drift.STATUS_ORDER` without a colour here would render as
     the neutral grey chip, which MEANS something specific -- no verdict -- so the
