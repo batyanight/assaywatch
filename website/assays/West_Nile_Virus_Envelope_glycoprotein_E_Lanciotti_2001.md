@@ -1,12 +1,15 @@
-# West Nile Virus — Envelope glycoprotein E
+# Nucleic Acid Sequence-Based Amplification Assays for Rapid Detection of West Nile and St. Louis Encephalitis Viruses
 
-<p class="aw-byline">2001</p>
+<p class="aw-byline">Lanciotti · Journal of Clinical Microbiology · 2001</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.39.12.4506-4513.2001">doi:10.1128/JCM.39.12.4506-4513.2001</a></p>
 
-<p class="aw-citation">Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513</p>
+??? quote "Full citation"
+    Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001</span></p>
+
+**West Nile Virus — Envelope glycoprotein E**
 
 | | |
 |---|---|

@@ -1,12 +1,15 @@
-# Influenza A virus — matrix gene real-time RT-PCR (Spackman, modified)
+# Development of a Real-Time Reverse Transcriptase PCR Assay for Type A Influenza Virus and the Avian H5 and H7 Hemagglutinin Subtypes
 
-<p class="aw-byline">2002</p>
+<p class="aw-byline">Spackman · Journal of Clinical Microbiology · 2002</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.40.9.3256-3260.2002">doi:10.1128/JCM.40.9.3256-3260.2002</a></p>
 
-<p class="aw-citation">Spackman E et al. 2002. J Clin Microbiol 40:3256-3260 (matrix primers/probe); 2003 Avian Dis 47:1079 is the field validation, doi 10.1637/0005-2086-47.S3.1079</p>
+??? quote "Full citation"
+    Spackman E et al. 2002. J Clin Microbiol 40:3256-3260 (matrix primers/probe); 2003 Avian Dis 47:1079 is the field validation, doi 10.1637/0005-2086-47.S3.1079
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">INFLUENZA_A_ssRNA_Matrix_gene_recognized_h_2003</span></p>
+
+**Influenza A virus — matrix gene real-time RT-PCR (Spackman, modified)**
 
 | | |
 |---|---|

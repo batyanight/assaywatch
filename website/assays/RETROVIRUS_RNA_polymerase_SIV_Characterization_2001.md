@@ -1,12 +1,15 @@
-# RETROVIRUS (RNA) — polymerase (SIV)
+# A Novel Simian Immunodeficiency Virus (SIVdrl)polSequence from the Drill Monkey,Mandrillus leucophaeus
 
-<p class="aw-byline">1998</p>
+<p class="aw-byline">Clewley · Journal of Virology · 1998</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JVI.72.12.10305-10309.1998">doi:10.1128/JVI.72.12.10305-10309.1998</a></p>
 
-<p class="aw-citation">Clewley JP et al. 1998. J Virol 72:10305-10309</p>
+??? quote "Full citation"
+    Clewley JP et al. 1998. J Virol 72:10305-10309
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">RETROVIRUS_RNA_polymerase_SIV_Characterization_2001</span></p>
+
+**RETROVIRUS (RNA) — polymerase (SIV)**
 
 | | |
 |---|---|

@@ -1,12 +1,15 @@
-# CMV-specific HERPES — UL55 /Glycoprotein B (gB)
+# Discovery of herpesviruses in multi-infected primates using locked nucleic acids (LNA) and a bigenic PCR approach
 
-<p class="aw-byline">2007</p>
+<p class="aw-byline">Prepens · Virology Journal · 2007</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-4-84">doi:10.1186/1743-422X-4-84</a></p>
 
-<p class="aw-citation">Prepens S et al. 2007. Virol J 4:84</p>
+??? quote "Full citation"
+    Prepens S et al. 2007. Virol J 4:84
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CMV_UL55_gB_Prepens_2007_round1</span></p>
+
+**CMV-specific HERPES — UL55 /Glycoprotein B (gB)**
 
 | | |
 |---|---|

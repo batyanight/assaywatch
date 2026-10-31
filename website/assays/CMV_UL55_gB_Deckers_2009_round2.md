@@ -1,6 +1,6 @@
 # High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR
 
-<p class="aw-byline">Deckers and 7 others · 2009</p>
+<p class="aw-byline">Deckers · Virology Journal · 2009</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-6-210">doi:10.1186/1743-422X-6-210</a></p>
 

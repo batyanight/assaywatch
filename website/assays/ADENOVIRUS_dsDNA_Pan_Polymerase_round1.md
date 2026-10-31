@@ -1,12 +1,15 @@
-# ADENOVIRUS (dsDNA) — Pan-Polymerase
+# Detection and Analysis of Six Lizard Adenoviruses by Consensus Primer PCR Provides Further Evidence of a Reptilian Origin for the Atadenoviruses
 
-<p class="aw-byline">2004</p>
+<p class="aw-byline">Wellehan · Journal of Virology · 2004</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JVI.78.23.13366-13369.2004">doi:10.1128/JVI.78.23.13366-13369.2004</a></p>
 
-<p class="aw-citation">Wellehan JF et al. 2004. J Virol 78:13366-13369 (pan-adenovirus pol nested PCR)</p>
+??? quote "Full citation"
+    Wellehan JF et al. 2004. J Virol 78:13366-13369 (pan-adenovirus pol nested PCR)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">ADENOVIRUS_dsDNA_Pan_Polymerase_round1</span></p>
+
+**ADENOVIRUS (dsDNA) — Pan-Polymerase**
 
 | | |
 |---|---|

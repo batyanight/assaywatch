@@ -79,9 +79,17 @@ def _papers() -> dict[str, dict[str, Any]]:
     """
     path = ROOT / "docs" / "papers-index.cache.json"
     try:
-        return json.loads(path.read_text())
+        raw = json.loads(path.read_text())
     except (OSError, ValueError):
         return {}
+    # Keyed in lower case, because `scripts/papers_index.py` lower-cases every
+    # DOI it indexes while the registry stores them as the publisher prints
+    # them. A case-sensitive lookup matched 85 of the 120 cited DOIs and missed
+    # every one containing a capital -- `10.1016/S0166-0934(01)00306-8` and the
+    # rest -- which read as "Crossref has no title for these" when the titles
+    # were in the file all along. A DOI is case-insensitive by specification, so
+    # the lookup must be too.
+    return {str(k).lower(): v for k, v in raw.items() if isinstance(v, dict)}
 
 
 def _paper(a: dict[str, Any]) -> tuple[str, str, str, str]:
@@ -91,7 +99,7 @@ def _paper(a: dict[str, Any]) -> tuple[str, str, str, str]:
     spaces in them, which land in the middle of a heading if they are not
     collapsed.
     """
-    rec = _papers().get(a["doi"] or "", {})
+    rec = _papers().get((a["doi"] or "").lower(), {})
     title = " ".join((rec.get("title") or "").split())
     names = rec.get("authors") or []
     n = rec.get("n_authors") or len(names)

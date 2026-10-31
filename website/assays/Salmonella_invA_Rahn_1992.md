@@ -1,12 +1,15 @@
-# Salmonella, invA gene
+# Amplification of an invA gene sequence of Salmonella typhimurium by polymerase chain reaction as a specific method of detection of Salmonella
 
-<p class="aw-byline">1992</p>
+<p class="aw-byline">Rahn · Molecular and Cellular Probes · 1992</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/0890-8508(92)90002-F">doi:10.1016/0890-8508(92)90002-F</a></p>
 
-<p class="aw-citation">Rahn K et al. 1992. Mol Cell Probes 6:271-279</p>
+??? quote "Full citation"
+    Rahn K et al. 1992. Mol Cell Probes 6:271-279
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Salmonella_invA_Rahn_1992</span></p>
+
+**Salmonella, invA gene**
 
 | | |
 |---|---|

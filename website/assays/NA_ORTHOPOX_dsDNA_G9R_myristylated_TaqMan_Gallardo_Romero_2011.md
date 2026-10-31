@@ -1,12 +1,15 @@
-# NORTH AMERICAN ORTHOPOXVIRUS (dsDNA) — G9R myristylated protein TaqMan (Gallardo-Romero 2011)
+# Detection of North American orthopoxviruses by real time-PCR
 
-<p class="aw-byline">2011</p>
+<p class="aw-byline">Gallardo-Romero · Virology Journal · 2011</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-8-313">doi:10.1186/1743-422X-8-313</a></p>
 
-<p class="aw-citation">Gallardo-Romero NF, Velasco-Villa A, Weiss SL, Emerson GL, Carroll DS, Hughes CM, Li Y, Karem KL, Damon IK, Olson VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313</p>
+??? quote "Full citation"
+    Gallardo-Romero NF, Velasco-Villa A, Weiss SL, Emerson GL, Carroll DS, Hughes CM, Li Y, Karem KL, Damon IK, Olson VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011</span></p>
+
+**NORTH AMERICAN ORTHOPOXVIRUS (dsDNA) — G9R myristylated protein TaqMan (Gallardo-Romero 2011)**
 
 | | |
 |---|---|

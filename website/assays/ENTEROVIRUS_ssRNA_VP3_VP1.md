@@ -1,12 +1,15 @@
-# ENTEROVIRUS (ssRNA) — VP3/VP1
+# Sensitive, Seminested PCR Amplification of VP1 Sequences for Direct Identification of All Enterovirus Serotypes from Original Clinical Specimens
 
-<p class="aw-byline">2006</p>
+<p class="aw-byline">Nix · Journal of Clinical Microbiology · 2006</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.00542-06">doi:10.1128/JCM.00542-06</a></p>
 
-<p class="aw-citation">Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (222/224 VP3-VP1 primers)</p>
+??? quote "Full citation"
+    Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (222/224 VP3-VP1 primers)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">ENTEROVIRUS_ssRNA_VP3_VP1</span></p>
+
+**ENTEROVIRUS (ssRNA) — VP3/VP1**
 
 | | |
 |---|---|

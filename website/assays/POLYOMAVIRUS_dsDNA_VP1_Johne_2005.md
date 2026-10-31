@@ -1,12 +1,15 @@
-# POLYOMAVIRUS (dsDNA) — VP1
+# Novel Polyomavirus Detected in the Feces of a Chimpanzee by Nested Broad-Spectrum PCR
 
-<p class="aw-byline">2005</p>
+<p class="aw-byline">Johne · Journal of Virology · 2005</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JVI.79.6.3883-3887.2005">doi:10.1128/JVI.79.6.3883-3887.2005</a></p>
 
-<p class="aw-citation">Johne R et al. 2005. J Virol 79:3883-3887</p>
+??? quote "Full citation"
+    Johne R et al. 2005. J Virol 79:3883-3887
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">POLYOMAVIRUS_dsDNA_VP1_Johne_2005</span></p>
+
+**POLYOMAVIRUS (dsDNA) — VP1**
 
 | | |
 |---|---|

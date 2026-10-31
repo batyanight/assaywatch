@@ -1,12 +1,15 @@
-# Pan-reptilian paramyxovirus — HN gene
+# Comparative sequence analyses of sixteen reptilian paramyxoviruses
 
-<p class="aw-byline">1999</p>
+<p class="aw-byline">Ahne · Virus Research · 1999</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/S0168-1702(99)00059-3">doi:10.1016/S0168-1702(99)00059-3</a></p>
 
-<p class="aw-citation">Ahne W et al. 1999. Virus Res 63:65-74</p>
+??? quote "Full citation"
+    Ahne W et al. 1999. Virus Res 63:65-74
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Pan_reptilian_paramyxovirus_HN_gene_Ahne_1999</span></p>
+
+**Pan-reptilian paramyxovirus — HN gene**
 
 | | |
 |---|---|

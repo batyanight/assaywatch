@@ -1,12 +1,15 @@
-# Encephalitozoon — 18S (General Encephalitozoon)
+# A Powerful DNA Extraction Method and PCR for Detection of Microsporidia in Clinical Stool Specimens
 
-<p class="aw-byline">1999</p>
+<p class="aw-byline">Müller · Clinical Diagnostic Laboratory Immunology · 1999</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/CDLI.6.2.243-246.1999">doi:10.1128/CDLI.6.2.243-246.1999</a></p>
 
-<p class="aw-citation">seed list: Müller A et al. 1999 Clin Diagn Lab Immunol; PMP1/PMP2 pan-microsporidial primers are usually credited to Fedorko DP et al. 1995 J Clin Microbiol 33:1739 — check which paper these sequences come from</p>
+??? quote "Full citation"
+    seed list: Müller A et al. 1999 Clin Diagn Lab Immunol; PMP1/PMP2 pan-microsporidial primers are usually credited to Fedorko DP et al. 1995 J Clin Microbiol 33:1739 — check which paper these sequences come from
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Encephalitozoon_18S_General_Encephalitoz_Muller_1999</span></p>
+
+**Encephalitozoon — 18S (General Encephalitozoon)**
 
 | | |
 |---|---|

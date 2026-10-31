@@ -1,12 +1,15 @@
-# NIDOVIRUS (ssRNA)-SNAKE — PP1b
+# Identification of a novel nidovirus in an outbreak of fatal respiratory disease in ball pythons (Python regius)
 
-<p class="aw-byline">2014</p>
+<p class="aw-byline">Uccellini · Virology Journal · 2014</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-11-144">doi:10.1186/1743-422X-11-144</a></p>
 
-<p class="aw-citation">Uccellini L et al. 2014. Virol J 11:144</p>
+??? quote "Full citation"
+    Uccellini L et al. 2014. Virol J 11:144
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Snake_nidovirus_PP1b_Uccellini_2014_2</span></p>
+
+**NIDOVIRUS (ssRNA)-SNAKE — PP1b**
 
 | | |
 |---|---|

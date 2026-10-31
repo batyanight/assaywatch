@@ -1,12 +1,15 @@
-# Batrachochytrium salamandrivorans — ITS real-time PCR STerF/STerR (Blooi 2013)
+# Duplex Real-Time PCR for Rapid Simultaneous Detection of Batrachochytrium dendrobatidis and Batrachochytrium salamandrivorans in Amphibian Samples
 
-<p class="aw-byline">2013</p>
+<p class="aw-byline">Blooi · Journal of Clinical Microbiology · 2013</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.02313-13">doi:10.1128/JCM.02313-13</a></p>
 
-<p class="aw-citation">Blooi M et al. 2013. J Clin Microbiol 51:4173-4177</p>
+??? quote "Full citation"
+    Blooi M et al. 2013. J Clin Microbiol 51:4173-4177
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">B_salamandrivorans_Internal_transcribes_spa_Blooi_2013</span></p>
+
+**Batrachochytrium salamandrivorans — ITS real-time PCR STerF/STerR (Blooi 2013)**
 
 | | |
 |---|---|

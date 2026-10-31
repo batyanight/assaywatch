@@ -448,10 +448,12 @@ def test_the_paper_leads_the_page_and_its_doi_is_the_link():
 
 
 def test_a_paper_with_no_cached_title_still_gets_a_heading():
-    """Crossref has a title for 85 of the 120 cited DOIs. The other 35 must not
-    render a page whose heading is blank, so the assay's own descriptive name
-    takes over -- and then the stored citation stays visible rather than folded,
-    because it is the only description of the paper on the page."""
+    """The fallback, which every page used to need and none does now.
+
+    Crossref's cache covers all 120 cited DOIs; a case-sensitive lookup matched
+    only 85 of them, because the cache lower-cases its keys and 35 DOIs contain
+    a capital. That read as missing data. The fallback stays because a newly
+    added entry is uncached until the index is rebuilt."""
     page = _page(
         doi="10.0000/not-in-the-cache",
         name="Readable assay name",
@@ -469,3 +471,35 @@ def test_the_citation_is_folded_when_the_heading_already_says_it():
     md = site_render.assay_page(page, "2026-10-31")
     assert "??? quote" in md
     assert '<p class="aw-citation">' not in md
+
+
+def test_a_doi_is_looked_up_without_regard_to_case():
+    """A DOI is case-insensitive by specification. The registry stores them as
+    the publisher prints them and the papers cache lower-cases them, so a
+    case-sensitive lookup silently loses every DOI containing a capital -- 35 of
+    120 here, which presented as "Crossref has no title for these"."""
+    from assaywatch import site_render as sr
+
+    cache = sr._papers()
+    assert cache, "the committed papers cache should not be empty"
+    assert all(k == k.lower() for k in cache), "the lookup table must be lower-cased"
+    title, _, _, _ = sr._paper({"doi": "10.1016/S1386-6532(03)00122-7", "design_year": 2004})
+    assert title.startswith("Design and performance testing"), title
+    upper, _, _, _ = sr._paper({"doi": "10.1016/s1386-6532(03)00122-7", "design_year": 2004})
+    assert upper == title, "the same DOI in either case must resolve to the same paper"
+
+
+def test_every_cited_paper_on_the_site_has_a_real_title():
+    """All 120 cited DOIs are in the committed cache, so no page should be
+    falling back to the assay name. This fails if the cache is rebuilt and loses
+    entries, or if a new entry is added without rebuilding it."""
+    data = json.loads(DATA.read_text()) if DATA.exists() else None
+    if data is None:
+        pytest.skip("website/data/run.json is not present")
+    from assaywatch import site_render as sr
+
+    missing = [a["assay_id"] for a in data["assays"] if a["doi"] and not sr._paper(a)[0]]
+    assert not missing, (
+        f"{len(missing)} assays cite a DOI with no cached title; "
+        f"run `python scripts/papers_index.py`: {missing[:5]}"
+    )

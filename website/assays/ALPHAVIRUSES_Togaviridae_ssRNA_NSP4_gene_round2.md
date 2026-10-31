@@ -1,12 +1,15 @@
-# ALPHAVIRUSES (Togaviridae  ssRNA) — NSP4 gene
+# A generic nested-RT-PCR followed by sequencing for detection and identification of members of the alphavirus genus
 
-<p class="aw-byline">2001</p>
+<p class="aw-byline">Sánchez-Seco · Journal of Virological Methods · 2001</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/S0166-0934(01)00306-8">doi:10.1016/S0166-0934(01)00306-8</a></p>
 
-<p class="aw-citation">Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)</p>
+??? quote "Full citation"
+    Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2</span></p>
+
+**ALPHAVIRUSES (Togaviridae  ssRNA) — NSP4 gene**
 
 | | |
 |---|---|

@@ -1,12 +1,15 @@
-# Influenza A virus — M1 gene real-time RT-PCR, degenerate (Yang 2014, "At" assay)
+# Newly Emerging Mutations in the Matrix Genes of the Human Influenza A(H1N1)pdm09 and A(H3N2) Viruses Reduce the Detection Sensitivity of Real-Time Reverse Transcription-PCR
 
-<p class="aw-byline">2014</p>
+<p class="aw-byline">Yang and 9 others · Journal of Clinical Microbiology · 2014</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.02467-13">doi:10.1128/JCM.02467-13</a></p>
 
-<p class="aw-citation">Yang J-R et al. 2014. J Clin Microbiol 52:76-82</p>
+??? quote "Full citation"
+    Yang J-R et al. 2014. J Clin Microbiol 52:76-82
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">INFLUENZA_A_M1_Yang_2014</span></p>
+
+**Influenza A virus — M1 gene real-time RT-PCR, degenerate (Yang 2014, "At" assay)**
 
 | | |
 |---|---|

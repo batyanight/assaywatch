@@ -1,12 +1,15 @@
-# Pan-Plasmodium sp. and Haemoproteus sp. — cytochrome c
+# A NEW PCR ASSAY FOR SIMULTANEOUS STUDIES OF LEUCOCYTOZOON, PLASMODIUM, AND HAEMOPROTEUS FROM AVIAN BLOOD
 
-<p class="aw-byline">2004</p>
+<p class="aw-byline">Hellgren · Journal of Parasitology · 2004</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1645/GE-184R1">doi:10.1645/GE-184R1</a></p>
 
-<p class="aw-citation">Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)</p>
+??? quote "Full citation"
+    Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Pan_Plasmodium_sp_and_Haemopro_cytochrome_c</span></p>
+
+**Pan-Plasmodium sp. and Haemoproteus sp. — cytochrome c**
 
 | | |
 |---|---|

@@ -1,12 +1,15 @@
-# Encephalitozoon — Polar tube protein (E. cuniculi only)
+# Genotyping Encephalitozoon cuniculi by Multilocus Analyses of Genes with Repetitive Sequences
 
-<p class="aw-byline">2001</p>
+<p class="aw-byline">Xiao · Journal of Clinical Microbiology · 2001</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.39.6.2248-2253.2001">doi:10.1128/JCM.39.6.2248-2253.2001</a></p>
 
-<p class="aw-citation">Xiao L, Li L, Visvesvara GS, Moura H, Didier ES, Lal AA. 2001. Genotyping Encephalitozoon cuniculi by multilocus analyses of genes with repetitive sequences. J Clin Microbiol 39:2248-2253</p>
+??? quote "Full citation"
+    Xiao L, Li L, Visvesvara GS, Moura H, Didier ES, Lal AA. 2001. Genotyping Encephalitozoon cuniculi by multilocus analyses of genes with repetitive sequences. J Clin Microbiol 39:2248-2253
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001</span></p>
+
+**Encephalitozoon — Polar tube protein (E. cuniculi only)**
 
 | | |
 |---|---|

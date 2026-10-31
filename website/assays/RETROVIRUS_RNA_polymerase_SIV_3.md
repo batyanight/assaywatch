@@ -1,10 +1,15 @@
-# RETROVIRUS (RNA) — polymerase (SIV)
+# Origin and Biology of Simian Immunodeficiency Virus in Wild-Living Western Gorillas
+
+<p class="aw-byline">Takehisa · Journal of Virology · 2009</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JVI.02311-08">doi:10.1128/JVI.02311-08</a></p>
 
-<p class="aw-citation">Takehisa J et al. 2009. J Virol 83:1635-1648 (outer primers of the nested pol set; HahnF1/HahnR1)</p>
+??? quote "Full citation"
+    Takehisa J et al. 2009. J Virol 83:1635-1648 (outer primers of the nested pol set; HahnF1/HahnR1)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">RETROVIRUS_RNA_polymerase_SIV_3</span></p>
+
+**RETROVIRUS (RNA) — polymerase (SIV)**
 
 | | |
 |---|---|

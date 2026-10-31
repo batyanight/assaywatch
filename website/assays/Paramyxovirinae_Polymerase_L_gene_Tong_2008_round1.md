@@ -1,12 +1,15 @@
-# Paramyxovirinae — Polymerase (L gene)
+# Sensitive and Broadly Reactive Reverse Transcription-PCR Assays To Detect Novel Paramyxoviruses
 
-<p class="aw-byline">2008</p>
+<p class="aw-byline">Tong · Journal of Clinical Microbiology · 2008</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.00192-08">doi:10.1128/JCM.00192-08</a></p>
 
-<p class="aw-citation">Tong S et al. 2008. J Clin Microbiol 46:2652-2658</p>
+??? quote "Full citation"
+    Tong S et al. 2008. J Clin Microbiol 46:2652-2658
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Paramyxovirinae_Polymerase_L_gene_Tong_2008_round1</span></p>
+
+**Paramyxovirinae — Polymerase (L gene)**
 
 | | |
 |---|---|

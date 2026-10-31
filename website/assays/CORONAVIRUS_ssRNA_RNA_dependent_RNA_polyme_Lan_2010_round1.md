@@ -1,12 +1,15 @@
-# CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase
+# Identification of a Severe Acute Respiratory Syndrome Coronavirus-Like Virus in a Leaf-Nosed Bat in Nigeria
 
-<p class="aw-byline">2010</p>
+<p class="aw-byline">Quan · mBio · 2010</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/mBio.00208-10">doi:10.1128/mBio.00208-10</a></p>
 
-<p class="aw-citation">Quan PL et al. 2010. mBio 1:e00208-10 (PREDICT pan-CoV RdRp nested PCR; sheet says 'Lan et al 2010')</p>
+??? quote "Full citation"
+    Quan PL et al. 2010. mBio 1:e00208-10 (PREDICT pan-CoV RdRp nested PCR; sheet says 'Lan et al 2010')
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1</span></p>
+
+**CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase**
 
 | | |
 |---|---|

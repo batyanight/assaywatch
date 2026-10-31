@@ -1,12 +1,15 @@
-# CALICIVIRUS (ssRNA) — capsid-coding region (PREDICT P-024)
+# Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing
 
-<p class="aw-byline">1999</p>
+<p class="aw-byline">Reid · Journal of Virological Methods · 1999</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/S0166-0934(99)00088-9">doi:10.1016/S0166-0934(99)00088-9</a></p>
 
-<p class="aw-citation">Reid, S. M. et al. Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107 (1999).</p>
+??? quote "Full citation"
+    Reid, S. M. et al. Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107 (1999).
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">CALICIVIRUS_ssRNA_Capsid</span></p>
+
+**CALICIVIRUS (ssRNA) — capsid-coding region (PREDICT P-024)**
 
 | | |
 |---|---|

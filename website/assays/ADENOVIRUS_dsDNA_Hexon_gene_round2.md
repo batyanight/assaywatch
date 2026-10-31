@@ -1,12 +1,15 @@
-# ADENOVIRUS (dsDNA) — Hexon gene
+# Molecular Identification of Adenoviruses in Clinical Samples by Analyzing a Partial Hexon Genomic Region
 
-<p class="aw-byline">2005</p>
+<p class="aw-byline">Casas · Journal of Clinical Microbiology · 2005</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.43.12.6176-6182.2005">doi:10.1128/JCM.43.12.6176-6182.2005</a></p>
 
-<p class="aw-citation">Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)</p>
+??? quote "Full citation"
+    Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">ADENOVIRUS_dsDNA_Hexon_gene_round2</span></p>
+
+**ADENOVIRUS (dsDNA) — Hexon gene**
 
 | | |
 |---|---|

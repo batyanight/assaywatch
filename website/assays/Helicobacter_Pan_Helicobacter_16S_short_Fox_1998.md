@@ -1,12 +1,15 @@
-# Helicobacter — Pan Helicobacter 16S short amplicon (Jim Fox)
+# Hepatic Helicobacter species identified in bile and gallbladder tissue from chileans with chronic cholecystitis
 
-<p class="aw-byline">1998</p>
+<p class="aw-byline">Fox · Gastroenterology · 1998</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/S0016-5085(98)70589-X">doi:10.1016/S0016-5085(98)70589-X</a></p>
 
-<p class="aw-citation">Fox JG et al. 1998. Gastroenterology 114:755-763</p>
+??? quote "Full citation"
+    Fox JG et al. 1998. Gastroenterology 114:755-763
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Helicobacter_Pan_Helicobacter_16S_short_Fox_1998</span></p>
+
+**Helicobacter — Pan Helicobacter 16S short amplicon (Jim Fox)**
 
 | | |
 |---|---|

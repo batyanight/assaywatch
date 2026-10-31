@@ -1,12 +1,15 @@
-# E. coli-malB promoter
+# Detection of Escherichia coli and identification of enterotoxigenic strains by primer-directed enzymatic amplification of specific DNA sequences
 
-<p class="aw-byline">1991</p>
+<p class="aw-byline">Candrian · International Journal of Food Microbiology · 1991</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/0168-1605(91)90148-I">doi:10.1016/0168-1605(91)90148-I</a></p>
 
-<p class="aw-citation">Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (seed list spells it Candrain)</p>
+??? quote "Full citation"
+    Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (seed list spells it Candrain)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">E_coli_malB_Candrian_1991</span></p>
+
+**E. coli-malB promoter**
 
 | | |
 |---|---|

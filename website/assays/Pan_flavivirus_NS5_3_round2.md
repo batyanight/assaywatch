@@ -1,12 +1,15 @@
-# Pan-flavivirus — NS5-3
+# Comparison of Flavivirus Universal Primer Pairs and Development of a Rapid, Highly Sensitive Heminested Reverse Transcription-PCR Assay for Detection of Flaviviruses Targeted to a Conserved Region of the NS5 Gene Sequences
 
-<p class="aw-byline">2001</p>
+<p class="aw-byline">Scaramozzino · Journal of Clinical Microbiology · 2001</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/JCM.39.5.1922-1927.2001">doi:10.1128/JCM.39.5.1922-1927.2001</a></p>
 
-<p class="aw-citation">Scaramozzino N et al. 2001 (cFD2); FS778 hemi-nested forward also from this paper</p>
+??? quote "Full citation"
+    Scaramozzino N et al. 2001 (cFD2); FS778 hemi-nested forward also from this paper
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Pan_flavivirus_NS5_3_round2</span></p>
+
+**Pan-flavivirus — NS5-3**
 
 | | |
 |---|---|

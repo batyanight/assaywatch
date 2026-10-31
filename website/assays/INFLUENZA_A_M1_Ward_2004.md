@@ -1,12 +1,15 @@
-# Influenza A virus — M1 gene real-time RT-PCR (Ward 2004)
+# Design and performance testing of quantitative real time PCR assays for influenza A and B viral load measurement
 
-<p class="aw-byline">2004</p>
+<p class="aw-byline">Ward · Journal of Clinical Virology · 2004</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/S1386-6532(03)00122-7">doi:10.1016/S1386-6532(03)00122-7</a></p>
 
-<p class="aw-citation">Ward CL et al. 2004. J Clin Virol 29:179-188</p>
+??? quote "Full citation"
+    Ward CL et al. 2004. J Clin Virol 29:179-188
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">INFLUENZA_A_M1_Ward_2004</span></p>
+
+**Influenza A virus — M1 gene real-time RT-PCR (Ward 2004)**
 
 | | |
 |---|---|

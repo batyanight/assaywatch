@@ -1,12 +1,15 @@
-# CALICIVIRUS (ssRNA) — Helicase (Reid 1999)
+# Development of PCR primers for specific amplification of two distinct regions of the genomes of San Miguel sea-lion and vesicular exanthema of swine viruses
 
-<p class="aw-byline">1995</p>
+<p class="aw-byline">Neill · Molecular and Cellular Probes · 1995</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1016/S0890-8508(95)90962-1">doi:10.1016/S0890-8508(95)90962-1</a></p>
 
-<p class="aw-citation">Neill JD, Seal BS 1995. Mol Cell Probes 9:33-37</p>
+??? quote "Full citation"
+    Neill JD, Seal BS 1995. Mol Cell Probes 9:33-37
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">CALICIVIRUS_ssRNA_Helicase_Reid_1999</span></p>
+
+**CALICIVIRUS (ssRNA) — Helicase (Reid 1999)**
 
 | | |
 |---|---|

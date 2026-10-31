@@ -1,12 +1,15 @@
-# VAIRIMORPHA (NOSEMA) APIS - SSU rRNA duplex PCR, 321APIS (Martin-Hernandez 2007)
+# Outcome of Colonization of Apis mellifera by Nosema ceranae
 
-<p class="aw-byline">2007</p>
+<p class="aw-byline">Martín-Hernández · Applied and Environmental Microbiology · 2007</p>
 
 <p class="aw-doi"><a href="https://doi.org/10.1128/AEM.00270-07">doi:10.1128/AEM.00270-07</a></p>
 
-<p class="aw-citation">Martín-Hernández R, Meana A, Prieto L, Salvador AM, Garrido-Bailón E, Higes M. 2007. Outcome of Colonization of Apis mellifera by Nosema ceranae. Appl Environ Microbiol 73:6331-6338</p>
+??? quote "Full citation"
+    Martín-Hernández R, Meana A, Prieto L, Salvador AM, Garrido-Bailón E, Higes M. 2007. Outcome of Colonization of Apis mellifera by Nosema ceranae. Appl Environ Microbiol 73:6331-6338
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">NOSEMA_apis_SSU_Martin-Hernandez_2007</span></p>
+
+**VAIRIMORPHA (NOSEMA) APIS - SSU rRNA duplex PCR, 321APIS (Martin-Hernandez 2007)**
 
 | | |
 |---|---|
