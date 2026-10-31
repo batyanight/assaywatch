@@ -14,12 +14,12 @@ python -m assaywatch.screen \
 
 The assay is **Boyle et al. 2004**'s *Batrachochytrium dendrobatidis* ITS TaqMan
 assay, taken from the registry: a 29 nt forward primer, a 22 nt reverse primer, a
-15 nt MGB probe and a 121 bp product.
+15 nt MGB probe and a 146 bp product.
 
 ## The records are synthetic, and that is the point
 
 `make_example_fasta.py` builds each record from the assay's **own oligos** — the
-121 bp amplicon with one defect introduced — and names it after the defect. They
+146 bp amplicon with one defect introduced — and names it after the defect. They
 are not GenBank sequences. Real records give you whichever verdicts those
 particular records happen to produce; these are chosen so that every verdict the
 screener can reach appears exactly once or twice, so you can see what each one
@@ -44,12 +44,12 @@ are:
 
 | record | call | penalty | amplicon_bp | why |
 |---|---|---|---|---|
-| `perfect` | `detect` | 0 | 121 | both primers and the probe match exactly |
-| `fwd_5prime_mismatch` | `detect` | 0.5 | 121 | mismatch at the forward primer's 5' end, far from where extension starts |
-| `probe_mismatch` | `detect` | 1 | 121 | primers match; one mismatch in the probe's outer third |
-| `both_primers_mid_mismatch` | `reduced` | 2 | 121 | one mismatch 6–10 nt from the 3' end of *each* primer |
-| `probe_centre_mismatch` | `reduced` | 2 | 121 | one mismatch in the probe's central third, where a duplex is least stable |
-| `fwd_3prime_mismatch` | `fail` | 3 | 121 | mismatch at the forward primer's **3'-most base** |
+| `perfect` | `detect` | 0 | 146 | both primers and the probe match exactly |
+| `fwd_5prime_mismatch` | `detect` | 0.5 | 146 | mismatch at the forward primer's 5' end, far from where extension starts |
+| `probe_mismatch` | `detect` | 1 | 146 | primers match; one mismatch in the probe's outer third |
+| `both_primers_mid_mismatch` | `reduced` | 2 | 146 | one mismatch 6–10 nt from the 3' end of *each* primer |
+| `probe_centre_mismatch` | `reduced` | 2 | 146 | one mismatch in the probe's central third, where a duplex is least stable |
+| `fwd_3prime_mismatch` | `fail` | 3 | 146 | mismatch at the forward primer's **3'-most base** |
 | `no_reverse_site` | `no_amplicon` | — | — | the reverse primer's site is replaced, so there is no pair |
 | `truncated_inside_amplicon` | `no_amplicon` | — | — | the record ends inside the product: a coverage limit, not a primer failure |
 | `unrelated` | `no_amplicon` | — | — | neither primer has a site |

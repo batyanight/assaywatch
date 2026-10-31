@@ -36,6 +36,18 @@ FILLER = "TGACTGCATGACCTAGCATGACTGCATGACCTAGCATGACTGCATGACCTAGCATGACTGCATGACCTAG
 FLANK = "GTTACCAGTTCAGCATTGACCTAGGTTCAAGGCTAACGTTGACCAGTTCAAGGCTAACGTTGACCAGTTCA"
 
 
+def filler(n: int, offset: int = 0) -> str:
+    """`n` bases of FILLER, tiled. FILLER is 70 nt and an amplicon's middle can be
+    longer than that: the Bd product is 146 bp, so its middle is 95. Slicing a
+    70 nt string for 95 bases returns 70 and the amplicon came out short, which an
+    assertion caught only because the assertion was there. Tiling rather than
+    lengthening the constant, so any `amplicon_bp` works."""
+    if n <= 0:
+        return ""
+    reps = -(-(n + offset) // len(FILLER))
+    return (FILLER * reps)[offset : offset + n]
+
+
 def amplicon(fwd: str, probe: str, rev: str, want_bp: int) -> str:
     """fwd + filler-carrying-the-probe + reverse-complement(rev), exactly want_bp."""
     middle_bp = want_bp - len(fwd) - len(rev)
@@ -43,7 +55,7 @@ def amplicon(fwd: str, probe: str, rev: str, want_bp: int) -> str:
         raise SystemExit(f"amplicon {want_bp} too short for a {len(probe)} nt probe")
     pre = (middle_bp - len(probe)) // 2
     post = middle_bp - len(probe) - pre
-    middle = FILLER[:pre] + probe + FILLER[pre : pre + post]
+    middle = filler(pre) + probe + filler(post, offset=pre)
     seq = fwd + middle + reverse_complement(rev)
     assert len(seq) == want_bp, (len(seq), want_bp)
     return seq

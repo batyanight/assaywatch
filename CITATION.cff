@@ -13,8 +13,12 @@
 # MIT was committed. That made the one machine-readable file GitHub surfaces and
 # Zenodo ingests assert all-rights-reserved on a repository that was MIT.
 #
-# NO `doi:` or `date-released:` FIELD YET: there has been no release. Add both,
-# and `preferred-citation` if a paper appears, at the first release.
+# `version:` here is a THIRD copy of the number that lives in assaywatch/__init__.py
+# (pyproject.toml reads that one dynamically). Nothing checks this file against it,
+# so bump it in the same commit as the tag.
+#
+# `doi:` and `date-released:` are filled at the release itself, once Zenodo has
+# minted the DOI for the tag. Add `preferred-citation` if a paper appears.
 cff-version: 1.2.0
 message: "If you use AssayWatch, please cite it using the metadata below."
 title: AssayWatch
@@ -33,9 +37,13 @@ authors:
     given-names: Batya R.
     orcid: "https://orcid.org/0000-0002-0706-8951"
 repository-code: "https://github.com/batyanight/assaywatch"
-version: 0.0.1
+version: 0.1.0
 license: MIT
-license-url: "https://github.com/batyanight/assaywatch/blob/main/LICENSE-registry"
+# `license:` above names the CODE licence, so this points at the code licence too.
+# It pointed at LICENSE-registry until 2026-10-30, which meant this file declared
+# MIT and handed a reader the CC-BY text. A reuser of the DATA wants
+# LICENSE-registry, named in the abstract and in README.
+license-url: "https://github.com/batyanight/assaywatch/blob/main/LICENSE"
 keywords:
   - PCR
   - qPCR
