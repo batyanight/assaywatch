@@ -117,7 +117,11 @@ source:
     2018: the H3 case was measured in full as the worked example -- its seven
     subtype taxids AND the HA terms gave ZERO records for 2024-2026 where dropping the subtype restriction gave
     95,155. The consequence was live and unnoticed -- this assay could not show recent drift by
-    construction, and whatever verdict it carried in a report rested on data that old.
+    construction. It did NOT publish a wrong verdict: both committed example runs report this assay as
+    "no evaluable records deposited since Oct 2021", so the tool declined to judge it and said why. The defect
+    is subtler and worth naming -- that message reads as a fact about the TAXON ("nothing recent was
+    deposited") when it was a fact about OUR QUERY ("we cannot see what was deposited"), so a live assay sat
+    unjudgeable and the report looked correct while saying so.
 
     Every query-side fix was measured and none survived. `H3N2[Title]` and `H3N2[Organism]` return 0. A bare `H3N2`
     term returns 33,737 for 2024-2026 but only 97.4% are really H3N2. Bare `H3`, `H5` and `H7` return 23,530, 1,862

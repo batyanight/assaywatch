@@ -94,7 +94,9 @@ maintainer". Branch `promote-influenza-and-score-set3`.
   **95,155** without the restriction — NCBI no longer assigns subtype taxids to new influenza
   deposits. The same query shape is live on **H5 Tsukamoto (archive ends 2021)** and **H7
   Tsukamoto (ends 2020)**, so neither can show recent drift by construction, and their
-  verdicts in every past report rest on data that old. Not fixed: broadening the query makes
+  verdicts in every past report read `no recent data` and named the Oct 2021 cutoff, so nothing
+  wrong was published -- the message just reads as a fact about the taxon where it was a fact
+  about the query. Not fixed: broadening the query makes
   the denominator every influenza A HA record and would make a specific subtyping assay look
   like it was failing. A maintainer's call, measurement attached in the roadmap.
 - **Neither scope could be honoured**, so set 3 was NOT the first genuine test of the scoped

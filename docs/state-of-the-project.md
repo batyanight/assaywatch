@@ -138,9 +138,12 @@ On 2026-10-30, chasing a case the tool could not judge, it turned out that NCBI
 has stopped assigning influenza subtype taxids to new deposits. Four entries whose
 retrieval query named those taxids had archives that ended years earlier — H5's
 newest deposit was 2021, H7's was 2020 — so neither assay could show recent drift
-at all, and their verdicts in every report until then rested on data that old. The
-queries are fixed and the entries now restrict their own population by the subtype
-in each record's description.
+at all. No wrong verdict was published -- both committed example runs report them as
+"no evaluable records deposited since Oct 2021", so the tool declined to judge them
+and named the cutoff. What the message could not say is that the cutoff was a
+property of our retrieval query rather than of the taxon, so four live assays sat
+unjudgeable while the report read as correct. The queries are fixed and the entries
+now restrict their own population by the subtype in each record's description.
 
 The general lesson is the one this project keeps relearning: a retrieval query is
 a scientific claim about what population an assay is being judged against, and it

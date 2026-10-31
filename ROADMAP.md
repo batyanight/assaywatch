@@ -61,8 +61,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   to 2026 (matrix 187,534; NP 194,149). NCBI has stopped assigning subtype taxids to new
   influenza deposits: the seven H3Nx taxids AND HA return **0** records for 2024-2026 against
   **95,155** without that restriction. **So the H5 and H7 verdicts in every report this
-  project has produced were computed on data stopping in 2021 and 2020, and neither assay can
-  show recent drift by construction.** This is what made set 3's Shu row unjudgeable.
+  project has produced read `no recent data`, naming the Oct 2021 cutoff, so no wrong verdict
+  was ever published -- but neither assay can show recent drift by construction, and the message
+  reads as a fact about the taxon where it was a fact about the query.** This is what made set 3's Shu row unjudgeable.
   **The obvious fix is wrong**: broadening to `txid11320 AND HA` makes the denominator every
   influenza A hemagglutinin record, so a correctly specific subtyping assay would read as
   detecting a small share of its own archive and look like it was failing — which is the
