@@ -1,3 +1,54 @@
+# Resume point, 2026-10-30 (late: four influenza entries prepared, set 3 opened, one entry blocked)
+
+**Start here:** `ROADMAP.md` "Waiting on a maintainer", then
+`docs/journal/2026-10-30-influenza-drift-entries.md`. Tree committed on branch
+`influenza-drift-entries`; `pytest` 1,811 passed, validator 214/214 live and 14/14 pending,
+ruff clean, `check_citations` 214/0. Nothing promoted to `registry/`.
+
+The two strict-bar drift cases now have assays prepared for them, which was the whole point:
+of the three rows in the corpus carrying `mechanism: drift`, none met the strict bar, so the
+tool's premise was untested.
+
+- **Four entries wait in `pending/`**, every oligo verified against the paper and every
+  amplicon measured against real records: `INFLUENZA_A_M1_Ward_2004` (**95 bp measured
+  against a published 104**, on 183,773 of 183,777 products), `INFLUENZA_A_M1_Yang_2014`
+  (95 bp), `INFLUENZA_A_HA_H3_CDC_Shu_2026` (147 bp) and `INFLUENZA_A_HA_H3_v2_Shu_2026`
+  (103 bp). Ward and Yang share the existing matrix retrieval group, so they cost no fetch;
+  the H3 pair opens one new group that has never been fetched.
+- **Held-out set 3 is open with one row** (`docs/validation-cases-heldout-3.tsv`): Yang 2014
+  against the Ward entry, `fails` / `drift`, scope 114727. **It is not scored**, and cannot
+  be until the entry is promoted, because a pending entry is never screened. It is also the
+  first genuine test of the scoped matrix, its scope having been read before any verdict
+  existed.
+- **One decision blocks one entry, and with it Shu 2026's drift case.** Citing the paper that
+  prints the CDC H3 oligos rather than the FDA 510(k) that defines the assay puts
+  `design_year` 2008 eighteen years from Crossref's 2026, and `citation_matches` requires
+  them within one. No precedent: of 214 live entries not one has a gap over a year. CI's
+  `citation_problems` passes the same entry, because it reads years from the reference text
+  too, so the repo currently answers this question two ways.
+- **`doi_verified` is held false on the three entries Crossref did verify.** A sign-off gate
+  and a true flag cannot coexist: `not_live_because` ignores `status`, so a verified entry in
+  `pending/` reads as live and a schema test fails on it. Each entry records the resolution;
+  `curate` re-sets the flag at promotion.
+- Two `curate` warnings were run down and are artifacts, not defects: the H3 `amplify`
+  failure is `archives_for` falling back to the **segment 7** archive because the H3 group was
+  never fetched (measured instead on 3,000 real H3N2 HA records: 147 and 103 bp, unimodal),
+  and both H3 probes read `absent` because Table 1 writes `/ZEN/` inside the sequence, which
+  `printed_oligos` cannot assemble. The second is now a roadmap item.
+
+## Next, in order
+
+1. Sign off the three verified entries, or send them back.
+2. Take the citation call on the H3 v1 entry. Until then Shu 2026's row stays withheld in the
+   journal, ready to paste.
+3. Promote, fetch the H3 group, screen the new assays, and score set 3. Expect the Ward row to
+   be the first `mechanism: drift` row the matrix has ever scored.
+
+## Still yours
+
+- The 34 `scope_taxid` values (`docs/2026-10-30-scope-worksheet.tsv`), one read per row.
+- The two decisions above.
+
 # Resume point, 2026-10-30 (four decisions taken, S7b shipped, set 2 spent)
 
 **Start here:** `ROADMAP.md`, then `docs/journal/2026-10-30-decisions.md`. The roadmap was

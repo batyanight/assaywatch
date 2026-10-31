@@ -35,6 +35,32 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   34 papers** -- 17 development, 10 held-out set 1, 7 held-out set 2 -- and 11 of them are
   `fails` rows, where a scope can turn a catch into a miss.
 
+- **Four influenza entries wait in `pending/` for sign-off**, prepared 2026-10-30 so that the
+  two strict-bar drift cases have a registry assay to attach to
+  (`docs/journal/2026-10-30-influenza-drift-entries.md`): `INFLUENZA_A_M1_Ward_2004`,
+  `INFLUENZA_A_M1_Yang_2014`, `INFLUENZA_A_HA_H3_CDC_Shu_2026` and
+  `INFLUENZA_A_HA_H3_v2_Shu_2026`. Every oligo is verified, every amplicon measured (Ward's
+  **95 bp against a published 104**, on 183,773 of 183,777 products), the validator passes
+  14/14 on `pending/`, and nothing is promoted. Entering an assay affects published results.
+
+- **ONE DECISION BLOCKS `INFLUENZA_A_HA_H3_CDC_Shu_2026`, and with it Shu 2026's drift case.**
+  The ruling of 2026-10-30 was to cite the paper that prints the oligos rather than admit the
+  FDA 510(k) that defines the assay. That puts `citation.design_year` (2008) eighteen years
+  from Crossref's year (2026), and `papers.citation_matches` requires them within one, so
+  `curate` refuses to verify the DOI -- correctly. **No precedent exists: of 214 live entries,
+  not one has a `design_year` more than a year from its DOI's year.** The three ways out are
+  in the journal; the principled one is to teach `citation_matches` to read a year from the
+  reference text, which `citation_problems` **already does** -- and which is why CI passes the
+  entry that `curate` refuses. One rule, two implementations, two answers. Changing it changes
+  how any entry becomes verified, so it is not a curator's call.
+
+- **`doi_verified` is held FALSE on the three entries Crossref did verify**, because "live"
+  here means a verified DOI and nothing else: `not_live_because` ignores `status`, so a
+  verified entry sitting in `pending/` reads as live and
+  `test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending` fails on it. A
+  sign-off gate and a true flag are mutually exclusive. Each entry records the resolution, and
+  `curate` re-sets the flag in one command at promotion.
+
 - **Nothing else, as of 2026-10-30.** Nine calls have been taken across two sittings and
   are recorded in `docs/journal/2026-10-30-decisions.md` and
   `docs/journal/2026-10-30-decisions-round-2.md`: S7b shipped; the twelve proposed rows
@@ -230,6 +256,16 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   everywhere here), which rules out the high end but does not choose between 0.0, 0.5 and
   the shipped 1.0. A second held-out row is still what would settle it, and 22 of those 23
   assays are not monkeypox.
+- **`printed.py` cannot verify a probe whose internal quencher is written inside the
+  sequence** (found 2026-10-30 while curating the CDC H3 pair). Shu 2026 Table 1 prints
+  `CAG GAT CAC /ZEN/ATA TGG GSC CTG TCC CAG`, so `printed_oligos` never sees the 27 bases as
+  one run: it returns the 18-base tail after the marker and drops the 9-base head below
+  `PRINTED_MIN_LEN`. Both probes of both H3 entries therefore read `absent` while all four
+  primers read `exact`. The bases are in the paper; the scanner cannot assemble them. This
+  will recur -- ZEN, BHQnova and LNA double-quenched probes all print this way -- and the fix
+  is to strip bracketed or slash-delimited modification markers before scanning, which is a
+  change to a verification path and wants its own test. Not built.
+
 - **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
   the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
   before any lineage is looked at. **Designed 2026-10-27 as C1b** in
@@ -387,6 +423,20 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   motive, not a lineage tracked over time at primer sites. So the honest statement is that
   no row yet DEMONSTRATES drift. No unread evaluation data exists again; the next rows need
   a drift-mechanism search.
+
+  **HELD-OUT SET 3 IS OPEN, with one row, and it is the first row in the project that
+  demonstrates drift** (2026-10-30, `docs/validation-cases-heldout-3.tsv`,
+  `docs/journal/2026-10-30-influenza-drift-entries.md`). Yang 2014 against
+  `INFLUENZA_A_M1_Ward_2004`: named M-gene substitutions with years (G238A in 11-12
+  A(H1N1)pdm09 isolates in 2010-2011, joining C154T, G225A and T228C through 2012-2013),
+  located by the paper's own alignments in the primer-binding regions, 6 of 40 specimens
+  negative by the original and positive by the degenerate redesign. It clears the Q6 strict
+  bar. **It is not yet scored**, because its assay waits in `pending/` and a pending entry is
+  never screened; scoring follows promotion and a screen. Set 3 is also the **first genuine
+  test of the scoped matrix**, since its `scope_taxid` (114727) was read from the source paper
+  before any verdict existed, where set 2's scopes could only ever be a re-description. A
+  second row, Shu 2026 against the CDC H3 assay, is written and withheld on the citation
+  decision above.
 
   **The drift-mechanism search is designed and NOT built** (2026-10-30, grilled,
   `docs/journal/2026-10-30-design-grilled.md` Q5-Q6): redesign papers first, as a new
