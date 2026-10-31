@@ -28,17 +28,16 @@
 
 !!! warning "No status is reported for this assay"
 
-    Something about this assay means a predicted-detection figure would
-    mislead you — a chemistry this scoring does not model, or a readout that
-    is not simply amplification. The sequences were still screened and still
-    appear in the tables below that do not depend on a verdict. What is
-    missing is the verdict, and it is missing on purpose rather than shown
-    with a warning attached.
+    A property of this entry would render a predicted-detection figure
+    misleading: a chemistry this scoring does not model, or a readout other
+    than amplification. The sequences were screened and still appear in the
+    tables below that do not depend on a verdict. The verdict is withheld
+    deliberately, rather than presented with a caveat attached.
 
     - **`amplicon_size_unresolved`** — no product size is declared
 
 
-## Scope — what this assay is judged against
+## Scope
 
 This entry declares **`scope_taxids`**: [1714619](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1714619), [12455](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=12455). A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 

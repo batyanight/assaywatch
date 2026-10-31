@@ -103,12 +103,12 @@ any stage for detail.
   </g>
 </svg>
 <figcaption>
-Sequence flows left to right and is never re-fetched to re-score: every archive
-is kept whole, so changing a threshold re-reads what is already on disk.
-Dashed edges are influences rather than data — the thresholds that decide
-verdicts, the one backward path where a single bad clade overrides an otherwise
-reassuring overall figure, and the degeneracy table, which is computed from the
-oligo sequences alone.
+Sequence flows left to right and is never re-retrieved in order to re-score:
+archives are retained complete, so a threshold change re-reads local storage.
+Dashed edges denote influence rather than data flow — the thresholds governing
+verdicts, the single reverse path by which one failing clade overrides an
+otherwise reassuring pooled figure, and the degeneracy table, computed from the
+oligonucleotide sequences alone.
 </figcaption>
 </figure>
 
@@ -116,181 +116,192 @@ oligo sequences alone.
 
 ## <span class="aw-stage-title">The registry</span> {: #stage-registry .aw-stage }
 
-One YAML file per assay, 218 of them. Each carries the oligo sequences, the
-target organism, the chemistry, the product size, and the paper it came from.
+One YAML file per assay; 218 in total. Each records the oligonucleotide
+sequences, target organism, chemistry, product size and source publication.
 
-Entries are not accepted on trust:
+Entries are not accepted on assertion:
 
-- **Nothing is cited from memory.** A DOI is entered unverified and only
-  Crossref can promote it. An assay whose citation cannot be confirmed waits in
-  a holding area and is never screened or published.
-- **Sequences and product sizes are measured, not copied.** Where a measured
-  product length disagrees with the published one, the entry keeps the measured
-  value and records the disagreement. A published size is usually a band read
-  against a ladder; this one is computed from where the primers actually sit.
-- **Problems are recorded in a controlled vocabulary** rather than in prose, so
-  they can be filtered on. Nineteen assays carry a flag serious enough that no
-  verdict is published for them at all.
+- **No citation is entered from memory.** A DOI is recorded as unverified and
+  only Crossref can promote it. An assay whose citation cannot be confirmed is
+  held and is neither screened nor published.
+- **Sequences and product sizes are measured rather than transcribed.** Where
+  a measured product length disagrees with the published value, the entry
+  retains the measured value and records the discrepancy. A published size is
+  typically a band read against a ladder; the measured value is computed from
+  primer binding positions.
+- **Known problems are recorded in a controlled vocabulary** rather than prose,
+  so that they can be filtered. Nineteen assays carry a flag sufficient to
+  withhold any verdict.
 
-**Out:** validated entries, plus the list of organisms and genes to fetch.
+**Output:** validated entries and the set of organisms and genes to retrieve.
 
 ## <span class="aw-stage-title">validate</span> {: #stage-validate .aw-stage }
 
-Runs before anything else and refuses to let the pipeline start on a registry
-that does not parse, has a duplicate key, or contains an entry without a
-confirmed citation.
+Executes before any other stage and halts the pipeline on a registry that does
+not parse, contains a duplicate key, or holds an entry without a confirmed
+citation.
 
-This also runs on every commit, so a broken entry never reaches a run in the
-first place. The schema is strict: an unrecognised field is an error rather
-than being quietly ignored, which is what stops a typo in a field name from
-silently disabling a setting.
+It also runs on every commit, so a malformed entry does not reach a run. The
+schema is strict: an unrecognised field is an error rather than being ignored,
+which prevents a mistyped field name from silently disabling a setting.
 
-**In:** `registry/*.yaml` · **Out:** a go-ahead, or a list of every bad file at
-once rather than just the first.
+**Input:** `registry/*.yaml` · **Output:** clearance to proceed, or every
+invalid file reported at once rather than only the first.
 
 ## <span class="aw-stage-title">retrieve</span> {: #stage-retrieve .aw-stage }
 
-Fetches nucleotide records from GenBank for each target and stores them.
+Retrieves nucleotide records from GenBank for each target and archives them.
 
-Assays that share a target and a gene search share one archive — 218 assays map
-onto **145 archives**, so a shared target is fetched once rather than once per
+Assays sharing a target and gene search share one archive: 218 assays map onto
+**145 archives**, so a shared target is retrieved once rather than once per
 assay.
 
-Fetching is **incremental**: each archive remembers when it was last updated and
-asks only for records modified since. Whole records are kept rather than just
-the primer-binding regions, which is what makes re-scoring free — changing a
-threshold re-reads the disk instead of re-downloading GenBank.
+Retrieval is **incremental**. Each archive records when it was last updated and
+requests only records modified since. Complete records are retained rather than
+only the primer-binding regions, which is what makes re-scoring inexpensive: a
+threshold change re-reads local storage rather than re-querying GenBank.
 
-!!! warning "The failure this stage can hide"
-    A search is a claim about what population you are judging an assay against,
-    and it can stop being true without erroring. Four influenza assays here used
-    searches naming subtype identifiers that NCBI stopped assigning; their
-    archives quietly stopped growing years before anyone noticed, while the
-    reports said something true and misleading — "no recent records" — about the
-    organism rather than about the search. [Scope and retrieval](scoping.md) documents the case.
+!!! warning "Failure mode concealed by this stage"
+    A search is a claim about the population against which an assay is
+    evaluated, and it can cease to be true without producing an error. Four
+    influenza assays used searches naming subtype identifiers that NCBI ceased
+    assigning; those archives stopped growing years before the problem was
+    identified, while the reports stated something true and misleading — "no
+    recent records" — about the organism rather than about the search.
+    [Scope and retrieval](scoping.md) documents the case.
 
-**Out:** compressed FASTA archives plus a record of when each was last fetched.
+**Output:** compressed FASTA archives and a record of each archive's last
+retrieval date.
 
 ## <span class="aw-stage-title">screen</span> {: #stage-screen .aw-stage }
 
-The expensive stage, and the only one that touches sequence at scale.
+The computationally dominant stage, and the only one operating on sequence at
+scale.
 
-Every oligo of every assay is searched against every record of its archive, on
-both strands, allowing up to six mismatches. Where a forward and reverse site
-face each other at a plausible product size, mismatches become a penalty and the
-penalty becomes a call. [Scoring methods](scoring.md).
+Every oligonucleotide of every assay is searched against every record of its
+archive, on both strands, allowing up to six mismatches. Where forward and
+reverse sites face each other at a plausible product size, mismatches are
+converted to a penalty and the penalty to a call. See
+[scoring methods](scoring.md).
 
-On the run this site is built from, that was **3.0 million assay-record pairs**.
-It runs across cores and the output is identical whatever the core count, so a
-faster run is never a different run.
+On the run underlying this site, that comprised **3.0 million assay–record
+pairs**. Execution is parallelised across cores and the output is independent
+of core count, so a faster run is not a different run.
 
-**Results are cached per archive** and re-used until something that could change
-them changes. The scoring settings and the set of modules the stage imports are
-both hashed into that cache key, so editing a penalty invalidates every screen
-automatically rather than relying on anyone remembering to clear it.
+**Results are cached per archive** and reused until an input that could change
+them changes. The scoring configuration and the stage's module import closure
+are both hashed into the cache key, so modifying a penalty invalidates every
+cached screen automatically rather than depending on manual invalidation.
 
-**Out:** one row per (assay, record): the call, the penalty, the product
-coordinates, and each oligo's mismatch positions measured from its 3' end.
+**Output:** one row per (assay, record) giving the call, the penalty, the
+product coordinates, and each oligonucleotide's mismatch positions measured
+from its 3′ terminus.
 
 ## <span class="aw-stage-title">collect</span> {: #stage-collect .aw-stage }
 
-Gathers the cached per-archive results into one table for the run.
+Consolidates the cached per-archive results into a single table for the run.
 
-It also checks each cached screen against a record of what produced it, so a
-screen left over from older settings is detected here rather than being silently
-mixed with current ones. That check exists because stale cached screens from
-months earlier once inflated three separate measurements by around a hundredfold.
+Each cached screen is checked against a record of the configuration that
+produced it, so a screen remaining from earlier settings is detected here
+rather than being combined with current results. The check exists because
+stale cached screens once inflated three separate measurements by
+approximately two orders of magnitude.
 
-**Out:** `calls.tsv.gz` — 3.0 million rows, about 22 MB compressed, the single
-input to everything downstream.
+**Output:** `calls.tsv.gz` — 3.0 million rows, approximately 22 MB compressed;
+the sole input to every downstream stage.
 
 ## <span class="aw-stage-title">The calls table</span> {: #stage-calls .aw-stage }
 
-Everything after this point reads this one file and nothing else. That is
-deliberate: the four analyses below cannot disagree about what the data say,
-because there is only one copy of it.
+Every subsequent stage reads this file and nothing else. This is deliberate:
+the four analyses below cannot disagree about the data, because a single copy
+exists.
 
-Of the 3.0 million rows on this run, **1.57 million were evaluable** — both
-primers landed in the right orientation and size range, so the result is a
-statement about the assay. The other 1.47 million produced no product at all.
+Of the 3.0 million rows in this run, **1.57 million were evaluable** — both
+primers bound in the correct orientation and size range, so the result is a
+statement about the assay. The remaining 1.47 million produced no product.
 
-That split is the method's honest weak point: a record where one primer has
-drifted counts as a failure, while a record where *both* have drifted leaves the
-denominator entirely. Every assay page reports its own split.
+That division is the principal weakness of the method: a record in which one
+primer has diverged is scored as a failure, whereas a record in which *both*
+have diverged is excluded from the denominator entirely. Each assay page
+reports its own figures.
 
 ## <span class="aw-stage-title">drift + report</span> {: #stage-report .aw-stage }
 
-Groups calls by the year each record was deposited, compares recent detection
-against everything earlier, and assigns a status.
+Groups calls by deposit year, compares recent detection against all earlier
+records, and assigns a status.
 
-An assay is flagged only when the **upper** bound of its recent confidence
-interval falls below the threshold — the data must be inconsistent with the
-assay still working, not merely compatible with it failing. Where records are
-scarce the window widens, up to five years, and each assay reports the window it
-used.
+An assay is flagged only where the **upper** bound of its recent confidence
+interval falls below the threshold: the data must be inconsistent with
+continued function, not merely compatible with failure. Where records are
+scarce the window extends to a maximum of five years, and each assay reports
+the window applied.
 
-**Out:** `report.md` for reading on GitHub, and a self-contained `report.html`
-with no external dependencies, so it opens from a file path in a lab with no
-bioinformatician.
+**Output:** `report.md` for reading on GitHub, and a self-contained
+`report.html` with no external dependencies, which opens from a local file path
+without specialist software.
 
 ## <span class="aw-stage-title">lineage</span> {: #stage-lineage .aw-stage }
 
-Splits each assay's records by organism below the target and recomputes
+Divides each assay's records by organism below the target and recomputes
 detection per clade.
 
-This matters because a single pooled percentage hides exactly what you care
-about: published failures are nearly always specific to one lineage, and a clade
-that is 5% of deposits can be 100% of one region's cases.
+A single pooled proportion conceals the relevant signal: published failures are
+almost always specific to one lineage, and a clade representing 5% of deposits
+may represent 100% of cases in one region.
 
-It is the only stage that can change a verdict rather than just describe one. If
-one well-sampled clade is significantly below the threshold after correcting for
-multiple comparisons, it overrides an otherwise reassuring overall figure.
+This is the only stage that can alter a verdict rather than describe one. Where
+one adequately sampled clade is significantly below the threshold after
+correction for multiple comparisons, it overrides an otherwise reassuring
+pooled figure.
 
 ## <span class="aw-stage-title">site drift</span> {: #stage-sitedrift .aw-stage }
 
-For assays with a problem, works out **which base** is responsible.
+For flagged assays, identifies **which base** is responsible.
 
-For each oligo position it compares detection among records that mismatch there
-against records that do not, groups the records sharing a mismatch pattern, and
-names the degenerate base that would cover most of the variation observed.
+For each oligonucleotide position it compares detection among records carrying
+a mismatch at that position against records that do not, groups records sharing
+a mismatch pattern, and identifies the degenerate base that would cover most of
+the observed variation.
 
-This is the stage whose output is directly actionable: it names the base to
-change if you were to re-order the primer.
+This stage produces the directly actionable output: the base to substitute in a
+redesigned primer.
 
 ## <span class="aw-stage-title">figures</span> {: #stage-figures .aw-stage }
 
-Draws the overview plots and inlines them into the HTML report.
+Draws the overview plots and embeds them in the HTML report.
 
-It recomputes the assessments rather than parsing the written report, so the
-figures and the tables cannot drift apart — reading numbers back out of rendered
-text would be a second implementation of the same arithmetic, free to disagree
-with the first.
+The assessments are recomputed rather than parsed from the rendered report, so
+figures and tables cannot diverge: reading values back out of rendered text
+would constitute a second implementation of the same arithmetic, free to
+disagree with the first.
 
 ## <span class="aw-stage-title">degeneracy</span> {: #stage-degeneracy .aw-stage }
 
-Computed from the oligo sequences alone — no sequence database involved, which
-is why it hangs off the registry rather than the calls table.
+Computed from the oligonucleotide sequences alone, with no sequence database
+involved, which is why it derives from the registry rather than the calls
+table.
 
 A degenerate primer is a mixture, and the number of distinct molecules in that
-mixture dilutes the one that matches your template. This reports pool size per
-assay and flags the extreme cases; the largest in the registry exceeds a billion
-combinations.
+mixture dilutes the species matching any given template. This stage reports
+pool size per assay and flags extreme cases; the largest in the registry
+exceeds 10⁹ combinations.
 
 It is **reported and never scored**. A degenerate base covering the record's
-base counts as a match, because that is what degeneracy is for.
+base is counted as a match, which is the purpose of degeneracy.
 
 ## <span class="aw-stage-title">config.yaml</span> {: #stage-config .aw-stage }
 
-Nineteen thresholds decide every verdict and all but one were set by eye. None
-of them live in code.
+Nineteen thresholds determine every verdict; all but one were set by
+inspection. None are embedded in code.
 
-Each is annotated in place with its reasoning, or with an explicit admission
-that it has none — including the detection threshold itself, which is a
-judgement about tolerable surveillance loss rather than a property of PCR.
+Each is annotated at its definition with its justification, or with an explicit
+statement that none exists — including the detection threshold itself, which
+expresses a judgement about tolerable surveillance loss rather than a property
+of PCR.
 
-The settings that affect scoring are hashed into the screening cache, so
-changing one of them forces a complete re-screen rather than producing a report
-that mixes old and new rules.
+Settings affecting scoring are hashed into the screening cache, so modifying
+one forces a complete re-screen rather than producing a report combining old
+and new rules.
 
 [Known limitations](limitations.md) summarises what the output will bear.
 

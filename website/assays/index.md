@@ -7,7 +7,7 @@ hide:
 
 217 assays, screened on 2026-10-31. **42** declining · **31** low coverage · **5** watch · **30** insufficient data · **18** no recent data · **72** stable · **19** status withheld.
 
-A status tells you where to look, not what is true. Click a column to sort, or type to filter.
+A status indicates where to direct attention; it is not a result. Select a column heading to sort, or filter by typing.
 
 <input class="aw-filter" type="text" placeholder="filter by organism, gene, assay or chemistry…" aria-label="filter assays">
 

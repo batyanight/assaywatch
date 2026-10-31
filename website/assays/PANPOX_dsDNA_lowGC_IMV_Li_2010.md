@@ -28,19 +28,18 @@
 
 !!! warning "No status is reported for this assay"
 
-    Something about this assay means a predicted-detection figure would
-    mislead you — a chemistry this scoring does not model, or a readout that
-    is not simply amplification. The sequences were still screened and still
-    appear in the tables below that do not depend on a verdict. What is
-    missing is the verdict, and it is missing on purpose rather than shown
-    with a warning attached.
+    A property of this entry would render a predicted-detection figure
+    misleading: a chemistry this scoring does not model, or a readout other
+    than amplification. The sequences were screened and still appear in the
+    tables below that do not depend on a verdict. The verdict is withheld
+    deliberately, rather than presented with a caveat attached.
 
     - **`retrieval_stale`** — the retrieval query changed on 2026-10-17; these numbers predate it
 
 
-## Scope — what this assay is judged against
+## Scope
 
-This entry declares no `scope_taxids`, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower set than its taxid covers, that reads as low coverage rather than as drift — see [scoping](../scoping.md).
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
 Retrieval query:
 
@@ -48,7 +47,7 @@ Retrieval query:
 (txid10242[Organism:exp] OR txid10260[Organism:exp] OR txid10265[Organism:exp] OR txid10275[Organism:exp] OR txid10282[Organism:exp] OR txid573055[Organism:exp] OR txid2005509[Organism:exp] OR txid2733296[Organism:exp] OR txid2733297[Organism:exp] OR txid2733298[Organism:exp] OR txid2733299[Organism:exp] OR txid2733301[Organism:exp])
 ```
 
-A retrieval query is a scientific claim about the population the assay is being judged against, and it can go stale silently — see [scoping](../scoping.md).
+A retrieval query is a claim about the population against which the assay is evaluated, and it can cease to be accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 Disclosures on this entry: `scope_narrower_than_taxid`, `retrieval_stale`.
 

@@ -30,13 +30,13 @@ ROOT = Path(__file__).resolve().parents[1]
 #: What each status means, in one line, shown on every page that prints one.
 #: Lifted from `README.md`'s "The drift call" so the two cannot drift apart.
 STATUS_MEANING = {
-    "declining": "below the threshold, measurably lower than a baseline that once cleared it",
-    "low coverage": "below the threshold, but not measurably lower than before"
-    " — an assay used beyond its design, or one that never covered this taxon",
-    "watch": "below the threshold with an interval that still covers it",
+    "declining": "below the threshold, and measurably lower than a baseline that previously exceeded it",
+    "low coverage": "below the threshold without a measurable decline"
+    " \u2014 applied beyond its design range, or never covering this taxon",
+    "watch": "below the threshold with an interval that still spans it",
     "stable": "the recent interval does not fall below the threshold",
-    "insufficient data": "too few evaluable records to say anything; reported, never flagged",
-    "no recent data": "nothing was deposited in the window",
+    "insufficient data": "too few evaluable records to support an estimate; reported, never flagged",
+    "no recent data": "no deposits within the window",
     "no data": "no archive at all",
 }
 
@@ -200,12 +200,11 @@ def _withheld_block(a: dict[str, Any]) -> str:
     lines = [
         '!!! warning "No status is reported for this assay"',
         "",
-        "    Something about this assay means a predicted-detection figure would",
-        "    mislead you — a chemistry this scoring does not model, or a readout that",
-        "    is not simply amplification. The sequences were still screened and still",
-        "    appear in the tables below that do not depend on a verdict. What is",
-        "    missing is the verdict, and it is missing on purpose rather than shown",
-        "    with a warning attached.",
+        "    A property of this entry would render a predicted-detection figure",
+        "    misleading: a chemistry this scoring does not model, or a readout other",
+        "    than amplification. The sequences were screened and still appear in the",
+        "    tables below that do not depend on a verdict. The verdict is withheld",
+        "    deliberately, rather than presented with a caveat attached.",
         "",
     ]
     for flag, note in a["withheld_reasons"]:
@@ -218,9 +217,9 @@ def _verdict_block(a: dict[str, Any], run_date: str) -> str:
     rec_share = a["recent_detected"] / a["recent_evaluable"] if a["recent_evaluable"] else None
     base_share = a["baseline_detected"] / a["baseline_evaluable"] if a["baseline_evaluable"] else None
     lines = [
-        "## The verdict, and the numbers behind it\n",
+        "## Verdict\n",
         f"**{a['status']}** — {meaning}\n",
-        "Everything the call was made from, so you can check it yourself:\n",
+        "Every value the call was derived from, permitting manual recomputation:\n",
         "| | detected | evaluable | share | 95% interval |",
         "|---|---|---|---|---|",
         f"| recent window ({a['window_months']} months, from {a['recent_from']}) "
@@ -238,39 +237,40 @@ def _verdict_block(a: dict[str, Any], run_date: str) -> str:
         lines.append(f"*{a['note']}*\n")
     if a["trend"]:
         lines.append(
-            f"Trend across deposit years: {a['trend']}. Shown for context; it does not feed the verdict.\n"
+            f"Trend across deposit years: {a['trend']}. Reported for context; it is "
+            "not an input to the verdict.\n"
         )
     lines.append(
-        f"From the {run_date} run. A status tells you where to look rather than what is "
-        "true — [what the output is worth](../limitations.md) explains how "
-        "often these calls are right.\n"
+        f"From the {run_date} run. A status indicates where to direct attention rather "
+        "than establishing a result; [known limitations](../limitations.md) reports how "
+        "often these calls are correct.\n"
     )
     return "\n".join(lines)
 
 
 def _charts_block(a: dict[str, Any]) -> str:
-    lines = ["## Detection by deposit year\n"]
+    lines = ["## Predicted detection by deposit year\n"]
     lines += [
-        "How much of the deposited sequence this assay is predicted to detect, by the year",
-        "each record was deposited. The shaded band is the recent window; the dashed line is",
-        "the threshold. Marker size is the number of records behind each point, because 100%",
-        "of three records and 100% of three thousand are not the same claim.\n",
+        "The proportion of deposited sequence this assay is predicted to detect, by year of",
+        "deposit. The shaded band marks the recent window and the dashed line the threshold.",
+        "Marker size encodes the number of records behind each point, since 100% of three",
+        "records and 100% of three thousand are not equivalent claims.\n",
         site_svg.year_chart(a),
         "",
-        "## Where the mismatches sit\n",
-        "Each oligo drawn base by base, 5\u2032 to 3\u2032, with the 3\u2032 window shaded \u2014 a mismatch",
-        "there is the one that fails a reaction. Bar height is the share of records differing",
-        "at that position; bar colour is what that costs, measured as the fall in detection",
-        "between records that differ there and records that do not:",
+        "## Mismatch distribution\n",
+        "Each oligonucleotide drawn base by base, 5\u2032 to 3\u2032, with the 3\u2032 window shaded, since",
+        "a mismatch there is the one most likely to prevent amplification. Bar height is the",
+        "proportion of records differing at that position; bar colour is the consequence,",
+        "measured as the fall in detection between records differing there and those not:",
         "",
         '<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls '
-        "25 points or more</span>",
+        "by 25 points or more</span>",
         '<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>',
-        '<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no cost '
+        '<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect '
         "\u2014 variation the assay tolerates</span>",
         "",
-        "Hover any bar for the counts. A tall grey bar is a polymorphism; a short red one is a",
-        "design problem.\n",
+        "Counts are available on hover. A tall grey bar indicates a tolerated polymorphism; a",
+        "short red bar indicates a position of consequence.\n",
         site_svg.mismatch_track(a)
         or '<p class="aw-empty">No position carried a mismatch in enough records to report.</p>',
     ]
@@ -341,7 +341,7 @@ def _lineage_block(a: dict[str, Any]) -> list[str]:
 
 
 def _scope_block(a: dict[str, Any]) -> str:
-    lines = ["\n## Scope — what this assay is judged against\n"]
+    lines = ["\n## Scope\n"]
     if a["scope_taxids"]:
         ids = ", ".join(
             f"[{t}](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={t})"
@@ -354,10 +354,10 @@ def _scope_block(a: dict[str, Any]) -> str:
         )
     else:
         lines.append(
-            "This entry declares no `scope_taxids`, so every record retrieved for its target "
-            "taxid counts toward the denominator. Where an assay was designed for a narrower "
-            "set than its taxid covers, that reads as low coverage rather than as drift — "
-            "see [scoping](../scoping.md).\n"
+            "This entry declares no scope restriction, so every record retrieved for "
+            "its target taxid counts toward the denominator. Where an assay was designed "
+            "for a narrower range than its taxid covers, that presents as low coverage "
+            "rather than drift; see [scope and retrieval](../scoping.md).\n"
         )
     if a["out_of_scope"]:
         lines.append(f"{a['out_of_scope']:,} screened records fell outside the declared scope.\n")
@@ -370,8 +370,9 @@ def _scope_block(a: dict[str, Any]) -> str:
     if a["query"]:
         lines.append(f"Retrieval query:\n\n```\n{a['query']}\n```\n")
         lines.append(
-            "A retrieval query is a scientific claim about the population the assay is being "
-            "judged against, and it can go stale silently — see [scoping](../scoping.md).\n"
+            "A retrieval query is a claim about the population against which the assay "
+            "is evaluated, and it can cease to be accurate without producing an error; "
+            "see [scope and retrieval](../scoping.md).\n"
         )
     if a["title_requires"]:
         lines.append(
@@ -396,13 +397,14 @@ def _denominator_block(a: dict[str, Any]) -> str:
     reached = a["recent_evaluable"] + a["baseline_evaluable"]
     pct = 100 * reached / a["screened_rows"] if a["screened_rows"] else 0
     lines = [
-        "\n## What reached the statistics\n",
+        "\n## Records reaching the statistics\n",
         f"{a['screened_rows']:,} records were screened for this assay and **{reached:,} "
         f"({pct:.0f}%)** were evaluable, meaning both primers landed in the right orientation "
         f"and size range. {a['no_amplicon_rows']:,} produced no amplicon at all.\n",
-        "This matters because a record with one drifted primer counts as a failure while a "
-        "record with both drifted leaves the denominator entirely. The bias is known, measured "
-        "and not obviously fixable — see [known limitations](../limitations.md).\n",
+        "This is material because a record with one diverged primer is scored as a "
+        "failure while a record with both diverged is excluded from the denominator "
+        "entirely. The resulting bias is known, measured, and may not be correctable; "
+        "see [known limitations](../limitations.md).\n",
     ]
     if a["exclusions"]:
         lines.append("| why a record was not evaluable | records |\n|---|---|")
@@ -437,7 +439,8 @@ def index_page(data: dict[str, Any]) -> str:
         "---\n",
         "# Every assay\n",
         f"{len(assays)} assays, screened on {data['run_date']}. {summary}.\n",
-        "A status tells you where to look, not what is true. Click a column to sort, or type to filter.\n",
+        "A status indicates where to direct attention; it is not a result. Select a "
+        "column heading to sort, or filter by typing.\n",
         '<input class="aw-filter" type="text"'
         ' placeholder="filter by organism, gene, assay or chemistry\u2026"'
         ' aria-label="filter assays">\n',
@@ -503,11 +506,12 @@ def _glossary(out: Path) -> None:
     body = src.read_text()
     header = (
         "<!-- Generated by assaywatch.site_render from GLOSSARY.md. Edit that file. -->\n"
-        '!!! info "This page is the repository\'s `GLOSSARY.md`, verbatim"\n'
-        "    These are the words used in the code, the comments and the commit\n"
-        "    messages, not a separate set written for the website. Edit\n"
+        '!!! info "Reproduced verbatim from the repository\'s `GLOSSARY.md`"\n'
+        "    These are the terms used in the source code, comments and commit\n"
+        "    messages, rather than a separate vocabulary written for this site.\n"
+        "    Edits to\n"
         "    [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)\n"
-        "    and this page follows.\n\n"
+        "    propagate here.\n\n"
     )
     # The file opens with its own `# Glossary` heading, which becomes the page title.
     first, _, rest = body.partition("\n")

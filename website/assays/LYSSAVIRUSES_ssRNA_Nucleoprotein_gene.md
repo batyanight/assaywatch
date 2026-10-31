@@ -28,19 +28,18 @@
 
 !!! warning "No status is reported for this assay"
 
-    Something about this assay means a predicted-detection figure would
-    mislead you — a chemistry this scoring does not model, or a readout that
-    is not simply amplification. The sequences were still screened and still
-    appear in the tables below that do not depend on a verdict. What is
-    missing is the verdict, and it is missing on purpose rather than shown
-    with a warning attached.
+    A property of this entry would render a predicted-detection figure
+    misleading: a chemistry this scoring does not model, or a readout other
+    than amplification. The sequences were screened and still appear in the
+    tables below that do not depend on a verdict. The verdict is withheld
+    deliberately, rather than presented with a caveat attached.
 
     - **`not_validated`**
 
 
-## Scope — what this assay is judged against
+## Scope
 
-This entry declares no `scope_taxids`, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower set than its taxid covers, that reads as low coverage rather than as drift — see [scoping](../scoping.md).
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
 Disclosures on this entry: `not_validated`.
 

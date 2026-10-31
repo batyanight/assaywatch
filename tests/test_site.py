@@ -80,9 +80,14 @@ def test_a_withheld_assay_gets_no_status_and_no_verdict_arithmetic():
     )
     assert "status withheld" in md
     assert "not_screenable" in md and "the chemistry is RPA" in md
-    # No verdict, no arithmetic, no charts drawn in a verdict colour.
-    assert "The verdict" not in md
-    assert "Detection by deposit year" not in md
+    # No verdict section, no arithmetic, no charts drawn in a verdict colour.
+    # Matching the HEADING rather than the word: the withholding notice itself
+    # says "the verdict is withheld", and a substring test on that word passed
+    # only until the notice was reworded.
+    assert "## Verdict" not in md
+    assert "## Predicted detection by deposit year" not in md
+    assert "Newcombe" not in md, "the change interval is part of the withheld arithmetic"
+    assert "<svg" not in md
     assert "stable" not in md.replace("aw-chip-none", "")
 
 
@@ -341,7 +346,12 @@ def test_the_pipeline_page_reads_without_javascript():
         html = built.read_text()
         for stage in ("screen", "retrieve", "degeneracy"):
             assert f'id="stage-{stage}"' in html
-        assert "The expensive stage" in html, "stage prose is missing from the built page"
+        # Prose, not just the anchors: the point is that a reader without
+        # JavaScript gets the written pipeline rather than a diagram and twelve
+        # empty headings. Anchored on a term the stage cannot be described
+        # without, rather than on a turn of phrase a rewrite will change.
+        assert "both strands" in html, "the screen stage's prose is missing from the built page"
+        assert "incremental" in html.lower(), "the retrieve stage's prose is missing"
 
 
 def test_rendering_the_same_data_twice_gives_the_same_bytes():

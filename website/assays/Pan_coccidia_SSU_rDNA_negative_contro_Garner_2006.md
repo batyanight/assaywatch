@@ -26,11 +26,11 @@
 | forward | `ACYATAAACTATGCCRACTAGA` | 22 nt |
 | reverse | `CYTCCYTRCRTTARACACGCAA` | 22 nt |
 
-## The verdict, and the numbers behind it
+## Verdict
 
-**low coverage** — below the threshold, but not measurably lower than before — an assay used beyond its design, or one that never covered this taxon
+**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
 
-Everything the call was made from, so you can check it yourself:
+Every value the call was derived from, permitting manual recomputation:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
@@ -41,32 +41,32 @@ Change from baseline, Newcombe interval: **-14.8% to -10.2%**. Threshold: **90.0
 
 *detected share 24.5% (22%-27%) since Oct 2024, upper bound below the 90% threshold; change from baseline -15% to -10% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 37%)*
 
-Trend across deposit years: by record falling (p=5.07e-60, 36 years); by footprint falling (p=0.012). Shown for context; it does not feed the verdict.
+Trend across deposit years: by record falling (p=5.07e-60, 36 years); by footprint falling (p=0.012). Reported for context; it is not an input to the verdict.
 
-From the 2026-10-31 run. A status tells you where to look rather than what is true — [what the output is worth](../limitations.md) explains how often these calls are right.
+From the 2026-10-31 run. A status indicates where to direct attention rather than establishing a result; [known limitations](../limitations.md) reports how often these calls are correct.
 
-## Detection by deposit year
+## Predicted detection by deposit year
 
-How much of the deposited sequence this assay is predicted to detect, by the year
-each record was deposited. The shaded band is the recent window; the dashed line is
-the threshold. Marker size is the number of records behind each point, because 100%
-of three records and 100% of three thousand are not the same claim.
+The proportion of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Marker size encodes the number of records behind each point, since 100% of three
+records and 100% of three thousand are not equivalent claims.
 
 <svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1989 to 2026, against a 90 percent threshold."><rect class="aw-window" x="670.2" y="12.0" width="35.8" height="180.0"><title>the recent window: 24 months from Oct 2024</title></rect><line class="aw-grid" x1="44.0" y1="192.0" x2="706.0" y2="192.0"/><text class="aw-tick aw-tick-y" x="37.0" y="195.5">0</text><line class="aw-grid" x1="44.0" y1="147.0" x2="706.0" y2="147.0"/><text class="aw-tick aw-tick-y" x="37.0" y="150.5">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="57.0" x2="706.0" y2="57.0"/><text class="aw-tick aw-tick-y" x="37.0" y="60.5">75</text><line class="aw-grid" x1="44.0" y1="12.0" x2="706.0" y2="12.0"/><text class="aw-tick aw-tick-y" x="37.0" y="15.5">100</text><line class="aw-threshold" x1="44.0" y1="30.0" x2="706.0" y2="30.0"/><text class="aw-threshold-label" x="706.0" y="25.0">90% threshold</text><polyline class="aw-line aw-low-coverage" points="44.0,192.0 97.7,102.0 115.6,90.8 133.5,96.0 151.4,57.0 169.2,102.0 187.1,104.6 205.0,42.9 222.9,65.4 240.8,147.0 258.7,71.1 276.6,107.6 294.5,124.5 312.4,150.6 330.3,120.0 348.2,118.2 366.1,149.4 383.9,137.0 401.8,137.6 419.7,126.7 437.6,93.3 455.5,110.2 473.4,91.2 491.3,118.9 509.2,74.8 527.1,109.6 545.0,93.5 562.9,109.1 580.8,146.5 598.6,124.1 616.5,155.9 634.4,147.8 652.3,159.7 670.2,147.5 688.1,152.7 706.0,135.3"/><g class="aw-point aw-low-coverage"><title>1989: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="192.0" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>1992: 4 of 8 detected (50.0%)</title><circle cx="97.7" cy="102.0" r="3.1"/></g><g class="aw-point aw-low-coverage"><title>1993: 9 of 16 detected (56.2%)</title><circle cx="115.6" cy="90.8" r="3.6"/></g><g class="aw-point aw-low-coverage"><title>1994: 8 of 15 detected (53.3%)</title><circle cx="133.5" cy="96.0" r="3.5"/></g><g class="aw-point aw-low-coverage"><title>1995: 3 of 4 detected (75.0%)</title><circle cx="151.4" cy="57.0" r="2.7"/></g><g class="aw-point aw-low-coverage"><title>1996: 3 of 6 detected (50.0%)</title><circle cx="169.2" cy="102.0" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>1997: 17 of 35 detected (48.6%)</title><circle cx="187.1" cy="104.6" r="4.1"/></g><g class="aw-point aw-low-coverage"><title>1998: 29 of 35 detected (82.9%)</title><circle cx="205.0" cy="42.9" r="4.1"/></g><g class="aw-point aw-low-coverage"><title>1999: 45 of 64 detected (70.3%)</title><circle cx="222.9" cy="65.4" r="4.5"/></g><g class="aw-point aw-low-coverage"><title>2000: 4 of 16 detected (25.0%)</title><circle cx="240.8" cy="147.0" r="3.6"/></g><g class="aw-point aw-low-coverage"><title>2001: 45 of 67 detected (67.2%)</title><circle cx="258.7" cy="71.1" r="4.5"/></g><g class="aw-point aw-low-coverage"><title>2002: 15 of 32 detected (46.9%)</title><circle cx="276.6" cy="107.6" r="4.0"/></g><g class="aw-point aw-low-coverage"><title>2003: 24 of 64 detected (37.5%)</title><circle cx="294.5" cy="124.5" r="4.5"/></g><g class="aw-point aw-low-coverage"><title>2004: 26 of 113 detected (23.0%)</title><circle cx="312.4" cy="150.6" r="4.9"/></g><g class="aw-point aw-low-coverage"><title>2005: 74 of 185 detected (40.0%)</title><circle cx="330.3" cy="120.0" r="5.2"/></g><g class="aw-point aw-low-coverage"><title>2006: 32 of 78 detected (41.0%)</title><circle cx="348.2" cy="118.2" r="4.6"/></g><g class="aw-point aw-low-coverage"><title>2007: 76 of 321 detected (23.7%)</title><circle cx="366.1" cy="149.4" r="5.6"/></g><g class="aw-point aw-low-coverage"><title>2008: 122 of 399 detected (30.6%)</title><circle cx="383.9" cy="137.0" r="5.8"/></g><g class="aw-point aw-low-coverage"><title>2009: 42 of 139 detected (30.2%)</title><circle cx="401.8" cy="137.6" r="5.0"/></g><g class="aw-point aw-low-coverage"><title>2010: 110 of 303 detected (36.3%)</title><circle cx="419.7" cy="126.7" r="5.6"/></g><g class="aw-point aw-low-coverage"><title>2011: 147 of 268 detected (54.9%)</title><circle cx="437.6" cy="93.3" r="5.5"/></g><g class="aw-point aw-low-coverage"><title>2012: 144 of 317 detected (45.4%)</title><circle cx="455.5" cy="110.2" r="5.6"/></g><g class="aw-point aw-low-coverage"><title>2013: 279 of 498 detected (56.0%)</title><circle cx="473.4" cy="91.2" r="5.9"/></g><g class="aw-point aw-low-coverage"><title>2014: 201 of 495 detected (40.6%)</title><circle cx="491.3" cy="118.9" r="5.9"/></g><g class="aw-point aw-low-coverage"><title>2015: 239 of 367 detected (65.1%)</title><circle cx="509.2" cy="74.8" r="5.7"/></g><g class="aw-point aw-low-coverage"><title>2016: 289 of 631 detected (45.8%)</title><circle cx="527.1" cy="109.6" r="6.1"/></g><g class="aw-point aw-low-coverage"><title>2017: 382 of 698 detected (54.7%)</title><circle cx="545.0" cy="93.5" r="6.2"/></g><g class="aw-point aw-low-coverage"><title>2018: 326 of 708 detected (46.0%)</title><circle cx="562.9" cy="109.1" r="6.2"/></g><g class="aw-point aw-low-coverage"><title>2019: 207 of 819 detected (25.3%)</title><circle cx="580.8" cy="146.5" r="6.3"/></g><g class="aw-point aw-low-coverage"><title>2020: 263 of 697 detected (37.7%)</title><circle cx="598.6" cy="124.1" r="6.2"/></g><g class="aw-point aw-low-coverage"><title>2021: 152 of 758 detected (20.1%)</title><circle cx="616.5" cy="155.9" r="6.2"/></g><g class="aw-point aw-low-coverage"><title>2022: 105 of 428 detected (24.5%)</title><circle cx="634.4" cy="147.8" r="5.8"/></g><g class="aw-point aw-low-coverage"><title>2023: 144 of 803 detected (17.9%)</title><circle cx="652.3" cy="159.7" r="6.2"/></g><g class="aw-point aw-low-coverage"><title>2024: 241 of 975 detected (24.7%) — recent window</title><circle cx="670.2" cy="147.5" r="6.4"/></g><g class="aw-point aw-low-coverage"><title>2025: 203 of 930 detected (21.8%) — recent window</title><circle cx="688.1" cy="152.7" r="6.4"/></g><g class="aw-point aw-low-coverage"><title>2026: 172 of 546 detected (31.5%) — recent window</title><circle cx="706.0" cy="135.3" r="6.0"/></g><text class="aw-tick" x="44.0" y="208">1989</text><text class="aw-tick" x="133.5" y="208">1994</text><text class="aw-tick" x="222.9" y="208">1999</text><text class="aw-tick" x="312.4" y="208">2004</text><text class="aw-tick" x="401.8" y="208">2009</text><text class="aw-tick" x="491.3" y="208">2014</text><text class="aw-tick" x="580.8" y="208">2019</text><text class="aw-tick" x="670.2" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
-## Where the mismatches sit
+## Mismatch distribution
 
-Each oligo drawn base by base, 5′ to 3′, with the 3′ window shaded — a mismatch
-there is the one that fails a reaction. Bar height is the share of records differing
-at that position; bar colour is what that costs, measured as the fall in detection
-between records that differ there and records that do not:
+Each oligonucleotide drawn base by base, 5′ to 3′, with the 3′ window shaded, since
+a mismatch there is the one most likely to prevent amplification. Bar height is the
+proportion of records differing at that position; bar colour is the consequence,
+measured as the fall in detection between records differing there and those not:
 
-<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
 <span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no cost — variation the assay tolerates</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect — variation the assay tolerates</span>
 
-Hover any bar for the counts. A tall grey bar is a polymorphism; a short red one is a
-design problem.
+Counts are available on hover. A tall grey bar indicates a tolerated polymorphism; a
+short red bar indicates a position of consequence.
 
 <svg class="aw-track" viewBox="0 0 426 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="68" y="56">forward</text><rect class="aw-zone" x="333.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="78.0" y1="44.0" x2="408.0" y2="44.0"/><text class="aw-base" x="85.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 21 from the 3&#x27; end, base C
 48 of 4,473 records differ here (1.1%)
@@ -210,9 +210,9 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 </table>
 
 
-## Scope — what this assay is judged against
+## Scope
 
-This entry declares no `scope_taxids`, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower set than its taxid covers, that reads as low coverage rather than as drift — see [scoping](../scoping.md).
+This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
 Retrieval query:
 
@@ -220,16 +220,16 @@ Retrieval query:
 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
 ```
 
-A retrieval query is a scientific claim about the population the assay is being judged against, and it can go stale silently — see [scoping](../scoping.md).
+A retrieval query is a claim about the population against which the assay is evaluated, and it can cease to be accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 Disclosures on this entry: `cross_reactive`.
 
 
-## What reached the statistics
+## Records reaching the statistics
 
 56,517 records were screened for this assay and **11,839 (21%)** were evaluable, meaning both primers landed in the right orientation and size range. 44,678 produced no amplicon at all.
 
-This matters because a record with one drifted primer counts as a failure while a record with both drifted leaves the denominator entirely. The bias is known, measured and not obviously fixable — see [known limitations](../limitations.md).
+This is material because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
