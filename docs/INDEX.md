@@ -1,6 +1,6 @@
 # docs/ index
 
-**Nine reference documents sit in `docs/`; the 124 dated session records are in
+**Ten reference documents sit in `docs/`; the 135 dated session records are in
 [`journal/`](journal/README.md).** Until 2026-10-27 they were all one flat directory, so
 a reader met the journals before the nine documents written to be read — a ratio of
 roughly 5:1 in words on the axis that matters (~124,000 against ~52,000, for ~34,000
@@ -88,6 +88,7 @@ Read these before trusting a status.
 
 | | |
 |---|---|
+| [`state-of-the-project.md`](state-of-the-project.md) | **start here.** One page: what the tool does, what its output is worth, every threshold that is still a placeholder, the four known limitations, what cannot be finished and why, and the readings owed with their counts. Written for a reader who will not read 135 journals |
 | [`journal/2026-10-23-baseline.md`](journal/2026-10-23-baseline.md) | the frozen comparison run, the full tier-2 matrix, and the precision figure: 2 of 9 `declining` calls were real failures |
 | [`journal/2026-10-04-pipeline-review.md`](journal/2026-10-04-pipeline-review.md) | the original stage-by-stage review; the estimand critique starts here |
 | [`journal/2026-10-20-pipeline-audit.md`](journal/2026-10-20-pipeline-audit.md) | the later audit, with the bench-panel evidence |

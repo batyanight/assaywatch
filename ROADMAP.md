@@ -19,7 +19,10 @@
   summarised under "The scoring rule's own test plan" below. The first sweep missed
   both, because it looked for forward-looking sections and these have no other kind.
 
-New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build plan.
+New ideas go here. **There is no build plan and there is no frozen v0.1 scope**:
+this line claimed both until 2026-10-30, and `v0.1` appeared exactly once in the
+repository -- here. What ships in a release is recorded in `CHANGELOG.md` after the
+fact, and `docs/state-of-the-project.md` says what the output is worth.
 
 ---
 
@@ -318,18 +321,6 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   worth: tier-2 declines to judge 3 of its 11 documented failures, which is the whole
   difference between "6/11 caught" and "6/8 among the cases it judged at all".
 
-- **`drift.anchor_fdr`'s value has no evidence behind it, and the bench panels
-  cannot supply any.** 0.05 and 0.01 differ by a factor of two in rows moved (7,206
-  against 13,693; 2026-10-24 run), 0.001 is what ships, and tier-2 separates them on
-  one row (`docs/journal/2026-10-24-archive-anchor.md`). The plan of 2026-10-27 said
-  to price it on the 179 bench rows the way the penalty was; **that is impossible by
-  construction**, worked out before any run: `anchor_fdr` relabels rows between
-  `no_site` and `fail`, and a bench row is scored band / no_band, where `no_site`
-  and `fail` are the same answer. No value of `anchor_fdr` can move a single bench
-  prediction. What is left is a held-out read, which is item 4d's corpus, or
-  accepting that 0.001 is a placeholder with one tier-2 row behind it and saying so
-  in `config.yaml`, which it already does.
-
 - **The trend test counted clones as evidence, and 35 of 64 significant declines do not
   survive the correction** (built 2026-10-30, `docs/journal/2026-10-30-footprint-trend.md`).
   A second Cochran-Armitage trend over distinct footprints per year now prints beside the
@@ -538,7 +529,8 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   and M none under this orientation (2026-10-27 run)"); verified 2026-10-30.
   `pairing_is_curator_reading` needs the paper's protocol text, one read each.
   The 20 `in-text` oligos are enumerated in `docs/2026-10-27-in-text-oligos.tsv`.
-- **10 entries sit in `pending/`, every one of them for want of a verifiable DOI.**
+- **10 entries sit in `pending/`, every one of them for want of a verifiable DOI**
+  (re-counted 2026-10-30, after the four influenza entries were promoted out).
   The three pending `HANTAVIRUS_ssRNA_S_segment` nests (F2/R2, F3/R3, F4/R3) are the
   hard case, and the plan of 2026-10-27 was wrong about them: it proposed citing
   Aitichou 2005 with `oligos_modified`, but Aitichou prints only HANTAV1U/L, the
@@ -593,7 +585,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 - **Four leftovers from the oligo adjudication** (`docs/journal/2026-10-23-oligo-adjudication.md`),
   none of them blocking: the 20 `in-text` rows, where a sequence occurs in the
   paper but in no listed oligo and may have been found inside a printed target
-  rather than a primer table, never enumerated;
+  rather than a primer table -- enumerated in `docs/2026-10-27-in-text-oligos.tsv`
+  (this item said "never enumerated" until 2026-10-30, contradicting the
+  `needs_review` item forty lines above it, which named the file);
   `BORNA_VIRUS_N_gene_Zimmermann_1994_round2`, which reads 0% by construction
   because storing the measured form would mean storing a sequence no paper
   prints; whether `CALICIVIRUS_ssRNA_Helicase_Reid_1999` should be re-cited to
@@ -622,7 +616,7 @@ Decisions:
   or a journal it moves to `scripts/archive/`, untested, and git keeps the version
   that produced the number. A script is LIVE only if the Snakefile, CI, pre-commit,
   `weekly_run.sh`, or the curation workflow in `CONTRIBUTING.md` / `pending/README.md`
-  calls it. About 25 live, about 70 archived.
+  calls it. About 34 live and about 70 archived; step 5f's count of 34 is the measured one.
 - One `assaywatch` CLI with subcommands (`cli.py` holds parsing and nothing else);
   `python -m assaywatch.<stage>` keeps working through the same parsers during migration.
 - `assaywatch curate <entry>` runs the whole curation chain and is write-through: it
@@ -741,6 +735,18 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
 
 ## Known limitations, recorded and not work
 
+- **`drift.anchor_fdr` cannot be settled by any evidence this project can get, and
+  is closed as a stated placeholder.** 0.05 and 0.01 differ by a factor of two in
+  rows moved (7,206 against 13,693; 2026-10-24 run), 0.001 is what ships, and
+  tier-2 separates them on one row
+  (`docs/journal/2026-10-24-archive-anchor.md`). Pricing it on the 179 bench rows
+  is **impossible by construction**: `anchor_fdr` relabels records between
+  `no_site` and `fail`, and a bench row is scored band / no_band, where those are
+  the same answer, so no value of it can move a single bench prediction.
+  `config.yaml` declares it closed and says it "stops being listed as owed work";
+  it sat under `## Method debts` until 2026-10-30 anyway, which is the kind of
+  disagreement between a file and this list that makes the list less trustworthy
+  than the file.
 - **Majority contamination.** `ENTEROVIRUS_ssRNA_VP3_VP1_round2` cannot be
   addressed by the archive-anchor mechanism by construction
   (`docs/journal/2026-10-24-archive-anchor.md`).

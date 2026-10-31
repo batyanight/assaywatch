@@ -4,8 +4,12 @@ Continuous in-silico re-validation of published PCR/qPCR diagnostic assays
 against newly deposited GenBank sequences. Assays are designed against the
 handful of sequences available at publication and then run for years while
 the database accumulates divergent strains nobody re-screens them against.
-AssayWatch keeps a version-controlled registry of assays and re-screens it on a
-schedule, reporting predicted detection by year of deposit and flagging drift.
+AssayWatch keeps a version-controlled registry of assays and re-screens it,
+reporting predicted detection by year of deposit and flagging drift. It ships a
+weekly schedule (`scripts/weekly_run.sh`, `profiles/launchd/`), and to be exact
+about what that means: the schedule is installed on one laptop and runs dry unless
+`--live` is passed, so "re-screened weekly" is a property of this repository's
+tooling rather than of a service anyone can point at.
 
 That premise is measured rather than asserted: `scripts/design_era.py` reports how
 much sequence has arrived for each assay's target since it was designed. 71 of 193
@@ -29,8 +33,9 @@ order at each drifted primer position. The previous committed run,
 2026-10-27, kept so the two can be diffed. Then `examples/README.md` runs the
 screening step on your own machine, offline, in under a second.
 
-`docs/INDEX.md` indexes everything under `docs/` — nine reference documents, the 89
-dated session records in `docs/journal/`, and 12 data files — grouped by what you want;
+`docs/INDEX.md` indexes everything under `docs/` — ten reference documents, the 135
+dated session records in `docs/journal/`, and 24 data files (2026-10-30) — grouped by
+what you want;
 `docs/pipeline-architecture.md` is the best single overview of the pipeline and
 `docs/installation.md` covers setup in more detail than the Setup section below.
 
@@ -66,7 +71,7 @@ Code is MIT (`LICENSE`); the registry and the curated tables are CC-BY-4.0
 confirmed; assays without one wait in `pending/` and are never screened or published.
 
 Most of this repository was written by Claude (Anthropic) in a Claude Code session,
-directed by the author: 306 of 330 commits carry a co-authorship trailer.
+directed by the author: 570 of 619 commits carry a co-authorship trailer (2026-10-30).
 `docs/ai-involvement.md` says what that means, and which checks in the repository make
 every factual claim here verifiable rather than taken on trust.
 

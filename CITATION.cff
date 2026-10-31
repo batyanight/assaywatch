@@ -23,8 +23,10 @@ abstract: >-
   against newly deposited GenBank sequences. Assays are designed against the
   handful of sequences available at publication and then used for years while the
   database accumulates divergent strains nobody re-screens them against.
-  AssayWatch keeps a version-controlled registry of assays and re-screens it on a
-  schedule, reporting predicted detection by year of deposit and flagging drift.
+  AssayWatch keeps a version-controlled registry of assays and re-screens it,
+  reporting predicted detection by year of deposit and flagging drift. The weekly
+  schedule it ships is installed on one machine, so the cadence is a property of
+  the tooling rather than of a hosted service.
 type: software
 authors:
   - family-names: Nightingale

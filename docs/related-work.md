@@ -75,7 +75,7 @@ which is why the comparison with each assay's published Ta cannot be run yet.
 Three things, and it is worth being precise because only the first two are defensible
 today:
 
-1. **A curated registry of published wildlife and One-Health pathogen assays** — 208
+1. **A curated registry of published wildlife and One-Health pathogen assays** — 218 (2026-10-30)
    entries with citations verified against Crossref, amplicon sizes measured against
    real records rather than quoted from a gel band, and a controlled vocabulary of
    provenance caveats (`assaywatch/review.py`). Every comparable tool either targets
