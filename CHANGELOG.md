@@ -9,7 +9,7 @@ the output is worth.
 Dates are the release date. Figures carry the date of the run that produced them,
 because none of them can be recomputed without the archives.
 
-## v0.1.0 — unreleased
+## v0.1.0 — 2026-10-31
 
 The first release. Nothing was tagged before it, so everything here is "new" in
 the sense that nothing was ever published; what follows is what the artifact is
