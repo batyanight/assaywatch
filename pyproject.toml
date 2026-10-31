@@ -13,6 +13,19 @@ requires-python = ">=3.11"
 # Name verified with the author. Email deliberately omitted: it would be published
 # in the package index, and only the name and ORCID were given for attribution.
 authors = [{name = "Batya R. Nightingale"}]
+license = "MIT"   # the CODE. registry/*.yaml and docs/*.tsv are CC-BY-4.0: see LICENSE-registry.
+keywords = ["PCR", "qPCR", "diagnostic assay", "assay validation", "GenBank",
+            "molecular diagnostics", "wildlife disease", "pathogen surveillance", "bioinformatics"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    # No "License ::" classifier: PEP 639 supersedes them with the `license`
+    # expression above, and setuptools refuses the build if both are given.
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
 # requests is NOT optional: both retrieval transports import it lazily
 # (retrieve.http_transport, assemblies.datasets_transport) and the laziness is
 # so the tests need no network stack, not because the package works without it.
@@ -36,6 +49,12 @@ thermo = ["primer3-py", "biopython"]   # the duplex-Tm columns, opt-in via `ther
 # lineage report all work without them, and the CI job that omits them proves it.
 # Anything that computes a verdict needs them, including most of tests/test_drift.py.
 lineage = ["scipy>=1.11", "statsmodels>=0.14"]
+
+[project.urls]
+Homepage = "https://github.com/batyanight/assaywatch"
+Repository = "https://github.com/batyanight/assaywatch"
+Changelog = "https://github.com/batyanight/assaywatch/blob/main/CHANGELOG.md"
+"What the output is worth" = "https://github.com/batyanight/assaywatch/blob/main/docs/state-of-the-project.md"
 
 [project.scripts]
 assaywatch = "assaywatch.cli:main"

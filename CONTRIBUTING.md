@@ -259,3 +259,49 @@ is dated to the latest sequence each cited paper could have seen so that the
 tool is never shown the answer. A `fails` row also records its `mechanism`, `drift` or
 `coverage`, from the source's own account of why the assay missed (see the
 header of that file); it decides whether `low coverage` counts as agreement.
+
+## Contributing code
+
+This file is mostly about contributing an *assay*, because that is the part a
+scientist is likely to want. For code:
+
+    conda env create -f environment.yml     # or: conda-lock install conda-lock.yml
+    conda activate assaywatch
+    pip install -e '.[dev,lineage]'
+    pre-commit install
+
+**The gate.** A change is not done until all of these pass, and CI runs the same
+set on Ubuntu for Python 3.11 and 3.12:
+
+    pytest -m fast                                 # the write-test-run loop, ~5 s
+    pytest -q                                      # everything except `slow`, ~45 s
+    pytest -m slow                                 # the Snakemake dry-run tests, ~65 s
+    assaywatch validate registry
+    ruff check . && ruff format --check .
+    python scripts/check_citations.py
+    python scripts/claims.py --check
+
+Run `pytest -m slow` as well when a change touches the Snakefile, a `config.yaml`
+section a rule hashes, or which modules a stage imports. Pre-commit runs the
+registry validator, the duplicate-key check, the papers index, the fixture check,
+the stale-count check and the citation check, all through
+`conda run -n assaywatch`, so the hook set expects that environment name.
+
+**Test tiers.** `pytest -m fast` is a list of files in `tests/conftest.py`. A file
+belongs there when every test in it is a pure function over small in-memory inputs
+or the tiny fixtures: no whole-registry sweep, no subprocess, no screen over the
+fixture FASTA. Keep the whole tier under ten seconds.
+
+**Tests first, on tiny fixtures.** Write the failing test, make it pass, then
+refactor. Fixtures live in `tests/fixtures/` and are a handful of records, so the
+loop stays in seconds.
+
+**Commit messages state the finding, not the activity.** `git log` is the house
+style: a subject line that says what is now known or true, and a body that gives
+the numbers behind it and what was measured rather than assumed. If a change rests
+on a measurement, the message carries the measurement.
+
+**Anything that affects a published result gets full review.** That includes any
+registry entry, any number in `config.yaml`, any retrieval query, and anything in
+the screen hash's import closure. A number in prose needs a run date beside it or
+`scripts/claims.py` will fail the commit.

@@ -114,3 +114,17 @@ be verified without Crossref, and waits rather than being entered.
 - `examples/README.md` — screen one assay offline in a second
 - `README.md` — what the project is and how the registry is laid out
 - `CONTRIBUTING.md` — how an assay gets in
+
+## A note on pinning
+
+`environment.yml` pins `python`, `ruff` and `snakemake` exactly, gives floors for
+`pydantic` and `ruamel.yaml`, and leaves the rest to the solver — so two machines
+can still differ in a sub-dependency. `conda-lock.yml` is the fully pinned
+alternative, with checksums, for `linux-64` and `osx-arm64`:
+
+    conda-lock install conda-lock.yml
+
+**It is a snapshot, not a guarantee.** Nothing regenerates or verifies it, and it
+has drifted from `environment.yml` before (it once still pinned a package the
+environment had dropped). It was last regenerated on 2026-10-29. If you change
+`environment.yml`, regenerate it in the same commit.
