@@ -25,6 +25,8 @@ ROADMAP.md at the repository root, which is the only to-do list here.
 | [`journal/README.md`](journal/README.md) | what the 89 dated session records are, what they are not, and why a wrong prediction is left standing in them |
 | [`pipeline-architecture.md`](pipeline-architecture.md) | the DAG, stage by stage. The best single overview. |
 | [`installation.md`](installation.md) | setting up the environment; better than README's Setup section |
+| [`screening-and-the-drift-call.md`](screening-and-the-drift-call.md) | **the technical reference for how a call and a verdict are made.** Moved out of README.md on 2026-10-31 when the README was cut to a front page: the penalty table, the five calls, where the PCR model is wrong and which guesses matter most, the Wilson/Newcombe intervals, nested protocols and coverage gaps. The website's [How the scoring works](https://batyanight.github.io/assaywatch/how-the-scoring-works/) is the same material for a reader rather than a maintainer |
+| [`running-the-pipeline.md`](running-the-pipeline.md) | **what to actually run.** Also moved out of README.md on 2026-10-31: the commands, what grows on disk and what is safe to delete, retrieval groups and gene-targeted queries, assembly-level retrieval, chance primer pairs, and the SLURM profile |
 | [`RESUME-HERE.md`](RESUME-HERE.md) | where work actually stopped, newest first |
 | [`related-work.md`](related-work.md) | what else exists, and every reference the method rests on |
 | [`ai-involvement.md`](ai-involvement.md) | how this repository was written, and what checks make it verifiable |

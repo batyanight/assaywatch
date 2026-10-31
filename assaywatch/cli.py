@@ -38,6 +38,12 @@ STAGES: dict[str, tuple[str, str]] = {
     "degeneracy": ("assaywatch.degeneracy", "primer-pool degeneracy per assay"),
     "figures": ("assaywatch.figures", "the report's figures"),
     "report": ("assaywatch.report", "render report.md and report.html from a calls table"),
+    # The website, in two phases on purpose: `site` reads the calls table and the
+    # archives and writes one JSON file; `site-render` turns that file into pages
+    # and needs neither. That is what lets CI rebuild the site without the 9 GB of
+    # archives it will never have. See assaywatch/site.py.
+    "site": ("assaywatch.site", "extract one run into website/data/run.json"),
+    "site-render": ("assaywatch.site_render", "render the website's pages from that JSON"),
 }
 
 
