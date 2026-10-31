@@ -1,3 +1,83 @@
+# Resume point, 2026-10-30 (night: the v0.1 release work, four PRs stacked and unmerged)
+
+**Start here:** `CHANGELOG.md` and `docs/state-of-the-project.md`, then this list. The plan
+being executed is a v0.1 RELEASE, not a paper: a tagged, citable, installable artifact whose
+claims are all true on the day it ships. The science stops where it is.
+
+## The state of the work, exactly
+
+**Four PRs are open, stacked, every one green on CI, NONE merged.** They must merge in order,
+because each is based on the one before:
+
+| PR | branch | what it is |
+|---|---|---|
+| #36 | `promote-influenza-and-score-set3` | four entries promoted, set 3 scored, the first drift catch |
+| #37 | `subtype-title-filter` | `target.title_requires`, and the four influenza queries retargeted |
+| #38 | `release-state-of-project` | `docs/state-of-the-project.md`, five false claims corrected, roadmap close-out |
+| #39 | `release-mechanics` | version 0.1.0, CHANGELOG, packaging metadata, CONTRIBUTING code section |
+
+Merging needs a human: an automation guardrail refused it. `main` is still at the
+2026-10-30 citation-rule merge, so none of the release work is on `main` yet.
+
+## What is DONE
+
+- **The subtype filter**, with its two hard-won corrections. Entrez cannot express an
+  influenza subtype -- `H3` returns 23,530 records for all dates against 71,868 matching
+  headers in one archive -- so all four entries share one broad hemagglutinin query and
+  `target.title_requires` restricts each at screen time. The match needs a LEFT WORD
+  BOUNDARY: a plain substring hits inside strain codes, so `GKISBBBH74562` on an H1N1 record
+  would have put H1N1 into an H7 assay's denominator as a failure. 10 tests, in the fast tier.
+- **The honesty pass**, except the tier-2 figures. Five claims were false, not stale: the
+  document and journal counts, the commit-trailer count, related-work's entry count, the
+  "re-screens on a schedule" claim in README and CITATION.cff, and ROADMAP's reference to a
+  frozen v0.1 scope in a build plan that does not exist. `scripts/claims.py` now also polices
+  `related-work.md`, `CITATION.cff` and the state-of-the-project page.
+- **Release mechanics.** 0.1.0, CHANGELOG.md, classifiers/urls/keywords/licence in
+  pyproject, a code-contribution section in CONTRIBUTING, the conda-lock snapshot documented.
+  `CITATION.cff` declared MIT and pointed `license-url` at the CC-BY file; fixed.
+  The wheel builds and installs in a clean venv and the CLI reports 0.1.0.
+- **The offline example, which had been broken for weeks.** `examples/` is the only result a
+  clone can reproduce, and it died the moment the Bd amplicon was corrected from 121 to 146 bp:
+  the generator sliced a 70 nt filler for a 95 nt middle. Nothing tested it.
+  `tests/test_examples.py` now parses the expected counts out of the README, so they cannot drift.
+- **The storage table**, regenerated: 9.1 GB over 134 groups, not the 7.8 GB of 2026-10-14.
+
+## What is NOT done, in the order to do it
+
+1. **Resume the shared HA fetch.** It was running when the machine slept and will have died,
+   leaving a `.part` file under `data/retrieved/11320/q1f149635cb/`. Retrieval is incremental,
+   so re-running is safe:
+
+        caffeinate -i conda run -n assaywatch assaywatch retrieve \
+          registry/INFLUENZA_A_HA_H3_CDC_Shu_2026.yaml registry/INFLUENZA_A_HA_H3_v2_Shu_2026.yaml \
+          registry/INFLUENZA_A_ssRNA_HA_H5_Tsukamoto_2010.yaml registry/INFLUENZA_A_ssRNA_HA_H7_Tsukamoto_2010.yaml \
+          --email nightb02@nyu.edu
+
+   280,881 records available; the lid must stay OPEN, because `caffeinate -i` does not stop
+   clamshell sleep.
+2. **The before/after check the plan requires.** Print each of the four assays' recent share
+   and record count under the old and new archives. The share should RISE as contaminating
+   failures leave while the count falls. **A share that FALLS means the filter is excluding
+   genuine target records and the filter is wrong.** This is the one result that could still
+   invalidate PR #37.
+3. **The release run.** One full pipeline run, which is also the confirming rescreen S7b owes
+   (`scoring` is in the screen hash, so everything rescreens; expect 7 flags to fall, compare
+   with `report_diff`). Hours. Commit its report as `docs/example-run-<date>/` and make it the
+   one README links. Touch nothing under `assaywatch/`, `config.yaml`, `registry/` or the
+   Snakefile while it runs: that is how two runs failed on 2026-10-27.
+4. **The last stale numbers.** README's tier-2 passage still says 5 of 11 caught and 2 of 9
+   `declining` real, against 49 cases. Regenerate from the release run and quote one
+   consistent generation, including set 3.
+5. **Tag and DOI.** `git tag v0.1.0`, `gh release create` with the CHANGELOG entry, then
+   connect Zenodo and fill `CITATION.cff`'s `doi:` and `date-released:`. Zenodo needs a
+   browser authorisation only the maintainer can give.
+
+## Still yours, unchanged
+
+- The 34 `scope_taxid` values (`docs/2026-10-30-scope-worksheet.tsv`), one read per row.
+- Everything in `docs/state-of-the-project.md` under "What cannot be finished, and why". None
+  of it is release work and none of it is a defect.
+
 # Resume point, 2026-10-30 (last: four entries promoted, set 3 scored, the tool caught its first drift case)
 
 **Start here:** `docs/journal/2026-10-30-set3-scored.md`, then `ROADMAP.md` "Waiting on a
