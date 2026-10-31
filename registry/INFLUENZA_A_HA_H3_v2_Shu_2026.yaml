@@ -5,9 +5,9 @@ target:
   gene: HA (hemagglutinin), H3
   genome_type: ssRNA-
   taxon_name: Influenza A virus
-  query: (txid119210[Organism:exp] OR txid119211[Organism:exp] OR txid157802[Organism:exp] OR txid215851[Organism:exp] 
-    OR txid136477[Organism:exp] OR txid136481[Organism:exp] OR txid215855[Organism:exp]) AND (hemagglutinin[Title] OR 
-    "segment 4"[Title] OR HA[Gene])
+  query: txid11320[Organism:exp] AND (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])
+  title_requires:
+  - H3
 chemistry: hydrolysis_probe
 oligos:
   forward:
@@ -102,13 +102,39 @@ source:
     a verified DOI reads as LIVE while sitting in the directory for things that are not, and tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending
     fails on exactly that. The maintainer asked for these entries to wait in pending/ for sign-off, and that is incompatible
     with the flag being true, so the flag waits too. No information is lost: the resolution is recorded here and `assaywatch
-    curate` re-sets the flag in one command at promotion. '
+    curate` re-sets the flag in one command at promotion. 
+
+    RETRIEVAL RETARGETED 2026-10-30, AND THE OLD QUERY WAS BLIND TO EVERYTHING RECENT. This entry used to restrict to
+    subtype taxids. NCBI has stopped assigning those to new influenza deposits, so the query returned nothing after
+    2018: the H3 case was measured in full as the worked example -- its seven
+    subtype taxids AND the HA terms gave ZERO records for 2024-2026 where dropping the subtype restriction gave
+    95,155. The consequence was live and unnoticed -- this assay could not show recent drift by
+    construction, and whatever verdict it carried in a report rested on data that old.
+
+    Every query-side fix was measured and none survived. `H3N2[Title]` and `H3N2[Organism]` return 0. A bare `H3N2`
+    term returns 33,737 for 2024-2026 but only 97.4% are really H3N2. Bare `H3`, `H5` and `H7` return 23,530, 1,862
+    and 778 for ALL dates against 71,868, 31,177 and 3,091 matching headers in one archive alone, so Entrez''s handling
+    of these strings cannot carry a denominator. The subtype is reliably stated in exactly one place, the record''s own
+    description.
+
+    So the query is now the BROAD influenza A hemagglutinin query, shared with the other H-subtype entries (one
+    archive, group q1f149635cb, 280,881 records, fetched once), and `target.title_requires: [''H3'']` restricts this
+    assay''s population to its own subtype at screen time. The term is matched case-insensitively where not preceded by
+    a letter or digit; a plain substring was measured WRONG, because strain identifiers carry the same letter-digit
+    pairs as subtypes and `A/New Jersey/GKISBBBH74562/2026(H1N1)` contains "H7". Records whose description states no
+    subtype are excluded rather than kept, since an untyped record cannot be known to be the target and a specific
+    assay failing on unknown records reads as drift.
+
+    The old archive q2fad34153e is orphaned by this change: nothing rescreens it and `scripts/storage_report.py` will
+    list it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter
+    journal.'
 needs_review:
 - flag: oligos_modified
   note: forward and probe are degenerate modifications of the CDC H3 originals; the reverse is a new primer at a new 
     site, not a modification
 - flag: retrieval_scope_incomplete
-  note: the H3Nx subtype-taxid query misses H3 records that carry no N type in the organism name
+  note: records whose description states no subtype are excluded from this assay's population, because an untyped
+    record cannot be known to be the target; 19 of the 44,627 in the old H3 archive were untyped this way
 - flag: thin_evidence
   note: published 2026, no independent evaluation yet; entered as the documented fix for a drift case rather than on a 
     record of use

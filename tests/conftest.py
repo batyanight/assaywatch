@@ -28,6 +28,7 @@ FAST_FILES = frozenset(
         "nested",
         "registry",
         "sitedrift",
+        "title_filter",
         "trend",
         "windows",
     )

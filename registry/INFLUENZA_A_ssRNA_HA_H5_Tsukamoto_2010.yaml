@@ -5,9 +5,9 @@ target:
   gene: HA (hemagglutinin), H5
   genome_type: ssRNA-
   taxon_name: Influenza A virus
-  query: (txid102793[Organism:exp] OR txid119220[Organism:exp] OR txid119221[Organism:exp] OR txid329376[Organism:exp] OR
-    txid232441[Organism:exp] OR txid140020[Organism:exp] OR txid465975[Organism:exp]) AND (hemagglutinin[Title] OR "segment
-    4"[Title] OR HA[Gene])
+  query: txid11320[Organism:exp] AND (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])
+  title_requires:
+  - H5
 chemistry: hydrolysis_probe
 oligos:
   forward:
@@ -28,9 +28,9 @@ citation:
   design_year: 2010
   n_sequences_at_design: 1439
   as_written: null
-  reference: Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of diverse
-    H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer and probe
-    sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
+  reference: Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of 
+    diverse H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer
+    and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
   doi_verified: true
   oligos_designed_here: true
 conditions:
@@ -78,9 +78,35 @@ source:
     bench. SCOPE: H5 only, pan-lineage by design (Eurasian and American); it is screened against H5Nx taxa only because screening
     it against all influenza A would score every non-H5 HA as a failure. Records filed directly under taxid 11320 with no
     subtype node, or H5 sequences whose names carry no N type, are not retrieved by this query. The NP and H7 assays from
-    the same paper are separate entries.'
+    the same paper are separate entries.
+
+    RETRIEVAL RETARGETED 2026-10-30, AND THE OLD QUERY WAS BLIND TO EVERYTHING RECENT. This entry used to restrict to
+    subtype taxids. NCBI has stopped assigning those to new influenza deposits, so the query returned nothing after
+    2021: the H3 case was measured in full as the worked example -- its seven
+    subtype taxids AND the HA terms gave ZERO records for 2024-2026 where dropping the subtype restriction gave
+    95,155. The consequence was live and unnoticed -- this assay could not show recent drift by
+    construction, and whatever verdict it carried in a report rested on data that old.
+
+    Every query-side fix was measured and none survived. `H3N2[Title]` and `H3N2[Organism]` return 0. A bare `H3N2`
+    term returns 33,737 for 2024-2026 but only 97.4% are really H3N2. Bare `H3`, `H5` and `H7` return 23,530, 1,862
+    and 778 for ALL dates against 71,868, 31,177 and 3,091 matching headers in one archive alone, so Entrez''s handling
+    of these strings cannot carry a denominator. The subtype is reliably stated in exactly one place, the record''s own
+    description.
+
+    So the query is now the BROAD influenza A hemagglutinin query, shared with the other H-subtype entries (one
+    archive, group q1f149635cb, 280,881 records, fetched once), and `target.title_requires: [''H5'']` restricts this
+    assay''s population to its own subtype at screen time. The term is matched case-insensitively where not preceded by
+    a letter or digit; a plain substring was measured WRONG, because strain identifiers carry the same letter-digit
+    pairs as subtypes and `A/New Jersey/GKISBBBH74562/2026(H1N1)` contains "H7". Records whose description states no
+    subtype are excluded rather than kept, since an untyped record cannot be known to be the target and a specific
+    assay failing on unknown records reads as drift.
+
+    The old archive q6552a5c4af is orphaned by this change: nothing rescreens it and `scripts/storage_report.py` will
+    list it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter
+    journal.'
 needs_review:
 - flag: amplicon_multimodal
   note: modes at 261, 258 and 249 bp from cleavage-site indels; the paper says 249
 - flag: retrieval_scope_incomplete
-  note: the H5 subtype taxid query misses untyped records
+  note: records whose description states no subtype are excluded from this assay's population, because an untyped
+    record cannot be known to be the target; 19 of the 44,627 in the old H3 archive were untyped this way
