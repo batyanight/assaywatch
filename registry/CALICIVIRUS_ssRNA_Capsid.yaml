@@ -1,0 +1,46 @@
+id: CALICIVIRUS_ssRNA_Capsid
+name: CALICIVIRUS (ssRNA) — capsid-coding region (PREDICT P-024)
+target:
+  taxid: 11974
+  gene: Capsid-coding region
+  genome_type: ssRNA+
+  taxon_name: Caliciviridae
+  query: capsid[Title] OR VP1[Gene] OR VP1[Title] OR "complete genome"[Title]
+  scope_taxids: [3433198]
+chemistry: conventional
+oligos:
+  forward:
+    name: Reid-1F
+    seq: GTGAGGTGTTTGAGAATTAG
+  reverse:
+    name: Reid-1R
+    seq: ACATCAATTCCGCCAGACCA
+amplicon_bp: 768
+citation:
+  doi: 10.1016/S0166-0934(99)00088-9
+  design_year: 1999
+  n_sequences_at_design: null
+  as_written: null
+  reference: Reid, S. M. et al. Development of a reverse transcription polymerase chain reaction procedure for the detection
+    of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107
+    (1999).
+  doi_verified: true
+conditions:
+  annealing_c: 55
+  cycles: 35
+  mg_mm: 1.5
+  rt: two_step
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-024
+  nested_round: null
+  notes_curator: 'Imported 2026-10-04 from the PREDICT panel''s own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147,
+    Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. Scope caveat:
+    the source paper develops this for MARINE caliciviruses (vesiviruses), while PREDICT ran it as a pan-calicivirus screen,
+    and the retrieval group is all Caliciviridae (mostly norovirus). A low detected share here is likely to be scope, not
+    drift, and should read as low coverage. SCOPED 2026-10-24 to scope_taxids [3433198] (Vesivirus exanthema), which is the fix the caveat above was asking for. Measured over the WHOLE 2026-10-24 calls table, which is not the report''s recent window and not patent-filtered (the report reads 0.0 percent on 16 recent records against a 27 percent baseline, a separate figure): of 67,573 screened records 67,520 are a known taxid outside the scope, 49 are inside it and 4 carry no taxid. The assessable denominator goes from 67 records (9 detect, 5 reduced, 53 fail) to 11 (8 detect, 1 reduced, 2 fail), and the detected share from 20.9 percent to 81.8 percent. Nothing about the assay changed; the 20.9 percent was norovirus. Taxid coverage on this group is 100.0 percent, so unlike the Helicase sibling the filter here is complete.'
+needs_review: null

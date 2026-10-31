@@ -1,0 +1,70 @@
+# Bench panel: Ahmed et al. 2020 (doi:10.1371/journal.pone.0241584), lipL32 real-time
+# PCR for pathogenic Leptospira. Read 2026-10-26 from papers/10.1371_journal.pone.0241584.pdf
+# Table 1, which scores 73 strains as + or - across pathogenic, intermediate and
+# saprophytic species. All 60 pathogenic strains are +, all 13 intermediate and
+# saprophytic strains are -.
+#
+# WHAT THIS PANEL IS A TEST OF. A hydrolysis-probe assay whose published positives
+# the current scoring rule calls `fail`, every one of them on a single mismatch at
+# position 1 from the reverse primer's 3' terminus, which `terminal_mismatch_fails`
+# treats as fatal on its own. Paired with a calicivirus Hel1 panel on a conventional
+# PCR, it gives that one knob a TWO-CHEMISTRY test, which is the point: the rule is
+# a qPCR-strength rule applied to 155 conventional entries and 51 probe ones.
+#
+# THREE SUBSTITUTIONS, because Table 1 prints no accessions. Each is a real
+# departure from what the paper did and none is hidden:
+#
+# 1. The label is the paper's SPECIES-level verdict; the paper tested STRAINS. Every
+#    pathogenic strain scored +, so a species-level reading is faithful for the
+#    positives. L. meyeri is the exception and is EXCLUDED: Table 1 scores it BOTH
+#    ways, + for serovar Sofia (row 42, pathogenic) and - for serovar Semaranga
+#    (row 69, saprophytic), so no species-level label is honest for it.
+# 2. The accession is a representative GenBank record of that species, not the
+#    strain the paper tested, which is the same substitution the Forslund and Rahn
+#    panels make (a reference genome per type or serovar).
+# 3. Where a species' records do not agree, the representative is the MODAL call's
+#    record, preferring a complete genome. The distribution is printed below so the
+#    choice cannot hide a split. Picked against results/2026-10-25/calls.tsv.gz.
+#
+# Per-species call distribution on that run, so the representative is auditable:
+#   adleri fail:4 | alexanderi reduced:5 detect:2 | alstonii detect:5
+#   barantonii fail:2 detect:1 | borgpetersenii detect:359 no_amplicon:74 fail:10 reduced:5
+#   broomii fail:1 | ellisii fail:2 | fainei fail:1 | gomenensis fail:8
+#   inadai fail:3 | interrogans detect:998 no_amplicon:203 reduced:1
+#   kirschneri detect:93 no_amplicon:1 | kmetyi fail:14 | licerasiae no_amplicon:7
+#   mayottensis reduced:28 | noguchii detect:46 no_amplicon:1
+#   santarosai detect:54 reduced:35 no_amplicon:19 | weilii detect:30 reduced:1 no_amplicon:1
+#   wolffii fail:15
+#
+# EIGHT TABLE 1 SPECIES ARE NOT ROWS, because the retrieval archive holds no usable
+# nuccore record for them: dzianensis and putramalaysiae (+), biflexa, idonii,
+# terpstrae, vanthielii, wolbachii and yanagawae (-). L. biflexa is present only as
+# an assembly accession, which efetch -db nuccore cannot fetch. So the panel is 19
+# of the 27 species Table 1 names, 14 band and 5 no_band.
+#
+# TWO LIMITS ON WHAT IT CAN BE USED FOR, both from the test plan:
+# - It is this assay's OWN design and validation paper, so it cannot enter
+#   docs/validation-cases.tsv, which excludes an assay's own panel. One assay and
+#   one paper also means its rows are correlated, not independent evidence.
+# - Its informative rows are false NEGATIVES of the scoring rule, so they do NOT
+#   count toward the 40 within-family negatives that gate the Bayesian C2 model.
+accession	label	bench
+NZ_JQRT01000072.1	L_alstonii	band
+NZ_JQGT01000049.1	L_alexanderi	band
+NZ_JCCMFS010000010.1	L_borgpetersenii	band
+NZ_CP020414.2	L_interrogans	band
+NZ_JBHILG010000018.1	L_kirschneri	band
+NZ_AKWD02000024.1	L_noguchii	band
+NZ_AHOE02000011.1	L_santarosai	band
+NZ_AHQY01000102.1	L_weilii	band
+NZ_CP030147.1	L_mayottensis	band
+NZ_NPDO01000002.1	L_kmetyi	band
+NZ_RQHG01000018.1	L_adleri	band
+NZ_RQEZ01000075.1	L_gomenensis	band
+NZ_NPEH01000464.1	L_ellisii	band
+NZ_RQGN01000105.1	L_barantonii	band
+NZ_MCRM02000005.1	L_inadai	no_band
+NZ_AFLO01000035.1	L_licerasiae	no_band
+NZ_JBHILJ010000002.1	L_wolffii	no_band
+NZ_AHMO02000004.1	L_broomii	no_band
+NZ_AKWZ02000002.1	L_fainei	no_band

@@ -1,0 +1,121 @@
+id: INFLUENZA_A_ssRNA_HA_H7_Tsukamoto_2010
+name: Influenza A virus H7 subtype — hemagglutinin gene rRT-PCR (Tsukamoto 2010)
+target:
+  taxid: 11320
+  gene: HA (hemagglutinin), H7
+  genome_type: ssRNA-
+  taxon_name: Influenza A virus
+  query: txid11320[Organism:exp] AND (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])
+  title_requires:
+  - H7
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: H7-937Feu
+    seq: ATMAATAGCAGRGCARTRGG
+  reverse:
+    name: H7-1177R
+    seq: GATCWATTGCHGAYTGRGTG
+  probe:
+    name: H7-Probe
+    seq: CCYTCYCCYTGTGCRTTYTG
+    reporter: FAM
+    quencher: BHQ
+  alternates:
+  - name: H7-937Fam
+    seq: ATCAACYCYAGRACWGTKGG
+    orientation: forward
+amplicon_bp: 241
+citation:
+  doi: 10.1128/JCM.01264-10
+  design_year: 2010
+  n_sequences_at_design: 493
+  as_written: null
+  reference: Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of 
+    diverse H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer
+    and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  cycles: 35
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Table 1 (papers/10.1128_JCM.01264-10.pdf; the text layer is clean,
+    no image reading was needed). READ: H7-937Feu (Eurasian forward), H7-937Fam (American forward), H7-1177R and H7-Probe
+    (FAM 5'', BHQ 3''; the paper says only BHQ). Transcription cross-check: mixed-base counts as entered (4, 5, 4, 5) equal
+    the paper''s ''No. of mixed bases'' column, and the paper''s 241 bp product (printed once, against the Eurasian forward)
+    is reproduced. The paper used 493 H7 genes for design (200 listed against the Eurasian forward and 293 against the American
+    one) plus AB558254-AB558265; the primers are modified from the same lab''s earlier primers (Tsukamoto 2008, J Clin Microbiol
+    46:3048, the paper''s ref 9), so oligos_designed_here is true. TWO FORWARDS: the paper runs the Eurasian forward for Eurasian-lineage
+    H7 and the American forward for American-lineage H7 (the Eurasian one did not detect the three American H7 genes it tested),
+    both with the same reverse primer and probe. The Eurasian forward is this entry''s forward and the American forward is
+    an alternate forward, so the screener calls a record detected if either forward works, which stands in for choosing the
+    lineage-appropriate forward. On the same sample the pooling matters: Eurasian forward alone 71 detect / 57 reduced / 148
+    fail; American forward alone 93 / 72 / 106; pooled 164 / 19 / 94. The probe is anti-sense: it is found on the minus strand
+    in every product. VERIFIED ON THE PAPER''S OWN DESIGN ACCESSIONS: all 12 of AB558254-AB558265 were fetched and screened;
+    12 of 12 give a product (11 at 241 bp), 11 detect and 1 reduced. The exception is A/chicken/Chile/184240-2/2002 (H7N3)
+    at 271 bp, whose product carries an insertion at the HA cleavage site (translated: PENSTHKQLTHHMRKKR before GLF, not the
+    usual PEIPKGR). MEASURED on a STRIDED sample of GenBank H7 hemagglutinin records (every 12th of 3,431 uids, 286 records
+    fetched 2026-10-06; query = the seven H7Nx serotype taxids 119216, 119214, 119215, 119218, 333278, 325678, 119217 AND
+    (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])). Calls: detect 164, reduced 19, fail 94, no_amplicon 9. All
+    9 no_amplicon are partial records of at most 1,154 bp that stop before the reverse site, and none of the 274 records longer
+    than 1,186 bp is no_amplicon, so that is coverage. Among the 277 records that carry a product: 59.2% detect, 66.1% detect
+    or reduced, 33.9% fail. Probe site present inside the product in all 183 detect/reduced calls. THE HEADLINE IS H7N9. 100
+    of the 277 are H7N9 (the 2013 Asian-lineage outbreak, which post-dates the paper by three years) and only 13 detect while
+    87 fail. In 86 of those 87 the forward site reads ATAGATAGCAGGGCAGTTGG or one base off it, which differs from H7-937Feu
+    at base 4 (primer A, record G) and at base 18 (third from the 3'' end: primer R meets record T), with reverse primer and
+    probe intact; that is 0.5 + 3.0 = 3.5 and crosses the 3.0 fail line. The American forward is worse on these. Without H7N9
+    the other 177 records give 151 detect (85.3%), 19 reduced and 7 fail; by subtype H7N1 24/27 detect, H7N2 40/41, H7N3 52/65,
+    H7N7 29/37, H7N8 4/4, H7N4 2/3. Heuristic split by place in the strain name: the Americas 96% detect or reduced, everywhere
+    else 53%, the latter dragged down by H7N9. CAVEAT ON THE WORD fail: two mismatches, one 3 nt from the 3'' end, is a penalty
+    the config marks as fail (thresholds set by eye, see config.yaml), not a demonstrated loss of amplification. The paper
+    itself says one or two primer mismatches are often tolerated and that the H7 forward primers could be improved with region-specific
+    sets. Treat H7N9 as a documented weak spot to check at the bench, not as proof the assay is blind to it. AMPLICON_BP 241
+    is both the paper''s figure and the measured mode (254 of 277 products). The other lengths (253 in 9, 250 in 4, 247 in
+    4, 265-271 in 6) are all cleavage-site insertions: translating them gives polybasic sites such as PEIPKGSRVRR, PEIPKKREKR
+    and PETPKRRKR where the 241 bp products have PEIPKGR or similar. One further 50 bp ''product'' is a chance pairing in
+    a partial H7N9 record (it has no probe site and is counted among the fails). SCOPE: H7 only, both lineages; screened against
+    H7Nx taxa only. Records with no subtype node or no N type in the strain name are not retrieved. The paper''s supplement
+    (Tables S1-S7) is not in the PDF. The H5 and NP assays from the same paper are separate entries.
+
+    RETRIEVAL RETARGETED 2026-10-30, AND THE OLD QUERY WAS BLIND TO EVERYTHING RECENT. This entry used to restrict to
+    subtype taxids. NCBI has stopped assigning those to new influenza deposits, so the query returned nothing after
+    2020: the H3 case was measured in full as the worked example -- its seven
+    subtype taxids AND the HA terms gave ZERO records for 2024-2026 where dropping the subtype restriction gave
+    95,155. The consequence was live and unnoticed -- this assay could not show recent drift by
+    construction. It did NOT publish a wrong verdict: both committed example runs report this assay as
+    "no evaluable records deposited since Oct 2021", so the tool declined to judge it and said why. The defect
+    is subtler and worth naming -- that message reads as a fact about the TAXON ("nothing recent was
+    deposited") when it was a fact about OUR QUERY ("we cannot see what was deposited"), so a live assay sat
+    unjudgeable and the report looked correct while saying so.
+
+    Every query-side fix was measured and none survived. `H3N2[Title]` and `H3N2[Organism]` return 0. A bare `H3N2`
+    term returns 33,737 for 2024-2026 but only 97.4% are really H3N2. Bare `H3`, `H5` and `H7` return 23,530, 1,862
+    and 778 for ALL dates against 71,868, 31,177 and 3,091 matching headers in one archive alone, so Entrez''s handling
+    of these strings cannot carry a denominator. The subtype is reliably stated in exactly one place, the record''s own
+    description.
+
+    So the query is now the BROAD influenza A hemagglutinin query, shared with the other H-subtype entries (one
+    archive, group q1f149635cb, 280,881 records, fetched once), and `target.title_requires: [''H7'']` restricts this
+    assay''s population to its own subtype at screen time. The term is matched case-insensitively where not preceded by
+    a letter or digit; a plain substring was measured WRONG, because strain identifiers carry the same letter-digit
+    pairs as subtypes and `A/New Jersey/GKISBBBH74562/2026(H1N1)` contains "H7". Records whose description states no
+    subtype are excluded rather than kept, since an untyped record cannot be known to be the target and a specific
+    assay failing on unknown records reads as drift.
+
+    The old archive q3b4e39b708 is orphaned by this change: nothing rescreens it and `scripts/storage_report.py` will
+    list it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter
+    journal.'
+needs_review:
+- flag: primer_site_polymorphic
+  note: the forward primer carries 2 mismatches against H7N9; 87 of 100 records fail
+- flag: retrieval_scope_incomplete
+  note: records whose description states no subtype are excluded from this assay's population, because an untyped
+    record cannot be known to be the target; 19 of the 44,627 in the old H3 archive were untyped this way

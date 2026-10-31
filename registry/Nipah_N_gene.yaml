@@ -1,0 +1,59 @@
+id: Nipah_N_gene
+name: Nipah — N gene
+target:
+  taxid: 3052225
+  gene: N gene
+  genome_type: ssRNA-
+  taxon_name: Henipavirus nipahense (formerly Nipah henipavirus)
+chemistry: conventional
+oligos:
+  forward:
+    name: NP1F
+    seq: CTTGAGCCTATGTATTTCAGAC
+  reverse:
+    name: NP1R
+    seq: GCTTTTGCAGCCAGTCTTG
+amplicon_bp: 398
+citation:
+  doi: 10.1016/j.jviromet.2006.11.023
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: PREDICT protocol
+  doi_verified: true
+  reference: Wacharapluesadee S, Hemachudha T. 2007. Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens
+    of bats. J Virol Methods 141:97-101
+conditions:
+  rt: one_step
+  annealing_c: 55.0
+  cycles: 35
+  mg_mm: 2.5
+  primer_nm: 600
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'TAXON RENAMED: NCBI now calls txid121791 ''Henipavirus nipahense''; this entry carried the superseded name
+    ''Nipah henipavirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses,
+    so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. AMPLICON
+    CONFIRMED 2026-10-05, provenance still open. Measured against all 426 records of the 2026-10-03 Henipavirus nipahense
+    archive: NP1F/NP1R give a product in 201 records and it is 398 bp in every one, exactly the stored value, which had rested
+    on the seed list alone. The same drift appears as in the sibling NP2 entry: the forward is exact in 40 of 201 and one
+    mismatch away in 155, the reverse exact in 40 and two mismatches away in 156. NO SOURCE FOUND, and that is a real negative
+    rather than a gap in effort: neither NP1F nor NP1R, nor either reverse complement, appears in any open full text indexed
+    by Europe PMC, and neither is in Wong 2003, which is where the sibling pair''s sequences were found. DOI_MISSING stays.
+    If the NP2 pair traces to Chua 2000 then this outer or alternative pair plausibly does too, but plausibly is not evidence
+    and nothing is written on it. PROVENANCE RESOLVED 2026-10-22, closing the NO SOURCE FOUND above. The earlier search was
+    of OPEN full text, and this paper is paywalled: Wacharapluesadee & Hemachudha 2007 (J Virol Methods 141:97-101) prints
+    NP1F and NP1R in its Table 1 and names them as the first-round pair of a duplex nested RT-PCR, with NP2F/NP2R - the sibling
+    entry''s pair, already traced to Chua 2000 - as the nested round, which is exactly the relationship the two entries record.
+    Both sequences verify exact against the PDF. design_year set to 2007, the publication year of the pair.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 121791 into 3052225 (Henipavirus nipahense), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/121791/ moved to data/retrieved/3052225/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+needs_review: null

@@ -1,0 +1,24 @@
+# Bench panel: Rebelo et al. 2011 (doi:10.1177/1040638711416846), pan-Mycoplasma
+# 16S-23S intergenic spacer PCR with HRM.
+# The paper's inclusivity claim, read 2026-10-20 from papers/: "All 10 Mycoplasma
+# reference strains tested generated HRM profiles with 2 melting peaks", i.e. every
+# species in its panel amplified. So every row here is `band`, and the panel measures
+# false fails, as the Forslund FAP panel does.
+# The 10 species are M. bovis, arginini, bovirhinis, spumans, iowae, bovigenitalium,
+# meleagridis, canadense, agalactiae, cynos. Two are missing below: M. spumans and
+# M. canadense have no GenBank record spanning the 16S-23S spacer at all (checked
+# 2026-10-20), so this assay cannot be assessed against them in silico at any
+# threshold. That is a gap in the archive, not a property of the assay.
+# One record per species: the RefSeq complete genome where one exists, else a record
+# covering the 16S-23S region. Most of these species now sit in Mycoplasmopsis;
+# the labels keep the paper's names. Rebelo used its own reference strains, so a
+# record here can differ from the strain that was on the bench.
+accession	label	bench
+NZ_CP005933.1	M. bovis	band
+NZ_AP014657.1	M. arginini	band
+NZ_CP024049.1	M. bovirhinis	band
+NZ_AP017902.1	M. bovigenitalium	band
+NZ_CP039447.1	M. agalactiae	band
+NZ_CP141039.1	M. cynos	band
+U29676.1	M. iowae	band
+AY762641.1	M. meleagridis	band

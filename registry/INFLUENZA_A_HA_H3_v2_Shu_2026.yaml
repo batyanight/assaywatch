@@ -1,0 +1,144 @@
+id: INFLUENZA_A_HA_H3_v2_Shu_2026
+name: Influenza A virus H3 subtype — hemagglutinin rRT-PCR, redesigned (CDC H3_v2, Shu 2026)
+target:
+  taxid: 11320
+  gene: HA (hemagglutinin), H3
+  genome_type: ssRNA-
+  taxon_name: Influenza A virus
+  query: txid11320[Organism:exp] AND (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])
+  title_requires:
+  - H3
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: H3_v2 forward primer
+    seq: AAGCATTCCYAATGACAAACC
+    modified_from: AAGCATTCCCAATGACAAACC
+    modification_doi: 10.1128/jcm.00727-26
+  reverse:
+    name: H3_v2 reverse primer
+    seq: CATYCCTGTTGCCAATTTCAG
+  probe:
+    name: H3_v2 probe (ZEN)
+    seq: CAGGATCACATAYGGGGCMTGTCCCAG
+    modified_from: CAGGATCACATATGGGSCCTGTCCCAG
+    modification_doi: 10.1128/jcm.00727-26
+    reporter: FAM
+    quencher: IBFQ
+amplicon_bp: 103
+citation:
+  doi: 10.1128/jcm.00727-26
+  design_year: 2026
+  n_sequences_at_design: null
+  as_written: 'Shu B, et al. 2026. J Clin Microbiol, doi 10.1128/jcm.00727-26, Table 1 ("H3_v2 forward primer", "H3_v2 reverse
+    primer", "H3_v2 probe (ZEN)")'
+  doi_verified: true
+  reference: Shu B et al. 2026. J Clin Microbiol
+  oligos_designed_here: true
+conditions:
+  annealing_c: 55
+  rt: one_step
+  primer_nm: 800
+  probe_nm: 800
+use_context:
+- public_health
+status: draft
+submitted_by: null
+source:
+  nested_round: null
+  notes_curator: 'ENTERED 2026-10-30 beside INFLUENZA_A_HA_H3_CDC_Shu_2026, which is the assay this one replaces. This is
+    the documented FIX: the registry holds the redesign next to the assay that decayed, the same arrangement as Ward 2004
+    and Yang 2014 on the matrix gene.
+
+    THE REVERSE PRIMER IS NOT A MODIFICATION OF THE OLD ONE, IT IS A NEW PRIMER AT A NEW SITE, which is the whole point of
+    the redesign and the reason it carries no modified_from. The original reverse sat at nucleotides 1052-1030 and accumulated
+    the mismatches that cost it sensitivity; v2''s sits at 1008-988, "a more highly conserved area of the HA gene segment
+    closer to the probe" in the paper''s words. The forward primer and the probe ARE modifications of their predecessors and
+    say so: the forward gains one degenerate base (pos10 C->Y) and the probe gains two and loses one (pos13 T->Y, pos17 S->G,
+    pos19 C->M), both to cover mixed bases the paper found in circulating viruses.
+
+    Moving the reverse primer shortens the product, which is why this entry''s amplicon is not its predecessor''s: Table 1''s
+    positions give 906-1008 against 906-1052.
+
+    Both probes in Table 1 carry the same 27 bases and differ only in quencher chemistry, a BHQnova and a ZEN version. The
+    ZEN one is stored, because the paper''s specificity evaluation used it.
+
+    Conditions as for the v1 entry: 0.8 uM primers, 0.8 uM probe and 55 C annealing are the paper''s own comparison runs.
+    This assay has no 510(k) of its own yet, so unlike its predecessor there is no cleared protocol it is being held short
+    of.
+
+
+    AMPLICON MEASURED AT 103 bp, over 3000 H3N2 HA records fetched 2026-10-30 for this purpose: both primers bind within 2
+    mismatches in 2963 of them, every one of those gives 103 bp with no second mode, and the probe binds in 2763. The paper
+    prints no product size, only nucleotide positions, so this is a measurement that CONFIRMS a claim rather than one that
+    corrects it: nucleotide positions 906-1008 in Table 1 imply 103, and they agree. The reverse primer''s sites were all
+    on the minus strand, which independently confirms the printed orientation is the functional one.
+
+
+    DOI VERIFIED BY CROSSREF 2026-10-30. This entry passes where its predecessor cannot: its design_year IS the citing paper''s
+    year, because Shu 2026 designed it. The blocker recorded in INFLUENZA_A_HA_H3_CDC_Shu_2026 is specific to citing a paper
+    that did not design the assay.
+
+    THE CURATE `amplify` FAILURE IS THE SAME ARCHIVE ARTIFACT as its predecessor''s: this group (q2fad34153e) has never been
+    fetched, so curate fell back to the segment 7 matrix archive and H3 hemagglutinin oligos found nothing in it. Measured
+    on 3,000 real H3N2 HA records instead: both primers within 2 mismatches in 2,963, product 103 bp in every one, probe in
+    2,763. For what it is worth as a sanity check and not as a result, that is 23 more records with both primers and 71 more
+    with the probe than the v1 oligos reach on the same 3,000, which is the direction the redesign claims.
+
+
+    THE PROBE CANNOT BE VERIFIED BY printed.py, FOR A NOTATION REASON WORTH KNOWING. Both primers read `exact` against the
+    held PDF, and both probes read `absent`. That is not a transcription doubt: Table 1 writes the internal quencher INSIDE
+    the sequence ("CAG GAT CAC /ZEN/ATA TGG GSC CTG TCC CAG"), so printed_oligos never sees the 27 bases as one run -- it
+    finds the 18-base tail after the marker and loses the 9-base head below its minimum length. The bases are in the paper
+    and were read from it; the scanner cannot assemble them. This will recur: double- quenched probes (ZEN, BHQnova, LNA)
+    all print this way, and the limitation is recorded in ROADMAP.md under Method debts.
+
+    SCOPE: the same seven H3Nx subtype taxids and the same limitation as the v1 entry.
+
+    CROSSREF AGREED 2026-10-30, AND doi_verified IS HELD FALSE ANYWAY, DELIBERATELY. `assaywatch curate` resolved this DOI
+    and matched it to the entry (Shu 2026, "Update to the CDC influenza A(H3) subtyping assay for improved detection") and
+    wrote doi_verified: true. It was then set back to false by hand, because "live" in this repository means a verified DOI
+    and nothing else: registry.not_live_because looks at the DOI alone and ignores status, so an entry in pending/ carrying
+    a verified DOI reads as LIVE while sitting in the directory for things that are not, and tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending
+    fails on exactly that. The maintainer asked for these entries to wait in pending/ for sign-off, and that is incompatible
+    with the flag being true, so the flag waits too. No information is lost: the resolution is recorded here and `assaywatch
+    curate` re-sets the flag in one command at promotion. 
+
+    RETRIEVAL RETARGETED 2026-10-30, AND THE OLD QUERY WAS BLIND TO EVERYTHING RECENT. This entry used to restrict to
+    subtype taxids. NCBI has stopped assigning those to new influenza deposits, so the query returned nothing after
+    2018: the H3 case was measured in full as the worked example -- its seven
+    subtype taxids AND the HA terms gave ZERO records for 2024-2026 where dropping the subtype restriction gave
+    95,155. The consequence was live and unnoticed -- this assay could not show recent drift by
+    construction. It did NOT publish a wrong verdict: both committed example runs report this assay as
+    "no evaluable records deposited since Oct 2021", so the tool declined to judge it and said why. The defect
+    is subtler and worth naming -- that message reads as a fact about the TAXON ("nothing recent was
+    deposited") when it was a fact about OUR QUERY ("we cannot see what was deposited"), so a live assay sat
+    unjudgeable and the report looked correct while saying so.
+
+    Every query-side fix was measured and none survived. `H3N2[Title]` and `H3N2[Organism]` return 0. A bare `H3N2`
+    term returns 33,737 for 2024-2026 but only 97.4% are really H3N2. Bare `H3`, `H5` and `H7` return 23,530, 1,862
+    and 778 for ALL dates against 71,868, 31,177 and 3,091 matching headers in one archive alone, so Entrez''s handling
+    of these strings cannot carry a denominator. The subtype is reliably stated in exactly one place, the record''s own
+    description.
+
+    So the query is now the BROAD influenza A hemagglutinin query, shared with the other H-subtype entries (one
+    archive, group q1f149635cb, 280,881 records, fetched once), and `target.title_requires: [''H3'']` restricts this
+    assay''s population to its own subtype at screen time. The term is matched case-insensitively where not preceded by
+    a letter or digit; a plain substring was measured WRONG, because strain identifiers carry the same letter-digit
+    pairs as subtypes and `A/New Jersey/GKISBBBH74562/2026(H1N1)` contains "H7". Records whose description states no
+    subtype are excluded rather than kept, since an untyped record cannot be known to be the target and a specific
+    assay failing on unknown records reads as drift.
+
+    The old archive q2fad34153e is orphaned by this change: nothing rescreens it and `scripts/storage_report.py` will
+    list it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter
+    journal.'
+needs_review:
+- flag: oligos_modified
+  note: forward and probe are degenerate modifications of the CDC H3 originals; the reverse is a new primer at a new 
+    site, not a modification
+- flag: retrieval_scope_incomplete
+  note: records whose description states no subtype are excluded from this assay's population, because an untyped
+    record cannot be known to be the target; 19 of the 44,627 in the old H3 archive were untyped this way
+- flag: thin_evidence
+  note: published 2026, no independent evaluation yet; entered as the documented fix for a drift case rather than on a 
+    record of use

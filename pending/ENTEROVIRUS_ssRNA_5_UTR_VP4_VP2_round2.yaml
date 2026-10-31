@@ -1,0 +1,34 @@
+id: ENTEROVIRUS_ssRNA_5_UTR_VP4_VP2_round2
+name: ENTEROVIRUS (ssRNA) — 5'UTR/VP4/VP2
+target:
+  taxid: 12059
+  gene: 5'UTR/VP4/VP2
+  genome_type: ssRNA+
+  taxon_name: Enterovirus
+  query: '"5'' UTR"[Title] OR "5''UTR"[Title] OR "5'' untranslated"[Title] OR VP4[Gene] OR VP2[Gene] OR "complete genome"[Title]'
+chemistry: conventional
+oligos:
+  forward:
+    name: EVRV3
+    seq: ACCRASTACTTTGGGTGTCCGTG
+  reverse:
+    name: EVRV2a-new
+    seq: CCGGYAAYTTCCASCACCA
+amplicon_bp: 660
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  nested_round: round2
+  notes_curator: 'AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global 50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py over every archive of this entry''s own retrieval group measures a modal 660 bp on 2054 products, with 100% of all products within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies. That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See docs/journal/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what marks it as measured.'
+needs_review:
+- flag: amplicon_measured_not_published
+- flag: orientation_inferred

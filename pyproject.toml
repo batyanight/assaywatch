@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "assaywatch"
+# Read from assaywatch/__init__.py so there is ONE place to bump. It was two, and
+# two is how they drift apart.
+dynamic = ["version"]
+description = "Continuous in-silico re-validation of published PCR/qPCR assays against new GenBank sequences"
+readme = "README.md"
+requires-python = ">=3.11"
+# Name verified with the author. Email deliberately omitted: it would be published
+# in the package index, and only the name and ORCID were given for attribution.
+authors = [{name = "Batya R. Nightingale"}]
+license = "MIT"   # the CODE. registry/*.yaml and docs/*.tsv are CC-BY-4.0: see LICENSE-registry.
+keywords = ["PCR", "qPCR", "diagnostic assay", "assay validation", "GenBank",
+            "molecular diagnostics", "wildlife disease", "pathogen surveillance", "bioinformatics"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    # No "License ::" classifier: PEP 639 supersedes them with the `license`
+    # expression above, and setuptools refuses the build if both are given.
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+# requests is NOT optional: both retrieval transports import it lazily
+# (retrieve.http_transport, assemblies.datasets_transport) and the laziness is
+# so the tests need no network stack, not because the package works without it.
+# matplotlib is NOT optional either, for a blunter reason: `rule all` requires
+# results/<date>/figures/figures.html unconditionally, so a pip install without
+# it cannot finish a run. It arrived in environment.yml with the figures merge
+# and not here, which turned both CI jobs red while the Mac stayed green on
+# conda's matplotlib-base - R1a in mirror image. Guarded by
+# tests/test_reproducibility.py. If figures should be opt-in, gate the rule in
+# `all` first and then move this to an extra; do not just move it.
+# ruamel.yaml is the comment-preserving writer behind registry.edit; PyYAML stays the reader.
+dependencies = ["pydantic>=2", "pyyaml>=6", "ruamel.yaml>=0.18", "numpy>=1.24", "requests>=2", "matplotlib>=3.8"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff==0.16.10", "pre-commit", "build"]   # build: `python -m build`
+pdf = ["pypdf"]   # scripts/verify_oligos_against_paper.py --pdf-dir
+thermo = ["primer3-py", "biopython"]   # the duplex-Tm columns, opt-in via `thermo: true`; Tm_NN scores the IN-REGISTER duplex
+# The per-lineage binomial test and its BH correction, i.e. the lineage-conditional
+# verdict. Optional on purpose: assaywatch.lineage imports them inside
+# worst_lineage_verdict, so grouping records, reading titles and the diagnostic
+# lineage report all work without them, and the CI job that omits them proves it.
+# Anything that computes a verdict needs them, including most of tests/test_drift.py.
+lineage = ["scipy>=1.11", "statsmodels>=0.14"]
+
+[project.urls]
+Homepage = "https://github.com/batyanight/assaywatch"
+Repository = "https://github.com/batyanight/assaywatch"
+Changelog = "https://github.com/batyanight/assaywatch/blob/main/CHANGELOG.md"
+"What the output is worth" = "https://github.com/batyanight/assaywatch/blob/main/docs/state-of-the-project.md"
+
+[project.scripts]
+assaywatch = "assaywatch.cli:main"
+assaywatch-validate = "assaywatch.validate:main"   # kept: older docs and shells name it
+
+[tool.setuptools.dynamic]
+version = {attr = "assaywatch.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["assaywatch*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+# BLE: every broad `except Exception` in this package carries a one-line
+# justification and a `# noqa: BLE001`. Sixteen of them, and BLE was not
+# selected, so all sixteen were dead and a new unjustified broad except passed
+# both CI jobs in silence. RUF100 is the other half: it fails on a `noqa` that
+# suppresses nothing, which is how the sixteen stayed dead unnoticed.
+#
+# ANN: every function in the package carries type hints (the engineering principles ask
+# for them). It is on for assaywatch/ only: scripts/ and tests/ are exempt until the
+# script consolidation (ROADMAP "Architecture", step 5) moves their logic into the
+# package. ANN401 (an explicit `Any`) is ignored: `Any` is a written annotation, used
+# on purpose where a value is duck-typed (an assay-like object, a row mapping).
+select = ["E", "F", "I", "B", "UP", "BLE", "RUF100", "ANN"]
+ignore = ["ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["E501", "ANN"]
+"tests/*" = ["E501", "ANN"]
+"examples/*" = ["ANN"]
+"build/*" = ["ANN"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["archive", "fixtures", ".*"]   # tests/archive/: the archived scripts' tests, kept, not run
+# Three tiers. `pytest -m fast` is the write-test-run loop (pure functions on the tiny
+# fixtures, seconds). Plain `pytest` runs everything except `slow`. `pytest -m slow`
+# runs the Snakemake dry-run tests, which CI runs as its own job; a command-line -m
+# replaces the one below.
+addopts = "-m 'not slow'"
+markers = [
+    "fast: pure functions on the tiny fixtures; the write-test-run loop, seconds",
+    "slow: shells out to Snakemake; excluded from a plain pytest, run by CI's snakemake job",
+]

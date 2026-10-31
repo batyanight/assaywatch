@@ -1,0 +1,127 @@
+#!/bin/bash
+# The weekly re-screen, for a scheduler. DRY RUN UNLESS --live IS PASSED.
+#
+# README.md and CITATION.cff both say this project "re-screens it on a schedule".
+# Until 2026-10-23 there was no schedule: every run was a human typing
+# `caffeinate -i snakemake` with the lid open, and scripts/report_diff.py was
+# written for "the weekly run's summary" on a job that did not exist. The commit
+# log shows the result -- bursts on 10-03/04/05, then 10-14, 10-18, 10-20, 10-22.
+#
+#   scripts/weekly_run.sh                 # dry run: prints the job plan, fetches nothing
+#   scripts/weekly_run.sh --live          # the real run (refuses a dirty tree under the hashed paths)
+#   scripts/weekly_run.sh --live --cores 8
+#   scripts/weekly_run.sh --live --allow-dirty   # override the dirty-tree refusal, knowingly
+#
+# WHY DRY RUN IS THE DEFAULT. A live run reaches eutils.ncbi.nlm.nih.gov and
+# api.ncbi.nlm.nih.gov, needs a contact address and an API key, and writes
+# gigabytes to data/retrieved/ that are NOT reproducible on request (retrieval is
+# incremental by mdat, so each archive is the set of records that changed since
+# the last run). A scheduler that starts doing that because a script was
+# installed is a scheduler doing something nobody agreed to. Install the job,
+# watch a dry run fire, then add --live.
+set -euo pipefail
+
+CORES=4
+LIVE=0
+ALLOW_DIRTY=0
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --live) LIVE=1; shift ;;
+    --allow-dirty) ALLOW_DIRTY=1; shift ;;
+    --cores) CORES="$2"; shift 2 ;;
+    -h|--help) sed -n '2,30p' "$0"; exit 0 ;;
+    *) echo "unknown argument: $1" >&2; exit 2 ;;
+  esac
+done
+
+cd "$(dirname "$0")/.."
+REPO="$PWD"
+LOGDIR="$REPO/results/weekly-logs"
+mkdir -p "$LOGDIR"
+LOG="$LOGDIR/$(date +%Y-%m-%d-%H%M).log"
+
+# launchd gives a process almost no environment: no conda, often no PATH beyond
+# /usr/bin. `conda run` is how the pre-commit hooks already invoke this env, so
+# it is the one mechanism that works in both places.
+CONDA="${CONDA_EXE:-/opt/homebrew/Caskroom/miniforge/base/bin/conda}"
+if [[ ! -x "$CONDA" ]]; then
+  echo "no conda at $CONDA; set CONDA_EXE" | tee -a "$LOG" >&2
+  exit 1
+fi
+RUN=("$CONDA" run --no-capture-output -n assaywatch)
+
+{
+  echo "=== $(date -Iseconds) weekly run, live=$LIVE, cores=$CORES ==="
+
+  # The contact address NCBI requires. Read from the same place the pipeline
+  # does rather than being written into a scheduled job.
+  EMAIL=""
+  if [[ -f "$REPO/.secrets/email" ]]; then EMAIL="$(tr -d '[:space:]' < "$REPO/.secrets/email")"; fi
+
+  if [[ "$LIVE" -eq 0 ]]; then
+    echo "--- DRY RUN (no fetch, no screen; pass --live to run for real) ---"
+    "${RUN[@]}" snakemake -n --cores "$CORES" ${EMAIL:+--config email="$EMAIL"}
+    echo "--- dry run finished; nothing was fetched or written ---"
+    exit 0
+  fi
+
+  if [[ -z "$EMAIL" ]]; then
+    echo "refusing a live run with no contact address: write one to .secrets/email" >&2
+    exit 1
+  fi
+
+  # A live run must not start on a half-edited tree. The screen signature hashes
+  # the modules `assaywatch.triggers.source_names("screen")` names, config.yaml's
+  # scoring/amplicon/degeneracy/thermo blocks and the registry; an edit to any of
+  # them between the first screen and collect_calls makes every fresh screen read
+  # as stale and the run fails at the end. It happened on 2026-10-27, after 461
+  # archives were rescreened (docs/journal/2026-10-27-live-run-and-schedule.md).
+  # Uncommitted changes under those paths are refused; `--allow-dirty` is the
+  # override for a human who knows the edit is not in the closure.
+  if [[ "$ALLOW_DIRTY" -eq 0 ]]; then
+    DIRTY="$(git -C "$REPO" status --porcelain -- assaywatch config.yaml registry Snakefile 2>/dev/null || true)"
+    if [[ -n "$DIRTY" ]]; then
+      echo "refusing a live run: uncommitted changes under paths the screen signature hashes:" >&2
+      echo "$DIRTY" >&2
+      echo "commit or stash them, or pass --allow-dirty if you know the edit is outside the closure" >&2
+      exit 1
+    fi
+  fi
+  # WHICH CODE THIS RUN USED. The launchd job runs whatever is CHECKED OUT, not
+  # `main`: the dirty-tree refusal above catches a half-edited tree but not a
+  # clean unmerged branch, so a scheduled run can quietly execute unreviewed
+  # code. It nearly did on 2026-11-01, with the whole 2026-10-30 stack unmerged
+  # and `scoring.mispair_window` still null on `main`. Warning rather than
+  # refusing is deliberate (decided 2026-10-30): running a branch live on purpose
+  # is a thing this script is used for. What was not acceptable was being unable
+  # to tell afterwards, so the branch and commit go to the log and to a durable
+  # record beside it.
+  BRANCH="$(git -C "$REPO" rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
+  COMMIT="$(git -C "$REPO" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+  echo "code: branch $BRANCH at $COMMIT"
+  printf '%s\t%s\t%s\t%s\n' "$(date -Iseconds)" "$BRANCH" "$COMMIT" live \
+    >> "$(dirname "$LOG")/run-provenance.tsv"
+  if [[ "$BRANCH" != "main" ]]; then
+    echo "WARNING: this live run is NOT on main. It is running $BRANCH at $COMMIT," >&2
+    echo "         which may contain code no review has seen. Results will be labelled" >&2
+    echo "         with that branch in run-provenance.tsv beside this log." >&2
+  fi
+  "${RUN[@]}" assaywatch credentials
+
+  # `caffeinate -i` asserts PreventUserIdleSystemSleep, which does NOT stop
+  # clamshell sleep: a 2026-10-22 run spent 1h31m of 1h47m asleep with the lid
+  # shut. Nothing here can fix that; the install note says to leave the lid open.
+  # --rerun-incomplete, which profiles/slurm/config.yaml has always set and this
+  # path did not. Combined with a kill mid-job (the clamshell sleep above, or a
+  # power loss), Snakemake leaves its incomplete-output marker and the NEXT
+  # scheduled run aborts with "Incomplete files exist" instead of resuming --
+  # into results/weekly-logs/launchd.err, which nobody reads. So one interrupted
+  # Sunday silently cost every Sunday after it.
+  caffeinate -i "${RUN[@]}" snakemake --cores "$CORES" --rerun-incomplete --config email="$EMAIL"
+
+  # What changed, if anything. --quiet prints nothing on a quiet week, which is
+  # what this script was written for.
+  echo "--- what changed since the previous run ---"
+  "${RUN[@]}" python scripts/report_diff.py --quiet || true
+  echo "=== $(date -Iseconds) done ==="
+} 2>&1 | tee -a "$LOG"

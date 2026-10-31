@@ -1,0 +1,57 @@
+# S3b - the 3'-window penalty for conventional PCR, 3.0 -> 2.0.
+#
+# NAMED S5 WHEN IT WAS WRITTEN, AND RENAMED THE SAME DAY. S5 is already taken:
+# docs/journal/2026-10-24-scoring-strategy-test-plan.md Part 1 reserves it for C2, the
+# Bayesian per-record model, which is gated on a corpus that does not exist yet. This
+# candidate belongs to S3's family instead -- per-chemistry decisions, hand-set, as a
+# mechanism probe -- beside S3a, the probe switch. Commits dated 2026-10-27 call it S5.
+#
+# NOT the candidate this project has been naming. For three weeks the per-chemistry
+# argument was `terminal_mismatch_fails: false` for conventional, and the 179 bench
+# rows of docs/journal/2026-10-27-thermo-vs-penalty-paired.md were read as its
+# evidence: 23 false negatives against 1 false positive on a registry that is
+# three-quarters endpoint PCR. `scripts/price_terminal_mismatch.py` then scored every
+# bench row under that exemption and **0 of 179 predictions moved** - the same reason
+# the 2026-10-26 registry-wide measurement found 251 calls of 2.7 M and no verdict
+# change: a record whose primer carries a terminal mismatch almost always carries
+# others that clear `reduced_max` on their own. So the terminal-mismatch boolean is
+# not what makes the rule pessimistic, and this file prices what is.
+#
+# `primer_3prime_penalty: 3.0` EQUALS `reduced_max: 3.0`, so a single mismatch
+# anywhere in the last five bases lands exactly on the detect/fail boundary, and
+# 74.7% of all 284,062 `fail` calls sit within one 3'-window mismatch of it
+# (2026-10-27 run). At 2.0 one such mismatch is `reduced` and two still fail.
+#
+# The literature is about identity, not position alone, and says the step is too
+# strict for about half of mismatches: Kwok et al. 1990 (doi:10.1093/nar/18.4.999)
+# found only A:G, G:A, C:C (~100-fold) and A:A (~20-fold) strongly suppress yield,
+# with T against G, C or T minimal; Stadhouders et al. 2010
+# (doi:10.2353/jmoldx.2010.090035) report the same split in 5'-nuclease assays and
+# add that it depends on position and master mix. A single number cannot express
+# that. 2.0 is a coarser statement than the evidence supports, and it is the one the
+# commented worked example in config.yaml already writes out.
+name: s3b-conventional-3prime-penalty
+registered: 2026-10-27
+question: >
+  Does the 3'-window penalty, rather than the terminal-mismatch boolean, carry the
+  pessimism the bench panels measure? The panels say the shipped rule makes 23 false
+  negatives against 1 false positive on conventional-dominated rows, and exempting
+  the terminal base moves nothing, so the remaining suspect is the magnitude of the
+  penalty that equals `reduced_max` exactly.
+predicts: >
+  It only loosens: every move is fail->reduced or reduced->detect, so flags fall and
+  no new flag can appear. On the bench panels it fixes false negatives and breaks
+  nothing, because the only rows it can break are negatives that currently fail on a
+  single 3'-window mismatch, and Rahn's 41 negatives do not anchor at all. On the
+  registry it will move far more than the 251 calls the terminal switch moved,
+  because it changes a threshold rather than one edge case - and a loosening cannot
+  produce a new catch, so the tier-2 catches can only stay or fall.
+kill: >
+  It loses a documented catch, stated per catch and never netted against gains; or
+  it newly predicts a band on any of the 16 bench negatives that are within-family
+  rather than other-genus, which are the only rows in the panel set that can punish
+  a loosening.
+scoring:
+  by_chemistry:
+    conventional:
+      primer_3prime_penalty: 2.0

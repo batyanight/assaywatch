@@ -1,0 +1,59 @@
+# S7 - the mid-window penalty, 1.0 -> 0.5. KILLED 2026-10-28, on its own criterion.
+#
+# RESULT, before the reasoning below: 45,797 calls move (30,673 reduced->detect, 15,124
+# fail->reduced), tier-2 is identical case for case (6/11 caught, PPV 4/10, 4/32 false
+# alarms), bench accuracy is identical at 92.7% -- and it NEWLY PREDICTS A BAND ON TWO
+# WITHIN-FAMILY BENCH NEGATIVES, HPV55 and HPV44 on the Forslund FAP panel, both at
+# penalty 3.0 where the shipped rule has them above reduced_max. That is the second kill
+# criterion word for word. See docs/journal/2026-10-28-s7-mid-window-killed.md.
+#
+# The finding that outlives it: on these panels the positives and the within-family
+# negatives are not separated by the mid-window penalty, so no value of it fixes one
+# without breaking the other. Only identity could, which is S7b.
+#
+# WHY THIS CANDIDATE EXISTS, and why it is not tuning on held-out data. Held-out set
+# 2's one false alarm (Mills 2022 on MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010) was
+# traced on 2026-10-28 to a single base, and the trace generalised:
+# docs/journal/2026-10-28-g2r-false-alarm-traced.md. The held-out row said WHERE to
+# look; what is priced here is the general shape, on the development set and the bench
+# panels, which is the only data this project is allowed to spend on a threshold.
+#
+# THE ARITHMETIC. `primer_mid_penalty: 1.0` equals `detect_max: 1.0`, so a single
+# mid-window mismatch lands exactly on the detect/reduced boundary and a second
+# mismatch anywhere pushes past it. That is the same coincidence recorded one band
+# down for `primer_3prime_penalty: 3.0` against `reduced_max: 3.0`, which S3b priced
+# and shipped at 2.0. Over the 2026-10-27 run's site table, 69 sites across 23 assays
+# show a non-3'-window mismatch carried by >=200 records where detection falls from
+# above 80% to below 20% - 36 of those sites on `low coverage` assays and 33 on
+# `declining` ones. So this threshold decides a large share of the project's flags.
+#
+# THE LITERATURE IS ABOUT IDENTITY, AND THIS CANDIDATE IS NOT. Kwok et al. 1990 and
+# Stadhouders et al. 2010 both say a mismatch's cost is dominated by WHICH mispair it
+# is, and `scoring.mispair_penalty` can express that - but `score.penalty_for` applies
+# identity only inside the 3' window, by the measured decision of 2026-10-22 (applied
+# everywhere it erased internal wobbles and cost three documented tier-2 catches).
+# Extending identity to the mid window ALONE is the better candidate and needs a new
+# setting rather than an overlay, so it is registered as S7b and not priced here. S7
+# is the position-only version: the cheapest thing that can be measured today.
+name: s7-mid-window-penalty
+registered: 2026-10-28
+question: >
+  Does `primer_mid_penalty: 1.0`, which equals `detect_max` exactly, make the rule
+  pessimistic about internal mismatches the way the 3'-window penalty did about
+  terminal ones? At 0.5 a single mid-window mismatch stays `detect` and two land on
+  the boundary.
+predicts: >
+  It only loosens: every move is fail->reduced or reduced->detect, so flags can fall
+  and no new flag can appear. On the bench panels it should fix false negatives and
+  break nothing, because the only rows it can break are negatives that currently fail
+  on mid-window mismatches alone. On tier-2 the documented catches can only stay or
+  fall, never rise. Unlike S3b, which moved 19,081 calls, this should move MORE - the
+  mid window is the longest of the three and carries most of the mismatches in the
+  table.
+kill: >
+  It loses a documented tier-2 catch, stated per catch and never netted against
+  gains; or it newly predicts a band on any of the 16 bench negatives that are
+  within-family rather than other-genus, which are the only rows that can punish a
+  loosening. Both are the criteria S3b was held to.
+scoring:
+  primer_mid_penalty: 0.5

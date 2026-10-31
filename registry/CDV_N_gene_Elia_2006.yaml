@@ -1,0 +1,88 @@
+id: CDV_N_gene_Elia_2006
+name: CANINE DISTEMPER VIRUS — N gene TaqMan RT-qPCR (Elia 2006)
+target:
+  taxid: 3052342
+  gene: N
+  genome_type: ssRNA-
+  taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: CDV-F
+    seq: AGCTAGTTTCATCTTAACTATCAAATT
+  reverse:
+    name: CDV-R
+    seq: TTAACTCTCCAGAAAACTCATGC
+  probe:
+    name: CDV-Pb
+    seq: ACCCAAGAGCCGGATACATAGTTTCAATGC
+    reporter: FAM
+    quencher: TAMRA
+  alternates: []
+amplicon_bp: 83
+citation:
+  doi: 10.1016/j.jviromet.2006.05.004
+  design_year: 2006
+  n_sequences_at_design: null
+  as_written: null
+  reference: Elia G, Decaro N, Martella V, Cirone F, Lucente MS, Lorusso E, Di Trani L, Buonavoglia C. Detection of canine
+    distemper virus in dogs by real-time RT-PCR. J Virol Methods 2006;136:171-176.
+  doi_verified: true
+  oligos_designed_here: null
+conditions:
+  cycles: 45
+  rt: one_step
+  annealing_c: 48
+  primer_nm: 600
+  probe_nm: 400
+performance:
+  efficiency_pct: 82.4
+  lod: 1e2 copies standard RNA, 3.13e2 copies genomic RNA
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-06. SECOND-HAND: Elia et al. 2006 is not in papers/ and neither citing paper prints its DOI,
+    so the oligos were read from two papers that cite it and agree with each other base for base: Table 1 of Halecker et al.
+    2021 (10.3390/v13081632, ''ELIA-Mix'', reference Elia et al. 2006; table rendered at 220 dpi and read by eye) and the
+    Methods of Brown et al. 2020 (10.1371/journal.pone.0232044, used at the Vienna lab, ref 22 = Elia). Roles: CDV-F forward,
+    CDV-R reverse, CDV-Pb probe (FAM, TAMRA in both papers). The reference string is built from the reference lists of those
+    two papers; the DOI was first left null and then found by a Crossref title search (2026-10-06, see needs_review), and
+    oligos_designed_here is null because Elia''s own table was not read (Halecker''s reference column attributes the set to
+    Elia without ''modified''). AMPLICON DISAGREES WITH THE PAPERS: both citing papers give 87 bp. Measured, the product is
+    83 bp in all 663 records that yield one (no second mode), and on MN267060.1 the sites are forward 905-931, probe 934-963
+    (minus strand), reverse 965-987, i.e. 83 bp. The measurement wins; the 4 bp gap is uniform across lineages, so it is the
+    stated size, not an indel, that is off, or the Elia primers differ by 4 nt from what Halecker and Brown print; only Elia''s
+    own table can settle which. Retrieval: the archive is every GenBank nuccore record under txid11232 (Morbillivirus canis;
+    4,063 records on 2026-10-06), fetched whole rather than strided because the total is small. ''Spanning'' below means the
+    record holds the whole primer-to-primer window, judged by the screen producing a product or, for records with none, by
+    a BLAST of the MN267060.1 window covering both ends. MEASURED: 664 records span the window; 663 give an 83 bp product
+    with the probe present: 341 detect, 206 reduced, 116 fail, so 51.4% detect and 82.5% detect+reduced among products (the
+    last spanning record is truncated). No single constant mismatch column that would indicate a transcription typo: the commonest
+    is reverse-primer position 11 (A in the primer; G in 446 of 663 records, A in 213), a third-codon-type polymorphism, then
+    forward positions 14 and 25, reverse position 5 and probe position 5, each in 12-16% of records. The RefSeq genome NC_001921.1
+    itself calls fail, with two mismatches in each primer. Halecker 2021 report drawbacks for this assay (weak PDV exclusivity,
+    large Cq discrepancies for a few isolates), which fits this much primer-site variation. Of 116 PDV records (txid3052347)
+    13 contain a product and all 13 fail (penalty 12.5+), whereas Halecker report 2 of 4 PDV samples positive, so the in-silico
+    PDV exclusivity is better than their wet-lab result. The other 3,400 CDV records give no_amplicon: 3,384 carry no primer
+    site (records not covering the N-gene site) and 16 are truncated. SCOPE: CDV-wide N-gene assay, used as the reference
+    method in Halecker 2021 and in two diagnostic laboratories in Brown 2020.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+needs_review:
+- flag: citation_is_indirect
+  note: DOI found 2026-10-06 by a Crossref title search, not printed in either citing paper; the top hit matched title, journal,
+    volume, pages, year and first author
+- flag: amplicon_disagrees_with_paper
+  note: measured 83 bp in 663 of 663 records; both citing papers say 87 bp
+- flag: oligos_from_secondary_source
+  note: read from Halecker 2021 and Brown 2020, not from Elia's own table

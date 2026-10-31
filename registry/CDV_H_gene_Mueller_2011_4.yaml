@@ -1,0 +1,53 @@
+id: CDV_H_gene_Mueller_2011_4
+name: Canine distemper virus specific — H gene
+target:
+  taxid: 3052342
+  gene: H gene
+  genome_type: ssRNA-
+  taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
+chemistry: conventional
+oligos:
+  forward:
+    name: Mueller-4F
+    seq: ATCCCCCATGTGTTGACATT
+  reverse:
+    name: Mueller-4R
+    seq: GACCTCAGGGTATAGAATCTGG
+  alternates:
+  - name: 4Farctic
+    seq: ATCCCTCATGTGTTATCATT
+    orientation: forward
+amplicon_bp: 572
+citation:
+  doi: 10.7589/0090-3558-47.3.725
+  design_year: 2011
+  n_sequences_at_design: null
+  as_written: muller,2011
+  doi_verified: true
+  reference: Müller A, Silva E, Santos N, Thompson G. 2011. Domestic dog origin of canine distemper virus in free-ranging
+    wolves in Portugal as revealed by hemagglutinin gene characterization. J Wildl Dis 47:725-729
+conditions:
+  annealing_c: 57.0
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'TAXON RENAMED: NCBI now calls txid11232 ''Morbillivirus canis''; this entry carried the superseded name
+    ''Canine morbillivirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval
+    uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.
+    CITATION RESOLVED 2026-10-22. The ''candidate'' in the old reference string is confirmed by sequence, not by plausibility:
+    Müller et al. 2011 (J Wildl Dis 47:725-729, 10.7589/0090-3558-47.3.725) prints this entry''s primers, and all four Mueller_2011
+    entries'' primer pairs verify exact against that PDF. The paper is paywalled, which is why the open-access routes never
+    found it.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+needs_review:
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

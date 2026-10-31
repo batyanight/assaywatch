@@ -1,0 +1,65 @@
+id: CBPV_RNA1_Rossi_2024
+name: CHRONIC BEE PARALYSIS VIRUS — RNA1 RT-qPCR, MGB probe (Rossi 2024)
+target:
+  taxid: 180822
+  gene: RNA1
+  genome_type: ssRNA+
+  taxon_name: Chronic bee paralysis virus
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: CBPVF
+    seq: GAAGTCATCCGTAGATCTGG
+  reverse:
+    name: CBPVR
+    seq: CRAGAGGGGTATGTTGTACT
+  probe:
+    name: CBPVP
+    seq: AGACKAGRGAGGAYGGGA
+    reporter: FAM
+    quencher: MGBEQ
+  alternates: []
+amplicon_bp: 112
+citation:
+  doi: 10.3390/microorganisms12061105
+  design_year: 2024
+  n_sequences_at_design: 52
+  as_written: null
+  reference: Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative
+    PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 54.0
+  cycles: 50
+  rt: one_step
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Oligos read from Table 1 of the paper (PDF page 5): the text layer and the page rendered at 200 dpi and
+    read by eye agree. The paper''s Tenebrio molitor RNA extraction control oligos (TeneF/TeneR/TeneP, taken from Koppel et
+    al. per the paper) are an exogenous control, not honeybee virus targets, and are deliberately excluded from all six honeybee
+    virus entries made from this paper; its synthetic RNA calibrators carry no oligos. The paper tests the six assays singly
+    and as duplexes (ABPV/BQCV, DWVA/DWVB, CBPV/SBV; also BQCV/DWVA and ABPV/DWVB); each virus is its own entry here. One-step
+    RT-qPCR, 50 C 15 min RT, 95 C 2 min, 50 cycles of 95 C 15 s / 54 C 30 s, 0.2 uM each primer and probe. Screened with assaywatch.screen
+    on 2026-10-06 against GenBank records fetched by esearch/efetch the same day. ''Spanning'' below means a record that gives
+    a product, or that the tool labels diverged or chance-only, or that the tool labels no_site but whose sequence still carries
+    the cited reference amplicon region (an 11-mer chain covering at least 80% of it); records the tool labels truncated (they
+    end inside a primer window) are not counted as spanning. DESIGN: new in this paper (Table 1 ''This study''; alignment
+    of 52 sequences). Target is RNA1 only; CBPV has two genomic segments and RNA2 records are not targets. VERIFIED against
+    the cited accession MK637522.1 (CBPV isolate AUT-17 segment RNA1, complete, 3,679 nt): CBPVF 1961-1980, probe CBPVP 2016-2033,
+    CBPVR 2053-2072, all 0 mismatches. THE PAPER''S STATED SPAN DISAGREES WITH ITS OWN PRIMERS: Table 1 gives 1961-2070 (110
+    bp) but the reverse primer as printed ends at 2072, so the product on that record is 112 bp. The measurement wins: amplicon_bp
+    112. MEASURED on every record of Chronic bee paralysis virus with length >= 100 bp (txid180822; 536 records): detect 114,
+    reduced 10, fail 4, no_amplicon 408. 128 records give a product, all exactly 112 bp; the probe has a site inside the product
+    in 128 of 128. COVERAGE: the 404 no_amplicon records that do not span the site are RNA2 segment records (about 2.3 kb)
+    and partial RNA1/RdRp fragments, 29 of which end inside the forward primer window (tool label ''truncated''); 4 span the
+    site but find no forward site (diverged). Among the 132 spanning records, detect = 114 (86.4%), detect+reduced = 124 (93.9%),
+    4 fail.'
+needs_review: null

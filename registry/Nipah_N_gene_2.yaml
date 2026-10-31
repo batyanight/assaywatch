@@ -1,0 +1,63 @@
+id: Nipah_N_gene_2
+name: Nipah — N gene
+target:
+  taxid: 3052225
+  gene: N gene
+  genome_type: ssRNA-
+  taxon_name: Henipavirus nipahense (formerly Nipah henipavirus)
+chemistry: conventional
+oligos:
+  forward:
+    name: NP2F
+    seq: CTGCTGCAGTTCAGGAAACATCAG
+  reverse:
+    name: NP2R
+    seq: ACCGGATGTGCTCACAGAACTG
+amplicon_bp: 227
+citation:
+  doi: 10.1126/science.288.5470.1432
+  design_year: 2000
+  n_sequences_at_design: null
+  as_written: PREDICT protocol
+  doi_verified: true
+  oligos_designed_here: true
+  reference: Chua KB, Bellini WJ, Rota PA, Harcourt BH, Tamin A, Lam SK, Ksiazek TG, Rollin PE, Zaki SR, Shieh WJ, Goldsmith
+    CS, Gubler DJ, Roehrig JT, Eaton B, Gould AR, Olson J, Field H, Daniels P, Ling AE, Peters CJ, Anderson LJ, Mahy BWJ.
+    2000. Nipah virus - a recently emergent deadly paramyxovirus. Science 288:1432-1435
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'TAXON RENAMED: NCBI now calls txid121791 ''Henipavirus nipahense''; this entry carried the superseded name
+    ''Nipah henipavirus''. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses,
+    so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says. SOURCE
+    TRACED 2026-10-05, from ''PREDICT protocol'' and no DOI at all. A Europe PMC full-text search on both sequences returns
+    one paper, Wong KT et al. 2003 (Am J Pathol 163:2127, PMC1892425), whose Table 1 ''Nipah Virus Nucleoprotein Gene Specific
+    Primers and RT-PCR Conditions'' prints 5''-CTGCTGCAGTTCAGGAAACATCAG-3'' and 5''-ACCGGATGTGCTCACAGAACTG-3'', matching this
+    entry base for base. Wong is NOT the designer and says so - ''Previously published, specific primers used, 1'' - and its
+    reference 1 is Chua KB et al. 2000 Science 288:1432, the paper that named the virus. Cited to Chua 2000, Crossref-verified
+    as to author, year and title. READ THE CAVEAT: Chua 2000 itself has not been read, because Science is closed access here,
+    so the attribution rests on Wong''s citation of it rather than on seeing the primers in Chua''s own text. That is the
+    same footing as the POXVIRUSES_dsDNA_Polymerase_short_2 entry, which takes McAloose 2016 from Vila 2019''s table, and
+    both now carry SEQUENCES_READ_FROM_A_CITING_PAPER_NOT_THE_SOURCE so the distinction is visible rather than implied. Confirm
+    against Chua''s own methods when that paper is in hand. AMPLICON CONFIRMED, NOT CHANGED: measured against all 426 records
+    of the 2026-10-03 Henipavirus nipahense archive, the pair gives a product in 292 and it is 227 bp in every single one
+    - exactly the stored value, which until now rested on the seed list alone. A DRIFT FINDING: the forward primer is exact
+    in only 56 of those 292 and sits 2 mismatches away in 231; the reverse is exact in 54 and 2 mismatches away in 190. So
+    roughly four fifths of deposited Nipah carries two mismatches under each primer while the product length has not moved
+    at all. The deposit titles do not separate the two groups - NCBI has renamed the species, so ''Nipah virus'' and ''Henipavirus
+    nipahense'' both appear in each - and attributing the split to the Malaysia-versus-Bangladesh lineage divide would need
+    the sequences aligned, which has not been done here. The numbers are recorded; the cause is not claimed.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 121791 into 3052225 (Henipavirus nipahense), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/121791/ moved to data/retrieved/3052225/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+needs_review:
+- flag: primer_site_polymorphic
+  note: the primer sites have drifted 2 nt in most records
+- flag: oligos_from_secondary_source

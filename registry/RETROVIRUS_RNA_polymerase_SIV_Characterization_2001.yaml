@@ -1,0 +1,42 @@
+id: RETROVIRUS_RNA_polymerase_SIV_Characterization_2001
+name: RETROVIRUS (RNA) — polymerase (SIV)
+target:
+  taxid: 11723
+  gene: polymerase (SIV)
+  genome_type: ssRNA-RT
+  taxon_name: Simian immunodeficiency virus
+  query: pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: DR4
+    seq: GGNATWCCNCAYCCDGCAGG
+    seq_as_written: GGIATWCCICAYCCDGCAGG
+  reverse:
+    name: DR5
+    seq: GGNGAYCCYTTCCAYCCYTGHGG
+    seq_as_written: GGIGAYCCYTTCCAYCCYTGHGG
+amplicon_bp: 194
+citation:
+  doi: 10.1128/JVI.72.12.10305-10309.1998
+  design_year: 1998
+  n_sequences_at_design: null
+  as_written: Clewley et al. 1998
+  doi_verified: true
+  reference: Clewley JP et al. 1998. J Virol 72:10305-10309
+  oligos_designed_here: false
+use_context:
+- wildlife
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-029
+  nested_round: round2
+  nested_family: RETROVIRUS_SIV_pol_PREDICT_P029
+  notes_curator: 'PREDICT panel protocol P-029 (RdRp), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Clewley,
+    J.P. et al (1998). Citation updated from Courgnaud 2001 (10.1128/JVI.75.2.857-866.2001) to Clewley 1998: Courgnaud used
+    these primers and cited "PCR conditions were as previously reported [ref 8 = Clewley 1998]". NESTED FAMILY DECLARED 2026-10-21: P-029 prints DR1/DR2 as round 1 and DR4/DR5 as round 2 of one protocol, and the positions agree: on all 3,703 records in the 2026-10-20 calls where both pairs give a product, the DR4/DR5 product lies inside the DR1/DR2 product (inset 503 bp at one end and 92 bp at the other on 3,596 of them).'
+needs_review:
+- flag: orientation_inferred
+  note: the archive yields 4010 products and 4242 none under this orientation (2026-10-27 run), so the inference stands

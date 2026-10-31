@@ -1,0 +1,63 @@
+id: E_coli_ETEC_LT_Victor_1991
+name: E. coli-ETEC-enterotoxin (LT)gene
+target:
+  taxid: 562
+  gene: null
+  genome_type: dsDNA
+  taxon_name: Escherichia coli
+  query: (eltA[Gene] OR eltB[Gene] OR elt[Gene] OR "heat-labile enterotoxin"[Title] OR "LT toxin"[Title]) AND 1:30000[SLEN]
+    NOT "whole genome shotgun"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: EcoLT-1
+    seq: GAGACCGGTATTACAGAAATC
+    modified_from: CCCGTATTACAGAAATCTGA
+    modification_doi: 10.1046/j.1365-2672.1997.00300.x
+  reverse:
+    name: EcoLT-2
+    seq: GAGGTGCATGATGAATCCAG
+    modified_from: GTGCATGATGAATCCAGGGT
+    modification_doi: 10.1046/j.1365-2672.1997.00300.x
+amplicon_bp: 117
+citation:
+  doi: 10.1128/jcm.29.1.158-161.1991
+  design_year: 1991
+  n_sequences_at_design: null
+  as_written: Victor et al. 1991
+  doi_verified: true
+  reference: Victor T, du Toit R, van Zyl J, Bester AJ, van Helden PD. 1991. Improved method for the routine identification
+    of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit. J Clin Microbiol
+    29:158-161
+conditions:
+  mg_mm: 2.0
+  annealing_c: 55
+  cycles: 35
+  primer_nm: 400
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'OLIGO SOURCE FOUND 2026-10-23, and it is not the cited paper. Both stored oligos read `absent` against Victor et al. 1991, which prints its own LT primers as LT51 CCCGTATTACAGAAATCTGA and LT31 GTGCATGATGAATCCAGGGT in Fig. 1 and names no oligo EcoLT. The stored pair is printed in Wang, R-F., Cao, W-W. and Cerniglia, C.E. 1997, J Appl Microbiol 83:727-736 (10.1046/j.1365-2672.1997.00300.x), whose Table 2 gives EcoLT-1 GAGACCGGTATTACAGAAATC and EcoLT-2 GAGGTGCATGATGAATCCAG with a 117 bp product - the names, both sequences and the amplicon this entry stores - and lists "Victor et al. (1991)" in its own Reference column, where its newly designed assays instead read "This study". The same pair, attributed to Wang 1997, appears in Table 1 of 10.1371/journal.pone.0101456 (PMC4077799). So the sequences are Wang''s and the Victor attribution is one Wang made. NOT RE-CITED HERE: moving the DOI would also make the id''s Victor_1991 wrong, which is a rename, and the precedent set for Nipah_N_gene_2 and POXVIRUSES_dsDNA_Polymerase_short_2 was to keep the upstream citation and flag the indirectness. A maintainer decision. RESOLVED 2026-10-23, and the citation is NOT repointed. The two pairs sit on the
+    same two eltA sites, shifted a few bases, so Wang''s "Victor et al. (1991)" credit records real design lineage
+    rather than a mistake, and Victor remains this assay''s origin. Measured against 146 GenBank eltA records:
+    genome GGAATATA-GAGACCGGTATTACAGAAATC-TGAATATA, where the stored EcoLT-1 matches exactly in 122 records while
+    Victor''s LT51 starts three bases further 3'' and carries one mismatch at its own 5'' position 3
+    (CCC against the template CCG), so it matches none of them exactly. At the reverse site LT31 matches 123 records and
+    the stored EcoLT-2, which extends three bases 5'' of LT31''s core, carries one mismatch at its 5''
+    position 2 (GAG against the template GTG) and so matches none exactly - about 19 bases from its 3'' end, which
+    is close to free under a 3''-weighted penalty. Neither pair is wrong; both are ordinary era and strain variation
+    around one conserved site. So the published sequences are recorded as modified_from with Wang as the
+    modification_doi, which is the keep-both rule, and the id stays E_coli_ETEC_LT_Victor_1991. The
+    oligos_from_secondary_source and citation_is_indirect flags stay: the sequences are still read from Wang''s
+    table, not from Victor''s.'
+needs_review:
+- flag: oligos_from_secondary_source
+  note: EcoLT-1/EcoLT-2 are printed in Wang 1997 (10.1046/j.1365-2672.1997.00300.x), not in the cited Victor 1991
+- flag: citation_is_indirect
+  note: Wang 1997 credits Victor 1991, which prints different LT primers
+- flag: orientation_inferred
+  note: the archive yields 49 products and 398 none under this orientation (2026-10-27 run), so the inference stands

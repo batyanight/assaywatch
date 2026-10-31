@@ -1,0 +1,109 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    # check-yaml rejects a duplicate mapping key. Added 2026-10-27 after three
+    # consecutive `files:` keys on the `claims` hook below silently collapsed to
+    # the last one: YAML takes last-wins, so `claims` inherited the papers-index
+    # filter and stopped firing on README, ROADMAP, CONTRIBUTING, config.yaml and
+    # score.py -- the prose it exists to police -- while `papers-index` and
+    # `fixtures-current` lost their filters and ran on every commit. The hook
+    # that was meant to catch stale quoted counts was itself disabled by a typo
+    # for as long as the counts were drifting.
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Keep in step with the ruff pin in pyproject.toml and environment.yml: a hook
+    # on a different version reformats what the local ruff just formatted, which
+    # cost three aborted commits before anyone noticed the versions differed.
+    rev: v0.16.10
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: validate-registry
+        name: validate registry YAML
+        entry: conda run -n assaywatch python -m assaywatch.validate registry
+        language: system
+        pass_filenames: false
+        files: ^registry/.*\.yaml$
+      - id: schema-current
+        # registry/schema.json is generated from assaywatch/schema.py and committed, so
+        # an editor or a JSON-schema consumer sees the current shape. CI has always
+        # checked it (`assaywatch validate --check-schema`) and pre-commit did not, so
+        # the one way to notice a stale schema was a red PR. Adding `title_requires` to
+        # the model on 2026-10-30 did exactly that: the local gate was green on pytest,
+        # the validator, ruff, check_citations and claims, and CI failed on the one step
+        # none of them ran. Watching schema.py as well as the json, because the failure
+        # is a change to the MODEL without a regeneration.
+        name: registry/schema.json matches the model
+        entry: conda run -n assaywatch python -m assaywatch.validate --check-schema
+        language: system
+        pass_filenames: false
+        files: ^(assaywatch/schema\.py|registry/schema\.json)$
+      - id: duplicate-keys
+        # check-yaml above answers the same question, and only about the files one
+        # commit touches. That is how two `notes_curator` keys sat in
+        # LEPTOSPIROSIS_Flagillar_filiment_Prote.yaml for three days: the entry
+        # validated, screened and reported while carrying only the second note,
+        # because yaml.safe_load takes last-wins and hands pydantic a mapping that
+        # has already lost the key. This asks it of EVERY registry file on any
+        # registry commit, so a duplicate introduced by a bulk edit or a script is
+        # found when it happens rather than when something unrelated touches it.
+        name: no registry file gives a key twice
+        entry: conda run -n assaywatch python scripts/check_duplicate_keys.py --registry registry pending
+        language: system
+        pass_filenames: false
+        files: ^(registry|pending)/.*\.yaml$
+      - id: papers-index
+        # docs/papers-index.md is the only durable record of WHICH papers this
+        # registry rests on, because papers/ is gitignored. It went stale twice
+        # (a regeneration found 124 papers where 114 were real plus ten
+        # fabricated DOIs), so it is checked rather than remembered.
+        #
+        # A hook and not CI: the index's PDF column is built by looking in
+        # papers/, which exists only on this laptop. CI would regenerate it with
+        # every PDF missing and call the committed file wrong on every run.
+        # Reads the committed Crossref cache, so no network - but a NEW cited DOI
+        # is fetched, and with no network the hook fails until it can reach
+        # Crossref. That is the same bargain check-citations already makes.
+        name: papers index is current
+        entry: conda run -n assaywatch python scripts/papers_index.py --check
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|docs/papers-index\.(md|cache\.json)|scripts/papers_index\.py)$
+      - id: fixtures-current
+        # tests/make_fixtures.py reads LIVE registry/*.yaml and config.yaml and
+        # rewrites tests/fixtures/. Change a threshold and the hand-derived
+        # expected calls in PLANS go stale and test_score fails loudly; change an
+        # OLIGO or an amplicon_bp and regeneration silently rebuilds all 84
+        # records around it, every expectation still matching. That is the
+        # direction a scoring regression hides in.
+        #
+        # It had already happened: 9ea1a1e (2026-10-21) measured Bd's amplicon
+        # from 121 to 146 bp, which moved every Bd fixture by 25 bp, and nothing
+        # compared them for two days. No expected call moved that time.
+        name: test fixtures match the registry
+        entry: conda run -n assaywatch python tests/make_fixtures.py --check
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|config\.yaml|tests/make_fixtures\.py|tests/fixtures/.*)$
+      - id: claims
+        # Undated registry counts in prose, against the registry. A dated claim is
+        # history and is left alone; an undated one is a current assertion.
+        name: quoted registry counts are current
+        entry: conda run -n assaywatch python scripts/claims.py --check
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|README\.md|ROADMAP\.md|CONTRIBUTING\.md|config\.yaml|assaywatch/score\.py)$
+      - id: check-citations
+        # Every citation must match Crossref. A reference written from memory is
+        # how doi:10.3390/v13071358 was briefly recorded as Nobach et al. when
+        # the paper is Sigrist et al.; it was caught by luck, so it is a gate now.
+        # Runs against the committed Crossref cache, so it needs no network.
+        name: citations match Crossref
+        entry: conda run -n assaywatch python scripts/check_citations.py --quiet
+        language: system
+        pass_filenames: false
+        files: ^(registry/.*\.yaml|docs/papers-index\.cache\.json)$

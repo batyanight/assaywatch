@@ -1,0 +1,54 @@
+id: ADENOVIRUS_dsDNA_Polymerase_Primate_speci
+name: ADENOVIRUS (dsDNA) — Polymerase (Primate-specific)
+target:
+  taxid: 10509
+  gene: Polymerase (Primate-specific)
+  genome_type: dsDNA
+  taxon_name: Mastadenovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: Roy-F2
+    seq: GTGACAAAGAGGCTGTCCGTGTCCCCGTA
+  reverse:
+    name: Roy-R2
+    seq: TCACGTGGCCTACACTTACAAGCCAATCAC
+amplicon_bp: 258
+citation:
+  doi: 10.1371/journal.ppat.1000503
+  design_year: 2009
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Roy S, Vandenberghe LH, Kryazhimskiy S, Grant R, Calcedo R, Yuan X, Keough M, Sandhu A, Wang Q, Medina-Jaszek
+    CA, Plotkin JB, Wilson JM. 2009. Isolation and characterization of adenoviruses persistently shed from the gastrointestinal
+    tract of non-human primates. PLoS Pathog 5:e1000503 (nested DNA polymerase PCR, inner primers)
+  oligos_designed_here: true
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: round2
+  nested_family: ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005
+  notes_curator: 'SOURCE FOUND AND RE-CITED 2026-10-05. The entry cited Casas et al. 2005 J Clin Microbiol 43:6176, and that
+    paper does not print these primers: its local PDF carries exactly four oligo-like runs, all of them the hexon primers
+    held by ADENOVIRUS_dsDNA_Hexon_gene and its round 2 sibling, which verify exact. The polymerase pairs are absent from
+    it. A Europe PMC full-text search finds both pairs in Roy S et al. 2009 PLoS Pathog 5:e1000503 (PMC2698151), which prints
+    them in one sentence as a single nested polymerase PCR - ''outer primers, TGATGCGYTTCTTACCTYTGGTYTCCATGAG and AGTTYTACATGCTGGGCTCTTACCG,
+    and inner primers, GTGACAAAGAGGCTGTCCGTGTCCCCGTA and TCACGTGGCCTACACTTACAAGCCAATCAC'' - matching the registry base for
+    base. Roy gives no citation of its own for them, and it is the earliest publication of them that is findable: the only
+    other open texts printing them are later and downstream (Roy 2011 PLoS One 6:e24859, Medkour 2020 Viruses 12:657 ''Fw/Rw
+    inere'', Kosoltanapiwat 2022 One Health 15:100434 ''Adeno-pol F2/R2''). Cited to Roy 2009 as first publication. This is
+    the same shape as the CMV gB case settled earlier today: one seed list citation covering a paper''s own pair plus a
+    pair from somewhere else. The two entries also belong together - they are rounds of one nested assay, which the ids do
+    not say. F2/R2 are the INNER pair, nesting inside ADENOVIRUS_dsDNA_Polymerase_Primate_speci_Casas_2005 (whose id now misleads,
+    since the Casas attribution is withdrawn). AMPLICON MEASURED against all 30,139 records in the 2026-10-03 Mastadenovirus
+    archive (up to 4 mismatches per primer): a product in 4,082 records, 258 bp in 4,050 of them - as invariant as this registry
+    gets. The stored 281 matches none; corrected to 258, which is also the size Kosoltanapiwat 2022 prints for the same pair
+    and consistent with Medkour 2020''s ''approximately 250 bp''. CONFIRMED AGAINST THE PAPER ITSELF, later on 2026-10-05.
+    The Roy 2009 PDF was fetched as gold open access. This entry''s inner pair F2/R2 reads in-text rather than exact: Roy
+    prints all four primers inside one running sentence rather than a table, and the verifier reserves exact for a match inside
+    a listed oligo. The sibling outer pair verifies exact. The sequences are identical to what the paper prints.'
+needs_review: null

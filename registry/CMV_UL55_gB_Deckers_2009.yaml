@@ -1,0 +1,73 @@
+id: CMV_UL55_gB_Deckers_2009
+name: CMV-specific HERPES — UL55 /Glycoprotein B (gB)
+target:
+  taxid: 10358
+  gene: UL55 /Glycoprotein B (gB)
+  genome_type: dsDNA
+  taxon_name: Cytomegalovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: 4007-s
+    seq: GGTGACGTGGTTGACATNTCNCC
+  reverse:
+    name: 4007-as
+    seq: GCAATCGGTTTGTTGTANATNGC
+amplicon_bp: 800
+citation:
+  doi: 10.1186/1743-422X-6-210
+  design_year: 2009
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Deckers, M.; Hofmann, J.; Kreuzer, K. A.; Reinhard, H.; Edubio, A.; Hengel, H. High genotypic diversity and a
+    novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology Journal
+    2009, 6, 210.
+  oligos_designed_here: null
+use_context:
+- wildlife
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  nested_family: CMV_UL55_gB_Deckers_2009_Deckers_2009
+  notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER (Prepens et al. 2007), BUT THEIR SOURCE IS KNOWN: Deckers M et al.
+    2009, Virol J 6:210 (PMID 19941648, PMC2789067; DOI 10.1186/1743-422X-6-210 as returned by PubMed, NOT yet checked against
+    Crossref, which was unreachable). Found missing from Prepens 2026-10-05 by scripts/verify_oligos_against_paper.py; source
+    identified 2026-10-06 from the PubMed Central full text of Deckers 2009. Its Table 1 prints primer set CMV-gBp1 as a NESTED
+    PAIR: round 1 is 4007s GGTGACGTGGTTGACAT(n/i)TC(n/i)CC and 4007as GCAATCGGTTTGTTGTA(n/i)AT(n/i)GC, product 800 bp ("approximate
+    values", per the table footnote); round 2 is 4125s and 4125as, product 550 bp. Both stored sequences here match exactly,
+    reading (n/i) as N, and the stored amplicon_bp of 800 is the paper''s. So this entry is ROUND 1 of the pair held by CMV_UL55_gB_Deckers_2009_round2_2.
+    source.nested_round stays null on purpose: that field records what the seed list said, and it recorded no round. Prepens
+    2007 prints 16 PCR primers in Table 3, four in each of four named sets (RH-gB, LC-gB, CM-gB, CM-MDBP, numbered 2743-2762
+    and 3730-3731), plus 7 LNA oligonucleotides in Table 2, and none is 4007-s or 4007-as: the string "4007" does not occur
+    in it, and no ACGT-only fragment of 8 or more bases of either sequence, in either orientation, occurs in its text. Deckers''
+    numbering (4007, 4125, 4524, ...) and Prepens'' look like one running series from the same laboratory, but that is an
+    inference; neither paper says so. The two sibling entries _Virol_2007_round1 and _round2 DO store Prepens'' own CM-gB
+    primers and verify exact. CAVEAT: Deckers cites an earlier reference for the first use of CMV-gBp1 in great apes, so this
+    may not be where the primers were first published; it is a paper that prints them in a table, which is what a citation
+    here needs. NOT RE-CITED YET, and NOT DELETED: the DOI above has not been checked against Crossref, and scripts/check_citations.py
+    verifies registry DOIs against the committed Crossref cache, so it cannot be written into citation.doi until scripts/resolve_citations.py
+    has run with Crossref reachable. oligos_designed_here stays false, which is certain for Prepens. To resolve: verify the
+    DOI, re-cite this entry and the 4125 entry to Deckers 2009 together, decide oligos_designed_here from what Deckers says
+    (it says the primers were designed to bind conserved sites, but also cites an earlier use), and clear the flag. Fourth
+    instance of this shape after Hellgren/Bensch, Blooi/Martel and Atkins/PREDICT. RE-CITED 2026-10-17 TO DECKERS 2009, THE
+    PAPER THAT PRINTS THESE PRIMERS. The DOI 10.1186/1743-422X-6-210 came from PubMed in 2026-10-06 and was therefore NOT
+    written into citation.doi at the time; Crossref was reached on 2026-10-17 and returns ''High genotypic diversity and a
+    novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR'', Deckers, Hofmann,
+    Kreuzer, Reinhard, Edubio, Hengel, Voigt, Ehlers, Virology Journal 6, 2009 - matching PMID 19941648 / PMC2789067 and the
+    registry''s own note. citation.doi, design_year and reference now point at Deckers 2009 for both this entry and its sibling,
+    and the DOI was added to docs/papers-index.cache.json. oligos_designed_here is set to NULL rather than true: Deckers says
+    the primers were designed to bind conserved sites but also cites an earlier use in great apes, so whether they were first
+    published there is not settled by this paper - the same reading applied to the Nosema/Klee re-citation. The RECITE_AFTER_CROSSREF_CHECK
+    flag is cleared; a flag recording the composite provenance remains.
+
+
+    CONDITIONS CORRECTED 2026-10-28: a `mg_mm: 2.0` written by the automatic pass of 2026-10-27 is REMOVED, not replaced.
+    It came from the 46 C / 40-cycle programme in Deckers 2009, which is the pan-herpes DPOL PCR; this entry''s 800 bp gB
+    product is the TaKaRa ExTaq long PCR at 45 C over 30 cycles, whose magnesium the paper gives only as ''ExTaq buffer with
+    MgCl2''. A value from the wrong assay in a multi-assay paper is worse than no value, and the one that replaced it in six
+    files an hour earlier was a regex running past the end of its block.'
+needs_review:
+- flag: citation_is_indirect
+  note: the cited paper is where these oligos are printed, not proven to be their first publication

@@ -1,0 +1,37 @@
+# The 20 `in-text` oligo rows, enumerated 2026-10-27 (ROADMAP: oligo adjudication leftovers).
+#
+# `scripts/verify_oligos_against_paper.py --pdf-dir papers` reads `in-text` when the stored
+# sequence OCCURS in the cited paper's text but the extractor found no oligo table listing it --
+# usually a primer table rendered as an image, a sequence set in running prose, or a table the
+# PDF text layer glues to its neighbours. It is weaker than `exact` (the string could in principle
+# sit inside a printed target sequence rather than a primer list) and stronger than `absent`.
+# These rows were never enumerated before; the verifier reported the count and nothing else.
+#
+# What each needs: a human reading the page the string is on, once, and either promoting the
+# entry's confidence (the string is a primer in a table the extractor could not parse) or
+# recording where else it appears. Nothing here changes a stored sequence: every one of these
+# strings IS in its paper.
+#
+# Reproduce: python scripts/verify_oligos_against_paper.py --pdf-dir papers --tsv out.tsv
+#            then filter verdict == in-text. 505 oligos checked, 421 exact, 20 in-text (2026-10-27).
+assay_id	slot	oligo_name	stored_seq	doi	read_from
+ADENOVIRUS_dsDNA_Pan_Polymerase_round1	forward	Forward-pol-Fouter	TNMGNGGNGGNMGNTGYTAYCC	10.1128/JVI.78.23.13366-13369.2004	
+ADENOVIRUS_dsDNA_Pan_Polymerase_round1	reverse	Reverse-pol-Router	GTDGCRAANSHNCCRTABARNGMRTT	10.1128/JVI.78.23.13366-13369.2004	
+ADENOVIRUS_dsDNA_Pan_Polymerase_round2	reverse	Reverse-polRinner	CCANCCBCDRTTRTGNARNGTRA	10.1128/JVI.78.23.13366-13369.2004	
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci	forward	Roy-F2	GTGACAAAGAGGCTGTCCGTGTCCCCGTA	10.1371/journal.ppat.1000503	
+ADENOVIRUS_dsDNA_Polymerase_Primate_speci	reverse	Roy-R2	TCACGTGGCCTACACTTACAAGCCAATCAC	10.1371/journal.ppat.1000503	
+BATRAVIRUS_terminase_Licheri_2020_pan_FW4_RV4	forward	EUPB-FW-4	GTRCARGCTCAYMGWAAMVMBACRTG	10.1177/1040638720951134	
+CDV_P_gene_Scagliarini_2007	probe	CDVProbe	ATCTTCGCCAGAATCCTCAGTGCT	10.1007/s11259-007-0020-9	
+CDV_P_gene_Scagliarini_2007	alt0	CDV-Probe	ATCTTCGCCAGAATCCTCAGTGCT	10.1007/s11259-007-0020-9	
+CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021	forward	BdCAPE_Fwd	CACCAACACCCCACCACTTTAG	10.1111/1755-0998.13299	
+CHYTRID_Bd_mtDNA_lineage_BdCAPE_Ghosh_2021	probe	MGB_BdCAPE	CCAGGCCTTAATTCA	10.1111/1755-0998.13299	
+CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021	forward	BdGPL_Fwd	GAATCACAAACCTGGCAAAACA	10.1111/1755-0998.13299	
+CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021	reverse	BdGPL_Rev	TTTAAGACCTCATCCTCATAACAGATAGG	10.1111/1755-0998.13299	
+CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_Lan_2010_round1	forward	CoV-FWD1	CGTTGGNACWAAYBTVCCWYTNCARBTRGG	10.1128/mBio.00208-10	predict
+OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023	forward	D-forward	AGCGTTTTGCCCCAGCTA	10.1371/journal.pone.0289159	
+OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023	reverse	D-reverse	GCAATGTTGCTCCGCAGTACT	10.1371/journal.pone.0289159	
+OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023	probe	D-probe	CTCGACTACGAAATCG	10.1371/journal.pone.0289159	
+Shigella_ipaH_Sethabutr_1993	forward	Shi-1	CTTGACCGCCTTTCCGATAC	10.1093/infdis/167.2.458	
+Shigella_ipaH_Sethabutr_1993	reverse	Shi-2	CAGCCACCCTCTGAGAGTA	10.1093/infdis/167.2.458	
+West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001	reverse	WN-1494c	GTATGAAGGCGCCGCAGGAGTGA	10.1128/JCM.39.12.4506-4513.2001	
+Yersinia_enterocolitica_Ibrahim_1992	forward	YE-1	CTGTCTTCATTTGGAGCATTC	10.1128/jcm.30.8.1942-1947.1992	

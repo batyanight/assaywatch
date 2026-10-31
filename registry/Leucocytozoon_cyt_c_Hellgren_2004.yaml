@@ -1,0 +1,41 @@
+id: Leucocytozoon_cyt_c_Hellgren_2004
+name: For Leucocytozoon spp. (X-reacts weakly with haemoproteus) — cytochrome c
+target:
+  taxid: 195944
+  gene: cytochrome c
+  genome_type: mtDNA
+  taxon_name: Leucocytozoon
+chemistry: conventional
+oligos:
+  forward:
+    name: HaemFL
+    seq: ATGGTGTTTTAGATACTTACATT
+  reverse:
+    name: HaemR2L
+    seq: CATTATCTGGATGAGATAATGGNGC
+    seq_as_written: CATTATCTGGATGAGATAATGGIGC
+amplicon_bp: 478
+citation:
+  doi: 10.1645/GE-184R1
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemFL/HaemR2L)
+  oligos_designed_here: true
+conditions:
+  mg_mm: 1.5
+  annealing_c: 50
+  cycles: 35
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'CONFIRMED 2026-10-05 against the full text via the NYU library: HaemFL and HaemR2L are this paper''s own (''constructed 2 new primers, HaemFL ... and HaemR2L ... for Leucocytozoon spp.''), both match exactly including the inosine in HaemR2L, and the 478 bp product is stated in the text. Figure 1''s caption confirms the reverse primers are printed already reverse-complemented, ''as it should be ordered (5''-3'')'', so they are stored as printed.'
+needs_review:
+- flag: cross_reactive
+- flag: orientation_inferred
+  note: the archive yields 340 products and 7567 none under this orientation (2026-10-27 run), so the inference stands

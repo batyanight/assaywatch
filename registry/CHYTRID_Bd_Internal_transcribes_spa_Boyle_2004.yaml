@@ -1,0 +1,62 @@
+id: CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004
+name: Batrachochytrium dendrobatidis — ITS1/5.8S real-time PCR (Boyle 2004)
+target:
+  taxid: 109871
+  gene: ITS1-5.8S rDNA
+  genome_type: dsDNA
+  taxon_name: Batrachochytrium dendrobatidis
+chemistry: mgb
+oligos:
+  forward:
+    name: ITS1-3-Chytr
+    seq: CCTTGATATAATACAGTGTGCCATATGTC
+  reverse:
+    name: 5.8s-Chytr
+    seq: AGCCAAGAGATCCGTTGTCAAA
+  probe:
+    name: Chytr-MGB2
+    seq: CGAGTCGAACAAAAT
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 146
+citation:
+  doi: 10.3354/dao060141
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: Boyle et al, 2004
+  doi_verified: true
+  reference: Boyle DG et al. 2004. Dis Aquat Org 60:141-148
+conditions:
+  cycles: 50
+use_context:
+- wildlife
+- veterinary
+submitted_by: Batya Nightingale
+status: active
+source:
+  nested_round: null
+  notes_curator: 'Orientation confirmed 2026-10-04: forward ITS1-3 Chytr lies 5'' of reverse 5.8S Chytr in
+    rDNA order, and all 79 detects in short Bd ITS records (deposited 18S->28S) have forward on + and
+    reverse on -. Promoted to active on the 2026-10-04 run: stable, 100% of 54 recent evaluable records.
+    AMPLICON CORRECTED 121 -> 146 bp on 2026-10-21. The 121 came from the seed list;
+    Boyle et al. 2004 states no product size at all (its only bp figures are a 5918 bp 10-locus total from
+    Morehouse et al. and a 740 bp sequencing product, neither this amplicon), so there is nothing to
+    disagree with - the measured value simply stands (config.yaml amplicon:). MEASURED from the one Bd
+    archive (109871/all, rescreened 2026-10-21 with the size window opened to the global 50-3000): 175
+    products over 19 lengths, 132-152 bp, modal 146 (66 records, 38%), a spread of 20 bp that is ITS1
+    length polymorphism within the single target species. Kept a SCALAR rather than a range: the project
+    rule for declaring a scalar (docs/2026-10-14, >= 20 products and >= 95% within +/-25% of the modal) is
+    met outright - 146 +/-25% is a 109-182 bp window that covers every measured product, with ~23 bp of
+    headroom below the smallest and ~30 above the largest. No species_sizes, because this is a detection
+    assay that does not read species from length. The old declared 121 gave a 90-151 window whose ceiling
+    sat exactly on the largest product, so 2 records at 152 bp were scored no_amplicon/no_pair; the
+    correction recovers them (detect 172 -> 174 on this archive) and loses none at the low end (no product
+    falls below 132). amplicon_measured_not_published flagged below. OLIGOS CONFIRMED 2026-10-23. The verifier reads all
+    three `absent` because Boyle prints them only inside Fig. 1, an image of the rDNA sequence with primer and probe
+    underlined, captioned GenBank AY598034. Checked against AY598034.1 itself: ITS1-3-Chytr at position 1 (plus strand),
+    Chytr-MGB2 at 31 (plus), 5.8s-Chytr at 125 on the minus strand, product 146 bp, equal to the stored amplicon_bp. So
+    the stored oligos are exactly the paper''s, read through the accession its figure names.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: Boyle 2004 states no product size; 146 bp is the modal of 175 measured products (132-152 bp, ITS1
+    length polymorphism) and replaces the seed list's unexplained 121

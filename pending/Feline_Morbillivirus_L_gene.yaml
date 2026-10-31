@@ -1,0 +1,35 @@
+id: Feline_Morbillivirus_L_gene
+name: Feline Morbillivirus — L gene
+target:
+  taxid: 1170234
+  gene: L gene
+  genome_type: ssRNA-
+  taxon_name: Feline morbillivirus
+chemistry: mgb
+oligos:
+  forward:
+    name: FmoPVF
+    seq: GGRACRTGGCCTCCTGTRGA
+  reverse:
+    name: FMoPVR
+    seq: RTCTTCTRGARCTTGTRGGTAAKCC
+  probe:
+    name: FMoPV-PROBE
+    seq: TCATGCATCTGCTGTAATTAGAAATGC
+    reporter: FAM
+    quencher: MGB-NFQ
+amplicon_bp: 277
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: unpublished
+  doi_verified: false
+use_context:
+- veterinary
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+needs_review:
+- flag: oligos_modified

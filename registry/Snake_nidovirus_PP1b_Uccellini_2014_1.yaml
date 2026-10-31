@@ -1,0 +1,59 @@
+id: Snake_nidovirus_PP1b_Uccellini_2014_1
+name: NIDOVIRUS (ssRNA)-SNAKE — PP1b
+target:
+  taxid: 2508240
+  gene: PP1b
+  genome_type: ssRNA+
+  taxon_name: Serpentovirinae (snake nidoviruses, Tobaniviridae)
+chemistry: conventional
+oligos:
+  forward:
+    name: PythonNido7F
+    seq: GTCGTCAACTTGTCCCACCA
+  reverse:
+    name: PythonNido6R
+    seq: GTCAAACATGAAAGCGTGCG
+  alternates:
+  - name: Pythin-nodo-7R
+    seq: CTGCCATGCTACGGAAGACT
+    orientation: reverse
+amplicon_bp: 420
+citation:
+  doi: 10.1186/1743-422X-11-144
+  design_year: 2014
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Uccellini L et al. 2014. Virol J 11:144
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'PAIRED ACROSS TWO OF THE PAPER''S PRIMER PAIRS - FLAGGED, NOT CHANGED (2026-10-14).
+    Uccellini et al. 2014 Table 2 ("Sequences of primers used to amplify the 3,408 fragment of ball python
+    Nidovirus") prints SEVEN NUMBERED PAIRS, each a forward and a reverse of the same number, with nucleotide
+    positions: BPNV 1 (1-963), 2 (718-1485), 3 (1446-1647), 4 (1456-2154), 5 (2152-3030), 6 (2995-3131), 7
+    (3088-3408). All six oligos across this entry and its sibling are in that table. This entry stores BPNV 7Fwd (GTCGTCAACTTGTCCCACCA) as its forward and BPNV 6Rev (GTCAAACATGAAAGCGTGCG) as its reverse, with BPNV 7Rev (CTGCCATGCTACGGAAGACT) in alternates.
+    So this entry''s stored pair takes its forward from one of the paper''s pairs and its reverse from another, and
+    the forward''s own partner sits in oligos.alternates.
+
+    WHAT IS NOT CLAIMED. The stored pair measures a consistent product (420 bp on 13 of 290 records,
+    scripts/check_amplicons.py at 3 mismatches), so it is not a pairing that fails to amplify; the paper''s
+    positions are also not a numbering these records share, since both the paper''s own pairs measure about 20 bp
+    longer here than their stated ranges (340 bp against pair 7''s 3088-3408, i.e. 321). What IS certain is the structural
+    disagreement with the source: the registry pairs across the table''s pairs where the table pairs within them.
+
+    WHY IT IS FLAGGED RATHER THAN FIXED. Repairing it means changing which oligos constitute the assay, the most
+    load-bearing field in an entry, and a lab may pair them this way deliberately - these are
+    genome-walking primers for sequencing a 3,408 bp fragment, not a published diagnostic pair, so whether any of
+    them belongs in a drift registry is a scope question too. Both are decisions for whoever holds the protocol.
+    Until then this entry is screened as stored, and the ROUND SPLIT applied to the Cryptosporidium and adenovirus
+    entries on 2026-10-14 was deliberately NOT applied here: round 1 / round 2 would assert a nested design, and
+    Table 2 describes a walk, not a nest. The paper''s only use of "nested" is about subgenomic mRNAs.'
+needs_review:
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair; this pair is assembled across two of the
+    source's own pairs

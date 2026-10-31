@@ -1,0 +1,282 @@
+id: Pan_flavivirus_NS5_3_round2
+name: Pan-flavivirus — NS5-3
+target:
+  taxid: 3044782
+  gene: NS5-3
+  genome_type: ssRNA+
+  taxon_name: Orthoflavivirus (formerly Flavivirus)
+  query: NS5[Gene] OR NS5[Title] OR "complete genome"[Title] OR polyprotein[Title]
+  scope_taxids:
+  - 11093
+  - 28298
+  - 37555
+  - 39137
+  - 64316
+  - 64318
+  - 218849
+  - 262791
+  - 301964
+  - 352879
+  - 374448
+  - 390844
+  - 390845
+  - 486494
+  - 486495
+  - 537023
+  - 560241
+  - 560242
+  - 560243
+  - 560244
+  - 560245
+  - 560246
+  - 560247
+  - 560248
+  - 560249
+  - 560250
+  - 577122
+  - 631267
+  - 638787
+  - 643132
+  - 693269
+  - 693270
+  - 941339
+  - 941340
+  - 985683
+  - 1041528
+  - 1041529
+  - 1046551
+  - 1048333
+  - 1048536
+  - 1048860
+  - 1048861
+  - 1048862
+  - 1048863
+  - 1048864
+  - 1070859
+  - 1082545
+  - 1085621
+  - 1086585
+  - 1093105
+  - 1095754
+  - 1105173
+  - 1125677
+  - 1208385
+  - 1221516
+  - 1225488
+  - 1225489
+  - 1225490
+  - 1225491
+  - 1244563
+  - 1244564
+  - 1244565
+  - 1254420
+  - 1302179
+  - 1456752
+  - 1477528
+  - 1488577
+  - 1566298
+  - 1653304
+  - 1691889
+  - 1708574
+  - 1708654
+  - 1735573
+  - 1935468
+  - 2045185
+  - 2045186
+  - 2045187
+  - 2055848
+  - 2305258
+  - 2650668
+  - 2734903
+  - 2751814
+  - 2751815
+  - 2751816
+  - 2775126
+  - 2814814
+  - 2895586
+  - 2895587
+  - 2895588
+  - 2895589
+  - 2895590
+  - 2895591
+  - 2895592
+  - 2895593
+  - 2895594
+  - 2895595
+  - 2895596
+  - 2897165
+  - 2905429
+  - 2905430
+  - 2905431
+  - 2905432
+  - 2905433
+  - 2905434
+  - 2905435
+  - 2905436
+  - 2905437
+  - 2905438
+  - 2905439
+  - 2905440
+  - 2970553
+  - 2973665
+  - 2980574
+  - 2989508
+  - 3004159
+  - 3004160
+  - 3004161
+  - 3004162
+  - 3043598
+  - 3043611
+  - 3045052
+  - 3046277
+  - 3047370
+  - 3047375
+  - 3047385
+  - 3047395
+  - 3047696
+  - 3047703
+  - 3047725
+  - 3047770
+  - 3047790
+  - 3047817
+  - 3047823
+  - 3047837
+  - 3048154
+  - 3048158
+  - 3048162
+  - 3048164
+  - 3048165
+  - 3048168
+  - 3048169
+  - 3048170
+  - 3048175
+  - 3048184
+  - 3048198
+  - 3048205
+  - 3048206
+  - 3048215
+  - 3048225
+  - 3048233
+  - 3048267
+  - 3048287
+  - 3048300
+  - 3048305
+  - 3048308
+  - 3048311
+  - 3048312
+  - 3048314
+  - 3048316
+  - 3048360
+  - 3048439
+  - 3048440
+  - 3048443
+  - 3048447
+  - 3048448
+  - 3048457
+  - 3048459
+  - 3052463
+  - 3052464
+  - 3052465
+  - 3052466
+  - 3052467
+  - 3052468
+  - 3052469
+  - 3065072
+  - 3068221
+  - 3068228
+  - 3068229
+  - 3068236
+  - 3068237
+  - 3068238
+  - 3068239
+  - 3068248
+  - 3077538
+  - 3077539
+  - 3077540
+  - 3077582
+  - 3083296
+  - 3083297
+  - 3083358
+  - 3108888
+  - 3108891
+  - 3138843
+  - 3141856
+  - 3141861
+  - 3141872
+  - 3141882
+  - 3141899
+  - 3141907
+  - 3234215
+  - 3345038
+  - 3345039
+  - 3371281
+  - 3401104
+  - 3433931
+  - 3467566
+  - 3467602
+  - 3471787
+  - 3703352
+  - 3703353
+  - 3703356
+  - 3718604
+  - 3718741
+  - 3718784
+  - 3898039
+  - 3898041
+chemistry: conventional
+oligos:
+  forward:
+    name: FS-778-Zino-hemi-fwd
+    seq: AARGGHAGYMCDGCHATHTGGT
+  reverse:
+    name: cFD2-GORO-rev
+    seq: GTGTCCCAGCCGGCGGTGTCATCAGC
+amplicon_bp: 250
+citation:
+  doi: 10.1128/JCM.39.5.1922-1927.2001
+  design_year: 2001
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Scaramozzino N et al. 2001 (cFD2); FS778 hemi-nested forward also from this paper
+  oligos_designed_here: false
+conditions:
+  annealing_c: 54
+  cycles: 35
+  mg_mm: 1.5
+  rt: none
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: active
+source:
+  nested_round: round2
+  notes_curator: 'PROVENANCE SPLIT, established 2026-10-04 by the provenance audit. The oligo names carry their own attribution
+    and the lab was right to do that: `-Zino-` is Scaramozzino and `-GORO-` is Goro Kuno. cFD2 is conventionally attributed
+    to Kuno et al. 1998, J Virol 72:73-83, doi:10.1128/JVI.72.1.73-83.1998 (DOI verified against Crossref: ''Phylogeny of
+    the Genus Flavivirus'', Kuno, Chang, Tsuchiya, Karabatsos, Cropp). Scaramozzino et al. 2001 contributed MAMD and FS778,
+    and its title - ''Comparison of Flavivirus Universal Primer Pairs and Development of a Rapid, Highly Sensitive Heminested
+    RT-PCR Assay'' - is itself evidence that it evaluated pre-existing pairs rather than designing them all. So this pair
+    is a composite and oligos_designed_here is False: only the forward primer is Scaramozzino''s. Scope therefore cannot be
+    read off Scaramozzino 2001 alone. Not yet confirmed from Kuno 1998''s own methods - that is what would close it. TAXON
+    RENAMED: NCBI now calls txid11051 ''Orthoflavivirus''; this entry carried the superseded name ''Flavivirus''. Checked
+    2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening
+    changes - but a report naming the old taxon would not match what GenBank now says. SCOPE QUESTION ASKED AND CLOSED 2026-10-20,
+    no scope_taxids change. The override fires on Orthoflavivirus usutuense (3048443) at 0 of 429 records. Usutu is not out
+    of range: it is in Scaramozzino et al. 2001''s own test panel (Table 3 and Fig. 2 lane 5, "USU, Usutu virus"), and these
+    are that paper''s own new primers - Table 2 lists MAMD and FS 778 as "This article", with cFD2 from its ref 19, and all
+    three match this registry base for base. The paper''s claim is that the heminested NS5 pair detected "all of the tick-
+    and mosquito-borne flaviviruses tested". So 0 of 429 is a finding about the assay, not about the denominator, and it is
+    the largest single block of never-detected records in the override set. Worth a bench panel: Table 3 compares six published
+    genus primer pairs across about twelve viruses, which would test these two pairs type by type.
+
+
+    TAXID RETIRED 2026-10-27: NCBI has merged 11051 into 3044782 (Orthoflavivirus), so this entry now carries the canonical
+    id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
+    release from an empty archive. data/retrieved/11051/ moved to data/retrieved/3044782/ and the manifest was rebuilt in
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+needs_review:
+- flag: oligos_from_secondary_source
+  note: the set is assembled from two papers

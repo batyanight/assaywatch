@@ -1,0 +1,78 @@
+id: CHLAMYDIA_trachomatis_16S_Messmer_1997_round2
+name: CHLAMYDIA TRACHOMATIS — 16S rRNA nested multiplex PCR, second step (Messmer 1997)
+target:
+  taxid: 813
+  gene: 16S rRNA
+  genome_type: dsDNA
+  taxon_name: Chlamydia trachomatis
+  query: 16S[Title] OR "16S ribosomal RNA"[Title] OR "small subunit ribosomal"[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: C.-trachomatis-sense
+    seq: GCAATTGTTTCGGCAATTG
+  reverse:
+    name: C.-trachomatis-antisense
+    seq: AGCGGGTATTAACCGCCT
+  alternates: []
+amplicon_bp: 413
+citation:
+  doi: 10.1128/jcm.35.8.2043-2046.1997
+  design_year: 1997
+  n_sequences_at_design: null
+  as_written: null
+  reference: Messmer, T. O., Skelton, S. K., Moroney, J. F., Daugharty, H. & Fields, B. S. Application of a nested, multiplex
+    PCR to psittacosis outbreaks. Journal of Clinical Microbiology 35, 2043-2046 (1997).
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 55
+  cycles: 35
+  mg_mm: 2.5
+use_context:
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: round2
+  nested_family: CHLAMYDIA_16S_Messmer_1997
+  notes_curator: 'Added 2026-10-06. OLIGOS READ FROM THE PAPER''S METHODS (p. 2044, ''Genus-specific first-step primers''
+    and ''Species-specific second-step primers'' paragraphs) and CHECKED BY EYE against a 300-dpi render of that page made
+    with pymupdf: this PDF is a scan with an OCR text layer, so the layer was not trusted alone. The layer and the image agree
+    on every base of all seven oligos; the only OCR damage is the prime mark printed as ''59339'' (5''->3''). This is the
+    same paper (Messmer et al., J Clin Microbiol 1997; 10.1128/jcm.35.8.2043-2046.1997) that docs/journal/2026-10-05-list2-worklist.md
+    records as ''both rounds found no product in 8 strided 16S records, OCR-damaged''. The primer text is in fact intact,
+    and the earlier null is explained by coverage: many C. psittaci 16S deposits are 3''-half fragments that do not contain
+    the sites (see below). THE PAPER IS A NESTED, MULTIPLEX 16S rRNA PCR: step 1 is genus-specific (436 bp); step 2 puts five
+    primers in one tube (a shared C. pneumoniae/C. psittaci sense primer, a C. psittaci antisense, a C. pneumoniae antisense,
+    and a C. trachomatis pair) and tells the species apart by product size on agarose (trachomatis 412, pneumoniae 221, psittaci
+    127). It is therefore entered as four files: this paper''s round 1 (genus) and three round 2 species pairs. The paper
+    presents the primers as its own and cites no source or GenBank accession for them, so oligos_designed_here is true. design_year
+    is the publication year by registry convention; the paper was received 1996-12-23. THE PAPER''S SIZES ARE ONE BELOW THE
+    MEASURED ONES IN ALL FOUR CASES (436/127/221/412 stated; 437/128/222/413 measured, counting both primers, confirmed by
+    exact string search in CP002549.1 for psittaci). The measurement wins. THIS FILE: C. TRACHOMATIS ROUND 2 (GCAATTGTTTCGGCAATTG
+    / AGCGGGTATTAACCGCCT; the paper''s 412 bp species product). MEASURED on 87 GenBank C. trachomatis (txid813) records: all
+    45 that match 16S[Title] / ''16S ribosomal RNA''[Title] / ''small subunit ribosomal''[Title], plus a STRIDED sample of
+    the complete genomes (every 8th of the 334 ''complete genome''[Title] records, 42 genomes; strided because the result
+    order is accession-ordered and not representative), queried 2026-10-06. 72 records give a product and ALL 72 are exactly
+    413 bp (paper: 412). The 15 records without a product are 345-1,304 bp 16S fragments (e.g. U68438, U68440, U68441) that
+    contain neither primer-site flank, so they cannot hold the sites. CALLS AMONG THE 72 RECORDS THAT SPAN THE SITE: 31 detect
+    (43%), 9 reduced, 32 fail. This is a REAL SEQUENCE POLYMORPHISM, not a scoring artefact: LGV and some genital-serovar
+    records (e.g. U68443.2 L2/434/BU, CP002024 L2c, HE601956 L2b, CP002674 RC-J/943) carry both primer sites exactly, while
+    others (e.g. A/363, D/UW-3/CX, G/SotonG1) carry GCAATTGTTTCGACGATTG at the forward site (two bases different, 7 and 5
+    nt from the primer''s 3'' end) and ...GAAGACGGTTAATACCCGCT at the reverse site (one base different, 3 nt from the 3''
+    end). Checked by exact string search that both rrn operons of the D/UW-3/CX genome (AE001273.1) carry the variant form
+    and neither carries the primer form, and that both operons of CP002024.1 (L2c), and of CP001886.1 (E/150) at the forward
+    site, carry the primer form. By record type: the 42 genomes all give a product (27 detect, 4 reduced where only the reverse
+    site differs, 11 fail with both sites different, including A/363, D/UW-3/CX and G/SotonG1); the 30 partial 16S records
+    that give a product are 4 detect, 5 reduced, 21 fail (19 with both sites different, 2 with only the forward site different:
+    DQ019291 and DQ019297), the fails being mostly 1,548 bp Japanese serovar B/C/E deposits (D85719-D85721) and clone sequences
+    carrying the variant. So in silico this pair is exact for LGV and some genital genomes and carries two mismatches in the
+    forward primer for a large share of the others; whether the 1997 assay still amplified those templates is a wet question
+    the paper does not address by serovar, and this check cannot settle it. The primers were taken exactly as printed; nothing
+    was altered to fit the records. SCOPE: C. trachomatis only; the paper''s trachomatis primers are not shared with the other
+    species.'
+needs_review:
+- flag: primer_site_polymorphic
+  note: serovar polymorphism at both primer sites; 11 of 42 genomes fail

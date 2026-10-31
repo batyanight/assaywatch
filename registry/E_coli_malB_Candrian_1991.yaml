@@ -1,0 +1,38 @@
+id: E_coli_malB_Candrian_1991
+name: E. coli-malB promoter
+target:
+  taxid: 562
+  gene: null
+  genome_type: dsDNA
+  taxon_name: Escherichia coli
+  query: (malB[Gene] OR malE[Gene] OR malK[Gene] OR "malB"[Title] OR "malE-malK"[Title]) AND 1:30000[SLEN] NOT "whole genome
+    shotgun"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: Eco1
+    seq: GACCTCGGTTTAGTTCACAGA
+  reverse:
+    name: Eco-2
+    seq: CACACGCTGACGCTGACCA
+amplicon_bp: 585
+citation:
+  doi: 10.1016/0168-1605(91)90148-I
+  design_year: 1991
+  n_sequences_at_design: null
+  as_written: Candrain et al. 1991
+  doi_verified: true
+  reference: Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (seed list spells it Candrain)
+conditions:
+  cycles: 50
+  annealing_c: 55.0
+use_context:
+- public_health
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+needs_review:
+- flag: orientation_inferred
+  note: the archive yields 327 products and 150 none under this orientation (2026-10-27 run), so the inference stands

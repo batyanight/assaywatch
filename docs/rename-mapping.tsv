@@ -1,0 +1,44 @@
+old_id	action	new_id	reason
+ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies	REMOVE		Unpublished, doi: null, person's name in ID — no literature provenance
+ADENOVIRUS_dsDNA_Tracies_unpublished_nest_Tracies_round2	REMOVE		Unpublished, doi: null, round2 of above
+INFLUENZA_A_ssRNA_Matrix_gene_DID_NOT_WORK	REMOVE		Deprecated, doi: null, failed on positives
+Canine_distemper_virus_specifi_F_gene_need_to_order	REMOVE		doi: null, no reference, in-house primers (CDVF5primeUTR/CDV3primeUTR)
+Canine_distemper_virus_specifi_F_gene_need_to_order_2	REMOVE		doi: null, no reference, in-house primers (cdvFsal1F/cdvFnotR)
+Canine_distemper_virus_specifi_H_gene	REMOVE		doi: null, no reference, in-house primers (TSCDV-HF/HR)
+Canine_distemper_virus_specifi_H_gene_2	REMOVE		doi: null, no reference, in-house primers (TSCDVH2-F/R)
+Canine_distemper_virus_specifi_H_gene_3	REMOVE		doi: null, no reference, in-house primers (TSCDVH2-F/H3-R)
+Canine_distemper_virus_specifi_H_gene_4	REMOVE		doi: null, no reference, in-house primers (TSCDVH2-F/H4-R)
+Canine_distemper_virus_specifi_P_gene	REMOVE		doi: null, no reference, in-house primers (TSCDVF/TSCDVR)
+Canine_distemper_virus_specifi_P_gene_degenerate	REMOVE		doi: null, no reference, in-house primers (TSMorbF/TSMorbR)
+Helicobacter_XREACTS_with_general_bac	REMOVE		doi: null, no reference, generic lab primers (Helico F/R)
+SEADORNAVIRUSES_dsRNA_needs_de_Genome_segment_1	REMOVE		doi: null, no reference, primers (USead-F1/R1)
+Canine_distemper_virus_specifi_H_gene_2011	RENAME	CDV_H_gene_Mueller_2011_1	Walking primer pair 1 (1F/1R); ref Müller A et al. 2011 J Wildl Dis 47:725
+Canine_distemper_virus_specifi_H_gene_2011_2	RENAME	CDV_H_gene_Mueller_2011_2	Walking primer pair 2 (2F/2R)
+Canine_distemper_virus_specifi_H_gene_2011_3	RENAME	CDV_H_gene_Mueller_2011_3	Walking primer pair 3 (3F/3R)
+Canine_distemper_virus_specifi_H_gene_2011_4	RENAME	CDV_H_gene_Mueller_2011_4	Walking primer pair 4 (4F/4R)
+Canine_distemper_virus_specifi_P_gene_Scagliarini_2007	RENAME	CDV_P_gene_Scagliarini_2007	DOI 10.1007/s11259-007-0020-9; oligos CDVF4/CDVR3/CDVProbe; chemistry mgb
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB	RENAME	CMV_UL55_gB_Deckers_2009	DOI 10.1186/1743-422X-6-210; oligos 4007-s/4007-as
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2_2	RENAME	CMV_UL55_gB_Deckers_2009_round2	DOI 10.1186/1743-422X-6-210; oligos 4125-s/4125-as
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_Virol_2007_round1	RENAME	CMV_UL55_gB_Prepens_2007_round1	DOI 10.1186/1743-422X-4-84; oligos 2743s/2746-as
+CMV_specific_HERPES_UL55_Glycoprotein_B_gB_round2	RENAME	CMV_UL55_gB_Prepens_2007_round2	DOI 10.1186/1743-422X-4-84; oligos 2744-s/2745-as
+CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000	RENAME	Cryptosporidium_18SrDNA_Xiao_1999_round1	DOI 10.1128/aem.65.4.1578-1583.1999; oligos Xiao18SF1/Xiao18SR1 (corrected from Ziao)
+CRYPTOSPORIDIA_Need_to_order_18SrDNA_Identification_2000_round2	RENAME	Cryptosporidium_18SrDNA_Xiao_1999_round2	DOI 10.1128/aem.65.4.1578-1583.1999; oligos Xiao18SF2/Xiao18SR2 (corrected from Ziao)
+E_coli_ETEC_enterotoxin_LT_gen_unnamed_Victor_1991	RENAME	E_coli_ETEC_LT_Victor_1991	DOI 10.1128/jcm.29.1.158-161.1991; oligos EcoLT-1/EcoLT-2
+E_coli_O157_H7_hlyA_gene_unnamed_Wang_1997	RENAME	E_coli_O157_hlyA_Wang_1997	DOI 10.1046/j.1365-2672.1997.00300.x; oligos O157-3/O157-4
+E_coli_malB_promoter_unnamed_Candrain_1991	RENAME	E_coli_malB_Candrian_1991	DOI 10.1016/0168-1605(91)90002-F; oligos Eco1/Eco-2; author spelling corrected Candrain→Candrian
+Ferlavirus_Need_to_order_L_gene_Hyndman_2012	RENAME	Ferlavirus_L_gene_Hyndman_2012	DOI 10.1016/j.vetmic.2012.07.030; oligos FerlaqS2/FerlaqAS2
+For_Leucocytozoon_spp_X_reacts_cytochrome_c	RENAME	Leucocytozoon_cyt_c_Hellgren_2004	DOI 10.1645/GE-184R1; oligos HaemFL/HaemR2L; cross-reactivity note removed from ID
+Helicobacter_XREACTS_with_general_bac_2	RENAME	Helicobacter_16S_Conley_2021	DOI 10.1371/journal.pone.0247010; oligos Helico New F/Helico New R/PROBE1; chemistry mgb
+NIDOVIRUS_ssRNA_SNAKE_Need_to_PP1b	RENAME	Snake_nidovirus_PP1b_Uccellini_2014_1	DOI 10.1186/1743-422X-11-144; oligos PythonNido7F/PythonNido6R
+NIDOVIRUS_ssRNA_SNAKE_Need_to_PP1b_2	RENAME	Snake_nidovirus_PP1b_Uccellini_2014_2	DOI 10.1186/1743-422X-11-144; oligos PythonNido6F/PythonNido3R
+NIDOVIRUS_ssRNA_SNAKE_Need_to_PP1b_Uccellini_2014	RENAME	Snake_nidovirus_PP1b_Uccellini_2014_3	DOI 10.1186/1743-422X-11-144; oligos PythonNodoF/PythonNodoR
+Salmonella_invA_gene_unnamed_Rahn_1992	RENAME	Salmonella_invA_Rahn_1992	DOI 10.1016/0890-8508(92)90002-F; oligos Sal-3/Sal-4
+Shigella_ipah_gene_unnamed_Sethabutr_1993	RENAME	Shigella_ipaH_Sethabutr_1993	DOI 10.1093/infdis/167.2.458; oligos Shi-1/Shi-2
+Snake_arenavirus_Need_to_order_Glycoprotein_Nachweis_2015	RENAME	Reptarenavirus_GP_Aqrawi_2015	DOI 10.15654/TPK-140743; oligos MDS402/MDS400
+Sunshine_virus_Need_to_order_RdRp_L_gene	RENAME	Sunshinevirus_RdRp_Hyndman_2012_2	DOI 10.1016/j.vetmic.2012.07.030; oligos SunshineS2/SunshineAS1
+Sunshine_virus_Need_to_order_RdRp_L_gene_Hyndman_2012	RENAME	Sunshinevirus_RdRp_Hyndman_2012_1	DOI 10.1016/j.vetmic.2012.07.030; oligos SunshineS1/SunshineAS1
+Yersinia_enterocolitica_entero_unnamed_Ibrahim_1992	RENAME	Yersinia_enterocolitica_Ibrahim_1992	DOI 10.1128/jcm.30.8.1942-1947.1992; oligos YE-1/YE-2
+Yersinia_pseudotuberculosis_in_unnamed_Wang_1997	RENAME	Yersinia_pseudotuberculosis_Wang_1997	DOI 10.1046/j.1365-2672.1997.00300.x; oligos YP-3/YP-4
+Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999	RENAME	Pan_reptilian_paramyxovirus_L_Ahne_1999	The _ne_ was a truncation of 'need to order', which is the lab's stock on one day in 2018 and not a property of the assay; renamed to the {Taxon}_{gene}_{Author}_{Year} convention like its HN sibling
+Pan_reptilian_paramyxovirus_ne_RdRp_L_gene_Ahne_1999_2	RENAME	Pan_reptilian_paramyxovirus_L_Ahne_1999_2	The _ne_ was a truncation of 'need to order', which is the lab's stock on one day in 2018 and not a property of the assay; renamed to the {Taxon}_{gene}_{Author}_{Year} convention like its HN sibling
+Pan_mycoplasma_16S_23S_intergenic_space_2	REMOVE		Lab-made internal primer pair for FFPE samples, unpublished (confirmed by Batya 2026-10-21). 16-23-R2 also has no binding site in the 16S-23S spacer of any Mycoplasma genome tested, so the declared 302 bp product cannot form.

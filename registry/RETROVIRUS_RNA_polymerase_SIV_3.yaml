@@ -1,0 +1,40 @@
+id: RETROVIRUS_RNA_polymerase_SIV_3
+name: RETROVIRUS (RNA) — polymerase (SIV)
+target:
+  taxid: 11723
+  gene: polymerase (SIV)
+  genome_type: ssRNA-RT
+  taxon_name: Simian immunodeficiency virus
+  query: pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: HahnF1
+    seq: CATGTRGCHAGTGGNTWCMTAGARGCAGARGT
+  reverse:
+    name: HahnR1
+    seq: ACBACYGCNCCTTCHCCTTTC
+amplicon_bp: 518
+citation:
+  doi: 10.1128/JVI.02311-08
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: true
+  reference: Takehisa J et al. 2009. J Virol 83:1635-1648 (outer primers of the nested pol set; HahnF1/HahnR1)
+conditions:
+  annealing_c: 55.0
+  cycles: 35
+use_context:
+- wildlife
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+  notes_curator: SOURCE FOUND 2026-10-21 and verified against the local PDF. All FOUR Hahn primers are in Takehisa et al.
+    2009 with whitespace flattened - HahnF1 and HahnR1 here, HahnF2/HahnR2 in the sibling entry RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009
+    - so this is the outer round of the same nested pol assay and the two entries share one source. Found by Europe PMC full-text
+    search on the forward sequence, which returned Takehisa 2009 and Van Heuverswyn 2010; confirmed against the local PDF
+    rather than taken from the search. doi_verified stays false until scripts/resolve_citations.py approves it.
+needs_review:
+- flag: cross_reactive

@@ -1,0 +1,61 @@
+id: FILOVIRUS_ssRNA_L_gene
+name: FILOVIRUS (ssRNA) — L gene
+target:
+  taxid: 11266
+  gene: L gene
+  genome_type: ssRNA-
+  taxon_name: Filoviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: Filo-U12683-A
+    seq: TATTCTCYCTACAAAAGCATTGGG
+  reverse:
+    name: Filo-L13294-A
+    seq: GCTTCTGCGAGTGTTTGGACATT
+  alternates:
+  - name: Filo-U12683-B
+    seq: TATTTTCCATTCAAAAACACTGGG
+    orientation: forward
+  - name: Filo-U12683-C
+    seq: TATTTTCAATCCAAAAGCACTGGG
+    orientation: forward
+  - name: Filo-U12683-D
+    seq: TATTCTCTGTTCAAAAACATTGGG
+    orientation: forward
+  - name: Filo-L13294-B
+    seq: GCTTCACAAAGTGTTTGAACATT
+    orientation: reverse
+  - name: Filo-L13294-C
+    seq: GCTTCGCAGAGGGTTTGGACATT
+    orientation: reverse
+  - name: Filo-L13294-D
+    seq: GCCTCACATAAAGTTTGGACATT
+    orientation: reverse
+amplicon_bp: 634
+citation:
+  doi: 10.1128/Jcm.01893-06
+  design_year: 2007
+  n_sequences_at_design: null
+  as_written: PREDICT PROTOCOL
+  reference: Zhai, J. H. et al. Rapid molecular strategy for filovirus detection and characterization. Journal of clinical
+    microbiology 45, 224-226, doi:Doi 10.1128/Jcm.01893-06 (2007).
+  doi_verified: true
+conditions:
+  rt: one_step
+  mg_mm: 2.5
+  cycles: 35
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-007
+  nested_round: null
+  notes_curator: 'PREDICT panel protocol P-007 (L), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Zhai, J.
+    et al (2007). AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,826 of 3,837 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-007, prints ~600 bp; the measurement is what is entered.'
+needs_review:
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

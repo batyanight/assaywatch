@@ -1,0 +1,76 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+data/retrieved/*
+!data/retrieved/.gitkeep
+results/*
+!results/.gitkeep
+out/
+
+# Snakemake working state (locks, metadata, logs)
+.snakemake/
+
+# Pipeline run logs (Snakemake keeps its own under .snakemake/log/)
+snakemake*.txt
+dryrun*.txt
+fetch*.txt
+
+# Downloaded papers (copyrighted; never commit) -- PDFs, and the Europe PMC
+# full-text .xml / .txt deposits, which are just as copyrighted.
+#
+# But NOT the queue documents this project wrote itself. `papers/` as a bare
+# directory ignore took them with it, and git does not descend into an ignored
+# directory, so no negation could reach them: the live fetch queue that
+# docs/RESUME-HERE.md points a new session at was invisible to a clone and to
+# this author's other machines, and every "done" mark on it existed on one
+# laptop only. Ignoring the CONTENTS instead lets the three .md files back in,
+# and nothing else -- a new format arriving under papers/ stays ignored by
+# default, which is the safe direction.
+papers/*
+!papers/*.md
+
+# API keys. Never committed, never echoed. scripts/fetch_elsevier.py reads
+# .secrets/elsevier.key or the ELSEVIER_API_KEY environment variable.
+.secrets/
+.env
+*.key
+
+# Build artefacts (`pip wheel .`, `python -m build`)
+build/
+dist/
+
+# Personal / machine-local files
+.claude/settings.local.json
+Claude outputs/
+.DS_Store
+
+# scratch from ad-hoc screens, backfills and manual snakemake runs
+.tmp/ati-test/
+.tmp/*.log
+.tmp/heartbeat-*.json
+
+# SLURM leaves one stdout file per job in the submit directory, and with 335
+# screen jobs that is hundreds of untracked files in the repo root after a single
+# cluster run. No rule declares a `log:`, so this is where they land.
+slurm-*.out
+
+# Snakemake's own graph renderings (--dag, --rulegraph, --filegraph). Generated
+# from the Snakefile on demand, so they go stale silently in a commit.
+dag.png
+rulegraph.png
+rulegraph.dot
+rulegraph.err
+filegraph.png
+
+# handoff bundles are derived from docs/ and results/; not source
+assaywatch-handoff-*.tar.gz
+.tmp/handoff/
+
+# Bench-panel sequences cached by scripts/rescore.py (fetched from GenBank on demand)
+.tmp/bench-panels/
+
+# Collection dates fetched from GenBank flatfiles by scripts/backfill_collection_dates.py.
+# Regenerable run state, like data/retrieved/: a 1.2M-row sidecar, not an input.
+data/collection-dates/

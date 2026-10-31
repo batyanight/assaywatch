@@ -1,0 +1,52 @@
+id: Entamoeba_18S_small_subunit_SSU_2014
+name: Entamoeba — 18S small subunit (SSU)
+target:
+  taxid: 5758
+  gene: 18S small subunit (SSU)
+  genome_type: dsDNA
+  taxon_name: Entamoeba
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title] OR "ribosomal RNA"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: GEI18SF
+    seq: GTGCATGGCCGTTYYYAGTT
+    modified_from: GTGCATGGCCGTTCTTAGTT
+  reverse:
+    name: GEI18SR
+    seq: GTACAAARGGCAGGGACKTA
+    modified_from: GTACAAAGGGCAGGGACGTA
+amplicon_bp: null
+citation:
+  doi: 10.1099/jmm.0.061820-0
+  design_year: 2014
+  n_sequences_at_design: null
+  as_written: This is a modified protocol by Garcia et al. Molecular epidemiology and genetic diversity of Entamoeba species
+    in a cheloian collection. Journal of Medical Microbiology (2014), 63, 271-283.
+  doi_verified: true
+  reference: García G et al. 2014. J Med Microbiol 63:271-283
+conditions:
+  mg_mm: 2.0
+  cycles: 35
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: deprecated
+source:
+  nested_round: null
+  notes_curator: 'Seed list: DO NOT USE, cross-reactive with host DNA; GEI18SR row 18 is the wrong strand and needs reverse-complement. | Oligo annotations moved from name field: GEI18SF (forward): Mod; GEI18SR (reverse): corrected Mod; GEI18SR (alternate[0]): incorrect, need reverse complement THE WRONG-STRAND ALTERNATE IS REMOVED,
+    2026-10-23. This entry held a second GEI18SR under `alternates`, TACGTCCCTGCCCTTTGTAC, the form the paper prints
+    verbatim - but that is the TARGET strand at the reverse primer''s site, not the oligo. Checked against GenBank
+    AF149905 (Entamoeba invadens 18S): the printed GEI18SF site and the printed GEI18SR string both lie on the sense
+    strand, at 1308 and 1799, giving a 511 bp product inside the 450-535 bp the paper states. So the primary reverse
+    slot, stored as the reverse complement with two widened positions, is the correct molecule and the alternate was a
+    non-oligo being screened as a primer. Removed, and recorded here instead. GEI18SF and GEI18SR are both degenerate
+    variants of the printed pair (CTT to YYY in the forward, two widened positions in the reverse), now carried in
+    modified_from; an exact-phrase Europe PMC search finds neither stored form, so the widening is unpublished.'
+needs_review:
+- flag: cross_reactive
+- flag: do_not_use
+- flag: oligos_modified
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

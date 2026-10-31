@@ -1,0 +1,45 @@
+id: Pan_hemoparasite_cytochrome_c_Hellgren_2004
+name: Pan-hemoparasite — cytochrome c
+target:
+  taxid: 5819
+  gene: cytochrome c
+  genome_type: mtDNA
+  taxon_name: Haemosporida
+  query: cytb[Gene] OR cob[Gene] OR "cytochrome b"[Title] OR cytb[Title] OR "complete genome"[Title]
+  scope_taxids: [418104, 418105, 418110, 418112, 419353, 77521, 587283, 195944]
+chemistry: conventional
+oligos:
+  forward:
+    name: HaemNFI
+    seq: CATATATTAAGAGAANTATGGAG
+    seq_as_written: CATATATTAAGAGAAITATGGAG
+  reverse:
+    name: HaemNR3
+    seq: ATAGAAAGATAAGAAATACCATTC
+amplicon_bp: 617
+citation:
+  doi: 10.1645/GE-184R1
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: Hellgren et al 2004
+  doi_verified: true
+  reference: Hellgren O, Waldenström J, Bensch S. 2004. J Parasitol 90:797-802
+  oligos_designed_here: true
+conditions:
+  mg_mm: 1.5
+  annealing_c: 50
+  cycles: 20
+  primer_nm: 600
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: 'CONFIRMED 2026-10-05 against the full text via the NYU library: HaemNFI and HaemNR3 are this paper''s own (''initial primers were constructed (HaemNFI ... and HaemNR3 ...)''), and both sequences match character for character, inosine included. AMPLICON SIZE IS SUSPECT. The stored 617 bp is the product of HaemNF/HaemNR2, which the paper attributes to Waldenstrom et al. 2004 - a DIFFERENT first-round pair. For HaemNFI/HaemNR3 the paper states no size. 617 should not be trusted until it is measured on real records. | SCOPE 2026-10-19: scope_taxids is the avian haemosporidia the design paper names in its title, ''A new PCR assay for simultaneous studies of Leucocytozoon, Plasmodium, and Haemoproteus from avian blood'': the five avian Plasmodium subgenera in NCBI (Haemamoeba 418104, Huffia 418105, Novyella 418110, Giovannolaia 418112, Bennettinia 419353; every species NCBI places under them is a bird parasite, checked 2026-10-19), Haemoproteus 77521, Parahaemoproteus 587283 and Leucocytozoon 195944. Before this the assay was judged against all Haemosporida, and its records were mostly mammalian: on the 2026-10-17 calls, 2,240 Laverania (0% detected) and 1,618 subgenus Plasmodium (11%) against about 130 in the avian subgenera (nearly all detected). Deliberately out of scope: Plasmodium records with no subgenus (e.g. 31272 ''Plasmodium sp.'', 783 records at 73%), because NCBI does not say their host; some are avian lineages, and that is a known loss.'
+needs_review:
+- flag: oligos_not_in_cited_paper
+  note: the paper's 617 bp product belongs to a different primer pair
+- flag: orientation_inferred
+  note: the archive yields 6475 products and 25602 none under this orientation (2026-10-27 run), so the inference stands

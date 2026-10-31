@@ -1,0 +1,52 @@
+id: HANTAVIRUS_ssRNA_S_segment_round2_2
+name: HANTAVIRUS (ssRNA) — S segment
+target:
+  taxid: 1980442
+  gene: S segment
+  genome_type: ssRNA-
+  taxon_name: Orthohantavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: UHantaF4
+    seq: CCWVHKGAYCCAACWGG
+  reverse:
+    name: UHantaR3
+    seq: GAYNATVTTYCTNGCYTTDAYYTGDGC
+    seq_as_written: GAYNATVTTYCTIGCYTTDAYYTGDGC
+amplicon_bp: 417
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  as_written: null
+  doi_verified: false
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  nested_round: round2
+  nested_family: HANTAVIRUS_ssRNA_S_segment_nest_B
+  notes_curator: 'NESTED FAMILY ASSIGNED FROM GEOMETRY AND A SHARED PRIMER, NOT FROM A PROTOCOL DOCUMENT (2026-10-17). These four HANTAVIRUS_ssRNA_S_segment entries carry no DOI, so which round feeds which could not be read from a source. Nest B (_2, 532 bp outer, and _round2_2, 417 bp inner) share their reverse primer GAYNATVTTYCTIGCYTTDAYYTGDGC outright, which makes it a semi-nested pair; the inner sits inside the outer on 2,468 of 2,497 records. Nest A (the base entry, 250 bp outer, and _round2, 236 bp inner) is contained on 4,166 of 4,168 records, and its two forward primers are the same site offset by two bases. Both outer rounds also contain _round2 geometrically, so geometry alone does not separate the nests - the shared reverse primer is what ties _2 to _round2_2. A 250 bp outer with a 236 bp inner is an unusually tight nest: if a source for these entries turns up, check that assignment before anything else. FAMILY LINE ESTABLISHED 2026-10-22: nest A outer (HANTAVIRUS_ssRNA_S_segment) is UHantaF1/UHantaR1 of
+    Anthony et al. 2013, doi:10.1128/mbio.00598-13, verified character for character against the held PDF
+    including its stated 250 bp amplicon. This entry oligos are still not printed in that paper, so it stays
+    without a DOI. ANCESTOR FOUND 2026-10-22: Aitichou et al. 2005, doi:10.1016/j.jviromet.2004.10.004, J
+    Virol Methods 124:21-26, is the existing protocol Anthony modified - it is Anthony reference 56, and
+    Anthony states the hantavirus consensus primers were modified from it to increase the degeneracy of the
+    assay. Aitichou Table 1 prints HANTAV1U (GWGGVCARACAGCWGAYT, positions 374-391) and HANTAV1L
+    (TCCWGGTGTAADYTCHTCWGC, 604-624) against the S segments of Hantaan NC_005218, Dobrava NC_005233, Puumala
+    NC_005224 and Seoul NC_005236. UHantaF1 is HANTAV1U with two positions widened (A to W, W to H);
+    UHantaR1 is HANTAV1L minus its leading T and with A to D at one position. So the line is Aitichou 2005
+    designed it, Anthony 2013 amended and renamed it, and the amended pair is attributed to Anthony because
+    UHantaF1 and UHantaR1 are the names Anthony prints - a primer is named for the paper it comes from.
+    Aitichou is recorded as ancestry only and deliberately not as the citation, because it does not print
+    these sequences: the same rule that kept Coiras 2004 off the Enterovirus pair. Held as
+    papers/10.1016_j.jviromet.2004.10.004.pdf. NEXT for the unattributed rounds: Anthony supplemental
+    material is Text S1 (DOCX), Figure S1, Figure S2 and Table S1 (PDF), and Table S1 is the herpesvirus
+    cooccurrence table, so Text S1 is the only remaining candidate for UHantaF2/R2, UHantaF3/R3 and
+    UHantaF4.'
+needs_review:
+- flag: nested_protocol
+  note: the family link was declared from measured primer geometry, not from the source

@@ -1,0 +1,33 @@
+id: Pan_coccidia_SSUrDNA_of_E_furonis_Gen_2011
+name: Pan-coccidia — SSUrDNA of E furonis (GenBank accession No. AB329724) SLEDGE Primers
+target:
+  taxid: 352384
+  gene: SSUrDNA of E furonis (GenBank accession No. AB329724) SLEDGE Primers
+  genome_type: dsDNA
+  taxon_name: Eimeria furonis
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: E-furonis-F
+    seq: ACAATTGGAGGGCAAGTCTG
+  reverse:
+    name: E-furonis-R
+    seq: GGCGACAAGCCTGCTTGAAAC
+amplicon_bp: 247
+citation:
+  doi: 10.2460/javma.239.12.1584
+  design_year: 2011
+  n_sequences_at_design: null
+  as_written: J Am Vet Med Assoc. 2011 Dec 15;239(12):1584-8.
+  doi_verified: true
+  reference: Sledge DG et al. 2011. J Am Vet Med Assoc 239:1584-1588
+conditions:
+  cycles: 40
+use_context:
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+needs_review: null

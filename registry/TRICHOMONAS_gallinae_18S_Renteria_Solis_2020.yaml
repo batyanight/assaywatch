@@ -1,0 +1,51 @@
+id: TRICHOMONAS_gallinae_18S_Renteria_Solis_2020
+name: TRICHOMONAS GALLINAE — 18S rRNA SYBR Green qPCR (Rentería-Solís 2020)
+target:
+  taxid: 56777
+  gene: 18S rRNA
+  genome_type: dsDNA
+  taxon_name: Trichomonas gallinae
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
+chemistry: sybr
+oligos:
+  forward:
+    name: Trig7F
+    seq: GGTGGAGCCTGTGGCTTAAT
+  reverse:
+    name: Trig7R
+    seq: CCATGCACCACCAAAAGCAA
+  alternates: []
+amplicon_bp: 113
+citation:
+  doi: 10.1007/s00436-020-06887-x
+  design_year: 2020
+  n_sequences_at_design: null
+  as_written: null
+  reference: Rentería-Solís Z, Nguyen-Ho-Bao T, Taha S, Daugschies A. A SYBR green I real-time polymerase chain reaction (PCR)
+    assay for detection and quantification of Trichomonas gallinae.
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 55.0
+  cycles: 40
+  primer_nm: 300
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-06 from the paper''s own Methods text in papers/ (10.1007_s00436-020-06887-x.pdf), which prints
+    both primers and their positions on its design template, GenBank MK172846. VERIFIED against that record: Trig7F is at
+    976-995 and Trig7R''s site at 1069-1088, exactly as the paper states, giving the predicted 113 bp. MEASURED on all 346
+    Trichomonas gallinae 18S/small-subunit records in GenBank (txid56777, queried 2026-10-06; every record, not a sample):
+    67 give a product and all 67 are exactly 113 bp (66 detect, 1 reduced). The other 279 give no_amplicon, and every one
+    of them is a short fragment of 102-379 bp that cannot span positions 976-1088, so that is coverage and not primer failure;
+    no record long enough to hold the site fails to amplify (shortest product-bearing record 1,007 bp). amplicon_bp 113 is
+    therefore both the paper''s figure and the measured one. SCOPE: single species, as the paper designed it. Whether it cross-detects
+    other Trichomonas or Tetratrichomonas is the paper''s specificity panel, not something checked here. A short-fragment
+    record deposit (most T. gallinae 18S entries are ~350 bp) will read as low coverage in the pipeline for the same reason
+    it does here; read the detected share against records that span the site.'
+needs_review: null

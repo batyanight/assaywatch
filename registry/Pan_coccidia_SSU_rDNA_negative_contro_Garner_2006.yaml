@@ -1,0 +1,36 @@
+id: Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006
+name: Pan-coccidia — SSU rDNA (negative control works) use as primary screen
+target:
+  taxid: 5794
+  gene: SSU rDNA (negative control works) use as primary screen
+  genome_type: dsDNA
+  taxon_name: Apicomplexa
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: Garner-1135F
+    seq: ACYATAAACTATGCCRACTAGA
+  reverse:
+    name: Garner-1503R
+    seq: CYTCCYTRCRTTARACACGCAA
+amplicon_bp: 350
+citation:
+  doi: 10.1354/vp.43-3-311
+  design_year: 2006
+  n_sequences_at_design: null
+  as_written: 'Garner MM, Gardiner CH, Wellehan JF, et al.: 2006, Intranuclear coccidiosis in tortoises: Nine cases Vet Pathol
+    43: 311–320'
+  doi_verified: true
+  reference: Garner MM et al. 2006. Vet Pathol 43:311-320
+conditions:
+  cycles: 40
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+needs_review:
+- flag: cross_reactive

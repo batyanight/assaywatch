@@ -1,0 +1,1154 @@
+{
+  "$comment": "Generated from assaywatch.schema by `python -m assaywatch.validate --emit-schema registry/schema.json`. Do not edit by hand. The models are the contract; this file is their published form, for reading registry/*.yaml outside Python. Licence: see LICENSE-registry.",
+  "$defs": {
+    "Chemistry": {
+      "enum": [
+        "conventional",
+        "sybr",
+        "hydrolysis_probe",
+        "mgb",
+        "lna",
+        "rpa"
+      ],
+      "title": "Chemistry",
+      "type": "string"
+    },
+    "Citation": {
+      "additionalProperties": false,
+      "properties": {
+        "as_written": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "As Written"
+        },
+        "design_year": {
+          "anyOf": [
+            {
+              "maximum": 2100,
+              "minimum": 1985,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Design Year"
+        },
+        "doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Doi"
+        },
+        "doi_verified": {
+          "default": false,
+          "title": "Doi Verified",
+          "type": "boolean"
+        },
+        "n_sequences_at_design": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Sequences At Design"
+        },
+        "oligos_designed_here": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Oligos Designed Here"
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference"
+        }
+      },
+      "title": "Citation",
+      "type": "object"
+    },
+    "Conditions": {
+      "additionalProperties": false,
+      "description": "The thermal protocol, as the paper prints it. Nothing here is screened.\n\nTHIS BLOCK EXISTS BECAUSE `thermo: false` CANNOT BE LIFTED WITHOUT IT. A \u0394Tm of\n\u22126 \u00b0C is irrelevant at an annealing temperature of 50 \u00b0C and fatal at 62, and\nuntil 2026-10-27 the schema could not say which an assay used, so a\nthermodynamic call would have been made at a temperature the registry invented.\nThe nearest-neighbour model `thermo.duplex_tm` runs needs exactly what is here:\na temperature to compare a Tm against, the monovalent and divalent salt, and\nthe oligo concentration. Those are its inputs, not decoration.\n\nEvery field is optional and most entries will carry none, which is the honest\nstate: a published assay often prints \"standard cycling conditions\" and nothing\nelse. An entry whose paper prints no protocol at all takes the\n`conditions_not_printed` review flag, so \"we did not read it\" and \"the paper\ndoes not say\" stay different answers. Values are READ FROM THE PAPER and quoted\nin the curator note, never inferred from the chemistry or from what is usual.",
+      "properties": {
+        "annealing_c": {
+          "anyOf": [
+            {
+              "maximum": 80,
+              "minimum": 20,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annealing C"
+        },
+        "annealing_seconds": {
+          "anyOf": [
+            {
+              "maximum": 600,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Annealing Seconds"
+        },
+        "cycles": {
+          "anyOf": [
+            {
+              "maximum": 99,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cycles"
+        },
+        "denature_c": {
+          "anyOf": [
+            {
+              "maximum": 105,
+              "minimum": 80,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Denature C"
+        },
+        "extension_c": {
+          "anyOf": [
+            {
+              "maximum": 80,
+              "minimum": 20,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Extension C"
+        },
+        "master_mix": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Master Mix"
+        },
+        "mg_mm": {
+          "anyOf": [
+            {
+              "maximum": 20,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mg Mm"
+        },
+        "multiplexed_with": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Multiplexed With"
+        },
+        "na_mm": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Na Mm"
+        },
+        "primer_nm": {
+          "anyOf": [
+            {
+              "maximum": 5000,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Primer Nm"
+        },
+        "probe_nm": {
+          "anyOf": [
+            {
+              "maximum": 5000,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probe Nm"
+        },
+        "rt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RTFormat"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "Conditions",
+      "type": "object"
+    },
+    "Oligo": {
+      "additionalProperties": false,
+      "properties": {
+        "modification_doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modification Doi"
+        },
+        "modified_from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modified From"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "orientation": {
+          "anyOf": [
+            {
+              "enum": [
+                "forward",
+                "reverse",
+                "probe"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Orientation"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "string"
+        },
+        "seq_as_written": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seq As Written"
+        },
+        "tail_5prime": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tail 5Prime"
+        }
+      },
+      "required": [
+        "seq"
+      ],
+      "title": "Oligo",
+      "type": "object"
+    },
+    "Oligos": {
+      "additionalProperties": false,
+      "properties": {
+        "alternates": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Oligo"
+              },
+              {
+                "$ref": "#/$defs/Probe"
+              }
+            ]
+          },
+          "title": "Alternates",
+          "type": "array"
+        },
+        "forward": {
+          "$ref": "#/$defs/Oligo"
+        },
+        "probe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Probe"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reverse": {
+          "$ref": "#/$defs/Oligo"
+        }
+      },
+      "required": [
+        "forward",
+        "reverse"
+      ],
+      "title": "Oligos",
+      "type": "object"
+    },
+    "Panel": {
+      "additionalProperties": false,
+      "description": "One validation panel the paper ran, as counts.\n\nThe inclusivity and exclusivity panels in a methods paper are the wet-lab\nanswer to the question this pipeline answers from sequence, which makes them\nthe only direct comparison available for an assay with no published follow-up.\nCounts, not prose, so `scripts/retrospective.py` can one day read them.",
+      "properties": {
+        "n_detected": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Detected"
+        },
+        "n_tested": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Tested"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "taxids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxids"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Panel",
+      "type": "object"
+    },
+    "Performance": {
+      "additionalProperties": false,
+      "description": "What the paper measured about its own assay. Reported, never scored.\n\nA limit of detection is a wet-lab sensitivity measurement on an isolate or a\ndilution series, and this project does not model sensitivity -- the Leetz 2007\nheld-out case turns on exactly that distinction. So nothing here enters a\nverdict. It is kept because a reader comparing two assays on the same target\nasks for it immediately, and because an efficiency far from 100% is a reason\nto read an entry's other numbers more carefully.",
+      "properties": {
+        "dynamic_range": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dynamic Range"
+        },
+        "efficiency_pct": {
+          "anyOf": [
+            {
+              "maximum": 130,
+              "minimum": 50,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Efficiency Pct"
+        },
+        "lod": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lod"
+        },
+        "lod_copies_per_reaction": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lod Copies Per Reaction"
+        },
+        "r_squared": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "R Squared"
+        }
+      },
+      "title": "Performance",
+      "type": "object"
+    },
+    "Probe": {
+      "additionalProperties": false,
+      "properties": {
+        "lna": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lna"
+        },
+        "modification_doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modification Doi"
+        },
+        "modified_from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Modified From"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "orientation": {
+          "anyOf": [
+            {
+              "enum": [
+                "forward",
+                "reverse",
+                "probe"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Orientation"
+        },
+        "quencher": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quencher"
+        },
+        "reporter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reporter"
+        },
+        "seq": {
+          "title": "Seq",
+          "type": "string"
+        },
+        "seq_as_written": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Seq As Written"
+        },
+        "tail_5prime": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tail 5Prime"
+        }
+      },
+      "required": [
+        "seq"
+      ],
+      "title": "Probe",
+      "type": "object"
+    },
+    "RTFormat": {
+      "description": "Where reverse transcription happens, for an RNA target.",
+      "enum": [
+        "one_step",
+        "two_step",
+        "none"
+      ],
+      "title": "RTFormat",
+      "type": "string"
+    },
+    "ReviewFlag": {
+      "description": "Every value `needs_review[].flag` may take.\n\nAdding one is a deliberate act: it must be a category a filter would ask\nfor, not one entry's story. If it would only ever apply to a single assay,\nit is a `note` on a broader flag, or it is `curation_decision_pending`.",
+      "enum": [
+        "citation_unresolved",
+        "oligo_source_unresolved",
+        "oligo_sequence_uncertain",
+        "amplicon_size_unresolved",
+        "target_scope_unresolved",
+        "duplicate_entry_unresolved",
+        "do_not_use",
+        "not_validated",
+        "retrieval_stale",
+        "curation_decision_pending",
+        "oligos_modified",
+        "oligos_from_secondary_source",
+        "oligos_read_from_figure",
+        "oligos_not_in_cited_paper",
+        "citation_is_indirect",
+        "orientation_inferred",
+        "pairing_is_curator_reading",
+        "amplicon_measured_not_published",
+        "amplicon_disagrees_with_paper",
+        "amplicon_multimodal",
+        "cross_reactive",
+        "scope_narrower_than_taxid",
+        "retrieval_scope_incomplete",
+        "nested_protocol",
+        "shares_oligos_with_sibling",
+        "pooled_as_one_assay",
+        "primer_site_polymorphic",
+        "thin_evidence",
+        "not_screenable",
+        "target_annotation_uncertain",
+        "chemistry_detail_missing",
+        "conditions_not_printed"
+      ],
+      "title": "ReviewFlag",
+      "type": "string"
+    },
+    "ReviewItem": {
+      "additionalProperties": false,
+      "description": "One review flag, with the one line of prose that makes it actionable.\n\nThe vocabulary, and which flags are open questions rather than recorded\ncaveats, live in `assaywatch.review`; read that module's docstring before\nadding a flag.",
+      "properties": {
+        "flag": {
+          "$ref": "#/$defs/ReviewFlag"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "flag"
+      ],
+      "title": "ReviewItem",
+      "type": "object"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "nested_family": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nested Family"
+        },
+        "nested_round": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nested Round"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "notes_curator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes Curator"
+        },
+        "predict_protocol": {
+          "anyOf": [
+            {
+              "pattern": "^P-0\\d\\d$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Predict Protocol"
+        }
+      },
+      "title": "Source",
+      "type": "object"
+    },
+    "SpeciesSize": {
+      "additionalProperties": false,
+      "description": "One product-length band this assay gives for one species, as measured.\n\nFor an assay that identifies the species by product length rather than by\ndetecting one target, the length IS the readout, so it belongs here as\nnumbers rather than in a curator note as prose. Measured from GenBank\nrecords by scripts/measure_species_sizes.py, never copied from the paper:\non ATI the paper's stated sizes differ from the measured ones by 1-32 bp\n(see that entry's needs_review).\n\nA species can have more than one band \u2014 monkeypox clade I near 1067 bp and\nclade IIb near 1538 \u2014 so several rows may share a taxid. Bands from\ndifferent species may overlap, because they genuinely do, and that is the\nlimit of what a length can tell you: on ATI, vaccinia 1587-1615 and cowpox\n1598-1601 are not separable by size, which is why the design paper also ran\nan XbaI digest.",
+      "properties": {
+        "bp": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Bp",
+          "type": "array"
+        },
+        "n_records": {
+          "minimum": 1,
+          "title": "N Records",
+          "type": "integer"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "taxid": {
+          "minimum": 1,
+          "title": "Taxid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "taxid",
+        "bp",
+        "n_records"
+      ],
+      "title": "SpeciesSize",
+      "type": "object"
+    },
+    "Status": {
+      "enum": [
+        "draft",
+        "active",
+        "deprecated"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "Target": {
+      "additionalProperties": false,
+      "properties": {
+        "exclusivity_taxids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exclusivity Taxids"
+        },
+        "gene": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gene"
+        },
+        "genome_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Genome Type"
+        },
+        "query": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query"
+        },
+        "scope_taxids": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope Taxids"
+        },
+        "taxid": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxid"
+        },
+        "taxon_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taxon Name"
+        },
+        "title_requires": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title Requires"
+        }
+      },
+      "title": "Target",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "amplicon_bp": {
+      "anyOf": [
+        {
+          "maximum": 3000,
+          "minimum": 50,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Amplicon Bp"
+    },
+    "amplicon_bp_range": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Amplicon Bp Range"
+    },
+    "chemistry": {
+      "$ref": "#/$defs/Chemistry"
+    },
+    "citation": {
+      "$ref": "#/$defs/Citation"
+    },
+    "conditions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Conditions"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{2,120}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "needs_review": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/ReviewItem"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Needs Review"
+    },
+    "oligos": {
+      "$ref": "#/$defs/Oligos"
+    },
+    "panels": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Panel"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Panels"
+    },
+    "performance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Performance"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Source"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "species_sizes": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/SpeciesSize"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Species Sizes"
+    },
+    "status": {
+      "$ref": "#/$defs/Status",
+      "default": "draft"
+    },
+    "submitted_by": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Submitted By"
+    },
+    "target": {
+      "$ref": "#/$defs/Target"
+    },
+    "use_context": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Use Context",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "target",
+    "chemistry",
+    "oligos",
+    "citation"
+  ],
+  "title": "AssayWatch registry entry",
+  "type": "object"
+}

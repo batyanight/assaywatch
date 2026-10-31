@@ -1,0 +1,43 @@
+id: PHLEBOVIRUS_ssRNA_L_segment_round1
+name: PHLEBOVIRUS (ssRNA) — L segment (PREDICT P-021 round 1)
+target:
+  taxid: 11584
+  gene: L segment
+  genome_type: ssRNA-
+  taxon_name: Phlebovirus
+  query: L[Gene] OR "L segment"[Title] OR polymerase[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: NPhlebo1POS
+    seq: ATGGARGGNTTTGTNWSNCNNCC
+    seq_as_written: ATGGARGGITTTGTIWSICIICC
+  reverse:
+    name: NPhlebo1NEG
+    seq: AARTTRCTNGWNGCYTTNARNGTNGC
+    seq_as_written: AARTTRCTIGWIGCYTTIARIGTIGC
+amplicon_bp: 553
+citation:
+  doi: 10.1002/jmv.10465
+  design_year: 2003
+  n_sequences_at_design: null
+  as_written: null
+  reference: Sanchez-Seco, M. P. et al. Detection and identification of Toscana and other phleboviruses by RT-nested-PCR assays
+    with degenerated primers. J Med Virol 71, 140-149 (2003).
+  doi_verified: true
+conditions:
+  annealing_c: 45
+  cycles: 40
+  rt: one_step
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-021
+  nested_round: round1
+  notes_curator: Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147,
+    Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. Both primers
+    contain inosine; seq stores it as N and seq_as_written keeps the I, as the registry requires.
+needs_review: null

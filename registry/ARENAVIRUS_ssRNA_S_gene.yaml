@@ -1,0 +1,64 @@
+id: ARENAVIRUS_ssRNA_S_gene
+name: ARENAVIRUS (ssRNA) — S gene
+target:
+  taxid: 11617
+  gene: S gene
+  genome_type: ssRNA-
+  taxon_name: Arenaviridae
+  scope_taxids: [208898, 1653394]
+chemistry: conventional
+oligos:
+  forward:
+    name: ARS16V
+    seq: GGCATWGANCCAAACTGATT
+  reverse:
+    name: ARS1
+    seq: CGCACCGGGGATCCTAGGC
+amplicon_bp: 630
+citation:
+  doi: 10.1016/S0168-1702(97)01458-5
+  design_year: 1997
+  n_sequences_at_design: null
+  as_written: PREDICT PROTOCOL
+  reference: Lozano, M. E. et al. Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification
+    and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5
+    (1997).
+  doi_verified: true
+conditions:
+  mg_mm: 1.5
+  cycles: 40
+  annealing_c: 55
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-003
+  nested_round: null
+  notes_curator: 'PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Lozano,
+    M. et al (1997). SCOPED 2026-10-20 to the mammarenaviruses, from Lozano et al. 1997''s own range. Its title calls the
+    set "family-specific", but in 1997 the family was the mammarenaviruses alone: the paper divides arenaviruses into Old
+    World (LCM, Ippy, Lassa, Mobala, Mopeia) and New World (Junin, Tacaribe, Pichinde and relatives) and amplified LCM WE,
+    Lassa Nigeria and Josiah, Mopeia, Pichinde, Tacaribe, Junin MC2 and XJ, Oliveros and Pampa. Reptarenavirus, Hartmanivirus,
+    Antennavirus and Innmovirus were all described after it, so scope_taxids is 1653394 Mammarenavirus plus 208898 unclassified
+    Arenaviridae -- the latter deliberately, since it holds the 164 Arenavirus sp. records, the legacy genus 11618 with the
+    Mopeia/Lassa reassortants, and field isolates such as Cardamones and Middle Pease River that are mammarenaviruses in all
+    but assignment. It also admits 10 Boid arenavirus records that sit under 208898 rather than under Reptarenavirus, which
+    is an NCBI placement artefact, not a decision here. Snake reptarenaviruses have their own registry entry, so leaving them
+    in this denominator scored them twice against an assay not designed for them. MEASURED on the 2026-10-17 calls: 473 records
+    go out of scope, of which 45 were evaluable here and all 45 at 0 percent detected, but none is in the recent window, so
+    the pooled share and the verdict are unchanged to the digit (low coverage, 52.9 percent of 51). Expect this to matter
+    later rather than now: reptarenavirus and antennavirus deposits are growing and will land in a future recent window. VERIFIED
+    AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised, so verify_oligos_against_paper.py
+    had never reached the local PDF - it read no-full-text, "no local PDF", while the file sat in papers/. Cause and fix in
+    that script''s doi_stem(). Result: ARS1 reads exact, but ARS16V reads near:2. Stored GGCATWGANCCAAACTGATT (20 nt); Lozano
+    et al. 1997 prints GGCATWGANCCAAACTGA (18 nt). The stored form carries two extra bases, TT, at its 3'' END. The verifier''s
+    standing caveat is that bases at the ends of a printed run can be table text glued on by the extraction, but that caveat
+    is about the PAPER''s run, and here the extra bases are on the STORED oligo and at the priming end, where two bases decide
+    whether the 3'' terminus matches. Either the seed list lengthened the primer or the extraction truncated the table.
+    Not changed: read the Table in the PDF by eye before touching the sequence. RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS16V is printed GGCATWGANCCAAACTGA- with TT wrapped onto the next line, which is the stored sequence exactly; the near:2 was the wrap. Both oligos are Lozano''s as printed, and the verifier now reads both exact.'
+needs_review:
+- flag: orientation_inferred
+  note: the archive yields 740 products and 5714 none under this orientation (2026-10-27 run), so the inference stands

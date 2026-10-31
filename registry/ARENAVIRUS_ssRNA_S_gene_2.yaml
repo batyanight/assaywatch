@@ -1,0 +1,74 @@
+id: ARENAVIRUS_ssRNA_S_gene_2
+name: ARENAVIRUS (ssRNA) — S gene
+target:
+  taxid: 11617
+  gene: S gene
+  genome_type: ssRNA-
+  taxon_name: Arenaviridae
+  scope_taxids: [208898, 1653394]
+chemistry: conventional
+oligos:
+  forward:
+    name: ARS3V
+    seq: CATGACKMTGAATTYTGTGACA
+  reverse:
+    name: ARS7C-MOD
+    seq: ATRTGYCKRTGWGTTGG
+    modified_from: ATGTGYCTRTGAGTTGG
+    modification_doi: 10.1038/ncomms9147
+amplicon_bp: 460
+citation:
+  doi: 10.1016/S0168-1702(97)01458-5
+  design_year: 1997
+  n_sequences_at_design: null
+  as_written: null
+  reference: Lozano, M. E. et al. Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification
+    and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5
+    (1997).
+  doi_verified: true
+conditions:
+  mg_mm: 1.5
+  cycles: 40
+  annealing_c: 55
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-004
+  nested_round: null
+  notes_curator: 'PREDICT panel protocol P-004 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Lozano,
+    M. et al (1997). SCOPED 2026-10-20 to the mammarenaviruses, from Lozano et al. 1997''s own range. Its title calls the
+    set "family-specific", but in 1997 the family was the mammarenaviruses alone: the paper divides arenaviruses into Old
+    World (LCM, Ippy, Lassa, Mobala, Mopeia) and New World (Junin, Tacaribe, Pichinde and relatives) and amplified LCM WE,
+    Lassa Nigeria and Josiah, Mopeia, Pichinde, Tacaribe, Junin MC2 and XJ, Oliveros and Pampa. Reptarenavirus, Hartmanivirus,
+    Antennavirus and Innmovirus were all described after it, so scope_taxids is 1653394 Mammarenavirus plus 208898 unclassified
+    Arenaviridae -- the latter deliberately, since it holds the 164 Arenavirus sp. records, the legacy genus 11618 with the
+    Mopeia/Lassa reassortants, and field isolates such as Cardamones and Middle Pease River that are mammarenaviruses in all
+    but assignment. It also admits 10 Boid arenavirus records that sit under 208898 rather than under Reptarenavirus, which
+    is an NCBI placement artefact, not a decision here. Snake reptarenaviruses have their own registry entry, so leaving them
+    in this denominator scored them twice against an assay not designed for them. MEASURED on the 2026-10-17 calls: 473 records
+    go out of scope, of which 9 were evaluable here and all 9 at 0 percent detected, but none is in the recent window, so
+    the pooled share and the verdict are unchanged to the digit (declining, 43.5 percent of 177). Separately, the lineage
+    override fires here on Mammarenavirus choriomeningitidis at 41/78 = 52.6 percent against that pooled 43.5 percent. LCM
+    is the prototype species of the family and one of the viruses Lozano amplified, and it detects 9 points BETTER than the
+    pool, so this is a second worked example of the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md
+    point 2, not something scope can fix. VERIFIED AGAINST THE PAPER FOR THE FIRST TIME 2026-10-20. This entry''s DOI is parenthesised,
+    so verify_oligos_against_paper.py had never reached the local PDF - it read no-full-text, "no local PDF", while the file
+    sat in papers/. Cause and fix in that script''s doi_stem(). Result: both oligos differ from the paper. ARS3V reads near:2
+    - stored CATGACKMTGAATTYTGTGACA, paper CCATGACKMTGAATTYTGTGARS; the leading C is the harmless end-glue case, but the 3''
+    terminus differs, ARS against ACA. ARS7C-MOD reads near:3 - stored ATRTGYCKRTGWGTTGG, paper CATGTGYCTRTGAGTTGG. The second
+    is EXPECTED and is why the oligo is named -MOD and the entry already carried MODIFIED_IN_HOUSE: the stored form is the
+    PREDICT P-004 modification, confirmed against the Anthony 2015 supplement on 2026-10-04, not Lozano''s printed primer.
+    So the verifier has now independently corroborated that flag. ARS3V''s 3'' difference is NOT explained that way and needs
+    an eye on the PDF table. Both left unchanged. RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS3V is
+    printed CATGACKMTGAATTYTGTG- with ACA wrapped onto the next line, which is the stored sequence exactly; the ARS ending
+    was the next row''s name glued on. ARS7C is printed ATGTGYCTRTGAGTTGG (17 nt, no leading C), now recorded as the
+    oligo''s modified_from, with the modified form''s source as modification_doi. Neither oligo is in doubt.'
+needs_review:
+- flag: oligos_modified
+  note: ARS7C-MOD is the PREDICT P-004 widening of Lozano's ARS7C (modified_from, modification_doi)
+- flag: orientation_inferred
+  note: the archive yields 1640 products and 4814 none under this orientation (2026-10-27 run), so the inference stands

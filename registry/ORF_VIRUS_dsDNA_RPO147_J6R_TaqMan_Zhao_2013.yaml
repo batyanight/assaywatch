@@ -1,0 +1,87 @@
+id: ORF_VIRUS_dsDNA_RPO147_J6R_TaqMan_Zhao_2013
+name: ORF VIRUS (dsDNA) — RPO147 J6R TaqMan, ORFV-specific (Zhao 2013)
+target:
+  taxid: 10258
+  gene: RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog)
+  genome_type: dsDNA
+  taxon_name: Orf virus
+  query: null
+  exclusivity_taxids:
+  - 129726
+  - 129727
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: ORFV_J6R forward
+    seq: GAGTTCGAGGAGATGATCTTGA
+  reverse:
+    name: ORFV_J6R reverse
+    seq: GCCGAGGAGCAGGTCA
+  probe:
+    name: ORFV_J6R probe
+    seq: CTCGATCACGGCGCGCT
+  alternates: []
+amplicon_bp: 68
+citation:
+  doi: 10.1016/j.jviromet.2013.08.027
+  design_year: 2013
+  n_sequences_at_design: null
+  as_written: null
+  reference: Zhao H, Wilkins K, Damon IK, Li Y. 2013. Specific qPCR assays for the detection of orf virus, pseudocowpox virus
+    and bovine papular stomatitis virus. J Virol Methods 194:229-234
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 62.5
+  cycles: 45
+  primer_nm: 400
+  probe_nm: 200
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-24. Orf is a common zoonosis of sheep and goats and of the people who handle them, so ruminant
+    parapoxviruses are squarely in this registry''s wildlife and veterinary scope; the registry held nothing for them. Oligos
+    read from the paper''s Table 1, parsed out of the Elsevier JATS deposit papers/10.1016_j.jviromet.2013.08.027.xml cell
+    by cell rather than from the flattened text, because flattening a table puts each label next to the WRONG sequence. THE
+    PAPER WAS ASSUMED PAYWALLED and is not: docs/journal/2026-10-24-mpox-assay-candidates.md recorded "no PMC id returned,
+    so likely paywalled", and scripts/fetch_elsevier.py retrieved the full text with the institutional token on the first
+    try. THE PAPER STATES NO PRODUCT SIZE for any of the four assays, so every amplicon here is measured. Measured 2026-10-24
+    over the 92 Parapoxvirus genomes of 100-200 kb in nuccore (esearch/efetch, txid10257): 64 Orf virus, 11 bovine papular
+    stomatitis virus, 6 pseudocowpox virus and 11 not resolved to species. NAMING: Table 1 and the running text disagree -
+    the table says ORFV_J6R and PAPV_J6R where the text says Orf_J6R and PARV_J6R. The table is the oligo source, so its names
+    are used. THE FOURTH ASSAY OF THIS PANEL, PCPV_J6R, IS NOT ENTERED: its reverse primer is 14 nt, below the schema''s 15
+    nt primer floor, and that floor guards something real. See docs/RESUME-HERE.md. ONE OLIGO NEEDED MEASUREMENT TO READ AT
+    ALL, and this is the entry it belongs to. The deposit prints this assay''s reverse primer cell as "GCCGAGGAGCAGGTC A",
+    with a space before a final A, so it reads either as a 15-mer followed by a stray footnote letter or as a 16-mer broken
+    by a formatting artefact. Resolved by measurement: GCCGAGGAGCAGGTCA is exact in 78 of the 92 genomes, the same 78 that
+    carry the 15-mer, so the template does carry that A and the 16-mer is the real oligo. Entered as 16 nt. MEASURED: product
+    68 bp in all 63 genomes that give one. The probe falls inside the product in 57 Orf virus genomes and 5 unresolved ones,
+    and in NO pseudocowpox or bovine papular stomatitis genome, which is the paper''s specificity claim confirmed on sequence.
+    The primers are far less discriminating than the probe on their own - this assay''s forward matches 5 non-ORFV genomes
+    - which is the normal division of labour in a TaqMan assay and the reason the registry records chemistry per entry. CHEMISTRY
+    DETAIL MISSING: Table 1 gives no reporter or quencher for any of the four probes. SCREENED 2026-10-24 with the project''s
+    own scorer over the 92 Parapoxvirus genomes, broken down by species. Against its OWN retrieval taxon, which is what the
+    pipeline judges it on, it is perfect: 64 Orf virus genomes, 64 evaluable, 100% `detect`, not one reduced or failed. Its
+    specificity survives scoring and not merely exact matching - 0% on all 11 bovine papular stomatitis genomes and 0% on
+    all 6 pseudocowpox genomes, every one a `fail`. The cleanest of the four assays in this panel. status: draft and doi_verified:
+    false on entry; only a maintainer sets active.
+
+
+    EXCLUSIVITY TAXIDS ADDED 2026-10-28: bovine papular stomatitis virus (129727) and pseudocowpox virus (129726), the two
+    parapoxvirus species this entry is published to be told apart from. The paper''s claim, quoted: "The new parapoxvirus
+    generic assay and the three parapoxvirus species-specific assays demonstrated the specificities to the available parapox
+    DNA respectively, and did not cross-react with other available high GC poxvirus DNA (sealpox virus, molluscum contagiosum
+    virus, or orthopoxvirus nucleic acid) (Table 2)." Its sibling entry BPSV_dsDNA_RPO147_J6R_TaqMan_Zhao_2013 carries the
+    mirror pair, and on the 2026-10-27 run that claim read 0 of 85 evaluable orf virus records DETECTED against 82 of 85 AMPLIFIED
+    -- the probe, not the primers, is what separates these species, which is what the paper''s discussion says. Expect the
+    same shape here.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: the paper states no product size; 68 bp measured in all 63 genomes that give a product
+- flag: chemistry_detail_missing
+  note: Table 1 names no reporter or quencher for the probe

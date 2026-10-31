@@ -1,0 +1,41 @@
+id: Apicoplast_23S_LSU_Large_subunit_Molecular_2005
+name: Apicoplast — 23S LSU (Large subunit)
+target:
+  taxid: 5794
+  gene: 23S LSU (Large subunit)
+  genome_type: apicoplast_DNA
+  taxon_name: Apicomplexa
+  query: (apicoplast[Title] OR plastid[Title]) AND (23S[Title] OR "large subunit"[Title] OR LSU[Title] OR "ribosomal RNA"[Title]
+    OR "complete genome"[Title] OR "complete sequence"[Title])
+chemistry: conventional
+oligos:
+  forward:
+    name: 23SF
+    seq: GCGAAATTCCTGTCGGGTAAGTCC
+  reverse:
+    name: 23SR
+    seq: TTTYYGRTCCTCTCGTACT
+amplicon_bp: 720
+citation:
+  doi: 10.1099/00221287-146-2-315
+  design_year: 2000
+  n_sequences_at_design: null
+  as_written: Zhu et al. 2000
+  doi_verified: true
+  reference: Zhu G, Marchewka MJ, Keithly JS. 2000. Microbiology 146:315-321
+  oligos_designed_here: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: Primers 23SF and 23SR were designed by Zhu et al. 2000 (Microbiology 146:315-321). Schrenzel et al. 2005
+    (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". The seed list cited Schrenzel 2005. 23SR CONFIRMED 2026-10-23. It read
+    `absent` only because Zhu et al. 2000 writes its degenerate positions as parenthesised alternatives -
+    TTT(C/T)(C/T)G(A/G)TCCTCTCGTACT in Table 1, PCR no. 4 (LSU rRNA, antisense) - which expands to exactly the stored
+    TTTYYGRTCCTCTCGTACT. No oligo-like run of that shape survives the extraction, so the verifier had nothing to match.
+    Nothing is in doubt, and the entry's existing account of Zhu 2000 as the design paper is right.
+needs_review:
+- flag: cross_reactive

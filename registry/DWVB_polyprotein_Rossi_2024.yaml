@@ -1,0 +1,75 @@
+id: DWVB_polyprotein_Rossi_2024
+name: DEFORMED WING VIRUS B — polyprotein gene RT-qPCR, MGB probe (Rossi 2024)
+target:
+  taxid: 2498590
+  gene: polyprotein gene
+  genome_type: ssRNA+
+  taxon_name: Deformed wing virus B
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: DWVBF
+    seq: TTTATCTTCATTAAAACCGCCA
+  reverse:
+    name: DWVBR
+    seq: CTCATTAACTGAGTTGTTGTC
+  probe:
+    name: DWVBP
+    seq: ATCTTTTGAGAGGGATGAGA
+    reporter: Cy5
+    quencher: MGBEQ
+  alternates: []
+amplicon_bp: 138
+citation:
+  doi: 10.3390/microorganisms12061105
+  design_year: 2024
+  n_sequences_at_design: 46
+  as_written: null
+  reference: Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative
+    PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
+  doi_verified: true
+  oligos_designed_here: null
+conditions:
+  annealing_c: 54.0
+  cycles: 50
+  rt: one_step
+use_context:
+- veterinary
+- wildlife
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Oligos read from Table 1 of the paper (PDF page 5): the text layer and the page rendered at 200 dpi and
+    read by eye agree. The paper''s Tenebrio molitor RNA extraction control oligos (TeneF/TeneR/TeneP, taken from Koppel et
+    al. per the paper) are an exogenous control, not honeybee virus targets, and are deliberately excluded from all six honeybee
+    virus entries made from this paper; its synthetic RNA calibrators carry no oligos. The paper tests the six assays singly
+    and as duplexes (ABPV/BQCV, DWVA/DWVB, CBPV/SBV; also BQCV/DWVA and ABPV/DWVB); each virus is its own entry here. One-step
+    RT-qPCR, 50 C 15 min RT, 95 C 2 min, 50 cycles of 95 C 15 s / 54 C 30 s, 0.2 uM each primer and probe. Screened with assaywatch.screen
+    on 2026-10-06 against GenBank records fetched by esearch/efetch the same day. ''Spanning'' below means a record that gives
+    a product, or that the tool labels diverged or chance-only, or that the tool labels no_site but whose sequence still carries
+    the cited reference amplicon region (an 11-mer chain covering at least 80% of it); records the tool labels truncated (they
+    end inside a primer window) are not counted as spanning. DESIGN: MIXED, as for DWVA: DWVBR is Kevill et al.''s reverse
+    primer (ref 38), DWVBF and DWVBP are new in this paper (alignment of 46 sequences). Kevill''s paper not available locally;
+    oligos_designed_here left null and flagged. VERIFIED against the cited accession OR497394.1 (Deformed wing virus B isolate
+    6-H_B DWV polyprotein gene, complete cds, 10,102 nt): DWVBF 8615-8636 and DWVBR 8732-8752 with 0 mismatches, product 138
+    bp = the paper''s span 8615-8752 exactly. The probe DWVBP sits at 8692-8711 with 1 mismatch at its second base from the
+    5'' end (T in the oligo, C in this record): a 5''-end mismatch against the paper''s own cited record, not a transcription
+    slip (rendered table agrees with the text). MEASURED on the same 1,970-record set as DWVA (all 223 A-labelled, all 737
+    B-labelled, strided species sample): 281 products, 138 bp in 277 (139 twice, 141 once, and one 1,788 bp chance pair in
+    an A-labelled record), so amplicon_bp 138 is measured and equals the paper''s. Probe site present in 203 of 281 products:
+    all 58 B-labelled products, but only 28 of 68 A-labelled and 117 of 155 unlabelled, i.e. the probe is what discriminates.
+    RESULT BY LABEL, among records that span the site: B-labelled 58 of 737: detect 43, reduced 8, fail 6, indeterminate 1
+    -> detect 74.1%, detect+reduced 87.9%. A-labelled 68 of 223: detect 0, fail 68. Unlabelled 157 of 1,010: detect 35, reduced
+    1, fail 118, indeterminate 1, no_amplicon 2. All 283 spanning records together: detect 78 (27.6%), detect+reduced 87 (30.7%).
+    SCOPE: as for DWVA. DWV-B and DWV-A are one ICTV species; the paper found apparent cross-signal in both directions by
+    experiment (it reports Ct differences of about 8 and 4 cycles), so use the in-silico ''fail'' on the other variant as
+    a hint, not a verdict. The ''Varroa destructor virus 1'' records (txid232800, 118 records) are the older name for DWV-B
+    and are not retrieved by the B node; flag VARIANT_SCOPE for the lead.'
+needs_review:
+- flag: oligos_from_secondary_source
+  note: design provenance is mixed across the oligos in this entry
+- flag: scope_narrower_than_taxid
+  note: scoped to a variant, not the whole taxon

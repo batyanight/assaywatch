@@ -1,0 +1,56 @@
+id: MONKEYPOX_dsDNA_F3L_MGB_Kulesh_2004
+name: MONKEYPOX virus (dsDNA) — F3L MGB TaqMan (Kulesh 2004)
+target:
+  taxid: 10244
+  gene: F3L
+  genome_type: dsDNA
+  taxon_name: Monkeypox virus
+  query: null
+chemistry: mgb
+oligos:
+  forward:
+    name: F3L-F290
+    seq: CTCATTGATTTTTCGCGGGATA
+  reverse:
+    name: F3L-R396
+    seq: GACGATACTCCTCCTCGTTGGT
+  probe:
+    name: F3Lp333S-MGB
+    seq: CATCAGAATCTGTAGGCCGT
+    reporter: FAM
+    quencher: MGBNFQ
+  alternates: []
+amplicon_bp: 107
+citation:
+  doi: 10.1038/labinvest.3700143
+  design_year: 2004
+  n_sequences_at_design: null
+  as_written: null
+  reference: Kulesh DA, Loveless BM, Norwood D, Garrison J, Whitehouse CA, Hartmann C, Mucker E, Miller D, Wasieloski LP Jr,
+    Huggins J, Huhn G, Miser LL, Imig C, Martinez M, Larsen T, Rossi CA, Ludwig GV. 2004. Monkeypox virus detection in rodents
+    using real-time 3'-minor groove binder TaqMan assays on the Roche LightCycler. Lab Invest 84:1200-1208
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  cycles: 45
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'Added 2026-10-05 from the paper''s own Table 1, read out of the local PDF. The table prints the F3L assay
+    as F3L-F290, F3L-R396 and the MGB probe F3Lp333S-MGB (6FAM/MGBNFQ), with a stated amplicon of 107 bp. amplicon_bp is the
+    STATED size pending measurement against real records. MEASURED 2026-10-05 against a 50-genome sample of taxid 10244 drawn
+    from the 12,274 nuccore records of 150-250 kb by date order and strided, so the sample spans 2003 to 2025 rather than
+    the head of the list (which for monkeypox is almost all 2022 clade IIb). The full archive was not retrieved: 12,868 records
+    at genome length is a download that belongs to a planned pipeline run, so the amplify check still reports WARN no-archive
+    for these two entries and should be re-run after one. F3L gives a product in all 50, invariably 107 bp, which is exactly
+    the size Table 1 states, and the probe site is exact in all 50. THE MEASUREMENT AGREES WITH THE PAPER, so amplicon_bp
+    107 is now measured rather than quoted. One drift observation to carry into the report rather than a correction: the reverse
+    primer F3L-R396 sits one mismatch from the template in 40 of the 50 genomes, the template reading AACGATACTCCTCCTCGTTGGT
+    against the primer''s GACGATACTCCTCCTCGTTGGT - a G/A difference at the primer''s 5''-terminal base, the position that
+    costs least, so this is near-certainly still a working assay. The sequence is what the paper prints and is unchanged.'
+needs_review: null

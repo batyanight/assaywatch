@@ -1,0 +1,76 @@
+# S7b - identity in the mid window: `mispair_window: null (=5) -> 10`.
+#
+# SHIPPED 2026-10-30 by maintainer decision, one day after pricing; the paragraphs below
+# are the state in which the decision was put. config.yaml carries the value and the
+# reasoning; docs/journal/2026-10-30-decisions.md the record. The confirming rescreen is
+# the next full run.
+#
+# PRICED 2026-10-29, PASSES ALL THREE KILL CRITERIA, NOT SHIPPED. Result first:
+# 31,237 calls move (22,600 reduced->detect, 8,637 fail->reduced), tier-2 is identical
+# case for case (6/11 caught, PPV 4/10, 4/32 false alarms, 2/6 partial gaps), the bench
+# goes from 166/179 to 167/179 on ONE row (PPRV Nigeria75/1, Barrett panel, fail 4.0 ->
+# reduced 3.0 on one mid-window wobble), and NO within-family negative gains a band --
+# HPV55 and HPV44, which killed S7, stay `fail`. So the positives and the negatives
+# separated, which is what identity was supposed to do and position could not.
+#
+# WHY IT IS NOT SHIPPED ANYWAY. The report drops 7 flags, all falling, and one of them
+# is MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010 `declining -> stable` -- held-out set
+# 2's one false alarm, fixed by the exact mechanism this candidate predicted. That is
+# the strongest number it has and it is the one number the rules forbid counting. On
+# data the project may spend, S7b is one bench row better and tier-2-neutral, which is
+# thin for a change that unflags 5 distinct assays with no ground truth on 6 of the 7
+# rows. The call is the maintainer's. Full account:
+# docs/journal/2026-10-29-s7b-priced.md.
+#
+# WHY IT EXISTS. S7 (primer_mid_penalty 1.0 -> 0.5) was killed on its own criterion
+# 2026-10-28: it newly predicted a band on HPV55 and HPV44, two within-family negatives
+# on the Forslund FAP panel, while leaving tier-2 and bench accuracy identical
+# (docs/journal/2026-10-28-s7-mid-window-killed.md). The finding that outlived it is
+# that on these panels the positives that reward loosening the mid window and the
+# within-family negatives that punish it MOVE TOGETHER, so no position-blind value of
+# that penalty separates them. Identity can, in principle, and this is the candidate
+# that tries: the Mills/G2R false alarm that opened the question rests on a G:T wobble
+# at reverse position 8 (docs/journal/2026-10-28-g2r-false-alarm-traced.md), which is in
+# the mid window, costs a full 1.0, and is the one mispair this project has already
+# priced as free at d<=5 on three bench panels.
+#
+# WHAT IS NEW IN THE CODE. `scoring.mispair_window` (2026-10-28): how far from the 3'
+# end `mispair_penalty` acts, null meaning `primer_3prime_window`. The scope used to be
+# a constant inside `score_primer`; it is a config number now so this candidate is an
+# overlay and not a patch. It is in `rescore.REPLAYABLE_KEYS`, because `*_mispairs` are
+# recorded at every distance and not only inside the window the run acted on.
+#
+# THE WARNING IT INHERITS. Unscoped M1 - identity at EVERY position - cost three
+# documented tier-2 catches (docs/journal/2026-10-22-M1-tier2.md), with 5,498 of 5,499
+# Paramyxovirinae flips resting on mismatches outside the 3' window. This candidate is
+# the middle position between that and the shipped scope, and it is worth measuring
+# rather than assuming because both conditions that lost those catches have changed:
+# `drift.reduced_not_detected_for` stops a `reduced` probe call counting as a find
+# (which is how the Leucocytozoon catch came back under S4), and the scope now stops at
+# 10 rather than running to the 5' end.
+name: s7b-mispair-mid-window
+registered: 2026-10-28
+question: >
+  Does the mid-window penalty's cost fall on mispairs that are near-neutral in the
+  literature? `mispair_penalty` already calls G:T and T:G free inside the 3' window, on
+  three bench panels and a measured zero specificity cost. If the 69 mid-window sites
+  that decide this project's flags are carried by wobbles, widening identity's reach to
+  10 bases fixes the Mills-shaped false alarm and nothing else; if they are carried by
+  Kwok's severe mispairs (A:A, A:G, G:A, C:C), it moves almost nothing and the mid
+  window is not an identity problem at all.
+predicts: >
+  It only loosens, and it loosens far LESS than S7: S7 discounted every mid-window
+  mismatch and moved 45,797 calls, while this discounts only G:T and T:G there. If
+  wobbles are a minority of mid-window mismatches the move should be a small fraction of
+  that. On the bench panels it should fix the FAP and Barrett false fails that rest on
+  mid-window T:G without touching HPV55 and HPV44, which S7 broke - the whole point of
+  using identity instead of position is that those rows should separate. On tier-2 the
+  documented catches can only stay or fall.
+kill: >
+  It loses a documented tier-2 catch, stated per catch and never netted against gains;
+  or it newly predicts a band on any of the 16 within-family bench negatives, which is
+  the criterion that killed S7; or the within-family negatives and the positives move
+  together again, in which case identity does not separate them either and the mid
+  window is closed as a tuning target rather than retried at a third value.
+scoring:
+  mispair_window: 10

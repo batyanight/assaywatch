@@ -1,0 +1,89 @@
+id: MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010
+name: MONKEYPOX virus (dsDNA) — G2R_WA West African clade TaqMan (Li 2010)
+target:
+  taxid: 10244
+  gene: TNF receptor (G2R), inverted terminal repeat
+  genome_type: dsDNA
+  taxon_name: Monkeypox virus
+  query: null
+chemistry: hydrolysis_probe
+oligos:
+  forward:
+    name: G2R_WA_F
+    seq: CACACCGTCTCTTCCACAGA
+  reverse:
+    name: G2R_WA_R
+    seq: GATACAGGTTAATTTCCACATCG
+  probe:
+    name: G2R_WA_P
+    seq: AACCCGTCGTAACCAGCAATACATTT
+    reporter: FAM
+    quencher: BHQ1
+  alternates: []
+amplicon_bp: 85
+citation:
+  doi: 10.1016/j.jviromet.2010.07.012
+  design_year: 2010
+  n_sequences_at_design: null
+  as_written: null
+  reference: Li Y, Zhao H, Wilkins K, Hughes C, Damon IK. 2010. Real-time PCR assays for the specific detection of monkeypox
+    virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
+  doi_verified: true
+  oligos_designed_here: true
+conditions:
+  annealing_c: 60.0
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  predict_protocol: null
+  nested_round: null
+  notes_curator: 'ADDED 2026-10-24 from the paper''s own Section 2 text (see the generic sibling for the quoted sentence and
+    the transcription note). The paper''s claim for this assay is the WEST AFRICAN clade, now clade II, not the species. THE
+    PAPER GIVES NO PRODUCT SIZE. MEASURED 2026-10-24 against the existing taxid 10244 archive, 13,179 records of genome length
+    (>=50 kb), of which 13,131 are near-complete (>=180 kb). Products were counted on BOTH strands: this locus sits in the
+    inverted terminal repeat, so a first pass that scanned the plus strand only found zero C3L products and undercounted G2R_G
+    by a third. G2R_WA gives a product in 12,374 of the 13,179 (93.9%), and the size is BIMODAL: 85 bp in 9,695 and 82 bp
+    in 2,679. amplicon_bp carries the majority 85; the 3 bp difference is 3.5%, well inside the 0.25 amplicon tolerance in
+    config.yaml, so both forms score. WHAT THE TWO SIZES ARE, measured rather than assumed. The paper''s Fig. 1 legend says
+    the West African probe region "has three bases deletion comparing to that of Congo Basin strains", and separately that
+    West African strains have lost the C3L gene entirely. C3L presence is therefore a clade marker that can be read off the
+    same record, so the two were cross-tabulated over the 13,131 near-complete genomes: every one of the 9,654 records giving
+    85 bp LACKS C3L, while all 777 records that CARRY C3L give 82 bp. A further 1,901 records give 82 bp and lack C3L. So
+    85 bp occurs only in C3L-negative genomes, and 82 bp occurs in both - the length does NOT partition the clades cleanly,
+    and this entry deliberately does not claim it does. Which way round the three bases sit relative to the figure is left
+    open: the legend was read from the deposit''s caption text without the figure, and the measurement is the better evidence
+    of the two. NOT SCOPEABLE, and this is the reason for the scope flag rather than a scope_taxids list. NCBI Taxonomy holds
+    no node for either monkeypox clade: the whole subtree of 10244 is two children, Callithrix jacchus orthopoxvirus (243803)
+    and Monkeypox virus Zaire-96-I-16 (619591), checked with esearch on 2026-10-24. The situation is the one docs/journal/2026-10-24-scope-audit.md
+    records for AVIPOXVIRUS Baek - the assay''s real scope needs a mechanism the schema does not have, so the flag is the
+    disclosure. The 2026-10-24 candidates doc proposed "scope_taxids splitting WA (clade II) and CB (clade I) once their current
+    NCBI nodes are confirmed"; they are confirmed not to exist. In practice the denominator barely suffers here, because clade
+    II is most of GenBank, which is exactly why the Congo Basin sibling needs the flag more than this one does.
+    SCREENED 2026-10-24, AND THIS IS THE ENTRY OF THE THREE THAT ACTUALLY NEEDS A SCOPE. Run with the project''s own
+    scorer over all 13,757 records of the 10244 archive: 12,396 evaluable, 78.3% detection, and 2,688 FAILURES.
+    Those failures are not drift. Inspected, every one of them has fwd_penalty 0, rev_penalty 0 and NO probe site at
+    all, on an 82 bp product rather than the 85 bp majority form. That is the clade I signature: the paper''s Fig. 1
+    legend describes a three-base difference in this probe''s region between the clades, the 82 bp product is the
+    form every C3L-carrying (clade I) genome gives, and a clade-II-specific probe is supposed not to bind clade I.
+    The primers, being conserved, amplify anyway, so the record is EVALUABLE and the failure counts - which is
+    exactly what does NOT happen to the Congo Basin sibling, whose non-target records are `no_site` and silent.
+    SO THE DENOMINATOR IS WRONG HERE AND CANNOT BE FIXED WITH scope_taxids. NCBI has no clade node (the species
+    3431483 Orthopoxvirus monkeypox has a four-node subtree and every record carries the bare 10244), record titles
+    carry no clade label (measured: 0 of 13,764 deflines say "clade I" or "Congo Basin"; 8.8% say hMPXV and 19 say
+    Zaire), and the per-record taxid sidecar resolves nothing below the species. The three existing sub-lineage
+    resolvers are all unavailable: `subtaxid` has nothing to resolve to, `title` has nothing to read, and `cluster`
+    is an all-pairs step documented as quadratic, which on 12,396 evaluable records is not a run anyone will make.
+    MAINTAINER DECISION, PRICED. 78.3% today is not yet a declining verdict, but the clade I share of GenBank is
+    rising with the 2024-2025 clade Ib outbreak, and this number will fall for a reason that is not drift. Scoping
+    it needs a clade assignment from sequence against an INDEPENDENT locus - C3L presence is the obvious marker and
+    the paper itself supplies the rationale, but it is a mechanism the schema does not have. Until then the entry
+    stays draft and this note is the disclosure. status: draft and doi_verified: false on entry; only a maintainer
+    sets active.
+    REVIEWED 2026-10-24: the maintainer considered the three options (keep draft, activate as-is, or build the C3L
+    clade-call mechanism) and chose to KEEP IT DRAFT. The 2,688 clade-I failures no scope_taxids can exclude make the
+    denominator known-broken and worsening for a non-drift reason, so activating would bake in a misleading verdict.
+    This is settled, not an open question to re-raise: reopen only if the C3L-presence clade call at an independent
+    locus is built.'

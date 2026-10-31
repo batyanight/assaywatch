@@ -1,0 +1,43 @@
+id: Pan_mycoplasma_16S_All_Van_1992
+name: Pan-mycoplasma — 16S (All)
+target:
+  taxid: 2093
+  gene: 16S (All)
+  genome_type: dsDNA
+  taxon_name: Mycoplasma
+chemistry: conventional
+oligos:
+  forward:
+    name: GPO-1FMod
+    seq: ACTYCTACGGGAGGCAGCAGTA
+    modified_from: ACTCCTACGGGAGGCAGCAGTA
+  reverse:
+    name: MycoRev1
+    seq: GCGRCTGCTGGCACATAGTTWG
+amplicon_bp: 190
+citation:
+  doi: 10.1128/aem.58.8.2606-2615.1992
+  design_year: 1992
+  n_sequences_at_design: null
+  as_written: Van Kuppeveld, FJM et al. APPLIED AND ENVIRONMENTAL MICROBIOLOGY, Aug. 1992
+  doi_verified: true
+  reference: van Kuppeveld, F. J. M. et al. Genus- and species-specific identification of mycoplasmas by 16S rRNA amplification. Applied and Environmental Microbiology 58, 2606-2615 (1992).
+  oligos_designed_here: false
+conditions:
+  cycles: 40
+  annealing_c: 55
+  mg_mm: 2.5
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+  notes_curator: 'CHECKED against van Kuppeveld et al. 1992 on 2026-10-05 (doi:10.1128/aem.58.8.2606-2615.1992, verified against Crossref: van Kuppeveld, van der Logt, Angulo, van Zoest, Quint, Niesters). The id''s ''Van'' is van Kuppeveld; the citation had no author recorded and now does.\nGPO-1FMod is a ONE-BASE modification of the paper''s GPO-1, now pinned down exactly. The paper prints GPO-1 as ACTCCTACGGGAGGCAGCAGTA at 16S positions 338-359; the stored sequence is ACTYCTACGGGAGGCAGCAGTA, differing only at position 4, C -> Y. That broadens a fixed C to C/T, so it is a deliberate degeneracy widening consistent with the ''Mod'' in the oligo name, not a transcription slip. The published sequence is recorded as modified_from rather than substituted in; no publication of the modified form was found (Europe PMC full text, 2026-10-23), so modification_doi is empty. oligos_designed_here is False because only the backbone is van Kuppeveld''s.\nMycoRev1 (GCGRCTGCTGGCACATAGTTWG) is NOT in this paper - the checker found no listed oligo within four edits, and the paper''s own reverse primers are GPO-2, MGSO, UUSO and the Mseq set, none of which it resembles. So this pair is a composite: a modified van Kuppeveld forward with a reverse primer from somewhere the seed list does not name. Flagged.'
+needs_review:
+- flag: do_not_use
+- flag: oligos_modified
+  note: 'the modification is characterised: C4Y'
+- flag: oligos_not_in_cited_paper
+  note: the reverse primer is not in the cited paper
