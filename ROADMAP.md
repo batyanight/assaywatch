@@ -35,13 +35,47 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   34 papers** -- 17 development, 10 held-out set 1, 7 held-out set 2 -- and 11 of them are
   `fails` rows, where a scope can turn a catch into a miss.
 
-- **Four influenza entries wait in `pending/` for sign-off**, prepared 2026-10-30 so that the
-  two strict-bar drift cases have a registry assay to attach to
-  (`docs/journal/2026-10-30-influenza-drift-entries.md`): `INFLUENZA_A_M1_Ward_2004`,
-  `INFLUENZA_A_M1_Yang_2014`, `INFLUENZA_A_HA_H3_CDC_Shu_2026` and
-  `INFLUENZA_A_HA_H3_v2_Shu_2026`. Every oligo is verified, every amplicon measured (Ward's
-  **95 bp against a published 104**, on 183,773 of 183,777 products), the validator passes
-  14/14 on `pending/`, and nothing is promoted. Entering an assay affects published results.
+- ~~**Four influenza entries wait in `pending/` for sign-off**~~ — **SIGNED OFF, PROMOTED AND
+  SCORED 2026-10-30** (`docs/journal/2026-10-30-set3-scored.md`). All four are in `registry/`;
+  the validator reads 218 live and 10 pending, both clean. The H3 group was fetched (44,627
+  records, `q2fad34153e`) and the four assays screened.
+
+- **Held-out set 3 is SCORED and SPENT, and the tool caught its first drift case.**
+  `INFLUENZA_A_M1_Ward_2004` reads `declining` as of 2013-09-06 (86.2% of 5,847 recent
+  records, upper bound under the 90% threshold, change from baseline -6% to -4%), which
+  **agrees** with Yang 2014. **This is the first documented failure the project has ever
+  caught by the drift flag itself** rather than by `low coverage`, so the premise the tool
+  rests on has a confirming case. The control that makes it worth trusting: on the same
+  records at the same date the documented redesign `INFLUENZA_A_M1_Yang_2014` reads `stable`
+  at 91.6%, and the two entries differ in nothing but their oligos. PPV of `declining` on
+  this set is 1/1 and failures caught 1/2; both intervals are one row wide and are not
+  precision estimates.
+
+- **THE INFLUENZA RETRIEVAL QUERIES NEED A DECISION, AND TWO LIVE ENTRIES ARE AFFECTED.**
+  Measured 2026-10-30: every influenza group whose query names subtype taxids has an archive
+  that ended years ago — H5 Tsukamoto `q6552a5c4af` newest deposit **2021** (8,490 records),
+  H7 Tsukamoto `q3b4e39b708` newest **2020** (3,425) — while the title/gene groups are current
+  to 2026 (matrix 187,534; NP 194,149). NCBI has stopped assigning subtype taxids to new
+  influenza deposits: the seven H3Nx taxids AND HA return **0** records for 2024-2026 against
+  **95,155** without that restriction. **So the H5 and H7 verdicts in every report this
+  project has produced were computed on data stopping in 2021 and 2020, and neither assay can
+  show recent drift by construction.** This is what made set 3's Shu row unjudgeable.
+  **The obvious fix is wrong**: broadening to `txid11320 AND HA` makes the denominator every
+  influenza A hemagglutinin record, so a correctly specific subtyping assay would read as
+  detecting a small share of its own archive and look like it was failing — which is the
+  `scope_narrower_than_taxid` problem the subtype restriction existed to avoid. What these
+  assays need is their records restricted to their subtype by something other than a taxid
+  NCBI no longer assigns: the strain name in the record title, or the scope layer. A
+  maintainer's call, with the measurement above attached.
+
+- **The matrix archive's metadata mostly predates the `taxid` column**, so its lineage layer
+  sees one lineage and no per-row scope on it can be honoured. 18 of 19 metadata files in
+  `q2ebd5918b3` have no `taxid` column at all, and the one that does reports all 4,009 of its
+  records as the parent `11320`. Refetching the group under current code is the fix for the
+  missing column; whether influenza records resolve below the species at all is the question
+  above. **Consequence recorded against set 3: it was opened as the first genuine test of the
+  scoped matrix and could not be one.** A scoped matrix is still untested and needs a set 4 on
+  an assay whose archive resolves below the species.
 
 - ~~**ONE DECISION BLOCKS `INFLUENZA_A_HA_H3_CDC_Shu_2026`**~~ — **TAKEN AND SHIPPED
   2026-10-30** (`docs/journal/2026-10-30-citation-year-rule.md`). `papers.citation_matches`
@@ -693,8 +727,8 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
 - [x] **`registry.edit()` unfolded long quoted scalars** (found and fixed 2026-10-30,
   `docs/journal/2026-10-30-registry-edit-fold-width.md`). The dumper's width was
   `1_000_000`, so an edit re-emitted the Reid note as one 2,893-character line; it now
-  folds at `_WIDTH`, the width `write()` uses. Over all 214 entries the change reformats
-  192 on their first edit, changes the content of none and changes none twice. Prose edits
+  folds at `_WIDTH`, the width `write()` uses. Over all 214 entries on 2026-10-30 the change
+  reformats 192 on their first edit, changes the content of none and changes none twice. Prose edits
   on wrapped entries go through `registry.edit()` again.
 
 - **The Greene SLURM profile is written and UNTESTED.** `profiles/slurm-greene/config.yaml`

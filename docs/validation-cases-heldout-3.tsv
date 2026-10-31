@@ -10,18 +10,26 @@
 # substitution table, or named substitutions with collection years. "Newer isolates fail"
 # without that is `coverage`, or not a row at all.
 #
-# THIS SET IS NOT YET SCORED, AND THE REASON IS MECHANICAL. Both rows name assays that sit
-# in pending/ awaiting maintainer sign-off, and a pending entry is never screened: the
-# validator and the Snakefile both refuse anything without citation.doi_verified, so no
-# calls table can contain them. The set is scored once those entries are promoted to
-# registry/ and a screen covers them.
-# See docs/journal/2026-10-30-influenza-drift-entries.md.
+# SCORED 2026-10-30, SO THIS SET IS SPENT. One row agrees and one is undecided:
+# INFLUENZA_A_M1_Ward_2004 reads `declining` as of 2013-09-06 (86.2% of 5,847 recent
+# records, upper bound below the 90% threshold), which AGREES with Yang 2014 -- the first
+# documented failure this project has ever caught by the drift flag itself rather than by
+# `low coverage`. On the same records the documented redesign reads `stable` at 91.6%, and
+# the two entries differ in nothing but their oligos, which is the control that makes the
+# row worth trusting. INFLUENZA_A_HA_H3_CDC_Shu_2026 reads `no recent data`: its archive
+# stops in 2018, because the seven H3Nx subtype taxids return 0 records for 2024-2026
+# against 95,155 without that restriction. Full record, including the same defect found
+# live on the Tsukamoto H5 and H7 entries, in docs/journal/2026-10-30-set3-scored.md.
 #
-# IT IS ALSO THE FIRST GENUINE TEST OF THE SCOPED MATRIX. `scope_taxid` was built on
-# 2026-10-30 and chosen AFTER held-out set 2 had been read, so on set 2 it can only be a
-# re-description. Here the scope is filled from the source paper before any verdict is
-# known, which is what makes it a score. The pooled verdict is printed beside the scoped
-# one, as the 2026-10-30 scope decision requires.
+# IT WAS OPENED AS THE FIRST GENUINE TEST OF THE SCOPED MATRIX, AND IT WAS NOT ONE.
+# `scope_taxid` was built on 2026-10-30 and chosen AFTER held-out set 2 had been read, so
+# on set 2 it can only be a re-description; these two scopes were read from the source
+# papers before any verdict existed, which would have made this a score. NEITHER COULD BE
+# HONOURED. The matrix archive's lineage layer sees one lineage: 18 of its 19 metadata
+# files predate the `taxid` column and the one that has it reports every record as the
+# parent 11320. So a scoped matrix is still untested, and needs a set 4 on an assay whose
+# archive resolves below the species. The claim that this file tested it has been corrected
+# here rather than left standing.
 #
 # THE SECOND ROW LANDED THE SAME DAY. It was written and withheld for part of 2026-10-30,
 # because the CDC H3 assay could not be entered: citing the paper that prints its oligos

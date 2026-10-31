@@ -1,3 +1,39 @@
+# Resume point, 2026-10-30 (last: four entries promoted, set 3 scored, the tool caught its first drift case)
+
+**Start here:** `docs/journal/2026-10-30-set3-scored.md`, then `ROADMAP.md` "Waiting on a
+maintainer". Branch `promote-influenza-and-score-set3`.
+
+- **The tool caught its first drift case.** `INFLUENZA_A_M1_Ward_2004` reads `declining` as of
+  2013-09-06 — 86.2% of 5,847 recent records, upper bound under the 90% threshold — which
+  agrees with Yang 2014. Every previous catch in this project was credited to `low coverage`;
+  this is the first by the drift flag itself, so the premise the tool rests on finally has a
+  confirming case. **The control:** on the same records at the same date the documented
+  redesign reads `stable` at 91.6%, and the two entries differ in nothing but their oligos.
+- **Set 3's second row cannot be judged, and chasing why found a live defect.** The H3 archive
+  stops in 2018 because subtype-taxid queries return **0** records for 2024-2026 against
+  **95,155** without the restriction — NCBI no longer assigns subtype taxids to new influenza
+  deposits. The same query shape is live on **H5 Tsukamoto (archive ends 2021)** and **H7
+  Tsukamoto (ends 2020)**, so neither can show recent drift by construction, and their
+  verdicts in every past report rest on data that old. Not fixed: broadening the query makes
+  the denominator every influenza A HA record and would make a specific subtyping assay look
+  like it was failing. A maintainer's call, measurement attached in the roadmap.
+- **Neither scope could be honoured**, so set 3 was NOT the first genuine test of the scoped
+  matrix as its header claimed, and the claim is corrected in the file. The matrix archive's
+  lineage layer sees one lineage: 18 of its 19 metadata files predate the `taxid` column and
+  the one that has it reports every record as the parent 11320. A scoped matrix needs a set 4.
+- Set 3 is spent. Registry is 218 live, 10 pending, both clean.
+
+## Next, in order
+
+1. The influenza retrieval-query decision. It gates any recent-drift verdict on H5, H7, H3.
+2. Refetch the matrix group under current code so its metadata carries taxids at all.
+3. Set 4, on an assay whose archive resolves below the species, if the scoped matrix is to be
+   tested.
+
+## Still yours
+
+- The 34 `scope_taxid` values (`docs/2026-10-30-scope-worksheet.tsv`), one read per row.
+
 # Resume point, 2026-10-30 (latest: the citation year rule unified, both drift rows landed)
 
 **Start here:** `docs/journal/2026-10-30-citation-year-rule.md`, then the entry below. Branch

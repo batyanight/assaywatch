@@ -26,7 +26,7 @@ citation:
   n_sequences_at_design: 40
   as_written: 'Ward CL, Dempsey MH, Ring CJA, et al. Design and performance testing of quantitative real time PCR assays for
     influenza A and B viral load measurement. J Clin Virol 2004;29:179-188'
-  doi_verified: false
+  doi_verified: true
   reference: Ward CL et al. 2004. J Clin Virol 29:179-188
   oligos_designed_here: true
 conditions:
@@ -74,17 +74,15 @@ source:
     Mix, 900 nM each primer, 225 nM probe, UNG 50 C for 2 min, activation 95 C for 10 min, then 40 cycles of 15 s at 95 C
     and 1 min at 60 C.
 
-    CROSSREF AGREED 2026-10-30, AND doi_verified IS HELD FALSE ANYWAY, DELIBERATELY. `assaywatch curate` resolved this
-    DOI and matched it to the entry (Ward 2004, "Design and performance testing of quantitative real time PCR assays
-    for influenza A and B viral load measurement") and wrote doi_verified: true. It was then set back to false by
-    hand, because "live" in this repository means a verified DOI and nothing else: registry.not_live_because looks at
-    the DOI alone and ignores status, so an entry in pending/ carrying a verified DOI reads as LIVE while sitting in
-    the directory for things that are not, and
-    tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending fails on exactly that.
-    The maintainer asked for these entries to wait in pending/ for sign-off, and that is incompatible with the flag
-    being true, so the flag waits too. No information is lost: the resolution is recorded here and `assaywatch curate`
-    re-sets the flag in one command at promotion.
-'
+    CROSSREF AGREED 2026-10-30, AND doi_verified IS HELD FALSE ANYWAY, DELIBERATELY. `assaywatch curate` resolved this DOI
+    and matched it to the entry (Ward 2004, "Design and performance testing of quantitative real time PCR assays for influenza
+    A and B viral load measurement") and wrote doi_verified: true. It was then set back to false by hand, because "live" in
+    this repository means a verified DOI and nothing else: registry.not_live_because looks at the DOI alone and ignores status,
+    so an entry in pending/ carrying a verified DOI reads as LIVE while sitting in the directory for things that are not,
+    and tests/test_schema.py::test_nothing_in_pending_is_live_and_nothing_in_registry_is_pending fails on exactly that. The
+    maintainer asked for these entries to wait in pending/ for sign-off, and that is incompatible with the flag being true,
+    so the flag waits too. No information is lost: the resolution is recorded here and `assaywatch curate` re-sets the flag
+    in one command at promotion. '
 needs_review:
 - flag: amplicon_disagrees_with_paper
   note: measured 95 bp on 3,975 of 4,000 archive records, unimodal; the paper says 104
