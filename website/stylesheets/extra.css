@@ -22,11 +22,6 @@
 .md-typeset h1 { font-weight: 600; letter-spacing: -0.01em; }
 .md-typeset .md-button { margin: 0.2rem 0.4rem 0.2rem 0; }
 
-/* Bokeh draws onto a transparent background so the figure follows the theme;
-   without an explicit text colour its axis labels stay near-black in dark mode. */
-.bk-Figure, .bk-Canvas { max-width: 100%; }
-[data-md-color-scheme="slate"] .bk-Figure { filter: invert(0.92) hue-rotate(180deg); }
-
 /* The assay table. Fixed layout with explicit widths, because the default
    algorithm squeezed the first column until 40-character entry ids wrapped one
    character per line and shoved every other column out of shape. */
@@ -113,3 +108,63 @@ table.aw-assays td:nth-child(2) { overflow: visible; }
 .aw-stage:focus { outline: none; }
 .md-typeset .aw-stage-title { font-size: 0.72em; letter-spacing: 0.02em;
   text-transform: uppercase; color: var(--aw-ink-muted); }
+
+/* ---- the per-assay figures (inline SVG, assaywatch/site_svg.py) --------- */
+/* Structure uses currentColor so it follows the theme; data marks take the
+   palette's CSS variables, so light and dark are one definition. */
+.aw-chart, .aw-track { width: 100%; max-width: 100%; height: auto;
+  color: var(--aw-ink); margin: 0.6rem 0 0.2rem; overflow: visible; }
+.aw-track { max-width: 46rem; }
+
+.aw-grid { stroke: var(--aw-grid); stroke-width: 1; }
+.aw-axis { stroke: var(--aw-grid); stroke-width: 1.2; }
+.aw-threshold { stroke: var(--aw-ink-muted); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.aw-threshold-label { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: end; }
+.aw-window { fill: var(--aw-ink); opacity: 0.055; }
+
+.aw-tick { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: middle; }
+.aw-tick-y { text-anchor: end; }
+.aw-axis-label { fill: var(--aw-ink-muted); font-size: 11px; text-anchor: middle; }
+.aw-row-label { fill: var(--aw-ink); font-size: 11.5px; text-anchor: end; }
+.aw-track-label { fill: var(--aw-ink); font-size: 12px; text-anchor: end; font-weight: 500; }
+.aw-end { fill: var(--aw-ink-muted); font-size: 10px; text-anchor: end;
+  font-family: var(--md-code-font-family); }
+.aw-end-3 { text-anchor: start; font-weight: 600; }
+.aw-base { fill: var(--aw-ink); font-size: 11px; text-anchor: middle;
+  font-family: var(--md-code-font-family); }
+
+/* The 3' window: where a mismatch is most likely to kill the reaction. */
+.aw-zone { fill: var(--aw-status-declining); opacity: 0.075; }
+
+/* Bar colour is the COST of a mismatch, not its frequency. */
+.aw-bar-strong rect { fill: var(--aw-status-declining); }
+.aw-bar-mid rect    { fill: var(--aw-status-watch); }
+.aw-bar-weak rect   { fill: var(--aw-ink-muted); opacity: 0.55; }
+.aw-bar-strong:hover rect, .aw-bar-mid:hover rect, .aw-bar-weak:hover rect { opacity: 1; }
+.aw-track g { cursor: help; }
+
+/* The year line takes the assay's own status colour. */
+.aw-line { fill: none; stroke-width: 2; stroke: var(--aw-ink-muted); }
+.aw-point circle { fill: var(--aw-ink-muted); stroke: var(--md-default-bg-color); stroke-width: 1.5; }
+.aw-point { cursor: help; }
+.aw-declining.aw-line { stroke: var(--aw-status-declining); }
+.aw-declining.aw-point circle { fill: var(--aw-status-declining); }
+.aw-low-coverage.aw-line { stroke: var(--aw-status-low-coverage); }
+.aw-low-coverage.aw-point circle { fill: var(--aw-status-low-coverage); }
+.aw-watch.aw-line { stroke: var(--aw-status-watch); }
+.aw-watch.aw-point circle { fill: var(--aw-status-watch); }
+.aw-stable.aw-line { stroke: var(--aw-status-stable); }
+.aw-stable.aw-point circle { fill: var(--aw-status-stable); }
+
+.aw-ci { stroke: var(--aw-ink-muted); stroke-width: 1.6; }
+.aw-dot-fail circle { fill: var(--aw-status-declining); }
+.aw-dot-ok circle { fill: var(--aw-status-stable); }
+.aw-dot-fail, .aw-dot-ok { cursor: help; }
+
+/* The key under the mismatch map. */
+.md-typeset .aw-key { display: inline-flex; align-items: center; gap: 0.35rem;
+  margin-right: 1rem; font-size: 0.76rem; color: var(--aw-ink-muted); }
+.aw-key-swatch { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; }
+.aw-key-swatch.aw-bar-strong { background: var(--aw-status-declining); }
+.aw-key-swatch.aw-bar-mid { background: var(--aw-status-watch); }
+.aw-key-swatch.aw-bar-weak { background: var(--aw-ink-muted); opacity: 0.55; }

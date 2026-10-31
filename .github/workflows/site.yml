@@ -48,14 +48,18 @@ jobs:
       # number, label and sentence must match while the noise does not.
       - run: pytest tests/test_site.py -q
       # Regenerate rather than trust what is committed, so the published site
-      # always shows what run.json actually says.
+      # always shows what run.json actually says, and fail if the two differ.
       #
-      # There is deliberately NO `git diff --exit-code` here. Bokeh mints a fresh
-      # element id and document uuid on every render, so regenerated pages are
-      # never byte-identical to the committed ones and such a check can only ever
-      # fail -- it did, on the first deploy, listing 202 files as stale with
-      # nothing wrong with any of them.
+      # This check was removed once as unachievable, when the figures were drawn
+      # by a chart library that minted a fresh element id per render: it listed
+      # 202 files as stale with nothing wrong with any of them. The inline-SVG
+      # figures are a pure function of the data, so byte equality holds and the
+      # check is exact again.
       - run: python -m assaywatch.site_render --data website/data --out website
+      - name: the committed pages match what the data renders
+        run: |
+          git diff --exit-code --stat website/ \
+            || (echo "::error::website/ is stale; run `assaywatch site-render` and commit" && exit 1)
       - run: mkdocs build --strict
       - uses: actions/upload-pages-artifact@v3
         with:

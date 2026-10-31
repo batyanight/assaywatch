@@ -47,126 +47,90 @@ From the 2026-10-31 run. A status tells you where to look rather than what is tr
 
 How much of the deposited sequence this assay is predicted to detect, by the year
 each record was deposited. The shaded band is the recent window; the dashed line is
-the 90% threshold. Larger markers mean more records, and the chart below gives the
-counts exactly — 100% of three records and 100% of three thousand are not the same
-claim.
+the threshold. Marker size is the number of records behind each point, because 100%
+of three records and 100% of three thousand are not the same claim.
 
-<div id="c53864d6-4260-4a1c-9539-67735677a36f" data-root-id="p21090" style="display: contents;"></div>
-<script>
-(function() {
-  const fn = function() {
-    Bokeh.safely(function() {
-      (function(root) {
-        function embed_document(root) {
-        const docs_json = '{"55c84268-a2d7-40cf-a4cc-69f58c35e3cf":{"version":"3.10.1","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p21145","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p21146"}}},"roots":[{"type":"object","name":"Figure","id":"p21090","attributes":{"height":300,"sizing_mode":"stretch_width","x_range":{"type":"object","name":"DataRange1d","id":"p21092"},"y_range":{"type":"object","name":"Range1d","id":"p21099","attributes":{"start":-3,"end":103}},"x_scale":{"type":"object","name":"LinearScale","id":"p21100"},"y_scale":{"type":"object","name":"LinearScale","id":"p21101"},"title":{"type":"object","name":"Title","id":"p21097","attributes":{"text_font_style":"normal"}},"outline_line_color":null,"renderers":[{"type":"object","name":"GlyphRenderer","id":"p21135","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p21087","attributes":{"selected":{"type":"object","name":"Selection","id":"p21088","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p21089"},"data":{"type":"map","entries":[["year",[1989,1993,1995,1998,2000,2002,2003,2004,2009,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026]],["share",[0.0,0.0,0.0,0.0,100.0,0.0,0.0,50.0,0.0,0.0,0.0,0.0,0.0,20.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,100.0]],["detected",[0,0,0,0,3,0,0,1,0,0,0,0,0,1,0,0,0,2,0,0,0,1]],["evaluable",[1,1,2,4,3,2,5,2,2,9,12,2,16,5,2,1,7,2,2,8,1,1]],["window",["baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","baseline","recent","recent","recent","recent","recent","recent"]],["size",[8.703135093227193,8.703135093227193,9.07684386569143,9.517227179437622,9.328625426046248,9.07684386569143,9.667366891029102,9.07684386569143,9.07684386569143,10.071067811865476,10.269703144398052,9.07684386569143,10.467343773689333,9.667366891029102,9.07684386569143,8.703135093227193,9.897626379762722,9.07684386569143,9.07684386569143,9.989711205477885,8.703135093227193,8.703135093227193]]]}}},"view":{"type":"object","name":"CDSView","id":"p21136","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p21137"}}},"glyph":{"type":"object","name":"Line","id":"p21132","attributes":{"x":{"type":"field","field":"year"},"y":{"type":"field","field":"share"},"line_color":"#5f6368","line_width":2}},"nonselection_glyph":{"type":"object","name":"Line","id":"p21133","attributes":{"x":{"type":"field","field":"year"},"y":{"type":"field","field":"share"},"line_color":"#5f6368","line_alpha":0.1,"line_width":2}},"muted_glyph":{"type":"object","name":"Line","id":"p21134","attributes":{"x":{"type":"field","field":"year"},"y":{"type":"field","field":"share"},"line_color":"#5f6368","line_alpha":0.2,"line_width":2}}}},{"type":"object","name":"GlyphRenderer","id":"p21141","attributes":{"data_source":{"id":"p21087"},"view":{"type":"object","name":"CDSView","id":"p21142","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p21143"}}},"glyph":{"type":"object","name":"Scatter","id":"p21138","attributes":{"x":{"type":"field","field":"year"},"y":{"type":"field","field":"share"},"size":{"type":"field","field":"size"},"line_color":{"type":"value","value":"#fcfcfb"},"line_width":{"type":"value","value":2},"fill_color":{"type":"value","value":"#5f6368"},"hatch_color":{"type":"value","value":"#5f6368"}}},"nonselection_glyph":{"type":"object","name":"Scatter","id":"p21139","attributes":{"x":{"type":"field","field":"year"},"y":{"type":"field","field":"share"},"size":{"type":"field","field":"size"},"line_color":{"type":"value","value":"#fcfcfb"},"line_alpha":{"type":"value","value":0.1},"line_width":{"type":"value","value":2},"fill_color":{"type":"value","value":"#5f6368"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"#5f6368"},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Scatter","id":"p21140","attributes":{"x":{"type":"field","field":"year"},"y":{"type":"field","field":"share"},"size":{"type":"field","field":"size"},"line_color":{"type":"value","value":"#fcfcfb"},"line_alpha":{"type":"value","value":0.2},"line_width":{"type":"value","value":2},"fill_color":{"type":"value","value":"#5f6368"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"#5f6368"},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p21098","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p21112"},{"type":"object","name":"BoxZoomTool","id":"p21113","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p21114","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p21120","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p21119","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"WheelZoomTool","id":"p21121","attributes":{"renderers":"auto"}},{"type":"object","name":"ResetTool","id":"p21122"},{"type":"object","name":"SaveTool","id":"p21123"},{"type":"object","name":"HoverTool","id":"p21144","attributes":{"renderers":[{"id":"p21141"}],"tooltips":[["year","@year"],["detected","@detected of @evaluable"],["share","@share{0.0}%"],["window","@window"]],"sort_by":null}}],"logo":null}},"toolbar_location":"above","left":[{"type":"object","name":"LinearAxis","id":"p21107","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p21108","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p21109"},"axis_label":"predicted detection (%)","axis_label_text_font_style":"normal","major_label_policy":{"type":"object","name":"AllLabels","id":"p21110"},"axis_line_color":"#e5e7e9","major_tick_line_color":"#e5e7e9","minor_tick_line_color":null}}],"below":[{"type":"object","name":"LinearAxis","id":"p21102","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p21103","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p21104"},"axis_label":"deposit year","axis_label_text_font_style":"normal","major_label_policy":{"type":"object","name":"AllLabels","id":"p21105"},"axis_line_color":"#e5e7e9","major_tick_line_color":"#e5e7e9","minor_tick_line_color":null}}],"center":[{"type":"object","name":"Grid","id":"p21106","attributes":{"axis":{"id":"p21102"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p21111","attributes":{"dimension":1,"axis":{"id":"p21107"},"grid_line_color":"#e5e7e9"}},{"type":"object","name":"BoxAnnotation","id":"p21124","attributes":{"line_color":null,"fill_color":"#5f6368","fill_alpha":0.07,"left":2020.5,"right":{"type":"object","name":"Node","id":"p21126","attributes":{"target":"frame","symbol":"right"}},"top":{"type":"object","name":"Node","id":"p21127","attributes":{"target":"frame","symbol":"top"}},"bottom":{"type":"object","name":"Node","id":"p21128","attributes":{"target":"frame","symbol":"bottom"}},"handles":{"type":"object","name":"BoxInteractionHandles","id":"p21130","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p21129","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}},{"type":"object","name":"Span","id":"p21131","attributes":{"location":90.0,"line_color":"#5f6368","line_dash":[6]}}],"background_fill_color":null,"border_fill_color":null}}]}}';
-        const render_items = [{"docid":"55c84268-a2d7-40cf-a4cc-69f58c35e3cf","roots":{"p21090":"c53864d6-4260-4a1c-9539-67735677a36f"},"root_ids":["p21090"]}];
-        root.Bokeh.embed.embed_items(docs_json, render_items);
-        }
-        if (root.Bokeh !== undefined) {
-          embed_document(root);
-        } else {
-          let attempts = 0;
-          const timer = setInterval(function(root) {
-            if (root.Bokeh !== undefined) {
-              clearInterval(timer);
-              embed_document(root);
-            } else {
-              attempts++;
-              if (attempts > 100) {
-                clearInterval(timer);
-                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-              }
-            }
-          }, 10, root)
-        }
-      })(window);
-    });
-  };
-  if (document.readyState != "loading") fn();
-  else document.addEventListener("DOMContentLoaded", fn);
-})();
-</script>
-
-<div id="a0de90d4-64f8-41e3-bcc3-df507859df6b" data-root-id="p21150" style="display: contents;"></div>
-<script>
-(function() {
-  const fn = function() {
-    Bokeh.safely(function() {
-      (function(root) {
-        function embed_document(root) {
-        const docs_json = '{"a9b2aada-4c67-4daf-8ad1-945cdad7003b":{"version":"3.10.1","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p21190","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p21191"}}},"roots":[{"type":"object","name":"Figure","id":"p21150","attributes":{"height":130,"sizing_mode":"stretch_width","x_range":{"type":"object","name":"DataRange1d","id":"p21151"},"y_range":{"type":"object","name":"DataRange1d","id":"p21152","attributes":{"start":0}},"x_scale":{"type":"object","name":"LinearScale","id":"p21159"},"y_scale":{"type":"object","name":"LinearScale","id":"p21160"},"title":{"type":"object","name":"Title","id":"p21157","attributes":{"text_font_style":"normal"}},"outline_line_color":null,"renderers":[{"type":"object","name":"GlyphRenderer","id":"p21186","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p21147","attributes":{"selected":{"type":"object","name":"Selection","id":"p21148","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p21149"},"data":{"type":"map","entries":[["year",[1989,1993,1995,1998,2000,2002,2003,2004,2009,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026]],["evaluable",[1,1,2,4,3,2,5,2,2,9,12,2,16,5,2,1,7,2,2,8,1,1]],["detected",[0,0,0,0,3,0,0,1,0,0,0,0,0,1,0,0,0,2,0,0,0,1]],["colour",["#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368","#5f6368"]]]}}},"view":{"type":"object","name":"CDSView","id":"p21187","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p21188"}}},"glyph":{"type":"object","name":"VBar","id":"p21183","attributes":{"x":{"type":"field","field":"year"},"width":{"type":"value","value":0.72},"top":{"type":"field","field":"evaluable"},"line_color":{"type":"value","value":null},"fill_color":{"type":"field","field":"colour"},"hatch_color":{"type":"field","field":"colour"}}},"nonselection_glyph":{"type":"object","name":"VBar","id":"p21184","attributes":{"x":{"type":"field","field":"year"},"width":{"type":"value","value":0.72},"top":{"type":"field","field":"evaluable"},"line_color":{"type":"value","value":null},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"field","field":"colour"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"field","field":"colour"},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"VBar","id":"p21185","attributes":{"x":{"type":"field","field":"year"},"width":{"type":"value","value":0.72},"top":{"type":"field","field":"evaluable"},"line_color":{"type":"value","value":null},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"field","field":"colour"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"field","field":"colour"},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p21158","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p21171"},{"type":"object","name":"BoxZoomTool","id":"p21172","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p21173","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p21179","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p21178","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"WheelZoomTool","id":"p21180","attributes":{"renderers":"auto"}},{"type":"object","name":"ResetTool","id":"p21181"},{"type":"object","name":"SaveTool","id":"p21182"},{"type":"object","name":"HoverTool","id":"p21189","attributes":{"renderers":[{"id":"p21186"}],"tooltips":[["year","@year"],["evaluable","@evaluable"],["detected","@detected"]],"sort_by":null}}],"logo":null}},"toolbar_location":"above","left":[{"type":"object","name":"LinearAxis","id":"p21166","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p21167","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p21168"},"axis_label":"evaluable records","axis_label_text_font_style":"normal","major_label_policy":{"type":"object","name":"AllLabels","id":"p21169"},"axis_line_color":"#e5e7e9","major_tick_line_color":"#e5e7e9","minor_tick_line_color":null}}],"below":[{"type":"object","name":"LinearAxis","id":"p21161","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p21162","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p21163"},"axis_label":"deposit year","axis_label_text_font_style":"normal","major_label_policy":{"type":"object","name":"AllLabels","id":"p21164"},"axis_line_color":"#e5e7e9","major_tick_line_color":"#e5e7e9","minor_tick_line_color":null}}],"center":[{"type":"object","name":"Grid","id":"p21165","attributes":{"axis":{"id":"p21161"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p21170","attributes":{"dimension":1,"axis":{"id":"p21166"},"grid_line_color":"#e5e7e9"}}],"background_fill_color":null,"border_fill_color":null}}]}}';
-        const render_items = [{"docid":"a9b2aada-4c67-4daf-8ad1-945cdad7003b","roots":{"p21150":"a0de90d4-64f8-41e3-bcc3-df507859df6b"},"root_ids":["p21150"]}];
-        root.Bokeh.embed.embed_items(docs_json, render_items);
-        }
-        if (root.Bokeh !== undefined) {
-          embed_document(root);
-        } else {
-          let attempts = 0;
-          const timer = setInterval(function(root) {
-            if (root.Bokeh !== undefined) {
-              clearInterval(timer);
-              embed_document(root);
-            } else {
-              attempts++;
-              if (attempts > 100) {
-                clearInterval(timer);
-                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-              }
-            }
-          }, 10, root)
-        }
-      })(window);
-    });
-  };
-  if (document.readyState != "loading") fn();
-  else document.addEventListener("DOMContentLoaded", fn);
-})();
-</script>
-
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1989 to 2026, against a 90 percent threshold."><rect class="aw-window" x="616.5" y="12.0" width="89.5" height="180.0"><title>the recent window: 60 months from Oct 2021</title></rect><line class="aw-grid" x1="44.0" y1="192.0" x2="706.0" y2="192.0"/><text class="aw-tick aw-tick-y" x="37.0" y="195.5">0</text><line class="aw-grid" x1="44.0" y1="147.0" x2="706.0" y2="147.0"/><text class="aw-tick aw-tick-y" x="37.0" y="150.5">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="57.0" x2="706.0" y2="57.0"/><text class="aw-tick aw-tick-y" x="37.0" y="60.5">75</text><line class="aw-grid" x1="44.0" y1="12.0" x2="706.0" y2="12.0"/><text class="aw-tick aw-tick-y" x="37.0" y="15.5">100</text><line class="aw-threshold" x1="44.0" y1="30.0" x2="706.0" y2="30.0"/><text class="aw-threshold-label" x="706.0" y="25.0">90% threshold</text><polyline class="aw-line aw-insufficient-data" points="44.0,192.0 115.6,192.0 151.4,192.0 205.0,192.0 240.8,12.0 276.6,192.0 294.5,192.0 312.4,102.0 401.8,192.0 491.3,192.0 509.2,192.0 527.1,192.0 545.0,192.0 562.9,156.0 580.8,192.0 598.6,192.0 616.5,192.0 634.4,12.0 652.3,192.0 670.2,192.0 688.1,192.0 706.0,12.0"/><g class="aw-point aw-insufficient-data"><title>1989: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1993: 0 of 1 detected (0.0%)</title><circle cx="115.6" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1995: 0 of 2 detected (0.0%)</title><circle cx="151.4" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1998: 0 of 4 detected (0.0%)</title><circle cx="205.0" cy="192.0" r="2.7"/></g><g class="aw-point aw-insufficient-data"><title>2000: 3 of 3 detected (100.0%)</title><circle cx="240.8" cy="12.0" r="2.6"/></g><g class="aw-point aw-insufficient-data"><title>2002: 0 of 2 detected (0.0%)</title><circle cx="276.6" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2003: 0 of 5 detected (0.0%)</title><circle cx="294.5" cy="192.0" r="2.8"/></g><g class="aw-point aw-insufficient-data"><title>2004: 1 of 2 detected (50.0%)</title><circle cx="312.4" cy="102.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2009: 0 of 2 detected (0.0%)</title><circle cx="401.8" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2014: 0 of 9 detected (0.0%)</title><circle cx="491.3" cy="192.0" r="3.2"/></g><g class="aw-point aw-insufficient-data"><title>2015: 0 of 12 detected (0.0%)</title><circle cx="509.2" cy="192.0" r="3.4"/></g><g class="aw-point aw-insufficient-data"><title>2016: 0 of 2 detected (0.0%)</title><circle cx="527.1" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2017: 0 of 16 detected (0.0%)</title><circle cx="545.0" cy="192.0" r="3.6"/></g><g class="aw-point aw-insufficient-data"><title>2018: 1 of 5 detected (20.0%)</title><circle cx="562.9" cy="156.0" r="2.8"/></g><g class="aw-point aw-insufficient-data"><title>2019: 0 of 2 detected (0.0%)</title><circle cx="580.8" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2020: 0 of 1 detected (0.0%)</title><circle cx="598.6" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2021: 0 of 7 detected (0.0%) — recent window</title><circle cx="616.5" cy="192.0" r="3.0"/></g><g class="aw-point aw-insufficient-data"><title>2022: 2 of 2 detected (100.0%) — recent window</title><circle cx="634.4" cy="12.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2023: 0 of 2 detected (0.0%) — recent window</title><circle cx="652.3" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 0 of 8 detected (0.0%) — recent window</title><circle cx="670.2" cy="192.0" r="3.1"/></g><g class="aw-point aw-insufficient-data"><title>2025: 0 of 1 detected (0.0%) — recent window</title><circle cx="688.1" cy="192.0" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2026: 1 of 1 detected (100.0%) — recent window</title><circle cx="706.0" cy="12.0" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1989</text><text class="aw-tick" x="133.5" y="208">1994</text><text class="aw-tick" x="222.9" y="208">1999</text><text class="aw-tick" x="312.4" y="208">2004</text><text class="aw-tick" x="401.8" y="208">2009</text><text class="aw-tick" x="491.3" y="208">2014</text><text class="aw-tick" x="580.8" y="208">2019</text><text class="aw-tick" x="670.2" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## Where the mismatches sit
 
-One cell per position along each oligo, 3' end on the right. Darker means more
-records mismatch there. Hover any cell for the comparison that matters: detection
-among records that mismatch at that position against records that do not. A
-position where those two differ sharply is one worth redesigning around.
+Each oligo drawn base by base, 5′ to 3′, with the 3′ window shaded — a mismatch
+there is the one that fails a reaction. Bar height is the share of records differing
+at that position; bar colour is what that costs, measured as the fall in detection
+between records that differ there and records that do not:
 
-<div id="c5aa9c6c-2c9c-4f33-845f-044d0d13fc10" data-root-id="p21195" style="display: contents;"></div>
-<script>
-(function() {
-  const fn = function() {
-    Bokeh.safely(function() {
-      (function(root) {
-        function embed_document(root) {
-        const docs_json = '{"195c0486-40da-4090-8d8d-9177040e5303":{"version":"3.10.1","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p21237","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p21238"}}},"roots":[{"type":"object","name":"Figure","id":"p21195","attributes":{"height":154,"sizing_mode":"stretch_width","x_range":{"type":"object","name":"DataRange1d","id":"p21197"},"y_range":{"type":"object","name":"FactorRange","id":"p21204","attributes":{"factors":["reverse","forward"]}},"x_scale":{"type":"object","name":"LinearScale","id":"p21205"},"y_scale":{"type":"object","name":"CategoricalScale","id":"p21206"},"title":{"type":"object","name":"Title","id":"p21202","attributes":{"text_font_style":"normal"}},"outline_line_color":null,"renderers":[{"type":"object","name":"GlyphRenderer","id":"p21232","attributes":{"data_source":{"type":"object","name":"ColumnDataSource","id":"p21192","attributes":{"selected":{"type":"object","name":"Selection","id":"p21193","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p21194"},"data":{"type":"map","entries":[["x",[-6,-1,-4,-2,-3,-11,-15,-5,-3,-24,-10,-18,-19,-13,-20,-9]],["y",["forward","forward","forward","forward","forward","reverse","reverse","forward","reverse","reverse","reverse","reverse","reverse","reverse","reverse","reverse"]],["alpha",[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.981111111111111]],["pos",[6,1,4,2,3,11,15,5,3,24,10,18,19,13,20,9]],["base",["G","A","T","Y","A","C","W","A","M","R","T","T","C","G","G","T"]],["n",[65,58,54,51,34,33,33,32,32,31,30,45,48,34,46,22]],["det_with",["0% of 65","0% of 58","0% of 54","0% of 51","0% of 34","0% of 33","0% of 33","0% of 32","0% of 32","0% of 31","0% of 30","7% of 45","10% of 48","15% of 34","17% of 46","36% of 22"]],["det_without",["36% of 22","28% of 29","24% of 33","22% of 36","15% of 53","15% of 54","15% of 54","15% of 55","15% of 55","14% of 56","14% of 57","12% of 42","8% of 39","6% of 53","0% of 41","0% of 65"]],["subs",["G&gt;A 65","A&gt;C 29, A&gt;T 29","T&gt;G 26, T&gt;C 24, T&gt;A 4","Y&gt;A 45, Y&gt;G 6","A&gt;T 29, A&gt;C 5","C&gt;G 31, C&gt;T 2","W&gt;C 26, W&gt;G 7","A&gt;G 31, A&gt;T 1","M&gt;G 19, M&gt;T 13","R&gt;T 27, R&gt;C 4","T&gt;A 29, T&gt;G 1","T&gt;G 24, T&gt;A 16, T&gt;C 5","C&gt;T 46, C&gt;G 1, C&gt;A 1","G&gt;T 20, G&gt;A 14","G&gt;T 25, G&gt;A 19, G&gt;C 2","T&gt;C 22"]],["zone",["no","yes","yes","yes","yes","no","no","yes","yes","no","no","no","no","no","no","no"]]]}}},"view":{"type":"object","name":"CDSView","id":"p21233","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p21234"}}},"glyph":{"type":"object","name":"Rect","id":"p21229","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"width":{"type":"value","value":0.9},"height":{"type":"value","value":0.62},"line_color":{"type":"value","value":null},"line_alpha":{"type":"field","field":"alpha"},"fill_color":{"type":"value","value":"#b3261e"},"fill_alpha":{"type":"field","field":"alpha"},"hatch_color":{"type":"value","value":"#b3261e"},"hatch_alpha":{"type":"field","field":"alpha"}}},"nonselection_glyph":{"type":"object","name":"Rect","id":"p21230","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"width":{"type":"value","value":0.9},"height":{"type":"value","value":0.62},"line_color":{"type":"value","value":null},"line_alpha":{"type":"value","value":0.1},"fill_color":{"type":"value","value":"#b3261e"},"fill_alpha":{"type":"value","value":0.1},"hatch_color":{"type":"value","value":"#b3261e"},"hatch_alpha":{"type":"value","value":0.1}}},"muted_glyph":{"type":"object","name":"Rect","id":"p21231","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"y"},"width":{"type":"value","value":0.9},"height":{"type":"value","value":0.62},"line_color":{"type":"value","value":null},"line_alpha":{"type":"value","value":0.2},"fill_color":{"type":"value","value":"#b3261e"},"fill_alpha":{"type":"value","value":0.2},"hatch_color":{"type":"value","value":"#b3261e"},"hatch_alpha":{"type":"value","value":0.2}}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p21203","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p21217"},{"type":"object","name":"BoxZoomTool","id":"p21218","attributes":{"dimensions":"both","overlay":{"type":"object","name":"BoxAnnotation","id":"p21219","attributes":{"syncable":false,"line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5,"level":"overlay","visible":false,"left":{"type":"number","value":"nan"},"right":{"type":"number","value":"nan"},"top":{"type":"number","value":"nan"},"bottom":{"type":"number","value":"nan"},"left_units":"canvas","right_units":"canvas","top_units":"canvas","bottom_units":"canvas","handles":{"type":"object","name":"BoxInteractionHandles","id":"p21225","attributes":{"all":{"type":"object","name":"AreaVisuals","id":"p21224","attributes":{"fill_color":"white","hover_fill_color":"lightgray"}}}}}}}},{"type":"object","name":"WheelZoomTool","id":"p21226","attributes":{"renderers":"auto"}},{"type":"object","name":"ResetTool","id":"p21227"},{"type":"object","name":"SaveTool","id":"p21228"},{"type":"object","name":"HoverTool","id":"p21235","attributes":{"renderers":[{"id":"p21232"}],"tooltips":[["oligo","@y, position @pos from 3&#x27;"],["oligo base","@base"],["records mismatching","@n"],["detected when mismatched","@det_with"],["detected when not","@det_without"],["substitutions","@subs"],["inside the 3&#x27; window","@zone"]],"sort_by":null}}],"logo":null}},"toolbar_location":"above","left":[{"type":"object","name":"CategoricalAxis","id":"p21212","attributes":{"ticker":{"type":"object","name":"CategoricalTicker","id":"p21213"},"formatter":{"type":"object","name":"CategoricalTickFormatter","id":"p21214"},"axis_label_text_font_style":"normal","major_label_policy":{"type":"object","name":"AllLabels","id":"p21215"},"axis_line_color":"#e5e7e9","major_tick_line_color":"#e5e7e9","minor_tick_line_color":null}}],"below":[{"type":"object","name":"LinearAxis","id":"p21207","attributes":{"ticker":{"type":"object","name":"FixedTicker","id":"p21236","attributes":{"ticks":[-24,-20,-19,-18,-15,-13,-11,-10,-9,-6,-5,-4,-3,-2,-1],"minor_ticks":[]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p21209"},"axis_label":"position from the 3&#x27; end (1 = the terminal base)","axis_label_text_font_style":"normal","major_label_overrides":{"type":"map","entries":[[-6,"6"],[-1,"1"],[-4,"4"],[-2,"2"],[-3,"3"],[-11,"11"],[-15,"15"],[-5,"5"],[-24,"24"],[-10,"10"],[-18,"18"],[-19,"19"],[-13,"13"],[-20,"20"],[-9,"9"]]},"major_label_policy":{"type":"object","name":"AllLabels","id":"p21210"},"axis_line_color":"#e5e7e9","major_tick_line_color":"#e5e7e9","minor_tick_line_color":null}}],"center":[{"type":"object","name":"Grid","id":"p21211","attributes":{"axis":{"id":"p21207"},"grid_line_color":null}},{"type":"object","name":"Grid","id":"p21216","attributes":{"dimension":1,"axis":{"id":"p21212"},"grid_line_color":null}}],"background_fill_color":null,"border_fill_color":null}}]}}';
-        const render_items = [{"docid":"195c0486-40da-4090-8d8d-9177040e5303","roots":{"p21195":"c5aa9c6c-2c9c-4f33-845f-044d0d13fc10"},"root_ids":["p21195"]}];
-        root.Bokeh.embed.embed_items(docs_json, render_items);
-        }
-        if (root.Bokeh !== undefined) {
-          embed_document(root);
-        } else {
-          let attempts = 0;
-          const timer = setInterval(function(root) {
-            if (root.Bokeh !== undefined) {
-              clearInterval(timer);
-              embed_document(root);
-            } else {
-              attempts++;
-              if (attempts > 100) {
-                clearInterval(timer);
-                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
-              }
-            }
-          }, 10, root)
-        }
-      })(window);
-    });
-  };
-  if (document.readyState != "loading") fn();
-  else document.addEventListener("DOMContentLoaded", fn);
-})();
-</script>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no cost — variation the assay tolerates</span>
 
+Hover any bar for the counts. A tall grey bar is a polymorphism; a short red one is a
+design problem.
+
+<svg class="aw-track" viewBox="0 0 486 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="68" y="56">forward</text><rect class="aw-zone" x="378.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="78.0" y1="44.0" x2="453.0" y2="44.0"/><text class="aw-base" x="85.5" y="57">G</text><text class="aw-base" x="100.5" y="57">C</text><text class="aw-base" x="115.5" y="57">C</text><text class="aw-base" x="130.5" y="57">G</text><text class="aw-base" x="145.5" y="57">C</text><text class="aw-base" x="160.5" y="57">A</text><text class="aw-base" x="175.5" y="57">G</text><text class="aw-base" x="190.5" y="57">T</text><text class="aw-base" x="205.5" y="57">A</text><text class="aw-base" x="220.5" y="57">G</text><text class="aw-base" x="235.5" y="57">T</text><text class="aw-base" x="250.5" y="57">G</text><text class="aw-base" x="265.5" y="57">T</text><text class="aw-base" x="280.5" y="57">A</text><text class="aw-base" x="295.5" y="57">C</text><text class="aw-base" x="310.5" y="57">T</text><text class="aw-base" x="325.5" y="57">A</text><text class="aw-base" x="340.5" y="57">C</text><text class="aw-base" x="355.5" y="57">C</text><g class="aw-bar-strong"><title>forward position 6 from the 3&#x27; end, base G
+65 of 87 records differ here (74.7%)
+detected when it differs: 0% of 65
+detected when it does not: 36% of 22
+substitutions: G&gt;A in 65</title><rect x="364.0" y="14.6" width="13.0" height="29.4"/></g><text class="aw-base" x="370.5" y="57">G</text><g class="aw-bar-mid"><title>forward position 5 from the 3&#x27; end, base A
+32 of 87 records differ here (36.8%)
+detected when it differs: 0% of 32
+detected when it does not: 15% of 55
+substitutions: A&gt;G in 31, A&gt;T in 1</title><rect x="379.0" y="23.4" width="13.0" height="20.6"/></g><text class="aw-base" x="385.5" y="57">A</text><g class="aw-bar-mid"><title>forward position 4 from the 3&#x27; end, base T
+54 of 87 records differ here (62.1%)
+detected when it differs: 0% of 54
+detected when it does not: 24% of 33
+substitutions: T&gt;G in 26, T&gt;C in 24, T&gt;A in 4</title><rect x="394.0" y="17.2" width="13.0" height="26.8"/></g><text class="aw-base" x="400.5" y="57">T</text><g class="aw-bar-mid"><title>forward position 3 from the 3&#x27; end, base A
+34 of 87 records differ here (39.1%)
+detected when it differs: 0% of 34
+detected when it does not: 15% of 53
+substitutions: A&gt;T in 29, A&gt;C in 5</title><rect x="409.0" y="22.7" width="13.0" height="21.3"/></g><text class="aw-base" x="415.5" y="57">A</text><g class="aw-bar-mid"><title>forward position 2 from the 3&#x27; end, base Y
+51 of 87 records differ here (58.6%)
+detected when it differs: 0% of 51
+detected when it does not: 22% of 36
+substitutions: Y&gt;A in 45, Y&gt;G in 6</title><rect x="424.0" y="18.0" width="13.0" height="26.0"/></g><text class="aw-base" x="430.5" y="57">Y</text><g class="aw-bar-strong"><title>forward position 1 from the 3&#x27; end, base A
+58 of 87 records differ here (66.7%)
+detected when it differs: 0% of 58
+detected when it does not: 28% of 29
+substitutions: A&gt;C in 29, A&gt;T in 29</title><rect x="439.0" y="16.2" width="13.0" height="27.8"/></g><text class="aw-base" x="445.5" y="57">A</text><text class="aw-tick" x="445.5" y="71">1</text><text class="aw-tick" x="385.5" y="71">5</text><text class="aw-tick" x="310.5" y="71">10</text><text class="aw-tick" x="235.5" y="71">15</text><text class="aw-tick" x="160.5" y="71">20</text><text class="aw-tick" x="85.5" y="71">25</text><text class="aw-end" x="74" y="57">5′</text><text class="aw-end aw-end-3" x="457" y="57">3′</text><text class="aw-track-label" x="68" y="138">reverse</text><rect class="aw-zone" x="393.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="78.0" y1="126.0" x2="468.0" y2="126.0"/><text class="aw-base" x="85.5" y="139">C</text><text class="aw-base" x="100.5" y="139">T</text><g class="aw-bar-mid"><title>reverse position 24 from the 3&#x27; end, base R
+31 of 87 records differ here (35.6%)
+detected when it differs: 0% of 31
+detected when it does not: 14% of 56
+substitutions: R&gt;T in 27, R&gt;C in 4</title><rect x="109.0" y="105.7" width="13.0" height="20.3"/></g><text class="aw-base" x="115.5" y="139">R</text><text class="aw-base" x="130.5" y="139">G</text><text class="aw-base" x="145.5" y="139">C</text><text class="aw-base" x="160.5" y="139">W</text><g class="aw-bar-weak"><title>reverse position 20 from the 3&#x27; end, base G
+46 of 87 records differ here (52.9%)
+detected when it differs: 17% of 46
+detected when it does not: 0% of 41
+substitutions: G&gt;T in 25, G&gt;A in 19, G&gt;C in 2</title><rect x="169.0" y="101.3" width="13.0" height="24.7"/></g><text class="aw-base" x="175.5" y="139">G</text><g class="aw-bar-weak"><title>reverse position 19 from the 3&#x27; end, base C
+48 of 87 records differ here (55.2%)
+detected when it differs: 10% of 48
+detected when it does not: 8% of 39
+substitutions: C&gt;T in 46, C&gt;G in 1, C&gt;A in 1</title><rect x="184.0" y="100.7" width="13.0" height="25.3"/></g><text class="aw-base" x="190.5" y="139">C</text><g class="aw-bar-weak"><title>reverse position 18 from the 3&#x27; end, base T
+45 of 87 records differ here (51.7%)
+detected when it differs: 7% of 45
+detected when it does not: 12% of 42
+substitutions: T&gt;G in 24, T&gt;A in 16, T&gt;C in 5</title><rect x="199.0" y="101.5" width="13.0" height="24.5"/></g><text class="aw-base" x="205.5" y="139">T</text><text class="aw-base" x="220.5" y="139">C</text><text class="aw-base" x="235.5" y="139">T</text><g class="aw-bar-mid"><title>reverse position 15 from the 3&#x27; end, base W
+33 of 87 records differ here (37.9%)
+detected when it differs: 0% of 33
+detected when it does not: 15% of 54
+substitutions: W&gt;C in 26, W&gt;G in 7</title><rect x="244.0" y="105.1" width="13.0" height="20.9"/></g><text class="aw-base" x="250.5" y="139">W</text><text class="aw-base" x="265.5" y="139">A</text><g class="aw-bar-weak"><title>reverse position 13 from the 3&#x27; end, base G
+34 of 87 records differ here (39.1%)
+detected when it differs: 15% of 34
+detected when it does not: 6% of 53
+substitutions: G&gt;T in 20, G&gt;A in 14</title><rect x="274.0" y="104.7" width="13.0" height="21.3"/></g><text class="aw-base" x="280.5" y="139">G</text><text class="aw-base" x="295.5" y="139">R</text><g class="aw-bar-mid"><title>reverse position 11 from the 3&#x27; end, base C
+33 of 87 records differ here (37.9%)
+detected when it differs: 0% of 33
+detected when it does not: 15% of 54
+substitutions: C&gt;G in 31, C&gt;T in 2</title><rect x="304.0" y="105.1" width="13.0" height="20.9"/></g><text class="aw-base" x="310.5" y="139">C</text><g class="aw-bar-mid"><title>reverse position 10 from the 3&#x27; end, base T
+30 of 87 records differ here (34.5%)
+detected when it differs: 0% of 30
+detected when it does not: 14% of 57
+substitutions: T&gt;A in 29, T&gt;G in 1</title><rect x="319.0" y="106.0" width="13.0" height="20.0"/></g><text class="aw-base" x="325.5" y="139">T</text><g class="aw-bar-weak"><title>reverse position 9 from the 3&#x27; end, base T
+22 of 87 records differ here (25.3%)
+detected when it differs: 36% of 22
+detected when it does not: 0% of 65
+substitutions: T&gt;C in 22</title><rect x="334.0" y="108.9" width="13.0" height="17.1"/></g><text class="aw-base" x="340.5" y="139">T</text><text class="aw-base" x="355.5" y="139">T</text><text class="aw-base" x="370.5" y="139">T</text><text class="aw-base" x="385.5" y="139">R</text><text class="aw-base" x="400.5" y="139">T</text><text class="aw-base" x="415.5" y="139">A</text><g class="aw-bar-mid"><title>reverse position 3 from the 3&#x27; end, base M
+32 of 87 records differ here (36.8%)
+detected when it differs: 0% of 32
+detected when it does not: 15% of 55
+substitutions: M&gt;G in 19, M&gt;T in 13</title><rect x="424.0" y="105.4" width="13.0" height="20.6"/></g><text class="aw-base" x="430.5" y="139">M</text><text class="aw-base" x="445.5" y="139">C</text><text class="aw-base" x="460.5" y="139">C</text><text class="aw-tick" x="460.5" y="153">1</text><text class="aw-tick" x="400.5" y="153">5</text><text class="aw-tick" x="325.5" y="153">10</text><text class="aw-tick" x="250.5" y="153">15</text><text class="aw-tick" x="175.5" y="153">20</text><text class="aw-tick" x="100.5" y="153">25</text><text class="aw-tick" x="85.5" y="153">26</text><text class="aw-end" x="74" y="139">5′</text><text class="aw-end aw-end-3" x="472" y="139">3′</text></svg>
 
 ## Scope — what this assay is judged against
 

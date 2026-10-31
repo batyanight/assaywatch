@@ -49,11 +49,13 @@ thermo = ["primer3-py", "biopython"]   # the duplex-Tm columns, opt-in via `ther
 # lineage report all work without them, and the CI job that omits them proves it.
 # Anything that computes a verdict needs them, including most of tests/test_drift.py.
 lineage = ["scipy>=1.11", "statsmodels>=0.14"]
-# The website: mkdocs-material renders it, bokeh draws the per-assay charts.
-# Optional because nothing in the pipeline imports them -- assaywatch.site's
-# extract phase runs in the pipeline environment and writes plain JSON, and only
-# the render phase needs these. See .github/workflows/site.yml.
-site = ["mkdocs-material>=9.5", "bokeh>=3.10,<3.11"]  # bokeh pinned to assaywatch.site_charts.BOKEH_VERSION; a test holds them together
+# The website. Only mkdocs-material: the per-assay figures are inline SVG
+# written by assaywatch/site_svg.py, so there is no chart library, no CDN and no
+# runtime version to keep in step with the renderer (which there was, and it
+# broke the first deploy). Optional because nothing in the pipeline imports it:
+# `assaywatch site` extracts to plain JSON in the pipeline environment, and only
+# `assaywatch site-render` needs this. See .github/workflows/site.yml.
+site = ["mkdocs-material>=9.5"]  # the figures are inline SVG; no chart library
 
 [project.urls]
 Homepage = "https://github.com/batyanight/assaywatch"

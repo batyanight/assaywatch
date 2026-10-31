@@ -22,7 +22,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from assaywatch import palette, site_charts
+from assaywatch import palette, site_svg
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -179,38 +179,39 @@ def _verdict_block(a: dict[str, Any], run_date: str) -> str:
 
 def _charts_block(a: dict[str, Any]) -> str:
     lines = ["## Detection by deposit year\n"]
-    s1, d1 = site_charts.share_by_year(a)
-    s2, d2 = site_charts.records_by_year(a)
     lines += [
         "How much of the deposited sequence this assay is predicted to detect, by the year",
         "each record was deposited. The shaded band is the recent window; the dashed line is",
-        "the 90% threshold. Larger markers mean more records, and the chart below gives the",
-        "counts exactly — 100% of three records and 100% of three thousand are not the same",
-        "claim.\n",
-        d1,
-        s1,
-        d2,
-        s2,
+        "the threshold. Marker size is the number of records behind each point, because 100%",
+        "of three records and 100% of three thousand are not the same claim.\n",
+        site_svg.year_chart(a),
         "",
         "## Where the mismatches sit\n",
-        "One cell per position along each oligo, 3' end on the right. Darker means more",
-        "records mismatch there. Hover any cell for the comparison that matters: detection",
-        "among records that mismatch at that position against records that do not. A",
-        "position where those two differ sharply is one worth redesigning around.\n",
+        "Each oligo drawn base by base, 5\u2032 to 3\u2032, with the 3\u2032 window shaded \u2014 a mismatch",
+        "there is the one that fails a reaction. Bar height is the share of records differing",
+        "at that position; bar colour is what that costs, measured as the fall in detection",
+        "between records that differ there and records that do not:",
+        "",
+        '<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls '
+        "25 points or more</span>",
+        '<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>',
+        '<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no cost '
+        "\u2014 variation the assay tolerates</span>",
+        "",
+        "Hover any bar for the counts. A tall grey bar is a polymorphism; a short red one is a",
+        "design problem.\n",
+        site_svg.mismatch_track(a)
+        or '<p class="aw-empty">No position carried a mismatch in enough records to report.</p>',
     ]
-    s3, d3 = site_charts.mismatch_map(a)
-    lines += [d3, s3]
     if a["lineages"]:
-        s4, d4 = site_charts.lineage_bars(a)
         lines += [
             "",
             "## By lineage\n",
-            "A single pooled percentage hides the clade you may actually care about:",
-            "published misses are nearly always specific to one lineage, and a clade that is",
-            "5% of deposits can be 100% of the cases in one region. Lineages with too few",
-            "records to say anything are left out.\n",
-            d4,
-            s4,
+            "A single pooled percentage hides the clade you may actually care about: published",
+            "misses are nearly always specific to one lineage, and a clade that is 5% of deposits",
+            "can be 100% of the cases in one region. Lineages with too few records to say anything",
+            "are left out.\n",
+            site_svg.lineage_chart(a),
         ]
     return "\n".join(lines)
 

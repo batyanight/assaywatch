@@ -13,19 +13,10 @@ from pathlib import Path
 
 import pytest
 
-from assaywatch import palette, site, site_render
+from assaywatch import palette, site, site_render, site_svg
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "website" / "data" / "run.json"
-
-
-_BOKEH_ID = re.compile(r'(data-root-id="|id="|const docs_json = |"id":\s*")[A-Za-z0-9_-]{4,}')
-
-
-def _normalise(md: str) -> str:
-    """Markdown with Bokeh's per-render identifiers flattened."""
-    md = re.sub(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", "UUID", md)
-    return re.sub(r"\bp\d{3,}\b", "PID", md)
 
 
 def _page(**kw):
@@ -105,18 +96,7 @@ def test_a_status_is_never_carried_by_colour_alone():
         assert "aw-chip" in chip
 
 
-#: Rendering a page draws its charts, which needs Bokeh. The core test job
-#: installs only `[dev,lineage]` -- the site's dependencies are optional because
-#: nothing in the pipeline imports them -- so the tests that render a whole page
-#: skip there and run in the `site` workflow, which installs `[site]`. The tests
-#: that matter most for correctness (what is withheld, status colour, counts in
-#: the index) need no charts and run everywhere.
-def _needs_bokeh():
-    pytest.importorskip("bokeh", reason="install .[site] to render pages")
-
-
 def test_the_page_prints_the_counts_its_share_is_computed_from():
-    _needs_bokeh()
     """A share without its denominator is the thing this project exists to argue
     against, so the page carries detected, evaluable and the interval, not just a
     percentage."""
@@ -126,36 +106,110 @@ def test_the_page_prints_the_counts_its_share_is_computed_from():
     assert "Newcombe" in md
 
 
-def test_bokeh_version_matches_the_script_tag_the_site_loads():
-    """The charts are embedded with `components()`, which emits no loader: BokehJS
-    comes from the CDN tag in mkdocs.yml. If the two versions drift, every chart on
-    218 pages silently fails to render, and nothing else would catch it."""
-    from assaywatch import site_charts
+def test_every_mismatch_position_is_drawn_against_its_own_base():
+    """The figure this project exists for, and the one that was worst.
 
-    mk = (ROOT / "mkdocs.yml").read_text()
-    assert f"bokeh-{site_charts.BOKEH_VERSION}.min.js" in mk, (
-        f"mkdocs.yml does not load BokehJS {site_charts.BOKEH_VERSION}"
-    )
-
-
-def test_the_installed_bokeh_is_the_version_the_pages_were_rendered_with():
-    """The third leg of the version triangle, and the one that actually bit.
-
-    The CDN tag and the constant agreeing is not enough: the pages are rendered
-    by whatever Bokeh is INSTALLED, and a newer one emits different markup. On
-    first publish the pages were built by 3.10.1 while the extra pinned <3.7 and
-    the CDN served 3.6.2, so the published document and the script meant to read
-    it came from versions four minor releases apart.
+    The Bokeh version plotted only the positions carrying a mismatch, so a 23-mer
+    with defects at 18, 17, 2 and 1 drew four boxes and a void: nothing said where
+    along the oligo they sat, and the bases were never shown. The track must draw
+    the WHOLE oligo, so a position is read against the sequence it belongs to.
     """
-    bokeh = pytest.importorskip("bokeh")
-    from assaywatch import site_charts
-
-    installed = bokeh.__version__
-    major_minor = ".".join(installed.split(".")[:2])
-    assert major_minor == ".".join(site_charts.BOKEH_VERSION.split(".")[:2]), (
-        f"bokeh {installed} is installed but site_charts.BOKEH_VERSION is "
-        f"{site_charts.BOKEH_VERSION}; pages rendered now would not match the CDN script"
+    page = _page(
+        oligos={"forward": "ACGTACGTAC"},
+        positions=[
+            dict(
+                oligo="forward",
+                pos_3prime=2,
+                base="A",
+                n_mismatch=50,
+                detected_with=0,
+                evaluable_with=50,
+                detected_without=50,
+                evaluable_without=50,
+                substitutions=[["A", "G", 50]],
+                in_3prime_zone=True,
+            )
+        ],
     )
+    svg = site_svg.mismatch_track(page)
+    # Every base of the oligo is drawn, not just the one that mismatches.
+    assert svg.count('class="aw-base"') == 10
+    # The mismatching position is marked, and its cost is in the tooltip.
+    assert "aw-bar-strong" in svg, "a position where detection falls to 0 must read as severe"
+    assert "detected when it differs: 0%" in svg
+    assert "5\u2032" in svg or "5\u2032" in svg
+
+
+def test_a_frequent_but_harmless_position_is_not_coloured_as_a_failure():
+    """Bar colour is the COST of a mismatch, never its frequency. A base half the
+    records differ at that costs nothing is a polymorphism, and colouring it like
+    a failure would point a reader at the wrong position to redesign."""
+    page = _page(
+        oligos={"forward": "ACGTACGTAC"},
+        positions=[
+            dict(
+                oligo="forward",
+                pos_3prime=9,
+                base="C",
+                n_mismatch=500,
+                detected_with=495,
+                evaluable_with=500,
+                detected_without=500,
+                evaluable_without=500,
+                substitutions=[],
+                in_3prime_zone=False,
+            )
+        ],
+    )
+    svg = site_svg.mismatch_track(page)
+    assert "aw-bar-weak" in svg
+    assert "aw-bar-strong" not in svg
+
+
+def test_the_figures_need_no_chart_library_and_no_network():
+    """Inline SVG with no runtime: this is what removed the three-way version
+    problem between the installed renderer, a constant and a CDN script tag."""
+    page = _page(
+        years=[
+            {"year": 2020, "detected": 5, "evaluable": 10, "share": 0.5, "recent": False},
+            {"year": 2024, "detected": 9, "evaluable": 10, "share": 0.9, "recent": True},
+        ],
+        oligos={"forward": "ACGTACGTAC"},
+        # One mismatching position, so the track has a mark to carry a tooltip.
+        # Without one it correctly draws bases and no titles, which is not what
+        # this test is about.
+        positions=[
+            dict(
+                oligo="forward",
+                pos_3prime=3,
+                base="G",
+                n_mismatch=20,
+                detected_with=1,
+                evaluable_with=20,
+                detected_without=80,
+                evaluable_without=80,
+                substitutions=[["G", "A", 20]],
+                in_3prime_zone=True,
+            )
+        ],
+        lineages=[
+            {
+                "lineage": "Some lineage",
+                "taxid": 1,
+                "evaluable": 40,
+                "detected": 30,
+                "share": 0.75,
+                "ci": [0.6, 0.86],
+            }
+        ],
+    )
+    for svg in (site_svg.year_chart(page), site_svg.mismatch_track(page), site_svg.lineage_chart(page)):
+        assert svg.startswith("<svg")
+        assert "<script" not in svg
+        assert "http://" not in svg.replace('xmlns="http://www.w3.org/2000/svg"', "")
+        assert "<title>" in svg, "every mark needs a native tooltip; nothing is hover-only elsewhere"
+    assert "bokeh" not in (ROOT / "mkdocs.yml").read_text().lower()
+    assert "bokeh" not in (ROOT / "pyproject.toml").read_text().lower()
 
 
 def test_every_status_the_pipeline_can_emit_has_a_colour_and_a_meaning():
@@ -217,18 +271,16 @@ class TestAgainstTheCommittedRun:
         """The published site is built in CI from this JSON; if the committed
         markdown was rendered from an older extract, the site and the data would
         disagree and the CI job would be the only thing to notice."""
-        _needs_bokeh()
         page = data["assays"][0]
         on_disk = ROOT / "website" / "assays" / f"{page['assay_id']}.md"
         assert on_disk.exists(), f"{on_disk} was never rendered"
-        # Bokeh mints a fresh UUID and element id on every render, so the two
-        # texts never compare equal byte for byte. Normalising them is not a
-        # weakening of the test: what it is for is catching markdown rendered
-        # from an older extract, and every number, label and sentence still has
-        # to match exactly.
-        assert _normalise(on_disk.read_text()) == _normalise(
-            site_render.assay_page(page, data["run_date"])
-        ), f"{on_disk.name} is stale; re-run `python -m assaywatch.site_render`"
+        # Byte for byte. This used to need the per-render ids normalised away,
+        # because Bokeh minted a fresh uuid every time; the inline-SVG figures
+        # are a pure function of the data, so an exact comparison works and is
+        # the stronger check.
+        assert on_disk.read_text() == site_render.assay_page(page, data["run_date"]), (
+            f"{on_disk.name} is stale; re-run `python -m assaywatch.site_render`"
+        )
 
 
 def test_the_site_quotes_no_undated_registry_count():
@@ -290,3 +342,16 @@ def test_the_pipeline_page_reads_without_javascript():
         for stage in ("screen", "retrieve", "degeneracy"):
             assert f'id="stage-{stage}"' in html
         assert "The expensive stage" in html, "stage prose is missing from the built page"
+
+
+def test_rendering_the_same_data_twice_gives_the_same_bytes():
+    """The figures are a pure function of the data, with no random ids and no
+    timestamps. That is what lets the staleness check compare exactly, and what
+    keeps a rebuild from showing as a diff in every one of 217 files."""
+    page = _page(
+        years=[{"year": 2024, "detected": 9, "evaluable": 10, "share": 0.9, "recent": True}],
+        lineages=[
+            {"lineage": "L", "taxid": 1, "evaluable": 40, "detected": 30, "share": 0.75, "ci": [0.6, 0.86]}
+        ],
+    )
+    assert site_render.assay_page(page, "2026-10-31") == site_render.assay_page(page, "2026-10-31")

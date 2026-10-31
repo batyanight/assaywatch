@@ -41,11 +41,10 @@ extra_css:
   - stylesheets/palette.css
   - stylesheets/extra.css
 
-# BokehJS, pinned, loaded once for every chart on the site. Must match
-# assaywatch.site_charts.BOKEH_VERSION; tests/test_site.py asserts it does.
+# The only script on the site: table sort/filter and the pipeline diagram, both
+# progressive enhancements. The figures are inline SVG with no runtime, so there
+# is no chart library and no CDN.
 extra_javascript:
-  - https://cdn.bokeh.org/bokeh/release/bokeh-3.10.1.min.js
-  - https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.10.1.min.js
   - javascripts/tables.js
 
 markdown_extensions:
