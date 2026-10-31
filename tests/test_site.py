@@ -105,7 +105,18 @@ def test_a_status_is_never_carried_by_colour_alone():
         assert "aw-chip" in chip
 
 
+#: Rendering a page draws its charts, which needs Bokeh. The core test job
+#: installs only `[dev,lineage]` -- the site's dependencies are optional because
+#: nothing in the pipeline imports them -- so the tests that render a whole page
+#: skip there and run in the `site` workflow, which installs `[site]`. The tests
+#: that matter most for correctness (what is withheld, status colour, counts in
+#: the index) need no charts and run everywhere.
+def _needs_bokeh():
+    pytest.importorskip("bokeh", reason="install .[site] to render pages")
+
+
 def test_the_page_prints_the_counts_its_share_is_computed_from():
+    _needs_bokeh()
     """A share without its denominator is the thing this project exists to argue
     against, so the page carries detected, evaluable and the interval, not just a
     percentage."""
@@ -186,6 +197,7 @@ class TestAgainstTheCommittedRun:
         """The published site is built in CI from this JSON; if the committed
         markdown was rendered from an older extract, the site and the data would
         disagree and the CI job would be the only thing to notice."""
+        _needs_bokeh()
         page = data["assays"][0]
         on_disk = ROOT / "website" / "assays" / f"{page['assay_id']}.md"
         assert on_disk.exists(), f"{on_disk} was never rendered"
