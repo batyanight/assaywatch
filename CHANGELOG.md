@@ -33,9 +33,13 @@ coverage`: the influenza A M1 assay of Ward 2004 reads `declining` as of
 fix it reads `stable` on the same records. The two entries differ in nothing but
 their oligos, which is what makes the row worth more than the verdict.
 
-**Validation, stated plainly.** Against the 50-case development set (2026-10-27
-run): documented failures caught 6/11, precision of `declining` 3/9 = 33% (95%
-CrI 10%-65%), false alarms 4/32. Three held-out sets have been read and spent.
+**Validation, stated plainly.** Against the 50-case development set on the
+2026-10-31 release run: documented failures caught **6/11**, precision of
+`declining` **4/10 = 40% (95% CrI 15%-70%)**, false alarms 4/32. Of the 11
+documented failures 10 are coverage gaps and one is drift, and that one is caught.
+All three held-out sets are spent and all three are worse than the development
+set: set 1 caught 3/9 with 0 false alarms in 17, set 2 caught 2/3 but put 4 of 10
+working assays in `declining`, set 3 caught 1 of its 2 drift rows. Three held-out sets have been read and spent.
 Held-out set 2 put five of ten working assays in `declining`, four of them
 pan-family consensus nests — a mismatch between what their papers claim and what
 the status measures, not only a scoring error.
@@ -64,6 +68,17 @@ reproduce from a clone. The GenBank archives are about 9 GB and are not
 recoverable on request, because retrieval is incremental on modification date, so
 they are not distributed. Two committed example runs under `docs/` are outputs for
 reading, not inputs for regenerating.
+
+**The release run.** `docs/example-run-2026-10-31/` is the run this release
+describes, and it is also the confirming rescreen `scoring.mispair_window: 10`
+(S7b) owed: because `scoring` is in the screen hash, all 580-odd archives
+rescreened. Against the previous run 11 assays changed status, every one of them
+an improvement or an unblocking: `stable` 60 -> 72, `watch` 8 -> 5, `low coverage`
+34 -> 31, `no recent data` 20 -> 18, `declining` unchanged at 42. S7b's one
+pre-registered prediction landed — `MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010`,
+held-out set 2's single false alarm, moved `declining -> stable`. The two
+Tsukamoto influenza assays moved off `no recent data` for the first time, to
+`stable` (H5) and `declining` (H7).
 
 **Licensing.** Code MIT (`LICENSE`); the registry and the derived tables CC BY 4.0
 (`LICENSE-registry`).

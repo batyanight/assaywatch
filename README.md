@@ -23,11 +23,11 @@ responses and has been run against the live NCBI API: the 2026-10-06 run screene
 See ROADMAP.md, which is the only to-do list in the repository: open work is
 there, ranked, with the evidence that put each item in its place.
 
-**See the output first:** [`docs/example-run-2026-10-27/report.md`](docs/example-run-2026-10-27/report.md)
+**See the output first:** [`docs/example-run-2026-10-31/report.md`](docs/example-run-2026-10-31/report.md)
 is one real run, committed so it can be read without installing anything: on the
 2026-10-27 run, 193 assays screened, 42 called declining and 10 on the Start here
 list. Its companion
-[`site-drift.md`](docs/example-run-2026-10-27/site-drift.md) names the base to
+[`site-drift.md`](docs/example-run-2026-10-31/site-drift.md) names the base to
 order at each drifted primer position. The previous committed run,
 `docs/example-run-2026-10-26/`, is the last one under the scoring that shipped before
 2026-10-27, kept so the two can be diffed. Then `examples/README.md` runs the
@@ -300,12 +300,22 @@ None of this is hidden in code: every threshold is annotated in `config.yaml`
 with its justification or an admission that it has none, and the standing
 numbers are in
 [docs/journal/2026-10-04-pipeline-review.md](docs/journal/2026-10-04-pipeline-review.md).
-Against 49 cases from published follow-up the tool catches 5 of 11 documented
-failures — only 2 of them through the `declining` flag — and only 2 of its 9
-`declining` calls were real failures. Both numbers are in-sample, on about seven
-independent failure events, and 10 of the 11 failures are coverage gaps rather
-than drift. `scripts/retrospective.py --cases docs/validation-cases.tsv` prints
-the full matrix with intervals. A call is a reason to look, not a result.
+Against the 50-case development set, on the 2026-10-31 run, the tool catches **6 of 11**
+documented failures and **4 of its 10 `declining` calls** were real failures
+(95% CrI 15%-70%), with 4 false alarms in 32 working assays. Of the 11
+documented failures, 10 are coverage gaps and **one is drift** — and that one is
+caught: Yang 2014 on the influenza A M1 assay of Ward 2004, the only case in the
+project where the drift flag itself caught a documented failure. Those figures
+are in-sample on roughly seven independent failure events.
+
+The three held-out sets are all spent, and they are worse than the development
+set rather than better, which is the honest shape of the thing: set 1 caught 3 of
+9 with no false alarms in 17; set 2 caught 2 of 3 but put 4 of 10 working assays
+in `declining`; set 3 has two drift rows and caught one.
+`scripts/retrospective.py --cases docs/validation-cases.tsv` prints any of them
+with intervals. A call is a reason to look, not a result, and
+[docs/state-of-the-project.md](docs/state-of-the-project.md) says what the output
+is worth in one page.
 
 ### Degeneracy is never penalised
 

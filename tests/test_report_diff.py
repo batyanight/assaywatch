@@ -153,3 +153,45 @@ def test_the_real_mapping_resolves_in_one_step():
     assert renamed and removed
     assert not (set(renamed.values()) & (set(renamed) | removed)), "a rename target is itself renamed"
     assert len(set(renamed.values())) == len(renamed), "two old ids resolve to one new id"
+
+
+def test_only_plain_dated_run_directories_are_picked_automatically(tmp_path: Path):
+    """The third guard against a bug that has now appeared twice.
+
+    `results/` holds experiment directories beside the dated runs -- `baseline-2026-10-22`,
+    `2026-10-24-anchorfdr`, `indel_check`, `2026-10-28.partial-stopped` -- and a
+    lexicographic sort puts letters AFTER digits. Taking the last two of everything picked
+    `2026-10-31` as the OLD run and `baseline-2026-10-22` as the NEW one, so the release
+    run's own summary diffed two directories it had nothing to do with and reported four
+    newly added assays as having vanished. It invented a regression.
+
+    `backfill_collection_dates.newest_run()` had the identical bug and was fixed in place
+    without anyone looking for siblings. This asserts the rule that makes both safe: a
+    candidate must be named exactly YYYY-MM-DD.
+    """
+    import importlib.util
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location("report_diff", root / "scripts" / "report_diff.py")
+    assert spec and spec.loader
+    rd = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rd)
+
+    results = tmp_path / "results"
+    for name in (
+        "2026-10-27",
+        "2026-10-31",
+        "baseline-2026-10-22",
+        "2026-10-24-anchorfdr",
+        "indel_check",
+        "2026-10-28.partial-stopped",
+    ):
+        d = results / name
+        d.mkdir(parents=True)
+        (d / "report.md").write_text("# report\n")
+    # a dated directory with no report is not a candidate either
+    (results / "2026-11-01").mkdir()
+
+    picked = rd._dated_runs(results)
+    assert [p.name for p in picked] == ["2026-10-27", "2026-10-31"]
+    assert picked[-2].name == "2026-10-27" and picked[-1].name == "2026-10-31"

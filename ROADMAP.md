@@ -199,9 +199,13 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   within-family negative gains a band. 31,237 calls move in the replay, all loosening. The
   maintainer took the decision on the bench row and the separation criterion, knowing that
   the report also drops 7 flags (5 assays), one of them held-out set 2's false alarm, and
-  before set 2's eleven unscored rows were read. **What it still owes: the confirming
-  rescreen**, which the next full run performs because `scoring` is in the screen hash;
-  expect the 7 flags to fall and compare against the replay with `report_diff`.
+  before set 2's eleven unscored rows were read. ~~**What it still owes: the confirming
+  rescreen**~~ — **PERFORMED 2026-10-31** (`docs/example-run-2026-10-31/`). All 580-odd
+  archives rescreened, and the one pre-registered prediction landed:
+  `MONKEYPOX_dsDNA_G2R_generic_TaqMan_Li_2010`, held-out set 2's single false alarm, moved
+  `declining -> stable`. Across the run 11 assays changed status, every one an improvement
+  or an unblocking: `stable` 60 -> 72, `watch` 8 -> 5, `low coverage` 34 -> 31, `no recent
+  data` 20 -> 18, `declining` unchanged at 42. S7b is closed.
 
 Dead, and recorded so they are not re-proposed: **S1** serial per-oligo gates (no
 threshold pair passed its own criterion, 2026-10-26), **S2** a smooth positional decay
@@ -319,6 +323,21 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   groups of 134 -- with the numbers to clear each by hand, which is how the case was found.
   A `--probe` flag was built and removed: it needed the network, and a switch that looks
   like a verdict while being unable to deliver one is worse than a documented command.
+
+- **A lexicographic sort over `results/` picked the wrong runs, for the second time**
+  (fixed 2026-10-31). `report_diff.py` took the last two of every directory holding a
+  `report.md`, and letters sort after digits, so it chose `2026-10-31` as the OLD run and
+  `baseline-2026-10-22` as the new one. The release run's own summary therefore diffed two
+  directories it had nothing to do with and reported the four newly added influenza entries
+  as having **vanished** from the report — misleading in the one direction that matters,
+  since it invented a regression. It now accepts only directories named exactly
+  `YYYY-MM-DD`, with a test.
+
+  **The point worth keeping is that this was the second instance.**
+  `backfill_collection_dates.newest_run()` had the identical bug and read a five-day-old
+  baseline run for a whole fetch (2026-10-30); it was fixed in place and no one looked for
+  siblings. `results/` holds experiment directories beside dated runs, so any code picking
+  "the newest run" by sorting names is wrong here.
 
 - **`printed.py` cannot verify a probe whose internal quencher is written inside the
   sequence** (found 2026-10-30 while curating the CDC H3 pair). Shu 2026 Table 1 prints
