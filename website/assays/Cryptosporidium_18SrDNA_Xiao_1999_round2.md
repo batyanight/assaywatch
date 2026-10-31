@@ -150,16 +150,19 @@ substitutions: A&gt;C in 61, A&gt;T in 4, A&gt;G in 2</title><rect x="394.0" y="
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 90" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 2 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="58.0"/><text class="aw-tick" x="230.0" y="74">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="58.0"/><text class="aw-tick" x="348.5" y="74">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="58.0"/><text class="aw-tick" x="467.0" y="74">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="58.0"/><text class="aw-tick" x="585.5" y="74">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="58.0"/><text class="aw-tick" x="704.0" y="74">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="58.0"/><text class="aw-row-label" x="220" y="25.5">Cryptosporidium bovis (310047)</text><g class="aw-dot-ok"><title>Cryptosporidium bovis (310047)
-36 of 36 detected (100.0%)
-95% interval 90.4–100.0%</title><line class="aw-ci" x1="658.3" y1="22.0" x2="704.0" y2="22.0"/><circle cx="704.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Cryptosporidium xiaoi (659607)</text><g class="aw-dot-ok"><title>Cryptosporidium xiaoi (659607)
-43 of 43 detected (100.0%)
-95% interval 91.8–100.0%</title><line class="aw-ci" x1="665.1" y1="46.0" x2="704.0" y2="46.0"/><circle cx="704.0" cy="46.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="86">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-ok"><td>Cryptosporidium bovis (310047)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">36</td><td class="num">100.0%</td><td class="num">90.4–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Cryptosporidium xiaoi (659607)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">43</td><td class="num">100.0%</td><td class="num">91.8–100.0%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

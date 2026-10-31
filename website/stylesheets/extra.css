@@ -168,3 +168,34 @@ table.aw-assays td:nth-child(2) { overflow: visible; }
 .aw-key-swatch.aw-bar-strong { background: var(--aw-status-declining); }
 .aw-key-swatch.aw-bar-mid { background: var(--aw-status-watch); }
 .aw-key-swatch.aw-bar-weak { background: var(--aw-ink-muted); opacity: 0.55; }
+
+/* ---- per-lineage table -------------------------------------------------- */
+/* A table, not a forest plot: 70 of the 125 assays with lineage data have one
+   lineage, where a plot is an axis and a grid around a single dot. The bar in
+   the share column does the comparing a forest plot would have done. */
+.md-typeset table.aw-lineage { display: table; width: 100%; table-layout: fixed;
+  border-collapse: collapse; font-size: 0.8rem; margin: 0.6rem 0; }
+table.aw-lineage th { text-align: left; font-weight: 600; padding: 0.35rem 0.5rem;
+  border-bottom: 2px solid var(--aw-grid); white-space: nowrap; }
+table.aw-lineage td { padding: 0.32rem 0.5rem; border-bottom: 1px solid var(--aw-grid);
+  vertical-align: middle; }
+table.aw-lineage th.num, table.aw-lineage td.num { text-align: right;
+  font-variant-numeric: tabular-nums; }
+table.aw-lineage th:nth-child(1) { width: 34%; }
+table.aw-lineage th:nth-child(2) { width: 24%; }
+table.aw-lineage th:nth-child(3), table.aw-lineage th:nth-child(4) { width: 12%; }
+table.aw-lineage th:nth-child(5) { width: 18%; }
+
+.aw-bar { display: block; width: 100%; height: 0.62rem; border-radius: 2px;
+  background: color-mix(in srgb, var(--aw-ink) 9%, transparent); overflow: hidden; }
+.aw-bar-fill { display: block; height: 100%; border-radius: 2px;
+  background: var(--aw-status-stable); }
+.aw-lin-fail .aw-bar-fill { background: var(--aw-status-declining); }
+.aw-lin-fail td:first-child { font-weight: 500; }
+.aw-lin-flag { display: inline-block; margin-left: 0.35rem; padding: 0 0.3rem;
+  border-radius: 0.6rem; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.02em;
+  background: var(--aw-chip-declining); color: var(--aw-chip-ink); vertical-align: 1px; }
+
+@media (max-width: 45em) {
+  table.aw-lineage th:nth-child(5), table.aw-lineage td:nth-child(5) { display: none; }
+}

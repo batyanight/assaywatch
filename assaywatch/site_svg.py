@@ -24,6 +24,12 @@ same page, so nothing is only available by hovering.
 
 Colour comes from `assaywatch.palette` through CSS classes rather than literal
 hexes, so light and dark are one definition and a colour change is one edit.
+
+There is no per-lineage figure here. It was drawn as a forest plot and removed:
+70 of the 125 assays with lineage data have exactly ONE lineage, so the usual
+page carried an axis, a grid, a threshold line and a single dot. That view is a
+table now (`site_render._lineage_block`), which is denser where there are
+several lineages and becomes one sentence where there is one.
 """
 
 from __future__ import annotations
@@ -235,60 +241,6 @@ def year_chart(page: dict[str, Any]) -> str:
     out.append(
         f'<text class="aw-axis-label" x="{(L + W - R) / 2:.0f}" y="{H - 6:.0f}">'
         f"deposit year · marker size is the number of records</text>"
-    )
-    out.append("</svg>")
-    return "".join(out)
-
-
-def lineage_chart(page: dict[str, Any]) -> str:
-    """One row per lineage: detected share and its interval, worst first."""
-    lins = sorted(page.get("lineages", []), key=lambda item: item["share"])
-    if not lins:
-        return ""
-    ROW = 24.0
-    W = 720.0
-    L, R, T, B = 230.0, 16.0, 10.0, 32.0
-    H = T + len(lins) * ROW + B
-
-    bot = T + len(lins) * ROW
-
-    def px(pct: float) -> float:
-        return L + pct / 100 * (W - L - R)
-
-    out = [
-        f'<svg class="aw-chart" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
-        f'xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, '
-        f'{len(lins)} lineages, with 95 percent intervals.">'
-    ]
-    for pct in (0, 25, 50, 75, 100):
-        out.append(
-            f'<line class="aw-grid" x1="{px(pct):.1f}" y1="{T:.1f}" x2="{px(pct):.1f}" y2="{bot:.1f}"/>'
-        )
-        out.append(f'<text class="aw-tick" x="{px(pct):.1f}" y="{H - B + 16:.0f}">{pct}</text>')
-    tx = px(100 * page["threshold"])
-    out.append(f'<line class="aw-threshold" x1="{tx:.1f}" y1="{T:.1f}" x2="{tx:.1f}" y2="{bot:.1f}"/>')
-
-    for i, item in enumerate(lins):
-        y = T + i * ROW + ROW / 2
-        below = item["ci"][1] < page["threshold"]
-        cls = "aw-dot-fail" if below else "aw-dot-ok"
-        label = item["lineage"]
-        shown = label if len(label) <= 32 else label[:31] + "…"
-        tip = (
-            f"{label}\n{item['detected']:,} of {item['evaluable']:,} detected "
-            f"({100 * item['share']:.1f}%)\n95% interval {100 * item['ci'][0]:.1f}"
-            f"–{100 * item['ci'][1]:.1f}%"
-        )
-        out.append(f'<text class="aw-row-label" x="{L - 10:.0f}" y="{y + 3.5:.1f}">{_esc(shown)}</text>')
-        out.append(
-            f'<g class="{cls}"><title>{_esc(tip)}</title>'
-            f'<line class="aw-ci" x1="{px(100 * item["ci"][0]):.1f}" y1="{y:.1f}" '
-            f'x2="{px(100 * item["ci"][1]):.1f}" y2="{y:.1f}"/>'
-            f'<circle cx="{px(100 * item["share"]):.1f}" cy="{y:.1f}" r="4.5"/></g>'
-        )
-    out.append(
-        f'<text class="aw-axis-label" x="{(L + W - R) / 2:.0f}" y="{H - 4:.0f}">'
-        f"predicted detection (%), bar = 95% interval</text>"
     )
     out.append("</svg>")
     return "".join(out)

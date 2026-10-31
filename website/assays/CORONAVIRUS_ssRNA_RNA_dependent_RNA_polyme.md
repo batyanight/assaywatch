@@ -126,36 +126,29 @@ substitutions: A&gt;T in 2,914, A&gt;G in 943, A&gt;C in 60</title><rect x="424.
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 330" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 12 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="298.0"/><text class="aw-tick" x="230.0" y="314">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="298.0"/><text class="aw-tick" x="348.5" y="314">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="298.0"/><text class="aw-tick" x="467.0" y="314">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="298.0"/><text class="aw-tick" x="585.5" y="314">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="298.0"/><text class="aw-tick" x="704.0" y="314">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="298.0"/><text class="aw-row-label" x="220" y="25.5">Alphacoronavirus amsterdamense …</text><g class="aw-dot-fail"><title>Alphacoronavirus amsterdamense (3433809)
-0 of 104 detected (0.0%)
-95% interval 0.0–3.6%</title><line class="aw-ci" x1="230.0" y1="22.0" x2="246.9" y2="22.0"/><circle cx="230.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Alphacoronavirus porci (3433789)</text><g class="aw-dot-fail"><title>Alphacoronavirus porci (3433789)
-0 of 306 detected (0.0%)
-95% interval 0.0–1.2%</title><line class="aw-ci" x1="230.0" y1="46.0" x2="235.9" y2="46.0"/><circle cx="230.0" cy="46.0" r="4.5"/></g><text class="aw-row-label" x="220" y="73.5">Deltacoronavirus suis (3433742)</text><g class="aw-dot-fail"><title>Deltacoronavirus suis (3433742)
-0 of 65 detected (0.0%)
-95% interval 0.0–5.6%</title><line class="aw-ci" x1="230.0" y1="70.0" x2="256.4" y2="70.0"/><circle cx="230.0" cy="70.0" r="4.5"/></g><text class="aw-row-label" x="220" y="97.5">Gammacoronavirus galli (3433766)</text><g class="aw-dot-fail"><title>Gammacoronavirus galli (3433766)
-0 of 252 detected (0.0%)
-95% interval 0.0–1.5%</title><line class="aw-ci" x1="230.0" y1="94.0" x2="237.1" y2="94.0"/><circle cx="230.0" cy="94.0" r="4.5"/></g><text class="aw-row-label" x="220" y="121.5">Bat coronavirus (1508220)</text><g class="aw-dot-fail"><title>Bat coronavirus (1508220)
-44 of 172 detected (25.6%)
-95% interval 19.6–32.6%</title><line class="aw-ci" x1="323.1" y1="118.0" x2="384.5" y2="118.0"/><circle cx="351.3" cy="118.0" r="4.5"/></g><text class="aw-row-label" x="220" y="145.5">Betacoronavirus sp. (1928434)</text><g class="aw-dot-fail"><title>Betacoronavirus sp. (1928434)
-15 of 54 detected (27.8%)
-95% interval 17.6–40.9%</title><line class="aw-ci" x1="313.5" y1="142.0" x2="423.8" y2="142.0"/><circle cx="361.7" cy="142.0" r="4.5"/></g><text class="aw-row-label" x="220" y="169.5">Alphacoronavirus sp. (1906673)</text><g class="aw-dot-fail"><title>Alphacoronavirus sp. (1906673)
-33 of 44 detected (75.0%)
-95% interval 60.6–85.4%</title><line class="aw-ci" x1="517.1" y1="166.0" x2="634.9" y2="166.0"/><circle cx="585.5" cy="166.0" r="4.5"/></g><text class="aw-row-label" x="220" y="193.5">Alphacoronavirus suis (3433814)</text><g class="aw-dot-ok"><title>Alphacoronavirus suis (3433814)
-61 of 63 detected (96.8%)
-95% interval 89.1–99.1%</title><line class="aw-ci" x1="652.5" y1="190.0" x2="699.9" y2="190.0"/><circle cx="689.0" cy="190.0" r="4.5"/></g><text class="aw-row-label" x="220" y="217.5">Alphacoronavirus chicagoense (3…</text><g class="aw-dot-ok"><title>Alphacoronavirus chicagoense (3433756)
-154 of 154 detected (100.0%)
-95% interval 97.6–100.0%</title><line class="aw-ci" x1="692.5" y1="214.0" x2="704.0" y2="214.0"/><circle cx="704.0" cy="214.0" r="4.5"/></g><text class="aw-row-label" x="220" y="241.5">Betacoronavirus cameli (3433633)</text><g class="aw-dot-ok"><title>Betacoronavirus cameli (3433633)
-58 of 58 detected (100.0%)
-95% interval 93.8–100.0%</title><line class="aw-ci" x1="674.6" y1="238.0" x2="704.0" y2="238.0"/><circle cx="704.0" cy="238.0" r="4.5"/></g><text class="aw-row-label" x="220" y="265.5">Betacoronavirus gravedinis (343…</text><g class="aw-dot-ok"><title>Betacoronavirus gravedinis (3433757)
-176 of 176 detected (100.0%)
-95% interval 97.9–100.0%</title><line class="aw-ci" x1="693.9" y1="262.0" x2="704.0" y2="262.0"/><circle cx="704.0" cy="262.0" r="4.5"/></g><text class="aw-row-label" x="220" y="289.5">Betacoronavirus hongkongense (3…</text><g class="aw-dot-ok"><title>Betacoronavirus hongkongense (3433758)
-90 of 90 detected (100.0%)
-95% interval 95.9–100.0%</title><line class="aw-ci" x1="684.6" y1="286.0" x2="704.0" y2="286.0"/><circle cx="704.0" cy="286.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="326">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Alphacoronavirus amsterdamense (3433809) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">104</td><td class="num">0.0%</td><td class="num">0.0–3.6%</td></tr>
+<tr class="aw-lin-fail"><td>Alphacoronavirus porci (3433789) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">306</td><td class="num">0.0%</td><td class="num">0.0–1.2%</td></tr>
+<tr class="aw-lin-fail"><td>Deltacoronavirus suis (3433742) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">65</td><td class="num">0.0%</td><td class="num">0.0–5.6%</td></tr>
+<tr class="aw-lin-fail"><td>Gammacoronavirus galli (3433766) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">252</td><td class="num">0.0%</td><td class="num">0.0–1.5%</td></tr>
+<tr class="aw-lin-fail"><td>Bat coronavirus (1508220) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:25.6%"></span></span></td><td class="num">172</td><td class="num">25.6%</td><td class="num">19.6–32.6%</td></tr>
+<tr class="aw-lin-fail"><td>Betacoronavirus sp. (1928434) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:27.8%"></span></span></td><td class="num">54</td><td class="num">27.8%</td><td class="num">17.6–40.9%</td></tr>
+<tr class="aw-lin-fail"><td>Alphacoronavirus sp. (1906673) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:75.0%"></span></span></td><td class="num">44</td><td class="num">75.0%</td><td class="num">60.6–85.4%</td></tr>
+<tr class="aw-lin-ok"><td>Alphacoronavirus suis (3433814)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:96.8%"></span></span></td><td class="num">63</td><td class="num">96.8%</td><td class="num">89.1–99.1%</td></tr>
+<tr class="aw-lin-ok"><td>Alphacoronavirus chicagoense (3433756)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">154</td><td class="num">100.0%</td><td class="num">97.6–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Betacoronavirus cameli (3433633)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">58</td><td class="num">100.0%</td><td class="num">93.8–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Betacoronavirus gravedinis (3433757)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">176</td><td class="num">100.0%</td><td class="num">97.9–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Betacoronavirus hongkongense (3433758)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">90</td><td class="num">100.0%</td><td class="num">95.9–100.0%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

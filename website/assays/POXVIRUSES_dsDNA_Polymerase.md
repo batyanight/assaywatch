@@ -134,16 +134,19 @@ substitutions: A&gt;C in 160, A&gt;T in 116, A&gt;G in 2</title><rect x="379.0" 
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 90" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 2 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="58.0"/><text class="aw-tick" x="230.0" y="74">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="58.0"/><text class="aw-tick" x="348.5" y="74">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="58.0"/><text class="aw-tick" x="467.0" y="74">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="58.0"/><text class="aw-tick" x="585.5" y="74">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="58.0"/><text class="aw-tick" x="704.0" y="74">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="58.0"/><text class="aw-row-label" x="220" y="25.5">Orthopoxvirus monkeypox (343148…</text><g class="aw-dot-fail"><title>Orthopoxvirus monkeypox (3431483)
-0 of 5,394 detected (0.0%)
-95% interval 0.0–0.1%</title><line class="aw-ci" x1="230.0" y1="22.0" x2="230.3" y2="22.0"/><circle cx="230.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Capripoxvirus lumpyskinpox (342…</text><g class="aw-dot-ok"><title>Capripoxvirus lumpyskinpox (3427718)
-190 of 191 detected (99.5%)
-95% interval 97.1–99.9%</title><line class="aw-ci" x1="690.2" y1="46.0" x2="703.6" y2="46.0"/><circle cx="701.5" cy="46.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="86">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Orthopoxvirus monkeypox (3431483) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">5,394</td><td class="num">0.0%</td><td class="num">0.0–0.1%</td></tr>
+<tr class="aw-lin-ok"><td>Capripoxvirus lumpyskinpox (3427718)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:99.5%"></span></span></td><td class="num">191</td><td class="num">99.5%</td><td class="num">97.1–99.9%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

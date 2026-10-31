@@ -190,24 +190,23 @@ substitutions: C&gt;A in 62, C&gt;T in 57, C&gt;G in 1</title><rect x="364.0" y=
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 186" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 6 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="154.0"/><text class="aw-tick" x="230.0" y="170">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="154.0"/><text class="aw-tick" x="348.5" y="170">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="154.0"/><text class="aw-tick" x="467.0" y="170">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="154.0"/><text class="aw-tick" x="585.5" y="170">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="154.0"/><text class="aw-tick" x="704.0" y="170">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="154.0"/><text class="aw-row-label" x="220" y="25.5">Orthohantavirus tulaense (30525…</text><g class="aw-dot-fail"><title>Orthohantavirus tulaense (3052503)
-66 of 102 detected (64.7%)
-95% interval 55.1–73.3%</title><line class="aw-ci" x1="490.9" y1="22.0" x2="577.4" y2="22.0"/><circle cx="536.7" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Orthohantavirus hantanense (305…</text><g class="aw-dot-ok"><title>Orthohantavirus hantanense (3052480)
-53 of 56 detected (94.6%)
-95% interval 85.4–98.2%</title><line class="aw-ci" x1="634.8" y1="46.0" x2="695.3" y2="46.0"/><circle cx="678.6" cy="46.0" r="4.5"/></g><text class="aw-row-label" x="220" y="73.5">Orthohantavirus seoulense (3052…</text><g class="aw-dot-ok"><title>Orthohantavirus seoulense (3052498)
-61 of 62 detected (98.4%)
-95% interval 91.4–99.7%</title><line class="aw-ci" x1="663.3" y1="70.0" x2="702.6" y2="70.0"/><circle cx="696.4" cy="70.0" r="4.5"/></g><text class="aw-row-label" x="220" y="97.5">Juquitiba virus (430511)</text><g class="aw-dot-ok"><title>Juquitiba virus (430511)
-36 of 36 detected (100.0%)
-95% interval 90.4–100.0%</title><line class="aw-ci" x1="658.3" y1="94.0" x2="704.0" y2="94.0"/><circle cx="704.0" cy="94.0" r="4.5"/></g><text class="aw-row-label" x="220" y="121.5">Orthohantavirus andesense (1980…</text><g class="aw-dot-ok"><title>Orthohantavirus andesense (1980456)
-73 of 73 detected (100.0%)
-95% interval 95.0–100.0%</title><line class="aw-ci" x1="680.3" y1="118.0" x2="704.0" y2="118.0"/><circle cx="704.0" cy="118.0" r="4.5"/></g><text class="aw-row-label" x="220" y="145.5">Orthohantavirus puumalaense (30…</text><g class="aw-dot-ok"><title>Orthohantavirus puumalaense (3052493)
-40 of 40 detected (100.0%)
-95% interval 91.2–100.0%</title><line class="aw-ci" x1="662.5" y1="142.0" x2="704.0" y2="142.0"/><circle cx="704.0" cy="142.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="182">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Orthohantavirus tulaense (3052503) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:64.7%"></span></span></td><td class="num">102</td><td class="num">64.7%</td><td class="num">55.1–73.3%</td></tr>
+<tr class="aw-lin-ok"><td>Orthohantavirus hantanense (3052480)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:94.6%"></span></span></td><td class="num">56</td><td class="num">94.6%</td><td class="num">85.4–98.2%</td></tr>
+<tr class="aw-lin-ok"><td>Orthohantavirus seoulense (3052498)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:98.4%"></span></span></td><td class="num">62</td><td class="num">98.4%</td><td class="num">91.4–99.7%</td></tr>
+<tr class="aw-lin-ok"><td>Juquitiba virus (430511)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">36</td><td class="num">100.0%</td><td class="num">90.4–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Orthohantavirus andesense (1980456)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">73</td><td class="num">100.0%</td><td class="num">95.0–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Orthohantavirus puumalaense (3052493)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">40</td><td class="num">100.0%</td><td class="num">91.2–100.0%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

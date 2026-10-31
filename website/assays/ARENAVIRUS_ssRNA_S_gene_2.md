@@ -166,16 +166,19 @@ substitutions: G&gt;A in 22, G&gt;C in 16, G&gt;T in 11</title><rect x="319.0" y
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 90" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 2 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="58.0"/><text class="aw-tick" x="230.0" y="74">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="58.0"/><text class="aw-tick" x="348.5" y="74">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="58.0"/><text class="aw-tick" x="467.0" y="74">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="58.0"/><text class="aw-tick" x="585.5" y="74">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="58.0"/><text class="aw-tick" x="704.0" y="74">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="58.0"/><text class="aw-row-label" x="220" y="25.5">Mammarenavirus choriomeningitid…</text><g class="aw-dot-fail"><title>Mammarenavirus choriomeningitidis (3052303)
-18 of 43 detected (41.9%)
-95% interval 28.4–56.7%</title><line class="aw-ci" x1="364.5" y1="22.0" x2="498.6" y2="22.0"/><circle cx="428.4" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Mammarenavirus lassaense (30523…</text><g class="aw-dot-fail"><title>Mammarenavirus lassaense (3052310)
-28 of 36 detected (77.8%)
-95% interval 61.9–88.3%</title><line class="aw-ci" x1="523.5" y1="46.0" x2="648.5" y2="46.0"/><circle cx="598.7" cy="46.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="86">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Mammarenavirus choriomeningitidis (3052303) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:41.9%"></span></span></td><td class="num">43</td><td class="num">41.9%</td><td class="num">28.4–56.7%</td></tr>
+<tr class="aw-lin-fail"><td>Mammarenavirus lassaense (3052310) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:77.8%"></span></span></td><td class="num">36</td><td class="num">77.8%</td><td class="num">61.9–88.3%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

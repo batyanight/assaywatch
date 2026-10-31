@@ -175,46 +175,34 @@ substitutions: A&gt;G in 61</title><rect x="289.0" y="206.5" width="13.0" height
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 450" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 17 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="418.0"/><text class="aw-tick" x="230.0" y="434">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="418.0"/><text class="aw-tick" x="348.5" y="434">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="418.0"/><text class="aw-tick" x="467.0" y="434">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="418.0"/><text class="aw-tick" x="585.5" y="434">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="418.0"/><text class="aw-tick" x="704.0" y="434">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="418.0"/><text class="aw-row-label" x="220" y="25.5">H1</text><g class="aw-dot-fail"><title>H1
-0 of 34 detected (0.0%)
-95% interval 0.0–10.2%</title><line class="aw-ci" x1="230.0" y1="22.0" x2="278.1" y2="22.0"/><circle cx="230.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">H1pdm09</text><g class="aw-dot-fail"><title>H1pdm09
-0 of 444 detected (0.0%)
-95% interval 0.0–0.9%</title><line class="aw-ci" x1="230.0" y1="46.0" x2="234.1" y2="46.0"/><circle cx="230.0" cy="46.0" r="4.5"/></g><text class="aw-row-label" x="220" y="73.5">H3</text><g class="aw-dot-fail"><title>H3
-0 of 907 detected (0.0%)
-95% interval 0.0–0.4%</title><line class="aw-ci" x1="230.0" y1="70.0" x2="232.0" y2="70.0"/><circle cx="230.0" cy="70.0" r="4.5"/></g><text class="aw-row-label" x="220" y="97.5">H3N2</text><g class="aw-dot-fail"><title>H3N2
-46 of 15,319 detected (0.3%)
-95% interval 0.2–0.4%</title><line class="aw-ci" x1="231.1" y1="94.0" x2="231.9" y2="94.0"/><circle cx="231.4" cy="94.0" r="4.5"/></g><text class="aw-row-label" x="220" y="121.5">H1N1</text><g class="aw-dot-fail"><title>H1N1
-42 of 9,169 detected (0.5%)
-95% interval 0.3–0.6%</title><line class="aw-ci" x1="231.6" y1="118.0" x2="232.9" y2="118.0"/><circle cx="232.2" cy="118.0" r="4.5"/></g><text class="aw-row-label" x="220" y="145.5">Alphainfluenzavirus influenzae …</text><g class="aw-dot-fail"><title>Alphainfluenzavirus influenzae (2955291)
-4 of 836 detected (0.5%)
-95% interval 0.2–1.2%</title><line class="aw-ci" x1="230.9" y1="142.0" x2="235.8" y2="142.0"/><circle cx="232.3" cy="142.0" r="4.5"/></g><text class="aw-row-label" x="220" y="169.5">H1N2</text><g class="aw-dot-fail"><title>H1N2
-20 of 314 detected (6.4%)
-95% interval 4.2–9.6%</title><line class="aw-ci" x1="249.7" y1="166.0" x2="275.7" y2="166.0"/><circle cx="260.2" cy="166.0" r="4.5"/></g><text class="aw-row-label" x="220" y="193.5">HxN2</text><g class="aw-dot-fail"><title>HxN2
-2 of 30 detected (6.7%)
-95% interval 1.8–21.3%</title><line class="aw-ci" x1="238.8" y1="190.0" x2="331.1" y2="190.0"/><circle cx="261.6" cy="190.0" r="4.5"/></g><text class="aw-row-label" x="220" y="217.5">H5N1</text><g class="aw-dot-fail"><title>H5N1
-113 of 1,067 detected (10.6%)
-95% interval 8.9–12.6%</title><line class="aw-ci" x1="272.1" y1="214.0" x2="289.6" y2="214.0"/><circle cx="280.2" cy="214.0" r="4.5"/></g><text class="aw-row-label" x="220" y="241.5">H6N2</text><g class="aw-dot-fail"><title>H6N2
-32 of 112 detected (28.6%)
-95% interval 21.0–37.5%</title><line class="aw-ci" x1="329.7" y1="238.0" x2="407.9" y2="238.0"/><circle cx="365.4" cy="238.0" r="4.5"/></g><text class="aw-row-label" x="220" y="265.5">H9N2</text><g class="aw-dot-fail"><title>H9N2
-638 of 918 detected (69.5%)
-95% interval 66.4–72.4%</title><line class="aw-ci" x1="544.9" y1="262.0" x2="573.1" y2="262.0"/><circle cx="559.4" cy="262.0" r="4.5"/></g><text class="aw-row-label" x="220" y="289.5">H10N7</text><g class="aw-dot-ok"><title>H10N7
-72 of 83 detected (86.7%)
-95% interval 77.8–92.4%</title><line class="aw-ci" x1="598.8" y1="286.0" x2="668.1" y2="286.0"/><circle cx="641.2" cy="286.0" r="4.5"/></g><text class="aw-row-label" x="220" y="313.5">H5N2</text><g class="aw-dot-ok"><title>H5N2
-105 of 120 detected (87.5%)
-95% interval 80.4–92.3%</title><line class="aw-ci" x1="611.1" y1="310.0" x2="667.4" y2="310.0"/><circle cx="644.8" cy="310.0" r="4.5"/></g><text class="aw-row-label" x="220" y="337.5">H5N8</text><g class="aw-dot-ok"><title>H5N8
-51 of 57 detected (89.5%)
-95% interval 78.9–95.1%</title><line class="aw-ci" x1="603.9" y1="334.0" x2="680.7" y2="334.0"/><circle cx="654.1" cy="334.0" r="4.5"/></g><text class="aw-row-label" x="220" y="361.5">H13N6</text><g class="aw-dot-ok"><title>H13N6
-40 of 43 detected (93.0%)
-95% interval 81.4–97.6%</title><line class="aw-ci" x1="615.8" y1="358.0" x2="692.6" y2="358.0"/><circle cx="670.9" cy="358.0" r="4.5"/></g><text class="aw-row-label" x="220" y="385.5">H3N8</text><g class="aw-dot-ok"><title>H3N8
-443 of 462 detected (95.9%)
-95% interval 93.7–97.4%</title><line class="aw-ci" x1="674.0" y1="382.0" x2="691.4" y2="382.0"/><circle cx="684.5" cy="382.0" r="4.5"/></g><text class="aw-row-label" x="220" y="409.5">H4N6</text><g class="aw-dot-ok"><title>H4N6
-84 of 85 detected (98.8%)
-95% interval 93.6–99.8%</title><line class="aw-ci" x1="673.8" y1="406.0" x2="703.0" y2="406.0"/><circle cx="698.4" cy="406.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="446">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>H1 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">34</td><td class="num">0.0%</td><td class="num">0.0–10.2%</td></tr>
+<tr class="aw-lin-fail"><td>H1pdm09 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">444</td><td class="num">0.0%</td><td class="num">0.0–0.9%</td></tr>
+<tr class="aw-lin-fail"><td>H3 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">907</td><td class="num">0.0%</td><td class="num">0.0–0.4%</td></tr>
+<tr class="aw-lin-fail"><td>H3N2 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.3%"></span></span></td><td class="num">15,319</td><td class="num">0.3%</td><td class="num">0.2–0.4%</td></tr>
+<tr class="aw-lin-fail"><td>H1N1 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.5%"></span></span></td><td class="num">9,169</td><td class="num">0.5%</td><td class="num">0.3–0.6%</td></tr>
+<tr class="aw-lin-fail"><td>Alphainfluenzavirus influenzae (2955291) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.5%"></span></span></td><td class="num">836</td><td class="num">0.5%</td><td class="num">0.2–1.2%</td></tr>
+<tr class="aw-lin-fail"><td>H1N2 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:6.4%"></span></span></td><td class="num">314</td><td class="num">6.4%</td><td class="num">4.2–9.6%</td></tr>
+<tr class="aw-lin-fail"><td>HxN2 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:6.7%"></span></span></td><td class="num">30</td><td class="num">6.7%</td><td class="num">1.8–21.3%</td></tr>
+<tr class="aw-lin-fail"><td>H5N1 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:10.6%"></span></span></td><td class="num">1,067</td><td class="num">10.6%</td><td class="num">8.9–12.6%</td></tr>
+<tr class="aw-lin-fail"><td>H6N2 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:28.6%"></span></span></td><td class="num">112</td><td class="num">28.6%</td><td class="num">21.0–37.5%</td></tr>
+<tr class="aw-lin-fail"><td>H9N2 <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:69.5%"></span></span></td><td class="num">918</td><td class="num">69.5%</td><td class="num">66.4–72.4%</td></tr>
+<tr class="aw-lin-ok"><td>H10N7</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:86.7%"></span></span></td><td class="num">83</td><td class="num">86.7%</td><td class="num">77.8–92.4%</td></tr>
+<tr class="aw-lin-ok"><td>H5N2</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:87.5%"></span></span></td><td class="num">120</td><td class="num">87.5%</td><td class="num">80.4–92.3%</td></tr>
+<tr class="aw-lin-ok"><td>H5N8</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:89.5%"></span></span></td><td class="num">57</td><td class="num">89.5%</td><td class="num">78.9–95.1%</td></tr>
+<tr class="aw-lin-ok"><td>H13N6</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:93.0%"></span></span></td><td class="num">43</td><td class="num">93.0%</td><td class="num">81.4–97.6%</td></tr>
+<tr class="aw-lin-ok"><td>H3N8</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:95.9%"></span></span></td><td class="num">462</td><td class="num">95.9%</td><td class="num">93.7–97.4%</td></tr>
+<tr class="aw-lin-ok"><td>H4N6</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:98.8%"></span></span></td><td class="num">85</td><td class="num">98.8%</td><td class="num">93.6–99.8%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

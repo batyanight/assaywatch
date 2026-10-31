@@ -203,7 +203,7 @@ def test_the_figures_need_no_chart_library_and_no_network():
             }
         ],
     )
-    for svg in (site_svg.year_chart(page), site_svg.mismatch_track(page), site_svg.lineage_chart(page)):
+    for svg in (site_svg.year_chart(page), site_svg.mismatch_track(page)):
         assert svg.startswith("<svg")
         assert "<script" not in svg
         assert "http://" not in svg.replace('xmlns="http://www.w3.org/2000/svg"', "")
@@ -355,3 +355,61 @@ def test_rendering_the_same_data_twice_gives_the_same_bytes():
         ],
     )
     assert site_render.assay_page(page, "2026-10-31") == site_render.assay_page(page, "2026-10-31")
+
+
+def test_one_lineage_gets_a_sentence_rather_than_a_chart_of_one_row():
+    """70 of the 125 assays with lineage data have exactly one lineage. A forest
+    plot there is an axis, a grid, a threshold line and a single dot -- the
+    furniture of a comparison with nothing to compare, which is what made the
+    section unreadable. With one lineage the pooled figure above has already said
+    it, so this says so and draws nothing."""
+    page = _page(
+        lineages=[
+            {
+                "lineage": "Only lineage",
+                "taxid": 1,
+                "evaluable": 165,
+                "detected": 165,
+                "share": 1.0,
+                "ci": [0.977, 1.0],
+            }
+        ]
+    )
+    md = "\n".join(site_render._lineage_block(page))
+    assert "Only lineage" in md and "165" in md
+    assert "<table" not in md, "one lineage must not be drawn as a table"
+    assert "<svg" not in md, "one lineage must not be drawn as a chart"
+
+
+def test_a_lineage_whose_interval_clears_the_threshold_is_not_marked_as_failing():
+    """The mark means the WHOLE interval sits below the bar, which is the same
+    rule the assay-level flag uses. Marking a lineage that merely has a low point
+    estimate would contradict the project's own standard of evidence."""
+    page = _page(
+        threshold=0.9,
+        lineages=[
+            {
+                "lineage": "Wide but high",
+                "taxid": 1,
+                "evaluable": 12,
+                "detected": 10,
+                "share": 0.83,
+                "ci": [0.55, 0.95],
+            },
+            {
+                "lineage": "Clearly below",
+                "taxid": 2,
+                "evaluable": 900,
+                "detected": 400,
+                "share": 0.44,
+                "ci": [0.41, 0.48],
+            },
+        ],
+    )
+    md = "\n".join(site_render._lineage_block(page))
+    rows = [r for r in md.split("<tr ") if r.startswith('class="aw-lin')]
+    assert len(rows) == 2, f"expected two lineage rows, got {len(rows)}"
+    wide = next(r for r in rows if "Wide but high" in r)
+    low = next(r for r in rows if "Clearly below" in r)
+    assert "aw-lin-ok" in wide and "aw-lin-flag" not in wide
+    assert "aw-lin-fail" in low and "aw-lin-flag" in low

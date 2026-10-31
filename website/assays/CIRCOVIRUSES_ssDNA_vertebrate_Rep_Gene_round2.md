@@ -190,18 +190,20 @@ substitutions: S&gt;T in 648, S&gt;A in 74</title><rect x="439.0" y="115.6" widt
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 114" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 3 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="82.0"/><text class="aw-tick" x="230.0" y="98">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="82.0"/><text class="aw-tick" x="348.5" y="98">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="82.0"/><text class="aw-tick" x="467.0" y="98">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="82.0"/><text class="aw-tick" x="585.5" y="98">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="82.0"/><text class="aw-tick" x="704.0" y="98">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="82.0"/><text class="aw-row-label" x="220" y="25.5">Circovirus pigeon (3050342)</text><g class="aw-dot-fail"><title>Circovirus pigeon (3050342)
-0 of 69 detected (0.0%)
-95% interval 0.0–5.3%</title><line class="aw-ci" x1="230.0" y1="22.0" x2="255.0" y2="22.0"/><circle cx="230.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Circovirus porcine2 (3048279)</text><g class="aw-dot-fail"><title>Circovirus porcine2 (3048279)
-143 of 288 detected (49.7%)
-95% interval 43.9–55.4%</title><line class="aw-ci" x1="438.2" y1="46.0" x2="492.6" y2="46.0"/><circle cx="465.4" cy="46.0" r="4.5"/></g><text class="aw-row-label" x="220" y="73.5">Circovirus parrot (3047561)</text><g class="aw-dot-ok"><title>Circovirus parrot (3047561)
-87 of 95 detected (91.6%)
-95% interval 84.3–95.7%</title><line class="aw-ci" x1="629.4" y1="70.0" x2="683.5" y2="70.0"/><circle cx="664.1" cy="70.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="110">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Circovirus pigeon (3050342) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">69</td><td class="num">0.0%</td><td class="num">0.0–5.3%</td></tr>
+<tr class="aw-lin-fail"><td>Circovirus porcine2 (3048279) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:49.7%"></span></span></td><td class="num">288</td><td class="num">49.7%</td><td class="num">43.9–55.4%</td></tr>
+<tr class="aw-lin-ok"><td>Circovirus parrot (3047561)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:91.6%"></span></span></td><td class="num">95</td><td class="num">91.6%</td><td class="num">84.3–95.7%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

@@ -194,16 +194,19 @@ substitutions: T&gt;C in 4,917</title><rect x="394.0" y="97.4" width="13.0" heig
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 90" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 2 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="58.0"/><text class="aw-tick" x="230.0" y="74">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="58.0"/><text class="aw-tick" x="348.5" y="74">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="58.0"/><text class="aw-tick" x="467.0" y="74">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="58.0"/><text class="aw-tick" x="585.5" y="74">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="58.0"/><text class="aw-tick" x="704.0" y="74">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="58.0"/><text class="aw-row-label" x="220" y="25.5">Lyssavirus rabies (11292)</text><g class="aw-dot-fail"><title>Lyssavirus rabies (11292)
-823 of 970 detected (84.8%)
-95% interval 82.5–87.0%</title><line class="aw-ci" x1="620.8" y1="22.0" x2="642.2" y2="22.0"/><circle cx="632.2" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Vesiculovirus indiana (1972577)</text><g class="aw-dot-ok"><title>Vesiculovirus indiana (1972577)
-30 of 30 detected (100.0%)
-95% interval 88.6–100.0%</title><line class="aw-ci" x1="650.2" y1="46.0" x2="704.0" y2="46.0"/><circle cx="704.0" cy="46.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="86">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Lyssavirus rabies (11292) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:84.8%"></span></span></td><td class="num">970</td><td class="num">84.8%</td><td class="num">82.5–87.0%</td></tr>
+<tr class="aw-lin-ok"><td>Vesiculovirus indiana (1972577)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">30</td><td class="num">100.0%</td><td class="num">88.6–100.0%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

@@ -218,22 +218,22 @@ substitutions: T&gt;A in 121, T&gt;C in 53, T&gt;G in 37</title><rect x="334.0" 
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 162" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 5 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="130.0"/><text class="aw-tick" x="230.0" y="146">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="130.0"/><text class="aw-tick" x="348.5" y="146">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="130.0"/><text class="aw-tick" x="467.0" y="146">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="130.0"/><text class="aw-tick" x="585.5" y="146">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="130.0"/><text class="aw-tick" x="704.0" y="146">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="130.0"/><text class="aw-row-label" x="220" y="25.5">Aviadenovirus hepatitidis (3426…</text><g class="aw-dot-fail"><title>Aviadenovirus hepatitidis (3426530)
-0 of 49 detected (0.0%)
-95% interval 0.0–7.3%</title><line class="aw-ci" x1="230.0" y1="22.0" x2="264.5" y2="22.0"/><circle cx="230.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Mastadenovirus caesari (3241411)</text><g class="aw-dot-fail"><title>Mastadenovirus caesari (3241411)
-121 of 185 detected (65.4%)
-95% interval 58.3–71.9%</title><line class="aw-ci" x1="506.3" y1="46.0" x2="570.7" y2="46.0"/><circle cx="540.0" cy="46.0" r="4.5"/></g><text class="aw-row-label" x="220" y="73.5">Human adenovirus sp. (1907210)</text><g class="aw-dot-fail"><title>Human adenovirus sp. (1907210)
-85 of 102 detected (83.3%)
-95% interval 74.9–89.3%</title><line class="aw-ci" x1="585.1" y1="70.0" x2="653.4" y2="70.0"/><circle cx="625.0" cy="70.0" r="4.5"/></g><text class="aw-row-label" x="220" y="97.5">Mastadenovirus faecale (3241426)</text><g class="aw-dot-ok"><title>Mastadenovirus faecale (3241426)
-227 of 229 detected (99.1%)
-95% interval 96.9–99.8%</title><line class="aw-ci" x1="689.2" y1="94.0" x2="702.9" y2="94.0"/><circle cx="699.9" cy="94.0" r="4.5"/></g><text class="aw-row-label" x="220" y="121.5">Mastadenovirus blackbeardi (324…</text><g class="aw-dot-ok"><title>Mastadenovirus blackbeardi (3241406)
-616 of 617 detected (99.8%)
-95% interval 99.1–100.0%</title><line class="aw-ci" x1="699.7" y1="118.0" x2="703.9" y2="118.0"/><circle cx="703.2" cy="118.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="158">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Aviadenovirus hepatitidis (3426530) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">49</td><td class="num">0.0%</td><td class="num">0.0–7.3%</td></tr>
+<tr class="aw-lin-fail"><td>Mastadenovirus caesari (3241411) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:65.4%"></span></span></td><td class="num">185</td><td class="num">65.4%</td><td class="num">58.3–71.9%</td></tr>
+<tr class="aw-lin-fail"><td>Human adenovirus sp. (1907210) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:83.3%"></span></span></td><td class="num">102</td><td class="num">83.3%</td><td class="num">74.9–89.3%</td></tr>
+<tr class="aw-lin-ok"><td>Mastadenovirus faecale (3241426)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:99.1%"></span></span></td><td class="num">229</td><td class="num">99.1%</td><td class="num">96.9–99.8%</td></tr>
+<tr class="aw-lin-ok"><td>Mastadenovirus blackbeardi (3241406)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:99.8%"></span></span></td><td class="num">617</td><td class="num">99.8%</td><td class="num">99.1–100.0%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

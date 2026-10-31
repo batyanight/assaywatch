@@ -203,17 +203,70 @@ def _charts_block(a: dict[str, Any]) -> str:
         site_svg.mismatch_track(a)
         or '<p class="aw-empty">No position carried a mismatch in enough records to report.</p>',
     ]
-    if a["lineages"]:
-        lines += [
-            "",
-            "## By lineage\n",
-            "A single pooled percentage hides the clade you may actually care about: published",
-            "misses are nearly always specific to one lineage, and a clade that is 5% of deposits",
-            "can be 100% of the cases in one region. Lineages with too few records to say anything",
-            "are left out.\n",
-            site_svg.lineage_chart(a),
-        ]
+    lines += _lineage_block(a)
     return "\n".join(lines)
+
+
+def _lineage_block(a: dict[str, Any]) -> list[str]:
+    """Detection per lineage, as a table rather than a plot.
+
+    A forest plot was the first attempt and it was wrong for this data: **70 of
+    the 125 assays with lineage data have exactly one lineage**, so the usual
+    page carried an axis, a grid, a threshold line and one dot -- all of the
+    furniture of a comparison with nothing to compare. Where there really are
+    several, a table with a bar in the share column is denser than dots on an
+    axis and needs no axis to read.
+
+    With one lineage there is nothing to say that the pooled figure above has
+    not already said, so this says that in a sentence and draws nothing.
+    """
+    lins = a.get("lineages") or []
+    if not lins:
+        return []
+    out = ["", "## By lineage\n"]
+    if len(lins) == 1:
+        item = lins[0]
+        out += [
+            f"Every evaluable record is one lineage, **{item['lineage']}** "
+            f"({item['detected']:,} of {item['evaluable']:,} detected, "
+            f"{100 * item['share']:.1f}%, 95% interval {100 * item['ci'][0]:.1f}"
+            f"\u2013{100 * item['ci'][1]:.1f}%), so splitting by lineage adds nothing to the "
+            "figure above. The split matters where an assay spans several clades: a pooled "
+            "percentage can look healthy while one lineage fails completely.\n",
+        ]
+        return out
+
+    out += [
+        "Published misses are nearly always specific to one lineage, and a clade that is 5%",
+        "of deposits can be 100% of the cases in one region \u2014 so a pooled percentage can look",
+        "healthy while one clade fails completely. Worst first. Lineages with too few records",
+        f"to say anything are left out, and a lineage whose whole interval sits below "
+        f"{100 * a['threshold']:.0f}% is marked.\n",
+        '<table class="aw-lineage">',
+        "<thead><tr><th>lineage</th><th>detected</th>"
+        '<th class="num">records</th><th class="num">share</th>'
+        '<th class="num">95% interval</th></tr></thead>',
+        "<tbody>",
+    ]
+    for item in sorted(lins, key=lambda x: x["share"]):
+        below = item["ci"][1] < a["threshold"]
+        cls = "aw-lin-fail" if below else "aw-lin-ok"
+        pct = 100 * item["share"]
+        flag = (
+            ' <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span>'
+            if below
+            else ""
+        )
+        out.append(
+            f'<tr class="{cls}"><td>{item["lineage"]}{flag}</td>'
+            f'<td class="aw-barcell"><span class="aw-bar">'
+            f'<span class="aw-bar-fill" style="width:{pct:.1f}%"></span></span></td>'
+            f'<td class="num">{item["evaluable"]:,}</td>'
+            f'<td class="num">{pct:.1f}%</td>'
+            f'<td class="num">{100 * item["ci"][0]:.1f}\u2013{100 * item["ci"][1]:.1f}%</td></tr>'
+        )
+    out += ["</tbody>", "</table>", ""]
+    return out
 
 
 def _scope_block(a: dict[str, Any]) -> str:

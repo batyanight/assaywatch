@@ -154,14 +154,8 @@ substitutions: G&gt;T in 1,172, G&gt;A in 68</title><rect x="394.0" y="111.8" wi
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Every evaluable record is one lineage, **Orthoflavivirus nilense (3048448)** (1,098 of 1,725 detected, 63.7%, 95% interval 61.4–65.9%), so splitting by lineage adds nothing to the figure above. The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
 
-<svg class="aw-chart" viewBox="0 0 720 66" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 1 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="34.0"/><text class="aw-tick" x="230.0" y="50">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="34.0"/><text class="aw-tick" x="348.5" y="50">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="34.0"/><text class="aw-tick" x="467.0" y="50">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="34.0"/><text class="aw-tick" x="585.5" y="50">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="34.0"/><text class="aw-tick" x="704.0" y="50">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="34.0"/><text class="aw-row-label" x="220" y="25.5">Orthoflavivirus nilense (304844…</text><g class="aw-dot-fail"><title>Orthoflavivirus nilense (3048448)
-1,098 of 1,725 detected (63.7%)
-95% interval 61.4–65.9%</title><line class="aw-ci" x1="520.8" y1="22.0" x2="542.3" y2="22.0"/><circle cx="531.7" cy="22.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="62">predicted detection (%), bar = 95% interval</text></svg>
 
 ## Scope — what this assay is judged against
 

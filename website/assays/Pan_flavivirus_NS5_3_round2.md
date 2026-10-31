@@ -162,32 +162,27 @@ substitutions: A&gt;T in 11,178, A&gt;G in 10,815, A&gt;C in 1,810</title><rect 
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 282" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 10 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="250.0"/><text class="aw-tick" x="230.0" y="266">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="250.0"/><text class="aw-tick" x="348.5" y="266">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="250.0"/><text class="aw-tick" x="467.0" y="266">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="250.0"/><text class="aw-tick" x="585.5" y="266">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="250.0"/><text class="aw-tick" x="704.0" y="266">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="250.0"/><text class="aw-row-label" x="220" y="25.5">Orthoflavivirus kyasanurense (3…</text><g class="aw-dot-fail"><title>Orthoflavivirus kyasanurense (3048170)
-0 of 71 detected (0.0%)
-95% interval 0.0–5.1%</title><line class="aw-ci" x1="230.0" y1="22.0" x2="254.3" y2="22.0"/><circle cx="230.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Orthoflavivirus zikaense (30484…</text><g class="aw-dot-fail"><title>Orthoflavivirus zikaense (3048459)
-0 of 77 detected (0.0%)
-95% interval 0.0–4.8%</title><line class="aw-ci" x1="230.0" y1="46.0" x2="252.5" y2="46.0"/><circle cx="230.0" cy="46.0" r="4.5"/></g><text class="aw-row-label" x="220" y="73.5">Orthoflavivirus flavi (3046277)</text><g class="aw-dot-fail"><title>Orthoflavivirus flavi (3046277)
-1 of 79 detected (1.3%)
-95% interval 0.2–6.8%</title><line class="aw-ci" x1="231.1" y1="70.0" x2="262.4" y2="70.0"/><circle cx="236.0" cy="70.0" r="4.5"/></g><text class="aw-row-label" x="220" y="97.5">Orthoflavivirus japonicum (3048…</text><g class="aw-dot-fail"><title>Orthoflavivirus japonicum (3048158)
-8 of 186 detected (4.3%)
-95% interval 2.2–8.3%</title><line class="aw-ci" x1="240.4" y1="94.0" x2="269.1" y2="94.0"/><circle cx="250.4" cy="94.0" r="4.5"/></g><text class="aw-row-label" x="220" y="121.5">Orthoflavivirus murrayense (304…</text><g class="aw-dot-fail"><title>Orthoflavivirus murrayense (3048215)
-12 of 75 detected (16.0%)
-95% interval 9.4–25.9%</title><line class="aw-ci" x1="274.5" y1="118.0" x2="352.8" y2="118.0"/><circle cx="305.8" cy="118.0" r="4.5"/></g><text class="aw-row-label" x="220" y="145.5">Orthoflavivirus encephalitidis …</text><g class="aw-dot-fail"><title>Orthoflavivirus encephalitidis (3052465)
-26 of 158 detected (16.5%)
-95% interval 11.5–23.0%</title><line class="aw-ci" x1="284.4" y1="142.0" x2="339.1" y2="142.0"/><circle cx="308.0" cy="142.0" r="4.5"/></g><text class="aw-row-label" x="220" y="169.5">Orthoflavivirus denguei (305246…</text><g class="aw-dot-fail"><title>Orthoflavivirus denguei (3052464)
-1,457 of 7,076 detected (20.6%)
-95% interval 19.7–21.5%</title><line class="aw-ci" x1="323.2" y1="166.0" x2="332.1" y2="166.0"/><circle cx="327.6" cy="166.0" r="4.5"/></g><text class="aw-row-label" x="220" y="193.5">Orthoflavivirus louisense (3052…</text><g class="aw-dot-fail"><title>Orthoflavivirus louisense (3052468)
-27 of 71 detected (38.0%)
-95% interval 27.6–49.7%</title><line class="aw-ci" x1="361.0" y1="190.0" x2="465.4" y2="190.0"/><circle cx="410.3" cy="190.0" r="4.5"/></g><text class="aw-row-label" x="220" y="217.5">Orthoflavivirus nilense (304844…</text><g class="aw-dot-ok"><title>Orthoflavivirus nilense (3048448)
-844 of 856 detected (98.6%)
-95% interval 97.6–99.2%</title><line class="aw-ci" x1="692.5" y1="214.0" x2="700.2" y2="214.0"/><circle cx="697.4" cy="214.0" r="4.5"/></g><text class="aw-row-label" x="220" y="241.5">Orthoflavivirus usutuense (3048…</text><g class="aw-dot-ok"><title>Orthoflavivirus usutuense (3048443)
-424 of 429 detected (98.8%)
-95% interval 97.3–99.5%</title><line class="aw-ci" x1="691.2" y1="238.0" x2="701.6" y2="238.0"/><circle cx="698.5" cy="238.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="278">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Orthoflavivirus kyasanurense (3048170) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">71</td><td class="num">0.0%</td><td class="num">0.0–5.1%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoflavivirus zikaense (3048459) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">77</td><td class="num">0.0%</td><td class="num">0.0–4.8%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoflavivirus flavi (3046277) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:1.3%"></span></span></td><td class="num">79</td><td class="num">1.3%</td><td class="num">0.2–6.8%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoflavivirus japonicum (3048158) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:4.3%"></span></span></td><td class="num">186</td><td class="num">4.3%</td><td class="num">2.2–8.3%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoflavivirus murrayense (3048215) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:16.0%"></span></span></td><td class="num">75</td><td class="num">16.0%</td><td class="num">9.4–25.9%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoflavivirus encephalitidis (3052465) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:16.5%"></span></span></td><td class="num">158</td><td class="num">16.5%</td><td class="num">11.5–23.0%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoflavivirus denguei (3052464) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:20.6%"></span></span></td><td class="num">7,076</td><td class="num">20.6%</td><td class="num">19.7–21.5%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoflavivirus louisense (3052468) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:38.0%"></span></span></td><td class="num">71</td><td class="num">38.0%</td><td class="num">27.6–49.7%</td></tr>
+<tr class="aw-lin-ok"><td>Orthoflavivirus nilense (3048448)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:98.6%"></span></span></td><td class="num">856</td><td class="num">98.6%</td><td class="num">97.6–99.2%</td></tr>
+<tr class="aw-lin-ok"><td>Orthoflavivirus usutuense (3048443)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:98.8%"></span></span></td><td class="num">429</td><td class="num">98.8%</td><td class="num">97.3–99.5%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 

@@ -154,24 +154,23 @@ substitutions: C&gt;A in 1,423, C&gt;T in 58, C&gt;G in 9</title><rect x="229.0"
 
 ## By lineage
 
-A single pooled percentage hides the clade you may actually care about: published
-misses are nearly always specific to one lineage, and a clade that is 5% of deposits
-can be 100% of the cases in one region. Lineages with too few records to say anything
-are left out.
+Published misses are nearly always specific to one lineage, and a clade that is 5%
+of deposits can be 100% of the cases in one region — so a pooled percentage can look
+healthy while one clade fails completely. Worst first. Lineages with too few records
+to say anything are left out, and a lineage whose whole interval sits below 90% is marked.
 
-<svg class="aw-chart" viewBox="0 0 720 186" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection per lineage, 6 lineages, with 95 percent intervals."><line class="aw-grid" x1="230.0" y1="10.0" x2="230.0" y2="154.0"/><text class="aw-tick" x="230.0" y="170">0</text><line class="aw-grid" x1="348.5" y1="10.0" x2="348.5" y2="154.0"/><text class="aw-tick" x="348.5" y="170">25</text><line class="aw-grid" x1="467.0" y1="10.0" x2="467.0" y2="154.0"/><text class="aw-tick" x="467.0" y="170">50</text><line class="aw-grid" x1="585.5" y1="10.0" x2="585.5" y2="154.0"/><text class="aw-tick" x="585.5" y="170">75</text><line class="aw-grid" x1="704.0" y1="10.0" x2="704.0" y2="154.0"/><text class="aw-tick" x="704.0" y="170">100</text><line class="aw-threshold" x1="656.6" y1="10.0" x2="656.6" y2="154.0"/><text class="aw-row-label" x="220" y="25.5">Morbillivirus canis (3052342)</text><g class="aw-dot-fail"><title>Morbillivirus canis (3052342)
-0 of 84 detected (0.0%)
-95% interval 0.0–4.4%</title><line class="aw-ci" x1="230.0" y1="22.0" x2="250.7" y2="22.0"/><circle cx="230.0" cy="22.0" r="4.5"/></g><text class="aw-row-label" x="220" y="49.5">Morbillivirus caprinae (3052343)</text><g class="aw-dot-fail"><title>Morbillivirus caprinae (3052343)
-0 of 76 detected (0.0%)
-95% interval 0.0–4.8%</title><line class="aw-ci" x1="230.0" y1="46.0" x2="252.8" y2="46.0"/><circle cx="230.0" cy="46.0" r="4.5"/></g><text class="aw-row-label" x="220" y="73.5">Orthoavulavirus javaense (30513…</text><g class="aw-dot-fail"><title>Orthoavulavirus javaense (3051375)
-0 of 271 detected (0.0%)
-95% interval 0.0–1.4%</title><line class="aw-ci" x1="230.0" y1="70.0" x2="236.6" y2="70.0"/><circle cx="230.0" cy="70.0" r="4.5"/></g><text class="aw-row-label" x="220" y="97.5">Respirovirus laryngotracheitidi…</text><g class="aw-dot-fail"><title>Respirovirus laryngotracheitidis (3049952)
-0 of 205 detected (0.0%)
-95% interval 0.0–1.8%</title><line class="aw-ci" x1="230.0" y1="94.0" x2="238.7" y2="94.0"/><circle cx="230.0" cy="94.0" r="4.5"/></g><text class="aw-row-label" x="220" y="121.5">Respirovirus pneumoniae (304995…</text><g class="aw-dot-fail"><title>Respirovirus pneumoniae (3049953)
-0 of 550 detected (0.0%)
-95% interval 0.0–0.7%</title><line class="aw-ci" x1="230.0" y1="118.0" x2="233.3" y2="118.0"/><circle cx="230.0" cy="118.0" r="4.5"/></g><text class="aw-row-label" x="220" y="145.5">Morbillivirus hominis (3052345)</text><g class="aw-dot-ok"><title>Morbillivirus hominis (3052345)
-2,450 of 2,579 detected (95.0%)
-95% interval 94.1–95.8%</title><line class="aw-ci" x1="676.0" y1="142.0" x2="684.0" y2="142.0"/><circle cx="680.3" cy="142.0" r="4.5"/></g><text class="aw-axis-label" x="467" y="182">predicted detection (%), bar = 95% interval</text></svg>
+<table class="aw-lineage">
+<thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
+<tbody>
+<tr class="aw-lin-fail"><td>Morbillivirus canis (3052342) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">84</td><td class="num">0.0%</td><td class="num">0.0–4.4%</td></tr>
+<tr class="aw-lin-fail"><td>Morbillivirus caprinae (3052343) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">76</td><td class="num">0.0%</td><td class="num">0.0–4.8%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoavulavirus javaense (3051375) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">271</td><td class="num">0.0%</td><td class="num">0.0–1.4%</td></tr>
+<tr class="aw-lin-fail"><td>Respirovirus laryngotracheitidis (3049952) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">205</td><td class="num">0.0%</td><td class="num">0.0–1.8%</td></tr>
+<tr class="aw-lin-fail"><td>Respirovirus pneumoniae (3049953) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">550</td><td class="num">0.0%</td><td class="num">0.0–0.7%</td></tr>
+<tr class="aw-lin-ok"><td>Morbillivirus hominis (3052345)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:95.0%"></span></span></td><td class="num">2,579</td><td class="num">95.0%</td><td class="num">94.1–95.8%</td></tr>
+</tbody>
+</table>
+
 
 ## Scope — what this assay is judged against
 
