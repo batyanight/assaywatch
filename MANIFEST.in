@@ -5,11 +5,11 @@
 #
 # The prunes are the point of this file. `papers/` holds copyrighted PDFs that
 # must never be redistributed, `.secrets/` holds API keys, and `data/` and
-# `results/` are gigabytes of derived scratch (6.6 GB and 485 MB on the machine
+# `results/` are gigabytes of derived scratch (9.1 GB and 727 MB on the machine
 # this was written on). None of them are tracked by git, but sdist assembly does
 # not read .gitignore, so they are excluded here explicitly rather than by luck.
 
-include README.md CONTRIBUTING.md ROADMAP.md CLAUDE.md
+include README.md CONTRIBUTING.md ROADMAP.md CLAUDE.md CHANGELOG.md
 include CITATION.cff
 include pyproject.toml environment.yml config.yaml Snakefile MANIFEST.in
 include conda-lock.yml          # exact cross-platform pin; see README Setup. Absent until generated.

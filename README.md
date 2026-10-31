@@ -536,17 +536,18 @@ python scripts/storage_report.py          # measures; deletes nothing, ever
 ```
 
 Keeping every archive is what makes a past report reproducible, so
-`data/retrieved/` only grows — 7.8 GB across 127 groups on 2026-10-14, against
-457 MB of cached screens and 44 MB of reports. The instinct when that fills a
-disk is to delete the biggest thing, and here the biggest thing is the only
-thing that cannot be recovered:
+`data/retrieved/` only grows — 9.1 GB across 134 groups on 2026-10-30, against
+491 MB of cached screens and 236 MB of reports. Run the script rather than
+trusting these figures; they are a measurement with a date, not a property. The
+instinct when that fills a disk is to delete the biggest thing, and here the
+biggest thing is the only thing that cannot be recovered:
 
-| | 2026-10-14 | recoverable? |
+| | 2026-10-30 | recoverable? |
 |---|---|---|
-| `data/retrieved/*.fasta.gz` | 7.8 GB | **no** — retrieval is incremental (`datetype=mdat`), so each archive is the set of records that changed since the previous run, which NCBI will not reproduce on request; records are also revised and withdrawn |
-| `data/retrieved/*.meta.tsv.gz` | 19 MB | **no**, and it carries the deposit dates the whole drift statistic is indexed on — 0.2% of the volume for the most irreplaceable part of it |
-| `results/screened/` | 457 MB | yes, deterministically, ~45 min on 10 cores |
-| `results/<date>/` | 44 MB | yes, minutes, from the screens |
+| `data/retrieved/*.fasta.gz` | 9.1 GB | **no** — retrieval is incremental (`datetype=mdat`), so each archive is the set of records that changed since the previous run, which NCBI will not reproduce on request; records are also revised and withdrawn |
+| `data/retrieved/*.meta.tsv.gz` | 22 MB | **no**, and it carries the deposit dates the whole drift statistic is indexed on — 0.2% of the volume for the most irreplaceable part of it |
+| `results/screened/` | 491 MB | yes, deterministically, ~54 min on 10 cores |
+| `results/<date>/` | 236 MB over 23 runs | yes, minutes, from the screens |
 
 So the order that loses least is: old reports, then the screen cache, then —
 only after deciding their records are not wanted again — **orphaned groups**.
