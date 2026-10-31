@@ -242,7 +242,7 @@ def _verdict_block(a: dict[str, Any], run_date: str) -> str:
         )
     lines.append(
         f"From the {run_date} run. A status tells you where to look rather than what is "
-        "true — [what the output is worth](../what-the-output-is-worth.md) explains how "
+        "true — [what the output is worth](../limitations.md) explains how "
         "often these calls are right.\n"
     )
     return "\n".join(lines)
@@ -402,7 +402,7 @@ def _denominator_block(a: dict[str, Any]) -> str:
         f"and size range. {a['no_amplicon_rows']:,} produced no amplicon at all.\n",
         "This matters because a record with one drifted primer counts as a failure while a "
         "record with both drifted leaves the denominator entirely. The bias is known, measured "
-        "and not obviously fixable — see [known limitations](../what-the-output-is-worth.md).\n",
+        "and not obviously fixable — see [known limitations](../limitations.md).\n",
     ]
     if a["exclusions"]:
         lines.append("| why a record was not evaluable | records |\n|---|---|")

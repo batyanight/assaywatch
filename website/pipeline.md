@@ -1,7 +1,7 @@
-# How a run works
+# Pipeline
 
-Nine stages turn a folder of assay descriptions into a report. Click any stage
-to open it.
+Nine stages transform a directory of assay descriptions into a report. Select
+any stage for detail.
 
 <figure class="aw-pipeline">
 <svg viewBox="0 0 1000 400" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +167,7 @@ threshold re-reads the disk instead of re-downloading GenBank.
     searches naming subtype identifiers that NCBI stopped assigning; their
     archives quietly stopped growing years before anyone noticed, while the
     reports said something true and misleading — "no recent records" — about the
-    organism rather than about the search. [The full story](scoping.md).
+    organism rather than about the search. [Scope and retrieval](scoping.md) documents the case.
 
 **Out:** compressed FASTA archives plus a record of when each was last fetched.
 
@@ -178,7 +178,7 @@ The expensive stage, and the only one that touches sequence at scale.
 Every oligo of every assay is searched against every record of its archive, on
 both strands, allowing up to six mismatches. Where a forward and reverse site
 face each other at a plausible product size, mismatches become a penalty and the
-penalty becomes a call. [How that scoring works](how-the-scoring-works.md).
+penalty becomes a call. [Scoring methods](scoring.md).
 
 On the run this site is built from, that was **3.0 million assay-record pairs**.
 It runs across cores and the output is identical whatever the core count, so a
@@ -292,8 +292,8 @@ The settings that affect scoring are hashed into the screening cache, so
 changing one of them forces a complete re-screen rather than producing a report
 that mixes old and new rules.
 
-[What the output is worth](what-the-output-is-worth.md) is the one-page version.
+[Known limitations](limitations.md) summarises what the output will bear.
 
 </div>
 
-*A full run takes about 50 minutes on eight cores, not counting fetching.*
+*A complete run takes approximately 50 minutes on eight cores, excluding retrieval.*

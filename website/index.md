@@ -1,122 +1,111 @@
-# Your assay was designed against the sequences that existed then
+# AssayWatch
 
-A PCR assay is built against whatever was in GenBank on the day someone designed
-it. Then it gets used for years, and the database fills with strains nobody
-re-checks it against.
+**Continuous in-silico re-validation of published PCR and qPCR assays against
+newly deposited GenBank sequences.**
 
-Nothing warns you when the primers stop matching. The reaction comes back
-negative, and a negative looks identical whether the pathogen was absent or your
-primers missed it. For wildlife and One Health work this matters more than
-usual: the targets are sparsely sequenced, assays are borrowed across species
-and continents, and there is rarely a positive control for the strain actually
-circulating.
+A diagnostic assay is designed against the sequences available at the time of
+design, then used for years while sequence databases accumulate divergent
+strains against which it is never re-checked. Loss of primer match produces a
+negative result indistinguishable from true absence of the target. The problem
+is acute in wildlife and One Health surveillance, where targets are sparsely
+sequenced, assays are transferred between host species and regions, and
+contemporary positive controls are rarely available.
 
-**AssayWatch re-checks published assays against newly deposited sequence and
-reports predicted detection by the year each record was deposited**, so decay
-shows up as a trend instead of a snapshot. It covers 218 published assays, each
-one cited to the paper it came from, screened against the GenBank records of its
-own target.
+AssayWatch maintains a version-controlled registry of 218 published assays,
+each cited to its source publication, screens every assay against the GenBank
+records of its own target, and reports predicted detection **indexed by year of
+deposit**, so that loss of coverage is observable as a trend rather than a
+single-point estimate.
 
-[Browse every assay](assays/index.md){ .md-button .md-button--primary }
-[What the output is worth](what-the-output-is-worth.md){ .md-button }
+[Assay registry](assays/index.md){ .md-button .md-button--primary }
+[Known limitations](limitations.md){ .md-button }
 
 ---
 
-## Before you trust anything here
+## Interpretation
 
-**A status tells you where to look. It is not a result.**
+A status indicates where to direct attention. It is not a result.
 
-`declining` means this assay is worth your attention, not that it has failed. I
-can tell you how often that call is right, because I tested it against assays
-whose real-world performance was later published: **4 of 10 `declining` calls
-were genuine documented failures**, with a 95% credible interval from 15% to
-70%.
+`declining` identifies an assay warranting examination. The precision of that
+call has been measured against assays whose field performance was subsequently
+published: **4 of 10 `declining` calls corresponded to documented failures**
+(40%, 95% credible interval 15–70%). The interval is wide because the number of
+published follow-up reports is small.
 
-That interval is wide because the evidence base is small, and I would rather
-show you the width than round it away. Nineteen thresholds decide every verdict
-here and all but one of them I set by eye.
+Nineteen thresholds determine every verdict; all but one were set by inspection
+rather than derived. [Validation](validation.md) gives the complete confusion
+matrix, including three held-out sets, all of which performed worse than the
+set used for tuning.
 
-[How it was tested](how-it-was-tested.md) has the full confusion matrix,
-including three held-out sets that all scored worse than the set I tuned on.
+## Registry status, 2026-10-31 run
 
-## What a run looks like
-
-On the 2026-10-31 run, 217 of the 218 assays were screened (one is retired):
-
-| status | assays | what it means |
+| status | assays | definition |
 |---|---|---|
 | stable | 72 | recent detection does not fall below 90% |
-| declining | 42 | below 90% **and** measurably lower than it used to be |
-| low coverage | 31 | below 90%, but not falling — used beyond its design, or never covered this target |
-| insufficient data | 30 | too few records to say anything |
-| no recent data | 18 | nothing deposited lately |
-| watch | 5 | below 90%, but the uncertainty still spans it |
-| no status | 19 | these entries have a problem that makes a verdict meaningless; each page says which |
+| declining | 42 | below 90% and measurably lower than an earlier baseline that exceeded it |
+| low coverage | 31 | below 90% without a measurable decline — applied beyond its design range, or never covering the target |
+| insufficient data | 30 | too few evaluable records to support an estimate |
+| no recent data | 18 | no deposits within the window |
+| watch | 5 | below 90% with an interval that still spans it |
+| no status | 19 | entry carries a condition under which a verdict would be misleading; stated per page |
 
-The split between `declining` and `low coverage` took the longest to get right,
-and it is the one worth understanding. A pan-family consensus PCR screened
-against an entire genus will look terrible without having changed at all — it
-was never covering that diversity. That is `low coverage`. An assay that used to
-clear 90% and no longer does is `declining`. Only the second is drift.
+The distinction between `declining` and `low coverage` is material. A pan-family
+consensus PCR screened against an entire genus will appear to perform poorly
+without having changed, because it never covered that diversity. Only a fall
+from a baseline that previously exceeded the threshold constitutes drift.
 
-## One case where it demonstrably worked
+## Demonstrated case
 
-Until October 2026 this tool had never caught a documented failure through its
-drift flag — every catch came through `low coverage`, which is a statement about
-breadth rather than decay.
+Prior to October 2026 the drift flag had identified no documented failure; every
+detected case was attributable to `low coverage`, which measures breadth rather
+than temporal decay.
 
-Then this one. Scored as of September 2013, using only records deposited before
-the paper that reported the problem:
+Scored as of September 2013, using only records deposited before publication of
+the report describing the problem:
 
-| assay | status | detected |
+| assay | status | predicted detection |
 |---|---|---|
 | [Ward 2004](assays/INFLUENZA_A_M1_Ward_2004.md), influenza A M1 | **declining** | 86.2% of 5,847 records |
 | [Yang 2014](assays/INFLUENZA_A_M1_Yang_2014.md), the published redesign | **stable** | 91.6% of the same records |
 
-Yang's group redesigned Ward's assay because it was missing circulating strains.
-This tool reaches the same conclusion from sequence alone, on records that
-predate their paper.
+Yang and colleagues redesigned the Ward assay because it was failing to detect
+circulating strains. AssayWatch reaches the same conclusion from sequence alone,
+using records predating that publication.
 
-What makes it worth something is the control. Both entries use the same target,
-the same archive, the same date window, the same settings. They differ only in
-their primer and probe sequences, so nothing else can explain the different
-verdicts.
+The two registry entries share a retrieval group, archive, date window and
+scoring configuration, differing only in oligonucleotide sequence; no other
+factor accounts for the difference in verdict. A second drift case in the same
+held-out set was **not** detected, for reasons given under
+[validation](validation.md).
 
-One case is one case. The second drift case I tested it against is a **miss**,
-and [the reason](how-it-was-tested.md) tells you more about the method's limits
-than the catch does.
+## Per-assay reporting
 
-## What you get for each assay
+Each registry entry has a page presenting:
 
-Every entry has its own page showing:
+- **Predicted detection by deposit year**, with the recent window and threshold
+  marked, and per-year record counts, since 100% of three records and 100% of
+  three thousand are not equivalent claims.
+- **Mismatch distribution along each oligonucleotide**, with the 3′ terminal
+  window marked. Each position reports detection among records carrying a
+  mismatch at that position against records that do not.
+- **Per-lineage breakdown**, where more than one lineage is represented.
+- **Complete verdict arithmetic**, permitting manual recomputation.
+- **Proportion of screened records reaching the statistics**, which is the
+  principal known weakness of the method.
 
-- **Detection by deposit year** — with the recent window and the 90% line drawn,
-  and record counts underneath, because 100% of three records and 100% of three
-  thousand are not the same claim.
-- **Where the mismatches sit** on each primer and probe, 3' end on the right.
-  Hover any position for the number that matters: detection among records that
-  mismatch there versus records that do not.
-- **A per-lineage breakdown**, because a pooled percentage hides the clade you
-  actually care about.
-- **The full arithmetic** behind the verdict, so you can check it by hand.
-- **How many records reached the statistics at all**, which is the honest weak
-  point of the method.
-
-## Using it on your own assays
-
-Everything is open. The registry is one file per assay, the code is MIT, and a
-worked example screens a single assay offline in about a second.
+## Availability
 
 | | |
 |---|---|
-| code, registry, issues | [github.com/batyanight/assaywatch](https://github.com/batyanight/assaywatch) |
-| a full run, readable without installing anything | [example run](https://github.com/batyanight/assaywatch/blob/main/docs/example-run-2026-10-31/report.md) |
-| screen one assay offline | [`examples/`](https://github.com/batyanight/assaywatch/blob/main/examples/README.md) |
-| every threshold and why it is what it is | [`config.yaml`](https://github.com/batyanight/assaywatch/blob/main/config.yaml) |
-| cite this | [10.5281/zenodo.23841793](https://doi.org/10.5281/zenodo.23841793) |
+| source code, registry, issue tracker | [github.com/batyanight/assaywatch](https://github.com/batyanight/assaywatch) |
+| complete run output, readable without installation | [example run](https://github.com/batyanight/assaywatch/blob/main/docs/example-run-2026-10-31/report.md) |
+| offline worked example, single assay | [`examples/`](https://github.com/batyanight/assaywatch/blob/main/examples/README.md) |
+| all thresholds with their justification | [`config.yaml`](https://github.com/batyanight/assaywatch/blob/main/config.yaml) |
+| archived release, citable | [10.5281/zenodo.23841793](https://doi.org/10.5281/zenodo.23841793) |
 
-Corrections are welcome, especially to the registry. If an entry misrepresents
-your assay, [open an issue](https://github.com/batyanight/assaywatch/issues) —
-that is a bug, and it is the kind I most want to hear about.
+Code is MIT licensed; the registry and curated tables are CC-BY-4.0.
 
-*Figures throughout this site come from the run dated beside them.*
+Corrections to registry entries are welcome. If an entry misrepresents a
+published assay, please [open an issue](https://github.com/batyanight/assaywatch/issues).
+
+*Figures throughout carry the date of the run that produced them.*

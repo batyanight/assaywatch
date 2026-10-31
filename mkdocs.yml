@@ -64,12 +64,12 @@ not_in_nav: |
   /assays/*.md
 
 nav:
-  - What this is: index.md
-  - What the output is worth: what-the-output-is-worth.md
-  - How the scoring works: how-the-scoring-works.md
-  - How it was tested: how-it-was-tested.md
-  - Scoping: scoping.md
-  - How a run works: pipeline.md
-  - Assays:
-      - Every assay: assays/index.md
+  - Overview: index.md
+  - Methods:
+      - Scoring: scoring.md
+      - Scope and retrieval: scoping.md
+      - Pipeline: pipeline.md
+  - Validation: validation.md
+  - Known limitations: limitations.md
+  - Assay registry: assays/index.md
   - Glossary: glossary.md

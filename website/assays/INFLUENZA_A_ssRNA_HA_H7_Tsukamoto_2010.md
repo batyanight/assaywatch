@@ -44,7 +44,7 @@ Change from baseline, Newcombe interval: **19.2% to 31.9%**. Threshold: **90.0%*
 
 Trend across deposit years: by record falling (p=4.46e-61, 36 years); by footprint falling (p=0.135). Shown for context; it does not feed the verdict.
 
-From the 2026-10-31 run. A status tells you where to look rather than what is true — [what the output is worth](../what-the-output-is-worth.md) explains how often these calls are right.
+From the 2026-10-31 run. A status tells you where to look rather than what is true — [what the output is worth](../limitations.md) explains how often these calls are right.
 
 ## Detection by deposit year
 
@@ -181,7 +181,7 @@ Disclosures on this entry: `primer_site_polymorphic`, `retrieval_scope_incomplet
 
 4,652 records were screened for this assay and **4,455 (96%)** were evaluable, meaning both primers landed in the right orientation and size range. 197 produced no amplicon at all.
 
-This matters because a record with one drifted primer counts as a failure while a record with both drifted leaves the denominator entirely. The bias is known, measured and not obviously fixable — see [known limitations](../what-the-output-is-worth.md).
+This matters because a record with one drifted primer counts as a failure while a record with both drifted leaves the denominator entirely. The bias is known, measured and not obviously fixable — see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|

@@ -3,7 +3,7 @@
 Moved out of `README.md` on 2026-10-31, unchanged, when the README was cut to a
 front page. This is the reference version, with every measurement and every
 caveat. The website's
-[How the scoring works](https://batyanight.github.io/assaywatch/how-the-scoring-works/)
+[Scoring methods](https://batyanight.github.io/assaywatch/scoring/)
 is the same material written for a reader rather than a maintainer; where the two
 disagree, this file is the one to fix first, because it carries the numbers.
 

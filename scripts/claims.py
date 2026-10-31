@@ -61,9 +61,9 @@ PROSE = (
     # and tests/test_site.py checks them against it, which is a tighter check
     # than a regex over prose.
     "website/index.md",
-    "website/what-the-output-is-worth.md",
-    "website/how-the-scoring-works.md",
-    "website/how-it-was-tested.md",
+    "website/limitations.md",
+    "website/scoring.md",
+    "website/validation.md",
     "website/scoping.md",
     "website/pipeline.md",
     # The glossary quotes chemistry counts ("155 of 209 entries have none").

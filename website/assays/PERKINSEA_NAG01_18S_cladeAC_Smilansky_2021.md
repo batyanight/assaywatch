@@ -44,7 +44,7 @@ Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.
 
 Trend across deposit years: by record falling (p=1.48e-42, 5 years); by footprint falling (p=0.181). Shown for context; it does not feed the verdict.
 
-From the 2026-10-31 run. A status tells you where to look rather than what is true — [what the output is worth](../what-the-output-is-worth.md) explains how often these calls are right.
+From the 2026-10-31 run. A status tells you where to look rather than what is true — [what the output is worth](../limitations.md) explains how often these calls are right.
 
 ## Detection by deposit year
 
@@ -136,7 +136,7 @@ Disclosures on this entry: `oligos_from_secondary_source`.
 
 537 records were screened for this assay and **391 (73%)** were evaluable, meaning both primers landed in the right orientation and size range. 146 produced no amplicon at all.
 
-This matters because a record with one drifted primer counts as a failure while a record with both drifted leaves the denominator entirely. The bias is known, measured and not obviously fixable — see [known limitations](../what-the-output-is-worth.md).
+This matters because a record with one drifted primer counts as a failure while a record with both drifted leaves the denominator entirely. The bias is known, measured and not obviously fixable — see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|

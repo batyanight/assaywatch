@@ -25,8 +25,8 @@ screening engine is the means.
 
 The website has a dashboard per assay — detection by deposit year, where the mismatches
 sit on each oligo, the per-lineage breakdown — plus
-[how the scoring works](https://batyanight.github.io/assaywatch/how-the-scoring-works/),
-[how it was tested](https://batyanight.github.io/assaywatch/how-it-was-tested/),
+[scoring methods](https://batyanight.github.io/assaywatch/scoring/),
+[validation](https://batyanight.github.io/assaywatch/validation/),
 [scoping](https://batyanight.github.io/assaywatch/scoping/) and the
 [glossary](https://batyanight.github.io/assaywatch/glossary/).
 
@@ -57,7 +57,7 @@ The two entries differ in nothing but their oligos — same retrieval group, arc
 window, scoring config and chemistry — so the verdict difference is attributable to the
 primer and probe sequences and nothing else. That control is what makes the case worth
 more than the verdict. One case is one case: the second row of that held-out set is a
-miss, and [why](https://batyanight.github.io/assaywatch/how-it-was-tested/) is more
+miss, and [why](https://batyanight.github.io/assaywatch/validation/) is more
 instructive than the catch.
 
 ## See the output without installing anything

@@ -43,7 +43,7 @@ Change from baseline, Newcombe interval: **-1.2% to 0.4%**. Threshold: **90.0%**
 
 Trend across deposit years: by record rising (p=0.00708, 29 years). Shown for context; it does not feed the verdict.
 
-From the 2026-10-31 run. A status tells you where to look rather than what is true — [what the output is worth](../what-the-output-is-worth.md) explains how often these calls are right.
+From the 2026-10-31 run. A status tells you where to look rather than what is true — [what the output is worth](../limitations.md) explains how often these calls are right.
 
 ## Detection by deposit year
 
@@ -103,7 +103,7 @@ A retrieval query is a scientific claim about the population the assay is being 
 
 4,805 records were screened for this assay and **4,012 (83%)** were evaluable, meaning both primers landed in the right orientation and size range. 793 produced no amplicon at all.
 
-This matters because a record with one drifted primer counts as a failure while a record with both drifted leaves the denominator entirely. The bias is known, measured and not obviously fixable — see [known limitations](../what-the-output-is-worth.md).
+This matters because a record with one drifted primer counts as a failure while a record with both drifted leaves the denominator entirely. The bias is known, measured and not obviously fixable — see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
