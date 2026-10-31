@@ -1,6 +1,13 @@
-# MYCOBACTERIUM_TB_complex_helicase_MTCHeli_Hermes_2018
+# Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">Hermes · PLOS ONE · 2018</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.pone.0207365">doi:10.1371/journal.pone.0207365</a></p>
+
+??? quote "Full citation"
+    Hermes R, Saragusty J, Moser I, Barth SA, Holtze S, Lecu A, Cracknell J, Williams D, Goeritz F, Hildebrandt TB. 2018. Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros. PLoS One 13:e0207365
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">MYCOBACTERIUM_TB_complex_helicase_MTCHeli_Hermes_2018</span></p>
 
 **MYCOBACTERIUM TUBERCULOSIS COMPLEX - helicase TaqMan (MTC Heli)**
 
@@ -10,12 +17,7 @@
 | Gene | helicase |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 91 bp |
-| Designed | 2018 |
-| Paper | [10.1371/journal.pone.0207365](https://doi.org/10.1371/journal.pone.0207365) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Hermes R, Saragusty J, Moser I, Barth SA, Holtze S, Lecu A, Cracknell J, Williams D, Goeritz F, Hildebrandt TB. 2018. Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros. PLoS One 13:e0207365
 
 ## Oligos
 

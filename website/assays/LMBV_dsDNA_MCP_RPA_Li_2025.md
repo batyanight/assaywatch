@@ -1,6 +1,13 @@
-# LMBV_dsDNA_MCP_RPA_Li_2025
+# Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">Li · Frontiers in Microbiology · 2025</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3389/fmicb.2025.1599006">doi:10.3389/fmicb.2025.1599006</a></p>
+
+??? quote "Full citation"
+    Li, N. et al. Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system. Frontiers in Microbiology 16, 1599006 (2025).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">LMBV_dsDNA_MCP_RPA_Li_2025</span></p>
 
 **LARGEMOUTH BASS VIRUS / Santee-Cooper ranavirus (dsDNA) — MCP, RPA F1/R1 (Li 2025)**
 
@@ -10,12 +17,7 @@
 | Gene | MCP |
 | Chemistry | rpa |
 | Amplicon | 127 bp |
-| Designed | 2025 |
-| Paper | [10.3389/fmicb.2025.1599006](https://doi.org/10.3389/fmicb.2025.1599006) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Li, N. et al. Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system. Frontiers in Microbiology 16, 1599006 (2025).
 
 ## Oligos
 

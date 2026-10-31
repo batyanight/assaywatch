@@ -1,6 +1,13 @@
-# Pan_Flavivirus_NS5_gene
+# A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Moureau · Vector-Borne and Zoonotic Diseases · 2007</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1089/vbz.2007.0206">doi:10.1089/vbz.2007.0206</a></p>
+
+??? quote "Full citation"
+    Moureau, G. et al. A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses. Vector Borne Zoonotic Dis 7, 467-478 (2007).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Pan_Flavivirus_NS5_gene</span></p>
 
 **Pan-Flavivirus — NS5 gene**
 
@@ -10,12 +17,7 @@
 | Gene | NS5 gene |
 | Chemistry | conventional |
 | Amplicon | 270 bp |
-| Designed | 2007 |
-| Paper | [10.1089/vbz.2007.0206](https://doi.org/10.1089/vbz.2007.0206) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Moureau, G. et al. A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses. Vector Borne Zoonotic Dis 7, 467-478 (2007).
 
 ## Oligos
 

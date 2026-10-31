@@ -1,6 +1,13 @@
-# FRANCISELLA_tularensis_tul4_Long_1993
+# Detection of Francisella tularensis in blood by polymerase chain reaction
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">Long · Journal of Clinical Microbiology · 1993</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.31.1.152-154.1993">doi:10.1128/jcm.31.1.152-154.1993</a></p>
+
+??? quote "Full citation"
+    Long, G. W., Oprandy, J. J., Narayanan, R. B., Fortier, A. H., Porter, K. R. & Nacy, C. A. Detection of Francisella tularensis in blood by polymerase chain reaction. Journal of Clinical Microbiology 31, 152-154 (1993).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">FRANCISELLA_tularensis_tul4_Long_1993</span></p>
 
 **FRANCISELLA TULARENSIS — tul4 (lpnA) 17 kDa lipoprotein (Long 1993)**
 
@@ -10,12 +17,7 @@
 | Gene | tul4 |
 | Chemistry | conventional |
 | Amplicon | 250 bp |
-| Designed | 1993 |
-| Paper | [10.1128/jcm.31.1.152-154.1993](https://doi.org/10.1128/jcm.31.1.152-154.1993) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Long, G. W., Oprandy, J. J., Narayanan, R. B., Fortier, A. H., Porter, K. R. & Nacy, C. A. Detection of Francisella tularensis in blood by polymerase chain reaction. Journal of Clinical Microbiology 31, 152-154 (1993).
 
 ## Oligos
 

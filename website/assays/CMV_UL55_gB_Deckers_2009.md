@@ -1,6 +1,13 @@
-# CMV_UL55_gB_Deckers_2009
+# High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Deckers and 7 others · 2009</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-6-210">doi:10.1186/1743-422X-6-210</a></p>
+
+??? quote "Full citation"
+    Deckers, M.; Hofmann, J.; Kreuzer, K. A.; Reinhard, H.; Edubio, A.; Hengel, H. High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology Journal 2009, 6, 210.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CMV_UL55_gB_Deckers_2009</span></p>
 
 **CMV-specific HERPES — UL55 /Glycoprotein B (gB)**
 
@@ -10,12 +17,7 @@
 | Gene | UL55 /Glycoprotein B (gB) |
 | Chemistry | conventional |
 | Amplicon | 800 bp |
-| Designed | 2009 |
-| Paper | [10.1186/1743-422X-6-210](https://doi.org/10.1186/1743-422X-6-210) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Deckers, M.; Hofmann, J.; Kreuzer, K. A.; Reinhard, H.; Edubio, A.; Hengel, H. High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology Journal 2009, 6, 210.
 
 ## Oligos
 

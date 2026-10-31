@@ -1,8 +1,12 @@
-# Pan_flavivirus_NS5_3_round1
+# Pan-flavivirus — NS5-3
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2001</p>
 
-**Pan-flavivirus — NS5-3**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.39.5.1922-1927.2001">doi:10.1128/JCM.39.5.1922-1927.2001</a></p>
+
+<p class="aw-citation">Scaramozzino N et al. 2001. J Clin Microbiol 39:1922-1927 (MAMD / cFD2 universal flavivirus NS5 primers)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Pan_flavivirus_NS5_3_round1</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | NS5-3 |
 | Chemistry | conventional |
 | Amplicon | 263 bp |
-| Designed | 2001 |
-| Paper | [10.1128/JCM.39.5.1922-1927.2001](https://doi.org/10.1128/JCM.39.5.1922-1927.2001) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Scaramozzino N et al. 2001. J Clin Microbiol 39:1922-1927 (MAMD / cFD2 universal flavivirus NS5 primers)
 
 ## Oligos
 

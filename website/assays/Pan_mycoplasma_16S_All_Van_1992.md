@@ -1,6 +1,13 @@
-# Pan_mycoplasma_16S_All_Van_1992
+# Genus- and species-specific identification of mycoplasmas by 16S rRNA amplification
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">van Kuppeveld · Applied and Environmental Microbiology · 1992</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/aem.58.8.2606-2615.1992">doi:10.1128/aem.58.8.2606-2615.1992</a></p>
+
+??? quote "Full citation"
+    van Kuppeveld, F. J. M. et al. Genus- and species-specific identification of mycoplasmas by 16S rRNA amplification. Applied and Environmental Microbiology 58, 2606-2615 (1992).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Pan_mycoplasma_16S_All_Van_1992</span></p>
 
 **Pan-mycoplasma — 16S (All)**
 
@@ -10,12 +17,7 @@
 | Gene | 16S (All) |
 | Chemistry | conventional |
 | Amplicon | 190 bp |
-| Designed | 1992 |
-| Paper | [10.1128/aem.58.8.2606-2615.1992](https://doi.org/10.1128/aem.58.8.2606-2615.1992) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    van Kuppeveld, F. J. M. et al. Genus- and species-specific identification of mycoplasmas by 16S rRNA amplification. Applied and Environmental Microbiology 58, 2606-2615 (1992).
 
 ## Oligos
 

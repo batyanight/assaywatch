@@ -1,6 +1,13 @@
-# Pan_coccidia_SSUrDNA_of_E_furonis_Gen_2011
+# Outbreaks of severe enteric disease associated with Eimeria furonis infection in ferrets (Mustela putorius furo) of 3 densely populated groups
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">Sledge · Journal of the American Veterinary Medical Association · 2011</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.2460/javma.239.12.1584">doi:10.2460/javma.239.12.1584</a></p>
+
+??? quote "Full citation"
+    Sledge DG et al. 2011. J Am Vet Med Assoc 239:1584-1588
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Pan_coccidia_SSUrDNA_of_E_furonis_Gen_2011</span></p>
 
 **Pan-coccidia — SSUrDNA of E furonis (GenBank accession No. AB329724) SLEDGE Primers**
 
@@ -10,12 +17,7 @@
 | Gene | SSUrDNA of E furonis (GenBank accession No. AB329724) SLEDGE Primers |
 | Chemistry | conventional |
 | Amplicon | 247 bp |
-| Designed | 2011 |
-| Paper | [10.2460/javma.239.12.1584](https://doi.org/10.2460/javma.239.12.1584) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Sledge DG et al. 2011. J Am Vet Med Assoc 239:1584-1588
 
 ## Oligos
 

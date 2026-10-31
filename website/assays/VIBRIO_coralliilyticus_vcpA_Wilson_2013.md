@@ -1,6 +1,13 @@
-# VIBRIO_coralliilyticus_vcpA_Wilson_2013
+# An Improved Detection and Quantification Method for the Coral Pathogen Vibrio coralliilyticus
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Wilson · PLoS ONE · 2013</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.pone.0081800">doi:10.1371/journal.pone.0081800</a></p>
+
+??? quote "Full citation"
+    Wilson, B., Muirhead, A., Bazanella, M., Huete-Stauffer, C., Vezzulli, L. & Bourne, D. G. An Improved Detection and Quantification Method for the Coral Pathogen Vibrio coralliilyticus. PLoS ONE 8, e81800 (2013).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">VIBRIO_coralliilyticus_vcpA_Wilson_2013</span></p>
 
 **VIBRIO CORALLIILYTICUS — vcpA SYBR Green qPCR (Wilson 2013)**
 
@@ -10,12 +17,7 @@
 | Gene | vcpA |
 | Chemistry | sybr |
 | Amplicon | 166 bp |
-| Designed | 2013 |
-| Paper | [10.1371/journal.pone.0081800](https://doi.org/10.1371/journal.pone.0081800) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Wilson, B., Muirhead, A., Bazanella, M., Huete-Stauffer, C., Vezzulli, L. & Bourne, D. G. An Improved Detection and Quantification Method for the Coral Pathogen Vibrio coralliilyticus. PLoS ONE 8, e81800 (2013).
 
 ## Oligos
 

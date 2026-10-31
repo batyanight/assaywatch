@@ -1,8 +1,12 @@
-# CALICIVIRUS_ssRNA_Helicase_Reid_1999
+# CALICIVIRUS (ssRNA) — Helicase (Reid 1999)
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">1995</p>
 
-**CALICIVIRUS (ssRNA) — Helicase (Reid 1999)**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0890-8508(95)90962-1">doi:10.1016/S0890-8508(95)90962-1</a></p>
+
+<p class="aw-citation">Neill JD, Seal BS 1995. Mol Cell Probes 9:33-37</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">CALICIVIRUS_ssRNA_Helicase_Reid_1999</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | 2C helicase |
 | Chemistry | conventional |
 | Amplicon | 357 bp |
-| Designed | 1995 |
-| Paper | [10.1016/S0890-8508(95)90962-1](https://doi.org/10.1016/S0890-8508(95)90962-1) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Neill JD, Seal BS 1995. Mol Cell Probes 9:33-37
 
 ## Oligos
 

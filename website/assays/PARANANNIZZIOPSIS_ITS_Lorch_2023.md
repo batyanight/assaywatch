@@ -1,6 +1,13 @@
-# PARANANNIZZIOPSIS_ITS_Lorch_2023
+# Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Lorch · Frontiers in Microbiology · 2023</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3389/fmicb.2023.1302586">doi:10.3389/fmicb.2023.1302586</a></p>
+
+??? quote "Full citation"
+    Lorch, J. M. et al. Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus. Frontiers in Microbiology 14, 1302586 (2023).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">PARANANNIZZIOPSIS_ITS_Lorch_2023</span></p>
 
 **PARANANNIZZIOPSIS spp. — ITS qPCR (Lorch 2023)**
 
@@ -10,12 +17,7 @@
 | Gene | ITS |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 82 bp |
-| Designed | 2023 |
-| Paper | [10.3389/fmicb.2023.1302586](https://doi.org/10.3389/fmicb.2023.1302586) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Lorch, J. M. et al. Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus. Frontiers in Microbiology 14, 1302586 (2023).
 
 ## Oligos
 

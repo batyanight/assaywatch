@@ -1,8 +1,12 @@
-# West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001
+# West Nile Virus — Envelope glycoprotein E
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2001</p>
 
-**West Nile Virus — Envelope glycoprotein E**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.39.12.4506-4513.2001">doi:10.1128/JCM.39.12.4506-4513.2001</a></p>
+
+<p class="aw-citation">Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">West_Nile_Virus_Envelope_glycoprotein_E_Lanciotti_2001</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | E (envelope) |
 | Chemistry | conventional |
 | Amplicon | 162 bp |
-| Designed | 2001 |
-| Paper | [10.1128/JCM.39.12.4506-4513.2001](https://doi.org/10.1128/JCM.39.12.4506-4513.2001) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
 
 ## Oligos
 

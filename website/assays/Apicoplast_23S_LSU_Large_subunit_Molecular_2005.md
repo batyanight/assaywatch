@@ -1,6 +1,13 @@
-# Apicoplast_23S_LSU_Large_subunit_Molecular_2005
+# Cryptosporidium parvum appears to lack a plastid genome
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Zhu · Microbiology · 2000</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1099/00221287-146-2-315">doi:10.1099/00221287-146-2-315</a></p>
+
+??? quote "Full citation"
+    Zhu G, Marchewka MJ, Keithly JS. 2000. Microbiology 146:315-321
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Apicoplast_23S_LSU_Large_subunit_Molecular_2005</span></p>
 
 **Apicoplast — 23S LSU (Large subunit)**
 
@@ -10,12 +17,7 @@
 | Gene | 23S LSU (Large subunit) |
 | Chemistry | conventional |
 | Amplicon | 720 bp |
-| Designed | 2000 |
-| Paper | [10.1099/00221287-146-2-315](https://doi.org/10.1099/00221287-146-2-315) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Zhu G, Marchewka MJ, Keithly JS. 2000. Microbiology 146:315-321
 
 ## Oligos
 

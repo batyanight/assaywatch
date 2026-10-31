@@ -1,6 +1,13 @@
-# RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008
+# RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Johnson · Journal of Wildlife Diseases · 2008</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.7589/0090-3558-44.4.851">doi:10.7589/0090-3558-44.4.851</a></p>
+
+??? quote "Full citation"
+    Johnson AJ et al. 2008. J Wildl Dis 44:851-863
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Johnson_2008</span></p>
 
 **RANAVIRUS (dsDNA) — Major capsid protein (MCP)**
 
@@ -10,12 +17,7 @@
 | Gene | MCP |
 | Chemistry | conventional |
 | Amplicon | 531 bp |
-| Designed | 2008 |
-| Paper | [10.7589/0090-3558-44.4.851](https://doi.org/10.7589/0090-3558-44.4.851) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Johnson AJ et al. 2008. J Wildl Dis 44:851-863
 
 ## Oligos
 

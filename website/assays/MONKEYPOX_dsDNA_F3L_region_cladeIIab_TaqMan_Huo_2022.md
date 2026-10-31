@@ -1,6 +1,13 @@
-# MONKEYPOX_dsDNA_F3L_region_cladeIIab_TaqMan_Huo_2022
+# Development of two multiplex real-time PCR assays for simultaneous detection and differentiation of monkeypox virus IIa, IIb, and I clades and the B.1 lineage
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Huo · Biosafety and Health · 2022</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.bsheal.2022.10.005">doi:10.1016/j.bsheal.2022.10.005</a></p>
+
+??? quote "Full citation"
+    Huo S, Chen Y, Lu R, Zhang Z, Zhang G, Zhao L, Deng Y, Wu C, Tan W. 2022. Development of two multiplex real-time PCR assays for simultaneous detection and differentiation of monkeypox virus IIa, IIb, and I clades and the B.1 lineage. Biosaf Health 4:392-398
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">MONKEYPOX_dsDNA_F3L_region_cladeIIab_TaqMan_Huo_2022</span></p>
 
 **MONKEYPOX virus (dsDNA) — Panel 1 clade IIa/IIb probe (Huo 2022)**
 
@@ -10,12 +17,7 @@
 | Gene | F3L region (positions 46313-46491 of ON563414.2) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 179 bp |
-| Designed | 2022 |
-| Paper | [10.1016/j.bsheal.2022.10.005](https://doi.org/10.1016/j.bsheal.2022.10.005) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Huo S, Chen Y, Lu R, Zhang Z, Zhang G, Zhao L, Deng Y, Wu C, Tan W. 2022. Development of two multiplex real-time PCR assays for simultaneous detection and differentiation of monkeypox virus IIa, IIb, and I clades and the B.1 lineage. Biosaf Health 4:392-398
 
 ## Oligos
 

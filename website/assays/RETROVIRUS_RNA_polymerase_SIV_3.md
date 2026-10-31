@@ -1,8 +1,10 @@
-# RETROVIRUS_RNA_polymerase_SIV_3
+# RETROVIRUS (RNA) — polymerase (SIV)
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-doi"><a href="https://doi.org/10.1128/JVI.02311-08">doi:10.1128/JVI.02311-08</a></p>
 
-**RETROVIRUS (RNA) — polymerase (SIV)**
+<p class="aw-citation">Takehisa J et al. 2009. J Virol 83:1635-1648 (outer primers of the nested pol set; HahnF1/HahnR1)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">RETROVIRUS_RNA_polymerase_SIV_3</span></p>
 
 | | |
 |---|---|
@@ -10,12 +12,7 @@
 | Gene | polymerase (SIV) |
 | Chemistry | conventional |
 | Amplicon | 518 bp |
-| Designed | — |
-| Paper | [10.1128/JVI.02311-08](https://doi.org/10.1128/JVI.02311-08) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Takehisa J et al. 2009. J Virol 83:1635-1648 (outer primers of the nested pol set; HahnF1/HahnR1)
 
 ## Oligos
 

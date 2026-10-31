@@ -1,6 +1,13 @@
-# MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010
+# Real-time PCR assays for the specific detection of monkeypox virus West African and Congo Basin strain DNA
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Li · Journal of Virological Methods · 2010</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.jviromet.2010.07.012">doi:10.1016/j.jviromet.2010.07.012</a></p>
+
+??? quote "Full citation"
+    Li Y, Zhao H, Wilkins K, Hughes C, Damon IK. 2010. Real-time PCR assays for the specific detection of monkeypox virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">MONKEYPOX_dsDNA_G2R_WestAfrican_TaqMan_Li_2010</span></p>
 
 **MONKEYPOX virus (dsDNA) — G2R_WA West African clade TaqMan (Li 2010)**
 
@@ -10,12 +17,7 @@
 | Gene | TNF receptor (G2R), inverted terminal repeat |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 85 bp |
-| Designed | 2010 |
-| Paper | [10.1016/j.jviromet.2010.07.012](https://doi.org/10.1016/j.jviromet.2010.07.012) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Li Y, Zhao H, Wilkins K, Hughes C, Damon IK. 2010. Real-time PCR assays for the specific detection of monkeypox virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
 
 ## Oligos
 

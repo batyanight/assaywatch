@@ -1,6 +1,13 @@
-# CDV_N_gene_Elia_2006
+# Detection of canine distemper virus in dogs by real-time RT-PCR
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Elia · Journal of Virological Methods · 2006</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.jviromet.2006.05.004">doi:10.1016/j.jviromet.2006.05.004</a></p>
+
+??? quote "Full citation"
+    Elia G, Decaro N, Martella V, Cirone F, Lucente MS, Lorusso E, Di Trani L, Buonavoglia C. Detection of canine distemper virus in dogs by real-time RT-PCR. J Virol Methods 2006;136:171-176.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">CDV_N_gene_Elia_2006</span></p>
 
 **CANINE DISTEMPER VIRUS — N gene TaqMan RT-qPCR (Elia 2006)**
 
@@ -10,12 +17,7 @@
 | Gene | N |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 83 bp |
-| Designed | 2006 |
-| Paper | [10.1016/j.jviromet.2006.05.004](https://doi.org/10.1016/j.jviromet.2006.05.004) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Elia G, Decaro N, Martella V, Cirone F, Lucente MS, Lorusso E, Di Trani L, Buonavoglia C. Detection of canine distemper virus in dogs by real-time RT-PCR. J Virol Methods 2006;136:171-176.
 
 ## Oligos
 

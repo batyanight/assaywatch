@@ -207,3 +207,28 @@ table.aw-lineage th:nth-child(5) { width: 18%; }
   color: var(--aw-ink-muted); vertical-align: 0.1em;
 }
 .md-typeset a[target="_blank"]:has(img)::after { content: none; }
+
+/* ---- assay page header -------------------------------------------------- */
+/* The paper leads. The heading is the paper's own title where Crossref knows
+   it, so it is set to read as a title rather than as a slug: generous size,
+   tight leading, and room below before the metadata starts. */
+.md-typeset h1 { font-size: 1.62rem; line-height: 1.22; letter-spacing: -0.015em;
+  margin-bottom: 0.5rem; max-width: 40ch; }
+.md-typeset .aw-byline { margin: 0 0 0.15rem; font-size: 0.86rem;
+  color: var(--aw-ink); font-weight: 500; }
+.md-typeset .aw-doi { margin: 0 0 0.6rem; font-size: 0.8rem; }
+.md-typeset .aw-doi a { font-family: var(--md-code-font-family); }
+.md-typeset .aw-citation { margin: 0 0 0.7rem; font-size: 0.8rem;
+  color: var(--aw-ink-muted); max-width: 72ch; }
+
+/* The status and the entry id sit together, below the paper: they describe the
+   registry entry, which is a different thing from the publication above. */
+.md-typeset .aw-assay-line { display: flex; align-items: center; gap: 0.5rem;
+  flex-wrap: wrap; margin: 0 0 1rem; padding-top: 0.55rem;
+  border-top: 1px solid var(--aw-grid); }
+.md-typeset .aw-assay-line .aw-id { display: inline; font-family: var(--md-code-font-family);
+  font-size: 0.74rem; color: var(--aw-ink-muted); }
+
+/* The folded full citation should not shout. */
+.md-typeset details.quote { font-size: 0.8rem; margin: 0 0 0.8rem; }
+.md-typeset details.quote > summary { font-size: 0.78rem; font-weight: 500; }

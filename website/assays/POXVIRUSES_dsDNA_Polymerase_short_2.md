@@ -1,6 +1,13 @@
-# POXVIRUSES_dsDNA_Polymerase_short_2
+# Post-mortem findings in southern right whales Eubalaena australis at Península Valdés, Argentina, 2003-2012
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">McAloose · Diseases of Aquatic Organisms · 2016</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3354/dao02986">doi:10.3354/dao02986</a></p>
+
+??? quote "Full citation"
+    McAloose D, ..., Seimon T, ..., Uhart M. 2016. Post-mortem findings in southern right whales Eubalaena australis at Peninsula Valdes, Argentina, 2003-2012. Dis Aquat Organ 119:17-36 (pan-poxvirus DNA polymerase PCR)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">POXVIRUSES_dsDNA_Polymerase_short_2</span></p>
 
 **POXVIRUSES (dsDNA) — Polymerase short**
 
@@ -10,12 +17,7 @@
 | Gene | Polymerase short |
 | Chemistry | conventional |
 | Amplicon | 192 bp |
-| Designed | 2016 |
-| Paper | [10.3354/dao02986](https://doi.org/10.3354/dao02986) |
 | Registry status | active |
-
-!!! quote "The paper"
-    McAloose D, ..., Seimon T, ..., Uhart M. 2016. Post-mortem findings in southern right whales Eubalaena australis at Peninsula Valdes, Argentina, 2003-2012. Dis Aquat Organ 119:17-36 (pan-poxvirus DNA polymerase PCR)
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# Snake_fungus_Ophidiomyces_ophi_IGS_Bohuski_2015
+# TaqMan real-time polymerase chain reaction for detection of Ophidiomyces ophiodiicola, the fungus associated with snake fungal disease
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">Bohuski · BMC Veterinary Research · 2015</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1186/s12917-015-0407-8">doi:10.1186/s12917-015-0407-8</a></p>
+
+??? quote "Full citation"
+    Bohuski E et al. 2015. BMC Vet Res 11:95
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Snake_fungus_Ophidiomyces_ophi_IGS_Bohuski_2015</span></p>
 
 **Ophidiomyces ophidiicola — IGS real-time PCR (Bohuski 2015)**
 
@@ -10,12 +17,7 @@
 | Gene | IGS |
 | Chemistry | mgb |
 | Amplicon | 133 bp |
-| Designed | 2015 |
-| Paper | [10.1186/s12917-015-0407-8](https://doi.org/10.1186/s12917-015-0407-8) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Bohuski E et al. 2015. BMC Vet Res 11:95
 
 ## Oligos
 

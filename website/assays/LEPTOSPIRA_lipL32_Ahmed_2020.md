@@ -1,6 +1,13 @@
-# LEPTOSPIRA_lipL32_Ahmed_2020
+# Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Ahmed · PLOS ONE · 2020</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.pone.0241584">doi:10.1371/journal.pone.0241584</a></p>
+
+??? quote "Full citation"
+    Ahmed, A., Goris, M. G. A. & Meijer, M. C. Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection. PLOS ONE 15, e0241584 (2020).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">LEPTOSPIRA_lipL32_Ahmed_2020</span></p>
 
 **LEPTOSPIRA (pathogenic) — lipL32 real-time PCR (Ahmed 2020)**
 
@@ -10,12 +17,7 @@
 | Gene | lipL32 |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 114 bp |
-| Designed | 2020 |
-| Paper | [10.1371/journal.pone.0241584](https://doi.org/10.1371/journal.pone.0241584) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Ahmed, A., Goris, M. G. A. & Meijer, M. C. Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection. PLOS ONE 15, e0241584 (2020).
 
 ## Oligos
 

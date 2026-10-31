@@ -1,6 +1,13 @@
-# INFLUENZA_A_HA_H3_v2_Shu_2026
+# Update to the CDC influenza A(H3) subtyping assay for improved detection of influenza A(H3N2) viruses, including subclade K viruses
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Shu and 11 others · Journal of Clinical Microbiology · 2026</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.00727-26">doi:10.1128/jcm.00727-26</a></p>
+
+??? quote "Full citation"
+    Shu B et al. 2026. J Clin Microbiol
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">INFLUENZA_A_HA_H3_v2_Shu_2026</span></p>
 
 **Influenza A virus H3 subtype — hemagglutinin rRT-PCR, redesigned (CDC H3_v2, Shu 2026)**
 
@@ -10,12 +17,7 @@
 | Gene | HA (hemagglutinin), H3 |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 103 bp |
-| Designed | 2026 |
-| Paper | [10.1128/jcm.00727-26](https://doi.org/10.1128/jcm.00727-26) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Shu B et al. 2026. J Clin Microbiol
 
 ## Oligos
 

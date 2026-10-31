@@ -1,6 +1,13 @@
-# MYCOPLASMA_gallisepticum_parE_Kang_2023
+# A Multiplex PCR Assay for Differential Identification of Wild-type and Vaccine Strains of Mycoplasma gallisepticum
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Kang · Pathogens · 2023</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3390/pathogens12010111">doi:10.3390/pathogens12010111</a></p>
+
+??? quote "Full citation"
+    Kang, S.-I., Lee, O.-M., Lee, H.-J., Kwon, Y.-K., Chae, M.J., Jeong, J.-Y. & Kang, M.-S. A Multiplex PCR Assay for Differential Identification of Wild-type and Vaccine Strains of Mycoplasma gallisepticum. Pathogens 12, 111 (2023).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">MYCOPLASMA_gallisepticum_parE_Kang_2023</span></p>
 
 **MYCOPLASMA GALLISEPTICUM — parE species-level multiplex-PCR member (Kang 2023)**
 
@@ -10,12 +17,7 @@
 | Gene | parE |
 | Chemistry | conventional |
 | Amplicon | 245 bp |
-| Designed | 2023 |
-| Paper | [10.3390/pathogens12010111](https://doi.org/10.3390/pathogens12010111) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Kang, S.-I., Lee, O.-M., Lee, H.-J., Kwon, Y.-K., Chae, M.J., Jeong, J.-Y. & Kang, M.-S. A Multiplex PCR Assay for Differential Identification of Wild-type and Vaccine Strains of Mycoplasma gallisepticum. Pathogens 12, 111 (2023).
 
 ## Oligos
 

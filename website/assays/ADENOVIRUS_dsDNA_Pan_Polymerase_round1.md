@@ -1,8 +1,12 @@
-# ADENOVIRUS_dsDNA_Pan_Polymerase_round1
+# ADENOVIRUS (dsDNA) — Pan-Polymerase
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">2004</p>
 
-**ADENOVIRUS (dsDNA) — Pan-Polymerase**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JVI.78.23.13366-13369.2004">doi:10.1128/JVI.78.23.13366-13369.2004</a></p>
+
+<p class="aw-citation">Wellehan JF et al. 2004. J Virol 78:13366-13369 (pan-adenovirus pol nested PCR)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">ADENOVIRUS_dsDNA_Pan_Polymerase_round1</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | Pan-Polymerase |
 | Chemistry | conventional |
 | Amplicon | 556 bp |
-| Designed | 2004 |
-| Paper | [10.1128/JVI.78.23.13366-13369.2004](https://doi.org/10.1128/JVI.78.23.13366-13369.2004) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Wellehan JF et al. 2004. J Virol 78:13366-13369 (pan-adenovirus pol nested PCR)
 
 ## Oligos
 

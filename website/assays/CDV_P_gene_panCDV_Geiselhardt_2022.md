@@ -1,6 +1,13 @@
-# CDV_P_gene_panCDV_Geiselhardt_2022
+# Development and Validation of a Pan-Genotypic Real-Time Quantitative Reverse Transcription-PCR Assay To Detect Canine Distemper Virus and Phocine Distemper Virus in Domestic Animals and Wildlife
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">Geiselhardt · Journal of Clinical Microbiology · 2022</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.02505-21">doi:10.1128/jcm.02505-21</a></p>
+
+??? quote "Full citation"
+    Geiselhardt F, Peters M, Jo WK, Schadenhofer A, Puff C, Baumgärtner W, Kydyrmanov A, Kuiken T, Piewbang C, Techangamsuwan S, Osterhaus ADME, Beineke A, Ludlow M. Development and Validation of a Pan-Genotypic Real-Time Quantitative Reverse Transcription-PCR Assay To Detect Canine Distemper Virus and Phocine Distemper Virus in Domestic Animals and Wildlife. J Clin Microbiol 2022;60(5).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">CDV_P_gene_panCDV_Geiselhardt_2022</span></p>
 
 **CANINE DISTEMPER VIRUS — P gene pan-genotypic TaqMan RT-qPCR (Geiselhardt 2022)**
 
@@ -10,12 +17,7 @@
 | Gene | P |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 160 bp |
-| Designed | 2022 |
-| Paper | [10.1128/jcm.02505-21](https://doi.org/10.1128/jcm.02505-21) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Geiselhardt F, Peters M, Jo WK, Schadenhofer A, Puff C, Baumgärtner W, Kydyrmanov A, Kuiken T, Piewbang C, Techangamsuwan S, Osterhaus ADME, Beineke A, Ludlow M. Development and Validation of a Pan-Genotypic Real-Time Quantitative Reverse Transcription-PCR Assay To Detect Canine Distemper Virus and Phocine Distemper Virus in Domestic Animals and Wildlife. J Clin Microbiol 2022;60(5).
 
 ## Oligos
 

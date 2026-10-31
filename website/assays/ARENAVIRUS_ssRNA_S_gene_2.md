@@ -1,8 +1,12 @@
-# ARENAVIRUS_ssRNA_S_gene_2
+# ARENAVIRUS (ssRNA) — S gene
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">1997</p>
 
-**ARENAVIRUS (ssRNA) — S gene**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0168-1702(97)01458-5">doi:10.1016/S0168-1702(97)01458-5</a></p>
+
+<p class="aw-citation">Lozano, M. E. et al. Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5 (1997).</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">ARENAVIRUS_ssRNA_S_gene_2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | S gene |
 | Chemistry | conventional |
 | Amplicon | 460 bp |
-| Designed | 1997 |
-| Paper | [10.1016/S0168-1702(97)01458-5](https://doi.org/10.1016/S0168-1702(97)01458-5) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Lozano, M. E. et al. Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5 (1997).
 
 ## Oligos
 

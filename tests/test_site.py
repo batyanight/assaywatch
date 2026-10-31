@@ -431,3 +431,41 @@ def test_off_site_links_are_opened_safely_and_internal_ones_are_not_touched():
     # It must run again after an instant-navigation page swap, or it applies only
     # to the first page a reader lands on.
     assert js.count("document$.subscribe") >= 3
+
+
+def test_the_paper_leads_the_page_and_its_doi_is_the_link():
+    """What an entry rests on is the publication, and that is what a reader
+    checks it against, so the paper's own title is the heading and the DOI is
+    the thing you click."""
+    page = _page(doi="10.1186/1743-422X-6-210", name="An assay name")
+    md = site_render.assay_page(page, "2026-10-31")
+    head, _, rest = md.partition("\n")
+    assert head.startswith("# ")
+    assert "doi.org/10.1186/1743-422X-6-210" in rest
+    assert "doi:10.1186/1743-422X-6-210" in rest, "the DOI itself is the link text"
+    # The entry id is still on the page, but it is not the headline.
+    assert "# TEST_assay" not in md
+
+
+def test_a_paper_with_no_cached_title_still_gets_a_heading():
+    """Crossref has a title for 85 of the 120 cited DOIs. The other 35 must not
+    render a page whose heading is blank, so the assay's own descriptive name
+    takes over -- and then the stored citation stays visible rather than folded,
+    because it is the only description of the paper on the page."""
+    page = _page(
+        doi="10.0000/not-in-the-cache",
+        name="Readable assay name",
+        reference="Someone et al. 2009. A Journal 1:1-2",
+    )
+    md = site_render.assay_page(page, "2026-10-31")
+    assert md.startswith("# Readable assay name")
+    assert "aw-citation" in md and "??? quote" not in md
+
+
+def test_the_citation_is_folded_when_the_heading_already_says_it():
+    """Several stored references begin with the paper's full title, so showing
+    both opens the page by saying the same sentence twice."""
+    page = _page(doi="10.1186/1743-422X-6-210", reference="Deckers, M. et al. High genotypic diversity...")
+    md = site_render.assay_page(page, "2026-10-31")
+    assert "??? quote" in md
+    assert '<p class="aw-citation">' not in md

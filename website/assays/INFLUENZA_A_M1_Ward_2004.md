@@ -1,8 +1,12 @@
-# INFLUENZA_A_M1_Ward_2004
+# Influenza A virus — M1 gene real-time RT-PCR (Ward 2004)
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2004</p>
 
-**Influenza A virus — M1 gene real-time RT-PCR (Ward 2004)**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S1386-6532(03)00122-7">doi:10.1016/S1386-6532(03)00122-7</a></p>
+
+<p class="aw-citation">Ward CL et al. 2004. J Clin Virol 29:179-188</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">INFLUENZA_A_M1_Ward_2004</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | M1 (matrix) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 95 bp |
-| Designed | 2004 |
-| Paper | [10.1016/S1386-6532(03)00122-7](https://doi.org/10.1016/S1386-6532(03)00122-7) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Ward CL et al. 2004. J Clin Virol 29:179-188
 
 ## Oligos
 

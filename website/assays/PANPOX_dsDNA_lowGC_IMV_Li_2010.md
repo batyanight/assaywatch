@@ -1,8 +1,12 @@
-# PANPOX_dsDNA_lowGC_IMV_Li_2010
+# PAN-POXVIRUS (dsDNA) — low-GC universal PCR (Li 2010)
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">2010</p>
 
-**PAN-POXVIRUS (dsDNA) — low-GC universal PCR (Li 2010)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.01697-09">doi:10.1128/JCM.01697-09</a></p>
+
+<p class="aw-citation">Li Y, Meyer H, Zhao H, Damon IK. 2010. GC content-based pan-pox universal PCR assays for poxvirus detection. J Clin Microbiol 48:268-276</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">PANPOX_dsDNA_lowGC_IMV_Li_2010</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | insulin metalloproteinase-like protein to IMV membrane protein |
 | Chemistry | conventional |
 | Amplicon | 230 bp |
-| Designed | 2010 |
-| Paper | [10.1128/JCM.01697-09](https://doi.org/10.1128/JCM.01697-09) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Li Y, Meyer H, Zhao H, Damon IK. 2010. GC content-based pan-pox universal PCR assays for poxvirus detection. J Clin Microbiol 48:268-276
 
 ## Oligos
 

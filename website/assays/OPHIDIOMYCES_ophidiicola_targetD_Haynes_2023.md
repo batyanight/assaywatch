@@ -1,6 +1,13 @@
-# OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023
+# Development and application of a qPCR-based genotyping assay for Ophidiomyces ophidiicola to investigate the epidemiology of ophidiomycosis
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Haynes · PLOS ONE · 2023</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.pone.0289159">doi:10.1371/journal.pone.0289159</a></p>
+
+??? quote "Full citation"
+    Haynes E, Lorch J, Allender MC. Development and application of a qPCR-based genotyping assay for Ophidiomyces ophidiicola to investigate the epidemiology of ophidiomycosis. PLoS ONE e0289159 (published 3 August 2023).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">OPHIDIOMYCES_ophidiicola_targetD_Haynes_2023</span></p>
 
 **OPHIDIOMYCES OPHIDIICOLA — genotyping-panel target D, lineage-conserved qPCR locus (Haynes 2023)**
 
@@ -10,12 +17,7 @@
 | Gene | target D, unannotated genomic segment shared by all six clades/lineages (position in paper's S1 Table, not in PDF) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 57 bp |
-| Designed | 2023 |
-| Paper | [10.1371/journal.pone.0289159](https://doi.org/10.1371/journal.pone.0289159) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Haynes E, Lorch J, Allender MC. Development and application of a qPCR-based genotyping assay for Ophidiomyces ophidiicola to investigate the epidemiology of ophidiomycosis. PLoS ONE e0289159 (published 3 August 2023).
 
 ## Oligos
 

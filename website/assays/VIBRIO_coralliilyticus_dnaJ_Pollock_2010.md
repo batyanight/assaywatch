@@ -1,6 +1,13 @@
-# VIBRIO_coralliilyticus_dnaJ_Pollock_2010
+# Detection and Quantification of the Coral Pathogen Vibrio coralliilyticus by Real-Time PCR with TaqMan Fluorescent Probes
 
-<span class="aw-chip aw-chip-watch">watch</span>
+<p class="aw-byline">Pollock · Applied and Environmental Microbiology · 2010</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/aem.00330-10">doi:10.1128/aem.00330-10</a></p>
+
+??? quote "Full citation"
+    Pollock, F. J., Morris, P. J., Willis, B. L. & Bourne, D. G. Detection and Quantification of the Coral Pathogen Vibrio coralliilyticus by Real-Time PCR with TaqMan Fluorescent Probes. Applied and Environmental Microbiology 76, 5282-5286 (2010).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">VIBRIO_coralliilyticus_dnaJ_Pollock_2010</span></p>
 
 **VIBRIO CORALLIILYTICUS — dnaJ TaqMan MGB qPCR (Pollock 2010)**
 
@@ -10,12 +17,7 @@
 | Gene | dnaJ |
 | Chemistry | mgb |
 | Amplicon | 128 bp |
-| Designed | 2010 |
-| Paper | [10.1128/aem.00330-10](https://doi.org/10.1128/aem.00330-10) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Pollock, F. J., Morris, P. J., Willis, B. L. & Bourne, D. G. Detection and Quantification of the Coral Pathogen Vibrio coralliilyticus by Real-Time PCR with TaqMan Fluorescent Probes. Applied and Environmental Microbiology 76, 5282-5286 (2010).
 
 ## Oligos
 

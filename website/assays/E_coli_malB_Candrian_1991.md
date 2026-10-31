@@ -1,8 +1,12 @@
-# E_coli_malB_Candrian_1991
+# E. coli-malB promoter
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">1991</p>
 
-**E. coli-malB promoter**
+<p class="aw-doi"><a href="https://doi.org/10.1016/0168-1605(91)90148-I">doi:10.1016/0168-1605(91)90148-I</a></p>
+
+<p class="aw-citation">Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (seed list spells it Candrain)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">E_coli_malB_Candrian_1991</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | — |
 | Chemistry | conventional |
 | Amplicon | 585 bp |
-| Designed | 1991 |
-| Paper | [10.1016/0168-1605(91)90148-I](https://doi.org/10.1016/0168-1605(91)90148-I) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Candrian U et al. 1991. Int J Food Microbiol 12:339-351 (seed list spells it Candrain)
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# ADENOVIRUS_dsDNA_Polymerase_Primate_speci
+# Isolation and Characterization of Adenoviruses Persistently Shed from the Gastrointestinal Tract of Non-Human Primates
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Roy · PLoS Pathogens · 2009</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.ppat.1000503">doi:10.1371/journal.ppat.1000503</a></p>
+
+??? quote "Full citation"
+    Roy S, Vandenberghe LH, Kryazhimskiy S, Grant R, Calcedo R, Yuan X, Keough M, Sandhu A, Wang Q, Medina-Jaszek CA, Plotkin JB, Wilson JM. 2009. Isolation and characterization of adenoviruses persistently shed from the gastrointestinal tract of non-human primates. PLoS Pathog 5:e1000503 (nested DNA polymerase PCR, inner primers)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">ADENOVIRUS_dsDNA_Polymerase_Primate_speci</span></p>
 
 **ADENOVIRUS (dsDNA) — Polymerase (Primate-specific)**
 
@@ -10,12 +17,7 @@
 | Gene | Polymerase (Primate-specific) |
 | Chemistry | conventional |
 | Amplicon | 258 bp |
-| Designed | 2009 |
-| Paper | [10.1371/journal.ppat.1000503](https://doi.org/10.1371/journal.ppat.1000503) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Roy S, Vandenberghe LH, Kryazhimskiy S, Grant R, Calcedo R, Yuan X, Keough M, Sandhu A, Wang Q, Medina-Jaszek CA, Plotkin JB, Wilson JM. 2009. Isolation and characterization of adenoviruses persistently shed from the gastrointestinal tract of non-human primates. PLoS Pathog 5:e1000503 (nested DNA polymerase PCR, inner primers)
 
 ## Oligos
 

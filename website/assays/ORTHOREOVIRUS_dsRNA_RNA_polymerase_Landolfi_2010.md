@@ -1,6 +1,13 @@
-# ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010
+# Orthoreovirus Infection and Concurrent Cryptosporidiosis in Rough Green Snakes ( Opheodrys Aestivus ): Pathology and Identification of a Novel Orthoreovirus Strain via Polymerase Chain Reaction and Sequencing
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Landolfi · Journal of Veterinary Diagnostic Investigation · 2010</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1177/104063871002200106">doi:10.1177/104063871002200106</a></p>
+
+??? quote "Full citation"
+    Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">ORTHOREOVIRUS_dsRNA_RNA_polymerase_Landolfi_2010</span></p>
 
 **ORTHOREOVIRUS (dsRNA) — RNA polymerase**
 
@@ -10,12 +17,7 @@
 | Gene | RNA polymerase |
 | Chemistry | conventional |
 | Amplicon | 163 bp |
-| Designed | 2010 |
-| Paper | [10.1177/104063871002200106](https://doi.org/10.1177/104063871002200106) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
 
 ## Oligos
 

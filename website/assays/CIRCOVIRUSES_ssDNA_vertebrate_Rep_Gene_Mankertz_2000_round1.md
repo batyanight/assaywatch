@@ -1,6 +1,13 @@
-# CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1
+# Cloning and sequencing of columbid circovirus (CoCV), a new circovirus from pigeons
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Mankertz · Archives of Virology · 2000</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1007/s007050070002">doi:10.1007/s007050070002</a></p>
+
+??? quote "Full citation"
+    Mankertz A et al. 2000. Arch Virol 145:2469-2479
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">CIRCOVIRUSES_ssDNA_vertebrate_Rep_Gene_Mankertz_2000_round1</span></p>
 
 **CIRCOVIRUSES- (ssDNA) (vertebrate circoviruses) — Rep Gene**
 
@@ -10,12 +17,7 @@
 | Gene | Rep Gene |
 | Chemistry | conventional |
 | Amplicon | 560 bp |
-| Designed | 2000 |
-| Paper | [10.1007/s007050070002](https://doi.org/10.1007/s007050070002) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Mankertz A et al. 2000. Arch Virol 145:2469-2479
 
 ## Oligos
 

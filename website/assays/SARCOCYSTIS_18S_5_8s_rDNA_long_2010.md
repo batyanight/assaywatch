@@ -1,6 +1,13 @@
-# SARCOCYSTIS_18S_5_8s_rDNA_long_2010
+# The mallard duck (Anas platyrhynchos) as intermediate host for Sarcocystis wobeseri sp. nov. from the barnacle goose (Branta leucopsis)
 
-<span class="aw-chip aw-chip-watch">watch</span>
+<p class="aw-byline">Kutkienė · Parasitology Research · 2010</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1007/s00436-010-1945-4">doi:10.1007/s00436-010-1945-4</a></p>
+
+??? quote "Full citation"
+    Kutkienė L et al. 2010. Parasitol Res 107:879-888
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">SARCOCYSTIS_18S_5_8s_rDNA_long_2010</span></p>
 
 **SARCOCYSTIS — 18S-5.8s rDNA (long)**
 
@@ -10,12 +17,7 @@
 | Gene | 18S-5.8s rDNA (long) |
 | Chemistry | conventional |
 | Amplicon | — |
-| Designed | 2010 |
-| Paper | [10.1007/s00436-010-1945-4](https://doi.org/10.1007/s00436-010-1945-4) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Kutkienė L et al. 2010. Parasitol Res 107:879-888
 
 ## Oligos
 

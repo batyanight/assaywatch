@@ -1,6 +1,13 @@
-# Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006
+# Intranuclear Coccidiosis in Tortoises: Nine Cases
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Garner · Veterinary Pathology · 2006</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1354/vp.43-3-311">doi:10.1354/vp.43-3-311</a></p>
+
+??? quote "Full citation"
+    Garner MM et al. 2006. Vet Pathol 43:311-320
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Pan_coccidia_SSU_rDNA_negative_contro_Garner_2006</span></p>
 
 **Pan-coccidia — SSU rDNA (negative control works) use as primary screen**
 
@@ -10,12 +17,7 @@
 | Gene | SSU rDNA (negative control works) use as primary screen |
 | Chemistry | conventional |
 | Amplicon | 350 bp |
-| Designed | 2006 |
-| Paper | [10.1354/vp.43-3-311](https://doi.org/10.1354/vp.43-3-311) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Garner MM et al. 2006. Vet Pathol 43:311-320
 
 ## Oligos
 

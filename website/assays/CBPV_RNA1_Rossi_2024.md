@@ -1,6 +1,13 @@
-# CBPV_RNA1_Rossi_2024
+# Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Rossi · Microorganisms · 2024</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3390/microorganisms12061105">doi:10.3390/microorganisms12061105</a></p>
+
+??? quote "Full citation"
+    Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CBPV_RNA1_Rossi_2024</span></p>
 
 **CHRONIC BEE PARALYSIS VIRUS — RNA1 RT-qPCR, MGB probe (Rossi 2024)**
 
@@ -10,12 +17,7 @@
 | Gene | RNA1 |
 | Chemistry | mgb |
 | Amplicon | 112 bp |
-| Designed | 2024 |
-| Paper | [10.3390/microorganisms12061105](https://doi.org/10.3390/microorganisms12061105) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
 
 ## Oligos
 

@@ -1,8 +1,12 @@
-# NOSEMA_ceranae_SSU_Martin-Hernandez_2007
+# VAIRIMORPHA (NOSEMA) CERANAE - SSU rRNA duplex PCR, 218MITOC (Martin-Hernandez 2007)
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">2007</p>
 
-**VAIRIMORPHA (NOSEMA) CERANAE - SSU rRNA duplex PCR, 218MITOC (Martin-Hernandez 2007)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/AEM.00270-07">doi:10.1128/AEM.00270-07</a></p>
+
+<p class="aw-citation">Martín-Hernández R, Meana A, Prieto L, Salvador AM, Garrido-Bailón E, Higes M. 2007. Outcome of Colonization of Apis mellifera by Nosema ceranae. Appl Environ Microbiol 73:6331-6338</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">NOSEMA_ceranae_SSU_Martin-Hernandez_2007</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | SSU rRNA |
 | Chemistry | conventional |
 | Amplicon | 211 bp |
-| Designed | 2007 |
-| Paper | [10.1128/AEM.00270-07](https://doi.org/10.1128/AEM.00270-07) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Martín-Hernández R, Meana A, Prieto L, Salvador AM, Garrido-Bailón E, Higes M. 2007. Outcome of Colonization of Apis mellifera by Nosema ceranae. Appl Environ Microbiol 73:6331-6338
 
 ## Oligos
 

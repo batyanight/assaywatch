@@ -1,6 +1,13 @@
-# LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2
+# RT-PCR for detection of all seven genotypes of Lyssavirus genus
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Vázquez-Morón · Journal of Virological Methods · 2006</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.jviromet.2006.03.008">doi:10.1016/j.jviromet.2006.03.008</a></p>
+
+??? quote "Full citation"
+    Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of Lyssavirus genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">LYSSAVIRUSES_ssRNA_Nucleoprotein_gene_round2</span></p>
 
 **LYSSAVIRUSES (ssRNA) — Nucleoprotein gene**
 
@@ -10,12 +17,7 @@
 | Gene | Nucleoprotein gene |
 | Chemistry | conventional |
 | Amplicon | 259 bp |
-| Designed | 2006 |
-| Paper | [10.1016/j.jviromet.2006.03.008](https://doi.org/10.1016/j.jviromet.2006.03.008) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of Lyssavirus genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# BATRAVIRUS_terminase_Licheri_2020_european_FW2_RV1
+# Consensus PCR protocols for the detection of amphibian herpesviruses ( Batrachovirus )
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">Licheri · Journal of Veterinary Diagnostic Investigation · 2020</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1177/1040638720951134">doi:10.1177/1040638720951134</a></p>
+
+??? quote "Full citation"
+    Licheri M, Origgi FC. Consensus PCR protocols for the detection of amphibian herpesviruses (Batrachovirus). Journal of Veterinary Diagnostic Investigation 2020, 32(6):864-872.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">BATRAVIRUS_terminase_Licheri_2020_european_FW2_RV1</span></p>
 
 **BATRACHOVIRUS (RaHV-3, BfHV-1) — terminase consensus PCR, European batrachovirus protocol (Licheri 2020)**
 
@@ -10,12 +17,7 @@
 | Gene | DNA packaging terminase |
 | Chemistry | conventional |
 | Amplicon | 200 bp |
-| Designed | 2020 |
-| Paper | [10.1177/1040638720951134](https://doi.org/10.1177/1040638720951134) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Licheri M, Origgi FC. Consensus PCR protocols for the detection of amphibian herpesviruses (Batrachovirus). Journal of Veterinary Diagnostic Investigation 2020, 32(6):864-872.
 
 ## Oligos
 

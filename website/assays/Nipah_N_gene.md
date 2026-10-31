@@ -1,6 +1,13 @@
-# Nipah_N_gene
+# Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens of bats
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Wacharapluesadee · Journal of Virological Methods · 2007</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.jviromet.2006.11.023">doi:10.1016/j.jviromet.2006.11.023</a></p>
+
+??? quote "Full citation"
+    Wacharapluesadee S, Hemachudha T. 2007. Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens of bats. J Virol Methods 141:97-101
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Nipah_N_gene</span></p>
 
 **Nipah — N gene**
 
@@ -10,12 +17,7 @@
 | Gene | N gene |
 | Chemistry | conventional |
 | Amplicon | 398 bp |
-| Designed | 2007 |
-| Paper | [10.1016/j.jviromet.2006.11.023](https://doi.org/10.1016/j.jviromet.2006.11.023) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Wacharapluesadee S, Hemachudha T. 2007. Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens of bats. J Virol Methods 141:97-101
 
 ## Oligos
 

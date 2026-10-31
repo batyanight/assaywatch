@@ -1,6 +1,13 @@
-# CDV_P_gene_Scagliarini_2007
+# TaqMan Based Real Time PCR for the Quantification of Canine Distemper Virus
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Scagliarini · Veterinary Research Communications · 2007</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1007/s11259-007-0020-9">doi:10.1007/s11259-007-0020-9</a></p>
+
+??? quote "Full citation"
+    Scagliarini A et al. 2007. Vet Res Commun 31(Suppl 1):261-263
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">CDV_P_gene_Scagliarini_2007</span></p>
 
 **Canine distemper virus — P gene real-time RT-PCR CDVF4/CDVR3 (Scagliarini 2007)**
 
@@ -10,12 +17,7 @@
 | Gene | P |
 | Chemistry | mgb |
 | Amplicon | 114 bp |
-| Designed | 2007 |
-| Paper | [10.1007/s11259-007-0020-9](https://doi.org/10.1007/s11259-007-0020-9) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Scagliarini A et al. 2007. Vet Res Commun 31(Suppl 1):261-263
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# MONKEYPOX_dsDNA_F3L_MGB_Kulesh_2004
+# Monkeypox virus detection in rodents using real-time 3′-minor groove binder TaqMan® assays on the Roche LightCycler
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Kulesh · Laboratory Investigation · 2004</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1038/labinvest.3700143">doi:10.1038/labinvest.3700143</a></p>
+
+??? quote "Full citation"
+    Kulesh DA, Loveless BM, Norwood D, Garrison J, Whitehouse CA, Hartmann C, Mucker E, Miller D, Wasieloski LP Jr, Huggins J, Huhn G, Miser LL, Imig C, Martinez M, Larsen T, Rossi CA, Ludwig GV. 2004. Monkeypox virus detection in rodents using real-time 3'-minor groove binder TaqMan assays on the Roche LightCycler. Lab Invest 84:1200-1208
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">MONKEYPOX_dsDNA_F3L_MGB_Kulesh_2004</span></p>
 
 **MONKEYPOX virus (dsDNA) — F3L MGB TaqMan (Kulesh 2004)**
 
@@ -10,12 +17,7 @@
 | Gene | F3L |
 | Chemistry | mgb |
 | Amplicon | 107 bp |
-| Designed | 2004 |
-| Paper | [10.1038/labinvest.3700143](https://doi.org/10.1038/labinvest.3700143) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Kulesh DA, Loveless BM, Norwood D, Garrison J, Whitehouse CA, Hartmann C, Mucker E, Miller D, Wasieloski LP Jr, Huggins J, Huhn G, Miser LL, Imig C, Martinez M, Larsen T, Rossi CA, Ludwig GV. 2004. Monkeypox virus detection in rodents using real-time 3'-minor groove binder TaqMan assays on the Roche LightCycler. Lab Invest 84:1200-1208
 
 ## Oligos
 

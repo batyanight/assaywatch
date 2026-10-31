@@ -1,6 +1,13 @@
-# REPTARENAVIRUS_S_segment_GP2_Baggio_2023
+# A Multiplex RT-PCR Method for the Detection of Reptarenavirus Infection
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Baggio · Viruses · 2023</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3390/v15122313">doi:10.3390/v15122313</a></p>
+
+??? quote "Full citation"
+    Baggio, F.; Hetzel, U.; Prähauser, B.; Dervas, E.; Michalopoulou, E.; Thiele, T.; Kipar, A.; Hepojoki, J. A Multiplex RT-PCR Method for the Detection of Reptarenavirus Infection. Viruses 2023, 15, 2313.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">REPTARENAVIRUS_S_segment_GP2_Baggio_2023</span></p>
 
 **REPTARENAVIRUS — S segment GP2 multiplex RT-PCR, 6 forward + 7 reverse primer mix (Baggio 2023)**
 
@@ -10,12 +17,7 @@
 | Gene | S segment, glycoprotein precursor (GP2 region) |
 | Chemistry | conventional |
 | Amplicon | 145 bp |
-| Designed | 2023 |
-| Paper | [10.3390/v15122313](https://doi.org/10.3390/v15122313) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Baggio, F.; Hetzel, U.; Prähauser, B.; Dervas, E.; Michalopoulou, E.; Thiele, T.; Kipar, A.; Hepojoki, J. A Multiplex RT-PCR Method for the Detection of Reptarenavirus Infection. Viruses 2023, 15, 2313.
 
 ## Oligos
 

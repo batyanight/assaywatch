@@ -1,6 +1,13 @@
-# Cryptosporidium_18SrDNA_Xiao_1999_round2
+# Phylogenetic Analysis of Cryptosporidium Parasites Based on the Small-Subunit rRNA Gene Locus
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Xiao · Applied and Environmental Microbiology · 1999</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/aem.65.4.1578-1583.1999">doi:10.1128/aem.65.4.1578-1583.1999</a></p>
+
+??? quote "Full citation"
+    Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic analysis of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Cryptosporidium_18SrDNA_Xiao_1999_round2</span></p>
 
 **CRYPTOSPORIDIA — 18SrDNA**
 
@@ -10,12 +17,7 @@
 | Gene | 18SrDNA |
 | Chemistry | conventional |
 | Amplicon | 822 bp |
-| Designed | 1999 |
-| Paper | [10.1128/aem.65.4.1578-1583.1999](https://doi.org/10.1128/aem.65.4.1578-1583.1999) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic analysis of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# RHABDOVIRUS_ssRNA_L_gene_round1
+# Phylogenetic relationships among rhabdoviruses inferred using the L polymerase gene
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Bourhy · Journal of General Virology · 2005</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1099/vir.0.81128-0">doi:10.1099/vir.0.81128-0</a></p>
+
+??? quote "Full citation"
+    Bourhy, H., Cowley, J. A., Larrous, F., Holmes, E. C. & Walker, P. J. Phylogenetic relationships among rhabdoviruses inferred using the L polymerase gene. J Gen Virol 86, 2849-2858 (2005).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">RHABDOVIRUS_ssRNA_L_gene_round1</span></p>
 
 **RHABDOVIRUS (ssRNA) — L (pan-rhabdovirus, PREDICT P-016 round 1)**
 
@@ -10,12 +17,7 @@
 | Gene | L |
 | Chemistry | conventional |
 | Amplicon | 460 bp |
-| Designed | 2005 |
-| Paper | [10.1099/vir.0.81128-0](https://doi.org/10.1099/vir.0.81128-0) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Bourhy, H., Cowley, J. A., Larrous, F., Holmes, E. C. & Walker, P. J. Phylogenetic relationships among rhabdoviruses inferred using the L polymerase gene. J Gen Virol 86, 2849-2858 (2005).
 
 ## Oligos
 

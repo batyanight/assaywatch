@@ -1,6 +1,13 @@
-# PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999
+# A broad range of human papillomavirus types detected with a general PCR method suitable for analysis of cutaneous tumours and normal skin
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Forslund · Journal of General Virology · 1999</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1099/0022-1317-80-9-2437">doi:10.1099/0022-1317-80-9-2437</a></p>
+
+??? quote "Full citation"
+    Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">PAPILLOMAVIRUS_dsDNA_L1_gene_Forslund_1999</span></p>
 
 **PAPILLOMAVIRUS (dsDNA) — L1 gene**
 
@@ -10,12 +17,7 @@
 | Gene | L1 gene |
 | Chemistry | conventional |
 | Amplicon | 476 bp |
-| Designed | 1999 |
-| Paper | [10.1099/0022-1317-80-9-2437](https://doi.org/10.1099/0022-1317-80-9-2437) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
 
 ## Oligos
 

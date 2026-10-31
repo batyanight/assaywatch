@@ -1,6 +1,13 @@
-# PHLEBOVIRUS_ssRNA_L_segment_round2
+# Detection and identification of Toscana and other phleboviruses by RT‐nested‐PCR assays with degenerated primers
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Sánchez‐Seco · Journal of Medical Virology · 2003</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1002/jmv.10465">doi:10.1002/jmv.10465</a></p>
+
+??? quote "Full citation"
+    Sanchez-Seco, M. P. et al. Detection and identification of Toscana and other phleboviruses by RT-nested-PCR assays with degenerated primers. J Med Virol 71, 140-149 (2003).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">PHLEBOVIRUS_ssRNA_L_segment_round2</span></p>
 
 **PHLEBOVIRUS (ssRNA) — L segment (PREDICT P-021 round 2)**
 
@@ -10,12 +17,7 @@
 | Gene | L segment |
 | Chemistry | conventional |
 | Amplicon | 244 bp |
-| Designed | 2003 |
-| Paper | [10.1002/jmv.10465](https://doi.org/10.1002/jmv.10465) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Sanchez-Seco, M. P. et al. Detection and identification of Toscana and other phleboviruses by RT-nested-PCR assays with degenerated primers. J Med Virol 71, 140-149 (2003).
 
 ## Oligos
 

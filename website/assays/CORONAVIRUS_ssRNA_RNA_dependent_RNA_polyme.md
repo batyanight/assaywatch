@@ -1,6 +1,13 @@
-# CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme
+# Bat Coronaviruses and Experimental Infection of Bats, the Philippines
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Watanabe · Emerging Infectious Diseases · 2010</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3201/eid1608.100208">doi:10.3201/eid1608.100208</a></p>
+
+??? quote "Full citation"
+    Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the PREDICT panel)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme</span></p>
 
 **CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase**
 
@@ -10,12 +17,7 @@
 | Gene | RNA-dependent RNA polymerase |
 | Chemistry | conventional |
 | Amplicon | 440 bp |
-| Designed | — |
-| Paper | [10.3201/eid1608.100208](https://doi.org/10.3201/eid1608.100208) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the PREDICT panel)
 
 ## Oligos
 

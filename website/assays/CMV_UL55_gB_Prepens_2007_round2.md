@@ -1,8 +1,12 @@
-# CMV_UL55_gB_Prepens_2007_round2
+# CMV-specific HERPES — UL55 /Glycoprotein B (gB)
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">2007</p>
 
-**CMV-specific HERPES — UL55 /Glycoprotein B (gB)**
+<p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-4-84">doi:10.1186/1743-422X-4-84</a></p>
+
+<p class="aw-citation">Prepens S et al. 2007. Virol J 4:84</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CMV_UL55_gB_Prepens_2007_round2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | UL55 /Glycoprotein B (gB) |
 | Chemistry | conventional |
 | Amplicon | 250 bp |
-| Designed | 2007 |
-| Paper | [10.1186/1743-422X-4-84](https://doi.org/10.1186/1743-422X-4-84) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Prepens S et al. 2007. Virol J 4:84
 
 ## Oligos
 

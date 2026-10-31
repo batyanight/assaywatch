@@ -1,6 +1,13 @@
-# Sunshinevirus_RdRp_Hyndman_2012_1
+# Sunshine virus in Australian pythons
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">Hyndman · Veterinary Microbiology · 2012</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.vetmic.2012.07.030">doi:10.1016/j.vetmic.2012.07.030</a></p>
+
+??? quote "Full citation"
+    Hyndman TH et al. 2012. Vet Microbiol 161:77-87
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Sunshinevirus_RdRp_Hyndman_2012_1</span></p>
 
 **Sunshine virus — RdRp (L gene)**
 
@@ -10,12 +17,7 @@
 | Gene | RdRp (L gene) |
 | Chemistry | conventional |
 | Amplicon | 153 bp |
-| Designed | 2012 |
-| Paper | [10.1016/j.vetmic.2012.07.030](https://doi.org/10.1016/j.vetmic.2012.07.030) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Hyndman TH et al. 2012. Vet Microbiol 161:77-87
 
 ## Oligos
 

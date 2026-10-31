@@ -1,8 +1,12 @@
-# Pan_HERPES_dsDNA_Terminase_round2
+# Pan-HERPES (dsDNA) — Terminase
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2001</p>
 
-**Pan-HERPES (dsDNA) — Terminase**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0168-1702(00)00252-5">doi:10.1016/S0168-1702(00)00252-5</a></p>
+
+<p class="aw-citation">TERM_707/708 terminase primers: Chmielewicz B et al. (Ehlers group, Robert Koch Institute) — not resolved</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Pan_HERPES_dsDNA_Terminase_round2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | Terminase |
 | Chemistry | conventional |
 | Amplicon | 419 bp |
-| Designed | 2001 |
-| Paper | [10.1016/S0168-1702(00)00252-5](https://doi.org/10.1016/S0168-1702(00)00252-5) |
 | Registry status | active |
-
-!!! quote "The paper"
-    TERM_707/708 terminase primers: Chmielewicz B et al. (Ehlers group, Robert Koch Institute) — not resolved
 
 ## Oligos
 

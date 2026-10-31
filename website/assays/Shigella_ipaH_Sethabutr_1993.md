@@ -1,6 +1,13 @@
-# Shigella_ipaH_Sethabutr_1993
+# Detection of Shigellae and EnteroinvasiveEscherichia coliby Amplification of the Invasion Plasmid Antigen H DNA Sequence in Patients with Dysentery
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Sethabutr · Journal of Infectious Diseases · 1993</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1093/infdis/167.2.458">doi:10.1093/infdis/167.2.458</a></p>
+
+??? quote "Full citation"
+    Sethabutr O et al. 1993. J Infect Dis 167:458-461
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Shigella_ipaH_Sethabutr_1993</span></p>
 
 **Shigella, ipah gene**
 
@@ -10,12 +17,7 @@
 | Gene | — |
 | Chemistry | conventional |
 | Amplicon | 610 bp |
-| Designed | 1993 |
-| Paper | [10.1093/infdis/167.2.458](https://doi.org/10.1093/infdis/167.2.458) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Sethabutr O et al. 1993. J Infect Dis 167:458-461
 
 ## Oligos
 

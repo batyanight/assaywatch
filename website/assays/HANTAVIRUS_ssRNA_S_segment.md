@@ -1,6 +1,13 @@
-# HANTAVIRUS_ssRNA_S_segment
+# A Strategy To Estimate Unknown Viral Diversity in Mammals
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Anthony · mBio · 2013</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/mbio.00598-13">doi:10.1128/mbio.00598-13</a></p>
+
+??? quote "Full citation"
+    Anthony SJ et al. 2013. mBio 4:e00598-13 (universal hantavirus S-segment primers UHantaF1/UHantaR1)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">HANTAVIRUS_ssRNA_S_segment</span></p>
 
 **HANTAVIRUS (ssRNA) — S segment**
 
@@ -10,12 +17,7 @@
 | Gene | S segment |
 | Chemistry | conventional |
 | Amplicon | 250 bp |
-| Designed | 2013 |
-| Paper | [10.1128/mbio.00598-13](https://doi.org/10.1128/mbio.00598-13) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Anthony SJ et al. 2013. mBio 4:e00598-13 (universal hantavirus S-segment primers UHantaF1/UHantaR1)
 
 ## Oligos
 

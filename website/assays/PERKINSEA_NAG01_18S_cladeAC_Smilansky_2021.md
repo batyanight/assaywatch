@@ -1,6 +1,13 @@
-# PERKINSEA_NAG01_18S_cladeAC_Smilansky_2021
+# A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">Smilansky · Royal Society Open Science · 2021</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1098/rsos.202150">doi:10.1098/rsos.202150</a></p>
+
+??? quote "Full citation"
+    Smilansky, V., Chambouvet, A., Reeves, M., Richards, T. A. & Milner, D. S. A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues. Royal Society Open Science 8, 202150 (2021).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">PERKINSEA_NAG01_18S_cladeAC_Smilansky_2021</span></p>
 
 **PERKINSEA NAG01 Clades A-C — 18S duplex qPCR, NAG01a-c probe (Smilansky 2021)**
 
@@ -10,12 +17,7 @@
 | Gene | 18S rRNA |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 287 bp |
-| Designed | 2021 |
-| Paper | [10.1098/rsos.202150](https://doi.org/10.1098/rsos.202150) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Smilansky, V., Chambouvet, A., Reeves, M., Richards, T. A. & Milner, D. S. A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues. Royal Society Open Science 8, 202150 (2021).
 
 ## Oligos
 

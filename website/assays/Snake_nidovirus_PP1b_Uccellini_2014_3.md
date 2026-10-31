@@ -1,8 +1,12 @@
-# Snake_nidovirus_PP1b_Uccellini_2014_3
+# NIDOVIRUS (ssRNA)-SNAKE — PP1b
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">2014</p>
 
-**NIDOVIRUS (ssRNA)-SNAKE — PP1b**
+<p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-11-144">doi:10.1186/1743-422X-11-144</a></p>
+
+<p class="aw-citation">Uccellini L et al. 2014. Virol J 11:144</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Snake_nidovirus_PP1b_Uccellini_2014_3</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | PP1b |
 | Chemistry | conventional |
 | Amplicon | 1059 bp |
-| Designed | 2014 |
-| Paper | [10.1186/1743-422X-11-144](https://doi.org/10.1186/1743-422X-11-144) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Uccellini L et al. 2014. Virol J 11:144
 
 ## Oligos
 

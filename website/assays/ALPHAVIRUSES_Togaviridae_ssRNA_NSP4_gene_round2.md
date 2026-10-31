@@ -1,8 +1,12 @@
-# ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2
+# ALPHAVIRUSES (Togaviridae  ssRNA) — NSP4 gene
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2001</p>
 
-**ALPHAVIRUSES (Togaviridae  ssRNA) — NSP4 gene**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0166-0934(01)00306-8">doi:10.1016/S0166-0934(01)00306-8</a></p>
+
+<p class="aw-citation">Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">ALPHAVIRUSES_Togaviridae_ssRNA_NSP4_gene_round2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | NSP4 gene |
 | Chemistry | conventional |
 | Amplicon | 196 bp |
-| Designed | 2001 |
-| Paper | [10.1016/S0166-0934(01)00306-8](https://doi.org/10.1016/S0166-0934(01)00306-8) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
 
 ## Oligos
 

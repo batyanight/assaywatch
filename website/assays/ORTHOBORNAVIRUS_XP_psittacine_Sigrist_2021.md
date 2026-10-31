@@ -1,6 +1,13 @@
-# ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021
+# A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Sigrist · Viruses · 2021</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3390/v13071358">doi:10.3390/v13071358</a></p>
+
+??? quote "Full citation"
+    Sigrist, B., Geers, J., Albini, S., Rubbenstroth, D. & Wolfrum, N. A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses. Viruses 13, 1358 (2021).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">ORTHOBORNAVIRUS_XP_psittacine_Sigrist_2021</span></p>
 
 **AVIAN ORTHOBORNAVIRUS — X/P triplex qPCR, psittacine probe (Sigrist 2021)**
 
@@ -10,12 +17,7 @@
 | Gene | X/P |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 123 bp |
-| Designed | 2021 |
-| Paper | [10.3390/v13071358](https://doi.org/10.3390/v13071358) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Sigrist, B., Geers, J., Albini, S., Rubbenstroth, D. & Wolfrum, N. A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses. Viruses 13, 1358 (2021).
 
 ## Oligos
 

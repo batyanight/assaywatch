@@ -1,6 +1,13 @@
-# NOSEMA_bombi_SSU_Kato_2020
+# Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Klee · Journal of Invertebrate Pathology · 2006</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.jip.2005.10.012">doi:10.1016/j.jip.2005.10.012</a></p>
+
+??? quote "Full citation"
+    Klee, J.; Tek Tay, W.; Paxton, R. J. Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences. Journal of Invertebrate Pathology 2006, 91, 98-104.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">NOSEMA_bombi_SSU_Kato_2020</span></p>
 
 **VAIRIMORPHA (NOSEMA) BOMBI — SSU rRNA conventional PCR, Klee 2006 primers as used in Kato 2020**
 
@@ -10,12 +17,7 @@
 | Gene | SSU rRNA |
 | Chemistry | conventional |
 | Amplicon | 323 bp |
-| Designed | 2006 |
-| Paper | [10.1016/j.jip.2005.10.012](https://doi.org/10.1016/j.jip.2005.10.012) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Klee, J.; Tek Tay, W.; Paxton, R. J. Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences. Journal of Invertebrate Pathology 2006, 91, 98-104.
 
 ## Oligos
 

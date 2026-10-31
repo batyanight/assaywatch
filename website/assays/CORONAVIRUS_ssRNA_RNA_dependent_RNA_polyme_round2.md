@@ -1,8 +1,12 @@
-# CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2
+# CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2010</p>
 
-**CORONAVIRUS (ssRNA) — RNA-dependent RNA polymerase**
+<p class="aw-doi"><a href="https://doi.org/10.1128/mBio.00208-10">doi:10.1128/mBio.00208-10</a></p>
+
+<p class="aw-citation">Quan PL et al. 2010. mBio 1:e00208-10 (round 2)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">CORONAVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | RNA-dependent RNA polymerase |
 | Chemistry | conventional |
 | Amplicon | 328 bp |
-| Designed | 2010 |
-| Paper | [10.1128/mBio.00208-10](https://doi.org/10.1128/mBio.00208-10) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Quan PL et al. 2010. mBio 1:e00208-10 (round 2)
 
 ## Oligos
 

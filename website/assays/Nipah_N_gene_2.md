@@ -1,6 +1,13 @@
-# Nipah_N_gene_2
+# Nipah Virus: A Recently Emergent Deadly Paramyxovirus
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Chua · Science · 2000</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1126/science.288.5470.1432">doi:10.1126/science.288.5470.1432</a></p>
+
+??? quote "Full citation"
+    Chua KB, Bellini WJ, Rota PA, Harcourt BH, Tamin A, Lam SK, Ksiazek TG, Rollin PE, Zaki SR, Shieh WJ, Goldsmith CS, Gubler DJ, Roehrig JT, Eaton B, Gould AR, Olson J, Field H, Daniels P, Ling AE, Peters CJ, Anderson LJ, Mahy BWJ. 2000. Nipah virus - a recently emergent deadly paramyxovirus. Science 288:1432-1435
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Nipah_N_gene_2</span></p>
 
 **Nipah — N gene**
 
@@ -10,12 +17,7 @@
 | Gene | N gene |
 | Chemistry | conventional |
 | Amplicon | 227 bp |
-| Designed | 2000 |
-| Paper | [10.1126/science.288.5470.1432](https://doi.org/10.1126/science.288.5470.1432) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Chua KB, Bellini WJ, Rota PA, Harcourt BH, Tamin A, Lam SK, Ksiazek TG, Rollin PE, Zaki SR, Shieh WJ, Goldsmith CS, Gubler DJ, Roehrig JT, Eaton B, Gould AR, Olson J, Field H, Daniels P, Ling AE, Peters CJ, Anderson LJ, Mahy BWJ. 2000. Nipah virus - a recently emergent deadly paramyxovirus. Science 288:1432-1435
 
 ## Oligos
 

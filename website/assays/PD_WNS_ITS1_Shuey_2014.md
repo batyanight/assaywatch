@@ -1,6 +1,13 @@
-# PD_WNS_ITS1_Shuey_2014
+# Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Shuey · Applied and Environmental Microbiology · 2014</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/aem.02897-13">doi:10.1128/aem.02897-13</a></p>
+
+??? quote "Full citation"
+    Shuey, M. M., Drees, K. P., Lindner, D. L., Keim, P. & Foster, J. T. Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species. Applied and Environmental Microbiology 80, 1726-1731 (2014).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">PD_WNS_ITS1_Shuey_2014</span></p>
 
 **PSEUDOGYMNOASCUS DESTRUCTANS (white-nose syndrome) — ITS1 qPCR (Shuey 2014)**
 
@@ -10,12 +17,7 @@
 | Gene | ITS1 |
 | Chemistry | mgb |
 | Amplicon | 140 bp |
-| Designed | 2014 |
-| Paper | [10.1128/aem.02897-13](https://doi.org/10.1128/aem.02897-13) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Shuey, M. M., Drees, K. P., Lindner, D. L., Keim, P. & Foster, J. T. Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species. Applied and Environmental Microbiology 80, 1726-1731 (2014).
 
 ## Oligos
 

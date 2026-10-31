@@ -1,6 +1,13 @@
-# Pan_mycoplasma_16S_23S_intergenic_space
+# Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">Rebelo · Journal of Veterinary Diagnostic Investigation · 2011</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1177/1040638711416846">doi:10.1177/1040638711416846</a></p>
+
+??? quote "Full citation"
+    Rebelo, A. R., Parker, L. & Cai, H. Y. Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples. Journal of Veterinary Diagnostic Investigation 23, 932-936 (2011).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Pan_mycoplasma_16S_23S_intergenic_space</span></p>
 
 **Pan-mycoplasma — 16S-23S intergenic spacer region for FFPE**
 
@@ -10,12 +17,7 @@
 | Gene | 16S-23S intergenic spacer region for FFPE |
 | Chemistry | conventional |
 | Amplicon | 145 bp |
-| Designed | 2011 |
-| Paper | [10.1177/1040638711416846](https://doi.org/10.1177/1040638711416846) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Rebelo, A. R., Parker, L. & Cai, H. Y. Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples. Journal of Veterinary Diagnostic Investigation 23, 932-936 (2011).
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# LEPORID_GAMMAHERPESVIRUS_5_gB_Abade_dos_Santos_2021_taqman
+# A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen® or Taqman® Technologies
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">Abade dos Santos · Viruses · 2021</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3390/v13040715">doi:10.3390/v13040715</a></p>
+
+??? quote "Full citation"
+    Abade dos Santos FA, Carvalho CL, Peleteiro MC, Parra F, Duarte MD. A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen or Taqman Technologies. Viruses 2021, 13, 715.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">LEPORID_GAMMAHERPESVIRUS_5_gB_Abade_dos_Santos_2021_taqman</span></p>
 
 **LEPORID GAMMAHERPESVIRUS 5 (LeHV-5) — gB TaqMan qPCR (Abade dos Santos 2021)**
 
@@ -10,12 +17,7 @@
 | Gene | gB (glycoprotein B) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 200 bp |
-| Designed | 2021 |
-| Paper | [10.3390/v13040715](https://doi.org/10.3390/v13040715) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Abade dos Santos FA, Carvalho CL, Peleteiro MC, Parra F, Duarte MD. A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen or Taqman Technologies. Viruses 2021, 13, 715.
 
 ## Oligos
 

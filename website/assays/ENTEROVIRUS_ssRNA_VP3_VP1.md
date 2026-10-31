@@ -1,8 +1,12 @@
-# ENTEROVIRUS_ssRNA_VP3_VP1
+# ENTEROVIRUS (ssRNA) — VP3/VP1
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">2006</p>
 
-**ENTEROVIRUS (ssRNA) — VP3/VP1**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.00542-06">doi:10.1128/JCM.00542-06</a></p>
+
+<p class="aw-citation">Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (222/224 VP3-VP1 primers)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">ENTEROVIRUS_ssRNA_VP3_VP1</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | VP3/VP1 |
 | Chemistry | conventional |
 | Amplicon | 760 bp |
-| Designed | 2006 |
-| Paper | [10.1128/JCM.00542-06](https://doi.org/10.1128/JCM.00542-06) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (222/224 VP3-VP1 primers)
 
 ## Oligos
 

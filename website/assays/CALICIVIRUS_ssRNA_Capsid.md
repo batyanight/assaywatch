@@ -1,8 +1,12 @@
-# CALICIVIRUS_ssRNA_Capsid
+# CALICIVIRUS (ssRNA) — capsid-coding region (PREDICT P-024)
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">1999</p>
 
-**CALICIVIRUS (ssRNA) — capsid-coding region (PREDICT P-024)**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0166-0934(99)00088-9">doi:10.1016/S0166-0934(99)00088-9</a></p>
+
+<p class="aw-citation">Reid, S. M. et al. Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107 (1999).</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">CALICIVIRUS_ssRNA_Capsid</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | Capsid-coding region |
 | Chemistry | conventional |
 | Amplicon | 768 bp |
-| Designed | 1999 |
-| Paper | [10.1016/S0166-0934(99)00088-9](https://doi.org/10.1016/S0166-0934(99)00088-9) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Reid, S. M. et al. Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107 (1999).
 
 ## Oligos
 

@@ -1,8 +1,12 @@
-# Pan_Plasmodium_sp_and_Haemopro_cytochrome_c
+# Pan-Plasmodium sp. and Haemoproteus sp. — cytochrome c
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2004</p>
 
-**Pan-Plasmodium sp. and Haemoproteus sp. — cytochrome c**
+<p class="aw-doi"><a href="https://doi.org/10.1645/GE-184R1">doi:10.1645/GE-184R1</a></p>
+
+<p class="aw-citation">Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Pan_Plasmodium_sp_and_Haemopro_cytochrome_c</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | cytochrome c |
 | Chemistry | conventional |
 | Amplicon | 480 bp |
-| Designed | 2004 |
-| Paper | [10.1645/GE-184R1](https://doi.org/10.1645/GE-184R1) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)
 
 ## Oligos
 

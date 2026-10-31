@@ -1,6 +1,13 @@
-# RETROVIRUS_RNA_polymerase_SIV_Keele_2009
+# Increased mortality and AIDS-like immunopathology in wild chimpanzees infected with SIVcpz
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Keele · Nature · 2009</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1038/nature08200">doi:10.1038/nature08200</a></p>
+
+??? quote "Full citation"
+    Keele BF et al. 2009. Nature 460:515-519
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">RETROVIRUS_RNA_polymerase_SIV_Keele_2009</span></p>
 
 **RETROVIRUS (RNA) — polymerase (SIV)**
 
@@ -10,12 +17,7 @@
 | Gene | polymerase (SIV) |
 | Chemistry | conventional |
 | Amplicon | 549 bp |
-| Designed | 2009 |
-| Paper | [10.1038/nature08200](https://doi.org/10.1038/nature08200) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Keele BF et al. 2009. Nature 460:515-519
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# BOCAVIRUS_ssDNA_NS1_gene_round2
+# Identification and Characterization of a New Bocavirus Species in Gorillas
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Kapoor · PLoS ONE · 2010</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.pone.0011948">doi:10.1371/journal.pone.0011948</a></p>
+
+??? quote "Full citation"
+    Kapoor A et al. 2010. PLoS ONE 5:e11948 (PANBOV primers)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">BOCAVIRUS_ssDNA_NS1_gene_round2</span></p>
 
 **BOCAVIRUS (ssDNA) — NS1 gene**
 
@@ -10,12 +17,7 @@
 | Gene | NS1 gene |
 | Chemistry | conventional |
 | Amplicon | 290 bp |
-| Designed | 2010 |
-| Paper | [10.1371/journal.pone.0011948](https://doi.org/10.1371/journal.pone.0011948) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Kapoor A et al. 2010. PLoS ONE 5:e11948 (PANBOV primers)
 
 ## Oligos
 

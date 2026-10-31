@@ -1,6 +1,13 @@
-# CDV_P_gene_Mix7_Halecker_2021
+# A New Molecular Detection System for Canine Distemper Virus Based on a Double-Check Strategy
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Halecker · Viruses · 2021</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3390/v13081632">doi:10.3390/v13081632</a></p>
+
+??? quote "Full citation"
+    Halecker S, Bock S, Beer M, Hoffmann B. A New Molecular Detection System for Canine Distemper Virus Based on a Double-Check Strategy. Viruses 2021;13:1632.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CDV_P_gene_Mix7_Halecker_2021</span></p>
 
 **CANINE DISTEMPER VIRUS — P gene TaqMan RT-qPCR CDV-Mix 7 (Halecker 2021)**
 
@@ -10,12 +17,7 @@
 | Gene | P |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 96 bp |
-| Designed | 2021 |
-| Paper | [10.3390/v13081632](https://doi.org/10.3390/v13081632) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Halecker S, Bock S, Beer M, Hoffmann B. A New Molecular Detection System for Canine Distemper Virus Based on a Double-Check Strategy. Viruses 2021;13:1632.
 
 ## Oligos
 

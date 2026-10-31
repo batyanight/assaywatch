@@ -1,6 +1,13 @@
-# CDV_H_gene_Mueller_2011_3
+# Domestic Dog Origin of Canine Distemper Virus in Free-ranging Wolves in Portugal as Revealed by Hemagglutinin Gene Characterization
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Müller · Journal of Wildlife Diseases · 2011</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.7589/0090-3558-47.3.725">doi:10.7589/0090-3558-47.3.725</a></p>
+
+??? quote "Full citation"
+    Müller A, Silva E, Santos N, Thompson G. 2011. Domestic dog origin of canine distemper virus in free-ranging wolves in Portugal as revealed by hemagglutinin gene characterization. J Wildl Dis 47:725-729
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CDV_H_gene_Mueller_2011_3</span></p>
 
 **Canine distemper virus specific — H gene**
 
@@ -10,12 +17,7 @@
 | Gene | H gene |
 | Chemistry | conventional |
 | Amplicon | 563 bp |
-| Designed | 2011 |
-| Paper | [10.7589/0090-3558-47.3.725](https://doi.org/10.7589/0090-3558-47.3.725) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Müller A, Silva E, Santos N, Thompson G. 2011. Domestic dog origin of canine distemper virus in free-ranging wolves in Portugal as revealed by hemagglutinin gene characterization. J Wildl Dis 47:725-729
 
 ## Oligos
 

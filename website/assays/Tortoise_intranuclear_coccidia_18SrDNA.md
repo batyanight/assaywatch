@@ -1,6 +1,13 @@
-# Tortoise_intranuclear_coccidia_18SrDNA
+# Development of a quantitative PCR for rapid and sensitive diagnosis of an intranuclear coccidian parasite in Testudines (TINC), and detection in the critically endangered Arakan forest turtle (Heosemys depressa)
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">Alvarez · Veterinary Parasitology · 2013</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.vetpar.2012.11.029">doi:10.1016/j.vetpar.2012.11.029</a></p>
+
+??? quote "Full citation"
+    Alvarez WA et al. 2013. Vet Parasitol 193:66-70 (the TINC qPCR design paper; INCqPCRF/INCqPCR2R and the 6FAM-BHQ probe)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Tortoise_intranuclear_coccidia_18SrDNA</span></p>
 
 **Tortoise intranuclear coccidian species (TINC) — 18SrDNA**
 
@@ -10,12 +17,7 @@
 | Gene | 18SrDNA |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 84 bp |
-| Designed | 2013 |
-| Paper | [10.1016/j.vetpar.2012.11.029](https://doi.org/10.1016/j.vetpar.2012.11.029) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Alvarez WA et al. 2013. Vet Parasitol 193:66-70 (the TINC qPCR design paper; INCqPCRF/INCqPCR2R and the 6FAM-BHQ probe)
 
 ## Oligos
 

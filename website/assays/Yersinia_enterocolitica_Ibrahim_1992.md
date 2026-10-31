@@ -1,6 +1,13 @@
-# Yersinia_enterocolitica_Ibrahim_1992
+# Polymerase chain reaction-gene probe detection system specific for pathogenic strains of Yersinia enterocolitica
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Ibrahim · Journal of Clinical Microbiology · 1992</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.30.8.1942-1947.1992">doi:10.1128/jcm.30.8.1942-1947.1992</a></p>
+
+??? quote "Full citation"
+    Ibrahim A, Liesack W, Stackebrandt E. 1992. J Clin Microbiol 30:1942-1947
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Yersinia_enterocolitica_Ibrahim_1992</span></p>
 
 **Yersinia enterocolitica, enterotoxin gene**
 
@@ -10,12 +17,7 @@
 | Gene | — |
 | Chemistry | conventional |
 | Amplicon | 159 bp |
-| Designed | 1992 |
-| Paper | [10.1128/jcm.30.8.1942-1947.1992](https://doi.org/10.1128/jcm.30.8.1942-1947.1992) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Ibrahim A, Liesack W, Stackebrandt E. 1992. J Clin Microbiol 30:1942-1947
 
 ## Oligos
 

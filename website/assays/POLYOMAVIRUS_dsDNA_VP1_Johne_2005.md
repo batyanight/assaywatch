@@ -1,8 +1,12 @@
-# POLYOMAVIRUS_dsDNA_VP1_Johne_2005
+# POLYOMAVIRUS (dsDNA) — VP1
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">2005</p>
 
-**POLYOMAVIRUS (dsDNA) — VP1**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JVI.79.6.3883-3887.2005">doi:10.1128/JVI.79.6.3883-3887.2005</a></p>
+
+<p class="aw-citation">Johne R et al. 2005. J Virol 79:3883-3887</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">POLYOMAVIRUS_dsDNA_VP1_Johne_2005</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | VP1 |
 | Chemistry | conventional |
 | Amplicon | 271 bp |
-| Designed | 2005 |
-| Paper | [10.1128/JVI.79.6.3883-3887.2005](https://doi.org/10.1128/JVI.79.6.3883-3887.2005) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Johne R et al. 2005. J Virol 79:3883-3887
 
 ## Oligos
 

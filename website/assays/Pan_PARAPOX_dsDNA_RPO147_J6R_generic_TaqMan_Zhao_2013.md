@@ -1,6 +1,13 @@
-# Pan_PARAPOX_dsDNA_RPO147_J6R_generic_TaqMan_Zhao_2013
+# Specific qPCR assays for the detection of orf virus, pseudocowpox virus and bovine papular stomatitis virus
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Zhao · Journal of Virological Methods · 2013</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.jviromet.2013.08.027">doi:10.1016/j.jviromet.2013.08.027</a></p>
+
+??? quote "Full citation"
+    Zhao H, Wilkins K, Damon IK, Li Y. 2013. Specific qPCR assays for the detection of orf virus, pseudocowpox virus and bovine papular stomatitis virus. J Virol Methods 194:229-234
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Pan_PARAPOX_dsDNA_RPO147_J6R_generic_TaqMan_Zhao_2013</span></p>
 
 **PARAPOXVIRUS (dsDNA) — RPO147 J6R generic TaqMan (Zhao 2013)**
 
@@ -10,12 +17,7 @@
 | Gene | RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 85 bp |
-| Designed | 2013 |
-| Paper | [10.1016/j.jviromet.2013.08.027](https://doi.org/10.1016/j.jviromet.2013.08.027) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Zhao H, Wilkins K, Damon IK, Li Y. 2013. Specific qPCR assays for the detection of orf virus, pseudocowpox virus and bovine papular stomatitis virus. J Virol Methods 194:229-234
 
 ## Oligos
 

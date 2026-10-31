@@ -1,8 +1,12 @@
-# Pan_reptilian_paramyxovirus_L_Ahne_1999_2
+# Pan-reptilian paramyxovirus — RdRp (L gene)
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">1999</p>
 
-**Pan-reptilian paramyxovirus — RdRp (L gene)**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0168-1702(99)00059-3">doi:10.1016/S0168-1702(99)00059-3</a></p>
+
+<p class="aw-citation">Ahne W et al. 1999. Virus Res 63:65-74</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Pan_reptilian_paramyxovirus_L_Ahne_1999_2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | RdRp (L gene) |
 | Chemistry | conventional |
 | Amplicon | 566 bp |
-| Designed | 1999 |
-| Paper | [10.1016/S0168-1702(99)00059-3](https://doi.org/10.1016/S0168-1702(99)00059-3) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Ahne W et al. 1999. Virus Res 63:65-74
 
 ## Oligos
 

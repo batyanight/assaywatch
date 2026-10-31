@@ -1,6 +1,13 @@
-# LMBV_dsDNA_MCP_Grizzle_2003
+# PCR method for detection of largemouth bass virus
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Grizzle · Diseases of Aquatic Organisms · 2003</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3354/dao054029">doi:10.3354/dao054029</a></p>
+
+??? quote "Full citation"
+    Grizzle, J. M., Altinok, I. & Noyes, A. D. PCR method for detection of largemouth bass virus. Diseases of Aquatic Organisms 54, 29-33 (2003).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">LMBV_dsDNA_MCP_Grizzle_2003</span></p>
 
 **LARGEMOUTH BASS VIRUS (dsDNA) — MCP, LMBV288F/535R (Grizzle 2003)**
 
@@ -10,12 +17,7 @@
 | Gene | MCP |
 | Chemistry | conventional |
 | Amplicon | 248 bp |
-| Designed | 2003 |
-| Paper | [10.3354/dao054029](https://doi.org/10.3354/dao054029) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Grizzle, J. M., Altinok, I. & Noyes, A. D. PCR method for detection of largemouth bass virus. Diseases of Aquatic Organisms 54, 29-33 (2003).
 
 ## Oligos
 

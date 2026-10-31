@@ -1,8 +1,12 @@
-# Salmonella_invA_Rahn_1992
+# Salmonella, invA gene
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">1992</p>
 
-**Salmonella, invA gene**
+<p class="aw-doi"><a href="https://doi.org/10.1016/0890-8508(92)90002-F">doi:10.1016/0890-8508(92)90002-F</a></p>
+
+<p class="aw-citation">Rahn K et al. 1992. Mol Cell Probes 6:271-279</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Salmonella_invA_Rahn_1992</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | — |
 | Chemistry | conventional |
 | Amplicon | 275 bp |
-| Designed | 1992 |
-| Paper | [10.1016/0890-8508(92)90002-F](https://doi.org/10.1016/0890-8508(92)90002-F) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Rahn K et al. 1992. Mol Cell Probes 6:271-279
 
 ## Oligos
 

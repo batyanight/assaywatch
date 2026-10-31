@@ -1,6 +1,13 @@
-# Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011
+# Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Rebelo · Journal of Veterinary Diagnostic Investigation · 2011</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1177/1040638711416846">doi:10.1177/1040638711416846</a></p>
+
+??? quote "Full citation"
+    Rebelo AR et al. 2011. J Vet Diagn Invest 23:932-936
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Pan_mycoplasma_16S_23S_intergenic_space_Rebelo_2011</span></p>
 
 **Pan-mycoplasma — 16S-23S intergenic spacer region**
 
@@ -10,12 +17,7 @@
 | Gene | 16S-23S intergenic spacer region |
 | Chemistry | conventional |
 | Amplicon | — |
-| Designed | 2011 |
-| Paper | [10.1177/1040638711416846](https://doi.org/10.1177/1040638711416846) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Rebelo AR et al. 2011. J Vet Diagn Invest 23:932-936
 
 ## Oligos
 

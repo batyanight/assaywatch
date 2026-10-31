@@ -1,6 +1,13 @@
-# CHLAMYDIA_genus_16S_Messmer_1997_round1
+# Application of a nested, multiplex PCR to psittacosis outbreaks
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Messmer · Journal of Clinical Microbiology · 1997</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.35.8.2043-2046.1997">doi:10.1128/jcm.35.8.2043-2046.1997</a></p>
+
+??? quote "Full citation"
+    Messmer, T. O., Skelton, S. K., Moroney, J. F., Daugharty, H. & Fields, B. S. Application of a nested, multiplex PCR to psittacosis outbreaks. Journal of Clinical Microbiology 35, 2043-2046 (1997).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">CHLAMYDIA_genus_16S_Messmer_1997_round1</span></p>
 
 **CHLAMYDIA (genus) — 16S rRNA nested multiplex PCR, first step (Messmer 1997)**
 
@@ -10,12 +17,7 @@
 | Gene | 16S rRNA |
 | Chemistry | conventional |
 | Amplicon | 437 bp |
-| Designed | 1997 |
-| Paper | [10.1128/jcm.35.8.2043-2046.1997](https://doi.org/10.1128/jcm.35.8.2043-2046.1997) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Messmer, T. O., Skelton, S. K., Moroney, J. F., Daugharty, H. & Fields, B. S. Application of a nested, multiplex PCR to psittacosis outbreaks. Journal of Clinical Microbiology 35, 2043-2046 (1997).
 
 ## Oligos
 

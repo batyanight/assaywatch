@@ -1,8 +1,12 @@
-# ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997
+# ORTHOPOXVIRUS (dsDNA) — A-type inclusion body (ATI) gene consensus PCR, species by amplicon size (Meyer 1997)
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">1996</p>
 
-**ORTHOPOXVIRUS (dsDNA) — A-type inclusion body (ATI) gene consensus PCR, species by amplicon size (Meyer 1997)**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0166-0934(96)02155-6">doi:10.1016/S0166-0934(96)02155-6</a></p>
+
+<p class="aw-citation">Meyer H, Ropp SL, Esposito JJ. Gene for A-type inclusion body protein is useful for a polymerase chain reaction assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">ORTHOPOXVIRUS_dsDNA_ATI_Meyer_1997</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | ATI (A-type inclusion body protein) |
 | Chemistry | conventional |
 | Amplicon | — |
-| Designed | 1996 |
-| Paper | [10.1016/S0166-0934(96)02155-6](https://doi.org/10.1016/S0166-0934(96)02155-6) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Meyer H, Ropp SL, Esposito JJ. Gene for A-type inclusion body protein is useful for a polymerase chain reaction assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).
 
 ## Oligos
 

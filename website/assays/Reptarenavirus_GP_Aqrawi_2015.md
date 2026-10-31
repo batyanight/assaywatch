@@ -1,8 +1,12 @@
-# Reptarenavirus_GP_Aqrawi_2015
+# Snake arenavirus  — Glycoprotein
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">2015</p>
 
-**Snake arenavirus  — Glycoprotein**
+<p class="aw-doi"><a href="https://doi.org/10.15654/TPK-140743">doi:10.15654/TPK-140743</a></p>
+
+<p class="aw-citation">Aqrawi, T., Stöhr, A. C., Knauf-Witzens, T., Krengel, A., Heckers, K. O. & Marschang, R. E. Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo. Tierärztliche Praxis Ausgabe K: Kleintiere / Heimtiere 43, 239-247 (2015).</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Reptarenavirus_GP_Aqrawi_2015</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | Glycoprotein |
 | Chemistry | conventional |
 | Amplicon | 287 bp |
-| Designed | 2015 |
-| Paper | [10.15654/TPK-140743](https://doi.org/10.15654/TPK-140743) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Aqrawi, T., Stöhr, A. C., Knauf-Witzens, T., Krengel, A., Heckers, K. O. & Marschang, R. E. Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo. Tierärztliche Praxis Ausgabe K: Kleintiere / Heimtiere 43, 239-247 (2015).
 
 ## Oligos
 

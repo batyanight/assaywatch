@@ -1,8 +1,12 @@
-# Helicobacter_Pan_Helicobacter_16S_short_Fox_1998
+# Helicobacter — Pan Helicobacter 16S short amplicon (Jim Fox)
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">1998</p>
 
-**Helicobacter — Pan Helicobacter 16S short amplicon (Jim Fox)**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0016-5085(98)70589-X">doi:10.1016/S0016-5085(98)70589-X</a></p>
+
+<p class="aw-citation">Fox JG et al. 1998. Gastroenterology 114:755-763</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Helicobacter_Pan_Helicobacter_16S_short_Fox_1998</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | 16S rRNA |
 | Chemistry | conventional |
 | Amplicon | 398 bp |
-| Designed | 1998 |
-| Paper | [10.1016/S0016-5085(98)70589-X](https://doi.org/10.1016/S0016-5085(98)70589-X) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Fox JG et al. 1998. Gastroenterology 114:755-763
 
 ## Oligos
 

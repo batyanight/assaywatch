@@ -1,6 +1,13 @@
-# PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002
+# Novel adeno-associated viruses from rhesus monkeys as vectors for human gene therapy
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Gao · Proceedings of the National Academy of Sciences · 2002</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1073/pnas.182412299">doi:10.1073/pnas.182412299</a></p>
+
+??? quote "Full citation"
+    Gao GP et al. 2002. Proc Natl Acad Sci USA 99:11854-11859
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">PARVOVIRUS_ssDNA_VP1_gene_dependovirus_2002</span></p>
 
 **PARVOVIRUS (ssDNA) — VP1 gene (dependovirus)**
 
@@ -10,12 +17,7 @@
 | Gene | VP1 gene (dependovirus) |
 | Chemistry | conventional |
 | Amplicon | 255 bp |
-| Designed | 2002 |
-| Paper | [10.1073/pnas.182412299](https://doi.org/10.1073/pnas.182412299) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Gao GP et al. 2002. Proc Natl Acad Sci USA 99:11854-11859
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# MYCOPLASMA_16S_Turtles_only_Feldman_2006
+# A NOVEL MYCOPLASMA DETECTED IN ASSOCIATION WITH UPPER RESPIRATORY DISEASE SYNDROME IN FREE-RANGING EASTERN BOX TURTLES (TERRAPENE CAROLINA CAROLINA) IN VIRGINIA
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Feldman · Journal of Wildlife Diseases · 2006</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.7589/0090-3558-42.2.279">doi:10.7589/0090-3558-42.2.279</a></p>
+
+??? quote "Full citation"
+    Feldman SH et al. 2006. J Wildl Dis 42:279-288
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">MYCOPLASMA_16S_Turtles_only_Feldman_2006</span></p>
 
 **MYCOPLASMA — 16S (Turtles only)**
 
@@ -10,12 +17,7 @@
 | Gene | 16S (Turtles only) |
 | Chemistry | conventional |
 | Amplicon | 994 bp |
-| Designed | 2006 |
-| Paper | [10.7589/0090-3558-42.2.279](https://doi.org/10.7589/0090-3558-42.2.279) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Feldman SH et al. 2006. J Wildl Dis 42:279-288
 
 ## Oligos
 

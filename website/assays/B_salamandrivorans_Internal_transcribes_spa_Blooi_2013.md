@@ -1,8 +1,12 @@
-# B_salamandrivorans_Internal_transcribes_spa_Blooi_2013
+# Batrachochytrium salamandrivorans — ITS real-time PCR STerF/STerR (Blooi 2013)
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">2013</p>
 
-**Batrachochytrium salamandrivorans — ITS real-time PCR STerF/STerR (Blooi 2013)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.02313-13">doi:10.1128/JCM.02313-13</a></p>
+
+<p class="aw-citation">Blooi M et al. 2013. J Clin Microbiol 51:4173-4177</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">B_salamandrivorans_Internal_transcribes_spa_Blooi_2013</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | ITS1-5.8S rDNA |
 | Chemistry | mgb |
 | Amplicon | — |
-| Designed | 2013 |
-| Paper | [10.1128/JCM.02313-13](https://doi.org/10.1128/JCM.02313-13) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Blooi M et al. 2013. J Clin Microbiol 51:4173-4177
 
 ## Oligos
 

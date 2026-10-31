@@ -1,6 +1,13 @@
-# USUTU_ssRNA_NS1_realtime_Jost_2011
+# Isolation of Usutu Virus in Germany
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Jöst · The American Society of Tropical Medicine and Hygiene · 2011</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.4269/ajtmh.2011.11-0248">doi:10.4269/ajtmh.2011.11-0248</a></p>
+
+??? quote "Full citation"
+    Jöst H, Bialonski A, Maus D, Sambri V, Eiden M, Groschup MH, Günther S, Becker N, Schmidt-Chanasit J. 2011. Isolation of Usutu virus in Germany. Am J Trop Med Hyg 85:551-553
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">USUTU_ssRNA_NS1_realtime_Jost_2011</span></p>
 
 **USUTU VIRUS (ssRNA+) — NS1 real-time RT-PCR (Jöst 2011)**
 
@@ -10,12 +17,7 @@
 | Gene | NS1 |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 91 bp |
-| Designed | 2011 |
-| Paper | [10.4269/ajtmh.2011.11-0248](https://doi.org/10.4269/ajtmh.2011.11-0248) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Jöst H, Bialonski A, Maus D, Sambri V, Eiden M, Groschup MH, Günther S, Becker N, Schmidt-Chanasit J. 2011. Isolation of Usutu virus in Germany. Am J Trop Med Hyg 85:551-553
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# SIMBU_SEROGROUP_ssRNA_S_segment_TaqMan_Steyn_2020
+# Shuni Virus in Wildlife and Nonequine Domestic Animals, South Africa
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">Steyn · Emerging Infectious Diseases · 2020</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3201/eid2607.190770">doi:10.3201/eid2607.190770</a></p>
+
+??? quote "Full citation"
+    Steyn J et al. 2020. Shuni Virus in Wildlife and Nonequine Domestic Animals, South Africa. Emerg Infect Dis 26:1521-1525
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">SIMBU_SEROGROUP_ssRNA_S_segment_TaqMan_Steyn_2020</span></p>
 
 **SIMBU SEROGROUP (ssRNA-) — S segment TaqMan RT-PCR**
 
@@ -10,12 +17,7 @@
 | Gene | S segment |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 152 bp |
-| Designed | 2020 |
-| Paper | [10.3201/eid2607.190770](https://doi.org/10.3201/eid2607.190770) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Steyn J et al. 2020. Shuni Virus in Wildlife and Nonequine Domestic Animals, South Africa. Emerg Infect Dis 26:1521-1525
 
 ## Oligos
 

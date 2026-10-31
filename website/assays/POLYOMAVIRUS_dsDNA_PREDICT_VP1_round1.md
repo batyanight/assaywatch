@@ -1,8 +1,12 @@
-# POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1
+# POLYOMAVIRUS (dsDNA) — PREDICT VP1
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">2005</p>
 
-**POLYOMAVIRUS (dsDNA) — PREDICT VP1**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JVI.79.6.3883-3887.2005">doi:10.1128/JVI.79.6.3883-3887.2005</a></p>
+
+<p class="aw-citation">Johne R et al. 2005. J Virol 79:3883-3887 (VP1 outer primers)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">POLYOMAVIRUS_dsDNA_PREDICT_VP1_round1</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | PREDICT VP1 |
 | Chemistry | conventional |
 | Amplicon | — |
-| Designed | 2005 |
-| Paper | [10.1128/JVI.79.6.3883-3887.2005](https://doi.org/10.1128/JVI.79.6.3883-3887.2005) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Johne R et al. 2005. J Virol 79:3883-3887 (VP1 outer primers)
 
 ## Oligos
 

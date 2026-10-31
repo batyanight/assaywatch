@@ -1,8 +1,12 @@
-# RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009
+# RETROVIRUS (RNA) — polymerase (SIV)
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2009</p>
 
-**RETROVIRUS (RNA) — polymerase (SIV)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JVI.02311-08">doi:10.1128/JVI.02311-08</a></p>
+
+<p class="aw-citation">Takehisa J et al. 2009. J Virol 83:1635-1648</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">RETROVIRUS_RNA_polymerase_SIV_Takehisa_2009</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | polymerase (SIV) |
 | Chemistry | conventional |
 | Amplicon | 285 bp |
-| Designed | 2009 |
-| Paper | [10.1128/JVI.02311-08](https://doi.org/10.1128/JVI.02311-08) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Takehisa J et al. 2009. J Virol 83:1635-1648
 
 ## Oligos
 

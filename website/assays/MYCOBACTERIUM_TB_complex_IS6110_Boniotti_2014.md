@@ -1,6 +1,13 @@
-# MYCOBACTERIUM_TB_complex_IS6110_Boniotti_2014
+# Detection and Molecular Characterization of Mycobacterium microti Isolates in Wild Boar from Northern Italy
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Boniotti · Journal of Clinical Microbiology · 2014</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.00440-14">doi:10.1128/jcm.00440-14</a></p>
+
+??? quote "Full citation"
+    Boniotti, M. B., Gaffuri, A., Gelmetti, D., Tagliabue, S., Chiari, M., Mangeli, A., Spisani, M., Nassuato, C., Gibelli, L., Sacchi, C., Zanoni, M. & Pacciarini, M. L. Detection and Molecular Characterization of Mycobacterium microti Isolates in Wild Boar from Northern Italy. Journal of Clinical Microbiology 52, 2834-2843 (2014).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">MYCOBACTERIUM_TB_complex_IS6110_Boniotti_2014</span></p>
 
 **MYCOBACTERIUM TUBERCULOSIS COMPLEX — IS6110 PCR (Boniotti 2014)**
 
@@ -10,12 +17,7 @@
 | Gene | IS6110 |
 | Chemistry | conventional |
 | Amplicon | 209 bp |
-| Designed | 2014 |
-| Paper | [10.1128/jcm.00440-14](https://doi.org/10.1128/jcm.00440-14) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Boniotti, M. B., Gaffuri, A., Gelmetti, D., Tagliabue, S., Chiari, M., Mangeli, A., Spisani, M., Nassuato, C., Gibelli, L., Sacchi, C., Zanoni, M. & Pacciarini, M. L. Detection and Molecular Characterization of Mycobacterium microti Isolates in Wild Boar from Northern Italy. Journal of Clinical Microbiology 52, 2834-2843 (2014).
 
 ## Oligos
 

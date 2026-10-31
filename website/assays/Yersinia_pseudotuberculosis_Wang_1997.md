@@ -1,6 +1,13 @@
-# Yersinia_pseudotuberculosis_Wang_1997
+# A universal protocol for PCR detection of 13 species of foodborne pathogens in foods
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Wang · Journal of Applied Microbiology · 1997</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1046/j.1365-2672.1997.00300.x">doi:10.1046/j.1365-2672.1997.00300.x</a></p>
+
+??? quote "Full citation"
+    Wang RF, Cao WW, Cerniglia CE. 1997. A universal protocol for PCR detection of 13 species of foodborne pathogens in foods. J Appl Microbiol 83:727-736
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Yersinia_pseudotuberculosis_Wang_1997</span></p>
 
 **Yersinia pseudotuberculosis, inv gene**
 
@@ -10,12 +17,7 @@
 | Gene | — |
 | Chemistry | conventional |
 | Amplicon | 440 bp |
-| Designed | 1997 |
-| Paper | [10.1046/j.1365-2672.1997.00300.x](https://doi.org/10.1046/j.1365-2672.1997.00300.x) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Wang RF, Cao WW, Cerniglia CE. 1997. A universal protocol for PCR detection of 13 species of foodborne pathogens in foods. J Appl Microbiol 83:727-736
 
 ## Oligos
 

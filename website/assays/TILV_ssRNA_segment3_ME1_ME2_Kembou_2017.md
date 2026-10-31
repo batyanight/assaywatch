@@ -1,6 +1,13 @@
-# TILV_ssRNA_segment3_ME1_ME2_Kembou_2017
+# Detection of Tilapia Lake Virus in Clinical Samples by Culturing and Nested Reverse Transcription-PCR
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Kembou Tsofack · Journal of Clinical Microbiology · 2017</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.01808-16">doi:10.1128/jcm.01808-16</a></p>
+
+??? quote "Full citation"
+    Kembou Tsofack, J. E., Zamostiano, R., Watted, S., Berkowitz, A., Rosenbluth, E. et al. Detection of Tilapia Lake Virus in Clinical Samples by Culturing and Nested Reverse Transcription-PCR. Journal of Clinical Microbiology 55, 759-767 (2017).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">TILV_ssRNA_segment3_ME1_ME2_Kembou_2017</span></p>
 
 **TILAPIA LAKE VIRUS (ssRNA-) — segment 3 nested RT-PCR, ME1/ME2 (via Kembou Tsofack 2017)**
 
@@ -10,12 +17,7 @@
 | Gene | segment 3 |
 | Chemistry | conventional |
 | Amplicon | 250 bp |
-| Designed | 2017 |
-| Paper | [10.1128/jcm.01808-16](https://doi.org/10.1128/jcm.01808-16) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Kembou Tsofack, J. E., Zamostiano, R., Watted, S., Berkowitz, A., Rosenbluth, E. et al. Detection of Tilapia Lake Virus in Clinical Samples by Culturing and Nested Reverse Transcription-PCR. Journal of Clinical Microbiology 55, 759-767 (2017).
 
 ## Oligos
 

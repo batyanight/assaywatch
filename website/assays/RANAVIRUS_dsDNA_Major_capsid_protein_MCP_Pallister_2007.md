@@ -1,6 +1,13 @@
-# RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007
+# Development of real‐time PCR assays for the detection and differentiation of Australian and European ranaviruses
 
-<span class="aw-chip aw-chip-watch">watch</span>
+<p class="aw-byline">Pallister · Journal of Fish Diseases · 2007</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1111/j.1365-2761.2007.00828.x">doi:10.1111/j.1365-2761.2007.00828.x</a></p>
+
+??? quote "Full citation"
+    Pallister J et al. 2007. J Fish Dis 30:427-438
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">RANAVIRUS_dsDNA_Major_capsid_protein_MCP_Pallister_2007</span></p>
 
 **Ranavirus — MCP real-time PCR RanaConF/R + probe (Pallister 2007)**
 
@@ -10,12 +17,7 @@
 | Gene | MCP |
 | Chemistry | mgb |
 | Amplicon | 57 bp |
-| Designed | 2007 |
-| Paper | [10.1111/j.1365-2761.2007.00828.x](https://doi.org/10.1111/j.1365-2761.2007.00828.x) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Pallister J et al. 2007. J Fish Dis 30:427-438
 
 ## Oligos
 

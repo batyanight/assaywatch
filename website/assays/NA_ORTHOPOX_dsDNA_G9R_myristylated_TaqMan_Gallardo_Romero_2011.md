@@ -1,8 +1,12 @@
-# NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011
+# NORTH AMERICAN ORTHOPOXVIRUS (dsDNA) — G9R myristylated protein TaqMan (Gallardo-Romero 2011)
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">2011</p>
 
-**NORTH AMERICAN ORTHOPOXVIRUS (dsDNA) — G9R myristylated protein TaqMan (Gallardo-Romero 2011)**
+<p class="aw-doi"><a href="https://doi.org/10.1186/1743-422X-8-313">doi:10.1186/1743-422X-8-313</a></p>
+
+<p class="aw-citation">Gallardo-Romero NF, Velasco-Villa A, Weiss SL, Emerson GL, Carroll DS, Hughes CM, Li Y, Karem KL, Damon IK, Olson VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">NA_ORTHOPOX_dsDNA_G9R_myristylated_TaqMan_Gallardo_Romero_2011</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | myristylated protein (VACV Copenhagen G9R ortholog; VPXV 086, SKPV 086, RCNV 070) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 156 bp |
-| Designed | 2011 |
-| Paper | [10.1186/1743-422X-8-313](https://doi.org/10.1186/1743-422X-8-313) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Gallardo-Romero NF, Velasco-Villa A, Weiss SL, Emerson GL, Carroll DS, Hughes CM, Li Y, Karem KL, Damon IK, Olson VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313
 
 ## Oligos
 

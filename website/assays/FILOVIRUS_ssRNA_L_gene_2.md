@@ -1,8 +1,12 @@
-# FILOVIRUS_ssRNA_L_gene_2
+# FILOVIRUS (ssRNA) — L gene
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">2007</p>
 
-**FILOVIRUS (ssRNA) — L gene**
+<p class="aw-doi"><a href="https://doi.org/10.1128/Jcm.01893-06">doi:10.1128/Jcm.01893-06</a></p>
+
+<p class="aw-citation">Zhai, J. H. et al. Rapid molecular strategy for filovirus detection and characterization. Journal of clinical microbiology 45, 224-226, doi:Doi 10.1128/Jcm.01893-06 (2007).</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">FILOVIRUS_ssRNA_L_gene_2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | L gene |
 | Chemistry | conventional |
 | Amplicon | 634 bp |
-| Designed | 2007 |
-| Paper | [10.1128/Jcm.01893-06](https://doi.org/10.1128/Jcm.01893-06) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Zhai, J. H. et al. Rapid molecular strategy for filovirus detection and characterization. Journal of clinical microbiology 45, 224-226, doi:Doi 10.1128/Jcm.01893-06 (2007).
 
 ## Oligos
 

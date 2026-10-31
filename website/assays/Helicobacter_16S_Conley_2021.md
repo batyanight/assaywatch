@@ -1,6 +1,13 @@
-# Helicobacter_16S_Conley_2021
+# Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana)
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Conley · PLOS ONE · 2021</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.pone.0247010">doi:10.1371/journal.pone.0247010</a></p>
+
+??? quote "Full citation"
+    Conley KJ et al. 2021. Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana). PLoS One 16:e0247010
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Helicobacter_16S_Conley_2021</span></p>
 
 **Helicobacter — 16S rRNA qPCR (Helico New F/R + PROBE1)**
 
@@ -10,12 +17,7 @@
 | Gene | 16S rRNA |
 | Chemistry | mgb |
 | Amplicon | 191 bp |
-| Designed | 2021 |
-| Paper | [10.1371/journal.pone.0247010](https://doi.org/10.1371/journal.pone.0247010) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Conley KJ et al. 2021. Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana). PLoS One 16:e0247010
 
 ## Oligos
 

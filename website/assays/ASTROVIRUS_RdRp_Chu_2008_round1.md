@@ -1,6 +1,13 @@
-# ASTROVIRUS_RdRp_Chu_2008_round1
+# Novel Astroviruses in Insectivorous Bats
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Chu · Journal of Virology · 2008</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jvi.00857-08">doi:10.1128/jvi.00857-08</a></p>
+
+??? quote "Full citation"
+    Chu DK, Poon LL, Guan Y, Peiris JS. 2008. Novel astroviruses in insectivorous bats. J Virol 82:9107-9114
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">ASTROVIRUS_RdRp_Chu_2008_round1</span></p>
 
 **Astrovirus pan-family RdRp heminested PCR (Chu 2008), round 1**
 
@@ -10,12 +17,7 @@
 | Gene | RNA-dependent RNA polymerase (RdRp) |
 | Chemistry | conventional |
 | Amplicon | — |
-| Designed | 2008 |
-| Paper | [10.1128/jvi.00857-08](https://doi.org/10.1128/jvi.00857-08) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Chu DK, Poon LL, Guan Y, Peiris JS. 2008. Novel astroviruses in insectivorous bats. J Virol 82:9107-9114
 
 ## Oligos
 

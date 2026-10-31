@@ -1,6 +1,13 @@
-# CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004
+# A DNA-BASED ASSAY IDENTIFIES BATRACHOCHYTRIUM DENDROBATIDIS IN AMPHIBIANS
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Annis · Journal of Wildlife Diseases · 2004</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.7589/0090-3558-40.3.420">doi:10.7589/0090-3558-40.3.420</a></p>
+
+??? quote "Full citation"
+    Annis SL et al. 2004. J Wildl Dis 40:420-428
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CHYTRID_Bd_ITS1_5_8S_conventional_Annis_2004</span></p>
 
 **Batrachochytrium dendrobatidis — ITS1/5.8S conventional PCR Bd1a/Bd2a (Annis 2004)**
 
@@ -10,12 +17,7 @@
 | Gene | ITS1-5.8S rDNA |
 | Chemistry | conventional |
 | Amplicon | 300 bp |
-| Designed | 2004 |
-| Paper | [10.7589/0090-3558-40.3.420](https://doi.org/10.7589/0090-3558-40.3.420) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Annis SL et al. 2004. J Wildl Dis 40:420-428
 
 ## Oligos
 

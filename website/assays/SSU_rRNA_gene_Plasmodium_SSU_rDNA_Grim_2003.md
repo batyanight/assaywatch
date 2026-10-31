@@ -1,6 +1,13 @@
-# SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003
+# Plasmodium: Genus-Conserved Primers for Species Identification and Quantitation
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Li · Experimental Parasitology · 1995</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1006/expr.1995.1107">doi:10.1006/expr.1995.1107</a></p>
+
+??? quote "Full citation"
+    Li J et al. 1995. Exp Parasitol 81:182-190
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">SSU_rRNA_gene_Plasmodium_SSU_rDNA_Grim_2003</span></p>
 
 **SSU rRNA gene (Plasmodium) — SSU rDNA**
 
@@ -10,12 +17,7 @@
 | Gene | SSU rDNA |
 | Chemistry | conventional |
 | Amplicon | 374 bp |
-| Designed | 1995 |
-| Paper | [10.1006/expr.1995.1107](https://doi.org/10.1006/expr.1995.1107) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Li J et al. 1995. Exp Parasitol 81:182-190
 
 ## Oligos
 

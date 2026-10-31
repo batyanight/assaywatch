@@ -1,6 +1,13 @@
-# POXVIRUSES_dsDNA_Topoisomerase
+# Genetic identification of novel poxviruses of cetaceans and pinnipeds
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Bracht · Archives of Virology · 2005</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1007/s00705-005-0679-6">doi:10.1007/s00705-005-0679-6</a></p>
+
+??? quote "Full citation"
+    Bracht, A. J. et al. Genetic identification of novel poxviruses of cetaceans and pinnipeds. Archives of virology 151, 423-438, doi:Doi 10.1007/s00705-005-0679-6 (2006).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">POXVIRUSES_dsDNA_Topoisomerase</span></p>
 
 **POXVIRUSES (dsDNA) — Topoisomerase**
 
@@ -10,12 +17,7 @@
 | Gene | Topoisomerase |
 | Chemistry | conventional |
 | Amplicon | 344 bp |
-| Designed | 2006 |
-| Paper | [10.1007/s00705-005-0679-6](https://doi.org/10.1007/s00705-005-0679-6) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Bracht, A. J. et al. Genetic identification of novel poxviruses of cetaceans and pinnipeds. Archives of virology 151, 423-438, doi:Doi 10.1007/s00705-005-0679-6 (2006).
 
 ## Oligos
 

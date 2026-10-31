@@ -1,6 +1,13 @@
-# Pan_HERPES_dsDNA_Polymerase_round2
+# Detection and analysis of diverse herpesviral species by consensus primer PCR
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">VanDevanter · Journal of Clinical Microbiology · 1996</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.34.7.1666-1671.1996">doi:10.1128/jcm.34.7.1666-1671.1996</a></p>
+
+??? quote "Full citation"
+    VanDevanter DR et al. 1996. J Clin Microbiol 34:1666-1671 (TGV/IYG round 2)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Pan_HERPES_dsDNA_Polymerase_round2</span></p>
 
 **Pan-HERPES (dsDNA) — Polymerase**
 
@@ -10,12 +17,7 @@
 | Gene | Polymerase |
 | Chemistry | conventional |
 | Amplicon | 231 bp |
-| Designed | 1996 |
-| Paper | [10.1128/jcm.34.7.1666-1671.1996](https://doi.org/10.1128/jcm.34.7.1666-1671.1996) |
 | Registry status | active |
-
-!!! quote "The paper"
-    VanDevanter DR et al. 1996. J Clin Microbiol 34:1666-1671 (TGV/IYG round 2)
 
 ## Oligos
 

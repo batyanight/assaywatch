@@ -1,6 +1,13 @@
-# AVIPOXVIRUS_dsDNA_4b_core_Farias_2010
+# Taqman Real-Time PCR Detects Avipoxvirus DNA in Blood of Hawaìi `Amakihi (Hemignathus virens)
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">Farias · PLoS ONE · 2010</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1371/journal.pone.0010745">doi:10.1371/journal.pone.0010745</a></p>
+
+??? quote "Full citation"
+    Farias, M. E. M., LaPointe, D. A., Atkinson, C. T., Czerwonka, C., Shrestha, R. & Jarvi, S. I. Taqman real-time PCR detects Avipoxvirus DNA in blood of Hawai'i 'Amakihi (Hemignathus virens). PLoS ONE 5, e10745 (2010).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">AVIPOXVIRUS_dsDNA_4b_core_Farias_2010</span></p>
 
 **AVIPOXVIRUS (dsDNA) — 4b core protein TaqMan (Farias 2010)**
 
@@ -10,12 +17,7 @@
 | Gene | 4b core protein |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 250 bp |
-| Designed | 2010 |
-| Paper | [10.1371/journal.pone.0010745](https://doi.org/10.1371/journal.pone.0010745) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Farias, M. E. M., LaPointe, D. A., Atkinson, C. T., Czerwonka, C., Shrestha, R. & Jarvi, S. I. Taqman real-time PCR detects Avipoxvirus DNA in blood of Hawai'i 'Amakihi (Hemignathus virens). PLoS ONE 5, e10745 (2010).
 
 ## Oligos
 

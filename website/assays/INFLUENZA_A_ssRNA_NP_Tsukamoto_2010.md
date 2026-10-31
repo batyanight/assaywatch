@@ -1,8 +1,12 @@
-# INFLUENZA_A_ssRNA_NP_Tsukamoto_2010
+# Influenza A virus — nucleoprotein (NP) gene rRT-PCR (Tsukamoto 2010)
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2010</p>
 
-**Influenza A virus — nucleoprotein (NP) gene rRT-PCR (Tsukamoto 2010)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.01264-10">doi:10.1128/JCM.01264-10</a></p>
+
+<p class="aw-citation">Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of diverse H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">INFLUENZA_A_ssRNA_NP_Tsukamoto_2010</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | NP (nucleoprotein) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 329 bp |
-| Designed | 2010 |
-| Paper | [10.1128/JCM.01264-10](https://doi.org/10.1128/JCM.01264-10) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of diverse H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
 
 ## Oligos
 

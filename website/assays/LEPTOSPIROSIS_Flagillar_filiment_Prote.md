@@ -1,6 +1,13 @@
-# LEPTOSPIROSIS_Flagillar_filiment_Prote
+# Use of Staged Molecular Analysis to Determine Causes of Unexplained Central Nervous System Infections
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">Hsu · Emerging Infectious Diseases · 2013</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3201/eid1909.130474">doi:10.3201/eid1909.130474</a></p>
+
+??? quote "Full citation"
+    Hsu M et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira interrogans flaB Fwd/Rev)
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">LEPTOSPIROSIS_Flagillar_filiment_Prote</span></p>
 
 **LEPTOSPIROSIS — flagellar filament protein B (flaB) gene**
 
@@ -10,12 +17,7 @@
 | Gene | flagellar filament protein B (flaB) |
 | Chemistry | conventional |
 | Amplicon | 120 bp |
-| Designed | — |
-| Paper | [10.3201/eid1909.130474](https://doi.org/10.3201/eid1909.130474) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Hsu M et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira interrogans flaB Fwd/Rev)
 
 ## Oligos
 

@@ -1,6 +1,13 @@
-# CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021
+# Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Ghosh · Molecular Ecology Resources · 2021</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1111/1755-0998.13299">doi:10.1111/1755-0998.13299</a></p>
+
+??? quote "Full citation"
+    Ghosh, P. N., Verster, R., Sewell, T. R., O'Hanlon, S. J., Brookes, L. M., Rieux, A., Garner, T. W. J., Weldon, C. & Fisher, M. C. Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR. Molecular Ecology Resources 21, 1452-1459 (2021).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">CHYTRID_Bd_mtDNA_lineage_BdGPL_Ghosh_2021</span></p>
 
 **BATRACHOCHYTRIUM DENDROBATIDIS — BdGPL lineage-specific mtDNA qPCR (Ghosh 2021)**
 
@@ -10,12 +17,7 @@
 | Gene | mtDNA |
 | Chemistry | mgb |
 | Amplicon | 98 bp |
-| Designed | 2021 |
-| Paper | [10.1111/1755-0998.13299](https://doi.org/10.1111/1755-0998.13299) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Ghosh, P. N., Verster, R., Sewell, T. R., O'Hanlon, S. J., Brookes, L. M., Rieux, A., Garner, T. W. J., Weldon, C. & Fisher, M. C. Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR. Molecular Ecology Resources 21, 1452-1459 (2021).
 
 ## Oligos
 

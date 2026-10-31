@@ -1,8 +1,12 @@
-# INFLUENZA_A_M1_Yang_2014
+# Influenza A virus — M1 gene real-time RT-PCR, degenerate (Yang 2014, "At" assay)
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">2014</p>
 
-**Influenza A virus — M1 gene real-time RT-PCR, degenerate (Yang 2014, "At" assay)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.02467-13">doi:10.1128/JCM.02467-13</a></p>
+
+<p class="aw-citation">Yang J-R et al. 2014. J Clin Microbiol 52:76-82</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">INFLUENZA_A_M1_Yang_2014</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | M1 (matrix) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 95 bp |
-| Designed | 2014 |
-| Paper | [10.1128/JCM.02467-13](https://doi.org/10.1128/JCM.02467-13) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Yang J-R et al. 2014. J Clin Microbiol 52:76-82
 
 ## Oligos
 

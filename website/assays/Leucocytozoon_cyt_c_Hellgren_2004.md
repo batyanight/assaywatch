@@ -1,8 +1,12 @@
-# Leucocytozoon_cyt_c_Hellgren_2004
+# For Leucocytozoon spp. (X-reacts weakly with haemoproteus) — cytochrome c
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">2004</p>
 
-**For Leucocytozoon spp. (X-reacts weakly with haemoproteus) — cytochrome c**
+<p class="aw-doi"><a href="https://doi.org/10.1645/GE-184R1">doi:10.1645/GE-184R1</a></p>
+
+<p class="aw-citation">Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemFL/HaemR2L)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Leucocytozoon_cyt_c_Hellgren_2004</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | cytochrome c |
 | Chemistry | conventional |
 | Amplicon | 478 bp |
-| Designed | 2004 |
-| Paper | [10.1645/GE-184R1](https://doi.org/10.1645/GE-184R1) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemFL/HaemR2L)
 
 ## Oligos
 

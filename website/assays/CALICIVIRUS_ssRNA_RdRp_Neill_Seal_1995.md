@@ -1,8 +1,12 @@
-# CALICIVIRUS_ssRNA_RdRp_Neill_Seal_1995
+# CALICIVIRUS (ssRNA) — RNA-dependent RNA polymerase (Neill & Seal 1995)
 
-<span class="aw-chip aw-chip-no-recent-data">no recent data</span>
+<p class="aw-byline">1995</p>
 
-**CALICIVIRUS (ssRNA) — RNA-dependent RNA polymerase (Neill & Seal 1995)**
+<p class="aw-doi"><a href="https://doi.org/10.1016/S0890-8508(95)90962-1">doi:10.1016/S0890-8508(95)90962-1</a></p>
+
+<p class="aw-citation">Neill JD, Seal BS 1995. Development of PCR primers for specific amplification of two distinct regions of the genomes of San Miguel sea-lion and vesicular exanthema of swine viruses. Mol Cell Probes 9:33-37</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">CALICIVIRUS_ssRNA_RdRp_Neill_Seal_1995</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | RNA-dependent RNA polymerase |
 | Chemistry | conventional |
 | Amplicon | 520 bp |
-| Designed | 1995 |
-| Paper | [10.1016/S0890-8508(95)90962-1](https://doi.org/10.1016/S0890-8508(95)90962-1) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Neill JD, Seal BS 1995. Development of PCR primers for specific amplification of two distinct regions of the genomes of San Miguel sea-lion and vesicular exanthema of swine viruses. Mol Cell Probes 9:33-37
 
 ## Oligos
 

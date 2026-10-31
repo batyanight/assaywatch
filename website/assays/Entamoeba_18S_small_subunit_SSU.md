@@ -1,6 +1,13 @@
-# Entamoeba_18S_small_subunit_SSU
+# A RETROSPECTIVE ANALYSIS OF AMOEBIASIS IN REPTILES IN A ZOOLOGICAL INSTITUTION
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">McFarland · Journal of Zoo and Wildlife Medicine · 2021</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1638/2020-0148">doi:10.1638/2020-0148</a></p>
+
+??? quote "Full citation"
+    McFarland A, Conley KJ, Seimon TA, Sykes JM. 2021. A retrospective analysis of amoebiasis in reptiles in a zoological institution. J Zoo Wildl Med 52:232-240
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Entamoeba_18S_small_subunit_SSU</span></p>
 
 **Entamoeba — 18S small subunit (SSU)**
 
@@ -10,12 +17,7 @@
 | Gene | 18S small subunit (SSU) |
 | Chemistry | conventional |
 | Amplicon | 572 bp |
-| Designed | — |
-| Paper | [10.1638/2020-0148](https://doi.org/10.1638/2020-0148) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    McFarland A, Conley KJ, Seimon TA, Sykes JM. 2021. A retrospective analysis of amoebiasis in reptiles in a zoological institution. J Zoo Wildl Med 52:232-240
 
 ## Oligos
 

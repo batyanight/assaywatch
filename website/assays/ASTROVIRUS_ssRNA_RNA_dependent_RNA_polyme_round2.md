@@ -1,6 +1,13 @@
-# ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2
+# Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus)
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Atkins · Veterinary Microbiology · 2009</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.vetmic.2008.10.035">doi:10.1016/j.vetmic.2008.10.035</a></p>
+
+??? quote "Full citation"
+    Atkins, A. et al. Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus). Veterinary microbiology 136, 160-165, doi:10.1016/j.vetmic.2008.10.035 (2009).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">ASTROVIRUS_ssRNA_RNA_dependent_RNA_polyme_round2</span></p>
 
 **ASTROVIRUS (ssRNA) — RNA-dependent RNA polymerase (RdRp)**
 
@@ -10,12 +17,7 @@
 | Gene | RNA-dependent RNA polymerase (RdRp) |
 | Chemistry | conventional |
 | Amplicon | 342 bp |
-| Designed | 2009 |
-| Paper | [10.1016/j.vetmic.2008.10.035](https://doi.org/10.1016/j.vetmic.2008.10.035) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Atkins, A. et al. Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus). Veterinary microbiology 136, 160-165, doi:10.1016/j.vetmic.2008.10.035 (2009).
 
 ## Oligos
 

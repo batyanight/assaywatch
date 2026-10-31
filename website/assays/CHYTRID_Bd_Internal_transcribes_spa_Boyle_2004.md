@@ -1,6 +1,13 @@
-# CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004
+# Rapid quantitative detection of chytridiomycosis (Batrachochytrium dendrobatidis) in amphibian samples using real-time Taqman PCR assay
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Boyle · Diseases of Aquatic Organisms · 2004</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3354/dao060141">doi:10.3354/dao060141</a></p>
+
+??? quote "Full citation"
+    Boyle DG et al. 2004. Dis Aquat Org 60:141-148
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">CHYTRID_Bd_Internal_transcribes_spa_Boyle_2004</span></p>
 
 **Batrachochytrium dendrobatidis — ITS1/5.8S real-time PCR (Boyle 2004)**
 
@@ -10,12 +17,7 @@
 | Gene | ITS1-5.8S rDNA |
 | Chemistry | mgb |
 | Amplicon | 146 bp |
-| Designed | 2004 |
-| Paper | [10.3354/dao060141](https://doi.org/10.3354/dao060141) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Boyle DG et al. 2004. Dis Aquat Org 60:141-148
 
 ## Oligos
 

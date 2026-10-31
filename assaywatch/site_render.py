@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -67,6 +68,49 @@ def _chip(status: str) -> str:
     return f'<span class="aw-chip aw-chip-{slug}">{status}</span>'
 
 
+@lru_cache(maxsize=1)
+def _papers() -> dict[str, dict[str, Any]]:
+    """The committed Crossref cache, keyed by DOI.
+
+    Read here rather than carried in `run.json` because it is already a
+    committed file, so the page stays a function of what is in the repository
+    and no re-extraction is needed to pick up a newly resolved title. It covers
+    85 of the 120 cited DOIs, so everything that reads it must have a fallback.
+    """
+    path = ROOT / "docs" / "papers-index.cache.json"
+    try:
+        return json.loads(path.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def _paper(a: dict[str, Any]) -> tuple[str, str, str, str]:
+    """(title, authors) for an assay's cited paper, each "" when unknown.
+
+    Titles arrive from Crossref with the publisher's own line breaks and runs of
+    spaces in them, which land in the middle of a heading if they are not
+    collapsed.
+    """
+    rec = _papers().get(a["doi"] or "", {})
+    title = " ".join((rec.get("title") or "").split())
+    names = rec.get("authors") or []
+    n = rec.get("n_authors") or len(names)
+    if not names:
+        authors = ""
+    elif n == 1:
+        authors = names[0]
+    elif n == 2:
+        authors = f"{names[0]} and {names[1]}"
+    elif n <= 4:
+        authors = ", ".join(names[:-1]) + f" and {names[-1]}"
+    else:
+        # Past four, naming them all buries the title it sits under.
+        authors = f"{names[0]} and {n - 1} others"
+    journal = " ".join((rec.get("journal") or "").split())
+    year = rec.get("year") or a["design_year"] or ""
+    return title, authors, journal, str(year)
+
+
 def assay_page(page: dict[str, Any], run_date: str) -> str:
     out: list[str] = []
     a = page
@@ -75,11 +119,35 @@ def assay_page(page: dict[str, Any], run_date: str) -> str:
     # one invariant on this page that would do real damage if it broke, and it
     # costs a line to make it true here rather than assumed.
     status = "" if a["withheld_reasons"] else a["status"]
-    out.append(f"# {a['assay_id']}\n")
-    out.append(f"{_chip(status)}\n")
-    out.append(f"**{a['name']}**\n")
+    title, authors, journal, year = _paper(a)
 
-    # The header block: what this assay is, before any number about it.
+    # The paper leads, because that is what the entry rests on and what a reader
+    # checks it against. Where Crossref has no title for the DOI -- 35 of the 120
+    # cited papers -- the assay's own descriptive name takes the heading, which is
+    # always present, rather than leaving a page with no title.
+    out.append(f"# {title or a['name']}\n")
+    byline = " \u00b7 ".join(x for x in (authors, journal, year) if x)
+    if byline:
+        out.append(f'<p class="aw-byline">{byline}</p>\n')
+    if a["doi"]:
+        out.append(f'<p class="aw-doi"><a href="https://doi.org/{a["doi"]}">doi:{a["doi"]}</a></p>\n')
+    if a["reference"]:
+        # The stored reference verbatim. Folded away when the heading already
+        # carries the title, because otherwise the page opens by saying the
+        # same sentence twice; shown plainly when it does not, since then it
+        # is the only description of the paper on the page.
+        if title:
+            out.append(f'??? quote "Full citation"\n    {a["reference"]}\n')
+        else:
+            out.append(f'<p class="aw-citation">{a["reference"]}</p>\n')
+
+    out.append(f'<p class="aw-assay-line">{_chip(status)} <span class="aw-id">{a["assay_id"]}</span></p>\n')
+    if title:
+        # The assay's own name says what the entry is; the heading now says what
+        # the paper is, and those are different sentences.
+        out.append(f"**{a['name']}**\n")
+
+    # What this assay is, before any number about it.
     rows = [
         (
             "Target",
@@ -93,16 +161,11 @@ def assay_page(page: dict[str, Any], run_date: str) -> str:
         ("Gene", a["gene"] or "—"),
         ("Chemistry", a["chemistry"]),
         ("Amplicon", f"{a['amplicon_bp']} bp" if a["amplicon_bp"] else "—"),
-        ("Designed", str(a["design_year"]) if a["design_year"] else "—"),
-        ("Paper", f"[{a['doi']}](https://doi.org/{a['doi']})" if a["doi"] else "—"),
         ("Registry status", a["entry_status"]),
     ]
     out.append("| | |\n|---|---|")
     out += [f"| {k} | {v} |" for k, v in rows]
     out.append("")
-
-    if a["reference"]:
-        out.append(f'!!! quote "The paper"\n    {a["reference"]}\n')
 
     # Oligos, 5'->3', as stored.
     if a["oligos"]:

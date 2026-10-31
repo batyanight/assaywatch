@@ -1,8 +1,12 @@
-# Paramyxovirinae_Polymerase_L_gene_round2
+# Paramyxovirinae — Polymerase (L gene)
 
-<span class="aw-chip aw-chip-low-coverage">low coverage</span>
+<p class="aw-byline">2008</p>
 
-**Paramyxovirinae — Polymerase (L gene)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.00192-08">doi:10.1128/JCM.00192-08</a></p>
+
+<p class="aw-citation">Tong S et al. 2008. J Clin Microbiol 46:2652-2658 (PAR-F2/PAR-R round 2)</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Paramyxovirinae_Polymerase_L_gene_round2</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | Polymerase (L gene) |
 | Chemistry | conventional |
 | Amplicon | 561 bp |
-| Designed | 2008 |
-| Paper | [10.1128/JCM.00192-08](https://doi.org/10.1128/JCM.00192-08) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Tong S et al. 2008. J Clin Microbiol 46:2652-2658 (PAR-F2/PAR-R round 2)
 
 ## Oligos
 

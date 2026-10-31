@@ -1,6 +1,13 @@
-# BQCV_capsid_Rossi_2024
+# Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens
 
-<span class="aw-chip aw-chip-declining">declining</span>
+<p class="aw-byline">Rossi · Microorganisms · 2024</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.3390/microorganisms12061105">doi:10.3390/microorganisms12061105</a></p>
+
+??? quote "Full citation"
+    Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">BQCV_capsid_Rossi_2024</span></p>
 
 **BLACK QUEEN CELL VIRUS — capsid gene RT-qPCR, MGB probe (Rossi 2024)**
 
@@ -10,12 +17,7 @@
 | Gene | capsid protein gene |
 | Chemistry | mgb |
 | Amplicon | 69 bp |
-| Designed | 2024 |
-| Paper | [10.3390/microorganisms12061105](https://doi.org/10.3390/microorganisms12061105) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
 
 ## Oligos
 

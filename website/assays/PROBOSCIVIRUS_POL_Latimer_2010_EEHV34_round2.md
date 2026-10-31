@@ -1,6 +1,13 @@
-# PROBOSCIVIRUS_POL_Latimer_2010_EEHV34_round2
+# Detection and evaluation of novel herpesviruses in routine and pathological samples from Asian and African elephants: Identification of two new probosciviruses (EEHV5 and EEHV6) and two new gammaherpesviruses (EGHV3B and EGHV5)
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Latimer · Veterinary Microbiology · 2011</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/j.vetmic.2010.05.042">doi:10.1016/j.vetmic.2010.05.042</a></p>
+
+??? quote "Full citation"
+    Latimer E, Zong JC, Heaggans SY, Richman LK, Hayward GS. Detection and Evaluation of Novel Herpesviruses in Routine and Pathological Samples from Asian and African Elephants: Identification of Two New Probosciviruses (EEHV5 and EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">PROBOSCIVIRUS_POL_Latimer_2010_EEHV34_round2</span></p>
 
 **EEHV3/EEHV4 — DNA polymerase, EEHV3/4-specific nested PCR round 2 (Latimer 2010)**
 
@@ -10,12 +17,7 @@
 | Gene | DNA polymerase (U38/POL) |
 | Chemistry | conventional |
 | Amplicon | 259 bp |
-| Designed | 2010 |
-| Paper | [10.1016/j.vetmic.2010.05.042](https://doi.org/10.1016/j.vetmic.2010.05.042) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Latimer E, Zong JC, Heaggans SY, Richman LK, Hayward GS. Detection and Evaluation of Novel Herpesviruses in Routine and Pathological Samples from Asian and African Elephants: Identification of Two New Probosciviruses (EEHV5 and EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).
 
 ## Oligos
 

@@ -1,8 +1,12 @@
-# Encephalitozoon_18S_General_Encephalitoz_Muller_1999
+# Encephalitozoon — 18S (General Encephalitozoon)
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">1999</p>
 
-**Encephalitozoon — 18S (General Encephalitozoon)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/CDLI.6.2.243-246.1999">doi:10.1128/CDLI.6.2.243-246.1999</a></p>
+
+<p class="aw-citation">seed list: Müller A et al. 1999 Clin Diagn Lab Immunol; PMP1/PMP2 pan-microsporidial primers are usually credited to Fedorko DP et al. 1995 J Clin Microbiol 33:1739 — check which paper these sequences come from</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Encephalitozoon_18S_General_Encephalitoz_Muller_1999</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | 18S (General Encephalitozoon) |
 | Chemistry | conventional |
 | Amplicon | 279 bp |
-| Designed | 1999 |
-| Paper | [10.1128/CDLI.6.2.243-246.1999](https://doi.org/10.1128/CDLI.6.2.243-246.1999) |
 | Registry status | active |
-
-!!! quote "The paper"
-    seed list: Müller A et al. 1999 Clin Diagn Lab Immunol; PMP1/PMP2 pan-microsporidial primers are usually credited to Fedorko DP et al. 1995 J Clin Microbiol 33:1739 — check which paper these sequences come from
 
 ## Oligos
 

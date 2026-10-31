@@ -1,6 +1,13 @@
-# E_coli_ETEC_LT_Victor_1991
+# Improved method for the routine identification of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Victor · Journal of Clinical Microbiology · 1991</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1128/jcm.29.1.158-161.1991">doi:10.1128/jcm.29.1.158-161.1991</a></p>
+
+??? quote "Full citation"
+    Victor T, du Toit R, van Zyl J, Bester AJ, van Helden PD. 1991. Improved method for the routine identification of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit. J Clin Microbiol 29:158-161
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">E_coli_ETEC_LT_Victor_1991</span></p>
 
 **E. coli-ETEC-enterotoxin (LT)gene**
 
@@ -10,12 +17,7 @@
 | Gene | — |
 | Chemistry | conventional |
 | Amplicon | 117 bp |
-| Designed | 1991 |
-| Paper | [10.1128/jcm.29.1.158-161.1991](https://doi.org/10.1128/jcm.29.1.158-161.1991) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Victor T, du Toit R, van Zyl J, Bester AJ, van Helden PD. 1991. Improved method for the routine identification of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit. J Clin Microbiol 29:158-161
 
 ## Oligos
 

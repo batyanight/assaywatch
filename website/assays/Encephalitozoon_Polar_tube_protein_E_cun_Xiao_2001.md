@@ -1,8 +1,12 @@
-# Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001
+# Encephalitozoon — Polar tube protein (E. cuniculi only)
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">2001</p>
 
-**Encephalitozoon — Polar tube protein (E. cuniculi only)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.39.6.2248-2253.2001">doi:10.1128/JCM.39.6.2248-2253.2001</a></p>
+
+<p class="aw-citation">Xiao L, Li L, Visvesvara GS, Moura H, Didier ES, Lal AA. 2001. Genotyping Encephalitozoon cuniculi by multilocus analyses of genes with repetitive sequences. J Clin Microbiol 39:2248-2253</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Encephalitozoon_Polar_tube_protein_E_cun_Xiao_2001</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | Polar tube protein (E. cuniculi only) |
 | Chemistry | conventional |
 | Amplicon | — |
-| Designed | 2001 |
-| Paper | [10.1128/JCM.39.6.2248-2253.2001](https://doi.org/10.1128/JCM.39.6.2248-2253.2001) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Xiao L, Li L, Visvesvara GS, Moura H, Didier ES, Lal AA. 2001. Genotyping Encephalitozoon cuniculi by multilocus analyses of genes with repetitive sequences. J Clin Microbiol 39:2248-2253
 
 ## Oligos
 

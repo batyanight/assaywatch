@@ -1,6 +1,13 @@
-# ORTHOBUNYAVIRUS_ssRNA_M_segment_5prime_Briese_2007
+# Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses
 
-<span class="aw-chip aw-chip-insufficient-data">insufficient data</span>
+<p class="aw-byline">Briese · Archives of Virology · 2007</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1007/s00705-007-1069-z">doi:10.1007/s00705-007-1069-z</a></p>
+
+??? quote "Full citation"
+    Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">ORTHOBUNYAVIRUS_ssRNA_M_segment_5prime_Briese_2007</span></p>
 
 **ORTHOBUNYAVIRUS (ssRNA) — M segment 5' half, BUN-S5-F/M940C-R (Briese 2007)**
 
@@ -10,12 +17,7 @@
 | Gene | M segment |
 | Chemistry | conventional |
 | Amplicon | 961 bp |
-| Designed | 2007 |
-| Paper | [10.1007/s00705-007-1069-z](https://doi.org/10.1007/s00705-007-1069-z) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).
 
 ## Oligos
 

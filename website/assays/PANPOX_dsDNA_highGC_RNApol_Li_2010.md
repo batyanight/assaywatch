@@ -1,8 +1,12 @@
-# PANPOX_dsDNA_highGC_RNApol_Li_2010
+# PAN-POXVIRUS (dsDNA) — high-GC universal PCR (Li 2010)
 
-<span class="aw-chip aw-chip-none">status withheld</span>
+<p class="aw-byline">2010</p>
 
-**PAN-POXVIRUS (dsDNA) — high-GC universal PCR (Li 2010)**
+<p class="aw-doi"><a href="https://doi.org/10.1128/JCM.01697-09">doi:10.1128/JCM.01697-09</a></p>
+
+<p class="aw-citation">Li Y, Meyer H, Zhao H, Damon IK. 2010. GC content-based pan-pox universal PCR assays for poxvirus detection. J Clin Microbiol 48:268-276</p>
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">PANPOX_dsDNA_highGC_RNApol_Li_2010</span></p>
 
 | | |
 |---|---|
@@ -10,12 +14,7 @@
 | Gene | RNA polymerase subunit |
 | Chemistry | conventional |
 | Amplicon | 627 bp |
-| Designed | 2010 |
-| Paper | [10.1128/JCM.01697-09](https://doi.org/10.1128/JCM.01697-09) |
 | Registry status | draft |
-
-!!! quote "The paper"
-    Li Y, Meyer H, Zhao H, Damon IK. 2010. GC content-based pan-pox universal PCR assays for poxvirus detection. J Clin Microbiol 48:268-276
 
 ## Oligos
 

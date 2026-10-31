@@ -1,6 +1,13 @@
-# BORNA_VIRUS_N_gene_Zimmermann_1994
+# Detection of Borna disease virus RNA in naturally infected animals by a nested polymerase chain reaction
 
-<span class="aw-chip aw-chip-stable">stable</span>
+<p class="aw-byline">Zimmermann · Journal of Virological Methods · 1994</p>
+
+<p class="aw-doi"><a href="https://doi.org/10.1016/0166-0934(94)90098-1">doi:10.1016/0166-0934(94)90098-1</a></p>
+
+??? quote "Full citation"
+    Zimmermann W et al. 1994. J Virol Methods 46:133-143
+
+<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">BORNA_VIRUS_N_gene_Zimmermann_1994</span></p>
 
 **BORNA VIRUS — N gene**
 
@@ -10,12 +17,7 @@
 | Gene | N gene |
 | Chemistry | conventional |
 | Amplicon | 752 bp |
-| Designed | 1994 |
-| Paper | [10.1016/0166-0934(94)90098-1](https://doi.org/10.1016/0166-0934(94)90098-1) |
 | Registry status | active |
-
-!!! quote "The paper"
-    Zimmermann W et al. 1994. J Virol Methods 46:133-143
 
 ## Oligos
 
