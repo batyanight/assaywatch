@@ -963,6 +963,21 @@
           ],
           "default": null,
           "title": "Taxon Name"
+        },
+        "title_requires": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title Requires"
         }
       },
       "title": "Target",

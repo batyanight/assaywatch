@@ -28,6 +28,20 @@ repos:
         language: system
         pass_filenames: false
         files: ^registry/.*\.yaml$
+      - id: schema-current
+        # registry/schema.json is generated from assaywatch/schema.py and committed, so
+        # an editor or a JSON-schema consumer sees the current shape. CI has always
+        # checked it (`assaywatch validate --check-schema`) and pre-commit did not, so
+        # the one way to notice a stale schema was a red PR. Adding `title_requires` to
+        # the model on 2026-10-30 did exactly that: the local gate was green on pytest,
+        # the validator, ruff, check_citations and claims, and CI failed on the one step
+        # none of them ran. Watching schema.py as well as the json, because the failure
+        # is a change to the MODEL without a regeneration.
+        name: registry/schema.json matches the model
+        entry: conda run -n assaywatch python -m assaywatch.validate --check-schema
+        language: system
+        pass_filenames: false
+        files: ^(assaywatch/schema\.py|registry/schema\.json)$
       - id: duplicate-keys
         # check-yaml above answers the same question, and only about the files one
         # commit touches. That is how two `notes_curator` keys sat in
