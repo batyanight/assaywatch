@@ -18,10 +18,12 @@ import argparse
 import csv
 import gzip
 import json
+import re
 import sys
 import tempfile
 from collections import Counter, deque
 from collections.abc import Iterable, Iterator
+from functools import lru_cache
 from itertools import islice
 from multiprocessing import Pool
 from pathlib import Path
@@ -29,7 +31,7 @@ from typing import Any
 
 from assaywatch.chance import composition
 from assaywatch.degeneracy import assay_degeneracy
-from assaywatch.fasta import read_fasta
+from assaywatch.fasta import read_fasta_titled
 from assaywatch.score import Call, load_config, screen_record
 from assaywatch.signature import signature_path
 from assaywatch.thermo import COLUMNS as THERMO_COLUMNS
@@ -59,8 +61,51 @@ def _init_worker(
     _STATE = (assays, cfg, [(d.total_fold, d.tier(cfg)) for d in degs], thermo, context or {})
 
 
-def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
-    """Rows for one batch of records, one list per assay in assay order."""
+def title_allows(assay: Any, description: str) -> bool:
+    """Whether this assay screens a record carrying this FASTA description.
+
+    True unless `target.title_requires` is set and the description contains none
+    of its terms. See the field's own comment in schema.py for why a scope
+    sometimes cannot live in the Entrez query.
+
+    A term matches case-insensitively and only where it is NOT preceded by a
+    letter or digit. That left boundary is not decoration; a plain substring was
+    measured wrong. GenBank strain identifiers contain the same letter-digit
+    pairs as subtypes, so `A/New Jersey/GKISBBBH74562/2026(H1N1)` contains "H7"
+    inside `BBBH74562` and an H7 assay screening on a bare substring would take
+    in H1N1 records and score them as failures. Over 232,161 real influenza
+    headers the boundary removes 48 such collisions for H3, 72 for H5 and 50 for
+    H7, and loses nothing: the subtype is written either parenthesised,
+    `(A/Wisconsin/52/2026(H3N2))`, or after a space, `Influenza A virus H3N2
+    partial Hemagglutinin`, and both forms satisfy it.
+
+    No right boundary, deliberately: "H3" has to match "H3N2".
+
+    A description carrying none of the terms is EXCLUDED rather than kept, and
+    that includes the empty description of a header that is only an accession.
+    For an assay restricted to a subtype we cannot know an untyped record is the
+    target, and a specific assay failing on records of unknown subtype reads as
+    drift.
+    """
+    wanted = getattr(assay.target, "title_requires", None)
+    if not wanted:
+        return True
+    return any(_boundary_pattern(w).search(description) for w in wanted)
+
+
+@lru_cache(maxsize=256)
+def _boundary_pattern(term: str) -> re.Pattern[str]:
+    """`term`, case-insensitive, where not preceded by a letter or digit."""
+    return re.compile(r"(?<![A-Za-z0-9])" + re.escape(term), re.IGNORECASE)
+
+
+def _screen_batch(batch: list[tuple[str, ...]]) -> list[list[dict[str, Any]]]:
+    """Rows for one batch of records, one list per assay in assay order.
+
+    A record is (id, sequence) or (id, sequence, description). The third element
+    is optional so that callers predating `title_requires` keep working, notably
+    `scripts/archive/bench_panel.py`, which passes `list(seqs.items())`.
+    """
     if _STATE is None:  # not an assert: `python -O` strips those, and this
         # runs inside a multiprocessing worker, where the resulting
         # AttributeError on None is the hardest kind of failure to trace.
@@ -70,8 +115,8 @@ def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     # from a longer record is scored on that record's length and composition (from its
     # sidecar), because the chance E-values depend on both: on the window's own, a pair
     # the whole record called chance_only can pass the filter.
-    srcs = [context.get(rid) for rid, _ in batch]
-    comps = [src[1] if src else composition(seq) for (_, seq), src in zip(batch, srcs, strict=True)]
+    srcs = [context.get(rec[0]) for rec in batch]
+    comps = [src[1] if src else composition(rec[1]) for rec, src in zip(batch, srcs, strict=True)]
     specs = []
     for assay in assays:
         oligos = {"forward": assay.oligos.forward.matching_seq, "reverse": assay.oligos.reverse.matching_seq}
@@ -81,8 +126,17 @@ def _screen_batch(batch: list[tuple[str, str]]) -> list[list[dict[str, Any]]]:
     # Record-outer, so every assay sees a record back to back and find_sites'
     # per-record preparation (and any oligo two assays share) is reused.
     out: list[list[dict[str, Any]]] = [[] for _ in assays]
-    for (rid, seq), comp, src in zip(batch, comps, srcs, strict=True):
+    for rec, comp, src in zip(batch, comps, srcs, strict=True):
+        rid, seq = rec[0], rec[1]
+        desc = rec[2] if len(rec) > 2 else ""
         for assay, (fold, tier), oligos, rows in zip(assays, degs, specs, out, strict=True):
+            if not title_allows(assay, desc):
+                # Out of this assay's scope, so it yields no row at all: the record
+                # is as absent from this assay's denominator as one never fetched.
+                # Counted in `main` rather than here, from the shortfall between
+                # records read and rows written, so the worker's return shape stays
+                # one list of rows per assay.
+                continue
             call = screen_record(assay, rid, seq, cfg, comp, record_len=src[0] if src else None)
             if src and call.call == "no_amplicon":
                 # Why a record yields no amplicon (score.classify_exclusion) depends on
@@ -123,7 +177,7 @@ def window_context(fasta: Path) -> dict[str, tuple[int, tuple]] | None:
     return out
 
 
-def batches(records: Iterable[tuple[str, str]], target_bp: int) -> Iterator[list[tuple[str, str]]]:
+def batches(records: Iterable[tuple[str, ...]], target_bp: int) -> Iterator[list[tuple[str, ...]]]:
     """Group records into batches of at least `target_bp` bases (the last may be short)."""
     batch, bp = [], 0
     for rec in records:
@@ -138,7 +192,7 @@ def batches(records: Iterable[tuple[str, str]], target_bp: int) -> Iterator[list
 
 def screen_records(
     assays: list,
-    records: Iterable[tuple[str, str]],
+    records: Iterable[tuple[str, ...]],
     cfg: dict[str, Any],
     workers: int = 1,
     chunk_bp: int = 5_000_000,
@@ -255,10 +309,24 @@ def main(argv: list[str] | None = None) -> int:
                 "and sites outside its windows would go unseen. Screen the whole records instead.\n  "
                 + "\n  ".join(problems)
             )
-    records = read_fasta(args.fasta)
+    # Titled, because `target.title_requires` is matched against the description
+    # and no other stage carries it: the calls table has a record id and the
+    # metadata sidecar is not opened here (and 18 of the 19 influenza matrix
+    # sidecars predate its `title` column entirely).
+    n_records = 0
+
+    def counted(src: Iterator[tuple[str, str, str]]) -> Iterator[tuple[str, str, str]]:
+        nonlocal n_records
+        for rec in src:
+            n_records += 1
+            yield rec
+
+    records = counted(read_fasta_titled(args.fasta))
+    rows_written: Counter = Counter()
     for per_assay in screen_records(assays, records, cfg, args.workers, args.chunk_bp, args.thermo, context):
         for assay, rows, w in zip(assays, per_assay, writers, strict=True):
             w.writerows(rows)
+            rows_written[assay.id] += len(rows)
             for row in rows:
                 tally[(assay.id, row["call"])] += 1
 
@@ -291,6 +359,18 @@ def main(argv: list[str] | None = None) -> int:
     # The per-call summary goes to stderr in either mode, so it never mixes with TSV on stdout.
     for (aid, call), n in sorted(tally.items()):
         print(f"{aid}\t{call}\t{n}", file=sys.stderr)
+    # What each title filter excluded, from the shortfall between records read and
+    # rows written. Printed because a filter that silently shrinks a denominator is
+    # indistinguishable from an assay with less data, which is the failure mode this
+    # whole mechanism exists to fix. Only assays that opted in can show a shortfall.
+    for assay in assays:
+        if getattr(assay.target, "title_requires", None):
+            skipped = n_records - rows_written[assay.id]
+            print(
+                f"{assay.id}\ttitle_filtered\t{skipped}\tof {n_records} records "
+                f"(kept {rows_written[assay.id]}; requires {assay.target.title_requires})",
+                file=sys.stderr,
+            )
     return 0
 
 

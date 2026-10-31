@@ -291,6 +291,42 @@ class Target(Strict):
     # fetched, which for E. coli is sixteen million records. Assays with the
     # same taxid and the same query share one retrieval group and one archive.
     query: str | None = None
+    # Screen only records whose FASTA description carries one of these terms,
+    # case-insensitively and only where the term is not preceded by a letter or
+    # digit (assaywatch.screen.title_allows). Absent, None or empty means screen
+    # every record, so an entry has to opt in.
+    #
+    # WHY IT IS NOT PART OF `query`: BECAUSE ENTREZ CANNOT EXPRESS IT. Some scopes
+    # the NCBI taxonomy will not carry. NCBI stopped assigning influenza subtype
+    # taxids to new deposits, so the seven H3Nx taxids AND the HA terms returned
+    # ZERO records for 2024-2026 (measured 2026-10-30) where dropping the subtype
+    # restriction returned 95,155 -- which is why the H5 Tsukamoto archive's
+    # newest deposit was 2021 and H7's was 2020, and neither assay could show
+    # recent drift at all. Every query route out was then measured and none
+    # survived: `H3N2[Title]` and `H3N2[Organism]` both return 0; a bare `H3N2`
+    # term returns 33,737 for 2024-2026 of which only 97.4% are really H3N2; and
+    # bare `H3`, `H5`, `H7` return 23,530, 1,862 and 778 for ALL dates against
+    # 71,868, 31,177 and 3,091 matching headers in one archive alone, so Entrez's
+    # tokenising of these strings is not something a denominator can rest on.
+    # The subtype is reliably stated in only one place, the record's own
+    # description, so that is where it is read. The retrieval query therefore
+    # stays broad and this field makes the population exact.
+    #
+    # WHY IT IS DELIBERATELY OUTSIDE THE RETRIEVAL GROUP. `registry.group_slug`
+    # hashes the query and nothing else, so a filter kept out of the query leaves
+    # the archive's identity alone: one broad fetch serves several assays and each
+    # restricts its own view. Filtering during retrieval would instead write a
+    # FILTERED archive under a slug that does not mention the filter, and two
+    # assays sharing a query while wanting different subtypes would silently
+    # overwrite each other's archive.
+    #
+    # A record whose description carries no subtype is EXCLUDED, not kept: for an
+    # assay restricted to a subtype we cannot know an untyped record is the
+    # target, and a specific assay failing on records of unknown subtype reads as
+    # drift. Excluding them shrinks the denominator, which is the conservative
+    # direction and shows up as a wider interval. 7.8% of recent influenza records
+    # are untyped this way, so it is not a rounding decision.
+    title_requires: list[str] | None = None
 
     @model_validator(mode="after")
     def exclusivity_is_off_target(self) -> Target:
