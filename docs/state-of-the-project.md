@@ -54,8 +54,9 @@ That is a limitation of the estimand, not a threshold to tune
 (`docs/journal/2026-10-31-subtype-filter-measured.md`).
 
 **The broader validation, and it is weaker.** Against the development set of 50
-cases (2026-10-27 run): documented failures caught **6/11**, precision of
-`declining` **3/9 = 33% (95% CrI 10%-65%)**, false alarms **4/32**. On held-out set
+cases, on the 2026-10-31 run: documented failures caught **6/11** (**6/8** among
+the cases it judged at all), precision of `declining` **4/10 = 40% (95% CrI
+15%-70%)**, false alarms **4/32 = 12%**. On held-out set
 2, five of ten working assays read `declining` — four of them pan-family consensus
 nests whose paper reports them amplifying a divergent virus from a handful of
 positives, which is a mismatch between what the paper claims and what the status

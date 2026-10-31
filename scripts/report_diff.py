@@ -130,6 +130,36 @@ def counts(s: dict[str, str]) -> str:
     return ", ".join(f"{n} {k}" for k, n in sorted(tally.items(), key=lambda kv: -kv[1]))
 
 
+#: A run directory this tool may pick automatically: `results/YYYY-MM-DD`, nothing else.
+_RUN_DIR = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def _dated_runs(results: Path) -> list[Path]:
+    """Plain dated run directories holding a report, oldest first.
+
+    WHY THE NAME IS CHECKED AND NOT JUST SORTED. `results/` also holds experiment
+    directories -- `baseline-2026-10-22`, `2026-10-24-anchorfdr`, `indel_check`,
+    `2026-10-28.partial-stopped` -- and a lexicographic sort puts letters AFTER digits, so
+    taking the last two of everything picked `2026-10-31` as the OLD run and
+    `baseline-2026-10-22` as the new one. The 2026-10-31 release run's own summary was
+    therefore a diff of two directories it had nothing to do with, and it reported the four
+    new influenza entries as having VANISHED from the report when they had just been added.
+    Misleading in the one direction that matters: it invented a regression.
+
+    This is the second instance of the same bug. `backfill_collection_dates.newest_run()`
+    sorted the same way and read a five-day-old baseline run for a whole fetch
+    (`docs/journal/2026-10-30-stale-claims-and-two-closures.md`); that one was fixed in
+    place and this one was not looked for. Hence a name check rather than a smarter sort:
+    an experiment directory is never a candidate, whatever it is called.
+
+    A dated run can still be compared explicitly by passing both paths.
+    """
+    return sorted(
+        (d for d in results.glob("*") if _RUN_DIR.match(d.name) and (d / "report.md").exists()),
+        key=lambda d: d.name,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("runs", nargs="*", type=Path, help="two run directories (default: the two newest)")
@@ -143,7 +173,7 @@ def main(argv: list[str] | None = None) -> int:
             ap.error("give two run directories, or none")
         old_dir, new_dir = args.runs
     else:
-        dirs = sorted(d for d in args.results.glob("*") if (d / "report.md").exists())
+        dirs = _dated_runs(args.results)
         if len(dirs) < 2:
             print("only one run so far, nothing to compare" if dirs else "no reports found")
             return 0
