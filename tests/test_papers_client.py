@@ -111,6 +111,41 @@ def test_citation_matches_wants_the_first_author_in_the_reference_and_a_year_wit
     assert not papers.citation_matches(c, 2020, "Rossi F. 2020")[0]
 
 
+def test_citation_matches_takes_a_year_from_the_reference_text_as_well_as_design_year():
+    """`design_year` and the cited paper's year are different claims and may be decades apart.
+
+    An entry whose citation IS its design paper has them within a year of each other, which
+    until 2026-10-30 was every entry in the registry. The CDC H3 subtyping assay is the first
+    that is not: it was designed in 2008 (FDA 510(k) K080570, which has no Crossref DOI) and
+    is cited to the 2026 paper that prints its oligos. Requiring Crossref's year to be within
+    one of `design_year` alone refused it, and refusing it would have meant either recording a
+    false design year or leaving the assay -- and the drift case that needs it -- out.
+
+    `citation_problems`, which CI runs, already read years out of the reference text, so the
+    repository answered this question two ways: the check that gates `doi_verified` refused an
+    entry the check in CI passed. Both now use one rule.
+    """
+    c = papers.parse_crossref(CROSSREF["message"])  # Rossi, 2024
+    ref = "Rossi F, Del Matto I. 2024. Microorganisms 12:1105; assay designed 1990"
+    assert papers.citation_matches(c, 1990, ref)[0]
+    assert papers.citation_problems(c, {"reference": ref, "design_year": 1990}) == []
+
+
+def test_a_reference_whose_years_all_disagree_with_crossref_is_still_refused():
+    """The rule is loosened, not removed: SOME year the entry offers must agree."""
+    c = papers.parse_crossref(CROSSREF["message"])  # Rossi, 2024
+    ref = "Rossi F. 2019. Microorganisms; assay designed 1990"
+    assert not papers.citation_matches(c, 1990, ref)[0]
+    assert any("year" in p for p in papers.citation_problems(c, {"reference": ref, "design_year": 1990}))
+
+
+def test_an_entry_offering_no_year_at_all_is_not_refused_for_it():
+    """Unchanged, and asserted because the loosening must not turn into a new refusal."""
+    c = papers.parse_crossref(CROSSREF["message"])
+    assert papers.citation_matches(c, None, "Rossi F. Microorganisms")[0]
+    assert papers.citation_problems(c, {"reference": "Rossi F. Microorganisms", "design_year": None}) == []
+
+
 def test_citation_problems_is_what_check_citations_reports():
     c = papers.parse_crossref(CROSSREF["message"])
     assert papers.citation_problems(c, {"reference": "Rossi F. 2024", "design_year": 2024}) == []

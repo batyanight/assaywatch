@@ -1,3 +1,34 @@
+# Resume point, 2026-10-30 (latest: the citation year rule unified, both drift rows landed)
+
+**Start here:** `docs/journal/2026-10-30-citation-year-rule.md`, then the entry below. Branch
+`citation-year-from-reference`, stacked on `influenza-drift-entries` (PR #34).
+
+- **The citation rule answered one question two ways, and now does not.**
+  `papers.citation_matches` gated `doi_verified` on `design_year` alone; `citation_problems`,
+  which CI runs, also read years from the reference text. So `curate` refused an entry CI
+  passed. Both now share `papers.year_agrees`. **Measured before shipping (2026-10-30): 220 entry-DOI
+  pairs in that day's Crossref cache compared, 0 verdicts moved either way** — the change enables the new case and
+  touches nothing in the registry.
+- **All four influenza entries now verify**, and **held-out set 3 has both drift rows**: Yang
+  2014 against the Ward matrix assay (`as_of` 2013-09-06) and Shu 2026 against the CDC H3
+  assay (`as_of` 2026-10-27, Crossref's issued date). Neither is scored, for the unchanged
+  mechanical reason: both name assays in `pending/`, and a pending entry is never screened.
+- `doi_verified` is held false on all four by hand. `pending/` means not live whatever
+  `status` says, and a schema test enforces it.
+- The looseness adopted is recorded rather than buried: a four-digit number in a reference
+  text that is not a year can satisfy the check by accident. That was already true of CI.
+- **Still open, found on the way**: `resolve_citations.py` passes `reference or ""` where
+  `curate` and `citation_problems` fall back to `as_written`, so one more tool judges a
+  citation by a different text. On the roadmap under Method debts, unfixed, because it wants
+  its own before/after count.
+
+## Next, in order
+
+1. Sign off the four entries in `pending/`, or send them back.
+2. Promote, fetch the H3 retrieval group (it has never been fetched), screen the new assays.
+3. Score set 3 — the first `mechanism: drift` rows the matrix has ever had, and the first
+   genuine test of the scoped matrix.
+
 # Resume point, 2026-10-30 (late: four influenza entries prepared, set 3 opened, one entry blocked)
 
 **Start here:** `ROADMAP.md` "Waiting on a maintainer", then

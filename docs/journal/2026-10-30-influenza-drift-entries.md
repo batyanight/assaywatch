@@ -111,7 +111,12 @@ The three ways out are a maintainer's call:
    curator's change to make mid-session.
 3. Leave the assay out, in which case Shu 2026's drift case has nowhere to land.
 
-Nothing was guessed and the entry waits. `INFLUENZA_A_HA_H3_v2_Shu_2026` passes cleanly,
+**Resolved later the same day**: the maintainer took option 2, and
+`docs/journal/2026-10-30-citation-year-rule.md` records the change and the before/after count
+over every entry (220 compared, 0 verdicts moved). All four entries now verify and set 3 has
+both drift rows, so the withheld row below has landed.
+
+Nothing was guessed and the entry waited. `INFLUENZA_A_HA_H3_v2_Shu_2026` passed cleanly,
 because Shu 2026 did design it, so its `design_year` *is* the citing paper's year.
 
 This is not a new kind of citation, only a new size of gap: `CDV_N_gene_Elia_2006`,
@@ -163,7 +168,7 @@ the entry is promoted and a screen covers it.
 2026-10-30 and chosen after set 2 had been read, so on set 2 it can only be a
 re-description. Here the scope was filled from the source paper before any verdict existed.
 
-The Shu 2026 row is written and withheld pending the citation call above. Ready to paste:
+The Shu 2026 row was withheld pending the citation call above, and **landed the same day** once it was taken. As written:
 
     INFLUENZA_A_HA_H3_CDC_Shu_2026	2026-10-29	fails	drift	10.1128/jcm.00727-26 Shu 2026 J Clin Microbiol: the FDA-cleared CDC A(H3) component losing sensitivity to reverse-primer mismatches accumulating in one lineage over time -- A21G with T23G/T23C/T23A, the 3C.2a1b.2a clade emerging in 2020 and the mutation reaching 96% of globally circulating viruses by the end of 2021 (GISAID 2020-2023), with a measurable Ct shift between H3 and the H3_v2 redesign and both oligo sets printed in Table 1. 30 of 60 non-subclade-K 2022 specimens carried A21G; 19 of 19 subclade K 2025 specimens carried A21G plus a second mismatch. Redesign entered as INFLUENZA_A_HA_H3_v2_Shu_2026	119210
 
