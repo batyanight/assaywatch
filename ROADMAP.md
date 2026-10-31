@@ -43,16 +43,16 @@ New ideas go here, not into the sprint. Scope for v0.1 is frozen in the build pl
   **95 bp against a published 104**, on 183,773 of 183,777 products), the validator passes
   14/14 on `pending/`, and nothing is promoted. Entering an assay affects published results.
 
-- **ONE DECISION BLOCKS `INFLUENZA_A_HA_H3_CDC_Shu_2026`, and with it Shu 2026's drift case.**
-  The ruling of 2026-10-30 was to cite the paper that prints the oligos rather than admit the
-  FDA 510(k) that defines the assay. That puts `citation.design_year` (2008) eighteen years
-  from Crossref's year (2026), and `papers.citation_matches` requires them within one, so
-  `curate` refuses to verify the DOI -- correctly. **No precedent exists: of 214 live entries,
-  not one has a `design_year` more than a year from its DOI's year.** The three ways out are
-  in the journal; the principled one is to teach `citation_matches` to read a year from the
-  reference text, which `citation_problems` **already does** -- and which is why CI passes the
-  entry that `curate` refuses. One rule, two implementations, two answers. Changing it changes
-  how any entry becomes verified, so it is not a curator's call.
+- ~~**ONE DECISION BLOCKS `INFLUENZA_A_HA_H3_CDC_Shu_2026`**~~ — **TAKEN AND SHIPPED
+  2026-10-30** (`docs/journal/2026-10-30-citation-year-rule.md`). `papers.citation_matches`
+  now reads a year from the reference text as well as `design_year`, which
+  `citation_problems` already did; both share `papers.year_agrees`, so the repository no
+  longer answers one question two ways — the gate that sets `doi_verified` had been refusing
+  an entry the CI gate passed. **Measured before shipping (2026-10-30): over every entry whose DOI
+  was in the Crossref cache that day, 220 entry-DOI pairs, no verdict moves either way.** The loosening is stated in the journal rather than
+  buried: a four-digit number in a reference text that is not a year can satisfy the check by
+  accident, and that was already true of CI. All four influenza entries now verify, and
+  **held-out set 3 has both drift rows**.
 
 - **`doi_verified` is held FALSE on the three entries Crossref did verify**, because "live"
   here means a verified DOI and nothing else: `not_live_because` ignores `status`, so a
@@ -256,6 +256,14 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   everywhere here), which rules out the high end but does not choose between 0.0, 0.5 and
   the shipped 1.0. A second held-out row is still what would settle it, and 22 of those 23
   assays are not monkeypox.
+- **`resolve_citations.py` judges a citation by a different text than everything else does**
+  (found 2026-10-30 while unifying the year rule). It passes `citation.reference or ""` to
+  `citation_matches`, where `curate` and `citation_problems` both fall back to
+  `citation.as_written`. So an entry whose year or author appears only in `as_written` is
+  verifiable by one tool and not the other. Not fixed here: changing it changes which entries
+  that script will verify, so it wants the same before/after count over the registry that the
+  year rule got. Small, and the same shape as the defect that rule had.
+
 - **`printed.py` cannot verify a probe whose internal quencher is written inside the
   sequence** (found 2026-10-30 while curating the CDC H3 pair). Shu 2026 Table 1 prints
   `CAG GAT CAC /ZEN/ATA TGG GSC CTG TCC CAG`, so `printed_oligos` never sees the 27 bases as

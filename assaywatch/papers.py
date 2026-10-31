@@ -315,10 +315,48 @@ def _surname_tokens(family: str) -> list[str]:
     return [t for t in re.split(r"[\s\-]+", _fold(family)) if len(t) > 2]
 
 
+def _years_offered(design_year: int | None, reference: str) -> set[int]:
+    """Every year an entry claims about its citation: `design_year` and any four-digit
+    year in the reference text.
+
+    They are different claims. `design_year` is when the ASSAY was designed; the
+    reference text names the PAPER being cited. For an entry whose citation is its own
+    design paper the two coincide, which until 2026-10-30 was every entry in the
+    registry -- a check of all 214 found none with a gap over a year. The CDC H3
+    subtyping assay is the first that cannot: designed 2008 under FDA 510(k) K080570,
+    which has no Crossref DOI, and cited to the 2026 paper that prints its oligos.
+    """
+    years = {int(y) for y in re.findall(r"\b((?:19|20)\d{2})\b", reference)}
+    return years | ({int(design_year)} if design_year else set())
+
+
+def year_agrees(crossref_year: int | None, design_year: int | None, reference: str) -> bool:
+    """Whether SOME year the entry offers is within one of Crossref's.
+
+    Within one, because online-first publication legitimately straddles two years. An
+    entry that offers no year at all is not refused for it: the rule reports a
+    contradiction, not an absence.
+
+    This is deliberately the looser of the two rules the repository used to run. A
+    reference text can carry a four-digit number that is not the paper's year, so
+    reading years out of it can satisfy this check by accident -- but `citation_problems`
+    has always read the reference text, so the looseness was already in CI, and having
+    the gate that sets `doi_verified` disagree with the gate CI runs was the worse
+    defect: it refused an entry CI passed and gave two answers to one question.
+    """
+    if crossref_year is None:
+        return True
+    offered = _years_offered(design_year, reference)
+    if not offered:
+        return True
+    return any(abs(y - crossref_year) <= 1 for y in offered)
+
+
 def citation_matches(c: Citation, design_year: int | None, reference: str) -> tuple[bool, str]:
     """The rule that lets a DOI become `doi_verified`: Crossref's first author appears
-    in the entry's reference text and the year is within one of `design_year`."""
-    year_ok = design_year is None or c.year is None or abs(c.year - design_year) <= 1
+    in the entry's reference text and some year the entry offers is within one of
+    Crossref's (`year_agrees`)."""
+    year_ok = year_agrees(c.year, design_year, reference)
     author_ok = bool(c.first_author) and _fold(c.first_author) in _fold(reference)
     return (year_ok and author_ok), f"{c.first_author} {c.year}: {c.title[:70]}"
 
@@ -335,15 +373,12 @@ def citation_problems(c: Citation, citation: dict[str, Any]) -> list[str]:
             problems.append(f"reference does not name Crossref's first author {family!r}: {ref[:110]!r}")
     elif family and not ref.strip():
         problems.append(f"no reference text, though Crossref knows the paper ({family})")
-    if c.year:
-        years = {int(y) for y in re.findall(r"\b((?:19|20)\d{2})\b", ref)}
-        dy = citation.get("design_year")
-        candidates = years | ({int(dy)} if dy else set())
-        # Online-first publication legitimately straddles two years.
-        if candidates and not any(abs(y - c.year) <= 1 for y in candidates):
-            problems.append(
-                f"no year within 1 of Crossref's {c.year}; reference/design_year give {sorted(candidates)}"
-            )
+    # One rule, one implementation: `citation_matches` uses the same `year_agrees`.
+    if c.year and not year_agrees(c.year, citation.get("design_year"), ref):
+        offered = _years_offered(citation.get("design_year"), ref)
+        problems.append(
+            f"no year within 1 of Crossref's {c.year}; reference/design_year give {sorted(offered)}"
+        )
     return problems
 
 
