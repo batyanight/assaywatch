@@ -73,8 +73,10 @@ function awExternalLinks() {
   const here = location.hostname;
   // `main`, not `.md-content`: that class belonged to the Material theme and
   // does not exist in this one, so the selector matched nothing and every
-  // off-site link -- the DOIs included -- opened in the same tab.
-  document.querySelectorAll('main a[href]').forEach(a => {
+  // off-site link -- the DOIs included -- opened in the same tab. The colophon
+  // is outside `main` and holds the repository, issue and Zenodo links, so it
+  // is listed too.
+  document.querySelectorAll('main a[href], .colophon a[href]').forEach(a => {
     if (a.dataset.awExt) return;
     let host;
     try { host = new URL(a.href, location.href).hostname; } catch { return; }
