@@ -26,7 +26,9 @@ screening engine is the means.
 The website has a dashboard per assay — detection by deposit year, where the mismatches
 sit on each oligo, the per-lineage breakdown — plus
 [scoring methods](https://batyanight.github.io/assaywatch/scoring/),
+[how a run works](https://batyanight.github.io/assaywatch/pipeline/),
 [validation](https://batyanight.github.io/assaywatch/validation/),
+[known limitations](https://batyanight.github.io/assaywatch/limitations/),
 [scoping](https://batyanight.github.io/assaywatch/scoping/) and the
 [glossary](https://batyanight.github.io/assaywatch/glossary/).
 

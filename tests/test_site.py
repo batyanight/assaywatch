@@ -909,3 +909,31 @@ def test_the_lineage_bar_has_an_outlined_track_and_a_threshold_tick():
     md = "\n".join(site_render._lineage_block(page))
     assert "--aw-thr:90%" in md, "the tick position must come from the assay's own threshold"
     assert "width:100.0%" in md and "width:50.0%" in md
+
+
+def test_every_top_level_nav_section_renders_a_real_link():
+    """The masthead iterates the nav two levels deep, because Pipeline is itself
+    a group: an overview plus twelve stage pages. A section has no url of its
+    own, so emitting `child.url` produced an empty link to "." and dropped
+    Pipeline out of the navigation entirely -- the page was published and
+    reachable, and nothing on the site pointed at it."""
+    built = ROOT / ".site" / "index.html"
+    if not built.exists():
+        pytest.skip("site is not built")
+    html = built.read_text()
+    nav = re.search(r'<nav class="sections".*?</nav>', html, re.S)
+    assert nav, "the masthead has no section nav"
+    links = re.findall(r'<a href="([^"]*)"[^>]*>\s*([^<]*)</a>', nav.group(0))
+    hrefs = {h for h, _ in links}
+    titles = {tt.strip() for _, tt in links}
+    assert "pipeline/" in hrefs, f"Pipeline is missing from the nav: {sorted(hrefs)}"
+    assert "." not in hrefs, "a section rendered as an empty link"
+    assert all(titles), "a nav link has no text"
+
+
+def test_the_readme_points_at_every_prose_page_on_the_site():
+    """Readers arrive from the README. A page the README never mentions is one
+    most of them will not find."""
+    readme = (ROOT / "README.md").read_text()
+    for page in ("scoring", "pipeline", "validation", "limitations", "scoping", "glossary", "assays"):
+        assert f"github.io/assaywatch/{page}/" in readme, f"the README does not link to /{page}/"

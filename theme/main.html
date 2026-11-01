@@ -41,10 +41,18 @@
       <span class="tt-label">Light</span>
     </button>
     <nav class="sections" aria-label="Sections">
+      {#- Two levels of nesting, because Pipeline is itself a group: an overview
+          plus twelve stage pages. A section has no url of its own, so it links
+          to its first page. Emitting `child.url` blindly produced an empty link
+          to "." and dropped Pipeline out of the navigation entirely. -#}
       {%- for item in nav %}
         {%- if item.children %}
           {%- for child in item.children %}
+            {%- if child.children %}
+      <a href="{{ child.children[0].url | url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
+            {%- else %}
       <a href="{{ child.url | url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
+            {%- endif %}
           {%- endfor %}
         {%- elif not item.is_homepage %}
       <a href="{{ item.url | url }}"{% if item.active %} aria-current="page"{% endif %}>{{ item.title }}</a>
