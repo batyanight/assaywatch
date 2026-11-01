@@ -2,10 +2,11 @@ id: Shigella_ipaH_Sethabutr_1993
 name: Shigella, ipah gene
 target:
   taxid: 620
-  gene: null
+  gene: ipaH
   genome_type: dsDNA
   taxon_name: Shigella
-  query: (ipaH[Gene] OR "invasion plasmid antigen"[Title] OR ipaH[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]
+  query: (ipaH[Gene] OR "invasion plasmid antigen"[Title] OR ipaH[Title]) AND 1:30000[SLEN] NOT "whole genome 
+    shotgun"[Title]
 chemistry: conventional
 oligos:
   forward:

@@ -548,7 +548,41 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Data and curation
 
-- **227 `needs_review` flags sit on 154 of the 214 entries** (re-measured 2026-10-30 with
+- **The 49 assays the website does not list, resolved one by one** (2026-10-31). The
+  assay list shows 168 of 217; the rest carry no usable status and were excluded from
+  the table on the maintainer's instruction, though each keeps a page stating why. They
+  are not one problem but three, and only the first two are tractable:
+  - **30 `insufficient data`** — fewer than `drift.min_records_for_drift` (15) evaluable
+    records. Some will resolve on their own as deposits accumulate; some will not,
+    because the taxon is barely sequenced, which is the condition this tool exists to
+    serve and cannot fix. Worth separating those two groups: an assay two records short
+    is a different case from one with none, and the split has never been counted.
+    Check first whether any are short because of retrieval rather than deposition — that
+    is exactly what the influenza episode was, and `scripts/check_archive_recency.py`
+    produces the worklist.
+  - **19 with a withheld status** — the entry carries a blocking `needs_review` flag.
+    `not_screenable` (an RPA chemistry the penalties do not model, an assay identified by
+    product size plus a restriction digest) is permanent and should be recorded as such
+    rather than left looking unfinished. `do_not_use` and the other `review.OPEN` flags
+    are questions a human can close, and closing one returns its assay to the list.
+  - **18 `no recent data`** — still listed, deliberately. The status is a statement about
+    deposition, and after the influenza case it is the one most worth leaving in a
+    reader's way. Each should nonetheless be checked against its archive's deposit-year
+    distribution, because that is how a stale retrieval query presents.
+
+  The honest outcome may be that a third of these are permanent. Recording which, with
+  the reason, is better than leaving 49 assays looking like a backlog.
+
+- **236 `needs_review` flags sit on 158 of the 218 entries, and only 17 are open**
+  (re-counted 2026-10-31 by splitting on `review.OPEN`, which is the distinction the
+  code already draws and this item did not: 219 of the flags are disclosures that are
+  TRUE and will never clear, and 17 are questions a reader could close. The worklist is
+  the 17, not the 236. Two `retrieval_stale` flags were cleared on 2026-10-31 -- both
+  said the numbers predated the 2026-10-17 query change, and both archives have since
+  been re-fetched and rescreened, so the condition was false.)
+
+  Earlier wording, kept because its measurement note still applies:
+  **227 flags on 154 of the 214 entries** (re-measured 2026-10-30 with
   `registry.load_one`, superseding "216 on 207 of 209" from 2026-10-27. Two other methods
   disagreed on the same day: `grep -c 'flag:'` counted 228 flags, and an inventory pass
   reported a different entry count again, so take a registry count from the loader -- which
@@ -812,7 +846,7 @@ centre/outer 2.0 / 1.0, `detect_max` 1.0, `reduced_max` 3.0,
 `terminal_mismatch_fails` true, `max_ambiguous_per_oligo` 2,
 `max_mismatches_searched` 6, `max_pair_evalue` 0.01); `drift`
 (`detect_fraction_threshold` 0.90, `recent_window_months` 24,
-`min_records_for_drift` 20, `min_records_for_coverage` 10, `min_decline` 0.05);
+`min_records_for_drift` 15, `min_records_for_coverage` 10, `min_decline` 0.05);
 `degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
 
 One of those is no longer only eyeballed. `drift.min_decline` 0.05 has regulatory

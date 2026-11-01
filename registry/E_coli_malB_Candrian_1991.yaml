@@ -2,11 +2,11 @@ id: E_coli_malB_Candrian_1991
 name: E. coli-malB promoter
 target:
   taxid: 562
-  gene: null
+  gene: malB operon
   genome_type: dsDNA
   taxon_name: Escherichia coli
-  query: (malB[Gene] OR malE[Gene] OR malK[Gene] OR "malB"[Title] OR "malE-malK"[Title]) AND 1:30000[SLEN] NOT "whole genome
-    shotgun"[Title]
+  query: (malB[Gene] OR malE[Gene] OR malK[Gene] OR "malB"[Title] OR "malE-malK"[Title]) AND 1:30000[SLEN] NOT "whole 
+    genome shotgun"[Title]
 chemistry: conventional
 oligos:
   forward:

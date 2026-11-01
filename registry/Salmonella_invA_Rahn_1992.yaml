@@ -2,7 +2,7 @@ id: Salmonella_invA_Rahn_1992
 name: Salmonella, invA gene
 target:
   taxid: 28901
-  gene: null
+  gene: invA
   genome_type: dsDNA
   taxon_name: Salmonella enterica
   query: (invA[Gene] OR "invasion protein"[Title] OR invA[Title]) AND 1:30000[SLEN] NOT "whole genome shotgun"[Title]
