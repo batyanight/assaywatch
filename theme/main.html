@@ -26,8 +26,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+{#- `?v=` is the build time: GitHub Pages serves assets with a ten-minute
+    cache, so an unversioned stylesheet kept showing the previous deploy. -#}
 {%- for path in config.extra_css %}
-<link rel="stylesheet" href="{{ path | url }}">
+<link rel="stylesheet" href="{{ path | url }}?v={{ build_date_utc.strftime('%Y%m%d%H%M%S') }}">
 {%- endfor %}
 </head>
 <body>
@@ -76,15 +78,17 @@
       reader is not meant to follow. -#}
   {%- if page and page.url.startswith('pipeline/') %}
   <nav class="seq" aria-label="Pipeline stages">
+    {#- Only neighbours inside the pipeline: the overview must not offer the
+        methods page before it, nor the last stage the page after. -#}
     <span class="seq-prev">
-      {%- if page.previous_page %}
+      {%- if page.previous_page and page.previous_page.url.startswith('pipeline/') %}
       <a href="{{ page.previous_page.url | url }}"><span class="seq-dir">Previous</span>
         {{ page.previous_page.title }}</a>
       {%- endif %}
     </span>
     <a class="seq-up" href="{{ 'pipeline/' | url }}">All stages</a>
     <span class="seq-next">
-      {%- if page.next_page %}
+      {%- if page.next_page and page.next_page.url.startswith('pipeline/') %}
       <a href="{{ page.next_page.url | url }}"><span class="seq-dir">Next</span>
         {{ page.next_page.title }}</a>
       {%- endif %}
@@ -104,7 +108,7 @@
 </footer>
 
 {%- for path in config.extra_javascript %}
-<script src="{{ path | url }}"></script>
+<script src="{{ path | url }}?v={{ build_date_utc.strftime('%Y%m%d%H%M%S') }}"></script>
 {%- endfor %}
 </body>
 </html>
