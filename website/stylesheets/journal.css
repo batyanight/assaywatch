@@ -1,0 +1,139 @@
+/* The journal treatment. One column, serif body, numbered-feeling sections,
+   figures with captions. Replaces the Material theme entirely; there is no
+   sidebar, no tab bar and no search field, because those were what made the
+   site read as generated documentation.
+
+   Colour comes from palette.css, which is generated from assaywatch/palette.py.
+   Nothing here states a colour literally except the paper and ink tokens below,
+   which are this theme's own. */
+
+:root {
+  --paper: #ffffff;
+  --ink: #1a1a1a;
+  --ink-mut: #6b6b6b;
+  --ink-faint: #8e8e8e;
+  --rule: #e2e0dc;
+  --measure: 40rem;          /* ~68 characters of Source Serif at 17px */
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans: "Source Sans 3", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #15140f; --ink: #e9e6de; --ink-mut: #a39d92; --ink-faint: #8a8479; --rule: #312e27;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 17px/1.62 var(--serif);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+.measure { max-width: var(--measure); margin: 0 auto; padding: 0 1.5rem; }
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--paper); padding: .5rem .8rem; z-index: 10; }
+
+/* ---- masthead: a rule and a row of section links, nothing more ---------- */
+.masthead { border-bottom: 1px solid var(--rule); margin-bottom: 3.4rem; }
+.masthead .measure { display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: .5rem 2rem; padding-top: 1.9rem; padding-bottom: 1.5rem; }
+.wordmark { font: 600 24px/1.1 var(--serif); letter-spacing: -.012em; color: var(--ink);
+  text-decoration: none; margin-right: auto; }
+.sections { display: flex; flex-wrap: wrap; gap: .3rem 1.4rem; }
+.sections a { font: 400 16px/1.4 var(--sans); color: var(--ink-mut); text-decoration: none; }
+.sections a:hover { color: var(--ink); }
+.sections a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+
+.theme-toggle { font: 400 14px/1 var(--sans); color: var(--ink-mut); background: none;
+  border: 1px solid var(--rule); border-radius: 3px; padding: .34rem .62rem;
+  cursor: pointer; order: 3; }
+.theme-toggle:hover { color: var(--ink); border-color: var(--ink-mut); }
+/* Only shown once the script has bound it, so a reader without JavaScript is
+   not offered a button that does nothing. */
+.theme-toggle:not([data-aw-bound]) { display: none; }
+
+/* A heading anchor is still generated for deep links; nothing is drawn for it. */
+.headerlink { display: none; }
+
+/* ---- the column ---------------------------------------------------------- */
+main { padding-bottom: 6rem; }
+main > :first-child { margin-top: 0; }
+
+h1 { font: 600 30px/1.22 var(--serif); letter-spacing: -.012em; margin: 0 0 .9rem; }
+main.is-home h1 { font-size: 34px; }
+h2 { font: 600 12px/1 var(--sans); letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink-mut); margin: 3rem 0 1rem; padding-bottom: .45rem; border-bottom: 1px solid var(--rule); }
+h3 { font: 600 17px/1.35 var(--serif); margin: 2rem 0 .6rem; }
+h4 { font: 600 14px/1.4 var(--sans); margin: 1.6rem 0 .4rem; }
+p { margin: 0 0 1.1rem; }
+a { color: var(--aw-link, #8a3324); text-decoration: underline;
+    text-underline-offset: .14em; text-decoration-thickness: .055em; }
+a:hover { text-decoration-thickness: .1em; }
+strong { font-weight: 600; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.6rem 0; }
+ul, ol { margin: 0 0 1.1rem; padding-left: 1.3rem; }
+li { margin-bottom: .35rem; }
+blockquote { margin: 0 0 1.2rem; padding-left: 1rem; border-left: 2px solid var(--rule); color: var(--ink-mut); }
+code { font: 400 .86em/1.4 var(--mono); background: color-mix(in srgb, var(--ink) 6%, transparent);
+  padding: .08em .3em; border-radius: 2px; }
+pre { background: color-mix(in srgb, var(--ink) 5%, transparent); padding: .9rem 1rem;
+  border-radius: 3px; overflow-x: auto; margin: 0 0 1.3rem; }
+pre code { background: none; padding: 0; font-size: 12.5px; line-height: 1.55; }
+
+/* ---- tables: sans, tabular figures, rules not boxes ---------------------- */
+table { width: 100%; border-collapse: collapse; font: 15px/1.5 var(--sans); margin: 0 0 1.5rem; }
+th, td { padding: .42rem .6rem .42rem 0; border-bottom: 1px solid var(--rule);
+  text-align: left; vertical-align: top; }
+th { font-weight: 600; color: var(--ink-mut); font-size: 13px; }
+td:last-child, th:last-child { padding-right: 0; }
+table :is(td, th).num, .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---- figures ------------------------------------------------------------- */
+figure { margin: 0 0 1.9rem; }
+figcaption { font: 13px/1.5 var(--sans); color: var(--ink-mut); margin-top: .6rem; }
+
+/* ---- admonitions, kept quiet -------------------------------------------- */
+.admonition, details.quote { border-left: 2px solid var(--rule); padding: .1rem 0 .1rem 1rem;
+  margin: 0 0 1.4rem; font-size: 15.5px; }
+.admonition-title, details.quote > summary { font: 600 11px/1.4 var(--sans);
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mut); margin: 0 0 .4rem; }
+details.quote > summary { cursor: pointer; }
+.admonition.warning { border-left-color: var(--aw-status-declining); }
+.admonition.warning .admonition-title { color: var(--aw-status-declining); }
+.admonition.success { border-left-color: var(--aw-status-stable); }
+.admonition.success .admonition-title { color: var(--aw-status-stable); }
+.admonition p:last-child, details.quote p:last-child { margin-bottom: 0; }
+
+/* ---- footnotes ----------------------------------------------------------- */
+.footnote { font-size: 14px; color: var(--ink-mut); border-top: 1px solid var(--rule);
+  margin-top: 3rem; padding-top: .8rem; }
+.footnote ol { padding-left: 1.1rem; }
+
+/* ---- buttons on the front page ------------------------------------------ */
+.md-button { display: inline-block; font: 500 14px/1 var(--sans); text-decoration: none;
+  border: 1px solid var(--rule); padding: .55rem .9rem; border-radius: 3px;
+  color: var(--ink); margin: 0 .4rem .5rem 0; }
+.md-button:hover { border-color: var(--ink-mut); }
+.md-button--primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ---- colophon ------------------------------------------------------------ */
+.colophon { border-top: 1px solid var(--rule); padding: 1.4rem 0 3rem;
+  font: 13px/1.6 var(--sans); color: var(--ink-faint); }
+.colophon p { margin: 0 0 .2rem; max-width: none; }
+.colophon a { color: var(--ink-mut); }
+
+/* ---- the assay list needs more room than the reading measure ------------- */
+body:has(table.aw-assays) .measure,
+body:has(.aw-pipeline) .measure { max-width: 64rem; }
+
+@media (max-width: 36rem) {
+  body { font-size: 16px; }
+  h1 { font-size: 25px; }
+  .measure { padding: 0 1.1rem; }
+  .masthead .measure { padding-top: 1.3rem; padding-bottom: 1rem; }
+  .wordmark { font-size: 21px; }
+  .sections a { font-size: 15px; }
+}
+

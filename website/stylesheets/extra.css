@@ -1,20 +1,3 @@
-/* The header and accent. Material ships indigo; these are a deep teal from the
-   same hue family as the `stable` status, so the chrome does not fight the
-   charts and no part of the page is purple except the `low coverage` status,
-   which means something. */
-:root, [data-md-color-scheme="default"] {
-  --md-primary-fg-color: #0f5d4a;
-  --md-primary-fg-color--light: #17785f;
-  --md-primary-fg-color--dark: #0a4537;
-  --md-accent-fg-color: #0f5d4a;
-}
-[data-md-color-scheme="slate"] {
-  --md-primary-fg-color: #103d33;
-  --md-primary-fg-color--light: #2a9d7f;
-  --md-primary-fg-color--dark: #0a3b30;
-  --md-accent-fg-color: #35b894;
-}
-
 /* Layout and type. Colour lives in palette.css, which is generated from
    assaywatch/palette.py -- change a colour there, not here. */
 .md-grid { max-width: 61rem; }
@@ -25,13 +8,13 @@
 /* The assay table. Fixed layout with explicit widths, because the default
    algorithm squeezed the first column until 40-character entry ids wrapped one
    character per line and shoved every other column out of shape. */
-.md-typeset table.aw-assays { table-layout: fixed; width: 100%; border-collapse: collapse;
+table.aw-assays { table-layout: fixed; width: 100%; border-collapse: collapse;
   display: table; font-size: 0.8rem; }
 table.aw-assays colgroup { display: table-column-group; }
-.md-typeset table.aw-assays th { position: sticky; top: 0; z-index: 1;
-  background: var(--md-default-bg-color); border-bottom: 2px solid var(--aw-grid);
+table.aw-assays th { position: sticky; top: 0; z-index: 1;
+  background: var(--paper); border-bottom: 2px solid var(--aw-grid);
   padding: 0.45rem 0.5rem; text-align: left; font-weight: 600; white-space: nowrap; }
-.md-typeset table.aw-assays td { padding: 0.4rem 0.5rem; vertical-align: top;
+table.aw-assays td { padding: 0.4rem 0.5rem; vertical-align: top;
   border-bottom: 1px solid var(--aw-grid); }
 table.aw-assays th.num, table.aw-assays td.num { text-align: right;
   font-variant-numeric: tabular-nums; }
@@ -61,10 +44,10 @@ table.aw-assays td:nth-child(2) { overflow: visible; }
 /* Organism first, entry id beneath it in small monospace. The id can break
    anywhere -- it is an identifier, not prose -- but it no longer decides the
    column width, so it only wraps when it genuinely must. */
-.md-typeset td.aw-assay a { display: block; text-decoration: none; }
-.md-typeset td.aw-assay a:hover .aw-taxon { text-decoration: underline; }
-.aw-taxon { display: block; color: var(--md-typeset-color); font-weight: 500; line-height: 1.3; }
-.aw-id { display: block; font-family: var(--md-code-font-family); font-size: 0.68rem;
+td.aw-assay a { display: block; text-decoration: none; }
+td.aw-assay a:hover .aw-taxon { text-decoration: underline; }
+.aw-taxon { display: block; color: var(--ink); font-weight: 500; line-height: 1.3; }
+.aw-id { display: block; font-family: var(--mono); font-size: 0.68rem;
   color: var(--aw-ink-muted); overflow-wrap: anywhere; line-height: 1.35; margin-top: 0.1rem; }
 
 @media (max-width: 50em) {
@@ -78,15 +61,21 @@ table.aw-assays td:nth-child(2) { overflow: visible; }
    light and dark; the only literal hue is the open stage, which has to read on
    both grounds and is therefore taken from the validated palette. */
 .aw-pipeline { margin: 1.2rem 0 0.4rem; color: var(--aw-ink); }
-.aw-pipeline svg { width: 100%; max-width: 100%; height: auto; }
+/* 726 viewBox units at 45.4rem renders 1:1, so an 18px label is 18px on
+   screen rather than being scaled down to fit. */
+.aw-pipeline svg { width: 100%; max-width: 45.4rem; height: auto; display: block; margin: 0 auto; }
+.aw-bus-label { font-style: italic; opacity: .6; }
 .aw-pipeline figcaption { color: var(--aw-ink-muted); font-size: 0.78rem;
   max-width: 68ch; margin-top: 0.3rem; }
 
 .aw-node rect { fill: transparent; stroke: currentColor; stroke-width: 1.4; }
-.aw-node text { fill: currentColor; font-size: 13px; text-anchor: middle;
-  font-family: var(--md-text-font-family); }
-.aw-node text.sub { font-size: 10.5px; opacity: 0.68; }
-.aw-node { cursor: pointer; }
+.aw-node text { fill: currentColor; font-size: 18px; text-anchor: middle;
+  font-family: var(--sans); font-weight: 500;
+  paint-order: stroke fill; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+.aw-node text.sub { font-size: 14px; opacity: 0.64; font-weight: 400; }
+/* The box outline must not be haloed away by the rule above. */
+.aw-node rect { paint-order: normal; }
+a.aw-node { cursor: pointer; text-decoration: none; }
 .aw-node:hover rect { stroke-width: 2.4; }
 .aw-node:focus-visible rect { outline: 2px solid var(--aw-status-watch); outline-offset: 3px; }
 .aw-node.is-open rect { fill: color-mix(in srgb, var(--aw-status-low-coverage) 16%, transparent);
@@ -96,18 +85,20 @@ table.aw-assays td:nth-child(2) { overflow: visible; }
 .aw-config rect { stroke-dasharray: 3 3; }
 
 .aw-edge line, .aw-edge path { stroke: currentColor; stroke-width: 1.3; fill: none; }
-.aw-edge text { fill: currentColor; font-size: 10.5px; opacity: 0.7;
-  text-anchor: middle; font-family: var(--md-text-font-family); }
+/* No `text-anchor` here: it is a CSS property and would override the
+   `text-anchor="start"` set per label in the markup, re-centring every one of
+   them on the line it is meant to sit beside. That is what put the spine's
+   arrows through the middle of "targets to fetch".
+
+   `paint-order` draws a halo of the page colour behind each label, so where a
+   line does pass near one the text stays legible instead of being cut. */
+.aw-edge text, .aw-bus-label { fill: currentColor; font-size: 13px; opacity: 0.7;
+  font-family: var(--sans);
+  paint-order: stroke fill; stroke: var(--paper); stroke-width: 4px;
+  stroke-linejoin: round; }
 .aw-edge.aw-dashed line, .aw-edge.aw-dashed path { stroke-dasharray: 4 3; opacity: 0.55; }
 .aw-edge.aw-dashed text { opacity: 0.55; font-style: italic; }
 
-/* The stage panels. Without JavaScript every one of them is simply visible,
-   which is a complete written outline of the pipeline. */
-.aw-stage-detail { border-top: 1px solid var(--aw-grid); margin-top: 1rem; padding-top: 0.4rem; }
-.aw-stage[hidden] { display: none; }
-.aw-stage:focus { outline: none; }
-.md-typeset .aw-stage-title { font-size: 0.72em; letter-spacing: 0.02em;
-  text-transform: uppercase; color: var(--aw-ink-muted); }
 
 /* ---- the per-assay figures (inline SVG, assaywatch/site_svg.py) --------- */
 /* Structure uses currentColor so it follows the theme; data marks take the
@@ -122,31 +113,48 @@ table.aw-assays td:nth-child(2) { overflow: visible; }
 .aw-threshold-label { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: end; }
 .aw-window { fill: var(--aw-ink); opacity: 0.055; }
 
-.aw-tick { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: middle; }
+.aw-tick { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: middle;  font-family: var(--sans);}
 .aw-tick-y { text-anchor: end; }
-.aw-axis-label { fill: var(--aw-ink-muted); font-size: 11px; text-anchor: middle; }
-.aw-row-label { fill: var(--aw-ink); font-size: 11.5px; text-anchor: end; }
-.aw-track-label { fill: var(--aw-ink); font-size: 12px; text-anchor: end; font-weight: 500; }
+.aw-axis-label { fill: var(--aw-ink-muted); font-size: 11px; text-anchor: middle;  font-family: var(--sans);}
+.aw-row-label { fill: var(--aw-ink); font-size: 11.5px; text-anchor: end;  font-family: var(--sans);}
+.aw-track-label { fill: var(--aw-ink); font-size: 12px; text-anchor: end; font-weight: 500;  font-family: var(--sans);}
 .aw-end { fill: var(--aw-ink-muted); font-size: 10px; text-anchor: end;
-  font-family: var(--md-code-font-family); }
+  font-family: var(--mono); }
 .aw-end-3 { text-anchor: start; font-weight: 600; }
 .aw-base { fill: var(--aw-ink); font-size: 11px; text-anchor: middle;
-  font-family: var(--md-code-font-family); }
+  font-family: var(--mono); }
 
-/* The 3' window: where a mismatch is most likely to kill the reaction. */
+/* The region the scoring weights more heavily: the 3' window on a primer, the
+   central third on a probe.
+
+   The opacity differs by mode because the same value does not read the same
+   over paper and over near-black. Measured as contrast against the page: 0.075
+   of the light red over white gives 1.150, while 0.075 of the dark red over
+   #15140f gives 1.050 -- a band that is there in the markup and not on the
+   screen. 0.22 restores it to 1.187, which matches the light version. */
 .aw-zone { fill: var(--aw-status-declining); opacity: 0.075; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .aw-zone { opacity: 0.22; }
+  :root:not([data-theme="light"]) .aw-window { opacity: 0.085; }
+}
+[data-theme="dark"] .aw-zone { opacity: 0.22; }
+[data-theme="dark"] .aw-window { opacity: 0.085; }
 
 /* Bar colour is the COST of a mismatch, not its frequency. */
 .aw-bar-strong rect { fill: var(--aw-status-declining); }
 .aw-bar-mid rect    { fill: var(--aw-status-watch); }
 .aw-bar-weak rect   { fill: var(--aw-ink-muted); opacity: 0.55; }
 .aw-bar-strong:hover rect, .aw-bar-mid:hover rect, .aw-bar-weak:hover rect { opacity: 1; }
-.aw-track g { cursor: help; }
+/* The default arrow, not `help`: that renders as a question-mark cursor,
+   which reads as "this needs explaining" rather than "this has a tooltip".
+   The native tooltip appears on hover regardless, and `pointer` would be a
+   lie because these marks are not clickable. */
+.aw-track g { cursor: default; }
 
 /* The year line takes the assay's own status colour. */
 .aw-line { fill: none; stroke-width: 2; stroke: var(--aw-ink-muted); }
-.aw-point circle { fill: var(--aw-ink-muted); stroke: var(--md-default-bg-color); stroke-width: 1.5; }
-.aw-point { cursor: help; }
+.aw-point circle { fill: var(--aw-ink-muted); stroke: var(--paper); stroke-width: 1.5; }
+.aw-point { cursor: default; }
 .aw-declining.aw-line { stroke: var(--aw-status-declining); }
 .aw-declining.aw-point circle { fill: var(--aw-status-declining); }
 .aw-low-coverage.aw-line { stroke: var(--aw-status-low-coverage); }
@@ -159,10 +167,10 @@ table.aw-assays td:nth-child(2) { overflow: visible; }
 .aw-ci { stroke: var(--aw-ink-muted); stroke-width: 1.6; }
 .aw-dot-fail circle { fill: var(--aw-status-declining); }
 .aw-dot-ok circle { fill: var(--aw-status-stable); }
-.aw-dot-fail, .aw-dot-ok { cursor: help; }
+.aw-dot-fail, .aw-dot-ok { cursor: default; }
 
 /* The key under the mismatch map. */
-.md-typeset .aw-key { display: inline-flex; align-items: center; gap: 0.35rem;
+.aw-key { display: inline-flex; align-items: center; gap: 0.35rem;
   margin-right: 1rem; font-size: 0.76rem; color: var(--aw-ink-muted); }
 .aw-key-swatch { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; }
 .aw-key-swatch.aw-bar-strong { background: var(--aw-status-declining); }
@@ -186,10 +194,18 @@ table.aw-lineage th:nth-child(2) { width: 24%; }
 table.aw-lineage th:nth-child(3), table.aw-lineage th:nth-child(4) { width: 12%; }
 table.aw-lineage th:nth-child(5) { width: 18%; }
 
-.aw-bar { display: block; width: 100%; height: 0.62rem; border-radius: 2px;
-  background: color-mix(in srgb, var(--aw-ink) 9%, transparent); overflow: hidden; }
-.aw-bar-fill { display: block; height: 100%; border-radius: 2px;
-  background: var(--aw-status-stable); }
+/* The track is outlined, not merely tinted. Without an edge a 100% bar and a
+   70% bar look the same -- there is nothing to read the fill against, and the
+   two 100% rows in the Cryptosporidium table were indistinguishable from any
+   other full-width bar. The tick marks the threshold the table is about, so a
+   lineage can be read against it without going to the interval column. */
+.aw-bar { position: relative; display: block; width: 100%; height: 0.7rem;
+  border: 1px solid var(--aw-grid); border-radius: 2px; overflow: hidden;
+  background: transparent; }
+.aw-bar-fill { display: block; height: 100%; background: var(--aw-status-stable); }
+.aw-bar::after { content: ""; position: absolute; top: -1px; bottom: -1px;
+  left: var(--aw-thr, 90%); width: 1px;
+  background: color-mix(in srgb, var(--aw-ink) 55%, transparent); }
 .aw-lin-fail .aw-bar-fill { background: var(--aw-status-declining); }
 .aw-lin-fail td:first-child { font-weight: 500; }
 .aw-lin-flag { display: inline-block; margin-left: 0.35rem; padding: 0 0.3rem;
@@ -212,23 +228,66 @@ table.aw-lineage th:nth-child(5) { width: 18%; }
 /* The paper leads. The heading is the paper's own title where Crossref knows
    it, so it is set to read as a title rather than as a slug: generous size,
    tight leading, and room below before the metadata starts. */
-.md-typeset h1 { font-size: 1.62rem; line-height: 1.22; letter-spacing: -0.015em;
-  margin-bottom: 0.5rem; max-width: 40ch; }
-.md-typeset .aw-byline { margin: 0 0 0.15rem; font-size: 0.86rem;
+.aw-byline { margin: 0 0 0.15rem; font-size: 0.86rem;
   color: var(--aw-ink); font-weight: 500; }
-.md-typeset .aw-doi { margin: 0 0 0.6rem; font-size: 0.8rem; }
-.md-typeset .aw-doi a { font-family: var(--md-code-font-family); }
-.md-typeset .aw-citation { margin: 0 0 0.7rem; font-size: 0.8rem;
+.aw-doi { margin: 0 0 0.6rem; font-size: 0.8rem; }
+.aw-doi a { font-family: var(--mono); }
+.aw-citation { margin: 0 0 0.7rem; font-size: 0.8rem;
   color: var(--aw-ink-muted); max-width: 72ch; }
 
 /* The status and the entry id sit together, below the paper: they describe the
    registry entry, which is a different thing from the publication above. */
-.md-typeset .aw-assay-line { display: flex; align-items: center; gap: 0.5rem;
+.aw-assay-line { display: flex; align-items: center; gap: 0.5rem;
   flex-wrap: wrap; margin: 0 0 1rem; padding-top: 0.55rem;
   border-top: 1px solid var(--aw-grid); }
-.md-typeset .aw-assay-line .aw-id { display: inline; font-family: var(--md-code-font-family);
+.aw-assay-line .aw-id { display: inline; font-family: var(--mono);
   font-size: 0.74rem; color: var(--aw-ink-muted); }
 
 /* The folded full citation should not shout. */
-.md-typeset details.quote { font-size: 0.8rem; margin: 0 0 0.8rem; }
-.md-typeset details.quote > summary { font-size: 0.78rem; font-weight: 500; }
+details.quote { font-size: 0.8rem; margin: 0 0 0.8rem; }
+details.quote > summary { font-size: 0.78rem; font-weight: 500; }
+
+/* ---- curation record ----------------------------------------------------- */
+/* Long, important and not what most readers came for, so it is folded. The
+   notes contain DOIs, primer sequences and stray punctuation, and are emitted
+   as escaped HTML rather than markdown so none of it is interpreted. */
+details.aw-curation { border-left: 2px solid var(--aw-grid); padding: 0 0 0 1rem; margin: 0 0 1.4rem; }
+details.aw-curation > summary { font: 600 11px/1.4 var(--sans); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--aw-ink-muted); cursor: pointer; padding: .2rem 0; }
+details.aw-curation > summary:hover { color: var(--aw-ink); }
+details.aw-curation[open] > summary { margin-bottom: .6rem; }
+details.aw-curation p { font-size: 14.5px; line-height: 1.58; margin: 0 0 .8rem;
+  color: var(--aw-ink); max-width: 68ch; }
+details.aw-curation p:last-child { margin-bottom: 0; }
+details.aw-curation code { font-size: .84em; }
+.aw-track-name { fill: var(--aw-ink-muted); font-size: 10px; text-anchor: end;
+  font-family: var(--mono); }
+
+/* ---- folded scope lists -------------------------------------------------- */
+details.aw-taxids { margin: 0 0 1.2rem; }
+details.aw-taxids > summary { font: 500 13.5px/1.4 var(--sans); color: var(--aw-ink-muted);
+  cursor: pointer; padding: .2rem 0; }
+details.aw-taxids > summary:hover { color: var(--aw-ink); }
+details.aw-taxids p { font-size: 13.5px; line-height: 2; margin: .5rem 0 0;
+  max-height: 22rem; overflow-y: auto; }
+
+/* A download offered as a link, not a scripted button: it works with
+   JavaScript off and the file can be fetched with curl. */
+a.aw-download { display: inline-block; margin-top: .6rem; font: 500 13.5px/1 var(--sans);
+  text-decoration: none; border: 1px solid var(--aw-grid); border-radius: 3px;
+  padding: .42rem .7rem; color: var(--aw-ink); }
+a.aw-download:hover { border-color: var(--aw-ink-muted); }
+a.aw-download::after { content: " \2193"; color: var(--aw-ink-muted); }
+
+/* ---- corrections -------------------------------------------------------- */
+/* Three routes in increasing order of effort. Cards rather than inline links:
+   the point is that correcting an entry is easy, and a reader skimming the
+   foot of a page should see that without reading a sentence. */
+.aw-contribute { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: .7rem; margin: 1rem 0 1.2rem; }
+a.aw-cta { display: block; padding: .75rem .85rem; border: 1px solid var(--aw-grid);
+  border-radius: 4px; text-decoration: none; color: var(--aw-ink); }
+a.aw-cta:hover { border-color: var(--aw-link); }
+a.aw-cta b { display: block; font: 600 14.5px/1.3 var(--sans); margin-bottom: .22rem;
+  color: var(--aw-link); }
+a.aw-cta span { display: block; font: 400 12.5px/1.45 var(--sans); color: var(--aw-ink-muted); }

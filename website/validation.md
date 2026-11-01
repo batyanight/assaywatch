@@ -108,7 +108,7 @@ adjustment addresses.
 Shu and colleagues documented drift in the CDC H3 assay in 2026. This tool
 cannot detect it, because under its own scoring that assay already reads as
 non-detecting from 2016 onward — 0.4% in 2019, 0.2% in 2026. A single mismatch
-at the centre of a hydrolysis probe is sufficient to disqualify detection, and
+at the center of a hydrolysis probe is sufficient to disqualify detection, and
 the assay had reached that floor before the divergence Shu describes began.
 
 Verified against an individual record: the forward primer matches exactly, the
@@ -155,7 +155,9 @@ original conclusion no longer followed.
   publication exists, which biases toward assays of sufficient interest to
   re-examine, and plausibly toward those that presented problems.
 - **In-sample figures are in-sample.** For performance on an unseen assay, the
-  held-out rows are the relevant estimate. There are 14 of them in total.
+  held-out rows are the relevant estimate, and they are few: 53 rows across the
+  three sets, carrying **14 documented failures** between them. Every
+  proportion quoted from them has a denominator in single figures.
 - **Sequence databases do not sample surveillance.** An outbreak deposits
   hundreds of near-identical sequences; endemic circulation deposits none. A
   variant escaping PCR may never be sequenced, which biases the entire

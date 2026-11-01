@@ -1,0 +1,102 @@
+{#-
+  The whole theme. One template, deliberately: the site is a front page, five
+  prose pages and 217 generated assay records, and every one of them is a
+  single column of text with figures in it. Material was replaced here because
+  its chrome -- the sidebar, the tab bar, the search field -- is what made the
+  site read as generated documentation rather than as a record someone wrote.
+
+  No framework and no runtime. The only script is the one that sorts the assay
+  table, drives the pipeline diagram and marks off-site links, and every one of
+  those degrades to working HTML without it.
+-#}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% if page and page.title and not page.is_homepage %}{{ page.title }} · {% endif %}{{ config.site_name }}</title>
+<meta name="description" content="{{ page.meta.description if page and page.meta and page.meta.description else config.site_description }}">
+<script>
+  /* Before first paint: a stored choice wins over the system setting. Without
+     this the page renders in the system theme and then swaps, which flashes. */
+  try {
+    var t = localStorage.getItem("aw-theme");
+    if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+  } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+{%- for path in config.extra_css %}
+<link rel="stylesheet" href="{{ path | url }}">
+{%- endfor %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="measure">
+    <a class="wordmark" href="{{ nav.homepage.url | url }}">AssayWatch</a>
+    <button class="theme-toggle" type="button" aria-pressed="false"
+            title="Switch between light and dark">
+      <span class="tt-label">Light</span>
+    </button>
+    <nav class="sections" aria-label="Sections">
+      {%- for item in nav %}
+        {%- if item.children %}
+          {%- for child in item.children %}
+      <a href="{{ child.url | url }}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
+          {%- endfor %}
+        {%- elif not item.is_homepage %}
+      <a href="{{ item.url | url }}"{% if item.active %} aria-current="page"{% endif %}>{{ item.title }}</a>
+        {%- endif %}
+      {%- endfor %}
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="measure{% if page and page.is_homepage %} is-home{% endif %}">
+  {#- A stage page says which sequence it belongs to, before its own title. -#}
+  {%- if page and page.url.startswith('pipeline/') %}
+  <p class="breadcrumb"><a href="{{ 'pipeline/' | url }}">Pipeline</a></p>
+  {%- endif %}
+
+  {{ page.content }}
+
+  {#- Previous and next come from the nav, so the order is declared once in
+      mkdocs.yml and never duplicated here. Shown only inside the pipeline,
+      where the pages are a sequence; elsewhere they would imply an order the
+      reader is not meant to follow. -#}
+  {%- if page and page.url.startswith('pipeline/') %}
+  <nav class="seq" aria-label="Pipeline stages">
+    <span class="seq-prev">
+      {%- if page.previous_page %}
+      <a href="{{ page.previous_page.url | url }}"><span class="seq-dir">Previous</span>
+        {{ page.previous_page.title }}</a>
+      {%- endif %}
+    </span>
+    <a class="seq-up" href="{{ 'pipeline/' | url }}">All stages</a>
+    <span class="seq-next">
+      {%- if page.next_page %}
+      <a href="{{ page.next_page.url | url }}"><span class="seq-dir">Next</span>
+        {{ page.next_page.title }}</a>
+      {%- endif %}
+    </span>
+  </nav>
+  {%- endif %}
+</main>
+
+<footer class="colophon">
+  <div class="measure">
+    <p>{{ config.copyright }}</p>
+    <p><a href="{{ config.repo_url }}">{{ config.repo_name }}</a> ·
+       <a href="{{ config.repo_url }}/issues/new">Report a problem</a> ·
+       <a href="{{ config.repo_url }}/blob/main/CONTRIBUTING.md">Contribute an assay</a> ·
+       <a href="https://doi.org/10.5281/zenodo.23841793">10.5281/zenodo.23841793</a></p>
+  </div>
+</footer>
+
+{%- for path in config.extra_javascript %}
+<script src="{{ path | url }}"></script>
+{%- endfor %}
+</body>
+</html>

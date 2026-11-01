@@ -43,9 +43,10 @@ threshold used here is in percentage points.
 
 A record in which one primer has diverged is scored as a failure. A record in
 which both have diverged yields no product and is excluded from the denominator
-entirely. Across one complete run, 65.7% of 2.72 million screened records did
-not reach the statistics. Each assay page reports this proportion for its own
-assay.
+entirely. On the 2026-10-31 run, **48.4% of 3.04 million screened
+assay–record pairs did not reach the statistics**, and `no_site` — no credible
+binding site for either primer — accounts for 42.8% of all rows on its own.
+Each assay page reports the proportion for its own assay.
 
 This is the limitation most open to challenge. It may not be correctable
 without changing the estimand.
@@ -92,10 +93,17 @@ Listed so that these are not mistaken for outstanding tasks.
 These require assessment of source publications rather than further
 development.
 
+A note on the curation flags, because the raw count misleads. 158 of the 218
+entries carry one, 236 in total — but **219 of those are disclosures, not
+defects**: an oligo read from a figure, an amplicon measured rather than
+published, a scope narrower than the taxid. They are true, and they will never
+clear. Only **17 are open questions** a reader could close, and those are the
+ones listed here.
+
 | outstanding | scale |
 |---|---|
 | design scope read from the source publication, per validation case | 34 rows across 17 assays |
-| curation flags requiring resolution | 227 readings across 154 entries (2026-10-30); 15 will not clear, being accurate |
+| curation flags still open | **17**, each on its own entry — an unresolved duplicate, an uncitable oligo source, a scope the source never states |
 | reaction conditions — limits of detection, master mixes, concentrations | approximately 247 |
 | validation panels, each a table in a publication | 0 of 218 entered |
 | publications with a specificity claim worth recording | 118 of 178 held |

@@ -13,7 +13,7 @@
 
 | | |
 |---|---|
-| Target | Chordopoxvirinae ([taxid 10241](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10241)) |
+| Target | Chordopoxvirinae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10241">taxid 10241</a>) |
 | Gene | Polymerase short |
 | Chemistry | conventional |
 | Amplicon | 192 bp |
@@ -21,10 +21,10 @@
 
 ## Oligos
 
-| role | sequence (5'→3') | length |
-|---|---|---|
-| forward | `TATAGAGCGAGTACAGTCATCAAG` | 24 nt |
-| reverse | `CANACATTNGGATAYARACTATTATAATC` | 29 nt |
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | PoxPolF1 | `TATAGAGCGAGTACAGTCATCAAG` | 24 nt |
+| reverse | PoxPolR1 | `CANACATTNGGATAYARACTATTATAATC` | 29 nt |
 
 ## Verdict
 
@@ -41,7 +41,7 @@ Change from baseline, Newcombe interval: **0.9% to 1.7%**. Threshold: **90.0%**.
 
 *detected share 98.7% (98%-99%) since Oct 2024*
 
-Trend across deposit years: by record rising (p=1.22e-119, 35 years); by footprint falling (p=0.28); **the two disagree on direction**. Reported for context; it is not an input to the verdict.
+Trend across deposit years: by record rising (p = 1.22e-119, 35 years); by footprint falling (p = 0.28); **the two disagree on direction**. Reported for context; it is not an input to the verdict.
 
 From the 2026-10-31 run. A status indicates where to direct attention rather than establishing a result; [known limitations](../limitations.md) reports how often these calls are correct.
 
@@ -52,95 +52,117 @@ deposit. The shaded band marks the recent window and the dashed line the thresho
 Marker size encodes the number of records behind each point, since 100% of three
 records and 100% of three thousand are not equivalent claims.
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1990 to 2026, against a 90 percent threshold."><rect class="aw-window" x="669.2" y="12.0" width="36.8" height="180.0"><title>the recent window: 24 months from Oct 2024</title></rect><line class="aw-grid" x1="44.0" y1="192.0" x2="706.0" y2="192.0"/><text class="aw-tick aw-tick-y" x="37.0" y="195.5">0</text><line class="aw-grid" x1="44.0" y1="147.0" x2="706.0" y2="147.0"/><text class="aw-tick aw-tick-y" x="37.0" y="150.5">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="57.0" x2="706.0" y2="57.0"/><text class="aw-tick aw-tick-y" x="37.0" y="60.5">75</text><line class="aw-grid" x1="44.0" y1="12.0" x2="706.0" y2="12.0"/><text class="aw-tick aw-tick-y" x="37.0" y="15.5">100</text><line class="aw-threshold" x1="44.0" y1="30.0" x2="706.0" y2="30.0"/><text class="aw-threshold-label" x="706.0" y="25.0">90% threshold</text><polyline class="aw-line aw-stable" points="44.0,12.0 62.4,12.0 99.2,12.0 117.6,12.0 154.3,132.0 172.7,12.0 191.1,12.0 209.5,114.9 227.9,12.0 246.3,89.1 264.7,12.0 283.1,12.0 301.4,12.0 319.8,17.8 338.2,17.7 356.6,72.0 375.0,192.0 393.4,12.0 411.8,102.0 430.2,23.2 448.6,130.4 466.9,34.2 485.3,14.4 503.7,12.0 522.1,66.8 540.5,75.3 558.9,29.2 577.3,96.8 595.7,18.8 614.1,32.7 632.4,12.3 650.8,14.4 669.2,14.7 687.6,13.8 706.0,14.5"/><g class="aw-point aw-stable"><title>1990: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="12.0" r="2.5"/></g><g class="aw-point aw-stable"><title>1991: 1 of 1 detected (100.0%)</title><circle cx="62.4" cy="12.0" r="2.5"/></g><g class="aw-point aw-stable"><title>1993: 4 of 4 detected (100.0%)</title><circle cx="99.2" cy="12.0" r="2.7"/></g><g class="aw-point aw-stable"><title>1994: 1 of 1 detected (100.0%)</title><circle cx="117.6" cy="12.0" r="2.5"/></g><g class="aw-point aw-stable"><title>1996: 1 of 3 detected (33.3%)</title><circle cx="154.3" cy="132.0" r="2.6"/></g><g class="aw-point aw-stable"><title>1997: 1 of 1 detected (100.0%)</title><circle cx="172.7" cy="12.0" r="2.5"/></g><g class="aw-point aw-stable"><title>1998: 2 of 2 detected (100.0%)</title><circle cx="191.1" cy="12.0" r="2.5"/></g><g class="aw-point aw-stable"><title>1999: 3 of 7 detected (42.9%)</title><circle cx="209.5" cy="114.9" r="3.0"/></g><g class="aw-point aw-stable"><title>2000: 3 of 3 detected (100.0%)</title><circle cx="227.9" cy="12.0" r="2.6"/></g><g class="aw-point aw-stable"><title>2001: 4 of 7 detected (57.1%)</title><circle cx="246.3" cy="89.1" r="3.0"/></g><g class="aw-point aw-stable"><title>2002: 16 of 16 detected (100.0%)</title><circle cx="264.7" cy="12.0" r="3.6"/></g><g class="aw-point aw-stable"><title>2003: 12 of 12 detected (100.0%)</title><circle cx="283.1" cy="12.0" r="3.4"/></g><g class="aw-point aw-stable"><title>2004: 10 of 10 detected (100.0%)</title><circle cx="301.4" cy="12.0" r="3.3"/></g><g class="aw-point aw-stable"><title>2005: 30 of 31 detected (96.8%)</title><circle cx="319.8" cy="17.8" r="4.0"/></g><g class="aw-point aw-stable"><title>2006: 61 of 63 detected (96.8%)</title><circle cx="338.2" cy="17.7" r="4.5"/></g><g class="aw-point aw-stable"><title>2007: 4 of 6 detected (66.7%)</title><circle cx="356.6" cy="72.0" r="3.0"/></g><g class="aw-point aw-stable"><title>2008: 0 of 4 detected (0.0%)</title><circle cx="375.0" cy="192.0" r="2.7"/></g><g class="aw-point aw-stable"><title>2009: 1 of 1 detected (100.0%)</title><circle cx="393.4" cy="12.0" r="2.5"/></g><g class="aw-point aw-stable"><title>2010: 6 of 12 detected (50.0%)</title><circle cx="411.8" cy="102.0" r="3.4"/></g><g class="aw-point aw-stable"><title>2011: 15 of 16 detected (93.8%)</title><circle cx="430.2" cy="23.2" r="3.6"/></g><g class="aw-point aw-stable"><title>2012: 13 of 38 detected (34.2%)</title><circle cx="448.6" cy="130.4" r="4.1"/></g><g class="aw-point aw-stable"><title>2013: 64 of 73 detected (87.7%)</title><circle cx="466.9" cy="34.2" r="4.6"/></g><g class="aw-point aw-stable"><title>2014: 74 of 75 detected (98.7%)</title><circle cx="485.3" cy="14.4" r="4.6"/></g><g class="aw-point aw-stable"><title>2015: 35 of 35 detected (100.0%)</title><circle cx="503.7" cy="12.0" r="4.1"/></g><g class="aw-point aw-stable"><title>2016: 16 of 23 detected (69.6%)</title><circle cx="522.1" cy="66.8" r="3.8"/></g><g class="aw-point aw-stable"><title>2017: 59 of 91 detected (64.8%)</title><circle cx="540.5" cy="75.3" r="4.7"/></g><g class="aw-point aw-stable"><title>2018: 85 of 94 detected (90.4%)</title><circle cx="558.9" cy="29.2" r="4.8"/></g><g class="aw-point aw-stable"><title>2019: 64 of 121 detected (52.9%)</title><circle cx="577.3" cy="96.8" r="4.9"/></g><g class="aw-point aw-stable"><title>2020: 76 of 79 detected (96.2%)</title><circle cx="595.7" cy="18.8" r="4.6"/></g><g class="aw-point aw-stable"><title>2021: 54 of 61 detected (88.5%)</title><circle cx="614.1" cy="32.7" r="4.5"/></g><g class="aw-point aw-stable"><title>2022: 3,529 of 3,534 detected (99.9%)</title><circle cx="632.4" cy="12.3" r="7.0"/></g><g class="aw-point aw-stable"><title>2023: 3,222 of 3,266 detected (98.7%)</title><circle cx="650.8" cy="14.4" r="7.0"/></g><g class="aw-point aw-stable"><title>2024: 2,181 of 2,214 detected (98.5%) — recent window</title><circle cx="669.2" cy="14.7" r="7.0"/></g><g class="aw-point aw-stable"><title>2025: 2,343 of 2,367 detected (99.0%) — recent window</title><circle cx="687.6" cy="13.8" r="7.0"/></g><g class="aw-point aw-stable"><title>2026: 3,237 of 3,283 detected (98.6%) — recent window</title><circle cx="706.0" cy="14.5" r="7.0"/></g><text class="aw-tick" x="44.0" y="208">1990</text><text class="aw-tick" x="135.9" y="208">1995</text><text class="aw-tick" x="227.9" y="208">2000</text><text class="aw-tick" x="319.8" y="208">2005</text><text class="aw-tick" x="411.8" y="208">2010</text><text class="aw-tick" x="503.7" y="208">2015</text><text class="aw-tick" x="595.7" y="208">2020</text><text class="aw-tick" x="687.6" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1990 to 2026, against a 90 percent threshold."><rect class="aw-window" x="669.2" y="12.0" width="36.8" height="180.0"><title>the recent window: 24 months from Oct 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-line aw-stable" points="44.0,20.2 62.4,20.2 99.2,20.2 117.6,20.2 154.3,129.3 172.7,20.2 191.1,20.2 209.5,113.7 227.9,20.2 246.3,90.3 264.7,20.2 283.1,20.2 301.4,20.2 319.8,25.5 338.2,25.4 356.6,74.7 375.0,183.8 393.4,20.2 411.8,102.0 430.2,30.4 448.6,127.8 466.9,40.4 485.3,22.4 503.7,20.2 522.1,70.0 540.5,77.7 558.9,35.8 577.3,97.3 595.7,26.4 614.1,39.0 632.4,20.4 650.8,22.4 669.2,22.6 687.6,21.8 706.0,22.5"/><g class="aw-point aw-stable"><title>1990: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>1991: 1 of 1 detected (100.0%)</title><circle cx="62.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>1993: 4 of 4 detected (100.0%)</title><circle cx="99.2" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>1994: 1 of 1 detected (100.0%)</title><circle cx="117.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>1996: 1 of 3 detected (33.3%)</title><circle cx="154.3" cy="129.3" r="2.6"/></g><g class="aw-point aw-stable"><title>1997: 1 of 1 detected (100.0%)</title><circle cx="172.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>1998: 2 of 2 detected (100.0%)</title><circle cx="191.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>1999: 3 of 7 detected (42.9%)</title><circle cx="209.5" cy="113.7" r="3.0"/></g><g class="aw-point aw-stable"><title>2000: 3 of 3 detected (100.0%)</title><circle cx="227.9" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2001: 4 of 7 detected (57.1%)</title><circle cx="246.3" cy="90.3" r="3.0"/></g><g class="aw-point aw-stable"><title>2002: 16 of 16 detected (100.0%)</title><circle cx="264.7" cy="20.2" r="3.6"/></g><g class="aw-point aw-stable"><title>2003: 12 of 12 detected (100.0%)</title><circle cx="283.1" cy="20.2" r="3.4"/></g><g class="aw-point aw-stable"><title>2004: 10 of 10 detected (100.0%)</title><circle cx="301.4" cy="20.2" r="3.3"/></g><g class="aw-point aw-stable"><title>2005: 30 of 31 detected (96.8%)</title><circle cx="319.8" cy="25.5" r="4.0"/></g><g class="aw-point aw-stable"><title>2006: 61 of 63 detected (96.8%)</title><circle cx="338.2" cy="25.4" r="4.5"/></g><g class="aw-point aw-stable"><title>2007: 4 of 6 detected (66.7%)</title><circle cx="356.6" cy="74.7" r="3.0"/></g><g class="aw-point aw-stable"><title>2008: 0 of 4 detected (0.0%)</title><circle cx="375.0" cy="183.8" r="2.7"/></g><g class="aw-point aw-stable"><title>2009: 1 of 1 detected (100.0%)</title><circle cx="393.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2010: 6 of 12 detected (50.0%)</title><circle cx="411.8" cy="102.0" r="3.4"/></g><g class="aw-point aw-stable"><title>2011: 15 of 16 detected (93.8%)</title><circle cx="430.2" cy="30.4" r="3.6"/></g><g class="aw-point aw-stable"><title>2012: 13 of 38 detected (34.2%)</title><circle cx="448.6" cy="127.8" r="4.1"/></g><g class="aw-point aw-stable"><title>2013: 64 of 73 detected (87.7%)</title><circle cx="466.9" cy="40.4" r="4.6"/></g><g class="aw-point aw-stable"><title>2014: 74 of 75 detected (98.7%)</title><circle cx="485.3" cy="22.4" r="4.6"/></g><g class="aw-point aw-stable"><title>2015: 35 of 35 detected (100.0%)</title><circle cx="503.7" cy="20.2" r="4.1"/></g><g class="aw-point aw-stable"><title>2016: 16 of 23 detected (69.6%)</title><circle cx="522.1" cy="70.0" r="3.8"/></g><g class="aw-point aw-stable"><title>2017: 59 of 91 detected (64.8%)</title><circle cx="540.5" cy="77.7" r="4.7"/></g><g class="aw-point aw-stable"><title>2018: 85 of 94 detected (90.4%)</title><circle cx="558.9" cy="35.8" r="4.8"/></g><g class="aw-point aw-stable"><title>2019: 64 of 121 detected (52.9%)</title><circle cx="577.3" cy="97.3" r="4.9"/></g><g class="aw-point aw-stable"><title>2020: 76 of 79 detected (96.2%)</title><circle cx="595.7" cy="26.4" r="4.6"/></g><g class="aw-point aw-stable"><title>2021: 54 of 61 detected (88.5%)</title><circle cx="614.1" cy="39.0" r="4.5"/></g><g class="aw-point aw-stable"><title>2022: 3,529 of 3,534 detected (99.9%)</title><circle cx="632.4" cy="20.4" r="7.0"/></g><g class="aw-point aw-stable"><title>2023: 3,222 of 3,266 detected (98.7%)</title><circle cx="650.8" cy="22.4" r="7.0"/></g><g class="aw-point aw-stable"><title>2024: 2,181 of 2,214 detected (98.5%) — recent window</title><circle cx="669.2" cy="22.6" r="7.0"/></g><g class="aw-point aw-stable"><title>2025: 2,343 of 2,367 detected (99.0%) — recent window</title><circle cx="687.6" cy="21.8" r="7.0"/></g><g class="aw-point aw-stable"><title>2026: 3,237 of 3,283 detected (98.6%) — recent window</title><circle cx="706.0" cy="22.5" r="7.0"/></g><text class="aw-tick" x="44.0" y="208">1990</text><text class="aw-tick" x="135.9" y="208">1995</text><text class="aw-tick" x="227.9" y="208">2000</text><text class="aw-tick" x="319.8" y="208">2005</text><text class="aw-tick" x="411.8" y="208">2010</text><text class="aw-tick" x="503.7" y="208">2015</text><text class="aw-tick" x="595.7" y="208">2020</text><text class="aw-tick" x="687.6" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## Mismatch distribution
 
-Each oligonucleotide drawn base by base, 5′ to 3′, with the 3′ window shaded, since
-a mismatch there is the one most likely to prevent amplification. Bar height is the
-proportion of records differing at that position; bar colour is the consequence,
-measured as the fall in detection between records differing there and those not:
+Each oligonucleotide drawn base by base, 5′ to 3′. The shaded region is the one the
+scoring penalizes more heavily, and it differs by oligonucleotide: for a primer the
+3′ window, where a mismatch sits in the polymerase’s catalytic site; for a probe the
+central third, since a hydrolysis probe is never extended — its 3′ end carries the
+quencher and it is cleaved by exonuclease activity, so what matters is duplex
+stability. Bar height is the proportion of records differing at that position; bar
+color is the consequence, measured as the fall in detection between records
+differing there and those not:
 
 <span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
 <span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
 <span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect — variation the assay tolerates</span>
 
-Counts are available on hover. A tall grey bar indicates a tolerated polymorphism; a
+Counts are available on hover. A tall gray bar indicates a tolerated polymorphism; a
 short red bar indicates a position of consequence.
 
-<svg class="aw-track" viewBox="0 0 531 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="68" y="56">forward</text><rect class="aw-zone" x="363.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="78.0" y1="44.0" x2="438.0" y2="44.0"/><text class="aw-base" x="85.5" y="57">T</text><text class="aw-base" x="100.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 22 from the 3&#x27; end, base T
+<svg class="aw-track" viewBox="0 0 557 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">PoxPolF1</text><rect class="aw-zone" x="389.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="464.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">T</text><text class="aw-base" x="126.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 22 from the 3&#x27; end, base T
 155 of 15,634 records differ here (1.0%)
 detected when it differs: 5% of 155
 detected when it does not: 99% of 15,479
-substitutions: T&gt;C in 155</title><rect x="109.0" y="40.6" width="13.0" height="3.4"/></g><text class="aw-base" x="115.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 21 from the 3&#x27; end, base A
+substitutions: T&gt;C in 155
+outside the 3′ window</title><rect x="135.0" y="40.6" width="13.0" height="3.4"/></g><text class="aw-base" x="141.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 21 from the 3&#x27; end, base A
 153 of 15,634 records differ here (1.0%)
 detected when it differs: 0% of 153
 detected when it does not: 99% of 15,481
-substitutions: A&gt;C in 153</title><rect x="124.0" y="40.6" width="13.0" height="3.4"/></g><text class="aw-base" x="130.5" y="57">A</text><g class="aw-bar-weak"><title>forward position 20 from the 3&#x27; end, base G
+substitutions: A&gt;C in 153
+outside the 3′ window</title><rect x="150.0" y="40.6" width="13.0" height="3.4"/></g><text class="aw-base" x="156.5" y="57">A</text><g class="aw-bar-weak"><title>forward position 20 from the 3&#x27; end, base G
 94 of 15,634 records differ here (0.6%)
 detected when it differs: 94% of 94
 detected when it does not: 98% of 15,540
-substitutions: G&gt;A in 94</title><rect x="139.0" y="41.4" width="13.0" height="2.6"/></g><text class="aw-base" x="145.5" y="57">G</text><text class="aw-base" x="160.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 18 from the 3&#x27; end, base G
+substitutions: G&gt;A in 94
+outside the 3′ window</title><rect x="165.0" y="41.4" width="13.0" height="2.6"/></g><text class="aw-base" x="171.5" y="57">G</text><text class="aw-base" x="186.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 18 from the 3&#x27; end, base G
 24 of 15,634 records differ here (0.2%)
 detected when it differs: 67% of 24
 detected when it does not: 98% of 15,610
-substitutions: G&gt;T in 18, G&gt;A in 6</title><rect x="169.0" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="175.5" y="57">G</text><text class="aw-base" x="190.5" y="57">C</text><g class="aw-bar-strong"><title>forward position 16 from the 3&#x27; end, base G
+substitutions: G&gt;T in 18, G&gt;A in 6
+outside the 3′ window</title><rect x="195.0" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="201.5" y="57">G</text><text class="aw-base" x="216.5" y="57">C</text><g class="aw-bar-strong"><title>forward position 16 from the 3&#x27; end, base G
 153 of 15,634 records differ here (1.0%)
 detected when it differs: 41% of 153
 detected when it does not: 99% of 15,481
-substitutions: G&gt;C in 106, G&gt;T in 22, G&gt;A in 15</title><rect x="199.0" y="40.6" width="13.0" height="3.4"/></g><text class="aw-base" x="205.5" y="57">G</text><text class="aw-base" x="220.5" y="57">A</text><text class="aw-base" x="235.5" y="57">G</text><text class="aw-base" x="250.5" y="57">T</text><text class="aw-base" x="265.5" y="57">A</text><text class="aw-base" x="280.5" y="57">C</text><g class="aw-bar-mid"><title>forward position 10 from the 3&#x27; end, base A
+substitutions: G&gt;C in 106, G&gt;T in 22, G&gt;A in 15
+outside the 3′ window</title><rect x="225.0" y="40.6" width="13.0" height="3.4"/></g><text class="aw-base" x="231.5" y="57">G</text><text class="aw-base" x="246.5" y="57">A</text><text class="aw-base" x="261.5" y="57">G</text><text class="aw-base" x="276.5" y="57">T</text><text class="aw-base" x="291.5" y="57">A</text><text class="aw-base" x="306.5" y="57">C</text><g class="aw-bar-mid"><title>forward position 10 from the 3&#x27; end, base A
 543 of 15,634 records differ here (3.5%)
 detected when it differs: 84% of 543
 detected when it does not: 99% of 15,091
-substitutions: G&gt;A in 417, C&gt;G in 100, C&gt;A in 10</title><rect x="289.0" y="37.7" width="13.0" height="6.3"/></g><text class="aw-base" x="295.5" y="57">A</text><g class="aw-bar-weak"><title>forward position 9 from the 3&#x27; end, base G
+substitutions: G&gt;A in 417, C&gt;G in 100, C&gt;A in 10
+outside the 3′ window</title><rect x="315.0" y="37.7" width="13.0" height="6.3"/></g><text class="aw-base" x="321.5" y="57">A</text><g class="aw-bar-weak"><title>forward position 9 from the 3&#x27; end, base G
 10,900 of 15,634 records differ here (69.7%)
 detected when it differs: 98% of 10,900
 detected when it does not: 99% of 4,734
-substitutions: G&gt;A in 10,629, C&gt;T in 153, T&gt;C in 104</title><rect x="304.0" y="15.6" width="13.0" height="28.4"/></g><text class="aw-base" x="310.5" y="57">G</text><g class="aw-bar-strong"><title>forward position 8 from the 3&#x27; end, base T
+substitutions: G&gt;A in 10,629, C&gt;T in 153, T&gt;C in 104
+outside the 3′ window</title><rect x="330.0" y="15.6" width="13.0" height="28.4"/></g><text class="aw-base" x="336.5" y="57">G</text><g class="aw-bar-strong"><title>forward position 8 from the 3&#x27; end, base T
 114 of 15,634 records differ here (0.7%)
 detected when it differs: 34% of 114
 detected when it does not: 99% of 15,520
-substitutions: G&gt;T in 114</title><rect x="319.0" y="41.1" width="13.0" height="2.9"/></g><text class="aw-base" x="325.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 7 from the 3&#x27; end, base C
+substitutions: G&gt;T in 114
+outside the 3′ window</title><rect x="345.0" y="41.1" width="13.0" height="2.9"/></g><text class="aw-base" x="351.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 7 from the 3&#x27; end, base C
 202 of 15,634 records differ here (1.3%)
 detected when it differs: 11% of 202
 detected when it does not: 99% of 15,432
-substitutions: T&gt;G in 153, C&gt;G in 16, C&gt;A in 16</title><rect x="334.0" y="40.1" width="13.0" height="3.9"/></g><text class="aw-base" x="340.5" y="57">C</text><text class="aw-base" x="355.5" y="57">A</text><text class="aw-base" x="370.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 4 from the 3&#x27; end, base C
+substitutions: T&gt;G in 153, C&gt;G in 16, C&gt;A in 16
+outside the 3′ window</title><rect x="360.0" y="40.1" width="13.0" height="3.9"/></g><text class="aw-base" x="366.5" y="57">C</text><text class="aw-base" x="381.5" y="57">A</text><text class="aw-base" x="396.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 4 from the 3&#x27; end, base C
 198 of 15,634 records differ here (1.3%)
 detected when it differs: 15% of 198
 detected when it does not: 99% of 15,436
-substitutions: T&gt;C in 169, C&gt;T in 24, C&gt;A in 4</title><rect x="379.0" y="40.2" width="13.0" height="3.8"/></g><text class="aw-base" x="385.5" y="57">C</text><text class="aw-base" x="400.5" y="57">A</text><text class="aw-base" x="415.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 1 from the 3&#x27; end, base G
+substitutions: T&gt;C in 169, C&gt;T in 24, C&gt;A in 4
+inside the 3′ window</title><rect x="405.0" y="40.2" width="13.0" height="3.8"/></g><text class="aw-base" x="411.5" y="57">C</text><text class="aw-base" x="426.5" y="57">A</text><text class="aw-base" x="441.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 1 from the 3&#x27; end, base G
 39 of 15,634 records differ here (0.2%)
 detected when it differs: 28% of 39
 detected when it does not: 99% of 15,595
-substitutions: G&gt;A in 31, A&gt;G in 8</title><rect x="424.0" y="42.3" width="13.0" height="1.7"/></g><text class="aw-base" x="430.5" y="57">G</text><text class="aw-tick" x="430.5" y="71">1</text><text class="aw-tick" x="370.5" y="71">5</text><text class="aw-tick" x="295.5" y="71">10</text><text class="aw-tick" x="220.5" y="71">15</text><text class="aw-tick" x="145.5" y="71">20</text><text class="aw-tick" x="85.5" y="71">24</text><text class="aw-end" x="74" y="57">5′</text><text class="aw-end aw-end-3" x="442" y="57">3′</text><text class="aw-track-label" x="68" y="138">reverse</text><rect class="aw-zone" x="438.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="78.0" y1="126.0" x2="513.0" y2="126.0"/><text class="aw-base" x="85.5" y="139">C</text><text class="aw-base" x="100.5" y="139">A</text><text class="aw-base" x="115.5" y="139">N</text><text class="aw-base" x="130.5" y="139">A</text><text class="aw-base" x="145.5" y="139">C</text><g class="aw-bar-weak"><title>reverse position 24 from the 3&#x27; end, base A
+substitutions: G&gt;A in 31, A&gt;G in 8
+inside the 3′ window</title><rect x="450.0" y="42.3" width="13.0" height="1.7"/></g><text class="aw-base" x="456.5" y="57">G</text><text class="aw-tick" x="456.5" y="71">1</text><text class="aw-tick" x="396.5" y="71">5</text><text class="aw-tick" x="321.5" y="71">10</text><text class="aw-tick" x="246.5" y="71">15</text><text class="aw-tick" x="171.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">24</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="468" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">PoxPolR1</text><rect class="aw-zone" x="464.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="539.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">C</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">N</text><text class="aw-base" x="156.5" y="139">A</text><text class="aw-base" x="171.5" y="139">C</text><g class="aw-bar-weak"><title>reverse position 24 from the 3&#x27; end, base A
 472 of 15,634 records differ here (3.0%)
 detected when it differs: 97% of 472
 detected when it does not: 98% of 15,162
-substitutions: G&gt;A in 451, A&gt;G in 20, G&gt;C in 1</title><rect x="154.0" y="120.1" width="13.0" height="5.9"/></g><text class="aw-base" x="160.5" y="139">A</text><text class="aw-base" x="175.5" y="139">T</text><text class="aw-base" x="190.5" y="139">T</text><text class="aw-base" x="205.5" y="139">N</text><text class="aw-base" x="220.5" y="139">G</text><text class="aw-base" x="235.5" y="139">G</text><g class="aw-bar-strong"><title>reverse position 18 from the 3&#x27; end, base A
+substitutions: G&gt;A in 451, A&gt;G in 20, G&gt;C in 1
+outside the 3′ window</title><rect x="180.0" y="120.1" width="13.0" height="5.9"/></g><text class="aw-base" x="186.5" y="139">A</text><text class="aw-base" x="201.5" y="139">T</text><text class="aw-base" x="216.5" y="139">T</text><text class="aw-base" x="231.5" y="139">N</text><text class="aw-base" x="246.5" y="139">G</text><text class="aw-base" x="261.5" y="139">G</text><g class="aw-bar-strong"><title>reverse position 18 from the 3&#x27; end, base A
 120 of 15,634 records differ here (0.8%)
 detected when it differs: 46% of 120
 detected when it does not: 99% of 15,514
-substitutions: G&gt;A in 115, A&gt;G in 3, G&gt;C in 1</title><rect x="244.0" y="123.0" width="13.0" height="3.0"/></g><text class="aw-base" x="250.5" y="139">A</text><text class="aw-base" x="265.5" y="139">T</text><text class="aw-base" x="280.5" y="139">A</text><g class="aw-bar-strong"><title>reverse position 15 from the 3&#x27; end, base Y
+substitutions: G&gt;A in 115, A&gt;G in 3, G&gt;C in 1
+outside the 3′ window</title><rect x="270.0" y="123.0" width="13.0" height="3.0"/></g><text class="aw-base" x="276.5" y="139">A</text><text class="aw-base" x="291.5" y="139">T</text><text class="aw-base" x="306.5" y="139">A</text><g class="aw-bar-strong"><title>reverse position 15 from the 3&#x27; end, base Y
 74 of 15,634 records differ here (0.5%)
 detected when it differs: 20% of 74
 detected when it does not: 99% of 15,560
-substitutions: Y&gt;G in 71, Y&gt;A in 3</title><rect x="289.0" y="123.7" width="13.0" height="2.3"/></g><text class="aw-base" x="295.5" y="139">Y</text><text class="aw-base" x="310.5" y="139">A</text><text class="aw-base" x="325.5" y="139">R</text><g class="aw-bar-strong"><title>reverse position 12 from the 3&#x27; end, base A
+substitutions: Y&gt;G in 71, Y&gt;A in 3
+outside the 3′ window</title><rect x="315.0" y="123.7" width="13.0" height="2.3"/></g><text class="aw-base" x="321.5" y="139">Y</text><text class="aw-base" x="336.5" y="139">A</text><text class="aw-base" x="351.5" y="139">R</text><g class="aw-bar-strong"><title>reverse position 12 from the 3&#x27; end, base A
 609 of 15,634 records differ here (3.9%)
 detected when it differs: 74% of 609
 detected when it does not: 99% of 15,025
-substitutions: G&gt;A in 605, A&gt;G in 4</title><rect x="334.0" y="119.3" width="13.0" height="6.7"/></g><text class="aw-base" x="340.5" y="139">A</text><text class="aw-base" x="355.5" y="139">C</text><text class="aw-base" x="370.5" y="139">T</text><g class="aw-bar-weak"><title>reverse position 9 from the 3&#x27; end, base A
+substitutions: G&gt;A in 605, A&gt;G in 4
+outside the 3′ window</title><rect x="360.0" y="119.3" width="13.0" height="6.7"/></g><text class="aw-base" x="366.5" y="139">A</text><text class="aw-base" x="381.5" y="139">C</text><text class="aw-base" x="396.5" y="139">T</text><g class="aw-bar-weak"><title>reverse position 9 from the 3&#x27; end, base A
 14,655 of 15,634 records differ here (93.7%)
 detected when it differs: 100% of 14,655
 detected when it does not: 76% of 979
-substitutions: A&gt;G in 14,620, G&gt;A in 35</title><rect x="379.0" y="93.1" width="13.0" height="32.9"/></g><text class="aw-base" x="385.5" y="139">A</text><text class="aw-base" x="400.5" y="139">T</text><text class="aw-base" x="415.5" y="139">T</text><g class="aw-bar-weak"><title>reverse position 6 from the 3&#x27; end, base A
+substitutions: A&gt;G in 14,620, G&gt;A in 35
+outside the 3′ window</title><rect x="405.0" y="93.1" width="13.0" height="32.9"/></g><text class="aw-base" x="411.5" y="139">A</text><text class="aw-base" x="426.5" y="139">T</text><text class="aw-base" x="441.5" y="139">T</text><g class="aw-bar-weak"><title>reverse position 6 from the 3&#x27; end, base A
 480 of 15,634 records differ here (3.1%)
 detected when it differs: 98% of 480
 detected when it does not: 98% of 15,154
-substitutions: G&gt;A in 480</title><rect x="424.0" y="120.0" width="13.0" height="6.0"/></g><text class="aw-base" x="430.5" y="139">A</text><text class="aw-base" x="445.5" y="139">T</text><text class="aw-base" x="460.5" y="139">A</text><g class="aw-bar-strong"><title>reverse position 3 from the 3&#x27; end, base A
+substitutions: G&gt;A in 480
+outside the 3′ window</title><rect x="450.0" y="120.0" width="13.0" height="6.0"/></g><text class="aw-base" x="456.5" y="139">A</text><text class="aw-base" x="471.5" y="139">T</text><text class="aw-base" x="486.5" y="139">A</text><g class="aw-bar-strong"><title>reverse position 3 from the 3&#x27; end, base A
 186 of 15,634 records differ here (1.2%)
 detected when it differs: 20% of 186
 detected when it does not: 99% of 15,448
-substitutions: G&gt;A in 186</title><rect x="469.0" y="122.3" width="13.0" height="3.7"/></g><text class="aw-base" x="475.5" y="139">A</text><text class="aw-base" x="490.5" y="139">T</text><text class="aw-base" x="505.5" y="139">C</text><text class="aw-tick" x="505.5" y="153">1</text><text class="aw-tick" x="445.5" y="153">5</text><text class="aw-tick" x="370.5" y="153">10</text><text class="aw-tick" x="295.5" y="153">15</text><text class="aw-tick" x="220.5" y="153">20</text><text class="aw-tick" x="145.5" y="153">25</text><text class="aw-tick" x="85.5" y="153">29</text><text class="aw-end" x="74" y="139">5′</text><text class="aw-end aw-end-3" x="517" y="139">3′</text></svg>
+substitutions: G&gt;A in 186
+inside the 3′ window</title><rect x="495.0" y="122.3" width="13.0" height="3.7"/></g><text class="aw-base" x="501.5" y="139">A</text><text class="aw-base" x="516.5" y="139">T</text><text class="aw-base" x="531.5" y="139">C</text><text class="aw-tick" x="531.5" y="153">1</text><text class="aw-tick" x="471.5" y="153">5</text><text class="aw-tick" x="396.5" y="153">10</text><text class="aw-tick" x="321.5" y="153">15</text><text class="aw-tick" x="246.5" y="153">20</text><text class="aw-tick" x="171.5" y="153">25</text><text class="aw-tick" x="111.5" y="153">29</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="543" y="139">3′</text></svg>
 
 ## By lineage
 
@@ -152,8 +174,8 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 <table class="aw-lineage">
 <thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
 <tbody>
-<tr class="aw-lin-ok"><td>Orthopoxvirus monkeypox (3431483)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:99.9%"></span></span></td><td class="num">5,536</td><td class="num">99.9%</td><td class="num">99.8–100.0%</td></tr>
-<tr class="aw-lin-ok"><td>Capripoxvirus lumpyskinpox (3427718)</td><td class="aw-barcell"><span class="aw-bar"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">192</td><td class="num">100.0%</td><td class="num">98.0–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Orthopoxvirus monkeypox (3431483)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="99.9% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:99.9%"></span></span></td><td class="num">5,536</td><td class="num">99.9%</td><td class="num">99.8–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Capripoxvirus lumpyskinpox (3427718)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">192</td><td class="num">100.0%</td><td class="num">98.0–100.0%</td></tr>
 </tbody>
 </table>
 
@@ -176,4 +198,26 @@ This is material because a record with one diverged primer is scored as a failur
 | `no_site` | 12,665 |
 | `truncated` | 200 |
 | `chance_anchor` | 1 |
+
+
+## Curation record
+
+PUBLISHED, FOUND 2026-10-05. 
+
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-05</b> PUBLISHED, FOUND 2026-10-05.</p><p>A Europe PMC full-text search on TSPoxPolF1 finds Vila AR et al. 2019 PLoS One 14:e0213667 (PMC6469779, huemul deer parapoxvirus), whose Table 1 prints this entry's six oligos exactly as stored here - TSPoxPolF1 TATAGAGCGAGTACAGTCATCAAG, F2 GCGAGYACCTGCATCAAG, F3, F4, R1 and R2 with I where the registry has N - with the 192 bp amplicon, and cites them to McAloose et al. 2016 Dis Aquat Organ 119:17-36. Vila also describes the design: consensus regions from an alignment of some 20 chordopox and parapox species, short enough for FFPE tissue. So the seed list's 'unpublished' is out of date. Cited to McAloose 2016 as the first publication; the sequences are confirmed through Vila's table, not McAloose's own, because the int-res.com open-access PDF answers scripted requests with 401. Confirm against McAloose by eye. The sibling POXVIRUSES_dsDNA_Polymerase_short (DO_NOT_USE) holds the longer forms with GGNCC 3' tails, which Vila does not print.</p><p><b>2026-10-05</b> FLAG ADDED 2026-10-05 for consistency with Nipah_N_gene_2, which was traced the same way on the same day: this entry's sequences were read from Vila 2019's Table 1 and its citation taken from that table's Reference column, not from McAloose 2016 itself, whose open-access PDF answers a scripted request with 401. The attribution is well supported - Vila names McAloose per primer set - but it is second-hand, and the flag makes that visible rather than implied.</p></details>
+
+## Corrections
+
+If this entry misrepresents the assay, that is a defect and a report is
+welcome — particularly from the group that designed it. The sequences,
+the product size and the scope are all curated from the paper and can be
+wrong.
+
+<div class="aw-contribute" markdown="0">
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=POXVIRUSES_dsDNA_Polymerase_short_2%3A%20&body=Entry%3A%20POXVIRUSES_dsDNA_Polymerase_short_2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/POXVIRUSES_dsDNA_Polymerase_short_2/%0ARun%3A%202026-10-31%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/edit/main/registry/POXVIRUSES_dsDNA_Polymerase_short_2.yaml"><b>Edit the entry</b><span>Opens this assay's YAML in GitHub's editor. Saving offers to open a pull request for you.</span></a>
+<a class="aw-cta" href="https://github.com/batyanight/assaywatch/blob/main/registry/POXVIRUSES_dsDNA_Polymerase_short_2.yaml"><b>Read the entry</b><span>The file behind this page, with every field and the curator's note.</span></a>
+</div>
+
+Contributing an assay is documented in [CONTRIBUTING.md](https://github.com/batyanight/assaywatch/blob/main/CONTRIBUTING.md).
 

@@ -84,11 +84,11 @@ word for a concept.
 
 **penalty** — the position-weighted mismatch cost of one oligo; forward, reverse and probe penalties are summed into one budget under the shipped `engine: budget` (`config.yaml scoring:`).
 
-**3' window** — the last `primer_3prime_window` (5) nt at a primer's 3' end, penalised by `primer_3prime_penalty` per mismatch (`config.yaml scoring:`).
+**3' window** — the last `primer_3prime_window` (5) nt at a primer's 3' end, penalized by `primer_3prime_penalty` per mismatch (`config.yaml scoring:`).
 
-**mid window** — positions 6 to 10 from the 3' end, penalised by `primer_mid_penalty` per mismatch (`config.yaml scoring:`).
+**mid window** — positions 6 to 10 from the 3' end, penalized by `primer_mid_penalty` per mismatch (`config.yaml scoring:`).
 
-**5' region** — the rest of a primer, penalised by `primer_5prime_penalty` (`config.yaml scoring:`).
+**5' region** — the rest of a primer, penalized by `primer_5prime_penalty` (`config.yaml scoring:`).
 
 **terminal mismatch** — a mismatch at the 3'-most base of a primer; with `terminal_mismatch_fails: true` it makes the call `fail` regardless of identity (`config.yaml scoring:`).
 
@@ -98,7 +98,7 @@ word for a concept.
 
 **engine (budget, serial)** — how oligo penalties combine: `budget` sums them against `detect_max`/`reduced_max`; `serial` judges each oligo alone and the worst decides (`scoring.engine`).
 
-**degeneracy** — the pool size of a degenerate oligo (product of its ambiguity-code multiplicities); reported with `tiers` negligible, moderate, high, never penalised (`degeneracy.py`, `config.yaml degeneracy:`).
+**degeneracy** — the pool size of a degenerate oligo (product of its ambiguity-code multiplicities); reported with `tiers` negligible, moderate, high, never penalized (`degeneracy.py`, `config.yaml degeneracy:`).
 
 **degenerate base** — an IUPAC ambiguity code written in an oligo, synthesised as a mixture; inosine is kept in `seq_as_written` (`iupac.py`, `schema.py`).
 
@@ -110,7 +110,7 @@ word for a concept.
 
 **locus identity** — whether an amplicon's interior resembles the interiors of the amplicons the assay actually works on, the chemistry-independent form of the probe-site test; shipped off (`locus_identity_min: null`) (`locus_identity.py`, `config.yaml scoring:`).
 
-**thermo** — optional nearest-neighbour duplex Tm and delta Tm columns per oligo; shown, never scored, shipped `thermo: false` (`thermo.py`, `config.yaml`).
+**thermo** — optional nearest-neighbor duplex Tm and delta Tm columns per oligo; shown, never scored, shipped `thermo: false` (`thermo.py`, `config.yaml`).
 
 **footprint** — one record's mismatch pattern for an assay (positions from the 3' end and ambiguity counts per oligo), interned to a single string; millions of records share a few thousand footprints (`drift.py FOOTPRINT_COLUMNS`, `calls.py`).
 
@@ -212,9 +212,9 @@ word for a concept.
 
 **evaluable / assessable / coverage gap** — three thresholds on one count. A record is *evaluable* when both primers anchored in range so it received an amplicon (`config.yaml` under `chance_pair_fdr`). A lineage is *assessable* when it has at least `lineage.min_records_per_lineage` evaluable records. A *coverage gap* is an assay-level shortfall below `drift.min_records_for_coverage`. Same denominator, three places it is tested.
 
-**undecided** — the set of drift statuses that are not a verdict: `insufficient data`, `no recent data`, `no data` (`scripts/retrospective.py UNDECIDED`). `drift.py STATUS_ORDER` carries the first two and `NO_DATA` the third; the report greys all three. `no recent data` means nothing new was deposited in the window; `insufficient data` means too few evaluable records; `no data` means no archive at all.
+**undecided** — the set of drift statuses that are not a verdict: `insufficient data`, `no recent data`, `no data` (`scripts/retrospective.py UNDECIDED`). `drift.py STATUS_ORDER` carries the first two and `NO_DATA` the third; the report grays all three. `no recent data` means nothing new was deposited in the window; `insufficient data` means too few evaluable records; `no data` means no archive at all.
 
-**C1 / C2 / C3** — the three layers of `docs/bayesian-scoring-plan.md`: C1 the drift proportion (replaces Wilson/Newcombe and the flag rule), C2 the per-record call (replaces the additive penalty table), C3 the validation matrix intervals (replaces point sensitivity). The **S ladder** (`docs/journal/2026-10-24-scoring-strategy-test-plan.md`, S0 baseline, S3b, S7, S7b…) is a sequence of candidate *scoring rules* inside C2's territory, each pre-registered with kill criteria. C-numbers name what is modelled; S-numbers name one tested change to the penalty rule.
+**C1 / C2 / C3** — the three layers of `docs/bayesian-scoring-plan.md`: C1 the drift proportion (replaces Wilson/Newcombe and the flag rule), C2 the per-record call (replaces the additive penalty table), C3 the validation matrix intervals (replaces point sensitivity). The **S ladder** (`docs/journal/2026-10-24-scoring-strategy-test-plan.md`, S0 baseline, S3b, S7, S7b…) is a sequence of candidate *scoring rules* inside C2's territory, each pre-registered with kill criteria. C-numbers name what is modeled; S-numbers name one tested change to the penalty rule.
 
 **retrospective families** — the phrase families that `scripts/find_retrospective_cases.py` uses to find citing papers (`docs/journal/2026-10-26-retrospective-case-search.md`): `miss`, a paper reporting the assay missing samples (the scarce `fails` kind, or a clinical sensitivity report); `weakened`, reduced or partial detection; `mismatch`, a paper locating primer mismatches against a lineage (the best route to a `drift` case); `redesign`, a group redesigning the assay, which usually says why; `use`, opt-in, a paper that simply uses the assay and so may test our oligos on new material (`docs/journal/2026-10-29-use-family-cases.md`); `late_redesign`, opt-in and pre-registered, a redesign published five or more years after the design paper, the first source tried for a `drift` case (`docs/journal/2026-10-30-redesign-family.md`).
 

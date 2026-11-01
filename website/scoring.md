@@ -25,24 +25,39 @@ penalty to one of five outcomes.
 A mismatch is weighted more heavily nearer the 3′ terminus, the site of
 polymerase extension:
 
+**Primers**, weighted by distance from the 3′ terminus:
+
 | position | window | cost per mismatch |
 |---|---|---|
-| 3' end | last 5 nt | 3.0 |
-| middle | positions 6–10 from the 3' end | 1.0 |
-| 5' region | everything else | 0.5 |
-| probe centre | — | 2.0 |
-| probe ends | — | 1.0 |
+| 3′ end | last 5 nt | 3.0 |
+| middle | positions 6–10 from the 3′ end | 1.0 |
+| 5′ region | everything else | 0.5 |
+
+**Probes**, weighted by distance from the center. A hydrolysis probe is never
+extended — its 3′ end carries the quencher or the minor-groove binder, and it
+is cleaved by the polymerase's 5′→3′ exonuclease — so its 3′ terminus has no
+special status. What matters is duplex stability, which a mismatch near the
+middle disturbs most:
+
+| position | window | cost per mismatch |
+|---|---|---|
+| inner third | the central third of the probe | 2.0 |
+| outer thirds | the remaining two thirds, at either end | 1.0 |
 
 Forward, reverse and probe penalties are summed, and the total determines the
 call:
 
-| call | rule | in denominator |
+<div class="aw-calls" markdown>
+
+| call | rule | counts as |
 |---|---|---|
-| `detect` | total ≤ 1.0 | yes, as a detection |
-| `reduced` | ≤ 3.0; amplifies with an expected Ct shift | yes, as a detection[^1] |
-| `fail` | above 3.0, a mismatch at a primer's terminal 3′ base, or no probe site within the product | yes, as a failure |
-| `no_amplicon` | no primer pair in correct orientation and size range | **excluded** |
-| `indeterminate` | too many ambiguous record bases beneath an oligonucleotide to score | **excluded** |
+| `detect` | total penalty ≤ 1.0 | detection |
+| `reduced` | ≤ 3.0; amplifies, with an expected Ct shift | detection[^1] |
+| `fail` | above 3.0; or a mismatch at a primer's terminal 3′ base; or no probe site within the product | failure |
+| `no_amplicon` | no primer pair in the correct orientation and size range | *excluded* |
+| `indeterminate` | too many ambiguous record bases beneath an oligonucleotide to score | *excluded* |
+
+</div>
 
 [^1]:
     For hydrolysis-probe chemistries this is arguably incorrect, and a switch
@@ -51,7 +66,7 @@ call:
     Enabling it for probe chemistries raises detection of documented failures
     from 5/11 to 6/11 with no increase in false positives, at the cost of two
     confirmed positives on a published *Leptospira* validation panel. The
-    trade-off is not clearly favourable, so the option ships disabled.
+    trade-off is not clearly favorable, so the option ships disabled.
 
 The final two categories are excluded deliberately. A record lacking the
 locus, truncated, or dense with ambiguity codes is informative about GenBank
@@ -100,12 +115,12 @@ et al. 2010
 3. **A single table covers every chemistry** — 155 conventional PCRs and 60
    probe assays. A hundredfold yield loss is a missed Ct in qPCR and frequently
    still a visible band after 40 cycles of endpoint PCR. Both receive `fail`.
-4. **Probe geometry is not modelled.** A minor-groove binder adds
+4. **Probe geometry is not modeled.** A minor-groove binder adds
    approximately 15–20 °C of Tm and makes short probes viable, so an MGB probe
    tolerates mismatches an unmodified oligonucleotide of equal length would
    not.
 5. **Mismatch effects are additive**, so two adjacent mismatches — which
-   disrupt a contiguous run of base stacking — are under-penalised relative to
+   disrupt a contiguous run of base stacking — are under-penalized relative to
    two separated ones.
 
 For an assay near a decision boundary, these are the grounds for independent

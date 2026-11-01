@@ -15,15 +15,15 @@ much they mattered:
    Inline SVG has no runtime to match.
 3. Pages are about a quarter the size, work with JavaScript off, need no
    network, and follow the page theme through `currentColor` and the palette's
-   CSS variables rather than a second colour configuration.
+   CSS variables rather than a second color configuration.
 
 What was given up is pan and zoom, and a tooltip richer than the browser's own.
 Each mark carries a `<title>`, which is a native tooltip and is read out by
 screen readers; the numbers behind every figure are also printed as text on the
 same page, so nothing is only available by hovering.
 
-Colour comes from `assaywatch.palette` through CSS classes rather than literal
-hexes, so light and dark are one definition and a colour change is one edit.
+Color comes from `assaywatch.palette` through CSS classes rather than literal
+hexes, so light and dark are one definition and a color change is one edit.
 
 There is no per-lineage figure here. It was drawn as a forest plot and removed:
 70 of the 125 assays with lineage data have exactly ONE lineage, so the usual
@@ -42,7 +42,7 @@ from typing import Any
 #: comfortable on a laptop; past about 40 the track scrolls rather than shrinks,
 #: because an unreadable base is worse than a scrollbar.
 CELL = 15.0  # px per oligo position
-GUTTER = 78.0  # left label column
+GUTTER = 104.0  # left label column: the role name plus the 5′ marker
 BAR_H = 34.0  # tallest mismatch bar
 ROW_GAP = 16.0
 
@@ -73,7 +73,7 @@ def _severity(detected_with: int, evaluable_with: int, detected_without: int, ev
     return "aw-bar-weak"
 
 
-def mismatch_track(page: dict[str, Any]) -> str:
+def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) -> str:
     """Each oligo drawn base by base, with a bar per position showing how many
     records differ there and how much that costs."""
     oligos = page.get("oligos") or {}
@@ -102,17 +102,42 @@ def mismatch_track(page: dict[str, Any]) -> str:
         n = len(seq)
         top = 10 + i * (row_h + ROW_GAP)
         base_y = top + BAR_H
-        out.append(f'<text class="aw-track-label" x="{GUTTER - 10:.0f}" y="{base_y + 12:.0f}">{role}</text>')
-
-        # The 3' window, shaded under the last five bases: a mismatch inside it
-        # is the one that fails an assay, so the eye should find it without
-        # counting backwards from the end.
-        zone_positions = [p for p in range(1, 6) if p <= n]
-        if zone_positions:
-            x0 = GUTTER + (n - max(zone_positions)) * CELL
+        # The role, and under it the name the paper gave the oligo. The label
+        # ends well short of the 5' marker: at GUTTER - 10 the two overlapped
+        # once the theme's larger type replaced Material's.
+        out.append(f'<text class="aw-track-label" x="{GUTTER - 30:.0f}" y="{base_y + 8:.0f}">{role}</text>')
+        oligo_name = (names or {}).get(role)
+        if oligo_name:
             out.append(
-                f'<rect class="aw-zone" x="{x0:.1f}" y="{top:.1f}" '
-                f'width="{len(zone_positions) * CELL:.1f}" height="{BAR_H + 18:.1f}"/>'
+                f'<text class="aw-track-name" x="{GUTTER - 30:.0f}" '
+                f'y="{base_y + 20:.0f}">{_esc(oligo_name)}</text>'
+            )
+
+        # The shaded region is the one the SCORER penalizes more heavily, and it
+        # is not the same region for a primer and a probe. It carries no drawn
+        # label: the caption says what is shaded and each bar's tooltip names the
+        # region it falls in, which keeps the track itself free of words.
+        #
+        # For a primer it is the last five bases. A polymerase extends from the
+        # 3'-OH, so a mismatch there sits in the catalytic site.
+        #
+        # For a probe it is the CENTRAL THIRD. A hydrolysis probe is never
+        # extended -- its 3' end carries the quencher or the minor-groove binder
+        # -- and it is cleaved by the polymerase's 5'->3' exonuclease, so its 3'
+        # terminus has no special status. What matters is duplex stability,
+        # which a central mismatch disturbs most. `config.yaml` says the same
+        # thing in numbers: `probe_center_penalty` 2.0 over the central third,
+        # `probe_outer_penalty` 1.0 elsewhere, and no 3' window for probes at
+        # all. Shading the last five bases of a probe drew a region the scorer
+        # does not use.
+        if role == "probe":
+            lo, hi = n // 3, n - n // 3
+        else:
+            lo, hi = max(n - 5, 0), n
+        if hi > lo:
+            out.append(
+                f'<rect class="aw-zone" x="{GUTTER + lo * CELL:.1f}" y="{top:.1f}" '
+                f'width="{(hi - lo) * CELL:.1f}" height="{BAR_H + 18:.1f}"/>'
             )
 
         out.append(
@@ -148,15 +173,25 @@ def mismatch_track(page: dict[str, Any]) -> str:
                 subs = (
                     ", ".join(f"{a}>{b} in {c:,}" for a, b, c in stat["substitutions"][:3]) or "not recorded"
                 )
+                if role == "probe":
+                    in_zone = n // 3 <= (n - pos3) < n - n // 3
+                    zone_text = "in the central third" if in_zone else "outside the central third"
+                else:
+                    zone_text = (
+                        "inside the 3\u2032 window"
+                        if stat["in_3prime_zone"]
+                        else "outside the 3\u2032 window"
+                    )
                 tip = (
                     f"{role} position {pos3} from the 3' end, base {stat['base']}\n"
                     f"{stat['n_mismatch']:,} of {denom:,} records differ here ({100 * share:.1f}%)\n"
                     f"detected when it differs: {with_pct:.0f}% of {stat['evaluable_with']:,}\n"
                     f"detected when it does not: {without_pct:.0f}% of {stat['evaluable_without']:,}\n"
-                    f"substitutions: {subs}"
+                    f"substitutions: {subs}\n"
+                    f"{zone_text}"
                 )
                 # 1px inset each side is the gap the eye needs between adjacent
-                # filled bars; without it two neighbours read as one wide block.
+                # filled bars; without it two neighbors read as one wide block.
                 out.append(
                     f'<g class="{cls}"><title>{_esc(tip)}</title>'
                     f'<rect x="{x + 1:.1f}" y="{base_y - h:.1f}" '
@@ -183,7 +218,7 @@ def mismatch_track(page: dict[str, Any]) -> str:
 def year_chart(page: dict[str, Any]) -> str:
     """Detected share by deposit year, with the recent window and the threshold."""
     years = [y for y in page.get("years", []) if y["evaluable"] > 0]
-    if len(years) < 2:
+    if not years:
         return ""
     W, H = 720.0, 230.0
     L, R, T, B = 44.0, 14.0, 12.0, 38.0
@@ -192,10 +227,21 @@ def year_chart(page: dict[str, Any]) -> str:
     span = max(hi - lo, 1)
 
     def px(year: int) -> float:
+        # One year of data draws a single centered point rather than being
+        # jammed against the left edge. Returning nothing here left four
+        # assays with a blank panel and no explanation.
+        if len(years) == 1:
+            return L + (W - L - R) / 2
         return L + (year - lo) / span * (W - L - R)
 
+    #: The drawn range runs a little past both ends, so a series sitting at 0%
+    #: is above the axis rather than on top of it. Seven assays detect nothing
+    #: in any year and five are flat zero; with 0% mapped to the baseline their
+    #: line coincided with the axis, which reads as a chart that failed to draw.
+    PAD = 5.0
+
     def py(pct: float) -> float:
-        return T + (100 - pct) / 100 * (H - T - B)
+        return T + (100 + PAD - pct) / (100 + 2 * PAD) * (H - T - B)
 
     out = [
         f'<svg class="aw-chart" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
@@ -222,9 +268,10 @@ def year_chart(page: dict[str, Any]) -> str:
         f"{100 * page['threshold']:.0f}% threshold</text>"
     )
 
-    pts = " ".join(f"{px(y['year']):.1f},{py(100 * y['share']):.1f}" for y in years)
     status_cls = "aw-" + (page["status"] or "no data").replace(" ", "-")
-    out.append(f'<polyline class="aw-line {status_cls}" points="{pts}"/>')
+    if len(years) > 1:
+        pts = " ".join(f"{px(y['year']):.1f},{py(100 * y['share']):.1f}" for y in years)
+        out.append(f'<polyline class="aw-line {status_cls}" points="{pts}"/>')
     for y in years:
         r = max(2.5, min(7.0, 1.6 * math.log10(y["evaluable"] + 1) + 1.6))
         tip = f"{y['year']}: {y['detected']:,} of {y['evaluable']:,} detected ({100 * y['share']:.1f}%)" + (
@@ -235,12 +282,17 @@ def year_chart(page: dict[str, Any]) -> str:
             f'<circle cx="{px(y["year"]):.1f}" cy="{py(100 * y["share"]):.1f}" r="{r:.1f}"/></g>'
         )
 
-    step = max(1, round(span / 7))
-    for year in range(lo, hi + 1, step):
-        out.append(f'<text class="aw-tick" x="{px(year):.1f}" y="{H - B + 16:.0f}">{year}</text>')
-    out.append(
-        f'<text class="aw-axis-label" x="{(L + W - R) / 2:.0f}" y="{H - 6:.0f}">'
-        f"deposit year · marker size is the number of records</text>"
+    if len(years) == 1:
+        out.append(f'<text class="aw-tick" x="{px(lo):.1f}" y="{H - B + 16:.0f}">{lo}</text>')
+    else:
+        step = max(1, round(span / 7))
+        for year in range(lo, hi + 1, step):
+            out.append(f'<text class="aw-tick" x="{px(year):.1f}" y="{H - B + 16:.0f}">{year}</text>')
+    caption = (
+        "one year holds every evaluable record"
+        if len(years) == 1
+        else "deposit year · marker size is the number of records"
     )
+    out.append(f'<text class="aw-axis-label" x="{(L + W - R) / 2:.0f}" y="{H - 6:.0f}">{caption}</text>')
     out.append("</svg>")
     return "".join(out)

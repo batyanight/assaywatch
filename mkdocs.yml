@@ -16,29 +16,16 @@ copyright: >-
 docs_dir: website
 site_dir: .site
 
+# A custom single-template theme rather than Material. Material's sidebar, tab
+# bar and search field are what made the site read as generated documentation;
+# `theme/main.html` is the whole of this one.
 theme:
-  name: material
-  palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      toggle: {icon: material/weather-night, name: Switch to dark mode}
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      toggle: {icon: material/weather-sunny, name: Switch to light mode}
-  features:
-    - navigation.instant
-    - navigation.tracking
-    - navigation.sections
-    - navigation.top
-    - search.highlight
-    - search.suggest
-    - content.code.copy
-    - toc.follow
-  icon:
-    repo: fontawesome/brands/github
+  name: null
+  custom_dir: theme
 
 extra_css:
   - stylesheets/palette.css
+  - stylesheets/journal.css
   - stylesheets/extra.css
 
 # The only script on the site: table sort/filter and the pipeline diagram, both
@@ -53,7 +40,10 @@ markdown_extensions:
   - md_in_html
   - tables
   - footnotes
-  - toc: {permalink: true}
+  # No permalink marker: Material rendered it as an icon, a bare theme shows
+  # the raw pilcrow beside every heading. Heading ids are still generated,
+  # so deep links such as #stage-screen keep working.
+  - toc: {permalink: false}
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.highlight: {anchor_linenums: true}
@@ -68,7 +58,20 @@ nav:
   - Methods:
       - Scoring: scoring.md
       - Scope and retrieval: scoping.md
-      - Pipeline: pipeline.md
+      - Pipeline:
+          - Overview: pipeline.md
+          - The registry: pipeline/registry.md
+          - validate: pipeline/validate.md
+          - retrieve: pipeline/retrieve.md
+          - screen: pipeline/screen.md
+          - collect: pipeline/collect.md
+          - The calls table: pipeline/calls.md
+          - drift + report: pipeline/report.md
+          - lineage: pipeline/lineage.md
+          - site drift: pipeline/sitedrift.md
+          - figures: pipeline/figures.md
+          - degeneracy: pipeline/degeneracy.md
+          - config.yaml: pipeline/config.md
   - Validation: validation.md
   - Known limitations: limitations.md
   - Assay registry: assays/index.md

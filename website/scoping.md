@@ -46,7 +46,7 @@ rows are marked rather than inferred.
 ## Published specificity claims
 
 Many publications state that an assay does *not* amplify particular
-near-neighbours. Those organisms are listed separately, retrieved deliberately,
+near-neighbors. Those organisms are listed separately, retrieved deliberately,
 and reported as predicted cross-reactivity.
 
 They are never scored. A published specificity claim is something this tool can
@@ -76,7 +76,7 @@ about influenza deposition. It was a fact about the query: what had been
 deposited was not visible to it.
 
 No incorrect verdict was published, because the tool declined to judge those
-assays and stated its cutoff, which is the desired behaviour. Four assays
+assays and stated its cutoff, which is the desired behavior. Four assays
 nevertheless remained unassessable while the output appeared sound.
 
 ### Resolution
@@ -123,7 +123,7 @@ review — and no more than that is claimed for it.
 
 For anyone operating a comparable system, this is the failure mode to monitor:
 not a query that errors, but one that ceases to match how a database has begun
-labelling its records.
+labeling its records.
 
 ---
 
@@ -135,9 +135,10 @@ A record in which one primer has diverged is scored as a **failure**. A record
 in which *both* have diverged yields no product and is excluded from the
 denominator entirely.
 
-Censoring is therefore correlated with the quantity being estimated. Across one
-complete run, **65.7% of 2.72 million screened records did not reach the
-statistics**. Each assay page reports this proportion for its own assay.
+Censoring is therefore correlated with the quantity being estimated. On the
+2026-10-31 run, **48.4% of 3.04 million screened assay–record pairs did not
+reach the statistics**. Each assay page reports the proportion for its own
+assay.
 
 This may not be correctable without changing the estimand. Any proportion
 reported here should be read together with the proportion of records excluded

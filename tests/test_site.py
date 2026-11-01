@@ -229,16 +229,29 @@ def test_every_status_the_pipeline_can_emit_has_a_colour_and_a_meaning():
         assert status in site_render.STATUS_MEANING, f"{status} has no one-line meaning"
 
 
-def test_the_withheld_count_matches_the_registry_rather_than_being_a_literal():
-    """`index.md` counts statuses from the data. A hand-written count here would be
-    the exact failure `scripts/claims.py` exists to prevent."""
+def test_the_list_counts_from_the_data_and_says_what_it_leaves_out():
+    """`index.md` counts statuses from the data; a hand-written count would be the
+    exact failure `scripts/claims.py` exists to prevent.
+
+    It also excludes the assays with no usable status -- `insufficient data` and
+    the withheld ones -- so it must say how many it dropped. A list that quietly
+    showed 168 of 217 would misrepresent the registry's size."""
     data = {
         "run_date": "2026-10-31",
-        "assays": [_page(), _page(assay_id="B", status="", withheld_reasons=[["x", "y"]])],
+        "assays": [
+            _page(),
+            _page(assay_id="B", status="", withheld_reasons=[["x", "y"]]),
+            _page(assay_id="C", status="insufficient data"),
+            _page(assay_id="D", status="no recent data"),
+        ],
     }
     md = site_render.index_page(data)
     assert "**1** stable" in md
-    assert "**1** status withheld" in md
+    assert "**1** no recent data" in md, "no recent data is a reported state and stays listed"
+    assert "2 assays, screened" in md, "only the two listable assays are counted"
+    assert "A further 2 assays are not listed" in md
+    assert "assays/C/" not in md, "an insufficient-data assay must not be listed"
+    assert "assays/B/" not in md, "a withheld assay must not be listed"
 
 
 @pytest.mark.skipif(not DATA.exists(), reason="website/data/run.json is not present")
@@ -319,39 +332,40 @@ def test_the_glossary_page_is_the_repository_glossary():
     assert not missing, f"website/glossary.md is stale, missing: {missing[:5]}"
 
 
-def test_every_clickable_pipeline_stage_has_a_section_to_open():
-    """The diagram's nodes and the page's sections are written by hand in the same
-    file, and nothing but this connects them. A node whose `data-stage` has no
-    matching section is a box that looks clickable and does nothing; a section with
-    no node is unreachable except by deep link. Both are silent in a build."""
-    page = (ROOT / "website" / "pipeline.md").read_text()
-    nodes = set(re.findall(r'data-stage="([a-z]+)"', page))
-    sections = set(re.findall(r"\{:\s*#stage-([a-z]+)", page))
-    assert nodes, "the pipeline diagram has no clickable nodes"
-    assert nodes == sections, (
-        f"nodes without a section: {sorted(nodes - sections)}; "
-        f"sections without a node: {sorted(sections - nodes)}"
+def test_every_pipeline_node_links_to_a_stage_page_that_exists():
+    """The diagram's nodes and the stage pages are written separately and
+    nothing but this connects them. A node pointing at a missing page is a box
+    that looks clickable and 404s; a stage page no node links to is reachable
+    only from the nav. Both are silent in a build."""
+    overview = (ROOT / "website" / "pipeline.md").read_text()
+    linked = set(re.findall(r'class="aw-node[^"]*" href="([a-z]+)/"', overview))
+    pages = {p.stem for p in (ROOT / "website" / "pipeline").glob("*.md")}
+    assert linked, "the diagram has no linked nodes"
+    assert linked == pages, (
+        f"nodes with no page: {sorted(linked - pages)}; pages no node links to: {sorted(pages - linked)}"
     )
 
 
-def test_the_pipeline_page_reads_without_javascript():
-    """The stage panels are plain markdown and are only collapsed by script, so the
-    page degrades to a full written outline. If the sections were hidden in the
-    source instead, a reader without JavaScript -- or with the CDN blocked -- would
-    get a diagram and nothing else."""
-    page = (ROOT / "website" / "pipeline.md").read_text()
-    assert "hidden" not in page.split("<figcaption>")[1], "stage sections must not ship hidden"
-    built = ROOT / ".site" / "pipeline" / "index.html"
+def test_every_stage_page_is_in_the_nav_so_it_gets_previous_and_next():
+    """Previous and next come from the nav order, declared once in mkdocs.yml.
+    A stage page missing from it still builds and still renders, but loses its
+    place in the sequence."""
+    nav = (ROOT / "mkdocs.yml").read_text()
+    for page in sorted((ROOT / "website" / "pipeline").glob("*.md")):
+        assert f"pipeline/{page.name}" in nav, f"{page.name} is not in the nav"
+
+
+def test_a_stage_page_carries_its_prose_and_a_way_back():
+    """The content moved out of one long page into twelve. This fails if a move
+    dropped a stage's body, or if the theme stops emitting the way back."""
+    screen = (ROOT / "website" / "pipeline" / "screen.md").read_text()
+    assert "both strands" in screen and "3.0 million" in screen
+    built = ROOT / ".site" / "pipeline" / "screen" / "index.html"
     if built.exists():
         html = built.read_text()
-        for stage in ("screen", "retrieve", "degeneracy"):
-            assert f'id="stage-{stage}"' in html
-        # Prose, not just the anchors: the point is that a reader without
-        # JavaScript gets the written pipeline rather than a diagram and twelve
-        # empty headings. Anchored on a term the stage cannot be described
-        # without, rather than on a turn of phrase a rewrite will change.
-        assert "both strands" in html, "the screen stage's prose is missing from the built page"
-        assert "incremental" in html.lower(), "the retrieve stage's prose is missing"
+        assert 'class="breadcrumb"' in html
+        assert "All stages" in html
+        assert "Previous" in html and "Next" in html
 
 
 def test_rendering_the_same_data_twice_gives_the_same_bytes():
@@ -438,6 +452,12 @@ def test_off_site_links_are_opened_safely_and_internal_ones_are_not_touched():
     assert "awExternalLinks" in js
     assert "noopener" in js and "noreferrer" in js
     assert "host === here" in js, "internal links must stay in the same tab"
+    # The selector must match this theme's DOM. It once read `.md-content`, a
+    # Material class that does not exist here, so it matched nothing at all and
+    # every DOI opened in the same tab while the test still passed.
+    assert "'main a[href]'" in js, "the external-link selector must target this theme's main element"
+    theme = (ROOT / "theme" / "main.html").read_text()
+    assert '<main id="main"' in theme
     # It must run again after an instant-navigation page swap, or it applies only
     # to the first page a reader lands on.
     assert js.count("document$.subscribe") >= 3
@@ -513,3 +533,379 @@ def test_every_cited_paper_on_the_site_has_a_real_title():
         f"{len(missing)} assays cite a DOI with no cached title; "
         f"run `python scripts/papers_index.py`: {missing[:5]}"
     )
+
+
+def test_a_probe_is_not_given_a_three_prime_window():
+    """A hydrolysis probe is never extended: its 3' end carries the quencher or
+    the minor-groove binder, and it is cleaved by the polymerase's 5'->3'
+    exonuclease. There is no catalytic site at its 3' terminus, so the last five
+    bases have no special status.
+
+    `config.yaml` agrees in numbers -- `probe_center_penalty` 2.0 over the
+    central third, `probe_outer_penalty` 1.0 elsewhere, and no 3' window for
+    probes at all. The figure shaded the last five bases of every oligo, which
+    drew a region the scorer does not use and implied a mechanism that does not
+    exist.
+    """
+    page = _page(
+        oligos={"forward": "ACGTACGTACGT", "probe": "ACGTACGTACGT"},
+        positions=[
+            dict(
+                oligo="probe",
+                pos_3prime=6,
+                base="G",
+                n_mismatch=10,
+                detected_with=0,
+                evaluable_with=10,
+                detected_without=90,
+                evaluable_without=90,
+                substitutions=[],
+                in_3prime_zone=False,
+            ),
+            dict(
+                oligo="forward",
+                pos_3prime=2,
+                base="G",
+                n_mismatch=10,
+                detected_with=0,
+                evaluable_with=10,
+                detected_without=90,
+                evaluable_without=90,
+                substitutions=[],
+                in_3prime_zone=True,
+            ),
+        ],
+    )
+    svg = site_svg.mismatch_track(page)
+    assert "central third" in svg, "the probe's shaded region must be its central third"
+    assert "3\u2032 window" in svg, "the primer must still show its 3' window"
+    # A 12-mer probe: central third is indices 4..8, i.e. positions 5..8 from the 3' end.
+    # Position 6 is inside it, so its tooltip must say so rather than talk about a 3' window.
+    assert "in the central third" in svg
+
+
+def test_the_scoring_config_still_has_no_three_prime_window_for_probes():
+    """If a probe 3' penalty is ever added to the scoring, the figure above
+    becomes wrong in the other direction. This fails loudly if that happens."""
+    cfg = (ROOT / "config.yaml").read_text()
+    assert "probe_center_penalty" in cfg
+    assert "probe_outer_penalty" in cfg
+    assert "probe_3prime" not in cfg, "scoring gained a probe 3' term; site_svg must be updated"
+
+
+def test_an_assay_detecting_nothing_still_draws_a_visible_line():
+    """Seven assays detect nothing in any year and five are flat zero. With 0%
+    mapped to the baseline their series coincided with the axis, which reads as
+    a chart that failed to draw rather than as a result."""
+    page = _page(
+        status="low coverage",
+        years=[
+            {"year": y, "detected": 0, "evaluable": 40, "share": 0.0, "recent": y > 2023}
+            for y in (2019, 2020, 2021, 2022, 2023, 2024)
+        ],
+    )
+    svg = site_svg.year_chart(page)
+    assert svg, "a flat-zero assay must still produce a chart"
+    ys = {float(v) for v in re.findall(r'cy="([0-9.]+)"', svg)}
+    baseline = 230.0 - 38.0  # H - B, where the axis sits
+    assert ys, "no points were drawn"
+    assert max(ys) < baseline - 4, f"0% is drawn on the axis at y={max(ys)}, not above it"
+
+
+def test_a_single_year_of_data_is_a_point_not_a_blank_panel():
+    """Four assays have exactly one year holding evaluable records. The chart
+    returned an empty string for them, so the page showed a heading, a caption
+    and nothing between."""
+    page = _page(years=[{"year": 2021, "detected": 8, "evaluable": 10, "share": 0.8, "recent": True}])
+    svg = site_svg.year_chart(page)
+    assert svg.startswith("<svg")
+    assert svg.count("<circle") == 1
+    assert "<polyline" not in svg, "one point is not a line"
+    assert "one year holds every evaluable record" in svg
+    assert svg.count(">2021<") == 1, "the single year should be labelled once"
+
+
+def test_the_curator_note_reaches_the_page_and_is_not_interpreted():
+    """For several entries the note is the only place a reader learns that the
+    stored oligos are not the cited paper's -- the Victor 1991 entry is the
+    clearest case, where the sequences are Wang 1997's and the attribution is
+    one Wang made.
+
+    It is escaped rather than passed through markdown: the notes contain primer
+    sequences, DOIs, asterisks and underscores, and interpreting them would
+    italicise a sequence or swallow a bracket."""
+    notes = site_render._curation_notes()
+    assert len(notes) > 150, f"only {len(notes)} entries have a curator note; expected most of 218"
+    victor = notes.get("E_coli_ETEC_LT_Victor_1991", "")
+    assert "not the cited paper" in victor
+
+    page = _page(assay_id="E_coli_ETEC_LT_Victor_1991")
+    md = "\n".join(site_render._curation_block(page))
+    assert "<details" in md and "as the curator wrote it" in md
+    assert "not the cited paper" in md
+    # The disclosure says which order the episodes are in, so a reader is never
+    # left guessing whether the newest entry is at the top or the bottom.
+    assert ("newest first" in md) or ("oldest first" in md)
+
+
+def test_a_withheld_assay_still_shows_its_curation_record():
+    """Those 19 are the entries whose provenance a reader most needs, and the
+    page returns early for them."""
+    page = _page(
+        withheld_reasons=[["not_screenable", "the chemistry is RPA"]], assay_id="E_coli_ETEC_LT_Victor_1991"
+    )
+    md = site_render.assay_page(page, "2026-10-31")
+    assert "Curation record" in md
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="website/data/run.json is not present")
+def test_the_extract_still_describes_the_registry_it_was_taken_from():
+    """`run.json` snapshots each entry's descriptive fields -- gene, taxon,
+    chemistry, amplicon -- alongside the run's results. Edit an entry and the
+    snapshot is stale until it is re-extracted, and the site then renders the
+    old value with no indication that it is old.
+
+    That happened: seven entries had their `gene` filled in and every page went
+    on showing an em dash, because the pages are built from the extract rather
+    than from the registry. A reader cannot tell the difference, so this fails
+    the build instead.
+    """
+    from assaywatch import registry
+
+    data = json.loads(DATA.read_text())
+    live = registry.load(ROOT / "registry")
+    stale = []
+    for a in data["assays"]:
+        entry = live.get(a["assay_id"])
+        if entry is None:
+            continue
+        for field, got in (
+            ("gene", a["gene"]),
+            ("taxon", a["taxon"]),
+            ("chemistry", a["chemistry"]),
+        ):
+            want = {
+                "gene": entry.target.gene or "",
+                "taxon": entry.target.taxon_name or "",
+                "chemistry": entry.chemistry.value,
+            }[field]
+            if got != want:
+                stale.append(f"{a['assay_id']}.{field}: extract {got!r} != registry {want!r}")
+    assert not stale, (
+        f"{len(stale)} field(s) differ between website/data/run.json and the registry; "
+        f"re-run `assaywatch site extract`: {stale[:4]}"
+    )
+
+
+def test_splitting_a_curator_note_into_episodes_never_loses_text():
+    """The split is what makes the dated paragraphs possible, and it runs over
+    an audit record. Reproducing the note exactly, ignoring whitespace, is the
+    property that makes reordering safe; the renderer refuses to reorder when it
+    does not hold."""
+    from assaywatch import curation, registry
+
+    notes = [
+        n
+        for f in registry.files(ROOT / "registry")
+        if (n := ((registry.load_one(f).source.notes_curator or "") if registry.load_one(f).source else ""))
+    ]
+    assert len(notes) > 150
+    bad = [n[:60] for n in notes if not curation.split_is_lossless(n, curation.episodes(n))]
+    assert not bad, f"{len(bad)} notes do not survive the split: {bad[:2]}"
+
+
+def test_a_note_that_refers_to_its_own_order_is_not_reordered():
+    """73 notes say "the above" or "see below". Moving a paragraph under one of
+    those makes the record say something false, which is worse than showing it
+    oldest-first."""
+    from assaywatch import curation
+
+    # Two or more consecutive capitalised words, which is how every curator has
+    # marked an episode; a single acronym mid-sentence must not split the text.
+    safe = "OLIGO FOUND 2026-10-20, a thing happened here. SOURCE RESOLVED 2026-10-23, it was settled."
+    eps, reordered = curation.newest_first(safe)
+    assert reordered and eps[0].date == "2026-10-23"
+
+    risky = safe + " LATER CONFIRMED 2026-10-25, the above still holds."
+    eps, reordered = curation.newest_first(risky)
+    assert not reordered, "a note containing a back-reference must keep its original order"
+
+
+def test_a_taxid_link_says_what_the_taxon_is_on_hover():
+    """A scope list can run to hundreds of bare numbers. Without a title the
+    generic "opens in a new tab" tooltip appeared instead, which beside 300
+    taxids is worse than none. Names come from the same taxonomy cache the
+    scope test walks for ancestry, so the tooltip and the scoping decision
+    agree about what a taxid is."""
+    names = site_render._taxon_names()
+    assert len(names) > 20000, f"the taxonomy cache yielded only {len(names)} names"
+    link = site_render._taxid_link(10368)
+    assert 'title="Human betaherpesvirus 6"' in link
+    assert "wwwtax.cgi?id=10368" in link
+    assert ">10368</a>" in link
+    # A taxid the cache does not know still links, just without a tooltip.
+    unknown = site_render._taxid_link(999999999)
+    assert "title=" not in unknown and "999999999" in unknown
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="website/data/run.json is not present")
+def test_most_taxids_on_the_site_resolve_to_a_name():
+    """98.7% when this was written. A large fall means the cache has drifted
+    away from the registry and most tooltips have quietly gone missing."""
+    data = json.loads(DATA.read_text())
+    names = site_render._taxon_names()
+    need = {str(a["taxid"]) for a in data["assays"] if a["taxid"]}
+    need |= {str(t) for a in data["assays"] for t in a["scope_taxids"]}
+    need |= {str(t) for a in data["assays"] for t in a["exclusivity_taxids"]}
+    have = len(need & set(names))
+    assert have / len(need) > 0.95, f"only {have} of {len(need)} taxids resolve to a name"
+
+
+def test_a_long_scope_list_is_folded_and_a_short_one_is_not():
+    """Scope lists run from 1 taxid to 1,494, and 18 of the 39 scoped assays
+    carry more than ten. Printed inline the long ones bury the sentence that
+    explains what the list is for, so past the threshold the page states the
+    count and offers the list."""
+    short = _page(scope_taxids=[10368, 10373, 10395])
+    md = site_render._scope_block(short)
+    assert "aw-taxids" not in md, "three taxids should be inline"
+    assert ">10368</a>" in md
+
+    long = _page(scope_taxids=list(range(10000, 10000 + 42)))
+    md = site_render._scope_block(long)
+    assert "**42 taxa**" in md, "the count must be stated"
+    assert "Show all 42 taxids" in md
+    assert "aw-taxids" in md
+    # Folded, not dropped: every taxid is still on the page.
+    assert md.count("wwwtax.cgi?id=") == 42
+
+    # Exactly at the threshold stays inline.
+    edge = _page(scope_taxids=list(range(10000, 10000 + site_render.SCOPE_INLINE_MAX)))
+    assert "aw-taxids" not in site_render._scope_block(edge)
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="website/data/run.json is not present")
+def test_every_scoped_assay_has_a_downloadable_taxid_list_that_matches_the_page():
+    """The download is a real file, not a scripted one, so it works without
+    JavaScript and can be fetched with curl. It must hold exactly the taxids the
+    page shows -- a list that diverged from the entry would be worse than none,
+    because it looks authoritative and is what someone would paste into NCBI."""
+    data = json.loads(DATA.read_text())
+    scoped = [a for a in data["assays"] if a["scope_taxids"]]
+    assert scoped, "no assay declares a scope"
+    for a in scoped:
+        f = ROOT / "website" / "assays" / f"{a['assay_id']}.scope.txt"
+        assert f.exists(), f"{a['assay_id']} declares a scope but has no taxid file"
+        got = [int(line) for line in f.read_text().split()]
+        assert got == a["scope_taxids"], f"{a['assay_id']}: file and entry disagree"
+    # Bare integers, one per line: no header, no names, nothing to strip.
+    sample = (ROOT / "website" / "assays" / f"{scoped[0]['assay_id']}.scope.txt").read_text()
+    assert all(line.strip().isdigit() for line in sample.splitlines() if line.strip())
+
+
+def test_an_unscoped_assay_has_no_taxid_file_to_download():
+    """179 of the 218 entries declare no scope. An empty file offered for
+    download would imply the scope is empty rather than unrestricted."""
+    data = json.loads(DATA.read_text()) if DATA.exists() else {"assays": []}
+    for a in data["assays"]:
+        if not a["scope_taxids"]:
+            f = ROOT / "website" / "assays" / f"{a['assay_id']}.scope.txt"
+            assert not f.exists(), f"{a['assay_id']} has no scope but has a taxid file"
+
+
+def test_every_assay_page_offers_a_way_to_correct_it():
+    """The registry's weakest claims are the ones no author has seen -- an oligo
+    read from a figure, an amplicon measured rather than published, a scope
+    inferred -- and the person most able to correct one is whoever designed the
+    assay. The route has to be on the page where the error is noticed."""
+    md = site_render.assay_page(_page(assay_id="SOME_assay"), "2026-10-31")
+    assert "## Corrections" in md
+    assert "issues/new?title=SOME_assay" in md, "the issue must be pre-filled with the entry"
+    assert "edit/main/registry/SOME_assay.yaml" in md, "the edit link must open this entry"
+    assert "blob/main/registry/SOME_assay.yaml" in md
+    # The pre-filled body carries the run, so a report says which run it is about.
+    assert "2026-10-31" in md
+
+
+def test_a_withheld_assay_also_offers_the_correction_routes():
+    """Those 19 are the entries most likely to be wrong, and their pages return
+    early."""
+    md = site_render.assay_page(
+        _page(assay_id="SOME_assay", withheld_reasons=[["not_screenable", "RPA"]]), "2026-10-31"
+    )
+    assert "## Corrections" in md and "issues/new?title=SOME_assay" in md
+
+
+def test_the_mismatch_track_labels_each_row_with_the_oligo_name():
+    """The row labels read "forward" and "reverse", which does not match the
+    track to the paper's own table or to a tube. The names are in the registry
+    for all 496 oligos.
+
+    This test exists because the wiring silently did not happen: the call site
+    kept passing no names, the figure kept rendering without them, and nothing
+    failed."""
+    page = _page(
+        assay_id="X",
+        oligos={"forward": "ACGTACGTAC"},
+        positions=[
+            dict(
+                oligo="forward",
+                pos_3prime=2,
+                base="A",
+                n_mismatch=5,
+                detected_with=0,
+                evaluable_with=5,
+                detected_without=50,
+                evaluable_without=50,
+                substitutions=[],
+                in_3prime_zone=True,
+            )
+        ],
+    )
+    assert "aw-track-name" not in site_svg.mismatch_track(page), "no names given, none drawn"
+    svg = site_svg.mismatch_track(page, {"forward": "senseA"})
+    assert "aw-track-name" in svg and ">senseA<" in svg
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="website/data/run.json is not present")
+def test_rendered_assay_pages_actually_carry_the_oligo_names():
+    """End to end, on the committed pages: the unit test above passed while the
+    renderer was still calling the figure without names."""
+    data = json.loads(DATA.read_text())
+    with_track = [
+        a for a in data["assays"] if a["positions"] and site_render._oligo_names().get(a["assay_id"])
+    ]
+    assert with_track, "no assay has both a mismatch track and named oligos"
+    page = ROOT / "website" / "assays" / f"{with_track[0]['assay_id']}.md"
+    assert "aw-track-name" in page.read_text(), f"{page.name} draws no oligo names"
+
+
+def test_no_chart_mark_uses_the_question_mark_cursor():
+    """`cursor: help` draws a question mark, which reads as "this needs
+    explaining" rather than "this has a tooltip". The marks are not clickable
+    either, so `pointer` would be a lie; the default arrow is correct and the
+    native tooltip still appears."""
+    css = (ROOT / "website" / "stylesheets" / "extra.css").read_text()
+    assert "cursor: help" not in css
+    assert ".aw-track g { cursor: default; }" in css
+
+
+def test_the_lineage_bar_has_an_outlined_track_and_a_threshold_tick():
+    """Without an edge on the track a 100% bar and a 70% bar look identical --
+    there is nothing to read the fill against. The tick marks the threshold the
+    table exists to judge against, so a row can be read without crossing to the
+    interval column."""
+    css = (ROOT / "website" / "stylesheets" / "extra.css").read_text()
+    assert "border: 1px solid var(--aw-grid)" in css.split(".aw-bar {")[1].split("}")[0]
+    assert ".aw-bar::after" in css, "the threshold tick is missing"
+
+    page = _page(
+        threshold=0.9,
+        lineages=[
+            {"lineage": "A", "taxid": 1, "evaluable": 36, "detected": 36, "share": 1.0, "ci": [0.904, 1.0]},
+            {"lineage": "B", "taxid": 2, "evaluable": 40, "detected": 20, "share": 0.5, "ci": [0.35, 0.65]},
+        ],
+    )
+    md = "\n".join(site_render._lineage_block(page))
+    assert "--aw-thr:90%" in md, "the tick position must come from the assay's own threshold"
+    assert "width:100.0%" in md and "width:50.0%" in md
