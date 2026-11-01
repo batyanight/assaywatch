@@ -237,8 +237,8 @@ one, because it silences 20 entries' verification against papers that are presen
 3. **One decision held for the maintainer**: `ADENOVIRUS_dsDNA_Hexon_gene`
    round1/2. Casas 2005's own range is human adenovirus (47 prototype HAdV serotypes,
    species A–F, clinical samples, no non-human adenovirus tested), but `as_written` is
-   `PREDICT PROTOCOL`, a pan-adenovirus wildlife screening protocol, so
-   the scope belongs to whichever source is operative. The triage narrows what hangs
+   `PREDICT PROTOCOL`, a pan-adenovirus wildlife screening protocol, so the scope
+   belongs to whichever source is operative. The triage narrows what hangs
    on it: round 1's override survives either way, since it fires on Human
    mastadenovirus C; only round 2's, firing on fowl adenovirus at 0/49, depends on the
    answer.
