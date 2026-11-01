@@ -118,6 +118,27 @@ details.quote > summary { cursor: pointer; }
 .md-button:hover { border-color: var(--ink-mut); }
 .md-button--primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
+/* ---- pipeline stage sequence --------------------------------------------- */
+/* A stage page is one of twelve in a declared order. The breadcrumb above the
+   title names the sequence; the row below the text moves along it. The
+   direction word is an eyebrow, the page title is the link, so the row reads
+   "Previous / Overview" and not "Previous Overview". */
+.breadcrumb { font: 500 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-mut); margin: 0 0 .6rem; }
+.breadcrumb a { color: inherit; text-decoration: none; }
+.breadcrumb a:hover { color: var(--ink); }
+.seq { display: flex; justify-content: space-between; align-items: baseline; gap: 1.5rem;
+  margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule);
+  font: 400 15px/1.4 var(--sans); }
+.seq a { text-decoration: none; }
+.seq a:hover { text-decoration: underline; }
+.seq-prev, .seq-next { flex: 1 1 0; }
+.seq-next { text-align: right; }
+.seq-dir { display: block; font: 600 11px/1.4 var(--sans); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-mut); margin-bottom: .15rem; }
+.seq-up { color: var(--ink-mut); font-size: 13px; }
+.seq-up:hover { color: var(--ink); }
+
 /* ---- colophon ------------------------------------------------------------ */
 .colophon { border-top: 1px solid var(--rule); padding: 1.4rem 0 3rem;
   font: 13px/1.6 var(--sans); color: var(--ink-faint); }
