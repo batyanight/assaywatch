@@ -164,8 +164,8 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 <table class="aw-lineage">
 <thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
 <tbody>
-<tr class="aw-lin-fail"><td>Orthopoxvirus monkeypox (3431483) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="0.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">5,394</td><td class="num">0.0%</td><td class="num">0.0–0.1%</td></tr>
-<tr class="aw-lin-ok"><td>Capripoxvirus lumpyskinpox (3427718)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="99.5% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:99.5%"></span></span></td><td class="num">191</td><td class="num">99.5%</td><td class="num">97.1–99.9%</td></tr>
+<tr class="aw-lin-fail"><td>Orthopoxvirus monkeypox (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3431483" title="Orthopoxvirus monkeypox">3431483</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="0.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">5,394</td><td class="num">0.0%</td><td class="num">0.0–0.1%</td></tr>
+<tr class="aw-lin-ok"><td>Capripoxvirus lumpyskinpox (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3427718" title="Capripoxvirus lumpyskinpox">3427718</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="99.5% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:99.5%"></span></span></td><td class="num">191</td><td class="num">99.5%</td><td class="num">97.1–99.9%</td></tr>
 </tbody>
 </table>
 

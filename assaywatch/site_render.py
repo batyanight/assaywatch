@@ -422,6 +422,27 @@ def _charts_block(a: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+_LINEAGE_TAXID = re.compile(r"^(?P<name>.*?)\s*\((?P<taxid>\d+)\)\s*$")
+
+
+def _lineage_cell(item: dict[str, Any]) -> str:
+    """The lineage name with its taxid linked to the NCBI Taxonomy browser.
+
+    The lineage analysis writes the label as "Name (taxid)" and leaves the
+    `taxid` field empty, so the number is read back out of the label. A label
+    with no taxid -- a flu subtype, "unresolved" -- is returned as it is.
+    """
+    label = html.escape(str(item["lineage"]))
+    taxid = item.get("taxid")
+    m = _LINEAGE_TAXID.match(label)
+    if taxid:
+        name = m.group("name") if m else label
+        return f"{name} ({_taxid_link(taxid)})"
+    if m:
+        return f"{m.group('name')} ({_taxid_link(m.group('taxid'))})"
+    return label
+
+
 def _lineage_block(a: dict[str, Any]) -> list[str]:
     """Detection per lineage, as a table rather than a plot.
 
@@ -473,7 +494,7 @@ def _lineage_block(a: dict[str, Any]) -> list[str]:
             else ""
         )
         out.append(
-            f'<tr class="{cls}"><td>{item["lineage"]}{flag}</td>'
+            f'<tr class="{cls}"><td>{_lineage_cell(item)}{flag}</td>'
             f'<td class="aw-barcell"><span class="aw-bar" '
             f'style="--aw-thr:{100 * a["threshold"]:.0f}%" '
             f'title="{pct:.1f}% detected; the tick marks the {100 * a["threshold"]:.0f}% threshold">'

@@ -239,8 +239,8 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 <table class="aw-lineage">
 <thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
 <tbody>
-<tr class="aw-lin-fail"><td>Lyssavirus rabies (11292) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="84.8% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:84.8%"></span></span></td><td class="num">970</td><td class="num">84.8%</td><td class="num">82.5–87.0%</td></tr>
-<tr class="aw-lin-ok"><td>Vesiculovirus indiana (1972577)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">30</td><td class="num">100.0%</td><td class="num">88.6–100.0%</td></tr>
+<tr class="aw-lin-fail"><td>Lyssavirus rabies (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11292" title="Lyssavirus rabies">11292</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="84.8% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:84.8%"></span></span></td><td class="num">970</td><td class="num">84.8%</td><td class="num">82.5–87.0%</td></tr>
+<tr class="aw-lin-ok"><td>Vesiculovirus indiana (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1972577" title="Vesiculovirus indiana">1972577</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">30</td><td class="num">100.0%</td><td class="num">88.6–100.0%</td></tr>
 </tbody>
 </table>
 

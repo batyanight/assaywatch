@@ -960,3 +960,36 @@ def test_the_deploy_triggers_on_everything_the_published_page_depends_on():
         "GLOSSARY.md",
     ):
         assert path in wf, f"{path} is not in the site workflow's path filter"
+
+
+def test_a_lineage_taxid_is_a_link_to_ncbi_taxonomy():
+    """The lineage analysis labels each clade "Name (taxid)" and leaves the
+    `taxid` field empty, so the number in the label is the only handle a reader
+    has. It should go to the Taxonomy browser like every other taxid on the
+    site. Labels with no taxid -- flu subtypes, "unresolved" -- stay plain."""
+    page = _page(
+        lineages=[
+            {
+                "lineage": "Aviadenovirus hepatitidis (3426530)",
+                "taxid": None,
+                "evaluable": 49,
+                "detected": 0,
+                "share": 0.0,
+                "ci": [0.0, 0.07],
+            },
+            {
+                "lineage": "H3N2",
+                "taxid": None,
+                "evaluable": 40,
+                "detected": 30,
+                "share": 0.75,
+                "ci": [0.6, 0.86],
+            },
+        ]
+    )
+    md = site_render.assay_page(page, "2026-10-31")
+    assert (
+        '<td>Aviadenovirus hepatitidis (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/'
+        'wwwtax.cgi?id=3426530"'
+    ) in md
+    assert "<td>H3N2" in md and "id=H3N2" not in md

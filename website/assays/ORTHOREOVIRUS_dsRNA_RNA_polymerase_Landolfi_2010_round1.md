@@ -149,8 +149,8 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 <table class="aw-lineage">
 <thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
 <tbody>
-<tr class="aw-lin-fail"><td>Orthoreovirus piscis (3431498) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="0.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">182</td><td class="num">0.0%</td><td class="num">0.0–2.1%</td></tr>
-<tr class="aw-lin-ok"><td>Orthoreovirus avis (3431493)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="97.9% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:97.9%"></span></span></td><td class="num">144</td><td class="num">97.9%</td><td class="num">94.1–99.3%</td></tr>
+<tr class="aw-lin-fail"><td>Orthoreovirus piscis (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3431498" title="Orthoreovirus piscis">3431498</a>) <span class="aw-lin-flag" title="the whole interval is below the threshold">below</span></td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="0.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:0.0%"></span></span></td><td class="num">182</td><td class="num">0.0%</td><td class="num">0.0–2.1%</td></tr>
+<tr class="aw-lin-ok"><td>Orthoreovirus avis (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3431493" title="Orthoreovirus avis">3431493</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="97.9% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:97.9%"></span></span></td><td class="num">144</td><td class="num">97.9%</td><td class="num">94.1–99.3%</td></tr>
 </tbody>
 </table>
 

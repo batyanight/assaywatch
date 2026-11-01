@@ -184,8 +184,8 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 <table class="aw-lineage">
 <thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
 <tbody>
-<tr class="aw-lin-ok"><td>Cryptosporidium bovis (310047)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">36</td><td class="num">100.0%</td><td class="num">90.4–100.0%</td></tr>
-<tr class="aw-lin-ok"><td>Cryptosporidium xiaoi (659607)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">43</td><td class="num">100.0%</td><td class="num">91.8–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Cryptosporidium bovis (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=310047" title="Cryptosporidium bovis">310047</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">36</td><td class="num">100.0%</td><td class="num">90.4–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Cryptosporidium xiaoi (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=659607" title="Cryptosporidium xiaoi">659607</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">43</td><td class="num">100.0%</td><td class="num">91.8–100.0%</td></tr>
 </tbody>
 </table>
 

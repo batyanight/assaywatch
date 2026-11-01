@@ -89,8 +89,8 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 <table class="aw-lineage">
 <thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
 <tbody>
-<tr class="aw-lin-ok"><td>Bocaparvovirus primate1 (3052040)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">85</td><td class="num">100.0%</td><td class="num">95.7–100.0%</td></tr>
-<tr class="aw-lin-ok"><td>Human bocavirus (329641)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">293</td><td class="num">100.0%</td><td class="num">98.7–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Bocaparvovirus primate1 (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3052040" title="Bocaparvovirus primate1">3052040</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">85</td><td class="num">100.0%</td><td class="num">95.7–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Human bocavirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=329641" title="Human bocavirus">329641</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">293</td><td class="num">100.0%</td><td class="num">98.7–100.0%</td></tr>
 </tbody>
 </table>
 

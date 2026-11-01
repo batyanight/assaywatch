@@ -194,8 +194,8 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 <table class="aw-lineage">
 <thead><tr><th>lineage</th><th>detected</th><th class="num">records</th><th class="num">share</th><th class="num">95% interval</th></tr></thead>
 <tbody>
-<tr class="aw-lin-ok"><td>Capripoxvirus lumpyskinpox (3427718)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">192</td><td class="num">100.0%</td><td class="num">98.0–100.0%</td></tr>
-<tr class="aw-lin-ok"><td>Orthopoxvirus monkeypox (3431483)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">5,063</td><td class="num">100.0%</td><td class="num">99.9–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Capripoxvirus lumpyskinpox (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3427718" title="Capripoxvirus lumpyskinpox">3427718</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">192</td><td class="num">100.0%</td><td class="num">98.0–100.0%</td></tr>
+<tr class="aw-lin-ok"><td>Orthopoxvirus monkeypox (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3431483" title="Orthopoxvirus monkeypox">3431483</a>)</td><td class="aw-barcell"><span class="aw-bar" style="--aw-thr:90%" title="100.0% detected; the tick marks the 90% threshold"><span class="aw-bar-fill" style="width:100.0%"></span></span></td><td class="num">5,063</td><td class="num">100.0%</td><td class="num">99.9–100.0%</td></tr>
 </tbody>
 </table>
 
