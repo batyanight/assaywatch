@@ -937,3 +937,23 @@ def test_the_readme_points_at_every_prose_page_on_the_site():
     readme = (ROOT / "README.md").read_text()
     for page in ("scoring", "pipeline", "validation", "limitations", "scoping", "glossary", "assays"):
         assert f"github.io/assaywatch/{page}/" in readme, f"the README does not link to /{page}/"
+
+
+def test_the_deploy_triggers_on_everything_the_published_page_depends_on():
+    """The site is rendered from more than `website/`. The theme is its entire
+    appearance, and the registry supplies paper titles, oligo names, curator
+    notes and taxon names at render time.
+
+    `theme/**` was missing from the trigger, so a template change built locally,
+    passed CI and never deployed: the published page silently kept the previous
+    template. Nothing reported a stale deploy, because no deploy had run."""
+    wf = (ROOT / ".github" / "workflows" / "site.yml").read_text()
+    for path in (
+        "website/**",
+        "theme/**",
+        "mkdocs.yml",
+        "registry/**",
+        "assaywatch/palette.py",
+        "GLOSSARY.md",
+    ):
+        assert path in wf, f"{path} is not in the site workflow's path filter"

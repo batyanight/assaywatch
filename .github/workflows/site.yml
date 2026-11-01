@@ -14,10 +14,22 @@ on:
     branches: [main]
     paths:
       - website/**
+      # The theme IS the site's appearance: one template and its stylesheets.
+      # It was missing here, so a change to it built locally, passed CI, and
+      # never deployed -- the published page kept the previous template with no
+      # indication anything was stale.
+      - theme/**
       - mkdocs.yml
       - assaywatch/site*.py
+      - assaywatch/curation.py
+      - assaywatch/glossary_links.py
       - assaywatch/palette.py
       - GLOSSARY.md
+      # The registry supplies paper titles, oligo names, curator notes and
+      # taxids at render time, so an entry edit changes the published pages.
+      - registry/**
+      - docs/papers-index.cache.json
+      - docs/taxonomy-cache.json.gz
       - .github/workflows/site.yml
   workflow_dispatch:
 
