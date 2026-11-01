@@ -455,7 +455,10 @@ def test_off_site_links_are_opened_safely_and_internal_ones_are_not_touched():
     # The selector must match this theme's DOM. It once read `.md-content`, a
     # Material class that does not exist here, so it matched nothing at all and
     # every DOI opened in the same tab while the test still passed.
-    assert "'main a[href]'" in js, "the external-link selector must target this theme's main element"
+    assert "'main a[href], .colophon a[href]'" in js, (
+        "the external-link selector must target this theme's main element and "
+        "the colophon, which sits outside it and holds the repository and DOI links"
+    )
     theme = (ROOT / "theme" / "main.html").read_text()
     assert '<main id="main"' in theme
     # It must run again after an instant-navigation page swap, or it applies only
