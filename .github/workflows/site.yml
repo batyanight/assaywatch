@@ -31,6 +31,10 @@ on:
       - docs/papers-index.cache.json
       - docs/taxonomy-cache.json.gz
       - .github/workflows/site.yml
+      # The site tests gate the deploy. A deploy that failed on a test and was
+      # then fixed by editing only the test never re-ran, because nothing above
+      # had changed.
+      - tests/test_site.py
   workflow_dispatch:
 
 permissions:
