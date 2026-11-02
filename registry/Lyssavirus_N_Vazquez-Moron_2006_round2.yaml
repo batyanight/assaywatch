@@ -1,0 +1,44 @@
+id: Lyssavirus_N_Vazquez-Moron_2006_round2
+name: Lyssavirus — N (nucleoprotein) (Vazquez-Moron 2006), nested round 2
+target:
+  taxid: 11286
+  gene: N (nucleoprotein)
+  genome_type: ssRNA-
+  taxon_name: Lyssavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: GRAB2F
+    seq: AARATGTGYGCNAAYTGGAG
+    seq_as_written: AARATGTGYGCIAAYTGGAG
+  reverse:
+    name: GRAB2R
+    seq: TCYTGHCCNGGCTCRAACAT
+    seq_as_written: TCYTGHCCIGGCTCRAACAT
+amplicon_bp: 259
+citation:
+  doi: 10.1016/j.jviromet.2006.03.008
+  design_year: 2006
+  n_sequences_at_design: null
+  reference: Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of 
+    Lyssavirus genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
+  doi_verified: true
+conditions:
+  annealing_c: 53
+  cycles: 30
+  rt: none
+use_context:
+- wildlife
+- veterinary
+- public_health
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-017
+  nested_round: round2
+  nested_family: Lyssavirus_N_Vazquez-Moron_2006
+  nested_parent: Lyssavirus_N_Vazquez-Moron_2006_round1
+  notes_curator: 'PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that
+    protocol''s round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
+    Vazquez-Moron, S. et al (2006).'
+needs_review: null

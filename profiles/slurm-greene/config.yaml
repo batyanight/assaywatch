@@ -1,0 +1,75 @@
+# Snakemake profile for NYU Greene, specifically. UNTESTED: written 2026-10-27 on a
+# laptop with no cluster access, as the documented shape of what the generic
+# `profiles/slurm/` leaves blank. Every value marked VERIFY below must be checked on a
+# Greene login node before the first submission; the commands to check them are given.
+#
+#     ssh greene.hpc.nyu.edu
+#     module load anaconda3            # VERIFY the module name: `module avail anaconda`
+#     conda activate assaywatch        # built once on /scratch, see below
+#     snakemake --profile profiles/slurm-greene --config email=you@example.org
+#
+# HOW A SLURM RUN DIFFERS FROM THE LAPTOP, for the record. Nothing in the Snakefile
+# changes. Locally Snakemake runs each rule itself; here it writes each rule's shell
+# command into a small batch script and hands it to `sbatch`, the scheduler queues it,
+# and Snakemake polls `squeue` until the job finishes and the output file exists.
+# Three things it must say to the scheduler, and where each comes from:
+#
+#   partition  WHICH POOL OF NODES. Greene has several, with different limits on wall
+#              time and memory; a job asks for one by name and waits for a free node
+#              in it. `sinfo -s` lists them and `sinfo -p <name> -o "%P %l %m %c"`
+#              shows a partition's time limit, memory per node and cores per node.
+#   account    WHO PAYS. Greene allocations are per PI group; `sacctmgr show assoc
+#              user=$USER format=account,partition,qos` prints yours. A job without a
+#              valid account is rejected at submission, not at run time.
+#   qos        HOW URGENT, within an account. Usually left to the default; the same
+#              sacctmgr line shows what you may request.
+#
+# The `resources:` block on a rule becomes the sbatch request (`--mem`, `--time`,
+# `--cpus-per-task`), which is why screen_archive declares mem_mb and runtime and why
+# a job that asks for too little memory is KILLED by the scheduler rather than slowed
+# down. restart-times retries with the attempt-scaled request the Snakefile declares.
+#
+# FILESYSTEMS, which is where a first cluster run actually fails. $HOME on Greene is
+# small and slow; /scratch/$USER is large, fast, and PURGED of files untouched for 60
+# days. So: clone the repo under /scratch/$USER, build the conda env under /scratch
+# (`conda create -p /scratch/$USER/envs/assaywatch -f environment.yml`), and point
+# RETRIEVED/RESULTS there -- the 9 GB of archives must not go in $HOME. Copy
+# anything you want to keep back to $HOME or /archive before the purge reaches it.
+#
+# NETWORK. Compute nodes on many clusters cannot reach the internet. If Greene's
+# cannot, run `retrieve` on the login node first (`snakemake --until retrieve
+# --cores 1`) and submit the rest; the retrieval rule is single-threaded and
+# rate-limited by NCBI anyway, so nothing is lost. VERIFY with `curl -sI
+# https://eutils.ncbi.nlm.nih.gov` from an interactive job (`srun --pty bash`).
+#
+# Everything the generic profile says about `--use-conda` still holds: do not use it;
+# there are no per-rule conda directives and it would silently be a no-op.
+
+executor: slurm
+jobs: 64
+latency-wait: 90                 # shared filesystems can lag a few seconds after a job writes
+rerun-incomplete: true
+printshellcmds: true
+restart-times: 3
+
+default-resources:
+  - slurm_partition="cs"         # VERIFY: Greene's general CPU partition name; `sinfo -s`
+  - slurm_account="<pi_netid>"   # VERIFY: `sacctmgr show assoc user=$USER format=account`
+  - mem_mb=4000
+  - runtime=60
+
+set-resources:
+  retrieve:
+    - runtime=720                # network-bound and rate-limited; long wall clock, no memory
+    - mem_mb=2000
+  screen_archive:
+    - runtime=240                # mem_mb comes from the rule itself, scaled by attempt
+  collect_calls:
+    - runtime=120
+    - mem_mb=16000               # concatenates 2.7M rows; VERIFY against sacct MaxRSS after one run
+  report:
+    - runtime=60
+    - mem_mb=8000
+
+# After the first run, replace the VERIFY values with what `sacct -j <jobid> --format=
+# JobID,MaxRSS,Elapsed,State` reports, and remove UNTESTED from the top of this file.

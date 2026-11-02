@@ -1,0 +1,67 @@
+# Bench panel: Meyer H, Ropp SL, Esposito JJ, J Virol Methods 64:217-221 (1997),
+# doi:10.1016/S0166-0934(96)02155-6 -- ATI-up-1 / ATI-low-1 consensus pair, 25
+# cycles, 40 C annealing. Source of every bench label: the paper's own Table 1
+# ("Comparison of PCR-derived DNA fragments of nine species of the genus
+# Orthopoxvirus amplified with consensus primer pair ATI-up-1:ATI-low-1"), read
+# from the OCR text layer of papers/10.1016_s0166-0934_96_02155-6.pdf on
+# 2026-10-20 and cross-checked against the abstract and the Discussion
+# paragraph that repeats four of the sizes.
+#
+# BENCH LABEL MAPPING. Table 1 reports a product SIZE, not a yes/no, for eight
+# of the nine species; the ninth row reads "No amplification". So:
+#   a size in Table 1          -> bench = band
+#   "No amplification"         -> bench = no_band
+# Table 1 as read (OCR digit shapes I/l for 1 resolved by the Discussion and
+# abstract, which repeat 1575, 1500, 530, 510 and the 510-1673 range):
+#   Variola virus      Bangladesh-1975  1575 bp
+#   Monkeypox virus    Copenhagen       1500 bp
+#   Cowpox virus       Brighton         1673 bp
+#   Vaccinia virus     Western Reserve  1603 bp
+#   Ectromelia virus   Munich-1         1219 bp
+#   Camelpox virus     CP-1              880 bp
+#   Volepox virus      Jasper Ridge      510 bp
+#   Raccoonpox virus   Aberdeen-1964    No amplification
+#   Skunkpox virus     Colfax-1978       530 bp
+# Confidence: the species/strain column and the "No amplification" cell are
+# unambiguous. The sizes are OCR of a scanned table; 1575/1500/530/510 are
+# confirmed in running text, 1673 is confirmed by the abstract's "510 to 1673
+# base pairs", and 1603/1219/880 rest on the table alone (880 is also named in
+# running text as "The 880 bp amplicon ... of camelpox virus"). 1219 printed as
+# "I219" in the OCR. None of these sizes is used as a measurement here: they are
+# the paper's claim, kept separate from what scoring real records gives.
+#
+# ACCESSION CHOICE. One GenBank genome per species, RefSeq where one exists;
+# every row below is RefSeq (nuccore, "Orthopoxvirus" species, 100-400 kb,
+# refseq[filter], 2026-10-20). Strain match to Meyer's isolate, from each
+# record's /strain and /collection_date:
+#   NC_006998.1  vaccinia WR (Western Reserve)   = Meyer's strain
+#   NC_003663.2  cowpox Brighton Red             = Meyer's strain
+#   NC_031038.1  skunkpox WA, collected 1978     = almost certainly Meyer's
+#                Colfax-1978 (Colfax is in Washington); not stated in the record
+#   NC_031033.1  volepox CA, collected 1985      = the Jasper Ridge, California
+#                isolate lineage; record says 1985, Meyer says only "Jasper Ridge"
+#   NC_027213.1  raccoonpox Herman, 1964         = the Aberdeen, Maryland 1964
+#                isolate lineage; record does not print "Aberdeen"
+#   NC_001611.1  variola India-1967 ssp. major   DIFFERENT strain from Meyer's
+#                Bangladesh-1975
+#   NC_003391.1  camelpox M-96                   DIFFERENT strain (Meyer: CP-1)
+#   NC_004105.1  ectromelia Moscow               DIFFERENT strain (Meyer: Munich-1)
+#   NC_063383.1  monkeypox MPXV-M5312_HM12_Rivers (clade IIb). Meyer's Copenhagen
+#                monkeypox is one of his non-Zairian isolates (Fig. 1 lanes 9-12),
+#                so a clade II genome is the closer match; no Copenhagen genome
+#                exists. The species' other RefSeq genome, NC_003310.1
+#                (Zaire-96-I-16, clade I), is in meyer-1997-ati-strains.tsv.
+# Meyer's own Camelpox CP-1, Ectromelia Munich-1, Monkeypox Copenhagen and
+# Raccoonpox Aberdeen-1964 have no complete genome in GenBank, so those four
+# rows are a different isolate of the same species and may differ from Meyer's
+# template at a primer site or in product length.
+accession	label	bench
+NC_001611.1	variola	band
+NC_063383.1	monkeypox_cladeIIb	band
+NC_003663.2	cowpox	band
+NC_006998.1	vaccinia	band
+NC_004105.1	ectromelia	band
+NC_003391.1	camelpox	band
+NC_031033.1	volepox	band
+NC_027213.1	raccoonpox	no_band
+NC_031038.1	skunkpox	band

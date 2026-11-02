@@ -1,0 +1,58 @@
+id: Enterovirus_5UTR_VP4_VP2_Wray_2016_round1
+name: Enterovirus — 5' UTR-VP4-VP2 (Wray 2016), nested round 1
+target:
+  taxid: 12059
+  gene: 5' UTR-VP4-VP2
+  genome_type: ssRNA+
+  taxon_name: Enterovirus
+  query: '"5'' UTR"[Title] OR "5''UTR"[Title] OR "5'' untranslated"[Title] OR VP4[Gene] OR VP2[Gene] OR "complete genome"[Title]'
+chemistry: conventional
+oligos:
+  forward:
+    name: EVRV1
+    seq: CTCCGGCCCCTGAATRYGGCTAA
+  reverse:
+    name: EVRV2
+    seq: TCNGGNARYTTCCACCACCANCC
+    seq_as_written: TCIGGIARYTTCCACCACCAICC
+amplicon_bp: 752
+citation:
+  doi: 10.1007/s10393-016-1183-z
+  design_year: 2016
+  n_sequences_at_design: null
+  reference: Wray AK, Olival KJ, Moran D, Lopez MR, Alvarez D, Navarrete-Macias I, Liang E, Simmons NB, Lipkin WI, 
+    Daszak P, Anthony SJ. 2016. Viral Diversity, Prey Preference, and Bartonella Prevalence in Desmodus rotundus in 
+    Guatemala. EcoHealth 13:761-774
+  doi_verified: true
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  nested_round: round1
+  nested_family: Enterovirus_5UTR_VP4_VP2_Wray_2016
+  notes_curator: 'AMPLICON MEASURED 2026-11-01, REPLACING AN UNSOURCED 765. Nothing recorded where 765 came from and Wray
+    et al. 2016 prints no product size, so the measurement wins: assaywatch curate over this entry''s own retrieval group
+    gives a modal 752 bp (1,444 of 7,535 products; 754 bp x1,036, 751 bp x683). Coiras et al. 2004, whose first round this
+    is a variant of, publishes 755 bp for enterovirus, which the measurement sits 3 bp under. THE REVERSE READS near:3 AGAINST
+    THE PAPER AND THAT IS NOTATION, NOT A DIFFERENCE: Wray prints EVRV2 with inosine (TCIGGIARYTTCCACCACCAICC), kept in seq_as_written,
+    while seq stores the N form this registry screens with; the three edits are the three I/N positions.CITED TO WRAY ET AL.
+    2016, NOT COIRAS, AND HERE IS WHY (2026-11-01). The four oligos of this nest are printed in Table 1 of Wray et al. 2016
+    (EcoHealth), doi 10.1007/s10393-016-1183-z, as EVRV1, EVRV2, EVRV3 and EVRV2anew, and every one matches what is stored
+    here, EVRV2 identically once its inosine is read as the N this registry stores. THE ASSAY ITSELF IS OLDER: the nested
+    5''NCR-VP4/VP2 design is Coiras et al. 2004 (J Med Virol), doi 10.1002/jmv.20008, whose Table prints 1-EV/RV and 2-EV/RV
+    as the first round and 3-EV/RV and 4-EV/RV as the nested one, and Ren et al. 2009 (doi 10.1111/j.1469-0691.2009.02746.x)
+    reuses Coiras''s forms and cites him. Coiras is NOT cited here because the stored sequences are not his: only the round-1
+    forward is identical in both papers. Wray narrows two of Coiras''s degenerate positions in the round-1 reverse (S and
+    Y to C) and two more in the round-2 forward (R and W to G and T), and replaces Coiras''s round-2 reverse 4-EV/RV (CTGTGTTGAWACYTGAGCICCCA)
+    with EVRV2anew, a 19 nt truncation of the round-1 reverse -- so round 2 as stored is Wray''s re-pairing and not Coiras''s
+    nested reaction, which is also why the measured 660 bp product is nowhere near Coiras''s published 226 bp nested product.
+    Wray''s own source column for the row reads ''Unpublished'', and Ly et al. 2014 (doi 10.1186/s12985-014-0224-x), the only
+    other paper printing these forms, gives no attribution at all; both are from one research network. Counted 2026-11-01
+    in Europe PMC open-access full text: Coiras''s forms appear in 4 to 6 papers spanning 2009-2022 and Wray''s in 2, so the
+    field uses Coiras''s assay while this registry holds Wray''s variant of it.'
+needs_review:
+- flag: amplicon_measured_not_published
+  note: modal 752 bp over 7,535 products; Wray 2016 publishes no size
+- flag: orientation_inferred

@@ -1,0 +1,30 @@
+id: Simian_immunodeficiency_virus_pol_Keele_2009_PTS_spol_F2
+name: Simian immunodeficiency virus — pol (Keele 2009, PTS spol F2)
+target:
+  taxid: 11723
+  gene: pol
+  genome_type: ssRNA-RT
+  taxon_name: Simian immunodeficiency virus
+  query: pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: PTS-spol-F2
+    seq: GARGACCATGAYAAATATCA
+  reverse:
+    name: PTS-pol-R2
+    seq: CAATCCCCCCTTTTCTTTTAAAATTGTG
+amplicon_bp: 549
+citation:
+  doi: 10.1038/nature08200
+  design_year: 2009
+  n_sequences_at_design: null
+  doi_verified: true
+  reference: Keele BF et al. 2009. Nature 460:515-519
+use_context:
+- wildlife
+submitted_by: null
+status: active
+source:
+  nested_round: null
+needs_review: null

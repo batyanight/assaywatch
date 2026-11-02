@@ -1,0 +1,109 @@
+name: validate
+# Push to main and pull requests only: `push:` alone ran every PR branch twice
+# (once as a push, once as a PR), which is minutes the free tier does not have.
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    # MATRIX, because neither axis was covered. `requires-python` says >=3.11 and
+    # only 3.12 was ever run; and the primary development machine is macOS arm64,
+    # which nothing tested -- README even notes primer3-py cannot be pip-built
+    # there, so the one platform most likely to break was the one never checked.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # macOS was dropped on 2026-10-29: a macOS minute costs ten of the free tier's
+        # 2,000 a month, and the matrix had used the month up by the 29th. The primary
+        # development machine IS macOS arm64, and every commit runs the full gate on it
+        # locally before it is pushed, so the platform is covered where it matters.
+        os: [ubuntu-latest]
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev,lineage]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest -q
+      - run: assaywatch validate registry
+      # No citation may be written from memory. Checks every registry DOI
+      # against the committed Crossref cache, so it needs no network.
+      - run: python scripts/check_citations.py
+      # The registry's published contract. Regenerate with
+      # `assaywatch validate --emit-schema registry/schema.json`.
+      - run: assaywatch validate --check-schema
+      # Registry counts quoted in prose, against the registry. README explains why
+      # counts should be printed rather than written by hand, and then wrote 214
+      # into prose on the same line; nine wrong numbers were in circulation.
+      - run: python scripts/claims.py --check
+
+  # The Snakemake-backed tests (tests/test_triggers.py) run the pipeline offline and assert
+  # which rules an edit reruns. They skip without Snakemake, so the job above never runs
+  # them. This one installs it.
+  #
+  # It deliberately does NOT install the `lineage` extra, so it is also the check that
+  # the pipeline's other rules still run without scipy and statsmodels. That contract
+  # was broken for a day when the binomial test moved to lineage.py's module scope.
+  #
+  # This job used to carry `continue-on-error: true`, on the argument that Snakemake's
+  # install is the part most likely to break on a runner and a red build for that would
+  # be noise. The argument did not survive contact: the scipy breakage above sat here
+  # in a job that could not turn the build red, and nobody looked. A rule-rerun
+  # regression and a pipeline that cannot start are exactly what this repo needs to hear
+  # about, so the job blocks now. Snakemake is pinned below for the same reason — an
+  # upstream release should not be able to go red on its own.
+  snakemake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --upgrade pip setuptools wheel
+      # Pinned to the minor that passes, since this job can now turn the build red.
+      # Bump it deliberately and read the rerun assertions when you do.
+      - run: pip install -e ".[dev]" "snakemake>=9.27,<9.28"
+      - run: pytest -q -m slow tests/test_triggers.py
+
+  # EVERY OTHER JOB AND EVERY DOCUMENTED COMMAND USES AN EDITABLE INSTALL, so
+  # nothing here could see what a real install does. `pip install .` yields a
+  # package that imports and whose default config path resolves into
+  # site-packages -- which used to be a bare FileNotFoundError on a path the
+  # caller never chose. 1,500 tests cannot catch that, because they all run from
+  # the repo. This job builds the wheel and probes it in a clean venv: the
+  # library must work, and the missing-config failure must say what to do.
+  wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --upgrade pip build
+      - run: python -m build --wheel --outdir dist .
+      # A clean venv, outside the checkout, so nothing resolves by accident.
+      - run: |
+          python -m venv /tmp/wheelenv
+          /tmp/wheelenv/bin/pip install dist/*.whl
+      - run: |
+          cd /tmp
+          /tmp/wheelenv/bin/python - <<'PY'
+          import assaywatch
+          from assaywatch.match import find_sites
+          from assaywatch.score import load_config
+
+          oligo = "ACGTACGTACGTACGTAC"
+          assert len(find_sites(oligo, "TTT" + oligo + "TTT", 0)) == 1, "library unusable from a wheel"
+          try:
+              load_config()
+          except SystemExit as e:
+              assert "non-editable install" in str(e), f"unhelpful config error: {e}"
+          else:
+              raise AssertionError("a wheel should not find a default config")
+          print("wheel ok:", assaywatch.__version__)
+          PY

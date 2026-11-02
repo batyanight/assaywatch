@@ -1,0 +1,30 @@
+# S3, both switches together, as Part 1 S3 requires ("Test each alone, then
+# together"). S3a is the probe switch, S3b the conventional terminal-mismatch switch;
+# see those two files for the mechanism and the literature behind each.
+#
+# Two hand-set switches, NOT a fitted table. docs/journal/2026-10-24-scoring-strategy-test-plan.md
+# Part 3 forbids hand-fitting a full `by_chemistry` table if C2 is going to happen:
+# these are a probe of whether the chemistry axis carries signal at all, not a second
+# penalty table.
+name: s3-both-switches
+registered: 2026-10-26
+question: >
+  Do the two chemistry switches interact? Each is confined to a different chemistry -
+  one to the 51 probe-bearing entries and one to the 155 conventional ones - so the
+  prediction is that they cannot, and the combined result should be the union of
+  theirs. Worth running because a surprise here would mean one of them reaches
+  further than its own chemistry.
+predicts: >
+  Exactly S3a's tier-2 result plus S3b's 251 moved conventional records, which change
+  no verdict on their own. No interaction.
+kill: >
+  Any documented catch lost beyond the two S3a already loses on the Leptospira panel.
+  An interaction that loses anything else would mean a switch is not confined to its
+  chemistry.
+reduced_not_detected_for:
+  - hydrolysis_probe
+  - mgb
+scoring:
+  by_chemistry:
+    conventional:
+      terminal_mismatch_fails: false

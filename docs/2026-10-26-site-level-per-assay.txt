@@ -1,0 +1,60 @@
+# scripts/measure_site_level.py --cap 4000, 2026-10-26, against results/2026-10-26/calls.tsv.gz
+# Totals and caveats are in docs/journal/2026-10-26-bd-phase1-site-level-measured.md section 7.
+# `fails` is a count of judgeable failing probe sites and is NOT a coverage figure:
+# a lone probe has no credibility test here. 14 assays are unmeasurable and each
+# line says why; they hold almost all of the discarded population.
+Records the amplicon rule discards, and how many carry a JUDGEABLE probe site.
+judgeable = the probe's whole footprint lies inside the deposited sequence.
+
+assay                                                discarded examined probe in    cut outside  fails  indel
+-------------------------------------------------------------------------------------------------------------
+Aparavirus_apisacutum_capsid_Rossi_2024                                      12       12        2      0       3      1      0
+Avipoxvirus_4b_Baek_2020                        356        -   no record holds all three sites; unmeasurable
+Avipoxvirus_4b_Farias_2010                       87       87       86      0       0     34      0
+Bovine_papular_stomatitis_virus_RPO147_Zhao_2013                      19       19        5      0       0      5      0
+Triatovirus_nigereginacellulae_capsid_Rossi_2024                                      41       41       28      0       0     27      0
+Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013         1        -   offset not concordant: +32 in 1/1; unmeasurable
+Chronic_bee_paralysis_virus_RNA1_Rossi_2024                                        34       34       33      0       1      0      0
+Morbillivirus_canis_N_Elia_2006                                        14       14        6      5       0      4      0
+Morbillivirus_canis_P_Halecker_2021_Mix3                                8        8        2      0       0      0      0
+Morbillivirus_canis_P_Halecker_2021_Mix7                               25       25        9      2       0      8      0
+Morbillivirus_canis_P_Scagliarini_2007                                  9        -   offset not concordant: --46 in 4/4; unmeasurable
+Morbillivirus_canis_P_Geiselhardt_2022                         231      231      223      0       0     15      0
+Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004             461        -   offset not concordant: +93 in 1/1, --95 in 1/2; unmeasurable
+Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE                  54        -   no record holds all three sites; unmeasurable
+Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdGPL                   83        -   offset not concordant: +45 in 1/1; unmeasurable
+Deformed_wing_virus_A_polyprotein_Rossi_2024                                 15       15       13      0       0      0      0
+Deformed_wing_virus_B_polyprotein_Rossi_2024                                  9        9        5      0       0      0      0
+Helicobacter_16S_Conley_2021                             1,121        -   no record holds all three sites; unmeasurable
+Influenza_A_virus_HA_H5_Tsukamoto_2010                     618      618       41      8       7      1      0
+Influenza_A_virus_HA_H7_Tsukamoto_2010                     100      100       11      3       1      0      0
+Influenza_A_virus_M_Spackman_2002         93,966        -   no record holds all three sites; unmeasurable
+Influenza_A_virus_NP_Tsukamoto_2010                      3,370    3,370      124      0       0      6      0
+Leptospira_lipL32_Ahmed_2020                               148      148       59     83       6     25      0
+Monkeypox_virus_C3L_Li_2010               15       15        6      0       0      2      0
+Monkeypox_virus_F3L_Kulesh_2004                        381      381      308      0       0    287      0
+Monkeypox_virus_G2R_Li_2010_G2R_WA_F              74       74       33      0       0     29      0
+Monkeypox_virus_G2R_Li_2010_G2R_G_F                 283      283       89      0       0     79      0
+Monkeypox_virus_N3R_Kulesh_2004                      3,014        -   offset not concordant: +184379 in 13/141, --81 in 2/2; unmeasurable
+Mycobacterium_tuberculosis_complex_IS1081_Hermes_2018                  2        2        2      0       0      1      0
+Mycobacterium_tuberculosis_complex_helicase_Hermes_2018         3        0        0      0       0      0      0
+Mycobacterium_16S_Hermes_2018                   931      931       84      5      57     50      1
+Orthopoxvirus_G9R_Gallardo-Romero_2011        48        -   no record holds all three sites; unmeasurable
+Ophidiomyces_ophidiicola_targetD_Haynes_2023               118        -   no record holds all three sites; unmeasurable
+Orf_virus_RPO147_Zhao_2013                132      132      102     18       0    102      0
+Orthobornavirus_XP_Sigrist_2021_aquatic                     16       16        8      0       8      5      0
+Orthobornavirus_XP_Sigrist_2021_passerine                   16        -   offset not concordant: --46 in 1/1; unmeasurable
+Orthobornavirus_XP_Sigrist_2021_psittacine                  16       16        7      1       8      7      0
+Pseudogymnoascus_destructans_ITS1_Shuey_2014                                      11       11        8      0       0      4      0
+Perkinsea_18S_Smilansky_2021_cladeAC                 233      233      228      3       0    181      0
+Perkinsea_18S_Smilansky_2021_cladeD                  233      233      228      2       1    198      0
+Parapoxvirus_RPO147_Zhao_2013       432        -   offset not concordant: +40 in 4/4; unmeasurable
+Ranavirus_MCP_Pallister_2007        38       38       38      0       0     38      0
+Iflavirus_sacbroodi_polyprotein_Rossi_2024                                  11       11        0      0       2      0      0
+Orthobunyavirus_S_Steyn_2020          217        -   no record holds all three sites; unmeasurable
+Ophidiomyces_ophidiicola_ITS2_Bohuski_2015        89       89        0      0       0      0      0
+Usutu_virus_NS1_Jost_2011                          49       49        2      0       0      0      0
+Vibrio_coralliilyticus_dnaJ_Pollock_2010                    13       13        0      0       0      0      0
+-------------------------------------------------------------------------------------------------------------
+TOTAL                                                    7,261    7,258    1,790    130      94  1,109      1
+(14 assays skipped: no concordant probe offset, so the probe cannot be placed. Each one's reason is on its line above.)

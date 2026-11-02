@@ -1,0 +1,58 @@
+# Snakemake profile for a SLURM cluster (NYU Greene and most others).
+#
+#     snakemake --profile profiles/slurm --config email=you@example.org
+#
+# What changes compared to running locally: nothing in the Snakefile. Snakemake
+# submits each job with sbatch instead of running it itself, waits for the
+# scheduler, and collects the outputs. The `resources` block on a rule becomes
+# the sbatch request, which is why screen_archive declares mem_mb and runtime.
+#
+# jobs:        how many jobs may sit in the queue at once, not how many cores.
+# default-resources: what every rule asks for unless it says otherwise.
+# slurm_partition / slurm_account: cluster-specific; check `sinfo` and
+#              `sacctmgr show assoc user=$USER` before the first run.
+#
+# Requires the SLURM executor plugin, now in environment.yml
+# (snakemake-executor-plugin-slurm), so `conda activate assaywatch` has it.
+#
+# THE ENVIRONMENT: build it once on the shared filesystem and activate it before
+# submitting; every job inherits it, because the rules run `python -m
+# assaywatch...` against whatever interpreter is on PATH. Do NOT reach for
+# `--use-conda`: it only does something when rules carry a `conda:` directive,
+# and none here do (by design — one environment, not one per rule), so it would
+# silently be a no-op and the jobs would run against the login shell's Python.
+# On a cluster with environment modules instead of conda, load the site modules
+# in a jobscript prologue to put the same interpreter on PATH. A per-rule conda
+# story (and `--use-conda`) would start with envs/*.yaml files that do not exist;
+# add those first if that is ever wanted.
+
+executor: slurm
+jobs: 32
+latency-wait: 60
+rerun-incomplete: true
+printshellcmds: true
+
+# On SLURM `resources` IS the sbatch request, so a job that asks for too little
+# memory is killed by the scheduler rather than slowed down -- and with no
+# restart-times, a rerun recomputed the identical fatal request and died the same
+# way. The memory numbers were fitted on a dev Mac and max_rss is never measured
+# (see the comment on screen_archive's threads), so they are the values most
+# likely to be wrong and were the ones with no retry path. Each attempt now
+# scales the request; see the `attempt`-aware mem_mb on screen_archive.
+restart-times: 3
+
+default-resources:
+  - slurm_partition="short"
+  - mem_mb=4000
+  - runtime=60
+
+set-resources:
+  # Retrieval is network-bound and rate-limited, so it wants a long wall clock
+  # and almost no memory. It is also the one rule that must not be parallel.
+  retrieve:
+    - runtime=720
+    - mem_mb=2000
+  # screen_archive sets mem_mb itself, scaled with its threads; a flat value
+  # here would override that and starve the 16-worker jobs.
+  screen_archive:
+    - runtime=240

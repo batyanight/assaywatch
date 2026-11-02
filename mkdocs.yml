@@ -1,0 +1,80 @@
+site_name: AssayWatch
+site_description: >-
+  Continuous in-silico re-validation of published PCR and qPCR diagnostic assays
+  against newly deposited GenBank sequences.
+site_url: https://batyanight.github.io/assaywatch/
+repo_url: https://github.com/batyanight/assaywatch
+repo_name: batyanight/assaywatch
+edit_uri: ""
+copyright: >-
+  Code MIT, registry and curated tables CC-BY-4.0.
+  Figures are from the 2026-10-31 run; a status is worth reading, not quoting.
+
+# `website/` rather than `docs/`: docs/ is 137 dated journals and the reference
+# set, which are the project's working record and not a published site. The
+# generated pages under website/assays/ are built by `assaywatch.site_render`.
+docs_dir: website
+site_dir: .site
+
+# A custom single-template theme rather than Material. Material's sidebar, tab
+# bar and search field are what made the site read as generated documentation;
+# `theme/main.html` is the whole of this one.
+theme:
+  name: null
+  custom_dir: theme
+
+extra_css:
+  - stylesheets/palette.css
+  - stylesheets/journal.css
+  - stylesheets/extra.css
+
+# The only script on the site: table sort/filter and the pipeline diagram, both
+# progressive enhancements. The figures are inline SVG with no runtime, so there
+# is no chart library and no CDN.
+extra_javascript:
+  - javascripts/tables.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  # No permalink marker: Material rendered it as an icon, a bare theme shows
+  # the raw pilcrow beside every heading. Heading ids are still generated,
+  # so deep links such as #stage-screen keep working.
+  - toc: {permalink: false}
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight: {anchor_linenums: true}
+
+# The generated assay pages are reachable from assays/index.md and from search;
+# listing them in `nav` would put a 219-item tree in the sidebar. The nested
+# protocol pages are reached the same way, from rows in that same list.
+not_in_nav: |
+  /assays/*.md
+  /nests/*.md
+
+nav:
+  - Overview: index.md
+  - Methods:
+      - Scoring: scoring.md
+      - Scope and retrieval: scoping.md
+      - Pipeline:
+          - Overview: pipeline.md
+          - The registry: pipeline/registry.md
+          - validate: pipeline/validate.md
+          - retrieve: pipeline/retrieve.md
+          - screen: pipeline/screen.md
+          - collect: pipeline/collect.md
+          - The calls table: pipeline/calls.md
+          - drift + report: pipeline/report.md
+          - lineage: pipeline/lineage.md
+          - site drift: pipeline/sitedrift.md
+          - figures: pipeline/figures.md
+          - degeneracy: pipeline/degeneracy.md
+          - config.yaml: pipeline/config.md
+  - Validation: validation.md
+  - Known limitations: limitations.md
+  - Assay registry: assays/index.md
+  - Glossary: glossary.md

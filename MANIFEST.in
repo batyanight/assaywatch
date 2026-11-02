@@ -1,0 +1,38 @@
+# What `python -m build` puts in the SOURCE distribution. The wheel carries only
+# the `assaywatch` package (see [tool.setuptools.packages.find] in pyproject.toml);
+# the sdist additionally carries what is needed to run the test suite and read the
+# registry, so an sdist is a self-contained copy of the project.
+#
+# The prunes are the point of this file. `papers/` holds copyrighted PDFs that
+# must never be redistributed, `.secrets/` holds API keys, and `data/` and
+# `results/` are gigabytes of derived scratch (9.1 GB and 727 MB on the machine
+# this was written on). None of them are tracked by git, but sdist assembly does
+# not read .gitignore, so they are excluded here explicitly rather than by luck.
+
+include README.md CONTRIBUTING.md ROADMAP.md CLAUDE.md CHANGELOG.md
+include CITATION.cff
+include pyproject.toml environment.yml config.yaml Snakefile MANIFEST.in
+include conda-lock.yml          # exact cross-platform pin; see README Setup. Absent until generated.
+include .pre-commit-config.yaml
+
+recursive-include assaywatch *.py
+recursive-include registry *.yaml
+recursive-include tests *.py
+recursive-include scripts *.py
+recursive-include profiles *
+recursive-include docs *.md *.tsv
+recursive-include examples *.py *.md *.fasta
+
+# .claude/settings.json is committed and hardcodes one machine's miniforge path,
+# so it has no business in a distribution.
+prune .claude
+prune papers
+prune data
+prune results
+prune .secrets
+prune .snakemake
+prune build
+prune dist
+
+exclude *.key
+global-exclude __pycache__ *.py[cod] .DS_Store *.orig *.rej

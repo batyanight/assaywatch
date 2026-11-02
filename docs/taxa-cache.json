@@ -1,0 +1,15 @@
+{
+  "description": "Cached NCBI taxid -> lineage name mappings for lineage-conditional analysis.",
+  "taxa": {
+    "109871": "Batrachochytrium dendrobatidis",
+    "11232": "Canine distemper virus",
+    "11320": "Influenza A virus",
+    "151340": "Papillomaviridae",
+    "5819": "Haemosporidia",
+    "11158": "Paramyxoviridae",
+    "10239": "Virus",
+    "2164": "Bacteria",
+    "2157": "Archaea",
+    "2759": "Eukaryota"
+  }
+}

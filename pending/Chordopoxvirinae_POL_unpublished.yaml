@@ -1,0 +1,50 @@
+id: Chordopoxvirinae_POL_unpublished
+name: Chordopoxvirinae — DNA polymerase (unpublished)
+target:
+  taxid: 10241
+  gene: DNA polymerase
+  genome_type: dsDNA
+  taxon_name: Chordopoxvirinae
+chemistry: conventional
+oligos:
+  forward:
+    name: PoxPolF1
+    seq: TATAGAGCGAGTACAGTCATCAAGGGTCC
+  reverse:
+    name: PoxPolR1
+    seq: CANACATTNGGATAYARACTATTATAATC
+    seq_as_written: CAIACATTIGGATAYARACTATTATAATC
+  alternates:
+  - name: PoxPolF2
+    seq: TACCGVGCGAGYACCTGCATCAAGGGMCC
+    orientation: forward
+  - name: PoxPolF3
+    seq: TAYAGAGCTAGTACGTTAATAAAAGGNCC
+    seq_as_written: TAYAGAGCTAGTACGTTAATAAAAGGICC
+    orientation: forward
+  - name: PoxPolF4
+    seq: TATAGGGCHAGTACKCTTATTAAAGGWCC
+    orientation: forward
+  - name: PoxPolR2
+    seq: CANACGTTNGGGTAYARGCTGTTGTAGTC
+    seq_as_written: CAIACGTTIGGGTAYARGCTGTTGTAGTC
+    orientation: reverse
+amplicon_bp: 192
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: deprecated
+source:
+  nested_round: null
+  notes_curator: 'The first TSPoxPol set was recorded as not working well; the shorter second set is the working version.'
+needs_review:
+- flag: do_not_use
+- flag: oligos_modified
+- flag: pairing_is_curator_reading
+  note: the source lists several primers in one block without saying which pair

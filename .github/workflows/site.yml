@@ -1,0 +1,92 @@
+# Build the website and publish it to GitHub Pages.
+#
+# The site is built from website/data/run.json, which is COMMITTED. That is the
+# point of the two-phase build in assaywatch/site.py: extraction needs the 22 MB
+# calls table and the 9 GB of archives, which CI does not have and never will, so
+# CI renders pages from the extracted JSON and nothing else. Refreshing the data
+# is a local step after a run:
+#
+#     python -m assaywatch.site extract results/<date>/calls.tsv.gz --out website/data
+#     python -m assaywatch.site_render
+name: site
+on:
+  push:
+    branches: [main]
+    paths:
+      - website/**
+      # The theme IS the site's appearance: one template and its stylesheets.
+      # It was missing here, so a change to it built locally, passed CI, and
+      # never deployed -- the published page kept the previous template with no
+      # indication anything was stale.
+      - theme/**
+      - mkdocs.yml
+      - assaywatch/site*.py
+      - assaywatch/curation.py
+      - assaywatch/glossary_links.py
+      - assaywatch/palette.py
+      - GLOSSARY.md
+      # The registry supplies paper titles, oligo names, curator notes and
+      # taxids at render time, so an entry edit changes the published pages.
+      - registry/**
+      - docs/papers-index.cache.json
+      - docs/taxonomy-cache.json.gz
+      - .github/workflows/site.yml
+      # The site tests gate the deploy. A deploy that failed on a test and was
+      # then fixed by editing only the test never re-ran, because nothing above
+      # had changed.
+      - tests/test_site.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; a queued run supersedes a waiting one but never cancels
+# a deploy half-way through.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[site,dev]"
+      # The page-rendering tests need Bokeh, so they skip in the core test job
+      # (which installs no site extras) and run here, where it is installed.
+      # This step is also the staleness check: it compares the committed markdown
+      # against a fresh render with Bokeh's per-render ids normalised, so every
+      # number, label and sentence must match while the noise does not.
+      - run: pytest tests/test_site.py -q
+      # Regenerate rather than trust what is committed, so the published site
+      # always shows what run.json actually says, and fail if the two differ.
+      #
+      # This check was removed once as unachievable, when the figures were drawn
+      # by a chart library that minted a fresh element id per render: it listed
+      # 202 files as stale with nothing wrong with any of them. The inline-SVG
+      # figures are a pure function of the data, so byte equality holds and the
+      # check is exact again.
+      - run: python -m assaywatch.site_render --data website/data --out website
+      - name: the committed pages match what the data renders
+        run: |
+          git diff --exit-code --stat website/ \
+            || (echo "::error::website/ is stale; run `assaywatch site-render` and commit" && exit 1)
+      - run: mkdocs build --strict
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

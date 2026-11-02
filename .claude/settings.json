@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pytest)",
+      "Bash(pytest *)",
+      "Bash(ruff check *)",
+      "Bash(ruff format --check *)",
+      "Bash(esearch *)",
+      "Bash(efetch *)",
+      "Bash(pdftotext *)",
+      "Bash(snakemake -n *)",
+      "Bash(snakemake --version)",
+      "Bash(export PATH=/opt/homebrew/Caskroom/miniforge/base/envs/assaywatch/bin:$PATH)",
+      "Bash(python -m assaywatch.validate registry)",
+      "Bash(python -m assaywatch.credentials)",
+      "Bash(python scripts/check_citations.py)",
+      "Bash(du -sh *)",
+      "mcp__visualize__show_widget",
+      "mcp__visualize__read_me",
+      "mcp__terminal__read_terminal",
+      "mcp__Claude_Browser__navigate",
+      "mcp__Claude_Browser__get_page_text",
+      "mcp__Claude_Browser__read_page",
+      "mcp__Claude_Browser__find",
+      "mcp__23523cb2-e073-461f-ae03-1721e36b3dab__search_articles",
+      "mcp__23523cb2-e073-461f-ae03-1721e36b3dab__get_full_text_article",
+      "mcp__23523cb2-e073-461f-ae03-1721e36b3dab__get_article_metadata"
+    ]
+  }
+}

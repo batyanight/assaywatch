@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE TaxaSet>
+<TaxaSet>
+  <Taxon>
+    <TaxId>6035</TaxId>
+    <ScientificName>Encephalitozoon cuniculi</ScientificName>
+    <OtherNames>
+      <Name>
+        <ClassCDE>authority</ClassCDE>
+        <DispName>Encephalitozoon cuniculi Levaditi, Nicolau &amp; Schoen, 1923</DispName>
+      </Name>
+      <Name>
+        <ClassCDE>misspelling</ClassCDE>
+        <DispName>Encephalitozoon cunuculi</DispName>
+      </Name>
+    </OtherNames>
+    <ParentTaxId>6033</ParentTaxId>
+    <Rank>species</Rank>
+    <Division>Plants and Fungi</Division>
+    <GeneticCode>
+      <GCId>1</GCId>
+      <GCName>Standard</GCName>
+    </GeneticCode>
+    <MitoGeneticCode>
+      <MGCId>1</MGCId>
+      <MGCName>Standard</MGCName>
+    </MitoGeneticCode>
+    <Lineage>cellular organisms; Eukaryota; Opisthokonta; Fungi; Fungi incertae sedis; Microsporidia; Apansporoblastina; Unikaryonidae; Encephalitozoon</Lineage>
+    <LineageEx>
+      <Taxon>
+        <TaxId>131567</TaxId>
+        <ScientificName>cellular organisms</ScientificName>
+        <Rank>cellular root</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2759</TaxId>
+        <ScientificName>Eukaryota</ScientificName>
+        <Rank>domain</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>33154</TaxId>
+        <ScientificName>Opisthokonta</ScientificName>
+        <Rank>clade</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>4751</TaxId>
+        <ScientificName>Fungi</ScientificName>
+        <Rank>kingdom</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>112252</TaxId>
+        <ScientificName>Fungi incertae sedis</ScientificName>
+        <Rank>no rank</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>6029</TaxId>
+        <ScientificName>Microsporidia</ScientificName>
+        <Rank>phylum</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>6032</TaxId>
+        <ScientificName>Apansporoblastina</ScientificName>
+        <Rank>suborder</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>36734</TaxId>
+        <ScientificName>Unikaryonidae</ScientificName>
+        <Rank>family</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>6033</TaxId>
+        <ScientificName>Encephalitozoon</ScientificName>
+        <Rank>genus</Rank>
+      </Taxon>
+    </LineageEx>
+    <CreateDate>1995/02/27 09:24:00</CreateDate>
+    <UpdateDate>2018/11/23 13:57:52</UpdateDate>
+    <PubDate>1993/06/11 01:00:00</PubDate>
+  </Taxon>
+  <Taxon>
+    <TaxId>3052342</TaxId>
+    <ScientificName>Morbillivirus canis</ScientificName>
+    <OtherNames>
+      <EquivalentName>Canine morbillivirus</EquivalentName>
+    </OtherNames>
+    <ParentTaxId>11229</ParentTaxId>
+    <Rank>species</Rank>
+    <Division>Viruses</Division>
+    <GeneticCode>
+      <GCId>1</GCId>
+      <GCName>Standard</GCName>
+    </GeneticCode>
+    <MitoGeneticCode>
+      <MGCId>0</MGCId>
+      <MGCName>Unspecified</MGCName>
+    </MitoGeneticCode>
+    <Lineage>Viruses; Riboviria; Orthornavirae; Negarnaviricota; Haploviricotina; Monjiviricetes; Mononegavirales; Paramyxoviridae; Orthoparamyxovirinae; Morbillivirus</Lineage>
+    <LineageEx>
+      <Taxon>
+        <TaxId>10239</TaxId>
+        <ScientificName>Viruses</ScientificName>
+        <Rank>acellular root</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2559587</TaxId>
+        <ScientificName>Riboviria</ScientificName>
+        <Rank>realm</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2732396</TaxId>
+        <ScientificName>Orthornavirae</ScientificName>
+        <Rank>kingdom</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2497569</TaxId>
+        <ScientificName>Negarnaviricota</ScientificName>
+        <Rank>phylum</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2497570</TaxId>
+        <ScientificName>Haploviricotina</ScientificName>
+        <Rank>subphylum</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2497574</TaxId>
+        <ScientificName>Monjiviricetes</ScientificName>
+        <Rank>class</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>11157</TaxId>
+        <ScientificName>Mononegavirales</ScientificName>
+        <Rank>order</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>11158</TaxId>
+        <ScientificName>Paramyxoviridae</ScientificName>
+        <Rank>family</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2560076</TaxId>
+        <ScientificName>Orthoparamyxovirinae</ScientificName>
+        <Rank>subfamily</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>11229</TaxId>
+        <ScientificName>Morbillivirus</ScientificName>
+        <Rank>genus</Rank>
+      </Taxon>
+    </LineageEx>
+    <CreateDate>2023/06/08 13:44:12</CreateDate>
+    <UpdateDate>2023/06/15 10:36:00</UpdateDate>
+    <PubDate>1993/04/23 01:00:00</PubDate>
+    <AkaTaxIds>
+      <TaxId>11232</TaxId>
+    </AkaTaxIds>
+  </Taxon>
+  <Taxon>
+    <TaxId>3047346</TaxId>
+    <ScientificName>Aparavirus apisacutum</ScientificName>
+    <ParentTaxId>1213379</ParentTaxId>
+    <Rank>species</Rank>
+    <Division>Viruses</Division>
+    <GeneticCode>
+      <GCId>1</GCId>
+      <GCName>Standard</GCName>
+    </GeneticCode>
+    <MitoGeneticCode>
+      <MGCId>0</MGCId>
+      <MGCName>Unspecified</MGCName>
+    </MitoGeneticCode>
+    <Lineage>Viruses; Riboviria; Orthornavirae; Pisuviricota; Pisoniviricetes; Picornavirales; Dicistroviridae; Aparavirus</Lineage>
+    <LineageEx>
+      <Taxon>
+        <TaxId>10239</TaxId>
+        <ScientificName>Viruses</ScientificName>
+        <Rank>acellular root</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2559587</TaxId>
+        <ScientificName>Riboviria</ScientificName>
+        <Rank>realm</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2732396</TaxId>
+        <ScientificName>Orthornavirae</ScientificName>
+        <Rank>kingdom</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2732408</TaxId>
+        <ScientificName>Pisuviricota</ScientificName>
+        <Rank>phylum</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>2732506</TaxId>
+        <ScientificName>Pisoniviricetes</ScientificName>
+        <Rank>class</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>464095</TaxId>
+        <ScientificName>Picornavirales</ScientificName>
+        <Rank>order</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>232795</TaxId>
+        <ScientificName>Dicistroviridae</ScientificName>
+        <Rank>family</Rank>
+      </Taxon>
+      <Taxon>
+        <TaxId>1213379</TaxId>
+        <ScientificName>Aparavirus</ScientificName>
+        <Rank>genus</Rank>
+      </Taxon>
+    </LineageEx>
+    <CreateDate>2023/05/17 07:11:42</CreateDate>
+    <UpdateDate>2023/05/17 07:11:42</UpdateDate>
+    <PubDate>2023/05/17 13:07:46</PubDate>
+  </Taxon>
+</TaxaSet>

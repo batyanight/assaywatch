@@ -1,0 +1,18 @@
+# Supplement to meyer-1997-ati.tsv, same paper and same bench-label source
+# (Meyer et al. 1997 Table 1; see that file's header for the mapping and for the
+# OCR confidence notes). Not one-genome-per-species: these two rows exist only
+# to test the two places where the main panel's RefSeq pick is NOT Meyer's
+# template, so that a size disagreement can be told apart from a strain
+# difference.
+#   L22579.1     Variola major virus strain Bangladesh-1975 -- Meyer's exact
+#                variola strain, GenBank (not RefSeq; the RefSeq variola genome
+#                is India-1967). bench = band, Table 1 gives 1575 bp.
+#   NC_003310.1  Monkeypox virus Zaire-96-I-16, clade I RefSeq. Meyer's
+#                monkeypox row is the Copenhagen isolate, which his Fig. 1
+#                groups with the non-Zairian viruses, so this row is a clade
+#                Meyer did amplify (Fig. 1 lanes 1-4 are Zairian isolates and
+#                gave a band) but is NOT the strain Table 1's 1500 bp refers to.
+#                bench = band on the strength of Fig. 1, not Table 1.
+accession	label	bench
+L22579.1	variola_Bangladesh1975	band
+NC_003310.1	monkeypox_cladeI_Zaire	band

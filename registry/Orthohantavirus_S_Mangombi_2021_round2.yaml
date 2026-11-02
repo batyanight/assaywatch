@@ -1,0 +1,73 @@
+id: Orthohantavirus_S_Mangombi_2021_round2
+name: Orthohantavirus — S segment (Mangombi 2021), nested round 2
+target:
+  taxid: 1980442
+  gene: S segment
+  genome_type: ssRNA-
+  taxon_name: Orthohantavirus
+chemistry: conventional
+oligos:
+  forward:
+    name: UHantaF2
+    seq: GGVCARACWGCHGAYTGG
+  reverse:
+    name: UHantaR2
+    seq: TCNTCWGCYTTCATDSTDGA
+    seq_as_written: TCITCWGCYTTCATDSTDGA
+amplicon_bp: 236
+citation:
+  doi: 10.1371/journal.pone.0248244
+  design_year: 2021
+  n_sequences_at_design: null
+  reference: Mangombi JB, N'dilimabaka N, Lekana-Douki JB, Banga O, Maghendji-Nzondo S, Bourgarel M, Leroy E, Fenollar 
+    F, Mediannikov O. 2021. First investigation of pathogenic bacteria, protozoa and viruses in rodents and shrews in 
+    context of forest-savannah-urban areas interface in the city of Franceville (Gabon). PLoS One 16:e0248244
+  doi_verified: true
+use_context:
+- wildlife
+- public_health
+submitted_by: null
+status: draft
+source:
+  nested_round: round2
+  nested_family: Orthohantavirus_S_Anthony_2013
+  nested_parent: Orthohantavirus_S_Anthony_2013_round1
+  notes_curator: 'CITED TO MANGOMBI ET AL. 2021, WITH AITICHOU AS THE ORIGIN OF ONE PRIMER ONLY (2026-11-01). Both oligos
+    are printed verbatim in Table 1 of Mangombi et al. 2021 (PLoS One), doi 10.1371/journal.pone.0248244, as UHantaF2 and
+    UHantaR2 against the S segment at 236 bp, which is the amplicon_bp this entry already stored. That table credits them
+    to Aitichou et al. 2005 (J Virol Methods), doi 10.1016/j.jviromet.2004.10.004, and the paper was read on 2026-11-01: THE
+    CREDIT IS HALF RIGHT. Aitichou''s Table 1 prints HANTAV1U as GWGGVCARACAGCWGAYT (S segment 374-391) and HANTAV1L as TCCWGGTGTAADYTCHTCWGC
+    (604-624). The stored FORWARD is HANTAV1U: aligned from its third base it is compatible at all 16 overlapping positions,
+    with two widened (A to W, W to H) and two further bases GG on the 3'' end, so it is a modified, shifted HANTAV1U. The
+    stored REVERSE is NOT Aitichou''s: it shares only an 8 nt overlap (TC.TC.GC) with the 3'' end of HANTAV1L and runs downstream
+    from there, and against every primer and probe Aitichou prints its nearest match is 7 incompatible positions. So Aitichou
+    is cited here as the forward''s origin and not as this pair''s source, and Mangombi 2021 is cited because it is the only
+    publication that prints the pair. Aitichou is a real-time TaqMan assay for four named hantaviruses; this is a conventional
+    universal pair, which is the second reason the attribution cannot be taken whole. The reverse reads near:1 against the
+    paper and that is notation, not a difference: Mangombi prints UHantaR2 with inosine (TCITCWGCYTTCATDSTDGA), kept in seq_as_written,
+    while seq stores the N form this registry screens with. Amplicon confirmed by measurement 2026-11-01: the stored 236 bp
+    is the modal product in 4,122 of 4,128. NESTED FAMILY ASSIGNED FROM GEOMETRY AND A SHARED PRIMER, NOT FROM A PROTOCOL
+    DOCUMENT (2026-10-17). These four Orthohantavirus_S_Anthony_2013_round1 entries carry no DOI, so which round feeds which could not
+    be read from a source. Nest B (_2, 532 bp outer, and _round2_2, 417 bp inner) share their reverse primer GAYNATVTTYCTIGCYTTDAYYTGDGC
+    outright, which makes it a semi-nested pair; the inner sits inside the outer on 2,468 of 2,497 records. Nest A (the base
+    entry, 250 bp outer, and _round2, 236 bp inner) is contained on 4,166 of 4,168 records, and its two forward primers are
+    the same site offset by two bases. Both outer rounds also contain _round2 geometrically, so geometry alone does not separate
+    the nests - the shared reverse primer is what ties _2 to _round2_2. A 250 bp outer with a 236 bp inner is an unusually
+    tight nest: if a source for these entries turns up, check that assignment before anything else. FAMILY LINE ESTABLISHED
+    2026-10-22: nest A outer (Orthohantavirus_S_Anthony_2013_round1) is UHantaF1/UHantaR1 of Anthony et al. 2013, doi:10.1128/mbio.00598-13,
+    verified character for character against the held PDF including its stated 250 bp amplicon. This entry oligos are still
+    not printed in that paper, so it stays without a DOI. ANCESTOR FOUND 2026-10-22: Aitichou et al. 2005, doi:10.1016/j.jviromet.2004.10.004,
+    J Virol Methods 124:21-26, is the existing protocol Anthony modified - it is Anthony reference 56, and Anthony states
+    the hantavirus consensus primers were modified from it to increase the degeneracy of the assay. Aitichou Table 1 prints
+    HANTAV1U (GWGGVCARACAGCWGAYT, positions 374-391) and HANTAV1L (TCCWGGTGTAADYTCHTCWGC, 604-624) against the S segments
+    of Hantaan NC_005218, Dobrava NC_005233, Puumala NC_005224 and Seoul NC_005236. UHantaF1 is HANTAV1U with two positions
+    widened (A to W, W to H); UHantaR1 is HANTAV1L minus its leading T and with A to D at one position. So the line is Aitichou
+    2005 designed it, Anthony 2013 amended and renamed it, and the amended pair is attributed to Anthony because UHantaF1
+    and UHantaR1 are the names Anthony prints - a primer is named for the paper it comes from. Aitichou is recorded as ancestry
+    only and deliberately not as the citation, because it does not print these sequences: the same rule that kept Coiras 2004
+    off the Enterovirus pair. Held as papers/10.1016_j.jviromet.2004.10.004.pdf. NEXT for the unattributed rounds: Anthony
+    supplemental material is Text S1 (DOCX), Figure S1, Figure S2 and Table S1 (PDF), and Table S1 is the herpesvirus cooccurrence
+    table, so Text S1 is the only remaining candidate for UHantaF2/R2, UHantaF3/R3 and UHantaF4.'
+needs_review:
+- flag: nested_protocol
+  note: the family link was declared from measured primer geometry, not from the source

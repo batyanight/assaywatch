@@ -1,0 +1,32 @@
+id: Apicomplexa_18S_Garner_2006
+name: Apicomplexa — 18S rRNA (Garner 2006)
+target:
+  taxid: 5794
+  gene: 18S rRNA
+  genome_type: dsDNA
+  taxon_name: Apicomplexa
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: Garner-1135F
+    seq: ACYATAAACTATGCCRACTAGA
+  reverse:
+    name: Garner-1503R
+    seq: CYTCCYTRCRTTARACACGCAA
+amplicon_bp: 350
+citation:
+  doi: 10.1354/vp.43-3-311
+  design_year: 2006
+  n_sequences_at_design: null
+  doi_verified: true
+  reference: Garner MM et al. 2006. Vet Pathol 43:311-320
+conditions:
+  cycles: 40
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null

@@ -1,0 +1,293 @@
+/* Layout and type. Colour lives in palette.css, which is generated from
+   assaywatch/palette.py -- change a colour there, not here. */
+.md-grid { max-width: 61rem; }
+.md-typeset table:not([class]) { font-size: 0.78rem; }
+.md-typeset h1 { font-weight: 600; letter-spacing: -0.01em; }
+.md-typeset .md-button { margin: 0.2rem 0.4rem 0.2rem 0; }
+
+/* The assay table. Fixed layout with explicit widths, because the default
+   algorithm squeezed the first column until 40-character entry ids wrapped one
+   character per line and shoved every other column out of shape. */
+table.aw-assays { table-layout: fixed; width: 100%; border-collapse: collapse;
+  display: table; font-size: 0.8rem; }
+table.aw-assays colgroup { display: table-column-group; }
+table.aw-assays th { position: sticky; top: 0; z-index: 1;
+  background: var(--paper); border-bottom: 2px solid var(--aw-grid);
+  padding: 0.45rem 0.5rem; text-align: left; font-weight: 600; white-space: nowrap; }
+table.aw-assays td { padding: 0.4rem 0.5rem; vertical-align: top;
+  border-bottom: 1px solid var(--aw-grid); }
+table.aw-assays th.num, table.aw-assays td.num { text-align: right;
+  font-variant-numeric: tabular-nums; }
+table.aw-assays th[data-dir="asc"]::after { content: " \2191"; }
+table.aw-assays th[data-dir="desc"]::after { content: " \2193"; }
+table.aw-assays tbody tr:hover { background: color-mix(in srgb, var(--aw-ink) 5%, transparent); }
+
+/* The assay list needs the full window, not the 61rem reading measure that
+   suits prose. `:has()` is the only way to widen a container from a descendant,
+   and where it is unsupported the page simply stays at the prose width, which
+   is the pre-existing behaviour rather than a broken one. The page also hides
+   its table of contents, so there is no empty sidebar beside the table. */
+body:has(table.aw-assays) .md-grid { max-width: 94rem; }
+
+/* Column widths: the organism and gene need room; the rest are short and fixed
+   so that "low coverage" cannot overrun its cell into the gene column, and
+   "conventional" is not hyphenated down the middle. */
+table.aw-assays th:nth-child(1) { width: 26%; }
+table.aw-assays th:nth-child(2) { width: 13%; }
+table.aw-assays th:nth-child(3) { width: 23%; }
+table.aw-assays th:nth-child(4) { width: 14%; }
+table.aw-assays th:nth-child(5) { width: 12%; }
+table.aw-assays th:nth-child(6) { width: 12%; }
+table.aw-assays td:nth-child(4) { white-space: nowrap; }
+table.aw-assays td:nth-child(2) { overflow: visible; }
+
+/* Organism first, entry id beneath it in small monospace. The id can break
+   anywhere -- it is an identifier, not prose -- but it no longer decides the
+   column width, so it only wraps when it genuinely must. */
+td.aw-assay a { display: block; text-decoration: none; }
+td.aw-assay a:hover .aw-taxon { text-decoration: underline; }
+.aw-taxon { display: block; color: var(--ink); font-weight: 500; line-height: 1.3; }
+.aw-id { display: block; font-family: var(--mono); font-size: 0.68rem;
+  color: var(--aw-ink-muted); overflow-wrap: anywhere; line-height: 1.35; margin-top: 0.1rem; }
+
+@media (max-width: 50em) {
+  table.aw-assays th:nth-child(3), table.aw-assays td:nth-child(3),
+  table.aw-assays th:nth-child(4), table.aw-assays td:nth-child(4) { display: none; }
+  table.aw-assays th:nth-child(1) { width: 46%; }
+}
+
+/* ---- the pipeline diagram ---------------------------------------------- */
+/* Strokes and text use currentColor so the figure follows the theme in both
+   light and dark; the only literal hue is the open stage, which has to read on
+   both grounds and is therefore taken from the validated palette. */
+.aw-pipeline { margin: 1.2rem 0 0.4rem; color: var(--aw-ink); }
+/* 726 viewBox units at 45.4rem renders 1:1, so an 18px label is 18px on
+   screen rather than being scaled down to fit. */
+.aw-pipeline svg { width: 100%; max-width: 45.4rem; height: auto; display: block; margin: 0 auto; }
+.aw-bus-label { font-style: italic; opacity: .6; }
+.aw-pipeline figcaption { color: var(--aw-ink-muted); font-size: 0.78rem;
+  max-width: 68ch; margin-top: 0.3rem; }
+
+.aw-node rect { fill: transparent; stroke: currentColor; stroke-width: 1.4; }
+.aw-node text { fill: currentColor; font-size: 18px; text-anchor: middle;
+  font-family: var(--sans); font-weight: 500;
+  paint-order: stroke fill; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+.aw-node text.sub { font-size: 14px; opacity: 0.64; font-weight: 400; }
+/* The box outline must not be haloed away by the rule above. */
+.aw-node rect { paint-order: normal; }
+a.aw-node { cursor: pointer; text-decoration: none; }
+.aw-node:hover rect { stroke-width: 2.4; }
+.aw-node:focus-visible rect { outline: 2px solid var(--aw-status-watch); outline-offset: 3px; }
+.aw-node.is-open rect { fill: color-mix(in srgb, var(--aw-status-low-coverage) 16%, transparent);
+  stroke: var(--aw-status-low-coverage); stroke-width: 2.4; }
+.aw-node.is-open text { font-weight: 600; }
+.aw-store rect { stroke-dasharray: none; stroke-width: 2.2; }
+.aw-config rect { stroke-dasharray: 3 3; }
+
+.aw-edge line, .aw-edge path { stroke: currentColor; stroke-width: 1.3; fill: none; }
+/* No `text-anchor` here: it is a CSS property and would override the
+   `text-anchor="start"` set per label in the markup, re-centring every one of
+   them on the line it is meant to sit beside. That is what put the spine's
+   arrows through the middle of "targets to fetch".
+
+   `paint-order` draws a halo of the page colour behind each label, so where a
+   line does pass near one the text stays legible instead of being cut. */
+.aw-edge text, .aw-bus-label { fill: currentColor; font-size: 13px; opacity: 0.7;
+  font-family: var(--sans);
+  paint-order: stroke fill; stroke: var(--paper); stroke-width: 4px;
+  stroke-linejoin: round; }
+.aw-edge.aw-dashed line, .aw-edge.aw-dashed path { stroke-dasharray: 4 3; opacity: 0.55; }
+.aw-edge.aw-dashed text { opacity: 0.55; font-style: italic; }
+
+
+/* ---- the per-assay figures (inline SVG, assaywatch/site_svg.py) --------- */
+/* Structure uses currentColor so it follows the theme; data marks take the
+   palette's CSS variables, so light and dark are one definition. */
+.aw-chart, .aw-track { width: 100%; max-width: 100%; height: auto;
+  color: var(--aw-ink); margin: 0.6rem 0 0.2rem; overflow: visible; }
+.aw-track { max-width: 46rem; }
+
+.aw-grid { stroke: var(--aw-grid); stroke-width: 1; }
+.aw-axis { stroke: var(--aw-grid); stroke-width: 1.2; }
+.aw-threshold { stroke: var(--aw-ink-muted); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.aw-threshold-label { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: end; }
+.aw-window { fill: var(--aw-ink); opacity: 0.055; }
+
+.aw-tick { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: middle;  font-family: var(--sans);}
+.aw-tick-y { text-anchor: end; }
+.aw-axis-label { fill: var(--aw-ink-muted); font-size: 11px; text-anchor: middle;  font-family: var(--sans);}
+.aw-row-label { fill: var(--aw-ink); font-size: 11.5px; text-anchor: end;  font-family: var(--sans);}
+.aw-track-label { fill: var(--aw-ink); font-size: 12px; text-anchor: end; font-weight: 500;  font-family: var(--sans);}
+.aw-end { fill: var(--aw-ink-muted); font-size: 10px; text-anchor: end;
+  font-family: var(--mono); }
+.aw-end-3 { text-anchor: start; font-weight: 600; }
+.aw-base { fill: var(--aw-ink); font-size: 11px; text-anchor: middle;
+  font-family: var(--mono); }
+
+/* The region the scoring weights more heavily: the 3' window on a primer, the
+   central third on a probe.
+
+   The opacity differs by mode because the same value does not read the same
+   over paper and over near-black. Measured as contrast against the page: 0.075
+   of the light red over white gives 1.150, while 0.075 of the dark red over
+   #15140f gives 1.050 -- a band that is there in the markup and not on the
+   screen. 0.22 restores it to 1.187, which matches the light version. */
+.aw-zone { fill: var(--aw-status-declining); opacity: 0.075; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .aw-zone { opacity: 0.22; }
+  :root:not([data-theme="light"]) .aw-window { opacity: 0.085; }
+}
+[data-theme="dark"] .aw-zone { opacity: 0.22; }
+[data-theme="dark"] .aw-window { opacity: 0.085; }
+
+/* Bar colour is the COST of a mismatch, not its frequency. */
+.aw-bar-strong rect { fill: var(--aw-status-declining); }
+.aw-bar-mid rect    { fill: var(--aw-status-watch); }
+.aw-bar-weak rect   { fill: var(--aw-ink-muted); opacity: 0.55; }
+.aw-bar-strong:hover rect, .aw-bar-mid:hover rect, .aw-bar-weak:hover rect { opacity: 1; }
+/* The default arrow, not `help`: that renders as a question-mark cursor,
+   which reads as "this needs explaining" rather than "this has a tooltip".
+   The native tooltip appears on hover regardless, and `pointer` would be a
+   lie because these marks are not clickable. */
+.aw-track g { cursor: default; }
+
+/* The year line takes the assay's own status colour. */
+.aw-line { fill: none; stroke-width: 2; stroke: var(--aw-ink-muted); }
+.aw-point circle { fill: var(--aw-ink-muted); stroke: var(--paper); stroke-width: 1.5; }
+.aw-point { cursor: default; }
+.aw-declining.aw-line { stroke: var(--aw-status-declining); }
+.aw-declining.aw-point circle { fill: var(--aw-status-declining); }
+.aw-low-coverage.aw-line { stroke: var(--aw-status-low-coverage); }
+.aw-low-coverage.aw-point circle { fill: var(--aw-status-low-coverage); }
+.aw-watch.aw-line { stroke: var(--aw-status-watch); }
+.aw-watch.aw-point circle { fill: var(--aw-status-watch); }
+.aw-stable.aw-line { stroke: var(--aw-status-stable); }
+.aw-stable.aw-point circle { fill: var(--aw-status-stable); }
+
+.aw-ci { stroke: var(--aw-ink-muted); stroke-width: 1.6; }
+.aw-dot-fail circle { fill: var(--aw-status-declining); }
+.aw-dot-ok circle { fill: var(--aw-status-stable); }
+.aw-dot-fail, .aw-dot-ok { cursor: default; }
+
+/* The key under the mismatch map. */
+.aw-key { display: inline-flex; align-items: center; gap: 0.35rem;
+  margin-right: 1rem; font-size: 0.76rem; color: var(--aw-ink-muted); }
+.aw-key-swatch { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; }
+.aw-key-swatch.aw-bar-strong { background: var(--aw-status-declining); }
+.aw-key-swatch.aw-bar-mid { background: var(--aw-status-watch); }
+.aw-key-swatch.aw-bar-weak { background: var(--aw-ink-muted); opacity: 0.55; }
+
+/* ---- per-lineage table -------------------------------------------------- */
+/* A table, not a forest plot: 70 of the 125 assays with lineage data have one
+   lineage, where a plot is an axis and a grid around a single dot. The bar in
+   the share column does the comparing a forest plot would have done. */
+.md-typeset table.aw-lineage { display: table; width: 100%; table-layout: fixed;
+  border-collapse: collapse; font-size: 0.8rem; margin: 0.6rem 0; }
+table.aw-lineage th { text-align: left; font-weight: 600; padding: 0.35rem 0.5rem;
+  border-bottom: 2px solid var(--aw-grid); white-space: nowrap; }
+table.aw-lineage td { padding: 0.32rem 0.5rem; border-bottom: 1px solid var(--aw-grid);
+  vertical-align: middle; }
+table.aw-lineage th.num, table.aw-lineage td.num { text-align: right;
+  font-variant-numeric: tabular-nums; }
+table.aw-lineage th:nth-child(1) { width: 34%; }
+table.aw-lineage th:nth-child(2) { width: 24%; }
+table.aw-lineage th:nth-child(3), table.aw-lineage th:nth-child(4) { width: 12%; }
+table.aw-lineage th:nth-child(5) { width: 18%; }
+
+/* The track is outlined, not merely tinted. Without an edge a 100% bar and a
+   70% bar look the same -- there is nothing to read the fill against, and the
+   two 100% rows in the Cryptosporidium table were indistinguishable from any
+   other full-width bar. The tick marks the threshold the table is about, so a
+   lineage can be read against it without going to the interval column. */
+.aw-bar { position: relative; display: block; width: 100%; height: 0.7rem;
+  border: 1px solid var(--aw-grid); border-radius: 2px; overflow: hidden;
+  background: transparent; }
+.aw-bar-fill { display: block; height: 100%; background: var(--aw-status-stable); }
+.aw-bar::after { content: ""; position: absolute; top: -1px; bottom: -1px;
+  left: var(--aw-thr, 90%); width: 1px;
+  background: color-mix(in srgb, var(--aw-ink) 55%, transparent); }
+.aw-lin-fail .aw-bar-fill { background: var(--aw-status-declining); }
+.aw-lin-fail td:first-child { font-weight: 500; }
+.aw-lin-flag { display: inline-block; margin-left: 0.35rem; padding: 0 0.3rem;
+  border-radius: 0.6rem; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.02em;
+  background: var(--aw-chip-declining); color: var(--aw-chip-ink); vertical-align: 1px; }
+
+@media (max-width: 45em) {
+  table.aw-lineage th:nth-child(5), table.aw-lineage td:nth-child(5) { display: none; }
+}
+
+/* An off-site link says so before it is clicked, rather than surprising the
+   reader with a new tab. Not on buttons, images or the header/footer chrome. */
+.md-typeset a[target="_blank"]:not(.md-button)::after {
+  content: "\2197"; font-size: 0.78em; margin-left: 0.12em;
+  color: var(--aw-ink-muted); vertical-align: 0.1em;
+}
+.md-typeset a[target="_blank"]:has(img)::after { content: none; }
+
+/* ---- assay page header -------------------------------------------------- */
+/* The paper leads. The heading is the paper's own title where Crossref knows
+   it, so it is set to read as a title rather than as a slug: generous size,
+   tight leading, and room below before the metadata starts. */
+.aw-byline { margin: 0 0 0.15rem; font-size: 0.86rem;
+  color: var(--aw-ink); font-weight: 500; }
+.aw-doi { margin: 0 0 0.6rem; font-size: 0.8rem; }
+.aw-doi a { font-family: var(--mono); }
+.aw-citation { margin: 0 0 0.7rem; font-size: 0.8rem;
+  color: var(--aw-ink-muted); max-width: 72ch; }
+
+/* The status and the entry id sit together, below the paper: they describe the
+   registry entry, which is a different thing from the publication above. */
+.aw-assay-line { display: flex; align-items: center; gap: 0.5rem;
+  flex-wrap: wrap; margin: 0 0 1rem; padding-top: 0.55rem;
+  border-top: 1px solid var(--aw-grid); }
+.aw-assay-line .aw-id { display: inline; font-family: var(--mono);
+  font-size: 0.74rem; color: var(--aw-ink-muted); }
+
+/* The folded full citation should not shout. */
+details.quote { font-size: 0.8rem; margin: 0 0 0.8rem; }
+details.quote > summary { font-size: 0.78rem; font-weight: 500; }
+
+/* ---- curation record ----------------------------------------------------- */
+/* Long, important and not what most readers came for, so it is folded. The
+   notes contain DOIs, primer sequences and stray punctuation, and are emitted
+   as escaped HTML rather than markdown so none of it is interpreted. */
+details.aw-curation { border-left: 2px solid var(--aw-grid); padding: 0 0 0 1rem; margin: 0 0 1.4rem; }
+details.aw-curation > summary { font: 600 11px/1.4 var(--sans); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--aw-ink-muted); cursor: pointer; padding: .2rem 0; }
+details.aw-curation > summary:hover { color: var(--aw-ink); }
+details.aw-curation[open] > summary { margin-bottom: .6rem; }
+details.aw-curation p { font-size: 14.5px; line-height: 1.58; margin: 0 0 .8rem;
+  color: var(--aw-ink); max-width: 68ch; }
+details.aw-curation p:last-child { margin-bottom: 0; }
+details.aw-curation code { font-size: .84em; }
+.aw-track-name { fill: var(--aw-ink-muted); font-size: 10px; text-anchor: end;
+  font-family: var(--mono); }
+
+/* ---- folded scope lists -------------------------------------------------- */
+details.aw-taxids { margin: 0 0 1.2rem; }
+details.aw-taxids > summary { font: 500 13.5px/1.4 var(--sans); color: var(--aw-ink-muted);
+  cursor: pointer; padding: .2rem 0; }
+details.aw-taxids > summary:hover { color: var(--aw-ink); }
+details.aw-taxids p { font-size: 13.5px; line-height: 2; margin: .5rem 0 0;
+  max-height: 22rem; overflow-y: auto; }
+
+/* A download offered as a link, not a scripted button: it works with
+   JavaScript off and the file can be fetched with curl. */
+a.aw-download { display: inline-block; margin-top: .6rem; font: 500 13.5px/1 var(--sans);
+  text-decoration: none; border: 1px solid var(--aw-grid); border-radius: 3px;
+  padding: .42rem .7rem; color: var(--aw-ink); }
+a.aw-download:hover { border-color: var(--aw-ink-muted); }
+a.aw-download::after { content: " \2193"; color: var(--aw-ink-muted); }
+
+/* ---- corrections -------------------------------------------------------- */
+/* Three routes in increasing order of effort. Cards rather than inline links:
+   the point is that correcting an entry is easy, and a reader skimming the
+   foot of a page should see that without reading a sentence. */
+.aw-contribute { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: .7rem; margin: 1rem 0 1.2rem; }
+a.aw-cta { display: block; padding: .75rem .85rem; border: 1px solid var(--aw-grid);
+  border-radius: 4px; text-decoration: none; color: var(--aw-ink); }
+a.aw-cta:hover { border-color: var(--aw-link); }
+a.aw-cta b { display: block; font: 600 14.5px/1.3 var(--sans); margin-bottom: .22rem;
+  color: var(--aw-link); }
+a.aw-cta span { display: block; font: 400 12.5px/1.45 var(--sans); color: var(--aw-ink-muted); }

@@ -1,0 +1,37 @@
+id: Plasmodium_18S_Li_1995
+name: Plasmodium — 18S rRNA (Li 1995)
+target:
+  taxid: 5820
+  gene: 18S rRNA
+  genome_type: dsDNA
+  taxon_name: Plasmodium
+  query: 18S[Title] OR "small subunit ribosomal"[Title] OR SSU[Title]
+chemistry: conventional
+oligos:
+  forward:
+    name: sense-841
+    seq: GAACGAGATCTTAACCTGC
+  reverse:
+    name: antisense-844
+    seq: TANTGATAAAGATTACCTA
+    seq_as_written: TAITGATAAAGATTACCTA
+amplicon_bp: 374
+citation:
+  doi: 10.1006/expr.1995.1107
+  design_year: 1995
+  n_sequences_at_design: null
+  doi_verified: true
+  reference: Li J et al. 1995. Exp Parasitol 81:182-190
+  oligos_designed_here: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  nested_round: null
+  notes_curator: Primers sense-841 and antisense-844 were designed by Li et al. 1995 (Exp Parasitol 81:182-190). Grim et
+    al. 2003 (10.1638/02-070) used them and cited "as described previously [ref 23 = Li et al. 1995]". The entry was 
+    first cited to Grim 2003.
+needs_review:
+- flag: amplicon_measured_not_published

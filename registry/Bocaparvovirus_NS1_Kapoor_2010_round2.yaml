@@ -1,0 +1,40 @@
+id: Bocaparvovirus_NS1_Kapoor_2010_round2
+name: Bocaparvovirus — NS1 (Kapoor 2010), nested round 2
+target:
+  taxid: 1507401
+  gene: NS1
+  genome_type: ssDNA
+  taxon_name: Bocaparvovirus
+chemistry: conventional
+oligos:
+  forward:
+    name: PANBOV-F2
+    seq: GCAYCARGAYTGGGTNGANCCWGC
+    seq_as_written: GCAYCARGAYTGGGTIGANCCWGC
+  reverse:
+    name: PANBOV-R1
+    seq: GTACAGTCRTAYTCRTTRAARCACCA
+amplicon_bp: 290
+citation:
+  doi: 10.1371/journal.pone.0011948
+  design_year: 2010
+  n_sequences_at_design: null
+  doi_verified: true
+  reference: Kapoor A et al. 2010. PLoS ONE 5:e11948 (PANBOV primers)
+conditions:
+  annealing_c: 58
+  cycles: 35
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: active
+source:
+  predict_protocol: P-033
+  nested_round: round2
+  nested_family: Bocaparvovirus_NS1_Kapoor_2010
+  nested_parent: Bocaparvovirus_NS1_Kapoor_2010_round1
+  notes_curator: 'PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+    rounds 1 and 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
+    Kapoor, A. et al (2010).'
+needs_review: null

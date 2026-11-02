@@ -1,0 +1,30 @@
+id: Papillomaviridae_L1_unpublished
+name: Papillomaviridae — L1 (unpublished)
+target:
+  taxid: 151340
+  gene: L1
+  genome_type: dsDNA
+  taxon_name: Papillomaviridae
+chemistry: conventional
+oligos:
+  forward:
+    name: PapFWD
+    seq: TRCCDGAYCCHAAYMRRTTTG
+  reverse:
+    name: PapRVS
+    seq: CWRTRTCHMHCATRTCHCCATC
+amplicon_bp: 415
+citation:
+  doi: null
+  design_year: null
+  n_sequences_at_design: null
+  doi_verified: false
+use_context:
+- wildlife
+- veterinary
+submitted_by: null
+status: draft
+source:
+  nested_round: null
+needs_review:
+- flag: oligos_modified
