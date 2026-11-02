@@ -1,8 +1,8 @@
 id: Escherichia_coli_hlyA_Wang_1997
-name: Escherichia coli — hlyA (haemolysin) (Wang 1997)
+name: Escherichia coli — hlyA (hemolysin) (Wang 1997)
 target:
   taxid: 562
-  gene: hlyA (haemolysin)
+  gene: hlyA (hemolysin)
   genome_type: dsDNA
   taxon_name: Escherichia coli
   query: (hlyA[Gene] OR ehxA[Gene] OR "EHEC hemolysin"[Title] OR "enterohemolysin"[Title] OR "hlyA"[Title]) AND 

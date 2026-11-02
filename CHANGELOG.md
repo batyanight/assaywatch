@@ -9,13 +9,29 @@ the output is worth.
 Dates are the release date. Figures carry the date of the run that produced them,
 because none of them can be recomputed without the archives.
 
-## Unreleased
+## v0.2.0 — 2026-11-02
 
-- Every assay id, name and `target.gene` rebuilt on one scheme,
-  `<Taxon>_<gene>_<FirstAuthor>_<Year>[_qualifier][_roundN]`; site URLs change with
-  them. `citation.as_written` removed. See `docs/journal/2026-11-02-one-id-scheme.md`.
-- Protocol pages measure each round on the protocol's own records.
-- The repository history restarts at one commit.
+- **Assay ids, names and genes rebuilt on one scheme**,
+  `<Taxon>_<gene>_<FirstAuthor>_<Year>[_qualifier][_roundN]`, from each entry's
+  own taxon, gene and citation. Every id changed, and with it every site URL. Four
+  ids that named an author other than the cited paper's are corrected. Gene
+  fields name the locus only, in American spelling. See
+  `docs/journal/2026-11-02-one-id-scheme.md`.
+- **Gene corrected** on the three Hellgren et al. 2004 entries: cytochrome b,
+  as the paper states, not cytochrome c.
+- `citation.as_written` removed from the schema; `citation.reference` is the
+  citation.
+- The validator refuses an entry whose text names a source list.
+- **Protocol pages** measure each round on the protocol's own records, scope and
+  recent window, so a round's figure and the protocol's are directly comparable.
+  This showed the Messmer genus round 1 detecting 0 of 39 recent *C. trachomatis*
+  records (open in `ROADMAP.md`).
+- The `cross_reactive` flag is no longer printed on the site.
+- The repository history restarts at one commit; `docs/journal/` is the record.
+
+**What the output is worth.** No scoring rule, threshold or verdict changed. The
+2026-11-01 run, remapped to the new ids, gives the same statuses as before the
+rename; `docs/example-run-2026-11-01/` is that run.
 
 ## v0.1.0 — 2026-10-31
 

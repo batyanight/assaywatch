@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Morbillivirus_canis_H_Muller_2011_Mueller_3F</span></p>
 
-**Morbillivirus canis — H (haemagglutinin) (Müller 2011, Mueller 3F)**
+**Morbillivirus canis — H (hemagglutinin) (Müller 2011, Mueller 3F)**
 
 | | |
 |---|---|
 | Target | Morbillivirus canis (formerly Canine morbillivirus) (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3052342" title="Morbillivirus canis">taxid 3052342</a>) |
-| Gene | H (haemagglutinin) |
+| Gene | H (hemagglutinin) |
 | Chemistry | conventional |
 | Amplicon | 563 bp |
 | Registry status | active |

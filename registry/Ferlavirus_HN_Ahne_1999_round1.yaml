@@ -1,8 +1,8 @@
 id: Ferlavirus_HN_Ahne_1999_round1
-name: Ferlavirus — HN (haemagglutinin-neuraminidase) (Ahne 1999), nested round 1
+name: Ferlavirus — HN (hemagglutinin-neuraminidase) (Ahne 1999), nested round 1
 target:
   taxid: 1283308
-  gene: HN (haemagglutinin-neuraminidase)
+  gene: HN (hemagglutinin-neuraminidase)
   genome_type: ssRNA-
   taxon_name: Ferlavirus
 chemistry: conventional
@@ -34,8 +34,8 @@ source:
   notes_curator: 'Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene external
     primers (primer pair 1+2 in the paper''s Table 1). Positions on Sendai Z strain: 7458-7478 (forward) and 8136-8116 (reverse),
     expected product 679 bp. The L gene primers from this paper are already in the registry as Ferlavirus_L_Ahne_1999_AhneL5
-    (external) and Ferlavirus_L_Ahne_1999_AhneL7 (inner). AMPLICON_BP: 679 bp from the paper''s Table 1 position
-    data (8136-7458+1=679); needs verification against GenBank ferlavirus HN sequences.'
+    (external) and Ferlavirus_L_Ahne_1999_AhneL7 (inner). AMPLICON_BP: 679 bp from the paper''s Table 1 position data (8136-7458+1=679);
+    needs verification against GenBank ferlavirus HN sequences.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the size is computed from the paper's stated positions, not measured from records

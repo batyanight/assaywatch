@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Influenza_A_virus_HA_H3_Shu_2026</span></p>
 
-**Influenza A virus — HA (haemagglutinin), H3 (Shu 2026)**
+**Influenza A virus — HA (hemagglutinin), H3 (Shu 2026)**
 
 | | |
 |---|---|
 | Target | Influenza A virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320">taxid 11320</a>) |
-| Gene | HA (haemagglutinin), H3 |
+| Gene | HA (hemagglutinin), H3 |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 147 bp |
 | Registry status | draft |

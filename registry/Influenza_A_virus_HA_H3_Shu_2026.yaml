@@ -1,8 +1,8 @@
 id: Influenza_A_virus_HA_H3_Shu_2026
-name: Influenza A virus — HA (haemagglutinin), H3 (Shu 2026)
+name: Influenza A virus — HA (hemagglutinin), H3 (Shu 2026)
 target:
   taxid: 11320
-  gene: HA (haemagglutinin), H3
+  gene: HA (hemagglutinin), H3
   genome_type: ssRNA-
   taxon_name: Influenza A virus
   query: txid11320[Organism:exp] AND (hemagglutinin[Title] OR "segment 4"[Title] OR HA[Gene])
@@ -48,8 +48,8 @@ source:
     could not be entered at all. The maintainer ruled on 2026-10-30 that it is entered citing Shu 2026, which prints both
     oligo sets and has a verifiable DOI, rather than widening the Crossref rule to admit regulatory documents. citation.design_year
     is 2008, the year of the clearance, not of the citing paper; the DOI resolves to 2026. This is NOT a new precedent: Morbillivirus_canis_N_Elia_2006,
-    Cytomegalovirus_gB_Deckers_2009_round1 and Tilapinevirus_tilapiae_seg3_KembouTsofack_2017 already cite the paper that prints their oligos rather
-    than the one that designed them, and carry citation_is_indirect for it.
+    Cytomegalovirus_gB_Deckers_2009_round1 and Tilapinevirus_tilapiae_seg3_KembouTsofack_2017 already cite the paper that
+    prints their oligos rather than the one that designed them, and carry citation_is_indirect for it.
 
     Oligos read from Shu 2026 Table 1. The probe is printed with its internal quencher inside the sequence ("CAG GAT CAC /ZEN/ATA
     TGG GSC CTG TCC CAG"); the stored sequence is the 27 bases with the /ZEN/ marker removed, which Table 1''s own nucleotide

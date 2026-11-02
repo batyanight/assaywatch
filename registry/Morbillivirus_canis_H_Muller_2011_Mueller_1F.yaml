@@ -1,8 +1,8 @@
 id: Morbillivirus_canis_H_Muller_2011_Mueller_1F
-name: Morbillivirus canis — H (haemagglutinin) (Müller 2011, Mueller 1F)
+name: Morbillivirus canis — H (hemagglutinin) (Müller 2011, Mueller 1F)
 target:
   taxid: 3052342
-  gene: H (haemagglutinin)
+  gene: H (hemagglutinin)
   genome_type: ssRNA-
   taxon_name: Morbillivirus canis (formerly Canine morbillivirus)
 chemistry: conventional

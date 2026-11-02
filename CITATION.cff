@@ -41,8 +41,8 @@ authors:
     given-names: Batya R.
     orcid: "https://orcid.org/0000-0002-0706-8951"
 repository-code: "https://github.com/batyanight/assaywatch"
-version: 0.1.0
-date-released: 2026-10-31
+version: 0.2.0
+date-released: 2026-11-02
 doi: 10.5281/zenodo.23841793
 license: MIT
 # `license:` above names the CODE licence, so this points at the code licence too.

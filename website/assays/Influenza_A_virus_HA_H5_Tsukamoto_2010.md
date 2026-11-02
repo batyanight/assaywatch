@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Influenza_A_virus_HA_H5_Tsukamoto_2010</span></p>
 
-**Influenza A virus — HA (haemagglutinin), H5 (Tsukamoto 2010)**
+**Influenza A virus — HA (hemagglutinin), H5 (Tsukamoto 2010)**
 
 | | |
 |---|---|
 | Target | Influenza A virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320">taxid 11320</a>) |
-| Gene | HA (haemagglutinin), H5 |
+| Gene | HA (hemagglutinin), H5 |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 261 bp |
 | Registry status | active |

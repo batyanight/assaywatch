@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Escherichia_coli_hlyA_Wang_1997</span></p>
 
-**Escherichia coli — hlyA (haemolysin) (Wang 1997)**
+**Escherichia coli — hlyA (hemolysin) (Wang 1997)**
 
 | | |
 |---|---|
 | Target | Escherichia coli (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=562" title="Escherichia coli">taxid 562</a>) |
-| Gene | hlyA (haemolysin) |
+| Gene | hlyA (hemolysin) |
 | Chemistry | conventional |
 | Amplicon | 361 bp |
 | Registry status | active |
