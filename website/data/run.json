@@ -1701,6 +1701,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 37916,
    "no_amplicon_rows": 32957,
    "exclusions": [
@@ -3351,6 +3353,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 37916,
    "no_amplicon_rows": 33056,
    "exclusions": [
@@ -4810,6 +4814,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 38024,
    "no_amplicon_rows": 31788,
    "exclusions": [
@@ -6190,6 +6196,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 38024,
    "no_amplicon_rows": 32328,
    "exclusions": [
@@ -6659,6 +6667,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 17854,
    "no_amplicon_rows": 9358,
    "exclusions": [
@@ -7388,6 +7398,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 17854,
    "no_amplicon_rows": 9112,
    "exclusions": [
@@ -7663,6 +7675,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 983,
    "no_amplicon_rows": 859,
    "exclusions": [
@@ -8823,6 +8837,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 56519,
    "no_amplicon_rows": 44678,
    "exclusions": [
@@ -9084,6 +9100,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 332,
    "no_amplicon_rows": 218,
    "exclusions": [
@@ -10047,6 +10065,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 5755,
    "no_amplicon_rows": 4697,
    "exclusions": [
@@ -11070,6 +11090,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 5755,
    "no_amplicon_rows": 4199,
    "exclusions": [
@@ -11823,6 +11845,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 16713,
    "no_amplicon_rows": 13659,
    "exclusions": [
@@ -12783,6 +12807,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 16713,
    "no_amplicon_rows": 13404,
    "exclusions": [
@@ -13716,6 +13742,11 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [
+    337,
+    477
+   ],
+   "species_sizes": [],
    "screened_rows": 16713,
    "no_amplicon_rows": 13788,
    "exclusions": [
@@ -14778,6 +14809,11 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [
+    367,
+    489
+   ],
+   "species_sizes": [],
    "screened_rows": 16713,
    "no_amplicon_rows": 13406,
    "exclusions": [
@@ -15450,6 +15486,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1727,
    "no_amplicon_rows": 644,
    "exclusions": [
@@ -16099,6 +16137,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1727,
    "no_amplicon_rows": 1474,
    "exclusions": [
@@ -16344,6 +16384,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9491,
    "no_amplicon_rows": 9311,
    "exclusions": [
@@ -16594,6 +16636,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9491,
    "no_amplicon_rows": 9312,
    "exclusions": [
@@ -16841,6 +16885,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9491,
    "no_amplicon_rows": 9482,
    "exclusions": [
@@ -17084,6 +17130,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9491,
    "no_amplicon_rows": 9483,
    "exclusions": [
@@ -17186,6 +17234,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 12,
    "no_amplicon_rows": 6,
    "exclusions": [
@@ -17276,6 +17326,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 4,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -17359,6 +17411,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -17641,6 +17695,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 7497,
    "no_amplicon_rows": 5447,
    "exclusions": [
@@ -17936,6 +17992,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 7497,
    "no_amplicon_rows": 5556,
    "exclusions": [
@@ -18278,6 +18336,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 500,
    "no_amplicon_rows": 188,
    "exclusions": [
@@ -18608,6 +18668,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 500,
    "no_amplicon_rows": 185,
    "exclusions": [
@@ -18876,6 +18938,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 127,
    "no_amplicon_rows": 107,
    "exclusions": [
@@ -19067,6 +19131,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 115,
    "no_amplicon_rows": 90,
    "exclusions": [
@@ -19551,6 +19617,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 49,
    "no_amplicon_rows": 38,
    "exclusions": [
@@ -19743,6 +19811,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 115,
    "no_amplicon_rows": 91,
    "exclusions": [
@@ -20292,6 +20362,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1667,
    "no_amplicon_rows": 853,
    "exclusions": [
@@ -20490,6 +20562,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 48,
    "no_amplicon_rows": 32,
    "exclusions": [
@@ -20779,6 +20853,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 270,
    "no_amplicon_rows": 108,
    "exclusions": [
@@ -21052,6 +21128,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 378,
    "no_amplicon_rows": 16,
    "exclusions": [
@@ -21467,6 +21545,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 24114,
    "no_amplicon_rows": 9184,
    "exclusions": [
@@ -22232,6 +22312,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 28430,
    "no_amplicon_rows": 13447,
    "exclusions": [
@@ -23137,6 +23219,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 28430,
    "no_amplicon_rows": 12873,
    "exclusions": [
@@ -23483,6 +23567,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3493,
    "no_amplicon_rows": 3288,
    "exclusions": [
@@ -24382,6 +24468,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 28430,
    "no_amplicon_rows": 13380,
    "exclusions": [
@@ -24595,6 +24683,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 573,
    "no_amplicon_rows": 422,
    "exclusions": [
@@ -25637,6 +25727,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 24095,
    "no_amplicon_rows": 14714,
    "exclusions": [
@@ -26708,6 +26800,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 24095,
    "no_amplicon_rows": 14690,
    "exclusions": [
@@ -29137,6 +29231,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 25303,
    "no_amplicon_rows": 18227,
    "exclusions": [
@@ -31482,6 +31578,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 25303,
    "no_amplicon_rows": 18415,
    "exclusions": [
@@ -32254,6 +32352,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 25565,
    "no_amplicon_rows": 17566,
    "exclusions": [
@@ -32562,6 +32662,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 15052,
    "no_amplicon_rows": 14907,
    "exclusions": [
@@ -33386,6 +33488,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 15052,
    "no_amplicon_rows": 13390,
    "exclusions": [
@@ -34122,6 +34226,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 12051,
    "no_amplicon_rows": 11424,
    "exclusions": [
@@ -34665,6 +34771,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 12051,
    "no_amplicon_rows": 11477,
    "exclusions": [
@@ -35315,6 +35423,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 12051,
    "no_amplicon_rows": 11376,
    "exclusions": [
@@ -35959,6 +36069,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 12051,
    "no_amplicon_rows": 11355,
    "exclusions": [
@@ -36119,6 +36231,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 245,
    "no_amplicon_rows": 158,
    "exclusions": [
@@ -36229,6 +36343,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 737,
    "no_amplicon_rows": 680,
    "exclusions": [
@@ -37233,6 +37349,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3240,
    "no_amplicon_rows": 1212,
    "exclusions": [
@@ -38243,6 +38361,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3240,
    "no_amplicon_rows": 1212,
    "exclusions": [
@@ -38343,6 +38463,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 17,
    "no_amplicon_rows": 12,
    "exclusions": [
@@ -38466,6 +38588,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 26,
    "no_amplicon_rows": 15,
    "exclusions": [
@@ -38597,6 +38721,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 26,
    "no_amplicon_rows": 14,
    "exclusions": [
@@ -38732,6 +38858,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 26,
    "no_amplicon_rows": 11,
    "exclusions": [
@@ -38852,6 +38980,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 20,
    "no_amplicon_rows": 11,
    "exclusions": [
@@ -38972,6 +39102,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 20,
    "no_amplicon_rows": 6,
    "exclusions": [
@@ -39092,6 +39224,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 20,
    "no_amplicon_rows": 10,
    "exclusions": [
@@ -39201,6 +39335,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 6,
    "no_amplicon_rows": 5,
    "exclusions": [
@@ -39565,6 +39701,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9091,
    "no_amplicon_rows": 8975,
    "exclusions": [
@@ -39867,6 +40005,30 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [
+    275,
+    373
+   ],
+   "species_sizes": [
+    {
+     "taxid": 6035,
+     "bp": [
+      285,
+      285
+     ],
+     "n_records": 9,
+     "note": "Encephalitozoon cuniculi (fewer PTP repeats)"
+    },
+    {
+     "taxid": 6035,
+     "bp": [
+      363,
+      363
+     ],
+     "n_records": 8,
+     "note": "Encephalitozoon cuniculi (more PTP repeats)"
+    }
+   ],
    "screened_rows": 2730,
    "no_amplicon_rows": 2695,
    "exclusions": [
@@ -40234,6 +40396,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3324,
    "no_amplicon_rows": 3110,
    "exclusions": [
@@ -40941,6 +41105,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 20701,
    "no_amplicon_rows": 11973,
    "exclusions": [
@@ -41631,6 +41797,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 20701,
    "no_amplicon_rows": 11989,
    "exclusions": [
@@ -43219,6 +43387,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 73386,
    "no_amplicon_rows": 64071,
    "exclusions": [
@@ -44898,6 +45068,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 73386,
    "no_amplicon_rows": 32816,
    "exclusions": [
@@ -45175,6 +45347,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 386,
    "no_amplicon_rows": 358,
    "exclusions": [
@@ -45488,6 +45662,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 486,
    "no_amplicon_rows": 388,
    "exclusions": [
@@ -45753,6 +45929,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 401,
    "no_amplicon_rows": 75,
    "exclusions": [
@@ -45965,6 +46143,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61,
    "no_amplicon_rows": 33,
    "exclusions": [
@@ -46147,6 +46327,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61,
    "no_amplicon_rows": 31,
    "exclusions": [
@@ -46319,6 +46501,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61,
    "no_amplicon_rows": 41,
    "exclusions": [
@@ -46480,6 +46664,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61,
    "no_amplicon_rows": 39,
    "exclusions": [
@@ -46742,6 +46928,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61,
    "no_amplicon_rows": 8,
    "exclusions": [
@@ -47403,6 +47591,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 4647,
    "no_amplicon_rows": 720,
    "exclusions": [
@@ -47770,6 +47960,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 4647,
    "no_amplicon_rows": 1070,
    "exclusions": [
@@ -48022,6 +48214,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1143,
    "no_amplicon_rows": 122,
    "exclusions": [
@@ -48949,6 +49143,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 15966,
    "no_amplicon_rows": 13739,
    "exclusions": [
@@ -49763,6 +49959,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 23152,
    "no_amplicon_rows": 21906,
    "exclusions": [
@@ -50466,6 +50664,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3025,
    "no_amplicon_rows": 1870,
    "exclusions": [
@@ -50975,6 +51175,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3025,
    "no_amplicon_rows": 2490,
    "exclusions": [
@@ -51530,6 +51732,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3025,
    "no_amplicon_rows": 1874,
    "exclusions": [
@@ -51878,6 +52082,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 413,
    "no_amplicon_rows": 115,
    "exclusions": [
@@ -52165,6 +52371,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 413,
    "no_amplicon_rows": 206,
    "exclusions": [
@@ -52535,6 +52743,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 918,
    "no_amplicon_rows": 541,
    "exclusions": [
@@ -54171,6 +54381,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 108821,
    "no_amplicon_rows": 17148,
    "exclusions": [
@@ -55745,6 +55957,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 108821,
    "no_amplicon_rows": 9659,
    "exclusions": [
@@ -56615,6 +56829,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 37112,
    "no_amplicon_rows": 1272,
    "exclusions": [
@@ -57485,6 +57701,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 4652,
    "no_amplicon_rows": 197,
    "exclusions": [
@@ -58811,6 +59029,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 184887,
    "no_amplicon_rows": 992,
    "exclusions": [
@@ -60027,6 +60247,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 184887,
    "no_amplicon_rows": 985,
    "exclusions": [
@@ -61221,6 +61443,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 184887,
    "no_amplicon_rows": 94586,
    "exclusions": [
@@ -62582,6 +62806,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 191543,
    "no_amplicon_rows": 4525,
    "exclusions": [
@@ -62665,6 +62891,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2,
    "no_amplicon_rows": 1,
    "exclusions": [
@@ -62942,6 +63170,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 114,
    "no_amplicon_rows": 80,
    "exclusions": [
@@ -63016,6 +63246,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 5,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -63274,6 +63506,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 925,
    "no_amplicon_rows": 4,
    "exclusions": [
@@ -63999,6 +64233,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2822,
    "no_amplicon_rows": 885,
    "exclusions": [
@@ -64579,6 +64815,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 7910,
    "no_amplicon_rows": 6487,
    "exclusions": [
@@ -64953,6 +65191,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 34439,
    "no_amplicon_rows": 20850,
    "exclusions": [
@@ -65821,6 +66061,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 34439,
    "no_amplicon_rows": 20490,
    "exclusions": [
@@ -66791,6 +67033,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 29202,
    "no_amplicon_rows": 25248,
    "exclusions": [
@@ -67686,6 +67930,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 29202,
    "no_amplicon_rows": 25180,
    "exclusions": [
@@ -67966,6 +68212,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 12874,
    "exclusions": [
@@ -68347,6 +68595,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 703,
    "exclusions": [
@@ -68728,6 +68978,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 702,
    "exclusions": [
@@ -69039,6 +69291,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 720,
    "exclusions": [
@@ -69349,6 +69603,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 1455,
    "exclusions": [
@@ -69630,6 +69886,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 1307,
    "exclusions": [
@@ -69928,6 +70186,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 1399,
    "exclusions": [
@@ -70268,6 +70528,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 996,
    "exclusions": [
@@ -70608,6 +70870,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14206,
    "no_amplicon_rows": 998,
    "exclusions": [
@@ -71487,6 +71751,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 37573,
    "no_amplicon_rows": 32632,
    "exclusions": [
@@ -72368,6 +72634,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 37573,
    "no_amplicon_rows": 32632,
    "exclusions": [
@@ -72957,6 +73225,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 3439,
    "exclusions": [
@@ -73847,6 +74117,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 2020,
    "exclusions": [
@@ -74668,6 +74940,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 2074,
    "exclusions": [
@@ -75205,6 +75479,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 3589,
    "exclusions": [
@@ -75874,6 +76150,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 3293,
    "exclusions": [
@@ -76224,6 +76502,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 3557,
    "exclusions": [
@@ -76578,6 +76858,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 3350,
    "exclusions": [
@@ -76958,6 +77240,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 3579,
    "exclusions": [
@@ -77539,6 +77823,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3952,
    "no_amplicon_rows": 3350,
    "exclusions": [
@@ -77933,6 +78219,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 10241,
    "no_amplicon_rows": 3578,
    "exclusions": [
@@ -78201,6 +78489,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1468,
    "no_amplicon_rows": 17,
    "exclusions": [
@@ -78537,6 +78827,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 4805,
    "no_amplicon_rows": 793,
    "exclusions": [
@@ -78773,766 +79065,14 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 314,
    "no_amplicon_rows": 3,
    "exclusions": [
     [
      "chance_anchor",
      3
-    ]
-   ],
-   "out_of_scope": 0
-  },
-  {
-   "assay_id": "Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_F1",
-   "name": "Mycoplasma \u2014 16S-23S intergenic spacer (Rebelo 2011, 16 23 F1)",
-   "status": "",
-   "withheld_reasons": [
-    [
-     "oligo_source_unresolved",
-     "the partner primer has no attributed source"
-    ]
-   ],
-   "taxon": "Mycoplasma",
-   "taxid": 2093,
-   "gene": "16S-23S intergenic spacer",
-   "chemistry": "conventional",
-   "doi": "10.1177/1040638711416846",
-   "reference": "Rebelo, A. R., Parker, L. & Cai, H. Y. Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples. Journal of Veterinary Diagnostic Investigation 23, 932-936 (2011).",
-   "design_year": 2011,
-   "amplicon_bp": 145,
-   "entry_status": "draft",
-   "review_flags": [
-    "oligo_source_unresolved"
-   ],
-   "scope_taxids": [],
-   "exclusivity_taxids": [],
-   "query": "",
-   "title_requires": [],
-   "oligos": {
-    "forward": "ACACCATGGGAGYTGGTAAT",
-    "reverse": "CTCCGTAGAAAGGAGGTGATCC"
-   },
-   "recent_detected": 148,
-   "recent_evaluable": 149,
-   "recent_ci": [
-    0.9629666399496506,
-    0.9988142873866486
-   ],
-   "baseline_detected": 587,
-   "baseline_evaluable": 606,
-   "baseline_ci": [
-    0.9515519857514495,
-    0.9798376267199512
-   ],
-   "change_ci": [
-    -0.007679379360208273,
-    0.04260747696605148
-   ],
-   "window_months": 24,
-   "recent_from": "Nov 2024",
-   "threshold": 0.9,
-   "min_records": 15,
-   "note": "detected share 99.3% (96%-100%) since Nov 2024",
-   "trend": "by record rising (p = 0.00347, 29 years); by footprint rising (p = 0.446)",
-   "years": [
-    {
-     "year": 1983,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1985,
-     "detected": 1,
-     "evaluable": 1,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1986,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1987,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1988,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1989,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1990,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1992,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1993,
-     "detected": 2,
-     "evaluable": 2,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1994,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1995,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1996,
-     "detected": 1,
-     "evaluable": 1,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1997,
-     "detected": 1,
-     "evaluable": 1,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1998,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1999,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2000,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2001,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2002,
-     "detected": 1,
-     "evaluable": 1,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2003,
-     "detected": 1,
-     "evaluable": 2,
-     "share": 0.5,
-     "recent": false
-    },
-    {
-     "year": 2004,
-     "detected": 17,
-     "evaluable": 19,
-     "share": 0.8947368421052632,
-     "recent": false
-    },
-    {
-     "year": 2005,
-     "detected": 6,
-     "evaluable": 6,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2006,
-     "detected": 25,
-     "evaluable": 26,
-     "share": 0.9615384615384616,
-     "recent": false
-    },
-    {
-     "year": 2007,
-     "detected": 3,
-     "evaluable": 4,
-     "share": 0.75,
-     "recent": false
-    },
-    {
-     "year": 2008,
-     "detected": 11,
-     "evaluable": 13,
-     "share": 0.8461538461538461,
-     "recent": false
-    },
-    {
-     "year": 2009,
-     "detected": 6,
-     "evaluable": 7,
-     "share": 0.8571428571428571,
-     "recent": false
-    },
-    {
-     "year": 2010,
-     "detected": 22,
-     "evaluable": 22,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2011,
-     "detected": 12,
-     "evaluable": 12,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2012,
-     "detected": 5,
-     "evaluable": 5,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2013,
-     "detected": 10,
-     "evaluable": 10,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2014,
-     "detected": 25,
-     "evaluable": 29,
-     "share": 0.8620689655172413,
-     "recent": false
-    },
-    {
-     "year": 2015,
-     "detected": 52,
-     "evaluable": 52,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2016,
-     "detected": 13,
-     "evaluable": 13,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2017,
-     "detected": 5,
-     "evaluable": 5,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2018,
-     "detected": 38,
-     "evaluable": 38,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2019,
-     "detected": 91,
-     "evaluable": 91,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2020,
-     "detected": 49,
-     "evaluable": 49,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2021,
-     "detected": 48,
-     "evaluable": 48,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2022,
-     "detected": 49,
-     "evaluable": 51,
-     "share": 0.9607843137254902,
-     "recent": false
-    },
-    {
-     "year": 2023,
-     "detected": 49,
-     "evaluable": 54,
-     "share": 0.9074074074074074,
-     "recent": false
-    },
-    {
-     "year": 2024,
-     "detected": 46,
-     "evaluable": 46,
-     "share": 1.0,
-     "recent": true
-    },
-    {
-     "year": 2025,
-     "detected": 115,
-     "evaluable": 115,
-     "share": 1.0,
-     "recent": true
-    },
-    {
-     "year": 2026,
-     "detected": 31,
-     "evaluable": 32,
-     "share": 0.96875,
-     "recent": true
-    }
-   ],
-   "positions": [],
-   "lineages": [
-    {
-     "lineage": "Mycoplasma capricolum (2095)",
-     "taxid": null,
-     "evaluable": 38,
-     "detected": 38,
-     "share": 1.0,
-     "ci": [
-      0.908190131774416,
-      1.0
-     ]
-    }
-   ],
-   "rounds": [],
-   "screened_rows": 24191,
-   "no_amplicon_rows": 23436,
-   "exclusions": [
-    [
-     "no_site",
-     22526
-    ],
-    [
-     "truncated",
-     726
-    ],
-    [
-     "chance_anchor",
-     184
-    ]
-   ],
-   "out_of_scope": 0
-  },
-  {
-   "assay_id": "Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_F3",
-   "name": "Mycoplasma \u2014 16S-23S intergenic spacer (Rebelo 2011, 16 23 F3)",
-   "status": "",
-   "withheld_reasons": [
-    [
-     "oligo_source_unresolved",
-     "the partner primer has no attributed source"
-    ]
-   ],
-   "taxon": "Mycoplasma",
-   "taxid": 2093,
-   "gene": "16S-23S intergenic spacer",
-   "chemistry": "conventional",
-   "doi": "10.1177/1040638711416846",
-   "reference": "Rebelo, A. R., Parker, L. & Cai, H. Y. Use of high-resolution melting curve analysis to identify Mycoplasma species commonly isolated from ruminant, avian, and canine samples. Journal of Veterinary Diagnostic Investigation 23, 932-936 (2011).",
-   "design_year": 2011,
-   "amplicon_bp": 234,
-   "entry_status": "draft",
-   "review_flags": [
-    "oligo_source_unresolved"
-   ],
-   "scope_taxids": [],
-   "exclusivity_taxids": [],
-   "query": "",
-   "title_requires": [],
-   "oligos": {
-    "forward": "AWTWGWTYTTTGAAAACTGAATAGCA",
-    "reverse": "CTCCWTCGACTTYCAGACCCAAGGCAT"
-   },
-   "recent_detected": 21,
-   "recent_evaluable": 53,
-   "recent_ci": [
-    0.27589406738001676,
-    0.5305852132679447
-   ],
-   "baseline_detected": 148,
-   "baseline_evaluable": 384,
-   "baseline_ci": [
-    0.33810135759677684,
-    0.4350018060836074
-   ],
-   "change_ci": [
-    -0.11933847460068098,
-    0.15325631777574375
-   ],
-   "window_months": 24,
-   "recent_from": "Nov 2024",
-   "threshold": 0.9,
-   "min_records": 15,
-   "note": "detected share 39.6% (28%-53%) since Nov 2024, upper bound below the 90% threshold; change from baseline -12% to +15% (no measurable fall from a baseline of 39%)",
-   "trend": "by record rising (p = 0.268, 26 years); by footprint rising (p = 0.767)",
-   "years": [
-    {
-     "year": 1983,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1985,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 1986,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1987,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 1988,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1989,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1990,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1992,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1993,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 1994,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1995,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1996,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1997,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 1998,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1999,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2000,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2001,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2002,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2003,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2004,
-     "detected": 6,
-     "evaluable": 14,
-     "share": 0.42857142857142855,
-     "recent": false
-    },
-    {
-     "year": 2005,
-     "detected": 2,
-     "evaluable": 4,
-     "share": 0.5,
-     "recent": false
-    },
-    {
-     "year": 2006,
-     "detected": 6,
-     "evaluable": 25,
-     "share": 0.24,
-     "recent": false
-    },
-    {
-     "year": 2007,
-     "detected": 1,
-     "evaluable": 1,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2008,
-     "detected": 8,
-     "evaluable": 14,
-     "share": 0.5714285714285714,
-     "recent": false
-    },
-    {
-     "year": 2009,
-     "detected": 2,
-     "evaluable": 4,
-     "share": 0.5,
-     "recent": false
-    },
-    {
-     "year": 2010,
-     "detected": 7,
-     "evaluable": 10,
-     "share": 0.7,
-     "recent": false
-    },
-    {
-     "year": 2011,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2012,
-     "detected": 2,
-     "evaluable": 5,
-     "share": 0.4,
-     "recent": false
-    },
-    {
-     "year": 2013,
-     "detected": 0,
-     "evaluable": 9,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2014,
-     "detected": 6,
-     "evaluable": 24,
-     "share": 0.25,
-     "recent": false
-    },
-    {
-     "year": 2015,
-     "detected": 4,
-     "evaluable": 24,
-     "share": 0.16666666666666666,
-     "recent": false
-    },
-    {
-     "year": 2016,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2017,
-     "detected": 6,
-     "evaluable": 13,
-     "share": 0.46153846153846156,
-     "recent": false
-    },
-    {
-     "year": 2018,
-     "detected": 6,
-     "evaluable": 37,
-     "share": 0.16216216216216217,
-     "recent": false
-    },
-    {
-     "year": 2019,
-     "detected": 23,
-     "evaluable": 37,
-     "share": 0.6216216216216216,
-     "recent": false
-    },
-    {
-     "year": 2020,
-     "detected": 13,
-     "evaluable": 18,
-     "share": 0.7222222222222222,
-     "recent": false
-    },
-    {
-     "year": 2021,
-     "detected": 18,
-     "evaluable": 27,
-     "share": 0.6666666666666666,
-     "recent": false
-    },
-    {
-     "year": 2022,
-     "detected": 15,
-     "evaluable": 26,
-     "share": 0.5769230769230769,
-     "recent": false
-    },
-    {
-     "year": 2023,
-     "detected": 0,
-     "evaluable": 42,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2024,
-     "detected": 23,
-     "evaluable": 47,
-     "share": 0.48936170212765956,
-     "recent": true
-    },
-    {
-     "year": 2025,
-     "detected": 11,
-     "evaluable": 25,
-     "share": 0.44,
-     "recent": true
-    },
-    {
-     "year": 2026,
-     "detected": 10,
-     "evaluable": 26,
-     "share": 0.38461538461538464,
-     "recent": true
-    }
-   ],
-   "positions": [],
-   "lineages": [],
-   "rounds": [],
-   "screened_rows": 24191,
-   "no_amplicon_rows": 23754,
-   "exclusions": [
-    [
-     "no_site",
-     22792
-    ],
-    [
-     "truncated",
-     610
-    ],
-    [
-     "chance_anchor",
-     309
-    ],
-    [
-     "no_pair",
-     43
     ]
    ],
    "out_of_scope": 0
@@ -80030,6 +79570,11 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [
+    354,
+    767
+   ],
+   "species_sizes": [],
    "screened_rows": 24191,
    "no_amplicon_rows": 23530,
    "exclusions": [
@@ -80044,425 +79589,6 @@
     [
      "chance_anchor",
      152
-    ]
-   ],
-   "out_of_scope": 0
-  },
-  {
-   "assay_id": "Mycoplasma_16S_vanKuppeveld_1992",
-   "name": "Mycoplasma \u2014 16S rRNA (van Kuppeveld 1992)",
-   "status": "",
-   "withheld_reasons": [
-    [
-     "do_not_use",
-     ""
-    ]
-   ],
-   "taxon": "Mycoplasma",
-   "taxid": 2093,
-   "gene": "16S rRNA",
-   "chemistry": "conventional",
-   "doi": "10.1128/aem.58.8.2606-2615.1992",
-   "reference": "van Kuppeveld, F. J. M. et al. Genus- and species-specific identification of mycoplasmas by 16S rRNA amplification. Applied and Environmental Microbiology 58, 2606-2615 (1992).",
-   "design_year": 1992,
-   "amplicon_bp": 190,
-   "entry_status": "draft",
-   "review_flags": [
-    "do_not_use",
-    "oligos_not_in_cited_paper"
-   ],
-   "scope_taxids": [],
-   "exclusivity_taxids": [],
-   "query": "",
-   "title_requires": [],
-   "oligos": {
-    "forward": "ACTCCTACGGGAGGCAGCAGTA",
-    "reverse": "GCGRCTGCTGGCACATAGTTWG"
-   },
-   "recent_detected": 306,
-   "recent_evaluable": 403,
-   "recent_ci": [
-    0.7152437134452774,
-    0.7984699100527444
-   ],
-   "baseline_detected": 2025,
-   "baseline_evaluable": 2662,
-   "baseline_ci": [
-    0.7441303026966808,
-    0.7765308174188488
-   ],
-   "change_ci": [
-    -0.048218040484711754,
-    0.04112702716255367
-   ],
-   "window_months": 24,
-   "recent_from": "Nov 2024",
-   "threshold": 0.9,
-   "min_records": 15,
-   "note": "detected share 75.9% (72%-80%) since Nov 2024, upper bound below the 90% threshold; change from baseline -5% to +4% (no measurable fall from a baseline of 76%); lineage Mycoplasma ovis (171632) (33 records) detects only 0.0%, but neither it nor the pooled share ever cleared the threshold, so there is no fall to call a decline",
-   "trend": "by record rising (p = 1.26e-05, 37 years); by footprint falling (p = 0.0315); **the two disagree on direction**",
-   "years": [
-    {
-     "year": 1983,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1985,
-     "detected": 1,
-     "evaluable": 1,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1986,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1987,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1988,
-     "detected": 1,
-     "evaluable": 1,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1989,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1990,
-     "detected": 2,
-     "evaluable": 2,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1992,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1993,
-     "detected": 3,
-     "evaluable": 3,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1994,
-     "detected": 4,
-     "evaluable": 4,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1995,
-     "detected": 25,
-     "evaluable": 25,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1996,
-     "detected": 4,
-     "evaluable": 4,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1997,
-     "detected": 21,
-     "evaluable": 25,
-     "share": 0.84,
-     "recent": false
-    },
-    {
-     "year": 1998,
-     "detected": 4,
-     "evaluable": 4,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 1999,
-     "detected": 8,
-     "evaluable": 8,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2000,
-     "detected": 13,
-     "evaluable": 16,
-     "share": 0.8125,
-     "recent": false
-    },
-    {
-     "year": 2001,
-     "detected": 5,
-     "evaluable": 7,
-     "share": 0.7142857142857143,
-     "recent": false
-    },
-    {
-     "year": 2002,
-     "detected": 22,
-     "evaluable": 27,
-     "share": 0.8148148148148148,
-     "recent": false
-    },
-    {
-     "year": 2003,
-     "detected": 12,
-     "evaluable": 18,
-     "share": 0.6666666666666666,
-     "recent": false
-    },
-    {
-     "year": 2004,
-     "detected": 9,
-     "evaluable": 22,
-     "share": 0.4090909090909091,
-     "recent": false
-    },
-    {
-     "year": 2005,
-     "detected": 14,
-     "evaluable": 20,
-     "share": 0.7,
-     "recent": false
-    },
-    {
-     "year": 2006,
-     "detected": 40,
-     "evaluable": 53,
-     "share": 0.7547169811320755,
-     "recent": false
-    },
-    {
-     "year": 2007,
-     "detected": 47,
-     "evaluable": 66,
-     "share": 0.7121212121212122,
-     "recent": false
-    },
-    {
-     "year": 2008,
-     "detected": 85,
-     "evaluable": 110,
-     "share": 0.7727272727272727,
-     "recent": false
-    },
-    {
-     "year": 2009,
-     "detected": 42,
-     "evaluable": 84,
-     "share": 0.5,
-     "recent": false
-    },
-    {
-     "year": 2010,
-     "detected": 32,
-     "evaluable": 74,
-     "share": 0.43243243243243246,
-     "recent": false
-    },
-    {
-     "year": 2011,
-     "detected": 26,
-     "evaluable": 61,
-     "share": 0.4262295081967213,
-     "recent": false
-    },
-    {
-     "year": 2012,
-     "detected": 55,
-     "evaluable": 67,
-     "share": 0.8208955223880597,
-     "recent": false
-    },
-    {
-     "year": 2013,
-     "detected": 49,
-     "evaluable": 104,
-     "share": 0.47115384615384615,
-     "recent": false
-    },
-    {
-     "year": 2014,
-     "detected": 61,
-     "evaluable": 63,
-     "share": 0.9682539682539683,
-     "recent": false
-    },
-    {
-     "year": 2015,
-     "detected": 91,
-     "evaluable": 104,
-     "share": 0.875,
-     "recent": false
-    },
-    {
-     "year": 2016,
-     "detected": 68,
-     "evaluable": 115,
-     "share": 0.591304347826087,
-     "recent": false
-    },
-    {
-     "year": 2017,
-     "detected": 205,
-     "evaluable": 222,
-     "share": 0.9234234234234234,
-     "recent": false
-    },
-    {
-     "year": 2018,
-     "detected": 120,
-     "evaluable": 169,
-     "share": 0.7100591715976331,
-     "recent": false
-    },
-    {
-     "year": 2019,
-     "detected": 227,
-     "evaluable": 330,
-     "share": 0.6878787878787879,
-     "recent": false
-    },
-    {
-     "year": 2020,
-     "detected": 218,
-     "evaluable": 262,
-     "share": 0.8320610687022901,
-     "recent": false
-    },
-    {
-     "year": 2021,
-     "detected": 88,
-     "evaluable": 103,
-     "share": 0.8543689320388349,
-     "recent": false
-    },
-    {
-     "year": 2022,
-     "detected": 120,
-     "evaluable": 155,
-     "share": 0.7741935483870968,
-     "recent": false
-    },
-    {
-     "year": 2023,
-     "detected": 128,
-     "evaluable": 137,
-     "share": 0.9343065693430657,
-     "recent": false
-    },
-    {
-     "year": 2024,
-     "detected": 179,
-     "evaluable": 209,
-     "share": 0.8564593301435407,
-     "recent": true
-    },
-    {
-     "year": 2025,
-     "detected": 220,
-     "evaluable": 275,
-     "share": 0.8,
-     "recent": true
-    },
-    {
-     "year": 2026,
-     "detected": 82,
-     "evaluable": 115,
-     "share": 0.7130434782608696,
-     "recent": true
-    }
-   ],
-   "positions": [],
-   "lineages": [
-    {
-     "lineage": "Mycoplasma ovis (171632)",
-     "taxid": null,
-     "evaluable": 33,
-     "detected": 0,
-     "share": 0.0,
-     "ci": [
-      0.0,
-      0.10426999754245206
-     ]
-    },
-    {
-     "lineage": "uncultured Mycoplasma sp. (167967)",
-     "taxid": null,
-     "evaluable": 69,
-     "detected": 57,
-     "share": 0.8260869565217391,
-     "ci": [
-      0.7201637386871083,
-      0.8976163103200319
-     ]
-    },
-    {
-     "lineage": "Mycoplasma sp. (2108)",
-     "taxid": null,
-     "evaluable": 34,
-     "detected": 29,
-     "share": 0.8529411764705882,
-     "ci": [
-      0.6987194350454783,
-      0.9355055855521753
-     ]
-    },
-    {
-     "lineage": "Mycoplasma capricolum (2095)",
-     "taxid": null,
-     "evaluable": 38,
-     "detected": 38,
-     "share": 1.0,
-     "ci": [
-      0.908190131774416,
-      1.0
-     ]
-    }
-   ],
-   "rounds": [],
-   "screened_rows": 24191,
-   "no_amplicon_rows": 21126,
-   "exclusions": [
-    [
-     "no_site",
-     18077
-    ],
-    [
-     "truncated",
-     2845
-    ],
-    [
-     "chance_anchor",
-     199
-    ],
-    [
-     "no_pair",
-     4
     ]
    ],
    "out_of_scope": 0
@@ -80664,6 +79790,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 528,
    "no_amplicon_rows": 499,
    "exclusions": [
@@ -80844,6 +79972,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 126,
    "no_amplicon_rows": 31,
    "exclusions": [
@@ -80996,6 +80126,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 196,
    "no_amplicon_rows": 185,
    "exclusions": [
@@ -81148,6 +80280,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 196,
    "no_amplicon_rows": 171,
    "exclusions": [
@@ -81772,6 +80906,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 25593,
    "no_amplicon_rows": 25512,
    "exclusions": [
@@ -82415,6 +81551,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2463,
    "no_amplicon_rows": 2380,
    "exclusions": [
@@ -82814,6 +81952,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 82,
    "no_amplicon_rows": 43,
    "exclusions": [
@@ -83203,6 +82343,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 85,
    "no_amplicon_rows": 58,
    "exclusions": [
@@ -83528,6 +82670,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 639,
    "no_amplicon_rows": 545,
    "exclusions": [
@@ -84254,6 +83398,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2143,
    "no_amplicon_rows": 1951,
    "exclusions": [
@@ -85092,6 +84238,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2083,
    "no_amplicon_rows": 1525,
    "exclusions": [
@@ -85785,6 +84933,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2083,
    "no_amplicon_rows": 1993,
    "exclusions": [
@@ -86722,6 +85872,11 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [
+    201,
+    1090
+   ],
+   "species_sizes": [],
    "screened_rows": 2083,
    "no_amplicon_rows": 1856,
    "exclusions": [
@@ -87525,6 +86680,11 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [
+    283,
+    1120
+   ],
+   "species_sizes": [],
    "screened_rows": 2083,
    "no_amplicon_rows": 1902,
    "exclusions": [
@@ -87842,6 +87002,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2083,
    "no_amplicon_rows": 2006,
    "exclusions": [
@@ -88173,6 +87335,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2083,
    "no_amplicon_rows": 1604,
    "exclusions": [
@@ -89151,6 +88315,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61192,
    "no_amplicon_rows": 27402,
    "exclusions": [
@@ -90317,6 +89483,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61192,
    "no_amplicon_rows": 27042,
    "exclusions": [
@@ -91607,6 +90775,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 61192,
    "no_amplicon_rows": 27076,
    "exclusions": [
@@ -92776,6 +91946,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 16099,
    "no_amplicon_rows": 11807,
    "exclusions": [
@@ -94122,6 +93294,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 16099,
    "no_amplicon_rows": 11711,
    "exclusions": [
@@ -95406,6 +94580,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 7713,
    "no_amplicon_rows": 3660,
    "exclusions": [
@@ -97100,6 +96276,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 7713,
    "no_amplicon_rows": 4004,
    "exclusions": [
@@ -98639,6 +97817,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3812,
    "no_amplicon_rows": 1199,
    "exclusions": [
@@ -100191,6 +99371,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3812,
    "no_amplicon_rows": 689,
    "exclusions": [
@@ -100589,6 +99771,174 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [
+    540,
+    1700
+   ],
+   "species_sizes": [
+    {
+     "taxid": 3431483,
+     "bp": [
+      1535,
+      1545
+     ],
+     "n_records": 9113,
+     "note": "Orthopoxvirus monkeypox"
+    },
+    {
+     "taxid": 3431483,
+     "bp": [
+      1067,
+      1067
+     ],
+     "n_records": 1981,
+     "note": "Orthopoxvirus monkeypox"
+    },
+    {
+     "taxid": 10245,
+     "bp": [
+      1587,
+      1615
+     ],
+     "n_records": 130,
+     "note": "Orthopoxvirus vaccinia"
+    },
+    {
+     "taxid": 10245,
+     "bp": [
+      1547,
+      1547
+     ],
+     "n_records": 19,
+     "note": "Orthopoxvirus vaccinia"
+    },
+    {
+     "taxid": 10245,
+     "bp": [
+      1671,
+      1671
+     ],
+     "n_records": 5,
+     "note": "Orthopoxvirus vaccinia"
+    },
+    {
+     "taxid": 10245,
+     "bp": [
+      1573,
+      1573
+     ],
+     "n_records": 4,
+     "note": "Orthopoxvirus vaccinia"
+    },
+    {
+     "taxid": 3431481,
+     "bp": [
+      1598,
+      1601
+     ],
+     "n_records": 62,
+     "note": "Orthopoxvirus cowpox"
+    },
+    {
+     "taxid": 3431481,
+     "bp": [
+      1673,
+      1673
+     ],
+     "n_records": 51,
+     "note": "Orthopoxvirus cowpox"
+    },
+    {
+     "taxid": 3431481,
+     "bp": [
+      1505,
+      1505
+     ],
+     "n_records": 3,
+     "note": "Orthopoxvirus cowpox"
+    },
+    {
+     "taxid": 3431487,
+     "bp": [
+      1576,
+      1583
+     ],
+     "n_records": 81,
+     "note": "Orthopoxvirus variola"
+    },
+    {
+     "taxid": 3431482,
+     "bp": [
+      1220,
+      1220
+     ],
+     "n_records": 14,
+     "note": "Orthopoxvirus ectromelia"
+    },
+    {
+     "taxid": 3431480,
+     "bp": [
+      879,
+      879
+     ],
+     "n_records": 12,
+     "note": "Orthopoxvirus camelpox"
+    },
+    {
+     "taxid": 2200830,
+     "bp": [
+      1505,
+      1505
+     ],
+     "n_records": 7,
+     "note": "Orthopoxvirus akhmetapox"
+    },
+    {
+     "taxid": 467146,
+     "bp": [
+      1601,
+      1601
+     ],
+     "n_records": 4,
+     "note": "Cowpox-Vaccinia virus"
+    },
+    {
+     "taxid": 2734574,
+     "bp": [
+      1673,
+      1673
+     ],
+     "n_records": 2,
+     "note": "Orthopoxvirus abatinomacacapox"
+    },
+    {
+     "taxid": 3431488,
+     "bp": [
+      542,
+      542
+     ],
+     "n_records": 2,
+     "note": "Orthopoxvirus volepox"
+    },
+    {
+     "taxid": 3431485,
+     "bp": [
+      551,
+      551
+     ],
+     "n_records": 2,
+     "note": "Orthopoxvirus skunkpox (bench-confirmed by Meyer 1997 at 530 bp; scored fail here)"
+    },
+    {
+     "taxid": 3431486,
+     "bp": [
+      1628,
+      1628
+     ],
+     "n_records": 2,
+     "note": "Orthopoxvirus taterapox"
+    }
+   ],
    "screened_rows": 17579,
    "no_amplicon_rows": 2934,
    "exclusions": [
@@ -101078,6 +100428,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 17579,
    "no_amplicon_rows": 2907,
    "exclusions": [
@@ -101572,6 +100924,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 64,
    "no_amplicon_rows": 57,
    "exclusions": [
@@ -102196,6 +101550,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14479,
    "no_amplicon_rows": 13494,
    "exclusions": [
@@ -102755,6 +102111,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14479,
    "no_amplicon_rows": 13447,
    "exclusions": [
@@ -104072,6 +103430,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 41948,
    "no_amplicon_rows": 25673,
    "exclusions": [
@@ -105869,6 +105229,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 15372,
    "no_amplicon_rows": 4584,
    "exclusions": [
@@ -107719,6 +107081,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 15372,
    "no_amplicon_rows": 6492,
    "exclusions": [
@@ -107869,6 +107233,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 131,
    "no_amplicon_rows": 101,
    "exclusions": [
@@ -108410,6 +107776,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2768,
    "no_amplicon_rows": 2649,
    "exclusions": [
@@ -108779,6 +108147,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 537,
    "no_amplicon_rows": 146,
    "exclusions": [
@@ -109126,6 +108496,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 537,
    "no_amplicon_rows": 146,
    "exclusions": [
@@ -109372,6 +108744,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1147,
    "no_amplicon_rows": 877,
    "exclusions": [
@@ -109773,6 +109147,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1147,
    "no_amplicon_rows": 685,
    "exclusions": [
@@ -110394,6 +109770,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2712,
    "no_amplicon_rows": 1978,
    "exclusions": [
@@ -111745,6 +111123,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14239,
    "no_amplicon_rows": 7591,
    "exclusions": [
@@ -113051,6 +112431,11 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [
+    829,
+    1137
+   ],
+   "species_sizes": [],
    "screened_rows": 14239,
    "no_amplicon_rows": 11874,
    "exclusions": [
@@ -114399,6 +113784,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 14239,
    "no_amplicon_rows": 7591,
    "exclusions": [
@@ -114600,6 +113987,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 240,
    "no_amplicon_rows": 208,
    "exclusions": [
@@ -114797,6 +114186,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 240,
    "no_amplicon_rows": 201,
    "exclusions": [
@@ -115025,6 +114416,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 12691,
    "no_amplicon_rows": 12234,
    "exclusions": [
@@ -115506,6 +114899,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1467,
    "no_amplicon_rows": 1141,
    "exclusions": [
@@ -116013,6 +115408,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1467,
    "no_amplicon_rows": 1115,
    "exclusions": [
@@ -116452,6 +115849,11 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [
+    186,
+    749
+   ],
+   "species_sizes": [],
    "screened_rows": 1467,
    "no_amplicon_rows": 1217,
    "exclusions": [
@@ -116657,6 +116059,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 131,
    "no_amplicon_rows": 93,
    "exclusions": [
@@ -116805,6 +116209,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 124,
    "no_amplicon_rows": 10,
    "exclusions": [
@@ -117080,6 +116486,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 387,
    "no_amplicon_rows": 273,
    "exclusions": [
@@ -118171,6 +117579,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9139,
    "no_amplicon_rows": 2372,
    "exclusions": [
@@ -119153,6 +118563,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9139,
    "no_amplicon_rows": 2505,
    "exclusions": [
@@ -119436,6 +118848,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1003,
    "no_amplicon_rows": 539,
    "exclusions": [
@@ -119749,6 +119163,282 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [
+    568,
+    1294
+   ],
+   "species_sizes": [
+    {
+     "taxid": 1587505,
+     "bp": [
+      1174,
+      1183
+     ],
+     "n_records": 33,
+     "note": "Sarcocystis lutrae"
+    },
+    {
+     "taxid": 103879,
+     "bp": [
+      608,
+      614
+     ],
+     "n_records": 16,
+     "note": "Sarcocystis sinensis"
+    },
+    {
+     "taxid": 103879,
+     "bp": [
+      587,
+      588
+     ],
+     "n_records": 3,
+     "note": "Sarcocystis sinensis"
+    },
+    {
+     "taxid": 94644,
+     "bp": [
+      859,
+      872
+     ],
+     "n_records": 13,
+     "note": "Sarcocystis miescheriana"
+    },
+    {
+     "taxid": 94644,
+     "bp": [
+      838,
+      838
+     ],
+     "n_records": 3,
+     "note": "Sarcocystis miescheriana"
+    },
+    {
+     "taxid": 1696070,
+     "bp": [
+      1109,
+      1111
+     ],
+     "n_records": 13,
+     "note": "Sarcocystis lari"
+    },
+    {
+     "taxid": 137009,
+     "bp": [
+      921,
+      929
+     ],
+     "n_records": 9,
+     "note": "Sarcocystis zamani"
+    },
+    {
+     "taxid": 1749070,
+     "bp": [
+      603,
+      610
+     ],
+     "n_records": 6,
+     "note": "Sarcocystis bovini"
+    },
+    {
+     "taxid": 1749070,
+     "bp": [
+      585,
+      588
+     ],
+     "n_records": 3,
+     "note": "Sarcocystis bovini"
+    },
+    {
+     "taxid": 2068653,
+     "bp": [
+      1077,
+      1079
+     ],
+     "n_records": 8,
+     "note": "Sarcocystis halieti"
+    },
+    {
+     "taxid": 1749069,
+     "bp": [
+      578,
+      586
+     ],
+     "n_records": 6,
+     "note": "Sarcocystis bovifelis"
+    },
+    {
+     "taxid": 1749069,
+     "bp": [
+      610,
+      610
+     ],
+     "n_records": 1,
+     "note": "Sarcocystis bovifelis"
+    },
+    {
+     "taxid": 1344799,
+     "bp": [
+      1075,
+      1087
+     ],
+     "n_records": 6,
+     "note": "Sarcocystis calchasi"
+    },
+    {
+     "taxid": 59669,
+     "bp": [
+      1138,
+      1140
+     ],
+     "n_records": 4,
+     "note": "Sarcocystis sp."
+    },
+    {
+     "taxid": 59669,
+     "bp": [
+      815,
+      815
+     ],
+     "n_records": 1,
+     "note": "Sarcocystis sp."
+    },
+    {
+     "taxid": 2753566,
+     "bp": [
+      1186,
+      1187
+     ],
+     "n_records": 5,
+     "note": "Sarcocystis wenzeli"
+    },
+    {
+     "taxid": 1962270,
+     "bp": [
+      928,
+      930
+     ],
+     "n_records": 5,
+     "note": "Sarcocystis bertrami"
+    },
+    {
+     "taxid": 3475062,
+     "bp": [
+      1167,
+      1174
+     ],
+     "n_records": 4,
+     "note": "Sarcocystis chenggongensis"
+    },
+    {
+     "taxid": 5818,
+     "bp": [
+      778,
+      782
+     ],
+     "n_records": 4,
+     "note": "Sarcocystis tenella"
+    },
+    {
+     "taxid": 1127630,
+     "bp": [
+      840,
+      840
+     ],
+     "n_records": 3,
+     "note": "Sarcocystis zuoi"
+    },
+    {
+     "taxid": 1127630,
+     "bp": [
+      885,
+      885
+     ],
+     "n_records": 1,
+     "note": "Sarcocystis zuoi"
+    },
+    {
+     "taxid": 102713,
+     "bp": [
+      853,
+      858
+     ],
+     "n_records": 3,
+     "note": "Sarcocystis suihominis"
+    },
+    {
+     "taxid": 5815,
+     "bp": [
+      780,
+      780
+     ],
+     "n_records": 3,
+     "note": "Sarcocystis arieticanis"
+    },
+    {
+     "taxid": 2007305,
+     "bp": [
+      608,
+      610
+     ],
+     "n_records": 3,
+     "note": "Sarcocystis dehongensis"
+    },
+    {
+     "taxid": 1929461,
+     "bp": [
+      880,
+      880
+     ],
+     "n_records": 2,
+     "note": "Sarcocystis medusiformis"
+    },
+    {
+     "taxid": 805401,
+     "bp": [
+      1191,
+      1191
+     ],
+     "n_records": 2,
+     "note": "Sarcocystis rileyi"
+    },
+    {
+     "taxid": 137008,
+     "bp": [
+      779,
+      779
+     ],
+     "n_records": 1,
+     "note": "Sarcocystis singaporensis"
+    },
+    {
+     "taxid": 137008,
+     "bp": [
+      814,
+      814
+     ],
+     "n_records": 1,
+     "note": "Sarcocystis singaporensis"
+    },
+    {
+     "taxid": 1250548,
+     "bp": [
+      947,
+      947
+     ],
+     "n_records": 1,
+     "note": "Sarcocystis caninum"
+    },
+    {
+     "taxid": 42890,
+     "bp": [
+      1284,
+      1284
+     ],
+     "n_records": 1,
+     "note": "Sarcocystis neurona"
+    }
+   ],
    "screened_rows": 30875,
    "no_amplicon_rows": 30706,
    "exclusions": [
@@ -119767,479 +119457,6 @@
     [
      "chance_only",
      35
-    ]
-   ],
-   "out_of_scope": 0
-  },
-  {
-   "assay_id": "Sarcocystis_18S_5_8S_Kutkiene_2010_ShortITS1R",
-   "name": "Sarcocystis \u2014 18S-ITS1-5.8S rDNA (Kutkien\u0117 2010, ShortITS1R)",
-   "status": "low coverage",
-   "withheld_reasons": [],
-   "taxon": "Sarcocystis",
-   "taxid": 5812,
-   "gene": "18S-ITS1-5.8S rDNA",
-   "chemistry": "conventional",
-   "doi": "10.1007/s00436-010-1945-4",
-   "reference": "Kutkien\u0117 L et al. 2010. Parasitol Res 107:879-888",
-   "design_year": 2010,
-   "amplicon_bp": null,
-   "entry_status": "active",
-   "review_flags": [
-    "amplicon_multimodal"
-   ],
-   "scope_taxids": [],
-   "exclusivity_taxids": [],
-   "query": "",
-   "title_requires": [],
-   "oligos": {
-    "forward": "ATTGAGTGTTCCGGTGAATTA",
-    "reverse": "GGGATTCARTKGYYGAAA"
-   },
-   "recent_detected": 11,
-   "recent_evaluable": 18,
-   "recent_ci": [
-    0.38619041602237913,
-    0.7969475342783637
-   ],
-   "baseline_detected": 84,
-   "baseline_evaluable": 172,
-   "baseline_ci": [
-    0.41474345322283285,
-    0.5625087828150928
-   ],
-   "change_ci": [
-    -0.11408489931173801,
-    0.32262987024087064
-   ],
-   "window_months": 48,
-   "recent_from": "Nov 2022",
-   "threshold": 0.9,
-   "min_records": 15,
-   "note": "detected share 61.1% (39%-80%) since Nov 2022, upper bound below the 90% threshold; change from baseline -11% to +32% (no measurable fall from a baseline of 49%) (window widened to 48 months to reach 15 evaluable records)",
-   "trend": "by record rising (p = 0.0171, 16 years); by footprint rising (p = 0.0233)",
-   "years": [
-    {
-     "year": 1992,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1993,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1994,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1995,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1996,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1997,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1998,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 1999,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2000,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2001,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2002,
-     "detected": 1,
-     "evaluable": 6,
-     "share": 0.16666666666666666,
-     "recent": false
-    },
-    {
-     "year": 2003,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2004,
-     "detected": 0,
-     "evaluable": 3,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2005,
-     "detected": 1,
-     "evaluable": 6,
-     "share": 0.16666666666666666,
-     "recent": false
-    },
-    {
-     "year": 2006,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2007,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2008,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2009,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2010,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2011,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2012,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2013,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2014,
-     "detected": 34,
-     "evaluable": 35,
-     "share": 0.9714285714285714,
-     "recent": false
-    },
-    {
-     "year": 2015,
-     "detected": 3,
-     "evaluable": 35,
-     "share": 0.08571428571428572,
-     "recent": false
-    },
-    {
-     "year": 2016,
-     "detected": 9,
-     "evaluable": 15,
-     "share": 0.6,
-     "recent": false
-    },
-    {
-     "year": 2017,
-     "detected": 3,
-     "evaluable": 7,
-     "share": 0.42857142857142855,
-     "recent": false
-    },
-    {
-     "year": 2018,
-     "detected": 22,
-     "evaluable": 31,
-     "share": 0.7096774193548387,
-     "recent": false
-    },
-    {
-     "year": 2019,
-     "detected": 0,
-     "evaluable": 21,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2020,
-     "detected": 5,
-     "evaluable": 5,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2021,
-     "detected": 6,
-     "evaluable": 6,
-     "share": 1.0,
-     "recent": false
-    },
-    {
-     "year": 2022,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": true
-    },
-    {
-     "year": 2023,
-     "detected": 4,
-     "evaluable": 4,
-     "share": 1.0,
-     "recent": true
-    },
-    {
-     "year": 2024,
-     "detected": 7,
-     "evaluable": 8,
-     "share": 0.875,
-     "recent": true
-    },
-    {
-     "year": 2025,
-     "detected": 0,
-     "evaluable": 6,
-     "share": 0.0,
-     "recent": true
-    },
-    {
-     "year": 2026,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": true
-    }
-   ],
-   "positions": [
-    {
-     "oligo": "reverse",
-     "pos_3prime": 8,
-     "base": "K",
-     "n_mismatch": 79,
-     "detected_with": 3,
-     "evaluable_with": 79,
-     "detected_without": 92,
-     "evaluable_without": 111,
-     "substitutions": [
-      [
-       "K",
-       "C",
-       76
-      ],
-      [
-       "K",
-       "A",
-       3
-      ]
-     ],
-     "in_3prime_zone": false
-    },
-    {
-     "oligo": "reverse",
-     "pos_3prime": 16,
-     "base": "G",
-     "n_mismatch": 91,
-     "detected_with": 10,
-     "evaluable_with": 91,
-     "detected_without": 85,
-     "evaluable_without": 99,
-     "substitutions": [
-      [
-       "G",
-       "A",
-       84
-      ],
-      [
-       "G",
-       "C",
-       6
-      ],
-      [
-       "G",
-       "T",
-       1
-      ]
-     ],
-     "in_3prime_zone": false
-    },
-    {
-     "oligo": "reverse",
-     "pos_3prime": 15,
-     "base": "A",
-     "n_mismatch": 95,
-     "detected_with": 12,
-     "evaluable_with": 95,
-     "detected_without": 83,
-     "evaluable_without": 95,
-     "substitutions": [
-      [
-       "A",
-       "C",
-       87
-      ],
-      [
-       "A",
-       "T",
-       5
-      ],
-      [
-       "A",
-       "G",
-       3
-      ]
-     ],
-     "in_3prime_zone": false
-    },
-    {
-     "oligo": "reverse",
-     "pos_3prime": 14,
-     "base": "T",
-     "n_mismatch": 89,
-     "detected_with": 12,
-     "evaluable_with": 89,
-     "detected_without": 83,
-     "evaluable_without": 101,
-     "substitutions": [
-      [
-       "T",
-       "A",
-       85
-      ],
-      [
-       "T",
-       "C",
-       2
-      ],
-      [
-       "T",
-       "G",
-       2
-      ]
-     ],
-     "in_3prime_zone": false
-    },
-    {
-     "oligo": "reverse",
-     "pos_3prime": 18,
-     "base": "G",
-     "n_mismatch": 88,
-     "detected_with": 12,
-     "evaluable_with": 88,
-     "detected_without": 83,
-     "evaluable_without": 102,
-     "substitutions": [
-      [
-       "G",
-       "A",
-       86
-      ],
-      [
-       "G",
-       "C",
-       2
-      ]
-     ],
-     "in_3prime_zone": false
-    },
-    {
-     "oligo": "reverse",
-     "pos_3prime": 11,
-     "base": "A",
-     "n_mismatch": 86,
-     "detected_with": 13,
-     "evaluable_with": 86,
-     "detected_without": 82,
-     "evaluable_without": 104,
-     "substitutions": [
-      [
-       "A",
-       "C",
-       85
-      ],
-      [
-       "A",
-       "G",
-       1
-      ]
-     ],
-     "in_3prime_zone": false
-    }
-   ],
-   "lineages": [],
-   "rounds": [],
-   "screened_rows": 30875,
-   "no_amplicon_rows": 30685,
-   "exclusions": [
-    [
-     "no_site",
-     28571
-    ],
-    [
-     "truncated",
-     1739
-    ],
-    [
-     "chance_anchor",
-     287
-    ],
-    [
-     "chance_only",
-     88
     ]
    ],
    "out_of_scope": 0
@@ -120604,6 +119821,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 279,
    "no_amplicon_rows": 219,
    "exclusions": [
@@ -120788,6 +120007,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 279,
    "no_amplicon_rows": 251,
    "exclusions": [
@@ -121073,6 +120294,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 279,
    "no_amplicon_rows": 235,
    "exclusions": [
@@ -121349,6 +120572,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 231,
    "no_amplicon_rows": 25,
    "exclusions": [
@@ -122011,6 +121236,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8252,
    "no_amplicon_rows": 3531,
    "exclusions": [
@@ -122630,6 +121857,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8252,
    "no_amplicon_rows": 4241,
    "exclusions": [
@@ -123342,6 +122571,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8252,
    "no_amplicon_rows": 3038,
    "exclusions": [
@@ -123905,6 +123136,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8252,
    "no_amplicon_rows": 4405,
    "exclusions": [
@@ -124569,6 +123802,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8252,
    "no_amplicon_rows": 3035,
    "exclusions": [
@@ -125319,6 +124554,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8252,
    "no_amplicon_rows": 2953,
    "exclusions": [
@@ -125414,6 +124651,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 5,
    "no_amplicon_rows": 3,
    "exclusions": [
@@ -125497,6 +124736,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 5,
    "no_amplicon_rows": 3,
    "exclusions": [
@@ -125661,6 +124902,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 612,
    "no_amplicon_rows": 510,
    "exclusions": [
@@ -126274,6 +125517,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1615,
    "no_amplicon_rows": 386,
    "exclusions": [
@@ -126468,6 +125713,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 345,
    "no_amplicon_rows": 278,
    "exclusions": [
@@ -126777,6 +126024,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1932,
    "no_amplicon_rows": 856,
    "exclusions": [
@@ -126962,6 +126211,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 78,
    "no_amplicon_rows": 55,
    "exclusions": [
@@ -127166,6 +126417,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 259,
    "no_amplicon_rows": 178,
    "exclusions": [
@@ -127586,6 +126839,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1535,
    "no_amplicon_rows": 658,
    "exclusions": [
@@ -127813,6 +127068,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 142,
    "no_amplicon_rows": 68,
    "exclusions": [
@@ -128001,6 +127258,8 @@
    ],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 97,
    "no_amplicon_rows": 62,
    "exclusions": [
@@ -128163,6 +127422,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 97,
    "no_amplicon_rows": 62,
    "exclusions": [
@@ -128964,6 +128225,8 @@
     }
    ],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9069,
    "no_amplicon_rows": 1978,
    "exclusions": [
@@ -129127,6 +128390,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 38,
    "no_amplicon_rows": 1,
    "exclusions": [
@@ -129301,6 +128566,8 @@
    "positions": [],
    "lineages": [],
    "rounds": [],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 66,
    "no_amplicon_rows": 1,
    "exclusions": [
@@ -130433,6 +129700,8 @@
      "share": 0.9905579399141631
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 4629,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -130804,6 +130073,8 @@
      "share": 0.9006479481641468
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 5531,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -131154,6 +130425,8 @@
      "share": 0.9923097321665341
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8221,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -131507,6 +130780,8 @@
      "share": 0.9823788546255506
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3048,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -131861,6 +131136,11 @@
      "share": 0.7931547619047619
     }
    ],
+   "amplicon_bp_range": [
+    367,
+    489
+   ],
+   "species_sizes": [],
    "screened_rows": 2889,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -132108,6 +131388,8 @@
      "share": 0.9541062801932367
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 1937,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -132403,6 +131685,8 @@
      "share": 0.0
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 312,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -132546,6 +131830,8 @@
      "share": 1.0
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 13,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -132724,6 +132010,8 @@
      "share": 1.0
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 112,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -132949,6 +132237,8 @@
      "share": 0.46153846153846156
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 362,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -133283,6 +132573,8 @@
      "share": 0.2925851703406814
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 7436,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -135180,6 +134472,8 @@
      "share": 0.7915869980879541
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 6746,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -135399,6 +134693,8 @@
      "share": 1.0
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 145,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -135693,6 +134989,8 @@
      "share": 0.90625
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 553,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -136001,6 +135299,8 @@
      "share": 0.96875
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 675,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -136127,6 +135427,8 @@
      "share": 1.0
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -136232,6 +135534,8 @@
      "share": null
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -136337,6 +135641,8 @@
      "share": null
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 9,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -136746,6 +136052,8 @@
      "share": 0.527027027027027
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8628,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -137647,6 +136955,8 @@
      "share": 0.14521452145214522
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 6843,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -137775,6 +137085,8 @@
      "share": 1.0
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 28,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -138123,6 +137435,8 @@
      "share": 0.9921491658488715
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 13565,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -138455,6 +137769,8 @@
      "share": 0.9542056074766355
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3934,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -139136,6 +138452,8 @@
      "share": 0.2978768577494692
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 33895,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -139541,6 +138859,8 @@
      "share": 0.9822784810126582
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 4143,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -140802,6 +140122,8 @@
      "share": 0.8592814371257484
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3464,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -142020,6 +141342,8 @@
      "share": 0.7887323943661971
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2587,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -142277,6 +141601,8 @@
      "share": 0.6966292134831461
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 983,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -143598,6 +142924,8 @@
      "share": 0.61899949469429
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 8834,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -143787,6 +143115,8 @@
      "share": 0.9814814814814815
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 269,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -144556,6 +143886,8 @@
      "share": 0.024922118380062305
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 2310,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -144710,6 +144042,8 @@
      "share": 0.9166666666666666
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 32,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -145055,6 +144389,8 @@
      "share": 0.9231987331749802
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 6501,
    "no_amplicon_rows": 0,
    "exclusions": [],
@@ -145391,6 +144727,8 @@
      "share": 0.995575221238938
     }
    ],
+   "amplicon_bp_range": [],
+   "species_sizes": [],
    "screened_rows": 3965,
    "no_amplicon_rows": 0,
    "exclusions": [],

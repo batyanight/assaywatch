@@ -56,3 +56,20 @@ taken on the protocol's own records, scope and recent window
 (`nested.round_calls`), rather than copied from the round's own assessment. On the
 *C. trachomatis* protocol that shows the genus round 1 detecting **0 of 39** recent records, which its genus-wide figure (41.2%)
 had hidden. Not yet investigated.
+
+**Later the same day.** `Sarcocystis_18S_5_8S_Kutkiene_2010_ShortITS1R` moved to
+`pending/` as `Sarcocystis_18S_5_8S_unpublished`. Its forward primer P-ITSF is
+Kutkienė et al. 2010's (Table 1, pair 7), but the reverse primer ShortITS1R is in
+neither that paper nor the group's 2007 and 2020 papers held locally, so the pair has
+no published source. Its sibling, P-ITSF/P-ITSR, stays live.
+A sweep for the same mistake (`scripts/verify_oligos_against_paper.py` over every live
+entry against the local papers, then the `oligo_source_unresolved` and
+`oligos_not_in_cited_paper` flags) found three more, each with one primer in its cited
+paper and a partner printed nowhere: the two Rebelo 2011 16S-23S pairs (16-23-R1 and
+16-23-F3) and the van Kuppeveld 1992 16S pair (MycoRev1). All three moved to `pending/`
+with `_unpublished` ids; 216 assays are live. The other flagged entries were checked
+and have a published source (a later design paper, a figure, or a shifted copy of a
+printed primer). The test fixtures' degenerate-primer slot moved from the van Kuppeveld
+pair to `Reptarenavirus_GP_Aqrawi_2015`; every edited-site fixture record is unchanged. Separately, a page whose
+product length varies (no single `amplicon_bp`) printed "Amplicon: —"; it now shows
+the measured `amplicon_bp_range` and a per-species size table.

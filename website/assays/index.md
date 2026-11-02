@@ -5,13 +5,13 @@ hide:
 
 # Every assay
 
-172 assays, screened on 2026-11-01. **42** declining · **32** low coverage · **5** watch · **18** no recent data · **75** stable.
+171 assays, screened on 2026-11-01. **42** declining · **31** low coverage · **5** watch · **18** no recent data · **75** stable.
 
 Beside them, **26 nested protocols** — what a lab runs, rather than what one primer pair does. A protocol is scored only on records where every round amplifies, so it can fail while its rounds each look sound: **8** declining · **5** low coverage · **2** no recent data · **11** stable.
 
 A status indicates where to direct attention; it is not a result. Select a column heading to sort, or filter by typing.
 
-A further 47 assays are not listed: too few evaluable records to support an estimate, or a property of the entry that would make a verdict misleading. Each still has a page stating which.
+A further 44 assays are not listed: too few evaluable records to support an estimate, or a property of the entry that would make a verdict misleading. Each still has a page stating which.
 
 <input class="aw-filter" type="text" placeholder="filter by organism, gene, assay or chemistry…" aria-label="filter assays">
 
@@ -192,7 +192,6 @@ A further 47 assays are not listed: too few evaluable records to support an esti
 <tr><td class="aw-assay"><a href="../nests/Rhabdoviridae_L_Bourhy_2005_round2/"><span class="aw-taxon">Rhabdoviridae</span><span class="aw-kind">nested protocol</span><span class="aw-id">Rhabdoviridae_<wbr>L_<wbr>Bourhy_<wbr>2005_<wbr>round2</span></a></td><td><span class="aw-chip aw-chip-declining">declining</span></td><td>L (polymerase)</td><td>conventional</td><td class="num" data-sort="0.7173396674584323">71.7%</td><td class="num" data-sort="1263">1,263</td></tr>
 <tr><td class="aw-assay"><a href="Salmonella_enterica_invA_Rahn_1992/"><span class="aw-taxon">Salmonella enterica</span><span class="aw-id">Salmonella_<wbr>enterica_<wbr>invA_<wbr>Rahn_<wbr>1992</span></a></td><td><span class="aw-chip aw-chip-stable">stable</span></td><td>invA</td><td>conventional</td><td class="num" data-sort="1.0">100.0%</td><td class="num" data-sort="55">55</td></tr>
 <tr><td class="aw-assay"><a href="Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR/"><span class="aw-taxon">Sarcocystis</span><span class="aw-id">Sarcocystis_<wbr>18S_<wbr>5_<wbr>8S_<wbr>Kutkiene_<wbr>2010_<wbr>P_<wbr>ITSR</span></a></td><td><span class="aw-chip aw-chip-watch">watch</span></td><td>18S-ITS1-5.8S rDNA</td><td>conventional</td><td class="num" data-sort="0.8">80.0%</td><td class="num" data-sort="15">15</td></tr>
-<tr><td class="aw-assay"><a href="Sarcocystis_18S_5_8S_Kutkiene_2010_ShortITS1R/"><span class="aw-taxon">Sarcocystis</span><span class="aw-id">Sarcocystis_<wbr>18S_<wbr>5_<wbr>8S_<wbr>Kutkiene_<wbr>2010_<wbr>ShortITS1R</span></a></td><td><span class="aw-chip aw-chip-low-coverage">low coverage</span></td><td>18S-ITS1-5.8S rDNA</td><td>conventional</td><td class="num" data-sort="0.6111111111111112">61.1%</td><td class="num" data-sort="18">18</td></tr>
 <tr><td class="aw-assay"><a href="Serpentovirinae_PP1b_Uccellini_2014_PythonNido6F/"><span class="aw-taxon">Serpentovirinae (snake nidoviruses, Tobaniviridae)</span><span class="aw-id">Serpentovirinae_<wbr>PP1b_<wbr>Uccellini_<wbr>2014_<wbr>PythonNido6F</span></a></td><td><span class="aw-chip aw-chip-low-coverage">low coverage</span></td><td>PP1b</td><td>conventional</td><td class="num" data-sort="0.043478260869565216">4.3%</td><td class="num" data-sort="23">23</td></tr>
 <tr><td class="aw-assay"><a href="Serpentovirinae_PP1b_Uccellini_2014_PythonNodoF/"><span class="aw-taxon">Serpentovirinae (snake nidoviruses, Tobaniviridae)</span><span class="aw-id">Serpentovirinae_<wbr>PP1b_<wbr>Uccellini_<wbr>2014_<wbr>PythonNodoF</span></a></td><td><span class="aw-chip aw-chip-low-coverage">low coverage</span></td><td>PP1b</td><td>conventional</td><td class="num" data-sort="0.17647058823529413">17.6%</td><td class="num" data-sort="17">17</td></tr>
 <tr><td class="aw-assay"><a href="Shigella_ipaH_Sethabutr_1993/"><span class="aw-taxon">Shigella</span><span class="aw-id">Shigella_<wbr>ipaH_<wbr>Sethabutr_<wbr>1993</span></a></td><td><span class="aw-chip aw-chip-stable">stable</span></td><td>ipaH</td><td>conventional</td><td class="num" data-sort="1.0">100.0%</td><td class="num" data-sort="38">38</td></tr>

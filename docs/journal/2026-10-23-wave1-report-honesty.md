@@ -89,7 +89,7 @@ section with its flag and note, and gets no status — including the one it woul
 had, following the convention the nested table already set. 19 held out, among them the
 three the audit named: `Ranavirus_micropterus1_MCP_Li_2025` (was Stable, 100.0% on an RPA assay),
 `Orthopoxvirus_ATI_Meyer_1997` (was Declining on a digest readout) and
-`Mycoplasma_16S_vanKuppeveld_1992` (was Low Coverage, carrying `do_not_use`). Recorded
+`Mycoplasma_16S_unpublished` (was Low Coverage, carrying `do_not_use`). Recorded
 caveats are deliberately not held out — 149 of 208 entries carry one — and are printed
 in the note column instead as `Entry flags: ...`.
 

@@ -8,14 +8,7 @@
 
 Why
 ---
-Most of this registry's entries were seeded from one primer list. That list
-was a place to start, not the truth, and it has already been
-caught in: a Sarcocystis primer carrying one extra C that then failed on 98% of
-records; two orthobunyavirus primers with undeclared cloning tails that matched
-nothing; three taxids naming the wrong organism, one of them a genus of moths;
-five DOIs resolving to other papers; an amplicon of 500 bp where the paper and
-our own measurement both say 531; and an oligo named `Ziao18SF1` for a paper by
-Xiao. A sequence is the one thing in an entry that cannot be checked by reading
+A sequence is the one thing in an entry that cannot be checked by reading
 the entry, so it has to be checked against the source.
 
 Local papers

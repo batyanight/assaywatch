@@ -299,6 +299,42 @@ def _rounds_block(a: dict[str, Any]) -> list[str]:
     return out
 
 
+def _bp(lo_hi: list[int]) -> str:
+    lo, hi = lo_hi
+    return f"{lo} bp" if lo == hi else f"{lo}\u2013{hi} bp"
+
+
+def _amplicon_cell(a: dict[str, Any]) -> str:
+    """The product size: one number, or the measured range where it varies.
+
+    `.get` because an extract taken before the range fields existed has neither.
+    """
+    if a.get("amplicon_bp"):
+        return f"{a['amplicon_bp']} bp"
+    rng = a.get("amplicon_bp_range") or []
+    if len(rng) == 2:
+        why = "varies by species" if a.get("species_sizes") else "varies"
+        return f"{_bp(rng)}, {why}"
+    return "\u2014"
+
+
+def _species_sizes_block(a: dict[str, Any]) -> list[str]:
+    """Each measured band, largest sample first: for a pan-genus assay read on a
+    gel, the band IS the answer, so the page lists them rather than one range."""
+    bands = a.get("species_sizes") or []
+    if not bands:
+        return []
+    out = [
+        '<p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>',
+        "| species | product | records |\n|---|---|---|",
+    ]
+    for b in sorted(bands, key=lambda b: -int(b.get("n_records") or 0)):
+        name = b.get("note") or (f"taxid {b['taxid']}" if b.get("taxid") else "\u2014")
+        out.append(f"| *{name}* | {_bp(b['bp'])} | {int(b.get('n_records') or 0):,} |")
+    out.append("")
+    return out
+
+
 def assay_page(page: dict[str, Any], run_date: str) -> str:
     out: list[str] = []
     a = page
@@ -344,12 +380,13 @@ def assay_page(page: dict[str, Any], run_date: str) -> str:
         ),
         ("Gene", a["gene"] or "—"),
         ("Chemistry", a["chemistry"]),
-        ("Amplicon", f"{a['amplicon_bp']} bp" if a["amplicon_bp"] else "—"),
+        ("Amplicon", _amplicon_cell(a)),
         ("Registry status", a["entry_status"]),
     ]
     out.append("| | |\n|---|---|")
     out += [f"| {k} | {v} |" for k, v in rows]
     out.append("")
+    out += _species_sizes_block(a)
 
     # Oligos, 5'->3', as stored.
     if a["oligos"]:

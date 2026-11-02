@@ -16,7 +16,7 @@
 | Target | Polyomaviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=151341">taxid 151341</a>) |
 | Gene | VP1 |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 829–1137 bp, varies |
 | Registry status | active |
 
 ## Oligos

@@ -99,8 +99,8 @@ def test_tiers_are_ordered_and_configurable():
 
 def test_degeneracy_never_changes_a_call():
     """The accounting is reported, not scored: swapping the tiers moves no call."""
-    row_id = "Mycoplasma_16S_vanKuppeveld_1992__fwd_mid_d7"
-    assay = ASSAYS["Mycoplasma_16S_vanKuppeveld_1992"]
+    row_id = "Reptarenavirus_GP_Aqrawi_2015__fwd_mid_d7"
+    assay = ASSAYS["Reptarenavirus_GP_Aqrawi_2015"]
     before = screen_record(assay, row_id, RECORDS[row_id], CFG)
     cfg = dict(CFG)
     cfg["degeneracy"] = {"tiers": [[1, "negligible"]]}

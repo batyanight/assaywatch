@@ -16,8 +16,42 @@
 | Target | Sarcocystis (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=5812">taxid 5812</a>) |
 | Gene | 18S-ITS1-5.8S rDNA |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 568–1294 bp, varies by species |
 | Registry status | active |
+
+<p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
+| species | product | records |
+|---|---|---|
+| *Sarcocystis lutrae* | 1174–1183 bp | 33 |
+| *Sarcocystis sinensis* | 608–614 bp | 16 |
+| *Sarcocystis miescheriana* | 859–872 bp | 13 |
+| *Sarcocystis lari* | 1109–1111 bp | 13 |
+| *Sarcocystis zamani* | 921–929 bp | 9 |
+| *Sarcocystis halieti* | 1077–1079 bp | 8 |
+| *Sarcocystis bovini* | 603–610 bp | 6 |
+| *Sarcocystis bovifelis* | 578–586 bp | 6 |
+| *Sarcocystis calchasi* | 1075–1087 bp | 6 |
+| *Sarcocystis wenzeli* | 1186–1187 bp | 5 |
+| *Sarcocystis bertrami* | 928–930 bp | 5 |
+| *Sarcocystis sp.* | 1138–1140 bp | 4 |
+| *Sarcocystis chenggongensis* | 1167–1174 bp | 4 |
+| *Sarcocystis tenella* | 778–782 bp | 4 |
+| *Sarcocystis sinensis* | 587–588 bp | 3 |
+| *Sarcocystis miescheriana* | 838 bp | 3 |
+| *Sarcocystis bovini* | 585–588 bp | 3 |
+| *Sarcocystis zuoi* | 840 bp | 3 |
+| *Sarcocystis suihominis* | 853–858 bp | 3 |
+| *Sarcocystis arieticanis* | 780 bp | 3 |
+| *Sarcocystis dehongensis* | 608–610 bp | 3 |
+| *Sarcocystis medusiformis* | 880 bp | 2 |
+| *Sarcocystis rileyi* | 1191 bp | 2 |
+| *Sarcocystis bovifelis* | 610 bp | 1 |
+| *Sarcocystis sp.* | 815 bp | 1 |
+| *Sarcocystis zuoi* | 885 bp | 1 |
+| *Sarcocystis singaporensis* | 779 bp | 1 |
+| *Sarcocystis singaporensis* | 814 bp | 1 |
+| *Sarcocystis caninum* | 947 bp | 1 |
+| *Sarcocystis neurona* | 1284 bp | 1 |
 
 ## Oligos
 

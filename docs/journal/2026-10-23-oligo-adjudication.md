@@ -168,8 +168,8 @@ calls unpublished. Flagged, not re-cited.
 
 ## Three oligos have no source at all
 
-`Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_F1` 16-23-R1, `..._3` 16-23-F3, and
-`Mycoplasma_16S_vanKuppeveld_1992` MycoRev1: not in the cited paper and not in
+`Mycoplasma_16S23S_ITS_unpublished_16_23_F1` 16-23-R1, `..._3` 16-23-F3, and
+`Mycoplasma_16S_unpublished` MycoRev1: not in the cited paper and not in
 Europe PMC full text. `oligo_source_unresolved` is **not** a to-do here.
 
 ## One non-oligo removed from screening

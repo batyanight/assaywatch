@@ -921,7 +921,7 @@ source:
     assay.\nPROVENANCE QUESTION LEFT OPEN. The sequence was taken from the PREDICT protocols rather than from the paper directly,
     and the R is\neither a PREDICT-era modification or a transcription slip somewhere\nbetween the paper and that protocol.
     The PREDICT protocol document is not in papers/. If\nit prints DFA with the R, this entry should hold the 21-mer and declare
-    the modification\nexplicitly, the way Mycoplasma_16S_vanKuppeveld_1992 records GPO-1FMod - the registry's job is to record
+    the modification\nexplicitly, the way Mycoplasma_16S_unpublished records GPO-1FMod - the registry's job is to record
     the oligo as used, not to prefer what is published. Flagged until that is\nchecked.\nHOW IT WAS FOUND, and a checker bug
     worth fixing. verify_oligos_against_paper.py reported\nHV-DFA as `absent` rather than `near:1`, because the paper breaks
     the primer across a line:\n'GAYT' ends one line and 'TYGCNAGYYTNTAYCC-39' begins the next. The oligo-run scanner sees\n\

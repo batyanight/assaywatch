@@ -16,7 +16,7 @@
 | Target | Ranavirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10492">taxid 10492</a>) |
 | Gene | variable intergenic region |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 186–749 bp, varies |
 | Registry status | active |
 
 ## Oligos

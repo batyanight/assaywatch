@@ -48,7 +48,7 @@ FIXTURE_ASSAYS = [
     "Batrachochytrium_dendrobatidis_ITS1_5_8S_Annis_2004",  # conventional, no probe
     "Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013",  # MGB probe, 32 nt probe
     "Ranavirus_MCP_Pallister_2007",  # MGB probe
-    "Mycoplasma_16S_vanKuppeveld_1992",  # degenerate primers, no probe
+    "Reptarenavirus_GP_Aqrawi_2015",  # degenerate primers (4x4), no probe
 ]
 
 # (suffix, [(which_oligo, where), ...], expected_call)

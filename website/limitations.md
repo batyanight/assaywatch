@@ -116,7 +116,7 @@ a specific assay require either a local run or a request.
 
 ## Registry assurances
 
-- 220 entries, each citing a publication whose DOI has been confirmed against
+- 216 entries, each citing a publication whose DOI has been confirmed against
   Crossref. An assay without one is not published here.
 - Oligonucleotide sequences and product sizes are verified against GenBank
   records and the source publication's own table before entry. Where a measured

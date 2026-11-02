@@ -39,6 +39,6 @@ source:
   nested_family: Phlebovirus_L_Sanchez-Seco_2003
   nested_parent: Phlebovirus_L_Sanchez-Seco_2003_round1
   notes_curator: Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 2015, Nat Commun 
-    6:8147, Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. The
-    forward primer contains inosine; seq stores it as N and seq_as_written keeps the I.
+    6:8147, Supplementary Methods, CC-BY); sequences read from that document. The forward primer contains inosine; seq 
+    stores it as N and seq_as_written keeps the I.
 needs_review: null

@@ -59,7 +59,7 @@ real-time assay, and a short amplicon is what such an assay is designed around.
 | `Polyomaviridae_VP1_Johne_2005_round1` | — | 0 | — | no product at 3 mismatches; see below |
 | `Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F` | 514 | 18 | 100% | only 18 products |
 | `Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR` | 1087 | 13 | 100% | only 13 products |
-| `Sarcocystis_18S_5_8S_Kutkiene_2010_ShortITS1R` | 247 | 11 | 100% | only 11 products |
+| `Sarcocystis_18S_5_8S_unpublished` | 247 | 11 | 100% | only 11 products |
 | `Intranuclear_coccidium_JW_2004_18S_Alvarez_2013` | — | 0 | — | no local archive |
 
 Two of these are the interesting ones. `Orthopoxvirus_ATI_Meyer_1997`

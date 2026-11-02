@@ -642,7 +642,7 @@ def held_out_reasons(assay: Assay | None) -> tuple[tuple[str, str], ...]:
       was reported **Declining**. One unenforced flag, a false alarm in one
       direction and a false reassurance in the other.
     - `do_not_use` and the other OPEN questions (`assaywatch.review.OPEN`) are
-      things a human still has to answer. `Mycoplasma_16S_vanKuppeveld_1992`
+      things a human still has to answer. `Mycoplasma_16S_unpublished`
       carries `do_not_use` and was reported **Low Coverage, 78.3%**, while
       docs/validation-cases.tsv records van Kuppeveld 1994 finding it working on
       104 cell cultures with no false negatives.

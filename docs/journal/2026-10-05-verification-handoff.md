@@ -28,7 +28,7 @@ number for this assay until it is re-screened.
 Open provenance question: the free-text citation field (since removed) said `PREDICT Protocols`, so the
 sequence came through PREDICT, not from the paper. If the PREDICT protocol prints
 DFA with the `R`, this entry should hold the 21-mer and declare the modification
-the way `Mycoplasma_16S_vanKuppeveld_1992` records `GPO-1FMod` — the registry records the oligo as used. That document is not in `papers/`.
+the way `Mycoplasma_16S_unpublished` records `GPO-1FMod` — the registry records the oligo as used. That document is not in `papers/`.
 
 ## The verification run's numbers are not trustworthy yet
 

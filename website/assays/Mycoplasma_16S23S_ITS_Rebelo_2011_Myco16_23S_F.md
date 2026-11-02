@@ -16,7 +16,7 @@
 | Target | Mycoplasma (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2093" title="Mycoplasma">taxid 2093</a>) |
 | Gene | 16S-23S intergenic spacer |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 354–767 bp, varies |
 | Registry status | active |
 
 ## Oligos

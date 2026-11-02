@@ -145,6 +145,11 @@ class AssayPage:
     #: The rounds behind a nested protocol, each with its own standalone figures.
     #: Empty on an assay page, which has no rounds.
     rounds: list[RoundPoint] = field(default_factory=list)
+    #: Where the product length varies there is no single `amplicon_bp`: the
+    #: entry declares this measured [low, high] instead, and usually
+    #: `species_sizes`, one {taxid, bp: [lo, hi], n_records, note} per band.
+    amplicon_bp_range: list[int] = field(default_factory=list)
+    species_sizes: list[dict[str, Any]] = field(default_factory=list)
     # How much of what was screened reached the statistics at all. The site says
     # this per assay because the project's first known limitation is that the
     # denominator is drift-correlated: 65.7% of rows never reach it.
@@ -302,6 +307,11 @@ def _page(assay: Any, d: Any, sites: Any, zone: int, min_records: int | None = N
         reference=assay.citation.reference or "",
         design_year=assay.citation.design_year,
         amplicon_bp=assay.amplicon_bp,
+        amplicon_bp_range=list(assay.amplicon_bp_range or []),
+        species_sizes=[
+            {"taxid": b.taxid, "bp": list(b.bp), "n_records": b.n_records, "note": b.note or ""}
+            for b in (assay.species_sizes or [])
+        ],
         entry_status=assay.status.value,
         review_flags=[r.flag.value for r in (assay.needs_review or [])],
         scope_taxids=list(assay.target.scope_taxids or []),

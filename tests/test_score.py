@@ -115,11 +115,11 @@ def test_unrelated_record_gives_no_amplicon_not_fail():
 def test_degenerate_position_covering_the_target_is_not_a_mismatch():
     """An R in the primer must not be charged for an A or a G in the record.
 
-    This read the forward's Y until 2026-11-01, when that Y turned out to be an
-    unpublished widening of the paper's primer and was removed; the reverse's R
-    is the paper's own, and tests the same rule.
+    The fixture's degenerate-primer assay is Aqrawi 2015's reptarenavirus GP
+    pair (since 2026-11-02, when the earlier Mycoplasma pair left the live
+    registry); its reverse primer's R is printed in the paper.
     """
-    assay = ASSAYS["Mycoplasma_16S_vanKuppeveld_1992"]
+    assay = ASSAYS["Reptarenavirus_GP_Aqrawi_2015"]
     rev = assay.oligos.reverse.seq
     assert "R" in rev
     i = rev.index("R")

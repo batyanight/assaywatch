@@ -16,8 +16,30 @@
 | Target | Orthopoxvirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10242" title="Orthopoxvirus">taxid 10242</a>) |
 | Gene | ATI (A-type inclusion body protein) |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 540–1700 bp, varies by species |
 | Registry status | draft |
+
+<p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
+| species | product | records |
+|---|---|---|
+| *Orthopoxvirus monkeypox* | 1535–1545 bp | 9,113 |
+| *Orthopoxvirus monkeypox* | 1067 bp | 1,981 |
+| *Orthopoxvirus vaccinia* | 1587–1615 bp | 130 |
+| *Orthopoxvirus variola* | 1576–1583 bp | 81 |
+| *Orthopoxvirus cowpox* | 1598–1601 bp | 62 |
+| *Orthopoxvirus cowpox* | 1673 bp | 51 |
+| *Orthopoxvirus vaccinia* | 1547 bp | 19 |
+| *Orthopoxvirus ectromelia* | 1220 bp | 14 |
+| *Orthopoxvirus camelpox* | 879 bp | 12 |
+| *Orthopoxvirus akhmetapox* | 1505 bp | 7 |
+| *Orthopoxvirus vaccinia* | 1671 bp | 5 |
+| *Orthopoxvirus vaccinia* | 1573 bp | 4 |
+| *Cowpox-Vaccinia virus* | 1601 bp | 4 |
+| *Orthopoxvirus cowpox* | 1505 bp | 3 |
+| *Orthopoxvirus abatinomacacapox* | 1673 bp | 2 |
+| *Orthopoxvirus volepox* | 542 bp | 2 |
+| *Orthopoxvirus skunkpox (bench-confirmed by Meyer 1997 at 530 bp; scored fail here)* | 551 bp | 2 |
+| *Orthopoxvirus taterapox* | 1628 bp | 2 |
 
 ## Oligos
 

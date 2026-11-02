@@ -1204,6 +1204,31 @@ def test_cross_reactive_is_not_listed_among_the_disclosures():
     assert "Disclosures on this entry" not in site_render.assay_page(page, "2026-11-01")
 
 
+def test_a_size_that_varies_by_species_is_shown_not_dashed():
+    """An entry whose product length varies stores no single `amplicon_bp`.
+
+    It declares `amplicon_bp_range` and, where measured, `species_sizes`. The page
+    printed only the single size, so every such assay read "Amplicon: —", which
+    looks like a missing value when it is the opposite: the best-measured size
+    information in the registry.
+    """
+    page = _page(
+        amplicon_bp=None,
+        amplicon_bp_range=[225, 846],
+        species_sizes=[
+            {"taxid": 1587505, "bp": [248, 248], "n_records": 33, "note": "Sarcocystis lutrae"},
+            {"taxid": 137009, "bp": [828, 836], "n_records": 9, "note": "Sarcocystis zamani"},
+        ],
+    )
+    md = site_render.assay_page(page, "2026-11-01")
+    assert "| Amplicon | 225–846 bp, varies by species |" in md
+    assert "Sarcocystis lutrae" in md and "248 bp" in md and "828–836 bp" in md
+    plain = site_render.assay_page(_page(amplicon_bp=143), "2026-11-01")
+    assert "| Amplicon | 143 bp |" in plain
+    unset = site_render.assay_page(_page(amplicon_bp=None), "2026-11-01")
+    assert "| Amplicon | — |" in unset, "an older extract without the new fields still renders"
+
+
 def test_an_assay_page_has_no_rounds_block():
     md = site_render.assay_page(_page(assay_id="PLAIN"), "2026-11-01")
     assert "round 1" not in md.lower()

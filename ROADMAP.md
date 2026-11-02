@@ -94,7 +94,7 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 - [x] **Decided 2026-11-01: the registry stores published oligo sequences only.** Four
   oligos that no publication prints were removed and replaced with the sequences their
   cited papers print (`BORNA_VIRUS_N_gene` forward,
-  `Dependoparvovirus_VP1_Gao_2002_2` both, `Mycoplasma_16S_vanKuppeveld_1992`
+  `Dependoparvovirus_VP1_Gao_2002_2` both, `Mycoplasma_16S_unpublished`
   forward, `Entamoeba_18S_Garcia_2014` both). The schema now refuses
   `modified_from` without `modification_doi`. **A RESCREEN IS OWED** for the two that
   were live: the parvovirus entry's primers are narrower, so its detected share can only

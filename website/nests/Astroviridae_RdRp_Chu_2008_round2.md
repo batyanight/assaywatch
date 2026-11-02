@@ -16,7 +16,7 @@
 | Target | Astroviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=39733" title="Astroviridae">taxid 39733</a>) |
 | Gene | RNA-dependent RNA polymerase |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 367–489 bp, varies |
 | Registry status | active |
 
 ## Oligos

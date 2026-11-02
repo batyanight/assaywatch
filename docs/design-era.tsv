@@ -3,7 +3,7 @@ Leucocytozoon_cytb_Hellgren_2004	195944	2004	2	7904	3952
 Ophidiomyces_ophidiicola_IGS_Bohuski_2015	1387563	2015	26	32728	1259	
 Ophidiomyces_ophidiicola_ITS2_Bohuski_2015	1387563	2015	26	32728	1259	
 Francisella_tularensis_tul4_Long_1993	263	1993	1	1151	1151	
-Mycoplasma_16S_vanKuppeveld_1992	2093	1992	25	24547	982	
+Mycoplasma_16S_unpublished	2093	1992	25	24547	982	
 Morbillivirus_P_Barrett_1993_Grosh_F	11229	1993	42	37496	893	
 Morbillivirus_P_Barrett_1993_MorbF	11229	1993	42	37496	893	
 Circoviridae_Rep_Mankertz_2000_round1	39724	2000	31	24310	784	
@@ -113,8 +113,8 @@ Rhabdoviridae_L_Bourhy_2005_round2	11270	2005	3456	46413	13
 Mycobacterium_tuberculosis_complex_IS6110_Boniotti_2014	77643	2014	433	5193	12	
 Mastadenovirus_POL_Roy_2009_round2	10509	2009	3052	30165	10	
 Mastadenovirus_POL_Roy_2009_round1	10509	2009	3052	30165	10	
-Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_F1	2093	2011	2473	24547	10	
-Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_F3	2093	2011	2473	24547	10	
+Mycoplasma_16S23S_ITS_unpublished_16_23_F1	2093	2011	2473	24547	10	
+Mycoplasma_16S23S_ITS_unpublished_16_23_F3	2093	2011	2473	24547	10	
 Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F	2093	2011	2473	24547	10	
 Lyssavirus_N_Vazquez-Moron_2006_round1	11286	2006	3796	34295	9	
 Lyssavirus_N_Vazquez-Moron_2006_round2	11286	2006	3796	34295	9	
@@ -176,7 +176,7 @@ Perkinsea_18S_Smilansky_2021_cladeAC	27997	2021	1486	1930	1
 Perkinsea_18S_Smilansky_2021_cladeD	27997	2021	1486	1930	1	
 Reptarenavirus_GP2_Baggio_2023	1653395	2023	385	387	1	
 Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR	5812	2010	20926	30871	1	
-Sarcocystis_18S_5_8S_Kutkiene_2010_ShortITS1R	5812	2010	20926	30871	1	
+Sarcocystis_18S_5_8S_unpublished	5812	2010	20926	30871	1	
 Iflavirus_sacbroodi_polyprotein_Rossi_2024	3048309	2024	756	900	1	106
 Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013	1357716	2013	0	4238		
 Leporid_gammaherpesvirus_5_gB_AbadeDosSantos_2021	2729004	2021	0	5		5

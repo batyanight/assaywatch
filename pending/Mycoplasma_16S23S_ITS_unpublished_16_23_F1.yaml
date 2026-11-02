@@ -1,5 +1,5 @@
-id: Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_F1
-name: Mycoplasma — 16S-23S intergenic spacer (Rebelo 2011, 16 23 F1)
+id: Mycoplasma_16S23S_ITS_unpublished_16_23_F1
+name: Mycoplasma — 16S-23S intergenic spacer (unpublished, 16-23-F1)
 target:
   taxid: 2093
   gene: 16S-23S intergenic spacer
@@ -15,13 +15,11 @@ oligos:
     seq: CTCCGTAGAAAGGAGGTGATCC
 amplicon_bp: 145
 citation:
-  doi: 10.1177/1040638711416846
+  doi: null
   design_year: 2011
   n_sequences_at_design: null
-  doi_verified: true
-  reference: Rebelo, A. R., Parker, L. & Cai, H. Y. Use of high-resolution melting curve analysis to identify Mycoplasma
-    species commonly isolated from ruminant, avian, and canine samples. Journal of Veterinary Diagnostic Investigation 
-    23, 932-936 (2011).
+  doi_verified: false
+  reference: null
   oligos_designed_here: false
 conditions:
   cycles: 35
@@ -32,8 +30,13 @@ submitted_by: null
 status: draft
 source:
   nested_round: null
-  notes_curator: 'CITATION ADDED 2026-10-04 by the provenance audit, on sequence evidence rather than inference. This entry
-    had no citation at all, but its forward primer ''16-23 F1 (Rebelo F)'' is byte-identical to RebeloF in Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F,
+  notes_curator: 'MOVED TO pending/ 2026-11-02. The forward primer 16-23-F1 is Rebelo et al. 2011''s universal F1 (10.1177/1040638711416846),
+    but the reverse primer 16-23-R1 (CTCCGTAGAAAGGAGGTGATCC) is not in that paper, and no publication printing it has been
+    found. With no published source for the pair, the entry is not live. To bring it back: find the paper that prints the
+    missing primer, cite it, and run assaywatch curate.
+
+    CITATION ADDED 2026-10-04 by the provenance audit, on sequence evidence rather than inference. This entry had no citation
+    at all, but its forward primer ''16-23 F1 (Rebelo F)'' is byte-identical to RebeloF in Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F,
     which carries doi:10.1177/1040638711416846 (verified against Crossref: Rebelo, Parker & Cai, J Vet Diagn Invest 23:932-936).
     So half of this pair is Rebelo 2011 and the partner is from elsewhere - unpublished or in-house, nothing says which. oligos_designed_here
     is False because the pair as entered is a composite, and Rebelo 2011''s claims bound only one of the two primers. Three

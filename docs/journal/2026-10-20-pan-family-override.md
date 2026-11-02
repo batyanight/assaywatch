@@ -70,7 +70,7 @@ Two rows move under the shipped rule, both improvements, nothing lost: Enterovir
 round2 2018-09-30 (`works`: declining/DISAGREES → low coverage/weaker) and
 Coronavirus RdRp round2 2024-03-29 (`partial`: declining/DISAGREES → low
 coverage/agrees). Current statuses: 2 of 201 move, both `declining` →
-`low coverage` with the gap named — Mycoplasma_16S_vanKuppeveld_1992 and
+`low coverage` with the gap named — Mycoplasma_16S_unpublished and
 PAPILLOMAVIRUS L1 Forslund 1999.
 
 **Why the more principled candidates lost.** Refusing the override outright, or

@@ -12,7 +12,8 @@ included. The `citation` field recorded where the sequences were **read from**;
 an assay's scope follows from where they were **designed**.
 
 This is a population-level risk, not one bad row: any entry whose
-oligos were transcribed from a secondary source lists a primer beside whoever it was obtained from.
+oligos came from a secondary source may credit a primer to whoever supplied it
+rather than to the paper that designed it.
 
 ## The structural fix
 

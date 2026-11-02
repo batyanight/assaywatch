@@ -87,7 +87,7 @@ understated by however many such variants the registry holds.
 
 ## `Mod` oligos are a different category
 
-`GPO-1FMod` (`Mycoplasma_16S_vanKuppeveld_1992.yaml:11`) and `ARS7C-MOD`
+`GPO-1FMod` (`Mycoplasma_16S_unpublished.yaml:11`) and `ARS7C-MOD`
 (`Arenaviridae_S_Lozano_1997_ARS3V.yaml:15`) sit in primary oligo slots, not in
 `alternates`. They are deliberate modifications of a published sequence, which
 the verification script's own closing note anticipates.

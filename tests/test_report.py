@@ -494,14 +494,15 @@ def test_an_unscoreable_chemistry_gets_no_status_in_either_report():
 def test_an_open_review_question_also_holds_the_status_back():
     """OPEN flags are questions a human has to answer, not disclosures.
 
-    `Mycoplasma_16S_vanKuppeveld_1992` carries `do_not_use` and was reported Low
-    Coverage, 78.3%, while docs/validation-cases.tsv records van Kuppeveld 1994
-    finding it working on 104 cell cultures with no false negatives.
+    `do_not_use` is one: an entry carrying it must not be reported with a
+    status however its numbers look. `Entamoeba_18S_Garcia_2014` is the entry
+    in registry/ that carries it.
     """
+    aid = "Entamoeba_18S_Garcia_2014"
     drifts = _drifting()
-    drifts["Mycoplasma_16S_vanKuppeveld_1992"] = drifts.pop("A")
-    drifts["Mycoplasma_16S_vanKuppeveld_1992"].assay_id = "Mycoplasma_16S_vanKuppeveld_1992"
-    assays = {"Mycoplasma_16S_vanKuppeveld_1992": _assay("Mycoplasma_16S_vanKuppeveld_1992")}
+    drifts[aid] = drifts.pop("A")
+    drifts[aid].assay_id = aid
+    assays = {aid: _assay(aid)}
     md = render_markdown(drifts, assays, [], "2026-10-03")
     assert "## Not scoreable (1)" in md
     assert "`do_not_use`" in md

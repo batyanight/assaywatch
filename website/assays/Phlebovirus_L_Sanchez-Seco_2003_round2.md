@@ -140,7 +140,7 @@ This is material because a record with one diverged primer is scored as a failur
 
 Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods, CC-BY); sequences read from that document, not transcribed from a secondary list. The forward primer contains inosine; seq stores it as N and seq_as_written keeps the I.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147, Supplementary Methods, CC-BY); sequences read from that document. The forward primer contains inosine; seq stores it as N and seq_as_written keeps the I.</p></details>
 
 ## Corrections
 

@@ -9,6 +9,15 @@ the output is worth.
 Dates are the release date. Figures carry the date of the run that produced them,
 because none of them can be recomputed without the archives.
 
+## Unreleased
+
+- Four entries moved to `pending/` because one of their primers is printed in no
+  paper: `Sarcocystis_18S_5_8S_Kutkiene_2010_ShortITS1R`, the two
+  `Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_*` pairs, and
+  `Mycoplasma_16S_vanKuppeveld_1992`. 216 assays are live.
+- Assay pages show the measured size range, and the size by species, where the
+  product length varies, instead of a dash.
+
 ## v0.2.0 — 2026-11-02
 
 Archived at Zenodo: [10.5281/zenodo.23891547](https://doi.org/10.5281/zenodo.23891547)

@@ -16,8 +16,14 @@
 | Target | Encephalitozoon cuniculi (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6035" title="Encephalitozoon cuniculi">taxid 6035</a>) |
 | Gene | polar tube protein |
 | Chemistry | conventional |
-| Amplicon | — |
+| Amplicon | 275–373 bp, varies by species |
 | Registry status | active |
+
+<p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
+| species | product | records |
+|---|---|---|
+| *Encephalitozoon cuniculi (fewer PTP repeats)* | 285 bp | 9 |
+| *Encephalitozoon cuniculi (more PTP repeats)* | 363 bp | 8 |
 
 ## Oligos
 
