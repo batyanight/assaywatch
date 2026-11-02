@@ -11,6 +11,9 @@ because none of them can be recomputed without the archives.
 
 ## v0.2.0 — 2026-11-02
 
+Archived at Zenodo: [10.5281/zenodo.23891547](https://doi.org/10.5281/zenodo.23891547)
+(this version), under the same concept DOI as v0.1.0.
+
 - **Assay ids, names and genes rebuilt on one scheme**,
   `<Taxon>_<gene>_<FirstAuthor>_<Year>[_qualifier][_roundN]`, from each entry's
   own taxon, gene and citation. Every id changed, and with it every site URL. Four
