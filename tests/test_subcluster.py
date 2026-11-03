@@ -18,7 +18,10 @@ from assaywatch.subcluster import (
     cluster_from_config,
     flanked_region,
     jaccard,
+    jaccard_matrix,
+    kmer_matrix,
     mash_distance,
+    mash_distances,
     mask_regions,
     sketch,
 )
@@ -278,3 +281,82 @@ def test_a_flank_never_ends_in_n():
     assert r.seq == "ACG" + "CCCCCGGGGG" + "TT"
     interior = _fr("ACGNN" + "CCCCCGGGGG" + "TTTTT", amplicon=(5, 15), flank_bp=5)
     assert interior.left_bp == 5 and interior.seq.startswith("ACGNN")
+
+
+# ---- kmer_matrix / jaccard_matrix / mash_distances: exact and vectorised (step 2) ----
+#
+# Finding 5: pure-Python sketch comparison costs ~6.5 ms a pair. A composition
+# window has far fewer k-mers than `sketch_size`, and below that size the bottom-k
+# estimate IS the exact Jaccard index, so an exact sparse-matrix computation gives
+# the same number in a fraction of the time. These pin that equality.
+
+
+def _windows(n=12, length=300, seed=7):
+    rng = random.Random(seed)
+    base = _rand_seq(length, rng)
+    out = []
+    for i in range(n):
+        s = list(base)
+        for _ in range(i * 3):  # increasing divergence from the base
+            j = rng.randrange(length)
+            s[j] = rng.choice("ACGT")
+        out.append("".join(s))
+    return out
+
+
+def test_each_row_holds_exactly_that_window_s_canonical_kmers():
+    seqs = _windows()
+    m = kmer_matrix(seqs, 15)
+    assert m.shape[0] == len(seqs)
+    for i, s in enumerate(seqs):
+        assert m[i].nnz == len(canonical_kmers(s, 15))
+
+
+def test_a_window_and_its_reverse_complement_are_one_row():
+    s = _windows(1)[0]
+    m = kmer_matrix([s, _revcomp(s)], 15)
+    assert (m[0] != m[1]).nnz == 0
+
+
+def test_jaccard_matrix_is_the_exact_set_jaccard():
+    seqs = _windows()
+    j = jaccard_matrix(kmer_matrix(seqs, 15))
+    for a in range(len(seqs)):
+        for b in range(len(seqs)):
+            ka, kb = canonical_kmers(seqs[a], 15), canonical_kmers(seqs[b], 15)
+            assert j[a, b] == pytest.approx(len(ka & kb) / len(ka | kb))
+
+
+def test_below_sketch_size_it_equals_the_sketch_estimate():
+    """The equality finding 5 rests on: with fewer k-mers than `sketch_size`, the
+    existing bottom-k `jaccard` and the exact matrix agree to the last digit."""
+    seqs, k, size = _windows(), 15, 10_000
+    j = jaccard_matrix(kmer_matrix(seqs, k))
+    sk = [sketch(s, k, size) for s in seqs]
+    for a in range(len(seqs)):
+        for b in range(len(seqs)):
+            assert j[a, b] == pytest.approx(jaccard(sk[a], sk[b], size))
+
+
+def test_two_sets_of_rows_compare_as_a_rectangle():
+    seqs = _windows()
+    m = kmer_matrix(seqs, 15)
+    full = jaccard_matrix(m)
+    rect = jaccard_matrix(m[:4], m[4:])
+    assert rect.shape == (4, len(seqs) - 4)
+    assert rect == pytest.approx(full[:4, 4:])
+
+
+def test_an_all_n_window_shares_nothing_and_is_not_nan():
+    m = kmer_matrix(["N" * 50, _windows(1)[0]], 15)
+    j = jaccard_matrix(m)
+    assert j[0, 0] == 0.0 and j[0, 1] == 0.0
+
+
+def test_mash_distances_equal_mash_distance_entry_by_entry():
+    import numpy as np
+
+    js = np.array([[0.0, 1e-9, 0.1], [0.5, 0.9, 1.0]])
+    d = mash_distances(js, 15)
+    for (r, c), v in np.ndenumerate(js):
+        assert d[r, c] == pytest.approx(mash_distance(float(v), 15))

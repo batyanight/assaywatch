@@ -42,6 +42,7 @@ from __future__ import annotations
 import hashlib
 import math
 from dataclasses import dataclass
+from typing import Any
 
 from assaywatch.accession import strip_version
 
@@ -220,6 +221,63 @@ def mash_distance(j: float, k: int) -> float:
         return 1.0
     d = -math.log(2 * j / (1 + j)) / k
     return max(0.0, d)
+
+
+# ---- Exact, vectorised Jaccard for composition windows (ROADMAP composition step 2) ----
+#
+# `sketch` + `jaccard` cost ~6.5 ms a pair in pure Python, hours for one assay's
+# sample. A composition window (amplicon + 2 x flank_bp) holds about a thousand
+# k-mers, far below `sketch_size`, and below that size the bottom-k estimate is
+# exactly |A & B| / |A | B|. So the exact index is computed directly: one binary
+# sparse matrix of canonical k-mers, one sparse product for every intersection.
+# scipy is imported inside the functions because it is an optional extra
+# (pyproject `lineage`) and this module sits on the report's import path.
+
+
+def kmer_matrix(seqs: list[str], k: int) -> Any:
+    """A binary ``scipy.sparse.csr_matrix``: row i = window i, one column per distinct
+    canonical k-mer across ALL ``seqs``. Rows compared with ``jaccard_matrix`` must
+    come from one call, so that they share columns -- slice rows, never rebuild."""
+    import numpy as np
+    from scipy.sparse import csr_matrix
+
+    vocab: dict[str, int] = {}
+    indptr = [0]
+    indices: list[int] = []
+    for s in seqs:
+        for km in canonical_kmers(s, k):
+            indices.append(vocab.setdefault(km, len(vocab)))
+        indptr.append(len(indices))
+    data = np.ones(len(indices), dtype=np.float32)
+    return csr_matrix((data, indices, indptr), shape=(len(seqs), max(len(vocab), 1)))
+
+
+def jaccard_matrix(a: Any, b: Any = None) -> Any:
+    """Exact Jaccard index between every row of ``a`` and every row of ``b`` (``a``
+    itself when omitted), as a dense ``numpy`` array. A pair sharing no k-mer, an
+    all-``N`` window included, reads 0.0, never NaN."""
+    import numpy as np
+
+    b = a if b is None else b
+    inter = (a @ b.T).toarray().astype(np.float64)
+    size_a = np.asarray(a.sum(axis=1), dtype=np.float64).reshape(-1, 1)
+    size_b = np.asarray(b.sum(axis=1), dtype=np.float64).reshape(1, -1)
+    union = size_a + size_b - inter
+    out = np.zeros_like(inter)
+    np.divide(inter, union, out=out, where=union > 0)
+    return out
+
+
+def mash_distances(j: Any, k: int) -> Any:
+    """``mash_distance`` over an array of Jaccard indices: ``-ln(2j/(1+j)) / k``,
+    1.0 where ``j <= 0``, never below 0. Same formula, same edge cases."""
+    import numpy as np
+
+    j = np.asarray(j, dtype=np.float64)
+    out = np.ones_like(j)
+    pos = j > 0
+    out[pos] = np.maximum(0.0, -np.log(2 * j[pos] / (1 + j[pos])) / k)
+    return out
 
 
 class _DSU:
