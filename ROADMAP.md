@@ -880,7 +880,10 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         BETWEEN MST edges count, each clipped to `[lo, hi]`; the space above the largest edge is not
         a gap, or groups 5% apart would always merge. 8 tests.
   - [ ] 4b. Calibrate `[cut_min, cut_max]` on influenza M and Messmer 16S; record both in `config.yaml`.
-  - [ ] 5. `components_at` + `assign_nearest` on a two-clade synthetic fixture (added to `make_fixtures.py`).
+  - [x] 5. `components_at` + `assign_nearest` on a two-clade synthetic fixture. Done 2026-11-03, on
+        sequences built in the tests; the `make_fixtures.py` fixture moves to step 12, which is its
+        first user. Labels `0..` by size, `OTHER` (-1) under `min_size`, `UNPLACED` (-2) beyond the
+        cut; short-flank queries placed by containment (-ln(c)/k). 7 tests.
   - [ ] 6. Naming and title tokens.
   - [ ] 7. Same-mix standardisation on a hand-computed table.
   - [ ] 8. Kitagawa: parts sum to the change; deterministic bootstrap.

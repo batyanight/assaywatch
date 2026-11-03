@@ -348,6 +348,80 @@ def widest_gap_cut(dist: Any, *, lo: float, hi: float, min_gap: float) -> Cut:
     return Cut((best[0] + best[1]) / 2, best[1] - best[0], "widest gap")
 
 
+# ---- Lineage labels, and placing every record (ROADMAP composition step 5) ----
+
+#: A sampled window in a component smaller than ``min_size``: pooled as "other".
+OTHER = -1
+#: A record farther than the cut from every sampled window.
+UNPLACED = -2
+
+
+def components_at(dist: Any, cut: float | None, min_size: int) -> list[int]:
+    """Single-linkage components of a sample at ``cut`` (pairs at most ``cut`` apart
+    join), as labels ``0, 1, ...`` by size, largest first; equal sizes go to the
+    component holding the earlier sample index, which ``composition.sample_windows``
+    already orders deterministically. A component under ``min_size`` is ``OTHER``.
+    ``cut=None`` (no gap in bounds) is one component."""
+    import numpy as np
+    from scipy.sparse import csr_matrix
+    from scipy.sparse.csgraph import connected_components
+
+    d = np.asarray(dist, dtype=np.float64)
+    n = d.shape[0]
+    if cut is None:
+        comp = np.zeros(n, dtype=int)
+    else:
+        _, comp = connected_components(csr_matrix(d <= cut), directed=False)
+    members: dict[int, list[int]] = {}
+    for i, c in enumerate(comp.tolist()):
+        members.setdefault(c, []).append(i)
+    ranked = sorted(members.values(), key=lambda m: (-len(m), m[0]))
+    labels = [OTHER] * n
+    for rank, m in enumerate(r for r in ranked if len(r) >= min_size):
+        for i in m:
+            labels[i] = rank
+    return labels
+
+
+def assign_nearest(
+    query: list[str],
+    ref: list[str],
+    ref_labels: list[int],
+    k: int,
+    cut: float,
+    *,
+    containment_for: set[int] | None = None,
+) -> list[int]:
+    """Each query window takes the label of its nearest ``ref`` window, or
+    ``UNPLACED`` if even the nearest is farther than ``cut``. Ties go to the lower
+    ref index.
+
+    Queries whose index is in ``containment_for`` (short-flank windows, finding 2)
+    are compared by CONTAINMENT, the share of the query's own k-mers found in the
+    ref, with distance ``-ln(c) / k`` as in Mash Screen. Their window is a fragment
+    of the ref's, and Jaccard would count the ref's extra flank against them."""
+    import numpy as np
+
+    if len(ref) != len(ref_labels):
+        raise ValueError(f"{len(ref)} ref windows but {len(ref_labels)} labels")
+    if not query:
+        return []
+    if not ref:
+        return [UNPLACED] * len(query)
+    m = kmer_matrix([*query, *ref], k)
+    q, r = m[: len(query)], m[len(query) :]
+    dist = mash_distances(jaccard_matrix(q, r), k)
+    for i in sorted(containment_for or ()):
+        inter = (q[i] @ r.T).toarray().ravel().astype(np.float64)
+        size = float(q[i].sum())
+        c = inter / size if size else np.zeros_like(inter)
+        row = np.ones_like(c)
+        row[c > 0] = np.maximum(0.0, -np.log(c[c > 0]) / k)
+        dist[i] = row
+    nearest = np.argmin(dist, axis=1)
+    return [ref_labels[int(j)] if dist[i, j] <= cut else UNPLACED for i, j in enumerate(nearest.tolist())]
+
+
 class _DSU:
     """Union-find for single-linkage connected components."""
 

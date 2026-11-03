@@ -12,10 +12,14 @@ import random
 import pytest
 
 from assaywatch.subcluster import (
+    OTHER,
+    UNPLACED,
     ClusterInfo,
+    assign_nearest,
     canonical_kmers,
     cluster,
     cluster_from_config,
+    components_at,
     flanked_region,
     jaccard,
     jaccard_matrix,
@@ -444,3 +448,70 @@ def test_one_window_is_too_few_to_cut():
 
     cut = widest_gap_cut(np.zeros((1, 1)), lo=0.01, hi=0.15, min_gap=0.01)
     assert (cut.value, cut.reason) == (None, "too few")
+
+
+# ---- components_at / assign_nearest (step 5) ----
+
+
+def _point_mutate(seq: str, n: int, rng: random.Random) -> str:
+    s = list(seq)
+    for _ in range(n):
+        i = rng.randrange(len(s))
+        s[i] = rng.choice([b for b in "ACGT" if b != s[i]])
+    return "".join(s)
+
+
+def _two_clade_windows(seed=21, length=1000, per=6):
+    """Two clades ~10% apart, members within a clade ~0.3% apart."""
+    rng = random.Random(seed)
+    root = _rand_seq(length, rng)
+    a, b = _point_mutate(root, 50, rng), _point_mutate(root, 50, rng)
+    return [_point_mutate(a, 3, rng) for _ in range(per)] + [_point_mutate(b, 3, rng) for _ in range(per)]
+
+
+def test_components_are_labelled_by_size_largest_first():
+    d = _clades([2, 5, 3], 0.002, [[0, 0.1, 0.1], [0.1, 0, 0.1], [0.1, 0.1, 0]])
+    labels = components_at(d, 0.05, min_size=1)
+    assert labels == [2] * 2 + [0] * 5 + [1] * 3
+
+
+def test_a_component_below_min_size_is_other():
+    d = _clades([4, 1], 0.002, [[0, 0.1], [0.1, 0]])
+    assert components_at(d, 0.05, min_size=3) == [0] * 4 + [OTHER]
+
+
+def test_no_cut_is_one_cluster_and_a_tiny_sample_is_other():
+    d = _clades([2, 2], 0.002, [[0, 0.1], [0.1, 0]])
+    assert components_at(d, None, min_size=3) == [0] * 4
+    assert components_at(d[:2, :2], None, min_size=3) == [OTHER] * 2
+
+
+def test_equal_sizes_tie_to_the_earlier_sample():
+    d = _clades([3, 3], 0.002, [[0, 0.1], [0.1, 0]])
+    assert components_at(d, 0.05, min_size=1) == [0] * 3 + [1] * 3
+
+
+def test_a_record_joins_the_clade_of_its_nearest_sampled_member():
+    rng = random.Random(22)
+    w = _two_clade_windows()
+    ref, labels = w[:3] + w[6:9], [0, 0, 0, 1, 1, 1]
+    queries = [_point_mutate(w[4], 2, rng), _point_mutate(w[10], 2, rng)]
+    assert assign_nearest(queries, ref, labels, 15, 0.05) == [0, 1]
+
+
+def test_a_record_beyond_the_cut_from_every_member_is_unplaced():
+    rng = random.Random(23)
+    w = _two_clade_windows()
+    stranger = _rand_seq(1000, rng)
+    assert assign_nearest([stranger], w[:6], [0] * 6, 15, 0.05) == [UNPLACED]
+
+
+def test_a_short_flank_record_is_placed_by_containment():
+    """A 300 bp piece of a clade-B window shares few k-mers with a 1,000 bp
+    window as a SET (Jaccard ~0.3, distance far past the cut), but nearly all of its
+    own k-mers are in it. Containment places it; Jaccard would leave it unplaced."""
+    w = _two_clade_windows()
+    piece = w[8][350:650]
+    ref, labels = w[:3] + w[6:9], [0, 0, 0, 1, 1, 1]
+    assert assign_nearest([piece], ref, labels, 15, 0.05) == [UNPLACED]
+    assert assign_nearest([piece], ref, labels, 15, 0.05, containment_for={0}) == [1]
