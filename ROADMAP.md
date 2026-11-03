@@ -858,7 +858,11 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
   **Steps** (TDD: failing test → code → `pytest -m fast`, ruff → `pytest -q`; each step
   leaves pytest, the validator, ruff and check_citations passing; one commit per step):
-  - [ ] 0. Config block + settings model.
+  - [x] 0. **Folded into step 12** (2026-11-03). Two guards make a standalone config step impossible:
+        `test_config_keys` refuses a key nothing reads and `test_settings` refuses a model key
+        `config.yaml` lacks, so a key, its model field and its first reader land together. Steps
+        1-11 are pure functions taking values as arguments; `composition.build` (step 12) is the
+        first reader. The block, comments and model are drafted in `docs/composition-config-draft.yaml`.
   - [ ] 1. `flanked_region` (clipping at ends and N runs, masking, flank recorded).
   - [ ] 2. `kmer_matrix` / `jaccard_matrix`, equal to the existing `jaccard` / `mash_distance`.
   - [ ] 3. Stratified sample, deterministic and order-independent.
@@ -873,6 +877,8 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         sums equal `assess().years`; existing report output byte-identical. **`pytest -m slow`.**
   - [ ] 11. The "diverged" segment: diverged records counted per year as their own lineage (no placement).
   - [ ] 12. `composition.build` / `write` on the fixture: invariant, TSV schema, JSON round-trip.
+        Moves the `composition:` block and `settings.Composition` in from
+        `docs/composition-config-draft.yaml`, with their tests, and deletes the draft.
   - [ ] 13. `lineage.md` from `composition.tsv`. **slow.**
   - [ ] 14. Report section. **slow.**
   - [ ] 15. Site: `website/data/composition.json` (columnar), chart additions, panel, sentence; a

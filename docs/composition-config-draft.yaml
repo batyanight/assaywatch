@@ -1,0 +1,152 @@
+# DRAFT, read by nothing. ROADMAP "Lineage composition over time", written 2026-11-03
+# as step 0 and NOT committable as a step of its own: tests/test_config_keys.py refuses a
+# config key nothing reads, and test_settings.py refuses a model key config.yaml lacks, so
+# a key, its model field and its first reader land together -- at step 12, when
+# `composition.build` reads the block. This file holds all three parts until then and is
+# deleted in that step.
+#
+# Part 1, below: the config.yaml block, comments included.
+# Part 2, at the end: the settings.py model and its tests, commented out.
+
+# How each assay's record mix changes over time, and what that does to its
+# detection graph (ROADMAP, "Lineage composition over time"; assaywatch/composition.py,
+# not built yet). REPORT-ONLY: it moves no status, so it is outside the drift hash.
+# Lineages here are sequence clusters over the amplicon plus flank with the primer
+# and probe sites masked, so a cluster is defined by sequence the assay does not
+# measure -- the same reasoning as decision A of
+# docs/journal/2026-10-19-subtaxid-resolution.md.
+composition:
+  # 500 bp each side: long enough that two records of one species usually share
+  # enough k-mers to measure a distance, short enough to stay inside most partial
+  # gene records. A judgement, not a measurement. Assembly cuts carry only 100 bp
+  # (amplicon.record_min_overhang_bp) and window archives 300 bp, so those records
+  # get what they have; the flank actually used is recorded per window.
+  flank_bp: 500
+  # Bases masked beyond each site: a pool's alternate primers sit a few bases off
+  # the primary pair's site. 5 covers the offsets seen in the registry by eye; not
+  # measured.
+  mask_buffer_bp: 5
+  # A run of 10 N ends a flank: assembly scaffolds join contigs with N spacers,
+  # and sequence on the far side of one is not adjacent to the amplicon.
+  stop_n_run: 10
+  # 15-mers: at ~1,000-1,300 bp per window a 15-mer is effectively unique
+  # (4^15 ~ 1e9), and Mash's distance estimate stays usable up to the ~15%
+  # divergence of cut_max below; 21 (subcluster's default) saturates sooner on
+  # short, divergent windows. Standard choice, not tuned here.
+  kmer_len: 15
+  # At most 2,000 windows per assay are clustered, spread across deposit years;
+  # every other record is assigned to its nearest sampled member. Sets the cost
+  # (2,000^2/2 = 2M distances, seconds vectorised). Not a statistical choice.
+  sample_cap: 2000
+  # The cut is the midpoint of the widest gap in the sample's single-linkage tree
+  # that lies inside [cut_min, cut_max] (Mash distance, ~ fraction of differing
+  # bases). PROVISIONAL: ROADMAP step 4b calibrates both on influenza M (subtypes in
+  # record titles must separate) and Messmer 16S (must stay one cluster), and
+  # replaces this comment with the distances measured there.
+  cut_min: 0.01
+  cut_max: 0.15
+  # A widest gap narrower than 0.01 is not a gap: the assay reads "no gap in
+  # bounds" and is one cluster. Placeholder, revisited with the bounds at step 4b.
+  min_gap: 0.01
+  # A component with fewer than 3 sampled members is not a lineage; its records
+  # pool into "other". Placeholder.
+  min_cluster_size: 3
+  # Clusters drawn per assay; the rest pool into "other". 8 because a stacked bar
+  # stops being readable past about that many colours, not because it is measured.
+  show_clusters: 8
+  # Bootstrap resamples for the mix/within split's intervals. 2,000 is the usual
+  # floor for stable 95% percentile intervals; deterministic under boot_seed.
+  n_boot: 2000
+  boot_seed: 0
+  # A year's same-mix point is drawn only when the clusters present that year
+  # carry at least 80% of the whole-period weight; otherwise the "same mix" is
+  # mostly extrapolation. Placeholder.
+  same_mix_min_covered: 0.8
+  # The report section "Where the mix moved the graph" names an assay whose mix
+  # part is at least 5 percentage points and whose interval excludes 0. Matches
+  # drift.min_decline (0.05), the size of change the verdict already treats as
+  # worth naming.
+  report_min_mix: 0.05
+  # Years re-counted by esearch each run for retrieval coverage; older years come
+  # from the cache (data/retrieved/.year-counts.json.gz). 2 because late deposits
+  # and re-annotation mostly touch the last two years. Not measured.
+  coverage_refresh_years: 2
+  # Cap on website/data/composition.json, which is committed every run beside the
+  # 2.5 MB run.json. A test fails the build above it.
+  site_max_bytes: 1500000
+
+# ---- Part 2: assaywatch/settings.py (add `composition: Composition` to Settings) ----
+# class Composition(Block):
+#     """How each assay's record mix changes over time (ROADMAP, "Lineage composition
+#     over time"). Report-only: nothing here moves a status, so the block stays out of
+#     the drift hash. Values and their justification live in config.yaml.
+#
+#     Names avoid the keys `subcluster.cluster_from_config` reads (`kmer`,
+#     `sketch_size`, `threshold`, `min_cluster_records`, `buffer_bp`, `method`), because
+#     `test_every_in_code_fallback_matches_the_model` matches keys by bare name.
+#     """
+#
+#     #: Bases kept each side of the amplicon before masking the sites.
+#     flank_bp: int = Field(default=500, ge=0)
+#     #: Extra bases masked beyond each primer/probe site (pool alternates sit within a few).
+#     mask_buffer_bp: int = Field(default=5, ge=0)
+#     #: A run of this many N ends a flank: assembly spacers are not sequence.
+#     stop_n_run: int = Field(default=10, gt=0)
+#     kmer_len: int = Field(default=15, ge=5, le=31)
+#     #: Most windows sampled per assay for the clustering, split across years.
+#     sample_cap: int = Field(default=2000, gt=1)
+#     #: Distance bounds the widest gap must fall inside. Provisional until step 4b.
+#     cut_min: float = Field(default=0.01, ge=0.0, lt=1.0)
+#     cut_max: float = Field(default=0.15, gt=0.0, le=1.0)
+#     #: A widest gap narrower than this is "no gap in bounds": one cluster.
+#     min_gap: float = Field(default=0.01, gt=0.0)
+#     #: A component with fewer sampled members than this is not a lineage.
+#     min_cluster_size: int = Field(default=3, gt=0)
+#     #: Clusters drawn per assay; the rest pool into "other".
+#     show_clusters: int = Field(default=8, gt=0)
+#     n_boot: int = Field(default=2000, gt=0)
+#     boot_seed: int = 0
+#     #: A year's same-mix point is drawn only if its clusters cover this share of the weight.
+#     same_mix_min_covered: float = Field(default=0.8, gt=0.0, le=1.0)
+#     #: The report section names an assay whose mix part is at least this.
+#     report_min_mix: float = Field(default=0.05, gt=0.0, le=1.0)
+#     #: Recent years re-counted by esearch each run; older years come from the cache.
+#     coverage_refresh_years: int = Field(default=2, ge=1)
+#     #: The cap on website/data/composition.json.
+#     site_max_bytes: int = Field(default=1_500_000, gt=0)
+#
+#     @model_validator(mode="after")
+#     def bounds_leave_room_for_a_gap(self) -> Composition:
+#         if self.cut_max <= self.cut_min:
+#             raise ValueError(f"composition.cut_max ({self.cut_max}) must exceed cut_min ({self.cut_min})")
+#         if self.min_gap >= self.cut_max - self.cut_min:
+#             raise ValueError(
+#                 f"composition.min_gap ({self.min_gap}) leaves no room inside "
+#                 f"[cut_min, cut_max] = [{self.cut_min}, {self.cut_max}]"
+#             )
+#         return self
+
+# ---- Part 2: tests/test_settings.py ----
+# def test_the_composition_block_exists_with_the_planned_defaults():
+#     """ROADMAP "Lineage composition over time", step 0. The numbers the plan named
+#     are pinned here so a later edit to one is a visible decision, not a drift."""
+#     d = Settings().model_dump()["composition"]
+#     assert d["flank_bp"] == 500
+#     assert d["kmer_len"] == 15
+#     assert d["sample_cap"] == 2000
+#     assert (d["cut_min"], d["cut_max"]) == (0.01, 0.15)  # provisional until step 4b
+#     assert d["show_clusters"] == 8
+#     assert d["n_boot"] == 2000
+#     assert d["site_max_bytes"] == 1_500_000
+#     assert validated({})["composition"] == d
+#
+#
+# def test_composition_cut_bounds_must_leave_room_for_a_gap():
+#     """The cut is the widest gap's midpoint inside [cut_min, cut_max]. Inverted
+#     bounds leave nowhere to cut, and a `min_gap` as wide as the bounds can never
+#     be met, so every assay would read "no gap in bounds" without saying why."""
+#     for patch in ({"cut_min": 0.2, "cut_max": 0.1}, {"cut_min": 0.01, "cut_max": 0.05, "min_gap": 0.05}):
+#         cfg = raw()
+#         cfg.setdefault("composition", {}).update(patch)
+#         with pytest.raises(ValueError, match="composition"):
+#             validated(cfg)
