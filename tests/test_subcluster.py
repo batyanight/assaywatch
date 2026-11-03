@@ -16,6 +16,7 @@ from assaywatch.subcluster import (
     canonical_kmers,
     cluster,
     cluster_from_config,
+    flanked_region,
     jaccard,
     mash_distance,
     mask_regions,
@@ -197,3 +198,83 @@ def test_cluster_from_config_masks_amplicon_and_clusters():
 def test_cluster_from_config_rejects_unknown_method():
     with pytest.raises(ValueError):
         cluster_from_config([], {"method": "blast"})
+
+
+# ---- flanked_region: the window composition clusters (ROADMAP step 1) ----
+#
+# A 30-bp record with an amplicon at [10, 20) is the shape every case below varies.
+_REC = "AAAAACCCCCGGGGGTTTTTACGTACGTAC"
+
+
+def _fr(seq=_REC, amplicon=(10, 20), sites=(), *, flank_bp=5, mask_buffer_bp=0, stop_n_run=10):
+    return flanked_region(
+        "rec1.1",
+        seq,
+        amplicon,
+        list(sites),
+        flank_bp=flank_bp,
+        mask_buffer_bp=mask_buffer_bp,
+        stop_n_run=stop_n_run,
+    )
+
+
+def test_a_window_is_the_amplicon_plus_both_flanks():
+    r = _fr()
+    assert r.seq == _REC[5:25]
+    assert (r.left_bp, r.right_bp, r.full_flank) == (5, 5, True)
+    assert r.record_id == "rec1.1"
+
+
+def test_a_flank_stops_at_the_end_of_the_record_and_says_so():
+    """Assembly cuts carry 100 bp and window archives 300, so a short flank is the
+    normal case for them; the flank used is recorded, never padded."""
+    r = _fr(amplicon=(2, 10))
+    assert r.seq == _REC[0:15]
+    assert (r.left_bp, r.right_bp, r.full_flank) == (2, 5, False)
+    r = _fr(amplicon=(20, 28))
+    assert (r.left_bp, r.right_bp, r.full_flank) == (5, 2, False)
+
+
+def test_a_run_of_n_ends_a_flank_but_a_short_one_does_not():
+    """Scaffolds join contigs with N spacers; sequence beyond one is not adjacent to
+    the amplicon. A few N inside real sequence are ambiguity, not a spacer."""
+    spacer = "ACGTACGT" + "N" * 10 + "ACGTA" + "CCCCCGGGGG" + "ACGTACGTAC"
+    r = _fr(spacer, amplicon=(23, 33), flank_bp=20)
+    assert r.left_bp == 5  # stops just after the 10-N run, which is not included
+    assert r.seq.startswith("ACGTA")
+    short = "ACGTACGTACGT" + "NNN" + "ACGTACCCCCGGGGG" + "ACGTACGTAC"
+    r = _fr(short, amplicon=(25, 35), flank_bp=20)
+    assert r.left_bp == 20 and "NNN" in r.seq
+
+
+def test_sites_are_masked_in_window_coordinates_with_their_buffer():
+    """Sites arrive in RECORD coordinates and the window starts at the left flank,
+    so the mask must shift; the buffer widens each site but never leaves the window."""
+    r = _fr(sites=[(10, 13), (17, 20)], mask_buffer_bp=1)
+    # window = _REC[5:25] = CCCCC|GGGGGTTTTT|ACGTA; buffered sites [9,14) and [16,21)
+    # land at window [4,9) and [11,16)
+    assert r.seq == "CCCC" + "NNNNN" + "GT" + "NNNNN" + "CGTA"
+    edge = _fr(amplicon=(0, 10), sites=[(0, 3)], mask_buffer_bp=4)
+    assert edge.seq.startswith("NNNNNNN") and len(edge.seq) == 15
+
+
+def test_a_window_is_upper_case_whatever_the_archive_wrote():
+    assert _fr(_REC.lower()).seq == _REC[5:25]
+
+
+@pytest.mark.parametrize("amplicon", [(10, 10), (12, 8), (-1, 5), (25, 31)])
+def test_an_amplicon_outside_the_record_is_refused(amplicon):
+    with pytest.raises(ValueError, match="amplicon"):
+        _fr(amplicon=amplicon)
+
+
+def test_a_flank_never_ends_in_n():
+    """N at a flank's OUTER end -- cut off by the flank limit or the record's end --
+    are dropped: a flank padded with ambiguity would read as longer than the sequence
+    it holds. N between real flank bases and the amplicon are interior and kept."""
+    rec = "NNACG" + "CCCCCGGGGG" + "TTNNN"
+    r = _fr(rec, amplicon=(5, 15), flank_bp=5)
+    assert (r.left_bp, r.right_bp) == (3, 2)
+    assert r.seq == "ACG" + "CCCCCGGGGG" + "TT"
+    interior = _fr("ACGNN" + "CCCCCGGGGG" + "TTTTT", amplicon=(5, 15), flank_bp=5)
+    assert interior.left_bp == 5 and interior.seq.startswith("ACGNN")

@@ -76,6 +76,77 @@ def mask_regions(seq: str, spans: list[tuple[int, int]], buffer_bp: int = 0) -> 
     return "".join(chars)
 
 
+@dataclass(frozen=True)
+class Region:
+    """One record's window for composition clustering: flank + amplicon + flank,
+    every primer/probe site (plus buffer) masked to ``N``.
+
+    ``left_bp`` / ``right_bp`` are the flank actually used, which is less than asked
+    where the record ends or an ``N`` spacer begins; ``full_flank`` says both sides
+    reached the requested length. Short-flank windows are assigned by containment and
+    never sampled (ROADMAP, "Lineage composition over time", finding 2), so the
+    caller needs to know. No reverse complement: ``canonical_kmers`` already counts a
+    k-mer and its reverse complement as one, so either strand's window compares.
+    """
+
+    record_id: str
+    seq: str
+    left_bp: int
+    right_bp: int
+    full_flank: bool
+
+
+def _flank_extent(seq: str, edge: int, step: int, flank_bp: int, stop_n_run: int) -> int:
+    """How many bases a flank keeps, walking outward from the amplicon boundary ``edge``
+    (its start for the left flank, its exclusive end for the right) by ``step``
+    (-1 left, +1 right), stopping at the record's end or before a run of
+    ``stop_n_run`` N. A shorter run of N is ambiguity and is kept."""
+    kept = 0
+    run = 0
+    i = edge - 1 if step < 0 else edge
+    while kept + run < flank_bp and 0 <= i < len(seq):
+        if seq[i] == "N":
+            run += 1
+            if run >= stop_n_run:
+                return kept
+        else:
+            kept += run + 1
+            run = 0
+        i += step
+    return kept
+
+
+def flanked_region(
+    record_id: str,
+    seq: str,
+    amplicon: tuple[int, int],
+    sites: list[tuple[int, int]],
+    *,
+    flank_bp: int,
+    mask_buffer_bp: int,
+    stop_n_run: int,
+) -> Region:
+    """The window ``composition`` clusters, cut from one record.
+
+    ``amplicon`` and ``sites`` are 0-based half-open spans in RECORD coordinates (the
+    convention of ``match.pair_spans``); the sites are shifted into window
+    coordinates before masking. Each flank extends up to ``flank_bp`` and stops at
+    the record's end or just before a run of ``stop_n_run`` N, because an assembly
+    spacer means the sequence beyond it is not adjacent to the amplicon. N of a
+    shorter run at a flank's OUTER end are dropped, so a flank never ends in N there;
+    N between flank bases and the amplicon are interior ambiguity and kept.
+    """
+    start, end = amplicon
+    if not 0 <= start < end <= len(seq):
+        raise ValueError(f"{record_id}: amplicon {amplicon} is not inside a {len(seq)} bp record")
+    s = seq.upper()
+    left = _flank_extent(s, start, -1, flank_bp, stop_n_run)
+    right = _flank_extent(s, end, +1, flank_bp, stop_n_run)
+    lo, hi = start - left, end + right
+    window = mask_regions(s[lo:hi], [(a - lo, b - lo) for a, b in sites], mask_buffer_bp)
+    return Region(record_id, window, left, right, left == flank_bp and right == flank_bp)
+
+
 def canonical_kmers(seq: str, k: int) -> set[str]:
     """Canonical k-mers of *seq*: the lexicographically smaller of each k-mer
     and its reverse complement.

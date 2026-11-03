@@ -172,6 +172,8 @@ word for a concept.
 
 **window archive** — an archive cut down to a `buffer_bp` window around the sites a screen found, for distribution (`windows.py`).
 
+**composition window** — one record's amplicon plus up to `flank_bp` of flank each side, every primer/probe site masked to N, cut by `subcluster.flanked_region` and returned as a `Region` with the flank actually used. What composition clusters; not a window archive, which is cut around sites for distribution and keeps them.
+
 **manifest** — the retrieve stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record** — what `retrieve` returns for one fetched group (`TaxonRun`), written to the manifest (`retrieve.py`).

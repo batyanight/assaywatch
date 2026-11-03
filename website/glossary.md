@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (149 links).
+    definition links to it (154 links).
     `status` is defined by more than one entry and so
     deliberately not linked.
 
@@ -183,6 +183,8 @@ word for a concept.
 **assembly (`asm` group)**{: #term-assembly } — a [retrieval group](#term-retrieval-group) of sampled bacterial genome assemblies (`assemblies.taxa`, `per_year`) cut down to the loci the oligos could build an [amplicon](#term-amplicon) in, used where gene-level deposits stopped (`assemblies.py`).
 
 **window archive**{: #term-window-archive } — an [archive](#term-archive) cut down to a `buffer_bp` window around the sites a [screen](#term-screen) found, for distribution (`windows.py`).
+
+**composition window**{: #term-composition-window } — one record's [amplicon](#term-amplicon) plus up to `flank_bp` of flank each side, every [primer](#term-primer)/[probe](#term-probe) [site](#term-site) masked to N, cut by `subcluster.flanked_region` and returned as a `Region` with the flank actually used. What composition clusters; not a [window archive](#term-window-archive), which is cut around sites for distribution and keeps them.
 
 **manifest**{: #term-manifest } — the [retrieve](#term-retrieve) stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 

@@ -863,7 +863,10 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         `config.yaml` lacks, so a key, its model field and its first reader land together. Steps
         1-11 are pure functions taking values as arguments; `composition.build` (step 12) is the
         first reader. The block, comments and model are drafted in `docs/composition-config-draft.yaml`.
-  - [ ] 1. `flanked_region` (clipping at ends and N runs, masking, flank recorded).
+  - [x] 1. `flanked_region` (clipping at ends and N runs, masking, flank recorded). Done 2026-11-03:
+        `subcluster.Region` + `flanked_region`, 7 tests in `tests/test_subcluster.py`; a flank keeps
+        interior N and drops N at its outer end; no reverse complement (k-mers are canonical).
+        GLOSSARY: composition window.
   - [ ] 2. `kmer_matrix` / `jaccard_matrix`, equal to the existing `jaccard` / `mash_distance`.
   - [ ] 3. Stratified sample, deterministic and order-independent.
   - [ ] 4. `widest_gap_cut`: two clades; bounds; no gap; too few.
