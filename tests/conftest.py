@@ -17,6 +17,7 @@ FAST_FILES = frozenset(
         "chance",
         "chance_pair",
         "clustering",
+        "composition",
         "degeneracy",
         "flag_rule",
         "gapped",

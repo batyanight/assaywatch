@@ -871,7 +871,10 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         2026-11-03, plus `mash_distances` (the vectorised `mash_distance`, needed by the cut). 7 tests,
         including equality with the bottom-k estimate below `sketch_size`. 2,000 synthetic 1,200 bp
         windows: k-mer matrix 2.0 s, all-pairs Jaccard 1.9 s, 32 MB dense. scipy imported lazily.
-  - [ ] 3. Stratified sample, deterministic and order-independent.
+  - [x] 3. Stratified sample, deterministic and order-independent. Done 2026-11-03:
+        `composition.sample_windows(regions, years, cap) -> list[int]` (new module). Round-robin
+        across years so a quiet year's lineage is always clustered; identical windows count once;
+        rank by blake2b of the version-less accession. 7 tests, `fast` tier.
   - [ ] 4. `widest_gap_cut`: two clades; bounds; no gap; too few.
   - [ ] 4b. Calibrate `[cut_min, cut_max]` on influenza M and Messmer 16S; record both in `config.yaml`.
   - [ ] 5. `components_at` + `assign_nearest` on a two-clade synthetic fixture (added to `make_fixtures.py`).
