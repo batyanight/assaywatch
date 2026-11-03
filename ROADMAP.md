@@ -728,6 +728,180 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   keeping**: a `near:1` on a degenerate oligo is usually the CITING paper's transcription
   error, not ours. Only the 73 paywalled rows could still move, and the yield looks low.
 
+## Lineage composition over time (designed 2026-11-02, grilled; not built)
+
+- [ ] **Separate "the mix of lineages sequenced changed" from "detection within lineages
+  changed" in every assay's per-year detection graph.** An assay's graph can move for
+  either reason (a large LGV study one year, a wave of H3N2 deposits another), and nothing
+  today tells them apart. What exists: per-lineage statistics pooled over the recent window
+  (`lineage.py`), per-year blocks for failing lineages only and not scope-filtered
+  (`lineage_report.py`), and a clustering module (`subcluster.py`) wired into the lineage
+  layer as the `cluster` resolver (Mode C, `clustermaps.py`) but switched on for no assay. Nothing records
+  which lineages make up each year's records. The Messmer *C. trachomatis* finding (a
+  design-era gap, not drift) is the kind of question this answers. **Report-only: no status
+  changes**, like the trend, collection-year and hierarchical lenses.
+
+  **Decisions** (grilled 2026-11-02):
+
+  | Decision | Choice |
+  |---|---|
+  | What "scope over time" covers | lineage mix per year; growth of the target taxon; design era vs now; retrieval coverage |
+  | Lineage | sequence clusters, every assay |
+  | Region clustered | amplicon + flank each side, primer/probe sites masked |
+  | Cut-off | per assay: widest gap in the distances, bounded in config; recorded |
+  | Scale | year-stratified sample (capped); every record assigned to its nearest sampled member |
+  | Names | majority species + number ("C. trachomatis 1"); tooltip with species mix and title tokens |
+  | Split | a "same mix" line (whole-period mix, direct standardisation) + a recent-vs-baseline Kitagawa split (mix part + within part, bootstrap intervals) |
+  | Target taxon | first-deposit year of each species under the target; "new since design" after the design year |
+  | Retrieval coverage | the assay's query vs all records under the target taxid, per year, by `esearch` |
+  | Outputs | website: same-mix line, a CoVariants-style 100% stacked panel under the graph (8 clusters + other, undetected part lighter), a retrieval-gap band, one sentence; `composition.tsv`; a report section; `lineage.md` per-year blocks from clusters |
+  | The graph's record set (finding 4) | **extracted, not rebuilt** (decided 2026-11-02): `drift.graph_records` and `report.assessment_inputs` become the one place the record set is decided, used by both `assess` and `composition`; step 10 is guarded by byte-identical report output and `pytest -m slow`, and gets full review because it touches the verdict path |
+  | One clustering or two | **one** (decided 2026-11-02): composition's clustering replaces Mode C's all-pairs path; `clustermaps.cluster_maps` returns composition's labels, so the `cluster` resolver gains window archives and influenza scale. No verdict moves (no `sublineage` chain names `cluster`). Step 12 adds a test that `cluster_maps` and `composition.tsv` agree record for record |
+  | Retrieval coverage counts | **one counter, two consumers** (decided 2026-11-02): `retrieve.year_counts` and its cache are the single source of per-year counts, read by the composition panel and by the release scope-verification script (whose interface is still to approve). Three series: archive on disk (free), query, and all under the target taxid; archive vs query catches a retrieval that fell behind, query vs taxid catches a blind query. Runs in the weekly pipeline: ~10,700 `esearch` calls (~18 min) once, ~540 per run after |
+  | Diverged records (finding 1) | **an explicit segment, no homology placement in version 1** (decided 2026-11-02): each year's bar carries "diverged: no site found" in the failure shade, counted in the invariant and stated in the sentence; for the split it is one more lineage. Former step 11 dropped |
+  | Where the panel's data lives | **a separate compact file** (decided 2026-11-02): `website/data/composition.json`, committed beside `run.json` (2.5 MB today), columnar per assay, years with records only, cluster names once; a test caps it at 1.5 MB; `site.yml`'s published-vs-data check covers both files. `run.json` keeps its shape |
+  | Cut bounds | **calibrated on two known cases, then fixed in config** (decided 2026-11-02): provisional `[0.01, 0.15]` Mash distance over amplicon ± flank, sites masked; a step 4b runs the cut on influenza M (subtype tokens in titles are the check: H3N2, H1N1pdm09, avian must separate) and Messmer 16S (must stay one cluster), and the bounds and the measured distances go into the `config.yaml` comment, which says two cases is thin |
+  | Messmer bench case | the note under "Data and curation" only; no validation row: it would score `undecided` (about seven *trachomatis* records before its 1996 `as_of`) and the development set is frozen |
+
+  **Found while planning, each changing the design** (confirm at review):
+  1. **Diverged records have no site.** With `drift.count_diverged_as_fail: true`, 68,599
+     `diverged` no-amplicon rows (4% of evaluable, concentrated in a few assays such as
+     Enterovirus Nix round 2) count as failures in the graph but carry no coordinates to cut
+     a window from. **Decided: no placement in version 1**; they form an explicit
+     "diverged: no site found" segment, drawn and counted, whose share the sentence states.
+  2. **Assembly and window archives hold short flanks.** `asm` records are cut to the
+     amplicon ± 100 bp (`record_min_overhang_bp`), window archives ± 300 bp. Flanks stop at
+     record ends and N spacers, the flank used is recorded, and short-flank windows are
+     assigned by containment and never sampled.
+  3. **16S will not separate *C. trachomatis* serovars.** The ocular/urogenital/LGV split is
+     in ompA and the genome; ±500 bp of 16S is near-identical. Expect one cluster ("no gap in
+     bounds"): the honest answer for a 16S assay, not a failure of the method.
+  4. **The panel reuses the graph's record set, never rebuilds it.** That set comes from
+     accession keying, the anchor and chance-pair tests, scope/exclusivity/patent filters,
+     the per-chemistry `reduced` rule and the recent window; these move into shared helpers,
+     with a hard invariant: per assay and year the panel's cells sum to the graph's evaluable
+     and detected counts, or the stage fails.
+  5. **Pure-Python Mash comparison will not scale** (~6.5 ms per pair, hours per assay).
+     Flanked windows are under `sketch_size`, so an exact vectorised Jaccard (numpy/scipy
+     sparse) gives the same distance in seconds; a test pins the equality.
+
+  **Design: one new deep module, `assaywatch/composition.py`**, entry point `build(...)`
+  (+ `write`, `read_summary`, `main`), command `assaywatch composition`, a Snakefile stage
+  after the screen. Reads files; writes `results/<date>/composition.tsv` (assay × year ×
+  cluster) and `composition.json` (per-assay split, same-mix series, coverage, species first
+  years); changes no status. **Interfaces, for the maintainer's approval before step 0**
+  (internals delegated within the tested boundary):
+
+  ```python
+  # subcluster.py: region support and sample-then-assign beside the unchanged cluster()
+  flanked_region(record_id, seq, amplicon, sites, *, flank_bp, mask_buffer_bp, stop_n_run) -> Region
+  kmer_matrix(seqs, k) -> csr_matrix;  jaccard_matrix(a, b=None) -> ndarray
+  widest_gap_cut(dist, *, lo, hi, min_gap) -> Cut        # Cut(value, gap, reason)
+  components_at(dist, cut, min_size) -> list[int]
+  assign_nearest(query, ref, ref_labels, k, cut, *, containment_for=None) -> list[int]
+
+  # drift.py: the graph's own record set, shared with assess()
+  graph_records(calls, years, cfg, *, today, inputs) -> dict[str, list[GraphRecord]]
+  # GraphRecord(record_id, year, detected, recent, taxid)
+
+  # composition.py
+  build(calls_path, registry, retrieved, cfg, *, run_date, coverage=None, workers=1) -> CompositionRun
+  write(run, out_dir) -> (composition.tsv, composition.json);  read_summary(path) -> CompositionRun
+  # AssayComposition(assay_id, cut, flank_bp, clusters, cells, same_mix, split, species, coverage, note)
+  # Cluster(id, name, n_records, representative, species_mix, title_tokens, first_year, new_since_design)
+  # Split(baseline_share, recent_share, change, mix, within, mix_ci, within_ci, n_boot, one_period_clusters)
+
+  # retrieve.py: owns NCBI access
+  year_counts(transport, query, years, datetype) -> dict[int, int]   # cached, offline-safe
+  ```
+
+  `composition.tsv` columns: `assay_id, year, cluster_id, cluster_name, cluster_rank,
+  records, detected, recent_records, top_species, top_species_taxid, species_mix,
+  cluster_first_year, new_since_design, representative, cut, flank_bp`.
+
+  **Algorithms.**
+  - Sample: unique masked windows (deduplicated), ordered by `blake2b(accession)` within
+    year, quota per year up to `sample_cap`; full-flank windows only. Deterministic.
+  - Cut: edges of the sample's single-linkage minimum spanning tree inside
+    `[cut_min, cut_max]`; the widest gap's midpoint; a gap narrower than `min_gap` means one
+    cluster ("no gap in bounds").
+  - Assign: every window takes the label of its nearest sampled member within the cut
+    (containment for short flanks), else unplaced; diverged records take the label `diverged`. Labels ranked by size, ties by
+    representative accession.
+  - Same-mix line: weights = each cluster's share of all the assay's records; a year is drawn
+    only if its present clusters cover `same_mix_min_covered` of the weight.
+  - Kitagawa: mix = Σ(w_r−w_b)(p_r+p_b)/2, within = Σ(p_r−p_b)(w_r+w_b)/2, summing exactly to
+    the change; bootstrap by multinomial resampling of records within each period (cluster
+    uncertainty not included, and said so).
+  - Species first year: canonical taxid → species (`taxonomy.py`), earliest deposit in our
+    archive (stated as "in our archive", not all of GenBank).
+  - Coverage: `ours` = the assay's query, `all` = `txid{taxid}[Organism:exp]`, one `esearch`
+    (retmax 0) per year, cached in `data/retrieved/.year-counts.json.gz`, the last 2 years
+    refreshed per run, offline falls back to the cache; `asm` groups `n/a`.
+
+  **Changes to existing modules.**
+
+  | File | Change |
+  |---|---|
+  | `assaywatch/subcluster.py` | the functions above; `cluster()` (all-pairs) retired once `clustermaps` no longer calls it |
+  | `assaywatch/clustermaps.py` | `cluster_maps` returns composition's labels instead of running its own all-pairs clustering |
+  | `assaywatch/drift.py` | `graph_records` via a private helper shared with `assess` |
+  | `assaywatch/report.py` | split `assess_as_reported` into `assessment_inputs` + assess; `load_calls_as_reported`; a section "Where the mix moved the graph" (assays with a mix part ≥ `report_min_mix` and an interval excluding 0) |
+  | `assaywatch/retrieve.py` | `year_counts`, `--year-counts` mode |
+  | `assaywatch/lineage_report.py` | per-year blocks read `composition.tsv` |
+  | `assaywatch/site.py`, `site_render.py`, `site_svg.py` | `AssayPage.composition`; shared year axis; same-mix line and gap band in `year_chart`; a `composition_panel`; sentence and legend |
+  | `assaywatch/settings.py`, `config.yaml` | a `composition:` block, every number justified in a comment (flank 500, k 15, sample cap 2000, cut bounds, min gap, show 8, n_boot 2000, ...) |
+  | `Snakefile`, `assaywatch/cli.py` | rules `retrieval_coverage` (localrule, network) and `composition`; report and lineage take its outputs; `composition` added to the hashed sections |
+  | `GLOSSARY.md` | composition, cluster, same-mix line, mix part / within part, retrieval gap, new since design |
+
+  Nested protocols are left out of version 1, and the report says so.
+
+  **Steps** (TDD: failing test → code → `pytest -m fast`, ruff → `pytest -q`; each step
+  leaves pytest, the validator, ruff and check_citations passing; one commit per step):
+  - [ ] 0. Config block + settings model.
+  - [ ] 1. `flanked_region` (clipping at ends and N runs, masking, flank recorded).
+  - [ ] 2. `kmer_matrix` / `jaccard_matrix`, equal to the existing `jaccard` / `mash_distance`.
+  - [ ] 3. Stratified sample, deterministic and order-independent.
+  - [ ] 4. `widest_gap_cut`: two clades; bounds; no gap; too few.
+  - [ ] 4b. Calibrate `[cut_min, cut_max]` on influenza M and Messmer 16S; record both in `config.yaml`.
+  - [ ] 5. `components_at` + `assign_nearest` on a two-clade synthetic fixture (added to `make_fixtures.py`).
+  - [ ] 6. Naming and title tokens.
+  - [ ] 7. Same-mix standardisation on a hand-computed table.
+  - [ ] 8. Kitagawa: parts sum to the change; deterministic bootstrap.
+  - [ ] 9. Species first year with a merged taxid; design-year flag.
+  - [ ] 10. Extract `assessment_inputs`, `load_calls_as_reported`, `graph_records`; per-year
+        sums equal `assess().years`; existing report output byte-identical. **`pytest -m slow`.**
+  - [ ] 11. The "diverged" segment: diverged records counted per year as their own lineage (no placement).
+  - [ ] 12. `composition.build` / `write` on the fixture: invariant, TSV schema, JSON round-trip.
+  - [ ] 13. `lineage.md` from `composition.tsv`. **slow.**
+  - [ ] 14. Report section. **slow.**
+  - [ ] 15. Site: `website/data/composition.json` (columnar), chart additions, panel, sentence; a
+        test that each year's cells sum to the graph's evaluable; a 1.5 MB cap on the file.
+  - [ ] 16. Snakefile rules and CLI. **slow.**
+  - [ ] 17. `year_counts` with a fake transport (queries, cache, refresh, offline); then a
+        network smoke test and a datetype calibration on the Mac.
+  - [ ] 18. End to end on the 2026-11-01 run (below); journal entry; INDEX row; CHANGELOG; tick here.
+
+  **Verification.**
+  - `assaywatch composition results/2026-11-01/calls.tsv.gz --registry registry --retrieved
+    data/retrieved --out <scratch>` completes; the invariant holds for every assay (a `jq`
+    check joining `composition.json` to `run.json`: summed cells per year equal `years[].evaluable`, 0 mismatches).
+  - `report_diff` against the run without composition: no assay changes status.
+  - Messmer *C. trachomatis* 16S: one cluster expected; inspect the tree's edge weights if not.
+  - Influenza (`Influenza_A_virus_M_Spackman_2002`): clusters line up with subtype tokens
+    (H3N2, H1N1pdm09, avian); the H3N2 cluster reads ~1% in every year, matching
+    `docs/journal/2026-10-28-influenza-decomposed.md`; the split shows a large mix part.
+    Record runtime and peak memory, then set the rule's `resources`.
+  - Coverage calibration: `esearch` `ours` per year against archive `created` counts for 3 groups.
+  - Site: extract + render; three pages checked by eye (Messmer, influenza M, one
+    assembly-based Leptospira); `composition.json` within its 1.5 MB cap.
+  - `pytest -m slow` and `snakemake -n` show only the new and dependent jobs.
+
+  **On a cluster:** every live assay (`assaywatch validate registry` counts them) with a 2,000-record sample each is minutes per assay
+  locally. On SLURM the `composition` rule runs as one job per run (`profiles/slurm/` maps
+  `threads` / `resources` to the sbatch request); splitting it per assay group is the later
+  step if runtime demands it.
+
 ## Data and curation
 
 - [x] **Messmer genus round 1 detects 0 of 39 recent *C. trachomatis* records**
