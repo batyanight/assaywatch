@@ -730,11 +730,22 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Data and curation
 
-- [ ] **Messmer genus round 1 detects 0 of 39 recent *C. trachomatis* records**
-  (found 2026-11-02, once round figures were measured on each protocol's own records).
-  Read the alignment at the genus primers' sites in those records: a real mismatch in
-  *trachomatis* 16S, or something about the records (partial 16S not spanning the outer
-  sites, wrong record type). `Chlamydia_16S_Messmer_1997_round1`.
+- [x] **Messmer genus round 1 detects 0 of 39 recent *C. trachomatis* records**
+  (raised 2026-11-02, explained the same day). Not new and not drift: the round 1 entry's
+  note recorded it on 2026-10-24 (0 of 301). On the 2026-11-01 calls all 363 judgeable
+  *trachomatis* records fail round 1. The genus sense primer carries five mismatches at
+  13, 12, 8, 7 and 6 nt from its 3' end in every one, and 110 also mismatch at the
+  terminal base: all ocular A-C strains (24 of 24), no LGV strain (0 of 39), half the
+  urogenital D-K. The pattern is already in the 1996-1998 deposits, so it is a
+  design-era gap in silico, not a change in the deposit. The reverse primer's
+  penultimate T:T, in every Chlamydia record, is the printed oligo and is tolerated at
+  the bench (see the entry).
+- [ ] **Messmer 1997's own step-1 result as a bench case.** The paper reports that 5 IFU
+  of *C. trachomatis* amplified with the genus pair, so for the 253 records with only
+  the five internal mismatches (intact 3' pentamer) the screen's `fail` contradicts the
+  cited paper. A `works` row in `docs/validation-cases.tsv` would make that a measured
+  false negative for the scoring calibration rather than a note. Records carrying the
+  extra terminal mismatch are a separate, more plausible failure. Maintainer to decide.
 
 - **The 49 assays the website does not list, resolved one by one** (2026-10-31). The
   assay list shows 168 of 217; the rest carry no usable status and were excluded from
