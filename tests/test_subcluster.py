@@ -23,7 +23,9 @@ from assaywatch.subcluster import (
     mash_distance,
     mash_distances,
     mask_regions,
+    mst_weights,
     sketch,
+    widest_gap_cut,
 )
 
 
@@ -360,3 +362,85 @@ def test_mash_distances_equal_mash_distance_entry_by_entry():
     d = mash_distances(js, 15)
     for (r, c), v in np.ndenumerate(js):
         assert d[r, c] == pytest.approx(mash_distance(float(v), 15))
+
+
+# ---- widest_gap_cut: where one assay's lineages separate (step 4) ----
+#
+# Synthetic distance matrices, so each case states its own geometry.
+
+
+def _clades(sizes, within, between):
+    """Block distance matrix: `within` inside a clade, `between[i][j]` across."""
+    import numpy as np
+
+    n = sum(sizes)
+    d = np.zeros((n, n))
+    starts = [sum(sizes[:i]) for i in range(len(sizes))]
+    for a, (sa, na) in enumerate(zip(starts, sizes, strict=True)):
+        for b, (sb, nb) in enumerate(zip(starts, sizes, strict=True)):
+            d[sa : sa + na, sb : sb + nb] = within if a == b else between[a][b]
+    np.fill_diagonal(d, 0.0)
+    return d
+
+
+def test_mst_weights_are_the_single_linkage_merge_heights():
+    d = _clades([3, 3], 0.004, [[0, 0.1], [0.1, 0]])
+    w = sorted(mst_weights(d))
+    assert len(w) == 5
+    assert w == pytest.approx([0.004] * 4 + [0.1])
+
+
+def test_a_zero_distance_is_still_an_edge():
+    """Two different windows can share every k-mer (distance 0). scipy's MST reads 0
+    as 'no edge' and would split them; this one must not."""
+    d = _clades([2, 1], 0.0, [[0, 0.2], [0.2, 0]])
+    assert sorted(mst_weights(d)) == pytest.approx([0.0, 0.2])
+
+
+def test_two_clades_are_cut_at_the_middle_of_the_gap_between_them():
+    d = _clades([4, 4], 0.004, [[0, 0.1], [0.1, 0]])
+    cut = widest_gap_cut(d, lo=0.01, hi=0.15, min_gap=0.01)
+    assert cut.reason == "widest gap"
+    assert cut.value == pytest.approx((0.01 + 0.1) / 2)
+    assert cut.gap == pytest.approx(0.09)
+
+
+def test_a_gap_is_clipped_to_the_bounds_before_it_is_measured():
+    """Clades 30% apart still separate (the gap is clipped at cut_max), and a
+    sub-split at 0.8% is below cut_min and is not a lineage boundary."""
+    far = _clades([3, 3], 0.004, [[0, 0.3], [0.3, 0]])
+    cut = widest_gap_cut(far, lo=0.01, hi=0.15, min_gap=0.01)
+    assert cut.value == pytest.approx(0.08)
+    tiers = _clades([2, 2, 3], 0.002, [[0, 0.008, 0.2], [0.008, 0, 0.2], [0.2, 0.2, 0]])
+    cut = widest_gap_cut(tiers, lo=0.01, hi=0.15, min_gap=0.01)
+    assert cut.value == pytest.approx(0.08)
+
+
+def test_the_space_above_the_largest_edge_is_not_a_gap():
+    """Otherwise 'everything above 5%' outbids the real gap below it and two
+    groups 5% apart would always merge."""
+    d = _clades([3, 3], 0.002, [[0, 0.05], [0.05, 0]])
+    cut = widest_gap_cut(d, lo=0.01, hi=0.15, min_gap=0.01)
+    assert cut.value == pytest.approx((0.01 + 0.05) / 2)
+
+
+def test_evenly_spread_distances_have_no_gap_and_make_one_cluster():
+    import numpy as np
+
+    pos = np.arange(0, 0.2, 0.005)  # points on a line: MST edges all 0.005
+    d = np.abs(pos[:, None] - pos[None, :])
+    cut = widest_gap_cut(d, lo=0.01, hi=0.15, min_gap=0.01)
+    assert (cut.value, cut.reason) == (None, "no gap in bounds")
+
+
+def test_everything_tighter_than_cut_min_is_one_cluster():
+    d = _clades([5], 0.003, [[0]])
+    cut = widest_gap_cut(d, lo=0.01, hi=0.15, min_gap=0.01)
+    assert (cut.value, cut.reason) == (None, "no gap in bounds")
+
+
+def test_one_window_is_too_few_to_cut():
+    import numpy as np
+
+    cut = widest_gap_cut(np.zeros((1, 1)), lo=0.01, hi=0.15, min_gap=0.01)
+    assert (cut.value, cut.reason) == (None, "too few")

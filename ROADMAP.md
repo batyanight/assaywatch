@@ -875,7 +875,10 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         `composition.sample_windows(regions, years, cap) -> list[int]` (new module). Round-robin
         across years so a quiet year's lineage is always clustered; identical windows count once;
         rank by blake2b of the version-less accession. 7 tests, `fast` tier.
-  - [ ] 4. `widest_gap_cut`: two clades; bounds; no gap; too few.
+  - [x] 4. `widest_gap_cut`: two clades; bounds; no gap; too few. Done 2026-11-03, with `Cut` and
+        `mst_weights` (Prim on the dense matrix: scipy's MST drops 0-distance edges). Only gaps
+        BETWEEN MST edges count, each clipped to `[lo, hi]`; the space above the largest edge is not
+        a gap, or groups 5% apart would always merge. 8 tests.
   - [ ] 4b. Calibrate `[cut_min, cut_max]` on influenza M and Messmer 16S; record both in `config.yaml`.
   - [ ] 5. `components_at` + `assign_nearest` on a two-clade synthetic fixture (added to `make_fixtures.py`).
   - [ ] 6. Naming and title tokens.
