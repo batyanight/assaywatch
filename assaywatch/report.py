@@ -2429,28 +2429,28 @@ def read_figures(figures_dir: Path | None) -> dict[str, str]:
     return {p.name: p.read_text() for p in sorted(figures_dir.glob("*.svg"))}
 
 
-def assess_as_reported(
+def assessment_inputs(
     calls: list[dict[str, Any]],
-    dates: dict[str, Any],
     assays: dict[str, Assay],
     retrieved: Path,
     cfg: dict[str, Any],
-    today: date | None,
-) -> tuple[dict[str, AssayDrift], Taxonomy | None]:
-    """Every assay's status, assessed exactly as report.md assesses it.
+) -> dict[str, Any]:
+    """Everything `drift.assess` needs besides the calls, the dates and the config:
+    taxids, the taxa cache, the scope and exclusivity maps, the sub-lineage resolvers and
+    titles, the taxonomy, the patent set, and which assays may not count `reduced`.
 
-    Split out of `build` because a second document needs the same answer.
-    sitedrift.py claimed its statuses "come from the same assessment the main
-    report uses, so the two documents cannot disagree", but it called `assess`
-    with the calls, the dates and the config and nothing else: no taxids, so no
-    lineage check; no scope map, so no scope filter; and, until it crashed on
-    it, no patent set. On the frozen 2026-10-22 table site-drift.md covered 87
-    assays against the report's 74 flagged -- 17 the report did not flag and 4
-    lineage overrides it missed. One function, two callers, and the claim is
-    true by construction.
+    Split out of `assess_as_reported` so a SECOND consumer can be given the same bundle
+    rather than assembling its own: `drift.graph_records` takes it, and the composition
+    stage therefore applies the scope filter, the patent exclusion and the `reduced` rule
+    exactly as the verdict applies them (ROADMAP "Lineage composition over time",
+    decision A, 2026-11-02). Returned as a dict because it is passed straight on as
+    keyword arguments, and because `assess` already names every one of these.
 
-    Returns the taxonomy too, which `build` needs for rendering.
+    The expensive parts are the archive reads: the taxid map walks every `*.meta.tsv.gz`,
+    and the patent set reads them again, so a caller wanting both an assessment and the
+    graph's records should build this once and pass it to both.
     """
+
     # Load taxid data for per-lineage analysis (phase 2).
     taxid_map: dict[str, int] | None = None
     taxa_cache_data: dict[int, str] | None = None
@@ -2543,28 +2543,53 @@ def assess_as_reported(
 
         patent = read_patent_accessions(retrieved, {strip_version(r["record_id"]) for r in calls})
 
-    drifts = assess(
-        calls,
-        dates,
-        cfg,
-        today=today,
-        taxids=taxid_map,
-        taxa_cache=taxa_cache_data,
-        scope_map=scope_map,
-        exclude_map=exclude_map,
-        resolvers=resolvers,
-        titles=titles,
-        taxonomy=taxonomy,
-        patent=patent,
+    return {
+        "taxids": taxid_map,
+        "taxa_cache": taxa_cache_data,
+        "scope_map": scope_map,
+        "exclude_map": exclude_map,
+        "resolvers": resolvers,
+        "titles": titles,
+        "taxonomy": taxonomy,
+        "patent": patent,
         # Which assays may not count a `reduced` call as a detection. Empty under
-        # the shipped config, and passed from here because this function is the
-        # single funnel both report.md and site-drift.md go through, so the two
-        # cannot disagree about it either.
-        reduced_not_detected=reduced_not_detected_ids(
+        # the shipped config, and resolved here because this bundle is the single
+        # funnel report.md, site-drift.md and the composition stage go through, so
+        # none of them can disagree about it either.
+        "reduced_not_detected": reduced_not_detected_ids(
             {aid: str(a.chemistry) for aid, a in assays.items()}, cfg
         ),
-    )
-    return drifts, taxonomy
+    }
+
+
+def assess_as_reported(
+    calls: list[dict[str, Any]],
+    dates: dict[str, Any],
+    assays: dict[str, Assay],
+    retrieved: Path,
+    cfg: dict[str, Any],
+    today: date | None,
+    inputs: dict[str, Any] | None = None,
+) -> tuple[dict[str, AssayDrift], Taxonomy | None]:
+    """Every assay's status, assessed exactly as report.md assesses it.
+
+    Split out of `build` because a second document needs the same answer.
+    sitedrift.py claimed its statuses "come from the same assessment the main
+    report uses, so the two documents cannot disagree", but it called `assess`
+    with the calls, the dates and the config and nothing else: no taxids, so no
+    lineage check; no scope map, so no scope filter; and, until it crashed on
+    it, no patent set. On the frozen 2026-10-22 table site-drift.md covered 87
+    assays against the report's 74 flagged -- 17 the report did not flag and 4
+    lineage overrides it missed. One function, two callers, and the claim is
+    true by construction.
+
+    `inputs` is `assessment_inputs`, recomputed here when the caller has none.
+    Returns the taxonomy too, which `build` needs for rendering.
+    """
+    if inputs is None:
+        inputs = assessment_inputs(calls, assays, retrieved, cfg)
+    drifts = assess(calls, dates, cfg, today=today, **inputs)
+    return drifts, inputs["taxonomy"]
 
 
 def assess_nests(
@@ -2618,30 +2643,19 @@ def assess_nests(
     return drifts, registry_of_nests, alone
 
 
-def build(
-    calls_path: Path,
-    registry: Path,
-    retrieved: Path,
-    cfg: dict[str, Any],
-    run_date: str | None = None,
-    today: date | None = None,
-    figures_dir: Path | None = None,
-) -> tuple[
-    str, str, dict[str, AssayDrift], tuple[dict[str, AssayDrift], dict[str, Assay], dict[str, AssayDrift]]
-]:
-    from assaywatch.validate import iter_files, load_assay
+def load_calls_as_reported(
+    calls_path: Path, assays: dict[str, Assay], cfg: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """The calls table as every verdict in the report sees it: one row per accession, with
+    the archive-scale anchor test and the chance-pair test already applied.
 
-    assays = {}
-    taxa: dict[str, tuple[int | None, str | None]] = {}
-    for path in iter_files(registry):
-        a = load_assay(path)
-        assays[a.id] = a
-        # A deprecated assay is not screened, so it is not a coverage gap either.
-        if a.status.value != "deprecated":
-            taxa[a.id] = (a.target.taxid, a.target.taxon_name)
-
-    # Which assays are rounds of a protocol is known from the registry alone, so
-    # the spans the nested check needs are read for those and no others.
+    Split out of `build` for the composition stage (ROADMAP "Lineage composition over
+    time", decision A): a second reader of the same table must not re-derive which rows
+    exist. Both tests MOVE rows between labels and out of the evaluable set, so a caller
+    that skipped them would count records the graph does not.
+    """
+    # Which assays are rounds of a protocol is known from the registry alone, so the
+    # spans the nested check needs are read for those and no others.
     from assaywatch.nested import families
 
     rounds = {i for v in families(assays).values() for i in v}
@@ -2669,6 +2683,32 @@ def build(
             if a.oligos.probe is not None
         }
     apply_chance_pair_test(calls, cfg, probe_bars)
+    return calls
+
+
+def build(
+    calls_path: Path,
+    registry: Path,
+    retrieved: Path,
+    cfg: dict[str, Any],
+    run_date: str | None = None,
+    today: date | None = None,
+    figures_dir: Path | None = None,
+) -> tuple[
+    str, str, dict[str, AssayDrift], tuple[dict[str, AssayDrift], dict[str, Assay], dict[str, AssayDrift]]
+]:
+    from assaywatch.validate import iter_files, load_assay
+
+    assays = {}
+    taxa: dict[str, tuple[int | None, str | None]] = {}
+    for path in iter_files(registry):
+        a = load_assay(path)
+        assays[a.id] = a
+        # A deprecated assay is not screened, so it is not a coverage gap either.
+        if a.status.value != "deprecated":
+            taxa[a.id] = (a.target.taxid, a.target.taxon_name)
+
+    calls = load_calls_as_reported(calls_path, assays, cfg)
     dates = read_dates(retrieved)
     run_date = run_date or calls_path.parent.name
     if today is None:

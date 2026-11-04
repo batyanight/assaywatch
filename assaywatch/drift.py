@@ -78,7 +78,7 @@ from __future__ import annotations
 
 import sys
 from collections import Counter, defaultdict
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 from datetime import date
 from typing import TYPE_CHECKING, Any
@@ -1255,11 +1255,32 @@ class Window:
         return min(months, settings.max_months)
 
 
+@dataclass(frozen=True)
+class GatheredRow:
+    """One call row, as the drift statistic sees it: the record's identity, its deposit
+    date, the call AFTER the `count_diverged_as_fail` promotion, and the three things the
+    year table and the footprint check need.
+
+    It carries `record_id` and `taxid` so that ONE pass over the calls decides which
+    records an assay's graph is built from, and `graph_records` can hand that same set to
+    the composition stage instead of rebuilding it (ROADMAP "Lineage composition over
+    time", finding 4 and decision A, 2026-11-02).
+    """
+
+    record_id: str
+    iso: str | None
+    call: str
+    why: str
+    footprint: str | None
+    had_anchor: bool
+    taxid: int | None
+
+
 @dataclass
 class GatheredCalls:
     """Calls bucketed per assay, with what was held out of each denominator."""
 
-    per: dict[str, list[tuple[str | None, str, str, str | None]]] = field(default_factory=dict)
+    per: dict[str, list[GatheredRow]] = field(default_factory=dict)
     raw: dict[str, list[tuple[str | None, dict[str, Any]]]] = field(default_factory=dict)
     out_of_scope: dict[str, int] = field(default_factory=dict)
     # {assay_id: {taxid: Counter(call)}} for the records dropped as out of scope.
@@ -1389,13 +1410,30 @@ def _gather_calls(
         # bar" from "nothing was found at all". Carried per row because it is not
         # recoverable from the call or the reason.
         had_anchor = bool(str(row.get("anchor_evalue", "")).strip())
-        out.per.setdefault(aid, []).append((iso, call, why, fp, had_anchor))
+        out.per.setdefault(aid, []).append(
+            GatheredRow(row["record_id"], iso, call, why, fp, had_anchor, row_txid)
+        )
         if keep_raw:
             out.raw.setdefault(aid, []).append((iso, row))
     return out
 
 
-def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> None:
+def _window(years: Mapping[str, int | str], today: date | None) -> Window:
+    """The recent-window anchor and its granularity. Shared by `assess` and
+    `graph_records`: a window built two ways is two windows, and dates and bare years
+    must not be compared alike (see `Window`)."""
+    return Window(anchor=today or date.today(), dated=any(isinstance(v, str) for v in years.values()))
+
+
+def _window_months(rows: list[GatheredRow], window: Window, settings: DriftSettings) -> int:
+    """How many months of records this assay's window holds. Shared by `assess` and
+    `graph_records`, so the graph and the composition panel cannot choose different
+    windows for one assay and then disagree about which records are recent."""
+    evaluable = sorted((r.iso for r in rows if r.iso and r.call in EVALUABLE), reverse=True)
+    return window.choose(evaluable, settings)
+
+
+def _tally_window(a: AssayDrift, rows: list[GatheredRow], window: Window, months: int) -> None:
     """Fill one assay's year table, its recent/baseline counts and its footprints.
 
     Distinct (call, footprint) classes are counted per window. If ANY evaluable
@@ -1406,7 +1444,8 @@ def _tally_window(a: AssayDrift, rows: list, window: Window, months: int) -> Non
     recent_fp: set[tuple[str, str]] = set()
     base_fp: set[tuple[str, str]] = set()
     fp_known = True
-    for iso, call, why, fp, had_anchor in rows:
+    for row in rows:
+        iso, call, why, fp, had_anchor = row.iso, row.call, row.why, row.footprint, row.had_anchor
         a.screened_rows += 1
         if why:
             # A row with an exclusion reason that is nonetheless being counted as
@@ -1655,7 +1694,7 @@ def assess(
                 "drift.count_diverged_as_fail needs to know which records diverged, and these calls "
                 "include rows screened from a window archive (exclusion 'windowed'). Screen whole records."
             )
-    window = Window(anchor=today or date.today(), dated=any(isinstance(v, str) for v in years.values()))
+    window = _window(years, today)
     per_lineage = taxids is not None and taxa_cache is not None
     # Validated before the loop, so a bad lineage setting fails on the config
     # rather than on the first assay that happens to reach the check.
@@ -1675,8 +1714,7 @@ def assess(
 
     grouped: dict[str, AssayDrift] = {}
     for assay_id, rows in gathered.per.items():
-        evaluable = sorted((iso for iso, call, *_ in rows if iso and call in EVALUABLE), reverse=True)
-        months = window.choose(evaluable, settings)
+        months = _window_months(rows, window, settings)
         cutoff = months_back(window.anchor, months)
         a = AssayDrift(
             assay_id,
@@ -1739,6 +1777,84 @@ def assess(
         a.patent_excluded = gathered.patent.get(assay_id, 0)
         grouped[assay_id] = a
     return grouped
+
+
+@dataclass(frozen=True)
+class GraphRecord:
+    """One record as the per-year detection graph counts it.
+
+    The composition stage's unit of input (ROADMAP "Lineage composition over time"). It
+    exists so the panel under a graph is built from the SAME records as the graph: the
+    set has one definition, in `graph_records` below, and `assess` reaches it through the
+    same `_gather_calls` and `_window_months`.
+    """
+
+    record_id: str
+    year: int
+    call: str
+    #: In the drift denominator at all (`detect`, `reduced`, `fail`).
+    evaluable: bool
+    #: Counted as a detection, under THIS assay's `detected_calls`: an assay in
+    #: `reduced_not_detected` does not count a `reduced` call.
+    detected: bool
+    #: Inside the assay's own recent window, which may have widened.
+    recent: bool
+    taxid: int | None
+
+
+def graph_records(
+    calls: list[dict[str, Any]],
+    years: dict[str, int | str],
+    cfg: dict[str, Any],
+    *,
+    today: date | None = None,
+    inputs: Mapping[str, Any] | None = None,
+) -> dict[str, list[GraphRecord]]:
+    """Every record each assay's per-year graph is built from, per assay.
+
+    `inputs` is the bundle `report.assessment_inputs` builds and `assess` takes -- taxids,
+    scope and exclusivity maps, taxonomy, patents, `reduced_not_detected` -- so the scope
+    filter, the patent exclusion and the `reduced` rule are applied here exactly as the
+    verdict applies them, and the panel cannot quietly count a record the graph dropped.
+
+    Undated records are absent: they are in no year, which is what `assess` does with them
+    (it counts them on `skipped_undated` and bucket them nowhere). Everything else is
+    present with its call, so a caller can form the same evaluable and detected counts the
+    year table holds. `tests/test_drift.py` pins that equality against `assess`.
+    """
+    opts = dict(inputs or {})
+    settings = DriftSettings.from_config(cfg)
+    window = _window(years, today)
+    gathered = _gather_calls(
+        calls,
+        years,
+        settings,
+        taxids=opts.get("taxids"),
+        scope_map=opts.get("scope_map"),
+        exclude_map=opts.get("exclude_map"),
+        taxonomy=opts.get("taxonomy"),
+        patent=opts.get("patent"),
+        keep_raw=False,
+    )
+    reduced_not_detected = opts.get("reduced_not_detected") or set()
+    out: dict[str, list[GraphRecord]] = {}
+    for assay_id, rows in gathered.per.items():
+        months = _window_months(rows, window, settings)
+        detected_calls = DETECTED_CALLS_NO_REDUCED if assay_id in reduced_not_detected else DETECTED_CALLS
+        out[assay_id] = [
+            GraphRecord(
+                record_id=r.record_id,
+                year=int(r.iso[:4]),
+                call=r.call,
+                evaluable=r.call in EVALUABLE,
+                detected=r.call in detected_calls,
+                recent=window.inside(r.iso, months),
+                taxid=r.taxid,
+            )
+            for r in rows
+            if r.iso is not None
+        ]
+    return out
 
 
 def coverage_gaps(

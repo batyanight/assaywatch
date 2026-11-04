@@ -921,8 +921,21 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         archives drove four corrections to step 6's naming: a strain code after a binomial
         ("Chlamydia psittaci NO-03"), stacked record flags ("MAG TPA_asm: ..."), a six-word
         species name (SARS-CoV-2), and a lowercase isolate code ("Pigeon coronavirus rin35").
-  - [ ] 10. Extract `assessment_inputs`, `load_calls_as_reported`, `graph_records`; per-year
-        sums equal `assess().years`; existing report output byte-identical. **`pytest -m slow`.**
+  - [x] 10. Extract `assessment_inputs`, `load_calls_as_reported`, `graph_records`; per-year
+        sums equal `assess().years`; existing report output byte-identical. **Done 2026-11-03**,
+        the verdict path, so in named pieces with a guard committed first:
+        `tests/test_report_golden.py` renders the fixture registry to markdown and HTML and
+        compares every byte (`UPDATE_GOLDEN=1` regenerates). `_gather_calls` now yields
+        `GatheredRow` objects carrying `record_id` and `taxid`, and `_window` and
+        `_window_months` are shared, so `assess` and `graph_records` cannot choose different
+        windows. `drift.graph_records(calls, years, cfg, today=, inputs=)` returns
+        `GraphRecord(record_id, year, call, evaluable, detected, recent, taxid)` per assay, and
+        two tests pin the invariant: per assay and year its evaluable and detected counts equal
+        `assess().years`, its recent counts equal `recent_evaluable`/`recent_detected`, its rows
+        plus `skipped_undated` equal `screened_rows`, and `reduced_not_detected` reads the same
+        both sides. `report.assessment_inputs` is the one bundle both take;
+        `report.load_calls_as_reported` is the one reader of the calls table. Report output
+        unchanged, 2,023 tests and `pytest -m slow` green.
   - [ ] 11. The "diverged" segment: diverged records counted per year as their own lineage (no placement).
   - [ ] 12. `composition.build` / `write` on the fixture: invariant, TSV schema, JSON round-trip.
         Moves the `composition:` block and `settings.Composition` in from

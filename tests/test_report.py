@@ -1021,3 +1021,33 @@ def test_a_nest_with_a_withheld_round_publishes_no_verdict():
     m = build_model({}, {}, [], "2026-11-01", nest_drifts={inner.id: drift}, nest_assays=nests)
     assert m.n_nests == 0, "a nest whose round is withheld carries no status"
     assert all(inner.id not in [r.assay_id for r in rows] for _, rows in m.nest_sections)
+
+
+def test_the_assessment_bundle_is_exactly_what_assess_takes(tmp_path):
+    """`report.assessment_inputs` is the one place a verdict's inputs are assembled, and
+    both `assess_as_reported` and `drift.graph_records` are handed it, so the panel under
+    a graph cannot apply a different scope filter, patent exclusion or `reduced` rule from
+    the graph above it (ROADMAP composition, decision A).
+
+    Two things must hold, neither of them visible to the AST check in test_drift.py that
+    used to carry this contract: every key is a parameter `assess` accepts, and the keys
+    the guarded options need are present whether or not those options are on. `patent` is
+    the one with teeth -- `drift.exclude_patent_records` makes `assess` refuse to run
+    without it.
+    """
+    import inspect
+
+    from assaywatch.drift import assess
+    from assaywatch.registry import load_one
+    from assaywatch.report import assessment_inputs
+
+    # One fixture entry, by path: the fixture registry also holds an entry with no DOI on
+    # purpose, which `registry.load` refuses, and this test is about the bundle.
+    assay = load_one(ROOT / "tests" / "fixtures" / "registry" / "Encephalitozoon_cuniculi_PTP_Xiao_2001.yaml")
+    assays = {assay.id: assay}
+    calls = [{"assay_id": assay.id, "record_id": "AB1.1", "call": "detect"}]
+    inputs = assessment_inputs(calls, assays, tmp_path, CFG)
+
+    accepted = set(inspect.signature(assess).parameters)
+    assert set(inputs) <= accepted, f"not parameters of assess: {sorted(set(inputs) - accepted)}"
+    assert {"patent", "taxids", "scope_map", "exclude_map", "taxonomy", "reduced_not_detected"} <= set(inputs)

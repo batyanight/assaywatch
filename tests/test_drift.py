@@ -933,10 +933,13 @@ def test_a_patent_record_leaves_the_denominator_and_is_counted():
 def test_an_undated_record_is_skipped_rather_than_bucketed():
     """An unknown year silently landing in the recent window is the kind of error
     that produces a confident wrong answer."""
-    from assaywatch.drift import AssayDrift, Window, _tally_window
+    from assaywatch.drift import AssayDrift, GatheredRow, Window, _tally_window
 
     a = AssayDrift("A")
-    rows = [(None, "detect", "", None, False), ("2025-01-01", "detect", "", None, False)]
+    rows = [
+        GatheredRow("AB1.1", None, "detect", "", None, False, None),
+        GatheredRow("AB2.1", "2025-01-01", "detect", "", None, False, None),
+    ]
     _tally_window(a, rows, Window(anchor=date(2026, 10, 3), dated=True), 24)
     assert a.skipped_undated == 1
     assert sum(a.recent_counts.values()) == 1
@@ -944,19 +947,16 @@ def test_an_undated_record_is_skipped_rather_than_bucketed():
 
 def test_one_record_without_a_footprint_makes_the_whole_count_unknown():
     """A partial count would be a lower bound presented as fact."""
-    from assaywatch.drift import AssayDrift, Window, _tally_window
+    from assaywatch.drift import AssayDrift, GatheredRow, Window, _tally_window
 
     w = Window(anchor=date(2026, 10, 3), dated=True)
+    with_fp = GatheredRow("AB1.1", "2025-01-01", "detect", "", "|||0|0|0", False, None)
+    without = GatheredRow("AB2.1", "2025-01-02", "fail", "", None, False, None)
     known = AssayDrift("A")
-    _tally_window(known, [("2025-01-01", "detect", "", "|||0|0|0", False)], w, 24)
+    _tally_window(known, [with_fp], w, 24)
     assert known.recent_footprints == 1
     unknown = AssayDrift("B")
-    _tally_window(
-        unknown,
-        [("2025-01-01", "detect", "", "|||0|0|0", False), ("2025-01-02", "fail", "", None, False)],
-        w,
-        24,
-    )
+    _tally_window(unknown, [with_fp, without], w, 24)
     # Left at its default, which is None and not 0: "cannot say", not "no classes".
     assert unknown.recent_footprints is None
 
@@ -1058,7 +1058,15 @@ def test_every_caller_of_assess_passes_the_patent_set():
     patent set. sitedrift.py called it without one, which was harmless only while
     the option was off -- turning it on would have crashed the `site_drift` rule.
     A source check, in the style of the other repo-consistency tests, because the
-    failure only shows on a real run with the option on."""
+    failure only shows on a real run with the option on.
+
+    A call forwarding `**inputs` satisfies it: since 2026-11-03 that bundle comes from
+    `report.assessment_inputs`, the single funnel every consumer goes through, and the
+    contract it must keep -- every key a parameter of `assess`, `patent` among them -- is
+    checked directly by
+    `tests/test_report.py::test_the_assessment_bundle_is_exactly_what_assess_takes`. An
+    AST check cannot see inside a dict, and the behavioural check is the stronger of the
+    two."""
     import ast
     from pathlib import Path
 
@@ -1071,7 +1079,7 @@ def test_every_caller_of_assess_passes_the_patent_set():
                 isinstance(node, ast.Call)
                 and isinstance(node.func, ast.Name)
                 and node.func.id == "assess"
-                and not any(k.arg == "patent" for k in node.keywords)
+                and not any(k.arg == "patent" or k.arg is None for k in node.keywords)
             ):
                 missing.append(f"{path.relative_to(root)}:{node.lineno}")
     assert not missing, "assess() called without patent=: " + ", ".join(missing)
@@ -1142,7 +1150,7 @@ def test_a_promoted_diverged_row_gets_a_coarse_footprint_not_an_unknown_one():
         patent=None,
         keep_raw=False,
     )
-    fps = [fp for _, _, _, fp, _ in g.per["A"]]
+    fps = [r.footprint for r in g.per["A"]]
     # Two taxa, so two distinct coarse classes -- and neither is None.
     assert fps == ["~diverged:10", "~diverged:11"]
     # Prefixed so it can never collide with a real footprint signature, which is
@@ -1170,7 +1178,7 @@ def test_records_of_one_taxon_collapse_to_one_coarse_class_which_is_the_safe_dir
         patent=None,
         keep_raw=False,
     )
-    assert {fp for _, _, _, fp, _ in g.per["A"]} == {"~diverged:10"}
+    assert {r.footprint for r in g.per["A"]} == {"~diverged:10"}
 
 
 def test_with_no_taxid_the_assay_stays_honestly_unchecked():
@@ -1188,7 +1196,7 @@ def test_with_no_taxid_the_assay_stays_honestly_unchecked():
         patent=None,
         keep_raw=False,
     )
-    assert [fp for _, _, _, fp, _ in g.per["A"]] == [None]
+    assert [r.footprint for r in g.per["A"]] == [None]
 
 
 def test_an_unpromoted_diverged_row_keeps_its_real_footprint():
@@ -1214,4 +1222,66 @@ def test_an_unpromoted_diverged_row_keeps_its_real_footprint():
         patent=None,
         keep_raw=False,
     )
-    assert [fp for _, _, _, fp, _ in g.per["A"]] == ["|||0|0|0"]
+    assert [r.footprint for r in g.per["A"]] == ["|||0|0|0"]
+
+
+def test_graph_records_counts_exactly_what_the_year_table_counts():
+    """The invariant decision A rests on (ROADMAP composition, finding 4): for every assay
+    and year, the records `graph_records` hands the composition stage sum to the evaluable
+    and detected counts the graph itself draws. Two code paths that count records
+    separately are two paths that will eventually disagree, and the panel would then
+    contradict the graph directly above it.
+    """
+    from assaywatch.drift import EVALUABLE, assess, graph_records
+
+    cfg = {"drift": {"recent_window_months": 24, "min_records_for_drift": 5}}
+    years, calls = {}, []
+    for i in range(80):
+        rid = f"AB{i:04d}.1"
+        year = 2019 + (i % 7)
+        call = ("detect", "reduced", "fail", "no_amplicon", "diverged")[i % 5]
+        years[rid] = f"{year}-06-01"
+        calls.append(
+            {
+                "assay_id": "A" if i % 3 else "B",
+                "record_id": rid,
+                "call": "fail" if call == "diverged" else call,
+                "exclusion": "diverged" if call == "diverged" else "",
+            }
+        )
+    # one undated record, which belongs to no year at all
+    years.pop("AB0000.1")
+    today = date(2026, 1, 1)
+    drifts = assess(calls, years, cfg, today=today, patent=None)
+    records = graph_records(calls, years, cfg, today=today)
+
+    assert set(records) == set(drifts)
+    for assay_id, rows in records.items():
+        a = drifts[assay_id]
+        by_year: dict[int, list] = {}
+        for r in rows:
+            by_year.setdefault(r.year, []).append(r)
+        assert set(by_year) == set(a.years), assay_id
+        for year, stats in a.years.items():
+            mine = by_year[year]
+            assert sum(1 for r in mine if r.evaluable) == stats.evaluable, (assay_id, year)
+            assert sum(1 for r in mine if r.detected) == stats.detected, (assay_id, year)
+            assert sum(1 for r in mine if r.call in EVALUABLE) == stats.evaluable
+        assert sum(1 for r in rows if r.recent and r.evaluable) == a.recent_evaluable, assay_id
+        assert sum(1 for r in rows if r.recent and r.detected) == a.recent_detected, assay_id
+        assert len(rows) + a.skipped_undated == a.screened_rows, assay_id
+
+
+def test_graph_records_applies_the_same_reduced_rule_as_the_verdict():
+    """`reduced_not_detected` comes through the same bundle, so an assay for which
+    `reduced` is not a detection reads the same way in the panel as in the graph."""
+    from assaywatch.drift import assess, graph_records
+
+    cfg = {"drift": {"recent_window_months": 24, "min_records_for_drift": 1}}
+    calls = [{"assay_id": "P", "record_id": "AB1.1", "call": "reduced", "exclusion": ""}]
+    years = {"AB1.1": "2025-06-01"}
+    today = date(2026, 1, 1)
+    inputs = {"reduced_not_detected": {"P"}}
+    assert assess(calls, years, cfg, today=today, patent=None, **inputs)["P"].recent_detected == 0
+    assert graph_records(calls, years, cfg, today=today, inputs=inputs)["P"][0].detected is False
+    assert graph_records(calls, years, cfg, today=today)["P"][0].detected is True
