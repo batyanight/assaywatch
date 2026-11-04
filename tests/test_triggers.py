@@ -295,6 +295,8 @@ def _snakemake(tree: Path, *args: str) -> subprocess.CompletedProcess:
         capture_output=True,
         text=True,
         env=env,
+        # A stage that hangs should fail this tier, not hold it open for a day.
+        timeout=1800,
     )
 
 
@@ -320,6 +322,17 @@ def tree(tmp_path_factory):
     for name in ("Snakefile", "config.yaml"):
         shutil.copy(ROOT / name, t / name)
     shutil.copytree(ROOT / "assaywatch", t / "assaywatch", ignore=shutil.ignore_patterns("__pycache__"))
+    # This tree does a REAL run, and `retrieval_coverage` is the one rule in it with no planted
+    # output, so unpatched it counted the whole registry on NCBI: three runs of this file sat
+    # for 17 hours on 2026-11-03/04. The tree's copy gets a transport that refuses, which is
+    # the path `year_counts` takes offline, so the rule still runs and still writes its file.
+    with (t / "assaywatch" / "retrieve.py").open("a") as fh:
+        fh.write(
+            "\n\ndef http_transport(email, api_key, timeout=60):\n"
+            "    def refuse(*args, **kwargs):\n"
+            '        raise OSError("the trigger tests do not reach NCBI")\n'
+            "    return refuse\n"
+        )
     shutil.copytree(ROOT / "registry", t / "registry")
     (t / "docs").mkdir()
     shutil.copy(ROOT / "docs" / "taxonomy-cache.json.gz", t / "docs")  # the report's scope tree
@@ -400,6 +413,7 @@ def _edited(tree: Path, relative: str, new_text):
             "assaywatch/schema.py",
             lambda s: s + "\n# edited\n",
             {
+                "retrieval_coverage",  # `retrieve` loads the registry through this module
                 "screen_archive",
                 "degeneracy_table",
                 "collect_calls",
@@ -414,6 +428,7 @@ def _edited(tree: Path, relative: str, new_text):
             "assaywatch/validate.py",
             lambda s: s + "\n# edited\n",
             {
+                "retrieval_coverage",  # `retrieve` loads the registry through this module
                 "screen_archive",
                 "degeneracy_table",
                 "collect_calls",
@@ -425,7 +440,7 @@ def _edited(tree: Path, relative: str, new_text):
             },
         ),
         # a module no rule runs or imports reruns nothing
-        ("assaywatch/credentials.py", lambda s: s + "\n# edited\n", set()),
+        ("assaywatch/site_svg.py", lambda s: s + "\n# edited\n", set()),
         # a drift setting reaches the report and nothing upstream of it
         (
             "config.yaml",
@@ -500,6 +515,8 @@ def test_editing_an_assay_nothing_screens_still_refreshes_the_degeneracy_table_a
             # composition reads every assay too -- its window shape, its oligos and its
             # design year all come from the entry -- and names no registry input either.
             "composition",
+            # an entry's query decides what is counted, and this rule hashes the registry.
+            "retrieval_coverage",
         }
     finally:
         restore()
