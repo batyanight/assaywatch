@@ -19,12 +19,13 @@ from __future__ import annotations
 import hashlib
 import re
 from collections import Counter, defaultdict
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any
 
 from assaywatch.accession import strip_version
-from assaywatch.subcluster import Region
+from assaywatch.drift import GraphRecord
+from assaywatch.subcluster import OTHER, UNPLACED, Region
 from assaywatch.taxonomy import Taxonomy
 
 
@@ -522,3 +523,61 @@ def species_years(
         for key, n in counts.items()
     ]
     return sorted(out, key=lambda s: (s.first_year, s.name))
+
+
+# ---- The panel's cells (ROADMAP composition step 11) ----
+
+#: A record whose primers both landed past the mismatch budget, so it has no amplicon and
+#: no window: its own stratum, drawn and counted (decision 2026-11-02, finding 1). The
+#: label space is shared with `subcluster.OTHER` (-1) and `UNPLACED` (-2), and a test
+#: pins that the three cannot collide.
+DIVERGED = -3
+
+#: Strata that say what the clustering could NOT do. They are never pooled into "other":
+#: the panel's sentence states their share, and pooling would hide exactly that.
+_NEVER_POOLED = (DIVERGED, UNPLACED)
+
+
+def cells_from(records: Sequence[GraphRecord], labels: Mapping[str, int]) -> list[Cell]:
+    """The panel's cells for one assay: year x lineage x records x detections.
+
+    ``labels`` maps record id to the cluster `assign_nearest` placed it in. A record that
+    is not in it is `UNPLACED`, and a DIVERGED record takes that stratum whatever label it
+    might have been given, since no window exists to have clustered.
+
+    Only records in the graph's denominator are counted, because the panel sits under the
+    graph and shares it: a record with no amplicon is not in the graph's evaluable count
+    and must not appear in the bar below it. `detected` is the graph's own detection rule,
+    already resolved per assay on `GraphRecord`.
+    """
+    totals: dict[tuple[int, int], list[int]] = defaultdict(lambda: [0, 0])
+    for r in records:
+        if not r.evaluable:
+            continue
+        label = DIVERGED if r.diverged else labels.get(r.record_id, UNPLACED)
+        cell = totals[(r.year, label)]
+        cell[0] += 1
+        cell[1] += int(r.detected)
+    return [Cell(year, cluster, n, d) for (year, cluster), (n, d) in sorted(totals.items())]
+
+
+def pool_small_clusters(cells: Sequence[Cell], *, show: int) -> list[Cell]:
+    """Keep the ``show`` biggest clusters of an assay and pool the rest into `OTHER`.
+
+    Ranked by each cluster's records over ALL years, so a cluster keeps its identity
+    across the panel rather than appearing and vanishing year by year. Ties go to the
+    lower label, which `components_at` already ordered by size. `DIVERGED` and `UNPLACED`
+    are kept whatever their size. Every record and every year survives.
+    """
+    size: dict[int, int] = defaultdict(int)
+    for c in cells:
+        if c.cluster not in _NEVER_POOLED:
+            size[c.cluster] += c.records
+    keep = {k for k, _ in sorted(size.items(), key=lambda kv: (-kv[1], kv[0]))[:show]}
+    totals: dict[tuple[int, int], list[int]] = defaultdict(lambda: [0, 0])
+    for c in cells:
+        label = c.cluster if (c.cluster in keep or c.cluster in _NEVER_POOLED) else OTHER
+        cell = totals[(c.year, label)]
+        cell[0] += c.records
+        cell[1] += c.detected
+    return [Cell(year, cluster, n, d) for (year, cluster), (n, d) in sorted(totals.items())]

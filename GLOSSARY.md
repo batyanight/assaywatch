@@ -182,6 +182,8 @@ word for a concept.
 
 **new since design** — of a species under an assay's target taxon: first deposited in this assay's archive after the year its paper designed it (`composition.species_years`), so the designers could not have had it. Unset where the entry carries no `citation.design_year`.
 
+**diverged stratum** — in the composition panel, the records whose primers both landed past the mismatch budget: they have no amplicon and so no composition window, and are drawn and counted as a lineage of their own rather than placed by guesswork (`composition.DIVERGED`). Under `drift.count_diverged_as_fail` they are in the denominator, which is why the panel must show them.
+
 **manifest** — the retrieve stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record** — what `retrieve` returns for one fetched group (`TaxonRun`), written to the manifest (`retrieve.py`).

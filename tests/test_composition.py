@@ -10,10 +10,13 @@ import random
 import pytest
 
 from assaywatch.composition import (
+    DIVERGED,
     Cell,
+    cells_from,
     cluster_names,
     observed_series,
     organism,
+    pool_small_clusters,
     same_mix_series,
     sample_windows,
     species_mix,
@@ -21,7 +24,8 @@ from assaywatch.composition import (
     split_change,
     title_tokens,
 )
-from assaywatch.subcluster import UNPLACED, Region
+from assaywatch.drift import GraphRecord
+from assaywatch.subcluster import OTHER, UNPLACED, Region
 from assaywatch.taxonomy import Taxonomy
 
 
@@ -554,3 +558,113 @@ def test_species_come_back_oldest_first():
     got = species_years(rows, _taxonomy(), design_year=2007)
     assert [s.first_year for s in got] == [2001, 2020, 2020]
     assert [s.name for s in got][1:] == ["Aaa bbb", "Betapolyomavirus secuhominis"]
+
+
+# ---- the panel's cells, and the diverged stratum (step 11) ----
+
+
+def _rec(rid, year, call="detect", *, evaluable=True, detected=True, diverged=False, recent=True):
+    return GraphRecord(rid, year, call, evaluable, detected, recent, None, diverged)
+
+
+def test_the_three_labels_outside_the_clustering_cannot_collide():
+    """`other`, `unplaced` and `diverged` share one label space with the clusters
+    `0, 1, ...`, so a collision would silently merge two strata."""
+    assert len({OTHER, UNPLACED, DIVERGED}) == 3
+    assert all(label < 0 for label in (OTHER, UNPLACED, DIVERGED))
+
+
+def test_a_diverged_record_is_its_own_stratum_however_it_was_called():
+    """Decision 2026-11-02: it has no amplicon coordinates, so no window can be cut from
+    it and no cluster can be guessed for it. Under `count_diverged_as_fail` it is counted
+    as a failure, so it is in the denominator and must be drawn."""
+    records = [_rec("A.1", 2024, "fail", detected=False, diverged=True), _rec("B.1", 2024)]
+    cells = cells_from(records, {"A.1": 0, "B.1": 0})
+    assert sorted((c.cluster, c.records) for c in cells) == [(DIVERGED, 1), (0, 1)]
+
+
+def test_a_record_the_clustering_could_not_place_is_unplaced():
+    cells = cells_from([_rec("A.1", 2024)], {})
+    assert [(c.cluster, c.records) for c in cells] == [(UNPLACED, 1)]
+
+
+def test_a_record_outside_the_denominator_is_in_no_cell():
+    """The panel sits under the graph and shares its denominator: a record with no
+    amplicon is not in the graph's evaluable count, so it is not in the panel either."""
+    records = [_rec("A.1", 2024), _rec("B.1", 2024, "no_amplicon", evaluable=False, detected=False)]
+    cells = cells_from(records, {"A.1": 0, "B.1": 0})
+    assert [(c.records, c.detected) for c in cells] == [(1, 1)]
+
+
+def test_cells_count_records_and_detections_per_year_and_cluster():
+    records = [
+        _rec("A.1", 2024),
+        _rec("B.1", 2024, "fail", detected=False),
+        _rec("C.1", 2025, "reduced"),
+        _rec("D.1", 2025, "fail", detected=False),
+    ]
+    cells = cells_from(records, {"A.1": 0, "B.1": 0, "C.1": 1, "D.1": 1})
+    assert [(c.year, c.cluster, c.records, c.detected) for c in cells] == [
+        (2024, 0, 2, 1),
+        (2025, 1, 2, 1),
+    ]
+
+
+def test_every_evaluable_record_lands_in_exactly_one_cell():
+    """The invariant the panel rests on, at this level: the cells of a year sum to that
+    year's evaluable and detected counts."""
+    rng = random.Random(12)
+    records, labels = [], {}
+    for i in range(200):
+        rid = f"R{i}.1"
+        ev = rng.random() < 0.8
+        records.append(
+            _rec(
+                rid,
+                2020 + i % 5,
+                "detect" if ev else "no_amplicon",
+                evaluable=ev,
+                detected=ev and rng.random() < 0.5,
+                diverged=ev and rng.random() < 0.2,
+            )
+        )
+        if rng.random() < 0.7:
+            labels[rid] = rng.randint(0, 3)
+    cells = cells_from(records, labels)
+    for year in {r.year for r in records}:
+        mine = [r for r in records if r.year == year]
+        rows = [c for c in cells if c.year == year]
+        assert sum(c.records for c in rows) == sum(1 for r in mine if r.evaluable)
+        assert sum(c.detected for c in rows) == sum(1 for r in mine if r.evaluable and r.detected)
+
+
+def test_only_the_biggest_clusters_are_drawn_and_the_rest_pool_into_other():
+    cells = [Cell(2024, k, 10 - k, 0) for k in range(5)]  # 10, 9, 8, 7, 6 records
+    pooled = pool_small_clusters(cells, show=2)
+    assert sorted((c.cluster, c.records) for c in pooled) == [(OTHER, 8 + 7 + 6), (0, 10), (1, 9)]
+
+
+def test_diverged_and_unplaced_are_never_pooled_away():
+    """They are statements about what the clustering could not do, and the panel's
+    sentence states their share; pooling them into "other" would hide exactly that."""
+    cells = [
+        Cell(2024, 0, 50, 0),
+        Cell(2024, 1, 40, 0),
+        Cell(2024, DIVERGED, 3, 0),
+        Cell(2024, UNPLACED, 2, 0),
+    ]
+    pooled = pool_small_clusters(cells, show=1)
+    assert sorted((c.cluster, c.records) for c in pooled) == [
+        (DIVERGED, 3),
+        (UNPLACED, 2),
+        (OTHER, 40),
+        (0, 50),
+    ]
+
+
+def test_pooling_keeps_every_record_and_every_year():
+    cells = [Cell(y, k, k + y % 3, 1) for y in (2023, 2024) for k in range(6)]
+    pooled = pool_small_clusters(cells, show=2)
+    assert sum(c.records for c in pooled) == sum(c.records for c in cells)
+    assert sum(c.detected for c in pooled) == sum(c.detected for c in cells)
+    assert {c.year for c in pooled} == {2023, 2024}

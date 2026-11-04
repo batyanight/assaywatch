@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (164 links).
+    definition links to it (168 links).
     `status` is defined by more than one entry and so
     deliberately not linked.
 
@@ -193,6 +193,8 @@ word for a concept.
 **mix part / within part**{: #term-mix-part-within-part } — the two numbers Kitagawa's decomposition splits a change in detected share into: how much the [lineage](#term-lineage) mix moved, and how much [detection](#term-detection) moved within the lineages (`composition.split_change`). They add to the change exactly. A lineage deposited in only one of the two periods has no within part, so its whole effect is mix.
 
 **new since design**{: #term-new-since-design } — of a species under an [assay](#term-assay)'s [target](#term-target) taxon: first deposited in this assay's [archive](#term-archive) after the year its paper designed it (`composition.species_years`), so the designers could not have had it. Unset where the entry carries no `citation.design_year`.
+
+**diverged stratum**{: #term-diverged-stratum } — in the composition [panel](#term-panel), the records whose primers both landed past the mismatch budget: they have no [amplicon](#term-amplicon) and so no [composition window](#term-composition-window), and are drawn and counted as a [lineage](#term-lineage) of their own rather than placed by guesswork (`composition.DIVERGED`). Under `drift.count_diverged_as_fail` they are in the denominator, which is why the panel must show them.
 
 **manifest**{: #term-manifest } — the [retrieve](#term-retrieve) stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 

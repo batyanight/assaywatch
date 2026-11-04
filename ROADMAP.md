@@ -936,7 +936,13 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         both sides. `report.assessment_inputs` is the one bundle both take;
         `report.load_calls_as_reported` is the one reader of the calls table. Report output
         unchanged, 2,023 tests and `pytest -m slow` green.
-  - [ ] 11. The "diverged" segment: diverged records counted per year as their own lineage (no placement).
+  - [x] 11. The "diverged" segment: diverged records counted per year as their own lineage (no
+        placement). Done 2026-11-03: `GraphRecord.diverged` (from the gather's own `why`),
+        `composition.DIVERGED` (-3, beside `OTHER` -1 and `UNPLACED` -2, with a test that the
+        three cannot collide), `cells_from` and `pool_small_clusters`. The panel shares the
+        graph's denominator, so a record outside it is in no cell; `diverged` and `unplaced`
+        are never pooled into `other`, since the sentence states their share. Pooling ranks a
+        cluster over ALL years, so it does not appear and vanish year by year. 9 tests.
   - [ ] 12. `composition.build` / `write` on the fixture: invariant, TSV schema, JSON round-trip.
         Moves the `composition:` block and `settings.Composition` in from
         `docs/composition-config-draft.yaml`, with their tests, and deletes the draft.

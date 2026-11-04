@@ -1800,6 +1800,11 @@ class GraphRecord:
     #: Inside the assay's own recent window, which may have widened.
     recent: bool
     taxid: int | None
+    #: Both primers landed past the mismatch budget, so the record has NO amplicon
+    #: coordinates: under `drift.count_diverged_as_fail` it is counted as a failure all
+    #: the same. The composition stage can cut no window from such a record and gives it
+    #: a stratum of its own rather than guessing where it belongs.
+    diverged: bool = False
 
 
 def graph_records(
@@ -1850,6 +1855,7 @@ def graph_records(
                 detected=r.call in detected_calls,
                 recent=window.inside(r.iso, months),
                 taxid=r.taxid,
+                diverged=r.why == "diverged",
             )
             for r in rows
             if r.iso is not None
