@@ -964,7 +964,25 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         *psittaci*, *pecorum*, *crocodili* and a second *trachomatis* cluster whose tokens are
         `L2f`/`LGV` -- the serovar group that assay misses; Haemosporida cytb into
         *Haemoproteus*, *Plasmodium* and two more, 2 of 2,227 records unplaced.
-  - [ ] 13. `lineage.md` from `composition.tsv`. **slow.**
+  - [x] 13. `lineage.md` from `composition.tsv`. **Done 2026-11-03**, as a SECOND SECTION
+        rather than the rewrite the plan described: the per-year blocks above it are grouped by
+        `lineage.lineage_of`, the same function the table above them and `drift._lineage_check`
+        use, and that agreement is deliberate ("a row here and a row above cannot disagree
+        about which lineage a record is in"). Sequence clusters are a different partition, so
+        `lineage_report.cluster_section` adds the per-year mix, the same-mix column, the
+        mix/within sentence with its interval and what that interval does NOT price, and a
+        cluster table with tokens and `new since design`. It reads `composition.json` through
+        `read_summary` (typed) rather than the TSV, and renders nothing when a run has none.
+        9 tests.
+        **The module split `pytest -m slow` forced.** `triggers.import_closure` walks a whole
+        AST, function-local imports included, so one `from assaywatch.report import ...` inside
+        `composition.build` put `report.py` into the `lineage_analysis` rule's signature and
+        every edit to the report would have reread 2.7M rows of calls for a document that does
+        not depend on it. The producer moved to `assaywatch/composition_build.py` (`build`,
+        `build_assay`, `_place_window`, `_archive`); the model, the statistics and both file
+        formats stay in `composition.py`, whose closure is 9 modules and holds no `report.py`.
+        The seam `clustermaps.py` sits on, for the same reason. `build` is therefore
+        `composition_build.build`, not `composition.build` as the plan's interface said.
   - [ ] 14. Report section. **slow.**
   - [ ] 15. Site: `website/data/composition.json` (columnar), chart additions, panel, sentence; a
         test that each year's cells sum to the graph's evaluable; a 1.5 MB cap on the file.

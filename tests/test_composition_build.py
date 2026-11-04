@@ -1,4 +1,4 @@
-"""`composition.build` end to end, on a two-clade archive built here.
+"""`composition_build.build` end to end, on a two-clade archive built here.
 
 ROADMAP "Lineage composition over time" step 12. The fixture is generated rather than
 committed: the sequences are random under a fixed seed, so the archive, the calls table
@@ -24,7 +24,8 @@ import pytest
 import yaml
 
 from assaywatch import registry
-from assaywatch.composition import DIVERGED, TSV_COLUMNS, UNPLACED, build, read_summary, write
+from assaywatch.composition import DIVERGED, TSV_COLUMNS, UNPLACED, read_summary, write
+from assaywatch.composition_build import build
 from assaywatch.groups import group_slug
 from assaywatch.iupac import reverse_complement
 from assaywatch.subcluster import OTHER

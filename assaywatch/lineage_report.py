@@ -13,9 +13,11 @@ import gzip
 import sys
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 from assaywatch import atomic
 from assaywatch.accession import strip_version
+from assaywatch.composition import read_summary
 from assaywatch.drift import DETECTED_CALLS_NO_REDUCED, reduced_not_detected_ids
 from assaywatch.lineage import (
     DETECTED_DEFAULT,
@@ -75,6 +77,7 @@ def render_lineage_report(
     years: dict[str, int] | None = None,
     threshold: float = 0.90,
     max_year_blocks: int = 5,
+    composition: Any | None = None,
 ) -> str:
     """Render markdown report of per-lineage statistics.
 
@@ -87,6 +90,11 @@ def render_lineage_report(
     the question the influenza matrix assay's 57 subtypes raised on 2026-10-27 and this
     report could not answer. At most ``max_year_blocks`` lineages per assay, worst
     first, because the whole table is 1,084 rows and most of them are healthy.
+
+    ``composition`` is a `composition.CompositionRun`, and adds a second view per assay:
+    the same records grouped into SEQUENCE clusters, with the same-mix line and the
+    mix/within split (`cluster_section`). It is a different partition from the taxid
+    lineages above, and says so.
 
     ``detected_by_assay`` (assay_id -> the calls that count as detected) is what
     `drift.reduced_not_detected_for` decides per chemistry. Without it this report
@@ -145,6 +153,9 @@ def render_lineage_report(
                 threshold,
                 max_year_blocks,
             )
+        comp = getattr(composition, "assays", {}).get(assay_id) if composition else None
+        if comp is not None:
+            lines += cluster_section(comp)
 
     return "\n".join(lines)
 
@@ -209,6 +220,84 @@ def _per_year_blocks(
     return out
 
 
+def cluster_section(comp: Any) -> list[str]:
+    """One assay's sequence-cluster composition: the mix per deposit year, what the same
+    mix would have read, and which lineages the mix is made of.
+
+    ADDED BESIDE the per-year blocks above rather than replacing them (ROADMAP composition
+    step 13, 2026-11-03). The plan said these blocks would read `composition.tsv`, and
+    they must not: the blocks above are grouped by `lineage.lineage_of`, the same function
+    the table above them and `drift._lineage_check` group by, so "a row here and a row
+    above cannot disagree about which lineage a record is in". Sequence clusters are a
+    different partition -- finer than a taxid where records are unresolved, coarser where
+    one species holds several clades -- so they are a second view, named as such.
+    """
+    out = [
+        "#### Sequence clusters, per deposit year",
+        "",
+        "Lineages here are SEQUENCE CLUSTERS over the amplicon and its flanks with the",
+        "oligo sites masked, not taxids: a cluster is defined by sequence this assay does",
+        "not measure. `same mix` is the year's detection recomputed on the whole period's",
+        "mix of clusters, so where the two columns part the mix moved rather than detection",
+        f"within it. Cut at {comp.cut:g} Mash distance; window {comp.left_bp} + {comp.right_bp} bp of flank.",
+        "",
+    ]
+    if comp.note:
+        out += [f"*{comp.note}.*", ""]
+    out += ["| Year | Evaluable | Detected | Share | Same mix |", "|---|---|---|---|---|"]
+    per_year: dict[int, list[int]] = defaultdict(lambda: [0, 0])
+    for cell in comp.cells:
+        per_year[cell.year][0] += cell.records
+        per_year[cell.year][1] += cell.detected
+    for year in sorted(per_year):
+        n, det = per_year[year]
+        same = comp.same_mix.get(year)
+        out.append(
+            f"| {year} | {n} | {det} | {det / n:.1%} | {f'{same:.1%}' if same is not None else '--'} |"
+        )
+    out.append("")
+    if comp.split is not None:
+        s = comp.split
+        ci = ""
+        if s.mix_ci and s.within_ci:
+            ci = (
+                f" (95% CI {s.mix_ci[0]:+.3f} to {s.mix_ci[1]:+.3f} and "
+                f"{s.within_ci[0]:+.3f} to {s.within_ci[1]:+.3f}, from {s.n_boot:,} resamples"
+                " of the records; the clustering itself is taken as given and carries no"
+                " interval here)"
+            )
+        out += [
+            f"Recent against baseline: {s.baseline_share:.1%} to {s.recent_share:.1%}, a change of",
+            f"{s.change:+.3f}, of which **{s.mix:+.3f} is the mix** of clusters deposited changing",
+            f"and **{s.within:+.3f} is detection within** them{ci}.",
+            "",
+        ]
+        if s.one_period_clusters:
+            out += [
+                f"{len(s.one_period_clusters)} cluster(s) appear in one period only, so their whole",
+                "effect sits in the mix part; a lineage that was not deposited has no detection",
+                "rate to have changed.",
+                "",
+            ]
+    out += [
+        "| Cluster | Records | Detected | First year | New since design | Also in the titles |",
+        "|---|---|---|---|---|---|",
+    ]
+    per_cluster: dict[int, list[int]] = defaultdict(lambda: [0, 0])
+    for cell in comp.cells:
+        per_cluster[cell.cluster][0] += cell.records
+        per_cluster[cell.cluster][1] += cell.detected
+    for cluster in comp.clusters:
+        n, det = per_cluster.get(cluster.id, [0, 0])
+        out.append(
+            f"| {cluster.name} | {n} | {det} | {cluster.first_year or '--'} | "
+            f"{'yes' if cluster.new_since_design else ''} | "
+            f"{', '.join(cluster.title_tokens) if cluster.title_tokens else '--'} |"
+        )
+    out.append("")
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("calls", type=Path, help="Calls table (TSV.GZ)")
@@ -216,6 +305,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--config", type=Path, default=Path("config.yaml"))
     ap.add_argument("--registry", type=Path, default=Path("registry"), help="for sub-lineage query taxids")
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument(
+        "--composition",
+        type=Path,
+        help="composition.json from the composition stage; adds the sequence-cluster view",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
@@ -373,6 +467,13 @@ def main(argv: list[str] | None = None) -> int:
         # The same threshold the verdict uses, so "below threshold" means one thing in
         # both files rather than two.
         threshold=float((cfg.get("drift") or {}).get("detect_fraction_threshold", 0.90)),
+        # The composition stage's own output, when a run has it. Absent, the report is
+        # exactly what it was: the stage is report-only and so is this section.
+        composition=(
+            read_summary(args.composition)
+            if args.composition is not None and args.composition.exists()
+            else None
+        ),
     )
 
     # Write output
