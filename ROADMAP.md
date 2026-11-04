@@ -89,6 +89,49 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   A new query is a new retrieval group, so re-fetch and rescreen it, and do not change it
   during a run.
 
+## Website and review (asked for 2026-11-04)
+
+- [ ] **Humanize the website's language.** Rewrite the prose on the site (`website/*.md`
+  and the sentences `assaywatch/site_render.py` generates for each assay page) so it reads
+  as written by a person for a diagnostician, without changing any number or claim.
+- [ ] **Check every assay's primer graph, then fix the broken ones.** The primer graphs are
+  broken on some assays and nobody has a list of which. Check all of them, not a sample:
+  build the check first so it names each failing assay and why, then fix the causes in
+  `site_svg.mismatch_track` or in its input data. The check stays as a test.
+- [ ] **A thorough report on, and fix of, assay scope.** Goes further than the standing
+  release gate above: every live assay's `scope_taxids` and query against what its paper
+  says it detects, written up as a report, with the fixes made. Two pieces belong to it:
+  - **The nested malaria assay.** Read as the Hellgren 2004 haemosporidian nest; whether
+    the paper behind `Plasmodium_18S_Li_1995` also describes a nest has not been checked:
+    `Haemosporida_cytb_Hellgren_2004_HaemNFI`, `Haemosporida_cytb_Hellgren_2004_HaemF` and
+    `Leucocytozoon_cytb_Hellgren_2004`, all three `nested_round: null`, so the site shows
+    them as unrelated assays. The fix covers the three existing Hellgren items under
+    "Waiting on a maintainer" (`amplicon_bp: 480`, the wording,
+    the `oligos_not_in_cited_paper` flag) and has to handle one first round feeding two
+    parallel second rounds with different scopes.
+  - **How scope is shown on the website.** Open design question: how a page says what the
+    assay is meant to detect, what it is scored against, and how that differs between
+    rounds of a nest. The Chlamydia 16S query's falling share of its genus (0.4% of 2023's
+    deposits, `docs/RESUME-HERE.md`) belongs in this report.
+- [ ] **Assay page narrative.** At the top of each assay page, a description of the assay.
+  Beside the lineage graph, a description of the lineages deposited over time and how the
+  deposits may reflect outbreaks or other papers being published. Linking a deposit spike
+  to an outbreak or a paper is an inference, so the page has to say what the evidence is
+  (submitting study, publication, collection dates) and word it as "may". How that evidence
+  is gathered, and whether by script or by hand for 200+ assays, is undecided. Depends on
+  the composition stage's data (step 18 under "Lineage composition over time").
+- [ ] **Name gene targets uniformly across the assays.** `target.gene` holds 87 distinct
+  strings across 216 entries (2026-11-04), and the same target appears under several forms:
+  `DNA polymerase` and `pol`, `L (polymerase)` and `RNA-dependent RNA polymerase`,
+  `N (nucleoprotein)` and `NP (nucleoprotein)`, `ITS`, `ITS1` and `ITS1-5.8S rDNA`; some
+  carry coordinates or a strain (`F3L region (positions 46313-46491 of ON563414.2)`). Needs
+  a naming rule, recorded in `GLOSSARY.md` and enforced by `assaywatch validate`, then a pass
+  over `registry/` and `pending/`. Keep genuinely different targets distinct (`ITS1` is not
+  `ITS2`). Check first whether a `gene` edit moves the screen signature, since that decides
+  whether the rename costs a full re-screen.
+- [ ] **Security review and code review once the new lineage graphs are live.** Blocked on
+  the composition stage shipping: step 18, the merge of `composition`, and the site publish.
+
 ## Waiting on a maintainer, minutes each
 
 - [x] **Decided 2026-11-01: the registry stores published oligo sequences only.** Four
