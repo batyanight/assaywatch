@@ -186,9 +186,9 @@ def test_the_same_mix_helper_drops_the_years_it_could_not_standardise():
 def test_the_page_block_says_the_lineages_are_sequence_clusters_and_moves_no_status():
     comp = site_data(_run(_assay()))["assays"]["A"]
     out = " ".join(" ".join(_composition_block(comp)).split())
-    assert "SEQUENCE CLUSTERS, not taxids" in out
-    assert "defined by sequence this assay does not measure" in out
-    assert "the clustering itself is taken as given" in out
+    assert "sequence clusters, not taxids" in out
+    assert "come from sequence this assay does not measure" in out
+    assert "it takes the clustering as given" in out
     assert "-0.520 is the mix" in out and "-0.016 is detection within" in out
     assert "| C. trachomatis | 30 | 36% | yes | -- |" in out
     assert "4 of 84 diverged" in out
