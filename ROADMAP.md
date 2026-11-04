@@ -983,7 +983,21 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         formats stay in `composition.py`, whose closure is 9 modules and holds no `report.py`.
         The seam `clustermaps.py` sits on, for the same reason. `build` is therefore
         `composition_build.build`, not `composition.build` as the plan's interface said.
-  - [ ] 14. Report section. **slow.**
+  - [x] 14. Report section. **Done 2026-11-03**: `MixRow`, `mix_rows`, the shared
+        heading/intro/columns/cells helpers and a section in BOTH serialisers, beside the
+        collection-year lens and built the same way. `composition.report_min_mix` (0.05, matching
+        `drift.min_decline`) moved in from the draft with its model field; the bar is that AND an
+        interval excluding zero, because a large mix part whose interval straddles zero has not
+        been shown to have moved. Each row names the cluster whose share of the records moved
+        most. EITHER DIRECTION is named -- both real assays tried had a POSITIVE mix part, and a
+        share that rose because easier lineages were sequenced has not got better, which the
+        intro now says. The report reads `composition.json` through `read_summary` and never
+        imports the producer. 10 tests; the golden fixture is unchanged, since a run without a
+        composition file renders exactly what it did.
+        **A bug this created and a test caught**: inserting `composition_mix` into `build_model`
+        rebound the next positional argument at two forwarding call sites, so `nest_drifts`
+        arrived as the mix rows -- the same failure a comment beside `render_html` already
+        recorded for `results_dir` and `figures`. Both call sites now pass keywords.
   - [ ] 15. Site: `website/data/composition.json` (columnar), chart additions, panel, sentence; a
         test that each year's cells sum to the graph's evaluable; a 1.5 MB cap on the file.
   - [ ] 16. Snakefile rules and CLI. **slow.**

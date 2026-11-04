@@ -681,9 +681,13 @@ def test_the_options_defaults_match_the_settings_model():
 
     model = Composition().model_dump()
     mine = Options.from_config({})
-    for key, value in model.items():
-        assert getattr(mine, key) == value, key
-    assert set(model) == {f.name for f in dataclasses.fields(Options)}
+    fields = {f.name for f in dataclasses.fields(Options)}
+    assert fields <= set(model), sorted(fields - set(model))
+    for key in fields:
+        assert getattr(mine, key) == model[key], key
+    # The model may hold keys the STAGE does not read, when their reader is elsewhere:
+    # `report_min_mix` is read by `report.mix_rows`, which decides what the report names.
+    assert set(model) - fields == {"report_min_mix"}
 
 
 def test_the_options_read_the_committed_config():

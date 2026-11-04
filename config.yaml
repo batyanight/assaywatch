@@ -1268,6 +1268,11 @@ composition:
   # floor for stable 95% percentile intervals; deterministic under boot_seed.
   n_boot: 2000
   boot_seed: 0
+  # The report section "Where the mix moved the graph" names an assay whose mix
+  # part is at least 5 percentage points and whose interval excludes 0. Matches
+  # drift.min_decline (0.05), the size of change the verdict already treats as
+  # worth naming.
+  report_min_mix: 0.05
   # A year's same-mix point is drawn only when the clusters present that year
   # carry at least 80% of the whole-period weight; otherwise the "same mix" is
   # mostly extrapolation. Placeholder.

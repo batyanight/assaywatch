@@ -31,7 +31,7 @@ import gzip
 import html
 import json
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
@@ -868,6 +868,12 @@ class ReportModel:
     lineage_adjustment: str = "Holm"
     #: The collection-year lens: one row per assay with asm records, empty otherwise.
     collection_lens: list[LensRow] = field(default_factory=list)
+    #: Assays whose per-year graph moved because the lineage mix did (`mix_rows`).
+    #: A lens like `collection_lens`: report-only, and it moves no status.
+    composition_mix: list[MixRow] = field(default_factory=list)
+    #: The smallest mix part the section names (`composition.report_min_mix`), on the
+    #: model because both serialisers print it and neither decides anything.
+    composition_min_mix: float = 0.05
     #: Nested protocols, counted and tabled APART from assays: a nest is what a
     #: lab runs rather than a primer pair, and the same evidence appears once as
     #: rounds and once as the protocol, so one total would inflate the registry.
@@ -1042,6 +1048,154 @@ def lens_section_md(rows: list[LensRow]) -> list[str]:
     ]
     for r in rows:
         aid, *rest = lens_cells(r)
+        out.append(f"| `{aid}` | " + " | ".join(rest) + " |")
+    out.append("")
+    return out
+
+
+@dataclass(frozen=True)
+class MixRow:
+    """One assay whose per-year detection graph moved because the MIX of lineages being
+    deposited changed, rather than because detection within them did.
+
+    A LENS, like the collection-year rows above: the status is unchanged by anything here
+    (ROADMAP "Lineage composition over time", report-only). `mix` and `within` come from
+    `composition.split_change` and add to `change` exactly.
+    """
+
+    assay_id: str
+    baseline_share: float
+    recent_share: float
+    change: float
+    mix: float
+    within: float
+    mix_ci: tuple[float, float] | None
+    within_ci: tuple[float, float] | None
+    #: The cluster whose share of the records moved most, and by how much: what a reader
+    #: should go and look at. Empty when the assay has only one.
+    mover: str
+    mover_from: float
+    mover_to: float
+
+
+def _report_min_mix(cfg: dict[str, Any] | None) -> float:
+    """`composition.report_min_mix`: the smallest mix part the report names."""
+    return float(((cfg or {}).get("composition") or {}).get("report_min_mix", 0.05))
+
+
+def mix_heading() -> str:
+    return "Where the mix moved the graph"
+
+
+def mix_intro(threshold: float) -> str:
+    return (
+        "An assay's per-year detection share can fall because detection within its lineages "
+        "fell, or because a different mix of lineages was deposited. These assays are the ones "
+        f"where at least {threshold:.0%} of the change is the MIX, with an interval excluding "
+        "zero: the lineages here are sequence clusters over the amplicon and its flanks with the "
+        "oligo sites masked, so a cluster is defined by sequence the assay does not measure. "
+        "Nothing in this section moves a status, and the intervals price which records were "
+        "deposited and detected, not the clustering, which is taken as given. Full tables per "
+        "assay are in lineage.md."
+    )
+
+
+def mix_columns() -> list[str]:
+    return ["Assay", "Baseline", "Recent", "Change", "Mix part", "Within part", "Biggest mover"]
+
+
+def mix_cells(r: MixRow) -> list[str]:
+    def ci(v: float, interval: tuple[float, float] | None) -> str:
+        if interval is None:
+            return f"{v:+.3f}"
+        return f"{v:+.3f} ({interval[0]:+.3f} to {interval[1]:+.3f})"
+
+    # The name is quoted because it may itself end in a percentage (a cluster whose modal
+    # species covers less than `name_pure_share` carries its share), and three bare
+    # percentages in one cell cannot be read.
+    mover = (
+        f'"{r.mover}" {r.mover_from:.0%} -> {r.mover_to:.0%} of records' if r.mover else "one cluster only"
+    )
+    return [
+        r.assay_id,
+        f"{r.baseline_share:.1%}",
+        f"{r.recent_share:.1%}",
+        f"{r.change:+.3f}",
+        ci(r.mix, r.mix_ci),
+        ci(r.within, r.within_ci),
+        mover,
+    ]
+
+
+def mix_rows(run: Any, cfg: dict[str, Any]) -> list[MixRow]:
+    """The assays a reader should be told about, worst mix part first.
+
+    Two bars, both from `composition.report_min_mix` and the split's own interval: the mix
+    part must be at least that big, and its interval must exclude zero. An assay whose
+    mix part is large and whose interval straddles zero has not been shown to have moved,
+    and saying so anyway is the mistake this whole document exists not to make.
+    """
+    threshold = float((cfg.get("composition") or {}).get("report_min_mix", 0.05))
+    out = []
+    for assay_id, a in sorted(getattr(run, "assays", {}).items()):
+        s = a.split
+        if s is None or abs(s.mix) < threshold:
+            continue
+        if s.mix_ci is None or not (s.mix_ci[0] > 0 or s.mix_ci[1] < 0):
+            continue
+        mover, frm, to = _biggest_mover(a)
+        out.append(
+            MixRow(
+                assay_id=assay_id,
+                baseline_share=s.baseline_share,
+                recent_share=s.recent_share,
+                change=s.change,
+                mix=s.mix,
+                within=s.within,
+                mix_ci=s.mix_ci,
+                within_ci=s.within_ci,
+                mover=mover,
+                mover_from=frm,
+                mover_to=to,
+            )
+        )
+    return sorted(out, key=lambda r: (-abs(r.mix), r.assay_id))
+
+
+def _biggest_mover(a: Any) -> tuple[str, float, float]:
+    """The cluster whose share of the assay's records changed most between the baseline
+    and the recent window, as (name, baseline share, recent share)."""
+    names = {c.id: c.name for c in a.clusters}
+    recent: dict[int, int] = defaultdict(int)
+    baseline: dict[int, int] = defaultdict(int)
+    for cell in a.cells:
+        recent[cell.cluster] += cell.recent
+        baseline[cell.cluster] += cell.records - cell.recent
+    n_r, n_b = sum(recent.values()), sum(baseline.values())
+    if not n_r or not n_b or len(names) < 2:
+        return "", 0.0, 0.0
+    moves = [
+        (abs(recent[k] / n_r - baseline[k] / n_b), names.get(k, str(k)), baseline[k] / n_b, recent[k] / n_r)
+        for k in set(recent) | set(baseline)
+    ]
+    _, name, frm, to = max(moves, key=lambda m: (m[0], m[1]))
+    return name, frm, to
+
+
+def mix_section_md(rows: list[MixRow], threshold: float) -> list[str]:
+    if not rows:
+        return []
+    cols = mix_columns()
+    out = [
+        f"## {mix_heading()}",
+        "",
+        mix_intro(threshold),
+        "",
+        "| " + " | ".join(cols) + " |",
+        "|" + "---|" * len(cols),
+    ]
+    for r in rows:
+        aid, *rest = mix_cells(r)
         out.append(f"| `{aid}` | " + " | ".join(rest) + " |")
     out.append("")
     return out
@@ -1447,6 +1601,7 @@ def build_model(
     taxonomy: Taxonomy | None = None,
     results_dir: Path | None = None,
     collection_lens: list[LensRow] | None = None,
+    composition_mix: list[MixRow] | None = None,
     nest_drifts: dict[str, AssayDrift] | None = None,
     nest_assays: dict[str, Assay] | None = None,
 ) -> ReportModel:
@@ -1542,6 +1697,8 @@ def build_model(
         nested_threshold=drift_cfg.get("detect_fraction_threshold", 0.9),
         lineage_adjustment=adjustment_name(cfg),
         collection_lens=list(collection_lens or []),
+        composition_mix=list(composition_mix or []),
+        composition_min_mix=_report_min_mix(cfg),
         gaps=[
             GapRow(g["assay_id"], g["taxon_name"] or "-", g["taxid"], g["evaluable"], g["screened"])
             for g in gaps
@@ -1559,6 +1716,7 @@ def render_markdown(
     taxonomy: Taxonomy | None = None,
     results_dir: Path | None = None,
     collection_lens: list[LensRow] | None = None,
+    composition_mix: list[MixRow] | None = None,
     nest_drifts: dict[str, AssayDrift] | None = None,
     nest_assays: dict[str, Assay] | None = None,
 ) -> str:
@@ -1568,13 +1726,14 @@ def render_markdown(
         assays,
         gaps,
         run_date,
-        cfg,
-        nested,
-        taxonomy,
-        results_dir,
-        collection_lens,
-        nest_drifts,
-        nest_assays,
+        cfg=cfg,
+        nested=nested,
+        taxonomy=taxonomy,
+        results_dir=results_dir,
+        collection_lens=collection_lens,
+        composition_mix=composition_mix,
+        nest_drifts=nest_drifts,
+        nest_assays=nest_assays,
     )
     return markdown_from(model, assays, cfg)
 
@@ -1971,6 +2130,7 @@ def markdown_from(m: ReportModel, assays: dict[str, Assay], cfg: dict[str, Any] 
 
     out += exclusivity_section(m.claims)
     out += lens_section_md(m.collection_lens)
+    out += mix_section_md(m.composition_mix, m.composition_min_mix)
 
     out += ["## Coverage gaps", ""]
     if not m.gaps:
@@ -2031,6 +2191,7 @@ def render_html(
     results_dir: Path | None = None,
     figures: dict[str, str] | None = None,
     collection_lens: list[LensRow] | None = None,
+    composition_mix: list[MixRow] | None = None,
     nest_drifts: dict[str, AssayDrift] | None = None,
     nest_assays: dict[str, Assay] | None = None,
 ) -> str:
@@ -2040,13 +2201,14 @@ def render_html(
         assays,
         gaps,
         run_date,
-        cfg,
-        nested,
-        taxonomy,
-        results_dir,
-        collection_lens,
-        nest_drifts,
-        nest_assays,
+        cfg=cfg,
+        nested=nested,
+        taxonomy=taxonomy,
+        results_dir=results_dir,
+        collection_lens=collection_lens,
+        composition_mix=composition_mix,
+        nest_drifts=nest_drifts,
+        nest_assays=nest_assays,
     )
     return html_from(model, figures)
 
@@ -2384,6 +2546,17 @@ def html_from(m: ReportModel, figures: dict[str, str] | None = None) -> str:
             cells = "".join(f"<td>{e(c)}</td>" for c in rest)
             parts.append(f"<tr><td><code>{e(aid)}</code></td>{cells}</tr>")
         parts.append("</table>")
+    if m.composition_mix:
+        parts.append(
+            f"<h2 id='composition-mix'>{e(mix_heading())}</h2>"
+            f"<p class='lead'>{e(mix_intro(m.composition_min_mix))}</p>"
+        )
+        parts.append("<table><tr>" + "".join(f"<th>{e(c)}</th>" for c in mix_columns()) + "</tr>")
+        for r in m.composition_mix:
+            aid, *rest = mix_cells(r)
+            cells = "".join(f"<td>{e(c)}</td>" for c in rest)
+            parts.append(f"<tr><td><code>{e(aid)}</code></td>{cells}</tr>")
+        parts.append("</table>")
     parts.append("<h2 id='coverage-gaps'>Coverage gaps</h2>")
     if not m.gaps:
         parts.append("<p class='muted'>Every assay has enough evaluable records to say something.</p>")
@@ -2694,6 +2867,7 @@ def build(
     run_date: str | None = None,
     today: date | None = None,
     figures_dir: Path | None = None,
+    composition: Path | None = None,
 ) -> tuple[
     str, str, dict[str, AssayDrift], tuple[dict[str, AssayDrift], dict[str, Assay], dict[str, AssayDrift]]
 ]:
@@ -2736,6 +2910,15 @@ def build(
     results_dir = calls_path.parent.parent
     # The collection-year lens, over the same deduplicated calls and dates the verdict used.
     lens = collection_lens_rows(calls, dates, retrieved, cfg, today)
+    # The composition stage's own output, when the run has it: a lens beside the verdict,
+    # read through `composition.read_summary` so this module and lineage.md agree about
+    # what the file says. `composition_build` is NOT imported -- that module reaches back
+    # into this one, and the report must not depend on the producer to read a document.
+    mix: list[MixRow] = []
+    if composition is not None and composition.exists():
+        from assaywatch.composition import read_summary
+
+        mix = mix_rows(read_summary(composition), cfg)
     return (
         render_markdown(
             drifts,
@@ -2743,10 +2926,11 @@ def build(
             gaps,
             run_date,
             cfg,
-            nested,
-            taxonomy,
-            results_dir,
+            nested=nested,
+            taxonomy=taxonomy,
+            results_dir=results_dir,
             collection_lens=lens,
+            composition_mix=mix,
             nest_drifts=nest_drifts,
             nest_assays=nest_registry,
         ),
@@ -2763,6 +2947,7 @@ def build(
             results_dir=results_dir,
             figures=read_figures(figures_dir),
             collection_lens=lens,
+            composition_mix=mix,
             nest_drifts=nest_drifts,
             nest_assays=nest_registry,
         ),

@@ -5,15 +5,9 @@
 # `settings.Composition` at step 12 (2026-11-03); these follow at the steps named below,
 # and this file is deleted with the last of them.
 #
-# report_min_mix -> step 14, the report section; coverage_refresh_years -> step 17,
 # retrieval coverage; site_max_bytes -> step 15, the website.
 
 composition:
-  # The report section "Where the mix moved the graph" names an assay whose mix
-  # part is at least 5 percentage points and whose interval excludes 0. Matches
-  # drift.min_decline (0.05), the size of change the verdict already treats as
-  # worth naming.
-  report_min_mix: 0.05
   # Years re-counted by esearch each run for retrieval coverage; older years come
   # from the cache (data/retrieved/.year-counts.json.gz). 2 because late deposits
   # and re-annotation mostly touch the last two years. Not measured.
@@ -23,8 +17,6 @@ composition:
   site_max_bytes: 1500000
 
 # ---- assaywatch/settings.py, to add to `Composition` with each key ----
-#     #: The report section names an assay whose mix part is at least this.
-#     report_min_mix: float = Field(default=0.05, gt=0.0, le=1.0)
 #     #: Recent years re-counted by esearch each run; older years come from the cache.
 #     coverage_refresh_years: int = Field(default=2, ge=1)
 #     #: The cap on website/data/composition.json.
