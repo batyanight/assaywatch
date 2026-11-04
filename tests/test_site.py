@@ -1255,3 +1255,113 @@ def test_the_extract_measures_each_round_on_its_protocols_own_records():
                 f"{n['assay_id']}: {r['assay_id']} measured on other records than the protocol's"
             )
             assert r["detected"] >= n["recent_detected"], "a protocol cannot beat any of its rounds"
+
+
+def _position(**overrides):
+    base = dict(
+        oligo="forward",
+        pos_3prime=2,
+        base="A",
+        n_mismatch=25,
+        detected_with=0,
+        evaluable_with=25,
+        detected_without=50,
+        evaluable_without=50,
+        substitutions=[],
+        in_3prime_zone=True,
+    )
+    return {**base, **overrides}
+
+
+def test_a_long_oligo_name_stays_inside_the_mismatch_track():
+    """The name is end-anchored at the gutter, so a name wider than the gutter ran off the
+    left edge of the viewBox and was clipped: 69 of 492 oligos on 2026-11-04, among them
+    every Messmer round 2 forward primer. The full name stays on the mark as a tooltip."""
+    name = "C.-pneumoniae-and-C.-psittaci-sense"
+    page = _page(assay_id="X", oligos={"forward": "ACGTACGTAC"}, positions=[])
+    svg = site_svg.mismatch_track(page, {"forward": name})
+    drawn = re.search(r'<text class="aw-track-name" x="(\d+)"[^>]*>(?:<title>[^<]*</title>)?([^<]*)<', svg)
+    assert drawn, svg[:400]
+    x, text = int(drawn.group(1)), drawn.group(2)
+    assert len(text) * site_svg.NAME_CHAR_PX <= x, f"{text!r} is wider than the {x}px to its left"
+    assert f"<title>{name}</title>" in svg
+
+
+def test_a_short_oligo_name_keeps_the_usual_gutter():
+    page = _page(assay_id="X", oligos={"forward": "ACGTACGTAC"}, positions=[])
+    svg = site_svg.mismatch_track(page, {"forward": "senseA"})
+    assert f'x="{site_svg.GUTTER - 30:.0f}"' in svg
+    assert ">senseA<" in svg
+
+
+def test_a_bar_scored_against_a_pool_alternate_says_so():
+    """`base` is read off the primary oligo, which is the one drawn, but a pool assay's
+    record may have been scored against an alternate with another base there. The tooltip
+    read "base C ... substitutions: T>G", which looks like a data error."""
+    page = _page(
+        assay_id="X",
+        oligos={"forward": "ACGTACGTAC"},
+        positions=[_position(base="C", substitutions=[["T", "G", 25]])],
+    )
+    assert "pool alternate" in site_svg.mismatch_track(page)
+    page["positions"][0]["substitutions"] = [["C", "G", 25]]
+    assert "pool alternate" not in site_svg.mismatch_track(page)
+
+
+def test_an_empty_mismatch_track_says_why_it_is_empty():
+    """The fallback sentence only fired with no oligos, and every assay has oligos, so 46
+    pages drew the sequences with no bars and no word about it. One was a `declining`
+    assay whose misses are `no probe site inside amplicon`, which has no position."""
+    page = _page(
+        assay_id="X",
+        oligos={"forward": "ACGTACGTAC"},
+        positions=[],
+        recent_detected=10,
+        recent_evaluable=20,
+        baseline_detected=70,
+        baseline_evaluable=80,
+    )
+    block = site_render._charts_block(page, None)
+    assert "No position carried a mismatch in enough records to report" in block
+    assert "20 of the 100" in block
+    assert "no site" in block
+
+    page.update(recent_detected=20, baseline_detected=80)
+    block = site_render._charts_block(page, None)
+    assert "No position carried a mismatch in enough records to report" in block
+    assert "were not detected" not in block
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="website/data/run.json is not present")
+def test_every_bar_in_the_run_lands_on_the_oligo_it_belongs_to():
+    """The whole-registry audit of 2026-11-04, kept: a bar on an oligo the track does not
+    draw, or past its end, or on a base other than its own, would be dropped or misplaced
+    without an error."""
+    data = json.loads(DATA.read_text())
+    bad = []
+    for a in data["assays"]:
+        for p in a["positions"]:
+            seq = (a["oligos"] or {}).get(p["oligo"])
+            if p["oligo"] not in ("forward", "reverse", "probe") or seq is None:
+                bad.append((a["assay_id"], p["oligo"], "not drawn"))
+            elif not 1 <= p["pos_3prime"] <= len(seq):
+                bad.append((a["assay_id"], p["oligo"], p["pos_3prime"], "off the oligo"))
+            elif seq[len(seq) - p["pos_3prime"]].upper() != p["base"].upper():
+                bad.append((a["assay_id"], p["oligo"], p["pos_3prime"], "wrong base"))
+            elif p["n_mismatch"] > (p["evaluable_with"] or 0) + (p["evaluable_without"] or 0):
+                bad.append((a["assay_id"], p["oligo"], p["pos_3prime"], "share over 1"))
+    assert not bad, bad[:10]
+
+
+def test_a_protocol_page_does_not_claim_its_oligos_never_mismatched():
+    """A nest carries no map by design: a mismatch belongs to the round whose oligo has it.
+    "No position carried a mismatch" would be false there, so it points at the rounds."""
+    page = _page(
+        assay_id="N",
+        oligos={"forward": "ACGTACGTAC"},
+        positions=[],
+        rounds=[dict(assay_id="N_round2", round="2", detected=1, evaluable=2, share=0.5)],
+    )
+    block = site_render._charts_block(page, None)
+    assert "No position carried a mismatch" not in block
+    assert "the round" in block

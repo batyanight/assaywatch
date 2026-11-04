@@ -73,192 +73,192 @@ differing there and those not:
 Counts are available on hover. A tall gray bar indicates a tolerated polymorphism; a
 short red bar indicates a position of consequence.
 
-<svg class="aw-track" viewBox="0 0 467 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">senseA</text><rect class="aw-zone" x="374.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="449.0" y2="44.0"/><g class="aw-bar-strong"><title>forward position 23 from the 3&#x27; end, base A
+<svg class="aw-track" viewBox="0 0 505 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="112" y="52">forward</text><text class="aw-track-name" x="112" y="64">senseA</text><rect class="aw-zone" x="411.6" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="141.6" y1="44.0" x2="486.6" y2="44.0"/><g class="aw-bar-strong"><title>forward position 23 from the 3&#x27; end, base A
 25 of 183,870 records differ here (0.0%)
 detected when it differs: 28% of 25
 detected when it does not: 59% of 183,845
 substitutions: A&gt;G in 16, A&gt;C in 7, A&gt;T in 2
-outside the 3′ window</title><rect x="105.0" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="111.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 22 from the 3&#x27; end, base A
+outside the 3′ window</title><rect x="142.6" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="149.1" y="57">A</text><g class="aw-bar-strong"><title>forward position 22 from the 3&#x27; end, base A
 127 of 183,870 records differ here (0.1%)
 detected when it differs: 10% of 127
 detected when it does not: 59% of 183,743
 substitutions: A&gt;C in 122, A&gt;G in 5
-outside the 3′ window</title><rect x="120.0" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="126.5" y="57">A</text><text class="aw-base" x="141.5" y="57">G</text><g class="aw-bar-mid"><title>forward position 20 from the 3&#x27; end, base A
+outside the 3′ window</title><rect x="157.6" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="164.1" y="57">A</text><text class="aw-base" x="179.1" y="57">G</text><g class="aw-bar-mid"><title>forward position 20 from the 3&#x27; end, base A
 757 of 183,870 records differ here (0.4%)
 detected when it differs: 39% of 757
 detected when it does not: 59% of 183,113
 substitutions: A&gt;G in 754, A&gt;C in 2, A&gt;T in 1
-outside the 3′ window</title><rect x="150.0" y="41.8" width="13.0" height="2.2"/></g><text class="aw-base" x="156.5" y="57">A</text><text class="aw-base" x="171.5" y="57">C</text><text class="aw-base" x="186.5" y="57">C</text><g class="aw-bar-weak"><title>forward position 17 from the 3&#x27; end, base A
+outside the 3′ window</title><rect x="187.6" y="41.8" width="13.0" height="2.2"/></g><text class="aw-base" x="194.1" y="57">A</text><text class="aw-base" x="209.1" y="57">C</text><text class="aw-base" x="224.1" y="57">C</text><g class="aw-bar-weak"><title>forward position 17 from the 3&#x27; end, base A
 1,742 of 183,870 records differ here (0.9%)
 detected when it differs: 57% of 1,742
 detected when it does not: 59% of 182,128
 substitutions: A&gt;G in 1,533, A&gt;T in 196, A&gt;C in 13
-outside the 3′ window</title><rect x="195.0" y="40.7" width="13.0" height="3.3"/></g><text class="aw-base" x="201.5" y="57">A</text><text class="aw-base" x="216.5" y="57">A</text><text class="aw-base" x="231.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 14 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="232.6" y="40.7" width="13.0" height="3.3"/></g><text class="aw-base" x="239.1" y="57">A</text><text class="aw-base" x="254.1" y="57">A</text><text class="aw-base" x="269.1" y="57">T</text><g class="aw-bar-strong"><title>forward position 14 from the 3&#x27; end, base C
 62,747 of 183,870 records differ here (34.1%)
 detected when it differs: 6% of 62,747
 detected when it does not: 86% of 121,123
 substitutions: C&gt;T in 62,597, C&gt;A in 149, C&gt;G in 1
-outside the 3′ window</title><rect x="240.0" y="24.1" width="13.0" height="19.9"/></g><text class="aw-base" x="246.5" y="57">C</text><g class="aw-bar-weak"><title>forward position 13 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="277.6" y="24.1" width="13.0" height="19.9"/></g><text class="aw-base" x="284.1" y="57">C</text><g class="aw-bar-weak"><title>forward position 13 from the 3&#x27; end, base C
 60,731 of 183,870 records differ here (33.0%)
 detected when it differs: 84% of 60,731
 detected when it does not: 47% of 123,139
 substitutions: C&gt;T in 60,726, C&gt;A in 3, C&gt;G in 2
-outside the 3′ window</title><rect x="255.0" y="24.5" width="13.0" height="19.5"/></g><text class="aw-base" x="261.5" y="57">C</text><text class="aw-base" x="276.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 11 from the 3&#x27; end, base G
+outside the 3′ window</title><rect x="292.6" y="24.5" width="13.0" height="19.5"/></g><text class="aw-base" x="299.1" y="57">C</text><text class="aw-base" x="314.1" y="57">T</text><g class="aw-bar-strong"><title>forward position 11 from the 3&#x27; end, base G
 55 of 183,870 records differ here (0.0%)
 detected when it differs: 31% of 55
 detected when it does not: 59% of 183,815
 substitutions: G&gt;A in 50, G&gt;T in 5
-outside the 3′ window</title><rect x="285.0" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="291.5" y="57">G</text><text class="aw-base" x="306.5" y="57">T</text><text class="aw-base" x="321.5" y="57">C</text><g class="aw-bar-strong"><title>forward position 8 from the 3&#x27; end, base A
+outside the 3′ window</title><rect x="322.6" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="329.1" y="57">G</text><text class="aw-base" x="344.1" y="57">T</text><text class="aw-base" x="359.1" y="57">C</text><g class="aw-bar-strong"><title>forward position 8 from the 3&#x27; end, base A
 165 of 183,870 records differ here (0.1%)
 detected when it differs: 9% of 165
 detected when it does not: 59% of 183,705
 substitutions: A&gt;G in 152, A&gt;C in 7, A&gt;T in 6
-outside the 3′ window</title><rect x="330.0" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="336.5" y="57">A</text><g class="aw-bar-strong"><title>forward position 7 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="367.6" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="374.1" y="57">A</text><g class="aw-bar-strong"><title>forward position 7 from the 3&#x27; end, base C
 1,481 of 183,870 records differ here (0.8%)
 detected when it differs: 0% of 1,481
 detected when it does not: 60% of 182,389
 substitutions: C&gt;T in 1,478, C&gt;A in 2, C&gt;G in 1
-outside the 3′ window</title><rect x="345.0" y="40.9" width="13.0" height="3.1"/></g><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">C</text><g class="aw-bar-weak"><title>forward position 5 from the 3&#x27; end, base T
+outside the 3′ window</title><rect x="382.6" y="40.9" width="13.0" height="3.1"/></g><text class="aw-base" x="389.1" y="57">C</text><text class="aw-base" x="404.1" y="57">C</text><g class="aw-bar-weak"><title>forward position 5 from the 3&#x27; end, base T
 464 of 183,870 records differ here (0.3%)
 detected when it differs: 53% of 464
 detected when it does not: 59% of 183,406
 substitutions: T&gt;C in 360, T&gt;A in 95, T&gt;G in 9
-inside the 3′ window</title><rect x="375.0" y="42.3" width="13.0" height="1.7"/></g><text class="aw-base" x="381.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 4 from the 3&#x27; end, base C
+inside the 3′ window</title><rect x="412.6" y="42.3" width="13.0" height="1.7"/></g><text class="aw-base" x="419.1" y="57">T</text><g class="aw-bar-strong"><title>forward position 4 from the 3&#x27; end, base C
 58,687 of 183,870 records differ here (31.9%)
 detected when it differs: 0% of 58,687
 detected when it does not: 87% of 125,183
 substitutions: C&gt;T in 58,249, C&gt;A in 437, C&gt;G in 1
-inside the 3′ window</title><rect x="390.0" y="24.8" width="13.0" height="19.2"/></g><text class="aw-base" x="396.5" y="57">C</text><text class="aw-base" x="411.5" y="57">T</text><g class="aw-bar-weak"><title>forward position 2 from the 3&#x27; end, base G
+inside the 3′ window</title><rect x="427.6" y="24.8" width="13.0" height="19.2"/></g><text class="aw-base" x="434.1" y="57">C</text><text class="aw-base" x="449.1" y="57">T</text><g class="aw-bar-weak"><title>forward position 2 from the 3&#x27; end, base G
 2,042 of 183,870 records differ here (1.1%)
 detected when it differs: 56% of 2,042
 detected when it does not: 59% of 181,828
 substitutions: G&gt;A in 1,985, G&gt;T in 52, G&gt;C in 5
-inside the 3′ window</title><rect x="420.0" y="40.4" width="13.0" height="3.6"/></g><text class="aw-base" x="426.5" y="57">G</text><g class="aw-bar-strong"><title>forward position 1 from the 3&#x27; end, base A
+inside the 3′ window</title><rect x="457.6" y="40.4" width="13.0" height="3.6"/></g><text class="aw-base" x="464.1" y="57">G</text><g class="aw-bar-strong"><title>forward position 1 from the 3&#x27; end, base A
 41 of 183,870 records differ here (0.0%)
 detected when it differs: 0% of 41
 detected when it does not: 59% of 183,829
 substitutions: A&gt;G in 28, A&gt;T in 12, A&gt;C in 1
-inside the 3′ window</title><rect x="435.0" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="441.5" y="57">A</text><text class="aw-tick" x="441.5" y="71">1</text><text class="aw-tick" x="381.5" y="71">5</text><text class="aw-tick" x="306.5" y="71">10</text><text class="aw-tick" x="231.5" y="71">15</text><text class="aw-tick" x="156.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">23</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="453" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">antisenseA</text><rect class="aw-zone" x="359.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="434.0" y2="126.0"/><g class="aw-bar-weak"><title>reverse position 22 from the 3&#x27; end, base C
+inside the 3′ window</title><rect x="472.6" y="42.5" width="13.0" height="1.5"/></g><text class="aw-base" x="479.1" y="57">A</text><text class="aw-tick" x="479.1" y="71">1</text><text class="aw-tick" x="419.1" y="71">5</text><text class="aw-tick" x="344.1" y="71">10</text><text class="aw-tick" x="269.1" y="71">15</text><text class="aw-tick" x="194.1" y="71">20</text><text class="aw-tick" x="149.1" y="71">23</text><text class="aw-end" x="138" y="57">5′</text><text class="aw-end aw-end-3" x="491" y="57">3′</text><text class="aw-track-label" x="112" y="134">reverse</text><text class="aw-track-name" x="112" y="146">antisenseA</text><rect class="aw-zone" x="396.6" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="141.6" y1="126.0" x2="471.6" y2="126.0"/><g class="aw-bar-weak"><title>reverse position 22 from the 3&#x27; end, base C
 37,923 of 183,870 records differ here (20.6%)
 detected when it differs: 96% of 37,923
 detected when it does not: 49% of 145,947
 substitutions: C&gt;T in 37,920, C&gt;A in 3
-outside the 3′ window</title><rect x="105.0" y="110.6" width="13.0" height="15.4"/></g><text class="aw-base" x="111.5" y="139">C</text><g class="aw-bar-weak"><title>reverse position 21 from the 3&#x27; end, base A
+outside the 3′ window</title><rect x="142.6" y="110.6" width="13.0" height="15.4"/></g><text class="aw-base" x="149.1" y="139">C</text><g class="aw-bar-weak"><title>reverse position 21 from the 3&#x27; end, base A
 1,633 of 183,870 records differ here (0.9%)
 detected when it differs: 56% of 1,633
 detected when it does not: 59% of 182,237
 substitutions: A&gt;G in 1,628, A&gt;T in 4, A&gt;C in 1
-outside the 3′ window</title><rect x="120.0" y="122.8" width="13.0" height="3.2"/></g><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">A</text><text class="aw-base" x="156.5" y="139">A</text><g class="aw-bar-weak"><title>reverse position 18 from the 3&#x27; end, base G
+outside the 3′ window</title><rect x="157.6" y="122.8" width="13.0" height="3.2"/></g><text class="aw-base" x="164.1" y="139">A</text><text class="aw-base" x="179.1" y="139">A</text><text class="aw-base" x="194.1" y="139">A</text><g class="aw-bar-weak"><title>reverse position 18 from the 3&#x27; end, base G
 15,015 of 183,870 records differ here (8.2%)
 detected when it differs: 62% of 15,015
 detected when it does not: 59% of 168,855
 substitutions: G&gt;A in 6,947, G&gt;C in 5,391, G&gt;T in 2,510
-outside the 3′ window</title><rect x="165.0" y="116.3" width="13.0" height="9.7"/></g><text class="aw-base" x="171.5" y="139">G</text><g class="aw-bar-mid"><title>reverse position 17 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="202.6" y="116.3" width="13.0" height="9.7"/></g><text class="aw-base" x="209.1" y="139">G</text><g class="aw-bar-mid"><title>reverse position 17 from the 3&#x27; end, base C
 26 of 183,870 records differ here (0.0%)
 detected when it differs: 35% of 26
 detected when it does not: 59% of 183,844
 substitutions: C&gt;T in 17, C&gt;A in 6, C&gt;G in 3
-outside the 3′ window</title><rect x="180.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="186.5" y="139">C</text><g class="aw-bar-strong"><title>reverse position 16 from the 3&#x27; end, base G
+outside the 3′ window</title><rect x="217.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="224.1" y="139">C</text><g class="aw-bar-strong"><title>reverse position 16 from the 3&#x27; end, base G
 98 of 183,870 records differ here (0.1%)
 detected when it differs: 7% of 98
 detected when it does not: 59% of 183,772
 substitutions: G&gt;T in 96, G&gt;C in 2
-outside the 3′ window</title><rect x="195.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="201.5" y="139">G</text><g class="aw-bar-strong"><title>reverse position 15 from the 3&#x27; end, base T
+outside the 3′ window</title><rect x="232.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="239.1" y="139">G</text><g class="aw-bar-strong"><title>reverse position 15 from the 3&#x27; end, base T
 332 of 183,870 records differ here (0.2%)
 detected when it differs: 9% of 332
 detected when it does not: 59% of 183,538
 substitutions: T&gt;C in 332
-outside the 3′ window</title><rect x="210.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="216.5" y="139">T</text><g class="aw-bar-weak"><title>reverse position 14 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="247.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="254.1" y="139">T</text><g class="aw-bar-weak"><title>reverse position 14 from the 3&#x27; end, base C
 40 of 183,870 records differ here (0.0%)
 detected when it differs: 60% of 40
 detected when it does not: 59% of 183,830
 substitutions: C&gt;T in 22, C&gt;A in 13, C&gt;G in 5
-outside the 3′ window</title><rect x="225.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="231.5" y="139">C</text><g class="aw-bar-weak"><title>reverse position 13 from the 3&#x27; end, base T
+outside the 3′ window</title><rect x="262.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="269.1" y="139">C</text><g class="aw-bar-weak"><title>reverse position 13 from the 3&#x27; end, base T
 23 of 183,870 records differ here (0.0%)
 detected when it differs: 74% of 23
 detected when it does not: 59% of 183,847
 substitutions: T&gt;G in 23
-outside the 3′ window</title><rect x="240.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="246.5" y="139">T</text><g class="aw-bar-strong"><title>reverse position 12 from the 3&#x27; end, base A
+outside the 3′ window</title><rect x="277.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="284.1" y="139">T</text><g class="aw-bar-strong"><title>reverse position 12 from the 3&#x27; end, base A
 111 of 183,870 records differ here (0.1%)
 detected when it differs: 27% of 111
 detected when it does not: 59% of 183,759
 substitutions: A&gt;G in 108, A&gt;C in 2, A&gt;T in 1
-outside the 3′ window</title><rect x="255.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="261.5" y="139">A</text><g class="aw-bar-weak"><title>reverse position 11 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="292.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="299.1" y="139">A</text><g class="aw-bar-weak"><title>reverse position 11 from the 3&#x27; end, base C
 24 of 183,870 records differ here (0.0%)
 detected when it differs: 88% of 24
 detected when it does not: 59% of 183,846
 substitutions: C&gt;A in 21, C&gt;T in 3
-outside the 3′ window</title><rect x="270.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="276.5" y="139">C</text><text class="aw-base" x="291.5" y="139">G</text><g class="aw-bar-strong"><title>reverse position 9 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="307.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="314.1" y="139">C</text><text class="aw-base" x="329.1" y="139">G</text><g class="aw-bar-strong"><title>reverse position 9 from the 3&#x27; end, base C
 1,641 of 183,870 records differ here (0.9%)
 detected when it differs: 12% of 1,641
 detected when it does not: 59% of 182,229
 substitutions: C&gt;T in 1,633, C&gt;A in 8
-outside the 3′ window</title><rect x="300.0" y="122.8" width="13.0" height="3.2"/></g><text class="aw-base" x="306.5" y="139">C</text><g class="aw-bar-weak"><title>reverse position 8 from the 3&#x27; end, base T
+outside the 3′ window</title><rect x="337.6" y="122.8" width="13.0" height="3.2"/></g><text class="aw-base" x="344.1" y="139">C</text><g class="aw-bar-weak"><title>reverse position 8 from the 3&#x27; end, base T
 32 of 183,870 records differ here (0.0%)
 detected when it differs: 88% of 32
 detected when it does not: 59% of 183,838
 substitutions: T&gt;A in 28, T&gt;G in 2, T&gt;C in 2
-outside the 3′ window</title><rect x="315.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="321.5" y="139">T</text><text class="aw-base" x="336.5" y="139">G</text><g class="aw-bar-strong"><title>reverse position 6 from the 3&#x27; end, base C
+outside the 3′ window</title><rect x="352.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="359.1" y="139">T</text><text class="aw-base" x="374.1" y="139">G</text><g class="aw-bar-strong"><title>reverse position 6 from the 3&#x27; end, base C
 458 of 183,870 records differ here (0.2%)
 detected when it differs: 17% of 458
 detected when it does not: 59% of 183,412
 substitutions: C&gt;A in 356, C&gt;T in 99, C&gt;G in 3
-outside the 3′ window</title><rect x="345.0" y="124.3" width="13.0" height="1.7"/></g><text class="aw-base" x="351.5" y="139">C</text><g class="aw-bar-strong"><title>reverse position 5 from the 3&#x27; end, base A
+outside the 3′ window</title><rect x="382.6" y="124.3" width="13.0" height="1.7"/></g><text class="aw-base" x="389.1" y="139">C</text><g class="aw-bar-strong"><title>reverse position 5 from the 3&#x27; end, base A
 29 of 183,870 records differ here (0.0%)
 detected when it differs: 0% of 29
 detected when it does not: 59% of 183,841
 substitutions: A&gt;T in 16, A&gt;G in 10, A&gt;C in 3
-inside the 3′ window</title><rect x="360.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="366.5" y="139">A</text><text class="aw-base" x="381.5" y="139">G</text><g class="aw-bar-weak"><title>reverse position 3 from the 3&#x27; end, base T
+inside the 3′ window</title><rect x="397.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="404.1" y="139">A</text><text class="aw-base" x="419.1" y="139">G</text><g class="aw-bar-weak"><title>reverse position 3 from the 3&#x27; end, base T
 104 of 183,870 records differ here (0.1%)
 detected when it differs: 64% of 104
 detected when it does not: 59% of 183,766
 substitutions: T&gt;C in 90, T&gt;G in 13, T&gt;A in 1
-inside the 3′ window</title><rect x="390.0" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="396.5" y="139">T</text><text class="aw-base" x="411.5" y="139">C</text><text class="aw-base" x="426.5" y="139">C</text><text class="aw-tick" x="426.5" y="153">1</text><text class="aw-tick" x="366.5" y="153">5</text><text class="aw-tick" x="291.5" y="153">10</text><text class="aw-tick" x="216.5" y="153">15</text><text class="aw-tick" x="141.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">22</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="438" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">influenza A probe</text><rect class="aw-zone" x="194.0" y="174.0" width="120.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="404.0" y2="208.0"/><g class="aw-bar-weak"><title>probe position 20 from the 3&#x27; end, base T
+inside the 3′ window</title><rect x="427.6" y="124.5" width="13.0" height="1.5"/></g><text class="aw-base" x="434.1" y="139">T</text><text class="aw-base" x="449.1" y="139">C</text><text class="aw-base" x="464.1" y="139">C</text><text class="aw-tick" x="464.1" y="153">1</text><text class="aw-tick" x="404.1" y="153">5</text><text class="aw-tick" x="329.1" y="153">10</text><text class="aw-tick" x="254.1" y="153">15</text><text class="aw-tick" x="179.1" y="153">20</text><text class="aw-tick" x="149.1" y="153">22</text><text class="aw-end" x="138" y="139">5′</text><text class="aw-end aw-end-3" x="476" y="139">3′</text><text class="aw-track-label" x="112" y="216">probe</text><text class="aw-track-name" x="112" y="228">influenza A probe</text><rect class="aw-zone" x="231.6" y="174.0" width="120.0" height="52.0"/><line class="aw-axis" x1="141.6" y1="208.0" x2="441.6" y2="208.0"/><g class="aw-bar-weak"><title>probe position 20 from the 3&#x27; end, base T
 89 of 183,870 records differ here (0.0%)
 detected when it differs: 55% of 89
 detected when it does not: 59% of 183,781
 substitutions: T&gt;G in 47, T&gt;C in 42
-outside the central third</title><rect x="105.0" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="111.5" y="221">T</text><text class="aw-base" x="126.5" y="221">T</text><g class="aw-bar-mid"><title>probe position 18 from the 3&#x27; end, base T
+outside the central third</title><rect x="142.6" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="149.1" y="221">T</text><text class="aw-base" x="164.1" y="221">T</text><g class="aw-bar-mid"><title>probe position 18 from the 3&#x27; end, base T
 2,146 of 183,870 records differ here (1.2%)
 detected when it differs: 38% of 2,146
 detected when it does not: 59% of 181,724
 substitutions: T&gt;C in 2,050, T&gt;A in 85, T&gt;G in 11
-outside the central third</title><rect x="135.0" y="204.3" width="13.0" height="3.7"/></g><text class="aw-base" x="141.5" y="221">T</text><g class="aw-bar-strong"><title>probe position 17 from the 3&#x27; end, base G
+outside the central third</title><rect x="172.6" y="204.3" width="13.0" height="3.7"/></g><text class="aw-base" x="179.1" y="221">T</text><g class="aw-bar-strong"><title>probe position 17 from the 3&#x27; end, base G
 515 of 183,870 records differ here (0.3%)
 detected when it differs: 1% of 515
 detected when it does not: 59% of 183,355
 substitutions: G&gt;A in 509, G&gt;T in 6
-outside the central third</title><rect x="150.0" y="206.2" width="13.0" height="1.8"/></g><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">T</text><g class="aw-bar-strong"><title>probe position 15 from the 3&#x27; end, base G
+outside the central third</title><rect x="187.6" y="206.2" width="13.0" height="1.8"/></g><text class="aw-base" x="194.1" y="221">G</text><text class="aw-base" x="209.1" y="221">T</text><g class="aw-bar-strong"><title>probe position 15 from the 3&#x27; end, base G
 65,338 of 183,870 records differ here (35.5%)
 detected when it differs: 5% of 65,338
 detected when it does not: 89% of 118,532
 substitutions: G&gt;T in 58,927, G&gt;A in 6,355, G&gt;C in 56
-outside the central third</title><rect x="180.0" y="187.7" width="13.0" height="20.3"/></g><text class="aw-base" x="186.5" y="221">G</text><text class="aw-base" x="201.5" y="221">T</text><g class="aw-bar-strong"><title>probe position 13 from the 3&#x27; end, base T
+outside the central third</title><rect x="217.6" y="187.7" width="13.0" height="20.3"/></g><text class="aw-base" x="224.1" y="221">G</text><text class="aw-base" x="239.1" y="221">T</text><g class="aw-bar-strong"><title>probe position 13 from the 3&#x27; end, base T
 29 of 183,870 records differ here (0.0%)
 detected when it differs: 0% of 29
 detected when it does not: 59% of 183,841
 substitutions: T&gt;A in 24, T&gt;C in 4, T&gt;G in 1
-in the central third</title><rect x="210.0" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="216.5" y="221">T</text><g class="aw-bar-strong"><title>probe position 12 from the 3&#x27; end, base C
+in the central third</title><rect x="247.6" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="254.1" y="221">T</text><g class="aw-bar-strong"><title>probe position 12 from the 3&#x27; end, base C
 4,255 of 183,870 records differ here (2.3%)
 detected when it differs: 0% of 4,255
 detected when it does not: 60% of 179,615
 substitutions: C&gt;T in 4,254, C&gt;A in 1
-in the central third</title><rect x="225.0" y="202.8" width="13.0" height="5.2"/></g><text class="aw-base" x="231.5" y="221">C</text><g class="aw-bar-strong"><title>probe position 11 from the 3&#x27; end, base A
+in the central third</title><rect x="262.6" y="202.8" width="13.0" height="5.2"/></g><text class="aw-base" x="269.1" y="221">C</text><g class="aw-bar-strong"><title>probe position 11 from the 3&#x27; end, base A
 20 of 183,870 records differ here (0.0%)
 detected when it differs: 0% of 20
 detected when it does not: 59% of 183,850
 substitutions: A&gt;C in 9, A&gt;G in 6, A&gt;T in 5
-in the central third</title><rect x="240.0" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="246.5" y="221">A</text><text class="aw-base" x="261.5" y="221">C</text><g class="aw-bar-strong"><title>probe position 9 from the 3&#x27; end, base G
+in the central third</title><rect x="277.6" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="284.1" y="221">A</text><text class="aw-base" x="299.1" y="221">C</text><g class="aw-bar-strong"><title>probe position 9 from the 3&#x27; end, base G
 402 of 183,870 records differ here (0.2%)
 detected when it differs: 0% of 402
 detected when it does not: 59% of 183,468
 substitutions: G&gt;A in 399, G&gt;T in 3
-in the central third</title><rect x="270.0" y="206.4" width="13.0" height="1.6"/></g><text class="aw-base" x="276.5" y="221">G</text><text class="aw-base" x="291.5" y="221">C</text><text class="aw-base" x="306.5" y="221">T</text><text class="aw-base" x="321.5" y="221">C</text><text class="aw-base" x="336.5" y="221">A</text><text class="aw-base" x="351.5" y="221">C</text><g class="aw-bar-strong"><title>probe position 3 from the 3&#x27; end, base C
+in the central third</title><rect x="307.6" y="206.4" width="13.0" height="1.6"/></g><text class="aw-base" x="314.1" y="221">G</text><text class="aw-base" x="329.1" y="221">C</text><text class="aw-base" x="344.1" y="221">T</text><text class="aw-base" x="359.1" y="221">C</text><text class="aw-base" x="374.1" y="221">A</text><text class="aw-base" x="389.1" y="221">C</text><g class="aw-bar-strong"><title>probe position 3 from the 3&#x27; end, base C
 240 of 183,870 records differ here (0.1%)
 detected when it differs: 11% of 240
 detected when it does not: 59% of 183,630
 substitutions: C&gt;T in 201, C&gt;A in 37, C&gt;G in 2
-outside the central third</title><rect x="360.0" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="366.5" y="221">C</text><text class="aw-base" x="381.5" y="221">G</text><text class="aw-base" x="396.5" y="221">T</text><text class="aw-tick" x="396.5" y="235">1</text><text class="aw-tick" x="336.5" y="235">5</text><text class="aw-tick" x="261.5" y="235">10</text><text class="aw-tick" x="186.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">20</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="408" y="221">3′</text></svg>
+outside the central third</title><rect x="397.6" y="206.5" width="13.0" height="1.5"/></g><text class="aw-base" x="404.1" y="221">C</text><text class="aw-base" x="419.1" y="221">G</text><text class="aw-base" x="434.1" y="221">T</text><text class="aw-tick" x="434.1" y="235">1</text><text class="aw-tick" x="374.1" y="235">5</text><text class="aw-tick" x="299.1" y="235">10</text><text class="aw-tick" x="224.1" y="235">15</text><text class="aw-tick" x="149.1" y="235">20</text><text class="aw-end" x="138" y="221">5′</text><text class="aw-end aw-end-3" x="446" y="221">3′</text></svg>
 
 ## By lineage
 

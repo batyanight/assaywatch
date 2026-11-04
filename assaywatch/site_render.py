@@ -612,11 +612,32 @@ def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
         "",
         "Counts are available on hover. A tall gray bar indicates a tolerated polymorphism; a",
         "short red bar indicates a position of consequence.\n",
-        site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"]))
-        or '<p class="aw-empty">No position carried a mismatch in enough records to report.</p>',
+        site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"])),
     ]
+    if not a["positions"]:
+        lines.append(_no_bars_note(a))
     lines += _lineage_block(a)
     return "\n".join(lines)
+
+
+def _no_bars_note(a: dict[str, Any]) -> str:
+    """Why a track has sequences and no bars."""
+    if a.get("rounds"):
+        return (
+            '<p class="aw-empty">A protocol has no mismatch map of its own: a mismatch belongs to'
+            " the round whose oligo carries it, so each round\u2019s page has the map.</p>"
+        )
+    note = "No position carried a mismatch in enough records to report."
+    evaluable = (a["recent_evaluable"] or 0) + (a["baseline_evaluable"] or 0)
+    missed = evaluable - (a["recent_detected"] or 0) - (a["baseline_detected"] or 0)
+    if missed > 0:
+        note += (
+            f" {missed:,} of the {evaluable:,} records in the recent and baseline windows were not"
+            " detected. Their mismatches are either spread too thinly to report at any one"
+            " position, or the record has no site for an oligo (for example no probe site"
+            " inside the amplicon), which leaves no position to draw."
+        )
+    return f'<p class="aw-empty">{note}</p>'
 
 
 _LINEAGE_TAXID = re.compile(r"^(?P<name>.*?)\s*\((?P<taxid>\d+)\)\s*$")

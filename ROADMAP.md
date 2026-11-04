@@ -94,10 +94,28 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 - [ ] **Humanize the website's language.** Rewrite the prose on the site (`website/*.md`
   and the sentences `assaywatch/site_render.py` generates for each assay page) so it reads
   as written by a person for a diagnostician, without changing any number or claim.
-- [ ] **Check every assay's primer graph, then fix the broken ones.** The primer graphs are
-  broken on some assays and nobody has a list of which. Check all of them, not a sample:
-  build the check first so it names each failing assay and why, then fix the causes in
-  `site_svg.mismatch_track` or in its input data. The check stays as a test.
+- [x] **Check every assay's primer graph, then fix the broken ones.** Done 2026-11-04 over
+  every assay in `website/data/run.json`. The bars themselves were right: every one lands on its own oligo and base,
+  which `tests/test_site.py::test_every_bar_in_the_run_lands_on_the_oligo_it_belongs_to` now
+  keeps true. Fixed: oligo names clipped at the left edge (69 of 492 names over about 12
+  characters); 46 assays drawing sequences with no bars and no word about it, because the
+  fallback sentence could never fire, now say why and, where relevant, how many records were
+  missed (`Monkeypox_virus_G2R_Li_2010_G2R_WA_F`: 5,235 `fail` rows are `no probe site inside
+  amplicon`, which have no position to draw); protocol pages now point at their rounds; and
+  tooltips on the 8 pool assays whose bars come from an alternate oligo now say so.
+- [ ] **Should withheld assays show a mismatch map?** The 14 withheld assays have none, because
+  `sitedrift.build` holds them out so they cannot be listed as failing, and their pages stop
+  before the charts. That hides real signal (`Lyssavirus_N_Vazquez-Moron_2006_round1`: 10,588
+  records differ at forward position 3), though a map drawn against an `oligo_sequence_uncertain`
+  entry could mislead. Maintainer's decision, per withheld reason.
+- [ ] **Make assay paper titles uniform in case.** Titles come from the journals through
+  Crossref, and some journals deposit them in capitals: 10 of 235 in
+  `docs/papers-index.cache.json` (2026-11-04), e.g. "A NEW PCR ASSAY FOR SIMULTANEOUS STUDIES OF
+  LEUCOCYTOZOON, PLASMODIUM, AND HAEMOPROTEUS FROM AVIAN BLOOD". Recommended: convert those to
+  normal case rather than capitalize the other 225, since capitals cost binomials and gene names
+  their conventions. Plain lowercasing breaks the same terms, so the 10 are few enough to take
+  the correct title from the paper itself; keep it as a display override, because the cache is
+  regenerated from Crossref. Applies wherever the title is shown.
 - [ ] **A thorough report on, and fix of, assay scope.** Goes further than the standing
   release gate above: every live assay's `scope_taxids` and query against what its paper
   says it detects, written up as a report, with the fixes made. Two pieces belong to it:
@@ -129,6 +147,10 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   over `registry/` and `pending/`. Keep genuinely different targets distinct (`ITS1` is not
   `ITS2`). Check first whether a `gene` edit moves the screen signature, since that decides
   whether the rename costs a full re-screen.
+- [ ] **`rule report` declares less memory than its table takes.** `mem_mb=3000`, against a
+  3.17 GB peak from `load_calls_as_reported` alone on the 2026-11-01 calls (3,448,385 rows,
+  measured 2026-11-04); its comment's 2.7M rows date from 2026-10-22. On SLURM that job is
+  killed. Measure the whole rule and redeclare; `site_drift` reads the same table.
 - [ ] **Security review and code review once the new lineage graphs are live.** Blocked on
   the composition stage shipping: step 18, the merge of `composition`, and the site publish.
 
@@ -1129,7 +1151,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         killed rather than slowed -- the failure the report rule's own comment warns about. The
         suspect is `graph_records`, which materialises one `GraphRecord` per evaluable row for
         EVERY assay at once (about 930k objects on this run) while `build` also holds the
-        calls table; the stage processes one assay at a time and has no need of the others'
+        calls table [measured 2026-11-04: 3,107,513 `GraphRecord`s adding 0.48 GB; the table
+        alone peaks at 3.17 GB, so the table was the cost, and `build` now frees it and each
+        assay's rows after use]; the stage processes one assay at a time and has no need of the others'
         records. Either stream it per assay or measure the peak honestly and declare that.
         Decide before the first live run: the rule is wired into `all` through `report`.
         (b) **The build prints nothing until it finishes**, so a run that takes an unknown

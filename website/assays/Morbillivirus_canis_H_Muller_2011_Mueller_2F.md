@@ -172,7 +172,8 @@ outside the 3′ window</title><rect x="285.0" y="121.0" width="13.0" height="5.
 detected when it differs: 93% of 1,636
 detected when it does not: 81% of 323
 substitutions: G&gt;A in 1,632, G&gt;C in 2, A&gt;T in 2
-inside the 3′ window</title><rect x="345.0" y="94.9" width="13.0" height="31.1"/></g><text class="aw-base" x="351.5" y="139">A</text><g class="aw-bar-strong"><title>reverse position 3 from the 3&#x27; end, base T
+inside the 3′ window
+scored against a pool alternate with G here</title><rect x="345.0" y="94.9" width="13.0" height="31.1"/></g><text class="aw-base" x="351.5" y="139">A</text><g class="aw-bar-strong"><title>reverse position 3 from the 3&#x27; end, base T
 20 of 1,959 records differ here (1.0%)
 detected when it differs: 60% of 20
 detected when it does not: 91% of 1,939

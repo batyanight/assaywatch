@@ -77,17 +77,20 @@ short red bar indicates a position of consequence.
 detected when it differs: 92% of 441
 detected when it does not: 99% of 1,444
 substitutions: A&gt;G in 429, G&gt;A in 11, A&gt;T in 1
-outside the 3′ window</title><rect x="120.0" y="27.6" width="13.0" height="16.4"/></g><text class="aw-base" x="126.5" y="57">A</text><text class="aw-base" x="141.5" y="57">G</text><text class="aw-base" x="156.5" y="57">G</text><g class="aw-bar-weak"><title>forward position 16 from the 3&#x27; end, base G
+outside the 3′ window
+scored against a pool alternate with G here</title><rect x="120.0" y="27.6" width="13.0" height="16.4"/></g><text class="aw-base" x="126.5" y="57">A</text><text class="aw-base" x="141.5" y="57">G</text><text class="aw-base" x="156.5" y="57">G</text><g class="aw-bar-weak"><title>forward position 16 from the 3&#x27; end, base G
 79 of 1,885 records differ here (4.2%)
 detected when it differs: 99% of 79
 detected when it does not: 97% of 1,806
 substitutions: G&gt;A in 54, A&gt;G in 21, G&gt;T in 3
-outside the 3′ window</title><rect x="165.0" y="37.0" width="13.0" height="7.0"/></g><text class="aw-base" x="171.5" y="57">G</text><text class="aw-base" x="186.5" y="57">A</text><text class="aw-base" x="201.5" y="57">T</text><g class="aw-bar-weak"><title>forward position 13 from the 3&#x27; end, base A
+outside the 3′ window
+scored against a pool alternate with A here</title><rect x="165.0" y="37.0" width="13.0" height="7.0"/></g><text class="aw-base" x="171.5" y="57">G</text><text class="aw-base" x="186.5" y="57">A</text><text class="aw-base" x="201.5" y="57">T</text><g class="aw-bar-weak"><title>forward position 13 from the 3&#x27; end, base A
 1,233 of 1,885 records differ here (65.4%)
 detected when it differs: 99% of 1,233
 detected when it does not: 94% of 652
 substitutions: C&gt;A in 1,209, C&gt;G in 22, C&gt;T in 2
-outside the 3′ window</title><rect x="210.0" y="16.5" width="13.0" height="27.5"/></g><text class="aw-base" x="216.5" y="57">A</text><text class="aw-base" x="231.5" y="57">T</text><text class="aw-base" x="246.5" y="57">T</text><g class="aw-bar-weak"><title>forward position 10 from the 3&#x27; end, base T
+outside the 3′ window
+scored against a pool alternate with C here</title><rect x="210.0" y="16.5" width="13.0" height="27.5"/></g><text class="aw-base" x="216.5" y="57">A</text><text class="aw-base" x="231.5" y="57">T</text><text class="aw-base" x="246.5" y="57">T</text><g class="aw-bar-weak"><title>forward position 10 from the 3&#x27; end, base T
 62 of 1,885 records differ here (3.3%)
 detected when it differs: 100% of 62
 detected when it does not: 97% of 1,823

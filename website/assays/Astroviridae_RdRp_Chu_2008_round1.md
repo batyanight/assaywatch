@@ -112,7 +112,8 @@ outside the 3′ window</title><rect x="315.0" y="18.1" width="13.0" height="25.
 detected when it differs: 38% of 1,350
 detected when it does not: 56% of 1,567
 substitutions: K&gt;C in 897, G&gt;A in 248, K&gt;A in 204
-outside the 3′ window</title><rect x="360.0" y="20.9" width="13.0" height="23.1"/></g><text class="aw-base" x="366.5" y="57">K</text><text class="aw-base" x="381.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 4 from the 3&#x27; end, base A
+outside the 3′ window
+scored against a pool alternate with G here</title><rect x="360.0" y="20.9" width="13.0" height="23.1"/></g><text class="aw-base" x="366.5" y="57">K</text><text class="aw-base" x="381.5" y="57">T</text><g class="aw-bar-strong"><title>forward position 4 from the 3&#x27; end, base A
 1,653 of 2,917 records differ here (56.7%)
 detected when it differs: 23% of 1,653
 detected when it does not: 80% of 1,264

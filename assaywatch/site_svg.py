@@ -45,6 +45,11 @@ CELL = 15.0  # px per oligo position
 GUTTER = 104.0  # left label column: the role name plus the 5′ marker
 BAR_H = 34.0  # tallest mismatch bar
 ROW_GAP = 16.0
+#: The oligo name under the role label. Monospace at 10px is about 6.2 px a character.
+#: Longer names are cut rather than given all the room they ask for: the gutter is taken
+#: from the bases, and the page's oligo table and the tooltip both carry the full name.
+NAME_CHAR_PX = 6.2
+NAME_MAX_CHARS = 22
 
 
 def _esc(s: Any) -> str:
@@ -87,7 +92,10 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
     roles = [r for r in ("forward", "reverse", "probe") if r in oligos]
     longest = max(len(oligos[r]) for r in roles)
     row_h = BAR_H + 18 + 14
-    width = GUTTER + longest * CELL + 18
+    drawn_names = {r: (names or {}).get(r) or "" for r in roles}
+    widest = max(min(len(v), NAME_MAX_CHARS) for v in drawn_names.values())
+    gutter = max(GUTTER, 30 + (widest + 1) * NAME_CHAR_PX)
+    width = gutter + longest * CELL + 18
     height = len(roles) * (row_h + ROW_GAP) + 12
 
     out = [
@@ -103,14 +111,19 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
         top = 10 + i * (row_h + ROW_GAP)
         base_y = top + BAR_H
         # The role, and under it the name the paper gave the oligo. The label
-        # ends well short of the 5' marker: at GUTTER - 10 the two overlapped
+        # ends well short of the 5' marker: at gutter - 10 the two overlapped
         # once the theme's larger type replaced Material's.
-        out.append(f'<text class="aw-track-label" x="{GUTTER - 30:.0f}" y="{base_y + 8:.0f}">{role}</text>')
-        oligo_name = (names or {}).get(role)
+        out.append(f'<text class="aw-track-label" x="{gutter - 30:.0f}" y="{base_y + 8:.0f}">{role}</text>')
+        oligo_name = drawn_names[role]
         if oligo_name:
+            shown = oligo_name
+            tooltip = ""
+            if len(oligo_name) > NAME_MAX_CHARS:
+                shown = oligo_name[: NAME_MAX_CHARS - 1] + "\u2026"
+                tooltip = f"<title>{_esc(oligo_name)}</title>"
             out.append(
-                f'<text class="aw-track-name" x="{GUTTER - 30:.0f}" '
-                f'y="{base_y + 20:.0f}">{_esc(oligo_name)}</text>'
+                f'<text class="aw-track-name" x="{gutter - 30:.0f}" '
+                f'y="{base_y + 20:.0f}">{tooltip}{_esc(shown)}</text>'
             )
 
         # The shaded region is the one the SCORER penalizes more heavily, and it
@@ -136,18 +149,18 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
             lo, hi = max(n - 5, 0), n
         if hi > lo:
             out.append(
-                f'<rect class="aw-zone" x="{GUTTER + lo * CELL:.1f}" y="{top:.1f}" '
+                f'<rect class="aw-zone" x="{gutter + lo * CELL:.1f}" y="{top:.1f}" '
                 f'width="{(hi - lo) * CELL:.1f}" height="{BAR_H + 18:.1f}"/>'
             )
 
         out.append(
-            f'<line class="aw-axis" x1="{GUTTER:.1f}" y1="{base_y:.1f}" '
-            f'x2="{GUTTER + n * CELL:.1f}" y2="{base_y:.1f}"/>'
+            f'<line class="aw-axis" x1="{gutter:.1f}" y1="{base_y:.1f}" '
+            f'x2="{gutter + n * CELL:.1f}" y2="{base_y:.1f}"/>'
         )
 
         for idx in range(n):
             pos3 = n - idx  # 1 is the 3'-terminal base
-            x = GUTTER + idx * CELL
+            x = gutter + idx * CELL
             stat = by_oligo.get(role, {}).get(pos3)
             if stat:
                 denom = (stat["evaluable_with"] or 0) + (stat["evaluable_without"] or 0)
@@ -182,13 +195,21 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
                         if stat["in_3prime_zone"]
                         else "outside the 3\u2032 window"
                     )
+                # `base` is the primary oligo's, which is the one drawn; the substitutions
+                # name the oligo the record was actually scored against.
+                alternates = sorted({a for a, _, _ in stat["substitutions"]} - {stat["base"]})
+                alternate_text = (
+                    f"\nscored against a pool alternate with {'/'.join(alternates)} here"
+                    if alternates
+                    else ""
+                )
                 tip = (
                     f"{role} position {pos3} from the 3' end, base {stat['base']}\n"
                     f"{stat['n_mismatch']:,} of {denom:,} records differ here ({100 * share:.1f}%)\n"
                     f"detected when it differs: {with_pct:.0f}% of {stat['evaluable_with']:,}\n"
                     f"detected when it does not: {without_pct:.0f}% of {stat['evaluable_without']:,}\n"
                     f"substitutions: {subs}\n"
-                    f"{zone_text}"
+                    f"{zone_text}{alternate_text}"
                 )
                 # 1px inset each side is the gap the eye needs between adjacent
                 # filled bars; without it two neighbors read as one wide block.
@@ -203,12 +224,12 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
 
         # Tick every fifth position, counting from the 3' end, plus the ends.
         for pos3 in sorted({1, 5, 10, 15, 20, 25, 30, 35, 40, n} & set(range(1, n + 1))):
-            x = GUTTER + (n - pos3) * CELL + CELL / 2
+            x = gutter + (n - pos3) * CELL + CELL / 2
             out.append(f'<text class="aw-tick" x="{x:.1f}" y="{base_y + 27:.0f}">{pos3}</text>')
 
-        out.append(f'<text class="aw-end" x="{GUTTER - 4:.0f}" y="{base_y + 13:.0f}">5′</text>')
+        out.append(f'<text class="aw-end" x="{gutter - 4:.0f}" y="{base_y + 13:.0f}">5′</text>')
         out.append(
-            f'<text class="aw-end aw-end-3" x="{GUTTER + n * CELL + 4:.0f}" y="{base_y + 13:.0f}">3′</text>'
+            f'<text class="aw-end aw-end-3" x="{gutter + n * CELL + 4:.0f}" y="{base_y + 13:.0f}">3′</text>'
         )
 
     out.append("</svg>")
