@@ -176,6 +176,8 @@ word for a concept.
 
 **title token** — a word a cluster's record titles carry and the other clusters' do not, shown in the composition panel's tooltip: what the cluster's name leaves out (`composition.title_tokens`). Record qualifiers (`strain`, `isolate`, `clone`) are never tokens.
 
+**same-mix line** — an assay's per-year detected share recomputed on the whole period's lineage mix, by direct standardisation (`composition.same_mix_series`). Drawn beside the observed line: where the two diverge, the mix of lineages being deposited moved rather than detection within them.
+
 **manifest** — the retrieve stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record** — what `retrieve` returns for one fetched group (`TaxonRun`), written to the manifest (`retrieve.py`).

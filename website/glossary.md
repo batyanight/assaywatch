@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (156 links).
+    definition links to it (159 links).
     `status` is defined by more than one entry and so
     deliberately not linked.
 
@@ -187,6 +187,8 @@ word for a concept.
 **composition window**{: #term-composition-window } — one record's [amplicon](#term-amplicon) plus up to `flank_bp` of flank each side, every [primer](#term-primer)/[probe](#term-probe) [site](#term-site) masked to N, cut by `subcluster.flanked_region` and returned as a `Region` with the flank actually used. What composition clusters; not a [window archive](#term-window-archive), which is cut around sites for distribution and keeps them.
 
 **title token**{: #term-title-token } — a word a cluster's record titles carry and the other clusters' do not, shown in the composition [panel](#term-panel)'s tooltip: what the cluster's name leaves out (`composition.title_tokens`). Record qualifiers (`strain`, `isolate`, `clone`) are never tokens.
+
+**same-mix line**{: #term-same-mix-line } — an [assay](#term-assay)'s per-year detected share recomputed on the whole period's [lineage](#term-lineage) mix, by direct standardisation (`composition.same_mix_series`). Drawn beside the observed line: where the two diverge, the mix of lineages being deposited moved rather than [detection](#term-detection) within them.
 
 **manifest**{: #term-manifest } — the [retrieve](#term-retrieve) stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 

@@ -7,8 +7,19 @@ from __future__ import annotations
 
 import random
 
-from assaywatch.composition import cluster_names, organism, sample_windows, species_mix, title_tokens
-from assaywatch.subcluster import Region
+import pytest
+
+from assaywatch.composition import (
+    Cell,
+    cluster_names,
+    observed_series,
+    organism,
+    same_mix_series,
+    sample_windows,
+    species_mix,
+    title_tokens,
+)
+from assaywatch.subcluster import UNPLACED, Region
 
 
 def _region(acc: str, seq: str, full: bool = True) -> Region:
@@ -270,3 +281,82 @@ def test_tokens_are_ordered_by_how_well_they_separate_and_capped():
     # "lineage" and "cytb" are in both and separate nothing; the cap takes the first.
     assert title_tokens(mine, other, top=5, **kw) == ["Austria", "SGS1"]
     assert title_tokens(mine, other, top=1, **kw) == ["Austria"]
+
+
+# ---- the same-mix line (step 7) ----
+#
+# Direct standardisation: each year's detection recomputed on the whole period's
+# lineage mix. Every number below is computed by hand in the test.
+
+
+#: Two lineages 100 records each, so each weighs 0.5 over the period. A detects always,
+#: B never, and the MIX swings from 80/20 to 20/80 between the two years.
+_MIX_SWING = [
+    Cell(2020, 0, 80, 80),
+    Cell(2020, 1, 20, 0),
+    Cell(2021, 0, 20, 20),
+    Cell(2021, 1, 80, 0),
+]
+
+
+def test_the_observed_share_is_the_year_s_own_arithmetic():
+    assert observed_series(_MIX_SWING) == {2020: 0.8, 2021: 0.2}
+
+
+def test_holding_the_mix_fixed_flattens_a_fall_that_was_only_the_mix():
+    """The whole point of the panel. Observed detection falls from 80% to 20% while
+    neither lineage's own detection moved at all: A detects everything in both years and
+    B nothing. On the period's 50/50 mix both years read 0.5."""
+    assert same_mix_series(_MIX_SWING, min_covered=0.8) == {2020: 0.5, 2021: 0.5}
+
+
+def test_a_real_fall_within_a_lineage_survives_standardisation():
+    cells = [
+        Cell(2020, 0, 50, 50),
+        Cell(2020, 1, 50, 25),
+        Cell(2021, 0, 50, 25),
+        Cell(2021, 1, 50, 25),
+    ]
+    # weights 0.5/0.5; 2020 = .5*1.0 + .5*0.5 = 0.75, 2021 = .5*0.5 + .5*0.5 = 0.5
+    assert same_mix_series(cells, min_covered=0.8) == {2020: 0.75, 2021: 0.5}
+
+
+def test_an_unchanging_mix_leaves_the_year_as_it_was():
+    cells = [Cell(2020, 0, 50, 40), Cell(2020, 1, 50, 10), Cell(2021, 0, 50, 30), Cell(2021, 1, 50, 20)]
+    assert same_mix_series(cells, min_covered=0.8) == observed_series(cells)
+
+
+def test_a_year_missing_too_much_of_the_mix_is_not_drawn():
+    """A year holding one lineage of a two-lineage assay says nothing about the other,
+    and standardising over it would invent the missing half."""
+    cells = [*_MIX_SWING, Cell(2022, 0, 10, 10)]
+    assert 2022 not in same_mix_series(cells, min_covered=0.8)
+
+
+def test_the_weights_of_a_drawn_year_are_renormalised_over_what_is_present():
+    cells = [Cell(2020, 0, 90, 45), Cell(2020, 1, 10, 10), Cell(2021, 0, 90, 90)]
+    # weights: A 180/190, B 10/190. 2021 holds only A, covering 94.7% of the weight,
+    # so it is drawn at A's own rate.
+    out = same_mix_series(cells, min_covered=0.9)
+    assert out[2021] == 1.0
+    assert out[2020] == pytest.approx((180 / 190) * 0.5 + (10 / 190) * 1.0)
+
+
+def test_other_and_diverged_are_strata_like_any_other():
+    """A record the clustering could not place is still a record the graph counted, so it
+    carries weight; dropping it would make the line disagree with the graph."""
+    cells = [
+        Cell(2020, 0, 50, 50),
+        Cell(2020, UNPLACED, 50, 0),
+        Cell(2021, 0, 50, 50),
+        Cell(2021, UNPLACED, 50, 0),
+    ]
+    assert same_mix_series(cells, min_covered=0.8) == {2020: 0.5, 2021: 0.5}
+
+
+def test_an_empty_year_or_an_empty_assay_yields_no_point():
+    assert same_mix_series([], min_covered=0.8) == {}
+    assert observed_series([]) == {}
+    cells = [*_MIX_SWING, Cell(2022, 0, 0, 0), Cell(2022, 1, 0, 0)]
+    assert 2022 not in same_mix_series(cells, min_covered=0.8)
+    assert 2022 not in observed_series(cells)

@@ -20,6 +20,7 @@ import hashlib
 import re
 from collections import Counter, defaultdict
 from collections.abc import Sequence
+from dataclasses import dataclass
 
 from assaywatch.accession import strip_version
 from assaywatch.subcluster import Region
@@ -265,3 +266,65 @@ def title_tokens(
     ]
     scored.sort(key=lambda s: (-s[0], s[1]))
     return [spellings[k].most_common(1)[0][0] for _, k in scored[:top]]
+
+
+# ---- The same-mix line (ROADMAP composition step 7) ----
+
+
+@dataclass(frozen=True)
+class Cell:
+    """One assay's records of one deposit year in one lineage: the panel's unit.
+
+    ``cluster`` is a label from ``subcluster.components_at`` -- ``0, 1, ...``, or
+    ``OTHER`` / ``UNPLACED`` / the diverged stratum, each of which is a lineage here like
+    any other, because the graph counted those records too. ``detected`` counts the
+    records the screen detected, under the same rule the graph applies.
+    """
+
+    year: int
+    cluster: int
+    records: int
+    detected: int
+
+
+def observed_series(cells: Sequence[Cell]) -> dict[int, float]:
+    """Each year's detected share, as the graph draws it: the year's own arithmetic."""
+    totals: dict[int, list[int]] = defaultdict(lambda: [0, 0])
+    for c in cells:
+        totals[c.year][0] += c.records
+        totals[c.year][1] += c.detected
+    return {y: d / n for y, (n, d) in sorted(totals.items()) if n}
+
+
+def same_mix_series(cells: Sequence[Cell], *, min_covered: float) -> dict[int, float]:
+    """Each year's detection recomputed on the WHOLE PERIOD's lineage mix: the line that
+    answers "what would this year have read if the same lineages had been sequenced?"
+
+    Direct standardisation. Each lineage's weight is its share of all the assay's records;
+    a year's own within-lineage detection rates are then combined on those weights
+    instead of the year's. A fall that was only the mix changing therefore flattens, and
+    a fall inside the lineages survives.
+
+    A year is drawn only where the lineages PRESENT in it carry at least ``min_covered``
+    of the weight, and the weights are renormalised over those present. A year holding
+    one lineage of two says nothing about the other, and standardising over it would
+    invent the missing half rather than measure it.
+    """
+    weight_of: dict[int, int] = defaultdict(int)
+    for c in cells:
+        weight_of[c.cluster] += c.records
+    overall = sum(weight_of.values())
+    if not overall:
+        return {}
+    per_year: dict[int, list[Cell]] = defaultdict(list)
+    for c in cells:
+        if c.records:
+            per_year[c.year].append(c)
+    out: dict[int, float] = {}
+    for year, rows in sorted(per_year.items()):
+        covered = sum(weight_of[c.cluster] for c in rows) / overall
+        if covered < min_covered:
+            continue
+        total = sum(weight_of[c.cluster] * (c.detected / c.records) for c in rows)
+        out[year] = total / (covered * overall)
+    return out

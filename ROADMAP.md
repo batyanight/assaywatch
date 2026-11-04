@@ -899,7 +899,12 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         name ends at a qualifier, at `sp.`, or at a strain identifier. A mixed cluster's name
         carries its modal share, and a record qualifier (`clone` against `isolate`) is never a
         token. 15 tests.
-  - [ ] 7. Same-mix standardisation on a hand-computed table.
+  - [x] 7. Same-mix standardisation on a hand-computed table. Done 2026-11-03: `Cell`
+        (year x lineage x records x detected, the panel's unit), `observed_series` and
+        `same_mix_series`. Direct standardisation on each lineage's share of all the assay's
+        records, renormalised over the lineages a year actually holds, and no point drawn
+        where they carry under `same_mix_min_covered` of the weight. `other`, `unplaced` and
+        diverged are strata like any other, or the line would disagree with the graph. 8 tests.
   - [ ] 8. Kitagawa: parts sum to the change; deterministic bootstrap.
   - [ ] 9. Species first year with a merged taxid; design-year flag.
   - [ ] 10. Extract `assessment_inputs`, `load_calls_as_reported`, `graph_records`; per-year
