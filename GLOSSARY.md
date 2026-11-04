@@ -178,6 +178,8 @@ word for a concept.
 
 **same-mix line** — an assay's per-year detected share recomputed on the whole period's lineage mix, by direct standardisation (`composition.same_mix_series`). Drawn beside the observed line: where the two diverge, the mix of lineages being deposited moved rather than detection within them.
 
+**mix part / within part** — the two numbers Kitagawa's decomposition splits a change in detected share into: how much the lineage mix moved, and how much detection moved within the lineages (`composition.split_change`). They add to the change exactly. A lineage deposited in only one of the two periods has no within part, so its whole effect is mix.
+
 **manifest** — the retrieve stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record** — what `retrieve` returns for one fetched group (`TaxonRun`), written to the manifest (`retrieve.py`).

@@ -905,7 +905,13 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         records, renormalised over the lineages a year actually holds, and no point drawn
         where they carry under `same_mix_min_covered` of the weight. `other`, `unplaced` and
         diverged are strata like any other, or the line would disagree with the graph. 8 tests.
-  - [ ] 8. Kitagawa: parts sum to the change; deterministic bootstrap.
+  - [x] 8. Kitagawa: parts sum to the change; deterministic bootstrap. Done 2026-11-03:
+        `Split` and `split_change`, with the identity pinned over 50 random tables. A lineage
+        present in ONE period only has no rate in the other, so its missing rate is taken to be
+        the rate it has: its within term is zero, its whole effect lands in `mix`, the identity
+        stays exact, and the cluster is named in `one_period_clusters`. The bootstrap resamples
+        RECORDS within each period and prices deposition and detection only, NOT the clustering,
+        which the report must say beside the interval. 8 tests.
   - [ ] 9. Species first year with a merged taxid; design-year flag.
   - [ ] 10. Extract `assessment_inputs`, `load_calls_as_reported`, `graph_records`; per-year
         sums equal `assess().years`; existing report output byte-identical. **`pytest -m slow`.**

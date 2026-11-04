@@ -17,6 +17,7 @@ from assaywatch.composition import (
     same_mix_series,
     sample_windows,
     species_mix,
+    split_change,
     title_tokens,
 )
 from assaywatch.subcluster import UNPLACED, Region
@@ -360,3 +361,89 @@ def test_an_empty_year_or_an_empty_assay_yields_no_point():
     cells = [*_MIX_SWING, Cell(2022, 0, 0, 0), Cell(2022, 1, 0, 0)]
     assert 2022 not in same_mix_series(cells, min_covered=0.8)
     assert 2022 not in observed_series(cells)
+
+
+# ---- the mix / within split (step 8) ----
+#
+# Kitagawa: mix = sum (w_r - w_b)(p_r + p_b)/2, within = sum (p_r - p_b)(w_r + w_b)/2.
+# Both parts are worked by hand in each test.
+
+
+def test_a_change_that_was_only_the_mix_is_all_mix():
+    """Baseline 80/20 of a lineage that always detects and one that never does, recent
+    20/80: the share falls 0.8 -> 0.2 and not one lineage's own detection moved."""
+    base = [Cell(2020, 0, 80, 80), Cell(2020, 1, 20, 0)]
+    recent = [Cell(2025, 0, 20, 20), Cell(2025, 1, 80, 0)]
+    s = split_change(base, recent, n_boot=0, seed=0)
+    assert (s.baseline_share, s.recent_share) == (0.8, 0.2)
+    assert s.change == pytest.approx(-0.6)
+    assert s.mix == pytest.approx(-0.6)
+    assert s.within == pytest.approx(0.0)
+
+
+def test_a_change_inside_the_lineages_is_all_within():
+    base = [Cell(2020, 0, 50, 50), Cell(2020, 1, 50, 25)]
+    recent = [Cell(2025, 0, 50, 25), Cell(2025, 1, 50, 25)]
+    s = split_change(base, recent, n_boot=0, seed=0)
+    assert s.change == pytest.approx(-0.25)
+    assert s.mix == pytest.approx(0.0)
+    assert s.within == pytest.approx(-0.25)
+
+
+def test_the_two_parts_always_add_up_to_the_change():
+    """The identity is the reason this decomposition and not another; a reader who adds
+    the two numbers printed beside each other must get the third."""
+    rng = random.Random(4)
+    for _ in range(50):
+        ks = range(rng.randint(1, 5))
+        base = [Cell(2020, k, rng.randint(1, 99), 0) for k in ks]
+        recent = [Cell(2025, k, rng.randint(1, 99), 0) for k in ks]
+        base = [Cell(c.year, c.cluster, c.records, rng.randint(0, c.records)) for c in base]
+        recent = [Cell(c.year, c.cluster, c.records, rng.randint(0, c.records)) for c in recent]
+        s = split_change(base, recent, n_boot=0, seed=0)
+        assert s.mix + s.within == pytest.approx(s.change, abs=1e-12)
+
+
+def test_a_lineage_seen_in_only_one_period_is_a_mix_change_and_is_named():
+    """It has no detection rate in the period where it does not appear, so a within part
+    cannot be computed for it, and a lineage that APPEARED is a change in the mix. The
+    identity survives, and the cluster is recorded so the report can say so."""
+    base = [Cell(2020, 0, 50, 25)]
+    recent = [Cell(2025, 0, 50, 25), Cell(2025, 1, 50, 0)]
+    s = split_change(base, recent, n_boot=0, seed=0)
+    assert s.one_period_clusters == (1,)
+    assert s.mix + s.within == pytest.approx(s.change)
+    assert s.within == pytest.approx(0.0)
+    assert s.mix == pytest.approx(-0.25)
+
+
+def test_an_empty_period_has_no_split():
+    assert split_change([], [Cell(2025, 0, 5, 5)], n_boot=0, seed=0) is None
+    assert split_change([Cell(2020, 0, 5, 5)], [], n_boot=0, seed=0) is None
+    assert split_change([Cell(2020, 0, 0, 0)], [Cell(2025, 0, 5, 5)], n_boot=0, seed=0) is None
+
+
+def test_without_a_bootstrap_there_is_no_interval():
+    s = split_change([Cell(2020, 0, 9, 3)], [Cell(2025, 0, 9, 6)], n_boot=0, seed=0)
+    assert s.mix_ci is None and s.within_ci is None and s.n_boot == 0
+
+
+def test_the_bootstrap_is_deterministic_under_its_seed():
+    base = [Cell(2020, 0, 80, 60), Cell(2020, 1, 20, 5)]
+    recent = [Cell(2025, 0, 40, 25), Cell(2025, 1, 60, 20)]
+    a = split_change(base, recent, n_boot=200, seed=7)
+    b = split_change(base, recent, n_boot=200, seed=7)
+    c = split_change(base, recent, n_boot=200, seed=8)
+    assert a.mix_ci == b.mix_ci and a.within_ci == b.within_ci
+    assert a.mix_ci != c.mix_ci
+    assert a.mix_ci[0] <= a.mix_ci[1] and a.within_ci[0] <= a.within_ci[1]
+
+
+def test_more_records_narrow_the_interval():
+    def width(scale):
+        base = [Cell(2020, 0, 80 * scale, 60 * scale), Cell(2020, 1, 20 * scale, 5 * scale)]
+        recent = [Cell(2025, 0, 40 * scale, 25 * scale), Cell(2025, 1, 60 * scale, 20 * scale)]
+        s = split_change(base, recent, n_boot=400, seed=3)
+        return s.mix_ci[1] - s.mix_ci[0]
+
+    assert width(20) < width(1)

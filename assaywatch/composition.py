@@ -21,6 +21,7 @@ import re
 from collections import Counter, defaultdict
 from collections.abc import Sequence
 from dataclasses import dataclass
+from typing import Any
 
 from assaywatch.accession import strip_version
 from assaywatch.subcluster import Region
@@ -328,3 +329,120 @@ def same_mix_series(cells: Sequence[Cell], *, min_covered: float) -> dict[int, f
         total = sum(weight_of[c.cluster] * (c.detected / c.records) for c in rows)
         out[year] = total / (covered * overall)
     return out
+
+
+# ---- The mix / within split (ROADMAP composition step 8) ----
+
+
+@dataclass(frozen=True)
+class Split:
+    """Why an assay's detected share differs between two periods, in two numbers that add
+    to the difference: how much the LINEAGE MIX moved, and how much detection moved
+    WITHIN the lineages."""
+
+    baseline_share: float
+    recent_share: float
+    change: float
+    mix: float
+    within: float
+    mix_ci: tuple[float, float] | None
+    within_ci: tuple[float, float] | None
+    n_boot: int
+    #: Lineages present in one period only: their whole effect sits in `mix`.
+    one_period_clusters: tuple[int, ...]
+
+
+def _totals(cells: Sequence[Cell]) -> tuple[dict[int, int], dict[int, int], int]:
+    records: dict[int, int] = defaultdict(int)
+    detected: dict[int, int] = defaultdict(int)
+    for c in cells:
+        records[c.cluster] += c.records
+        detected[c.cluster] += c.detected
+    return records, detected, sum(records.values())
+
+
+def _kitagawa(
+    base_n: dict[int, int], base_d: dict[int, int], rec_n: dict[int, int], rec_d: dict[int, int]
+) -> tuple[float, float, float, float]:
+    """(baseline share, recent share, mix part, within part) by Kitagawa's decomposition.
+
+        mix    = sum (w_r - w_b)(p_r + p_b) / 2
+        within = sum (p_r - p_b)(w_r + w_b) / 2
+
+    and the two add to the change exactly, which is the property the report prints.
+
+    A lineage present in ONE period only has no detection rate in the other, so its
+    missing rate is taken to be the rate it has: its within term is then zero and its
+    whole effect lands in the mix part. That is both the arithmetic that keeps the
+    identity exact and the honest reading -- a lineage that appeared, or stopped being
+    deposited, is a change in what was sequenced, not in how the assay performs.
+    """
+    nb, nr = sum(base_n.values()), sum(rec_n.values())
+    mix = within = 0.0
+    for k in set(base_n) | set(rec_n):
+        wb, wr = base_n.get(k, 0) / nb, rec_n.get(k, 0) / nr
+        pb = base_d[k] / base_n[k] if base_n.get(k) else None
+        pr = rec_d[k] / rec_n[k] if rec_n.get(k) else None
+        if pb is None:
+            pb = pr
+        if pr is None:
+            pr = pb
+        assert pb is not None and pr is not None
+        mix += (wr - wb) * (pr + pb) / 2
+        within += (pr - pb) * (wr + wb) / 2
+    share_b = sum(base_d.values()) / nb
+    share_r = sum(rec_d.values()) / nr
+    return share_b, share_r, mix, within
+
+
+def _resample(
+    rng: Any, records: dict[int, int], detected: dict[int, int]
+) -> tuple[dict[int, int], dict[int, int]]:
+    """One multinomial resample of a period's records over (lineage, detected or not).
+
+    Resampling RECORDS, not lineages: the uncertainty being priced is which records were
+    deposited and which the screen detected. It does NOT include uncertainty in the
+    clustering itself -- the cut, the sample and the labels are taken as given -- and the
+    report says so beside the interval.
+    """
+    keys = sorted(records)
+    cats = [(k, hit) for k in keys for hit in (True, False)]
+    weights = [detected[k] if hit else records[k] - detected[k] for k, hit in cats]
+    n = sum(records.values())
+    draw = rng.multinomial(n, [w / n for w in weights])
+    out_n: dict[int, int] = defaultdict(int)
+    out_d: dict[int, int] = defaultdict(int)
+    for (k, hit), count in zip(cats, draw.tolist(), strict=True):
+        out_n[k] += count
+        if hit:
+            out_d[k] += count
+    return {k: v for k, v in out_n.items() if v}, out_d
+
+
+def split_change(baseline: Sequence[Cell], recent: Sequence[Cell], *, n_boot: int, seed: int) -> Split | None:
+    """Split the change in detected share between two periods into a mix part and a within
+    part, with percentile bootstrap intervals. ``None`` if either period holds no records.
+    """
+    base_n, base_d, nb = _totals(baseline)
+    rec_n, rec_d, nr = _totals(recent)
+    if not nb or not nr:
+        return None
+    base_n = {k: v for k, v in base_n.items() if v}
+    rec_n = {k: v for k, v in rec_n.items() if v}
+    share_b, share_r, mix, within = _kitagawa(base_n, base_d, rec_n, rec_d)
+    one_period = tuple(sorted(set(base_n) ^ set(rec_n)))
+    mix_ci = within_ci = None
+    if n_boot:
+        import numpy as np
+
+        rng = np.random.default_rng(seed)
+        mixes, withins = [], []
+        for _ in range(n_boot):
+            bn, bd = _resample(rng, base_n, base_d)
+            rn, rd = _resample(rng, rec_n, rec_d)
+            _, _, m, w = _kitagawa(bn, bd, rn, rd)
+            mixes.append(m)
+            withins.append(w)
+        mix_ci = (float(np.percentile(mixes, 2.5)), float(np.percentile(mixes, 97.5)))
+        within_ci = (float(np.percentile(withins, 2.5)), float(np.percentile(withins, 97.5)))
+    return Split(share_b, share_r, share_r - share_b, mix, within, mix_ci, within_ci, n_boot, one_period)
