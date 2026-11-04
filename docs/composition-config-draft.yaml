@@ -81,6 +81,20 @@ composition:
   # A component with fewer than 3 sampled members is not a lineage; its records
   # pool into "other". Placeholder.
   min_cluster_size: 3
+  # A cluster whose commonest species covers at least this much of it is named for that
+  # species alone ("C. trachomatis"). Below it the name carries the share
+  # ("P. falciparum 38%"), because a legend entry naming one species would be a false
+  # statement about the rest: step 4b produced a 2,000-window cluster that was 15% its
+  # modal organism. 0.9 is a judgement about what a reader will take a bare name to mean.
+  name_pure_share: 0.9
+  # A tooltip token must appear in at least this share of a cluster's titles, so one odd
+  # deposit cannot name a lineage, and at least this many times as often in the cluster as
+  # outside it. Both are judgements. The lift is what drops the words every cluster shares
+  # ("complete", "genome"); the support is what drops a single strange isolate.
+  token_min_share: 0.2
+  token_min_lift: 2.0
+  # Tokens shown per cluster in the tooltip.
+  title_tokens_shown: 5
   # Clusters drawn per assay; the rest pool into "other". 8 because a stacked bar
   # stops being readable past about that many colours, not because it is measured.
   show_clusters: 8
@@ -133,6 +147,12 @@ composition:
 #     cut: float = Field(default=0.05, gt=0.0, lt=1.0)
 #     #: A component with fewer sampled members than this is not a lineage.
 #     min_cluster_size: int = Field(default=3, gt=0)
+#     #: Above this modal-species share a cluster is named for that species alone.
+#     name_pure_share: float = Field(default=0.9, gt=0.0, le=1.0)
+#     #: A tooltip token's least share of a cluster's titles, and its least lift over the rest.
+#     token_min_share: float = Field(default=0.2, gt=0.0, le=1.0)
+#     token_min_lift: float = Field(default=2.0, ge=1.0)
+#     title_tokens_shown: int = Field(default=5, ge=0)
 #     #: Clusters drawn per assay; the rest pool into "other".
 #     show_clusters: int = Field(default=8, gt=0)
 #     n_boot: int = Field(default=2000, gt=0)
@@ -157,6 +177,7 @@ composition:
 #     assert d["cut"] == 0.05  # measured at step 4b
 #     assert d["shape_quantile"] == 0.1
 #     assert d["show_clusters"] == 8
+#     assert d["name_pure_share"] == 0.9
 #     assert d["n_boot"] == 2000
 #     assert d["site_max_bytes"] == 1_500_000
 #     assert validated({})["composition"] == d

@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (154 links).
+    definition links to it (156 links).
     `status` is defined by more than one entry and so
     deliberately not linked.
 
@@ -186,6 +186,8 @@ word for a concept.
 
 **composition window**{: #term-composition-window } — one record's [amplicon](#term-amplicon) plus up to `flank_bp` of flank each side, every [primer](#term-primer)/[probe](#term-probe) [site](#term-site) masked to N, cut by `subcluster.flanked_region` and returned as a `Region` with the flank actually used. What composition clusters; not a [window archive](#term-window-archive), which is cut around sites for distribution and keeps them.
 
+**title token**{: #term-title-token } — a word a cluster's record titles carry and the other clusters' do not, shown in the composition [panel](#term-panel)'s tooltip: what the cluster's name leaves out (`composition.title_tokens`). Record qualifiers (`strain`, `isolate`, `clone`) are never tokens.
+
 **manifest**{: #term-manifest } — the [retrieve](#term-retrieve) stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record**{: #term-run-record } — what `retrieve` returns for one fetched group (`TaxonRun`), written to the [manifest](#term-manifest) (`retrieve.py`).
@@ -232,4 +234,4 @@ word for a concept.
 
 **retrospective families**{: #term-retrospective-families } — the phrase families that `scripts/find_retrospective_cases.py` uses to find citing papers (`docs/journal/2026-10-26-retrospective-case-search.md`): `miss`, a paper reporting the [assay](#term-assay) missing samples (the scarce `fails` kind, or a clinical sensitivity report); `weakened`, [reduced](#term-reduced) or partial [detection](#term-detection); `mismatch`, a paper locating [primer](#term-primer) mismatches against a [lineage](#term-lineage) (the best route to a `drift` case); `redesign`, a group redesigning the assay, which usually says why; `use`, opt-in, a paper that simply uses the assay and so may test our oligos on new material (`docs/journal/2026-10-29-use-family-cases.md`); `late_redesign`, opt-in and pre-registered, a redesign published five or more years after the design paper, the first source tried for a `drift` case (`docs/journal/2026-10-30-redesign-family.md`).
 
-**lineage Modes A, B, C**{: #term-lineage-modes-a-b-c } — the three ways a record is assigned to a [sublineage](#term-sublineage) (`assaywatch/lineage.py` docstrings). Mode A: by taxid, when NCBI already distinguishes the sublineages below the query taxon (Avipoxvirus: fowlpox vs canarypox). Mode B: by a title token regex (influenza subtype `(H5N1)`). Mode C: by a sequence cluster label from `assaywatch/subcluster.py` (Bd BdGPL vs BdCAPE). Each returns None to defer to the next.
+**lineage Modes A, B, C**{: #term-lineage-modes-a-b-c } — the three ways a record is assigned to a [sublineage](#term-sublineage) (`assaywatch/lineage.py` docstrings). Mode A: by taxid, when NCBI already distinguishes the sublineages below the query taxon (Avipoxvirus: fowlpox vs canarypox). Mode B: by a [title token](#term-title-token) regex (influenza subtype `(H5N1)`). Mode C: by a sequence cluster label from `assaywatch/subcluster.py` (Bd BdGPL vs BdCAPE). Each returns None to defer to the next.

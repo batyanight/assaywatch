@@ -174,6 +174,8 @@ word for a concept.
 
 **composition window** — one record's amplicon plus up to `flank_bp` of flank each side, every primer/probe site masked to N, cut by `subcluster.flanked_region` and returned as a `Region` with the flank actually used. What composition clusters; not a window archive, which is cut around sites for distribution and keeps them.
 
+**title token** — a word a cluster's record titles carry and the other clusters' do not, shown in the composition panel's tooltip: what the cluster's name leaves out (`composition.title_tokens`). Record qualifiers (`strain`, `isolate`, `clone`) are never tokens.
+
 **manifest** — the retrieve stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record** — what `retrieve` returns for one fetched group (`TaxonRun`), written to the manifest (`retrieve.py`).

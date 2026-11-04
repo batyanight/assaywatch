@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import random
 
-from assaywatch.composition import sample_windows
+from assaywatch.composition import cluster_names, organism, sample_windows, species_mix, title_tokens
 from assaywatch.subcluster import Region
 
 
@@ -89,3 +89,184 @@ def test_the_accession_version_does_not_change_the_choice():
     years = [2015] * 20
     pick = lambda rs: {rs[i].record_id.split(".")[0] for i in sample_windows(rs, years, cap=5)}  # noqa: E731
     assert pick(a) == pick(b)
+
+
+# ---- organism: the species name a record's title carries (step 6) ----
+#
+# The fallback for a record with no taxid. Every title below is a real one from the
+# influenza, Chlamydia, coronavirus or haemosporidian archives on 2026-11-03.
+
+
+def test_the_name_runs_up_to_the_qualifier_that_follows_it():
+    cases = {
+        "Chlamydia muridarum strain Cm tc0086::Tn chromosome, complete genome": "Chlamydia muridarum",
+        "Plasmodium falciparum isolate KZ02-31032026-H1272-Pf cytochrome b (cytb) gene, partial cds": "Plasmodium falciparum",
+        "Haemoproteus majoris clone H64/24R/H cytochrome b (cytb) gene, partial cds; mitochondrial": "Haemoproteus majoris",
+        "Porcine epidemic diarrhea virus isolate HN230303, complete genome": "Porcine epidemic diarrhea virus",
+        "Influenza A virus (A/New Mexico/31/2026(H3N2)) segment 7 matrix protein 2 (M2) and matrix protein 1 (M1) genes": "Influenza A virus",
+        "Betacoronavirus sp. isolate BtCoV/Nycteris/DON008B005/BW/2021 RNA-dependent RNA polymerase gene": "Betacoronavirus sp.",
+        "Leucocytozoon sp. isolate AE16-EM84-19-2096 cytochrome c oxidase subunit 3 (COX3) gene": "Leucocytozoon sp.",
+        "Uncultured Chlamydia sp. clone CU 78/23 16S ribosomal RNA gene, partial sequence": "Chlamydia sp.",
+    }
+    for title, want in cases.items():
+        assert organism(title) == want, title
+
+
+def test_a_strain_that_is_part_of_the_name_is_kept():
+    """ "Human coronavirus 229E" and "Human coronavirus OC43" are different viruses about
+    30% apart. Cutting the title at two words pins both at "Human coronavirus", which is
+    what held the pan-coronavirus purity at 68% whatever the cut (step 4b)."""
+    assert organism("Human coronavirus 229E strain 0349 ORF1ab gene") == "Human coronavirus 229E"
+    assert organism("Human coronavirus OC43 strain Seattle/USA/SC9430/2018") == "Human coronavirus OC43"
+
+
+def test_a_strain_identifier_that_follows_the_name_is_not_part_of_it():
+    """Measured on the archives: without this, 639 OC43 records produced 20-odd "species"
+    and the coronavirus archive 3,106 distinct names for 700 organisms."""
+    cases = {
+        "Human coronavirus OC43 HCoVOC43_Fukushima_OR427_2021 ORF1ab gene": "Human coronavirus OC43",
+        "Influenza A virus A/canine/Madison/5/2015 M gene": "Influenza A virus",
+        "Human coronavirus 229E PREDICT_ZB12057 RNA-dependent RNA polymerase gene": "Human coronavirus 229E",
+        "Haemoproteus sp. haplotype OWBM82083_NGS_subdominant cytochrome b": "Haemoproteus sp.",
+    }
+    for title, want in cases.items():
+        assert organism(title) == want, title
+
+
+def test_an_isolate_code_after_sp_is_not_part_of_the_name():
+    """ "Plasmodium sp. AP30" is one unplaced Plasmodium, not a species of its own. Until
+    the name stopped at "sp.", 3,186 of the haemosporidian archive's 3,873 names were
+    singletons and every cluster of unplaced parasites read as a mixture."""
+    cases = {
+        "Plasmodium sp. AP30 cytochrome b (cytb) gene, partial cds": "Plasmodium sp.",
+        "Leucocytozoon sp. L-ASOT2 cytochrome b gene, partial cds": "Leucocytozoon sp.",
+        "Plasmodium sp. PADOM 08 cytochrome b gene": "Plasmodium sp.",
+        "Haemoproteus sp. 7 XHu-2020 isolate FALTIN15 cytochrome b": "Haemoproteus sp.",
+    }
+    for title, want in cases.items():
+        assert organism(title) == want, title
+
+
+def test_a_serial_completes_a_virus_name_but_an_isolate_code_does_not():
+    """The hard case, and it is only half solvable: "Human coronavirus 229E" carries its
+    code in the species name, while "Bovine coronavirus SHG-5" does not, and the two look
+    alike. A short letter-and-digit code or a serial is kept, anything else is not."""
+    cases = {
+        "Bufonid herpesvirus 1 isolate X": "Bufonid herpesvirus 1",
+        "Bat coronavirus 1 PREDICT-B56331 RNA-dependent RNA polymerase mRNA": "Bat coronavirus 1",
+        "Human coronavirus HKU1 strain Tokyo": "Human coronavirus HKU1",
+        "Bovine coronavirus SHG-5 RNA, complete genome": "Bovine coronavirus",
+        "Bovine coronavirus Mebus, complete genome": "Bovine coronavirus",
+        "Rousettus aegyptiacus bat coronavirus 229E-related isolate 5425": "Rousettus aegyptiacus bat coronavirus",
+    }
+    for title, want in cases.items():
+        assert organism(title) == want, title
+
+
+def test_names_differing_only_in_case_are_one_species():
+    mix = species_mix(["Influenza A virus"] * 5 + ["Influenza A Virus"] * 2)
+    assert mix == [("Influenza A virus", 7)]
+
+
+def test_a_title_with_no_organism_is_not_invented():
+    assert organism("") == ""
+    assert organism("complete genome") == ""
+    assert organism("UNVERIFIED: Bufonid herpesvirus 1 isolate X") == "Bufonid herpesvirus 1"
+
+
+def test_a_name_stops_before_it_runs_away():
+    """A title with no qualifier at all must not become a sentence."""
+    long = " ".join(f"Word{i}" for i in range(12))
+    assert len(organism(long).split()) <= 5
+
+
+# ---- species_mix and cluster_names (step 6) ----
+
+
+def test_the_mix_is_counted_commonest_first_with_ties_by_name():
+    mix = species_mix(["B virus", "A virus", "B virus", "C virus", "A virus", "B virus"])
+    assert mix == [("B virus", 3), ("A virus", 2), ("C virus", 1)]
+
+
+def test_a_cluster_of_one_species_is_named_for_it_abbreviated():
+    assert cluster_names([[("Chlamydia trachomatis", 30)]], ["AB1"], pure_share=0.9) == ["C. trachomatis"]
+
+
+def test_two_clusters_of_one_species_are_numbered_in_order():
+    mixes = [[("Chlamydia trachomatis", 30)], [("Chlamydia psittaci", 9)], [("Chlamydia trachomatis", 4)]]
+    names = cluster_names(mixes, ["AB1", "AB2", "AB3"], pure_share=0.9)
+    assert names == ["C. trachomatis 1", "C. psittaci", "C. trachomatis 2"]
+
+
+def test_a_name_that_is_not_a_binomial_is_left_alone():
+    mixes = [[("Porcine epidemic diarrhea virus", 10)], [("Plasmodium sp.", 10)], [("Influenza A virus", 10)]]
+    names = cluster_names(mixes, ["A", "B", "C"], pure_share=0.9)
+    assert names == ["Porcine epidemic diarrhea virus", "Plasmodium sp.", "Influenza A virus"]
+
+
+def test_a_mixed_cluster_carries_its_modal_share_so_the_name_is_not_read_as_the_whole():
+    """The 2,000-window coronavirus cluster was 15% its modal organism. A legend entry
+    reading "Human coronavirus" would have been a false statement about 85% of it."""
+    mix = [("Plasmodium falciparum", 38), ("Plasmodium vivax", 32), ("Plasmodium sp.", 30)]
+    assert cluster_names([mix], ["AB1"], pure_share=0.9) == ["P. falciparum 38%"]
+
+
+def test_a_cluster_with_no_named_species_falls_back_to_its_representative():
+    assert cluster_names([[]], ["MT581450"], pure_share=0.9) == ["unnamed (MT581450)"]
+
+
+# ---- title_tokens: what else a cluster holds (step 6) ----
+
+
+def _hcov(strain, n):
+    return [f"Human coronavirus {strain} strain {i} ORF1ab gene, complete genome" for i in range(n)]
+
+
+def test_a_token_frequent_here_and_rare_elsewhere_is_distinguishing():
+    mine, other = _hcov("229E", 10), _hcov("OC43", 10)
+    tokens = title_tokens(mine, other, name="Human coronavirus", min_share=0.2, min_lift=2.0, top=5)
+    assert "229E" in tokens and "OC43" not in tokens
+
+
+def test_a_token_in_every_cluster_is_not_distinguishing():
+    mine, other = _hcov("229E", 10), _hcov("OC43", 10)
+    tokens = title_tokens(mine, other, name="Human coronavirus", min_share=0.2, min_lift=2.0, top=5)
+    for everywhere in ("strain", "ORF1ab", "gene", "complete", "genome"):
+        assert everywhere not in tokens, everywhere
+
+
+def test_the_name_s_own_words_are_not_tokens():
+    mine, other = _hcov("229E", 10), ["Bat coronavirus isolate 1 RdRp gene"] * 10
+    tokens = title_tokens(mine, other, name="Human coronavirus 229E", min_share=0.2, min_lift=2.0, top=5)
+    assert not {"Human", "coronavirus", "229E"} & set(tokens)
+
+
+def test_a_rare_token_is_not_promoted_by_lift_alone():
+    mine = _hcov("229E", 10) + ["Human coronavirus 229E isolate oddity XYZ99 gene"]
+    tokens = title_tokens(
+        mine, _hcov("OC43", 10), name="Human coronavirus", min_share=0.2, min_lift=2.0, top=5
+    )
+    assert "XYZ99" not in tokens
+
+
+def test_with_nothing_to_compare_against_no_token_distinguishes():
+    assert title_tokens(_hcov("229E", 10), [], name="x", min_share=0.2, min_lift=2.0, top=5) == []
+
+
+def test_a_record_qualifier_is_never_a_token():
+    """Found by the test below on its first run: this cluster's depositors wrote "clone"
+    where the others wrote "isolate", so "clone" scored a perfect lift and outranked the
+    lineage code. A submitter's habit is not a fact about the lineage."""
+    mine = [f"Plasmodium relictum lineage SGS1 clone {i} cytb gene" for i in range(10)]
+    other = [f"Plasmodium vivax isolate {i} cytb gene" for i in range(10)]
+    tokens = title_tokens(mine, other, name="Plasmodium relictum", min_share=0.2, min_lift=2.0, top=5)
+    assert "clone" not in tokens and "SGS1" in tokens
+
+
+def test_tokens_are_ordered_by_how_well_they_separate_and_capped():
+    mine = [f"Plasmodium relictum lineage SGS1 clone {i} cytb gene Austria" for i in range(10)]
+    other = [f"Plasmodium vivax lineage VIV01 isolate {i} cytb gene Brazil" for i in range(10)]
+    kw = {"name": "Plasmodium relictum", "min_share": 0.2, "min_lift": 2.0}
+    # "lineage" and "cytb" are in both and separate nothing; the cap takes the first.
+    assert title_tokens(mine, other, top=5, **kw) == ["Austria", "SGS1"]
+    assert title_tokens(mine, other, top=1, **kw) == ["Austria"]

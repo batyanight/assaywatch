@@ -105,6 +105,17 @@ coronavirus" is 265 windows of 229E, OC43, NL63 and HKU1, four viruses far enoug
 that no correct clustering puts them together, so its completeness is pinned near 37% at
 every cut. A title prefix is a weak label, and this is the shape of its weakness.
 
+**Verified the same day, at step 6.** Reading the organism properly
+(`composition.organism`, which ends the name at a qualifier or a strain identifier rather
+than after two words) splits that label into OC43, 229E, NL63 and HKU1, and **"Human
+coronavirus OC43" is then 100% complete in one cluster at every cut on the grid** -- the
+clustering had it right all along. The grid was re-run on the better labels and **0.05 is
+unchanged** as the choice: IBV 94% complete there, Hepatocystis 97%, Haemoproteus 95%.
+Species-level purity reads lower than genus-level purity at every cut (46.7% against
+83.1% at 0.05), which is what a cluster coarser than a species name looks like, and is why
+the genus labels are the criterion: "Plasmodium sp." is 419 windows of many lineages and
+cannot be complete in one cluster.
+
 ## The decision
 
 `composition.cut: 0.05`, one number for every assay, and the per-assay search deleted

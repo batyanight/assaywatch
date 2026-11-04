@@ -892,7 +892,13 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         sequences built in the tests; the `make_fixtures.py` fixture moves to step 12, which is its
         first user. Labels `0..` by size, `OTHER` (-1) under `min_size`, `UNPLACED` (-2) beyond the
         cut; short-flank queries placed by containment (-ln(c)/k). 7 tests.
-  - [ ] 6. Naming and title tokens.
+  - [x] 6. Naming and title tokens. Done 2026-11-03: `composition.organism` (the name a title
+        carries, as the fallback where metadata has no taxid), `species_mix`, `cluster_names`,
+        `title_tokens`; 4 config keys drafted. Measured on four archives -- distinct names fall
+        6,866 -> 371 (haemosporida), 3,106 -> 757 (coronavirus), 48 -> 4 (influenza) -- once the
+        name ends at a qualifier, at `sp.`, or at a strain identifier. A mixed cluster's name
+        carries its modal share, and a record qualifier (`clone` against `isolate`) is never a
+        token. 15 tests.
   - [ ] 7. Same-mix standardisation on a hand-computed table.
   - [ ] 8. Kitagawa: parts sum to the change; deterministic bootstrap.
   - [ ] 9. Species first year with a merged taxid; design-year flag.
