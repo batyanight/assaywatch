@@ -169,3 +169,33 @@ def test_every_in_code_fallback_matches_the_model():
                     f"{path.name}:{node.lineno} {key} falls back to {fallback!r}, model says {want[key]!r}"
                 )
     assert not offenders, "in-code defaults disagree with assaywatch.settings:\n  " + "\n  ".join(offenders)
+
+
+def test_the_composition_block_carries_the_numbers_the_plan_and_the_measurement_set():
+    """ROADMAP "Lineage composition over time". Pinned so a later edit to one of these is
+    a visible decision rather than a drift; `cut` and `shape_quantile` are the two that
+    were measured (step 4b), the rest are judgements justified in config.yaml."""
+    d = Settings().model_dump()["composition"]
+    assert d["flank_bp"] == 500
+    assert d["shape_quantile"] == 0.1
+    assert d["kmer_len"] == 15
+    assert d["sample_cap"] == 2000
+    assert d["cut"] == 0.05
+    assert d["min_cluster_size"] == 3
+    assert d["name_pure_share"] == 0.9
+    assert d["show_clusters"] == 8
+    assert d["n_boot"] == 2000
+    assert validated({})["composition"] == d
+
+
+def test_the_composition_block_is_in_the_committed_config():
+    assert "composition" in raw(), "config.yaml has no composition: block"
+
+
+def test_the_three_drafted_composition_keys_are_in_neither_yet():
+    """They arrive with their first readers (steps 14, 15, 17). Until then the model must
+    not carry them either: `extra="forbid"` would refuse the config, and a model key the
+    config lacks fails `test_validation_changes_no_value_in_the_committed_config`."""
+    model = set(Settings().model_dump()["composition"])
+    assert model == set(raw()["composition"])
+    assert not model & {"report_min_mix", "coverage_refresh_years", "site_max_bytes"}

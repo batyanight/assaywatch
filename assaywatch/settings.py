@@ -362,6 +362,52 @@ class Lineage(Block):
     sublineage: dict[str, Any] = Field(default_factory=dict)
 
 
+class Composition(Block):
+    """How each assay's record mix changes over time (ROADMAP, "Lineage composition over
+    time"). Report-only: nothing here moves a status, so the block stays out of the drift
+    hash. Values and their justification live in config.yaml.
+
+    Names avoid the keys `subcluster.cluster_from_config` reads (`kmer`, `sketch_size`,
+    `threshold`, `min_cluster_records`, `buffer_bp`, `method`), because
+    `test_every_in_code_fallback_matches_the_model` matches keys by bare name.
+
+    Three more keys are drafted in `docs/composition-config-draft.yaml` and arrive with
+    their first readers: `report_min_mix` (step 14), `site_max_bytes` (15),
+    `coverage_refresh_years` (17).
+    """
+
+    #: The flank BUDGET per side; the shape itself is read per assay by
+    #: `subcluster.window_shape`, because an amplicon can sit at a gene's end.
+    flank_bp: int = Field(default=500, ge=0)
+    #: Quantile of available flank each side of the shape starts from.
+    shape_quantile: float = Field(default=0.1, ge=0.0, lt=0.5)
+    #: Extra bases masked beyond each primer/probe site (pool alternates sit within a few).
+    mask_buffer_bp: int = Field(default=5, ge=0)
+    #: A run of this many N ends a flank: assembly spacers are not sequence.
+    stop_n_run: int = Field(default=10, gt=0)
+    kmer_len: int = Field(default=15, ge=5, le=31)
+    #: Most windows sampled per assay for the clustering, split across years.
+    sample_cap: int = Field(default=2000, gt=1)
+    #: Mash distance at which two windows join one lineage. One number for every assay;
+    #: measured 2026-11-03, see config.yaml's comment and
+    #: docs/journal/2026-11-03-composition-cut-measured.md.
+    cut: float = Field(default=0.05, gt=0.0, lt=1.0)
+    #: A component with fewer sampled members than this is not a lineage.
+    min_cluster_size: int = Field(default=3, gt=0)
+    #: Above this modal-species share a cluster is named for that species alone.
+    name_pure_share: float = Field(default=0.9, gt=0.0, le=1.0)
+    #: A tooltip token's least share of a cluster's titles, and its least lift over the rest.
+    token_min_share: float = Field(default=0.2, gt=0.0, le=1.0)
+    token_min_lift: float = Field(default=2.0, ge=1.0)
+    title_tokens_shown: int = Field(default=5, ge=0)
+    #: Clusters drawn per assay; the rest pool into "other".
+    show_clusters: int = Field(default=8, gt=0)
+    n_boot: int = Field(default=2000, gt=0)
+    boot_seed: int = 0
+    #: A year's same-mix point is drawn only if its clusters cover this share of the weight.
+    same_mix_min_covered: float = Field(default=0.8, gt=0.0, le=1.0)
+
+
 class Settings(Block):
     """config.yaml, whole."""
 
@@ -382,6 +428,7 @@ class Settings(Block):
     figures: Figures = Field(default_factory=Figures)
     report: Report = Field(default_factory=Report)
     lineage: Lineage = Field(default_factory=Lineage)
+    composition: Composition = Field(default_factory=Composition)
 
 
 def validated(raw: dict[str, Any]) -> dict[str, Any]:

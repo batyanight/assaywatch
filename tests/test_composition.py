@@ -5,6 +5,7 @@ Synthetic windows only. Each test pins one rule of the stage at its interface.
 
 from __future__ import annotations
 
+import dataclasses
 import random
 
 import pytest
@@ -668,3 +669,25 @@ def test_pooling_keeps_every_record_and_every_year():
     assert sum(c.records for c in pooled) == sum(c.records for c in cells)
     assert sum(c.detected for c in pooled) == sum(c.detected for c in cells)
     assert {c.year for c in pooled} == {2023, 2024}
+
+
+def test_the_options_defaults_match_the_settings_model():
+    """`Options.from_config` carries in-code fallbacks so a hand-built cfg works in a
+    test, which is the repo's pattern -- and the hazard `test_settings` was written for:
+    six such defaults had drifted from config.yaml before that model existed. Every one
+    here must agree with `settings.Composition`, which is the contract."""
+    from assaywatch.composition import Options
+    from assaywatch.settings import Composition
+
+    model = Composition().model_dump()
+    mine = Options.from_config({})
+    for key, value in model.items():
+        assert getattr(mine, key) == value, key
+    assert set(model) == {f.name for f in dataclasses.fields(Options)}
+
+
+def test_the_options_read_the_committed_config():
+    from assaywatch.composition import Options
+    from assaywatch.score import load_config
+
+    assert Options.from_config(load_config()).cut == 0.05

@@ -81,6 +81,58 @@ def sample_windows(regions: Sequence[Region], years: Sequence[int], cap: int) ->
     return sorted(chosen, key=rank.__getitem__)
 
 
+# ---- The `composition:` block, read once (ROADMAP composition step 12) ----
+
+
+@dataclass(frozen=True)
+class Options:
+    """The `composition:` settings, read once rather than per assay.
+
+    Mirrors `settings.Composition`, which is the contract and holds the ranges; every
+    value and its justification (or the admission of having none) is beside the key in
+    config.yaml. The pattern is `drift.DriftSettings.from_config`.
+    """
+
+    flank_bp: int
+    shape_quantile: float
+    mask_buffer_bp: int
+    stop_n_run: int
+    kmer_len: int
+    sample_cap: int
+    cut: float
+    min_cluster_size: int
+    name_pure_share: float
+    token_min_share: float
+    token_min_lift: float
+    title_tokens_shown: int
+    show_clusters: int
+    n_boot: int
+    boot_seed: int
+    same_mix_min_covered: float
+
+    @classmethod
+    def from_config(cls, cfg: Mapping[str, Any]) -> Options:
+        c = cfg.get("composition") or {}
+        return cls(
+            flank_bp=int(c.get("flank_bp", 500)),
+            shape_quantile=float(c.get("shape_quantile", 0.1)),
+            mask_buffer_bp=int(c.get("mask_buffer_bp", 5)),
+            stop_n_run=int(c.get("stop_n_run", 10)),
+            kmer_len=int(c.get("kmer_len", 15)),
+            sample_cap=int(c.get("sample_cap", 2000)),
+            cut=float(c.get("cut", 0.05)),
+            min_cluster_size=int(c.get("min_cluster_size", 3)),
+            name_pure_share=float(c.get("name_pure_share", 0.9)),
+            token_min_share=float(c.get("token_min_share", 0.2)),
+            token_min_lift=float(c.get("token_min_lift", 2.0)),
+            title_tokens_shown=int(c.get("title_tokens_shown", 5)),
+            show_clusters=int(c.get("show_clusters", 8)),
+            n_boot=int(c.get("n_boot", 2000)),
+            boot_seed=int(c.get("boot_seed", 0)),
+            same_mix_min_covered=float(c.get("same_mix_min_covered", 0.8)),
+        )
+
+
 # ---- What a cluster is called, and what else it holds (ROADMAP composition step 6) ----
 
 # A nuccore title is "<organism> <qualifier> <everything else>", so the name ends at the
