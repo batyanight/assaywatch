@@ -326,74 +326,6 @@ def mash_distances(j: Any, k: int) -> Any:
     return out
 
 
-# ---- Where one assay's lineages separate (ROADMAP composition step 4) ----
-
-
-@dataclass(frozen=True)
-class Cut:
-    """The distance at which an assay's sample is split into lineages.
-
-    ``value`` is None for "one cluster", and ``reason`` says why: ``"too few"``
-    (under two windows), ``"no gap in bounds"`` (no gap of at least ``min_gap``
-    inside ``[lo, hi]``), or ``"widest gap"`` when there is a cut. ``gap`` is the
-    width of the chosen gap after clipping to the bounds (0.0 when there is none),
-    recorded so the report can say how clean the split was."""
-
-    value: float | None
-    gap: float
-    reason: str
-
-
-def mst_weights(dist: Any) -> list[float]:
-    """Edge weights of the minimum spanning tree of a dense symmetric distance
-    matrix: the single-linkage merge heights. Prim's algorithm, O(n^2), on the matrix
-    itself, because ``scipy.sparse.csgraph`` reads a distance of 0 as a missing edge
-    and two distinct windows with one k-mer set are exactly 0 apart."""
-    import numpy as np
-
-    d = np.asarray(dist, dtype=np.float64)
-    n = d.shape[0]
-    if n < 2:
-        return []
-    in_tree = np.zeros(n, dtype=bool)
-    in_tree[0] = True
-    best = d[0].copy()
-    weights: list[float] = []
-    for _ in range(n - 1):
-        cand = np.where(in_tree, np.inf, best)
-        j = int(np.argmin(cand))
-        weights.append(float(cand[j]))
-        in_tree[j] = True
-        best = np.minimum(best, d[j])
-    return weights
-
-
-def widest_gap_cut(dist: Any, *, lo: float, hi: float, min_gap: float) -> Cut:
-    """Cut a sample at the midpoint of the widest gap between consecutive MST edge
-    weights, each gap first clipped to ``[lo, hi]``.
-
-    Only gaps BETWEEN edges count. The open space above the largest edge is not a
-    gap: counted, "everything above 5%" would outbid the real gap below it and two
-    groups 5% apart would always merge. Clipping lets clades 30% apart still split
-    (their gap is clipped at ``hi``) and keeps a sub-split below ``lo`` from being
-    read as a lineage boundary. A widest clipped gap under ``min_gap`` is
-    ``"no gap in bounds"``: one cluster. Ties go to the lower gap, so the result is
-    deterministic.
-    """
-    w = sorted(mst_weights(dist))
-    if not w:
-        return Cut(None, 0.0, "too few")
-    best: tuple[float, float] | None = None
-    for a, b in zip(w, w[1:], strict=False):
-        left, right = max(a, lo), min(b, hi)
-        width = right - left
-        if width > 0 and (best is None or width > best[1] - best[0]):
-            best = (left, right)
-    if best is None or best[1] - best[0] < min_gap:
-        return Cut(None, 0.0 if best is None else best[1] - best[0], "no gap in bounds")
-    return Cut((best[0] + best[1]) / 2, best[1] - best[0], "widest gap")
-
-
 # ---- Lineage labels, and placing every record (ROADMAP composition step 5) ----
 
 #: A sampled window in a component smaller than ``min_size``: pooled as "other".
@@ -402,22 +334,22 @@ OTHER = -1
 UNPLACED = -2
 
 
-def components_at(dist: Any, cut: float | None, min_size: int) -> list[int]:
+def components_at(dist: Any, cut: float, min_size: int) -> list[int]:
     """Single-linkage components of a sample at ``cut`` (pairs at most ``cut`` apart
     join), as labels ``0, 1, ...`` by size, largest first; equal sizes go to the
     component holding the earlier sample index, which ``composition.sample_windows``
     already orders deterministically. A component under ``min_size`` is ``OTHER``.
-    ``cut=None`` (no gap in bounds) is one component."""
+
+    ``cut`` is ``composition.cut`` from config, one number for every assay: the
+    per-assay widest-gap search this module carried on 2026-11-03 was measured and
+    removed (`docs/journal/2026-11-03-composition-cut-measured.md`)."""
     import numpy as np
     from scipy.sparse import csr_matrix
     from scipy.sparse.csgraph import connected_components
 
     d = np.asarray(dist, dtype=np.float64)
     n = d.shape[0]
-    if cut is None:
-        comp = np.zeros(n, dtype=int)
-    else:
-        _, comp = connected_components(csr_matrix(d <= cut), directed=False)
+    _, comp = connected_components(csr_matrix(d <= cut), directed=False)
     members: dict[int, list[int]] = {}
     for i, c in enumerate(comp.tolist()):
         members.setdefault(c, []).append(i)

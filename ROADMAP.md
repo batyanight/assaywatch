@@ -748,7 +748,7 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   | What "scope over time" covers | lineage mix per year; growth of the target taxon; design era vs now; retrieval coverage |
   | Lineage | sequence clusters, every assay |
   | Region clustered | amplicon + flank each side, primer/probe sites masked |
-  | Cut-off | per assay: widest gap in the distances, bounded in config; recorded |
+  | Cut-off | ~~per assay: widest gap in the distances, bounded in config~~ -> **one fixed `composition.cut: 0.05`** (2026-11-03, measured; see the "Cut rule" row below) |
   | Scale | year-stratified sample (capped); every record assigned to its nearest sampled member |
   | Names | majority species + number ("C. trachomatis 1"); tooltip with species mix and title tokens |
   | Split | a "same mix" line (whole-period mix, direct standardisation) + a recent-vs-baseline Kitagawa split (mix part + within part, bootstrap intervals) |
@@ -760,7 +760,7 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   | Retrieval coverage counts | **one counter, two consumers** (decided 2026-11-02): `retrieve.year_counts` and its cache are the single source of per-year counts, read by the composition panel and by the release scope-verification script (whose interface is still to approve). Three series: archive on disk (free), query, and all under the target taxid; archive vs query catches a retrieval that fell behind, query vs taxid catches a blind query. Runs in the weekly pipeline: ~10,700 `esearch` calls (~18 min) once, ~540 per run after |
   | Diverged records (finding 1) | **an explicit segment, no homology placement in version 1** (decided 2026-11-02): each year's bar carries "diverged: no site found" in the failure shade, counted in the invariant and stated in the sentence; for the split it is one more lineage. Former step 11 dropped |
   | Where the panel's data lives | **a separate compact file** (decided 2026-11-02): `website/data/composition.json`, committed beside `run.json` (2.5 MB today), columnar per assay, years with records only, cluster names once; a test caps it at 1.5 MB; `site.yml`'s published-vs-data check covers both files. `run.json` keeps its shape |
-  | Cut bounds | **calibrated on two known cases, then fixed in config** (decided 2026-11-02): provisional `[0.01, 0.15]` Mash distance over amplicon ± flank, sites masked; a step 4b runs the cut on influenza M (subtype tokens in titles are the check: H3N2, H1N1pdm09, avian must separate) and Messmer 16S (must stay one cluster), and the bounds and the measured distances go into the `config.yaml` comment, which says two cases is thin |
+  | Cut rule | **one fixed cut, 0.05, and the per-assay search deleted** (2026-11-03, `docs/journal/2026-11-03-composition-cut-measured.md`). The widest-gap rule works at Messmer's 76 windows and fails at 1,500-2,000: the MST edge weights are then a continuum (median 0.003, p99 0.077 of 1,999 edges), so the widest gap sits in the sparse upper tail and isolates one outlier (influenza M: one cluster of 1,999 holding every subtype), or there is no gap at all (pan-coronavirus: widest 0.0087, under `min_gap`, one cluster across four genera). A fixed cut is monotonic, and 0.05 is where the named taxa separate on all three assays measured. Also recorded: the influenza check was unmeetable, since subtype is an HA/NA property and the matrix gene is conserved across subtypes |
   | Window shape (found at step 4b) | **per assay, read from the archive** (decided 2026-11-03): influenza M's amplicon sits at segment 7's 5' end (left flank 9-23 bp, right 886-903 bp, p10-p90 of 89,628 records), so a symmetric ±500 bp window was full-flank in 1 record of 89,628. Each assay's left flank L is the `shape_quantile` (0.1) of what its evaluable records offer, capped at `flank_bp`; R takes the unused budget up to `2 × flank_bp − L`, capped at its own quantile. Every window in an assay has one geometry, so Jaccard compares like with like; records not covering it are placed by containment |
   | Messmer bench case | the note under "Data and curation" only; no validation row: it would score `undecided` (about seven *trachomatis* records before its 1996 `as_of`) and the development set is frozen |
 
@@ -826,9 +826,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   **Algorithms.**
   - Sample: unique masked windows (deduplicated), ordered by `blake2b(accession)` within
     year, quota per year up to `sample_cap`; full-flank windows only. Deterministic.
-  - Cut: edges of the sample's single-linkage minimum spanning tree inside
-    `[cut_min, cut_max]`; the widest gap's midpoint; a gap narrower than `min_gap` means one
-    cluster ("no gap in bounds").
+  - Cut: single-linkage components at `composition.cut` (0.05), one number for every
+    assay. A component under `min_cluster_size` is "other"; an assay whose windows are all
+    tighter than the cut is one cluster, which needs no special case.
   - Assign: every window takes the label of its nearest sampled member within the cut
     (containment for short flanks), else unplaced; diverged records take the label `diverged`. Labels ranked by size, ties by
     representative accession.
@@ -854,7 +854,7 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   | `assaywatch/retrieve.py` | `year_counts`, `--year-counts` mode |
   | `assaywatch/lineage_report.py` | per-year blocks read `composition.tsv` |
   | `assaywatch/site.py`, `site_render.py`, `site_svg.py` | `AssayPage.composition`; shared year axis; same-mix line and gap band in `year_chart`; a `composition_panel`; sentence and legend |
-  | `assaywatch/settings.py`, `config.yaml` | a `composition:` block, every number justified in a comment (flank 500, k 15, sample cap 2000, cut bounds, min gap, show 8, n_boot 2000, ...) |
+  | `assaywatch/settings.py`, `config.yaml` | a `composition:` block, every number justified in a comment (flank budget 500 + `shape_quantile` 0.1, k 15, sample cap 2000, cut 0.05, show 8, n_boot 2000, ...) |
   | `Snakefile`, `assaywatch/cli.py` | rules `retrieval_coverage` (localrule, network) and `composition`; report and lineage take its outputs; `composition` added to the hashed sections |
   | `GLOSSARY.md` | composition, cluster, same-mix line, mix part / within part, retrieval gap, new since design |
 
@@ -879,11 +879,15 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         `composition.sample_windows(regions, years, cap) -> list[int]` (new module). Round-robin
         across years so a quiet year's lineage is always clustered; identical windows count once;
         rank by blake2b of the version-less accession. 7 tests, `fast` tier.
-  - [x] 4. `widest_gap_cut`: two clades; bounds; no gap; too few. Done 2026-11-03, with `Cut` and
-        `mst_weights` (Prim on the dense matrix: scipy's MST drops 0-distance edges). Only gaps
-        BETWEEN MST edges count, each clipped to `[lo, hi]`; the space above the largest edge is not
-        a gap, or groups 5% apart would always merge. 8 tests.
-  - [ ] 4b. Calibrate `[cut_min, cut_max]` on influenza M and Messmer 16S; record both in `config.yaml`.
+  - [x] 4. ~~`widest_gap_cut`~~ **built 2026-11-03, measured the same day and REMOVED**, with
+        `Cut` and `mst_weights` and the 8 tests that pinned them. It did what it was specified to do
+        -- only gaps BETWEEN MST edges counted, each clipped to the bounds -- and the specification
+        is what failed; see the "Cut rule" row above and the journal. `components_at` now takes a
+        plain float, and `_clades`, the block-matrix test helper, stays.
+  - [x] 4b. Calibrate the cut. **Done 2026-11-03** on Messmer 16S, Haemosporida cytb and
+        pan-coronavirus RdRp, against the organism in each record's title, which the clustering
+        never sees: `composition.cut: 0.05` and the window shape read per assay, both findings in
+        `docs/journal/2026-11-03-composition-cut-measured.md`.
   - [x] 5. `components_at` + `assign_nearest` on a two-clade synthetic fixture. Done 2026-11-03, on
         sequences built in the tests; the `make_fixtures.py` fixture moves to step 12, which is its
         first user. Labels `0..` by size, `OTHER` (-1) under `min_size`, `UNPLACED` (-2) beyond the
@@ -912,11 +916,15 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
     data/retrieved --out <scratch>` completes; the invariant holds for every assay (a `jq`
     check joining `composition.json` to `run.json`: summed cells per year equal `years[].evaluable`, 0 mismatches).
   - `report_diff` against the run without composition: no assay changes status.
-  - Messmer *C. trachomatis* 16S: one cluster expected; inspect the tree's edge weights if not.
-  - Influenza (`Influenza_A_virus_M_Spackman_2002`): clusters line up with subtype tokens
-    (H3N2, H1N1pdm09, avian); the H3N2 cluster reads ~1% in every year, matching
-    `docs/journal/2026-10-28-influenza-decomposed.md`; the split shows a large mix part.
-    Record runtime and peak memory, then set the rule's `resources`.
+  - Messmer 16S round 1: the four species the genus pair amplifies separate
+    (*psittaci*/*abortus*, *trachomatis* + *muridarum*, *pecorum*, *pneumoniae*), and all
+    *trachomatis* windows stay together (measured at step 4b).
+  - Haemosporida cytb (`Haemosporida_cytb_Hellgren_2004_HaemF`): Haemoproteus and
+    Hepatocystis each at least 90% complete in one cluster, and purity against the title
+    genus at least 80% (0.05 read 83% at step 4b).
+  - Influenza M (`Influenza_A_virus_M_Spackman_2002`): the biggest archive, so this is the
+    COST case and not a correctness one -- the matrix gene cannot separate subtypes (step
+    4b). Record runtime and peak memory, then set the rule's `resources`.
   - Coverage calibration: `esearch` `ours` per year against archive `created` counts for 3 groups.
   - Site: extract + render; three pages checked by eye (Messmer, influenza M, one
     assembly-based Leptospira); `composition.json` within its 1.5 MB cap.

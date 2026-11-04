@@ -16,12 +16,27 @@
 # measure -- the same reasoning as decision A of
 # docs/journal/2026-10-19-subtaxid-resolution.md.
 composition:
-  # 500 bp each side: long enough that two records of one species usually share
-  # enough k-mers to measure a distance, short enough to stay inside most partial
-  # gene records. A judgement, not a measurement. Assembly cuts carry only 100 bp
-  # (amplicon.record_min_overhang_bp) and window archives 300 bp, so those records
-  # get what they have; the flank actually used is recorded per window.
+  # The flank BUDGET per side, 2 x flank_bp in all. Not the flank itself: each assay's
+  # window shape is read from its own archive (subcluster.window_shape), because an
+  # amplicon at the end of a sequenced gene has flank on one side only. Spackman's
+  # influenza M amplicon sits at segment 7's 5' end -- 9-23 bp of flank to the left,
+  # 886-903 to the right over 89,628 records -- so a symmetric 500 bp each side was
+  # full-flank in ONE record of 89,628 (measured 2026-11-03, ROADMAP step 4b). With the
+  # budget redistributed its shape is (9, 886) and 88.5% of records are full-flank;
+  # Messmer 16S reads (20, 959) and 86.9%.
+  #
+  # 500 is a judgement, not a measurement: long enough that two records of one species
+  # share enough k-mers to measure a distance, short enough to stay inside most partial
+  # gene records. Assembly cuts carry only 100 bp (amplicon.record_min_overhang_bp) and
+  # window archives 300 bp, so those records get what they have; the flank actually
+  # used is recorded per window, and a record short of the shape is placed by
+  # containment rather than sampled.
   flank_bp: 500
+  # Each side of the shape starts at this quantile of what the assay's records offer
+  # there, so 90% of records cover the window. A judgement: 0.25 would discard a
+  # quarter of the records to gain a little length, 0.0 would let the single shortest
+  # record set the shape for the whole assay.
+  shape_quantile: 0.1
   # Bases masked beyond each site: a pool's alternate primers sit a few bases off
   # the primary pair's site. 5 covers the offsets seen in the registry by eye; not
   # measured.
@@ -30,24 +45,39 @@ composition:
   # and sequence on the far side of one is not adjacent to the amplicon.
   stop_n_run: 10
   # 15-mers: at ~1,000-1,300 bp per window a 15-mer is effectively unique
-  # (4^15 ~ 1e9), and Mash's distance estimate stays usable up to the ~15%
-  # divergence of cut_max below; 21 (subcluster's default) saturates sooner on
+  # (4^15 ~ 1e9), and Mash's distance estimate stays usable well past the 5% cut
+  # below -- the measured distributions run to 25%; 21 (subcluster's default) saturates sooner on
   # short, divergent windows. Standard choice, not tuned here.
   kmer_len: 15
   # At most 2,000 windows per assay are clustered, spread across deposit years;
   # every other record is assigned to its nearest sampled member. Sets the cost
   # (2,000^2/2 = 2M distances, seconds vectorised). Not a statistical choice.
   sample_cap: 2000
-  # The cut is the midpoint of the widest gap in the sample's single-linkage tree
-  # that lies inside [cut_min, cut_max] (Mash distance, ~ fraction of differing
-  # bases). PROVISIONAL: ROADMAP step 4b calibrates both on influenza M (subtypes in
-  # record titles must separate) and Messmer 16S (must stay one cluster), and
-  # replaces this comment with the distances measured there.
-  cut_min: 0.01
-  cut_max: 0.15
-  # A widest gap narrower than 0.01 is not a gap: the assay reads "no gap in
-  # bounds" and is one cluster. Placeholder, revisited with the bounds at step 4b.
-  min_gap: 0.01
+  # Two sampled windows join one lineage when their Mash distance (~ the fraction of
+  # bases that differ) is at most this. ONE NUMBER FOR EVERY ASSAY, so a cluster means
+  # the same thing on every panel: sequence within about 5% divergence, which reads as
+  # a species or sublineage split on the assays measured.
+  #
+  # MEASURED 2026-11-03 (ROADMAP step 4b, docs/journal/2026-11-03-composition-cut-measured.md)
+  # against the organism GenBank prints in each record's title, which the clustering
+  # never sees. Purity is the share of sampled windows matching their cluster's modal
+  # organism; completeness is the share of one organism's windows in its own dominant
+  # cluster:
+  #   Haemosporida cytb (Hellgren HaemF, 1,513 windows, genus labels):
+  #     0.02 -> 78 clusters, purity 91%;  0.04 -> 35, 94%;  0.05 -> 24, 83%
+  #     (Haemoproteus 90% complete, Hepatocystis 97%);  0.10 -> 5, 68%.
+  #   Coronaviridae RdRp (Watanabe 2010, 2,000 windows):
+  #     0.02 -> 80 clusters, PEDV 100% complete;  0.05 -> 78, IBV 94%;  0.10 -> 51.
+  #   Chlamydia 16S (Messmer round 1, 76 windows): the four species groups the pair
+  #     amplifies separate at 0.040.
+  # 0.05 is the level where the named taxa separate on all three. Above ~0.10 the
+  # clusters become genera and the within-genus structure drift lives in disappears;
+  # below ~0.02 an assay runs to 80 clusters, of which a panel can draw 8.
+  # What this number is NOT: calibrated on more than three assays, or on anything but
+  # the organism in a title. The coronavirus purity figure is held down by the label,
+  # not the clustering -- "Human coronavirus" is 265 windows of 229E, OC43, NL63 and
+  # HKU1, so its completeness is pinned at 37% at every cut.
+  cut: 0.05
   # A component with fewer than 3 sampled members is not a lineage; its records
   # pool into "other". Placeholder.
   min_cluster_size: 3
@@ -86,8 +116,11 @@ composition:
 #     `test_every_in_code_fallback_matches_the_model` matches keys by bare name.
 #     """
 #
-#     #: Bases kept each side of the amplicon before masking the sites.
+#     #: The flank BUDGET per side; the shape itself is read per assay by
+#     #: `subcluster.window_shape`, because an amplicon can sit at a gene's end.
 #     flank_bp: int = Field(default=500, ge=0)
+#     #: Quantile of available flank each side of the shape starts from.
+#     shape_quantile: float = Field(default=0.1, ge=0.0, lt=0.5)
 #     #: Extra bases masked beyond each primer/probe site (pool alternates sit within a few).
 #     mask_buffer_bp: int = Field(default=5, ge=0)
 #     #: A run of this many N ends a flank: assembly spacers are not sequence.
@@ -95,11 +128,9 @@ composition:
 #     kmer_len: int = Field(default=15, ge=5, le=31)
 #     #: Most windows sampled per assay for the clustering, split across years.
 #     sample_cap: int = Field(default=2000, gt=1)
-#     #: Distance bounds the widest gap must fall inside. Provisional until step 4b.
-#     cut_min: float = Field(default=0.01, ge=0.0, lt=1.0)
-#     cut_max: float = Field(default=0.15, gt=0.0, le=1.0)
-#     #: A widest gap narrower than this is "no gap in bounds": one cluster.
-#     min_gap: float = Field(default=0.01, gt=0.0)
+#     #: Mash distance at which two windows join one lineage. One number for every
+#     #: assay; measured 2026-11-03, see config.yaml's comment and the journal.
+#     cut: float = Field(default=0.05, gt=0.0, lt=1.0)
 #     #: A component with fewer sampled members than this is not a lineage.
 #     min_cluster_size: int = Field(default=3, gt=0)
 #     #: Clusters drawn per assay; the rest pool into "other".
@@ -114,17 +145,6 @@ composition:
 #     coverage_refresh_years: int = Field(default=2, ge=1)
 #     #: The cap on website/data/composition.json.
 #     site_max_bytes: int = Field(default=1_500_000, gt=0)
-#
-#     @model_validator(mode="after")
-#     def bounds_leave_room_for_a_gap(self) -> Composition:
-#         if self.cut_max <= self.cut_min:
-#             raise ValueError(f"composition.cut_max ({self.cut_max}) must exceed cut_min ({self.cut_min})")
-#         if self.min_gap >= self.cut_max - self.cut_min:
-#             raise ValueError(
-#                 f"composition.min_gap ({self.min_gap}) leaves no room inside "
-#                 f"[cut_min, cut_max] = [{self.cut_min}, {self.cut_max}]"
-#             )
-#         return self
 
 # ---- Part 2: tests/test_settings.py ----
 # def test_the_composition_block_exists_with_the_planned_defaults():
@@ -134,19 +154,9 @@ composition:
 #     assert d["flank_bp"] == 500
 #     assert d["kmer_len"] == 15
 #     assert d["sample_cap"] == 2000
-#     assert (d["cut_min"], d["cut_max"]) == (0.01, 0.15)  # provisional until step 4b
+#     assert d["cut"] == 0.05  # measured at step 4b
+#     assert d["shape_quantile"] == 0.1
 #     assert d["show_clusters"] == 8
 #     assert d["n_boot"] == 2000
 #     assert d["site_max_bytes"] == 1_500_000
 #     assert validated({})["composition"] == d
-#
-#
-# def test_composition_cut_bounds_must_leave_room_for_a_gap():
-#     """The cut is the widest gap's midpoint inside [cut_min, cut_max]. Inverted
-#     bounds leave nowhere to cut, and a `min_gap` as wide as the bounds can never
-#     be met, so every assay would read "no gap in bounds" without saying why."""
-#     for patch in ({"cut_min": 0.2, "cut_max": 0.1}, {"cut_min": 0.01, "cut_max": 0.05, "min_gap": 0.05}):
-#         cfg = raw()
-#         cfg.setdefault("composition", {}).update(patch)
-#         with pytest.raises(ValueError, match="composition"):
-#             validated(cfg)
