@@ -761,6 +761,7 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   | Diverged records (finding 1) | **an explicit segment, no homology placement in version 1** (decided 2026-11-02): each year's bar carries "diverged: no site found" in the failure shade, counted in the invariant and stated in the sentence; for the split it is one more lineage. Former step 11 dropped |
   | Where the panel's data lives | **a separate compact file** (decided 2026-11-02): `website/data/composition.json`, committed beside `run.json` (2.5 MB today), columnar per assay, years with records only, cluster names once; a test caps it at 1.5 MB; `site.yml`'s published-vs-data check covers both files. `run.json` keeps its shape |
   | Cut bounds | **calibrated on two known cases, then fixed in config** (decided 2026-11-02): provisional `[0.01, 0.15]` Mash distance over amplicon ± flank, sites masked; a step 4b runs the cut on influenza M (subtype tokens in titles are the check: H3N2, H1N1pdm09, avian must separate) and Messmer 16S (must stay one cluster), and the bounds and the measured distances go into the `config.yaml` comment, which says two cases is thin |
+  | Window shape (found at step 4b) | **per assay, read from the archive** (decided 2026-11-03): influenza M's amplicon sits at segment 7's 5' end (left flank 9-23 bp, right 886-903 bp, p10-p90 of 89,628 records), so a symmetric ±500 bp window was full-flank in 1 record of 89,628. Each assay's left flank L is the `shape_quantile` (0.1) of what its evaluable records offer, capped at `flank_bp`; R takes the unused budget up to `2 × flank_bp − L`, capped at its own quantile. Every window in an assay has one geometry, so Jaccard compares like with like; records not covering it are placed by containment |
   | Messmer bench case | the note under "Data and curation" only; no validation row: it would score `undecided` (about seven *trachomatis* records before its 1996 `as_of`) and the development set is frozen |
 
   **Found while planning, each changing the design** (confirm at review):
@@ -774,8 +775,11 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
      record ends and N spacers, the flank used is recorded, and short-flank windows are
      assigned by containment and never sampled.
   3. **16S will not separate *C. trachomatis* serovars.** The ocular/urogenital/LGV split is
-     in ompA and the genome; ±500 bp of 16S is near-identical. Expect one cluster ("no gap in
-     bounds"): the honest answer for a 16S assay, not a failure of the method.
+     in ompA and the genome; ±500 bp of 16S is near-identical. **Half right, measured
+     2026-11-03 (step 4b)**: all 32 sampled *trachomatis* windows sit in one cluster, but the
+     genus round-1 pair also amplifies other species, and its 76 distinct windows split into
+     four species groups at a cut of 0.040 (widest gap 0.033-0.047): the *psittaci/abortus*
+     complex 35, *trachomatis* + *muridarum* 34, *pecorum* 4, *pneumoniae* 3.
   4. **The panel reuses the graph's record set, never rebuilds it.** That set comes from
      accession keying, the anchor and chance-pair tests, scope/exclusivity/patent filters,
      the per-chemistry `reduced` rule and the recent window; these move into shared helpers,

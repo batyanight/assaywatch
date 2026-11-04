@@ -16,6 +16,7 @@ from assaywatch.subcluster import (
     UNPLACED,
     ClusterInfo,
     assign_nearest,
+    available_flank,
     canonical_kmers,
     cluster,
     cluster_from_config,
@@ -30,6 +31,7 @@ from assaywatch.subcluster import (
     mst_weights,
     sketch,
     widest_gap_cut,
+    window_shape,
 )
 
 
@@ -221,7 +223,8 @@ def _fr(seq=_REC, amplicon=(10, 20), sites=(), *, flank_bp=5, mask_buffer_bp=0, 
         seq,
         amplicon,
         list(sites),
-        flank_bp=flank_bp,
+        left_bp=flank_bp,
+        right_bp=flank_bp,
         mask_buffer_bp=mask_buffer_bp,
         stop_n_run=stop_n_run,
     )
@@ -515,3 +518,46 @@ def test_a_short_flank_record_is_placed_by_containment():
     ref, labels = w[:3] + w[6:9], [0, 0, 0, 1, 1, 1]
     assert assign_nearest([piece], ref, labels, 15, 0.05) == [UNPLACED]
     assert assign_nearest([piece], ref, labels, 15, 0.05, containment_for={0}) == [1]
+
+
+# ---- the window shape, per assay (step 4b decision, 2026-11-03) ----
+
+
+def test_a_window_can_be_asymmetric():
+    """Influenza M's amplicon sits at segment 7's 5' end: ~11 bp to its left and ~890
+    to its right. Its window is a few bases left and most of the budget right."""
+    r = flanked_region("rec1.1", _REC, (10, 20), [], left_bp=2, right_bp=8, mask_buffer_bp=0, stop_n_run=10)
+    assert r.seq == _REC[8:28]
+    assert (r.left_bp, r.right_bp, r.full_flank) == (2, 8, True)
+
+
+def test_available_flank_is_everything_up_to_the_end_or_a_spacer():
+    assert available_flank(_REC, (10, 20), stop_n_run=10) == (10, 10)
+    spacer = "ACGT" * 3 + "N" * 10 + "ACG" + "CCCCCGGGGG" + "TTTT"
+    assert available_flank(spacer, (25, 35), stop_n_run=10) == (3, 4)
+
+
+def test_a_symmetric_archive_keeps_the_symmetric_budget():
+    assert window_shape([(800, 900)] * 10, flank_bp=500, quantile=0.1) == (500, 500)
+
+
+def test_a_short_side_gives_its_unused_budget_to_the_other():
+    """The influenza case, with its measured numbers: L = 9, R takes the rest."""
+    avail = [(9, 886)] * 2 + [(11, 890)] * 6 + [(23, 903)] * 2
+    assert window_shape(avail, flank_bp=500, quantile=0.1) == (9, 886)
+
+
+def test_the_budget_is_never_exceeded():
+    assert window_shape([(5, 5000)] * 10, flank_bp=500, quantile=0.1) == (5, 995)
+    assert window_shape([(5000, 5)] * 10, flank_bp=500, quantile=0.1) == (995, 5)
+
+
+def test_the_shape_is_one_that_most_records_cover():
+    """At quantile 0.1, nine records in ten offer at least the chosen flank on each
+    side, so the shape is set by the archive and not by its shortest record."""
+    avail = [(1, 1)] + [(400, 400)] * 9
+    assert window_shape(avail, flank_bp=500, quantile=0.1) == (400, 400)
+
+
+def test_an_empty_archive_has_no_shape():
+    assert window_shape([], flank_bp=500, quantile=0.1) == (0, 0)

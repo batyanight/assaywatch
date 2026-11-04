@@ -84,7 +84,7 @@ class Region:
 
     ``left_bp`` / ``right_bp`` are the flank actually used, which is less than asked
     where the record ends or an ``N`` spacer begins; ``full_flank`` says both sides
-    reached the requested length. Short-flank windows are assigned by containment and
+    reached the assay's ``window_shape``. Short-flank windows are assigned by containment and
     never sampled (ROADMAP, "Lineage composition over time", finding 2), so the
     caller needs to know. No reverse complement: ``canonical_kmers`` already counts a
     k-mer and its reverse complement as one, so either strand's window compares.
@@ -117,21 +117,67 @@ def _flank_extent(seq: str, edge: int, step: int, flank_bp: int, stop_n_run: int
     return kept
 
 
+def available_flank(seq: str, amplicon: tuple[int, int], *, stop_n_run: int) -> tuple[int, int]:
+    """How much flank one record offers each side of its amplicon: everything up to the
+    record's end or a run of ``stop_n_run`` N, by the same walk ``flanked_region``
+    makes. The input to ``window_shape``."""
+    start, end = amplicon
+    s = seq.upper()
+    return (
+        _flank_extent(s, start, -1, len(s), stop_n_run),
+        _flank_extent(s, end, +1, len(s), stop_n_run),
+    )
+
+
+def window_shape(available: list[tuple[int, int]], *, flank_bp: int, quantile: float) -> tuple[int, int]:
+    """One assay's window shape ``(left_bp, right_bp)``, read from what its records offer.
+
+    WHY PER ASSAY (decided 2026-11-03, ROADMAP step 4b). Influenza M's amplicon sits at
+    segment 7's 5' end: its records offer ~11 bp to the left and ~890 to the right, so a
+    symmetric ±500 bp window was full-flank in 1 record of 89,628. Every window in one
+    assay must share one geometry, or Jaccard reads a length difference as divergence.
+
+    Each side starts at the ``quantile`` of what records offer there (so ``1 - quantile``
+    of records cover it), capped at ``flank_bp``. The budget a short side leaves unused,
+    up to ``2 * flank_bp`` in all, goes to the side with more room, capped at that side's
+    own quantile. No records, no shape: ``(0, 0)``.
+    """
+    if not available:
+        return (0, 0)
+    n = len(available)
+    at = min(n - 1, int(quantile * n))
+    q_left = sorted(a for a, _ in available)[at]
+    q_right = sorted(b for _, b in available)[at]
+    left, right = min(flank_bp, q_left), min(flank_bp, q_right)
+    spare = 2 * flank_bp - left - right
+    if q_left - left >= q_right - right:
+        extra = min(spare, q_left - left)
+        left, spare = left + extra, spare - extra
+        right += min(spare, q_right - right)
+    else:
+        extra = min(spare, q_right - right)
+        right, spare = right + extra, spare - extra
+        left += min(spare, q_left - left)
+    return (left, right)
+
+
 def flanked_region(
     record_id: str,
     seq: str,
     amplicon: tuple[int, int],
     sites: list[tuple[int, int]],
     *,
-    flank_bp: int,
+    left_bp: int,
+    right_bp: int,
     mask_buffer_bp: int,
     stop_n_run: int,
 ) -> Region:
-    """The window ``composition`` clusters, cut from one record.
+    """The window ``composition`` clusters, cut from one record to its assay's shape.
 
     ``amplicon`` and ``sites`` are 0-based half-open spans in RECORD coordinates (the
     convention of ``match.pair_spans``); the sites are shifted into window
-    coordinates before masking. Each flank extends up to ``flank_bp`` and stops at
+    coordinates before masking. The flanks extend up to ``left_bp`` and ``right_bp``
+    (the assay's ``window_shape``) and stop at
     the record's end or just before a run of ``stop_n_run`` N, because an assembly
     spacer means the sequence beyond it is not adjacent to the amplicon. N of a
     shorter run at a flank's OUTER end are dropped, so a flank never ends in N there;
@@ -141,11 +187,11 @@ def flanked_region(
     if not 0 <= start < end <= len(seq):
         raise ValueError(f"{record_id}: amplicon {amplicon} is not inside a {len(seq)} bp record")
     s = seq.upper()
-    left = _flank_extent(s, start, -1, flank_bp, stop_n_run)
-    right = _flank_extent(s, end, +1, flank_bp, stop_n_run)
+    left = _flank_extent(s, start, -1, left_bp, stop_n_run)
+    right = _flank_extent(s, end, +1, right_bp, stop_n_run)
     lo, hi = start - left, end + right
     window = mask_regions(s[lo:hi], [(a - lo, b - lo) for a, b in sites], mask_buffer_bp)
-    return Region(record_id, window, left, right, left == flank_bp and right == flank_bp)
+    return Region(record_id, window, left, right, left == left_bp and right == right_bp)
 
 
 def canonical_kmers(seq: str, k: int) -> set[str]:
