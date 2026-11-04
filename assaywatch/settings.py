@@ -371,9 +371,6 @@ class Composition(Block):
     `threshold`, `min_cluster_records`, `buffer_bp`, `method`), because
     `test_every_in_code_fallback_matches_the_model` matches keys by bare name.
 
-    Three more keys are drafted in `docs/composition-config-draft.yaml` and arrive with
-    their first readers: `report_min_mix` (step 14), `site_max_bytes` (15),
-    `coverage_refresh_years` (17).
     """
 
     #: The flank BUDGET per side; the shape itself is read per assay by
@@ -404,6 +401,8 @@ class Composition(Block):
     show_clusters: int = Field(default=8, gt=0)
     n_boot: int = Field(default=2000, gt=0)
     boot_seed: int = 0
+    #: Calendar years re-counted by esearch each run; older years come from the cache.
+    coverage_refresh_years: int = Field(default=2, ge=1)
     #: The cap on website/data/composition.json, which is committed every run.
     site_max_bytes: int = Field(default=1_500_000, gt=0)
     #: The report section names an assay whose mix part is at least this.

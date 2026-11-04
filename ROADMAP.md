@@ -1051,8 +1051,30 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         section reads `composition.json` and the stage imports `report` for
         `assessment_inputs`. That is the price of decision A, and it is the honest one: the
         panel under a graph has to be built from the records the graph counts.
-  - [ ] 17. `year_counts` with a fake transport (queries, cache, refresh, offline); then a
-        network smoke test and a datetype calibration on the Mac.
+  - [x] 17. `year_counts` with a fake transport (queries, cache, refresh, offline); then a
+        network smoke test and a datetype calibration on the Mac. **Done 2026-11-03.**
+        `retrieve.year_counts` (13 tests on a fake transport), `assaywatch retrieve
+        --year-counts` writing `coverage.json`, `rule retrieval_coverage` (localrule, network,
+        `retmax=0` so it fetches nothing and takes no lock), the series carried through
+        `build(coverage=)` onto `AssayComposition.coverage` and into both file formats, and a
+        retrieval-coverage line in `lineage.md`. `coverage_refresh_years` was the LAST drafted
+        key: `docs/composition-config-draft.yaml` is deleted and every `composition:` key now
+        has a reader.
+        **The datetype is measured, not assumed:** `pdat` (publication date) reproduces the
+        archive's own `created` years -- 6 of 6 exactly on the haemosporidian query and 4 of 6
+        on Chlamydia 16S over 2020-2025 -- where `mdat` does not. The refresh window is
+        CALENDAR years, not the top of the range asked for: anchored to the request it
+        re-counted a 2020 nothing had changed while trusting a cached 2026 still filling up.
+        **Found on the first real run, and it is the influenza shape again:** the Chlamydia 16S
+        query returned 27.6% of its genus's 2020 deposits and 0.4% of 2023's (14 of 3,742),
+        while the genus's deposits grew 568 -> 3,742. A verdict on that assay is partly a fact
+        about its query, which is what the line in `lineage.md` now says. Worth a maintainer's
+        read: the query is title-based (`16S[Title] OR ...`) under a genus that increasingly
+        deposits genomes.
+        **A calibration mistake worth recording:** the first attempt counted
+        `target.query` alone and got ~964,000 Chlamydia records for 2021. That field is only
+        the assay's own term; the retrieval query is `retrieve.build_query(taxid, cfg, term)`,
+        which adds `txid<n>[Organism:exp]` and the length filter.
   - [ ] 18. End to end on the 2026-11-01 run (below); journal entry; INDEX row; CHANGELOG; tick here.
 
   **Verification.**

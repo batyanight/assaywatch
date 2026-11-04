@@ -122,3 +122,28 @@ def test_the_section_appears_under_its_own_assay_and_no_other():
     out = render_lineage_report(calls, {}, {}, min_records=1, composition=run)
     assert out.count("#### Sequence clusters, per deposit year") == 1
     assert out.index("## A") < out.index("#### Sequence clusters") < out.index("## B")
+
+
+def test_the_retrieval_coverage_line_names_the_years_the_query_saw_little():
+    """The influenza shape (2026-10-30): the taxon keeps growing while the query stops
+    following, and a verdict then describes the query. Real numbers, measured 2026-11-03:
+    the Chlamydia 16S query took 27.6% of its genus's 2020 deposits and 0.4% of 2023's."""
+    comp = _comp(coverage={"query": {2020: 157, 2023: 14}, "taxon": {2020: 568, 2023: 3742}})
+    out = " ".join(" ".join(cluster_section(comp)).split())
+    assert "Retrieval coverage" in out
+    assert "2020 28%, 2023 0%" in out
+    assert "2023 (14 of 3,742)" in out
+    assert "a fact about the query and not about the taxon" in out
+
+
+def test_without_a_coverage_series_nothing_is_claimed_about_it():
+    out = " ".join(" ".join(cluster_section(_comp())).split())
+    assert "Retrieval coverage" not in out
+
+
+def test_a_year_the_counter_could_not_reach_is_not_read_as_zero():
+    """`year_counts` leaves an uncounted year ABSENT, and absent is not zero: a share of
+    0% invented from a missing count would be a retrieval gap that is not there."""
+    comp = _comp(coverage={"query": {2020: 157}, "taxon": {2020: 568, 2023: 3742}})
+    out = " ".join(" ".join(cluster_section(comp)).split())
+    assert "2020 28%" in out and "2023" not in out.split("per deposit year:")[1].split("(best")[0]

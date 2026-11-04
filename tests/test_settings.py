@@ -187,6 +187,7 @@ def test_the_composition_block_carries_the_numbers_the_plan_and_the_measurement_
     assert d["n_boot"] == 2000
     assert d["report_min_mix"] == 0.05  # matches drift.min_decline
     assert d["site_max_bytes"] == 1_500_000
+    assert d["coverage_refresh_years"] == 2
     assert validated({})["composition"] == d
 
 
@@ -194,10 +195,9 @@ def test_the_composition_block_is_in_the_committed_config():
     assert "composition" in raw(), "config.yaml has no composition: block"
 
 
-def test_the_three_drafted_composition_keys_are_in_neither_yet():
-    """They arrive with their first readers (steps 14, 15, 17). Until then the model must
-    not carry them either: `extra="forbid"` would refuse the config, and a model key the
-    config lacks fails `test_validation_changes_no_value_in_the_committed_config`."""
-    model = set(Settings().model_dump()["composition"])
-    assert model == set(raw()["composition"])
-    assert not model & {"coverage_refresh_years"}
+def test_the_model_and_the_committed_config_hold_the_same_composition_keys():
+    """Every key now has a reader, so the draft file is gone: `report_min_mix` landed at
+    step 14, `site_max_bytes` at 15 and `coverage_refresh_years` at 17. `extra="forbid"`
+    would refuse a config key the model lacks, and a model key the config lacks fails
+    `test_validation_changes_no_value_in_the_committed_config`."""
+    assert set(Settings().model_dump()["composition"]) == set(raw()["composition"])

@@ -220,6 +220,39 @@ def _per_year_blocks(
     return out
 
 
+def _coverage_lines(comp: Any) -> list[str]:
+    """What the assay's retrieval query saw, against what its taxon holds.
+
+    The years where the two part are the ones where a verdict may be a fact about the
+    QUERY: the influenza case of 2026-10-30 had an archive that ended years earlier while
+    its taxon kept growing, and every report read `no recent data` without saying so.
+    Counted on `pdat`, which reproduces the archive's own `created` years (measured
+    2026-11-03). Nothing is printed when a run carries no coverage series.
+    """
+    query = (getattr(comp, "coverage", None) or {}).get("query") or {}
+    taxon = (getattr(comp, "coverage", None) or {}).get("taxon") or {}
+    shared = sorted(y for y in query if taxon.get(y))
+    if not shared:
+        return []
+    shares = [(y, query[y] / taxon[y]) for y in shared]
+    best = max(s for _, s in shares)
+    thin = [(y, s) for y, s in shares if best and s < best / 3][-6:]
+    out = [
+        "**Retrieval coverage.** Of the records this assay's target taxon holds, the share its",
+        "own retrieval query returned, per deposit year: "
+        + ", ".join(f"{y} {s:.0%}" for y, s in shares[-8:])
+        + f" (best year {best:.0%}).",
+    ]
+    if thin:
+        out += [
+            "A share well below the best year is a year the query saw little of what was",
+            "deposited, which is a fact about the query and not about the taxon: "
+            + ", ".join(f"{y} ({query[y]:,} of {taxon[y]:,})" for y, _ in thin)
+            + ".",
+        ]
+    return [*out, ""]
+
+
 def cluster_section(comp: Any) -> list[str]:
     """One assay's sequence-cluster composition: the mix per deposit year, what the same
     mix would have read, and which lineages the mix is made of.
@@ -279,6 +312,7 @@ def cluster_section(comp: Any) -> list[str]:
                 "rate to have changed.",
                 "",
             ]
+    out += _coverage_lines(comp)
     out += [
         "| Cluster | Records | Detected | First year | New since design | Also in the titles |",
         "|---|---|---|---|---|---|",

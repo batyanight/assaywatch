@@ -244,6 +244,11 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         # module below comes from `cli.resolve`, so this test asks the CLI rather than
         # assuming the two always coincide.
         "composition": "composition_build",
+        # retrieval_coverage runs `assaywatch retrieve` but is NOT the `retrieve` rule and
+        # is not exempt with it: it only counts (`--year-counts`, retmax=0), so a code edit
+        # costs one cheap esearch per year rather than a refetch, and it hashes
+        # source_names("retrieve") like any other downstream rule.
+        "retrieval_coverage": "retrieve",
     }
     from assaywatch.cli import resolve
 

@@ -687,8 +687,9 @@ def test_the_options_defaults_match_the_settings_model():
         assert getattr(mine, key) == model[key], key
     # The model may hold keys the STAGE does not read, when their reader is elsewhere:
     # `report_min_mix` is read by `report.mix_rows`, which decides what the report names,
-    # and `site_max_bytes` by `site.main`, which refuses to write a file over it.
-    assert set(model) - fields == {"report_min_mix", "site_max_bytes"}
+    # `site_max_bytes` by `site.main`, which refuses to write a file over it, and
+    # `coverage_refresh_years` by `retrieve --year-counts`, which does the counting.
+    assert set(model) - fields == {"report_min_mix", "site_max_bytes", "coverage_refresh_years"}
 
 
 def test_the_options_read_the_committed_config():

@@ -57,7 +57,7 @@ import json
 import os
 import sys
 import xml.etree.ElementTree as ET
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from dataclasses import asdict, dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
@@ -186,6 +186,79 @@ def esearch(
         "webenv": root.findtext("WebEnv"),
         "query_key": root.findtext("QueryKey"),
     }
+
+
+def year_counts(
+    transport: Transport,
+    query: str,
+    years: Iterable[int],
+    datetype: str = "pdat",
+    *,
+    cache: Path | None = None,
+    refresh_years: int = 2,
+    today: date | None = None,
+) -> dict[int, int]:
+    """How many records `query` returns per deposit year: ``{year: count}``.
+
+    The retrieval-coverage series the composition panel draws, and the counts the release
+    scope verification needs (ROADMAP "Lineage composition over time", one counter and two
+    consumers, decided 2026-11-02). One `esearch` per year at `retmax=0`, so nothing is
+    fetched.
+
+    CACHED, because a year that has passed does not change much: `cache` is a gzipped JSON
+    map keyed by (datetype, query, year), and only the last `refresh_years` CALENDAR years
+    are counted again. Calendar, not the top of whatever range was asked: "the last two
+    years" is a fact about now, and anchoring it to the request re-counted a 2020 that
+    nothing had changed while trusting a cached 2026 that was still filling up.
+
+    OFFLINE-SAFE, because this stage is report-only and must not stop a run: a transport
+    that raises leaves the cached years in place and the uncounted ones ABSENT. Absent is
+    not zero; a band drawn from zero where the truth is "could not ask" invents a
+    retrieval gap.
+    """
+    wanted = sorted({int(y) for y in years})
+    for year in wanted:
+        if not 1900 <= year <= 3000:
+            raise ValueError(f"year {year} is outside 1900-3000; esearch would count the whole database")
+    if not wanted:
+        return {}
+    store: dict[str, int] = {}
+    if cache is not None and cache.exists():
+        try:
+            with gzip.open(cache, "rt") as fh:
+                store = {str(k): int(v) for k, v in json.load(fh).items()}
+        except (OSError, ValueError, json.JSONDecodeError):
+            # A corrupt cache is a cold cache. It holds counts, not evidence.
+            store = {}
+
+    def key(year: int) -> str:
+        return f"{datetype}\t{query}\t{year}"
+
+    refresh_from = (today or date.today()).year - refresh_years + 1
+    out: dict[int, int] = {}
+    fresh = False
+    for year in wanted:
+        stale = year >= refresh_from
+        cached = store.get(key(year))
+        if cached is not None and not stale:
+            out[year] = cached
+            continue
+        try:
+            got = esearch(transport, query, f"{year}/01/01", datetype=datetype, until=f"{year}/12/31")[
+                "count"
+            ]
+        except Exception:  # noqa: BLE001 - any transport failure is "could not ask"
+            if cached is not None:
+                out[year] = cached
+            continue
+        out[year] = got
+        store[key(year)] = got
+        fresh = True
+    if cache is not None and fresh:
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        with gzip.open(cache, "wt") as fh:
+            json.dump(store, fh, sort_keys=True)
+    return out
 
 
 def _text(node: ET.Element, name: str) -> str:
@@ -654,6 +727,55 @@ def check_fasta_page(chunk: str) -> int:
     return sum(1 for line in chunk.splitlines() if line.startswith(">"))
 
 
+def _year_counts_mode(args: Any, cfg: dict[str, Any]) -> int:
+    """`--year-counts`: the retrieval-coverage series, and nothing else.
+
+    Per assay and deposit year, two counts: what the assay's OWN retrieval query returns,
+    and what its target taxon holds at all. Where the first falls away from the second,
+    the query stopped seeing what was deposited -- the influenza case of 2026-10-30, where
+    an archive had ended years earlier while the taxon kept growing and every report read
+    `no recent data` without saying it was a fact about the query.
+
+    A COUNTING mode: `retmax=0` throughout, so it fetches no records and takes no lock,
+    which is why the pipeline can run it as a localrule. Offline it falls back to the
+    cache and writes what it has; `year_counts` says why absent is not zero.
+
+    `pdat` and not `mdat`: measured 2026-11-03, publication date reproduces the archive's
+    own `created` years (6 of 6 exactly on the haemosporidian query, 4 of 6 on Chlamydia
+    16S over 2020-2025) where the modification date does not.
+    """
+    comp = cfg.get("composition") or {}
+    lo, hi = (args.years or f"1990:{date.today().year}").split(":")
+    years = list(range(int(lo), int(hi) + 1))
+    transport = http_transport(args.email, ncbi_api_key() or None)
+    cache = Path(cfg.get("retrieved_dir", "data/retrieved")) / ".year-counts.json.gz"
+    refresh = int(comp.get("coverage_refresh_years", 2))
+    out: dict[str, Any] = {"datetype": "pdat", "years": years, "assays": {}}
+    targets = targets_from_registry(args.paths, cfg)
+    for (taxid, group), info in sorted(targets.items()):
+        if group == "asm":
+            # Assembly retrieval does not go through esearch on nuccore, so a per-year
+            # nuccore count would be a different population, not a coverage check.
+            continue
+        ours = build_query(taxid, cfg, info.get("query"))
+        every = f"txid{taxid}[Organism:exp]"
+        got = year_counts(transport, ours, years, "pdat", cache=cache, refresh_years=refresh)
+        whole = year_counts(transport, every, years, "pdat", cache=cache, refresh_years=refresh)
+        for assay_id in info["assays"]:
+            out["assays"][assay_id] = {
+                "query": {str(y): got[y] for y in years if y in got},
+                "taxon": {str(y): whole[y] for y in years if y in whole},
+            }
+    args.year_counts.parent.mkdir(parents=True, exist_ok=True)
+    args.year_counts.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
+    print(
+        f"{args.year_counts}: {len(out['assays'])} assays over {len(years)} years "
+        f"({years[0]}-{years[-1]}), counted on pdat",
+        file=sys.stderr,
+    )
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     from assaywatch.score import load_config
 
@@ -675,9 +797,18 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="exit non-zero when a group is skipped for size; by default only transport errors fail the run",
     )
+    ap.add_argument(
+        "--year-counts",
+        type=Path,
+        default=None,
+        help="count records per deposit year per assay into this JSON and stop (no fetching)",
+    )
+    ap.add_argument("--years", default=None, help="with --year-counts: FIRST:LAST, default 1990:<this year>")
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
+    if args.year_counts is not None:
+        return _year_counts_mode(args, cfg)
     # Bound, not discarded: the lock is held until the process exits.
     _lock = None if args.dry_run else acquire_lock(cfg)
     # Resolved once: the environment variable, else .secrets/ncbi.key. Both the

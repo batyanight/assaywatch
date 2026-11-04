@@ -1268,6 +1268,14 @@ composition:
   # floor for stable 95% percentile intervals; deterministic under boot_seed.
   n_boot: 2000
   boot_seed: 0
+  # CALENDAR years re-counted by esearch each run for retrieval coverage; older years
+  # come from the cache (data/retrieved/.year-counts.json.gz). 2 because late deposits
+  # and re-annotation mostly touch the last two years: not measured, but the clock the
+  # counts are read on IS measured -- `pdat` (publication date) reproduces the archive's
+  # own `created` years, 6 of 6 exactly on the haemosporidian query and 4 of 6 exactly on
+  # Chlamydia 16S (2026-11-03, both over 2020-2025), where `mdat` (modification date)
+  # does not. So the series is counted on `pdat`.
+  coverage_refresh_years: 2
   # Cap on website/data/composition.json, which is committed every run beside the
   # 2.5 MB run.json. A test fails the build above it.
   site_max_bytes: 1500000

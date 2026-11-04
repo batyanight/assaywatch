@@ -751,6 +751,30 @@ rule figures:
         "--config {CONFIG_EFFECTIVE}"
 
 
+rule retrieval_coverage:
+    """How many records each assay's query returns per deposit year, against how many its
+    taxon holds. NETWORK, and a localrule: it is `esearch` at `retmax=0`, so it fetches no
+    records, takes no lock and belongs on the submitting host rather than a compute node.
+
+    It is what notices the influenza shape of 2026-10-30 -- an archive that ended years
+    ago while the taxon kept growing, so every report read `no recent data` and the message
+    was a fact about the QUERY. `retrieve.year_counts` is offline-safe: with NCBI
+    unreachable it writes what the cache holds, and an uncounted year is ABSENT rather
+    than zero, because those are different facts.
+    """
+    output:
+        json=RESULTS / RUN_DATE / "coverage.json",
+    params:
+        code=_package_hash(*source_names("retrieve")),
+        inputs=_registry_and_config_hash("retrieve", "composition"),
+    localrule: True
+    resources:
+        runtime=60,
+    shell:
+        "assaywatch retrieve {REGISTRY} --email {EMAIL} --config {CONFIG_EFFECTIVE} "
+        "--year-counts {output.json}"
+
+
 rule composition:
     """How each assay's record mix changes over time, beside its detection graph.
 
@@ -769,6 +793,10 @@ rule composition:
         # scope ancestry and the species roll-up: both change which records are counted
         # and what a cluster is named, exactly as they do for the report.
         taxonomy=config["drift"]["scope_taxonomy"],
+        # The retrieval-coverage series. A hard input and not an option, so a run either
+        # carries the series or says why: the rule above always writes a file, from the
+        # cache when NCBI cannot be reached.
+        coverage=RESULTS / RUN_DATE / "coverage.json",
     output:
         tsv=RESULTS / RUN_DATE / "composition.tsv",
         json=RESULTS / RUN_DATE / "composition.json",
@@ -787,7 +815,7 @@ rule composition:
     shell:
         "assaywatch composition {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
-        "--config {CONFIG_EFFECTIVE}"
+        "--config {CONFIG_EFFECTIVE} --coverage {input.coverage}"
 
 
 rule report:

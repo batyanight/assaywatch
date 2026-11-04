@@ -104,6 +104,7 @@ def build_assay(
     assay: Any,
     records: Sequence[GraphRecord],
     cfg: Mapping[str, Any],
+    coverage: Mapping[str, Mapping[int, int]] | None,
     sequences: Mapping[str, str],
     titles: Mapping[str, str],
     taxonomy: Taxonomy | None,
@@ -198,6 +199,7 @@ def build_assay(
         observed=observed_series(drawn),
         same_mix=same_mix_series(drawn, min_covered=opts.same_mix_min_covered),
         split=split_change(baseline, recent, n_boot=opts.n_boot, seed=opts.boot_seed),
+        coverage={k: dict(v) for k, v in (coverage or {}).items()},
         species=tuple(
             species_years(
                 [(r.taxid, r.year, titles_by_record[r.record_id]) for r in records if r.evaluable],
@@ -296,13 +298,21 @@ def build(
             continue
         wanted = {strip_version(r.record_id) for r in rows}
         seqs, titles = _archive(retrieved, assay, wanted)
-        out[assay_id] = build_assay(assay, rows, cfg, seqs, titles, inputs["taxonomy"], opts)
-    del coverage  # step 17
+        out[assay_id] = build_assay(
+            assay, rows, cfg, _coverage_for(coverage, assay_id), seqs, titles, inputs["taxonomy"], opts
+        )
     return CompositionRun(run_date=run_date, assays=out)
+
+
+def _coverage_for(coverage: Mapping[str, Any] | None, assay_id: str) -> dict[str, dict[int, int]]:
+    """One assay's rows of `retrieve --year-counts`, with years as ints."""
+    rows = ((coverage or {}).get("assays") or {}).get(assay_id) or {}
+    return {k: {int(y): int(n) for y, n in (v or {}).items()} for k, v in rows.items()}
 
 
 def main(argv: list[str] | None = None) -> int:
     import argparse
+    import json
     import sys
 
     from assaywatch.composition import write
@@ -315,10 +325,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--run-date", default=None)
     ap.add_argument("--out", type=Path, required=True, help="where composition.tsv/.json go")
+    ap.add_argument(
+        "--coverage",
+        type=Path,
+        help="coverage.json from `assaywatch retrieve --year-counts`: the retrieval-coverage series",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
-    run = build(args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date)
+    coverage = None
+    if args.coverage is not None and args.coverage.exists():
+        coverage = json.loads(args.coverage.read_text())
+    run = build(args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date, coverage=coverage)
     tsv, js = write(run, args.out)
     placed = sum(1 for a in run.assays.values() if any(c.id >= 0 for c in a.clusters))
     print(

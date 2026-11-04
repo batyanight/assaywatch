@@ -711,6 +711,13 @@ class AssayComposition:
     #: What this assay's reader has to be told: how much is unplaced or diverged, and
     #: whether the clustering could run at all.
     note: str
+    #: `{"query": {year: n}, "taxon": {year: n}}` from `retrieve --year-counts`: how many
+    #: records this assay's retrieval query returned per deposit year against how many its
+    #: target taxon holds. Where the first falls away from the second, the query stopped
+    #: seeing what was deposited, which is a fact about the QUERY and not the taxon -- the
+    #: influenza case of 2026-10-30. DEFAULTED, because a run without a coverage file is a
+    #: complete run: the series is a lens on the stage, not an input to it.
+    coverage: dict[str, dict[int, int]] = dataclasses.field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -881,6 +888,7 @@ def _as_json(run: CompositionRun) -> dict[str, Any]:
                 "note": a.note,
                 "clusters": [dataclasses.asdict(c) for c in a.clusters],
                 "cells": [dataclasses.asdict(c) for c in a.cells],
+                "coverage": {k: {str(y): n for y, n in v.items()} for k, v in a.coverage.items()},
                 "observed": {str(y): v for y, v in a.observed.items()},
                 "same_mix": {str(y): v for y, v in a.same_mix.items()},
                 "split": dataclasses.asdict(a.split) if a.split else None,
@@ -915,6 +923,9 @@ def read_summary(path: Path) -> CompositionRun:
                 for c in a["clusters"]
             ),
             cells=tuple(Cell(**c) for c in a["cells"]),
+            coverage={
+                k: {int(y): int(n) for y, n in v.items()} for k, v in (a.get("coverage") or {}).items()
+            },
             observed={int(y): v for y, v in a["observed"].items()},
             same_mix={int(y): v for y, v in a["same_mix"].items()},
             split=(
@@ -980,6 +991,11 @@ def site_data(run: CompositionRun) -> dict[str, Any]:
             "tokens": [list(c.title_tokens) for c in a.clusters],
             "new_since_design": [bool(c.new_since_design) for c in a.clusters],
             "years": years,
+            # Aligned to `years`: what the query returned and what the taxon holds, or
+            # null where the count is not known (no coverage file, or NCBI unreachable
+            # and nothing cached -- which is not the same as zero).
+            "coverage_query": [a.coverage.get("query", {}).get(y) for y in years],
+            "coverage_taxon": [a.coverage.get("taxon", {}).get(y) for y in years],
             "records": records,
             "detected": detected,
             # Aligned to `years`; null for a year whose clusters cover too little of the
