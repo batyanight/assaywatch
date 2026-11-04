@@ -1237,6 +1237,30 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
   login node closes it; until then every value marked VERIFY is a guess with the
   command that checks it beside it.
 
+- **77 of the site's 232 mismatch charts are blank and do not say why** (found
+  2026-11-03, on the 2026-11-01 run). `site_svg.mismatch_track` draws the oligo rows
+  whenever an assay has oligos, even with no `positions`. All 31 drawn nest pages are
+  blank, because `site.py` passes them no site data. So are 46 of 201 assay pages, because
+  no position reaches `sitedrift.min_records_for_position` (20): 19 have fewer than 20
+  evaluable records, and 9 of the 46 have no mismatch at all. Withheld pages draw no chart
+  and are not affected.
+  - [ ] **Show the fallback.** `mismatch_track` returns `""` when `positions` is empty, so
+    the "No position carried..." message in `site_render._charts_block`, which no page
+    shows today, can appear. Reword it to state the threshold and the highest count
+    reached, and print the legend and caption only when bars are drawn. Tests that call
+    `mismatch_track` in `tests/test_site.py` will probably need updating.
+  - [ ] **Link nest pages to each round's map.** Replace the blank chart with those links.
+    A protocol-level map would be new analysis, not a rendering fix, because the record
+    sets differ (Chu 2008 astrovirus: 2,889 for the nest, 3,313 for round 2).
+  - [ ] **Report failures a per-base chart cannot show**, on the page and from the calls
+    table's `reason` column. `Monkeypox_virus_G2R_Li_2010_G2R_WA_F` is `declining` (9,710
+    of 12,899 detected) with a blank chart: 5,235 records fail with "no probe site inside
+    amplicon", 5,228 of them at zero penalty on both primers. 5,234 of the 5,235 have an
+    82 bp product against 85 bp for every detected record, which suggests a 3 bp deletion
+    in the probe region. Not yet checked: the alignment itself, and whether these records
+    are the clade this assay is not meant to detect, which would change how to read the
+    status.
+
 ## Known limitations, recorded and not work
 
 - **`drift.anchor_fdr` cannot be settled by any evidence this project can get, and
