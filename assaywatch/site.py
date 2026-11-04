@@ -378,6 +378,11 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--config", type=Path, default=None)
     e.add_argument("--run-date", default=None)
     e.add_argument("--out", type=Path, required=True)
+    e.add_argument(
+        "--composition",
+        type=Path,
+        help="composition.json from the composition stage; writes the panel's own compact file",
+    )
     args = ap.parse_args(argv)
 
     from assaywatch.score import load_config
@@ -390,6 +395,18 @@ def main(argv: list[str] | None = None) -> int:
     n = len(data["assays"])
     withheld = sum(1 for a in data["assays"] if a["withheld_reasons"])
     print(f"{path}: {n} assays from {data['run_date']}, {withheld} with a status withheld", file=sys.stderr)
+    # The composition panel's own file, beside run.json and deliberately NOT inside it:
+    # run.json is 2.5 MB and committed every week (decided 2026-11-02). Absent, the site
+    # renders exactly what it did.
+    if args.composition is not None and args.composition.exists():
+        from assaywatch.composition import read_summary, write_site_data
+
+        comp = write_site_data(
+            read_summary(args.composition),
+            args.out,
+            max_bytes=int((cfg.get("composition") or {}).get("site_max_bytes", 1_500_000)),
+        )
+        print(f"{comp}: {comp.stat().st_size:,} bytes", file=sys.stderr)
     return 0
 
 

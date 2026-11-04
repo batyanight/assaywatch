@@ -404,6 +404,8 @@ class Composition(Block):
     show_clusters: int = Field(default=8, gt=0)
     n_boot: int = Field(default=2000, gt=0)
     boot_seed: int = 0
+    #: The cap on website/data/composition.json, which is committed every run.
+    site_max_bytes: int = Field(default=1_500_000, gt=0)
     #: The report section names an assay whose mix part is at least this.
     report_min_mix: float = Field(default=0.05, gt=0.0, le=1.0)
     #: A year's same-mix point is drawn only if its clusters cover this share of the weight.

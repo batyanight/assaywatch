@@ -5,22 +5,15 @@
 # `settings.Composition` at step 12 (2026-11-03); these follow at the steps named below,
 # and this file is deleted with the last of them.
 #
-# retrieval coverage; site_max_bytes -> step 15, the website.
 
 composition:
   # Years re-counted by esearch each run for retrieval coverage; older years come
   # from the cache (data/retrieved/.year-counts.json.gz). 2 because late deposits
   # and re-annotation mostly touch the last two years. Not measured.
   coverage_refresh_years: 2
-  # Cap on website/data/composition.json, which is committed every run beside the
-  # 2.5 MB run.json. A test fails the build above it.
-  site_max_bytes: 1500000
 
 # ---- assaywatch/settings.py, to add to `Composition` with each key ----
 #     #: Recent years re-counted by esearch each run; older years come from the cache.
 #     coverage_refresh_years: int = Field(default=2, ge=1)
-#     #: The cap on website/data/composition.json.
-#     site_max_bytes: int = Field(default=1_500_000, gt=0)
 #
 # and in tests/test_settings.py, with the key's default:
-#     assert d["site_max_bytes"] == 1_500_000

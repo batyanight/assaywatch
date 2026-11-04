@@ -335,7 +335,7 @@ def _species_sizes_block(a: dict[str, Any]) -> list[str]:
     return out
 
 
-def assay_page(page: dict[str, Any], run_date: str) -> str:
+def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] | None = None) -> str:
     out: list[str] = []
     a = page
     # A withholding reason beats a status, wherever the status came from. The
@@ -408,7 +408,8 @@ def assay_page(page: dict[str, Any], run_date: str) -> str:
         return "\n".join(out) + "\n"
 
     out.append(_verdict_block(a, run_date))
-    out.append(_charts_block(a))
+    out.append(_charts_block(a, composition))
+    out += _composition_block(composition)
     out.append(_scope_block(a))
     out.append(_denominator_block(a))
     # Near the foot and in small type: the protocol's own verdict is the page;
@@ -512,7 +513,73 @@ def _no_trend_to_draw(a: dict[str, Any]) -> str | None:
     )
 
 
-def _charts_block(a: dict[str, Any]) -> str:
+def _same_mix(comp: dict[str, Any] | None) -> dict[int, float]:
+    """`composition.json`'s same-mix column as {year: share}, dropping the years it could
+    not standardise (nulls, where the clusters present cover too little of the weight)."""
+    if not comp:
+        return {}
+    pairs = zip(comp.get("years") or [], comp.get("same_mix") or [], strict=False)
+    return {year: share for year, share in pairs if share is not None}
+
+
+def _composition_block(comp: dict[str, Any] | None) -> list[str]:
+    """The lineage mix under the detection chart, and what it did to that chart.
+
+    Report-only, like everything from the composition stage: no status on this page comes
+    from anything here.
+    """
+    if not comp or not comp.get("years"):
+        return []
+    names, ids = comp.get("names") or [], comp.get("ids") or []
+    records = comp.get("records") or []
+    totals = [sum(col) for col in zip(*records, strict=False)] if records else []
+    grand = sum(totals) or 1
+    lines = [
+        "## What was deposited, by lineage\n",
+        "Lineages here are SEQUENCE CLUSTERS, not taxids: each is a group of records that",
+        "resemble each other over the amplicon and its flanks with the oligonucleotide sites",
+        f"masked, cut at {comp['cut']:g} Mash distance. So a cluster is defined by sequence this",
+        "assay does not measure, and the mix below can move without any assay changing. The",
+        "dashed line on the chart above is each year recomputed on the whole period's mix: where",
+        "the two lines part, what was sequenced changed rather than what the assay detects.\n",
+    ]
+    if comp.get("note"):
+        lines += [f"*{comp['note']}.*\n"]
+    lines += [site_svg.composition_panel(comp, {}), ""]
+    lines += [
+        "| Lineage | Records | Share | New since design | Also in the titles |",
+        "|---|---|---|---|---|",
+    ]
+    for col, cid in enumerate(ids):
+        n = totals[col] if col < len(totals) else 0
+        tokens = (comp.get("tokens") or [[]])[col] if col < len(comp.get("tokens") or []) else []
+        new = (
+            (comp.get("new_since_design") or [])[col]
+            if col < len(comp.get("new_since_design") or [])
+            else False
+        )
+        lines.append(
+            f"| {names[col] if col < len(names) else cid} | {n:,} | {n / grand:.0%} | "
+            f"{'yes' if new else ''} | {', '.join(tokens) if tokens else '--'} |"
+        )
+    lines.append("")
+    split = comp.get("split")
+    if split:
+        mix, within = split["mix"], split["within"]
+        ci = ""
+        if split.get("mix_ci"):
+            ci = f" (95% CI {split['mix_ci'][0]:+.3f} to {split['mix_ci'][1]:+.3f})"
+        lines += [
+            "Between the baseline and the recent window the detected share went",
+            f"{split['baseline_share']:.1%} to {split['recent_share']:.1%}, a change of"
+            f" {split['change']:+.3f}. Of that, **{mix:+.3f} is the mix** of lineages deposited"
+            f" changing{ci} and **{within:+.3f} is detection within** them. The interval prices"
+            " which records were deposited and detected; the clustering itself is taken as given.\n",
+        ]
+    return lines
+
+
+def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
     lines = ["## Predicted detection by deposit year\n"]
     flat = _no_trend_to_draw(a)
     if flat:
@@ -523,7 +590,7 @@ def _charts_block(a: dict[str, Any]) -> str:
             "deposit. The shaded band marks the recent window and the dashed line the threshold.",
             "Marker size encodes the number of records behind each point, since 100% of three",
             "records and 100% of three thousand are not equivalent claims.\n",
-            site_svg.year_chart(a),
+            site_svg.year_chart(a, _same_mix(comp)),
             "",
         ]
     lines += [
@@ -894,15 +961,18 @@ def index_page(data: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def render(data: dict[str, Any], out: Path) -> int:
+def render(data: dict[str, Any], out: Path, composition: dict[str, Any] | None = None) -> int:
     from assaywatch.site import SCHEMA
 
     if data.get("schema") != SCHEMA:
         raise SystemExit(f"run.json is schema {data.get('schema')}, this renderer expects {SCHEMA}")
     assays_dir = out / "assays"
     assays_dir.mkdir(parents=True, exist_ok=True)
+    comps = (composition or {}).get("assays") or {}
     for page in data["assays"]:
-        (assays_dir / f"{page['assay_id']}.md").write_text(assay_page(page, data["run_date"]))
+        (assays_dir / f"{page['assay_id']}.md").write_text(
+            assay_page(page, data["run_date"], comps.get(page["assay_id"]))
+        )
         # A real file rather than a scripted download: it works with
         # JavaScript off, can be fetched with curl, and can be cited. Bare
         # taxids one per line, which is what pastes into NCBI's batch entry
@@ -921,7 +991,9 @@ def render(data: dict[str, Any], out: Path) -> int:
         nests_dir.mkdir(parents=True, exist_ok=True)
         current_nests = {n["assay_id"] for n in nests}
         for nest in nests:
-            (nests_dir / f"{nest['assay_id']}.md").write_text(assay_page(nest, data["run_date"]))
+            (nests_dir / f"{nest['assay_id']}.md").write_text(
+                assay_page(nest, data["run_date"], comps.get(nest["assay_id"]))
+            )
         for path in sorted(nests_dir.glob("*.md")):
             if path.stem not in current_nests:
                 path.unlink()
@@ -1038,7 +1110,19 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", type=Path, default=ROOT / "website")
     args = ap.parse_args(argv)
     data = json.loads((args.data / "run.json").read_text())
-    n = render(data, args.out)
+    # The composition panel's own file, written beside run.json by `assaywatch site
+    # extract`. Absent, every page renders exactly what it did.
+    comp_path = args.data / "composition.json"
+    composition = None
+    if comp_path.exists():
+        from assaywatch.composition import SITE_SCHEMA
+
+        composition = json.loads(comp_path.read_text())
+        if composition.get("schema") != SITE_SCHEMA:
+            raise SystemExit(
+                f"composition.json is schema {composition.get('schema')}, this renderer expects {SITE_SCHEMA}"
+            )
+    n = render(data, args.out, composition)
     print(f"{n} assay pages into {args.out / 'assays'}")
     return 0
 

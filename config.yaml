@@ -1268,6 +1268,9 @@ composition:
   # floor for stable 95% percentile intervals; deterministic under boot_seed.
   n_boot: 2000
   boot_seed: 0
+  # Cap on website/data/composition.json, which is committed every run beside the
+  # 2.5 MB run.json. A test fails the build above it.
+  site_max_bytes: 1500000
   # The report section "Where the mix moved the graph" names an assay whose mix
   # part is at least 5 percentage points and whose interval excludes 0. Matches
   # drift.min_decline (0.05), the size of change the verdict already treats as

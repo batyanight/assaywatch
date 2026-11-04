@@ -186,6 +186,7 @@ def test_the_composition_block_carries_the_numbers_the_plan_and_the_measurement_
     assert d["show_clusters"] == 8
     assert d["n_boot"] == 2000
     assert d["report_min_mix"] == 0.05  # matches drift.min_decline
+    assert d["site_max_bytes"] == 1_500_000
     assert validated({})["composition"] == d
 
 
@@ -199,4 +200,4 @@ def test_the_three_drafted_composition_keys_are_in_neither_yet():
     config lacks fails `test_validation_changes_no_value_in_the_committed_config`."""
     model = set(Settings().model_dump()["composition"])
     assert model == set(raw()["composition"])
-    assert not model & {"coverage_refresh_years", "site_max_bytes"}
+    assert not model & {"coverage_refresh_years"}

@@ -215,13 +215,24 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
     return "".join(out)
 
 
-def year_chart(page: dict[str, Any]) -> str:
-    """Detected share by deposit year, with the recent window and the threshold."""
+#: The year chart's plot box. Shared with `composition_panel` so a column of the panel
+#: sits under the point of the year it belongs to; a panel on its own axis would invite
+#: exactly the misreading it exists to prevent.
+_W, _L, _R = 720.0, 44.0, 14.0
+
+
+def year_chart(page: dict[str, Any], same_mix: dict[int, float] | None = None) -> str:
+    """Detected share by deposit year, with the recent window and the threshold.
+
+    `same_mix` (year -> share, from the composition stage) draws a second, dashed line:
+    what each year would have read on the whole period's mix of lineages. Where the two
+    lines part, the mix of what was deposited moved rather than detection within it.
+    """
     years = [y for y in page.get("years", []) if y["evaluable"] > 0]
     if not years:
         return ""
-    W, H = 720.0, 230.0
-    L, R, T, B = 44.0, 14.0, 12.0, 38.0
+    W, H = _W, 230.0
+    L, R, T, B = _L, _R, 12.0, 38.0
     xs = [y["year"] for y in years]
     lo, hi = min(xs), max(xs)
     span = max(hi - lo, 1)
@@ -268,6 +279,17 @@ def year_chart(page: dict[str, Any]) -> str:
         f"{100 * page['threshold']:.0f}% threshold</text>"
     )
 
+    drawn_same = sorted(
+        (y["year"], same_mix[y["year"]]) for y in years if (same_mix or {}).get(y["year"]) is not None
+    )
+    if len(drawn_same) > 1:
+        pts = " ".join(f"{px(year):.1f},{py(100 * share):.1f}" for year, share in drawn_same)
+        out.append(
+            f'<polyline class="aw-same-mix" points="{pts}"><title>'
+            "each year on the whole period's mix of lineages: where this parts from the "
+            "line above, the mix moved rather than detection within it</title></polyline>"
+        )
+
     status_cls = "aw-" + (page["status"] or "no data").replace(" ", "-")
     if len(years) > 1:
         pts = " ".join(f"{px(y['year']):.1f},{py(100 * y['share']):.1f}" for y in years)
@@ -294,5 +316,89 @@ def year_chart(page: dict[str, Any]) -> str:
         else "deposit year · marker size is the number of records"
     )
     out.append(f'<text class="aw-axis-label" x="{(L + W - R) / 2:.0f}" y="{H - 6:.0f}">{caption}</text>')
+    out.append("</svg>")
+    return "".join(out)
+
+
+#: Ordinal lightness for the clusters, largest first. One hue, because lightness is the
+#: only free channel here: the palette's colours all carry meaning (a verdict, a call) and
+#: are contrast-validated as a set, so eight invented categorical colours would be eight
+#: unvalidated ones. Ordering is meaningful -- clusters are ranked by size -- which is what
+#: makes an ordinal ramp honest for them.
+_CLUSTER_STEPS = (0.85, 0.72, 0.60, 0.50, 0.41, 0.33, 0.26, 0.20)
+
+
+def composition_panel(comp: dict[str, Any], page: dict[str, Any]) -> str:
+    """The lineage mix per deposit year, as 100% stacked columns under the year chart.
+
+    It answers one question: did the mix of lineages being deposited change? Detection is
+    the chart above and the tooltips here, deliberately NOT a second encoding on these
+    columns -- lightness already carries which cluster a segment is, and a reader cannot
+    be asked to read two meanings from one channel. Per-cluster detection is in the
+    tooltip and in lineage.md.
+
+    `other`, `unplaced` and `diverged` are hatched rather than shaded, because they are
+    not lineages: they say what the clustering could not do.
+    """
+    years = comp.get("years") or []
+    records = comp.get("records") or []
+    if not years or not records:
+        return ""
+    ids, names = comp.get("ids") or [], comp.get("names") or []
+    detected = comp.get("detected") or records
+    W, H = _W, 132.0
+    L, R, T, B = _L, _R, 10.0, 30.0
+    span = max(max(years) - min(years), 1)
+    inner = W - L - R
+    width = min(26.0, max(6.0, inner / max(len(years), 1) * 0.72))
+
+    def px(year: int) -> float:
+        if len(years) == 1:
+            return L + inner / 2
+        return L + (year - min(years)) / span * inner
+
+    out = [
+        f'<svg class="aw-chart aw-panel" viewBox="0 0 {W:.0f} {H:.0f}" role="img" '
+        f'xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by '
+        f'deposit year, {min(years)} to {max(years)}.">',
+        '<defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" '
+        'patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" '
+        'stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs>',
+    ]
+    for row, year in enumerate(years):
+        total = sum(records[row])
+        if not total:
+            continue
+        x = px(year) - width / 2
+        y = T
+        for col, cid in enumerate(ids):
+            n = records[row][col]
+            if not n:
+                continue
+            h = (H - T - B) * n / total
+            got = detected[row][col] if col < len(detected[row]) else 0
+            name = names[col] if col < len(names) else str(cid)
+            if cid < 0:
+                fill = 'fill="url(#aw-unplaced)"' if cid != -1 else 'fill="currentColor" opacity="0.12"'
+            else:
+                fill = (
+                    f'fill="currentColor" opacity="{_CLUSTER_STEPS[min(col, len(_CLUSTER_STEPS) - 1)]:.2f}"'
+                )
+            tip = f"{year} — {name}: {n:,} of {total:,} records ({n / total:.0%}), {got:,} detected"
+            out.append(
+                f'<g class="aw-seg"><title>{_esc(tip)}</title>'
+                f'<rect x="{x:.1f}" y="{y:.1f}" width="{width:.1f}" height="{h:.1f}" {fill}/></g>'
+            )
+            y += h
+    if len(years) == 1:
+        out.append(f'<text class="aw-tick" x="{px(years[0]):.1f}" y="{H - B + 15:.0f}">{years[0]}</text>')
+    else:
+        step = max(1, round(span / 7))
+        for year in range(min(years), max(years) + 1, step):
+            out.append(f'<text class="aw-tick" x="{px(year):.1f}" y="{H - B + 15:.0f}">{year}</text>')
+    out.append(
+        f'<text class="aw-axis-label" x="{(L + W - R) / 2:.0f}" y="{H - 6:.0f}">'
+        "share of each year's records, by sequence cluster</text>"
+    )
     out.append("</svg>")
     return "".join(out)

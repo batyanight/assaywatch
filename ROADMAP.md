@@ -144,6 +144,14 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   depositors use. The registry rule is that the measurement wins and the difference is
   disclosed (`amplicon_disagrees_with_paper`); this entry has neither. A registry change
   that may move calls, so rescreen and compare.
+- **Describe the Hellgren haemosporidian assay as nested, not hemi-nested** (noted
+  2026-11-03). Wording for `Haemosporida_cytb_Hellgren_2004_HaemNFI`,
+  `Haemosporida_cytb_Hellgren_2004_HaemF` and `Leucocytozoon_cytb_Hellgren_2004`: "a nested
+  PCR with a shared first round (HaemNFI/HaemNR3) and two parallel second-round reactions:
+  HaemF/HaemR2 for *Plasmodium* and *Haemoproteus*, and HaemFL/HaemR2L for *Leucocytozoon*."
+  The rounds share no oligo. The schema has no description field, so choose where it goes
+  (`name` or `source.notes`). All three entries still have `nested_round: null`; declare the
+  nest in the same change.
 - **The `pending/` Hantavirus S-segment trio's nesting cannot be read from its ids**
   (`_S_segment_2` 532 bp, `_round2` 236, `_round2_2` 417). Declare `nested_family` and
   `nested_round` on each before any is promoted.
@@ -998,8 +1006,27 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         rebound the next positional argument at two forwarding call sites, so `nest_drifts`
         arrived as the mix rows -- the same failure a comment beside `render_html` already
         recorded for `results_dir` and `figures`. Both call sites now pass keywords.
-  - [ ] 15. Site: `website/data/composition.json` (columnar), chart additions, panel, sentence; a
+  - [x] 15. Site: `website/data/composition.json` (columnar), chart additions, panel, sentence; a
         test that each year's cells sum to the graph's evaluable; a 1.5 MB cap on the file.
+        **Done 2026-11-03.** `composition.site_data` / `write_site_data` (+ `SITE_SCHEMA`),
+        `site_svg.composition_panel`, `year_chart(page, same_mix=)`,
+        `site_render._composition_block`, `site.py --composition`, CSS in `extra.css`.
+        `site_max_bytes` moved in from the draft; only `coverage_refresh_years` is left there.
+        16 tests.
+        **The cap fired on the first real measurement, which is what it is for.** At
+        `json.dumps(indent=1)` two assays of the 2026-11-01 run came to 13.8 KB, about 1,491 KB
+        over 216 assays against a 1,465 KB cap. The file is now ONE LINE PER ASSAY, compact
+        within it (5.2 KB for the same two, about 567 KB over the registry), and the floats are
+        rounded to 4 dp: a committed file's diff has to say WHICH assay moved, which `indent=1`
+        makes expensive and a fully compact file makes impossible.
+        **Two design decisions worth knowing.** (a) The panel encodes a cluster by ORDINAL
+        LIGHTNESS of one hue, not by eight categorical colours: every colour in `palette.py`
+        carries a meaning and the set is contrast-validated by a skill's validator, so eight
+        invented ones would be eight unvalidated ones, and clusters are ranked by size, which is
+        what makes an ordinal ramp honest. `other`, `unplaced` and `diverged` are hatched,
+        because they are not lineages. (b) The plan's "undetected part lighter" is NOT drawn:
+        lightness already carries cluster identity, and one channel cannot carry two meanings.
+        Per-cluster detection is in each segment's tooltip and in `lineage.md`.
   - [ ] 16. Snakefile rules and CLI. **slow.**
   - [ ] 17. `year_counts` with a fake transport (queries, cache, refresh, offline); then a
         network smoke test and a datetype calibration on the Mac.

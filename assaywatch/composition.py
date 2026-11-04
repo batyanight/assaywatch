@@ -933,3 +933,116 @@ def read_summary(path: Path) -> CompositionRun:
             note=a["note"],
         )
     return CompositionRun(run_date=data["run_date"], assays=assays)
+
+
+# ---- The compact file the website reads (ROADMAP composition step 15) ----
+
+#: `website/data/composition.json`'s schema version. The site refuses a file it does not
+#: know, as it already does for `run.json`.
+SITE_SCHEMA = 1
+
+
+def site_data(run: CompositionRun) -> dict[str, Any]:
+    """`website/data/composition.json`: the panel's data, COLUMNAR.
+
+    A separate file from `run.json` (decided 2026-11-02), which is 2.5 MB and committed
+    every week: this would more than double it, and every weekly commit would carry the
+    growth in the repository's history for good.
+
+    Columnar because the shape is a dense grid. One `names` list per assay holds each
+    drawn cluster's label once; `years` holds the years that have records; `records` and
+    `detected` are one row per year, one column per cluster, aligned by index to both. The
+    object-per-cell form of the same grid was about four times the size on the measured
+    runs, and a reader of the file cannot tell which cells are missing from it, where an
+    aligned grid says so by construction.
+    """
+    out: dict[str, Any] = {"schema": SITE_SCHEMA, "run_date": run.run_date, "assays": {}}
+    for assay_id, a in sorted(run.assays.items()):
+        ids = [c.id for c in a.clusters]
+        slot = {cid: i for i, cid in enumerate(ids)}
+        years = sorted({c.year for c in a.cells})
+        records = [[0] * len(ids) for _ in years]
+        detected = [[0] * len(ids) for _ in years]
+        for cell in a.cells:
+            if cell.cluster not in slot:
+                continue
+            row, col = years.index(cell.year), slot[cell.cluster]
+            records[row][col] += cell.records
+            detected[row][col] += cell.detected
+        s = a.split
+        out["assays"][assay_id] = {
+            "cut": a.cut,
+            "left_bp": a.left_bp,
+            "right_bp": a.right_bp,
+            "note": a.note,
+            "ids": ids,
+            "names": [c.name for c in a.clusters],
+            "tokens": [list(c.title_tokens) for c in a.clusters],
+            "new_since_design": [bool(c.new_since_design) for c in a.clusters],
+            "years": years,
+            "records": records,
+            "detected": detected,
+            # Aligned to `years`; null for a year whose clusters cover too little of the
+            # period's weight to standardise (`same_mix_min_covered`). Rounded, because
+            # this file is committed every run and 17 digits of a float that moved in the
+            # 12th are a diff nobody can read.
+            "same_mix": [None if (v := a.same_mix.get(y)) is None else round(v, 4) for y in years],
+            "split": (
+                None
+                if s is None
+                else {
+                    "change": round(s.change, 4),
+                    "mix": round(s.mix, 4),
+                    "within": round(s.within, 4),
+                    "mix_ci": [round(v, 4) for v in s.mix_ci] if s.mix_ci else None,
+                    "within_ci": [round(v, 4) for v in s.within_ci] if s.within_ci else None,
+                    "baseline_share": round(s.baseline_share, 4),
+                    "recent_share": round(s.recent_share, 4),
+                }
+            ),
+        }
+    return out
+
+
+def _site_json(data: dict[str, Any]) -> str:
+    """ONE LINE PER ASSAY, compact within it.
+
+    The file is committed every run, so its diff has to be readable: a line per assay
+    means a changed assay is a changed line, and `git log -p` says which assays moved.
+    `json.dumps(indent=1)`, which `run.json` uses, spends a newline and a space on every
+    number of a dense numeric grid -- 2.6x the bytes here, measured -- and a fully compact
+    file would be one line whose diff says only that something changed.
+    """
+    assays = ",\n".join(
+        f"  {json.dumps(aid)}: {json.dumps(body, separators=(',', ':'))}"
+        for aid, body in data["assays"].items()
+    )
+    return (
+        "{\n"
+        f' "schema": {json.dumps(data["schema"])},\n'
+        f' "run_date": {json.dumps(data["run_date"])},\n'
+        ' "assays": {\n' + assays + "\n }\n}\n"
+    )
+
+
+def write_site_data(run: CompositionRun, out_dir: Path, *, max_bytes: int) -> Path:
+    """Write `composition.json` for the website, refusing to exceed `max_bytes`.
+
+    The cap is a real gate and not a warning: this file is committed on every run, and a
+    file that grew without anyone noticing would be noticed only in the repository's size.
+    It nearly fired on the first real measurement: at `json.dumps(indent=1)`, two assays
+    of the 2026-11-01 run came to 13.8 KB, which is about 1,491 KB over 216 assays against
+    a 1,465 KB cap. `_site_json` writes the same data at 5.2 KB for those two, about
+    567 KB over the registry.
+    """
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / "composition.json"
+    text = _site_json(site_data(run))
+    if len(text.encode()) > max_bytes:
+        raise ValueError(
+            f"composition.json would be {len(text.encode()):,} bytes, over the "
+            f"composition.site_max_bytes cap of {max_bytes:,}: draw fewer clusters "
+            f"(composition.show_clusters) or raise the cap deliberately"
+        )
+    path.write_text(text)
+    return path

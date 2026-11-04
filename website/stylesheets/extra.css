@@ -113,6 +113,24 @@ a.aw-node { cursor: pointer; text-decoration: none; }
 .aw-threshold-label { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: end; }
 .aw-window { fill: var(--aw-ink); opacity: 0.055; }
 
+/* The same-mix line: each year recomputed on the whole period's mix of lineages
+   (assaywatch/composition.py). Dashed and muted because it is a COUNTERFACTUAL
+   drawn beside a measurement, and must not read as a second series of the same
+   kind. Longer dashes than the threshold line, which is also dashed, so the two
+   are told apart at a glance. */
+.aw-same-mix { fill: none; stroke: var(--aw-ink-muted); stroke-width: 1.6;
+  stroke-dasharray: 9 5; opacity: 0.85; }
+
+/* The lineage-mix panel under the detection chart. Segments take currentColor at
+   an ordinal opacity (largest cluster darkest) rather than eight categorical
+   hues: every colour in the palette carries a meaning and the set is
+   contrast-validated, so inventing eight more would be inventing eight
+   unvalidated ones. `other`, `unplaced` and `diverged` are hatched instead,
+   because they are not lineages -- they are what the clustering could not do. */
+.aw-panel { margin-top: -0.4rem; }
+.aw-seg rect { stroke: var(--paper); stroke-width: 0.6; }
+.aw-seg:hover rect { stroke: var(--aw-ink); stroke-width: 1.2; }
+
 .aw-tick { fill: var(--aw-ink-muted); font-size: 10.5px; text-anchor: middle;  font-family: var(--sans);}
 .aw-tick-y { text-anchor: end; }
 .aw-axis-label { fill: var(--aw-ink-muted); font-size: 11px; text-anchor: middle;  font-family: var(--sans);}
