@@ -180,6 +180,8 @@ word for a concept.
 
 **mix part / within part** — the two numbers Kitagawa's decomposition splits a change in detected share into: how much the lineage mix moved, and how much detection moved within the lineages (`composition.split_change`). They add to the change exactly. A lineage deposited in only one of the two periods has no within part, so its whole effect is mix.
 
+**new since design** — of a species under an assay's target taxon: first deposited in this assay's archive after the year its paper designed it (`composition.species_years`), so the designers could not have had it. Unset where the entry carries no `citation.design_year`.
+
 **manifest** — the retrieve stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 
 **run record** — what `retrieve` returns for one fetched group (`TaxonRun`), written to the manifest (`retrieve.py`).

@@ -912,7 +912,15 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         stays exact, and the cluster is named in `one_period_clusters`. The bootstrap resamples
         RECORDS within each period and prices deposition and detection only, NOT the clustering,
         which the report must say beside the interval. 8 tests.
-  - [ ] 9. Species first year with a merged taxid; design-year flag.
+  - [x] 9. Species first year with a merged taxid; design-year flag. Done 2026-11-03:
+        `SpeciesYear` + `species_years`, over `taxonomy.canonical` and `species_of`, so a
+        merged-away id (11232 -> 3052342) and a no-rank child (3139435 under *Morbillivirus
+        canis*) are their species and not species of their own. `new_since_design` is strictly
+        after `citation.design_year`, and False where the entry has none. The year is the
+        earliest IN OUR ARCHIVE, which the field's comment says. 8 tests. Running it over four
+        archives drove four corrections to step 6's naming: a strain code after a binomial
+        ("Chlamydia psittaci NO-03"), stacked record flags ("MAG TPA_asm: ..."), a six-word
+        species name (SARS-CoV-2), and a lowercase isolate code ("Pigeon coronavirus rin35").
   - [ ] 10. Extract `assessment_inputs`, `load_calls_as_reported`, `graph_records`; per-year
         sums equal `assess().years`; existing report output byte-identical. **`pytest -m slow`.**
   - [ ] 11. The "diverged" segment: diverged records counted per year as their own lineage (no placement).

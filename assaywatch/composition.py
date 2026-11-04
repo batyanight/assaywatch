@@ -25,6 +25,7 @@ from typing import Any
 
 from assaywatch.accession import strip_version
 from assaywatch.subcluster import Region
+from assaywatch.taxonomy import Taxonomy
 
 
 def _order_key(record_id: str) -> tuple[bytes, str]:
@@ -94,24 +95,34 @@ _QUALIFIER = re.compile(
     re.IGNORECASE,
 )
 #: Dropped from the head of a title: a flag about the record, not part of the organism.
+#: The colon may come with no space after it ("TPA_asm:Bat coronavirus ..." occurs),
+#: "TPA_asm" must be tried before "TPA", and flags STACK: "MAG TPA_asm: Pigeon
+#: coronavirus rin35 RNA, nearly complete genome".
 _TITLE_PREFIX = re.compile(
-    r"^(UNVERIFIED:?|UNVERIFIED_ORG:?|TPA:?|TPA_asm:?|MAG:?|Uncultured)\s+", re.IGNORECASE
+    r"^(?:(?:UNVERIFIED_ORG|UNVERIFIED|TPA_asm|TPA|MAG|Mutant|Recombinant|Synthetic|Uncultured)"
+    r"(?:\s*:\s*|\s+))+",
+    re.IGNORECASE,
 )
-#: A name's longest sensible run. "Porcine epidemic diarrhea virus" is 4 words.
-_NAME_MAX_WORDS = 5
+#: A name's longest sensible run. "Severe acute respiratory syndrome coronavirus 2" is 6.
+_NAME_MAX_WORDS = 6
 #: A strain or sample identifier, which follows the organism with no qualifier between:
 #: `HCoVOC43_Fukushima_OR427_2021`, `A/canine/Madison/5/2015`, `PHEV/TN25-P046-NNFL/P`.
-#: Any token holding "_" or "/", or 8 characters or more with a digit in it. Keeps the
-#: short alphanumerics that ARE part of a name -- 229E, OC43, NL63, HKU1.
-_IDENTIFIER = re.compile(r"[_/]|(?=.{8})\w*\d")
+#: Any token holding "_" or "/", both a "-" and a digit, or 8 characters or more with a
+#: digit in it. Keeps the short alphanumerics that ARE part of a name -- 229E, OC43,
+#: NL63, HKU1 -- and never applies to a title's FIRST token, which may be the name
+#: itself: "SARS-CoV-2 isolate Wuhan-Hu-1" is a record of SARS-CoV-2.
+_IDENTIFIER = re.compile(r"[_/]|(?=.{8})\w*\d|(?=.*-)(?=.*\d)")
 #: GenBank's "we cannot place this further". Whatever follows is an isolate code
 #: ("Plasmodium sp. AP30"), so the name ends here: 3,186 of the haemosporidian
 #: archive's 3,873 names were singletons until it did.
 _UNPLACED = {"sp.", "spp.", "cf.", "aff."}
 #: A name whose last word leaves the name open: a virus name may carry one more token.
 _OPEN_ENDED = re.compile(r"virus(es)?$", re.IGNORECASE)
-#: What may complete such a name: a serial, or a short letter-and-digit code.
-_NAME_CODE = re.compile(r"^(?:\d{1,4}|(?=[A-Za-z0-9]{2,6}$)(?=[^\d]*\d)[A-Za-z0-9]+)$")
+#: What may complete such a name: a serial ("Bufonid herpesvirus 1"), or a short
+#: UPPERCASE letter-and-digit code (229E, OC43, NL63, HKU1). Lower case marks a
+#: depositor's isolate code instead -- "Pigeon coronavirus rin35" is one record of
+#: Pigeon coronavirus.
+_NAME_CODE = re.compile(r"^(?:\d{1,4}|(?=[A-Z0-9]{2,6}$)(?=[^\d]*\d)[A-Z0-9]+)$")
 _TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9.-]*[A-Za-z0-9]")
 
 
@@ -139,7 +150,7 @@ def organism(title: str) -> str:
             break
         if _QUALIFIER.match(w.rstrip(".")):
             break
-        if _IDENTIFIER.search(w):
+        if words and _IDENTIFIER.search(w):
             break
         if open_ended:
             # After "... virus" or "... herpesvirus" the next token either completes the
@@ -446,3 +457,68 @@ def split_change(baseline: Sequence[Cell], recent: Sequence[Cell], *, n_boot: in
         mix_ci = (float(np.percentile(mixes, 2.5)), float(np.percentile(mixes, 97.5)))
         within_ci = (float(np.percentile(withins, 2.5)), float(np.percentile(withins, 97.5)))
     return Split(share_b, share_r, share_r - share_b, mix, within, mix_ci, within_ci, n_boot, one_period)
+
+
+# ---- Species, when each first arrived, and what is new (ROADMAP composition step 9) ----
+
+
+@dataclass(frozen=True)
+class SpeciesYear:
+    """One species under an assay's target taxon, and when our archive first saw it."""
+
+    taxid: int | None
+    name: str
+    #: The earliest deposit year IN OUR ARCHIVE. Not the species' first deposit in
+    #: GenBank, and not when it was described: the archive holds what this assay's
+    #: retrieval query returned, so a species may be older than the year printed here.
+    first_year: int
+    records: int
+    #: First seen after the assay's `citation.design_year`, so the designers could not
+    #: have had it in front of them. False whenever the design year is unknown.
+    new_since_design: bool
+
+
+def species_years(
+    rows: Sequence[tuple[int | None, int, str]], taxonomy: Taxonomy, *, design_year: int | None
+) -> list[SpeciesYear]:
+    """``(taxid or None, deposit year, title)`` per record -> one row per species, oldest
+    first, ties by name.
+
+    A taxid is canonicalised and rolled up to its species, so a merged-away id and its
+    current one are one species (11232 -> 3052342), and a no-rank child is its species
+    rather than a species of its own (3139435 "canine distemper virus" under
+    *Morbillivirus canis*) -- the shape that made a species copy look new to the archive
+    before `taxonomy.species_of` existed.
+
+    A record whose metadata carries no taxid, which is most of the archives, is named from
+    its title by `organism` and cannot be rolled up; a taxid the cache does not hold is
+    kept as itself and named from its title. A record with no deposit year cannot date
+    anything and is dropped, which is why the counts here can be below the archive's.
+    """
+    first: dict[tuple[int | None, str], int] = {}
+    counts: Counter[tuple[int | None, str]] = Counter()
+    for taxid, year, title in rows:
+        if year <= 0:
+            continue
+        key_id: int | None = None
+        name = ""
+        if taxid:
+            canon = taxonomy.canonical(taxid)
+            key_id = taxonomy.species_of(canon) or canon
+            name = taxonomy.name.get(key_id, "")
+        if not name:
+            name = organism(title) or (f"taxid {key_id}" if key_id else "unnamed")
+        key = (key_id, name)
+        counts[key] += 1
+        first[key] = min(first.get(key, year), year)
+    out = [
+        SpeciesYear(
+            taxid=key[0],
+            name=key[1],
+            first_year=first[key],
+            records=n,
+            new_since_design=design_year is not None and first[key] > design_year,
+        )
+        for key, n in counts.items()
+    ]
+    return sorted(out, key=lambda s: (s.first_year, s.name))

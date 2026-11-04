@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (161 links).
+    definition links to it (164 links).
     `status` is defined by more than one entry and so
     deliberately not linked.
 
@@ -191,6 +191,8 @@ word for a concept.
 **same-mix line**{: #term-same-mix-line } — an [assay](#term-assay)'s per-year detected share recomputed on the whole period's [lineage](#term-lineage) mix, by direct standardisation (`composition.same_mix_series`). Drawn beside the observed line: where the two diverge, the mix of lineages being deposited moved rather than [detection](#term-detection) within them.
 
 **mix part / within part**{: #term-mix-part-within-part } — the two numbers Kitagawa's decomposition splits a change in detected share into: how much the [lineage](#term-lineage) mix moved, and how much [detection](#term-detection) moved within the lineages (`composition.split_change`). They add to the change exactly. A lineage deposited in only one of the two periods has no within part, so its whole effect is mix.
+
+**new since design**{: #term-new-since-design } — of a species under an [assay](#term-assay)'s [target](#term-target) taxon: first deposited in this assay's [archive](#term-archive) after the year its paper designed it (`composition.species_years`), so the designers could not have had it. Unset where the entry carries no `citation.design_year`.
 
 **manifest**{: #term-manifest } — the [retrieve](#term-retrieve) stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
 

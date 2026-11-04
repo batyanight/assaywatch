@@ -17,10 +17,12 @@ from assaywatch.composition import (
     same_mix_series,
     sample_windows,
     species_mix,
+    species_years,
     split_change,
     title_tokens,
 )
 from assaywatch.subcluster import UNPLACED, Region
+from assaywatch.taxonomy import Taxonomy
 
 
 def _region(acc: str, seq: str, full: bool = True) -> Region:
@@ -167,12 +169,26 @@ def test_a_serial_completes_a_virus_name_but_an_isolate_code_does_not():
         "Bufonid herpesvirus 1 isolate X": "Bufonid herpesvirus 1",
         "Bat coronavirus 1 PREDICT-B56331 RNA-dependent RNA polymerase mRNA": "Bat coronavirus 1",
         "Human coronavirus HKU1 strain Tokyo": "Human coronavirus HKU1",
+        # lower case marks an isolate code, not part of a name
+        "Pigeon coronavirus rin35 RNA, nearly complete genome": "Pigeon coronavirus",
         "Bovine coronavirus SHG-5 RNA, complete genome": "Bovine coronavirus",
         "Bovine coronavirus Mebus, complete genome": "Bovine coronavirus",
         "Rousettus aegyptiacus bat coronavirus 229E-related isolate 5425": "Rousettus aegyptiacus bat coronavirus",
     }
     for title, want in cases.items():
         assert organism(title) == want, title
+
+
+def test_a_strain_code_after_a_binomial_is_not_part_of_the_name():
+    """Found by running the rule over the Chlamydia archive: "Chlamydia psittaci NO-03"
+    and "... YO-02" were two species of their own, both "new since design"."""
+    assert organism("Chlamydia psittaci NO-03 16S ribosomal RNA gene") == "Chlamydia psittaci"
+    assert organism("Chlamydia psittaci YO-02, complete genome") == "Chlamydia psittaci"
+
+
+def test_a_name_that_is_itself_a_code_is_kept():
+    """The rule above must not empty a title whose organism IS hyphenated and numbered."""
+    assert organism("SARS-CoV-2 isolate Wuhan-Hu-1, complete genome") == "SARS-CoV-2"
 
 
 def test_names_differing_only_in_case_are_one_species():
@@ -186,10 +202,26 @@ def test_a_title_with_no_organism_is_not_invented():
     assert organism("UNVERIFIED: Bufonid herpesvirus 1 isolate X") == "Bufonid herpesvirus 1"
 
 
+def test_a_flag_about_the_record_is_not_part_of_the_organism():
+    """Both found over the coronavirus archive, where each was a named species: "TPA_asm"
+    on its own, and a truncated "Mutant Severe acute respiratory syndrome"."""
+    assert organism("TPA_asm:Bat coronavirus isolate X RdRp gene") == "Bat coronavirus"
+    assert organism("TPA_asm: Bat coronavirus isolate X RdRp gene") == "Bat coronavirus"
+    # they stack, and only the first was stripped until this line
+    assert (
+        organism("MAG TPA_asm: Pigeon coronavirus rin35 RNA, nearly complete genome") == "Pigeon coronavirus"
+    )
+    assert (
+        organism("Mutant Severe acute respiratory syndrome coronavirus 2 isolate Y")
+        == "Severe acute respiratory syndrome coronavirus 2"
+    )
+
+
 def test_a_name_stops_before_it_runs_away():
-    """A title with no qualifier at all must not become a sentence."""
+    """A title with no qualifier at all must not become a sentence. Six words, because
+    "Severe acute respiratory syndrome coronavirus 2" is six."""
     long = " ".join(f"Word{i}" for i in range(12))
-    assert len(organism(long).split()) <= 5
+    assert len(organism(long).split()) <= 6
 
 
 # ---- species_mix and cluster_names (step 6) ----
@@ -447,3 +479,78 @@ def test_more_records_narrow_the_interval():
         return s.mix_ci[1] - s.mix_ci[0]
 
     assert width(20) < width(1)
+
+
+# ---- species first years, and what is new since the assay was designed (step 9) ----
+
+
+def _taxonomy() -> Taxonomy:
+    """Morbillivirus canis (3052342) with the old id 11232 merged into it and the no-rank
+    child 3139435 "canine distemper virus" under it, beside a second species. The shape
+    that made a species copy look new to the archive before `species_of` existed."""
+    return Taxonomy(
+        parent={3052342: 11158, 3139435: 3052342, 1891763: 11158, 10632: 1891763, 11158: 1},
+        merged={11232: 3052342},
+        rank={3052342: "species", 1891763: "species", 11158: "genus"},
+        name={
+            3052342: "Morbillivirus canis",
+            3139435: "canine distemper virus",
+            1891763: "Betapolyomavirus secuhominis",
+            10632: "JC polyomavirus",
+            11158: "Morbillivirus",
+        },
+    )
+
+
+def test_a_merged_taxid_and_its_current_id_are_one_species():
+    rows = [(11232, 2015, "x"), (3052342, 2019, "x")]
+    got = species_years(rows, _taxonomy(), design_year=2007)
+    assert [(s.name, s.first_year, s.records) for s in got] == [("Morbillivirus canis", 2015, 2)]
+
+
+def test_a_no_rank_child_is_its_species_not_a_species_of_its_own():
+    rows = [(3139435, 2011, "x"), (3052342, 2018, "x"), (10632, 2020, "y")]
+    got = species_years(rows, _taxonomy(), design_year=2007)
+    assert [(s.name, s.first_year) for s in got] == [
+        ("Morbillivirus canis", 2011),
+        ("Betapolyomavirus secuhominis", 2020),
+    ]
+
+
+def test_new_since_design_means_first_deposited_after_the_design_year():
+    rows = [(3052342, 2007, "x"), (1891763, 2008, "y")]
+    got = {s.name: s.new_since_design for s in species_years(rows, _taxonomy(), design_year=2007)}
+    assert got == {"Morbillivirus canis": False, "Betapolyomavirus secuhominis": True}
+
+
+def test_without_a_design_year_nothing_is_called_new():
+    rows = [(3052342, 2021, "x")]
+    assert [s.new_since_design for s in species_years(rows, _taxonomy(), design_year=None)] == [False]
+
+
+def test_a_record_with_no_taxid_falls_back_to_the_name_in_its_title():
+    """Most archive metadata predates the taxid column, so this is the common case, and
+    such a row cannot be rolled up to a species: it is named as the depositor wrote it."""
+    rows = [(None, 2016, "Chlamydia psittaci strain 84/2334 16S ribosomal RNA gene")]
+    got = species_years(rows, _taxonomy(), design_year=1997)
+    assert [(s.taxid, s.name, s.new_since_design) for s in got] == [(None, "Chlamydia psittaci", True)]
+
+
+def test_a_taxid_the_cache_does_not_hold_is_kept_and_named_from_its_title():
+    rows = [(999999, 2022, "Bufonid herpesvirus 1 isolate X")]
+    got = species_years(rows, _taxonomy(), design_year=2020)
+    assert [(s.taxid, s.name) for s in got] == [(999999, "Bufonid herpesvirus 1")]
+
+
+def test_a_record_with_no_deposit_year_cannot_date_a_species():
+    rows = [(3052342, 0, "x"), (3052342, 2014, "x")]
+    got = species_years(rows, _taxonomy(), design_year=2007)
+    assert [(s.first_year, s.records) for s in got] == [(2014, 1)]
+    assert species_years([(3052342, 0, "x")], _taxonomy(), design_year=2007) == []
+
+
+def test_species_come_back_oldest_first():
+    rows = [(1891763, 2020, "y"), (3052342, 2001, "x"), (999999, 2020, "Aaa bbb")]
+    got = species_years(rows, _taxonomy(), design_year=2007)
+    assert [s.first_year for s in got] == [2001, 2020, 2020]
+    assert [s.name for s in got][1:] == ["Aaa bbb", "Betapolyomavirus secuhominis"]
