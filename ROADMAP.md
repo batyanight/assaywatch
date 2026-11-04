@@ -883,7 +883,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         `test_config_keys` refuses a key nothing reads and `test_settings` refuses a model key
         `config.yaml` lacks, so a key, its model field and its first reader land together. Steps
         1-11 are pure functions taking values as arguments; `composition.build` (step 12) is the
-        first reader. The block, comments and model are drafted in `docs/composition-config-draft.yaml`.
+        first reader. The block, its comments and the model were drafted in
+        `docs/composition-config-draft.yaml`, which steps 12, 14, 15 and 17 emptied key by key;
+        the file is deleted and every `composition:` key now has a reader.
   - [x] 1. `flanked_region` (clipping at ends and N runs, masking, flank recorded). Done 2026-11-03:
         `subcluster.Region` + `flanked_region`, 7 tests in `tests/test_subcluster.py`; a flank keeps
         interior N and drops N at its outer end; no reverse complement (k-mers are canonical).
@@ -1075,7 +1077,25 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         `target.query` alone and got ~964,000 Chlamydia records for 2021. That field is only
         the assay's own term; the retrieval query is `retrieve.build_query(taxid, cfg, term)`,
         which adds `txid<n>[Organism:exp]` and the length filter.
-  - [ ] 18. End to end on the 2026-11-01 run (below); journal entry; INDEX row; CHANGELOG; tick here.
+  - [ ] 18. End to end on the 2026-11-01 run (below); journal entry; INDEX row; CHANGELOG; tick
+        here. **STARTED 2026-11-03 and stopped at 15 minutes of CPU, with two findings that are
+        the reason to do this step at all.**
+        (a) **THE RULE ASKS FOR TOO LITTLE MEMORY.** `rule composition` declares
+        `mem_mb=4000`; the full-registry build was at **5.65 GB resident and still climbing**
+        after 15 minutes. On SLURM, where `resources:` becomes the sbatch request, that job is
+        killed rather than slowed -- the failure the report rule's own comment warns about. The
+        suspect is `graph_records`, which materialises one `GraphRecord` per evaluable row for
+        EVERY assay at once (about 930k objects on this run) while `build` also holds the
+        calls table; the stage processes one assay at a time and has no need of the others'
+        records. Either stream it per assay or measure the peak honestly and declare that.
+        Decide before the first live run: the rule is wired into `all` through `report`.
+        (b) **The build prints nothing until it finishes**, so a run that takes an unknown
+        number of minutes cannot be told from one that has hung. A per-assay progress line on
+        stderr, as `retrieve` and the screen stage already print, is the fix.
+        The verification script is written (the invariant per assay and year, statuses before
+        and after, the Messmer and Haemosporida cases, the site file against its cap) and is
+        NOT in the repository: a one-off analysis is a record, not a tool. Re-create it from
+        this list.
 
   **Verification.**
   - `assaywatch composition results/2026-11-01/calls.tsv.gz --registry registry --retrieved

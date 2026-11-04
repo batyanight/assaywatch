@@ -1,3 +1,50 @@
+# Resume point, 2026-11-03 (the composition stage: 17 of 18 steps, on branch `composition`)
+
+**The branch is `composition`, 21 commits, nothing pushed, every gate green** (pytest, the
+validator, ruff, `check_citations`, claims, `pytest -m slow`, and a new byte-for-byte
+report fixture). `main` carries two commits of its own: the Messmer *C. trachomatis*
+finding and the plan itself. The plan, every decision taken against it and every step's
+result are in `ROADMAP.md` under "Lineage composition over time"; this says only where
+work stopped.
+
+**What the stage is.** It separates "detection within lineages changed" from "a different
+mix of lineages was deposited" for every assay, and it moves no status. Steps 1-17 are
+built and ticked. Step 18 -- the end-to-end run over the whole registry on the
+2026-11-01 calls -- is the only one left, and it was STARTED on 2026-11-03 but not
+finished. It ran 15 minutes of CPU and was stopped on what it had already shown: the
+stage reaches **5.65 GB resident and climbing** where `rule composition` declares
+`mem_mb=4000`, which on SLURM is a killed job, and it prints nothing until it finishes,
+so a long run cannot be told from a hung one. Both are written up under step 18, and the
+memory one wants a decision BEFORE the first live run, because `report` depends on the
+rule and `all` depends on `report`.
+
+**The six interface decisions, and the four the measurements overturned**, are the thing
+to read before touching this. In the roadmap's decisions table: the graph's record set is
+extracted rather than rebuilt (so the panel cannot disagree with the graph above it); one
+clustering, not two; one counter for the coverage series; diverged records are their own
+stratum; the panel's data is a separate capped file; and one fixed cut. The four the plan
+got wrong and measurement corrected: the per-assay widest-gap cut (it fails at
+1,500-2,000 windows), the symmetric window (it fits 1 influenza M record in 89,628), the
+spans read from a table (`read_calls` drops those columns and the screens' `assay_id`
+went stale at the rename), and the module split `pytest -m slow` forced.
+
+**Three findings for a maintainer, none of them about this code.**
+
+1. **The Chlamydia 16S query sees a falling share of its genus.** It returned 27.6% of
+   *Chlamydia*'s 2020 deposits and 0.4% of 2023's -- 14 records of 3,742 -- while the
+   genus's deposits grew 568 to 3,742 (measured 2026-11-03 on `pdat`). The query is
+   title-based under a genus that increasingly deposits genomes, so a verdict on that
+   assay is partly a fact about its query. This is the influenza shape of 2026-10-30, and
+   it is a scope question like the 2026-11-01 sweep's.
+2. **Messmer round 1's LGV serovars separate by sequence.** The clustering, which never
+   sees a call, splits *C. trachomatis* into two clusters, and the smaller one's
+   distinguishing title tokens are `L2f` and `LGV` -- the serovar group that assay fails
+   on every record of. The finding committed to `main` says the same thing from the
+   calls.
+3. **Every cached screen under `results/screened/` still carries the assay ids renamed
+   away on 2026-11-02.** Nothing reading them by `assay_id` finds anything today. The
+   next live run rewrites them, since the signature hashes the registry.
+
 # Resume point, 2026-11-02 (ids renamed, history restarted)
 
 **Every assay id changed today** (`journal/2026-11-02-one-id-scheme.md`). A calls
