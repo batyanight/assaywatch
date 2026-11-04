@@ -105,15 +105,25 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   missed (`Monkeypox_virus_G2R_Li_2010_G2R_WA_F`: 5,235 `fail` rows are `no probe site inside
   amplicon`, which have no position to draw); protocol pages now point at their rounds; and
   tooltips on the 8 pool assays whose bars come from an alternate oligo now say so.
-- [ ] **Check the scope of every assay with very few accessions.** Too few records can mean a
-  rare pathogen or a scope or query that misses the taxon, and the page cannot tell which. On
-  `website/data/run.json` (2026-11-04), counting evaluable records in the recent and baseline
-  windows: 13 assays under 10, 33 under 30, 60 under 100. All 33 under 30 read `insufficient
-  data` or `no recent data`. Lowest: `Elephant_endotheliotropic_herpesvirus_6_POL_Latimer_2012_round2`
-  and `Intranuclear_coccidium_JW_2004_18S_Alvarez_2013` at 1 each. The first scope pass
-  (2026-11-01) checked the `no recent data` group by hand and `insufficient data` by script, so
-  start from `docs/journal/2026-11-01-no-recent-data-scope-check.md` and hand-check what it did
-  not. Feeds the scope report above; the cut-off for "very low" is for the maintainer to set.
+- [x] **Check the scope of every assay with very few accessions.** Done 2026-11-04 for the 33
+  under 30 evaluable records, without reopening papers:
+  `docs/journal/2026-11-04-low-accession-scope-check.md`. 22 are low for honest reasons; the rest
+  are below. The cut-off was a choice: 60 assays sit under 100.
+- [ ] **Do the Serpentovirinae PP1b entries belong, and at what scope?** The three Uccellini 2014
+  entries target the subfamily, while the paper's primers are for ball python nidovirus: 13 of 14
+  detected on that virus, and 96 of 114 calls elsewhere in the subfamily `fail`, which is why two
+  of them read `low coverage`. These are
+  genome-walking primers, so decide first whether they stay in the registry. If they do, scope
+  them, reading `Serpentovirinae sp.` first, since that node may hold the same virus.
+- [ ] **Add *Chlamydia* to `assemblies.taxa`?** The Messmer 16S queries see 9 of 245 recent
+  *C. pneumoniae* records, and 30 complete or chromosome-level assemblies go unused. Also the
+  answer to the falling Chlamydia share in the scope report above. Changes retrieval and calls.
+- [ ] **Add *B. dendrobatidis* to `assemblies.taxa`, and give the Ghosh 2021 mtDNA entries a query?**
+  9,491 records screened for 8 and 9 evaluable, almost all ITS. First test whether the 9
+  assemblies hold the mitochondrial contig.
+- [ ] **What do the calicivirus entries claim?** Reid 1999 and Neill 1995 are scoped to one species
+  and retrieve the whole family, up to 84,874 records for 115 in scope. Read both papers: one
+  species or the marine vesiviruses? Retrieval can narrow to the genus either way.
 - [ ] **Should withheld assays show a mismatch map?** The 14 withheld assays have none, because
   `sitedrift.build` holds them out so they cannot be listed as failing, and their pages stop
   before the charts. That hides real signal (`Lyssavirus_N_Vazquez-Moron_2006_round1`: 10,588
