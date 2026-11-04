@@ -56,3 +56,14 @@ def test_the_command_is_installed_both_ways(how):
         [*how, "validate", str(PENDING), "--pending", "--quiet"], capture_output=True, text=True
     )
     assert r.returncode == 0, r.stderr
+
+
+def test_the_composition_stage_runs_the_producer_and_not_the_model():
+    """`assaywatch composition` is the one stage whose name is not its module's: the
+    producer is `composition_build`, while `composition` holds the model and the file
+    formats every consumer reads without reaching the verdict path. The Snakefile hashes
+    the producer's closure, and `tests/test_triggers.py` resolves the stage through here
+    rather than assuming the two names coincide."""
+    from assaywatch.cli import resolve
+
+    assert resolve("composition") == "assaywatch.composition_build"

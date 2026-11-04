@@ -38,6 +38,13 @@ STAGES: dict[str, tuple[str, str]] = {
     "degeneracy": ("assaywatch.degeneracy", "primer-pool degeneracy per assay"),
     "figures": ("assaywatch.figures", "the report's figures"),
     "report": ("assaywatch.report", "render report.md and report.html from a calls table"),
+    # The producer, not `assaywatch.composition`: that module is the model, the
+    # statistics and the two file formats, and every consumer reads it without
+    # reaching the verdict path (see composition_build's docstring).
+    "composition": (
+        "assaywatch.composition_build",
+        "how each assay's record mix changes over time: clusters, the same-mix line, the split",
+    ),
     # The website, in two phases on purpose: `site` reads the calls table and the
     # archives and writes one JSON file; `site-render` turns that file into pages
     # and needs neither. That is what lets CI rebuild the site without the 9 GB of

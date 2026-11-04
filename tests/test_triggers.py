@@ -207,6 +207,7 @@ def test_the_screening_code_list_is_derived_not_hand_kept():
         ("degeneracy_table", "degeneracy", '_DEGENERACY_PARAMS["code"]'),
         ("site_drift", "sitedrift", '_SITEDRIFT_PARAMS["code"]'),
         ("figures", "figures", '_FIGURES_PARAMS["code"]'),
+        ("composition", "composition_build", '_COMPOSITION_PARAMS["code"]'),
     ],
 )
 def test_every_downstream_rule_carries_a_hash_of_its_code_as_a_param(rule, module, uses):
@@ -237,9 +238,19 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         "site_drift": "sitedrift",
         "lineage_analysis": "lineage_report",
         "figures": "figures",
+        # The one stage whose name is not its module's: `assaywatch composition` runs
+        # `composition_build`, the producer, while `composition` is the model and the file
+        # formats that every consumer reads (see composition_build's docstring). The
+        # module below comes from `cli.resolve`, so this test asks the CLI rather than
+        # assuming the two always coincide.
+        "composition": "composition_build",
     }
+    from assaywatch.cli import resolve
+
     for rule, block in rule_blocks(SNAKEFILE).items():
-        for module in (m.replace("-", "_") for m in re.findall(_STAGE_CALL, block)):
+        for stage in re.findall(_STAGE_CALL, block):
+            resolved = resolve(stage) or ""
+            module = resolved.rsplit(".", 1)[-1] or stage.replace("-", "_")
             assert rule in exempt or hashed.get(rule) == module, (
                 f"rule {rule!r} runs assaywatch.{module} but nothing hashes it: add a params hash "
                 "(see _package_hash in the Snakefile) or exempt it here with a reason"
@@ -354,7 +365,7 @@ def _edited(tree: Path, relative: str, new_text):
         (
             "assaywatch/collect.py",
             lambda s: s + "\n# edited\n",
-            {"collect_calls", "report", "lineage_analysis", "site_drift", "figures"},
+            {"collect_calls", "report", "lineage_analysis", "site_drift", "figures", "composition"},
         ),
         # site_drift selects assays by drift status, so it imports drift.py and report.py
         # figures imports drift.py and report.py (shared colours/constants, its own
@@ -365,9 +376,20 @@ def _edited(tree: Path, relative: str, new_text):
         (
             "assaywatch/drift.py",
             lambda s: s + "\n# edited\n",
-            {"report", "site_drift", "figures", "lineage_analysis"},
+            {"report", "site_drift", "figures", "lineage_analysis", "composition"},
         ),
-        ("assaywatch/report.py", lambda s: s + "\n# edited\n", {"report", "site_drift", "figures"}),
+        # report.py joined lineage_analysis's set again on 2026-11-03, and through a
+        # different mechanism than before: lineage.md's cluster section reads
+        # composition.json, and the composition stage imports report.py for
+        # `assessment_inputs` and `load_calls_as_reported` -- the sharing decision A asked
+        # for, so that the panel under a graph is built from the records the graph counts.
+        # So this is a DATA dependency now, not the stray import the module split removed:
+        # a change to report.py can change composition.json, which can change lineage.md.
+        (
+            "assaywatch/report.py",
+            lambda s: s + "\n# edited\n",
+            {"report", "site_drift", "figures", "composition", "lineage_analysis"},
+        ),
         # schema.py and validate.py once rescreened nothing
         (
             "assaywatch/schema.py",
@@ -380,6 +402,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "lineage_analysis",
                 "site_drift",
                 "figures",
+                "composition",
             },
         ),
         (
@@ -393,6 +416,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "lineage_analysis",
                 "site_drift",
                 "figures",
+                "composition",
             },
         ),
         # a module no rule runs or imports reruns nothing
@@ -401,7 +425,9 @@ def _edited(tree: Path, relative: str, new_text):
         (
             "config.yaml",
             lambda s: s.replace("min_records_for_coverage: 10", "min_records_for_coverage: 11"),
-            {"report", "site_drift", "figures"},
+            # composition hashes the drift block too: it reads the records the graph is
+            # built from, and the window and the scope filter decide which those are.
+            {"report", "site_drift", "figures", "composition", "lineage_analysis"},
         ),
         # the per-lineage check can override a verdict, so the report reads it too
         (
@@ -421,6 +447,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "lineage_analysis",
                 "site_drift",
                 "figures",
+                "composition",
             },
         ),
     ],
@@ -465,6 +492,9 @@ def test_editing_an_assay_nothing_screens_still_refreshes_the_degeneracy_table_a
             "site_drift",
             "lineage_analysis",
             "figures",
+            # composition reads every assay too -- its window shape, its oligos and its
+            # design year all come from the entry -- and names no registry input either.
+            "composition",
         }
     finally:
         restore()

@@ -152,6 +152,15 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   The rounds share no oligo. The schema has no description field, so choose where it goes
   (`name` or `source.notes`). All three entries still have `nested_round: null`; declare the
   nest in the same change.
+- **`Haemosporida_cytb_Hellgren_2004_HaemNFI` carries a wrong `oligos_not_in_cited_paper`
+  flag** (noted 2026-11-03). Batya read Hellgren 2004 and the oligos are in it, as the entry's
+  `notes_curator` already records; the flag's note is about the product size, since the paper's
+  617 bp belongs to HaemNF/HaemNR2. Remove the flag, set `amplicon_bp` from 617 to the measured
+  618, add `amplicon_measured_not_published` (the paper gives no size for this pair) and a dated
+  correction in `notes_curator`. A size change may move calls, so rescreen and compare.
+  `tests/test_report.py:522-531` uses this entry as its example of a displayed flag and fails
+  once the flag is gone; switch it to `Salmonella_enterica_invA_Rahn_1992`. Do this before the
+  nest above is declared, or its protocols inherit the wrong flag.
 - **The `pending/` Hantavirus S-segment trio's nesting cannot be read from its ids**
   (`_S_segment_2` 532 bp, `_round2` 236, `_round2_2` 417). Declare `nested_family` and
   `nested_round` on each before any is promoted.
@@ -1027,7 +1036,21 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         because they are not lineages. (b) The plan's "undetected part lighter" is NOT drawn:
         lightness already carries cluster identity, and one channel cannot carry two meanings.
         Per-cluster detection is in each segment's tooltip and in `lineage.md`.
-  - [ ] 16. Snakefile rules and CLI. **slow.**
+  - [x] 16. Snakefile rules and CLI. **Done 2026-11-03** for the `composition` rule;
+        `retrieval_coverage` belongs to step 17, which needs the network. `assaywatch
+        composition` (the stage whose name is NOT its module's: it runs `composition_build`,
+        and `tests/test_triggers.py` now resolves a stage through `cli.resolve` rather than
+        assuming the two coincide), `rule composition` with `_COMPOSITION_PARAMS` hashing
+        `source_names("composition_build")` and the `composition`/`drift`/`scoring`/`amplicon`
+        config blocks, and `composition.json` as a HARD INPUT of both `report` and
+        `lineage_analysis`, so a section and the tables beside it always come from one run.
+        `snakemake -n` plans it between `collect_calls` and the two consumers.
+        **Nine trigger expectations updated, each with its reason, and one is worth knowing:**
+        editing `report.py` reruns `lineage_analysis` again -- not through the stray import the
+        step 13 split removed, but through a DATA dependency, since `lineage.md`'s cluster
+        section reads `composition.json` and the stage imports `report` for
+        `assessment_inputs`. That is the price of decision A, and it is the honest one: the
+        panel under a graph has to be built from the records the graph counts.
   - [ ] 17. `year_counts` with a fake transport (queries, cache, refresh, offline); then a
         network smoke test and a datetype calibration on the Mac.
   - [ ] 18. End to end on the 2026-11-01 run (below); journal entry; INDEX row; CHANGELOG; tick here.

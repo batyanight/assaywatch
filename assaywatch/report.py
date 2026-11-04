@@ -2969,6 +2969,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--run-date", default=None)
     ap.add_argument(
+        "--composition",
+        type=Path,
+        help="composition.json from the composition stage; adds the 'where the mix moved' section",
+    )
+    ap.add_argument(
         "--figures",
         type=Path,
         default=None,
@@ -2978,7 +2983,13 @@ def main(argv: list[str] | None = None) -> int:
 
     cfg = load_config(args.config)
     md, page, drifts, _nests = build(
-        args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date, figures_dir=args.figures
+        args.calls,
+        args.registry,
+        args.retrieved,
+        cfg,
+        run_date=args.run_date,
+        figures_dir=args.figures,
+        composition=args.composition,
     )
     args.out.mkdir(parents=True, exist_ok=True)
     atomic.write_text(args.out / "report.md", md)

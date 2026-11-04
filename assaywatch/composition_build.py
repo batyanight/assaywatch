@@ -299,3 +299,34 @@ def build(
         out[assay_id] = build_assay(assay, rows, cfg, seqs, titles, inputs["taxonomy"], opts)
     del coverage  # step 17
     return CompositionRun(run_date=run_date, assays=out)
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    import sys
+
+    from assaywatch.composition import write
+    from assaywatch.score import load_config
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("calls", type=Path, help="Calls table (TSV.GZ) of one run")
+    ap.add_argument("--registry", type=Path, default=Path("registry"))
+    ap.add_argument("--retrieved", type=Path, default=Path("data/retrieved"))
+    ap.add_argument("--config", type=Path, default=None)
+    ap.add_argument("--run-date", default=None)
+    ap.add_argument("--out", type=Path, required=True, help="where composition.tsv/.json go")
+    args = ap.parse_args(argv)
+
+    cfg = load_config(args.config)
+    run = build(args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date)
+    tsv, js = write(run, args.out)
+    placed = sum(1 for a in run.assays.values() if any(c.id >= 0 for c in a.clusters))
+    print(
+        f"{tsv} and {js}: {len(run.assays)} assays, {placed} with at least one cluster",
+        file=sys.stderr,
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

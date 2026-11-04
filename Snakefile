@@ -274,6 +274,14 @@ _LINEAGE_PARAMS = {
     "code": _package_hash(*source_names("lineage_report")),
     "inputs": _registry_and_config_hash("lineage"),
 }
+# The composition stage reads the records the GRAPH is built from (`drift.graph_records`),
+# places its window with the widest site search any chemistry may use (`scoring`,
+# `amplicon`), and clusters under its own block, so a change to any of the four changes
+# what it says.
+_COMPOSITION_PARAMS = {
+    "code": _package_hash(*source_names("composition_build")),
+    "inputs": _registry_and_config_hash("composition", "drift", "scoring", "amplicon"),
+}
 # figures.py runs both assessments itself rather than parsing the rendered
 # documents, so it depends on everything either of them depends on. source_names
 # follows the imports and picks that up without the list being kept by hand.
@@ -676,6 +684,7 @@ rule lineage_analysis:
     """
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        composition=RESULTS / RUN_DATE / "composition.json",
     output:
         md=RESULTS / RUN_DATE / "lineage.md",
     params:
@@ -693,7 +702,8 @@ rule lineage_analysis:
         runtime=60,
     shell:
         "assaywatch lineage-report {input.calls} "
-        "--retrieved {RETRIEVED} --config {CONFIG_EFFECTIVE} --registry {REGISTRY} --out {RESULTS}/{RUN_DATE}"
+        "--retrieved {RETRIEVED} --config {CONFIG_EFFECTIVE} --registry {REGISTRY} "
+        "--out {RESULTS}/{RUN_DATE} --composition {input.composition}"
 
 
 rule degeneracy_table:
@@ -741,6 +751,45 @@ rule figures:
         "--config {CONFIG_EFFECTIVE}"
 
 
+rule composition:
+    """How each assay's record mix changes over time, beside its detection graph.
+
+    REPORT-ONLY: no status comes from this stage (ROADMAP "Lineage composition over
+    time"). It clusters each assay's records by sequence over the amplicon and its flanks
+    with the oligo sites masked, so a lineage here is defined by sequence the assay does
+    not measure, and reports what the mix did per deposit year against what detection did
+    within it.
+
+    It takes the records `drift.assess` counts, through `report.assessment_inputs` and
+    `drift.graph_records`, so the panel under a graph and the graph cannot disagree about
+    which records exist.
+    """
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        # scope ancestry and the species roll-up: both change which records are counted
+        # and what a cluster is named, exactly as they do for the report.
+        taxonomy=config["drift"]["scope_taxonomy"],
+    output:
+        tsv=RESULTS / RUN_DATE / "composition.tsv",
+        json=RESULTS / RUN_DATE / "composition.json",
+    params:
+        code=_COMPOSITION_PARAMS["code"],
+        inputs=_COMPOSITION_PARAMS["inputs"],
+    # MEMORY AND TIME. The calls table as `report.load_calls_as_reported` reads it (1-1.5
+    # GB, see the report rule), plus one assay's windows at a time: at `sample_cap` 2000
+    # and a window of about 1 kb the k-mer matrix is tens of MB, and it is freed per
+    # assay. The time goes on the archives: every assay's FASTA is read once to cut its
+    # windows, which is the same I/O the screen stage does, and `_place_window` adds about
+    # 0.2 ms a record (measured 2026-11-03).
+    resources:
+        mem_mb=4000,
+        runtime=240,
+    shell:
+        "assaywatch composition {input.calls} --registry {REGISTRY} "
+        "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
+        "--config {CONFIG_EFFECTIVE}"
+
+
 rule report:
     """Per-assay drift status, coverage gaps, and the degeneracy caveat beside both."""
     input:
@@ -751,6 +800,9 @@ rule report:
         # with a figure from an earlier run beside this run's tables.
         forest=RESULTS / RUN_DATE / "figures" / "forest.svg",
         sites=RESULTS / RUN_DATE / "figures" / "site-positions.svg",
+        # The lineage-mix lens. A hard input, so the section and the tables beside it
+        # always come from one run.
+        composition=RESULTS / RUN_DATE / "composition.json",
     output:
         md=RESULTS / RUN_DATE / "report.md",
         html=RESULTS / RUN_DATE / "report.html",
@@ -770,4 +822,5 @@ rule report:
     shell:
         "assaywatch report {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
-        "--figures {RESULTS}/{RUN_DATE}/figures --config {CONFIG_EFFECTIVE}"
+        "--figures {RESULTS}/{RUN_DATE}/figures --config {CONFIG_EFFECTIVE} "
+        "--composition {input.composition}"
