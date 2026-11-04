@@ -1,51 +1,50 @@
 # Known limitations
 
-Reference for assessing how much weight a status will bear. Registry counts
+Use this page to judge how much weight a status can carry. Registry counts
 describe 2026-10-31; figures derived from a run carry that run's date.
 
 ---
 
 ## Summary
 
-A status indicates where to direct attention; it is not a result.
+A status tells you where to look. It is not a result.
 
-Measured against assays whose field performance was subsequently published,
-**4 of 10 `declining` calls corresponded to documented failures** — 40%, with a
+Measured against assays whose field performance was published later,
+**4 of 10 `declining` calls matched a documented failure**: 40%, with a
 95% credible interval of 15% to 70%. Every headline figure in the validation
-spans 25 to 50 percentage points, reflecting the small number of published
-follow-up reports available.
+spans 25 to 50 percentage points, because few published follow-up reports
+exist.
 
 ## Threshold provenance
 
-Nineteen numeric thresholds determine every verdict. All but one were set by
-inspection rather than derived from data. Each is documented at its definition
+Nineteen numeric thresholds decide every verdict. All but one were set by
+inspection rather than derived from data. Each is documented where it is defined
 in [`config.yaml`](https://github.com/batyanight/assaywatch/blob/main/config.yaml),
-together with its justification or an explicit statement that none exists.
+with its justification or a plain statement that there is none.
 
-The 90% detection threshold is the clearest instance. It expresses a judgement
-about tolerable surveillance loss rather than a property of PCR: an assay
-missing 1 in 10 targets remains adequate for prevalence estimation and
-inadequate for excluding infection in an individual animal. The appropriate
-value depends on application, which is why it is stated explicitly rather than
-embedded in code.
+The 90% detection threshold is the clearest case. It is a judgement about how
+much surveillance loss is tolerable, not a property of PCR. An assay that misses
+1 in 10 targets still works for estimating prevalence and does not work for
+ruling out infection in an individual animal. The right value depends on the
+application, which is why it is stated openly and not buried in code.
 
 The exception is the 5-percentage-point minimum decline, which has independent
 regulatory precedent. FDA's *Policy for Evaluating Impact of Viral Mutations on
 COVID-19 Tests (Revised)* (January 2023, docket FDA-2020-D-0987) advises
 developers to act where mutations "reduce performance by 5% or more". Two
-qualifications apply: the policy is tied to the COVID-19 emergency declaration,
-and it does not specify whether its 5% is absolute or relative, whereas the
-threshold used here is in percentage points.
+caveats: the policy is tied to the COVID-19 emergency declaration, and it does
+not say whether its 5% is absolute or relative, whereas the threshold used here
+is in percentage points.
 
 ## Methodological limitations
 
 ### Censoring is correlated with the quantity being estimated
 
 A record in which one primer has diverged is scored as a failure. A record in
-which both have diverged yields no product and is excluded from the denominator
+which both have diverged yields no product and is left out of the denominator
 entirely. On the 2026-10-31 run, **48.4% of 3.04 million screened
-assay–record pairs did not reach the statistics**, and `no_site` — no credible
-binding site for either primer — accounts for 42.8% of all rows on its own.
+assay–record pairs did not reach the statistics**, and `no_site` (no credible
+binding site for either primer) accounts for 42.8% of all rows on its own.
 Each assay page reports the proportion for its own assay.
 
 This is the limitation most open to challenge. It may not be correctable
@@ -53,8 +52,8 @@ without changing the estimand.
 
 ### Records are not independent observations
 
-Identical primer-site patterns are de-duplicated, but population structure
-beyond that is not observable. Confidence intervals computed on record counts
+Identical primer-site patterns are de-duplicated, but any population structure
+beyond that cannot be observed. Confidence intervals computed on record counts
 are therefore narrower than the evidence supports. Where a trend is reported it
 is given twice: by record, which overstates the evidence, and by distinct
 binding-site pattern, which understates it. Under that correction, assays with
@@ -63,38 +62,37 @@ reversed direction.
 
 ### A two-window contrast cannot detect decline from a floor
 
-Where an assay already scores as non-detecting under the applied rules,
-subsequent divergence produces no measurable fall. This is not hypothetical: it
-accounts for one of the two genuine drift cases in the held-out material being
-missed. See [validation](validation.md).
+If an assay already scores as non-detecting under the applied rules, further
+divergence produces no measurable fall. This is not hypothetical: it is why one
+of the two genuine drift cases in the held-out material was missed. See
+[validation](validation.md).
 
 ### Tiled amplicon schemes are out of scope
 
-ARTIC-style schemes require a model of multiple amplicons reporting dropout
-rather than one assay per primer pair.
+ARTIC-style schemes need a model of multiple amplicons that reports dropout,
+not one assay per primer pair.
 
 ## Work blocked on unavailable evidence
 
-Listed so that these are not mistaken for outstanding tasks.
+These are listed so that nobody mistakes them for outstanding tasks.
 
-- **A per-record statistical model** would require at least 40 documented
+- **A per-record statistical model** would need at least 40 documented
   within-family negatives across several independent publications; 11 are
   available. A model fitted on 11 would not be defensible, so the constraint is
-  the literature rather than the method.
-- **Two scoring parameters cannot be resolved from available bench evidence**:
-  one relabels records in a manner a gel cannot distinguish; the other could
-  only be fitted on the data reserved for evaluating it.
-- **Ten assays await a verifiable citation** and are neither screened nor
-  published until one exists. Two are unpublished protocol oligonucleotides and
-  will remain so.
+  the literature, not the method.
+- **Two scoring parameters cannot be resolved from the bench evidence available**: one relabels records in a way a gel cannot distinguish; the other
+  could only be fitted on the data reserved for evaluating it.
+- **Ten assays are waiting for a verifiable citation.** They are neither
+  screened nor published until one exists. Two are unpublished protocol
+  oligonucleotides and will stay that way.
 
 ## Outstanding curation
 
-These require assessment of source publications rather than further
-development.
+These need someone to read the source publications. More development will not
+clear them.
 
 A note on the curation flags, because the raw count misleads. 158 of the 218
-entries carry one, 236 in total — but **219 of those are disclosures, not
+entries carry one, 236 in total, but **219 of those are disclosures, not
 defects**: an oligo read from a figure, an amplicon measured rather than
 published, a scope narrower than the taxid. They are true, and they will never
 clear. Only **17 are open questions** a reader could close, and those are the
@@ -111,19 +109,19 @@ ones listed here.
 ## Execution frequency
 
 The schedule is installed on a single workstation. "Re-screened weekly"
-describes tooling in this repository, not a hosted service. Current figures for
-a specific assay require either a local run or a request.
+describes the tooling in this repository, not a hosted service. For current
+figures on a specific assay, you need either a local run or a request.
 
 ## Registry assurances
 
 - 216 entries, each citing a publication whose DOI has been confirmed against
   Crossref. An assay without one is not published here.
-- Oligonucleotide sequences and product sizes are verified against GenBank
+- Oligonucleotide sequences and product sizes are checked against GenBank
   records and the source publication's own table before entry. Where a measured
-  product length disagrees with the published value, the entry retains the
+  product length disagrees with the published value, the entry keeps the
   measured value and records the discrepancy.
-- 19 assays carry no status, because a property of the entry would render a
-  verdict misleading — a chemistry the scoring does not model, or a readout
-  other than amplification. Those pages state the reason in place of a figure.
+- 19 assays carry no status, because something about the entry would make a
+  verdict misleading: a chemistry the scoring does not model, or a readout
+  other than amplification. Those pages give the reason in place of a figure.
 
 Reports of entries that misrepresent a published assay are welcome.

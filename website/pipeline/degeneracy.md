@@ -1,12 +1,11 @@
 # degeneracy
 
 Computed from the oligonucleotide sequences alone, with no sequence database
-involved, which is why it derives from the registry rather than the calls
-table.
+involved. That is why it comes from the registry and not the calls table.
 
 A degenerate primer is a mixture, and the number of distinct molecules in that
 mixture dilutes the species matching any given template. This stage reports
-pool size per assay and flags extreme cases; the largest in the registry
+pool size per assay and flags extreme cases. The largest in the registry
 exceeds 10⁹ combinations.
 
 It is **reported and never scored**. A degenerate base covering the record's

@@ -30,7 +30,7 @@
 
 **insufficient data** — too few evaluable records to support an estimate; reported, never flagged
 
-Every value the call was derived from, permitting manual recomputation:
+Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
@@ -41,7 +41,7 @@ Change from baseline, Newcombe interval: **-65.8% to 27.8%**. Threshold: **90.0%
 
 *2 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on*
 
-From the 2026-11-01 run. A status indicates where to direct attention rather than establishing a result; [known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 ## Predicted detection by deposit year
 
@@ -49,21 +49,20 @@ From the 2026-11-01 run. A status indicates where to direct attention rather tha
 
 ## Mismatch distribution
 
-Each oligonucleotide drawn base by base, 5′ to 3′. The shaded region is the one the
-scoring penalizes more heavily, and it differs by oligonucleotide: for a primer the
-3′ window, where a mismatch sits in the polymerase’s catalytic site; for a probe the
-central third, since a hydrolysis probe is never extended — its 3′ end carries the
-quencher and it is cleaved by exonuclease activity, so what matters is duplex
-stability. Bar height is the proportion of records differing at that position; bar
-color is the consequence, measured as the fall in detection between records
-differing there and those not:
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
 <span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
 <span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect — variation the assay tolerates</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-Counts are available on hover. A tall gray bar indicates a tolerated polymorphism; a
-short red bar indicates a position of consequence.
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 422 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">EB4P-B2</text><rect class="aw-zone" x="329.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="404.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">A</text><text class="aw-base" x="126.5" y="57">T</text><text class="aw-base" x="141.5" y="57">C</text><text class="aw-base" x="156.5" y="57">C</text><text class="aw-base" x="171.5" y="57">T</text><text class="aw-base" x="186.5" y="57">G</text><text class="aw-base" x="201.5" y="57">G</text><text class="aw-base" x="216.5" y="57">C</text><text class="aw-base" x="231.5" y="57">G</text><text class="aw-base" x="246.5" y="57">C</text><text class="aw-base" x="261.5" y="57">A</text><text class="aw-base" x="276.5" y="57">G</text><text class="aw-base" x="291.5" y="57">C</text><text class="aw-base" x="306.5" y="57">T</text><text class="aw-base" x="321.5" y="57">G</text><text class="aw-base" x="336.5" y="57">C</text><text class="aw-base" x="351.5" y="57">T</text><text class="aw-base" x="366.5" y="57">G</text><text class="aw-base" x="381.5" y="57">A</text><text class="aw-base" x="396.5" y="57">C</text><text class="aw-tick" x="396.5" y="71">1</text><text class="aw-tick" x="336.5" y="71">5</text><text class="aw-tick" x="261.5" y="71">10</text><text class="aw-tick" x="186.5" y="71">15</text><text class="aw-tick" x="111.5" y="71">20</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="408" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">EB4P-A1</text><rect class="aw-zone" x="314.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="389.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">C</text><text class="aw-base" x="126.5" y="139">G</text><text class="aw-base" x="141.5" y="139">T</text><text class="aw-base" x="156.5" y="139">T</text><text class="aw-base" x="171.5" y="139">G</text><text class="aw-base" x="186.5" y="139">A</text><text class="aw-base" x="201.5" y="139">A</text><text class="aw-base" x="216.5" y="139">G</text><text class="aw-base" x="231.5" y="139">G</text><text class="aw-base" x="246.5" y="139">T</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">C</text><text class="aw-base" x="306.5" y="139">G</text><text class="aw-base" x="321.5" y="139">C</text><text class="aw-base" x="336.5" y="139">A</text><text class="aw-base" x="351.5" y="139">G</text><text class="aw-base" x="366.5" y="139">A</text><text class="aw-base" x="381.5" y="139">T</text><text class="aw-tick" x="381.5" y="153">1</text><text class="aw-tick" x="321.5" y="153">5</text><text class="aw-tick" x="246.5" y="153">10</text><text class="aw-tick" x="171.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">19</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="393" y="139">3′</text></svg>
 <p class="aw-empty">No position carried a mismatch in enough records to report.</p>
@@ -78,14 +77,14 @@ Retrieval query:
 (txid548913[Organism:exp] OR txid548914[Organism:exp] OR txid3060652[Organism:exp] OR txid3050274[Organism:exp]) AND ("DNA polymerase"[Title] OR U38[Gene] OR POL[Gene] OR "complete genome"[Title] OR "partial genome"[Title])
 ```
 
-A retrieval query is a claim about the population against which the assay is evaluated, and it can cease to be accurate without producing an error; see [scope and retrieval](../scoping.md).
+A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 
 ## Records reaching the statistics
 
 26 records were screened for this assay and **12 (46%)** were evaluable, meaning both primers landed in the right orientation and size range. 14 produced no amplicon at all.
 
-This is material because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
@@ -103,10 +102,9 @@ Added 2026-10-06 from Latimer et al.
 
 ## Corrections
 
-If this entry misrepresents the assay, that is a defect and a report is
-welcome — particularly from the group that designed it. The sequences,
-the product size and the scope are all curated from the paper and can be
-wrong.
+If this entry misrepresents the assay, that is a bug and a report is welcome,
+especially from the group that designed it. The sequences, the product size and
+the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round2%3A%20&body=Entry%3A%20Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round2/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>

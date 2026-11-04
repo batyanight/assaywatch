@@ -91,9 +91,11 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 
 ## Website and review (asked for 2026-11-04)
 
-- [ ] **Humanize the website's language.** Rewrite the prose on the site (`website/*.md`
-  and the sentences `assaywatch/site_render.py` generates for each assay page) so it reads
-  as written by a person for a diagnostician, without changing any number or claim.
+- [x] **Humanize the website's language.** Done 2026-11-04: the home page first, with the voice
+  approved, then every other hand-written page and the sentences `site_render.py` generates. A
+  script compared each page with its previous version: every number, link, code span and heading
+  count is unchanged. Keep the voice when adding text; the composition sentences get read again
+  when those pages go live.
 - [x] **Check every assay's primer graph, then fix the broken ones.** Done 2026-11-04 over
   every assay in `website/data/run.json`. The bars themselves were right: every one lands on its own oligo and base,
   which `tests/test_site.py::test_every_bar_in_the_run_lands_on_the_oligo_it_belongs_to` now

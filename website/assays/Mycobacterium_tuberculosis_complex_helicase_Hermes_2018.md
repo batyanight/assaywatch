@@ -29,11 +29,11 @@
 
 !!! warning "No status is reported for this assay"
 
-    A property of this entry would render a predicted-detection figure
+    Something about this entry would make a predicted-detection figure
     misleading: a chemistry this scoring does not model, or a readout other
     than amplification. The sequences were screened and still appear in the
-    tables below that do not depend on a verdict. The verdict is withheld
-    deliberately, rather than presented with a caveat attached.
+    tables below that do not depend on a verdict. The verdict is withheld on
+    purpose, rather than shown with a caveat attached.
 
     - **`citation_unresolved`** — oligos come from an uncitable source (anonymous, 2017)
 
@@ -48,7 +48,7 @@ Retrieval query:
 helicase[Title]
 ```
 
-A retrieval query is a claim about the population against which the assay is evaluated, and it can cease to be accurate without producing an error; see [scope and retrieval](../scoping.md).
+A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 Disclosures on this entry: `citation_unresolved`.
 
@@ -61,10 +61,9 @@ Added 2026-10-05 from the paper's S1 Table, which is a supplementary DOCX rather
 
 ## Corrections
 
-If this entry misrepresents the assay, that is a defect and a report is
-welcome — particularly from the group that designed it. The sequences,
-the product size and the scope are all curated from the paper and can be
-wrong.
+If this entry misrepresents the assay, that is a bug and a report is welcome,
+especially from the group that designed it. The sequences, the product size and
+the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Mycobacterium_tuberculosis_complex_helicase_Hermes_2018%3A%20&body=Entry%3A%20Mycobacterium_tuberculosis_complex_helicase_Hermes_2018%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Mycobacterium_tuberculosis_complex_helicase_Hermes_2018/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>

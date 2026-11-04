@@ -28,11 +28,11 @@
 
 !!! warning "No status is reported for this assay"
 
-    A property of this entry would render a predicted-detection figure
+    Something about this entry would make a predicted-detection figure
     misleading: a chemistry this scoring does not model, or a readout other
     than amplification. The sequences were screened and still appear in the
-    tables below that do not depend on a verdict. The verdict is withheld
-    deliberately, rather than presented with a caveat attached.
+    tables below that do not depend on a verdict. The verdict is withheld on
+    purpose, rather than shown with a caveat attached.
 
     - **`not_validated`**
 
@@ -61,10 +61,9 @@ PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact matc
 
 ## Corrections
 
-If this entry misrepresents the assay, that is a defect and a report is
-welcome — particularly from the group that designed it. The sequences,
-the product size and the scope are all curated from the paper and can be
-wrong.
+If this entry misrepresents the assay, that is a bug and a report is welcome,
+especially from the group that designed it. The sequences, the product size and
+the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Lyssavirus_N_Vazquez-Moron_2006_round2%3A%20&body=Entry%3A%20Lyssavirus_N_Vazquez-Moron_2006_round2%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Lyssavirus_N_Vazquez-Moron_2006_round2/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>

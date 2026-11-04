@@ -30,7 +30,7 @@
 
 **stable** — the recent interval does not fall below the threshold
 
-Every value the call was derived from, permitting manual recomputation:
+Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
@@ -43,34 +43,33 @@ Change from baseline, Newcombe interval: **-19.5% to 3.9%**. Threshold: **90.0%*
 
 Trend across deposit years: by record falling (p = 0.545, 22 years); by footprint falling (p = 0.181). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status indicates where to direct attention rather than establishing a result; [known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 ## Predicted detection by deposit year
 
-The proportion of deposited sequence this assay is predicted to detect, by year of
+The share of deposited sequence this assay is predicted to detect, by year of
 deposit. The shaded band marks the recent window and the dashed line the threshold.
-Marker size encodes the number of records behind each point, since 100% of three
-records and 100% of three thousand are not equivalent claims.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
 
 <svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1995 to 2026, against a 90 percent threshold."><rect class="aw-window" x="663.3" y="12.0" width="42.7" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-line aw-stable" points="44.0,20.2 65.4,20.2 214.8,20.2 236.2,20.2 278.9,20.2 343.0,20.2 364.3,20.2 385.7,20.2 428.4,20.2 449.7,20.2 471.1,20.2 492.5,183.8 513.8,74.7 535.2,20.2 556.5,20.2 577.9,20.2 599.2,20.2 620.6,20.2 641.9,26.1 663.3,28.0 684.6,20.2 706.0,30.4"/><g class="aw-point aw-stable"><title>1995: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>1996: 2 of 2 detected (100.0%)</title><circle cx="65.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2003: 3 of 3 detected (100.0%)</title><circle cx="214.8" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2004: 2 of 2 detected (100.0%)</title><circle cx="236.2" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2006: 3 of 3 detected (100.0%)</title><circle cx="278.9" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2009: 9 of 9 detected (100.0%)</title><circle cx="343.0" cy="20.2" r="3.2"/></g><g class="aw-point aw-stable"><title>2010: 3 of 3 detected (100.0%)</title><circle cx="364.3" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2011: 1 of 1 detected (100.0%)</title><circle cx="385.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2013: 2 of 2 detected (100.0%)</title><circle cx="428.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2014: 7 of 7 detected (100.0%)</title><circle cx="449.7" cy="20.2" r="3.0"/></g><g class="aw-point aw-stable"><title>2015: 8 of 8 detected (100.0%)</title><circle cx="471.1" cy="20.2" r="3.1"/></g><g class="aw-point aw-stable"><title>2016: 0 of 1 detected (0.0%)</title><circle cx="492.5" cy="183.8" r="2.5"/></g><g class="aw-point aw-stable"><title>2017: 4 of 6 detected (66.7%)</title><circle cx="513.8" cy="74.7" r="3.0"/></g><g class="aw-point aw-stable"><title>2018: 16 of 16 detected (100.0%)</title><circle cx="535.2" cy="20.2" r="3.6"/></g><g class="aw-point aw-stable"><title>2019: 16 of 16 detected (100.0%)</title><circle cx="556.5" cy="20.2" r="3.6"/></g><g class="aw-point aw-stable"><title>2020: 6 of 6 detected (100.0%)</title><circle cx="577.9" cy="20.2" r="3.0"/></g><g class="aw-point aw-stable"><title>2021: 14 of 14 detected (100.0%)</title><circle cx="599.2" cy="20.2" r="3.5"/></g><g class="aw-point aw-stable"><title>2022: 8 of 8 detected (100.0%)</title><circle cx="620.6" cy="20.2" r="3.1"/></g><g class="aw-point aw-stable"><title>2023: 53 of 55 detected (96.4%)</title><circle cx="641.9" cy="26.1" r="4.4"/></g><g class="aw-point aw-stable"><title>2024: 20 of 21 detected (95.2%) — recent window</title><circle cx="663.3" cy="28.0" r="3.7"/></g><g class="aw-point aw-stable"><title>2025: 5 of 5 detected (100.0%) — recent window</title><circle cx="684.6" cy="20.2" r="2.8"/></g><g class="aw-point aw-stable"><title>2026: 15 of 16 detected (93.8%) — recent window</title><circle cx="706.0" cy="30.4" r="3.6"/></g><text class="aw-tick" x="44.0" y="208">1995</text><text class="aw-tick" x="129.4" y="208">1999</text><text class="aw-tick" x="214.8" y="208">2003</text><text class="aw-tick" x="300.3" y="208">2007</text><text class="aw-tick" x="385.7" y="208">2011</text><text class="aw-tick" x="471.1" y="208">2015</text><text class="aw-tick" x="556.5" y="208">2019</text><text class="aw-tick" x="641.9" y="208">2023</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## Mismatch distribution
 
-Each oligonucleotide drawn base by base, 5′ to 3′. The shaded region is the one the
-scoring penalizes more heavily, and it differs by oligonucleotide: for a primer the
-3′ window, where a mismatch sits in the polymerase’s catalytic site; for a probe the
-central third, since a hydrolysis probe is never extended — its 3′ end carries the
-quencher and it is cleaved by exonuclease activity, so what matters is duplex
-stability. Bar height is the proportion of records differing at that position; bar
-color is the consequence, measured as the fall in detection between records
-differing there and those not:
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
 <span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
 <span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect — variation the assay tolerates</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-Counts are available on hover. A tall gray bar indicates a tolerated polymorphism; a
-short red bar indicates a position of consequence.
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 477 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="99" y="52">forward</text><text class="aw-track-name" x="99" y="64">high-GC-forward</text><rect class="aw-zone" x="384.2" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="44.0" x2="459.2" y2="44.0"/><text class="aw-base" x="136.7" y="57">C</text><text class="aw-base" x="151.7" y="57">A</text><text class="aw-base" x="166.7" y="57">T</text><text class="aw-base" x="181.7" y="57">C</text><text class="aw-base" x="196.7" y="57">C</text><text class="aw-base" x="211.7" y="57">C</text><text class="aw-base" x="226.7" y="57">C</text><text class="aw-base" x="241.7" y="57">A</text><text class="aw-base" x="256.7" y="57">A</text><text class="aw-base" x="271.7" y="57">G</text><text class="aw-base" x="286.7" y="57">G</text><text class="aw-base" x="301.7" y="57">A</text><text class="aw-base" x="316.7" y="57">G</text><text class="aw-base" x="331.7" y="57">A</text><text class="aw-base" x="346.7" y="57">C</text><text class="aw-base" x="361.7" y="57">C</text><text class="aw-base" x="376.7" y="57">A</text><text class="aw-base" x="391.7" y="57">A</text><text class="aw-base" x="406.7" y="57">C</text><text class="aw-base" x="421.7" y="57">G</text><text class="aw-base" x="436.7" y="57">A</text><g class="aw-bar-mid"><title>forward position 1 from the 3&#x27; end, base G
 20 of 213 records differ here (9.4%)
@@ -89,7 +88,7 @@ Retrieval query:
 (txid10257[Organism:exp] OR txid10278[Organism:exp] OR txid1285599[Organism:exp] OR txid2733300[Organism:exp])
 ```
 
-A retrieval query is a claim about the population against which the assay is evaluated, and it can cease to be accurate without producing an error; see [scope and retrieval](../scoping.md).
+A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 Disclosures on this entry: `scope_narrower_than_taxid`.
 
@@ -98,7 +97,7 @@ Disclosures on this entry: `scope_narrower_than_taxid`.
 
 3,493 records were screened for this assay and **205 (6%)** were evaluable, meaning both primers landed in the right orientation and size range. 3,288 produced no amplicon at all.
 
-This is material because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
@@ -115,10 +114,9 @@ Added 2026-10-05 from the paper's own Methods text, read out of the local PDF.
 
 ## Corrections
 
-If this entry misrepresents the assay, that is a defect and a report is
-welcome — particularly from the group that designed it. The sequences,
-the product size and the scope are all curated from the paper and can be
-wrong.
+If this entry misrepresents the assay, that is a bug and a report is welcome,
+especially from the group that designed it. The sequences, the product size and
+the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Chordopoxvirinae_RPO147_Li_2010%3A%20&body=Entry%3A%20Chordopoxvirinae_RPO147_Li_2010%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Chordopoxvirinae_RPO147_Li_2010/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>

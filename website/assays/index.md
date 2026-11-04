@@ -7,11 +7,11 @@ hide:
 
 171 assays, screened on 2026-11-01. **42** declining · **31** low coverage · **5** watch · **18** no recent data · **75** stable.
 
-Beside them, **26 nested protocols** — what a lab runs, rather than what one primer pair does. A protocol is scored only on records where every round amplifies, so it can fail while its rounds each look sound: **8** declining · **5** low coverage · **2** no recent data · **11** stable.
+Beside them, **26 nested protocols**: what a lab actually runs, rather than what one primer pair does. A protocol is scored only on records where every round amplifies, so it can fail while its rounds each look sound: **8** declining · **5** low coverage · **2** no recent data · **11** stable.
 
-A status indicates where to direct attention; it is not a result. Select a column heading to sort, or filter by typing.
+A status tells you where to look; it is not a result. Click a column heading to sort, or type to filter.
 
-A further 44 assays are not listed: too few evaluable records to support an estimate, or a property of the entry that would make a verdict misleading. Each still has a page stating which.
+A further 44 assays are not listed: too few evaluable records to estimate anything, or something about the entry that would make a verdict misleading. Each still has a page stating which.
 
 <input class="aw-filter" type="text" placeholder="filter by organism, gene, assay or chemistry…" aria-label="filter assays">
 

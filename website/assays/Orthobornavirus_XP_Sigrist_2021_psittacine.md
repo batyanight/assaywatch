@@ -31,7 +31,7 @@
 
 **stable** — the recent interval does not fall below the threshold
 
-Every value the call was derived from, permitting manual recomputation:
+Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
@@ -44,34 +44,33 @@ Change from baseline, Newcombe interval: **-8.3% to 9.0%**. Threshold: **90.0%**
 
 Trend across deposit years: by record rising (p = 0.0521, 15 years); by footprint rising (p = 0.107). Reported for context; it is not an input to the verdict.
 
-From the 2026-11-01 run. A status indicates where to direct attention rather than establishing a result; [known limitations](../limitations.md) reports how often these calls are correct.
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 ## Predicted detection by deposit year
 
-The proportion of deposited sequence this assay is predicted to detect, by year of
+The share of deposited sequence this assay is predicted to detect, by year of
 deposit. The shaded band marks the recent window and the dashed line the threshold.
-Marker size encodes the number of records behind each point, since 100% of three
-records and 100% of three thousand are not equivalent claims.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
 
 <svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2008 to 2026, against a 90 percent threshold."><rect class="aw-window" x="522.1" y="12.0" width="183.9" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-line aw-stable" points="44.0,74.7 80.8,20.2 117.6,20.2 154.3,20.2 191.1,20.2 338.2,20.2 411.8,20.2 448.6,20.2 485.3,20.2 522.1,20.2 558.9,20.2 595.7,20.2 632.4,20.2 669.2,20.2 706.0,20.2"/><g class="aw-point aw-stable"><title>2008: 2 of 3 detected (66.7%)</title><circle cx="44.0" cy="74.7" r="2.6"/></g><g class="aw-point aw-stable"><title>2009: 2 of 2 detected (100.0%)</title><circle cx="80.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2010: 3 of 3 detected (100.0%)</title><circle cx="117.6" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2011: 9 of 9 detected (100.0%)</title><circle cx="154.3" cy="20.2" r="3.2"/></g><g class="aw-point aw-stable"><title>2012: 11 of 11 detected (100.0%)</title><circle cx="191.1" cy="20.2" r="3.3"/></g><g class="aw-point aw-stable"><title>2016: 11 of 11 detected (100.0%)</title><circle cx="338.2" cy="20.2" r="3.3"/></g><g class="aw-point aw-stable"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="411.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2019: 12 of 12 detected (100.0%)</title><circle cx="448.6" cy="20.2" r="3.4"/></g><g class="aw-point aw-stable"><title>2020: 6 of 6 detected (100.0%)</title><circle cx="485.3" cy="20.2" r="3.0"/></g><g class="aw-point aw-stable"><title>2021: 24 of 24 detected (100.0%) — recent window</title><circle cx="522.1" cy="20.2" r="3.8"/></g><g class="aw-point aw-stable"><title>2022: 2 of 2 detected (100.0%) — recent window</title><circle cx="558.9" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2023: 1 of 1 detected (100.0%) — recent window</title><circle cx="595.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2024: 3 of 3 detected (100.0%) — recent window</title><circle cx="632.4" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2025: 4 of 4 detected (100.0%) — recent window</title><circle cx="669.2" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>2026: 2 of 2 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2008</text><text class="aw-tick" x="154.3" y="208">2011</text><text class="aw-tick" x="264.7" y="208">2014</text><text class="aw-tick" x="375.0" y="208">2017</text><text class="aw-tick" x="485.3" y="208">2020</text><text class="aw-tick" x="595.7" y="208">2023</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## Mismatch distribution
 
-Each oligonucleotide drawn base by base, 5′ to 3′. The shaded region is the one the
-scoring penalizes more heavily, and it differs by oligonucleotide: for a primer the
-3′ window, where a mismatch sits in the polymerase’s catalytic site; for a probe the
-central third, since a hydrolysis probe is never extended — its 3′ end carries the
-quencher and it is cleaved by exonuclease activity, so what matters is duplex
-stability. Bar height is the proportion of records differing at that position; bar
-color is the consequence, measured as the fall in detection between records
-differing there and those not:
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
 
 <span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
 <span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
-<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect — variation the assay tolerates</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
 
-Counts are available on hover. A tall gray bar indicates a tolerated polymorphism; a
-short red bar indicates a position of consequence.
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 422 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">BornaPCA3</text><rect class="aw-zone" x="269.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="344.0" y2="44.0"/><g class="aw-bar-mid"><title>forward position 16 from the 3&#x27; end, base C
 27 of 536 records differ here (5.0%)
@@ -125,7 +124,7 @@ Disclosures on this entry: `oligos_read_from_figure`.
 
 639 records were screened for this assay and **94 (15%)** were evaluable, meaning both primers landed in the right orientation and size range. 545 produced no amplicon at all.
 
-This is material because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
@@ -140,10 +139,9 @@ Added 2026-10-05. SEQUENCES READ OFF A FIGURE IMAGE: this paper has no primer ta
 
 ## Corrections
 
-If this entry misrepresents the assay, that is a defect and a report is
-welcome — particularly from the group that designed it. The sequences,
-the product size and the scope are all curated from the paper and can be
-wrong.
+If this entry misrepresents the assay, that is a bug and a report is welcome,
+especially from the group that designed it. The sequences, the product size and
+the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Orthobornavirus_XP_Sigrist_2021_psittacine%3A%20&body=Entry%3A%20Orthobornavirus_XP_Sigrist_2021_psittacine%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Orthobornavirus_XP_Sigrist_2021_psittacine/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>

@@ -1,7 +1,7 @@
 # Pipeline
 
-Nine stages turn a directory of assay descriptions into a report. Every stage
-has its own page; select one in the diagram or from the list below.
+Nine stages turn a directory of assay descriptions into a report. Each stage has
+its own page. Click one in the diagram or pick it from the list below.
 
 <figure class="aw-pipeline">
 <svg viewBox="0 0 726 1210" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Pipeline, top to bottom: registry, validate, retrieve, screen, collect, then one calls table that four analyses each read. Degeneracy is computed from the registry alone.">
@@ -42,41 +42,41 @@ has its own page; select one in the diagram or from the list below.
 <g class="aw-edge aw-dashed"><line x1="416" y1="361" x2="324" y2="361" marker-end="url(#aw-arrow)"/><path d="M 510 392 L 510 640 L 400.0 640 L 400.0 650" fill="none" marker-end="url(#aw-arrow)"/></g>
 </svg>
 <figcaption>
-Sequence flows down the spine and is never re-fetched in order to re-score:
-archives are kept whole, so changing a threshold re-reads local storage. The
-four analyses each read the one calls table, which is why they cannot disagree
-about the data. Dashed edges are influence rather than data — the thresholds
-that decide verdicts, the single reverse path by which one failing clade
-overrides an otherwise reassuring pooled figure, and the degeneracy table,
-computed from the oligonucleotide sequences alone.
+Sequence flows down the spine and is never re-fetched to re-score. Archives are
+kept whole, so changing a threshold re-reads local storage. The four analyses
+each read the one calls table, so they cannot disagree about the data. Dashed
+edges carry influence, not data: the thresholds that decide verdicts, the one
+reverse path by which a single failing clade overrides an otherwise reassuring
+pooled figure, and the degeneracy table, which is computed from the
+oligonucleotide sequences alone.
 </figcaption>
 </figure>
 
 ## The stages
 
-**[The registry](registry/)** — One YAML file per assay; 218 in total. Each records the oligonucleotide sequences, target organism, chemistry, product size and source publication.
+**[The registry](registry/)** — One YAML file per assay, 218 in all. Each records the oligonucleotide sequences, target organism, chemistry, product size and source publication.
 
-**[validate](validate/)** — Executes before any other stage and halts the pipeline on a registry that does not parse, contains a duplicate key, or holds an entry without a confirmed citation.
+**[validate](validate/)** — Runs before any other stage and stops the pipeline if the registry does not parse, has a duplicate key, or holds an entry without a confirmed citation.
 
-**[retrieve](retrieve/)** — Retrieves nucleotide records from GenBank for each target and archives them.
+**[retrieve](retrieve/)** — Fetches nucleotide records from GenBank for each target and archives them.
 
-**[screen](screen/)** — The computationally dominant stage, and the only one operating on sequence at scale.
+**[screen](screen/)** — The heaviest stage, and the only one that works on sequence at scale.
 
-**[collect](collect/)** — Consolidates the cached per-archive results into a single table for the run.
+**[collect](collect/)** — Merges the cached per-archive results into one table for the run.
 
-**[The calls table](calls/)** — Every subsequent stage reads this file and nothing else. This is deliberate: the four analyzes below cannot disagree about the data, because a single copy exists.
+**[The calls table](calls/)** — Every later stage reads this file and nothing else. This is deliberate: the four analyses below cannot disagree about the data, because there is only one copy.
 
-**[drift + report](report/)** — Groups calls by deposit year, compares recent detection against all earlier records, and assigns a status.
+**[drift + report](report/)** — Groups calls by deposit year, compares recent detection with all earlier records, and assigns a status.
 
-**[lineage](lineage/)** — Divides each assay's records by organism below the target and recomputes detection per clade.
+**[lineage](lineage/)** — Splits each assay's records by organism below the target and recomputes detection for each clade.
 
-**[site drift](sitedrift/)** — For flagged assays, identifies **which base** is responsible.
+**[site drift](sitedrift/)** — For flagged assays, finds **which base** is responsible.
 
-**[figures](figures/)** — Draws the overview plots and embeds them in the HTML report.
+**[figures](figures/)** — Draws the overview plots and puts them in the HTML report.
 
-**[degeneracy](degeneracy/)** — Computed from the oligonucleotide sequences alone, with no sequence database involved, which is why it derives from the registry rather than the calls table.
+**[degeneracy](degeneracy/)** — Computed from the oligonucleotide sequences alone, with no sequence database involved. That is why it comes from the registry and not the calls table.
 
-**[config.yaml](config/)** — Nineteen thresholds determine every verdict; all but one were set by inspection. None are embedded in code.
+**[config.yaml](config/)** — Nineteen thresholds decide every verdict, and all but one were set by inspection. None are written into code.
 
 
-*A complete run takes approximately 50 minutes on eight cores, excluding retrieval.*
+*A complete run takes about 50 minutes on eight cores, not counting retrieval.*

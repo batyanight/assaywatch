@@ -28,11 +28,11 @@
 
 !!! warning "No status is reported for this assay"
 
-    A property of this entry would render a predicted-detection figure
+    Something about this entry would make a predicted-detection figure
     misleading: a chemistry this scoring does not model, or a readout other
     than amplification. The sequences were screened and still appear in the
-    tables below that do not depend on a verdict. The verdict is withheld
-    deliberately, rather than presented with a caveat attached.
+    tables below that do not depend on a verdict. The verdict is withheld on
+    purpose, rather than shown with a caveat attached.
 
     - **`oligo_sequence_uncertain`** — the probe is omitted: the OCR of its sequence was not reliable enough to enter
 
@@ -47,7 +47,7 @@ Retrieval query:
 lpnA[Gene] OR tul4[Gene] OR "17 kDa"[Title] OR "complete genome"[Title]
 ```
 
-A retrieval query is a claim about the population against which the assay is evaluated, and it can cease to be accurate without producing an error; see [scope and retrieval](../scoping.md).
+A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 Disclosures on this entry: `oligo_sequence_uncertain`.
 
@@ -60,10 +60,9 @@ Added 2026-10-05 from the paper's own text, read out of the PDF in papers/.
 
 ## Corrections
 
-If this entry misrepresents the assay, that is a defect and a report is
-welcome — particularly from the group that designed it. The sequences,
-the product size and the scope are all curated from the paper and can be
-wrong.
+If this entry misrepresents the assay, that is a bug and a report is welcome,
+especially from the group that designed it. The sequences, the product size and
+the scope are all curated from the paper and can be wrong.
 
 <div class="aw-contribute" markdown="0">
 <a class="aw-cta" href="https://github.com/batyanight/assaywatch/issues/new?title=Francisella_tularensis_tul4_Long_1993%3A%20&body=Entry%3A%20Francisella_tularensis_tul4_Long_1993%0APage%3A%20https%3A//batyanight.github.io/assaywatch/assays/Francisella_tularensis_tul4_Long_1993/%0ARun%3A%202026-11-01%0A%0AWhat%20is%20wrong%2C%20and%20what%20it%20should%20be%3A%0A%0A"><b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry and run. A sentence is enough.</span></a>

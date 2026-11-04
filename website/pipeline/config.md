@@ -1,15 +1,14 @@
 # config.yaml
 
-Nineteen thresholds determine every verdict; all but one were set by
-inspection. None are embedded in code.
+Nineteen thresholds decide every verdict, and all but one were set by
+inspection. None are written into code.
 
-Each is annotated at its definition with its justification, or with an explicit
-statement that none exists — including the detection threshold itself, which
-expresses a judgement about tolerable surveillance loss rather than a property
-of PCR.
+Each has a comment where it is defined, giving its justification or stating
+plainly that there is none. That includes the detection threshold itself, which
+reflects a judgement about how much surveillance loss is tolerable, not a
+property of PCR.
 
-Settings affecting scoring are hashed into the screening cache, so modifying
-one forces a complete re-screen rather than producing a report combining old
-and new rules.
+Settings that affect scoring are hashed into the screening cache. Changing one
+forces a complete re-screen, so a report never mixes old and new rules.
 
-[Known limitations](../limitations.md) summarizes what the output will bear.
+[Known limitations](../limitations.md) sums up how much weight the output can carry.

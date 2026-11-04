@@ -466,11 +466,11 @@ def _withheld_block(a: dict[str, Any]) -> str:
     lines = [
         '!!! warning "No status is reported for this assay"',
         "",
-        "    A property of this entry would render a predicted-detection figure",
+        "    Something about this entry would make a predicted-detection figure",
         "    misleading: a chemistry this scoring does not model, or a readout other",
         "    than amplification. The sequences were screened and still appear in the",
-        "    tables below that do not depend on a verdict. The verdict is withheld",
-        "    deliberately, rather than presented with a caveat attached.",
+        "    tables below that do not depend on a verdict. The verdict is withheld on",
+        "    purpose, rather than shown with a caveat attached.",
         "",
     ]
     for flag, note in a["withheld_reasons"]:
@@ -485,7 +485,7 @@ def _verdict_block(a: dict[str, Any], run_date: str) -> str:
     lines = [
         "## Verdict\n",
         f"**{a['status']}** — {meaning}\n",
-        "Every value the call was derived from, permitting manual recomputation:\n",
+        "Every value behind the call, so you can redo it by hand:\n",
         "| | detected | evaluable | share | 95% interval |",
         "|---|---|---|---|---|",
         f"| recent window ({a['window_months']} months, from {a['recent_from']}) "
@@ -507,8 +507,8 @@ def _verdict_block(a: dict[str, Any], run_date: str) -> str:
             "not an input to the verdict.\n"
         )
     lines.append(
-        f"From the {run_date} run. A status indicates where to direct attention rather "
-        "than establishing a result; [known limitations](../limitations.md) reports how "
+        f"From the {run_date} run. A status tells you where to look; it is not a "
+        "result. [Known limitations](../limitations.md) reports how "
         "often these calls are correct.\n"
     )
     return "\n".join(lines)
@@ -577,12 +577,12 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     grand = sum(totals) or 1
     lines = [
         "## What was deposited, by lineage\n",
-        "Lineages here are SEQUENCE CLUSTERS, not taxids: each is a group of records that",
-        "resemble each other over the amplicon and its flanks with the oligonucleotide sites",
-        f"masked, cut at {comp['cut']:g} Mash distance. So a cluster is defined by sequence this",
-        "assay does not measure, and the mix below can move without any assay changing. The",
-        "dashed line on the chart above is each year recomputed on the whole period's mix: where",
-        "the two lines part, what was sequenced changed rather than what the assay detects.\n",
+        "Lineages here are sequence clusters, not taxids. Each is a group of records that look",
+        "alike over the amplicon and its flanks with the oligo sites masked, cut at",
+        f"{comp['cut']:g} Mash distance. The clusters come from sequence this assay does not",
+        "measure, so the mix below can move without the assay changing. The dashed line on the",
+        "chart above recomputes each year on the whole period's mix: where the two lines part,",
+        "what got sequenced changed, not what the assay detects.\n",
     ]
     if comp.get("note"):
         lines += [f"*{comp['note']}.*\n"]
@@ -614,8 +614,8 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
             "Between the baseline and the recent window the detected share went",
             f"{split['baseline_share']:.1%} to {split['recent_share']:.1%}, a change of"
             f" {split['change']:+.3f}. Of that, **{mix:+.3f} is the mix** of lineages deposited"
-            f" changing{ci} and **{within:+.3f} is detection within** them. The interval prices"
-            " which records were deposited and detected; the clustering itself is taken as given.\n",
+            f" changing{ci} and **{within:+.3f} is detection within** them. The interval covers"
+            " which records were deposited and detected; it takes the clustering as given.\n",
         ]
     return lines
 
@@ -627,32 +627,31 @@ def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
         lines += [flat, ""]
     else:
         lines += [
-            "The proportion of deposited sequence this assay is predicted to detect, by year of",
+            "The share of deposited sequence this assay is predicted to detect, by year of",
             "deposit. The shaded band marks the recent window and the dashed line the threshold.",
-            "Marker size encodes the number of records behind each point, since 100% of three",
-            "records and 100% of three thousand are not equivalent claims.\n",
+            "Bigger markers mean more records behind the point, because 100% of three records",
+            "and 100% of three thousand are very different claims.\n",
             site_svg.year_chart(a, _same_mix(comp)),
             "",
         ]
     lines += [
         "## Mismatch distribution\n",
-        "Each oligonucleotide drawn base by base, 5\u2032 to 3\u2032. The shaded region is the one the",
-        "scoring penalizes more heavily, and it differs by oligonucleotide: for a primer the",
-        "3\u2032 window, where a mismatch sits in the polymerase\u2019s catalytic site; for a probe the",
-        "central third, since a hydrolysis probe is never extended \u2014 its 3\u2032 end carries the",
-        "quencher and it is cleaved by exonuclease activity, so what matters is duplex",
-        "stability. Bar height is the proportion of records differing at that position; bar",
-        "color is the consequence, measured as the fall in detection between records",
-        "differing there and those not:",
+        "Each oligo drawn base by base, 5\u2032 to 3\u2032. The shaded region is the one the scoring",
+        "penalizes more heavily, and it depends on the oligo. For a primer it is the 3\u2032 window,",
+        "where a mismatch sits in the polymerase\u2019s catalytic site. For a probe it is the central",
+        "third: a hydrolysis probe is never extended, its 3\u2032 end carries the quencher and it is",
+        "cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the",
+        "share of records that differ at that position. Bar color is what that costs, measured",
+        "as the fall in detection between records that differ there and records that do not:",
         "",
         '<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls '
         "by 25 points or more</span>",
         '<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>',
-        '<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect '
-        "\u2014 variation the assay tolerates</span>",
+        '<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: '
+        "variation the assay tolerates</span>",
         "",
-        "Counts are available on hover. A tall gray bar indicates a tolerated polymorphism; a",
-        "short red bar indicates a position of consequence.\n",
+        "Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red",
+        "bar is a position that matters.\n",
         site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"])),
     ]
     if not a["positions"]:
@@ -733,7 +732,7 @@ def _lineage_block(a: dict[str, Any]) -> list[str]:
 
     out += [
         "Published misses are nearly always specific to one lineage, and a clade that is 5%",
-        "of deposits can be 100% of the cases in one region \u2014 so a pooled percentage can look",
+        "of deposits can be 100% of the cases in one region, so a pooled percentage can look",
         "healthy while one clade fails completely. Worst first. Lineages with too few records",
         f"to say anything are left out, and a lineage whose whole interval sits below "
         f"{100 * a['threshold']:.0f}% is marked.\n",
@@ -831,8 +830,8 @@ def _scope_block(a: dict[str, Any]) -> str:
     if a["query"]:
         lines.append(f"Retrieval query:\n\n```\n{a['query']}\n```\n")
         lines.append(
-            "A retrieval query is a claim about the population against which the assay "
-            "is evaluated, and it can cease to be accurate without producing an error; "
+            "A retrieval query is a claim about which records the assay is tested against, "
+            "and it can stop being accurate without producing an error; "
             "see [scope and retrieval](../scoping.md).\n"
         )
     if a["title_requires"]:
@@ -880,10 +879,9 @@ def _contribute_block(a: dict[str, Any], run_date: str) -> list[str]:
     return [
         "",
         "## Corrections\n",
-        "If this entry misrepresents the assay, that is a defect and a report is",
-        "welcome — particularly from the group that designed it. The sequences,",
-        "the product size and the scope are all curated from the paper and can be",
-        "wrong.\n",
+        "If this entry misrepresents the assay, that is a bug and a report is welcome,",
+        "especially from the group that designed it. The sequences, the product size and",
+        "the scope are all curated from the paper and can be wrong.\n",
         '<div class="aw-contribute" markdown="0">',
         f'<a class="aw-cta" href="{REPO}/issues/new?title={title}&body={body}">'
         "<b>Leave a note</b><span>Opens a GitHub issue, pre-filled with this entry "
@@ -916,7 +914,7 @@ def _denominator_block(a: dict[str, Any]) -> str:
         f"{a['screened_rows']:,} records were screened for this assay and **{reached:,} "
         f"({pct:.0f}%)** were evaluable, meaning both primers landed in the right orientation "
         f"and size range. {a['no_amplicon_rows']:,} produced no amplicon at all.\n",
-        "This is material because a record with one diverged primer is scored as a "
+        "This matters because a record with one diverged primer is scored as a "
         "failure while a record with both diverged is excluded from the denominator "
         "entirely. The resulting bias is known, measured, and may not be correctable; "
         "see [known limitations](../limitations.md).\n",
@@ -965,8 +963,8 @@ def index_page(data: dict[str, Any]) -> str:
         nest_counts[n["status"]] = nest_counts.get(n["status"], 0) + 1
     nest_summary = " \u00b7 ".join(f"**{nest_counts[s]}** {s}" for s in order if s in nest_counts)
     nest_line = (
-        f"Beside them, **{len(nests)} nested protocols** \u2014 what a lab runs, rather than what one "
-        f"primer pair does. A protocol is scored only on records where every round amplifies, so it "
+        f"Beside them, **{len(nests)} nested protocols**: what a lab actually runs, rather than what "
+        f"one primer pair does. A protocol is scored only on records where every round amplifies, so it "
         f"can fail while its rounds each look sound: {nest_summary}.\n"
         if nests
         else ""
@@ -979,10 +977,10 @@ def index_page(data: dict[str, Any]) -> str:
         "# Every assay\n",
         f"{len(assays)} assays, screened on {data['run_date']}. {summary}.\n",
         *([nest_line] if nest_line else []),
-        "A status indicates where to direct attention; it is not a result. Select a "
-        "column heading to sort, or filter by typing.\n",
+        "A status tells you where to look; it is not a result. Click a column heading to "
+        "sort, or type to filter.\n",
         f"A further {unlisted} assays are not listed: too few evaluable records to "
-        "support an estimate, or a property of the entry that would make a verdict "
+        "estimate anything, or something about the entry that would make a verdict "
         "misleading. Each still has a page stating which.\n",
         '<input class="aw-filter" type="text"'
         ' placeholder="filter by organism, gene, assay or chemistry\u2026"'
