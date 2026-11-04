@@ -149,15 +149,14 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   (submitting study, publication, collection dates) and word it as "may". How that evidence
   is gathered, and whether by script or by hand for 200+ assays, is undecided. Depends on
   the composition stage's data (step 18 under "Lineage composition over time").
-- [ ] **Name gene targets uniformly across the assays.** `target.gene` holds 87 distinct
-  strings across 216 entries (2026-11-04), and the same target appears under several forms:
-  `DNA polymerase` and `pol`, `L (polymerase)` and `RNA-dependent RNA polymerase`,
-  `N (nucleoprotein)` and `NP (nucleoprotein)`, `ITS`, `ITS1` and `ITS1-5.8S rDNA`; some
-  carry coordinates or a strain (`F3L region (positions 46313-46491 of ON563414.2)`). Needs
-  a naming rule, recorded in `GLOSSARY.md` and enforced by `assaywatch validate`, then a pass
-  over `registry/` and `pending/`. Keep genuinely different targets distinct (`ITS1` is not
-  `ITS2`). Check first whether a `gene` edit moves the screen signature, since that decides
-  whether the rename costs a full re-screen.
+- [x] **Name gene targets uniformly across the assays.** Done 2026-11-04: 87 distinct strings to
+  82, in 47 entries (the mapping is in that commit's diff). Many of the 87 were correct and stay
+  different, since each virus keeps its own symbol (influenza NP, paramyxovirus N) and `ITS1` is
+  not `ITS2`. What changed: the form (`symbol (product)`, `GLOSSARY.md` "gene name"), the same gene
+  under two names (`terminase`, `gB`, `RPO147`, `F3L`, influenza `M1`), and coordinates and ortholog
+  lists in the name, all already in each entry's `notes_curator`. A test holds the rule. Display
+  only, but it edits registry files, so the next run re-screens those assays; it re-screens every
+  assay anyway, because the screens' ids are stale.
 - [ ] **`rule report` declares less memory than its table takes.** `mem_mb=3000`, against a
   3.17 GB peak from `load_calls_as_reported` alone on the 2026-11-01 calls (3,448,385 rows,
   measured 2026-11-04); its comment's 2.7M rows date from 2026-10-22. On SLURM that job is

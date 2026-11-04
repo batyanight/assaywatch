@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Avipoxvirus_4b_Baek_2020</span></p>
 
-**Avipoxvirus — 4b core protein (Baek 2020)**
+**Avipoxvirus — 4b (core protein) (Baek 2020)**
 
 | | |
 |---|---|
 | Target | Avipoxvirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10260" title="Avipoxvirus">taxid 10260</a>) |
-| Gene | 4b core protein |
+| Gene | 4b (core protein) |
 | Chemistry | mgb |
 | Amplicon | 123 bp |
 | Registry status | active |

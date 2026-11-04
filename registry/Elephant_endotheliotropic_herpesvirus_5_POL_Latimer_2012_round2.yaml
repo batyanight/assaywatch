@@ -1,8 +1,8 @@
 id: Elephant_endotheliotropic_herpesvirus_5_POL_Latimer_2012_round2
-name: Elephant endotheliotropic herpesvirus 5 — DNA polymerase (U38) (Latimer 2012), nested round 2
+name: Elephant endotheliotropic herpesvirus 5 — U38 (DNA polymerase) (Latimer 2012), nested round 2
 target:
   taxid: 548689
-  gene: DNA polymerase (U38)
+  gene: U38 (DNA polymerase)
   genome_type: dsDNA
   taxon_name: Elephant endotheliotropic herpesvirus 5
   query: (txid768738[Organism:exp] OR txid3050275[Organism:exp]) AND ("DNA polymerase"[Title] OR U38[Gene] OR POL[Gene] 

@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Monkeypox_virus_G2R_Li_2010_G2R_G_F</span></p>
 
-**Monkeypox virus — TNF receptor (G2R), inverted terminal repeat (Li 2010, G2R G F)**
+**Monkeypox virus — G2R (TNF receptor) (Li 2010, G2R G F)**
 
 | | |
 |---|---|
 | Target | Monkeypox virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10244">taxid 10244</a>) |
-| Gene | TNF receptor (G2R), inverted terminal repeat |
+| Gene | G2R (TNF receptor) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 90 bp |
 | Registry status | draft |

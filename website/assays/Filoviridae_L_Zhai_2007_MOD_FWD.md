@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Filoviridae_L_Zhai_2007_MOD_FWD</span></p>
 
-**Filoviridae — L (polymerase) (Zhai 2007, MOD FWD)**
+**Filoviridae — L (RNA-dependent RNA polymerase) (Zhai 2007, MOD FWD)**
 
 | | |
 |---|---|
 | Target | Filoviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11266" title="Filoviridae">taxid 11266</a>) |
-| Gene | L (polymerase) |
+| Gene | L (RNA-dependent RNA polymerase) |
 | Chemistry | conventional |
 | Amplicon | 634 bp |
 | Registry status | active |

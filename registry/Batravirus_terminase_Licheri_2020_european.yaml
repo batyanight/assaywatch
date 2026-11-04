@@ -1,8 +1,8 @@
 id: Batravirus_terminase_Licheri_2020_european
-name: Batravirus — DNA packaging terminase (Licheri 2020, european)
+name: Batravirus — terminase (Licheri 2020, european)
 target:
   taxid: 3044671
-  gene: DNA packaging terminase
+  gene: terminase
   genome_type: dsDNA
   taxon_name: Batravirus (formerly Batrachovirus)
   query: terminase[All Fields] OR "complete genome"[Title]

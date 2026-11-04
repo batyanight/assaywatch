@@ -1,8 +1,8 @@
 id: Monkeypox_virus_C3L_Li_2010
-name: Monkeypox virus — complement binding protein (C3L) (Li 2010)
+name: Monkeypox virus — C3L (complement binding protein) (Li 2010)
 target:
   taxid: 10244
-  gene: complement binding protein (C3L)
+  gene: C3L (complement binding protein)
   genome_type: dsDNA
   taxon_name: Monkeypox virus
   query: null

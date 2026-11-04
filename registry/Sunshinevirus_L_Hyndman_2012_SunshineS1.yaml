@@ -1,8 +1,8 @@
 id: Sunshinevirus_L_Hyndman_2012_SunshineS1
-name: Sunshinevirus — L (polymerase) (Hyndman 2012, SunshineS1)
+name: Sunshinevirus — L (RNA-dependent RNA polymerase) (Hyndman 2012, SunshineS1)
 target:
   taxid: 1921703
-  gene: L (polymerase)
+  gene: L (RNA-dependent RNA polymerase)
   genome_type: ssRNA-
   taxon_name: Sunshinevirus
 chemistry: conventional

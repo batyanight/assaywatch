@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Cytomegalovirus_gB_Deckers_2009_round1</span></p>
 
-**Cytomegalovirus — gB (glycoprotein B, UL55) (Deckers 2009), nested round 1**
+**Cytomegalovirus — gB (glycoprotein B) (Deckers 2009), nested round 1**
 
 | | |
 |---|---|
 | Target | Cytomegalovirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10358" title="Cytomegalovirus">taxid 10358</a>) |
-| Gene | gB (glycoprotein B, UL55) |
+| Gene | gB (glycoprotein B) |
 | Chemistry | conventional |
 | Amplicon | 800 bp |
 | Registry status | active |

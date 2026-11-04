@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Caliciviridae_helicase_Neill_1995</span></p>
 
-**Caliciviridae — 2C helicase (Neill 1995)**
+**Caliciviridae — 2C (helicase) (Neill 1995)**
 
 | | |
 |---|---|
 | Target | Caliciviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11974" title="Caliciviridae">taxid 11974</a>) |
-| Gene | 2C helicase |
+| Gene | 2C (helicase) |
 | Chemistry | conventional |
 | Amplicon | 357 bp |
 | Registry status | draft |

@@ -1,8 +1,8 @@
 id: Orthopoxvirus_F3L_Huo_2022
-name: Orthopoxvirus — F3L region (positions 46313-46491 of ON563414.2) (Huo 2022)
+name: Orthopoxvirus — F3L (Huo 2022)
 target:
   taxid: 10242
-  gene: F3L region (positions 46313-46491 of ON563414.2)
+  gene: F3L
   genome_type: dsDNA
   taxon_name: Orthopoxvirus
   query: null

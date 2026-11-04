@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Elephant_endotheliotropic_herpesvirus_3_and_4_POL_Latimer_2012_round3</span></p>
 
-**Elephant endotheliotropic herpesvirus 3 and 4 — DNA polymerase (U38) (Latimer 2012), nested round 3**
+**Elephant endotheliotropic herpesvirus 3 and 4 — U38 (DNA polymerase) (Latimer 2012), nested round 3**
 
 | | |
 |---|---|
 | Target | Elephant endotheliotropic herpesvirus 3 and 4 (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=548689">taxid 548689</a>) |
-| Gene | DNA polymerase (U38) |
+| Gene | U38 (DNA polymerase) |
 | Chemistry | conventional |
 | Amplicon | 139 bp |
 | Registry status | active |

@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Rhabdoviridae_L_Bourhy_2005_round1</span></p>
 
-**Rhabdoviridae — L (polymerase) (Bourhy 2005), nested round 1**
+**Rhabdoviridae — L (RNA-dependent RNA polymerase) (Bourhy 2005), nested round 1**
 
 | | |
 |---|---|
 | Target | Rhabdoviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11270" title="Rhabdoviridae">taxid 11270</a>) |
-| Gene | L (polymerase) |
+| Gene | L (RNA-dependent RNA polymerase) |
 | Chemistry | conventional |
 | Amplicon | 460 bp |
 | Registry status | active |

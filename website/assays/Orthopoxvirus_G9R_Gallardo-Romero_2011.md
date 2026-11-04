@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Orthopoxvirus_G9R_Gallardo-Romero_2011</span></p>
 
-**Orthopoxvirus — myristylated protein (VACV Copenhagen G9R ortholog; VPXV 086, SKPV 086, RCNV 070) (Gallardo-Romero 2011)**
+**Orthopoxvirus — G9R (myristylated protein) (Gallardo-Romero 2011)**
 
 | | |
 |---|---|
 | Target | Orthopoxvirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10242" title="Orthopoxvirus">taxid 10242</a>) |
-| Gene | myristylated protein (VACV Copenhagen G9R ortholog; VPXV 086, SKPV 086, RCNV 070) |
+| Gene | G9R (myristylated protein) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 156 bp |
 | Registry status | draft |

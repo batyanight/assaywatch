@@ -1,9 +1,9 @@
 id: Orthopoxvirus_G9R_Gallardo-Romero_2011
-name: Orthopoxvirus — myristylated protein (VACV Copenhagen G9R ortholog; VPXV 086, SKPV 086, RCNV 070) (Gallardo-Romero
+name: Orthopoxvirus — G9R (myristylated protein) (Gallardo-Romero
   2011)
 target:
   taxid: 10242
-  gene: myristylated protein (VACV Copenhagen G9R ortholog; VPXV 086, SKPV 086, RCNV 070)
+  gene: G9R (myristylated protein)
   genome_type: dsDNA
   taxon_name: Orthopoxvirus
   query: null

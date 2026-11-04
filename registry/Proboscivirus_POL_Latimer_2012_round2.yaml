@@ -1,8 +1,8 @@
 id: Proboscivirus_POL_Latimer_2012_round2
-name: Proboscivirus — DNA polymerase (U38) (Latimer 2012), nested round 2
+name: Proboscivirus — U38 (DNA polymerase) (Latimer 2012), nested round 2
 target:
   taxid: 548689
-  gene: DNA polymerase (U38)
+  gene: U38 (DNA polymerase)
   genome_type: dsDNA
   taxon_name: Proboscivirus (elephant endotheliotropic herpesviruses)
   query: '"DNA polymerase"[Title] OR U38[Gene] OR POL[Gene] OR "complete genome"[Title] OR "partial genome"[Title]'

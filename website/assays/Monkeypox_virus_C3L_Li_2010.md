@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Monkeypox_virus_C3L_Li_2010</span></p>
 
-**Monkeypox virus — complement binding protein (C3L) (Li 2010)**
+**Monkeypox virus — C3L (complement binding protein) (Li 2010)**
 
 | | |
 |---|---|
 | Target | Monkeypox virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10244">taxid 10244</a>) |
-| Gene | complement binding protein (C3L) |
+| Gene | C3L (complement binding protein) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 100 bp |
 | Registry status | active |

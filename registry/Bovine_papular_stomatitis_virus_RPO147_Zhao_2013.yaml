@@ -1,9 +1,9 @@
 id: Bovine_papular_stomatitis_virus_RPO147_Zhao_2013
-name: Bovine papular stomatitis virus — RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog) (Zhao 
+name: Bovine papular stomatitis virus — RPO147 (RNA polymerase subunit) (Zhao 
   2013)
 target:
   taxid: 129727
-  gene: RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog)
+  gene: RPO147 (RNA polymerase subunit)
   genome_type: dsDNA
   taxon_name: Bovine papular stomatitis virus
   query: null

@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Monkeypox_virus_F3L_Huo_2022_cladeIIab</span></p>
 
-**Monkeypox virus — F3L region (positions 46313-46491 of ON563414.2) (Huo 2022, cladeIIab)**
+**Monkeypox virus — F3L (Huo 2022, cladeIIab)**
 
 | | |
 |---|---|
 | Target | Monkeypox virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10244">taxid 10244</a>) |
-| Gene | F3L region (positions 46313-46491 of ON563414.2) |
+| Gene | F3L |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 179 bp |
 | Registry status | draft |

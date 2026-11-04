@@ -1,8 +1,8 @@
 id: Caliciviridae_helicase_Neill_1995
-name: Caliciviridae — 2C helicase (Neill 1995)
+name: Caliciviridae — 2C (helicase) (Neill 1995)
 target:
   taxid: 11974
-  gene: 2C helicase
+  gene: 2C (helicase)
   genome_type: ssRNA
   taxon_name: Caliciviridae
   scope_taxids:

@@ -1,8 +1,8 @@
 id: Cytomegalovirus_gB_Deckers_2009_round2
-name: Cytomegalovirus — gB (glycoprotein B, UL55) (Deckers 2009), nested round 2
+name: Cytomegalovirus — gB (glycoprotein B) (Deckers 2009), nested round 2
 target:
   taxid: 10358
-  gene: gB (glycoprotein B, UL55)
+  gene: gB (glycoprotein B)
   genome_type: dsDNA
   taxon_name: Cytomegalovirus
 chemistry: conventional

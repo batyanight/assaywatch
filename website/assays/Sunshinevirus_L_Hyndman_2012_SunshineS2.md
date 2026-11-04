@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Sunshinevirus_L_Hyndman_2012_SunshineS2</span></p>
 
-**Sunshinevirus — L (polymerase) (Hyndman 2012, SunshineS2)**
+**Sunshinevirus — L (RNA-dependent RNA polymerase) (Hyndman 2012, SunshineS2)**
 
 | | |
 |---|---|
 | Target | Sunshinevirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1921703">taxid 1921703</a>) |
-| Gene | L (polymerase) |
+| Gene | L (RNA-dependent RNA polymerase) |
 | Chemistry | conventional |
 | Amplicon | 357 bp |
 | Registry status | active |

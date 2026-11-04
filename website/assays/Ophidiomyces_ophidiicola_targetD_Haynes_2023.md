@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Ophidiomyces_ophidiicola_targetD_Haynes_2023</span></p>
 
-**Ophidiomyces ophidiicola — target D, unannotated genomic segment shared by all six clades/lineages (position in paper's S1 Table, not in PDF) (Haynes 2023)**
+**Ophidiomyces ophidiicola — target D (unannotated genomic segment) (Haynes 2023)**
 
 | | |
 |---|---|
 | Target | Ophidiomyces ophidiicola (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1387563" title="Ophidiomyces ophidiicola">taxid 1387563</a>) |
-| Gene | target D, unannotated genomic segment shared by all six clades/lineages (position in paper's S1 Table, not in PDF) |
+| Gene | target D (unannotated genomic segment) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 57 bp |
 | Registry status | active |

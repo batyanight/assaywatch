@@ -1,8 +1,8 @@
 id: Rhabdoviridae_L_Bourhy_2005_round1
-name: Rhabdoviridae — L (polymerase) (Bourhy 2005), nested round 1
+name: Rhabdoviridae — L (RNA-dependent RNA polymerase) (Bourhy 2005), nested round 1
 target:
   taxid: 11270
-  gene: L (polymerase)
+  gene: L (RNA-dependent RNA polymerase)
   genome_type: ssRNA-
   taxon_name: Rhabdoviridae
   query: L[Gene] OR "L protein"[Title] OR "large polymerase"[Title] OR polymerase[Title] OR "complete genome"[Title]

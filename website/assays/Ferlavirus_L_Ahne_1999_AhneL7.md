@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Ferlavirus_L_Ahne_1999_AhneL7</span></p>
 
-**Ferlavirus — L (polymerase) (Ahne 1999, AhneL7)**
+**Ferlavirus — L (RNA-dependent RNA polymerase) (Ahne 1999, AhneL7)**
 
 | | |
 |---|---|
 | Target | Ferlavirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1283308">taxid 1283308</a>) |
-| Gene | L (polymerase) |
+| Gene | L (RNA-dependent RNA polymerase) |
 | Chemistry | conventional |
 | Amplicon | 566 bp |
 | Registry status | active |

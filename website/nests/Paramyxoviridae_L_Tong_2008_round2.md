@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Paramyxoviridae_L_Tong_2008_round2</span></p>
 
-**Paramyxoviridae — L (polymerase) (Tong 2008), nested round 2**
+**Paramyxoviridae — L (RNA-dependent RNA polymerase) (Tong 2008), nested round 2**
 
 | | |
 |---|---|
 | Target | Paramyxoviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11158">taxid 11158</a>) |
-| Gene | L (polymerase) |
+| Gene | L (RNA-dependent RNA polymerase) |
 | Chemistry | conventional |
 | Amplicon | 561 bp |
 | Registry status | active |

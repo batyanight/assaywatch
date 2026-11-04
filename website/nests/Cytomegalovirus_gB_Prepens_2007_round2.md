@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Cytomegalovirus_gB_Prepens_2007_round2</span></p>
 
-**Cytomegalovirus — gB (glycoprotein B, UL55) (Prepens 2007), nested round 2**
+**Cytomegalovirus — gB (glycoprotein B) (Prepens 2007), nested round 2**
 
 | | |
 |---|---|
 | Target | Cytomegalovirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10358" title="Cytomegalovirus">taxid 10358</a>) |
-| Gene | gB (glycoprotein B, UL55) |
+| Gene | gB (glycoprotein B) |
 | Chemistry | conventional |
 | Amplicon | 250 bp |
 | Registry status | active |

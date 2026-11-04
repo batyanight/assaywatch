@@ -1,8 +1,8 @@
 id: Orf_virus_RPO147_Zhao_2013
-name: Orf virus — RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog) (Zhao 2013)
+name: Orf virus — RPO147 (RNA polymerase subunit) (Zhao 2013)
 target:
   taxid: 10258
-  gene: RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog)
+  gene: RPO147 (RNA polymerase subunit)
   genome_type: dsDNA
   taxon_name: Orf virus
   query: null

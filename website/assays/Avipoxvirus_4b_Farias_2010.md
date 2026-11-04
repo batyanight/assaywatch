@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Avipoxvirus_4b_Farias_2010</span></p>
 
-**Avipoxvirus — 4b core protein (Farias 2010)**
+**Avipoxvirus — 4b (core protein) (Farias 2010)**
 
 | | |
 |---|---|
 | Target | Avipoxvirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10260" title="Avipoxvirus">taxid 10260</a>) |
-| Gene | 4b core protein |
+| Gene | 4b (core protein) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 250 bp |
 | Registry status | active |

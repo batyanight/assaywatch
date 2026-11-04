@@ -1,8 +1,8 @@
 id: Ferlavirus_L_Hyndman_2012
-name: Ferlavirus — L (polymerase) (Hyndman 2012)
+name: Ferlavirus — L (RNA-dependent RNA polymerase) (Hyndman 2012)
 target:
   taxid: 1283308
-  gene: L (polymerase)
+  gene: L (RNA-dependent RNA polymerase)
   genome_type: ssRNA-
   taxon_name: Ferlavirus
 chemistry: conventional

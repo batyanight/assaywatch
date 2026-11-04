@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Monkeypox_virus_SNP183524_Huo_2022</span></p>
 
-**Monkeypox virus — SNP-typing locus at 183524-183539 of ON563414.2 (Huo 2022)**
+**Monkeypox virus — SNP-typing locus 183524-183539 (Huo 2022)**
 
 | | |
 |---|---|
 | Target | Monkeypox virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10244">taxid 10244</a>) |
-| Gene | SNP-typing locus at 183524-183539 of ON563414.2 |
+| Gene | SNP-typing locus 183524-183539 |
 | Chemistry | mgb |
 | Amplicon | 81 bp |
 | Registry status | draft |

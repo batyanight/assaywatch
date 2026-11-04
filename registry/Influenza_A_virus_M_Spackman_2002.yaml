@@ -1,8 +1,8 @@
 id: Influenza_A_virus_M_Spackman_2002
-name: Influenza A virus — M (matrix) (Spackman 2002)
+name: Influenza A virus — M1 (matrix) (Spackman 2002)
 target:
   taxid: 11320
-  gene: M (matrix)
+  gene: M1 (matrix)
   genome_type: ssRNA-
   taxon_name: Influenza A virus
   query: '"segment 7"[Title] OR ("matrix protein"[Title] AND M[Gene])'

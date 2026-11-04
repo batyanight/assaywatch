@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Proboscivirus_POL_Latimer_2012_round1</span></p>
 
-**Proboscivirus — DNA polymerase (U38) (Latimer 2012), nested round 1**
+**Proboscivirus — U38 (DNA polymerase) (Latimer 2012), nested round 1**
 
 | | |
 |---|---|
 | Target | Proboscivirus (elephant endotheliotropic herpesviruses) (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=548689">taxid 548689</a>) |
-| Gene | DNA polymerase (U38) |
+| Gene | U38 (DNA polymerase) |
 | Chemistry | conventional |
 | Amplicon | 536 bp |
 | Registry status | active |

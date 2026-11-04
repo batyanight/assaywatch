@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Batravirus_terminase_Licheri_2020_european</span></p>
 
-**Batravirus — DNA packaging terminase (Licheri 2020, european)**
+**Batravirus — terminase (Licheri 2020, european)**
 
 | | |
 |---|---|
 | Target | Batravirus (formerly Batrachovirus) (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3044671">taxid 3044671</a>) |
-| Gene | DNA packaging terminase |
+| Gene | terminase |
 | Chemistry | conventional |
 | Amplicon | 200 bp |
 | Registry status | active |

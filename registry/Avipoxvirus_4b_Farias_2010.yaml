@@ -1,8 +1,8 @@
 id: Avipoxvirus_4b_Farias_2010
-name: Avipoxvirus — 4b core protein (Farias 2010)
+name: Avipoxvirus — 4b (core protein) (Farias 2010)
 target:
   taxid: 10260
-  gene: 4b core protein
+  gene: 4b (core protein)
   genome_type: dsDNA
   taxon_name: Avipoxvirus
   query: null

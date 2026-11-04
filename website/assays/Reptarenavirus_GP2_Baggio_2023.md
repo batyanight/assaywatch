@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Reptarenavirus_GP2_Baggio_2023</span></p>
 
-**Reptarenavirus — S segment, glycoprotein precursor (GP2 region) (Baggio 2023)**
+**Reptarenavirus — S segment (GP2 region) (Baggio 2023)**
 
 | | |
 |---|---|
 | Target | Reptarenavirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1653395">taxid 1653395</a>) |
-| Gene | S segment, glycoprotein precursor (GP2 region) |
+| Gene | S segment (GP2 region) |
 | Chemistry | conventional |
 | Amplicon | 145 bp |
 | Registry status | active |

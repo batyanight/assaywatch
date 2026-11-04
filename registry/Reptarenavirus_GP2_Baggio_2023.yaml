@@ -1,8 +1,8 @@
 id: Reptarenavirus_GP2_Baggio_2023
-name: Reptarenavirus — S segment, glycoprotein precursor (GP2 region) (Baggio 2023)
+name: Reptarenavirus — S segment (GP2 region) (Baggio 2023)
 target:
   taxid: 1653395
-  gene: S segment, glycoprotein precursor (GP2 region)
+  gene: S segment (GP2 region)
   genome_type: ssRNA-
   taxon_name: Reptarenavirus
   query: '"segment S"[Title] OR "S segment"[Title] OR nucleoprotein[Title] OR glycoprotein[Title] OR GPC[Title]'

@@ -1,8 +1,8 @@
 id: Paramyxoviridae_L_Tong_2008_round2
-name: Paramyxoviridae — L (polymerase) (Tong 2008), nested round 2
+name: Paramyxoviridae — L (RNA-dependent RNA polymerase) (Tong 2008), nested round 2
 target:
   taxid: 11158
-  gene: L (polymerase)
+  gene: L (RNA-dependent RNA polymerase)
   genome_type: ssRNA-
   taxon_name: Paramyxoviridae
   query: L[Gene] OR "L protein"[Title] OR "large protein"[Title] OR polymerase[Title] OR "complete genome"[Title]

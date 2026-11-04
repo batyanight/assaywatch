@@ -1,8 +1,8 @@
 id: Monkeypox_virus_SNP183519_Huo_2022
-name: Monkeypox virus — SNP-typing locus at 183519-183542 of ON563414.2 (Huo 2022)
+name: Monkeypox virus — SNP-typing locus 183519-183542 (Huo 2022)
 target:
   taxid: 10244
-  gene: SNP-typing locus at 183519-183542 of ON563414.2
+  gene: SNP-typing locus 183519-183542
   genome_type: dsDNA
   taxon_name: Monkeypox virus
   query: null

@@ -1,8 +1,8 @@
 id: Chordopoxvirinae_RPO147_Li_2010
-name: Chordopoxvirinae — RNA polymerase subunit RPO147 (Li 2010)
+name: Chordopoxvirinae — RPO147 (RNA polymerase subunit) (Li 2010)
 target:
   taxid: 10241
-  gene: RNA polymerase subunit RPO147
+  gene: RPO147 (RNA polymerase subunit)
   genome_type: dsDNA
   taxon_name: Chordopoxvirinae
   query: (txid10257[Organism:exp] OR txid10278[Organism:exp] OR txid1285599[Organism:exp] OR txid2733300[Organism:exp])

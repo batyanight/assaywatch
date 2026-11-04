@@ -1,8 +1,8 @@
 id: Ophidiomyces_ophidiicola_IGS_Bohuski_2015
-name: Ophidiomyces ophidiicola — intergenic spacer (IGS) (Bohuski 2015)
+name: Ophidiomyces ophidiicola — IGS (intergenic spacer) (Bohuski 2015)
 target:
   taxid: 1387563
-  gene: intergenic spacer (IGS)
+  gene: IGS (intergenic spacer)
   genome_type: dsDNA
   taxon_name: Ophidiomyces ophidiicola
   query: 'ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR

@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Bovine_papular_stomatitis_virus_RPO147_Zhao_2013</span></p>
 
-**Bovine papular stomatitis virus — RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog) (Zhao 2013)**
+**Bovine papular stomatitis virus — RPO147 (RNA polymerase subunit) (Zhao 2013)**
 
 | | |
 |---|---|
 | Target | Bovine papular stomatitis virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=129727">taxid 129727</a>) |
-| Gene | RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog) |
+| Gene | RPO147 (RNA polymerase subunit) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 91 bp |
 | Registry status | draft |

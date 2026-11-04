@@ -1,8 +1,8 @@
 id: Monkeypox_virus_F3L_Huo_2022_cladeIIab
-name: Monkeypox virus — F3L region (positions 46313-46491 of ON563414.2) (Huo 2022, cladeIIab)
+name: Monkeypox virus — F3L (Huo 2022, cladeIIab)
 target:
   taxid: 10244
-  gene: F3L region (positions 46313-46491 of ON563414.2)
+  gene: F3L
   genome_type: dsDNA
   taxon_name: Monkeypox virus
   query: null

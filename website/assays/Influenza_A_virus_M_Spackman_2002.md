@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Influenza_A_virus_M_Spackman_2002</span></p>
 
-**Influenza A virus — M (matrix) (Spackman 2002)**
+**Influenza A virus — M1 (matrix) (Spackman 2002)**
 
 | | |
 |---|---|
 | Target | Influenza A virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11320">taxid 11320</a>) |
-| Gene | M (matrix) |
+| Gene | M1 (matrix) |
 | Chemistry | mgb |
 | Amplicon | 100 bp |
 | Registry status | active |

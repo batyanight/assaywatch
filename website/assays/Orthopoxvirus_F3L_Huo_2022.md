@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Orthopoxvirus_F3L_Huo_2022</span></p>
 
-**Orthopoxvirus — F3L region (positions 46313-46491 of ON563414.2) (Huo 2022)**
+**Orthopoxvirus — F3L (Huo 2022)**
 
 | | |
 |---|---|
 | Target | Orthopoxvirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10242" title="Orthopoxvirus">taxid 10242</a>) |
-| Gene | F3L region (positions 46313-46491 of ON563414.2) |
+| Gene | F3L |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 179 bp |
 | Registry status | draft |

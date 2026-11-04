@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Ophidiomyces_ophidiicola_IGS_Bohuski_2015</span></p>
 
-**Ophidiomyces ophidiicola — intergenic spacer (IGS) (Bohuski 2015)**
+**Ophidiomyces ophidiicola — IGS (intergenic spacer) (Bohuski 2015)**
 
 | | |
 |---|---|
 | Target | Ophidiomyces ophidiicola (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1387563" title="Ophidiomyces ophidiicola">taxid 1387563</a>) |
-| Gene | intergenic spacer (IGS) |
+| Gene | IGS (intergenic spacer) |
 | Chemistry | mgb |
 | Amplicon | 133 bp |
 | Registry status | active |

@@ -1,8 +1,8 @@
 id: Monkeypox_virus_G2R_Li_2010_G2R_WA_F
-name: Monkeypox virus — TNF receptor (G2R), inverted terminal repeat (Li 2010, G2R WA F)
+name: Monkeypox virus — G2R (TNF receptor) (Li 2010, G2R WA F)
 target:
   taxid: 10244
-  gene: TNF receptor (G2R), inverted terminal repeat
+  gene: G2R (TNF receptor)
   genome_type: dsDNA
   taxon_name: Monkeypox virus
   query: null

@@ -30,6 +30,8 @@ word for a concept.
 
 **target** — what the assay is for: `taxid`, `taxon_name`, `gene`, `genome_type`, optional `query` (`schema.py` `Target`).
 
+**gene name** — `target.gene`: `symbol (product)`, or a bare name where there is no separate symbol, each virus keeping its own true symbol (influenza NP, paramyxovirus N). Coordinates, accessions and ortholog lists go in `notes_curator`, unless a position is the locus's only identity.
+
 **scope_taxids** — taxa the assay is meant to detect; a record counts toward the drift denominator when its taxid or any ancestor is listed (`schema.py` `Target`, `config.yaml drift: scope_taxonomy`).
 
 **exclusivity** — a published claim that the assay does not amplify certain off-target taxa; those taxa are listed in `target.exclusivity_taxids`, retrieved on purpose, and reported as predicted cross-reactivity, never scored (`schema.py` `Target`).

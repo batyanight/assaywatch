@@ -1,8 +1,8 @@
 id: Cytomegalovirus_gB_Prepens_2007_round1
-name: Cytomegalovirus — gB (glycoprotein B, UL55) (Prepens 2007), nested round 1
+name: Cytomegalovirus — gB (glycoprotein B) (Prepens 2007), nested round 1
 target:
   taxid: 10358
-  gene: gB (glycoprotein B, UL55)
+  gene: gB (glycoprotein B)
   genome_type: dsDNA
   taxon_name: Cytomegalovirus
 chemistry: conventional

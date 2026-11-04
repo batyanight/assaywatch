@@ -9,12 +9,12 @@
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Orf_virus_RPO147_Zhao_2013</span></p>
 
-**Orf virus — RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog) (Zhao 2013)**
+**Orf virus — RPO147 (RNA polymerase subunit) (Zhao 2013)**
 
 | | |
 |---|---|
 | Target | Orf virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10258">taxid 10258</a>) |
-| Gene | RNA polymerase subunit RPO147 (ORF56 in ORFV IA82; vaccinia J6R homolog) |
+| Gene | RPO147 (RNA polymerase subunit) |
 | Chemistry | hydrolysis_probe |
 | Amplicon | 68 bp |
 | Registry status | draft |

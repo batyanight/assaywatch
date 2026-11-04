@@ -1,10 +1,8 @@
 id: Ophidiomyces_ophidiicola_targetD_Haynes_2023
-name: Ophidiomyces ophidiicola — target D, unannotated genomic segment shared by all six clades/lineages (position in 
-  paper's S1 Table, not in PDF) (Haynes 2023)
+name: Ophidiomyces ophidiicola — target D (unannotated genomic segment) (Haynes 2023)
 target:
   taxid: 1387563
-  gene: target D, unannotated genomic segment shared by all six clades/lineages (position in paper's S1 Table, not in 
-    PDF)
+  gene: target D (unannotated genomic segment)
   genome_type: dsDNA
   taxon_name: Ophidiomyces ophidiicola
   query: '"whole genome shotgun"[Title]'
