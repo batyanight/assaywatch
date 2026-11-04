@@ -17,6 +17,7 @@ signature, and `pytest -m slow` caught it -- every edit to `report.py` would hav
 from __future__ import annotations
 
 import gzip
+import sys
 import warnings
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
@@ -290,16 +291,23 @@ def build(
         except ValueError:
             today = None
     records = graph_records(calls, dates, cfg, today=today, inputs=inputs)
+    # The calls table is the largest thing this stage holds (3.17 GB peak on the 2026-11-01
+    # run) and nothing below reads it. Each assay's records go the same way once used.
+    taxonomy = inputs["taxonomy"]
+    del calls, inputs
 
     out: dict[str, AssayComposition] = {}
-    for assay_id, rows in sorted(records.items()):
+    total = len(records)
+    for i, assay_id in enumerate(sorted(records), start=1):
+        rows = records.pop(assay_id)
+        print(f"composition {i}/{total} {assay_id}: {len(rows)} records", file=sys.stderr, flush=True)
         assay = assays.get(assay_id)
         if assay is None:
             continue
         wanted = {strip_version(r.record_id) for r in rows}
         seqs, titles = _archive(retrieved, assay, wanted)
         out[assay_id] = build_assay(
-            assay, rows, cfg, _coverage_for(coverage, assay_id), seqs, titles, inputs["taxonomy"], opts
+            assay, rows, cfg, _coverage_for(coverage, assay_id), seqs, titles, taxonomy, opts
         )
     return CompositionRun(run_date=run_date, assays=out)
 
@@ -313,7 +321,6 @@ def _coverage_for(coverage: Mapping[str, Any] | None, assay_id: str) -> dict[str
 def main(argv: list[str] | None = None) -> int:
     import argparse
     import json
-    import sys
 
     from assaywatch.composition import write
     from assaywatch.score import load_config

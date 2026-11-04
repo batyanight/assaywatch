@@ -226,3 +226,43 @@ def test_a_stratum_that_is_not_a_species_is_never_new_since_design(run):
     since design" badge on one would read as a finding about the taxon."""
     a = run.assays[ASSAY]
     assert all(not c.new_since_design for c in a.clusters if c.id < 0)
+
+
+def test_build_says_which_assay_it_is_on(tmp_path, capsys):
+    """A build takes many minutes over the registry, and one that prints nothing cannot
+    be told from one that has hung (ROADMAP composition, step 18)."""
+    calls_path, reg, retrieved = _fixture(tmp_path)
+    build(calls_path, reg, retrieved, CFG, run_date="2026-01-01", today=date(2026, 1, 1))
+    assert f"composition 1/1 {ASSAY}" in capsys.readouterr().err
+
+
+def test_the_calls_table_is_released_before_the_per_assay_loop(tmp_path, monkeypatch):
+    """The table is the stage's largest object (3.17 GB peak on the 2026-11-01 run) and
+    nothing after `graph_records` reads it, so the loop must not hold it."""
+    import weakref
+
+    from assaywatch import composition_build, report
+
+    class Rows(list):  # a plain list cannot be weakly referenced
+        pass
+
+    held = []
+    real_load = report.load_calls_as_reported
+
+    def load(*args, **kwargs):
+        rows = Rows(real_load(*args, **kwargs))
+        held.append(weakref.ref(rows))
+        return rows
+
+    alive_in_loop = []
+    real_build_assay = composition_build.build_assay
+
+    def build_assay(*args, **kwargs):
+        alive_in_loop.append(held[0]() is not None)
+        return real_build_assay(*args, **kwargs)
+
+    monkeypatch.setattr(report, "load_calls_as_reported", load)
+    monkeypatch.setattr(composition_build, "build_assay", build_assay)
+    calls_path, reg, retrieved = _fixture(tmp_path)
+    build(calls_path, reg, retrieved, CFG, run_date="2026-01-01", today=date(2026, 1, 1))
+    assert alive_in_loop == [False]
