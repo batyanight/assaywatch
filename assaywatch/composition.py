@@ -16,16 +16,34 @@ holds the stage's internals, each tested at its own boundary.
 
 from __future__ import annotations
 
+import dataclasses
+import gzip
 import hashlib
+import json
 import re
+import warnings
 from collections import Counter, defaultdict
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
+from datetime import date
+from pathlib import Path
 from typing import Any
 
 from assaywatch.accession import strip_version
 from assaywatch.drift import GraphRecord
-from assaywatch.subcluster import OTHER, UNPLACED, Region
+from assaywatch.subcluster import (
+    OTHER,
+    UNPLACED,
+    Region,
+    assign_nearest,
+    available_flank,
+    components_at,
+    flanked_region,
+    jaccard_matrix,
+    kmer_matrix,
+    mash_distances,
+    window_shape,
+)
 from assaywatch.taxonomy import Taxonomy
 
 
@@ -350,6 +368,9 @@ class Cell:
     cluster: int
     records: int
     detected: int
+    #: How many of them are inside the assay's own recent window, which may have widened.
+    #: Defaulted, so a hand-built Cell in a test need not state it.
+    recent: int = 0
 
 
 def observed_series(cells: Sequence[Cell]) -> dict[int, float]:
@@ -602,7 +623,7 @@ def cells_from(records: Sequence[GraphRecord], labels: Mapping[str, int]) -> lis
     and must not appear in the bar below it. `detected` is the graph's own detection rule,
     already resolved per assay on `GraphRecord`.
     """
-    totals: dict[tuple[int, int], list[int]] = defaultdict(lambda: [0, 0])
+    totals: dict[tuple[int, int], list[int]] = defaultdict(lambda: [0, 0, 0])
     for r in records:
         if not r.evaluable:
             continue
@@ -610,7 +631,8 @@ def cells_from(records: Sequence[GraphRecord], labels: Mapping[str, int]) -> lis
         cell = totals[(r.year, label)]
         cell[0] += 1
         cell[1] += int(r.detected)
-    return [Cell(year, cluster, n, d) for (year, cluster), (n, d) in sorted(totals.items())]
+        cell[2] += int(r.recent)
+    return [Cell(year, cluster, n, d, rec) for (year, cluster), (n, d, rec) in sorted(totals.items())]
 
 
 def pool_small_clusters(cells: Sequence[Cell], *, show: int) -> list[Cell]:
@@ -626,10 +648,547 @@ def pool_small_clusters(cells: Sequence[Cell], *, show: int) -> list[Cell]:
         if c.cluster not in _NEVER_POOLED:
             size[c.cluster] += c.records
     keep = {k for k, _ in sorted(size.items(), key=lambda kv: (-kv[1], kv[0]))[:show]}
-    totals: dict[tuple[int, int], list[int]] = defaultdict(lambda: [0, 0])
+    totals: dict[tuple[int, int], list[int]] = defaultdict(lambda: [0, 0, 0])
     for c in cells:
         label = c.cluster if (c.cluster in keep or c.cluster in _NEVER_POOLED) else OTHER
         cell = totals[(c.year, label)]
         cell[0] += c.records
         cell[1] += c.detected
-    return [Cell(year, cluster, n, d) for (year, cluster), (n, d) in sorted(totals.items())]
+        cell[2] += c.recent
+    return [Cell(year, cluster, n, d, rec) for (year, cluster), (n, d, rec) in sorted(totals.items())]
+
+
+# ---- The stage: one assay at a time, then the run (ROADMAP composition step 12) ----
+
+#: `composition.tsv`'s columns, in order. The panel is drawn from these and from
+#: `composition.json`; the TSV is the readable half, one row per (assay, year, cluster).
+TSV_COLUMNS = (
+    "assay_id",
+    "year",
+    "cluster_id",
+    "cluster_name",
+    "cluster_rank",
+    "records",
+    "detected",
+    "recent_records",
+    "top_species",
+    "top_species_taxid",
+    "species_mix",
+    "cluster_first_year",
+    "new_since_design",
+    "representative",
+    "cut",
+    "left_bp",
+    "right_bp",
+)
+
+
+@dataclass(frozen=True)
+class Cluster:
+    """One lineage of one assay, as the panel labels it."""
+
+    id: int
+    name: str
+    n_records: int
+    #: The lowest-ranked accession in the cluster: its stable identity across runs.
+    representative: str
+    species_mix: tuple[tuple[str, int], ...]
+    top_species_taxid: int | None
+    title_tokens: tuple[str, ...]
+    first_year: int | None
+    new_since_design: bool
+
+
+@dataclass(frozen=True)
+class AssayComposition:
+    """One assay's lineage composition over time."""
+
+    assay_id: str
+    cut: float
+    left_bp: int
+    right_bp: int
+    clusters: tuple[Cluster, ...]
+    cells: tuple[Cell, ...]
+    #: Deposit year -> detected share, as the graph draws it and on a fixed mix.
+    observed: dict[int, float]
+    same_mix: dict[int, float]
+    split: Split | None
+    species: tuple[SpeciesYear, ...]
+    #: What this assay's reader has to be told: how much is unplaced or diverged, and
+    #: whether the clustering could run at all.
+    note: str
+
+
+@dataclass(frozen=True)
+class CompositionRun:
+    run_date: str
+    assays: dict[str, AssayComposition]
+
+
+def _resolve_species(taxid: int | None, title: str, taxonomy: Taxonomy | None) -> tuple[int | None, str]:
+    """One record's species: its taxid rolled up to species rank where the cache knows it,
+    else the name in its title. The one place either is decided, so the cluster mixes and
+    `species_years` cannot disagree about what a record is."""
+    key: int | None = None
+    name = ""
+    if taxid and taxonomy is not None:
+        canon = taxonomy.canonical(taxid)
+        key = taxonomy.species_of(canon) or canon
+        name = taxonomy.name.get(key, "")
+    elif taxid:
+        key = taxid
+    if not name:
+        name = organism(title) or (f"taxid {key}" if key else "")
+    return key, name
+
+
+def _label_records(regions: list[Region], years: list[int], opts: Options) -> tuple[dict[str, int], float]:
+    """Cluster an assay's windows and label every record. Returns (record id -> label,
+    the cut used). Sampled windows set the clusters; everything else, short flanks
+    included, is assigned to its nearest sampled member (`assign_nearest`)."""
+    picked = sample_windows(regions, years, opts.sample_cap)
+    if len(picked) < opts.min_cluster_size:
+        return {}, opts.cut
+    ref = [regions[i].seq for i in picked]
+    dist = mash_distances(jaccard_matrix(kmer_matrix(ref, opts.kmer_len)), opts.kmer_len)
+    ref_labels = components_at(dist, opts.cut, opts.min_cluster_size)
+    rest = [i for i in range(len(regions)) if i not in set(picked)]
+    labels = {regions[i].record_id: lab for i, lab in zip(picked, ref_labels, strict=True)}
+    if rest:
+        short = {n for n, i in enumerate(rest) if not regions[i].full_flank}
+        assigned = assign_nearest(
+            [regions[i].seq for i in rest],
+            ref,
+            ref_labels,
+            opts.kmer_len,
+            opts.cut,
+            containment_for=short,
+        )
+        labels.update({regions[i].record_id: lab for i, lab in zip(rest, assigned, strict=True)})
+    return labels, opts.cut
+
+
+def _describe_clusters(
+    cells: Sequence[Cell],
+    labels: Mapping[str, int],
+    species: Mapping[str, tuple[int | None, str]],
+    titles: Mapping[str, str],
+    years: Mapping[str, int],
+    design_year: int | None,
+    opts: Options,
+) -> tuple[Cluster, ...]:
+    """Name every drawn cluster and say what else it holds."""
+    drawn = sorted({c.cluster for c in cells})
+    members: dict[int, list[str]] = defaultdict(list)
+    for rid, lab in labels.items():
+        members[lab].append(rid)
+    for lab in drawn:
+        members.setdefault(lab, [])
+    mixes = [species_mix([species.get(r, (None, ""))[1] for r in members[lab]]) for lab in drawn]
+    reps = [min(members[lab], key=_order_key) if members[lab] else "" for lab in drawn]
+    names = cluster_names(mixes, reps, pure_share=opts.name_pure_share)
+    by_cluster = {lab: [titles.get(r, "") for r in members[lab]] for lab in drawn}
+    out = []
+    for lab, mix, rep, name in zip(drawn, mixes, reps, names, strict=True):
+        background = [t for other, rows in by_cluster.items() if other != lab for t in rows]
+        first = min((years[r] for r in members[lab] if r in years), default=None)
+        top_taxid = next(
+            (
+                species[r][0]
+                for r in members[lab]
+                if r in species and species[r][1] == (mix[0][0] if mix else None)
+            ),
+            None,
+        )
+        out.append(
+            Cluster(
+                id=lab,
+                name=_special_name(lab) or name,
+                n_records=sum(c.records for c in cells if c.cluster == lab),
+                representative=rep,
+                species_mix=tuple(mix),
+                top_species_taxid=top_taxid,
+                title_tokens=tuple(
+                    title_tokens(
+                        by_cluster[lab],
+                        background,
+                        name=name,
+                        min_share=opts.token_min_share,
+                        min_lift=opts.token_min_lift,
+                        top=opts.title_tokens_shown,
+                    )
+                ),
+                first_year=first,
+                # Only a real cluster can be new: "diverged", "unplaced" and "other" are
+                # statements about the clustering, and a badge on one would read as a
+                # finding about the taxon.
+                new_since_design=(
+                    lab >= 0 and design_year is not None and first is not None and first > design_year
+                ),
+            )
+        )
+    return tuple(out)
+
+
+def _special_name(label: int) -> str:
+    """The three labels that are not clusters say what they are, not a species."""
+    return {DIVERGED: "diverged (no site)", UNPLACED: "unplaced", OTHER: "other"}.get(label, "")
+
+
+def _place_window(
+    seq: str, assay: Any, cfg: Mapping[str, Any], search: Mapping[str, Any]
+) -> tuple[tuple[int, int], list[tuple[int, int]]] | None:
+    """Where one record's amplicon sits and which stretches are oligo sites, or None when
+    this record can carry no product.
+
+    RECOMPUTED from the sequence, not read from the run's tables (2026-11-03, a change to
+    the interface the plan approved). Three things were tried: `calls.read_calls` drops the
+    amplicon and site columns on purpose, because carrying every column of a 2.7M-row
+    table as dicts took 3.6 GB; the per-assay screens under `results/screened/` do hold
+    them, but they are a cache keyed by archive and their `assay_id` column goes stale --
+    on 2026-11-03 every screen on this machine still carried the ids renamed away on
+    2026-11-02, so matching on it found nothing at all. `match.pair_spans` and
+    `match.find_sites` need neither, and cost 0.2 ms per record (100 Chlamydia records,
+    measured), which is 12 seconds for the largest archive in the registry.
+
+    The search runs at `clustermaps.search_params`, the widest any chemistry may use, so
+    composition and the Mode C resolver look for sites identically. Of the candidate
+    amplicons the one nearest the assay's own `amplicon_bp` is cut around -- the screen's
+    winning pair is not recorded here -- and EVERY candidate site of every oligo is
+    masked, which errs toward masking too much: a window must not be defined by sequence
+    the assay measures.
+    """
+    from assaywatch.match import find_sites, pair_spans
+
+    pairs = [(assay.oligos.forward.matching_seq, assay.oligos.reverse.matching_seq)]
+    spans = pair_spans(seq, pairs, cfg, **search)
+    if not spans:
+        return None
+    want = assay.amplicon_bp
+    span = min(spans, key=lambda s: (abs((s[1] - s[0]) - want) if want else 0, s[0]))
+    oligos = [assay.oligos.forward, assay.oligos.reverse, assay.oligos.probe]
+    sites = [
+        (site.start, site.end)
+        for oligo in oligos
+        if oligo is not None
+        for site in find_sites(oligo.matching_seq, seq, int(search["max_mm"]))
+    ]
+    return span, sites
+
+
+def _relabel(cells: Sequence[Cell], keep: set[int]) -> list[Cell]:
+    """Pool every cluster outside `keep` into `OTHER`, keeping years and counts."""
+    totals: dict[tuple[int, int], list[int]] = defaultdict(lambda: [0, 0, 0])
+    for c in cells:
+        cell = totals[(c.year, c.cluster if c.cluster in keep else OTHER)]
+        cell[0] += c.records
+        cell[1] += c.detected
+        cell[2] += c.recent
+    return [Cell(y, k, n, d, rec) for (y, k), (n, d, rec) in sorted(totals.items())]
+
+
+def build_assay(
+    assay: Any,
+    records: Sequence[GraphRecord],
+    cfg: Mapping[str, Any],
+    sequences: Mapping[str, str],
+    titles: Mapping[str, str],
+    taxonomy: Taxonomy | None,
+    opts: Options,
+) -> AssayComposition:
+    """One assay's composition, from the very records its graph is built from.
+
+    The window is placed per record by `_place_window`, which says why it recomputes;
+    `sequences` and `titles` come from the archive, keyed by unversioned accession. A
+    record whose sequence is missing, or which can carry no product, is still COUNTED --
+    it is in the graph -- and lands in `unplaced`: leaving it out would break the
+    invariant that each year's cells sum to that year's evaluable records, and that
+    invariant is the point (finding 4).
+    """
+    from assaywatch.clustermaps import search_params
+
+    search = search_params(cfg)
+    spans = []
+    for r in records:
+        if not r.evaluable or r.diverged:
+            continue
+        seq = sequences.get(strip_version(r.record_id))
+        placed = _place_window(seq, assay, cfg, search) if seq is not None else None
+        if placed is not None:
+            spans.append((r, seq, *placed))
+
+    shape = window_shape(
+        [available_flank(seq, amp, stop_n_run=opts.stop_n_run) for _, seq, amp, _ in spans],
+        flank_bp=opts.flank_bp,
+        quantile=opts.shape_quantile,
+    )
+    regions = [
+        flanked_region(
+            r.record_id,
+            seq,
+            amp,
+            sites,
+            left_bp=shape[0],
+            right_bp=shape[1],
+            mask_buffer_bp=opts.mask_buffer_bp,
+            stop_n_run=opts.stop_n_run,
+        )
+        for r, seq, amp, sites in spans
+    ]
+    labels, cut = _label_records(regions, [r.year for r, *_ in spans], opts)
+
+    # Pool once, over every year, then apply that one decision to each period, so a
+    # cluster cannot be drawn in the panel and pooled away in the split beside it.
+    cells = cells_from(records, labels)
+    drawn = pool_small_clusters(cells, show=opts.show_clusters)
+    keep = {c.cluster for c in drawn}
+    recent = _relabel(cells_from([r for r in records if r.recent], labels), keep)
+    baseline = _relabel(cells_from([r for r in records if not r.recent], labels), keep)
+
+    titles_by_record = {r.record_id: titles.get(strip_version(r.record_id), "") for r in records}
+    species = {
+        rid: _resolve_species(r.taxid, titles_by_record[rid], taxonomy)
+        for r in records
+        if (rid := r.record_id)
+    }
+    placed_labels = {
+        r.record_id: (DIVERGED if r.diverged else labels.get(r.record_id, UNPLACED))
+        for r in records
+        if r.evaluable
+    }
+    clusters = _describe_clusters(
+        drawn,
+        {rid: (lab if lab in keep else OTHER) for rid, lab in placed_labels.items()},
+        species,
+        titles_by_record,
+        {r.record_id: r.year for r in records},
+        assay.citation.design_year,
+        opts,
+    )
+    evaluable = sum(1 for r in records if r.evaluable)
+    unplaced = sum(c.records for c in drawn if c.cluster == UNPLACED)
+    diverged = sum(c.records for c in drawn if c.cluster == DIVERGED)
+    notes = []
+    if not labels and evaluable:
+        notes.append("too few windows to cluster: every record is unplaced")
+    if unplaced:
+        notes.append(f"{unplaced} of {evaluable} records unplaced ({unplaced / evaluable:.0%})")
+    if diverged:
+        notes.append(f"{diverged} of {evaluable} diverged, with no site to cluster on")
+    return AssayComposition(
+        assay_id=assay.id,
+        cut=cut,
+        left_bp=shape[0],
+        right_bp=shape[1],
+        clusters=clusters,
+        cells=tuple(drawn),
+        observed=observed_series(drawn),
+        same_mix=same_mix_series(drawn, min_covered=opts.same_mix_min_covered),
+        split=split_change(baseline, recent, n_boot=opts.n_boot, seed=opts.boot_seed),
+        species=tuple(
+            species_years(
+                [(r.taxid, r.year, titles_by_record[r.record_id]) for r in records if r.evaluable],
+                taxonomy if taxonomy is not None else Taxonomy({}, {}),
+                design_year=assay.citation.design_year,
+            )
+        ),
+        note="; ".join(notes),
+    )
+
+
+def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, str], dict[str, str]]:
+    """The sequences and titles of one assay's retrieval group, keyed by unversioned
+    accession, for the records in `wanted`. A window archive holds only the stretches
+    around the sites, which is what the mask removes, so it is skipped with a warning --
+    the same rule `clustermaps` applies, for the same reason."""
+    from assaywatch.fasta import read_fasta
+    from assaywatch.groups import group_slug
+
+    seqs: dict[str, str] = {}
+    titles: dict[str, str] = {}
+    if assay.target.taxid is None:
+        return seqs, titles
+    group = retrieved / str(assay.target.taxid) / group_slug(assay.target.query)
+    if not group.is_dir():
+        return seqs, titles
+    for fasta in sorted(group.glob("*.fasta.gz")):
+        if (fasta.parent / (fasta.name.removesuffix(".fasta.gz") + ".windows.tsv.gz")).exists():
+            warnings.warn(
+                f"{fasta} is a window archive; a composition window needs whole records, skipped",
+                stacklevel=2,
+            )
+            continue
+        for rid, seq in read_fasta(fasta):
+            base = strip_version(rid)
+            if base in wanted and base not in seqs:
+                seqs[base] = seq.upper()
+    for meta in sorted(group.glob("*.meta.tsv.gz")):
+        with gzip.open(meta, "rt") as fh:
+            header = (fh.readline() or "").rstrip("\n").split("\t")
+            if "accession" not in header:
+                continue
+            ai = header.index("accession")
+            ti = header.index("title") if "title" in header else None
+            for line in fh:
+                parts = line.rstrip("\n").split("\t")
+                if len(parts) > ai and parts[ai] in wanted and ti is not None and len(parts) > ti:
+                    titles.setdefault(parts[ai], parts[ti])
+    return seqs, titles
+
+
+def build(
+    calls_path: Path,
+    registry: Path,
+    retrieved: Path,
+    cfg: dict[str, Any],
+    *,
+    run_date: str | None = None,
+    today: date | None = None,
+    coverage: Mapping[str, Any] | None = None,
+) -> CompositionRun:
+    """Every assay's lineage composition for one run.
+
+    Reads the calls table and the assessment inputs through `report`, so the records are
+    the ones the graph counts and the scope filter, patent exclusion and `reduced` rule
+    are the verdict's own (ROADMAP composition, decision A). `coverage` is the retrieval
+    coverage of step 17, carried through untouched until that step fills it.
+
+    Report-only: this returns a document and changes no status.
+    """
+    from assaywatch.drift import graph_records
+    from assaywatch.report import assessment_inputs, load_calls_as_reported, read_dates
+    from assaywatch.validate import iter_files, load_assay
+
+    opts = Options.from_config(cfg)
+    assays = {}
+    for path in iter_files(registry):
+        a = load_assay(path)
+        if a.status.value != "deprecated":
+            assays[a.id] = a
+    calls = load_calls_as_reported(calls_path, assays, cfg)
+    inputs = assessment_inputs(calls, assays, retrieved, cfg)
+    dates = read_dates(retrieved)
+    run_date = run_date or calls_path.parent.name
+    if today is None:
+        try:
+            today = date.fromisoformat(run_date[:10])
+        except ValueError:
+            today = None
+    records = graph_records(calls, dates, cfg, today=today, inputs=inputs)
+
+    out: dict[str, AssayComposition] = {}
+    for assay_id, rows in sorted(records.items()):
+        assay = assays.get(assay_id)
+        if assay is None:
+            continue
+        wanted = {strip_version(r.record_id) for r in rows}
+        seqs, titles = _archive(retrieved, assay, wanted)
+        out[assay_id] = build_assay(assay, rows, cfg, seqs, titles, inputs["taxonomy"], opts)
+    del coverage  # step 17
+    return CompositionRun(run_date=run_date, assays=out)
+
+
+def write(run: CompositionRun, out_dir: Path) -> tuple[Path, Path]:
+    """Write `composition.tsv` (one row per assay, year and cluster) and
+    `composition.json` (everything, for the site and the report). Returns both paths."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    tsv, js = out_dir / "composition.tsv", out_dir / "composition.json"
+    with tsv.open("w") as fh:
+        fh.write("\t".join(TSV_COLUMNS) + "\n")
+        for assay_id, a in sorted(run.assays.items()):
+            by_id = {c.id: (rank, c) for rank, c in enumerate(a.clusters)}
+            for cell in a.cells:
+                rank, cluster = by_id.get(cell.cluster, (-1, None))
+                mix = cluster.species_mix if cluster else ()
+                fh.write(
+                    "\t".join(
+                        str(v)
+                        for v in (
+                            assay_id,
+                            cell.year,
+                            cell.cluster,
+                            cluster.name if cluster else "",
+                            rank,
+                            cell.records,
+                            cell.detected,
+                            cell.recent,
+                            mix[0][0] if mix else "",
+                            (cluster.top_species_taxid if cluster else None) or "",
+                            "; ".join(f"{name} {n}" for name, n in mix[:4]),
+                            (cluster.first_year if cluster else None) or "",
+                            int(cluster.new_since_design) if cluster else 0,
+                            cluster.representative if cluster else "",
+                            f"{a.cut:g}",
+                            a.left_bp,
+                            a.right_bp,
+                        )
+                    )
+                    + "\n"
+                )
+    js.write_text(json.dumps(_as_json(run), indent=1, sort_keys=True) + "\n")
+    return tsv, js
+
+
+def _as_json(run: CompositionRun) -> dict[str, Any]:
+    return {
+        "run_date": run.run_date,
+        "assays": {
+            aid: {
+                "cut": a.cut,
+                "left_bp": a.left_bp,
+                "right_bp": a.right_bp,
+                "note": a.note,
+                "clusters": [dataclasses.asdict(c) for c in a.clusters],
+                "cells": [dataclasses.asdict(c) for c in a.cells],
+                "observed": {str(y): v for y, v in a.observed.items()},
+                "same_mix": {str(y): v for y, v in a.same_mix.items()},
+                "split": dataclasses.asdict(a.split) if a.split else None,
+                "species": [dataclasses.asdict(s) for s in a.species],
+            }
+            for aid, a in sorted(run.assays.items())
+        },
+    }
+
+
+def read_summary(path: Path) -> CompositionRun:
+    """Read back what `write` wrote, as the same objects. The site and the report read a
+    run through this, so the JSON is a format and not a dump: a round-trip test holds it
+    to that."""
+    data = json.loads(Path(path).read_text())
+    assays = {}
+    for aid, a in data["assays"].items():
+        split = a.get("split")
+        assays[aid] = AssayComposition(
+            assay_id=aid,
+            cut=a["cut"],
+            left_bp=a["left_bp"],
+            right_bp=a["right_bp"],
+            clusters=tuple(
+                Cluster(
+                    **{
+                        **c,
+                        "species_mix": tuple((n, k) for n, k in c["species_mix"]),
+                        "title_tokens": tuple(c["title_tokens"]),
+                    }
+                )
+                for c in a["clusters"]
+            ),
+            cells=tuple(Cell(**c) for c in a["cells"]),
+            observed={int(y): v for y, v in a["observed"].items()},
+            same_mix={int(y): v for y, v in a["same_mix"].items()},
+            split=(
+                Split(
+                    **{
+                        **split,
+                        "mix_ci": tuple(split["mix_ci"]) if split["mix_ci"] else None,
+                        "within_ci": tuple(split["within_ci"]) if split["within_ci"] else None,
+                        "one_period_clusters": tuple(split["one_period_clusters"]),
+                    }
+                )
+                if split
+                else None
+            ),
+            species=tuple(SpeciesYear(**s) for s in a["species"]),
+            note=a["note"],
+        )
+    return CompositionRun(run_date=data["run_date"], assays=assays)

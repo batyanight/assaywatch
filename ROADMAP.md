@@ -943,9 +943,27 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         graph's denominator, so a record outside it is in no cell; `diverged` and `unplaced`
         are never pooled into `other`, since the sentence states their share. Pooling ranks a
         cluster over ALL years, so it does not appear and vanish year by year. 9 tests.
-  - [ ] 12. `composition.build` / `write` on the fixture: invariant, TSV schema, JSON round-trip.
-        Moves the `composition:` block and `settings.Composition` in from
-        `docs/composition-config-draft.yaml`, with their tests, and deletes the draft.
+  - [x] 12. `composition.build` / `write` on the fixture: invariant, TSV schema, JSON round-trip.
+        **Done 2026-11-03.** `Options`, `Cluster`, `AssayComposition`, `CompositionRun`,
+        `build_assay`, `build`, `write`, `read_summary`, `TSV_COLUMNS`. Sixteen config keys and
+        their model fields moved in (own commit); `report_min_mix`, `site_max_bytes` and
+        `coverage_refresh_years` stay drafted until steps 14, 15 and 17, so the draft file
+        survives until then. 8 end-to-end tests on a two-clade archive generated in the test
+        rather than in `make_fixtures.py`, which writes the committed fixtures `test_score`
+        reads and needs none of this.
+        **Two interface changes, both forced by measurement.** (a) The window's amplicon span
+        and oligo sites are RECOMPUTED per record (`_place_window`, `match.pair_spans` +
+        `find_sites` at `clustermaps.search_params`, 0.2 ms/record measured) rather than read
+        from a table: `calls.read_calls` drops those columns on purpose (3.6 GB otherwise), and
+        the per-assay screens that do hold them are a cache whose `assay_id` column was stale
+        on this machine the moment the ids were renamed on 2026-11-02 -- every screen still
+        carried the old ids, so matching on it found nothing. (b) `Cell` gained a `recent`
+        count, which `composition.tsv` reports, and the TSV carries `left_bp`/`right_bp` in
+        place of the plan's single `flank_bp`, since the shape is per assay.
+        Smoke-run on the 2026-11-01 calls, two assays: Messmer 16S splits into *trachomatis*,
+        *psittaci*, *pecorum*, *crocodili* and a second *trachomatis* cluster whose tokens are
+        `L2f`/`LGV` -- the serovar group that assay misses; Haemosporida cytb into
+        *Haemoproteus*, *Plasmodium* and two more, 2 of 2,227 records unplaced.
   - [ ] 13. `lineage.md` from `composition.tsv`. **slow.**
   - [ ] 14. Report section. **slow.**
   - [ ] 15. Site: `website/data/composition.json` (columnar), chart additions, panel, sentence; a
