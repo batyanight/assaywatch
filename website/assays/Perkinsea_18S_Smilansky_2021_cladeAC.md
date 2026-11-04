@@ -134,7 +134,7 @@ outside the central third</title><rect x="420.4" y="186.6" width="13.0" height="
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=373149" title="uncultured Perkinsea">373149</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Perkinsea_18S_Smilansky_2021_cladeAC.scope.txt" download>Download 1 taxids as a text file</a>
+<a class="aw-download" href="../Perkinsea_18S_Smilansky_2021_cladeAC.scope.txt" download>Download 1 taxids as a text file</a>
 
 1,389 screened records fell outside the declared scope.
 

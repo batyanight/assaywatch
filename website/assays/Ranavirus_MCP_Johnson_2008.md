@@ -1,4 +1,4 @@
-# RANAVIRUS INFECTION OF FREE-RANGING AND CAPTIVE BOX TURTLES AND TORTOISES IN THE UNITED STATES
+# Ranavirus infection of free-ranging and captive box turtles and tortoises in the United States
 
 <p class="aw-byline">Johnson and 12 others · Journal of Wildlife Diseases · 2008</p>
 

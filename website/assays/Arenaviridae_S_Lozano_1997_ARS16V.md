@@ -193,7 +193,7 @@ inside the 3′ window</title><rect x="375.0" y="115.5" width="13.0" height="10.
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=208898" title="unclassified Arenaviridae">208898</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1653394" title="Mammarenavirus">1653394</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Arenaviridae_S_Lozano_1997_ARS16V.scope.txt" download>Download 2 taxids as a text file</a>
+<a class="aw-download" href="../Arenaviridae_S_Lozano_1997_ARS16V.scope.txt" download>Download 2 taxids as a text file</a>
 
 473 screened records fell outside the declared scope.
 

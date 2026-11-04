@@ -1365,3 +1365,56 @@ def test_a_protocol_page_does_not_claim_its_oligos_never_mismatched():
     block = site_render._charts_block(page, None)
     assert "No position carried a mismatch" not in block
     assert "the round" in block
+
+
+@pytest.mark.skipif(not DATA.exists(), reason="website/data/run.json is not present")
+def test_every_scope_download_link_reaches_its_file_as_the_site_serves_it():
+    """MkDocs serves `assays/X.md` at `assays/X/`, so a relative link resolves from there, and
+    it leaves raw HTML links alone. `href="X.scope.txt"` passed every check of the file itself
+    and was a 404 on all 48 pages that offer one, until 2026-11-04."""
+    site = ROOT / "website"
+    links = 0
+    for section in ("assays", "nests"):
+        for page in sorted((site / section).glob("*.md")):
+            for href in re.findall(r'class="aw-download" href="([^"]+)"', page.read_text()):
+                links += 1
+                served_from = site / section / page.stem
+                target = (served_from / href).resolve()
+                assert target.is_file(), f"{page.name}: {href} resolves to nothing"
+                assert target.name == f"{page.stem}.scope.txt", f"{page.name}: {href}"
+    assert links, "no page offers a scope download, so this test proved nothing"
+
+
+def _caps_titles():
+    raw = json.loads((ROOT / "docs" / "papers-index.cache.json").read_text())
+    out = {}
+    for doi, rec in raw.items():
+        title = " ".join(((rec or {}).get("title") or "").split()) if isinstance(rec, dict) else ""
+        letters = [c for c in title if c.isalpha()]
+        if letters and sum(c.isupper() for c in letters) / len(letters) > 0.7:
+            out[doi.lower()] = title
+    return out
+
+
+def _letters(title):
+    return re.sub(r"[^A-Z0-9]", "", title.upper())
+
+
+def test_no_paper_title_is_shown_in_capitals():
+    """Some journals deposit their titles in capitals at Crossref, 10 of 235 on 2026-11-04,
+    so those pages shouted beside all the others. A newly cited one fails here until it has
+    a corrected title."""
+    assert not set(_caps_titles()) - set(site_render.TITLE_CASE)
+
+
+def test_a_corrected_title_changes_only_its_case():
+    """A correction is typed by hand into a citation, so it must not change a word."""
+    caps = _caps_titles()
+    for doi, title in site_render.TITLE_CASE.items():
+        assert doi in caps, f"{doi} is no longer in capitals at Crossref; drop the correction"
+        assert _letters(title) == _letters(caps[doi]), doi
+
+
+def test_a_page_shows_the_corrected_title():
+    title = site_render._paper(_page(assay_id="X", doi="10.1645/GE-184R1"))[0]
+    assert title.startswith("A new PCR assay for simultaneous studies of Leucocytozoon")

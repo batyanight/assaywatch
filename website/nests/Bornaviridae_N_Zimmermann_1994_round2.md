@@ -44,7 +44,7 @@ This protocol's scope is the intersection of its rounds' scopes: a record counts
 
 The protocol declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=12455" title="Borna disease virus">12455</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1714619" title="Orthobornavirus bornaense">1714619</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Bornaviridae_N_Zimmermann_1994_round2.scope.txt" download>Download 2 taxids as a text file</a>
+<a class="aw-download" href="../Bornaviridae_N_Zimmermann_1994_round2.scope.txt" download>Download 2 taxids as a text file</a>
 
 45 screened records fell outside the declared scope.
 

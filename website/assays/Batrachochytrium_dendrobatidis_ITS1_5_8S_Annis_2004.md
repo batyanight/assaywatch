@@ -1,4 +1,4 @@
-# A DNA-BASED ASSAY IDENTIFIES BATRACHOCHYTRIUM DENDROBATIDIS IN AMPHIBIANS
+# A DNA-based assay identifies Batrachochytrium dendrobatidis in amphibians
 
 <p class="aw-byline">Annis and 4 others · Journal of Wildlife Diseases · 2004</p>
 

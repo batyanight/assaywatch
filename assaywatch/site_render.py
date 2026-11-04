@@ -235,6 +235,47 @@ def _curation_block(a: dict[str, Any]) -> list[str]:
     return out
 
 
+#: Titles the journal deposited at Crossref in capitals, by lower-case DOI, in normal case.
+#: Not computed: lowercasing cannot tell a binomial or a gene name from a word. The case comes
+#: from PubMed where it holds one (it has none for the two 10.1638/2020 papers), with its slips
+#: corrected ("Juxtanucleare", "spp. And"). `tests/test_site.py` checks that each differs from
+#: Crossref's title only in case, and fails on a capitals title with no entry here.
+TITLE_CASE = {
+    "10.1638/02-070": (
+        "Plasmodium juxtanucleare associated with mortality in black-footed penguins "
+        "(Spheniscus demersus) admitted to a rehabilitation center"
+    ),
+    "10.1638/2020-0078": (
+        "Detection of testadenoviruses and atadenoviruses in tortoises and turtles in Europe"
+    ),
+    "10.1638/2020-0148": "A retrospective analysis of amoebiasis in reptiles in a zoological institution",
+    "10.1645/ge-184r1": (
+        "A new PCR assay for simultaneous studies of Leucocytozoon, Plasmodium, and Haemoproteus "
+        "from avian blood"
+    ),
+    "10.1645/ge-3310": (
+        "Molecular characterization of isosporoid coccidia (Isospora and Atoxoplasma spp.) in passerine birds"
+    ),
+    "10.7589/0090-3558-40.3.420": (
+        "A DNA-based assay identifies Batrachochytrium dendrobatidis in amphibians"
+    ),
+    "10.7589/0090-3558-42.2.279": (
+        "A novel mycoplasma detected in association with upper respiratory disease syndrome in "
+        "free-ranging eastern box turtles (Terrapene carolina carolina) in Virginia"
+    ),
+    "10.7589/0090-3558-44.4.851": (
+        "Ranavirus infection of free-ranging and captive box turtles and tortoises in the United States"
+    ),
+    "10.7589/2013-09-231": (
+        "Molecular methods to detect Mycoplasma spp. and Testudinid herpesvirus 2 in desert tortoises "
+        "(Gopherus agassizii) and implications for disease management"
+    ),
+    "10.7589/2014-05-142": (
+        "Development of a one-step duplex RT-qPCR for the quantification of phocine distemper virus"
+    ),
+}
+
+
 def _paper(a: dict[str, Any]) -> tuple[str, str, str, str]:
     """(title, authors) for an assay's cited paper, each "" when unknown.
 
@@ -243,7 +284,7 @@ def _paper(a: dict[str, Any]) -> tuple[str, str, str, str]:
     collapsed.
     """
     rec = _papers().get((a["doi"] or "").lower(), {})
-    title = " ".join((rec.get("title") or "").split())
+    title = TITLE_CASE.get((a["doi"] or "").lower()) or " ".join((rec.get("title") or "").split())
     names = rec.get("authors") or []
     n = rec.get("n_authors") or len(names)
     if not names:
@@ -759,7 +800,8 @@ def _scope_block(a: dict[str, Any]) -> str:
         # sentence that explains what the list is for.
         ids = ", ".join(_taxid_link(t) for t in taxids)
         download = (
-            f'<a class="aw-download" href="{a["assay_id"]}.scope.txt" download>'
+            # `../`: MkDocs serves this page at `<id>/` and leaves raw HTML links alone.
+            f'<a class="aw-download" href="../{a["assay_id"]}.scope.txt" download>'
             f"Download {len(taxids):,} taxids as a text file</a>"
         )
         if len(taxids) <= SCOPE_INLINE_MAX:
@@ -1015,8 +1057,15 @@ def render(data: dict[str, Any], out: Path, composition: dict[str, Any] | None =
             (nests_dir / f"{nest['assay_id']}.md").write_text(
                 assay_page(nest, data["run_date"], comps.get(nest["assay_id"]))
             )
+            if nest["scope_taxids"]:
+                (nests_dir / f"{nest['assay_id']}.scope.txt").write_text(
+                    "\n".join(str(t) for t in nest["scope_taxids"]) + "\n"
+                )
         for path in sorted(nests_dir.glob("*.md")):
             if path.stem not in current_nests:
+                path.unlink()
+        for path in sorted(nests_dir.glob("*.scope.txt")):
+            if path.name[: -len(".scope.txt")] not in current_nests:
                 path.unlink()
     # Pages for assays that have LEFT the registry, which writing alone never
     # removes: BORNA_VIRUS_N_gene was merged into its sibling on 2026-11-01 and

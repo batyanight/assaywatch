@@ -1,4 +1,4 @@
-# A RETROSPECTIVE ANALYSIS OF AMOEBIASIS IN REPTILES IN A ZOOLOGICAL INSTITUTION
+# A retrospective analysis of amoebiasis in reptiles in a zoological institution
 
 <p class="aw-byline">McFarland, Conley, Seimon and Sykes · Journal of Zoo and Wildlife Medicine · 2021</p>
 

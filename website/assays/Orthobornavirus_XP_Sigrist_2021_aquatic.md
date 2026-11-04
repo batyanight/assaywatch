@@ -137,7 +137,7 @@ outside the central third</title><rect x="396.6" y="200.2" width="13.0" height="
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1548722" title="Orthobornavirus avisaquaticae">1548722</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Orthobornavirus_XP_Sigrist_2021_aquatic.scope.txt" download>Download 1 taxids as a text file</a>
+<a class="aw-download" href="../Orthobornavirus_XP_Sigrist_2021_aquatic.scope.txt" download>Download 1 taxids as a text file</a>
 
 1,278 screened records fell outside the declared scope.
 

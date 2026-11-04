@@ -1,4 +1,4 @@
-# A NOVEL MYCOPLASMA DETECTED IN ASSOCIATION WITH UPPER RESPIRATORY DISEASE SYNDROME IN FREE-RANGING EASTERN BOX TURTLES (TERRAPENE CAROLINA CAROLINA) IN VIRGINIA
+# A novel mycoplasma detected in association with upper respiratory disease syndrome in free-ranging eastern box turtles (Terrapene carolina carolina) in Virginia
 
 <p class="aw-byline">Feldman and 6 others · Journal of Wildlife Diseases · 2006</p>
 

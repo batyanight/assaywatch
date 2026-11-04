@@ -144,7 +144,7 @@ Every evaluable record is one lineage, **Morbillivirus canis (3052342)** (74 of 
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3052342" title="Morbillivirus canis">3052342</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Morbillivirus_canis_P_Scagliarini_2007.scope.txt" download>Download 1 taxids as a text file</a>
+<a class="aw-download" href="../Morbillivirus_canis_P_Scagliarini_2007.scope.txt" download>Download 1 taxids as a text file</a>
 
 
 ## Records reaching the statistics

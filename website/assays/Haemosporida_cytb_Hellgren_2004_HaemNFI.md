@@ -1,4 +1,4 @@
-# A NEW PCR ASSAY FOR SIMULTANEOUS STUDIES OF LEUCOCYTOZOON, PLASMODIUM, AND HAEMOPROTEUS FROM AVIAN BLOOD
+# A new PCR assay for simultaneous studies of Leucocytozoon, Plasmodium, and Haemoproteus from avian blood
 
 <p class="aw-byline">Hellgren, Waldenström and Bensch · Journal of Parasitology · 2004</p>
 
@@ -210,7 +210,7 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=418104">418104</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=418105">418105</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=418110">418110</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=418112">418112</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=419353">419353</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=77521">77521</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=587283">587283</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=195944">195944</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=31272" title="Plasmodium sp.">31272</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Haemosporida_cytb_Hellgren_2004_HaemNFI.scope.txt" download>Download 9 taxids as a text file</a>
+<a class="aw-download" href="../Haemosporida_cytb_Hellgren_2004_HaemNFI.scope.txt" download>Download 9 taxids as a text file</a>
 
 8,901 screened records fell outside the declared scope.
 

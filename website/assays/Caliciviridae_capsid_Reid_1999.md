@@ -131,7 +131,7 @@ inside the 3′ window</title><rect x="330.0" y="107.0" width="13.0" height="19.
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3433198" title="Vesivirus exanthema">3433198</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Caliciviridae_capsid_Reid_1999.scope.txt" download>Download 1 taxids as a text file</a>
+<a class="aw-download" href="../Caliciviridae_capsid_Reid_1999.scope.txt" download>Download 1 taxids as a text file</a>
 
 67,577 screened records fell outside the declared scope.
 

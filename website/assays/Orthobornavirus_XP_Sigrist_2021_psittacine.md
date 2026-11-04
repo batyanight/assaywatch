@@ -114,7 +114,7 @@ Every evaluable record is one lineage, **Orthobornavirus alphapsittaciforme (154
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1548713" title="Orthobornavirus alphapsittaciforme">1548713</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Orthobornavirus_XP_Sigrist_2021_psittacine.scope.txt" download>Download 1 taxids as a text file</a>
+<a class="aw-download" href="../Orthobornavirus_XP_Sigrist_2021_psittacine.scope.txt" download>Download 1 taxids as a text file</a>
 
 721 screened records fell outside the declared scope.
 

@@ -152,7 +152,7 @@ in the central third</title><rect x="500.0" y="174.2" width="13.0" height="33.8"
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10256">10256</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=28874">28874</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=160796">160796</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Orthopoxvirus_G9R_Gallardo-Romero_2011.scope.txt" download>Download 3 taxids as a text file</a>
+<a class="aw-download" href="../Orthopoxvirus_G9R_Gallardo-Romero_2011.scope.txt" download>Download 3 taxids as a text file</a>
 
 18,787 screened records fell outside the declared scope.
 

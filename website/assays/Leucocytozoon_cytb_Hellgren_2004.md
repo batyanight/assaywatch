@@ -1,4 +1,4 @@
-# A NEW PCR ASSAY FOR SIMULTANEOUS STUDIES OF LEUCOCYTOZOON, PLASMODIUM, AND HAEMOPROTEUS FROM AVIAN BLOOD
+# A new PCR assay for simultaneous studies of Leucocytozoon, Plasmodium, and Haemoproteus from avian blood
 
 <p class="aw-byline">Hellgren, Waldenström and Bensch · Journal of Parasitology · 2004</p>
 

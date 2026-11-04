@@ -103,19 +103,30 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   missed (`Monkeypox_virus_G2R_Li_2010_G2R_WA_F`: 5,235 `fail` rows are `no probe site inside
   amplicon`, which have no position to draw); protocol pages now point at their rounds; and
   tooltips on the 8 pool assays whose bars come from an alternate oligo now say so.
+- [ ] **Check the scope of every assay with very few accessions.** Too few records can mean a
+  rare pathogen or a scope or query that misses the taxon, and the page cannot tell which. On
+  `website/data/run.json` (2026-11-04), counting evaluable records in the recent and baseline
+  windows: 13 assays under 10, 33 under 30, 60 under 100. All 33 under 30 read `insufficient
+  data` or `no recent data`. Lowest: `Elephant_endotheliotropic_herpesvirus_6_POL_Latimer_2012_round2`
+  and `Intranuclear_coccidium_JW_2004_18S_Alvarez_2013` at 1 each. The first scope pass
+  (2026-11-01) checked the `no recent data` group by hand and `insufficient data` by script, so
+  start from `docs/journal/2026-11-01-no-recent-data-scope-check.md` and hand-check what it did
+  not. Feeds the scope report above; the cut-off for "very low" is for the maintainer to set.
 - [ ] **Should withheld assays show a mismatch map?** The 14 withheld assays have none, because
   `sitedrift.build` holds them out so they cannot be listed as failing, and their pages stop
   before the charts. That hides real signal (`Lyssavirus_N_Vazquez-Moron_2006_round1`: 10,588
   records differ at forward position 3), though a map drawn against an `oligo_sequence_uncertain`
   entry could mislead. Maintainer's decision, per withheld reason.
-- [ ] **Make assay paper titles uniform in case.** Titles come from the journals through
-  Crossref, and some journals deposit them in capitals: 10 of 235 in
-  `docs/papers-index.cache.json` (2026-11-04), e.g. "A NEW PCR ASSAY FOR SIMULTANEOUS STUDIES OF
-  LEUCOCYTOZOON, PLASMODIUM, AND HAEMOPROTEUS FROM AVIAN BLOOD". Recommended: convert those to
-  normal case rather than capitalize the other 225, since capitals cost binomials and gene names
-  their conventions. Plain lowercasing breaks the same terms, so the 10 are few enough to take
-  the correct title from the paper itself; keep it as a display override, because the cache is
-  regenerated from Crossref. Applies wherever the title is shown.
+- [x] **Make assay paper titles uniform in case.** Done 2026-11-04. Some journals deposit titles
+  at Crossref in capitals, 10 of 235 in `docs/papers-index.cache.json`. Those are now in normal
+  case on the site rather than the other 225 in capitals, which would cost binomials and gene
+  names their conventions. `site_render.TITLE_CASE` holds them, since the cache is regenerated
+  from Crossref; a test checks each differs only in case, and fails on a new capitals title.
+- [x] **The scope's taxid text export was broken.** Done 2026-11-04. All 48 download links were
+  404s: MkDocs serves a page at `assays/<id>/` and leaves raw HTML links alone, so
+  `<id>.scope.txt` resolved under the page's own directory. Protocol pages also had no files of
+  their own. A test now resolves each link as the site serves it, and the built site's 4,684
+  relative links all reach a file.
 - [ ] **A thorough report on, and fix of, assay scope.** Goes further than the standing
   release gate above: every live assay's `scope_taxids` and query against what its paper
   says it detects, written up as a report, with the fixes made. Two pieces belong to it:

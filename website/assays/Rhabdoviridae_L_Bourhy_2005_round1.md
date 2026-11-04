@@ -249,7 +249,7 @@ to say anything are left out, and a lineage whose whole interval sits below 90% 
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=35303" title="unclassified Rhabdoviridae">35303</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2842407">2842407</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2842415">2842415</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=3152207">3152207</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Rhabdoviridae_L_Bourhy_2005_round1.scope.txt" download>Download 4 taxids as a text file</a>
+<a class="aw-download" href="../Rhabdoviridae_L_Bourhy_2005_round1.scope.txt" download>Download 4 taxids as a text file</a>
 
 769 screened records fell outside the declared scope.
 

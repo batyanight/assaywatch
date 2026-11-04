@@ -139,7 +139,7 @@ outside the central third</title><rect x="375.0" y="198.7" width="13.0" height="
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1548720" title="Orthobornavirus serini">1548720</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1548721" title="Orthobornavirus estrildidae">1548721</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 
-<a class="aw-download" href="Orthobornavirus_XP_Sigrist_2021_passerine.scope.txt" download>Download 2 taxids as a text file</a>
+<a class="aw-download" href="../Orthobornavirus_XP_Sigrist_2021_passerine.scope.txt" download>Download 2 taxids as a text file</a>
 
 1,275 screened records fell outside the declared scope.
 
