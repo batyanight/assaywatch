@@ -430,29 +430,24 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
     out.append("")
     out += _species_sizes_block(a)
 
-    # Oligos, 5'->3', as stored.
-    if a["oligos"]:
-        names = _oligo_names().get(a["assay_id"], {})
-        out.append("## Oligos\n")
-        out.append("| role | name | sequence (5'→3') | length |\n|---|---|---|---|")
-        for role, seq in a["oligos"].items():
-            # The name the paper gave it, which is how a reader matches this row
-            # to the paper's own table or to a tube in a freezer.
-            out.append(f"| {role} | {names.get(role, '—')} | `{seq}` | {len(seq)} nt |")
-        out.append("")
-
     if a["withheld_reasons"]:
         out.append(_withheld_block(a))
         out.append(_withheld_map(a))
+        out += _oligos_block(a)
         out.append(_scope_block(a))
         out += _rounds_block(a)
         out += _curation_block(a)
         out += _contribute_block(a, run_date)
         return "\n".join(out) + "\n"
 
-    out.append(_verdict_block(a, run_date))
-    out.append(_charts_block(a, composition))
+    # The graphs lead, primer then line then bar (maintainer's order, 2026-11-04): the page
+    # opens on the evidence, and the arithmetic behind the verdict follows it.
+    out.append(_mismatch_block(a))
+    out.append(_year_block(a, composition))
     out += _composition_block(composition)
+    out += _lineage_block(a)
+    out += _oligos_block(a)
+    out.append(_verdict_block(a, run_date))
     out.append(_scope_block(a))
     out.append(_denominator_block(a))
     # Near the foot and in small type: the protocol's own verdict is the page;
@@ -461,6 +456,21 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
     out += _curation_block(a)
     out += _contribute_block(a, run_date)
     return "\n".join(out) + "\n"
+
+
+def _oligos_block(a: dict[str, Any]) -> list[str]:
+    """The oligos 5'->3', as stored."""
+    if not a["oligos"]:
+        return []
+    names = _oligo_names().get(a["assay_id"], {})
+    out = ["## Oligos\n", "| role | name | sequence (5'→3') | length |\n|---|---|---|---|"]
+    # The name the paper gave it, which is how a reader matches this row to the paper's own
+    # table or to a tube in a freezer.
+    out += [
+        f"| {role} | {names.get(role, '—')} | `{seq}` | {len(seq)} nt |" for role, seq in a["oligos"].items()
+    ]
+    out.append("")
+    return out
 
 
 def _withheld_block(a: dict[str, Any]) -> str:
@@ -676,7 +686,7 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     return lines
 
 
-def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
+def _year_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
     lines = ["## Predicted detection by deposit year\n"]
     flat = _no_trend_to_draw(a)
     if flat:
@@ -690,11 +700,14 @@ def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
             site_svg.year_chart(a, _same_mix(comp)),
             "",
         ]
-    lines += _mismatch_lines(a)
+    return "\n".join(lines)
+
+
+def _mismatch_block(a: dict[str, Any]) -> str:
+    lines = _mismatch_lines(a)
     if not a["positions"]:
         lines.append(_no_bars_note(a))
-    lines += _lineage_block(a)
-    return "\n".join(lines)
+    return "\n".join(lines) + "\n"
 
 
 _FLAGS = frozenset(ReviewFlag)
