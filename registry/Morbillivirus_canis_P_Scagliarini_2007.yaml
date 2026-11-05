@@ -28,6 +28,7 @@ oligos:
     orientation: probe
 amplicon_bp: 114
 citation:
+  claim: "Canine distemper virus in clinical samples and cell culture."
   doi: 10.1007/s11259-007-0020-9
   design_year: 2007
   n_sequences_at_design: null

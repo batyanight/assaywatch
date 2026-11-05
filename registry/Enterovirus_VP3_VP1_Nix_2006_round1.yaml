@@ -57,6 +57,7 @@ oligos:
     seq_as_written: CICCIGGIGGIAYRWACAT
 amplicon_bp: 760
 citation:
+  claim: "All enterovirus serotypes."
   doi: 10.1128/JCM.00542-06
   design_year: 2006
   n_sequences_at_design: null

@@ -214,10 +214,30 @@ inside the 3′ window</title><rect x="405.0" y="114.0" width="13.0" height="12.
 
 ## By lineage
 
-Every evaluable record is one lineage, **Ophidiomyces ophidiicola (1387563)** (81 of 81 detected, 100.0%, 95% interval 95.5–100.0%), so splitting by lineage adds nothing to the figure above. The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+Only one lineage has enough records to report here: **Ophidiomyces ophidiicola (1387563)** (81 of 81 detected, 100.0%, 95% interval 95.5–100.0%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2022 to 2022."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2022 — O. ophidiicola: 81 of 81 records (100%), 81 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="375.0" y="117">2022</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| O. ophidiicola | 81 | 100% |  | Ophidiomyces ophidiicola 81 | -- |
 
 
 ## Scope
+
+**Scored against:** every record retrieved.  
+**Retrieved from:** Ophidiomyces ophidiicola (taxid 1387563), limited by a query on the title or gene.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 

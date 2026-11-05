@@ -5,6 +5,7 @@ target:
   gene: PP1b
   genome_type: ssRNA+
   taxon_name: Serpentovirinae (snake nidoviruses, Tobaniviridae)
+  scope_taxids: [1986118]
 chemistry: conventional
 oligos:
   forward:
@@ -19,6 +20,7 @@ oligos:
     orientation: reverse
 amplicon_bp: 420
 citation:
+  claim: "One virus, ball python nidovirus. The paper confirms a contig and offers no diagnostic."
   doi: 10.1186/1743-422X-11-144
   design_year: 2014
   n_sequences_at_design: null
@@ -51,8 +53,10 @@ source:
     Both are decisions for whoever holds the protocol. Until then this entry is screened as stored, and the ROUND SPLIT applied
     to the Cryptosporidium and adenovirus entries on 2026-10-14 was deliberately NOT applied here: round 1 / round 2 would
     assert a nested design, and Table 2 describes a walk, not a nest. The paper''s only use of "nested" is about subgenomic
-    mRNAs.'
+    mRNAs. SCOPE NARROWED 2026-11-04 by decision of the maintainer, after rereading the paper: one 3,408-nt contig of ball python nidovirus, no claim wider, while the rest of the subfamily read 96 of 114 calls fail. Tested first: 3 to 5 evaluable records remain per entry.'
 needs_review:
+- flag: scope_narrower_than_taxid
+  note: Ball python nidovirus only (1986118); retrieval stays the subfamily.
 - flag: pairing_is_curator_reading
   note: the source lists several primers in one block without saying which pair; this pair is assembled across two of 
     the source's own pairs

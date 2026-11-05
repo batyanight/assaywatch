@@ -17,6 +17,7 @@ oligos:
   alternates: []
 amplicon_bp: 413
 citation:
+  claim: "C. trachomatis, told apart from C. pneumoniae and C. psittaci."
   doi: 10.1128/jcm.35.8.2043-2046.1997
   design_year: 1997
   n_sequences_at_design: null

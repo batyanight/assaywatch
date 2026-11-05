@@ -20,6 +20,7 @@ oligos:
     quencher: MGB-NFQ
 amplicon_bp: 146
 citation:
+  claim: "B. dendrobatidis alone."
   doi: 10.3354/dao060141
   design_year: 2004
   n_sequences_at_design: null

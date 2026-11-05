@@ -16,6 +16,7 @@ oligos:
     seq: ATTCTTTACCTGGGGACTCA
 amplicon_bp: null
 citation:
+  claim: "Borna disease virus in naturally infected animals."
   doi: 10.1016/0166-0934(94)90098-1
   design_year: 1994
   n_sequences_at_design: null

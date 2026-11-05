@@ -38,9 +38,14 @@
     - **`amplicon_size_unresolved`** — no product size is declared
 
 
+
 ## Scope
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
+
+**Meant to detect:** Borna disease virus in naturally infected animals.  
+**Scored against:** only taxa that every round claims.  
+**Retrieved from:** Bornaviridae (taxid 178830), every record.
 
 The protocol declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=12455" title="Borna disease virus">12455</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1714619" title="Orthobornavirus bornaense">1714619</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 

@@ -15,6 +15,7 @@ oligos:
     seq: CATGGTTCATATCTGTCCAG
 amplicon_bp: 300
 citation:
+  claim: "B. dendrobatidis alone, under the paper's amplification conditions."
   doi: 10.7589/0090-3558-40.3.420
   design_year: 2004
   n_sequences_at_design: null

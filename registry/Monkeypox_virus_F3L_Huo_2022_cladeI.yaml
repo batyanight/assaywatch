@@ -30,6 +30,7 @@ oligos:
   alternates: []
 amplicon_bp: 179
 citation:
+  claim: "Monkeypox virus clade I."
   doi: 10.1016/j.bsheal.2022.10.005
   design_year: 2022
   n_sequences_at_design: 138

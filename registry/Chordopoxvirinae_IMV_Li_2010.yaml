@@ -19,6 +19,7 @@ oligos:
   alternates: []
 amplicon_bp: 230
 citation:
+  claim: "Low-GC chordopoxviruses, with Avipoxvirus excluded by design."
   doi: 10.1128/JCM.01697-09
   design_year: 2010
   n_sequences_at_design: null

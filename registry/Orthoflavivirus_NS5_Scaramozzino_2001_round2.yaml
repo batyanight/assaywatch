@@ -233,6 +233,7 @@ oligos:
     seq: GTGTCCCAGCCGGCGGTGTCATCAGC
 amplicon_bp: 250
 citation:
+  claim: "Tick- and mosquito-borne flaviviruses, for genus diagnosis."
   doi: 10.1128/JCM.39.5.1922-1927.2001
   design_year: 2001
   n_sequences_at_design: null

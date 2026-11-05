@@ -886,6 +886,7 @@ oligos:
     seq_as_written: ACAGCCACGCCNGTICCIGAIGC
 amplicon_bp: 519
 citation:
+  claim: "Herpesviruses, by pan-herpes primers taken from Hargis 1999."
   doi: 10.1016/S0168-1702(00)00252-5
   design_year: 2001
   n_sequences_at_design: null

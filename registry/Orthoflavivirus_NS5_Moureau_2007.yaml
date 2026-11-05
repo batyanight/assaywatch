@@ -237,6 +237,7 @@ oligos:
     seq_as_written: GTGTCCCAICCNGCNGTRTC
 amplicon_bp: 270
 citation:
+  claim: "All flaviviruses, including new species distantly related to the classical arthropod-borne ones."
   doi: 10.1089/vbz.2007.0206
   design_year: 2007
   n_sequences_at_design: null

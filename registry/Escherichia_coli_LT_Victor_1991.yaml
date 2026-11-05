@@ -21,6 +21,7 @@ oligos:
     modification_doi: 10.1046/j.1365-2672.1997.00300.x
 amplicon_bp: 117
 citation:
+  claim: "Heat-labile toxin-producing E. coli."
   doi: 10.1128/jcm.29.1.158-161.1991
   design_year: 1991
   n_sequences_at_design: null

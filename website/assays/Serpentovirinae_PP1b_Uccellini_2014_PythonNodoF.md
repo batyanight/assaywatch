@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Uccellini L et al. 2014. Virol J 11:144
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Serpentovirinae_PP1b_Uccellini_2014_PythonNodoF</span></p>
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Serpentovirinae_PP1b_Uccellini_2014_PythonNodoF</span></p>
 
 **Serpentovirinae — PP1b (Uccellini 2014, PythonNodoF)**
 
@@ -28,31 +28,24 @@
 
 ## Verdict
 
-**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
+**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
 
 Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (36 months, from Nov 2023) | 3 | 17 | 17.6% | 6.2% – 41.0% |
-| baseline (everything earlier) | 9 | 27 | 33.3% | 18.6% – 52.2% |
+| recent window (24 months, from Nov 2024) | 1 | 1 | 100.0% | 20.7% – 100.0% |
+| baseline (everything earlier) | 3 | 3 | 100.0% | 43.9% – 100.0% |
 
-Change from baseline, Newcombe interval: **-37.7% to 11.9%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-79.3% to 56.1%**. Threshold: **90.0%**.
 
-*detected share 17.6% (6%-41%) since Nov 2023, upper bound below the 90% threshold; change from baseline -38% to +12% (no measurable fall from a baseline of 33%) (window widened to 36 months to reach 15 evaluable records)*
-
-Trend across deposit years: by record falling (p = 0.0165, 11 years); by footprint falling (p = 0.0757). Reported for context; it is not an input to the verdict.
+*1 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on*
 
 From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 ## Predicted detection by deposit year
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2014 to 2026, against a 90 percent threshold."><rect class="aw-window" x="540.5" y="12.0" width="165.5" height="180.0"><title>the recent window: 36 months from Nov 2023</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-line aw-low-coverage" points="44.0,20.2 154.3,183.8 209.5,20.2 264.7,102.0 319.8,133.5 375.0,183.8 430.2,183.8 540.5,183.8 595.7,156.5 650.8,183.8 706.0,102.0"/><g class="aw-point aw-low-coverage"><title>2014: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2016: 0 of 1 detected (0.0%)</title><circle cx="154.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2017: 2 of 2 detected (100.0%)</title><circle cx="209.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2018: 1 of 2 detected (50.0%)</title><circle cx="264.7" cy="102.0" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2019: 4 of 13 detected (30.8%)</title><circle cx="319.8" cy="133.5" r="3.4"/></g><g class="aw-point aw-low-coverage"><title>2020: 0 of 3 detected (0.0%)</title><circle cx="375.0" cy="183.8" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>2021: 0 of 1 detected (0.0%)</title><circle cx="430.2" cy="183.8" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2023: 0 of 3 detected (0.0%) — recent window</title><circle cx="540.5" cy="183.8" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>2024: 2 of 12 detected (16.7%) — recent window</title><circle cx="595.7" cy="156.5" r="3.4"/></g><g class="aw-point aw-low-coverage"><title>2025: 0 of 3 detected (0.0%) — recent window</title><circle cx="650.8" cy="183.8" r="2.6"/></g><g class="aw-point aw-low-coverage"><title>2026: 1 of 2 detected (50.0%) — recent window</title><circle cx="706.0" cy="102.0" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2014</text><text class="aw-tick" x="154.3" y="208">2016</text><text class="aw-tick" x="264.7" y="208">2018</text><text class="aw-tick" x="375.0" y="208">2020</text><text class="aw-tick" x="485.3" y="208">2022</text><text class="aw-tick" x="595.7" y="208">2024</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+**all 4 evaluable records**, deposited between 2014 and 2026, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
 
 ## Mismatch distribution
 
@@ -97,24 +90,59 @@ detected when it differs: 0% of 24
 detected when it does not: 60% of 20
 substitutions: T&gt;G in 19, T&gt;A in 3, T&gt;C in 2
 inside the 3′ window</title><rect x="375.4" y="100.9" width="13.0" height="25.1"/></g><text class="aw-base" x="381.9" y="139">T</text><text class="aw-base" x="396.9" y="139">G</text><text class="aw-tick" x="396.9" y="153">1</text><text class="aw-tick" x="336.9" y="153">5</text><text class="aw-tick" x="261.9" y="153">10</text><text class="aw-tick" x="186.9" y="153">15</text><text class="aw-tick" x="111.9" y="153">20</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="408" y="139">3′</text></svg>
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2014 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2014 — P. pythonis: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — P. pythonis: 1 of 1 records (100%), 1 detected</title><rect x="251.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — P. pythonis: 1 of 1 records (100%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2014</text><text class="aw-tick" x="154.3" y="117">2016</text><text class="aw-tick" x="264.7" y="117">2018</text><text class="aw-tick" x="375.0" y="117">2020</text><text class="aw-tick" x="485.3" y="117">2022</text><text class="aw-tick" x="595.7" y="117">2024</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| P. pythonis | 4 | 100% |  | Pregotovirus pythonis 4 | -- |
+
+Between the baseline and the recent window the detected share went
+100.0% to 100.0%, a change of +0.000. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **+0.000 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+
 
 ## Scope
 
-This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+**Meant to detect:** One virus, ball python nidovirus. The paper confirms a contig and offers no diagnostic.  
+**Scored against:** the 1 taxa listed below and anything beneath them.  
+**Retrieved from:** Serpentovirinae (snake nidoviruses, Tobaniviridae) (taxid 2508240), every record.
+
+This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1986118">1986118</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
+
+<a class="aw-download" href="../Serpentovirinae_PP1b_Uccellini_2014_PythonNodoF.scope.txt" download>Download 1 taxids as a text file</a>
+
+275 screened records fell outside the declared scope.
+
+Disclosures on this entry: `scope_narrower_than_taxid`.
 
 
 ## Records reaching the statistics
 
-279 records were screened for this assay and **44 (16%)** were evaluable, meaning both primers landed in the right orientation and size range. 235 produced no amplicon at all.
+11 records were screened for this assay and **4 (36%)** were evaluable, meaning both primers landed in the right orientation and size range. 7 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
-| `no_site` | 183 |
-| `chance_anchor` | 50 |
-| `truncated` | 2 |
+| `no_site` | 6 |
+| `truncated` | 1 |
 
+
+## Curation record
+
+SCOPE NARROWED 2026-11-04 by decision of the maintainer, after rereading the paper: one 3,408-nt contig of ball python nidovirus, no claim wider, while the rest of the subfamily read 96 of 114 calls fail. 
+
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-11-04</b> SCOPE NARROWED 2026-11-04 by decision of the maintainer, after rereading the paper: one 3,408-nt contig of ball python nidovirus, no claim wider, while the rest of the subfamily read 96 of 114 calls fail. Tested first: 3 to 5 evaluable records remain per entry.</p></details>
 
 ## Corrections
 

@@ -20,6 +20,7 @@ oligos:
     seq: TGGTTAATAACCATTTTCC
 amplicon_bp: 152
 citation:
+  claim: "The Simbu serogroup of orthobunyaviruses."
   doi: 10.3201/eid2607.190770
   design_year: 2020
   n_sequences_at_design: null

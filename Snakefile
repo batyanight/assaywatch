@@ -803,15 +803,13 @@ rule composition:
     params:
         code=_COMPOSITION_PARAMS["code"],
         inputs=_COMPOSITION_PARAMS["inputs"],
-    # MEMORY AND TIME. The calls table as `report.load_calls_as_reported` reads it (1-1.5
-    # GB, see the report rule), plus one assay's windows at a time: at `sample_cap` 2000
-    # and a window of about 1 kb the k-mer matrix is tens of MB, and it is freed per
-    # assay. The time goes on the archives: every assay's FASTA is read once to cut its
-    # windows, which is the same I/O the screen stage does, and `_place_window` adds about
-    # 0.2 ms a record (measured 2026-11-03).
+    # MEMORY AND TIME. Measured on the 2026-11-01 run, 219 assays: 12.1 GB peak resident
+    # and 4 h 10 min, sharing the machine with other jobs. The 4 GB first set here
+    # counted the calls table and one assay's k-mer matrix and missed the rest. The time
+    # goes on the archives and on the largest assays' clustering.
     resources:
-        mem_mb=4000,
-        runtime=240,
+        mem_mb=13000,
+        runtime=300,
     shell:
         "assaywatch composition {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "

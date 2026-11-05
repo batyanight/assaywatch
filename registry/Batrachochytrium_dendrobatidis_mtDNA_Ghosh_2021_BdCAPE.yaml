@@ -22,6 +22,7 @@ oligos:
   alternates: []
 amplicon_bp: 64
 citation:
+  claim: "B. dendrobatidis lineage BdCAPE, told apart from BdGPL."
   doi: 10.1111/1755-0998.13299
   design_year: 2021
   n_sequences_at_design: null

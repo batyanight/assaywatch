@@ -17,6 +17,7 @@ oligos:
     seq: ACATCAATTCCGCCAGACCA
 amplicon_bp: 768
 citation:
+  claim: "Marine caliciviruses, including VESV, SMSV, BCV Bos-1, and viruses from dolphin, gorilla and rattlesnake."
   doi: 10.1016/S0166-0934(99)00088-9
   design_year: 1999
   n_sequences_at_design: null

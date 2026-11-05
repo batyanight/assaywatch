@@ -60,7 +60,11 @@
     - **`oligo_source_unresolved`** — a Meyer 1994 origin is suspected but not established
 
 
+
 ## Scope
+
+**Scored against:** every record retrieved.  
+**Retrieved from:** Orthopoxvirus (taxid 10242), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 

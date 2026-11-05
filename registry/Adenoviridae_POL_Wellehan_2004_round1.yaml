@@ -78,6 +78,7 @@ oligos:
     seq: GTDGCRAANSHNCCRTABARNGMRTT
 amplicon_bp: 556
 citation:
+  claim: "Adenoviruses, including novel ones, for initial sequencing."
   doi: 10.1128/JVI.78.23.13366-13369.2004
   design_year: 2004
   n_sequences_at_design: null

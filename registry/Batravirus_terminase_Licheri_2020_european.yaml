@@ -18,6 +18,7 @@ oligos:
   alternates: []
 amplicon_bp: 200
 citation:
+  claim: "The two European batrachoviruses, RaHV-3 and BfHV-1."
   doi: 10.1177/1040638720951134
   design_year: 2020
   n_sequences_at_design: 4

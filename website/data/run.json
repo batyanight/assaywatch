@@ -825,6 +825,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Adenoviruses, including novel ones, for initial sequencing.",
    "note": "detected share 98.5% (98%-99%) since Nov 2024",
    "trend": "by record rising (p = 2.82e-65, 35 years); by footprint rising (p = 0.447)",
    "years": [
@@ -2554,6 +2555,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Adenoviruses, including novel ones, for initial sequencing.",
    "note": "detected share 96.1% (95%-97%) since Nov 2024",
    "trend": "by record rising (p = 7.01e-13, 35 years); by footprint falling (p = 0.843); **the two disagree on direction**",
    "years": [
@@ -3449,6 +3451,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 78.1% has low coverage, but lineage Mastadenovirus caesari (3241411) (185 records) detects only 65.4% (58.3%-71.9%), down from 71.3% on 795 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 0.404, 36 years); by footprint falling (p = 1.24e-06)",
    "years": [
@@ -4910,6 +4913,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 88.0% (86%-90%) since Nov 2024, upper bound below the 90% threshold; change from baseline -5% to -1.0% (fell less than the 5% that counts as declining, from a baseline of 91%); separately, lineage Aviadenovirus hepatitidis (3426530) (49 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 0.482, 38 years); by footprint falling (p = 7.51e-06); **the two disagree on direction**",
    "years": [
@@ -6294,6 +6298,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.7% (99%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.167, 40 years); by footprint falling (p = 0.00393); **the two disagree on direction**",
    "years": [
@@ -6759,6 +6764,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 98.8% is above the 90% threshold, but lineage Alphavirus getah (3426303) (99 records) detects only 82.8% (74.2%-89.0%), down from 88.1% on 118 earlier records; lineage verdict overrides to declining",
    "trend": "by record rising (p = 5.3e-19, 39 years); by footprint falling (p = 0.00369); **the two disagree on direction**",
    "years": [
@@ -7487,6 +7493,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 5.6% (1.0%-26%) since Nov 2024, upper bound below the 90% threshold; change from baseline -85% to -56%",
    "trend": "by record falling (p = 1.46e-08, 20 years); by footprint falling (p = 0.0135)",
    "years": [
@@ -7759,6 +7766,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 24.5% (22%-27%) since Nov 2024, upper bound below the 90% threshold; change from baseline -15% to -10% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 37%)",
    "trend": "by record falling (p = 5.99e-60, 36 years); by footprint falling (p = 0.0115)",
    "years": [
@@ -8929,6 +8937,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 0.0% (0%-12%) since Nov 2024, upper bound below the 90% threshold; change from baseline -4% to +12% (no measurable fall from a baseline of 0%)",
    "trend": "",
    "years": [
@@ -9198,6 +9207,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "The complete S RNA of any arenavirus.",
    "note": "detected share 13.0% (7%-23%) since Nov 2024, upper bound below the 90% threshold; change from baseline -31% to -14% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 38%)",
    "trend": "by record falling (p = 1.39e-05, 39 years); by footprint falling (p = 0.000239)",
    "years": [
@@ -10177,6 +10187,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "The complete S RNA of any arenavirus.",
    "note": "pooled share 51.8% has low coverage, but lineage Mammarenavirus lassaense (3052310) (36 records) detects 77.8% (61.9%-88.3%); lineage verdict overrides to declining",
    "trend": "by record falling (p = 0.0191, 39 years); by footprint falling (p = 0.534)",
    "years": [
@@ -11192,6 +11203,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.7% (98%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.534, 29 years); by footprint falling (p = 0.0101)",
    "years": [
@@ -11953,6 +11965,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.1% (94%-97%) since Nov 2024",
    "trend": "by record rising (p = 4.77e-38, 29 years); by footprint rising (p = 0.0171)",
    "years": [
@@ -12916,6 +12929,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 34.0% (31%-38%) since Nov 2024, upper bound below the 90% threshold; change from baseline -21% to -13% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 51%); lineage Mamastrovirus suisencephalomyelitidis (3703181) (35 records) detects only 8.6%, but neither it nor the pooled share ever cleared the threshold, so there is no fall to call a decline",
    "trend": "by record falling (p = 4.94e-08, 29 years); by footprint falling (p = 0.0155)",
    "years": [
@@ -13853,6 +13867,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 78.0% (75%-81%) since Nov 2024, upper bound below the 90% threshold; change from baseline -3% to +4% (no measurable fall from a baseline of 78%); separately, lineage Goose astrovirus (1349999) (46 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 2e-15, 29 years); by footprint falling (p = 1.25e-05)",
    "years": [
@@ -14921,6 +14936,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Hummingbird poxvirus, a strain of Avipoxvirus, not the genus.",
    "note": "detected share 0.0% (0%-5%) since Nov 2024, upper bound below the 90% threshold; change from baseline -0.9% to +4% (no measurable fall from a baseline of 0.3%)",
    "trend": "by record rising (p = 0.567, 26 years); by footprint rising (p = 0.15)",
    "years": [
@@ -15587,6 +15603,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 62.5% (43%-79%) since Nov 2024, upper bound below the 90% threshold; change from baseline -34% to +3% (no measurable fall from a baseline of 76%)",
    "trend": "by record falling (p = 0.322, 21 years); by footprint falling (p = 0.241)",
    "years": [
@@ -16237,6 +16254,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "B. dendrobatidis alone, under the paper's amplification conditions.",
    "note": "detected share 100.0% (82%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.77, 11 years); by footprint falling (p = 0.678); **the two disagree on direction**",
    "years": [
@@ -16489,6 +16507,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "B. dendrobatidis alone.",
    "note": "detected share 100.0% (82%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.253, 12 years); by footprint rising (p = 0.645)",
    "years": [
@@ -16738,6 +16757,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "B. dendrobatidis lineage BdCAPE, told apart from BdGPL.",
    "note": "3 evaluable records since Nov 2024, below the minimum of 15; the detected share is 0% (0%-56%), too wide to act on",
    "trend": "",
    "years": [
@@ -16983,6 +17003,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "B. dendrobatidis lineage BdGPL, told apart from BdCAPE.",
    "note": "2 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on",
    "trend": "by record falling (p = 0.379, 4 years); by footprint falling (p = 0.434)",
    "years": [
@@ -17227,6 +17248,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "5 evaluable records since Nov 2024, below the minimum of 15; the detected share is 0% (0%-43%), too wide to act on",
    "trend": "",
    "years": [
@@ -17334,6 +17356,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "The two European batrachoviruses, RaHV-3 and BfHV-1.",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -17412,6 +17435,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All known batrachoviruses, and possibly undiscovered ones.",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -17497,6 +17521,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 92.9% (90%-95%) since Nov 2024",
    "trend": "by record falling (p = 0.278, 22 years); by footprint falling (p = 2.26e-07)",
    "years": [
@@ -17794,6 +17819,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 95.2% (93%-97%) since Nov 2024",
    "trend": "by record falling (p = 0.0533, 22 years); by footprint falling (p = 6.69e-07)",
    "years": [
@@ -18096,6 +18122,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Borna disease virus in naturally infected animals.",
    "note": "detected share 100.0% (98%-100%) since Nov 2023 (window widened to 36 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.000519, 28 years); by footprint rising (p = 0.0574)",
    "years": [
@@ -18447,6 +18474,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Borna disease virus in naturally infected animals.",
    "note": "detected share 0.0% (0%-2%) since Nov 2023, upper bound below the 90% threshold; change from baseline -2% to +2% (no measurable fall from a baseline of 0%) (window widened to 36 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -18772,6 +18800,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "10 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (72%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -19041,6 +19070,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All serotypes and isolates of SMSV and VESV.",
    "note": "no evaluable records deposited since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.000416, 9 years); by footprint falling (p = 0.0112)",
    "years": [
@@ -19228,6 +19258,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Marine caliciviruses, including VESV, SMSV, BCV Bos-1, and viruses from dolphin, gorilla and rattlesnake.",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -19721,6 +19752,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All serotypes and isolates of SMSV and VESV.",
    "note": "no evaluable records deposited since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 6.97e-05, 8 years); by footprint falling (p = 0.029)",
    "years": [
@@ -19905,6 +19937,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Chlamydia at genus level, tested on C. pneumoniae, C. psittaci and C. trachomatis.",
    "note": "detected share 41.2% (31%-52%) since Nov 2024, upper bound below the 90% threshold; change from baseline -10% to +12% (no measurable fall from a baseline of 40%); separately, lineage Chlamydia trachomatis (813) (39 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 2.62e-10, 32 years); by footprint falling (p = 0.036)",
    "years": [
@@ -20465,6 +20498,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "C. pneumoniae, told apart from C. psittaci and C. trachomatis.",
    "note": "5 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (57%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -20657,6 +20691,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "C. psittaci, told apart from C. pneumoniae and C. trachomatis.",
    "note": "detected share 100.0% (80%-100%) since Nov 2024",
    "trend": "",
    "years": [
@@ -20950,6 +20985,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "C. trachomatis, told apart from C. pneumoniae and C. psittaci.",
    "note": "detected share 46.2% (32%-61%) since Nov 2024, upper bound below the 90% threshold; change from baseline -43% to -12%",
    "trend": "by record rising (p = 7.26e-08, 20 years); by footprint rising (p = 0.169)",
    "years": [
@@ -21221,6 +21257,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Low-GC chordopoxviruses, with Avipoxvirus excluded by design.",
    "note": "detected share 97.9% (98%-98%) since Nov 2024",
    "trend": "by record falling (p = 0.142, 34 years); by footprint falling (p = 0.0255)",
    "years": [
@@ -21648,6 +21685,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 3.7% (3%-4%) since Nov 2024, upper bound below the 90% threshold; change from baseline +0.6% to +2% (rose from a baseline of 3%); separately, lineage Orthopoxvirus monkeypox (3431483) (5377 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 2.67e-31, 33 years); by footprint rising (p = 0.492); **the two disagree on direction**",
    "years": [
@@ -22419,6 +22457,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.7% (98%-99%) since Nov 2024",
    "trend": "by record rising (p = 1.16e-119, 35 years); by footprint falling (p = 0.28); **the two disagree on direction**",
    "years": [
@@ -23320,6 +23359,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "High-GC chordopoxviruses: Molluscipoxvirus, Parapoxvirus and crocodilepox.",
    "note": "detected share 95.2% (77%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.545, 22 years); by footprint falling (p = 0.181)",
    "years": [
@@ -23666,6 +23706,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 94.8% (94%-95%) since Nov 2024",
    "trend": "by record rising (p = 4.31e-14, 35 years); by footprint falling (p = 0.154); **the two disagree on direction**",
    "years": [
@@ -24572,6 +24613,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.3% (82%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.0965, 15 years); by footprint falling (p = 0.0818)",
    "years": [
@@ -24780,6 +24822,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 38.9% (35%-43%) since Nov 2024, upper bound below the 90% threshold; change from baseline -21% to -14%; separately, lineage Circovirus canine (3047721) (33 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 1.36e-244, 31 years); by footprint falling (p = 3.2e-19)",
    "years": [
@@ -25832,6 +25875,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 30.2% (27%-34%) since Nov 2024, upper bound below the 90% threshold; change from baseline -12% to -5% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 39%); separately, lineage Circovirus pigeon (3050342) (69 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 2.05e-06, 31 years); by footprint falling (p = 1.48e-05)",
    "years": [
@@ -28409,6 +28453,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Coronaviruses, by screening a 400-nt RdRp fragment.",
    "note": "pooled share 52.2% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (166 records) detects only 0.0% (0.0%-2.3%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 1.44e-15, 30 years); by footprint falling (p = 8.89e-06)",
    "years": [
@@ -30847,6 +30892,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Coronaviruses, by screening a 400-nt RdRp fragment.",
    "note": "pooled share 79.4% has low coverage, but lineage Betacoronavirus sp. (1928434) (47 records) detects only 19.1% (10.4%-32.5%), down from 100.0% on 15 earlier records; lineage verdict overrides to declining",
    "trend": "by record rising (p = 3.95e-60, 30 years); by footprint falling (p = 0.00675); **the two disagree on direction**",
    "years": [
@@ -31705,6 +31751,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 41.5% has low coverage, but lineage Bat coronavirus (1508220) (172 records) detects only 25.6% (19.6%-32.6%), down from 75.6% on 176 earlier records; lineage verdict overrides to declining",
    "trend": "by record rising (p = 0.1, 30 years); by footprint falling (p = 0.796); **the two disagree on direction**",
    "years": [
@@ -32475,6 +32522,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "14 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (78%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.632, 21 years); by footprint falling (p = 0.894)",
    "years": [
@@ -32787,6 +32835,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 71.4% (65%-77%) since Nov 2024, upper bound below the 90% threshold; change from baseline +1% to +14% (rose from a baseline of 64%)",
    "trend": "by record falling (p = 7.51e-11, 32 years); by footprint falling (p = 0.345)",
    "years": [
@@ -33615,6 +33664,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.9% (84%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.0102, 32 years); by footprint rising (p = 0.72)",
    "years": [
@@ -34349,6 +34399,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 90.6% (76%-97%) since Nov 2024",
    "trend": "by record rising (p = 0.183, 30 years); by footprint falling (p = 0.633); **the two disagree on direction**",
    "years": [
@@ -34894,6 +34945,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.9% (84%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.115, 32 years); by footprint rising (p = 0.777)",
    "years": [
@@ -35550,6 +35602,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.9% (84%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.00099, 35 years); by footprint rising (p = 0.336)",
    "years": [
@@ -36198,6 +36251,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Deformed wing virus A, told apart from B. The paper says the test also matches Kakugo.",
    "note": "detected share 48.9% (35%-63%) since Nov 2024, upper bound below the 90% threshold; change from baseline -54% to -19% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 88%)",
    "trend": "by record falling (p = 0.00812, 5 years); by footprint falling (p = 0.0323)",
    "years": [
@@ -36352,6 +36406,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Deformed wing virus B, told apart from A.",
    "note": "detected share 75.0% (51%-90%) since Nov 2024, upper bound below the 90% threshold; change from baseline -49% to -8%",
    "trend": "by record falling (p = 8.25e-05, 3 years); by footprint falling (p = 0.0232)",
    "years": [
@@ -36462,6 +36517,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 91.8% (88%-95%) since Nov 2024",
    "trend": "by record falling (p = 0.000142, 33 years); by footprint falling (p = 0.00266)",
    "years": [
@@ -37474,6 +37530,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 91.8% (88%-95%) since Nov 2024",
    "trend": "by record falling (p = 0.000142, 33 years); by footprint falling (p = 0.00266)",
    "years": [
@@ -38486,6 +38543,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -38576,6 +38634,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "2 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on",
    "trend": "by record rising (p = 0.374, 7 years); by footprint rising (p = 0.577)",
    "years": [
@@ -38709,6 +38768,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "2 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on",
    "trend": "",
    "years": [
@@ -38846,6 +38906,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "4 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (51%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.99, 8 years); by footprint rising (p = 0.824); **the two disagree on direction**",
    "years": [
@@ -38975,6 +39036,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -39097,6 +39159,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -39219,6 +39282,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -39344,6 +39408,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -39454,6 +39519,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (90%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.163, 19 years); by footprint falling (p = 0.634); **the two disagree on direction**",
    "years": [
@@ -39825,6 +39891,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "12 evaluable records since Nov 2021, below the minimum of 15; the detected share is 58% (32%-81%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.632, 11 years); by footprint falling (p = 0.788); **the two disagree on direction**",
    "years": [
@@ -40158,6 +40225,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (95%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -40520,6 +40588,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.6% (98%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.811, 40 years); by footprint falling (p = 0.00984); **the two disagree on direction**",
    "years": [
@@ -41233,6 +41302,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 52.5% (50%-55%) since Nov 2024, upper bound below the 90% threshold; change from baseline -34% to -28%",
    "trend": "by record falling (p = 2.11e-50, 40 years); by footprint falling (p = 9.28e-06)",
    "years": [
@@ -42450,6 +42520,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All enterovirus serotypes.",
    "note": "detected share 99.1% (98%-99%) since Nov 2024",
    "trend": "by record rising (p = 1.41e-08, 40 years); by footprint falling (p = 0.259); **the two disagree on direction**",
    "years": [
@@ -44049,6 +44120,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All enterovirus serotypes.",
    "note": "pooled share 18.2% has low coverage, but lineage Enterovirus betacoxsackie (3428502) (1063 records) detects 67.6% (64.8%-70.4%); lineage verdict overrides to declining",
    "trend": "by record rising (p = 2.35e-21, 42 years); by footprint falling (p = 0.894); **the two disagree on direction**",
    "years": [
@@ -45207,6 +45279,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Heat-labile toxin-producing E. coli.",
    "note": "1 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.312, 11 years); by footprint rising (p = 0.0817)",
    "years": [
@@ -45480,6 +45553,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "2 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -45791,6 +45865,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 62.2% has low coverage, but lineage unresolved (45 records) detects 62.2% (47.6%-74.9%), down from 73.2% on 280 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 0.00206, 24 years); by footprint falling (p = 0.159)",
    "years": [
@@ -46058,6 +46133,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "6 evaluable records since Nov 2021, below the minimum of 15; the detected share is 67% (30%-90%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.154, 8 years); by footprint falling (p = 0.385)",
    "years": [
@@ -46268,6 +46344,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "6 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (61%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.814, 9 years); by footprint falling (p = 0.738)",
    "years": [
@@ -46452,6 +46529,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "6 evaluable records since Nov 2021, below the minimum of 15; the detected share is 50% (19%-81%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.974, 7 years); by footprint falling (p = 0.974); **the two disagree on direction**",
    "years": [
@@ -46634,6 +46712,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "6 evaluable records since Nov 2021, below the minimum of 15; the detected share is 50% (19%-81%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.161, 8 years); by footprint falling (p = 0.873)",
    "years": [
@@ -46797,6 +46876,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "7 evaluable records since Nov 2021, below the minimum of 15; the detected share is 86% (49%-97%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.0134, 11 years); by footprint rising (p = 0.188)",
    "years": [
@@ -47053,6 +47133,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.1% (95%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.00191, 33 years); by footprint falling (p = 0.373); **the two disagree on direction**",
    "years": [
@@ -47724,6 +47805,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (91%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.992, 27 years); by footprint falling (p = 0.603)",
    "years": [
@@ -48058,8 +48140,8 @@
    "status": "",
    "withheld_reasons": [
     [
-     "oligo_sequence_uncertain",
-     "the probe is omitted: the OCR of its sequence was not reliable enough to enter"
+     "curation_decision_pending",
+     "Probe FT443 is to be added and screened at the next run; this page shows the primers only."
     ]
    ],
    "taxon": "Francisella tularensis",
@@ -48072,7 +48154,7 @@
    "amplicon_bp": 250,
    "entry_status": "draft",
    "review_flags": [
-    "oligo_sequence_uncertain"
+    "curation_decision_pending"
    ],
    "scope_taxids": [],
    "exclusivity_taxids": [],
@@ -48102,6 +48184,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (90%-100%) since Nov 2024",
    "trend": "",
    "years": [
@@ -48324,7 +48407,1276 @@
     419353,
     77521,
     587283,
-    31272
+    31272,
+    131378,
+    131379,
+    131380,
+    219830,
+    219831,
+    219832,
+    219833,
+    254384,
+    254385,
+    254386,
+    254387,
+    254388,
+    254389,
+    257632,
+    257633,
+    257634,
+    257635,
+    263801,
+    263803,
+    263804,
+    265194,
+    265195,
+    265201,
+    265202,
+    265203,
+    265204,
+    265205,
+    265206,
+    265207,
+    265295,
+    265297,
+    265300,
+    265307,
+    265308,
+    282521,
+    283436,
+    283437,
+    283438,
+    283439,
+    283440,
+    283442,
+    296353,
+    296354,
+    296355,
+    296356,
+    296357,
+    296358,
+    296359,
+    296361,
+    296363,
+    296364,
+    296365,
+    296366,
+    296367,
+    296369,
+    296370,
+    296371,
+    301197,
+    301198,
+    317773,
+    317774,
+    317775,
+    318125,
+    318126,
+    328083,
+    328084,
+    330415,
+    331611,
+    331612,
+    331613,
+    337234,
+    349571,
+    349573,
+    349575,
+    349577,
+    349578,
+    349580,
+    349581,
+    349582,
+    349583,
+    349584,
+    349585,
+    349588,
+    349591,
+    349592,
+    349593,
+    349594,
+    352893,
+    352894,
+    352895,
+    352897,
+    352898,
+    356668,
+    356669,
+    356670,
+    356671,
+    356673,
+    356674,
+    356675,
+    356676,
+    356677,
+    356681,
+    356682,
+    356683,
+    356684,
+    356685,
+    356686,
+    356687,
+    356688,
+    356690,
+    356691,
+    356692,
+    356693,
+    356694,
+    356695,
+    356696,
+    363296,
+    363297,
+    363298,
+    363299,
+    363300,
+    363301,
+    363302,
+    363303,
+    363304,
+    369260,
+    370080,
+    370081,
+    370082,
+    370083,
+    370084,
+    370085,
+    370086,
+    370087,
+    370088,
+    370089,
+    370090,
+    370091,
+    370092,
+    370093,
+    370094,
+    370095,
+    370096,
+    370097,
+    370098,
+    370099,
+    370100,
+    370101,
+    370102,
+    370473,
+    379417,
+    382721,
+    382722,
+    382723,
+    385234,
+    385235,
+    385236,
+    385238,
+    385239,
+    385240,
+    385241,
+    385242,
+    385243,
+    385537,
+    392175,
+    392176,
+    392177,
+    392178,
+    392179,
+    392180,
+    392181,
+    392182,
+    392183,
+    392184,
+    392185,
+    392186,
+    392187,
+    392188,
+    392189,
+    392190,
+    392191,
+    392192,
+    392193,
+    392194,
+    392195,
+    392196,
+    392197,
+    392198,
+    392199,
+    392200,
+    392201,
+    392202,
+    392203,
+    392204,
+    392205,
+    392206,
+    392207,
+    392208,
+    392209,
+    392210,
+    392212,
+    392214,
+    392216,
+    399039,
+    407984,
+    407985,
+    407986,
+    407987,
+    407988,
+    407989,
+    407990,
+    407991,
+    407992,
+    409141,
+    409154,
+    413015,
+    419633,
+    419634,
+    419635,
+    419636,
+    419637,
+    419638,
+    419639,
+    419640,
+    442844,
+    445082,
+    445083,
+    445084,
+    445085,
+    445086,
+    445087,
+    445088,
+    445089,
+    445090,
+    445091,
+    445092,
+    445093,
+    445094,
+    445095,
+    445096,
+    445097,
+    445098,
+    445099,
+    445100,
+    445102,
+    445103,
+    445104,
+    445105,
+    445106,
+    445107,
+    445108,
+    445109,
+    445110,
+    445111,
+    445112,
+    445113,
+    445114,
+    445115,
+    445116,
+    445118,
+    445119,
+    445120,
+    445121,
+    445122,
+    445123,
+    445124,
+    445125,
+    445126,
+    445127,
+    445128,
+    445129,
+    445130,
+    445131,
+    445132,
+    445133,
+    445134,
+    447584,
+    447585,
+    462303,
+    470598,
+    470599,
+    480708,
+    498829,
+    498830,
+    498832,
+    498833,
+    498837,
+    498839,
+    498840,
+    498841,
+    498844,
+    504273,
+    504274,
+    504275,
+    504276,
+    504277,
+    504278,
+    504279,
+    504280,
+    504281,
+    504282,
+    504283,
+    504284,
+    504285,
+    519488,
+    523801,
+    523802,
+    523803,
+    523805,
+    523807,
+    523808,
+    529945,
+    531379,
+    531380,
+    531381,
+    531382,
+    531383,
+    531384,
+    531385,
+    531386,
+    531387,
+    535814,
+    552970,
+    565238,
+    565239,
+    570789,
+    570790,
+    570791,
+    570792,
+    570793,
+    570794,
+    570795,
+    570796,
+    570797,
+    570798,
+    570799,
+    570800,
+    570801,
+    570802,
+    570803,
+    570804,
+    570805,
+    570806,
+    570807,
+    570808,
+    570809,
+    570810,
+    570811,
+    570812,
+    570813,
+    570814,
+    570815,
+    570816,
+    570817,
+    570818,
+    570819,
+    570820,
+    570821,
+    570822,
+    570823,
+    570824,
+    570825,
+    570826,
+    570827,
+    570828,
+    570829,
+    570830,
+    570895,
+    570896,
+    570897,
+    574751,
+    574752,
+    574753,
+    574754,
+    574755,
+    580603,
+    580604,
+    580605,
+    580606,
+    580607,
+    580608,
+    585541,
+    592180,
+    592181,
+    592182,
+    592183,
+    592184,
+    592185,
+    592186,
+    592187,
+    592188,
+    592189,
+    592190,
+    592191,
+    592192,
+    592193,
+    592194,
+    592195,
+    592196,
+    592197,
+    592198,
+    592199,
+    656564,
+    656565,
+    656566,
+    656567,
+    656568,
+    656569,
+    656570,
+    656571,
+    656572,
+    656573,
+    656574,
+    656575,
+    656576,
+    656577,
+    656578,
+    656579,
+    656580,
+    656581,
+    656582,
+    656583,
+    656584,
+    670194,
+    671299,
+    671300,
+    671301,
+    671302,
+    671303,
+    671304,
+    671305,
+    671306,
+    671307,
+    671308,
+    671309,
+    671310,
+    671311,
+    671313,
+    672798,
+    685708,
+    685709,
+    685710,
+    693827,
+    693828,
+    693829,
+    706240,
+    706241,
+    706242,
+    706243,
+    745843,
+    745844,
+    746702,
+    746703,
+    746704,
+    746705,
+    746706,
+    764578,
+    764579,
+    764580,
+    764581,
+    764582,
+    764583,
+    795008,
+    795010,
+    795011,
+    795012,
+    795013,
+    795014,
+    795015,
+    795016,
+    795017,
+    795018,
+    795019,
+    795020,
+    795021,
+    795022,
+    795023,
+    795024,
+    795026,
+    795027,
+    795028,
+    798206,
+    798207,
+    860910,
+    860911,
+    860912,
+    860913,
+    860914,
+    860915,
+    863540,
+    863541,
+    863542,
+    863543,
+    863544,
+    863545,
+    863546,
+    863547,
+    863548,
+    863549,
+    863550,
+    863551,
+    863552,
+    863553,
+    863554,
+    874329,
+    874330,
+    874331,
+    877177,
+    877179,
+    915002,
+    926281,
+    926282,
+    926283,
+    926284,
+    929010,
+    929011,
+    929012,
+    929013,
+    929014,
+    929015,
+    929016,
+    929017,
+    929018,
+    929019,
+    929020,
+    929021,
+    929022,
+    929023,
+    929024,
+    929025,
+    929026,
+    936419,
+    936420,
+    936421,
+    936422,
+    936423,
+    936424,
+    936425,
+    936426,
+    936427,
+    936428,
+    936429,
+    936430,
+    936433,
+    936434,
+    942716,
+    942717,
+    942718,
+    942719,
+    942720,
+    942721,
+    942722,
+    942723,
+    942724,
+    942725,
+    942726,
+    942727,
+    942728,
+    981363,
+    981364,
+    994597,
+    994598,
+    994599,
+    994600,
+    999130,
+    999131,
+    999132,
+    999133,
+    999134,
+    999135,
+    999136,
+    999137,
+    999138,
+    999139,
+    999140,
+    1030170,
+    1030171,
+    1042845,
+    1042846,
+    1075184,
+    1075185,
+    1075186,
+    1075187,
+    1075188,
+    1075189,
+    1075190,
+    1075191,
+    1085610,
+    1085611,
+    1085612,
+    1096719,
+    1116445,
+    1116446,
+    1116447,
+    1116448,
+    1116449,
+    1116450,
+    1116451,
+    1116452,
+    1116453,
+    1116454,
+    1116455,
+    1116456,
+    1116457,
+    1116458,
+    1116459,
+    1116460,
+    1116461,
+    1116462,
+    1116463,
+    1116464,
+    1116465,
+    1116466,
+    1116467,
+    1129173,
+    1129174,
+    1136733,
+    1136899,
+    1144384,
+    1148148,
+    1149623,
+    1149783,
+    1149784,
+    1149785,
+    1159283,
+    1165388,
+    1165389,
+    1199231,
+    1199232,
+    1199233,
+    1199234,
+    1199235,
+    1215359,
+    1217612,
+    1217684,
+    1217685,
+    1217686,
+    1219841,
+    1219842,
+    1219843,
+    1219844,
+    1226283,
+    1226284,
+    1227656,
+    1227937,
+    1232632,
+    1240116,
+    1240117,
+    1240118,
+    1240119,
+    1261166,
+    1264049,
+    1281458,
+    1281459,
+    1281460,
+    1281461,
+    1281462,
+    1281463,
+    1281464,
+    1281465,
+    1298542,
+    1298543,
+    1298544,
+    1307503,
+    1308957,
+    1314461,
+    1314462,
+    1314463,
+    1314464,
+    1314465,
+    1314466,
+    1314467,
+    1314468,
+    1314469,
+    1314470,
+    1314471,
+    1314472,
+    1314473,
+    1314474,
+    1314475,
+    1314476,
+    1314477,
+    1314478,
+    1314479,
+    1314480,
+    1314481,
+    1314482,
+    1314483,
+    1314484,
+    1314485,
+    1314486,
+    1314487,
+    1314488,
+    1314489,
+    1314490,
+    1314491,
+    1314492,
+    1314493,
+    1314494,
+    1314495,
+    1314496,
+    1314963,
+    1314964,
+    1314965,
+    1314966,
+    1314967,
+    1314968,
+    1321603,
+    1321604,
+    1321605,
+    1322365,
+    1322366,
+    1325964,
+    1325965,
+    1325966,
+    1325967,
+    1325968,
+    1325969,
+    1325970,
+    1325971,
+    1328210,
+    1328211,
+    1328212,
+    1328213,
+    1328214,
+    1328215,
+    1328216,
+    1328217,
+    1328218,
+    1328219,
+    1328220,
+    1328221,
+    1328222,
+    1328223,
+    1328224,
+    1328225,
+    1328226,
+    1328227,
+    1328228,
+    1328229,
+    1328230,
+    1328231,
+    1328232,
+    1328233,
+    1328234,
+    1328235,
+    1328236,
+    1328237,
+    1328238,
+    1328239,
+    1328240,
+    1328241,
+    1328242,
+    1328243,
+    1328244,
+    1328245,
+    1328246,
+    1328247,
+    1328248,
+    1328249,
+    1328250,
+    1328251,
+    1328252,
+    1328253,
+    1328254,
+    1336284,
+    1343045,
+    1350012,
+    1350013,
+    1350014,
+    1350015,
+    1350016,
+    1380817,
+    1380818,
+    1380819,
+    1380820,
+    1380821,
+    1380822,
+    1380823,
+    1380824,
+    1380825,
+    1380826,
+    1380827,
+    1381475,
+    1387884,
+    1392926,
+    1393960,
+    1399961,
+    1407118,
+    1426209,
+    1426210,
+    1426211,
+    1426212,
+    1426213,
+    1426214,
+    1426215,
+    1426216,
+    1426217,
+    1426218,
+    1426219,
+    1426220,
+    1426221,
+    1426222,
+    1426223,
+    1426224,
+    1426225,
+    1426226,
+    1431680,
+    1442608,
+    1447894,
+    1447895,
+    1472032,
+    1472033,
+    1472034,
+    1472035,
+    1472036,
+    1472037,
+    1478645,
+    1478646,
+    1478647,
+    1483173,
+    1483174,
+    1483175,
+    1483176,
+    1483177,
+    1483178,
+    1483179,
+    1483180,
+    1492940,
+    1496747,
+    1497430,
+    1498772,
+    1502127,
+    1502128,
+    1502129,
+    1502130,
+    1502131,
+    1502132,
+    1502133,
+    1502134,
+    1502135,
+    1502673,
+    1505054,
+    1505055,
+    1505056,
+    1505057,
+    1505058,
+    1505059,
+    1505060,
+    1505061,
+    1518814,
+    1518815,
+    1518823,
+    1518824,
+    1518825,
+    1518826,
+    1518827,
+    1518828,
+    1518829,
+    1518830,
+    1518831,
+    1518834,
+    1518836,
+    1518837,
+    1523855,
+    1523856,
+    1523857,
+    1525822,
+    1529409,
+    1539140,
+    1539474,
+    1539476,
+    1539477,
+    1541792,
+    1544564,
+    1559724,
+    1559725,
+    1559726,
+    1559727,
+    1559728,
+    1559729,
+    1559730,
+    1559731,
+    1559732,
+    1559733,
+    1559734,
+    1596007,
+    1604284,
+    1604285,
+    1604286,
+    1604287,
+    1604292,
+    1604293,
+    1604294,
+    1604296,
+    1604297,
+    1604298,
+    1604299,
+    1607832,
+    1607834,
+    1608852,
+    1616172,
+    1616173,
+    1616174,
+    1616175,
+    1620791,
+    1620792,
+    1620793,
+    1620794,
+    1620795,
+    1620796,
+    1620797,
+    1647179,
+    1654344,
+    1673460,
+    1684748,
+    1689680,
+    1689681,
+    1689682,
+    1689683,
+    1714283,
+    1714284,
+    1714285,
+    1714286,
+    1714287,
+    1714288,
+    1714289,
+    1714290,
+    1714291,
+    1714292,
+    1714293,
+    1714294,
+    1714295,
+    1719175,
+    1735068,
+    1735069,
+    1735070,
+    1735071,
+    1756760,
+    1774576,
+    1774577,
+    1803367,
+    1803368,
+    1803369,
+    1803370,
+    1843707,
+    1843708,
+    1843709,
+    1843710,
+    1843711,
+    1843712,
+    1850928,
+    1851026,
+    1851027,
+    1856038,
+    1856039,
+    1866829,
+    1866830,
+    1866831,
+    1866832,
+    1866833,
+    1866834,
+    1866835,
+    1866836,
+    1866837,
+    1866838,
+    1866839,
+    1866840,
+    1874793,
+    1874794,
+    1874795,
+    1874796,
+    1874797,
+    1883165,
+    1883166,
+    1883167,
+    1883168,
+    1883169,
+    1883170,
+    1883171,
+    1883172,
+    1883173,
+    1892144,
+    1892145,
+    1892146,
+    1892147,
+    1892148,
+    1892149,
+    1892150,
+    1892151,
+    1892152,
+    1892153,
+    1892154,
+    1892155,
+    1892156,
+    1892157,
+    1892158,
+    1892159,
+    1892160,
+    1896774,
+    1896775,
+    1904374,
+    1904376,
+    1905829,
+    1959703,
+    1959704,
+    1959705,
+    1959706,
+    1959707,
+    1959708,
+    1959709,
+    1959710,
+    1959711,
+    1959712,
+    1959713,
+    1959714,
+    1959715,
+    1959716,
+    1959717,
+    1959718,
+    1959719,
+    1959720,
+    1959721,
+    1959722,
+    1959723,
+    1959724,
+    1959725,
+    1959726,
+    1959727,
+    1959728,
+    1959729,
+    1959730,
+    1959731,
+    1959732,
+    1959733,
+    1971607,
+    1979301,
+    1979302,
+    2007276,
+    2007277,
+    2007278,
+    2007279,
+    2007280,
+    2007281,
+    2007282,
+    2007283,
+    2007284,
+    2007288,
+    2018557,
+    2018558,
+    2018559,
+    2018560,
+    2018561,
+    2018562,
+    2021259,
+    2021260,
+    2099619,
+    2163516,
+    2163517,
+    2163518,
+    2163520,
+    2487117,
+    2506470,
+    2506471,
+    2511185,
+    2511186,
+    2517013,
+    2517014,
+    2517015,
+    2517016,
+    2517017,
+    2517018,
+    2517019,
+    2517020,
+    2517021,
+    2517022,
+    2517023,
+    2517024,
+    2517025,
+    2517026,
+    2517027,
+    2517028,
+    2517029,
+    2517030,
+    2517031,
+    2517032,
+    2517033,
+    2517034,
+    2517035,
+    2517036,
+    2517037,
+    2517038,
+    2517039,
+    2517040,
+    2517041,
+    2517042,
+    2517043,
+    2517044,
+    2517045,
+    2517046,
+    2517047,
+    2517048,
+    2517049,
+    2517050,
+    2517051,
+    2517052,
+    2517053,
+    2517054,
+    2517055,
+    2517056,
+    2517057,
+    2517058,
+    2517059,
+    2517060,
+    2517061,
+    2517062,
+    2517063,
+    2517064,
+    2517065,
+    2517066,
+    2517067,
+    2517068,
+    2517069,
+    2517070,
+    2517071,
+    2517072,
+    2517073,
+    2517074,
+    2517075,
+    2517076,
+    2517077,
+    2517078,
+    2517079,
+    2517080,
+    2517081,
+    2517082,
+    2517083,
+    2517084,
+    2517085,
+    2588257,
+    2588258,
+    2588259,
+    2588260,
+    2588261,
+    2588262,
+    2588263,
+    2588264,
+    2588265,
+    2588266,
+    2588862,
+    2588863,
+    2588864,
+    2588865,
+    2588866,
+    2588867,
+    2591353,
+    2591354,
+    2591355,
+    2591356,
+    2591357,
+    2591358,
+    2591359,
+    2591360,
+    2591361,
+    2650124,
+    2650125,
+    2650126,
+    2650127,
+    2650128,
+    2650129,
+    2650130,
+    2650131,
+    2650132,
+    2650133,
+    2650134,
+    2650135,
+    2650136,
+    2650137,
+    2650138,
+    2650139,
+    2650140,
+    2650141,
+    2650142,
+    2650143,
+    2650144,
+    2650145,
+    2650146,
+    2650147,
+    2650148,
+    2650149,
+    2650150,
+    2650151,
+    2650152,
+    2650153,
+    2650154,
+    2650772,
+    2690422,
+    2733701,
+    2733702,
+    2733786,
+    2733787,
+    2733788,
+    2733789,
+    2733790,
+    2733791,
+    2733792,
+    2733793,
+    2769164,
+    2769165,
+    2769167,
+    2769168,
+    2769169,
+    2769175,
+    2769176,
+    2769177,
+    2769178,
+    2769179,
+    2769180,
+    2769181,
+    2769182,
+    2769184,
+    2769188,
+    2820499,
+    2820743,
+    2821861,
+    2834823,
+    2834824,
+    2834825,
+    2834826,
+    2834828,
+    2834830,
+    2834831,
+    2834832,
+    2834833,
+    2834834,
+    2834835,
+    2834836,
+    2834837,
+    2834838,
+    2834839,
+    2845247,
+    2845248,
+    2845249,
+    2845250,
+    2845251,
+    2845252,
+    2929058,
+    2949377,
+    2949378,
+    2949379,
+    2949380,
+    3036553,
+    3036554,
+    3036555,
+    3036556,
+    3036557,
+    3036558,
+    3036559,
+    3036560,
+    3036561,
+    3036562,
+    3036563,
+    3051231,
+    3098642,
+    3148855,
+    3148856,
+    3148857,
+    3411998,
+    3418473
    ],
    "exclusivity_taxids": [],
    "query": "cytb[Gene] OR cob[Gene] OR \"cytochrome b\"[Title] OR cytb[Title] OR \"complete genome\"[Title]",
@@ -48333,28 +49685,29 @@
     "forward": "ATGGTGCTTTCGATATATGCATG",
     "reverse": "GCATTATCTGGATGTGATAATGGT"
    },
-   "recent_detected": 85,
-   "recent_evaluable": 313,
+   "recent_detected": 86,
+   "recent_evaluable": 314,
    "recent_ci": [
-    0.2252835055202749,
-    0.32338666999193266
+    0.2275157037378407,
+    0.3257206785551713
    ],
-   "baseline_detected": 479,
-   "baseline_evaluable": 1914,
+   "baseline_detected": 554,
+   "baseline_evaluable": 2327,
    "baseline_ci": [
-    0.2313687731519144,
-    0.2701541522165585
+    0.22121068324800566,
+    0.2558022232339472
    ],
    "change_ci": [
-    -0.029071831384341426,
-    0.07646184730430577
+    -0.013832213743097947,
+    0.09032019731434082
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "detected share 27.2% (23%-32%) since Nov 2024, upper bound below the 90% threshold; change from baseline -3% to +8% (no measurable fall from a baseline of 25%); separately, lineage Haemoproteus sp. (191679) (65 records) detects only 7.7% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
-   "trend": "by record rising (p = 3.94e-09, 25 years); by footprint rising (p = 6.38e-10)",
+   "claim": "Avian Plasmodium and Haemoproteus, as a second round.",
+   "note": "detected share 27.4% (23%-33%) since Nov 2024, upper bound below the 90% threshold; change from baseline -1% to +9% (no measurable fall from a baseline of 24%); separately, lineage Haemoproteus sp. (191679) (65 records) detects only 7.7% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
+   "trend": "by record rising (p = 1.07e-12, 25 years); by footprint rising (p = 4.56e-15)",
    "years": [
     {
      "year": 1998,
@@ -48394,92 +49747,92 @@
     {
      "year": 2005,
      "detected": 1,
-     "evaluable": 63,
-     "share": 0.015873015873015872,
+     "evaluable": 75,
+     "share": 0.013333333333333334,
      "recent": false
     },
     {
      "year": 2006,
      "detected": 5,
-     "evaluable": 26,
-     "share": 0.19230769230769232,
+     "evaluable": 41,
+     "share": 0.12195121951219512,
      "recent": false
     },
     {
      "year": 2007,
      "detected": 0,
-     "evaluable": 22,
+     "evaluable": 127,
      "share": 0.0,
      "recent": false
     },
     {
      "year": 2008,
-     "detected": 0,
-     "evaluable": 60,
-     "share": 0.0,
+     "detected": 6,
+     "evaluable": 168,
+     "share": 0.03571428571428571,
      "recent": false
     },
     {
      "year": 2009,
-     "detected": 8,
-     "evaluable": 38,
-     "share": 0.21052631578947367,
+     "detected": 27,
+     "evaluable": 78,
+     "share": 0.34615384615384615,
      "recent": false
     },
     {
      "year": 2010,
-     "detected": 32,
-     "evaluable": 85,
-     "share": 0.3764705882352941,
+     "detected": 66,
+     "evaluable": 119,
+     "share": 0.5546218487394958,
      "recent": false
     },
     {
      "year": 2011,
-     "detected": 9,
-     "evaluable": 83,
-     "share": 0.10843373493975904,
+     "detected": 15,
+     "evaluable": 113,
+     "share": 0.13274336283185842,
      "recent": false
     },
     {
      "year": 2012,
      "detected": 1,
-     "evaluable": 29,
-     "share": 0.034482758620689655,
+     "evaluable": 37,
+     "share": 0.02702702702702703,
      "recent": false
     },
     {
      "year": 2013,
-     "detected": 9,
-     "evaluable": 17,
-     "share": 0.5294117647058824,
+     "detected": 14,
+     "evaluable": 22,
+     "share": 0.6363636363636364,
      "recent": false
     },
     {
      "year": 2014,
-     "detected": 2,
-     "evaluable": 270,
-     "share": 0.007407407407407408,
+     "detected": 4,
+     "evaluable": 277,
+     "share": 0.01444043321299639,
      "recent": false
     },
     {
      "year": 2015,
-     "detected": 8,
-     "evaluable": 67,
-     "share": 0.11940298507462686,
+     "detected": 9,
+     "evaluable": 71,
+     "share": 0.1267605633802817,
      "recent": false
     },
     {
      "year": 2016,
-     "detected": 9,
-     "evaluable": 40,
-     "share": 0.225,
+     "detected": 10,
+     "evaluable": 46,
+     "share": 0.21739130434782608,
      "recent": false
     },
     {
      "year": 2017,
-     "detected": 119,
-     "evaluable": 306,
-     "share": 0.3888888888888889,
+     "detected": 120,
+     "evaluable": 344,
+     "share": 0.3488372093023256,
      "recent": false
     },
     {
@@ -48492,8 +49845,8 @@
     {
      "year": 2019,
      "detected": 11,
-     "evaluable": 54,
-     "share": 0.2037037037037037,
+     "evaluable": 55,
+     "share": 0.2,
      "recent": false
     },
     {
@@ -48540,9 +49893,9 @@
     },
     {
      "year": 2026,
-     "detected": 17,
-     "evaluable": 108,
-     "share": 0.1574074074074074,
+     "detected": 18,
+     "evaluable": 109,
+     "share": 0.1651376146788991,
      "recent": true
     }
    ],
@@ -49213,23 +50566,23 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 15966,
-   "no_amplicon_rows": 13739,
+   "screened_rows": 18052,
+   "no_amplicon_rows": 15411,
    "exclusions": [
     [
      "no_site",
-     12487
+     13703
     ],
     [
      "truncated",
-     1232
+     1688
     ],
     [
      "chance_anchor",
      20
     ]
    ],
-   "out_of_scope": 16087
+   "out_of_scope": 14001
   },
   {
    "assay_id": "Haemosporida_cytb_Hellgren_2004_HaemNFI",
@@ -49258,7 +50611,1276 @@
     77521,
     587283,
     195944,
-    31272
+    31272,
+    131378,
+    131379,
+    131380,
+    219830,
+    219831,
+    219832,
+    219833,
+    254384,
+    254385,
+    254386,
+    254387,
+    254388,
+    254389,
+    257632,
+    257633,
+    257634,
+    257635,
+    263801,
+    263803,
+    263804,
+    265194,
+    265195,
+    265201,
+    265202,
+    265203,
+    265204,
+    265205,
+    265206,
+    265207,
+    265295,
+    265297,
+    265300,
+    265307,
+    265308,
+    282521,
+    283436,
+    283437,
+    283438,
+    283439,
+    283440,
+    283442,
+    296353,
+    296354,
+    296355,
+    296356,
+    296357,
+    296358,
+    296359,
+    296361,
+    296363,
+    296364,
+    296365,
+    296366,
+    296367,
+    296369,
+    296370,
+    296371,
+    301197,
+    301198,
+    317773,
+    317774,
+    317775,
+    318125,
+    318126,
+    328083,
+    328084,
+    330415,
+    331611,
+    331612,
+    331613,
+    337234,
+    349571,
+    349573,
+    349575,
+    349577,
+    349578,
+    349580,
+    349581,
+    349582,
+    349583,
+    349584,
+    349585,
+    349588,
+    349591,
+    349592,
+    349593,
+    349594,
+    352893,
+    352894,
+    352895,
+    352897,
+    352898,
+    356668,
+    356669,
+    356670,
+    356671,
+    356673,
+    356674,
+    356675,
+    356676,
+    356677,
+    356681,
+    356682,
+    356683,
+    356684,
+    356685,
+    356686,
+    356687,
+    356688,
+    356690,
+    356691,
+    356692,
+    356693,
+    356694,
+    356695,
+    356696,
+    363296,
+    363297,
+    363298,
+    363299,
+    363300,
+    363301,
+    363302,
+    363303,
+    363304,
+    369260,
+    370080,
+    370081,
+    370082,
+    370083,
+    370084,
+    370085,
+    370086,
+    370087,
+    370088,
+    370089,
+    370090,
+    370091,
+    370092,
+    370093,
+    370094,
+    370095,
+    370096,
+    370097,
+    370098,
+    370099,
+    370100,
+    370101,
+    370102,
+    370473,
+    379417,
+    382721,
+    382722,
+    382723,
+    385234,
+    385235,
+    385236,
+    385238,
+    385239,
+    385240,
+    385241,
+    385242,
+    385243,
+    385537,
+    392175,
+    392176,
+    392177,
+    392178,
+    392179,
+    392180,
+    392181,
+    392182,
+    392183,
+    392184,
+    392185,
+    392186,
+    392187,
+    392188,
+    392189,
+    392190,
+    392191,
+    392192,
+    392193,
+    392194,
+    392195,
+    392196,
+    392197,
+    392198,
+    392199,
+    392200,
+    392201,
+    392202,
+    392203,
+    392204,
+    392205,
+    392206,
+    392207,
+    392208,
+    392209,
+    392210,
+    392212,
+    392214,
+    392216,
+    399039,
+    407984,
+    407985,
+    407986,
+    407987,
+    407988,
+    407989,
+    407990,
+    407991,
+    407992,
+    409141,
+    409154,
+    413015,
+    419633,
+    419634,
+    419635,
+    419636,
+    419637,
+    419638,
+    419639,
+    419640,
+    442844,
+    445082,
+    445083,
+    445084,
+    445085,
+    445086,
+    445087,
+    445088,
+    445089,
+    445090,
+    445091,
+    445092,
+    445093,
+    445094,
+    445095,
+    445096,
+    445097,
+    445098,
+    445099,
+    445100,
+    445102,
+    445103,
+    445104,
+    445105,
+    445106,
+    445107,
+    445108,
+    445109,
+    445110,
+    445111,
+    445112,
+    445113,
+    445114,
+    445115,
+    445116,
+    445118,
+    445119,
+    445120,
+    445121,
+    445122,
+    445123,
+    445124,
+    445125,
+    445126,
+    445127,
+    445128,
+    445129,
+    445130,
+    445131,
+    445132,
+    445133,
+    445134,
+    447584,
+    447585,
+    462303,
+    470598,
+    470599,
+    480708,
+    498829,
+    498830,
+    498832,
+    498833,
+    498837,
+    498839,
+    498840,
+    498841,
+    498844,
+    504273,
+    504274,
+    504275,
+    504276,
+    504277,
+    504278,
+    504279,
+    504280,
+    504281,
+    504282,
+    504283,
+    504284,
+    504285,
+    519488,
+    523801,
+    523802,
+    523803,
+    523805,
+    523807,
+    523808,
+    529945,
+    531379,
+    531380,
+    531381,
+    531382,
+    531383,
+    531384,
+    531385,
+    531386,
+    531387,
+    535814,
+    552970,
+    565238,
+    565239,
+    570789,
+    570790,
+    570791,
+    570792,
+    570793,
+    570794,
+    570795,
+    570796,
+    570797,
+    570798,
+    570799,
+    570800,
+    570801,
+    570802,
+    570803,
+    570804,
+    570805,
+    570806,
+    570807,
+    570808,
+    570809,
+    570810,
+    570811,
+    570812,
+    570813,
+    570814,
+    570815,
+    570816,
+    570817,
+    570818,
+    570819,
+    570820,
+    570821,
+    570822,
+    570823,
+    570824,
+    570825,
+    570826,
+    570827,
+    570828,
+    570829,
+    570830,
+    570895,
+    570896,
+    570897,
+    574751,
+    574752,
+    574753,
+    574754,
+    574755,
+    580603,
+    580604,
+    580605,
+    580606,
+    580607,
+    580608,
+    585541,
+    592180,
+    592181,
+    592182,
+    592183,
+    592184,
+    592185,
+    592186,
+    592187,
+    592188,
+    592189,
+    592190,
+    592191,
+    592192,
+    592193,
+    592194,
+    592195,
+    592196,
+    592197,
+    592198,
+    592199,
+    656564,
+    656565,
+    656566,
+    656567,
+    656568,
+    656569,
+    656570,
+    656571,
+    656572,
+    656573,
+    656574,
+    656575,
+    656576,
+    656577,
+    656578,
+    656579,
+    656580,
+    656581,
+    656582,
+    656583,
+    656584,
+    670194,
+    671299,
+    671300,
+    671301,
+    671302,
+    671303,
+    671304,
+    671305,
+    671306,
+    671307,
+    671308,
+    671309,
+    671310,
+    671311,
+    671313,
+    672798,
+    685708,
+    685709,
+    685710,
+    693827,
+    693828,
+    693829,
+    706240,
+    706241,
+    706242,
+    706243,
+    745843,
+    745844,
+    746702,
+    746703,
+    746704,
+    746705,
+    746706,
+    764578,
+    764579,
+    764580,
+    764581,
+    764582,
+    764583,
+    795008,
+    795010,
+    795011,
+    795012,
+    795013,
+    795014,
+    795015,
+    795016,
+    795017,
+    795018,
+    795019,
+    795020,
+    795021,
+    795022,
+    795023,
+    795024,
+    795026,
+    795027,
+    795028,
+    798206,
+    798207,
+    860910,
+    860911,
+    860912,
+    860913,
+    860914,
+    860915,
+    863540,
+    863541,
+    863542,
+    863543,
+    863544,
+    863545,
+    863546,
+    863547,
+    863548,
+    863549,
+    863550,
+    863551,
+    863552,
+    863553,
+    863554,
+    874329,
+    874330,
+    874331,
+    877177,
+    877179,
+    915002,
+    926281,
+    926282,
+    926283,
+    926284,
+    929010,
+    929011,
+    929012,
+    929013,
+    929014,
+    929015,
+    929016,
+    929017,
+    929018,
+    929019,
+    929020,
+    929021,
+    929022,
+    929023,
+    929024,
+    929025,
+    929026,
+    936419,
+    936420,
+    936421,
+    936422,
+    936423,
+    936424,
+    936425,
+    936426,
+    936427,
+    936428,
+    936429,
+    936430,
+    936433,
+    936434,
+    942716,
+    942717,
+    942718,
+    942719,
+    942720,
+    942721,
+    942722,
+    942723,
+    942724,
+    942725,
+    942726,
+    942727,
+    942728,
+    981363,
+    981364,
+    994597,
+    994598,
+    994599,
+    994600,
+    999130,
+    999131,
+    999132,
+    999133,
+    999134,
+    999135,
+    999136,
+    999137,
+    999138,
+    999139,
+    999140,
+    1030170,
+    1030171,
+    1042845,
+    1042846,
+    1075184,
+    1075185,
+    1075186,
+    1075187,
+    1075188,
+    1075189,
+    1075190,
+    1075191,
+    1085610,
+    1085611,
+    1085612,
+    1096719,
+    1116445,
+    1116446,
+    1116447,
+    1116448,
+    1116449,
+    1116450,
+    1116451,
+    1116452,
+    1116453,
+    1116454,
+    1116455,
+    1116456,
+    1116457,
+    1116458,
+    1116459,
+    1116460,
+    1116461,
+    1116462,
+    1116463,
+    1116464,
+    1116465,
+    1116466,
+    1116467,
+    1129173,
+    1129174,
+    1136733,
+    1136899,
+    1144384,
+    1148148,
+    1149623,
+    1149783,
+    1149784,
+    1149785,
+    1159283,
+    1165388,
+    1165389,
+    1199231,
+    1199232,
+    1199233,
+    1199234,
+    1199235,
+    1215359,
+    1217612,
+    1217684,
+    1217685,
+    1217686,
+    1219841,
+    1219842,
+    1219843,
+    1219844,
+    1226283,
+    1226284,
+    1227656,
+    1227937,
+    1232632,
+    1240116,
+    1240117,
+    1240118,
+    1240119,
+    1261166,
+    1264049,
+    1281458,
+    1281459,
+    1281460,
+    1281461,
+    1281462,
+    1281463,
+    1281464,
+    1281465,
+    1298542,
+    1298543,
+    1298544,
+    1307503,
+    1308957,
+    1314461,
+    1314462,
+    1314463,
+    1314464,
+    1314465,
+    1314466,
+    1314467,
+    1314468,
+    1314469,
+    1314470,
+    1314471,
+    1314472,
+    1314473,
+    1314474,
+    1314475,
+    1314476,
+    1314477,
+    1314478,
+    1314479,
+    1314480,
+    1314481,
+    1314482,
+    1314483,
+    1314484,
+    1314485,
+    1314486,
+    1314487,
+    1314488,
+    1314489,
+    1314490,
+    1314491,
+    1314492,
+    1314493,
+    1314494,
+    1314495,
+    1314496,
+    1314963,
+    1314964,
+    1314965,
+    1314966,
+    1314967,
+    1314968,
+    1321603,
+    1321604,
+    1321605,
+    1322365,
+    1322366,
+    1325964,
+    1325965,
+    1325966,
+    1325967,
+    1325968,
+    1325969,
+    1325970,
+    1325971,
+    1328210,
+    1328211,
+    1328212,
+    1328213,
+    1328214,
+    1328215,
+    1328216,
+    1328217,
+    1328218,
+    1328219,
+    1328220,
+    1328221,
+    1328222,
+    1328223,
+    1328224,
+    1328225,
+    1328226,
+    1328227,
+    1328228,
+    1328229,
+    1328230,
+    1328231,
+    1328232,
+    1328233,
+    1328234,
+    1328235,
+    1328236,
+    1328237,
+    1328238,
+    1328239,
+    1328240,
+    1328241,
+    1328242,
+    1328243,
+    1328244,
+    1328245,
+    1328246,
+    1328247,
+    1328248,
+    1328249,
+    1328250,
+    1328251,
+    1328252,
+    1328253,
+    1328254,
+    1336284,
+    1343045,
+    1350012,
+    1350013,
+    1350014,
+    1350015,
+    1350016,
+    1380817,
+    1380818,
+    1380819,
+    1380820,
+    1380821,
+    1380822,
+    1380823,
+    1380824,
+    1380825,
+    1380826,
+    1380827,
+    1381475,
+    1387884,
+    1392926,
+    1393960,
+    1399961,
+    1407118,
+    1426209,
+    1426210,
+    1426211,
+    1426212,
+    1426213,
+    1426214,
+    1426215,
+    1426216,
+    1426217,
+    1426218,
+    1426219,
+    1426220,
+    1426221,
+    1426222,
+    1426223,
+    1426224,
+    1426225,
+    1426226,
+    1431680,
+    1442608,
+    1447894,
+    1447895,
+    1472032,
+    1472033,
+    1472034,
+    1472035,
+    1472036,
+    1472037,
+    1478645,
+    1478646,
+    1478647,
+    1483173,
+    1483174,
+    1483175,
+    1483176,
+    1483177,
+    1483178,
+    1483179,
+    1483180,
+    1492940,
+    1496747,
+    1497430,
+    1498772,
+    1502127,
+    1502128,
+    1502129,
+    1502130,
+    1502131,
+    1502132,
+    1502133,
+    1502134,
+    1502135,
+    1502673,
+    1505054,
+    1505055,
+    1505056,
+    1505057,
+    1505058,
+    1505059,
+    1505060,
+    1505061,
+    1518814,
+    1518815,
+    1518823,
+    1518824,
+    1518825,
+    1518826,
+    1518827,
+    1518828,
+    1518829,
+    1518830,
+    1518831,
+    1518834,
+    1518836,
+    1518837,
+    1523855,
+    1523856,
+    1523857,
+    1525822,
+    1529409,
+    1539140,
+    1539474,
+    1539476,
+    1539477,
+    1541792,
+    1544564,
+    1559724,
+    1559725,
+    1559726,
+    1559727,
+    1559728,
+    1559729,
+    1559730,
+    1559731,
+    1559732,
+    1559733,
+    1559734,
+    1596007,
+    1604284,
+    1604285,
+    1604286,
+    1604287,
+    1604292,
+    1604293,
+    1604294,
+    1604296,
+    1604297,
+    1604298,
+    1604299,
+    1607832,
+    1607834,
+    1608852,
+    1616172,
+    1616173,
+    1616174,
+    1616175,
+    1620791,
+    1620792,
+    1620793,
+    1620794,
+    1620795,
+    1620796,
+    1620797,
+    1647179,
+    1654344,
+    1673460,
+    1684748,
+    1689680,
+    1689681,
+    1689682,
+    1689683,
+    1714283,
+    1714284,
+    1714285,
+    1714286,
+    1714287,
+    1714288,
+    1714289,
+    1714290,
+    1714291,
+    1714292,
+    1714293,
+    1714294,
+    1714295,
+    1719175,
+    1735068,
+    1735069,
+    1735070,
+    1735071,
+    1756760,
+    1774576,
+    1774577,
+    1803367,
+    1803368,
+    1803369,
+    1803370,
+    1843707,
+    1843708,
+    1843709,
+    1843710,
+    1843711,
+    1843712,
+    1850928,
+    1851026,
+    1851027,
+    1856038,
+    1856039,
+    1866829,
+    1866830,
+    1866831,
+    1866832,
+    1866833,
+    1866834,
+    1866835,
+    1866836,
+    1866837,
+    1866838,
+    1866839,
+    1866840,
+    1874793,
+    1874794,
+    1874795,
+    1874796,
+    1874797,
+    1883165,
+    1883166,
+    1883167,
+    1883168,
+    1883169,
+    1883170,
+    1883171,
+    1883172,
+    1883173,
+    1892144,
+    1892145,
+    1892146,
+    1892147,
+    1892148,
+    1892149,
+    1892150,
+    1892151,
+    1892152,
+    1892153,
+    1892154,
+    1892155,
+    1892156,
+    1892157,
+    1892158,
+    1892159,
+    1892160,
+    1896774,
+    1896775,
+    1904374,
+    1904376,
+    1905829,
+    1959703,
+    1959704,
+    1959705,
+    1959706,
+    1959707,
+    1959708,
+    1959709,
+    1959710,
+    1959711,
+    1959712,
+    1959713,
+    1959714,
+    1959715,
+    1959716,
+    1959717,
+    1959718,
+    1959719,
+    1959720,
+    1959721,
+    1959722,
+    1959723,
+    1959724,
+    1959725,
+    1959726,
+    1959727,
+    1959728,
+    1959729,
+    1959730,
+    1959731,
+    1959732,
+    1959733,
+    1971607,
+    1979301,
+    1979302,
+    2007276,
+    2007277,
+    2007278,
+    2007279,
+    2007280,
+    2007281,
+    2007282,
+    2007283,
+    2007284,
+    2007288,
+    2018557,
+    2018558,
+    2018559,
+    2018560,
+    2018561,
+    2018562,
+    2021259,
+    2021260,
+    2099619,
+    2163516,
+    2163517,
+    2163518,
+    2163520,
+    2487117,
+    2506470,
+    2506471,
+    2511185,
+    2511186,
+    2517013,
+    2517014,
+    2517015,
+    2517016,
+    2517017,
+    2517018,
+    2517019,
+    2517020,
+    2517021,
+    2517022,
+    2517023,
+    2517024,
+    2517025,
+    2517026,
+    2517027,
+    2517028,
+    2517029,
+    2517030,
+    2517031,
+    2517032,
+    2517033,
+    2517034,
+    2517035,
+    2517036,
+    2517037,
+    2517038,
+    2517039,
+    2517040,
+    2517041,
+    2517042,
+    2517043,
+    2517044,
+    2517045,
+    2517046,
+    2517047,
+    2517048,
+    2517049,
+    2517050,
+    2517051,
+    2517052,
+    2517053,
+    2517054,
+    2517055,
+    2517056,
+    2517057,
+    2517058,
+    2517059,
+    2517060,
+    2517061,
+    2517062,
+    2517063,
+    2517064,
+    2517065,
+    2517066,
+    2517067,
+    2517068,
+    2517069,
+    2517070,
+    2517071,
+    2517072,
+    2517073,
+    2517074,
+    2517075,
+    2517076,
+    2517077,
+    2517078,
+    2517079,
+    2517080,
+    2517081,
+    2517082,
+    2517083,
+    2517084,
+    2517085,
+    2588257,
+    2588258,
+    2588259,
+    2588260,
+    2588261,
+    2588262,
+    2588263,
+    2588264,
+    2588265,
+    2588266,
+    2588862,
+    2588863,
+    2588864,
+    2588865,
+    2588866,
+    2588867,
+    2591353,
+    2591354,
+    2591355,
+    2591356,
+    2591357,
+    2591358,
+    2591359,
+    2591360,
+    2591361,
+    2650124,
+    2650125,
+    2650126,
+    2650127,
+    2650128,
+    2650129,
+    2650130,
+    2650131,
+    2650132,
+    2650133,
+    2650134,
+    2650135,
+    2650136,
+    2650137,
+    2650138,
+    2650139,
+    2650140,
+    2650141,
+    2650142,
+    2650143,
+    2650144,
+    2650145,
+    2650146,
+    2650147,
+    2650148,
+    2650149,
+    2650150,
+    2650151,
+    2650152,
+    2650153,
+    2650154,
+    2650772,
+    2690422,
+    2733701,
+    2733702,
+    2733786,
+    2733787,
+    2733788,
+    2733789,
+    2733790,
+    2733791,
+    2733792,
+    2733793,
+    2769164,
+    2769165,
+    2769167,
+    2769168,
+    2769169,
+    2769175,
+    2769176,
+    2769177,
+    2769178,
+    2769179,
+    2769180,
+    2769181,
+    2769182,
+    2769184,
+    2769188,
+    2820499,
+    2820743,
+    2821861,
+    2834823,
+    2834824,
+    2834825,
+    2834826,
+    2834828,
+    2834830,
+    2834831,
+    2834832,
+    2834833,
+    2834834,
+    2834835,
+    2834836,
+    2834837,
+    2834838,
+    2834839,
+    2845247,
+    2845248,
+    2845249,
+    2845250,
+    2845251,
+    2845252,
+    2929058,
+    2949377,
+    2949378,
+    2949379,
+    2949380,
+    3036553,
+    3036554,
+    3036555,
+    3036556,
+    3036557,
+    3036558,
+    3036559,
+    3036560,
+    3036561,
+    3036562,
+    3036563,
+    3051231,
+    3098642,
+    3148855,
+    3148856,
+    3148857,
+    3411998,
+    3418473
    ],
    "exclusivity_taxids": [],
    "query": "cytb[Gene] OR cob[Gene] OR \"cytochrome b\"[Title] OR cytb[Title] OR \"complete genome\"[Title]",
@@ -49267,28 +51889,29 @@
     "forward": "CATATATTAAGAGAANTATGGAG",
     "reverse": "ATAGAAAGATAAGAAATACCATTC"
    },
-   "recent_detected": 190,
-   "recent_evaluable": 263,
+   "recent_detected": 191,
+   "recent_evaluable": 264,
    "recent_ci": [
-    0.6654075606282316,
-    0.7730550400376525
+    0.6666184706459048,
+    0.7739406590704354
    ],
-   "baseline_detected": 859,
-   "baseline_evaluable": 983,
+   "baseline_detected": 929,
+   "baseline_evaluable": 1058,
    "baseline_ci": [
-    0.8516345025425662,
-    0.8931659853477052
+    0.8569761369057138,
+    0.8964320045399015
    ],
    "change_ci": [
-    -0.21162878100584642,
-    -0.0961380986788627
+    -0.21434383250079037,
+    -0.09989862037808306
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "detected share 72.2% (67%-77%) since Nov 2024, upper bound below the 90% threshold; change from baseline -21% to -10%",
-   "trend": "by record rising (p = 0.0884, 25 years); by footprint falling (p = 0.163); **the two disagree on direction**",
+   "claim": "Avian Plasmodium, Haemoproteus and Leucocytozoon, as the first round.",
+   "note": "detected share 72.3% (67%-77%) since Nov 2024, upper bound below the 90% threshold; change from baseline -21% to -10%",
+   "trend": "by record rising (p = 0.24, 25 years); by footprint falling (p = 0.157); **the two disagree on direction**",
    "years": [
     {
      "year": 1998,
@@ -49335,63 +51958,63 @@
     {
      "year": 2006,
      "detected": 15,
-     "evaluable": 15,
-     "share": 1.0,
+     "evaluable": 16,
+     "share": 0.9375,
      "recent": false
     },
     {
      "year": 2007,
      "detected": 3,
-     "evaluable": 3,
-     "share": 1.0,
+     "evaluable": 4,
+     "share": 0.75,
      "recent": false
     },
     {
      "year": 2008,
-     "detected": 30,
-     "evaluable": 32,
-     "share": 0.9375,
+     "detected": 35,
+     "evaluable": 37,
+     "share": 0.9459459459459459,
      "recent": false
     },
     {
      "year": 2009,
-     "detected": 36,
-     "evaluable": 41,
-     "share": 0.8780487804878049,
+     "detected": 56,
+     "evaluable": 62,
+     "share": 0.9032258064516129,
      "recent": false
     },
     {
      "year": 2010,
-     "detected": 73,
-     "evaluable": 81,
-     "share": 0.9012345679012346,
+     "detected": 106,
+     "evaluable": 114,
+     "share": 0.9298245614035088,
      "recent": false
     },
     {
      "year": 2011,
-     "detected": 20,
-     "evaluable": 32,
-     "share": 0.625,
+     "detected": 26,
+     "evaluable": 38,
+     "share": 0.6842105263157895,
      "recent": false
     },
     {
      "year": 2012,
      "detected": 1,
-     "evaluable": 7,
-     "share": 0.14285714285714285,
+     "evaluable": 9,
+     "share": 0.1111111111111111,
      "recent": false
     },
     {
      "year": 2013,
-     "detected": 8,
-     "evaluable": 11,
-     "share": 0.7272727272727273,
+     "detected": 9,
+     "evaluable": 12,
+     "share": 0.75,
      "recent": false
     },
     {
      "year": 2014,
-     "detected": 13,
-     "evaluable": 13,
+     "detected": 16,
+     "evaluable": 16,
      "share": 1.0,
      "recent": false
     },
@@ -49404,16 +52027,16 @@
     },
     {
      "year": 2016,
-     "detected": 11,
-     "evaluable": 12,
-     "share": 0.9166666666666666,
+     "detected": 12,
+     "evaluable": 13,
+     "share": 0.9230769230769231,
      "recent": false
     },
     {
      "year": 2017,
-     "detected": 112,
-     "evaluable": 119,
-     "share": 0.9411764705882353,
+     "detected": 113,
+     "evaluable": 120,
+     "share": 0.9416666666666667,
      "recent": false
     },
     {
@@ -49474,9 +52097,9 @@
     },
     {
      "year": 2026,
-     "detected": 64,
-     "evaluable": 85,
-     "share": 0.7529411764705882,
+     "detected": 65,
+     "evaluable": 86,
+     "share": 0.7558139534883721,
      "recent": true
     }
    ],
@@ -50029,27 +52652,27 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 23152,
-   "no_amplicon_rows": 21906,
+   "screened_rows": 25238,
+   "no_amplicon_rows": 23916,
    "exclusions": [
     [
      "no_site",
-     20273
+     21918
     ],
     [
      "truncated",
-     1204
+     1562
     ],
     [
      "chance_anchor",
-     415
+     421
     ],
     [
      "no_pair",
      14
     ]
    ],
-   "out_of_scope": 8901
+   "out_of_scope": 6815
   },
   {
    "assay_id": "Helicobacter_16S_Conley_2021",
@@ -50100,6 +52723,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "One provisional organism, Helicobacter sp. Grand Cayman Blue Iguana 1.",
    "note": "detected share 0.0% (0%-5%) since Nov 2024, upper bound below the 90% threshold; change from baseline -0.4% to +5% (no measurable fall from a baseline of 0%)",
    "trend": "",
    "years": [
@@ -50802,6 +53426,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 94.1% (84%-98%) since Nov 2024",
    "trend": "by record falling (p = 0.0126, 32 years); by footprint falling (p = 0.274)",
    "years": [
@@ -51308,6 +53933,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.0% (95%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.0462, 35 years); by footprint falling (p = 0.73)",
    "years": [
@@ -51874,6 +54500,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (86%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.125, 23 years); by footprint rising (p = 0.755)",
    "years": [
@@ -52209,6 +54836,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (85%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.00958, 22 years); by footprint rising (p = 0.611)",
    "years": [
@@ -52505,6 +55133,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 60.4% (47%-72%) since Nov 2024, upper bound below the 90% threshold; change from baseline -40% to -14%",
    "trend": "by record falling (p = 0.015, 24 years); by footprint falling (p = 0.112)",
    "years": [
@@ -52878,6 +55507,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 0.2% (0.2%-0.3%) since Nov 2024, upper bound below the 90% threshold; change from baseline -8% to -7% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 8%); separately, lineage Alphainfluenzavirus influenzae (2955291) (26769 records) detects only 0.2% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p < 1e-300, 41 years); by footprint falling (p = 2.27e-38)",
    "years": [
@@ -54523,6 +57153,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 93.6% (93%-94%) since Nov 2024",
    "trend": "by record rising (p = 5.02e-274, 41 years); by footprint falling (p = 0.0431); **the two disagree on direction**",
    "years": [
@@ -56102,6 +58733,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.2% (96%-96%) since Nov 2024",
    "trend": "by record rising (p = 1.65e-83, 35 years); by footprint falling (p = 6.06e-07); **the two disagree on direction**",
    "years": [
@@ -56970,6 +59602,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 79.3% has low coverage, but lineage Alphainfluenzavirus influenzae (2955291) (150 records) detects 79.3% (72.2%-85.0%); lineage verdict overrides to declining",
    "trend": "by record falling (p = 4.46e-61, 36 years); by footprint falling (p = 0.135)",
    "years": [
@@ -57835,6 +60468,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 59.2% has low coverage, but lineage Alphainfluenzavirus influenzae (2955291) (70501 records) detects 59.2% (58.9%-59.6%); lineage verdict overrides to declining",
    "trend": "by record falling (p < 1e-300, 37 years); by footprint falling (p = 2.82e-23)",
    "years": [
@@ -59165,6 +61799,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.9% (97%-97%) since Nov 2024",
    "trend": "by record rising (p = 2.87e-258, 37 years); by footprint falling (p = 0.56); **the two disagree on direction**",
    "years": [
@@ -60381,6 +63016,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 6.5% (6%-7%) since Nov 2024, upper bound below the 90% threshold; change from baseline -15% to -14%",
    "trend": "by record falling (p < 1e-300, 37 years); by footprint falling (p = 0.608)",
    "years": [
@@ -61581,6 +64217,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 60.8% has low coverage, but lineage Alphainfluenzavirus influenzae (2955291) (69571 records) detects 60.8% (60.5%-61.2%), down from 61.2% on 117383 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 9.23e-221, 41 years); by footprint falling (p = 3.02e-09)",
    "years": [
@@ -62938,6 +65575,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -63014,6 +65652,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "12 evaluable records since Nov 2021, below the minimum of 15; the detected share is 17% (5%-45%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.0638, 12 years); by footprint falling (p = 0.196)",
    "years": [
@@ -63300,6 +65939,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -63373,6 +66013,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (95%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.898, 26 years); by footprint falling (p = 0.94)",
    "years": [
@@ -63559,7 +66200,108 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "reverse",
+     "pos_3prime": 14,
+     "base": "G",
+     "n_mismatch": 77,
+     "detected_with": 75,
+     "evaluable_with": 77,
+     "detected_without": 843,
+     "evaluable_without": 843,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       67
+      ],
+      [
+       "G",
+       "T",
+       9
+      ],
+      [
+       "G",
+       "C",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 20,
+     "base": "C",
+     "n_mismatch": 22,
+     "detected_with": 22,
+     "evaluable_with": 22,
+     "detected_without": 896,
+     "evaluable_without": 898,
+     "substitutions": [
+      [
+       "C",
+       "T",
+       22
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 13,
+     "base": "G",
+     "n_mismatch": 37,
+     "detected_with": 37,
+     "evaluable_with": 37,
+     "detected_without": 881,
+     "evaluable_without": 883,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       37
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 13,
+     "base": "G",
+     "n_mismatch": 44,
+     "detected_with": 44,
+     "evaluable_with": 44,
+     "detected_without": 874,
+     "evaluable_without": 876,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       44
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 16,
+     "base": "G",
+     "n_mismatch": 46,
+     "detected_with": 46,
+     "evaluable_with": 46,
+     "detected_without": 872,
+     "evaluable_without": 874,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       46
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "unresolved",
@@ -63641,6 +66383,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All pathogenic Leptospira species known at the time, excluding intermediate and saprophytic species.",
    "note": "detected share 98.1% (96%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.284, 26 years); by footprint falling (p = 0.0055)",
    "years": [
@@ -64370,6 +67113,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Avian Leucocytozoon, as a second round.",
    "note": "pooled share 26.3% has low coverage, but lineage Leucocytozoon sp. (1504291) (88 records) detects 34.1% (25.0%-44.5%), down from 92.6% on 122 earlier records; lineage verdict overrides to declining",
    "trend": "by record rising (p = 0.00222, 22 years); by footprint rising (p = 0.463)",
    "years": [
@@ -64953,6 +67697,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 45.3% (43%-47%) since Nov 2024, upper bound below the 90% threshold; change from baseline -18% to -14%",
    "trend": "by record falling (p = 8.61e-12, 37 years); by footprint falling (p = 0.0422)",
    "years": [
@@ -65244,7 +67989,388 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "reverse",
+     "pos_3prime": 3,
+     "base": "A",
+     "n_mismatch": 4181,
+     "detected_with": 230,
+     "evaluable_with": 4181,
+     "detected_without": 7772,
+     "evaluable_without": 9383,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       2577
+      ],
+      [
+       "A",
+       "T",
+       1557
+      ],
+      [
+       "A",
+       "C",
+       47
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 1,
+     "base": "A",
+     "n_mismatch": 34,
+     "detected_with": 0,
+     "evaluable_with": 34,
+     "detected_without": 8002,
+     "evaluable_without": 13530,
+     "substitutions": [
+      [
+       "A",
+       "T",
+       31
+      ],
+      [
+       "A",
+       "G",
+       3
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 7,
+     "base": "A",
+     "n_mismatch": 34,
+     "detected_with": 0,
+     "evaluable_with": 34,
+     "detected_without": 8002,
+     "evaluable_without": 13530,
+     "substitutions": [
+      [
+       "A",
+       "T",
+       32
+      ],
+      [
+       "A",
+       "G",
+       2
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 19,
+     "base": "C",
+     "n_mismatch": 37,
+     "detected_with": 1,
+     "evaluable_with": 37,
+     "detected_without": 8001,
+     "evaluable_without": 13527,
+     "substitutions": [
+      [
+       "C",
+       "A",
+       32
+      ],
+      [
+       "C",
+       "T",
+       5
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 8,
+     "base": "T",
+     "n_mismatch": 36,
+     "detected_with": 1,
+     "evaluable_with": 36,
+     "detected_without": 8001,
+     "evaluable_without": 13528,
+     "substitutions": [
+      [
+       "T",
+       "A",
+       34
+      ],
+      [
+       "T",
+       "C",
+       2
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 10,
+     "base": "A",
+     "n_mismatch": 20,
+     "detected_with": 1,
+     "evaluable_with": 20,
+     "detected_without": 8001,
+     "evaluable_without": 13544,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       11
+      ],
+      [
+       "A",
+       "C",
+       6
+      ],
+      [
+       "A",
+       "T",
+       3
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 14,
+     "base": "G",
+     "n_mismatch": 165,
+     "detected_with": 12,
+     "evaluable_with": 165,
+     "detected_without": 7990,
+     "evaluable_without": 13399,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       156
+      ],
+      [
+       "G",
+       "T",
+       8
+      ],
+      [
+       "G",
+       "C",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 15,
+     "base": "S",
+     "n_mismatch": 7837,
+     "detected_with": 3499,
+     "evaluable_with": 7837,
+     "detected_without": 4503,
+     "evaluable_without": 5727,
+     "substitutions": [
+      [
+       "S",
+       "T",
+       7506
+      ],
+      [
+       "S",
+       "A",
+       331
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 6,
+     "base": "A",
+     "n_mismatch": 5753,
+     "detected_with": 2767,
+     "evaluable_with": 5753,
+     "detected_without": 5235,
+     "evaluable_without": 7811,
+     "substitutions": [
+      [
+       "A",
+       "C",
+       3136
+      ],
+      [
+       "A",
+       "T",
+       1440
+      ],
+      [
+       "A",
+       "G",
+       1177
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 3,
+     "base": "C",
+     "n_mismatch": 10177,
+     "detected_with": 5597,
+     "evaluable_with": 10177,
+     "detected_without": 2405,
+     "evaluable_without": 3387,
+     "substitutions": [
+      [
+       "C",
+       "T",
+       10173
+      ],
+      [
+       "C",
+       "A",
+       4
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 17,
+     "base": "A",
+     "n_mismatch": 198,
+     "detected_with": 94,
+     "evaluable_with": 198,
+     "detected_without": 7908,
+     "evaluable_without": 13366,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       195
+      ],
+      [
+       "A",
+       "C",
+       2
+      ],
+      [
+       "A",
+       "T",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 13,
+     "base": "T",
+     "n_mismatch": 34,
+     "detected_with": 19,
+     "evaluable_with": 34,
+     "detected_without": 7983,
+     "evaluable_without": 13530,
+     "substitutions": [
+      [
+       "T",
+       "C",
+       26
+      ],
+      [
+       "T",
+       "G",
+       4
+      ],
+      [
+       "T",
+       "A",
+       4
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 12,
+     "base": "R",
+     "n_mismatch": 84,
+     "detected_with": 58,
+     "evaluable_with": 84,
+     "detected_without": 7944,
+     "evaluable_without": 13480,
+     "substitutions": [
+      [
+       "R",
+       "T",
+       55
+      ],
+      [
+       "R",
+       "C",
+       29
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 19,
+     "base": "A",
+     "n_mismatch": 80,
+     "detected_with": 77,
+     "evaluable_with": 80,
+     "detected_without": 7925,
+     "evaluable_without": 13484,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       78
+      ],
+      [
+       "A",
+       "C",
+       2
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 17,
+     "base": "T",
+     "n_mismatch": 982,
+     "detected_with": 944,
+     "evaluable_with": 982,
+     "detected_without": 7058,
+     "evaluable_without": 12582,
+     "substitutions": [
+      [
+       "T",
+       "C",
+       947
+      ],
+      [
+       "T",
+       "G",
+       30
+      ],
+      [
+       "T",
+       "A",
+       5
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "Lyssavirus rabies (11292)",
@@ -65330,6 +68456,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.2% (99%-99%) since Nov 2024",
    "trend": "by record rising (p = 4.44e-17, 37 years); by footprint falling (p = 0.882); **the two disagree on direction**",
    "years": [
@@ -66200,6 +69327,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 97.2% (96%-98%) since Nov 2024",
    "trend": "by record rising (p = 3.43e-06, 31 years); by footprint falling (p = 0.0188); **the two disagree on direction**",
    "years": [
@@ -67168,6 +70296,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 94.3% (93%-96%) since Nov 2024",
    "trend": "by record rising (p = 2.9e-09, 34 years); by footprint falling (p = 0.0251); **the two disagree on direction**",
    "years": [
@@ -68065,6 +71194,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Monkeypox virus Congo Basin strains.",
    "note": "detected share 98.4% (97%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.000344, 15 years); by footprint falling (p = 0.13); **the two disagree on direction**",
    "years": [
@@ -68347,6 +71477,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Monkeypox virus clade I.",
    "note": "pooled share 49.4% has low coverage, but lineage Orthopoxvirus monkeypox (3431483) (4551 records) detects 53.4% (52.0%-54.9%); lineage verdict overrides to declining",
    "trend": "by record rising (p < 1e-300, 16 years); by footprint falling (p = 0.261); **the two disagree on direction**",
    "years": [
@@ -68730,6 +71861,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Monkeypox virus clades IIa and IIb.",
    "note": "detected share 43.0% (42%-44%) since Nov 2024, upper bound below the 90% threshold; change from baseline -51% to -48%",
    "trend": "by record falling (p < 1e-300, 16 years); by footprint rising (p = 0.924); **the two disagree on direction**",
    "years": [
@@ -69102,6 +72234,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 90.5% (90%-91%) since Nov 2024",
    "trend": "by record falling (p = 2.6e-121, 16 years); by footprint falling (p = 0.0376)",
    "years": [
@@ -69419,6 +72552,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.5% (96%-97%) since Nov 2024",
    "trend": "by record falling (p = 6.59e-13, 16 years); by footprint rising (p = 0.965); **the two disagree on direction**",
    "years": [
@@ -69739,6 +72873,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 41.6% (40%-43%) since Nov 2024, upper bound below the 90% threshold; change from baseline -55% to -52%",
    "trend": "by record falling (p < 1e-300, 16 years); by footprint rising (p = 0.927); **the two disagree on direction**",
    "years": [
@@ -70020,6 +73155,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 14.1% has low coverage, but lineage Orthopoxvirus monkeypox (3431483) (2417 records) detects 26.4% (24.7%-28.2%); lineage verdict overrides to declining",
    "trend": "by record rising (p = 4.7e-29, 16 years); by footprint falling (p = 0.0576); **the two disagree on direction**",
    "years": [
@@ -70321,6 +73457,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Monkeypox virus lineage B.1, told apart from other West African strains.",
    "note": "detected share 34.4% (33%-36%) since Nov 2024, upper bound below the 90% threshold; change from baseline -57% to -54%",
    "trend": "by record falling (p < 1e-300, 16 years); by footprint rising (p = 0.0621); **the two disagree on direction**",
    "years": [
@@ -70663,6 +73800,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Monkeypox virus lineage B.1, told apart from other West African strains.",
    "note": "detected share 9.1% (8%-10%) since Nov 2024, upper bound below the 90% threshold; change from baseline +5% to +7% (rose from a baseline of 3%); separately, lineage Orthopoxvirus monkeypox (3431483) (4776 records) detects only 9.1% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 0.000115, 16 years); by footprint falling (p = 0.292); **the two disagree on direction**",
    "years": [
@@ -71003,6 +74141,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.2% (98%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.686, 38 years); by footprint falling (p = 1.8e-05)",
    "years": [
@@ -71886,6 +75025,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.2% (98%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.686, 38 years); by footprint falling (p = 1.8e-05)",
    "years": [
@@ -72769,6 +75909,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 68.1% (58%-77%) since Nov 2024, upper bound below the 90% threshold; change from baseline -36% to -17%",
    "trend": "by record falling (p = 2.4e-08, 33 years); by footprint falling (p = 0.0139)",
    "years": [
@@ -73358,6 +76499,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 89.8% is below the 90% threshold, but its interval (85%-93%) still reaches it",
    "trend": "by record falling (p = 0.128, 33 years); by footprint falling (p = 0.09)",
    "years": [
@@ -74250,6 +77392,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.4% (95%-99%) since Nov 2024",
    "trend": "by record rising (p = 4.76e-07, 33 years); by footprint rising (p = 0.123)",
    "years": [
@@ -75069,6 +78212,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (96%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.837, 29 years); by footprint falling (p = 0.655)",
    "years": [
@@ -75615,6 +78759,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 60.6% has low coverage, but lineage Morbillivirus canis (3052342) (104 records) detects 60.6% (51.0%-69.4%); lineage verdict overrides to declining",
    "trend": "by record falling (p = 0.393, 30 years); by footprint falling (p = 1)",
    "years": [
@@ -76285,6 +79430,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.9% (94%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.554, 29 years); by footprint falling (p = 0.0296)",
    "years": [
@@ -76641,6 +79787,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 92.4% (85%-96%) since Nov 2024",
    "trend": "by record falling (p = 0.0599, 33 years); by footprint falling (p = 0.0473)",
    "years": [
@@ -76911,7 +80058,162 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "probe",
+     "pos_3prime": 16,
+     "base": "C",
+     "n_mismatch": 20,
+     "detected_with": 0,
+     "evaluable_with": 20,
+     "detected_without": 564,
+     "evaluable_without": 585,
+     "substitutions": [
+      [
+       "C",
+       "T",
+       20
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 13,
+     "base": "A",
+     "n_mismatch": 30,
+     "detected_with": 14,
+     "evaluable_with": 30,
+     "detected_without": 550,
+     "evaluable_without": 575,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       30
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 5,
+     "base": "T",
+     "n_mismatch": 44,
+     "detected_with": 25,
+     "evaluable_with": 44,
+     "detected_without": 539,
+     "evaluable_without": 561,
+     "substitutions": [
+      [
+       "T",
+       "C",
+       43
+      ],
+      [
+       "T",
+       "G",
+       1
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 16,
+     "base": "G",
+     "n_mismatch": 41,
+     "detected_with": 24,
+     "evaluable_with": 41,
+     "detected_without": 540,
+     "evaluable_without": 564,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       41
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 20,
+     "base": "G",
+     "n_mismatch": 44,
+     "detected_with": 36,
+     "evaluable_with": 44,
+     "detected_without": 528,
+     "evaluable_without": 561,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       43
+      ],
+      [
+       "G",
+       "T",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 14,
+     "base": "A",
+     "n_mismatch": 29,
+     "detected_with": 27,
+     "evaluable_with": 29,
+     "detected_without": 537,
+     "evaluable_without": 576,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       29
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 20,
+     "base": "G",
+     "n_mismatch": 38,
+     "detected_with": 36,
+     "evaluable_with": 38,
+     "detected_without": 528,
+     "evaluable_without": 567,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       38
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 23,
+     "base": "G",
+     "n_mismatch": 65,
+     "detected_with": 63,
+     "evaluable_with": 65,
+     "detected_without": 501,
+     "evaluable_without": 540,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       65
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "Morbillivirus canis (3052342)",
@@ -76986,6 +80288,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.8% (94%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.277, 29 years); by footprint falling (p = 0.0845)",
    "years": [
@@ -77374,6 +80677,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Canine distemper virus in clinical samples and cell culture.",
    "note": "pooled share 80.4% has low coverage, but lineage Morbillivirus canis (3052342) (92 records) detects 80.4% (71.2%-87.3%); lineage verdict overrides to declining",
    "trend": "by record rising (p = 0.796, 33 years); by footprint falling (p = 0.022); **the two disagree on direction**",
    "years": [
@@ -77958,6 +81262,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.1% (98%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.104, 38 years); by footprint falling (p = 4.21e-06); **the two disagree on direction**",
    "years": [
@@ -78228,7 +81533,673 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "reverse",
+     "pos_3prime": 1,
+     "base": "C",
+     "n_mismatch": 41,
+     "detected_with": 0,
+     "evaluable_with": 41,
+     "detected_without": 6345,
+     "evaluable_without": 6550,
+     "substitutions": [
+      [
+       "C",
+       "G",
+       23
+      ],
+      [
+       "C",
+       "A",
+       14
+      ],
+      [
+       "C",
+       "T",
+       4
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 21,
+     "base": "C",
+     "n_mismatch": 40,
+     "detected_with": 0,
+     "evaluable_with": 40,
+     "detected_without": 6345,
+     "evaluable_without": 6551,
+     "substitutions": [
+      [
+       "C",
+       "A",
+       40
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 2,
+     "base": "A",
+     "n_mismatch": 38,
+     "detected_with": 0,
+     "evaluable_with": 38,
+     "detected_without": 6345,
+     "evaluable_without": 6553,
+     "substitutions": [
+      [
+       "A",
+       "C",
+       19
+      ],
+      [
+       "A",
+       "T",
+       12
+      ],
+      [
+       "A",
+       "G",
+       7
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "probe",
+     "pos_3prime": 14,
+     "base": "G",
+     "n_mismatch": 29,
+     "detected_with": 0,
+     "evaluable_with": 29,
+     "detected_without": 6345,
+     "evaluable_without": 6562,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       19
+      ],
+      [
+       "G",
+       "T",
+       6
+      ],
+      [
+       "G",
+       "C",
+       4
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 16,
+     "base": "G",
+     "n_mismatch": 27,
+     "detected_with": 0,
+     "evaluable_with": 27,
+     "detected_without": 6345,
+     "evaluable_without": 6564,
+     "substitutions": [
+      [
+       "G",
+       "T",
+       25
+      ],
+      [
+       "G",
+       "C",
+       1
+      ],
+      [
+       "G",
+       "A",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "probe",
+     "pos_3prime": 16,
+     "base": "G",
+     "n_mismatch": 24,
+     "detected_with": 0,
+     "evaluable_with": 24,
+     "detected_without": 6345,
+     "evaluable_without": 6567,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       23
+      ],
+      [
+       "G",
+       "C",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 5,
+     "base": "A",
+     "n_mismatch": 22,
+     "detected_with": 0,
+     "evaluable_with": 22,
+     "detected_without": 6345,
+     "evaluable_without": 6569,
+     "substitutions": [
+      [
+       "A",
+       "T",
+       9
+      ],
+      [
+       "A",
+       "C",
+       7
+      ],
+      [
+       "A",
+       "G",
+       6
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 8,
+     "base": "C",
+     "n_mismatch": 33,
+     "detected_with": 1,
+     "evaluable_with": 33,
+     "detected_without": 6344,
+     "evaluable_without": 6558,
+     "substitutions": [
+      [
+       "C",
+       "A",
+       25
+      ],
+      [
+       "C",
+       "T",
+       8
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 19,
+     "base": "C",
+     "n_mismatch": 29,
+     "detected_with": 1,
+     "evaluable_with": 29,
+     "detected_without": 6344,
+     "evaluable_without": 6562,
+     "substitutions": [
+      [
+       "C",
+       "A",
+       24
+      ],
+      [
+       "C",
+       "T",
+       4
+      ],
+      [
+       "C",
+       "G",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 3,
+     "base": "T",
+     "n_mismatch": 21,
+     "detected_with": 1,
+     "evaluable_with": 21,
+     "detected_without": 6344,
+     "evaluable_without": 6570,
+     "substitutions": [
+      [
+       "T",
+       "A",
+       18
+      ],
+      [
+       "T",
+       "C",
+       2
+      ],
+      [
+       "T",
+       "G",
+       1
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 23,
+     "base": "C",
+     "n_mismatch": 43,
+     "detected_with": 3,
+     "evaluable_with": 43,
+     "detected_without": 6342,
+     "evaluable_without": 6548,
+     "substitutions": [
+      [
+       "C",
+       "A",
+       39
+      ],
+      [
+       "C",
+       "T",
+       3
+      ],
+      [
+       "C",
+       "G",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 18,
+     "base": "G",
+     "n_mismatch": 38,
+     "detected_with": 3,
+     "evaluable_with": 38,
+     "detected_without": 6342,
+     "evaluable_without": 6553,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       25
+      ],
+      [
+       "G",
+       "C",
+       9
+      ],
+      [
+       "G",
+       "T",
+       4
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "probe",
+     "pos_3prime": 4,
+     "base": "A",
+     "n_mismatch": 37,
+     "detected_with": 3,
+     "evaluable_with": 37,
+     "detected_without": 6342,
+     "evaluable_without": 6554,
+     "substitutions": [
+      [
+       "A",
+       "C",
+       28
+      ],
+      [
+       "A",
+       "G",
+       6
+      ],
+      [
+       "A",
+       "T",
+       3
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 20,
+     "base": "A",
+     "n_mismatch": 46,
+     "detected_with": 4,
+     "evaluable_with": 46,
+     "detected_without": 6341,
+     "evaluable_without": 6545,
+     "substitutions": [
+      [
+       "A",
+       "C",
+       42
+      ],
+      [
+       "A",
+       "G",
+       4
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 22,
+     "base": "A",
+     "n_mismatch": 47,
+     "detected_with": 6,
+     "evaluable_with": 47,
+     "detected_without": 6339,
+     "evaluable_without": 6544,
+     "substitutions": [
+      [
+       "A",
+       "C",
+       43
+      ],
+      [
+       "A",
+       "T",
+       2
+      ],
+      [
+       "A",
+       "G",
+       2
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "probe",
+     "pos_3prime": 3,
+     "base": "G",
+     "n_mismatch": 20,
+     "detected_with": 3,
+     "evaluable_with": 20,
+     "detected_without": 6342,
+     "evaluable_without": 6571,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       10
+      ],
+      [
+       "G",
+       "T",
+       8
+      ],
+      [
+       "G",
+       "C",
+       2
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "probe",
+     "pos_3prime": 1,
+     "base": "A",
+     "n_mismatch": 25,
+     "detected_with": 4,
+     "evaluable_with": 25,
+     "detected_without": 6341,
+     "evaluable_without": 6566,
+     "substitutions": [
+      [
+       "A",
+       "T",
+       13
+      ],
+      [
+       "A",
+       "G",
+       8
+      ],
+      [
+       "A",
+       "C",
+       4
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 4,
+     "base": "G",
+     "n_mismatch": 24,
+     "detected_with": 4,
+     "evaluable_with": 24,
+     "detected_without": 6341,
+     "evaluable_without": 6567,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       15
+      ],
+      [
+       "G",
+       "T",
+       6
+      ],
+      [
+       "G",
+       "C",
+       3
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 13,
+     "base": "A",
+     "n_mismatch": 20,
+     "detected_with": 5,
+     "evaluable_with": 20,
+     "detected_without": 6340,
+     "evaluable_without": 6571,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       20
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "probe",
+     "pos_3prime": 26,
+     "base": "T",
+     "n_mismatch": 21,
+     "detected_with": 6,
+     "evaluable_with": 21,
+     "detected_without": 6339,
+     "evaluable_without": 6570,
+     "substitutions": [
+      [
+       "T",
+       "G",
+       15
+      ],
+      [
+       "T",
+       "C",
+       5
+      ],
+      [
+       "T",
+       "A",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 9,
+     "base": "G",
+     "n_mismatch": 26,
+     "detected_with": 10,
+     "evaluable_with": 26,
+     "detected_without": 6335,
+     "evaluable_without": 6565,
+     "substitutions": [
+      [
+       "G",
+       "C",
+       11
+      ],
+      [
+       "G",
+       "T",
+       11
+      ],
+      [
+       "G",
+       "A",
+       4
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 4,
+     "base": "T",
+     "n_mismatch": 37,
+     "detected_with": 16,
+     "evaluable_with": 37,
+     "detected_without": 6329,
+     "evaluable_without": 6554,
+     "substitutions": [
+      [
+       "T",
+       "C",
+       20
+      ],
+      [
+       "T",
+       "G",
+       15
+      ],
+      [
+       "T",
+       "A",
+       2
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "probe",
+     "pos_3prime": 19,
+     "base": "G",
+     "n_mismatch": 21,
+     "detected_with": 10,
+     "evaluable_with": 21,
+     "detected_without": 6335,
+     "evaluable_without": 6570,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       12
+      ],
+      [
+       "G",
+       "T",
+       6
+      ],
+      [
+       "G",
+       "C",
+       3
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 18,
+     "base": "C",
+     "n_mismatch": 45,
+     "detected_with": 25,
+     "evaluable_with": 45,
+     "detected_without": 6320,
+     "evaluable_without": 6546,
+     "substitutions": [
+      [
+       "C",
+       "T",
+       34
+      ],
+      [
+       "C",
+       "A",
+       7
+      ],
+      [
+       "C",
+       "G",
+       4
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 17,
+     "base": "G",
+     "n_mismatch": 50,
+     "detected_with": 41,
+     "evaluable_with": 50,
+     "detected_without": 6304,
+     "evaluable_without": 6541,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       40
+      ],
+      [
+       "G",
+       "T",
+       9
+      ],
+      [
+       "G",
+       "C",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "Mycobacterium avium (1764)",
@@ -78359,6 +82330,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (99%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.884, 24 years); by footprint falling (p = 0.342)",
    "years": [
@@ -78531,7 +82503,26 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "reverse",
+     "pos_3prime": 7,
+     "base": "G",
+     "n_mismatch": 22,
+     "detected_with": 22,
+     "evaluable_with": 22,
+     "detected_without": 1427,
+     "evaluable_without": 1428,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       22
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "Mycobacterium tuberculosis (1773)",
@@ -78620,6 +82611,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (99%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.00708, 29 years)",
    "years": [
@@ -78974,6 +82966,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (91%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.0683, 20 years); by footprint rising (p = 0.43)",
    "years": [
@@ -79118,7 +83111,26 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "forward",
+     "pos_3prime": 16,
+     "base": "C",
+     "n_mismatch": 84,
+     "detected_with": 74,
+     "evaluable_with": 84,
+     "detected_without": 226,
+     "evaluable_without": 227,
+     "substitutions": [
+      [
+       "C",
+       "G",
+       84
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "unresolved",
@@ -79190,6 +83202,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 40.6% (33%-49%) since Nov 2024, upper bound below the 90% threshold; change from baseline -20% to -1%",
    "trend": "by record falling (p = 0.000662, 23 years); by footprint falling (p = 0.323)",
    "years": [
@@ -79704,6 +83717,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "2 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -79921,6 +83935,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (88%-100%) since Nov 2023 (window widened to 36 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -80096,6 +84111,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -80250,6 +84266,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "8 evaluable records since Nov 2021, below the minimum of 15; the detected share is 62% (31%-86%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.00964, 8 years); by footprint falling (p = 0.105)",
    "years": [
@@ -80413,6 +84430,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (95%-100%) since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -81048,6 +85066,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (88%-100%) since Nov 2024",
    "trend": "",
    "years": [
@@ -81688,6 +85707,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Waterbird bornaviruses of Waterbird 1 orthobornavirus.",
    "note": "detected share 100.0% (82%-100%) since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -82082,6 +86102,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Passerine bornaviruses of Passeriform 1 and 2 orthobornavirus.",
    "note": "4 evaluable records since Nov 2021, below the minimum of 15; the detected share is 50% (15%-85%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.221, 8 years); by footprint rising (p = 0.98); **the two disagree on direction**",
    "years": [
@@ -82471,6 +86492,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Parrot bornaviruses of Psittaciform 1 orthobornavirus.",
    "note": "detected share 100.0% (90%-100%) since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.0521, 15 years); by footprint rising (p = 0.107)",
    "years": [
@@ -82793,6 +86815,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 13.0% (5%-32%) since Nov 2022, upper bound below the 90% threshold; change from baseline -28% to +4% (no measurable fall from a baseline of 30%) (window widened to 48 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 2.63e-05, 23 years); by footprint falling (p = 0.00662)",
    "years": [
@@ -83533,6 +87556,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 0.3% (0.1%-2%) since Nov 2024, upper bound below the 90% threshold; change from baseline -41% to -29% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 35%); separately, lineage Orthobunyavirus oropoucheense (3052429) (278 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 3.87e-29, 28 years); by footprint falling (p = 0.0108)",
    "years": [
@@ -84377,6 +88401,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "14 evaluable records since Nov 2021, below the minimum of 15; the detected share is 21% (8%-48%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.414, 22 years); by footprint rising (p = 0.83); **the two disagree on direction**",
    "years": [
@@ -85070,6 +89095,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 60.0% (39%-78%) since Nov 2022, upper bound below the 90% threshold; change from baseline -4% to +37% (no measurable fall from a baseline of 42%) (window widened to 48 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.104, 29 years); by footprint rising (p = 0.529); **the two disagree on direction**",
    "years": [
@@ -86008,6 +90034,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 26.7% (11%-52%) since Nov 2022, upper bound below the 90% threshold; change from baseline -27% to +17% (no measurable fall from a baseline of 36%) (window widened to 48 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.0074, 26 years); by footprint falling (p = 0.228)",
    "years": [
@@ -86825,6 +90852,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "11 evaluable records since Nov 2021, below the minimum of 15; the detected share is 45% (21%-72%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.148, 20 years); by footprint falling (p = 0.44)",
    "years": [
@@ -87067,7 +91095,54 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "forward",
+     "pos_3prime": 8,
+     "base": "R",
+     "n_mismatch": 20,
+     "detected_with": 4,
+     "evaluable_with": 20,
+     "detected_without": 38,
+     "evaluable_without": 55,
+     "substitutions": [
+      [
+       "R",
+       "T",
+       18
+      ],
+      [
+       "R",
+       "C",
+       2
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 14,
+     "base": "C",
+     "n_mismatch": 30,
+     "detected_with": 9,
+     "evaluable_with": 30,
+     "detected_without": 33,
+     "evaluable_without": 45,
+     "substitutions": [
+      [
+       "C",
+       "T",
+       21
+      ],
+      [
+       "C",
+       "A",
+       9
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [],
    "rounds": [],
    "amplicon_bp_range": [],
@@ -87146,6 +91221,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "The Simbu serogroup of orthobunyaviruses.",
    "note": "detected share 0.0% (0%-5%) since Nov 2023, upper bound below the 90% threshold; change from baseline -1% to +5% (no measurable fall from a baseline of 0.2%) (window widened to 36 months to reach 15 evaluable records); separately, lineage Orthobunyavirus schmallenbergense (3052437) (47 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 0.888, 24 years); by footprint rising (p = 0.904)",
    "years": [
@@ -87388,7 +91464,136 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "reverse",
+     "pos_3prime": 19,
+     "base": "M",
+     "n_mismatch": 334,
+     "detected_with": 0,
+     "evaluable_with": 334,
+     "detected_without": 1,
+     "evaluable_without": 1,
+     "substitutions": [
+      [
+       "M",
+       "T",
+       196
+      ],
+      [
+       "M",
+       "G",
+       138
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 8,
+     "base": "A",
+     "n_mismatch": 72,
+     "detected_with": 0,
+     "evaluable_with": 72,
+     "detected_without": 1,
+     "evaluable_without": 263,
+     "substitutions": [
+      [
+       "A",
+       "T",
+       41
+      ],
+      [
+       "A",
+       "C",
+       31
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 12,
+     "base": "G",
+     "n_mismatch": 70,
+     "detected_with": 0,
+     "evaluable_with": 70,
+     "detected_without": 1,
+     "evaluable_without": 265,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       70
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 5,
+     "base": "A",
+     "n_mismatch": 20,
+     "detected_with": 0,
+     "evaluable_with": 20,
+     "detected_without": 1,
+     "evaluable_without": 315,
+     "substitutions": [
+      [
+       "A",
+       "G",
+       20
+      ]
+     ],
+     "in_3prime_zone": true
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 24,
+     "base": "M",
+     "n_mismatch": 265,
+     "detected_with": 1,
+     "evaluable_with": 265,
+     "detected_without": 0,
+     "evaluable_without": 70,
+     "substitutions": [
+      [
+       "M",
+       "T",
+       194
+      ],
+      [
+       "M",
+       "G",
+       71
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 26,
+     "base": "Y",
+     "n_mismatch": 335,
+     "detected_with": 1,
+     "evaluable_with": 335,
+     "detected_without": 0,
+     "evaluable_without": 0,
+     "substitutions": [
+      [
+       "Y",
+       "A",
+       259
+      ],
+      [
+       "Y",
+       "G",
+       76
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "Orthobunyavirus schmallenbergense (3052437)",
@@ -87680,6 +91885,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All flaviviruses, including new species distantly related to the classical arthropod-borne ones.",
    "note": "detected share 97.7% (97%-98%) since Nov 2024",
    "trend": "by record falling (p = 2.07e-21, 40 years); by footprint falling (p = 1.13e-05)",
    "years": [
@@ -88675,6 +92881,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Tick- and mosquito-borne flaviviruses, for genus diagnosis.",
    "note": "pooled share 59.7% has low coverage, but lineage Orthoflavivirus usutuense (3048443) (428 records) detects only 0.0% (0.0%-0.9%), down from 12.3% on 592 earlier records; lineage verdict overrides to declining",
    "trend": "by record rising (p = 1.28e-06, 40 years); by footprint falling (p = 0.000632); **the two disagree on direction**",
    "years": [
@@ -89834,6 +94041,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Tick- and mosquito-borne flaviviruses, for genus diagnosis.",
    "note": "pooled share 29.9% has low coverage, but lineage Orthoflavivirus japonicum (3048158) (186 records) detects only 4.3% (2.2%-8.3%), down from 59.7% on 494 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 5.04e-97, 40 years); by footprint falling (p = 0.000662)",
    "years": [
@@ -90909,6 +95117,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 88.0% is above the 90% threshold, but lineage Orthohantavirus tulaense (3052503) (102 records) detects only 64.7% (55.1%-73.3%), down from 93.3% on 386 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 0.000637, 38 years); by footprint falling (p = 2.32e-05)",
    "years": [
@@ -92084,6 +96293,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.5% (94%-98%) since Nov 2024",
    "trend": "by record rising (p = 5.96e-05, 38 years); by footprint falling (p = 0.0397); **the two disagree on direction**",
    "years": [
@@ -94311,6 +98521,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Herpesviruses, including ones with no prior sequence.",
    "note": "detected share 97.9% (96%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.519, 41 years); by footprint falling (p = 0.0725)",
    "years": [
@@ -94602,7 +98813,317 @@
      "recent": true
     }
    ],
-   "positions": [],
+   "positions": [
+    {
+     "oligo": "forward",
+     "pos_3prime": 17,
+     "base": "T",
+     "n_mismatch": 22,
+     "detected_with": 3,
+     "evaluable_with": 22,
+     "detected_without": 3981,
+     "evaluable_without": 3999,
+     "substitutions": [
+      [
+       "T",
+       "C",
+       15
+      ],
+      [
+       "T",
+       "A",
+       4
+      ],
+      [
+       "C",
+       "G",
+       3
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 13,
+     "base": "C",
+     "n_mismatch": 54,
+     "detected_with": 43,
+     "evaluable_with": 54,
+     "detected_without": 3941,
+     "evaluable_without": 3967,
+     "substitutions": [
+      [
+       "C",
+       "A",
+       43
+      ],
+      [
+       "C",
+       "T",
+       9
+      ],
+      [
+       "C",
+       "G",
+       2
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "forward",
+     "pos_3prime": 14,
+     "base": "G",
+     "n_mismatch": 48,
+     "detected_with": 39,
+     "evaluable_with": 48,
+     "detected_without": 3945,
+     "evaluable_without": 3973,
+     "substitutions": [
+      [
+       "G",
+       "C",
+       43
+      ],
+      [
+       "G",
+       "T",
+       4
+      ],
+      [
+       "G",
+       "A",
+       1
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 23,
+     "base": "T",
+     "n_mismatch": 60,
+     "detected_with": 55,
+     "evaluable_with": 60,
+     "detected_without": 3929,
+     "evaluable_without": 3961,
+     "substitutions": [
+      [
+       "T",
+       "C",
+       60
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 18,
+     "base": "C",
+     "n_mismatch": 1667,
+     "detected_with": 1637,
+     "evaluable_with": 1667,
+     "detected_without": 2347,
+     "evaluable_without": 2354,
+     "substitutions": [
+      [
+       "C",
+       "G",
+       994
+      ],
+      [
+       "C",
+       "A",
+       641
+      ],
+      [
+       "C",
+       "T",
+       32
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 21,
+     "base": "G",
+     "n_mismatch": 1509,
+     "detected_with": 1485,
+     "evaluable_with": 1509,
+     "detected_without": 2499,
+     "evaluable_without": 2512,
+     "substitutions": [
+      [
+       "G",
+       "C",
+       759
+      ],
+      [
+       "G",
+       "T",
+       576
+      ],
+      [
+       "G",
+       "A",
+       174
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 13,
+     "base": "G",
+     "n_mismatch": 681,
+     "detected_with": 671,
+     "evaluable_with": 681,
+     "detected_without": 3313,
+     "evaluable_without": 3340,
+     "substitutions": [
+      [
+       "G",
+       "A",
+       579
+      ],
+      [
+       "G",
+       "T",
+       102
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 15,
+     "base": "C",
+     "n_mismatch": 1213,
+     "detected_with": 1197,
+     "evaluable_with": 1213,
+     "detected_without": 2787,
+     "evaluable_without": 2808,
+     "substitutions": [
+      [
+       "C",
+       "G",
+       697
+      ],
+      [
+       "C",
+       "T",
+       259
+      ],
+      [
+       "C",
+       "A",
+       257
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 19,
+     "base": "T",
+     "n_mismatch": 3278,
+     "detected_with": 3249,
+     "evaluable_with": 3278,
+     "detected_without": 735,
+     "evaluable_without": 743,
+     "substitutions": [
+      [
+       "T",
+       "G",
+       3278
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 24,
+     "base": "C",
+     "n_mismatch": 2502,
+     "detected_with": 2482,
+     "evaluable_with": 2502,
+     "detected_without": 1502,
+     "evaluable_without": 1519,
+     "substitutions": [
+      [
+       "C",
+       "T",
+       2451
+      ],
+      [
+       "C",
+       "G",
+       51
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 26,
+     "base": "G",
+     "n_mismatch": 2449,
+     "detected_with": 2431,
+     "evaluable_with": 2449,
+     "detected_without": 1553,
+     "evaluable_without": 1572,
+     "substitutions": [
+      [
+       "G",
+       "T",
+       2442
+      ],
+      [
+       "G",
+       "C",
+       7
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 22,
+     "base": "T",
+     "n_mismatch": 53,
+     "detected_with": 53,
+     "evaluable_with": 53,
+     "detected_without": 3931,
+     "evaluable_without": 3968,
+     "substitutions": [
+      [
+       "T",
+       "G",
+       53
+      ]
+     ],
+     "in_3prime_zone": false
+    },
+    {
+     "oligo": "reverse",
+     "pos_3prime": 16,
+     "base": "C",
+     "n_mismatch": 98,
+     "detected_with": 98,
+     "evaluable_with": 98,
+     "detected_without": 3886,
+     "evaluable_without": 3923,
+     "substitutions": [
+      [
+       "C",
+       "T",
+       98
+      ]
+     ],
+     "in_3prime_zone": false
+    }
+   ],
    "lineages": [
     {
      "lineage": "Cytomegalovirus humanbeta5 (3050295)",
@@ -95591,6 +100112,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Herpesviruses, including ones with no prior sequence.",
    "note": "detected share 82.9% (79%-86%) since Nov 2024, upper bound below the 90% threshold; change from baseline -7% to +1% (no measurable fall from a baseline of 85%)",
    "trend": "by record rising (p = 3.15e-19, 40 years); by footprint rising (p = 0.488)",
    "years": [
@@ -97284,6 +101806,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Herpesviruses, by pan-herpes primers taken from Hargis 1999.",
    "note": "detected share 91.5% (88%-94%) since Nov 2024",
    "trend": "by record rising (p = 0.308, 35 years); by footprint rising (p = 0.651)",
    "years": [
@@ -98824,6 +103347,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Herpesviruses, by pan-herpes primers taken from Hargis 1999.",
    "note": "detected share 79.8% (75%-84%) since Nov 2024, upper bound below the 90% threshold; change from baseline -17% to -8%; separately, lineage Varicellovirus humanalpha3 (3050294) (54 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 0.00311, 36 years); by footprint rising (p = 0.301)",
    "years": [
@@ -99524,6 +104048,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.3% (99%-100%) since Nov 2024",
    "trend": "by record rising (p = 4.03e-31, 35 years); by footprint falling (p = 0.957); **the two disagree on direction**",
    "years": [
@@ -100080,6 +104605,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 0.5% (0.4%-0.7%) since Nov 2024, upper bound below the 90% threshold; change from baseline -4% to -3% (fell less than the 5% that counts as declining, from a baseline of 4%); separately, lineage Orthopoxvirus monkeypox (3431483) (5158 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p < 1e-300, 32 years); by footprint falling (p = 3.05e-08)",
    "years": [
@@ -100573,6 +105099,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "North American orthopoxviruses, defined as raccoonpox, volepox and skunkpox.",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "by record falling (p = 0.00839, 3 years); by footprint falling (p = 0.0927)",
    "years": [
@@ -101068,6 +105595,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 47.8% (43%-53%) since Nov 2024, upper bound below the 90% threshold; change from baseline -30% to -17%; separately, lineage Orthoreovirus piscis (3431498) (182 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 8.66e-06, 23 years); by footprint rising (p = 0.73); **the two disagree on direction**",
    "years": [
@@ -101701,6 +106229,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 69.6% (65%-74%) since Nov 2024, upper bound below the 90% threshold; change from baseline -24% to -13%",
    "trend": "by record falling (p = 5.19e-07, 24 years); by footprint falling (p = 0.0356)",
    "years": [
@@ -102262,6 +106791,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 75.1% has low coverage, but lineage Alphapapillomavirus 9 (337041) (320 records) detects only 12.8% (9.6%-16.9%), down from 43.7% on 9521 earlier records; lineage verdict overrides to declining",
    "trend": "by record rising (p = 1.75e-25, 43 years); by footprint falling (p = 0.000616); **the two disagree on direction**",
    "years": [
@@ -104520,6 +109050,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All known and novel paramyxoviruses of the Paramyxovirinae.",
    "note": "detected share 72.8% (71%-74%) since Nov 2024, upper bound below the 90% threshold; change from baseline +33% to +37% (rose from a baseline of 38%); separately, lineage Orthorubulavirus hominis (3052556) (126 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 2.32e-142, 37 years); by footprint rising (p = 0.0272)",
    "years": [
@@ -106312,6 +110843,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All known and novel paramyxoviruses of the Paramyxovirinae.",
    "note": "detected share 61.7% (60%-63%) since Nov 2024, upper bound below the 90% threshold; change from baseline +50% to +53% (rose from a baseline of 10%); separately, lineage Morbillivirus canis (3052342) (83 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p < 1e-300, 36 years); by footprint rising (p = 0.17)",
    "years": [
@@ -107237,6 +111769,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "10 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (72%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -107391,6 +111924,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Three parapoxvirus species: orf, pseudocowpox and bovine papular stomatitis viruses.",
    "note": "detected share 97.1% (85%-99%) since Nov 2024",
    "trend": "by record falling (p = 0.474, 17 years); by footprint falling (p = 0.171)",
    "years": [
@@ -107931,6 +112465,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Perkinsea clades A to C (NAG01a-c) in amphibian tissue.",
    "note": "no evaluable records deposited since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 1.48e-42, 5 years); by footprint falling (p = 0.181)",
    "years": [
@@ -108303,6 +112838,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Perkinsea clade D (PPC) in amphibian tissue.",
    "note": "no evaluable records deposited since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 2.11e-53, 5 years); by footprint rising (p = 0.00337)",
    "years": [
@@ -108646,6 +113182,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 98.1% (90%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.585, 17 years); by footprint falling (p = 0.669); **the two disagree on direction**",
    "years": [
@@ -108898,6 +113435,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 97.2% (93%-99%) since Nov 2024",
    "trend": "by record rising (p = 3.83e-09, 21 years); by footprint rising (p = 0.325)",
    "years": [
@@ -109307,6 +113845,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "The genus Plasmodium, by a genus-conserved primer pair.",
    "note": "detected share 31.8% (16%-53%) since Nov 2023, upper bound below the 90% threshold; change from baseline -31% to +6% (no measurable fall from a baseline of 47%) (window widened to 36 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 1.6e-05, 33 years); by footprint falling (p = 0.547)",
    "years": [
@@ -110360,6 +114899,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Polyomaviruses, including unknown ones, across animal species.",
    "note": "detected share 1.9% (1%-3%) since Nov 2024, upper bound below the 90% threshold; change from baseline -8% to -6% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 9%); separately, lineage Betapolyomavirus hominis (1891762) (857 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 4.12e-25, 41 years); by footprint rising (p = 0.407)",
    "years": [
@@ -111706,6 +116246,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Polyomaviruses, including unknown ones, across animal species.",
    "note": "detected share 0.8% (0.3%-2%) since Nov 2024, upper bound below the 90% threshold; change from baseline -0.3% to +1% (no measurable fall from a baseline of 0.5%); separately, lineage Betapolyomavirus hominis (1891762) (548 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 0.574, 37 years); by footprint rising (p = 0.427)",
    "years": [
@@ -113023,6 +117564,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Polyomaviruses, including unknown ones, across animal species.",
    "note": "detected share 1.9% (1%-3%) since Nov 2024, upper bound below the 90% threshold; change from baseline -8% to -6% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 9%); separately, lineage Betapolyomavirus hominis (1891762) (857 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 4.12e-25, 41 years); by footprint rising (p = 0.407)",
    "years": [
@@ -113941,6 +118483,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "12 evaluable records since Nov 2021, below the minimum of 15; the detected share is 58% (32%-81%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.807, 12 years); by footprint falling (p = 0.88); **the two disagree on direction**",
    "years": [
@@ -114140,6 +118683,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "14 evaluable records since Nov 2021, below the minimum of 15; the detected share is 93% (69%-99%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.557, 13 years); by footprint falling (p = 0.662)",
    "years": [
@@ -114340,6 +118884,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 50.0% (28%-72%) since Nov 2023, upper bound below the 90% threshold; change from baseline -58% to -14% (window widened to 36 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 4.58e-17, 18 years); by footprint falling (p = 0.01)",
    "years": [
@@ -114576,6 +119121,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (95%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.0443, 28 years); by footprint rising (p = 0.887)",
    "years": [
@@ -115064,6 +119610,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 89.9% is below the 90% threshold, but its interval (81%-95%) still reaches it",
    "trend": "by record falling (p = 0.00345, 28 years); by footprint falling (p = 0.0243)",
    "years": [
@@ -115572,6 +120119,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 88.9% is below the 90% threshold, but its interval (80%-94%) still reaches it",
    "trend": "by record falling (p = 0.192, 25 years); by footprint falling (p = 0.337)",
    "years": [
@@ -116020,6 +120568,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (82%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -116214,6 +120763,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "9 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (70%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.0252, 9 years); by footprint rising (p = 0.155)",
    "years": [
@@ -116364,6 +120914,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "9 evaluable records since Nov 2021, below the minimum of 15; the detected share is 22% (6%-55%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 2.38e-05, 9 years); by footprint rising (p = 0.86); **the two disagree on direction**",
    "years": [
@@ -116640,6 +121191,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Animal rhabdoviruses broadly, for phylogeny rather than diagnosis.",
    "note": "pooled share 69.9% has low coverage, but lineage Lyssavirus rabies (11292) (970 records) detects 84.8% (82.5%-87.0%), down from 95.1% on 3678 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 1.58e-12, 35 years); by footprint falling (p = 1.13e-06)",
    "years": [
@@ -117747,6 +122299,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Animal rhabdoviruses broadly, for phylogeny rather than diagnosis.",
    "note": "detected share 91.2% (90%-93%) since Nov 2024",
    "trend": "by record falling (p = 2.71e-12, 35 years); by footprint falling (p = 4.23e-16)",
    "years": [
@@ -118727,6 +123280,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (93%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.683, 24 years); by footprint falling (p = 0.482)",
    "years": [
@@ -119005,6 +123559,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 80.0% is below the 90% threshold, but its interval (55%-93%) still reaches it (window widened to 48 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.00152, 11 years); by footprint falling (p = 0.0598)",
    "years": [
@@ -119558,7 +124113,7 @@
   {
    "assay_id": "Serpentovirinae_PP1b_Uccellini_2014_PythonNido6F",
    "name": "Serpentovirinae \u2014 PP1b (Uccellini 2014, PythonNido6F)",
-   "status": "low coverage",
+   "status": "insufficient data",
    "withheld_reasons": [],
    "taxon": "Serpentovirinae (snake nidoviruses, Tobaniviridae)",
    "taxid": 2508240,
@@ -119570,9 +124125,12 @@
    "amplicon_bp": 1694,
    "entry_status": "active",
    "review_flags": [
+    "scope_narrower_than_taxid",
     "pairing_is_curator_reading"
    ],
-   "scope_taxids": [],
+   "scope_taxids": [
+    1986118
+   ],
    "exclusivity_taxids": [],
    "query": "",
    "title_requires": [],
@@ -119581,27 +124139,28 @@
     "reverse": "ACGTAGTCTTGCCAGTTCCC"
    },
    "recent_detected": 1,
-   "recent_evaluable": 23,
+   "recent_evaluable": 1,
    "recent_ci": [
-    0.007716666143453149,
-    0.20991155070258877
+    0.20654931437723745,
+    1.0
    ],
-   "baseline_detected": 5,
-   "baseline_evaluable": 37,
+   "baseline_detected": 4,
+   "baseline_evaluable": 4,
    "baseline_ci": [
-    0.059132944257320186,
-    0.2797741178400979
+    0.5101091635454027,
+    1.0
    ],
    "change_ci": [
-    -0.24065125998288886,
-    0.09130862243495838
+    -0.7934506856227626,
+    0.4898908364545973
    ],
-   "window_months": 36,
-   "recent_from": "Nov 2023",
+   "window_months": 24,
+   "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "detected share 4.3% (0.8%-21%) since Nov 2023, upper bound below the 90% threshold; change from baseline -24% to +9% (no measurable fall from a baseline of 14%) (window widened to 36 months to reach 15 evaluable records)",
-   "trend": "by record falling (p = 0.00913, 10 years); by footprint falling (p = 0.315)",
+   "claim": "One virus, ball python nidovirus. The paper confirms a contig and offers no diagnostic.",
+   "note": "1 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on",
+   "trend": "",
    "years": [
     {
      "year": 2014,
@@ -119611,73 +124170,17 @@
      "recent": false
     },
     {
-     "year": 2016,
-     "detected": 0,
-     "evaluable": 3,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2017,
-     "detected": 0,
-     "evaluable": 3,
-     "share": 0.0,
-     "recent": false
-    },
-    {
      "year": 2018,
      "detected": 1,
-     "evaluable": 3,
-     "share": 0.3333333333333333,
+     "evaluable": 1,
+     "share": 1.0,
      "recent": false
-    },
-    {
-     "year": 2019,
-     "detected": 1,
-     "evaluable": 17,
-     "share": 0.058823529411764705,
-     "recent": false
-    },
-    {
-     "year": 2020,
-     "detected": 0,
-     "evaluable": 4,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2021,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2023,
-     "detected": 0,
-     "evaluable": 4,
-     "share": 0.0,
-     "recent": true
-    },
-    {
-     "year": 2024,
-     "detected": 0,
-     "evaluable": 16,
-     "share": 0.0,
-     "recent": true
-    },
-    {
-     "year": 2025,
-     "detected": 0,
-     "evaluable": 4,
-     "share": 0.0,
-     "recent": true
     },
     {
      "year": 2026,
      "detected": 1,
-     "evaluable": 3,
-     "share": 0.3333333333333333,
+     "evaluable": 1,
+     "share": 1.0,
      "recent": true
     }
    ],
@@ -119917,23 +124420,15 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 279,
-   "no_amplicon_rows": 219,
+   "screened_rows": 11,
+   "no_amplicon_rows": 6,
    "exclusions": [
     [
      "no_site",
-     151
-    ],
-    [
-     "truncated",
-     56
-    ],
-    [
-     "chance_anchor",
-     12
+     6
     ]
    ],
-   "out_of_scope": 0
+   "out_of_scope": 275
   },
   {
    "assay_id": "Serpentovirinae_PP1b_Uccellini_2014_PythonNido7F",
@@ -119950,9 +124445,12 @@
    "amplicon_bp": 420,
    "entry_status": "active",
    "review_flags": [
+    "scope_narrower_than_taxid",
     "pairing_is_curator_reading"
    ],
-   "scope_taxids": [],
+   "scope_taxids": [
+    1986118
+   ],
    "exclusivity_taxids": [],
    "query": "",
    "title_requires": [],
@@ -119960,28 +124458,29 @@
     "forward": "GTCGTCAACTTGTCCCACCA",
     "reverse": "GTCAAACATGAAAGCGTGCG"
    },
-   "recent_detected": 4,
-   "recent_evaluable": 10,
+   "recent_detected": 1,
+   "recent_evaluable": 1,
    "recent_ci": [
-    0.16818032970623614,
-    0.6873262302663417
+    0.20654931437723745,
+    1.0
    ],
-   "baseline_detected": 10,
-   "baseline_evaluable": 18,
+   "baseline_detected": 4,
+   "baseline_evaluable": 4,
    "baseline_ci": [
-    0.33716415642042774,
-    0.7544048187299437
+    0.5101091635454027,
+    1.0
    ],
    "change_ci": [
-    -0.460975576183062,
-    0.2053477082358176
+    -0.7934506856227626,
+    0.4898908364545973
    ],
-   "window_months": 60,
-   "recent_from": "Nov 2021",
+   "window_months": 24,
+   "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "10 evaluable records since Nov 2021, below the minimum of 15; the detected share is 40% (17%-69%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
-   "trend": "by record falling (p = 0.101, 8 years); by footprint falling (p = 0.155)",
+   "claim": "One virus, ball python nidovirus. The paper confirms a contig and offers no diagnostic.",
+   "note": "1 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on",
+   "trend": "",
    "years": [
     {
      "year": 2014,
@@ -119991,67 +124490,11 @@
      "recent": false
     },
     {
-     "year": 2016,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": false
-    },
-    {
-     "year": 2017,
-     "detected": 2,
-     "evaluable": 2,
-     "share": 1.0,
-     "recent": false
-    },
-    {
      "year": 2018,
      "detected": 1,
      "evaluable": 1,
      "share": 1.0,
      "recent": false
-    },
-    {
-     "year": 2019,
-     "detected": 4,
-     "evaluable": 10,
-     "share": 0.4,
-     "recent": false
-    },
-    {
-     "year": 2020,
-     "detected": 0,
-     "evaluable": 2,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2021,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": true
-    },
-    {
-     "year": 2023,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": true
-    },
-    {
-     "year": 2024,
-     "detected": 3,
-     "evaluable": 8,
-     "share": 0.375,
-     "recent": true
-    },
-    {
-     "year": 2025,
-     "detected": 0,
-     "evaluable": 0,
-     "share": null,
-     "recent": true
     },
     {
      "year": 2026,
@@ -120103,32 +124546,20 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 279,
-   "no_amplicon_rows": 251,
+   "screened_rows": 11,
+   "no_amplicon_rows": 6,
    "exclusions": [
     [
      "no_site",
-     187
-    ],
-    [
-     "truncated",
-     56
-    ],
-    [
-     "chance_anchor",
-     7
-    ],
-    [
-     "chance_only",
-     1
+     6
     ]
    ],
-   "out_of_scope": 0
+   "out_of_scope": 275
   },
   {
    "assay_id": "Serpentovirinae_PP1b_Uccellini_2014_PythonNodoF",
    "name": "Serpentovirinae \u2014 PP1b (Uccellini 2014, PythonNodoF)",
-   "status": "low coverage",
+   "status": "insufficient data",
    "withheld_reasons": [],
    "taxon": "Serpentovirinae (snake nidoviruses, Tobaniviridae)",
    "taxid": 2508240,
@@ -120139,8 +124570,12 @@
    "design_year": 2014,
    "amplicon_bp": 1059,
    "entry_status": "active",
-   "review_flags": [],
-   "scope_taxids": [],
+   "review_flags": [
+    "scope_narrower_than_taxid"
+   ],
+   "scope_taxids": [
+    1986118
+   ],
    "exclusivity_taxids": [],
    "query": "",
    "title_requires": [],
@@ -120148,28 +124583,29 @@
     "forward": "ACCTGCTACCGATGTCCAAG",
     "reverse": "GTCGTTGTTGGCTGAGTGTG"
    },
-   "recent_detected": 3,
-   "recent_evaluable": 17,
+   "recent_detected": 1,
+   "recent_evaluable": 1,
    "recent_ci": [
-    0.06191126637621,
-    0.4102945856883412
+    0.20654931437723745,
+    1.0
    ],
-   "baseline_detected": 9,
-   "baseline_evaluable": 27,
+   "baseline_detected": 3,
+   "baseline_evaluable": 3,
    "baseline_ci": [
-    0.18643261498715644,
-    0.5217523949267991
+    0.43850296824495455,
+    1.0
    ],
    "change_ci": [
-    -0.3773748331943054,
-    0.11927758668191893
+    -0.7934506856227626,
+    0.5614970317550454
    ],
-   "window_months": 36,
-   "recent_from": "Nov 2023",
+   "window_months": 24,
+   "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "detected share 17.6% (6%-41%) since Nov 2023, upper bound below the 90% threshold; change from baseline -38% to +12% (no measurable fall from a baseline of 33%) (window widened to 36 months to reach 15 evaluable records)",
-   "trend": "by record falling (p = 0.0165, 11 years); by footprint falling (p = 0.0757)",
+   "claim": "One virus, ball python nidovirus. The paper confirms a contig and offers no diagnostic.",
+   "note": "1 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on",
+   "trend": "",
    "years": [
     {
      "year": 2014,
@@ -120179,73 +124615,17 @@
      "recent": false
     },
     {
-     "year": 2016,
-     "detected": 0,
+     "year": 2018,
+     "detected": 1,
      "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2017,
-     "detected": 2,
-     "evaluable": 2,
      "share": 1.0,
      "recent": false
     },
     {
-     "year": 2018,
-     "detected": 1,
-     "evaluable": 2,
-     "share": 0.5,
-     "recent": false
-    },
-    {
-     "year": 2019,
-     "detected": 4,
-     "evaluable": 13,
-     "share": 0.3076923076923077,
-     "recent": false
-    },
-    {
-     "year": 2020,
-     "detected": 0,
-     "evaluable": 3,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2021,
-     "detected": 0,
-     "evaluable": 1,
-     "share": 0.0,
-     "recent": false
-    },
-    {
-     "year": 2023,
-     "detected": 0,
-     "evaluable": 3,
-     "share": 0.0,
-     "recent": true
-    },
-    {
-     "year": 2024,
-     "detected": 2,
-     "evaluable": 12,
-     "share": 0.16666666666666666,
-     "recent": true
-    },
-    {
-     "year": 2025,
-     "detected": 0,
-     "evaluable": 3,
-     "share": 0.0,
-     "recent": true
-    },
-    {
      "year": 2026,
      "detected": 1,
-     "evaluable": 2,
-     "share": 0.5,
+     "evaluable": 1,
+     "share": 1.0,
      "recent": true
     }
    ],
@@ -120390,23 +124770,19 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 279,
-   "no_amplicon_rows": 235,
+   "screened_rows": 11,
+   "no_amplicon_rows": 7,
    "exclusions": [
     [
      "no_site",
-     183
-    ],
-    [
-     "chance_anchor",
-     50
+     6
     ],
     [
      "truncated",
-     2
+     1
     ]
    ],
-   "out_of_scope": 0
+   "out_of_scope": 275
   },
   {
    "assay_id": "Shigella_ipaH_Sethabutr_1993",
@@ -120453,6 +124829,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (91%-100%) since Nov 2024",
    "trend": "by record falling (p = 0.34, 24 years)",
    "years": [
@@ -120723,6 +125100,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (98%-100%) since Nov 2024",
    "trend": "by record rising (p = 2.52e-54, 36 years); by footprint falling (p = 0.0737); **the two disagree on direction**",
    "years": [
@@ -121395,6 +125773,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.6% (98%-100%) since Nov 2024",
    "trend": "by record rising (p = 1.47e-27, 36 years); by footprint falling (p = 0.633); **the two disagree on direction**",
    "years": [
@@ -122018,6 +126397,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.1% (97%-100%) since Nov 2024",
    "trend": "by record rising (p < 1e-300, 36 years); by footprint rising (p = 0.482)",
    "years": [
@@ -122732,6 +127112,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 0.0% (0%-2%) since Nov 2024, upper bound below the 90% threshold; change from baseline -8% to -5%",
    "trend": "by record falling (p = 1.53e-59, 35 years); by footprint falling (p = 0.99)",
    "years": [
@@ -123297,6 +127678,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (98%-100%) since Nov 2024",
    "trend": "by record rising (p = 5.46e-05, 36 years); by footprint rising (p = 0.911)",
    "years": [
@@ -123965,6 +128347,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 0.0% has low coverage, but lineage Lentivirus simimdef (3418654) (226 records) detects 0.0% (0.0%-1.7%), down from 4.4% on 4804 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 0.011, 36 years); by footprint falling (p = 0.462)",
    "years": [
@@ -124717,6 +129100,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -124802,6 +129186,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -124888,6 +129273,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 92.0% (75%-98%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.251, 10 years); by footprint falling (p = 0.632)",
    "years": [
@@ -125062,6 +129448,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 69.2% (62%-76%) since Nov 2024, upper bound below the 90% threshold; change from baseline -22% to -7%",
    "trend": "by record falling (p = 0.0412, 25 years); by footprint falling (p = 0.000201)",
    "years": [
@@ -125674,6 +130061,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (85%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -125869,6 +130257,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 90.1% (87%-93%) since Nov 2024",
    "trend": "by record falling (p = 9.87e-05, 18 years); by footprint falling (p = 5.65e-05)",
    "years": [
@@ -126179,6 +130568,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "4 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (51%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -126366,6 +130756,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "9 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (70%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.677, 9 years); by footprint rising (p = 0.801)",
    "years": [
@@ -126572,6 +130963,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (88%-100%) since Nov 2024",
    "trend": "by record rising (p = 0.00085, 20 years); by footprint rising (p = 0.226)",
    "years": [
@@ -126999,6 +131391,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 83.3% is below the 90% threshold, but its interval (61%-94%) still reaches it",
    "trend": "by record rising (p = 0.679, 16 years); by footprint falling (p = 0.308); **the two disagree on direction**",
    "years": [
@@ -127228,6 +131621,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (81%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -127411,6 +131805,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (81%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.729, 12 years); by footprint falling (p = 0.522)",
    "years": [
@@ -127577,6 +131972,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 63.8% (61%-66%) since Nov 2024, upper bound below the 90% threshold; change from baseline -26% to -21%",
    "trend": "by record falling (p = 4.85e-145, 29 years); by footprint rising (p = 0.259); **the two disagree on direction**",
    "years": [
@@ -128386,6 +132782,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (80%-100%) since Nov 2023 (window widened to 36 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -128541,6 +132938,7 @@
    "recent_from": "Nov 2022",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 100.0% (81%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -129496,6 +133894,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Adenoviruses, including novel ones, for initial sequencing.",
    "note": "detected share 98.8% (98%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.0313, 34 years)",
    "years": [
@@ -129851,6 +134250,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "pooled share 83.3% has low coverage, but lineage Mastadenovirus caesari (3241411) (184 records) detects only 65.2% (58.1%-71.7%), down from 71.1% on 795 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 0.00993, 35 years)",
    "years": [
@@ -130226,6 +134626,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.0% (99%-99%) since Nov 2024",
    "trend": "by record rising (p = 4.56e-20, 38 years)",
    "years": [
@@ -130578,6 +134979,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 97.4% (96%-98%) since Nov 2024",
    "trend": "by record falling (p = 0.0788, 29 years)",
    "years": [
@@ -130934,6 +135336,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 26.2% (23%-30%) since Nov 2024, upper bound below the 90% threshold; change from baseline -19% to -12% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 42%); lineage Mamastrovirus suisencephalomyelitidis (3703181) (35 records) detects only 8.6%, but neither it nor the pooled share ever cleared the threshold, so there is no fall to call a decline",
    "trend": "by record falling (p = 1.31e-22, 29 years)",
    "years": [
@@ -131290,6 +135693,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 95.4% (93%-97%) since Nov 2024",
    "trend": "by record falling (p = 0.0538, 22 years)",
    "years": [
@@ -131556,6 +135960,7 @@
    "recent_from": "Nov 2023",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Borna disease virus in naturally infected animals.",
    "note": "detected share 0.0% (0%-2%) since Nov 2023, upper bound below the 90% threshold; change from baseline -3% to +2% (no measurable fall from a baseline of 0%) (window widened to 36 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -131839,6 +136244,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "C. pneumoniae, told apart from C. psittaci and C. trachomatis.",
    "note": "4 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (51%-100%), too wide to act on",
    "trend": "",
    "years": [
@@ -131984,6 +136390,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "C. psittaci, told apart from C. pneumoniae and C. trachomatis.",
    "note": "detected share 100.0% (85%-100%) since Nov 2021 (window widened to 60 months to reach 15 evaluable records)",
    "trend": "",
    "years": [
@@ -132164,6 +136571,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "C. trachomatis, told apart from C. pneumoniae and C. psittaci.",
    "note": "detected share 0.0% (0%-9%) since Nov 2024, upper bound below the 90% threshold; change from baseline -1% to +9% (no measurable fall from a baseline of 0%)",
    "trend": "",
    "years": [
@@ -132390,6 +136798,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 26.9% (23%-31%) since Nov 2024, upper bound below the 90% threshold; change from baseline -11% to -3% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 34%); separately, lineage Circovirus canine (3047721) (36 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 0.0353, 31 years)",
    "years": [
@@ -134230,6 +138639,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Coronaviruses, by screening a 400-nt RdRp fragment.",
    "note": "pooled share 45.5% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (171 records) detects only 0.0% (0.0%-2.2%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining",
    "trend": "by record rising (p = 0.0125, 30 years)",
    "years": [
@@ -134636,6 +139046,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "14 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (78%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.655, 21 years); by footprint rising (p = 0.888); **the two disagree on direction**",
    "years": [
@@ -134857,6 +139268,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 90.6% (76%-97%) since Nov 2024",
    "trend": "by record rising (p = 0.428, 30 years)",
    "years": [
@@ -135153,6 +139565,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.9% (84%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.115, 32 years)",
    "years": [
@@ -135461,6 +139874,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "2 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on",
    "trend": "",
    "years": [
@@ -135589,6 +140003,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -135696,6 +140111,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "no evaluable records deposited since Nov 2024",
    "trend": "",
    "years": [
@@ -135806,6 +140222,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 52.6% (50%-55%) since Nov 2024, upper bound below the 90% threshold; change from baseline -34% to -28%; separately, lineage Enterovirus geswini (3428509) (70 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record falling (p = 2.36e-46, 40 years)",
    "years": [
@@ -136743,6 +141160,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All enterovirus serotypes.",
    "note": "pooled share 14.3% has low coverage, but lineage Enterovirus betacoxsackie (3428502) (146 records) detects 61.0% (52.9%-68.5%); lineage verdict overrides to declining",
    "trend": "by record falling (p = 1.53e-08, 39 years)",
    "years": [
@@ -137124,6 +141542,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "6 evaluable records since Nov 2021, below the minimum of 15; the detected share is 67% (30%-90%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record falling (p = 0.154, 8 years); by footprint falling (p = 0.385)",
    "years": [
@@ -137259,6 +141678,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 45.3% (43%-48%) since Nov 2024, upper bound below the 90% threshold; change from baseline -18% to -14%",
    "trend": "by record falling (p = 7.76e-12, 37 years)",
    "years": [
@@ -137602,6 +142022,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 95.0% (94%-96%) since Nov 2024",
    "trend": "by record rising (p = 1.79e-08, 31 years)",
    "years": [
@@ -138156,6 +142577,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Tick- and mosquito-borne flaviviruses, for genus diagnosis.",
    "note": "pooled share 24.3% has low coverage, but lineage Orthoflavivirus usutuense (3048443) (429 records) detects only 0.0% (0.0%-0.9%), down from 12.3% on 592 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 2.42e-131, 40 years)",
    "years": [
@@ -138621,6 +143043,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 97.7% (96%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.213, 38 years); by footprint falling (p = 0.00267); **the two disagree on direction**",
    "years": [
@@ -139904,6 +144327,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Herpesviruses, including ones with no prior sequence.",
    "note": "detected share 85.0% (81%-88%) since Nov 2024, upper bound below the 90% threshold; change from baseline -5% to +3% (no measurable fall from a baseline of 86%)",
    "trend": "by record rising (p = 1.4e-16, 40 years)",
    "years": [
@@ -141160,6 +145584,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Herpesviruses, by pan-herpes primers taken from Hargis 1999.",
    "note": "detected share 72.2% (67%-77%) since Nov 2024, upper bound below the 90% threshold; change from baseline -16% to -5%; separately, lineage Varicellovirus humanalpha3 (3050294) (54 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 0.255, 35 years); by footprint rising (p = 0.338)",
    "years": [
@@ -141514,6 +145939,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 18.3% (15%-23%) since Nov 2024, upper bound below the 90% threshold; change from baseline -48% to -37%",
    "trend": "by record falling (p = 5.78e-17, 23 years); by footprint falling (p = 0.126)",
    "years": [
@@ -142703,6 +147129,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "All known and novel paramyxoviruses of the Paramyxovirinae.",
    "note": "detected share 61.9% (60%-63%) since Nov 2024, upper bound below the 90% threshold; change from baseline +50% to +53% (rose from a baseline of 10%); separately, lineage Morbillivirus canis (3052342) (83 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p < 1e-300, 36 years)",
    "years": [
@@ -143094,6 +147521,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 96.3% (87%-99%) since Nov 2024",
    "trend": "by record rising (p = 0.0189, 17 years); by footprint falling (p = 0.902); **the two disagree on direction**",
    "years": [
@@ -143714,6 +148142,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Polyomaviruses, including unknown ones, across animal species.",
    "note": "detected share 0.8% (0.3%-2%) since Nov 2024, upper bound below the 90% threshold; change from baseline +0.2% to +2% (rose from a baseline of 0.1%); separately, lineage Betapolyomavirus hominis (1891762) (548 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
    "trend": "by record rising (p = 0.0357, 37 years)",
    "years": [
@@ -144057,6 +148486,7 @@
    "recent_from": "Nov 2021",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "12 evaluable records since Nov 2021, below the minimum of 15; the detected share is 50% (25%-75%), too wide to act on (window widened to 60 months to reach 15 evaluable records)",
    "trend": "by record rising (p = 0.955, 12 years); by footprint falling (p = 0.74); **the two disagree on direction**",
    "years": [
@@ -144220,6 +148650,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "Animal rhabdoviruses broadly, for phylogeny rather than diagnosis.",
    "note": "pooled share 71.7% has low coverage, but lineage Lyssavirus rabies (11292) (945 records) detects 86.9% (84.6%-88.9%), down from 94.9% on 3667 earlier records; lineage verdict overrides to declining",
    "trend": "by record falling (p = 4.5e-25, 35 years)",
    "years": [
@@ -144562,6 +148993,7 @@
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
+   "claim": "",
    "note": "detected share 99.6% (98%-100%) since Nov 2024",
    "trend": "by record rising (p = 3.57e-22, 36 years); by footprint falling (p = 0.589); **the two disagree on direction**",
    "years": [

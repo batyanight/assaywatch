@@ -878,6 +878,7 @@ def build(
     cfg: dict[str, Any],
     statuses: Iterable[str] = DEFAULT_STATUSES,
     run_date: str | None = None,
+    include_withheld: bool = False,
 ) -> tuple[str, str, list[AssaySites]]:
     """Site-drift report for every assay in the given statuses."""
     from assaywatch.drift import by_status
@@ -912,12 +913,17 @@ def build(
     # filter, patent exclusion and all (see `report.assess_as_reported`). And the
     # same quarantine: an assay the report holds out as not scoreable gets no
     # status here either, so it cannot be listed as failing.
-    from assaywatch.report import assess_as_reported, held_out_reasons
+    from assaywatch.report import assess_as_reported, held_out_reasons, map_is_withheld
 
     calls = key_calls_by_accession(read_calls(calls_path))
     apply_anchor_fdr(calls, cfg)  # the same relabel report.build applies, so the two cannot disagree
     drifts, _ = assess_as_reported(calls, dates, assays, retrieved, cfg, today)
-    drifts = {aid: d for aid, d in drifts.items() if not held_out_reasons(assays.get(aid))}
+    drifts = {
+        aid: d
+        for aid, d in drifts.items()
+        if not held_out_reasons(assays.get(aid))
+        or (include_withheld and not map_is_withheld(assays.get(aid)))
+    }
     grouped = by_status(drifts)
 
     wanted = {s.lower() for s in statuses}

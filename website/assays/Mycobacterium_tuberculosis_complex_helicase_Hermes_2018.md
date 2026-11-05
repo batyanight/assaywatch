@@ -37,8 +37,38 @@
 
     - **`citation_unresolved`** — oligos come from an uncitable source (anonymous, 2017)
 
+This map shows where records differ from the oligos as entered. No status is given, for
+the reason above, so it is not a verdict.
+
+## Mismatch distribution
+
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
+<svg class="aw-track" viewBox="0 0 480 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="87" y="52">forward</text><text class="aw-track-name" x="87" y="64">MTC-HELI-4F</text><rect class="aw-zone" x="356.8" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="116.8" y1="44.0" x2="431.8" y2="44.0"/><text class="aw-base" x="124.3" y="57">T</text><text class="aw-base" x="139.3" y="57">T</text><text class="aw-base" x="154.3" y="57">G</text><text class="aw-base" x="169.3" y="57">A</text><text class="aw-base" x="184.3" y="57">T</text><g class="aw-bar-mid"><title>forward position 16 from the 3&#x27; end, base C
+84 of 311 records differ here (27.0%)
+detected when it differs: 88% of 84
+detected when it does not: 100% of 227
+substitutions: C&gt;G in 84
+outside the 3′ window</title><rect x="192.8" y="26.3" width="13.0" height="17.7"/></g><text class="aw-base" x="199.3" y="57">C</text><text class="aw-base" x="214.3" y="57">A</text><text class="aw-base" x="229.3" y="57">G</text><text class="aw-base" x="244.3" y="57">G</text><text class="aw-base" x="259.3" y="57">T</text><text class="aw-base" x="274.3" y="57">C</text><text class="aw-base" x="289.3" y="57">G</text><text class="aw-base" x="304.3" y="57">A</text><text class="aw-base" x="319.3" y="57">C</text><text class="aw-base" x="334.3" y="57">G</text><text class="aw-base" x="349.3" y="57">A</text><text class="aw-base" x="364.3" y="57">T</text><text class="aw-base" x="379.3" y="57">G</text><text class="aw-base" x="394.3" y="57">T</text><text class="aw-base" x="409.3" y="57">A</text><text class="aw-base" x="424.3" y="57">G</text><text class="aw-tick" x="424.3" y="71">1</text><text class="aw-tick" x="364.3" y="71">5</text><text class="aw-tick" x="289.3" y="71">10</text><text class="aw-tick" x="214.3" y="71">15</text><text class="aw-tick" x="139.3" y="71">20</text><text class="aw-tick" x="124.3" y="71">21</text><text class="aw-end" x="113" y="57">5′</text><text class="aw-end aw-end-3" x="436" y="57">3′</text><text class="aw-track-label" x="87" y="134">reverse</text><text class="aw-track-name" x="87" y="146">MTC-HELI-4R</text><rect class="aw-zone" x="326.8" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="116.8" y1="126.0" x2="401.8" y2="126.0"/><text class="aw-base" x="124.3" y="139">T</text><text class="aw-base" x="139.3" y="139">C</text><text class="aw-base" x="154.3" y="139">A</text><text class="aw-base" x="169.3" y="139">C</text><text class="aw-base" x="184.3" y="139">C</text><text class="aw-base" x="199.3" y="139">A</text><text class="aw-base" x="214.3" y="139">C</text><text class="aw-base" x="229.3" y="139">C</text><text class="aw-base" x="244.3" y="139">G</text><text class="aw-base" x="259.3" y="139">A</text><text class="aw-base" x="274.3" y="139">C</text><text class="aw-base" x="289.3" y="139">A</text><text class="aw-base" x="304.3" y="139">A</text><text class="aw-base" x="319.3" y="139">A</text><text class="aw-base" x="334.3" y="139">G</text><text class="aw-base" x="349.3" y="139">C</text><text class="aw-base" x="364.3" y="139">G</text><text class="aw-base" x="379.3" y="139">T</text><text class="aw-base" x="394.3" y="139">C</text><text class="aw-tick" x="394.3" y="153">1</text><text class="aw-tick" x="334.3" y="153">5</text><text class="aw-tick" x="259.3" y="153">10</text><text class="aw-tick" x="184.3" y="153">15</text><text class="aw-tick" x="124.3" y="153">19</text><text class="aw-end" x="113" y="139">5′</text><text class="aw-end aw-end-3" x="406" y="139">3′</text><text class="aw-track-label" x="87" y="216">probe</text><text class="aw-track-name" x="87" y="228">MTC-HELI-4FAM</text><rect class="aw-zone" x="221.8" y="174.0" width="135.0" height="52.0"/><line class="aw-axis" x1="116.8" y1="208.0" x2="461.8" y2="208.0"/><text class="aw-base" x="124.3" y="221">T</text><text class="aw-base" x="139.3" y="221">C</text><text class="aw-base" x="154.3" y="221">A</text><text class="aw-base" x="169.3" y="221">A</text><text class="aw-base" x="184.3" y="221">C</text><text class="aw-base" x="199.3" y="221">G</text><text class="aw-base" x="214.3" y="221">A</text><text class="aw-base" x="229.3" y="221">C</text><text class="aw-base" x="244.3" y="221">C</text><text class="aw-base" x="259.3" y="221">C</text><text class="aw-base" x="274.3" y="221">C</text><text class="aw-base" x="289.3" y="221">A</text><text class="aw-base" x="304.3" y="221">A</text><text class="aw-base" x="319.3" y="221">C</text><text class="aw-base" x="334.3" y="221">G</text><text class="aw-base" x="349.3" y="221">A</text><text class="aw-base" x="364.3" y="221">C</text><text class="aw-base" x="379.3" y="221">T</text><text class="aw-base" x="394.3" y="221">G</text><text class="aw-base" x="409.3" y="221">G</text><text class="aw-base" x="424.3" y="221">T</text><text class="aw-base" x="439.3" y="221">G</text><text class="aw-base" x="454.3" y="221">C</text><text class="aw-tick" x="454.3" y="235">1</text><text class="aw-tick" x="394.3" y="235">5</text><text class="aw-tick" x="319.3" y="235">10</text><text class="aw-tick" x="244.3" y="235">15</text><text class="aw-tick" x="169.3" y="235">20</text><text class="aw-tick" x="124.3" y="235">23</text><text class="aw-end" x="113" y="221">5′</text><text class="aw-end aw-end-3" x="466" y="221">3′</text></svg>
+
 
 ## Scope
+
+**Scored against:** every record retrieved.  
+**Retrieved from:** Mycobacterium tuberculosis complex (taxid 77643), limited by a query on the title or gene.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 

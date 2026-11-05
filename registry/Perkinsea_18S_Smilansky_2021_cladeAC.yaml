@@ -24,6 +24,7 @@ oligos:
   alternates: []
 amplicon_bp: 287
 citation:
+  claim: "Perkinsea clades A to C (NAG01a-c) in amphibian tissue."
   doi: 10.1098/rsos.202150
   design_year: 2021
   n_sequences_at_design: null

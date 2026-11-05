@@ -27,6 +27,7 @@ from typing import Any
 from urllib.parse import quote
 
 from assaywatch import curation, glossary_links, palette, site_svg
+from assaywatch.review import MAP_HIDDEN, ReviewFlag
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -442,6 +443,7 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
 
     if a["withheld_reasons"]:
         out.append(_withheld_block(a))
+        out.append(_withheld_map(a))
         out.append(_scope_block(a))
         out += _rounds_block(a)
         out += _curation_block(a)
@@ -563,6 +565,27 @@ def _same_mix(comp: dict[str, Any] | None) -> dict[int, float]:
     return {year: share for year, share in pairs if share is not None}
 
 
+def _mix_cell(comp: dict[str, Any], col: int) -> str:
+    """A group's top species with their counts; the file holds the top three."""
+    mixes = comp.get("mix") or []
+    mix = mixes[col] if col < len(mixes) else []
+    return ", ".join(f"{name} {n:,}" for name, n in mix) if mix else "--"
+
+
+def _mixed_largest_group(names: list[str], ids: list[int], totals: list[int]) -> str | None:
+    """The largest named group's name, when its name says it holds several species.
+
+    `cluster_names` writes a percent only when no species reaches `name_pure_share`, so
+    the name already carries the decision and no threshold is repeated here. Pooled and
+    unplaced columns have negative ids and are not groups.
+    """
+    named = [i for i, cid in enumerate(ids) if cid >= 0 and i < len(names) and i < len(totals)]
+    if not named:
+        return None
+    largest = names[max(named, key=lambda i: totals[i])]
+    return largest if largest.endswith("%") else None
+
+
 def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     """The lineage mix under the detection chart, and what it did to that chart.
 
@@ -577,19 +600,27 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     grand = sum(totals) or 1
     lines = [
         "## What was deposited, by lineage\n",
-        "Lineages here are sequence clusters, not taxids. Each is a group of records that look",
-        "alike over the amplicon and its flanks with the oligo sites masked, cut at",
-        f"{comp['cut']:g} Mash distance. The clusters come from sequence this assay does not",
-        "measure, so the mix below can move without the assay changing. The dashed line on the",
-        "chart above recomputes each year on the whole period's mix: where the two lines part,",
-        "what got sequenced changed, not what the assay detects.\n",
+        "Lineages here are sequence groups, not species or taxids. Each is a group of records",
+        "that look alike over the amplicon and its flanks with the oligo sites masked, cut at",
+        f"{comp['cut']:g} Mash distance. Records can link one species to the next, so a group",
+        "can hold several; a percent in its name is the share of its top species. The groups",
+        "come from sequence this assay does not measure, so the mix below can move without the",
+        "assay changing. The dashed line on the chart above recomputes each year on the whole",
+        "period's mix: where the two lines part, what got sequenced changed, not what the assay",
+        "detects.\n",
     ]
+    mixed = _mixed_largest_group(names, ids, totals)
+    if mixed:
+        lines += [
+            f"**The largest group here, {mixed}, mixes species,** so the dashed line can't",
+            "separate a shift between them. The table below shows which species each group holds.\n",
+        ]
     if comp.get("note"):
         lines += [f"*{comp['note']}.*\n"]
     lines += [site_svg.composition_panel(comp, {}), ""]
     lines += [
-        "| Lineage | Records | Share | New since design | Also in the titles |",
-        "|---|---|---|---|---|",
+        "| Lineage | Records | Share | New since design | Species | Also in the titles |",
+        "|---|---|---|---|---|---|",
     ]
     for col, cid in enumerate(ids):
         n = totals[col] if col < len(totals) else 0
@@ -601,7 +632,7 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
         )
         lines.append(
             f"| {names[col] if col < len(names) else cid} | {n:,} | {n / grand:.0%} | "
-            f"{'yes' if new else ''} | {', '.join(tokens) if tokens else '--'} |"
+            f"{'yes' if new else ''} | {_mix_cell(comp, col)} | {', '.join(tokens) if tokens else '--'} |"
         )
     lines.append("")
     split = comp.get("split")
@@ -634,7 +665,32 @@ def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
             site_svg.year_chart(a, _same_mix(comp)),
             "",
         ]
-    lines += [
+    lines += _mismatch_lines(a)
+    if not a["positions"]:
+        lines.append(_no_bars_note(a))
+    lines += _lineage_block(a)
+    return "\n".join(lines)
+
+
+_FLAGS = frozenset(ReviewFlag)
+
+
+def _withheld_map(a: dict[str, Any]) -> str:
+    """The mismatch map on a page with no status, said to be neither a verdict nor a fault."""
+    if any(ReviewFlag(flag) in MAP_HIDDEN for flag, _ in a["withheld_reasons"] if flag in _FLAGS):
+        return ""
+    lines = [
+        "This map shows where records differ from the oligos as entered. No status is given, for",
+        "the reason above, so it is not a verdict.",
+    ]
+    if any(flag == "target_scope_unresolved" for flag, _ in a["withheld_reasons"]):
+        lines.append("Some of these records may be taxa the assay isn't aimed at.")
+    empty = [] if a["positions"] else [_no_bars_note(a)]
+    return "\n".join([*lines, "", *_mismatch_lines(a), *empty]) + "\n"
+
+
+def _mismatch_lines(a: dict[str, Any]) -> list[str]:
+    return [
         "## Mismatch distribution\n",
         "Each oligo drawn base by base, 5\u2032 to 3\u2032. The shaded region is the one the scoring",
         "penalizes more heavily, and it depends on the oligo. For a primer it is the 3\u2032 window,",
@@ -654,10 +710,6 @@ def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
         "bar is a position that matters.\n",
         site_svg.mismatch_track(a, _oligo_names().get(a["assay_id"])),
     ]
-    if not a["positions"]:
-        lines.append(_no_bars_note(a))
-    lines += _lineage_block(a)
-    return "\n".join(lines)
 
 
 def _no_bars_note(a: dict[str, Any]) -> str:
@@ -721,12 +773,11 @@ def _lineage_block(a: dict[str, Any]) -> list[str]:
     if len(lins) == 1:
         item = lins[0]
         out += [
-            f"Every evaluable record is one lineage, **{item['lineage']}** "
+            f"Only one lineage has enough records to report here: **{item['lineage']}** "
             f"({item['detected']:,} of {item['evaluable']:,} detected, "
             f"{100 * item['share']:.1f}%, 95% interval {100 * item['ci'][0]:.1f}"
-            f"\u2013{100 * item['ci'][1]:.1f}%), so splitting by lineage adds nothing to the "
-            "figure above. The split matters where an assay spans several clades: a pooled "
-            "percentage can look healthy while one lineage fails completely.\n",
+            f"\u2013{100 * item['ci'][1]:.1f}%). The split matters where an assay spans several "
+            "clades: a pooled percentage can look healthy while one lineage fails completely.\n",
         ]
         return out
 
@@ -774,6 +825,21 @@ SCOPE_INLINE_MAX = 10
 SITE_HIDDEN_FLAGS = frozenset({"cross_reactive"})
 
 
+def _scope_summary(a: dict[str, Any], protocol: bool) -> str:
+    """What the record set is, in two lines, before the taxid list that defines it."""
+    n = len(a["scope_taxids"] or [])
+    if protocol:
+        scored = "only taxa that every round claims"
+    elif n:
+        scored = f"the {n:,} taxa listed below and anything beneath them"
+    else:
+        scored = "every record retrieved"
+    meant = f"**Meant to detect:** {a['claim']}  \n" if a.get("claim") else ""
+    how = "limited by a query on the title or gene" if a.get("query") else "every record"
+    retrieved = f"{a['taxon']} (taxid {a['taxid']}), {how}"
+    return f"{meant}**Scored against:** {scored}.  \n**Retrieved from:** {retrieved}.\n"
+
+
 def _scope_block(a: dict[str, Any]) -> str:
     lines = ["\n## Scope\n"]
     # A protocol's records are chosen by `nested.nest_scope`, not by any one
@@ -786,6 +852,7 @@ def _scope_block(a: dict[str, Any]) -> str:
             "counts only if every round claims it, so a record one round's target "
             "covers and another's does not is out of scope rather than a failure.\n"
         )
+    lines.append(_scope_summary(a, protocol))
     entry = "The protocol" if protocol else "This entry"
     if a["scope_taxids"]:
         taxids = a["scope_taxids"]

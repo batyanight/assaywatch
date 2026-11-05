@@ -1,3 +1,18 @@
+# Resume point, 2026-11-04 (composition done, on branch `composition`, nothing pushed)
+
+**Step 18 is done and the lineage graphs are in the committed site data, on branch `composition`,
+not pushed.** The maintainer's look at the pages comes next, then the decision to push and merge,
+then the security and code reviews, which were asked for once the graphs are live.
+
+**Read before touching composition:** `docs/journal/2026-11-04-composition-final.md`. The species
+split at the 0.05 cut fails on the full data, published anyway by decision, with pages saying so.
+`website/data/composition.json` is a merge of the full build and 26 rebuilt entries, which the next
+run replaces. The merged inputs are not committed.
+
+**Read before touching scope:** `docs/journal/2026-11-04-scope-reread.md`. Open work is on the
+roadmap: the next run takes the Zimmermann corrected primer, the *Francisella* probe, Leporipoxvirus
+in the Li query and *Chlamydia* assemblies; the batch rereads of about 86 papers follow.
+
 # Resume point, 2026-11-03 (the composition stage: 17 of 18 steps, on branch `composition`)
 
 **The branch is `composition`, 21 commits, nothing pushed, every gate green** (pytest, the

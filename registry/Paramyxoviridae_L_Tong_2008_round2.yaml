@@ -94,6 +94,7 @@ oligos:
     seq_as_written: GCTGAAGTTACIGGITCICCDATRTTNC
 amplicon_bp: 561
 citation:
+  claim: "All known and novel paramyxoviruses of the Paramyxovirinae."
   doi: 10.1128/JCM.00192-08
   design_year: 2008
   n_sequences_at_design: null

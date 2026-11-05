@@ -37,7 +37,11 @@
     - **`not_screenable`** — the chemistry is RPA; the penalties are calibrated on PCR
 
 
+
 ## Scope
+
+**Scored against:** every record retrieved.  
+**Retrieved from:** Ranavirus micropterus1 (Santee-Cooper ranavirus) (taxid 10492), limited by a query on the title or gene.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 

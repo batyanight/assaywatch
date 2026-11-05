@@ -17,6 +17,7 @@ oligos:
   alternates: []
 amplicon_bp: 200
 citation:
+  claim: "All known batrachoviruses, and possibly undiscovered ones."
   doi: 10.1177/1040638720951134
   design_year: 2020
   n_sequences_at_design: 4

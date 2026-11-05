@@ -22,6 +22,7 @@ oligos:
   alternates: []
 amplicon_bp: 123
 citation:
+  claim: "Hummingbird poxvirus, a strain of Avipoxvirus, not the genus."
   doi: 10.1371/journal.pone.0230701
   design_year: 2020
   n_sequences_at_design: 1

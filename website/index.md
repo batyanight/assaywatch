@@ -11,7 +11,7 @@ most in wildlife and One Health surveillance, where most targets have few
 sequences, assays get moved to new host species and regions, and current positive
 controls are hard to come by.
 
-AssayWatch keeps a version-controlled registry of 218 published assays, each cited
+AssayWatch keeps a version-controlled registry of 216 published assays, each cited
 to its own paper. It screens each assay against the GenBank records of its target
 and reports predicted detection **by year of deposit**, so you can watch coverage
 change over time instead of reading one number.
@@ -35,17 +35,17 @@ rather than derived from data. [Validation](validation.md) has the full confusio
 matrix, including three held-out sets, all of which did worse than the set used
 for tuning.
 
-## Registry status, 2026-10-31 run
+## Registry status, 2026-11-01 run
 
 | status | assays | definition |
 |---|---|---|
-| stable | 72 | recent detection does not fall below 90% |
+| stable | 75 | recent detection does not fall below 90% |
 | declining | 42 | below 90% and measurably lower than an earlier baseline that exceeded it |
-| low coverage | 31 | below 90% with no measurable decline: used beyond what it was designed for, or it never covered the target |
-| insufficient data | 30 | too few evaluable records to estimate anything |
+| low coverage | 29 | below 90% with no measurable decline: used beyond what it was designed for, or it never covered the target |
+| insufficient data | 32 | too few evaluable records to estimate anything |
 | no recent data | 18 | no deposits within the window |
 | watch | 5 | below 90% with an interval that still spans it |
-| no status | 19 | a verdict would mislead for this entry; each page says why |
+| no status | 14 | a verdict would mislead for this entry; each page says why |
 
 The difference between `declining` and `low coverage` matters. A pan-family
 consensus PCR screened against a whole genus will look poor without anything having

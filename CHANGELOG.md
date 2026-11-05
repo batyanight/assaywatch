@@ -11,6 +11,16 @@ because none of them can be recomputed without the archives.
 
 ## Unreleased
 
+- Every assay page shows what was deposited by lineage, with a same-mix line on the detection
+  chart and the change split into mix and detection within. Report-only: no status moves. These
+  are sequence groups at a fixed cut, and in 17 of 199 assays the largest holds several species,
+  which the page says (2026-11-01 run).
+- 21 scopes broadened on rereading their papers, 2 more by a host-checked list of 1,269 bird
+  lineages, and 3 Uccellini entries narrowed to the one virus they were written for, moving 2 from
+  `low coverage` to `insufficient data`. No other status moved.
+- Withheld pages show the mismatch map unless the oligo is in doubt or the readout isn't an amplicon.
+  Scope sections say what an assay is meant to detect, what it is scored against and where it was
+  retrieved from; 66 entries carry the paper's claim.
 - Four entries moved to `pending/` because one of their primers is printed in no
   paper: `Sarcocystis_18S_5_8S_Kutkiene_2010_ShortITS1R`, the two
   `Mycoplasma_16S23S_ITS_Rebelo_2011_16_23_*` pairs, and

@@ -16,6 +16,7 @@ oligos:
     seq: CGCACCGGGGATCCTAGGC
 amplicon_bp: 630
 citation:
+  claim: "The complete S RNA of any arenavirus."
   doi: 10.1016/S0168-1702(97)01458-5
   design_year: 1997
   n_sequences_at_design: null

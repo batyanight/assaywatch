@@ -17,6 +17,7 @@ oligos:
     seq: GACGAGCGGTATGATCTTGTTGGTG
 amplicon_bp: 520
 citation:
+  claim: "All serotypes and isolates of SMSV and VESV."
   doi: 10.1016/S0890-8508(95)90962-1
   design_year: 1995
   n_sequences_at_design: null

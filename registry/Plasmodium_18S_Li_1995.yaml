@@ -17,6 +17,7 @@ oligos:
     seq_as_written: TAITGATAAAGATTACCTA
 amplicon_bp: 374
 citation:
+  claim: "The genus Plasmodium, by a genus-conserved primer pair."
   doi: 10.1006/expr.1995.1107
   design_year: 1995
   n_sequences_at_design: null

@@ -313,7 +313,10 @@ class TestAgainstTheCommittedRun:
         # because Bokeh minted a fresh uuid every time; the inline-SVG figures
         # are a pure function of the data, so an exact comparison works and is
         # the stronger check.
-        assert on_disk.read_text() == site_render.assay_page(page, data["run_date"]), (
+        comp_path = ROOT / "website" / "data" / "composition.json"
+        comps = json.loads(comp_path.read_text())["assays"] if comp_path.exists() else {}
+        rendered = site_render.assay_page(page, data["run_date"], comps.get(page["assay_id"]))
+        assert on_disk.read_text() == rendered, (
             f"{on_disk.name} is stale; re-run `python -m assaywatch.site_render`"
         )
 
@@ -1418,3 +1421,172 @@ def test_a_corrected_title_changes_only_its_case():
 def test_a_page_shows_the_corrected_title():
     title = site_render._paper(_page(assay_id="X", doi="10.1645/GE-184R1"))[0]
     assert title.startswith("A new PCR assay for simultaneous studies of Leucocytozoon")
+
+
+_MAP_POINT = {
+    "oligo": "forward",
+    "pos_3prime": 3,
+    "base": "A",
+    "n_mismatch": 40,
+    "detected_with": 10,
+    "evaluable_with": 40,
+    "detected_without": 50,
+    "evaluable_without": 60,
+    "substitutions": [["A", "G", 40]],
+    "in_3prime_zone": True,
+}
+
+
+def test_a_withheld_assay_with_positions_shows_its_map_and_still_no_verdict():
+    """The map says where records differ from the oligos as entered; it is not a verdict.
+    `Lyssavirus_N_Vazquez-Moron_2006_round1` hid 10,588 records differing at forward 3."""
+    md = site_render.assay_page(
+        _page(
+            status="",
+            withheld_reasons=[["not_validated", ""]],
+            positions=[_MAP_POINT],
+        ),
+        "2026-11-01",
+    )
+    assert "## Mismatch distribution" in md
+    assert "where records differ from the oligos as entered" in md
+    assert "No status is given" in md
+    assert "## Verdict" not in md
+    assert "## Predicted detection by deposit year" not in md
+    assert "Newcombe" not in md
+
+
+def test_a_scope_question_warns_the_map_may_hold_other_taxa():
+    md = site_render.assay_page(
+        _page(
+            status="",
+            withheld_reasons=[["target_scope_unresolved", "also detects PDV"]],
+            positions=[_MAP_POINT],
+        ),
+        "2026-11-01",
+    )
+    assert "taxa the assay isn't aimed at" in md
+
+
+@pytest.mark.parametrize(
+    ("assay_id", "hidden"),
+    [
+        ("Lyssavirus_N_Vazquez-Moron_2006_round1", False),
+        ("Orthobunyavirus_S_Steyn_2020", False),
+        ("Francisella_tularensis_tul4_Long_1993", False),
+        ("Bornaviridae_N_Zimmermann_1994_round2", True),
+        ("Orthopoxvirus_ATI_Meyer_1997", True),
+        ("Ranavirus_micropterus1_MCP_Li_2025", True),
+        ("Parapoxvirus_RPO147_Zhao_2013", False),
+    ],
+)
+def test_the_map_is_hidden_only_where_it_would_mislead(assay_id, hidden):
+    """A wrong oligo draws a catastrophe that is a typo; a digest or RPA readout is not
+    what the map measures."""
+    from assaywatch.report import map_is_withheld
+    from assaywatch.validate import load_assay
+
+    assert map_is_withheld(load_assay(ROOT / "registry" / f"{assay_id}.yaml")) is hidden
+
+
+def test_scope_says_what_is_scored_and_where_it_was_retrieved_from():
+    md = site_render.assay_page(
+        _page(status="stable", taxon="Avipoxvirus", taxid=10260, scope_taxids=[], query="4b[Gene]"),
+        "2026-11-01",
+    )
+    assert "**Scored against:** every record retrieved" in md
+    assert "**Retrieved from:** Avipoxvirus (taxid 10260), limited by a query" in md
+
+
+def test_a_scoped_entry_counts_its_taxa_and_an_unqueried_one_says_so():
+    md = site_render.assay_page(
+        _page(status="stable", taxon="Parapoxvirus", taxid=10257, scope_taxids=[1, 2, 3], query=""),
+        "2026-11-01",
+    )
+    assert "**Scored against:** the 3 taxa listed below and anything beneath them" in md
+    assert "**Retrieved from:** Parapoxvirus (taxid 10257), every record" in md
+
+
+def test_a_protocol_is_scored_only_on_what_every_round_claims():
+    md = site_render.assay_page(
+        _page(
+            status="stable",
+            taxon="Adenoviridae",
+            taxid=10508,
+            scope_taxids=[1],
+            rounds=[{"assay_id": "R1"}],
+        ),
+        "2026-11-01",
+    )
+    assert "**Scored against:** only taxa that every round claims" in md
+
+
+def test_scope_opens_with_what_the_paper_claims_when_it_was_reread():
+    md = site_render.assay_page(
+        _page(status="stable", claim="Hummingbird poxvirus, a strain of Avipoxvirus, not the genus."),
+        "2026-11-01",
+    )
+    assert "**Meant to detect:** Hummingbird poxvirus" in md
+
+
+def test_scope_omits_the_claim_rather_than_guessing_it():
+    assert "Meant to detect" not in site_render.assay_page(_page(status="stable"), "2026-11-01")
+
+
+def test_a_claim_is_one_sentence_of_plain_prose():
+    from assaywatch.registry import load
+
+    for assay in load(ROOT / "registry").values():
+        claim = assay.citation.claim
+        if claim:
+            assert "\n" not in claim and len(claim) <= 160, assay.id
+            assert claim.endswith("."), assay.id
+
+
+def test_a_withheld_assay_with_nothing_to_draw_says_so():
+    """Francisella tul4 detects all 1,021 evaluable records: silence would read as a gap."""
+    md = site_render.assay_page(
+        _page(
+            status="",
+            withheld_reasons=[["curation_decision_pending", "probe to add"]],
+            recent_detected=34,
+            recent_evaluable=34,
+            baseline_detected=987,
+            baseline_evaluable=987,
+        ),
+        "2026-11-01",
+    )
+    assert "## Mismatch distribution" in md
+    assert "No position carried a mismatch in enough records" in md
+    assert "## Verdict" not in md
+
+
+def test_an_oligo_in_doubt_gets_no_map_section_at_all():
+    md = site_render.assay_page(
+        _page(status="", withheld_reasons=[["oligo_sequence_uncertain", "printed wrong"]]),
+        "2026-11-01",
+    )
+    assert "## Mismatch distribution" not in md
+
+
+def test_a_single_reported_lineage_is_not_called_every_record():
+    """Messmer has 814 evaluable records across 14 species, and one lineage with enough
+    recent records. The page said every evaluable record was that lineage."""
+    md = site_render.assay_page(
+        _page(
+            status="low coverage",
+            lineages=[
+                {
+                    "lineage": "Chlamydia trachomatis (813)",
+                    "taxid": None,
+                    "evaluable": 39,
+                    "detected": 0,
+                    "share": 0.0,
+                    "ci": [0.0, 0.09],
+                }
+            ],
+        ),
+        "2026-11-01",
+    )
+    assert "Every evaluable record" not in md
+    assert "Only one lineage has enough records to report here" in md

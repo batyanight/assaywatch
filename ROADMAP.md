@@ -109,39 +109,58 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   under 30 evaluable records, without reopening papers:
   `docs/journal/2026-11-04-low-accession-scope-check.md`. 22 are low for honest reasons; the rest
   are below. The cut-off was a choice: 60 assays sit under 100.
-- [ ] **Do the Serpentovirinae PP1b entries belong, and at what scope?** The three Uccellini 2014
+- [x] **Do the Serpentovirinae PP1b entries belong, and at what scope?** Decided 2026-11-04: they stay, scoped to ball python nidovirus (1986118), with 2 moving to `insufficient data`. As first asked: The three Uccellini 2014
   entries target the subfamily, while the paper's primers are for ball python nidovirus: 13 of 14
   detected on that virus, and 96 of 114 calls elsewhere in the subfamily `fail`, which is why two
   of them read `low coverage`. These are
   genome-walking primers, so decide first whether they stay in the registry. If they do, scope
   them, reading `Serpentovirinae sp.` first, since that node may hold the same virus.
-- [ ] **Add *Chlamydia* to `assemblies.taxa`?** The Messmer 16S queries see 9 of 245 recent
-  *C. pneumoniae* records, and 30 complete or chromosome-level assemblies go unused. Also the
-  answer to the falling Chlamydia share in the scope report above. Changes retrieval and calls.
+- [ ] **Zimmermann round 2: score the corrected forward primer, at the next run.** Maintainer decision,
+  2026-11-04. Store `GCCTTGTGTTTCTATGTTTG`, show the printed `...CTTTC` beside it, keep the status
+  withheld with a note that the correction is ours, and warn that the printed primer mismatches every
+  record at the 3' end. Evidence: the page prints `CTT TC`; all 303 records with the site read
+  otherwise; the design source's own deposit M99375 reads `GTTTG`; the product is 441 bp against a
+  published 444. Inference, since nothing shows what the authors synthesized. Sorg 1995 and Kohno
+  1999 might reprint it and were not readable; check them. Set `amplicon_bp` from the measurement.
+- [ ] **Francisella tul4 Long 1993: add probe FT443, at the next run.** `TCGTAATGTTAGCTGTATCATCATT`,
+  read from the page, exact in all 1,021 products at product position 50, which is gene position 443.
+  The entry's "8 mismatches" does not hold up, so its `oligo_sequence_uncertain` flag comes off and
+  it stops being withheld. Correct the note. Adding a probe needs a rescreen.
+- [ ] **Add 810, 813, 83554 and 83558 to `assemblies.taxa`, for the next run.** Maintainer decision,
+  2026-11-04. About 490 genomes exist (981 counting GCF and GCA twice; 15 or so *C. pneumoniae*, not
+  the 30 recorded earlier), sampled at the existing 20 per year. First check that a genome already
+  reached through the "complete genome" query term is not counted twice. Verdicts may move.
 - [x] **Add *B. dendrobatidis* to `assemblies.taxa`, and give the Ghosh 2021 mtDNA entries a query?**
   Done 2026-11-04: neither. Tested in `docs/journal/2026-11-04-scope-reread.md`. A query would
   lose 30 of the 43 mitochondrial records, whose titles don't say so. At the current levels the
   assemblies add only JEL423, already archived. The low counts are honest; most records are
   `XM_` predicted mRNAs, not ITS.
-- [ ] **What do the calicivirus entries claim?** Reread 2026-11-04: the one-species scope matches
-  both papers, and SMSV-8, SMSV-12 and mink failed in Reid, so they stay out. Still open: whether
-  BCV, CCV, PCV and RCV sit inside 3433198. Retrieval could narrow to the genus; that is a
-  narrowing, so it waits for a maintainer.
-- [ ] **Hellgren and `219829` "unclassified Plasmodium".** Should the bird lineages under this node
-  enter the HaemF and HaemNFI scope? 1,833 sibling species are out, about 1,209 of them bird-style
-  names, some chimpanzee or gorilla. The whole node takes HaemF baseline 479/1914 to 640/2773 with
-  no status change, and breaks the curatorial avian restriction. A list by name would avoid that.
+- [ ] **Do BCV, CCV, PCV and RCV sit inside the Reid and Neill scope (3433198)?** Reread 2026-11-04:
+  the one-species scope matches both papers; SMSV-8, SMSV-12 and mink failed in Reid and stay out.
+  Family retrieval stays by maintainer decision: the archives are 14 and 10 MB, and the out-of-scope
+  calls are what the eventual test across scope would read.
+- [x] **Hellgren and `219829` "unclassified Plasmodium".** Done 2026-11-04: 1,269 lineages join the
+  HaemF and HaemNFI scopes, chosen by the GenBank `/host` of all 9,159 records under the node, since
+  names mislead. Left out: 117 with mammal or reptile hosts, 20 mixed, 109 mosquito-only, 295 with
+  no host field, 23 unresolved. HaemNFI baseline stays near 88%; the whole node would have read 80%.
+  The list goes stale as NCBI adds lineages, like the others.
 - [ ] **Apply at the next fetch: Leporipoxvirus into the Li 2010 IMV query.** Table 1 of the paper
   settles it. A query edit changes the archive group, so it goes in with a new retrieval. Crocodilepox
   for Li 2010 RPO147 is the same shape; check it first.
-- [ ] **The narrowing proposals, for a maintainer.** All tested with no edit, table in
-  `docs/journal/2026-11-04-scope-reread.md`. Only the Uccellini entries would change status.
+- [x] **The narrowing proposals.** Decided 2026-11-04: Uccellini narrowed; Baek, Ahmed, Steyn, Nix,
+  Scaramozzino, Quan and Li left as they are, with the paper's narrower claim on the page instead.
+  Tested table in `docs/journal/2026-11-04-scope-reread.md`.
 - [ ] **Correct the curator notes the reread contradicted.** Lozano's "amplified" list is the
   alignment set; Li 2010 IMV's note says the paper doesn't place the crossover, and Table 1 does.
   Also unexplained: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
-- [ ] **Test for submission error across the registry.** Title against sequence was run on Bd only,
-  where it found one candidate (MT730717). The method is in the same journal.
-- [ ] **Should withheld assays show a mismatch map?** The 14 withheld assays have none, because
+- [ ] **Reread the remaining papers on scope, in batches.** Maintainer decision, 2026-11-04. About 86
+  papers, starting with `declining` and `low coverage` assays. Budget about 24,000 subagent tokens
+  a paper, 2 million in all, stoppable at any batch. Each batch brings claim sentences
+  (`citation.claim`) for the maintainer to skim, and quotes checked against the paper.
+- [ ] **Test for submission error, on unexplained `fail` clusters only.** Title against sequence was
+  run on Bd, where it found one candidate (MT730717, remote BLAST never returned), and amplicon
+  against label on Messmer 16S, where labels held. The method is in the same journal.
+- [x] **Should withheld assays show a mismatch map?** Done 2026-11-04: yes, unless `review.MAP_HIDDEN` holds a flag of theirs, so Zimmermann round 2, Meyer ATI and *Ranavirus* Li 2025 stay hidden. As first asked: The 14 withheld assays have none, because
   `sitedrift.build` holds them out so they cannot be listed as failing, and their pages stop
   before the charts. That hides real signal (`Lyssavirus_N_Vazquez-Moron_2006_round1`: 10,588
   records differ at forward position 3), though a map drawn against an `oligo_sequence_uncertain`
@@ -169,7 +188,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
     "Waiting on a maintainer" (`amplicon_bp: 480`, the wording,
     the `oligos_not_in_cited_paper` flag) and has to handle one first round feeding two
     parallel second rounds with different scopes.
-  - **How scope is shown on the website.** Open design question: how a page says what the
+  - **How scope is shown on the website.** Done 2026-11-04: pages say what an assay is meant to
+    detect, what it is scored against and where it was retrieved from. Entries not yet reread omit
+    the first line until the batch rereads reach them. As first asked: how a page says what the
     assay is meant to detect, what it is scored against, and how that differs between
     rounds of a nest. The Chlamydia 16S query's falling share of its genus (0.4% of 2023's
     deposits, `docs/RESUME-HERE.md`) belongs in this report.
@@ -192,6 +213,14 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   3.17 GB peak from `load_calls_as_reported` alone on the 2026-11-01 calls (3,448,385 rows,
   measured 2026-11-04); its comment's 2.7M rows date from 2026-10-22. On SLURM that job is
   killed. Measure the whole rule and redeclare; `site_drift` reads the same table.
+- [ ] **Eventually: test across scope.** Would an assay pick up what sits just outside its scope? The
+  first case is the Hellgren haemosporidian pairs on gorilla and chimpanzee *Plasmodium*, which are
+  left out of the bird scope on purpose. A question about cross-reactivity, reported apart from the
+  drift verdict. Down the road, not for this release.
+- [ ] **Per-assay composition cuts?** On the 2026-11-01 run at 0.05, 17 of 199 assays have a largest group of 3+ named
+  species with no species at 80%, and the same-mix line can't see a shift inside it. Messmer gains
+  from 0.02; Hellgren and *Leptospira* lose. Any override needs a stated reason in `config.yaml`,
+  since tuning an assay until it looks right is the risk. Average linkage is the other thing to try.
 - [ ] **Security review and code review once the new lineage graphs are live.** Blocked on
   the composition stage shipping: step 18, the merge of `composition`, and the site publish.
 
@@ -1175,8 +1204,10 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
         `target.query` alone and got ~964,000 Chlamydia records for 2021. That field is only
         the assay's own term; the retrieval query is `retrieve.build_query(taxid, cfg, term)`,
         which adds `txid<n>[Organism:exp]` and the length filter.
-  - [ ] 18. End to end on the 2026-11-01 run (below); journal entry; INDEX row; CHANGELOG; tick
-        here. **STARTED 2026-11-03 and stopped at 15 minutes of CPU, with two findings that are
+  - [x] 18. End to end on the 2026-11-01 run (below); journal entry; INDEX row; CHANGELOG; tick
+        here. **Done 2026-11-04, `docs/journal/2026-11-04-composition-final.md`.** 0 invariant
+        mismatches over 215 assays on the 2026-11-01 run; the Messmer species split failed as written, recorded below.
+        **STARTED 2026-11-03 and stopped at 15 minutes of CPU, with two findings that are
         the reason to do this step at all.**
         (a) **THE RULE ASKS FOR TOO LITTLE MEMORY.** `rule composition` declares
         `mem_mb=4000`; the full-registry build was at **5.65 GB resident and still climbing**
@@ -1202,9 +1233,12 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
     data/retrieved --out <scratch>` completes; the invariant holds for every assay (a `jq`
     check joining `composition.json` to `run.json`: summed cells per year equal `years[].evaluable`, 0 mismatches).
   - `report_diff` against the run without composition: no assay changes status.
-  - Messmer 16S round 1: the four species the genus pair amplifies separate
-    (*psittaci*/*abortus*, *trachomatis* + *muridarum*, *pecorum*, *pneumoniae*), and all
-    *trachomatis* windows stay together (measured at step 4b).
+  - Messmer 16S round 1: FAILED 2026-11-04 as written, and the expectation was wrong. Step 4b's
+    clean species split came from 76 sampled windows. On all 793, single linkage at 0.05 chains
+    14 species into one group of 687 (*C. trachomatis* 52%). Labels were tested and hold: no
+    *psittaci* record is nearer *trachomatis* by amplicon. A lower cut helps Messmer and costs
+    others (`docs/journal/2026-11-04-composition-final.md`). Published at 0.05 by maintainer
+    decision, with pages saying these are sequence groups and naming a mixed largest group.
   - Haemosporida cytb (`Haemosporida_cytb_Hellgren_2004_HaemF`): Haemoproteus and
     Hepatocystis each at least 90% complete in one cluster, and purity against the title
     genus at least 80% (0.05 read 83% at step 4b).

@@ -97,8 +97,37 @@ detected when it differs: 68% of 37
 detected when it does not: 20% of 10
 substitutions: C&gt;T in 37
 outside the 3′ window</title><rect x="450.0" y="95.8" width="13.0" height="30.2"/></g><text class="aw-base" x="456.5" y="139">C</text><text class="aw-base" x="471.5" y="139">T</text><text class="aw-base" x="486.5" y="139">T</text><text class="aw-base" x="501.5" y="139">C</text><text class="aw-base" x="516.5" y="139">A</text><text class="aw-base" x="531.5" y="139">T</text><text class="aw-tick" x="531.5" y="153">1</text><text class="aw-tick" x="471.5" y="153">5</text><text class="aw-tick" x="396.5" y="153">10</text><text class="aw-tick" x="321.5" y="153">15</text><text class="aw-tick" x="246.5" y="153">20</text><text class="aw-tick" x="171.5" y="153">25</text><text class="aw-tick" x="111.5" y="153">29</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="543" y="139">3′</text></svg>
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*6 of 53 diverged, with no site to cluster on.*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2001 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2001 — other: 1 of 2 records (50%), 0 detected</title><rect x="31.0" y="10.0" width="26.0" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2001 — F. reptilis 2: 1 of 2 records (50%), 1 detected</title><rect x="31.0" y="56.0" width="26.0" height="46.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2003 — other: 2 of 2 records (100%), 0 detected</title><rect x="84.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2014 — F. reptilis 4: 5 of 5 records (100%), 0 detected</title><rect x="375.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.41"/></g><g class="aw-seg"><title>2017 — diverged (no site): 1 of 2 records (50%), 0 detected</title><rect x="454.7" y="10.0" width="26.0" height="46.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2017 — F. reptilis 4: 1 of 2 records (50%), 0 detected</title><rect x="454.7" y="56.0" width="26.0" height="46.0" fill="currentColor" opacity="0.41"/></g><g class="aw-seg"><title>2018 — diverged (no site): 1 of 2 records (50%), 0 detected</title><rect x="481.2" y="10.0" width="26.0" height="46.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2018 — F. reptilis 2: 1 of 2 records (50%), 1 detected</title><rect x="481.2" y="56.0" width="26.0" height="46.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2019 — diverged (no site): 4 of 28 records (14%), 0 detected</title><rect x="507.6" y="10.0" width="26.0" height="13.1" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2019 — other: 1 of 28 records (4%), 0 detected</title><rect x="507.6" y="23.1" width="26.0" height="3.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2019 — F. reptilis 2: 15 of 28 records (54%), 15 detected</title><rect x="507.6" y="26.4" width="26.0" height="49.3" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2019 — F. reptilis 3: 8 of 28 records (29%), 0 detected</title><rect x="507.6" y="75.7" width="26.0" height="26.3" fill="currentColor" opacity="0.50"/></g><g class="aw-seg"><title>2020 — F. reptilis 2: 1 of 1 records (100%), 1 detected</title><rect x="534.1" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2021 — F. reptilis 2: 4 of 4 records (100%), 3 detected</title><rect x="560.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2024 — F. reptilis 2: 1 of 1 records (100%), 1 detected</title><rect x="640.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2025 — F. reptilis 4: 2 of 2 records (100%), 2 detected</title><rect x="666.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.41"/></g><g class="aw-seg"><title>2026 — F. reptilis 2: 3 of 4 records (75%), 3 detected</title><rect x="693.0" y="10.0" width="26.0" height="69.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2026 — F. reptilis 4: 1 of 4 records (25%), 0 detected</title><rect x="693.0" y="79.0" width="26.0" height="23.0" fill="currentColor" opacity="0.41"/></g><text class="aw-tick" x="44.0" y="117">2001</text><text class="aw-tick" x="149.9" y="117">2005</text><text class="aw-tick" x="255.8" y="117">2009</text><text class="aw-tick" x="361.8" y="117">2013</text><text class="aw-tick" x="467.7" y="117">2017</text><text class="aw-tick" x="573.6" y="117">2021</text><text class="aw-tick" x="679.5" y="117">2025</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| diverged (no site) | 6 | 11% |  | Ferlavirus reptilis 4, Crotalus paramyxovirus 1, Ferlavirus sp. 1 | -- |
+| other | 4 | 8% |  | Ferlavirus reptilis 4 | Fer-de-lance, virus, 28xpc, 99, ATCC |
+| F. reptilis 2 | 26 | 49% |  | Ferlavirus reptilis 25, Caiman lizard ferlavirus genogroup B 1 | fusion, hemagglutinin-neuraminidase, glycoprotein, HN |
+| F. reptilis 3 | 8 | 15% | yes | Ferlavirus reptilis 8 | RNA-dependent |
+| F. reptilis 4 | 9 | 17% | yes | Ferlavirus reptilis 9 | paramyxovirus, Anaconda, Caiman, lizard |
+
+Between the baseline and the recent window the detected share went
+45.6% to 85.7%, a change of +0.401. Of that, **+0.190 is the mix** of lineages deposited changing (95% CI -0.092 to +0.478) and **+0.210 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+
 
 ## Scope
+
+**Scored against:** every record retrieved.  
+**Retrieved from:** Ferlavirus (taxid 1283308), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 

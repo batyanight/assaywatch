@@ -988,6 +988,7 @@ def site_data(run: CompositionRun) -> dict[str, Any]:
             "note": a.note,
             "ids": ids,
             "names": [c.name for c in a.clusters],
+            "mix": [[list(m) for m in c.species_mix[:3]] for c in a.clusters],
             "tokens": [list(c.title_tokens) for c in a.clusters],
             "new_since_design": [bool(c.new_since_design) for c in a.clusters],
             "years": years,

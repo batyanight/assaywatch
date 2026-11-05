@@ -26,6 +26,7 @@ oligos:
     orientation: forward
 amplicon_bp: 123
 citation:
+  claim: "Parrot bornaviruses of Psittaciform 1 orthobornavirus."
   doi: 10.3390/v13071358
   design_year: 2021
   n_sequences_at_design: null

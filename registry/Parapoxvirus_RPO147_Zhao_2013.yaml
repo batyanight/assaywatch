@@ -30,6 +30,7 @@ oligos:
   alternates: []
 amplicon_bp: 85
 citation:
+  claim: "Three parapoxvirus species: orf, pseudocowpox and bovine papular stomatitis viruses."
   doi: 10.1016/j.jviromet.2013.08.027
   design_year: 2013
   n_sequences_at_design: null

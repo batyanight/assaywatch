@@ -186,12 +186,38 @@ def test_the_same_mix_helper_drops_the_years_it_could_not_standardise():
 def test_the_page_block_says_the_lineages_are_sequence_clusters_and_moves_no_status():
     comp = site_data(_run(_assay()))["assays"]["A"]
     out = " ".join(" ".join(_composition_block(comp)).split())
-    assert "sequence clusters, not taxids" in out
+    assert "sequence groups, not species or taxids" in out
     assert "come from sequence this assay does not measure" in out
     assert "it takes the clustering as given" in out
     assert "-0.520 is the mix" in out and "-0.016 is detection within" in out
-    assert "| C. trachomatis | 30 | 36% | yes | -- |" in out
+    assert "| C. trachomatis | 30 | 36% | yes |" in out
     assert "4 of 84 diverged" in out
+
+
+def test_a_mixed_largest_group_is_named_as_a_mix_on_the_page():
+    """Single linkage chains species together: Messmer 16S at the 0.05 cut holds 14 species
+    in one group, with detection differing between them (2026-11-04)."""
+    comp = {
+        "years": [2020],
+        "cut": 0.05,
+        "ids": [0, 1],
+        "names": ["C. trachomatis 52%", "C. pecorum"],
+        "records": [[687, 10]],
+    }
+    out = " ".join(" ".join(_composition_block(comp)).split())
+    assert "The largest group here, C. trachomatis 52%, mixes species" in out
+    assert "can't separate a shift between them" in out
+
+
+def test_a_pure_largest_group_gets_no_warning_even_beside_a_mixed_small_one():
+    comp = {
+        "years": [2020],
+        "cut": 0.05,
+        "ids": [0, 1],
+        "names": ["C. pecorum", "C. trachomatis 52%"],
+        "records": [[687, 10]],
+    }
+    assert "mixes species" not in " ".join(_composition_block(comp))
 
 
 def test_without_a_composition_file_the_page_block_is_empty():
@@ -214,3 +240,26 @@ def test_the_numbers_are_rounded_so_a_diff_is_about_a_change(tmp_path):
     run = _run(_assay(same_mix={2018: 0.7216666666666667}))
     d = json.loads(write_site_data(run, tmp_path, max_bytes=1_500_000).read_text())
     assert d["assays"]["A"]["same_mix"][0] == 0.7217
+
+
+def test_the_table_says_which_species_each_group_holds():
+    comp = {
+        "years": [2020],
+        "cut": 0.05,
+        "ids": [0],
+        "names": ["C. trachomatis 52%"],
+        "records": [[687]],
+        "mix": [
+            [["Chlamydia trachomatis", 354], ["uncultured Chlamydia sp.", 104], ["Chlamydia psittaci", 66]]
+        ],
+    }
+    out = " ".join(_composition_block(comp))
+    assert "| Species |" in out
+    assert "Chlamydia trachomatis 354, uncultured Chlamydia sp. 104, Chlamydia psittaci 66" in out
+    assert "The table below shows which species each group holds" in out
+
+
+def test_the_site_file_carries_each_group_s_top_species():
+    d = site_data(_run(_assay()))["assays"]["A"]
+    assert len(d["mix"]) == len(d["ids"])
+    assert all(len(m) <= 3 for m in d["mix"])

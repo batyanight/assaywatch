@@ -66,8 +66,30 @@ bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 377 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">SunshineS1</text><rect class="aw-zone" x="284.4" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="44.0" x2="359.4" y2="44.0"/><text class="aw-base" x="111.9" y="57">G</text><text class="aw-base" x="126.9" y="57">G</text><text class="aw-base" x="141.9" y="57">A</text><text class="aw-base" x="156.9" y="57">A</text><text class="aw-base" x="171.9" y="57">A</text><text class="aw-base" x="186.9" y="57">G</text><text class="aw-base" x="201.9" y="57">G</text><text class="aw-base" x="216.9" y="57">G</text><text class="aw-base" x="231.9" y="57">A</text><text class="aw-base" x="246.9" y="57">G</text><text class="aw-base" x="261.9" y="57">G</text><text class="aw-base" x="276.9" y="57">T</text><text class="aw-base" x="291.9" y="57">C</text><text class="aw-base" x="306.9" y="57">T</text><text class="aw-base" x="321.9" y="57">A</text><text class="aw-base" x="336.9" y="57">T</text><text class="aw-base" x="351.9" y="57">G</text><text class="aw-tick" x="351.9" y="71">1</text><text class="aw-tick" x="291.9" y="71">5</text><text class="aw-tick" x="216.9" y="71">10</text><text class="aw-tick" x="141.9" y="71">15</text><text class="aw-tick" x="111.9" y="71">17</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="363" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">SunshineAS1</text><rect class="aw-zone" x="284.4" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.4" y1="126.0" x2="359.4" y2="126.0"/><text class="aw-base" x="111.9" y="139">A</text><text class="aw-base" x="126.9" y="139">T</text><text class="aw-base" x="141.9" y="139">T</text><text class="aw-base" x="156.9" y="139">C</text><text class="aw-base" x="171.9" y="139">A</text><text class="aw-base" x="186.9" y="139">A</text><text class="aw-base" x="201.9" y="139">C</text><text class="aw-base" x="216.9" y="139">A</text><text class="aw-base" x="231.9" y="139">T</text><text class="aw-base" x="246.9" y="139">C</text><text class="aw-base" x="261.9" y="139">T</text><text class="aw-base" x="276.9" y="139">G</text><text class="aw-base" x="291.9" y="139">G</text><text class="aw-base" x="306.9" y="139">G</text><text class="aw-base" x="321.9" y="139">G</text><text class="aw-base" x="336.9" y="139">T</text><text class="aw-base" x="351.9" y="139">C</text><text class="aw-tick" x="351.9" y="153">1</text><text class="aw-tick" x="291.9" y="153">5</text><text class="aw-tick" x="216.9" y="153">10</text><text class="aw-tick" x="141.9" y="153">15</text><text class="aw-tick" x="111.9" y="153">17</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="363" y="139">3′</text></svg>
 <p class="aw-empty">No position carried a mismatch in enough records to report.</p>
+## What was deposited, by lineage
+
+Lineages here are sequence groups, not species or taxids. Each is a group of records
+that look alike over the amplicon and its flanks with the oligo sites masked, cut at
+0.05 Mash distance. Records can link one species to the next, so a group
+can hold several; a percent in its name is the share of its top species. The groups
+come from sequence this assay does not measure, so the mix below can move without the
+assay changing. The dashed line on the chart above recomputes each year on the whole
+period's mix: where the two lines part, what got sequenced changed, not what the assay
+detects.
+
+*too few windows to cluster: every record is unplaced; 2 of 2 records unplaced (100%).*
+
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2012 to 2014."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2012 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2014 — unplaced: 1 of 1 records (100%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="44.0" y="117">2012</text><text class="aw-tick" x="375.0" y="117">2013</text><text class="aw-tick" x="706.0" y="117">2014</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+
+| Lineage | Records | Share | New since design | Species | Also in the titles |
+|---|---|---|---|---|---|
+| unplaced | 2 | 100% |  | Sunshinevirus reptilis 2 | -- |
+
 
 ## Scope
+
+**Scored against:** every record retrieved.  
+**Retrieved from:** Sunshinevirus (taxid 1921703), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 

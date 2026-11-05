@@ -389,6 +389,10 @@ class Target(Strict):
 
 class Citation(Strict):
     doi: str | None = None
+    # What the paper says the assay is meant to detect, in one sentence, from a reread of
+    # the paper. On the page beside what is actually scored. Absent means not reread, and
+    # the page then omits the line rather than guess. Not a screen field: nothing scores on it.
+    claim: str | None = None
     design_year: int | None = Field(default=None, ge=1985, le=2100)
     n_sequences_at_design: int | None = None
     doi_verified: bool = False

@@ -55,6 +55,7 @@ oligos:
     seq: TACTGGACCACCTGGNGGNAYRWACAT
 amplicon_bp: 375
 citation:
+  claim: "All enterovirus serotypes."
   doi: 10.1128/JCM.00542-06
   design_year: 2006
   n_sequences_at_design: null

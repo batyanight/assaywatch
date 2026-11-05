@@ -16,6 +16,18 @@
     "Citation": {
       "additionalProperties": false,
       "properties": {
+        "claim": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Claim"
+        },
         "design_year": {
           "anyOf": [
             {
@@ -695,6 +707,7 @@
         "amplicon_multimodal",
         "cross_reactive",
         "scope_narrower_than_taxid",
+        "scope_wider_than_paper_tested",
         "retrieval_scope_incomplete",
         "nested_protocol",
         "nested_parent_not_held",

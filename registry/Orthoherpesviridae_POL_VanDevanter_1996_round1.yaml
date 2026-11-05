@@ -888,6 +888,7 @@ oligos:
     orientation: forward
 amplicon_bp: 734
 citation:
+  claim: "Herpesviruses, including ones with no prior sequence."
   doi: 10.1128/jcm.34.7.1666-1671.1996
   design_year: 1996
   n_sequences_at_design: null

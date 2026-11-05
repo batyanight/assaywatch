@@ -38,7 +38,12 @@
     - **`amplicon_size_unresolved`** — no product size is declared
 
 
+
 ## Scope
+
+**Meant to detect:** Borna disease virus in naturally infected animals.  
+**Scored against:** the 2 taxa listed below and anything beneath them.  
+**Retrieved from:** Bornaviridae (taxid 178830), every record.
 
 This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1714619" title="Orthobornavirus bornaense">1714619</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=12455" title="Borna disease virus">12455</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 

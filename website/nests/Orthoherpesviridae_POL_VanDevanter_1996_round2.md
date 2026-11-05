@@ -36,10 +36,37 @@
 
     - **`duplicate_entry_unresolved`** — whether the DFA variant and the PREDICT version are one entry or two is unresolved
 
+This map shows where records differ from the oligos as entered. No status is given, for
+the reason above, so it is not a verdict.
+
+## Mismatch distribution
+
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
+<svg class="aw-track" viewBox="0 0 557 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">HV-TGV</text><rect class="aw-zone" x="464.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="539.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">T</text><text class="aw-base" x="126.5" y="57">G</text><text class="aw-base" x="141.5" y="57">T</text><text class="aw-base" x="156.5" y="57">A</text><text class="aw-base" x="171.5" y="57">A</text><text class="aw-base" x="186.5" y="57">C</text><text class="aw-base" x="201.5" y="57">T</text><text class="aw-base" x="216.5" y="57">C</text><text class="aw-base" x="231.5" y="57">G</text><text class="aw-base" x="246.5" y="57">G</text><text class="aw-base" x="261.5" y="57">T</text><text class="aw-base" x="276.5" y="57">G</text><text class="aw-base" x="291.5" y="57">T</text><text class="aw-base" x="306.5" y="57">A</text><text class="aw-base" x="321.5" y="57">Y</text><text class="aw-base" x="336.5" y="57">G</text><text class="aw-base" x="351.5" y="57">G</text><text class="aw-base" x="366.5" y="57">N</text><text class="aw-base" x="381.5" y="57">T</text><text class="aw-base" x="396.5" y="57">T</text><text class="aw-base" x="411.5" y="57">Y</text><text class="aw-base" x="426.5" y="57">A</text><text class="aw-base" x="441.5" y="57">C</text><text class="aw-base" x="456.5" y="57">N</text><text class="aw-base" x="471.5" y="57">G</text><text class="aw-base" x="486.5" y="57">G</text><text class="aw-base" x="501.5" y="57">N</text><text class="aw-base" x="516.5" y="57">G</text><text class="aw-base" x="531.5" y="57">T</text><text class="aw-tick" x="531.5" y="71">1</text><text class="aw-tick" x="471.5" y="71">5</text><text class="aw-tick" x="396.5" y="71">10</text><text class="aw-tick" x="321.5" y="71">15</text><text class="aw-tick" x="246.5" y="71">20</text><text class="aw-tick" x="171.5" y="71">25</text><text class="aw-tick" x="111.5" y="71">29</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="543" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">HV-IYG</text><rect class="aw-zone" x="389.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="464.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">C</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">A</text><text class="aw-base" x="171.5" y="139">G</text><text class="aw-base" x="186.5" y="139">A</text><text class="aw-base" x="201.5" y="139">G</text><text class="aw-base" x="216.5" y="139">T</text><text class="aw-base" x="231.5" y="139">C</text><text class="aw-base" x="246.5" y="139">C</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">R</text><text class="aw-base" x="306.5" y="139">T</text><text class="aw-base" x="321.5" y="139">C</text><text class="aw-base" x="336.5" y="139">N</text><text class="aw-base" x="351.5" y="139">C</text><text class="aw-base" x="366.5" y="139">C</text><text class="aw-base" x="381.5" y="139">R</text><text class="aw-base" x="396.5" y="139">T</text><text class="aw-base" x="411.5" y="139">A</text><text class="aw-base" x="426.5" y="139">D</text><text class="aw-base" x="441.5" y="139">A</text><text class="aw-base" x="456.5" y="139">T</text><text class="aw-tick" x="456.5" y="153">1</text><text class="aw-tick" x="396.5" y="153">5</text><text class="aw-tick" x="321.5" y="153">10</text><text class="aw-tick" x="246.5" y="153">15</text><text class="aw-tick" x="171.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">24</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="468" y="139">3′</text></svg>
+<p class="aw-empty">A protocol has no mismatch map of its own: a mismatch belongs to the round whose oligo carries it, so each round’s page has the map.</p>
+
 
 ## Scope
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
+
+**Meant to detect:** Herpesviruses, including ones with no prior sequence.  
+**Scored against:** only taxa that every round claims.  
+**Retrieved from:** Orthoherpesviridae (formerly Herpesviridae) (taxid 3044472), limited by a query on the title or gene.
 
 The protocol declares **`scope_taxids`**: **867 taxa**. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
 

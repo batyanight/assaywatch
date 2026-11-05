@@ -17,6 +17,7 @@ oligos:
     seq: CCADMCBTTTTGYCKYARRCCTTC
 amplicon_bp: 260
 citation:
+  claim: "Animal rhabdoviruses broadly, for phylogeny rather than diagnosis."
   doi: 10.1099/vir.0.81128-0
   design_year: 2005
   n_sequences_at_design: null

@@ -137,6 +137,8 @@ class AssayPage:
     #: series carries no trend worth drawing. None on an extract made before
     #: this field existed, and the renderer then draws the chart as it used to.
     min_records: int | None = None
+    #: `citation.claim`: what the paper says it detects; "" until the paper is reread.
+    claim: str = ""
     note: str = ""
     trend: str = ""
     years: list[YearPoint] = field(default_factory=list)
@@ -192,7 +194,13 @@ def extract(
     # exactly what tells a reader WHY it is stable, and the site has room the
     # markdown report does not.
     _, _, sites = sitedrift_mod.build(
-        calls_path, registry_dir, retrieved, cfg, statuses=STATUS_ORDER, run_date=run_date
+        calls_path,
+        registry_dir,
+        retrieved,
+        cfg,
+        statuses=STATUS_ORDER,
+        run_date=run_date,
+        include_withheld=True,  # the page draws the map, and still gives no status
     )
     by_site = {s.assay_id: s for s in sites}
 
@@ -299,6 +307,7 @@ def _page(assay: Any, d: Any, sites: Any, zone: int, min_records: int | None = N
         name=assay.name,
         status="" if withheld else d.status,
         withheld_reasons=withheld,
+        claim=assay.citation.claim or "",
         taxon=assay.target.taxon_name or "",
         taxid=assay.target.taxid,
         gene=assay.target.gene or "",

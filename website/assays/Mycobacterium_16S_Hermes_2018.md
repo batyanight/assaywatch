@@ -37,8 +37,158 @@
 
     - **`citation_unresolved`** — oligos come from an uncitable source (Nieter, 2016)
 
+This map shows where records differ from the oligos as entered. No status is given, for
+the reason above, so it is not a verdict.
+
+## Mismatch distribution
+
+Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
+penalizes more heavily, and it depends on the oligo. For a primer it is the 3′ window,
+where a mismatch sits in the polymerase’s catalytic site. For a probe it is the central
+third: a hydrolysis probe is never extended, its 3′ end carries the quencher and it is
+cleaved by exonuclease activity, so what matters is duplex stability. Bar height is the
+share of records that differ at that position. Bar color is what that costs, measured
+as the fall in detection between records that differ there and records that do not:
+
+<span class="aw-key"><span class="aw-key-swatch aw-bar-strong"></span> detection falls by 25 points or more</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-mid"></span> falls 10 to 25</span>
+<span class="aw-key"><span class="aw-key-swatch aw-bar-weak"></span> little or no effect: variation the assay tolerates</span>
+
+Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
+bar is a position that matters.
+
+<svg class="aw-track" viewBox="0 0 537 258" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="99" y="52">forward</text><text class="aw-track-name" x="99" y="64">Mycobac16S_F</text><rect class="aw-zone" x="369.2" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="44.0" x2="444.2" y2="44.0"/><text class="aw-base" x="136.7" y="57">T</text><text class="aw-base" x="151.7" y="57">G</text><text class="aw-base" x="166.7" y="57">C</text><g class="aw-bar-strong"><title>forward position 18 from the 3&#x27; end, base G
+38 of 6,591 records differ here (0.6%)
+detected when it differs: 8% of 38
+detected when it does not: 97% of 6,553
+substitutions: G&gt;A in 25, G&gt;C in 9, G&gt;T in 4
+outside the 3′ window</title><rect x="175.2" y="41.4" width="13.0" height="2.6"/></g><text class="aw-base" x="181.7" y="57">G</text><g class="aw-bar-mid"><title>forward position 17 from the 3&#x27; end, base G
+50 of 6,591 records differ here (0.8%)
+detected when it differs: 82% of 50
+detected when it does not: 96% of 6,541
+substitutions: G&gt;A in 40, G&gt;T in 9, G&gt;C in 1
+outside the 3′ window</title><rect x="190.2" y="41.0" width="13.0" height="3.0"/></g><text class="aw-base" x="196.7" y="57">G</text><g class="aw-bar-strong"><title>forward position 16 from the 3&#x27; end, base G
+27 of 6,591 records differ here (0.4%)
+detected when it differs: 0% of 27
+detected when it does not: 97% of 6,564
+substitutions: G&gt;T in 25, G&gt;C in 1, G&gt;A in 1
+outside the 3′ window</title><rect x="205.2" y="41.8" width="13.0" height="2.2"/></g><text class="aw-base" x="211.7" y="57">G</text><text class="aw-base" x="226.7" y="57">C</text><text class="aw-base" x="241.7" y="57">G</text><g class="aw-bar-strong"><title>forward position 13 from the 3&#x27; end, base A
+20 of 6,591 records differ here (0.3%)
+detected when it differs: 25% of 20
+detected when it does not: 96% of 6,571
+substitutions: A&gt;G in 20
+outside the 3′ window</title><rect x="250.2" y="42.1" width="13.0" height="1.9"/></g><text class="aw-base" x="256.7" y="57">A</text><text class="aw-base" x="271.7" y="57">T</text><text class="aw-base" x="286.7" y="57">A</text><text class="aw-base" x="301.7" y="57">C</text><g class="aw-bar-strong"><title>forward position 9 from the 3&#x27; end, base G
+26 of 6,591 records differ here (0.4%)
+detected when it differs: 38% of 26
+detected when it does not: 96% of 6,565
+substitutions: G&gt;C in 11, G&gt;T in 11, G&gt;A in 4
+outside the 3′ window</title><rect x="310.2" y="41.9" width="13.0" height="2.1"/></g><text class="aw-base" x="316.7" y="57">G</text><text class="aw-base" x="331.7" y="57">G</text><text class="aw-base" x="346.7" y="57">G</text><text class="aw-base" x="361.7" y="57">C</text><g class="aw-bar-strong"><title>forward position 5 from the 3&#x27; end, base A
+22 of 6,591 records differ here (0.3%)
+detected when it differs: 0% of 22
+detected when it does not: 97% of 6,569
+substitutions: A&gt;T in 9, A&gt;C in 7, A&gt;G in 6
+inside the 3′ window</title><rect x="370.2" y="42.0" width="13.0" height="2.0"/></g><text class="aw-base" x="376.7" y="57">A</text><g class="aw-bar-strong"><title>forward position 4 from the 3&#x27; end, base G
+24 of 6,591 records differ here (0.4%)
+detected when it differs: 17% of 24
+detected when it does not: 97% of 6,567
+substitutions: G&gt;A in 15, G&gt;T in 6, G&gt;C in 3
+inside the 3′ window</title><rect x="385.2" y="41.9" width="13.0" height="2.1"/></g><text class="aw-base" x="391.7" y="57">G</text><text class="aw-base" x="406.7" y="57">R</text><text class="aw-base" x="421.7" y="57">C</text><text class="aw-base" x="436.7" y="57">T</text><text class="aw-tick" x="436.7" y="71">1</text><text class="aw-tick" x="376.7" y="71">5</text><text class="aw-tick" x="301.7" y="71">10</text><text class="aw-tick" x="226.7" y="71">15</text><text class="aw-tick" x="151.7" y="71">20</text><text class="aw-tick" x="136.7" y="71">21</text><text class="aw-end" x="125" y="57">5′</text><text class="aw-end aw-end-3" x="448" y="57">3′</text><text class="aw-track-label" x="99" y="134">reverse</text><text class="aw-track-name" x="99" y="146">Mycobac16S_R</text><rect class="aw-zone" x="414.2" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="126.0" x2="489.2" y2="126.0"/><text class="aw-base" x="136.7" y="139">C</text><g class="aw-bar-strong"><title>reverse position 23 from the 3&#x27; end, base C
+43 of 6,591 records differ here (0.7%)
+detected when it differs: 7% of 43
+detected when it does not: 97% of 6,548
+substitutions: C&gt;A in 39, C&gt;T in 3, C&gt;G in 1
+outside the 3′ window</title><rect x="145.2" y="123.3" width="13.0" height="2.7"/></g><text class="aw-base" x="151.7" y="139">C</text><g class="aw-bar-strong"><title>reverse position 22 from the 3&#x27; end, base A
+47 of 6,591 records differ here (0.7%)
+detected when it differs: 13% of 47
+detected when it does not: 97% of 6,544
+substitutions: A&gt;C in 43, A&gt;T in 2, A&gt;G in 2
+outside the 3′ window</title><rect x="160.2" y="123.1" width="13.0" height="2.9"/></g><text class="aw-base" x="166.7" y="139">A</text><g class="aw-bar-strong"><title>reverse position 21 from the 3&#x27; end, base C
+40 of 6,591 records differ here (0.6%)
+detected when it differs: 0% of 40
+detected when it does not: 97% of 6,551
+substitutions: C&gt;A in 40
+outside the 3′ window</title><rect x="175.2" y="123.4" width="13.0" height="2.6"/></g><text class="aw-base" x="181.7" y="139">C</text><g class="aw-bar-strong"><title>reverse position 20 from the 3&#x27; end, base A
+46 of 6,591 records differ here (0.7%)
+detected when it differs: 9% of 46
+detected when it does not: 97% of 6,545
+substitutions: A&gt;C in 42, A&gt;G in 4
+outside the 3′ window</title><rect x="190.2" y="123.2" width="13.0" height="2.8"/></g><text class="aw-base" x="196.7" y="139">A</text><g class="aw-bar-strong"><title>reverse position 19 from the 3&#x27; end, base C
+29 of 6,591 records differ here (0.4%)
+detected when it differs: 3% of 29
+detected when it does not: 97% of 6,562
+substitutions: C&gt;A in 24, C&gt;T in 4, C&gt;G in 1
+outside the 3′ window</title><rect x="205.2" y="123.7" width="13.0" height="2.3"/></g><text class="aw-base" x="211.7" y="139">C</text><g class="aw-bar-strong"><title>reverse position 18 from the 3&#x27; end, base C
+45 of 6,591 records differ here (0.7%)
+detected when it differs: 56% of 45
+detected when it does not: 97% of 6,546
+substitutions: C&gt;T in 34, C&gt;A in 7, C&gt;G in 4
+outside the 3′ window</title><rect x="220.2" y="123.2" width="13.0" height="2.8"/></g><text class="aw-base" x="226.7" y="139">C</text><text class="aw-base" x="241.7" y="139">T</text><text class="aw-base" x="256.7" y="139">A</text><text class="aw-base" x="271.7" y="139">G</text><text class="aw-base" x="286.7" y="139">T</text><text class="aw-base" x="301.7" y="139">W</text><text class="aw-base" x="316.7" y="139">C</text><text class="aw-base" x="331.7" y="139">C</text><text class="aw-base" x="346.7" y="139">C</text><text class="aw-base" x="361.7" y="139">A</text><g class="aw-bar-strong"><title>reverse position 8 from the 3&#x27; end, base C
+33 of 6,591 records differ here (0.5%)
+detected when it differs: 3% of 33
+detected when it does not: 97% of 6,558
+substitutions: C&gt;A in 25, C&gt;T in 8
+outside the 3′ window</title><rect x="370.2" y="123.6" width="13.0" height="2.4"/></g><text class="aw-base" x="376.7" y="139">C</text><text class="aw-base" x="391.7" y="139">C</text><text class="aw-base" x="406.7" y="139">G</text><text class="aw-base" x="421.7" y="139">T</text><g class="aw-bar-strong"><title>reverse position 4 from the 3&#x27; end, base T
+37 of 6,591 records differ here (0.6%)
+detected when it differs: 43% of 37
+detected when it does not: 97% of 6,554
+substitutions: T&gt;C in 20, T&gt;G in 15, T&gt;A in 2
+inside the 3′ window</title><rect x="430.2" y="123.5" width="13.0" height="2.5"/></g><text class="aw-base" x="436.7" y="139">T</text><g class="aw-bar-strong"><title>reverse position 3 from the 3&#x27; end, base T
+21 of 6,591 records differ here (0.3%)
+detected when it differs: 5% of 21
+detected when it does not: 97% of 6,570
+substitutions: T&gt;A in 18, T&gt;C in 2, T&gt;G in 1
+inside the 3′ window</title><rect x="445.2" y="124.1" width="13.0" height="1.9"/></g><text class="aw-base" x="451.7" y="139">T</text><g class="aw-bar-strong"><title>reverse position 2 from the 3&#x27; end, base A
+38 of 6,591 records differ here (0.6%)
+detected when it differs: 0% of 38
+detected when it does not: 97% of 6,553
+substitutions: A&gt;C in 19, A&gt;T in 12, A&gt;G in 7
+inside the 3′ window</title><rect x="460.2" y="123.4" width="13.0" height="2.6"/></g><text class="aw-base" x="466.7" y="139">A</text><g class="aw-bar-strong"><title>reverse position 1 from the 3&#x27; end, base C
+41 of 6,591 records differ here (0.6%)
+detected when it differs: 0% of 41
+detected when it does not: 97% of 6,550
+substitutions: C&gt;G in 23, C&gt;A in 14, C&gt;T in 4
+inside the 3′ window</title><rect x="475.2" y="123.3" width="13.0" height="2.7"/></g><text class="aw-base" x="481.7" y="139">C</text><text class="aw-tick" x="481.7" y="153">1</text><text class="aw-tick" x="421.7" y="153">5</text><text class="aw-tick" x="346.7" y="153">10</text><text class="aw-tick" x="271.7" y="153">15</text><text class="aw-tick" x="196.7" y="153">20</text><text class="aw-tick" x="136.7" y="153">24</text><text class="aw-end" x="125" y="139">5′</text><text class="aw-end aw-end-3" x="493" y="139">3′</text><text class="aw-track-label" x="99" y="216">probe</text><text class="aw-track-name" x="99" y="228">Mycobac16S_SFAM</text><rect class="aw-zone" x="249.2" y="174.0" width="150.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="208.0" x2="519.2" y2="208.0"/><g class="aw-bar-strong"><title>probe position 26 from the 3&#x27; end, base T
+21 of 6,591 records differ here (0.3%)
+detected when it differs: 29% of 21
+detected when it does not: 96% of 6,570
+substitutions: T&gt;G in 15, T&gt;C in 5, T&gt;A in 1
+outside the central third</title><rect x="130.2" y="206.1" width="13.0" height="1.9"/></g><text class="aw-base" x="136.7" y="221">T</text><text class="aw-base" x="151.7" y="221">G</text><text class="aw-base" x="166.7" y="221">G</text><text class="aw-base" x="181.7" y="221">C</text><text class="aw-base" x="196.7" y="221">G</text><text class="aw-base" x="211.7" y="221">A</text><text class="aw-base" x="226.7" y="221">A</text><g class="aw-bar-strong"><title>probe position 19 from the 3&#x27; end, base G
+21 of 6,591 records differ here (0.3%)
+detected when it differs: 48% of 21
+detected when it does not: 96% of 6,570
+substitutions: G&gt;A in 12, G&gt;T in 6, G&gt;C in 3
+outside the central third</title><rect x="235.2" y="206.1" width="13.0" height="1.9"/></g><text class="aw-base" x="241.7" y="221">G</text><text class="aw-base" x="256.7" y="221">G</text><text class="aw-base" x="271.7" y="221">C</text><g class="aw-bar-strong"><title>probe position 16 from the 3&#x27; end, base G
+24 of 6,591 records differ here (0.4%)
+detected when it differs: 0% of 24
+detected when it does not: 97% of 6,567
+substitutions: G&gt;A in 23, G&gt;C in 1
+in the central third</title><rect x="280.2" y="205.9" width="13.0" height="2.1"/></g><text class="aw-base" x="286.7" y="221">G</text><text class="aw-base" x="301.7" y="221">G</text><g class="aw-bar-strong"><title>probe position 14 from the 3&#x27; end, base G
+29 of 6,591 records differ here (0.4%)
+detected when it differs: 0% of 29
+detected when it does not: 97% of 6,562
+substitutions: G&gt;A in 19, G&gt;T in 6, G&gt;C in 4
+in the central third</title><rect x="310.2" y="205.7" width="13.0" height="2.3"/></g><text class="aw-base" x="316.7" y="221">G</text><text class="aw-base" x="331.7" y="221">T</text><text class="aw-base" x="346.7" y="221">C</text><text class="aw-base" x="361.7" y="221">T</text><text class="aw-base" x="376.7" y="221">C</text><text class="aw-base" x="391.7" y="221">T</text><text class="aw-base" x="406.7" y="221">G</text><text class="aw-base" x="421.7" y="221">G</text><text class="aw-base" x="436.7" y="221">G</text><text class="aw-base" x="451.7" y="221">C</text><g class="aw-bar-strong"><title>probe position 4 from the 3&#x27; end, base A
+37 of 6,591 records differ here (0.6%)
+detected when it differs: 8% of 37
+detected when it does not: 97% of 6,554
+substitutions: A&gt;C in 28, A&gt;G in 6, A&gt;T in 3
+outside the central third</title><rect x="460.2" y="205.5" width="13.0" height="2.5"/></g><text class="aw-base" x="466.7" y="221">A</text><g class="aw-bar-strong"><title>probe position 3 from the 3&#x27; end, base G
+20 of 6,591 records differ here (0.3%)
+detected when it differs: 15% of 20
+detected when it does not: 97% of 6,571
+substitutions: G&gt;A in 10, G&gt;T in 8, G&gt;C in 2
+outside the central third</title><rect x="475.2" y="206.1" width="13.0" height="1.9"/></g><text class="aw-base" x="481.7" y="221">G</text><text class="aw-base" x="496.7" y="221">T</text><g class="aw-bar-strong"><title>probe position 1 from the 3&#x27; end, base A
+25 of 6,591 records differ here (0.4%)
+detected when it differs: 16% of 25
+detected when it does not: 97% of 6,566
+substitutions: A&gt;T in 13, A&gt;G in 8, A&gt;C in 4
+outside the central third</title><rect x="505.2" y="205.9" width="13.0" height="2.1"/></g><text class="aw-base" x="511.7" y="221">A</text><text class="aw-tick" x="511.7" y="235">1</text><text class="aw-tick" x="451.7" y="235">5</text><text class="aw-tick" x="376.7" y="235">10</text><text class="aw-tick" x="301.7" y="235">15</text><text class="aw-tick" x="226.7" y="235">20</text><text class="aw-tick" x="151.7" y="235">25</text><text class="aw-tick" x="136.7" y="235">26</text><text class="aw-end" x="125" y="221">5′</text><text class="aw-end aw-end-3" x="523" y="221">3′</text></svg>
+
 
 ## Scope
+
+**Scored against:** every record retrieved.  
+**Retrieved from:** Mycobacterium (taxid 1763), limited by a query on the title or gene.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 

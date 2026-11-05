@@ -51,6 +51,7 @@ oligos:
     seq: CCCTCATAAACCCGAACYTCYTCHACYTG
 amplicon_bp: 271
 citation:
+  claim: "Polyomaviruses, including unknown ones, across animal species."
   doi: 10.1128/JVI.79.6.3883-3887.2005
   design_year: 2005
   n_sequences_at_design: null

@@ -173,6 +173,13 @@ OPEN: frozenset[ReviewFlag] = frozenset(
 )
 
 #: Flags whose whole content is the specifics, so a bare flag says nothing.
+#: Withheld entries whose mismatch map would mislead, so it stays off the page. A wrong
+#: oligo draws a typo as if it were drift, and a digest or RPA readout is not what the map
+#: measures. Other withheld entries show the map, since their sites are sound.
+MAP_HIDDEN: frozenset[ReviewFlag] = frozenset(
+    {ReviewFlag.oligo_sequence_uncertain, ReviewFlag.not_screenable}
+)
+
 NOTE_REQUIRED: frozenset[ReviewFlag] = frozenset({ReviewFlag.curation_decision_pending})
 
 #: Recorded caveats, for callers that want the complement without recomputing it.

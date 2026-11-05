@@ -47,7 +47,7 @@ source:
     al. detect the product by hybridisation with an oligonucleotide probe, FT443, rather than by fluorescence, so this is
     a conventional PCR and a probe is not required. More importantly the probe sequence as read from this 1993 scan carries
     8 mismatches against the same contig where both primers match perfectly, which means the OCR mangled it. Entering a sequence
-    known to be corrupt would be worse than leaving it out. A clean copy of Table/text would let it be added.'
+    known to be corrupt would be worse than leaving it out. A clean copy of Table/text would let it be added. CORRECTED 2026-11-04: the probe was not mangled. The page prints FT443 as TCGTAATGTTAGCTGTATCATCATT, read by eye and matching the text layer, and it is exact in all 1,021 products at product position 50, which is gene position 443. The 8 mismatches recorded above do not hold up. It goes in with the next screen.'
 needs_review:
-- flag: oligo_sequence_uncertain
-  note: 'the probe is omitted: the OCR of its sequence was not reliable enough to enter'
+- flag: curation_decision_pending
+  note: Probe FT443 is to be added and screened at the next run; this page shows the primers only.

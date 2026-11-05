@@ -628,6 +628,13 @@ class HeldOutRow:
     reasons: tuple[tuple[str, str], ...]  # (flag, note) in the order the entry gives
 
 
+def map_is_withheld(assay: Assay | None) -> bool:
+    """Is this assay held out AND its mismatch map unsafe to draw? See `review.MAP_HIDDEN`."""
+    from assaywatch.review import MAP_HIDDEN
+
+    return any(ReviewFlag(flag) in MAP_HIDDEN for flag, _ in held_out_reasons(assay))
+
+
 def held_out_reasons(assay: Assay | None) -> tuple[tuple[str, str], ...]:
     """The review items that mean this assay's status would not be a statement.
 

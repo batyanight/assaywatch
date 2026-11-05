@@ -206,6 +206,17 @@ These correct the record; none was acted on here.
 `2026-11-04-low-accession-scope-check.md` says Bd's records are "nearly all ITS". They are not:
 about 8,300 of 9,493 are `XM_` predicted mRNAs. Corrected there.
 
+## Decisions taken after this was written
+
+The maintainer went through these the same evening. Uccellini is narrowed to 1986118, so `_PythonNido6F`
+and `_PythonNodoF` read `insufficient data`. Lozano stays broadened. The other narrowings stay
+unapplied. Hellgren takes 1,269 lineages under `219829`, chosen by the GenBank `/host` of all 9,159
+records under the node rather than by name, because names mislead: *Emoia* is a lizard. HaemF baseline
+reads 554/2327 and HaemNFI 929/1058; the whole node would have read HaemNFI at 80%, and the list keeps
+it near 88%. Family retrieval stays for the caliciviruses, so the eventual test across scope has its
+calls. 66 entries carry `citation.claim`, with quotes checked against the papers. *Chlamydia* goes into
+`assemblies.taxa` at the next run.
+
 ## Files
 
 Registry: 21 entries, plus `scope_wider_than_paper_tested` in `assaywatch/review.py`. The paper
