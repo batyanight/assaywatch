@@ -79,6 +79,13 @@ def _inputs(tmp_path: Path) -> tuple[Path, Path]:
 def _render(tmp_path: Path) -> tuple[str, str]:
     calls_path, retrieved = _inputs(tmp_path)
     cfg = yaml.safe_load((ROOT / "config.yaml").read_text())
+    # `lineage.taxid_backfill` names a gitignored file under data/retrieved. Left alone, the
+    # render depended on whether this machine held it: the lineage sections appear only when
+    # the map has entries, so the fixture passed locally and failed in CI on 2026-11-04.
+    backfill = tmp_path / "backfill.tsv.gz"
+    with gzip.open(backfill, "wt") as fh:
+        fh.write("accession\ttaxid\nZZ99999\t9\n")
+    cfg["lineage"]["taxid_backfill"] = str(backfill)
     md, page, _drifts, _nests = build(
         calls_path,
         FIXTURES / "registry",
