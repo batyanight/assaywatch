@@ -568,15 +568,8 @@ def species_years(
     for taxid, year, title in rows:
         if year <= 0:
             continue
-        key_id: int | None = None
-        name = ""
-        if taxid:
-            canon = taxonomy.canonical(taxid)
-            key_id = taxonomy.species_of(canon) or canon
-            name = taxonomy.name.get(key_id, "")
-        if not name:
-            name = organism(title) or (f"taxid {key_id}" if key_id else "unnamed")
-        key = (key_id, name)
+        key_id, name = resolve_species(taxid, title, taxonomy)
+        key = (key_id, name or "unnamed")
         counts[key] += 1
         first[key] = min(first.get(key, year), year)
     out = [
@@ -753,7 +746,8 @@ def label_records(regions: list[Region], years: list[int], opts: Options) -> tup
     ref = [regions[i].seq for i in picked]
     dist = mash_distances(jaccard_matrix(kmer_matrix(ref, opts.kmer_len)), opts.kmer_len)
     ref_labels = components_at(dist, opts.cut, opts.min_cluster_size)
-    rest = [i for i in range(len(regions)) if i not in set(picked)]
+    chosen = set(picked)
+    rest = [i for i in range(len(regions)) if i not in chosen]
     labels = {regions[i].record_id: lab for i, lab in zip(picked, ref_labels, strict=True)}
     if rest:
         short = {n for n, i in enumerate(rest) if not regions[i].full_flank}
@@ -767,6 +761,22 @@ def label_records(regions: list[Region], years: list[int], opts: Options) -> tup
         )
         labels.update({regions[i].record_id: lab for i, lab in zip(rest, assigned, strict=True)})
     return labels, opts.cut
+
+
+def name_drawn(
+    drawn: Sequence[int],
+    mixes: Sequence[Sequence[tuple[str, int]]],
+    representatives: Sequence[str],
+    *,
+    pure_share: float,
+) -> list[str]:
+    """The name of each drawn column. Only real clusters enter `cluster_names`: counting
+    diverged, unplaced and other toward its numbering made Annis's one group
+    "B. dendrobatidis 4", implying three lineages that do not exist."""
+    real = [i for i, lab in enumerate(drawn) if lab >= 0]
+    named = cluster_names([mixes[i] for i in real], [representatives[i] for i in real], pure_share=pure_share)
+    by_position = dict(zip(real, named, strict=True))
+    return [by_position.get(i) or _special_name(lab) or "" for i, lab in enumerate(drawn)]
 
 
 def describe_clusters(
@@ -787,7 +797,7 @@ def describe_clusters(
         members.setdefault(lab, [])
     mixes = [species_mix([species.get(r, (None, ""))[1] for r in members[lab]]) for lab in drawn]
     reps = [min(members[lab], key=_order_key) if members[lab] else "" for lab in drawn]
-    names = cluster_names(mixes, reps, pure_share=opts.name_pure_share)
+    names = name_drawn(drawn, mixes, reps, pure_share=opts.name_pure_share)
     by_cluster = {lab: [titles.get(r, "") for r in members[lab]] for lab in drawn}
     out = []
     for lab, mix, rep, name in zip(drawn, mixes, reps, names, strict=True):
@@ -804,7 +814,7 @@ def describe_clusters(
         out.append(
             Cluster(
                 id=lab,
-                name=_special_name(lab) or name,
+                name=name,
                 n_records=sum(c.records for c in cells if c.cluster == lab),
                 representative=rep,
                 species_mix=tuple(mix),
@@ -813,7 +823,8 @@ def describe_clusters(
                     title_tokens(
                         by_cluster[lab],
                         background,
-                        name=name,
+                        # A stratum's name is not in its titles, its modal species may be.
+                        name=cluster_names([mix], [rep], pure_share=opts.name_pure_share)[0],
                         min_share=opts.token_min_share,
                         min_lift=opts.token_min_lift,
                         top=opts.title_tokens_shown,
@@ -950,7 +961,7 @@ def read_summary(path: Path) -> CompositionRun:
 
 #: `website/data/composition.json`'s schema version. The site refuses a file it does not
 #: know, as it already does for `run.json`.
-SITE_SCHEMA = 1
+SITE_SCHEMA = 2
 
 
 def site_data(run: CompositionRun) -> dict[str, Any]:
@@ -981,6 +992,7 @@ def site_data(run: CompositionRun) -> dict[str, Any]:
             records[row][col] += cell.records
             detected[row][col] += cell.detected
         s = a.split
+        coverage_years = sorted({y for series in a.coverage.values() for y in series})
         out["assays"][assay_id] = {
             "cut": a.cut,
             "left_bp": a.left_bp,
@@ -992,11 +1004,13 @@ def site_data(run: CompositionRun) -> dict[str, Any]:
             "tokens": [list(c.title_tokens) for c in a.clusters],
             "new_since_design": [bool(c.new_since_design) for c in a.clusters],
             "years": years,
-            # Aligned to `years`: what the query returned and what the taxon holds, or
-            # null where the count is not known (no coverage file, or NCBI unreachable
-            # and nothing cached -- which is not the same as zero).
-            "coverage_query": [a.coverage.get("query", {}).get(y) for y in years],
-            "coverage_taxon": [a.coverage.get("taxon", {}).get(y) for y in years],
+            # Aligned to `coverage_years`, NOT `years`: the series exists for the years an
+            # archive stopped while the taxon went on, which have no cells. What the query
+            # returned and what the taxon holds, or null where the count is not known (NCBI
+            # unreachable and nothing cached -- which is not the same as zero).
+            "coverage_years": coverage_years,
+            "coverage_query": [a.coverage.get("query", {}).get(y) for y in coverage_years],
+            "coverage_taxon": [a.coverage.get("taxon", {}).get(y) for y in coverage_years],
             "records": records,
             "detected": detected,
             # Aligned to `years`; null for a year whose clusters cover too little of the

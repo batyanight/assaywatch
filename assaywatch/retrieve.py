@@ -57,6 +57,7 @@ import json
 import os
 import sys
 import xml.etree.ElementTree as ET
+import zlib
 from collections.abc import Callable, Iterable
 from dataclasses import asdict, dataclass, field
 from datetime import date, timedelta
@@ -188,6 +189,28 @@ def esearch(
     }
 
 
+class AskLimit:
+    """Stop asking NCBI once it has failed this many times in a row, across a whole count.
+
+    Each failed esearch costs about 15 s of backoff, so an outage over 74 query-years a group
+    blocked `retrieval_coverage`, and `report` behind it, for hours. Keeps only the exception's
+    TYPE: its text can carry a request URL, and a URL can carry the key.
+    """
+
+    def __init__(self, max_failures: int) -> None:
+        self.max_failures = max_failures
+        self.consecutive = 0
+        self.last_error = ""
+
+    @property
+    def tripped(self) -> bool:
+        return self.consecutive >= self.max_failures
+
+    def failed(self, exc: BaseException) -> None:
+        self.consecutive += 1
+        self.last_error = type(exc).__name__
+
+
 def year_counts(
     transport: Transport,
     query: str,
@@ -197,6 +220,7 @@ def year_counts(
     cache: Path | None = None,
     refresh_years: int = 2,
     today: date | None = None,
+    limit: AskLimit | None = None,
 ) -> dict[int, int]:
     """How many records `query` returns per deposit year: ``{year: count}``.
 
@@ -227,7 +251,7 @@ def year_counts(
         try:
             with gzip.open(cache, "rt") as fh:
                 store = {str(k): int(v) for k, v in json.load(fh).items()}
-        except (OSError, ValueError, json.JSONDecodeError):
+        except (OSError, EOFError, zlib.error, ValueError):
             # A corrupt cache is a cold cache. It holds counts, not evidence.
             store = {}
 
@@ -243,21 +267,32 @@ def year_counts(
         if cached is not None and not stale:
             out[year] = cached
             continue
+        if limit is not None and limit.tripped:
+            if cached is not None:
+                out[year] = cached
+            continue
         try:
             got = esearch(transport, query, f"{year}/01/01", datetype=datetype, until=f"{year}/12/31")[
                 "count"
             ]
-        except Exception:  # noqa: BLE001 - any transport failure is "could not ask"
+        except Exception as exc:  # noqa: BLE001 - any transport failure is "could not ask"
+            if limit is not None:
+                limit.failed(exc)
             if cached is not None:
                 out[year] = cached
             continue
+        if limit is not None:
+            limit.consecutive = 0
         out[year] = got
         store[key(year)] = got
         fresh = True
     if cache is not None and fresh:
         cache.parent.mkdir(parents=True, exist_ok=True)
-        with gzip.open(cache, "wt") as fh:
+        # Whole or not at all: a process killed mid-write must not leave a truncated cache.
+        partial = cache.with_name(cache.name + f".{os.getpid()}.tmp")
+        with gzip.open(partial, "wt") as fh:
             json.dump(store, fh, sort_keys=True)
+        os.replace(partial, cache)
     return out
 
 
@@ -473,8 +508,10 @@ def targets_from_registry(
             for taxid, group, query, group_name in keys:
                 slot = out.setdefault(
                     (taxid, group),
-                    {"name": group_name, "query": query, "assays": [], "pairs": []},
+                    {"name": group_name, "query": query, "assays": [], "own_assays": [], "pairs": []},
                 )
+                if taxid == assay.target.taxid:
+                    slot["own_assays"].append(assay.id)
                 if slot["name"] is None and group_name is not None:
                     slot["name"] = group_name
                 slot["assays"].append(assay.id)
@@ -751,23 +788,39 @@ def _year_counts_mode(args: Any, cfg: dict[str, Any]) -> int:
     cache = Path(cfg.get("retrieved_dir", "data/retrieved")) / ".year-counts.json.gz"
     refresh = int(comp.get("coverage_refresh_years", 2))
     out: dict[str, Any] = {"datetype": "pdat", "years": years, "assays": {}}
+    limit = AskLimit(int(comp.get("coverage_max_failures", 5)))
+    uncounted = 0
     targets = targets_from_registry(args.paths, cfg)
     for (taxid, group), info in sorted(targets.items()):
         if group == "asm":
             # Assembly retrieval does not go through esearch on nuccore, so a per-year
             # nuccore count would be a different population, not a coverage check.
             continue
+        # Only the assay's own taxon is its series. An exclusivity neighbour's group lists the
+        # assay too, and sorting later it overwrote Orf virus with BPSV's counts.
+        own = info.get("own_assays") or []
+        if not own:
+            continue
         ours = build_query(taxid, cfg, info.get("query"))
         every = f"txid{taxid}[Organism:exp]"
-        got = year_counts(transport, ours, years, "pdat", cache=cache, refresh_years=refresh)
-        whole = year_counts(transport, every, years, "pdat", cache=cache, refresh_years=refresh)
-        for assay_id in info["assays"]:
+        got = year_counts(transport, ours, years, "pdat", cache=cache, refresh_years=refresh, limit=limit)
+        whole = year_counts(transport, every, years, "pdat", cache=cache, refresh_years=refresh, limit=limit)
+        uncounted += sum(y not in got for y in years) + sum(y not in whole for y in years)
+        for assay_id in own:
             out["assays"][assay_id] = {
                 "query": {str(y): got[y] for y in years if y in got},
                 "taxon": {str(y): whole[y] for y in years if y in whole},
             }
     args.year_counts.parent.mkdir(parents=True, exist_ok=True)
     args.year_counts.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n")
+    if limit.tripped:
+        print(
+            f"WARNING: stopped asking NCBI after {limit.consecutive} failures in a row "
+            f"({limit.last_error}); the rest of these counts are from the cache or absent",
+            file=sys.stderr,
+        )
+    if uncounted:
+        print(f"WARNING: {uncounted} query-years have no count, which is not zero", file=sys.stderr)
     print(
         f"{args.year_counts}: {len(out['assays'])} assays over {len(years)} years "
         f"({years[0]}-{years[-1]}), counted on pdat",

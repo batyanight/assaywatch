@@ -476,7 +476,7 @@ def _withheld_block(a: dict[str, Any]) -> str:
         "",
     ]
     for flag, note in a["withheld_reasons"]:
-        lines.append(f"    - **`{flag}`** — {note}" if note else f"    - **`{flag}`**")
+        lines.append(f"    - **`{flag}`** — {_md_text(note)}" if note else f"    - **`{flag}`**")
     return "\n".join(lines) + "\n"
 
 
@@ -565,11 +565,33 @@ def _same_mix(comp: dict[str, Any] | None) -> dict[int, float]:
     return {year: share for year, share in pairs if share is not None}
 
 
+def _md_text(value: Any) -> str:
+    """Text from the data, for raw Markdown. Markdown passes HTML through, and an organism
+    name can come from a GenBank title; a pipe would also end a table cell."""
+    return html.escape(str(value), quote=False).replace("|", "&#124;")
+
+
+def _coverage_sentence(comp: dict[str, Any]) -> list[str]:
+    """How much of the taxon the query saw, per deposit year, where the run counted it."""
+    years = comp.get("coverage_years") or []
+    query, taxon = comp.get("coverage_query") or [], comp.get("coverage_taxon") or []
+    shares = [(y, q / t) for y, q, t in zip(years, query, taxon, strict=False) if q is not None and t]
+    if not shares:
+        return []
+    best = max(s for _, s in shares)
+    recent = ", ".join(f"{y} {s:.0%}" for y, s in shares[-8:])
+    return [
+        f"Of the records the target taxon holds, the share its own retrieval query returned, per "
+        f"deposit year: {recent} (best year {best:.0%}). A low share is a fact about the query, "
+        "not about the taxon.\n",
+    ]
+
+
 def _mix_cell(comp: dict[str, Any], col: int) -> str:
     """A group's top species with their counts; the file holds the top three."""
     mixes = comp.get("mix") or []
     mix = mixes[col] if col < len(mixes) else []
-    return ", ".join(f"{name} {n:,}" for name, n in mix) if mix else "--"
+    return ", ".join(f"{_md_text(name)} {n:,}" for name, n in mix) if mix else "--"
 
 
 def _mixed_largest_group(names: list[str], ids: list[int], totals: list[int]) -> str | None:
@@ -583,7 +605,8 @@ def _mixed_largest_group(names: list[str], ids: list[int], totals: list[int]) ->
     if not named:
         return None
     largest = names[max(named, key=lambda i: totals[i])]
-    return largest if largest.endswith("%") else None
+    # "X 38%", or "X 38% 2" where two groups share a modal species.
+    return largest if re.search(r"\d%( \d+)?$", largest) else None
 
 
 def _composition_block(comp: dict[str, Any] | None) -> list[str]:
@@ -612,11 +635,11 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     mixed = _mixed_largest_group(names, ids, totals)
     if mixed:
         lines += [
-            f"**The largest group here, {mixed}, mixes species,** so the dashed line can't",
+            f"**The largest group here, {_md_text(mixed)}, mixes species,** so the dashed line can't",
             "separate a shift between them. The table below shows which species each group holds.\n",
         ]
     if comp.get("note"):
-        lines += [f"*{comp['note']}.*\n"]
+        lines += [f"*{_md_text(comp['note'])}.*\n"]
     lines += [site_svg.composition_panel(comp, {}), ""]
     lines += [
         "| Lineage | Records | Share | New since design | Species | Also in the titles |",
@@ -631,10 +654,12 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
             else False
         )
         lines.append(
-            f"| {names[col] if col < len(names) else cid} | {n:,} | {n / grand:.0%} | "
-            f"{'yes' if new else ''} | {_mix_cell(comp, col)} | {', '.join(tokens) if tokens else '--'} |"
+            f"| {_md_text(names[col] if col < len(names) else cid)} | {n:,} | {n / grand:.0%} | "
+            f"{'yes' if new else ''} | {_mix_cell(comp, col)} | "
+            f"{_md_text(', '.join(tokens)) if tokens else '--'} |"
         )
     lines.append("")
+    lines += _coverage_sentence(comp)
     split = comp.get("split")
     if split:
         mix, within = split["mix"], split["within"]
@@ -773,7 +798,7 @@ def _lineage_block(a: dict[str, Any]) -> list[str]:
     if len(lins) == 1:
         item = lins[0]
         out += [
-            f"Only one lineage has enough records to report here: **{item['lineage']}** "
+            f"Only one lineage has enough records to report here: **{_md_text(item['lineage'])}** "
             f"({item['detected']:,} of {item['evaluable']:,} detected, "
             f"{100 * item['share']:.1f}%, 95% interval {100 * item['ci'][0]:.1f}"
             f"\u2013{100 * item['ci'][1]:.1f}%). The split matters where an assay spans several "
@@ -834,9 +859,9 @@ def _scope_summary(a: dict[str, Any], protocol: bool) -> str:
         scored = f"the {n:,} taxa listed below and anything beneath them"
     else:
         scored = "every record retrieved"
-    meant = f"**Meant to detect:** {a['claim']}  \n" if a.get("claim") else ""
+    meant = f"**Meant to detect:** {_md_text(a['claim'])}  \n" if a.get("claim") else ""
     how = "limited by a query on the title or gene" if a.get("query") else "every record"
-    retrieved = f"{a['taxon']} (taxid {a['taxid']}), {how}"
+    retrieved = f"{_md_text(a['taxon'])} (taxid {a['taxid']}), {how}"
     return f"{meant}**Scored against:** {scored}.  \n**Retrieved from:** {retrieved}.\n"
 
 
@@ -1256,6 +1281,12 @@ def main(argv: list[str] | None = None) -> int:
         if composition.get("schema") != SITE_SCHEMA:
             raise SystemExit(
                 f"composition.json is schema {composition.get('schema')}, this renderer expects {SITE_SCHEMA}"
+            )
+        if composition.get("run_date") != data.get("run_date"):
+            raise SystemExit(
+                f"composition.json is from {composition.get('run_date')} and run.json from "
+                f"{data.get('run_date')}: each page would print one run's date over the other's "
+                "lineage graphs. Re-run `assaywatch.site extract` with --composition."
             )
     n = render(data, args.out, composition)
     print(f"{n} assay pages into {args.out / 'assays'}")

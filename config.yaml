@@ -1276,6 +1276,13 @@ composition:
   # Chlamydia 16S (2026-11-03, both over 2020-2025), where `mdat` (modification date)
   # does not. So the series is counted on `pdat`.
   coverage_refresh_years: 2
+  # Failed esearch calls in a row before the count stops asking and says so. Each costs
+  # about 15 s of backoff. Not measured: small enough that an outage costs about a minute,
+  # large enough that a blip does not end the count.
+  coverage_max_failures: 5
+  # lineage.md names a year whose query share is under this fraction of the assay's best
+  # year. A third was set by eye on the Chlamydia 16S series; nothing is scored on it.
+  coverage_thin_of_best: 0.3333
   # Cap on website/data/composition.json, which is committed every run beside the
   # 2.5 MB run.json. A test fails the build above it.
   site_max_bytes: 1500000

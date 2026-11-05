@@ -407,6 +407,12 @@ def main(argv: list[str] | None = None) -> int:
     # The composition panel's own file, beside run.json and deliberately NOT inside it:
     # run.json is 2.5 MB and committed every week (decided 2026-11-02). Absent, the site
     # renders exactly what it did.
+    if args.composition is None and (args.out / "composition.json").exists():
+        print(
+            f"WARNING: {args.out / 'composition.json'} was not refreshed; without --composition "
+            "it stays on its old run, and site_render refuses a mismatch",
+            file=sys.stderr,
+        )
     if args.composition is not None and args.composition.exists():
         from assaywatch.composition import read_summary, write_site_data
 

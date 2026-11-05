@@ -266,3 +266,24 @@ def test_the_calls_table_is_released_before_the_per_assay_loop(tmp_path, monkeyp
     calls_path, reg, retrieved = _fixture(tmp_path)
     build(calls_path, reg, retrieved, CFG, run_date="2026-01-01", today=date(2026, 1, 1))
     assert alive_in_loop == [False]
+
+
+def test_an_assay_s_assembly_records_are_read_from_its_asm_group(tmp_path):
+    """Yersinia yst read 'every record is unplaced': 35 of 37 records are GCA_ windows."""
+    import gzip
+    from types import SimpleNamespace
+
+    from assaywatch.composition_build import _archive
+    from assaywatch.groups import group_slug
+
+    assay = SimpleNamespace(target=SimpleNamespace(taxid=630, query="q"))
+    for name, acc, seq in (("asm", "GCA_1.1", "ACGT"), (group_slug("q"), "AB1.1", "TTTT")):
+        d = tmp_path / "630" / name
+        d.mkdir(parents=True)
+        with gzip.open(d / "x.fasta.gz", "wt") as fh:
+            fh.write(f">{acc} loci=1\n{seq}\n")
+        with gzip.open(d / "x.meta.tsv.gz", "wt") as fh:
+            fh.write(f"uid\taccession\ttitle\n1\t{acc}\tTitle of {acc}\n")
+    seqs, titles = _archive(tmp_path, assay, {"GCA_1", "AB1"})
+    assert seqs == {"GCA_1": "ACGT", "AB1": "TTTT"}
+    assert titles == {"GCA_1": "Title of GCA_1.1", "AB1": "Title of AB1.1"}

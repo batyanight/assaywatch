@@ -403,7 +403,7 @@ def composition_panel(comp: dict[str, Any], page: dict[str, Any]) -> str:
                 fill = 'fill="url(#aw-unplaced)"' if cid != -1 else 'fill="currentColor" opacity="0.12"'
             else:
                 fill = (
-                    f'fill="currentColor" opacity="{_CLUSTER_STEPS[min(col, len(_CLUSTER_STEPS) - 1)]:.2f}"'
+                    f'fill="currentColor" opacity="{_CLUSTER_STEPS[min(cid, len(_CLUSTER_STEPS) - 1)]:.2f}"'
                 )
             tip = f"{year} — {name}: {n:,} of {total:,} records ({n / total:.0%}), {got:,} detected"
             out.append(

@@ -263,3 +263,59 @@ def test_the_site_file_carries_each_group_s_top_species():
     d = site_data(_run(_assay()))["assays"]["A"]
     assert len(d["mix"]) == len(d["ids"])
     assert all(len(m) <= 3 for m in d["mix"])
+
+
+def test_group_and_species_names_are_escaped_where_the_panel_already_escapes_them():
+    """GenBank titles can reach here through `organism`, and Markdown passes raw HTML."""
+    bad = '<img src=x onerror="location=name">'
+    comp = {
+        "years": [2020],
+        "cut": 0.05,
+        "ids": [0],
+        "names": [bad + " 50%"],
+        "records": [[10]],
+        "mix": [[[bad, 5]]],
+        "tokens": [[]],
+    }
+    out = " ".join(_composition_block(comp))
+    assert "<img" not in out
+    assert "&lt;img" in out
+
+
+def test_a_pipe_in_a_name_does_not_break_the_table():
+    comp = {"years": [2020], "cut": 0.05, "ids": [0], "names": ["A|B"], "records": [[10]]}
+    assert "A&#124;B" in " ".join(_composition_block(comp))
+
+
+def test_a_mixed_largest_group_keeps_its_warning_when_it_is_numbered():
+    comp = {"years": [2020], "cut": 0.05, "ids": [0, 1], "names": ["X 38% 1", "X 38% 2"], "records": [[9, 1]]}
+    assert "mixes species" in " ".join(_composition_block(comp))
+
+
+def test_the_page_says_how_much_of_the_taxon_the_query_saw():
+    comp = {
+        "years": [2020],
+        "cut": 0.05,
+        "ids": [0],
+        "names": ["X"],
+        "records": [[10]],
+        "coverage_years": [2020, 2023],
+        "coverage_query": [157, 14],
+        "coverage_taxon": [568, 3742],
+    }
+    out = " ".join(" ".join(_composition_block(comp)).split())
+    assert "2020 28%" in out and "2023 0%" in out
+    assert "the share its own retrieval query returned" in out
+
+
+def test_a_cluster_s_shade_follows_its_rank_not_how_many_strata_precede_it():
+    comp = {
+        "years": [2020],
+        "cut": 0.05,
+        "ids": [-3, -2, -1, 0, 1],
+        "names": ["d", "u", "o", "first", "second"],
+        "records": [[1, 1, 1, 5, 2]],
+        "detected": [[0, 0, 0, 0, 0]],
+    }
+    svg = site_svg.composition_panel(comp, {})
+    assert f'opacity="{site_svg._CLUSTER_STEPS[0]:.2f}"' in svg

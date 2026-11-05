@@ -117,15 +117,19 @@ def _flank_extent(seq: str, edge: int, step: int, flank_bp: int, stop_n_run: int
     return kept
 
 
-def available_flank(seq: str, amplicon: tuple[int, int], *, stop_n_run: int) -> tuple[int, int]:
+def available_flank(
+    seq: str, amplicon: tuple[int, int], *, stop_n_run: int, limit: int | None = None
+) -> tuple[int, int]:
     """How much flank one record offers each side of its amplicon: everything up to the
     record's end or a run of ``stop_n_run`` N, by the same walk ``flanked_region``
-    makes. The input to ``window_shape``."""
+    makes. The input to ``window_shape``, which never uses more than ``2 * flank_bp`` a
+    side, so ``limit`` saves walking a whole genome to learn it."""
     start, end = amplicon
     s = seq.upper()
+    most = len(s) if limit is None else limit
     return (
-        _flank_extent(s, start, -1, len(s), stop_n_run),
-        _flank_extent(s, end, +1, len(s), stop_n_run),
+        _flank_extent(s, start, -1, most, stop_n_run),
+        _flank_extent(s, end, +1, most, stop_n_run),
     )
 
 
@@ -369,6 +373,7 @@ def assign_nearest(
     cut: float,
     *,
     containment_for: set[int] | None = None,
+    batch: int = 1000,
 ) -> list[int]:
     """Each query window takes the label of its nearest ``ref`` window, or
     ``UNPLACED`` if even the nearest is farther than ``cut``. Ties go to the lower
@@ -377,7 +382,11 @@ def assign_nearest(
     Queries whose index is in ``containment_for`` (short-flank windows, finding 2)
     are compared by CONTAINMENT, the share of the query's own k-mers found in the
     ref, with distance ``-ln(c) / k`` as in Mash Screen. Their window is a fragment
-    of the ref's, and Jaccard would count the ref's extra flank against them."""
+    of the ref's, and Jaccard would count the ref's extra flank against them.
+
+    Identical windows are placed once, and the rest go in ``batch`` rows at a time. One
+    dense queries-by-refs array cost about 3 GB per array on influenza's 187,658 records
+    (2026-11-04); the answer is the same either way."""
     import numpy as np
 
     if len(ref) != len(ref_labels):
@@ -386,18 +395,34 @@ def assign_nearest(
         return []
     if not ref:
         return [UNPLACED] * len(query)
-    m = kmer_matrix([*query, *ref], k)
-    q, r = m[: len(query)], m[len(query) :]
-    dist = mash_distances(jaccard_matrix(q, r), k)
-    for i in sorted(containment_for or ()):
-        inter = (q[i] @ r.T).toarray().ravel().astype(np.float64)
-        size = float(q[i].sum())
-        c = inter / size if size else np.zeros_like(inter)
-        row = np.ones_like(c)
-        row[c > 0] = np.maximum(0.0, -np.log(c[c > 0]) / k)
-        dist[i] = row
-    nearest = np.argmin(dist, axis=1)
-    return [ref_labels[int(j)] if dist[i, j] <= cut else UNPLACED for i, j in enumerate(nearest.tolist())]
+    short = containment_for or set()
+    slot: dict[tuple[str, bool], int] = {}
+    which = [slot.setdefault((w, i in short), len(slot)) for i, w in enumerate(query)]
+    unique = list(slot)
+    m = kmer_matrix([*(w for w, _ in unique), *ref], k)
+    q, r = m[: len(unique)], m[len(unique) :]
+    size_r = np.asarray(r.sum(axis=1), dtype=np.float64).reshape(1, -1)
+    placed: list[int] = []
+    for start in range(0, len(unique), batch):
+        part = q[start : start + batch]
+        inter = (part @ r.T).toarray().astype(np.float64)
+        size_q = np.asarray(part.sum(axis=1), dtype=np.float64).reshape(-1, 1)
+        union = size_q + size_r - inter
+        jaccard = np.zeros_like(inter)
+        np.divide(inter, union, out=jaccard, where=union > 0)
+        dist = mash_distances(jaccard, k)
+        for row in range(part.shape[0]):
+            if unique[start + row][1]:
+                size = float(size_q[row, 0])
+                c = inter[row] / size if size else np.zeros_like(inter[row])
+                d = np.ones_like(c)
+                d[c > 0] = np.maximum(0.0, -np.log(c[c > 0]) / k)
+                dist[row] = d
+        nearest = np.argmin(dist, axis=1)
+        placed += [
+            ref_labels[int(j)] if dist[row, j] <= cut else UNPLACED for row, j in enumerate(nearest.tolist())
+        ]
+    return [placed[s] for s in which]
 
 
 class _DSU:

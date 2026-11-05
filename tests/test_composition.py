@@ -688,8 +688,15 @@ def test_the_options_defaults_match_the_settings_model():
     # The model may hold keys the STAGE does not read, when their reader is elsewhere:
     # `report_min_mix` is read by `report.mix_rows`, which decides what the report names,
     # `site_max_bytes` by `site.main`, which refuses to write a file over it, and
-    # `coverage_refresh_years` by `retrieve --year-counts`, which does the counting.
-    assert set(model) - fields == {"report_min_mix", "site_max_bytes", "coverage_refresh_years"}
+    # `coverage_refresh_years` and `coverage_max_failures` by `retrieve --year-counts`, which
+    # does the counting, and `coverage_thin_of_best` by `lineage_report`.
+    assert set(model) - fields == {
+        "report_min_mix",
+        "site_max_bytes",
+        "coverage_refresh_years",
+        "coverage_max_failures",
+        "coverage_thin_of_best",
+    }
 
 
 def test_the_options_read_the_committed_config():
@@ -697,3 +704,78 @@ def test_the_options_read_the_committed_config():
     from assaywatch.score import load_config
 
     assert Options.from_config(load_config()).cut == 0.05
+
+
+def test_the_strata_that_are_not_lineages_do_not_number_the_ones_that_are():
+    """Annis's only real group read "B. dendrobatidis 4", implying three that do not exist."""
+    from assaywatch.composition import DIVERGED, OTHER, UNPLACED, name_drawn
+
+    bd = [("Batrachochytrium dendrobatidis", 10)]
+    names = name_drawn([DIVERGED, UNPLACED, OTHER, 0], [bd, bd, bd, bd], ["a", "b", "c", "d"], pure_share=0.9)
+    assert names[3] == "B. dendrobatidis"
+    assert names[:3] == ["diverged (no site)", "unplaced", "other"]
+
+
+def test_two_mixed_groups_of_one_species_stay_recognisably_mixed():
+    from assaywatch.composition import name_drawn
+
+    mix = [("Chlamydia trachomatis", 5), ("Chlamydia psittaci", 5)]
+    names = name_drawn([0, 1], [mix, mix], ["a", "b"], pure_share=0.9)
+    assert names == ["C. trachomatis 50% 1", "C. trachomatis 50% 2"]
+
+
+def test_the_site_file_keeps_coverage_years_that_have_no_cells():
+    """The series exists for the years an archive stopped and the taxon went on."""
+    from assaywatch.composition import AssayComposition, Cell, CompositionRun, site_data
+
+    a = AssayComposition(
+        assay_id="A",
+        cut=0.05,
+        left_bp=0,
+        right_bp=0,
+        clusters=(),
+        cells=(Cell(year=2020, cluster=0, records=1, detected=1),),
+        observed={},
+        same_mix={},
+        split=None,
+        coverage={"query": {2020: 5, 2023: 1}, "taxon": {2020: 6, 2023: 90}},
+        species=(),
+        note="",
+    )
+    d = site_data(CompositionRun("2026-11-01", {"A": a}))["assays"]["A"]
+    assert d["coverage_years"] == [2020, 2023]
+    assert d["coverage_query"] == [5, 1] and d["coverage_taxon"] == [6, 90]
+
+
+def test_placing_in_batches_with_duplicates_gives_what_one_big_matrix_gave():
+    import random
+
+    from assaywatch.subcluster import UNPLACED, assign_nearest
+
+    rng = random.Random(1)
+    base = "".join(rng.choice("ACGT") for _ in range(300))
+    other = "".join(rng.choice("ACGT") for _ in range(300))
+    ref = [base, other]
+    query = [base] * 3 + [other, base[:120], "".join(rng.choice("ACGT") for _ in range(300)), base]
+    got = assign_nearest(query, ref, [0, 1], 15, 0.05, containment_for={4})
+    assert got == [0, 0, 0, 1, 0, UNPLACED, 0]
+    one = assign_nearest(query, ref, [0, 1], 15, 0.05, containment_for={4}, batch=1)
+    assert one == got
+
+
+def test_the_same_window_as_short_and_as_full_is_placed_by_its_own_rule():
+    import random
+
+    from assaywatch.subcluster import UNPLACED, assign_nearest
+
+    rng = random.Random(2)
+    ref = ["".join(rng.choice("ACGT") for _ in range(400))]
+    frag = ref[0][:90]
+    assert assign_nearest([frag, frag], ref, [0], 15, 0.05, containment_for={0}) == [0, UNPLACED]
+
+
+def test_a_flank_is_not_walked_past_the_most_the_shape_can_use():
+    from assaywatch.subcluster import available_flank
+
+    seq = "A" * 5000 + "C" * 10 + "G" * 5000
+    assert available_flank(seq, (5000, 5010), stop_n_run=10, limit=1000) == (1000, 1000)

@@ -16,7 +16,7 @@ from datetime import date
 
 import pytest
 
-from assaywatch.retrieve import year_counts
+from assaywatch.retrieve import AskLimit, year_counts
 
 
 class FakeTransport:
@@ -145,3 +145,60 @@ def test_a_year_outside_the_plausible_range_is_refused(bad):
     it is given."""
     with pytest.raises(ValueError, match="year"):
         year_counts(FakeTransport(), "q", [bad], "pdat")
+
+
+def test_a_truncated_cache_is_a_cold_cache_not_a_stopped_run(tmp_path):
+    """A process killed mid-write leaves gzip data that raises EOFError, not OSError."""
+    cache = tmp_path / "c.json.gz"
+    whole = gzip.compress(json.dumps({"pdat\tq\t2024": 3}).encode())
+    cache.write_bytes(whole[: len(whole) // 2])
+    assert year_counts(FakeTransport({("q", 2024): 7}), "q", [2024], "pdat", cache=cache) == {2024: 7}
+
+
+def test_the_cache_is_replaced_whole_not_written_in_place(tmp_path):
+    cache = tmp_path / "c.json.gz"
+    year_counts(FakeTransport({("q", 2024): 7}), "q", [2024], "pdat", cache=cache)
+    assert [p.name for p in tmp_path.iterdir()] == ["c.json.gz"]
+
+
+def test_an_outage_stops_asking_after_the_limit_and_says_why():
+    limit = AskLimit(2)
+    t = FakeTransport(fail=True)
+    calls = []
+
+    def counted(endpoint, params):
+        calls.append(params)
+        return t(endpoint, params)
+
+    assert year_counts(counted, "q", [2020, 2021, 2022, 2023], "pdat", limit=limit) == {}
+    assert len(calls) == 2, "the third and fourth year must not be asked"
+    assert limit.tripped and limit.last_error == "OSError"
+
+
+def test_a_success_resets_the_run_of_failures():
+    limit = AskLimit(2)
+    limit.failed(OSError())
+    assert year_counts(FakeTransport({("q", 2024): 7}), "q", [2024], "pdat", limit=limit) == {2024: 7}
+    assert limit.consecutive == 0 and not limit.tripped
+
+
+def test_an_exclusivity_neighbour_does_not_overwrite_an_assay_s_own_series(tmp_path, monkeypatch, capsys):
+    """Orf virus (10258) carried BPSV's counts because its exclusivity groups sort later."""
+    import argparse
+
+    from assaywatch import retrieve
+
+    targets = {
+        (10258, "q"): {"query": None, "assays": ["Orf"], "own_assays": ["Orf"], "pairs": []},
+        (129727, "q"): {"query": None, "assays": ["Orf", "Bpsv"], "own_assays": ["Bpsv"], "pairs": []},
+    }
+    monkeypatch.setattr(retrieve, "targets_from_registry", lambda paths, cfg: targets)
+    monkeypatch.setattr(retrieve, "ncbi_api_key", lambda: "")
+    t = FakeTransport({("txid10258[Organism:exp]", 2024): 11, ("txid129727[Organism:exp]", 2024): 22})
+    monkeypatch.setattr(retrieve, "http_transport", lambda *a: t)
+    out = tmp_path / "coverage.json"
+    args = argparse.Namespace(years="2024:2024", email="x@example.org", paths=[], year_counts=out)
+    assert retrieve._year_counts_mode(args, {"retrieved_dir": str(tmp_path)}) == 0
+    got = json.loads(out.read_text())["assays"]
+    assert got["Orf"]["taxon"] == {"2024": 11}
+    assert got["Bpsv"]["taxon"] == {"2024": 22}

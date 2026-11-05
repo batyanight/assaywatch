@@ -1098,7 +1098,8 @@ def mix_intro(threshold: float) -> str:
     return (
         "An assay's per-year detection share can fall because detection within its lineages "
         "fell, or because a different mix of lineages was deposited. These assays are the ones "
-        f"where at least {threshold:.0%} of the change is the MIX, with an interval excluding "
+        f"where the MIX moved the share by at least {threshold * 100:.0f} percentage points, with "
+        "an interval excluding "
         "zero: the lineages here are sequence clusters over the amplicon and its flanks with the "
         "oligo sites masked, so a cluster is defined by sequence the assay does not measure. "
         "Nothing in this section moves a status, and the intervals price which records were "

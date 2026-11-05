@@ -1590,3 +1590,28 @@ def test_a_single_reported_lineage_is_not_called_every_record():
     )
     assert "Every evaluable record" not in md
     assert "Only one lineage has enough records to report here" in md
+
+
+def test_a_composition_file_from_another_run_stops_the_render(tmp_path):
+    data = tmp_path / "data"
+    data.mkdir()
+    (data / "run.json").write_text(
+        json.dumps(
+            {"schema": site.SCHEMA, "run_date": "2026-12-01", "assays": [], "nests": [], "threshold": 0.9}
+        )
+    )
+    from assaywatch.composition import SITE_SCHEMA
+
+    (data / "composition.json").write_text(
+        json.dumps({"schema": SITE_SCHEMA, "run_date": "2026-11-01", "assays": {}})
+    )
+    with pytest.raises(SystemExit, match="2026-11-01"):
+        site_render.main(["--data", str(data), "--out", str(tmp_path / "out")])
+
+
+def test_the_claim_and_a_withheld_note_are_escaped():
+    md = site_render.assay_page(
+        _page(status="", withheld_reasons=[["not_validated", "<b>x</b>"]], claim="<i>y</i>"), "2026-11-01"
+    )
+    assert "<b>x</b>" not in md and "&lt;b&gt;x" in md
+    assert "<i>y</i>" not in md and "&lt;i&gt;y" in md
