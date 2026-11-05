@@ -789,7 +789,14 @@
     3833448,
     3833449,
     3899820,
-    3900173
+    3900173,
+    3703533,
+    3406647,
+    3904033,
+    3467836,
+    3703204,
+    3703200,
+    3703194
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -798,28 +805,28 @@
     "forward": "TNMGNGGNGGNMGNTGYTAYCC",
     "reverse": "GTDGCRAANSHNCCRTABARNGMRTT"
    },
-   "recent_detected": 1158,
-   "recent_evaluable": 1176,
+   "recent_detected": 1160,
+   "recent_evaluable": 1178,
    "recent_ci": [
-    0.9759350158179542,
-    0.9902964989988609
+    0.9759756506445147,
+    0.9903130097139989
    ],
-   "baseline_detected": 3441,
-   "baseline_evaluable": 3783,
+   "baseline_detected": 3444,
+   "baseline_evaluable": 3786,
    "baseline_ci": [
-    0.9000372916017838,
-    0.9183228203013685
+    0.9001160624430021,
+    0.9183878337503933
    ],
    "change_ci": [
-    0.06273374216264388,
-    0.0861775713462209
+    0.06270314246533745,
+    0.08612097574716182
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
    "note": "detected share 98.5% (98%-99%) since Nov 2024",
-   "trend": "by record rising (p = 3.83e-65, 35 years); by footprint rising (p = 0.489)",
+   "trend": "by record rising (p = 2.82e-65, 35 years); by footprint rising (p = 0.447)",
    "years": [
     {
      "year": 1982,
@@ -1117,23 +1124,23 @@
     },
     {
      "year": 2024,
-     "detected": 406,
-     "evaluable": 410,
-     "share": 0.9902439024390244,
+     "detected": 409,
+     "evaluable": 413,
+     "share": 0.9903147699757869,
      "recent": true
     },
     {
      "year": 2025,
-     "detected": 406,
-     "evaluable": 409,
-     "share": 0.9926650366748166,
+     "detected": 407,
+     "evaluable": 410,
+     "share": 0.9926829268292683,
      "recent": true
     },
     {
      "year": 2026,
-     "detected": 668,
-     "evaluable": 683,
-     "share": 0.9780380673499268,
+     "detected": 669,
+     "evaluable": 684,
+     "share": 0.9780701754385965,
      "recent": true
     }
    ],
@@ -1703,16 +1710,16 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 37916,
-   "no_amplicon_rows": 32957,
+   "screened_rows": 37958,
+   "no_amplicon_rows": 32994,
    "exclusions": [
     [
      "no_site",
-     27984
+     28020
     ],
     [
      "chance_only",
-     3582
+     3583
     ],
     [
      "chance_anchor",
@@ -1723,7 +1730,7 @@
      198
     ]
    ],
-   "out_of_scope": 160
+   "out_of_scope": 118
   },
   {
    "assay_id": "Adenoviridae_POL_Wellehan_2004_round2",
@@ -2511,7 +2518,14 @@
     3833448,
     3833449,
     3899820,
-    3900173
+    3900173,
+    3703533,
+    3406647,
+    3904033,
+    3467836,
+    3703204,
+    3703200,
+    3703194
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -2520,28 +2534,28 @@
     "forward": "GTNTWYGAYATHTGYGGHATGTAYGC",
     "reverse": "CCANCCBCDRTTRTGNARNGTRA"
    },
-   "recent_detected": 1202,
-   "recent_evaluable": 1252,
+   "recent_detected": 1240,
+   "recent_evaluable": 1290,
    "recent_ci": [
-    0.9477359388566942,
-    0.9695773031203567
+    0.9492645643184332,
+    0.9704771798398169
    ],
-   "baseline_detected": 3502,
-   "baseline_evaluable": 3608,
+   "baseline_detected": 3505,
+   "baseline_evaluable": 3611,
    "baseline_ci": [
-    0.9645904360212569,
-    0.9756501694201654
+    0.964619754011587,
+    0.9756704464634541
    ],
    "change_ci": [
-    -0.023871324229052956,
-    0.000706743958983751
+    -0.022392283604117328,
+    0.0016234941765836865
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "detected share 96.0% (95%-97%) since Nov 2024",
-   "trend": "by record rising (p = 1.48e-12, 35 years); by footprint falling (p = 0.76); **the two disagree on direction**",
+   "note": "detected share 96.1% (95%-97%) since Nov 2024",
+   "trend": "by record rising (p = 7.01e-13, 35 years); by footprint falling (p = 0.843); **the two disagree on direction**",
    "years": [
     {
      "year": 1982,
@@ -2839,23 +2853,23 @@
     },
     {
      "year": 2024,
-     "detected": 423,
-     "evaluable": 423,
+     "detected": 426,
+     "evaluable": 426,
      "share": 1.0,
      "recent": true
     },
     {
      "year": 2025,
-     "detected": 405,
-     "evaluable": 415,
-     "share": 0.9759036144578314,
+     "detected": 406,
+     "evaluable": 416,
+     "share": 0.9759615384615384,
      "recent": true
     },
     {
      "year": 2026,
-     "detected": 713,
-     "evaluable": 753,
-     "share": 0.9468791500664011,
+     "detected": 750,
+     "evaluable": 790,
+     "share": 0.9493670886075949,
      "recent": true
     }
    ],
@@ -3350,17 +3364,28 @@
       0.9059421741627975,
       1.0
      ]
+    },
+    {
+     "lineage": "Quail adenovirus (3467836)",
+     "taxid": null,
+     "evaluable": 36,
+     "detected": 36,
+     "share": 1.0,
+     "ci": [
+      0.9035813714055363,
+      1.0
+     ]
     }
    ],
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 37916,
-   "no_amplicon_rows": 33056,
+   "screened_rows": 37958,
+   "no_amplicon_rows": 33057,
    "exclusions": [
     [
      "no_site",
-     32496
+     32497
     ],
     [
      "truncated",
@@ -3379,7 +3404,7 @@
      1
     ]
    ],
-   "out_of_scope": 160
+   "out_of_scope": 118
   },
   {
    "assay_id": "Adenoviridae_hexon_Casas_2005_round1",
@@ -9135,11 +9160,16 @@
    "amplicon_bp": 630,
    "entry_status": "active",
    "review_flags": [
+    "scope_wider_than_paper_tested",
     "orientation_inferred"
    ],
    "scope_taxids": [
     208898,
-    1653394
+    1653394,
+    1653395,
+    2169607,
+    2560091,
+    3044740
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -9155,21 +9185,21 @@
     0.2296829993958729
    ],
    "baseline_detected": 388,
-   "baseline_evaluable": 989,
+   "baseline_evaluable": 1034,
    "baseline_ci": [
-    0.3623578512932149,
-    0.42310638561223896
+    0.3462425560915566,
+    0.40516456124102035
    ],
    "change_ci": [
-    -0.32955914110408346,
-    -0.1582097298927148
+    -0.312094926469613,
+    -0.14140891424873764
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "detected share 13.0% (7%-23%) since Nov 2024, upper bound below the 90% threshold; change from baseline -33% to -16% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 39%)",
-   "trend": "by record falling (p = 4.23e-05, 39 years); by footprint falling (p = 0.000437)",
+   "note": "detected share 13.0% (7%-23%) since Nov 2024, upper bound below the 90% threshold; change from baseline -31% to -14% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 38%)",
+   "trend": "by record falling (p = 1.39e-05, 39 years); by footprint falling (p = 0.000239)",
    "years": [
     {
      "year": 1985,
@@ -9349,8 +9379,8 @@
     {
      "year": 2012,
      "detected": 33,
-     "evaluable": 64,
-     "share": 0.515625,
+     "evaluable": 68,
+     "share": 0.4852941176470588,
      "recent": false
     },
     {
@@ -9370,8 +9400,8 @@
     {
      "year": 2015,
      "detected": 14,
-     "evaluable": 28,
-     "share": 0.5,
+     "evaluable": 57,
+     "share": 0.24561403508771928,
      "recent": false
     },
     {
@@ -9384,15 +9414,15 @@
     {
      "year": 2017,
      "detected": 19,
-     "evaluable": 46,
-     "share": 0.41304347826086957,
+     "evaluable": 47,
+     "share": 0.40425531914893614,
      "recent": false
     },
     {
      "year": 2018,
      "detected": 7,
-     "evaluable": 70,
-     "share": 0.1,
+     "evaluable": 78,
+     "share": 0.08974358974358974,
      "recent": false
     },
     {
@@ -9419,8 +9449,8 @@
     {
      "year": 2022,
      "detected": 20,
-     "evaluable": 54,
-     "share": 0.37037037037037035,
+     "evaluable": 57,
+     "share": 0.3508771929824561,
      "recent": false
     },
     {
@@ -10067,16 +10097,16 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 5755,
-   "no_amplicon_rows": 4697,
+   "screened_rows": 6227,
+   "no_amplicon_rows": 5124,
    "exclusions": [
     [
      "no_site",
-     3948
+     4341
     ],
     [
      "chance_anchor",
-     367
+     400
     ],
     [
      "truncated",
@@ -10088,10 +10118,10 @@
     ],
     [
      "chance_only",
-     13
+     14
     ]
    ],
-   "out_of_scope": 473
+   "out_of_scope": 0
   },
   {
    "assay_id": "Arenaviridae_S_Lozano_1997_ARS3V",
@@ -10108,12 +10138,17 @@
    "amplicon_bp": 460,
    "entry_status": "active",
    "review_flags": [
+    "scope_wider_than_paper_tested",
     "oligos_modified",
     "orientation_inferred"
    ],
    "scope_taxids": [
     208898,
-    1653394
+    1653394,
+    1653395,
+    2169607,
+    2560091,
+    3044740
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -10129,21 +10164,21 @@
     0.6002727521455983
    ],
    "baseline_detected": 931,
-   "baseline_evaluable": 1419,
+   "baseline_evaluable": 1428,
    "baseline_ci": [
-    0.6309892725726151,
-    0.6803595409256754
+    0.6268765252498881,
+    0.6762296582778992
    ],
    "change_ci": [
-    -0.2243407320079432,
-    -0.05206671883303933
+    -0.22020712610342563,
+    -0.04793818824272983
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
    "note": "pooled share 51.8% has low coverage, but lineage Mammarenavirus lassaense (3052310) (36 records) detects 77.8% (61.9%-88.3%); lineage verdict overrides to declining",
-   "trend": "by record falling (p = 0.0298, 39 years); by footprint falling (p = 0.555)",
+   "trend": "by record falling (p = 0.0191, 39 years); by footprint falling (p = 0.534)",
    "years": [
     {
      "year": 1985,
@@ -10344,8 +10379,8 @@
     {
      "year": 2015,
      "detected": 18,
-     "evaluable": 23,
-     "share": 0.782608695652174,
+     "evaluable": 25,
+     "share": 0.72,
      "recent": false
     },
     {
@@ -10393,8 +10428,8 @@
     {
      "year": 2022,
      "detected": 39,
-     "evaluable": 60,
-     "share": 0.65,
+     "evaluable": 67,
+     "share": 0.582089552238806,
      "recent": false
     },
     {
@@ -11092,16 +11127,16 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 5755,
-   "no_amplicon_rows": 4199,
+   "screened_rows": 6227,
+   "no_amplicon_rows": 4662,
    "exclusions": [
     [
      "no_site",
-     3767
+     4090
     ],
     [
      "chance_only",
-     383
+     523
     ],
     [
      "chance_anchor",
@@ -11112,7 +11147,7 @@
      1
     ]
    ],
-   "out_of_scope": 473
+   "out_of_scope": 0
   },
   {
    "assay_id": "Astroviridae_RdRp_Atkins_2008_round1",
@@ -17269,7 +17304,8 @@
    ],
    "scope_taxids": [
     1987509,
-    2282206
+    2282206,
+    3048291
    ],
    "exclusivity_taxids": [],
    "query": "terminase[All Fields] OR \"complete genome\"[Title]",
@@ -28333,7 +28369,18 @@
     3895826,
     3895827,
     3895828,
-    3895829
+    3895829,
+    3456161,
+    3687426,
+    3687427,
+    3687428,
+    3687429,
+    3687430,
+    3687431,
+    3687432,
+    3687433,
+    3697203,
+    3049965
    ],
    "exclusivity_taxids": [],
    "query": "(RdRp[Gene] OR orf1ab[Gene] OR ORF1ab[Title] OR \"RNA-dependent RNA polymerase\"[Title] OR \"complete genome\"[Title]) NOT txid2697049[Organism:exp]",
@@ -28342,11 +28389,11 @@
     "forward": "CGTTGGNACWAAYBTVCCWYTNCARBTRGG",
     "reverse": "GGTCATKATAGCRTCAVMASWWGCNACATG"
    },
-   "recent_detected": 853,
-   "recent_evaluable": 1647,
+   "recent_detected": 867,
+   "recent_evaluable": 1661,
    "recent_ci": [
-    0.4937657799274555,
-    0.5419735696537864
+    0.4979294497165231,
+    0.545918569332516
    ],
    "baseline_detected": 2987,
    "baseline_evaluable": 5429,
@@ -28355,15 +28402,15 @@
     0.5633862972871119
    ],
    "change_ci": [
-    -0.05979679571619083,
-    -0.00480623420122404
+    -0.0556454509888501,
+    -0.0008464697659673268
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "pooled share 51.8% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (166 records) detects only 0.0% (0.0%-2.3%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining",
-   "trend": "by record falling (p = 3.03e-16, 30 years); by footprint falling (p = 5.39e-06)",
+   "note": "pooled share 52.2% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (166 records) detects only 0.0% (0.0%-2.3%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining",
+   "trend": "by record falling (p = 1.44e-15, 30 years); by footprint falling (p = 8.89e-06)",
    "years": [
     {
      "year": 1993,
@@ -28577,9 +28624,9 @@
     },
     {
      "year": 2026,
-     "detected": 337,
-     "evaluable": 576,
-     "share": 0.5850694444444444,
+     "detected": 351,
+     "evaluable": 590,
+     "share": 0.5949152542372881,
      "recent": true
     }
    ],
@@ -29233,12 +29280,12 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 25303,
-   "no_amplicon_rows": 18227,
+   "screened_rows": 25365,
+   "no_amplicon_rows": 18275,
    "exclusions": [
     [
      "no_site",
-     18180
+     18228
     ],
     [
      "chance_anchor",
@@ -29249,7 +29296,7 @@
      16
     ]
    ],
-   "out_of_scope": 262
+   "out_of_scope": 200
   },
   {
    "assay_id": "Coronaviridae_RdRp_Quan_2010_round2",
@@ -30760,7 +30807,18 @@
     3895826,
     3895827,
     3895828,
-    3895829
+    3895829,
+    3456161,
+    3687426,
+    3687427,
+    3687428,
+    3687429,
+    3687430,
+    3687431,
+    3687432,
+    3687433,
+    3697203,
+    3049965
    ],
    "exclusivity_taxids": [],
    "query": "(RdRp[Gene] OR orf1ab[Gene] OR ORF1ab[Title] OR \"RNA-dependent RNA polymerase\"[Title] OR \"complete genome\"[Title]) NOT txid2697049[Organism:exp]",
@@ -30769,11 +30827,11 @@
     "forward": "GGCWCCWCCHGGNGARCAATT",
     "reverse": "GGWAWCCCCAYTGYTGWAYRTC"
    },
-   "recent_detected": 1247,
-   "recent_evaluable": 1575,
+   "recent_detected": 1261,
+   "recent_evaluable": 1589,
    "recent_ci": [
-    0.7709941915697485,
-    0.8110781848970068
+    0.7729840767945197,
+    0.8127616010526484
    ],
    "baseline_detected": 3665,
    "baseline_evaluable": 5313,
@@ -30782,15 +30840,15 @@
     0.7021146442133014
    ],
    "change_ci": [
-    0.07780682065035571,
-    0.1249888471059274
+    0.07977491454450061,
+    0.1266968916062293
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "pooled share 79.2% has low coverage, but lineage Betacoronavirus sp. (1928434) (47 records) detects only 19.1% (10.4%-32.5%), down from 100.0% on 15 earlier records; lineage verdict overrides to declining",
-   "trend": "by record rising (p = 2.5e-59, 30 years); by footprint falling (p = 0.00675); **the two disagree on direction**",
+   "note": "pooled share 79.4% has low coverage, but lineage Betacoronavirus sp. (1928434) (47 records) detects only 19.1% (10.4%-32.5%), down from 100.0% on 15 earlier records; lineage verdict overrides to declining",
+   "trend": "by record rising (p = 3.95e-60, 30 years); by footprint falling (p = 0.00675); **the two disagree on direction**",
    "years": [
     {
      "year": 1993,
@@ -31004,9 +31062,9 @@
     },
     {
      "year": 2026,
-     "detected": 427,
-     "evaluable": 568,
-     "share": 0.7517605633802817,
+     "detected": 441,
+     "evaluable": 582,
+     "share": 0.7577319587628866,
      "recent": true
     }
    ],
@@ -31580,12 +31638,12 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 25303,
-   "no_amplicon_rows": 18415,
+   "screened_rows": 25365,
+   "no_amplicon_rows": 18463,
    "exclusions": [
     [
      "no_site",
-     18022
+     18070
     ],
     [
      "chance_only",
@@ -31600,7 +31658,7 @@
      29
     ]
    ],
-   "out_of_scope": 262
+   "out_of_scope": 200
   },
   {
    "assay_id": "Coronaviridae_RdRp_Watanabe_2010",
@@ -42358,7 +42416,12 @@
     3467448,
     3467449,
     3467450,
-    3701373
+    3701373,
+    3569727,
+    3569728,
+    3569729,
+    3569730,
+    3569731
    ],
    "exclusivity_taxids": [],
    "query": "VP1[Gene] OR VP1[Title] OR VP3[Gene] OR \"complete genome\"[Title]",
@@ -43389,12 +43452,12 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 73386,
-   "no_amplicon_rows": 64071,
+   "screened_rows": 73426,
+   "no_amplicon_rows": 64111,
    "exclusions": [
     [
      "chance_only",
-     23472
+     23488
     ],
     [
      "no_site",
@@ -43402,18 +43465,18 @@
     ],
     [
      "truncated",
-     15556
+     15572
     ],
     [
      "chance_anchor",
-     3582
+     3590
     ],
     [
      "no_pair",
      22
     ]
    ],
-   "out_of_scope": 40
+   "out_of_scope": 0
   },
   {
    "assay_id": "Enterovirus_VP3_VP1_Nix_2006_round2",
@@ -43952,7 +44015,12 @@
     3467448,
     3467449,
     3467450,
-    3701373
+    3701373,
+    3569727,
+    3569728,
+    3569729,
+    3569730,
+    3569731
    ],
    "exclusivity_taxids": [],
    "query": "VP1[Gene] OR VP1[Title] OR VP3[Gene] OR \"complete genome\"[Title]",
@@ -43961,11 +44029,11 @@
     "forward": "CCAGCACTGACAGCAGYNGARAYNGG",
     "reverse": "TACTGGACCACCTGGNGGNAYRWACAT"
    },
-   "recent_detected": 837,
-   "recent_evaluable": 4639,
+   "recent_detected": 852,
+   "recent_evaluable": 4679,
    "recent_ci": [
-    0.16962691162632618,
-    0.19175554644426981
+    0.17129467037631985,
+    0.19340728971326848
    ],
    "baseline_detected": 4481,
    "baseline_evaluable": 35931,
@@ -43974,15 +44042,15 @@
     0.12816761304243582
    ],
    "change_ci": [
-    0.04437605925210232,
-    0.06753666131837928
+    0.04604360927530447,
+    0.06918888949612147
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "pooled share 18.0% has low coverage, but lineage Enterovirus betacoxsackie (3428502) (1063 records) detects 67.6% (64.8%-70.4%); lineage verdict overrides to declining",
-   "trend": "by record rising (p = 1.48e-20, 42 years); by footprint falling (p = 0.885); **the two disagree on direction**",
+   "note": "pooled share 18.2% has low coverage, but lineage Enterovirus betacoxsackie (3428502) (1063 records) detects 67.6% (64.8%-70.4%); lineage verdict overrides to declining",
+   "trend": "by record rising (p = 2.35e-21, 42 years); by footprint falling (p = 0.894); **the two disagree on direction**",
    "years": [
     {
      "year": 1982,
@@ -44273,9 +44341,9 @@
     },
     {
      "year": 2026,
-     "detected": 369,
-     "evaluable": 2029,
-     "share": 0.1818629866929522,
+     "detected": 384,
+     "evaluable": 2069,
+     "share": 0.18559690671822135,
      "recent": true
     }
    ],
@@ -45070,7 +45138,7 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 73386,
+   "screened_rows": 73426,
    "no_amplicon_rows": 32816,
    "exclusions": [
     [
@@ -45090,7 +45158,7 @@
      21
     ]
    ],
-   "out_of_scope": 40
+   "out_of_scope": 0
   },
   {
    "assay_id": "Escherichia_coli_LT_Victor_1991",
@@ -87582,7 +87650,8 @@
     3718741,
     3718784,
     3898039,
-    3898041
+    3898041,
+    3140651
    ],
    "exclusivity_taxids": [],
    "query": "NS5[Gene] OR NS5[Title] OR \"complete genome\"[Title] OR polyprotein[Title]",
@@ -88317,8 +88386,8 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 61192,
-   "no_amplicon_rows": 27402,
+   "screened_rows": 61193,
+   "no_amplicon_rows": 27403,
    "exclusions": [
     [
      "no_site",
@@ -88330,7 +88399,7 @@
     ],
     [
      "chance_only",
-     449
+     450
     ],
     [
      "chance_anchor",
@@ -88341,7 +88410,7 @@
      1
     ]
    ],
-   "out_of_scope": 1
+   "out_of_scope": 0
   },
   {
    "assay_id": "Orthoflavivirus_NS5_Scaramozzino_2001_round1",
@@ -94212,7 +94281,8 @@
     3701623,
     3889400,
     3895058,
-    3895059
+    3895059,
+    3683214
    ],
    "exclusivity_taxids": [],
    "query": "\"DNA polymerase\"[Title] OR UL30[Gene] OR pol[Gene] OR DPOL[Gene] OR \"complete genome\"[Title]",
@@ -94582,12 +94652,12 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 7713,
-   "no_amplicon_rows": 3660,
+   "screened_rows": 7714,
+   "no_amplicon_rows": 3661,
    "exclusions": [
     [
      "no_site",
-     2887
+     2888
     ],
     [
      "truncated",
@@ -94606,7 +94676,7 @@
      6
     ]
    ],
-   "out_of_scope": 2
+   "out_of_scope": 1
   },
   {
    "assay_id": "Orthoherpesviridae_POL_VanDevanter_1996_round2",
@@ -95491,7 +95561,8 @@
     3701623,
     3889400,
     3895058,
-    3895059
+    3895059,
+    3683214
    ],
    "exclusivity_taxids": [],
    "query": "\"DNA polymerase\"[Title] OR UL30[Gene] OR pol[Gene] OR DPOL[Gene] OR \"complete genome\"[Title]",
@@ -96278,8 +96349,8 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 7713,
-   "no_amplicon_rows": 4004,
+   "screened_rows": 7714,
+   "no_amplicon_rows": 4005,
    "exclusions": [
     [
      "no_site",
@@ -96287,7 +96358,7 @@
     ],
     [
      "truncated",
-     1122
+     1123
     ],
     [
      "no_pair",
@@ -96298,7 +96369,7 @@
      264
     ]
    ],
-   "out_of_scope": 2
+   "out_of_scope": 1
   },
   {
    "assay_id": "Orthoherpesviridae_terminase_Chmielewicz_2001_round1",
@@ -97183,7 +97254,8 @@
     3701623,
     3889400,
     3895058,
-    3895059
+    3895059,
+    3683214
    ],
    "exclusivity_taxids": [],
    "query": "terminase[Title] OR UL89[Gene] OR UL56[Gene] OR UL15[Gene] OR \"complete genome\"[Title]",
@@ -98722,7 +98794,8 @@
     3701623,
     3889400,
     3895058,
-    3895059
+    3895059,
+    3683214
    ],
    "exclusivity_taxids": [],
    "query": "terminase[Title] OR UL89[Gene] OR UL56[Gene] OR UL15[Gene] OR \"complete genome\"[Title]",
@@ -100459,12 +100532,18 @@
    "amplicon_bp": 156,
    "entry_status": "draft",
    "review_flags": [
+    "scope_wider_than_paper_tested",
     "thin_evidence"
    ],
    "scope_taxids": [
     10256,
     28874,
-    160796
+    160796,
+    3431484,
+    3431485,
+    3431488,
+    696873,
+    2602439
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -100481,10 +100560,10 @@
     1.0
    ],
    "baseline_detected": 7,
-   "baseline_evaluable": 7,
+   "baseline_evaluable": 8,
    "baseline_ci": [
-    0.6456695649333126,
-    1.0
+    0.5291118177871464,
+    0.9775825085499433
    ],
    "change_ci": [
     -1.0,
@@ -100495,7 +100574,7 @@
    "threshold": 0.9,
    "min_records": 15,
    "note": "no evaluable records deposited since Nov 2024",
-   "trend": "",
+   "trend": "by record falling (p = 0.00839, 3 years); by footprint falling (p = 0.0927)",
    "years": [
     {
      "year": 1990,
@@ -100579,6 +100658,13 @@
      "detected": 5,
      "evaluable": 5,
      "share": 1.0,
+     "recent": false
+    },
+    {
+     "year": 2019,
+     "detected": 0,
+     "evaluable": 1,
+     "share": 0.0,
      "recent": false
     }
    ],
@@ -100926,15 +101012,15 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 64,
-   "no_amplicon_rows": 57,
+   "screened_rows": 66,
+   "no_amplicon_rows": 58,
    "exclusions": [
     [
      "no_site",
-     57
+     58
     ]
    ],
-   "out_of_scope": 18787
+   "out_of_scope": 18785
   },
   {
    "assay_id": "Orthoreovirus_RdRp_Landolfi_2010_round1",
@@ -104404,7 +104490,8 @@
     3898370,
     3898371,
     3898372,
-    3898373
+    3898373,
+    3412626
    ],
    "exclusivity_taxids": [],
    "query": "L[Gene] OR \"L protein\"[Title] OR \"large protein\"[Title] OR polymerase[Title] OR \"complete genome\"[Title]",
@@ -104413,11 +104500,11 @@
     "forward": "GAAGGNTATTGTCANAARNTNTGGAC",
     "reverse": "GCTGAAGTTACNGGNTCNCCDATRTTNC"
    },
-   "recent_detected": 3113,
-   "recent_evaluable": 4276,
+   "recent_detected": 3119,
+   "recent_evaluable": 4282,
    "recent_ci": [
-    0.7144791996337784,
-    0.7411451543901487
+    0.7148754363676898,
+    0.7415110209461605
    ],
    "baseline_detected": 2447,
    "baseline_evaluable": 6512,
@@ -104426,15 +104513,15 @@
     0.387600968709561
    ],
    "change_ci": [
-    0.33426872387920714,
-    0.36982545739634576
+    0.3346612194546699,
+    0.37019518374541527
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
    "note": "detected share 72.8% (71%-74%) since Nov 2024, upper bound below the 90% threshold; change from baseline +33% to +37% (rose from a baseline of 38%); separately, lineage Orthorubulavirus hominis (3052556) (126 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
-   "trend": "by record rising (p = 7.05e-142, 37 years); by footprint rising (p = 0.0319)",
+   "trend": "by record rising (p = 2.32e-142, 37 years); by footprint rising (p = 0.0272)",
    "years": [
     {
      "year": 1987,
@@ -104690,9 +104777,9 @@
     },
     {
      "year": 2026,
-     "detected": 2105,
-     "evaluable": 2429,
-     "share": 0.8666117743927543,
+     "detected": 2111,
+     "evaluable": 2435,
+     "share": 0.8669404517453799,
      "recent": true
     }
    ],
@@ -105231,23 +105318,23 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 15372,
-   "no_amplicon_rows": 4584,
+   "screened_rows": 15445,
+   "no_amplicon_rows": 4651,
    "exclusions": [
     [
      "no_site",
-     4024
+     4090
     ],
     [
      "truncated",
-     416
+     417
     ],
     [
      "chance_anchor",
      137
     ]
    ],
-   "out_of_scope": 73
+   "out_of_scope": 0
   },
   {
    "assay_id": "Paramyxoviridae_L_Tong_2008_round2",
@@ -106195,7 +106282,8 @@
     3898370,
     3898371,
     3898372,
-    3898373
+    3898373,
+    3412626
    ],
    "exclusivity_taxids": [],
    "query": "L[Gene] OR \"L protein\"[Title] OR \"large protein\"[Title] OR polymerase[Title] OR \"complete genome\"[Title]",
@@ -107083,27 +107171,27 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 15372,
-   "no_amplicon_rows": 6492,
+   "screened_rows": 15445,
+   "no_amplicon_rows": 6565,
    "exclusions": [
     [
      "no_site",
-     5909
+     5974
     ],
     [
      "chance_anchor",
-     498
+     504
     ],
     [
      "truncated",
-     72
+     74
     ],
     [
      "no_pair",
      2
     ]
    ],
-   "out_of_scope": 73
+   "out_of_scope": 0
   },
   {
    "assay_id": "Paranannizziopsis_ITS_Lorch_2023",
@@ -107267,7 +107355,10 @@
    "scope_taxids": [
     10258,
     129726,
-    129727
+    129727,
+    3431389,
+    3431390,
+    3431388
    ],
    "exclusivity_taxids": [
     10279,
@@ -107280,11 +107371,11 @@
     "reverse": "CAGCATCAACCTCTCCTACATCA",
     "probe": "CCACGAAGCTGCGCAGCAT"
    },
-   "recent_detected": 32,
-   "recent_evaluable": 33,
+   "recent_detected": 34,
+   "recent_evaluable": 35,
    "recent_ci": [
-    0.846812746178811,
-    0.9946305894631283
+    0.8546691276638632,
+    0.9949385081445556
    ],
    "baseline_detected": 82,
    "baseline_evaluable": 86,
@@ -107293,15 +107384,15 @@
     0.9817660317616792
    ],
    "change_ci": [
-    -0.10988723272361486,
-    0.08775234457202118
+    -0.10219469877728334,
+    0.089000310931141
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "detected share 97.0% (85%-99%) since Nov 2024",
-   "trend": "by record falling (p = 0.453, 17 years); by footprint falling (p = 0.171)",
+   "note": "detected share 97.1% (85%-99%) since Nov 2024",
+   "trend": "by record falling (p = 0.474, 17 years); by footprint falling (p = 0.171)",
    "years": [
     {
      "year": 1990,
@@ -107543,8 +107634,8 @@
     },
     {
      "year": 2026,
-     "detected": 14,
-     "evaluable": 14,
+     "detected": 16,
+     "evaluable": 16,
      "share": 1.0,
      "recent": true
     }
@@ -107778,19 +107869,19 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 2768,
-   "no_amplicon_rows": 2649,
+   "screened_rows": 2852,
+   "no_amplicon_rows": 2731,
    "exclusions": [
     [
      "no_site",
-     2256
+     2335
     ],
     [
      "chance_anchor",
-     393
+     396
     ]
    ],
-   "out_of_scope": 698
+   "out_of_scope": 614
   },
   {
    "assay_id": "Perkinsea_18S_Smilansky_2021_cladeAC",
@@ -110239,7 +110330,8 @@
     3794197,
     3851346,
     3851353,
-    3898604
+    3898604,
+    3902555
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -110249,10 +110341,10 @@
     "reverse": "CCCTCATAAACCCGAACYTCYTCHACYTG"
    },
    "recent_detected": 19,
-   "recent_evaluable": 990,
+   "recent_evaluable": 992,
    "recent_ci": [
-    0.01232042263041434,
-    0.029780315318618068
+    0.012295515456610354,
+    0.029720669399003176
    ],
    "baseline_detected": 502,
    "baseline_evaluable": 5658,
@@ -110261,15 +110353,15 @@
     0.09641475586100375
    ],
    "change_ci": [
-    -0.07984541331078628,
-    -0.0567652544658939
+    -0.07987492650370763,
+    -0.056821319931099935
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
    "note": "detected share 1.9% (1%-3%) since Nov 2024, upper bound below the 90% threshold; change from baseline -8% to -6% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 9%); separately, lineage Betapolyomavirus hominis (1891762) (857 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
-   "trend": "by record rising (p = 3.66e-25, 41 years); by footprint rising (p = 0.393)",
+   "trend": "by record rising (p = 4.12e-25, 41 years); by footprint rising (p = 0.407)",
    "years": [
     {
      "year": 1982,
@@ -110582,8 +110674,8 @@
     {
      "year": 2026,
      "detected": 14,
-     "evaluable": 479,
-     "share": 0.029227557411273485,
+     "evaluable": 481,
+     "share": 0.029106029106029108,
      "recent": true
     }
    ],
@@ -111125,7 +111217,7 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 14239,
+   "screened_rows": 14241,
    "no_amplicon_rows": 7591,
    "exclusions": [
     [
@@ -111141,7 +111233,7 @@
      3
     ]
    ],
-   "out_of_scope": 7
+   "out_of_scope": 5
   },
   {
    "assay_id": "Polyomaviridae_VP1_Johne_2005_round1",
@@ -111584,7 +111676,8 @@
     3794197,
     3851346,
     3851353,
-    3898604
+    3898604,
+    3902555
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -112436,8 +112529,8 @@
     1137
    ],
    "species_sizes": [],
-   "screened_rows": 14239,
-   "no_amplicon_rows": 11874,
+   "screened_rows": 14241,
+   "no_amplicon_rows": 11876,
    "exclusions": [
     [
      "no_site",
@@ -112449,14 +112542,14 @@
     ],
     [
      "chance_anchor",
-     1358
+     1360
     ],
     [
      "no_pair",
      8
     ]
    ],
-   "out_of_scope": 7
+   "out_of_scope": 5
   },
   {
    "assay_id": "Polyomaviridae_VP1_Johne_2005_round2",
@@ -112900,7 +112993,8 @@
     3794197,
     3851346,
     3851353,
-    3898604
+    3898604,
+    3902555
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -112910,10 +113004,10 @@
     "reverse": "CCCTCATAAACCCGAACYTCYTCHACYTG"
    },
    "recent_detected": 19,
-   "recent_evaluable": 990,
+   "recent_evaluable": 992,
    "recent_ci": [
-    0.01232042263041434,
-    0.029780315318618068
+    0.012295515456610354,
+    0.029720669399003176
    ],
    "baseline_detected": 502,
    "baseline_evaluable": 5658,
@@ -112922,15 +113016,15 @@
     0.09641475586100375
    ],
    "change_ci": [
-    -0.07984541331078628,
-    -0.0567652544658939
+    -0.07987492650370763,
+    -0.056821319931099935
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
    "note": "detected share 1.9% (1%-3%) since Nov 2024, upper bound below the 90% threshold; change from baseline -8% to -6% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift \u2014 it fell from a baseline of 9%); separately, lineage Betapolyomavirus hominis (1891762) (857 records) detects only 0.0% and was below the threshold in every earlier year measured, so that lineage is a coverage gap rather than drift",
-   "trend": "by record rising (p = 3.66e-25, 41 years); by footprint rising (p = 0.393)",
+   "trend": "by record rising (p = 4.12e-25, 41 years); by footprint rising (p = 0.407)",
    "years": [
     {
      "year": 1982,
@@ -113243,8 +113337,8 @@
     {
      "year": 2026,
      "detected": 14,
-     "evaluable": 479,
-     "share": 0.029227557411273485,
+     "evaluable": 481,
+     "share": 0.029106029106029108,
      "recent": true
     }
    ],
@@ -113786,7 +113880,7 @@
    "rounds": [],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 14239,
+   "screened_rows": 14241,
    "no_amplicon_rows": 7591,
    "exclusions": [
     [
@@ -113802,7 +113896,7 @@
      3
     ]
    ],
-   "out_of_scope": 7
+   "out_of_scope": 5
   },
   {
    "assay_id": "Proboscivirus_POL_Latimer_2012_round1",
@@ -129253,6 +129347,7 @@
     3378590,
     3386056,
     3400319,
+    3406647,
     3413138,
     3414536,
     3418866,
@@ -129335,6 +129430,7 @@
     3467482,
     3467500,
     3467603,
+    3467836,
     3467872,
     3467873,
     3567875,
@@ -129346,16 +129442,20 @@
     3695520,
     3695521,
     3703193,
+    3703194,
     3703195,
     3703196,
     3703197,
     3703198,
     3703199,
+    3703200,
     3703202,
     3703203,
+    3703204,
     3703205,
     3703207,
     3703208,
+    3703533,
     3703534,
     3706870,
     3715045,
@@ -129366,7 +129466,8 @@
     3833448,
     3833449,
     3899820,
-    3900173
+    3900173,
+    3904033
    ],
    "exclusivity_taxids": [],
    "query": "",
@@ -129375,28 +129476,28 @@
     "forward": "GTNTWYGAYATHTGYGGHATGTAYGC",
     "reverse": "CCANCCBCDRTTRTGNARNGTRA"
    },
-   "recent_detected": 1151,
-   "recent_evaluable": 1165,
+   "recent_detected": 1153,
+   "recent_evaluable": 1167,
    "recent_ci": [
-    0.979929823014079,
-    0.9928282798232205
+    0.979964043605656,
+    0.9928405931102613
    ],
-   "baseline_detected": 3420,
-   "baseline_evaluable": 3464,
+   "baseline_detected": 3423,
+   "baseline_evaluable": 3467,
    "baseline_ci": [
-    0.9829920604799016,
-    0.9905241858908518
+    0.9830067406938113,
+    0.9905323967429357
    ],
    "change_ci": [
-    -0.007990326363555702,
-    0.007167101938900258
+    -0.007967040581282529,
+    0.007168065280832681
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
    "note": "detected share 98.8% (98%-99%) since Nov 2024",
-   "trend": "by record rising (p = 0.0318, 34 years)",
+   "trend": "by record rising (p = 0.0313, 34 years)",
    "years": [
     {
      "year": 1985,
@@ -129617,23 +129718,23 @@
     },
     {
      "year": 2024,
-     "detected": 406,
-     "evaluable": 407,
-     "share": 0.9975429975429976,
+     "detected": 409,
+     "evaluable": 410,
+     "share": 0.9975609756097561,
      "recent": true
     },
     {
      "year": 2025,
-     "detected": 404,
-     "evaluable": 407,
-     "share": 0.9926289926289926,
+     "detected": 405,
+     "evaluable": 408,
+     "share": 0.9926470588235294,
      "recent": true
     },
     {
      "year": 2026,
-     "detected": 663,
-     "evaluable": 674,
-     "share": 0.983679525222552,
+     "detected": 664,
+     "evaluable": 675,
+     "share": 0.9837037037037037,
      "recent": true
     }
    ],
@@ -129688,24 +129789,24 @@
     {
      "assay_id": "Adenoviridae_POL_Wellehan_2004_round1",
      "round": "round1",
-     "detected": 1156,
-     "evaluable": 1165,
-     "share": 0.992274678111588
+     "detected": 1158,
+     "evaluable": 1167,
+     "share": 0.9922879177377892
     },
     {
      "assay_id": "Adenoviridae_POL_Wellehan_2004_round2",
      "round": "round2",
-     "detected": 1154,
-     "evaluable": 1165,
-     "share": 0.9905579399141631
+     "detected": 1156,
+     "evaluable": 1167,
+     "share": 0.9905741216795202
     }
    ],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 4629,
+   "screened_rows": 4634,
    "no_amplicon_rows": 0,
    "exclusions": [],
-   "out_of_scope": 37
+   "out_of_scope": 32
   },
   {
    "assay_id": "Adenoviridae_hexon_Casas_2005_round2",
@@ -133941,6 +134042,7 @@
     3036518,
     3038395,
     3038396,
+    3049965,
     3049966,
     3061635,
     3064243,
@@ -134073,7 +134175,17 @@
     3439096,
     3448155,
     3451684,
+    3456161,
     3457772,
+    3687426,
+    3687427,
+    3687428,
+    3687429,
+    3687430,
+    3687431,
+    3687432,
+    3687433,
+    3697203,
     3718257,
     3718274,
     3718455,
@@ -134098,11 +134210,11 @@
     "forward": "GGCWCCWCCHGGNGARCAATT",
     "reverse": "GGWAWCCCCAYTGYTGWAYRTC"
    },
-   "recent_detected": 706,
-   "recent_evaluable": 1569,
+   "recent_detected": 720,
+   "recent_evaluable": 1583,
    "recent_ci": [
-    0.4255038811325354,
-    0.47467677654308466
+    0.4304413578280433,
+    0.4794425192252609
    ],
    "baseline_detected": 2400,
    "baseline_evaluable": 5177,
@@ -134111,15 +134223,15 @@
     0.4771948365885601
    ],
    "change_ci": [
-    -0.0416140269777104,
-    0.014560217676811392
+    -0.03668577718442781,
+    0.0193381646184761
    ],
    "window_months": 24,
    "recent_from": "Nov 2024",
    "threshold": 0.9,
    "min_records": 15,
-   "note": "pooled share 45.0% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (171 records) detects only 0.0% (0.0%-2.2%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining",
-   "trend": "by record rising (p = 0.0222, 30 years)",
+   "note": "pooled share 45.5% has low coverage, but lineage Alphacoronavirus chicagoense (3433756) (171 records) detects only 0.0% (0.0%-2.2%), down from 21.4% on 168 earlier records; lineage verdict overrides to declining",
+   "trend": "by record rising (p = 0.0125, 30 years)",
    "years": [
     {
      "year": 1993,
@@ -134326,9 +134438,9 @@
     },
     {
      "year": 2026,
-     "detected": 239,
-     "evaluable": 568,
-     "share": 0.42077464788732394,
+     "detected": 253,
+     "evaluable": 582,
+     "share": 0.43470790378006874,
      "recent": true
     }
    ],
@@ -134460,24 +134572,24 @@
     {
      "assay_id": "Coronaviridae_RdRp_Quan_2010_round1",
      "round": "round1",
-     "detected": 851,
-     "evaluable": 1569,
-     "share": 0.5423836838750796
+     "detected": 865,
+     "evaluable": 1583,
+     "share": 0.5464308275426406
     },
     {
      "assay_id": "Coronaviridae_RdRp_Quan_2010_round2",
      "round": "round2",
-     "detected": 1242,
-     "evaluable": 1569,
-     "share": 0.7915869980879541
+     "detected": 1256,
+     "evaluable": 1583,
+     "share": 0.7934301958307012
     }
    ],
    "amplicon_bp_range": [],
    "species_sizes": [],
-   "screened_rows": 6746,
+   "screened_rows": 6760,
    "no_amplicon_rows": 0,
    "exclusions": [],
-   "out_of_scope": 14
+   "out_of_scope": 0
   },
   {
    "assay_id": "Cryptosporidium_18S_Xiao_1999_round2",
@@ -136597,6 +136709,11 @@
     3467448,
     3467449,
     3467450,
+    3569727,
+    3569728,
+    3569729,
+    3569730,
+    3569731,
     3701373
    ],
    "exclusivity_taxids": [],
@@ -139751,6 +139868,7 @@
     3467866,
     3467870,
     3477809,
+    3683214,
     3696321,
     3696322,
     3701621,
@@ -141006,6 +141124,7 @@
     3467866,
     3467870,
     3477809,
+    3683214,
     3696321,
     3696322,
     3701621,
@@ -142455,6 +142574,7 @@
     3404840,
     3404841,
     3411841,
+    3412626,
     3418195,
     3418196,
     3427594,
@@ -143564,7 +143684,8 @@
     3794197,
     3851346,
     3851353,
-    3898604
+    3898604,
+    3902555
    ],
    "exclusivity_taxids": [],
    "query": "",

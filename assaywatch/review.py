@@ -112,6 +112,10 @@ class ReviewFlag(StrEnum):
     cross_reactive = "cross_reactive"
     # Detects only part of the declared taxon, by design or in fact.
     scope_narrower_than_taxid = "scope_narrower_than_taxid"
+    # The scope holds taxa the paper's wording reaches but the paper never tested,
+    # most often because they were described after it. Fails there say what the
+    # oligos do on those taxa; they don't contradict the paper's own results.
+    scope_wider_than_paper_tested = "scope_wider_than_paper_tested"
     # The retrieval query provably misses records that belong to the target.
     retrieval_scope_incomplete = "retrieval_scope_incomplete"
     # Part of a nested or semi-nested protocol.

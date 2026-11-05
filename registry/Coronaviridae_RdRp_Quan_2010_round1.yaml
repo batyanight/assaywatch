@@ -127,7 +127,7 @@ target:
       3433765, 3433766, 3433767, 3433770, 3433774, 3433775, 3433776, 3433777, 3433778, 3433779, 3433780, 3433782, 
       3433783, 3433784, 3433785, 3433786, 3433787, 3433788, 3433789, 3433795, 3433809, 3433810, 3433811, 3433813, 
       3433814, 3439096, 3448155, 3451684, 3457772, 3718257, 3718274, 3718455, 3718890, 3719198, 3719563, 3719624, 
-      3719674, 3719725, 3880164, 3889401, 3895825, 3895826, 3895827, 3895828, 3895829]
+      3719674, 3719725, 3880164, 3889401, 3895825, 3895826, 3895827, 3895828, 3895829, 3456161, 3687426, 3687427, 3687428, 3687429, 3687430, 3687431, 3687432, 3687433, 3697203, 3049965]
 chemistry: conventional
 oligos:
   forward:
@@ -190,5 +190,5 @@ source:
     at 159/221 = 72.0 percent against a pooled 52.2 percent of 1,606 - again better than the pool. IBV is in range: Quan et
     al. 2010 frames the three genera including Gammacoronavirus explicitly, and the 2026-10-05 work recorded above screened
     the stored primers against 884 complete genomes spanning alpha-, beta-, gamma- and deltacoronaviruses. Fourth worked example
-    of the above-pooled pattern.'
+    of the above-pooled pattern. SCOPE BROADENED 2026-11-04, on rereading the paper: Eleven species new to NCBI since the list was built, inside the frame the paper screens.'
 needs_review: null

@@ -873,6 +873,7 @@ target:
   - 3889400
   - 3895058
   - 3895059
+  - 3683214
 chemistry: conventional
 oligos:
   forward:
@@ -922,7 +923,7 @@ source:
     TAXID RETIRED 2026-10-27: NCBI has merged 10292 into 3044472 (Orthoherpesviridae), so this entry now carries the canonical
     id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
     release from an empty archive. data/retrieved/10292/ moved to data/retrieved/3044472/ and the manifest was rebuilt in
-    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md. SCOPE BROADENED 2026-11-04, on rereading the paper: One gammaherpesvirus species new to NCBI since the list was built; the paper tested gammaherpesviruses.'
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 2594 products and 1219 none under this orientation (2026-10-27 run), so the inference stands

@@ -44,7 +44,7 @@ target:
       2816941, 2816942, 2829137, 2901325, 2915136, 2917294, 2917295, 2938350, 3108407, 3108408, 3108409, 3108410, 
       3108411, 3108412, 3108413, 3108414, 3399459, 3402189, 3413228, 3413229, 3428500, 3428501, 3428502, 3428503, 
       3428504, 3428505, 3428506, 3428507, 3428508, 3428509, 3428510, 3428511, 3428512, 3428513, 3428514, 3434961, 
-      3467446, 3467447, 3467448, 3467449, 3467450, 3701373]
+      3467446, 3467447, 3467448, 3467449, 3467450, 3701373, 3569727, 3569728, 3569729, 3569730, 3569731]
 chemistry: conventional
 oligos:
   forward:
@@ -81,6 +81,6 @@ source:
     the pool. Enterovirus B cannot be out of range: the cited paper is titled "Sensitive, Seminested PCR Amplification of
     VP1 Sequences for Direct Identification of All Enterovirus Serotypes" and claims all proposed EV serotypes tested. Third
     worked example of the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md point 2, and the
-    largest, on 1,063 records.'
+    largest, on 1,063 records. SCOPE BROADENED 2026-11-04, on rereading the paper: E6, E9, E11, E13 and PV1 sit in new species nodes; their reference strains are in the paper Table 2.'
 needs_review:
 - flag: amplicon_measured_not_published

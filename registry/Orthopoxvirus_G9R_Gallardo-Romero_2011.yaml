@@ -11,6 +11,11 @@ target:
   - 10256
   - 28874
   - 160796
+  - 3431484
+  - 3431485
+  - 3431488
+  - 696873
+  - 2602439
 chemistry: hydrolysis_probe
 oligos:
   forward:
@@ -71,7 +76,9 @@ source:
     was blind to, and a baseline for when more genomes are deposited. SCREENED 2026-10-24 with the project''s own scorer over
     the same 64 records, and it agrees with the hand measurement: 7 evaluable, 100% detection, and the other 57 records `no_site`
     - fragments that never reach the locus, silent rather than negative, so they never enter the denominator. Nothing here
-    needed correcting. status: draft and doi_verified: false on entry; only a maintainer sets active.'
+    needed correcting. status: draft and doi_verified: false on entry; only a maintainer sets active. SCOPE BROADENED 2026-11-04, on rereading the paper: NCBI species nodes for raccoonpox, skunkpox and volepox, plus VPXV_CA85. Borealpox added because the paper says North American orthopoxviruses, though it defines them as three and predates this virus. Its one genome, MN240300, fails. Paper did not test it.'
 needs_review:
+- flag: scope_wider_than_paper_tested
+  note: "NCBI species nodes for raccoonpox, skunkpox and volepox, plus VPXV_CA85. Borealpox added because the paper says North American orthopoxviruses, though it defines them as three and predates this virus. Its one genome, MN240300, fails. Paper did not test it."
 - flag: thin_evidence
   note: only 7 of the 64 records for the three species are complete enough to cover the locus

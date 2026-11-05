@@ -40,7 +40,7 @@ target:
       3141924, 3141927, 3141932, 3161010, 3344808, 3351108, 3351112, 3381499, 3396465, 3396466, 3396467, 3396468, 
       3406592, 3406593, 3406594, 3406595, 3406596, 3406597, 3406598, 3406599, 3406600, 3406601, 3406602, 3406603, 
       3406604, 3406605, 3426261, 3426262, 3426263, 3427292, 3428947, 3467577, 3695519, 3794196, 3794197, 3851346, 
-      3851353, 3898604]
+      3851353, 3898604, 3902555]
 chemistry: conventional
 oligos:
   forward:
@@ -98,6 +98,6 @@ source:
     products on 1,995 records and mismatches badly on every one, while its own round 2 detects 255. STATUS LEFT ACTIVE, 2026-10-26,
     as a maintainer decision. The entry is doing its job - reporting that a pan-family consensus assay detects almost nothing
     today is the kind of finding this tool exists to make - and drift.require_working_baseline already stops it being called
-    `declining` without an earlier working year, so it reads as low coverage rather than as drift.'
+    `declining` without an earlier working year, so it reads as low coverage rather than as drift. SCOPE BROADENED 2026-11-04, on rereading the paper: One species new to NCBI since the list was built, inside the family the paper claims.'
 needs_review:
 - flag: nested_protocol

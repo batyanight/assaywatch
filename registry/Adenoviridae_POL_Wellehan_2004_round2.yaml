@@ -67,7 +67,7 @@ target:
       3435567, 3435568, 3435569, 3435570, 3435571, 3435572, 3435573, 3456098, 3458275, 3459924, 3467480, 3467481, 
       3467482, 3467500, 3467603, 3467872, 3467873, 3567875, 3569722, 3681219, 3681221, 3681222, 3681223, 3695520, 
       3695521, 3703193, 3703195, 3703196, 3703197, 3703198, 3703199, 3703202, 3703203, 3703205, 3703207, 3703208, 
-      3703534, 3706870, 3715045, 3739290, 3810610, 3810611, 3810612, 3833448, 3833449, 3899820, 3900173]
+      3703534, 3706870, 3715045, 3739290, 3810610, 3810611, 3810612, 3833448, 3833449, 3899820, 3900173, 3703533, 3406647, 3904033, 3467836, 3703204, 3703200, 3703194]
 chemistry: conventional
 oligos:
   forward:
@@ -111,7 +111,7 @@ source:
     scored against different denominators. No paper was needed for this, and no judgement is made here about whether the list
     itself is right. MEASURED EFFECT, and it is small: over the whole 2026-10-24 calls table the list excludes 159 of the
     38,946 records retrieved for this group, so the change buys comparability between the rounds rather than a different coverage
-    figure. These enumerated lists are near-complete, which is why they exclude so little.'
+    figure. These enumerated lists are near-complete, which is why they exclude so little. SCOPE BROADENED 2026-11-04, on rereading the paper: Seven species new to NCBI since the list was built, all inside the family the paper claims.'
 needs_review:
 - flag: amplicon_multimodal
   note: 'two modes: 324 and 321 bp'

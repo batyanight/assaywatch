@@ -127,7 +127,7 @@ target:
       3433765, 3433766, 3433767, 3433770, 3433774, 3433775, 3433776, 3433777, 3433778, 3433779, 3433780, 3433782, 
       3433783, 3433784, 3433785, 3433786, 3433787, 3433788, 3433789, 3433795, 3433809, 3433810, 3433811, 3433813, 
       3433814, 3439096, 3448155, 3451684, 3457772, 3718257, 3718274, 3718455, 3718890, 3719198, 3719563, 3719624, 
-      3719674, 3719725, 3880164, 3889401, 3895825, 3895826, 3895827, 3895828, 3895829]
+      3719674, 3719725, 3880164, 3889401, 3895825, 3895826, 3895827, 3895828, 3895829, 3456161, 3687426, 3687427, 3687428, 3687429, 3687430, 3687431, 3687432, 3687433, 3697203, 3049965]
 chemistry: conventional
 oligos:
   forward:
@@ -160,5 +160,5 @@ source:
     assaywatch.taxonomy.in_unclassified reports True: it sits under 696098 unclassified Betacoronavirus, so it is an NCBI
     holding pen rather than a clade, and 47 records of it cannot say an assay is declining. This is the class lineage.unclassified_is_bucket
     was built for, shipped off because tier-2 was unchanged by it. Not a scope question - no scope_taxids list can separate
-    a bucket from a clade.'
+    a bucket from a clade. SCOPE BROADENED 2026-11-04, on rereading the paper: Eleven species new to NCBI since the list was built, inside the frame the paper screens.'
 needs_review: null

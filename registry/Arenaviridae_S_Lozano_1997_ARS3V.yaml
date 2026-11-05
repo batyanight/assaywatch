@@ -5,7 +5,7 @@ target:
   gene: S segment
   genome_type: ssRNA-
   taxon_name: Arenaviridae
-  scope_taxids: [208898, 1653394]
+  scope_taxids: [208898, 1653394, 1653395, 2169607, 2560091, 3044740]
 chemistry: conventional
 oligos:
   forward:
@@ -67,8 +67,10 @@ source:
     an eye on the PDF table. Both left unchanged. RESOLVED BY EYE 2026-10-23 (pdftotext -layout, Lozano Table 1): ARS3V is
     printed CATGACKMTGAATTYTGTG- with ACA wrapped onto the next line, which is the stored sequence exactly; the ARS ending
     was the next row''s name glued on. ARS7C is printed ATGTGYCTRTGAGTTGG (17 nt, no leading C), now recorded as the oligo''s
-    modified_from, with the modified form''s source as modification_doi. Neither oligo is in doubt.'
+    modified_from, with the modified form''s source as modification_doi. Neither oligo is in doubt. SCOPE BROADENED 2026-11-04, on rereading the paper: The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them.'
 needs_review:
+- flag: scope_wider_than_paper_tested
+  note: "The paper claims all members, including undescribed ones, from an alignment of 11 sequences of 8 viruses. Reptarenavirus, Hartmanivirus, Antennavirus and Innmovirus are added on that wording. The paper did not test them."
 - flag: oligos_modified
   note: ARS7C-MOD is the PREDICT P-004 widening of Lozano's ARS7C (modified_from, modification_doi)
 - flag: orientation_inferred

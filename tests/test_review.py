@@ -17,6 +17,7 @@ import pytest
 import yaml
 
 from assaywatch.review import CAVEAT, NOTE_REQUIRED, OPEN, ReviewFlag
+from assaywatch.schema import ReviewItem
 from assaywatch.validate import iter_files, load_assay
 
 REGISTRY = Path(__file__).resolve().parents[1] / "registry"
@@ -172,3 +173,11 @@ def test_oligo_doubt_is_narrower_than_caveat_and_excludes_good_practice():
         ReviewFlag.pairing_is_curator_reading,
     ):
         assert doubt in OLIGO_DOUBT
+
+
+def test_a_scope_wider_than_the_paper_tested_is_a_caveat_not_a_question():
+    """Disclosed, so it must not hold an entry back from `active`."""
+    item = ReviewItem(
+        flag=ReviewFlag.scope_wider_than_paper_tested, note="borealpox, described after the paper"
+    )
+    assert not item.is_open

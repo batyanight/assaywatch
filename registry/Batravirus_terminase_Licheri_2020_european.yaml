@@ -6,7 +6,7 @@ target:
   genome_type: dsDNA
   taxon_name: Batravirus (formerly Batrachovirus)
   query: terminase[All Fields] OR "complete genome"[Title]
-  scope_taxids: [1987509, 2282206]
+  scope_taxids: [1987509, 2282206, 3048291]
 chemistry: conventional
 oligos:
   forward:
@@ -77,7 +77,7 @@ source:
     That is still only 4 records, far below drift.min_records_for_drift, so the honest reading stays "cannot assess" rather
     than a coverage figure - but the denominator is now the right four records. The sibling Batravirus_terminase_Licheri_2020_pan
     is deliberately NOT scoped: it is the paper''s PANBATRACHOVIRUS protocol and the whole genus is correct for it. This closes
-    the bare scope_narrower_than_taxid flag on this entry, which carried no note and no mechanism.'
+    the bare scope_narrower_than_taxid flag on this entry, which carried no note and no mechanism. SCOPE BROADENED 2026-11-04, on rereading the paper: NCBI placed a species node above the listed no-rank taxon. Same virus.'
 needs_review:
 - flag: scope_narrower_than_taxid
   note: the European protocol targets RaHV-3 and BfHV-1 while the taxid is the whole Batravirus genus, which also holds 

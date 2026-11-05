@@ -40,7 +40,7 @@ target:
       3141924, 3141927, 3141932, 3161010, 3344808, 3351108, 3351112, 3381499, 3396465, 3396466, 3396467, 3396468, 
       3406592, 3406593, 3406594, 3406595, 3406596, 3406597, 3406598, 3406599, 3406600, 3406601, 3406602, 3406603, 
       3406604, 3406605, 3426261, 3426262, 3426263, 3427292, 3428947, 3467577, 3695519, 3794196, 3794197, 3851346, 
-      3851353, 3898604]
+      3851353, 3898604, 3902555]
 chemistry: conventional
 oligos:
   forward:
@@ -77,7 +77,7 @@ source:
     they were scored against different denominators. No paper was needed for this, and no judgement is made here about whether
     the list itself is right. MEASURED EFFECT, and it is small: over the whole 2026-10-24 calls table the list excludes 5
     of the 14,537 records retrieved for this group, so the change buys comparability between the rounds rather than a different
-    coverage figure. These enumerated lists are near-complete, which is why they exclude so little.'
+    coverage figure. These enumerated lists are near-complete, which is why they exclude so little. SCOPE BROADENED 2026-11-04, on rereading the paper: One species new to NCBI since the list was built, inside the family the paper claims.'
 needs_review:
 - flag: amplicon_measured_not_published
 - flag: nested_protocol

@@ -44,7 +44,7 @@ a drift registry at all. That decision comes first.
   *Chlamydia* is not in `assemblies.taxa`. A genome carries 16S but is not titled for it. This is
   the same shape as the Chlamydia 16S share recorded on 2026-11-03.
 - **`Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdGPL`, `_BdCAPE`.** 9,491 records screened,
-  8 and 9 evaluable, because nearly all are ITS (`no_site` on about 9,400). 42 records are titled
+  8 and 9 evaluable, because the Ghosh sites are on few records (`no_site` on about 9,400; corrected the same day: most of those are `XM_` predicted mRNAs, not ITS, `2026-11-04-scope-reread.md`). 42 records are titled
   mitochondrial and 1 is over 5 kb. 9 assemblies exist, one chromosome-level (JEL423, 2025), and
   the taxon is not in `assemblies.taxa`. Whether those assemblies hold the mitochondrial contig
   has not been tested.

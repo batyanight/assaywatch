@@ -118,12 +118,29 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 - [ ] **Add *Chlamydia* to `assemblies.taxa`?** The Messmer 16S queries see 9 of 245 recent
   *C. pneumoniae* records, and 30 complete or chromosome-level assemblies go unused. Also the
   answer to the falling Chlamydia share in the scope report above. Changes retrieval and calls.
-- [ ] **Add *B. dendrobatidis* to `assemblies.taxa`, and give the Ghosh 2021 mtDNA entries a query?**
-  9,491 records screened for 8 and 9 evaluable, almost all ITS. First test whether the 9
-  assemblies hold the mitochondrial contig.
-- [ ] **What do the calicivirus entries claim?** Reid 1999 and Neill 1995 are scoped to one species
-  and retrieve the whole family, up to 84,874 records for 115 in scope. Read both papers: one
-  species or the marine vesiviruses? Retrieval can narrow to the genus either way.
+- [x] **Add *B. dendrobatidis* to `assemblies.taxa`, and give the Ghosh 2021 mtDNA entries a query?**
+  Done 2026-11-04: neither. Tested in `docs/journal/2026-11-04-scope-reread.md`. A query would
+  lose 30 of the 43 mitochondrial records, whose titles don't say so. At the current levels the
+  assemblies add only JEL423, already archived. The low counts are honest; most records are
+  `XM_` predicted mRNAs, not ITS.
+- [ ] **What do the calicivirus entries claim?** Reread 2026-11-04: the one-species scope matches
+  both papers, and SMSV-8, SMSV-12 and mink failed in Reid, so they stay out. Still open: whether
+  BCV, CCV, PCV and RCV sit inside 3433198. Retrieval could narrow to the genus; that is a
+  narrowing, so it waits for a maintainer.
+- [ ] **Hellgren and `219829` "unclassified Plasmodium".** Should the bird lineages under this node
+  enter the HaemF and HaemNFI scope? 1,833 sibling species are out, about 1,209 of them bird-style
+  names, some chimpanzee or gorilla. The whole node takes HaemF baseline 479/1914 to 640/2773 with
+  no status change, and breaks the curatorial avian restriction. A list by name would avoid that.
+- [ ] **Apply at the next fetch: Leporipoxvirus into the Li 2010 IMV query.** Table 1 of the paper
+  settles it. A query edit changes the archive group, so it goes in with a new retrieval. Crocodilepox
+  for Li 2010 RPO147 is the same shape; check it first.
+- [ ] **The narrowing proposals, for a maintainer.** All tested with no edit, table in
+  `docs/journal/2026-11-04-scope-reread.md`. Only the Uccellini entries would change status.
+- [ ] **Correct the curator notes the reread contradicted.** Lozano's "amplified" list is the
+  alignment set; Li 2010 IMV's note says the paper doesn't place the crossover, and Table 1 does.
+  Also unexplained: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
+- [ ] **Test for submission error across the registry.** Title against sequence was run on Bd only,
+  where it found one candidate (MT730717). The method is in the same journal.
 - [ ] **Should withheld assays show a mismatch map?** The 14 withheld assays have none, because
   `sitedrift.build` holds them out so they cannot be listed as failing, and their pages stop
   before the charts. That hides real signal (`Lyssavirus_N_Vazquez-Moron_2006_round1`: 10,588
@@ -141,7 +158,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   relative links all reach a file.
 - [ ] **A thorough report on, and fix of, assay scope.** Goes further than the standing
   release gate above: every live assay's `scope_taxids` and query against what its paper
-  says it detects, written up as a report, with the fixes made. Two pieces belong to it:
+  says it detects, written up as a report, with the fixes made. 64 entries are done
+  (`docs/journal/2026-11-04-scope-reread.md`, 21 broadened); the other live entries have not
+  been reread. Two pieces belong to it:
   - **The nested malaria assay.** Read as the Hellgren 2004 haemosporidian nest; whether
     the paper behind `Plasmodium_18S_Li_1995` also describes a nest has not been checked:
     `Haemosporida_cytb_Hellgren_2004_HaemNFI`, `Haemosporida_cytb_Hellgren_2004_HaemF` and
@@ -200,13 +219,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   2019-02; query returns 8 all dates, 0 in the window. Does the pan pair's claim extend to it? If yes, the
   entry needs a second taxid in its retrieval, since a scope cannot reach outside the
   retrieval taxon (`docs/journal/2026-11-01-no-recent-data-scope-check.md`).
-- **The G9R North American orthopox scope and borealpox.** Borealpox virus (formerly
-  Alaskapox, 2602439) is not in `scope_taxids` [10256, 28874, 160796]. That is faithful
-  to the 2011 paper, which predates borealpox. Leave it, or add it with a disclosure flag.
-  One genome has ever been deposited (MN240300, 2019; `txid2602439` returns 1 all dates,
-  0 in the window), so no verdict moves either way. Tested 2026-11-01: the three scope
-  species return 0 records in the window; the entry's 6,414 recent `fail` calls are
-  monkeypox, correctly out of scope.
+- **The G9R North American orthopox scope and borealpox.** Done 2026-11-04: borealpox (2602439)
+  and the three NCBI species nodes are in scope, flagged `scope_wider_than_paper_tested`. Its one
+  genome, MN240300, reads `fail`. No status moved (`docs/journal/2026-11-04-scope-reread.md`).
 - **The Zimmermann 1994 Borna inner pair is entered twice.** `BORNA_VIRUS_N_gene` (live)
   and `Bornaviridae_N_Zimmermann_1994_round2` (draft) are the same inner pair (445 bp).
   The draft stores the forward primer as printed (`...TCTATCTTTC`), which the live entry
@@ -217,14 +232,10 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   (round 1, 752 bp), which today read as two unrelated rows. A registry change: it
   changes the ids the report and website carry. Best done with the nested-protocol
   redesign under "Method debts".
-- **Panpox (Li 2010): is Leporipoxvirus in the low-GC scope?** Both entries exclude
-  Leporipoxvirus and Macropopoxvirus from retrieval because "Li 2010 does not say where
-  the crossover sits" (2026-10-17), but the 2026-10-05 part of the same low-GC note, read
-  from the paper's Methods, lists Leporipoxvirus in the low-GC group, and that day's
-  screen amplified myxoma. One read of the PDF settles it. Measured 2026-11-01:
-  `txid10241` (Chordopoxvirinae) over the window NOT either entry's genus list returns 36,
-  all Leporipoxvirus (32 myxoma virus, 3 under the new binomial `Leporipoxvirus
-  myxoma`, 1 rabbit fibroma virus) (`docs/journal/2026-11-01-no-recent-data-scope-check.md`).
+- **Panpox (Li 2010): is Leporipoxvirus in the low-GC scope?** Settled 2026-11-04: yes. Table 1
+  lists it as low GC, its abstract counts it among seven genera, and it amplified. The query edit
+  goes in with the next fetch, listed above. Measured 2026-11-01: 36 records in the window, all
+  Leporipoxvirus, would come in.
 - **`Haemosporida_cytb_Hellgren_2004_HaemF` stores `amplicon_bp: 480`; the
   product measures 525** (4,269 of 4,274 products, `docs/journal/2026-10-05-amplicon-audit.md`).
   480 appears to be the length with primers excluded, the convention MalAvi and

@@ -82,7 +82,7 @@ target:
       3431372, 3431373, 3431374, 3431375, 3431376, 3431377, 3431378, 3431379, 3431380, 3431381, 3431382, 3431383, 
       3431384, 3431385, 3431386, 3431387, 3431393, 3431501, 3432152, 3432153, 3433033, 3447765, 3447766, 3463950, 
       3467454, 3467513, 3477806, 3477807, 3685448, 3718448, 3718758, 3718820, 3718899, 3718937, 3718990, 3719351, 
-      3719659, 3719809, 3770381, 3770382, 3813656, 3879472, 3898370, 3898371, 3898372, 3898373]
+      3719659, 3719809, 3770381, 3770382, 3813656, 3879472, 3898370, 3898371, 3898372, 3898373, 3412626]
 chemistry: conventional
 oligos:
   forward:
@@ -121,5 +121,5 @@ source:
     FOR A LATER FIX: this list is the ~931 enumerated species ids that docs/journal/2026-10-24-scope-audit.md item 9 proposes
     replacing with the three subtree ids [2560076, 2560080, 2560069], because schema.py''s own comment on scope_taxids says
     to name the smallest covering subtrees rather than enumerate species. If that replacement is made it must be made on BOTH
-    siblings, or they diverge again.'
+    siblings, or they diverge again. SCOPE BROADENED 2026-11-04, on rereading the paper: One species new to NCBI; the paper claims known and novel paramyxoviruses.'
 needs_review: null

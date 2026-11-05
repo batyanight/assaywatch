@@ -40,7 +40,7 @@ target:
       3141924, 3141927, 3141932, 3161010, 3344808, 3351108, 3351112, 3381499, 3396465, 3396466, 3396467, 3396468, 
       3406592, 3406593, 3406594, 3406595, 3406596, 3406597, 3406598, 3406599, 3406600, 3406601, 3406602, 3406603, 
       3406604, 3406605, 3426261, 3426262, 3426263, 3427292, 3428947, 3467577, 3695519, 3794196, 3794197, 3851346, 
-      3851353, 3898604]
+      3851353, 3898604, 3902555]
 chemistry: conventional
 oligos:
   forward:
@@ -71,6 +71,6 @@ source:
     round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Johne,
     R (2005). AMPLICON MEASURED 2026-10-21: 271 bp, the modal product on 264 of 520 detected-or-reduced records in the 2026-10-20
     calls (was 277). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-040, prints 249-273
-    bp; the measurement is what is entered.'
+    bp; the measurement is what is entered. SCOPE BROADENED 2026-11-04, on rereading the paper: One species new to NCBI since the list was built, inside the family the paper claims.'
 needs_review:
 - flag: nested_protocol

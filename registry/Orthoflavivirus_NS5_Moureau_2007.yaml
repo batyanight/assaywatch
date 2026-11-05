@@ -223,6 +223,7 @@ target:
   - 3718784
   - 3898039
   - 3898041
+  - 3140651
 chemistry: conventional
 oligos:
   forward:
@@ -268,5 +269,5 @@ source:
     TAXID RETIRED 2026-10-27: NCBI has merged 11051 into 3044782 (Orthoflavivirus), so this entry now carries the canonical
     id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
     release from an empty archive. data/retrieved/11051/ moved to data/retrieved/3044782/ and the manifest was rebuilt in
-    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md. SCOPE BROADENED 2026-11-04, on rereading the paper: One species new to NCBI since the list was built, inside the genus the paper claims.'
 needs_review: null
