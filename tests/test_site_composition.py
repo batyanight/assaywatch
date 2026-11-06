@@ -205,7 +205,7 @@ def test_a_mixed_largest_group_is_named_as_a_mix_on_the_page():
         "records": [[687, 10]],
     }
     out = " ".join(" ".join(_composition_block(comp)).split())
-    assert "The largest group here, C. trachomatis 52%, mixes species" in out
+    assert "The largest group here, C. trachomatis 52%, holds several species names" in out
     assert "can't separate a shift between them" in out
 
 
@@ -217,7 +217,7 @@ def test_a_pure_largest_group_gets_no_warning_even_beside_a_mixed_small_one():
         "names": ["C. pecorum", "C. trachomatis 52%"],
         "records": [[687, 10]],
     }
-    assert "mixes species" not in " ".join(_composition_block(comp))
+    assert "holds several species names" not in " ".join(_composition_block(comp))
 
 
 def test_without_a_composition_file_the_page_block_is_empty():
@@ -289,7 +289,7 @@ def test_a_pipe_in_a_name_does_not_break_the_table():
 
 def test_a_mixed_largest_group_keeps_its_warning_when_it_is_numbered():
     comp = {"years": [2020], "cut": 0.05, "ids": [0, 1], "names": ["X 38% 1", "X 38% 2"], "records": [[9, 1]]}
-    assert "mixes species" in " ".join(_composition_block(comp))
+    assert "holds several species names" in " ".join(_composition_block(comp))
 
 
 def test_the_page_says_how_much_of_the_taxon_the_query_saw():

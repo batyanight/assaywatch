@@ -645,8 +645,9 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     mixed = _mixed_largest_group(names, ids, totals)
     if mixed:
         lines += [
-            f"**The largest group here, {_md_text(mixed)}, mixes species,** so the dashed line can't",
-            "separate a shift between them. The table below shows which species each group holds.\n",
+            f"**The largest group here, {_md_text(mixed)}, holds several species names,** which may be",
+            "different species or one species under more than one name. The dashed line can't separate",
+            "a shift between species within a group. The table below shows the names in each group.\n",
         ]
     if comp.get("note"):
         lines += [f"*{_md_text(comp['note'])}.*\n"]
