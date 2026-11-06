@@ -207,6 +207,39 @@ def test_a_title_with_no_organism_is_not_invented():
     assert organism("UNVERIFIED: Bufonid herpesvirus 1 isolate X") == "Bufonid herpesvirus 1"
 
 
+def test_a_latin_binomial_ends_the_name_so_one_species_is_not_split_by_its_strains():
+    """Assembly titles run straight from the species into the strain. The words after the
+    binomial made "Y. enterocolitica 30%" of a group that is all *Y. enterocolitica*."""
+    for title, want in [
+        ("Yersinia enterocolitica subsp. enterocolitica 8081, complete sequence", "Yersinia enterocolitica"),
+        ("Yersinia enterocolitica 1935 chromosome", "Yersinia enterocolitica"),
+        ("Yersinia pseudotuberculosis 598 chromosome", "Yersinia pseudotuberculosis"),
+        ("Escherichia coli O157 str. Sakai DNA", "Escherichia coli"),
+        ("Escherichia coli str. K-12 substr. MG1655", "Escherichia coli"),
+        ("Escherichia coli B7A B7A", "Escherichia coli"),
+        ("Mycobacterium tuberculosis 0A036DS", "Mycobacterium tuberculosis"),
+        ("Mycobacterium tuberculosis complex sp. N0157", "Mycobacterium tuberculosis"),
+        ("Salmonella enterica subsp. enterica serovar Typhimurium str. LT2", "Salmonella enterica"),
+        ("Leptospira borgpetersenii serovar Hardjo-bovis str. JB197", "Leptospira borgpetersenii"),
+    ]:
+        assert organism(title) == want, title
+
+
+def test_a_virus_name_is_not_a_latin_binomial():
+    """Virus names are vernacular and run past two words, so the rule above leaves them alone."""
+    for title, want in [
+        ("African swine fever virus isolate X", "African swine fever virus"),
+        ("Aleutian mink disease parvovirus strain X", "Aleutian mink disease parvovirus"),
+        ("Goose astrovirus 2 isolate X RdRp gene", "Goose astrovirus 2"),
+        ("Escherichia phage T4, complete genome", "Escherichia phage T4"),
+        ("Chlamydia sp. 12-1761_J072 16S ribosomal RNA gene", "Chlamydia sp."),
+        ("Mute swan feces associated avastrovirus 1 isolate X", "Mute swan feces associated avastrovirus 1"),
+        ("Fringilla montifringilla Circoviridae sp. isolate X", "Fringilla montifringilla Circoviridae sp."),
+        ("Tridacna hemolymph apicomplexan 18S ribosomal RNA gene", "Tridacna hemolymph apicomplexan"),
+    ]:
+        assert organism(title) == want, title
+
+
 def test_a_flag_about_the_record_is_not_part_of_the_organism():
     """Both found over the coronavirus archive, where each was a named species: "TPA_asm"
     on its own, and a truncated "Mutant Severe acute respiratory syndrome"."""

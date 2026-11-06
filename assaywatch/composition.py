@@ -188,6 +188,16 @@ _OPEN_ENDED = re.compile(r"virus(es)?$", re.IGNORECASE)
 #: depositor's isolate code instead -- "Pigeon coronavirus rin35" is one record of
 #: Pigeon coronavirus.
 _NAME_CODE = re.compile(r"^(?:\d{1,4}|(?=[A-Z0-9]{2,6}$)(?=[^\d]*\d)[A-Z0-9]+)$")
+#: The two words of a Latin binomial, and what may follow one inside a strain's name: a
+#: word opening in a capital or digit, or an infraspecific marker. A lowercase word
+#: otherwise means this was not a binomial ("Mute swan feces associated avastrovirus 1").
+#: A title whose head names a virus or phage is left out: those names are vernacular and
+#: run on ("African swine fever virus").
+_BINOMIAL = re.compile(r"^[A-Z][a-z]+ [a-z]+$")
+_BEYOND_BINOMIAL = re.compile(
+    r"^(?:[A-Z0-9#]|\S*\d|(?:subsp|serovar|str|substr|complex|var|pv|bv|biovar|pathovar)\b)"
+)
+_VERNACULAR = re.compile(r"vir(us|oid|idae)|phage", re.IGNORECASE)
 _TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9.-]*[A-Za-z0-9]")
 
 
@@ -199,7 +209,9 @@ def organism(title: str) -> str:
     cache instead, which is authoritative; this only reads what the depositor wrote.
 
     The name ends at the first qualifier word, strain identifier, bracket, comma or
-    semicolon, whichever comes first, and never runs past `_NAME_MAX_WORDS`. Keeping the words
+    semicolon, whichever comes first, and never runs past `_NAME_MAX_WORDS`. A Latin binomial
+    ends at its second word, because assembly titles run straight into the strain
+    ("Yersinia enterocolitica 1935 chromosome"). Keeping the words
     BEFORE the qualifier is what distinguishes "Human coronavirus 229E" from "Human
     coronavirus OC43" -- two viruses about 30% apart whose records both begin "Human
     coronavirus", which is why a two-word rule held the pan-coronavirus purity at 68%
@@ -208,7 +220,10 @@ def organism(title: str) -> str:
     head = _TITLE_PREFIX.sub("", title.strip())
     head = re.split(r"[(,;:\[]", head, maxsplit=1)[0]
     words: list[str] = []
+    binomial_ends = not _VERNACULAR.search(head)
     for w in head.split():
+        if binomial_ends and _BINOMIAL.match(" ".join(words)) and _BEYOND_BINOMIAL.match(w):
+            break
         open_ended = bool(words) and _OPEN_ENDED.search(words[-1])
         if w.lower() in _UNPLACED:
             words.append(w)
