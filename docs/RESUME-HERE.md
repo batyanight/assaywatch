@@ -1,3 +1,8 @@
+# Resume point, 2026-11-05 (next-run edits on branch `next-run-prep`, not merged)
+
+Read `docs/journal/2026-11-05-next-run-prep.md`. These edits take effect at the next live run. The
+*Chlamydia* assembly decision is back with the maintainer; see the roadmap.
+
 # Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
 
 **The security and code review fixes and the page order are in the PR from `scope-review-fixes`.**

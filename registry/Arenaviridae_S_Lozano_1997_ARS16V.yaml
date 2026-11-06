@@ -36,7 +36,10 @@ status: active
 source:
   predict_protocol: P-003
   nested_round: null
-  notes_curator: 'PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
+  notes_curator: 'CORRECTED 2026-11-05: the list below of viruses amplified is the alignment set the paper designed from (LCM WE and
+    Armstrong, Lassa Nigeria and Josiah, Mopeia, Pichinde, Tacaribe, Junin MC2 and XJ, Oliveros, Sabia). Its amplification figure
+    shows Junin MC2, LCM WE, Tacaribe and Pampa.
+    PREDICT panel protocol P-003 (S-gene), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Lozano,
     M. et al (1997). SCOPED 2026-10-20 to the mammarenaviruses, from Lozano et al. 1997''s own range. Its title calls the
     set "family-specific", but in 1997 the family was the mammarenaviruses alone: the paper divides arenaviruses into Old

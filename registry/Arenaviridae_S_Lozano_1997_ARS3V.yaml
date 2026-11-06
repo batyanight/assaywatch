@@ -38,7 +38,10 @@ status: active
 source:
   predict_protocol: P-004
   nested_round: null
-  notes_curator: 'OLIGOS MODIFIED, AND THE PAPER THEY COME FROM: the reverse is modified from what the cited paper prints,
+  notes_curator: 'CORRECTED 2026-11-05: the list below of viruses amplified is the alignment set the paper designed from (LCM WE and
+    Armstrong, Lassa Nigeria and Josiah, Mopeia, Pichinde, Tacaribe, Junin MC2 and XJ, Oliveros, Sabia). Its amplification figure
+    shows Junin MC2, LCM WE, Tacaribe and Pampa.
+    OLIGOS MODIFIED, AND THE PAPER THEY COME FROM: the reverse is modified from what the cited paper prints,
     and that modified form is published by Anthony et al. 2015 (Nat Commun), doi 10.1038/ncomms9147. Each oligo''s modified_from
     holds the cited paper''s own printed sequence. PREDICT panel protocol P-004 (S-gene), confirmed 2026-10-04 by exact match
     of every oligo to that protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer
