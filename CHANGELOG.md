@@ -11,6 +11,9 @@ because none of them can be recomputed without the archives.
 
 ## Unreleased
 
+- Assay pages open on the primer graph, then the line graph, then the bar graph. Assembly records now
+  reach the lineage groups, and a species is no longer split across names by the strains in its titles.
+  Fixes from the security and code reviews. No status moved.
 - Every assay page shows what was deposited by lineage, with a same-mix line on the detection
   chart and the change split into mix and detection within. Report-only: no status moves. These
   are sequence groups at a fixed cut, and in 17 of 199 assays the largest holds several species,

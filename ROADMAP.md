@@ -221,8 +221,13 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   species with no species at 80%, and the same-mix line can't see a shift inside it. Messmer gains
   from 0.02; Hellgren and *Leptospira* lose. Any override needs a stated reason in `config.yaml`,
   since tuning an assay until it looks right is the risk. Average linkage is the other thing to try.
-- [ ] **Security review and code review once the new lineage graphs are live.** Blocked on
-  the composition stage shipping: step 18, the merge of `composition`, and the site publish.
+- [x] **Security review and code review once the new lineage graphs are live.** Done 2026-11-05:
+  no security finding at confidence 8 or above, 14 code review findings all fixed.
+  `docs/journal/2026-11-05-review-fixes-rebuilt.md`.
+- [ ] **Reconcile species names in the lineage groups.** Title names and taxonomy names don't match
+  for one virus (*Human bocavirus* and *Bocaparvovirus primate1*), so a group can show a percent
+  though it holds one species. Pages word this as several names until then. On the 2026-11-01 run, 42 of 201 assays have a
+  largest group with a percent; how many are synonyms hasn't been counted.
 
 ## Waiting on a maintainer, minutes each
 

@@ -206,7 +206,7 @@ def test_a_mixed_largest_group_is_named_as_a_mix_on_the_page():
     }
     out = " ".join(" ".join(_composition_block(comp)).split())
     assert "The largest group here, C. trachomatis 52%, holds several species names" in out
-    assert "can't separate a shift between them" in out
+    assert "can't separate" in out
 
 
 def test_a_pure_largest_group_gets_no_warning_even_beside_a_mixed_small_one():
@@ -256,7 +256,7 @@ def test_the_table_says_which_species_each_group_holds():
     out = " ".join(_composition_block(comp))
     assert "| Species |" in out
     assert "Chlamydia trachomatis 354, uncultured Chlamydia sp. 104, Chlamydia psittaci 66" in out
-    assert "The table below shows which species each group holds" in out
+    assert "The table below shows the names in each group" in out
 
 
 def test_the_site_file_carries_each_group_s_top_species():
