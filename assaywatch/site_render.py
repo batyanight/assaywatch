@@ -458,6 +458,20 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
     return "\n".join(out) + "\n"
 
 
+def _print_errors() -> dict[str, list[tuple[str, str]]]:
+    """{assay id: [(oligo name, what the paper prints)]} for oligos stored as a correction."""
+    from assaywatch import registry
+
+    out: dict[str, list[tuple[str, str]]] = {}
+    for f in registry.files(ROOT / "registry"):
+        a = registry.load_one(f)
+        for role in ("forward", "reverse", "probe"):
+            o = getattr(a.oligos, role, None)
+            if o is not None and o.print_error:
+                out.setdefault(a.id, []).append((o.name or role, o.modified_from or ""))
+    return out
+
+
 def _oligos_block(a: dict[str, Any]) -> list[str]:
     """The oligos 5'->3', as stored."""
     if not a["oligos"]:
@@ -470,6 +484,11 @@ def _oligos_block(a: dict[str, Any]) -> list[str]:
         f"| {role} | {names.get(role, '—')} | `{seq}` | {len(seq)} nt |" for role, seq in a["oligos"].items()
     ]
     out.append("")
+    for name, printed in _print_errors().get(a["assay_id"], []):
+        out.append(
+            f"The paper prints {_md_text(name)} as `{printed}`. The sequence above is our "
+            "correction, not the paper's, and it is why this page has no status.\n"
+        )
     return out
 
 
