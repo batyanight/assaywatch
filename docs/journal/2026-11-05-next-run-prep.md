@@ -1,7 +1,6 @@
 # 2026-11-05 — next-run edits, and the Chlamydia assembly check that failed
 
-**Finding: adding *Chlamydia* assemblies would double count, so that decision goes back to the
-maintainer. Measuring it also found RefSeq and GenBank copies of one genome counting as two records in
+**Finding: adding *Chlamydia* assemblies would double count, so the maintainer decided against them. Measuring it also found RefSeq and GenBank copies of one genome counting as two records in
 17 of 219 assays.** The other decided edits are in. Nothing here has been screened, so no number on the
 site moves until the next run.
 

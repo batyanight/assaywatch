@@ -1,7 +1,8 @@
 # Resume point, 2026-11-05 (next-run edits on branch `next-run-prep`, not merged)
 
-Read `docs/journal/2026-11-05-next-run-prep.md`. These edits take effect at the next live run. The
-*Chlamydia* assembly decision is back with the maintainer; see the roadmap.
+Read `docs/journal/2026-11-05-next-run-prep.md`. These edits take effect at the next live run, which the
+maintainer has not asked for yet. Until then `test_the_extract_still_describes_the_registry_it_was_taken_from`
+fails on this branch, so it isn't merged. *Chlamydia* assemblies were decided against.
 
 # Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
 

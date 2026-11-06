@@ -122,11 +122,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 - [x] **Francisella tul4 Long 1993: add probe FT443.** Entered 2026-11-05 and takes effect at the next
   screen, as `hybridization_probe`, because the paper reads a labelled probe by dot blot. Scored with
   penalties set for hydrolysis probes, which is an assumption and doesn't change this entry's calls.
-- [ ] **Chlamydia assemblies: decide again, the check failed.** Maintainer decision of 2026-11-04 was
-  conditional on genomes not being counted twice, and they would be. The `"complete genome"[Title]` term
-  already reaches 379 of 493 assemblies under 810. Sampling 20 per year on top would count those again;
-  dropping the term would swap all of them for a sample. Missing: 114, of which 70 are chromosome level
-  and 42 *C. trachomatis*. Recommendation: leave retrieval alone. Not applied.
+- [x] **Chlamydia assemblies: not added.** Maintainer decision, 2026-11-05. The `"complete genome"[Title]`
+  term already reaches 379 of 493 assemblies under 810, so sampling on top would count those twice. 114
+  stay missing, 42 of them *C. trachomatis*. `docs/journal/2026-11-05-next-run-prep.md`.
 - [ ] **RefSeq and GenBank copies of one genome count as two records.** `NZ_CP017733` and `CP017733`
   have different accessions, so nothing dedupes them. On the 2026-11-01 calls 17 of 219 assays hold such
   pairs, 14 of them at 5% or more: *Mycoplasma* 16S 1,651 of 24,246, MTB IS1081 377 of 1,468, Messmer 127
