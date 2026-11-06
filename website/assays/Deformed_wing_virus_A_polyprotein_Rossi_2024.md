@@ -19,42 +19,6 @@
 | Amplicon | 139 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | DWVAF | `CTTTGTCTTCATTAAAGCCAC` | 21 nt |
-| reverse | DWVAR | `CTCATTAACTGTGTCGTTGAT` | 21 nt |
-| probe | DWVAP | `TGCGTGGAATGCGTCC` | 16 nt |
-
-## Verdict
-
-**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 23 | 47 | 48.9% | 35.3% – 62.8% |
-| baseline (everything earlier) | 35 | 40 | 87.5% | 73.9% – 94.5% |
-
-Change from baseline, Newcombe interval: **-53.9% to -19.2%**. Threshold: **90.0%**.
-
-*detected share 48.9% (35%-63%) since Nov 2024, upper bound below the 90% threshold; change from baseline -54% to -19% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 88%)*
-
-Trend across deposit years: by record falling (p = 0.00812, 5 years); by footprint falling (p = 0.0323). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2022 to 2026, against a 90 percent threshold."><rect class="aw-window" x="375.0" y="12.0" width="331.0" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,47.5 209.5,40.6 375.0,20.2 540.5,144.9 706.0,70.5"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-low-coverage" points="44.0,47.5 209.5,40.6 375.0,20.2 540.5,144.9 706.0,70.5"/><g class="aw-point aw-low-coverage"><title>2022: 5 of 6 detected (83.3%)</title><circle cx="44.0" cy="47.5" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>2023: 28 of 32 detected (87.5%)</title><circle cx="209.5" cy="40.6" r="4.0"/></g><g class="aw-point aw-low-coverage"><title>2024: 2 of 2 detected (100.0%) — recent window</title><circle cx="375.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2025: 5 of 21 detected (23.8%) — recent window</title><circle cx="540.5" cy="144.9" r="3.7"/></g><g class="aw-point aw-low-coverage"><title>2026: 18 of 26 detected (69.2%) — recent window</title><circle cx="706.0" cy="70.5" r="3.9"/></g><text class="aw-tick" x="44.0" y="208">2022</text><text class="aw-tick" x="209.5" y="208">2023</text><text class="aw-tick" x="375.0" y="208">2024</text><text class="aw-tick" x="540.5" y="208">2025</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -84,9 +48,14 @@ detected when it does not: 87% of 62
 substitutions: T&gt;C in 25
 inside the 3′ window</title><rect x="360.0" y="107.8" width="13.0" height="18.2"/></g><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">G</text><text class="aw-base" x="396.5" y="139">A</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-tick" x="411.5" y="153">1</text><text class="aw-tick" x="351.5" y="153">5</text><text class="aw-tick" x="276.5" y="153">10</text><text class="aw-tick" x="201.5" y="153">15</text><text class="aw-tick" x="126.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">21</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="423" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">DWVAP</text><rect class="aw-zone" x="179.0" y="174.0" width="90.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="344.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">T</text><text class="aw-base" x="126.5" y="221">G</text><text class="aw-base" x="141.5" y="221">C</text><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">T</text><text class="aw-base" x="186.5" y="221">G</text><text class="aw-base" x="201.5" y="221">G</text><text class="aw-base" x="216.5" y="221">A</text><text class="aw-base" x="231.5" y="221">A</text><text class="aw-base" x="246.5" y="221">T</text><text class="aw-base" x="261.5" y="221">G</text><text class="aw-base" x="276.5" y="221">C</text><text class="aw-base" x="291.5" y="221">G</text><text class="aw-base" x="306.5" y="221">T</text><text class="aw-base" x="321.5" y="221">C</text><text class="aw-base" x="336.5" y="221">C</text><text class="aw-tick" x="336.5" y="235">1</text><text class="aw-tick" x="276.5" y="235">5</text><text class="aw-tick" x="201.5" y="235">10</text><text class="aw-tick" x="126.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">16</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="348" y="221">3′</text></svg>
 
-## By lineage
+## Predicted detection by deposit year
 
-Only one lineage has enough records to report here: **Iflavirus aladeformis (3047792)** (23 of 47 detected, 48.9%, 95% interval 35.3–62.8%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2022 to 2026, against a 90 percent threshold."><rect class="aw-window" x="375.0" y="12.0" width="331.0" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,47.5 209.5,40.6 375.0,20.2 540.5,144.9 706.0,70.5"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-low-coverage" points="44.0,47.5 209.5,40.6 375.0,20.2 540.5,144.9 706.0,70.5"/><g class="aw-point aw-low-coverage"><title>2022: 5 of 6 detected (83.3%)</title><circle cx="44.0" cy="47.5" r="3.0"/></g><g class="aw-point aw-low-coverage"><title>2023: 28 of 32 detected (87.5%)</title><circle cx="209.5" cy="40.6" r="4.0"/></g><g class="aw-point aw-low-coverage"><title>2024: 2 of 2 detected (100.0%) — recent window</title><circle cx="375.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-low-coverage"><title>2025: 5 of 21 detected (23.8%) — recent window</title><circle cx="540.5" cy="144.9" r="3.7"/></g><g class="aw-point aw-low-coverage"><title>2026: 18 of 26 detected (69.2%) — recent window</title><circle cx="706.0" cy="70.5" r="3.9"/></g><text class="aw-tick" x="44.0" y="208">2022</text><text class="aw-tick" x="209.5" y="208">2023</text><text class="aw-tick" x="375.0" y="208">2024</text><text class="aw-tick" x="540.5" y="208">2025</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## What was deposited, by lineage
 
@@ -105,8 +74,42 @@ detects.
 |---|---|---|---|---|---|
 | I. aladeformis | 87 | 100% |  | Iflavirus aladeformis 87 | -- |
 
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2022 100%, 2023 100%, 2024 100%, 2025 100%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
+
 Between the baseline and the recent window the detected share went
 87.5% to 48.9%, a change of -0.386. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.386 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+
+
+## By lineage
+
+Only one lineage has enough records to report here: **Iflavirus aladeformis (3047792)** (23 of 47 detected, 48.9%, 95% interval 35.3–62.8%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | DWVAF | `CTTTGTCTTCATTAAAGCCAC` | 21 nt |
+| reverse | DWVAR | `CTCATTAACTGTGTCGTTGAT` | 21 nt |
+| probe | DWVAP | `TGCGTGGAATGCGTCC` | 16 nt |
+
+## Verdict
+
+**low coverage** — below the threshold without a measurable decline — applied beyond its design range, or never covering this taxon
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 23 | 47 | 48.9% | 35.3% – 62.8% |
+| baseline (everything earlier) | 35 | 40 | 87.5% | 73.9% – 94.5% |
+
+Change from baseline, Newcombe interval: **-53.9% to -19.2%**. Threshold: **90.0%**.
+
+*detected share 48.9% (35%-63%) since Nov 2024, upper bound below the 90% threshold; change from baseline -54% to -19% (fell measurably, but never reached the 90% threshold in any earlier year, so this is not drift — it fell from a baseline of 88%)*
+
+Trend across deposit years: by record falling (p = 0.00812, 5 years); by footprint falling (p = 0.0323). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope

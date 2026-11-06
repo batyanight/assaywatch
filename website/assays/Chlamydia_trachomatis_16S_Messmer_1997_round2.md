@@ -19,41 +19,6 @@
 | Amplicon | 413 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | C.-trachomatis-sense | `GCAATTGTTTCGGCAATTG` | 19 nt |
-| reverse | C.-trachomatis-antisense | `AGCGGGTATTAACCGCCT` | 18 nt |
-
-## Verdict
-
-**declining** — below the threshold, and measurably lower than a baseline that previously exceeded it
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 18 | 39 | 46.2% | 31.6% – 61.4% |
-| baseline (everything earlier) | 239 | 323 | 74.0% | 68.9% – 78.5% |
-
-Change from baseline, Newcombe interval: **-43.1% to -11.8%**. Threshold: **90.0%**.
-
-*detected share 46.2% (32%-61%) since Nov 2024, upper bound below the 90% threshold; change from baseline -43% to -12%*
-
-Trend across deposit years: by record rising (p = 7.26e-08, 20 years); by footprint rising (p = 0.169). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1996 to 2026, against a 90 percent threshold."><rect class="aw-window" x="661.9" y="12.0" width="44.1" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,56.5 507.4,154.1 551.5,20.2 595.7,24.3 617.7,20.2 661.9,87.6 683.9,111.1 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,56.5 507.4,154.1 551.5,20.2 595.7,24.3 617.7,20.2 661.9,87.6 683.9,111.1 706.0,20.2"/><g class="aw-point aw-declining"><title>1996: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1997: 2 of 6 detected (33.3%)</title><circle cx="66.1" cy="129.3" r="3.0"/></g><g class="aw-point aw-declining"><title>1998: 0 of 1 detected (0.0%)</title><circle cx="88.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2001: 0 of 1 detected (0.0%)</title><circle cx="154.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2005: 8 of 21 detected (38.1%)</title><circle cx="242.6" cy="121.5" r="3.7"/></g><g class="aw-point aw-declining"><title>2008: 2 of 2 detected (100.0%)</title><circle cx="308.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2009: 0 of 3 detected (0.0%)</title><circle cx="330.9" cy="183.8" r="2.6"/></g><g class="aw-point aw-declining"><title>2010: 3 of 9 detected (33.3%)</title><circle cx="352.9" cy="129.3" r="3.2"/></g><g class="aw-point aw-declining"><title>2011: 1 of 2 detected (50.0%)</title><circle cx="375.0" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>2012: 13 of 22 detected (59.1%)</title><circle cx="397.1" cy="87.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2013: 20 of 22 detected (90.9%)</title><circle cx="419.1" cy="35.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2015: 8 of 12 detected (66.7%)</title><circle cx="463.3" cy="74.7" r="3.4"/></g><g class="aw-point aw-declining"><title>2016: 7 of 9 detected (77.8%)</title><circle cx="485.3" cy="56.5" r="3.2"/></g><g class="aw-point aw-declining"><title>2017: 6 of 33 detected (18.2%)</title><circle cx="507.4" cy="154.1" r="4.1"/></g><g class="aw-point aw-declining"><title>2019: 2 of 2 detected (100.0%)</title><circle cx="551.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2021: 155 of 159 detected (97.5%)</title><circle cx="595.7" cy="24.3" r="5.1"/></g><g class="aw-point aw-declining"><title>2022: 2 of 2 detected (100.0%)</title><circle cx="617.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2024: 10 of 17 detected (58.8%) — recent window</title><circle cx="661.9" cy="87.6" r="3.6"/></g><g class="aw-point aw-declining"><title>2025: 16 of 36 detected (44.4%) — recent window</title><circle cx="683.9" cy="111.1" r="4.1"/></g><g class="aw-point aw-declining"><title>2026: 2 of 2 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1996</text><text class="aw-tick" x="132.3" y="208">2000</text><text class="aw-tick" x="220.5" y="208">2004</text><text class="aw-tick" x="308.8" y="208">2008</text><text class="aw-tick" x="397.1" y="208">2012</text><text class="aw-tick" x="485.3" y="208">2016</text><text class="aw-tick" x="573.6" y="208">2020</text><text class="aw-tick" x="661.9" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -88,9 +53,14 @@ detected when it does not: 100% of 207
 substitutions: C&gt;T in 156
 inside the 3′ window</title><rect x="398.6" y="103.7" width="13.0" height="22.3"/></g><text class="aw-base" x="405.1" y="139">C</text><text class="aw-base" x="420.1" y="139">C</text><text class="aw-base" x="435.1" y="139">T</text><text class="aw-tick" x="435.1" y="153">1</text><text class="aw-tick" x="375.1" y="153">5</text><text class="aw-tick" x="300.1" y="153">10</text><text class="aw-tick" x="225.1" y="153">15</text><text class="aw-tick" x="180.1" y="153">18</text><text class="aw-end" x="169" y="139">5′</text><text class="aw-end aw-end-3" x="447" y="139">3′</text></svg>
 
-## By lineage
+## Predicted detection by deposit year
 
-Only one lineage has enough records to report here: **Chlamydia trachomatis (813)** (18 of 39 detected, 46.2%, 95% interval 31.6–61.4%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1996 to 2026, against a 90 percent threshold."><rect class="aw-window" x="661.9" y="12.0" width="44.1" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,56.5 507.4,154.1 551.5,20.2 595.7,24.3 617.7,20.2 661.9,87.6 683.9,111.1 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,183.8 66.1,129.3 88.1,183.8 154.3,183.8 242.6,121.5 308.8,20.2 330.9,183.8 352.9,129.3 375.0,102.0 397.1,87.1 419.1,35.1 463.3,74.7 485.3,56.5 507.4,154.1 551.5,20.2 595.7,24.3 617.7,20.2 661.9,87.6 683.9,111.1 706.0,20.2"/><g class="aw-point aw-declining"><title>1996: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1997: 2 of 6 detected (33.3%)</title><circle cx="66.1" cy="129.3" r="3.0"/></g><g class="aw-point aw-declining"><title>1998: 0 of 1 detected (0.0%)</title><circle cx="88.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2001: 0 of 1 detected (0.0%)</title><circle cx="154.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2005: 8 of 21 detected (38.1%)</title><circle cx="242.6" cy="121.5" r="3.7"/></g><g class="aw-point aw-declining"><title>2008: 2 of 2 detected (100.0%)</title><circle cx="308.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2009: 0 of 3 detected (0.0%)</title><circle cx="330.9" cy="183.8" r="2.6"/></g><g class="aw-point aw-declining"><title>2010: 3 of 9 detected (33.3%)</title><circle cx="352.9" cy="129.3" r="3.2"/></g><g class="aw-point aw-declining"><title>2011: 1 of 2 detected (50.0%)</title><circle cx="375.0" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>2012: 13 of 22 detected (59.1%)</title><circle cx="397.1" cy="87.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2013: 20 of 22 detected (90.9%)</title><circle cx="419.1" cy="35.1" r="3.8"/></g><g class="aw-point aw-declining"><title>2015: 8 of 12 detected (66.7%)</title><circle cx="463.3" cy="74.7" r="3.4"/></g><g class="aw-point aw-declining"><title>2016: 7 of 9 detected (77.8%)</title><circle cx="485.3" cy="56.5" r="3.2"/></g><g class="aw-point aw-declining"><title>2017: 6 of 33 detected (18.2%)</title><circle cx="507.4" cy="154.1" r="4.1"/></g><g class="aw-point aw-declining"><title>2019: 2 of 2 detected (100.0%)</title><circle cx="551.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2021: 155 of 159 detected (97.5%)</title><circle cx="595.7" cy="24.3" r="5.1"/></g><g class="aw-point aw-declining"><title>2022: 2 of 2 detected (100.0%)</title><circle cx="617.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2024: 10 of 17 detected (58.8%) — recent window</title><circle cx="661.9" cy="87.6" r="3.6"/></g><g class="aw-point aw-declining"><title>2025: 16 of 36 detected (44.4%) — recent window</title><circle cx="683.9" cy="111.1" r="4.1"/></g><g class="aw-point aw-declining"><title>2026: 2 of 2 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1996</text><text class="aw-tick" x="132.3" y="208">2000</text><text class="aw-tick" x="220.5" y="208">2004</text><text class="aw-tick" x="308.8" y="208">2008</text><text class="aw-tick" x="397.1" y="208">2012</text><text class="aw-tick" x="485.3" y="208">2016</text><text class="aw-tick" x="573.6" y="208">2020</text><text class="aw-tick" x="661.9" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## What was deposited, by lineage
 
@@ -109,8 +79,41 @@ detects.
 |---|---|---|---|---|---|
 | C. trachomatis | 362 | 100% |  | Chlamydia trachomatis 362 | -- |
 
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 1%, 2020 0%, 2021 27%, 2022 0%, 2023 0%, 2024 1%, 2025 4%, 2026 0% (best year 30%). A low share is a fact about the query, not about the taxon.
+
 Between the baseline and the recent window the detected share went
 74.0% to 46.2%, a change of -0.278. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **-0.278 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+
+
+## By lineage
+
+Only one lineage has enough records to report here: **Chlamydia trachomatis (813)** (18 of 39 detected, 46.2%, 95% interval 31.6–61.4%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | C.-trachomatis-sense | `GCAATTGTTTCGGCAATTG` | 19 nt |
+| reverse | C.-trachomatis-antisense | `AGCGGGTATTAACCGCCT` | 18 nt |
+
+## Verdict
+
+**declining** — below the threshold, and measurably lower than a baseline that previously exceeded it
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 18 | 39 | 46.2% | 31.6% – 61.4% |
+| baseline (everything earlier) | 239 | 323 | 74.0% | 68.9% – 78.5% |
+
+Change from baseline, Newcombe interval: **-43.1% to -11.8%**. Threshold: **90.0%**.
+
+*detected share 46.2% (32%-61%) since Nov 2024, upper bound below the 90% threshold; change from baseline -43% to -12%*
+
+Trend across deposit years: by record rising (p = 7.26e-08, 20 years); by footprint rising (p = 0.169). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope

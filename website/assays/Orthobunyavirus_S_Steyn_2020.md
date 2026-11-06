@@ -19,14 +19,6 @@
 | Amplicon | 152 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Ortho(SimbuF152) | `TAGAGTCTTCTTCCTCAAYCAGAAGAAGGCC` | 31 nt |
-| reverse | Ortho(SimbuR304) | `GTYAMGGCAMTGTCTGGCACAGGATTTG` | 28 nt |
-| probe | Ortho(Simbu-probe252) | `TGGTTAATAACCATTTTCC` | 19 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -88,6 +80,14 @@ detected when it differs: 0% of 20
 detected when it does not: 0% of 315
 substitutions: A&gt;G in 20
 inside the 3′ window</title><rect x="512.4" y="117.7" width="13.0" height="8.3"/></g><text class="aw-base" x="518.9" y="139">A</text><text class="aw-base" x="533.9" y="139">T</text><text class="aw-base" x="548.9" y="139">T</text><text class="aw-base" x="563.9" y="139">T</text><text class="aw-base" x="578.9" y="139">G</text><text class="aw-tick" x="578.9" y="153">1</text><text class="aw-tick" x="518.9" y="153">5</text><text class="aw-tick" x="443.9" y="153">10</text><text class="aw-tick" x="368.9" y="153">15</text><text class="aw-tick" x="293.9" y="153">20</text><text class="aw-tick" x="218.9" y="153">25</text><text class="aw-tick" x="173.9" y="153">28</text><text class="aw-end" x="162" y="139">5′</text><text class="aw-end aw-end-3" x="590" y="139">3′</text><text class="aw-track-label" x="136" y="216">probe</text><text class="aw-track-name" x="136" y="228">Ortho(Simbu-probe252)</text><rect class="aw-zone" x="256.4" y="174.0" width="105.0" height="52.0"/><line class="aw-axis" x1="166.4" y1="208.0" x2="451.4" y2="208.0"/><text class="aw-base" x="173.9" y="221">T</text><text class="aw-base" x="188.9" y="221">G</text><text class="aw-base" x="203.9" y="221">G</text><text class="aw-base" x="218.9" y="221">T</text><text class="aw-base" x="233.9" y="221">T</text><text class="aw-base" x="248.9" y="221">A</text><text class="aw-base" x="263.9" y="221">A</text><text class="aw-base" x="278.9" y="221">T</text><text class="aw-base" x="293.9" y="221">A</text><text class="aw-base" x="308.9" y="221">A</text><text class="aw-base" x="323.9" y="221">C</text><text class="aw-base" x="338.9" y="221">C</text><text class="aw-base" x="353.9" y="221">A</text><text class="aw-base" x="368.9" y="221">T</text><text class="aw-base" x="383.9" y="221">T</text><text class="aw-base" x="398.9" y="221">T</text><text class="aw-base" x="413.9" y="221">T</text><text class="aw-base" x="428.9" y="221">C</text><text class="aw-base" x="443.9" y="221">C</text><text class="aw-tick" x="443.9" y="235">1</text><text class="aw-tick" x="383.9" y="235">5</text><text class="aw-tick" x="308.9" y="235">10</text><text class="aw-tick" x="233.9" y="235">15</text><text class="aw-tick" x="173.9" y="235">19</text><text class="aw-end" x="162" y="221">5′</text><text class="aw-end aw-end-3" x="455" y="221">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Ortho(SimbuF152) | `TAGAGTCTTCTTCCTCAAYCAGAAGAAGGCC` | 31 nt |
+| reverse | Ortho(SimbuR304) | `GTYAMGGCAMTGTCTGGCACAGGATTTG` | 28 nt |
+| probe | Ortho(Simbu-probe252) | `TGGTTAATAACCATTTTCC` | 19 nt |
 
 
 ## Scope

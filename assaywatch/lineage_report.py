@@ -30,6 +30,7 @@ from assaywatch.lineage import (
 )
 from assaywatch.metadata import read_titles
 from assaywatch.score import load_config
+from assaywatch.settings import Composition
 from assaywatch.taxonomy import taxonomy_from_config
 
 
@@ -78,6 +79,7 @@ def render_lineage_report(
     threshold: float = 0.90,
     max_year_blocks: int = 5,
     composition: Any | None = None,
+    thin_of_best: float = Composition().coverage_thin_of_best,
 ) -> str:
     """Render markdown report of per-lineage statistics.
 
@@ -155,7 +157,7 @@ def render_lineage_report(
             )
         comp = getattr(composition, "assays", {}).get(assay_id) if composition else None
         if comp is not None:
-            lines += cluster_section(comp)
+            lines += cluster_section(comp, thin_of_best=thin_of_best)
 
     return "\n".join(lines)
 
@@ -220,7 +222,7 @@ def _per_year_blocks(
     return out
 
 
-def _coverage_lines(comp: Any) -> list[str]:
+def _coverage_lines(comp: Any, thin_of_best: float) -> list[str]:
     """What the assay's retrieval query saw, against what its taxon holds.
 
     The years where the two part are the ones where a verdict may be a fact about the
@@ -236,7 +238,7 @@ def _coverage_lines(comp: Any) -> list[str]:
         return []
     shares = [(y, query[y] / taxon[y]) for y in shared]
     best = max(s for _, s in shares)
-    thin = [(y, s) for y, s in shares if best and s < best / 3][-6:]
+    thin = [(y, s) for y, s in shares if best and s < best * thin_of_best][-6:]
     out = [
         "**Retrieval coverage.** Of the records this assay's target taxon holds, the share its",
         "own retrieval query returned, per deposit year: "
@@ -253,7 +255,7 @@ def _coverage_lines(comp: Any) -> list[str]:
     return [*out, ""]
 
 
-def cluster_section(comp: Any) -> list[str]:
+def cluster_section(comp: Any, *, thin_of_best: float = Composition().coverage_thin_of_best) -> list[str]:
     """One assay's sequence-cluster composition: the mix per deposit year, what the same
     mix would have read, and which lineages the mix is made of.
 
@@ -312,7 +314,7 @@ def cluster_section(comp: Any) -> list[str]:
                 "rate to have changed.",
                 "",
             ]
-    out += _coverage_lines(comp)
+    out += _coverage_lines(comp, thin_of_best)
     out += [
         "| Cluster | Records | Detected | First year | New since design | Also in the titles |",
         "|---|---|---|---|---|---|",
@@ -503,6 +505,9 @@ def main(argv: list[str] | None = None) -> int:
         threshold=float((cfg.get("drift") or {}).get("detect_fraction_threshold", 0.90)),
         # The composition stage's own output, when a run has it. Absent, the report is
         # exactly what it was: the stage is report-only and so is this section.
+        thin_of_best=float(
+            (cfg.get("composition") or {}).get("coverage_thin_of_best", Composition().coverage_thin_of_best)
+        ),
         composition=(
             read_summary(args.composition)
             if args.composition is not None and args.composition.exists()

@@ -1,3 +1,10 @@
+# Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
+
+**The security and code review fixes and the page order are in the PR from `scope-review-fixes`.**
+`website/data/composition.json` is now one build over one registry, not a merge. Read
+`docs/journal/2026-11-05-review-fixes-rebuilt.md` before touching species names or the composition
+data. The next step is the next run; what it takes is on the roadmap.
+
 # Resume point, 2026-11-04 (composition done, on branch `composition`, nothing pushed)
 
 **Step 18 is done and the lineage graphs are in the committed site data, on branch `composition`,

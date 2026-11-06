@@ -19,42 +19,6 @@
 | Amplicon | 287 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | 300F-B | `GGGCTTCAYAGTCTTGCAAT` | 20 nt |
-| reverse | NAG01R_1 | `GCCTGCTTGAAACRCTCTAA` | 20 nt |
-| probe | PPC_P1 | `TGCCAAGAACGACCGTCCTAC` | 21 nt |
-
-## Verdict
-
-**no recent data** — no deposits within the window
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (60 months, from Nov 2021) | 0 | 0 | — | 0.0% – 100.0% |
-| baseline (everything earlier) | 166 | 391 | 42.5% | 37.7% – 47.4% |
-
-Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
-
-*no evaluable records deposited since Nov 2021 (window widened to 60 months to reach 15 evaluable records)*
-
-Trend across deposit years: by record rising (p = 2.11e-53, 5 years); by footprint rising (p = 0.00337). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2010 to 2021, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 344.9,180.9 465.3,20.2 706.0,23.1"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-no-recent-data" points="44.0,183.8 344.9,180.9 465.3,20.2 585.6,183.8 706.0,24.7"/><g class="aw-point aw-no-recent-data"><title>2010: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2015: 4 of 225 detected (1.8%)</title><circle cx="344.9" cy="180.9" r="5.4"/></g><g class="aw-point aw-no-recent-data"><title>2017: 92 of 92 detected (100.0%)</title><circle cx="465.3" cy="20.2" r="4.7"/></g><g class="aw-point aw-no-recent-data"><title>2019: 0 of 1 detected (0.0%)</title><circle cx="585.6" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2021: 70 of 72 detected (97.2%) — recent window</title><circle cx="706.0" cy="24.7" r="4.6"/></g><text class="aw-tick" x="44.0" y="208">2010</text><text class="aw-tick" x="164.4" y="208">2012</text><text class="aw-tick" x="284.7" y="208">2014</text><text class="aw-tick" x="405.1" y="208">2016</text><text class="aw-tick" x="525.5" y="208">2018</text><text class="aw-tick" x="645.8" y="208">2020</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -123,6 +87,16 @@ detected when it differs: 0% of 215
 detected when it does not: 67% of 249
 substitutions: T&gt;C in 214, T&gt;A in 1
 outside the central third</title><rect x="375.0" y="184.9" width="13.0" height="23.1"/></g><text class="aw-base" x="381.5" y="221">T</text><text class="aw-base" x="396.5" y="221">A</text><text class="aw-base" x="411.5" y="221">C</text><text class="aw-tick" x="411.5" y="235">1</text><text class="aw-tick" x="351.5" y="235">5</text><text class="aw-tick" x="276.5" y="235">10</text><text class="aw-tick" x="201.5" y="235">15</text><text class="aw-tick" x="126.5" y="235">20</text><text class="aw-tick" x="111.5" y="235">21</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="423" y="221">3′</text></svg>
+
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2010 to 2021, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 344.9,180.9 465.3,20.2 706.0,23.1"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-no-recent-data" points="44.0,183.8 344.9,180.9 465.3,20.2 585.6,183.8 706.0,24.7"/><g class="aw-point aw-no-recent-data"><title>2010: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2015: 4 of 225 detected (1.8%)</title><circle cx="344.9" cy="180.9" r="5.4"/></g><g class="aw-point aw-no-recent-data"><title>2017: 92 of 92 detected (100.0%)</title><circle cx="465.3" cy="20.2" r="4.7"/></g><g class="aw-point aw-no-recent-data"><title>2019: 0 of 1 detected (0.0%)</title><circle cx="585.6" cy="183.8" r="2.5"/></g><g class="aw-point aw-no-recent-data"><title>2021: 70 of 72 detected (97.2%) — recent window</title><circle cx="706.0" cy="24.7" r="4.6"/></g><text class="aw-tick" x="44.0" y="208">2010</text><text class="aw-tick" x="164.4" y="208">2012</text><text class="aw-tick" x="284.7" y="208">2014</text><text class="aw-tick" x="405.1" y="208">2016</text><text class="aw-tick" x="525.5" y="208">2018</text><text class="aw-tick" x="645.8" y="208">2020</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 ## What was deposited, by lineage
 
 Lineages here are sequence groups, not species or taxids. Each is a group of records
@@ -136,13 +110,42 @@ detects.
 
 *3 of 391 diverged, with no site to cluster on.*
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2010 to 2021."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2010 — uncultured Perkinsea 3: 1 of 1 records (100%), 0 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2015 — diverged (no site): 1 of 225 records (0%), 0 detected</title><rect x="331.9" y="10.0" width="26.0" height="0.4" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2015 — other: 3 of 225 records (1%), 0 detected</title><rect x="331.9" y="10.4" width="26.0" height="1.2" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2015 — uncultured Perkinsea 3: 221 of 225 records (98%), 4 detected</title><rect x="331.9" y="11.6" width="26.0" height="90.4" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2017 — uncultured Perkinsea 3: 92 of 92 records (100%), 92 detected</title><rect x="452.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2019 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="572.6" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — diverged (no site): 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="1.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — other: 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="11.3" width="26.0" height="1.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2021 — uncultured Perkinsea 3: 70 of 72 records (97%), 70 detected</title><rect x="693.0" y="12.6" width="26.0" height="89.4" fill="currentColor" opacity="0.60"/></g><text class="aw-tick" x="44.0" y="117">2010</text><text class="aw-tick" x="164.4" y="117">2012</text><text class="aw-tick" x="284.7" y="117">2014</text><text class="aw-tick" x="405.1" y="117">2016</text><text class="aw-tick" x="525.5" y="117">2018</text><text class="aw-tick" x="645.8" y="117">2020</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2010 to 2021."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2010 — uncultured Perkinsea: 1 of 1 records (100%), 0 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — diverged (no site): 1 of 225 records (0%), 0 detected</title><rect x="331.9" y="10.0" width="26.0" height="0.4" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2015 — other: 3 of 225 records (1%), 0 detected</title><rect x="331.9" y="10.4" width="26.0" height="1.2" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2015 — uncultured Perkinsea: 221 of 225 records (98%), 4 detected</title><rect x="331.9" y="11.6" width="26.0" height="90.4" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — uncultured Perkinsea: 92 of 92 records (100%), 92 detected</title><rect x="452.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="572.6" y="10.0" width="26.0" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — diverged (no site): 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="10.0" width="26.0" height="1.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — other: 1 of 72 records (1%), 0 detected</title><rect x="693.0" y="11.3" width="26.0" height="1.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2021 — uncultured Perkinsea: 70 of 72 records (97%), 70 detected</title><rect x="693.0" y="12.6" width="26.0" height="89.4" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2010</text><text class="aw-tick" x="164.4" y="117">2012</text><text class="aw-tick" x="284.7" y="117">2014</text><text class="aw-tick" x="405.1" y="117">2016</text><text class="aw-tick" x="525.5" y="117">2018</text><text class="aw-tick" x="645.8" y="117">2020</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
 | diverged (no site) | 3 | 1% |  | uncultured Perkinsea 3 | small, subunit, F2, PL89, 2.7 |
 | other | 4 | 1% |  | uncultured Perkinsea 4 | 2015, Barcelona, F10, F11, T6 |
-| uncultured Perkinsea 3 | 384 | 98% |  | uncultured Perkinsea 384 | NWHC |
+| uncultured Perkinsea | 384 | 98% |  | uncultured Perkinsea 384 | NWHC |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 2%, 2020 0%, 2021 0%, 2022 72%, 2023 95%, 2024 100%, 2025 98%, 2026 26% (best year 100%). A low share is a fact about the query, not about the taxon.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | 300F-B | `GGGCTTCAYAGTCTTGCAAT` | 20 nt |
+| reverse | NAG01R_1 | `GCCTGCTTGAAACRCTCTAA` | 20 nt |
+| probe | PPC_P1 | `TGCCAAGAACGACCGTCCTAC` | 21 nt |
+
+## Verdict
+
+**no recent data** — no deposits within the window
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (60 months, from Nov 2021) | 0 | 0 | — | 0.0% – 100.0% |
+| baseline (everything earlier) | 166 | 391 | 42.5% | 37.7% – 47.4% |
+
+Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
+
+*no evaluable records deposited since Nov 2021 (window widened to 60 months to reach 15 evaluable records)*
+
+Trend across deposit years: by record rising (p = 2.11e-53, 5 years); by footprint rising (p = 0.00337). Reported for context; it is not an input to the verdict.
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope

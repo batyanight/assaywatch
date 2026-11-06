@@ -19,13 +19,6 @@
 | Amplicon | 120 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | LeptoF | `GATCATGAAGCAGAGRGCGGATATG` | 25 nt |
-| reverse | LeptoR | `CCATATCGGCGTCYCGAATTC` | 21 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -82,6 +75,13 @@ detected when it differs: 100% of 37
 detected when it does not: 100% of 883
 substitutions: G&gt;A in 37
 outside the 3′ window</title><rect x="225.0" y="119.2" width="13.0" height="6.8"/></g><text class="aw-base" x="231.5" y="139">G</text><text class="aw-base" x="246.5" y="139">C</text><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">C</text><text class="aw-base" x="306.5" y="139">Y</text><text class="aw-base" x="321.5" y="139">C</text><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">A</text><text class="aw-base" x="366.5" y="139">A</text><text class="aw-base" x="381.5" y="139">T</text><text class="aw-base" x="396.5" y="139">T</text><text class="aw-base" x="411.5" y="139">C</text><text class="aw-tick" x="411.5" y="153">1</text><text class="aw-tick" x="351.5" y="153">5</text><text class="aw-tick" x="276.5" y="153">10</text><text class="aw-tick" x="201.5" y="153">15</text><text class="aw-tick" x="126.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">21</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="423" y="139">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | LeptoF | `GATCATGAAGCAGAGRGCGGATATG` | 25 nt |
+| reverse | LeptoR | `CCATATCGGCGTCYCGAATTC` | 21 nt |
 
 
 ## Scope

@@ -1036,7 +1036,7 @@ def test_a_flat_chart_on_a_handful_of_records_becomes_a_sentence():
     threshold and three markers for 4 records all at 100%.
     """
     page = _page(years=_flat_years(3, 2), min_records=15)
-    md = site_render._charts_block(page)
+    md = site_render._year_block(page)
     assert "<svg" not in md.split("## Mismatch")[0], "no year chart for a flat handful"
     assert "6 evaluable records" in md and "2017" in md and "2019" in md
 
@@ -1044,32 +1044,32 @@ def test_a_flat_chart_on_a_handful_of_records_becomes_a_sentence():
 def test_a_flat_chart_on_many_records_still_draws():
     """Flat at 100% across thousands of records is a real result, and the chart shows it."""
     page = _page(years=_flat_years(3, 900), min_records=15)
-    assert "<svg" in site_render._charts_block(page).split("## Mismatch")[0]
+    assert "<svg" in site_render._year_block(page).split("## Mismatch")[0]
 
 
 def test_a_varying_chart_always_draws():
     years = _flat_years(3, 2)
     years[1]["share"] = 0.5
-    assert "<svg" in site_render._charts_block(_page(years=years, min_records=15)).split("## Mismatch")[0]
+    assert "<svg" in site_render._year_block(_page(years=years, min_records=15)).split("## Mismatch")[0]
 
 
 def test_an_extract_without_the_threshold_still_draws():
     """An older run.json carries no min_records; the rule simply does not fire."""
     page = _page(years=_flat_years(3, 2))
     page.pop("min_records", None)
-    assert "<svg" in site_render._charts_block(page).split("## Mismatch")[0]
+    assert "<svg" in site_render._year_block(page).split("## Mismatch")[0]
 
 
 def test_the_no_trend_sentence_counts_in_english():
-    one = site_render._charts_block(_page(years=_flat_years(1, 1), min_records=15))
+    one = site_render._year_block(_page(years=_flat_years(1, 1), min_records=15))
     assert "The one evaluable record" in one and "records**, deposited" not in one
     assert "in every year" not in one, "one year is not every year"
 
-    single_year = site_render._charts_block(_page(years=_flat_years(1, 6), min_records=15))
+    single_year = site_render._year_block(_page(years=_flat_years(1, 6), min_records=15))
     assert "all 6 were deposited in 2017" in single_year
     assert "in every year" not in single_year
 
-    missed = site_render._charts_block(_page(years=_flat_years(1, 1, share=0.0), min_records=15))
+    missed = site_render._year_block(_page(years=_flat_years(1, 1, share=0.0), min_records=15))
     assert "predicted to be missed" in missed
 
 
@@ -1324,13 +1324,13 @@ def test_an_empty_mismatch_track_says_why_it_is_empty():
         baseline_detected=70,
         baseline_evaluable=80,
     )
-    block = site_render._charts_block(page, None)
+    block = site_render._mismatch_block(page)
     assert "No position carried a mismatch in enough records to report" in block
     assert "20 of the 100" in block
     assert "no site" in block
 
     page.update(recent_detected=20, baseline_detected=80)
-    block = site_render._charts_block(page, None)
+    block = site_render._mismatch_block(page)
     assert "No position carried a mismatch in enough records to report" in block
     assert "were not detected" not in block
 
@@ -1365,7 +1365,7 @@ def test_a_protocol_page_does_not_claim_its_oligos_never_mismatched():
         positions=[],
         rounds=[dict(assay_id="N_round2", round="2", detected=1, evaluable=2, share=0.5)],
     )
-    block = site_render._charts_block(page, None)
+    block = site_render._mismatch_block(page)
     assert "No position carried a mismatch" not in block
     assert "the round" in block
 
@@ -1590,3 +1590,62 @@ def test_a_single_reported_lineage_is_not_called_every_record():
     )
     assert "Every evaluable record" not in md
     assert "Only one lineage has enough records to report here" in md
+
+
+def test_a_composition_file_from_another_run_stops_the_render(tmp_path):
+    data = tmp_path / "data"
+    data.mkdir()
+    (data / "run.json").write_text(
+        json.dumps(
+            {"schema": site.SCHEMA, "run_date": "2026-12-01", "assays": [], "nests": [], "threshold": 0.9}
+        )
+    )
+    from assaywatch.composition import SITE_SCHEMA
+
+    (data / "composition.json").write_text(
+        json.dumps({"schema": SITE_SCHEMA, "run_date": "2026-11-01", "assays": {}})
+    )
+    with pytest.raises(SystemExit, match="2026-11-01"):
+        site_render.main(["--data", str(data), "--out", str(tmp_path / "out")])
+
+
+def test_the_claim_and_a_withheld_note_are_escaped():
+    md = site_render.assay_page(
+        _page(status="", withheld_reasons=[["not_validated", "<b>x</b>"]], claim="<i>y</i>"), "2026-11-01"
+    )
+    assert "<b>x</b>" not in md and "&lt;b&gt;x" in md
+    assert "<i>y</i>" not in md and "&lt;i&gt;y" in md
+
+
+def test_the_graphs_lead_the_page_primer_then_line_then_bar():
+    comp = {
+        "years": [2020],
+        "cut": 0.05,
+        "ids": [0],
+        "names": ["X"],
+        "records": [[10]],
+        "detected": [[9]],
+    }
+    years = [
+        {"year": y, "detected": 18, "evaluable": 20, "share": 0.9, "recent": y == 2024}
+        for y in range(2018, 2025)
+    ]
+    md = site_render.assay_page(
+        _page(status="stable", years=years, min_records=15, oligos={"forward": "ACGT"}), "2026-11-01", comp
+    )
+    order = [
+        md.index("## Mismatch distribution"),
+        md.index("## Predicted detection by deposit year"),
+        md.index("## What was deposited, by lineage"),
+        md.index("## Oligos"),
+        md.index("## Verdict"),
+        md.index("## Scope"),
+    ]
+    assert order == sorted(order), order
+
+
+def test_a_withheld_page_gives_its_reason_before_its_map():
+    md = site_render.assay_page(
+        _page(status="", withheld_reasons=[["not_validated", ""]], oligos={"forward": "ACGT"}), "2026-11-01"
+    )
+    assert md.index("No status is reported") < md.index("## Mismatch distribution") < md.index("## Oligos")

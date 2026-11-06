@@ -19,14 +19,6 @@
 | Amplicon | 91 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | MTC-HELI-4F | `TTGATCAGGTCGACGATGTAG` | 21 nt |
-| reverse | MTC-HELI-4R | `TCACCACCGACAAAGCGTC` | 19 nt |
-| probe | MTC-HELI-4FAM | `TCAACGACCCCAACGACTGGTGC` | 23 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -63,6 +55,14 @@ detected when it differs: 88% of 84
 detected when it does not: 100% of 227
 substitutions: C&gt;G in 84
 outside the 3′ window</title><rect x="192.8" y="26.3" width="13.0" height="17.7"/></g><text class="aw-base" x="199.3" y="57">C</text><text class="aw-base" x="214.3" y="57">A</text><text class="aw-base" x="229.3" y="57">G</text><text class="aw-base" x="244.3" y="57">G</text><text class="aw-base" x="259.3" y="57">T</text><text class="aw-base" x="274.3" y="57">C</text><text class="aw-base" x="289.3" y="57">G</text><text class="aw-base" x="304.3" y="57">A</text><text class="aw-base" x="319.3" y="57">C</text><text class="aw-base" x="334.3" y="57">G</text><text class="aw-base" x="349.3" y="57">A</text><text class="aw-base" x="364.3" y="57">T</text><text class="aw-base" x="379.3" y="57">G</text><text class="aw-base" x="394.3" y="57">T</text><text class="aw-base" x="409.3" y="57">A</text><text class="aw-base" x="424.3" y="57">G</text><text class="aw-tick" x="424.3" y="71">1</text><text class="aw-tick" x="364.3" y="71">5</text><text class="aw-tick" x="289.3" y="71">10</text><text class="aw-tick" x="214.3" y="71">15</text><text class="aw-tick" x="139.3" y="71">20</text><text class="aw-tick" x="124.3" y="71">21</text><text class="aw-end" x="113" y="57">5′</text><text class="aw-end aw-end-3" x="436" y="57">3′</text><text class="aw-track-label" x="87" y="134">reverse</text><text class="aw-track-name" x="87" y="146">MTC-HELI-4R</text><rect class="aw-zone" x="326.8" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="116.8" y1="126.0" x2="401.8" y2="126.0"/><text class="aw-base" x="124.3" y="139">T</text><text class="aw-base" x="139.3" y="139">C</text><text class="aw-base" x="154.3" y="139">A</text><text class="aw-base" x="169.3" y="139">C</text><text class="aw-base" x="184.3" y="139">C</text><text class="aw-base" x="199.3" y="139">A</text><text class="aw-base" x="214.3" y="139">C</text><text class="aw-base" x="229.3" y="139">C</text><text class="aw-base" x="244.3" y="139">G</text><text class="aw-base" x="259.3" y="139">A</text><text class="aw-base" x="274.3" y="139">C</text><text class="aw-base" x="289.3" y="139">A</text><text class="aw-base" x="304.3" y="139">A</text><text class="aw-base" x="319.3" y="139">A</text><text class="aw-base" x="334.3" y="139">G</text><text class="aw-base" x="349.3" y="139">C</text><text class="aw-base" x="364.3" y="139">G</text><text class="aw-base" x="379.3" y="139">T</text><text class="aw-base" x="394.3" y="139">C</text><text class="aw-tick" x="394.3" y="153">1</text><text class="aw-tick" x="334.3" y="153">5</text><text class="aw-tick" x="259.3" y="153">10</text><text class="aw-tick" x="184.3" y="153">15</text><text class="aw-tick" x="124.3" y="153">19</text><text class="aw-end" x="113" y="139">5′</text><text class="aw-end aw-end-3" x="406" y="139">3′</text><text class="aw-track-label" x="87" y="216">probe</text><text class="aw-track-name" x="87" y="228">MTC-HELI-4FAM</text><rect class="aw-zone" x="221.8" y="174.0" width="135.0" height="52.0"/><line class="aw-axis" x1="116.8" y1="208.0" x2="461.8" y2="208.0"/><text class="aw-base" x="124.3" y="221">T</text><text class="aw-base" x="139.3" y="221">C</text><text class="aw-base" x="154.3" y="221">A</text><text class="aw-base" x="169.3" y="221">A</text><text class="aw-base" x="184.3" y="221">C</text><text class="aw-base" x="199.3" y="221">G</text><text class="aw-base" x="214.3" y="221">A</text><text class="aw-base" x="229.3" y="221">C</text><text class="aw-base" x="244.3" y="221">C</text><text class="aw-base" x="259.3" y="221">C</text><text class="aw-base" x="274.3" y="221">C</text><text class="aw-base" x="289.3" y="221">A</text><text class="aw-base" x="304.3" y="221">A</text><text class="aw-base" x="319.3" y="221">C</text><text class="aw-base" x="334.3" y="221">G</text><text class="aw-base" x="349.3" y="221">A</text><text class="aw-base" x="364.3" y="221">C</text><text class="aw-base" x="379.3" y="221">T</text><text class="aw-base" x="394.3" y="221">G</text><text class="aw-base" x="409.3" y="221">G</text><text class="aw-base" x="424.3" y="221">T</text><text class="aw-base" x="439.3" y="221">G</text><text class="aw-base" x="454.3" y="221">C</text><text class="aw-tick" x="454.3" y="235">1</text><text class="aw-tick" x="394.3" y="235">5</text><text class="aw-tick" x="319.3" y="235">10</text><text class="aw-tick" x="244.3" y="235">15</text><text class="aw-tick" x="169.3" y="235">20</text><text class="aw-tick" x="124.3" y="235">23</text><text class="aw-end" x="113" y="221">5′</text><text class="aw-end aw-end-3" x="466" y="221">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | MTC-HELI-4F | `TTGATCAGGTCGACGATGTAG` | 21 nt |
+| reverse | MTC-HELI-4R | `TCACCACCGACAAAGCGTC` | 19 nt |
+| probe | MTC-HELI-4FAM | `TCAACGACCCCAACGACTGGTGC` | 23 nt |
 
 
 ## Scope

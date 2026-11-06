@@ -430,29 +430,24 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
     out.append("")
     out += _species_sizes_block(a)
 
-    # Oligos, 5'->3', as stored.
-    if a["oligos"]:
-        names = _oligo_names().get(a["assay_id"], {})
-        out.append("## Oligos\n")
-        out.append("| role | name | sequence (5'→3') | length |\n|---|---|---|---|")
-        for role, seq in a["oligos"].items():
-            # The name the paper gave it, which is how a reader matches this row
-            # to the paper's own table or to a tube in a freezer.
-            out.append(f"| {role} | {names.get(role, '—')} | `{seq}` | {len(seq)} nt |")
-        out.append("")
-
     if a["withheld_reasons"]:
         out.append(_withheld_block(a))
         out.append(_withheld_map(a))
+        out += _oligos_block(a)
         out.append(_scope_block(a))
         out += _rounds_block(a)
         out += _curation_block(a)
         out += _contribute_block(a, run_date)
         return "\n".join(out) + "\n"
 
-    out.append(_verdict_block(a, run_date))
-    out.append(_charts_block(a, composition))
+    # The graphs lead, primer then line then bar (maintainer's order, 2026-11-04): the page
+    # opens on the evidence, and the arithmetic behind the verdict follows it.
+    out.append(_mismatch_block(a))
+    out.append(_year_block(a, composition))
     out += _composition_block(composition)
+    out += _lineage_block(a)
+    out += _oligos_block(a)
+    out.append(_verdict_block(a, run_date))
     out.append(_scope_block(a))
     out.append(_denominator_block(a))
     # Near the foot and in small type: the protocol's own verdict is the page;
@@ -461,6 +456,21 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
     out += _curation_block(a)
     out += _contribute_block(a, run_date)
     return "\n".join(out) + "\n"
+
+
+def _oligos_block(a: dict[str, Any]) -> list[str]:
+    """The oligos 5'->3', as stored."""
+    if not a["oligos"]:
+        return []
+    names = _oligo_names().get(a["assay_id"], {})
+    out = ["## Oligos\n", "| role | name | sequence (5'→3') | length |\n|---|---|---|---|"]
+    # The name the paper gave it, which is how a reader matches this row to the paper's own
+    # table or to a tube in a freezer.
+    out += [
+        f"| {role} | {names.get(role, '—')} | `{seq}` | {len(seq)} nt |" for role, seq in a["oligos"].items()
+    ]
+    out.append("")
+    return out
 
 
 def _withheld_block(a: dict[str, Any]) -> str:
@@ -476,7 +486,7 @@ def _withheld_block(a: dict[str, Any]) -> str:
         "",
     ]
     for flag, note in a["withheld_reasons"]:
-        lines.append(f"    - **`{flag}`** — {note}" if note else f"    - **`{flag}`**")
+        lines.append(f"    - **`{flag}`** — {_md_text(note)}" if note else f"    - **`{flag}`**")
     return "\n".join(lines) + "\n"
 
 
@@ -565,11 +575,33 @@ def _same_mix(comp: dict[str, Any] | None) -> dict[int, float]:
     return {year: share for year, share in pairs if share is not None}
 
 
+def _md_text(value: Any) -> str:
+    """Text from the data, for raw Markdown. Markdown passes HTML through, and an organism
+    name can come from a GenBank title; a pipe would also end a table cell."""
+    return html.escape(str(value), quote=False).replace("|", "&#124;")
+
+
+def _coverage_sentence(comp: dict[str, Any]) -> list[str]:
+    """How much of the taxon the query saw, per deposit year, where the run counted it."""
+    years = comp.get("coverage_years") or []
+    query, taxon = comp.get("coverage_query") or [], comp.get("coverage_taxon") or []
+    shares = [(y, q / t) for y, q, t in zip(years, query, taxon, strict=False) if q is not None and t]
+    if not shares:
+        return []
+    best = max(s for _, s in shares)
+    recent = ", ".join(f"{y} {s:.0%}" for y, s in shares[-8:])
+    return [
+        f"Of the records the target taxon holds, the share its own retrieval query returned, per "
+        f"deposit year: {recent} (best year {best:.0%}). A low share is a fact about the query, "
+        "not about the taxon.\n",
+    ]
+
+
 def _mix_cell(comp: dict[str, Any], col: int) -> str:
     """A group's top species with their counts; the file holds the top three."""
     mixes = comp.get("mix") or []
     mix = mixes[col] if col < len(mixes) else []
-    return ", ".join(f"{name} {n:,}" for name, n in mix) if mix else "--"
+    return ", ".join(f"{_md_text(name)} {n:,}" for name, n in mix) if mix else "--"
 
 
 def _mixed_largest_group(names: list[str], ids: list[int], totals: list[int]) -> str | None:
@@ -583,7 +615,8 @@ def _mixed_largest_group(names: list[str], ids: list[int], totals: list[int]) ->
     if not named:
         return None
     largest = names[max(named, key=lambda i: totals[i])]
-    return largest if largest.endswith("%") else None
+    # "X 38%", or "X 38% 2" where two groups share a modal species.
+    return largest if re.search(r"\d%( \d+)?$", largest) else None
 
 
 def _composition_block(comp: dict[str, Any] | None) -> list[str]:
@@ -612,11 +645,12 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     mixed = _mixed_largest_group(names, ids, totals)
     if mixed:
         lines += [
-            f"**The largest group here, {mixed}, mixes species,** so the dashed line can't",
-            "separate a shift between them. The table below shows which species each group holds.\n",
+            f"**The largest group here, {_md_text(mixed)}, holds several species names,** which may be",
+            "different species or one species under more than one name. The dashed line can't separate",
+            "a shift between species within a group. The table below shows the names in each group.\n",
         ]
     if comp.get("note"):
-        lines += [f"*{comp['note']}.*\n"]
+        lines += [f"*{_md_text(comp['note'])}.*\n"]
     lines += [site_svg.composition_panel(comp, {}), ""]
     lines += [
         "| Lineage | Records | Share | New since design | Species | Also in the titles |",
@@ -631,10 +665,12 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
             else False
         )
         lines.append(
-            f"| {names[col] if col < len(names) else cid} | {n:,} | {n / grand:.0%} | "
-            f"{'yes' if new else ''} | {_mix_cell(comp, col)} | {', '.join(tokens) if tokens else '--'} |"
+            f"| {_md_text(names[col] if col < len(names) else cid)} | {n:,} | {n / grand:.0%} | "
+            f"{'yes' if new else ''} | {_mix_cell(comp, col)} | "
+            f"{_md_text(', '.join(tokens)) if tokens else '--'} |"
         )
     lines.append("")
+    lines += _coverage_sentence(comp)
     split = comp.get("split")
     if split:
         mix, within = split["mix"], split["within"]
@@ -651,7 +687,7 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     return lines
 
 
-def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
+def _year_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
     lines = ["## Predicted detection by deposit year\n"]
     flat = _no_trend_to_draw(a)
     if flat:
@@ -665,11 +701,14 @@ def _charts_block(a: dict[str, Any], comp: dict[str, Any] | None = None) -> str:
             site_svg.year_chart(a, _same_mix(comp)),
             "",
         ]
-    lines += _mismatch_lines(a)
+    return "\n".join(lines)
+
+
+def _mismatch_block(a: dict[str, Any]) -> str:
+    lines = _mismatch_lines(a)
     if not a["positions"]:
         lines.append(_no_bars_note(a))
-    lines += _lineage_block(a)
-    return "\n".join(lines)
+    return "\n".join(lines) + "\n"
 
 
 _FLAGS = frozenset(ReviewFlag)
@@ -773,7 +812,7 @@ def _lineage_block(a: dict[str, Any]) -> list[str]:
     if len(lins) == 1:
         item = lins[0]
         out += [
-            f"Only one lineage has enough records to report here: **{item['lineage']}** "
+            f"Only one lineage has enough records to report here: **{_md_text(item['lineage'])}** "
             f"({item['detected']:,} of {item['evaluable']:,} detected, "
             f"{100 * item['share']:.1f}%, 95% interval {100 * item['ci'][0]:.1f}"
             f"\u2013{100 * item['ci'][1]:.1f}%). The split matters where an assay spans several "
@@ -834,9 +873,9 @@ def _scope_summary(a: dict[str, Any], protocol: bool) -> str:
         scored = f"the {n:,} taxa listed below and anything beneath them"
     else:
         scored = "every record retrieved"
-    meant = f"**Meant to detect:** {a['claim']}  \n" if a.get("claim") else ""
+    meant = f"**Meant to detect:** {_md_text(a['claim'])}  \n" if a.get("claim") else ""
     how = "limited by a query on the title or gene" if a.get("query") else "every record"
-    retrieved = f"{a['taxon']} (taxid {a['taxid']}), {how}"
+    retrieved = f"{_md_text(a['taxon'])} (taxid {a['taxid']}), {how}"
     return f"{meant}**Scored against:** {scored}.  \n**Retrieved from:** {retrieved}.\n"
 
 
@@ -1256,6 +1295,12 @@ def main(argv: list[str] | None = None) -> int:
         if composition.get("schema") != SITE_SCHEMA:
             raise SystemExit(
                 f"composition.json is schema {composition.get('schema')}, this renderer expects {SITE_SCHEMA}"
+            )
+        if composition.get("run_date") != data.get("run_date"):
+            raise SystemExit(
+                f"composition.json is from {composition.get('run_date')} and run.json from "
+                f"{data.get('run_date')}: each page would print one run's date over the other's "
+                "lineage graphs. Re-run `assaywatch.site extract` with --composition."
             )
     n = render(data, args.out, composition)
     print(f"{n} assay pages into {args.out / 'assays'}")

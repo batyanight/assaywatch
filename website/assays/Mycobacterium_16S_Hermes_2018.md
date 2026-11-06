@@ -19,14 +19,6 @@
 | Amplicon | 204 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Mycobac16S_F | `TGCGGGCGATACGGGCAGRCT` | 21 nt |
-| reverse | Mycobac16S_R | `CCACACCTAGTWCCCACCGTTTAC` | 24 nt |
-| probe | Mycobac16S_SFAM | `TGGCGAAGGCGGGTCTCTGGGCAGTA` | 26 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -183,6 +175,14 @@ detected when it differs: 16% of 25
 detected when it does not: 97% of 6,566
 substitutions: A&gt;T in 13, A&gt;G in 8, A&gt;C in 4
 outside the central third</title><rect x="505.2" y="205.9" width="13.0" height="2.1"/></g><text class="aw-base" x="511.7" y="221">A</text><text class="aw-tick" x="511.7" y="235">1</text><text class="aw-tick" x="451.7" y="235">5</text><text class="aw-tick" x="376.7" y="235">10</text><text class="aw-tick" x="301.7" y="235">15</text><text class="aw-tick" x="226.7" y="235">20</text><text class="aw-tick" x="151.7" y="235">25</text><text class="aw-tick" x="136.7" y="235">26</text><text class="aw-end" x="125" y="221">5′</text><text class="aw-end aw-end-3" x="523" y="221">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Mycobac16S_F | `TGCGGGCGATACGGGCAGRCT` | 21 nt |
+| reverse | Mycobac16S_R | `CCACACCTAGTWCCCACCGTTTAC` | 24 nt |
+| probe | Mycobac16S_SFAM | `TGGCGAAGGCGGGTCTCTGGGCAGTA` | 26 nt |
 
 
 ## Scope

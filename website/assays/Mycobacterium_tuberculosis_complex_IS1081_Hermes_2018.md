@@ -19,14 +19,6 @@
 | Amplicon | 110 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | MTC-IS1081-5F | `CTCTCGACGTTCATCGCCG` | 19 nt |
-| reverse | MTC-IS1081-5Rn | `TGGCGGTAGCCGTTGCGC` | 18 nt |
-| probe | MTC-IS1081-5FAM | `ATTGGACCGCTCATCGCTGCGTTC` | 24 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -63,6 +55,14 @@ detected when it differs: 100% of 22
 detected when it does not: 100% of 1,428
 substitutions: G&gt;A in 22
 outside the 3′ window</title><rect x="295.2" y="121.8" width="13.0" height="4.2"/></g><text class="aw-base" x="301.7" y="139">G</text><text class="aw-base" x="316.7" y="139">T</text><text class="aw-base" x="331.7" y="139">T</text><text class="aw-base" x="346.7" y="139">G</text><text class="aw-base" x="361.7" y="139">C</text><text class="aw-base" x="376.7" y="139">G</text><text class="aw-base" x="391.7" y="139">C</text><text class="aw-tick" x="391.7" y="153">1</text><text class="aw-tick" x="331.7" y="153">5</text><text class="aw-tick" x="256.7" y="153">10</text><text class="aw-tick" x="181.7" y="153">15</text><text class="aw-tick" x="136.7" y="153">18</text><text class="aw-end" x="125" y="139">5′</text><text class="aw-end aw-end-3" x="403" y="139">3′</text><text class="aw-track-label" x="99" y="216">probe</text><text class="aw-track-name" x="99" y="228">MTC-IS1081-5FAM</text><rect class="aw-zone" x="249.2" y="174.0" width="120.0" height="52.0"/><line class="aw-axis" x1="129.2" y1="208.0" x2="489.2" y2="208.0"/><text class="aw-base" x="136.7" y="221">A</text><text class="aw-base" x="151.7" y="221">T</text><text class="aw-base" x="166.7" y="221">T</text><text class="aw-base" x="181.7" y="221">G</text><text class="aw-base" x="196.7" y="221">G</text><text class="aw-base" x="211.7" y="221">A</text><text class="aw-base" x="226.7" y="221">C</text><text class="aw-base" x="241.7" y="221">C</text><text class="aw-base" x="256.7" y="221">G</text><text class="aw-base" x="271.7" y="221">C</text><text class="aw-base" x="286.7" y="221">T</text><text class="aw-base" x="301.7" y="221">C</text><text class="aw-base" x="316.7" y="221">A</text><text class="aw-base" x="331.7" y="221">T</text><text class="aw-base" x="346.7" y="221">C</text><text class="aw-base" x="361.7" y="221">G</text><text class="aw-base" x="376.7" y="221">C</text><text class="aw-base" x="391.7" y="221">T</text><text class="aw-base" x="406.7" y="221">G</text><text class="aw-base" x="421.7" y="221">C</text><text class="aw-base" x="436.7" y="221">G</text><text class="aw-base" x="451.7" y="221">T</text><text class="aw-base" x="466.7" y="221">T</text><text class="aw-base" x="481.7" y="221">C</text><text class="aw-tick" x="481.7" y="235">1</text><text class="aw-tick" x="421.7" y="235">5</text><text class="aw-tick" x="346.7" y="235">10</text><text class="aw-tick" x="271.7" y="235">15</text><text class="aw-tick" x="196.7" y="235">20</text><text class="aw-tick" x="136.7" y="235">24</text><text class="aw-end" x="125" y="221">5′</text><text class="aw-end aw-end-3" x="493" y="221">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | MTC-IS1081-5F | `CTCTCGACGTTCATCGCCG` | 19 nt |
+| reverse | MTC-IS1081-5Rn | `TGGCGGTAGCCGTTGCGC` | 18 nt |
+| probe | MTC-IS1081-5FAM | `ATTGGACCGCTCATCGCTGCGTTC` | 24 nt |
 
 
 ## Scope

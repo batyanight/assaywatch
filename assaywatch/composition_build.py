@@ -133,7 +133,10 @@ def build_assay(
             spans.append((r, seq, *placed))
 
     shape = window_shape(
-        [available_flank(seq, amp, stop_n_run=opts.stop_n_run) for _, seq, amp, _ in spans],
+        [
+            available_flank(seq, amp, stop_n_run=opts.stop_n_run, limit=2 * opts.flank_bp)
+            for _, seq, amp, _ in spans
+        ],
         flank_bp=opts.flank_bp,
         quantile=opts.shape_quantile,
     )
@@ -224,10 +227,14 @@ def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, s
     titles: dict[str, str] = {}
     if assay.target.taxid is None:
         return seqs, titles
-    group = retrieved / str(assay.target.taxid) / group_slug(assay.target.query)
-    if not group.is_dir():
-        return seqs, titles
-    for fasta in sorted(group.glob("*.fasta.gz")):
+    taxon = retrieved / str(assay.target.taxid)
+    # `asm` is the genomes `assemblies.taxa` adds, cut to the loci with `windows.buffer_bp`
+    # of flank. They are real records in the graph, and without them Yersinia yst read
+    # "every record is unplaced" on 35 of its 37. Short windows go by containment.
+    groups = [g for g in (taxon / group_slug(assay.target.query), taxon / "asm") if g.is_dir()]
+    fastas = [f for g in groups for f in sorted(g.glob("*.fasta.gz"))]
+    metas = [m for g in groups for m in sorted(g.glob("*.meta.tsv.gz"))]
+    for fasta in fastas:
         if (fasta.parent / (fasta.name.removesuffix(".fasta.gz") + ".windows.tsv.gz")).exists():
             warnings.warn(
                 f"{fasta} is a window archive; a composition window needs whole records, skipped",
@@ -238,7 +245,7 @@ def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, s
             base = strip_version(rid)
             if base in wanted and base not in seqs:
                 seqs[base] = seq.upper()
-    for meta in sorted(group.glob("*.meta.tsv.gz")):
+    for meta in metas:
         with gzip.open(meta, "rt") as fh:
             header = (fh.readline() or "").rstrip("\n").split("\t")
             if "accession" not in header:
@@ -247,8 +254,11 @@ def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, s
             ti = header.index("title") if "title" in header else None
             for line in fh:
                 parts = line.rstrip("\n").split("\t")
-                if len(parts) > ai and parts[ai] in wanted and ti is not None and len(parts) > ti:
-                    titles.setdefault(parts[ai], parts[ti])
+                if len(parts) <= ai or ti is None or len(parts) <= ti:
+                    continue
+                base = strip_version(parts[ai])
+                if base in wanted:
+                    titles.setdefault(base, parts[ti])
     return seqs, titles
 
 

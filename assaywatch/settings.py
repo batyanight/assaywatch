@@ -403,6 +403,10 @@ class Composition(Block):
     boot_seed: int = 0
     #: Calendar years re-counted by esearch each run; older years come from the cache.
     coverage_refresh_years: int = Field(default=2, ge=1)
+    #: Failed esearch calls in a row before a coverage count stops asking NCBI.
+    coverage_max_failures: int = Field(default=5, gt=0)
+    #: lineage.md names a year whose query share is under this fraction of the best year's.
+    coverage_thin_of_best: float = Field(default=0.3333, gt=0.0, le=1.0)
     #: The cap on website/data/composition.json, which is committed every run.
     site_max_bytes: int = Field(default=1_500_000, gt=0)
     #: The report section names an assay whose mix part is at least this.

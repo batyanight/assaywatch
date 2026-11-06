@@ -19,13 +19,6 @@
 | Amplicon | 734 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | HV-DFA | `GAYTTYGCNAGYYTNTAYCC` | 20 nt |
-| reverse | HV-KG1 | `GTCTTGCTCACCAGNTCNACNCCYTT` | 26 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -123,6 +116,13 @@ detected when it differs: 99% of 681
 detected when it does not: 99% of 3,340
 substitutions: G&gt;A in 579, G&gt;T in 102
 outside the 3′ window</title><rect x="300.0" y="112.0" width="13.0" height="14.0"/></g><text class="aw-base" x="306.5" y="139">G</text><text class="aw-base" x="321.5" y="139">N</text><text class="aw-base" x="336.5" y="139">T</text><text class="aw-base" x="351.5" y="139">C</text><text class="aw-base" x="366.5" y="139">N</text><text class="aw-base" x="381.5" y="139">A</text><text class="aw-base" x="396.5" y="139">C</text><text class="aw-base" x="411.5" y="139">N</text><text class="aw-base" x="426.5" y="139">C</text><text class="aw-base" x="441.5" y="139">C</text><text class="aw-base" x="456.5" y="139">Y</text><text class="aw-base" x="471.5" y="139">T</text><text class="aw-base" x="486.5" y="139">T</text><text class="aw-tick" x="486.5" y="153">1</text><text class="aw-tick" x="426.5" y="153">5</text><text class="aw-tick" x="351.5" y="153">10</text><text class="aw-tick" x="276.5" y="153">15</text><text class="aw-tick" x="201.5" y="153">20</text><text class="aw-tick" x="126.5" y="153">25</text><text class="aw-tick" x="111.5" y="153">26</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="498" y="139">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | HV-DFA | `GAYTTYGCNAGYYTNTAYCC` | 20 nt |
+| reverse | HV-KG1 | `GTCTTGCTCACCAGNTCNACNCCYTT` | 26 nt |
 
 
 ## Scope
