@@ -224,6 +224,10 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 - [x] **Security review and code review once the new lineage graphs are live.** Done 2026-11-05:
   no security finding at confidence 8 or above, 14 code review findings all fixed.
   `docs/journal/2026-11-05-review-fixes-rebuilt.md`.
+- [ ] **RefSeq copies count as separate deposits.** On branch `refseq-twins`: the `NZ_` fix is committed, and
+  publishing it needs a composition rebuild, a site extract and `pytest -m slow`. Then decide on `NC_` copies:
+  3,614 of 3,708 are identical to a non-RefSeq record, effect on status unmeasured.
+  `docs/journal/2026-11-06-refseq-twins.md`.
 - [ ] **Reconcile species names in the lineage groups.** Title names and taxonomy names don't match
   for one virus (*Human bocavirus* and *Bocaparvovirus primate1*), so a group can show a percent
   though it holds one species. Pages word this as several names until then. On the 2026-11-01 run, 42 of 201 assays have a

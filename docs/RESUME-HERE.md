@@ -1,3 +1,16 @@
+# Resume point, 2026-11-06 (stopped mid-task at the maintainer's request)
+
+**Checked out: branch `refseq-twins`, local only. `main` is what's published.** Read
+`docs/journal/2026-11-06-refseq-twins.md`. The `NZ_` fix is committed, but the site data isn't regenerated, and
+that will move two *V. coralliilyticus* vcpA statuses to `insufficient data`. No jobs are running. Rebuild with
+`assaywatch composition`, `python -m assaywatch.site extract ... --composition`, then `site_render`. The coverage
+file from the last build sat in the session scratchpad and may be gone, so it may need recounting with
+`assaywatch retrieve --year-counts`.
+
+**Also waiting: branch `next-run-prep`, local only,** with the Zimmermann correction, FT443 and the Li query. It
+stays unmerged until a live run, which the maintainer declined for now, and one extract test fails there until
+then. Its `ROADMAP.md` also carries a RefSeq item, which will conflict with this branch's when both merge.
+
 # Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
 
 **The security and code review fixes and the page order are in the PR from `scope-review-fixes`.**

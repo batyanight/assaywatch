@@ -41,6 +41,33 @@ def test_calls_are_deduplicated_to_one_row_per_accession():
     assert {r["record_id"] for r in out} == {"AB1"}
 
 
+def test_a_refseq_copy_of_a_genbank_record_counts_once_and_the_deposit_is_kept():
+    """`NZ_CP1` is RefSeq's copy of `CP1`. Counted as two records, one genome weighs double,
+    and the copy's later date moves it toward the recent window."""
+    rows = [
+        {"assay_id": "A", "record_id": "NZ_CP1.1", "call": "fail"},
+        {"assay_id": "A", "record_id": "CP1.2", "call": "detect"},
+        {"assay_id": "A", "record_id": "CP2.1", "call": "detect"},
+    ]
+    assert sorted(r["record_id"] for r in key_calls_by_accession(rows)) == ["CP1", "CP2"]
+    assert {r["call"] for r in key_calls_by_accession(rows)} == {"detect"}
+
+
+def test_a_refseq_record_stays_when_its_source_is_not_in_that_assay():
+    rows = [
+        {"assay_id": "A", "record_id": "NZ_CP1.1", "call": "fail"},
+        {"assay_id": "B", "record_id": "CP1.1", "call": "detect"},
+        {"assay_id": "A", "record_id": "NC_000962.3", "call": "detect"},
+        {"assay_id": "A", "record_id": "000962.1", "call": "detect"},
+    ]
+    assert {(r["assay_id"], r["record_id"]) for r in key_calls_by_accession(rows)} == {
+        ("A", "NZ_CP1"),
+        ("B", "CP1"),
+        ("A", "NC_000962"),
+        ("A", "000962"),
+    }
+
+
 def test_read_years_prefers_the_latest_revision(tmp_path):
     d = tmp_path / "109871"
     d.mkdir(parents=True)

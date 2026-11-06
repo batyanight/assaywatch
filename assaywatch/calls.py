@@ -30,7 +30,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, TextIO
 
-from assaywatch.accession import strip_version, version_of
+from assaywatch.accession import refseq_source, strip_version, version_of
 from assaywatch.drift import (
     FOOTPRINT_COLUMNS,
     FOOTPRINT_REQUIRED,
@@ -396,6 +396,9 @@ def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
     Newest means the highest `.N` version, not the last row: the pipeline
     concatenates archives group by group, so an older version can come last.
+
+    A RefSeq `NZ_` copy is dropped when its GenBank source is in the same assay's calls:
+    they are one deposit, and the GenBank row carries the original date.
     """
     seen: dict[tuple[str, str], tuple[int, dict[str, Any]]] = {}
     for row in calls:
@@ -404,4 +407,4 @@ def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
         key = (row["assay_id"], acc)
         if key not in seen or v >= seen[key][0]:
             seen[key] = (v, {**row, "record_id": acc})
-    return [row for _, row in seen.values()]
+    return [row for (assay_id, acc), (_, row) in seen.items() if (assay_id, refseq_source(acc)) not in seen]
