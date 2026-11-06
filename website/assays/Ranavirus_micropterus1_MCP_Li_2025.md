@@ -19,13 +19,6 @@
 | Amplicon | 127 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | MCP-F1 | `GTTCATTGATCTCGCCACTTATGACAGCCT` | 30 nt |
-| reverse | MCP-R1 | `TGTGGCAGCCGTAGGCAGTTTGGTAAACCA` | 30 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -36,6 +29,13 @@
 
     - **`not_screenable`** — the chemistry is RPA; the penalties are calibrated on PCR
 
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | MCP-F1 | `GTTCATTGATCTCGCCACTTATGACAGCCT` | 30 nt |
+| reverse | MCP-R1 | `TGTGGCAGCCGTAGGCAGTTTGGTAAACCA` | 30 nt |
 
 
 ## Scope

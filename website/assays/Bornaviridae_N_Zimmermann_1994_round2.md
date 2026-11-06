@@ -19,13 +19,6 @@
 | Amplicon | — |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | BornaNestF | `GCCTTGTGTTTCTATCTTTC` | 20 nt |
-| reverse | BornaNestR | `ATTCTTTACCTGGGGACTCA` | 20 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -37,6 +30,13 @@
     - **`oligo_sequence_uncertain`** — the printed BornaNestF matches 0 of 1,516 records, differing from every one at the 3'-terminal base; whether the 1994 scan is right has not been settled, and no verdict publishes until it is
     - **`amplicon_size_unresolved`** — no product size is declared
 
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | BornaNestF | `GCCTTGTGTTTCTATCTTTC` | 20 nt |
+| reverse | BornaNestR | `ATTCTTTACCTGGGGACTCA` | 20 nt |
 
 
 ## Scope

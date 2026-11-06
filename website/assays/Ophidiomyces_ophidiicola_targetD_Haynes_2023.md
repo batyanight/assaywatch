@@ -19,40 +19,6 @@
 | Amplicon | 57 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | D-forward | `AGCGTTTTGCCCCAGCTA` | 18 nt |
-| reverse | D-reverse | `GCAATGTTGCTCCGCAGTACT` | 21 nt |
-| probe | D-probe | `CTCGACTACGAAATCG` | 16 nt |
-
-## Verdict
-
-**stable** — the recent interval does not fall below the threshold
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (60 months, from Nov 2021) | 81 | 81 | 100.0% | 95.5% – 100.0% |
-| baseline (everything earlier) | 0 | 0 | — | 0.0% – 100.0% |
-
-Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
-
-*detected share 100.0% (95%-100%) since Nov 2021 (window widened to 60 months to reach 15 evaluable records)*
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2022 to 2022, against a 90 percent threshold."><rect class="aw-window" x="375.0" y="12.0" width="331.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><g class="aw-point aw-stable"><title>2022: 81 of 81 detected (100.0%) — recent window</title><circle cx="375.0" cy="20.2" r="4.7"/></g><text class="aw-tick" x="375.0" y="208">2022</text><text class="aw-axis-label" x="375" y="224">one year holds every evaluable record</text></svg>
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -212,9 +178,14 @@ detected when it does not: 48% of 168
 substitutions: T&gt;C in 24
 inside the 3′ window</title><rect x="405.0" y="114.0" width="13.0" height="12.0"/></g><text class="aw-base" x="411.5" y="139">T</text><text class="aw-tick" x="411.5" y="153">1</text><text class="aw-tick" x="351.5" y="153">5</text><text class="aw-tick" x="276.5" y="153">10</text><text class="aw-tick" x="201.5" y="153">15</text><text class="aw-tick" x="126.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">21</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="423" y="139">3′</text><text class="aw-track-label" x="74" y="216">probe</text><text class="aw-track-name" x="74" y="228">D-probe</text><rect class="aw-zone" x="179.0" y="174.0" width="90.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="208.0" x2="344.0" y2="208.0"/><text class="aw-base" x="111.5" y="221">C</text><text class="aw-base" x="126.5" y="221">T</text><text class="aw-base" x="141.5" y="221">C</text><text class="aw-base" x="156.5" y="221">G</text><text class="aw-base" x="171.5" y="221">A</text><text class="aw-base" x="186.5" y="221">C</text><text class="aw-base" x="201.5" y="221">T</text><text class="aw-base" x="216.5" y="221">A</text><text class="aw-base" x="231.5" y="221">C</text><text class="aw-base" x="246.5" y="221">G</text><text class="aw-base" x="261.5" y="221">A</text><text class="aw-base" x="276.5" y="221">A</text><text class="aw-base" x="291.5" y="221">A</text><text class="aw-base" x="306.5" y="221">T</text><text class="aw-base" x="321.5" y="221">C</text><text class="aw-base" x="336.5" y="221">G</text><text class="aw-tick" x="336.5" y="235">1</text><text class="aw-tick" x="276.5" y="235">5</text><text class="aw-tick" x="201.5" y="235">10</text><text class="aw-tick" x="126.5" y="235">15</text><text class="aw-tick" x="111.5" y="235">16</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="348" y="221">3′</text></svg>
 
-## By lineage
+## Predicted detection by deposit year
 
-Only one lineage has enough records to report here: **Ophidiomyces ophidiicola (1387563)** (81 of 81 detected, 100.0%, 95% interval 95.5–100.0%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2022 to 2022, against a 90 percent threshold."><rect class="aw-window" x="375.0" y="12.0" width="331.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><g class="aw-point aw-stable"><title>2022: 81 of 81 detected (100.0%) — recent window</title><circle cx="375.0" cy="20.2" r="4.7"/></g><text class="aw-tick" x="375.0" y="208">2022</text><text class="aw-axis-label" x="375" y="224">one year holds every evaluable record</text></svg>
 
 ## What was deposited, by lineage
 
@@ -232,6 +203,38 @@ detects.
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
 | O. ophidiicola | 81 | 100% |  | Ophidiomyces ophidiicola 81 | -- |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2016 0%, 2017 0%, 2020 0%, 2021 0%, 2022 79%, 2023 38%, 2025 0%, 2026 17% (best year 79%). A low share is a fact about the query, not about the taxon.
+
+
+## By lineage
+
+Only one lineage has enough records to report here: **Ophidiomyces ophidiicola (1387563)** (81 of 81 detected, 100.0%, 95% interval 95.5–100.0%). The split matters where an assay spans several clades: a pooled percentage can look healthy while one lineage fails completely.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | D-forward | `AGCGTTTTGCCCCAGCTA` | 18 nt |
+| reverse | D-reverse | `GCAATGTTGCTCCGCAGTACT` | 21 nt |
+| probe | D-probe | `CTCGACTACGAAATCG` | 16 nt |
+
+## Verdict
+
+**stable** — the recent interval does not fall below the threshold
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (60 months, from Nov 2021) | 81 | 81 | 100.0% | 95.5% – 100.0% |
+| baseline (everything earlier) | 0 | 0 | — | 0.0% – 100.0% |
+
+Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
+
+*detected share 100.0% (95%-100%) since Nov 2021 (window widened to 60 months to reach 15 evaluable records)*
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope

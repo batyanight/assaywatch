@@ -19,34 +19,6 @@
 | Amplicon | 1059 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | PythonNodoF | `ACCTGCTACCGATGTCCAAG` | 20 nt |
-| reverse | PythonNodoR | `GTCGTTGTTGGCTGAGTGTG` | 20 nt |
-
-## Verdict
-
-**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 1 | 1 | 100.0% | 20.7% – 100.0% |
-| baseline (everything earlier) | 3 | 3 | 100.0% | 43.9% – 100.0% |
-
-Change from baseline, Newcombe interval: **-79.3% to 56.1%**. Threshold: **90.0%**.
-
-*1 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on*
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-**all 4 evaluable records**, deposited between 2014 and 2026, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -90,6 +62,11 @@ detected when it differs: 0% of 24
 detected when it does not: 60% of 20
 substitutions: T&gt;G in 19, T&gt;A in 3, T&gt;C in 2
 inside the 3′ window</title><rect x="375.4" y="100.9" width="13.0" height="25.1"/></g><text class="aw-base" x="381.9" y="139">T</text><text class="aw-base" x="396.9" y="139">G</text><text class="aw-tick" x="396.9" y="153">1</text><text class="aw-tick" x="336.9" y="153">5</text><text class="aw-tick" x="261.9" y="153">10</text><text class="aw-tick" x="186.9" y="153">15</text><text class="aw-tick" x="111.9" y="153">20</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="408" y="139">3′</text></svg>
+
+## Predicted detection by deposit year
+
+**all 4 evaluable records**, deposited between 2014 and 2026, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+
 ## What was deposited, by lineage
 
 Lineages here are sequence groups, not species or taxids. Each is a group of records
@@ -107,8 +84,34 @@ detects.
 |---|---|---|---|---|---|
 | P. pythonis | 4 | 100% |  | Pregotovirus pythonis 4 | -- |
 
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2018 100%, 2019 100%, 2020 100%, 2021 100%, 2023 100%, 2024 100%, 2025 100%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
+
 Between the baseline and the recent window the detected share went
 100.0% to 100.0%, a change of +0.000. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **+0.000 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | PythonNodoF | `ACCTGCTACCGATGTCCAAG` | 20 nt |
+| reverse | PythonNodoR | `GTCGTTGTTGGCTGAGTGTG` | 20 nt |
+
+## Verdict
+
+**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 1 | 1 | 100.0% | 20.7% – 100.0% |
+| baseline (everything earlier) | 3 | 3 | 100.0% | 43.9% – 100.0% |
+
+Change from baseline, Newcombe interval: **-79.3% to 56.1%**. Threshold: **90.0%**.
+
+*1 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on*
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope

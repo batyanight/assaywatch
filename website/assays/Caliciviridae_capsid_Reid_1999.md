@@ -19,34 +19,6 @@
 | Amplicon | 768 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Reid-1F | `GTGAGGTGTTTGAGAATTAG` | 20 nt |
-| reverse | Reid-1R | `ACATCAATTCCGCCAGACCA` | 20 nt |
-
-## Verdict
-
-**no recent data** — no deposits within the window
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 0 | 0 | — | 0.0% – 100.0% |
-| baseline (everything earlier) | 11 | 11 | 100.0% | 74.1% – 100.0% |
-
-Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
-
-*no evaluable records deposited since Nov 2024*
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-**all 11 evaluable records**, deposited between 1993 and 2014, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -125,6 +97,11 @@ detected when it differs: 0% of 21
 detected when it does not: 37% of 46
 substitutions: G&gt;T in 14, G&gt;C in 6, G&gt;A in 1
 inside the 3′ window</title><rect x="330.0" y="107.0" width="13.0" height="19.0"/></g><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">A</text><text class="aw-base" x="366.5" y="139">C</text><text class="aw-base" x="381.5" y="139">C</text><text class="aw-base" x="396.5" y="139">A</text><text class="aw-tick" x="396.5" y="153">1</text><text class="aw-tick" x="336.5" y="153">5</text><text class="aw-tick" x="261.5" y="153">10</text><text class="aw-tick" x="186.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">20</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="408" y="139">3′</text></svg>
+
+## Predicted detection by deposit year
+
+**all 11 evaluable records**, deposited between 1993 and 2014, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+
 ## What was deposited, by lineage
 
 Lineages here are sequence groups, not species or taxids. Each is a group of records
@@ -144,6 +121,32 @@ detects.
 |---|---|---|---|---|---|
 | unplaced | 1 | 9% |  | Vesivirus exanthema 1 | lion, Miguel, San, sea, capsid |
 | other | 10 | 91% |  | Vesivirus exanthema 10 | calicivirus, of, swine, Vesicular, binding |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 82%, 2020 71%, 2021 82%, 2022 79%, 2023 90%, 2024 81%, 2025 75%, 2026 77% (best year 100%). A low share is a fact about the query, not about the taxon.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Reid-1F | `GTGAGGTGTTTGAGAATTAG` | 20 nt |
+| reverse | Reid-1R | `ACATCAATTCCGCCAGACCA` | 20 nt |
+
+## Verdict
+
+**no recent data** — no deposits within the window
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (24 months, from Nov 2024) | 0 | 0 | — | 0.0% – 100.0% |
+| baseline (everything earlier) | 11 | 11 | 100.0% | 74.1% – 100.0% |
+
+Change from baseline, Newcombe interval: **-100.0% to 100.0%**. Threshold: **90.0%**.
+
+*no evaluable records deposited since Nov 2024*
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope

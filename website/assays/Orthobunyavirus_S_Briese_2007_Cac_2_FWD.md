@@ -19,13 +19,6 @@
 | Amplicon | 471 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | Cac-2-FWD | `DCTTAACYTTGGRGGCTGGA` | 20 nt |
-| reverse | Cac-7-REV | `CTVACRTTDGYYTTCTTCCA` | 20 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -68,6 +61,13 @@ detected when it differs: 20% of 20
 detected when it does not: 69% of 55
 substitutions: R&gt;T in 18, R&gt;C in 2
 outside the 3′ window</title><rect x="285.0" y="26.4" width="13.0" height="17.6"/></g><text class="aw-base" x="291.5" y="57">R</text><text class="aw-base" x="306.5" y="57">G</text><text class="aw-base" x="321.5" y="57">G</text><text class="aw-base" x="336.5" y="57">C</text><text class="aw-base" x="351.5" y="57">T</text><text class="aw-base" x="366.5" y="57">G</text><text class="aw-base" x="381.5" y="57">G</text><text class="aw-base" x="396.5" y="57">A</text><text class="aw-tick" x="396.5" y="71">1</text><text class="aw-tick" x="336.5" y="71">5</text><text class="aw-tick" x="261.5" y="71">10</text><text class="aw-tick" x="186.5" y="71">15</text><text class="aw-tick" x="111.5" y="71">20</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="408" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">Cac-7-REV</text><rect class="aw-zone" x="329.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="404.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">C</text><text class="aw-base" x="126.5" y="139">T</text><text class="aw-base" x="141.5" y="139">V</text><text class="aw-base" x="156.5" y="139">A</text><text class="aw-base" x="171.5" y="139">C</text><text class="aw-base" x="186.5" y="139">R</text><text class="aw-base" x="201.5" y="139">T</text><text class="aw-base" x="216.5" y="139">T</text><text class="aw-base" x="231.5" y="139">D</text><text class="aw-base" x="246.5" y="139">G</text><text class="aw-base" x="261.5" y="139">Y</text><text class="aw-base" x="276.5" y="139">Y</text><text class="aw-base" x="291.5" y="139">T</text><text class="aw-base" x="306.5" y="139">T</text><text class="aw-base" x="321.5" y="139">C</text><text class="aw-base" x="336.5" y="139">T</text><text class="aw-base" x="351.5" y="139">T</text><text class="aw-base" x="366.5" y="139">C</text><text class="aw-base" x="381.5" y="139">C</text><text class="aw-base" x="396.5" y="139">A</text><text class="aw-tick" x="396.5" y="153">1</text><text class="aw-tick" x="336.5" y="153">5</text><text class="aw-tick" x="261.5" y="153">10</text><text class="aw-tick" x="186.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">20</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="408" y="139">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | Cac-2-FWD | `DCTTAACYTTGGRGGCTGGA` | 20 nt |
+| reverse | Cac-7-REV | `CTVACRTTDGYYTTCTTCCA` | 20 nt |
 
 
 ## Scope

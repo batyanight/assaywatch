@@ -19,14 +19,6 @@
 | Amplicon | 116 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | CDV4.1-F | `CTGTCRGTAATCGAGRATTCGA` | 22 nt |
-| reverse | CDV3-R | `GCCGAAAGAATATCCCCAGTTAG` | 23 nt |
-| probe | CD3.1-FAMas | `ATCTTCGCCAGARTCYTCAGTGCT` | 24 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -98,6 +90,14 @@ detected when it differs: 0% of 20
 detected when it does not: 96% of 585
 substitutions: C&gt;T in 20
 in the central third</title><rect x="225.4" y="201.8" width="13.0" height="6.2"/></g><text class="aw-base" x="231.9" y="221">C</text><text class="aw-base" x="246.9" y="221">A</text><text class="aw-base" x="261.9" y="221">G</text><text class="aw-base" x="276.9" y="221">A</text><text class="aw-base" x="291.9" y="221">R</text><text class="aw-base" x="306.9" y="221">T</text><text class="aw-base" x="321.9" y="221">C</text><text class="aw-base" x="336.9" y="221">Y</text><text class="aw-base" x="351.9" y="221">T</text><text class="aw-base" x="366.9" y="221">C</text><text class="aw-base" x="381.9" y="221">A</text><text class="aw-base" x="396.9" y="221">G</text><text class="aw-base" x="411.9" y="221">T</text><text class="aw-base" x="426.9" y="221">G</text><text class="aw-base" x="441.9" y="221">C</text><text class="aw-base" x="456.9" y="221">T</text><text class="aw-tick" x="456.9" y="235">1</text><text class="aw-tick" x="396.9" y="235">5</text><text class="aw-tick" x="321.9" y="235">10</text><text class="aw-tick" x="246.9" y="235">15</text><text class="aw-tick" x="171.9" y="235">20</text><text class="aw-tick" x="111.9" y="235">24</text><text class="aw-end" x="100" y="221">5′</text><text class="aw-end aw-end-3" x="468" y="221">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | CDV4.1-F | `CTGTCRGTAATCGAGRATTCGA` | 22 nt |
+| reverse | CDV3-R | `GCCGAAAGAATATCCCCAGTTAG` | 23 nt |
+| probe | CD3.1-FAMas | `ATCTTCGCCAGARTCYTCAGTGCT` | 24 nt |
 
 
 ## Scope

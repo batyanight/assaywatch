@@ -41,13 +41,6 @@
 | *Orthopoxvirus skunkpox (bench-confirmed by Meyer 1997 at 530 bp; scored fail here)* | 551 bp | 2 |
 | *Orthopoxvirus taterapox* | 1628 bp | 2 |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | ATI-up-1 | `AATACAAGGAGGATCT` | 16 nt |
-| reverse | ATI-low-1 | `CTTAACTTTTTCTTTCTC` | 18 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -59,6 +52,13 @@
     - **`not_screenable`** — identification is by product size plus an XbaI digest, which the screen cannot model
     - **`oligo_source_unresolved`** — a Meyer 1994 origin is suspected but not established
 
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | ATI-up-1 | `AATACAAGGAGGATCT` | 16 nt |
+| reverse | ATI-low-1 | `CTTAACTTTTTCTTTCTC` | 18 nt |
 
 
 ## Scope

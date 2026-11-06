@@ -19,40 +19,6 @@
 | Amplicon | 91 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | BPSV_J6R forward | `GAGATGATCTTGATGTTGTCGTACT` | 25 nt |
-| reverse | BPSV_J6R reverse | `TGGGCATGATCGTGAAGTAC` | 20 nt |
-| probe | BPSV_J6R probe | `ATCATCGCGCGCTGGATCAC` | 20 nt |
-
-## Verdict
-
-**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (60 months, from Nov 2021) | 10 | 10 | 100.0% | 72.2% – 100.0% |
-| baseline (everything earlier) | 10 | 10 | 100.0% | 72.2% – 100.0% |
-
-Change from baseline, Newcombe interval: **-27.8% to 27.8%**. Threshold: **90.0%**.
-
-*10 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (72%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2003 to 2026, against a 90 percent threshold."><rect class="aw-window" x="619.7" y="12.0" width="86.3" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 72.8,20.2 216.7,20.2 360.6,20.2 389.4,20.2 475.7,20.2 619.7,20.2 648.4,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 72.8,20.2 216.7,20.2 360.6,20.2 389.4,20.2 475.7,20.2 619.7,20.2 648.4,20.2 706.0,20.2"/><g class="aw-point aw-insufficient-data"><title>2003: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2004: 1 of 1 detected (100.0%)</title><circle cx="72.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2009: 2 of 2 detected (100.0%)</title><circle cx="216.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2014: 2 of 2 detected (100.0%)</title><circle cx="360.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2015: 3 of 3 detected (100.0%)</title><circle cx="389.4" cy="20.2" r="2.6"/></g><g class="aw-point aw-insufficient-data"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="475.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2023: 1 of 1 detected (100.0%) — recent window</title><circle cx="619.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 7 of 7 detected (100.0%) — recent window</title><circle cx="648.4" cy="20.2" r="3.0"/></g><g class="aw-point aw-insufficient-data"><title>2026: 2 of 2 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2003</text><text class="aw-tick" x="130.3" y="208">2006</text><text class="aw-tick" x="216.7" y="208">2009</text><text class="aw-tick" x="303.0" y="208">2012</text><text class="aw-tick" x="389.4" y="208">2015</text><text class="aw-tick" x="475.7" y="208">2018</text><text class="aw-tick" x="562.1" y="208">2021</text><text class="aw-tick" x="648.4" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -86,6 +52,16 @@ detected when it differs: 0% of 101
 detected when it does not: 100% of 21
 substitutions: C&gt;G in 101
 outside the central third</title><rect x="391.4" y="177.1" width="13.0" height="30.9"/></g><text class="aw-base" x="397.9" y="221">C</text><text class="aw-base" x="412.9" y="221">A</text><text class="aw-base" x="427.9" y="221">C</text><text class="aw-tick" x="427.9" y="235">1</text><text class="aw-tick" x="367.9" y="235">5</text><text class="aw-tick" x="292.9" y="235">10</text><text class="aw-tick" x="217.9" y="235">15</text><text class="aw-tick" x="142.9" y="235">20</text><text class="aw-end" x="131" y="221">5′</text><text class="aw-end aw-end-3" x="439" y="221">3′</text></svg>
+
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2003 to 2026, against a 90 percent threshold."><rect class="aw-window" x="619.7" y="12.0" width="86.3" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 72.8,20.2 216.7,20.2 360.6,20.2 389.4,20.2 475.7,20.2 619.7,20.2 648.4,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 72.8,20.2 216.7,20.2 360.6,20.2 389.4,20.2 475.7,20.2 619.7,20.2 648.4,20.2 706.0,20.2"/><g class="aw-point aw-insufficient-data"><title>2003: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2004: 1 of 1 detected (100.0%)</title><circle cx="72.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2009: 2 of 2 detected (100.0%)</title><circle cx="216.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2014: 2 of 2 detected (100.0%)</title><circle cx="360.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2015: 3 of 3 detected (100.0%)</title><circle cx="389.4" cy="20.2" r="2.6"/></g><g class="aw-point aw-insufficient-data"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="475.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2023: 1 of 1 detected (100.0%) — recent window</title><circle cx="619.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 7 of 7 detected (100.0%) — recent window</title><circle cx="648.4" cy="20.2" r="3.0"/></g><g class="aw-point aw-insufficient-data"><title>2026: 2 of 2 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">2003</text><text class="aw-tick" x="130.3" y="208">2006</text><text class="aw-tick" x="216.7" y="208">2009</text><text class="aw-tick" x="303.0" y="208">2012</text><text class="aw-tick" x="389.4" y="208">2015</text><text class="aw-tick" x="475.7" y="208">2018</text><text class="aw-tick" x="562.1" y="208">2021</text><text class="aw-tick" x="648.4" y="208">2024</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 ## What was deposited, by lineage
 
 Lineages here are sequence groups, not species or taxids. Each is a group of records
@@ -97,15 +73,42 @@ assay changing. The dashed line on the chart above recomputes each year on the w
 period's mix: where the two lines part, what got sequenced changed, not what the assay
 detects.
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2003 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2003 — P. bovinestomatitis 2: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2004 — P. bovinestomatitis 2: 1 of 1 records (100%), 1 detected</title><rect x="59.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2009 — P. bovinestomatitis 2: 2 of 2 records (100%), 2 detected</title><rect x="203.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2014 — P. bovinestomatitis 2: 2 of 2 records (100%), 2 detected</title><rect x="347.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2015 — P. bovinestomatitis 2: 3 of 3 records (100%), 3 detected</title><rect x="376.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2018 — P. bovinestomatitis 2: 1 of 1 records (100%), 1 detected</title><rect x="462.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2023 — P. bovinestomatitis 2: 1 of 1 records (100%), 1 detected</title><rect x="606.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2024 — P. bovinestomatitis 2: 7 of 7 records (100%), 7 detected</title><rect x="635.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2026 — other: 1 of 2 records (50%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — P. bovinestomatitis 2: 1 of 2 records (50%), 1 detected</title><rect x="693.0" y="56.0" width="26.0" height="46.0" fill="currentColor" opacity="0.72"/></g><text class="aw-tick" x="44.0" y="117">2003</text><text class="aw-tick" x="130.3" y="117">2006</text><text class="aw-tick" x="216.7" y="117">2009</text><text class="aw-tick" x="303.0" y="117">2012</text><text class="aw-tick" x="389.4" y="117">2015</text><text class="aw-tick" x="475.7" y="117">2018</text><text class="aw-tick" x="562.1" y="117">2021</text><text class="aw-tick" x="648.4" y="117">2024</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2003 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2003 — P. bovinestomatitis: 1 of 1 records (100%), 1 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2004 — P. bovinestomatitis: 1 of 1 records (100%), 1 detected</title><rect x="59.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2009 — P. bovinestomatitis: 2 of 2 records (100%), 2 detected</title><rect x="203.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2014 — P. bovinestomatitis: 2 of 2 records (100%), 2 detected</title><rect x="347.6" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — P. bovinestomatitis: 3 of 3 records (100%), 3 detected</title><rect x="376.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — P. bovinestomatitis: 1 of 1 records (100%), 1 detected</title><rect x="462.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2023 — P. bovinestomatitis: 1 of 1 records (100%), 1 detected</title><rect x="606.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — P. bovinestomatitis: 7 of 7 records (100%), 7 detected</title><rect x="635.4" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — other: 1 of 2 records (50%), 1 detected</title><rect x="693.0" y="10.0" width="26.0" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — P. bovinestomatitis: 1 of 2 records (50%), 1 detected</title><rect x="693.0" y="56.0" width="26.0" height="46.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2003</text><text class="aw-tick" x="130.3" y="117">2006</text><text class="aw-tick" x="216.7" y="117">2009</text><text class="aw-tick" x="303.0" y="117">2012</text><text class="aw-tick" x="389.4" y="117">2015</text><text class="aw-tick" x="475.7" y="117">2018</text><text class="aw-tick" x="562.1" y="117">2021</text><text class="aw-tick" x="648.4" y="117">2024</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
 | other | 1 | 5% |  | Parapoxvirus bovinestomatitis 1 | 147, 8018, DNA-directed, IMV, kDa |
-| P. bovinestomatitis 2 | 19 | 95% |  | Parapoxvirus bovinestomatitis 19 | subunit |
+| P. bovinestomatitis | 19 | 95% |  | Parapoxvirus bovinestomatitis 19 | subunit |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 100%, 2020 75%, 2021 100%, 2022 100%, 2023 100%, 2024 100%, 2025 100%, 2026 100% (best year 100%). A low share is a fact about the query, not about the taxon.
 
 Between the baseline and the recent window the detected share went
 100.0% to 100.0%, a change of +0.000. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI -0.000 to +0.000) and **+0.000 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | BPSV_J6R forward | `GAGATGATCTTGATGTTGTCGTACT` | 25 nt |
+| reverse | BPSV_J6R reverse | `TGGGCATGATCGTGAAGTAC` | 20 nt |
+| probe | BPSV_J6R probe | `ATCATCGCGCGCTGGATCAC` | 20 nt |
+
+## Verdict
+
+**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (60 months, from Nov 2021) | 10 | 10 | 100.0% | 72.2% – 100.0% |
+| baseline (everything earlier) | 10 | 10 | 100.0% | 72.2% – 100.0% |
+
+Change from baseline, Newcombe interval: **-27.8% to 27.8%**. Threshold: **90.0%**.
+
+*10 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (72%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope

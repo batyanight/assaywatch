@@ -19,13 +19,6 @@
 | Amplicon | 373 bp |
 | Registry status | draft |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | GRAB1F | `AARATNGTRGARCAYCACAC` | 20 nt |
-| reverse | GRAB1R | `GCRTTSGANGARTAAGGAGA` | 20 nt |
-
 !!! warning "No status is reported for this assay"
 
     Something about this entry would make a predicted-detection figure
@@ -132,6 +125,13 @@ detected when it differs: 0% of 34
 detected when it does not: 59% of 13,530
 substitutions: A&gt;T in 31, A&gt;G in 3
 inside the 3′ window</title><rect x="390.0" y="124.3" width="13.0" height="1.7"/></g><text class="aw-base" x="396.5" y="139">A</text><text class="aw-tick" x="396.5" y="153">1</text><text class="aw-tick" x="336.5" y="153">5</text><text class="aw-tick" x="261.5" y="153">10</text><text class="aw-tick" x="186.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">20</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="408" y="139">3′</text></svg>
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | GRAB1F | `AARATNGTRGARCAYCACAC` | 20 nt |
+| reverse | GRAB1R | `GCRTTSGANGARTAAGGAGA` | 20 nt |
 
 
 ## Scope

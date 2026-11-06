@@ -19,39 +19,6 @@
 | Amplicon | 1854 bp |
 | Registry status | active |
 
-## Oligos
-
-| role | name | sequence (5'→3') | length |
-|---|---|---|---|
-| forward | vcpAF | `ATGAAACAACGTCAAATGCTTTG` | 23 nt |
-| reverse | vcpAR | `CCCTTTCACTTCCGATGTTGTG` | 22 nt |
-
-## Verdict
-
-**stable** — the recent interval does not fall below the threshold
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (48 months, from Nov 2022) | 16 | 16 | 100.0% | 80.6% – 100.0% |
-| baseline (everything earlier) | 19 | 19 | 100.0% | 83.2% – 100.0% |
-
-Change from baseline, Newcombe interval: **-19.4% to 16.8%**. Threshold: **90.0%**.
-
-*detected share 100.0% (81%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)*
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
-
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2014 to 2026, against a 90 percent threshold."><rect class="aw-window" x="485.3" y="12.0" width="220.7" height="180.0"><title>the recent window: 48 months from Nov 2022</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 319.8,20.2 375.0,20.2 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-stable" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 319.8,20.2 375.0,20.2 485.3,20.2 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"/><g class="aw-point aw-stable"><title>2014: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2015: 3 of 3 detected (100.0%)</title><circle cx="99.2" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2016: 4 of 4 detected (100.0%)</title><circle cx="154.3" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>2017: 1 of 1 detected (100.0%)</title><circle cx="209.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="264.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2019: 1 of 1 detected (100.0%)</title><circle cx="319.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2020: 5 of 5 detected (100.0%)</title><circle cx="375.0" cy="20.2" r="2.8"/></g><g class="aw-point aw-stable"><title>2022: 2 of 2 detected (100.0%) — recent window</title><circle cx="485.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2023: 2 of 2 detected (100.0%) — recent window</title><circle cx="540.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2024: 4 of 4 detected (100.0%) — recent window</title><circle cx="595.7" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>2025: 2 of 2 detected (100.0%) — recent window</title><circle cx="650.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2026: 8 of 8 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="3.1"/></g><text class="aw-tick" x="44.0" y="208">2014</text><text class="aw-tick" x="154.3" y="208">2016</text><text class="aw-tick" x="264.7" y="208">2018</text><text class="aw-tick" x="375.0" y="208">2020</text><text class="aw-tick" x="485.3" y="208">2022</text><text class="aw-tick" x="595.7" y="208">2024</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
-
 ## Mismatch distribution
 
 Each oligo drawn base by base, 5′ to 3′. The shaded region is the one the scoring
@@ -75,6 +42,16 @@ detected when it differs: 100% of 35
 detected when it does not: 0% of 0
 substitutions: C&gt;A in 35
 outside the 3′ window</title><rect x="270.0" y="92.0" width="13.0" height="34.0"/></g><text class="aw-base" x="276.5" y="139">C</text><text class="aw-base" x="291.5" y="139">C</text><text class="aw-base" x="306.5" y="139">G</text><text class="aw-base" x="321.5" y="139">A</text><text class="aw-base" x="336.5" y="139">T</text><text class="aw-base" x="351.5" y="139">G</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">T</text><text class="aw-base" x="396.5" y="139">G</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-base" x="426.5" y="139">G</text><text class="aw-tick" x="426.5" y="153">1</text><text class="aw-tick" x="366.5" y="153">5</text><text class="aw-tick" x="291.5" y="153">10</text><text class="aw-tick" x="216.5" y="153">15</text><text class="aw-tick" x="141.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">22</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="438" y="139">3′</text></svg>
+
+## Predicted detection by deposit year
+
+The share of deposited sequence this assay is predicted to detect, by year of
+deposit. The shaded band marks the recent window and the dashed line the threshold.
+Bigger markers mean more records behind the point, because 100% of three records
+and 100% of three thousand are very different claims.
+
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2014 to 2026, against a 90 percent threshold."><rect class="aw-window" x="485.3" y="12.0" width="220.7" height="180.0"><title>the recent window: 48 months from Nov 2022</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 319.8,20.2 375.0,20.2 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-stable" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 319.8,20.2 375.0,20.2 485.3,20.2 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"/><g class="aw-point aw-stable"><title>2014: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2015: 3 of 3 detected (100.0%)</title><circle cx="99.2" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2016: 4 of 4 detected (100.0%)</title><circle cx="154.3" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>2017: 1 of 1 detected (100.0%)</title><circle cx="209.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="264.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2019: 1 of 1 detected (100.0%)</title><circle cx="319.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2020: 5 of 5 detected (100.0%)</title><circle cx="375.0" cy="20.2" r="2.8"/></g><g class="aw-point aw-stable"><title>2022: 2 of 2 detected (100.0%) — recent window</title><circle cx="485.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2023: 2 of 2 detected (100.0%) — recent window</title><circle cx="540.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2024: 4 of 4 detected (100.0%) — recent window</title><circle cx="595.7" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>2025: 2 of 2 detected (100.0%) — recent window</title><circle cx="650.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2026: 8 of 8 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="3.1"/></g><text class="aw-tick" x="44.0" y="208">2014</text><text class="aw-tick" x="154.3" y="208">2016</text><text class="aw-tick" x="264.7" y="208">2018</text><text class="aw-tick" x="375.0" y="208">2020</text><text class="aw-tick" x="485.3" y="208">2022</text><text class="aw-tick" x="595.7" y="208">2024</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+
 ## What was deposited, by lineage
 
 Lineages here are sequence groups, not species or taxids. Each is a group of records
@@ -86,15 +63,41 @@ assay changing. The dashed line on the chart above recomputes each year on the w
 period's mix: where the two lines part, what got sequenced changed, not what the assay
 detects.
 
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2014 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2014 — V. coralliilyticus 2: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2015 — V. coralliilyticus 2: 3 of 3 records (100%), 3 detected</title><rect x="86.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2016 — V. coralliilyticus 2: 4 of 4 records (100%), 4 detected</title><rect x="141.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2017 — V. coralliilyticus 2: 1 of 1 records (100%), 1 detected</title><rect x="196.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2018 — V. coralliilyticus 2: 1 of 1 records (100%), 1 detected</title><rect x="251.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2019 — V. coralliilyticus 2: 1 of 1 records (100%), 1 detected</title><rect x="306.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2020 — V. coralliilyticus 2: 5 of 5 records (100%), 5 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2022 — other: 2 of 2 records (100%), 2 detected</title><rect x="472.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2023 — V. coralliilyticus 2: 2 of 2 records (100%), 2 detected</title><rect x="527.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2024 — V. coralliilyticus 2: 4 of 4 records (100%), 4 detected</title><rect x="582.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2025 — V. coralliilyticus 2: 2 of 2 records (100%), 2 detected</title><rect x="637.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2026 — V. coralliilyticus 2: 8 of 8 records (100%), 8 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.72"/></g><text class="aw-tick" x="44.0" y="117">2014</text><text class="aw-tick" x="154.3" y="117">2016</text><text class="aw-tick" x="264.7" y="117">2018</text><text class="aw-tick" x="375.0" y="117">2020</text><text class="aw-tick" x="485.3" y="117">2022</text><text class="aw-tick" x="595.7" y="117">2024</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
+<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 2014 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>2014 — V. coralliilyticus: 2 of 2 records (100%), 2 detected</title><rect x="31.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2015 — V. coralliilyticus: 3 of 3 records (100%), 3 detected</title><rect x="86.2" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2016 — V. coralliilyticus: 4 of 4 records (100%), 4 detected</title><rect x="141.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2017 — V. coralliilyticus: 1 of 1 records (100%), 1 detected</title><rect x="196.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — V. coralliilyticus: 1 of 1 records (100%), 1 detected</title><rect x="251.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2019 — V. coralliilyticus: 1 of 1 records (100%), 1 detected</title><rect x="306.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2020 — V. coralliilyticus: 5 of 5 records (100%), 5 detected</title><rect x="362.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2022 — other: 2 of 2 records (100%), 2 detected</title><rect x="472.3" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2023 — V. coralliilyticus: 2 of 2 records (100%), 2 detected</title><rect x="527.5" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2024 — V. coralliilyticus: 4 of 4 records (100%), 4 detected</title><rect x="582.7" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2025 — V. coralliilyticus: 2 of 2 records (100%), 2 detected</title><rect x="637.8" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2026 — V. coralliilyticus: 8 of 8 records (100%), 8 detected</title><rect x="693.0" y="10.0" width="26.0" height="92.0" fill="currentColor" opacity="0.85"/></g><text class="aw-tick" x="44.0" y="117">2014</text><text class="aw-tick" x="154.3" y="117">2016</text><text class="aw-tick" x="264.7" y="117">2018</text><text class="aw-tick" x="375.0" y="117">2020</text><text class="aw-tick" x="485.3" y="117">2022</text><text class="aw-tick" x="595.7" y="117">2024</text><text class="aw-tick" x="706.0" y="117">2026</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
 
 | Lineage | Records | Share | New since design | Species | Also in the titles |
 |---|---|---|---|---|---|
 | other | 2 | 6% |  | Vibrio coralliilyticus 2 | 43001, SCSIO |
-| V. coralliilyticus 2 | 33 | 94% | yes | Vibrio coralliilyticus 33 | shotgun, whole, II |
+| V. coralliilyticus | 33 | 94% | yes | Vibrio coralliilyticus 33 | shotgun, whole, II |
+
+Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 10%, 2020 2%, 2021 0%, 2022 13%, 2023 44%, 2024 1%, 2025 10%, 2026 1% (best year 61%). A low share is a fact about the query, not about the taxon.
 
 Between the baseline and the recent window the detected share went
 100.0% to 100.0%, a change of +0.000. Of that, **+0.000 is the mix** of lineages deposited changing (95% CI +0.000 to +0.000) and **+0.000 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
+
+## Oligos
+
+| role | name | sequence (5'→3') | length |
+|---|---|---|---|
+| forward | vcpAF | `ATGAAACAACGTCAAATGCTTTG` | 23 nt |
+| reverse | vcpAR | `CCCTTTCACTTCCGATGTTGTG` | 22 nt |
+
+## Verdict
+
+**stable** — the recent interval does not fall below the threshold
+
+Every value behind the call, so you can redo it by hand:
+
+| | detected | evaluable | share | 95% interval |
+|---|---|---|---|---|
+| recent window (48 months, from Nov 2022) | 16 | 16 | 100.0% | 80.6% – 100.0% |
+| baseline (everything earlier) | 19 | 19 | 100.0% | 83.2% – 100.0% |
+
+Change from baseline, Newcombe interval: **-19.4% to 16.8%**. Threshold: **90.0%**.
+
+*detected share 100.0% (81%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)*
+
+From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
