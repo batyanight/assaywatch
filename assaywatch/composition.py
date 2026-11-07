@@ -734,6 +734,25 @@ class CompositionRun:
     assays: dict[str, AssayComposition]
 
 
+#: An older name -> (taxid, species that replaced it, source). NCBI keeps both as species-rank
+#: nodes with no link between them, so the cache alone splits one virus into two "species" and
+#: a pure group reads as mixed. Only renames: the 18 groups counted as unclear on 2026-11-06
+#: stay out (Human bocavirus 1-4 aren't all *primate1*).
+SPECIES_SYNONYMS: dict[str, tuple[int, str, str]] = {
+    "Adeno-associated virus": (1511891, "Dependoparvovirus primate1", "ICTV rename"),
+    "Elephant endotheliotropic herpesvirus 3": (
+        3060652,
+        "Proboscivirus elephantidbeta3",
+        "ICTV rename",
+    ),
+    "Elephant endotheliotropic herpesvirus 5": (
+        3050275,
+        "Proboscivirus elephantidbeta5",
+        "ICTV rename",
+    ),
+}
+
+
 def resolve_species(taxid: int | None, title: str, taxonomy: Taxonomy | None) -> tuple[int | None, str]:
     """One record's species: its taxid rolled up to species rank where the cache knows it,
     else the name in its title. The one place either is decided, so the cluster mixes and
@@ -748,6 +767,8 @@ def resolve_species(taxid: int | None, title: str, taxonomy: Taxonomy | None) ->
         key = taxid
     if not name:
         name = organism(title) or (f"taxid {key}" if key else "")
+    if name in SPECIES_SYNONYMS:
+        key, name, _ = SPECIES_SYNONYMS[name]
     return key, name
 
 
