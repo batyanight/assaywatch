@@ -16,11 +16,16 @@ signature, and `pytest -m slow` caught it -- every edit to `report.py` would hav
 
 from __future__ import annotations
 
+import dataclasses
 import gzip
+import json
+import os
+import re
 import sys
 import warnings
+import zlib
 from collections import defaultdict
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -35,6 +40,7 @@ from assaywatch.composition import (
     cells_from,
     describe_clusters,
     label_records,
+    lineage_narrative,
     observed_series,
     pool_small_clusters,
     resolve_species,
@@ -110,6 +116,9 @@ def build_assay(
     titles: Mapping[str, str],
     taxonomy: Taxonomy | None,
     opts: Options,
+    *,
+    collected: Mapping[str, int] | None = None,
+    reference_of: Callable[[str], str | None] | None = None,
 ) -> AssayComposition:
     """One assay's composition, from the very records its graph is built from.
 
@@ -193,7 +202,7 @@ def build_assay(
         notes.append(f"{unplaced} of {evaluable} records unplaced ({unplaced / evaluable:.0%})")
     if diverged:
         notes.append(f"{diverged} of {evaluable} diverged, with no site to cluster on")
-    return AssayComposition(
+    comp = AssayComposition(
         assay_id=assay.id,
         cut=cut,
         left_bp=shape[0],
@@ -213,6 +222,107 @@ def build_assay(
         ),
         note="; ".join(notes),
     )
+    spikes = lineage_narrative(
+        comp,
+        records,
+        titles=titles_by_record,
+        collected=collected or {},
+        reference_of=reference_of or (lambda _: None),
+        opts=opts,
+    )
+    return dataclasses.replace(comp, spikes=tuple(spikes))
+
+
+_FIELD = re.compile(r"^  (TITLE|JOURNAL)\s+(.*)$")
+
+
+def first_reference(flatfile: str) -> str | None:
+    """A GenBank flatfile's first REFERENCE as "title. journal", or None.
+
+    A "Direct Submission" names no study: its JOURNAL line is the submitter's postal
+    address, which this page has no business printing. So it reads as absent, as does a
+    record with no REFERENCE at all.
+    """
+    fields: dict[str, list[str]] = {}
+    current = None
+    inside = False
+    for line in flatfile.splitlines():
+        if line.startswith("REFERENCE"):
+            if inside:
+                break
+            inside = True
+        elif inside and line[:1].strip():
+            break
+        elif inside:
+            m = _FIELD.match(line)
+            if m:
+                current = m.group(1)
+                fields[current] = [m.group(2).strip()]
+            elif line.startswith(" " * 12) and current:
+                fields[current].append(line.strip())
+            else:
+                current = None
+    title = " ".join(fields.get("TITLE", []))
+    journal = " ".join(fields.get("JOURNAL", []))
+    if not title or title.lower() == "direct submission":
+        return None
+    return f"{title}. {journal}" if journal else title
+
+
+def reference_lookup(
+    transport: Callable[[str, dict[str, Any]], str] | None, cache: Path, *, max_failures: int
+) -> Callable[[str], str | None]:
+    """`reference_of` for `lineage_narrative`: one record's first REFERENCE, cached.
+
+    Gzipped JSON like `.year-counts.json.gz`, accession -> text, with "" for a record read
+    and found to name no study: that is an answer. A failure is not, so it stays uncached
+    and reads as absent, and after `max_failures` in a row this stops asking, as
+    `retrieve.AskLimit` does for the counts. `transport=None` is offline: the cache only.
+    One base is asked for, since the references come with any slice and a whole assembly's
+    flatfile is megabytes.
+    """
+    from assaywatch.retrieve import AskLimit
+
+    store: dict[str, str] = {}
+    if cache.exists():
+        try:
+            with gzip.open(cache, "rt") as fh:
+                store = {str(k): str(v) for k, v in json.load(fh).items()}
+        except (OSError, EOFError, zlib.error, ValueError):
+            store = {}  # A corrupt cache is a cold cache.
+    limit = AskLimit(max_failures)
+
+    def look(accession: str) -> str | None:
+        if accession in store:
+            return store[accession] or None
+        if transport is None or limit.tripped:
+            return None
+        try:
+            text = transport(
+                "efetch",
+                {
+                    "db": "nuccore",
+                    "id": accession,
+                    "rettype": "gb",
+                    "retmode": "text",
+                    "seq_start": 1,
+                    "seq_stop": 1,
+                },
+            )
+        except Exception as exc:  # noqa: BLE001 - any transport failure is "could not ask"
+            limit.failed(exc)
+            return None
+        limit.consecutive = 0
+        store[accession] = first_reference(text) or ""
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        # Whole or not at all: a process killed mid-write must not leave a truncated cache.
+        partial = cache.with_name(cache.name + f".{os.getpid()}.tmp")
+        with gzip.open(partial, "wt") as fh:
+            json.dump(store, fh, sort_keys=True)
+        os.replace(partial, cache)
+        return store[accession] or None
+
+    return look
 
 
 def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, str], dict[str, str]]:
@@ -271,6 +381,7 @@ def build(
     run_date: str | None = None,
     today: date | None = None,
     coverage: Mapping[str, Any] | None = None,
+    reference_of: Callable[[str], str | None] | None = None,
 ) -> CompositionRun:
     """Every assay's lineage composition for one run.
 
@@ -282,6 +393,7 @@ def build(
     Report-only: this returns a document and changes no status.
     """
     from assaywatch.drift import graph_records
+    from assaywatch.metadata import read_collection_years
     from assaywatch.report import assessment_inputs, load_calls_as_reported, read_dates
     from assaywatch.validate import iter_files, load_assay
 
@@ -305,6 +417,14 @@ def build(
     # run) and nothing below reads it. Each assay's records go the same way once used.
     taxonomy = inputs["taxonomy"]
     del calls, inputs
+    # Once for the run: this walks every `asm` archive. Null `report.collection_sidecar` is
+    # the normal case today, and leaves only the assembly records' own dates.
+    sidecar = (cfg.get("report") or {}).get("collection_sidecar")
+    collected = read_collection_years(
+        retrieved,
+        {r.record_id for rows in records.values() for r in rows},
+        sidecar=Path(sidecar) if sidecar else None,
+    )
 
     out: dict[str, AssayComposition] = {}
     total = len(records)
@@ -317,7 +437,16 @@ def build(
         wanted = {strip_version(r.record_id) for r in rows}
         seqs, titles = _archive(retrieved, assay, wanted)
         out[assay_id] = build_assay(
-            assay, rows, cfg, _coverage_for(coverage, assay_id), seqs, titles, taxonomy, opts
+            assay,
+            rows,
+            cfg,
+            _coverage_for(coverage, assay_id),
+            seqs,
+            titles,
+            taxonomy,
+            opts,
+            collected=collected,
+            reference_of=reference_of,
         )
     return CompositionRun(run_date=run_date, assays=out)
 
@@ -330,7 +459,6 @@ def _coverage_for(coverage: Mapping[str, Any] | None, assay_id: str) -> dict[str
 
 def main(argv: list[str] | None = None) -> int:
     import argparse
-    import json
 
     from assaywatch.composition import write
     from assaywatch.score import load_config
@@ -347,13 +475,37 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help="coverage.json from `assaywatch retrieve --year-counts`: the retrieval-coverage series",
     )
+    ap.add_argument(
+        "--email",
+        default=None,
+        help="contact for NCBI, to read a spike batch's REFERENCE; without it, the cache only",
+    )
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
     coverage = None
     if args.coverage is not None and args.coverage.exists():
         coverage = json.loads(args.coverage.read_text())
-    run = build(args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date, coverage=coverage)
+    transport = None
+    if args.email:
+        from assaywatch.credentials import ncbi_api_key
+        from assaywatch.retrieve import http_transport
+
+        transport = http_transport(args.email, ncbi_api_key() or None)
+    reference_of = reference_lookup(
+        transport,
+        Path(cfg.get("retrieved_dir", "data/retrieved")) / ".references.json.gz",
+        max_failures=int((cfg.get("composition") or {}).get("coverage_max_failures", 5)),
+    )
+    run = build(
+        args.calls,
+        args.registry,
+        args.retrieved,
+        cfg,
+        run_date=args.run_date,
+        coverage=coverage,
+        reference_of=reference_of,
+    )
     tsv, js = write(run, args.out)
     placed = sum(1 for a in run.assays.values() if any(c.id >= 0 for c in a.clusters))
     print(

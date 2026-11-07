@@ -839,7 +839,7 @@ rule composition:
     shell:
         "assaywatch composition {input.calls} --registry {REGISTRY} "
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
-        "--config {CONFIG_EFFECTIVE} --coverage {input.coverage}"
+        "--config {CONFIG_EFFECTIVE} --coverage {input.coverage} --email {EMAIL}"
 
 
 rule report:

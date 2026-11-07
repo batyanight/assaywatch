@@ -290,3 +290,67 @@ def test_an_assay_s_assembly_records_are_read_from_its_asm_group(tmp_path):
     seqs, titles = _archive(tmp_path, assay, {"GCA_1", "AB1"})
     assert seqs == {"GCA_1": "ACGT", "AB1": "TTTT"}
     assert titles == {"GCA_1": "Title of GCA_1.1", "AB1": "Title of AB1.1"}
+
+
+# ---- A record's first REFERENCE, through the transport (ROADMAP step 10) ----
+
+FLATFILE = """LOCUS       PP000100     300 bp    DNA     linear   VRL 01-JAN-2026
+REFERENCE   1  (bases 1 to 300)
+  AUTHORS   Someone,A.
+  TITLE     Genomes of testus virus
+            from zebras
+  JOURNAL   J Things 1 (2), 3-4 (2026)
+REFERENCE   2  (bases 1 to 300)
+  AUTHORS   Someone,A.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (01-JAN-2026) Street 1, City
+FEATURES             Location/Qualifiers
+"""
+
+
+def test_the_first_reference_is_title_and_journal_and_a_direct_submission_names_no_study():
+    from assaywatch.composition_build import first_reference
+
+    assert first_reference(FLATFILE) == "Genomes of testus virus from zebras. J Things 1 (2), 3-4 (2026)"
+    only_direct = FLATFILE[: FLATFILE.index("REFERENCE   1")] + FLATFILE[FLATFILE.index("REFERENCE   2") :]
+    assert first_reference(only_direct) is None
+    assert first_reference("LOCUS nothing\n") is None
+
+
+def test_a_reference_is_fetched_once_cached_and_a_failure_is_absent_not_cached(tmp_path):
+    from assaywatch.composition_build import reference_lookup
+
+    calls = []
+
+    def transport(endpoint, params):
+        calls.append(params["id"])
+        if params["id"] == "BAD1":
+            raise OSError("offline")
+        return FLATFILE
+
+    cache = tmp_path / ".references.json.gz"
+    look = reference_lookup(transport, cache, max_failures=5)
+    assert (
+        look("PP000100")
+        == look("PP000100")
+        == "Genomes of testus virus from zebras. J Things 1 (2), 3-4 (2026)"
+    )
+    assert calls == ["PP000100"]
+    assert look("BAD1") is None
+    offline = reference_lookup(None, cache, max_failures=5)
+    assert offline("PP000100").startswith("Genomes of testus")
+    assert offline("BAD1") is None
+
+
+def test_repeated_failures_stop_asking(tmp_path):
+    from assaywatch.composition_build import reference_lookup
+
+    calls = []
+
+    def transport(endpoint, params):
+        calls.append(params["id"])
+        raise OSError("offline")
+
+    look = reference_lookup(transport, tmp_path / "c.json.gz", max_failures=2)
+    assert [look(a) for a in ("A1", "A2", "A3")] == [None, None, None]
+    assert calls == ["A1", "A2"]
