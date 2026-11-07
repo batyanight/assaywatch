@@ -80,7 +80,8 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   Changes: `Snakefile` (rule `refseq_twins`, output `results/<date>/refseq-twins.tsv.gz`, an input of
   `report`, `site_drift`, `composition`), `report.py`, `sitedrift.py`, `scripts/retrospective.py`,
   `GLOSSARY.md`. With no map (an older run) `twins` is None, only `NZ_` applies, and it warns.
-- [ ] **2. Hellgren.** As written under "Waiting on a maintainer", in that order: the
+- [x] **2. Hellgren.** Done 2026-11-06, no assay status moves and two protocols appear, both `declining`
+  (HaemF 73/178, Leucocytozoon 22/81). Leucocytozoon's 478 had the same primers-excluded problem, now 524. As planned: the
   `oligos_not_in_cited_paper` flag and 618 bp on HaemNFI (moving `tests/test_report.py`'s example to
   `Salmonella_enterica_invA_Rahn_1992`), 525 bp on HaemF with its disclosure, then the nest and the
   wording, including one first round feeding two parallel second rounds.
@@ -405,13 +406,14 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   lists it as low GC, its abstract counts it among seven genera, and it amplified. The query edit
   goes in with the next fetch, listed above. Measured 2026-11-01: 36 records in the window, all
   Leporipoxvirus, would come in.
-- **`Haemosporida_cytb_Hellgren_2004_HaemF` stores `amplicon_bp: 480`; the
-  product measures 525** (4,269 of 4,274 products, `docs/journal/2026-10-05-amplicon-audit.md`).
+- ~~**`Haemosporida_cytb_Hellgren_2004_HaemF` stores `amplicon_bp: 480`; the
+  product measures 525**~~ **Done 2026-11-06** (the paper's 480 excludes primers, in its own words) (4,269 of 4,274 products, `docs/journal/2026-10-05-amplicon-audit.md`).
   480 appears to be the length with primers excluded, the convention MalAvi and
   depositors use. The registry rule is that the measurement wins and the difference is
   disclosed (`amplicon_disagrees_with_paper`); this entry has neither. A registry change
   that may move calls, so rescreen and compare.
-- **Describe the Hellgren haemosporidian assay as nested, not hemi-nested** (noted
+- ~~**Describe the Hellgren haemosporidian assay as nested, not hemi-nested**~~ **Done 2026-11-06,
+  with the nest declared; the wording is in `notes_curator` until the page description lands.** (noted
   2026-11-03). Wording for `Haemosporida_cytb_Hellgren_2004_HaemNFI`,
   `Haemosporida_cytb_Hellgren_2004_HaemF` and `Leucocytozoon_cytb_Hellgren_2004`: "a nested
   PCR with a shared first round (HaemNFI/HaemNR3) and two parallel second-round reactions:
@@ -419,8 +421,8 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   The rounds share no oligo. The schema has no description field, so choose where it goes
   (`name` or `source.notes`). All three entries still have `nested_round: null`; declare the
   nest in the same change.
-- **`Haemosporida_cytb_Hellgren_2004_HaemNFI` carries a wrong `oligos_not_in_cited_paper`
-  flag** (noted 2026-11-03). Batya read Hellgren 2004 and the oligos are in it, as the entry's
+- ~~**`Haemosporida_cytb_Hellgren_2004_HaemNFI` carries a wrong `oligos_not_in_cited_paper`
+  flag**~~ **Done 2026-11-06.** (noted 2026-11-03). Batya read Hellgren 2004 and the oligos are in it, as the entry's
   `notes_curator` already records; the flag's note is about the product size, since the paper's
   617 bp belongs to HaemNF/HaemNR2. Remove the flag, set `amplicon_bp` from 617 to the measured
   618, add `amplicon_measured_not_published` (the paper gives no size for this pair) and a dated

@@ -14,7 +14,7 @@ oligos:
     name: HaemR2L
     seq: CATTATCTGGATGAGATAATGGNGC
     seq_as_written: CATTATCTGGATGAGATAATGGIGC
-amplicon_bp: 478
+amplicon_bp: 524
 citation:
   claim: "Avian Leucocytozoon, as a second round."
   doi: 10.1645/GE-184R1
@@ -33,7 +33,7 @@ use_context:
 submitted_by: null
 status: active
 source:
-  nested_round: null
+  nested_round: round2
   notes_curator: 'CONFIRMED 2026-10-05 against the full text via the NYU library: HaemFL and HaemR2L are this paper''s own
     (''constructed 2 new primers, HaemFL ... and HaemR2L ... for Leucocytozoon spp.''), both match exactly including the inosine
     in HaemR2L, and the 478 bp product is stated in the text. Figure 1''s caption confirms the reverse primers are printed
@@ -41,7 +41,14 @@ source:
 
     GENE CORRECTED 2026-11-02, cytochrome c -> cytochrome b: Hellgren et al. 2004 designs these primers ''within the 5'' end
     of the cytochrome b gene'' of the parasite mitochondrial genome. The amplicon and oligos are unchanged; only the locus
-    name was wrong.'
+    name was wrong. CORRECTED 2026-11-06: amplicon_bp 478 -> 524, measured in 338 records on the 2026-11-01 calls. The paper''s
+    478 bp excludes the primers, in its own words. DESCRIBED AS NESTED 2026-11-06: a nested PCR with a shared first round
+    (HaemNFI/HaemNR3) and two parallel second-round reactions: HaemF/HaemR2 for Plasmodium and Haemoproteus, and HaemFL/HaemR2L
+    for Leucocytozoon. The rounds share no oligo.'
+  nested_parent: Haemosporida_cytb_Hellgren_2004_HaemNFI
+  nested_family: Haemosporida_cytb_Hellgren_2004
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 340 products and 7567 none under this orientation (2026-10-27 run), so the inference stands
+- flag: amplicon_disagrees_with_paper
+  note: measured 524 bp with primers; the paper says 478 excluding them
