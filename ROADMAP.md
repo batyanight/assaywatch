@@ -42,7 +42,7 @@ where they already sit; this section is the order and the rules.
 | Features | species synonyms, failures a per-base chart can't show, assay page narrative, per-assay composition cuts |
 | Narrative | description drafted in the reread batches and skimmed by the maintainer; lineage text scripted from what the records show, with no outbreak named without a source in the record |
 | Method | query fixes and the gate script, the pathotype assembly filter, C1b, the validation reads |
-| C1b output | if it survives its kill tests, a labelled lens: the status stays `insufficient data` and the borrowed estimate sits beside it. If killed, a journal entry and nothing shipped |
+| C1b output | priced 2026-11-06 and stopped; a journal entry, and nothing shipped |
 | Stall rule | blockers hold the freeze; droppable items wait for the next release with a recorded reason |
 | Merging | a PR merges when green, stopping only for interfaces, the live run and publishing |
 | Merge target | **`next-release`, not `main`.** `site.yml` deploys on any push to `main` touching `website/`, the theme, `site*.py` or the registry, so merging to `main` would publish piecemeal. `main` takes one merge, at the publish go |
@@ -106,7 +106,8 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 - [ ] **6b. Reread the stable and undecided papers.** The rest of the ~86, ~0.9M tokens, same batch
   shape, ending in the written scope report with the Chlamydia 16S share in it. If it's dropped, the
   report covers what was read and says so.
-- [ ] **7. C1b, priced before built.** Both kill tests on the 2026-11-01 calls with a script:
+- [x] **7. C1b, priced before built.** Stopped 2026-11-06 by maintainer decision: it flags what a plain
+  interval flags, and all 3 refused `fails` rows stay uncaught. `docs/journal/2026-11-06-c1b-priced.md`. As planned: Both kill tests on the 2026-11-01 calls with a script:
   reproduce every clearing assay's status; promote no `works` case (Salmonella invA, Shigella ipaH,
   pan-mycoplasma 16S, Bd) to `declining`. Either fires: journal, stop. Both pass: interface for
   approval, then a lens in `drift`/`hierarchical.py`, `report.py`, `site.py`, `site_render.py`.
@@ -123,12 +124,16 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   REFERENCE, submitting study and collection dates, worded "may". Changes `composition_build.py` (or
   a sibling, watching the `triggers` closure), `site.py`, `site_render.py`. Text is drafted from
   the frozen run, so the generator lands before step 13 and its output is checked at step 14.
-- [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: count first how many of the 42 are
-  synonyms; reconcile title and taxonomy names in `composition.py` naming. (b) Per-assay cuts, on
+- [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: counted 2026-11-06, of the 42 groups 4 collapse
+  to one species (two AAV, two elephant herpesvirus), 20 are really mixed, 18 unclear, and taxonomy resolves none.
+  Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are. (b) Per-assay cuts, on
   the 17 assays: try average linkage once for all before any override, and each override needs its
   reason in `config.yaml`, approved one at a time, since tuning until it looks right is the risk.
   (c) Failures a per-base chart can't show, from the calls `reason` column: `site.py`,
-  `site_render.py`, starting by checking the alignment and clade of the G2R WA_F 82 bp records.
+  `site_render.py`. G2R WA_F is checked: of 3,122 records with an 82 bp product, 2,643 are clade I by this project's own
+  F3L calls, 5 clade II, 474 uncalled; among clade II records detection is 9,656 of 9,661. The paper's Fig. 1 shows the
+  3-base deletion. Decided: a page note with these numbers now, keeping the status. Filtering the denominator by clade
+  is a new verdict rule and goes post-release.
 
 ### The frozen run (blockers)
 
@@ -152,7 +157,7 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 Not in this release, each still detailed where it sits: S5/C2 and its 40-negatives gate; the
 drift-mechanism search's remaining sources; S3b's identity pricing and the mid-window boundary;
-finishing the collection-date backfill; test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
+finishing the collection-date backfill; filtering G2R's denominator by clade; test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
 UNITE); the `printed.py` quencher fix; `target.exclusivity_taxids`; the conditions proposals and
 `panels`; the 17 open `needs_review` flags beyond those above; the three pending Hantavirus nests;
 registry coverage; the Greene SLURM profile; nest-level `needs_review` and `report_diff` wording.
@@ -824,7 +829,8 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   is to strip bracketed or slash-delimited modification markers before scanning, which is a
   change to a verification path and wants its own test. Not built.
 
-- **The 30 refused assays are refused on the POOLED recent count, not per lineage**, so
+- ~~**The 30 refused assays are refused on the POOLED recent count, not per lineage**~~ **C1b priced and
+  stopped 2026-11-06** (`docs/journal/2026-11-06-c1b-priced.md`; 35 are refused now). As first written: so
   the hierarchical layer cannot reach them: `min_records_for_drift` gates `finalise`
   before any lineage is looked at. **Designed 2026-10-27 as C1b** in
   `docs/bayesian-scoring-plan.md`, with its two kill tests pre-registered, the
