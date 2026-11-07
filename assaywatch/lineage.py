@@ -19,13 +19,14 @@ cluster id — before falling back to the taxid. The chain is opt-in: with
 Phase 1, so an assay with no sub-lineage config is untouched.
 """
 
+import gzip
 import json
 import re
 from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from assaywatch.accession import strip_version
 from assaywatch.interval import wilson_interval
@@ -67,6 +68,35 @@ class LineageStats:
 #: and 72-100% per subtype from the same calls. Callers pass the assay's own
 #: `detected_calls`; the default exists for tests and for primer-only assays.
 DETECTED_DEFAULT: tuple[str, ...] = ("detect", "reduced")
+
+
+def read_taxid_backfill(lineage_cfg: dict[str, Any], retrieved: Path) -> dict[str, int]:
+    """Accession -> taxid from the backfill sidecar, for records retrieved before the taxid field.
+
+    `lineage.taxid_backfill` is relative to `retrieved`. A missing file is an error when an
+    archive still needs it, as a missing `drift.scope_taxonomy` is: those records lose their
+    taxids, so scopes and lineages stop applying. Run from a checkout without the file on
+    2026-11-06, that moved 25 statuses with no warning. An archive whose metadata all carries
+    the column, as any fresh fetch does, needs no sidecar.
+    """
+    path = retrieved / (lineage_cfg.get("taxid_backfill") or ".meta.taxid.backfill.tsv.gz")
+    if not path.exists():
+        for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
+            with gzip.open(meta_path, "rt") as f:
+                if "taxid" not in (f.readline() or "").rstrip("\n").split("\t"):
+                    raise FileNotFoundError(
+                        f"{meta_path} has no taxid column and the backfill {path} is missing; "
+                        "build it with `python scripts/backfill_taxids.py`"
+                    )
+        return {}
+    out: dict[str, int] = {}
+    with gzip.open(path, "rt") as f:
+        next(f, None)  # skip header
+        for line in f:
+            acc, _, tx = line.rstrip("\n").partition("\t")
+            if tx.isdigit():
+                out[strip_version(acc)] = int(tx)
+    return out
 
 
 def load_taxa_cache(cache_file: Path | str) -> dict[int, str]:

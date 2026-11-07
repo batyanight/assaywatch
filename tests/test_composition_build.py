@@ -119,6 +119,9 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
     with gzip.open(group / "2026-01-01.fasta.gz", "wt") as fh:
         for rid, seq in fasta:
             fh.write(f">{rid}\n{seq}\n")
+    # This metadata has no taxid column, so the verdict path requires the sidecar to exist.
+    with gzip.open(tmp_path / "retrieved" / ".meta.taxid.backfill.tsv.gz", "wt") as fh:
+        fh.write("accession\ttaxid\n")
     with gzip.open(group / "2026-01-01.meta.tsv.gz", "wt") as fh:
         fh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
         for row in meta:

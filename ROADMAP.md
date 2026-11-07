@@ -1694,7 +1694,7 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
 
 ## Hygiene
 
-- **A missing taxid backfill silently changes verdicts** (found 2026-11-06). `lineage.taxid_backfill`
+- [x] **A missing taxid backfill silently changes verdicts** (found and fixed 2026-11-06: `lineage.read_taxid_backfill`, no status moves). `lineage.taxid_backfill`
   is a path relative to the working directory, and `report.py` carries on without the file, where a
   missing `drift.scope_taxonomy` raises. Run from a git worktree on the 2026-11-01 calls, without the
   file, it moved 25 statuses with no warning, because records lost the taxids that scope and lineage
