@@ -546,13 +546,13 @@ def test_a_recorded_caveat_does_not_hold_the_status_back_but_is_printed():
     showed none of them.
     """
     drifts = _drifting()
-    drifts["Haemosporida_cytb_Hellgren_2004_HaemNFI"] = drifts.pop("A")
-    drifts["Haemosporida_cytb_Hellgren_2004_HaemNFI"].assay_id = "Haemosporida_cytb_Hellgren_2004_HaemNFI"
-    assay = _assay("Haemosporida_cytb_Hellgren_2004_HaemNFI")
+    drifts["Salmonella_enterica_invA_Rahn_1992"] = drifts.pop("A")
+    drifts["Salmonella_enterica_invA_Rahn_1992"].assay_id = "Salmonella_enterica_invA_Rahn_1992"
+    assay = _assay("Salmonella_enterica_invA_Rahn_1992")
     caveats = {i.flag.value for i in assay.needs_review or [] if not i.flag.value.endswith("unresolved")}
     assert "oligos_not_in_cited_paper" in caveats, "fixture no longer carries the flag under test"
 
-    md = render_markdown(drifts, {"Haemosporida_cytb_Hellgren_2004_HaemNFI": assay}, [], "2026-10-03")
+    md = render_markdown(drifts, {"Salmonella_enterica_invA_Rahn_1992": assay}, [], "2026-10-03")
     assert "## Not scoreable" not in md, "a recorded caveat is a disclosure, not a defect"
     assert "## Declining" in md
     assert "Entry flags:" in md and "oligos_not_in_cited_paper" in md
