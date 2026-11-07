@@ -21,6 +21,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Takehisa J et al. 2009. J Virol 83:1635-1648
+  claim: HIV-1, SIVcpz and SIVgor pol gene, second round, used only as a side method on two chimpanzee samples.
 conditions:
   annealing_c: 55.0
   cycles: 35
@@ -33,6 +34,8 @@ source:
   notes_curator: 'Not scoped (a scope attempted 2026-10-04 was reverted): SIVgor has no NCBI taxon and SIVcpz (388909) has
     only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged keyword query searches every Entrez field
     and does not isolate the lineage. Judged against all SIV, with the lineage breakdown recorded instead: SIVgor 8/8 detected,
-    SIVcpz 15/30, everything else 5/181. See docs/journal/2026-10-04-assay-investigations.md.'
+    SIVcpz 15/30, everything else 5/181. See docs/journal/2026-10-04-assay-investigations.md. CORRECTED 2026-11-06: the paper''s
+    220 bp names no pair; geometry says this inner one, and 12 bp stay unexplained.'
 needs_review:
-- flag: amplicon_measured_not_published
+- flag: amplicon_disagrees_with_paper
+  note: measured 285 bp with primers (232 without) in 5025 of 5031; the paper states 220 bp without naming a pair

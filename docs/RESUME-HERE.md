@@ -1,3 +1,14 @@
+# Resume point, 2026-11-06, night (paused at the maintainer's request)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0".** Steps 0-5, 6a and 7 are done on `next-release`, or in its open PR
+`scope-reread-fixes`; `main` carries only the removal of one document. The weekly job stays paused. Notes the
+session made are in gitignored `local/release-work-2026-11-06/`, including the batch notes, `verified.md` and the
+validation drafts. Branch `page-narrative` and its worktree `../assaywatch-pages` hold the page features, unreviewed.
+
+Next, in order: verify and apply batches 5-8 (step 6b, 8 papers unread); review and merge `page-narrative`; write the
+three page notes (G2R WA_F, E. coli LT, hlyA); the maintainer's validation skim; run `assaywatch scope-check`, then step 12.
+A worktree needs `papers/` linked to commit and `--retrieved` for a real extract. The live run and publishing wait for the maintainer's go.
+
 # Resume point, 2026-11-06, late (the release is planned, nothing started)
 
 **Read `ROADMAP.md`, "Release plan: v0.3.0", and start at step 0.** Grilled with the maintainer the same evening.

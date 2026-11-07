@@ -13,13 +13,14 @@ oligos:
   reverse:
     name: '175'
     seq: ATCTTCCCCRTSRTAWCCATCCCACCA
-amplicon_bp: 560
+amplicon_bp: 580
 citation:
   doi: 10.1007/s007050070002
   design_year: 2000
   n_sequences_at_design: null
   doi_verified: true
   reference: Mankertz A et al. 2000. Arch Virol 145:2469-2479
+  claim: Vertebrate circoviruses, rep gene, as the first round of a nested pair.
 use_context:
 - wildlife
 - veterinary
@@ -31,7 +32,9 @@ source:
   notes_curator: 'Primer 174 checked against Mankertz et al. 2000 (Arch Virol 145:2469) on 2026-10-04: the paper prints GTGTTTCAC...,
     as the registry does, so this is the published primer, not a transcription error. Circovirus records, including AF086834,
     read GTGTTCAC... (one T fewer): the extra base is in the primer as designed, which may explain the failure noted for finch
-    circovirus.'
+    circovirus. CORRECTED 2026-11-06: amplicon_bp 560 -> 580, the mode; the paper gives no first-round size.'
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 6458 products and 17896 none under this orientation (2026-10-27 run), so the inference stands
+- flag: amplicon_measured_not_published
+  note: modal 580 bp of 6464; the paper gives no first-round size

@@ -27,6 +27,7 @@ citation:
   doi_verified: true
   reference: Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the 
     PREDICT panel)
+  claim: Coronaviruses, RdRp gene, as a consensus screen.
 conditions:
   annealing_c: 50
   primer_nm: 200
@@ -56,6 +57,7 @@ source:
     degeneracy and Watanabe''s length, and it binds better than either published form - the panel dropped a base. Calling
     it "a hybrid nobody printed" was right about its provenance and wrong about its quality. This is the same pattern already
     recorded for CoV-RVS1 in the Lan_2010 sibling, where the stored 30-mer hits 685 of 884 genomes and the paper''s 33-mer
-    never gets below 4 mismatches. modified_from keeps Watanabe''s printed form visible.'
+    never gets below 4 mismatches. modified_from keeps Watanabe''s printed form visible. CORRECTED 2026-11-06: the paper prints
+    these and attributes the method to de Souza Luna et al. 2007 (ref 13, not held).'
 needs_review:
 - flag: oligos_modified

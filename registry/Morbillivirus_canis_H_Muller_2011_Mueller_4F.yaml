@@ -12,7 +12,7 @@ oligos:
     seq: ATCCCCCATGTGTTGACATT
   reverse:
     name: Mueller-4R
-    seq: GACCTCAGGGTATAGAATCTGG
+    seq: RGACCTCAGGGTATAGAATCTGG
   alternates:
   - name: 4Farctic
     seq: ATCCCTCATGTGTTATCATT
@@ -25,6 +25,7 @@ citation:
   doi_verified: true
   reference: Müller A, Silva E, Santos N, Thompson G. 2011. Domestic dog origin of canine distemper virus in 
     free-ranging wolves in Portugal as revealed by hemagglutinin gene characterization. J Wildl Dis 47:725-729
+  claim: Canine distemper virus H gene, one of four overlapping pieces, for sequencing rather than detection.
 conditions:
   annealing_c: 57.0
 use_context:
@@ -46,7 +47,10 @@ source:
     TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
     id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
     release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
-    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.
+    CORRECTED 2026-11-06: Mueller-4R is printed RGACC..., and was stored without its 5'' R; the record base matches R in all
+    365 products. The pairing is stated by the paper, so that flag is removed. The arctic alternates are not printed by the
+    paper and their source isn''t recorded.'
 needs_review:
-- flag: pairing_is_curator_reading
-  note: the source lists several primers in one block without saying which pair
+- flag: oligos_not_in_cited_paper
+  note: the arctic alternates are not printed by the cited paper; source not recorded

@@ -13,13 +13,14 @@ oligos:
   reverse:
     name: '177'
     seq: TCKACTCTTSCCACAMCCVGGYGGSCC
-amplicon_bp: 270
+amplicon_bp: 274
 citation:
   doi: 10.1007/s007050070002
   design_year: 2000
   n_sequences_at_design: null
   doi_verified: true
   reference: Mankertz A et al. 2000. Arch Virol 145:2469-2479 (nested round)
+  claim: Vertebrate circoviruses, rep gene, as the nested second round.
 conditions:
   annealing_c: 49
 use_context:
@@ -42,7 +43,11 @@ source:
     MEASURED on the 2026-10-17 calls: Cyclovirus holds 741 records but only 4 evaluable ones, against 7,752 evaluable under
     genus Circovirus, so scoping changes nothing and is not worth an allow-list that would also have to re-admit the 434 unclassified
     Circoviridae records (bat, rodent, fur seal) that are vertebrate circoviruses. Revisit if Cyclovirus deposits become evaluable
-    in numbers.'
+    in numbers. CORRECTED 2026-11-06: amplicon_bp 270 -> 274, the mode.'
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 7772 products and 16582 none under this orientation (2026-10-27 run), so the inference stands
+- flag: amplicon_disagrees_with_paper
+  note: modal 274 bp (5257 of 7772), 268 in 2478; the paper says approximately 240
+- flag: amplicon_multimodal
+  note: modes 274 and 268

@@ -29,8 +29,9 @@ citation:
     monkeypox virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
   doi_verified: true
   oligos_designed_here: true
+  claim: West African clade of monkeypox virus, G2R gene.
 conditions:
-  annealing_c: 60.0
+  annealing_c: 62.0
 use_context:
 - wildlife
 - public_health
@@ -82,4 +83,7 @@ source:
     as-is, or build the C3L clade-call mechanism) and chose to KEEP IT DRAFT. The 2,688 clade-I failures no scope_taxids can
     exclude make the denominator known-broken and worsening for a non-drift reason, so activating would bake in a misleading
     verdict. This is settled, not an open question to re-raise: reopen only if the C3L-presence clade call at an independent
-    locus is built.'
+    locus is built. CORRECTED 2026-11-06: the paper raised this assay''s annealing to 62 C for specificity. Of the 3,122 records
+    with an 82 bp product, 2,643 are clade I by this project''s F3L calls and 5 are clade II; among clade II records detection
+    is 9,656 of 9,661. So this status mostly reflects clade I records the assay isn''t meant to detect (inference: NCBI has
+    no clade nodes).'

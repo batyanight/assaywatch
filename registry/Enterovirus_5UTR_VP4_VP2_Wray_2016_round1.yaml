@@ -24,6 +24,7 @@ citation:
     Daszak P, Anthony SJ. 2016. Viral Diversity, Prey Preference, and Bartonella Prevalence in Desmodus rotundus in 
     Guatemala. EcoHealth 13:761-774
   doi_verified: true
+  claim: Enteroviruses, 5' UTR to VP4/VP2 region, as a consensus screen.
 use_context:
 - wildlife
 - public_health
@@ -56,3 +57,5 @@ needs_review:
 - flag: amplicon_measured_not_published
   note: modal 752 bp over 7,535 products; Wray 2016 publishes no size
 - flag: orientation_inferred
+- flag: pairing_is_curator_reading
+  note: Table 1 lists all four in one row without rounds; EVRV1/EVRV2 then EVRV3/EVRV2anew is a reading of the order
