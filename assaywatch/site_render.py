@@ -448,6 +448,7 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
     # The graphs lead, primer then line then bar (maintainer's order, 2026-11-04): the page
     # opens on the evidence, and the arithmetic behind the verdict follows it.
     out.append(_mismatch_block(a))
+    out += _failure_reasons_block(a)
     out.append(_year_block(a, composition))
     out += _composition_block(composition)
     out += _lineage_block(a)
@@ -774,6 +775,24 @@ def _no_bars_note(a: dict[str, Any]) -> str:
             " inside the amplicon), which leaves no position to draw."
         )
     return f'<p class="aw-empty">{note}</p>'
+
+
+def _failure_reasons_block(a: dict[str, Any]) -> list[str]:
+    """The failures the mismatch chart can't show, in the words of `_no_bars_note`.
+
+    The worked case is G2R WA_F, whose 82 bp product has no probe site: a tall count of
+    failures with no bar to explain them. Absent on an older run.json.
+    """
+    reasons = a.get("failure_reasons") or []
+    if not reasons:
+        return []
+    return [
+        "Some records fail with no position to draw: the record has no site for an oligo, so the",
+        "chart above can't show them. One count per record, across everything screened, before",
+        "the scope filter:\n",
+        *[f"- {_md_text(why)}: {int(n):,} records" for why, n in reasons],
+        "",
+    ]
 
 
 _LINEAGE_TAXID = re.compile(r"^(?P<name>.*?)\s*\((?P<taxid>\d+)\)\s*$")

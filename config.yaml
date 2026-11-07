@@ -1046,6 +1046,17 @@ report:
   # rests on 2% of records invites exactly the misreading it exists to prevent.
   collection_sidecar: null
 
+# What the website shows beyond the report. Display only: nothing hashes this block and
+# no status reads it.
+site:
+  # A page names a failure reason from the calls table's `reason` column only with at least
+  # this many records behind it. A placeholder, not measured: on the 2026-11-01 run 30 assays
+  # carry a reason, 3,120 records at most, and 10 leaves 17 of them. Below it, a reason is
+  # one odd record's and the sentence would read as a finding.
+  failure_reasons_min_records: 10
+  # The most a page names. Today only one reason string exists, so this is a ceiling.
+  failure_reasons_shown: 3
+
 # Per-lineage detection analysis (phase 1 of estimand rebuild).
 # Each record is assigned a lineage by its NCBI taxid. Verdicts condition
 # on the worst-performing lineage among those assessable.

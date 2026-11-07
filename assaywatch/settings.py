@@ -339,6 +339,15 @@ class Report(Block):
     collection_sidecar: str | None = None
 
 
+class Site(Block):
+    """What the website shows. Display only: no rule hashes this block and no status reads it."""
+
+    #: Fewest records a failure reason needs before the page names it.
+    failure_reasons_min_records: int = Field(default=10, gt=0)
+    #: Most failure reasons a page names.
+    failure_reasons_shown: int = Field(default=3, gt=0)
+
+
 class Lineage(Block):
     #: FWER, not FDR: the rule is "any lineage below threshold fails the assay",
     #: so what needs controlling is the chance of at least one false rejection.
@@ -434,6 +443,7 @@ class Settings(Block):
     sitedrift: SiteDrift = Field(default_factory=SiteDrift)
     figures: Figures = Field(default_factory=Figures)
     report: Report = Field(default_factory=Report)
+    site: Site = Field(default_factory=Site)
     lineage: Lineage = Field(default_factory=Lineage)
     composition: Composition = Field(default_factory=Composition)
 

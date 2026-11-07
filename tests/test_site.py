@@ -1730,3 +1730,58 @@ def test_a_page_note_reaches_the_extracted_page_and_is_omitted_when_absent():
     assert extracted(noted, drift, None, 5).page_note == "Read this."
     assert extracted(bare, drift, None, 5).page_note == ""
     assert "**Note:**" not in site_render.assay_page(_page(page_note=""), "2026-11-01")
+
+
+# ---- Failures a per-base chart can't show (ROADMAP step 11c) ----
+
+
+def _reason_calls(tmp_path, rows):
+    path = tmp_path / "calls.tsv"
+    head = "assay_id\trecord_id\tpenalty\tcall\treason\n"
+    path.write_text(head + "".join(f"{a}\t{r}\t0\t{c}\t{why}\n" for a, r, c, why in rows))
+    return path
+
+
+def test_failure_reasons_count_one_per_accession_and_only_for_fails(tmp_path):
+    no_probe = "no probe site inside amplicon"
+    rows = [
+        # The table repeats a record across archives: one count, on its newest version.
+        ("A", "AB1.1", "fail", no_probe),
+        ("A", "AB1.1", "fail", no_probe),
+        ("A", "AB2.1", "fail", no_probe),
+        # An older version failed and the newer one detects: not a failure now.
+        ("A", "AB3.1", "fail", no_probe),
+        ("A", "AB3.2", "detect", ""),
+        # A failure with no reason is a penalty over budget, which the chart does show.
+        ("A", "AB4.1", "fail", ""),
+        # A RefSeq copy of a record in the same assay's calls is not a second record.
+        ("A", "NZ_AB2.1", "fail", no_probe),
+        ("B", "AB9.1", "fail", no_probe),
+        ("Withheld", "AB9.1", "fail", no_probe),
+    ]
+    got = site.failure_reasons(_reason_calls(tmp_path, rows), {"A", "B"}, min_records=1, shown=3)
+    assert got == {"A": [(no_probe, 2)], "B": [(no_probe, 1)]}
+
+
+def test_failure_reasons_hold_back_a_thin_count_and_show_only_the_top(tmp_path):
+    rows = [("A", f"AB{i}.1", "fail", "first") for i in range(4)]
+    rows += [("A", f"AC{i}.1", "fail", "second") for i in range(3)]
+    rows += [("A", f"AD{i}.1", "fail", "third") for i in range(2)]
+    rows += [("A", "AE1.1", "fail", "thin")]
+    got = site.failure_reasons(_reason_calls(tmp_path, rows), {"A"}, min_records=2, shown=2)
+    assert got == {"A": [("first", 4), ("second", 3)]}
+
+
+def test_the_page_says_which_failures_have_no_position_to_draw():
+    md = site_render.assay_page(
+        _page(failure_reasons=[["no probe site inside amplicon", 3120]]), "2026-11-01"
+    )
+    assert "no probe site inside amplicon: 3,120 records" in md
+    assert "no position to draw" in md
+    assert md.index("no probe site inside amplicon: 3,120") < md.index("## Oligos")
+
+
+def test_a_page_with_no_failure_reasons_says_nothing_about_them():
+    assert site_render.assay_page(_page(), "2026-11-01") == site_render.assay_page(
+        _page(failure_reasons=[]), "2026-11-01"
+    )

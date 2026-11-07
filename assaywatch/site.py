@@ -32,6 +32,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -163,6 +164,62 @@ class AssayPage:
     no_amplicon_rows: int = 0
     exclusions: list[list[Any]] = field(default_factory=list)
     out_of_scope: int = 0
+    #: The calls table's `reason` for `fail` rows, commonest first, one count per record:
+    #: failures with no position on the mismatch chart. Empty on a withheld page, a
+    #: protocol page and an older extract.
+    failure_reasons: list[tuple[str, int]] = field(default_factory=list)
+
+
+def failure_reasons(
+    calls_path: Path, assay_ids: set[str], *, min_records: int, shown: int
+) -> dict[str, list[tuple[str, int]]]:
+    """{assay: [(reason, records), ...]}: why its `fail` rows failed, where the row says.
+
+    Most `fail` rows have a blank `reason`, being a penalty over budget that the mismatch
+    chart draws. The rest have no position to draw. On the 2026-11-01 run there is one
+    such string, 'no probe site inside amplicon', with no number in it, so the string
+    itself is the kind; 11,127 rows on 30 assays.
+
+    Counted through `key_calls_by_accession`, because the table repeats rows (G2R WA_F's
+    5,235 are 3,123 records) and a fail on an old version or a RefSeq copy isn't a record
+    that fails now. That rule needs an assay's other rows too, so filtering to `fail` first
+    would miscount. TWO PASSES, because `site.extract` already peaks near 5 GB: the first
+    finds the few assays with a reason at all, and only those are held in the second.
+
+    Counts everything screened, before the scope filter, so this can exceed the page's
+    denominator; the page says so.
+    """
+    import csv
+
+    from assaywatch.calls import _open, key_calls_by_accession
+    from assaywatch.refseq_twins import beside
+
+    def rows() -> Any:
+        with _open(calls_path) as fh:
+            reader = csv.reader(fh, delimiter="\t")
+            header = next(reader, None) or []
+            cols = [header.index(c) for c in ("assay_id", "record_id", "call", "reason")]
+            for line in reader:
+                yield [line[i] for i in cols]
+
+    with_reason = {a for a, _, call, why in rows() if call == "fail" and why and a in assay_ids}
+    if not with_reason:
+        return {}
+    kept = [
+        {"assay_id": a, "record_id": r, "call": call, "reason": why}
+        for a, r, call, why in rows()
+        if a in with_reason
+    ]
+    counts: dict[str, Counter[str]] = defaultdict(Counter)
+    for row in key_calls_by_accession(kept, beside(calls_path)):
+        if row["call"] == "fail" and row["reason"]:
+            counts[row["assay_id"]][row["reason"]] += 1
+    out = {}
+    for assay_id, reasons in counts.items():
+        top = [(why, n) for why, n in reasons.most_common(shown) if n >= min_records]
+        if top:
+            out[assay_id] = top
+    return out
 
 
 def _pos_in_zone(pos: int, zone: int) -> bool:
@@ -214,6 +271,16 @@ def extract(
         for aid, d in sorted(drifts.items())
         if aid in assays
     ]
+    # Not for a withheld assay: its page has no chart or verdict for this to sit beside.
+    site_cfg = cfg.get("site") or {}
+    reasons = failure_reasons(
+        calls_path,
+        {p.assay_id for p in pages if not p.withheld_reasons},
+        min_records=int(site_cfg.get("failure_reasons_min_records", 10)),
+        shown=int(site_cfg.get("failure_reasons_shown", 3)),
+    )
+    for p in pages:
+        p.failure_reasons = reasons.get(p.assay_id, [])
     # The nested protocols, in the same page shape so the renderer needs no second
     # one, but under their own key: merging them into `assays` would inflate every
     # count the site states about the registry, and a protocol is not an assay.
