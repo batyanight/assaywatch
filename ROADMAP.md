@@ -93,7 +93,8 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   the step:** `assaywatch scope-check [--registry] [--calls] --out <tsv>`, one row per assay x flag;
   no flag is a verdict. Reads `retrieve.year_counts`. Run it now to find problems while they can
   still land.
-- [ ] **5. Declare the rules' memory.** `rule report` and `site_drift` at `mem_mb=3000` against a
+- [x] **5. Declare the rules' memory.** Done 2026-11-06: 4.5, 6 and 6 GB, each commented. `lineage_analysis` is
+  still 3 GB and unmeasured, so the frozen run's timing should check it. As planned: `rule report` and `site_drift` at `mem_mb=3000` against a
   3.17 GB table: measure and redeclare. Needed before step 13's run, not after.
 - [ ] **6a. Reread the papers behind `declining` and `low coverage`.** 71 assays, at most 46 papers,
   ≤ ~1.1M subagent tokens. Each batch returns `citation.claim` sentences, checked quotes, scope
@@ -339,7 +340,8 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   lists in the name, all already in each entry's `notes_curator`. A test holds the rule. Display
   only, but it edits registry files, so the next run re-screens those assays; it re-screens every
   assay anyway, because the screens' ids are stale.
-- [ ] **`rule report` declares less memory than its table takes.** `mem_mb=3000`, against a
+- [x] **`rule report` declares less memory than its table takes.** Fixed 2026-11-06: `report` measured 3.64 GB,
+  `site_drift` 4.95 GB, and `figures` runs both; now 4.5, 6 and 6 GB. As first written: `mem_mb=3000`, against a
   3.17 GB peak from `load_calls_as_reported` alone on the 2026-11-01 calls (3,448,385 rows,
   measured 2026-11-04); its comment's 2.7M rows date from 2026-10-22. On SLURM that job is
   killed. Measure the whole rule and redeclare; `site_drift` reads the same table.
