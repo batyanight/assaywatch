@@ -249,6 +249,7 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         # costs one cheap esearch per year rather than a refetch, and it hashes
         # source_names("retrieve") like any other downstream rule.
         "retrieval_coverage": "retrieve",
+        "refseq_twins": "refseq_twins",
     }
     from assaywatch.cli import resolve
 
@@ -383,7 +384,15 @@ def _edited(tree: Path, relative: str, new_text):
         (
             "assaywatch/collect.py",
             lambda s: s + "\n# edited\n",
-            {"collect_calls", "report", "lineage_analysis", "site_drift", "figures", "composition"},
+            {
+                "collect_calls",
+                "refseq_twins",  # follows the calls table, so the map is never older than it
+                "report",
+                "lineage_analysis",
+                "site_drift",
+                "figures",
+                "composition",
+            },
         ),
         # site_drift selects assays by drift status, so it imports drift.py and report.py
         # figures imports drift.py and report.py (shared colours/constants, its own
@@ -417,6 +426,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "screen_archive",
                 "degeneracy_table",
                 "collect_calls",
+                "refseq_twins",
                 "report",
                 "lineage_analysis",
                 "site_drift",
@@ -432,6 +442,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "screen_archive",
                 "degeneracy_table",
                 "collect_calls",
+                "refseq_twins",
                 "report",
                 "lineage_analysis",
                 "site_drift",
@@ -463,6 +474,7 @@ def _edited(tree: Path, relative: str, new_text):
                 "screen_archive",
                 "degeneracy_table",
                 "collect_calls",
+                "refseq_twins",
                 "report",
                 "lineage_analysis",
                 "site_drift",

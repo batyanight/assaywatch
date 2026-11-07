@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (168 links).
+    definition links to it (169 links).
     `status` is defined by more than one entry and so
     deliberately not linked.
 
@@ -175,6 +175,8 @@ word for a concept.
 **Wilson / Newcombe interval**{: #term-wilson-newcombe-interval } — Wilson score interval for a proportion; Newcombe hybrid-score interval for a difference of two, built from the two Wilson intervals (`interval.py`, `drift.py`).
 
 ## Pipeline and runs
+
+**RefSeq twin**{: #term-refseq-twin } — a non-RefSeq record whose whole sequence equals a curated RefSeq record's (`NC_`, `AC_`, `NG_`, `NR_`, `NW_`). The RefSeq row is dropped when its twin is in the same [assay](#term-assay)'s calls, so a copy doesn't count as a deposit (`refseq_twins.py`). Identical sequence doesn't strictly prove a copy. `NZ_` needs no map, because its accession names its source.
 
 **retrieve**{: #term-retrieve } — fetch nucleotide records for a [retrieval group](#term-retrieval-group) from NCBI and [archive](#term-archive) them, incrementally (`retrieve.py`).
 

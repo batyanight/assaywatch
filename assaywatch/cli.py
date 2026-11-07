@@ -30,6 +30,7 @@ STAGES: dict[str, tuple[str, str]] = {
     "retrieve": ("assaywatch.retrieve", "fetch and archive a target's GenBank records, incrementally"),
     "screen": ("assaywatch.screen", "screen assays against a FASTA: one call per (assay, record)"),
     "windows": ("assaywatch.windows", "cut archives down to the windows around screened sites"),
+    "refseq-twins": ("assaywatch.refseq_twins", "which curated RefSeq records repeat a non-RefSeq record"),
     "sitedrift": ("assaywatch.sitedrift", "which oligo positions fail, and in which accessions"),
     "lineage-report": (
         "assaywatch.lineage_report",

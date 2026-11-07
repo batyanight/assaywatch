@@ -37,10 +37,10 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from assaywatch import atomic
+# Re-exported since accession.py was split out; tests/test_accession.py pins it.
+from assaywatch import atomic, refseq_twins
 from assaywatch.accession import strip_version
 
-# Re-exported since accession.py was split out; tests/test_accession.py pins it.
 # `ruff --fix` removes an unused import, re-export or not, so the `as` form says so.
 from assaywatch.accession import version_of as version_of
 
@@ -2840,7 +2840,7 @@ def load_calls_as_reported(
     from assaywatch.nested import families
 
     rounds = {i for v in families(assays).values() for i in v}
-    calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds))
+    calls = key_calls_by_accession(read_calls(calls_path, with_spans=rounds), refseq_twins.beside(calls_path))
     # The archive-scale anchor test, before anything reads an exclusion label
     # (drift, nested, lineage all take these rows). Off unless drift.anchor_fdr is set.
     apply_anchor_fdr(calls, cfg)

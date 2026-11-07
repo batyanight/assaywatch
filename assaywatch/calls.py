@@ -24,7 +24,7 @@ from __future__ import annotations
 import csv
 import gzip
 from collections import defaultdict
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from contextlib import suppress
 from datetime import date
 from pathlib import Path
@@ -391,15 +391,19 @@ def accessions_worth_dating(retrieved_dir: Path, accessions: Iterable[str], earl
     return out
 
 
-def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def key_calls_by_accession(
+    calls: list[dict[str, Any]], twins: Mapping[str, frozenset[str]] | None = None
+) -> list[dict[str, Any]]:
     """Normalise record ids so they join against the metadata, newest version only.
 
     Newest means the highest `.N` version, not the last row: the pipeline
     concatenates archives group by group, so an older version can come last.
 
     A RefSeq `NZ_` copy is dropped when its GenBank source is in the same assay's calls:
-    they are one deposit, and the GenBank row carries the original date.
+    they are one deposit, and the GenBank row carries the original date. `twins`
+    (`refseq_twins.read`) does the same for curated RefSeq numbers, which don't name theirs.
     """
+    twins = twins or {}
     seen: dict[tuple[str, str], tuple[int, dict[str, Any]]] = {}
     for row in calls:
         acc = strip_version(row["record_id"])
@@ -407,4 +411,9 @@ def key_calls_by_accession(calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
         key = (row["assay_id"], acc)
         if key not in seen or v >= seen[key][0]:
             seen[key] = (v, {**row, "record_id": acc})
-    return [row for (assay_id, acc), (_, row) in seen.items() if (assay_id, refseq_source(acc)) not in seen]
+    return [
+        row
+        for (assay_id, acc), (_, row) in seen.items()
+        if (assay_id, refseq_source(acc)) not in seen
+        and not any((assay_id, twin) in seen for twin in twins.get(acc, ()))
+    ]
