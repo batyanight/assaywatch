@@ -186,6 +186,12 @@ word for a concept.
 
 **new since design** — of a species under an assay's target taxon: first deposited in this assay's archive after the year its paper designed it (`composition.species_years`), so the designers could not have had it. Unset where the entry carries no `citation.design_year`.
 
+**spike** — a deposit year at least `composition.spike_min_fold` times an assay's own median year, with what its records show: the largest batch of consecutive accessions, title tokens, collection years, and the batch's first GenBank REFERENCE (`composition.lineage_narrative`). A year with none of these gets no sentence, and the page words all of it "may".
+
+**page note** — `source.page_note`: the curator's free text shown near the status on an assay page, labelled as a note. Moves no status.
+
+**failure reason** — the calls table's `reason` on a `fail` row, a failure with no position for the mismatch chart to draw; counted one per record (`site.failure_reasons`). A blank `reason` is a penalty over budget, which the chart does draw.
+
 **diverged stratum** — in the composition panel, the records whose primers both landed past the mismatch budget: they have no amplicon and so no composition window, and are drawn and counted as a lineage of their own rather than placed by guesswork (`composition.DIVERGED`). Under `drift.count_diverged_as_fail` they are in the denominator, which is why the panel must show them.
 
 **manifest** — the retrieve stage's run state: per-group last-run dates and counts, kept as state not as a Snakemake output (`retrieve.py`, `timing.py`).
