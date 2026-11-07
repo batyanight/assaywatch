@@ -882,6 +882,7 @@ def build(
 ) -> tuple[str, str, list[AssaySites]]:
     """Site-drift report for every assay in the given statuses."""
     from assaywatch.drift import by_status
+    from assaywatch.refseq_twins import beside
     from assaywatch.report import apply_anchor_fdr, key_calls_by_accession, read_calls, read_dates
     from assaywatch.validate import iter_files, load_assay
 
@@ -915,7 +916,8 @@ def build(
     # status here either, so it cannot be listed as failing.
     from assaywatch.report import assess_as_reported, held_out_reasons, map_is_withheld
 
-    calls = key_calls_by_accession(read_calls(calls_path))
+    twins = beside(calls_path)
+    calls = key_calls_by_accession(read_calls(calls_path), twins)
     apply_anchor_fdr(calls, cfg)  # the same relabel report.build applies, so the two cannot disagree
     drifts, _ = assess_as_reported(calls, dates, assays, retrieved, cfg, today)
     drifts = {
@@ -931,7 +933,7 @@ def build(
     selected.sort(key=lambda d: (d.recent_fraction if d.recent_fraction is not None else 1.0, d.assay_id))
     ids = {d.assay_id for d in selected if d.assay_id in assays}
 
-    rows = key_calls_by_accession(read_site_calls(calls_path, ids))
+    rows = key_calls_by_accession(read_site_calls(calls_path, ids), twins)
     by_assay: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for r in rows:
         by_assay[r["assay_id"]].append(r)

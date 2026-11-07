@@ -59,6 +59,13 @@ the simulation.
 Decided by the maintainer: fix with a stored map, on whole-sequence identity, published with the release's
 frozen run (`ROADMAP.md`, "Release plan").
 
+## The map, built
+
+Adding `NR_` and `NW_` removes 921 more pairs (7,450 in 186 assays) and moves no status: recent counts change
+in 3 assays, by one record each. `refseq_twins.build` found 3,285 curated records with a twin over the 9.3 GB
+of archives, in 154 s on 6 workers, 0.67 GB in the largest process. An extract through the module equals the
+simulation's `run.json` byte for byte, so the two independent routes agree. 1,394,917 accessions were checked.
+
 ## Not done
 
 - `website/data` isn't regenerated. The composition rebuild was stopped at assay 69 of 219, and it now waits

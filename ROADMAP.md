@@ -67,10 +67,9 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   Zimmermann duplicate and the 1994 scan, the composition heading, the blank-chart fallback and nest
   links, the Chlamydia assemblies item, the backfill's stopping point. `validate.yml` runs on every
   pull request, so PRs into `next-release` get CI without a change.
-- [ ] **1. RefSeq copies.** Measure `NR_` and `NW_` first (489 of 690 and 432 of 455 calls have a
-  twin; their effect was not simulated). Then build the map and merge with the `NZ_` commit.
-  Measured effect of `NC_`, `AC_` and `NG_`: `docs/journal/2026-11-06-refseq-twins.md`.
-  **Interface, for approval:**
+- [x] **1. RefSeq copies.** Done 2026-11-06: 3,285 curated records have a twin, and the extract equals
+  the simulation's byte for byte. `build` also takes `workers`, and `beside(calls_path)` finds a run's
+  map. `docs/journal/2026-11-06-refseq-twins.md`. **Interface, approved:**
   ```python
   # assaywatch/refseq_twins.py (new): the map's only writer and reader
   build(retrieved: Path, out: Path) -> None     # whole-sequence digests over every archive
@@ -354,10 +353,8 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
 - [x] **Security review and code review once the new lineage graphs are live.** Done 2026-11-05:
   no security finding at confidence 8 or above, 14 code review findings all fixed.
   `docs/journal/2026-11-05-review-fixes-rebuilt.md`.
-- [ ] **RefSeq copies count as separate deposits.** On branch `refseq-twins`: the `NZ_` fix is committed
-  and `pytest -m slow` passes. Decided 2026-11-06: `NC_`-style copies are fixed by a stored map, and it all
-  publishes with the frozen run rather than by its own rebuild. Step 1 of the release plan above.
-  `docs/journal/2026-11-06-refseq-twins.md`.
+- [x] **RefSeq copies count as separate deposits.** Fixed 2026-11-06, `NZ_` by accession and the curated
+  prefixes by a stored map. It publishes with the frozen run. `docs/journal/2026-11-06-refseq-twins.md`.
 - [ ] **Reconcile species names in the lineage groups.** Title names and taxonomy names don't match
   for one virus (*Human bocavirus* and *Bocaparvovirus primate1*), so a group can show a percent
   though it holds one species. Pages word this as several names until then. On the 2026-11-01 run, 42 of 201 assays have a
@@ -1694,6 +1691,13 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
         reorganised into stage subpackages; the CLI gives one entry point per stage.
 
 ## Hygiene
+
+- **A missing taxid backfill silently changes verdicts** (found 2026-11-06). `lineage.taxid_backfill`
+  is a path relative to the working directory, and `report.py` carries on without the file, where a
+  missing `drift.scope_taxonomy` raises. Run from a git worktree on the 2026-11-01 calls, without the
+  file, it moved 25 statuses with no warning, because records lost the taxids that scope and lineage
+  read (Perkinsea cladeD: `out_of_scope` 1,389 to 0). It should fail as the taxonomy does, and it should
+  follow `--retrieved`. Fix before step 13, or the frozen run has only the checkout's layout protecting it.
 
 - [x] **`registry.edit()` unfolded long quoted scalars** (found and fixed 2026-10-30,
   `docs/journal/2026-10-30-registry-edit-fold-width.md`). The dumper's width was

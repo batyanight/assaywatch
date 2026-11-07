@@ -49,6 +49,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from assaywatch import refseq_twins  # noqa: E402
 from assaywatch.accession import strip_version  # noqa: E402
 from assaywatch.clustermaps import cluster_assays, cluster_maps  # noqa: E402
 from assaywatch.drift import assess, reduced_not_detected_ids  # noqa: E402
@@ -350,7 +351,7 @@ def load_evidence(
     the taxa cache so per-lineage analysis runs during retrospective verdicts.
     """
     by_assay: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    rows = key_calls_by_accession(read_calls(calls_path))
+    rows = key_calls_by_accession(read_calls(calls_path), refseq_twins.beside(calls_path))
     apply_anchor_fdr(rows, cfg or {})  # the report-time relabel report.build applies; off unless configured
     for r in rows:
         by_assay[r["assay_id"]].append(r)

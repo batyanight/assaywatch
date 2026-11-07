@@ -642,6 +642,28 @@ rule collect_calls:
         )
 
 
+rule refseq_twins:
+    """Which curated RefSeq records repeat a non-RefSeq record's whole sequence. Every
+    reader of the calls table's verdicts takes it, so a copy doesn't count as a deposit.
+
+    Reads every archive, so it follows `collect_calls`, which is what guarantees they exist.
+    """
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+    output:
+        RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
+    params:
+        code=_package_hash(*source_names("refseq_twins")),
+    threads: 6
+    # Measured over the 9.3 GB of archives on 2026-11-06: 154 s on 6 workers, 0.67 GB in the
+    # largest process. The declaration allows for the workers together.
+    resources:
+        mem_mb=4000,
+        runtime=30,
+    shell:
+        "assaywatch refseq-twins {RETRIEVED} --out {output} --workers {threads}"
+
+
 rule site_drift:
     """Which oligo positions are failing, and in which groups of accessions.
 
@@ -653,6 +675,7 @@ rule site_drift:
     """
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
     output:
         md=RESULTS / RUN_DATE / "site-drift.md",
         tsv=RESULTS / RUN_DATE / "site-drift.tsv",
@@ -734,6 +757,7 @@ rule figures:
     """
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
         taxonomy=config["drift"]["scope_taxonomy"],
     output:
         forest=RESULTS / RUN_DATE / "figures" / "forest.svg",
@@ -790,6 +814,7 @@ rule composition:
     """
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
         # scope ancestry and the species roll-up: both change which records are counted
         # and what a cluster is named, exactly as they do for the report.
         taxonomy=config["drift"]["scope_taxonomy"],
@@ -820,6 +845,7 @@ rule report:
     """Per-assay drift status, coverage gaps, and the degeneracy caveat beside both."""
     input:
         calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        twins=RESULTS / RUN_DATE / "refseq-twins.tsv.gz",
         # scope_taxids ancestry: a rebuilt tree changes which records count
         taxonomy=config["drift"]["scope_taxonomy"],
         # Inlined into the HTML. A hard input, so the page is never published

@@ -164,6 +164,8 @@ word for a concept.
 
 ## Pipeline and runs
 
+**RefSeq twin** — a non-RefSeq record whose whole sequence equals a curated RefSeq record's (`NC_`, `AC_`, `NG_`, `NR_`, `NW_`). The RefSeq row is dropped when its twin is in the same assay's calls, so a copy doesn't count as a deposit (`refseq_twins.py`). Identical sequence doesn't strictly prove a copy. `NZ_` needs no map, because its accession names its source.
+
 **retrieve** — fetch nucleotide records for a retrieval group from NCBI and archive them, incrementally (`retrieve.py`).
 
 **retrieval group** — a (taxid, `target.query`) pair; assays sharing both share one archive, on disk at `data/retrieved/<taxid>/<slug>/` (`retrieve.py`, `groups.py`).
