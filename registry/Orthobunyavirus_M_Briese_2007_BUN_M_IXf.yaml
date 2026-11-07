@@ -24,6 +24,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, M segment.
 conditions:
   cycles: 45
 use_context:
@@ -56,5 +57,6 @@ source:
     Potosi virus. Screened on 2026-10-04: 662 evaluable of 2,056, the most of any orthobunyavirus assay in the registry, which
     is the expected payoff of being internal rather than terminal. 80 detected (12%), and the breakdown is again scope rather
     than drift: Anadyr 16/16, Cache Valley 15/15, Keystone 9/9, Ngari 7/7, Maguari 4/4, La Crosse 5/9 - the BUN and CE serogroups
-    it was designed from.'
+    it was designed from. CORRECTED 2026-11-06: the paper states its alignment for the M segment only; the design basis of
+    the S and L primers isn''t stated.'
 needs_review: null

@@ -25,6 +25,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, M segment.
 conditions:
   cycles: 45
 use_context:
@@ -54,5 +55,6 @@ source:
     on Simbu-serogroup viruses (Oropouche 0/24, Akabane 0/7, Schmallenberg 0/7, Manzanilla 0/4). Left unscoped pending the
     registry-wide decision on lineage scoping. Anchored on the conserved M-segment terminus, like the S-segment assay already
     in the registry, so most partial-CDS deposits will return no_amplicon however well the primers match. Screened on 2026-10-04:
-    93 evaluable of 2,056, 8 detected. The low evaluable count is the terminal anchoring, as expected.'
+    93 evaluable of 2,056, 8 detected. The low evaluable count is the terminal anchoring, as expected. CORRECTED 2026-11-06:
+    the paper states its alignment for the M segment only; the design basis of the S and L primers isn''t stated.'
 needs_review: null

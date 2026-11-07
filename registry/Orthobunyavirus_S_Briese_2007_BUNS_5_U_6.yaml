@@ -27,6 +27,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, S segment.
 conditions:
   cycles: 45
 use_context:
@@ -57,7 +58,8 @@ source:
     the 11572 archives with the size window opened: 59 amplifying (detect/reduced) records span 293-1110 bp across ~26 species,
     modal 754. Declared range-only (no species_sizes: 26 species with a near-continuous length spread, so length does not
     cleanly name one) as the measured envelope + 10 bp cushion; declared_tolerance adds +/-25% at screen time. config.yaml
-    amplicon section: the measured size wins. Needs a rescreen to take effect.'
+    amplicon section: the measured size wins. Needs a rescreen to take effect. CORRECTED 2026-11-06: the paper states its
+    alignment for the M segment only; the design basis of the S and L primers isn''t stated.'
 needs_review:
 - flag: amplicon_multimodal
   note: pan-genus segment length spans 293-1110 bp across ~26 species, declared as amplicon_bp_range rather than the 

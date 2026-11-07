@@ -15,13 +15,14 @@ oligos:
     name: FAP-64
     seq: CCWATATCWVHCATNTCNCCATC
     seq_as_written: CCWATATCWVHCATITCICCATC
-amplicon_bp: 476
+amplicon_bp: 484
 citation:
   doi: 10.1099/0022-1317-80-9-2437
   design_year: 1999
   n_sequences_at_design: null
   doi_verified: true
   reference: Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
+  claim: Most human papillomavirus types, L1 gene.
 conditions:
   cycles: 45
 use_context:
@@ -34,8 +35,12 @@ source:
   nested_round: null
   notes_curator: 'PREDICT panel protocol P-038 (L1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Forslund,
-    O. et al (1999).'
+    O. et al (1999). CORRECTED 2026-11-06: amplicon_bp 476 -> 484, the mode. 476 matched neither the measurement nor the paper.'
 needs_review:
 - flag: orientation_inferred
   note: the archive yields 16413 products and 26672 none under this orientation (2026-10-27 run), so the inference 
     stands
+- flag: amplicon_disagrees_with_paper
+  note: modal 484 bp (8608 of 16479); the paper gives 478 on HPV-8, which measures 478 on M12737.1
+- flag: amplicon_multimodal
+  note: 362-592 bp across types, modes 484 and 487

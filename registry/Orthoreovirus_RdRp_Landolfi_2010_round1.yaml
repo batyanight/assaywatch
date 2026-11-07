@@ -20,6 +20,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
+  claim: Orthoreovirus RNA polymerase gene, as the first round of a two-round test.
 use_context:
 - wildlife
 - veterinary
@@ -48,9 +49,8 @@ source:
     WHY THE ORIGINAL PROTOCOL MATTERS FOR READING THIS. Landolfi adapted a published protocol and deliberately chose a shorter
     target "to increase chances of success with probable shorter fragments of RNA present in FFPE tissues", promoting that
     protocol''s second round to its own first round. So round 1 here is not the ancestral outer PCR, and a drift verdict on
-    it speaks to this adaptation rather than to the original assay.'
+    it speaks to this adaptation rather than to the original assay. CORRECTED 2026-11-06: the paper states this pair in words,
+    so the pairing flag is removed.'
 needs_review:
 - flag: conditions_not_printed
   note: the paper prints no annealing temperature and no cycle count for either round
-- flag: pairing_is_curator_reading
-  note: the source lists several primers in one block without saying which pair

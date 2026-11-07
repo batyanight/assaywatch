@@ -22,6 +22,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
+  claim: Alphaviruses, nsP4 gene, as the nested second round.
 conditions:
   cycles: 40
   mg_mm: 2.5

@@ -29,6 +29,7 @@ citation:
     Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
   doi_verified: true
   oligos_designed_here: true
+  claim: Chronic bee paralysis virus, RNA1 segment.
 conditions:
   annealing_c: 54.0
   cycles: 50

@@ -29,6 +29,7 @@ citation:
   doi_verified: true
   reference: Shu B et al. 2026. J Clin Microbiol (prints the oligos); assay source FDA 510(k) K080570 (2008)
   oligos_designed_here: false
+  claim: H3 hemagglutinin of seasonal and swine-variant influenza A(H3N2), original version of the assay.
 conditions:
   annealing_c: 55
   rt: one_step

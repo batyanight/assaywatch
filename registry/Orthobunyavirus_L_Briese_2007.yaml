@@ -25,6 +25,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, L segment.
 conditions:
   cycles: 45
 use_context:
@@ -54,5 +55,6 @@ source:
     on Simbu-serogroup viruses (Oropouche 0/24, Akabane 0/7, Schmallenberg 0/7, Manzanilla 0/4). Left unscoped pending the
     registry-wide decision on lineage scoping. The L segment was not covered by the registry before this entry. Its own retrieval
     query, so it fetches a separate archive from the S/M assays. BUNL-5n''s authentic part is 15 nt, exactly at the oligo
-    floor.'
+    floor. CORRECTED 2026-11-06: the paper states its alignment for the M segment only; the design basis of the S and L primers
+    isn''t stated.'
 needs_review: null

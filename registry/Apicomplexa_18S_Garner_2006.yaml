@@ -21,6 +21,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Garner MM et al. 2006. Vet Pathol 43:311-320
+  claim: Coccidian parasites, 18S rRNA gene, for sequencing rather than detection.
 conditions:
   cycles: 40
 use_context:

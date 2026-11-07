@@ -29,6 +29,7 @@ citation:
     monkeypox virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
   doi_verified: true
   oligos_designed_here: true
+  claim: Monkeypox virus, G2R gene, across clades.
 conditions:
   annealing_c: 60.0
 use_context:
@@ -44,24 +45,24 @@ source:
     forward primer (5''-GGAAAATGTAAAGACAACGAATACAG), reverse primer (5''-GCTATCACATAATCTGGAAGCGTA), probe sequence (5''FAM-AAGCCGTAATCTATGTTGTCTATCGTGTCC-3''BHQ1)".
     All three transcribed character for character from that sentence. This is the CDC reference standard pair of assays, split
     into three entries the way the registry already splits a multiplex by probe; the siblings are Monkeypox_virus_G2R_Li_2010_G2R_WA_F
-    and Monkeypox_virus_C3L_Li_2010. THE PAPER GIVES NO PRODUCT SIZE, so amplicon_bp is measured, not quoted.
-    MEASURED 2026-10-24 against the existing taxid 10244 archive, 13,179 records of genome length (>=50 kb), of which 13,131
-    are near-complete (>=180 kb). Products were counted on BOTH strands: this locus sits in the inverted terminal repeat,
-    so a first pass that scanned the plus strand only found zero C3L products and undercounted G2R_G by a third. G2R_G gives
-    a product in 2,401 genomes, 90 bp in 2,399 of them and 89 bp in 2. THE FINDING THIS ENTRY EXISTS FOR, and it is the one
-    the 2026-10-24 candidates sweep predicted: THE GENERIC ASSAY''S PRIMERS NO LONGER MATCH MOST MONKEYPOX IN GENBANK. Exact
-    sites across the 13,179 genome-length records: forward 2,684 (20.4%), reverse 3,034 (23.0%), PROBE 12,221 (92.7%). The
-    probe is almost universal and both primers are not, which is the signature of primer-site drift rather than of a wrong
-    transcription - a mistyped oligo would not leave the other two intact. The paper itself says the generic assay is "completely
-    homologous within the MPXV DNA sequence except one SNP in forward primer sequence", which was true of the 2010 alignment
-    and is not true of GenBank today. Compare the registry''s existing Monkeypox_virus_N3R_Kulesh_2004, whose 2004 probe
-    the 2026-10-24 run reads at 58.3%: this entry is the same story one locus over, and it is why a 2010 reference assay is
-    worth watching rather than assuming. NOT SCOPED, and nothing to scope to: the paper''s claim for this assay is MPXV as
-    a whole, which is the taxid. SCREENED 2026-10-24, AND IT WALKS BACK THE PARAGRAPH ABOVE. Run with the project''s own scorer
-    over all 13,757 records: 12,052 evaluable and 99.9% detection - 3,090 `detect`, 8,954 `reduced`, 8 `fail`. The assay is
-    NOT failing. The exact-match counts above are real but they are not the scoring model, which tolerates mismatches, and
-    reading them as "the primers no longer match most monkeypox" overstated what they mean. What the drift actually looks
-    like is the `reduced` column: 74% of evaluable records score reduced rather than detect, i.e. the primer sites carry mismatches
-    that cost penalty without stopping the reaction. That is a real and reportable ageing of a 2010 assay, and it is a different
-    claim from failure. Kept as a worked example of why an exact-match sweep is a hypothesis and the screen is the measurement.
-    status: draft and doi_verified: false on entry; only a maintainer sets active.'
+    and Monkeypox_virus_C3L_Li_2010. THE PAPER GIVES NO PRODUCT SIZE, so amplicon_bp is measured, not quoted. MEASURED 2026-10-24
+    against the existing taxid 10244 archive, 13,179 records of genome length (>=50 kb), of which 13,131 are near-complete
+    (>=180 kb). Products were counted on BOTH strands: this locus sits in the inverted terminal repeat, so a first pass that
+    scanned the plus strand only found zero C3L products and undercounted G2R_G by a third. G2R_G gives a product in 2,401
+    genomes, 90 bp in 2,399 of them and 89 bp in 2. THE FINDING THIS ENTRY EXISTS FOR, and it is the one the 2026-10-24 candidates
+    sweep predicted: THE GENERIC ASSAY''S PRIMERS NO LONGER MATCH MOST MONKEYPOX IN GENBANK. Exact sites across the 13,179
+    genome-length records: forward 2,684 (20.4%), reverse 3,034 (23.0%), PROBE 12,221 (92.7%). The probe is almost universal
+    and both primers are not, which is the signature of primer-site drift rather than of a wrong transcription - a mistyped
+    oligo would not leave the other two intact. The paper itself says the generic assay is "completely homologous within the
+    MPXV DNA sequence except one SNP in forward primer sequence", which was true of the 2010 alignment and is not true of
+    GenBank today. Compare the registry''s existing Monkeypox_virus_N3R_Kulesh_2004, whose 2004 probe the 2026-10-24 run reads
+    at 58.3%: this entry is the same story one locus over, and it is why a 2010 reference assay is worth watching rather than
+    assuming. NOT SCOPED, and nothing to scope to: the paper''s claim for this assay is MPXV as a whole, which is the taxid.
+    SCREENED 2026-10-24, AND IT WALKS BACK THE PARAGRAPH ABOVE. Run with the project''s own scorer over all 13,757 records:
+    12,052 evaluable and 99.9% detection - 3,090 `detect`, 8,954 `reduced`, 8 `fail`. The assay is NOT failing. The exact-match
+    counts above are real but they are not the scoring model, which tolerates mismatches, and reading them as "the primers
+    no longer match most monkeypox" overstated what they mean. What the drift actually looks like is the `reduced` column:
+    74% of evaluable records score reduced rather than detect, i.e. the primer sites carry mismatches that cost penalty without
+    stopping the reaction. That is a real and reportable ageing of a 2010 assay, and it is a different claim from failure.
+    Kept as a worked example of why an exact-match sweep is a hypothesis and the screen is the measurement. status: draft
+    and doi_verified: false on entry; only a maintainer sets active.'

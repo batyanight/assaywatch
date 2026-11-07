@@ -1,10 +1,15 @@
 id: Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F
 name: Mycoplasma — 16S-23S intergenic spacer (Rebelo 2011, Myco16 23S F)
 target:
-  taxid: 2093
+  taxid: 31969
   gene: 16S-23S intergenic spacer
   genome_type: dsDNA
   taxon_name: Mycoplasma
+  query: txid2093[Organism:exp] OR (txid2767358[Organism:exp] AND (16S[Title] OR 23S[Title] OR "complete 
+    genome"[Title]))
+  scope_taxids:
+  - 2093
+  - 2767358
 chemistry: conventional
 oligos:
   forward:
@@ -23,6 +28,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Rebelo AR et al. 2011. J Vet Diagn Invest 23:932-936
+  claim: Mycoplasma species of ruminants, poultry and dogs, 16S-23S rRNA spacer, identified by high-resolution melt.
 conditions:
   cycles: 35
 use_context:
@@ -45,7 +51,10 @@ source:
     bands per taxon (ATI, the PTP repeat). Here the spacer length is continuous across a genus of 60+ species and identification
     is by melt curve, not by band size, so enumerating per-species bands would assert a discreteness the data does not show.
     NEEDS A RESCREEN TO TAKE EFFECT. Consistent with the 2026-10-25 locus-identity pricing, which rejected 93% of this assay''s
-    sampled failures: an entry with no declared size cannot have a geometry constraint, and now it has one.'
+    sampled failures: an entry with no declared size cannot have a geometry constraint, and now it has one. CORRECTED 2026-11-06:
+    scope broadened to Mycoplasmopsis (2767358): seven of the paper''s species now sit there, outside Mycoplasma. Retrieval
+    moves to Mollicutes (31969); Mycoplasma is retrieved as before, and of Mycoplasmopsis only rRNA and complete-genome titles,
+    2,112 of 80,376 records.'
 needs_review:
 - flag: amplicon_multimodal
   note: 'the 16S-23S intergenic spacer varies in length by species: 364-757 bp over 307 measured products and 63 distinct

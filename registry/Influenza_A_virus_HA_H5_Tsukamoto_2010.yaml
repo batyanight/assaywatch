@@ -32,6 +32,7 @@ citation:
     and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
   doi_verified: true
   oligos_designed_here: true
+  claim: H5 hemagglutinin of avian influenza viruses, Eurasian and American lineages.
 conditions:
   cycles: 35
 use_context:

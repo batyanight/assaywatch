@@ -85,10 +85,13 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   `oligos_not_in_cited_paper` flag and 618 bp on HaemNFI (moving `tests/test_report.py`'s example to
   `Salmonella_enterica_invA_Rahn_1992`), 525 bp on HaemF with its disclosure, then the nest and the
   wording, including one first round feeding two parallel second rounds.
-- [ ] **3. Query fixes.** Ophidiomyces IGS, Crocodilepox for Li 2010 RPO147 (Leporipoxvirus into IMV
+- [x] **3. Query fixes.** Done 2026-11-06. Crocodilepox was already in the RPO147 query (`1285599`). RaHV-5 joins the
+  Batravirus pan pair: the genome carries the primer sites for the expected 200 bp. Each is a new retrieval, so nothing
+  moves until the frozen run. As planned: Ophidiomyces IGS, Crocodilepox for Li 2010 RPO147 (Leporipoxvirus into IMV
   is already on `next-run-prep`), `Ranavirus micropterus1` (3432136) into LMBV Grizzle, RaHV-5 for the
   Batravirus pan pair (decide from the paper's claim whether a second taxid is warranted).
-- [ ] **4. Gate script.** The release scope verification as one command, tests 1-4 including scored
+- [x] **4. Gate script.** Built 2026-11-06, `assaywatch/scope_check.py`, tested on hand-given counts, not yet run for real;
+  run it before step 12. As planned: The release scope verification as one command, tests 1-4 including scored
   verdicts, with the scratch version's flags (under "Method debts"). **Interface, for approval at
   the step:** `assaywatch scope-check [--registry] [--calls] --out <tsv>`, one row per assay x flag;
   no flag is a verdict. Reads `retrieve.year_counts`. Run it now to find problems while they can
@@ -96,7 +99,8 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 - [x] **5. Declare the rules' memory.** Done 2026-11-06: 4.5, 6 and 6 GB, each commented. `lineage_analysis` is
   still 3 GB and unmeasured, so the frozen run's timing should check it. As planned: `rule report` and `site_drift` at `mem_mb=3000` against a
   3.17 GB table: measure and redeclare. Needed before step 13's run, not after.
-- [ ] **6a. Reread the papers behind `declining` and `low coverage`.** 71 assays, at most 46 papers,
+- [x] **6a. Reread the papers behind `declining` and `low coverage`.** Done 2026-11-06,
+  `docs/journal/2026-11-06-scope-reread-negative-verdicts.md`. Narrower claims still to test as one pass. As planned: 71 assays, at most 46 papers,
   ≤ ~1.1M subagent tokens. Each batch returns `citation.claim` sentences, checked quotes, scope
   changes with their effect on recent counts, and the page description (step 10). Includes the
   contradicted curator notes, the Messmer *C. trachomatis* question and the BCV, CCV, PCV and RCV
@@ -104,7 +108,7 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### Droppable
 
-- [ ] **6b. Reread the stable and undecided papers.** The rest of the ~86, ~0.9M tokens, same batch
+- [ ] **6b. Reread the stable and undecided papers.** 52 of 60 read on 2026-11-06, notes unverified and nothing applied: Haynes 2023, Johnson 2008, Rahn 1992, Renteria-Solis 2020, Ibrahim 1992, Mangombi, Li 2025 and Kutkiene remain. Needs verifying as batches 1-4 were, then applying. Reported, to check: Sethabutr's primers truncated, Bohuski's quencher, Entamoeba 572 bp against about 490 measured, Blooi's probe, Deckers round 2, Grizzle's query against its note. As planned: The rest of the ~86, ~0.9M tokens, same batch
   shape, ending in the written scope report with the Chlamydia 16S share in it. If it's dropped, the
   report covers what was read and says so.
 - [x] **7. C1b, priced before built.** Stopped 2026-11-06 by maintainer decision: it flags what a plain
@@ -113,11 +117,11 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   pan-mycoplasma 16S, Bd) to `declining`. Either fires: journal, stop. Both pass: interface for
   approval, then a lens in `drift`/`hierarchical.py`, `report.py`, `site.py`, `site_render.py`.
   Must not move a status or a tier-2 figure; a test holds that.
-- [ ] **8. Pathotype assembly filter.** A short grill on the retrieve interface first: BioSample
+- [ ] **8. Pathotype assembly filter.** Decided 2026-11-06: a page note on E. coli LT and hlyA now, and the filter post-release. As first planned: A short grill on the retrieve interface first: BioSample
   serovar filter plus contig-level assemblies for E. coli LT and hlyA, and how it generalises to a
   plasmid-borne target. Changes `retrieve.py`, the schema, `config.yaml`. Fallback if it stalls: a
   disclosure on the status.
-- [ ] **9. Validation reads (maintainer's).** The 34 `scope_taxid` rows, a decision on the Messmer
+- [ ] **9. Validation reads (maintainer's).** Drafted 2026-11-06: 34 rows, 14 with a taxid and 20 blank, plus the Messmer row, for the maintainer's skim; held in `local/`. Whether a genus or subfamily taxid can be honoured isn't checked. As planned: The 34 `scope_taxid` rows, a decision on the Messmer
   bench row. No run needed, so these can arrive any time before step 14, if the release quotes tier-2 figures.
 - [ ] **10. Assay page narrative.** Descriptions from step 6, held in the registry through
   `registry.edit()`, not yet a schema field: propose it. **Interface, for approval:** a lineage-text
@@ -127,9 +131,8 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   the frozen run, so the generator lands before step 13 and its output is checked at step 14.
 - [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: counted 2026-11-06, of the 42 groups 4 collapse
   to one species (two AAV, two elephant herpesvirus), 20 are really mixed, 18 unclear, and taxonomy resolves none.
-  Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are. (b) Per-assay cuts, on
-  the 17 assays: try average linkage once for all before any override, and each override needs its
-  reason in `config.yaml`, approved one at a time, since tuning until it looks right is the risk.
+  Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are. (b) Per-assay cuts, decided 2026-11-06: no overrides, one fixed cut this release, and average linkage
+  tried once across all assays and recorded in a journal.
   (c) Failures a per-base chart can't show, from the calls `reason` column: `site.py`,
   `site_render.py`. G2R WA_F is checked: of 3,122 records with an 82 bp product, 2,643 are clade I by this project's own
   F3L calls, 5 clade II, 474 uncalled; among clade II records detection is 9,656 of 9,661. The paper's Fig. 1 shows the
@@ -153,6 +156,16 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 - [ ] **15. Publish, on the maintainer's go.** `next-release` into `main`, CHANGELOG, tag `v0.3.0`,
   Zenodo, confirm Pages deployed. Then re-enable the weekly job, and move what's left to the
   post-release list.
+
+### Asked for 2026-11-06
+
+- [ ] **Audit the whole repository for documents the audience doesn't need.** Maintainer request. Go through every
+  tracked document, decide who it's for, and list what to keep, move to `local/` or remove, for the maintainer's decision.
+
+### Sizes to read, from the verifier's table
+
+Stored against modal, no verdict given: Mueller 1F 567/552, 2F 570/560, 3F 563/544, Bourhy round 2 260/249 and round 1 460/462,
+Garner 350/391, Tsukamoto H5 261/258, Spackman 100/101, Briese L 630/505, BUN_M_IXf 335/283, BUN_S5_F 961/948.
 
 ### Post-release list
 
@@ -203,7 +216,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
     and `low coverage` with a scope, before the release that quotes them. The
     `CONTRIBUTING.md` gate says which assays; widen it to these if the test finds
     anything.
-- **Narrow the Ophidiomyces query to the IGS.**
+- [x] **Narrow the Ophidiomyces query to the IGS.** Done 2026-11-06, takes effect at the frozen run.
   `Ophidiomyces_ophidiicola_IGS_Bohuski_2015` targets the 28S-18S intergenic
   spacer, but its `target.query` fetches ITS, SSU and LSU titles: about 185 of the 196
   archive records (2026-11-01) can never carry the product. Change it to
@@ -384,7 +397,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   that is a real finding; if the scan is wrong, the entry has no usable published source.
   **Read 2026-11-04** (the Zimmermann item below): the page prints `CTT TC`, and the correction is on
   `next-run-prep`. The rescreen comes with the frozen run.
-- **Batravirus pan pair and Ranid herpesvirus 5.** A complete RaHV-5 genome (PV243667,
+- ~~**Batravirus pan pair and Ranid herpesvirus 5.**~~ **Done 2026-11-06:** broadened, retrieval moved to the order. As first written: A complete RaHV-5 genome (PV243667,
   2025-11-21, 221 kb) sits in "unclassified Herpesvirales" (taxid 3467605), outside
   txid3044671, so neither Licheri 2020 entry can see it. Found 2026-11-01 by a free-text
   search (`batravirus[All Fields]` over the window: 8 hits, 7 of them under the taxid).

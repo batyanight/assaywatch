@@ -30,6 +30,7 @@ citation:
     Environmental Microbiology 80, 1726-1731 (2014).
   doi_verified: true
   oligos_designed_here: true
+  claim: Pseudogymnoascus destructans, ITS1, distinguished from related Pseudogymnoascus and Geomyces.
 conditions:
   annealing_c: 62.0
 use_context:
