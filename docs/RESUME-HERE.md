@@ -1,3 +1,10 @@
+# Resume point, 2026-11-06, late (the release is planned, nothing started)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0", and start at step 0.** Grilled with the maintainer the same evening.
+Green PRs merge into `next-release`, never into `main`, because a push to `main` deploys the site. The weekly job
+is paused, so nothing runs by itself. The rebuild described just below is no longer the next step: it all waits
+for the frozen run, which makes its own coverage file.
+
 # Resume point, 2026-11-06 (stopped mid-task at the maintainer's request)
 
 **Checked out: branch `refseq-twins`, local only. `main` is what's published.** Read

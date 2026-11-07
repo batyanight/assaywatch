@@ -33,12 +33,37 @@ sequence within each archive group, 3,614 of 3,708 such records are identical to
 example `NC_004003` and `AY077835`. These counts are records in archives, not calls. Identical sequence doesn't
 strictly prove a RefSeq copy, since a separate deposit can match too.
 
-A simulation of dropping them from the verdicts was started and stopped before it returned, so **their effect
-on status is unknown**. A fix would need a sequence comparison at report time or a stored map.
+A simulation of dropping them from the verdicts was started and stopped before it returned; it was rerun the
+same evening, below. A fix would need a sequence comparison at report time or a stored map.
+
+## `NC_` copies: the simulation, and one more status
+
+Method: a blake2b digest of each whole sequence across all archives; a row dropped when its `NC_`, `AC_` or
+`NG_` record has the same digest as a non-RefSeq record in the same assay's calls; two site extracts to a
+scratch directory, on this branch, with and without those rows. That removes 6,529 (assay, record) pairs in 177
+assays. **One status moves on top of the `NZ_` fix.**
+
+| assay | recent before | recent after | status |
+|---|---|---|---|
+| `Orthobunyavirus_S_Briese_2007_BUNS_5_U_6` | 4/15 | 1/10 | **low coverage to insufficient data** |
+| `Orthobunyavirus_M_Briese_2007_M3560_F` | 12/20 | 10/15 | low coverage, unchanged |
+| `Orthobunyavirus_L_Briese_2007` | 3/23 | 2/19 | low coverage, unchanged |
+| `Rhabdoviridae_L_Bourhy_2005_round2` (nest) | 906/1263 | 901/1239 | declining, unchanged |
+| `Paramyxoviridae_L_Tong_2008_round2` (nest) | 2449/3958 | 2448/3914 | low coverage, unchanged |
+
+Recent counts change in 25 assays and 6 nests: most of these copies are old. The per-year charts of all 177
+weren't compared. Called records with a twin, by prefix: `NC_` 6,401 of 6,577, `AC_` 100 of 127, `NG_` 28 of 28,
+`NR_` 489 of 690, `NW_` 432 of 455, `NM_` 130 of 4,244, `XM_` 12 of 48,799, `XR_` 2 of 306. `NR_` and `NW_` weren't in
+the simulation.
+
+Decided by the maintainer: fix with a stored map, on whole-sequence identity, published with the release's
+frozen run (`ROADMAP.md`, "Release plan").
 
 ## Not done
 
-- `website/data` isn't regenerated. The composition rebuild was stopped at assay 69 of 219, so it restarts
-  from nothing.
+- `website/data` isn't regenerated. The composition rebuild was stopped at assay 69 of 219, and it now waits
+  for the frozen run.
 - `website/index.md` counts need updating after the extract.
-- `pytest -m slow` hasn't run on this change, and `calls.py` needs it.
+
+`pytest -m slow` passed on this change on 2026-11-06 (12 tests), with the full suite (2,160), the validator, ruff
+and `check_citations`.

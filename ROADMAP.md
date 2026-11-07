@@ -28,6 +28,137 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 
 # Open work
 
+## Release plan: v0.3.0 (grilled 2026-11-06)
+
+The finish line is the next release, not the whole of this file. Items below keep their detail
+where they already sit; this section is the order and the rules.
+
+| Decision | Choice |
+|---|---|
+| Finish line | one release; everything else is parked on the post-release list with its reason |
+| RefSeq `NC_`-style copies | fixed by a stored map, on whole-sequence identity within an assay; `NZ_` keeps its accession rule |
+| Live run | one frozen run: all retrieval, registry and verdict changes land first, then run, gate, publish together. The weekly job is paused until then (see "Operations") |
+| Scope reread | all ~86 papers and the scope report |
+| Features | species synonyms, failures a per-base chart can't show, assay page narrative, per-assay composition cuts |
+| Narrative | description drafted in the reread batches and skimmed by the maintainer; lineage text scripted from what the records show, with no outbreak named without a source in the record |
+| Method | query fixes and the gate script, the pathotype assembly filter, C1b, the validation reads |
+| C1b output | if it survives its kill tests, a labelled lens: the status stays `insufficient data` and the borrowed estimate sits beside it. If killed, a journal entry and nothing shipped |
+| Stall rule | blockers hold the freeze; droppable items wait for the next release with a recorded reason |
+| Merging | a PR merges when green, stopping only for interfaces, the live run and publishing |
+| Merge target | **`next-release`, not `main`.** `site.yml` deploys on any push to `main` touching `website/`, the theme, `site*.py` or the registry, so merging to `main` would publish piecemeal. `main` takes one merge, at the publish go |
+
+**Blockers:** steps 0-5, 6a, 12-15. **Droppable:** 6b (the stable and undecided papers), 7-11. A
+droppable step that changes retrieval or a verdict lands before step 12 or waits; a site-only one
+may land after the run, before step 15.
+
+**Stop for the maintainer at:** each interface below, before its internals; the reread batches' skim;
+the reads in step 9; the go for step 13; the go for step 15. Verdict and registry PRs are held to
+tests and CI rather than a human review, by decision: the status diff in each PR's description, and
+the whole-run `report_diff` at step 14, are what stand in for it.
+
+Every step: its own branch off `next-release`, failing test first where there is logic, pytest, the
+validator, ruff and `check_citations` before the PR, `pytest -m slow` where the Snakefile or a
+hashed section is touched. Named-path staging only. Confirm at step 0 that `validate.yml` runs on
+PRs into `next-release`; extend its trigger if it doesn't, or "green" means nothing.
+
+### Verdict and registry work (blockers)
+
+- [ ] **0. Reconcile this file and open `next-release`.** Tick or correct what the code already
+  settled: the influenza "needs a decision" bullet (the four HA entries share a broad query with
+  `title_requires`), the Zimmermann duplicate (the `BORNA_VIRUS_N_gene` file is gone), the
+  "not built" composition heading, the blank-chart fallback, the Chlamydia assemblies item (settled
+  on `next-run-prep`), the status of the collection-date backfill. A correction only: no new work.
+- [ ] **1. RefSeq copies.** Measure `NR_` and `NW_` first (489 of 690 and 432 of 455 calls have a
+  twin; their effect was not simulated). Then build the map and merge with the `NZ_` commit.
+  Measured effect of `NC_`, `AC_` and `NG_`: `docs/journal/2026-11-06-refseq-twins.md`.
+  **Interface, for approval:**
+  ```python
+  # assaywatch/refseq_twins.py (new): the map's only writer and reader
+  build(retrieved: Path, out: Path) -> None     # whole-sequence digests over every archive
+  read(path: Path) -> dict[str, frozenset[str]] # RefSeq accession -> identical non-RefSeq accessions
+  # assaywatch/calls.py: drop a row when any twin is in the same assay's calls
+  key_calls_by_accession(calls, twins: Mapping[str, frozenset[str]] | None = None)
+  ```
+  Changes: `Snakefile` (rule `refseq_twins`, output `results/<date>/refseq-twins.tsv.gz`, an input of
+  `report`, `site_drift`, `composition`), `report.py`, `sitedrift.py`, `scripts/retrospective.py`,
+  `GLOSSARY.md`. With no map (an older run) `twins` is None, only `NZ_` applies, and it warns.
+- [ ] **2. Hellgren.** As written under "Waiting on a maintainer", in that order: the
+  `oligos_not_in_cited_paper` flag and 618 bp on HaemNFI (moving `tests/test_report.py`'s example to
+  `Salmonella_enterica_invA_Rahn_1992`), 525 bp on HaemF with its disclosure, then the nest and the
+  wording, including one first round feeding two parallel second rounds.
+- [ ] **3. Query fixes.** Ophidiomyces IGS, Crocodilepox for Li 2010 RPO147 (Leporipoxvirus into IMV
+  is already on `next-run-prep`), `Ranavirus micropterus1` (3432136) into LMBV Grizzle, RaHV-5 for the
+  Batravirus pan pair (decide from the paper's claim whether a second taxid is warranted).
+- [ ] **4. Gate script.** The release scope verification as one command, tests 1-4 including scored
+  verdicts, with the scratch version's flags (under "Method debts"). **Interface, for approval at
+  the step:** `assaywatch scope-check [--registry] [--calls] --out <tsv>`, one row per assay x flag;
+  no flag is a verdict. Reads `retrieve.year_counts`. Run it now to find problems while they can
+  still land.
+- [ ] **5. Declare the rules' memory.** `rule report` and `site_drift` at `mem_mb=3000` against a
+  3.17 GB table: measure and redeclare. Needed before step 13's run, not after.
+- [ ] **6a. Reread the papers behind `declining` and `low coverage`.** 71 assays, at most 46 papers,
+  ≤ ~1.1M subagent tokens. Each batch returns `citation.claim` sentences, checked quotes, scope
+  changes with their effect on recent counts, and the page description (step 10). Includes the
+  contradicted curator notes, the Messmer *C. trachomatis* question and the BCV, CCV, PCV and RCV
+  question for Reid and Neill.
+
+### Droppable
+
+- [ ] **6b. Reread the stable and undecided papers.** The rest of the ~86, ~0.9M tokens, same batch
+  shape, ending in the written scope report with the Chlamydia 16S share in it. If it's dropped, the
+  report covers what was read and says so.
+- [ ] **7. C1b, priced before built.** Both kill tests on the 2026-11-01 calls with a script:
+  reproduce every clearing assay's status; promote no `works` case (Salmonella invA, Shigella ipaH,
+  pan-mycoplasma 16S, Bd) to `declining`. Either fires: journal, stop. Both pass: interface for
+  approval, then a lens in `drift`/`hierarchical.py`, `report.py`, `site.py`, `site_render.py`.
+  Must not move a status or a tier-2 figure; a test holds that.
+- [ ] **8. Pathotype assembly filter.** A short grill on the retrieve interface first: BioSample
+  serovar filter plus contig-level assemblies for E. coli LT and hlyA, and how it generalises to a
+  plasmid-borne target. Changes `retrieve.py`, the schema, `config.yaml`. Fallback if it stalls: a
+  disclosure on the status.
+- [ ] **9. Validation reads (maintainer's).** The 34 `scope_taxid` rows, a decision on the Messmer
+  bench row, the `BORNA` 1994 scan question as it now stands on `Bornaviridae_N_Zimmermann_1994_round2`.
+  No run needed, so these can arrive any time before step 14, if the release quotes tier-2 figures.
+- [ ] **10. Assay page narrative.** Descriptions from step 6, held in the registry through
+  `registry.edit()`, not yet a schema field: propose it. **Interface, for approval:** a lineage-text
+  function reading `composition.json` and the archives' metadata: spike years, each spike's GenBank
+  REFERENCE, submitting study and collection dates, worded "may". Changes `composition_build.py` (or
+  a sibling, watching the `triggers` closure), `site.py`, `site_render.py`. Text is drafted from
+  the frozen run, so the generator lands before step 13 and its output is checked at step 14.
+- [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: count first how many of the 42 are
+  synonyms; reconcile title and taxonomy names in `composition.py` naming. (b) Per-assay cuts, on
+  the 17 assays: try average linkage once for all before any override, and each override needs its
+  reason in `config.yaml`, approved one at a time, since tuning until it looks right is the risk.
+  (c) Failures a per-base chart can't show, from the calls `reason` column: `site.py`,
+  `site_render.py`, starting by checking the alignment and clade of the G2R WA_F 82 bp records.
+
+### The frozen run (blockers)
+
+- [ ] **12. Freeze.** Merge `next-run-prep` into `next-release`, resolving its `ROADMAP.md` conflict.
+  Its one extract test fails until a run exists, so this one merges knowingly red, and step 14 has
+  to turn it green. Rerun step 4. Nothing under `assaywatch/`, `config.yaml`, `registry/` or
+  `Snakefile` changes from here until step 14.
+- [ ] **13. Live run, on the maintainer's go.** `caffeinate -i snakemake --cores 4 ...` from
+  `next-release`, mains power, lid open: ~50 minutes plus a rescreen of the changed queries and ~4 h
+  of composition (13 GB declared).
+- [ ] **14. Check it.** `report_diff` against 2026-11-01, with every status move attributed to a
+  step above. Invariant: composition cells sum to the graph, 0 mismatches. The gate, read in full.
+  Extract and render; `website/index.md` counts; three pages by eye; `pytest -m slow`. Expected from
+  the fixes alone: the two vcpA assays and `Orthobunyavirus_S_Briese_2007_BUNS_5_U_6` read
+  `insufficient data`. A surprise here is a stop, not a note.
+- [ ] **15. Publish, on the maintainer's go.** `next-release` into `main`, CHANGELOG, tag `v0.3.0`,
+  Zenodo, confirm Pages deployed. Then re-enable the weekly job, and move what's left to the
+  post-release list.
+
+### Post-release list
+
+Not in this release, each still detailed where it sits: S5/C2 and its 40-negatives gate; the
+drift-mechanism search's remaining sources; S3b's identity pricing and the mid-window boundary;
+test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
+UNITE); the `printed.py` quencher fix; `target.exclusivity_taxids`; the conditions proposals and
+`panels`; the 17 open `needs_review` flags beyond those above; the three pending Hantavirus nests;
+registry coverage; the Greene SLURM profile; nest-level `needs_review` and `report_diff` wording.
+
 ## Before the next release
 
 - **Scope verification**, the standing gate in `CONTRIBUTING.md` under "Releasing". It
@@ -224,9 +355,9 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 - [x] **Security review and code review once the new lineage graphs are live.** Done 2026-11-05:
   no security finding at confidence 8 or above, 14 code review findings all fixed.
   `docs/journal/2026-11-05-review-fixes-rebuilt.md`.
-- [ ] **RefSeq copies count as separate deposits.** On branch `refseq-twins`: the `NZ_` fix is committed, and
-  publishing it needs a composition rebuild, a site extract and `pytest -m slow`. Then decide on `NC_` copies:
-  3,614 of 3,708 are identical to a non-RefSeq record, effect on status unmeasured.
+- [ ] **RefSeq copies count as separate deposits.** On branch `refseq-twins`: the `NZ_` fix is committed
+  and `pytest -m slow` passes. Decided 2026-11-06: `NC_`-style copies are fixed by a stored map, and it all
+  publishes with the frozen run rather than by its own rebuild. Step 1 of the release plan above.
   `docs/journal/2026-11-06-refseq-twins.md`.
 - [ ] **Reconcile species names in the lineage groups.** Title names and taxonomy names don't match
   for one virus (*Human bocavirus* and *Bocaparvovirus primate1*), so a group can show a percent
@@ -499,6 +630,11 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 ## Operations
 
+- **The weekly re-screen is PAUSED until the v0.3.0 release** (2026-11-06, maintainer's decision):
+  `launchctl` shows `com.assaywatch.weekly` unloaded and disabled, and the plist is unchanged. It runs
+  `--live` on whatever is checked out and only warns off `main`. Step 15 restores it:
+  `launchctl enable gui/$(id -u)/com.assaywatch.weekly`, then `launchctl bootstrap gui/$(id -u)
+  ~/Library/LaunchAgents/com.assaywatch.weekly.plist`.
 - **The weekly re-screen is installed on this machine only** (2026-10-27, live,
   Sunday 09:00, lid open; `docs/journal/2026-10-27-live-run-and-schedule.md`). It is
   machine-local state: the other MacBooks are not scheduled, and README's "re-screens
