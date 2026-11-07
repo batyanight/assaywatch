@@ -3643,7 +3643,7 @@ so a `watch` status is not automatically a bar - but it should be a deliberate c
   nothing has verified the Snakefile's provenance wiring on a real run yet (the dry run parses,
   the signature keys and the git helper were checked offline against the real screens).
   **TODO (Batya, offline): resolve the 16 entries that have no DOI.**
-  `docs/oligos-without-doi.tsv` lists all 33 oligos with sequences, grouped by where the answer
+  A local sheet lists all 33 oligos with sequences, grouped by where the answer
   must come from: 6 in-house/unpublished, the Müller 2011 CDV quartet (needs
   the paper), 2 PREDICT-named (the 2013/2015 supplements), and 4 true orphans with no reference at
   all (the two enterovirus rounds and two UHanta round2 entries, three of which also fire lineage
