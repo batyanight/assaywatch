@@ -7,17 +7,20 @@ from __future__ import annotations
 
 import dataclasses
 import random
+from types import SimpleNamespace
 
 import pytest
 
 from assaywatch.composition import (
     DIVERGED,
+    SPECIES_SYNONYMS,
     Cell,
     cells_from,
     cluster_names,
     observed_series,
     organism,
     pool_small_clusters,
+    resolve_species,
     same_mix_series,
     sample_windows,
     species_mix,
@@ -812,3 +815,33 @@ def test_a_flank_is_not_walked_past_the_most_the_shape_can_use():
 
     seq = "A" * 5000 + "C" * 10 + "G" * 5000
     assert available_flank(seq, (5000, 5010), stop_n_run=10, limit=1000) == (1000, 1000)
+
+
+@pytest.mark.parametrize(
+    "taxid, title, expected",
+    [
+        (548913, "x", (3060652, "Proboscivirus elephantidbeta3")),
+        (768738, "x", (3050275, "Proboscivirus elephantidbeta5")),
+        (None, "Adeno-associated virus isolate 1 VP1 gene", (1511891, "Dependoparvovirus primate1")),
+    ],
+)
+def test_a_listed_older_name_resolves_to_the_species_that_replaced_it(taxid, title, expected):
+    """NCBI keeps both as species-rank nodes with no link, so taxonomy alone splits one virus in two."""
+    taxonomy = SimpleNamespace(
+        canonical=lambda t: t,
+        species_of=lambda t: t,
+        name={
+            548913: "Elephant endotheliotropic herpesvirus 3",
+            768738: "Elephant endotheliotropic herpesvirus 5",
+        },
+    )
+    assert resolve_species(taxid, title, taxonomy if taxid else None) == expected
+
+
+def test_a_name_not_on_the_list_is_left_alone():
+    assert resolve_species(None, "Human bocavirus 1 isolate A", None)[1] == "Human bocavirus 1"
+
+
+def test_every_synonym_row_says_where_it_comes_from():
+    for old, (taxid, new, source) in SPECIES_SYNONYMS.items():
+        assert old != new and taxid and source
