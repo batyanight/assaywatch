@@ -469,6 +469,10 @@ class Source(Strict):
     nested_parent: str | None = None
     notes: list[str] | None = None
     notes_curator: str | None = None
+    # Free text from the curator for the assay page, labelled as a note, near the status:
+    # what a reader needs beside the verdict and that the verdict doesn't carry. Moves no
+    # status. Absent means the page omits it. `source` is not a screen field.
+    page_note: str | None = None
 
 
 class RTFormat(StrEnum):

@@ -408,6 +408,8 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
             out.append(f'<p class="aw-citation">{a["reference"]}</p>\n')
 
     out.append(f'<p class="aw-assay-line">{_chip(status)} <span class="aw-id">{a["assay_id"]}</span></p>\n')
+    if a.get("page_note"):
+        out.append(f"**Note:** {_md_text(a['page_note'])}\n")
     if title:
         # The assay's own name says what the entry is; the heading now says what
         # the paper is, and those are different sentences.

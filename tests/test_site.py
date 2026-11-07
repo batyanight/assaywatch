@@ -1698,3 +1698,35 @@ def test_a_description_is_not_a_screen_field():
     doc = {"oligos": {"forward": "ACGT"}, "citation": {"doi": "10.1/x"}}
     described = {**doc, "citation": {**doc["citation"], "description": "What it is."}}
     assert screen_key(doc) == screen_key(described)
+
+
+def test_a_page_note_sits_by_the_status_and_is_labelled_as_a_note():
+    md = site_render.assay_page(_page(page_note="Of 3,122 records, 2,643 are <clade I>."), "2026-11-01")
+    assert "**Note:** Of 3,122 records, 2,643 are &lt;clade I&gt;." in md
+    assert md.index('class="aw-assay-line"') < md.index("**Note:**") < md.index("| Target |")
+
+
+def test_a_page_note_reaches_the_extracted_page_and_is_omitted_when_absent():
+    from types import SimpleNamespace as NS
+
+    from assaywatch import registry
+    from assaywatch.schema import Source
+    from assaywatch.site import _page as extracted
+
+    assay = registry.load_one(
+        ROOT / "tests" / "fixtures" / "registry" / "Encephalitozoon_cuniculi_PTP_Xiao_2001.yaml"
+    )
+    noted = assay.model_copy(
+        update={"source": (assay.source or Source()).model_copy(update={"page_note": "Read this."})}
+    )
+    bare = assay.model_copy(update={"source": None})
+    drift = NS(
+        recent_year=None, years={}, lineage_stats=None, status="stable", recent_detected=0,
+        recent_evaluable=0, recent_ci=(0, 1), baseline_detected=0, baseline_evaluable=0,
+        baseline_ci=(0, 1), change_ci=(-1, 1), window_months=24, recent_from="", threshold=0.9,
+        note="", trend=None, trend_by_footprint=None, screened_rows=0, no_amplicon_rows=0,
+        exclusions={}, out_of_scope=0,
+    )  # fmt: skip
+    assert extracted(noted, drift, None, 5).page_note == "Read this."
+    assert extracted(bare, drift, None, 5).page_note == ""
+    assert "**Note:**" not in site_render.assay_page(_page(page_note=""), "2026-11-01")

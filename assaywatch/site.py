@@ -141,6 +141,8 @@ class AssayPage:
     claim: str = ""
     #: `citation.description`: what the assay is, in plain words; "" where none is written.
     description: str = ""
+    #: `source.page_note`: the curator's note, shown near the status; "" where none is written.
+    page_note: str = ""
     note: str = ""
     trend: str = ""
     years: list[YearPoint] = field(default_factory=list)
@@ -311,6 +313,7 @@ def _page(assay: Any, d: Any, sites: Any, zone: int, min_records: int | None = N
         withheld_reasons=withheld,
         claim=assay.citation.claim or "",
         description=assay.citation.description or "",
+        page_note=(assay.source.page_note if assay.source else None) or "",
         taxon=assay.target.taxon_name or "",
         taxid=assay.target.taxid,
         gene=assay.target.gene or "",
