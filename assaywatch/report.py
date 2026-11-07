@@ -2638,23 +2638,11 @@ def assessment_inputs(
     lineage_cfg = cfg.get("lineage", {})
     taxa_cache_path = lineage_cfg.get("taxa_cache")
     if taxa_cache_path:
-        from assaywatch.lineage import load_taxa_cache
+        from assaywatch.lineage import load_taxa_cache, read_taxid_backfill
 
         taxa_cache_data = load_taxa_cache(taxa_cache_path)
         # Build accession -> taxid from the backfill sidecar + archive metadata.
-        taxid_map = {}
-        # `lineage.taxid_backfill` was declared in config.yaml and read nowhere,
-        # while this path and lineage_report.py's copy were hardcoded - a setting
-        # that looked configurable and was not. The config value wins; the literal
-        # stays as the default so an older config still resolves the same file.
-        sidecar_path = Path(lineage_cfg.get("taxid_backfill") or retrieved / ".meta.taxid.backfill.tsv.gz")
-        if sidecar_path.exists():
-            with gzip.open(sidecar_path, "rt") as f:
-                next(f, None)  # skip header
-                for line in f:
-                    acc, _, tx = line.rstrip("\n").partition("\t")
-                    if tx.isdigit():
-                        taxid_map[strip_version(acc)] = int(tx)
+        taxid_map = read_taxid_backfill(lineage_cfg, retrieved)
         for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
             with gzip.open(meta_path, "rt") as f:
                 hdr = (f.readline() or "").rstrip("\n").split("\t")

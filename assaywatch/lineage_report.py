@@ -25,6 +25,7 @@ from assaywatch.lineage import (
     load_taxa_cache,
     name_lineages_from_taxonomy,
     per_lineage_stats,
+    read_taxid_backfill,
     sublineage_resolvers,
     title_assays,
 )
@@ -370,18 +371,8 @@ def main(argv: list[str] | None = None) -> int:
     # the backfill sidecar (one file, covers records retrieved before the taxid
     # field existed), then any archive metadata that already carries a taxid
     # column. Archives live at <retrieved>/<taxid>/<group>/, so this is rglob.
-    taxid_sidecar = {}
-    # From config (`lineage.taxid_backfill`), which until 2026-10-21 was declared
-    # and read nowhere while this path was hardcoded here and in report.py.
-    sidecar_path = Path(lineage_cfg.get("taxid_backfill") or args.retrieved / ".meta.taxid.backfill.tsv.gz")
-    if sidecar_path.exists():
-        with gzip.open(sidecar_path, "rt") as f:
-            next(f, None)
-            for line in f:
-                acc, _, tx = line.rstrip("\n").partition("\t")
-                if tx.isdigit():
-                    taxid_sidecar[strip_version(acc)] = int(tx)
-    print(f"{len(taxid_sidecar)} taxids from {sidecar_path.name}", file=sys.stderr)
+    taxid_sidecar = read_taxid_backfill(lineage_cfg, args.retrieved)
+    print(f"{len(taxid_sidecar)} taxids from the backfill", file=sys.stderr)
 
     n_from_meta = 0
     # Deposit years come out of the same pass, from the `created` column every archive

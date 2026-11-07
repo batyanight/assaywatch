@@ -14,6 +14,7 @@ from assaywatch.lineage import (
     lineage_for_taxid,
     lineages_never_covered,
     per_lineage_stats,
+    read_taxid_backfill,
     resolve_sublineage,
     sublineage_resolvers,
     subtaxid_resolver,
@@ -477,3 +478,27 @@ def test_holm_does_not_fail_an_assay_on_marginal_lineages_bh_would():
     assert worst_lineage_verdict(stats, 0.9, "holm", 0.05) == ("detecting", None)
     # and the default is Holm, so a caller that passes nothing gets FWER control
     assert worst_lineage_verdict(stats, 0.9) == ("detecting", None)
+
+
+def _meta(path, header):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with gzip.open(path, "wt") as fh:
+        fh.write(header + "\nAB1.1\t" + "9\n")
+
+
+def test_the_backfill_is_found_under_the_archive_root_given(tmp_path):
+    with gzip.open(tmp_path / "bf.tsv.gz", "wt") as fh:
+        fh.write("accession\ttaxid\nAB1.2\t9\nAB2.1\tnot a taxid\n")
+    assert read_taxid_backfill({"taxid_backfill": "bf.tsv.gz"}, tmp_path) == {"AB1": 9}
+
+
+def test_a_missing_backfill_is_an_error_while_an_archive_needs_it(tmp_path):
+    """Without it those records lose their taxids, and scopes and lineages silently stop applying."""
+    _meta(tmp_path / "1/all/a.meta.tsv.gz", "accession\tcreated")
+    with pytest.raises(FileNotFoundError, match="no taxid column"):
+        read_taxid_backfill({"taxid_backfill": "bf.tsv.gz"}, tmp_path)
+
+
+def test_a_missing_backfill_is_fine_when_every_archive_carries_taxids(tmp_path):
+    _meta(tmp_path / "1/all/a.meta.tsv.gz", "accession\ttaxid")
+    assert read_taxid_backfill({"taxid_backfill": "bf.tsv.gz"}, tmp_path) == {}
