@@ -63,11 +63,10 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### Verdict and registry work (blockers)
 
-- [ ] **0. Reconcile this file and open `next-release`.** Tick or correct what the code already
-  settled: the influenza "needs a decision" bullet (the four HA entries share a broad query with
-  `title_requires`), the Zimmermann duplicate (the `BORNA_VIRUS_N_gene` file is gone), the
-  "not built" composition heading, the blank-chart fallback, the Chlamydia assemblies item (settled
-  on `next-run-prep`), the status of the collection-date backfill. A correction only: no new work.
+- [x] **0. Reconcile this file and open `next-release`.** Done 2026-11-06: the influenza bullet, the
+  Zimmermann duplicate and the 1994 scan, the composition heading, the blank-chart fallback and nest
+  links, the Chlamydia assemblies item, the backfill's stopping point. `validate.yml` runs on every
+  pull request, so PRs into `next-release` get CI without a change.
 - [ ] **1. RefSeq copies.** Measure `NR_` and `NW_` first (489 of 690 and 432 of 455 calls have a
   twin; their effect was not simulated). Then build the map and merge with the `NZ_` commit.
   Measured effect of `NC_`, `AC_` and `NG_`: `docs/journal/2026-11-06-refseq-twins.md`.
@@ -117,8 +116,7 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   plasmid-borne target. Changes `retrieve.py`, the schema, `config.yaml`. Fallback if it stalls: a
   disclosure on the status.
 - [ ] **9. Validation reads (maintainer's).** The 34 `scope_taxid` rows, a decision on the Messmer
-  bench row, the `BORNA` 1994 scan question as it now stands on `Bornaviridae_N_Zimmermann_1994_round2`.
-  No run needed, so these can arrive any time before step 14, if the release quotes tier-2 figures.
+  bench row. No run needed, so these can arrive any time before step 14, if the release quotes tier-2 figures.
 - [ ] **10. Assay page narrative.** Descriptions from step 6, held in the registry through
   `registry.edit()`, not yet a schema field: propose it. **Interface, for approval:** a lineage-text
   function reading `composition.json` and the archives' metadata: spike years, each spike's GenBank
@@ -154,7 +152,7 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 Not in this release, each still detailed where it sits: S5/C2 and its 40-negatives gate; the
 drift-mechanism search's remaining sources; S3b's identity pricing and the mid-window boundary;
-test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
+finishing the collection-date backfill; test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
 UNITE); the `printed.py` quencher fix; `target.exclusivity_taxids`; the conditions proposals and
 `panels`; the 17 open `needs_review` flags beyond those above; the three pending Hantavirus nests;
 registry coverage; the Greene SLURM profile; nest-level `needs_review` and `report_diff` wording.
@@ -257,8 +255,9 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   read from the page, exact in all 1,021 products at product position 50, which is gene position 443.
   The entry's "8 mismatches" does not hold up, so its `oligo_sequence_uncertain` flag comes off and
   it stops being withheld. Correct the note. Adding a probe needs a rescreen.
-- [ ] **Add 810, 813, 83554 and 83558 to `assemblies.taxa`, for the next run.** Maintainer decision,
-  2026-11-04. About 490 genomes exist (981 counting GCF and GCA twice; 15 or so *C. pneumoniae*, not
+- [x] **Add 810, 813, 83554 and 83558 to `assemblies.taxa`, for the next run.** Not added, tested
+  2026-11-05 on `next-run-prep`: the query already reaches 379 of 493 genomes, so these would double
+  count them. As first written: Maintainer decision, 2026-11-04. About 490 genomes exist (981 counting GCF and GCA twice; 15 or so *C. pneumoniae*, not
   the 30 recorded earlier), sampled at the existing 20 per year. First check that a genome already
   reached through the "complete genome" query term is not counted twice. Verdicts may move.
 - [x] **Add *B. dendrobatidis* to `assemblies.taxa`, and give the Ghosh 2021 mtDNA entries a query?**
@@ -378,6 +377,8 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   tested on 2026-10-23 against 308 of 456 for the removed form. That entry now needs a
   human to re-read the 1994 scan: if the printed sequence is right, the assay fails and
   that is a real finding; if the scan is wrong, the entry has no usable published source.
+  **Read 2026-11-04** (the Zimmermann item below): the page prints `CTT TC`, and the correction is on
+  `next-run-prep`. The rescreen comes with the frozen run.
 - **Batravirus pan pair and Ranid herpesvirus 5.** A complete RaHV-5 genome (PV243667,
   2025-11-21, 221 kb) sits in "unclassified Herpesvirales" (taxid 3467605), outside
   txid3044671, so neither Licheri 2020 entry can see it. Found 2026-11-01 by a free-text
@@ -391,7 +392,9 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
 - **The G9R North American orthopox scope and borealpox.** Done 2026-11-04: borealpox (2602439)
   and the three NCBI species nodes are in scope, flagged `scope_wider_than_paper_tested`. Its one
   genome, MN240300, reads `fail`. No status moved (`docs/journal/2026-11-04-scope-reread.md`).
-- **The Zimmermann 1994 Borna inner pair is entered twice.** `BORNA_VIRUS_N_gene` (live)
+- ~~**The Zimmermann 1994 Borna inner pair is entered twice.**~~ **Done:** merged 2026-11-01 into
+  `Bornaviridae_N_Zimmermann_1994_round2`, which declares `nested_family` and `nested_round`; only
+  its corrected primer is left, on `next-run-prep`. As first written: `BORNA_VIRUS_N_gene` (live)
   and `Bornaviridae_N_Zimmermann_1994_round2` (draft) are the same inner pair (445 bp).
   The draft stores the forward primer as printed (`...TCTATCTTTC`), which the live entry
   measured on 2026-10-23 against no binding site in 1,516 Orthobornavirus records, so as
@@ -465,8 +468,10 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   this set is 1/1 and failures caught 1/2; both intervals are one row wide and are not
   precision estimates.
 
-- **THE INFLUENZA RETRIEVAL QUERIES NEED A DECISION, AND TWO LIVE ENTRIES ARE AFFECTED.**
-  Measured 2026-10-30: every influenza group whose query names subtype taxids has an archive
+- ~~**THE INFLUENZA RETRIEVAL QUERIES NEED A DECISION, AND TWO LIVE ENTRIES ARE AFFECTED.**~~
+  **Settled, checked 2026-11-06:** the four HA entries share one broad query and restrict by
+  `target.title_requires`, the strain name in the title, as this item proposed. On the 2026-11-01
+  calls H5 reads `stable` at 20,094 of 20,890 recent records. As first written, measured 2026-10-30: every influenza group whose query names subtype taxids has an archive
   that ended years ago — H5 Tsukamoto `q6552a5c4af` newest deposit **2021** (8,490 records),
   H7 Tsukamoto `q3b4e39b708` newest **2020** (3,425) — while the title/gene groups are current
   to 2026 (matrix 187,534; NP 194,149). NCBI has stopped assigning subtype taxids to new
@@ -870,7 +875,10 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   - 425 record ids are shaped `pdb|29TK|N` and are not accessions at all; they are now
     settled unasked.
 
-  **Left**: the fetch itself, resumed 2026-10-30 against the correct run. The date rate is
+  **Left**: the fetch itself, resumed 2026-10-30 against the correct run. **It stopped that night
+  and was not resumed**, checked 2026-11-06: the sidecar holds 685,733 rows against 1,394,917
+  accessions on the 2026-11-01 calls, last written 2026-10-30, and `collection_sidecar` is still null.
+  Post-release. The date rate is
   **not** the 75% first sampled -- of 147,200 records settled so far, 50,963 carry a date
   and 96,207 do not, because the early accession blocks are patent-era deposits that carry
   none. `report.collection_sidecar` stays null until the fetch finishes.
@@ -1017,9 +1025,9 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
   keeping**: a `near:1` on a degenerate oligo is usually the CITING paper's transcription
   error, not ours. Only the 73 paywalled rows could still move, and the yield looks low.
 
-## Lineage composition over time (designed 2026-11-02, grilled; not built)
+## Lineage composition over time (designed 2026-11-02, grilled; built 2026-11-03 to 11-04)
 
-- [ ] **Separate "the mix of lineages sequenced changed" from "detection within lineages
+- [x] **Separate "the mix of lineages sequenced changed" from "detection within lineages
   changed" in every assay's per-year detection graph.** An assay's graph can move for
   either reason (a large LGV study one year, a wave of H3N2 deposits another), and nothing
   today tells them apart. What exists: per-lineage statistics pooled over the recent window
@@ -1709,12 +1717,14 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
   no position reaches `sitedrift.min_records_for_position` (20): 19 have fewer than 20
   evaluable records, and 9 of the 46 have no mismatch at all. Withheld pages draw no chart
   and are not affected.
-  - [ ] **Show the fallback.** `mismatch_track` returns `""` when `positions` is empty, so
+  - [x] **Show the fallback.** Done 2026-11-04 (see "Check every assay's primer graph"), saying
+    how many records were missed rather than the highest count reached. As first written: `mismatch_track` returns `""` when `positions` is empty, so
     the "No position carried..." message in `site_render._charts_block`, which no page
     shows today, can appear. Reword it to state the threshold and the highest count
     reached, and print the legend and caption only when bars are drawn. Tests that call
     `mismatch_track` in `tests/test_site.py` will probably need updating.
-  - [ ] **Link nest pages to each round's map.** Replace the blank chart with those links.
+  - [x] **Link nest pages to each round's map.** Done 2026-11-04 (`site_render._rounds_block`). As
+    first written: Replace the blank chart with those links.
     A protocol-level map would be new analysis, not a rendering fix, because the record
     sets differ (Chu 2008 astrovirus: 2,889 for the nest, 3,313 for round 2).
   - [ ] **Report failures a per-base chart cannot show**, on the page and from the calls
