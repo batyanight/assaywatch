@@ -393,6 +393,10 @@ class Citation(Strict):
     # the paper. On the page beside what is actually scored. Absent means not reread, and
     # the page then omits the line rather than guess. Not a screen field: nothing scores on it.
     claim: str | None = None
+    # What the assay is, in plain words, for the top of its page; `claim` says what the paper
+    # meant it to detect, this says what a reader is looking at. Drafted in the reread
+    # batches. Absent means the page omits it. Not a screen field: nothing scores on it.
+    description: str | None = None
     design_year: int | None = Field(default=None, ge=1985, le=2100)
     n_sequences_at_design: int | None = None
     doi_verified: bool = False

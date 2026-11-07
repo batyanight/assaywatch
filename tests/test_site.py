@@ -1649,3 +1649,52 @@ def test_a_withheld_page_gives_its_reason_before_its_map():
         _page(status="", withheld_reasons=[["not_validated", ""]], oligos={"forward": "ACGT"}), "2026-11-01"
     )
     assert md.index("No status is reported") < md.index("## Mismatch distribution") < md.index("## Oligos")
+
+
+# ---- What the curator writes for the page (ROADMAP step 10, step 11c) ----
+
+
+def test_a_description_opens_the_page_as_plain_text_before_the_claim():
+    md = site_render.assay_page(
+        _page(description="Finds <b>16S</b> of *Chlamydia*.", claim="Detects the genus."), "2026-11-01"
+    )
+    assert "Finds &lt;b&gt;16S&lt;/b&gt;" in md
+    assert md.index("Finds &lt;b&gt;") < md.index("Meant to detect")
+    assert md.index("Finds &lt;b&gt;") < md.index("| Target |")
+
+
+def test_a_page_with_neither_field_renders_as_it_did():
+    plain = site_render.assay_page(_page(), "2026-11-01")
+    empty = site_render.assay_page(_page(description=""), "2026-11-01")
+    assert plain == empty
+
+
+def test_the_entry_fields_reach_the_extracted_page():
+    from types import SimpleNamespace as NS
+
+    from assaywatch import registry
+    from assaywatch.site import _page as extracted
+
+    assay = registry.load_one(
+        ROOT / "tests" / "fixtures" / "registry" / "Encephalitozoon_cuniculi_PTP_Xiao_2001.yaml"
+    )
+    assay = assay.model_copy(
+        update={"citation": assay.citation.model_copy(update={"description": "What it is."})}
+    )
+    drift = NS(
+        recent_year=None, years={}, lineage_stats=None, status="stable", recent_detected=0,
+        recent_evaluable=0, recent_ci=(0, 1), baseline_detected=0, baseline_evaluable=0,
+        baseline_ci=(0, 1), change_ci=(-1, 1), window_months=24, recent_from="", threshold=0.9,
+        note="", trend=None, trend_by_footprint=None, screened_rows=0, no_amplicon_rows=0,
+        exclusions={}, out_of_scope=0,
+    )  # fmt: skip
+    page = extracted(assay, drift, None, 5)
+    assert page.description == "What it is."
+
+
+def test_a_description_is_not_a_screen_field():
+    from assaywatch.signature import screen_key
+
+    doc = {"oligos": {"forward": "ACGT"}, "citation": {"doi": "10.1/x"}}
+    described = {**doc, "citation": {**doc["citation"], "description": "What it is."}}
+    assert screen_key(doc) == screen_key(described)

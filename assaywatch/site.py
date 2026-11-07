@@ -139,6 +139,8 @@ class AssayPage:
     min_records: int | None = None
     #: `citation.claim`: what the paper says it detects; "" until the paper is reread.
     claim: str = ""
+    #: `citation.description`: what the assay is, in plain words; "" where none is written.
+    description: str = ""
     note: str = ""
     trend: str = ""
     years: list[YearPoint] = field(default_factory=list)
@@ -308,6 +310,7 @@ def _page(assay: Any, d: Any, sites: Any, zone: int, min_records: int | None = N
         status="" if withheld else d.status,
         withheld_reasons=withheld,
         claim=assay.citation.claim or "",
+        description=assay.citation.description or "",
         taxon=assay.target.taxon_name or "",
         taxid=assay.target.taxid,
         gene=assay.target.gene or "",

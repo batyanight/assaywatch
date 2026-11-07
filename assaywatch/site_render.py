@@ -413,7 +413,10 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         # the paper is, and those are different sentences.
         out.append(f"**{a['name']}**\n")
 
-    # What this assay is, before any number about it.
+    # What this assay is, before any number about it. Escaped: it is curator prose, shown
+    # as written, and `.get` because an older run.json has no such field.
+    if a.get("description"):
+        out.append(f"{_md_text(a['description'])}\n")
     rows = [
         (
             "Target",
