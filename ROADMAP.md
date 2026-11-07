@@ -85,7 +85,9 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   `oligos_not_in_cited_paper` flag and 618 bp on HaemNFI (moving `tests/test_report.py`'s example to
   `Salmonella_enterica_invA_Rahn_1992`), 525 bp on HaemF with its disclosure, then the nest and the
   wording, including one first round feeding two parallel second rounds.
-- [ ] **3. Query fixes.** Ophidiomyces IGS, Crocodilepox for Li 2010 RPO147 (Leporipoxvirus into IMV
+- [x] **3. Query fixes.** Done 2026-11-06. Crocodilepox was already in the RPO147 query (`1285599`). RaHV-5 joins the
+  Batravirus pan pair: the genome carries the primer sites for the expected 200 bp. Each is a new retrieval, so nothing
+  moves until the frozen run. As planned: Ophidiomyces IGS, Crocodilepox for Li 2010 RPO147 (Leporipoxvirus into IMV
   is already on `next-run-prep`), `Ranavirus micropterus1` (3432136) into LMBV Grizzle, RaHV-5 for the
   Batravirus pan pair (decide from the paper's claim whether a second taxid is warranted).
 - [ ] **4. Gate script.** The release scope verification as one command, tests 1-4 including scored
@@ -197,7 +199,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
     and `low coverage` with a scope, before the release that quotes them. The
     `CONTRIBUTING.md` gate says which assays; widen it to these if the test finds
     anything.
-- **Narrow the Ophidiomyces query to the IGS.**
+- [x] **Narrow the Ophidiomyces query to the IGS.** Done 2026-11-06, takes effect at the frozen run.
   `Ophidiomyces_ophidiicola_IGS_Bohuski_2015` targets the 28S-18S intergenic
   spacer, but its `target.query` fetches ITS, SSU and LSU titles: about 185 of the 196
   archive records (2026-11-01) can never carry the product. Change it to
@@ -377,7 +379,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   that is a real finding; if the scan is wrong, the entry has no usable published source.
   **Read 2026-11-04** (the Zimmermann item below): the page prints `CTT TC`, and the correction is on
   `next-run-prep`. The rescreen comes with the frozen run.
-- **Batravirus pan pair and Ranid herpesvirus 5.** A complete RaHV-5 genome (PV243667,
+- ~~**Batravirus pan pair and Ranid herpesvirus 5.**~~ **Done 2026-11-06:** broadened, retrieval moved to the order. As first written: A complete RaHV-5 genome (PV243667,
   2025-11-21, 221 kb) sits in "unclassified Herpesvirales" (taxid 3467605), outside
   txid3044671, so neither Licheri 2020 entry can see it. Found 2026-11-01 by a free-text
   search (`batravirus[All Fields]` over the window: 8 hits, 7 of them under the taxid).

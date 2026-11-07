@@ -5,8 +5,7 @@ target:
   gene: IGS (intergenic spacer)
   genome_type: dsDNA
   taxon_name: Ophidiomyces ophidiicola
-  query: 'ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR
-    28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
+  query: 'IGS[Title] OR "intergenic spacer"[Title]'
 chemistry: mgb
 oligos:
   forward:
@@ -41,4 +40,7 @@ submitted_by: null
 status: active
 source:
   nested_round: null
+  notes_curator: 'QUERY NARROWED 2026-11-06 to the IGS: about 185 of the 196 archive records were ITS, SSU or LSU and can
+    never carry the product. 11 IGS-titled records exist, none in the window. Genome assemblies stay out, since they stop
+    where the spacer begins.'
 needs_review: null
