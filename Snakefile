@@ -682,15 +682,14 @@ rule site_drift:
     params:
         code=_SITEDRIFT_PARAMS["code"],
         inputs=_SITEDRIFT_PARAMS["inputs"],
-    # MEMORY. This rule loads the whole calls table through `calls.read_calls`:
-    # 2.7M rows on 2026-10-22, about 1-1.5 GB resident after the interning that
-    # docstring describes. `report` and `site_drift` can be co-scheduled under
-    # --cores, so without a declaration two of these land on one node together;
-    # on SLURM, where `resources:` becomes the sbatch request, the job is killed
-    # rather than slowed. Sized at 3 GB: measured peak plus headroom for a
-    # registry that grows, since the table is assays x records.
+    # MEMORY. This rule loads the whole calls table through `calls.read_calls`.
+    # `report` and `site_drift` can be co-scheduled under --cores, so without a
+    # declaration two of these land on one node together; on SLURM, where `resources:`
+    # becomes the sbatch request, the job is killed rather than slowed. Measured on the
+    # 2026-11-01 calls, 3.4M rows, on 2026-11-06: 4.95 GB peak, so 6 GB leaves headroom
+    # for a registry that grows, since the table is assays x records.
     resources:
-        mem_mb=3000,
+        mem_mb=6000,
         runtime=60,
     shell:
         "assaywatch sitedrift {input.calls} --registry {REGISTRY} "
@@ -766,8 +765,10 @@ rule figures:
     params:
         code=_FIGURES_PARAMS["code"],
         inputs=_FIGURES_PARAMS["inputs"],
+    # It runs both assessments in one process, so it needs the larger of the two, which
+    # `site_drift` measures at 4.95 GB. Not measured on its own.
     resources:
-        mem_mb=4000,
+        mem_mb=6000,
         runtime=60,
     shell:
         "MPLBACKEND=Agg assaywatch figures {input.calls} --registry {REGISTRY} "
@@ -861,15 +862,14 @@ rule report:
     params:
         code=_REPORT_PARAMS["code"],
         inputs=_REPORT_PARAMS["inputs"],
-    # MEMORY. This rule loads the whole calls table through `calls.read_calls`:
-    # 2.7M rows on 2026-10-22, about 1-1.5 GB resident after the interning that
-    # docstring describes. `report` and `site_drift` can be co-scheduled under
-    # --cores, so without a declaration two of these land on one node together;
-    # on SLURM, where `resources:` becomes the sbatch request, the job is killed
-    # rather than slowed. Sized at 3 GB: measured peak plus headroom for a
-    # registry that grows, since the table is assays x records.
+    # MEMORY. This rule loads the whole calls table through `calls.read_calls`.
+    # `report` and `site_drift` can be co-scheduled under --cores, so without a
+    # declaration two of these land on one node together; on SLURM, where `resources:`
+    # becomes the sbatch request, the job is killed rather than slowed. Measured on the
+    # 2026-11-01 calls, 3.4M rows, on 2026-11-06: 3.64 GB peak, so 4.5 GB leaves headroom
+    # for a registry that grows, since the table is assays x records.
     resources:
-        mem_mb=3000,
+        mem_mb=4500,
         runtime=60,
     shell:
         "assaywatch report {input.calls} --registry {REGISTRY} "
