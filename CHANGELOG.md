@@ -13,9 +13,10 @@ because none of them can be recomputed without the archives.
 
 - **Candidate, not yet replayed: probes are scored by mismatch count, per chemistry.** One mismatch
   makes a standard hydrolysis probe `weak` (the call is at best `reduced`, and counts as detected);
-  two block it. One mismatch blocks an MGB or LNA probe. The probe is now a gate on the call and no
-  longer adds to the primers' penalty. `probe_center_penalty` / `probe_outer_penalty` are gone,
-  `hydrolysis_probe` is off `drift.reduced_not_detected_for`, and the scoring hash forces a
+  two block it. One mismatch blocks an MGB or LNA probe of 20 nt or fewer; a longer one is scored as
+  standard (9 of 21 MGB probes). The probe is now a gate on the call and no longer adds to the
+  primers' penalty. `probe_center_penalty` / `probe_outer_penalty` are gone,
+  `drift.reduced_not_detected_for` is empty, and the scoring hash forces a
   rescreen. Statuses WILL move and none has been measured: do not release a run under this before
   the development set and the influenza cases are replayed (`config.yaml`, at both settings).
 - Assay pages open on the primer graph, then the line graph, then the bar graph. Assembly records now

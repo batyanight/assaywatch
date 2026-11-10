@@ -30,11 +30,11 @@ CFG = load_config()
 CHEMISTRY = {"PROBE": "hydrolysis_probe", "MGB": "mgb", "CONV": "conventional", "SYBR": "sybr"}
 
 
-def test_the_shipped_config_names_mgb_and_nothing_else():
+def test_the_shipped_config_names_no_chemistry():
     """The load-bearing test, inverted 2026-10-27 when the decision was taken, and
-    narrowed 2026-11-10 when `hydrolysis_probe` came off the list: a standard probe's
-    one-mismatch `reduced` is a Ct shift and counts, and the probe rule in `scoring`
-    fails the cases that are worse (tests/test_probe_rule.py).
+    emptied 2026-11-10: the probe rule in `scoring` now says per probe what this list
+    said per chemistry (tests/test_probe_rule.py), so a `reduced` call is a Ct shift
+    and counts, and the cases that are worse are `fail` before they get here.
 
     It pinned emptiness while the switch was a mechanism without a decision. The
     decision is now made, so what has to be pinned is the OTHER failure: this must
@@ -42,8 +42,8 @@ def test_the_shipped_config_names_mgb_and_nothing_else():
     still a band, and silently adding `conventional` here would move the detected
     share of 155 of 209 entries (2026-10-27) without anyone choosing it.
     """
-    assert CFG["drift"]["reduced_not_detected_for"] == ["mgb"]
-    assert reduced_not_detected_ids(CHEMISTRY, CFG) == {"MGB"}
+    assert CFG["drift"]["reduced_not_detected_for"] == []
+    assert reduced_not_detected_ids(CHEMISTRY, CFG) == set()
     assert "conventional" not in CFG["drift"]["reduced_not_detected_for"]
     assert "sybr" not in CFG["drift"]["reduced_not_detected_for"]
 

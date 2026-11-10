@@ -172,7 +172,7 @@ scoring:
   #
   # `probe_fail_at: 2` HAS NO MEASUREMENT BEHIND IT. Yao's result argues it is too
   # strict; it was chosen as the conservative reading and is a placeholder like the
-  # others. `by_chemistry` below makes `mgb` and `lna` fail at one.
+  # others.
   #
   # This replaced `probe_center_penalty` 2.0 / `probe_outer_penalty` 1.0, which priced
   # a mismatch by which THIRD of the probe it fell in: length-blind (the central third
@@ -183,6 +183,31 @@ scoring:
   # `drift.reduced_not_detected_for`, which this change is paired with.
   probe_reduced_at: 1
   probe_fail_at: 2
+  # SHORT STABILISED PROBES: one mismatch and the probe is off. A probe is `short`
+  # when it is BOTH an `mgb` or `lna` probe AND at most `short_probe_max_nt` long.
+  #
+  # Why one: an MGB probe is short, its Tm sits just above the anneal, and one
+  # mismatch can cost it 15-20 C (Kutyavin et al. 2000, doi:10.1093/nar/28.2.655),
+  # which is why the chemistry is used for SNP genotyping. Kutyavin also finds the
+  # effect strongest under or near the binder at the 3' end and no better than plain
+  # DNA far from it, so this OVERSTATES a mismatch at an MGB probe's 5' end. `lna`
+  # is filed here by the same reasoning, with no paper in hand (and no `lna` entry
+  # in the registry on 2026-11-10 to be wrong about).
+  #
+  # Why the length cut: the label is not the mechanism. 9 of the registry's 21 MGB
+  # probes are longer than 20 nt (2026-11-10: five at 24, three at 21, and
+  # Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013 at 32). A 32 nt probe has
+  # Tm to spare with or without a binder, so failing it on one mismatch would be the
+  # chemistry-blindness this rule replaced, pointed the other way. 20 is the top of
+  # the design range Kutyavin gives for MGB probes (12-20 nt). It is a cut on a
+  # continuum and NOTHING MEASURED puts it there: a 21 nt MGB probe is scored as
+  # standard and a 20 nt one as short. A placeholder like the others.
+  #
+  # These are base settings and not a `by_chemistry` entry on purpose: `by_chemistry`
+  # cannot see a probe's length, and it was a `by_chemistry` entry that made the 32 nt
+  # probe fail on one mismatch for the day the first version of this rule existed.
+  short_probe_fail_at: 1
+  short_probe_max_nt: 20
   # A record base the oligo only partly covers (an N, or a code the oligo does
   # not fully contain) is unknown, not a mismatch, and costs nothing when
   # scoring: charging for it would make a submitter's sequencing quality
@@ -420,18 +445,6 @@ scoring:
       # 3.0 equalled reduced_max exactly, so one mismatch anywhere in the last five
       # bases was a fail on its own. At 2.0 one is `reduced` and two still fail.
       primer_3prime_penalty: 2.0
-    # SHORT STABILISED PROBES (2026-11-10): one mismatch and the probe is off, so the
-    # `weak` band is removed by setting the two counts equal. An MGB probe is 12-18 nt
-    # and one mismatch can cost it 15-20 C of Tm (Kutyavin et al. 2000,
-    # doi:10.1093/nar/28.2.655), which is why the chemistry is used for SNP
-    # genotyping. Kutyavin also finds the effect strongest under or near the binder at
-    # the 3' end and no better than plain DNA far from it, so this OVERSTATES a
-    # mismatch at an MGB probe's 5' end. `lna` is filed here by the same reasoning,
-    # with no paper in hand.
-    mgb:
-      probe_fail_at: 1
-    lna:
-      probe_fail_at: 1
 
 amplicon:
   min_bp: 50
@@ -979,14 +992,22 @@ drift:
   # A status move is not a verdict being right. It is the numerator changing for 51
   # probe-bearing entries, which is what this setting means.
   #
-  # NARROWED 2026-11-10: `hydrolysis_probe` REMOVED, a maintainer decision, and it
-  # reverses part of the 2026-10-27 one above. The reasoning: this list could not tell
+  # EMPTIED 2026-11-10, a maintainer decision for `hydrolysis_probe` and a consequence
+  # of it for `mgb`. It reverses the 2026-10-27 one above. The reasoning: this list could not tell
   # WHY a call was `reduced`, so for a standard probe it turned one probe mismatch (a
   # Ct shift) into "not detected", which is what put the CDC H3 assay at the floor from
   # 2016 and hid the drift that followed. The probe rule in `scoring` now carries that
   # distinction itself: one mismatch in a standard probe is `reduced` and counts, two
-  # is `fail`; one mismatch in an MGB or LNA probe is `fail` outright. `mgb` stays
-  # here, so an MGB assay whose PRIMERS read `reduced` is still not counted.
+  # is `fail`; one mismatch in a SHORT MGB or LNA probe is `fail` outright.
+  #
+  # WHY `mgb` WENT TOO. Everything this list was for is a statement about the PROBE,
+  # and the probe rule now makes it per probe. Left here, `mgb` would do two things
+  # nobody chose: an MGB assay whose PRIMERS read `reduced` would be not detected where
+  # the same primers under a standard probe are detected; and a long MGB probe (over
+  # `scoring.short_probe_max_nt`, nine entries, among them the 32 nt
+  # Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013) that the probe rule calls
+  # `reduced` on one mismatch would be counted as not detected anyway, which undoes the
+  # length cut. The mechanism stays; the list is empty.
   #
   # WHAT THIS PUTS AT RISK, and it has NOT been measured: the 2026-10-27 switch is what
   # caught Influenza_A_virus_M_Spackman_2002, a documented failure. That catch survives
@@ -994,7 +1015,7 @@ drift:
   # standing rule is that a candidate which loses a documented catch is a bad
   # candidate. So this value and the probe rule are a CANDIDATE until the development
   # set and the influenza cases are replayed; do not release a run under them first.
-  reduced_not_detected_for: [mgb]
+  reduced_not_detected_for: []
 
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid

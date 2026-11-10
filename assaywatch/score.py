@@ -349,22 +349,25 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
 class ProbeKind(StrEnum):
     """The two kinds of probe the scoring tells apart.
 
-    `standard` is a plain dual-labelled hydrolysis probe, 20-30 nt. `short` is a
-    probe made short by a duplex stabiliser: a minor-groove binder (`mgb`) or
-    locked nucleic acid bases (`lna`), 12-18 nt.
+    `short` is a probe that is BOTH carried by a duplex stabiliser (a minor-groove
+    binder, `mgb`, or locked nucleic acid bases, `lna`) AND no longer than
+    `scoring.short_probe_max_nt`. Everything else is `standard`, including a long
+    probe that happens to carry an MGB.
+
+    Both conditions, because the label alone is not the mechanism. One mismatch
+    switches a short stabilised probe off because the probe is short: its Tm sits
+    just above the anneal and one mismatch drops it below. A 32 nt probe with an MGB
+    on the end (the registry has one, and nine of its 21 MGB probes are longer than
+    20 nt) has Tm to spare and behaves like the long probe it is.
     """
 
     standard = "standard"
     short = "short"
 
 
-#: Which kind each probe-bearing chemistry is. A chemistry not named here has no
-#: probe, or has an ordinary one, and reads as `standard`.
-PROBE_KIND: dict[str, ProbeKind] = {
-    "hydrolysis_probe": ProbeKind.standard,
-    "mgb": ProbeKind.short,
-    "lna": ProbeKind.short,
-}
+#: The chemistries whose probe carries a duplex stabiliser. Membership here is
+#: necessary for `short` and not sufficient: see `ProbeKind`.
+STABILISED_PROBE = frozenset({"mgb", "lna"})
 
 #: A probe verdict as the call it permits at best. The call is the worse of this
 #: and what the primers earned.
@@ -414,16 +417,27 @@ class ProbeRule:
         return "ok"
 
 
-def probe_rule_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> ProbeRule:
-    """The probe rule for one chemistry, from a config ALREADY resolved for it.
+def probe_kind(chemistry: Chemistry | str, probe_len: int, cfg: dict[str, Any]) -> ProbeKind:
+    """`short` only for a stabilised chemistry AND a probe short enough to depend on it."""
+    if str(chemistry) in STABILISED_PROBE and probe_len <= int(cfg["scoring"]["short_probe_max_nt"]):
+        return ProbeKind.short
+    return ProbeKind.standard
 
-    Pass `config_for(chemistry, cfg)`, not the base config: the two numbers live in
-    `scoring` like every other, and `scoring.by_chemistry` is what makes them differ
-    for `mgb` and `lna`. This is the one place the whole config is read on the
+
+def probe_rule_for(chemistry: Chemistry | str, probe_len: int, cfg: dict[str, Any]) -> ProbeRule:
+    """The probe rule for one probe: its chemistry and its own length decide the kind.
+
+    Takes the length because a pool can hold probes of different lengths and each is
+    judged as what it is. This is the one place the whole config is read on the
     probe's behalf; `score_probe` receives only the rule.
     """
     s = cfg["scoring"]
-    kind = PROBE_KIND.get(str(chemistry), ProbeKind.standard)
+    kind = probe_kind(chemistry, probe_len, cfg)
+    if kind is ProbeKind.short:
+        fail_at = int(s["short_probe_fail_at"])
+        # A short probe may fail before a standard one is even reduced, so its
+        # `weak` band can only start at or below where it fails.
+        return ProbeRule(kind, min(int(s["probe_reduced_at"]), fail_at), fail_at)
     return ProbeRule(kind, int(s["probe_reduced_at"]), int(s["probe_fail_at"]))
 
 
@@ -458,6 +472,8 @@ def score_probe(site: Site, oligo: str, rule: ProbeRule) -> OligoScore:
       standard conditions. The rule is a prior, not a measurement.
     * LNA is filed with MGB by reasoning (short, stabilised, used for genotyping),
       with no paper in hand.
+    * `short_probe_max_nt` is a cut on a continuum. A 21 nt MGB probe is scored as
+      standard and a 20 nt one as short, and nothing measured puts the line there.
     * Mispair identity is recorded for replay and not used.
 
     The `@distance` in a probe's mispair is still measured from its 3' end, for one
@@ -1073,9 +1089,6 @@ def screen_one(
     # worst-matching - that is, the drifted - pairs out of the denominator.
     window_bp = hi_bp - lo_bp + 1
 
-    # `config_for` is idempotent, so this is right whether or not the caller
-    # (`screen_record` does) already resolved `cfg` for this assay's chemistry.
-    probe_rule = probe_rule_for(assay.chemistry, config_for(assay.chemistry, cfg))
     best: Call | None = None
     for f, r, amp_start, amp_end, inner_lo, inner_hi in pairs:
         length = amp_end - amp_start
@@ -1100,7 +1113,7 @@ def screen_one(
         probe_won = probe
         if probe:
             scored = [
-                (score_probe(p, o, probe_rule), p, o)
+                (score_probe(p, o, probe_rule_for(assay.chemistry, len(o), cfg)), p, o)
                 for o, idx in p_indexes
                 for p in idx.within(inner_lo, inner_hi - len(o))
             ]

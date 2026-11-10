@@ -51,6 +51,13 @@ FIXTURE_ASSAYS = [
     "Reptarenavirus_GP_Aqrawi_2015",  # degenerate primers (4x4), no probe
 ]
 
+# Fixture assays whose probe is scored as STANDARD, with the length that makes it so,
+# written down by hand so the expectation does not come from the code under test. All
+# three probe-bearing fixtures are MGB; the other two are 15 and 18 nt, i.e. short.
+STANDARD_PROBE_ASSAYS = {"Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013": 32}
+# One mismatch makes a standard probe `weak` (call `reduced`); two block it.
+STANDARD_PROBE_EXPECTED = {"probe_center": "reduced", "probe_outer": "reduced", "probe_both_ends": "fail"}
+
 # (suffix, [(which_oligo, where), ...], expected_call)
 # `where` is a distance from the oligo's 3' end (1 = the terminal base) for
 # primers, or one of "first" / "center" / "last" for a named position.
@@ -65,7 +72,9 @@ PLANS: list[tuple[str, list[tuple[str, int]], str]] = [
     ("fwd_mid_rev_mid", [("forward", 7), ("reverse", 7)], "reduced"),  # 2.0
     ("fwd_5prime_x3", [("forward", 14), ("forward", 16), ("forward", 18)], "reduced"),  # 1.5
     ("fwd_mid_x4", [("forward", 7), ("forward", 8), ("forward", 9), ("forward", 10)], "fail"),  # 4.0
-    # The three fixture assays are all MGB, a short probe: one mismatch anywhere blocks it.
+    # The call written here is for a SHORT probe (MGB, at most 20 nt), where one mismatch
+    # anywhere blocks it. `STANDARD_PROBE_EXPECTED` below overrides it for the fixture
+    # assay whose MGB probe is 32 nt and is therefore scored as a standard probe.
     ("probe_center", [("probe", "center")], "fail"),
     ("probe_outer", [("probe", "first")], "fail"),
     # Both ends of one oligo edited at once. The seeded matcher this replaced
@@ -252,9 +261,14 @@ def main(argv: list[str] | None = None) -> int:
     for assay_id in FIXTURE_ASSAYS:
         assay = Assay.model_validate(yaml.safe_load((REGISTRY / f"{assay_id}.yaml").read_text()))
         has_probe = assay.oligos.probe is not None
+        if assay_id in STANDARD_PROBE_ASSAYS:
+            # Fail loudly if the registry entry's probe is ever replaced by a short one.
+            assert len(assay.oligos.probe.matching_seq) == STANDARD_PROBE_ASSAYS[assay_id], assay_id
         for suffix, edits, expected in PLANS:
             if any(w.startswith("probe") for w, _ in edits) and not has_probe:
                 continue
+            if assay_id in STANDARD_PROBE_ASSAYS:
+                expected = STANDARD_PROBE_EXPECTED.get(suffix, expected)
             seq, offsets = build_record(assay, edits)
             rid = f"{assay_id}__{suffix}"
             records.append((rid, seq))

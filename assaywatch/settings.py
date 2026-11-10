@@ -121,6 +121,11 @@ class Scoring(Block):
     #: `ProbeRule` refuses fail < reduced when it is built.
     probe_reduced_at: int = Field(default=1, ge=1)
     probe_fail_at: int = Field(default=2, ge=1)
+    #: The short-probe rule: an MGB or LNA probe of at most `short_probe_max_nt`
+    #: is blocked at `short_probe_fail_at` mismatches. Longer ones take the two
+    #: numbers above, whatever their chemistry (`score.probe_kind`).
+    short_probe_fail_at: int = Field(default=1, ge=1)
+    short_probe_max_nt: int = Field(default=20, ge=1)
     max_ambiguous_per_oligo: int = Field(default=2, ge=0)
     max_mismatches_searched: int = Field(default=6, ge=0)
     max_site_evalue: float = Field(default=0.01, gt=0)

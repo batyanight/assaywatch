@@ -78,13 +78,13 @@ computed over records that cannot physically contain the product would be
 meaningless. The pipeline's drift step only counts records that span the site.
 
 **What a probe mismatch costs depends on the kind of probe.** The Boyle assay
-uses an MGB probe: short, and so sensitive to a single mismatch that the
+uses a 15 nt MGB probe: short, and so sensitive to a single mismatch that the
 chemistry is used for SNP genotyping. Both probe records here carry exactly one
 mismatch and both read `fail`, wherever in the probe it falls. The same single
 mismatch under a standard 20-30 nt hydrolysis probe would read `reduced`, a
 later Ct that still counts as detection, and two would fail it. The counts live
-in `config.yaml` under `scoring:` (`probe_reduced_at`, `probe_fail_at`, and the
-`mgb` and `lna` entries of `by_chemistry`), with their sources and the admission
+in `config.yaml` under `scoring:` (`probe_reduced_at`, `probe_fail_at`,
+`short_probe_fail_at`, `short_probe_max_nt`), with their sources and the admission
 that they have not yet been replayed against documented cases. The probe is a
 gate on the call and is never added to the primers' penalty; the `penalty`
 column shows 1 for these records because it carries the probe's mismatch count.

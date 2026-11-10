@@ -82,14 +82,8 @@ def test_the_shipped_config_overrides_exactly_one_number_for_one_chemistry():
     """
     cfg = load_config()
     by_chem = cfg["scoring"].get("by_chemistry")
-    # 2026-11-10: `mgb` and `lna` joined, each with the one number that makes a short
-    # stabilised probe fail at a single mismatch. Unlike the conventional entry these
-    # rest on the literature (Kutyavin 2000) and NOT on a tier-2 run, and config.yaml
-    # says so beside them. What is pinned is still that nothing else crept in.
-    assert set(by_chem) == {"conventional", "mgb", "lna"}
+    assert set(by_chem) == {"conventional"}, "only conventional PCR has measured evidence behind it"
     assert by_chem["conventional"] == {"primer_3prime_penalty": 2.0}
-    assert by_chem["mgb"] == {"probe_fail_at": 1}
-    assert by_chem["lna"] == {"probe_fail_at": 1}
     assert "terminal_mismatch_fails" not in by_chem["conventional"], (
         "priced 2026-10-27 and inert: it moves 0 of the 179 bench rows"
     )
@@ -98,28 +92,20 @@ def test_the_shipped_config_overrides_exactly_one_number_for_one_chemistry():
     assert cfg[RESOLVED]["resolved"]["conventional"]["scoring"]["primer_3prime_penalty"] == 2.0
 
 
-def test_every_chemistry_without_an_override_takes_the_identical_path():
+def test_every_chemistry_but_conventional_takes_the_identical_path():
     """Not "the same numbers" - the same object, for everything not overridden.
 
     Returning cfg itself is what makes "behaviour is unchanged" a fact about the code
     rather than a claim about its output. Before 2026-10-27 that held for every
-    chemistry, because `by_chemistry` was empty; since then for every chemistry but
-    `conventional`; and since 2026-11-10 for every chemistry but `conventional`, `mgb`
-    and `lna`, the last two carrying the short-probe rule. The point of the test is
-    unchanged: a chemistry nobody overrode must go down the path it always did,
-    whatever the others are scored with.
+    chemistry, because `by_chemistry` was empty; now it holds for every chemistry but
+    `conventional`, and the point of the test is unchanged: a probe assay must go down
+    the path it always did, byte for byte, whatever conventional PCR is scored with.
     """
     cfg = load_config()
-    overridden = {
-        Chemistry.conventional: ("primer_3prime_penalty", 2.0),
-        Chemistry.mgb: ("probe_fail_at", 1),
-        Chemistry.lna: ("probe_fail_at", 1),
-    }
     for chem in Chemistry:
-        if chem in overridden:
-            key, value = overridden[chem]
-            assert config_for(chem, cfg) is not cfg, chem
-            assert scoring_for(chem, cfg)[key] == value, chem
+        if chem is Chemistry.conventional:
+            assert config_for(chem, cfg) is not cfg
+            assert scoring_for(chem, cfg)["primer_3prime_penalty"] == 2.0
             continue
         assert config_for(chem, cfg) is cfg, chem
         assert scoring_for(chem, cfg) is cfg["scoring"], chem

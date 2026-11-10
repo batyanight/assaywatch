@@ -98,7 +98,7 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    priced by which third of the probe it fell in, which was length-blind and MGB-blind. A probe
    is now judged by its mismatch count under its chemistry's rule (`score.ProbeRule`): one
    mismatch makes a standard hydrolysis probe `weak` and two block it; one blocks an MGB or LNA
-   probe. That ignores where the mismatch falls, though an MGB discriminates best near the
+   probe of 20 nt or fewer, and a longer one is scored as standard. That ignores where the mismatch falls, though an MGB discriminates best near the
    binder at its 3' end (Kutyavin et al. 2000, doi:10.1093/nar/28.2.655), and no tier-2 run
    stands behind the counts yet. `--thermo` computes the real duplex ΔTm and is the better
    guide where it is available.

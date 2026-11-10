@@ -1,6 +1,6 @@
 # AssayWatch report — 2026-11-01
 
-3 assays screened: 1 declining, 1 watch, 1 no recent data.
+3 assays screened: 1 declining, 1 no recent data, 1 stable.
 
 **In one line:** of 3 published assays re-checked against GenBank records deposited up to 2026-11-01, 1 appear to be detecting measurably less of their target than they once did, and 0 have never covered much of the taxon they are screened against. None cleared every confirmation check, so the Start here list below is empty -- which means the flags need looking at, not that nothing was found.
 
@@ -47,17 +47,17 @@ that clade, not as a measurement of the assay.
 |---|---|---|---|---|---|---|---|---|
 | `Encephalitozoon_cuniculi_PTP_Xiao_2001` | active | 20.0% | 10%-37% | 30 | 100% (20) | 1x negligible | unchecked | detected share 20.0% (10%-37%) since Nov 2024, upper bound below the 90% threshold; change from baseline -90% to -56%. Entry flags: amplicon_multimodal, thin_evidence. |
 
-## Watch (1)
-
-| assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | duplication | note |
-|---|---|---|---|---|---|---|---|---|
-| `Aparavirus_apisacutum_capsid_Rossi_2024` | active | 85.0% | 64%-95% | 20 | 100% (18) | 4608x severe | - | detected share 85.0% is below the 90% threshold, but its interval (64%-95%) still reaches it. |
-
 ## No Recent Data (1)
 
 | assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | duplication | note |
 |---|---|---|---|---|---|---|---|---|
 | `Enterovirus_5UTR_VP4_VP2_Wray_2016_round1` | draft | - | - | 0 | 100% (3) | 16x moderate | - | no evaluable records deposited since Nov 2024. Entry flags: orientation_inferred. |
+
+## Stable (1)
+
+| assay | entry | detected (recent) | 95% CI | evaluable | baseline (n) | degeneracy | duplication | note |
+|---|---|---|---|---|---|---|---|---|
+| `Aparavirus_apisacutum_capsid_Rossi_2024` | active | 100.0% | 84%-100% | 20 | 100% (18) | 4608x severe | - | detected share 100.0% (84%-100%) since Nov 2024. |
 
 ## Detail for flagged assays
 

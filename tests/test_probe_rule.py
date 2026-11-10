@@ -25,9 +25,9 @@ from assaywatch.score import (
     OligoScore,
     ProbeKind,
     ProbeRule,
-    config_for,
     decide,
     load_config,
+    probe_kind,
     probe_rule_for,
     score_probe,
 )
@@ -84,13 +84,13 @@ def test_a_weak_probe_on_clean_primers_makes_the_call_reduced():
 def test_a_reduced_call_counts_as_detected_for_a_standard_hydrolysis_probe():
     """One probe mismatch is a Ct shift, not a miss, so it must stay in the numerator.
 
-    `drift.reduced_not_detected_for` named `hydrolysis_probe` until 2026-11-10. With it
-    there, one probe mismatch read as "this assay does not detect this record", which
-    put the CDC H3 assay at the floor from 2016 and hid the drift that followed.
+    `drift.reduced_not_detected_for` named `hydrolysis_probe` and `mgb` until
+    2026-11-10. With it, one probe mismatch read as "this assay does not detect this
+    record", which put the CDC H3 assay at the floor from 2016 and hid the drift that
+    followed. `mgb` left with it: kept, it would count a long MGB probe's `reduced` as
+    not detected and undo the length cut tested below.
     """
-    ids = reduced_not_detected_ids({"a": "hydrolysis_probe", "b": "mgb"}, CFG)
-    assert "a" not in ids
-    assert "b" in ids  # MGB primers that read `reduced` are still not counted
+    assert reduced_not_detected_ids({"a": "hydrolysis_probe", "b": "mgb"}, CFG) == set()
 
 
 # --- step 3 --------------------------------------------------------------------------
@@ -121,15 +121,58 @@ def test_a_perfectly_matched_short_probe_is_ok():
 
 
 @pytest.mark.parametrize(
-    ("chemistry", "want"),
+    ("chemistry", "probe_len", "want"),
     [
-        (Chemistry.hydrolysis_probe, STANDARD),
-        (Chemistry.mgb, SHORT),
-        (Chemistry.lna, SHORT),
+        (Chemistry.hydrolysis_probe, 25, STANDARD),
+        (Chemistry.mgb, 15, SHORT),
+        (Chemistry.lna, 15, SHORT),
     ],
 )
-def test_the_shipped_config_builds_the_agreed_rule_for_each_probe_chemistry(chemistry, want):
-    assert probe_rule_for(chemistry, config_for(chemistry, CFG)) == want
+def test_the_shipped_config_builds_the_agreed_rule_for_each_probe_chemistry(chemistry, probe_len, want):
+    assert probe_rule_for(chemistry, probe_len, CFG) == want
+
+
+# --- step 5b: the label is not the mechanism --------------------------------------------
+
+
+def test_an_mgb_probe_is_short_only_up_to_the_length_cut():
+    """20 nt is the top of Kutyavin's MGB design range; the registry holds MGB probes to 32."""
+    cut = CFG["scoring"]["short_probe_max_nt"]
+    assert cut == 20
+    assert probe_kind(Chemistry.mgb, cut, CFG) is ProbeKind.short
+    assert probe_kind(Chemistry.mgb, cut + 1, CFG) is ProbeKind.standard
+
+
+def test_a_long_mgb_probe_takes_the_standard_rule():
+    """The Blooi 2013 Bsal probe is MGB and 32 nt. One mismatch must not fail it."""
+    assert probe_rule_for(Chemistry.mgb, 32, CFG) == STANDARD
+
+
+def test_a_short_plain_probe_is_still_standard():
+    """Being short is not enough either: the short rule is about a stabilised probe.
+
+    The registry has plain hydrolysis probes of 16-19 nt. Whether those tolerate a
+    mismatch is its own question and no evidence was gathered on it; they keep the
+    standard rule.
+    """
+    assert probe_kind(Chemistry.hydrolysis_probe, 16, CFG) is ProbeKind.standard
+
+
+def test_each_probe_in_a_pool_is_judged_at_its_own_length():
+    assert probe_rule_for(Chemistry.mgb, 18, CFG).kind is ProbeKind.short
+    assert probe_rule_for(Chemistry.mgb, 24, CFG).kind is ProbeKind.standard
+
+
+def test_the_real_blooi_entry_is_reduced_not_failed_by_one_probe_mismatch():
+    row = "Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013__probe_center"
+    fixtures = Path(__file__).parent / "fixtures"
+    records = dict(read_fasta(fixtures / "records.fasta"))
+    assay = Assay.model_validate(
+        yaml.safe_load((ROOT / "registry" / f"{row.split('__')[0]}.yaml").read_text())
+    )
+    assert str(assay.chemistry) == "mgb"
+    assert len(assay.oligos.probe.matching_seq) == 32
+    assert screen_record(assay, row, records[row], CFG).call == "reduced"
 
 
 def test_a_rule_that_fails_before_it_reduces_is_refused():
@@ -187,6 +230,7 @@ from pathlib import Path  # noqa: E402
 
 import yaml  # noqa: E402
 
+from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.iupac import expand, reverse_complement  # noqa: E402
 from assaywatch.schema import Assay  # noqa: E402
 from assaywatch.score import screen_record  # noqa: E402
