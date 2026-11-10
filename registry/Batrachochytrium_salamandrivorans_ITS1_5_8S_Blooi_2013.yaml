@@ -7,7 +7,7 @@ target:
   taxon_name: Batrachochytrium salamandrivorans
   query: ITS[Title] OR ITS1[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR "5.8S"[Title] OR "ribosomal
     RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]
-chemistry: mgb
+chemistry: hydrolysis_probe
 oligos:
   forward:
     name: STerF
@@ -18,8 +18,8 @@ oligos:
   probe:
     name: STerPROBE
     seq: ACAAGAAAATACTATTGATTCTCAAACAGGCA
-    reporter: HEX
-    quencher: MGB-NFQ
+    reporter: Cy5
+    quencher: null
 amplicon_bp: null
 citation:
   doi: 10.1128/JCM.02313-13
@@ -28,10 +28,11 @@ citation:
   doi_verified: true
   reference: Blooi M et al. 2013. J Clin Microbiol 51:4173-4177
   oligos_designed_here: false
+  claim: Batrachochytrium salamandrivorans, 5.8S rRNA gene region, in a duplex with B. dendrobatidis.
 conditions:
   cycles: 40
   annealing_c: 62
-  probe_nm: 250
+  probe_nm: 100
 performance:
   efficiency_pct: 94
   lod: 0.1 genomic equivalent of zoospores per PCR
@@ -64,7 +65,11 @@ source:
     JUDGEMENT CALL. amplicon_size_unresolved is an OPEN QUESTION, and the validator correctly refuses an open question on
     an active entry, so setting it here would demote this entry from active. That is a maintainer decision and not a session''s,
     exactly as the CALICIVIRUS Hel1 terminal base was. The measurement above is therefore recorded as a caveat in this note
-    instead. A maintainer who wants the flag should expect active 179 -> 178.'
+    instead. A maintainer who wants the flag should expect active 179 -> 178. CORRECTED 2026-11-10: the probe STerC is Cy5-labelled
+    and the paper names no quencher, so HEX and MGB-NFQ were unsupported; 250 nM was the starting concentration and the optimised
+    duplex uses 100 nM.'
 needs_review:
 - flag: oligos_from_secondary_source
   note: primers from Martel 2013, probe from Blooi
+- flag: chemistry_detail_missing
+  note: the paper names no quencher for STerC

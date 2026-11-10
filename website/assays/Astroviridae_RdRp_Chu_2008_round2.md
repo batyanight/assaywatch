@@ -256,6 +256,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Astroviruses, RdRp gene, as the heminested second round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Astroviridae (taxid 39733), every record.
 

@@ -124,7 +124,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
-**Meant to detect:** Monkeypox virus lineage B.1, told apart from other West African strains.  
+**Meant to detect:** Clade II monkeypox virus B.1 lineage, by a single-nucleotide probe.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Monkeypox virus (taxid 10244), every record.
 

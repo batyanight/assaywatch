@@ -20,6 +20,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Hyndman TH et al. 2012. Vet Microbiol 161:77-87
+  claim: Sunshine virus polymerase (L) gene, for formalin-fixed tissue.
 use_context:
 - veterinary
 submitted_by: null

@@ -30,8 +30,10 @@ citation:
     Microbiology 76, 5282-5286 (2010).
   doi_verified: true
   oligos_designed_here: true
+  claim: Vibrio coralliilyticus, dnaJ gene.
 conditions:
   annealing_c: 60.0
+  cycles: 40
 use_context:
 - wildlife
 submitted_by: null
@@ -64,7 +66,8 @@ source:
     the 54 distinct assemblies, 37 detect, 5 reduced (with 1-2 mismatches per oligo), 12 fail (mostly due to probe mismatches).
     The paper reports detection of 12 of 13 coral strains and gives no specificity data by dnaJ allele. SCOPE: a species-level
     assay by design (SNPs conserved within V. coralliilyticus), reported by the paper to miss one Caribbean strain (C2) and
-    to give late non-specific Ct values with five other Vibrio and a Shewanella; cross-reaction was not re-tested here.'
+    to give late non-specific Ct values with five other Vibrio and a Shewanella; cross-reaction was not re-tested here. CORRECTED
+    2026-11-10: 40 cycles (p1).'
 needs_review:
 - flag: primer_site_polymorphic
   note: the probe site carries 2 mismatches in 14 of 54 genomes

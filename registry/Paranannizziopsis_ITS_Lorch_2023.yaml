@@ -21,7 +21,7 @@ oligos:
     reporter: FAM
     quencher: BHQ-1
   alternates: []
-amplicon_bp: 82
+amplicon_bp: 81
 citation:
   doi: 10.3389/fmicb.2023.1302586
   design_year: 2023
@@ -30,6 +30,7 @@ citation:
     fungus. Frontiers in Microbiology 14, 1302586 (2023).
   doi_verified: true
   oligos_designed_here: true
+  claim: Paranannizziopsis genus, ITS2 region.
 conditions:
   annealing_c: 60
   cycles: 40
@@ -52,5 +53,6 @@ source:
     both read the inosine as one molecule pairing with C, A and T rather than as a 4-fold degenerate position. Reading this
     probe from `seq` alone would overstate its degeneracy fourfold. The paper notes the assay does not speciate, and that
     follow-up sequencing of the amplicon distinguishes Paranannizziopsis sp. 1 from sp. 2 by SNPs - so a detection here is
-    a genus call, not a species call.'
+    a genus call, not a species call. CORRECTED 2026-11-10: amplicon_bp 82 -> 81, the mode (28 of 30); 82 came from one reference
+    record.'
 needs_review: null

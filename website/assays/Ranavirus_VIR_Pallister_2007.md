@@ -131,6 +131,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Ranavirus variable intergenic region, for sequencing rather than detection.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Ranavirus (taxid 10492), every record.
 

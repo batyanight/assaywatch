@@ -186,12 +186,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Filoviruses (Marburg and Ebola viruses), L gene, as a consensus RT-PCR.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Filoviridae (taxid 11266), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `pairing_is_curator_reading`.
+Disclosures on this entry: `pairing_is_curator_reading`, `amplicon_disagrees_with_paper`, `scope_wider_than_paper_tested`.
 
 
 ## Records reaching the statistics
@@ -209,9 +210,9 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 ## Curation record
 
-AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,826 of 3,837 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-007, prints ~600 bp; the measurement is what is entered.
+AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,826 of 3,837 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-007, prints ~600 bp; the measurement is what is entered. CORRECTED 2026-11-10: 'validated with all known filovirus strains' (p3) describes 2006; genera named since are untested.
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-10-21</b> AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,826 of 3,837 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-007, prints ~600 bp; the measurement is what is entered.</p><p><b>2026-10-04</b> PREDICT panel protocol P-007 (L), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Zhai, J. et al (2007).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-10-21</b> AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,826 of 3,837 detected-or-reduced records in the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-007, prints ~600 bp; the measurement is what is entered. CORRECTED 2026-11-10: 'validated with all known filovirus strains' (p3) describes 2006; genera named since are untested.</p><p><b>2026-10-04</b> PREDICT panel protocol P-007 (L), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Zhai, J. et al (2007).</p></details>
 
 ## Corrections
 

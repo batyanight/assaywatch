@@ -16,7 +16,7 @@
 | Target | Chordopoxvirinae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10241">taxid 10241</a>) |
 | Gene | DNA polymerase |
 | Chemistry | conventional |
-| Amplicon | 192 bp |
+| Amplicon | 188 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -226,12 +226,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Chordopoxviruses, DNA polymerase gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Chordopoxvirinae (taxid 10241), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `oligos_modified`, `pairing_is_curator_reading`, `oligos_from_secondary_source`.
+Disclosures on this entry: `oligos_modified`, `pairing_is_curator_reading`, `amplicon_disagrees_with_paper`.
 
 
 ## Records reaching the statistics
@@ -251,7 +252,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 PUBLISHED, FOUND 2026-10-05. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-05</b> PUBLISHED, FOUND 2026-10-05.</p><p>A Europe PMC full-text search on TSPoxPolF1 finds Vila AR et al. 2019 PLoS One 14:e0213667 (PMC6469779, huemul deer parapoxvirus), whose Table 1 prints this entry's six oligos exactly as stored here - TSPoxPolF1 TATAGAGCGAGTACAGTCATCAAG, F2 GCGAGYACCTGCATCAAG, F3, F4, R1 and R2 with I where the registry has N - with the 192 bp amplicon, and cites them to McAloose et al. 2016 Dis Aquat Organ 119:17-36. Vila also describes the design: consensus regions from an alignment of some 20 chordopox and parapox species, short enough for FFPE tissue. So 'unpublished' is out of date. Cited to McAloose 2016 as the first publication; the sequences are confirmed through Vila's table, not McAloose's own, because the int-res.com open-access PDF answers scripted requests with 401. Confirm against McAloose by eye. The sibling Chordopoxvirinae_POL_unpublished (DO_NOT_USE) holds the longer forms with GGNCC 3' tails, which Vila does not print.</p><p><b>2026-10-05</b> FLAG ADDED 2026-10-05 for consistency with Henipavirus_nipahense_N_Chua_2000, which was traced the same way on the same day: this entry's sequences were read from Vila 2019's Table 1 and its citation taken from that table's Reference column, not from McAloose 2016 itself, whose open-access PDF answers a scripted request with 401. The attribution is well supported - Vila names McAloose per primer set - but it is second-hand, and the flag makes that visible rather than implied.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-05</b> PUBLISHED, FOUND 2026-10-05.</p><p>A Europe PMC full-text search on TSPoxPolF1 finds Vila AR et al. 2019 PLoS One 14:e0213667 (PMC6469779, huemul deer parapoxvirus), whose Table 1 prints this entry's six oligos exactly as stored here - TSPoxPolF1 TATAGAGCGAGTACAGTCATCAAG, F2 GCGAGYACCTGCATCAAG, F3, F4, R1 and R2 with I where the registry has N - with the 192 bp amplicon, and cites them to McAloose et al. 2016 Dis Aquat Organ 119:17-36. Vila also describes the design: consensus regions from an alignment of some 20 chordopox and parapox species, short enough for FFPE tissue. So 'unpublished' is out of date. Cited to McAloose 2016 as the first publication; the sequences are confirmed through Vila's table, not McAloose's own, because the int-res.com open-access PDF answers scripted requests with 401. Confirm against McAloose by eye. The sibling Chordopoxvirinae_POL_unpublished (DO_NOT_USE) holds the longer forms with GGNCC 3' tails, which Vila does not print.</p><p><b>2026-10-05</b> FLAG ADDED 2026-10-05 for consistency with Henipavirus_nipahense_N_Chua_2000, which was traced the same way on the same day: this entry's sequences were read from Vila 2019's Table 1 and its citation taken from that table's Reference column, not from McAloose 2016 itself, whose open-access PDF answers a scripted request with 401. The attribution is well supported - Vila names McAloose per primer set - but it is second-hand, and the flag makes that visible rather than implied. CORRECTED 2026-11-10: confirmed first-hand against McAloose 2016 Table S1 (held): all six oligos equal the printed ones (I read as N). Annealing 50 C is the final 30 cycles; the touchdown 65-51 C is not representable. amplicon_bp 192 -&gt; 188, the mode.</p></details>
 
 ## Corrections
 

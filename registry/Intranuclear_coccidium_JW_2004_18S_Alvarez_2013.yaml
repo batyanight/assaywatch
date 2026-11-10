@@ -26,6 +26,7 @@ citation:
   doi_verified: true
   reference: Alvarez WA et al. 2013. Vet Parasitol 193:66-70 (the TINC qPCR design paper; INCqPCRF/INCqPCR2R and the 
     6FAM-BHQ probe)
+  claim: Intranuclear coccidian of Testudines (TINC), 18S rRNA gene.
 conditions:
   annealing_c: 60
   cycles: 50
@@ -69,4 +70,6 @@ source:
     was never retrieved at all) to screenable on a 2-record archive, 1 amplifying and 1 truncated, which is far below drift.min_records_for_drift
     and should read as cannot assess, not as a coverage figure. That is the honest outcome and is the point of the change.
     Also note the last sentence above is stale in a second way: doi_verified is already true in this file.'
-needs_review: null
+needs_review:
+- flag: amplicon_measured_not_published
+  note: 84 bp measured from one record; the paper states no size

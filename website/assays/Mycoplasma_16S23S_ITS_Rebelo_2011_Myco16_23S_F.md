@@ -13,7 +13,7 @@
 
 | | |
 |---|---|
-| Target | Mycoplasma (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2093" title="Mycoplasma">taxid 2093</a>) |
+| Target | Mycoplasma (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=31969">taxid 31969</a>) |
 | Gene | 16S-23S intergenic spacer |
 | Chemistry | conventional |
 | Amplicon | 354–767 bp, varies |
@@ -37,41 +37,26 @@ Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short
 bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 534 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="81" y="52">forward</text><text class="aw-track-name" x="81" y="64">Myco16-23S-F</text><rect class="aw-zone" x="335.6" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="110.6" y1="44.0" x2="410.6" y2="44.0"/><text class="aw-base" x="118.1" y="57">A</text><g class="aw-bar-mid"><title>forward position 19 from the 3&#x27; end, base C
-73 of 345 records differ here (21.2%)
-detected when it differs: 77% of 73
-detected when it does not: 99% of 272
-substitutions: C&gt;A in 73
-outside the 3′ window</title><rect x="126.6" y="28.4" width="13.0" height="15.6"/></g><text class="aw-base" x="133.1" y="57">C</text><text class="aw-base" x="148.1" y="57">A</text><text class="aw-base" x="163.1" y="57">C</text><text class="aw-base" x="178.1" y="57">C</text><text class="aw-base" x="193.1" y="57">A</text><g class="aw-bar-mid"><title>forward position 14 from the 3&#x27; end, base T
-25 of 345 records differ here (7.2%)
-detected when it differs: 76% of 25
-detected when it does not: 96% of 320
-substitutions: T&gt;C in 25
-outside the 3′ window</title><rect x="201.6" y="34.8" width="13.0" height="9.2"/></g><text class="aw-base" x="208.1" y="57">T</text><text class="aw-base" x="223.1" y="57">G</text><text class="aw-base" x="238.1" y="57">G</text><text class="aw-base" x="253.1" y="57">G</text><text class="aw-base" x="268.1" y="57">A</text><text class="aw-base" x="283.1" y="57">G</text><text class="aw-base" x="298.1" y="57">Y</text><text class="aw-base" x="313.1" y="57">T</text><text class="aw-base" x="328.1" y="57">G</text><text class="aw-base" x="343.1" y="57">G</text><text class="aw-base" x="358.1" y="57">T</text><text class="aw-base" x="373.1" y="57">A</text><text class="aw-base" x="388.1" y="57">A</text><text class="aw-base" x="403.1" y="57">T</text><text class="aw-tick" x="403.1" y="71">1</text><text class="aw-tick" x="343.1" y="71">5</text><text class="aw-tick" x="268.1" y="71">10</text><text class="aw-tick" x="193.1" y="71">15</text><text class="aw-tick" x="118.1" y="71">20</text><text class="aw-end" x="107" y="57">5′</text><text class="aw-end aw-end-3" x="415" y="57">3′</text><text class="aw-track-label" x="81" y="134">reverse</text><text class="aw-track-name" x="81" y="146">Myco16-23S-R</text><rect class="aw-zone" x="440.6" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="110.6" y1="126.0" x2="515.6" y2="126.0"/><text class="aw-base" x="118.1" y="139">C</text><text class="aw-base" x="133.1" y="139">T</text><g class="aw-bar-weak"><title>reverse position 25 from the 3&#x27; end, base C
-345 of 345 records differ here (100.0%)
-detected when it differs: 94% of 345
+59 of 287 records differ here (20.6%)
+detected when it differs: 78% of 59
+detected when it does not: 99% of 228
+substitutions: C&gt;A in 59
+outside the 3′ window</title><rect x="126.6" y="28.6" width="13.0" height="15.4"/></g><text class="aw-base" x="133.1" y="57">C</text><text class="aw-base" x="148.1" y="57">A</text><text class="aw-base" x="163.1" y="57">C</text><text class="aw-base" x="178.1" y="57">C</text><text class="aw-base" x="193.1" y="57">A</text><text class="aw-base" x="208.1" y="57">T</text><text class="aw-base" x="223.1" y="57">G</text><text class="aw-base" x="238.1" y="57">G</text><text class="aw-base" x="253.1" y="57">G</text><text class="aw-base" x="268.1" y="57">A</text><text class="aw-base" x="283.1" y="57">G</text><text class="aw-base" x="298.1" y="57">Y</text><text class="aw-base" x="313.1" y="57">T</text><text class="aw-base" x="328.1" y="57">G</text><text class="aw-base" x="343.1" y="57">G</text><text class="aw-base" x="358.1" y="57">T</text><text class="aw-base" x="373.1" y="57">A</text><text class="aw-base" x="388.1" y="57">A</text><text class="aw-base" x="403.1" y="57">T</text><text class="aw-tick" x="403.1" y="71">1</text><text class="aw-tick" x="343.1" y="71">5</text><text class="aw-tick" x="268.1" y="71">10</text><text class="aw-tick" x="193.1" y="71">15</text><text class="aw-tick" x="118.1" y="71">20</text><text class="aw-end" x="107" y="57">5′</text><text class="aw-end aw-end-3" x="415" y="57">3′</text><text class="aw-track-label" x="81" y="134">reverse</text><text class="aw-track-name" x="81" y="146">Myco16-23S-R</text><rect class="aw-zone" x="440.6" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="110.6" y1="126.0" x2="515.6" y2="126.0"/><text class="aw-base" x="118.1" y="139">C</text><text class="aw-base" x="133.1" y="139">T</text><g class="aw-bar-weak"><title>reverse position 25 from the 3&#x27; end, base C
+287 of 287 records differ here (100.0%)
+detected when it differs: 94% of 287
 detected when it does not: 0% of 0
-substitutions: C&gt;T in 345
+substitutions: C&gt;T in 287
 outside the 3′ window</title><rect x="141.6" y="92.0" width="13.0" height="34.0"/></g><text class="aw-base" x="148.1" y="139">C</text><text class="aw-base" x="163.1" y="139">C</text><text class="aw-base" x="178.1" y="139">W</text><text class="aw-base" x="193.1" y="139">T</text><g class="aw-bar-weak"><title>reverse position 21 from the 3&#x27; end, base C
-21 of 345 records differ here (6.1%)
-detected when it differs: 100% of 21
-detected when it does not: 94% of 324
-substitutions: C&gt;A in 21
-outside the 3′ window</title><rect x="201.6" y="117.6" width="13.0" height="8.4"/></g><text class="aw-base" x="208.1" y="139">C</text><text class="aw-base" x="223.1" y="139">G</text><g class="aw-bar-strong"><title>reverse position 19 from the 3&#x27; end, base A
-26 of 345 records differ here (7.5%)
-detected when it differs: 23% of 26
-detected when it does not: 100% of 319
-substitutions: A&gt;C in 21, A&gt;T in 3, A&gt;G in 2
-outside the 3′ window</title><rect x="231.6" y="116.7" width="13.0" height="9.3"/></g><text class="aw-base" x="238.1" y="139">A</text><text class="aw-base" x="253.1" y="139">C</text><text class="aw-base" x="268.1" y="139">T</text><text class="aw-base" x="283.1" y="139">T</text><text class="aw-base" x="298.1" y="139">Y</text><g class="aw-bar-strong"><title>reverse position 14 from the 3&#x27; end, base C
-32 of 345 records differ here (9.3%)
-detected when it differs: 50% of 32
-detected when it does not: 99% of 313
-substitutions: C&gt;T in 31, C&gt;A in 1
-outside the 3′ window</title><rect x="306.6" y="115.6" width="13.0" height="10.4"/></g><text class="aw-base" x="313.1" y="139">C</text><text class="aw-base" x="328.1" y="139">A</text><text class="aw-base" x="343.1" y="139">G</text><g class="aw-bar-strong"><title>reverse position 11 from the 3&#x27; end, base A
-22 of 345 records differ here (6.4%)
-detected when it differs: 9% of 22
-detected when it does not: 100% of 323
-substitutions: A&gt;T in 20, A&gt;C in 2
-outside the 3′ window</title><rect x="351.6" y="117.4" width="13.0" height="8.6"/></g><text class="aw-base" x="358.1" y="139">A</text><text class="aw-base" x="373.1" y="139">C</text><text class="aw-base" x="388.1" y="139">C</text><text class="aw-base" x="403.1" y="139">C</text><text class="aw-base" x="418.1" y="139">A</text><text class="aw-base" x="433.1" y="139">A</text><text class="aw-base" x="448.1" y="139">G</text><text class="aw-base" x="463.1" y="139">G</text><text class="aw-base" x="478.1" y="139">C</text><text class="aw-base" x="493.1" y="139">A</text><text class="aw-base" x="508.1" y="139">T</text><text class="aw-tick" x="508.1" y="153">1</text><text class="aw-tick" x="448.1" y="153">5</text><text class="aw-tick" x="373.1" y="153">10</text><text class="aw-tick" x="298.1" y="153">15</text><text class="aw-tick" x="223.1" y="153">20</text><text class="aw-tick" x="148.1" y="153">25</text><text class="aw-tick" x="118.1" y="153">27</text><text class="aw-end" x="107" y="139">5′</text><text class="aw-end aw-end-3" x="520" y="139">3′</text></svg>
+20 of 287 records differ here (7.0%)
+detected when it differs: 100% of 20
+detected when it does not: 94% of 267
+substitutions: C&gt;A in 20
+outside the 3′ window</title><rect x="201.6" y="117.0" width="13.0" height="9.0"/></g><text class="aw-base" x="208.1" y="139">C</text><text class="aw-base" x="223.1" y="139">G</text><text class="aw-base" x="238.1" y="139">A</text><text class="aw-base" x="253.1" y="139">C</text><text class="aw-base" x="268.1" y="139">T</text><text class="aw-base" x="283.1" y="139">T</text><text class="aw-base" x="298.1" y="139">Y</text><g class="aw-bar-strong"><title>reverse position 14 from the 3&#x27; end, base C
+25 of 287 records differ here (8.7%)
+detected when it differs: 52% of 25
+detected when it does not: 98% of 262
+substitutions: C&gt;T in 24, C&gt;A in 1
+outside the 3′ window</title><rect x="306.6" y="116.0" width="13.0" height="10.0"/></g><text class="aw-base" x="313.1" y="139">C</text><text class="aw-base" x="328.1" y="139">A</text><text class="aw-base" x="343.1" y="139">G</text><text class="aw-base" x="358.1" y="139">A</text><text class="aw-base" x="373.1" y="139">C</text><text class="aw-base" x="388.1" y="139">C</text><text class="aw-base" x="403.1" y="139">C</text><text class="aw-base" x="418.1" y="139">A</text><text class="aw-base" x="433.1" y="139">A</text><text class="aw-base" x="448.1" y="139">G</text><text class="aw-base" x="463.1" y="139">G</text><text class="aw-base" x="478.1" y="139">C</text><text class="aw-base" x="493.1" y="139">A</text><text class="aw-base" x="508.1" y="139">T</text><text class="aw-tick" x="508.1" y="153">1</text><text class="aw-tick" x="448.1" y="153">5</text><text class="aw-tick" x="373.1" y="153">10</text><text class="aw-tick" x="298.1" y="153">15</text><text class="aw-tick" x="223.1" y="153">20</text><text class="aw-tick" x="148.1" y="153">25</text><text class="aw-tick" x="118.1" y="153">27</text><text class="aw-end" x="107" y="139">5′</text><text class="aw-end aw-end-3" x="520" y="139">3′</text></svg>
 
 ## Predicted detection by deposit year
 
@@ -80,7 +65,7 @@ deposit. The shaded band marks the recent window and the dashed line the thresho
 Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2004 to 2026, against a 90 percent threshold."><rect class="aw-window" x="645.8" y="12.0" width="60.2" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="224.5,113.5 344.9,141.5 465.3,111.1 495.4,107.8 525.5,122.5 555.5,110.0 585.6,121.0 675.9,109.0 706.0,117.0"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,89.1 74.1,102.0 104.2,20.2 134.3,102.0 164.4,40.6 194.5,85.6 224.5,57.9 254.6,183.8 284.7,102.0 314.8,183.8 344.9,111.8 375.0,84.2 405.1,171.2 435.2,52.9 465.3,69.8 495.4,122.7 525.5,131.5 555.5,92.5 585.6,109.1 615.7,149.6 645.8,27.8 675.9,134.4 706.0,63.8"/><g class="aw-point aw-declining"><title>2004: 11 of 19 detected (57.9%)</title><circle cx="44.0" cy="89.1" r="3.7"/></g><g class="aw-point aw-declining"><title>2005: 3 of 6 detected (50.0%)</title><circle cx="74.1" cy="102.0" r="3.0"/></g><g class="aw-point aw-declining"><title>2006: 22 of 22 detected (100.0%)</title><circle cx="104.2" cy="20.2" r="3.8"/></g><g class="aw-point aw-declining"><title>2007: 1 of 2 detected (50.0%)</title><circle cx="134.3" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>2008: 7 of 8 detected (87.5%)</title><circle cx="164.4" cy="40.6" r="3.1"/></g><g class="aw-point aw-declining"><title>2009: 3 of 5 detected (60.0%)</title><circle cx="194.5" cy="85.6" r="2.8"/></g><g class="aw-point aw-declining"><title>2010: 10 of 13 detected (76.9%)</title><circle cx="224.5" cy="57.9" r="3.4"/></g><g class="aw-point aw-declining"><title>2011: 0 of 4 detected (0.0%)</title><circle cx="254.6" cy="183.8" r="2.7"/></g><g class="aw-point aw-declining"><title>2012: 2 of 4 detected (50.0%)</title><circle cx="284.7" cy="102.0" r="2.7"/></g><g class="aw-point aw-declining"><title>2013: 0 of 4 detected (0.0%)</title><circle cx="314.8" cy="183.8" r="2.7"/></g><g class="aw-point aw-declining"><title>2014: 11 of 25 detected (44.0%)</title><circle cx="344.9" cy="111.8" r="3.9"/></g><g class="aw-point aw-declining"><title>2015: 28 of 46 detected (60.9%)</title><circle cx="375.0" cy="84.2" r="4.3"/></g><g class="aw-point aw-declining"><title>2016: 1 of 13 detected (7.7%)</title><circle cx="405.1" cy="171.2" r="3.4"/></g><g class="aw-point aw-declining"><title>2017: 4 of 5 detected (80.0%)</title><circle cx="435.2" cy="52.9" r="2.8"/></g><g class="aw-point aw-declining"><title>2018: 23 of 33 detected (69.7%)</title><circle cx="465.3" cy="69.8" r="4.1"/></g><g class="aw-point aw-declining"><title>2019: 34 of 91 detected (37.4%)</title><circle cx="495.4" cy="122.7" r="4.7"/></g><g class="aw-point aw-declining"><title>2020: 16 of 50 detected (32.0%)</title><circle cx="525.5" cy="131.5" r="4.3"/></g><g class="aw-point aw-declining"><title>2021: 24 of 43 detected (55.8%)</title><circle cx="555.5" cy="92.5" r="4.2"/></g><g class="aw-point aw-declining"><title>2022: 21 of 46 detected (45.7%)</title><circle cx="585.6" cy="109.1" r="4.3"/></g><g class="aw-point aw-declining"><title>2023: 9 of 43 detected (20.9%)</title><circle cx="615.7" cy="149.6" r="4.2"/></g><g class="aw-point aw-declining"><title>2024: 41 of 43 detected (95.3%) — recent window</title><circle cx="645.8" cy="27.8" r="4.2"/></g><g class="aw-point aw-declining"><title>2025: 32 of 106 detected (30.2%) — recent window</title><circle cx="675.9" cy="134.4" r="4.8"/></g><g class="aw-point aw-declining"><title>2026: 22 of 30 detected (73.3%) — recent window</title><circle cx="706.0" cy="63.8" r="4.0"/></g><text class="aw-tick" x="44.0" y="208">2004</text><text class="aw-tick" x="134.3" y="208">2007</text><text class="aw-tick" x="224.5" y="208">2010</text><text class="aw-tick" x="314.8" y="208">2013</text><text class="aw-tick" x="405.1" y="208">2016</text><text class="aw-tick" x="495.4" y="208">2019</text><text class="aw-tick" x="585.6" y="208">2022</text><text class="aw-tick" x="675.9" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2004 to 2026, against a 90 percent threshold."><rect class="aw-window" x="645.8" y="12.0" width="60.2" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="224.5,113.5 344.9,141.5 465.3,111.1 495.4,107.8 525.5,122.5 555.5,110.0 585.6,121.0 675.9,109.0 706.0,117.0"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,89.1 74.1,102.0 104.2,20.2 134.3,102.0 164.4,40.6 194.5,85.6 224.5,57.9 254.6,183.8 284.7,102.0 314.8,183.8 344.9,107.5 375.0,56.5 405.1,163.4 435.2,74.7 465.3,50.5 495.4,110.8 525.5,133.5 555.5,97.5 585.6,64.8 615.7,146.9 645.8,24.3 675.9,126.4 706.0,55.8"/><g class="aw-point aw-declining"><title>2004: 11 of 19 detected (57.9%)</title><circle cx="44.0" cy="89.1" r="3.7"/></g><g class="aw-point aw-declining"><title>2005: 3 of 6 detected (50.0%)</title><circle cx="74.1" cy="102.0" r="3.0"/></g><g class="aw-point aw-declining"><title>2006: 22 of 22 detected (100.0%)</title><circle cx="104.2" cy="20.2" r="3.8"/></g><g class="aw-point aw-declining"><title>2007: 1 of 2 detected (50.0%)</title><circle cx="134.3" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>2008: 7 of 8 detected (87.5%)</title><circle cx="164.4" cy="40.6" r="3.1"/></g><g class="aw-point aw-declining"><title>2009: 3 of 5 detected (60.0%)</title><circle cx="194.5" cy="85.6" r="2.8"/></g><g class="aw-point aw-declining"><title>2010: 10 of 13 detected (76.9%)</title><circle cx="224.5" cy="57.9" r="3.4"/></g><g class="aw-point aw-declining"><title>2011: 0 of 4 detected (0.0%)</title><circle cx="254.6" cy="183.8" r="2.7"/></g><g class="aw-point aw-declining"><title>2012: 2 of 4 detected (50.0%)</title><circle cx="284.7" cy="102.0" r="2.7"/></g><g class="aw-point aw-declining"><title>2013: 0 of 2 detected (0.0%)</title><circle cx="314.8" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>2014: 7 of 15 detected (46.7%)</title><circle cx="344.9" cy="107.5" r="3.5"/></g><g class="aw-point aw-declining"><title>2015: 28 of 36 detected (77.8%)</title><circle cx="375.0" cy="56.5" r="4.1"/></g><g class="aw-point aw-declining"><title>2016: 1 of 8 detected (12.5%)</title><circle cx="405.1" cy="163.4" r="3.1"/></g><g class="aw-point aw-declining"><title>2017: 2 of 3 detected (66.7%)</title><circle cx="435.2" cy="74.7" r="2.6"/></g><g class="aw-point aw-declining"><title>2018: 22 of 27 detected (81.5%)</title><circle cx="465.3" cy="50.5" r="3.9"/></g><g class="aw-point aw-declining"><title>2019: 25 of 56 detected (44.6%)</title><circle cx="495.4" cy="110.8" r="4.4"/></g><g class="aw-point aw-declining"><title>2020: 8 of 26 detected (30.8%)</title><circle cx="525.5" cy="133.5" r="3.9"/></g><g class="aw-point aw-declining"><title>2021: 19 of 36 detected (52.8%)</title><circle cx="555.5" cy="97.5" r="4.1"/></g><g class="aw-point aw-declining"><title>2022: 16 of 22 detected (72.7%)</title><circle cx="585.6" cy="64.8" r="3.8"/></g><g class="aw-point aw-declining"><title>2023: 7 of 31 detected (22.6%)</title><circle cx="615.7" cy="146.9" r="4.0"/></g><g class="aw-point aw-declining"><title>2024: 39 of 40 detected (97.5%) — recent window</title><circle cx="645.8" cy="24.3" r="4.2"/></g><g class="aw-point aw-declining"><title>2025: 20 of 57 detected (35.1%) — recent window</title><circle cx="675.9" cy="126.4" r="4.4"/></g><g class="aw-point aw-declining"><title>2026: 18 of 23 detected (78.3%) — recent window</title><circle cx="706.0" cy="55.8" r="3.8"/></g><text class="aw-tick" x="44.0" y="208">2004</text><text class="aw-tick" x="134.3" y="208">2007</text><text class="aw-tick" x="224.5" y="208">2010</text><text class="aw-tick" x="314.8" y="208">2013</text><text class="aw-tick" x="405.1" y="208">2016</text><text class="aw-tick" x="495.4" y="208">2019</text><text class="aw-tick" x="585.6" y="208">2022</text><text class="aw-tick" x="675.9" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## What was deposited, by lineage
 
@@ -134,46 +119,57 @@ Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 56 | 138 | 40.6% | 32.7% – 48.9% |
-| baseline (everything earlier) | 269 | 523 | 51.4% | 47.2% – 55.7% |
+| recent window (24 months, from Nov 2024) | 39 | 81 | 48.1% | 37.6% – 58.9% |
+| baseline (everything earlier) | 232 | 384 | 60.4% | 55.4% – 65.2% |
 
-Change from baseline, Newcombe interval: **-19.8% to -1.5%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-23.8% to -0.5%**. Threshold: **90.0%**.
 
-*detected share 40.6% (33%-49%) since Nov 2024, upper bound below the 90% threshold; change from baseline -20% to -1%*
+*detected share 48.1% (38%-59%) since Nov 2024, upper bound below the 90% threshold; change from baseline -24% to -0.5%*
 
-Trend across deposit years: by record falling (p = 0.000662, 23 years); by footprint falling (p = 0.323). Reported for context; it is not an input to the verdict.
+Trend across deposit years: by record falling (p = 0.0172, 23 years); by footprint falling (p = 0.293). Reported for context; it is not an input to the verdict.
 
 From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
 
-**Scored against:** every record retrieved.  
-**Retrieved from:** Mycoplasma (taxid 2093), every record.
+**Meant to detect:** Mycoplasma species of ruminants, poultry and dogs, 16S-23S rRNA spacer, identified by high-resolution melt.  
+**Scored against:** the 2 taxa listed below and anything beneath them.  
+**Retrieved from:** Mycoplasma (taxid 31969), limited by a query on the title or gene.
 
-This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+This entry declares **`scope_taxids`**: <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2093" title="Mycoplasma">2093</a>, <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2767358">2767358</a>. A record counts toward the denominator when its taxid, or any ancestor, is in that set. Records outside it are screened and reported but kept out of the statistics.
+
+<a class="aw-download" href="../Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F.scope.txt" download>Download 2 taxids as a text file</a>
+
+Retrieval query:
+
+```
+txid2093[Organism:exp] OR (txid2767358[Organism:exp] AND (16S[Title] OR 23S[Title] OR "complete genome"[Title]))
+```
+
+A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
 Disclosures on this entry: `amplicon_multimodal`.
 
 
 ## Records reaching the statistics
 
-24,191 records were screened for this assay and **661 (3%)** were evaluable, meaning both primers landed in the right orientation and size range. 23,530 produced no amplicon at all.
+22,540 records were screened for this assay and **465 (2%)** were evaluable, meaning both primers landed in the right orientation and size range. 22,075 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
-| `no_site` | 22,553 |
-| `truncated` | 825 |
-| `chance_anchor` | 152 |
+| `no_site` | 21,110 |
+| `truncated` | 823 |
+| `chance_anchor` | 142 |
 
 
 ## Curation record
 
 AMPLICON RANGE DECLARED 2026-10-26, measured not quoted. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-26</b> AMPLICON RANGE DECLARED 2026-10-26, measured not quoted. This entry carried no declared size at all, so it was screened against the global 50-3000 bp window and `amplicon.declared_tolerance` - the one config number with a measured defence - could not constrain it. Measured from its own detects on results/2026-10-26/calls.tsv.gz: 307 detect/reduced products over 63 DISTINCT lengths, envelope 364-757 bp, modal 460 (22 records) then 385 (18), 452 (14), 463 (13), 491 (12) and 464 (11). Declared as amplicon_bp_range [354, 767], the envelope plus a 10 bp cushion each end, which is the ORTHOPOXVIRUS ATI and Encephalitozoon PTP pattern; declared_tolerance adds a further +/-25% at screen time.</p><p>THE LENGTH GENUINELY VARIES and that is not noise: the target is the 16S-23S INTERGENIC SPACER, which differs in length between Mycoplasma species, and Rebelo 2011 is an HRM assay whose readout is the melt curve of that variable product. 63 lengths over 307 records is what a continuously variable spacer looks like. NO species_sizes, deliberately, on the reasoning the CHYTRID Bd entry records: species_sizes exists for an assay whose product length IS the identification readout, with a few discrete bands per taxon (ATI, the PTP repeat). Here the spacer length is continuous across a genus of 60+ species and identification is by melt curve, not by band size, so enumerating per-species bands would assert a discreteness the data does not show.</p><p><b>2026-10-25</b> NEEDS A RESCREEN TO TAKE EFFECT. Consistent with the 2026-10-25 locus-identity pricing, which rejected 93% of this assay's sampled failures: an entry with no declared size cannot have a geometry constraint, and now it has one.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-26</b> AMPLICON RANGE DECLARED 2026-10-26, measured not quoted. This entry carried no declared size at all, so it was screened against the global 50-3000 bp window and `amplicon.declared_tolerance` - the one config number with a measured defence - could not constrain it. Measured from its own detects on results/2026-10-26/calls.tsv.gz: 307 detect/reduced products over 63 DISTINCT lengths, envelope 364-757 bp, modal 460 (22 records) then 385 (18), 452 (14), 463 (13), 491 (12) and 464 (11). Declared as amplicon_bp_range [354, 767], the envelope plus a 10 bp cushion each end, which is the ORTHOPOXVIRUS ATI and Encephalitozoon PTP pattern; declared_tolerance adds a further +/-25% at screen time.</p><p>THE LENGTH GENUINELY VARIES and that is not noise: the target is the 16S-23S INTERGENIC SPACER, which differs in length between Mycoplasma species, and Rebelo 2011 is an HRM assay whose readout is the melt curve of that variable product. 63 lengths over 307 records is what a continuously variable spacer looks like. NO species_sizes, deliberately, on the reasoning the CHYTRID Bd entry records: species_sizes exists for an assay whose product length IS the identification readout, with a few discrete bands per taxon (ATI, the PTP repeat). Here the spacer length is continuous across a genus of 60+ species and identification is by melt curve, not by band size, so enumerating per-species bands would assert a discreteness the data does not show.</p><p><b>2026-10-25</b> NEEDS A RESCREEN TO TAKE EFFECT. Consistent with the 2026-10-25 locus-identity pricing, which rejected 93% of this assay's sampled failures: an entry with no declared size cannot have a geometry constraint, and now it has one. CORRECTED 2026-11-06: scope broadened to Mycoplasmopsis (2767358): seven of the paper's species now sit there, outside Mycoplasma. Retrieval moves to Mollicutes (31969); Mycoplasma is retrieved as before, and of Mycoplasmopsis only rRNA and complete-genome titles, 2,112 of 80,376 records.</p></details>
 
 ## Corrections
 

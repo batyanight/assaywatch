@@ -114,6 +114,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Reptarenaviruses of boid snakes, S segment GP2 region.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Reptarenavirus (taxid 1653395), limited by a query on the title or gene.
 

@@ -16,7 +16,7 @@
 | Target | Papillomaviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=151340" title="Papillomaviridae">taxid 151340</a>) |
 | Gene | L1 |
 | Chemistry | conventional |
-| Amplicon | 476 bp |
+| Amplicon | 484 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -298,12 +298,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Most human papillomavirus types, L1 gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Papillomaviridae (taxid 151340), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `orientation_inferred`.
+Disclosures on this entry: `orientation_inferred`, `amplicon_disagrees_with_paper`, `amplicon_multimodal`.
 
 
 ## Records reaching the statistics
@@ -325,7 +326,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 PREDICT panel protocol P-038 (L1), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-038 (L1), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Forslund, O. et al (1999).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-038 (L1), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Forslund, O. et al (1999). CORRECTED 2026-11-06: amplicon_bp 476 -&gt; 484, the mode. 476 matched neither the measurement nor the paper.</p></details>
 
 ## Corrections
 

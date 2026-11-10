@@ -16,7 +16,7 @@
 | Target | Lyssavirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11286" title="Lyssavirus">taxid 11286</a>) |
 | Gene | N (nucleoprotein) |
 | Chemistry | conventional |
-| Amplicon | 259 bp |
+| Amplicon | 260 bp |
 | Registry status | draft |
 
 !!! warning "No status is reported for this assay"
@@ -64,12 +64,13 @@ bar is a position that matters.
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
 
+**Meant to detect:** Lyssaviruses, all genotypes, nucleoprotein gene, nested second round.  
 **Scored against:** only taxa that every round claims.  
 **Retrieved from:** Lyssavirus (taxid 11286), every record.
 
 The protocol declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `not_validated`.
+Disclosures on this entry: `not_validated`, `amplicon_measured_not_published`.
 
 <p class="aw-rounds-note">See each round of primers as an individual set, run directly on the protocol's own 2,038 recent records (round 1 gates the protocol figure above):</p>
 <table class="aw-rounds"><thead><tr><th>round</th><th>assay</th><th class="num">detected alone</th></tr></thead>
@@ -83,7 +84,7 @@ Disclosures on this entry: `not_validated`.
 
 PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 2 primers in the Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Vazquez-Moron, S. et al (2006).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Vazquez-Moron, S. et al (2006). CORRECTED 2026-11-10: amplicon_bp 259 -&gt; 260, the mode, as the paper says.</p></details>
 
 ## Corrections
 

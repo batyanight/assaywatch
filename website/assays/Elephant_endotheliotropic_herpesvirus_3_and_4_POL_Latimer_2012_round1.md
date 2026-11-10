@@ -104,6 +104,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Elephant endotheliotropic herpesvirus 3 and 4, DNA polymerase gene, first round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Elephant endotheliotropic herpesvirus 3 and 4 (taxid 548689), limited by a query on the title or gene.
 

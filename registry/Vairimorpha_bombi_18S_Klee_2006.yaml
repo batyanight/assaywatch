@@ -24,7 +24,8 @@ citation:
     in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences. Journal of Invertebrate Pathology
     2006, 91, 98-104.'
   doi_verified: true
-  oligos_designed_here: null
+  oligos_designed_here: true
+  claim: Nosema bombi of bumble bees (now Vairimorpha bombi), small subunit rRNA gene, species-specific.
 conditions:
   mg_mm: 2.5
   cycles: 45
@@ -86,7 +87,6 @@ source:
     set to null (unknown) rather than true: Klee 2006 is still not in papers/, so nothing here has confirmed it prints these
     oligos - the sequences remain as read from Kato''s Table 1 and verified against AY008373.1. NOT RENAMED: the entry id
     still says Kato_2020 although the citation is now Klee 2006, because renaming touches every reference to the id; worth
-    doing in a dedicated pass.'
-needs_review:
-- flag: oligos_from_secondary_source
-  note: primers from Klee 2006, not local
+    doing in a dedicated pass. CORRECTED 2026-11-10: Klee 2006 is held and prints these oligos (Table 1), so the second-hand
+    flag comes off; the ''NOT RENAMED'' line is stale, the id is Klee_2006.'
+needs_review: null

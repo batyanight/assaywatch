@@ -23,6 +23,7 @@ citation:
   reference: Chua KB, Bellini WJ, Rota PA, Harcourt BH, Tamin A, Lam SK, Ksiazek TG, Rollin PE, Zaki SR, Shieh WJ, 
     Goldsmith CS, Gubler DJ, Roehrig JT, Eaton B, Gould AR, Olson J, Field H, Daniels P, Ling AE, Peters CJ, Anderson 
     LJ, Mahy BWJ. 2000. Nipah virus - a recently emergent deadly paramyxovirus. Science 288:1432-1435
+  claim: Nipah virus, nucleoprotein (N) gene.
 use_context:
 - wildlife
 - public_health
@@ -40,8 +41,8 @@ source:
     reference 1 is Chua KB et al. 2000 Science 288:1432, the paper that named the virus. Cited to Chua 2000, Crossref-verified
     as to author, year and title. READ THE CAVEAT: Chua 2000 itself has not been read, because Science is closed access here,
     so the attribution rests on Wong''s citation of it rather than on seeing the primers in Chua''s own text. That is the
-    same footing as the Chordopoxvirinae_POL_McAloose_2016 entry, which takes McAloose 2016 from Vila 2019''s table, and
-    both now carry SEQUENCES_READ_FROM_A_CITING_PAPER_NOT_THE_SOURCE so the distinction is visible rather than implied. Confirm
+    same footing as the Chordopoxvirinae_POL_McAloose_2016 entry, which takes McAloose 2016 from Vila 2019''s table, and both
+    now carry SEQUENCES_READ_FROM_A_CITING_PAPER_NOT_THE_SOURCE so the distinction is visible rather than implied. Confirm
     against Chua''s own methods when that paper is in hand. AMPLICON CONFIRMED, NOT CHANGED: measured against all 426 records
     of the 2026-10-03 Henipavirus nipahense archive, the pair gives a product in 292 and it is 227 bp in every single one
     - exactly the stored value, which had not been measured before. A DRIFT FINDING: the forward primer is exact in only 56
@@ -55,8 +56,11 @@ source:
     TAXID RETIRED 2026-10-27: NCBI has merged 121791 into 3052225 (Henipavirus nipahense), so this entry now carries the canonical
     id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
     release from an empty archive. data/retrieved/121791/ moved to data/retrieved/3052225/ and the manifest was rebuilt in
-    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.
+    CORRECTED 2026-11-10: Chua 2000 is held and prints both primers in note 12 (p4), identical to the stored sequences, with
+    a 228 bp product; 227 is measured in all 297.'
 needs_review:
 - flag: primer_site_polymorphic
   note: the primer sites have drifted 2 nt in most records
-- flag: oligos_from_secondary_source
+- flag: amplicon_disagrees_with_paper
+  note: 227 bp in all 297 products; the paper says 228

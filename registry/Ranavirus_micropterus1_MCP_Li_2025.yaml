@@ -24,9 +24,10 @@ citation:
     RPA-CRISPR/Cas12a system. Frontiers in Microbiology 16, 1599006 (2025).
   doi_verified: true
   oligos_designed_here: true
+  claim: Largemouth bass virus (Ranavirus micropterus1), major capsid protein gene.
 conditions:
-  cycles: 40
-  rt: one_step
+  cycles: null
+  rt: none
 use_context:
 - wildlife
 - veterinary
@@ -67,7 +68,10 @@ source:
     host phylogeny, so the ornamental fish trade is the obvious connection. Deposits here are therefore a sample of trade
     and of sequencing effort, not of any one watershed, which is worth remembering before reading a detected share as epidemiology.
     VERIFIED AGAINST THE PAPER, 2026-10-05, by the new scripts/fetch_europepmc_fulltext.py: all four oligos read exact against
-    the paper''s own open-access full text, which was recovered from Europe PMC and saved as papers/10.3389_fmicb.2025.1599006.txt.'
+    the paper''s own open-access full text, which was recovered from Europe PMC and saved as papers/10.3389_fmicb.2025.1599006.txt.
+    CORRECTED 2026-11-10: the assay is RPA at 39 C for 20 min with a Cas12a readout at 37 C for 20 min, on a dsDNA virus;
+    the stored 40 cycles were the comparator qPCR''s. The paper''s panel has no other ranavirus, so the Santee-Cooper and
+    unclassified-ranavirus scope is this registry''s extension; not_screenable stands.'
 needs_review:
 - flag: not_screenable
   note: the chemistry is RPA; the penalties are calibrated on PCR

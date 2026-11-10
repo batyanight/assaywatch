@@ -16,7 +16,7 @@
 | Target | Shigella (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=620">taxid 620</a>) |
 | Gene | ipaH |
 | Chemistry | conventional |
-| Amplicon | 610 bp |
+| Amplicon | 620 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -36,12 +36,13 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<svg class="aw-track" viewBox="0 0 422 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">Shi-1</text><rect class="aw-zone" x="329.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="404.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">C</text><text class="aw-base" x="126.5" y="57">T</text><text class="aw-base" x="141.5" y="57">T</text><text class="aw-base" x="156.5" y="57">G</text><text class="aw-base" x="171.5" y="57">A</text><text class="aw-base" x="186.5" y="57">C</text><text class="aw-base" x="201.5" y="57">C</text><text class="aw-base" x="216.5" y="57">G</text><text class="aw-base" x="231.5" y="57">C</text><text class="aw-base" x="246.5" y="57">C</text><text class="aw-base" x="261.5" y="57">T</text><text class="aw-base" x="276.5" y="57">T</text><text class="aw-base" x="291.5" y="57">T</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">G</text><text class="aw-base" x="351.5" y="57">A</text><text class="aw-base" x="366.5" y="57">T</text><text class="aw-base" x="381.5" y="57">A</text><text class="aw-base" x="396.5" y="57">C</text><text class="aw-tick" x="396.5" y="71">1</text><text class="aw-tick" x="336.5" y="71">5</text><text class="aw-tick" x="261.5" y="71">10</text><text class="aw-tick" x="186.5" y="71">15</text><text class="aw-tick" x="111.5" y="71">20</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="408" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">Shi-2</text><rect class="aw-zone" x="314.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="389.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">C</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">G</text><text class="aw-base" x="156.5" y="139">C</text><text class="aw-base" x="171.5" y="139">C</text><text class="aw-base" x="186.5" y="139">A</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">C</text><text class="aw-base" x="231.5" y="139">C</text><text class="aw-base" x="246.5" y="139">T</text><text class="aw-base" x="261.5" y="139">C</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">G</text><text class="aw-base" x="306.5" y="139">A</text><text class="aw-base" x="321.5" y="139">G</text><g class="aw-bar-weak"><title>reverse position 4 from the 3&#x27; end, base A
+<svg class="aw-track" viewBox="0 0 542 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">primer III</text><rect class="aw-zone" x="449.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="524.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">G</text><text class="aw-base" x="126.5" y="57">T</text><text class="aw-base" x="141.5" y="57">T</text><text class="aw-base" x="156.5" y="57">C</text><text class="aw-base" x="171.5" y="57">C</text><text class="aw-base" x="186.5" y="57">T</text><text class="aw-base" x="201.5" y="57">T</text><text class="aw-base" x="216.5" y="57">G</text><text class="aw-base" x="231.5" y="57">A</text><text class="aw-base" x="246.5" y="57">C</text><text class="aw-base" x="261.5" y="57">C</text><text class="aw-base" x="276.5" y="57">G</text><text class="aw-base" x="291.5" y="57">C</text><text class="aw-base" x="306.5" y="57">C</text><text class="aw-base" x="321.5" y="57">T</text><text class="aw-base" x="336.5" y="57">T</text><text class="aw-base" x="351.5" y="57">T</text><text class="aw-base" x="366.5" y="57">C</text><text class="aw-base" x="381.5" y="57">C</text><text class="aw-base" x="396.5" y="57">G</text><text class="aw-base" x="411.5" y="57">A</text><text class="aw-base" x="426.5" y="57">T</text><text class="aw-base" x="441.5" y="57">A</text><text class="aw-base" x="456.5" y="57">C</text><text class="aw-base" x="471.5" y="57">C</text><text class="aw-base" x="486.5" y="57">G</text><text class="aw-base" x="501.5" y="57">T</text><text class="aw-base" x="516.5" y="57">C</text><text class="aw-tick" x="516.5" y="71">1</text><text class="aw-tick" x="456.5" y="71">5</text><text class="aw-tick" x="381.5" y="71">10</text><text class="aw-tick" x="306.5" y="71">15</text><text class="aw-tick" x="231.5" y="71">20</text><text class="aw-tick" x="156.5" y="71">25</text><text class="aw-tick" x="111.5" y="71">28</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="528" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">primer IV</text><rect class="aw-zone" x="419.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="494.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">G</text><text class="aw-base" x="126.5" y="139">C</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">G</text><text class="aw-base" x="171.5" y="139">G</text><text class="aw-base" x="186.5" y="139">T</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">G</text><text class="aw-base" x="246.5" y="139">C</text><text class="aw-base" x="261.5" y="139">C</text><text class="aw-base" x="276.5" y="139">A</text><text class="aw-base" x="291.5" y="139">C</text><text class="aw-base" x="306.5" y="139">C</text><text class="aw-base" x="321.5" y="139">C</text><text class="aw-base" x="336.5" y="139">T</text><text class="aw-base" x="351.5" y="139">C</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">G</text><text class="aw-base" x="396.5" y="139">A</text><text class="aw-base" x="411.5" y="139">G</text><text class="aw-base" x="426.5" y="139">A</text><g class="aw-bar-weak"><title>reverse position 4 from the 3&#x27; end, base G
 55 of 202 records differ here (27.2%)
 detected when it differs: 100% of 55
 detected when it does not: 100% of 147
 substitutions: A&gt;G in 55
-inside the 3′ window</title><rect x="330.0" y="108.3" width="13.0" height="17.7"/></g><text class="aw-base" x="336.5" y="139">A</text><text class="aw-base" x="351.5" y="139">G</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">A</text><text class="aw-tick" x="381.5" y="153">1</text><text class="aw-tick" x="321.5" y="153">5</text><text class="aw-tick" x="246.5" y="153">10</text><text class="aw-tick" x="171.5" y="153">15</text><text class="aw-tick" x="111.5" y="153">19</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="393" y="139">3′</text></svg>
+inside the 3′ window
+scored against a pool alternate with A here</title><rect x="435.0" y="108.3" width="13.0" height="17.7"/></g><text class="aw-base" x="441.5" y="139">G</text><text class="aw-base" x="456.5" y="139">T</text><text class="aw-base" x="471.5" y="139">A</text><text class="aw-base" x="486.5" y="139">C</text><text class="aw-tick" x="486.5" y="153">1</text><text class="aw-tick" x="426.5" y="153">5</text><text class="aw-tick" x="351.5" y="153">10</text><text class="aw-tick" x="276.5" y="153">15</text><text class="aw-tick" x="201.5" y="153">20</text><text class="aw-tick" x="126.5" y="153">25</text><text class="aw-tick" x="111.5" y="153">26</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="498" y="139">3′</text></svg>
 
 ## Predicted detection by deposit year
 
@@ -90,8 +91,8 @@ Only one lineage has enough records to report here: **unresolved** (38 of 38 det
 
 | role | name | sequence (5'→3') | length |
 |---|---|---|---|
-| forward | Shi-1 | `CTTGACCGCCTTTCCGATAC` | 20 nt |
-| reverse | Shi-2 | `CAGCCACCCTCTGAGAGTA` | 19 nt |
+| forward | primer III | `GTTCCTTGACCGCCTTTCCGATACCGTC` | 28 nt |
+| reverse | primer IV | `GCCGGTCAGCCACCCTCTGAGAGTAC` | 26 nt |
 
 ## Verdict
 
@@ -115,6 +116,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Shigella and enteroinvasive Escherichia coli, ipaH gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Shigella (taxid 620), limited by a query on the title or gene.
 
@@ -128,7 +130,7 @@ Retrieval query:
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `orientation_inferred`.
+Disclosures on this entry: `orientation_inferred`, `amplicon_measured_not_published`.
 
 
 ## Records reaching the statistics
@@ -141,6 +143,12 @@ This matters because a record with one diverged primer is scored as a failure wh
 |---|---|
 | `no_site` | 25 |
 
+
+## Curation record
+
+CORRECTED 2026-11-10: both primers are now as printed (primer III and primer IV, p2); 
+
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-11-10</b> CORRECTED 2026-11-10: both primers are now as printed (primer III and primer IV, p2); the stored Shi-1/Shi-2 were cut short at both ends (III lost 4 bases 5' and 4 bases 3', IV lost 6 and 1). On the 202 measured products the restored bases add a mismatch in 2, and existing mismatches move away from the 3' end, so some reduced calls may become detect at the rescreen; the status does not move. 620 bp by construction; the paper prints no size. The paper claims Shigella and EIEC; EIEC is not retrieved.</p></details>
 
 ## Corrections
 

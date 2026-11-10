@@ -8,10 +8,10 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: PMP1F
+    name: V1
     seq: CACCAGGTTGATTCTGCCTGAC
   reverse:
-    name: PMP1R
+    name: PMP2
     seq: CCTCTCCGGAACCAAACCCTG
 amplicon_bp: 279
 citation:
@@ -21,6 +21,8 @@ citation:
   doi_verified: true
   reference: 'Müller A et al. 1999 Clin Diagn Lab Immunol; PMP1/PMP2 pan-microsporidial primers are usually credited to Fedorko
     DP et al. 1995 J Clin Microbiol 33:1739 — check which paper these sequences come from'
+  claim: Microsporidia small-subunit rRNA gene, Enterocytozoon bieneusi and Encephalitozoon intestinalis, as a 
+    first-step screen.
 conditions:
   cycles: 35
   annealing_c: 60
@@ -37,6 +39,11 @@ source:
     within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies.
     That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See
     docs/journal/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag
-    is what marks it as measured.'
+    is what marks it as measured. CORRECTED 2026-11-10: the paper names the primers V1 and PMP2 and gives 270 bp for E. intestinalis
+    and 250 for E. bieneusi (p2); modal 279. It also amplifies E. bieneusi (31281), which sits outside Encephalitozoon; widening
+    is a retrieval move, not taken this release.'
 needs_review:
-- flag: amplicon_measured_not_published
+- flag: amplicon_disagrees_with_paper
+  note: modal 279 bp (34 of 106), 270 in 28; the paper gives 270 for E. intestinalis
+- flag: amplicon_multimodal
+  note: 265-281 bp, modes 279, 270, 268

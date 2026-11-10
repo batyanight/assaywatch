@@ -111,6 +111,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Acute bee paralysis virus, capsid gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Aparavirus apisacutum (acute bee paralysis virus; the paper's name, renamed by ICTV) (taxid 3047346), every record.
 

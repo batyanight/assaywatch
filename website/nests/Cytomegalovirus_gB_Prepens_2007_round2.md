@@ -113,6 +113,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
 
+**Meant to detect:** Cytomegalovirus glycoprotein B (gB) gene, genus-restricted primers, second round.  
 **Scored against:** only taxa that every round claims.  
 **Retrieved from:** Cytomegalovirus (taxid 10358), every record.
 

@@ -92,6 +92,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Leporid gammaherpesvirus 5 of hares, glycoprotein B gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Leporid gammaherpesvirus 5 (taxid 2729004), limited by a query on the title or gene.
 

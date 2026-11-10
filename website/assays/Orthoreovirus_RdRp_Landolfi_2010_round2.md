@@ -16,7 +16,7 @@
 | Target | Orthoreovirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10882">taxid 10882</a>) |
 | Gene | RNA-dependent RNA polymerase |
 | Chemistry | conventional |
-| Amplicon | 163 bp |
+| Amplicon | 161 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -170,6 +170,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Orthoreovirus RNA polymerase gene, as the semi-nested second round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Orthoreovirus (taxid 10882), every record.
 
@@ -195,7 +196,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 THIS ENTRY IS THE PAPER'S SECOND ROUND, and the pair it stores is the right one (2026-10-14, from the paper, saved to papers/10.1177_104063871002200106.pdf). 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-14</b> THIS ENTRY IS THE PAPER'S SECOND ROUND, and the pair it stores is the right one (2026-10-14, from the paper, saved to papers/10.1177_104063871002200106.pdf). The methods: "The first round utilized forward primer 2090F ... and reverse primer 2334R ... The second round utilized 2090F and a different reverse primer, 2200R". 2334R has moved to Orthoreovirus_RdRp_Landolfi_2010_round1; it had been sitting in this entry's oligos.alternates, where score.oligo_pools pooled it with 2200R and credited its 274 bp round-1 product to this 163 bp assay.</p><p>THE STORED SIZE IS CORROBORATED BY ARITHMETIC, not just by the archive. scripts/check_amplicons.py measures this pair at a modal 161 bp; the abstract reports a "109-base pair (bp) product", and the methods say "primer sequences were edited out prior to analyses" - 161 minus the two 26-mers is 109. So 163 stands as stored.</p><p>THE ID CARRIES NO ROUND SUFFIX while source.nested_round says round2, because the base id is what three generated docs and the screened-results cache already key on, and the pair it holds never changed. The registry has the same asymmetry at Adenoviridae_hexon_Casas_2005_round1 / _round2 and in the CMV gB family. Renaming it to _round2 for symmetry is a one-line change plus regenerating those docs.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-14</b> THIS ENTRY IS THE PAPER'S SECOND ROUND, and the pair it stores is the right one (2026-10-14, from the paper, saved to papers/10.1177_104063871002200106.pdf). The methods: "The first round utilized forward primer 2090F ... and reverse primer 2334R ... The second round utilized 2090F and a different reverse primer, 2200R". 2334R has moved to Orthoreovirus_RdRp_Landolfi_2010_round1; it had been sitting in this entry's oligos.alternates, where score.oligo_pools pooled it with 2200R and credited its 274 bp round-1 product to this 163 bp assay.</p><p>THE STORED SIZE IS CORROBORATED BY ARITHMETIC, not just by the archive. scripts/check_amplicons.py measures this pair at a modal 161 bp; the abstract reports a "109-base pair (bp) product", and the methods say "primer sequences were edited out prior to analyses" - 161 minus the two 26-mers is 109. So 163 stands as stored.</p><p><b>2026-11-06</b> THE ID CARRIES NO ROUND SUFFIX while source.nested_round says round2, because the base id is what three generated docs and the screened-results cache already key on, and the pair it holds never changed. The registry has the same asymmetry at Adenoviridae_hexon_Casas_2005_round1 / _round2 and in the CMV gB family. Renaming it to _round2 for symmetry is a one-line change plus regenerating those docs. CORRECTED 2026-11-06: amplicon_bp 163 -&gt; 161: 1031 of 1033 measure 161, and the paper's 109 bp without its two 26-mers is 161. The earlier 'so 163 stands' didn't follow.</p></details>
 
 ## Corrections
 

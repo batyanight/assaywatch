@@ -15,7 +15,7 @@ oligos:
     name: EntR
     seq: AATTTCACCTHTWTNTTCAATC
     seq_as_written: AATTTCACCTHTWTITTCAATC
-amplicon_bp: 572
+amplicon_bp: 489
 citation:
   doi: 10.1638/2020-0148
   design_year: null
@@ -23,8 +23,10 @@ citation:
   doi_verified: true
   reference: McFarland A, Conley KJ, Seimon TA, Sykes JM. 2021. A retrospective analysis of amoebiasis in reptiles in a 
     zoological institution. J Zoo Wildl Med 52:232-240
+  claim: Entamoeba genus, small-subunit rRNA gene.
 conditions:
   cycles: 45
+  annealing_c: 50.0
 use_context:
 - wildlife
 - veterinary
@@ -36,6 +38,11 @@ source:
     which prints both in its Materials and Methods and says the degenerate pair was developed from an alignment of 16 GenBank
     Entamoeba SSU sequences for a 502 bp product. This is the publication of this assay and not a different one. design_year
     LEFT NULL on purpose: the assay was in use by 2018, so it was designed on or before 2018 and the 2021 publication year
-    is not its design year. The paper states no design date, so the drift baseline stays open.'
+    is not its design year. The paper states no design date, so the drift baseline stays open. CORRECTED 2026-11-10: amplicon_bp
+    572 -> 489, the mode; 572 matched no product and the paper gives 502. Annealing 50 C (p4).'
 needs_review:
 - flag: oligos_modified
+- flag: amplicon_disagrees_with_paper
+  note: modal 489 bp (29 of 214); the paper gives 502
+- flag: amplicon_multimodal
+  note: 456-529 bp by species, modes 489, 490, 494, 458

@@ -148,6 +148,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Helicobacter genus, 16S rRNA gene, long amplicon.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Helicobacter (taxid 209), limited by a query on the title or gene.
 
@@ -161,7 +162,7 @@ Retrieval query:
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `amplicon_measured_not_published`, `orientation_inferred`.
+Disclosures on this entry: `orientation_inferred`.
 
 
 ## Records reaching the statistics
@@ -181,7 +182,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-14</b> AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global 50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py over every archive of this entry's own retrieval group measures a modal 1196 bp on 479 products, with 100% of all products within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies. That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See docs/journal/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what marks it as measured.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-14</b> AMPLICON_BP MEASURED, NOT PUBLISHED (2026-10-14). No product size was stored for this entry and none is quoted from its paper, which left it exempt from amplicon.declared_tolerance - the only entries still judged on the global 50-3000 bp window alone, and the ones where a long chance product could still be credited as a call. scripts/check_amplicons.py over every archive of this entry's own retrieval group measures a modal 1196 bp on 479 products, with 100% of all products within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies. That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See docs/journal/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag is what marks it as measured. CORRECTED 2026-11-10: the paper gives approximately 1200 bp (p2); 1196 is the measured mode. Flexispira rappini: 0 recent records, nothing to add.</p></details>
 
 ## Corrections
 

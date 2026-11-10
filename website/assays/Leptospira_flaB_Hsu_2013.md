@@ -5,7 +5,7 @@
 <p class="aw-doi"><a href="https://doi.org/10.3201/eid1909.130474">doi:10.3201/eid1909.130474</a></p>
 
 ??? quote "Full citation"
-    Hsu M et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira interrogans flaB Fwd/Rev)
+    Hsu CC et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira row)
 
 <p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Leptospira_flaB_Hsu_2013</span></p>
 
@@ -16,7 +16,7 @@
 | Target | Leptospira (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=171">taxid 171</a>) |
 | Gene | flaB (flagellar filament protein B) |
 | Chemistry | conventional |
-| Amplicon | 120 bp |
+| Amplicon | 125 bp |
 | Registry status | draft |
 
 !!! warning "No status is reported for this assay"
@@ -86,6 +86,7 @@ outside the 3′ window</title><rect x="225.0" y="119.2" width="13.0" height="6.
 
 ## Scope
 
+**Meant to detect:** Leptospira interrogans flaB gene, as one target of a multiplex panel for central nervous system infections.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Leptospira (taxid 171), limited by a query on the title or gene.
 
@@ -99,14 +100,14 @@ Retrieval query:
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `citation_is_indirect`, `oligos_modified`, `not_validated`.
+Disclosures on this entry: `citation_is_indirect`, `oligos_modified`, `not_validated`, `amplicon_measured_not_published`.
 
 
 ## Curation record
 
 SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-21</b> SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. LeptoF and LeptoR both appear verbatim in the open-access full text of PMC3810931, inside a MassTag PCR panel table that also lists Streptococcus pneumoniae plysin, Neisseria meningitidis ctrA, Mycobacterium tuberculosis pncA and Toxoplasma gondii B1 - a panel table records what a study ran, not necessarily what it designed. The table labels the target "Leptospira interrogans flaB", which independently corroborates this entry's gene. Flagged printed-not-proven-first-publication, the same treatment as Atkins/PREDICT and Lan/Quan. doi_verified stays false until scripts/resolve_citations.py approves it.</p><p><b>2026-10-24</b> SPELLING FIXED 2026-10-24 in the `name` and `target.gene` fields only: both read "Flagillar filiment Protein B gene", two misspellings of "flagellar filament". The gene is flaB, which the retrieval query already spells correctly, so nothing was ever mis-retrieved - target.gene is free text and is not screened on.</p><p>THE ENTRY ID IS DELIBERATELY NOT RENAMED, even though it carries the same misspelling: docs/validation-cases.tsv keys a scored tier-2 case on this id, and archive directories and several docs reference it, so renaming is a maintainer's change and not a spelling fix.</p><p><b>2026-10-27</b> THE TWO NOTES ABOVE WERE TWO `notes_curator` KEYS IN ONE MAPPING until 2026-10-27, so every loader kept the second and silently discarded the first: the spelling note existed in the file and in no loaded entry. Found by pre-commit's check-yaml, which only sees a file a commit touches, three days after the duplicate landed. The validator could not see it, because pydantic is handed a dict that has already lost the key.</p><p><b>2026-10-28</b> CONDITIONS CORRECTED 2026-10-28: an `annealing_c: 55.0` written by the automatic pass of 2026-10-27 is REMOVED, not replaced. Hsu 2013 prints three programmes -- a 35-cycle PCR annealing at 45 C, a first MassTag PCR of 18 cycles, and a labelling PCR of 49 cycles that starts at 25 C and moves to 55 C -- and nothing in the text attributes one of them to the flaB primer pair this entry carries. Unattributable, so unrecorded.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-21</b> SOURCE FOUND 2026-10-21, as the place the oligos are PRINTED and not necessarily designed. LeptoF and LeptoR both appear verbatim in the open-access full text of PMC3810931, inside a MassTag PCR panel table that also lists Streptococcus pneumoniae plysin, Neisseria meningitidis ctrA, Mycobacterium tuberculosis pncA and Toxoplasma gondii B1 - a panel table records what a study ran, not necessarily what it designed. The table labels the target "Leptospira interrogans flaB", which independently corroborates this entry's gene. Flagged printed-not-proven-first-publication, the same treatment as Atkins/PREDICT and Lan/Quan. doi_verified stays false until scripts/resolve_citations.py approves it.</p><p><b>2026-10-24</b> SPELLING FIXED 2026-10-24 in the `name` and `target.gene` fields only: both read "Flagillar filiment Protein B gene", two misspellings of "flagellar filament". The gene is flaB, which the retrieval query already spells correctly, so nothing was ever mis-retrieved - target.gene is free text and is not screened on.</p><p>THE ENTRY ID IS DELIBERATELY NOT RENAMED, even though it carries the same misspelling: docs/validation-cases.tsv keys a scored tier-2 case on this id, and archive directories and several docs reference it, so renaming is a maintainer's change and not a spelling fix.</p><p><b>2026-10-27</b> THE TWO NOTES ABOVE WERE TWO `notes_curator` KEYS IN ONE MAPPING until 2026-10-27, so every loader kept the second and silently discarded the first: the spelling note existed in the file and in no loaded entry. Found by pre-commit's check-yaml, which only sees a file a commit touches, three days after the duplicate landed. The validator could not see it, because pydantic is handed a dict that has already lost the key.</p><p><b>2026-10-28</b> CONDITIONS CORRECTED 2026-10-28: an `annealing_c: 55.0` written by the automatic pass of 2026-10-27 is REMOVED, not replaced. Hsu 2013 prints three programmes -- a 35-cycle PCR annealing at 45 C, a first MassTag PCR of 18 cycles, and a labelling PCR of 49 cycles that starts at 25 C and moves to 55 C -- and nothing in the text attributes one of them to the flaB primer pair this entry carries. Unattributable, so unrecorded. CORRECTED 2026-11-10: amplicon_bp 120 -&gt; 125, measured in 1,694 of 1,696; the panel table's 634/383 is the MassTag label pair, not a product. First author is Chien-Chin Hsu.</p></details>
 
 ## Corrections
 

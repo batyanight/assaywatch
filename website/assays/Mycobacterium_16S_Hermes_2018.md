@@ -187,6 +187,7 @@ outside the central third</title><rect x="505.2" y="205.9" width="13.0" height="
 
 ## Scope
 
+**Meant to detect:** Mycobacterium (all species), 16S rRNA gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Mycobacterium (taxid 1763), limited by a query on the title or gene.
 

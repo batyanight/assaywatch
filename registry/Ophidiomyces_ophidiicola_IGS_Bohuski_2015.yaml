@@ -6,7 +6,7 @@ target:
   genome_type: dsDNA
   taxon_name: Ophidiomyces ophidiicola
   query: 'IGS[Title] OR "intergenic spacer"[Title]'
-chemistry: mgb
+chemistry: hydrolysis_probe
 oligos:
   forward:
     name: Oo-RT-IGS-F
@@ -18,7 +18,7 @@ oligos:
     name: Oo-RT-IGS-PROBE
     seq: ATACTCTCCGGGCGCTTGTCTTCC
     reporter: FAM
-    quencher: MGB-NFQ
+    quencher: BHQ1
 amplicon_bp: 133
 citation:
   doi: 10.1186/s12917-015-0407-8
@@ -26,6 +26,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Bohuski E et al. 2015. BMC Vet Res 11:95
+  claim: Ophidiomyces ophidiicola, the snake fungal disease fungus, intergenic spacer region.
 conditions:
   annealing_c: 60
   cycles: 40
@@ -42,5 +43,6 @@ source:
   nested_round: null
   notes_curator: 'QUERY NARROWED 2026-11-06 to the IGS: about 185 of the 196 archive records were ITS, SSU or LSU and can
     never carry the product. 11 IGS-titled records exist, none in the window. Genome assemblies stay out, since they stop
-    where the spacer begins.'
+    where the spacer begins. CORRECTED 2026-11-10: the probe is printed as (FAM)...(BHQ-1) with no MGB, so the chemistry is
+    hydrolysis_probe and the quencher BHQ1.'
 needs_review: null

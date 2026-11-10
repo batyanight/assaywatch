@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Keele BF et al. 2009. Nature 460:515-519
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Simian_immunodeficiency_virus_pol_Keele_2009_PTS_spol_F2</span></p>
+<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Simian_immunodeficiency_virus_pol_Keele_2009_PTS_spol_F2</span></p>
 
 **Simian immunodeficiency virus — pol (Keele 2009, PTS spol F2)**
 
@@ -16,8 +16,21 @@
 | Target | Simian immunodeficiency virus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11723">taxid 11723</a>) |
 | Gene | pol |
 | Chemistry | conventional |
-| Amplicon | 549 bp |
-| Registry status | active |
+| Amplicon | 547 bp |
+| Registry status | draft |
+
+!!! warning "No status is reported for this assay"
+
+    Something about this entry would make a predicted-detection figure
+    misleading: a chemistry this scoring does not model, or a readout other
+    than amplification. The sequences were screened and still appear in the
+    tables below that do not depend on a verdict. The verdict is withheld on
+    purpose, rather than shown with a caveat attached.
+
+    - **`oligo_source_unresolved`** — no held paper or supplement prints these four oligos
+
+This map shows where records differ from the oligos as entered. No status is given, for
+the reason above, so it is not a verdict.
 
 ## Mismatch distribution
 
@@ -93,73 +106,12 @@ detected when it does not: 80% of 306
 substitutions: G&gt;A in 28
 inside the 3′ window</title><rect x="480.4" y="116.2" width="13.0" height="9.8"/></g><text class="aw-base" x="486.9" y="139">G</text><text class="aw-base" x="501.9" y="139">T</text><text class="aw-base" x="516.9" y="139">G</text><text class="aw-tick" x="516.9" y="153">1</text><text class="aw-tick" x="456.9" y="153">5</text><text class="aw-tick" x="381.9" y="153">10</text><text class="aw-tick" x="306.9" y="153">15</text><text class="aw-tick" x="231.9" y="153">20</text><text class="aw-tick" x="156.9" y="153">25</text><text class="aw-tick" x="111.9" y="153">28</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="528" y="139">3′</text></svg>
 
-## Predicted detection by deposit year
-
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1990 to 2026, against a 90 percent threshold."><rect class="aw-window" x="669.2" y="12.0" width="36.8" height="180.0"><title>the recent window: 24 months from Nov 2024</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,183.8 62.4,183.8 99.2,183.8 191.1,183.8 209.5,178.8 246.3,180.1 283.1,178.5 301.4,183.8 319.8,183.8 338.2,180.4 356.6,178.8 375.0,178.8 393.4,183.5 411.8,178.8 430.2,178.8 466.9,182.1 485.3,178.9 522.1,183.8 540.5,176.4 577.3,178.8 595.7,183.8 614.1,183.5 632.4,176.2 650.8,183.8 669.2,183.8 687.6,183.8 706.0,183.8"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-declining" points="44.0,183.8 62.4,183.8 99.2,183.8 117.6,20.2 135.9,183.8 154.3,20.2 172.7,183.8 191.1,183.8 209.5,102.0 246.3,102.0 264.7,74.7 283.1,90.3 301.4,183.8 319.8,183.8 338.2,124.3 356.6,47.5 375.0,137.1 393.4,166.0 411.8,161.5 430.2,43.6 448.6,74.7 466.9,183.6 485.3,108.1 503.7,20.2 522.1,183.8 540.5,22.1 558.9,20.2 577.3,183.4 595.7,183.8 614.1,182.2 632.4,129.3 650.8,183.8 669.2,183.8 687.6,183.8 706.0,183.8"/><g class="aw-point aw-declining"><title>1990: 0 of 1 detected (0.0%)</title><circle cx="44.0" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1991: 0 of 2 detected (0.0%)</title><circle cx="62.4" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1993: 0 of 8 detected (0.0%)</title><circle cx="99.2" cy="183.8" r="3.1"/></g><g class="aw-point aw-declining"><title>1994: 1 of 1 detected (100.0%)</title><circle cx="117.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>1995: 0 of 1 detected (0.0%)</title><circle cx="135.9" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1996: 1 of 1 detected (100.0%)</title><circle cx="154.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>1997: 0 of 1 detected (0.0%)</title><circle cx="172.7" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1998: 0 of 1 detected (0.0%)</title><circle cx="191.1" cy="183.8" r="2.5"/></g><g class="aw-point aw-declining"><title>1999: 1 of 2 detected (50.0%)</title><circle cx="209.5" cy="102.0" r="2.5"/></g><g class="aw-point aw-declining"><title>2001: 8 of 16 detected (50.0%)</title><circle cx="246.3" cy="102.0" r="3.6"/></g><g class="aw-point aw-declining"><title>2002: 6 of 9 detected (66.7%)</title><circle cx="264.7" cy="74.7" r="3.2"/></g><g class="aw-point aw-declining"><title>2003: 4 of 7 detected (57.1%)</title><circle cx="283.1" cy="90.3" r="3.0"/></g><g class="aw-point aw-declining"><title>2004: 0 of 29 detected (0.0%)</title><circle cx="301.4" cy="183.8" r="4.0"/></g><g class="aw-point aw-declining"><title>2005: 0 of 4 detected (0.0%)</title><circle cx="319.8" cy="183.8" r="2.7"/></g><g class="aw-point aw-declining"><title>2006: 4 of 11 detected (36.4%)</title><circle cx="338.2" cy="124.3" r="3.3"/></g><g class="aw-point aw-declining"><title>2007: 5 of 6 detected (83.3%)</title><circle cx="356.6" cy="47.5" r="3.0"/></g><g class="aw-point aw-declining"><title>2008: 2 of 7 detected (28.6%)</title><circle cx="375.0" cy="137.1" r="3.0"/></g><g class="aw-point aw-declining"><title>2009: 5 of 46 detected (10.9%)</title><circle cx="393.4" cy="166.0" r="4.3"/></g><g class="aw-point aw-declining"><title>2010: 3 of 22 detected (13.6%)</title><circle cx="411.8" cy="161.5" r="3.8"/></g><g class="aw-point aw-declining"><title>2011: 6 of 7 detected (85.7%)</title><circle cx="430.2" cy="43.6" r="3.0"/></g><g class="aw-point aw-declining"><title>2012: 4 of 6 detected (66.7%)</title><circle cx="448.6" cy="74.7" r="3.0"/></g><g class="aw-point aw-declining"><title>2013: 1 of 660 detected (0.2%)</title><circle cx="466.9" cy="183.6" r="6.1"/></g><g class="aw-point aw-declining"><title>2014: 25 of 54 detected (46.3%)</title><circle cx="485.3" cy="108.1" r="4.4"/></g><g class="aw-point aw-declining"><title>2015: 6 of 6 detected (100.0%)</title><circle cx="503.7" cy="20.2" r="3.0"/></g><g class="aw-point aw-declining"><title>2016: 0 of 93 detected (0.0%)</title><circle cx="522.1" cy="183.8" r="4.8"/></g><g class="aw-point aw-declining"><title>2017: 170 of 172 detected (98.8%)</title><circle cx="540.5" cy="22.1" r="5.2"/></g><g class="aw-point aw-declining"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="558.9" cy="20.2" r="2.5"/></g><g class="aw-point aw-declining"><title>2019: 1 of 383 detected (0.3%)</title><circle cx="577.3" cy="183.4" r="5.7"/></g><g class="aw-point aw-declining"><title>2020: 0 of 113 detected (0.0%)</title><circle cx="595.7" cy="183.8" r="4.9"/></g><g class="aw-point aw-declining"><title>2021: 1 of 99 detected (1.0%)</title><circle cx="614.1" cy="182.2" r="4.8"/></g><g class="aw-point aw-declining"><title>2022: 1 of 3 detected (33.3%)</title><circle cx="632.4" cy="129.3" r="2.6"/></g><g class="aw-point aw-declining"><title>2023: 0 of 3 detected (0.0%)</title><circle cx="650.8" cy="183.8" r="2.6"/></g><g class="aw-point aw-declining"><title>2024: 0 of 1,848 detected (0.0%) — recent window</title><circle cx="669.2" cy="183.8" r="6.8"/></g><g class="aw-point aw-declining"><title>2025: 0 of 204 detected (0.0%) — recent window</title><circle cx="687.6" cy="183.8" r="5.3"/></g><g class="aw-point aw-declining"><title>2026: 0 of 20 detected (0.0%) — recent window</title><circle cx="706.0" cy="183.8" r="3.7"/></g><text class="aw-tick" x="44.0" y="208">1990</text><text class="aw-tick" x="135.9" y="208">1995</text><text class="aw-tick" x="227.9" y="208">2000</text><text class="aw-tick" x="319.8" y="208">2005</text><text class="aw-tick" x="411.8" y="208">2010</text><text class="aw-tick" x="503.7" y="208">2015</text><text class="aw-tick" x="595.7" y="208">2020</text><text class="aw-tick" x="687.6" y="208">2025</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
-
-## What was deposited, by lineage
-
-Lineages here are sequence groups, not species or taxids. Each is a group of records
-that look alike over the amplicon and its flanks with the oligo sites masked, cut at
-0.05 Mash distance. Records can link one species to the next, so a group
-can hold several; a percent in its name is the share of its top species. The groups
-come from sequence this assay does not measure, so the mix below can move without the
-assay changing. The dashed line on the chart above recomputes each year on the whole
-period's mix: where the two lines part, what got sequenced changed, not what the assay
-detects.
-
-*6 of 3847 records unplaced (0%); 3513 of 3847 diverged, with no site to cluster on.*
-
-<svg class="aw-chart aw-panel" viewBox="0 0 720 132" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="The mix of sequence clusters by deposit year, 1990 to 2026."><defs><pattern id="aw-unplaced" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="currentColor" stroke-width="1.6" opacity="0.5"/></pattern></defs><g class="aw-seg"><title>1990 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="37.2" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>1991 — diverged (no site): 1 of 2 records (50%), 0 detected</title><rect x="55.6" y="10.0" width="13.6" height="46.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>1991 — other: 1 of 2 records (50%), 0 detected</title><rect x="55.6" y="56.0" width="13.6" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1993 — diverged (no site): 4 of 8 records (50%), 0 detected</title><rect x="92.4" y="10.0" width="13.6" height="46.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>1993 — other: 4 of 8 records (50%), 0 detected</title><rect x="92.4" y="56.0" width="13.6" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1994 — other: 1 of 1 records (100%), 1 detected</title><rect x="110.7" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1995 — other: 1 of 1 records (100%), 0 detected</title><rect x="129.1" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1996 — L. simimdef 1: 1 of 1 records (100%), 1 detected</title><rect x="147.5" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>1997 — other: 1 of 1 records (100%), 0 detected</title><rect x="165.9" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>1998 — diverged (no site): 1 of 1 records (100%), 0 detected</title><rect x="184.3" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>1999 — diverged (no site): 1 of 2 records (50%), 0 detected</title><rect x="202.7" y="10.0" width="13.6" height="46.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>1999 — other: 1 of 2 records (50%), 1 detected</title><rect x="202.7" y="56.0" width="13.6" height="46.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2001 — diverged (no site): 4 of 16 records (25%), 0 detected</title><rect x="239.5" y="10.0" width="13.6" height="23.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2001 — unplaced: 5 of 16 records (31%), 3 detected</title><rect x="239.5" y="33.0" width="13.6" height="28.8" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2001 — other: 7 of 16 records (44%), 5 detected</title><rect x="239.5" y="61.8" width="13.6" height="40.2" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2002 — other: 9 of 9 records (100%), 6 detected</title><rect x="257.9" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — diverged (no site): 3 of 7 records (43%), 0 detected</title><rect x="276.2" y="10.0" width="13.6" height="39.4" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2003 — other: 3 of 7 records (43%), 3 detected</title><rect x="276.2" y="49.4" width="13.6" height="39.4" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2003 — L. simimdef 6: 1 of 7 records (14%), 1 detected</title><rect x="276.2" y="88.9" width="13.6" height="13.1" fill="currentColor" opacity="0.33"/></g><g class="aw-seg"><title>2004 — diverged (no site): 29 of 29 records (100%), 0 detected</title><rect x="294.6" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2005 — diverged (no site): 4 of 4 records (100%), 0 detected</title><rect x="313.0" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2006 — diverged (no site): 5 of 11 records (45%), 0 detected</title><rect x="331.4" y="10.0" width="13.6" height="41.8" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2006 — other: 6 of 11 records (55%), 4 detected</title><rect x="331.4" y="51.8" width="13.6" height="50.2" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2007 — diverged (no site): 1 of 6 records (17%), 0 detected</title><rect x="349.8" y="10.0" width="13.6" height="15.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2007 — other: 5 of 6 records (83%), 5 detected</title><rect x="349.8" y="25.3" width="13.6" height="76.7" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2008 — diverged (no site): 5 of 7 records (71%), 0 detected</title><rect x="368.2" y="10.0" width="13.6" height="65.7" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2008 — other: 2 of 7 records (29%), 2 detected</title><rect x="368.2" y="75.7" width="13.6" height="26.3" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2009 — diverged (no site): 41 of 46 records (89%), 0 detected</title><rect x="386.6" y="10.0" width="13.6" height="82.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2009 — L. simimdef 7: 5 of 46 records (11%), 5 detected</title><rect x="386.6" y="92.0" width="13.6" height="10.0" fill="currentColor" opacity="0.20"/></g><g class="aw-seg"><title>2010 — diverged (no site): 18 of 22 records (82%), 0 detected</title><rect x="405.0" y="10.0" width="13.6" height="75.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2010 — unplaced: 1 of 22 records (5%), 0 detected</title><rect x="405.0" y="85.3" width="13.6" height="4.2" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2010 — other: 3 of 22 records (14%), 3 detected</title><rect x="405.0" y="89.5" width="13.6" height="12.5" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2011 — diverged (no site): 1 of 7 records (14%), 0 detected</title><rect x="423.4" y="10.0" width="13.6" height="13.1" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2011 — other: 6 of 7 records (86%), 6 detected</title><rect x="423.4" y="23.1" width="13.6" height="78.9" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2012 — other: 6 of 6 records (100%), 4 detected</title><rect x="441.7" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2013 — diverged (no site): 657 of 660 records (100%), 0 detected</title><rect x="460.1" y="10.0" width="13.6" height="91.6" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2013 — other: 3 of 660 records (0%), 1 detected</title><rect x="460.1" y="101.6" width="13.6" height="0.4" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2014 — diverged (no site): 3 of 54 records (6%), 0 detected</title><rect x="478.5" y="10.0" width="13.6" height="5.1" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2014 — other: 14 of 54 records (26%), 12 detected</title><rect x="478.5" y="15.1" width="13.6" height="23.9" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2014 — L. simimdef 2: 11 of 54 records (20%), 1 detected</title><rect x="478.5" y="39.0" width="13.6" height="18.7" fill="currentColor" opacity="0.72"/></g><g class="aw-seg"><title>2014 — L. simimdef 3: 8 of 54 records (15%), 8 detected</title><rect x="478.5" y="57.7" width="13.6" height="13.6" fill="currentColor" opacity="0.60"/></g><g class="aw-seg"><title>2014 — L. simimdef 4: 7 of 54 records (13%), 0 detected</title><rect x="478.5" y="71.3" width="13.6" height="11.9" fill="currentColor" opacity="0.50"/></g><g class="aw-seg"><title>2014 — L. simimdef 5: 7 of 54 records (13%), 0 detected</title><rect x="478.5" y="83.3" width="13.6" height="11.9" fill="currentColor" opacity="0.41"/></g><g class="aw-seg"><title>2014 — L. simimdef 6: 4 of 54 records (7%), 4 detected</title><rect x="478.5" y="95.2" width="13.6" height="6.8" fill="currentColor" opacity="0.33"/></g><g class="aw-seg"><title>2015 — other: 6 of 6 records (100%), 6 detected</title><rect x="496.9" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2016 — diverged (no site): 64 of 93 records (69%), 0 detected</title><rect x="515.3" y="10.0" width="13.6" height="63.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2016 — other: 29 of 93 records (31%), 0 detected</title><rect x="515.3" y="73.3" width="13.6" height="28.7" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2017 — diverged (no site): 1 of 172 records (1%), 0 detected</title><rect x="533.7" y="10.0" width="13.6" height="0.5" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2017 — other: 1 of 172 records (1%), 0 detected</title><rect x="533.7" y="10.5" width="13.6" height="0.5" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2017 — L. simimdef 1: 170 of 172 records (99%), 170 detected</title><rect x="533.7" y="11.1" width="13.6" height="90.9" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2018 — other: 1 of 1 records (100%), 1 detected</title><rect x="552.1" y="10.0" width="13.6" height="92.0" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2019 — diverged (no site): 382 of 383 records (100%), 0 detected</title><rect x="570.5" y="10.0" width="13.6" height="91.8" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2019 — other: 1 of 383 records (0%), 1 detected</title><rect x="570.5" y="101.8" width="13.6" height="0.2" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2020 — diverged (no site): 113 of 113 records (100%), 0 detected</title><rect x="588.9" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — diverged (no site): 98 of 99 records (99%), 0 detected</title><rect x="607.2" y="10.0" width="13.6" height="91.1" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2021 — L. simimdef 7: 1 of 99 records (1%), 1 detected</title><rect x="607.2" y="101.1" width="13.6" height="0.9" fill="currentColor" opacity="0.20"/></g><g class="aw-seg"><title>2022 — diverged (no site): 2 of 3 records (67%), 0 detected</title><rect x="625.6" y="10.0" width="13.6" height="61.3" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2022 — L. simimdef 1: 1 of 3 records (33%), 1 detected</title><rect x="625.6" y="71.3" width="13.6" height="30.7" fill="currentColor" opacity="0.85"/></g><g class="aw-seg"><title>2023 — diverged (no site): 3 of 3 records (100%), 0 detected</title><rect x="644.0" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2024 — diverged (no site): 1,848 of 1,848 records (100%), 0 detected</title><rect x="662.4" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2025 — diverged (no site): 203 of 204 records (100%), 0 detected</title><rect x="680.8" y="10.0" width="13.6" height="91.5" fill="url(#aw-unplaced)"/></g><g class="aw-seg"><title>2025 — other: 1 of 204 records (0%), 0 detected</title><rect x="680.8" y="101.5" width="13.6" height="0.5" fill="currentColor" opacity="0.12"/></g><g class="aw-seg"><title>2026 — diverged (no site): 20 of 20 records (100%), 0 detected</title><rect x="699.2" y="10.0" width="13.6" height="92.0" fill="url(#aw-unplaced)"/></g><text class="aw-tick" x="44.0" y="117">1990</text><text class="aw-tick" x="135.9" y="117">1995</text><text class="aw-tick" x="227.9" y="117">2000</text><text class="aw-tick" x="319.8" y="117">2005</text><text class="aw-tick" x="411.8" y="117">2010</text><text class="aw-tick" x="503.7" y="117">2015</text><text class="aw-tick" x="595.7" y="117">2020</text><text class="aw-tick" x="687.6" y="117">2025</text><text class="aw-axis-label" x="375" y="126">share of each year's records, by sequence cluster</text></svg>
-
-| Lineage | Records | Share | New since design | Species | Also in the titles |
-|---|---|---|---|---|---|
-| diverged (no site) | 3,513 | 91% |  | Lentivirus simimdef 3,513 | -- |
-| unplaced | 6 | 0% |  | Lentivirus simimdef 6 | pol, integrase, Cameroon |
-| other | 112 | 3% |  | Lentivirus simimdef 112 | -- |
-| L. simimdef 1 | 172 | 4% |  | Lentivirus simimdef 172 | vif, gag, pol |
-| L. simimdef 2 | 11 | 0% | yes | Lentivirus simimdef 11 | Gambia, Bijilo, pol |
-| L. simimdef 3 | 8 | 0% | yes | Lentivirus simimdef 8 | Gambia, pol |
-| L. simimdef 4 | 7 | 0% | yes | Lentivirus simimdef 7 | Gambia, pol |
-| L. simimdef 5 | 7 | 0% | yes | Lentivirus simimdef 7 | Bijilo, Gambia, pol |
-| L. simimdef 6 | 5 | 0% |  | Lentivirus simimdef 5 | Germany, vpx, glycoprotein, envelope, nef |
-| L. simimdef 7 | 6 | 0% |  | Lentivirus simimdef 6 | -- |
-
-Of the records the target taxon holds, the share its own retrieval query returned, per deposit year: 2019 15%, 2020 9%, 2021 8%, 2022 0%, 2023 0%, 2024 88%, 2025 3%, 2026 6% (best year 88%). A low share is a fact about the query, not about the taxon.
-
-Between the baseline and the recent window the detected share went
-7.1% to 0.0%, a change of -0.071. Of that, **-0.061 is the mix** of lineages deposited changing (95% CI -0.077 to -0.054) and **-0.010 is detection within** them. The interval covers which records were deposited and detected; it takes the clustering as given.
-
 ## Oligos
 
 | role | name | sequence (5'→3') | length |
 |---|---|---|---|
 | forward | PTS-spol-F2 | `GARGACCATGAYAAATATCA` | 20 nt |
 | reverse | PTS-pol-R2 | `CAATCCCCCCTTTTCTTTTAAAATTGTG` | 28 nt |
-
-## Verdict
-
-**declining** — below the threshold, and measurably lower than a baseline that previously exceeded it
-
-Every value behind the call, so you can redo it by hand:
-
-| | detected | evaluable | share | 95% interval |
-|---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 0 | 224 | 0.0% | 0.0% – 1.7% |
-| baseline (everything earlier) | 256 | 3,623 | 7.1% | 6.3% – 7.9% |
-
-Change from baseline, Newcombe interval: **-7.9% to -5.2%**. Threshold: **90.0%**.
-
-*detected share 0.0% (0%-2%) since Nov 2024, upper bound below the 90% threshold; change from baseline -8% to -5%*
-
-Trend across deposit years: by record falling (p = 1.53e-59, 35 years); by footprint falling (p = 0.99). Reported for context; it is not an input to the verdict.
-
-From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
@@ -177,20 +129,14 @@ pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
+Disclosures on this entry: `oligos_not_in_cited_paper`, `oligo_source_unresolved`, `amplicon_measured_not_published`.
 
-## Records reaching the statistics
 
-8,252 records were screened for this assay and **3,847 (47%)** were evaluable, meaning both primers landed in the right orientation and size range. 4,405 produced no amplicon at all.
+## Curation record
 
-This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
+CORRECTED 2026-11-06: Keele 2009 prints no primers and cites refs 7 and 8 for the RT-PCR, neither held; 
 
-| why a record was not evaluable | records |
-|---|---|
-| `no_site` | 3,467 |
-| `chance_anchor` | 683 |
-| `truncated` | 251 |
-| `no_pair` | 4 |
-
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-11-06</b> CORRECTED 2026-11-06: Keele 2009 prints no primers and cites refs 7 and 8 for the RT-PCR, neither held; no held paper or supplement prints these four oligos, so this entry drops to draft until a source is found. Size is measured, 330 of 334.</p></details>
 
 ## Corrections
 

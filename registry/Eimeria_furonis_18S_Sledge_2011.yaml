@@ -21,12 +21,15 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Sledge DG et al. 2011. J Am Vet Med Assoc 239:1584-1588
+  claim: Eimeria furonis small-subunit rRNA gene, to confirm the species in ferret tissue.
 conditions:
   cycles: 40
+  annealing_c: 58.0
 use_context:
 - veterinary
 submitted_by: null
 status: active
 source:
   nested_round: null
+  notes_curator: 'CORRECTED 2026-11-10: annealing 58 C (p3).'
 needs_review: null

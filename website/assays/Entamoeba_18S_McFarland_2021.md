@@ -16,7 +16,7 @@
 | Target | Entamoeba (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=5758">taxid 5758</a>) |
 | Gene | 18S rRNA |
 | Chemistry | conventional |
-| Amplicon | 572 bp |
+| Amplicon | 489 bp |
 | Registry status | draft |
 
 ## Mismatch distribution
@@ -127,6 +127,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Entamoeba genus, small-subunit rRNA gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Entamoeba (taxid 5758), limited by a query on the title or gene.
 
@@ -140,7 +141,7 @@ Retrieval query:
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `oligos_modified`.
+Disclosures on this entry: `oligos_modified`, `amplicon_disagrees_with_paper`, `amplicon_multimodal`.
 
 
 ## Records reaching the statistics
@@ -160,7 +161,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 CITATION FOUND 2026-10-22. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-22</b> CITATION FOUND 2026-10-22. EntF and EntR verify exact against McFarland et al. 2021 (J Zoo Wildl Med 52:232-240), which prints both in its Materials and Methods and says the degenerate pair was developed from an alignment of 16 GenBank Entamoeba SSU sequences for a 502 bp product. This is the publication of this assay and not a different one. design_year LEFT NULL on purpose: the assay was in use by 2018, so it was designed on or before 2018 and the 2021 publication year is not its design year. The paper states no design date, so the drift baseline stays open.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-22</b> CITATION FOUND 2026-10-22. EntF and EntR verify exact against McFarland et al. 2021 (J Zoo Wildl Med 52:232-240), which prints both in its Materials and Methods and says the degenerate pair was developed from an alignment of 16 GenBank Entamoeba SSU sequences for a 502 bp product. This is the publication of this assay and not a different one. design_year LEFT NULL on purpose: the assay was in use by 2018, so it was designed on or before 2018 and the 2021 publication year is not its design year. The paper states no design date, so the drift baseline stays open. CORRECTED 2026-11-10: amplicon_bp 572 -&gt; 489, the mode; 572 matched no product and the paper gives 502. Annealing 50 C (p4).</p></details>
 
 ## Corrections
 

@@ -40,6 +40,7 @@ citation:
   reference: Zhai, J. H. et al. Rapid molecular strategy for filovirus detection and characterization. Journal of 
     clinical microbiology 45, 224-226, doi:Doi 10.1128/Jcm.01893-06 (2007).
   doi_verified: true
+  claim: Filoviruses (Marburg and Ebola viruses), L gene, as a consensus RT-PCR.
 conditions:
   rt: one_step
   mg_mm: 2.5
@@ -56,7 +57,12 @@ source:
     round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Zhai, J.
     et al (2007). AMPLICON MEASURED 2026-10-21: 634 bp, the modal product on 3,826 of 3,837 detected-or-reduced records in
     the 2026-10-20 calls (was 630). the PREDICT protocol book (Anthony et al. 2015 supplement, Nat Commun 6:8147), P-007,
-    prints ~600 bp; the measurement is what is entered.'
+    prints ~600 bp; the measurement is what is entered. CORRECTED 2026-11-10: ''validated with all known filovirus strains''
+    (p3) describes 2006; genera named since are untested.'
 needs_review:
 - flag: pairing_is_curator_reading
   note: the source lists several primers in one block without saying which pair
+- flag: amplicon_disagrees_with_paper
+  note: 634 bp in 3,963 of 3,974; the paper says 640 including primers
+- flag: scope_wider_than_paper_tested
+  note: validated with the filoviruses known in 2006; later genera untested

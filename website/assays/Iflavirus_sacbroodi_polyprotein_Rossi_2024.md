@@ -128,6 +128,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Sacbrood virus, polyprotein gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Iflavirus sacbroodi (sacbrood virus; the paper's name, renamed by ICTV) (taxid 3048309), every record.
 

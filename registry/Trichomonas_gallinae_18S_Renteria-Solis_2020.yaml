@@ -19,11 +19,12 @@ amplicon_bp: 113
 citation:
   doi: 10.1007/s00436-020-06887-x
   design_year: 2020
-  n_sequences_at_design: null
+  n_sequences_at_design: 9
   reference: Rentería-Solís Z, Nguyen-Ho-Bao T, Taha S, Daugschies A. A SYBR green I real-time polymerase chain reaction
     (PCR) assay for detection and quantification of Trichomonas gallinae.
   doi_verified: true
   oligos_designed_here: true
+  claim: Trichomonas gallinae, 18S rRNA gene.
 conditions:
   annealing_c: 55.0
   cycles: 40
@@ -46,5 +47,10 @@ source:
     therefore both the paper''s figure and the measured one. SCOPE: single species, as the paper designed it. Whether it cross-detects
     other Trichomonas or Tetratrichomonas is the paper''s specificity panel, not something checked here. A short-fragment
     record deposit (most T. gallinae 18S entries are ~350 bp) will read as low coverage in the pipeline for the same reason
-    it does here; read the detected share against records that span the site.'
-needs_review: null
+    it does here; read the detected share against records that span the site. CORRECTED 2026-11-10: the paper amplified Tritrichomonas
+    foetus (Ct 23.49, p3) and says the assay may not discriminate within Trichomonadidae (p4); T. vaginalis and T. tenax untested.
+    T. foetus sits outside the retrieval taxon. Designed from 9 sequences.'
+needs_review:
+- flag: cross_reactive
+  note: the paper amplified Tritrichomonas foetus (Ct 23.49, p3) and says the assay may not discriminate within 
+    Trichomonadidae (p4)

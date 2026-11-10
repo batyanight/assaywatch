@@ -108,7 +108,7 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### Droppable
 
-- [ ] **6b. Reread the stable and undecided papers.** 52 of 60 read on 2026-11-06, notes unverified and nothing applied: Haynes 2023, Johnson 2008, Rahn 1992, Renteria-Solis 2020, Ibrahim 1992, Mangombi, Li 2025 and Kutkiene remain. Needs verifying as batches 1-4 were, then applying. Reported, to check: Sethabutr's primers truncated, Bohuski's quencher, Entamoeba 572 bp against about 490 measured, Blooi's probe, Deckers round 2, Grizzle's query against its note. As planned: The rest of the ~86, ~0.9M tokens, same batch
+- [x] **6b. Reread the stable and undecided papers.** Done 2026-11-10, `docs/journal/2026-11-10-scope-reread-rest.md`: all 60 read and verified, two duplicates withheld, Mangombi's nest withdrawn, three primer pairs restored to print, 93 claims applied. As it stood: 52 of 60 read on 2026-11-06, notes unverified and nothing applied: Haynes 2023, Johnson 2008, Rahn 1992, Renteria-Solis 2020, Ibrahim 1992, Mangombi, Li 2025 and Kutkiene remain. Needs verifying as batches 1-4 were, then applying. Reported, to check: Sethabutr's primers truncated, Bohuski's quencher, Entamoeba 572 bp against about 490 measured, Blooi's probe, Deckers round 2, Grizzle's query against its note. As planned: The rest of the ~86, ~0.9M tokens, same batch
   shape, ending in the written scope report with the Chlamydia 16S share in it. If it's dropped, the
   report covers what was read and says so.
 - [x] **7. C1b, priced before built.** Stopped 2026-11-06 by maintainer decision: it flags what a plain
@@ -172,7 +172,7 @@ Garner 350/391, Tsukamoto H5 261/258, Spackman 100/101, Briese L 630/505, BUN_M_
 Not in this release, each still detailed where it sits: S5/C2 and its 40-negatives gate; the
 drift-mechanism search's remaining sources; S3b's identity pricing and the mid-window boundary;
 finishing the collection-date backfill; filtering G2R's denominator by clade; test across scope; test for submission error; sources beyond GenBank (MalAvi, GISAID, PR2/SILVA,
-UNITE); the `printed.py` quencher fix; `target.exclusivity_taxids`; the conditions proposals and
+UNITE); the `printed.py` quencher fix; `target.exclusivity_taxids`; the reread's deferred scope moves (Clewley to HIV-1/HIV-2, Muller to E. bieneusi, Pallister's narrower scope, raccoonpox out of Meyer) and retiring one of each duplicate pair (Gao `_2`, Barrett `MorbF`), `docs/journal/2026-11-10-scope-reread-rest.md`; the conditions proposals and
 `panels`; the 17 open `needs_review` flags beyond those above; the three pending Hantavirus nests;
 registry coverage; the Greene SLURM profile; nest-level `needs_review` and `report_diff` wording.
 
@@ -299,10 +299,10 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
 - [x] **The narrowing proposals.** Decided 2026-11-04: Uccellini narrowed; Baek, Ahmed, Steyn, Nix,
   Scaramozzino, Quan and Li left as they are, with the paper's narrower claim on the page instead.
   Tested table in `docs/journal/2026-11-04-scope-reread.md`.
-- [ ] **Correct the curator notes the reread contradicted.** Lozano's "amplified" list is the
+- [ ] **Correct the curator notes the reread contradicted.** Grizzle's and Chua's done 2026-11-10 with step 6b; Lozano and Li 2010 IMV remain. Lozano's "amplified" list is the
   alignment set; Li 2010 IMV's note says the paper doesn't place the crossover, and Table 1 does.
   Also unexplained: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
-- [ ] **Reread the remaining papers on scope, in batches.** Maintainer decision, 2026-11-04. About 86
+- [x] **Reread the remaining papers on scope, in batches.** Done 2026-11-10 as steps 6a and 6b of the release plan. Maintainer decision, 2026-11-04. About 86
   papers, starting with `declining` and `low coverage` assays. Budget about 24,000 subagent tokens
   a paper, 2 million in all, stoppable at any batch. Each batch brings claim sentences
   (`citation.claim`) for the maintainer to skim, and quotes checked against the paper.

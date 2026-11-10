@@ -231,10 +231,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Primate adenoviruses, DNA polymerase gene, as a first round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Mastadenovirus (taxid 10509), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+Disclosures on this entry: `scope_wider_than_paper_tested`.
 
 
 ## Records reaching the statistics

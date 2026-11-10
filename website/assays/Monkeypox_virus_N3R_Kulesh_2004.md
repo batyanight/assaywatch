@@ -113,6 +113,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Monkeypox virus, N3R gene, specific for monkeypox.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Monkeypox virus (taxid 10244), every record.
 

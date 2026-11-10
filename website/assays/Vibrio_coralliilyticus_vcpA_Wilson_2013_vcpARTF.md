@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Wilson, B., Muirhead, A., Bazanella, M., Huete-Stauffer, C., Vezzulli, L. & Bourne, D. G. An Improved Detection and Quantification Method for the Coral Pathogen Vibrio coralliilyticus. PLoS ONE 8, e81800 (2013).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Vibrio_coralliilyticus_vcpA_Wilson_2013_vcpARTF</span></p>
+<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Vibrio_coralliilyticus_vcpA_Wilson_2013_vcpARTF</span></p>
 
 **Vibrio coralliilyticus — vcpA (Wilson 2013, vcpARTF)**
 
@@ -37,7 +37,7 @@ Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short
 bar is a position that matters.
 
 <svg class="aw-track" viewBox="0 0 482 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">vcpARTF</text><rect class="aw-zone" x="344.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="419.0" y2="44.0"/><text class="aw-base" x="111.5" y="57">A</text><text class="aw-base" x="126.5" y="57">G</text><text class="aw-base" x="141.5" y="57">C</text><text class="aw-base" x="156.5" y="57">T</text><text class="aw-base" x="171.5" y="57">A</text><text class="aw-base" x="186.5" y="57">C</text><text class="aw-base" x="201.5" y="57">G</text><text class="aw-base" x="216.5" y="57">A</text><text class="aw-base" x="231.5" y="57">C</text><text class="aw-base" x="246.5" y="57">T</text><text class="aw-base" x="261.5" y="57">G</text><text class="aw-base" x="276.5" y="57">C</text><text class="aw-base" x="291.5" y="57">C</text><text class="aw-base" x="306.5" y="57">G</text><text class="aw-base" x="321.5" y="57">C</text><text class="aw-base" x="336.5" y="57">C</text><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">T</text><text class="aw-base" x="381.5" y="57">T</text><text class="aw-base" x="396.5" y="57">A</text><text class="aw-base" x="411.5" y="57">C</text><text class="aw-tick" x="411.5" y="71">1</text><text class="aw-tick" x="351.5" y="71">5</text><text class="aw-tick" x="276.5" y="71">10</text><text class="aw-tick" x="201.5" y="71">15</text><text class="aw-tick" x="126.5" y="71">20</text><text class="aw-tick" x="111.5" y="71">21</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="423" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">vcpARTR</text><rect class="aw-zone" x="389.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="464.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">G</text><text class="aw-base" x="126.5" y="139">G</text><text class="aw-base" x="141.5" y="139">A</text><text class="aw-base" x="156.5" y="139">G</text><text class="aw-base" x="171.5" y="139">C</text><text class="aw-base" x="186.5" y="139">C</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">T</text><text class="aw-base" x="231.5" y="139">T</text><text class="aw-base" x="246.5" y="139">T</text><text class="aw-base" x="261.5" y="139">C</text><text class="aw-base" x="276.5" y="139">A</text><text class="aw-base" x="291.5" y="139">C</text><text class="aw-base" x="306.5" y="139">T</text><text class="aw-base" x="321.5" y="139">T</text><text class="aw-base" x="336.5" y="139">A</text><text class="aw-base" x="351.5" y="139">C</text><text class="aw-base" x="366.5" y="139">G</text><text class="aw-base" x="381.5" y="139">A</text><text class="aw-base" x="396.5" y="139">T</text><text class="aw-base" x="411.5" y="139">G</text><text class="aw-base" x="426.5" y="139">T</text><text class="aw-base" x="441.5" y="139">T</text><text class="aw-base" x="456.5" y="139">G</text><text class="aw-tick" x="456.5" y="153">1</text><text class="aw-tick" x="396.5" y="153">5</text><text class="aw-tick" x="321.5" y="153">10</text><text class="aw-tick" x="246.5" y="153">15</text><text class="aw-tick" x="171.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">24</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="468" y="139">3′</text></svg>
-<p class="aw-empty">No position carried a mismatch in enough records to report. 2 of the 35 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
+<p class="aw-empty">No position carried a mismatch in enough records to report. 1 of the 19 records in the recent and baseline windows were not detected. Their mismatches are either spread too thinly to report at any one position, or the record has no site for an oligo (for example no probe site inside the amplicon), which leaves no position to draw.</p>
 
 ## Predicted detection by deposit year
 
@@ -46,7 +46,7 @@ deposit. The shaded band marks the recent window and the dashed line the thresho
 Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2014 to 2026, against a 90 percent threshold."><rect class="aw-window" x="485.3" y="12.0" width="220.7" height="180.0"><title>the recent window: 48 months from Nov 2022</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 319.8,20.2 375.0,20.2 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-stable" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 319.8,20.2 375.0,20.2 485.3,183.8 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"/><g class="aw-point aw-stable"><title>2014: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2015: 3 of 3 detected (100.0%)</title><circle cx="99.2" cy="20.2" r="2.6"/></g><g class="aw-point aw-stable"><title>2016: 4 of 4 detected (100.0%)</title><circle cx="154.3" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>2017: 1 of 1 detected (100.0%)</title><circle cx="209.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="264.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2019: 1 of 1 detected (100.0%)</title><circle cx="319.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2020: 5 of 5 detected (100.0%)</title><circle cx="375.0" cy="20.2" r="2.8"/></g><g class="aw-point aw-stable"><title>2022: 0 of 2 detected (0.0%) — recent window</title><circle cx="485.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-stable"><title>2023: 2 of 2 detected (100.0%) — recent window</title><circle cx="540.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2024: 4 of 4 detected (100.0%) — recent window</title><circle cx="595.7" cy="20.2" r="2.7"/></g><g class="aw-point aw-stable"><title>2025: 2 of 2 detected (100.0%) — recent window</title><circle cx="650.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-stable"><title>2026: 8 of 8 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="3.1"/></g><text class="aw-tick" x="44.0" y="208">2014</text><text class="aw-tick" x="154.3" y="208">2016</text><text class="aw-tick" x="264.7" y="208">2018</text><text class="aw-tick" x="375.0" y="208">2020</text><text class="aw-tick" x="485.3" y="208">2022</text><text class="aw-tick" x="595.7" y="208">2024</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 2014 to 2026, against a 90 percent threshold."><rect class="aw-window" x="485.3" y="12.0" width="220.7" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 375.0,20.2 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 99.2,20.2 154.3,20.2 209.5,20.2 264.7,20.2 375.0,20.2 485.3,183.8 540.5,20.2 595.7,20.2 650.8,20.2 706.0,20.2"/><g class="aw-point aw-insufficient-data"><title>2014: 2 of 2 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2015: 1 of 1 detected (100.0%)</title><circle cx="99.2" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2016: 2 of 2 detected (100.0%)</title><circle cx="154.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2017: 1 of 1 detected (100.0%)</title><circle cx="209.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2018: 1 of 1 detected (100.0%)</title><circle cx="264.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2020: 3 of 3 detected (100.0%)</title><circle cx="375.0" cy="20.2" r="2.6"/></g><g class="aw-point aw-insufficient-data"><title>2022: 0 of 1 detected (0.0%) — recent window</title><circle cx="485.3" cy="183.8" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2023: 1 of 1 detected (100.0%) — recent window</title><circle cx="540.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 2 of 2 detected (100.0%) — recent window</title><circle cx="595.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2025: 1 of 1 detected (100.0%) — recent window</title><circle cx="650.8" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2026: 4 of 4 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.7"/></g><text class="aw-tick" x="44.0" y="208">2014</text><text class="aw-tick" x="154.3" y="208">2016</text><text class="aw-tick" x="264.7" y="208">2018</text><text class="aw-tick" x="375.0" y="208">2020</text><text class="aw-tick" x="485.3" y="208">2022</text><text class="aw-tick" x="595.7" y="208">2024</text><text class="aw-tick" x="706.0" y="208">2026</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## What was deposited, by lineage
 
@@ -80,26 +80,27 @@ Between the baseline and the recent window the detected share went
 
 ## Verdict
 
-**stable** — the recent interval does not fall below the threshold
+**insufficient data** — too few evaluable records to support an estimate; reported, never flagged
 
 Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (48 months, from Nov 2022) | 16 | 16 | 100.0% | 80.6% – 100.0% |
-| baseline (everything earlier) | 17 | 19 | 89.5% | 68.6% – 97.1% |
+| recent window (60 months, from Nov 2021) | 8 | 9 | 88.9% | 56.5% – 98.0% |
+| baseline (everything earlier) | 10 | 10 | 100.0% | 72.2% – 100.0% |
 
-Change from baseline, Newcombe interval: **-10.3% to 31.4%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-43.5% to 18.1%**. Threshold: **90.0%**.
 
-*detected share 100.0% (81%-100%) since Nov 2022 (window widened to 48 months to reach 15 evaluable records)*
+*9 evaluable records since Nov 2021, below the minimum of 15; the detected share is 89% (57%-98%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
 
-Trend across deposit years: by record falling (p = 0.729, 12 years); by footprint falling (p = 0.522). Reported for context; it is not an input to the verdict.
+Trend across deposit years: by record falling (p = 0.743, 11 years); by footprint falling (p = 0.545). Reported for context; it is not an input to the verdict.
 
 From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
 
+**Meant to detect:** Vibrio coralliilyticus, vcpA zinc-metalloprotease gene, by real-time RT-PCR.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Vibrio coralliilyticus (taxid 190893), limited by a query on the title or gene.
 
@@ -116,13 +117,13 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 ## Records reaching the statistics
 
-97 records were screened for this assay and **35 (36%)** were evaluable, meaning both primers landed in the right orientation and size range. 62 produced no amplicon at all.
+66 records were screened for this assay and **19 (29%)** were evaluable, meaning both primers landed in the right orientation and size range. 47 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
-| `no_site` | 46 |
+| `no_site` | 31 |
 | `truncated` | 16 |
 
 

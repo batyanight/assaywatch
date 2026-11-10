@@ -133,10 +133,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
 
+**Meant to detect:** Primate adenoviruses, DNA polymerase gene, as a second round.  
 **Scored against:** only taxa that every round claims.  
 **Retrieved from:** Mastadenovirus (taxid 10509), every record.
 
 The protocol declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+Disclosures on this entry: `scope_wider_than_paper_tested`.
 
 
 ## Records reaching the statistics

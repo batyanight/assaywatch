@@ -221,12 +221,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Canine distemper virus H gene, one of four overlapping pieces, for sequencing rather than detection.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `pairing_is_curator_reading`.
+Disclosures on this entry: `oligos_not_in_cited_paper`.
 
 
 ## Records reaching the statistics
@@ -244,9 +245,9 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 ## Curation record
 
-TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md.
+TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md. CORRECTED 2026-11-06: the paper states the pairing, so that flag is removed. The arctic alternates are not printed by the paper and their source isn't recorded.
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-10-27</b> TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md.</p><p><b>2026-10-22</b> CITATION RESOLVED 2026-10-22. The 'candidate' in the old reference string is confirmed by sequence, not by plausibility: Müller et al. 2011 (J Wildl Dis 47:725-729, 10.7589/0090-3558-47.3.725) prints this entry's primers, and all four Mueller_2011 entries' primer pairs verify exact against that PDF. The paper is paywalled, which is why the open-access routes never found it.</p><p><b>2026-10-05</b> TAXON RENAMED: NCBI now calls txid11232 'Morbillivirus canis'; this entry carried the superseded name 'Canine morbillivirus'. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-10-27</b> TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md. CORRECTED 2026-11-06: the paper states the pairing, so that flag is removed. The arctic alternates are not printed by the paper and their source isn't recorded.</p><p><b>2026-10-22</b> CITATION RESOLVED 2026-10-22. The 'candidate' in the old reference string is confirmed by sequence, not by plausibility: Müller et al. 2011 (J Wildl Dis 47:725-729, 10.7589/0090-3558-47.3.725) prints this entry's primers, and all four Mueller_2011 entries' primer pairs verify exact against that PDF. The paper is paywalled, which is why the open-access routes never found it.</p><p><b>2026-10-05</b> TAXON RENAMED: NCBI now calls txid11232 'Morbillivirus canis'; this entry carried the superseded name 'Canine morbillivirus'. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.</p></details>
 
 ## Corrections
 

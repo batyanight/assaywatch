@@ -179,6 +179,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Primate lentiviruses (HIV-1, HIV-2 and simian immunodeficiency viruses), pol gene, second round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Simian immunodeficiency virus (taxid 11723), limited by a query on the title or gene.
 

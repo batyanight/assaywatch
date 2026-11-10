@@ -26,6 +26,7 @@ citation:
     (2014).
   doi_verified: true
   oligos_designed_here: null
+  claim: Mycobacterium tuberculosis complex, IS6110 insertion element.
 conditions:
   mg_mm: 1.5
   annealing_c: 58.0
