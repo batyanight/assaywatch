@@ -1,3 +1,11 @@
+# Resume point, 2026-11-10 (coverage map on branch `coverage-map`; probes held)
+
+**The coverage map is built and run once, on branch `coverage-map`.** `assaywatch coverage` writes
+`coverage.tsv` and `coverage.md` from a calls table. Read `docs/journal/2026-11-10-coverage-map.md`
+before changing it: four interface changes wait on the maintainer, and the locus check is the next
+piece of work. Probe scoring is held on branch `probe-rule-by-chemistry`, unmerged; why is in the
+same journal. What is open is on the roadmap.
+
 # Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
 
 **The security and code review fixes and the page order are in the PR from `scope-review-fixes`.**

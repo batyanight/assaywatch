@@ -415,6 +415,23 @@ class Composition(Block):
     same_mix_min_covered: float = Field(default=0.8, gt=0.0, le=1.0)
 
 
+class Coverage(Block):
+    #: The coverage map's two cuts (`coverage.CoverageRule`), as shares of a cell's
+    #: locus-present records. `CoverageRule` refuses cuts that cross when it is built;
+    #: the validator here says so at startup instead of at the first cell.
+    detect_min_share: float = Field(default=0.95, gt=0, le=1)
+    fail_max_share: float = Field(default=0.05, ge=0, lt=1)
+
+    @model_validator(mode="after")
+    def cuts_do_not_cross(self) -> Coverage:
+        if self.fail_max_share >= self.detect_min_share:
+            raise ValueError(
+                f"coverage.fail_max_share ({self.fail_max_share}) must be below "
+                f"coverage.detect_min_share ({self.detect_min_share})"
+            )
+        return self
+
+
 class Settings(Block):
     """config.yaml, whole."""
 
@@ -435,6 +452,7 @@ class Settings(Block):
     figures: Figures = Field(default_factory=Figures)
     report: Report = Field(default_factory=Report)
     lineage: Lineage = Field(default_factory=Lineage)
+    coverage: Coverage = Field(default_factory=Coverage)
     composition: Composition = Field(default_factory=Composition)
 
 

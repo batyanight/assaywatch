@@ -89,6 +89,41 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   A new query is a new retrieval group, so re-fetch and rescreen it, and do not change it
   during a run.
 
+## Coverage map (built 2026-11-10): what it still owes
+
+`assaywatch coverage` writes `coverage.tsv` and `coverage.md` from a calls table: one cell
+per (assay, species). The decisions, what was built and what the first run showed are in
+`docs/journal/2026-11-10-coverage-map.md`; the vocabulary is in `GLOSSARY.md`, "Coverage".
+
+- [ ] **The maintainer accepts or reverses four interface changes** made while building:
+      `scope_of` as `(assay, species) -> bool`; the `rule` argument; the `reduced` field on
+      `CoverageCell`; `degeneracy_of` on `recommend`. Listed in the journal.
+- [ ] **The locus check** (improvement 3 of the 2026-11-10 review, approved). A tolerant,
+      gapped alignment of a reference amplicon against a record, independent of the primers,
+      writing `locus_present` on the row; `coverage._locus_present` already reads it. Starting
+      thresholds 70% identity over 80% of the amplicon, to be replaced by a measurement.
+      Until it exists 60% of cells are `not assessable` and a distant species in which
+      neither primer lands is invisible. It also turns an indel in a primer site from a
+      blank into a failure. `locus_identity.py` is a dormant start.
+- [ ] **Widened retrieval**, per assay, so that out-of-scope species are in the archive on
+      purpose. Today 1,368 of 20,054 counted cells are out of scope, by accident of what
+      each archive happened to hold.
+- [ ] **Store GenBank's `/host` qualifier** in archive metadata. The host column is built
+      and empty.
+- [ ] **Decide the trace rule.** On the 2026-11-01 calls a `together` row reads within 2
+      points of round 2 alone for 18 of 34 protocols, because round 1 fails only on a
+      3'-terminal mismatch or no site. The strict reading (`nested.nest_calls`) is the other
+      end. Needs a bench panel or a maintainer decision.
+- [ ] **A Snakemake rule** for the stage, and `coverage` among the config sections a rule
+      hashes. Run by hand until then.
+- [ ] **Split a row by sublineage** where one taxid hides distinct lineages (Bd, influenza A
+      subtypes), using the resolvers the lineage analysis already has.
+- [ ] **Move the footprint definitions** (`FOOTPRINT_COLUMNS`, `FOOTPRINT_REQUIRED`,
+      `footprint_signature`) from `drift.py` into `calls.py`, so that `coverage` does not
+      reach `drift` even through a re-export.
+- [ ] **Look at the 132 in-scope `predicted fail` cells with 20 or more records**, largest
+      first. Some will be declared scopes that are wider than the assay.
+
 ## Website and review (asked for 2026-11-04)
 
 - [x] **Humanize the website's language.** Done 2026-11-04: the home page first, with the voice
@@ -454,6 +489,17 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
 `detect_max` 1.0 and `reduced_max` 3.0, with `terminal_mismatch_fails: true` and, since
 2026-10-27, a 2.0 3'-window penalty for conventional PCR.
 
+- **FOLLOW UP: probe scoring, held by the maintainer on 2026-11-10.** Branch
+  `probe-rule-by-chemistry` (unmerged) scores a probe by its mismatch COUNT per chemistry
+  and length. Replayed, it left every tier-2 figure unchanged and swapped one documented
+  catch for another: gains `Influenza_A_virus_HA_H3_Shu_2026`, loses
+  `Influenza_A_virus_M1_Ward_2004`. Both hinge on ONE mismatch at position 15 of a standard
+  probe (T:G in 76% of H3 records, G:A in 32% of Ward's), so no count can separate them and
+  the candidate is rejected as it stands. The next candidate is to price a probe mismatch by
+  predicted Tm loss (`thermo.py`, which sees mispair identity and probe length together).
+  The branch also carries two findings worth keeping whatever replaces it: 9 of 21 MGB
+  probes are longer than 20 nt, and `score.py`'s comment that the G:T discount "ships
+  empty" is stale. `docs/journal/2026-11-10-coverage-map.md`, last section.
 - **S5 = C2: the Bayesian per-record model, and it is GATED.**
   `P(detect) = P(fwd ok) x P(rev ok) x P(probe reports)`, each logistic over identity,
   position, adjacency and length, with chemistry as a hierarchical intercept and priors

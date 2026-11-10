@@ -1181,6 +1181,31 @@ lineage:
 # and probe sites masked, so a cluster is defined by sequence the assay does not
 # measure -- the same reasoning as decision A of
 # docs/journal/2026-10-19-subtaxid-resolution.md.
+# THE COVERAGE MAP (`assaywatch coverage`, assaywatch/coverage.py). Which species each
+# assay is predicted to detect as of today: one cell per (assay, species), with no time
+# axis. It reads the same calls table as drift and nothing in `drift:` above applies to
+# it. In particular `drift.reduced_not_detected_for` does not: a `reduced` record is
+# counted as detected here, and keeps the cell from reading `predicted detect`.
+coverage:
+  # Where `partial` begins and ends, as shares of the cell's locus-present records.
+  #
+  #   detected share          <= fail_max_share    `predicted fail`
+  #   cleanly detected share  >= detect_min_share  `predicted detect`
+  #   anything between                             `partial`
+  #
+  # "Cleanly detected" is a call of `detect`; "detected" also counts `reduced`
+  # (amplifies, expect a Ct shift). So a species whose records are all `reduced` is
+  # `partial` with a full count, e.g. 8/8, and the report says how many carry the shift.
+  #
+  # BOTH NUMBERS WERE CHOSEN, NOT MEASURED (a maintainer decision, 2026-11-10). 95/5
+  # leaves room for one sequencing error or one mislabelled deposit in twenty before a
+  # cell changes its word, and nothing more principled than that stands behind them.
+  # They matter less than they look: every cell is printed with its count and its
+  # number of distinct footprints, and no minimum record count hides a cell, so a `1/1`
+  # reads `predicted detect` and it is the count beside it that says how little that is.
+  detect_min_share: 0.95
+  fail_max_share: 0.05
+
 composition:
   # The flank BUDGET per side, 2 x flank_bp in all. Not the flank itself: each assay's
   # window shape is read from its own archive (subcluster.window_shape), because an

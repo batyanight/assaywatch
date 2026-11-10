@@ -11,6 +11,12 @@ because none of them can be recomputed without the archives.
 
 ## Unreleased
 
+- **New stage: `assaywatch coverage`, the coverage map.** Which species each assay is predicted to
+  detect as of today: one cell per (assay, species), `predicted detect`, `partial`, `predicted fail`
+  or `not assessable`, always with its count and its number of distinct footprints, in-scope and
+  out-of-scope species in separate blocks, and three rows for a nested protocol. Reads the calls
+  table and changes no call, no status and nothing in `report.md`. Not yet a Snakemake rule, and it
+  has no locus check behind it: read an absent species as unknown (`ROADMAP.md`, "Coverage map").
 - Assay pages open on the primer graph, then the line graph, then the bar graph. Assembly records now
   reach the lineage groups, and a species is no longer split across names by the strains in its titles.
   Fixes from the security and code reviews. No status moved.

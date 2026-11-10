@@ -14,7 +14,7 @@ word for a concept.
 
 **primer** — a forward or reverse oligo; scored by its distance from the 3' end.
 
-**probe** — the internal oligo of a `hydrolysis_probe`, `mgb` or `lna` assay; absent in `conventional`, `sybr` and `rpa` assays, so 156 of 216 entries have none (`assaywatch validate registry` prints the split; `config.yaml scoring:` for how a probe is scored).
+**probe** — the internal oligo of a `hydrolysis_probe`, `mgb` or `lna` assay; absent in `conventional`, `sybr` and `rpa` assays (`assaywatch validate registry` prints the current split, which is not quoted here because a hand-written count goes stale; `config.yaml scoring:` for how a probe is scored).
 
 **chemistry** — the assay's detection format, one of `conventional`, `sybr`, `hydrolysis_probe`, `mgb`, `lna`, `rpa`; scoring overrides are keyed on it (`schema.py` `Chemistry`, `config.yaml scoring: by_chemistry`).
 
@@ -28,7 +28,7 @@ word for a concept.
 
 **amplicon_disagrees_with_paper** — review flag: the measured amplicon length differs from the published one, and the registry keeps the measured value (`CLAUDE.md`, `review.py`).
 
-**target** — what the assay is for: `taxid`, `taxon_name`, `gene`, `genome_type`, optional `query` (`schema.py` `Target`).
+**target** — the taxon and gene the assay is for: `taxid`, `taxon_name`, `gene`, `genome_type`, optional `query` (`schema.py` `Target`).
 
 **gene name** — `target.gene`: `symbol (product)`, or a bare name where there is no separate symbol, each virus keeping its own true symbol (influenza NP, paramyxovirus N). Coordinates, accessions and ortholog lists go in `notes_curator`, unless a position is the locus's only identity.
 
@@ -40,7 +40,7 @@ word for a concept.
 
 **doi_verified** — `true` only after `scripts/resolve_citations.py` and `scripts/check_citations.py` have confirmed the DOI against Crossref; a DOI is always entered as `false` first (`CLAUDE.md`).
 
-**status (active, draft, deprecated)** — registry lifecycle; only a maintainer sets `active`, and an entry in `registry/` must also carry `doi_verified: true` (`schema.py` `Status`).
+**status (active, draft, deprecated)** — registry status, the entry's lifecycle; only a maintainer sets `active`, and an entry in `registry/` must also carry `doi_verified: true` (`schema.py` `Status`).
 
 **pending entry** — an assay YAML waiting for a verified DOI; it sits in `pending/`, is never screened, and is checked with `python -m assaywatch.validate pending --pending` (`CLAUDE.md`).
 
@@ -70,7 +70,7 @@ word for a concept.
 
 **fail** — a call: both primers land but the penalty exceeds `reduced_max`, or a terminal mismatch fails it (`terminal_mismatch_fails`).
 
-**no_amplicon** — a call: no facing primer pair in the right orientation within the amplicon size range; kept out of the drift fraction (`drift.py`, `score.py`).
+**no_amplicon** — a call: no facing primer pair in the right orientation within the amplicon size range. Kept out of the drift fraction, with one exception: a `no_amplicon` whose exclusion is `diverged` is counted as a failure under `drift.count_diverged_as_fail` (shipped `true`) (`drift.py`, `score.py`).
 
 **indeterminate** — a call: too many undetermined record bases (ambiguity codes, N) under an oligo to score; kept out of the drift fraction (`score.py`).
 
@@ -78,11 +78,11 @@ word for a concept.
 
 **not detected** — a `reduced` call counted as not detected for the chemistries in `drift.reduced_not_detected_for` (currently `hydrolysis_probe`, `mgb`), where a reduced probe call stops counting as a find (`config.yaml drift:`).
 
-**evaluable record** — a record with a `detect`, `reduced` or `fail` call; the only records in the drift denominator (`drift.py`).
+**evaluable record** — a record in the drift denominator: one with a `detect`, `reduced` or `fail` call, plus a `diverged` `no_amplicon` record under `drift.count_diverged_as_fail`. `indeterminate` and every other `no_amplicon` are not evaluable (`drift.py`). See also **assessable** and **coverage gap**, two further thresholds on the same count.
 
 **exclusion** — the reason a record yielded no amplicon: `no_site`, `truncated`, `diverged`, `no_pair`, or `chance_only` (`score.py classify_exclusion`).
 
-**site** — a position in a record where an oligo binds with at most `max_mismatches_searched` mismatches, found on both strands (`match.py`).
+**site** — a binding site: a position in a record where an oligo binds with at most `max_mismatches_searched` mismatches, found on both strands (`match.py`).
 
 **penalty** — the position-weighted mismatch cost of one oligo; forward, reverse and probe penalties are summed into one budget under the shipped `engine: budget` (`config.yaml scoring:`).
 
@@ -94,9 +94,13 @@ word for a concept.
 
 **terminal mismatch** — a mismatch at the 3'-most base of a primer; with `terminal_mismatch_fails: true` it makes the call `fail` regardless of identity (`config.yaml scoring:`).
 
+**mismatch** — a position where an oligo base and the record base it faces share no possible base; a degenerate oligo base that includes the record base is a match, and an undetermined record base is **ambiguous**, not a mismatch (`iupac.py base_state`).
+
 **mispair** — the identity of a mismatch (template base : primer base, e.g. `G:T`), as opposed to its position; `mispair_penalty` overrides the cost of named mispairs such as G:T wobble (`config.yaml scoring:`, `score.py`).
 
 **mispair window** — how many bases from the 3' end `mispair_penalty` applies; null means `primer_3prime_window` (`scoring.mispair_window`).
+
+**oligo verdict** — under `engine: serial` only, the per-oligo judgement `ok`, `weak` or `blocked` set by `oligo_ok_max` and `oligo_weak_max` (`score.py oligo_verdict`). The only place "verdict" means something other than a drift status.
 
 **engine (budget, serial)** — how oligo penalties combine: `budget` sums them against `detect_max`/`reduced_max`; `serial` judges each oligo alone and the worst decides (`scoring.engine`).
 
@@ -104,7 +108,7 @@ word for a concept.
 
 **degenerate base** — an IUPAC ambiguity code written in an oligo, synthesised as a mixture; inosine is kept in `seq_as_written` (`iupac.py`, `schema.py`).
 
-**ambiguous (record base)** — a record position whose true base is undetermined; reported separately and never scored as a mismatch (`match.py`).
+**ambiguous (record base)** — a record position whose true base is undetermined (an IUPAC code or N in the record); the code also writes "undetermined" for the same thing; reported separately and never scored as a mismatch (`match.py`).
 
 **chance pair** — a forward and reverse site that face each other in amplicon range by chance in a long record, with nothing to do with the target (`chance.py`).
 
@@ -134,13 +138,13 @@ word for a concept.
 
 **recent window** — the latest `recent_window_months` (24) of deposit dates, widened a year at a time up to `max_window_months` (60) when records are scarce (`config.yaml drift:`).
 
-**status** — the per-assay drift verdict: `stable`, `watch`, `declining`, `low coverage`, `insufficient data` (`drift.py`, `README.md` "The drift call").
+**status (drift)** — the per-assay drift verdict: `declining`, `low coverage`, `watch`, `insufficient data`, `no recent data`, `stable`, plus `no data` (`drift.py` `STATUS_ORDER`, `NO_DATA`; `docs/screening-and-the-drift-call.md` "The drift call"). Not the registry **status (active, draft, deprecated)**; say "drift status" or "registry status" wherever both could be meant.
 
-**declining** — status: recent share is below `detect_fraction_threshold`, the fall is at least `min_decline` with a Newcombe interval wholly below zero, and the assay cleared the threshold in some earlier year (`drift.require_working_baseline`) (`README.md`, `config.yaml drift:`).
+**declining** — status: recent share is below `detect_fraction_threshold`, the fall is at least `min_decline` with a Newcombe interval wholly below zero, and the assay cleared the threshold in some earlier year (`drift.require_working_baseline`) (`docs/screening-and-the-drift-call.md`, `config.yaml drift:`).
 
-**low coverage** — status: below threshold but not measurably lower than before, or never working; an assay used beyond its design, or one that was always poor (`README.md`).
+**low coverage** — drift status: below threshold but not measurably lower than before, or never working; an assay used beyond its design, or one that was always poor (`docs/screening-and-the-drift-call.md`). A pooled, over-time statement about one assay; not a cell of the **coverage map**, which is per species and has no time axis.
 
-**watch** — status: below threshold with an interval that still covers it (`README.md`).
+**watch** — drift status: below threshold with an interval that still covers it (`docs/screening-and-the-drift-call.md`).
 
 **insufficient data** — status: fewer than `min_records_for_drift` evaluable records; reported, never flagged (`config.yaml drift:`).
 
@@ -161,6 +165,58 @@ word for a concept.
 **hierarchical layer (C1)** — Beta-binomial partial pooling of an assay's lineages; reported, never a verdict unless `verdict_from: posterior` (`hierarchical.py`).
 
 **Wilson / Newcombe interval** — Wilson score interval for a proportion; Newcombe hybrid-score interval for a difference of two, built from the two Wilson intervals (`interval.py`, `drift.py`).
+
+## Coverage
+
+Agreed 2026-11-10. Coverage and drift are two separate summaries of the same calls table
+and neither depends on the other; coverage is the primary product. Built the same day as
+`assaywatch coverage` (`coverage.py`): the map, the cell states, recommendations and the
+nested rows. NOT built yet, and marked below: the **locus check**, **widened retrieval**
+and the **host column**'s data.
+
+**coverage** — which species an assay is predicted to detect as of today, including species outside what its paper claimed. A snapshot with no time axis. Bench vocabulary would say "in-silico inclusivity"; this project says coverage.
+
+**coverage map** — the assay x species table: one **coverage row** per species, one **coverage cell** per (assay, species).
+
+**coverage row** — one NCBI species taxid. Host never defines a row. A row is split by **sublineage** only where one taxid is known to hide distinct lineages (Bd, influenza A subtypes).
+
+**host column** — the hosts named in a row's records (the GenBank `/host` qualifier, shown as written, most common first). Displayed, never used to group or score. "Fish ranavirus" is something a reader concludes from this column; the tool does not claim it. Empty on real runs until retrieval stores `/host`.
+
+**in-scope row / out-of-scope row** — a row whose taxid is, or is not, under the assay's `scope_taxids` (or its `target.taxid` where no scope is declared). Both are screened and shown, in separate blocks. Drift uses scope to shrink its denominator; coverage uses it only as a label.
+
+**widened retrieval** — a retrieval group fetched above the assay's own target (typically the family) so out-of-scope species are in the archive at all. A per-assay retrieval setting. Not built: a species has a row today only if its records were already in the assay's archive.
+
+**coverage cell** — the predicted outcome for one assay on one species, one of `predicted detect`, `partial`, `predicted fail`, `not assessable`, always printed with its **cell count**. No minimum record count hides a cell.
+
+**cell count** — detected records over locus-present records for the cell, e.g. `8/10`. The reader judges a `3/3` and a `300/300` differently; the tool does not hide either.
+
+**predicted detect** — cell state: the records carry no mismatch that would block the reaction. Worded that way on purpose. It says the oligos match; it does not say the reaction works.
+
+**partial** — cell state: either the records split between detected and not, or they are detected with an expected loss of efficiency (e.g. one mismatch under a standard hydrolysis probe: amplifies, expect a Ct shift). Not the per-record call `reduced`, which is one input to it. In numbers (`config.yaml`, `coverage:`): more than `fail_max_share` detected and less than `detect_min_share` cleanly detected.
+
+**cleanly detected** — a record called `detect`. "Detected" in a cell count also includes `reduced`; `predicted detect` is judged on the cleanly detected share alone, so a species whose records are all `reduced` reads `partial` with a full count.
+
+**predicted fail** — cell state: the locus is present and the oligos are predicted not to amplify it. A stronger claim than `predicted detect`, because a 3' terminal mismatch or a missing site is good evidence from sequence alone.
+
+**not assessable** — cell state: no record of that species is shown to contain the locus, so the assay was never tested by the data. Not a failure. Distinct from **assessable** (a drift lineage with enough evaluable records).
+
+**locus check** — (not built) the test, independent of the primers, of whether a record contains the assay's target region: a tolerant alignment of a reference amplicon against the record. Decides between `predicted fail` and "does not count" when no primer site is found.
+
+**locus present** — a record shown to hold the assay's target region; only these enter a cell count. Until the locus check exists the only evidence is the screen's own: both primers found a site (a `detect`, `reduced` or `fail` call) or the screen labelled the record `diverged`. So a distant species in which neither primer lands is invisible to the map.
+
+**reference amplicon** — an amplicon cut from a record the assay detects, used as the query of the locus check.
+
+**recommendation** — for one species, the assays ordered by coverage cell, ties broken toward the less degenerate primer pool. A ranking, not a verdict.
+
+**degeneracy annotation** — the degeneracy tier shown on an assay's rows. It never changes a call or a cell; it breaks ties in a recommendation.
+
+**nested rows** — the three rows a nested or semi-nested protocol gets in the coverage map: **together**, **round 1 alone**, **round 2 alone**. The two "alone" rows are the rounds' own registry entries; only `together` is computed, under the id `<last round's id>@together`.
+
+**together** — nested row: the protocol as published, round 1 then round 2. Round 1 is scored on the **trace rule**, round 2 on the normal rule, and the cell is the worse of the two.
+
+**round 1 alone / round 2 alone** — nested rows: that round's primer pair on raw template, scored on the normal rule because it carries the whole reaction. Round 2 alone is the fallback when round 1 misses a species.
+
+**trace rule** — the looser scoring of round 1 inside a `together` row: round 1 only has to make a trace of product, so it fails only on a 3' terminal mismatch (one the scoring config does not price at zero) or no site (`coverage.trace_passes`). Agreed in outline 2026-11-10 and not measured. It is permissive: on the 2026-11-01 calls it lets nearly every scored round-1 record through, so a `together` row reads close to round 2 alone.
 
 ## Pipeline and runs
 
@@ -224,7 +280,7 @@ word for a concept.
 
 **ground truth** — a documented outcome for an (assay, lineage) pair from a tier-2 case or a bench panel row; a flag with "no ground truth either way" is one no paper or panel has judged (`config.yaml scoring:`).
 
-**evaluable / assessable / coverage gap** — three thresholds on one count. A record is *evaluable* when both primers anchored in range so it received an amplicon (`config.yaml` under `chance_pair_fdr`). A lineage is *assessable* when it has at least `lineage.min_records_per_lineage` evaluable records. A *coverage gap* is an assay-level shortfall below `drift.min_records_for_coverage`. Same denominator, three places it is tested.
+**evaluable / assessable / coverage gap** — three thresholds on one count. A record is *evaluable* as defined under **evaluable record** above. A lineage is *assessable* when it has at least `lineage.min_records_per_lineage` evaluable records. A *coverage gap* is an assay-level shortfall below `drift.min_records_for_coverage`. Same denominator, three places it is tested.
 
 **undecided** — the set of drift statuses that are not a verdict: `insufficient data`, `no recent data`, `no data` (`scripts/retrospective.py UNDECIDED`). `drift.py STATUS_ORDER` carries the first two and `NO_DATA` the third; the report grays all three. `no recent data` means nothing new was deposited in the window; `insufficient data` means too few evaluable records; `no data` means no archive at all.
 
@@ -233,3 +289,49 @@ word for a concept.
 **retrospective families** — the phrase families that `scripts/find_retrospective_cases.py` uses to find citing papers (`docs/journal/2026-10-26-retrospective-case-search.md`): `miss`, a paper reporting the assay missing samples (the scarce `fails` kind, or a clinical sensitivity report); `weakened`, reduced or partial detection; `mismatch`, a paper locating primer mismatches against a lineage (the best route to a `drift` case); `redesign`, a group redesigning the assay, which usually says why; `use`, opt-in, a paper that simply uses the assay and so may test our oligos on new material (`docs/journal/2026-10-29-use-family-cases.md`); `late_redesign`, opt-in and pre-registered, a redesign published five or more years after the design paper, the first source tried for a `drift` case (`docs/journal/2026-10-30-redesign-family.md`).
 
 **lineage Modes A, B, C** — the three ways a record is assigned to a sublineage (`assaywatch/lineage.py` docstrings). Mode A: by taxid, when NCBI already distinguishes the sublineages below the query taxon (Avipoxvirus: fowlpox vs canarypox). Mode B: by a title token regex (influenza subtype `(H5N1)`). Mode C: by a sequence cluster label from `assaywatch/subcluster.py` (Bd BdGPL vs BdCAPE). Each returns None to defer to the next.
+
+## Words with more than one meaning
+
+Each of these is one word doing several jobs. Qualify it every time.
+
+**status** — registry status (`active`, `draft`, `deprecated`) or drift status (`declining`, `stable`, ...).
+
+**flag** — a review flag (`needs_review`) or a drift flag (the rule that puts an assay below threshold).
+
+**verdict** — a drift status, or under the serial engine an oligo verdict (`ok`, `weak`, `blocked`).
+
+**coverage** — four things: the coverage map (this glossary's "Coverage" section); the drift status `low coverage`; a coverage gap (too few records, `drift.min_records_for_coverage`); and how completely an archive was retrieved (`retrieve.py`, `composition.coverage_*`). Unqualified, it means the coverage map.
+
+**site** — a binding site (`match.py`, `sitedrift.py`), or the project website (`site.py`, `site_render.py`, `site_svg.py`).
+
+**window** — 3' window, mid window, mispair window (positions on a primer); recent window (deposit dates); window archive and composition window (stretches of a record).
+
+**target** — the assay's taxon and gene. The sequence being searched is a **record**, and the base a primer faces is the **template** base; neither is "the target".
+
+**tier** — a degeneracy tier (`negligible`, `moderate`, `high`) or tier-2 validation.
+
+**panel** — a `Panel` in the registry schema (the paper's own inclusivity counts), a bench panel (`docs/bench-panels/`), or a panel of the website dashboard.
+
+**assessable** — a drift lineage with enough evaluable records; `not assessable` is a coverage cell with no locus-present record.
+
+**round** — a nested round (round 1, round 2), or the arithmetic `round()` in code.
+
+**exclusion / exclusivity** — an exclusion is why a record yielded no amplicon; exclusivity is a paper's claim about off-target taxa.
+
+## Words not to use
+
+**hit** — not a project term. An oligo matching a record is a **site**; an assay's outcome on a record is a **call**; a record returned by a search is a **record**.
+
+**alert** — not a project term. An assay-level statement is a **drift status** or a **coverage cell**; the rule behind a drift status is a **flag**.
+
+**strain** — not a unit this project groups by. Say **species** (a coverage row), **lineage** or **sublineage**. `strain` survives only as a GenBank record qualifier.
+
+**clade, stratum** — say **lineage** or **sublineage**. The one exception is **diverged stratum**, defined above.
+
+**product** — say **amplicon**.
+
+**undetermined (record base)** — say **ambiguous**.
+
+**inclusivity** — say **coverage**, except when naming a paper's own inclusivity panel.
+
+**drift (for a species the assay never detected)** — that is a `predicted fail` coverage cell or a `low coverage` drift status. Drift is a fall over time.

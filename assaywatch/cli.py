@@ -35,6 +35,10 @@ STAGES: dict[str, tuple[str, str]] = {
         "assaywatch.lineage_report",
         "per-lineage detection and the lineage-conditional verdict",
     ),
+    "coverage": (
+        "assaywatch.coverage",
+        "which species each assay is predicted to detect: the coverage map",
+    ),
     "degeneracy": ("assaywatch.degeneracy", "primer-pool degeneracy per assay"),
     "figures": ("assaywatch.figures", "the report's figures"),
     "report": ("assaywatch.report", "render report.md and report.html from a calls table"),
