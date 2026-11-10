@@ -122,6 +122,98 @@ a threshold of 0.80). Speed: 0.8 s for a 300 bp reference against a 200 kb recor
 `config.yaml` records why 0.70 identity is suspect. Wiring it in waits on a decision about
 where it runs, which is on the roadmap.
 
+## The locus stage, and the first run on real archives
+
+The maintainer chose a stage of its own over a change to the screen. `assaywatch locus`
+(`locus.py`) checks the unjudged records (`no_amplicon` not labelled `diverged`) and writes
+`locus.tsv.gz`; `assaywatch coverage --locus` joins it. Three things were added that the
+plan did not have, each forced by a real archive:
+
+**The flank rule.** The references in `docs/locus-references.json` are amplicon interiors
+with the primer sites trimmed off, so an interior can be whole in a deposit that stops
+before a primer site. A record counts only when the locus is present AND the record runs
+at least `scoring.locus_identity_trim_bp` past where the whole reference would sit, on both
+sides. It is not a refinement: for `Ranavirus_MCP_Johnson_2008`, 314 unjudged records hold
+the locus and 311 of them have no room. Without the rule the assay would read 83/397 on
+its own species instead of 83/88.
+
+**Seeding.** Five 491 bp references against a 105 kb ranavirus genome took seconds per
+record aligned whole. Records over 5 kb are now aligned only where 7-base words shared
+with the reference pile up on one diagonal, up to twelve stretches per reference and
+strand. Measured on a 200 bp locus at 30% substitution in 100 kb of random sequence
+(40 of 40 found when aligned whole): words of 8 and 3 stretches, 35; 8 and 30, 37; 7 and
+12, 39; 6 and 30, 40. 7 and 12 is used. Evenly spread substitutions are the worst case.
+
+**A minimum reference length.** Interiors of short amplicons are useless: 17 bp for
+`Ranavirus_MCP_Pallister_2007`, 28 for `Orf_virus_RPO147_Zhao_2013`, 87 for
+`Ranavirus_micropterus1_MCP_Li_2025`. Under `coverage.locus_min_reference_bp` (100) a
+reference is not used and the assay is left alone.
+
+### Controls, 2026-11-01 calls, thresholds 0.70 identity and 0.80 covered
+
+Up to 150 records per group, sampled with a fixed seed, the references' own source
+records left out. "Present at 0.60" recomputes the same alignments at the lower identity.
+
+| assay (reference bp) | group, as the screen called it | n | present at 0.70 | at 0.60 | identity of those covered |
+|---|---|---|---|---|---|
+| Ranavirus MCP Johnson 2008 (491) | detect | 150 | 150 | 150 | 0.73 to 0.99 |
+| | fail | 9 | 8 | 8 | |
+| | no_site | 150 | 38 | 38 | median 1.00 |
+| Ranavirus VIR Pallister 2007 (172, 188) | detect | 150 | 92 | 92 | 0.87 to 0.98 |
+| Largemouth bass virus MCP Grizzle 2003 (208) | detect | 10 | 10 | 10 | 1.00 |
+| | fail | 22 | 22 | 22 | 0.99 |
+| | no_site | 79 | 56 | 56 | median 0.82 |
+| Avipoxvirus 4b Farias 2010 (210) | detect | 150 | 150 | 150 | 0.94 to 1.00 |
+| | fail | 46 | 46 | 46 | median 0.88 |
+| | diverged | 21 | 20 | 20 | median 0.87 |
+| | no_site | 150 | 81 | 81 | median 0.79 |
+| SIV pol Takehisa 2009 HahnF1 (478) | detect | 150 | 141 | 150 | from 0.67 |
+| | reduced | 116 | 96 | 116 | from 0.66 |
+| SIV pol Takehisa 2009 HahnF2 (245) | detect | 147 | 147 | 147 | from 0.82 |
+| | fail | 150 | 5 | 150 | 0.66 to 0.68 |
+| | diverged | 150 | 34 | 144 | 0.64 to 0.69 |
+
+Negative control, references of one family against 200 records of an unrelated one
+(ranavirus against avipox and back, ranavirus against SIV and back): 0 of 800 present,
+longest chance match 0.38 of a reference.
+
+What follows from it:
+
+- **0.70 identity was wrong and is now 0.60.** The SIV `fail` records have both primer
+  sites, so the locus is certainly there, and 145 of 150 were refused at 0.70. This is the
+  population `scoring.locus_identity_min` already warned about. Coverage does the
+  excluding, so the lower identity admitted no negative.
+- **A length-variable locus is missed.** VIR Pallister amplifies a repeat region (products
+  of 212, 228, 244, 260, 276 and 308 bp). 78 of its 218 detected records are not shown to
+  hold the locus, at 0.64 covered and 0.99 identity, and the whole-record alignment gives
+  the same answer, so it is the gap score and not the seed. A blank, not a false failure.
+
+### The stage on six assays
+
+9,870 unjudged records in 8 min 41 s on one core. 1,472 hold the locus at 0.70 and 1,644
+at 0.60; 680 of those have room for both primer sites. By assay at 0.60, present with
+room / present without: Avipox Farias 616 / 220; Grizzle 56 / 1; Johnson 3 / 311; VIR
+Pallister 0 / 19; SIV HahnF1 0 / 167; SIV HahnF2
+5 / 246.
+
+Joined into the coverage map, 63 cells change: 42 go from `not assessable` to
+`predicted fail`, 9 from `predicted detect` to `partial`, 1 from `partial` to
+`predicted fail`, and 11 keep their word with a larger count. The largest:
+
+| assay | species | before | after |
+|---|---|---|---|
+| Avipoxvirus 4b Farias 2010 | *Avipoxvirus fowlpox* | partial 14/17 | predicted fail 14/333 |
+| | *Avipoxvirus pigeonpox* | not assessable | predicted fail 0/78 |
+| | *Avipoxvirus turkeypox* | not assessable | predicted fail 0/21 |
+| | Avipoxvirus sp. | partial 56/77 | partial 56/167 |
+| | Avipoxvirus isolate Hawaii | predicted detect 36/36 | partial 36/41 |
+| Largemouth bass virus MCP Grizzle 2003 | *Ranavirus micropterus1* | partial 12/33 | partial 12/89 |
+
+The Farias assay was published for avipoxvirus in Hawaiian birds and reads 36/36 on the
+Hawaii isolates, so a failure on fowlpox-clade 4b sequences at about 79% identity is what
+its design predicts. It has not been checked by eye, and it is the first finding this
+stage has produced: treat it as a lead.
+
 ## Probe scoring, held the same day
 
 Improvement 1 of the review (probes scored by mismatch count per chemistry) is on branch

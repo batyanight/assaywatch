@@ -1210,28 +1210,42 @@ coverage:
   # record; the locus is PRESENT when the aligned stretch matches at `locus_min_identity`
   # or better AND spans `locus_min_covered` of the reference or more.
   #
-  # BUILT AND NOT WIRED IN: nothing calls it on real records yet, so these two numbers
-  # change no cell today.
+  # It runs in its own stage (`assaywatch locus`), on the records the screen could not
+  # judge; `assaywatch coverage --locus` joins the result.
   #
-  # Both are STARTING VALUES approved by the maintainer on 2026-11-10, to be replaced by
-  # a measurement on real archives (records an assay detects should pass near 100%,
-  # records of another gene near 0%). What is measured so far is the false-positive side
-  # only, on simulated DNA, on 2026-11-10. In random 3 kb and 100 kb records the longest
-  # chance match of a 200 bp reference spanned 0.23-0.28 of it, and of a 100 bp reference
-  # 0.49; none of 172 random records was called present. So `locus_min_covered` is clear
-  # of the noise, with the least room for the shortest amplicons. On the other side, all
-  # 40 of 40 simulated loci were found at 20%, 25% and 30% substitution and none at 35%.
-  # Simulated substitutions are spread evenly, which real divergence is not.
+  # `locus_min_identity` WAS 0.70, the starting value approved 2026-11-10, AND IS 0.60 ON
+  # A MEASUREMENT taken the same day on real archives (the table is in
+  # docs/journal/2026-11-10-coverage-map.md). Records the screen DETECTED certainly hold
+  # the locus, so they are the positive control:
   #
-  # `locus_min_identity` is the one to distrust. `scoring.locus_identity_min` above
-  # records that 0.70 is KNOWN TO BE WRONG for a neighbouring question: SIV Takehisa's
-  # genuinely divergent failures sit at 0.65-0.67 identity. That measurement was ungapped
-  # and over the stretch between found primer sites, so it does not transfer directly,
-  # but it says real loci this project cares about live below 0.70. Too strict here turns
-  # a real failure into a blank (`not assessable`); too lax turns a record without the
-  # locus into a failure. The first error hides a finding and the second invents one,
-  # which is why the start is on the strict side.
-  locus_min_identity: 0.70
+  #     Ranavirus MCP Johnson 2008     150 of 150 present at 0.70
+  #     Avipoxvirus 4b Farias 2010     150 of 150
+  #     SIV pol Takehisa 2009 HahnF2   147 of 147
+  #     SIV pol Takehisa 2009 HahnF1   141 of 150 at 0.70, 150 of 150 at 0.60
+  #
+  # and SIV is where 0.70 fails outright. Of 150 HahnF2 records the screen called `fail`
+  # (both primer sites found, so the locus is there), 5 pass at 0.70 and all 150 at 0.60:
+  # their loci sit at 0.66-0.68 identity. That is the same population
+  # `scoring.locus_identity_min` above warns about, seen by a second method. At 0.70 this
+  # check would have hidden exactly the divergent failures it was built to find.
+  #
+  # Lowering it costs nothing measurable, because `locus_min_covered` does the excluding.
+  # Negative control, the references of one virus family against 200 records of an
+  # unrelated one, four pairings: 0 of 800 present, and the longest chance match spans
+  # 0.38 of a reference. On simulated random DNA: 0.23-0.28 of a 200 bp reference, 0.49
+  # of a 100 bp one. All far under 0.80 whatever their identity.
+  #
+  # 0.60 is the lowest identity seen in a locus the screen itself had placed (SIV
+  # `diverged` records, 0.60-0.69). Nothing below it has been looked at.
+  #
+  # KNOWN TO MISS: a locus whose LENGTH varies. Ranavirus_VIR_Pallister_2007 amplifies a
+  # repeat region (products of 212, 228, 244, 260, 276, 308 bp, steps of 16). Its five
+  # references are of two lengths, a 16-base insertion costs more than the alignment can
+  # pay, and 78 of 218 records the screen DETECTED are not shown to hold the locus (0.64
+  # covered at 0.99 identity). The error is a blank and not a false failure. The fix is a
+  # reference per length class, or gap scores that charge for opening a gap more than for
+  # extending it; both are on the roadmap.
+  locus_min_identity: 0.60
   locus_min_covered: 0.80
   # A reference amplicon shorter than this is not used, and an assay left with none is
   # not checked at all. The references in docs/locus-references.json are amplicon

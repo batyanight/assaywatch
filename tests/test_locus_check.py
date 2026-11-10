@@ -223,5 +223,9 @@ def test_a_long_record_of_undetermined_bases_shares_no_word_and_is_absent():
     assert check("N" * 8000) == LocusResult(present=False, identity=0.0, covered=0.0)
 
 
-def test_the_shipped_config_carries_the_approved_starting_thresholds():
-    assert rule_from_config(load_config()) == (MIN_IDENTITY, MIN_COVERED)
+def test_the_shipped_config_carries_the_measured_thresholds():
+    """Identity started at 0.70 and was lowered to 0.60 on real archives, 2026-11-10:
+    SIV loci the screen itself had placed sit at 0.66-0.68. Coverage stayed at 0.80.
+    The tests above keep 0.70, the stricter of the two, as their own working value.
+    """
+    assert rule_from_config(load_config()) == (0.60, MIN_COVERED)

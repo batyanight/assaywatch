@@ -108,9 +108,17 @@ per (assay, species). The decisions, what was built and what the first run showe
       hash are untouched. A record counts only when the locus is present AND the record has
       room for both primer sites (`locus.judge`).
 - [ ] **Run the locus stage over the whole calls table.** The 2026-11-01 calls hold about
-      1.8 million unjudged records. Per-record time and what a full run costs are in the
-      journal; it is the first stage in this project that wants a cluster. Until it is run,
-      `coverage` without `--locus` is unchanged and most cells stay blank.
+      1.8 million unjudged records. Six assays (9,870 records) took 8 min 41 s on one core,
+      53 ms a record, so the table is roughly 26 core-hours: overnight on the Mac's four
+      cores, or an hour as a SLURM array with one task per assay. It is the first stage in
+      this project that wants a cluster. Until it is run, `coverage` without `--locus` is
+      unchanged and most cells stay blank.
+- [ ] **Read the first locus findings before trusting them.** With the locus file,
+      `Avipoxvirus_4b_Farias_2010` on *Avipoxvirus fowlpox* goes from `partial` 14/17 to
+      `predicted fail` 14/333, and pigeonpox and turkeypox from blank to 0/78 and 0/21. The
+      316 added fowlpox records hold the 4b locus at about 79% identity to the references
+      with room for both primers. That fits an assay designed on Hawaiian isolates (36/36
+      there), and it is one assay and one afternoon: check a handful of those records by eye.
 - [ ] **Longer reference amplicons for short assays.** `docs/locus-references.json` holds
       interiors (primer sites trimmed) for 197 assays as of 2026-11-10, built for
       `locus_identity`. They serve where the amplicon is long. Where it is short the interior
@@ -123,10 +131,19 @@ per (assay, species). The decisions, what was built and what the first run showe
       which records a protocol counts from the screen's evidence alone, so a round-1 record
       the locus stage shows to be a real failure is still left out of both `together` rows.
 - [ ] **Snakemake rules for `locus` and `coverage`.** Both are run by hand.
-- [ ] **Calibrate `locus_min_identity` and `locus_min_covered` on real archives**: records an
-      assay detects should pass near 100%, records of another gene near 0%. 0.70 is suspect
-      (`config.yaml`, `coverage:`): SIV Takehisa's real failures sit at 0.65-0.67 by a
-      neighbouring measure. Needs `data/retrieved/` on the Mac.
+- [x] **`locus_min_identity` calibrated on real archives, 0.70 to 0.60** (2026-11-10). Six
+      assays, three virus families. Positive control (records the screen detected): 150/150,
+      150/150, 147/147, 10/10 present, and 141/150 for SIV HahnF1 at 0.70 against 150/150 at
+      0.60. Negative control (an unrelated family's records): 0 of 800. Evidence in
+      `config.yaml` and the journal. `locus_min_covered` stays 0.80.
+- [ ] **Calibrate on more than three families**, bacteria and a eukaryote among them, where
+      records are long and paralogues exist. Everything measured so far is viral.
+- [ ] **A locus whose length varies is missed.** `Ranavirus_VIR_Pallister_2007` amplifies a
+      repeat region; 78 of 218 records the screen DETECTED are not shown to hold the locus
+      (0.64 covered at 0.99 identity), because a 16-base insertion costs more than a linear
+      gap score lets the alignment pay. A blank, not a false failure. Fix: one reference per
+      amplicon-length class, or affine gap scores (opening a gap dearer than extending it).
+      Entries with `amplicon_bp_range` are the ones to check.
 - [x] **A k-mer seed for the locus check.** A record over 5 kb is aligned only where shared
       7-base words pile up on a diagonal (`locus_check._windows`); the seeded answer is
       tested against the exhaustive one. It can miss at the edge of the identity threshold:
