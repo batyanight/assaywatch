@@ -223,3 +223,119 @@ summary figure unchanged and traded one documented catch for another: it gains
 `Influenza_A_virus_M1_Ward_2004` (`declining` to `stable`). Both hinge on one mismatch at
 position 15 of a standard probe (T:G in 76% of H3 records, G:A in 32% of Ward's), which a
 count cannot tell apart. Held by the maintainer, to be picked up later.
+
+## Wide references, and what they changed
+
+The interiors could not serve a short amplicon (17 bp for Pallister MCP), so the references
+were cut again as the amplicon plus up to 100 bp of flank each side: 953 references for 207
+assays, one per product length and then per species, up to 8 an assay
+(`scripts/build_locus_references.py`, `docs/locus-wide-references.json`). Each reference
+says how many of its bases lie outside the amplicon, and `locus.judge` uses that to place
+the primer sites.
+
+Controls on the 2026-11-01 calls at 0.60 identity and 0.80 covered. "Detected" is records
+the screen called `detect`, which certainly hold the locus; "fail" is records with both
+primer sites found and a `fail` call, which hold it too.
+
+| assay | detected, shown present | fail, shown present |
+|---|---|---|
+| Ranavirus MCP Pallister 2007 | 123/150 | 0/37 |
+| Ranavirus micropterus1 MCP Li 2025 | 30/30 | none |
+| Ranavirus MCP Johnson 2008 | 142/150 | 8/9 |
+| Ranavirus VIR Pallister 2007 | 140/150 (92/150 with interiors) | 2/24 |
+| Largemouth bass virus MCP Grizzle 2003 | 11/11 | 22/22 |
+| Avipoxvirus 4b Farias 2010 | 134/150 | 31/46 |
+| SIV pol Takehisa HahnF1 | 150/150 | 17/18 |
+| SIV pol Takehisa HahnF2 | 149/150 | 150/150 |
+
+Unrelated archives: 0 of 800 present, and the longest chance match is 0.20 of the reference
+where it was 0.38 with interiors.
+
+What is lost is the short deposit. `covered` is taken over the whole reference, so a record
+that holds a short amplicon and little beyond it falls under 0.80: the Pallister MCP `fail`
+records, 0 of 37. That reading of the losses is an inference from amplicon lengths and has
+not been checked record by record. The error is a blank. A fix (measure `covered` over the
+amplicon part, ask separately for a minimum aligned length) changes the function's contract
+and is on the roadmap as a proposal.
+
+### Beyond viruses
+
+Six assays in two fungi and two bacteria, same thresholds. Detected records shown present:
+Bd Annis 145/150, Bd Boyle 131/150, Bd Ghosh BdGPL 3/3, *P. destructans* Shuey 140/150,
+*M. gallisepticum* parE 94/94, Chlamydia Messmer round 2 96/139. Unrelated archives: none
+present in five pairings (longest chance match 0.38). In the sixth, Chlamydia 16S references
+against the *M. gallisepticum* archive, 73 of 126 records are present at up to 0.91 covered.
+That is not an error: those records hold a 16S gene. It does mean an rRNA assay will show
+`predicted fail` for every bacterium in its archive, in the out-of-scope block. Bd Annis
+`fail` records are shown present 0 times in 18, which was not looked into; ITS varies in
+length and the linear gap score is the known weakness.
+
+### Cost
+
+With up to eight references the first wide run was eight times slower and was stopped. The
+seeded stretches are now ranked over all references and the twelve fullest aligned, and a
+short record is aligned against the four references-and-strands sharing most words with it.
+On 1,000 real unjudged records (four assays) the counted verdict was the same as aligning
+everything, at about a third of the time. `LocusResult.reference` says which reference won,
+so `judge` calls the check once.
+
+### The stage on eight assays, wide references
+
+11,070 unjudged records in 8 min 1 s on one core (43 ms a record). 1,000 hold the locus and
+731 of those have room, against 1,644 and 680 with interiors: the wide reference refuses the
+cut-short deposits itself, which the flank rule used to do afterwards. Present with room /
+present without: Avipox Farias 614 / 187; Grizzle 56 / 0; Li 55 / 0; Johnson 2 / 13; SIV
+HahnF1 0 / 69; HahnF2 4 / 0; Pallister MCP and VIR Pallister none.
+
+Joined into coverage, 63 cells change: 42 from `not assessable` to `predicted fail`, 9 from
+`predicted detect` to `partial`, 1 from `partial` to `predicted fail`, 11 keep their word
+with a larger count. Fowlpox for Farias is now 14/331 (14/333 with interiors).
+
+### The avipox finding, read by eye: it holds
+
+In 101 of the added records (40 fowlpox, 40 pigeonpox, all 21 turkeypox) each oligo was
+placed by gapped alignment wherever it fits best. Forward primer 7-9 edits, reverse 6-8,
+probe 6-7, in every record. There is no site the screen could have missed; the locus is
+there at about 75% identity and the assay's oligos do not fit it. 16 of the 614 counted
+records are `UNVERIFIED`.
+
+### The largemouth bass virus finding: do not quote it
+
+Li 2025 on *Ranavirus micropterus1* goes from `predicted detect` 28/28 to `partial` 28/83,
+and Grizzle 2003 from 12/33 to 12/89. All 55 added records are GenBank `UNVERIFIED:`
+genomes titled Santee-Cooper ranavirus. Their MCP locus is 75% identical to the LMBV
+references, and the Li primers sit in them with 7 mismatches (forward) and 10-11 (reverse)
+at the right spacing, 127 bp. So the primers do fail on these genomes, and the cell is right
+about the records. Whether the records are the species is the question, and `UNVERIFIED` is
+GenBank declining to answer it. The map takes the archive's taxid on trust. What such a
+record should be worth in a cell is the maintainer's decision and is on the roadmap; nothing
+was changed.
+
+## `together` and the locus file; Snakemake
+
+`coverage.with_locus` sets `locus_present` on a checked record and relabels one shown to hold
+the locus as `diverged`, the label `nested._protocol_records` already counts, so both
+`together` rows see what the round rows see. `Snakefile` has `locus_check_assay` (one job
+per assay, so a cluster runs them side by side), `locus_check` and `coverage_map`, all
+outside `rule all` and planned only when asked for.
+
+## The Tm-loss probe rule, replayed and not built
+
+The count rule could not separate two single mismatches at position 15 of a standard probe.
+Pricing a mismatch by predicted Tm loss can (`thermo.duplex_tm`): `weak` at 2 C lost,
+`blocked` at 5 C or where adjacent mismatches cannot be priced, call = the worse of primers
+and probe.
+
+| case set | today | count rule | Tm rule |
+|---|---|---|---|
+| development | 7/11 | 7/11 | 7/11 |
+| held-out 1 | 3/9 | 3/9 | 3/9 |
+| held-out 2 | 2/3 | 2/3 | 2/3 |
+| held-out 3 | 1/2 | 1/2 (gains H3, loses Ward) | 2/2 (gains H3, keeps Ward) |
+
+`blocked` at 4 or 5 C gives this table; 6 C loses Ward (5.5 C) and 7 C loses Spackman
+(6.7 C); `weak` anywhere from 1 to 3 C changes nothing. The 5 C cut was picked after those
+two numbers were on the screen, so keeping Ward and Spackman is not evidence for it. H3 is
+the one independent gain. 19,273 of 1,051,572 probe rows could not be priced. The rule makes
+Biopython's nearest-neighbour tables part of scoring. Not built: the interface is the
+maintainer's to approve.

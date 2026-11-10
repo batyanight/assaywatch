@@ -209,9 +209,9 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **locus file** — `locus.tsv.gz`, the locus stage's output: one row per (assay, unjudged record) with `present`, `has_room`, `identity`, `covered`. `assaywatch coverage --locus` joins it.
 
-**has room** — a record runs far enough past the locus on both sides to have held the primer sites (`locus.judge`). Needed because the reference amplicons are interiors, so one can be whole in a record that stops before a primer site. Coverage counts a checked record as locus-present only when it is `present` AND has room; present without room is a deposit cut short.
+**has room** — a record reaches across the whole amplicon, primer sites included, as placed by the winning reference (`locus.judge`). Coverage counts a checked record as locus-present only when it is `present` AND has room; present without room is a deposit cut short, which never tested the assay. With **wide references** the two nearly always agree; with interiors a reference could be whole in a record that stopped before a primer site.
 
-**seed** — in the locus check, a short exact word (7 bases) shared by a reference and a record. In a record too long to align whole, the diagonals where seeds pile up pick the stretches that are aligned. A heuristic: a locus sharing too few words with every reference is missed.
+**seed** — in the locus check, a short exact word (7 bases) shared by a reference and a record. In a record too long to align whole, the diagonals where seeds pile up pick the stretches that are aligned; in a short one, seeds pick which of the assay's references are aligned at all. A heuristic: a locus sharing too few words with every reference is missed.
 
 **identity (locus check)** — of the aligned columns, the share that match. High over a sliver for unrelated DNA, which is why it is never read without **covered**.
 
@@ -219,7 +219,11 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **locus present** — a record shown to hold the assay's target region; only these enter a cell count. Until the locus check exists the only evidence is the screen's own: both primers found a site (a `detect`, `reduced` or `fail` call) or the screen labelled the record `diverged`. So a distant species in which neither primer lands is invisible to the map.
 
-**reference amplicon** — an amplicon cut from a record the assay detects, used as the query of the locus check. Today these are the **interiors** in `docs/locus-references.json` (the amplicon with its primer sites trimmed off), and one shorter than `coverage.locus_min_reference_bp` is not used: a short amplicon leaves an interior of a few dozen bases, which defines nothing.
+**reference amplicon** — a stretch cut from a record the assay detects, used as the query of the locus check. One shorter than `coverage.locus_min_reference_bp` is not used.
+
+**wide reference** — a reference amplicon cut as the amplicon plus up to 100 bp of flank each side, so that a 57 bp amplicon still gives the locus check something to measure. One per product length, then per species, up to 8 an assay (`docs/locus-wide-references.json`, built by `scripts/build_locus_references.py`). What the locus stage reads by default.
+
+**interior** — an amplicon with its primer sites trimmed off (`docs/locus-references.json`). Built for **locus identity**; the locus stage still reads the format, and no longer uses it by default.
 
 **recommendation** — for one species, the assays ordered by coverage cell, ties broken toward the less degenerate primer pool. A ranking, not a verdict.
 

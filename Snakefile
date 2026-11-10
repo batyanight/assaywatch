@@ -290,8 +290,28 @@ _FIGURES_PARAMS = {
     "inputs": _registry_and_config_hash("drift", "sitedrift", "scoring", "amplicon", "lineage", "figures"),
 }
 
+# The locus stage aligns under `coverage` (its thresholds) and `scoring` (the trim the
+# interior references were cut with); the coverage map judges cells under `coverage`,
+# labels scope from the registry and prices a nest's round 1 under `scoring`.
+_LOCUS_PARAMS = {
+    "code": _package_hash(*source_names("locus")),
+    "inputs": _registry_and_config_hash("coverage", "scoring"),
+}
+_COVERAGE_PARAMS = {
+    "code": _package_hash(*source_names("coverage")),
+    "inputs": _registry_and_config_hash("coverage", "scoring", "drift"),
+}
+LOCUS_REFERENCES = Path(config.get("locus_references", "docs/locus-wide-references.json"))
+# One locus job per assay that has a reference: the stage is the only one here whose
+# cost is hours, and assays are independent, so this is what a cluster runs side by side.
+LOCUS_ASSAYS = sorted(json.loads(LOCUS_REFERENCES.read_text())) if LOCUS_REFERENCES.exists() else []
+# `--config locus=true` makes the coverage map wait for the locus stage. Off by default:
+# the map is 40 seconds without it and about 26 core-hours with it (2026-11-10).
+WITH_LOCUS = str(config.get("locus", False)).lower() in ("1", "true", "yes")
+
 
 wildcard_constraints:
+    assay=r"[^/]+",
     taxid=r"\d+",
     group=r"all|asm|q[0-9a-f]{10}",
     stem=r"\d{4}-\d{2}-\d{2}(_\d+)?",
@@ -850,3 +870,83 @@ rule report:
         "--retrieved {RETRIEVED} --out {RESULTS}/{RUN_DATE} --run-date {RUN_DATE} "
         "--figures {RESULTS}/{RUN_DATE}/figures --config {CONFIG_EFFECTIVE} "
         "--composition {input.composition}"
+
+
+# --------------------------------------------------------------------------
+# Coverage. NOT part of `rule all`: ask for it by name.
+#
+#     snakemake --cores 4 --config email=you@example.org -- coverage_map
+#     snakemake --cores 4 --config email=you@example.org locus=true -- coverage_map
+#     snakemake --profile profiles/slurm --config email=you@example.org locus=true -- coverage_map
+#
+# The `--` matters: `--config` takes every KEY=VALUE after it, so the target has to be
+# marked off from that list or it is read as config.
+#
+# Kept out of the default run on purpose. The weekly run is the drift report, and the
+# locus stage costs more than everything else in this file put together.
+# --------------------------------------------------------------------------
+
+
+rule locus_check_assay:
+    """The locus check for ONE assay: does each record the screen could not judge hold
+    the assay's target region? One job per assay, so a cluster runs them side by side
+    and a laptop runs four at a time. See assaywatch/locus.py.
+    """
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        references=LOCUS_REFERENCES,
+    output:
+        RESULTS / RUN_DATE / "locus" / "{assay}.tsv.gz",
+    params:
+        code=_LOCUS_PARAMS["code"],
+        inputs=_LOCUS_PARAMS["inputs"],
+    # Each job reads the calls table for its own rows (about 30 s) and then aligns.
+    # 9,870 records took 8 min 41 s on one core on 2026-11-10, 53 ms a record; the
+    # largest assay has about 21,000 records to check, so four hours is headroom and
+    # not an estimate. Memory is one archive's wanted records, never the table.
+    resources:
+        mem_mb=2000,
+        runtime=240,
+    shell:
+        "assaywatch locus {input.calls} --only {wildcards.assay} "
+        "--references {input.references} --retrieved {RETRIEVED} "
+        "--registry {REGISTRY} --config {CONFIG_EFFECTIVE} --out {output}"
+
+
+rule locus_check:
+    """Every assay's locus file joined into one, which is what `coverage --locus` reads."""
+    input:
+        expand(RESULTS / RUN_DATE / "locus" / "{assay}.tsv.gz", assay=LOCUS_ASSAYS),
+    output:
+        RESULTS / RUN_DATE / "locus.tsv.gz",
+    run:
+        import gzip
+
+        with gzip.open(output[0], "wt") as out:
+            for n, path in enumerate(input):
+                with gzip.open(path, "rt") as part:
+                    header = part.readline()
+                    if n == 0:
+                        out.write(header)
+                    out.writelines(part)
+
+
+rule coverage_map:
+    """Which species each assay is predicted to detect: one cell per (assay, species)."""
+    input:
+        calls=RESULTS / RUN_DATE / "calls.tsv.gz",
+        taxonomy=config["drift"]["scope_taxonomy"],
+        locus=[RESULTS / RUN_DATE / "locus.tsv.gz"] if WITH_LOCUS else [],
+    output:
+        tsv=RESULTS / RUN_DATE / "coverage.tsv",
+        md=RESULTS / RUN_DATE / "coverage.md",
+    params:
+        code=_COVERAGE_PARAMS["code"],
+        inputs=_COVERAGE_PARAMS["inputs"],
+        locus=lambda wc, input: f"--locus {input.locus[0]}" if input.locus else "",
+    resources:
+        mem_mb=3000,
+        runtime=30,
+    shell:
+        "assaywatch coverage {input.calls} {params.locus} --retrieved {RETRIEVED} "
+        "--registry {REGISTRY} --config {CONFIG_EFFECTIVE} --out {RESULTS}/{RUN_DATE}"

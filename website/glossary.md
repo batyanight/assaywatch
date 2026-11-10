@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (293 links).
+    definition links to it (305 links).
     `assessable`, `coverage`, `drift`, `exclusion`, `exclusivity`, `flag`, `panel`, `site`, `status`, `target`, `together` are defined by more than one entry and so
     deliberately not linked.
 
@@ -126,7 +126,7 @@ word for a concept.
 
 **E-value (site, pair)**{: #term-e-value } — expected number of such sites or pairs by chance in a record of that length and composition; `max_site_evalue` and `max_pair_evalue` set the credibility cut (`chance.py`, `config.yaml scoring:`).
 
-**locus identity**{: #term-locus-identity } — whether an [amplicon](#term-amplicon)'s interior resembles the interiors of the amplicons the [assay](#term-assay) actually works on, the chemistry-independent form of the probe-site test; shipped off (`locus_identity_min: null`) (`locus_identity.py`, `config.yaml scoring:`).
+**locus identity**{: #term-locus-identity } — whether an [amplicon](#term-amplicon)'s [interior](#term-interior) resembles the interiors of the amplicons the [assay](#term-assay) actually works on, the chemistry-independent form of the probe-site test; shipped off (`locus_identity_min: null`) (`locus_identity.py`, `config.yaml scoring:`).
 
 **thermo**{: #term-thermo } — optional nearest-neighbor duplex Tm and delta Tm columns per [oligo](#term-oligo); shown, never scored, shipped `thermo: false` (`thermo.py`, `config.yaml`).
 
@@ -221,9 +221,9 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **locus file**{: #term-locus-file } — `locus.tsv.gz`, the [locus stage](#term-locus-stage)'s output: one row per ([assay](#term-assay), [unjudged record](#term-unjudged-record)) with `present`, `has_room`, `identity`, `covered`. `assaywatch coverage --locus` joins it.
 
-**has room**{: #term-has-room } — a record runs far enough past the locus on both sides to have held the [primer](#term-primer) sites (`locus.judge`). Needed because the reference amplicons are interiors, so one can be whole in a record that stops before a primer site. Coverage counts a checked record as locus-present only when it is `present` AND has room; present without room is a deposit cut short.
+**has room**{: #term-has-room } — a record reaches across the whole [amplicon](#term-amplicon), [primer](#term-primer) sites included, as placed by the winning reference (`locus.judge`). Coverage counts a checked record as locus-present only when it is `present` AND has room; present without room is a deposit cut short, which never tested the [assay](#term-assay). With **wide references** the two nearly always agree; with interiors a reference could be whole in a record that stopped before a primer site.
 
-**seed**{: #term-seed } — in the [locus check](#term-locus-check), a short exact word (7 bases) shared by a reference and a record. In a record too long to align whole, the diagonals where seeds pile up pick the stretches that are aligned. A heuristic: a locus sharing too few words with every reference is missed.
+**seed**{: #term-seed } — in the [locus check](#term-locus-check), a short exact word (7 bases) shared by a reference and a record. In a record too long to align whole, the diagonals where seeds pile up pick the stretches that are aligned; in a short one, seeds pick which of the [assay](#term-assay)'s references are aligned at all. A heuristic: a locus sharing too few words with every reference is missed.
 
 **identity (locus check)**{: #term-identity } — of the aligned columns, the share that match. High over a sliver for unrelated DNA, which is why it is never read without **[covered](#term-covered)**.
 
@@ -231,7 +231,11 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **locus present**{: #term-locus-present } — a record shown to hold the [assay](#term-assay)'s target region; only these enter a [cell count](#term-cell-count). Until the [locus check](#term-locus-check) exists the only evidence is the [screen](#term-screen)'s own: both primers found a site (a `detect`, `reduced` or `fail` [call](#term-call)) or the screen labelled the record `diverged`. So a distant species in which neither [primer](#term-primer) lands is invisible to the map.
 
-**reference amplicon**{: #term-reference-amplicon } — an [amplicon](#term-amplicon) cut from a record the [assay](#term-assay) detects, used as the query of the [locus check](#term-locus-check). Today these are the **interiors** in `docs/locus-references.json` (the amplicon with its [primer](#term-primer) sites trimmed off), and one shorter than `coverage.locus_min_reference_bp` is not used: a short amplicon leaves an interior of a few dozen bases, which defines nothing.
+**reference amplicon**{: #term-reference-amplicon } — a stretch cut from a record the [assay](#term-assay) detects, used as the query of the [locus check](#term-locus-check). One shorter than `coverage.locus_min_reference_bp` is not used.
+
+**wide reference**{: #term-wide-reference } — a [reference amplicon](#term-reference-amplicon) cut as the [amplicon](#term-amplicon) plus up to 100 bp of flank each side, so that a 57 bp amplicon still gives the [locus check](#term-locus-check) something to measure. One per [product](#term-product) length, then per species, up to 8 an [assay](#term-assay) (`docs/locus-wide-references.json`, built by `scripts/build_locus_references.py`). What the [locus stage](#term-locus-stage) reads by default.
+
+**interior**{: #term-interior } — an [amplicon](#term-amplicon) with its [primer](#term-primer) sites trimmed off (`docs/locus-references.json`). Built for **[locus identity](#term-locus-identity)**; the [locus stage](#term-locus-stage) still reads the format, and no longer uses it by default.
 
 **recommendation**{: #term-recommendation } — for one species, the assays ordered by [coverage cell](#term-coverage-cell), ties broken toward the less degenerate [primer](#term-primer) pool. A ranking, not a [verdict](#term-verdict).
 

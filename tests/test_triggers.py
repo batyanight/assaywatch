@@ -20,6 +20,7 @@ Three layers, because each catches something the others cannot:
 from __future__ import annotations
 
 import gzip
+import json
 import os
 import re
 import shutil
@@ -208,6 +209,8 @@ def test_the_screening_code_list_is_derived_not_hand_kept():
         ("site_drift", "sitedrift", '_SITEDRIFT_PARAMS["code"]'),
         ("figures", "figures", '_FIGURES_PARAMS["code"]'),
         ("composition", "composition_build", '_COMPOSITION_PARAMS["code"]'),
+        ("locus_check_assay", "locus", '_LOCUS_PARAMS["code"]'),
+        ("coverage_map", "coverage", '_COVERAGE_PARAMS["code"]'),
     ],
 )
 def test_every_downstream_rule_carries_a_hash_of_its_code_as_a_param(rule, module, uses):
@@ -249,6 +252,10 @@ def test_every_rule_that_runs_an_assaywatch_module_is_accounted_for():
         # costs one cheap esearch per year rather than a refetch, and it hashes
         # source_names("retrieve") like any other downstream rule.
         "retrieval_coverage": "retrieve",
+        # Both opt-in and outside `rule all` (asked for by name): the locus stage, one
+        # job per assay, and the coverage map that joins it.
+        "locus_check_assay": "locus",
+        "coverage_map": "coverage",
     }
     from assaywatch.cli import resolve
 
@@ -585,3 +592,60 @@ def test_the_snakefile_accepts_an_address_from_the_environment(tree):
     )
     assert r.returncode == 0, (r.stdout[-1200:], r.stderr[-1200:])
     assert "No contact address" not in r.stdout + r.stderr
+
+
+# --------------------------------------------------------------------------
+# The coverage rules: opt-in, and never part of the default run
+# --------------------------------------------------------------------------
+
+
+@pytest.mark.slow
+def test_the_default_run_never_plans_the_coverage_rules(tree):
+    """The weekly run is the drift report. The locus stage costs more than the rest of
+    the Snakefile together, so nothing about it may ride along uninvited."""
+    assert not _planned(_snakemake(tree, "-n"))
+    forced = _planned(_snakemake(tree, "-n", "--forceall"))
+    assert not forced & {"locus_check_assay", "locus_check", "coverage_map"}
+
+
+@pytest.mark.slow
+def test_the_coverage_map_is_one_job_when_asked_for_by_name(tree):
+    assert _planned(_snakemake(tree, "-n", "coverage_map")) == {"coverage_map"}
+
+
+@pytest.mark.slow
+def test_with_locus_the_map_waits_for_one_locus_job_per_assay_and_the_run_completes(tree):
+    """`--config locus=true`, for real: one job per assay that has a reference, their
+    files joined, and the map written from the join.
+
+    `locus=true` goes BEFORE the target: `--config` takes every KEY=VALUE that follows
+    it, and the first bare word ends that list, so anything after `coverage_map` is
+    read as another target and not as config.
+    """
+    from assaywatch.retrieve import targets_from_registry
+
+    groups = targets_from_registry([tree / "registry"], {})
+    taxid, _ = next(k for k in sorted(groups) if k[1] == "all")
+    assays = sorted(
+        p.stem
+        for p in (tree / "registry").glob("*.yaml")
+        if f"taxid: {taxid}\n" in p.read_text() and "query:" not in p.read_text()
+    )[:2]
+    assert assays, "no fixture assay shares the planted archive"
+    references = tree / "docs" / "locus-wide-references.json"
+    reference = {"from": "X.1", "left": 0, "right": 0, "seq": "ACGTTGCA" * 20}
+    references.write_text(json.dumps({a: {"references": [reference]} for a in assays}))
+    try:
+        dry = _snakemake(tree, "locus=true", "-n", "coverage_map")
+        assert _planned(dry) == {"locus_check_assay", "locus_check", "coverage_map"}
+        assert dry.stdout.count("rule locus_check_assay:") == len(assays)
+
+        done = _snakemake(tree, "locus=true", "--", "coverage_map")
+        assert done.returncode == 0, done.stdout[-1500:] + done.stderr[-1500:]
+        run = tree / "results" / TODAY
+        assert (run / "coverage.md").exists() and (run / "coverage.tsv").exists()
+        with gzip.open(run / "locus.tsv.gz", "rt") as fh:
+            assert fh.readline().startswith("assay_id\trecord_id\tpresent\thas_room")
+        assert not _planned(_snakemake(tree, "locus=true", "-n", "coverage_map")), "nothing left to do"
+    finally:
+        references.unlink()

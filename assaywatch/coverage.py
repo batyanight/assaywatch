@@ -343,6 +343,28 @@ def strict_passes(row: Mapping[str, Any]) -> bool:
     return row.get("call") in DETECTED
 
 
+def with_locus(row: dict[str, Any], checked: Mapping[str, bool] | None) -> dict[str, Any]:
+    """Join the locus stage's verdict onto one row of the calls table.
+
+    `checked` is record id -> "the locus is present with room for the primers", for
+    this row's assay (`locus.read_locus`), or None when the stage was not run on it.
+    A record the stage did not check is returned as it came.
+
+    A record the stage shows to hold the locus, in which the screen found no primer
+    site, is relabelled `diverged`: the site is there and the primers do not fit it,
+    which is what that label has always meant. That one word is what lets a nested
+    protocol see the record too (`nested._protocol_records` counts a `diverged`
+    round-1 record as the assay's failure and passes over an unlabelled one).
+    """
+    if checked is None or row["record_id"] not in checked:
+        return row
+    present = checked[row["record_id"]]
+    row["locus_present"] = present
+    if present and row.get("call") == "no_amplicon":
+        row["exclusion"] = DIVERGED
+    return row
+
+
 def together_calls(
     path: NestPath,
     calls: Mapping[str, Mapping[str, Mapping[str, Any]]],
@@ -660,6 +682,11 @@ def main(argv: list[str] | None = None) -> int:
             unplaced["above species rank"] += 1
         return species_cache[taxid]
 
+    # The locus check's verdicts, where the stage was run. A record in the file gets an
+    # explicit `locus_present`, which `_locus_present` prefers to the screen's guess; a
+    # record not in it keeps the screen's evidence.
+    locus_of = read_locus(args.locus) if args.locus else {}
+
     # First pass: keep only the rows of nested rounds, which `together` has to join
     # record by record. Second pass: stream everything into the map.
     members = {r for p in paths for r in p.rounds}
@@ -667,7 +694,9 @@ def main(argv: list[str] | None = None) -> int:
     if members:
         for row in read_rows(args.calls):
             if row["assay_id"] in members:
-                nested_rows[row["assay_id"]][row["record_id"]] = row
+                nested_rows[row["assay_id"]][row["record_id"]] = with_locus(
+                    row, locus_of.get(row["assay_id"])
+                )
     free = frozenset(k for k, v in (cfg["scoring"].get("mispair_penalty") or {}).items() if float(v) == 0.0)
     together = chain.from_iterable(
         together_calls(p, nested_rows, free, how) for p in paths for how in Together
@@ -678,18 +707,10 @@ def main(argv: list[str] | None = None) -> int:
     # would read "out of scope". It is left out and named in the report's header.
     not_in_registry: set[str] = set()
 
-    # The locus check's verdicts, where the stage was run. A record in the file gets an
-    # explicit `locus_present`, which `_locus_present` prefers to the screen's guess; a
-    # record not in it keeps the screen's evidence.
-    locus_of = read_locus(args.locus) if args.locus else {}
-
     def registered(rows: Iterable[dict[str, Any]]) -> Iterator[dict[str, Any]]:
         for row in rows:
             if row["assay_id"] in assays:
-                checked = locus_of.get(row["assay_id"])
-                if checked is not None and row["record_id"] in checked:
-                    row["locus_present"] = checked[row["record_id"]]
-                yield row
+                yield with_locus(row, locus_of.get(row["assay_id"]))
             else:
                 not_in_registry.add(row["assay_id"])
 

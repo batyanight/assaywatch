@@ -27,15 +27,21 @@ Coverage counts the record as locus-present only when both are true:
                         cut short, which never tested the assay
     0        -          does not hold the locus
 
-The second row is why `has_room` exists. The reference amplicons are INTERIORS: the
-amplicon with `scoring.locus_identity_trim_bp` bases trimmed off each end, so the
-primer sites cannot flatter the match (and so an indel in a primer site cannot hide
-the locus). An interior can therefore be whole in a record that ends before the
-primer site, and calling that a failure would blame the assay for a short deposit.
+The second row is why `has_room` exists: a locus can be found in a record that stops
+before a primer site, and calling that a failure would blame the assay for a short
+deposit.
 
-COST. One alignment per reference and strand per record; see `locus_check`. The
-2026-11-01 calls hold about 1.8 million records to check, which is a cluster-sized
-job without a k-mer seed. `--only` and `--limit` make a part of it runnable on a laptop.
+THE REFERENCES. By default WIDE ones (`docs/locus-wide-references.json`): the
+amplicon plus up to 100 bp of flank each side, so a 57 bp amplicon still gives the
+check something to measure. Each says how many of its bases lie outside the amplicon
+at each end, which is how `judge` knows where the primer sites would be. The older
+INTERIORS (`docs/locus-references.json`, primer sites trimmed off) are still read.
+
+COST. 43 ms a record on one core with wide references (11,070 records, 2026-11-10);
+see `locus_check` for what is aligned. The 2026-11-01 calls hold about 1.8 million
+records to check, roughly 22 core-hours: one job per assay on a cluster, which is how
+the Snakefile's `locus_check_assay` rule is cut. `--only` and `--limit` make a part
+of it runnable on a laptop.
 """
 
 from __future__ import annotations
@@ -90,21 +96,15 @@ def judge(
 ) -> tuple[LocusResult, bool]:
     """The locus check, plus whether the record has room for both primer sites.
 
-    Each reference is tried on its own and the best decides: a present one over an
-    absent one, then the larger identity x covered. Its own pads then say where the
-    amplicon would sit, and the record HAS ROOM when it reaches across that whole
-    stretch. `flank_left` and `flank_right` are in the record's order, so when the
+    The best-scoring reference decides (`LocusResult.reference` says which). Its own
+    pads then say where the amplicon would sit, and the record HAS ROOM when it reaches
+    across that whole stretch. `flank_left` and `flank_right` are in the record's order, so when the
     match is on the reverse strand the reference's right pad is on the record's left.
     """
-    best: tuple[LocusResult, Reference] | None = None
-    for ref in references:
-        result = locus_check(record, [ref.seq], min_identity, min_covered)
-        key = (result.present, result.identity * result.covered)
-        if best is None or key > (best[0].present, best[0].identity * best[0].covered):
-            best = (result, ref)
-    if best is None:
+    result = locus_check(record, [r.seq for r in references], min_identity, min_covered)
+    if result.reference < 0:
         return ABSENT, False
-    result, ref = best
+    ref = references[result.reference]
     pad_left, pad_right = (ref.left, ref.right) if result.strand != "-" else (ref.right, ref.left)
     # The whole reference would start `flank_left` bases into the record, and the
     # amplicon `pad_left` bases after that: so the record must not start later.

@@ -144,6 +144,35 @@ def test_the_best_of_several_reference_amplicons_decides():
     assert got.present and got.identity == 1.0
 
 
+def test_the_result_says_which_reference_won():
+    """The stage needs it: each reference carries its own flanks (`locus.judge`)."""
+    other_lineage = substitute(AMPLICON, 0.45, seed=5)
+    record = LEFT + other_lineage + RIGHT
+    assert check(record, [AMPLICON, other_lineage]).reference == 1
+    assert check(record, [other_lineage, AMPLICON]).reference == 0
+    assert check(record, references=()).reference == -1
+
+
+def test_many_references_are_ranked_and_the_right_one_is_still_found():
+    """Eight references on two strands is sixteen alignments of a short record. Shared
+    7-base words rank them and only the fullest few are aligned, so the one reference
+    this record resembles, three in ten bases changed and listed last, must outrank
+    seven decoys. The answer has to be the one that aligning all sixteen gives.
+    """
+    from assaywatch import locus_check as module
+
+    decoys = [dna(200, seed=40 + i) for i in range(7)]
+    record = LEFT + substitute(AMPLICON, 0.30, seed=6) + RIGHT
+    ranked = check(record, [*decoys, AMPLICON])
+    keep, module.WHOLE_TOP = module.WHOLE_TOP, 10**9
+    try:
+        everything = check(record, [*decoys, AMPLICON])
+    finally:
+        module.WHOLE_TOP = keep
+    assert ranked.present and ranked.reference == 7
+    assert ranked == everything
+
+
 def test_no_reference_means_no_answer_rather_than_a_guess():
     got = check(LEFT + AMPLICON + RIGHT, references=())
     assert got == LocusResult(present=False, identity=0.0, covered=0.0)

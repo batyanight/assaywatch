@@ -108,36 +108,72 @@ per (assay, species). The decisions, what was built and what the first run showe
       hash are untouched. A record counts only when the locus is present AND the record has
       room for both primer sites (`locus.judge`).
 - [ ] **Run the locus stage over the whole calls table.** The 2026-11-01 calls hold about
-      1.8 million unjudged records. Six assays (9,870 records) took 8 min 41 s on one core,
-      53 ms a record, so the table is roughly 26 core-hours: overnight on the Mac's four
-      cores, or an hour as a SLURM array with one task per assay. It is the first stage in
-      this project that wants a cluster. Until it is run, `coverage` without `--locus` is
-      unchanged and most cells stay blank.
-- [ ] **Read the first locus findings before trusting them.** With the locus file,
+      1.8 million unjudged records. Eight assays with wide references (11,070 records) took
+      8 min 1 s on one core, 43 ms a record, so the table is roughly 22 core-hours: overnight
+      on the Mac's four cores, or an hour as a SLURM array with one job per assay, which is
+      how the `locus_check_assay` rule is cut. It is the first stage in this project that
+      wants a cluster. Until it is run, `coverage` without `--locus` is unchanged and most
+      cells stay blank.
+- [x] **The first locus finding was read by eye and holds** (2026-11-10).
       `Avipoxvirus_4b_Farias_2010` on *Avipoxvirus fowlpox* goes from `partial` 14/17 to
-      `predicted fail` 14/333, and pigeonpox and turkeypox from blank to 0/78 and 0/21. The
-      316 added fowlpox records hold the 4b locus at about 79% identity to the references
-      with room for both primers. That fits an assay designed on Hawaiian isolates (36/36
-      there), and it is one assay and one afternoon: check a handful of those records by eye.
-- [ ] **Longer reference amplicons for short assays.** `docs/locus-references.json` holds
-      interiors (primer sites trimmed) for 197 assays as of 2026-11-10, built for
-      `locus_identity`. They serve where the amplicon is long. Where it is short the interior
-      is useless (17 bp for `Ranavirus_MCP_Pallister_2007`, 28 for
-      `Orf_virus_RPO147_Zhao_2013`, 87 for `Ranavirus_micropterus1_MCP_Li_2025`), and the
-      stage leaves those assays alone below `coverage.locus_min_reference_bp` (100). The fix
-      is a reference cut wider than the amplicon: the amplicon plus a fixed flank each side,
-      from the same source records. How many assays this leaves out is in the journal.
-- [ ] **The `together` rows do not use the locus file.** `nested._protocol_records` decides
-      which records a protocol counts from the screen's evidence alone, so a round-1 record
-      the locus stage shows to be a real failure is still left out of both `together` rows.
-- [ ] **Snakemake rules for `locus` and `coverage`.** Both are run by hand.
+      `predicted fail` 14/331, pigeonpox and turkeypox from blank to 0/78 and 0/21. In 101
+      of the added records (40 fowlpox, 40 pigeonpox, 21 turkeypox) the best gapped
+      placement of each oligo costs 7-9 edits for the forward primer, 6-8 for the reverse
+      and 6-7 for the probe: there is no primer site to argue about, in a locus about 75%
+      identical to the references. 16 of the 614 counted records are `UNVERIFIED`.
+- [ ] **DECISION for the maintainer: what an `UNVERIFIED` record is worth in a cell.**
+      The second finding does NOT hold as a statement about a species. With the locus file
+      `Ranavirus_micropterus1_MCP_Li_2025` on *Ranavirus micropterus1* goes from
+      `predicted detect` 28/28 to `partial` 28/83, and Grizzle 2003 from 12/33 to 12/89.
+      All 55 added records are GenBank `UNVERIFIED:` genomes titled Santee-Cooper
+      ranavirus whose MCP locus is 75% identical to the LMBV references (forward primer 7
+      mismatches, reverse 10-11). The primers do fail on them; whether they are that
+      species is what GenBank itself declines to vouch for. Choices: leave them out of
+      coverage, count them in a row of their own, or count them as now. Nothing is changed
+      until this is decided.
+- [x] **Reference amplicons are cut wide** (2026-11-10). `docs/locus-wide-references.json`
+      holds 953 references for 207 assays as of 2026-11-10: the amplicon plus up to 100 bp of flank each
+      side, one per product length and then per species, up to 8 an assay, none under 201
+      bp (`scripts/build_locus_references.py`, `plan` then `cut`). The stage reads them by
+      default. Controls with them, records the screen detected shown to hold the locus:
+      Li 2025 30/30 and Pallister MCP 123/150, neither of which could be checked at all
+      with interiors; VIR Pallister 140/150 (was 92/150); Johnson 142/150, Grizzle 11/11,
+      Avipox Farias 134/150, SIV HahnF1 150/150, HahnF2 149/150. Negative control 0 of 800,
+      and the longest chance match fell from 0.38 of the reference to 0.20.
+- [ ] **A wide reference asks too much of a short deposit.** `covered` is taken over the
+      whole reference, flanks included, so a record holding a short amplicon and little
+      else falls under 0.80: Pallister MCP records with BOTH primer sites found are shown
+      to hold the locus 0 times in 37, Chlamydia Messmer round 2 96 in 139 of its detected
+      records. The error is a blank, never a false failure. Candidate fix, an interface
+      change to propose: measure `covered` over the amplicon part of the reference and ask
+      separately for a minimum aligned length.
+- [x] **The `together` rows use the locus file** (2026-11-10). `coverage.with_locus`
+      relabels an unjudged record the stage shows to hold the locus, with room, as
+      `diverged`, which is what `nested._protocol_records` already counts.
+- [x] **Snakemake rules for `locus` and `coverage`** (2026-11-10): `locus_check_assay` (one
+      job per assay), `locus_check` (joins them) and `coverage_map`. Opt-in and outside
+      `rule all`, so a weekly run plans none of them:
+      `snakemake --cores 4 --config email=... locus=true -- coverage_map`. Without
+      `locus=true` the map is built from the calls table alone.
 - [x] **`locus_min_identity` calibrated on real archives, 0.70 to 0.60** (2026-11-10). Six
       assays, three virus families. Positive control (records the screen detected): 150/150,
       150/150, 147/147, 10/10 present, and 141/150 for SIV HahnF1 at 0.70 against 150/150 at
       0.60. Negative control (an unrelated family's records): 0 of 800. Evidence in
       `config.yaml` and the journal. `locus_min_covered` stays 0.80.
-- [ ] **Calibrate on more than three families**, bacteria and a eukaryote among them, where
-      records are long and paralogues exist. Everything measured so far is viral.
+- [x] **Controls run beyond viruses** (2026-11-10): two fungi and two bacteria, six assays.
+      Records the screen detected shown to hold the locus: Bd Annis 145/150, Bd Boyle
+      131/150, Bd Ghosh 3/3, *P. destructans* Shuey 140/150, *M. gallisepticum* parE
+      94/94, Chlamydia Messmer round 2 96/139 (the short-deposit limit above). Unrelated
+      archives: 0 present in five pairings, longest chance match 0.38.
+- [ ] **A conserved gene is present in everything that has it.** The sixth pairing was
+      the Chlamydia 16S references against the *M. gallisepticum* archive: 73 of 126
+      records hold "the locus" (0.91 covered), because a 16S gene is a 16S gene. That is
+      the check working as defined, and it means an rRNA assay will show `predicted fail`
+      for every bacterium in its archive. Those cells sit in the out-of-scope block, where
+      a failure is specificity. Decide whether the page should say so in words.
+- [ ] **ITS is the length-variable case again.** Bd Annis records with both primer sites
+      found and a `fail` call are shown to hold the locus 0 times in 18. Not looked into;
+      the length-variable item below is the likely cause.
 - [ ] **A locus whose length varies is missed.** `Ranavirus_VIR_Pallister_2007` amplifies a
       repeat region; 78 of 218 records the screen DETECTED are not shown to hold the locus
       (0.64 covered at 0.99 identity), because a 16-base insertion costs more than a linear
@@ -148,6 +184,10 @@ per (assay, species). The decisions, what was built and what the first run showe
       7-base words pile up on a diagonal (`locus_check._windows`); the seeded answer is
       tested against the exhaustive one. It can miss at the edge of the identity threshold:
       39 of 40 simulated loci at 30% substitution in 100 kb, against 40 of 40 aligned whole.
+      With up to eight references an assay, the stretches are ranked over ALL references
+      and only the twelve fullest aligned; a short record is aligned whole against the
+      four fullest of its references-and-strands. On 1,000 real unjudged records the
+      counted verdict was the same as aligning everything, at a third of the time.
 - [ ] **Widened retrieval**, per assay, so that out-of-scope species are in the archive on
       purpose. Today 1,368 of 20,054 counted cells are out of scope, by accident of what
       each archive happened to hold.
@@ -540,6 +580,16 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   probe (T:G in 76% of H3 records, G:A in 32% of Ward's), so no count can separate them and
   the candidate is rejected as it stands. The next candidate is to price a probe mismatch by
   predicted Tm loss (`thermo.py`, which sees mispair identity and probe length together).
+  **That candidate was replayed on 2026-11-10 and is not built: it waits on the
+  maintainer approving its interface.** A probe is `weak` at a predicted Tm loss of 2 C
+  and `blocked` at 5 C (or where adjacent mismatches cannot be priced), and the call is
+  the worse of primers and probe. It keeps Ward and Spackman, gains the H3 case
+  (held-out 3: 1/2 to 2/2) and leaves the other three sets where they are (7/11, 3/9,
+  2/3). `blocked` anywhere from 4 to 5 C gives the same; 6 C loses Ward (its mismatch
+  costs 5.5 C) and 7 C loses Spackman (6.7 C). The weak cut does not matter between 1
+  and 3 C. Honest limit: 5 C was chosen after seeing those two numbers, so the two
+  catches are not evidence for it; only H3 is. 19,273 of 1,051,572 probe rows could not
+  be priced and were treated as blocked. Script: `replay_tm_rule.py`, not in the repo.
   The branch also carries two findings worth keeping whatever replaces it: 9 of 21 MGB
   probes are longer than 20 nt, and `score.py`'s comment that the G:T discount "ships
   empty" is stale. `docs/journal/2026-11-10-coverage-map.md`, last section.

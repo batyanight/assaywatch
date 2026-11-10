@@ -29,6 +29,7 @@ from assaywatch.coverage import (
     together_calls,
     together_id,
     trace_passes,
+    with_locus,
 )
 from assaywatch.nested import NestPath
 from assaywatch.score import load_config
@@ -373,6 +374,29 @@ def test_a_round_one_fail_with_no_mismatch_columns_is_read_strictly():
 def test_a_record_round_one_was_never_tested_on_is_not_a_together_row():
     truncated = r1("fv3_0", "no_amplicon", exclusion="truncated", footprint=None)
     assert together([truncated], [row("fv3_0", assay="N_round2")]) == []
+
+
+def test_a_round_one_record_the_locus_stage_shows_to_be_a_real_failure_fails_the_protocol():
+    """Round 1 found no primer site, and the screen could not say why, so the record
+    was left out of both `together` rows. The locus stage says the locus is there with
+    room for the primers: now it is round 1's failure, and the protocol's.
+    """
+    unjudged = r1("fv3_0", "no_amplicon", exclusion="no_site", footprint=None)
+    assert together([unjudged], [row("fv3_0", assay="N_round2")]) == []
+    judged = with_locus(dict(unjudged), {"fv3_0": True})
+    assert (judged["locus_present"], judged["exclusion"]) == (True, "diverged")
+    for rule in Together:
+        (t,) = together([judged], [row("fv3_0", assay="N_round2")], rule)
+        assert t["call"] == "fail"
+
+
+def test_a_record_the_locus_stage_did_not_check_or_found_empty_is_left_as_it_was():
+    unjudged = r1("fv3_0", "no_amplicon", exclusion="no_site", footprint=None)
+    assert with_locus(dict(unjudged), None) == unjudged
+    assert with_locus(dict(unjudged), {"other": True}) == unjudged
+    absent = with_locus(dict(unjudged), {"fv3_0": False})
+    assert (absent["locus_present"], absent["exclusion"]) == (False, "no_site")
+    assert together([absent], [row("fv3_0", assay="N_round2")]) == []
 
 
 def test_round_two_failing_fails_the_protocol_whatever_round_one_did():

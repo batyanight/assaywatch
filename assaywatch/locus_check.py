@@ -60,9 +60,12 @@ COST. Aligning a whole record is len(reference) numpy sweeps along it: 0.8 s for
 300 bp reference against a 200 kb record on both strands (measured 2026-11-10), and
 five references of 490 bp against a 105 kb ranavirus genome is several seconds, which
 no archive of genomes can afford. So a record over EXHAUSTIVE_MAX_BP is SEEDED first:
-shared 7-base words pick out up to twelve stretches per reference and strand, and only
-those are aligned (`_windows`). That is a heuristic and is tested against the
-exhaustive answer.
+shared 7-base words pick out stretches of it, every reference and strand proposing
+its own, and only the twelve fullest of them all are aligned (`_windows`). A short
+record is aligned whole, but an assay can carry eight references, which is sixteen
+alignments on two strands: the same shared words rank them and only the WHOLE_TOP
+fullest are aligned. With one or two references nothing is dropped. Both are
+heuristics and are tested against the exhaustive answer.
 
 WHO CALLS IT. `assaywatch locus` (`locus.py`) runs it on the records the screen
 could not judge and writes a side file; `assaywatch coverage --locus` joins that as
@@ -82,8 +85,9 @@ MATCH, MISMATCH, GAP = 1, -1, 3  # GAP is a cost: each gapped base subtracts it
 #: Seeding, for records too long to align whole. See `_windows`.
 SEED_K = 7  # word length
 SEED_BIN = 16  # diagonals per bin: how much indel drift one bin forgives
-SEED_TOP = 12  # stretches aligned per reference and strand
+SEED_TOP = 12  # stretches of a long record aligned, over all references and strands
 EXHAUSTIVE_MAX_BP = 5000  # at or under this a record is aligned whole
+WHOLE_TOP = 4  # references-and-strands a short record is aligned against, fullest first
 
 _COMPLEMENT = str.maketrans("ACGT", "TGCA")
 
@@ -105,6 +109,8 @@ class LocusResult:
     #: Which strand of the record the winning reference matched: "+" as written, "-"
     #: reverse-complemented. "" when nothing matched.
     strand: str = ""
+    #: Which of the reference amplicons won, as an index into the list that was given.
+    reference: int = -1
 
 
 ABSENT = LocusResult(present=False, identity=0.0, covered=0.0)
@@ -195,8 +201,9 @@ def _kmer_codes(rec: np.ndarray) -> np.ndarray:
     return code
 
 
-def _windows(reference: str, record_codes: np.ndarray, record_len: int) -> list[tuple[int, int]]:
-    """Where in a long record is this reference worth aligning? Up to SEED_TOP stretches.
+def _windows(reference: str, record_codes: np.ndarray, record_len: int) -> list[tuple[int, int, int]]:
+    """Where in a long record is this reference worth aligning? Up to SEED_TOP stretches,
+    each as (shared words, start, end), fullest first.
 
     THE IDEA is BLAST's. Two sequences that share a locus share short exact words
     (k-mers) even when they differ at a third of their bases, and they share them IN
@@ -242,10 +249,11 @@ def _windows(reference: str, record_codes: np.ndarray, record_len: int) -> list[
     adjacent = np.flatnonzero(np.diff(bins) == 1)
     neighbour[adjacent] = counts[adjacent + 1]
     pad = 2 * SEED_BIN + len(reference) // 4  # room for indels and for the two bins' width
+    weight = counts + neighbour
     spans = []
-    for b in bins[np.argsort(-(counts + neighbour), kind="stable")[:SEED_TOP]]:
-        start = int(b) * SEED_BIN  # where reference base 0 would sit in the record
-        spans.append((max(0, start - pad), min(record_len, start + len(reference) + pad)))
+    for k in np.argsort(-weight, kind="stable")[:SEED_TOP]:
+        start = int(bins[k]) * SEED_BIN  # where reference base 0 would sit in the record
+        spans.append((int(weight[k]), max(0, start - pad), min(record_len, start + len(reference) + pad)))
     return spans
 
 
@@ -301,28 +309,40 @@ def locus_check(
     failure on a guess.
     """
     record = _clean(record)
-    references = [_clean(r) for r in reference_amplicons if r]
-    if not record or not references:
+    references = [_clean(r) for r in reference_amplicons]
+    if not record or not any(references):
         return ABSENT
     rec = np.frombuffer(record.encode("ascii", "replace"), dtype=np.uint8)
 
-    # Search with the reference on both strands (reverse-complementing the short
-    # sequence instead of the long one), and trace back only the single best. A short
-    # record is aligned whole; a long one only where shared k-mers point (`_windows`).
+    # Every reference on both strands (reverse-complementing the short sequence instead
+    # of the long one) proposes stretches of the record to align, each weighted by the
+    # words it shares with the reference (`_windows`). A long record keeps the SEED_TOP
+    # fullest stretches over ALL the references: with eight references on two strands,
+    # twelve stretches for each was 192 alignments a record where a dozen decide it. A
+    # short record is one stretch, itself, for each reference and strand, and keeps the
+    # WHOLE_TOP fullest of those.
     seeded = len(record) > EXHAUSTIVE_MAX_BP
-    codes = _kmer_codes(rec) if seeded else None
-    best: tuple[int, str, int, int, str] | None = None
-    for ref in references:
+    codes = _kmer_codes(rec)
+    proposals: list[tuple[int, int, str, str, int, int]] = []
+    for index, ref in enumerate(references):
+        if not ref:
+            continue
         for sign, strand in (("+", ref), ("-", _revcomp(ref))):
-            spans = _windows(strand, codes, len(record)) if seeded else [(0, len(record))]
-            for lo, hi in spans:
-                score, i_end, j_end, _ = _sweep(strand, rec[lo:hi], keep=False)
-                if score > 0 and (best is None or score > best[0]):
-                    best = (score, strand, i_end, lo + j_end, sign)
+            spans = _windows(strand, codes, len(record))
+            if not seeded:  # the whole record, carrying the weight of its fullest stretch
+                spans = [(spans[0][0] if spans else 0, 0, len(record))]
+            proposals += [(words, index, sign, strand, lo, hi) for words, lo, hi in spans]
+    proposals.sort(key=lambda p: -p[0])  # stable: ties keep reference order
+    proposals = proposals[: SEED_TOP if seeded else WHOLE_TOP]
+    best: tuple[int, str, int, int, str, int] | None = None
+    for _, index, sign, strand, lo, hi in proposals:
+        score, i_end, j_end, _ = _sweep(strand, rec[lo:hi], keep=False)
+        if score > 0 and (best is None or score > best[0]):
+            best = (score, strand, i_end, lo + j_end, sign, index)
     if best is None:
         return ABSENT
 
-    _, ref, i_end, j_end, sign = best
+    _, ref, i_end, j_end, sign, index = best
     matches, columns, i_start, j_start = _traceback(ref, record, i_end, j_end)
     identity = matches / columns if columns else 0.0
     covered = (i_end - i_start) / len(ref)
@@ -336,4 +356,5 @@ def locus_check(
         flank_left=j_start - i_start,
         flank_right=(len(record) - j_end) - (len(ref) - i_end),
         strand=sign,
+        reference=index,
     )
