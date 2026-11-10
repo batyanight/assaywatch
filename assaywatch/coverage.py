@@ -62,10 +62,8 @@ from typing import Any
 
 from assaywatch.accession import strip_version
 
-# The footprint is defined beside the drift statistic for historical reasons and is
-# re-exported by `calls`, the module that reads the table. Importing it from there
-# keeps this module off `assaywatch.drift`. Moving the three names into `calls`
-# outright is a ROADMAP item.
+# The footprint is defined with the table it is read from (`calls`), not with the drift
+# statistic: this module must not load `assaywatch.drift` (tests/test_coverage.py).
 from assaywatch.calls import FOOTPRINT_COLUMNS, FOOTPRINT_REQUIRED, footprint_signature
 from assaywatch.locus import read_locus
 from assaywatch.nested import NestPath, _protocol_records, nest_scope

@@ -243,6 +243,7 @@ Generated or maintained TSVs. Read columns with `mlr --itsv --opprint head -n 3 
 | [`predict-supplement-verification.tsv`](predict-supplement-verification.tsv) | PREDICT oligos against the published supplements |
 | [`2026-10-06-lab-leads.tsv`](2026-10-06-lab-leads.tsv) | the 188 leads behind `journal/2026-10-06-lab-leads.md` |
 | [`2026-10-05-pmc-abstract-only.tsv`](2026-10-05-pmc-abstract-only.tsv) | papers where only an abstract was reachable |
+| [`2026-11-10-in-scope-predicted-fails.tsv`](2026-11-10-in-scope-predicted-fails.tsv) | the 295 in-scope `predicted fail` coverage cells with 20 or more records, one line each: calls, which oligo carries the penalty, the commonest failing footprint, degeneracy tier. Sorted, not judged; the worklist for telling a scope that is too wide from scoring that is too strict |
 
 ## Narrower records
 

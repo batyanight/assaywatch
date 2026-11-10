@@ -339,3 +339,73 @@ two numbers were on the screen, so keeping Ward and Spackman is not evidence for
 the one independent gain. 19,273 of 1,051,572 probe rows could not be priced. The rule makes
 Biopython's nearest-neighbour tables part of scoring. Not built: the interface is the
 maintainer's to approve.
+
+## What the losses were, traced
+
+The controls above left three groups of records with both primer sites found and no locus
+shown. Each was traced to the sequence.
+
+- **Bd Annis `fail`, 0 of 18: the check is right and the screen is not.** The 18 are chance
+  primer pairs, 4-6 mismatches in each primer, in genome scaffolds and in predicted mRNAs of
+  unrelated genes. Aligning the references against the exact stretch the screen called an
+  amplicon covers 3-10% of a reference. Their pair E-values are 0.0004-0.0025, under
+  `max_pair_evalue` record by record, in an archive of 9,493 records. So the locus check
+  can test a `fail` call independently of the primers. What drift does with these 18 was
+  not traced.
+- **Pallister MCP `fail`, 0 of 37: the check is wrong.** Whole genomes, 57 bp amplicon at
+  the right length, primers with 5 and 3 mismatches, locus 0.83 identical, 0.67 covered:
+  the amplicon and one flank align, the other flank does not.
+- **Chlamydia Messmer round 2, detected:** partial 16S deposits that begin 10-28 bases
+  before the amplicon, so 72-90 of the reference's first 100 bases have nothing to align
+  to: 0.73-0.78 covered.
+
+The last two are one fault. `covered` is taken over the whole wide reference, and the
+flanks were added to give a short amplicon enough sequence to measure identity on, not to
+be required.
+
+### Measured: `covered` over the amplicon part
+
+Scratch measurement, nothing changed in the package. Same alignment; the question asked of
+it is how much of the AMPLICON part of the winning reference it spans, at 0.80, with
+identity at 0.60 as now. 13 assays (8 viral, 3 fungal, 2 bacterial), up to 120 records a
+class.
+
+| | today | amplicon rule |
+|---|---|---|
+| detected or reduced records shown present | 1,539 of 1,684 | 1,684 of 1,684 |
+| Pallister MCP `fail` | 0 of 37 | 37 of 37 |
+| VIR Pallister detected (the length-variable locus) | 109 of 120 | 120 of 120 |
+| Bd Annis `fail` (chance pairs) | 0 of 18 | 0 of 18 |
+| unrelated archives, 10 pairings | 0 of 1,445 | 0 of 1,445 |
+
+The most amplicon any unrelated record covers at 0.60 identity is 0.44. Adding a floor on
+the whole alignment (0.3 of the reference, or 100 aligned bases) changes no row. This also
+does what affine gap scores were going to be tried for. It changes what `covered` means
+and what the locus file holds, so it is on the roadmap as the maintainer's decision.
+
+An earlier line in this journal gives Avipox Farias `fail` records as 31 of 46 shown
+present. On this run the same class is 46 of 46 under today's rule. The earlier figure
+came from the per-reference search that the ranked search replaced; it was not rerun.
+
+## The in-scope `predicted fail` cells, sorted
+
+`docs/2026-11-10-in-scope-predicted-fails.tsv`: the 295 in-scope `predicted fail` cells with
+20 or more records (58 assays), one line each, from the 2026-11-01 calls without a locus
+file. By the kind of evidence: 145 are mostly `diverged`, 62 fail commonly with a mismatch
+within 3 bases of a 3' end, 88 on distal mismatches alone. 163 are rounds of nested
+family-level protocols and 142 sit in the `high` or `severe` degeneracy tiers.
+
+Sorting is all that was done. No cell was judged against its paper. The largest:
+`Enterovirus_VP3_VP1_Nix_2006_round2` on *Enterovirus alphacoxsackie* (113/24,485),
+`Chordopoxvirinae_POL_Bracht_2006` on monkeypox (0/15,867, every record the same
+footprint, six forward-primer mismatches), `Polyomaviridae_VP1_Johne_2005` on two human
+polyomaviruses, `Paramyxoviridae_L_Tong_2008` on mumps and Sendai-group viruses. A
+consensus primer that works at the bench on 4 distal mismatches and is scored `fail` is a
+scoring question, not a coverage one, and this table is where to start it.
+
+## Footprint definitions moved
+
+`FOOTPRINT_COLUMNS`, `FOOTPRINT_REQUIRED`, `footprint_signature` and `months_back` are
+defined in `calls.py`. `calls` no longer imports `drift`, and
+`test_coverage_does_not_load_the_drift_module` keeps it so.
+

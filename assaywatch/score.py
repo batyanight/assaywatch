@@ -409,7 +409,7 @@ class Call:
 
         def pairs(o: OligoScore | None) -> str:
             # Same shape as `mm`: empty for an unscored oligo AND for a clean one,
-            # which is why `drift.FOOTPRINT_REQUIRED` tests the penalty cells
+            # which is why `calls.FOOTPRINT_REQUIRED` tests the penalty cells
             # rather than these to tell "no mismatches" from "column absent".
             return "" if o is None else ",".join(o.mispairs)
 
@@ -447,7 +447,7 @@ class Call:
             # full rescreen to price; with it a candidate is a replay over this
             # table (docs/journal/2026-10-24-scoring-strategy-test-plan.md Part 0.1).
             #
-            # DELIBERATELY NOT in `drift.FOOTPRINT_COLUMNS`. That signature
+            # DELIBERATELY NOT in `calls.FOOTPRINT_COLUMNS`. That signature
             # records positions and not bases on purpose - "two records with
             # different bases at the same position merge. That makes footprints
             # fewer and the resulting interval wider: the safe direction" - and

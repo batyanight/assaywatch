@@ -5,7 +5,8 @@ assays only.** `assaywatch coverage` writes `coverage.tsv` and `coverage.md` fro
 `assaywatch locus` writes the locus file that fills in its blanks. Read
 `docs/journal/2026-11-10-coverage-map.md` before changing either. Three things wait on the
 maintainer and nothing should be built on them until she answers: the interface changes made while
-building, what an `UNVERIFIED` record is worth in a cell, and the interface of the Tm-loss probe
+building, what an `UNVERIFIED` record is worth in a cell, whether `covered` is measured over the
+amplicon (measured, and it recovers every lost positive), and the interface of the Tm-loss probe
 rule (replayed, not built; probe scoring is otherwise held on branch `probe-rule-by-chemistry`,
 unmerged). The whole-table locus run is the next piece of work and wants a cluster. What is open
 is on the roadmap.

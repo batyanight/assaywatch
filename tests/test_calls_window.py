@@ -39,7 +39,7 @@ def test_the_cutoff_is_a_year_and_comes_from_the_widest_window_not_the_base():
     # 24 months would give 2024 -- taking the base window would discard three years of
     # records that a widened window can still reach.
     assert C.earliest_relevant_year({"drift": {"max_window_months": 24}}, date(2026, 10, 30)) == 2024
-    # Exact calendar arithmetic, via drift.months_back, not 30.44-day months.
+    # Exact calendar arithmetic, via calls.months_back, not 30.44-day months.
     assert C.earliest_relevant_year(CFG, today=date(2026, 1, 31)) == 2021
     assert C.earliest_relevant_year(CFG, today=date(2026, 2, 1)) == 2021
     # An empty config falls back to the settings model's 60, not to the base window.

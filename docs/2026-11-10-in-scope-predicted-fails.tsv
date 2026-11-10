@@ -1,0 +1,296 @@
+assay_id	species	detected	locus_present	fail	diverged	reduced_or_detect	oligo_with_largest_penalty	commonest_fail_footprint	share_of_fails	commonest_reason	kind	degeneracy_tier	degeneracy_fold
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus alphacoxsackie	113	24485	10018	14354	113	rev 7449/fwd 2569	fwd 18,17,16,12; rev 26,25,24,20,18	0.28		mostly diverged (a site is there and does not fit)	severe	16384
+Chordopoxvirinae_POL_Bracht_2006	Orthopoxvirus monkeypox	0	15867	15705	162	0	fwd 15705	fwd 23,17,10,8,5,2; rev 17,6,4	1.00		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Simian_immunodeficiency_virus_pol_Takehisa_2009_HahnF2	Lentivirus simimdef	213	5308	4817	278	213	rev 4798/fwd 19	fwd 15,9; rev 24,18,16,14,4,3	0.54		commonest failure has a mismatch within 3 of a 3' end	high	144
+Polyomaviridae_VP1_Johne_2005	Betapolyomavirus secuhominis	7	3156	3132	17	7	fwd 2350/rev 782	fwd 25,24,20,14; rev 23,18,16	0.68		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Polyomaviridae_VP1_Johne_2005_round2	Betapolyomavirus secuhominis	7	3156	3132	17	7	fwd 2350/rev 782	fwd 25,24,20,14; rev 23,18,16	0.68		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Polyomaviridae_VP1_Johne_2005	Betapolyomavirus hominis	0	2215	2209	6	0	fwd 2196/rev 13	fwd 25,23,20,17,14; rev 27,23,21,16	0.62		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Polyomaviridae_VP1_Johne_2005_round2	Betapolyomavirus hominis	0	2215	2209	6	0	fwd 2196/rev 13	fwd 25,23,20,17,14; rev 27,23,21,16	0.62		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Paramyxoviridae_L_Tong_2008_round2	Orthoavulavirus javaense	2	1809	1791	16	2	fwd 1250/rev 541	fwd 21,19,18,12; rev 26,24,20,19	0.38		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Polyomaviridae_VP1_Johne_2005_round1	Betapolyomavirus hominis	0	1649	1636	13	0	rev 1636	fwd 21,18,15,13; rev 24,23,20,19,18,15	0.80		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	128
+Circoviridae_Rep_Mankertz_2000_round1	Circovirus porcine3	0	1520	0	1520	0					mostly diverged (a site is there and does not fit)	high	1536
+Orthoflavivirus_NS5_Scaramozzino_2001_round2	Orthoflavivirus zikaense	7	1457	1376	74	7	rev 1372/fwd 4	fwd 12,11; rev 15,12,3	0.85		commonest failure has a mismatch within 3 of a 3' end	high	648
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus alpharhino	7	1444	557	880	7	fwd 468/rev 89	fwd 26,21,17,16,15,12; rev 24,21,20,15	0.06		mostly diverged (a site is there and does not fit)	severe	16384
+Paramyxoviridae_L_Tong_2008_round1	Orthorubulavirus parotitidis	0	1353	1334	19	0	rev 1334	fwd 24,19,18; rev 26,23,22,21,18	0.99		commonest failure is distal mismatches only (4+ from the 3' end)	high	768
+Paramyxoviridae_L_Tong_2008_round2	Respirovirus pneumoniae	0	1312	1302	10	0	rev 1301/fwd 1	fwd 24,23,20; rev 26,24,22,21,19,18	0.93		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Paramyxoviridae_L_Tong_2008_round1	Respirovirus pneumoniae	1	1311	1299	11	1	rev 1299	fwd 19; rev 26,24,22,21,19,18	0.99		commonest failure is distal mismatches only (4+ from the 3' end)	high	768
+Coronaviridae_RdRp_Watanabe_2010	Alphacoronavirus porci	0	1183	1183	0	0	rev 1183	fwd 3; rev 13,1	0.94		commonest failure has a mismatch within 3 of a 3' end	high	384
+Coronaviridae_RdRp_Watanabe_2010	Gammacoronavirus galli	16	1039	1008	15	16	rev 1008	fwd -; rev 11,10,4,2,1	0.49		commonest failure has a mismatch within 3 of a 3' end	high	384
+Apicomplexa_18S_Garner_2006	Theileria equi	0	1009	0	1009	0					mostly diverged (a site is there and does not fit)	moderate	128
+Circoviridae_Rep_Mankertz_2000_round2	Circovirus pigeon	0	931	930	1	0	fwd 927/rev 3	fwd 24,8,7; rev 27,24,15	0.54		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Circoviridae_Rep_Mankertz_2000_round1	Circovirus pigeon	0	916	2	914	0	fwd 1/rev 1	fwd 24,21,18,15,6; rev 27,24,22,21,20,19	0.50		mostly diverged (a site is there and does not fit)	high	1536
+Orthoflavivirus_NS5_Scaramozzino_2001_round2	Orthoflavivirus flavi	8	860	841	11	8	rev 840/fwd 1	fwd 12; rev 18,15,12,3	0.72		commonest failure has a mismatch within 3 of a 3' end	high	648
+Coronaviridae_RdRp_Quan_2010_round1	Betacoronavirus cameli	0	794	790	4	0	fwd 780/rev 10	fwd 30,29,28,21; rev 30,21,14,13	0.97		commonest failure is distal mismatches only (4+ from the 3' end)	severe	1.3271e+06
+Coronaviridae_RdRp_Quan_2010_round2	Betacoronavirus cameli	13	791	778	0	13	fwd 778	fwd 21,20,3; rev 22,21	1.00		commonest failure has a mismatch within 3 of a 3' end	severe	12288
+Helicobacter_16S_Conley_2021	uncultured Helicobacter sp.	0	776	620	156	0	fwd 436/probe 174/rev 10	fwd 27,12; rev -	0.14	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Polyomaviridae_VP1_Johne_2005_round1	Betapolyomavirus secuhominis	0	756	2	754	0	rev 2	fwd 21,18,15,12; rev 24,23,20,19,12,11	1.00		mostly diverged (a site is there and does not fit)	moderate	128
+Enterovirus_VP3_VP1_Nix_2006_round2	Human enterovirus	8	636	56	572	8	rev 51/fwd 5	fwd 20,17,16,12; rev 27,26,25,24,20,18	0.27		mostly diverged (a site is there and does not fit)	severe	16384
+Circoviridae_Rep_Mankertz_2000_round2	Circovirus duck	0	532	3	529	0	fwd 3	fwd 27,24,8,7,6; rev 27,24,18,15,14,13	1.00		mostly diverged (a site is there and does not fit)	high	1536
+Paramyxoviridae_L_Tong_2008_round2	Respirovirus laryngotracheitidis	0	488	482	6	0	fwd 481/rev 1	fwd 24,23,21,20,12; rev 24,22,21,19	0.50		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Helicobacter_16S_Conley_2021	Helicobacter pylori	0	450	2	448	0	fwd 2	fwd 29,25,24,19,18,12; rev -	1.00	no probe site inside amplicon	mostly diverged (a site is there and does not fit)	negligible	1
+Avipoxvirus_4b_Baek_2020	Avipoxvirus fowlpox	0	423	400	23	0	probe 396/rev 3/fwd 1	fwd 20,17; rev 29,20,11; probe 7	0.94		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Coronaviridae_RdRp_Watanabe_2010	Betacoronavirus pandemicum	8	423	414	1	8	rev 414	fwd -; rev 24,13,1	0.83		commonest failure has a mismatch within 3 of a 3' end	high	384
+Circoviridae_Rep_Mankertz_2000_round2	Circovirus canine	0	409	0	409	0					mostly diverged (a site is there and does not fit)	high	1536
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus geswini	0	389	149	240	0	rev 126/fwd 23	fwd 20,18,17,16,15; rev 27,26,22,21,20,7	0.18		mostly diverged (a site is there and does not fit)	severe	16384
+Circoviridae_Rep_Mankertz_2000_round1	Circovirus canine	0	384	295	89	0	fwd 295	fwd 24,17,3,2,1; rev 27,25,24,22,12	0.55		commonest failure has a mismatch within 3 of a 3' end	high	1536
+Chlamydia_16S_Messmer_1997_round1	Chlamydia trachomatis	0	363	363	0	0	fwd 363	fwd 13,12,8,7,6; rev 2	0.70		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Orthoreovirus_RdRp_Landolfi_2010_round1	Orthoreovirus piscis	0	343	342	1	0	rev 342	fwd 21,6,3; rev 14,2,1	0.99		commonest failure has a mismatch within 3 of a 3' end	severe	331776
+Orthobunyavirus_M_Briese_2007_BUN_M_IXf	Orthobunyavirus oropoucheense	0	341	327	14	0	rev 322/fwd 5	fwd -; rev 16,14,12,7,2	0.94		commonest failure has a mismatch within 3 of a 3' end	high	4096
+Apicomplexa_18S_Garner_2006	Plasmodium knowlesi	0	328	0	328	0					mostly diverged (a site is there and does not fit)	moderate	128
+Bornaviridae_N_Zimmermann_1994_round2	Orthobornavirus bornaense	0	312	312	0	0	fwd 312	fwd 5,1; rev -	0.77		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Chordopoxvirinae_POL_Bracht_2006	Orthopoxvirus vaccinia	0	312	308	4	0	fwd 308	fwd 23,17,10,8,5,2; rev 17,6,4	0.96		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Coronaviridae_RdRp_Watanabe_2010	Alphacoronavirus amsterdamense	0	309	309	0	0	rev 309	fwd -; rev 22,13,1	0.97		commonest failure has a mismatch within 3 of a 3' end	high	384
+Paramyxoviridae_L_Tong_2008_round2	Morbillivirus canis	0	307	305	2	0	fwd 305	fwd 26,21,17,15,12; rev 27,26,23,20	0.67		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Orthoflavivirus_NS5_Scaramozzino_2001_round1	Orthoflavivirus louisense	1	292	290	1	1	rev 286/fwd 4	fwd 21,8,6; rev 15,12,9,3	0.39		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Coronaviridae_RdRp_Quan_2010_round1	Deltacoronavirus suis	0	291	275	16	0	fwd 275	fwd 29,28,27,5; rev 30,21,12	0.77		commonest failure is distal mismatches only (4+ from the 3' end)	severe	1.3271e+06
+Coronaviridae_RdRp_Watanabe_2010	Deltacoronavirus suis	0	291	291	0	0	rev 291	fwd -; rev 11,10,4,2,1	0.98		commonest failure has a mismatch within 3 of a 3' end	high	384
+Plasmodium_18S_Li_1995	Plasmodium knowlesi	6	281	275	0	6	fwd 275	fwd 16,12,10,5,1; rev 15,14,10,9,6,4	1.00		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Coronaviridae_RdRp_Quan_2010_round1	Alphacoronavirus amsterdamense	0	269	269	0	0	rev 256/fwd 13	fwd 29,27,15,3; rev 30,24,22,9,5	0.92		commonest failure has a mismatch within 3 of a 3' end	severe	1.3271e+06
+Paramyxoviridae_L_Tong_2008_round2	Morbillivirus caprinae	0	262	245	17	0	fwd 245	fwd 26,24,21,17,12; rev 27,26,23,20	0.45		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Astroviridae_RdRp_Chu_2008_round2	Goose astrovirus	7	245	238	0	7	fwd 238	fwd 5,3; rev 15	0.66		commonest failure has a mismatch within 3 of a 3' end	high	1536
+Apicomplexa_18S_Garner_2006	Babesia microti	0	244	0	244	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria annulata	0	239	0	239	0					mostly diverged (a site is there and does not fit)	moderate	128
+Paramyxoviridae_L_Tong_2008_round1	Orthorubulavirus laryngotracheitidis	0	238	207	31	0	rev 207	fwd 20,19,18; rev 24,22,21,20,18	0.99		commonest failure is distal mismatches only (4+ from the 3' end)	high	768
+Circoviridae_Rep_Mankertz_2000_round1	Circovirus goose	0	233	208	25	0	fwd 208	fwd 26,25,24,17,2,1; rev 24,22,16,12	0.75		commonest failure has a mismatch within 3 of a 3' end	high	1536
+Apicomplexa_18S_Garner_2006	Babesia gibsoni	0	229	0	229	0					mostly diverged (a site is there and does not fit)	moderate	128
+Circoviridae_Rep_Mankertz_2000_round2	Circovirus goose	0	227	32	195	0	rev 31/fwd 1	fwd 27,9,8,7,6; rev 27,24,15,13,5,3	0.75		mostly diverged (a site is there and does not fit)	high	1536
+Polyomaviridae_VP1_Johne_2005	Alphapolyomavirus quintihominis	3	221	216	2	3	rev 213/fwd 3	fwd 26,20,17; rev 21,19,18,16	0.94		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Polyomaviridae_VP1_Johne_2005_round2	Alphapolyomavirus quintihominis	3	221	216	2	3	rev 213/fwd 3	fwd 26,20,17; rev 21,19,18,16	0.94		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Orthoherpesviridae_terminase_Chmielewicz_2001_round2	Varicellovirus humanalpha3	0	216	216	0	0	rev 216	fwd 21,18,15; rev 20,17,15,14	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	128
+Dependoparvovirus_VP1_Gao_2002_1	Dependoparvovirus mammalian1	2	215	213	0	2	fwd 212/rev 1	fwd 14,11,10; rev 26,24,17,15,2	0.61		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Dependoparvovirus_VP1_Gao_2002_2	Dependoparvovirus mammalian1	2	215	213	0	2	fwd 212/rev 1	fwd 14,11,10; rev 26,24,17,15,2	0.61		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Avipoxvirus_4b_Baek_2020	Avipoxvirus sp.	1	212	113	98	1	probe 91/rev 12/fwd 10	fwd 20,17; rev 29,20,11; probe 7	0.42		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Apicomplexa_18S_Garner_2006	Babesia bigemina	0	210	0	210	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria luwenshuni	0	208	0	208	0					mostly diverged (a site is there and does not fit)	moderate	128
+Mastadenovirus_POL_Roy_2009_round1	Mastadenovirus adami	1	206	205	0	1	fwd 205	fwd 13,12,10,3; rev 24,12,9	0.84		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Mastadenovirus_POL_Roy_2009_round2	Mastadenovirus adami	0	206	206	0	0	fwd 206	fwd 21,18,12,6; rev 23,21,15,9	0.81		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Adenoviridae_hexon_Casas_2005_round1	Aviadenovirus hydropericardii	0	202	8	194	0	fwd 6/rev 2	fwd 21,19,8,6,5,2; rev 16,15,11,6,5,2	0.38		mostly diverged (a site is there and does not fit)	moderate	16
+Apicomplexa_18S_Garner_2006	Babesia sp.	0	200	0	200	0					mostly diverged (a site is there and does not fit)	moderate	128
+Orthoflavivirus_NS5_Scaramozzino_2001_round2	Orthoflavivirus kyasanurense	0	200	190	10	0	rev 190	fwd 17,12; rev 15,12,6,3	0.64		commonest failure has a mismatch within 3 of a 3' end	high	648
+Coronaviridae_RdRp_Quan_2010_round1	Betacoronavirus hongkongense	0	199	193	6	0	fwd 193	fwd 29,15,5; rev 30,24,21,12,9	0.51		commonest failure is distal mismatches only (4+ from the 3' end)	severe	1.3271e+06
+Coronaviridae_RdRp_Quan_2010_round2	Betacoronavirus hongkongense	1	198	191	6	1	fwd 191	fwd 21,5; rev 22,21	0.50		commonest failure is distal mismatches only (4+ from the 3' end)	severe	12288
+Orthoflavivirus_NS5_Scaramozzino_2001_round1	Orthoflavivirus kyasanurense	0	198	188	10	0	rev 188	fwd 12; rev 15,12,6,3	0.97		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Adenoviridae_hexon_Casas_2005_round1	Aviadenovirus gallinae	0	196	83	113	0	fwd 81/rev 2	fwd 21,10,2,1; rev 16,12,10,7,1	0.98		mostly diverged (a site is there and does not fit)	moderate	16
+Apicomplexa_18S_Garner_2006	Babesia bovis	0	189	0	189	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria sp.	0	187	2	185	0	rev 2	fwd 13; rev 12,10,8,7,6	1.00		mostly diverged (a site is there and does not fit)	moderate	128
+Paramyxoviridae_L_Tong_2008_round1	Orthorubulavirus hominis	0	187	186	1	0	rev 184/fwd 2	fwd 20,19,18,15; rev 26,23,22,21,18	0.94		commonest failure is distal mismatches only (4+ from the 3' end)	high	768
+Apicomplexa_18S_Garner_2006	Babesia caballi	0	180	0	180	0					mostly diverged (a site is there and does not fit)	moderate	128
+Rhabdoviridae_L_Bourhy_2005_round1	Novirhabdovirus piscine	0	178	178	0	0	fwd 96/rev 82	fwd 15,14,13,8; rev 16,15,12,10,9	0.43		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus cerhino	0	176	40	136	0	fwd 30/rev 10	fwd 25,21,17,16,15,12; rev 27,26,20,19,18	0.38		mostly diverged (a site is there and does not fit)	severe	16384
+Enterovirus_5UTR_VP4_VP2_Wray_2016_round2	Enterovirus geswini	0	173	164	9	0	rev 164	fwd -; rev 18,6,5,4	0.34		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	32
+Polyomaviridae_VP1_Johne_2005_round1	Betapolyomavirus quartihominis	0	172	3	169	0	fwd 3	fwd 23,15,13,11,9,3; rev 24,23,20,19,17	1.00		mostly diverged (a site is there and does not fit)	moderate	128
+Astroviridae_RdRp_Chu_2008_round1	Mamastrovirus suisvulgaris	2	169	166	1	2	fwd 166	fwd 20,15,9,4; rev 13	0.75		commonest failure is distal mismatches only (4+ from the 3' end)	high	2048
+Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F	Mycoplasma mycoides	1	165	0	164	1					mostly diverged (a site is there and does not fit)	negligible	8
+Apicomplexa_18S_Garner_2006	Theileria orientalis	0	156	0	156	0					mostly diverged (a site is there and does not fit)	moderate	128
+Chordopoxvirinae_POL_Bracht_2006	Leporipoxvirus myxoma	0	151	151	0	0	fwd 151	fwd 22,20,17,8,5; rev 21,18,3	0.97		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Chordopoxvirinae_POL_McAloose_2016	Leporipoxvirus myxoma	5	151	146	0	5	fwd 146	fwd 22,21,9,7,4; rev 12,3	1.00		commonest failure has a mismatch within 3 of a 3' end	negligible	4
+Enterovirus_VP3_VP1_Nix_2006_round2	Human rhinovirus sp.	0	144	70	74	0	fwd 63/rev 7	fwd 18,17,16,15,12; rev 24,21,20	0.09		mostly diverged (a site is there and does not fit)	severe	16384
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus carnivoran3	0	138	0	138	0					mostly diverged (a site is there and does not fit)	high	1024
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus carnivoran3	0	138	0	138	0					mostly diverged (a site is there and does not fit)	high	2048
+Apicomplexa_18S_Garner_2006	Theileria ovis	0	135	0	135	0					mostly diverged (a site is there and does not fit)	moderate	128
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus sp.	1	135	32	102	1	fwd 21/rev 11	fwd 18,17,16,15,12; rev 24,21,20	0.41		mostly diverged (a site is there and does not fit)	severe	16384
+Paramyxoviridae_L_Tong_2008_round2	Morbillivirus pecoris	0	135	135	0	0	fwd 135	fwd 26,18,17,15,12; rev 27,26,23,20	0.64		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Paramyxoviridae_L_Tong_2008_round2	Orthorubulavirus parotitidis	0	134	99	35	0	fwd 99	fwd 23,22,21,20,19,18; rev 26,23,22,21,18	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Apicomplexa_18S_Garner_2006	Theileria parva	0	133	0	133	0					mostly diverged (a site is there and does not fit)	moderate	128
+Adenoviridae_hexon_Casas_2005_round2	Aviadenovirus hepatitidis	0	132	132	0	0	rev 126/fwd 6	fwd -; rev 18,16,15,14,5,4	0.87		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	8
+Adenoviridae_hexon_Casas_2005_round1	Aviadenovirus hepatitidis	0	128	128	0	0	rev 127/fwd 1	fwd 19,15,10; rev 18,16,15,14,5,4	0.66		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	16
+Alphavirus_nsP4_Sanchez-Seco_2001_round2	Alphavirus salmon	0	127	0	127	0					mostly diverged (a site is there and does not fit)	high	256
+Orthoherpesviridae_terminase_Chmielewicz_2001_round1	Iltovirus gallidalpha1	0	125	125	0	0	fwd 125	fwd 21,18,15,12; rev 22,21,18,16	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	128
+Paramyxoviridae_L_Tong_2008_round2	Henipavirus nipahense	0	124	122	2	0	fwd 122	fwd 26,20,15,12; rev 27,24,23,20	0.97		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Chordopoxvirinae_POL_Bracht_2006	Orthopoxvirus cowpox	0	122	118	4	0	fwd 118	fwd 23,17,10,8,5,2; rev 17,6,4	0.56		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Paramyxoviridae_L_Tong_2008_round2	Orthorubulavirus hominis	0	116	0	116	0					mostly diverged (a site is there and does not fit)	high	384
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus betarhino	0	115	60	55	0	fwd 54/rev 6	fwd 18,16,15,12,11,10; rev 27,26,25,21,20	0.20		commonest failure is distal mismatches only (4+ from the 3' end)	severe	16384
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus sp.	5	113	0	108	5					mostly diverged (a site is there and does not fit)	high	1024
+Orthobunyavirus_S_Steyn_2020	Orthobunyavirus oropoucheense	0	111	0	111	0					mostly diverged (a site is there and does not fit)	moderate	16
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus sp.	5	110	0	105	5					mostly diverged (a site is there and does not fit)	high	2048
+Alphavirus_nsP4_Sanchez-Seco_2001_round2	Alphavirus mayaro	0	106	106	0	0	rev 106	fwd -; rev 5,4	0.99		commonest failure is distal mismatches only (4+ from the 3' end)	high	256
+Apicomplexa_18S_Garner_2006	Theileria velifera	0	105	0	105	0					mostly diverged (a site is there and does not fit)	moderate	128
+Orthoflavivirus_NS5_Scaramozzino_2001_round2	Culex flavivirus	0	104	36	68	0	fwd 36	fwd 21,19,10,7,3,1; rev 18,12,11,10,9,3	0.53		mostly diverged (a site is there and does not fit)	high	648
+Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F	Mycoplasma capricolum	0	102	0	102	0					mostly diverged (a site is there and does not fit)	negligible	8
+Apicomplexa_18S_Garner_2006	Babesia vogeli	0	97	0	97	0					mostly diverged (a site is there and does not fit)	moderate	128
+Adenoviridae_hexon_Casas_2005_round1	Mastadenovirus canidae	0	96	96	0	0	fwd 96	fwd 21,18,10,9; rev 12	0.58		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	16
+Apicomplexa_18S_Garner_2006	Babesia canis	0	95	0	95	0					mostly diverged (a site is there and does not fit)	moderate	128
+Circoviridae_Rep_Mankertz_2000_round1	Circovirus sp.	0	95	6	89	0	fwd 5/rev 1	fwd 26,25,24,21,3,1; rev 27,22,21,18,17,16	0.50		mostly diverged (a site is there and does not fit)	high	1536
+Orthoflavivirus_NS5_Scaramozzino_2001_round1	Orthoflavivirus murrayense	3	94	91	0	3	rev 72/fwd 19	fwd 12,8,6; rev 18,15,12,9,3	0.53		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Apicomplexa_18S_Garner_2006	Leucocytozoon sp.	0	93	0	93	0					mostly diverged (a site is there and does not fit)	moderate	128
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus rodent1	0	91	0	91	0					mostly diverged (a site is there and does not fit)	high	1024
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus rodent1	0	91	0	91	0					mostly diverged (a site is there and does not fit)	high	2048
+Apicomplexa_18S_Garner_2006	Haemoproteus belopolskyi	0	90	0	90	0					mostly diverged (a site is there and does not fit)	moderate	128
+Avipoxvirus_4b_Baek_2020	Avipoxvirus pigeonpox	0	90	90	0	0	probe 90	fwd 20; rev 18,8; probe 13,7	0.91		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Apicomplexa_18S_Garner_2006	Plasmodium ovale	0	89	0	89	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria bicornis	0	85	0	85	0					mostly diverged (a site is there and does not fit)	moderate	128
+Orthoherpesviridae_POL_VanDevanter_1996_round2	Mardivirus gallidalpha2	1	85	83	1	1	fwd 83	fwd 24,18,8,7; rev 24,21,15	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	12288
+Helicobacter_16S_Conley_2021	Helicobacter cinaedi	0	84	84	0	0	probe 84	fwd 29,27,25,24; rev 14; probe 12,10,5,4,2,1	0.95		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Helicobacter_16S_Conley_2021	Helicobacter pullorum	0	84	84	0	0	fwd 84	fwd 29,27,25,24; rev 14	0.69	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Circoviridae_Rep_Mankertz_2000_round1	Circovirus porcine4	0	82	79	3	0	rev 69/fwd 10	fwd 27,8,7,6; rev 26,25,24,22,21,16	0.87		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Polyomaviridae_VP1_Johne_2005_round1	Alphapolyomavirus quintihominis	0	82	0	82	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria cervi	0	81	0	81	0					mostly diverged (a site is there and does not fit)	moderate	128
+Paramyxoviridae_L_Tong_2008_round1	Orthorubulavirus mammalis	0	81	81	0	0	rev 79/fwd 2	fwd 20,19,18,7; rev 26,22,21,20	0.98		commonest failure is distal mismatches only (4+ from the 3' end)	high	768
+Bocaparvovirus_NS1_Kapoor_2010_round1	Porcine bocavirus	0	79	0	79	0					mostly diverged (a site is there and does not fit)	high	1024
+Chordopoxvirinae_POL_Bracht_2006	Orthopoxvirus variola	0	79	0	79	0					mostly diverged (a site is there and does not fit)	negligible	1
+Polyomaviridae_VP1_Johne_2005_round1	Gammapolyomavirus avis	0	79	79	0	0	rev 79	fwd 15,14; rev 24,23,21,19,17	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	128
+Adenoviridae_hexon_Casas_2005_round2	Aviadenovirus quintum	0	78	69	9	0	rev 43/fwd 26	fwd 18; rev 16,15,14,6,5,4	0.62		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	8
+Adenoviridae_hexon_Casas_2005_round1	Aviadenovirus quintum	0	77	43	34	0	rev 43	fwd 19,18,10,9; rev 16,15,14,6,5,4	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	16
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus eibovi	0	77	58	19	0	fwd 34/rev 24	fwd 21,17,16,15,12; rev 27,24,20,18	0.12		commonest failure is distal mismatches only (4+ from the 3' end)	severe	16384
+Circoviridae_Rep_Mankertz_2000_round2	Circovirus porcine4	0	76	0	76	0					mostly diverged (a site is there and does not fit)	high	1536
+Orthobunyavirus_L_Briese_2007	Orthobunyavirus oropoucheense	0	75	0	75	0					mostly diverged (a site is there and does not fit)	moderate	64
+Helicobacter_16S_Conley_2021	Helicobacter heilmannii	0	74	72	2	0	fwd 72	fwd 12; rev -	0.31	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Apicomplexa_18S_Garner_2006	Cytauxzoon europaeus	0	73	0	73	0					mostly diverged (a site is there and does not fit)	moderate	128
+Circoviridae_Rep_Mankertz_2000_round2	Circovirus sp.	0	71	6	65	0	fwd 3/rev 3	fwd 24,20,6,1; rev 26,24,23,14,13,6	0.50		mostly diverged (a site is there and does not fit)	high	1536
+Coronaviridae_RdRp_Watanabe_2010	Waterbird gammacoronavirus 1	0	71	71	0	0	rev 71	fwd 21; rev 11,10,2	1.00		commonest failure has a mismatch within 3 of a 3' end	high	384
+Paramyxoviridae_L_Tong_2008_round2	Orthorubulavirus laryngotracheitidis	0	71	0	71	0					mostly diverged (a site is there and does not fit)	high	384
+Enterovirus_5UTR_VP4_VP2_Wray_2016_round1	Enterovirus eibovi	2	68	6	60	2	rev 3/fwd 3	fwd 23,22,20,17,14,6; rev 9,8	0.50		mostly diverged (a site is there and does not fit)	moderate	16
+Bocaparvovirus_NS1_Kapoor_2010_round2	Porcine bocavirus	0	65	0	65	0					mostly diverged (a site is there and does not fit)	high	2048
+Leucocytozoon_cytb_Hellgren_2004	Leucocytozoon majoris	2	65	0	63	2					mostly diverged (a site is there and does not fit)	negligible	1
+Apicomplexa_18S_Garner_2006	Theileria buffeli	0	64	0	64	0					mostly diverged (a site is there and does not fit)	moderate	128
+Chordopoxvirinae_POL_Bracht_2006	Avipoxvirus fowlpox	0	64	64	0	0	fwd 63/rev 1	fwd 23,20,17,10,8,5; rev 18,17,15	0.95		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Paramyxoviridae_L_Tong_2008_round1	Respirovirus bovis	0	64	5	59	0	rev 5	fwd 19,15; rev 26,24,22,21,19,18	0.60		mostly diverged (a site is there and does not fit)	high	768
+Paramyxoviridae_L_Tong_2008_round2	Respirovirus bovis	0	64	5	59	0	rev 5	fwd 23,20; rev 26,24,22,21,19,18	0.60		mostly diverged (a site is there and does not fit)	high	384
+Apicomplexa_18S_Garner_2006	Plasmodium sp.	0	62	0	62	0					mostly diverged (a site is there and does not fit)	moderate	128
+Adenoviridae_hexon_Casas_2005_round1	Fowl adenovirus	0	60	26	34	0	rev 19/fwd 7	fwd 19,15,10; rev 18,16,15,14,5,4	0.42		mostly diverged (a site is there and does not fit)	moderate	16
+Apicomplexa_18S_Garner_2006	Babesia divergens	0	60	0	60	0					mostly diverged (a site is there and does not fit)	moderate	128
+Paramyxoviridae_L_Tong_2008_round2	Parajeilongvirus hainanense	0	58	43	15	0	fwd 40/rev 3	fwd 26,20,18,17,15,12; rev 27,26,24,20	0.09		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Chlamydia_16S_Messmer_1997_round1	Chlamydia muridarum	0	57	57	0	0	fwd 57	fwd 12,8,7; rev 2	0.89		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Coronaviridae_RdRp_Quan_2010_round1	Swine acute diarrhea syndrome coronavirus	0	55	55	0	0	fwd 55	fwd 30,29,27,15; rev 30,24,12	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	1.3271e+06
+Coronaviridae_RdRp_Watanabe_2010	Swine acute diarrhea syndrome coronavirus	0	55	55	0	0	rev 55	fwd 21; rev 11,1	1.00		commonest failure has a mismatch within 3 of a 3' end	high	384
+Orthoherpesviridae_POL_VanDevanter_1996_round2	Rhadinovirus humangamma8	1	55	54	0	1	fwd 54	fwd 27,23,21,18; rev 24,22,15	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	12288
+Arenaviridae_S_Lozano_1997_ARS16V	unidentified Reptarenavirus	0	54	25	29	0	rev 25	fwd 18,17,16,13,6; rev 14,12,5,2,1	0.68		mostly diverged (a site is there and does not fit)	negligible	8
+Rhabdoviridae_L_Bourhy_2005_round1	Alpharicinrhavirus wuhan	1	53	52	0	1	rev 52	fwd 23,19,13; rev 9,6	0.98		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184
+Apicomplexa_18S_Garner_2006	Theileria capreoli	0	52	0	52	0					mostly diverged (a site is there and does not fit)	moderate	128
+Helicobacter_16S_Conley_2021	Helicobacter sp.	0	52	48	4	0	fwd 24/probe 24	fwd 29,27,25,24,18,17; rev -	0.29	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Orthoflavivirus_NS5_Scaramozzino_2001_round2	Orthoflavivirus omskense	0	52	52	0	0	rev 52	fwd 12; rev 18,12,6,3	0.75		commonest failure has a mismatch within 3 of a 3' end	high	648
+Orthoflavivirus_NS5_Scaramozzino_2001_round1	Orthoflavivirus omskense	0	51	51	0	0	rev 51	fwd 12; rev 18,12,6,3	0.75		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Rhabdoviridae_L_Bourhy_2005_round1	Novirhabdovirus salmonid	0	51	51	0	0	rev 51	fwd 22,15,14,13,8; rev 16,12,10,9,6	0.90		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184
+Circoviridae_Rep_Mankertz_2000_round2	Bat circovirus	0	49	8	41	0	fwd 8	fwd 24,20,9,8,6,2; rev 27,23,14,13,9,5	0.62		mostly diverged (a site is there and does not fit)	high	1536
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus ungulate5	0	48	0	48	0					mostly diverged (a site is there and does not fit)	high	1024
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus ungulate5	0	48	0	48	0					mostly diverged (a site is there and does not fit)	high	2048
+Polyomaviridae_VP1_Johne_2005	Betapolyomavirus macacae	0	48	44	4	0	fwd 44	fwd 26,25,23,20,14,10; rev 29,16	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Polyomaviridae_VP1_Johne_2005_round2	Betapolyomavirus macacae	0	48	44	4	0	fwd 44	fwd 26,25,23,20,14,10; rev 29,16	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	high	1536
+Apicomplexa_18S_Garner_2006	Cytauxzoon sp.	0	46	0	46	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria sp. Yokoyama	0	46	0	46	0					mostly diverged (a site is there and does not fit)	moderate	128
+Arenaviridae_S_Lozano_1997_ARS3V	Mammarenavirus machupoense	0	46	46	0	0	rev 46	fwd 14,11,2; rev 16,6,3	0.89		commonest failure has a mismatch within 3 of a 3' end	high	256
+Apicomplexa_18S_Garner_2006	Haemoproteus majoris	0	45	0	45	0					mostly diverged (a site is there and does not fit)	moderate	128
+Polyomaviridae_VP1_Johne_2005_round1	Betapolyomavirus macacae	0	45	41	4	0	rev 41	fwd 21,18,13; rev 24,23,20,19,18,15	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria haneyi	0	44	0	44	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Lankesterella kabeeni	0	44	0	44	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria cf. luwenshuni	0	44	0	44	0					mostly diverged (a site is there and does not fit)	moderate	128
+Circoviridae_Rep_Mankertz_2000_round2	Cyclovirus nhanloai	0	44	0	44	0					mostly diverged (a site is there and does not fit)	high	1536
+Helicobacter_16S_Conley_2021	Helicobacter canadensis	0	44	44	0	0	fwd 44	fwd 29,27,25,24; rev 14	0.86	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Apicomplexa_18S_Garner_2006	Theileria sinensis	0	43	0	43	0					mostly diverged (a site is there and does not fit)	moderate	128
+Chordopoxvirinae_topoisomerase_Bracht_2006	Avipoxvirus fowlpox	0	43	42	1	0	rev 41/fwd 1	fwd 12,9,4; rev 17,15,2	0.98		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Adenoviridae_hexon_Casas_2005_round1	Aviadenovirus anatis	0	42	42	0	0	rev 42	fwd 21,17,15,6; rev 18,14,13,6,5,4	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	16
+Avipoxvirus_4b_Baek_2020	Avipoxvirus canarypox	0	42	5	37	0	probe 5	fwd 20,17; rev 29,20,11; probe 7	0.80		mostly diverged (a site is there and does not fit)	negligible	1
+Helicobacter_16S_Conley_2021	Helicobacter anatolicus	0	42	42	0	0	fwd 42	fwd 29,27,25,24,18,17; rev 14	1.00	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Apicomplexa_18S_Garner_2006	Cytauxzoon felis	0	41	0	41	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Haemoproteus sp.	0	41	0	41	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	uncultured Theileria sp.	0	41	0	41	0					mostly diverged (a site is there and does not fit)	moderate	128
+Avipoxvirus_4b_Baek_2020	Avipoxvirus isolate Hawaii	0	41	5	36	0	probe 4/rev 1	fwd 20,17; rev 29,20,11; probe 7	0.60		mostly diverged (a site is there and does not fit)	negligible	1
+Paramyxoviridae_L_Tong_2008_round2	Morbillivirus ceti	2	41	39	0	2	rev 33/fwd 6	fwd 26,21,17; rev 27,26,23,20	0.85		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Apicomplexa_18S_Garner_2006	Theileria mutans	0	40	0	40	0					mostly diverged (a site is there and does not fit)	moderate	128
+Papillomaviridae_L1_Forslund_1999	Dyoiotapapillomavirus 1	0	40	0	40	0					mostly diverged (a site is there and does not fit)	high	288
+Apicomplexa_18S_Garner_2006	Plasmodium vivax	0	39	0	39	0					mostly diverged (a site is there and does not fit)	moderate	128
+Haemosporida_cytb_Hellgren_2004_HaemNFI	Leucocytozoon toddi	0	39	39	0	0	fwd 39	fwd 23,22,9,2,1; rev 24,21,16,15	0.49		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Leucocytozoon_cytb_Hellgren_2004	Leucocytozoon toddi	0	39	15	24	0	fwd 14/rev 1	fwd 14,8,7,5; rev 25,24,18,16,2,1	0.73		mostly diverged (a site is there and does not fit)	negligible	1
+Orthoflavivirus_NS5_Scaramozzino_2001_round2	Orthoflavivirus wesselsbronense	0	39	39	0	0	rev 39	fwd 12,8; rev 18,12,3	0.41		commonest failure has a mismatch within 3 of a 3' end	high	648
+Polyomaviridae_VP1_Johne_2005_round1	Gammapolyomavirus anseris	0	38	0	38	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Babesia venatorum (nom. ined.)	0	37	0	37	0					mostly diverged (a site is there and does not fit)	moderate	128
+Coronaviridae_RdRp_Watanabe_2010	Horseshoe bat sarbecovirus	0	37	35	2	0	rev 35	fwd -; rev 24,13,1	0.83		commonest failure has a mismatch within 3 of a 3' end	high	384
+Orthoflavivirus_NS5_Scaramozzino_2001_round1	Orthoflavivirus wesselsbronense	0	37	37	0	0	rev 37	fwd 8,6; rev 15,12,3	0.54		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Rhabdoviridae_L_Bourhy_2005_round1	Lyssavirus australis	0	37	37	0	0	fwd 37	fwd 22,18,7,4; rev 15,9,3	0.70		commonest failure has a mismatch within 3 of a 3' end	severe	221184
+Apicomplexa_18S_Garner_2006	Babesia odocoilei	0	36	0	36	0					mostly diverged (a site is there and does not fit)	moderate	128
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus ungulate2	0	36	0	36	0					mostly diverged (a site is there and does not fit)	high	1024
+Chordopoxvirinae_topoisomerase_Bracht_2006	Parapoxvirus orf	0	36	1	35	0	rev 1	fwd 21,15,12,9,6,3; rev 17,14,11,8,6,2	1.00		mostly diverged (a site is there and does not fit)	negligible	1
+Orthobunyavirus_M_Briese_2007_BUN_M_IXf	Orthobunyavirus akabaneense	0	36	17	19	0	rev 12/fwd 5	fwd 4,3; rev 19,17,13,12,10,1	0.41		mostly diverged (a site is there and does not fit)	high	4096
+Polyomaviridae_VP1_Johne_2005	Deltapolyomavirus decihominis	0	36	0	36	0					mostly diverged (a site is there and does not fit)	high	1536
+Polyomaviridae_VP1_Johne_2005_round2	Deltapolyomavirus decihominis	0	36	0	36	0					mostly diverged (a site is there and does not fit)	high	1536
+Rhabdoviridae_L_Bourhy_2005_round1	Apis rhabdovirus 1	0	36	36	0	0	fwd 36	fwd 22,21,20,15,13; rev 9	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184
+Rhabdoviridae_L_Bourhy_2005_round2	Apis rhabdovirus 1	0	36	36	0	0	fwd 36	fwd 11,8,5,4; rev 9	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	36864
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus carnivoran4	0	35	0	35	0					mostly diverged (a site is there and does not fit)	high	1024
+Adenoviridae_hexon_Casas_2005_round2	Barthadenovirus galloanserae	0	34	0	34	0					mostly diverged (a site is there and does not fit)	negligible	8
+Apicomplexa_18S_Garner_2006	Babesia felis	0	34	0	34	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Parahaemoproteus sp.	0	34	0	34	0					mostly diverged (a site is there and does not fit)	moderate	128
+Enterovirus_VP3_VP1_Nix_2006_round2	Enterovirus fitauri	0	34	16	18	0	fwd 9/rev 7	fwd 24,18,17,16,12; rev 27,22,21,20,18,15	0.19		mostly diverged (a site is there and does not fit)	severe	16384
+Helicobacter_16S_Conley_2021	Helicobacter felis	0	34	34	0	0	fwd 34	fwd 27,12; rev -	0.65	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Morbillivirus_P_Barrett_1993_Grosh_F	Morbillivirus felis	0	34	0	34	0					mostly diverged (a site is there and does not fit)	negligible	1
+Morbillivirus_P_Barrett_1993_MorbF	Morbillivirus felis	0	34	0	34	0					mostly diverged (a site is there and does not fit)	negligible	1
+Enterovirus_5UTR_VP4_VP2_Wray_2016_round1	Enterovirus fitauri	0	33	25	8	0	rev 25	fwd 23,22,20,17,14,6; rev 9,8,4	0.52		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	16
+Orthoherpesviridae_POL_VanDevanter_1996_round2	Muromegalovirus muridbeta1	0	33	33	0	0	fwd 33	fwd 27,23,21,20,18; rev 20,19,15	0.97		commonest failure is distal mismatches only (4+ from the 3' end)	severe	12288
+Apicomplexa_18S_Garner_2006	Leucocytozoon toddi complex sp.	0	32	0	32	0					mostly diverged (a site is there and does not fit)	moderate	128
+Orthoherpesviridae_POL_VanDevanter_1996_round2	Mardivirus anatidalpha1	0	32	32	0	0	fwd 32	fwd 24,21,8,7; rev 21,18,15	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	12288
+Paramyxoviridae_L_Tong_2008_round1	Morbillivirus felis	0	32	21	11	0	rev 21	fwd 24,19,18; rev 27,26,24,20,18	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	high	768
+Coronaviridae_RdRp_Watanabe_2010	Betacoronavirus Erinaceus	0	31	31	0	0	rev 31	fwd -; rev 13,10,1	1.00		commonest failure has a mismatch within 3 of a 3' end	high	384
+Haemosporida_cytb_Hellgren_2004_HaemF	Haemoproteus syrnii	0	31	29	2	0	rev 29	fwd 17,13; rev 16,10,8,2	0.97		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Polyomaviridae_VP1_Johne_2005_round1	Deltapolyomavirus decihominis	0	31	31	0	0	fwd 31	fwd 18,14,13,12,3; rev 24,23,20,16,15	0.71		commonest failure has a mismatch within 3 of a 3' end	moderate	128
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus ungulate2	0	30	0	30	0					mostly diverged (a site is there and does not fit)	high	2048
+Coronaviridae_RdRp_Watanabe_2010	Betacoronavirus pipistrelli	0	30	30	0	0	rev 30	fwd -; rev 10,1	0.70		commonest failure has a mismatch within 3 of a 3' end	high	384
+Encephalitozoon_18S_Muller_1999	Encephalitozoon romaleae	0	30	0	30	0					mostly diverged (a site is there and does not fit)	negligible	1
+Orthoflavivirus_NS5_Scaramozzino_2001_round1	Orthoflavivirus iunctionis	0	30	24	6	0	rev 24	fwd 19,18,12,7; rev 18,15,12,11,6,3	0.75		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Adenoviridae_hexon_Casas_2005_round1	Pan troglodytes adenovirus	0	29	29	0	0	rev 29	fwd 9; rev 17,13,6,5,2	0.79		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Adenoviridae_hexon_Casas_2005_round2	Fowl adenovirus	0	29	18	11	0	rev 18	fwd -; rev 18,16,15,14,5,4	0.72		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	8
+Apicomplexa_18S_Garner_2006	Theileria sp. NG-2012b	0	29	0	29	0					mostly diverged (a site is there and does not fit)	moderate	128
+Cytomegalovirus_gB_Prepens_2007_round1	Cytomegalovirus macacinebeta3	0	29	28	1	0	rev 28	fwd 22,12; rev 20,19,18,15,13,10	0.89		commonest failure is distal mismatches only (4+ from the 3' end)	high	512
+Haemosporida_cytb_Hellgren_2004_HaemF	Haemoproteus multivacuolatus	0	29	0	29	0					mostly diverged (a site is there and does not fit)	negligible	1
+Orthobunyavirus_M_Briese_2007_BUN_S5_F	Orthobunyavirus oropoucheense	0	29	24	5	0	fwd 24	fwd 6,5,4,2,1; rev 20,19,18,11,10	0.79		commonest failure has a mismatch within 3 of a 3' end	moderate	128
+Orthoherpesviridae_POL_VanDevanter_1996_round2	Cytomegalovirus macacinebeta3	0	29	29	0	0	rev 29	fwd 27,23,21,20,18; rev 24,21,20,19,18,15	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	12288
+Paramyxoviridae_L_Tong_2008_round2	Respirovirus muris	0	29	12	17	0	rev 12	fwd 24,23,20; rev 24,23,22,21,19	0.83		mostly diverged (a site is there and does not fit)	high	384
+Polyomaviridae_VP1_Johne_2005_round1	Betapolyomavirus tertihominis	0	29	29	0	0	fwd 29	fwd 15,13,3; rev 24,23,21,20,19,17	1.00		commonest failure has a mismatch within 3 of a 3' end	moderate	128
+Apicomplexa_18S_Garner_2006	Theileria uilenbergi	0	28	0	28	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Piroplasmida sp.	0	28	0	28	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Babesia sp. Western Cape	0	28	0	28	0					mostly diverged (a site is there and does not fit)	moderate	128
+Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F	Mycoplasma feriruminatoris	0	28	0	28	0					mostly diverged (a site is there and does not fit)	negligible	8
+Orthoherpesviridae_terminase_Chmielewicz_2001_round1	Cytomegalovirus macacinebeta3	1	28	27	0	1	rev 27	fwd 21,18; rev 23,21,18,16,15	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	128
+Apicomplexa_18S_Garner_2006	Haemoproteus magnus	0	27	0	27	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	uncultured Babesia	0	27	0	27	0					mostly diverged (a site is there and does not fit)	moderate	128
+Polyomaviridae_VP1_Johne_2005_round1	Alphapolyomavirus octihominis	0	27	0	27	0					mostly diverged (a site is there and does not fit)	moderate	128
+Rhabdoviridae_L_Bourhy_2005_round1	Tahe rhabdovirus 3	0	27	27	0	0	fwd 27	fwd 19,18,13,7,4; rev 15,12,6	0.96		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184
+Apicomplexa_18S_Garner_2006	Babesia ovis	0	26	0	26	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Paralecudina sp.	0	26	0	26	0					mostly diverged (a site is there and does not fit)	moderate	128
+Astroviridae_RdRp_Chu_2008_round2	Goose astrovirus 2	0	26	26	0	0	fwd 26	fwd 9,5,3; rev 15	0.69		commonest failure has a mismatch within 3 of a 3' end	high	1536
+Coronaviridae_RdRp_Quan_2010_round1	Erinaceus hedgehog coronavirus HKU31	0	26	26	0	0	rev 23/fwd 3	fwd 30,29,28,21; rev 30,21,14,13,12	0.42		commonest failure is distal mismatches only (4+ from the 3' end)	severe	1.3271e+06
+Coronaviridae_RdRp_Watanabe_2010	Erinaceus hedgehog coronavirus HKU31	0	26	26	0	0	rev 26	fwd -; rev 10,1	1.00		commonest failure has a mismatch within 3 of a 3' end	high	384
+Apicomplexa_18S_Garner_2006	Plasmodium inui	0	25	0	25	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Cytauxzoon paradoxurus	0	25	0	25	0					mostly diverged (a site is there and does not fit)	moderate	128
+Paramyxoviridae_L_Tong_2008_round2	Morbillivirus felis	0	25	14	11	0	rev 7/fwd 7	fwd 26,24,21,17; rev 27,26,24,20,18	0.50		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Adenoviridae_hexon_Casas_2005_round1	Aviadenovirus ventriculi	0	24	24	0	0	fwd 24	fwd 19,16,11,5,2; rev 16,15,14,13,9,1	0.96		commonest failure has a mismatch within 3 of a 3' end	moderate	16
+Apicomplexa_18S_Garner_2006	Babesia capreoli	0	24	0	24	0					mostly diverged (a site is there and does not fit)	moderate	128
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus carnivoran4	0	24	0	24	0					mostly diverged (a site is there and does not fit)	high	2048
+Circoviridae_Rep_Mankertz_2000_round1	Cyclovirus sp.	0	24	10	14	0	fwd 9/rev 1	fwd 27,22,21,8,7,6; rev 26,25,22,21,17,16	0.30		mostly diverged (a site is there and does not fit)	high	1536
+Helicobacter_16S_Conley_2021	Helicobacter canis	0	24	22	2	0	probe 16/fwd 6	fwd 29,27,25,24; rev 14; probe 12,10,5,4,2,1	0.73		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Helicobacter_16S_Conley_2021	Helicobacter turcicus	0	24	24	0	0	fwd 24	fwd -; rev -	1.00	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Leucocytozoon_cytb_Hellgren_2004	Leucocytozoon cf. toddi	0	24	0	24	0					mostly diverged (a site is there and does not fit)	negligible	1
+Orthoflavivirus_NS5_Scaramozzino_2001_round2	Orthoflavivirus iunctionis	0	24	24	0	0	rev 24	fwd 16,15,14,12,10; rev 18,15,12,11,6,3	0.88		commonest failure has a mismatch within 3 of a 3' end	high	648
+Apicomplexa_18S_Garner_2006	Theileria lestoquardi	0	23	0	23	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Gregarina sp. IF-2020b	0	23	23	0	0	fwd 23	fwd 3,2,1; rev 14,12,6,4	1.00		commonest failure has a mismatch within 3 of a 3' end	moderate	128
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus ungulate7	0	23	0	23	0					mostly diverged (a site is there and does not fit)	high	1024
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus ungulate7	0	23	0	23	0					mostly diverged (a site is there and does not fit)	high	2048
+Circoviridae_Rep_Mankertz_2000_round1	Bat circovirus	0	23	7	16	0	fwd 7	fwd 26,25,24,21,3; rev 22,21,18,17,16	0.43		mostly diverged (a site is there and does not fit)	high	1536
+Circoviridae_Rep_Mankertz_2000_round1	Circovirus duck	0	23	0	23	0					mostly diverged (a site is there and does not fit)	high	1536
+Mastadenovirus_POL_Roy_2009_round1	Mastadenovirus canidae	0	23	0	23	0					mostly diverged (a site is there and does not fit)	moderate	16
+Mastadenovirus_POL_Roy_2009_round2	Mastadenovirus canidae	0	23	0	23	0					mostly diverged (a site is there and does not fit)	negligible	1
+Orthoherpesviridae_POL_VanDevanter_1996_round2	Rhadinovirus muridgamma4	0	23	23	0	0	fwd 17/rev 6	fwd 27,23,21,20,18; rev 20,19,15	0.74		commonest failure is distal mismatches only (4+ from the 3' end)	severe	12288
+Rhabdoviridae_L_Bourhy_2005_round1	Alpharicinrhavirus ningxia	0	23	23	0	0	rev 21/fwd 2	fwd 22,19,7; rev 15,9,6,3	0.91		commonest failure has a mismatch within 3 of a 3' end	severe	221184
+Rhabdoviridae_L_Bourhy_2005_round1	Stangrhavirus guadeloupe	0	23	0	23	0					mostly diverged (a site is there and does not fit)	severe	221184
+Rhabdoviridae_L_Bourhy_2005_round2	Stangrhavirus guadeloupe	0	23	23	0	0	fwd 23	fwd 11,10,9,8,5,4; rev 6	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	severe	36864
+Apicomplexa_23S_Zhu_2000	Babesia sp.	0	22	0	22	0					mostly diverged (a site is there and does not fit)	negligible	8
+Bocaparvovirus_NS1_Kapoor_2010_round1	Bocaparvovirus carnivoran5	0	22	0	22	0					mostly diverged (a site is there and does not fit)	high	1024
+Bocaparvovirus_NS1_Kapoor_2010_round2	Bocaparvovirus carnivoran5	0	22	0	22	0					mostly diverged (a site is there and does not fit)	high	2048
+Chordopoxvirinae_POL_Bracht_2006	Orthopoxvirus camelpox	0	22	12	10	0	fwd 12	fwd 23,17,10,8,5,2; rev 17,6,4	1.00		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Circoviridae_Rep_Mankertz_2000_round2	Bat associated circovirus	0	22	2	20	0	fwd 1/rev 1	fwd 24,8,7; rev 27,24,15	0.50		mostly diverged (a site is there and does not fit)	high	1536
+Orthoherpesviridae_terminase_Chmielewicz_2001_round1	Percavirus equidgamma2	0	22	22	0	0	fwd 22	fwd 22,21,15,12; rev 23,21,20,16	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	moderate	128
+Paramyxoviridae_L_Tong_2008_round2	Henipavirus hendraense	0	22	22	0	0	fwd 22	fwd 26,21,20,18,15; rev 27,24,20	1.00		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Rhabdoviridae_L_Bourhy_2005_round1	Sprivivirus cyprinus	0	22	22	0	0	fwd 17/rev 5	fwd 23,22,19,13,7; rev 12,9,6	0.73		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184
+Rhabdoviridae_L_Bourhy_2005_round1	Siniperhavirus chuatsi	0	22	2	20	0	fwd 2	fwd 23,19,18,16,7,4; rev 15,6	0.50		mostly diverged (a site is there and does not fit)	severe	221184
+Rhabdoviridae_L_Bourhy_2005_round1	Alpharicinrhavirus heilongjiang	1	22	21	0	1	rev 21	fwd 19,13; rev 21,9,6	0.95		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184
+Astroviridae_RdRp_Chu_2008_round1	Mamastrovirus 22	0	21	21	0	0	fwd 21	fwd 9,6,4; rev 15	0.43		commonest failure is distal mismatches only (4+ from the 3' end)	high	2048
+Avipoxvirus_4b_Baek_2020	Avipoxvirus turkeypox	0	21	20	1	0	probe 19/fwd 1	fwd 20,17; rev 29,20,11; probe 7	0.80		commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Apicomplexa_18S_Garner_2006	Hepatocystis sp. ex Callosciurus notatus HNH-2013	0	20	0	20	0					mostly diverged (a site is there and does not fit)	moderate	128
+Apicomplexa_18S_Garner_2006	Gregarina sp. IF-2020a	0	20	20	0	0	fwd 20	fwd 3,2,1; rev 14,12,6,4	0.95		commonest failure has a mismatch within 3 of a 3' end	moderate	128
+Arenaviridae_S_Lozano_1997_ARS3V	Mammarenavirus batangense	0	20	20	0	0	rev 20	fwd 17,14,11; rev 17,15,14,4,2,1	0.35		commonest failure has a mismatch within 3 of a 3' end	high	256
+Haemosporida_cytb_Hellgren_2004_HaemF	Haemoproteus sp. MD-2011	0	20	0	20	0					mostly diverged (a site is there and does not fit)	negligible	1
+Helicobacter_16S_Conley_2021	Helicobacter hepaticus	0	20	20	0	0	probe 18/fwd 2	fwd 29,27,25,24; rev 14; probe 12,10,5,4,2,1	0.90		commonest failure has a mismatch within 3 of a 3' end	negligible	1
+Helicobacter_16S_Conley_2021	Helicobacter cetorum	0	20	0	20	0					mostly diverged (a site is there and does not fit)	negligible	1
+Helicobacter_16S_Conley_2021	Helicobacter winghamensis	0	20	20	0	0	fwd 20	fwd 29,27,25,24; rev 14	1.00	no probe site inside amplicon	commonest failure is distal mismatches only (4+ from the 3' end)	negligible	1
+Orthoherpesviridae_POL_VanDevanter_1996_round2	Cytomegalovirus humanbeta5	0	20	0	20	0					mostly diverged (a site is there and does not fit)	severe	12288
+Paramyxoviridae_L_Tong_2008_round2	Jeilongvirus beilongi	0	20	20	0	0	fwd 20	fwd 26,24,21,20,17,15; rev 27,26,24,23,20	0.80		commonest failure is distal mismatches only (4+ from the 3' end)	high	384
+Paramyxoviridae_L_Tong_2008_round2	Orthorubulavirus mammalis	0	20	0	20	0					mostly diverged (a site is there and does not fit)	high	384
+Rhabdoviridae_L_Bourhy_2005_round1	Merhavirus merida	0	20	20	0	0	fwd 20	fwd 23,19,13,4; rev 15,6	0.70		commonest failure is distal mismatches only (4+ from the 3' end)	severe	221184

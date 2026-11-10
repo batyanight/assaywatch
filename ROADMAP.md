@@ -140,13 +140,21 @@ per (assay, species). The decisions, what was built and what the first run showe
       with interiors; VIR Pallister 140/150 (was 92/150); Johnson 142/150, Grizzle 11/11,
       Avipox Farias 134/150, SIV HahnF1 150/150, HahnF2 149/150. Negative control 0 of 800,
       and the longest chance match fell from 0.38 of the reference to 0.20.
-- [ ] **A wide reference asks too much of a short deposit.** `covered` is taken over the
-      whole reference, flanks included, so a record holding a short amplicon and little
-      else falls under 0.80: Pallister MCP records with BOTH primer sites found are shown
-      to hold the locus 0 times in 37, Chlamydia Messmer round 2 96 in 139 of its detected
-      records. The error is a blank, never a false failure. Candidate fix, an interface
-      change to propose: measure `covered` over the amplicon part of the reference and ask
-      separately for a minimum aligned length.
+- [ ] **DECISION for the maintainer: measure `covered` over the amplicon, not the whole
+      wide reference.** Measured 2026-11-10, nothing changed. Today `covered` includes the
+      flanks, so a record holding the amplicon and little beyond it falls under 0.80:
+      Pallister MCP records with BOTH primer sites found are shown to hold the locus 0
+      times in 37 (a diverged ranavirus whose flank does not align), Chlamydia Messmer
+      round 2 82 of 120 detected records (16S deposits that start 10-28 bases before the
+      amplicon). Asking instead that the alignment span 0.80 of the AMPLICON part of the
+      winning reference, identity 0.60 as now: every one of 1,684 detected or reduced
+      records in 13 assays is shown present (1,539 today), Pallister `fail` 37 of 37, and
+      0 of 1,445 unrelated records (the most amplicon any of them covers is 0.44). It
+      also recovers the length-variable case: VIR Pallister 120 of 120 detected, from
+      109. Proposed interface: `LocusResult` gains `ref_start` and `ref_end`;
+      `locus.judge` computes `amplicon_covered` from the reference's pads and decides
+      `present`; the locus file gains that column; `coverage.locus_min_covered` then
+      means the amplicon. `locus_check` keeps its signature.
 - [x] **The `together` rows use the locus file** (2026-11-10). `coverage.with_locus`
       relabels an unjudged record the stage shows to hold the locus, with room, as
       `diverged`, which is what `nested._protocol_records` already counts.
@@ -171,15 +179,22 @@ per (assay, species). The decisions, what was built and what the first run showe
       the check working as defined, and it means an rRNA assay will show `predicted fail`
       for every bacterium in its archive. Those cells sit in the out-of-scope block, where
       a failure is specificity. Decide whether the page should say so in words.
-- [ ] **ITS is the length-variable case again.** Bd Annis records with both primer sites
-      found and a `fail` call are shown to hold the locus 0 times in 18. Not looked into;
-      the length-variable item below is the likely cause.
+- [x] **The Bd Annis `fail` records are not the locus, and the check is right** (2026-11-10).
+      All 18 are chance primer pairs, 4-6 mismatches in each primer, in genome scaffolds
+      and in predicted mRNAs of other genes (`XM_` records); the sequence between them
+      covers 3-10% of any reference. Their pair E-values (0.0004-0.0025) clear
+      `max_pair_evalue` one record at a time, in an archive of 9,493.
+- [ ] **The locus check as an independent test of the screen's `fail` calls.** A `fail`
+      whose amplicon is not the locus is a chance pair. For Bd Annis that is 18 of the 178
+      records the screen scored. How drift treats those 18 was not traced. Worth running
+      over every assay's `fail` rows once the stage has run on the table.
 - [ ] **A locus whose length varies is missed.** `Ranavirus_VIR_Pallister_2007` amplifies a
-      repeat region; 78 of 218 records the screen DETECTED are not shown to hold the locus
-      (0.64 covered at 0.99 identity), because a 16-base insertion costs more than a linear
-      gap score lets the alignment pay. A blank, not a false failure. Fix: one reference per
-      amplicon-length class, or affine gap scores (opening a gap dearer than extending it).
-      Entries with `amplicon_bp_range` are the ones to check.
+      repeat region; with interiors 78 of 218 records the screen DETECTED were not shown to
+      hold the locus, because a 16-base insertion costs more than a linear gap score lets
+      the alignment pay. Wide references in several length classes brought that to 10 in
+      150, and measuring `covered` over the amplicon (the decision above) to 0 in 120.
+      Affine gap scores are not needed if that is accepted. Entries with
+      `amplicon_bp_range` are the ones to check.
 - [x] **A k-mer seed for the locus check.** A record over 5 kb is aligned only where shared
       7-base words pile up on a diagonal (`locus_check._windows`); the seeded answer is
       tested against the exhaustive one. It can miss at the edge of the identity threshold:
@@ -201,11 +216,23 @@ per (assay, species). The decisions, what was built and what the first run showe
       against 0/363; Lyssavirus Vazquez-Moron 2006: 13487/13583 against 7988/13583).
 - [ ] **Split a row by sublineage** where one taxid hides distinct lineages (Bd, influenza A
       subtypes), using the resolvers the lineage analysis already has.
-- [ ] **Move the footprint definitions** (`FOOTPRINT_COLUMNS`, `FOOTPRINT_REQUIRED`,
-      `footprint_signature`) from `drift.py` into `calls.py`, so that `coverage` does not
-      reach `drift` even through a re-export.
-- [ ] **Look at the 132 in-scope `predicted fail` cells with 20 or more records**, largest
-      first. Some will be declared scopes that are wider than the assay.
+- [x] **The footprint is defined with the calls table** (2026-11-10). `FOOTPRINT_COLUMNS`,
+      `FOOTPRINT_REQUIRED`, `footprint_signature` and `months_back` moved from `drift.py`
+      to `calls.py`; `calls` no longer imports `drift`, and a test holds `coverage` to
+      never loading it.
+- [ ] **Read the in-scope `predicted fail` cells: sorted, not yet judged.** 295 cells of
+      58 assays have 20 or more records (round and single-assay rows; the 132 counted
+      earlier predates the nested rows). `docs/2026-11-10-in-scope-predicted-fails.tsv`
+      has one line a cell: calls, the oligo carrying the penalty, the commonest failing
+      footprint. 145 cells are mostly `diverged` (a site is there and does not fit), 62
+      fail commonly with a mismatch within 3 of a 3' end, 88 on distal mismatches alone.
+      163 of the 295 are rounds of nested family-level protocols, and 142 are in the two
+      most degenerate primer tiers: consensus primers built to tolerate mismatches, which
+      the scoring prices like any other. Three readings to tell apart, per assay, with
+      the paper open: the declared scope is wider than the primer set
+      (`Chordopoxvirinae_POL_Bracht_2006` on monkeypox, 0/15,867, one footprint), the
+      scoring is too strict for a consensus primer (`Paramyxoviridae_L_Tong_2008` on
+      mumps, 0/1,353), or the assay does miss the species.
 
 ## Website and review (asked for 2026-11-04)
 

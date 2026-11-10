@@ -540,3 +540,17 @@ def test_not_assessable_cells_are_summed_in_the_report_and_listed_in_the_table()
     assert "taxon 10493" in report and "2/2" in report
     assert "taxon 999" not in report
     assert "2 more species `not assessable`" in report  # summed, not listed
+
+
+def test_coverage_does_not_load_the_drift_module():
+    """Coverage and drift are two summaries of one calls table, and neither is built
+    on the other. The footprint both read is defined with the table (`calls.py`), so
+    importing coverage must not pull in the drift statistic at all. A fresh
+    interpreter, because this test session has long since imported everything.
+    """
+    import subprocess
+    import sys
+
+    code = "import sys, assaywatch.coverage; print('assaywatch.drift' in sys.modules)"
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True)
+    assert out.stdout.strip() == "False"

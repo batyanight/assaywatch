@@ -760,7 +760,7 @@ def test_the_span_is_the_assay_ceiling_not_the_global_one():
 # They assert a FORMAT and a completeness rule, never a scoring value: every test
 # above still asserts the penalties, and nothing here changes one.
 
-from assaywatch.drift import FOOTPRINT_COLUMNS, footprint_signature  # noqa: E402
+from assaywatch.calls import FOOTPRINT_COLUMNS, footprint_signature  # noqa: E402
 from assaywatch.score import Call, score_probe  # noqa: E402
 
 _REC_DEGENERATE = "TTGACCGATAGCCAATGAAG"  # faces the Y in _OLIGO_DEGENERATE
@@ -896,7 +896,7 @@ def test_the_mispair_columns_are_written_and_are_empty_for_a_clean_or_unscored_o
 def test_adding_identity_columns_leaves_the_footprint_signature_untouched():
     """The duplication analysis must not regroup, or published intervals move.
 
-    `drift.footprint_signature` records positions and NOT bases on purpose: two
+    `calls.footprint_signature` records positions and NOT bases on purpose: two
     records differing only in which base sits at a mismatched position merge, which
     makes footprints fewer and the interval wider - the safe direction. The new
     columns are additive and read only by a replay, so neither the column tuple nor

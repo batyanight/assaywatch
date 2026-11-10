@@ -15,12 +15,8 @@ import csv
 import random
 from datetime import date
 
-from assaywatch.drift import (
-    FOOTPRINT_COLUMNS,
-    FOOTPRINT_REQUIRED,
-    assess,
-    footprint_signature,
-)
+from assaywatch.calls import FOOTPRINT_COLUMNS, FOOTPRINT_REQUIRED, footprint_signature
+from assaywatch.drift import assess
 from assaywatch.score import Call, OligoScore
 
 CFG = {

@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import csv
 import gzip
+import sys
 from collections import defaultdict
 from collections.abc import Iterable
 from contextlib import suppress
@@ -31,12 +32,60 @@ from pathlib import Path
 from typing import Any, TextIO
 
 from assaywatch.accession import strip_version, version_of
-from assaywatch.drift import (
-    FOOTPRINT_COLUMNS,
-    FOOTPRINT_REQUIRED,
-    footprint_signature,
-    months_back,
+
+# The screen columns that together say how a record's binding sites differ from
+# the assay: each oligo's mismatch positions (counted from its 3' end) and the
+# NUMBER of its undetermined record bases (`Call.as_row` writes a count there, not
+# positions). Two records that agree on all six, and on the call, are
+# indistinguishable AS FAR AS THIS ASSAY IS CONCERNED - which is the only sense in
+# which they can be called the same lineage here.
+FOOTPRINT_COLUMNS = (
+    "fwd_mm_from_3prime",
+    "rev_mm_from_3prime",
+    "probe_mm_from_3prime",
+    "fwd_ambiguous",
+    "rev_ambiguous",
+    "probe_ambiguous",
 )
+
+# A row's footprint is KNOWN only if these are populated. Every evaluable call
+# (detect, reduced, fail) has both primers scored, so in any schema that writes the
+# footprint these four cells are non-empty; blank means the row came from a screen
+# that did not write them. That matters because `collect.concatenate_screens` fills
+# a column an older screen lacks with an empty string, and an empty string is also
+# what a record with no mismatches puts in the mismatch columns: without this test
+# an older screen's rows would be read as a real footprint that happens to be
+# clean, and a claim about duplication would be invented from missing data.
+FOOTPRINT_REQUIRED = ("fwd_penalty", "rev_penalty", "fwd_ambiguous", "rev_ambiguous")
+
+
+def footprint_signature(values: Iterable[str]) -> str:
+    """One record's footprint as a single interned string.
+
+    Interned because the point of the exercise is that millions of records share
+    a few thousand footprints - an assay with no mismatches is the same short
+    string every time (`|||0|0|0` for a scored forward, reverse and probe) - and
+    `report.read_calls` exists because holding two million rows in full took 3.6 GB.
+    Equal signatures are then one object, not two million.
+
+    HONEST LIMITS, both of which matter:
+
+    - It records mismatch POSITIONS, not bases, so two records with different
+      bases at the same position merge. That makes footprints fewer and the
+      resulting interval wider: the safe direction.
+    - A sequencing error in a primer site creates a footprint of its own, so
+      noise inflates the footprint count and narrows the interval: the unsafe
+      direction. With the amount of GenBank deposited from one lab's raw reads
+      this will not be negligible for some assays, and it is why the count is
+      reported next to the record count rather than replacing it.
+    """
+    return sys.intern("|".join(values))
+
+
+def months_back(anchor: date, months: int) -> date:
+    """The date `months` calendar months before `anchor` (day capped at 28, so it always exists)."""
+    y, m = divmod(anchor.year * 12 + anchor.month - 1 - months, 12)
+    return date(y, m + 1, min(anchor.day, 28))
 
 
 def _open(path: Path) -> TextIO:
@@ -81,7 +130,7 @@ def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str,
             else None
         )
         # The footprint is known only where the row's own scoring columns are
-        # populated (see drift.FOOTPRINT_REQUIRED). Having the six mismatch
+        # populated (see FOOTPRINT_REQUIRED). Having the six mismatch
         # columns in the HEADER is not enough: `collect.concatenate_screens` unions
         # the headers of old and new screens and blank-fills the cells an older
         # screen never had, so an older screen's rows arrive with all six columns
