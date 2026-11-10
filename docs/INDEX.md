@@ -1,6 +1,6 @@
 # docs/ index
 
-**Eleven reference documents sit in `docs/`; the 141 dated session records are in
+**Twelve reference documents sit in `docs/`; the 147 dated session records are in
 [`journal/`](journal/README.md).** Until 2026-10-27 they were all one flat directory, so
 a reader met the journals before the nine documents written to be read — a ratio of
 roughly 5:1 in words on the axis that matters (~124,000 against ~52,000, for ~34,000
@@ -22,7 +22,7 @@ ROADMAP.md at the repository root, which is the only to-do list here.
 
 | | |
 |---|---|
-| [`journal/README.md`](journal/README.md) | what the 89 dated session records are, what they are not, and why a wrong prediction is left standing in them |
+| [`journal/README.md`](journal/README.md) | what the 147 dated session records are, what they are not, and why a wrong prediction is left standing in them |
 | [`pipeline-architecture.md`](pipeline-architecture.md) | the DAG, stage by stage. The best single overview. |
 | [`installation.md`](installation.md) | setting up the environment; better than README's Setup section |
 | [`screening-and-the-drift-call.md`](screening-and-the-drift-call.md) | **the technical reference for how a call and a verdict are made.** Moved out of README.md on 2026-10-31 when the README was cut to a front page: the penalty table, the five calls, where the PCR model is wrong and which guesses matter most, the Wilson/Newcombe intervals, nested protocols and coverage gaps. The website's [Scoring methods](https://batyanight.github.io/assaywatch/scoring/) is the same material for a reader rather than a maintainer |
@@ -54,6 +54,7 @@ ROADMAP.md at the repository root, which is the only to-do list here.
 | [`journal/2026-10-27-s4-m1-survives.md`](journal/2026-10-27-s4-m1-survives.md) | **M1, the G:T wobble discount retired on 2026-10-22, survives its own kill test** once `reduced` is not a detection for probes: no catch lost, the influenza case promoted to the drift flag (PPV 3/9 -> 4/10), five bench rows fixed and none broken. Priced, not proven, not shipped; the hold is the maintainer's |
 | [`journal/2026-10-27-tntblast-head-to-head.md`](journal/2026-10-27-tntblast-head-to-head.md) | **the engine PCR_strainer wraps, run against the shipped penalty rule on the 179 bench rows**: TNTBLAST 64.8% with two fitted parameters against the penalty rule's 92.7% as shipped, 58-8 on the discordant rows (p < 0.0001). With a cut fitted per panel it reads 87.7% -- its weakness is that a Tm means nothing without the annealing temperature, which is a property of the assay |
 | [`2026-10-27-tntblast-bench.tsv`](2026-10-27-tntblast-bench.tsv) | TNTBLAST's own output over the bench panels: per record, how many amplicons it reports and the melting temperatures of the limiting primer and the probe. Committed because `tntblast` is osx-64 under Rosetta and cannot be in `environment.yml` |
+| [`journal/2026-10-28-downloads-papers-cleanup.md`](journal/2026-10-28-downloads-papers-cleanup.md) | housekeeping: `~/Downloads` papers filed into `papers/` under their `doi_stem` names or deleted as duplicates; no registry entry changed |
 | [`journal/2026-10-28-influenza-decomposed.md`](journal/2026-10-28-influenza-decomposed.md) | the per-year block answers its first question: **H3N2 was never detected**, 1.1% in 2005 and 0.1% in 2025 — a coverage gap of twenty years, not drift. The pooled 6.5% holds that gap and a real fall in the subtypes the assay does detect; its apparent third component, 4,729 "untyped" 2026 records, was **the title regex failing to read `(H3)` and `(H1pdm09)`** — 3,857 of them carry a subtype. Broadened, and the residual unknown bucket goes from 9.3% to 23.1% |
 | [`journal/2026-10-28-s7-mid-window-killed.md`](journal/2026-10-28-s7-mid-window-killed.md) | halving the mid-window penalty moves 45,797 calls and changes nothing: identical tier-2, identical 92.7% bench accuracy, and it **newly predicts a band on two within-family bench negatives** — its own kill criterion. The finding that outlives it: on these panels the rows that reward loosening and the rows that punish it move together, so only identity could separate them |
 | [`journal/2026-10-28-g2r-false-alarm-traced.md`](journal/2026-10-28-g2r-false-alarm-traced.md) | the held-out false alarm followed to a single base: a G:T wobble at position 8 of the G2R reverse primer, priced 1.0 + 0.5 past `detect_max`, where M1's discount applies only inside the 3' window — and **69 sites on 23 assays share the shape**. Also: `sitedrift` counted a mismatched probe as a detection, the third place that defect has turned up |

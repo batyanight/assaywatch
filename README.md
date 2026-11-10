@@ -97,7 +97,7 @@ A full run needs an NCBI key and hours of fetching:
 | running the pipeline, disk, retrieval groups, cluster | [`docs/running-the-pipeline.md`](docs/running-the-pipeline.md) |
 | the pipeline's design, stage by stage | [`docs/pipeline-architecture.md`](docs/pipeline-architecture.md) |
 | setup in more detail | [`docs/installation.md`](docs/installation.md) |
-| everything under `docs/` — 10 reference documents, 138 journals, 25 data files (2026-10-31) | [`docs/INDEX.md`](docs/INDEX.md) |
+| everything under `docs/` — 12 reference documents, 147 journals, 23 data files (2026-11-09) | [`docs/INDEX.md`](docs/INDEX.md) |
 | the project vocabulary, used in code and commits | [`GLOSSARY.md`](GLOSSARY.md) |
 | submitting an assay | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
 | what changed between releases | [`CHANGELOG.md`](CHANGELOG.md) |

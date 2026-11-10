@@ -1,6 +1,6 @@
 # docs/journal/ — the session record
 
-89 dated files, one per working session, from 2026-10-03 onward. Each says what was
+147 dated files, one per working session, from 2026-10-03 onward. Each says what was
 measured that day, what was decided, and why. They are **history, not documentation and
 not a plan**:
 

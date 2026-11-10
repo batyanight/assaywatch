@@ -1,3 +1,25 @@
+# Resume point, 2026-11-09 (audit of the planning documents; nothing in the release moved)
+
+**Read `ROADMAP.md`, "Release plan: v0.3.0".** Where things actually stand, corrected against GitHub and the
+branches on 2026-11-09:
+
+- `next-release` holds PRs #6-#13, all merged 2026-11-07: the PRD (`docs/PRD.md`), the backfill guard, the
+  C1b/G2R/synonyms decisions, the species synonyms table (step 11a, done), the rules' memory, the copy edit and
+  the 31-paper reread (`scope-reread-fixes`, so it is no longer an open PR). Steps 0-5, 6a, 7 and 11a are done.
+- `page-narrative` (worktree `../assaywatch-pages`) carries steps 10 and 11c, unreviewed; it merges into
+  `next-release` without conflict. Its `pytest` was testing the main checkout's package, not its own, until
+  `pyproject.toml` gained `pythonpath = ["."]` on this branch; with that, `pytest -m fast` is green there.
+- `next-run-prep` (local only) conflicts with `next-release` in `ROADMAP.md`, `docs/INDEX.md` and
+  `docs/RESUME-HERE.md`; step 12 says so now.
+- **PR #14 (`roadmap-prd-plan`, opened 2026-11-09) targets `main`, against the plan's merge rule,** and is based on
+  `main`, so its roadmap text predates everything above; it says the PRD is not in the repository, which is true
+  of `main` and false of `next-release`. It merges clean into either. Retargeting it is the maintainer's call.
+- The weekly job stays paused. The live run and publishing wait for the maintainer's go.
+
+Next, in order, unchanged: verify and apply batches 5-8 (step 6b, 8 papers unread, notes in gitignored
+`local/release-work-2026-11-06/`); review and merge `page-narrative`; the three page notes (G2R WA_F, E. coli LT,
+hlyA); the maintainer's validation skim (step 9); `assaywatch scope-check`; then step 12.
+
 # Resume point, 2026-11-06, night (paused at the maintainer's request)
 
 **Read `ROADMAP.md`, "Release plan: v0.3.0".** Steps 0-5, 6a and 7 are done on `next-release`, or in its open PR
