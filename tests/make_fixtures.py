@@ -51,12 +51,31 @@ FIXTURE_ASSAYS = [
     "Reptarenavirus_GP_Aqrawi_2015",  # degenerate primers (4x4), no probe
 ]
 
-# Fixture assays whose probe is scored as STANDARD, with the length that makes it so,
-# written down by hand so the expectation does not come from the code under test. All
-# three probe-bearing fixtures are MGB; the other two are 15 and 18 nt, i.e. short.
-STANDARD_PROBE_ASSAYS = {"Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013": 32}
-# One mismatch makes a standard probe `weak` (call `reduced`); two block it.
-STANDARD_PROBE_EXPECTED = {"probe_center": "reduced", "probe_outer": "reduced", "probe_both_ends": "fail"}
+# What each probe fixture is expected to call, per assay, because a probe is priced by
+# the Tm its mismatch costs and that depends on the probe. The loss beside each call is
+# the nearest-neighbour model's (thermo.py, shipped `thermo_conditions`) for the exact
+# mispair the builder plants, written down by hand so a change in the model or in a
+# probe shows here. Cuts: weak at 2.0 C lost, blocked at 5.0.
+PROBE_EXPECTED = {
+    # 15 nt MGB probe, Tm 50.2
+    "Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004": {
+        "probe_center": "fail",  # A:G@8, 6.8 C
+        "probe_outer": "reduced",  # C:T@15, 3.9 C
+        "probe_both_ends": "fail",  # C:T@15 and T:T@1, 5.0 C: on the cut, and the cut is inclusive
+    },
+    # 32 nt MGB probe, Tm 66.1: Tm to spare
+    "Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013": {
+        "probe_center": "reduced",  # G:T@16, 3.6 C
+        "probe_outer": "detect",  # A:G@32, 0.1 C
+        "probe_both_ends": "detect",  # A:G@32 and A:G@1, 0.3 C
+    },
+    # 18 nt MGB probe, Tm 56.4. The binder is not modelled, so these are probably too kind.
+    "Ranavirus_MCP_Pallister_2007": {
+        "probe_center": "reduced",  # A:G@9, 3.1 C
+        "probe_outer": "detect",  # C:T@18, 1.8 C
+        "probe_both_ends": "reduced",  # C:T@18 and C:T@1, 3.0 C
+    },
+}
 
 # (suffix, [(which_oligo, where), ...], expected_call)
 # `where` is a distance from the oligo's 3' end (1 = the terminal base) for
@@ -72,17 +91,16 @@ PLANS: list[tuple[str, list[tuple[str, int]], str]] = [
     ("fwd_mid_rev_mid", [("forward", 7), ("reverse", 7)], "reduced"),  # 2.0
     ("fwd_5prime_x3", [("forward", 14), ("forward", 16), ("forward", 18)], "reduced"),  # 1.5
     ("fwd_mid_x4", [("forward", 7), ("forward", 8), ("forward", 9), ("forward", 10)], "fail"),  # 4.0
-    # The call written here is for a SHORT probe (MGB, at most 20 nt), where one mismatch
-    # anywhere blocks it. `STANDARD_PROBE_EXPECTED` below overrides it for the fixture
-    # assay whose MGB probe is 32 nt and is therefore scored as a standard probe.
-    ("probe_center", [("probe", "center")], "fail"),
-    ("probe_outer", [("probe", "first")], "fail"),
+    # The three probe plans have no one expected call: `PROBE_EXPECTED` above gives it
+    # per assay, and an assay with a probe that is missing from it stops the build.
+    ("probe_center", [("probe", "center")], "per probe"),
+    ("probe_outer", [("probe", "first")], "per probe"),
     # Both ends of one oligo edited at once. The seeded matcher this replaced
     # took one seed from each end of the oligo, so these records broke every
     # seed and the site vanished: they were miscounted as no_amplicon instead
     # of being scored. They are the regression test for that bug.
     ("fwd_both_ends", [("forward", 1), ("forward", "first")], "fail"),  # 3.0 + 0.5, and terminal
-    ("probe_both_ends", [("probe", "first"), ("probe", "last")], "fail"),  # two probe mismatches
+    ("probe_both_ends", [("probe", "first"), ("probe", "last")], "per probe"),
     # Undetermined record bases. These are not mismatches and must cost
     # nothing, even at the 3'-terminal base where a real mismatch is fatal.
     # Past `max_ambiguous_per_oligo` the record is indeterminate, not failed.
@@ -261,14 +279,11 @@ def main(argv: list[str] | None = None) -> int:
     for assay_id in FIXTURE_ASSAYS:
         assay = Assay.model_validate(yaml.safe_load((REGISTRY / f"{assay_id}.yaml").read_text()))
         has_probe = assay.oligos.probe is not None
-        if assay_id in STANDARD_PROBE_ASSAYS:
-            # Fail loudly if the registry entry's probe is ever replaced by a short one.
-            assert len(assay.oligos.probe.matching_seq) == STANDARD_PROBE_ASSAYS[assay_id], assay_id
         for suffix, edits, expected in PLANS:
             if any(w.startswith("probe") for w, _ in edits) and not has_probe:
                 continue
-            if assay_id in STANDARD_PROBE_ASSAYS:
-                expected = STANDARD_PROBE_EXPECTED.get(suffix, expected)
+            if expected == "per probe":
+                expected = PROBE_EXPECTED[assay_id][suffix]  # KeyError: write the call down first
             seq, offsets = build_record(assay, edits)
             rid = f"{assay_id}__{suffix}"
             records.append((rid, seq))

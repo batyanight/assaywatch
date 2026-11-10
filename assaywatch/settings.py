@@ -115,17 +115,11 @@ class Scoring(Block):
     #: must carry its own tier-2 and bench run. Any value is clamped nowhere: a
     #: window longer than the primer simply means "every position".
     mispair_window: int | None = Field(default=None, ge=0)
-    #: The probe rule (`score.ProbeRule`): mismatch COUNTS, not penalties. A probe
-    #: with `probe_reduced_at` mismatches is `weak`, with `probe_fail_at` it is
-    #: `blocked`. `by_chemistry` sets them equal for the short stabilised probes.
-    #: `ProbeRule` refuses fail < reduced when it is built.
-    probe_reduced_at: int = Field(default=1, ge=1)
-    probe_fail_at: int = Field(default=2, ge=1)
-    #: The short-probe rule: an MGB or LNA probe of at most `short_probe_max_nt`
-    #: is blocked at `short_probe_fail_at` mismatches. Longer ones take the two
-    #: numbers above, whatever their chemistry (`score.probe_kind`).
-    short_probe_fail_at: int = Field(default=1, ge=1)
-    short_probe_max_nt: int = Field(default=20, ge=1)
+    #: The probe rule (`score.ProbeRule`): degrees C of Tm LOST to the record's
+    #: mismatches. At `probe_weak_dtm_c` the probe is `weak`, at `probe_block_dtm_c`
+    #: it is `blocked`. `ProbeRule` refuses block < weak when it is built.
+    probe_weak_dtm_c: float = Field(default=2.0, gt=0)
+    probe_block_dtm_c: float = Field(default=5.0, gt=0)
     max_ambiguous_per_oligo: int = Field(default=2, ge=0)
     max_mismatches_searched: int = Field(default=6, ge=0)
     max_site_evalue: float = Field(default=0.01, gt=0)

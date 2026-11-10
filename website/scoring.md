@@ -33,25 +33,28 @@ polymerase extends:
 | middle | positions 6–10 from the 3′ end | 1.0 |
 | 5′ region | everything else | 0.5 |
 
-**Probes**, judged by how many mismatches they carry. A hydrolysis probe is never
-extended. Its 3′ end carries the quencher or the minor-groove binder, and the
-polymerase's 5′→3′ exonuclease cleaves it, so its 3′ terminus has no special
-status. What matters is whether the duplex survives, and what one mismatch costs
-depends on the kind of probe: 4–6 °C of Tm for a standard 20–30 nt probe, up to
-15–20 °C for a 12–18 nt MGB probe
-([Kutyavin et al. 2000](https://doi.org/10.1093/nar/28.2.655)).
+**Probes**, judged by the melting temperature their mismatches cost. A hydrolysis
+probe is never extended. Its 3′ end carries the quencher or the minor-groove binder,
+and the polymerase's 5′→3′ exonuclease cleaves it, so its 3′ terminus has no special
+status. What matters is whether the duplex is still there at the annealing step. For
+each record the probe's Tm on that record's site is compared with its Tm on a perfect
+site, using nearest-neighbour thermodynamics
+([SantaLucia & Hicks 2004](https://doi.org/10.1146/annurev.biophys.32.110601.141800)),
+so the price of a mismatch depends on which bases are mispaired, what flanks them and
+how long the probe is.
 
-| probe | one mismatch | two or more |
+| Tm lost | probe | call |
 |---|---|---|
-| standard: any plain hydrolysis probe, and an MGB or LNA probe longer than 20 nt | `weak`: the call is at best `reduced` | `blocked`: the call is `fail` |
-| short: an MGB or LNA probe of 20 nt or fewer | `blocked`: the call is `fail` | `blocked` |
+| under 2 °C | `ok` | whatever the primers earned |
+| 2 °C to under 5 °C | `weak` | at best `reduced` |
+| 5 °C or more, or adjacent mismatches the model cannot price | `blocked` | `fail` |
 
-The length cut is there because the label is not the mechanism: one mismatch
-switches a short stabilised probe off because it is short, and nine of the
-registry's 21 MGB probes are longer than 20 nt, one of them 32.
-
-Position within the probe is not weighted. These counts rest on the literature
-and have not yet been replayed against documented cases.
+In practice one mismatch in the middle of a 20-nt probe costs 5–6 °C and blocks it,
+and one at the very end costs 1–2 °C and does not. The model is for plain DNA: it has
+no minor-groove binder or LNA in it, so the loss for an MGB probe is probably
+understated ([Kutyavin et al. 2000](https://doi.org/10.1093/nar/28.2.655)). The two
+cuts rest on a replay against documented failures in which one case is independent
+evidence; they are provisional.
 
 Forward and reverse primer penalties are summed, and the total sets the call. The
 probe is a gate on top: the call is the worse of what the primers earned and what
@@ -73,9 +76,9 @@ the probe allows.
     A switch exists to stop counting `reduced` for named chemistries
     (`drift.reduced_not_detected_for`). It named hydrolysis-probe and MGB assays
     from 2026-10-27 to 2026-11-10 and has been empty since, because the probe
-    rule above now separates one probe mismatch (a Ct shift, counted) from a
-    blocked probe (a failure) per probe. That change has not yet been replayed
-    against the documented failure the switch was turned on to catch.
+    rule above now separates a weak probe (a Ct shift, counted) from a blocked
+    one (a failure) per record. Replayed, the documented failure the switch was
+    turned on to catch is still caught.
 
 The last two categories are excluded on purpose. A record that lacks the
 locus, is truncated, or is dense with ambiguity codes tells you about GenBank,

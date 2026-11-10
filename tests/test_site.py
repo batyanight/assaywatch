@@ -604,16 +604,16 @@ def test_a_probe_is_not_given_a_three_prime_window():
     assert "central third" not in svg, "a probe has no scored region to shade or name"
     assert "3\u2032 window" in svg, "the primer must still show its 3' window"
     assert svg.count('class="aw-zone"') == 1, "one shaded region: the primer's, none for the probe"
-    assert "scored by its mismatch count" in svg
+    assert "scored by the Tm its mismatches cost" in svg
 
 
 def test_the_scoring_config_still_has_no_three_prime_window_for_probes():
     """If a probe 3' penalty is ever added to the scoring, the figure above
     becomes wrong in the other direction. This fails loudly if that happens."""
     cfg = yaml.safe_load((ROOT / "config.yaml").read_text())["scoring"]
-    assert {"probe_reduced_at", "probe_fail_at"} <= set(cfg)
+    assert {"probe_weak_dtm_c", "probe_block_dtm_c"} <= set(cfg)
     positional = sorted(
-        k for k in cfg if k.startswith("probe_") and k not in ("probe_reduced_at", "probe_fail_at")
+        k for k in cfg if k.startswith("probe_") and k not in ("probe_weak_dtm_c", "probe_block_dtm_c")
     )
     assert not positional, f"scoring gained a positional probe term {positional}; site_svg must be updated"
 

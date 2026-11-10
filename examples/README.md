@@ -34,9 +34,9 @@ Running the two commands above produces, verbatim:
 
 ```
 Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004	detect	2
-Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004	fail	3
+Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004	fail	2
 Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004	no_amplicon	3
-Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004	reduced	1
+Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004	reduced	2
 ```
 
 and `calls.tsv`, one row per (assay, record), of which the interesting columns
@@ -46,9 +46,9 @@ are:
 |---|---|---|---|---|
 | `perfect` | `detect` | 0 | 146 | both primers and the probe match exactly |
 | `fwd_5prime_mismatch` | `detect` | 0.5 | 146 | mismatch at the forward primer's 5' end, far from where extension starts |
-| `probe_mismatch` | `fail` | 1 | 146 | primers match; one mismatch near the end of the probe. This is an MGB probe, and one mismatch blocks it |
+| `probe_mismatch` | `reduced` | 1 | 146 | primers match; one mismatch near the end of the probe, which costs it a few degrees of Tm: `weak` |
 | `both_primers_mid_mismatch` | `reduced` | 2 | 146 | one mismatch 6–10 nt from the 3' end of *each* primer |
-| `probe_centre_mismatch` | `fail` | 1 | 146 | primers match; one mismatch in the middle of the probe. Same rule, same call |
+| `probe_centre_mismatch` | `fail` | 1 | 146 | primers match; one mismatch in the middle of the probe, which costs it more than 5 °C: `blocked` |
 | `fwd_3prime_mismatch` | `fail` | 3 | 146 | mismatch at the forward primer's **3'-most base** |
 | `no_reverse_site` | `no_amplicon` | — | — | the reverse primer's site is replaced, so there is no pair |
 | `truncated_inside_amplicon` | `no_amplicon` | — | — | the record ends inside the product: a coverage limit, not a primer failure |
@@ -77,17 +77,17 @@ distinction is why coverage is reported separately from detection: a share
 computed over records that cannot physically contain the product would be
 meaningless. The pipeline's drift step only counts records that span the site.
 
-**What a probe mismatch costs depends on the kind of probe.** The Boyle assay
-uses a 15 nt MGB probe: short, and so sensitive to a single mismatch that the
-chemistry is used for SNP genotyping. Both probe records here carry exactly one
-mismatch and both read `fail`, wherever in the probe it falls. The same single
-mismatch under a standard 20-30 nt hydrolysis probe would read `reduced`, a
-later Ct that still counts as detection, and two would fail it. The counts live
-in `config.yaml` under `scoring:` (`probe_reduced_at`, `probe_fail_at`,
-`short_probe_fail_at`, `short_probe_max_nt`), with their sources and the admission
-that they have not yet been replayed against documented cases. The probe is a
-gate on the call and is never added to the primers' penalty; the `penalty`
-column shows 1 for these records because it carries the probe's mismatch count.
+**What a probe mismatch costs depends on where it is and what it is.** A probe is
+priced by the melting temperature its mismatches cost it, from a nearest-neighbour
+model. The two probe records here carry exactly one mismatch each. The one in the
+middle of this 15 nt probe costs it more than 5 °C and reads `fail`; the one near
+the end costs less and reads `reduced`, a later Ct that still counts as detection.
+The two cuts live in `config.yaml` under `scoring:` (`probe_weak_dtm_c`,
+`probe_block_dtm_c`), with what stands behind them and what does not: the model is
+for plain DNA and this is an MGB probe, so the real cost is probably higher than
+the one computed. The probe is a gate on the call and is never added to the
+primers' penalty; the `penalty` column shows 1 for these records because it carries
+the probe's mismatch count.
 
 ## Next
 

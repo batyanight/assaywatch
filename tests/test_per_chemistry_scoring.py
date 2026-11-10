@@ -128,9 +128,9 @@ def test_an_override_replaces_only_its_own_key_for_only_its_own_chemistry(tmp_pa
 
 def test_an_override_does_not_mutate_the_base_block(tmp_path):
     """The base block is shared by every chemistry that does not override."""
-    cfg = write_config(tmp_path, {"mgb": {"probe_fail_at": 9}})
+    cfg = write_config(tmp_path, {"mgb": {"probe_block_dtm_c": 9.0}})
     scoring_for(Chemistry.mgb, cfg)
-    assert cfg["scoring"]["probe_fail_at"] == 2
+    assert cfg["scoring"]["probe_block_dtm_c"] == 5.0
 
 
 def test_overrides_actually_change_a_call(tmp_path):

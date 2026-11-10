@@ -761,7 +761,7 @@ def test_the_span_is_the_assay_ceiling_not_the_global_one():
 # above still asserts the penalties, and nothing here changes one.
 
 from assaywatch.drift import FOOTPRINT_COLUMNS, footprint_signature  # noqa: E402
-from assaywatch.score import Call, probe_rule_for, score_probe  # noqa: E402
+from assaywatch.score import Call, probe_rule, score_probe  # noqa: E402
 
 _REC_DEGENERATE = "TTGACCGATAGCCAATGAAG"  # faces the Y in _OLIGO_DEGENERATE
 _OLIGO_DEGENERATE = "TTGACCGATAGCCAATGAYG"
@@ -831,7 +831,7 @@ def test_a_probes_mispair_distance_is_also_measured_from_its_3prime_end():
     """
     probe = "CCAAGTGTCAGATGC"
     site = _primer_site(probe, "CCAAGTGACAGATGC")
-    sc = score_probe(site, probe, probe_rule_for("hydrolysis_probe", len(probe), CFG))
+    sc = score_probe(site, probe, probe_rule(CFG), CFG["thermo_conditions"])
     assert sc.mispairs == ("T:T@8",)  # position 7 of 15, i.e. 8 from the 3' end
     assert sc.mismatches_from_3prime == (8,)
     assert sc.penalty == 1.0  # the mismatch count, which is all a probe's penalty is now

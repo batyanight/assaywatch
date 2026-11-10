@@ -137,9 +137,9 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
         # A probe gets NO shaded region. A hydrolysis probe is never extended --
         # its 3' end carries the quencher or the minor-groove binder -- and it is
         # cleaved by the polymerase's 5'->3' exonuclease, so its 3' terminus has
-        # no special status. Since 2026-11-10 the scorer judges a probe by its
-        # mismatch COUNT under its chemistry's rule (`score.ProbeRule`), wherever
-        # the mismatches fall, so any shaded stretch would draw a region the
+        # no special status. Since 2026-11-10 the scorer judges a probe by the
+        # Tm its mismatches cost the whole duplex (`score.ProbeRule`), with no
+        # region of the probe weighted, so any shaded stretch would draw a region the
         # scorer does not use. It shaded the central third while the scorer
         # weighted that third, and the last five bases before that.
         if role == "probe":
@@ -186,7 +186,7 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
                     ", ".join(f"{a}>{b} in {c:,}" for a, b, c in stat["substitutions"][:3]) or "not recorded"
                 )
                 if role == "probe":
-                    zone_text = "a probe is scored by its mismatch count, not by position"
+                    zone_text = "a probe is scored by the Tm its mismatches cost, not by a region"
                 else:
                     zone_text = (
                         "inside the 3\u2032 window"

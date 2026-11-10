@@ -6,9 +6,9 @@ numbers can change without touching code:
     primer, last `primer_3prime_window` nt of the 3' end .... primer_3prime_penalty each
     primer, next `primer_mid_window` nt ...................... primer_mid_penalty each
     primer, remaining 5' region .............................. primer_5prime_penalty each
-    probe .................................................... judged by its mismatch COUNT,
-                                                               per chemistry (`ProbeRule`);
-                                                               a gate on the call, not a penalty
+    probe .................................................... judged by the Tm its mismatches
+                                                               cost it (`ProbeRule`); a gate on
+                                                               the call, not a penalty
 
 Degeneracy is never penalised, in either direction:
 
@@ -55,8 +55,9 @@ sequence problems are not confused with assay problems.
 from __future__ import annotations
 
 from bisect import bisect_left, bisect_right
+from collections.abc import Mapping
 from dataclasses import dataclass, field
-from enum import StrEnum
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -71,6 +72,7 @@ from assaywatch.schema import Assay, Chemistry
 # the `Scoring` model could be its only enforcer without importing this module.
 from assaywatch.settings import check_chemistry_overrides as check_chemistry_overrides
 from assaywatch.settings import validated
+from assaywatch.thermo import duplex_tm
 
 #: Where `load_config(None)` looks: the repo root, one level above this package.
 #: This resolves correctly for a clone and for `pip install -e .`, and NOT for a
@@ -234,7 +236,7 @@ class OligoScore:
     #: `ambiguous` and appear here not at all.
     mispairs: tuple[str, ...] = ()
     #: `ok`, `weak` or `blocked`, set by `score_probe` and by nothing else. A probe
-    #: is judged by a count against its `ProbeRule` rather than by a penalty against
+    #: is judged by its loss of Tm against its `ProbeRule` rather than by a penalty against
     #: a threshold, so it arrives with its verdict already made. None for a primer,
     #: whose verdict (under `engine: serial`) `oligo_verdict` reads off the penalty.
     verdict: str | None = None
@@ -346,29 +348,6 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     return OligoScore(penalty, terminal, site.mismatches, tuple(from3), site.ambiguous, tuple(mispairs))
 
 
-class ProbeKind(StrEnum):
-    """The two kinds of probe the scoring tells apart.
-
-    `short` is a probe that is BOTH carried by a duplex stabiliser (a minor-groove
-    binder, `mgb`, or locked nucleic acid bases, `lna`) AND no longer than
-    `scoring.short_probe_max_nt`. Everything else is `standard`, including a long
-    probe that happens to carry an MGB.
-
-    Both conditions, because the label alone is not the mechanism. One mismatch
-    switches a short stabilised probe off because the probe is short: its Tm sits
-    just above the anneal and one mismatch drops it below. A 32 nt probe with an MGB
-    on the end (the registry has one, and nine of its 21 MGB probes are longer than
-    20 nt) has Tm to spare and behaves like the long probe it is.
-    """
-
-    standard = "standard"
-    short = "short"
-
-
-#: The chemistries whose probe carries a duplex stabiliser. Membership here is
-#: necessary for `short` and not sufficient: see `ProbeKind`.
-STABILISED_PROBE = frozenset({"mgb", "lna"})
-
 #: A probe verdict as the call it permits at best. The call is the worse of this
 #: and what the primers earned.
 PROBE_GATE = {"ok": "detect", "weak": "reduced", "blocked": "fail"}
@@ -377,104 +356,118 @@ _CALL_SEVERITY = {"detect": 0, "reduced": 1, "fail": 2}
 
 @dataclass(frozen=True)
 class ProbeRule:
-    """How many mismatches a probe of one kind survives.
+    """How much melting temperature a probe may lose to the record's mismatches.
 
     `frozen=True` means an instance cannot be changed after it is built, so a rule
     handed to `score_probe` is the rule that was read from config.yaml and nothing
     in between can have moved a threshold.
 
-    Fewer than `reduced_at` mismatches: the probe is `ok`.
-    From `reduced_at` up to but not including `fail_at`: `weak`, the call is at best
-    `reduced` (it reports, late and lower).
-    `fail_at` or more: `blocked`, the call is `fail` (product, and no signal).
+    Both numbers are degrees C LOST, so both are positive and bigger is worse:
 
-    Setting the two equal removes the `weak` band, which is the short-probe rule:
-    one mismatch and the probe is off.
+        loss <  weak_dtm ............. `ok`
+        weak_dtm <= loss < block_dtm . `weak`: the call is at best `reduced` (it
+                                       reports, late and lower)
+        loss >= block_dtm ............ `blocked`: the call is `fail` (product, and
+                                       no signal)
+
+    A loss that cannot be computed is `blocked`. See `verdict`.
+    Setting the two equal removes the `weak` band.
     """
 
-    kind: ProbeKind
-    reduced_at: int
-    fail_at: int
+    weak_dtm: float
+    block_dtm: float
 
     def __post_init__(self) -> None:
-        # Runs once, right after the dataclass sets the three fields. A rule that
+        # Runs once, right after the dataclass sets the two fields. A rule that
         # cannot mean anything is refused here rather than scoring quietly.
-        if self.reduced_at < 1:
+        if self.weak_dtm <= 0:
+            raise ValueError(f"weak_dtm must be above 0, got {self.weak_dtm}: no loss is a perfect match")
+        if self.block_dtm < self.weak_dtm:
             raise ValueError(
-                f"reduced_at must be at least 1, got {self.reduced_at}: zero mismatches is a match"
-            )
-        if self.fail_at < self.reduced_at:
-            raise ValueError(
-                f"fail_at ({self.fail_at}) is below reduced_at ({self.reduced_at}): "
-                "a probe cannot fail before it is reduced"
+                f"block_dtm ({self.block_dtm}) is below weak_dtm ({self.weak_dtm}): "
+                "a probe cannot be blocked before it is weak"
             )
 
-    def verdict(self, n_mismatches: int) -> str:
-        if n_mismatches >= self.fail_at:
+    def verdict(self, loss: float | None) -> str:
+        """`loss` is degrees C of Tm lost, or None where the model cannot price the site.
+
+        None is `blocked`. The nearest-neighbour tables hold a mismatch flanked by
+        matches; two ADJACENT mismatches have no measured term. A probe site with
+        two mismatches side by side is at least a two-mismatch site, and calling it
+        `ok` for want of a number would be the optimistic error in the place it
+        costs most. 19,273 of 1,051,572 probe rows were of this kind on the
+        2026-11-01 calls.
+        """
+        if loss is None or loss >= self.block_dtm:
             return "blocked"
-        if n_mismatches >= self.reduced_at:
+        if loss >= self.weak_dtm:
             return "weak"
         return "ok"
 
 
-def probe_kind(chemistry: Chemistry | str, probe_len: int, cfg: dict[str, Any]) -> ProbeKind:
-    """`short` only for a stabilised chemistry AND a probe short enough to depend on it."""
-    if str(chemistry) in STABILISED_PROBE and probe_len <= int(cfg["scoring"]["short_probe_max_nt"]):
-        return ProbeKind.short
-    return ProbeKind.standard
+def probe_rule(cfg: dict[str, Any]) -> ProbeRule:
+    """The probe rule in `scoring:`. One rule for every chemistry and length.
 
-
-def probe_rule_for(chemistry: Chemistry | str, probe_len: int, cfg: dict[str, Any]) -> ProbeRule:
-    """The probe rule for one probe: its chemistry and its own length decide the kind.
-
-    Takes the length because a pool can hold probes of different lengths and each is
-    judged as what it is. This is the one place the whole config is read on the
-    probe's behalf; `score_probe` receives only the rule.
+    `cfg` is already resolved for the assay's chemistry (`scoring.by_chemistry`), so a
+    different cut for one chemistry is a config entry and not a code path.
     """
     s = cfg["scoring"]
-    kind = probe_kind(chemistry, probe_len, cfg)
-    if kind is ProbeKind.short:
-        fail_at = int(s["short_probe_fail_at"])
-        # A short probe may fail before a standard one is even reduced, so its
-        # `weak` band can only start at or below where it fails.
-        return ProbeRule(kind, min(int(s["probe_reduced_at"]), fail_at), fail_at)
-    return ProbeRule(kind, int(s["probe_reduced_at"]), int(s["probe_fail_at"]))
+    return ProbeRule(float(s["probe_weak_dtm_c"]), float(s["probe_block_dtm_c"]))
 
 
-def score_probe(site: Site, oligo: str, rule: ProbeRule) -> OligoScore:
-    """Judge a probe by how many mismatches it carries, under its chemistry's rule.
+@lru_cache(maxsize=200_000)
+def _tm_loss(oligo: str, window: str, conditions: tuple[tuple[str, float], ...]) -> float | None:
+    """Degrees C of Tm the probe loses on this site against a perfect one, or None.
+
+    Cached (`lru_cache` keeps the answers for the arguments it has seen) because an
+    archive is the same few hundred probe sites over and over, and each answer is a
+    nearest-neighbour sum.
+    """
+    tm, perfect, _ = duplex_tm(oligo, window, {"thermo_conditions": dict(conditions)})
+    return None if tm is None else perfect - tm
+
+
+def score_probe(site: Site, oligo: str, rule: ProbeRule, conditions: Mapping[str, float]) -> OligoScore:
+    """Judge a probe by the melting temperature the record's mismatches cost it.
 
     A hydrolysis probe is not extended. It is bound and then cleaved, so the 3'-end
-    asymmetry that governs primers does not apply and there is no window to weight.
-    What matters is whether the duplex survives to the extension step, and what one
-    mismatch costs that duplex depends on the kind of probe far more than on where
-    in the probe it falls:
+    asymmetry that governs primers does not apply. What matters is whether the
+    duplex is still there at the annealing step, and that is a question about Tm.
 
-    * A standard 20-30 nt probe loses 4-6 C of Tm to one mismatch (Kutyavin et al.
-      2000, doi:10.1093/nar/28.2.655). At a 60 C anneal that is usually a later Ct
-      and a lower plateau, not a dropout. Yao, Nellaker & Karlsson 2006
+    `conditions` are the reaction's salt and oligo concentrations (`config.yaml`,
+    `thermo_conditions`). The loss is the probe's Tm on a perfect site minus its Tm
+    on this one, both in register (`thermo.duplex_tm`: SantaLucia & Hicks 2004
+    nearest-neighbour parameters, Allawi & SantaLucia mismatch terms). `rule` turns
+    the loss into `ok`, `weak` or `blocked`.
+
+    WHY NOT A COUNT. On 2026-11-10 a rule that counted mismatches (one `weak`, two
+    `blocked`, short stabilised probes blocked at one) was replayed against the
+    documented cases. It gained the CDC H3 assay and lost Ward 2004, and both hinge
+    on ONE mismatch at position 15 of a standard probe: T:G in 76% of H3 records,
+    G:A in 32% of Ward's. A count cannot tell them apart. The Tm model does,
+    because it sees which bases are mispaired, what flanks them, and how long the
+    probe is, so it also needs no length cut: a 15-mer loses more to one mismatch
+    than a 32-mer because it is shorter.
+
+    WHY NOT THIRDS. Until 2026-11-10 a mismatch was weighted by which third of the
+    probe it fell in (centre 2.0, ends 1.0) and added to the primers' penalty:
+    length-blind, chemistry-blind, and it let a probe defect trade against a primer
+    defect.
+
+    KNOWN GAPS, stated so nobody reads more into the number than is there:
+    * NO MINOR-GROOVE BINDER, NO LNA. The tables are for plain DNA. An MGB raises a
+      short probe's Tm and sharpens its discrimination (Kutyavin et al. 2000,
+      doi:10.1093/nar/28.2.655: 15-20 C for one mismatch in a 12-18 nt MGB probe), so
+      the loss computed here for an `mgb` probe is probably too small. A per-chemistry
+      cut can be set under `scoring.by_chemistry`; none is, because there is nothing
+      to set it from yet.
+    * The model predicts Tm, not signal. Yao, Nellaker & Karlsson 2006
       (doi:10.1016/j.mcp.2006.03.003) saw signal from a standard probe carrying
-      several mismatches.
-    * A 12-18 nt MGB probe can lose 15-20 C to one mismatch (Kutyavin, same paper),
-      which is why the chemistry is used for SNP genotyping. It stops reporting.
-
-    UNTIL 2026-11-10 this weighted a mismatch by thirds of the probe (centre 2.0,
-    ends 1.0) and added the result to the primers' penalty. That was length-blind
-    (the central third of a 15-mer is 5 nt, of a 30-mer 10 nt, one price) and
-    chemistry-blind, and its own docstring said so.
-
-    KNOWN GAPS, stated so nobody reads more into the count than is there:
-    * Position is ignored entirely. Kutyavin finds an MGB discriminates a mismatch
-      best when it lies under or near the binder at the 3' end, and no better than
-      plain DNA when it is far from it, so "any one mismatch blocks a short probe"
-      overstates the effect at the 5' end of an MGB probe.
-    * Yao 2006 also reports that neither probe type was fully sequence-specific at
-      standard conditions. The rule is a prior, not a measurement.
-    * LNA is filed with MGB by reasoning (short, stabilised, used for genotyping),
-      with no paper in hand.
-    * `short_probe_max_nt` is a cut on a continuum. A 21 nt MGB probe is scored as
-      standard and a 20 nt one as short, and nothing measured puts the line there.
-    * Mispair identity is recorded for replay and not used.
+      several mismatches. Where the anneal sits relative to the probe's Tm is not
+      used: the same loss is judged the same for a probe with 10 C to spare and one
+      with 2.
+    * The two cuts were chosen with two documented cases' losses in view. See
+      `config.yaml`.
 
     The `@distance` in a probe's mispair is still measured from its 3' end, for one
     format across all three oligos. `penalty` carries the mismatch COUNT: it ranks
@@ -487,6 +480,12 @@ def score_probe(site: Site, oligo: str, rule: ProbeRule) -> OligoScore:
         template = COMPLEMENT.get(rec.upper(), "N")
         mispairs.append(f"{oligo[pos].upper()}:{template}@{oligo_len - pos}")
     n = len(site.mismatches)
+    if n == 0:
+        loss: float | None = 0.0
+    elif len(site.window) != oligo_len:
+        loss = None  # a site that is not the probe's length cannot be paired base for base
+    else:
+        loss = _tm_loss(oligo, site.window, tuple(sorted((k, float(v)) for k, v in conditions.items())))
     return OligoScore(
         float(n),
         False,
@@ -494,7 +493,7 @@ def score_probe(site: Site, oligo: str, rule: ProbeRule) -> OligoScore:
         tuple(oligo_len - p for p in site.mismatches),
         site.ambiguous,
         tuple(mispairs),
-        rule.verdict(n),
+        rule.verdict(loss),
     )
 
 
@@ -1113,7 +1112,7 @@ def screen_one(
         probe_won = probe
         if probe:
             scored = [
-                (score_probe(p, o, probe_rule_for(assay.chemistry, len(o), cfg)), p, o)
+                (score_probe(p, o, probe_rule(cfg), cfg.get("thermo_conditions") or {}), p, o)
                 for o, idx in p_indexes
                 for p in idx.within(inner_lo, inner_hi - len(o))
             ]

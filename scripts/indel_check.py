@@ -204,9 +204,9 @@ def check_fail(assay, row, seq, cfg):
             col = {"forward": "fwd", "reverse": "rev", "probe": "probe"}[name]
             mm = tuple(int(x) for x in row[f"{col}_mm_from_3prime"].split(",") if x)
         if name == "probe":
-            # A probe is judged by its mismatch count (score.ProbeRule), and gates the
-            # call rather than joining the primers' sum. This script only reports a
-            # scalar, so it carries the count, as `score.decide` does for tie-breaks.
+            # A probe is judged by the Tm its mismatches cost (score.ProbeRule), and gates
+            # the call rather than joining the primers' sum. This script only reports a
+            # scalar, so it carries the mismatch count, as `score.decide` does for tie-breaks.
             total += len(mm)
         else:
             for d in mm:

@@ -1,17 +1,27 @@
-"""The probe rule: a probe is judged by HOW MANY mismatches it carries, per chemistry.
+"""The probe rule: a probe mismatch is priced by the melting temperature it costs.
 
-Decided 2026-11-10. It replaces `probe_center_penalty` / `probe_outer_penalty`, which
-weighted a mismatch by which third of the probe it fell in. That rule was blind to
-two things that decide what a probe mismatch costs:
+Decided 2026-11-10, second attempt. The first attempt the same day counted mismatches
+(one is `weak`, two are `blocked`, a short stabilised probe is blocked at one). Replayed
+against the documented cases it traded one catch for another, and both hinged on ONE
+mismatch at position 15 of a standard probe: T:G in the CDC H3 assay, G:A in Ward 2004.
+A count cannot tell those apart. What tells them apart is which bases are mispaired and
+how long the probe is, and both are what a nearest-neighbour Tm sees.
 
-* LENGTH. The central third of a 15-mer is 5 nt and of a 30-mer is 10 nt, at one price.
-* CHEMISTRY. A standard hydrolysis probe (20-30 nt) loses 4-6 C of Tm to one mismatch
-  and usually still reports, late; an MGB probe (12-18 nt) can lose 15-20 C and stops
-  (Kutyavin et al. 2000, doi:10.1093/nar/28.2.655). Yao, Nellaker & Karlsson 2006
-  (doi:10.1016/j.mcp.2006.03.003) measured both and found the standard probe the more
-  tolerant, still giving signal with several mismatches.
+So the probe is priced by its predicted loss of Tm on the record's site against a
+perfect site (`thermo.duplex_tm`: SantaLucia & Hicks 2004, Allawi & SantaLucia
+mismatch terms), under the reaction conditions in `config.yaml`:
 
-Each test below is one step of the plan, in the order it was written.
+    loss <  weak_dtm ............ `ok`
+    weak_dtm <= loss < block_dtm  `weak`     the call is at best `reduced`
+    loss >= block_dtm ........... `blocked`  the call is `fail`
+    loss cannot be computed ..... `blocked`  (adjacent mismatches have no measured term)
+
+The numbers in these tests are the model's, computed for the probe below at the
+shipped conditions and written down here so that a change in either shows.
+
+ON A BRANCH, UNMERGED (maintainer decision, 2026-11-10). Two things are owed before
+it merges: a cut for minor-groove-binder probes, which the nearest-neighbour tables do
+not model, and one documented case that neither threshold has seen.
 """
 
 from __future__ import annotations
@@ -20,25 +30,17 @@ import pytest
 
 from assaywatch.drift import reduced_not_detected_ids
 from assaywatch.match import Site
-from assaywatch.schema import Chemistry
-from assaywatch.score import (
-    OligoScore,
-    ProbeKind,
-    ProbeRule,
-    decide,
-    load_config,
-    probe_kind,
-    probe_rule_for,
-    score_probe,
-)
+from assaywatch.score import OligoScore, ProbeRule, decide, load_config, probe_rule, score_probe
 
 pytestmark = pytest.mark.fast
 
 CFG = load_config()
-STANDARD = ProbeRule(ProbeKind.standard, reduced_at=1, fail_at=2)
-SHORT = ProbeRule(ProbeKind.short, reduced_at=1, fail_at=1)
+CONDITIONS = CFG["thermo_conditions"]
+RULE = ProbeRule(weak_dtm=2.0, block_dtm=5.0)
 
-PROBE = "CCAAGTGTCAGATGCAAGTCC"  # 21 nt, a plain hydrolysis probe's length
+PROBE = "CCAAGTGTCAGATGCAAGTCC"  # 21 nt, a plain hydrolysis probe's length; Tm 64.0 C here
+# What one mismatch at each of these positions costs this probe, in degrees C:
+END, NEAR_END, OFF_CENTRE, CENTRE = 0, 1, 15, 10  # 1.9, 8.1, 4.2, 5.8
 
 
 def site_with(*mismatch_positions: int) -> Site:
@@ -49,6 +51,10 @@ def site_with(*mismatch_positions: int) -> Site:
     return Site(0, len(PROBE), "+", tuple(mismatch_positions), "".join(window))
 
 
+def probe(*mismatch_positions: int) -> OligoScore:
+    return score_probe(site_with(*mismatch_positions), PROBE, RULE, CONDITIONS)
+
+
 def clean_primer() -> OligoScore:
     return OligoScore(0.0, False, (), ())
 
@@ -57,132 +63,122 @@ def primer_with_penalty(penalty: float) -> OligoScore:
     return OligoScore(penalty, False, (10,), (10,))
 
 
-# --- step 1 --------------------------------------------------------------------------
+# --- step 1: no mismatch, no loss ---------------------------------------------------------
 
 
-def test_a_perfectly_matched_standard_probe_is_ok():
-    sc = score_probe(site_with(), PROBE, STANDARD)
+def test_a_perfectly_matched_probe_is_ok():
+    sc = probe()
     assert sc.verdict == "ok"
     assert sc.penalty == 0.0
 
 
-# --- step 2 --------------------------------------------------------------------------
+# --- step 2: the same count, three verdicts ------------------------------------------------
 
 
-def test_one_mismatch_in_a_standard_probe_is_weak_wherever_it_sits():
-    """Position no longer matters: the count does. Centre, edge and 3' end agree."""
-    for pos in (0, 10, len(PROBE) - 1):
-        assert score_probe(site_with(pos), PROBE, STANDARD).verdict == "weak", pos
+def test_one_mismatch_is_priced_by_where_it_sits_and_what_it_is():
+    """The point of the rule. One mismatch each, and the model's loss decides."""
+    assert probe(END).verdict == "ok"  # 1.9 C: the last base of a duplex frays anyway
+    assert probe(OFF_CENTRE).verdict == "weak"  # 4.2 C
+    assert probe(CENTRE).verdict == "blocked"  # 5.8 C
+    assert probe(NEAR_END).verdict == "blocked"  # 8.1 C: one base in is not the end
+
+
+def test_the_mispair_decides_as_well_as_the_position():
+    """Position 15 again, two different record bases. A count would call these the same."""
+    costs = {}
+    for base in "ACGT":
+        if base == PROBE[OFF_CENTRE]:
+            continue
+        window = PROBE[:OFF_CENTRE] + base + PROBE[OFF_CENTRE + 1 :]
+        site = Site(0, len(PROBE), "+", (OFF_CENTRE,), window)
+        costs[base] = score_probe(site, PROBE, RULE, CONDITIONS).verdict
+    assert len(set(costs.values())) > 1, costs
 
 
 def test_a_weak_probe_on_clean_primers_makes_the_call_reduced():
-    ps = score_probe(site_with(10), PROBE, STANDARD)
-    call, _, _ = decide(clean_primer(), clean_primer(), ps, CFG)
+    call, _, _ = decide(clean_primer(), clean_primer(), probe(OFF_CENTRE), CFG)
     assert call == "reduced"
 
 
-def test_a_reduced_call_counts_as_detected_for_a_standard_hydrolysis_probe():
-    """One probe mismatch is a Ct shift, not a miss, so it must stay in the numerator.
+def test_a_blocked_probe_fails_the_call():
+    call, reason, _ = decide(clean_primer(), clean_primer(), probe(CENTRE), CFG)
+    assert call == "fail"
+    assert "probe blocked" in reason
+
+
+def test_a_reduced_call_counts_as_detected_for_a_hydrolysis_probe():
+    """A weak probe is a Ct shift, not a miss, so it stays in the numerator.
 
     `drift.reduced_not_detected_for` named `hydrolysis_probe` and `mgb` until
     2026-11-10. With it, one probe mismatch read as "this assay does not detect this
     record", which put the CDC H3 assay at the floor from 2016 and hid the drift that
-    followed. `mgb` left with it: kept, it would count a long MGB probe's `reduced` as
-    not detected and undo the length cut tested below.
+    followed.
     """
     assert reduced_not_detected_ids({"a": "hydrolysis_probe", "b": "mgb"}, CFG) == set()
 
 
-# --- step 3 --------------------------------------------------------------------------
+# --- step 3: losses add up, and what cannot be priced is not waved through ------------------
 
 
-def test_two_mismatches_block_a_standard_probe_and_fail_the_call():
-    ps = score_probe(site_with(3, 15), PROBE, STANDARD)
-    assert ps.verdict == "blocked"
-    call, _, _ = decide(clean_primer(), clean_primer(), ps, CFG)
-    assert call == "fail"
+def test_two_mismatches_that_are_each_mild_block_together():
+    assert probe(END).verdict == "ok" and probe(OFF_CENTRE).verdict == "weak"
+    assert probe(END, OFF_CENTRE).verdict == "blocked"  # 1.9 + 4.2, and the model gives 6 or more
 
 
-# --- step 4 --------------------------------------------------------------------------
+def test_adjacent_mismatches_cannot_be_priced_and_are_blocked():
+    """The tables hold a mismatch flanked by matches. Two in a row have no measured
+    term, `duplex_tm` returns None rather than an optimistic number, and a probe with
+    two adjacent mismatches is not one to give the benefit of the doubt."""
+    assert probe(10, 11).verdict == "blocked"
 
 
-def test_one_mismatch_blocks_a_short_probe():
-    ps = score_probe(site_with(10), PROBE, SHORT)
-    assert ps.verdict == "blocked"
-    call, _, _ = decide(clean_primer(), clean_primer(), ps, CFG)
-    assert call == "fail"
+def test_the_thresholds_are_inclusive():
+    """A loss of exactly `weak_dtm` is weak, and of exactly `block_dtm` is blocked."""
+    assert RULE.verdict(1.99) == "ok"
+    assert RULE.verdict(2.0) == "weak"
+    assert RULE.verdict(4.99) == "weak"
+    assert RULE.verdict(5.0) == "blocked"
+    assert RULE.verdict(None) == "blocked"
 
 
-def test_a_perfectly_matched_short_probe_is_ok():
-    assert score_probe(site_with(), PROBE, SHORT).verdict == "ok"
+# --- step 4: length is in the model, so no length cut is needed -----------------------------
 
 
-# --- step 5 --------------------------------------------------------------------------
+def test_a_short_probe_loses_more_to_the_same_mismatch_than_a_long_one():
+    """Why the count rule needed a length cut and this one does not."""
+    short = "CAAGTGTCAGATGC"  # 14 nt
+    long = "GATTACA" + short + "GATTACA" + "CCGTA"  # 33 nt, the same 14 bases in the middle
+
+    def loss(oligo: str, pos: int) -> float:
+        from assaywatch.thermo import duplex_tm
+
+        window = oligo[:pos] + ("A" if oligo[pos] != "A" else "C") + oligo[pos + 1 :]
+        tm, perfect, _ = duplex_tm(oligo, window, CFG)
+        return perfect - tm
+
+    assert loss(short, 7) > loss(long, 14) + 2.0  # the same base, the same mispair
 
 
-@pytest.mark.parametrize(
-    ("chemistry", "probe_len", "want"),
-    [
-        (Chemistry.hydrolysis_probe, 25, STANDARD),
-        (Chemistry.mgb, 15, SHORT),
-        (Chemistry.lna, 15, SHORT),
-    ],
-)
-def test_the_shipped_config_builds_the_agreed_rule_for_each_probe_chemistry(chemistry, probe_len, want):
-    assert probe_rule_for(chemistry, probe_len, CFG) == want
+# --- step 5: the rule comes from config, whole ----------------------------------------------
 
 
-# --- step 5b: the label is not the mechanism --------------------------------------------
+def test_the_shipped_config_builds_the_agreed_rule():
+    assert probe_rule(CFG) == RULE
 
 
-def test_an_mgb_probe_is_short_only_up_to_the_length_cut():
-    """20 nt is the top of Kutyavin's MGB design range; the registry holds MGB probes to 32."""
-    cut = CFG["scoring"]["short_probe_max_nt"]
-    assert cut == 20
-    assert probe_kind(Chemistry.mgb, cut, CFG) is ProbeKind.short
-    assert probe_kind(Chemistry.mgb, cut + 1, CFG) is ProbeKind.standard
+def test_a_rule_that_blocks_before_it_weakens_is_refused():
+    with pytest.raises(ValueError, match="block_dtm"):
+        ProbeRule(weak_dtm=5.0, block_dtm=2.0)
 
 
-def test_a_long_mgb_probe_takes_the_standard_rule():
-    """The Blooi 2013 Bsal probe is MGB and 32 nt. One mismatch must not fail it."""
-    assert probe_rule_for(Chemistry.mgb, 32, CFG) == STANDARD
+def test_a_rule_that_calls_no_loss_weak_is_refused():
+    with pytest.raises(ValueError, match="weak_dtm"):
+        ProbeRule(weak_dtm=0.0, block_dtm=5.0)
 
 
-def test_a_short_plain_probe_is_still_standard():
-    """Being short is not enough either: the short rule is about a stabilised probe.
-
-    The registry has plain hydrolysis probes of 16-19 nt. Whether those tolerate a
-    mismatch is its own question and no evidence was gathered on it; they keep the
-    standard rule.
-    """
-    assert probe_kind(Chemistry.hydrolysis_probe, 16, CFG) is ProbeKind.standard
-
-
-def test_each_probe_in_a_pool_is_judged_at_its_own_length():
-    assert probe_rule_for(Chemistry.mgb, 18, CFG).kind is ProbeKind.short
-    assert probe_rule_for(Chemistry.mgb, 24, CFG).kind is ProbeKind.standard
-
-
-def test_the_real_blooi_entry_is_reduced_not_failed_by_one_probe_mismatch():
-    row = "Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013__probe_center"
-    fixtures = Path(__file__).parent / "fixtures"
-    records = dict(read_fasta(fixtures / "records.fasta"))
-    assay = Assay.model_validate(
-        yaml.safe_load((ROOT / "registry" / f"{row.split('__')[0]}.yaml").read_text())
-    )
-    assert str(assay.chemistry) == "mgb"
-    assert len(assay.oligos.probe.matching_seq) == 32
-    assert screen_record(assay, row, records[row], CFG).call == "reduced"
-
-
-def test_a_rule_that_fails_before_it_reduces_is_refused():
-    with pytest.raises(ValueError, match="fail_at"):
-        ProbeRule(ProbeKind.standard, reduced_at=2, fail_at=1)
-
-
-def test_a_rule_that_reduces_at_zero_mismatches_is_refused():
-    with pytest.raises(ValueError, match="reduced_at"):
-        ProbeRule(ProbeKind.standard, reduced_at=0, fail_at=1)
+def test_setting_the_two_equal_removes_the_weak_band():
+    rule = ProbeRule(weak_dtm=3.0, block_dtm=3.0)
+    assert rule.verdict(2.9) == "ok" and rule.verdict(3.0) == "blocked"
 
 
 # --- the probe is a gate, not part of the primers' budget -------------------------------
@@ -197,68 +193,77 @@ def test_a_weak_probe_does_not_add_to_the_primer_penalty():
     the probe decides whether the product is seen. The call is the worse of the two.
     """
     at_detect_max = primer_with_penalty(CFG["scoring"]["detect_max"])
-    ps = score_probe(site_with(10), PROBE, STANDARD)
+    ps = probe(OFF_CENTRE)
     call, _, _ = decide(at_detect_max, clean_primer(), ps, CFG)
     assert call == "reduced"
 
 
 def test_an_ok_probe_cannot_rescue_failing_primers():
     over = primer_with_penalty(CFG["scoring"]["reduced_max"] + 1)
-    ps = score_probe(site_with(), PROBE, STANDARD)
+    ps = probe()
     call, _, _ = decide(over, clean_primer(), ps, CFG)
     assert call == "fail"
 
 
 def test_the_serial_engine_reads_the_probe_verdict_too():
     serial = {**CFG, "scoring": {**CFG["scoring"], "engine": "serial"}}
-    ps = score_probe(site_with(3, 15), PROBE, STANDARD)
+    ps = probe(CENTRE)
     call, reason, _ = decide(clean_primer(), clean_primer(), ps, serial)
     assert call == "fail"
     assert "probe blocked" in reason
 
 
 def test_the_best_probe_site_is_still_the_one_with_fewest_mismatches():
-    """`screen_one` picks a probe site by `min(penalty)`; the penalty is the count."""
-    one = score_probe(site_with(10), PROBE, STANDARD)
-    two = score_probe(site_with(3, 15), PROBE, STANDARD)
+    """`screen_one` picks a probe site by `min(penalty)`; the penalty is still the count."""
+    one = probe(CENTRE)
+    two = probe(3, 15)
     assert one.penalty < two.penalty
 
 
-# --- end to end, through the screen, on a real standard-probe entry ---------------------
+# --- end to end, through the screen, on a real hydrolysis-probe entry ------------------------
 
 from pathlib import Path  # noqa: E402
 
 import yaml  # noqa: E402
 
-from assaywatch.fasta import read_fasta  # noqa: E402
 from assaywatch.iupac import expand, reverse_complement  # noqa: E402
 from assaywatch.schema import Assay  # noqa: E402
 from assaywatch.score import screen_record  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-STANDARD_ENTRY = "Avipoxvirus_4b_Farias_2010"  # chemistry: hydrolysis_probe
+ENTRY = "Avipoxvirus_4b_Farias_2010"  # chemistry: hydrolysis_probe; probe CAGCGTGATGAAGACGCTAA
 
 
-def _record_with_probe_mismatches(n: int) -> tuple[Assay, str]:
-    """A record the entry's primers match exactly, its probe site edited at `n` places."""
-    assay = Assay.model_validate(yaml.safe_load((ROOT / "registry" / f"{STANDARD_ENTRY}.yaml").read_text()))
+def _record_with_probe_mismatch_at(*positions: int) -> tuple[Assay, str]:
+    """A record the entry's primers match exactly, its probe site edited at `positions`."""
+    assay = Assay.model_validate(yaml.safe_load((ROOT / "registry" / f"{ENTRY}.yaml").read_text()))
     assert str(assay.chemistry) == "hydrolysis_probe"
     # `expand(...)[0]` picks one concrete sequence where an oligo is degenerate.
     fwd = expand(assay.oligos.forward.matching_seq)[0]
     rev = expand(assay.oligos.reverse.matching_seq)[0]
-    probe = list(expand(assay.oligos.probe.matching_seq)[0])
-    for pos in (len(probe) // 2, 2)[:n]:
-        probe[pos] = "A" if probe[pos] != "A" else "C"
-    inner = assay.amplicon_bp - len(fwd) - len(rev) - len(probe)
+    site = list(expand(assay.oligos.probe.matching_seq)[0])
+    assert "".join(site) == "CAGCGTGATGAAGACGCTAA", "the losses below were computed for this probe"
+    for pos in positions:
+        site[pos] = "A" if site[pos] != "A" else "C"
+    inner = assay.amplicon_bp - len(fwd) - len(rev) - len(site)
     left, right = "ACGT" * (inner // 8 + 1), "TGCA" * (inner // 8 + 1)
     left, right = left[: inner // 2], right[: inner - inner // 2]
     flank = "GATTACA" * 20
-    return assay, flank + fwd + left + "".join(probe) + right + reverse_complement(rev) + flank
+    return assay, flank + fwd + left + "".join(site) + right + reverse_complement(rev) + flank
 
 
-@pytest.mark.parametrize(("n_mismatches", "want"), [(0, "detect"), (1, "reduced"), (2, "fail")])
-def test_a_standard_probe_entry_screens_to_the_agreed_call(n_mismatches, want):
-    assay, record = _record_with_probe_mismatches(n_mismatches)
+@pytest.mark.parametrize(
+    ("positions", "want"),
+    [
+        ((), "detect"),
+        ((0,), "detect"),  # 1.3 C lost
+        ((10,), "reduced"),  # 3.4 C
+        ((3,), "fail"),  # 9.7 C
+        ((0, 13), "reduced"),  # 1.3 and 1.8 apart: each ok alone, weak together
+    ],
+)
+def test_a_hydrolysis_probe_entry_screens_to_the_call_its_tm_loss_gives(positions, want):
+    assay, record = _record_with_probe_mismatch_at(*positions)
     call = screen_record(assay, "rec", record, CFG)
     assert call.call == want, call.reason
     assert call.forward.penalty == 0 and call.reverse.penalty == 0, (

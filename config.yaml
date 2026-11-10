@@ -154,60 +154,56 @@ scoring:
   # prices and does not prove: the confirming rescreen is the next full run, which this
   # change forces because `scoring` is in the screen hash.
   mispair_window: 10
-  # THE PROBE RULE (2026-11-10). A probe is judged by HOW MANY mismatches it carries,
-  # and the count that matters depends on the kind of probe. These are counts, not
-  # penalties: they are never added to the primers' sum. The probe is a gate on the
-  # call (`score.decide`): primers decide whether there is product, the probe decides
+  # THE PROBE RULE (2026-11-10, on branch probe-rule-by-chemistry, UNMERGED). A probe is
+  # judged by the melting temperature its mismatches cost it: its Tm on a perfect site
+  # minus its Tm on the record's site, in degrees C, from the nearest-neighbour model
+  # in thermo.py under the `thermo_conditions` below. The probe is a gate on the call
+  # (`score.decide`): primers decide whether there is product, the probe decides
   # whether the product is seen, and the call is the worse of the two.
   #
-  #   mismatches < probe_reduced_at ............... probe `ok`
-  #   probe_reduced_at <= mismatches < probe_fail_at  probe `weak`    -> call at best `reduced`
-  #   mismatches >= probe_fail_at ................. probe `blocked` -> call `fail`
+  #   loss <  probe_weak_dtm_c ........................ probe `ok`
+  #   probe_weak_dtm_c <= loss < probe_block_dtm_c .... probe `weak`    -> call at best `reduced`
+  #   loss >= probe_block_dtm_c ....................... probe `blocked` -> call `fail`
+  #   loss cannot be computed (adjacent mismatches) ... probe `blocked`
   #
-  # The values here are for a STANDARD hydrolysis probe (20-30 nt). One mismatch
-  # costs it 4-6 C of Tm (Kutyavin et al. 2000, doi:10.1093/nar/28.2.655), which at a
-  # 60 C anneal is usually a later Ct and not a dropout; Yao, Nellaker & Karlsson 2006
-  # (doi:10.1016/j.mcp.2006.03.003) still saw signal from a standard probe carrying
-  # several mismatches. So one mismatch is `weak`.
+  # WHY TM AND NOT A COUNT. The count rule tried first on this branch (one mismatch
+  # weak, two blocked) traded one documented catch for another on replay: it gained
+  # Influenza_A_virus_HA_H3_Shu_2026 and lost Influenza_A_virus_M1_Ward_2004, and both
+  # hinge on ONE mismatch at position 15 of a standard probe (T:G in 76% of H3 records,
+  # G:A in 32% of Ward's). Tm sees the mispair, its neighbours and the probe's length.
   #
-  # `probe_fail_at: 2` HAS NO MEASUREMENT BEHIND IT. Yao's result argues it is too
-  # strict; it was chosen as the conservative reading and is a placeholder like the
-  # others.
+  # WHAT STANDS BEHIND 2 AND 5: A REPLAY, AND NOT MUCH OF ONE (2026-11-01 calls).
+  #   documented failures caught   today   count rule   this rule
+  #   development set               7/11      7/11         7/11
+  #   held-out 1                    3/9       3/9          3/9
+  #   held-out 2                    2/3       2/3          2/3
+  #   held-out 3                    1/2       1/2          2/2   (gains H3, keeps Ward)
+  # `probe_block_dtm_c` at 4 or 5 gives that table. At 6 Ward is lost (its mismatch costs
+  # 5.5 C) and at 7 Spackman 2002 as well (6.7 C). `probe_weak_dtm_c` anywhere from 1 to
+  # 3 changes nothing. THE 5 WAS CHOSEN WITH THOSE TWO LOSSES IN VIEW, so keeping Ward
+  # and Spackman is not evidence for it; H3 is the one independent gain, and all four
+  # case sets have now been looked at. The rule moved 150,258 of 1,051,572 probe calls,
+  # in both directions (59,382 fail to reduced, 53,125 to fail).
+  #
+  # WHAT 5 MEANS IN PRACTICE, which is stricter than it sounds. One central mismatch
+  # in a typical 20-21 nt probe costs 5-6 C in this model and so BLOCKS it; one near an
+  # end costs 1-2 C and is `ok`. Kutyavin et al. 2000 (doi:10.1093/nar/28.2.655) put a
+  # standard probe's loss at 4-6 C per mismatch and Yao, Nellaker & Karlsson 2006
+  # (doi:10.1016/j.mcp.2006.03.003) still saw signal through several. A probe designed
+  # with 8-10 C of Tm above the anneal survives a 5 C loss; the rule does not know the
+  # anneal and judges every probe alike.
+  #
+  # NOT MODELLED: a minor-groove binder or LNA. The tables are plain DNA, so the loss
+  # for an `mgb` probe is probably UNDERSTATED (Kutyavin: 15-20 C for one mismatch in a
+  # 12-18 nt MGB probe). A stricter cut for one chemistry can be set under
+  # `by_chemistry` below with no code change. None is set: there is nothing to set it
+  # from. This, and one documented case neither number has seen, are what the branch
+  # owes before it merges.
   #
   # This replaced `probe_center_penalty` 2.0 / `probe_outer_penalty` 1.0, which priced
-  # a mismatch by which THIRD of the probe it fell in: length-blind (the central third
-  # of a 15-mer is 5 nt, of a 32-mer 10 nt) and chemistry-blind. Position is now
-  # ignored altogether, which is its own known gap: see `score.score_probe`.
-  #
-  # NOT YET REPLAYED. No tier-2 run stands behind these numbers. See the note at
-  # `drift.reduced_not_detected_for`, which this change is paired with.
-  probe_reduced_at: 1
-  probe_fail_at: 2
-  # SHORT STABILISED PROBES: one mismatch and the probe is off. A probe is `short`
-  # when it is BOTH an `mgb` or `lna` probe AND at most `short_probe_max_nt` long.
-  #
-  # Why one: an MGB probe is short, its Tm sits just above the anneal, and one
-  # mismatch can cost it 15-20 C (Kutyavin et al. 2000, doi:10.1093/nar/28.2.655),
-  # which is why the chemistry is used for SNP genotyping. Kutyavin also finds the
-  # effect strongest under or near the binder at the 3' end and no better than plain
-  # DNA far from it, so this OVERSTATES a mismatch at an MGB probe's 5' end. `lna`
-  # is filed here by the same reasoning, with no paper in hand (and no `lna` entry
-  # in the registry on 2026-11-10 to be wrong about).
-  #
-  # Why the length cut: the label is not the mechanism. 9 of the registry's 21 MGB
-  # probes are longer than 20 nt (2026-11-10: five at 24, three at 21, and
-  # Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013 at 32). A 32 nt probe has
-  # Tm to spare with or without a binder, so failing it on one mismatch would be the
-  # chemistry-blindness this rule replaced, pointed the other way. 20 is the top of
-  # the design range Kutyavin gives for MGB probes (12-20 nt). It is a cut on a
-  # continuum and NOTHING MEASURED puts it there: a 21 nt MGB probe is scored as
-  # standard and a 20 nt one as short. A placeholder like the others.
-  #
-  # These are base settings and not a `by_chemistry` entry on purpose: `by_chemistry`
-  # cannot see a probe's length, and it was a `by_chemistry` entry that made the 32 nt
-  # probe fail on one mismatch for the day the first version of this rule existed.
-  short_probe_fail_at: 1
-  short_probe_max_nt: 20
+  # a mismatch by which THIRD of the probe it fell in and added it to the primers' sum.
+  probe_weak_dtm_c: 2.0
+  probe_block_dtm_c: 5.0
   # A record base the oligo only partly covers (an N, or a code the oligo does
   # not fully contain) is unknown, not a mismatch, and costs nothing when
   # scoring: charging for it would make a submitter's sequencing quality
@@ -997,24 +993,18 @@ drift:
   # WHY a call was `reduced`, so for a standard probe it turned one probe mismatch (a
   # Ct shift) into "not detected", which is what put the CDC H3 assay at the floor from
   # 2016 and hid the drift that followed. The probe rule in `scoring` now carries that
-  # distinction itself: one mismatch in a standard probe is `reduced` and counts, two
-  # is `fail`; one mismatch in a SHORT MGB or LNA probe is `fail` outright.
+  # distinction itself, record by record: a probe that loses a little Tm is `weak`, the
+  # call is `reduced` and counts; one that loses `probe_block_dtm_c` or more is `fail`.
   #
   # WHY `mgb` WENT TOO. Everything this list was for is a statement about the PROBE,
-  # and the probe rule now makes it per probe. Left here, `mgb` would do two things
-  # nobody chose: an MGB assay whose PRIMERS read `reduced` would be not detected where
-  # the same primers under a standard probe are detected; and a long MGB probe (over
-  # `scoring.short_probe_max_nt`, nine entries, among them the 32 nt
-  # Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013) that the probe rule calls
-  # `reduced` on one mismatch would be counted as not detected anyway, which undoes the
-  # length cut. The mechanism stays; the list is empty.
+  # and the probe rule now makes it per record. Left here, `mgb` would make an MGB
+  # assay whose PRIMERS read `reduced` not detected, where the same primers under a
+  # standard probe are detected. The mechanism stays; the list is empty.
   #
-  # WHAT THIS PUTS AT RISK, and it has NOT been measured: the 2026-10-27 switch is what
-  # caught Influenza_A_virus_M_Spackman_2002, a documented failure. That catch survives
-  # only if those records carry two or more probe mismatches, or a failing primer. The
-  # standing rule is that a candidate which loses a documented catch is a bad
-  # candidate. So this value and the probe rule are a CANDIDATE until the development
-  # set and the influenza cases are replayed; do not release a run under them first.
+  # WHAT THIS PUT AT RISK, AND THE ANSWER: the 2026-10-27 switch is what caught
+  # Influenza_A_virus_M_Spackman_2002, a documented failure. Replayed on the 2026-11-01
+  # calls with the Tm probe rule and this list empty, Spackman is still caught (its
+  # probe mismatch costs 6.7 C). It would not be at `probe_block_dtm_c: 7`.
   reduced_not_detected_for: []
 
   # Drop GenBank patent-division records from the denominator. They are engineered
