@@ -30,6 +30,7 @@ from typing import TYPE_CHECKING, Any
 
 from assaywatch.accession import strip_version
 from assaywatch.interval import wilson_interval
+from assaywatch.settings import Lineage
 
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
@@ -416,7 +417,7 @@ def per_lineage_stats(
     calls: list[dict],
     taxa_cache: dict[int, str],
     taxid_sidecar: dict[str, int],
-    min_records: int = 20,
+    min_records: int = Lineage().min_records_per_lineage,
     resolvers: list[Resolver] | None = None,
     detected_calls: tuple[str, ...] = DETECTED_DEFAULT,
 ) -> list[LineageStats]:

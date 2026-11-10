@@ -100,6 +100,7 @@ ignore = ["ANN401"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]   # a git worktree must test its own checkout, not the editable install in the main one
 norecursedirs = ["archive", "fixtures", ".*"]   # tests/archive/: the archived scripts' tests, kept, not run
 # Three tiers. `pytest -m fast` is the write-test-run loop (pure functions on the tiny
 # fixtures, seconds). Plain `pytest` runs everything except `slow`. `pytest -m slow`

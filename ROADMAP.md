@@ -131,7 +131,8 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   the frozen run, so the generator lands before step 13 and its output is checked at step 14.
 - [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: counted 2026-11-06, of the 42 groups 4 collapse
   to one species (two AAV, two elephant herpesvirus), 20 are really mixed, 18 unclear, and taxonomy resolves none.
-  Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are. (b) Per-assay cuts, decided 2026-11-06: no overrides, one fixed cut this release, and average linkage
+  Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are.
+  (a) is done: merged 2026-11-07 as PR #9, `composition.SPECIES_SYNONYMS` (AAV and the two EEHV renames, ICTV-sourced). (b) Per-assay cuts, decided 2026-11-06: no overrides, one fixed cut this release, and average linkage
   tried once across all assays and recorded in a journal.
   (c) Failures a per-base chart can't show, from the calls `reason` column: `site.py`,
   `site_render.py`. G2R WA_F is checked: of 3,122 records with an 82 bp product, 2,643 are clade I by this project's own
@@ -141,7 +142,8 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### The frozen run (blockers)
 
-- [ ] **12. Freeze.** Merge `next-run-prep` into `next-release`, resolving its `ROADMAP.md` conflict.
+- [ ] **12. Freeze.** Merge `next-run-prep` into `next-release`, resolving its conflicts (tested 2026-11-09: `ROADMAP.md`,
+  `docs/INDEX.md` and `docs/RESUME-HERE.md` all conflict; `page-narrative` merges clean).
   Its one extract test fails until a run exists, so this one merges knowingly red, and step 14 has
   to turn it green. Rerun step 4. Nothing under `assaywatch/`, `config.yaml`, `registry/` or
   `Snakefile` changes from here until step 14.
@@ -284,7 +286,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   lose 30 of the 43 mitochondrial records, whose titles don't say so. At the current levels the
   assemblies add only JEL423, already archived. The low counts are honest; most records are
   `XM_` predicted mRNAs, not ITS.
-- [ ] **Do BCV, CCV, PCV and RCV sit inside the Reid and Neill scope (3433198)?** Reread 2026-11-04:
+- [x] **Do BCV, CCV, PCV and RCV sit inside the Reid and Neill scope (3433198)?** Decided, and folded into step 6a (done 2026-11-06). Reread 2026-11-04:
   the one-species scope matches both papers; SMSV-8, SMSV-12 and mink failed in Reid and stay out.
   Family retrieval stays by maintainer decision: the archives are 14 and 10 MB, and the out-of-scope
   calls are what the eventual test across scope would read.
@@ -302,7 +304,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
 - [ ] **Correct the curator notes the reread contradicted.** Grizzle's and Chua's done 2026-11-10 with step 6b; Lozano and Li 2010 IMV remain. Lozano's "amplified" list is the
   alignment set; Li 2010 IMV's note says the paper doesn't place the crossover, and Table 1 does.
   Also unexplained: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
-- [x] **Reread the remaining papers on scope, in batches.** Done 2026-11-10 as steps 6a and 6b of the release plan. Maintainer decision, 2026-11-04. About 86
+- [x] **Reread the remaining papers on scope, in batches.** Done 2026-11-10 as steps 6a and 6b of the release plan; this line is the origin. Maintainer decision, 2026-11-04. About 86
   papers, starting with `declining` and `low coverage` assays. Budget about 24,000 subagent tokens
   a paper, 2 million in all, stoppable at any batch. Each batch brings claim sentences
   (`citation.claim`) for the maintainer to skim, and quotes checked against the paper.
@@ -329,7 +331,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   says it detects, written up as a report, with the fixes made. 64 entries are done
   (`docs/journal/2026-11-04-scope-reread.md`, 21 broadened); the other live entries have not
   been reread. Two pieces belong to it:
-  - **The nested malaria assay.** Read as the Hellgren 2004 haemosporidian nest; whether
+  - **The nested malaria assay.** Hellgren's nest is done (step 2, 2026-11-06); `Plasmodium_18S_Li_1995` is still unchecked. Read as the Hellgren 2004 haemosporidian nest; whether
     the paper behind `Plasmodium_18S_Li_1995` also describes a nest has not been checked:
     `Haemosporida_cytb_Hellgren_2004_HaemNFI`, `Haemosporida_cytb_Hellgren_2004_HaemF` and
     `Leucocytozoon_cytb_Hellgren_2004`, all three `nested_round: null`, so the site shows
@@ -343,7 +345,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
     assay is meant to detect, what it is scored against, and how that differs between
     rounds of a nest. The Chlamydia 16S query's falling share of its genus (0.4% of 2023's
     deposits, `docs/RESUME-HERE.md`) belongs in this report.
-- [ ] **Assay page narrative.** At the top of each assay page, a description of the assay.
+- [ ] **Assay page narrative.** Tracked as step 10 in the release plan, built on `page-narrative` for review; this line is the origin. At the top of each assay page, a description of the assay.
   Beside the lineage graph, a description of the lineages deposited over time and how the
   deposits may reflect outbreaks or other papers being published. Linking a deposit spike
   to an outbreak or a paper is an inference, so the page has to say what the evidence is
@@ -367,7 +369,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   first case is the Hellgren haemosporidian pairs on gorilla and chimpanzee *Plasmodium*, which are
   left out of the bird scope on purpose. A question about cross-reactivity, reported apart from the
   drift verdict. Down the road, not for this release.
-- [ ] **Per-assay composition cuts?** On the 2026-11-01 run at 0.05, 17 of 199 assays have a largest group of 3+ named
+- [x] **Per-assay composition cuts?** Decided 2026-11-06 under step 11b: no overrides this release, one fixed cut, average linkage tried once and journaled. As asked: On the 2026-11-01 run at 0.05, 17 of 199 assays have a largest group of 3+ named
   species with no species at 80%, and the same-mix line can't see a shift inside it. Messmer gains
   from 0.02; Hellgren and *Leptospira* lose. Any override needs a stated reason in `config.yaml`,
   since tuning an assay until it looks right is the risk. Average linkage is the other thing to try.
@@ -376,7 +378,7 @@ registry coverage; the Greene SLURM profile; nest-level `needs_review` and `repo
   `docs/journal/2026-11-05-review-fixes-rebuilt.md`.
 - [x] **RefSeq copies count as separate deposits.** Fixed 2026-11-06, `NZ_` by accession and the curated
   prefixes by a stored map. It publishes with the frozen run. `docs/journal/2026-11-06-refseq-twins.md`.
-- [ ] **Reconcile species names in the lineage groups.** Title names and taxonomy names don't match
+- [x] **Reconcile species names in the lineage groups.** Done 2026-11-07 as step 11a (PR #9): 4 of 42 groups were renames, the rest are mixed or unclear and stay. As asked: Title names and taxonomy names don't match
   for one virus (*Human bocavirus* and *Bocaparvovirus primate1*), so a group can show a percent
   though it holds one species. Pages word this as several names until then. On the 2026-11-01 run, 42 of 201 assays have a
   largest group with a percent; how many are synonyms hasn't been counted.
@@ -1604,7 +1606,7 @@ p = 0.019 -> 0.071). **S4/M1 shipped** 2026-10-27.
 
 The design was interviewed and settled on 2026-10-29; the decisions below are taken
 and are not reopened by the steps. Vocabulary is `GLOSSARY.md`. Every step is its
-own branch and PR into `main`, merged when pytest, the validator, ruff and
+own branch and PR into `main` (into `next-release` while the v0.3.0 plan above is open), merged when pytest, the validator, ruff and
 `check_citations` pass; the weekly run keeps using `main`. The principles this
 answers are in `~/.claude/CLAUDE.md` (Engineering principles 2 to 5, Reproducibility).
 
@@ -1712,6 +1714,24 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
         format-specific payloads, which is a redesign of the report, not a cleanup. Left
         as two renderers over one model, which is what they are. The package is NOT
         reorganised into stage subpackages; the CLI gives one entry point per stage.
+- [ ] **6. Entropy found by the 2026-11-09 audit** (`docs/journal/2026-11-09-planning-audit-and-defaults.md`).
+  - [x] 6a. Defaults that mirror a config key under another name read the model, and a second pin test
+        holds all 28 of them; five had drifted (`min_decline` 0.0 among them). One `metadata.read_column`
+        replaces four hand-rolled archive scans. Done 2026-11-09, every gate green.
+  - [ ] 6b. **The per-lineage concept lives in three modules.** `lineage.per_lineage_stats` and
+        `lineage_report` each turn calls into a per-assay, per-lineage table, and `drift._lineage_check`
+        decides from it. **Interface, for approval:** `lineage.table(calls, taxa_cache, taxid_sidecar,
+        *, min_records, resolvers, detected_calls) -> list[LineageStats]` as the one builder, with
+        `lineage_report` rendering from it and `drift` reading from it. Byte-for-byte on `report-golden`
+        and `lineage.md` before and after. Not before step 12 of the release plan.
+  - [ ] 6c. **`report.py` is 3,000 lines** and seven siblings import it lazily to stay out of its hash.
+        Propose the seam before cutting: the readers (`read_calls`, `read_dates`, `load_calls_as_reported`,
+        `assessment_inputs`) into `calls.py`, which already owns the table's shape, leaving the model and
+        the two renderers. Same guard as 6b. Not before step 12.
+  - [ ] 6d. **Three `pct` helpers** (`drift.pct`, `sitedrift._pct`, `site_render._pct`) with two dashes and
+        two rounding rules. Decide the one spelling; `site-drift.md` and the site change by a character.
+  - [ ] 6e. **`gapped.py`** has no caller in the package, the Snakefile or the CLI; `scripts/indel_check.py`
+        and the archive use it. Either it is a library and stays, or it moves beside its script. Decide.
 
 ## Hygiene
 

@@ -71,6 +71,7 @@ from assaywatch import atomic
 from assaywatch.drift import DETECTED_CALLS, EVALUABLE, wilson_interval
 from assaywatch.iupac import COMPLEMENT, IUPAC, code_for
 from assaywatch.metadata import read_titles
+from assaywatch.settings import SiteDrift
 
 # Statuses whose assays are worth a site breakdown. "watch" is included because
 # it is the category an assay passes through on its way to declining, and the
@@ -551,7 +552,7 @@ def analyse_assay(
     *,
     min_records: int = 20,
     top_footprints: int = 8,
-    cover: float = 1.0,
+    cover: float = SiteDrift().replacement_covers,
     detected_calls: tuple[str, ...] = DETECTED_CALLS,
     three_prime_zone: int = 5,
     lead_min_share: float = 0.10,

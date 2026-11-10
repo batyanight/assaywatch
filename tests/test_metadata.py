@@ -205,3 +205,31 @@ def test_the_sidecar_answers_for_nuccore_and_the_archives_fill_the_gaps(tmp_path
         "GCA_000000008": 2012,
         "GCA_000000009": 2020,
     }
+
+
+def test_read_column_keys_bare_accessions_and_skips_archives_without_the_column(tmp_path):
+    """One reader for every `*.meta.tsv.gz` scan. Four modules each walked the archives
+    with their own header-index loop (lineage, lineage_report, composition_build, report);
+    this is the one they share. First value wins, as `read_titles` has always done."""
+    from assaywatch.metadata import read_column
+
+    root = _archive(
+        tmp_path,
+        ["uid", "accession", "created", "title", "taxid"],
+        [
+            ["1", "AB1.1", "2021-03-04", "first title", "10245"],
+            ["2", "AB2.2", "2019-01-01", "second title", ""],
+            ["3", "AB1.1", "2021-03-04", "a later duplicate", "10245"],
+        ],
+    )
+    old = root / "10245" / "old"
+    old.mkdir()
+    with gzip.open(old / "2020-01-01.meta.tsv.gz", "wt") as fh:
+        fh.write("uid\taccession\tcreated\n9\tAB9.1\t2018-05-05\n")
+
+    assert read_column(root, "title") == {"AB1": "first title", "AB2": "second title"}
+    assert read_column(root, "created") == {"AB1": "2021-03-04", "AB2": "2019-01-01", "AB9": "2018-05-05"}
+    # the pre-taxid archive is skipped, and an empty cell is not a value
+    assert read_column(root, "taxid") == {"AB1": "10245"}
+    assert read_column(root, "title", wanted={"AB2"}) == {"AB2": "second title"}
+    assert read_column(root, "title", files=[old / "2020-01-01.meta.tsv.gz"]) == {}

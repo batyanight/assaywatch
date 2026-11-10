@@ -27,7 +27,6 @@ misled by the report rather than informed by it.
 from __future__ import annotations
 
 import argparse
-import gzip
 import html
 import json
 import sys
@@ -2639,20 +2638,14 @@ def assessment_inputs(
     taxa_cache_path = lineage_cfg.get("taxa_cache")
     if taxa_cache_path:
         from assaywatch.lineage import load_taxa_cache, read_taxid_backfill
+        from assaywatch.metadata import read_column
 
         taxa_cache_data = load_taxa_cache(taxa_cache_path)
         # Build accession -> taxid from the backfill sidecar + archive metadata.
         taxid_map = read_taxid_backfill(lineage_cfg, retrieved)
-        for meta_path in sorted(retrieved.rglob("*.meta.tsv.gz")):
-            with gzip.open(meta_path, "rt") as f:
-                hdr = (f.readline() or "").rstrip("\n").split("\t")
-                if "taxid" not in hdr or "accession" not in hdr:
-                    continue
-                ai, ti = hdr.index("accession"), hdr.index("taxid")
-                for line in f:
-                    parts = line.rstrip("\n").split("\t")
-                    if len(parts) > max(ai, ti) and parts[ti].isdigit():
-                        taxid_map[strip_version(parts[ai])] = int(parts[ti])
+        taxid_map.update(
+            (acc, int(tx)) for acc, tx in read_column(retrieved, "taxid").items() if tx.isdigit()
+        )
         if not taxid_map:
             taxid_map = None
             taxa_cache_data = None
