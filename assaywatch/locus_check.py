@@ -102,6 +102,9 @@ class LocusResult:
     #: enough to have held the primer sites at all. See `locus.judge`.
     flank_left: int = 0
     flank_right: int = 0
+    #: Which strand of the record the winning reference matched: "+" as written, "-"
+    #: reverse-complemented. "" when nothing matched.
+    strand: str = ""
 
 
 ABSENT = LocusResult(present=False, identity=0.0, covered=0.0)
@@ -308,18 +311,18 @@ def locus_check(
     # record is aligned whole; a long one only where shared k-mers point (`_windows`).
     seeded = len(record) > EXHAUSTIVE_MAX_BP
     codes = _kmer_codes(rec) if seeded else None
-    best: tuple[int, str, int, int] | None = None
+    best: tuple[int, str, int, int, str] | None = None
     for ref in references:
-        for strand in (ref, _revcomp(ref)):
+        for sign, strand in (("+", ref), ("-", _revcomp(ref))):
             spans = _windows(strand, codes, len(record)) if seeded else [(0, len(record))]
             for lo, hi in spans:
                 score, i_end, j_end, _ = _sweep(strand, rec[lo:hi], keep=False)
                 if score > 0 and (best is None or score > best[0]):
-                    best = (score, strand, i_end, lo + j_end)
+                    best = (score, strand, i_end, lo + j_end, sign)
     if best is None:
         return ABSENT
 
-    _, ref, i_end, j_end = best
+    _, ref, i_end, j_end, sign = best
     matches, columns, i_start, j_start = _traceback(ref, record, i_end, j_end)
     identity = matches / columns if columns else 0.0
     covered = (i_end - i_start) / len(ref)
@@ -332,4 +335,5 @@ def locus_check(
         # the alignment need that many record bases before it, and likewise after.
         flank_left=j_start - i_start,
         flank_right=(len(record) - j_end) - (len(ref) - i_end),
+        strand=sign,
     )

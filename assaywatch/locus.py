@@ -47,11 +47,12 @@ import json
 import sys
 from collections import defaultdict
 from collections.abc import Iterator, Mapping, Sequence
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from assaywatch.fasta import read_fasta
-from assaywatch.locus_check import LocusResult, locus_check, rule_from_config
+from assaywatch.locus_check import ABSENT, LocusResult, locus_check, rule_from_config
 from assaywatch.registry import archive_dir
 from assaywatch.registry import load as load_registry
 from assaywatch.score import load_config
@@ -65,33 +66,71 @@ def needs_check(row: Mapping[str, Any]) -> bool:
     return row.get("call") == "no_amplicon" and row.get("exclusion") != DIVERGED
 
 
+@dataclass(frozen=True)
+class Reference:
+    """One reference amplicon and where the amplicon sits inside it.
+
+    `left` and `right` are how many of the reference's bases lie OUTSIDE the amplicon
+    at each end, as the reference is written. A wide reference (the amplicon plus its
+    flanks) has them positive, 100 and 100 when the source record had room. An
+    interior (the amplicon with its primer sites trimmed off) has them NEGATIVE: the
+    amplicon reaches 20 bases beyond each end of the reference.
+    """
+
+    seq: str
+    left: int
+    right: int
+
+
 def judge(
     record: str,
-    references: Sequence[str],
+    references: Sequence[Reference],
     min_identity: float,
     min_covered: float,
-    flank_bp: int,
 ) -> tuple[LocusResult, bool]:
     """The locus check, plus whether the record has room for both primer sites.
 
-    `flank_bp` is how far beyond each end of a reference the primer sites reach: the
-    bases that were trimmed off the amplicon to make the reference. The record must
-    run at least that far past where the WHOLE reference would sit, on both sides.
+    Each reference is tried on its own and the best decides: a present one over an
+    absent one, then the larger identity x covered. Its own pads then say where the
+    amplicon would sit, and the record HAS ROOM when it reaches across that whole
+    stretch. `flank_left` and `flank_right` are in the record's order, so when the
+    match is on the reverse strand the reference's right pad is on the record's left.
     """
-    result = locus_check(record, references, min_identity, min_covered)
-    has_room = result.flank_left >= flank_bp and result.flank_right >= flank_bp
+    best: tuple[LocusResult, Reference] | None = None
+    for ref in references:
+        result = locus_check(record, [ref.seq], min_identity, min_covered)
+        key = (result.present, result.identity * result.covered)
+        if best is None or key > (best[0].present, best[0].identity * best[0].covered):
+            best = (result, ref)
+    if best is None:
+        return ABSENT, False
+    result, ref = best
+    pad_left, pad_right = (ref.left, ref.right) if result.strand != "-" else (ref.right, ref.left)
+    # The whole reference would start `flank_left` bases into the record, and the
+    # amplicon `pad_left` bases after that: so the record must not start later.
+    has_room = result.flank_left >= -pad_left and result.flank_right >= -pad_right
     return result, has_room
 
 
-def read_references(path: Path, min_bp: int = 1) -> dict[str, list[str]]:
-    """assay id -> reference amplicons (interiors), from `docs/locus-references.json`.
+def read_references(path: Path, min_bp: int = 1, trim_bp: int = 20) -> dict[str, list[Reference]]:
+    """assay id -> its reference amplicons, from either kind of reference file.
+
+    The wide kind (`scripts/build_locus_references.py`) lists `references`, each with
+    its own pads. The older kind (`docs/locus-references.json`) lists `interiors`,
+    amplicons with `trim_bp` bases trimmed off each end, so their pads are minus that.
 
     A reference shorter than `min_bp` is dropped: a 17-base interior matches by chance
     in almost any record, so it defines nothing. An assay left with none is in the
     result with an empty list, which the stage reports as "reference too short".
     """
-    data = json.loads(Path(path).read_text())
-    return {aid: [s for s in entry.get("interiors", []) if len(s) >= min_bp] for aid, entry in data.items()}
+    out: dict[str, list[Reference]] = {}
+    for aid, entry in json.loads(Path(path).read_text()).items():
+        if "references" in entry:
+            refs = [Reference(r["seq"], int(r["left"]), int(r["right"])) for r in entry["references"]]
+        else:
+            refs = [Reference(s, -trim_bp, -trim_bp) for s in entry.get("interiors", [])]
+        out[aid] = [r for r in refs if len(r.seq) >= min_bp]
+    return out
 
 
 def unjudged(calls: Path, only: set[str] | None) -> dict[str, set[str]]:
@@ -143,7 +182,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("calls", type=Path, help="calls table (TSV or TSV.GZ)")
     ap.add_argument("--retrieved", type=Path, default=Path("data/retrieved"), help="the archives")
     ap.add_argument("--registry", type=Path, default=Path("registry"))
-    ap.add_argument("--references", type=Path, default=Path("docs/locus-references.json"))
+    ap.add_argument("--references", type=Path, default=Path("docs/locus-wide-references.json"))
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--out", type=Path, required=True, help="the side file to write (locus.tsv.gz)")
     ap.add_argument("--only", action="append", metavar="ASSAY", help="limit to this assay id; repeatable")
@@ -152,9 +191,9 @@ def main(argv: list[str] | None = None) -> int:
 
     cfg = load_config(args.config)
     min_identity, min_covered = rule_from_config(cfg)
-    flank_bp = int(cfg["scoring"]["locus_identity_trim_bp"])
     assays = load_registry(args.registry)
-    references = read_references(args.references, int(cfg["coverage"]["locus_min_reference_bp"]))
+    flank_bp = int(cfg["scoring"]["locus_identity_trim_bp"])
+    references = read_references(args.references, int(cfg["coverage"]["locus_min_reference_bp"]), flank_bp)
     todo = unjudged(args.calls, set(args.only) if args.only else None)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
@@ -175,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
             for rid, seq in _records(archive_dir(assays[assay_id], args.retrieved), todo[assay_id]):
                 if args.limit is not None and done >= args.limit:
                     break
-                result, has_room = judge(seq, refs, min_identity, min_covered, flank_bp)
+                result, has_room = judge(seq, refs, min_identity, min_covered)
                 w.writerow(
                     [
                         assay_id,

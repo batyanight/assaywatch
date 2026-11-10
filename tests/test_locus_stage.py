@@ -17,7 +17,7 @@ from types import SimpleNamespace
 import pytest
 
 from assaywatch import coverage, locus
-from assaywatch.locus import judge, needs_check, read_locus
+from assaywatch.locus import Reference, judge, needs_check, read_locus
 from assaywatch.locus_check import locus_check
 
 pytestmark = pytest.mark.fast
@@ -32,6 +32,7 @@ def dna(n: int, seed: int) -> str:
 
 INTERIOR = dna(160, seed=1)  # a reference amplicon with its primer sites trimmed off
 GENOME_L, GENOME_R = dna(400, seed=2), dna(400, seed=3)
+REF = Reference(INTERIOR, -FLANK, -FLANK)  # an interior: the amplicon reaches FLANK beyond each end
 
 
 def substitute(seq: str, share: float, seed: int) -> str:
@@ -79,7 +80,7 @@ def test_the_flanks_are_reported_in_record_order_on_the_other_strand_too():
 
 def test_a_locus_with_room_for_both_primer_sites_is_a_real_failure_to_bind():
     """Present, and the record runs past it on both sides: the primers had their chance."""
-    result, has_room = judge(GENOME_L + INTERIOR + GENOME_R, [INTERIOR], 0.7, 0.8, FLANK)
+    result, has_room = judge(GENOME_L + INTERIOR + GENOME_R, [REF], 0.7, 0.8)
     assert result.present and has_room
 
 
@@ -88,7 +89,7 @@ def test_a_locus_at_the_very_end_of_a_record_never_tested_the_primers():
     stops before a primer site. Calling that a failure would blame the assay for a
     deposit that was cut short. Present, and no room: it does not count.
     """
-    result, has_room = judge(GENOME_L + INTERIOR + "ACGTACGT", [INTERIOR], 0.7, 0.8, FLANK)
+    result, has_room = judge(GENOME_L + INTERIOR + "ACGTACGT", [REF], 0.7, 0.8)
     assert result.present
     assert not has_room
 
@@ -98,9 +99,9 @@ def test_the_room_needed_grows_with_what_the_alignment_left_uncovered():
     is 10 bases further out than the alignment's edge suggests.
     """
     clipped = INTERIOR[:-10]  # the record holds all but the last 10 reference bases
-    _, has_room = judge(GENOME_L + clipped + "T" * 25, [INTERIOR], 0.7, 0.8, FLANK)
+    _, has_room = judge(GENOME_L + clipped + "T" * 25, [REF], 0.7, 0.8)
     assert not has_room  # 25 bases follow, 10 of them are where the reference would be: 15 < 20
-    _, has_room = judge(GENOME_L + clipped + "T" * 35, [INTERIOR], 0.7, 0.8, FLANK)
+    _, has_room = judge(GENOME_L + clipped + "T" * 35, [REF], 0.7, 0.8)
     assert has_room
 
 
@@ -196,7 +197,7 @@ def test_a_reference_too_short_to_mean_anything_is_not_used(tmp_path):
     path.write_text(
         json.dumps({"SHORT": {"interiors": ["ACGTACGTACGTACGTA"]}, "A": {"interiors": [INTERIOR, "ACGT"]}})
     )
-    assert locus.read_references(path, min_bp=100) == {"SHORT": [], "A": [INTERIOR]}
+    assert locus.read_references(path, min_bp=100) == {"SHORT": [], "A": [REF]}
 
 
 def test_the_stage_can_be_limited_to_named_assays(tmp_path, monkeypatch):
