@@ -1,15 +1,14 @@
-# Resume point, 2026-11-10 (coverage map and locus stage on branch `coverage-map`; probes held)
+# Resume point, 2026-11-10 (coverage map and locus stage on branch `coverage-map`; probe rule on its own branch)
 
-**The coverage map and the locus stage are built, on branch `coverage-map`, and run on eight
-assays only.** `assaywatch coverage` writes `coverage.tsv` and `coverage.md` from a calls table;
+**The coverage map and the locus stage are built, on branch `coverage-map`, and run on ten assays
+only.** `assaywatch coverage` writes `coverage.tsv` and `coverage.md` from a calls table;
 `assaywatch locus` writes the locus file that fills in its blanks. Read
-`docs/journal/2026-11-10-coverage-map.md` before changing either. Three things wait on the
-maintainer and nothing should be built on them until she answers: the interface changes made while
-building, what an `UNVERIFIED` record is worth in a cell, whether `covered` is measured over the
-amplicon (measured, and it recovers every lost positive), and the interface of the Tm-loss probe
-rule (replayed, not built; probe scoring is otherwise held on branch `probe-rule-by-chemistry`,
-unmerged). The whole-table locus run is the next piece of work and wants a cluster. What is open
-is on the roadmap.
+`docs/journal/2026-11-10-coverage-map.md` before changing either; its last sections record seven
+maintainer decisions taken that day and what each one built. The Tm-loss probe rule is built on
+branch `probe-rule-by-chemistry`, unmerged by decision, and says in `config.yaml` what it owes
+before merging. The whole-table locus run is the next piece of work and wants a cluster. One
+decision is newly open and reaches drift: how the 5' clamp of a consensus primer is scored. What
+is open is on the roadmap.
 
 # Resume point, 2026-11-05 (review fixes on `main` once the PR merges)
 

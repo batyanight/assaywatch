@@ -1245,8 +1245,26 @@ coverage:
   # covered at 0.99 identity). The error is a blank and not a false failure. The fix is a
   # reference per length class, or gap scores that charge for opening a gap more than for
   # extending it; both are on the roadmap.
+  #
+  # WHAT `locus_min_covered` IS A SHARE OF (maintainer decision, 2026-11-10): the
+  # AMPLICON part of the winning reference, not the whole reference. The references
+  # are wide (amplicon plus up to 100 bp of flank each side), and asking for 0.80 of
+  # flanks and all refused records that hold the amplicon and both primer sites:
+  # partial 16S deposits that begin 10-28 bases before the forward primer, and a
+  # diverged ranavirus whose neighbouring sequence does not align. Measured on 13
+  # assays (8 viral, 3 fungal, 2 bacterial), records the screen detected or called
+  # reduced shown to hold the locus: 1,539 of 1,684 over the whole reference, 1,684 of
+  # 1,684 over the amplicon. Unrelated archives: 0 of 1,445 either way, and the most
+  # amplicon any of them covers at 0.60 identity is 0.44. The length-variable locus
+  # named above goes from 109 of 120 detected records to 120 of 120.
   locus_min_identity: 0.60
   locus_min_covered: 0.80
+  # The fewest reference bases, flanks included, an alignment must span. The guard for
+  # a short amplicon: all of a 57 bp amplicon is a stretch chance can supply, so the
+  # alignment has to run on into a flank. 100 because that is the shortest length the
+  # chance floor was measured at (see locus_min_reference_bp). It changed no row of the
+  # measurement above: a judgement about what was not sampled, not a fitted number.
+  locus_min_aligned_bp: 100
   # A reference amplicon shorter than this is not used, and an assay left with none is
   # not checked at all. It was written for amplicon INTERIORS (primer sites trimmed,
   # docs/locus-references.json), where a short amplicon leaves almost nothing: 17 bp

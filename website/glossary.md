@@ -8,7 +8,7 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (305 links).
+    definition links to it (317 links).
     `assessable`, `coverage`, `drift`, `exclusion`, `exclusivity`, `flag`, `panel`, `site`, `status`, `target`, `together` are defined by more than one entry and so
     deliberately not linked.
 
@@ -215,11 +215,11 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **locus check**{: #term-locus-check } — the test, independent of the primers, of whether a record contains the [assay](#term-assay)'s target region: a local, gapped alignment of a [reference amplicon](#term-reference-amplicon) against the record, both strands (`locus_check.locus_check`). The locus is present when the aligned stretch reaches `coverage.locus_min_identity` and spans `coverage.locus_min_covered` of the reference. Decides between `predicted fail` and "does not count" when no [primer](#term-primer) site is found. Not `locus_identity`, which judges an [amplicon](#term-amplicon) the primers DID find.
 
-**locus stage**{: #term-locus-stage } — `assaywatch locus` (`locus.py`): runs the [locus check](#term-locus-check) on every **[unjudged record](#term-unjudged-record)** and writes the **[locus file](#term-locus-file)**. Separate from the [screen](#term-screen) on purpose, so adding it rescreened nothing.
+**locus stage**{: #term-locus-stage } — `assaywatch locus` (`locus.py`): runs the [locus check](#term-locus-check) on every **[unjudged record](#term-unjudged-record)**, and on every `fail` [call](#term-call) at the [amplicon](#term-amplicon) the [screen](#term-screen) placed (a **[fail check](#term-fail-check)**), and writes the **[locus file](#term-locus-file)**. Separate from the screen on purpose, so adding it rescreened nothing.
 
 **unjudged record**{: #term-unjudged-record } — a `no_amplicon` the [screen](#term-screen) did not label `diverged`: no [primer](#term-primer) site was found and the screen cannot say whether the gene is there. The only records the [locus stage](#term-locus-stage) checks.
 
-**locus file**{: #term-locus-file } — `locus.tsv.gz`, the [locus stage](#term-locus-stage)'s output: one row per ([assay](#term-assay), [unjudged record](#term-unjudged-record)) with `present`, `has_room`, `identity`, `covered`. `assaywatch coverage --locus` joins it.
+**locus file**{: #term-locus-file } — `locus.tsv.gz`, the [locus stage](#term-locus-stage)'s output: one row per ([assay](#term-assay), record checked) with `present`, `has_room`, `identity`, `covered`, `amplicon_covered` and `checked` (`unjudged` or `fail`). `assaywatch coverage --locus` joins the `unjudged` rows and reports the `fail` ones.
 
 **has room**{: #term-has-room } — a record reaches across the whole [amplicon](#term-amplicon), [primer](#term-primer) sites included, as placed by the winning reference (`locus.judge`). Coverage counts a checked record as locus-present only when it is `present` AND has room; present without room is a deposit cut short, which never tested the [assay](#term-assay). With **wide references** the two nearly always agree; with interiors a reference could be whole in a record that stopped before a primer site.
 
@@ -227,7 +227,13 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **identity (locus check)**{: #term-identity } — of the aligned columns, the share that match. High over a sliver for unrelated DNA, which is why it is never read without **[covered](#term-covered)**.
 
-**covered (locus check)**{: #term-covered } — the share of the [reference amplicon](#term-reference-amplicon) the alignment spans. A record that ends halfway through the locus has [identity](#term-identity) 1.0 at covered 0.5.
+**covered (locus check)**{: #term-covered } — the share of the whole reference, flanks included, that the alignment spans. Reported; since 2026-11-10 it is **[amplicon covered](#term-amplicon-covered)** that is judged.
+
+**amplicon covered**{: #term-amplicon-covered } — the share of the [AMPLICON](#term-amplicon) part of the winning reference that the alignment spans (`locus.amplicon_covered`). The locus is present at `coverage.locus_min_covered` of it, with [identity](#term-identity) at `coverage.locus_min_identity` and at least `coverage.locus_min_aligned_bp` reference bases aligned. A [wide reference](#term-wide-reference)'s flanks are there to be aligned, not required: a deposit that holds the amplicon and stops twenty bases beyond it has the locus.
+
+**fail check**{: #term-fail-check } — the [locus check](#term-locus-check) run on a `fail` [call](#term-call), at the stretch the [screen](#term-screen) called an [amplicon](#term-amplicon). A `fail` that is not the locus is two primers landing by chance in other sequence, or a [product](#term-product) whose length no reference covers. Reported per [assay](#term-assay) in `coverage.md`; it changes no call and no cell.
+
+**UNVERIFIED row**{: #term-unverified-row } — the [coverage cell](#term-coverage-cell) holding a species' records whose GenBank title begins `UNVERIFIED` (GenBank could not confirm the sequence or its annotation, the organism name included). Counted beside the species row, never in it, and left out of a **[recommendation](#term-recommendation)** (`coverage.read_unverified`).
 
 **locus present**{: #term-locus-present } — a record shown to hold the [assay](#term-assay)'s target region; only these enter a [cell count](#term-cell-count). Until the [locus check](#term-locus-check) exists the only evidence is the [screen](#term-screen)'s own: both primers found a site (a `detect`, `reduced` or `fail` [call](#term-call)) or the screen labelled the record `diverged`. So a distant species in which neither [primer](#term-primer) lands is invisible to the map.
 

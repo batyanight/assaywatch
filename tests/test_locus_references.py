@@ -16,7 +16,7 @@ from pathlib import Path
 
 import pytest
 
-from assaywatch.locus import Reference, judge, read_references
+from assaywatch.locus import Reference, amplicon_covered, judge, read_references
 from assaywatch.locus_check import locus_check
 
 pytestmark = pytest.mark.fast
@@ -166,3 +166,79 @@ def test_the_best_reference_decides_and_its_own_pads_are_the_ones_used():
     record = dna(400, seed=13) + L + AMPLICON + R + dna(400, seed=14)
     result, has_room = judge(record, [other, WIDE], 0.6, 0.8)
     assert result.present and has_room
+
+
+# --- covered is measured over the amplicon (maintainer decision, 2026-11-10) -----------------
+#
+# A wide reference's flanks are there to give a short amplicon enough sequence to align
+# and to measure identity on. They are not the locus. Asking for 80% of the WHOLE
+# reference refused a partial deposit that held the amplicon and both primer sites and
+# began twenty bases before the forward primer. So `judge` asks for 80% of the AMPLICON
+# part, and for a minimum number of aligned bases overall so that a short amplicon
+# cannot be matched on its own sixty bases.
+
+ALIGNED = 100  # coverage.locus_min_aligned_bp
+
+
+def test_a_deposit_holding_the_amplicon_and_little_flank_has_the_locus():
+    """30 of each 100-base flank: 120 of the reference's 260 bases, 0.46 of the whole.
+    All of the amplicon."""
+    record = L[70:] + AMPLICON + R[:30]
+    assert not locus_check(record, [WIDE.seq], 0.6, 0.8).present  # the whole-reference rule says no
+    result, has_room = judge(record, [WIDE], 0.6, 0.8, ALIGNED)
+    assert result.present and has_room
+    assert amplicon_covered(result, WIDE) == 1.0
+    assert 0.45 <= result.covered <= 0.47  # `covered` still reports the whole reference
+
+
+def test_a_flank_alone_is_not_the_locus():
+    """All of the left flank and half the amplicon: 130 aligned bases, half the amplicon."""
+    result, _ = judge(dna(300, seed=21) + L + AMPLICON[:30], [WIDE], 0.6, 0.8, ALIGNED)
+    assert not result.present
+    assert 0.45 <= amplicon_covered(result, WIDE) <= 0.55
+
+
+def test_a_short_amplicon_alone_is_too_little_to_call():
+    """The amplicon with unrelated sequence either side: every amplicon base aligned,
+    and sixty-odd bases is what chance can supply. The floor on aligned bases says no."""
+    record = dna(300, seed=22) + AMPLICON + dna(300, seed=23)
+    result, _ = judge(record, [WIDE], 0.6, 0.8, ALIGNED)
+    assert amplicon_covered(result, WIDE) >= 0.9
+    assert result.ref_end - result.ref_start < ALIGNED
+    assert not result.present
+    assert judge(record, [WIDE], 0.6, 0.8, 0)[0].present  # without the floor it would pass
+
+
+def test_the_result_says_where_on_the_reference_the_alignment_sits():
+    record = dna(200, seed=24) + L[70:] + AMPLICON + R[:30] + dna(200, seed=25)
+    got = locus_check(record, [WIDE.seq], 0.6, 0.8)
+    assert 66 <= got.ref_start <= 72 and 188 <= got.ref_end <= 194
+    # on the other strand the positions are on the reference as it matched: reversed
+    back = locus_check(revcomp(record), [WIDE.seq], 0.6, 0.8)
+    assert (back.ref_start, back.ref_end) == (260 - got.ref_end, 260 - got.ref_start)
+
+
+def test_the_amplicon_part_is_found_on_the_other_strand_with_uneven_pads():
+    uneven = Reference(L + AMPLICON + R[:20], left=100, right=20)
+    record = L[60:] + AMPLICON + R[:20]
+    for rec in (record, revcomp(record)):
+        result, has_room = judge(rec, [uneven], 0.6, 0.8, ALIGNED)
+        assert result.present and has_room
+        assert amplicon_covered(result, uneven) == 1.0
+
+
+def test_an_interior_is_all_amplicon_so_nothing_changes_for_it():
+    """An interior's pads are negative: the amplicon reaches beyond it. Its amplicon
+    part is the whole of it, and `amplicon_covered` is `covered`."""
+    interior = Reference(dna(160, seed=26), -20, -20)
+    record = dna(100, seed=27) + interior.seq[:120]
+    result, _ = judge(record, [interior], 0.6, 0.8, ALIGNED)
+    assert not result.present
+    assert amplicon_covered(result, interior) == pytest.approx(result.covered) == pytest.approx(0.75)
+
+
+def test_the_shipped_config_carries_the_floor():
+    from assaywatch.locus import min_aligned_from_config
+    from assaywatch.score import load_config
+
+    assert min_aligned_from_config(load_config()) == ALIGNED

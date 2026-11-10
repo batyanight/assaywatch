@@ -111,6 +111,12 @@ class LocusResult:
     strand: str = ""
     #: Which of the reference amplicons won, as an index into the list that was given.
     reference: int = -1
+    #: The stretch of the winning reference the alignment spans, as positions on the
+    #: reference IN THE ORIENTATION THAT MATCHED (reverse-complemented when `strand`
+    #: is "-"). `covered` is its length over the reference's; `locus.judge` uses the
+    #: positions to ask how much of the AMPLICON part was reached.
+    ref_start: int = 0
+    ref_end: int = 0
 
 
 ABSENT = LocusResult(present=False, identity=0.0, covered=0.0)
@@ -357,4 +363,6 @@ def locus_check(
         flank_right=(len(record) - j_end) - (len(ref) - i_end),
         strand=sign,
         reference=index,
+        ref_start=i_start,
+        ref_end=i_end,
     )

@@ -421,9 +421,12 @@ class Coverage(Block):
     #: the validator here says so at startup instead of at the first cell.
     detect_min_share: float = Field(default=0.95, gt=0, le=1)
     fail_max_share: float = Field(default=0.05, ge=0, lt=1)
-    #: The locus check's two thresholds (`locus_check.locus_check`), both inclusive.
+    #: The locus stage's thresholds (`locus.judge`), all inclusive. `locus_min_covered`
+    #: is a share of the AMPLICON part of the winning reference.
     locus_min_identity: float = Field(default=0.60, ge=0, le=1)
     locus_min_covered: float = Field(default=0.80, ge=0, le=1)
+    #: The fewest reference bases, flanks included, an alignment must span to count.
+    locus_min_aligned_bp: int = Field(default=100, ge=0)
     #: A reference amplicon shorter than this is not used by the locus stage.
     locus_min_reference_bp: int = Field(default=100, ge=1)
 

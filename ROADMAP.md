@@ -95,9 +95,11 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
 per (assay, species). The decisions, what was built and what the first run showed are in
 `docs/journal/2026-11-10-coverage-map.md`; the vocabulary is in `GLOSSARY.md`, "Coverage".
 
-- [ ] **The maintainer accepts or reverses four interface changes** made while building:
-      `scope_of` as `(assay, species) -> bool`; the `rule` argument; the `reduced` field on
-      `CoverageCell`; `degeneracy_of` on `recommend`. Listed in the journal.
+- [x] **The interface changes made while building are accepted** (maintainer, 2026-11-10):
+      `scope_of` as `(assay, species) -> bool`; the `rule` argument; `reduced` on
+      `CoverageCell`; `degeneracy_of` on `recommend`; the four extra `LocusResult` fields
+      (`flank_left`, `flank_right`, `strand`, `reference`); the has-room rule; and
+      `locus_min_identity` at 0.60.
 - [x] **The locus check, as a function** (improvement 3 of the 2026-11-10 review).
       `locus_check.locus_check(record, reference_amplicons, min_identity, min_covered)`: a
       local, gapped alignment on both strands, tests first (`tests/test_locus_check.py`).
@@ -121,16 +123,15 @@ per (assay, species). The decisions, what was built and what the first run showe
       placement of each oligo costs 7-9 edits for the forward primer, 6-8 for the reverse
       and 6-7 for the probe: there is no primer site to argue about, in a locus about 75%
       identical to the references. 16 of the 614 counted records are `UNVERIFIED`.
-- [ ] **DECISION for the maintainer: what an `UNVERIFIED` record is worth in a cell.**
-      The second finding does NOT hold as a statement about a species. With the locus file
-      `Ranavirus_micropterus1_MCP_Li_2025` on *Ranavirus micropterus1* goes from
-      `predicted detect` 28/28 to `partial` 28/83, and Grizzle 2003 from 12/33 to 12/89.
-      All 55 added records are GenBank `UNVERIFIED:` genomes titled Santee-Cooper
-      ranavirus whose MCP locus is 75% identical to the LMBV references (forward primer 7
-      mismatches, reverse 10-11). The primers do fail on them; whether they are that
-      species is what GenBank itself declines to vouch for. Choices: leave them out of
-      coverage, count them in a row of their own, or count them as now. Nothing is changed
-      until this is decided.
+- [x] **`UNVERIFIED` records are counted in a row of their own** (maintainer decision,
+      2026-11-10; built). A record whose GenBank title begins `UNVERIFIED` (also
+      `UNVERIFIED_ORG:`, `UNVERIFIED_ASMBLY:`) goes to a second cell beside its species,
+      flagged `unverified`, in coverage only. What prompted it: with the locus file,
+      `Ranavirus_micropterus1_MCP_Li_2025` on *Ranavirus micropterus1* read 28/83 because of
+      55 `UNVERIFIED` genomes titled Santee-Cooper ranavirus whose MCP is 75% identical to
+      the LMBV references. Now the species row is unchanged and the row beside it reads
+      `predicted fail` 1/56. On the 2026-11-01 calls 11,596 records are in 1,804 such rows.
+      A recommendation is made from the species row only.
 - [x] **Reference amplicons are cut wide** (2026-11-10). `docs/locus-wide-references.json`
       holds 953 references for 207 assays as of 2026-11-10: the amplicon plus up to 100 bp of flank each
       side, one per product length and then per species, up to 8 an assay, none under 201
@@ -140,21 +141,16 @@ per (assay, species). The decisions, what was built and what the first run showe
       with interiors; VIR Pallister 140/150 (was 92/150); Johnson 142/150, Grizzle 11/11,
       Avipox Farias 134/150, SIV HahnF1 150/150, HahnF2 149/150. Negative control 0 of 800,
       and the longest chance match fell from 0.38 of the reference to 0.20.
-- [ ] **DECISION for the maintainer: measure `covered` over the amplicon, not the whole
-      wide reference.** Measured 2026-11-10, nothing changed. Today `covered` includes the
-      flanks, so a record holding the amplicon and little beyond it falls under 0.80:
-      Pallister MCP records with BOTH primer sites found are shown to hold the locus 0
-      times in 37 (a diverged ranavirus whose flank does not align), Chlamydia Messmer
-      round 2 82 of 120 detected records (16S deposits that start 10-28 bases before the
-      amplicon). Asking instead that the alignment span 0.80 of the AMPLICON part of the
-      winning reference, identity 0.60 as now: every one of 1,684 detected or reduced
-      records in 13 assays is shown present (1,539 today), Pallister `fail` 37 of 37, and
-      0 of 1,445 unrelated records (the most amplicon any of them covers is 0.44). It
-      also recovers the length-variable case: VIR Pallister 120 of 120 detected, from
-      109. Proposed interface: `LocusResult` gains `ref_start` and `ref_end`;
-      `locus.judge` computes `amplicon_covered` from the reference's pads and decides
-      `present`; the locus file gains that column; `coverage.locus_min_covered` then
-      means the amplicon. `locus_check` keeps its signature.
+- [x] **`covered` is measured over the amplicon, with a floor of 100 aligned bases**
+      (maintainer decision, 2026-11-10; built). `locus.judge` decides `present`: identity
+      0.60, `coverage.locus_min_covered` (0.80) of the AMPLICON part of the winning
+      reference, and `coverage.locus_min_aligned_bp` (100) reference bases aligned.
+      `LocusResult` gained `ref_start` and `ref_end`; the locus file gained
+      `amplicon_covered`; `locus_check` keeps its signature. Measured before building: every
+      one of 1,684 detected or reduced records in 13 assays shown present (1,539 under the
+      whole-reference rule), Pallister MCP `fail` records 37 of 37 (0 before), VIR Pallister
+      detected 120 of 120 (109), and 0 of 1,445 unrelated records either way. The floor
+      changed no row; it guards a short amplicon and is a judgement.
 - [x] **The `together` rows use the locus file** (2026-11-10). `coverage.with_locus`
       relabels an unjudged record the stage shows to hold the locus, with room, as
       `diverged`, which is what `nested._protocol_records` already counts.
@@ -173,21 +169,27 @@ per (assay, species). The decisions, what was built and what the first run showe
       131/150, Bd Ghosh 3/3, *P. destructans* Shuey 140/150, *M. gallisepticum* parE
       94/94, Chlamydia Messmer round 2 96/139 (the short-deposit limit above). Unrelated
       archives: 0 present in five pairings, longest chance match 0.38.
-- [ ] **A conserved gene is present in everything that has it.** The sixth pairing was
-      the Chlamydia 16S references against the *M. gallisepticum* archive: 73 of 126
-      records hold "the locus" (0.91 covered), because a 16S gene is a 16S gene. That is
-      the check working as defined, and it means an rRNA assay will show `predicted fail`
-      for every bacterium in its archive. Those cells sit in the out-of-scope block, where
-      a failure is specificity. Decide whether the page should say so in words.
+- [x] **An out-of-scope `predicted fail` is explained on the page** (maintainer decision,
+      2026-11-10; built). A 16S assay finds a 16S gene in every bacterium in its archive
+      (Chlamydia references in 73 of 126 *M. gallisepticum* records) and amplifies none.
+      The state keeps its one name; the out-of-scope block opens with a line saying a
+      `predicted fail` there is the assay predicted not to cross-react.
 - [x] **The Bd Annis `fail` records are not the locus, and the check is right** (2026-11-10).
       All 18 are chance primer pairs, 4-6 mismatches in each primer, in genome scaffolds
       and in predicted mRNAs of other genes (`XM_` records); the sequence between them
       covers 3-10% of any reference. Their pair E-values (0.0004-0.0025) clear
       `max_pair_evalue` one record at a time, in an archive of 9,493.
-- [ ] **The locus check as an independent test of the screen's `fail` calls.** A `fail`
-      whose amplicon is not the locus is a chance pair. For Bd Annis that is 18 of the 178
-      records the screen scored. How drift treats those 18 was not traced. Worth running
-      over every assay's `fail` rows once the stage has run on the table.
+- [x] **The locus stage checks `fail` calls too, and only reports** (maintainer decision,
+      2026-11-10; built). Each `fail` is checked at the amplicon the screen placed; the
+      locus file marks those rows `checked` = `fail`, coverage notes the count under the
+      assay's title and joins none of it. On ten assays, 45 of 4,991 `fail` calls are not
+      the locus: Bd Annis 18 of 18, VIR Pallister 22 of 24, SIV HahnF2 3 of 4,817, SIV
+      HahnF1 1 of 18, Johnson 1 of 9; none for Farias (46), Pallister MCP (37), Grizzle (22).
+- [ ] **DECISION after the full-table run: should a `fail` that is not the locus leave its
+      cell, and should drift hear of it?** Two things to settle first. What drift does with
+      the 18 Bd Annis chance pairs was not traced. And VIR Pallister's 22 are probably not
+      chance: their products are 570-867 bp where the references stop at 308, so they are
+      the length-variable locus again, and the check cannot tell the two apart.
 - [ ] **A locus whose length varies is missed.** `Ranavirus_VIR_Pallister_2007` amplifies a
       repeat region; with interiors 78 of 218 records the screen DETECTED were not shown to
       hold the locus, because a 16-base insertion costs more than a linear gap score lets
@@ -220,19 +222,27 @@ per (assay, species). The decisions, what was built and what the first run showe
       `FOOTPRINT_REQUIRED`, `footprint_signature` and `months_back` moved from `drift.py`
       to `calls.py`; `calls` no longer imports `drift`, and a test holds `coverage` to
       never loading it.
-- [ ] **Read the in-scope `predicted fail` cells: sorted, not yet judged.** 295 cells of
-      58 assays have 20 or more records (round and single-assay rows; the 132 counted
-      earlier predates the nested rows). `docs/2026-11-10-in-scope-predicted-fails.tsv`
-      has one line a cell: calls, the oligo carrying the penalty, the commonest failing
-      footprint. 145 cells are mostly `diverged` (a site is there and does not fit), 62
-      fail commonly with a mismatch within 3 of a 3' end, 88 on distal mismatches alone.
-      163 of the 295 are rounds of nested family-level protocols, and 142 are in the two
-      most degenerate primer tiers: consensus primers built to tolerate mismatches, which
-      the scoring prices like any other. Three readings to tell apart, per assay, with
-      the paper open: the declared scope is wider than the primer set
-      (`Chordopoxvirinae_POL_Bracht_2006` on monkeypox, 0/15,867, one footprint), the
-      scoring is too strict for a consensus primer (`Paramyxoviridae_L_Tong_2008` on
-      mumps, 0/1,353), or the assay does miss the species.
+- [ ] **The in-scope `predicted fail` cells: five assays read, and the scoring of
+      consensus primers is the finding.** 295 cells of 58 assays have 20 or more records
+      (`docs/2026-11-10-in-scope-predicted-fails.tsv`, one line a cell). The five largest
+      assays sort into three kinds (journal, "Five assays read"):
+      - `Enterovirus_VP3_VP1_Nix_2006`, `Polyomaviridae_VP1_Johne_2005`,
+        `Paramyxoviridae_L_Tong_2008`: SCORING TOO STRICT. 82-100% of their `fail` calls
+        have no mismatch within 10 bases of a 3' end; they fail on 0.5-point mismatches
+        summed over the 5' consensus clamp, which is where such a primer is built to carry
+        them. Nix reports all 64 enterovirus serotype reference strains amplified and
+        Johne all nine polyomaviruses tried, at 42 and 46 C annealing.
+      - `Chordopoxvirinae_POL_Bracht_2006`: probably SCOPE TOO WIDE. Every `fail` has
+        mismatches at 2 and 5 from the forward primer's 3' end and at 4 from the reverse's.
+        The paper was not read (the fetch tool refused the page).
+      - `Coronaviridae_RdRp_Watanabe_2010`: 93% of `fail` calls are a mismatch at the
+        reverse primer's 3'-terminal base (A:A in 2,927, A:C in 944). Either a real
+        weakness or a wobble position the bench tolerates; paper not readable from here.
+- [ ] **DECISION for the maintainer: how a consensus (CODEHOP-style) primer's 5' clamp is
+      scored.** The finding above reaches drift as well as coverage, since the same calls
+      feed both. Options to weigh, none built: no penalty for mismatches in a declared
+      clamp region; a cap on the summed 5'-region penalty; or a per-entry `clamp_nt`
+      field. The 53 assays not yet read are in the worklist.
 
 ## Website and review (asked for 2026-11-04)
 
@@ -607,8 +617,14 @@ today is the **budget rule**: a position-weighted additive penalty, binned at
   probe (T:G in 76% of H3 records, G:A in 32% of Ward's), so no count can separate them and
   the candidate is rejected as it stands. The next candidate is to price a probe mismatch by
   predicted Tm loss (`thermo.py`, which sees mispair identity and probe length together).
-  **That candidate was replayed on 2026-11-10 and is not built: it waits on the
-  maintainer approving its interface.** A probe is `weak` at a predicted Tm loss of 2 C
+  **That candidate was replayed on 2026-11-10 and BUILT ON THE BRANCH, UNMERGED, by
+  maintainer decision** (`ProbeRule(weak_dtm, block_dtm)`, `score_probe(site, oligo, rule,
+  conditions)`, `scoring.probe_weak_dtm_c`, `scoring.probe_block_dtm_c`; the count rule and
+  its length cut are gone from the branch). OWED BEFORE IT MERGES: a cut for MGB probes,
+  which the nearest-neighbour tables do not model (an 18 nt MGB probe with one central
+  mismatch reads `reduced` under it), and one documented case neither cut has seen. In
+  practice one central mismatch in a 20-21 nt probe costs 5-6 C and is `blocked`; the rule
+  moved 150,258 of 1,051,572 probe calls on the 2026-11-01 table. A probe is `weak` at a predicted Tm loss of 2 C
   and `blocked` at 5 C (or where adjacent mismatches cannot be priced), and the call is
   the worse of primers and probe. It keeps Ward and Spackman, gains the H3 case
   (held-out 3: 1/2 to 2/2) and leaves the other three sets where they are (7/11, 3/9,

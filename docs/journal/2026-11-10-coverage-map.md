@@ -409,3 +409,77 @@ scoring question, not a coverage one, and this table is where to start it.
 defined in `calls.py`. `calls` no longer imports `drift`, and
 `test_coverage_does_not_load_the_drift_module` keeps it so.
 
+## Seven decisions, taken one at a time with the maintainer
+
+| | decision | built |
+|---|---|---|
+| 1 | `covered` is measured over the amplicon part of the reference, with a floor of 100 aligned bases | yes |
+| 2 | `UNVERIFIED` records get a row of their own beside the species | yes |
+| 3 | the Tm-loss probe rule is built on the probe branch and not merged | yes, `probe-rule-by-chemistry` |
+| 4 | the interface changes made while building stand, and identity stays 0.60 | nothing to build |
+| 5 | an out-of-scope `predicted fail` keeps its name and is explained in a line | yes |
+| 6 | the locus stage checks `fail` calls and only reports | yes |
+| 7 | the five largest assays among the in-scope fails are read against their papers | read, below |
+
+### What 1, 2 and 6 did to the ten-assay run
+
+20,420 unjudged records and 4,991 `fail` calls in 16 min on one core (Bd Annis adds 9,242
+records, many of them megabase scaffolds). 2,902 unjudged records hold the locus and 746 of
+those have room for both primer sites. On the eight assays run before, the amplicon rule
+finds 2,543 loci where the whole-reference rule found 1,000, and nearly all of the gain is
+short deposits without room, which do not count: with room, 744 against 731.
+
+Joined into coverage, 72 cells change: 45 from `not assessable` to `predicted fail`, 9 from
+`predicted detect` to `partial`, 2 from `partial` to `predicted fail`, 16 keep their word
+with a larger count. Farias on fowlpox is `predicted fail` 14/327 in the species row and
+0/7 in the UNVERIFIED row beside it. Li 2025 on *Ranavirus micropterus1* keeps its species
+row and the UNVERIFIED row reads 1/56.
+
+Across the whole 2026-11-01 table, 11,596 records sit in 1,804 UNVERIFIED rows.
+
+`fail` calls that are not the locus, 45 of 4,991: Bd Annis 18 of 18; VIR Pallister 22 of
+24; SIV HahnF2 3 of 4,817; SIV HahnF1 1 of 18; Johnson 1 of 9. Farias 0 of 46, Pallister
+MCP 0 of 37, Grizzle 0 of 22. The VIR Pallister ones are probably not chance pairs: their
+products are 570-867 bp and the references stop at 308, so they are the repeat region at
+lengths no reference covers. The report's note says both readings.
+
+### Five assays read (decision 7)
+
+Two papers were read through the fetch tool (Nix 2006 by way of its patent text, Johne
+2005 on PMC). The tool's reader refused the Tong 2008 and Bracht 2006 pages, and the
+Watanabe 2010 page disallows fetching. What is said of those three comes from the calls
+table alone.
+
+The calls table sorts the five cleanly. Share of each assay's `fail` calls by the mismatch
+nearest a 3' end, either primer:
+
+| assay | `fail` calls | terminal | 2-5 | 6-10 | 11 or further |
+|---|---|---|---|---|---|
+| Enterovirus VP3-VP1 Nix 2006 round 2 | 19,022 | 0% | 0% | 1% | 99% |
+| Paramyxoviridae L Tong 2008 round 1 | 5,010 | 0% | 0% | 2% | 98% |
+| Paramyxoviridae L Tong 2008 round 2 | 5,759 | 0% | 0% | 0% | 100% |
+| Polyomaviridae VP1 Johne 2005 round 1 | 2,059 | 0% | 4% | 2% | 94% |
+| Polyomaviridae VP1 Johne 2005 round 2 | 5,974 | 0% | 14% | 3% | 82% |
+| Chordopoxvirinae POL Bracht 2006 | 16,482 | 0% | 100% | 0% | 0% |
+| Coronaviridae RdRp Watanabe 2010 | 4,227 | 93% | 7% | 0% | 0% |
+
+- **Nix, Tong, Johne: the scoring is too strict.** Their failures have no mismatch
+  anywhere near a 3' end. They are 0.5-point mismatches in the 5' region summed past
+  `reduced_max` (3.0), seven or more of them. Nix's AN89 and AN88 are consensus-degenerate
+  hybrid primers: a degenerate 3' core that has to match and a fixed 5' clamp that is one
+  consensus sequence and is expected not to. Nix reports all 64 enterovirus serotype
+  reference strains amplified, with 15 further reference strains and 22 proposed new
+  serotypes; rhinoviruses were not in its panel.
+  Johne reports all nine polyomaviruses tried amplified, SV40, BK and JC among them, with a
+  first-round anneal of 46 C. The map calls BK 0/2,215 and JC 7/3,156.
+- **Bracht: the primers do not fit, and the scope is the likelier fault.** One footprint
+  covers 15,705 monkeypox records, with forward-primer mismatches 2 and 5 bases from the 3'
+  end and a reverse one at 4. Not read against the paper.
+- **Watanabe: a 3'-terminal mismatch in the reverse primer**, A:A in 2,927 `fail` calls and
+  A:C in 944. A real weakness on sequence evidence, unless that base sits on a wobble
+  position the published conditions tolerate. Not read against the paper.
+
+The first group matters beyond coverage. The same calls feed drift, so a consensus-primer
+assay's detected share is being held down by its own clamp. How a clamp should be scored
+is a new decision on the roadmap; nothing was changed.
+

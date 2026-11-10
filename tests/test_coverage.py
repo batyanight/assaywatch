@@ -554,3 +554,99 @@ def test_coverage_does_not_load_the_drift_module():
     code = "import sys, assaywatch.coverage; print('assaywatch.drift' in sys.modules)"
     out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True)
     assert out.stdout.strip() == "False"
+
+
+# --- UNVERIFIED records get a row of their own (maintainer decision, 2026-11-10) -----------
+#
+# GenBank puts UNVERIFIED at the front of a title when it could not confirm the
+# sequence or its annotation. The record keeps the organism its submitter gave it. On
+# the 2026-11-01 calls, 55 such genomes titled Santee-Cooper ranavirus, with a major
+# capsid gene 75% identical to that species' references, took an assay from 28/28 to
+# 28/83 on the species. The primers do fail on them. Whether they are the species is
+# what GenBank declines to say, so they are counted, beside the species and not in it.
+
+
+def test_unverified_records_are_counted_beside_the_species_not_in_it():
+    doubtful = {f"fv3_{i}" for i in range(3, 8)}
+    rows = [row(f"fv3_{i}") for i in range(3)] + [
+        row(r, call="fail", footprint="1|||0|0|0") for r in doubtful
+    ]
+    cells = coverage_map(rows, species_of, scope_of, RULE, unverified=doubtful.__contains__)
+    (species,) = [c for c in cells if not c.unverified]
+    (beside,) = [c for c in cells if c.unverified]
+    assert (species.species_taxid, species.count, species.state) == (FV3, "3/3", CellState.predicted_detect)
+    assert (beside.species_taxid, beside.count, beside.state) == (FV3, "0/5", CellState.predicted_fail)
+    assert beside.in_scope == species.in_scope  # the same species as far as scope goes
+    assert cells.index(species) < cells.index(beside)  # the species row first
+
+
+def test_without_being_told_which_records_are_unverified_nothing_changes():
+    rows = [row(f"fv3_{i}") for i in range(3)] + [row("fv3_3", call="fail")]
+    (only,) = coverage_map(rows, species_of, scope_of, RULE)
+    assert (only.count, only.unverified) == ("3/4", False)
+
+
+def test_a_recommendation_is_made_from_verified_records():
+    """Otherwise the doubtful row would be offered as a second verdict on the species."""
+    doubtful = {"fv3_5", "fv3_6"}
+    rows = [row(f"fv3_{i}") for i in range(3)] + [row(r, call="fail") for r in doubtful]
+    cells = coverage_map(rows, species_of, scope_of, RULE, unverified=doubtful.__contains__)
+    assert [c.count for c in recommend(cells, FV3)] == ["3/3"]
+
+
+def test_unverified_is_read_from_the_front_of_the_title(tmp_path):
+    from assaywatch.coverage import read_unverified
+
+    d = tmp_path / "1" / "g"
+    d.mkdir(parents=True)
+    with gzip.open(d / "a.meta.tsv.gz", "wt") as fh:
+        fh.write("uid\taccession\tcreated\tupdated\tlength\ttitle\n")
+        fh.write(
+            "1\tAA000001\t2020-01-01\t2020-01-01\t500\tUNVERIFIED: Some virus isolate X, complete genome\n"
+        )
+        fh.write("2\tAA000002\t2020-01-01\t2020-01-01\t500\tUNVERIFIED_ORG: Some virus isolate Y\n")
+        fh.write("3\tAA000003\t2020-01-01\t2020-01-01\t500\tUNVERIFIED_ASMBLY: Some virus isolate Z\n")
+        fh.write(
+            "4\tAA000004\t2020-01-01\t2020-01-01\t500\tSome virus, previously unverified, complete genome\n"
+        )
+    with gzip.open(d / "old.meta.tsv.gz", "wt") as fh:  # an archive written before titles were kept
+        fh.write("accession\tcreated\ttaxid\nAA000005\t2020-01-01\t1\n")
+    assert read_unverified(tmp_path) == {"AA000001", "AA000002", "AA000003"}
+
+
+def test_the_stage_gives_unverified_records_their_own_row(tmp_path, monkeypatch):
+    calls, retrieved = _write_run(tmp_path, monkeypatch)
+    with gzip.open(retrieved / "10493" / "g" / "titles.meta.tsv.gz", "wt") as fh:
+        fh.write("accession\ttitle\n")
+        fh.write("AB000001\tFrog virus 3 isolate 1, complete genome\n")
+        fh.write("AB000002\tUNVERIFIED: Frog virus 3 isolate 2, complete genome\n")
+    out = tmp_path / "out"
+    assert main([str(calls), "--retrieved", str(retrieved), "--out", str(out)]) == 0
+    with open(out / "coverage.tsv", newline="") as fh:
+        fv3 = [r for r in csv.DictReader(fh, delimiter="\t") if int(r["species_taxid"]) == FV3]
+    assert sorted((r["unverified"], r["detected"], r["locus_present"]) for r in fv3) == [
+        ("no", "1", "1"),
+        ("yes", "1", "1"),
+    ]
+    report = (out / "coverage.md").read_text()
+    assert "Frog virus 3 (10493), UNVERIFIED records" in report
+    assert (
+        "1 record" in report and "UNVERIFIED" in report.split("## How to read a cell")[0]
+    )  # the header counts them
+
+
+# --- an out-of-scope failure is specificity (maintainer decision, 2026-11-10) ----------------
+
+
+def test_the_out_of_scope_block_says_what_a_failure_there_means():
+    """A 16S assay finds a 16S gene in every bacterium in its archive and amplifies
+    none of them. Out of scope that is the assay not cross-reacting, and the block says
+    so in words; the state keeps its one name."""
+    cells = [
+        CoverageCell("A", FV3, True, CellState.predicted_fail, 0, 9, 1, ()),
+        CoverageCell("A", EHNV, False, CellState.predicted_fail, 0, 7, 1, ()),
+    ]
+    report = render_markdown(cells, lambda t: f"taxon {t}", lambda a: "", {}, [])
+    inside, outside = report.split("**Out of scope**")
+    assert "not to cross-react" in outside and "`predicted fail`" in outside
+    assert "cross-react" not in inside.split("**In scope**")[1]

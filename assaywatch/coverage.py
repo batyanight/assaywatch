@@ -65,7 +65,7 @@ from assaywatch.accession import strip_version
 # The footprint is defined with the table it is read from (`calls`), not with the drift
 # statistic: this module must not load `assaywatch.drift` (tests/test_coverage.py).
 from assaywatch.calls import FOOTPRINT_COLUMNS, FOOTPRINT_REQUIRED, footprint_signature
-from assaywatch.locus import read_locus
+from assaywatch.locus import read_fail_checks, read_locus
 from assaywatch.nested import NestPath, _protocol_records, nest_scope
 from assaywatch.nested import paths as nest_paths
 from assaywatch.registry import load as load_registry
@@ -144,6 +144,10 @@ class CoverageCell:
     footprints: int  # distinct mismatch patterns among them (0 = none recorded)
     hosts: tuple[str, ...]  # as written in the records, most common first
     reduced: int = 0  # of `detected`, how many carry an expected Ct shift
+    #: True for the row that holds this species' UNVERIFIED records (GenBank could not
+    #: confirm the sequence or its annotation, the organism name included). They are
+    #: counted beside the species, never in it. See `read_unverified`.
+    unverified: bool = False
 
     @property
     def count(self) -> str:
@@ -181,6 +185,7 @@ def coverage_map(
     species_of: Callable[[str], int | None],
     scope_of: Callable[[str, int], bool],
     rule: CoverageRule,
+    unverified: Callable[[str], bool] | None = None,
 ) -> list[CoverageCell]:
     """Group a calls table by (assay, species) and judge each group.
 
@@ -193,17 +198,22 @@ def coverage_map(
     `scope_of`    (assay id, species taxid) -> is this species inside what the assay
                   was published for? Used ONLY to label the cell. Nothing is dropped.
     `rule`        where `partial` begins and ends.
+    `unverified`  record id -> does GenBank mark this record UNVERIFIED? Such records
+                  go to a second cell for the same (assay, species), flagged
+                  `unverified`, so the species' own cell rests on records GenBank
+                  stands behind. Left out, every record counts for its species.
 
     Every (assay, species) pair with at least one row gets a cell, including one
     with no locus-present record at all (`not assessable`): a blank is information.
     Returned sorted by assay, in-scope block first, then species taxid.
     """
-    tallies: dict[tuple[str, int], _Tally] = defaultdict(_Tally)
+    tallies: dict[tuple[str, int, bool], _Tally] = defaultdict(_Tally)
     for row in calls:
         species = species_of(row["record_id"])
         if species is None:
             continue
-        t = tallies[(row["assay_id"], species)]
+        doubtful = bool(unverified and unverified(row["record_id"]))
+        t = tallies[(row["assay_id"], species, doubtful)]
         if host := row.get("host"):
             t.hosts[host] += 1
         if not _locus_present(row):
@@ -218,7 +228,7 @@ def coverage_map(
             t.footprints.add(fp)
 
     cells = []
-    for (assay_id, species), t in tallies.items():
+    for (assay_id, species, doubtful), t in tallies.items():
         detected = t.clean + t.reduced
         cells.append(
             CoverageCell(
@@ -232,9 +242,10 @@ def coverage_map(
                 # most common first; ties broken by name so the order is reproducible
                 hosts=tuple(h for h, _ in sorted(t.hosts.items(), key=lambda kv: (-kv[1], kv[0]))),
                 reduced=t.reduced,
+                unverified=doubtful,
             )
         )
-    cells.sort(key=lambda c: (c.assay_id, not c.in_scope, c.species_taxid))
+    cells.sort(key=lambda c: (c.assay_id, not c.in_scope, c.species_taxid, c.unverified))
     return cells
 
 
@@ -256,7 +267,8 @@ def recommend(
     Ordered by cell state; then toward the less degenerate primer pool, which is the
     only place degeneracy acts (it never changes a cell); then toward the higher
     detected share and the larger count behind it; then by id, so that two runs on
-    the same table print the same order.
+    the same table print the same order. Rows of UNVERIFIED records are left out:
+    a recommendation for a species is made from records known to be that species.
     """
     fold = degeneracy_of or {}
 
@@ -264,7 +276,7 @@ def recommend(
         share = c.detected / c.locus_present if c.locus_present else 0.0
         return (_RANK[c.state], fold.get(c.assay_id, 0), -share, -c.locus_present, c.assay_id)
 
-    return sorted((c for c in cells if c.species_taxid == species_taxid), key=key)
+    return sorted((c for c in cells if c.species_taxid == species_taxid and not c.unverified), key=key)
 
 
 # --- nested rows ---------------------------------------------------------------------
@@ -462,11 +474,37 @@ def read_taxids(retrieved: Path, sidecar: Path | None = None) -> dict[str, int]:
     return out
 
 
+UNVERIFIED_PREFIX = "UNVERIFIED"  # also UNVERIFIED_ORG: and UNVERIFIED_ASMBLY:
+
+
+def read_unverified(retrieved: Path) -> set[str]:
+    """Unversioned accessions whose GenBank title begins with UNVERIFIED.
+
+    GenBank puts the word at the front of a title when its staff could not confirm the
+    sequence or its annotation; the record keeps the organism the submitter gave it.
+    Read from the `title` column of the archive metadata. An archive written before
+    titles were kept contributes nothing, so its records count for their species.
+    """
+    out: set[str] = set()
+    for meta in sorted(retrieved.rglob("*.meta.tsv.gz")):
+        with gzip.open(meta, "rt") as fh:
+            header = (fh.readline() or "").rstrip("\n").split("\t")
+            if "accession" not in header or "title" not in header:
+                continue
+            ai, ti = header.index("accession"), header.index("title")
+            for line in fh:
+                parts = line.rstrip("\n").split("\t")
+                if len(parts) > max(ai, ti) and parts[ti].startswith(UNVERIFIED_PREFIX):
+                    out.add(strip_version(parts[ai]))
+    return out
+
+
 TSV_COLUMNS = (
     "assay_id",
     "row",
     "species_taxid",
     "species",
+    "unverified",
     "in_scope",
     "state",
     "detected",
@@ -501,6 +539,7 @@ def write_tsv(
                     row_kind(c.assay_id),
                     c.species_taxid,
                     name_of(c.species_taxid),
+                    "yes" if c.unverified else "no",
                     "yes" if c.in_scope else "no",
                     c.state.value,
                     c.detected,
@@ -558,15 +597,29 @@ A nested protocol has each round alone on raw template, and `together` (round 1 
 site, and `together (strict)` needs round 1 detected in its own right. Read the pair as a
 range. Where they agree the protocol's cell is not in doubt.
 
+A row marked **UNVERIFIED records** holds the records of that species whose GenBank title
+begins with `UNVERIFIED`: GenBank could not confirm the sequence or its annotation, the
+organism name included. They are counted beside the species and never in its own cell,
+which rests on records GenBank stands behind.
+
 ## What this map cannot see yet
 
-- **No locus check.** A record counts only if the primers found their sites in it. A
-  distant species in which neither primer lands is missing or `not assessable`, so the
-  map is blank exactly where an assay fails hardest. Read an absent species as unknown.
+- **Whatever the locus stage was not run on.** Without a locus file a record counts
+  only if the primers found their sites in it, so a distant species in which neither
+  primer lands is missing or `not assessable`: the map is blank exactly where an assay
+  fails hardest. `assaywatch locus` fills that in for the assays it is run on. Read an
+  absent species as unknown.
 - **No widened retrieval.** A species has a row only if its records were already in the
   assay's archive, which was fetched for the assay's own target.
 - **No hosts.** The archives do not store GenBank's `/host` qualifier.
 """
+)
+
+
+OUT_OF_SCOPE_NOTE = (
+    "Out of scope, a `predicted fail` is the assay predicted not to cross-react with a species "
+    "it was not published for: the locus is there and the oligos do not fit it. That is "
+    "specificity, not a fault. The cells to read in this block are the `predicted detect` ones."
 )
 
 
@@ -576,7 +629,9 @@ def render_markdown(
     row_kind: Callable[[str], str],
     degeneracy: Mapping[str, tuple[float, str]],
     header_lines: list[str],
+    notes: Mapping[str, str] | None = None,
 ) -> str:
+    """The report. `notes` is assay id -> a sentence printed under that assay's title."""
     out = ["# Coverage map", "", *header_lines, "", LEGEND]
     by_assay: dict[str, list[CoverageCell]] = defaultdict(list)
     for c in cells:
@@ -591,6 +646,8 @@ def render_markdown(
                 f"Primer-pool degeneracy: {_fold(fold)} ({tier}). It annotates the row, never a cell.",
                 "",
             ]
+        if notes and assay_id in notes:
+            out += [notes[assay_id], ""]
         for label, wanted in (("In scope", True), ("Out of scope", False)):
             everything = [c for c in by_assay[assay_id] if c.in_scope is wanted]
             # A `not assessable` cell has no count to print (it is 0/0), and a pan-family
@@ -601,15 +658,18 @@ def render_markdown(
             if not everything:
                 continue
             out += [f"**{label}**", ""]
+            if not wanted and any(c.state is CellState.predicted_fail for c in block):
+                out += [OUT_OF_SCOPE_NOTE, ""]
             if block:
                 out += [
                     "| species | cell | count | footprints | Ct shift | hosts |",
                     "|---|---|---|---|---|---|",
                 ]
             # the largest count first: the rows with most behind them lead
-            for c in sorted(block, key=lambda c: (-c.locus_present, c.species_taxid)):
+            for c in sorted(block, key=lambda c: (-c.locus_present, c.species_taxid, c.unverified)):
                 out.append(
-                    f"| {name_of(c.species_taxid)} ({c.species_taxid}) | `{c.state.value}` | {c.count} "
+                    f"| {name_of(c.species_taxid)} ({c.species_taxid})"
+                    f"{', UNVERIFIED records' if c.unverified else ''} | `{c.state.value}` | {c.count} "
                     f"| {c.footprints} | {c.reduced or ''} | {'; '.join(c.hosts)} |"
                 )
             if blank:
@@ -646,6 +706,15 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     assays = load_registry(args.registry)
     taxids = read_taxids(args.retrieved)
+    doubtful = read_unverified(args.retrieved)
+    doubtful_seen: set[str] = set()
+
+    def is_unverified(record_id: str) -> bool:
+        accession = strip_version(record_id)
+        if accession in doubtful:
+            doubtful_seen.add(accession)
+            return True
+        return False
 
     # A species row is "in scope" when it sits under a taxon the assay names, or when
     # the assay names something BELOW it (a subtype or strain assay: its species row
@@ -684,6 +753,19 @@ def main(argv: list[str] | None = None) -> int:
     # explicit `locus_present`, which `_locus_present` prefers to the screen's guess; a
     # record not in it keeps the screen's evidence.
     locus_of = read_locus(args.locus) if args.locus else {}
+    # `fail` calls the stage checked at the amplicon the screen placed. Reported, never
+    # joined: a `fail` that is not the locus still counts in its cell (a maintainer
+    # decision, 2026-11-10, until the stage has run on the whole table).
+    notes = {
+        assay_id: (
+            f"{absent} of {n} `fail` calls checked are not the locus: the screen placed an amplicon in "
+            "some other sequence: two primers landing by chance, or a product longer or shorter than "
+            "any reference. Reported only; they "
+            "still count in the cells below."
+        )
+        for assay_id, (n, absent) in (read_fail_checks(args.locus) if args.locus else {}).items()
+        if absent
+    }
 
     # First pass: keep only the rows of nested rounds, which `together` has to join
     # record by record. Second pass: stream everything into the map.
@@ -714,7 +796,7 @@ def main(argv: list[str] | None = None) -> int:
 
     degeneracy: dict[str, tuple[float, str]] = {}
     screened = registered(read_rows(args.calls, degeneracy))
-    cells = coverage_map(chain(screened, together), species_of, scope_of, rule)
+    cells = coverage_map(chain(screened, together), species_of, scope_of, rule, is_unverified)
     for p in paths:  # a protocol is as degenerate as its most degenerate round
         folds = [degeneracy[r] for r in p.rounds if r in degeneracy]
         for how in Together if folds else ():
@@ -748,6 +830,12 @@ def main(argv: list[str] | None = None) -> int:
             + ", ".join(f"{n} {why}" for why, n in sorted(unplaced.items()))
             + "."
         )
+    if doubtful_seen:
+        n = len(doubtful_seen)
+        header.append(
+            f"{n} record{'s' if n != 1 else ''} with a GenBank title beginning `UNVERIFIED` "
+            f"{'are' if n != 1 else 'is'} counted in rows of their own, beside their species and not in it."
+        )
     if not_in_registry:
         header.append(
             f"Left out: {len(not_in_registry)} assay id(s) in the calls table the registry does not hold "
@@ -757,7 +845,14 @@ def main(argv: list[str] | None = None) -> int:
         )
     args.out.mkdir(parents=True, exist_ok=True)
     write_tsv(args.out / "coverage.tsv", cells, name_of, row_kind, degeneracy)
-    (args.out / "coverage.md").write_text(render_markdown(cells, name_of, row_kind, degeneracy, header))
+    if notes:
+        header.append(
+            f"{len(notes)} assay(s) have `fail` calls that are not the locus (chance primer pairs); "
+            "each is noted under its title."
+        )
+    (args.out / "coverage.md").write_text(
+        render_markdown(cells, name_of, row_kind, degeneracy, header, notes)
+    )
     print(f"{len(cells)} cells -> {args.out / 'coverage.tsv'}, {args.out / 'coverage.md'}", file=sys.stderr)
 
     if args.recommend is not None:

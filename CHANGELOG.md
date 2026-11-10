@@ -27,7 +27,11 @@ because none of them can be recomputed without the archives.
   so short amplicons can be checked too. Both stages are opt-in Snakemake targets
   (`--config locus=true -- coverage_map`) and no part of the weekly run. It has been run on eight
   assays, not on the table: the one finding read by eye holds (the Farias avipox assay on fowlpox,
-  pigeonpox and turkeypox), and the second rests on `UNVERIFIED` genomes and is not to be quoted.
+  pigeonpox and turkeypox). A locus is present when the alignment spans 80% of the amplicon part of
+  its reference and at least 100 bases. The stage also checks each `fail` call at the amplicon the
+  screen placed, and the report says how many are not the locus; that changes no call.
+- Coverage counts records whose GenBank title begins `UNVERIFIED` in a row of their own beside the
+  species, and says in the out-of-scope block that a `predicted fail` there is specificity.
 - Assay pages open on the primer graph, then the line graph, then the bar graph. Assembly records now
   reach the lineage groups, and a species is no longer split across names by the strains in its titles.
   Fixes from the security and code reviews. No status moved.

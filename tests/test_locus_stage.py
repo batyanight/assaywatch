@@ -107,12 +107,16 @@ def test_the_room_needed_grows_with_what_the_alignment_left_uncovered():
 
 # --- the stage, end to end ---------------------------------------------------------------
 
-HEADER = ["assay_id", "record_id", "call", "exclusion"]
+HEADER = ["assay_id", "record_id", "call", "exclusion", "amplicon_start", "amplicon_end"]
 TAXID, OTHER = 10493, 100217
 
 
-def _run(tmp_path, monkeypatch):
-    """One assay, an archive of four records, and the calls the screen made on them."""
+def _run(tmp_path, monkeypatch, fails=False):
+    """One assay, an archive of four records, and the calls the screen made on them.
+
+    With `fails`, two more records the screen called `fail`: one where the amplicon it
+    placed is the locus, and one where two primers landed by chance in another gene.
+    """
     records = {
         "DETECTED.1": GENOME_L + INTERIOR + GENOME_R,  # scored by the screen: never checked
         "DIVERGED.1": GENOME_L
@@ -121,6 +125,9 @@ def _run(tmp_path, monkeypatch):
         "OTHERGENE.1": dna(900, seed=5),  # a fragment of something else
         "CUTSHORT.1": GENOME_L + INTERIOR + "ACGT",  # locus there, record ends before the primer site
     }
+    if fails:
+        records["REALFAIL.1"] = GENOME_L + substitute(INTERIOR, 0.1, seed=6) + GENOME_R
+        records["CHANCE.1"] = dna(900, seed=7)
     archive = tmp_path / "retrieved" / str(TAXID) / "all"
     archive.mkdir(parents=True)
     with gzip.open(archive / "2026-11-01.fasta.gz", "wt") as fh:
@@ -130,6 +137,7 @@ def _run(tmp_path, monkeypatch):
         fh.write("accession\tcreated\ttaxid\n")
         fh.write(f"DETECTED\t2020-01-01\t{TAXID}\nDIVERGED\t2020-01-01\t{OTHER}\n")
         fh.write(f"OTHERGENE\t2020-01-01\t{OTHER}\nCUTSHORT\t2020-01-01\t{OTHER}\n")
+        fh.write(f"REALFAIL\t2020-01-01\t{OTHER}\nCHANCE\t2020-01-01\t{OTHER}\n")
     calls = tmp_path / "calls.tsv.gz"
     rows = [
         ["A", "DETECTED.1", "detect", ""],
@@ -138,6 +146,10 @@ def _run(tmp_path, monkeypatch):
         ["A", "CUTSHORT.1", "no_amplicon", "no_site"],
         ["NOREF", "DIVERGED.1", "no_amplicon", "no_site"],  # an assay with no reference amplicon
     ]
+    if fails:
+        # the amplicon is the interior plus FLANK either side: 380 to 580 of the record
+        rows.append(["A", "REALFAIL.1", "fail", "", "380", "580"])
+        rows.append(["A", "CHANCE.1", "fail", "", "300", "500"])  # the same length, in another gene
     with gzip.open(calls, "wt", newline="") as fh:
         csv.writer(fh, delimiter="\t", lineterminator="\n").writerows([HEADER, *rows])
     references = tmp_path / "references.json"
@@ -180,6 +192,9 @@ def test_the_stage_checks_the_unjudged_records_and_writes_what_it_found(tmp_path
     assert 0.75 <= float(diverged["identity"]) <= 0.90
     assert got[("A", "OTHERGENE.1")]["present"] == "0"
     assert (got[("A", "CUTSHORT.1")]["present"], got[("A", "CUTSHORT.1")]["has_room"]) == ("1", "0")
+    # how much of the amplicon part of the winning reference the alignment spans
+    assert float(diverged["amplicon_covered"]) >= 0.95
+    assert float(got[("A", "OTHERGENE.1")]["amplicon_covered"]) < 0.5
 
     # what coverage reads: locus present AND room for the primers -> True, anything else False
     assert read_locus(out) == {"A": {"DIVERGED.1": True, "OTHERGENE.1": False, "CUTSHORT.1": False}}
@@ -228,3 +243,56 @@ def test_coverage_turns_a_blank_into_a_failure_when_the_locus_is_shown_present(t
     assert after[("A", OTHER)]["state"] == "predicted fail"
     assert (after[("A", OTHER)]["detected"], after[("A", OTHER)]["locus_present"]) == ("0", "1")
     assert after[("A", TAXID)] == before[("A", TAXID)]  # a record the screen scored is never touched
+
+
+# --- `fail` calls are checked too, and only reported (maintainer decision, 2026-11-10) -------
+#
+# The screen calls `fail` when both primers found a site and the mismatches are too
+# many. In a large archive a few of those are two primers landing by chance in some
+# other gene: all 18 `fail` calls of Batrachochytrium_dendrobatidis_ITS1_5_8S_Annis_2004
+# on the 2026-11-01 calls were, in scaffolds and in mRNAs of unrelated genes. The locus
+# check can tell, because it does not look at the primers: is the stretch the screen
+# called an amplicon the locus? The answer is written down and reported. It changes no
+# call and no cell.
+
+
+def test_a_fail_call_is_checked_at_the_amplicon_the_screen_placed(tmp_path, monkeypatch):
+    out, got = _stage(tmp_path, *_run(tmp_path, monkeypatch, fails=True))
+    assert got[("A", "REALFAIL.1")]["checked"] == "fail"
+    assert got[("A", "REALFAIL.1")]["present"] == "1"
+    assert got[("A", "CHANCE.1")]["present"] == "0"
+    assert got[("A", "DIVERGED.1")]["checked"] == "unjudged"  # the rows it always wrote say so too
+
+
+def test_fail_checks_are_not_what_coverage_joins(tmp_path, monkeypatch):
+    """`read_locus` feeds `locus_present`. A `fail` row keeps the screen's evidence."""
+    out, _ = _stage(tmp_path, *_run(tmp_path, monkeypatch, fails=True))
+    assert read_locus(out) == {"A": {"DIVERGED.1": True, "OTHERGENE.1": False, "CUTSHORT.1": False}}
+    assert locus.read_fail_checks(out) == {"A": (2, 1)}  # two checked, one of them not the locus
+
+
+def test_a_locus_file_written_before_fail_rows_were_checked_still_reads(tmp_path):
+    old = tmp_path / "old.tsv.gz"
+    with gzip.open(old, "wt") as fh:
+        fh.write("assay_id\trecord_id\tpresent\thas_room\tidentity\tcovered\tflank_left\tflank_right\n")
+        fh.write("A\tX.1\t1\t1\t0.9\t1.0\t50\t50\n")
+    assert read_locus(old) == {"A": {"X.1": True}}
+    assert locus.read_fail_checks(old) == {}
+
+
+def test_coverage_reports_chance_fails_and_changes_no_cell(tmp_path, monkeypatch):
+    calls, retrieved, references = _run(tmp_path, monkeypatch, fails=True)
+    side, _ = _stage(tmp_path, calls, retrieved, references)
+    out = tmp_path / "cov"
+    assert (
+        coverage.main([str(calls), "--retrieved", str(retrieved), "--out", str(out), "--locus", str(side)])
+        == 0
+    )
+    with open(out / "coverage.tsv", newline="") as fh:
+        table = csv.DictReader(fh, delimiter="\t")
+        cells = {int(r["species_taxid"]): r for r in table if r["assay_id"] == "A"}
+    # DIVERGED (shown present), REALFAIL and CHANCE (the screen's own evidence): 0 of 3.
+    # CHANCE still counts. Taking it out is a decision that waits on the full-table run.
+    assert (cells[OTHER]["detected"], cells[OTHER]["locus_present"]) == ("0", "3")
+    report = (out / "coverage.md").read_text()
+    assert "1 of 2 `fail` calls checked are not the locus" in report

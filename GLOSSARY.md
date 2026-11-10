@@ -203,11 +203,11 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **locus check** — the test, independent of the primers, of whether a record contains the assay's target region: a local, gapped alignment of a reference amplicon against the record, both strands (`locus_check.locus_check`). The locus is present when the aligned stretch reaches `coverage.locus_min_identity` and spans `coverage.locus_min_covered` of the reference. Decides between `predicted fail` and "does not count" when no primer site is found. Not `locus_identity`, which judges an amplicon the primers DID find.
 
-**locus stage** — `assaywatch locus` (`locus.py`): runs the locus check on every **unjudged record** and writes the **locus file**. Separate from the screen on purpose, so adding it rescreened nothing.
+**locus stage** — `assaywatch locus` (`locus.py`): runs the locus check on every **unjudged record**, and on every `fail` call at the amplicon the screen placed (a **fail check**), and writes the **locus file**. Separate from the screen on purpose, so adding it rescreened nothing.
 
 **unjudged record** — a `no_amplicon` the screen did not label `diverged`: no primer site was found and the screen cannot say whether the gene is there. The only records the locus stage checks.
 
-**locus file** — `locus.tsv.gz`, the locus stage's output: one row per (assay, unjudged record) with `present`, `has_room`, `identity`, `covered`. `assaywatch coverage --locus` joins it.
+**locus file** — `locus.tsv.gz`, the locus stage's output: one row per (assay, record checked) with `present`, `has_room`, `identity`, `covered`, `amplicon_covered` and `checked` (`unjudged` or `fail`). `assaywatch coverage --locus` joins the `unjudged` rows and reports the `fail` ones.
 
 **has room** — a record reaches across the whole amplicon, primer sites included, as placed by the winning reference (`locus.judge`). Coverage counts a checked record as locus-present only when it is `present` AND has room; present without room is a deposit cut short, which never tested the assay. With **wide references** the two nearly always agree; with interiors a reference could be whole in a record that stopped before a primer site.
 
@@ -215,7 +215,13 @@ and marked below: **widened retrieval** and the **host column**'s data.
 
 **identity (locus check)** — of the aligned columns, the share that match. High over a sliver for unrelated DNA, which is why it is never read without **covered**.
 
-**covered (locus check)** — the share of the reference amplicon the alignment spans. A record that ends halfway through the locus has identity 1.0 at covered 0.5.
+**covered (locus check)** — the share of the whole reference, flanks included, that the alignment spans. Reported; since 2026-11-10 it is **amplicon covered** that is judged.
+
+**amplicon covered** — the share of the AMPLICON part of the winning reference that the alignment spans (`locus.amplicon_covered`). The locus is present at `coverage.locus_min_covered` of it, with identity at `coverage.locus_min_identity` and at least `coverage.locus_min_aligned_bp` reference bases aligned. A wide reference's flanks are there to be aligned, not required: a deposit that holds the amplicon and stops twenty bases beyond it has the locus.
+
+**fail check** — the locus check run on a `fail` call, at the stretch the screen called an amplicon. A `fail` that is not the locus is two primers landing by chance in other sequence, or a product whose length no reference covers. Reported per assay in `coverage.md`; it changes no call and no cell.
+
+**UNVERIFIED row** — the coverage cell holding a species' records whose GenBank title begins `UNVERIFIED` (GenBank could not confirm the sequence or its annotation, the organism name included). Counted beside the species row, never in it, and left out of a **recommendation** (`coverage.read_unverified`).
 
 **locus present** — a record shown to hold the assay's target region; only these enter a cell count. Until the locus check exists the only evidence is the screen's own: both primers found a site (a `detect`, `reduced` or `fail` call) or the screen labelled the record `diverged`. So a distant species in which neither primer lands is invisible to the map.
 
