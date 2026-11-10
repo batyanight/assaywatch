@@ -201,3 +201,63 @@ def test_the_model_and_the_committed_config_hold_the_same_composition_keys():
     would refuse a config key the model lacks, and a model key the config lacks fails
     `test_validation_changes_no_value_in_the_committed_config`."""
     assert set(Settings().model_dump()["composition"]) == set(raw()["composition"])
+
+
+def test_every_dataclass_and_signature_default_matches_the_model():
+    """The fallback test above sees `cfg.get("key", literal)`. It cannot see a dataclass
+    field or a keyword default that mirrors a config key under another name, and those
+    are the same hazard: `AssayDrift.min_decline` still said 0.0 and `min_records` 20 on
+    2026-11-09, the two values the module docstring of settings.py calls unsafe, reachable
+    by any caller that builds the object without `from_config`. The alias table is the
+    contract: a default that mirrors a key reads the model, and this test is what makes
+    a new mirror declare itself."""
+    import inspect
+
+    from assaywatch import drift, lineage, lineage_report, report, site, sitedrift
+    from assaywatch.settings import Settings
+
+    model = Settings()
+    mirrors: list[tuple[object, str, str]] = [
+        (drift.AssayDrift, "threshold", "drift.detect_fraction_threshold"),
+        (drift.AssayDrift, "min_records", "drift.min_records_for_drift"),
+        (drift.AssayDrift, "min_decline", "drift.min_decline"),
+        (drift.AssayDrift, "require_working_baseline", "drift.require_working_baseline"),
+        (drift.AssayDrift, "min_records_for_year", "drift.min_records_for_coverage"),
+        (drift.AssayDrift, "trend_min_years", "drift.trend_min_years"),
+        (drift.AssayDrift, "flag_rule", "drift.flag_rule"),
+        (drift.AssayDrift, "flag_credibility", "drift.flag_posterior_credibility"),
+        (drift.AssayDrift, "lineage_method", "lineage.multiple_testing"),
+        (drift.AssayDrift, "lineage_alpha", "lineage.alpha"),
+        (drift.AssayDrift, "lineage_verdict_from", "lineage.verdict_from"),
+        (drift.AssayDrift, "lineage_credibility", "lineage.posterior_credibility"),
+        (drift.DriftSettings, "trend_min_years", "drift.trend_min_years"),
+        (drift.DriftSettings, "flag_rule", "drift.flag_rule"),
+        (drift.DriftSettings, "flag_credibility", "drift.flag_posterior_credibility"),
+        (drift.AssayDrift._lineage_check, "min_records_for_year", "drift.min_records_for_coverage"),
+        (lineage.per_lineage_stats, "min_records", "lineage.min_records_per_lineage"),
+        (lineage_report.render_lineage_report, "min_records", "lineage.min_records_per_lineage"),
+        (lineage_report.render_lineage_report, "threshold", "drift.detect_fraction_threshold"),
+        (lineage_report.render_lineage_report, "thin_of_best", "composition.coverage_thin_of_best"),
+        (report.ReportModel, "composition_min_mix", "composition.report_min_mix"),
+        (site.AssayPage, "threshold", "drift.detect_fraction_threshold"),
+        (sitedrift.AssaySites, "lead_min_share", "sitedrift.lead_min_share"),
+        (sitedrift.analyse_assay, "min_records", "sitedrift.min_records_for_position"),
+        (sitedrift.analyse_assay, "top_footprints", "sitedrift.top_footprints"),
+        (sitedrift.analyse_assay, "cover", "sitedrift.replacement_covers"),
+        (sitedrift.analyse_assay, "three_prime_zone", "scoring.primer_3prime_window"),
+        (sitedrift.analyse_assay, "lead_min_share", "sitedrift.lead_min_share"),
+    ]
+
+    def default_of(obj: object, name: str) -> object:
+        if inspect.isclass(obj):
+            return obj.__dataclass_fields__[name].default
+        return inspect.signature(obj).parameters[name].default
+
+    offenders = []
+    for obj, name, key in mirrors:
+        block, leaf = key.split(".")
+        want = getattr(getattr(model, block), leaf)
+        have = default_of(obj, name)
+        if have != want:
+            offenders.append(f"{getattr(obj, '__qualname__', obj)}.{name} = {have!r}, model {key} = {want!r}")
+    assert not offenders, "\n".join(offenders)

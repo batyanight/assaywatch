@@ -1,6 +1,6 @@
 # docs/ index
 
-**Twelve reference documents sit in `docs/`; the 147 dated session records are in
+**Twelve reference documents sit in `docs/`; the 148 dated session records are in
 [`journal/`](journal/README.md).** Until 2026-10-27 they were all one flat directory, so
 a reader met the journals before the nine documents written to be read — a ratio of
 roughly 5:1 in words on the axis that matters (~124,000 against ~52,000, for ~34,000
@@ -22,7 +22,7 @@ ROADMAP.md at the repository root, which is the only to-do list here.
 
 | | |
 |---|---|
-| [`journal/README.md`](journal/README.md) | what the 147 dated session records are, what they are not, and why a wrong prediction is left standing in them |
+| [`journal/README.md`](journal/README.md) | what the 148 dated session records are, what they are not, and why a wrong prediction is left standing in them |
 | [`pipeline-architecture.md`](pipeline-architecture.md) | the DAG, stage by stage. The best single overview. |
 | [`installation.md`](installation.md) | setting up the environment; better than README's Setup section |
 | [`screening-and-the-drift-call.md`](screening-and-the-drift-call.md) | **the technical reference for how a call and a verdict are made.** Moved out of README.md on 2026-10-31 when the README was cut to a front page: the penalty table, the five calls, where the PCR model is wrong and which guesses matter most, the Wilson/Newcombe intervals, nested protocols and coverage gaps. The website's [Scoring methods](https://batyanight.github.io/assaywatch/scoring/) is the same material for a reader rather than a maintainer |
@@ -39,6 +39,7 @@ ROADMAP.md at the repository root, which is the only to-do list here.
 | [`journal/2026-11-06-scope-reread-negative-verdicts.md`](journal/2026-11-06-scope-reread-negative-verdicts.md) | **the 31 papers behind negative verdicts: three statuses withheld, two primer pairs cut short, 63 claims** |
 | [`journal/2026-11-06-c1b-priced.md`](journal/2026-11-06-c1b-priced.md) | **C1b stopped: it flags what a plain interval flags, and all 3 refused `fails` rows stay uncaught** |
 | [`journal/2026-11-06-refseq-twins.md`](journal/2026-11-06-refseq-twins.md) | **`NZ_` and GenBank copies counted twice: 8,191 pairs with identical calls, two statuses move; `NC_` copies measured, effect unknown** |
+| [`journal/2026-11-09-planning-audit-and-defaults.md`](journal/2026-11-09-planning-audit-and-defaults.md) | the planning documents audited against the branches; five dataclass defaults had drifted from config.yaml (`min_decline` 0.0) where the fallback pin could not see them, now pinned; one `metadata.read_column` replaces four archive scans; a worktree was testing the main checkout's package |
 | [`journal/2026-11-05-review-fixes-rebuilt.md`](journal/2026-11-05-review-fixes-rebuilt.md) | **the review fixes in one clean composition build; strain words in assembly titles made pure groups read as mixed, and names now end at the binomial; 0 invariant mismatches, no status moved** |
 | [`journal/2026-11-04-composition-final.md`](journal/2026-11-04-composition-final.md) | **composition over all 215 assays: 0 invariant mismatches, 12.1 GB, and the species split at 0.05 fails on the full data; also the Zimmermann print error and the Francisella probe** |
 | [`journal/2026-11-04-scope-reread.md`](journal/2026-11-04-scope-reread.md) | **64 entries' scopes reread against 36 papers and the database of their day: 21 broadened with no verdict moved, every narrowing tested and none applied, and a title-against-sequence test on all of Bd** |

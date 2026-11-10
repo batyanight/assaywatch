@@ -16,7 +16,6 @@ signature, and `pytest -m slow` caught it -- every edit to `report.py` would hav
 
 from __future__ import annotations
 
-import gzip
 import sys
 import warnings
 from collections import defaultdict
@@ -43,6 +42,7 @@ from assaywatch.composition import (
     split_change,
 )
 from assaywatch.drift import GraphRecord
+from assaywatch.metadata import read_column
 from assaywatch.subcluster import OTHER, UNPLACED, available_flank, flanked_region, window_shape
 from assaywatch.taxonomy import Taxonomy
 
@@ -245,20 +245,7 @@ def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, s
             base = strip_version(rid)
             if base in wanted and base not in seqs:
                 seqs[base] = seq.upper()
-    for meta in metas:
-        with gzip.open(meta, "rt") as fh:
-            header = (fh.readline() or "").rstrip("\n").split("\t")
-            if "accession" not in header:
-                continue
-            ai = header.index("accession")
-            ti = header.index("title") if "title" in header else None
-            for line in fh:
-                parts = line.rstrip("\n").split("\t")
-                if len(parts) <= ai or ti is None or len(parts) <= ti:
-                    continue
-                base = strip_version(parts[ai])
-                if base in wanted:
-                    titles.setdefault(base, parts[ti])
+    titles = read_column(retrieved, "title", wanted, files=metas)
     return seqs, titles
 
 

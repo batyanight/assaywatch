@@ -1714,6 +1714,24 @@ Steps, in order (1 to 4 are mechanical; 5 proposes interfaces for approval first
         format-specific payloads, which is a redesign of the report, not a cleanup. Left
         as two renderers over one model, which is what they are. The package is NOT
         reorganised into stage subpackages; the CLI gives one entry point per stage.
+- [ ] **6. Entropy found by the 2026-11-09 audit** (`docs/journal/2026-11-09-planning-audit-and-defaults.md`).
+  - [x] 6a. Defaults that mirror a config key under another name read the model, and a second pin test
+        holds all 28 of them; five had drifted (`min_decline` 0.0 among them). One `metadata.read_column`
+        replaces four hand-rolled archive scans. Done 2026-11-09, every gate green.
+  - [ ] 6b. **The per-lineage concept lives in three modules.** `lineage.per_lineage_stats` and
+        `lineage_report` each turn calls into a per-assay, per-lineage table, and `drift._lineage_check`
+        decides from it. **Interface, for approval:** `lineage.table(calls, taxa_cache, taxid_sidecar,
+        *, min_records, resolvers, detected_calls) -> list[LineageStats]` as the one builder, with
+        `lineage_report` rendering from it and `drift` reading from it. Byte-for-byte on `report-golden`
+        and `lineage.md` before and after. Not before step 12 of the release plan.
+  - [ ] 6c. **`report.py` is 3,000 lines** and seven siblings import it lazily to stay out of its hash.
+        Propose the seam before cutting: the readers (`read_calls`, `read_dates`, `load_calls_as_reported`,
+        `assessment_inputs`) into `calls.py`, which already owns the table's shape, leaving the model and
+        the two renderers. Same guard as 6b. Not before step 12.
+  - [ ] 6d. **Three `pct` helpers** (`drift.pct`, `sitedrift._pct`, `site_render._pct`) with two dashes and
+        two rounding rules. Decide the one spelling; `site-drift.md` and the site change by a character.
+  - [ ] 6e. **`gapped.py`** has no caller in the package, the Snakefile or the CLI; `scripts/indel_check.py`
+        and the archive use it. Either it is a library and stays, or it moves beside its script. Decide.
 
 ## Hygiene
 
