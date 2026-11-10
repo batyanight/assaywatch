@@ -34,6 +34,7 @@ citation:
     Domestic Animals and Wildlife. J Clin Microbiol 2022;60(5).
   doi_verified: true
   oligos_designed_here: true
+  claim: Canine and phocine distemper viruses, phosphoprotein (P) gene, all genotypes of canine distemper virus.
 conditions:
   annealing_c: 60.0
   cycles: 45
@@ -57,9 +58,9 @@ source:
     a typo here, irrelevant because it is excluded); the CDV-Th and CDV-S443 H-gene ORF primers in Methods (restriction-site
     tailed cloning primers used to sequence strains, not a detection assay); and CDV4.1-F/CDV3-R/CD3.1-FAMas and CDV-1808-F/CDV-1903-R/CDV-1842-FAM,
     which the paper uses as comparators and which are Halecker et al. 2021 assays, entered as Morbillivirus_canis_P_Halecker_2021_Mix3
-    and Morbillivirus_canis_P_Halecker_2021_Mix7. VERIFIED against the paper''s design accession MN267060.1 (strain S460/15, Europe-1,
-    complete genome): forward site at 2149-2169, probe at 2267-2286 (minus strand), reverse site at 2290-2308, exactly as
-    the text states, giving the stated 160 bp. Retrieval: the archive is every GenBank nuccore record under txid11232 (Morbillivirus
+    and Morbillivirus_canis_P_Halecker_2021_Mix7. VERIFIED against the paper''s design accession MN267060.1 (strain S460/15,
+    Europe-1, complete genome): forward site at 2149-2169, probe at 2267-2286 (minus strand), reverse site at 2290-2308, exactly
+    as the text states, giving the stated 160 bp. Retrieval: the archive is every GenBank nuccore record under txid11232 (Morbillivirus
     canis; 4,063 records on 2026-10-06), fetched whole rather than strided because the total is small. ''Spanning'' below
     means the record holds the whole primer-to-primer window, judged by the screen producing a product or, for records with
     none, by a BLAST of the MN267060.1 window covering both ends. MEASURED: 398 records span the amplicon and all 398 give

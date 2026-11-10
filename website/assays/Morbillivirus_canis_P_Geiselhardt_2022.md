@@ -64,6 +64,7 @@ bar is a position that matters.
 
 ## Scope
 
+**Meant to detect:** Canine and phocine distemper viruses, phosphoprotein (P) gene, all genotypes of canine distemper virus.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342), every record.
 

@@ -100,6 +100,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Plastid large-subunit rRNA gene, used to look for a plastid genome rather than to detect an organism.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Apicomplexa (taxid 5794), limited by a query on the title or gene.
 
@@ -131,7 +132,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 Primers 23SF and 23SR were designed by Zhu et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-23</b> Primers 23SF and 23SR were designed by Zhu et al. 2000 (Microbiology 146:315-321). Schrenzel et al. 2005 (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". The entry was first cited to Schrenzel 2005. 23SR CONFIRMED 2026-10-23. It read `absent` only because Zhu et al. 2000 writes its degenerate positions as parenthesised alternatives - TTT(C/T)(C/T)G(A/G)TCCTCTCGTACT in Table 1, PCR no. 4 (LSU rRNA, antisense) - which expands to exactly the stored TTTYYGRTCCTCTCGTACT. No oligo-like run of that shape survives the extraction, so the verifier had nothing to match. Nothing is in doubt, and the entry's existing account of Zhu 2000 as the design paper is right.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-23</b> Primers 23SF and 23SR were designed by Zhu et al. 2000 (Microbiology 146:315-321). Schrenzel et al. 2005 (10.1645/ge-3310) used them and cited "as described (Zhu et al., 2000)". The entry was first cited to Schrenzel 2005. 23SR CONFIRMED 2026-10-23. It read `absent` only because Zhu et al. 2000 writes its degenerate positions as parenthesised alternatives - TTT(C/T)(C/T)G(A/G)TCCTCTCGTACT in Table 1, PCR no. 4 (LSU rRNA, antisense) - which expands to exactly the stored TTTYYGRTCCTCTCGTACT. No oligo-like run of that shape survives the extraction, so the verifier had nothing to match. Nothing is in doubt, and the entry's existing account of Zhu 2000 as the design paper is right. CORRECTED 2026-11-06: the paper prints these (Table 1, PCR no. 4) and doesn't say who designed them, so design_year 2000 is an assumption.</p></details>
 
 ## Corrections
 

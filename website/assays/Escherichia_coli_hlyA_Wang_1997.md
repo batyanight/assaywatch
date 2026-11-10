@@ -101,6 +101,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Escherichia coli O157:H7, hlyA gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Escherichia coli (taxid 562), limited by a query on the title or gene.
 
@@ -114,7 +115,7 @@ Retrieval query:
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `orientation_inferred`.
+Disclosures on this entry: `orientation_inferred`, `scope_wider_than_paper_tested`.
 
 
 ## Records reaching the statistics
@@ -131,9 +132,9 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 ## Curation record
 
-DOI RESOLVED 2026-10-05 FROM THE PRIMER SEQUENCES. 
+A Europe PMC full-text search on O157-3 and O157-4 finds them in Shija &amp; Nonga 2026 (Vet Med Sci, doi 10.1002/vms3.71034), whose Table 1 prints them under the same names, 0157-3 GTAGGGAAGCGAACAGAG and 0157-4 AAGCTCCGTGTGCCTGAA, target hlyA, and cites them to Wang RF, Cao WW, Cerniglia CE 1997 J Appl Microbiol 83:727-736. That paper's abstract lists E. coli O157:H7 and Y. pseudotuberculosis among its 13 species, which explains a single reference string covering both entries. Wang 1997 itself is not open access, so the sequences are confirmed through a citing paper's table rather than against Wang's own; oligos_designed_here left unset, because a 13-species compilation may have taken some primer sets from earlier papers. CORRECTED 2026-11-10: the paper names and tests O157:H7 only (one strain); retargeting would leave 0 recent records, so the scope stays with a disclosure.
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-05</b> DOI RESOLVED 2026-10-05 FROM THE PRIMER SEQUENCES.</p><p>A Europe PMC full-text search on O157-3 and O157-4 finds them in Shija &amp; Nonga 2026 (Vet Med Sci, doi 10.1002/vms3.71034), whose Table 1 prints them under the same names, 0157-3 GTAGGGAAGCGAACAGAG and 0157-4 AAGCTCCGTGTGCCTGAA, target hlyA, and cites them to Wang RF, Cao WW, Cerniglia CE 1997 J Appl Microbiol 83:727-736. That paper's abstract lists E. coli O157:H7 and Y. pseudotuberculosis among its 13 species, which explains a single reference string covering both entries. Wang 1997 itself is not open access, so the sequences are confirmed through a citing paper's table rather than against Wang's own; oligos_designed_here left unset, because a 13-species compilation may have taken some primer sets from earlier papers.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-11-10</b> A Europe PMC full-text search on O157-3 and O157-4 finds them in Shija &amp; Nonga 2026 (Vet Med Sci, doi 10.1002/vms3.71034), whose Table 1 prints them under the same names, 0157-3 GTAGGGAAGCGAACAGAG and 0157-4 AAGCTCCGTGTGCCTGAA, target hlyA, and cites them to Wang RF, Cao WW, Cerniglia CE 1997 J Appl Microbiol 83:727-736. That paper's abstract lists E. coli O157:H7 and Y. pseudotuberculosis among its 13 species, which explains a single reference string covering both entries. Wang 1997 itself is not open access, so the sequences are confirmed through a citing paper's table rather than against Wang's own; oligos_designed_here left unset, because a 13-species compilation may have taken some primer sets from earlier papers. CORRECTED 2026-11-10: the paper names and tests O157:H7 only (one strain); retargeting would leave 0 recent records, so the scope stays with a disclosure.</p><p><b>2026-10-05</b> DOI RESOLVED 2026-10-05 FROM THE PRIMER SEQUENCES.</p></details>
 
 ## Corrections
 

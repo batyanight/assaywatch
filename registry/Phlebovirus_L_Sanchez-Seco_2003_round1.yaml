@@ -16,7 +16,7 @@ oligos:
     name: NPhlebo1NEG
     seq: AARTTRCTNGWNGCYTTNARNGTNGC
     seq_as_written: AARTTRCTIGWIGCYTTIARIGTIGC
-amplicon_bp: 553
+amplicon_bp: 554
 citation:
   doi: 10.1002/jmv.10465
   design_year: 2003
@@ -24,6 +24,7 @@ citation:
   reference: Sanchez-Seco, M. P. et al. Detection and identification of Toscana and other phleboviruses by RT-nested-PCR
     assays with degenerated primers. J Med Virol 71, 140-149 (2003).
   doi_verified: true
+  claim: Phlebovirus genus, L segment polymerase gene, as a first round.
 conditions:
   annealing_c: 45
   cycles: 40
@@ -37,7 +38,10 @@ source:
   predict_protocol: P-021
   nested_round: round1
   nested_family: Phlebovirus_L_Sanchez-Seco_2003
-  notes_curator: Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 2015, Nat Commun 
-    6:8147, Supplementary Methods, CC-BY); sequences read from that document. Both primers contain inosine; seq stores 
-    it as N and seq_as_written keeps the I, as the registry requires.
-needs_review: null
+  notes_curator: "Imported 2026-10-04 from the PREDICT panel's own protocol sheet (Anthony et al. 2015, Nat Commun 6:8147,
+    Supplementary Methods, CC-BY); sequences read from that document. Both primers contain inosine; seq stores it as N and
+    seq_as_written keeps the I, as the registry requires. CORRECTED 2026-11-10: amplicon_bp 553 -> 554, the mode; the paper
+    gives no first-round size."
+needs_review:
+- flag: amplicon_measured_not_published
+  note: measured 554 in 353 of 367; the paper gives no first-round size

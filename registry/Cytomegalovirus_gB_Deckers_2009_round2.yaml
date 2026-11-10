@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: 4125-as
     seq: GCTGACGGGTTGATCTTGCTRAG
-amplicon_bp: 550
+amplicon_bp: 599
 citation:
   doi: 10.1186/1743-422X-6-210
   design_year: 2009
@@ -23,6 +23,7 @@ citation:
     a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology 
     Journal 2009, 6, 210.
   oligos_designed_here: null
+  claim: Human and great ape cytomegaloviruses, glycoprotein B (UL55) gene, as a second round.
 use_context:
 - wildlife
 submitted_by: null
@@ -34,23 +35,23 @@ source:
   notes_curator: 'NEITHER PRIMER IS IN THE CITED PAPER (Prepens et al. 2007), BUT THEIR SOURCE IS KNOWN: Deckers M et al.
     2009, Virol J 6:210 (PMID 19941648, PMC2789067; DOI 10.1186/1743-422X-6-210 as returned by PubMed, NOT yet checked against
     Crossref, which was unreachable). Found missing from Prepens 2026-10-05 by scripts/verify_oligos_against_paper.py, exactly
-    as for the sibling entry Cytomegalovirus_gB_Deckers_2009_round1 (4007-s/4007-as); source identified 2026-10-06 from the PubMed Central
-    full text of Deckers 2009. Its Table 1 prints primer set CMV-gBp1 as a nested pair, and this entry is ROUND 2: 4125s GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA
-    and 4125as GCTGACGGGTTGATCTTGCT(r/i)AG, product 550 bp. The round 1 pair is 4007s/4007as, which IS in the registry, as
-    Cytomegalovirus_gB_Deckers_2009_round1, so nested_round round2 here has its partner. 4125-as matches the paper exactly and so does the
-    stored 550. 4125-s differs at ONE position: position 15 is printed (b/i), B or inosine, and the stored sequence has N.
-    The stored N is a defensible reading, not necessarily a slip: inosine pairs with any base, so "B or inosine" covers all
-    four, and the verifier resolves every (X/I) to N for the same reason. It was left as first entered; whether to store B
-    instead is a decision for when this entry is re-cited. Prepens 2007 does not print either sequence: the string "4125"
-    does not occur in it and no ACGT-only fragment of 8 or more bases of 4125-s occurs in its text in either orientation.
-    4125-as is the one qualification: its reverse complement shares an exact 11-base stretch (AAGATCAACCC) with Prepens''
-    RH-gB primer 2760s and is IUPAC-compatible over 17 bases with its CM-gB round 2 sense primer 2744s. That is two primers
-    designed on the same conserved gB site, which is what designing against a conserved site produces; it is not evidence
-    the primer is Prepens''. NOT RE-CITED YET and NOT DELETED, for the reason given on the 4007 entry: the Deckers DOI is
-    not Crossref-verified, and check_citations.py checks DOIs against the committed Crossref cache. oligos_designed_here stays
-    false, which is certain for Prepens. To resolve, re-cite both CMV-gBp1 entries to Deckers 2009 together once its DOI is
-    verified. RE-CITED 2026-10-17 TO DECKERS 2009, THE PAPER THAT PRINTS THESE PRIMERS. The DOI 10.1186/1743-422X-6-210 came
-    from PubMed in 2026-10-06 and was therefore NOT written into citation.doi at the time; Crossref was reached on 2026-10-17
+    as for the sibling entry Cytomegalovirus_gB_Deckers_2009_round1 (4007-s/4007-as); source identified 2026-10-06 from the
+    PubMed Central full text of Deckers 2009. Its Table 1 prints primer set CMV-gBp1 as a nested pair, and this entry is ROUND
+    2: 4125s GCGGACTCGGTGAT(b/i)TC(n/i)TGGGA and 4125as GCTGACGGGTTGATCTTGCT(r/i)AG, product 550 bp. The round 1 pair is 4007s/4007as,
+    which IS in the registry, as Cytomegalovirus_gB_Deckers_2009_round1, so nested_round round2 here has its partner. 4125-as
+    matches the paper exactly and so does the stored 550. 4125-s differs at ONE position: position 15 is printed (b/i), B
+    or inosine, and the stored sequence has N. The stored N is a defensible reading, not necessarily a slip: inosine pairs
+    with any base, so "B or inosine" covers all four, and the verifier resolves every (X/I) to N for the same reason. It was
+    left as first entered; whether to store B instead is a decision for when this entry is re-cited. Prepens 2007 does not
+    print either sequence: the string "4125" does not occur in it and no ACGT-only fragment of 8 or more bases of 4125-s occurs
+    in its text in either orientation. 4125-as is the one qualification: its reverse complement shares an exact 11-base stretch
+    (AAGATCAACCC) with Prepens'' RH-gB primer 2760s and is IUPAC-compatible over 17 bases with its CM-gB round 2 sense primer
+    2744s. That is two primers designed on the same conserved gB site, which is what designing against a conserved site produces;
+    it is not evidence the primer is Prepens''. NOT RE-CITED YET and NOT DELETED, for the reason given on the 4007 entry:
+    the Deckers DOI is not Crossref-verified, and check_citations.py checks DOIs against the committed Crossref cache. oligos_designed_here
+    stays false, which is certain for Prepens. To resolve, re-cite both CMV-gBp1 entries to Deckers 2009 together once its
+    DOI is verified. RE-CITED 2026-10-17 TO DECKERS 2009, THE PAPER THAT PRINTS THESE PRIMERS. The DOI 10.1186/1743-422X-6-210
+    came from PubMed in 2026-10-06 and was therefore NOT written into citation.doi at the time; Crossref was reached on 2026-10-17
     and returns ''High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping
     with broad-range PCR'', Deckers, Hofmann, Kreuzer, Reinhard, Edubio, Hengel, Voigt, Ehlers, Virology Journal 6, 2009 -
     matching PMID 19941648 / PMC2789067 and the registry''s own note. citation.doi, design_year and reference now point at
@@ -61,7 +62,11 @@ source:
     remains. 4125-as CONFIRMED 2026-10-23. Its `near:1` was glued table text. The run the verifier matched ends AGCMVGB, which
     is the primer-name column plus the next column''s assay label, and it begins two bases early. Table 1''s own row for 4125as
     prints GCTGACGGGTTGATCTTGCT(r/i)AG, and the stored R at that position is the (r/i) reading - the same convention this
-    paper uses for 4125-s, where the registry reads (b/i) as N. The stored sequence is the paper''s.'
+    paper uses for 4125-s, where the registry reads (b/i) as N. The stored sequence is the paper''s. CORRECTED 2026-11-10:
+    amplicon_bp 550 -> 599, the mode (355 of 605). The ''neither primer is in the cited paper'' line above predates the 2026-10-17
+    re-citation to Deckers 2009, which prints them.'
 needs_review:
 - flag: citation_is_indirect
   note: the cited paper is where these oligos are printed, not proven to be their first publication
+- flag: amplicon_disagrees_with_paper
+  note: modal 599 bp (355 of 605); the paper gives approximately 550

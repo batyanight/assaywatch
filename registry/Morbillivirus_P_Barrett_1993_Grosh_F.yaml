@@ -20,6 +20,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Barrett T et al. 1993. Virology 193:1010-1012 (Grosh F/R are the same sequences as MorbF/MorbR)
+  claim: Morbilliviruses, phosphoprotein gene around the RNA editing site, for sequencing rather than detection.
 use_context:
 - wildlife
 - veterinary
@@ -49,6 +50,8 @@ source:
     one after Forslund FAP to land on mispair identity in the 3'' window (docs/journal/2026-10-19-fap-bench-panel.md). No
     config change here; the knob needs tier-2. MEASURED while reading: the paper says "a 429 nucleotide DNA fragment" and
     the 2026-10-17 calls give 429 bp in 4,326 of 4,347 detected or reduced records. The two entries holding this pair disagreed,
-    429 here and 430 there; both now read 429 (inside declared_tolerance either way, so no call moves).'
+    429 here and 430 there; both now read 429 (inside declared_tolerance either way, so no call moves). CORRECTED 2026-11-10:
+    the paper states 429 bp, equal to the measured mode, so the size flag comes off.'
 needs_review:
-- flag: amplicon_measured_not_published
+- flag: amplicon_multimodal
+  note: a second mode at 324 bp (263 records)

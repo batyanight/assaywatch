@@ -108,12 +108,11 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Reptilian paramyxoviruses (Fer-de-Lance virus and related isolates), HN gene, inner round, for sequencing rather than detection.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Ferlavirus (taxid 1283308), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
-
-Disclosures on this entry: `amplicon_measured_not_published`.
 
 
 ## Records reaching the statistics
@@ -131,7 +130,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-19</b> Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene nested primers (primer pair 3+4 in the paper's Table 1). Positions on Sendai Z strain: 7647-7666 (forward) and 8045-8025 (reverse), expected product 399 bp. Round 1 external HN primers are Ferlavirus_HN_Ahne_1999_round1. AMPLICON_BP: 399 bp from the paper's Table 1 position data (8045-7647+1=399); needs verification against GenBank ferlavirus HN sequences.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-19</b> Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene nested primers (primer pair 3+4 in the paper's Table 1). Positions on Sendai Z strain: 7647-7666 (forward) and 8045-8025 (reverse), expected product 399 bp. Round 1 external HN primers are Ferlavirus_HN_Ahne_1999_round1. AMPLICON_BP: 399 bp from the paper's Table 1 position data (8045-7647+1=399); needs verification against GenBank ferlavirus HN sequences. CORRECTED 2026-11-10: Table 2 prints 399 bp, equal to the measured 399, so the size flag comes off.</p></details>
 
 ## Corrections
 

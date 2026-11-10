@@ -41,12 +41,7 @@ bar is a position that matters.
 
 ## Predicted detection by deposit year
 
-The share of deposited sequence this assay is predicted to detect, by year of
-deposit. The shaded band marks the recent window and the dashed line the threshold.
-Bigger markers mean more records behind the point, because 100% of three records
-and 100% of three thousand are very different claims.
-
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1993 to 2024, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 86.7,20.2 129.4,20.2 172.1,20.2 257.5,20.2 278.9,20.2 321.6,20.2 364.3,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 86.7,20.2 129.4,20.2 172.1,20.2 193.5,20.2 257.5,20.2 278.9,20.2 321.6,20.2 364.3,20.2 385.7,20.2 706.0,20.2"/><g class="aw-point aw-insufficient-data"><title>1993: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1995: 2 of 2 detected (100.0%)</title><circle cx="86.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1997: 1 of 1 detected (100.0%)</title><circle cx="129.4" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1999: 1 of 1 detected (100.0%)</title><circle cx="172.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2000: 1 of 1 detected (100.0%)</title><circle cx="193.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2003: 1 of 1 detected (100.0%)</title><circle cx="257.5" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2004: 1 of 1 detected (100.0%)</title><circle cx="278.9" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2006: 1 of 1 detected (100.0%)</title><circle cx="321.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2008: 1 of 1 detected (100.0%)</title><circle cx="364.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2009: 1 of 1 detected (100.0%)</title><circle cx="385.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 5 of 5 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.8"/></g><text class="aw-tick" x="44.0" y="208">1993</text><text class="aw-tick" x="129.4" y="208">1997</text><text class="aw-tick" x="214.8" y="208">2001</text><text class="aw-tick" x="300.3" y="208">2005</text><text class="aw-tick" x="385.7" y="208">2009</text><text class="aw-tick" x="471.1" y="208">2013</text><text class="aw-tick" x="556.5" y="208">2017</text><text class="aw-tick" x="641.9" y="208">2021</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+**all 14 evaluable records**, deposited between 1993 and 2024, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
 
 ## What was deposited, by lineage
 
@@ -86,12 +81,12 @@ Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (60 months, from Nov 2021) | 5 | 5 | 100.0% | 56.6% – 100.0% |
+| recent window (24 months, from Nov 2024) | 3 | 3 | 100.0% | 43.9% – 100.0% |
 | baseline (everything earlier) | 11 | 11 | 100.0% | 74.1% – 100.0% |
 
-Change from baseline, Newcombe interval: **-43.4% to 25.9%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-56.1% to 25.9%**. Threshold: **90.0%**.
 
-*5 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (57%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
+*3 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (44%-100%), too wide to act on*
 
 From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
@@ -115,7 +110,7 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 ## Records reaching the statistics
 
-48 records were screened for this assay and **16 (33%)** were evaluable, meaning both primers landed in the right orientation and size range. 32 produced no amplicon at all.
+46 records were screened for this assay and **14 (30%)** were evaluable, meaning both primers landed in the right orientation and size range. 32 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 

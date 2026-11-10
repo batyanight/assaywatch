@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: 4007-as
     seq: GCAATCGGTTTGTTGTANATNGC
-amplicon_bp: 800
+amplicon_bp: 803
 citation:
   doi: 10.1186/1743-422X-6-210
   design_year: 2009
@@ -23,6 +23,7 @@ citation:
     a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology 
     Journal 2009, 6, 210.
   oligos_designed_here: null
+  claim: Human and great ape cytomegaloviruses, glycoprotein B (UL55) gene, as a first round.
 use_context:
 - wildlife
 submitted_by: null
@@ -66,7 +67,9 @@ source:
     It came from the 46 C / 40-cycle programme in Deckers 2009, which is the pan-herpes DPOL PCR; this entry''s 800 bp gB
     product is the TaKaRa ExTaq long PCR at 45 C over 30 cycles, whose magnesium the paper gives only as ''ExTaq buffer with
     MgCl2''. A value from the wrong assay in a multi-assay paper is worse than no value, and the one that replaced it in six
-    files an hour earlier was a regex running past the end of its block.'
+    files an hour earlier was a regex running past the end of its block. CORRECTED 2026-11-10: amplicon_bp 800 -> 803, the
+    mode, within the paper''s approximate 800. The ''neither primer is in the cited paper'' line above predates the 2026-10-17
+    re-citation to Deckers 2009, which prints them.'
 needs_review:
 - flag: citation_is_indirect
   note: the cited paper is where these oligos are printed, not proven to be their first publication

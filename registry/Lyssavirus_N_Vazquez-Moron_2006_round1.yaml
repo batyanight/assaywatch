@@ -13,7 +13,7 @@ oligos:
   reverse:
     name: GRAB1R
     seq: GCRTTSGANGARTAAGGAGA
-amplicon_bp: 373
+amplicon_bp: 374
 citation:
   doi: 10.1016/j.jviromet.2006.03.008
   design_year: 2006
@@ -21,6 +21,7 @@ citation:
   reference: Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of 
     Lyssavirus genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
   doi_verified: true
+  claim: Lyssaviruses, all genotypes, nucleoprotein gene, first round.
 conditions:
   rt: one_step
   cycles: 30
@@ -37,6 +38,9 @@ source:
   nested_family: Lyssavirus_N_Vazquez-Moron_2006
   notes_curator: 'PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that
     protocol''s round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
-    Vazquez-Moron, S. et al (2006).'
+    Vazquez-Moron, S. et al (2006). CORRECTED 2026-11-10: amplicon_bp 373 -> 374, the mode; the paper gives no first-round
+    size.'
 needs_review:
 - flag: not_validated
+- flag: amplicon_measured_not_published
+  note: measured 374; the paper gives no first-round size

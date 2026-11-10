@@ -104,6 +104,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Chronic bee paralysis virus, RNA1 segment.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Chronic bee paralysis virus (taxid 180822), every record.
 

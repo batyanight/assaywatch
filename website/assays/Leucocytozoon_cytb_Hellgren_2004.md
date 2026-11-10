@@ -16,7 +16,7 @@
 | Target | Leucocytozoon (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=195944">taxid 195944</a>) |
 | Gene | cytochrome b |
 | Chemistry | conventional |
-| Amplicon | 478 bp |
+| Amplicon | 524 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -198,7 +198,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `orientation_inferred`.
+Disclosures on this entry: `orientation_inferred`, `amplicon_disagrees_with_paper`.
 
 
 ## Records reaching the statistics
@@ -216,9 +216,9 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 ## Curation record
 
-GENE CORRECTED 2026-11-02, cytochrome c -&gt; cytochrome b: Hellgren et al. 2004 designs these primers 'within the 5' end of the cytochrome b gene' of the parasite mitochondrial genome. The amplicon and oligos are unchanged; only the locus name was wrong.
+DESCRIBED AS NESTED 2026-11-06: a nested PCR with a shared first round (HaemNFI/HaemNR3) and two parallel second-round reactions: HaemF/HaemR2 for Plasmodium and Haemoproteus, and HaemFL/HaemR2L for Leucocytozoon. The rounds share no oligo.
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-11-02</b> GENE CORRECTED 2026-11-02, cytochrome c -&gt; cytochrome b: Hellgren et al. 2004 designs these primers 'within the 5' end of the cytochrome b gene' of the parasite mitochondrial genome. The amplicon and oligos are unchanged; only the locus name was wrong.</p><p><b>2026-10-05</b> CONFIRMED 2026-10-05 against the full text via the NYU library: HaemFL and HaemR2L are this paper's own ('constructed 2 new primers, HaemFL ... and HaemR2L ... for Leucocytozoon spp.'), both match exactly including the inosine in HaemR2L, and the 478 bp product is stated in the text. Figure 1's caption confirms the reverse primers are printed already reverse-complemented, 'as it should be ordered (5'-3')', so they are stored as printed.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-11-06</b> DESCRIBED AS NESTED 2026-11-06: a nested PCR with a shared first round (HaemNFI/HaemNR3) and two parallel second-round reactions: HaemF/HaemR2 for Plasmodium and Haemoproteus, and HaemFL/HaemR2L for Leucocytozoon. The rounds share no oligo.</p><p><b>2026-11-02</b> GENE CORRECTED 2026-11-02, cytochrome c -&gt; cytochrome b: Hellgren et al. 2004 designs these primers 'within the 5' end of the cytochrome b gene' of the parasite mitochondrial genome. The amplicon and oligos are unchanged; only the locus name was wrong. CORRECTED 2026-11-06: amplicon_bp 478 -&gt; 524, measured in 338 records on the 2026-11-01 calls. The paper's 478 bp excludes the primers, in its own words.</p><p><b>2026-10-05</b> CONFIRMED 2026-10-05 against the full text via the NYU library: HaemFL and HaemR2L are this paper's own ('constructed 2 new primers, HaemFL ... and HaemR2L ... for Leucocytozoon spp.'), both match exactly including the inosine in HaemR2L, and the 478 bp product is stated in the text. Figure 1's caption confirms the reverse primers are printed already reverse-complemented, 'as it should be ordered (5'-3')', so they are stored as printed.</p></details>
 
 ## Corrections
 

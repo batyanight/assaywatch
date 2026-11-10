@@ -16,7 +16,7 @@
 | Target | Bocaparvovirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1507401" title="Bocaparvovirus">taxid 1507401</a>) |
 | Gene | NS1 |
 | Chemistry | conventional |
-| Amplicon | 293 bp |
+| Amplicon | 298 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -129,6 +129,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Bocaviruses (genus Bocaparvovirus), NS1 gene, first round of a hemi-nested pan-genus screen.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Bocaparvovirus (taxid 1507401), every record.
 
@@ -152,7 +153,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Kapoor, A. et al (2010).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Kapoor, A. et al (2010). CORRECTED 2026-11-10: amplicon_bp 293 -&gt; 298, measured in 1,437 of 1,437; the paper says approximately 290.</p></details>
 
 ## Corrections
 

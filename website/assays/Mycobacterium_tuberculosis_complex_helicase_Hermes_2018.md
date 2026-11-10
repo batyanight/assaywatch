@@ -67,6 +67,7 @@ outside the 3′ window</title><rect x="192.8" y="26.3" width="13.0" height="17.
 
 ## Scope
 
+**Meant to detect:** Mycobacterium tuberculosis complex, hypothetical helicase gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Mycobacterium tuberculosis complex (taxid 77643), limited by a query on the title or gene.
 

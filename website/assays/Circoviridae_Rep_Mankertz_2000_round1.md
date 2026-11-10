@@ -16,7 +16,7 @@
 | Target | Circoviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=39724">taxid 39724</a>) |
 | Gene | Rep |
 | Chemistry | conventional |
-| Amplicon | 560 bp |
+| Amplicon | 580 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -266,12 +266,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Vertebrate circoviruses, rep gene, as the first round of a nested pair.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Circoviridae (taxid 39724), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `orientation_inferred`.
+Disclosures on this entry: `orientation_inferred`, `amplicon_measured_not_published`.
 
 
 ## Records reaching the statistics
@@ -292,7 +293,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 Primer 174 checked against Mankertz et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> Primer 174 checked against Mankertz et al. 2000 (Arch Virol 145:2469) on 2026-10-04: the paper prints GTGTTTCAC..., as the registry does, so this is the published primer, not a transcription error. Circovirus records, including AF086834, read GTGTTCAC... (one T fewer): the extra base is in the primer as designed, which may explain the failure noted for finch circovirus.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> Primer 174 checked against Mankertz et al. 2000 (Arch Virol 145:2469) on 2026-10-04: the paper prints GTGTTTCAC..., as the registry does, so this is the published primer, not a transcription error. Circovirus records, including AF086834, read GTGTTCAC... (one T fewer): the extra base is in the primer as designed, which may explain the failure noted for finch circovirus. CORRECTED 2026-11-06: amplicon_bp 560 -&gt; 580, the mode; the paper gives no first-round size.</p></details>
 
 ## Corrections
 

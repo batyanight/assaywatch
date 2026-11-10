@@ -91,6 +91,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Sunshine virus polymerase (L) gene, for formalin-fixed tissue.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Sunshinevirus (taxid 1921703), every record.
 

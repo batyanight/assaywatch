@@ -102,6 +102,7 @@ in the central third</title><rect x="225.4" y="201.8" width="13.0" height="6.2"/
 
 ## Scope
 
+**Meant to detect:** Canine distemper virus, P gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342), every record.
 

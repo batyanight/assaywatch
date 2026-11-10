@@ -92,10 +92,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Intranuclear coccidian of Testudines (TINC), 18S rRNA gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Intranuclear coccidium JW-2004 (taxid 293274), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
+
+Disclosures on this entry: `amplicon_measured_not_published`.
 
 
 ## Records reaching the statistics

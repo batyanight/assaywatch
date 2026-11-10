@@ -26,6 +26,7 @@ citation:
     EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Elephant endotheliotropic herpesvirus 6, DNA polymerase gene, as a second round after the generic first round.
 conditions:
   annealing_c: 50
   cycles: 45

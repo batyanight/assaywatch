@@ -118,6 +118,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Nipah virus, nucleoprotein gene, outer round of a duplex nested test.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Henipavirus nipahense (formerly Nipah henipavirus) (taxid 3052225), every record.
 

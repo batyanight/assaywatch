@@ -29,6 +29,7 @@ citation:
     Leporid Gammaherpesvirus 5 Using Evagreen or Taqman Technologies. Viruses 2021, 13, 715.
   doi_verified: true
   oligos_designed_here: true
+  claim: Leporid gammaherpesvirus 5 of hares, glycoprotein B gene.
 conditions:
   annealing_c: 62
   cycles: 49

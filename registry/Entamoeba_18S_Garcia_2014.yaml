@@ -21,6 +21,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: García G et al. 2014. J Med Microbiol 63:271-283
+  claim: Entamoeba species, 18S rRNA gene, for species identification by amplicon length and sequence.
 conditions:
   mg_mm: 2.0
   cycles: 35
@@ -42,8 +43,8 @@ source:
     two widened positions, is the correct molecule and the alternate was a non-oligo being screened as a primer. Removed,
     and recorded here instead. GEI18SF and GEI18SR are both degenerate variants of the printed pair (CTT to YYY in the forward,
     two widened positions in the reverse), now carried in modified_from; an exact-phrase Europe PMC search finds neither stored
-    form, so the widening is unpublished.'
+    form, so the widening is unpublished. CORRECTED 2026-11-10: the pairing flag''s note (''lists several primers in one block'')
+    was false, and the closing sentence about degenerate variants in modified_from is stale: the stored forms are the printed
+    ones.'
 needs_review:
 - flag: do_not_use
-- flag: pairing_is_curator_reading
-  note: the source lists several primers in one block without saying which pair

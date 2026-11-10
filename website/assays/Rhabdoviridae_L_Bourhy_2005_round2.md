@@ -250,7 +250,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
-**Meant to detect:** Animal rhabdoviruses broadly, for phylogeny rather than diagnosis.  
+**Meant to detect:** Rhabdoviruses, L gene, as a consensus screen.  
 **Scored against:** the 4 taxa listed below and anything beneath them.  
 **Retrieved from:** Rhabdoviridae (taxid 11270), limited by a query on the title or gene.
 

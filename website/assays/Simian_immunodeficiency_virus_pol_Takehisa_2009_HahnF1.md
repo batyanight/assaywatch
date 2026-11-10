@@ -184,6 +184,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** HIV-1, SIVcpz and SIVgor pol gene, first round, used only as a side method on two chimpanzee samples.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Simian immunodeficiency virus (taxid 11723), limited by a query on the title or gene.
 
@@ -196,6 +197,8 @@ pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
 ```
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
+
+Disclosures on this entry: `amplicon_measured_not_published`.
 
 
 ## Records reaching the statistics
@@ -216,7 +219,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 SOURCE FOUND 2026-10-21 and verified against the local PDF. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-21</b> SOURCE FOUND 2026-10-21 and verified against the local PDF. All FOUR Hahn primers are in Takehisa et al. 2009 with whitespace flattened - HahnF1 and HahnR1 here, HahnF2/HahnR2 in the sibling entry Simian_immunodeficiency_virus_pol_Takehisa_2009_HahnF2 - so this is the outer round of the same nested pol assay and the two entries share one source. Found by Europe PMC full-text search on the forward sequence, which returned Takehisa 2009 and Van Heuverswyn 2010; confirmed against the local PDF rather than taken from the search. doi_verified stays false until scripts/resolve_citations.py approves it.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-21</b> SOURCE FOUND 2026-10-21 and verified against the local PDF. All FOUR Hahn primers are in Takehisa et al. 2009 with whitespace flattened - HahnF1 and HahnR1 here, HahnF2/HahnR2 in the sibling entry Simian_immunodeficiency_virus_pol_Takehisa_2009_HahnF2 - so this is the outer round of the same nested pol assay and the two entries share one source. Found by Europe PMC full-text search on the forward sequence, which returned Takehisa 2009 and Van Heuverswyn 2010; confirmed against the local PDF rather than taken from the search. doi_verified stays false until scripts/resolve_citations.py approves it. CORRECTED 2026-11-06: the paper gives no first-round size; the 220 bp fits the inner pair.</p></details>
 
 ## Corrections
 

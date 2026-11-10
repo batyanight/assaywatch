@@ -222,6 +222,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Cryptosporidium, 18S rRNA gene, as the nested second round, with digestion to identify species.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Cryptosporidium (taxid 5806), limited by a query on the title or gene.
 

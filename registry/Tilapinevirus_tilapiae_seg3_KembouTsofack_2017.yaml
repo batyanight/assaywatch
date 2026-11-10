@@ -26,9 +26,11 @@ citation:
     Microbiology 55, 759-767 (2017).
   doi_verified: true
   oligos_designed_here: false
+  claim: Tilapia lake virus segment 3, as the inner round of a nested assay, with the pair taken from an earlier paper.
 conditions:
   annealing_c: 60
-  primer_nm: 300
+  primer_nm: 200.0
+  cycles: 25
 use_context:
 - wildlife
 submitted_by: null
@@ -50,7 +52,8 @@ source:
     virus records would report guaranteed non-detection as drift. TAXON NAME: NCBI now calls txid2034996 ''Tilapinevirus tilapiae''
     under the ICTV binomial scheme; the paper and the wider literature call it Tilapia lake virus (TiLV), and the species
     was ''Tilapia tilapinevirus''. All three are kept in taxon_name so a search on any of them finds this entry. The taxid
-    is unchanged and is what retrieval uses.'
+    is unchanged and is what retrieval uses. CORRECTED 2026-11-10: 200 nM primers and 25 cycles (p7); 300 nM was the SYBR
+    qPCR''s. The external pair Nested ext-1/ext-2 is a candidate entry, cited to ref 10.'
 needs_review:
 - flag: thin_evidence
   note: 1 of 24 records covers the window

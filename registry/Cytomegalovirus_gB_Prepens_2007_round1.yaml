@@ -20,6 +20,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Prepens S et al. 2007. Virol J 4:84
+  claim: Cytomegalovirus glycoprotein B (gB) gene, genus-restricted primers, first round.
 conditions:
   annealing_c: 45
 use_context:

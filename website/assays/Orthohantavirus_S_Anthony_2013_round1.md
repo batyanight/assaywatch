@@ -283,6 +283,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Hantaviruses, S segment, as a consensus screen.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Orthohantavirus (taxid 1980442), every record.
 

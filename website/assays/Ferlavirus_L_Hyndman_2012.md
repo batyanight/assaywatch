@@ -129,6 +129,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Ferlavirus L (polymerase) gene, used here to exclude co-infection rather than as the paper's own assay.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Ferlavirus (taxid 1283308), every record.
 

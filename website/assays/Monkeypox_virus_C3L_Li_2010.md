@@ -110,7 +110,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
-**Meant to detect:** Monkeypox virus Congo Basin strains.  
+**Meant to detect:** Congo Basin clade of monkeypox virus, C3L gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Monkeypox virus (taxid 10244), every record.
 

@@ -109,6 +109,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Encephalitozoon cuniculi polar tube protein gene, genotype III told from I and II by product length.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Encephalitozoon cuniculi (taxid 6035), every record.
 

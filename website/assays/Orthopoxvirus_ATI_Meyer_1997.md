@@ -63,6 +63,7 @@
 
 ## Scope
 
+**Meant to detect:** Orthopoxvirus species, A-type inclusion body protein gene, told apart by product length.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Orthopoxvirus (taxid 10242), every record.
 

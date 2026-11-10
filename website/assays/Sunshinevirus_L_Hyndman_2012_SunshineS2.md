@@ -91,6 +91,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Sunshine virus polymerase (L) gene, for fresh-frozen tissue.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Sunshinevirus (taxid 1921703), every record.
 
@@ -108,6 +109,11 @@ This matters because a record with one diverged primer is scored as a failure wh
 | why a record was not evaluable | records |
 |---|---|
 | `no_site` | 3 |
+
+
+## Curation record
+
+CORRECTED 2026-11-10: 40 cycles.
 
 
 ## Corrections
