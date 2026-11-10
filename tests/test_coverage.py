@@ -20,6 +20,7 @@ from assaywatch.coverage import (
     CellState,
     CoverageCell,
     CoverageRule,
+    Together,
     coverage_map,
     main,
     recommend,
@@ -304,14 +305,33 @@ def by_assay(rows):
     return out
 
 
-def together(round1_rows, round2_rows):
-    return list(together_calls(PATH, by_assay([*round1_rows, *round2_rows]), FREE))
+def together(round1_rows, round2_rows, rule=Together.trace):
+    return list(together_calls(PATH, by_assay([*round1_rows, *round2_rows]), FREE, rule))
 
 
 def test_together_is_round_twos_call_when_round_one_works():
     (t,) = together([r1("fv3_0")], [row("fv3_0", assay="N_round2")])
-    assert t["assay_id"] == together_id("N_round2") == "N_round2@together"
+    assert t["assay_id"] == together_id("N_round2", Together.trace) == "N_round2@together-trace"
     assert t["call"] == "detect"
+
+
+def test_the_strict_rule_needs_round_one_detected_in_its_own_right():
+    """The other end of the range: the same record the trace rule lets through."""
+    mid_primer = r1("fv3_0", "fail", fwd_mm="12,9,7", fwd_mispairs="C:A@12,A:C@9,G:A@7")
+    (t,) = together([mid_primer], [row("fv3_0", assay="N_round2")], Together.strict)
+    assert t["assay_id"] == "N_round2@together-strict"
+    assert t["call"] == "fail"
+    (ok,) = together([r1("fv3_0", "reduced")], [row("fv3_0", assay="N_round2")], Together.strict)
+    assert ok["call"] == "detect"
+
+
+def test_the_two_together_rows_share_one_denominator():
+    rounds = [r1("fv3_0"), r1("fv3_1", "fail", fwd_mm="9", fwd_mispairs="C:A@9"), r1("fv3_2", "no_amplicon")]
+    rounds += [row(f"fv3_{i}", assay="N_round2") for i in range(3)]
+    trace, strict = together(rounds, []), together(rounds, [], Together.strict)
+    assert [t["record_id"] for t in trace] == [t["record_id"] for t in strict] == ["fv3_0", "fv3_1"]
+    assert [t["call"] for t in trace] == ["detect", "detect"]
+    assert [t["call"] for t in strict] == ["detect", "fail"]
 
 
 def test_round_one_only_has_to_make_a_trace_of_product():
@@ -360,18 +380,25 @@ def test_round_two_failing_fails_the_protocol_whatever_round_one_did():
     assert t["call"] == "fail"
 
 
-def test_a_nested_protocol_gets_three_rows():
-    """Together, round 1 alone, round 2 alone: the published protocol and both fallbacks.
+def test_a_nested_protocol_gets_its_rounds_alone_and_together_under_both_rules():
+    """Round 1 alone, round 2 alone, and together twice: the published protocol as a
+    range, and both fallbacks.
 
     Here round 1 has a 3'-terminal mismatch on this species and round 2 matches. So
     the protocol as published fails, and round 2 run directly on the sample works:
     exactly the "round 1 isn't picking it up, run round 2 alone" reading.
     """
     rounds = [r1("ehnv_0", "fail", fwd_mm="1", fwd_mispairs="C:A@1"), row("ehnv_0", assay="N_round2")]
-    rows = [*rounds, *together_calls(PATH, by_assay(rounds), FREE)]
+    rows = [*rounds, *(t for how in Together for t in together_calls(PATH, by_assay(rounds), FREE, how))]
     cells = coverage_map(rows, species_of, scope_of, RULE)
-    assert [c.assay_id for c in cells] == ["N_round1", "N_round2", "N_round2@together"]
-    assert cell(cells, "N_round2@together", EHNV).state is CellState.predicted_fail
+    assert [c.assay_id for c in cells] == [
+        "N_round1",
+        "N_round2",
+        "N_round2@together-strict",
+        "N_round2@together-trace",
+    ]
+    assert cell(cells, "N_round2@together-trace", EHNV).state is CellState.predicted_fail
+    assert cell(cells, "N_round2@together-strict", EHNV).state is CellState.predicted_fail
     assert cell(cells, "N_round1", EHNV).state is CellState.predicted_fail
     assert cell(cells, "N_round2", EHNV).state is CellState.predicted_detect
 

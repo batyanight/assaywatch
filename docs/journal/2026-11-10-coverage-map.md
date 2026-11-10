@@ -27,7 +27,7 @@ Decisions taken, each by the maintainer:
 ## What was built
 
 `assaywatch/coverage.py` and the `assaywatch coverage` stage, tests first
-(`tests/test_coverage.py`, 38 tests, in the fast tier). `coverage_map(calls, species_of,
+(`tests/test_coverage.py`, in the fast tier). `coverage_map(calls, species_of,
 scope_of, rule)` is a pure function: rows in, cells out, no file and no config. It does
 not import `drift`. Four things differ from the interface as first proposed, and each is
 the maintainer's to accept or reverse:
@@ -84,6 +84,43 @@ archives (`Haemosporida_cytb_Hellgren_2004_HaemNFI`: 4,713 of 5,236). Without a 
 check a blank cannot be told from a failure in which neither primer lands, so the map
 under-reports failure on distant species. The report sums blanks per assay into one line
 and `coverage.tsv` lists them.
+
+## Later the same day: both `together` rows, and the locus check as a function
+
+**Both rules are shown.** The maintainer chose to print `together` twice, trace rule and
+strict, until a bench panel decides. On the same calls: the median protocol differs by 0.4
+points of detected share between the two, six of 34 differ by more than 10, and 511 of
+3,462 `together` cells change their word. The widest: `Chlamydia_trachomatis_16S_Messmer_1997`
+258/363 under the trace rule and 0/363 strict; `Lyssavirus_N_Vazquez-Moron_2006` 13487/13583
+and 7988/13583; `Astroviridae_RdRp_Chu_2008` 2285/2929 and 1101/2929. The run is 53,685
+cells with the extra rows.
+
+**The locus check is built and not wired in** (`assaywatch/locus_check.py`,
+`tests/test_locus_check.py`, 15 tests). It is a local, gapped alignment (Smith-Waterman) of
+a reference amplicon against a record on both strands, reporting `identity` (of aligned
+columns, the share that match) and `covered` (the share of the reference spanned). The
+first version was a semi-global edit-distance search and was dropped before it was
+committed: it must place the whole reference, so a record ending mid-locus scored as a
+poor full match instead of a good half, and `covered` meant nothing.
+
+The scoring scheme was chosen by simulation, at thresholds 0.70 identity and 0.80 covered.
+"Found" is how many of 40 true 200 bp loci with that share of substitutions were called
+present. "Chance" is the longest stretch of the reference matched in random records.
+
+| mismatch, gap | found at 20% | 25% | 30% | 35% | chance, 200 bp ref in 3 kb | 100 bp ref | 200 bp ref in 100 kb |
+|---|---|---|---|---|---|---|---|
+| -1, -2 | 40 | 40 | 40 | 0 | 0.56 | 0.86 | 0.69 |
+| -2, -3 | 40 | 35 | 11 | 0 | 0.10 | 0.23 | 0.15 |
+| -1, -3 (used) | 40 | 40 | 40 | 0 | 0.23 | 0.49 | 0.28 |
+
+No random record was called present under any scheme (172 trials each). The limits of
+this: simulated substitutions are spread evenly and real divergence is not; nothing was
+run on a real archive, because the archives are on the maintainer's Mac and the session
+was not linked to it at the time; and 100 bp references have the least room (0.49 against
+a threshold of 0.80). Speed: 0.8 s for a 300 bp reference against a 200 kb record.
+
+`config.yaml` records why 0.70 identity is suspect. Wiring it in waits on a decision about
+where it runs, which is on the roadmap.
 
 ## Probe scoring, held the same day
 

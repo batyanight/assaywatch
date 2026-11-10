@@ -8,8 +8,8 @@
     [`GLOSSARY.md`](https://github.com/batyanight/assaywatch/blob/main/GLOSSARY.md)
     propagate here.
     Terms are cross-linked: the first mention of another defined term in a
-    definition links to it (272 links).
-    `assessable`, `coverage`, `drift`, `exclusion`, `exclusivity`, `flag`, `panel`, `site`, `status`, `target` are defined by more than one entry and so
+    definition links to it (280 links).
+    `assessable`, `coverage`, `drift`, `exclusion`, `exclusivity`, `flag`, `panel`, `site`, `status`, `target`, `together` are defined by more than one entry and so
     deliberately not linked.
 
 The project's own vocabulary. Use these words, exactly, in function and variable names,
@@ -42,7 +42,7 @@ word for a concept.
 
 **target**{: #term-target } — the taxon and gene the [assay](#term-assay) is for: `taxid`, `taxon_name`, `gene`, `genome_type`, optional `query` (`schema.py` `Target`).
 
-**gene name**{: #term-gene-name } — `target.gene`: `symbol (product)`, or a bare name where there is no separate symbol, each virus keeping its own true symbol (influenza NP, paramyxovirus N). Coordinates, accessions and ortholog lists go in `notes_curator`, unless a position is the locus's only identity.
+**gene name**{: #term-gene-name } — `target.gene`: `symbol (product)`, or a bare name where there is no separate symbol, each virus keeping its own true symbol (influenza NP, paramyxovirus N). Coordinates, accessions and ortholog lists go in `notes_curator`, unless a position is the locus's only [identity](#term-identity).
 
 **scope_taxids**{: #term-scope-taxids } — taxa the [assay](#term-assay) is meant to [detect](#term-detect); a record counts toward the drift denominator when its taxid or any ancestor is listed (`schema.py` `Target`, `config.yaml drift: scope_taxonomy`).
 
@@ -104,11 +104,11 @@ word for a concept.
 
 **5' region**{: #term-5-region } — the rest of a [primer](#term-primer), penalized by `primer_5prime_penalty` (`config.yaml scoring:`).
 
-**terminal mismatch**{: #term-terminal-mismatch } — a [mismatch](#term-mismatch) at the 3'-most base of a [primer](#term-primer); with `terminal_mismatch_fails: true` it makes the [call](#term-call) `fail` regardless of identity (`config.yaml scoring:`).
+**terminal mismatch**{: #term-terminal-mismatch } — a [mismatch](#term-mismatch) at the 3'-most base of a [primer](#term-primer); with `terminal_mismatch_fails: true` it makes the [call](#term-call) `fail` regardless of [identity](#term-identity) (`config.yaml scoring:`).
 
 **mismatch**{: #term-mismatch } — a position where an [oligo](#term-oligo) base and the record base it faces share no possible base; a degenerate oligo base that includes the record base is a match, and an [undetermined](#term-undetermined) record base is **[ambiguous](#term-ambiguous)**, not a mismatch (`iupac.py base_state`).
 
-**mispair**{: #term-mispair } — the identity of a [mismatch](#term-mismatch) (template base : [primer](#term-primer) base, e.g. `G:T`), as opposed to its position; `mispair_penalty` overrides the cost of named mispairs such as G:T wobble (`config.yaml scoring:`, `score.py`).
+**mispair**{: #term-mispair } — the [identity](#term-identity) of a [mismatch](#term-mismatch) (template base : [primer](#term-primer) base, e.g. `G:T`), as opposed to its position; `mispair_penalty` overrides the cost of named mispairs such as G:T wobble (`config.yaml scoring:`, `score.py`).
 
 **mispair window**{: #term-mispair-window } — how many bases from the 3' end `mispair_penalty` applies; null means `primer_3prime_window` (`scoring.mispair_window`).
 
@@ -183,8 +183,9 @@ word for a concept.
 Agreed 2026-11-10. Coverage and drift are two separate summaries of the same calls table
 and neither depends on the other; coverage is the primary product. Built the same day as
 `assaywatch coverage` (`coverage.py`): the map, the cell states, recommendations and the
-nested rows. NOT built yet, and marked below: the **locus check**, **widened retrieval**
-and the **host column**'s data.
+nested rows. The **locus check** is built as a function (`locus_check.py`) and not yet
+wired in. NOT built yet, and marked below: **widened retrieval** and the **host
+column**'s data.
 
 **coverage**{: #term-coverage } — which species an [assay](#term-assay) is predicted to [detect](#term-detect) as of today, including species outside what its paper claimed. A snapshot with no time axis. Bench vocabulary would say "in-silico [inclusivity](#term-inclusivity)"; this project says coverage.
 
@@ -212,7 +213,11 @@ and the **host column**'s data.
 
 **not assessable**{: #term-not-assessable } — cell state: no record of that species is shown to contain the locus, so the [assay](#term-assay) was never tested by the data. Not a failure. Distinct from **assessable** (a drift [lineage](#term-lineage) with enough [evaluable](#term-evaluable-assessable-coverage-gap) records).
 
-**locus check**{: #term-locus-check } — (not built) the test, independent of the primers, of whether a record contains the [assay](#term-assay)'s target region: a tolerant alignment of a [reference amplicon](#term-reference-amplicon) against the record. Decides between `predicted fail` and "does not count" when no [primer](#term-primer) site is found.
+**locus check**{: #term-locus-check } — the test, independent of the primers, of whether a record contains the [assay](#term-assay)'s target region: a local, gapped alignment of a [reference amplicon](#term-reference-amplicon) against the record, both strands (`locus_check.locus_check`). The locus is present when the aligned stretch reaches `coverage.locus_min_identity` and spans `coverage.locus_min_covered` of the reference. Decides between `predicted fail` and "does not count" when no [primer](#term-primer) site is found. Built and not yet run on real records. Not `locus_identity`, which judges an [amplicon](#term-amplicon) the primers DID find.
+
+**identity (locus check)**{: #term-identity } — of the aligned columns, the share that match. High over a sliver for unrelated DNA, which is why it is never read without **[covered](#term-covered)**.
+
+**covered (locus check)**{: #term-covered } — the share of the [reference amplicon](#term-reference-amplicon) the alignment spans. A record that ends halfway through the locus has [identity](#term-identity) 1.0 at covered 0.5.
 
 **locus present**{: #term-locus-present } — a record shown to hold the [assay](#term-assay)'s target region; only these enter a [cell count](#term-cell-count). Until the [locus check](#term-locus-check) exists the only evidence is the [screen](#term-screen)'s own: both primers found a site (a `detect`, `reduced` or `fail` [call](#term-call)) or the screen labelled the record `diverged`. So a distant species in which neither [primer](#term-primer) lands is invisible to the map.
 
@@ -222,13 +227,15 @@ and the **host column**'s data.
 
 **degeneracy annotation**{: #term-degeneracy-annotation } — the [degeneracy](#term-degeneracy) [tier](#term-tier) shown on an [assay](#term-assay)'s rows. It never changes a [call](#term-call) or a cell; it breaks ties in a [recommendation](#term-recommendation).
 
-**nested rows**{: #term-nested-rows } — the three rows a nested or semi-nested protocol gets in the [coverage map](#term-coverage-map): **[together](#term-together)**, **[round 1 alone](#term-round-1-alone-round-2-alone)**, **[round 2 alone](#term-round-1-alone-round-2-alone)**. The two "alone" rows are the rounds' own registry entries; only `together` is computed, under the id `<last round's id>@together`.
+**nested rows**{: #term-nested-rows } — the rows a nested or semi-nested protocol gets in the [coverage map](#term-coverage-map): **together** (shown twice, see **together ([trace rule](#term-trace-rule)) / together (strict)**), **[round 1 alone](#term-round-1-alone-round-2-alone)**, **[round 2 alone](#term-round-1-alone-round-2-alone)**. The two "alone" rows are the rounds' own registry entries; only the `together` rows are computed, under the ids `<last round's id>@together-trace` and `@together-strict`.
 
-**together**{: #term-together } — nested row: the protocol as published, [round](#term-round) 1 then round 2. Round 1 is scored on the **[trace rule](#term-trace-rule)**, round 2 on the normal rule, and the cell is the worse of the two.
+**together**{: #term-together } — nested row: the protocol as published, [round](#term-round) 1 then round 2. Round 2 is scored on the normal rule, round 1 on one of two rules, and the cell is the worse of the two rounds.
+
+**together (trace rule) / together (strict)**{: #term-together-2 } — the two `together` rows, shown side by side since 2026-11-10 because how much [round](#term-round) 1 has to do is not measured. Trace: round 1 passes unless the **[trace rule](#term-trace-rule)** fails it. Strict: round 1 must itself be called `detect` or `reduced` (what `nested.nest_calls` reads). They share one set of records. Read the pair as a range; where they agree the protocol's cell is not in doubt.
 
 **round 1 alone / round 2 alone**{: #term-round-1-alone-round-2-alone } — [nested rows](#term-nested-rows): that [round](#term-round)'s [primer](#term-primer) pair on raw template, scored on the normal rule because it carries the whole reaction. Round 2 alone is the fallback when round 1 misses a species.
 
-**trace rule**{: #term-trace-rule } — the looser scoring of [round](#term-round) 1 inside a `together` row: round 1 only has to make a trace of [product](#term-product), so it fails only on a 3' [terminal mismatch](#term-terminal-mismatch) (one the scoring config does not price at zero) or no site (`coverage.trace_passes`). Agreed in outline 2026-11-10 and not measured. It is permissive: on the 2026-11-01 calls it lets nearly every scored round-1 record through, so a `together` row reads close to [round 2 alone](#term-round-1-alone-round-2-alone).
+**trace rule**{: #term-trace-rule } — the looser scoring of [round](#term-round) 1 inside a `together` row: round 1 only has to make a trace of [product](#term-product), so it fails only on a 3' [terminal mismatch](#term-terminal-mismatch) (one the scoring config does not price at zero) or no site (`coverage.trace_passes`). Agreed in outline 2026-11-10 and not measured. It is permissive: on the 2026-11-01 calls it lets nearly every scored round-1 record through, so a trace-rule `together` row reads close to [round 2 alone](#term-round-1-alone-round-2-alone), and the strict row is shown beside it.
 
 ## Pipeline and runs
 

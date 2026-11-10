@@ -98,22 +98,40 @@ per (assay, species). The decisions, what was built and what the first run showe
 - [ ] **The maintainer accepts or reverses four interface changes** made while building:
       `scope_of` as `(assay, species) -> bool`; the `rule` argument; the `reduced` field on
       `CoverageCell`; `degeneracy_of` on `recommend`. Listed in the journal.
-- [ ] **The locus check** (improvement 3 of the 2026-11-10 review, approved). A tolerant,
-      gapped alignment of a reference amplicon against a record, independent of the primers,
-      writing `locus_present` on the row; `coverage._locus_present` already reads it. Starting
-      thresholds 70% identity over 80% of the amplicon, to be replaced by a measurement.
-      Until it exists 60% of cells are `not assessable` and a distant species in which
-      neither primer lands is invisible. It also turns an indel in a primer site from a
-      blank into a failure. `locus_identity.py` is a dormant start.
+- [x] **The locus check, as a function** (improvement 3 of the 2026-11-10 review).
+      `locus_check.locus_check(record, reference_amplicons, min_identity, min_covered)`: a
+      local, gapped alignment on both strands, tests first (`tests/test_locus_check.py`).
+      Scoring scheme chosen by simulation; chance floor and sensitivity are in the journal.
+- [ ] **Wire the locus check in. Needs a maintainer decision first: where it runs.** Until
+      it runs, 60% of cells are `not assessable` and a distant species in which neither
+      primer lands is invisible. Proposed: its own stage (`assaywatch locus`) that reads the
+      calls table and the archives, checks only the rows the screen could not judge
+      (`no_amplicon` that is not `diverged`), and writes a sidecar (`locus.tsv.gz`: assay,
+      record, present, identity, covered) that `coverage` joins as `locus_present`. That
+      leaves the screen and its hash alone, so nothing is rescreened. The alternative is
+      inside the screen, which has the sequence in hand and forces a full rescreen.
+- [ ] **Reference amplicons for the locus check.** `docs/locus-references.json` holds
+      interiors (primer sites trimmed) for 197 assays as of 2026-11-10, built for `locus_identity`. Decide
+      whether those serve, or whether whole amplicons are cut afresh. Interiors keep an
+      indel in a primer site from hiding the locus.
+- [ ] **Calibrate `locus_min_identity` and `locus_min_covered` on real archives**: records an
+      assay detects should pass near 100%, records of another gene near 0%. 0.70 is suspect
+      (`config.yaml`, `coverage:`): SIV Takehisa's real failures sit at 0.65-0.67 by a
+      neighbouring measure. Needs `data/retrieved/` on the Mac.
+- [ ] **A k-mer seed for the locus check**, to pick candidate windows before aligning. A
+      300 bp reference against a 200 kb record takes 0.8 s on both strands, so a bacterial
+      genome is tens of seconds per reference.
 - [ ] **Widened retrieval**, per assay, so that out-of-scope species are in the archive on
       purpose. Today 1,368 of 20,054 counted cells are out of scope, by accident of what
       each archive happened to hold.
 - [ ] **Store GenBank's `/host` qualifier** in archive metadata. The host column is built
       and empty.
-- [ ] **Decide the trace rule.** On the 2026-11-01 calls a `together` row reads within 2
-      points of round 2 alone for 18 of 34 protocols, because round 1 fails only on a
-      3'-terminal mismatch or no site. The strict reading (`nested.nest_calls`) is the other
-      end. Needs a bench panel or a maintainer decision.
+- [x] **Both `together` rows are shown** (maintainer decision, 2026-11-10): trace rule and
+      strict, side by side, as a range.
+- [ ] **A bench panel to say where in that range a nest sits.** On the 2026-11-01 calls the
+      two rows give a different word in 511 of 3,462 cells, and six of 34 protocols differ by
+      more than 10 points of detected share (Chlamydia trachomatis Messmer 1997: 258/363
+      against 0/363; Lyssavirus Vazquez-Moron 2006: 13487/13583 against 7988/13583).
 - [ ] **A Snakemake rule** for the stage, and `coverage` among the config sections a rule
       hashes. Run by hand until then.
 - [ ] **Split a row by sublineage** where one taxid hides distinct lineages (Bd, influenza A

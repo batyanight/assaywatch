@@ -421,6 +421,9 @@ class Coverage(Block):
     #: the validator here says so at startup instead of at the first cell.
     detect_min_share: float = Field(default=0.95, gt=0, le=1)
     fail_max_share: float = Field(default=0.05, ge=0, lt=1)
+    #: The locus check's two thresholds (`locus_check.locus_check`), both inclusive.
+    locus_min_identity: float = Field(default=0.70, ge=0, le=1)
+    locus_min_covered: float = Field(default=0.80, ge=0, le=1)
 
     @model_validator(mode="after")
     def cuts_do_not_cross(self) -> Coverage:

@@ -171,8 +171,9 @@ word for a concept.
 Agreed 2026-11-10. Coverage and drift are two separate summaries of the same calls table
 and neither depends on the other; coverage is the primary product. Built the same day as
 `assaywatch coverage` (`coverage.py`): the map, the cell states, recommendations and the
-nested rows. NOT built yet, and marked below: the **locus check**, **widened retrieval**
-and the **host column**'s data.
+nested rows. The **locus check** is built as a function (`locus_check.py`) and not yet
+wired in. NOT built yet, and marked below: **widened retrieval** and the **host
+column**'s data.
 
 **coverage** — which species an assay is predicted to detect as of today, including species outside what its paper claimed. A snapshot with no time axis. Bench vocabulary would say "in-silico inclusivity"; this project says coverage.
 
@@ -200,7 +201,11 @@ and the **host column**'s data.
 
 **not assessable** — cell state: no record of that species is shown to contain the locus, so the assay was never tested by the data. Not a failure. Distinct from **assessable** (a drift lineage with enough evaluable records).
 
-**locus check** — (not built) the test, independent of the primers, of whether a record contains the assay's target region: a tolerant alignment of a reference amplicon against the record. Decides between `predicted fail` and "does not count" when no primer site is found.
+**locus check** — the test, independent of the primers, of whether a record contains the assay's target region: a local, gapped alignment of a reference amplicon against the record, both strands (`locus_check.locus_check`). The locus is present when the aligned stretch reaches `coverage.locus_min_identity` and spans `coverage.locus_min_covered` of the reference. Decides between `predicted fail` and "does not count" when no primer site is found. Built and not yet run on real records. Not `locus_identity`, which judges an amplicon the primers DID find.
+
+**identity (locus check)** — of the aligned columns, the share that match. High over a sliver for unrelated DNA, which is why it is never read without **covered**.
+
+**covered (locus check)** — the share of the reference amplicon the alignment spans. A record that ends halfway through the locus has identity 1.0 at covered 0.5.
 
 **locus present** — a record shown to hold the assay's target region; only these enter a cell count. Until the locus check exists the only evidence is the screen's own: both primers found a site (a `detect`, `reduced` or `fail` call) or the screen labelled the record `diverged`. So a distant species in which neither primer lands is invisible to the map.
 
@@ -210,13 +215,15 @@ and the **host column**'s data.
 
 **degeneracy annotation** — the degeneracy tier shown on an assay's rows. It never changes a call or a cell; it breaks ties in a recommendation.
 
-**nested rows** — the three rows a nested or semi-nested protocol gets in the coverage map: **together**, **round 1 alone**, **round 2 alone**. The two "alone" rows are the rounds' own registry entries; only `together` is computed, under the id `<last round's id>@together`.
+**nested rows** — the rows a nested or semi-nested protocol gets in the coverage map: **together** (shown twice, see **together (trace rule) / together (strict)**), **round 1 alone**, **round 2 alone**. The two "alone" rows are the rounds' own registry entries; only the `together` rows are computed, under the ids `<last round's id>@together-trace` and `@together-strict`.
 
-**together** — nested row: the protocol as published, round 1 then round 2. Round 1 is scored on the **trace rule**, round 2 on the normal rule, and the cell is the worse of the two.
+**together** — nested row: the protocol as published, round 1 then round 2. Round 2 is scored on the normal rule, round 1 on one of two rules, and the cell is the worse of the two rounds.
+
+**together (trace rule) / together (strict)** — the two `together` rows, shown side by side since 2026-11-10 because how much round 1 has to do is not measured. Trace: round 1 passes unless the **trace rule** fails it. Strict: round 1 must itself be called `detect` or `reduced` (what `nested.nest_calls` reads). They share one set of records. Read the pair as a range; where they agree the protocol's cell is not in doubt.
 
 **round 1 alone / round 2 alone** — nested rows: that round's primer pair on raw template, scored on the normal rule because it carries the whole reaction. Round 2 alone is the fallback when round 1 misses a species.
 
-**trace rule** — the looser scoring of round 1 inside a `together` row: round 1 only has to make a trace of product, so it fails only on a 3' terminal mismatch (one the scoring config does not price at zero) or no site (`coverage.trace_passes`). Agreed in outline 2026-11-10 and not measured. It is permissive: on the 2026-11-01 calls it lets nearly every scored round-1 record through, so a `together` row reads close to round 2 alone.
+**trace rule** — the looser scoring of round 1 inside a `together` row: round 1 only has to make a trace of product, so it fails only on a 3' terminal mismatch (one the scoring config does not price at zero) or no site (`coverage.trace_passes`). Agreed in outline 2026-11-10 and not measured. It is permissive: on the 2026-11-01 calls it lets nearly every scored round-1 record through, so a trace-rule `together` row reads close to round 2 alone, and the strict row is shown beside it.
 
 ## Pipeline and runs
 

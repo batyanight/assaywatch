@@ -270,15 +270,30 @@ def recommend(
 
 # --- nested rows ---------------------------------------------------------------------
 #
-# A nested protocol gets three rows: TOGETHER (round 1 then round 2, as published),
-# ROUND 1 ALONE and ROUND 2 ALONE. The two "alone" rows need nothing built: each
-# round is already a registry entry screened as an independent assay, and a round's
-# own row IS that primer pair on raw template. Only `together` is synthesised here.
+# A nested protocol gets TOGETHER (round 1 then round 2, as published), ROUND 1 ALONE
+# and ROUND 2 ALONE. The two "alone" rows need nothing built: each round is already a
+# registry entry screened as an independent assay, and a round's own row IS that
+# primer pair on raw template. Only `together` is synthesised here.
+#
+# TOGETHER IS SHOWN TWICE (a maintainer decision, 2026-11-10), because how much round
+# 1 has to do is not known and the two readings are far apart. Under the trace rule
+# round 1 only has to make a little product; under the strict rule it has to be
+# detected in its own right. On the 2026-11-01 calls the trace row sat within 2 points
+# of round 2 alone for 18 of 34 protocols, while the strict row follows round 1. The
+# truth for a given protocol is somewhere between, and both rows stay until a bench
+# panel says where.
 
 
-def together_id(nest_id: str) -> str:
+class Together(StrEnum):
+    """Which rule round 1 is held to inside a `together` row."""
+
+    trace = "trace"  # fails only on a 3'-terminal mismatch or no site
+    strict = "strict"  # must itself be called `detect` or `reduced`
+
+
+def together_id(nest_id: str, rule: Together) -> str:
     """The row id of a nested protocol run as published; `nest_id` is its last round."""
-    return f"{nest_id}@together"
+    return f"{nest_id}@together-{rule.value}"
 
 
 def _terminal_blocked(row: Mapping[str, Any], free_mispairs: frozenset[str]) -> bool | None:
@@ -322,24 +337,33 @@ def trace_passes(row: Mapping[str, Any], free_mispairs: frozenset[str]) -> bool:
     return False
 
 
+def strict_passes(row: Mapping[str, Any]) -> bool:
+    """The strict rule: round 1 must itself be detected, as `nested.nest_calls` reads it."""
+    return row.get("call") in DETECTED
+
+
 def together_calls(
     path: NestPath,
     calls: Mapping[str, Mapping[str, Mapping[str, Any]]],
     free_mispairs: frozenset[str],
+    rule: Together,
 ) -> Iterator[dict[str, Any]]:
     """One `together` row per record every round of the protocol can be judged on.
 
     `calls` is assay id -> record id -> row, holding at least the path's rounds.
     The row is the LAST round's own row (its call, its footprint), scored normally,
-    downgraded to `fail` when any earlier round does not pass the trace rule: the
-    cell is the worse of the two. Which records count is `nested._protocol_records`,
-    the definition the drift side of nested protocols already uses, so the two
-    cannot disagree about a record.
+    downgraded to `fail` when any earlier round does not pass `rule`: the cell is
+    the worse of the two. Which records count is `nested._protocol_records`, the
+    definition the drift side of nested protocols already uses, so the two cannot
+    disagree about a record, and the trace and strict rows share one denominator.
     """
     for row, upstream in _protocol_records(path, calls):
         out = dict(row)
-        out["assay_id"] = together_id(path.nest_id)
-        if not all(trace_passes(r, free_mispairs) for r in upstream):
+        out["assay_id"] = together_id(path.nest_id, rule)
+        passes = [
+            trace_passes(r, free_mispairs) if rule is Together.trace else strict_passes(r) for r in upstream
+        ]
+        if not all(passes):
             out["call"] = "fail"
             out["exclusion"] = ""
         yield out
@@ -507,8 +531,11 @@ sequenced 300 times.
 """
     + "".join(f"| `{state}` | {claim} |\n" for state, claim in _CELL_CLAIMS)
     + """
-A nested protocol has three rows: `together` (round 1 then round 2, as published; round 1
-only has to make a trace of product), and each round alone on raw template.
+A nested protocol has each round alone on raw template, and `together` (round 1 then round
+2, as published) shown twice, because how much round 1 has to do is not measured:
+`together (trace rule)` lets round 1 through unless it has a 3'-terminal mismatch or no
+site, and `together (strict)` needs round 1 detected in its own right. Read the pair as a
+range. Where they agree the protocol's cell is not in doubt.
 
 ## What this map cannot see yet
 
@@ -608,11 +635,9 @@ def main(argv: list[str] | None = None) -> int:
         scope[aid] = frozenset(taxonomy.canonical(int(t)) for t in named)
     for p in paths:
         narrowed = nest_scope(p, assays)
-        scope[together_id(p.nest_id)] = (
-            frozenset(taxonomy.canonical(t) for t in narrowed)
-            if narrowed
-            else scope.get(p.nest_id, frozenset())
-        )
+        own = frozenset(taxonomy.canonical(t) for t in narrowed) if narrowed else scope.get(p.nest_id)
+        for how in Together:
+            scope[together_id(p.nest_id, how)] = own or frozenset()
     scope_species = {aid: {taxonomy.species_of(t) for t in s} for aid, s in scope.items()}
 
     def scope_of(assay_id: str, species: int) -> bool:
@@ -642,7 +667,9 @@ def main(argv: list[str] | None = None) -> int:
             if row["assay_id"] in members:
                 nested_rows[row["assay_id"]][row["record_id"]] = row
     free = frozenset(k for k, v in (cfg["scoring"].get("mispair_penalty") or {}).items() if float(v) == 0.0)
-    together = chain.from_iterable(together_calls(p, nested_rows, free) for p in paths)
+    together = chain.from_iterable(
+        together_calls(p, nested_rows, free, how) for p in paths for how in Together
+    )
 
     # An assay in the calls table that the registry no longer holds (renamed, or moved
     # to pending/ since the screen) has no declared scope, so every one of its rows
@@ -661,14 +688,16 @@ def main(argv: list[str] | None = None) -> int:
     cells = coverage_map(chain(screened, together), species_of, scope_of, rule)
     for p in paths:  # a protocol is as degenerate as its most degenerate round
         folds = [degeneracy[r] for r in p.rounds if r in degeneracy]
-        if folds:
-            degeneracy[together_id(p.nest_id)] = max(folds)
+        for how in Together if folds else ():
+            degeneracy[together_id(p.nest_id, how)] = max(folds)
 
     round_of = {aid: a.source.nested_round for aid, a in assays.items() if aid in members}
 
     def row_kind(assay_id: str) -> str:
-        if assay_id.endswith("@together"):
-            return "together"
+        if assay_id.endswith("@together-trace"):
+            return "together (trace rule)"
+        if assay_id.endswith("@together-strict"):
+            return "together (strict)"
         # `nested_round` is the registry's own label for the round ("round1", "round2B")
         return f"{round_of[assay_id]} alone" if round_of.get(assay_id) else ""
 
