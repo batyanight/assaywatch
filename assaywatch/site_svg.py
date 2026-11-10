@@ -134,17 +134,16 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
         # For a primer it is the last five bases. A polymerase extends from the
         # 3'-OH, so a mismatch there sits in the catalytic site.
         #
-        # For a probe it is the CENTRAL THIRD. A hydrolysis probe is never
-        # extended -- its 3' end carries the quencher or the minor-groove binder
-        # -- and it is cleaved by the polymerase's 5'->3' exonuclease, so its 3'
-        # terminus has no special status. What matters is duplex stability,
-        # which a central mismatch disturbs most. `config.yaml` says the same
-        # thing in numbers: `probe_center_penalty` 2.0 over the central third,
-        # `probe_outer_penalty` 1.0 elsewhere, and no 3' window for probes at
-        # all. Shading the last five bases of a probe drew a region the scorer
-        # does not use.
+        # A probe gets NO shaded region. A hydrolysis probe is never extended --
+        # its 3' end carries the quencher or the minor-groove binder -- and it is
+        # cleaved by the polymerase's 5'->3' exonuclease, so its 3' terminus has
+        # no special status. Since 2026-11-10 the scorer judges a probe by its
+        # mismatch COUNT under its chemistry's rule (`score.ProbeRule`), wherever
+        # the mismatches fall, so any shaded stretch would draw a region the
+        # scorer does not use. It shaded the central third while the scorer
+        # weighted that third, and the last five bases before that.
         if role == "probe":
-            lo, hi = n // 3, n - n // 3
+            lo, hi = 0, 0
         else:
             lo, hi = max(n - 5, 0), n
         if hi > lo:
@@ -187,8 +186,7 @@ def mismatch_track(page: dict[str, Any], names: dict[str, str] | None = None) ->
                     ", ".join(f"{a}>{b} in {c:,}" for a, b, c in stat["substitutions"][:3]) or "not recorded"
                 )
                 if role == "probe":
-                    in_zone = n // 3 <= (n - pos3) < n - n // 3
-                    zone_text = "in the central third" if in_zone else "outside the central third"
+                    zone_text = "a probe is scored by its mismatch count, not by position"
                 else:
                     zone_text = (
                         "inside the 3\u2032 window"

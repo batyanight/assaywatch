@@ -204,10 +204,10 @@ def check_fail(assay, row, seq, cfg):
             col = {"forward": "fwd", "reverse": "rev", "probe": "probe"}[name]
             mm = tuple(int(x) for x in row[f"{col}_mm_from_3prime"].split(",") if x)
         if name == "probe":
-            L = len(oligo)
-            for d in mm:
-                pos = L - d
-                total += sc["probe_center_penalty"] if L / 3 <= pos < 2 * L / 3 else sc["probe_outer_penalty"]
+            # A probe is judged by its mismatch count (score.ProbeRule), and gates the
+            # call rather than joining the primers' sum. This script only reports a
+            # scalar, so it carries the count, as `score.decide` does for tie-breaks.
+            total += len(mm)
         else:
             for d in mm:
                 terminal |= d == 1

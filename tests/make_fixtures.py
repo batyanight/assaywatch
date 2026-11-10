@@ -65,14 +65,15 @@ PLANS: list[tuple[str, list[tuple[str, int]], str]] = [
     ("fwd_mid_rev_mid", [("forward", 7), ("reverse", 7)], "reduced"),  # 2.0
     ("fwd_5prime_x3", [("forward", 14), ("forward", 16), ("forward", 18)], "reduced"),  # 1.5
     ("fwd_mid_x4", [("forward", 7), ("forward", 8), ("forward", 9), ("forward", 10)], "fail"),  # 4.0
-    ("probe_center", [("probe", "center")], "reduced"),  # 2.0 when a probe exists
-    ("probe_outer", [("probe", "first")], "detect"),  # 1.0
+    # The three fixture assays are all MGB, a short probe: one mismatch anywhere blocks it.
+    ("probe_center", [("probe", "center")], "fail"),
+    ("probe_outer", [("probe", "first")], "fail"),
     # Both ends of one oligo edited at once. The seeded matcher this replaced
     # took one seed from each end of the oligo, so these records broke every
     # seed and the site vanished: they were miscounted as no_amplicon instead
     # of being scored. They are the regression test for that bug.
     ("fwd_both_ends", [("forward", 1), ("forward", "first")], "fail"),  # 3.0 + 0.5, and terminal
-    ("probe_both_ends", [("probe", "first"), ("probe", "last")], "reduced"),  # 1.0 + 1.0
+    ("probe_both_ends", [("probe", "first"), ("probe", "last")], "fail"),  # two probe mismatches
     # Undetermined record bases. These are not mismatches and must cost
     # nothing, even at the 3'-terminal base where a real mismatch is fatal.
     # Past `max_ambiguous_per_oligo` the record is indeterminate, not failed.

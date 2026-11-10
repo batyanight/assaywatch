@@ -6,8 +6,9 @@ numbers can change without touching code:
     primer, last `primer_3prime_window` nt of the 3' end .... primer_3prime_penalty each
     primer, next `primer_mid_window` nt ...................... primer_mid_penalty each
     primer, remaining 5' region .............................. primer_5prime_penalty each
-    probe, central third ..................................... probe_center_penalty each
-    probe, outer thirds ...................................... probe_outer_penalty each
+    probe .................................................... judged by its mismatch COUNT,
+                                                               per chemistry (`ProbeRule`);
+                                                               a gate on the call, not a penalty
 
 Degeneracy is never penalised, in either direction:
 
@@ -55,6 +56,7 @@ from __future__ import annotations
 
 from bisect import bisect_left, bisect_right
 from dataclasses import dataclass, field
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -231,6 +233,11 @@ class OligoScore:
     #: mispair, as `mispair_multiplier` explains, so those stay counted in
     #: `ambiguous` and appear here not at all.
     mispairs: tuple[str, ...] = ()
+    #: `ok`, `weak` or `blocked`, set by `score_probe` and by nothing else. A probe
+    #: is judged by a count against its `ProbeRule` rather than by a penalty against
+    #: a threshold, so it arrives with its verdict already made. None for a primer,
+    #: whose verdict (under `engine: serial`) `oligo_verdict` reads off the penalty.
+    verdict: str | None = None
 
 
 def mispair_multiplier(oligo_base: str, template_base: str, table: dict[str, Any]) -> float:
@@ -339,47 +346,139 @@ def score_primer(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
     return OligoScore(penalty, terminal, site.mismatches, tuple(from3), site.ambiguous, tuple(mispairs))
 
 
-def score_probe(site: Site, oligo: str, cfg: dict[str, Any]) -> OligoScore:
-    """A probe has no 3' end that matters; the middle third is what holds it on.
+class ProbeKind(StrEnum):
+    """The two kinds of probe the scoring tells apart.
 
-    A hydrolysis probe is not extended — it is bound and then cleaved — so the
-    3'-end asymmetry that governs primers does not apply. What matters is that
-    the duplex survives to the extension step, and a central mismatch costs the
-    most stability because it interrupts stacking on both sides, while a
-    terminal one only frays an end that was already breathing.
+    `standard` is a plain dual-labelled hydrolysis probe, 20-30 nt. `short` is a
+    probe made short by a duplex stabiliser: a minor-groove binder (`mgb`) or
+    locked nucleic acid bases (`lna`), 12-18 nt.
+    """
 
-    The thirds are a crude stand-in for a stability calculation, and they are
-    length-blind: the central third of a 15-mer is 5 nt where a single mismatch
-    may well abolish binding, and of a 30-mer is 10 nt where it may not. Of the 44
-    probe assays in the registry (2026-10-14), 22 are MGB, whose minor-groove binder
-    adds roughly 15-20 C of Tm, and the other 22 are plain hydrolysis probes. The MGB
-    probes tolerate mismatches a bare oligo of the same length would not, and
-    nothing here knows that. `--thermo` computes the actual duplex ΔTm and is the
-    better guide where it is available.
+    standard = "standard"
+    short = "short"
 
-    Takes the oligo rather than its length (it did take the length until
-    2026-10-26) so that it can record the mispair identities for replay, the same
-    as `score_primer`. The `@distance` in a probe's mispair is still measured from
-    its 3' end, for one format across all three oligos, and means less here: a
-    probe has no 3' asymmetry, which is this function's whole premise.
+
+#: Which kind each probe-bearing chemistry is. A chemistry not named here has no
+#: probe, or has an ordinary one, and reads as `standard`.
+PROBE_KIND: dict[str, ProbeKind] = {
+    "hydrolysis_probe": ProbeKind.standard,
+    "mgb": ProbeKind.short,
+    "lna": ProbeKind.short,
+}
+
+#: A probe verdict as the call it permits at best. The call is the worse of this
+#: and what the primers earned.
+PROBE_GATE = {"ok": "detect", "weak": "reduced", "blocked": "fail"}
+_CALL_SEVERITY = {"detect": 0, "reduced": 1, "fail": 2}
+
+
+@dataclass(frozen=True)
+class ProbeRule:
+    """How many mismatches a probe of one kind survives.
+
+    `frozen=True` means an instance cannot be changed after it is built, so a rule
+    handed to `score_probe` is the rule that was read from config.yaml and nothing
+    in between can have moved a threshold.
+
+    Fewer than `reduced_at` mismatches: the probe is `ok`.
+    From `reduced_at` up to but not including `fail_at`: `weak`, the call is at best
+    `reduced` (it reports, late and lower).
+    `fail_at` or more: `blocked`, the call is `fail` (product, and no signal).
+
+    Setting the two equal removes the `weak` band, which is the short-probe rule:
+    one mismatch and the probe is off.
+    """
+
+    kind: ProbeKind
+    reduced_at: int
+    fail_at: int
+
+    def __post_init__(self) -> None:
+        # Runs once, right after the dataclass sets the three fields. A rule that
+        # cannot mean anything is refused here rather than scoring quietly.
+        if self.reduced_at < 1:
+            raise ValueError(
+                f"reduced_at must be at least 1, got {self.reduced_at}: zero mismatches is a match"
+            )
+        if self.fail_at < self.reduced_at:
+            raise ValueError(
+                f"fail_at ({self.fail_at}) is below reduced_at ({self.reduced_at}): "
+                "a probe cannot fail before it is reduced"
+            )
+
+    def verdict(self, n_mismatches: int) -> str:
+        if n_mismatches >= self.fail_at:
+            return "blocked"
+        if n_mismatches >= self.reduced_at:
+            return "weak"
+        return "ok"
+
+
+def probe_rule_for(chemistry: Chemistry | str, cfg: dict[str, Any]) -> ProbeRule:
+    """The probe rule for one chemistry, from a config ALREADY resolved for it.
+
+    Pass `config_for(chemistry, cfg)`, not the base config: the two numbers live in
+    `scoring` like every other, and `scoring.by_chemistry` is what makes them differ
+    for `mgb` and `lna`. This is the one place the whole config is read on the
+    probe's behalf; `score_probe` receives only the rule.
     """
     s = cfg["scoring"]
+    kind = PROBE_KIND.get(str(chemistry), ProbeKind.standard)
+    return ProbeRule(kind, int(s["probe_reduced_at"]), int(s["probe_fail_at"]))
+
+
+def score_probe(site: Site, oligo: str, rule: ProbeRule) -> OligoScore:
+    """Judge a probe by how many mismatches it carries, under its chemistry's rule.
+
+    A hydrolysis probe is not extended. It is bound and then cleaved, so the 3'-end
+    asymmetry that governs primers does not apply and there is no window to weight.
+    What matters is whether the duplex survives to the extension step, and what one
+    mismatch costs that duplex depends on the kind of probe far more than on where
+    in the probe it falls:
+
+    * A standard 20-30 nt probe loses 4-6 C of Tm to one mismatch (Kutyavin et al.
+      2000, doi:10.1093/nar/28.2.655). At a 60 C anneal that is usually a later Ct
+      and a lower plateau, not a dropout. Yao, Nellaker & Karlsson 2006
+      (doi:10.1016/j.mcp.2006.03.003) saw signal from a standard probe carrying
+      several mismatches.
+    * A 12-18 nt MGB probe can lose 15-20 C to one mismatch (Kutyavin, same paper),
+      which is why the chemistry is used for SNP genotyping. It stops reporting.
+
+    UNTIL 2026-11-10 this weighted a mismatch by thirds of the probe (centre 2.0,
+    ends 1.0) and added the result to the primers' penalty. That was length-blind
+    (the central third of a 15-mer is 5 nt, of a 30-mer 10 nt, one price) and
+    chemistry-blind, and its own docstring said so.
+
+    KNOWN GAPS, stated so nobody reads more into the count than is there:
+    * Position is ignored entirely. Kutyavin finds an MGB discriminates a mismatch
+      best when it lies under or near the binder at the 3' end, and no better than
+      plain DNA when it is far from it, so "any one mismatch blocks a short probe"
+      overstates the effect at the 5' end of an MGB probe.
+    * Yao 2006 also reports that neither probe type was fully sequence-specific at
+      standard conditions. The rule is a prior, not a measurement.
+    * LNA is filed with MGB by reasoning (short, stabilised, used for genotyping),
+      with no paper in hand.
+    * Mispair identity is recorded for replay and not used.
+
+    The `@distance` in a probe's mispair is still measured from its 3' end, for one
+    format across all three oligos. `penalty` carries the mismatch COUNT: it ranks
+    one candidate probe site against another, and is not compared with any threshold.
+    """
     oligo_len = len(oligo)
-    lo, hi = oligo_len / 3, 2 * oligo_len / 3
-    penalty = 0.0
     mispairs: list[str] = []
     for pos in site.mismatches:
-        penalty += s["probe_center_penalty"] if lo <= pos < hi else s["probe_outer_penalty"]
         rec = site.window[pos] if pos < len(site.window) else "N"
         template = COMPLEMENT.get(rec.upper(), "N")
         mispairs.append(f"{oligo[pos].upper()}:{template}@{oligo_len - pos}")
+    n = len(site.mismatches)
     return OligoScore(
-        penalty,
+        float(n),
         False,
         site.mismatches,
         tuple(oligo_len - p for p in site.mismatches),
         site.ambiguous,
         tuple(mispairs),
+        rule.verdict(n),
     )
 
 
@@ -524,6 +623,8 @@ def oligo_verdict(score: OligoScore, cfg: dict[str, Any]) -> str:
     `score_probe` never sets `terminal_mismatch`, so this reads the same for a
     probe without needing to know it is one.
     """
+    if score.verdict is not None:
+        return score.verdict  # a probe: `score_probe` already judged it by its rule
     s = cfg["scoring"]
     if score.terminal_mismatch and s.get("terminal_mismatch_fails", True):
         return "blocked"
@@ -579,8 +680,19 @@ def decide(
         verdicts = {r: oligo_verdict(o, cfg) for r, o in scored if o is not None}
         call, reason = combine(verdicts, cfg)
         return call, reason, max(o.penalty for o in (fs, rs, ps) if o is not None)
-    total = fs.penalty + rs.penalty + (ps.penalty if ps else 0.0)
-    return classify(total, fs.terminal_mismatch or rs.terminal_mismatch, cfg), "", total
+    # The primers share one budget, as they always have. The probe does not join
+    # it: primers decide whether there is product, the probe decides whether the
+    # product is seen, and a call is the worse of the two. The scalar returned
+    # still includes the probe's mismatch count so that, of two candidate amplicons
+    # with equal primers, the one with the cleaner probe site wins the tie.
+    primers = fs.penalty + rs.penalty
+    call = classify(primers, fs.terminal_mismatch or rs.terminal_mismatch, cfg)
+    reason = ""
+    if ps is not None and ps.verdict is not None:
+        gate = PROBE_GATE[ps.verdict]
+        if _CALL_SEVERITY[gate] > _CALL_SEVERITY[call]:
+            call, reason = gate, f"probe {ps.verdict}"
+    return call, reason, primers + (ps.penalty if ps else 0.0)
 
 
 def _rank(site: Site) -> tuple[int, int, int]:
@@ -961,6 +1073,9 @@ def screen_one(
     # worst-matching - that is, the drifted - pairs out of the denominator.
     window_bp = hi_bp - lo_bp + 1
 
+    # `config_for` is idempotent, so this is right whether or not the caller
+    # (`screen_record` does) already resolved `cfg` for this assay's chemistry.
+    probe_rule = probe_rule_for(assay.chemistry, config_for(assay.chemistry, cfg))
     best: Call | None = None
     for f, r, amp_start, amp_end, inner_lo, inner_hi in pairs:
         length = amp_end - amp_start
@@ -985,7 +1100,7 @@ def screen_one(
         probe_won = probe
         if probe:
             scored = [
-                (score_probe(p, o, cfg), p, o)
+                (score_probe(p, o, probe_rule), p, o)
                 for o, idx in p_indexes
                 for p in idx.within(inner_lo, inner_hi - len(o))
             ]

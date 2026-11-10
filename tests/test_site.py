@@ -12,6 +12,7 @@ import re
 from pathlib import Path
 
 import pytest
+import yaml
 
 from assaywatch import palette, site, site_render, site_svg
 
@@ -564,11 +565,11 @@ def test_a_probe_is_not_given_a_three_prime_window():
     exonuclease. There is no catalytic site at its 3' terminus, so the last five
     bases have no special status.
 
-    `config.yaml` agrees in numbers -- `probe_center_penalty` 2.0 over the
-    central third, `probe_outer_penalty` 1.0 elsewhere, and no 3' window for
-    probes at all. The figure shaded the last five bases of every oligo, which
-    drew a region the scorer does not use and implied a mechanism that does not
-    exist.
+    Since 2026-11-10 the scorer judges a probe by its mismatch count under its
+    chemistry's rule, wherever the mismatches fall, so a probe is drawn with no
+    shaded region at all. The figure once shaded the last five bases of every
+    oligo, and then a probe's central third while the scorer weighted that
+    third; either would now draw a region the scorer does not use.
     """
     page = _page(
         oligos={"forward": "ACGTACGTACGT", "probe": "ACGTACGTACGT"},
@@ -600,20 +601,21 @@ def test_a_probe_is_not_given_a_three_prime_window():
         ],
     )
     svg = site_svg.mismatch_track(page)
-    assert "central third" in svg, "the probe's shaded region must be its central third"
+    assert "central third" not in svg, "a probe has no scored region to shade or name"
     assert "3\u2032 window" in svg, "the primer must still show its 3' window"
-    # A 12-mer probe: central third is indices 4..8, i.e. positions 5..8 from the 3' end.
-    # Position 6 is inside it, so its tooltip must say so rather than talk about a 3' window.
-    assert "in the central third" in svg
+    assert svg.count('class="aw-zone"') == 1, "one shaded region: the primer's, none for the probe"
+    assert "scored by its mismatch count" in svg
 
 
 def test_the_scoring_config_still_has_no_three_prime_window_for_probes():
     """If a probe 3' penalty is ever added to the scoring, the figure above
     becomes wrong in the other direction. This fails loudly if that happens."""
-    cfg = (ROOT / "config.yaml").read_text()
-    assert "probe_center_penalty" in cfg
-    assert "probe_outer_penalty" in cfg
-    assert "probe_3prime" not in cfg, "scoring gained a probe 3' term; site_svg must be updated"
+    cfg = yaml.safe_load((ROOT / "config.yaml").read_text())["scoring"]
+    assert {"probe_reduced_at", "probe_fail_at"} <= set(cfg)
+    positional = sorted(
+        k for k in cfg if k.startswith("probe_") and k not in ("probe_reduced_at", "probe_fail_at")
+    )
+    assert not positional, f"scoring gained a positional probe term {positional}; site_svg must be updated"
 
 
 def test_an_assay_detecting_nothing_still_draws_a_visible_line():

@@ -154,16 +154,35 @@ scoring:
   # prices and does not prove: the confirming rescreen is the next full run, which this
   # change forces because `scoring` is in the screen hash.
   mispair_window: 10
-  # PROBE GEOMETRY. A hydrolysis probe must bind and then be cleaved, and a
-  # mismatch in the middle destabilises the duplex most, so the centre is
-  # weighted above the ends. Known gap: of the 51 probe assays here on 2026-10-26, 20 are MGB,
-  # whose minor-groove binder raises Tm by roughly 15-20 C and makes short probes
-  # viable — so an MGB probe's tolerance is not that of a bare oligo of the same
-  # length, and these two numbers do not know the difference. `by_chemistry`
-  # below can now tell `mgb` from `hydrolysis_probe`; what it cannot do is tell a
-  # 15-mer from a 32-mer, which is a length-scaling problem, not a chemistry one.
-  probe_center_penalty: 2.0      # central third of the probe
-  probe_outer_penalty: 1.0
+  # THE PROBE RULE (2026-11-10). A probe is judged by HOW MANY mismatches it carries,
+  # and the count that matters depends on the kind of probe. These are counts, not
+  # penalties: they are never added to the primers' sum. The probe is a gate on the
+  # call (`score.decide`): primers decide whether there is product, the probe decides
+  # whether the product is seen, and the call is the worse of the two.
+  #
+  #   mismatches < probe_reduced_at ............... probe `ok`
+  #   probe_reduced_at <= mismatches < probe_fail_at  probe `weak`    -> call at best `reduced`
+  #   mismatches >= probe_fail_at ................. probe `blocked` -> call `fail`
+  #
+  # The values here are for a STANDARD hydrolysis probe (20-30 nt). One mismatch
+  # costs it 4-6 C of Tm (Kutyavin et al. 2000, doi:10.1093/nar/28.2.655), which at a
+  # 60 C anneal is usually a later Ct and not a dropout; Yao, Nellaker & Karlsson 2006
+  # (doi:10.1016/j.mcp.2006.03.003) still saw signal from a standard probe carrying
+  # several mismatches. So one mismatch is `weak`.
+  #
+  # `probe_fail_at: 2` HAS NO MEASUREMENT BEHIND IT. Yao's result argues it is too
+  # strict; it was chosen as the conservative reading and is a placeholder like the
+  # others. `by_chemistry` below makes `mgb` and `lna` fail at one.
+  #
+  # This replaced `probe_center_penalty` 2.0 / `probe_outer_penalty` 1.0, which priced
+  # a mismatch by which THIRD of the probe it fell in: length-blind (the central third
+  # of a 15-mer is 5 nt, of a 32-mer 10 nt) and chemistry-blind. Position is now
+  # ignored altogether, which is its own known gap: see `score.score_probe`.
+  #
+  # NOT YET REPLAYED. No tier-2 run stands behind these numbers. See the note at
+  # `drift.reduced_not_detected_for`, which this change is paired with.
+  probe_reduced_at: 1
+  probe_fail_at: 2
   # A record base the oligo only partly covers (an N, or a code the oligo does
   # not fully contain) is unknown, not a mismatch, and costs nothing when
   # scoring: charging for it would make a submitter's sequencing quality
@@ -401,6 +420,18 @@ scoring:
       # 3.0 equalled reduced_max exactly, so one mismatch anywhere in the last five
       # bases was a fail on its own. At 2.0 one is `reduced` and two still fail.
       primer_3prime_penalty: 2.0
+    # SHORT STABILISED PROBES (2026-11-10): one mismatch and the probe is off, so the
+    # `weak` band is removed by setting the two counts equal. An MGB probe is 12-18 nt
+    # and one mismatch can cost it 15-20 C of Tm (Kutyavin et al. 2000,
+    # doi:10.1093/nar/28.2.655), which is why the chemistry is used for SNP
+    # genotyping. Kutyavin also finds the effect strongest under or near the binder at
+    # the 3' end and no better than plain DNA far from it, so this OVERSTATES a
+    # mismatch at an MGB probe's 5' end. `lna` is filed here by the same reasoning,
+    # with no paper in hand.
+    mgb:
+      probe_fail_at: 1
+    lna:
+      probe_fail_at: 1
 
 amplicon:
   min_bp: 50
@@ -947,7 +978,23 @@ drift:
   #     leave Start here; both stay flagged
   # A status move is not a verdict being right. It is the numerator changing for 51
   # probe-bearing entries, which is what this setting means.
-  reduced_not_detected_for: [hydrolysis_probe, mgb]
+  #
+  # NARROWED 2026-11-10: `hydrolysis_probe` REMOVED, a maintainer decision, and it
+  # reverses part of the 2026-10-27 one above. The reasoning: this list could not tell
+  # WHY a call was `reduced`, so for a standard probe it turned one probe mismatch (a
+  # Ct shift) into "not detected", which is what put the CDC H3 assay at the floor from
+  # 2016 and hid the drift that followed. The probe rule in `scoring` now carries that
+  # distinction itself: one mismatch in a standard probe is `reduced` and counts, two
+  # is `fail`; one mismatch in an MGB or LNA probe is `fail` outright. `mgb` stays
+  # here, so an MGB assay whose PRIMERS read `reduced` is still not counted.
+  #
+  # WHAT THIS PUTS AT RISK, and it has NOT been measured: the 2026-10-27 switch is what
+  # caught Influenza_A_virus_M_Spackman_2002, a documented failure. That catch survives
+  # only if those records carry two or more probe mismatches, or a failing primer. The
+  # standing rule is that a candidate which loses a documented catch is a bad
+  # candidate. So this value and the probe rule are a CANDIDATE until the development
+  # set and the influenza cases are replayed; do not release a run under them first.
+  reduced_not_detected_for: [mgb]
 
   # Drop GenBank patent-division records from the denominator. They are engineered
   # constructs (vaccine vectors, oncolytic and chimeric viruses, AAV capsid

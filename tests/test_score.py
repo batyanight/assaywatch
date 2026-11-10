@@ -158,12 +158,19 @@ def test_too_much_ambiguity_is_indeterminate_not_fail():
 
 
 def test_ambiguity_cap_comes_from_config():
+    # The per-chemistry cache is dropped after each in-place edit. `load_config`
+    # precomputes one resolved config per chemistry that has an override, and an edit
+    # made to the base block afterwards does not reach those copies. That went
+    # unnoticed here while this fixture's chemistry (mgb) had no override; it has had
+    # one since 2026-11-10 (the probe rule).
     cfg = load_config()
     cfg["scoring"]["max_ambiguous_per_oligo"] = 1
+    cfg.pop(RESOLVED, None)
     row = next(r for r in MANIFEST if r["record_id"].endswith("__rec_ambiguous_x2"))
     assay = ASSAYS[row["assay_id"]]
     assert screen_record(assay, row["record_id"], RECORDS[row["record_id"]], cfg).call == "indeterminate"
     cfg["scoring"]["max_ambiguous_per_oligo"] = None
+    cfg.pop(RESOLVED, None)
     assert screen_record(assay, row["record_id"], RECORDS[row["record_id"]], cfg).call == "detect"
 
 
@@ -761,7 +768,7 @@ def test_the_span_is_the_assay_ceiling_not_the_global_one():
 # above still asserts the penalties, and nothing here changes one.
 
 from assaywatch.drift import FOOTPRINT_COLUMNS, footprint_signature  # noqa: E402
-from assaywatch.score import Call, score_probe  # noqa: E402
+from assaywatch.score import Call, config_for, probe_rule_for, score_probe  # noqa: E402
 
 _REC_DEGENERATE = "TTGACCGATAGCCAATGAAG"  # faces the Y in _OLIGO_DEGENERATE
 _OLIGO_DEGENERATE = "TTGACCGATAGCCAATGAYG"
@@ -831,10 +838,10 @@ def test_a_probes_mispair_distance_is_also_measured_from_its_3prime_end():
     """
     probe = "CCAAGTGTCAGATGC"
     site = _primer_site(probe, "CCAAGTGACAGATGC")
-    sc = score_probe(site, probe, CFG)
+    sc = score_probe(site, probe, probe_rule_for("hydrolysis_probe", config_for("hydrolysis_probe", CFG)))
     assert sc.mispairs == ("T:T@8",)  # position 7 of 15, i.e. 8 from the 3' end
     assert sc.mismatches_from_3prime == (8,)
-    assert sc.penalty == CFG["scoring"]["probe_center_penalty"]  # unchanged
+    assert sc.penalty == 1.0  # the mismatch count, which is all a probe's penalty is now
     assert sc.terminal_mismatch is False  # a probe never sets it
 
 

@@ -115,8 +115,12 @@ class Scoring(Block):
     #: must carry its own tier-2 and bench run. Any value is clamped nowhere: a
     #: window longer than the primer simply means "every position".
     mispair_window: int | None = Field(default=None, ge=0)
-    probe_center_penalty: float = Field(default=2.0, ge=0)
-    probe_outer_penalty: float = Field(default=1.0, ge=0)
+    #: The probe rule (`score.ProbeRule`): mismatch COUNTS, not penalties. A probe
+    #: with `probe_reduced_at` mismatches is `weak`, with `probe_fail_at` it is
+    #: `blocked`. `by_chemistry` sets them equal for the short stabilised probes.
+    #: `ProbeRule` refuses fail < reduced when it is built.
+    probe_reduced_at: int = Field(default=1, ge=1)
+    probe_fail_at: int = Field(default=2, ge=1)
     max_ambiguous_per_oligo: int = Field(default=2, ge=0)
     max_mismatches_searched: int = Field(default=6, ge=0)
     max_site_evalue: float = Field(default=0.01, gt=0)

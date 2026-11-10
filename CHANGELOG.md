@@ -11,6 +11,13 @@ because none of them can be recomputed without the archives.
 
 ## Unreleased
 
+- **Candidate, not yet replayed: probes are scored by mismatch count, per chemistry.** One mismatch
+  makes a standard hydrolysis probe `weak` (the call is at best `reduced`, and counts as detected);
+  two block it. One mismatch blocks an MGB or LNA probe. The probe is now a gate on the call and no
+  longer adds to the primers' penalty. `probe_center_penalty` / `probe_outer_penalty` are gone,
+  `hydrolysis_probe` is off `drift.reduced_not_detected_for`, and the scoring hash forces a
+  rescreen. Statuses WILL move and none has been measured: do not release a run under this before
+  the development set and the influenza cases are replayed (`config.yaml`, at both settings).
 - Assay pages open on the primer graph, then the line graph, then the bar graph. Assembly records now
   reach the lineage groups, and a species is no longer split across names by the strains in its titles.
   Fixes from the security and code reviews. No status moved.

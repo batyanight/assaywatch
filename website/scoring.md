@@ -33,39 +33,45 @@ polymerase extends:
 | middle | positions 6–10 from the 3′ end | 1.0 |
 | 5′ region | everything else | 0.5 |
 
-**Probes**, weighted by distance from the center. A hydrolysis probe is never
+**Probes**, judged by how many mismatches they carry. A hydrolysis probe is never
 extended. Its 3′ end carries the quencher or the minor-groove binder, and the
 polymerase's 5′→3′ exonuclease cleaves it, so its 3′ terminus has no special
-status. What matters is duplex stability, and a mismatch near the middle
-disturbs that most:
+status. What matters is whether the duplex survives, and what one mismatch costs
+depends on the kind of probe: 4–6 °C of Tm for a standard 20–30 nt probe, up to
+15–20 °C for a 12–18 nt MGB probe
+([Kutyavin et al. 2000](https://doi.org/10.1093/nar/28.2.655)).
 
-| position | window | cost per mismatch |
+| probe | one mismatch | two or more |
 |---|---|---|
-| inner third | the central third of the probe | 2.0 |
-| outer thirds | the remaining two thirds, at either end | 1.0 |
+| standard hydrolysis probe | `weak`: the call is at best `reduced` | `blocked`: the call is `fail` |
+| MGB or LNA probe | `blocked`: the call is `fail` | `blocked` |
 
-Forward, reverse and probe penalties are summed, and the total sets the call:
+Position within the probe is not weighted. These counts rest on the literature
+and have not yet been replayed against documented cases.
+
+Forward and reverse primer penalties are summed, and the total sets the call. The
+probe is a gate on top: the call is the worse of what the primers earned and what
+the probe allows.
 
 <div class="aw-calls" markdown>
 
 | call | rule | counts as |
 |---|---|---|
 | `detect` | total penalty ≤ 1.0 | detection |
-| `reduced` | ≤ 3.0; amplifies, with an expected Ct shift | detection[^1] |
-| `fail` | above 3.0; or a mismatch at a primer's terminal 3′ base; or no probe site within the product | failure |
+| `reduced` | ≤ 3.0, or a `weak` probe; amplifies, with an expected Ct shift | detection[^1] |
+| `fail` | above 3.0; or a mismatch at a primer's terminal 3′ base; or a `blocked` probe; or no probe site within the product | failure |
 | `no_amplicon` | no primer pair in the correct orientation and size range | *excluded* |
 | `indeterminate` | too many ambiguous record bases beneath an oligonucleotide to score | *excluded* |
 
 </div>
 
 [^1]:
-    For hydrolysis-probe chemistries this is arguably wrong, and a switch
-    exists. Detection depends on the probe: one that binds poorly reports late or
-    not at all, whereas a primer that binds poorly still generates product.
-    Enabling it for probe chemistries raises detection of documented failures
-    from 5/11 to 6/11 with no increase in false positives, at the cost of two
-    confirmed positives on a published *Leptospira* validation panel. The
-    trade-off is not clearly favorable, so the option ships disabled.
+    Except for MGB assays, where a `reduced` call is not counted as detection
+    (`drift.reduced_not_detected_for`). The switch covered standard hydrolysis
+    probes too from 2026-10-27 to 2026-11-10; they were removed when the probe
+    rule above began to separate one probe mismatch (a Ct shift, counted) from
+    two (a failure). That removal has not yet been replayed against the
+    documented failure the switch was turned on to catch.
 
 The last two categories are excluded on purpose. A record that lacks the
 locus, is truncated, or is dense with ambiguity codes tells you about GenBank,

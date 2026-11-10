@@ -110,7 +110,7 @@ def main() -> int:
             FLANK
             + swap(amp, len(fwd) + (a.amplicon_bp - len(fwd) - len(rev) - len(probe)) // 2 + len(probe) // 2)
             + FLANK,
-            "primers match; one mismatch in the probe's central third",
+            "primers match; one mismatch in the middle of the probe",
         ),
         ("unrelated", FLANK + FILLER + FLANK + FILLER, "no site for either primer"),
     ]

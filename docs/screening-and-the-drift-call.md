@@ -94,10 +94,13 @@ distance from the 3' end is therefore the right shape (Kwok et al. 1990,
    probe assays on 2026-10-24. A 100-fold yield
    loss is a missed Cq cutoff in qPCR and often still a visible band after 40
    cycles of endpoint PCR. The same `fail` is printed for both.
-4. *Probe geometry is length-blind, and MGB-blind.* Of the 50 probe assays here on 2026-10-24,
-   20 are MGB (the other 30 are plain hydrolysis probes), and the minor-groove binder
-   adds roughly 15–20 °C of Tm and makes short probes viable; such a probe tolerates
-   mismatches a bare oligo of the same length would not. `--thermo` computes the real duplex ΔTm and is the better
+4. *The probe rule is position-blind and unreplayed.* Until 2026-11-10 a probe mismatch was
+   priced by which third of the probe it fell in, which was length-blind and MGB-blind. A probe
+   is now judged by its mismatch count under its chemistry's rule (`score.ProbeRule`): one
+   mismatch makes a standard hydrolysis probe `weak` and two block it; one blocks an MGB or LNA
+   probe. That ignores where the mismatch falls, though an MGB discriminates best near the
+   binder at its 3' end (Kutyavin et al. 2000, doi:10.1093/nar/28.2.655), and no tier-2 run
+   stands behind the counts yet. `--thermo` computes the real duplex ΔTm and is the better
    guide where it is available.
 5. *Mismatches add linearly*, so two adjacent ones — which destroy a contiguous
    run of base stacking — are under-penalised relative to two spread apart.
