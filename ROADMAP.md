@@ -89,6 +89,239 @@ fact, and `docs/state-of-the-project.md` says what the output is worth.
   A new query is a new retrieval group, so re-fetch and rescreen it, and do not change it
   during a run.
 
+## PRD decisions and candidate features (asked for 2026-11-09)
+
+A product requirements document was written for this project on 2026-11-09 and is not in the
+repository. It left four decisions, taken by the maintainer the same day, and thirteen candidate
+features. The decisions are decided and not built. The candidates are accepted for planning: each
+still needs its design grilled and its interface approved before any code. What is below is the
+plan for all seventeen, in the order to do them.
+
+Rules every item here follows, so they are not repeated seventeen times:
+
+- **Interface first, and it is the maintainer's to approve.** Each item names a proposed flag,
+  function or config key. None is settled. The implementation behind an approved interface can
+  be delegated.
+- **A failing test before the code**, on a fixture, in `pytest -m fast` wherever the function is
+  pure.
+- **A new word goes into `GLOSSARY.md` before it is used.** The words proposed below are
+  proposals: `base rate`, `rule-out line`, `status change`, `overlay registry`, `country lens`.
+- **No number in code.** A new setting lives in `config.yaml` with its justification or the
+  admission that it has none.
+- **Nothing here moves a status.** Every output is printed beside the verdict. An item that would
+  move one says so in bold, and none does.
+
+### Order, size and what each waits on
+
+| step | item | waits on | size |
+|---|---|---|---|
+| 1 | Decision 4: override ablation | a calls table and archives on the Mac | small |
+| 2 | Decision 1: base rate beside precision | nothing | small |
+| 3 | Decision 2: rule-out line | nothing | small |
+| 4 | Decision 3: the data-resource paper | steps 1 and 2 for its validation section | writing |
+| 5 | Status-change feed | nothing | small |
+| 6 | Status as a stated contract, and a badge | nothing | small |
+| 7 | Issue-form submissions | an NCBI key as a repository secret | small |
+| 8 | Suggested replacement oligo | nothing | small to medium |
+| 9 | Overlay registry | nothing | medium |
+| 10 | Country lens | a backfill of several hours | medium |
+| 11 | Tree view per assay | alignment and tree tools in the environment | medium to large |
+| 12 | Bench confirmation | a bench, a collaborator, step 8 | large |
+| 13-17 | five candidates this file already records | see "Already recorded" below | none new |
+
+Steps 1 to 3 come first because the paper quotes them. Steps 5 to 8 are independent of each other
+and of the paper. Do not start 9 to 12 before the next release.
+
+### The four decisions
+
+- **1. Decision 4: the lineage-conditional estimand is described, not claimed, until an
+  ablation.** README already says it is "designed and only partly built, so it is not yet a
+  contribution". The ablation is what could change that sentence.
+  - What exists: `AssayDrift.status_pooled` keeps the verdict from before the override
+    (`drift.py`), and `scripts/lineage_override_audit.py` lists every assay whose status comes
+    from one. So no second run is needed. One calls table gives both readings.
+  - Proposed interface: `scripts/retrospective.py --verdict {final,pooled}`, default `final`.
+    `pooled` scores each case on `status_pooled`.
+  - Test first: a fixture where one override fires. The two matrices differ in that row and in no
+    other.
+  - Then: run both on the development set and on each held-out set, with the Jeffreys intervals
+    `precision_lines` already prints. Report, per set, the catches the override adds and the
+    false alarms it adds.
+  - **The problem to settle before running.** Held-out sets 1 and 2 are spent and set 3 has been
+    scored (`docs/INDEX.md`). An ablation tunes nothing, so reading them again breaks no rule, but
+    a claim of contribution made on rows already read is in-sample in the way that matters. Write
+    the kill criterion into the journal before the run. A form to argue with: claim the estimand
+    only if, on rows not read before, the override adds at least one documented catch and no more
+    false alarms than catches.
+  - Done when: one journal holds both matrices for every set, `website/validation.md` shows the
+    pair, and the README sentence either stands with a number beside it or is rewritten.
+- **2. Decision 1: `declining` is judged against the base rate of failure, not a fixed
+  precision.** The target: on a held-out set, the lower bound of the precision interval exceeds
+  the share of judged cases that were real failures.
+  - Why a base rate. Precision alone cannot say whether a flag carries information. If a quarter
+    of judged assays have failed, a flag that is right a quarter of the time is a coin weighted
+    like the deck. On the development set (2026-10-31 run) the base rate is 11 of 43, 26%, and
+    precision is 4 of 10 with a 95% interval of 15% to 70%, which does not clear it.
+  - Proposed interface: `precision_lines` gains one line per set: the base rate as k of n, and
+    `clears` or `does not clear`.
+  - Test first: a hand-built matrix of four rows prints the base rate and the right word.
+  - A caveat to print with it: the comparison sets an interval against a point. The base rate is
+    itself estimated from the same few rows and has its own uncertainty, which this first version
+    ignores. Say so in the output.
+  - What the target costs in cases. With a Jeffreys interval, clearing 26% needs about 5 of 8
+    flagged held-out cases if true precision is near 60%, and about 7 of 14 if it is near 50%.
+    Set 3 has two rows. So the target is not measurable until a fourth held-out set exists, and
+    `scripts/find_retrospective_cases.py` (the `late_redesign` family) is the route to it.
+  - Done when: every set's precision line carries its base rate, `docs/state-of-the-project.md`
+    states the target and that it is unmet, and the size of the next held-out set is written down
+    before it is opened.
+- **3. Decision 2: one threshold for the status, and a stricter line that is only read.**
+  `drift.detect_fraction_threshold` stays at 0.90 for every `use_context`. No per-context
+  thresholds, because each would be one more number set by eye.
+  - Proposed interface: `report.rule_out_line: 0.95`, under `report:` and not `drift:`, for the
+    reason `report.collection_sidecar` gives: it must not enter the drift hash. `null` turns it
+    off.
+  - What is printed: beside each scored assay, whether its recent interval sits above the line,
+    below it, or across it. A sentence in the report's preamble says what the line is for: an
+    assay missing 1 in 10 targets is fine for prevalence and useless for ruling out disease in
+    one animal.
+  - Tests first: the golden report gains the column; a second test changes the value and asserts
+    that no status moves.
+  - The honest cost: 0.95 is a twentieth placeholder set by eye. Add it to "The placeholders,
+    for the record" and change "Nineteen" in `docs/state-of-the-project.md` and README in the
+    same commit.
+  - The website follows: `site.py` writes the field into `run.json`, which is a schema change
+    (step 6).
+  - Done when: the line is in `report.md`, `report.html` and the assay pages, and the placeholder
+    count is right everywhere it is quoted.
+- **4. Decision 3: a short data-resource paper, drafted now, not waiting on a collaborator.**
+  Framed on the registry and the deposit-year axis. The classifier is reported with its measured
+  weakness and is not the claim.
+  - Outline, in the order to write it: what the registry holds and how an entry is verified
+    (Crossref, measured amplicons, oligos read against the paper); the deposit-year axis and
+    `docs/design-era.tsv`; one run's results; validation, with steps 1 and 2; limitations, lifted
+    from `docs/state-of-the-project.md`; related work from `docs/related-work.md`.
+  - Figures that already exist: `forest.svg`, `site-positions.svg`, the influenza M1 pair.
+  - Read before choosing a journal, none of it checked yet: the article type's length and data
+    requirements, and the journal's policy on AI-written code and text. `docs/ai-involvement.md`
+    already states what was written by Claude; the submission has to match it.
+  - The collaborator is asked for one thing: a statistical critique of the drift-correlated
+    denominator (`docs/state-of-the-project.md`, "Known limitations", item 1).
+  - Done when: a preprint has a DOI and `CITATION.cff` carries it as `preferred-citation`.
+
+### The eight candidates not recorded before
+
+- **5. Status-change feed.** `scripts/report_diff.py` already prints one line per assay whose
+  status changed between two runs and follows renames. What is missing is publication.
+  - Proposed interface: `report_diff.py --format atom --out website/feed.xml`, run by
+    `scripts/weekly_run.sh --live` after the report.
+  - Test first: two fixture reports give one entry per changed assay; a quiet week gives none; a
+    renamed assay is not a change.
+  - The trap: a status can move because the entry, its scope or the scoring changed, not because
+    GenBank did. Each feed entry must say which of those differed between the two runs, read from
+    the screen signature. A feed that reports a scope edit as drift is worse than no feed.
+  - Done when: the site publishes the feed and one real weekly run has appended to it.
+- **6. Status as a stated contract, and a badge.** `website/data/run.json` already carries a
+  `schema` version and, per assay, the status, the recent and baseline shares and their
+  intervals. Nothing says a reader may depend on it.
+  - Proposed interface: a page documenting each key; a contract test pinning the keys so a rename
+    fails CI; `site render` writes `assays/<id>/badge.json` in the shields.io endpoint format.
+  - Decide first: a withheld assay's badge reads "no status", never a colour. The badge label
+    carries the run date, so a stale badge reads as stale.
+  - Done when: the page exists, the test is in `fast`, and one assay page shows its own badge.
+- **7. Issue-form submissions.** A form under `.github/ISSUE_TEMPLATE/` with the fields of the
+  `CONTRIBUTING.md` template, and a workflow that turns the issue into a YAML, runs
+  `scripts/check_submission.py` and comments the result.
+  - Test first: the parser, on a fixture issue body, gives a YAML the validator accepts with
+    `--pending`.
+  - Security, before anything else: an issue body is untrusted text. It is never interpolated
+    into a shell command, the workflow's permissions are pinned to commenting, and nothing is
+    committed by the workflow. An entry still reaches `pending/` by a maintainer's pull request.
+  - Needs: the NCBI key as a repository secret, and a decision on whether a public workflow may
+    spend it on anyone's submission.
+  - Done when: a test issue on a fork gets a correct comment and writes nothing.
+- **8. Suggested replacement oligo.** `sitedrift.py` already names the base to order at each
+  drifted position and refuses to recommend `N`. This assembles the whole oligo.
+  - Proposed interface: `sitedrift.suggested_oligo(sites)` returning the sequence, the positions
+    changed, and the degeneracy before and after with its tier from `degeneracy.py`. It returns
+    nothing when any position would be `N` or the entry's oligo provenance is in doubt.
+  - Tests first: positions to string; a reverse primer comes back in the orientation it is
+    ordered in; never `N`.
+  - Then, optionally: screen the suggestion against the assay's own archive and print its
+    detected share beside the original's. Same records, same config, one variable changed, which
+    is the control the influenza M1 pair has.
+  - Wording: "a candidate to test at the bench". Nothing in silico makes it a recommendation.
+  - Done when: `site-drift.md` shows a candidate for each declining assay that has one.
+- **9. Overlay registry.** A second directory of entries, outside the repository, screened
+  against the same archives and never published. For in-house or modified oligos that have no
+  DOI and so can never be live.
+  - Proposed interface: `registry.overlay: null` in `config.yaml`, a path. Entries validate under
+    the `--pending` rules. Results go to their own directory.
+  - Tests first: `site extract` refuses an overlay entry; an overlay id cannot collide with a
+    live one; a run with no overlay is byte for byte what it is today.
+  - The risk to design against: unpublished oligos reaching a committed file
+    (`docs/example-run-*`, `website/data/`). The guard is a test, not a habit.
+  - Done when: one overlay entry gets a report locally and a grep of the committed tree for its
+    oligos finds nothing.
+- **10. Country lens.** Detected share by country of collection, for the recent window, printed
+  beside the verdict.
+  - What blocks it today: retrieval metadata carries accession, dates, length and title and
+    nothing else (`sitedrift.py`, "No host or country breakdown").
+  - The pattern to copy: `scripts/backfill_collection_dates.py` and `report.collection_sidecar`.
+    A backfill writes a gitignored sidecar of accession to country, from the BioSample location
+    or the source feature's country qualifier. The report says when it was rendered without one.
+  - Tests first: the parser on the forms the field takes ("USA: New York", "missing", absent);
+    the lens table on a fixture; no status moves.
+  - Statistics to respect: assays times countries is a great many comparisons. Print intervals,
+    set a minimum of records per country in `config.yaml`, flag nothing.
+  - Cost: one pass over every unique accession, hours at NCBI's rate limit. On a cluster this is
+    an array job, one task per retrieval group, and worth doing after the Greene profile's first
+    submission (step 17), not before.
+  - Done when: the sidecar covers every record of one run and the lens is on the assay pages.
+- **11. Tree view per assay.** A phylogeny of the target's records coloured by call, so clade
+  structure the footprint count cannot see is visible ("Known limitations", records are not
+  independent).
+  - Input: composition windows, which already mask the primer sites, with one representative per
+    cluster to bound the size.
+  - Needs: an aligner and a tree builder in `environment.yml` and the lock file.
+  - Spike first, one assay: `Influenza_A_virus_M1_Ward_2004`. Kill criterion, written before the
+    spike: stop if the tree shows nothing the composition panel does not already show.
+  - Output: a static SVG, as the report's figures are.
+  - Done when: the spike is read and either killed or scheduled for every assay with enough
+    records.
+- **12. Bench confirmation of `declining` calls.** The one source of ground truth that does not
+  wait on the literature. The Bayesian per-record model needs at least 40 within-family negatives
+  and has 11.
+  - Design document first, grilled, and pre-registered: for each chosen assay, the scoring rule's
+    predicted call for each template, written down before anything is run.
+  - Templates: synthetic fragments of the amplicon carrying the observed footprints, beside a
+    perfect-match control. Run the published oligos and the step 8 candidate.
+  - Rows go to `docs/bench-panels/` in the existing format and count toward the model's
+    negatives.
+  - Before ordering: the institution's rules for synthetic sequence from the pathogens involved.
+  - Needs a bench and a collaborator. Nothing in this repository can start it.
+  - Done when: the design document exists and someone with a bench has agreed to it.
+
+### Already recorded: five candidates that get no new plan
+
+These were listed as future ideas in the PRD and are already in this file. They stay where they
+are. Each line says what would reopen it.
+
+- **13. Thermodynamic engine as a second opinion.** Tested and not adopted: its measured
+  advantage over the penalty rule went from p = 0.019 to p = 0.071 once its register was fixed
+  (2026-10-27, "The scoring rule's own test plan"). The TNTBLAST arm is deferred. Reopens when
+  enough entries carry annealing conditions for `thermo` to be more than inert.
+- **14. Sequence-cluster sublineages for every assay.** Covered by "Lineage composition over
+  time": one clustering, composition's, replaces Mode C's all-pairs path. No separate work.
+- **15. A scheme object for tiled amplicon panels.** Out of scope since 2026-10-04 ("Known
+  limitations"). Reopens only with a licence decision, since the public schemes are CC BY-SA 4.0
+  and the registry is CC-BY-4.0.
+- **16. GISAID for the influenza HA entries.** Under "Method debts": a licence question
+  first. Read the terms before any measurement.
+- **17. First submission of the Greene SLURM profile.** Under "Hygiene": written, untested, and
+  closed by one submission from a login node. It is also the prerequisite for step 10's backfill
+  as an array job.
+
 ## Website and review (asked for 2026-11-04)
 
 - [x] **Humanize the website's language.** Done 2026-11-04: the home page first, with the voice
