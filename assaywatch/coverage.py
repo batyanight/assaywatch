@@ -67,6 +67,7 @@ from assaywatch.accession import strip_version
 # keeps this module off `assaywatch.drift`. Moving the three names into `calls`
 # outright is a ROADMAP item.
 from assaywatch.calls import FOOTPRINT_COLUMNS, FOOTPRINT_REQUIRED, footprint_signature
+from assaywatch.locus import read_locus
 from assaywatch.nested import NestPath, _protocol_records, nest_scope
 from assaywatch.nested import paths as nest_paths
 from assaywatch.registry import load as load_registry
@@ -609,6 +610,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--registry", type=Path, default=Path("registry"))
     ap.add_argument("--config", type=Path, default=None)
     ap.add_argument("--out", type=Path, required=True, help="directory for coverage.tsv and coverage.md")
+    ap.add_argument("--locus", type=Path, help="side file from `assaywatch locus`: joined as locus_present")
     ap.add_argument(
         "--recommend", type=int, metavar="TAXID", help="also print the assays ranked for this species"
     )
@@ -676,9 +678,17 @@ def main(argv: list[str] | None = None) -> int:
     # would read "out of scope". It is left out and named in the report's header.
     not_in_registry: set[str] = set()
 
+    # The locus check's verdicts, where the stage was run. A record in the file gets an
+    # explicit `locus_present`, which `_locus_present` prefers to the screen's guess; a
+    # record not in it keeps the screen's evidence.
+    locus_of = read_locus(args.locus) if args.locus else {}
+
     def registered(rows: Iterable[dict[str, Any]]) -> Iterator[dict[str, Any]]:
         for row in rows:
             if row["assay_id"] in assays:
+                checked = locus_of.get(row["assay_id"])
+                if checked is not None and row["record_id"] in checked:
+                    row["locus_present"] = checked[row["record_id"]]
                 yield row
             else:
                 not_in_registry.add(row["assay_id"])

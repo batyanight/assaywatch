@@ -424,6 +424,8 @@ class Coverage(Block):
     #: The locus check's two thresholds (`locus_check.locus_check`), both inclusive.
     locus_min_identity: float = Field(default=0.70, ge=0, le=1)
     locus_min_covered: float = Field(default=0.80, ge=0, le=1)
+    #: A reference amplicon shorter than this is not used by the locus stage.
+    locus_min_reference_bp: int = Field(default=100, ge=1)
 
     @model_validator(mode="after")
     def cuts_do_not_cross(self) -> Coverage:

@@ -1233,6 +1233,15 @@ coverage:
   # which is why the start is on the strict side.
   locus_min_identity: 0.70
   locus_min_covered: 0.80
+  # A reference amplicon shorter than this is not used, and an assay left with none is
+  # not checked at all. The references in docs/locus-references.json are amplicon
+  # INTERIORS (primer sites trimmed), so a short amplicon leaves almost nothing: 17 bp
+  # for Ranavirus_MCP_Pallister_2007, 28 for Orf_virus_RPO147_Zhao_2013. Any record
+  # holds a 17-mer's worth of chance match. 100 is the shortest length the chance floor
+  # was measured at (0.49 of the reference against the 0.80 asked for, 2026-11-10);
+  # below it nothing is measured. The fix for those assays is a longer reference (the
+  # amplicon plus its flanks), which is on the roadmap.
+  locus_min_reference_bp: 100
 
 composition:
   # The flank BUDGET per side, 2 x flank_bp in all. Not the flank itself: each assay's

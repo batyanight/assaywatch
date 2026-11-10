@@ -56,14 +56,17 @@ They are constants here and not in config.yaml because they are not thresholds o
 call: the two numbers that decide (`coverage.locus_min_identity`,
 `coverage.locus_min_covered`) are in config.
 
-COST. One pass is len(reference) numpy sweeps along the record: 0.8 s for a 300 bp
-reference against a 200 kb record on both strands (measured 2026-11-10), so
-milliseconds for a 10 kb virus and tens of seconds for a 5 Mb bacterial genome, per
-reference. A k-mer seed to pick candidate windows
-first is the known fix and is not built (ROADMAP, "Coverage map").
+COST. Aligning a whole record is len(reference) numpy sweeps along it: 0.8 s for a
+300 bp reference against a 200 kb record on both strands (measured 2026-11-10), and
+five references of 490 bp against a 105 kb ranavirus genome is several seconds, which
+no archive of genomes can afford. So a record over EXHAUSTIVE_MAX_BP is SEEDED first:
+shared 7-base words pick out up to twelve stretches per reference and strand, and only
+those are aligned (`_windows`). That is a heuristic and is tested against the
+exhaustive answer.
 
-NOT YET WIRED IN. Nothing calls this on real records. `coverage._locus_present`
-reads a `locus_present` key that a future stage will write from it.
+WHO CALLS IT. `assaywatch locus` (`locus.py`) runs it on the records the screen
+could not judge and writes a side file; `assaywatch coverage --locus` joins that as
+`locus_present`. The screen never calls it, so adding it rescreened nothing.
 """
 
 from __future__ import annotations
@@ -76,6 +79,12 @@ import numpy as np
 
 MATCH, MISMATCH, GAP = 1, -1, 3  # GAP is a cost: each gapped base subtracts it
 
+#: Seeding, for records too long to align whole. See `_windows`.
+SEED_K = 7  # word length
+SEED_BIN = 16  # diagonals per bin: how much indel drift one bin forgives
+SEED_TOP = 12  # stretches aligned per reference and strand
+EXHAUSTIVE_MAX_BP = 5000  # at or under this a record is aligned whole
+
 _COMPLEMENT = str.maketrans("ACGT", "TGCA")
 
 
@@ -86,6 +95,13 @@ class LocusResult:
     present: bool
     identity: float  # share of aligned columns that match
     covered: float  # share of the reference amplicon the alignment spans
+    #: How many record bases lie beyond each end of where the WHOLE reference would
+    #: sit, left and right in the record's own order (negative when the reference
+    #: would run off that end). The reference is usually an amplicon's interior with
+    #: the primer sites trimmed off, so these say whether the record goes on far
+    #: enough to have held the primer sites at all. See `locus.judge`.
+    flank_left: int = 0
+    flank_right: int = 0
 
 
 ABSENT = LocusResult(present=False, identity=0.0, covered=0.0)
@@ -152,8 +168,86 @@ def _sweep(reference: str, rec: np.ndarray, keep: bool) -> tuple[int, int, int, 
     return best, best_i, best_j, rows
 
 
-def _traceback(reference: str, record: str, i_end: int, j_end: int) -> tuple[int, int, int]:
-    """Walk the best alignment backwards. Returns (matches, columns, reference start).
+def _kmer_codes(rec: np.ndarray) -> np.ndarray:
+    """Every K-base word of a sequence as one integer; -1 where the word holds a non-ACGT base.
+
+    Each base is two bits (A=0, C=1, G=2, T=3), so a 7-base word is a number below
+    16,384 and two words are equal exactly when their numbers are. Built with K
+    shifted additions over the whole array, so there is no Python loop over the record.
+    """
+    base = np.full(256, -1, dtype=np.int64)
+    for value, letter in enumerate("ACGT"):
+        base[ord(letter)] = value
+    c = base[rec]
+    n = len(c) - SEED_K + 1
+    if n <= 0:
+        return np.empty(0, dtype=np.int64)
+    code = np.zeros(n, dtype=np.int64)
+    bad = np.zeros(n, dtype=bool)
+    for offset in range(SEED_K):
+        part = c[offset : offset + n]
+        bad |= part < 0
+        code = code * 4 + np.where(part < 0, 0, part)
+    code[bad] = -1
+    return code
+
+
+def _windows(reference: str, record_codes: np.ndarray, record_len: int) -> list[tuple[int, int]]:
+    """Where in a long record is this reference worth aligning? Up to SEED_TOP stretches.
+
+    THE IDEA is BLAST's. Two sequences that share a locus share short exact words
+    (k-mers) even when they differ at a third of their bases, and they share them IN
+    ORDER: a word at reference position i sits at record position j with j - i about
+    constant. That difference is the DIAGONAL of the alignment table. Chance word
+    matches scatter over every diagonal; a real locus piles them onto one. So: find
+    every shared word, count them per diagonal (in bins of SEED_BIN, to forgive
+    indels), and align only around the fullest bins.
+
+    This makes a 100 kb record cost what a 600 bp one does. It is a HEURISTIC and can
+    miss: a locus that shares too few intact K-base words with every reference is
+    never aligned. `tests/test_locus_check.py` checks the seeded answer against the
+    exhaustive one, and the word length and the number of stretches were set by
+    measurement (2026-11-10): a 200 bp locus with 30% of its bases substituted, the
+    hardest case the identity threshold still admits, in 100 kb of random sequence,
+    found 40 of 40 times when the record is aligned whole.
+
+        words of 8, 3 stretches    35 of 40     words of 7, 12 stretches   39 of 40
+        words of 8, 30 stretches   37 of 40     words of 6, 30 stretches   40 of 40
+
+    7 and 12 is used: one miss in 40 at the very edge, at half the time of 6 and 30.
+    Evenly spread substitutions are the worst case for a seed, because real loci
+    diverge in patches and keep long words in their conserved blocks. A record at or
+    under EXHAUSTIVE_MAX_BP skips all this and is aligned whole.
+    """
+    ref_codes = _kmer_codes(np.frombuffer(reference.encode("ascii", "replace"), dtype=np.uint8))
+    ref_codes_ok = np.flatnonzero(ref_codes >= 0)
+    if len(ref_codes_ok) == 0 or len(record_codes) == 0:
+        return []
+    # Sort the reference's words once, then look every record word up by binary search.
+    order = ref_codes_ok[np.argsort(ref_codes[ref_codes_ok], kind="stable")]
+    sorted_codes = ref_codes[order]
+    at = np.searchsorted(sorted_codes, record_codes)
+    at[at == len(sorted_codes)] = 0
+    hit = np.flatnonzero((sorted_codes[at] == record_codes) & (record_codes >= 0))
+    if len(hit) == 0:
+        return []
+    diagonal = hit - order[at[hit]]  # record position minus reference position
+    bins, counts = np.unique(diagonal // SEED_BIN, return_counts=True)
+    # A locus whose diagonal falls on a bin edge splits its words between two bins, so
+    # each bin is ranked by its own count plus its right-hand neighbour's.
+    neighbour = np.zeros_like(counts)
+    adjacent = np.flatnonzero(np.diff(bins) == 1)
+    neighbour[adjacent] = counts[adjacent + 1]
+    pad = 2 * SEED_BIN + len(reference) // 4  # room for indels and for the two bins' width
+    spans = []
+    for b in bins[np.argsort(-(counts + neighbour), kind="stable")[:SEED_TOP]]:
+        start = int(b) * SEED_BIN  # where reference base 0 would sit in the record
+        spans.append((max(0, start - pad), min(record_len, start + len(reference) + pad)))
+    return spans
+
+
+def _traceback(reference: str, record: str, i_end: int, j_end: int) -> tuple[int, int, int, int]:
+    """Walk the best alignment backwards. Returns (matches, columns, reference start, record start).
 
     The sweep over the whole record keeps only one row at a time, so it knows where
     the best alignment ENDS and not where it began. This refills the table for just
@@ -181,7 +275,7 @@ def _traceback(reference: str, record: str, i_end: int, j_end: int) -> tuple[int
         else:
             j -= 1  # a record base the reference lacks
         columns += 1
-    return matches, columns, i
+    return matches, columns, i, lo + j
 
 
 def locus_check(
@@ -210,18 +304,32 @@ def locus_check(
     rec = np.frombuffer(record.encode("ascii", "replace"), dtype=np.uint8)
 
     # Search with the reference on both strands (reverse-complementing the short
-    # sequence instead of the long one), and trace back only the single best.
+    # sequence instead of the long one), and trace back only the single best. A short
+    # record is aligned whole; a long one only where shared k-mers point (`_windows`).
+    seeded = len(record) > EXHAUSTIVE_MAX_BP
+    codes = _kmer_codes(rec) if seeded else None
     best: tuple[int, str, int, int] | None = None
     for ref in references:
         for strand in (ref, _revcomp(ref)):
-            score, i_end, j_end, _ = _sweep(strand, rec, keep=False)
-            if score > 0 and (best is None or score > best[0]):
-                best = (score, strand, i_end, j_end)
+            spans = _windows(strand, codes, len(record)) if seeded else [(0, len(record))]
+            for lo, hi in spans:
+                score, i_end, j_end, _ = _sweep(strand, rec[lo:hi], keep=False)
+                if score > 0 and (best is None or score > best[0]):
+                    best = (score, strand, i_end, lo + j_end)
     if best is None:
         return ABSENT
 
     _, ref, i_end, j_end = best
-    matches, columns, i_start = _traceback(ref, record, i_end, j_end)
+    matches, columns, i_start, j_start = _traceback(ref, record, i_end, j_end)
     identity = matches / columns if columns else 0.0
     covered = (i_end - i_start) / len(ref)
-    return LocusResult(identity >= min_identity and covered >= min_covered, identity, covered)
+    return LocusResult(
+        present=identity >= min_identity and covered >= min_covered,
+        identity=identity,
+        covered=covered,
+        # `ref` is already on the strand that matched, so its start is to the LEFT in
+        # the record whichever strand that was: the unaligned reference bases before
+        # the alignment need that many record bases before it, and likewise after.
+        flank_left=j_start - i_start,
+        flank_right=(len(record) - j_end) - (len(ref) - i_end),
+    )

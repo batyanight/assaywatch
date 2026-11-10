@@ -18,8 +18,12 @@ because none of them can be recomputed without the archives.
   under two rules (trace and strict), as a range. Reads the calls
   table and changes no call, no status and nothing in `report.md`. Not yet a Snakemake rule, and it
   has no locus check behind it: read an absent species as unknown (`ROADMAP.md`, "Coverage map").
-- The locus check exists as a function (`assaywatch/locus_check.py`) and is not wired in. No output
-  changes.
+- **New stage: `assaywatch locus`.** For the records in which the screen found no primer site, it
+  asks whether the assay's target region is there at all (a local, gapped alignment of a reference
+  amplicon), and writes `locus.tsv.gz`. `assaywatch coverage --locus` joins it, which turns a blank
+  cell into `predicted fail` where the locus is shown present with room for the primers. Run by hand,
+  per assay or over the table; without `--locus` the coverage map is unchanged. The screen is not
+  touched and nothing is rescreened.
 - Assay pages open on the primer graph, then the line graph, then the bar graph. Assembly records now
   reach the lineage groups, and a species is no longer split across names by the strains in its titles.
   Fixes from the security and code reviews. No status moved.

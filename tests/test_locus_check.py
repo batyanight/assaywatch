@@ -186,5 +186,42 @@ def test_unrelated_dna_stays_far_under_the_coverage_threshold():
     assert worst < MIN_COVERED / 2, worst
 
 
+# --- long records are seeded, and the seeded answer must be the exhaustive one ----------
+
+
+def exhaustive(record, references):
+    """The same check with seeding switched off, by lifting the length limit."""
+    from assaywatch import locus_check as module
+
+    limit, module.EXHAUSTIVE_MAX_BP = module.EXHAUSTIVE_MAX_BP, 10**9
+    try:
+        return locus_check(record, references, MIN_IDENTITY, MIN_COVERED)
+    finally:
+        module.EXHAUSTIVE_MAX_BP = limit
+
+
+@pytest.mark.parametrize("share", [0.0, 0.20, 0.30])
+@pytest.mark.parametrize("strand", ["+", "-"])
+def test_a_long_record_gets_the_same_answer_seeded_as_aligned_whole(share, strand):
+    """A 30 kb record is over the limit, so only stretches sharing short exact words are aligned."""
+    locus = substitute(AMPLICON, share, seed=11)
+    record = dna(18000, seed=12) + locus + dna(12000, seed=13)
+    if strand == "-":
+        record = revcomp(record)
+    seeded, whole = check(record), exhaustive(record, [AMPLICON])
+    assert seeded.present and whole.present
+    assert seeded == whole
+
+
+def test_a_long_unrelated_record_is_absent_when_seeded():
+    got = check(dna(30000, seed=14))
+    assert not got.present
+    assert got.covered < MIN_COVERED / 2
+
+
+def test_a_long_record_of_undetermined_bases_shares_no_word_and_is_absent():
+    assert check("N" * 8000) == LocusResult(present=False, identity=0.0, covered=0.0)
+
+
 def test_the_shipped_config_carries_the_approved_starting_thresholds():
     assert rule_from_config(load_config()) == (MIN_IDENTITY, MIN_COVERED)

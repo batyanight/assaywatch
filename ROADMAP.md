@@ -102,25 +102,35 @@ per (assay, species). The decisions, what was built and what the first run showe
       `locus_check.locus_check(record, reference_amplicons, min_identity, min_covered)`: a
       local, gapped alignment on both strands, tests first (`tests/test_locus_check.py`).
       Scoring scheme chosen by simulation; chance floor and sensitivity are in the journal.
-- [ ] **Wire the locus check in. Needs a maintainer decision first: where it runs.** Until
-      it runs, 60% of cells are `not assessable` and a distant species in which neither
-      primer lands is invisible. Proposed: its own stage (`assaywatch locus`) that reads the
-      calls table and the archives, checks only the rows the screen could not judge
-      (`no_amplicon` that is not `diverged`), and writes a sidecar (`locus.tsv.gz`: assay,
-      record, present, identity, covered) that `coverage` joins as `locus_present`. That
-      leaves the screen and its hash alone, so nothing is rescreened. The alternative is
-      inside the screen, which has the sequence in hand and forces a full rescreen.
-- [ ] **Reference amplicons for the locus check.** `docs/locus-references.json` holds
-      interiors (primer sites trimmed) for 197 assays as of 2026-11-10, built for `locus_identity`. Decide
-      whether those serve, or whether whole amplicons are cut afresh. Interiors keep an
-      indel in a primer site from hiding the locus.
+- [x] **The locus check is wired in as its own stage** (maintainer decision, 2026-11-10).
+      `assaywatch locus` checks the unjudged records (`no_amplicon` that is not `diverged`)
+      and writes `locus.tsv.gz`; `assaywatch coverage --locus` joins it. The screen and its
+      hash are untouched. A record counts only when the locus is present AND the record has
+      room for both primer sites (`locus.judge`).
+- [ ] **Run the locus stage over the whole calls table.** The 2026-11-01 calls hold about
+      1.8 million unjudged records. Per-record time and what a full run costs are in the
+      journal; it is the first stage in this project that wants a cluster. Until it is run,
+      `coverage` without `--locus` is unchanged and most cells stay blank.
+- [ ] **Longer reference amplicons for short assays.** `docs/locus-references.json` holds
+      interiors (primer sites trimmed) for 197 assays as of 2026-11-10, built for
+      `locus_identity`. They serve where the amplicon is long. Where it is short the interior
+      is useless (17 bp for `Ranavirus_MCP_Pallister_2007`, 28 for
+      `Orf_virus_RPO147_Zhao_2013`, 87 for `Ranavirus_micropterus1_MCP_Li_2025`), and the
+      stage leaves those assays alone below `coverage.locus_min_reference_bp` (100). The fix
+      is a reference cut wider than the amplicon: the amplicon plus a fixed flank each side,
+      from the same source records. How many assays this leaves out is in the journal.
+- [ ] **The `together` rows do not use the locus file.** `nested._protocol_records` decides
+      which records a protocol counts from the screen's evidence alone, so a round-1 record
+      the locus stage shows to be a real failure is still left out of both `together` rows.
+- [ ] **Snakemake rules for `locus` and `coverage`.** Both are run by hand.
 - [ ] **Calibrate `locus_min_identity` and `locus_min_covered` on real archives**: records an
       assay detects should pass near 100%, records of another gene near 0%. 0.70 is suspect
       (`config.yaml`, `coverage:`): SIV Takehisa's real failures sit at 0.65-0.67 by a
       neighbouring measure. Needs `data/retrieved/` on the Mac.
-- [ ] **A k-mer seed for the locus check**, to pick candidate windows before aligning. A
-      300 bp reference against a 200 kb record takes 0.8 s on both strands, so a bacterial
-      genome is tens of seconds per reference.
+- [x] **A k-mer seed for the locus check.** A record over 5 kb is aligned only where shared
+      7-base words pile up on a diagonal (`locus_check._windows`); the seeded answer is
+      tested against the exhaustive one. It can miss at the edge of the identity threshold:
+      39 of 40 simulated loci at 30% substitution in 100 kb, against 40 of 40 aligned whole.
 - [ ] **Widened retrieval**, per assay, so that out-of-scope species are in the archive on
       purpose. Today 1,368 of 20,054 counted cells are out of scope, by accident of what
       each archive happened to hold.
@@ -132,8 +142,6 @@ per (assay, species). The decisions, what was built and what the first run showe
       two rows give a different word in 511 of 3,462 cells, and six of 34 protocols differ by
       more than 10 points of detected share (Chlamydia trachomatis Messmer 1997: 258/363
       against 0/363; Lyssavirus Vazquez-Moron 2006: 13487/13583 against 7988/13583).
-- [ ] **A Snakemake rule** for the stage, and `coverage` among the config sections a rule
-      hashes. Run by hand until then.
 - [ ] **Split a row by sublineage** where one taxid hides distinct lineages (Bd, influenza A
       subtypes), using the resolvers the lineage analysis already has.
 - [ ] **Move the footprint definitions** (`FOOTPRINT_COLUMNS`, `FOOTPRINT_REQUIRED`,
