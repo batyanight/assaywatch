@@ -150,7 +150,15 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 - [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: counted 2026-11-06, of the 42 groups 4 collapse
   to one species (two AAV, two elephant herpesvirus), 20 are really mixed, 18 unclear, and taxonomy resolves none.
   Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are.
-  (a) is done: merged 2026-11-07 as PR #9, `composition.SPECIES_SYNONYMS` (AAV and the two EEHV renames, ICTV-sourced). (b) Per-assay cuts, decided 2026-11-06: no overrides, one fixed cut this release, and average linkage
+  (a) is done: merged 2026-11-07 as PR #9, `composition.SPECIES_SYNONYMS` (AAV and the two EEHV renames, ICTV-sourced).
+  **(b)'s average-linkage trial is DEFERRED to the next release, 2026-11-10, with its reason.** It is a droppable
+  step and the stall rule says a droppable item waits with a recorded reason rather than holding the freeze. The
+  reason is cost against value: trying average linkage across all assays means a second full clustering pass, about
+  four hours and 13 GB, and its only output is a journal entry, since the decision of 2026-11-06 was already that
+  this release ships one fixed cut with no per-assay overrides. Nothing about the release depends on the answer.
+  The fixed cut and the no-overrides decision ship as decided; only the comparison waits.
+  **(c) is done**, merged 2026-11-10 with `page-narrative`: `site.failure_reasons` under the mismatch chart, and
+  the G2R WA_F page note. (b) Per-assay cuts, decided 2026-11-06: no overrides, one fixed cut this release, and average linkage
   tried once across all assays and recorded in a journal.
   (c) Failures a per-base chart can't show, from the calls `reason` column: `site.py`,
   `site_render.py`. G2R WA_F is checked: of 3,122 records with an 82 bp product, 2,643 are clade I by this project's own
