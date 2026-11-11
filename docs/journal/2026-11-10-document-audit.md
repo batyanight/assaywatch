@@ -46,9 +46,9 @@ are what make a lead workable, and the group name is the part that reads as a so
 back to 2026-10-24, of which exactly one is live. At 294 KB it is the third largest document in
 the repository and a session reading it as instructed reads 26 dead ones first.
 
-**Recommend:** keep the newest three in place and move the rest to one
-`docs/journal/2026-11-10-resume-points-archive.md`, indexed as history. No word is lost, which
-is the standing condition for this kind of move.
+**Recommend:** keep the newest three in place and move the rest into a single new journal,
+dated the day it is done and indexed as history. No word is lost, which is the standing
+condition for this kind of move.
 
 ### 3. Two superseded "papers still needed" lists
 
