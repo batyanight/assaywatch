@@ -36,7 +36,7 @@ as the fall in detection between records that differ there and records that do n
 Hover for counts. A tall gray bar is a polymorphism the assay tolerates; a short red
 bar is a position that matters.
 
-<svg class="aw-track" viewBox="0 0 452 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">Mueller-4F</text><rect class="aw-zone" x="329.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="404.0" y2="44.0"/><g class="aw-bar-weak"><title>forward position 20 from the 3&#x27; end, base A
+<svg class="aw-track" viewBox="0 0 467 176" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Mismatch map: each oligo drawn base by base with a bar showing the share of records differing at that position."><text class="aw-track-label" x="74" y="52">forward</text><text class="aw-track-name" x="74" y="64">Mueller-4F</text><rect class="aw-zone" x="329.0" y="10.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="44.0" x2="404.0" y2="44.0"/><g class="aw-bar-weak"><title>forward position 20 from the 3&#x27; end, base A
 42 of 365 records differ here (11.5%)
 detected when it differs: 100% of 42
 detected when it does not: 100% of 323
@@ -68,22 +68,22 @@ detected when it differs: 100% of 134
 detected when it does not: 100% of 231
 substitutions: G&gt;A in 106, A&gt;G in 28
 outside the 3′ window
-scored against a pool alternate with A here</title><rect x="315.0" y="23.4" width="13.0" height="20.6"/></g><text class="aw-base" x="321.5" y="57">G</text><text class="aw-base" x="336.5" y="57">A</text><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">A</text><text class="aw-base" x="381.5" y="57">T</text><text class="aw-base" x="396.5" y="57">T</text><text class="aw-tick" x="396.5" y="71">1</text><text class="aw-tick" x="336.5" y="71">5</text><text class="aw-tick" x="261.5" y="71">10</text><text class="aw-tick" x="186.5" y="71">15</text><text class="aw-tick" x="111.5" y="71">20</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="408" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">Mueller-4R</text><rect class="aw-zone" x="359.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="434.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">G</text><text class="aw-base" x="126.5" y="139">A</text><text class="aw-base" x="141.5" y="139">C</text><text class="aw-base" x="156.5" y="139">C</text><text class="aw-base" x="171.5" y="139">T</text><text class="aw-base" x="186.5" y="139">C</text><text class="aw-base" x="201.5" y="139">A</text><text class="aw-base" x="216.5" y="139">G</text><text class="aw-base" x="231.5" y="139">G</text><g class="aw-bar-weak"><title>reverse position 13 from the 3&#x27; end, base G
+scored against a pool alternate with A here</title><rect x="315.0" y="23.4" width="13.0" height="20.6"/></g><text class="aw-base" x="321.5" y="57">G</text><text class="aw-base" x="336.5" y="57">A</text><text class="aw-base" x="351.5" y="57">C</text><text class="aw-base" x="366.5" y="57">A</text><text class="aw-base" x="381.5" y="57">T</text><text class="aw-base" x="396.5" y="57">T</text><text class="aw-tick" x="396.5" y="71">1</text><text class="aw-tick" x="336.5" y="71">5</text><text class="aw-tick" x="261.5" y="71">10</text><text class="aw-tick" x="186.5" y="71">15</text><text class="aw-tick" x="111.5" y="71">20</text><text class="aw-end" x="100" y="57">5′</text><text class="aw-end aw-end-3" x="408" y="57">3′</text><text class="aw-track-label" x="74" y="134">reverse</text><text class="aw-track-name" x="74" y="146">Mueller-4R</text><rect class="aw-zone" x="374.0" y="92.0" width="75.0" height="52.0"/><line class="aw-axis" x1="104.0" y1="126.0" x2="449.0" y2="126.0"/><text class="aw-base" x="111.5" y="139">R</text><text class="aw-base" x="126.5" y="139">G</text><text class="aw-base" x="141.5" y="139">A</text><text class="aw-base" x="156.5" y="139">C</text><text class="aw-base" x="171.5" y="139">C</text><text class="aw-base" x="186.5" y="139">T</text><text class="aw-base" x="201.5" y="139">C</text><text class="aw-base" x="216.5" y="139">A</text><text class="aw-base" x="231.5" y="139">G</text><text class="aw-base" x="246.5" y="139">G</text><g class="aw-bar-weak"><title>reverse position 13 from the 3&#x27; end, base G
 37 of 365 records differ here (10.1%)
 detected when it differs: 100% of 37
 detected when it does not: 100% of 328
 substitutions: G&gt;A in 37
-outside the 3′ window</title><rect x="240.0" y="115.2" width="13.0" height="10.8"/></g><text class="aw-base" x="246.5" y="139">G</text><text class="aw-base" x="261.5" y="139">T</text><text class="aw-base" x="276.5" y="139">A</text><text class="aw-base" x="291.5" y="139">T</text><text class="aw-base" x="306.5" y="139">A</text><g class="aw-bar-weak"><title>reverse position 8 from the 3&#x27; end, base G
+outside the 3′ window</title><rect x="255.0" y="115.2" width="13.0" height="10.8"/></g><text class="aw-base" x="261.5" y="139">G</text><text class="aw-base" x="276.5" y="139">T</text><text class="aw-base" x="291.5" y="139">A</text><text class="aw-base" x="306.5" y="139">T</text><text class="aw-base" x="321.5" y="139">A</text><g class="aw-bar-weak"><title>reverse position 8 from the 3&#x27; end, base G
 36 of 365 records differ here (9.9%)
 detected when it differs: 100% of 36
 detected when it does not: 100% of 329
 substitutions: G&gt;A in 36
-outside the 3′ window</title><rect x="315.0" y="115.3" width="13.0" height="10.7"/></g><text class="aw-base" x="321.5" y="139">G</text><text class="aw-base" x="336.5" y="139">A</text><text class="aw-base" x="351.5" y="139">A</text><text class="aw-base" x="366.5" y="139">T</text><text class="aw-base" x="381.5" y="139">C</text><text class="aw-base" x="396.5" y="139">T</text><text class="aw-base" x="411.5" y="139">G</text><g class="aw-bar-weak"><title>reverse position 1 from the 3&#x27; end, base G
+outside the 3′ window</title><rect x="330.0" y="115.3" width="13.0" height="10.7"/></g><text class="aw-base" x="336.5" y="139">G</text><text class="aw-base" x="351.5" y="139">A</text><text class="aw-base" x="366.5" y="139">A</text><text class="aw-base" x="381.5" y="139">T</text><text class="aw-base" x="396.5" y="139">C</text><text class="aw-base" x="411.5" y="139">T</text><text class="aw-base" x="426.5" y="139">G</text><g class="aw-bar-weak"><title>reverse position 1 from the 3&#x27; end, base G
 129 of 365 records differ here (35.3%)
 detected when it differs: 100% of 129
 detected when it does not: 100% of 236
 substitutions: G&gt;A in 129
-inside the 3′ window</title><rect x="420.0" y="105.8" width="13.0" height="20.2"/></g><text class="aw-base" x="426.5" y="139">G</text><text class="aw-tick" x="426.5" y="153">1</text><text class="aw-tick" x="366.5" y="153">5</text><text class="aw-tick" x="291.5" y="153">10</text><text class="aw-tick" x="216.5" y="153">15</text><text class="aw-tick" x="141.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">22</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="438" y="139">3′</text></svg>
+inside the 3′ window</title><rect x="435.0" y="105.8" width="13.0" height="20.2"/></g><text class="aw-base" x="441.5" y="139">G</text><text class="aw-tick" x="441.5" y="153">1</text><text class="aw-tick" x="381.5" y="153">5</text><text class="aw-tick" x="306.5" y="153">10</text><text class="aw-tick" x="231.5" y="153">15</text><text class="aw-tick" x="156.5" y="153">20</text><text class="aw-tick" x="111.5" y="153">23</text><text class="aw-end" x="100" y="139">5′</text><text class="aw-end aw-end-3" x="453" y="139">3′</text></svg>
 
 ## Predicted detection by deposit year
 
@@ -131,7 +131,7 @@ Only one lineage has enough records to report here: **Morbillivirus canis (30523
 | role | name | sequence (5'→3') | length |
 |---|---|---|---|
 | forward | Mueller-4F | `ATCCCCCATGTGTTGACATT` | 20 nt |
-| reverse | Mueller-4R | `GACCTCAGGGTATAGAATCTGG` | 22 nt |
+| reverse | Mueller-4R | `RGACCTCAGGGTATAGAATCTGG` | 23 nt |
 
 ## Verdict
 
@@ -155,12 +155,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Canine distemper virus H gene, one of four overlapping pieces, for sequencing rather than detection.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Morbillivirus canis (formerly Canine morbillivirus) (taxid 3052342), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `pairing_is_curator_reading`.
+Disclosures on this entry: `oligos_not_in_cited_paper`.
 
 
 ## Records reaching the statistics
@@ -178,9 +179,9 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 ## Curation record
 
-TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md.
+TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md. CORRECTED 2026-11-06: Mueller-4R is printed RGACC..., and was stored without its 5' R; the record base matches R in all 365 products. The pairing is stated by the paper, so that flag is removed. The arctic alternates are not printed by the paper and their source isn't recorded.
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-10-27</b> TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md.</p><p><b>2026-10-22</b> CITATION RESOLVED 2026-10-22. The 'candidate' in the old reference string is confirmed by sequence, not by plausibility: Müller et al. 2011 (J Wildl Dis 47:725-729, 10.7589/0090-3558-47.3.725) prints this entry's primers, and all four Mueller_2011 entries' primer pairs verify exact against that PDF. The paper is paywalled, which is why the open-access routes never found it.</p><p><b>2026-10-05</b> TAXON RENAMED: NCBI now calls txid11232 'Morbillivirus canis'; this entry carried the superseded name 'Canine morbillivirus'. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · newest first</summary><p><b>2026-10-27</b> TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py's containment check; see docs/journal/2026-10-27-retired-taxids.md. CORRECTED 2026-11-06: Mueller-4R is printed RGACC..., and was stored without its 5' R; the record base matches R in all 365 products. The pairing is stated by the paper, so that flag is removed. The arctic alternates are not printed by the paper and their source isn't recorded.</p><p><b>2026-10-22</b> CITATION RESOLVED 2026-10-22. The 'candidate' in the old reference string is confirmed by sequence, not by plausibility: Müller et al. 2011 (J Wildl Dis 47:725-729, 10.7589/0090-3558-47.3.725) prints this entry's primers, and all four Mueller_2011 entries' primer pairs verify exact against that PDF. The paper is paywalled, which is why the open-access routes never found it.</p><p><b>2026-10-05</b> TAXON RENAMED: NCBI now calls txid11232 'Morbillivirus canis'; this entry carried the superseded name 'Canine morbillivirus'. Checked 2026-10-05 during the repo-wide audit. The taxid is unchanged and is what retrieval uses, so nothing about the screening changes - but a report naming the old taxon would not match what GenBank now says.</p></details>
 
 ## Corrections
 

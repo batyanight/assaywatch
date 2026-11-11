@@ -205,6 +205,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Subfamily-wide poxvirus detection in the DNA polymerase gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Chordopoxvirinae (taxid 10241), every record.
 

@@ -275,6 +275,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Adeno-associated viruses, capsid gene signature region, for finding new serotypes.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Dependoparvovirus (taxid 10803), every record.
 

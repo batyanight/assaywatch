@@ -30,6 +30,7 @@ from typing import TYPE_CHECKING, Any
 
 from assaywatch.accession import strip_version
 from assaywatch.interval import wilson_interval
+from assaywatch.settings import Lineage
 
 if TYPE_CHECKING:
     from assaywatch.taxonomy import Taxonomy
@@ -109,6 +110,28 @@ def load_taxa_cache(cache_file: Path | str) -> dict[int, str]:
         return {}
 
 
+def taxid_from_lineage_label(label: str) -> int | None:
+    """The taxid a lineage label carries, or None when it names no taxon.
+
+    Two forms are generated in this package and both must answer: the bare
+    `taxid_10245` of `lineage_for_taxid`, and the `Name (10245)` that
+    `name_lineages_from_taxonomy` relabels it to. A resolver's sub-lineage
+    (`H5N1`) and `unresolved` name no taxon and give None, which is the whole
+    point of returning None rather than raising.
+    """
+    if label.startswith("taxid_"):
+        try:
+            return int(label.split("_", 1)[1])
+        except ValueError:
+            return None
+    if label.endswith(")") and "(" in label:
+        try:
+            return int(label[label.rindex("(") + 1 : -1])
+        except ValueError:
+            return None
+    return None
+
+
 def name_lineages_from_taxonomy(taxa_cache: dict[int, str], taxonomy: "Taxonomy | None") -> dict[int, str]:
     """`taxa_cache` with a "Name (taxid)" label added for every species the tree names.
 
@@ -119,9 +142,13 @@ def name_lineages_from_taxonomy(taxa_cache: dict[int, str], taxonomy: "Taxonomy 
     never overwritten. The taxid stays in the label: it is what a reader needs
     to look the lineage up.
 
-    The label is only ever displayed or used as a grouping key, both of which
-    one name per taxid satisfies. Nothing reads `LineageStats.taxid`, which a
-    named label leaves unset.
+    The label is displayed and used as a grouping key, both of which one name
+    per taxid satisfies. It is ALSO where `LineageStats.taxid` comes from, via
+    `taxid_from_lineage_label`: this docstring said "Nothing reads
+    `LineageStats.taxid`" until 2026-11-10, and by then the case-row scope
+    (`scripts/retrospective.scope_verdict`) did, so every `scope_taxid` row was
+    skipped for want of a field this function had quietly left unset. Keep the
+    taxid in the label.
     """
     if taxonomy is None:
         return taxa_cache
@@ -416,7 +443,7 @@ def per_lineage_stats(
     calls: list[dict],
     taxa_cache: dict[int, str],
     taxid_sidecar: dict[str, int],
-    min_records: int = 20,
+    min_records: int = Lineage().min_records_per_lineage,
     resolvers: list[Resolver] | None = None,
     detected_calls: tuple[str, ...] = DETECTED_DEFAULT,
 ) -> list[LineageStats]:
@@ -454,13 +481,7 @@ def per_lineage_stats(
         share = n_det / n_eval if n_eval > 0 else 0
         ci_lower, ci_upper = confidence_interval(n_det, n_eval)
 
-        # Extract taxid from lineage name if present
-        taxid_val = None
-        if lineage.startswith("taxid_"):
-            try:
-                taxid_val = int(lineage.split("_")[1])
-            except (IndexError, ValueError):
-                pass
+        taxid_val = taxid_from_lineage_label(lineage)
 
         results.append(
             LineageStats(

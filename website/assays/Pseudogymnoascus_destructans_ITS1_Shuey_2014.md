@@ -114,6 +114,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Pseudogymnoascus destructans, ITS1, distinguished from related Pseudogymnoascus and Geomyces.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Pseudogymnoascus destructans (taxid 655981), every record.
 

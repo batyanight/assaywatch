@@ -30,6 +30,7 @@ citation:
     and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
   doi_verified: true
   oligos_designed_here: true
+  claim: Nucleoprotein gene of avian influenza viruses.
 conditions:
   cycles: 35
 use_context:

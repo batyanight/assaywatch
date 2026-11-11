@@ -284,6 +284,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Coccidian parasites, 18S rRNA gene, for sequencing rather than detection.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Apicomplexa (taxid 5794), limited by a query on the title or gene.
 

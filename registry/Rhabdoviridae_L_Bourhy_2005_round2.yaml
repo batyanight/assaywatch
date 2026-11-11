@@ -15,9 +15,9 @@ oligos:
   reverse:
     name: PVO3
     seq: CCADMCBTTTTGYCKYARRCCTTC
-amplicon_bp: 260
+amplicon_bp: 249
 citation:
-  claim: "Animal rhabdoviruses broadly, for phylogeny rather than diagnosis."
+  claim: "Rhabdoviruses, L gene, as a consensus screen."
   doi: 10.1099/vir.0.81128-0
   design_year: 2005
   n_sequences_at_design: null
@@ -56,7 +56,19 @@ source:
     PVO3/PVO4 and PVO5/PVO6 and names no PVOnstF, so the stored sequence reads `absent` against it. It is printed in Table
     1 of Wray, A.K. et al. 2016, EcoHealth (10.1007/s10393-016-1183-z, PMC5164864), paired with PVO3 as the same hemi-nested
     rhabdovirus assay this entry stores - and that table''s own citation column for the pair reads "Unpublished". So the nested
-    forward has no publication that designed it, only one that printed it, and no further reading will produce a design source.'
+    forward has no publication that designed it, only one that printed it, and no further reading will produce a design source.
+    SIZE READ AND SETTLED 2026-11-10 (ROADMAP, "Sizes to read, from the verifier''s table"). One rule over all eleven entries
+    on that list: amplicon_bp takes the measured modal product length where one mode holds a clear majority, and the measured
+    median where none does, with amplicon_multimodal in the second case; the flag says whether the CITED paper publishes a
+    size (amplicon_disagrees_with_paper) or does not (amplicon_measured_not_published); and a value is only moved where the
+    new +/-25% window still admits every product measured, so a correction cannot silently delete calls. Measured on the 2026-11-01
+    calls. Bourhy round 2: 260 -> 249. Deliberate and small consequence: the new window 187-311 bp drops three products of
+    7,165, at 314 bp (two) and 317 bp (one), all three already `fail`, so they move from `fail` to `no_amplicon` at the frozen
+    run.'
 needs_review:
 - flag: oligos_from_secondary_source
   note: PVOnstF is printed in Wray 2016 (10.1007/s10393-016-1183-z), which itself marks it unpublished
+- flag: amplicon_measured_not_published
+  note: "measured 249 bp in 5,023 of 7,165 products. Bourhy 2005 publishes no size for THIS pair: it does not print PVOnstF
+    at all (see oligos_from_secondary_source), and its own internal pair PVO5/PVO6, which \"amplified a 317 nucleotide region\"\
+    , is a sequencing pair this entry does not use. The stored 260 is protocol P-016's and Wray 2016's. 2026-11-10."

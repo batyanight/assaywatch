@@ -28,6 +28,7 @@ citation:
   reference: Chu DK, Poon LL, Guan Y, Peiris JS. 2008. Novel astroviruses in insectivorous bats. J Virol 82:9107-9114
   doi_verified: true
   oligos_designed_here: true
+  claim: Astroviruses, RdRp gene, as the first round of a heminested pair.
 conditions:
   annealing_c: 50
   cycles: 30
@@ -40,9 +41,9 @@ source:
   predict_protocol: P-002
   nested_round: round1
   nested_family: Astroviridae_RdRp_Chu_2008
-  notes_curator: 'Split out 2026-10-23 from Astroviridae_RdRp_Atkins_2008_round1, where these oligos sat as alternates
-    of Atkins 2009, which does not print them. Chu et al. 2008 Materials and Methods (PMC2546893, read 2026-10-23) prints
-    all five exactly: round 1 is a mix of two forward primers with one reverse, round 2 is heminested with two forward primers
+  notes_curator: 'Split out 2026-10-23 from Astroviridae_RdRp_Atkins_2008_round1, where these oligos sat as alternates of
+    Atkins 2009, which does not print them. Chu et al. 2008 Materials and Methods (PMC2546893, read 2026-10-23) prints all
+    five exactly: round 1 is a mix of two forward primers with one reverse, round 2 is heminested with two forward primers
     and the same reverse; "the expected product size of the second PCR was 422 bp". The two forward primers are one mixture,
     so they are one forward slot plus an alternate. AMPLICON MEASURED 2026-10-23 by screening this entry against every Astroviridae
     archive (data/retrieved/39733/all, five snapshots): 1,021 amplifying (detect/reduced) records, envelope 347-467 bp, median

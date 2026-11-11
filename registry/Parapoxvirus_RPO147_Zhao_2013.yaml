@@ -27,6 +27,8 @@ oligos:
   probe:
     name: PAPV_J6R probe
     seq: CCACGAAGCTGCGCAGCAT
+    reporter: FAM
+    quencher: BHQ1
   alternates: []
 amplicon_bp: 85
 citation:
@@ -92,12 +94,12 @@ source:
     records. Molluscum contagiosum is outside the genus (Molluscipoxvirus), so it only ever contributed cross-reactivity evidence.
     Orthopoxvirus DNA is in the paper''s clause too and is NOT listed, because the clause covers all four assays of the panel
     and this entry''s own differentiation is within the parapoxviruses; the orthopox taxids are on the Huo 2022 mpox entries
-    where they are the tested claim. SCOPE BROADENED 2026-11-04, on rereading the paper: NCBI placed new species nodes above the three listed taxa; 84 records under them had fallen out of scope. Same three viruses.'
+    where they are the tested claim. SCOPE BROADENED 2026-11-04, on rereading the paper: NCBI placed new species nodes above
+    the three listed taxa; 84 records under them had fallen out of scope. Same three viruses. CORRECTED 2026-11-10: all probes
+    are FAM at 5'' and BHQ1 at 3'' (Table 1 footnote and Methods), so the chemistry-detail flag comes off.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; 85 bp measured in all 66 genomes that give a product
 - flag: primer_site_polymorphic
   note: the reverse primer is one mismatch from all 11 BPSV genomes, 7 bases from its 3' end, so no BPSV genome matches 
     it exactly
-- flag: chemistry_detail_missing
-  note: Table 1 names no reporter or quencher for the probe

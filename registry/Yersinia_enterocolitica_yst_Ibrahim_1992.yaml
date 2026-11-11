@@ -10,12 +10,12 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: YE-1
-    seq: CTGTCTTCATTTGGAGCATTC
+    name: yst-Pr2a
+    seq: AATGCTGTCTTCATTTGGAGC
   reverse:
-    name: YE-2
+    name: yst-Pr2b
     seq: GCAACATACATCACAGCAATC
-amplicon_bp: 159
+amplicon_bp: 163
 citation:
   doi: 10.1128/jcm.30.8.1942-1947.1992
   design_year: 1992
@@ -23,6 +23,7 @@ citation:
   doi_verified: true
   reference: Ibrahim A, Liesack W, Stackebrandt E. 1992. J Clin Microbiol 30:1942-1947
   oligos_designed_here: true
+  claim: Pathogenic Yersinia enterocolitica, yst (heat-stable enterotoxin) gene.
 conditions:
   annealing_c: 60.0
   cycles: 35
@@ -54,10 +55,11 @@ source:
     on a guess would be worse      than flagging it.\n  2. amplicon_bp is 159, but the paper''s positions give 92 - 30 + 1
     = 63 bp. Nothing in the      paper states 159. With the stored forward primer the span would be about 59 bp. Where 159      came
     from is unknown.\nAlso recorded: the paper names these yst-Pr2a / yst-Pr2b, not YE-1 / YE-2, and the target is the ystA
-    enterotoxin reading frame. YE-1/YE-2 are the names first entered.'
+    enterotoxin reading frame. YE-1/YE-2 are the names first entered. CORRECTED 2026-11-10: forward corrected to the printed
+    yst-Pr2a (Table 3 positions 30-50; Fig. 1); the stored form had been shifted 4 nt 3''-ward along Fig. 1. The printed primer
+    is exact on all 37 products, giving 163 bp, which the paper states (p1, p3); 159 was the shifted primer''s product, and
+    the earlier ''63 bp'' came from the text layer reading the superscript 192 as 92. Table 3 prints the position order, so
+    orientation is stated. Two Y. kristensenii strains gave a product of the same size (p3).'
 needs_review:
-- flag: amplicon_disagrees_with_paper
-- flag: oligos_not_in_cited_paper
-  note: the forward primer is shifted against the paper's
-- flag: orientation_inferred
-  note: the archive yields 39 products and 2 none under this orientation (2026-10-27 run), so the inference stands
+- flag: cross_reactive
+  note: two Y. kristensenii strains gave a product of the same size (p3)

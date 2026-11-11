@@ -22,7 +22,7 @@ oligos:
   alternates: []
 amplicon_bp: 81
 citation:
-  claim: "Monkeypox virus lineage B.1, told apart from other West African strains."
+  claim: "Clade II monkeypox virus B.1 lineage, by a single-nucleotide probe."
   doi: 10.1016/j.bsheal.2022.10.005
   design_year: 2022
   n_sequences_at_design: 138

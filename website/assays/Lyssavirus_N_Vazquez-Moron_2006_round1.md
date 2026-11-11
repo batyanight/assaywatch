@@ -16,7 +16,7 @@
 | Target | Lyssavirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11286" title="Lyssavirus">taxid 11286</a>) |
 | Gene | N (nucleoprotein) |
 | Chemistry | conventional |
-| Amplicon | 373 bp |
+| Amplicon | 374 bp |
 | Registry status | draft |
 
 !!! warning "No status is reported for this assay"
@@ -136,19 +136,20 @@ inside the 3′ window</title><rect x="390.0" y="124.3" width="13.0" height="1.7
 
 ## Scope
 
+**Meant to detect:** Lyssaviruses, all genotypes, nucleoprotein gene, first round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Lyssavirus (taxid 11286), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `not_validated`.
+Disclosures on this entry: `not_validated`, `amplicon_measured_not_published`.
 
 
 ## Curation record
 
 PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Vazquez-Moron, S. et al (2006).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 1 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Vazquez-Moron, S. et al (2006). CORRECTED 2026-11-10: amplicon_bp 373 -&gt; 374, the mode; the paper gives no first-round size.</p></details>
 
 ## Corrections
 

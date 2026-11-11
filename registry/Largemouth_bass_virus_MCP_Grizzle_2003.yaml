@@ -5,8 +5,9 @@ target:
   gene: MCP (major capsid protein)
   genome_type: dsDNA
   taxon_name: Largemouth bass virus (sensu stricto)
-  query: txid176656[Organism:exp] OR txid198068[Organism:exp] OR txid2107207[Organism:exp] OR txid3045951[Organism:exp] 
-    OR txid1162553[Organism:exp]
+  query: (txid176656[Organism:exp] OR txid198068[Organism:exp] OR txid2107207[Organism:exp] OR txid3045951[Organism:exp]
+    OR txid1162553[Organism:exp] OR txid3432136[Organism:exp]) NOT txid84740[Organism:exp] NOT txid100216[Organism:exp] 
+    NOT txid871658[Organism:exp]
 chemistry: conventional
 oligos:
   forward:
@@ -24,10 +25,11 @@ citation:
     Aquatic Organisms 54, 29-33 (2003).
   doi_verified: true
   oligos_designed_here: true
+  claim: Largemouth bass virus, major capsid protein gene, specific to it among ranaviruses.
 conditions:
   mg_mm: 2.0
   annealing_c: 60
-  cycles: 36
+  cycles: 35
 use_context:
 - wildlife
 - veterinary
@@ -48,13 +50,18 @@ source:
     of doctorfish or guppy virus is this assay working as designed, and they are excluded from the denominator: the query
     covers the bass and Santee-Cooper nodes only (114 records) and leaves out doctorfish, guppy and guppyfish iridovirus (9
     records). Screening confirms the exclusion is real rather than nominal: doctorfish and guppy virus each carry 6 mismatches
-    across the pair. Contrast Ranavirus_micropterus1_MCP_Li_2025, which detects both and is therefore a group-level assay, not an
-    LMBV-specific one - the two entries answer different questions and should not be compared head to head without that in
-    mind. POSSIBLE REAL DRIFT, and the reason this entry is worth watching. Against the 1990s US sequence it was designed
+    across the pair. Contrast Ranavirus_micropterus1_MCP_Li_2025, which detects both and is therefore a group-level assay,
+    not an LMBV-specific one - the two entries answer different questions and should not be compared head to head without
+    that in mind. POSSIBLE REAL DRIFT, and the reason this entry is worth watching. Against the 1990s US sequence it was designed
     on, the fit is perfect. Against contemporary LMBV genomes it is not: PX879566.1 (2025) carries 4 forward and 1 reverse
     mismatches, and PV833272.1 (2024) has no 248 bp site at all within the search budget. That is the same order of divergence
     as the doctorfish and guppy viruses this assay was built to exclude, which would mean its discrimination has eroded from
     both sides. Treat as a hypothesis until the pipeline has run this group properly - the numbers above come from four hand-checked
     genomes, not from a screened archive. Note Grizzle also ran a beta-actin internal control (632 bp, L36342) alongside;
-    host-gene controls are out of scope for this registry and are not entered.'
+    host-gene controls are out of scope for this registry and are not entered. QUERY WIDENED 2026-11-06: species node Ranavirus
+    micropterus1 (3432136) added, which the Li 2025 entry names and which holds the group''s 59 records in the window, so
+    a record filed there directly is no longer missed. CORRECTED 2026-11-10: the note''s ''leaves out'' doctorfish virus (84740),
+    guppy virus 6 (871658) and 100216 was false: all three sit under Santee-Cooper ranavirus (198068), which the query includes,
+    and 9 of their records were screened, 2 MCP records failing at 248 bp. They are now excluded by NOT clauses, which takes
+    effect at the next retrieval. Cycles 36 -> 35: cycle 1 is the UNG and hot-start step.'
 needs_review: null

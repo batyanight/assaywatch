@@ -101,6 +101,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Elephant endotheliotropic herpesviruses (Proboscivirus), DNA polymerase gene, first round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Proboscivirus (elephant endotheliotropic herpesviruses) (taxid 548689), limited by a query on the title or gene.
 

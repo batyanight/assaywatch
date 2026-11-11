@@ -28,7 +28,7 @@ oligos:
     seq: CGTTNGGGTAYARGCTGTTGTAGTC
     seq_as_written: CGTTIGGGTAYARGCTGTTGTAGTC
     orientation: reverse
-amplicon_bp: 192
+amplicon_bp: 188
 citation:
   doi: 10.3354/dao02986
   design_year: 2016
@@ -36,10 +36,11 @@ citation:
   doi_verified: true
   reference: McAloose D, ..., Seimon T, ..., Uhart M. 2016. Post-mortem findings in southern right whales Eubalaena 
     australis at Peninsula Valdes, Argentina, 2003-2012. Dis Aquat Organ 119:17-36 (pan-poxvirus DNA polymerase PCR)
+  claim: Chordopoxviruses, DNA polymerase gene.
 conditions:
   rt: none
   cycles: 45
-  annealing_c: 45
+  annealing_c: 50.0
   primer_nm: 1000
 use_context:
 - wildlife
@@ -55,13 +56,17 @@ source:
     consensus regions from an alignment of some 20 chordopox and parapox species, short enough for FFPE tissue. So ''unpublished''
     is out of date. Cited to McAloose 2016 as the first publication; the sequences are confirmed through Vila''s table, not
     McAloose''s own, because the int-res.com open-access PDF answers scripted requests with 401. Confirm against McAloose
-    by eye. The sibling Chordopoxvirinae_POL_unpublished (DO_NOT_USE) holds the longer forms with GGNCC 3'' tails, which
-    Vila does not print. FLAG ADDED 2026-10-05 for consistency with Henipavirus_nipahense_N_Chua_2000, which was traced the same way on the same
-    day: this entry''s sequences were read from Vila 2019''s Table 1 and its citation taken from that table''s Reference column,
-    not from McAloose 2016 itself, whose open-access PDF answers a scripted request with 401. The attribution is well supported
-    - Vila names McAloose per primer set - but it is second-hand, and the flag makes that visible rather than implied.'
+    by eye. The sibling Chordopoxvirinae_POL_unpublished (DO_NOT_USE) holds the longer forms with GGNCC 3'' tails, which Vila
+    does not print. FLAG ADDED 2026-10-05 for consistency with Henipavirus_nipahense_N_Chua_2000, which was traced the same
+    way on the same day: this entry''s sequences were read from Vila 2019''s Table 1 and its citation taken from that table''s
+    Reference column, not from McAloose 2016 itself, whose open-access PDF answers a scripted request with 401. The attribution
+    is well supported - Vila names McAloose per primer set - but it is second-hand, and the flag makes that visible rather
+    than implied. CORRECTED 2026-11-10: confirmed first-hand against McAloose 2016 Table S1 (held): all six oligos equal the
+    printed ones (I read as N). Annealing 50 C is the final 30 cycles; the touchdown 65-51 C is not representable. amplicon_bp
+    192 -> 188, the mode.'
 needs_review:
 - flag: oligos_modified
 - flag: pairing_is_curator_reading
   note: the source lists several primers in one block without saying which pair
-- flag: oligos_from_secondary_source
+- flag: amplicon_disagrees_with_paper
+  note: modal 188 bp (16,639 of 17,528); the paper gives 192

@@ -29,6 +29,7 @@ citation:
     Isolation of Usutu virus in Germany. Am J Trop Med Hyg 85:551-553
   doi_verified: true
   oligos_designed_here: true
+  claim: Usutu virus, NS1 gene.
 use_context:
 - wildlife
 - public_health

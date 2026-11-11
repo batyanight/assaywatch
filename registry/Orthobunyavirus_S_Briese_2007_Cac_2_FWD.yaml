@@ -24,6 +24,7 @@ citation:
     for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).'
   doi_verified: true
   oligos_designed_here: true
+  claim: Orthobunyaviruses of the California encephalitis and Bunyamwera serogroups, S segment.
 conditions:
   cycles: 45
 use_context:
@@ -57,7 +58,8 @@ source:
     that is an inference and is flagged rather than recorded as fact. Screened on 2026-10-04 against the existing orthobunyavirus
     archive: 73 evaluable of 2,056, 40 detected (55%). What it detects supports the stated design scope and is better evidence
     than the guess about the name: Batai 8/8, Cache Valley 4/4, Guaroa 4/4 (the paper names Guaroa explicitly as one of the
-    inputs to its design alignment), Ilesha 3/3, Germiston, Bunyamwera, Sororoca - Bunyamwera serogroup throughout.'
+    inputs to its design alignment), Ilesha 3/3, Germiston, Bunyamwera, Sororoca - Bunyamwera serogroup throughout. CORRECTED
+    2026-11-06: the paper states its alignment for the M segment only; the design basis of the S and L primers isn''t stated.'
 needs_review:
 - flag: target_scope_unresolved
   note: the source never states what this assay is meant to cover

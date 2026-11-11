@@ -170,6 +170,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Cytomegalovirus glycoprotein B (gB) gene, genus-restricted primers, first round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Cytomegalovirus (taxid 10358), every record.
 

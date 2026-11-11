@@ -139,6 +139,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Snake arenaviruses (reptarenaviruses), glycoprotein gene, with primers taken from an earlier paper.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Reptarenavirus (taxid 1653395), every record.
 

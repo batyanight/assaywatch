@@ -7,7 +7,7 @@ target:
   taxon_name: Ophidiomyces ophidiicola
   query: 'ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR
     28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]'
-chemistry: mgb
+chemistry: hydrolysis_probe
 oligos:
   forward:
     name: Oo-RT-ITS-F
@@ -19,7 +19,7 @@ oligos:
     name: Oo-RT-ITS-PROBE
     seq: TCTCGCTCGAAGACCCGATCG
     reporter: FAM
-    quencher: MGB-NFQ
+    quencher: BHQ1
 amplicon_bp: 82
 citation:
   doi: 10.1186/s12917-015-0407-8
@@ -27,6 +27,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Bohuski E et al. 2015. BMC Vet Res 11:95
+  claim: Ophidiomyces ophidiicola, the snake fungal disease fungus, ITS2 region.
 conditions:
   annealing_c: 60
   cycles: 40
@@ -44,5 +45,6 @@ source:
     held in papers/) prints Oo-RT-ITS-R verbatim. Both papers are from 2015 and the citation is unchanged -- Bohuski prints
     the whole assay and is where this entry was read from -- but a second independent printing of a stored sequence is worth
     recording, because it is the check a transcription error cannot survive. Allender's own assay targets ITS1 rather than
-    ITS2, so it is a different assay sharing a primer and not a duplicate of this entry.
+    ITS2, so it is a different assay sharing a primer and not a duplicate of this entry. CORRECTED 2026-11-10: the probe is
+    printed as (FAM)...(BHQ-1) with no MGB, so the chemistry is hydrolysis_probe and the quencher BHQ1.
 needs_review: null

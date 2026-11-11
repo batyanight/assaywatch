@@ -22,7 +22,7 @@ oligos:
     reporter: FAM
     quencher: BHQ
   alternates: []
-amplicon_bp: 261
+amplicon_bp: 258
 citation:
   doi: 10.1128/JCM.01264-10
   design_year: 2010
@@ -32,6 +32,7 @@ citation:
     and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
   doi_verified: true
   oligos_designed_here: true
+  claim: H5 hemagglutinin of avian influenza viruses, Eurasian and American lineages.
 conditions:
   cycles: 35
 use_context:
@@ -102,10 +103,21 @@ source:
     be known to be the target and a specific assay failing on unknown records reads as drift.
 
     The old archive q6552a5c4af is orphaned by this change: nothing rescreens it and `scripts/storage_report.py` will list
-    it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter journal.'
+    it. Full record and the before/after shares: docs/journal/2026-10-30-set3-scored.md and the subtype-filter journal. SIZE
+    READ AND SETTLED 2026-11-10 (ROADMAP, "Sizes to read, from the verifier''s table"). One rule over all eleven entries on
+    that list: amplicon_bp takes the measured modal product length where one mode holds a clear majority, and the measured
+    median where none does, with amplicon_multimodal in the second case; the flag says whether the CITED paper publishes a
+    size (amplicon_disagrees_with_paper) or does not (amplicon_measured_not_published); and a value is only moved where the
+    new +/-25% window still admits every product measured, so a correction cannot silently delete calls. Measured on the 2026-11-01
+    calls. Tsukamoto H5: 261 -> 258. The stored 261 was the mode of an earlier 274-record sample; over all 35,830 products
+    258 leads and 261 is second. New window 193-322 bp admits every product measured (246-270).'
 needs_review:
+- flag: amplicon_disagrees_with_paper
+  note: measured 258 bp in 29,731 of 35,830 products; Table 1 of the paper prints 249 bp. 2026-11-10.
 - flag: amplicon_multimodal
-  note: modes at 261, 258 and 249 bp from cleavage-site indels; the paper says 249
+  note: 'modes at 258 (29,731), 261 (3,807) and 249 (2,211) bp, set by the length of the HA0 cleavage site the primers flank:
+    249 = monobasic low-pathogenicity sites, 258 = PQRERRRKR, 261 = PQ(G/R)ERRRKKR. The paper says 249. Updated 2026-11-10
+    from a 274-record sample, where 261 led, to the whole archive.'
 - flag: retrieval_scope_incomplete
   note: records whose description states no subtype are excluded from this assay's population, because an untyped record
     cannot be known to be the target; 19 of the 44,627 in the old H3 archive were untyped this way

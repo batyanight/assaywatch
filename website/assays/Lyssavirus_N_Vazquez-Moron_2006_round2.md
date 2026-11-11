@@ -16,7 +16,7 @@
 | Target | Lyssavirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=11286" title="Lyssavirus">taxid 11286</a>) |
 | Gene | N (nucleoprotein) |
 | Chemistry | conventional |
-| Amplicon | 259 bp |
+| Amplicon | 260 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -210,6 +210,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Lyssaviruses, all genotypes, nucleoprotein gene, nested second round.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Lyssavirus (taxid 11286), every record.
 
@@ -235,7 +236,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 2 primers in the Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Vazquez-Moron, S. et al (2006).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-017 (Nucleoprotein), confirmed 2026-10-04 by exact match of every oligo to that protocol's round 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Vazquez-Moron, S. et al (2006). CORRECTED 2026-11-10: amplicon_bp 259 -&gt; 260, the mode, as the paper says.</p></details>
 
 ## Corrections
 

@@ -14,7 +14,7 @@ oligos:
   reverse:
     name: PTS-pol-R2
     seq: CAATCCCCCCTTTTCTTTTAAAATTGTG
-amplicon_bp: 549
+amplicon_bp: 547
 citation:
   doi: 10.1038/nature08200
   design_year: 2009
@@ -24,7 +24,16 @@ citation:
 use_context:
 - wildlife
 submitted_by: null
-status: active
+status: draft
 source:
   nested_round: null
-needs_review: null
+  notes_curator: 'CORRECTED 2026-11-06: Keele 2009 prints no primers and cites refs 7 and 8 for the RT-PCR, neither held;
+    no held paper or supplement prints these four oligos, so this entry drops to draft until a source is found. Size is measured,
+    330 of 334.'
+needs_review:
+- flag: oligos_not_in_cited_paper
+  note: Keele 2009 prints no primers; it cites refs 7 and 8 for the RT-PCR
+- flag: oligo_source_unresolved
+  note: no held paper or supplement prints these four oligos
+- flag: amplicon_measured_not_published
+  note: measured 547 bp in 330 of 334

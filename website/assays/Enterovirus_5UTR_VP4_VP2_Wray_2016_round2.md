@@ -183,6 +183,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Enteroviruses, 5' UTR to VP4/VP2 region, as a consensus screen.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Enterovirus (taxid 12059), limited by a query on the title or gene.
 
@@ -196,7 +197,7 @@ Retrieval query:
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `amplicon_measured_not_published`, `orientation_inferred`.
+Disclosures on this entry: `amplicon_measured_not_published`, `orientation_inferred`, `pairing_is_curator_reading`.
 
 
 ## Records reaching the statistics

@@ -30,7 +30,7 @@ oligos:
   alternates: []
 amplicon_bp: 179
 citation:
-  claim: "Monkeypox virus clades IIa and IIb."
+  claim: "Clade IIa and IIb monkeypox virus, F3L gene."
   doi: 10.1016/j.bsheal.2022.10.005
   design_year: 2022
   n_sequences_at_design: 138
@@ -67,8 +67,10 @@ source:
     cowpox 10243, camelpox 28873, taterapox 28871, ectromelia 12643, vaccinia 10245 (NCBI''s Orthopoxvirus vaccinia), raccoonpox
     10256. All seven are siblings of monkeypox under Orthopoxvirus (10242), so none is inside this entry''s own target subtree.
     Together they are 3,772 nuccore records of 100-100,000,000 nt, against 1.6M already on disk, so the retrieval is cheap.
-    NOT added to Orthopoxvirus_F3L_Huo_2022, whose TARGETS they are, and not to the two B.1 SNP
-    entries, whose claim is lineage-level inside MPXV and cannot be written as a taxid.'
+    NOT added to Orthopoxvirus_F3L_Huo_2022, whose TARGETS they are, and not to the two B.1 SNP entries, whose claim is lineage-level
+    inside MPXV and cannot be written as a taxid. CORRECTED 2026-11-06: the seven-virus exclusivity list is borrowed from
+    the sibling Li 2010 assays. Huo''s own claim is general (''other orthopoxviruses did not cross-react''); it ran only vaccinia
+    Tiantan wet and aligned variola, ectromelia and camelpox. Cowpox, taterapox and raccoonpox have no Huo evidence.'
 needs_review:
 - flag: amplicon_measured_not_published
   note: the paper states no product size; measured 2026-10-27, see notes_curator

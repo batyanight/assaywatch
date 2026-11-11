@@ -709,3 +709,46 @@ def test_the_scope_is_tested_without_a_correction_across_lineages_on_purpose():
 
     doc = inspect.getdoc(retro.scope_verdict) or ""
     assert "named in advance" in doc and "no multiple-testing correction" in doc
+
+
+def _taxonomy(parent):
+    """A Taxonomy over a hand-built parent map, as `drift.scope_taxonomy` would load."""
+    from assaywatch.taxonomy import Taxonomy
+
+    return Taxonomy(parent, {}, {}, {})
+
+
+def test_a_scope_above_the_rank_records_are_filed_at_is_summed_over_its_clade():
+    """Why this exists (2026-11-10). The 34 drafted `scope_taxid` reads name what each paper
+    tested, and a paper that reports "gammaherpesviruses of two species" tested a SUBFAMILY.
+    GenBank files records at species or below, so an exact taxid match finds no lineage and
+    every such row silently fell back to the pooled status -- measured on the 2026-11-01 calls,
+    9 of the 14 drafted rows with a taxid named a genus or subfamily and all 9 were skipped.
+    `assaywatch.taxonomy` exists because "exact matching is the bug this module exists to fix";
+    the case scope had been left behind. The clade is summed and tested as ONE lineage, which
+    is the question the paper answered."""
+    # Two gammaherpesvirus species (10374 Gammaherpesvirinae), one alphaherpesvirus (10293).
+    a = _drift_with_lineages("declining", [(10376, 5, 60), (10399, 1, 50), (10310, 95, 100)])
+    tax = _taxonomy({10376: 10374, 10399: 10374, 10310: 10293, 10374: 10292, 10293: 10292, 10292: 1})
+    got, basis = retro.scope_verdict(a, 10374, 0.9, "fails", taxonomy=tax)
+    assert got == "fails"
+    assert "clade 10374" in basis and "2 lineages" in basis and "6 of 110" in basis
+    # The sibling subfamily is covered, and the same assay reads `works` for it.
+    got, basis = retro.scope_verdict(a, 10293, 0.9, "works", taxonomy=tax)
+    assert got == "works" and "clade 10293" in basis
+
+
+def test_an_exact_lineage_still_wins_over_its_clade_and_a_clade_with_no_descendant_is_skipped():
+    """An exact match is the narrower, better answer, so summing never overrides it; and a
+    scope naming a clade nothing is filed under is still not honoured, rather than scored on
+    an empty sum."""
+    a = _drift_with_lineages("declining", [(10374, 5, 60), (10376, 90, 100)])
+    tax = _taxonomy({10376: 10374, 10374: 10292, 10292: 1})
+    got, basis = retro.scope_verdict(a, 10374, 0.9, "fails", taxonomy=tax)
+    assert got == "fails" and "lineage 10374" in basis and "clade" not in basis
+    got, basis = retro.scope_verdict(a, 55555, 0.9, "works", taxonomy=tax)
+    assert got is None and "no per-lineage" in basis
+    # Without a taxonomy nothing changes: the old exact-match behaviour stands.
+    b = _drift_with_lineages("declining", [(10376, 5, 60)])
+    got, basis = retro.scope_verdict(b, 10374, 0.9, "fails")
+    assert got is None and "no per-lineage" in basis

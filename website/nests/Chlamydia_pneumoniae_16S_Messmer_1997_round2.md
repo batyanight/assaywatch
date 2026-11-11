@@ -41,7 +41,7 @@ bar is a position that matters.
 
 ## Predicted detection by deposit year
 
-**all 13 evaluable records**, deposited between 1993 and 2024, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
+**all 11 evaluable records**, deposited between 1993 and 2024, read the same way: 100% predicted detection in every year. That is fewer than the 15 records a drift verdict needs, and no year differs from another, so there is no trend to draw and none is drawn.
 
 ## What was deposited, by lineage
 
@@ -81,12 +81,12 @@ Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (24 months, from Nov 2024) | 4 | 4 | 100.0% | 51.0% – 100.0% |
+| recent window (24 months, from Nov 2024) | 2 | 2 | 100.0% | 34.2% – 100.0% |
 | baseline (everything earlier) | 9 | 9 | 100.0% | 70.1% – 100.0% |
 
-Change from baseline, Newcombe interval: **-49.0% to 29.9%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-65.8% to 29.9%**. Threshold: **90.0%**.
 
-*4 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (51%-100%), too wide to act on*
+*2 evaluable records since Nov 2024, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on*
 
 From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
@@ -114,11 +114,11 @@ Disclosures on this entry: `primer_site_polymorphic`, `scope_narrower_than_taxid
 
 ## Records reaching the statistics
 
-13 records were screened for this assay and **13 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
+11 records were screened for this assay and **11 (100%)** were evaluable, meaning both primers landed in the right orientation and size range. 0 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
-<p class="aw-rounds-note">See each round of primers as an individual set, run directly on the protocol's own 4 recent records (round 1 gates the protocol figure above):</p>
+<p class="aw-rounds-note">See each round of primers as an individual set, run directly on the protocol's own 2 recent records (round 1 gates the protocol figure above):</p>
 <table class="aw-rounds"><thead><tr><th>round</th><th>assay</th><th class="num">detected alone</th></tr></thead>
 <tbody>
 <tr><td>round 1</td><td><a href="../../assays/Chlamydia_16S_Messmer_1997_round1/"><span class="aw-id">Chlamydia_16S_Messmer_1997_round1</span></a></td><td class="num">100.0%</td></tr>

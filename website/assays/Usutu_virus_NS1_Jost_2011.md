@@ -128,6 +128,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Usutu virus, NS1 gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Usutu virus (taxid 64286), every record.
 

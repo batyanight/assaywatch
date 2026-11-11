@@ -46,7 +46,7 @@ deposit. The shaded band marks the recent window and the dashed line the thresho
 Bigger markers mean more records behind the point, because 100% of three records
 and 100% of three thousand are very different claims.
 
-<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1994 to 2024, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 66.1,20.2 132.3,20.2 242.6,20.2 375.0,20.2 419.1,20.2 485.3,20.2 529.5,20.2 551.5,20.2 595.7,20.2 617.7,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 66.1,20.2 132.3,20.2 242.6,20.2 375.0,20.2 419.1,20.2 485.3,20.2 529.5,20.2 551.5,20.2 595.7,20.2 617.7,20.2 706.0,20.2"/><g class="aw-point aw-insufficient-data"><title>1994: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1995: 1 of 1 detected (100.0%)</title><circle cx="66.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1998: 1 of 1 detected (100.0%)</title><circle cx="132.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2003: 1 of 1 detected (100.0%)</title><circle cx="242.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2009: 2 of 2 detected (100.0%)</title><circle cx="375.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2011: 1 of 1 detected (100.0%)</title><circle cx="419.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2014: 1 of 1 detected (100.0%)</title><circle cx="485.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2016: 8 of 8 detected (100.0%)</title><circle cx="529.5" cy="20.2" r="3.1"/></g><g class="aw-point aw-insufficient-data"><title>2017: 8 of 8 detected (100.0%)</title><circle cx="551.5" cy="20.2" r="3.1"/></g><g class="aw-point aw-insufficient-data"><title>2019: 2 of 2 detected (100.0%)</title><circle cx="595.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2020: 1 of 1 detected (100.0%)</title><circle cx="617.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 2 of 2 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1994</text><text class="aw-tick" x="132.3" y="208">1998</text><text class="aw-tick" x="220.5" y="208">2002</text><text class="aw-tick" x="308.8" y="208">2006</text><text class="aw-tick" x="397.1" y="208">2010</text><text class="aw-tick" x="485.3" y="208">2014</text><text class="aw-tick" x="573.6" y="208">2018</text><text class="aw-tick" x="661.9" y="208">2022</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
+<svg class="aw-chart" viewBox="0 0 720 230" role="img" xmlns="http://www.w3.org/2000/svg" aria-label="Predicted detection by deposit year, 1994 to 2024, against a 90 percent threshold."><rect class="aw-window" x="706.0" y="12.0" width="0.0" height="180.0"><title>the recent window: 60 months from Nov 2021</title></rect><line class="aw-grid" x1="44.0" y1="183.8" x2="706.0" y2="183.8"/><text class="aw-tick aw-tick-y" x="37.0" y="187.3">0</text><line class="aw-grid" x1="44.0" y1="142.9" x2="706.0" y2="142.9"/><text class="aw-tick aw-tick-y" x="37.0" y="146.4">25</text><line class="aw-grid" x1="44.0" y1="102.0" x2="706.0" y2="102.0"/><text class="aw-tick aw-tick-y" x="37.0" y="105.5">50</text><line class="aw-grid" x1="44.0" y1="61.1" x2="706.0" y2="61.1"/><text class="aw-tick aw-tick-y" x="37.0" y="64.6">75</text><line class="aw-grid" x1="44.0" y1="20.2" x2="706.0" y2="20.2"/><text class="aw-tick aw-tick-y" x="37.0" y="23.7">100</text><line class="aw-threshold" x1="44.0" y1="36.5" x2="706.0" y2="36.5"/><text class="aw-threshold-label" x="706.0" y="31.5">90% threshold</text><polyline class="aw-same-mix" points="44.0,20.2 66.1,20.2 132.3,20.2 242.6,20.2 375.0,20.2 419.1,20.2 485.3,20.2 529.5,20.2 551.5,20.2 595.7,20.2 617.7,20.2 706.0,20.2"><title>each year on the whole period's mix of lineages: where this parts from the line above, the mix moved rather than detection within it</title></polyline><polyline class="aw-line aw-insufficient-data" points="44.0,20.2 66.1,20.2 132.3,20.2 242.6,20.2 375.0,20.2 419.1,20.2 485.3,20.2 529.5,20.2 551.5,20.2 595.7,20.2 617.7,20.2 706.0,20.2"/><g class="aw-point aw-insufficient-data"><title>1994: 1 of 1 detected (100.0%)</title><circle cx="44.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1995: 1 of 1 detected (100.0%)</title><circle cx="66.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>1998: 1 of 1 detected (100.0%)</title><circle cx="132.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2003: 1 of 1 detected (100.0%)</title><circle cx="242.6" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2009: 2 of 2 detected (100.0%)</title><circle cx="375.0" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2011: 1 of 1 detected (100.0%)</title><circle cx="419.1" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2014: 1 of 1 detected (100.0%)</title><circle cx="485.3" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2016: 8 of 8 detected (100.0%)</title><circle cx="529.5" cy="20.2" r="3.1"/></g><g class="aw-point aw-insufficient-data"><title>2017: 4 of 4 detected (100.0%)</title><circle cx="551.5" cy="20.2" r="2.7"/></g><g class="aw-point aw-insufficient-data"><title>2019: 1 of 1 detected (100.0%)</title><circle cx="595.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2020: 1 of 1 detected (100.0%)</title><circle cx="617.7" cy="20.2" r="2.5"/></g><g class="aw-point aw-insufficient-data"><title>2024: 1 of 1 detected (100.0%) — recent window</title><circle cx="706.0" cy="20.2" r="2.5"/></g><text class="aw-tick" x="44.0" y="208">1994</text><text class="aw-tick" x="132.3" y="208">1998</text><text class="aw-tick" x="220.5" y="208">2002</text><text class="aw-tick" x="308.8" y="208">2006</text><text class="aw-tick" x="397.1" y="208">2010</text><text class="aw-tick" x="485.3" y="208">2014</text><text class="aw-tick" x="573.6" y="208">2018</text><text class="aw-tick" x="661.9" y="208">2022</text><text class="aw-axis-label" x="375" y="224">deposit year · marker size is the number of records</text></svg>
 
 ## What was deposited, by lineage
 
@@ -89,18 +89,19 @@ Every value behind the call, so you can redo it by hand:
 
 | | detected | evaluable | share | 95% interval |
 |---|---|---|---|---|
-| recent window (60 months, from Nov 2021) | 2 | 2 | 100.0% | 34.2% – 100.0% |
-| baseline (everything earlier) | 27 | 27 | 100.0% | 87.5% – 100.0% |
+| recent window (60 months, from Nov 2021) | 1 | 1 | 100.0% | 20.7% – 100.0% |
+| baseline (everything earlier) | 22 | 22 | 100.0% | 85.1% – 100.0% |
 
-Change from baseline, Newcombe interval: **-65.8% to 12.5%**. Threshold: **90.0%**.
+Change from baseline, Newcombe interval: **-79.3% to 14.9%**. Threshold: **90.0%**.
 
-*2 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (34%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
+*1 evaluable records since Nov 2021, below the minimum of 15; the detected share is 100% (21%-100%), too wide to act on (window widened to 60 months to reach 15 evaluable records)*
 
 From the 2026-11-01 run. A status tells you where to look; it is not a result. [Known limitations](../limitations.md) reports how often these calls are correct.
 
 
 ## Scope
 
+**Meant to detect:** Mycoplasma of eastern box turtles and Mycoplasma agassizii, 16S rRNA gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Mycoplasmatota (scoped by query to the three chelonian mycoplasmas) (taxid 544448), limited by a query on the title or gene.
 
@@ -117,15 +118,15 @@ A retrieval query is a claim about which records the assay is tested against, an
 
 ## Records reaching the statistics
 
-528 records were screened for this assay and **29 (5%)** were evaluable, meaning both primers landed in the right orientation and size range. 499 produced no amplicon at all.
+360 records were screened for this assay and **23 (6%)** were evaluable, meaning both primers landed in the right orientation and size range. 337 produced no amplicon at all.
 
 This matters because a record with one diverged primer is scored as a failure while a record with both diverged is excluded from the denominator entirely. The resulting bias is known, measured, and may not be correctable; see [known limitations](../limitations.md).
 
 | why a record was not evaluable | records |
 |---|---|
-| `no_site` | 487 |
+| `no_site` | 327 |
 | `truncated` | 8 |
-| `chance_anchor` | 4 |
+| `chance_anchor` | 2 |
 
 
 ## Curation record

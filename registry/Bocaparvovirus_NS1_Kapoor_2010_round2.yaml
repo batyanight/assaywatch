@@ -14,13 +14,14 @@ oligos:
   reverse:
     name: PANBOV-R1
     seq: GTACAGTCRTAYTCRTTRAARCACCA
-amplicon_bp: 290
+amplicon_bp: 294
 citation:
   doi: 10.1371/journal.pone.0011948
   design_year: 2010
   n_sequences_at_design: null
   doi_verified: true
   reference: Kapoor A et al. 2010. PLoS ONE 5:e11948 (PANBOV primers)
+  claim: Bocaviruses (genus Bocaparvovirus), NS1 gene, second round of a hemi-nested pan-genus screen.
 conditions:
   annealing_c: 58
   cycles: 35
@@ -36,5 +37,6 @@ source:
   nested_parent: Bocaparvovirus_NS1_Kapoor_2010_round1
   notes_curator: 'PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol''s
     rounds 1 and 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel:
-    Kapoor, A. et al (2010).'
+    Kapoor, A. et al (2010). CORRECTED 2026-11-10: amplicon_bp 290 -> 294, measured in 1,438 of 1,438; the paper says approximately
+    290.'
 needs_review: null

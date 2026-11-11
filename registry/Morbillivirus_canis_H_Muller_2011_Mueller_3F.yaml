@@ -17,7 +17,7 @@ oligos:
   - name: 3Farctic
     seq: TGGGAATCTTTGGGGCAACA
     orientation: forward
-amplicon_bp: 563
+amplicon_bp: 544
 citation:
   doi: 10.7589/0090-3558-47.3.725
   design_year: 2011
@@ -25,6 +25,7 @@ citation:
   doi_verified: true
   reference: Müller A, Silva E, Santos N, Thompson G. 2011. Domestic dog origin of canine distemper virus in 
     free-ranging wolves in Portugal as revealed by hemagglutinin gene characterization. J Wildl Dis 47:725-729
+  claim: Canine distemper virus H gene, one of four overlapping pieces, for sequencing rather than detection.
 conditions:
   annealing_c: 57.0
 use_context:
@@ -46,7 +47,18 @@ source:
     TAXID RETIRED 2026-10-27: NCBI has merged 11232 into 3052342 (Morbillivirus canis), so this entry now carries the canonical
     id. Retrieval resolved the old id and nothing had noticed, which is the point -- an entry on a retired id is one taxonomy
     release from an empty archive. data/retrieved/11232/ moved to data/retrieved/3052342/ and the manifest was rebuilt in
-    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.'
+    the same commit, so no archive was re-fetched. Found by scripts/check_taxids.py''s containment check; see docs/journal/2026-10-27-retired-taxids.md.
+    CORRECTED 2026-11-06: the paper states the pairing, so that flag is removed. The arctic alternates are not printed by
+    the paper and their source isn''t recorded. SIZE READ AND SETTLED 2026-11-10 (ROADMAP, "Sizes to read, from the verifier''s
+    table"). One rule over all eleven entries on that list: amplicon_bp takes the measured modal product length where one
+    mode holds a clear majority, and the measured median where none does, with amplicon_multimodal in the second case; the
+    flag says whether the CITED paper publishes a size (amplicon_disagrees_with_paper) or does not (amplicon_measured_not_published);
+    and a value is only moved where the new +/-25% window still admits every product measured, so a correction cannot silently
+    delete calls. Measured on the 2026-11-01 calls. Mueller 3F: 563 -> 544. New window 408-680 bp admits every product measured
+    (525-545).'
 needs_review:
-- flag: pairing_is_curator_reading
-  note: the source lists several primers in one block without saying which pair
+- flag: oligos_not_in_cited_paper
+  note: the arctic alternates are not printed by the cited paper; source not recorded
+- flag: amplicon_measured_not_published
+  note: measured 544 bp in 1,872 of 1,885 products; the cited paper publishes no product size. Replaces a stored 563 of 
+    unrecorded provenance. 2026-11-10.

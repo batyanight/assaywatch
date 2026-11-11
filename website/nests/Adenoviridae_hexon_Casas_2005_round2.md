@@ -131,6 +131,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
 
+**Meant to detect:** Human adenoviruses, hexon gene, as a nested second round.  
 **Scored against:** only taxa that every round claims.  
 **Retrieved from:** Adenoviridae (taxid 10508), every record.
 
@@ -155,7 +156,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 SCOPE TRIAGE 2026-10-20, decision HELD for a maintainer; 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-20</b> SCOPE TRIAGE 2026-10-20, decision HELD for a maintainer; see docs/journal/2026-10-20-scope-curation.md. Casas et al. 2005's own range is human adenovirus: it validated on 47 prototype HAdV serotypes covering species A to F in clinical samples, and tested no non-human adenovirus. But the pair is also used in the PREDICT protocol, a pan-adenovirus wildlife screening protocol, so this is an Atkins/PREDICT-style composite and the scope belongs to whichever source is operative. What the audit adds: the two rounds fire on different lineages, and only one of them turns on that question. Round 1 fires on Mastadenovirus caesari (3241411), whose records are Human mastadenovirus C - a species Casas explicitly typed, so IN range even under the narrowest reading, and scoping to human adenovirus would not remove that override. Round 2 fires on Aviadenovirus hepatitidis (3426530), fowl adenovirus, at 0 of 49 - out of Casas's range and inside PREDICT's. So the composite question decides one override and not the other.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-20</b> SCOPE TRIAGE 2026-10-20, decision HELD for a maintainer; see docs/journal/2026-10-20-scope-curation.md. Casas et al. 2005's own range is human adenovirus: it validated on 47 prototype HAdV serotypes covering species A to F in clinical samples, and tested no non-human adenovirus. But the pair is also used in the PREDICT protocol, a pan-adenovirus wildlife screening protocol, so this is an Atkins/PREDICT-style composite and the scope belongs to whichever source is operative. What the audit adds: the two rounds fire on different lineages, and only one of them turns on that question. Round 1 fires on Mastadenovirus caesari (3241411), whose records are Human mastadenovirus C - a species Casas explicitly typed, so IN range even under the narrowest reading, and scoping to human adenovirus would not remove that override. Round 2 fires on Aviadenovirus hepatitidis (3426530), fowl adenovirus, at 0 of 49 - out of Casas's range and inside PREDICT's. So the composite question decides one override and not the other. CORRECTED 2026-11-06: validated on 157 sequences: 47 prototype HAdV strains as references, plus 71 clinical samples and isolates, resolving species A to F.</p></details>
 
 ## Corrections
 

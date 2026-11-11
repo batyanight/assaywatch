@@ -15,7 +15,7 @@
 |---|---|
 | Target | Ophidiomyces ophidiicola (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1387563" title="Ophidiomyces ophidiicola">taxid 1387563</a>) |
 | Gene | IGS (intergenic spacer) |
-| Chemistry | mgb |
+| Chemistry | hydrolysis_probe |
 | Amplicon | 133 bp |
 | Registry status | active |
 
@@ -90,6 +90,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Ophidiomyces ophidiicola, the snake fungal disease fungus, intergenic spacer region.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Ophidiomyces ophidiicola (taxid 1387563), limited by a query on the title or gene.
 
@@ -98,7 +99,7 @@ This entry declares no scope restriction, so every record retrieved for its targ
 Retrieval query:
 
 ```
-ITS[Title] OR ITS2[Title] OR "internal transcribed spacer"[Title] OR IGS[Title] OR "intergenic spacer"[Title] OR 28S[Title] OR "large subunit"[Title] OR "ribosomal RNA"[Title] OR rRNA[Title] OR "ribosomal DNA"[Title]
+IGS[Title] OR "intergenic spacer"[Title]
 ```
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
@@ -114,6 +115,12 @@ This matters because a record with one diverged primer is scored as a failure wh
 |---|---|
 | `no_site` | 185 |
 
+
+## Curation record
+
+QUERY NARROWED 2026-11-06 to the IGS: about 185 of the 196 archive records were ITS, SSU or LSU and can never carry the product. 
+
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-11-06</b> QUERY NARROWED 2026-11-06 to the IGS: about 185 of the 196 archive records were ITS, SSU or LSU and can never carry the product. 11 IGS-titled records exist, none in the window. Genome assemblies stay out, since they stop where the spacer begins. CORRECTED 2026-11-10: the probe is printed as (FAM)...(BHQ-1) with no MGB, so the chemistry is hydrolysis_probe and the quencher BHQ1.</p></details>
 
 ## Corrections
 

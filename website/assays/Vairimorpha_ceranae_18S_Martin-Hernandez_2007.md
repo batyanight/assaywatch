@@ -146,6 +146,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Nosema ceranae (now Vairimorpha ceranae), small-subunit rRNA gene, in a duplex with N. apis.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Vairimorpha ceranae (taxid 40302), limited by a query on the title or gene.
 

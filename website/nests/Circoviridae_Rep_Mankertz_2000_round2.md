@@ -16,7 +16,7 @@
 | Target | Circoviridae (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=39724">taxid 39724</a>) |
 | Gene | Rep |
 | Chemistry | conventional |
-| Amplicon | 270 bp |
+| Amplicon | 274 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -130,12 +130,13 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
 
+**Meant to detect:** Vertebrate circoviruses, rep gene, as the nested second round.  
 **Scored against:** only taxa that every round claims.  
 **Retrieved from:** Circoviridae (taxid 39724), every record.
 
 The protocol declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `orientation_inferred`.
+Disclosures on this entry: `orientation_inferred`, `amplicon_measured_not_published`, `amplicon_disagrees_with_paper`, `amplicon_multimodal`.
 
 
 ## Records reaching the statistics
@@ -156,7 +157,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-20</b> SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added. The lineage override fires here on Circovirus parrot (3047561, BFDV) at 69/95 = 72.6 percent against a pooled 45.0 percent of 473, turning a low coverage into declining. BFDV is not out of this assay's range: Mankertz et al. 2000 built the consensus primers on an alignment of the rep genes of PCV1, PCV2 and BFDV, and BFDV-infected parrot liver is one of the four DNAs it tested, so BFDV is both a design sequence and a bench positive. The firing lineage detects 27.6 points BETTER than the pool, which makes this a worked example of the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md point 2 rather than a scope error. The narrower scope the paper does support - it says the primers use rep regions conserved in "vertebrate circoviruses", and this entry's own name says vertebrate - would exclude genus Cyclovirus (742914), described a decade after the paper. MEASURED on the 2026-10-17 calls: Cyclovirus holds 741 records but only 4 evaluable ones, against 7,752 evaluable under genus Circovirus, so scoping changes nothing and is not worth an allow-list that would also have to re-admit the 434 unclassified Circoviridae records (bat, rodent, fur seal) that are vertebrate circoviruses. Revisit if Cyclovirus deposits become evaluable in numbers.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-20</b> SCOPE QUESTION ASKED AND CLOSED 2026-10-20, no scope_taxids added. The lineage override fires here on Circovirus parrot (3047561, BFDV) at 69/95 = 72.6 percent against a pooled 45.0 percent of 473, turning a low coverage into declining. BFDV is not out of this assay's range: Mankertz et al. 2000 built the consensus primers on an alignment of the rep genes of PCV1, PCV2 and BFDV, and BFDV-infected parrot liver is one of the four DNAs it tested, so BFDV is both a design sequence and a bench positive. The firing lineage detects 27.6 points BETTER than the pool, which makes this a worked example of the above-pooled override pattern in docs/journal/2026-10-20-pan-family-override.md point 2 rather than a scope error. The narrower scope the paper does support - it says the primers use rep regions conserved in "vertebrate circoviruses", and this entry's own name says vertebrate - would exclude genus Cyclovirus (742914), described a decade after the paper. MEASURED on the 2026-10-17 calls: Cyclovirus holds 741 records but only 4 evaluable ones, against 7,752 evaluable under genus Circovirus, so scoping changes nothing and is not worth an allow-list that would also have to re-admit the 434 unclassified Circoviridae records (bat, rodent, fur seal) that are vertebrate circoviruses. Revisit if Cyclovirus deposits become evaluable in numbers. CORRECTED 2026-11-06: amplicon_bp 270 -&gt; 274, the mode.</p></details>
 
 ## Corrections
 

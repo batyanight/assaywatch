@@ -147,6 +147,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Sarcocystis, 18S-ITS-1 rDNA.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Sarcocystis (taxid 5812), every record.
 
@@ -171,7 +172,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 P-ITSR corrected 2026-10-04 from GCCATTTGCGTTCCAGAAATC (as first entered; 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> P-ITSR corrected 2026-10-04 from GCCATTTGCGTTCCAGAAATC (as first entered; one extra C) to GCCATTTGCGTTCAGAAATC, as printed by the same group in Rudaityte-Lukosiene, Kutkiene et al. 2026 (10.3390/pathogens15070709, with P-ITSF identical to ours) and Kirillova, Prakas et al. 2018 (10.1186/s13071-018-2694-y), and as read by every Sarcocystis record (scripts/indel_check.py).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> P-ITSR corrected 2026-10-04 from GCCATTTGCGTTCCAGAAATC (as first entered; one extra C) to GCCATTTGCGTTCAGAAATC, as printed by the same group in Rudaityte-Lukosiene, Kutkiene et al. 2026 (10.3390/pathogens15070709, with P-ITSF identical to ours) and Kirillova, Prakas et al. 2018 (10.1186/s13071-018-2694-y), and as read by every Sarcocystis record (scripts/indel_check.py). CORRECTED 2026-11-10: P-ITSF and P-ITSR are printed in Table 1 (p2) as 'newly designed primers', so this paper is the source of the corrected P-ITSR. Tested on one barnacle goose isolate (S. wobeseri) and one mallard isolate (Sarcocystis sp. cyst type IV, identical ITS-1); the genus scope is an extrapolation. The paper gives no product size.</p></details>
 
 ## Corrections
 

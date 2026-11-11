@@ -1,11 +1,14 @@
 id: Deformed_wing_virus_B_polyprotein_Rossi_2024
 name: Deformed wing virus B — polyprotein (Rossi 2024)
 target:
-  taxid: 2498590
+  taxid: 3047792
   gene: polyprotein
   genome_type: ssRNA+
   taxon_name: Deformed wing virus B
   query: null
+  scope_taxids:
+  - 2498590
+  - 232800
 chemistry: mgb
 oligos:
   forward:
@@ -22,7 +25,7 @@ oligos:
   alternates: []
 amplicon_bp: 138
 citation:
-  claim: "Deformed wing virus B, told apart from A."
+  claim: "Deformed wing virus B (formerly Varroa destructor virus 1), polyprotein gene, as a type-specific test."
   doi: 10.3390/microorganisms12061105
   design_year: 2024
   n_sequences_at_design: 46
@@ -67,7 +70,9 @@ source:
     SCOPE: as for DWVA. DWV-B and DWV-A are one ICTV species; the paper found apparent cross-signal in both directions by
     experiment (it reports Ct differences of about 8 and 4 cycles), so use the in-silico ''fail'' on the other variant as
     a hint, not a verdict. The ''Varroa destructor virus 1'' records (txid232800, 118 records) are the older name for DWV-B
-    and are not retrieved by the B node; flag VARIANT_SCOPE for the lead.'
+    and are not retrieved by the B node; flag VARIANT_SCOPE for the lead. CORRECTED 2026-11-06: scope broadened to Varroa
+    destructor virus 1 (232800), which the paper equates with DWV-B. It sits outside 198112 under the species, so retrieval
+    moves there and the scope keeps DWV-A out.'
 needs_review:
 - flag: oligos_from_secondary_source
   note: design provenance is mixed across the oligos in this entry

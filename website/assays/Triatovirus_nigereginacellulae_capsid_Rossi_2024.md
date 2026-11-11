@@ -185,6 +185,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Black queen cell virus, capsid gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Triatovirus nigereginacellulae (black queen cell virus; the paper's name, renamed by ICTV) (taxid 3047684), every record.
 

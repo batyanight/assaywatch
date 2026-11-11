@@ -355,6 +355,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** H3 hemagglutinin of seasonal and swine-variant influenza A(H3N2), original version of the assay.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Influenza A virus (taxid 11320), limited by a query on the title or gene.
 

@@ -197,6 +197,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** HIV-1, SIVcpz and SIVgor pol gene, second round, used only as a side method on two chimpanzee samples.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Simian immunodeficiency virus (taxid 11723), limited by a query on the title or gene.
 
@@ -210,7 +211,7 @@ pol[Gene] OR polymerase[Title] OR "complete genome"[Title]
 
 A retrieval query is a claim about which records the assay is tested against, and it can stop being accurate without producing an error; see [scope and retrieval](../scoping.md).
 
-Disclosures on this entry: `amplicon_measured_not_published`.
+Disclosures on this entry: `amplicon_disagrees_with_paper`.
 
 
 ## Records reaching the statistics
@@ -231,7 +232,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 Not scoped (a scope attempted 2026-10-04 was reverted): SIVgor has no NCBI taxon and SIVcpz (388909) has only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged keyword query searches every Entrez field and does not isolate the lineage. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> Not scoped (a scope attempted 2026-10-04 was reverted): SIVgor has no NCBI taxon and SIVcpz (388909) has only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged keyword query searches every Entrez field and does not isolate the lineage. Judged against all SIV, with the lineage breakdown recorded instead: SIVgor 8/8 detected, SIVcpz 15/30, everything else 5/181. See docs/journal/2026-10-04-assay-investigations.md.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> Not scoped (a scope attempted 2026-10-04 was reverted): SIVgor has no NCBI taxon and SIVcpz (388909) has only 7 pol/genome records, so there is no clean taxonomic scope, and an untagged keyword query searches every Entrez field and does not isolate the lineage. Judged against all SIV, with the lineage breakdown recorded instead: SIVgor 8/8 detected, SIVcpz 15/30, everything else 5/181. See docs/journal/2026-10-04-assay-investigations.md. CORRECTED 2026-11-06: the paper's 220 bp names no pair; geometry says this inner one, and 12 bp stay unexplained.</p></details>
 
 ## Corrections
 

@@ -22,7 +22,7 @@ oligos:
   alternates: []
 amplicon_bp: 100
 citation:
-  claim: "Monkeypox virus Congo Basin strains."
+  claim: "Congo Basin clade of monkeypox virus, C3L gene."
   doi: 10.1016/j.jviromet.2010.07.012
   design_year: 2010
   n_sequences_at_design: null

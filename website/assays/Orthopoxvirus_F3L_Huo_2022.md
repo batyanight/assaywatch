@@ -133,6 +133,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Orthopoxviruses other than monkeypox virus, F3L gene.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Orthopoxvirus (taxid 10242), every record.
 

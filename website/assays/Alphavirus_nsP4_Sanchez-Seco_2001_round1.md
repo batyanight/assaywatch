@@ -141,6 +141,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Alphaviruses, nsP4 gene, as the first round of a nested pair.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Alphavirus (taxid 11019), every record.
 

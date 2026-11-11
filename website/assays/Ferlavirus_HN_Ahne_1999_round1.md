@@ -115,12 +115,11 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Reptilian paramyxoviruses (Fer-de-Lance virus and related isolates), HN gene, outer round, for sequencing rather than detection.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Ferlavirus (taxid 1283308), every record.
 
 This entry declares no scope restriction, so every record retrieved for its target taxid counts toward the denominator. Where an assay was designed for a narrower range than its taxid covers, that presents as low coverage rather than drift; see [scope and retrieval](../scoping.md).
-
-Disclosures on this entry: `amplicon_measured_not_published`.
 
 
 ## Records reaching the statistics
@@ -138,7 +137,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-19</b> Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene external primers (primer pair 1+2 in the paper's Table 1). Positions on Sendai Z strain: 7458-7478 (forward) and 8136-8116 (reverse), expected product 679 bp. The L gene primers from this paper are already in the registry as Ferlavirus_L_Ahne_1999_AhneL5 (external) and Ferlavirus_L_Ahne_1999_AhneL7 (inner). AMPLICON_BP: 679 bp from the paper's Table 1 position data (8136-7458+1=679); needs verification against GenBank ferlavirus HN sequences.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-19</b> Added 2026-10-19 from candidate oligo extraction (papers/10.1016_s0168-1702_99_00059-3.pdf). HN gene external primers (primer pair 1+2 in the paper's Table 1). Positions on Sendai Z strain: 7458-7478 (forward) and 8136-8116 (reverse), expected product 679 bp. The L gene primers from this paper are already in the registry as Ferlavirus_L_Ahne_1999_AhneL5 (external) and Ferlavirus_L_Ahne_1999_AhneL7 (inner). AMPLICON_BP: 679 bp from the paper's Table 1 position data (8136-7458+1=679); needs verification against GenBank ferlavirus HN sequences. CORRECTED 2026-11-10: 30 cycles for the first round (p3; 35 is the second round's). Table 2 prints 679 bp, equal to the measured 679, so the size flag comes off.</p></details>
 
 ## Corrections
 

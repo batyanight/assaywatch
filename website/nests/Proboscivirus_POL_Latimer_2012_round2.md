@@ -103,6 +103,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
 
+**Meant to detect:** Elephant endotheliotropic herpesviruses (Proboscivirus), DNA polymerase gene, second round.  
 **Scored against:** only taxa that every round claims.  
 **Retrieved from:** Proboscivirus (elephant endotheliotropic herpesviruses) (taxid 548689), limited by a query on the title or gene.
 

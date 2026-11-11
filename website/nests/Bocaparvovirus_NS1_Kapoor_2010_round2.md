@@ -16,7 +16,7 @@
 | Target | Bocaparvovirus (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1507401" title="Bocaparvovirus">taxid 1507401</a>) |
 | Gene | NS1 |
 | Chemistry | conventional |
-| Amplicon | 290 bp |
+| Amplicon | 294 bp |
 | Registry status | active |
 
 ## Mismatch distribution
@@ -127,6 +127,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 This protocol's scope is the intersection of its rounds' scopes: a record counts only if every round claims it, so a record one round's target covers and another's does not is out of scope rather than a failure.
 
+**Meant to detect:** Bocaviruses (genus Bocaparvovirus), NS1 gene, second round of a hemi-nested pan-genus screen.  
 **Scored against:** only taxa that every round claims.  
 **Retrieved from:** Bocaparvovirus (taxid 1507401), every record.
 
@@ -151,7 +152,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol's rounds 1 and 2 primers in the Anthony et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol's rounds 1 and 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Kapoor, A. et al (2010).</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-04</b> PREDICT panel protocol P-033 (NS1), confirmed 2026-10-04 by exact match of every oligo to that protocol's rounds 1 and 2 primers in the Anthony et al. 2015 supplement (Nat Commun 6:8147, CC-BY). Primer source per the panel: Kapoor, A. et al (2010). CORRECTED 2026-11-10: amplicon_bp 290 -&gt; 294, measured in 1,438 of 1,438; the paper says approximately 290.</p></details>
 
 ## Corrections
 

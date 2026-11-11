@@ -14,7 +14,7 @@ oligos:
   reverse:
     name: Astr4811R
     seq: GGYTTNACCCACATNCCAAA
-amplicon_bp: 431
+amplicon_bp: 413
 citation:
   doi: 10.1016/j.vetmic.2008.10.035
   design_year: 2009
@@ -22,7 +22,8 @@ citation:
   reference: Atkins, A. et al. Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx 
     jubatus). Veterinary microbiology 136, 160-165, doi:10.1016/j.vetmic.2008.10.035 (2009).
   doi_verified: true
-  oligos_designed_here: false
+  oligos_designed_here: true
+  claim: Mamastroviruses from diverse hosts, RdRp gene, for identification and sequencing.
 conditions:
   annealing_c: 45
   cycles: 36
@@ -51,5 +52,11 @@ source:
     so the earlier claim that every oligo here matched P-001, and the reading of AstrRVS1 as PREDICT''s modification of Astr4811R,
     were both wrong. All of them are Chu et al. 2008 (J Virol, 10.1128/jvi.00857-08), printed verbatim in its Methods, and
     now have their own entry, Astroviridae_RdRp_Chu_2008_round1. Removed from this entry, which is now Atkins'' Astr4380F/Astr4811R
-    pair as printed.'
-needs_review: null
+    pair as printed. CORRECTED 2026-11-10: the paper designed these primers (''oligos_designed_here is False'' above is superseded).
+    amplicon_bp 431 -> 413, the mode, which is the paper''s 367 plus primers. The paper''s stated use is Mamastrovirus; narrowing
+    was tested and changes nothing (Mamastrovirus 100%, Avastrovirus 97.9%, unclassified 97.2%), so the family scope stays.'
+needs_review:
+- flag: amplicon_multimodal
+  note: 338-500 bp across the family, modes 413, 440, 419
+- flag: scope_wider_than_paper_tested
+  note: tested on one cheetah astrovirus; the paper's stated use is Mamastrovirus

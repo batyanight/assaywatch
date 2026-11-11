@@ -21,6 +21,7 @@ citation:
   doi_verified: true
   reference: Johnson AJ et al. 2008. J Wildl Dis 44:851-863
   oligos_designed_here: false
+  claim: Ranavirus (genus), major capsid protein (MCP) gene.
 conditions:
   mg_mm: 1.5
   annealing_c: 50.0
@@ -58,7 +59,10 @@ source:
     the flag stays, because it is a true statement about where the registry read them from. THIS ALSO CLOSES THE 18/19-MER
     QUESTION that docs/journal/2026-10-24-heldout-candidates.md left open: Stohr 2015 prints a 19-mer reverse with one extra
     3'' T, and Mao''s own table prints 18, so the count is three transcriptions to one and Stohr''s T is an extension a later
-    paper added, not a base this registry dropped. The amplicon 531 bp is unaffected - both forms share the same 5'' end.'
+    paper added, not a base this registry dropped. The amplicon 531 bp is unaffected - both forms share the same 5'' end.
+    CORRECTED 2026-11-10: Johnson prints approximately 500 bp in Methods (p5) and approximately 420 bp in Results (p7); 531
+    is measured in 324 of 326 and stays. The paper itself shows only FV3-like virus; the genus-wide scope rests on Mao 1997
+    and Grizzle 2003.'
 needs_review:
 - flag: amplicon_disagrees_with_paper
   note: corrected against the source's stated size

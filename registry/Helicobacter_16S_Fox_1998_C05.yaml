@@ -22,6 +22,7 @@ citation:
   n_sequences_at_design: null
   doi_verified: true
   reference: Fox JG et al. 1998. Gastroenterology 114:755-763
+  claim: Helicobacter genus, 16S rRNA gene, long amplicon.
 conditions:
   annealing_c: 55.0
 use_context:
@@ -38,8 +39,8 @@ source:
     within the +/-25% the tolerance accepts, so one stored value gates this assay without rejecting anything it really amplifies.
     That last test is the criterion, not the mode: an entry whose products do not fit one window was left unset instead. See
     docs/journal/2026-10-14-amplicon-sizes-measured.md. A published figure, if one is found, should replace this - the flag
-    is what marks it as measured.'
+    is what marks it as measured. CORRECTED 2026-11-10: the paper gives approximately 1200 bp (p2); 1196 is the measured mode.
+    Flexispira rappini: 0 recent records, nothing to add.'
 needs_review:
-- flag: amplicon_measured_not_published
 - flag: orientation_inferred
   note: the archive yields 1066 products and 4942 none under this orientation (2026-10-27 run), so the inference stands

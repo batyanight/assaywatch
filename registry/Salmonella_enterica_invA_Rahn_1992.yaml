@@ -9,18 +9,19 @@ target:
 chemistry: conventional
 oligos:
   forward:
-    name: Sal-3
-    seq: TATCGCCACGTTCGGGCAA
+    name: '139'
+    seq: GTGAAATTATCGCCACGTTCGGGCAA
   reverse:
-    name: Sal-4
-    seq: TCGCACCGTCAAAGGAACC
-amplicon_bp: 275
+    name: '141'
+    seq: TCATCGCACCGTCAAAGGAACC
+amplicon_bp: 285
 citation:
   doi: 10.1016/0890-8508(92)90002-F
   design_year: 1992
   n_sequences_at_design: null
   doi_verified: true
   reference: Rahn K et al. 1992. Mol Cell Probes 6:271-279
+  claim: Salmonella enterica (all serovars), invA gene.
 conditions:
   mg_mm: 1.25
   cycles: 35
@@ -50,9 +51,14 @@ source:
     fallback. Ten PDFs on disk, covering 20 registry entries, have parenthesised DOIs and are unreachable this way, Meyer
     1997 ATI and Lozano 1997 among them. (2) printed_oligos requires at least 60 percent upper case, on the stated premise
     that "papers set sequences in capitals"; Rahn sets both primers entirely in lower case, so it extracts 0 oligos from this
-    text even though both sequences are present in it.'
+    text even though both sequences are present in it. CORRECTED 2026-11-10: both primers are now Rahn''s Table 3 (p5) 139
+    and 141 as printed. The registry had held their 3''-terminal 19 nt (dropping GTGAAAT and TCA) under the names Sal-3/Sal-4,
+    which the paper does not use. The restored bases match exactly in 407 of 455 products with the full flank and carry 1-2
+    mismatches 21-26 nt from the 3'' end in 48, so no call changes class; 8 old records (none recent) start inside the restored
+    bases and may read truncated at the rescreen. Size 285 from Table 3''s locations (the text says 284); 275 was the truncated
+    pair''s product. Table 3 is headed 5''-3'' and gives 141 as 571-550, so orientation is stated. The paper missed two S.
+    Litchfield and two S. Senftenberg strains of 630 (p1, p6).'
 needs_review:
-- flag: orientation_inferred
-  note: the archive yields 479 products and 578 none under this orientation (2026-10-27 run), so the inference stands
-- flag: oligos_not_in_cited_paper
-  note: the oligos are shorter than the paper's
+- flag: amplicon_disagrees_with_paper
+  note: 285 bp with 139/141 (275 measured in 478 of 479 with the truncated pair, plus 10); Table 3's locations give 285,
+    the text 284; confirm at the rescreen

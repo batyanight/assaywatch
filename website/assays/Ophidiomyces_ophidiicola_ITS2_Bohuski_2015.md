@@ -15,7 +15,7 @@
 |---|---|
 | Target | Ophidiomyces ophidiicola (<a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1387563" title="Ophidiomyces ophidiicola">taxid 1387563</a>) |
 | Gene | ITS2 |
-| Chemistry | mgb |
+| Chemistry | hydrolysis_probe |
 | Amplicon | 82 bp |
 | Registry status | active |
 
@@ -103,6 +103,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Ophidiomyces ophidiicola, the snake fungal disease fungus, ITS2 region.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Ophidiomyces ophidiicola (taxid 1387563), limited by a query on the title or gene.
 
@@ -133,7 +134,7 @@ This matters because a record with one diverged primer is scored as a failure wh
 
 A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 
 
-<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-28</b> A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 2015 (J Vet Diagn Invest, doi:10.1177/1040638715573983, held in papers/) prints Oo-RT-ITS-R verbatim. Both papers are from 2015 and the citation is unchanged -- Bohuski prints the whole assay and is where this entry was read from -- but a second independent printing of a stored sequence is worth recording, because it is the check a transcription error cannot survive. Allender's own assay targets ITS1 rather than ITS2, so it is a different assay sharing a primer and not a duplicate of this entry.</p></details>
+<details class="aw-curation"><summary>The full note, as the curator wrote it · in the order the curator wrote it, oldest first</summary><p><b>2026-10-28</b> A SECOND PAPER PRINTS THIS ENTRY'S REVERSE PRIMER, found 2026-10-28: Allender et al. 2015 (J Vet Diagn Invest, doi:10.1177/1040638715573983, held in papers/) prints Oo-RT-ITS-R verbatim. Both papers are from 2015 and the citation is unchanged -- Bohuski prints the whole assay and is where this entry was read from -- but a second independent printing of a stored sequence is worth recording, because it is the check a transcription error cannot survive. Allender's own assay targets ITS1 rather than ITS2, so it is a different assay sharing a primer and not a duplicate of this entry. CORRECTED 2026-11-10: the probe is printed as (FAM)...(BHQ-1) with no MGB, so the chemistry is hydrolysis_probe and the quencher BHQ1.</p></details>
 
 ## Corrections
 

@@ -57,6 +57,7 @@ citation:
     Multiplex RT-PCR Method for the Detection of Reptarenavirus Infection. Viruses 2023, 15, 2313.
   doi_verified: true
   oligos_designed_here: true
+  claim: Reptarenaviruses of boid snakes, S segment GP2 region.
 conditions:
   cycles: 38
   annealing_c: 58

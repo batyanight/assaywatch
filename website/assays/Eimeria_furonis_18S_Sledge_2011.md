@@ -91,6 +91,7 @@ From the 2026-11-01 run. A status tells you where to look; it is not a result. [
 
 ## Scope
 
+**Meant to detect:** Eimeria furonis small-subunit rRNA gene, to confirm the species in ferret tissue.  
 **Scored against:** every record retrieved.  
 **Retrieved from:** Eimeria furonis (taxid 352384), limited by a query on the title or gene.
 
@@ -114,6 +115,11 @@ This matters because a record with one diverged primer is scored as a failure wh
 | why a record was not evaluable | records |
 |---|---|
 | `truncated` | 12 |
+
+
+## Curation record
+
+CORRECTED 2026-11-10: annealing 58 C (p3).
 
 
 ## Corrections
