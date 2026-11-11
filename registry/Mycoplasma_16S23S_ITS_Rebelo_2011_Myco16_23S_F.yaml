@@ -29,6 +29,9 @@ citation:
   doi_verified: true
   reference: Rebelo AR et al. 2011. J Vet Diagn Invest 23:932-936
   claim: Mycoplasma species of ruminants, poultry and dogs, 16S-23S rRNA spacer, identified by high-resolution melt.
+  description: Real-time PCR with a double-strand DNA dye and high-resolution melt, using universal primers on the 
+    16S-23S intergenic spacer. It was built to identify common veterinary Mycoplasma species from culture as an 
+    alternative to the fluorescent antibody test.
 conditions:
   cycles: 35
 use_context:

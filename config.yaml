@@ -1046,6 +1046,17 @@ report:
   # rests on 2% of records invites exactly the misreading it exists to prevent.
   collection_sidecar: null
 
+# What the website shows beyond the report. Display only: nothing hashes this block and
+# no status reads it.
+site:
+  # A page names a failure reason from the calls table's `reason` column only with at least
+  # this many records behind it. A placeholder, not measured: on the 2026-11-01 run 30 assays
+  # carry a reason, 3,120 records at most, and 10 leaves 17 of them. Below it, a reason is
+  # one odd record's and the sentence would read as a finding.
+  failure_reasons_min_records: 10
+  # The most a page names. Today only one reason string exists, so this is a ceiling.
+  failure_reasons_shown: 3
+
 # Per-lineage detection analysis (phase 1 of estimand rebuild).
 # Each record is assigned a lineage by its NCBI taxid. Verdicts condition
 # on the worst-performing lineage among those assessable.
@@ -1296,3 +1307,22 @@ composition:
   # carry at least 80% of the whole-period weight; otherwise the "same mix" is
   # mostly extrapolation. Placeholder.
   same_mix_min_covered: 0.8
+  # LINEAGE NARRATIVE, the text beside the panel. All display; nothing here moves a status.
+  # A spike year is at least 5x the assay's own median deposit year (over the years with any
+  # record) and at least 30 records. PLACEHOLDER CHOICES, both, not measured: 5x because a
+  # taxon whose deposits merely grow shouldn't read as a spike every year, 30 so a quiet
+  # assay's one busy year of 6 isn't one.
+  spike_min_fold: 5.0
+  spike_min_records: 30
+  # Fewest records a consecutive batch or a set of collection years needs to be worth a
+  # sentence. PLACEHOLDER CHOICE: a handful of neighbouring accessions happens by chance.
+  spike_evidence_min_records: 10
+  # A batch must hold at least this share of its year before the page says the year "may
+  # reflect one study". PLACEHOLDER CHOICE: half, because under that it can't be most of it.
+  spike_batch_min_share: 0.5
+  # A title token must appear in at least this share of the spike year's titles, since the
+  # page says "many of their titles". PLACEHOLDER CHOICE.
+  spike_token_min_share: 0.5
+  # Most spike years one assay's text names, largest first. PLACEHOLDER CHOICE, for the
+  # length of the page and the site_max_bytes cap.
+  spikes_shown: 3

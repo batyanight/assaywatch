@@ -29,6 +29,8 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: Astroviruses, RdRp gene, as the heminested second round.
+  description: Heminested conventional PCR, a mix of two internal forward primers with the same reverse, giving a 422 bp
+    product from bat astroviruses.
 conditions:
   annealing_c: 50
   cycles: 40

@@ -28,6 +28,18 @@
           "default": null,
           "title": "Claim"
         },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
         "design_year": {
           "anyOf": [
             {
@@ -814,6 +826,18 @@
           ],
           "default": null,
           "title": "Notes Curator"
+        },
+        "page_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page Note"
         },
         "predict_protocol": {
           "anyOf": [

@@ -845,3 +845,149 @@ def test_a_name_not_on_the_list_is_left_alone():
 def test_every_synonym_row_says_where_it_comes_from():
     for old, (taxid, new, source) in SPECIES_SYNONYMS.items():
         assert old != new and taxid and source
+
+
+# ---- Lineage narrative: what a spike year's records show (ROADMAP step 10) ----
+
+CFG = {}  # Each `Options.from_config` default is what config.yaml ships (test_config_keys).
+
+
+def _spike_records(batch=40, scattered=5):
+    from assaywatch.drift import GraphRecord
+
+    def rec(acc, year):
+        return GraphRecord(acc + ".1", year, "detect", True, True, False, None)
+
+    quiet = [rec(f"AA{y}{i:03d}", y) for y in range(2010, 2020) for i in range(0, 8, 2)]
+    spike = [rec(f"PP{100 + i:06d}", 2022) for i in range(batch)]
+    spike += [rec(f"KX{i * 3:06d}", 2022) for i in range(scattered)]
+    return quiet + spike
+
+
+def _spike_comp(records):
+    from assaywatch.composition import AssayComposition, Cell, cells_from
+
+    cells = cells_from(records, {r.record_id: 0 for r in records})
+    assert all(isinstance(c, Cell) for c in cells)
+    return AssayComposition("A", 0.05, 9, 9, (), tuple(cells), {}, {}, None, (), "")
+
+
+def _narrate(records, **kw):
+    from assaywatch.composition import Options, lineage_narrative
+
+    args = {"titles": {}, "collected": {}, "reference_of": lambda _: None}
+    return lineage_narrative(_spike_comp(records), records, opts=Options.from_config(CFG), **{**args, **kw})
+
+
+def test_a_spike_names_its_largest_consecutive_batch_and_asks_for_one_reference():
+    asked = []
+
+    def reference_of(acc):
+        asked.append(acc)
+        return "A study of things. J Things 1"
+
+    spikes = _narrate(_spike_records(), reference_of=reference_of)
+    assert [s.year for s in spikes] == [2022]
+    s = spikes[0]
+    assert s.records == 45
+    assert (s.batch_records, s.batch_first, s.batch_last) == (40, "PP000100", "PP000139")
+    assert s.batch_share == pytest.approx(40 / 45)
+    assert s.reference == "A study of things. J Things 1"
+    assert asked == ["PP000100"]
+
+
+def test_a_failed_reference_reads_as_absent_and_the_batch_still_stands():
+    s = _narrate(_spike_records())[0]
+    assert s.reference is None and s.batch_records == 40
+
+
+def test_a_spike_with_no_evidence_is_dropped_and_no_reference_is_asked_for():
+    asked = []
+    records = _spike_records(batch=0, scattered=45)
+    assert _narrate(records, reference_of=lambda a: asked.append(a)) == []
+    assert asked == []
+
+
+def test_a_year_near_the_assay_s_own_typical_year_is_no_spike():
+    assert _narrate(_spike_records(batch=4, scattered=2)) == []
+
+
+def test_title_tokens_and_collection_years_are_evidence_the_records_hold():
+    records = _spike_records(batch=0, scattered=45)
+    titles = {
+        r.record_id: ("Testus virus isolate zebra-farm" if r.year == 2022 else "Testus virus isolate")
+        for r in records
+    }
+    collected = {r.record_id: 2019 + i % 2 for i, r in enumerate(records) if r.year == 2022}
+    s = _narrate(records, titles=titles, collected=collected)[0]
+    assert "zebra-farm" in s.tokens
+    assert (s.collected_first, s.collected_last, s.collected_records) == (2019, 2020, 45)
+
+
+def test_a_token_never_names_an_outbreak_the_reference_did_not():
+    records = _spike_records(batch=0, scattered=45)
+    titles = {
+        r.record_id: ("Testus outbreak isolate" if r.year == 2022 else "Testus isolate") for r in records
+    }
+    assert _narrate(records, titles=titles) == []
+
+
+def test_spikes_survive_the_file_round_trip_and_an_older_file_has_none(tmp_path):
+    import dataclasses
+    import json
+
+    from assaywatch.composition import CompositionRun, read_summary, write
+
+    records = _spike_records()
+    comp = dataclasses.replace(_spike_comp(records), spikes=tuple(_narrate(records)))
+    tsv, js = write(CompositionRun("2026-11-01", {"A": comp}), tmp_path)
+    again = read_summary(js)
+    assert again.assays["A"].spikes == comp.spikes
+    assert any(line.split("\t")[1] == "2022" and "\t40\t" in line for line in tsv.read_text().splitlines())
+    raw = json.loads(js.read_text())
+    del raw["assays"]["A"]["spikes"]
+    js.write_text(json.dumps(raw))
+    assert read_summary(js).assays["A"].spikes == ()
+
+
+def test_a_word_of_grammar_is_not_a_title_token():
+    records = _spike_records(batch=0, scattered=45)
+    titles = {r.record_id: ("Testus gene for zebra" if r.year == 2022 else "Testus gene") for r in records}
+    assert _narrate(records, titles=titles)[0].tokens == ("zebra",)
+
+
+def test_a_spike_year_with_evidence_is_not_lost_behind_larger_years_that_have_none():
+    """Review finding 5, 2026-11-10. The spike years were cut to `spikes_shown` BEFORE the
+    `if not (batch or tokens or dated): continue` filter, so an assay whose largest spikes
+    were scattered accessions could say nothing at all while a smaller year holding a real
+    consecutive batch went unmentioned -- against the docstring's own promise of "the spike
+    years with something to say"."""
+    from assaywatch.drift import GraphRecord
+
+    def rec(acc, year):
+        return GraphRecord(acc + ".1", year, "detect", True, True, False, None)
+
+    quiet = [rec(f"AA{y}{i:03d}", y) for y in range(2000, 2012) for i in range(0, 8, 2)]
+    # Three bigger spike years, every accession scattered, so none has a batch to show.
+    noisy = [rec(f"KX{y}{i * 7:05d}", y) for y in (2019, 2020, 2021) for i in range(60)]
+    # One smaller spike year that is a single consecutive deposit.
+    real = [rec(f"PP{300 + i:06d}", 2022) for i in range(40)]
+    got = _narrate(quiet + noisy + real)
+    assert [s.year for s in got] == [2022]
+    assert got[0].batch_records == 40
+
+
+def test_a_grammar_token_does_not_crowd_out_the_tokens_that_say_something():
+    """Review finding 6, 2026-11-10. The grammar and unsourced-event filters ran after
+    `title_tokens` had already cut to `title_tokens_shown`, so a year whose highest-lift
+    tokens were grammar words lost its token sentence although real ones ranked below."""
+    records = _spike_records()
+    spike_ids = [r.record_id for r in records if r.year == 2022]
+    titles = {rid: "for the of and outbreak Nipah henipavirus Bangladesh" for rid in spike_ids}
+    titles |= {r.record_id: "unrelated survey" for r in records if r.year != 2022}
+    got = _narrate(records, titles=titles)
+    assert got, "the spike should survive"
+    tokens = [t.lower() for t in got[0].tokens]
+    assert "nipah" in tokens or "henipavirus" in tokens or "bangladesh" in tokens
+    assert not {"for", "the", "of", "and"} & set(tokens)
+    assert "outbreak" not in tokens

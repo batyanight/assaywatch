@@ -24,6 +24,8 @@ citation:
   reference: Zhu G, Marchewka MJ, Keithly JS. 2000. Microbiology 146:315-321
   oligos_designed_here: null
   claim: Plastid large-subunit rRNA gene, used to look for a plastid genome rather than to detect an organism.
+  description: Degenerate primers against the apicoplast large-subunit rRNA gene, giving a product of about 720 bp. 
+    Built to test whether intracellular parasites carry a plastid genome.
 use_context:
 - wildlife
 - veterinary

@@ -30,6 +30,8 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: Canine distemper virus N gene, for detecting and quantifying virus in clinical samples.
+  description: One-step RT-qPCR with a FAM/TAMRA hydrolysis probe in the N gene of canine distemper virus. Designed to 
+    give a sensitive, quantitative diagnosis from blood, swabs, urine and tissues.
 conditions:
   cycles: 45
   rt: one_step

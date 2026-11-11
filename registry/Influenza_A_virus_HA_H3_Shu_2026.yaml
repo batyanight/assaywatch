@@ -30,6 +30,8 @@ citation:
   reference: Shu B et al. 2026. J Clin Microbiol (prints the oligos); assay source FDA 510(k) K080570 (2008)
   oligos_designed_here: false
   claim: H3 hemagglutinin of seasonal and swine-variant influenza A(H3N2), original version of the assay.
+  description: One-step RT-qPCR with a hydrolysis probe (ZEN/Iowa Black FQ) for the hemagglutinin H3 subtype in the CDC 
+    influenza A subtyping panel, cleared in 2008. Built to tell A(H3N2) from A(H1N1)pdm09 in respiratory specimens.
 conditions:
   annealing_c: 55
   rt: one_step

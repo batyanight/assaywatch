@@ -36,6 +36,9 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: H7 hemagglutinin of avian influenza viruses, Eurasian and American lineages.
+  description: Real-time RT-PCR with mixed-base (degenerate) primers and a FAM/BHQ hydrolysis probe, redesigned from the
+    group's earlier primers so that more Eurasian and American avian influenza sequences match. ; H7-937Feu or H7-937Fam
+    forward with a shared reverse and probe, 241 bp, 200 and 293 genes used for the two forwards.
 conditions:
   cycles: 35
 use_context:

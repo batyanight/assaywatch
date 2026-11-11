@@ -141,6 +141,12 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   REFERENCE, submitting study and collection dates, worded "may". Changes `composition_build.py` (or
   a sibling, watching the `triggers` closure), `site.py`, `site_render.py`. Text is drafted from
   the frozen run, so the generator lands before step 13 and its output is checked at step 14.
+  Built on `page-narrative`, for review: `citation.description` at the top of the page and
+  `source.page_note` near the status, neither a screen field and no entry filled in yet.
+  `composition.lineage_narrative` finds the spikes and `composition_build.reference_lookup` reads
+  each largest batch's first REFERENCE, into `data/retrieved/.references.json.gz`; a Direct
+  Submission reads as no study. Tried on two assays of the 2026-11-01 run: Chlamydia 16S round 1
+  has spikes in 1997 and 2021, and Orf virus RPO147 has none. The `spike_*` thresholds are placeholders.
 - [ ] **11. Synonyms, cuts, failures.** (a) Species synonyms: counted 2026-11-06, of the 42 groups 4 collapse
   to one species (two AAV, two elephant herpesvirus), 20 are really mixed, 18 unclear, and taxonomy resolves none.
   Decided: a small curated table, a source per row, read in `composition.resolve_species`; the unclear stay as they are.
@@ -151,6 +157,10 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   F3L calls, 5 clade II, 474 uncalled; among clade II records detection is 9,656 of 9,661. The paper's Fig. 1 shows the
   3-base deletion. Decided: a page note with these numbers now, keeping the status. Filtering the denominator by clade
   is a new verdict rule and goes post-release.
+  (c) built on `page-narrative`, for review: `site.failure_reasons` puts the top reasons under the
+  mismatch chart, with `site.failure_reasons_min_records` and `failure_reasons_shown` in `config.yaml`.
+  The 2026-11-01 run has one reason, 'no probe site inside amplicon', on 30 assays, and G2R WA_F
+  reads 3,120 records. The page note with the clade numbers above is still to be written.
 
 ### The frozen run (blockers)
 
@@ -2119,6 +2129,16 @@ centre/outer 2.0 / 1.0, `detect_max` 1.0, `reduced_max` 3.0,
 (`detect_fraction_threshold` 0.90, `recent_window_months` 24,
 `min_records_for_drift` 15, `min_records_for_coverage` 10, `min_decline` 0.05);
 `degeneracy.tiers` (8 / 128 / 4096); `assemblies.per_year` 20.
+
+**Eight more were added 2026-11-10 with steps 10 and 11c, and they are listed here by
+decision rather than left out because they reach no verdict.** None hashes into a screen
+and none can move a status; what they decide is what a PAGE asserts, and the standard that
+put the list above in public is about a number set by eye, not about where it lands.
+`site` (`failure_reasons_min_records` 10, `failure_reasons_shown` 3, `spike_min_fold` 5.0,
+`spike_min_records` 30, `spike_evidence_min_records` 10, `spike_batch_min_share` 0.5,
+`spike_token_min_share` 0.5, `spikes_shown` 3). The two that matter most are
+`spike_min_fold` and `spike_min_records`, which together decide whether a deposit year gets
+a sentence at all; `config.yaml` carries the reasoning, or the admission of none, for each.
 
 One of those is no longer only eyeballed. `drift.min_decline` 0.05 has regulatory
 precedent: FDA's *Policy for Evaluating Impact of Viral Mutations on COVID-19 Tests

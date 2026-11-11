@@ -14,6 +14,7 @@ clade stays put -- the case the whole stage exists to tell apart (step 7).
 
 from __future__ import annotations
 
+import contextlib
 import gzip
 import json
 import random
@@ -290,3 +291,146 @@ def test_an_assay_s_assembly_records_are_read_from_its_asm_group(tmp_path):
     seqs, titles = _archive(tmp_path, assay, {"GCA_1", "AB1"})
     assert seqs == {"GCA_1": "ACGT", "AB1": "TTTT"}
     assert titles == {"GCA_1": "Title of GCA_1.1", "AB1": "Title of AB1.1"}
+
+
+# ---- A record's first REFERENCE, through the transport (ROADMAP step 10) ----
+
+FLATFILE = """LOCUS       PP000100     300 bp    DNA     linear   VRL 01-JAN-2026
+REFERENCE   1  (bases 1 to 300)
+  AUTHORS   Someone,A.
+  TITLE     Genomes of testus virus
+            from zebras
+  JOURNAL   J Things 1 (2), 3-4 (2026)
+REFERENCE   2  (bases 1 to 300)
+  AUTHORS   Someone,A.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (01-JAN-2026) Street 1, City
+FEATURES             Location/Qualifiers
+"""
+
+
+def test_the_first_reference_is_title_and_journal_and_a_direct_submission_names_no_study():
+    from assaywatch.composition_build import first_reference
+
+    assert first_reference(FLATFILE) == "Genomes of testus virus from zebras. J Things 1 (2), 3-4 (2026)"
+    only_direct = FLATFILE[: FLATFILE.index("REFERENCE   1")] + FLATFILE[FLATFILE.index("REFERENCE   2") :]
+    assert first_reference(only_direct) is None
+    assert first_reference("LOCUS nothing\n") is None
+
+
+def test_a_reference_is_fetched_once_cached_and_a_failure_is_absent_not_cached(tmp_path):
+    from assaywatch.composition_build import reference_lookup
+
+    calls = []
+
+    def transport(endpoint, params):
+        calls.append(params["id"])
+        if params["id"] == "BAD1":
+            raise OSError("offline")
+        return FLATFILE
+
+    cache = tmp_path / ".references.json.gz"
+    look = reference_lookup(transport, cache, max_failures=5)
+    assert (
+        look("PP000100")
+        == look("PP000100")
+        == "Genomes of testus virus from zebras. J Things 1 (2), 3-4 (2026)"
+    )
+    assert calls == ["PP000100"]
+    assert look("BAD1") is None
+    offline = reference_lookup(None, cache, max_failures=5)
+    assert offline("PP000100").startswith("Genomes of testus")
+    assert offline("BAD1") is None
+
+
+def test_repeated_failures_stop_asking(tmp_path):
+    from assaywatch.composition_build import reference_lookup
+
+    calls = []
+
+    def transport(endpoint, params):
+        calls.append(params["id"])
+        raise OSError("offline")
+
+    look = reference_lookup(transport, tmp_path / "c.json.gz", max_failures=2)
+    assert [look(a) for a in ("A1", "A2", "A3")] == [None, None, None]
+    assert calls == ["A1", "A2"]
+
+
+def test_a_direct_submission_does_not_hide_the_study_in_the_next_reference():
+    """Review finding 7, 2026-11-10. `first_reference` stopped at the second REFERENCE
+    block, so a record whose REFERENCE 1 is a Direct Submission and whose REFERENCE 2 is
+    the real paper read as naming no study, and the spike sentence dropped its
+    "from <study>" clause in exactly the case it exists for."""
+    from assaywatch.composition_build import first_reference
+
+    flat = (
+        "REFERENCE   1  (bases 1 to 1200)\n"
+        "  AUTHORS   Someone,A.\n"
+        "  TITLE     Direct Submission\n"
+        "  JOURNAL   Submitted (01-JAN-2022) Dept, 1 Road, Town\n"
+        "REFERENCE   2  (bases 1 to 1200)\n"
+        "  AUTHORS   Someone,A. and Other,B.\n"
+        "  TITLE     Monkeypox virus genomes from a 2022 outbreak\n"
+        "  JOURNAL   J Virol 96 (3), 1-9 (2022)\n"
+        "FEATURES             Location/Qualifiers\n"
+    )
+    assert first_reference(flat) == "Monkeypox virus genomes from a 2022 outbreak. J Virol 96 (3), 1-9 (2022)"
+    only_submission = flat.split("REFERENCE   2")[0] + "FEATURES             Location/Qualifiers\n"
+    assert first_reference(only_submission) is None
+    assert first_reference("LOCUS  AB123\nFEATURES\n") is None
+
+
+def test_the_reference_lookup_reports_what_it_could_not_answer_offline():
+    """Maintainer's decision, 2026-11-10: a frozen run reads the reference cache and makes
+    no network call. The one risk of that is a spike quietly losing its study clause, so an
+    offline lookup records every accession it was asked for and could not answer, and the
+    CLI writes them to `references-missing.txt` for step 14 to read."""
+    from assaywatch.composition_build import reference_lookup
+
+    look = reference_lookup(None, Path("does-not-exist.json.gz"), max_failures=5)
+    assert look("PP000001.1") is None
+    assert look("PP000002.1") is None
+    assert look("PP000001.1") is None  # asked twice, named once
+    assert look.misses == {"PP000001.1", "PP000002.1"}
+
+
+def test_the_composition_cli_defaults_to_the_cache_and_refuses_a_fetch_with_no_email():
+    """`--email` alone used to turn the fetch on, so the frozen run would have made this
+    stage's first network calls while it ran. Fetching is its own flag now."""
+    import contextlib
+    import io
+    from pathlib import Path as P
+
+    from assaywatch import composition_build
+
+    # Asking to fetch without an address is refused, not silently downgraded.
+    with contextlib.redirect_stderr(io.StringIO()) as err, pytest.raises(SystemExit):
+        composition_build.main(["calls.tsv.gz", "--out", "out", "--references", "fetch"])
+    assert "--email" in err.getvalue()
+
+    # And the default really is the cache: with --email but no --references, no transport
+    # is built, which is what `reference_lookup` is handed.
+    seen = {}
+
+    def spy(transport, cache, *, max_failures):
+        seen["transport"] = transport
+        return lambda _acc: None
+
+    # The run dies on the missing calls file, which is AFTER the transport decision this
+    # test is about; naming the exception keeps that deliberate rather than blind.
+    with contextlib.redirect_stderr(io.StringIO()), pytest.raises((OSError, SystemExit)):
+        with _patched(composition_build, "reference_lookup", spy):
+            composition_build.main(["missing-calls.tsv.gz", "--out", "out", "--email", "you@example.org"])
+    assert seen.get("transport", "unset") is None
+    assert P  # the import is used by the fixture helpers above
+
+
+@contextlib.contextmanager
+def _patched(module, name, value):
+    old = getattr(module, name)
+    setattr(module, name, value)
+    try:
+        yield
+    finally:
+        setattr(module, name, old)

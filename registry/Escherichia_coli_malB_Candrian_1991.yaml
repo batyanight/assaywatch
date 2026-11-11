@@ -23,6 +23,8 @@ citation:
   doi_verified: true
   reference: Candrian U et al. 1991. Int J Food Microbiol 12:339-351
   claim: Escherichia coli, malB region.
+  description: Conventional PCR of a 595 bp malB-region fragment, read by gel, EcoRI digestion and hybridization. 
+    Designed to identify E. coli, pathogenic or not, because biochemical typing is unreliable.
 conditions:
   cycles: 40
   annealing_c: 65.0

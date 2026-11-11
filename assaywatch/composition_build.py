@@ -16,10 +16,16 @@ signature, and `pytest -m slow` caught it -- every edit to `report.py` would hav
 
 from __future__ import annotations
 
+import dataclasses
+import gzip
+import json
+import os
+import re
 import sys
 import warnings
+import zlib
 from collections import defaultdict
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -34,6 +40,7 @@ from assaywatch.composition import (
     cells_from,
     describe_clusters,
     label_records,
+    lineage_narrative,
     observed_series,
     pool_small_clusters,
     resolve_species,
@@ -110,6 +117,9 @@ def build_assay(
     titles: Mapping[str, str],
     taxonomy: Taxonomy | None,
     opts: Options,
+    *,
+    collected: Mapping[str, int] | None = None,
+    reference_of: Callable[[str], str | None] | None = None,
 ) -> AssayComposition:
     """One assay's composition, from the very records its graph is built from.
 
@@ -193,7 +203,7 @@ def build_assay(
         notes.append(f"{unplaced} of {evaluable} records unplaced ({unplaced / evaluable:.0%})")
     if diverged:
         notes.append(f"{diverged} of {evaluable} diverged, with no site to cluster on")
-    return AssayComposition(
+    comp = AssayComposition(
         assay_id=assay.id,
         cut=cut,
         left_bp=shape[0],
@@ -213,6 +223,127 @@ def build_assay(
         ),
         note="; ".join(notes),
     )
+    spikes = lineage_narrative(
+        comp,
+        records,
+        titles=titles_by_record,
+        collected=collected or {},
+        reference_of=reference_of or (lambda _: None),
+        opts=opts,
+    )
+    return dataclasses.replace(comp, spikes=tuple(spikes))
+
+
+_FIELD = re.compile(r"^  (TITLE|JOURNAL)\s+(.*)$")
+
+
+def first_reference(flatfile: str) -> str | None:
+    """A GenBank flatfile's first REFERENCE that names a study, as "title. journal", or None.
+
+    A "Direct Submission" names no study: its JOURNAL line is the submitter's postal
+    address, which this page has no business printing. So it reads as absent, as does a
+    record with no REFERENCE at all.
+
+    EVERY REFERENCE BLOCK IS READ, not just the first (fixed 2026-11-10, review finding 7).
+    Stopping at the second block made a record whose REFERENCE 1 is a Direct Submission and
+    whose REFERENCE 2 is the real paper read as naming nothing, and the spike sentence then
+    dropped its "from <study>" clause in exactly the case the clause exists for -- a batch
+    deposited by one group alongside its publication.
+    """
+
+    def named(fields: dict[str, list[str]]) -> str | None:
+        title = " ".join(fields.get("TITLE", []))
+        journal = " ".join(fields.get("JOURNAL", []))
+        if not title or title.lower() == "direct submission":
+            return None
+        return f"{title}. {journal}" if journal else title
+
+    fields: dict[str, list[str]] = {}
+    current = None
+    inside = False
+    for line in flatfile.splitlines():
+        if line.startswith("REFERENCE"):
+            if inside and (got := named(fields)):
+                return got
+            fields, current, inside = {}, None, True
+        elif inside and line[:1].strip():
+            break
+        elif inside:
+            m = _FIELD.match(line)
+            if m:
+                current = m.group(1)
+                fields[current] = [m.group(2).strip()]
+            elif line.startswith(" " * 12) and current:
+                fields[current].append(line.strip())
+            else:
+                current = None
+    return named(fields)
+
+
+def reference_lookup(
+    transport: Callable[[str, dict[str, Any]], str] | None, cache: Path, *, max_failures: int
+) -> Callable[[str], str | None]:
+    """`reference_of` for `lineage_narrative`: one record's first REFERENCE, cached.
+
+    Gzipped JSON like `.year-counts.json.gz`, accession -> text, with "" for a record read
+    and found to name no study: that is an answer. A failure is not, so it stays uncached
+    and reads as absent, and after `max_failures` in a row this stops asking, as
+    `retrieve.AskLimit` does for the counts. `transport=None` is offline: the cache only.
+    One base is asked for, since the references come with any slice and a whole assembly's
+    flatfile is megabytes.
+
+    The returned callable carries `.misses`, the accessions it was asked for and could not
+    answer. Offline that is every cache miss, and it is the whole point: a frozen run reads
+    the cache only (maintainer's decision, 2026-11-10), so the one risk of that choice is a
+    spike silently losing its study clause. `.misses` turns it into something step 14 can
+    read and act on.
+    """
+    from assaywatch.retrieve import AskLimit
+
+    store: dict[str, str] = {}
+    if cache.exists():
+        try:
+            with gzip.open(cache, "rt") as fh:
+                store = {str(k): str(v) for k, v in json.load(fh).items()}
+        except (OSError, EOFError, zlib.error, ValueError):
+            store = {}  # A corrupt cache is a cold cache.
+    limit = AskLimit(max_failures)
+
+    misses: set[str] = set()
+
+    def look(accession: str) -> str | None:
+        if accession in store:
+            return store[accession] or None
+        if transport is None or limit.tripped:
+            misses.add(accession)
+            return None
+        try:
+            text = transport(
+                "efetch",
+                {
+                    "db": "nuccore",
+                    "id": accession,
+                    "rettype": "gb",
+                    "retmode": "text",
+                    "seq_start": 1,
+                    "seq_stop": 1,
+                },
+            )
+        except Exception as exc:  # noqa: BLE001 - any transport failure is "could not ask"
+            limit.failed(exc)
+            return None
+        limit.consecutive = 0
+        store[accession] = first_reference(text) or ""
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        # Whole or not at all: a process killed mid-write must not leave a truncated cache.
+        partial = cache.with_name(cache.name + f".{os.getpid()}.tmp")
+        with gzip.open(partial, "wt") as fh:
+            json.dump(store, fh, sort_keys=True)
+        os.replace(partial, cache)
+        return store[accession] or None
+
+    look.misses = misses  # type: ignore[attr-defined]
+    return look
 
 
 def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, str], dict[str, str]]:
@@ -249,6 +380,74 @@ def _archive(retrieved: Path, assay: Any, wanted: set[str]) -> tuple[dict[str, s
     return seqs, titles
 
 
+def prefetch_references(
+    calls_path: Path,
+    registry: Path,
+    retrieved: Path,
+    cfg: Mapping[str, Any],
+    *,
+    reference_of: Callable[[str], str | None],
+    run_date: str | None = None,
+) -> int:
+    """Warm the REFERENCE cache for every spike batch, without clustering. Returns the count.
+
+    Why this exists (maintainer's decision, 2026-11-10). A frozen run reads the cache and
+    makes no network call, so the cache has to be warmed first -- and warming it by running
+    the whole stage would cost a second four-hour clustering pass for a display field.
+    Nothing about a spike needs a cluster: the years come from per-year record counts and
+    the batch from consecutive accessions, both of which are in `graph_records`. So this
+    shares `build`'s preamble, gives every record one label so the cells are per-year
+    totals, and stops there.
+
+    `spikes_shown` is raised, because this is asking "which batches could a run want a
+    reference for", not "which three does a page show": the real run has titles and
+    collection dates and may keep a different three.
+    """
+    from assaywatch.drift import graph_records
+    from assaywatch.report import assessment_inputs, load_calls_as_reported, read_dates
+    from assaywatch.validate import iter_files, load_assay
+
+    opts = dataclasses.replace(Options.from_config(cfg), spikes_shown=10_000)
+    assays = {}
+    for path in iter_files(registry):
+        a = load_assay(path)
+        if a.status.value != "deprecated":
+            assays[a.id] = a
+    calls = load_calls_as_reported(calls_path, assays, cfg)
+    inputs = assessment_inputs(calls, assays, retrieved, cfg)
+    dates = read_dates(retrieved)
+    run_date = run_date or calls_path.parent.name
+    try:
+        today = date.fromisoformat(run_date[:10])
+    except ValueError:
+        today = None
+    records = graph_records(calls, dates, cfg, today=today, inputs=inputs)
+    del calls, inputs
+
+    asked = 0
+    for assay_id, rows in records.items():
+        if not rows:
+            continue
+        comp = AssayComposition(
+            assay_id,
+            opts.cut,
+            0,
+            0,
+            (),
+            tuple(cells_from(rows, {r.record_id: 0 for r in rows})),
+            {},
+            {},
+            None,
+            (),
+            "",
+        )
+        for spike in lineage_narrative(
+            comp, rows, titles={}, collected={}, reference_of=reference_of, opts=opts
+        ):
+            asked += bool(spike.batch_first)
+    return asked
+
+
 def build(
     calls_path: Path,
     registry: Path,
@@ -258,6 +457,7 @@ def build(
     run_date: str | None = None,
     today: date | None = None,
     coverage: Mapping[str, Any] | None = None,
+    reference_of: Callable[[str], str | None] | None = None,
 ) -> CompositionRun:
     """Every assay's lineage composition for one run.
 
@@ -269,6 +469,7 @@ def build(
     Report-only: this returns a document and changes no status.
     """
     from assaywatch.drift import graph_records
+    from assaywatch.metadata import read_collection_years
     from assaywatch.report import assessment_inputs, load_calls_as_reported, read_dates
     from assaywatch.validate import iter_files, load_assay
 
@@ -292,6 +493,23 @@ def build(
     # run) and nothing below reads it. Each assay's records go the same way once used.
     taxonomy = inputs["taxonomy"]
     del calls, inputs
+    # Once for the run: this walks every `asm` archive. Null `report.collection_sidecar` is
+    # the normal case today, and leaves only the assembly records' own dates.
+    # NOT NARROWED, and the review finding that asked for it is answered in the roadmap
+    # instead (finding 4, 2026-11-10). Materialising every record id here does sit at the
+    # 3.17 GB peak the docstring above names, and on the shipping config -- null
+    # `report.collection_sidecar` -- only the 13 `asm` assays can have a date at all. But
+    # `GraphRecord` carries no retrieval group, so there is no cheap per-record test for
+    # "could this have a date", and the obvious `getattr(r, "group", ...)` guard silently
+    # selects NOTHING and drops the dates of all 13. A correct narrowing needs the group
+    # from the registry, which is a change to this function's inputs, and that is not worth
+    # making between a release freeze and its run.
+    sidecar = (cfg.get("report") or {}).get("collection_sidecar")
+    collected = read_collection_years(
+        retrieved,
+        {r.record_id for rows in records.values() for r in rows},
+        sidecar=Path(sidecar) if sidecar else None,
+    )
 
     out: dict[str, AssayComposition] = {}
     total = len(records)
@@ -304,7 +522,16 @@ def build(
         wanted = {strip_version(r.record_id) for r in rows}
         seqs, titles = _archive(retrieved, assay, wanted)
         out[assay_id] = build_assay(
-            assay, rows, cfg, _coverage_for(coverage, assay_id), seqs, titles, taxonomy, opts
+            assay,
+            rows,
+            cfg,
+            _coverage_for(coverage, assay_id),
+            seqs,
+            titles,
+            taxonomy,
+            opts,
+            collected=collected,
+            reference_of=reference_of,
         )
     return CompositionRun(run_date=run_date, assays=out)
 
@@ -317,7 +544,6 @@ def _coverage_for(coverage: Mapping[str, Any] | None, assay_id: str) -> dict[str
 
 def main(argv: list[str] | None = None) -> int:
     import argparse
-    import json
 
     from assaywatch.composition import write
     from assaywatch.score import load_config
@@ -330,9 +556,23 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--run-date", default=None)
     ap.add_argument("--out", type=Path, required=True, help="where composition.tsv/.json go")
     ap.add_argument(
+        "--references",
+        choices=("cache", "fetch", "prefetch"),
+        default="cache",
+        help="cache: read .references.json.gz only, make no network call (the default, and "
+        "what a frozen run uses). fetch: ask NCBI for the ones it lacks while building, and "
+        "write them back. prefetch: warm the cache and STOP, without clustering, which is "
+        "the cheap way to make a later run's `cache` complete. Both need --email.",
+    )
+    ap.add_argument(
         "--coverage",
         type=Path,
         help="coverage.json from `assaywatch retrieve --year-counts`: the retrieval-coverage series",
+    )
+    ap.add_argument(
+        "--email",
+        default=None,
+        help="contact for NCBI, to read a spike batch's REFERENCE; without it, the cache only",
     )
     args = ap.parse_args(argv)
 
@@ -340,7 +580,61 @@ def main(argv: list[str] | None = None) -> int:
     coverage = None
     if args.coverage is not None and args.coverage.exists():
         coverage = json.loads(args.coverage.read_text())
-    run = build(args.calls, args.registry, args.retrieved, cfg, run_date=args.run_date, coverage=coverage)
+    # OFFLINE BY DEFAULT (maintainer's decision, 2026-11-10). `--email` alone used to turn
+    # the reference fetch on, which meant the frozen run would have made its stage's first
+    # ever network calls while it ran, for a display field. The fetch is now its own flag,
+    # so warming the cache is a separate pass that can be retried and inspected, and the run
+    # reads what that pass left. `--references fetch` is that pass.
+    transport = None
+    if args.references in ("fetch", "prefetch"):
+        if not args.email:
+            ap.error(f"--references {args.references} needs --email, which NCBI requires for E-utilities")
+        from assaywatch.credentials import ncbi_api_key
+        from assaywatch.retrieve import http_transport
+
+        transport = http_transport(args.email, ncbi_api_key() or None)
+    reference_of = reference_lookup(
+        transport,
+        # BESIDE THE ARCHIVES THIS INVOCATION ACTUALLY READ, not beside the ones
+        # `retrieved_dir` names. The two agree in a Snakemake run, which takes both from
+        # that key, and they do NOT agree when `--retrieved` points elsewhere -- a worktree
+        # warming the cache for the main checkout, say, which wrote it to the worktree and
+        # left the run's lookup cold. The cache is keyed by accession and belongs to the
+        # archive set, so it follows it.
+        args.retrieved / ".references.json.gz",
+        max_failures=int((cfg.get("composition") or {}).get("coverage_max_failures", 5)),
+    )
+    if args.references == "prefetch":
+        asked = prefetch_references(
+            args.calls,
+            args.registry,
+            args.retrieved,
+            cfg,
+            reference_of=reference_of,
+            run_date=args.run_date,
+        )
+        print(f"{asked} spike batches looked up; cache warmed. Nothing else was built.")
+        return 0
+
+    run = build(
+        args.calls,
+        args.registry,
+        args.retrieved,
+        cfg,
+        run_date=args.run_date,
+        coverage=coverage,
+        reference_of=reference_of,
+    )
+    missed = sorted(getattr(reference_of, "misses", ()) or ())
+    if missed:
+        where = args.out / "references-missing.txt"
+        where.parent.mkdir(parents=True, exist_ok=True)
+        where.write_text("\n".join(missed) + "\n")
+        print(
+            f"{len(missed)} spike batches have no cached REFERENCE, so their sentences omit "
+            f"the study: {where}. Warm the cache with `--references fetch --email ...`.",
+            file=sys.stderr,
+        )
     tsv, js = write(run, args.out)
     placed = sum(1 for a in run.assays.values() if any(c.id >= 0 for c in a.clusters))
     print(

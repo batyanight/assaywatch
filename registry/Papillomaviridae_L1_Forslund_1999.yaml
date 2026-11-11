@@ -23,6 +23,9 @@ citation:
   doi_verified: true
   reference: Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
   claim: Most human papillomavirus types, L1 gene.
+  description: Degenerate conventional PCR primers with inosines against two conserved regions of the L1 gene, giving a 
+    product of about 480 bp. Built as a single general pair for cutaneous and other HPV types in skin tumours and normal
+    skin.
 conditions:
   cycles: 45
 use_context:

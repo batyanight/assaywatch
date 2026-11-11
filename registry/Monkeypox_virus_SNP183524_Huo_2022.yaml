@@ -31,6 +31,9 @@ citation:
     the B.1 lineage. Biosaf Health 4:392-398
   doi_verified: true
   oligos_designed_here: true
+  description: Multiplex real-time PCR with hydrolysis probes, built so that one primer pair and several probes tell 
+    monkeypox clades or the 2022 B.1 lineage apart and flag other orthopoxviruses. Designed after the 2022 outbreak to 
+    detect and differentiate clades. 16-mer MGB probe at 183524-183539 for clade II lineages other than B.1.
 conditions:
   cycles: 45
 use_context:

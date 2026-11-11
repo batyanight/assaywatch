@@ -25,6 +25,8 @@ citation:
     Guatemala. EcoHealth 13:761-774
   doi_verified: true
   claim: Enteroviruses, 5' UTR to VP4/VP2 region, as a consensus screen.
+  description: Nested conventional RT-PCR with degenerate primers in the 5' UTR to VP4/VP2 region of enteroviruses. 
+    Included as a pan-genus screen in a bat virus survey.
 use_context:
 - wildlife
 - public_health

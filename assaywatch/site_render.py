@@ -408,12 +408,17 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
             out.append(f'<p class="aw-citation">{a["reference"]}</p>\n')
 
     out.append(f'<p class="aw-assay-line">{_chip(status)} <span class="aw-id">{a["assay_id"]}</span></p>\n')
+    if a.get("page_note"):
+        out.append(f"**Note:** {_md_text(a['page_note'])}\n")
     if title:
         # The assay's own name says what the entry is; the heading now says what
         # the paper is, and those are different sentences.
         out.append(f"**{a['name']}**\n")
 
-    # What this assay is, before any number about it.
+    # What this assay is, before any number about it. Escaped: it is curator prose, shown
+    # as written, and `.get` because an older run.json has no such field.
+    if a.get("description"):
+        out.append(f"{_md_text(a['description'])}\n")
     rows = [
         (
             "Target",
@@ -443,6 +448,7 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
     # The graphs lead, primer then line then bar (maintainer's order, 2026-11-04): the page
     # opens on the evidence, and the arithmetic behind the verdict follows it.
     out.append(_mismatch_block(a))
+    out += _failure_reasons_block(a)
     out.append(_year_block(a, composition))
     out += _composition_block(composition)
     out += _lineage_block(a)
@@ -597,6 +603,41 @@ def _coverage_sentence(comp: dict[str, Any]) -> list[str]:
     ]
 
 
+def _spike_sentences(spike: dict[str, Any]) -> str:
+    """What one spike year's records show, worded "may", or "" when they show nothing.
+
+    Names only what the records hold. A missing reference or collection year leaves its
+    clause out rather than saying it is unknown, and no event is named here at all: an
+    outbreak reaches the page only inside a reference's own title.
+    """
+    lead = f"{spike['year']}'s {spike['records']:,} records"
+    said: list[str] = []
+    if spike.get("batch_records"):
+        source = f" from {_md_text(spike['reference'])}" if spike.get("reference") else ""
+        run = f"{_md_text(spike['batch_first'])} to {_md_text(spike['batch_last'])}"
+        said.append(
+            f"{lead} may reflect one study: {spike['batch_records']:,} are consecutive accessions "
+            f"({run}){source}."
+        )
+    if spike.get("tokens"):
+        words = _md_text(", ".join(spike["tokens"]))
+        said.append(
+            f"Many of that year's titles carry {words}."
+            if said
+            else f"{lead} may share a source: many of their titles carry {words}."
+        )
+    if spike.get("collected_records"):
+        first, last = spike["collected_first"], spike["collected_last"]
+        span = str(first) if first == last else f"{first} to {last}"
+        n = spike["collected_records"]
+        said.append(
+            f"Of them, {n:,} name a collection year, {span}."
+            if said
+            else f"{lead} may rest on samples collected {span}: {n:,} name a collection year."
+        )
+    return " ".join(said)
+
+
 def _mix_cell(comp: dict[str, Any], col: int) -> str:
     """A group's top species with their counts; the file holds the top three."""
     mixes = comp.get("mix") or []
@@ -652,6 +693,8 @@ def _composition_block(comp: dict[str, Any] | None) -> list[str]:
     if comp.get("note"):
         lines += [f"*{_md_text(comp['note'])}.*\n"]
     lines += [site_svg.composition_panel(comp, {}), ""]
+    # `.get`: an older composition.json has no spikes, and most assays have none.
+    lines += [f"{text}\n" for s in comp.get("spikes") or [] if (text := _spike_sentences(s))]
     lines += [
         "| Lineage | Records | Share | New since design | Species | Also in the titles |",
         "|---|---|---|---|---|---|",
@@ -769,6 +812,24 @@ def _no_bars_note(a: dict[str, Any]) -> str:
             " inside the amplicon), which leaves no position to draw."
         )
     return f'<p class="aw-empty">{note}</p>'
+
+
+def _failure_reasons_block(a: dict[str, Any]) -> list[str]:
+    """The failures the mismatch chart can't show, in the words of `_no_bars_note`.
+
+    The worked case is G2R WA_F, whose 82 bp product has no probe site: a tall count of
+    failures with no bar to explain them. Absent on an older run.json.
+    """
+    reasons = a.get("failure_reasons") or []
+    if not reasons:
+        return []
+    return [
+        "Some records fail with no position to draw: the record has no site for an oligo, so the",
+        "chart above can't show them. One count per record, across everything screened, before",
+        "the scope filter:\n",
+        *[f"- {_md_text(why)}: {int(n):,} records" for why, n in reasons],
+        "",
+    ]
 
 
 _LINEAGE_TAXID = re.compile(r"^(?P<name>.*?)\s*\((?P<taxid>\d+)\)\s*$")

@@ -1649,3 +1649,160 @@ def test_a_withheld_page_gives_its_reason_before_its_map():
         _page(status="", withheld_reasons=[["not_validated", ""]], oligos={"forward": "ACGT"}), "2026-11-01"
     )
     assert md.index("No status is reported") < md.index("## Mismatch distribution") < md.index("## Oligos")
+
+
+# ---- What the curator writes for the page (ROADMAP step 10, step 11c) ----
+
+
+def test_a_description_opens_the_page_as_plain_text_before_the_claim():
+    md = site_render.assay_page(
+        _page(description="Finds <b>16S</b> of *Chlamydia*.", claim="Detects the genus."), "2026-11-01"
+    )
+    assert "Finds &lt;b&gt;16S&lt;/b&gt;" in md
+    assert md.index("Finds &lt;b&gt;") < md.index("Meant to detect")
+    assert md.index("Finds &lt;b&gt;") < md.index("| Target |")
+
+
+def test_a_page_with_neither_field_renders_as_it_did():
+    plain = site_render.assay_page(_page(), "2026-11-01")
+    empty = site_render.assay_page(_page(description=""), "2026-11-01")
+    assert plain == empty
+
+
+def test_the_entry_fields_reach_the_extracted_page():
+    from types import SimpleNamespace as NS
+
+    from assaywatch import registry
+    from assaywatch.site import _page as extracted
+
+    assay = registry.load_one(
+        ROOT / "tests" / "fixtures" / "registry" / "Encephalitozoon_cuniculi_PTP_Xiao_2001.yaml"
+    )
+    assay = assay.model_copy(
+        update={"citation": assay.citation.model_copy(update={"description": "What it is."})}
+    )
+    drift = NS(
+        recent_year=None, years={}, lineage_stats=None, status="stable", recent_detected=0,
+        recent_evaluable=0, recent_ci=(0, 1), baseline_detected=0, baseline_evaluable=0,
+        baseline_ci=(0, 1), change_ci=(-1, 1), window_months=24, recent_from="", threshold=0.9,
+        note="", trend=None, trend_by_footprint=None, screened_rows=0, no_amplicon_rows=0,
+        exclusions={}, out_of_scope=0,
+    )  # fmt: skip
+    page = extracted(assay, drift, None, 5)
+    assert page.description == "What it is."
+
+
+def test_a_description_is_not_a_screen_field():
+    from assaywatch.signature import screen_key
+
+    doc = {"oligos": {"forward": "ACGT"}, "citation": {"doi": "10.1/x"}}
+    described = {**doc, "citation": {**doc["citation"], "description": "What it is."}}
+    assert screen_key(doc) == screen_key(described)
+
+
+def test_a_page_note_sits_by_the_status_and_is_labelled_as_a_note():
+    md = site_render.assay_page(_page(page_note="Of 3,122 records, 2,643 are <clade I>."), "2026-11-01")
+    assert "**Note:** Of 3,122 records, 2,643 are &lt;clade I&gt;." in md
+    assert md.index('class="aw-assay-line"') < md.index("**Note:**") < md.index("| Target |")
+
+
+def test_a_page_note_reaches_the_extracted_page_and_is_omitted_when_absent():
+    from types import SimpleNamespace as NS
+
+    from assaywatch import registry
+    from assaywatch.schema import Source
+    from assaywatch.site import _page as extracted
+
+    assay = registry.load_one(
+        ROOT / "tests" / "fixtures" / "registry" / "Encephalitozoon_cuniculi_PTP_Xiao_2001.yaml"
+    )
+    noted = assay.model_copy(
+        update={"source": (assay.source or Source()).model_copy(update={"page_note": "Read this."})}
+    )
+    bare = assay.model_copy(update={"source": None})
+    drift = NS(
+        recent_year=None, years={}, lineage_stats=None, status="stable", recent_detected=0,
+        recent_evaluable=0, recent_ci=(0, 1), baseline_detected=0, baseline_evaluable=0,
+        baseline_ci=(0, 1), change_ci=(-1, 1), window_months=24, recent_from="", threshold=0.9,
+        note="", trend=None, trend_by_footprint=None, screened_rows=0, no_amplicon_rows=0,
+        exclusions={}, out_of_scope=0,
+    )  # fmt: skip
+    assert extracted(noted, drift, None, 5).page_note == "Read this."
+    assert extracted(bare, drift, None, 5).page_note == ""
+    assert "**Note:**" not in site_render.assay_page(_page(page_note=""), "2026-11-01")
+
+
+# ---- Failures a per-base chart can't show (ROADMAP step 11c) ----
+
+
+def _reason_calls(tmp_path, rows):
+    path = tmp_path / "calls.tsv"
+    head = "assay_id\trecord_id\tpenalty\tcall\treason\n"
+    path.write_text(head + "".join(f"{a}\t{r}\t0\t{c}\t{why}\n" for a, r, c, why in rows))
+    return path
+
+
+def test_failure_reasons_count_one_per_accession_and_only_for_fails(tmp_path):
+    no_probe = "no probe site inside amplicon"
+    rows = [
+        # The table repeats a record across archives: one count, on its newest version.
+        ("A", "AB1.1", "fail", no_probe),
+        ("A", "AB1.1", "fail", no_probe),
+        ("A", "AB2.1", "fail", no_probe),
+        # An older version failed and the newer one detects: not a failure now.
+        ("A", "AB3.1", "fail", no_probe),
+        ("A", "AB3.2", "detect", ""),
+        # A failure with no reason is a penalty over budget, which the chart does show.
+        ("A", "AB4.1", "fail", ""),
+        # A RefSeq copy of a record in the same assay's calls is not a second record.
+        ("A", "NZ_AB2.1", "fail", no_probe),
+        ("B", "AB9.1", "fail", no_probe),
+        ("Withheld", "AB9.1", "fail", no_probe),
+    ]
+    got = site.failure_reasons(_reason_calls(tmp_path, rows), {"A", "B"}, min_records=1, shown=3)
+    assert got == {"A": [(no_probe, 2)], "B": [(no_probe, 1)]}
+
+
+def test_failure_reasons_hold_back_a_thin_count_and_show_only_the_top(tmp_path):
+    probe = "no probe site inside amplicon"
+    amb3, amb5 = (f"{n} undetermined record bases under the oligos" for n in (3, 5))
+    rows = [("A", f"AB{i}.1", "fail", probe) for i in range(4)]
+    rows += [("A", f"AC{i}.1", "fail", amb3) for i in range(3)]
+    rows += [("A", f"AD{i}.1", "fail", amb5) for i in range(2)]
+    rows += [("A", "AE1.1", "fail", probe + "; and a trailing detail")]
+    got = site.failure_reasons(_reason_calls(tmp_path, rows), {"A"}, min_records=2, shown=2)
+    assert got == {"A": [(probe, 4), (amb3, 3)]}
+
+
+def test_a_reason_the_mismatch_chart_can_draw_is_never_reported_as_one_it_cannot(tmp_path):
+    """Review finding 1, 2026-11-10. This block keyed off "the reason is non-empty", which
+    is true only under `scoring.engine: budget`, where `score.decide` leaves `reason` blank
+    for every penalty call. Under `engine: serial` -- implemented and documented, and
+    disagreeing on 182,185 of 912,111 calls -- `score.combine` puts "<roles> blocked" on an
+    ordinary penalty failure. Flipping the engine would have made every assay page announce
+    that those records have no position to draw, about exactly the records the chart draws."""
+    rows = [("A", f"AB{i}.1", "fail", "forward blocked") for i in range(9)]
+    rows += [("A", f"AC{i}.1", "fail", "forward, reverse blocked") for i in range(9)]
+    rows += [("A", f"AD{i}.1", "fail", "") for i in range(9)]
+    assert site.failure_reasons(_reason_calls(tmp_path, rows), {"A"}, min_records=2, shown=3) == {}
+    assert not site.has_no_position("forward blocked")
+    assert not site.has_no_position("probe weak")
+    assert not site.has_no_position("")
+    assert site.has_no_position("no probe site inside amplicon")
+    assert site.has_no_position("no probe site inside amplicon; 2 of 3 oligos found")
+    assert site.has_no_position("4 undetermined record bases under the oligos")
+
+
+def test_the_page_says_which_failures_have_no_position_to_draw():
+    md = site_render.assay_page(
+        _page(failure_reasons=[["no probe site inside amplicon", 3120]]), "2026-11-01"
+    )
+    assert "no probe site inside amplicon: 3,120 records" in md
+    assert "no position to draw" in md
+    assert md.index("no probe site inside amplicon: 3,120") < md.index("## Oligos")
+
+
+def test_a_page_with_no_failure_reasons_says_nothing_about_them():
+    assert site_render.assay_page(_page(), "2026-11-01") == site_render.assay_page(
+        _page(failure_reasons=[]), "2026-11-01"
+    )

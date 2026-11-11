@@ -67,10 +67,12 @@ at". It does not mean an assay has failed.
 
 ## Every threshold is a placeholder
 
-Nineteen numbers decide every verdict and all but one were set by eye. They are
-listed with their values in `ROADMAP.md` under "The placeholders, for the record",
-and each carries its reasoning, or the admission that it has none, in
-`config.yaml`.
+Nineteen numbers decide every verdict and all but one were set by eye. Eight more
+decide what an assay page says about a deposit year rather than what the verdict is.
+All twenty-seven are listed with their values in `ROADMAP.md` under "The placeholders,
+for the record", and each carries its reasoning, or the admission that it has none, in
+`config.yaml`. The eight display numbers are kept in that list on purpose: they reach no
+verdict, but a number set by eye is declared here whatever it decides.
 
 The exception is `drift.min_decline` 0.05, which has regulatory precedent: FDA's
 *Policy for Evaluating Impact of Viral Mutations on COVID-19 Tests (Revised)*

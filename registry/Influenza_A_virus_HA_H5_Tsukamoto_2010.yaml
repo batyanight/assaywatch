@@ -33,6 +33,9 @@ citation:
   doi_verified: true
   oligos_designed_here: true
   claim: H5 hemagglutinin of avian influenza viruses, Eurasian and American lineages.
+  description: Real-time RT-PCR with mixed-base (degenerate) primers and a FAM/BHQ hydrolysis probe, redesigned from the
+    group's earlier primers so that more Eurasian and American avian influenza sequences match. ; H5-918F, H5-1166R and 
+    probe, 249 bp, designed on 1,439 H5 genes.
 conditions:
   cycles: 35
 use_context:

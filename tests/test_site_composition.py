@@ -319,3 +319,65 @@ def test_a_cluster_s_shade_follows_its_rank_not_how_many_strata_precede_it():
     }
     svg = site_svg.composition_panel(comp, {})
     assert f'opacity="{site_svg._CLUSTER_STEPS[0]:.2f}"' in svg
+
+
+# ---- the lineage narrative ----
+
+
+def _spike(**over):
+    from assaywatch.composition import Spike
+
+    base = dict(
+        year=2026, records=557, batch_records=412, batch_share=0.74, batch_first="PP1", batch_last="PP412",
+        reference="A <study>. J Things 1", tokens=(), collected_first=None, collected_last=None,
+        collected_records=0,
+    )  # fmt: skip
+    return Spike(**{**base, **over})
+
+
+def _text(*spikes):
+    d = site_data(_run(_assay(spikes=spikes)))["assays"]["A"]
+    return "\n".join(_composition_block(d))
+
+
+def test_a_spike_is_worded_may_and_names_only_what_the_records_show():
+    md = _text(_spike())
+    assert (
+        "2026's 557 records may reflect one study: 412 are consecutive accessions (PP1 to PP412) "
+        "from A &lt;study&gt;. J Things 1." in md
+    )
+
+
+def test_an_absent_reference_and_absent_collection_years_read_as_absent():
+    md = _text(_spike(reference=None))
+    assert "412 are consecutive accessions (PP1 to PP412)." in md
+    assert "from " not in md.split("may reflect one study")[1].split("\n")[0]
+    assert "collection year" not in md
+
+
+def test_tokens_alone_and_collection_years_alone_each_carry_their_own_may():
+    tokens = _text(
+        _spike(
+            batch_records=0, batch_share=0.0, batch_first="", batch_last="", reference=None, tokens=("zebra",)
+        )
+    )
+    assert "2026's 557 records may share a source: many of their titles carry zebra." in tokens
+    dated = _text(
+        _spike(batch_records=0, batch_share=0.0, batch_first="", batch_last="", reference=None,
+               collected_first=2019, collected_last=2020, collected_records=40)
+    )  # fmt: skip
+    assert (
+        "2026's 557 records may rest on samples collected 2019 to 2020: 40 name a collection year." in dated
+    )
+
+
+def test_a_spike_with_nothing_to_say_gets_no_sentence():
+    bare = _spike(batch_records=0, batch_share=0.0, batch_first="", batch_last="", reference=None)
+    assert _text(bare) == _text()
+
+
+def test_no_spikes_and_an_older_file_render_as_they_did():
+    d = site_data(_run(_assay()))["assays"]["A"]
+    assert "spikes" not in d
+    older = {k: v for k, v in d.items() if k != "spikes"}
+    assert _composition_block(older) == _composition_block(d)

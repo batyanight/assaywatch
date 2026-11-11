@@ -39,8 +39,12 @@ from assaywatch.drift import (
 )
 
 
-def _open(path: Path) -> TextIO:
-    return gzip.open(path, "rt") if str(path).endswith(".gz") else open(path)
+def _open(path: Path, newline: str | None = None) -> TextIO:
+    """The calls table as text. `newline=""` for a csv reader, which needs the file's own
+    line endings left alone: `reason` can hold a line break inside a quoted field."""
+    if str(path).endswith(".gz"):
+        return gzip.open(path, "rt", newline=newline)
+    return open(path, newline=newline)
 
 
 def read_calls(path: Path, with_spans: set[str] | None = None) -> list[dict[str, Any]]:

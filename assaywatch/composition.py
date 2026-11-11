@@ -20,8 +20,9 @@ import dataclasses
 import hashlib
 import json
 import re
+import statistics
 from collections import Counter, defaultdict
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -121,6 +122,12 @@ class Options:
     n_boot: int
     boot_seed: int
     same_mix_min_covered: float
+    spike_min_fold: float
+    spike_min_records: int
+    spike_evidence_min_records: int
+    spike_batch_min_share: float
+    spike_token_min_share: float
+    spikes_shown: int
 
     @classmethod
     def from_config(cls, cfg: Mapping[str, Any]) -> Options:
@@ -142,6 +149,12 @@ class Options:
             n_boot=int(c.get("n_boot", 2000)),
             boot_seed=int(c.get("boot_seed", 0)),
             same_mix_min_covered=float(c.get("same_mix_min_covered", 0.8)),
+            spike_min_fold=float(c.get("spike_min_fold", 5.0)),
+            spike_min_records=int(c.get("spike_min_records", 30)),
+            spike_evidence_min_records=int(c.get("spike_evidence_min_records", 10)),
+            spike_batch_min_share=float(c.get("spike_batch_min_share", 0.5)),
+            spike_token_min_share=float(c.get("spike_token_min_share", 0.5)),
+            spikes_shown=int(c.get("spikes_shown", 3)),
         )
 
 
@@ -682,6 +695,8 @@ TSV_COLUMNS = (
     "cut",
     "left_bp",
     "right_bp",
+    "spike_batch_records",
+    "spike_reference",
 )
 
 
@@ -699,6 +714,33 @@ class Cluster:
     title_tokens: tuple[str, ...]
     first_year: int | None
     new_since_design: bool
+
+
+@dataclass(frozen=True)
+class Spike:
+    """A deposit year well above the assay's own typical year, and what its records show.
+
+    Every evidence field can be empty, and empty means the records don't say. Nothing here
+    is a claim about why the year is large: the page words all of it "may".
+    """
+
+    year: int
+    #: The year's evaluable records, as the panel beside the text counts them.
+    records: int
+    #: The largest run of consecutive accessions in the year, or 0 when none is large
+    #: enough to count (`spike_evidence_min_records`, `spike_batch_min_share`).
+    batch_records: int
+    batch_share: float
+    batch_first: str
+    batch_last: str
+    #: The source study: the first REFERENCE of the batch's first record, None where the
+    #: flatfile named none or could not be read.
+    reference: str | None
+    tokens: tuple[str, ...]
+    collected_first: int | None
+    collected_last: int | None
+    #: How many of the year's records name a collection year.
+    collected_records: int
 
 
 @dataclass(frozen=True)
@@ -726,6 +768,9 @@ class AssayComposition:
     #: influenza case of 2026-10-30. DEFAULTED, because a run without a coverage file is a
     #: complete run: the series is a lens on the stage, not an input to it.
     coverage: dict[str, dict[int, int]] = dataclasses.field(default_factory=dict)
+    #: `lineage_narrative`'s years, for the text beside the panel. Defaulted, because an
+    #: older file has none and most assays have none.
+    spikes: tuple[Spike, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -878,6 +923,124 @@ def describe_clusters(
     return tuple(out)
 
 
+_ACCESSION_NUMBER = re.compile(r"^(.*?)(\d+)$")
+#: A title may say this and the page still won't: only a reference title can name an outbreak.
+_UNSOURCED_EVENT = re.compile(r"outbreak|epidemic|pandemic", re.IGNORECASE)
+#: Grammar in a title. "for" led Chlamydia 16S's 1997 tokens ("16S rRNA gene for ...") on the
+#: first real try, since a year's phrasing moves with its depositors.
+_TITLE_GRAMMAR = {"a", "an", "and", "for", "from", "in", "of", "on", "the", "to", "with"}
+
+
+def largest_batch(accessions: Sequence[str]) -> list[str]:
+    """The longest run of consecutive accessions: same prefix, same digit width, each number
+    one above the last. Ties go to the lowest accession, so the result doesn't depend on
+    the order of the input. Strictly consecutive, because that is all the page says of them."""
+    numbered: dict[tuple[str, int], set[int]] = defaultdict(set)
+    for acc in accessions:
+        m = _ACCESSION_NUMBER.match(strip_version(acc))
+        if m:
+            numbered[(m.group(1), len(m.group(2)))].add(int(m.group(2)))
+    best: list[str] = []
+    for (prefix, width), numbers in sorted(numbered.items()):
+        for n in sorted(numbers):
+            if n - 1 in numbers:
+                continue
+            end = n
+            while end + 1 in numbers:
+                end += 1
+            if end - n + 1 > len(best):
+                best = [f"{prefix}{i:0{width}d}" for i in range(n, end + 1)]
+    return best
+
+
+def lineage_narrative(
+    comp: AssayComposition,
+    records: Sequence[GraphRecord],
+    *,
+    titles: Mapping[str, str],
+    collected: Mapping[str, int],
+    reference_of: Callable[[str], str | None],
+    opts: Options,
+) -> list[Spike]:
+    """The spike years with something to say, largest first, then in year order.
+
+    A spike is a year at least `spike_min_fold` times the assay's median deposit year, over
+    the years with any record, and at least `spike_min_records`: the assay's own typical
+    year, so a busy taxon's normal year isn't one. Counted from `comp.cells`, so the
+    figure in the text is the panel's.
+
+    For each, the evidence the records hold: the largest batch of consecutive accessions,
+    the title tokens the year carries and the other years don't, and any collection years.
+    `titles` and `collected` are keyed by record id. A year with none of these is dropped.
+    `reference_of` is INJECTED because this module stays off the network and the verdict
+    path (see `composition_build`), and is called once per spike, on its batch's first
+    record, only when the batch counts.
+    """
+    per_year: Counter[int] = Counter()
+    for cell in comp.cells:
+        per_year[cell.year] += cell.records
+    if not per_year:
+        return []
+    floor = max(opts.spike_min_fold * statistics.median(per_year.values()), opts.spike_min_records)
+    years = sorted((y for y, n in per_year.items() if n >= floor), key=lambda y: (-per_year[y], y))
+    usable = [r for r in records if r.evaluable]
+    # FILTER FIRST, TRUNCATE AFTER (review findings 5 and 6, 2026-11-10). Taking the
+    # `spikes_shown` largest years before dropping the ones with nothing to say meant an
+    # assay whose three largest spikes were scattered accessions said nothing at all, while
+    # a fourth year holding a 500-record consecutive batch with a real REFERENCE went
+    # unmentioned -- against this function's own promise of "the spike years with something
+    # to say". The loop now walks every spike year and the truncation is at the end.
+    out = []
+    for year in years:
+        mine = [r.record_id for r in usable if r.year == year]
+        batch = largest_batch(mine)
+        n = per_year[year]
+        if len(batch) < opts.spike_evidence_min_records or len(batch) / n < opts.spike_batch_min_share:
+            batch = []
+        # Asked for more than are shown, because the grammar and unsourced-event filters
+        # run after this and used to run after the truncation too: a year whose three
+        # highest-lift tokens were "for", "the" and "outbreak" lost its token sentence
+        # although real distinguishing tokens ranked just below them (finding 6).
+        tokens = title_tokens(
+            [titles.get(rid, "") for rid in mine],
+            [titles.get(r.record_id, "") for r in usable if r.year != year],
+            name="",
+            min_share=opts.spike_token_min_share,
+            min_lift=opts.token_min_lift,
+            top=opts.title_tokens_shown * 4,
+        )
+        tokens = [t for t in tokens if t.lower() not in _TITLE_GRAMMAR and not _UNSOURCED_EVENT.search(t)]
+        tokens = tokens[: opts.title_tokens_shown]
+        dated = [collected[rid] for rid in mine if rid in collected]
+        if len(dated) < opts.spike_evidence_min_records:
+            dated = []
+        if not (batch or tokens or dated):
+            continue
+        out.append(
+            Spike(
+                year=year,
+                records=n,
+                batch_records=len(batch),
+                batch_share=len(batch) / n,
+                batch_first=batch[0] if batch else "",
+                batch_last=batch[-1] if batch else "",
+                reference=None,  # filled below, for the kept spikes only
+                tokens=tuple(tokens),
+                collected_first=min(dated, default=None),
+                collected_last=max(dated, default=None),
+                collected_records=len(dated),
+            )
+        )
+    # `years` is already ordered by size, so `out` is too: the largest survivors are the
+    # first. The reference is read ONLY for these, after the cut, because it is the one
+    # field that costs a network call and the cut can drop a spike that has a batch.
+    kept = [
+        dataclasses.replace(sp, reference=reference_of(sp.batch_first) if sp.batch_first else None)
+        for sp in out[: opts.spikes_shown]
+    ]
+    return sorted(kept, key=lambda s: s.year)
+
+
 def _special_name(label: int) -> str:
     """The three labels that are not clusters say what they are, not a species."""
     return {DIVERGED: "diverged (no site)", UNPLACED: "unplaced", OTHER: "other"}.get(label, "")
@@ -892,8 +1055,10 @@ def write(run: CompositionRun, out_dir: Path) -> tuple[Path, Path]:
         fh.write("\t".join(TSV_COLUMNS) + "\n")
         for assay_id, a in sorted(run.assays.items()):
             by_id = {c.id: (rank, c) for rank, c in enumerate(a.clusters)}
+            spikes = {s.year: s for s in a.spikes}
             for cell in a.cells:
                 rank, cluster = by_id.get(cell.cluster, (-1, None))
+                spike = spikes.get(cell.year)
                 mix = cluster.species_mix if cluster else ()
                 fh.write(
                     "\t".join(
@@ -916,6 +1081,8 @@ def write(run: CompositionRun, out_dir: Path) -> tuple[Path, Path]:
                             f"{a.cut:g}",
                             a.left_bp,
                             a.right_bp,
+                            (spike.batch_records or "") if spike else "",
+                            (spike.reference or "") if spike else "",
                         )
                     )
                     + "\n"
@@ -940,6 +1107,7 @@ def _as_json(run: CompositionRun) -> dict[str, Any]:
                 "same_mix": {str(y): v for y, v in a.same_mix.items()},
                 "split": dataclasses.asdict(a.split) if a.split else None,
                 "species": [dataclasses.asdict(s) for s in a.species],
+                "spikes": [dataclasses.asdict(s) for s in a.spikes],
             }
             for aid, a in sorted(run.assays.items())
         },
@@ -989,6 +1157,7 @@ def read_summary(path: Path) -> CompositionRun:
             ),
             species=tuple(SpeciesYear(**s) for s in a["species"]),
             note=a["note"],
+            spikes=tuple(Spike(**{**s, "tokens": tuple(s["tokens"])}) for s in a.get("spikes") or []),
         )
     return CompositionRun(run_date=data["run_date"], assays=assays)
 
@@ -1068,6 +1237,12 @@ def site_data(run: CompositionRun) -> dict[str, Any]:
                 }
             ),
         }
+        # Only where there is one, so an assay with none is the line it was, and the cap
+        # pays only for the years that have something to say.
+        if a.spikes:
+            out["assays"][assay_id]["spikes"] = [
+                {**dataclasses.asdict(sp), "batch_share": round(sp.batch_share, 4)} for sp in a.spikes
+            ]
     return out
 
 
