@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Nix WA, Oberste MS, Pallansch MA. 2006. J Clin Microbiol 44:2698-2704 (222/224 VP3-VP1 primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Enterovirus_VP3_VP1_Nix_2006_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Enterovirus_VP3_VP1_Nix_2006_round1</span></p>
 
 **Enterovirus — VP3-VP1 (Nix 2006), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 760 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

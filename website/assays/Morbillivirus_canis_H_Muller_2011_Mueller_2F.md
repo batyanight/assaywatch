@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Müller A, Silva E, Santos N, Thompson G. 2011. Domestic dog origin of canine distemper virus in free-ranging wolves in Portugal as revealed by hemagglutinin gene characterization. J Wildl Dis 47:725-729
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">Morbillivirus_canis_H_Muller_2011_Mueller_2F</span></p>
+<p class="aw-assay-line"><span class="aw-id">Morbillivirus_canis_H_Muller_2011_Mueller_2F</span></p>
 
 **Morbillivirus canis — H (hemagglutinin) (Müller 2011, Mueller 2F)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 570 bp |
 | Registry status | active |
-| Verdict | watch |
+| Verdict | <span class="aw-chip aw-chip-watch">watch</span> |
 
 ## Oligos
 

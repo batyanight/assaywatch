@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Mangombi JB, N'dilimabaka N, Lekana-Douki JB, Banga O, Maghendji-Nzondo S, Bourgarel M, Leroy E, Fenollar F, Mediannikov O. 2021. First investigation of pathogenic bacteria, protozoa and viruses in rodents and shrews in context of forest-savannah-urban areas interface in the city of Franceville (Gabon). PLoS One 16:e0248244
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Orthohantavirus_S_Mangombi_2021_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthohantavirus_S_Mangombi_2021_round2</span></p>
 
 **Orthohantavirus — S segment (Mangombi 2021), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 236 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

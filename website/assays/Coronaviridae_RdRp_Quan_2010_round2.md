@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Quan PL et al. 2010. mBio 1:e00208-10 (round 2)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Coronaviridae_RdRp_Quan_2010_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Coronaviridae_RdRp_Quan_2010_round2</span></p>
 
 **Coronaviridae — RNA-dependent RNA polymerase (Quan 2010), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 328 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

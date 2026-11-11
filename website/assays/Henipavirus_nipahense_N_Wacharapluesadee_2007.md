@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Wacharapluesadee S, Hemachudha T. 2007. Duplex nested RT-PCR for detection of Nipah virus RNA from urine specimens of bats. J Virol Methods 141:97-101
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Henipavirus_nipahense_N_Wacharapluesadee_2007</span></p>
+<p class="aw-assay-line"><span class="aw-id">Henipavirus_nipahense_N_Wacharapluesadee_2007</span></p>
 
 **Henipavirus nipahense — N (nucleoprotein) (Wacharapluesadee 2007)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 398 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

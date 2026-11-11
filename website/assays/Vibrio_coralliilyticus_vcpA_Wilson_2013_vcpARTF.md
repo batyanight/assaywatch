@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Wilson, B., Muirhead, A., Bazanella, M., Huete-Stauffer, C., Vezzulli, L. & Bourne, D. G. An Improved Detection and Quantification Method for the Coral Pathogen Vibrio coralliilyticus. PLoS ONE 8, e81800 (2013).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Vibrio_coralliilyticus_vcpA_Wilson_2013_vcpARTF</span></p>
+<p class="aw-assay-line"><span class="aw-id">Vibrio_coralliilyticus_vcpA_Wilson_2013_vcpARTF</span></p>
 
 **Vibrio coralliilyticus — vcpA (Wilson 2013, vcpARTF)**
 
@@ -18,7 +18,7 @@
 | Chemistry | sybr |
 | Amplicon | 166 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

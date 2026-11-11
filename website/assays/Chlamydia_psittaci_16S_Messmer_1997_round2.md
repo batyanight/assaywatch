@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Messmer, T. O., Skelton, S. K., Moroney, J. F., Daugharty, H. & Fields, B. S. Application of a nested, multiplex PCR to psittacosis outbreaks. Journal of Clinical Microbiology 35, 2043-2046 (1997).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Chlamydia_psittaci_16S_Messmer_1997_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Chlamydia_psittaci_16S_Messmer_1997_round2</span></p>
 
 **Chlamydia psittaci — 16S rRNA (Messmer 1997), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 128 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

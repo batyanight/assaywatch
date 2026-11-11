@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Quan PL et al. 2010. mBio 1:e00208-10 (PREDICT pan-CoV RdRp nested PCR)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Coronaviridae_RdRp_Quan_2010_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Coronaviridae_RdRp_Quan_2010_round1</span></p>
 
 **Coronaviridae — RNA-dependent RNA polymerase (Quan 2010), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 532 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

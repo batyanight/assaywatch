@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Kulesh DA, Loveless BM, Norwood D, Garrison J, Whitehouse CA, Hartmann C, Mucker E, Miller D, Wasieloski LP Jr, Huggins J, Huhn G, Miser LL, Imig C, Martinez M, Larsen T, Rossi CA, Ludwig GV. 2004. Monkeypox virus detection in rodents using real-time 3'-minor groove binder TaqMan assays on the Roche LightCycler. Lab Invest 84:1200-1208
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Monkeypox_virus_F3L_Kulesh_2004</span></p>
+<p class="aw-assay-line"><span class="aw-id">Monkeypox_virus_F3L_Kulesh_2004</span></p>
 
 **Monkeypox virus — F3L (Kulesh 2004)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 107 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

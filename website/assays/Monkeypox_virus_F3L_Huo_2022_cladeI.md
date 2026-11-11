@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Huo S, Chen Y, Lu R, Zhang Z, Zhang G, Zhao L, Deng Y, Wu C, Tan W. 2022. Development of two multiplex real-time PCR assays for simultaneous detection and differentiation of monkeypox virus IIa, IIb, and I clades and the B.1 lineage. Biosaf Health 4:392-398
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Monkeypox_virus_F3L_Huo_2022_cladeI</span></p>
+<p class="aw-assay-line"><span class="aw-id">Monkeypox_virus_F3L_Huo_2022_cladeI</span></p>
 
 **Monkeypox virus — F3L (Huo 2022, cladeI)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 179 bp |
 | Registry status | draft |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

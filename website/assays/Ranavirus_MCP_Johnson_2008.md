@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Johnson AJ et al. 2008. J Wildl Dis 44:851-863
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Ranavirus_MCP_Johnson_2008</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ranavirus_MCP_Johnson_2008</span></p>
 
 **Ranavirus — MCP (major capsid protein) (Johnson 2008)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 531 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

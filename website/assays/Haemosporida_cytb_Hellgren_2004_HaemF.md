@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemF/HaemR2 nested round)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Haemosporida_cytb_Hellgren_2004_HaemF</span></p>
+<p class="aw-assay-line"><span class="aw-id">Haemosporida_cytb_Hellgren_2004_HaemF</span></p>
 
 **Haemosporida — cytochrome b (Hellgren 2004, HaemF)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 525 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

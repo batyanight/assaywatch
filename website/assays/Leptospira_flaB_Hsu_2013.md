@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hsu CC et al. 2013. Emerg Infect Dis 19 (staged molecular analysis; MassTag panel table, Leptospira row)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Leptospira_flaB_Hsu_2013</span></p>
+<p class="aw-assay-line"><span class="aw-id">Leptospira_flaB_Hsu_2013</span></p>
 
 **Leptospira — flaB (flagellar filament protein B) (Hsu 2013)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 125 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

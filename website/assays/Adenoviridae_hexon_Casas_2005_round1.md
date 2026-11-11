@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Casas I et al. 2005. J Clin Microbiol 43:6176-6182 (ADHEX primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Adenoviridae_hexon_Casas_2005_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Adenoviridae_hexon_Casas_2005_round1</span></p>
 
 **Adenoviridae — hexon (Casas 2005), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 475 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

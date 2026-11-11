@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Zimmermann W et al. 1994. J Virol Methods 46:133-143
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Bornaviridae_N_Zimmermann_1994_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Bornaviridae_N_Zimmermann_1994_round1</span></p>
 
 **Bornaviridae — N (nucleoprotein) (Zimmermann 1994), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 752 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

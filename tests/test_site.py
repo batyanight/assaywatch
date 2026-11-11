@@ -1652,8 +1652,12 @@ def test_the_page_sections_run_in_the_order_the_maintainer_set():
         "## What was deposited, by lineage",
         "## Corrections",
     ]
-    # The verdict is also one line of the metadata table, above every section.
-    assert md.index("| Verdict | stable |") < md.index("## Oligos")
+    # The verdict is one line of the metadata table, above every section, and it carries
+    # the chip: the status is said there and nowhere else above it.
+    row = md.index("| Verdict | ")
+    assert row < md.index("## Oligos")
+    assert 'class="aw-chip' in md[row : md.index("\n", row)]
+    assert "aw-chip" not in md[: md.index("| Target |")], "the chip is not also on its own line"
     # And inside its own section the chart leads, with the prose explaining it underneath.
     chart = md.index("<svg", md.index("## Mismatch distribution"))
     assert chart < md.index("Each oligo drawn base by base")

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hyndman TH et al. 2012. Vet Microbiol 161:77-87
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Ferlavirus_L_Hyndman_2012</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ferlavirus_L_Hyndman_2012</span></p>
 
 **Ferlavirus — L (RNA-dependent RNA polymerase) (Hyndman 2012)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 149 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     VanDevanter DR et al. 1996. J Clin Microbiol 34:1666-1671 (TGV/IYG round 2)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Orthoherpesviridae_POL_VanDevanter_1996_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthoherpesviridae_POL_VanDevanter_1996_round2</span></p>
 
 **Orthoherpesviridae — DNA polymerase (VanDevanter 1996), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 231 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

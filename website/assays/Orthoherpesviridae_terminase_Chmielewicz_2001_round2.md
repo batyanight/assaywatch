@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     TERM_707/708 terminase primers: Chmielewicz B et al. (Ehlers group, Robert Koch Institute) — not resolved
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Orthoherpesviridae_terminase_Chmielewicz_2001_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthoherpesviridae_terminase_Chmielewicz_2001_round2</span></p>
 
 **Orthoherpesviridae — terminase (Chmielewicz 2001), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 419 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

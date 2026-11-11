@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Orthobunyavirus_L_Briese_2007</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthobunyavirus_L_Briese_2007</span></p>
 
 **Orthobunyavirus — L segment (Briese 2007)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 630 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

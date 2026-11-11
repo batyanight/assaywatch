@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Li, N. et al. Development of a rapid on-site detection method for largemouth bass virus based on RPA-CRISPR/Cas12a system. Frontiers in Microbiology 16, 1599006 (2025).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Ranavirus_micropterus1_MCP_Li_2025</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ranavirus_micropterus1_MCP_Li_2025</span></p>
 
 **Ranavirus micropterus1 — MCP (major capsid protein) (Li 2025)**
 
@@ -18,7 +18,7 @@
 | Chemistry | rpa |
 | Amplicon | 127 bp |
 | Registry status | active |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

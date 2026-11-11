@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Sledge DG et al. 2011. J Am Vet Med Assoc 239:1584-1588
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Eimeria_furonis_18S_Sledge_2011</span></p>
+<p class="aw-assay-line"><span class="aw-id">Eimeria_furonis_18S_Sledge_2011</span></p>
 
 **Eimeria furonis — 18S rRNA (Sledge 2011)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 247 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Sanchez-Seco, M. P. et al. Detection and identification of Toscana and other phleboviruses by RT-nested-PCR assays with degenerated primers. J Med Virol 71, 140-149 (2003).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Phlebovirus_L_Sanchez-Seco_2003_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Phlebovirus_L_Sanchez-Seco_2003_round2</span></p>
 
 **Phlebovirus — L segment (Sanchez-Seco 2003), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 245 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

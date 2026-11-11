@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Mankertz A et al. 2000. Arch Virol 145:2469-2479
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Circoviridae_Rep_Mankertz_2000_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Circoviridae_Rep_Mankertz_2000_round1</span></p>
 
 **Circoviridae — Rep (Mankertz 2000), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 580 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

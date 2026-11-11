@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hellgren O et al. 2004. J Parasitol 90:797-802 (HaemFL/HaemR2L)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Leucocytozoon_cytb_Hellgren_2004</span></p>
+<p class="aw-assay-line"><span class="aw-id">Leucocytozoon_cytb_Hellgren_2004</span></p>
 
 **Leucocytozoon — cytochrome b (Hellgren 2004)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 524 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

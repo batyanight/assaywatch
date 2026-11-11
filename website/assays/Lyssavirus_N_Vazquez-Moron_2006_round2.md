@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Vazquez-Moron, S., Avellon, A. & Echevarria, J. E. RT-PCR for detection of all seven genotypes of Lyssavirus genus. Journal of virological methods 135, 281-287, doi:Doi 10.1016/J.Jviromet.2006.03.008 (2006).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Lyssavirus_N_Vazquez-Moron_2006_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Lyssavirus_N_Vazquez-Moron_2006_round2</span></p>
 
 **Lyssavirus — N (nucleoprotein) (Vazquez-Moron 2006), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 260 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

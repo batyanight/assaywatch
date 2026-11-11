@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Ghosh, P. N., Verster, R., Sewell, T. R., O'Hanlon, S. J., Brookes, L. M., Rieux, A., Garner, T. W. J., Weldon, C. & Fisher, M. C. Discriminating lineages of Batrachochytrium dendrobatidis using quantitative PCR. Molecular Ecology Resources 21, 1452-1459 (2021).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE</span></p>
+<p class="aw-assay-line"><span class="aw-id">Batrachochytrium_dendrobatidis_mtDNA_Ghosh_2021_BdCAPE</span></p>
 
 **Batrachochytrium dendrobatidis — mitochondrial DNA (Ghosh 2021, BdCAPE)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 64 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

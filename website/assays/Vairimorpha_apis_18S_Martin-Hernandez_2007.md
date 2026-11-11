@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Martín-Hernández R, Meana A, Prieto L, Salvador AM, Garrido-Bailón E, Higes M. 2007. Outcome of Colonization of Apis mellifera by Nosema ceranae. Appl Environ Microbiol 73:6331-6338
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Vairimorpha_apis_18S_Martin-Hernandez_2007</span></p>
+<p class="aw-assay-line"><span class="aw-id">Vairimorpha_apis_18S_Martin-Hernandez_2007</span></p>
 
 **Vairimorpha apis — 18S rRNA (Martín-Hernández 2007)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 312 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

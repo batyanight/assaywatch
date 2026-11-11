@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Boyle DG et al. 2004. Dis Aquat Org 60:141-148
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004</span></p>
+<p class="aw-assay-line"><span class="aw-id">Batrachochytrium_dendrobatidis_ITS1_5_8S_Boyle_2004</span></p>
 
 **Batrachochytrium dendrobatidis — ITS1-5.8S rDNA (Boyle 2004)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 146 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

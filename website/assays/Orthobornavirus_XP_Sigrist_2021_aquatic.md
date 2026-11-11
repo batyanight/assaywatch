@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Sigrist, B., Geers, J., Albini, S., Rubbenstroth, D. & Wolfrum, N. A New Multiplex Real-Time RT-PCR for Simultaneous Detection and Differentiation of Avian Bornaviruses. Viruses 13, 1358 (2021).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Orthobornavirus_XP_Sigrist_2021_aquatic</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthobornavirus_XP_Sigrist_2021_aquatic</span></p>
 
 **Orthobornavirus — X/P (Sigrist 2021, aquatic)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 123 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

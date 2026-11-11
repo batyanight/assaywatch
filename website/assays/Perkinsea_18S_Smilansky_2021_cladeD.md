@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Smilansky, V., Chambouvet, A., Reeves, M., Richards, T. A. & Milner, D. S. A novel duplex qPCR assay for stepwise detection of multiple Perkinsea protistan infections of amphibian tissues. Royal Society Open Science 8, 202150 (2021).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Perkinsea_18S_Smilansky_2021_cladeD</span></p>
+<p class="aw-assay-line"><span class="aw-id">Perkinsea_18S_Smilansky_2021_cladeD</span></p>
 
 **Perkinsea — 18S rRNA (Smilansky 2021, cladeD)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 287 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

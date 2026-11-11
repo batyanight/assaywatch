@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Baek HE, Bandivadekar RR, Pandit P, Mah M, Sehgal RNM, Tell LA. TaqMan quantitative real-time PCR for detecting Avipoxvirus DNA in various sample types from hummingbirds. PLoS ONE 15(6):e0230701 (2020).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Avipoxvirus_4b_Baek_2020</span></p>
+<p class="aw-assay-line"><span class="aw-id">Avipoxvirus_4b_Baek_2020</span></p>
 
 **Avipoxvirus — 4b (core protein) (Baek 2020)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 123 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

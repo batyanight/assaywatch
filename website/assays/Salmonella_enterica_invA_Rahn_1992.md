@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Rahn K et al. 1992. Mol Cell Probes 6:271-279
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Salmonella_enterica_invA_Rahn_1992</span></p>
+<p class="aw-assay-line"><span class="aw-id">Salmonella_enterica_invA_Rahn_1992</span></p>
 
 **Salmonella enterica — invA (Rahn 1992)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 285 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Conley KJ et al. 2021. Systemic Helicobacter infection and associated mortalities in endangered Grand Cayman blue iguanas (Cyclura lewisi) and introduced green iguanas (Iguana iguana). PLoS One 16:e0247010
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Helicobacter_16S_Conley_2021</span></p>
+<p class="aw-assay-line"><span class="aw-id">Helicobacter_16S_Conley_2021</span></p>
 
 **Helicobacter — 16S rRNA (Conley 2021)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 191 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

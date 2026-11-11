@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Forslund O et al. 1999. J Gen Virol 80:2437-2443 (FAP59/FAP64)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Papillomaviridae_L1_Forslund_1999</span></p>
+<p class="aw-assay-line"><span class="aw-id">Papillomaviridae_L1_Forslund_1999</span></p>
 
 **Papillomaviridae — L1 (Forslund 1999)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 484 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

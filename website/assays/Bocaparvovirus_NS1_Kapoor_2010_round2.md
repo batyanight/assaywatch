@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Kapoor A et al. 2010. PLoS ONE 5:e11948 (PANBOV primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Bocaparvovirus_NS1_Kapoor_2010_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Bocaparvovirus_NS1_Kapoor_2010_round2</span></p>
 
 **Bocaparvovirus — NS1 (Kapoor 2010), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 294 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

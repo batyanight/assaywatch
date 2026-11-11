@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Meyer H, Ropp SL, Esposito JJ. Gene for A-type inclusion body protein is useful for a polymerase chain reaction assay to differentiate orthopoxviruses. J Virol Methods 64:217-221 (1997).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Orthopoxvirus_ATI_Meyer_1997</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthopoxvirus_ATI_Meyer_1997</span></p>
 
 **Orthopoxvirus — ATI (A-type inclusion body protein) (Meyer 1997)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 540–1700 bp, varies by species |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 <p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
 | species | product | records |

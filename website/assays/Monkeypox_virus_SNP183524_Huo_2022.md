@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Huo S, Chen Y, Lu R, Zhang Z, Zhang G, Zhao L, Deng Y, Wu C, Tan W. 2022. Development of two multiplex real-time PCR assays for simultaneous detection and differentiation of monkeypox virus IIa, IIb, and I clades and the B.1 lineage. Biosaf Health 4:392-398
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Monkeypox_virus_SNP183524_Huo_2022</span></p>
+<p class="aw-assay-line"><span class="aw-id">Monkeypox_virus_SNP183524_Huo_2022</span></p>
 
 **Monkeypox virus — SNP-typing locus 183524-183539 (Huo 2022)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 81 bp |
 | Registry status | draft |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

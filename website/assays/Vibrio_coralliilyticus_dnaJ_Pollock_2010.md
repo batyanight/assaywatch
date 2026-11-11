@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Pollock, F. J., Morris, P. J., Willis, B. L. & Bourne, D. G. Detection and Quantification of the Coral Pathogen Vibrio coralliilyticus by Real-Time PCR with TaqMan Fluorescent Probes. Applied and Environmental Microbiology 76, 5282-5286 (2010).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">Vibrio_coralliilyticus_dnaJ_Pollock_2010</span></p>
+<p class="aw-assay-line"><span class="aw-id">Vibrio_coralliilyticus_dnaJ_Pollock_2010</span></p>
 
 **Vibrio coralliilyticus — dnaJ (Pollock 2010)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 128 bp |
 | Registry status | active |
-| Verdict | watch |
+| Verdict | <span class="aw-chip aw-chip-watch">watch</span> |
 
 ## Oligos
 

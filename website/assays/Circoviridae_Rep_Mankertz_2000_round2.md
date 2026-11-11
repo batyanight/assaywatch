@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Mankertz A et al. 2000. Arch Virol 145:2469-2479 (nested round)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Circoviridae_Rep_Mankertz_2000_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Circoviridae_Rep_Mankertz_2000_round2</span></p>
 
 **Circoviridae — Rep (Mankertz 2000), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 274 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

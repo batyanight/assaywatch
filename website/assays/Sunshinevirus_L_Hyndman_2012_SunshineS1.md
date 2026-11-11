@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hyndman TH et al. 2012. Vet Microbiol 161:77-87
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Sunshinevirus_L_Hyndman_2012_SunshineS1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Sunshinevirus_L_Hyndman_2012_SunshineS1</span></p>
 
 **Sunshinevirus — L (RNA-dependent RNA polymerase) (Hyndman 2012, SunshineS1)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 153 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Watanabe S et al. 2010. Emerg Infect Dis 16:1217-1223 (pan-CoV RdRp consensus pair, made degenerate by the PREDICT panel)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Coronaviridae_RdRp_Watanabe_2010</span></p>
+<p class="aw-assay-line"><span class="aw-id">Coronaviridae_RdRp_Watanabe_2010</span></p>
 
 **Coronaviridae — RNA-dependent RNA polymerase (Watanabe 2010)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 440 bp |
 | Registry status | draft |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

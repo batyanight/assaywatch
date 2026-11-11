@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Spackman E et al. 2002. J Clin Microbiol 40:3256-3260 (matrix primers/probe); 2003 Avian Dis 47:1079 is the field validation, doi 10.1637/0005-2086-47.S3.1079
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Influenza_A_virus_M_Spackman_2002</span></p>
+<p class="aw-assay-line"><span class="aw-id">Influenza_A_virus_M_Spackman_2002</span></p>
 
 **Influenza A virus — M1 (matrix) (Spackman 2002)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 100 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

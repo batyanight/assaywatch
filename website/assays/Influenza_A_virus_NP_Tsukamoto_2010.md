@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Tsukamoto K, Noguchi D, Suzuki K, Shishido M, Ashizawa T, Kim MC, Lee YJ, Tada T. Broad detection of diverse H5 and H7 hemagglutinin genes of avian influenza viruses by real-time reverse transcription-PCR using primer and probe sets containing mixed bases. J Clin Microbiol 48(11):4275-4278 (2010).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Influenza_A_virus_NP_Tsukamoto_2010</span></p>
+<p class="aw-assay-line"><span class="aw-id">Influenza_A_virus_NP_Tsukamoto_2010</span></p>
 
 **Influenza A virus — NP (nucleoprotein) (Tsukamoto 2010)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 329 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

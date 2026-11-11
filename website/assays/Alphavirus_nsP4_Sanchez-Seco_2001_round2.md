@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Sánchez-Seco MP et al. 2001. J Virol Methods 95:153-161 (Alpha1/Alpha2 nsP4 nested PCR)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Alphavirus_nsP4_Sanchez-Seco_2001_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Alphavirus_nsP4_Sanchez-Seco_2001_round2</span></p>
 
 **Alphavirus — nsP4 (Sánchez-Seco 2001), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 196 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

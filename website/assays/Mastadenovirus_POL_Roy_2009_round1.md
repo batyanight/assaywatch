@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Roy S, Vandenberghe LH, Kryazhimskiy S, Grant R, Calcedo R, Yuan X, Keough M, Sandhu A, Wang Q, Medina-Jaszek CA, Plotkin JB, Wilson JM. 2009. Isolation and characterization of adenoviruses persistently shed from the gastrointestinal tract of non-human primates. PLoS Pathog 5:e1000503 (nested DNA polymerase PCR, outer primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Mastadenovirus_POL_Roy_2009_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Mastadenovirus_POL_Roy_2009_round1</span></p>
 
 **Mastadenovirus — DNA polymerase (Roy 2009), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 1512 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

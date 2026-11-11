@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Zhu G, Marchewka MJ, Keithly JS. 2000. Microbiology 146:315-321
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Apicomplexa_23S_Zhu_2000</span></p>
+<p class="aw-assay-line"><span class="aw-id">Apicomplexa_23S_Zhu_2000</span></p>
 
 **Apicomplexa — 23S rRNA (apicoplast) (Zhu 2000)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 720 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Yang J-R et al. 2014. J Clin Microbiol 52:76-82
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Influenza_A_virus_M1_Yang_2014</span></p>
+<p class="aw-assay-line"><span class="aw-id">Influenza_A_virus_M1_Yang_2014</span></p>
 
 **Influenza A virus — M1 (matrix) (Yang 2014)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 95 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

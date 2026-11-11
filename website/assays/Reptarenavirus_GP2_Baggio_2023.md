@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Baggio, F.; Hetzel, U.; Prähauser, B.; Dervas, E.; Michalopoulou, E.; Thiele, T.; Kipar, A.; Hepojoki, J. A Multiplex RT-PCR Method for the Detection of Reptarenavirus Infection. Viruses 2023, 15, 2313.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Reptarenavirus_GP2_Baggio_2023</span></p>
+<p class="aw-assay-line"><span class="aw-id">Reptarenavirus_GP2_Baggio_2023</span></p>
 
 **Reptarenavirus — S segment (GP2 region) (Baggio 2023)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 145 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

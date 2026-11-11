@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Zhai, J. H. et al. Rapid molecular strategy for filovirus detection and characterization. Journal of clinical microbiology 45, 224-226, doi:Doi 10.1128/Jcm.01893-06 (2007).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Filoviridae_L_Zhai_2007_Filo_U12683_A</span></p>
+<p class="aw-assay-line"><span class="aw-id">Filoviridae_L_Zhai_2007_Filo_U12683_A</span></p>
 
 **Filoviridae — L (RNA-dependent RNA polymerase) (Zhai 2007, Filo U12683 A)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 634 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

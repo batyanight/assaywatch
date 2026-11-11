@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Gao GP et al. 2002. Proc Natl Acad Sci USA 99:11854-11859 (AAV signature-region primers 19s/18as)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Dependoparvovirus_VP1_Gao_2002_1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Dependoparvovirus_VP1_Gao_2002_1</span></p>
 
 **Dependoparvovirus — VP1 (Gao 2002, 1)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 255 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

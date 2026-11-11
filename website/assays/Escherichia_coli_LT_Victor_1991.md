@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Victor T, du Toit R, van Zyl J, Bester AJ, van Helden PD. 1991. Improved method for the routine identification of toxigenic Escherichia coli by DNA amplification of a conserved region of the heat-labile toxin A subunit. J Clin Microbiol 29:158-161
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Escherichia_coli_LT_Victor_1991</span></p>
+<p class="aw-assay-line"><span class="aw-id">Escherichia_coli_LT_Victor_1991</span></p>
 
 **Escherichia coli — LT (heat-labile enterotoxin) (Victor 1991)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 117 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

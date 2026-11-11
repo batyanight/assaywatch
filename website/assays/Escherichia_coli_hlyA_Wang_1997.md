@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Wang RF, Cao WW, Cerniglia CE. 1997. A universal protocol for PCR detection of 13 species of foodborne pathogens in foods. J Appl Microbiol 83:727-736
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Escherichia_coli_hlyA_Wang_1997</span></p>
+<p class="aw-assay-line"><span class="aw-id">Escherichia_coli_hlyA_Wang_1997</span></p>
 
 **Escherichia coli — hlyA (hemolysin) (Wang 1997)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 361 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

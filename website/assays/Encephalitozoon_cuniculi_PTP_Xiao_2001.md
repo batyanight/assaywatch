@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Xiao L, Li L, Visvesvara GS, Moura H, Didier ES, Lal AA. 2001. Genotyping Encephalitozoon cuniculi by multilocus analyses of genes with repetitive sequences. J Clin Microbiol 39:2248-2253
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Encephalitozoon_cuniculi_PTP_Xiao_2001</span></p>
+<p class="aw-assay-line"><span class="aw-id">Encephalitozoon_cuniculi_PTP_Xiao_2001</span></p>
 
 **Encephalitozoon cuniculi — polar tube protein (Xiao 2001)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 275–373 bp, varies by species |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 <p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
 | species | product | records |

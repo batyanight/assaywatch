@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Rentería-Solís Z, Nguyen-Ho-Bao T, Taha S, Daugschies A. A SYBR green I real-time polymerase chain reaction (PCR) assay for detection and quantification of Trichomonas gallinae.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Trichomonas_gallinae_18S_Renteria-Solis_2020</span></p>
+<p class="aw-assay-line"><span class="aw-id">Trichomonas_gallinae_18S_Renteria-Solis_2020</span></p>
 
 **Trichomonas gallinae — 18S rRNA (Rentería-Solís 2020)**
 
@@ -18,7 +18,7 @@
 | Chemistry | sybr |
 | Amplicon | 113 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

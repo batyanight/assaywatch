@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Pallister J et al. 2007. J Fish Dis 30:427-438
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">Ranavirus_VIR_Pallister_2007</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ranavirus_VIR_Pallister_2007</span></p>
 
 **Ranavirus — variable intergenic region (Pallister 2007)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 186–749 bp, varies |
 | Registry status | active |
-| Verdict | watch |
+| Verdict | <span class="aw-chip aw-chip-watch">watch</span> |
 
 ## Oligos
 

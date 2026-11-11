@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Aqrawi, T., Stöhr, A. C., Knauf-Witzens, T., Krengel, A., Heckers, K. O. & Marschang, R. E. Nachweis und Charakterisierung von Schlangenarenaviren bei lebenden Boas und Pythons in einem deutschen Zoo. Tierärztliche Praxis Ausgabe K: Kleintiere / Heimtiere 43, 239-247 (2015).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Reptarenavirus_GP_Aqrawi_2015</span></p>
+<p class="aw-assay-line"><span class="aw-id">Reptarenavirus_GP_Aqrawi_2015</span></p>
 
 **Reptarenavirus — glycoprotein (Aqrawi 2015)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 287 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

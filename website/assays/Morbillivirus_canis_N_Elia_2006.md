@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Elia G, Decaro N, Martella V, Cirone F, Lucente MS, Lorusso E, Di Trani L, Buonavoglia C. Detection of canine distemper virus in dogs by real-time RT-PCR. J Virol Methods 2006;136:171-176.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Morbillivirus_canis_N_Elia_2006</span></p>
+<p class="aw-assay-line"><span class="aw-id">Morbillivirus_canis_N_Elia_2006</span></p>
 
 **Morbillivirus canis — N (nucleoprotein) (Elia 2006)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 83 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

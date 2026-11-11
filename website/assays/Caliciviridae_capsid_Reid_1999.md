@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Reid, S. M. et al. Development of a reverse transcription polymerase chain reaction procedure for the detection of marine caliciviruses with potential application for nucleotide sequencing. Journal of Virological Methods 82, 99-107 (1999).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Caliciviridae_capsid_Reid_1999</span></p>
+<p class="aw-assay-line"><span class="aw-id">Caliciviridae_capsid_Reid_1999</span></p>
 
 **Caliciviridae — capsid protein (Reid 1999)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 768 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

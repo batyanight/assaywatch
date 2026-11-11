@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Chu DK, Poon LL, Guan Y, Peiris JS. 2008. Novel astroviruses in insectivorous bats. J Virol 82:9107-9114
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Astroviridae_RdRp_Chu_2008_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Astroviridae_RdRp_Chu_2008_round2</span></p>
 
 **Astroviridae — RNA-dependent RNA polymerase (Chu 2008), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 367–489 bp, varies |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Neill JD, Seal BS 1995. Mol Cell Probes 9:33-37
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Caliciviridae_helicase_Neill_1995</span></p>
+<p class="aw-assay-line"><span class="aw-id">Caliciviridae_helicase_Neill_1995</span></p>
 
 **Caliciviridae — 2C (helicase) (Neill 1995)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 357 bp |
 | Registry status | draft |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hellgren O, Waldenström J, Bensch S. 2004. J Parasitol 90:797-802
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Haemosporida_cytb_Hellgren_2004_HaemNFI</span></p>
+<p class="aw-assay-line"><span class="aw-id">Haemosporida_cytb_Hellgren_2004_HaemNFI</span></p>
 
 **Haemosporida — cytochrome b (Hellgren 2004, HaemNFI)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 618 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

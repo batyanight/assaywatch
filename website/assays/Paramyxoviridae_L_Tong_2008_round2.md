@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Tong S et al. 2008. J Clin Microbiol 46:2652-2658 (PAR-F2/PAR-R round 2)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Paramyxoviridae_L_Tong_2008_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Paramyxoviridae_L_Tong_2008_round2</span></p>
 
 **Paramyxoviridae — L (RNA-dependent RNA polymerase) (Tong 2008), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 561 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Steyn J et al. 2020. Shuni Virus in Wildlife and Nonequine Domestic Animals, South Africa. Emerg Infect Dis 26:1521-1525
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Orthobunyavirus_S_Steyn_2020</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthobunyavirus_S_Steyn_2020</span></p>
 
 **Orthobunyavirus — S segment (Steyn 2020)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 152 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Wang RF, Cao WW, Cerniglia CE. 1997. A universal protocol for PCR detection of 13 species of foodborne pathogens in foods. J Appl Microbiol 83:727-736
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Yersinia_pseudotuberculosis_inv_Wang_1997</span></p>
+<p class="aw-assay-line"><span class="aw-id">Yersinia_pseudotuberculosis_inv_Wang_1997</span></p>
 
 **Yersinia pseudotuberculosis — inv (invasin) (Wang 1997)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 440 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Klee, J.; Tek Tay, W.; Paxton, R. J. Specific and sensitive detection of Nosema bombi (Microsporidia: Nosematidae) in bumble bees (Bombus spp.; Hymenoptera: Apidae) by PCR of partial rRNA gene sequences. Journal of Invertebrate Pathology 2006, 91, 98-104.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Vairimorpha_bombi_18S_Klee_2006</span></p>
+<p class="aw-assay-line"><span class="aw-id">Vairimorpha_bombi_18S_Klee_2006</span></p>
 
 **Vairimorpha bombi — 18S rRNA (Klee 2006)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 323 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

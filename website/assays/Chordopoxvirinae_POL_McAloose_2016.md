@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     McAloose D, ..., Seimon T, ..., Uhart M. 2016. Post-mortem findings in southern right whales Eubalaena australis at Peninsula Valdes, Argentina, 2003-2012. Dis Aquat Organ 119:17-36 (pan-poxvirus DNA polymerase PCR)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Chordopoxvirinae_POL_McAloose_2016</span></p>
+<p class="aw-assay-line"><span class="aw-id">Chordopoxvirinae_POL_McAloose_2016</span></p>
 
 **Chordopoxvirinae — DNA polymerase (McAloose 2016)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 188 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

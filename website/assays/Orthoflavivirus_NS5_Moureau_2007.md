@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Moureau, G. et al. A Real-Time RT-PCR Method for the Universal Detection and Identification of Flaviviruses. Vector Borne Zoonotic Dis 7, 467-478 (2007).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Orthoflavivirus_NS5_Moureau_2007</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthoflavivirus_NS5_Moureau_2007</span></p>
 
 **Orthoflavivirus — NS5 (Moureau 2007)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 270 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

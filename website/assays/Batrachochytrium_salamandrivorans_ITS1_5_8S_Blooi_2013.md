@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Blooi M et al. 2013. J Clin Microbiol 51:4173-4177
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013</span></p>
+<p class="aw-assay-line"><span class="aw-id">Batrachochytrium_salamandrivorans_ITS1_5_8S_Blooi_2013</span></p>
 
 **Batrachochytrium salamandrivorans — ITS1-5.8S rDNA (Blooi 2013)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | — |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Scaramozzino N et al. 2001. J Clin Microbiol 39:1922-1927 (MAMD / cFD2 universal flavivirus NS5 primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Orthoflavivirus_NS5_Scaramozzino_2001_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthoflavivirus_NS5_Scaramozzino_2001_round1</span></p>
 
 **Orthoflavivirus — NS5 (Scaramozzino 2001), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 263 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

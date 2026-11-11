@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Ahne W et al. 1999. Virus Res 63:65-74
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Ferlavirus_HN_Ahne_1999_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ferlavirus_HN_Ahne_1999_round2</span></p>
 
 **Ferlavirus — HN (hemagglutinin-neuraminidase) (Ahne 1999), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 399 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

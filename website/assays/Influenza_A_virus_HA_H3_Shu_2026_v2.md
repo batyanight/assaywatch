@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Shu B et al. 2026. J Clin Microbiol
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Influenza_A_virus_HA_H3_Shu_2026_v2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Influenza_A_virus_HA_H3_Shu_2026_v2</span></p>
 
 **Influenza A virus — HA (hemagglutinin), H3 (Shu 2026, v2)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 103 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

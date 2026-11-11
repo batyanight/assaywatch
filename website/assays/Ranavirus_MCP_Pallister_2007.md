@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Pallister J et al. 2007. J Fish Dis 30:427-438
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">Ranavirus_MCP_Pallister_2007</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ranavirus_MCP_Pallister_2007</span></p>
 
 **Ranavirus — MCP (major capsid protein) (Pallister 2007)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 57 bp |
 | Registry status | active |
-| Verdict | watch |
+| Verdict | <span class="aw-chip aw-chip-watch">watch</span> |
 
 ## Oligos
 

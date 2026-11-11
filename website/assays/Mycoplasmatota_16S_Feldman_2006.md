@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Feldman SH et al. 2006. J Wildl Dis 42:279-288
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Mycoplasmatota_16S_Feldman_2006</span></p>
+<p class="aw-assay-line"><span class="aw-id">Mycoplasmatota_16S_Feldman_2006</span></p>
 
 **Mycoplasmatota — 16S rRNA (Feldman 2006)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 994 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

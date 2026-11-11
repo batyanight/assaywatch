@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Fox JG et al. 1998. Gastroenterology 114:755-763
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Helicobacter_16S_Fox_1998_C05</span></p>
+<p class="aw-assay-line"><span class="aw-id">Helicobacter_16S_Fox_1998_C05</span></p>
 
 **Helicobacter — 16S rRNA (Fox 1998, C05)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 1196 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

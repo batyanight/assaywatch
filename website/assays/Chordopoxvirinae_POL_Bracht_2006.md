@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Bracht, A. J. et al. Genetic identification of novel poxviruses of cetaceans and pinnipeds. Archives of virology 151, 423-438, doi:Doi 10.1007/s00705-005-0679-6 (2006).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Chordopoxvirinae_POL_Bracht_2006</span></p>
+<p class="aw-assay-line"><span class="aw-id">Chordopoxvirinae_POL_Bracht_2006</span></p>
 
 **Chordopoxvirinae — DNA polymerase (Bracht 2006)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 543 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

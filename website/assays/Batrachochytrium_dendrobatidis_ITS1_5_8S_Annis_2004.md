@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Annis SL et al. 2004. J Wildl Dis 40:420-428
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Batrachochytrium_dendrobatidis_ITS1_5_8S_Annis_2004</span></p>
+<p class="aw-assay-line"><span class="aw-id">Batrachochytrium_dendrobatidis_ITS1_5_8S_Annis_2004</span></p>
 
 **Batrachochytrium dendrobatidis — ITS1-5.8S rDNA (Annis 2004)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 300 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

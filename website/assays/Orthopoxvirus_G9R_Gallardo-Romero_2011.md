@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Gallardo-Romero NF, Velasco-Villa A, Weiss SL, Emerson GL, Carroll DS, Hughes CM, Li Y, Karem KL, Damon IK, Olson VA. 2011. Detection of North American orthopoxviruses by real time-PCR. Virol J 8:313
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Orthopoxvirus_G9R_Gallardo-Romero_2011</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthopoxvirus_G9R_Gallardo-Romero_2011</span></p>
 
 **Orthopoxvirus — G9R (myristylated protein) (Gallardo-Romero 2011)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 156 bp |
 | Registry status | draft |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

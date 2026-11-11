@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Deckers, M.; Hofmann, J.; Kreuzer, K. A.; Reinhard, H.; Edubio, A.; Hengel, H. High genotypic diversity and a novel variant of human cytomegalovirus revealed by combined UL33/UL55 genotyping with broad-range PCR. Virology Journal 2009, 6, 210.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Cytomegalovirus_gB_Deckers_2009_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Cytomegalovirus_gB_Deckers_2009_round1</span></p>
 
 **Cytomegalovirus — gB (glycoprotein B) (Deckers 2009), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 803 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

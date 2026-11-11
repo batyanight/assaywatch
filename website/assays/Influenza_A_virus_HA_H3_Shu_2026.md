@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Shu B et al. 2026. J Clin Microbiol (prints the oligos); assay source FDA 510(k) K080570 (2008)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Influenza_A_virus_HA_H3_Shu_2026</span></p>
+<p class="aw-assay-line"><span class="aw-id">Influenza_A_virus_HA_H3_Shu_2026</span></p>
 
 **Influenza A virus — HA (hemagglutinin), H3 (Shu 2026)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 147 bp |
 | Registry status | draft |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

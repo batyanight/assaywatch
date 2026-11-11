@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Clewley JP et al. 1998. J Virol 72:10305-10309
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Simian_immunodeficiency_virus_pol_Clewley_1998_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Simian_immunodeficiency_virus_pol_Clewley_1998_round2</span></p>
 
 **Simian immunodeficiency virus — pol (Clewley 1998), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 194 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

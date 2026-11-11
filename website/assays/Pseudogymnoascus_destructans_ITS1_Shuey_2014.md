@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Shuey, M. M., Drees, K. P., Lindner, D. L., Keim, P. & Foster, J. T. Highly Sensitive Quantitative PCR for the Detection and Differentiation of Pseudogymnoascus destructans and Other Pseudogymnoascus Species. Applied and Environmental Microbiology 80, 1726-1731 (2014).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Pseudogymnoascus_destructans_ITS1_Shuey_2014</span></p>
+<p class="aw-assay-line"><span class="aw-id">Pseudogymnoascus_destructans_ITS1_Shuey_2014</span></p>
 
 **Pseudogymnoascus destructans — ITS1 (Shuey 2014)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 140 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Scaramozzino N et al. 2001 (cFD2); FS778 hemi-nested forward also from this paper
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Orthoflavivirus_NS5_Scaramozzino_2001_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthoflavivirus_NS5_Scaramozzino_2001_round2</span></p>
 
 **Orthoflavivirus — NS5 (Scaramozzino 2001), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 250 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

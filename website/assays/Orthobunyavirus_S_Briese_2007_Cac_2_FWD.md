@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Briese, T., Kapoor, V. & Lipkin, W. I. Natural M-segment reassortment in Potosi and Main Drain viruses: implications for the evolution of orthobunyaviruses. Archives of Virology 152, 2237-2247 (2007).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Orthobunyavirus_S_Briese_2007_Cac_2_FWD</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthobunyavirus_S_Briese_2007_Cac_2_FWD</span></p>
 
 **Orthobunyavirus — S segment (Briese 2007, Cac 2 FWD)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 471 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

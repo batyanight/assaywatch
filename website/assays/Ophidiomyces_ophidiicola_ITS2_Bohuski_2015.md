@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Bohuski E et al. 2015. BMC Vet Res 11:95
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Ophidiomyces_ophidiicola_ITS2_Bohuski_2015</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ophidiomyces_ophidiicola_ITS2_Bohuski_2015</span></p>
 
 **Ophidiomyces ophidiicola — ITS2 (Bohuski 2015)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 82 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

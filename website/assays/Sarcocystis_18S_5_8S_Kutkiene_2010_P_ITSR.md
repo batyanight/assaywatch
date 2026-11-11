@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Kutkienė L et al. 2010. Parasitol Res 107:879-888
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-watch">watch</span> <span class="aw-id">Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR</span></p>
+<p class="aw-assay-line"><span class="aw-id">Sarcocystis_18S_5_8S_Kutkiene_2010_P_ITSR</span></p>
 
 **Sarcocystis — 18S-ITS1-5.8S rDNA (Kutkienė 2010, P ITSR)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 568–1294 bp, varies by species |
 | Registry status | active |
-| Verdict | watch |
+| Verdict | <span class="aw-chip aw-chip-watch">watch</span> |
 
 <p class="aw-rounds-note">Product size by species, measured on GenBank records:</p>
 | species | product | records |

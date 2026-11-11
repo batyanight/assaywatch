@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Rebelo AR et al. 2011. J Vet Diagn Invest 23:932-936
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F</span></p>
+<p class="aw-assay-line"><span class="aw-id">Mycoplasma_16S23S_ITS_Rebelo_2011_Myco16_23S_F</span></p>
 
 **Mycoplasma — 16S-23S intergenic spacer (Rebelo 2011, Myco16 23S F)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 354–767 bp, varies |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

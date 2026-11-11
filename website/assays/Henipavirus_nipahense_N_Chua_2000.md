@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Chua KB, Bellini WJ, Rota PA, Harcourt BH, Tamin A, Lam SK, Ksiazek TG, Rollin PE, Zaki SR, Shieh WJ, Goldsmith CS, Gubler DJ, Roehrig JT, Eaton B, Gould AR, Olson J, Field H, Daniels P, Ling AE, Peters CJ, Anderson LJ, Mahy BWJ. 2000. Nipah virus - a recently emergent deadly paramyxovirus. Science 288:1432-1435
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Henipavirus_nipahense_N_Chua_2000</span></p>
+<p class="aw-assay-line"><span class="aw-id">Henipavirus_nipahense_N_Chua_2000</span></p>
 
 **Henipavirus nipahense — N (nucleoprotein) (Chua 2000)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 227 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

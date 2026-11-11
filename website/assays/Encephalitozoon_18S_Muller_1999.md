@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Müller A et al. 1999 Clin Diagn Lab Immunol; PMP1/PMP2 pan-microsporidial primers are usually credited to Fedorko DP et al. 1995 J Clin Microbiol 33:1739 — check which paper these sequences come from
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Encephalitozoon_18S_Muller_1999</span></p>
+<p class="aw-assay-line"><span class="aw-id">Encephalitozoon_18S_Muller_1999</span></p>
 
 **Encephalitozoon — 18S rRNA (Müller 1999)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 279 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

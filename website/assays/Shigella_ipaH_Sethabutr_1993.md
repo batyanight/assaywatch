@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Sethabutr O et al. 1993. J Infect Dis 167:458-461
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Shigella_ipaH_Sethabutr_1993</span></p>
+<p class="aw-assay-line"><span class="aw-id">Shigella_ipaH_Sethabutr_1993</span></p>
 
 **Shigella — ipaH (Sethabutr 1993)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 620 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Alvarez WA et al. 2013. Vet Parasitol 193:66-70 (the TINC qPCR design paper; INCqPCRF/INCqPCR2R and the 6FAM-BHQ probe)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Intranuclear_coccidium_JW_2004_18S_Alvarez_2013</span></p>
+<p class="aw-assay-line"><span class="aw-id">Intranuclear_coccidium_JW_2004_18S_Alvarez_2013</span></p>
 
 **Intranuclear coccidium JW-2004 — 18S rRNA (Alvarez 2013, 18S Alvarez 2013)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 84 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

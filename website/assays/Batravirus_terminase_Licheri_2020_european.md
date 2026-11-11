@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Licheri M, Origgi FC. Consensus PCR protocols for the detection of amphibian herpesviruses (Batrachovirus). Journal of Veterinary Diagnostic Investigation 2020, 32(6):864-872.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Batravirus_terminase_Licheri_2020_european</span></p>
+<p class="aw-assay-line"><span class="aw-id">Batravirus_terminase_Licheri_2020_european</span></p>
 
 **Batravirus — terminase (Licheri 2020, european)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 200 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

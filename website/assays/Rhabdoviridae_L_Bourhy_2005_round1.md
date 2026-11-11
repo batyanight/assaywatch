@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Bourhy, H., Cowley, J. A., Larrous, F., Holmes, E. C. & Walker, P. J. Phylogenetic relationships among rhabdoviruses inferred using the L polymerase gene. J Gen Virol 86, 2849-2858 (2005).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Rhabdoviridae_L_Bourhy_2005_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Rhabdoviridae_L_Bourhy_2005_round1</span></p>
 
 **Rhabdoviridae — L (RNA-dependent RNA polymerase) (Bourhy 2005), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 460 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

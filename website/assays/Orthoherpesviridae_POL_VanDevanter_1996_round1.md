@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     VanDevanter DR et al. 1996. J Clin Microbiol 34:1666-1671 (DFA/ILK/KG1 nested pan-herpesvirus DPOL PCR)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Orthoherpesviridae_POL_VanDevanter_1996_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthoherpesviridae_POL_VanDevanter_1996_round1</span></p>
 
 **Orthoherpesviridae — DNA polymerase (VanDevanter 1996), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 734 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

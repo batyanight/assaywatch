@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Deformed_wing_virus_B_polyprotein_Rossi_2024</span></p>
+<p class="aw-assay-line"><span class="aw-id">Deformed_wing_virus_B_polyprotein_Rossi_2024</span></p>
 
 **Deformed wing virus B — polyprotein (Rossi 2024)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 138 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

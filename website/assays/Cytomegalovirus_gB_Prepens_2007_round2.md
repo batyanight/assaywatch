@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Prepens S et al. 2007. Virol J 4:84
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Cytomegalovirus_gB_Prepens_2007_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Cytomegalovirus_gB_Prepens_2007_round2</span></p>
 
 **Cytomegalovirus — gB (glycoprotein B) (Prepens 2007), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 250 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

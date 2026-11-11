@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Scagliarini A et al. 2007. Vet Res Commun 31(Suppl 1):261-263
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Morbillivirus_canis_P_Scagliarini_2007</span></p>
+<p class="aw-assay-line"><span class="aw-id">Morbillivirus_canis_P_Scagliarini_2007</span></p>
 
 **Morbillivirus canis — P (phosphoprotein) (Scagliarini 2007)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 114 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

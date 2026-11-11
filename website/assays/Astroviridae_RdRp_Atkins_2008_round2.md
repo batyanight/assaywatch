@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Atkins, A. et al. Characterization of an outbreak of astroviral diarrhea in a group of cheetahs (Acinonyx jubatus). Veterinary microbiology 136, 160-165, doi:10.1016/j.vetmic.2008.10.035 (2009).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Astroviridae_RdRp_Atkins_2008_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Astroviridae_RdRp_Atkins_2008_round2</span></p>
 
 **Astroviridae — RNA-dependent RNA polymerase (Atkins 2008), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 342 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Garner MM et al. 2006. Vet Pathol 43:311-320
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Apicomplexa_18S_Garner_2006</span></p>
+<p class="aw-assay-line"><span class="aw-id">Apicomplexa_18S_Garner_2006</span></p>
 
 **Apicomplexa — 18S rRNA (Garner 2006)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 350 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

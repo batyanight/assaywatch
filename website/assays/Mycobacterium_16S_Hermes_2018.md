@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Hermes R, Saragusty J, Moser I, Barth SA, Holtze S, Lecu A, Cracknell J, Williams D, Goeritz F, Hildebrandt TB. 2018. Differential detection of tuberculous and non-tuberculous mycobacteria by qPCR in lavage fluids of tuberculosis-suspicious white rhinoceros. PLoS One 13:e0207365
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Mycobacterium_16S_Hermes_2018</span></p>
+<p class="aw-assay-line"><span class="aw-id">Mycobacterium_16S_Hermes_2018</span></p>
 
 **Mycobacterium — 16S rRNA (Hermes 2018)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 204 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

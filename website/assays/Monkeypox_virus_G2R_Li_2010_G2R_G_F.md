@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Li Y, Zhao H, Wilkins K, Hughes C, Damon IK. 2010. Real-time PCR assays for the specific detection of monkeypox virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Monkeypox_virus_G2R_Li_2010_G2R_G_F</span></p>
+<p class="aw-assay-line"><span class="aw-id">Monkeypox_virus_G2R_Li_2010_G2R_G_F</span></p>
 
 **Monkeypox virus — G2R (TNF receptor) (Li 2010, G2R G F)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 90 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

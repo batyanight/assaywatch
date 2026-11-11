@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Johne R et al. 2005. J Virol 79:3883-3887 (VP1 2f/2r = VP12F-JO2F / VP12R-JO2R)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Polyomaviridae_VP1_Johne_2005_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Polyomaviridae_VP1_Johne_2005_round2</span></p>
 
 **Polyomaviridae — VP1 (Johne 2005), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 271 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

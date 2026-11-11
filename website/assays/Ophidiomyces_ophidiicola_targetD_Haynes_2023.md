@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Haynes E, Lorch J, Allender MC. Development and application of a qPCR-based genotyping assay for Ophidiomyces ophidiicola to investigate the epidemiology of ophidiomycosis. PLoS ONE e0289159 (published 3 August 2023).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Ophidiomyces_ophidiicola_targetD_Haynes_2023</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ophidiomyces_ophidiicola_targetD_Haynes_2023</span></p>
 
 **Ophidiomyces ophidiicola — target D (unannotated genomic segment) (Haynes 2023)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 57 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

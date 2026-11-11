@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Zhao H, Wilkins K, Damon IK, Li Y. 2013. Specific qPCR assays for the detection of orf virus, pseudocowpox virus and bovine papular stomatitis virus. J Virol Methods 194:229-234
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Parapoxvirus_RPO147_Zhao_2013</span></p>
+<p class="aw-assay-line"><span class="aw-id">Parapoxvirus_RPO147_Zhao_2013</span></p>
 
 **Parapoxvirus — RPO147 (RNA polymerase subunit) (Zhao 2013)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 85 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Lorch, J. M. et al. Paranannizziopsis spp. infections in wild snakes and a qPCR assay for detection of the fungus. Frontiers in Microbiology 14, 1302586 (2023).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Paranannizziopsis_ITS_Lorch_2023</span></p>
+<p class="aw-assay-line"><span class="aw-id">Paranannizziopsis_ITS_Lorch_2023</span></p>
 
 **Paranannizziopsis — ITS (Lorch 2023)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 81 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

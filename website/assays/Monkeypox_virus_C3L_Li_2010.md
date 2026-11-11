@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Li Y, Zhao H, Wilkins K, Hughes C, Damon IK. 2010. Real-time PCR assays for the specific detection of monkeypox virus West African and Congo Basin strain DNA. J Virol Methods 169:223-227
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Monkeypox_virus_C3L_Li_2010</span></p>
+<p class="aw-assay-line"><span class="aw-id">Monkeypox_virus_C3L_Li_2010</span></p>
 
 **Monkeypox virus — C3L (complement binding protein) (Li 2010)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 100 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

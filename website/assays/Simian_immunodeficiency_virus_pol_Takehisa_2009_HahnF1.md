@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Takehisa J et al. 2009. J Virol 83:1635-1648 (outer primers of the nested pol set; HahnF1/HahnR1)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Simian_immunodeficiency_virus_pol_Takehisa_2009_HahnF1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Simian_immunodeficiency_virus_pol_Takehisa_2009_HahnF1</span></p>
 
 **Simian immunodeficiency virus — pol (Takehisa 2009, HahnF1)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 518 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

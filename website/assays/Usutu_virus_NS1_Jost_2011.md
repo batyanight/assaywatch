@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Jöst H, Bialonski A, Maus D, Sambri V, Eiden M, Groschup MH, Günther S, Becker N, Schmidt-Chanasit J. 2011. Isolation of Usutu virus in Germany. Am J Trop Med Hyg 85:551-553
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Usutu_virus_NS1_Jost_2011</span></p>
+<p class="aw-assay-line"><span class="aw-id">Usutu_virus_NS1_Jost_2011</span></p>
 
 **Usutu virus — NS1 (Jöst 2011)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 91 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

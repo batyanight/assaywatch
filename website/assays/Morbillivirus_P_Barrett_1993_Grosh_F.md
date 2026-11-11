@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Barrett T et al. 1993. Virology 193:1010-1012 (Grosh F/R are the same sequences as MorbF/MorbR)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Morbillivirus_P_Barrett_1993_Grosh_F</span></p>
+<p class="aw-assay-line"><span class="aw-id">Morbillivirus_P_Barrett_1993_Grosh_F</span></p>
 
 **Morbillivirus — P (phosphoprotein) (Barrett 1993, Grosh F)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 429 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

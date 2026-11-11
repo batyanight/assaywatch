@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Li Y, Meyer H, Zhao H, Damon IK. 2010. GC content-based pan-pox universal PCR assays for poxvirus detection. J Clin Microbiol 48:268-276
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Chordopoxvirinae_RPO147_Li_2010</span></p>
+<p class="aw-assay-line"><span class="aw-id">Chordopoxvirinae_RPO147_Li_2010</span></p>
 
 **Chordopoxvirinae — RPO147 (RNA polymerase subunit) (Li 2010)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 627 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

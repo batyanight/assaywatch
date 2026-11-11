@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Landolfi JA et al. 2010. J Vet Diagn Invest 22:37-43
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Orthoreovirus_RdRp_Landolfi_2010_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthoreovirus_RdRp_Landolfi_2010_round2</span></p>
 
 **Orthoreovirus — RNA-dependent RNA polymerase (Landolfi 2010), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 161 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Geiselhardt F, Peters M, Jo WK, Schadenhofer A, Puff C, Baumgärtner W, Kydyrmanov A, Kuiken T, Piewbang C, Techangamsuwan S, Osterhaus ADME, Beineke A, Ludlow M. Development and Validation of a Pan-Genotypic Real-Time Quantitative Reverse Transcription-PCR Assay To Detect Canine Distemper Virus and Phocine Distemper Virus in Domestic Animals and Wildlife. J Clin Microbiol 2022;60(5).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Morbillivirus_canis_P_Geiselhardt_2022</span></p>
+<p class="aw-assay-line"><span class="aw-id">Morbillivirus_canis_P_Geiselhardt_2022</span></p>
 
 **Morbillivirus canis — P (phosphoprotein) (Geiselhardt 2022)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 160 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

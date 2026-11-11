@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Ahmed, A., Goris, M. G. A. & Meijer, M. C. Development of lipL32 real-time PCR combined with an internal and extraction control for pathogenic Leptospira detection. PLOS ONE 15, e0241584 (2020).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Leptospira_lipL32_Ahmed_2020</span></p>
+<p class="aw-assay-line"><span class="aw-id">Leptospira_lipL32_Ahmed_2020</span></p>
 
 **Leptospira — lipL32 (Ahmed 2020)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 114 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

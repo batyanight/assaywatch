@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Boniotti, M. B., Gaffuri, A., Gelmetti, D., Tagliabue, S., Chiari, M., Mangeli, A., Spisani, M., Nassuato, C., Gibelli, L., Sacchi, C., Zanoni, M. & Pacciarini, M. L. Detection and Molecular Characterization of Mycobacterium microti Isolates in Wild Boar from Northern Italy. Journal of Clinical Microbiology 52, 2834-2843 (2014).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Mycobacterium_tuberculosis_complex_IS6110_Boniotti_2014</span></p>
+<p class="aw-assay-line"><span class="aw-id">Mycobacterium_tuberculosis_complex_IS6110_Boniotti_2014</span></p>
 
 **Mycobacterium tuberculosis complex — IS6110 (Boniotti 2014)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 209 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

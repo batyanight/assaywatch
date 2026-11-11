@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Wray AK, Olival KJ, Moran D, Lopez MR, Alvarez D, Navarrete-Macias I, Liang E, Simmons NB, Lipkin WI, Daszak P, Anthony SJ. 2016. Viral Diversity, Prey Preference, and Bartonella Prevalence in Desmodus rotundus in Guatemala. EcoHealth 13:761-774
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Enterovirus_5UTR_VP4_VP2_Wray_2016_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Enterovirus_5UTR_VP4_VP2_Wray_2016_round1</span></p>
 
 **Enterovirus — 5' UTR-VP4-VP2 (Wray 2016), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 752 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

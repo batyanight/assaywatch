@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Ibrahim A, Liesack W, Stackebrandt E. 1992. J Clin Microbiol 30:1942-1947
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Yersinia_enterocolitica_yst_Ibrahim_1992</span></p>
+<p class="aw-assay-line"><span class="aw-id">Yersinia_enterocolitica_yst_Ibrahim_1992</span></p>
 
 **Yersinia enterocolitica — yst (heat-stable enterotoxin) (Ibrahim 1992)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 163 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

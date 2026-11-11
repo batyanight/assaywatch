@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Kang, S.-I., Lee, O.-M., Lee, H.-J., Kwon, Y.-K., Chae, M.J., Jeong, J.-Y. & Kang, M.-S. A Multiplex PCR Assay for Differential Identification of Wild-type and Vaccine Strains of Mycoplasma gallisepticum. Pathogens 12, 111 (2023).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Mycoplasmoides_gallisepticum_parE_Kang_2023</span></p>
+<p class="aw-assay-line"><span class="aw-id">Mycoplasmoides_gallisepticum_parE_Kang_2023</span></p>
 
 **Mycoplasmoides gallisepticum — parE (Kang 2023)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 245 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

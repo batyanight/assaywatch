@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Bohuski E et al. 2015. BMC Vet Res 11:95
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Ophidiomyces_ophidiicola_IGS_Bohuski_2015</span></p>
+<p class="aw-assay-line"><span class="aw-id">Ophidiomyces_ophidiicola_IGS_Bohuski_2015</span></p>
 
 **Ophidiomyces ophidiicola — IGS (intergenic spacer) (Bohuski 2015)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 133 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

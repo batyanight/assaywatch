@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Grizzle, J. M., Altinok, I. & Noyes, A. D. PCR method for detection of largemouth bass virus. Diseases of Aquatic Organisms 54, 29-33 (2003).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Largemouth_bass_virus_MCP_Grizzle_2003</span></p>
+<p class="aw-assay-line"><span class="aw-id">Largemouth_bass_virus_MCP_Grizzle_2003</span></p>
 
 **Largemouth bass virus — MCP (major capsid protein) (Grizzle 2003)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 248 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

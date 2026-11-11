@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Anthony SJ et al. 2013. mBio 4:e00598-13 (universal hantavirus S-segment primers UHantaF1/UHantaR1)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Orthohantavirus_S_Anthony_2013_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Orthohantavirus_S_Anthony_2013_round1</span></p>
 
 **Orthohantavirus — S segment (Anthony 2013), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 250 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

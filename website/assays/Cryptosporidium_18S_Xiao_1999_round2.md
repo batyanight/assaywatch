@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Xiao L, Escalante L, Yang C, Sulaiman I, Escalante AA, Montali RJ, Fayer R, Lal AA. 1999. Phylogenetic analysis of Cryptosporidium parasites based on the small-subunit rRNA gene locus. Appl Environ Microbiol 65:1578-1583
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Cryptosporidium_18S_Xiao_1999_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Cryptosporidium_18S_Xiao_1999_round2</span></p>
 
 **Cryptosporidium — 18S rRNA (Xiao 1999), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 822 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Latimer E, Zong JC, Heaggans SY, Richman LK, Hayward GS. Detection and Evaluation of Novel Herpesviruses in Routine and Pathological Samples from Asian and African Elephants: Identification of Two New Probosciviruses (EEHV5 and EEHV6) and Two New Gammaherpesviruses (EGHV3B and EGHV5). Vet Microbiol (author manuscript, PMC 2012 January 10).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Elephant_endotheliotropic_herpesvirus_5_POL_Latimer_2012_round2B</span></p>
+<p class="aw-assay-line"><span class="aw-id">Elephant_endotheliotropic_herpesvirus_5_POL_Latimer_2012_round2B</span></p>
 
 **Elephant endotheliotropic herpesvirus 5 — U38 (DNA polymerase) (Latimer 2012), nested round 2B**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 206 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

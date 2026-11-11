@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Long, G. W., Oprandy, J. J., Narayanan, R. B., Fortier, A. H., Porter, K. R. & Nacy, C. A. Detection of Francisella tularensis in blood by polymerase chain reaction. Journal of Clinical Microbiology 31, 152-154 (1993).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Francisella_tularensis_tul4_Long_1993</span></p>
+<p class="aw-assay-line"><span class="aw-id">Francisella_tularensis_tul4_Long_1993</span></p>
 
 **Francisella tularensis — tul4 (Long 1993)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 250 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

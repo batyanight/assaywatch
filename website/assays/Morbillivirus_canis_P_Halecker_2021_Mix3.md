@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Halecker S, Bock S, Beer M, Hoffmann B. A New Molecular Detection System for Canine Distemper Virus Based on a Double-Check Strategy. Viruses 2021;13:1632.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Morbillivirus_canis_P_Halecker_2021_Mix3</span></p>
+<p class="aw-assay-line"><span class="aw-id">Morbillivirus_canis_P_Halecker_2021_Mix3</span></p>
 
 **Morbillivirus canis — P (phosphoprotein) (Halecker 2021, Mix3)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 116 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

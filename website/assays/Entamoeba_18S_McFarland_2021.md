@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     McFarland A, Conley KJ, Seimon TA, Sykes JM. 2021. A retrospective analysis of amoebiasis in reptiles in a zoological institution. J Zoo Wildl Med 52:232-240
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Entamoeba_18S_McFarland_2021</span></p>
+<p class="aw-assay-line"><span class="aw-id">Entamoeba_18S_McFarland_2021</span></p>
 
 **Entamoeba — 18S rRNA (McFarland 2021)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 489 bp |
 | Registry status | draft |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

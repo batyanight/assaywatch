@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Zhao H, Wilkins K, Damon IK, Li Y. 2013. Specific qPCR assays for the detection of orf virus, pseudocowpox virus and bovine papular stomatitis virus. J Virol Methods 194:229-234
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Bovine_papular_stomatitis_virus_RPO147_Zhao_2013</span></p>
+<p class="aw-assay-line"><span class="aw-id">Bovine_papular_stomatitis_virus_RPO147_Zhao_2013</span></p>
 
 **Bovine papular stomatitis virus — RPO147 (RNA polymerase subunit) (Zhao 2013)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 91 bp |
 | Registry status | draft |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

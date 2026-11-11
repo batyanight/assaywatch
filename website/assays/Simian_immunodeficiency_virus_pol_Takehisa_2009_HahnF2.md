@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Takehisa J et al. 2009. J Virol 83:1635-1648
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Simian_immunodeficiency_virus_pol_Takehisa_2009_HahnF2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Simian_immunodeficiency_virus_pol_Takehisa_2009_HahnF2</span></p>
 
 **Simian immunodeficiency virus — pol (Takehisa 2009, HahnF2)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 285 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Abade dos Santos FA, Carvalho CL, Peleteiro MC, Parra F, Duarte MD. A Versatile qPCR for Diagnosis of Leporid Gammaherpesvirus 5 Using Evagreen or Taqman Technologies. Viruses 2021, 13, 715.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-no-recent-data">no recent data</span> <span class="aw-id">Leporid_gammaherpesvirus_5_gB_AbadeDosSantos_2021</span></p>
+<p class="aw-assay-line"><span class="aw-id">Leporid_gammaherpesvirus_5_gB_AbadeDosSantos_2021</span></p>
 
 **Leporid gammaherpesvirus 5 — gB (glycoprotein B) (Abade dos Santos 2021)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 200 bp |
 | Registry status | active |
-| Verdict | no recent data |
+| Verdict | <span class="aw-chip aw-chip-no-recent-data">no recent data</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Barrett T et al. 1993. Virology 193:1010-1012 (universal morbillivirus P-gene primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Morbillivirus_P_Barrett_1993_MorbF</span></p>
+<p class="aw-assay-line"><span class="aw-id">Morbillivirus_P_Barrett_1993_MorbF</span></p>
 
 **Morbillivirus — P (phosphoprotein) (Barrett 1993, MorbF)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 429 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

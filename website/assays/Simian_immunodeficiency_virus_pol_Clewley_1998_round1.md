@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Clewley, J. P., Lewis, J. C., Brown, D. W. & Gadsby, E. L. A novel simian immunodeficiency virus (SIVdrl) pol sequence from the drill monkey, Mandrillus leucophaeus. J Virol 72, 10305-10309 (1998).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Simian_immunodeficiency_virus_pol_Clewley_1998_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Simian_immunodeficiency_virus_pol_Clewley_1998_round1</span></p>
 
 **Simian immunodeficiency virus — pol (Clewley 1998), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 789 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

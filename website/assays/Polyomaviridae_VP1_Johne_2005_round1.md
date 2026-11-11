@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Johne R et al. 2005. J Virol 79:3883-3887 (VP1 outer primers)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Polyomaviridae_VP1_Johne_2005_round1</span></p>
+<p class="aw-assay-line"><span class="aw-id">Polyomaviridae_VP1_Johne_2005_round1</span></p>
 
 **Polyomaviridae — VP1 (Johne 2005), nested round 1**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 829–1137 bp, varies |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 

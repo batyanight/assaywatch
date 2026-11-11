@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Lozano, M. E. et al. Characterization of arenaviruses using a family-specific primer set for RT-PCR amplification and RFLP analysis - Its potential use for detection of uncharacterized arenaviruses. Virus Res 49, 79-89, doi:Doi 10.1016/S0168-1702(97)01458-5 (1997).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Arenaviridae_S_Lozano_1997_ARS3V</span></p>
+<p class="aw-assay-line"><span class="aw-id">Arenaviridae_S_Lozano_1997_ARS3V</span></p>
 
 **Arenaviridae — S segment (Lozano 1997, ARS3V)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 460 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

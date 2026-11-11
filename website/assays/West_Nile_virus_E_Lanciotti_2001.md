@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Lanciotti RS, Kerst AJ. 2001. J Clin Microbiol 39:4506-4513
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">West_Nile_virus_E_Lanciotti_2001</span></p>
+<p class="aw-assay-line"><span class="aw-id">West_Nile_virus_E_Lanciotti_2001</span></p>
 
 **West Nile virus — E (envelope) (Lanciotti 2001)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 162 bp |
 | Registry status | active |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

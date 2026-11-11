@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Keele BF et al. 2009. Nature 460:515-519
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Simian_immunodeficiency_virus_pol_Keele_2009_PTS_spol_F2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Simian_immunodeficiency_virus_pol_Keele_2009_PTS_spol_F2</span></p>
 
 **Simian immunodeficiency virus — pol (Keele 2009, PTS spol F2)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 547 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

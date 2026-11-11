@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Wellehan JF et al. 2004. J Virol 78:13366-13369 (pan-adenovirus pol nested PCR)
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Adenoviridae_POL_Wellehan_2004_round2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Adenoviridae_POL_Wellehan_2004_round2</span></p>
 
 **Adenoviridae — DNA polymerase (Wellehan 2004), nested round 2**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 324 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

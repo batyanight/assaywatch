@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Candrian U et al. 1991. Int J Food Microbiol 12:339-351
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Escherichia_coli_malB_Candrian_1991</span></p>
+<p class="aw-assay-line"><span class="aw-id">Escherichia_coli_malB_Candrian_1991</span></p>
 
 **Escherichia coli — malB promoter region (Candrian 1991)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 595 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

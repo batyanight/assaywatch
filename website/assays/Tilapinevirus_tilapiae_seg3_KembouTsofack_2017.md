@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Kembou Tsofack, J. E., Zamostiano, R., Watted, S., Berkowitz, A., Rosenbluth, E. et al. Detection of Tilapia Lake Virus in Clinical Samples by Culturing and Nested Reverse Transcription-PCR. Journal of Clinical Microbiology 55, 759-767 (2017).
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Tilapinevirus_tilapiae_seg3_KembouTsofack_2017</span></p>
+<p class="aw-assay-line"><span class="aw-id">Tilapinevirus_tilapiae_seg3_KembouTsofack_2017</span></p>
 
 **Tilapinevirus tilapiae — segment 3 (Kembou Tsofack 2017)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 250 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

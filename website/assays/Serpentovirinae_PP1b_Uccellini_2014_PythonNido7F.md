@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Uccellini L et al. 2014. Virol J 11:144
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-insufficient-data">insufficient data</span> <span class="aw-id">Serpentovirinae_PP1b_Uccellini_2014_PythonNido7F</span></p>
+<p class="aw-assay-line"><span class="aw-id">Serpentovirinae_PP1b_Uccellini_2014_PythonNido7F</span></p>
 
 **Serpentovirinae — PP1b (Uccellini 2014, PythonNido7F)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 420 bp |
 | Registry status | active |
-| Verdict | insufficient data |
+| Verdict | <span class="aw-chip aw-chip-insufficient-data">insufficient data</span> |
 
 ## Oligos
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Ward CL et al. 2004. J Clin Virol 29:179-188
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Influenza_A_virus_M1_Ward_2004</span></p>
+<p class="aw-assay-line"><span class="aw-id">Influenza_A_virus_M1_Ward_2004</span></p>
 
 **Influenza A virus — M1 (matrix) (Ward 2004)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 95 bp |
 | Registry status | draft |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

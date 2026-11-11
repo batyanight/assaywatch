@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-stable">stable</span> <span class="aw-id">Chronic_bee_paralysis_virus_RNA1_Rossi_2024</span></p>
+<p class="aw-assay-line"><span class="aw-id">Chronic_bee_paralysis_virus_RNA1_Rossi_2024</span></p>
 
 **Chronic bee paralysis virus — RNA1 (Rossi 2024)**
 
@@ -18,7 +18,7 @@
 | Chemistry | mgb |
 | Amplicon | 112 bp |
 | Registry status | active |
-| Verdict | stable |
+| Verdict | <span class="aw-chip aw-chip-stable">stable</span> |
 
 ## Oligos
 

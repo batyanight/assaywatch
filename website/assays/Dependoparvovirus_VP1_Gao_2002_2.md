@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Gao GP et al. 2002. Proc Natl Acad Sci USA 99:11854-11859
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-none">status withheld</span> <span class="aw-id">Dependoparvovirus_VP1_Gao_2002_2</span></p>
+<p class="aw-assay-line"><span class="aw-id">Dependoparvovirus_VP1_Gao_2002_2</span></p>
 
 **Dependoparvovirus — VP1 (Gao 2002, 2)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 255 bp |
 | Registry status | draft |
-| Verdict | — |
+| Verdict | <span class="aw-chip aw-chip-none">status withheld</span> |
 
 !!! warning "No status is reported for this assay"
 

@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Rossi, F.; Del Matto, I.; Ricchiuti, L.; Marino, L. Selection and Multiplexing of Reverse Transcription–Quantitative PCR Tests Targeting Relevant Honeybee Viral Pathogens. Microorganisms 2024, 12, 1105.
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-declining">declining</span> <span class="aw-id">Iflavirus_sacbroodi_polyprotein_Rossi_2024</span></p>
+<p class="aw-assay-line"><span class="aw-id">Iflavirus_sacbroodi_polyprotein_Rossi_2024</span></p>
 
 **Iflavirus sacbroodi — polyprotein (Rossi 2024)**
 
@@ -18,7 +18,7 @@
 | Chemistry | hydrolysis_probe |
 | Amplicon | 122 bp |
 | Registry status | active |
-| Verdict | declining |
+| Verdict | <span class="aw-chip aw-chip-declining">declining</span> |
 
 ## Oligos
 

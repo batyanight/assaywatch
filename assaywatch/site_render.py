@@ -407,7 +407,9 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         else:
             out.append(f'<p class="aw-citation">{a["reference"]}</p>\n')
 
-    out.append(f'<p class="aw-assay-line">{_chip(status)} <span class="aw-id">{a["assay_id"]}</span></p>\n')
+    # The chip moved into the metadata table's Verdict row (maintainer, 2026-11-10), so this
+    # line is the entry id alone. The status used to appear here and again two lines below.
+    out.append(f'<p class="aw-assay-line"><span class="aw-id">{a["assay_id"]}</span></p>\n')
     if a.get("page_note"):
         out.append(f"**Note:** {_md_text(a['page_note'])}\n")
     if title:
@@ -430,10 +432,12 @@ def assay_page(page: dict[str, Any], run_date: str, composition: dict[str, Any] 
         ("Amplicon", _amplicon_cell(a)),
         ("Registry status", a["entry_status"]),
         # The verdict reads as a property of the assay beside Target and Gene
-        # (maintainer, 2026-11-10). The status WORD only: its one-sentence meaning stays in
-        # the Verdict section below, where there is room for it. Blank on a withheld page,
-        # which has no status to give.
-        ("Verdict", status or "\u2014"),
+        # (maintainer, 2026-11-10), and the chip is here rather than on its own line above,
+        # so the status is said once. The chip carries the word as well as the colour, which
+        # is the condition the palette's colour-vision warning is licensed under, and on a
+        # withheld page it reads "status withheld" rather than going blank. Its one-sentence
+        # meaning stays in the Verdict section below, where there is room for it.
+        ("Verdict", _chip(status)),
     ]
     out.append("| | |\n|---|---|")
     out += [f"| {k} | {v} |" for k, v in rows]

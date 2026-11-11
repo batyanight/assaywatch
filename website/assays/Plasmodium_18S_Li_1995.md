@@ -7,7 +7,7 @@
 ??? quote "Full citation"
     Li J et al. 1995. Exp Parasitol 81:182-190
 
-<p class="aw-assay-line"><span class="aw-chip aw-chip-low-coverage">low coverage</span> <span class="aw-id">Plasmodium_18S_Li_1995</span></p>
+<p class="aw-assay-line"><span class="aw-id">Plasmodium_18S_Li_1995</span></p>
 
 **Plasmodium — 18S rRNA (Li 1995)**
 
@@ -18,7 +18,7 @@
 | Chemistry | conventional |
 | Amplicon | 374 bp |
 | Registry status | active |
-| Verdict | low coverage |
+| Verdict | <span class="aw-chip aw-chip-low-coverage">low coverage</span> |
 
 ## Oligos
 
