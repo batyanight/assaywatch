@@ -1,3 +1,33 @@
+# Resume point, 2026-11-10 night (frozen, and the run is in flight)
+
+**Steps 0-12 are done on `next-release`; the frozen run is RUNNING.** If it is not running when you
+read this, it died and should be resumed, not restarted:
+
+    cd ~/assaywatch && caffeinate -i snakemake --cores 4 --rerun-incomplete --retries 3 --config email=...
+
+It resumes from the archives already on disk. Count progress with
+`find data/retrieved -name '2026-11-10.fasta.gz' | wc -l` against 147 groups. Logs are in the session
+scratchpad and in `.snakemake/log/`.
+
+**What the run already survived.** The first attempt died at 32 minutes: NCBI esearch returned
+"Search Backend failed" on 45 of 147 groups, which is their server, not this code -- the same taxon
+answered HTTP 200 minutes later. Nothing was lost, and `--retries 3` was added to the command line
+(not the Snakefile, which is frozen) so a transient NCBI failure retries instead of killing the job.
+
+**The run is slower than the roadmap's 50-minute estimate**, which was measured on incremental
+fetches; this release's new and changed queries re-fetch from scratch. One archive alone (taxon
+10241) took over half an hour. The ~4 h composition stage follows retrieval.
+
+**The machine is on battery by the maintainer's decision**, against the standing rule. If the run
+dies with no error in the logs, that is why.
+
+**Next, at step 14**, there is a script that runs every check in the roadmap's order: see the
+session scratchpad's `step14.sh`, or redo it from ROADMAP step 14. A changelog draft for v0.3.0 sits
+beside it. **Step 15 publishing waits for the maintainer's go, after they read the step 14 output.**
+
+**Frozen:** nothing under `assaywatch/`, `config.yaml`, `registry/` or `Snakefile` changes until step
+14 is read. `website/` is not frozen and was re-rendered for the page reorder.
+
 # Resume point, 2026-11-10 (the pre-freeze work is merged; `page-narrative` waits on the maintainer)
 
 **Read `ROADMAP.md`, "Release plan: v0.3.0".** `next-release` now holds PRs #14, #15, #16 and #17, so steps
