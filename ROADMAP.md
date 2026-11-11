@@ -166,8 +166,32 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
 
 ### Sizes to read, from the verifier's table
 
-Stored against modal, no verdict given: Mueller 1F 567/552, 2F 570/560, 3F 563/544, Bourhy round 2 260/249 and round 1 460/462,
-Garner 350/391, Tsukamoto H5 261/258, Spackman 100/101, Briese L 630/505, BUN_M_IXf 335/283, BUN_S5_F 961/948.
+- [x] **Ten of the eleven settled 2026-11-10.** One rule over the list: `amplicon_bp` takes the measured mode
+  where one dominates and the measured median where none does; the flag says whether the CITED paper publishes a
+  size (`amplicon_disagrees_with_paper`) or does not (`amplicon_measured_not_published`); and a value only moves
+  where the new +/-25% window still admits every product measured. Applied: Mueller 1F 567 -> 552, 2F 570 -> 560,
+  3F 563 -> 544, Bourhy round 1 460 -> 462 (inside the paper's printed 456-462, so no disagreement flag) and
+  round 2 260 -> 249, Garner 350 -> 391, Tsukamoto H5 261 -> 258, Spackman 100 -> 101, Briese L 630 -> 584 (the
+  MEDIAN, not the modal 505, which would window out the measured 641 and 642 bp products), BUN_S5_F 961 -> 948.
+  One consequence, expected at step 14: Bourhy round 2 drops three products of 7,165, at 314 and 317 bp, all
+  already `fail`, so they read `no_amplicon`.
+- [ ] **Briese BUN_M_IXf could not be settled, and needs a rescreen with the size window opened.** Its products
+  run 251-417 bp against a 251-418 window, hard against both edges, so the window is clipping a pan-genus segment
+  continuum by an unknown amount and the modal 283 is measured through the very constraint in question. Its
+  `M3560_F` and `BUNS_5_U_6` siblings carry `amplicon_bp_range` for this reason and were settled that way on
+  2026-10-21. `amplicon_bp` is left at 335 and the entry carries `amplicon_multimodal` saying so.
+
+### Found by the 2026-11-10 reads, for the maintainer
+
+- [ ] **`Plasmodium_18S_Li_1995` has an unstored probe.** Oligo 842, `TAACACAAGGAAGTTTAAGGC`, is genus-conserved,
+  sense, and sits between the primers: the pair "includes an internal genus-conserved sequence located between V7
+  and V8 which can serve to confirm the identification of the sequence as Plasmodium-related". Same shape as the
+  Francisella tul4 FT443 item above, and adding a probe needs a rescreen.
+- [ ] **`Plasmodium_18S_Li_1995` may want `amplicon_bp_range`.** 719 products over 59 distinct lengths, 280-466 bp,
+  median 374 (the stored scalar), mode 284. The spread is the design: the pair was chosen because it "covers the
+  two most variable regions (V7 and V8)". A range changes which records are evaluable, so the scalar stands until
+  this is decided. Its flags are corrected either way: the paper does publish "about 400 bp", so
+  `amplicon_measured_not_published` was wrong and is now `amplicon_disagrees_with_paper` plus `amplicon_multimodal`.
 
 ### Post-release list
 
@@ -534,9 +558,13 @@ are. Each line says what would reopen it.
 - [x] **The narrowing proposals.** Decided 2026-11-04: Uccellini narrowed; Baek, Ahmed, Steyn, Nix,
   Scaramozzino, Quan and Li left as they are, with the paper's narrower claim on the page instead.
   Tested table in `docs/journal/2026-11-04-scope-reread.md`.
-- [ ] **Correct the curator notes the reread contradicted.** Grizzle's and Chua's done 2026-11-10 with step 6b; Lozano and Li 2010 IMV remain. Lozano's "amplified" list is the
-  alignment set; Li 2010 IMV's note says the paper doesn't place the crossover, and Table 1 does.
-  Also unexplained: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
+- [x] **Correct the curator notes the reread contradicted.** All four done: Grizzle's and Chua's 2026-11-10 with
+  step 6b, Lozano's and Li 2010 IMV's 2026-11-10 against the papers. Lozano: the list the note called "amplified"
+  is Fig. 2, a HinfI pattern CALCULATED from published sequence; ARS1/ARS16V amplified four viruses (Fig. 3a) and
+  ARS6C/ARS3V three, not shown. Li 2010 IMV: for Leporipoxvirus the paper DOES place the crossover, in Table 1,
+  which files myxoma (43.6%) and rabbit fibroma (39.5%) under "Low GC", designs the low-GC primers on that set and
+  amplifies both; Macropopoxvirus keeps the old wording, being in no part of Table 1. Still unexplained, and the
+  Messmer bench-case item below: Messmer reports *C. trachomatis* amplified and round 1 reads 0 of 301.
 - [x] **Reread the remaining papers on scope, in batches.** Done 2026-11-10 as steps 6a and 6b of the release plan; this line is the origin. Maintainer decision, 2026-11-04. About 86
   papers, starting with `declining` and `low coverage` assays. Budget about 24,000 subagent tokens
   a paper, 2 million in all, stoppable at any batch. Each batch brings claim sentences
@@ -564,7 +592,12 @@ are. Each line says what would reopen it.
   says it detects, written up as a report, with the fixes made. 64 entries are done
   (`docs/journal/2026-11-04-scope-reread.md`, 21 broadened); the other live entries have not
   been reread. Two pieces belong to it:
-  - **The nested malaria assay.** Hellgren's nest is done (step 2, 2026-11-06); `Plasmodium_18S_Li_1995` is still unchecked. Read as the Hellgren 2004 haemosporidian nest; whether
+  - **The nested malaria assay. CLOSED 2026-11-10.** Hellgren's nest is done (step 2, 2026-11-06), and
+    `Plasmodium_18S_Li_1995` is now read: it describes NO nest, so its `nested_family` and `nested_round` stay
+    null and it is unrelated to the Hellgren nest. One 30-cycle round; Table I's other nine oligos are
+    hybridisation probes, not a second pair; and 566/570, which is genuinely outside 841/844 on the gene, is used
+    as an ALTERNATIVE pair for cloning, never in series. Two findings it turned up are under "Found by the
+    2026-11-10 reads" above. As first asked: Read as the Hellgren 2004 haemosporidian nest; whether
     the paper behind `Plasmodium_18S_Li_1995` also describes a nest has not been checked:
     `Haemosporida_cytb_Hellgren_2004_HaemNFI`, `Haemosporida_cytb_Hellgren_2004_HaemF` and
     `Leucocytozoon_cytb_Hellgren_2004`, all three `nested_round: null`, so the site shows
