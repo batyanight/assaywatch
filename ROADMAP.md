@@ -121,7 +121,19 @@ PRs into `next-release`; extend its trigger if it doesn't, or "green" means noth
   serovar filter plus contig-level assemblies for E. coli LT and hlyA, and how it generalises to a
   plasmid-borne target. Changes `retrieve.py`, the schema, `config.yaml`. Fallback if it stalls: a
   disclosure on the status.
-- [ ] **9. Validation reads (maintainer's).** Drafted 2026-11-06: 34 rows, 14 with a taxid and 20 blank, plus the Messmer row, for the maintainer's skim; held in `local/`. Whether a genus or subfamily taxid can be honoured isn't checked. As planned: The 34 `scope_taxid` rows, a decision on the Messmer
+- [x] **9. Validation reads. APPLIED 2026-11-10**, `docs/journal/2026-11-10-pre-freeze-reads.md`. 15 of the 34
+  rows carry a taxid and are in the three case files; 19 stay blank, by the draft's rule that a paper naming no
+  single lineage leaves the row pooled. **Every headline tier-2 figure is unchanged in all three sets**, because
+  the four rows that now score on a named clade all agree with the pooled verdict. The question this line asked
+  -- whether a genus or subfamily taxid can be honoured -- turned out to have a larger answer: **no scope of any
+  rank had ever been honoured**, `LineageStats.taxid` being unset on real data, and the clade sum is the second
+  half of the fix. Both are in the journal and were shipped with tests before the rows landed.
+  **The Messmer row is NOT applied and stays the maintainer's call**: its own draft conditions itself on
+  reopening the development set, which is frozen, and the decisions table below already says no row.
+  **Found while doing this, still open:** the development set cannot be scored against the 2026-11-01 calls at
+  all -- `Mycoplasma_16S_unpublished` has no rows there and no rename reaches one, so `retrospective.py` refuses
+  rather than hiding it in the undecided count. Needs a `local/rename-mapping.tsv` entry or the frozen run.
+  As planned: The 34 `scope_taxid` rows, a decision on the Messmer
   bench row. No run needed, so these can arrive any time before step 14, if the release quotes tier-2 figures.
 - [ ] **10. Assay page narrative.** Descriptions from step 6, held in the registry through
   `registry.edit()`, not yet a schema field: propose it. **Interface, for approval:** a lineage-text
