@@ -11,6 +11,60 @@ because none of them can be recomputed without the archives.
 
 ## Unreleased
 
+Nothing yet.
+
+## v0.3.0 — 2026-11-11
+
+Archived at Zenodo under the same concept DOI as v0.1.0 and v0.2.0,
+[10.5281/zenodo.23841793](https://doi.org/10.5281/zenodo.23841793); this version's own DOI
+is added here once Zenodo mints it from the GitHub release. The run these figures come from is
+`results/2026-11-10/`, committed as the site's data.
+
+- **A case row's `scope_taxid` had never been honoured, and now is.** The column says which
+  lineage a validation paper actually tested, so a pan-family assay is scored on the clade
+  its paper reported rather than on every deposit for the family. It matched on a lineage
+  taxid that was only ever parsed from one of two label forms, and the relabelling step runs
+  first, so the field was empty in every run and every scoped row fell back silently to the
+  pooled status. Fixed at the root, and a scope naming a rank above the one records are filed
+  at is now summed over its clade. **No tier-2 figure moves**: the four rows that now score on
+  a named clade all agree with the pooled verdict.
+- **Ten stored amplicon sizes corrected against the records**, by one rule: the measured mode
+  where one dominates, the measured median where none does, the flag saying whether the cited
+  paper publishes a size at all, and no value moved unless the new window still admits every
+  product measured. Six of the papers publish no size for the pair in question. One
+  consequence: Bourhy round 2 drops three products of 7,165, all already `fail`.
+- **Three curator notes corrected against their papers.** Lozano's list of "amplified" viruses
+  was the alignment set, not the panel; Li 2010's Table 1 does place Leporipoxvirus as low-GC,
+  which the note denied. `Plasmodium_18S_Li_1995` is read and is not a nest.
+- **Assay pages reordered**, and the verdict is one line of the metadata table carrying its
+  status chip, said once instead of twice. The mismatch section opens on its chart with the
+  explanation underneath. The composition panel moves to the foot.
+- **46 assay pages say what the assay is**, from the papers reread for this release, and three
+  say what the verdict cannot: the two *E. coli* plasmid-borne targets whose recent evaluable
+  records are almost nil for reasons of deposition, and G2R WA_F, which is meant to miss
+  clade I.
+- **The composition stage makes no network call while a run is in flight.** Its GenBank
+  REFERENCE lookups now come from a cache warmed beforehand, and whatever the cache lacks is
+  written out so a dropped study clause is visible rather than silent.
+- **The placeholder count goes nineteen to twenty-seven.** The eight new numbers decide what a
+  page says about a deposit year, not what a verdict is; they are declared because the standard
+  is about a number set by eye, not about where it lands.
+- The Zimmermann round 2 corrected primer and the Francisella tul4 FT443 probe are scored for
+  the first time. Expected status moves from the fixes alone: the two *V. coralliilyticus* vcpA
+  assays and `Orthobunyavirus_S_Briese_2007_BUNS_5_U_6` read `insufficient data`.
+- **The run of 2026-11-10, counted as `report.md` counts: 92 stable, 31 declining, 21 low coverage,
+  32 insufficient data, 15 no recent data, 6 watch**, against 95 / 34 / 26 / 26 / 16 / 5 on
+  2026-11-01. The site's home page counts the same run over `run.json`, where withheld entries are
+  a row of their own, and reads 70 / 41 / 27 / 36 / 17 / 6 with 18 withheld. Ten assays moved,
+  every one attributed in `docs/journal/2026-11-11-frozen-run-check.md`: seven from the fixes
+  above, two from a scope broadened on rereading, and one from new data.
+- **The one from new data is a catch.** `Morbillivirus_P_Barrett_1993_Grosh_F` reads
+  `declining` because the *Morbillivirus caprinae* (PPRV) lineage fell to 55.6% detected in the
+  recent window: 43 genomes from the 2024-2025 European PPRV incursion, deposited 2026-10-31 as
+  one batch (PZ271096-PZ271138), all carry the same six forward-primer mismatches and none is
+  detected. The pooled share is still 96.8%. Nothing on the entry changed that could screen
+  differently; the previous run had the same 235 detections.
+
 - Assay pages open on the primer graph, then the line graph, then the bar graph. Assembly records now
   reach the lineage groups, and a species is no longer split across names by the strains in its titles.
   Fixes from the security and code reviews. No status moved.
